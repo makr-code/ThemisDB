@@ -120,6 +120,7 @@ file(GLOB_RECURSE ALL_TEST_SOURCES
 # Module-local tests under tests/<module> are built via dedicated module
 # CMakeLists; exclude all subdirectory tests from the monolithic aggregate.
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*[/\\]tests[/\\][^/\\]+[/\\]test_.*\\.cpp$")
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*[/\\]tests[/\\]legacy[/\\].*[/\\]test_.*\\.cpp$")
 
 # Additional GoogleTest sources that intentionally use a non-test_*.cpp naming scheme.
 list(APPEND ALL_TEST_SOURCES
@@ -655,6 +656,7 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_lora_provenance\\.cpp$"
     ".*test_shader_integrity\\.cpp$"
     ".*test_two_phase_commit\\.cpp$"
+    ".*test_wal_logging_helper\\.cpp$"
     ".*test_vulkan_health\\.cpp$"
     ".*test_vulkan_metrics\\.cpp$"
     ".*test_vulkan_compute_equivalents\.cpp$"
@@ -2848,6 +2850,53 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_parallel_traversal.cpp")
     message(STATUS "  Parallel Graph Traversal: multi-source BFS/DFS, fan-out threshold, depth/result limits")
 else()
     message(STATUS "Parallel Graph Traversal tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_parallel_traversal.cpp")
+endif()
+
+# ============================================================================
+# Graph Exact Traversal Phase A Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_exact_traversal.cpp")
+    message(STATUS "Adding Graph Exact Traversal Phase A tests")
+
+    add_executable(test_graph_exact_traversal
+        graph/test_graph_exact_traversal.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/distributed_graph.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/graph_query_optimizer.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/path_constraints.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/parallel_traversal.cpp
+    )
+
+    target_link_libraries(test_graph_exact_traversal PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        fmt::fmt
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_graph_exact_traversal PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_GRAPH_EXPORTS
+    )
+
+    if(WIN32)
+        themis_sync_runtime_dlls_for_target(test_graph_exact_traversal)
+        add_dependencies(test_graph_exact_traversal sync_test_runtime_dlls)
+    endif()
+
+    add_test(NAME GraphExactTraversalPhaseATests COMMAND test_graph_exact_traversal)
+
+    set_tests_properties(GraphExactTraversalPhaseATests PROPERTIES
+        LABELS "graph;distributed;phase_a;exact_traversal;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Graph Exact Traversal Phase A: invalid input, shard failure, fallback metrics")
+else()
+    message(STATUS "Graph Exact Traversal Phase A tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_exact_traversal.cpp")
 endif()
 
 # ============================================================================

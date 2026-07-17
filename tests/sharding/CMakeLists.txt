@@ -1,5 +1,15 @@
 # Sharding module test registration (large extraction from root tests/CMakeLists.txt)
 
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/../test_wal_logging_helper.cpp")
+    message(STATUS "Adding Sharding: WALLoggingHelper focused tests (Issue #5375)")
+    add_executable(test_wal_logging_helper_focused ../test_wal_logging_helper.cpp)
+    target_include_directories(test_wal_logging_helper_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_wal_logging_helper_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
+    target_compile_definitions(test_wal_logging_helper_focused PRIVATE THEMIS_TEST_BUILD=1)
+    themis_register_module_focused_test(MODULE sharding NAME WALLoggingHelperFocusedTests TARGET test_wal_logging_helper_focused TIER unit TIMEOUT 60 LABELS wal 2pc helper utility)
+    message(STATUS "  WALLoggingHelper: buildEntry fields/timestamp, appendEntry null-noop, live WAL write, exception swallowing, sequential LSN ordering")
+endif()
+
 if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/../test_two_phase_commit.cpp")
     message(STATUS "Adding Sharding: TwoPhaseCommit focused tests")
     add_executable(test_two_phase_commit_focused ../test_two_phase_commit.cpp)

@@ -17,9 +17,22 @@
 #ifdef THEMIS_ENABLE_HTTP3
 
 #include "network/quic_transport.h"
+#include <openssl/ssl.h>
+#include <memory>
 #include <string>
 
 using namespace themis::network;
+
+namespace {
+struct SslCtxDeleter {
+    void operator()(SSL_CTX* ctx) const noexcept {
+        if (ctx) {
+            SSL_CTX_free(ctx);
+        }
+    }
+};
+using SslCtxOwner = std::unique_ptr<SSL_CTX, SslCtxDeleter>;
+}  // namespace
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Configuration defaults
@@ -159,6 +172,18 @@ TEST(QuicTransportTest, NotRunningBeforeStart) {
     QuicTransport::Config cfg;
     QuicTransport transport(cfg);
     EXPECT_FALSE(transport.isRunning());
+}
+
+TEST(QuicTransportTest, CreateSslContextEmptyPathsReturnsTls13Context) {
+    SslCtxOwner ctx(QuicTransport::createSslContext("", ""));
+    ASSERT_NE(ctx, nullptr);
+    EXPECT_EQ(SSL_CTX_get_min_proto_version(ctx.get()), TLS1_3_VERSION);
+    EXPECT_EQ(SSL_CTX_get_max_proto_version(ctx.get()), TLS1_3_VERSION);
+}
+
+TEST(QuicTransportTest, CreateSslContextInvalidCertPathReturnsNull) {
+    const auto* kMissingCertPath = "/definitely/not/present/themisdb-test-cert.pem";
+    EXPECT_EQ(QuicTransport::createSslContext(kMissingCertPath, ""), nullptr);
 }
 
 #endif  // THEMIS_ENABLE_HTTP3

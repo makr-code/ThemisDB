@@ -219,10 +219,6 @@ QUICServer::QUICServer(const Config&                  config,
 
 QUICServer::~QUICServer() {
     stop();
-    if (ssl_ctx_) {
-        SSL_CTX_free(ssl_ctx_);
-        ssl_ctx_ = nullptr;
-    }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -333,7 +329,7 @@ void QUICServer::start() {
     }
 
     // Create TLS context (cert/key paths may be empty in test/dev mode).
-    ssl_ctx_ = createSslContext(config_.tls_cert_path, config_.tls_key_path);
+    ssl_ctx_.reset(createSslContext(config_.tls_cert_path, config_.tls_key_path));
     if (!ssl_ctx_) {
         THEMIS_ERROR("[QUICServer] Failed to create TLS context");
         return;
@@ -345,14 +341,12 @@ void QUICServer::start() {
     } catch (const boost::system::system_error& e) {
         THEMIS_ERROR("[QUICServer] failed to bind {}:{} ({})",
                      config_.host, config_.port, e.what());
-        SSL_CTX_free(ssl_ctx_);
-        ssl_ctx_ = nullptr;
+        ssl_ctx_.reset();
         return;
     } catch (const std::exception& e) {
         THEMIS_ERROR("[QUICServer] start failed for {}:{} ({})",
                      config_.host, config_.port, e.what());
-        SSL_CTX_free(ssl_ctx_);
-        ssl_ctx_ = nullptr;
+        ssl_ctx_.reset();
         return;
     }
 
@@ -378,15 +372,6 @@ void QUICServer::stop() {
     // Close all active QUIC connections.
     {
         std::lock_guard<std::mutex> lk(sessions_mutex_);
-        for (auto& [key, conn] : sessions_) {
-            if (conn) {
-                void* tls = ngtcp2_conn_get_tls_native_handle(conn);
-                if (tls) {
-                    SSL_free(static_cast<SSL*>(tls));
-                }
-                ngtcp2_conn_del(conn);
-            }
-        }
         sessions_.clear();
     }
 
@@ -403,10 +388,7 @@ void QUICServer::stop() {
     threads_.clear();
     io_ctx_->restart();
 
-    if (ssl_ctx_) {
-        SSL_CTX_free(ssl_ctx_);
-        ssl_ctx_ = nullptr;
-    }
+    ssl_ctx_.reset();
 
     THEMIS_INFO("[QUICServer] stopped");
 }
@@ -464,16 +446,10 @@ void QUICServer::handlePacket(const udp::endpoint& sender,
         ngtcp2_pkt_info pi;
         std::memset(&pi, 0, sizeof(pi));
 
-        int rv = ngtcp2_conn_read_pkt(it->second, &path, &pi,
+        int rv = ngtcp2_conn_read_pkt(it->second.get(), &path, &pi,
                                       data, len, quicServerNow());
         if (rv != 0) {
             if (rv == NGTCP2_ERR_DRAINING || rv == NGTCP2_ERR_DROP_CONN) {
-                // Connection is closing; free SSL and remove from map.
-                void* tls = ngtcp2_conn_get_tls_native_handle(it->second);
-                if (tls) {
-                    SSL_free(static_cast<SSL*>(tls));
-                }
-                ngtcp2_conn_del(it->second);
                 sessions_.erase(it);
                 std::lock_guard<std::mutex> slk(stats_mutex_);
                 --stats_.active_connections;
@@ -605,42 +581,41 @@ void QUICServer::handlePacket(const udp::endpoint& sender,
     };
 
     // Create a fresh SSL object for this connection.
-    SSL* ssl = SSL_new(ssl_ctx_);
+    std::unique_ptr<SSL, decltype(&SSL_free)> ssl(SSL_new(ssl_ctx_.get()), &SSL_free);
     if (!ssl) {
         THEMIS_ERROR("[QUICServer] SSL_new failed for {}", anonymizePeerForLog(key));
         return;
     }
-    SSL_set_accept_state(ssl);
+    SSL_set_accept_state(ssl.get());
 
     ngtcp2_path path;
     std::memset(&path, 0, sizeof(path));
 
-    ngtcp2_conn* conn = nullptr;
-    int rv = ngtcp2_conn_server_new(&conn, &hd.dcid, &scid, &path,
+    ngtcp2_conn* conn_raw = nullptr;
+    int rv = ngtcp2_conn_server_new(&conn_raw, &hd.dcid, &scid, &path,
                                     kQuicServerVersion1, &callbacks,
                                     &settings, &params, nullptr, this);
     if (rv != 0) {
         THEMIS_ERROR("[QUICServer] ngtcp2_conn_server_new({}): {}",
                      anonymizePeerForLog(key), ngtcp2_strerror(rv));
-        SSL_free(ssl);
         return;
     }
+    QuicConnOwner conn(conn_raw);
 
-    ngtcp2_conn_set_tls_native_handle(conn, ssl);
+    ngtcp2_conn_set_tls_native_handle(conn.get(), ssl.get());
+    (void)ssl.release();
 
     // Feed the Initial packet.
     ngtcp2_pkt_info pi;
     std::memset(&pi, 0, sizeof(pi));
-    rv = ngtcp2_conn_read_pkt(conn, &path, &pi, data, len, quicServerNow());
+    rv = ngtcp2_conn_read_pkt(conn.get(), &path, &pi, data, len, quicServerNow());
     if (rv != 0 && rv != NGTCP2_ERR_RETRY) {
         THEMIS_WARN("[QUICServer] ngtcp2_conn_read_pkt (new, {}): {}",
                     anonymizePeerForLog(key), ngtcp2_strerror(rv));
-        ngtcp2_conn_del(conn);
-        SSL_free(ssl);
         return;
     }
 
-    sessions_[key] = conn;
+    sessions_[key] = std::move(conn);
     {
         std::lock_guard<std::mutex> slk(stats_mutex_);
         ++stats_.total_connections;
@@ -735,10 +710,6 @@ QUICClient::QUICClient(const std::string& url, const Config& config)
 QUICClient::~QUICClient() {
     if (connected_.load(std::memory_order_acquire)) {
         disconnect();
-    }
-    if (ssl_ctx_) {
-        SSL_CTX_free(ssl_ctx_);
-        ssl_ctx_ = nullptr;
     }
 }
 
@@ -874,8 +845,8 @@ void QUICClient::connect() {
     ngtcp2_path path;
     std::memset(&path, 0, sizeof(path));
 
-    ngtcp2_conn* conn = nullptr;
-    int rv = ngtcp2_conn_client_new(&conn, &dcid, &scid, &path,
+    ngtcp2_conn* conn_raw = nullptr;
+    int rv = ngtcp2_conn_client_new(&conn_raw, &dcid, &scid, &path,
                                     kQuicServerVersion1, &callbacks,
                                     &settings, &params, nullptr, this);
     if (rv != 0) {
@@ -884,9 +855,10 @@ void QUICClient::connect() {
             ngtcp2_strerror(rv));
     }
 
-    ngtcp2_conn_set_tls_native_handle(conn, ssl_guard.get());
-    conn_ = conn;
-    ssl_ctx_ = ssl_ctx_guard.release();
+    QuicConnOwner conn(conn_raw);
+    ngtcp2_conn_set_tls_native_handle(conn.get(), ssl_guard.get());
+    conn_ = std::move(conn);
+    ssl_ctx_.reset(ssl_ctx_guard.release());
     (void)ssl_guard.release();
 
     connected_.store(true, std::memory_order_release);
@@ -910,19 +882,8 @@ void QUICClient::disconnect() {
         streams_.clear();
     }
 
-    if (conn_) {
-        void* tls = ngtcp2_conn_get_tls_native_handle(conn_);
-        if (tls) {
-            SSL_free(static_cast<SSL*>(tls));
-        }
-        ngtcp2_conn_del(conn_);
-        conn_ = nullptr;
-    }
-
-    if (ssl_ctx_) {
-        SSL_CTX_free(ssl_ctx_);
-        ssl_ctx_ = nullptr;
-    }
+    conn_.reset();
+    ssl_ctx_.reset();
 
     THEMIS_INFO("[QUICClient] disconnected from {}:{}", host_, port_);
 }

@@ -72,6 +72,19 @@ enum class TokenType {
     BEGIN,           // BEGIN – start of a transaction block
     COMMIT,          // COMMIT – successfully end a transaction block
     ROLLBACK,        // ROLLBACK – abort a transaction block
+
+    // Phase 5: DML mutation keywords (EPIC-004)
+    INSERT,          // INSERT doc INTO collection
+    UPDATE,          // UPDATE … SET … / UPDATE … WITH … IN …
+    DELETE,          // DELETE FROM collection WHERE …  (SQL-style alias for REMOVE)
+    REMOVE,          // REMOVE doc IN collection  (AQL-native)
+    REPLACE,         // REPLACE search WITH replacement IN collection
+    UPSERT,          // UPSERT search INSERT doc UPDATE upd IN collection
+    INTO,            // INSERT INTO  /  INSERT doc INTO
+    SET,             // UPDATE … SET k=v
+    VALUES,          // INSERT INTO … VALUES {doc}
+    FROM,            // DELETE FROM collection
+    WHERE,           // … WHERE condition
     
     // Operators
     EQ, NEQ, LT, LTE, GT, GTE,
@@ -285,6 +298,19 @@ private:
         if (lower == "begin") return Token(TokenType::BEGIN, value, line, col);
         if (lower == "commit") return Token(TokenType::COMMIT, value, line, col);
         if (lower == "rollback") return Token(TokenType::ROLLBACK, value, line, col);
+
+        // Phase 5: DML mutation keywords (EPIC-004)
+        if (lower == "insert")  return Token(TokenType::INSERT,  value, line, col);
+        if (lower == "update")  return Token(TokenType::UPDATE,  value, line, col);
+        if (lower == "delete")  return Token(TokenType::DELETE,  value, line, col);
+        if (lower == "remove")  return Token(TokenType::REMOVE,  value, line, col);
+        if (lower == "replace") return Token(TokenType::REPLACE, value, line, col);
+        if (lower == "upsert")  return Token(TokenType::UPSERT,  value, line, col);
+        if (lower == "into")    return Token(TokenType::INTO,    value, line, col);
+        if (lower == "set")     return Token(TokenType::SET,     value, line, col);
+        if (lower == "values")  return Token(TokenType::VALUES,  value, line, col);
+        if (lower == "from")    return Token(TokenType::FROM,    value, line, col);
+        if (lower == "where")   return Token(TokenType::WHERE,   value, line, col);
         
         return Token(TokenType::IDENTIFIER, value, line, col);
     }
@@ -1196,6 +1222,337 @@ private:
         
         throw std::runtime_error("Unexpected token: " + current().value);
     }
+
+    // ========================================================================
+    // Mutation Parsing (EPIC-004 Phase 1) — public entry point
+    // ========================================================================
+public:
+    /// @brief Entry point for DML statement parsing.
+    ///
+    /// Dispatches to the appropriate parseXxxStatement() method based on the
+    /// leading keyword (INSERT | UPDATE | DELETE | REMOVE | REPLACE | UPSERT).
+    ///
+    /// @return Parsed MutationNode or a parse error.
+    Result<std::shared_ptr<MutationNode>> parseMutation() {
+        try {
+            // Reject invalid tokens early.
+            for (const auto& tok : tokens_) {
+                if (tok.type == TokenType::INVALID) {
+                    return Err<std::shared_ptr<MutationNode>>(
+                        errors::ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+                        fmt::format("Invalid token '{}' at line {}, column {}",
+                                    tok.value, tok.line, tok.column));
+                }
+            }
+
+            std::shared_ptr<MutationNode> node;
+            if (match(TokenType::INSERT)) {
+                node = parseInsertStatement();
+            } else if (match(TokenType::UPDATE)) {
+                node = parseUpdateStatement();
+            } else if (match(TokenType::DELETE)) {
+                node = parseDeleteStatement();
+            } else if (match(TokenType::REMOVE)) {
+                node = parseRemoveStatement();
+            } else if (match(TokenType::REPLACE)) {
+                node = parseReplaceStatement();
+            } else if (match(TokenType::UPSERT)) {
+                node = parseUpsertStatement();
+            } else {
+                return Err<std::shared_ptr<MutationNode>>(
+                    errors::ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+                    fmt::format("Expected DML keyword (INSERT/UPDATE/DELETE/REMOVE/REPLACE/UPSERT), got '{}'",
+                                current().value));
+            }
+
+            // Consume optional trailing semicolons.
+            while (match(TokenType::SEMICOLON)) advance();
+
+            if (!match(TokenType::END_OF_FILE)) {
+                return Err<std::shared_ptr<MutationNode>>(
+                    errors::ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+                    fmt::format("Unexpected token '{}' after mutation statement",
+                                current().value));
+            }
+            return Ok(node);
+        } catch (const std::runtime_error& e) {
+            const auto& tok = current();
+            return Err<std::shared_ptr<MutationNode>>(
+                errors::ErrorCode::ERR_QUERY_PARSE_FAILED,
+                fmt::format("Parse error at line {}, column {}: {}",
+                            tok.line, tok.column, e.what()));
+        }
+    }
+
+private:
+
+    // -----------------------------------------------------------------------
+    // Helpers for mutation parsing
+    // -----------------------------------------------------------------------
+
+    /// @brief Consume the current token if it is an IDENTIFIER, INSERT, UPDATE,
+    ///        DELETE, REMOVE, REPLACE, UPSERT, SET, FROM, WHERE, INTO, VALUES,
+    ///        or any keyword that may also be used as a bare collection/field
+    ///        name in a mutation context.  Returns the token value.
+    std::string expectCollectionName(const std::string& context) {
+        const TokenType t = current().type;
+        // Allow any token type that could serve as a bare identifier in practice.
+        static constexpr TokenType kNameableTypes[] = {
+            TokenType::IDENTIFIER,
+            // Contextual keywords — legal as collection names in AQL
+            TokenType::INSERT, TokenType::UPDATE, TokenType::DELETE,
+            TokenType::REMOVE, TokenType::REPLACE, TokenType::UPSERT,
+            TokenType::SET,    TokenType::FROM,    TokenType::WHERE,
+            TokenType::INTO,   TokenType::VALUES,
+        };
+        for (auto k : kNameableTypes) {
+            if (t == k) {
+                std::string name = current().value;
+                advance();
+                return name;
+            }
+        }
+        throw std::runtime_error(
+            fmt::format("Expected collection name in {} statement, got '{}'",
+                        context, current().value));
+    }
+
+    /// @brief Parse optional `RETURN NEW` or `RETURN OLD` clause.
+    ///        Sets *return_new / *return_old to true when detected.
+    void parseReturnClause(bool& return_new, bool& return_old) {
+        if (!match(TokenType::RETURN)) return;
+        advance(); // consume RETURN
+        const std::string val = [&](){
+            std::string s = current().value;
+            std::transform(s.begin(), s.end(), s.begin(), ::tolower);
+            return s;
+        }();
+        if (val == "new") {
+            return_new = true;
+            advance();
+        } else if (val == "old") {
+            return_old = true;
+            advance();
+        }
+        // Otherwise treat as no RETURN clause (the expression after RETURN
+        // belongs to a wrapping query that the caller might handle).
+    }
+
+    // -----------------------------------------------------------------------
+    // parseInsertStatement
+    // -----------------------------------------------------------------------
+
+    /// @brief Parse INSERT statement in two surface forms.
+    ///
+    ///   AQL-native: `INSERT doc_expr INTO collection [RETURN NEW]`
+    ///   SQL-style:  `INSERT INTO collection VALUES {doc1}[, {doc2}...] [RETURN NEW]`
+    std::shared_ptr<MutationNode> parseInsertStatement() {
+        expect(TokenType::INSERT, "Expected INSERT");
+        auto node = std::make_shared<InsertNode>();
+
+        if (match(TokenType::INTO)) {
+            // SQL-style: INSERT INTO collection VALUES {...}
+            advance(); // consume INTO
+            node->collection = expectCollectionName("INSERT");
+            if (!match(TokenType::VALUES)) {
+                throw std::runtime_error("Expected VALUES after collection name in INSERT INTO");
+            }
+            advance(); // consume VALUES
+            // Parse one or more comma-separated document expressions.
+            do {
+                if (!node->documents.empty()) {
+                    if (!match(TokenType::COMMA)) break;
+                    advance();
+                }
+                node->documents.push_back(parseExpression());
+            } while (match(TokenType::COMMA));
+        } else {
+            // AQL-native: INSERT doc_expr INTO collection
+            node->documents.push_back(parseExpression());
+            expect(TokenType::INTO, "Expected INTO after document expression in INSERT");
+            node->collection = expectCollectionName("INSERT");
+        }
+
+        bool dummy_old = false;
+        parseReturnClause(node->return_new, dummy_old); // INSERT only supports RETURN NEW
+        return node;
+    }
+
+    // -----------------------------------------------------------------------
+    // parseUpdateStatement
+    // -----------------------------------------------------------------------
+
+    /// @brief Parse UPDATE statement in two surface forms.
+    ///
+    ///   SQL-style:  `UPDATE collection SET k=v [, ...] [WHERE cond] [LIMIT n] [RETURN NEW|OLD]`
+    ///   AQL-native: `UPDATE search_expr WITH update_expr IN collection [RETURN NEW|OLD]`
+    std::shared_ptr<MutationNode> parseUpdateStatement() {
+        expect(TokenType::UPDATE, "Expected UPDATE");
+        auto node = std::make_shared<UpdateNode>();
+
+        // Peek ahead: if the next token is an IDENTIFIER followed by SET → SQL style.
+        // If the next token starts an expression followed by WITH → AQL-native.
+        // Heuristic: if token after the identifier is SET, it is SQL-style.
+        const bool sql_style = [&]() -> bool {
+            // SQL style: UPDATE <ident> SET ...
+            if (current().type == TokenType::IDENTIFIER) {
+                return peek().type == TokenType::SET;
+            }
+            return false;
+        }();
+
+        if (sql_style) {
+            // SQL-style
+            node->collection = expectCollectionName("UPDATE");
+            expect(TokenType::SET, "Expected SET after collection name in UPDATE");
+
+            // Parse k=v pairs.
+            do {
+                if (!node->set_clauses.empty()) {
+                    if (!match(TokenType::COMMA)) break;
+                    advance();
+                }
+                SetClause sc;
+                if (!match(TokenType::IDENTIFIER)) {
+                    throw std::runtime_error("Expected field name in SET clause");
+                }
+                sc.field = current().value;
+                advance();
+                // Accept both '=' (ASSIGN) and '==' (EQ) for robustness.
+                if (!match(TokenType::ASSIGN) && !match(TokenType::EQ)) {
+                    throw std::runtime_error("Expected '=' after field name in SET clause");
+                }
+                advance();
+                sc.value = parseExpression();
+                node->set_clauses.push_back(std::move(sc));
+            } while (match(TokenType::COMMA));
+
+            // Optional WHERE
+            if (match(TokenType::WHERE) || match(TokenType::FILTER)) {
+                advance();
+                node->filter = parseExpression();
+            }
+        } else {
+            // AQL-native: UPDATE search_expr WITH update_expr IN collection
+            node->search_expr = parseExpression();
+            expect(TokenType::WITH, "Expected WITH after search expression in UPDATE");
+            node->update_expr = parseExpression();
+            expect(TokenType::IN, "Expected IN after update expression");
+            node->collection = expectCollectionName("UPDATE");
+        }
+
+        // Optional LIMIT
+        if (match(TokenType::LIMIT)) {
+            advance();
+            if (!match(TokenType::INTEGER)) {
+                throw std::runtime_error("Expected integer after LIMIT in UPDATE");
+            }
+            node->limit = std::stoll(current().value);
+            advance();
+        }
+
+        parseReturnClause(node->return_new, node->return_old);
+        return node;
+    }
+
+    // -----------------------------------------------------------------------
+    // parseDeleteStatement
+    // -----------------------------------------------------------------------
+
+    /// @brief Parse DELETE (SQL-style alias for REMOVE).
+    ///
+    ///   `DELETE FROM collection [WHERE cond] [LIMIT n] [RETURN OLD]`
+    std::shared_ptr<MutationNode> parseDeleteStatement() {
+        expect(TokenType::DELETE, "Expected DELETE");
+        auto node = std::make_shared<RemoveNode>();
+
+        expect(TokenType::FROM, "Expected FROM after DELETE");
+        node->collection = expectCollectionName("DELETE");
+
+        // Optional WHERE
+        if (match(TokenType::WHERE) || match(TokenType::FILTER)) {
+            advance();
+            node->filter = parseExpression();
+        }
+
+        // Optional LIMIT
+        if (match(TokenType::LIMIT)) {
+            advance();
+            if (!match(TokenType::INTEGER)) {
+                throw std::runtime_error("Expected integer after LIMIT in DELETE");
+            }
+            node->limit = std::stoll(current().value);
+            advance();
+        }
+
+        bool dummy_new = false;
+        parseReturnClause(dummy_new, node->return_removed);
+        return node;
+    }
+
+    // -----------------------------------------------------------------------
+    // parseRemoveStatement
+    // -----------------------------------------------------------------------
+
+    /// @brief Parse AQL-native REMOVE statement.
+    ///
+    ///   `REMOVE doc_expr IN collection [RETURN OLD]`
+    std::shared_ptr<MutationNode> parseRemoveStatement() {
+        expect(TokenType::REMOVE, "Expected REMOVE");
+        auto node = std::make_shared<RemoveNode>();
+
+        node->doc_expr = parseExpression();
+        expect(TokenType::IN, "Expected IN after document expression in REMOVE");
+        node->collection = expectCollectionName("REMOVE");
+
+        bool dummy_new = false;
+        parseReturnClause(dummy_new, node->return_removed);
+        return node;
+    }
+
+    // -----------------------------------------------------------------------
+    // parseReplaceStatement
+    // -----------------------------------------------------------------------
+
+    /// @brief Parse REPLACE statement.
+    ///
+    ///   `REPLACE search_expr WITH replacement IN collection [RETURN NEW|OLD]`
+    std::shared_ptr<MutationNode> parseReplaceStatement() {
+        expect(TokenType::REPLACE, "Expected REPLACE");
+        auto node = std::make_shared<ReplaceNode>();
+
+        node->search_expr = parseExpression();
+        expect(TokenType::WITH, "Expected WITH after search expression in REPLACE");
+        node->replacement = parseExpression();
+        expect(TokenType::IN, "Expected IN after replacement expression in REPLACE");
+        node->collection = expectCollectionName("REPLACE");
+
+        parseReturnClause(node->return_new, node->return_old);
+        return node;
+    }
+
+    // -----------------------------------------------------------------------
+    // parseUpsertStatement
+    // -----------------------------------------------------------------------
+
+    /// @brief Parse UPSERT statement.
+    ///
+    ///   `UPSERT search_expr INSERT insert_doc UPDATE update_doc IN collection [RETURN NEW|OLD]`
+    std::shared_ptr<MutationNode> parseUpsertStatement() {
+        expect(TokenType::UPSERT, "Expected UPSERT");
+        auto node = std::make_shared<UpsertNode>();
+
+        node->search_expr = parseExpression();
+        expect(TokenType::INSERT, "Expected INSERT after search expression in UPSERT");
+        node->insert_doc = parseExpression();
+        expect(TokenType::UPDATE, "Expected UPDATE after insert document in UPSERT");
+        node->update_doc = parseExpression();
+        expect(TokenType::IN, "Expected IN after update expression in UPSERT");
+        node->collection = expectCollectionName("UPSERT");
+
+        parseReturnClause(node->return_new, node->return_old);
+        return node;
+    }
 };
 
 // ============================================================================
@@ -1285,13 +1642,19 @@ Result<AqlTransactionBlock> AQLParser::parseTransactionBlock(const std::string& 
         AqlTransactionBlock block;
 
         // Walk through the token stream slicing out individual statements.
-        // Each statement starts at FOR (or WITH) and ends just before the
-        // next top-level separator (';') or FOR/WITH/COMMIT/ROLLBACK/END_OF_FILE.
+        // Each statement starts at FOR, WITH, or a DML keyword (INSERT/UPDATE/
+        // DELETE/REMOVE/REPLACE/UPSERT) and ends just before the next
+        // top-level separator (';') or statement-start/COMMIT/ROLLBACK/EOF.
         size_t start = 1; // skip BEGIN token
         const size_t n = tokens.size();
 
-        auto isStatementStart = [](TokenType t) {
-            return t == TokenType::FOR || t == TokenType::WITH;
+        auto isMutationStart = [](TokenType t) {
+            return t == TokenType::INSERT  || t == TokenType::UPDATE ||
+                   t == TokenType::DELETE  || t == TokenType::REMOVE ||
+                   t == TokenType::REPLACE || t == TokenType::UPSERT;
+        };
+        auto isStatementStart = [&isMutationStart](TokenType t) {
+            return t == TokenType::FOR || t == TokenType::WITH || isMutationStart(t);
         };
         auto isTerminator = [](TokenType t) {
             return t == TokenType::COMMIT || t == TokenType::ROLLBACK || t == TokenType::END_OF_FILE;
@@ -1313,12 +1676,13 @@ Result<AqlTransactionBlock> AQLParser::parseTransactionBlock(const std::string& 
                 return Err<AqlTransactionBlock>(
                     errors::ErrorCode::ERR_QUERY_INVALID_SYNTAX,
                     fmt::format(
-                        "Expected FOR or WITH at line {}, column {} inside transaction block",
+                        "Expected FOR, WITH, or DML keyword at line {}, column {} inside transaction block",
                         tokens[start].line, tokens[start].column)
                 );
             }
 
-            const bool startsWithClause = (tokens[start].type == TokenType::WITH);
+            const bool isMutationStmt = isMutationStart(tokens[start].type);
+            const bool startsWithClause = (!isMutationStmt && tokens[start].type == TokenType::WITH);
             bool consumedTopLevelForAfterWith = false;
 
             // Find the end of this statement, tracking nesting depth so that
@@ -1355,16 +1719,38 @@ Result<AqlTransactionBlock> AQLParser::parseTransactionBlock(const std::string& 
             sub.emplace_back(TokenType::END_OF_FILE, "", 0, 0);
 
             Parser subParser(std::move(sub));
-            auto stmtResult = subParser.parse();
-            if (!stmtResult) {
-                return Err<AqlTransactionBlock>(
-                    stmtResult.error().code(),
-                    fmt::format("Error in statement {} of transaction block: {}",
-                                block.statements.size() + 1,
-                                stmtResult.error().message())
-                );
+
+            if (isMutationStmt) {
+                // Phase 4: DML statement — parse as a MutationNode.
+                auto mutResult = subParser.parseMutation();
+                if (!mutResult) {
+                    return Err<AqlTransactionBlock>(
+                        mutResult.error().code(),
+                        fmt::format("Error in mutation statement {} of transaction block: {}",
+                                    block.ordered_statements.size() + 1,
+                                    mutResult.error().message())
+                    );
+                }
+                AqlStatement s;
+                s.kind     = AqlStatement::Kind::Mutation;
+                s.mutation = std::move(*mutResult);
+                block.ordered_statements.push_back(std::move(s));
+            } else {
+                auto stmtResult = subParser.parse();
+                if (!stmtResult) {
+                    return Err<AqlTransactionBlock>(
+                        stmtResult.error().code(),
+                        fmt::format("Error in statement {} of transaction block: {}",
+                                    block.ordered_statements.size() + block.statements.size() + 1,
+                                    stmtResult.error().message())
+                    );
+                }
+                AqlStatement s;
+                s.kind  = AqlStatement::Kind::Query;
+                s.query = *stmtResult;
+                block.ordered_statements.push_back(std::move(s));
+                block.statements.push_back(std::move(*stmtResult));
             }
-            block.statements.push_back(std::move(*stmtResult));
             start = end;
 
             // Consume one separator here; additional separators are consumed
@@ -1690,6 +2076,26 @@ Result<ContinuousQueryDDL> AQLParser::parseDDL(const std::string& input) {
     }
 
     return Ok(std::move(ddl));
+}
+
+// ============================================================================
+// AQLParser::parseMutation
+// ============================================================================
+
+/**
+ * @brief Parse a DML mutation statement.
+ *
+ * Tokenises @p input, constructs an inner Parser, and delegates to
+ * Parser::parseMutation() which dispatches on the leading DML keyword.
+ *
+ * @param input  Raw AQL mutation string (case-insensitive keywords).
+ * @return       Ok(MutationNode) on success, Err on parse failure.
+ */
+Result<std::shared_ptr<MutationNode>> AQLParser::parseMutation(const std::string& input) {
+    Tokenizer tokenizer(input);
+    auto tokens = tokenizer.tokenize();
+    Parser p(std::move(tokens));
+    return p.parseMutation();
 }
 
 }  // namespace query

@@ -384,7 +384,10 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w7c_endurance_stability_test.cpp
 endif()
 
 # ============================================================================
-# Wave 8 — Incident Regression Shielding, Contract Compat, Determinism/Flake
+# Wave 8 — Post-Release Reliability Hardening
+# W8-A: Incident Regression Shielding         (IRS-01..IRS-08)
+# W8-B: Contract & Compatibility Reliability  (CCR-01..CCR-08)
+# W8-C: Determinism, Flake Burn-down & CI     (DFQ-01..DFQ-08)
 # ============================================================================
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w8a_incident_regression_shielding_test.cpp")
@@ -394,7 +397,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w8a_incident_regression_shieldin
     )
     set_tests_properties(w8a_incident_regression_shielding_test PROPERTIES
         LABELS "integration;pipeline_integration;pipeline;wave8;w8a;release_critical;incident_regression"
-        TIMEOUT 300
+        TIMEOUT 120
     )
 endif()
 
@@ -405,7 +408,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w8b_contract_compatibility_relia
     )
     set_tests_properties(w8b_contract_compatibility_reliability_test PROPERTIES
         LABELS "integration;pipeline_integration;pipeline;wave8;w8b;release_critical;contract_compat"
-        TIMEOUT 300
+        TIMEOUT 120
     )
 endif()
 
@@ -416,7 +419,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w8c_determinism_flake_ci_signal_
     )
     set_tests_properties(w8c_determinism_flake_ci_signal_test PROPERTIES
         LABELS "integration;pipeline_integration;pipeline;wave8;w8c;release_critical;determinism;flake_burndown;ci_signal"
-        TIMEOUT 300
+        TIMEOUT 120
     )
 endif()
 
@@ -431,7 +434,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w9a_security_hardening_audit_tes
     )
     set_tests_properties(w9a_security_hardening_audit_test PROPERTIES
         LABELS "integration;pipeline_integration;pipeline;wave9;w9a;release_critical;security_hardening"
-        TIMEOUT 300
+        TIMEOUT 120
     )
 endif()
 
@@ -442,7 +445,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w9b_sla_compliance_uptime_test.c
     )
     set_tests_properties(w9b_sla_compliance_uptime_test PROPERTIES
         LABELS "integration;pipeline_integration;pipeline;wave9;w9b;release_critical;sla_compliance"
-        TIMEOUT 300
+        TIMEOUT 120
     )
 endif()
 
@@ -453,7 +456,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w9c_chaos_fault_tolerance_test.c
     )
     set_tests_properties(w9c_chaos_fault_tolerance_test PROPERTIES
         LABELS "integration;pipeline_integration;pipeline;wave9;w9c;release_critical;chaos_fault_tolerance"
-        TIMEOUT 300
+        TIMEOUT 120
     )
 endif()
 

@@ -23,18 +23,19 @@
 //
 // Two-Phase Commit (2PC) Coordinator – cross-shard transaction driver
 //
-// CC-5 NOTE: ThemisDB contains three independent 2PC implementations with
-// different state machines, WAL integration depths, and recovery logic:
-//   1. two_phase_commit_coordinator.cpp  (this file) — standalone coordinator
-//   2. cross_shard_transaction.cpp       — CrossShardTransactionCoordinator
-//   3. distributed_transaction.cpp       — DistributedTransactionCoordinator
-// A transaction begun with one coordinator CANNOT be recovered by another.
-// Future work: unify under a single 2PC engine (Target: v2.0.0).
+// CC-5: ThemisDB provides three transaction coordinator classes that share the
+// IRecoverableTwoPhaseCoordinator recovery contract and coordinator-specific APIs.
+// WALLoggingHelper (include/sharding/wal_logging_helper.h) centralizes the
+// WAL-write pattern for WALManager-backed coordinators only; WAL formats remain
+// coordinator-specific and cross-coordinator recovery is not available.
+// Cross-coordinator recovery tooling is planned for v3.0.0.
+// → Architecture reference: docs/architecture/transaction_coordinators.md
 
 #include "sharding/two_phase_commit_coordinator.h"
 #include "sharding/shard_rpc_client_adapter.h"
 #include "sharding/metrics_registry.h"
 #include "sharding/prometheus_metrics.h"
+#include "sharding/wal_logging_helper.h"
 #include "transaction/two_phase_commit_wal_recovery.h"
 #include "utils/logger.h"
 #include <chrono>
@@ -644,27 +645,11 @@ void TwoPhaseCommitCoordinator::logToWAL(
     const std::string&    txn_id,
     const nlohmann::json& data
 ) {
-    if (!wal_) return;
-
-    try {
-        WALEntry entry;
-        entry.type           = type;
-        entry.transaction_id = txn_id;
-        entry.timestamp      = static_cast<uint64_t>(
-            std::chrono::duration_cast<std::chrono::milliseconds>(
-                std::chrono::system_clock::now().time_since_epoch()
-            ).count()
-        );
-        entry.data = data;
-
-        wal_->append(entry);
-        if (config_.sync_wal_writes) {
-            wal_->flush();
-        }
-    } catch (const std::exception& e) {
-        THEMIS_ERROR("2PC coordinator [{}] WAL write failed for txn {}: {}",
-                     coordinator_id_, txn_id, e.what());
-    }
+    WALLoggingHelper::appendEntry(
+        wal_.get(), type, txn_id, data,
+        config_.sync_wal_writes,
+        "coordinator", coordinator_id_
+    );
 }
 
 } // namespace themis::sharding

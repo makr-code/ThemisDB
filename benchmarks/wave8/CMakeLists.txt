@@ -49,7 +49,7 @@ function(add_w8_benchmark TARGET_NAME SOURCE_FILE)
 endfunction()
 
 # ---------------------------------------------------------------------------
-# W8-A: Incident Regression Shielding
+# W8-A: Incident-Driven Benchmark Regression Shielding
 # ---------------------------------------------------------------------------
 add_w8_benchmark(
     bench_w8a_incident_regression_shielding
@@ -65,7 +65,7 @@ add_w8_benchmark(
 )
 
 # ---------------------------------------------------------------------------
-# W8-C: Deterministic CI Harness
+# W8-C: Deterministic CI Benchmark Harness
 # ---------------------------------------------------------------------------
 add_w8_benchmark(
     bench_w8c_deterministic_ci_harness
@@ -79,3 +79,5 @@ add_w8_benchmark(
     bench_w8d_operability_runbooks_ownership
     bench_w8d_operability_runbooks_ownership.cpp
 )
+
+message(STATUS "[wave8] Wave 8 benchmark suite configured (4 targets)")

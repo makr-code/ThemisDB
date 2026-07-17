@@ -41,6 +41,8 @@
 #include <cublas_v2.h>
 #include <cuda_bf16.h>
 #include <cuda_fp16.h>
+// RAII wrappers — exception-safe CUDA resource management
+#include "acceleration/raii/cuda_raii.h"
 #endif
 
 #ifdef THEMIS_ENABLE_HIP
@@ -57,6 +59,8 @@
 // hipBLAS — dot product / GEMM (FP32, FP16)
 #include <hip/hip_fp16.h>
 #include <hipblas/hipblas.h>
+// RAII wrappers — exception-safe HIP resource management
+#include "acceleration/raii/hip_raii.h"
 #endif
 
 #ifdef THEMIS_ENABLE_CUVS
@@ -761,31 +765,29 @@ GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std:
     // calls to avoid the ~10 µs initialisation overhead.
 #ifdef THEMIS_ENABLE_CUDA
     if (use_gpu) {
-        bool gpu_done              = false;
-        cublasHandle_t blas_handle = nullptr;
+        bool gpu_done = false;
+        // CublasHandle RAII — destroyed automatically on scope exit even if an
+        // exception is thrown, preventing cublasHandle_t leaks.
+        themis::acceleration::raii::CublasHandle blas;
         try {
-            if (cublasCreate(&blas_handle) == CUBLAS_STATUS_SUCCESS) {
+            if (blas.create()) {
                 const int n = static_cast<int>(a.size());
 
                 if (config_.precision_mode == PrecisionMode::FP32) {
                     // --- FP32: cublasSdot ---
-                    float *d_a          = nullptr;
-                    float *d_b          = nullptr;
-                    const bool alloc_ok = cudaMalloc(&d_a, n * sizeof(float)) == cudaSuccess
-                                          && cudaMalloc(&d_b, n * sizeof(float)) == cudaSuccess;
-                    if (alloc_ok && cudaMemcpy(d_a, a.data(), n * sizeof(float), cudaMemcpyHostToDevice) == cudaSuccess
-                        && cudaMemcpy(d_b, b.data(), n * sizeof(float), cudaMemcpyHostToDevice) == cudaSuccess) {
+                    // CudaDeviceBuffer RAII — freed on scope exit; exception-safe.
+                    themis::acceleration::raii::CudaDeviceBuffer<float> d_a, d_b;
+                    const bool alloc_ok = d_a.tryAllocate(n) && d_b.tryAllocate(n);
+                    if (alloc_ok
+                        && cudaMemcpy(d_a.get(), a.data(), n * sizeof(float), cudaMemcpyHostToDevice) == cudaSuccess
+                        && cudaMemcpy(d_b.get(), b.data(), n * sizeof(float), cudaMemcpyHostToDevice) == cudaSuccess) {
                         float dot_result = 0.0f;
-                        if (cublasSdot(blas_handle, n, d_a, 1, d_b, 1, &dot_result) == CUBLAS_STATUS_SUCCESS) {
+                        if (cublasSdot(blas.get(), n, d_a.get(), 1, d_b.get(), 1, &dot_result)
+                            == CUBLAS_STATUS_SUCCESS) {
                             result.value = static_cast<double>(dot_result);
                             gpu_done     = true;
                         }
                     }
-                    // Unconditional cleanup — safe to call on nullptr.
-                    if (d_a)
-                        cudaFree(d_a);
-                    if (d_b)
-                        cudaFree(d_b);
 
                 } else if (config_.precision_mode == PrecisionMode::FP16) {
                     // --- FP16: quantise on host, cublasGemmEx (1×n × n×1) ---
@@ -796,36 +798,33 @@ GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std:
                         ha[i] = __float2half(a[i]);
                         hb[i] = __float2half(b[i]);
                     }
-                    __half *d_a         = nullptr;
-                    __half *d_b         = nullptr;
-                    float *d_c          = nullptr; // FP32 output avoids __half saturation
-                    const bool alloc_ok = cudaMalloc(&d_a, n * sizeof(__half)) == cudaSuccess
-                                          && cudaMalloc(&d_b, n * sizeof(__half)) == cudaSuccess
-                                          && cudaMalloc(&d_c, sizeof(float)) == cudaSuccess;
+                    // CudaDeviceBuffer RAII — freed on scope exit; exception-safe.
+                    themis::acceleration::raii::CudaDeviceBuffer<__half> d_a, d_b;
+                    themis::acceleration::raii::CudaDeviceBuffer<float>  d_c; // FP32 output
+                    const bool alloc_ok = d_a.tryAllocate(n) && d_b.tryAllocate(n)
+                                          && d_c.tryAllocate(1);
                     if (alloc_ok
-                        && cudaMemcpy(d_a, ha.data(), n * sizeof(__half), cudaMemcpyHostToDevice) == cudaSuccess
-                        && cudaMemcpy(d_b, hb.data(), n * sizeof(__half), cudaMemcpyHostToDevice) == cudaSuccess) {
+                        && cudaMemcpy(d_a.get(), ha.data(), n * sizeof(__half), cudaMemcpyHostToDevice)
+                               == cudaSuccess
+                        && cudaMemcpy(d_b.get(), hb.data(), n * sizeof(__half), cudaMemcpyHostToDevice)
+                               == cudaSuccess) {
                         const float alpha = 1.0f, beta = 0.0f;
                         // Compute C (1×1) = A (1×n) * B (n×1) with FP32 accumulation
-                        if (cublasGemmEx(blas_handle, CUBLAS_OP_N, CUBLAS_OP_N, 1, 1, n, &alpha, d_b, CUDA_R_16F,
-                                         1,                  // B: n×1 column-major
-                                         d_a, CUDA_R_16F, n, // A: 1×n as n×1 transposed
-                                         &beta, d_c, CUDA_R_32F, 1, CUBLAS_COMPUTE_32F, CUBLAS_GEMM_DEFAULT)
+                        if (cublasGemmEx(blas.get(), CUBLAS_OP_N, CUBLAS_OP_N, 1, 1, n, &alpha,
+                                         d_b.get(), CUDA_R_16F,
+                                         1,          // B: n×1 column-major
+                                         d_a.get(), CUDA_R_16F, n, // A: 1×n as n×1 transposed
+                                         &beta, d_c.get(), CUDA_R_32F, 1, CUBLAS_COMPUTE_32F,
+                                         CUBLAS_GEMM_DEFAULT)
                             == CUBLAS_STATUS_SUCCESS) {
                             float c_host = 0.0f;
-                            if (cudaMemcpy(&c_host, d_c, sizeof(float), cudaMemcpyDeviceToHost) == cudaSuccess) {
+                            if (cudaMemcpy(&c_host, d_c.get(), sizeof(float), cudaMemcpyDeviceToHost)
+                                == cudaSuccess) {
                                 result.value = static_cast<double>(c_host);
                                 gpu_done     = true;
                             }
                         }
                     }
-                    // Unconditional cleanup.
-                    if (d_a)
-                        cudaFree(d_a);
-                    if (d_b)
-                        cudaFree(d_b);
-                    if (d_c)
-                        cudaFree(d_c);
 
                 } else {
                     // --- BF16: quantise on host, cublasGemmEx with BF16 types ---
@@ -834,35 +833,32 @@ GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std:
                         ba[i] = __float2bfloat16(a[i]);
                         bb[i] = __float2bfloat16(b[i]);
                     }
-                    __nv_bfloat16 *d_a  = nullptr;
-                    __nv_bfloat16 *d_b  = nullptr;
-                    float *d_c          = nullptr; // accumulate in FP32
-                    const bool alloc_ok = cudaMalloc(&d_a, n * sizeof(__nv_bfloat16)) == cudaSuccess
-                                          && cudaMalloc(&d_b, n * sizeof(__nv_bfloat16)) == cudaSuccess
-                                          && cudaMalloc(&d_c, sizeof(float)) == cudaSuccess;
+                    // CudaDeviceBuffer RAII — freed on scope exit; exception-safe.
+                    themis::acceleration::raii::CudaDeviceBuffer<__nv_bfloat16> d_a, d_b;
+                    themis::acceleration::raii::CudaDeviceBuffer<float>         d_c; // accumulate FP32
+                    const bool alloc_ok = d_a.tryAllocate(n) && d_b.tryAllocate(n)
+                                          && d_c.tryAllocate(1);
                     if (alloc_ok
-                        && cudaMemcpy(d_a, ba.data(), n * sizeof(__nv_bfloat16), cudaMemcpyHostToDevice) == cudaSuccess
-                        && cudaMemcpy(d_b, bb.data(), n * sizeof(__nv_bfloat16), cudaMemcpyHostToDevice)
+                        && cudaMemcpy(d_a.get(), ba.data(), n * sizeof(__nv_bfloat16),
+                                      cudaMemcpyHostToDevice)
+                               == cudaSuccess
+                        && cudaMemcpy(d_b.get(), bb.data(), n * sizeof(__nv_bfloat16),
+                                      cudaMemcpyHostToDevice)
                                == cudaSuccess) {
                         const float alpha_f = 1.0f, beta_f = 0.0f;
-                        if (cublasGemmEx(blas_handle, CUBLAS_OP_N, CUBLAS_OP_N, 1, 1, n, &alpha_f, d_b, CUDA_R_16BF, 1,
-                                         d_a, CUDA_R_16BF, n, &beta_f, d_c, CUDA_R_32F, 1, CUBLAS_COMPUTE_32F,
+                        if (cublasGemmEx(blas.get(), CUBLAS_OP_N, CUBLAS_OP_N, 1, 1, n, &alpha_f,
+                                         d_b.get(), CUDA_R_16BF, 1, d_a.get(), CUDA_R_16BF, n,
+                                         &beta_f, d_c.get(), CUDA_R_32F, 1, CUBLAS_COMPUTE_32F,
                                          CUBLAS_GEMM_DEFAULT)
                             == CUBLAS_STATUS_SUCCESS) {
                             float h_c = 0.0f;
-                            if (cudaMemcpy(&h_c, d_c, sizeof(float), cudaMemcpyDeviceToHost) == cudaSuccess) {
+                            if (cudaMemcpy(&h_c, d_c.get(), sizeof(float), cudaMemcpyDeviceToHost)
+                                == cudaSuccess) {
                                 result.value = static_cast<double>(h_c);
                                 gpu_done     = true;
                             }
                         }
                     }
-                    // Unconditional cleanup.
-                    if (d_a)
-                        cudaFree(d_a);
-                    if (d_b)
-                        cudaFree(d_b);
-                    if (d_c)
-                        cudaFree(d_c);
                 }
             }
         } catch ([[maybe_unused]] const std::exception &ex) {
@@ -871,8 +867,7 @@ GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std:
         } catch (...) {
             gpu_done = false;
         }
-        if (blas_handle)
-            cublasDestroy(blas_handle);
+        // blas (CublasHandle) destroyed here automatically.
 
         if (gpu_done) {
             std::lock_guard<std::mutex> lk(mutex_);
@@ -890,31 +885,31 @@ GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std:
 
 #ifdef THEMIS_ENABLE_HIP
     if (use_gpu) {
-        bool gpu_done               = false;
-        hipblasHandle_t blas_handle = nullptr;
+        bool gpu_done = false;
+        // HipblasHandle RAII — destroyed automatically on scope exit even if an
+        // exception is thrown, preventing hipblasHandle_t leaks.
+        themis::acceleration::raii::HipblasHandle blas;
         try {
-            if (hipblasCreate(&blas_handle) == HIPBLAS_STATUS_SUCCESS) {
+            if (blas.create()) {
                 const int n = static_cast<int>(a.size());
 
                 if (config_.precision_mode == PrecisionMode::FP32) {
                     // --- FP32: hipblasSdot ---
-                    float *d_a          = nullptr;
-                    float *d_b          = nullptr;
-                    const bool alloc_ok = hipMalloc(&d_a, n * sizeof(float)) == hipSuccess
-                                          && hipMalloc(&d_b, n * sizeof(float)) == hipSuccess;
-                    if (alloc_ok && hipMemcpy(d_a, a.data(), n * sizeof(float), hipMemcpyHostToDevice) == hipSuccess
-                        && hipMemcpy(d_b, b.data(), n * sizeof(float), hipMemcpyHostToDevice) == hipSuccess) {
+                    // HipDeviceBuffer RAII — freed on scope exit; exception-safe.
+                    themis::acceleration::raii::HipDeviceBuffer<float> d_a, d_b;
+                    const bool alloc_ok = d_a.tryAllocate(n) && d_b.tryAllocate(n);
+                    if (alloc_ok
+                        && hipMemcpy(d_a.get(), a.data(), n * sizeof(float), hipMemcpyHostToDevice)
+                               == hipSuccess
+                        && hipMemcpy(d_b.get(), b.data(), n * sizeof(float), hipMemcpyHostToDevice)
+                               == hipSuccess) {
                         float dot_result = 0.0f;
-                        if (hipblasSdot(blas_handle, n, d_a, 1, d_b, 1, &dot_result) == HIPBLAS_STATUS_SUCCESS) {
+                        if (hipblasSdot(blas.get(), n, d_a.get(), 1, d_b.get(), 1, &dot_result)
+                            == HIPBLAS_STATUS_SUCCESS) {
                             result.value = static_cast<double>(dot_result);
                             gpu_done     = true;
                         }
                     }
-                    // Unconditional cleanup — safe to call on nullptr.
-                    if (d_a)
-                        hipFree(d_a);
-                    if (d_b)
-                        hipFree(d_b);
 
                 } else if (config_.precision_mode == PrecisionMode::FP16) {
                     // --- FP16: quantise on host, hipblasGemmEx (1×n × n×1) ---
@@ -925,34 +920,32 @@ GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std:
                         ha[i] = __float2half(a[i]);
                         hb[i] = __float2half(b[i]);
                     }
-                    hipblasHalf *d_a    = nullptr;
-                    hipblasHalf *d_b    = nullptr;
-                    float *d_c          = nullptr; // FP32 output avoids saturation
-                    const bool alloc_ok = hipMalloc(&d_a, n * sizeof(hipblasHalf)) == hipSuccess
-                                          && hipMalloc(&d_b, n * sizeof(hipblasHalf)) == hipSuccess
-                                          && hipMalloc(&d_c, sizeof(float)) == hipSuccess;
+                    // HipDeviceBuffer RAII — freed on scope exit; exception-safe.
+                    themis::acceleration::raii::HipDeviceBuffer<hipblasHalf> d_a, d_b;
+                    themis::acceleration::raii::HipDeviceBuffer<float>       d_c; // FP32 output
+                    const bool alloc_ok = d_a.tryAllocate(n) && d_b.tryAllocate(n)
+                                          && d_c.tryAllocate(1);
                     if (alloc_ok
-                        && hipMemcpy(d_a, ha.data(), n * sizeof(hipblasHalf), hipMemcpyHostToDevice) == hipSuccess
-                        && hipMemcpy(d_b, hb.data(), n * sizeof(hipblasHalf), hipMemcpyHostToDevice) == hipSuccess) {
+                        && hipMemcpy(d_a.get(), ha.data(), n * sizeof(hipblasHalf),
+                                     hipMemcpyHostToDevice)
+                               == hipSuccess
+                        && hipMemcpy(d_b.get(), hb.data(), n * sizeof(hipblasHalf),
+                                     hipMemcpyHostToDevice)
+                               == hipSuccess) {
                         const float alpha = 1.0f, beta = 0.0f;
-                        if (hipblasGemmEx(blas_handle, HIPBLAS_OP_N, HIPBLAS_OP_N, 1, 1, n, &alpha, d_b, HIPBLAS_R_16F,
-                                          1, d_a, HIPBLAS_R_16F, n, &beta, d_c, HIPBLAS_R_32F, 1, HIPBLAS_COMPUTE_32F,
+                        if (hipblasGemmEx(blas.get(), HIPBLAS_OP_N, HIPBLAS_OP_N, 1, 1, n, &alpha,
+                                          d_b.get(), HIPBLAS_R_16F, 1, d_a.get(), HIPBLAS_R_16F, n,
+                                          &beta, d_c.get(), HIPBLAS_R_32F, 1, HIPBLAS_COMPUTE_32F,
                                           HIPBLAS_GEMM_DEFAULT)
                             == HIPBLAS_STATUS_SUCCESS) {
                             float c_host = 0.0f;
-                            if (hipMemcpy(&c_host, d_c, sizeof(float), hipMemcpyDeviceToHost) == hipSuccess) {
+                            if (hipMemcpy(&c_host, d_c.get(), sizeof(float), hipMemcpyDeviceToHost)
+                                == hipSuccess) {
                                 result.value = static_cast<double>(c_host);
                                 gpu_done     = true;
                             }
                         }
                     }
-                    // Unconditional cleanup.
-                    if (d_a)
-                        hipFree(d_a);
-                    if (d_b)
-                        hipFree(d_b);
-                    if (d_c)
-                        hipFree(d_c);
 
                 } else {
                     // BF16 on ROCm: fall through to CPU path (hipblasGemmEx
@@ -967,8 +960,7 @@ GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std:
         } catch (...) {
             gpu_done = false;
         }
-        if (blas_handle)
-            hipblasDestroy(blas_handle);
+        // blas (HipblasHandle) destroyed here automatically.
 
         if (gpu_done) {
             std::lock_guard<std::mutex> lk(mutex_);

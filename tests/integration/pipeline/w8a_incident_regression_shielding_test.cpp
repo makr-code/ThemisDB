@@ -2,47 +2,31 @@
  * ThemisDB | File: w8a_incident_regression_shielding_test.cpp | Version: 0.0.1
  * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
  * Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0
- * Status: Production Ready — Wave 8A Incident Regression Shielding Suite
+ * Status: Production Ready — Wave 8A Post-Release Incident Regression Shielding
  */
 
 /**
  * @file w8a_incident_regression_shielding_test.cpp
- * @brief Wave 8A — Incident Regression Shielding (IRS-01..IRS-08).
+ * @brief Wave 8A — Post-Release Incident Regression Shielding (IRS-01..IRS-08).
  *
- * Validates that specific failure modes identified in post-mortem incident
- * reports do not regress.  Each test encodes a concrete scenario that caused
- * a production outage or data-quality incident and verifies the fix holds
- * under deterministic in-process conditions.
- *
- * IRS-01  Concurrent ingest/delete race — no phantom record after interleaved
- *         concurrent write and delete on the same key.
- * IRS-02  WAL flush ordering — committed entry is visible after a simulated
- *         crash-restart without explicit fsync acknowledgement.
- * IRS-03  Retry storm prevention — exponential back-off caps retry count;
- *         total delay is bounded even when all attempts fail transiently.
- * IRS-04  Partial batch rollback — failed mid-batch write leaves no partial
- *         state; storage is identical to pre-batch state.
- * IRS-05  Index/storage divergence after restart — index and storage agree on
- *         record presence after a simulated restart cycle.
- * IRS-06  Double-delete idempotency — deleting an already-absent key returns
- *         a clean "not found" result, not an error.
- * IRS-07  Large-value read stability — reading a 512 KiB value 100 times
- *         returns identical bytes with no corruption.
- * IRS-08  Audit log completeness under concurrent writes — all write events
- *         are recorded in the audit log without duplicates or omissions.
- *
- * All tests are deterministic via kCanonicalSeed = 42.
+ * Converts known release/production incidents and near-misses into targeted
+ * regression tests.  Covers state-transition invariants, idempotency, ordering
+ * bugs, retry/timeout edge cases, auth revocation, partial-update atomicity
+ * and empty-result contract correctness.  All tests are deterministic via
+ * kCanonicalSeed = 42.
  */
 
 #include "../test_data_generator.h"
 #include "../test_fixture.h"
 
+#include <algorithm>
 #include <atomic>
 #include <chrono>
+#include <cstdint>
 #include <mutex>
 #include <optional>
 #include <random>
-#include <sstream>
+#include <stdexcept>
 #include <string>
 #include <thread>
 #include <unordered_map>
@@ -56,609 +40,676 @@ namespace {
 static constexpr uint32_t kCanonicalSeed = 42;
 
 // ---------------------------------------------------------------------------
-// MinimalKVStore — deterministic in-process key/value store for shielding tests
+// StateMachinePipeline — incident regression: invalid state transitions
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Thread-safe in-memory key/value store used across IRS tests.
- *
- * Write and Delete operations are guarded by a single mutex.  Read operations
- * observe the most-recently committed state.  No durability guarantees are
- * provided — this is an in-process simulation of the storage contract only.
- */
-class MinimalKVStore {
+/// @brief Possible document lifecycle states.
+enum class DocState { kNew, kIndexed, kArchived, kDeleted };
+
+/// @brief Minimal state machine tracking valid document lifecycle transitions.
+class StateMachinePipeline {
 public:
-    void Write(const std::string& key, const std::string& value) {
-        std::lock_guard<std::mutex> lk(mu_);
-        data_[key] = value;
+    struct TransitionResult {
+        bool        ok{false};
+        std::string error;
+        DocState    state{DocState::kNew};
+    };
+
+    /// @brief Register a new document in kNew state.
+    bool Register(const std::string& id) {
+        std::lock_guard<std::mutex> lk(mutex_);
+        if (states_.count(id) > 0) { return false; }
+        states_[id] = DocState::kNew;
+        return true;
     }
 
-    bool Delete(const std::string& key) {
-        std::lock_guard<std::mutex> lk(mu_);
-        return data_.erase(key) > 0;
+    /// @brief Advance a document through a valid transition.
+    /// Valid: kNew→kIndexed, kIndexed→kArchived, kIndexed→kDeleted,
+    ///        kArchived→kDeleted.
+    /// @param id     Document identifier.
+    /// @param target Desired target state.
+    /// @return TransitionResult describing outcome and current state.
+    [[nodiscard]] TransitionResult Advance(const std::string& id, DocState target) {
+        std::lock_guard<std::mutex> lk(mutex_);
+        auto it = states_.find(id);
+        if (it == states_.end()) {
+            return {false, "not_found", DocState::kNew};
+        }
+        const DocState current = it->second;
+        if (!IsValidTransition(current, target)) {
+            return {false, "invalid_transition", current};
+        }
+        it->second = target;
+        return {true, "", target};
     }
 
-    std::optional<std::string> Read(const std::string& key) const {
-        std::lock_guard<std::mutex> lk(mu_);
-        const auto it = data_.find(key);
-        if (it == data_.end()) { return std::nullopt; }
+    /// @brief Return the current state for a document, or nullopt if unknown.
+    [[nodiscard]] std::optional<DocState> GetState(const std::string& id) const {
+        std::lock_guard<std::mutex> lk(mutex_);
+        const auto it = states_.find(id);
+        if (it == states_.end()) { return std::nullopt; }
         return it->second;
     }
 
-    bool Contains(const std::string& key) const {
-        std::lock_guard<std::mutex> lk(mu_);
-        return data_.count(key) > 0;
-    }
-
-    size_t Size() const {
-        std::lock_guard<std::mutex> lk(mu_);
-        return data_.size();
-    }
-
-    /// Returns a snapshot of all keys (for post-condition checks).
-    std::unordered_set<std::string> Keys() const {
-        std::lock_guard<std::mutex> lk(mu_);
-        std::unordered_set<std::string> ks;
-        ks.reserve(data_.size());
-        for (const auto& [k, _] : data_) { ks.insert(k); }
-        return ks;
-    }
-
 private:
-    mutable std::mutex mu_;
-    std::unordered_map<std::string, std::string> data_;
-};
-
-// ---------------------------------------------------------------------------
-// WALSimulator — ordered write-ahead log for IRS-02 and IRS-05
-// ---------------------------------------------------------------------------
-
-enum class WALEntryType { kWrite, kDelete, kCommit };
-
-struct WALEntry {
-    WALEntryType type;
-    std::string  key;
-    std::string  value;
-    bool         committed{false};
-};
-
-/**
- * @brief Append-only WAL simulator with replay semantics.
- *
- * Entries appended before Commit() are uncommitted.  Commit() marks the
- * current tail as committed.  Replay() applies only committed entries to a
- * supplied KVStore, simulating crash recovery.
- */
-class WALSimulator {
-public:
-    void Append(WALEntryType type, const std::string& key,
-                const std::string& value = {}) {
-        std::lock_guard<std::mutex> lk(mu_);
-        entries_.push_back({type, key, value, false});
-    }
-
-    void Commit() {
-        std::lock_guard<std::mutex> lk(mu_);
-        for (auto& e : entries_) { e.committed = true; }
-    }
-
-    void Replay(MinimalKVStore& store) const {
-        std::lock_guard<std::mutex> lk(mu_);
-        for (const auto& e : entries_) {
-            if (!e.committed) { continue; }
-            if (e.type == WALEntryType::kWrite)  { store.Write(e.key, e.value); }
-            if (e.type == WALEntryType::kDelete)  { store.Delete(e.key); }
-        }
-    }
-
-    size_t CommittedCount() const {
-        std::lock_guard<std::mutex> lk(mu_);
-        size_t n = 0;
-        for (const auto& e : entries_) { if (e.committed) { ++n; } }
-        return n;
-    }
-
-    size_t UncommittedCount() const {
-        std::lock_guard<std::mutex> lk(mu_);
-        size_t n = 0;
-        for (const auto& e : entries_) { if (!e.committed) { ++n; } }
-        return n;
-    }
-
-private:
-    mutable std::mutex        mu_;
-    std::vector<WALEntry>     entries_;
-};
-
-// ---------------------------------------------------------------------------
-// ExponentialBackoff — bounded retry with back-off for IRS-03
-// ---------------------------------------------------------------------------
-
-struct BackoffPolicy {
-    size_t                        max_retries{5};
-    std::chrono::microseconds     initial_delay{10};
-    double                        multiplier{2.0};
-    std::chrono::microseconds     max_delay{160};
-};
-
-struct BackoffResult {
-    size_t                    attempts{0};
-    bool                      succeeded{false};
-    std::chrono::microseconds total_delay{0};
-};
-
-/**
- * @brief Runs an operation under exponential back-off policy and returns
- *        the execution summary.
- *
- * @param policy     Back-off configuration.
- * @param succeed_on Attempt number on which the operation succeeds (0 = always
- *                   fail, exceeds max_retries to exercise full retry budget).
- */
-BackoffResult RunWithBackoff(const BackoffPolicy& policy, size_t succeed_on) {
-    BackoffResult result;
-    auto delay = policy.initial_delay;
-
-    for (size_t attempt = 1; attempt <= policy.max_retries + 1; ++attempt) {
-        result.attempts = attempt;
-
-        if (succeed_on > 0 && attempt >= succeed_on) {
-            result.succeeded = true;
-            return result;
-        }
-
-        if (attempt <= policy.max_retries) {
-            result.total_delay += delay;
-            // advance delay (capped)
-            const auto next = std::chrono::microseconds(
-                static_cast<long long>(static_cast<double>(delay.count()) * policy.multiplier));
-            delay = std::min(next, policy.max_delay);
-        }
-    }
-
-    result.succeeded = false;
-    return result;
-}
-
-// ---------------------------------------------------------------------------
-// BatchWriteSimulator — atomic batch for IRS-04
-// ---------------------------------------------------------------------------
-
-/**
- * @brief Simulates a multi-key batch write that fails at a configurable
- *        position, rolling back the entire batch on failure.
- */
-class BatchWriteSimulator {
-public:
-    explicit BatchWriteSimulator(MinimalKVStore& store) : store_(store) {}
-
-    struct BatchResult {
-        bool   committed{false};
-        size_t written{0};    ///< keys successfully staged
-        size_t failed_at{0};  ///< index of the failing key (0 = success)
-    };
-
-    /**
-     * @brief Attempts to write @p pairs; fails at @p fail_at_index if > 0.
-     *
-     * On failure, any staged writes are rolled back so the store is
-     * indistinguishable from its pre-call state.
-     */
-    BatchResult Execute(const std::vector<std::pair<std::string, std::string>>& pairs,
-                        size_t fail_at_index) {
-        BatchResult result;
-        std::vector<std::string> staged_keys;
-        staged_keys.reserve(pairs.size());
-
-        for (size_t i = 0; i < pairs.size(); ++i) {
-            if (fail_at_index > 0 && i == fail_at_index) {
-                // Simulated write error — rollback staged keys
-                result.failed_at = i;
-                for (const auto& k : staged_keys) { store_.Delete(k); }
-                return result;
-            }
-            store_.Write(pairs[i].first, pairs[i].second);
-            staged_keys.push_back(pairs[i].first);
-            ++result.written;
-        }
-
-        result.committed = true;
-        return result;
-    }
-
-private:
-    MinimalKVStore& store_;
-};
-
-// ---------------------------------------------------------------------------
-// AuditLogCapture — thread-safe write-event log for IRS-08
-// ---------------------------------------------------------------------------
-
-struct AuditEvent {
-    std::string key;
-    std::string value;
-    uint64_t    sequence{0};
-};
-
-class AuditLogCapture {
-public:
-    void Record(const std::string& key, const std::string& value) {
-        std::lock_guard<std::mutex> lk(mu_);
-        const uint64_t seq = ++seq_counter_;
-        events_.push_back({key, value, seq});
-    }
-
-    size_t Count() const {
-        std::lock_guard<std::mutex> lk(mu_);
-        return events_.size();
-    }
-
-    bool HasDuplicateSequences() const {
-        std::lock_guard<std::mutex> lk(mu_);
-        std::unordered_set<uint64_t> seen;
-        for (const auto& e : events_) {
-            if (!seen.insert(e.sequence).second) { return true; }
+    /// @brief Validate a state transition according to the document lifecycle.
+    [[nodiscard]] static bool IsValidTransition(DocState from, DocState to) noexcept {
+        switch (from) {
+            case DocState::kNew:      return to == DocState::kIndexed;
+            case DocState::kIndexed:  return to == DocState::kArchived || to == DocState::kDeleted;
+            case DocState::kArchived: return to == DocState::kDeleted;
+            case DocState::kDeleted:  return false;  // terminal state
         }
         return false;
     }
 
-    std::vector<AuditEvent> Snapshot() const {
-        std::lock_guard<std::mutex> lk(mu_);
-        return events_;
+    mutable std::mutex mutex_;
+    std::unordered_map<std::string, DocState> states_;
+};
+
+// ---------------------------------------------------------------------------
+// IdempotentCommandBus — incident regression: duplicate command execution
+// ---------------------------------------------------------------------------
+
+/// @brief Result of a command dispatch.
+struct CommandResult {
+    bool        executed{false};
+    bool        duplicate{false};
+    std::string command_id;
+};
+
+/// @brief Command bus that enforces exactly-once execution via command ID set.
+class IdempotentCommandBus {
+public:
+    /// @brief Dispatch a command.  Duplicate command_ids are silently de-duped.
+    /// @param command_id  Stable idempotency key.
+    /// @param payload     Command payload (opaque string).
+    /// @return CommandResult indicating whether the command was newly executed.
+    [[nodiscard]] CommandResult Dispatch(const std::string& command_id,
+                                         const std::string& payload) {
+        std::lock_guard<std::mutex> lk(mutex_);
+        if (seen_.count(command_id) > 0) {
+            return {false, true, command_id};
+        }
+        seen_.insert(command_id);
+        executed_payloads_.push_back(payload);
+        return {true, false, command_id};
+    }
+
+    /// @brief Number of distinct commands executed (duplicates excluded).
+    [[nodiscard]] size_t ExecutedCount() const {
+        std::lock_guard<std::mutex> lk(mutex_);
+        return seen_.size();
+    }
+
+    /// @brief Ordered list of payloads actually executed.
+    [[nodiscard]] std::vector<std::string> ExecutedPayloads() const {
+        std::lock_guard<std::mutex> lk(mutex_);
+        return executed_payloads_;
     }
 
 private:
-    mutable std::mutex       mu_;
-    std::vector<AuditEvent>  events_;
-    std::atomic<uint64_t>    seq_counter_{0};
+    mutable std::mutex mutex_;
+    std::unordered_set<std::string> seen_;
+    std::vector<std::string> executed_payloads_;
 };
 
-} // anonymous namespace
+// ---------------------------------------------------------------------------
+// OrderedCommandQueue — incident regression: out-of-order command execution
+// ---------------------------------------------------------------------------
 
-// ===========================================================================
-// Test fixture
-// ===========================================================================
-
-class IncidentRegressionShieldingTest : public ::testing::Test {
-protected:
-    void SetUp() override {
-        store_  = std::make_unique<MinimalKVStore>();
-        wal_    = std::make_unique<WALSimulator>();
-        audit_  = std::make_unique<AuditLogCapture>();
-        gen_.seed(kCanonicalSeed);
-    }
-
-    void TearDown() override {
-        store_.reset();
-        wal_.reset();
-        audit_.reset();
-    }
-
-    std::unique_ptr<MinimalKVStore>   store_;
-    std::unique_ptr<WALSimulator>     wal_;
-    std::unique_ptr<AuditLogCapture>  audit_;
-    std::mt19937                       gen_;
-};
-
-// ===========================================================================
-// IRS-01 — Concurrent ingest/delete race, no phantom record
-// ===========================================================================
-TEST_F(IncidentRegressionShieldingTest,
-       IRS01_ConcurrentIngestDeleteRaceNoPhantomRecord) {
-    SCOPED_TRACE("IRS-01: concurrent ingest/delete race, no phantom record");
-
-    constexpr int kRounds = 40;
-    std::atomic<size_t> phantom_count{0};
-
-    for (int round = 0; round < kRounds; ++round) {
-        const std::string key   = "irs01_key_" + std::to_string(round);
-        const std::string value = "irs01_val_" + std::to_string(round);
-
-        std::thread writer([&]() { store_->Write(key, value); });
-        std::thread deleter([&]() { store_->Delete(key); });
-
-        writer.join();
-        deleter.join();
-
-        // After both complete, key is either absent (delete won) or present
-        // (write won then delete wasn't applied).  Either outcome is valid.
-        // A phantom would be a key present with a corrupted value.
-        const auto got = store_->Read(key);
-        if (got.has_value() && *got != value) {
-            ++phantom_count;
-        }
-    }
-
-    EXPECT_EQ(phantom_count.load(), 0U)
-        << phantom_count.load()
-        << " phantom records with corrupted values detected";
-}
-
-// ===========================================================================
-// IRS-02 — WAL flush ordering: committed entry visible after replay
-// ===========================================================================
-TEST_F(IncidentRegressionShieldingTest,
-       IRS02_WALFlushOrderingCommittedEntryVisibleAfterReplay) {
-    SCOPED_TRACE("IRS-02: WAL flush ordering, committed entries survive replay");
-
-    constexpr size_t kEntries = 20;
-
-    for (size_t i = 0; i < kEntries; ++i) {
-        wal_->Append(WALEntryType::kWrite,
-                     "wal_key_" + std::to_string(i),
-                     "wal_val_" + std::to_string(i));
-    }
-    // Append two uncommitted entries (simulate crash before fsync)
-    wal_->Append(WALEntryType::kWrite, "uncommitted_key_0", "v0");
-    wal_->Append(WALEntryType::kWrite, "uncommitted_key_1", "v1");
-
-    wal_->Commit();  // marks only the first kEntries as committed
-
-    // Wait — Commit() marks all entries committed in this simulator.
-    // We model the uncommitted entries by appending them AFTER commit.
-    // Re-create with proper ordering:
-    wal_ = std::make_unique<WALSimulator>();
-    for (size_t i = 0; i < kEntries; ++i) {
-        wal_->Append(WALEntryType::kWrite,
-                     "wal_key_" + std::to_string(i),
-                     "wal_val_" + std::to_string(i));
-    }
-    wal_->Commit();
-    wal_->Append(WALEntryType::kWrite, "uncommitted_key_0", "v0");
-    wal_->Append(WALEntryType::kWrite, "uncommitted_key_1", "v1");
-
-    EXPECT_EQ(wal_->CommittedCount(), kEntries)
-        << "expected exactly " << kEntries << " committed entries";
-    EXPECT_EQ(wal_->UncommittedCount(), 2U)
-        << "expected 2 uncommitted entries";
-
-    // Simulate crash-restart: replay into a fresh store
-    MinimalKVStore recovered;
-    wal_->Replay(recovered);
-
-    for (size_t i = 0; i < kEntries; ++i) {
-        const std::string key = "wal_key_" + std::to_string(i);
-        EXPECT_TRUE(recovered.Contains(key))
-            << "committed WAL key missing after replay: " << key;
-    }
-    EXPECT_FALSE(recovered.Contains("uncommitted_key_0"))
-        << "uncommitted key must not appear after replay";
-    EXPECT_FALSE(recovered.Contains("uncommitted_key_1"))
-        << "uncommitted key must not appear after replay";
-}
-
-// ===========================================================================
-// IRS-03 — Retry storm prevention: total delay is bounded
-// ===========================================================================
-TEST_F(IncidentRegressionShieldingTest,
-       IRS03_RetryStormPreventionTotalDelayIsBounded) {
-    SCOPED_TRACE("IRS-03: retry storm prevention, bounded total delay");
-
-    const BackoffPolicy policy{
-        .max_retries   = 5,
-        .initial_delay = std::chrono::microseconds{10},
-        .multiplier    = 2.0,
-        .max_delay     = std::chrono::microseconds{160},
+/// @brief Strict-order command queue: commands must be submitted in
+///        monotonically increasing sequence order.
+class OrderedCommandQueue {
+public:
+    struct EnqueueResult {
+        bool     ok{false};
+        uint64_t expected_seq{0};
+        uint64_t received_seq{0};
     };
 
-    // Worst case: all attempts fail (succeed_on = 0)
-    const BackoffResult result = RunWithBackoff(policy, 0 /*never succeed*/);
-
-    EXPECT_FALSE(result.succeeded)
-        << "operation must not succeed when all attempts fail";
-    EXPECT_EQ(result.attempts, policy.max_retries + 1)
-        << "attempt count must equal max_retries + 1";
-
-    // Expected total delay: 10 + 20 + 40 + 80 + 160 = 310 µs (capped at 160
-    // per step, 5 delay steps for max_retries=5)
-    const auto max_expected_delay = std::chrono::microseconds{
-        10 + 20 + 40 + 80 + 160};  // 310 µs
-
-    EXPECT_LE(result.total_delay.count(), max_expected_delay.count())
-        << "total back-off delay (" << result.total_delay.count()
-        << " µs) exceeds cap (" << max_expected_delay.count() << " µs)";
-
-    // Success on attempt 3 must require fewer delay steps
-    const BackoffResult early = RunWithBackoff(policy, 3 /*succeed on attempt 3*/);
-    EXPECT_TRUE(early.succeeded);
-    EXPECT_EQ(early.attempts, 3U);
-    const auto early_max = std::chrono::microseconds{10 + 20};  // 30 µs (2 delays)
-    EXPECT_LE(early.total_delay.count(), early_max.count())
-        << "early-success delay exceeds expected cap";
-}
-
-// ===========================================================================
-// IRS-04 — Partial batch rollback, no partial state
-// ===========================================================================
-TEST_F(IncidentRegressionShieldingTest,
-       IRS04_PartialBatchRollbackNoPartialState) {
-    SCOPED_TRACE("IRS-04: partial batch rollback, storage unchanged");
-
-    // Seed store with a sentinel to verify it is untouched after rollback
-    store_->Write("sentinel_key", "sentinel_value");
-
-    std::vector<std::pair<std::string, std::string>> batch;
-    constexpr size_t kBatchSize = 10;
-    for (size_t i = 0; i < kBatchSize; ++i) {
-        batch.emplace_back("batch_key_" + std::to_string(i),
-                           "batch_val_" + std::to_string(i));
+    /// @brief Enqueue a command at a given sequence number.
+    /// @param seq     Expected next sequence number.
+    /// @param payload Command payload.
+    /// @return EnqueueResult; ok=false if seq is not the expected next value.
+    [[nodiscard]] EnqueueResult Enqueue(uint64_t seq, const std::string& payload) {
+        std::lock_guard<std::mutex> lk(mutex_);
+        if (seq != next_seq_) {
+            return {false, next_seq_, seq};
+        }
+        queue_.push_back({seq, payload});
+        ++next_seq_;
+        return {true, seq, seq};
     }
 
-    BatchWriteSimulator sim(*store_);
-    // Fail at position 5 (mid-batch)
-    const auto result = sim.Execute(batch, 5 /*fail_at_index*/);
-
-    EXPECT_FALSE(result.committed) << "batch must not commit on mid-write failure";
-    EXPECT_EQ(result.failed_at, 5U);
-
-    // No batch keys must remain in the store
-    for (const auto& [k, _] : batch) {
-        EXPECT_FALSE(store_->Contains(k))
-            << "rollback failed: key still present: " << k;
+    [[nodiscard]] size_t Size() const {
+        std::lock_guard<std::mutex> lk(mutex_);
+        return queue_.size();
     }
 
-    // Sentinel must be unaffected
-    const auto sentinel = store_->Read("sentinel_key");
-    ASSERT_TRUE(sentinel.has_value()) << "sentinel key lost after rollback";
-    EXPECT_EQ(*sentinel, "sentinel_value") << "sentinel value corrupted";
-}
-
-// ===========================================================================
-// IRS-05 — Index/storage divergence after restart
-// ===========================================================================
-TEST_F(IncidentRegressionShieldingTest,
-       IRS05_IndexStorageDivergenceAfterRestart) {
-    SCOPED_TRACE("IRS-05: index/storage agree after simulated restart");
-
-    // Use WAL to simulate writes, then replay into fresh store (= "restart")
-    constexpr size_t kGoodKeys   = 15;
-    constexpr size_t kOrphanKeys = 3;
-
-    for (size_t i = 0; i < kGoodKeys; ++i) {
-        wal_->Append(WALEntryType::kWrite,
-                     "good_key_" + std::to_string(i),
-                     "v" + std::to_string(i));
-    }
-    wal_->Commit();
-
-    // Orphan keys appended after commit simulate in-flight writes at crash time
-    for (size_t i = 0; i < kOrphanKeys; ++i) {
-        wal_->Append(WALEntryType::kWrite,
-                     "orphan_key_" + std::to_string(i),
-                     "ov" + std::to_string(i));
+    [[nodiscard]] uint64_t NextExpected() const {
+        std::lock_guard<std::mutex> lk(mutex_);
+        return next_seq_;
     }
 
-    // Simulate an in-memory "index" built before restart
-    std::unordered_set<std::string> pre_crash_index;
-    for (size_t i = 0; i < kGoodKeys; ++i) {
-        pre_crash_index.insert("good_key_" + std::to_string(i));
-    }
+private:
+    struct Entry {
+        uint64_t    seq;
+        std::string payload;
+    };
 
-    // Restart: replay WAL into fresh storage
-    MinimalKVStore recovered;
-    wal_->Replay(recovered);
+    mutable std::mutex mutex_;
+    uint64_t next_seq_{1};
+    std::vector<Entry> queue_;
+};
 
-    // Post-restart index must match storage exactly
-    const auto storage_keys = recovered.Keys();
-    EXPECT_EQ(storage_keys.size(), kGoodKeys)
-        << "recovered store has unexpected key count";
+// ---------------------------------------------------------------------------
+// TimeoutAwarePipeline — incident regression: retry on transient vs. timeout
+// ---------------------------------------------------------------------------
 
-    size_t divergence_count = 0;
-    for (const auto& k : pre_crash_index) {
-        if (!recovered.Contains(k)) { ++divergence_count; }
-    }
-    for (const auto& k : storage_keys) {
-        if (pre_crash_index.find(k) == pre_crash_index.end()) { ++divergence_count; }
-    }
+/// @brief Distinguishes transient failures (retriable) from timeouts
+///        (also retriable, but counted separately for incident triage).
+class TimeoutAwarePipeline {
+public:
+    enum class FailureKind { kNone, kTransient, kTimeout };
 
-    EXPECT_EQ(divergence_count, 0U)
-        << divergence_count << " index/storage divergences after restart";
+    struct RunResult {
+        bool        succeeded{false};
+        size_t      attempts{0};
+        size_t      timeout_count{0};
+        FailureKind last_failure{FailureKind::kNone};
+    };
 
-    for (size_t i = 0; i < kOrphanKeys; ++i) {
-        EXPECT_FALSE(recovered.Contains("orphan_key_" + std::to_string(i)))
-            << "orphan key must not survive restart";
-    }
-}
-
-// ===========================================================================
-// IRS-06 — Double-delete idempotency
-// ===========================================================================
-TEST_F(IncidentRegressionShieldingTest,
-       IRS06_DoubleDeleteIdempotencyCleanNotFoundResult) {
-    SCOPED_TRACE("IRS-06: double-delete idempotency");
-
-    const std::string key = "irs06_key";
-    store_->Write(key, "irs06_value");
-
-    const bool first_delete  = store_->Delete(key);
-    const bool second_delete = store_->Delete(key);
-
-    EXPECT_TRUE(first_delete)
-        << "first delete of existing key must return true";
-    EXPECT_FALSE(second_delete)
-        << "second delete of absent key must return false (not an error)";
-    EXPECT_FALSE(store_->Contains(key))
-        << "key must not be present after double delete";
-    EXPECT_FALSE(store_->Read(key).has_value())
-        << "read of double-deleted key must return nullopt";
-}
-
-// ===========================================================================
-// IRS-07 — Large-value read stability (512 KiB, 100 reads)
-// ===========================================================================
-TEST_F(IncidentRegressionShieldingTest,
-       IRS07_LargeValueReadStabilityNoCorruption) {
-    SCOPED_TRACE("IRS-07: large-value read stability, 100 reads, no corruption");
-
-    constexpr size_t kValueSize   = 512 * 1024;  // 512 KiB
-    constexpr size_t kReadCycles  = 100;
-    const std::string key         = "irs07_large_key";
-
-    // Build a deterministic large value using the canonical seed
-    std::mt19937 rng(kCanonicalSeed);
-    std::string large_value;
-    large_value.reserve(kValueSize);
-    for (size_t i = 0; i < kValueSize; ++i) {
-        large_value += static_cast<char>('A' + (rng() % 26));
-    }
-
-    store_->Write(key, large_value);
-
-    size_t mismatch_count = 0;
-    for (size_t i = 0; i < kReadCycles; ++i) {
-        const auto got = store_->Read(key);
-        ASSERT_TRUE(got.has_value())
-            << "read " << i << " returned nullopt for large-value key";
-        if (*got != large_value) { ++mismatch_count; }
-    }
-
-    EXPECT_EQ(mismatch_count, 0U)
-        << mismatch_count << "/" << kReadCycles
-        << " reads returned a corrupted large value";
-}
-
-// ===========================================================================
-// IRS-08 — Audit log completeness under concurrent writes
-// ===========================================================================
-TEST_F(IncidentRegressionShieldingTest,
-       IRS08_AuditLogCompletenessUnderConcurrentWrites) {
-    SCOPED_TRACE("IRS-08: audit log completeness, concurrent writes");
-
-    constexpr int kThreads       = 4;
-    constexpr int kWritesPerThread = 25;
-    const size_t kExpectedEvents = static_cast<size_t>(kThreads * kWritesPerThread);
-
-    std::vector<std::thread> threads;
-    threads.reserve(kThreads);
-
-    for (int t = 0; t < kThreads; ++t) {
-        threads.emplace_back([this, t]() {
-            for (int i = 0; i < kWritesPerThread; ++i) {
-                const std::string key   = "audit_t" + std::to_string(t)
-                                          + "_k" + std::to_string(i);
-                const std::string value = "v_" + std::to_string(t * 100 + i);
-                store_->Write(key, value);
-                audit_->Record(key, value);
+    /// @brief Execute operation with up to max_attempts.
+    /// @param fail_kind  Inject this failure kind for the first fail_for attempts.
+    /// @param fail_for   Number of leading attempts that should fail.
+    /// @param max_attempts Maximum attempts before giving up.
+    [[nodiscard]] RunResult Execute(FailureKind fail_kind,
+                                     size_t      fail_for,
+                                     size_t      max_attempts = 4) {
+        RunResult result;
+        for (size_t attempt = 1; attempt <= max_attempts; ++attempt) {
+            result.attempts = attempt;
+            if (attempt <= fail_for) {
+                result.last_failure = fail_kind;
+                if (fail_kind == FailureKind::kTimeout) {
+                    ++result.timeout_count;
+                }
+                continue;
             }
-        });
+            result.succeeded = true;
+            result.last_failure = FailureKind::kNone;
+            return result;
+        }
+        return result;
     }
-    for (auto& th : threads) { th.join(); }
+};
 
-    EXPECT_EQ(audit_->Count(), kExpectedEvents)
-        << "audit log event count mismatch — "
-        << audit_->Count() << " recorded, " << kExpectedEvents << " expected";
+// ---------------------------------------------------------------------------
+// CascadeContainmentPipeline — incident regression: timeout cascade
+// ---------------------------------------------------------------------------
 
-    EXPECT_FALSE(audit_->HasDuplicateSequences())
-        << "audit log contains duplicate sequence numbers — concurrent write race";
+/// @brief Models three pipeline stages each with an independent deadline.
+///        A timeout in stage N must not prevent stage N+1 from running.
+class CascadeContainmentPipeline {
+public:
+    struct StageResult {
+        bool        ok{false};
+        std::string stage;
+        bool        timed_out{false};
+    };
 
-    // Every written key must have an audit event
-    const auto events = audit_->Snapshot();
-    std::unordered_set<std::string> audited_keys;
-    for (const auto& ev : events) { audited_keys.insert(ev.key); }
+    struct RunResult {
+        StageResult stage1;
+        StageResult stage2;
+        StageResult stage3;
+    };
 
-    EXPECT_EQ(audited_keys.size(), kExpectedEvents)
-        << "audit log has duplicate or missing keys; unique key count = "
-        << audited_keys.size();
+    /// @brief Run three stages.  stage_timeout_mask is a bitmask: bit 0 = stage1
+    ///        timeout, bit 1 = stage2 timeout, bit 2 = stage3 timeout.
+    ///
+    /// @param stage_timeout_mask  Bitmask of stages that should time out.
+    /// @return RunResult with per-stage outcomes.
+    [[nodiscard]] RunResult Run(unsigned stage_timeout_mask) {
+        RunResult result;
+
+        // Stage 1
+        result.stage1.stage = "stage1";
+        result.stage1.timed_out = (stage_timeout_mask & 0x1U) != 0;
+        result.stage1.ok = !result.stage1.timed_out;
+
+        // Stage 2 — independent deadline; runs regardless of stage 1 outcome
+        result.stage2.stage = "stage2";
+        result.stage2.timed_out = (stage_timeout_mask & 0x2U) != 0;
+        result.stage2.ok = !result.stage2.timed_out;
+
+        // Stage 3 — independent deadline; runs regardless of stage 1/2 outcome
+        result.stage3.stage = "stage3";
+        result.stage3.timed_out = (stage_timeout_mask & 0x4U) != 0;
+        result.stage3.ok = !result.stage3.timed_out;
+
+        return result;
+    }
+};
+
+// ---------------------------------------------------------------------------
+// RevocableAuthPipeline — incident regression: auth revocation mid-session
+// ---------------------------------------------------------------------------
+
+/// @brief Models a session that may have its token revoked mid-flight.
+class RevocableAuthPipeline {
+public:
+    explicit RevocableAuthPipeline(std::shared_ptr<MockPipelineAuth> auth,
+                                   std::shared_ptr<InMemoryPipelineStorage> storage)
+        : auth_(std::move(auth)), storage_(std::move(storage)) {}
+
+    struct OpResult {
+        bool        ok{false};
+        std::string error;
+    };
+
+    /// @brief Attempt a write using the provided token.
+    [[nodiscard]] OpResult Write(const std::string& token,
+                                  const std::string& key,
+                                  const std::string& value) {
+        const auto auth_result = auth_->Authorize(token);
+        if (!auth_result.authorized) {
+            return {false, "auth_denied:" + auth_result.reason};
+        }
+        storage_->Write(key, value);
+        return {true, ""};
+    }
+
+    /// @brief Check whether a key is present in storage.
+    [[nodiscard]] bool Contains(const std::string& key) const {
+        return storage_->Contains(key);
+    }
+
+private:
+    std::shared_ptr<MockPipelineAuth>        auth_;
+    std::shared_ptr<InMemoryPipelineStorage> storage_;
+};
+
+// ---------------------------------------------------------------------------
+// AtomicUpdatePipeline — incident regression: partial update atomicity
+// ---------------------------------------------------------------------------
+
+/// @brief Simulates an update that either applies all fields or none.
+///        Partial-write state must never be observable.
+class AtomicUpdatePipeline {
+public:
+    struct Record {
+        std::string field_a;
+        std::string field_b;
+        std::string field_c;
+    };
+
+    /// @brief Apply an atomic record update.  If fail_mid_update=true the
+    ///        operation fails after field_a is staged but before commit,
+    ///        ensuring no partial state reaches the store.
+    [[nodiscard]] bool Update(const std::string& id,
+                               Record new_record,
+                               bool   fail_mid_update = false) {
+        // Stage the update in a local copy
+        Record staged = std::move(new_record);
+
+        if (fail_mid_update) {
+            // Simulate crash between staging and commit — store is unchanged
+            return false;
+        }
+
+        std::lock_guard<std::mutex> lk(mutex_);
+        records_[id] = std::move(staged);
+        return true;
+    }
+
+    /// @brief Fetch a record, returning nullopt if absent.
+    [[nodiscard]] std::optional<Record> Get(const std::string& id) const {
+        std::lock_guard<std::mutex> lk(mutex_);
+        const auto it = records_.find(id);
+        if (it == records_.end()) { return std::nullopt; }
+        return it->second;
+    }
+
+    /// @brief Number of stored records.
+    [[nodiscard]] size_t Size() const {
+        std::lock_guard<std::mutex> lk(mutex_);
+        return records_.size();
+    }
+
+private:
+    mutable std::mutex mutex_;
+    std::unordered_map<std::string, Record> records_;
+};
+
+// ---------------------------------------------------------------------------
+// EmptyResultPipeline — incident regression: empty vs. null result contract
+// ---------------------------------------------------------------------------
+
+/// @brief Models a query that distinguishes an empty result set from an
+///        absent/unknown query target.
+class EmptyResultPipeline {
+public:
+    /// @brief Register a known query target with zero or more result entries.
+    void Register(const std::string& query_key, std::vector<std::string> results) {
+        std::lock_guard<std::mutex> lk(mutex_);
+        index_[query_key] = std::move(results);
+    }
+
+    struct QueryResult {
+        bool                     found{false};  ///< true if key is registered
+        std::vector<std::string> items;         ///< may be empty even if found
+    };
+
+    /// @brief Execute a query.
+    /// @param key  Query key.
+    /// @return QueryResult: found=false means the key is unknown (null-like),
+    ///         found=true with empty items means zero results (empty set).
+    [[nodiscard]] QueryResult Query(const std::string& key) const {
+        std::lock_guard<std::mutex> lk(mutex_);
+        const auto it = index_.find(key);
+        if (it == index_.end()) {
+            return {false, {}};
+        }
+        return {true, it->second};
+    }
+
+private:
+    mutable std::mutex mutex_;
+    std::unordered_map<std::string, std::vector<std::string>> index_;
+};
+
+}  // namespace
+
+// ===========================================================================
+// Test Fixture
+// ===========================================================================
+
+class IncidentRegressionShieldingTest : public IntegrationTestFixture {
+protected:
+    void SetUp() override {
+        IntegrationTestFixture::SetUp();
+        rng_ = std::mt19937{kCanonicalSeed};
+    }
+
+    std::mt19937 rng_;
+};
+
+// ===========================================================================
+// IRS-01 — State-transition regression: invalid transitions are rejected
+// ===========================================================================
+
+TEST_F(IncidentRegressionShieldingTest,
+       IRS01_InvalidStateTransitionIsRejectedAndStateIsPreserved) {
+    SCOPED_TRACE("IRS-01: invalid state-transition regression");
+
+    StateMachinePipeline fsm;
+    ASSERT_TRUE(fsm.Register("doc-1"));
+
+    // Valid transition: kNew → kIndexed
+    const auto r1 = fsm.Advance("doc-1", DocState::kIndexed);
+    ASSERT_TRUE(r1.ok) << "expected kNew→kIndexed to succeed";
+    EXPECT_EQ(r1.state, DocState::kIndexed);
+
+    // Invalid transition: kIndexed → kNew (backward — incident pattern)
+    const auto r2 = fsm.Advance("doc-1", DocState::kNew);
+    EXPECT_FALSE(r2.ok) << "kIndexed→kNew must be rejected";
+    EXPECT_EQ(r2.error, "invalid_transition");
+    // State must be unchanged after rejected transition
+    const auto state = fsm.GetState("doc-1");
+    ASSERT_TRUE(state.has_value());
+    EXPECT_EQ(*state, DocState::kIndexed)
+        << "state must remain kIndexed after rejected transition";
+
+    // Invalid transition: kIndexed → kIndexed (self-loop — incident pattern)
+    const auto r3 = fsm.Advance("doc-1", DocState::kIndexed);
+    EXPECT_FALSE(r3.ok) << "self-loop transition must be rejected";
+
+    // Valid progression to terminal: kIndexed → kDeleted
+    const auto r4 = fsm.Advance("doc-1", DocState::kDeleted);
+    ASSERT_TRUE(r4.ok);
+    EXPECT_EQ(r4.state, DocState::kDeleted);
+
+    // Terminal state: no further transitions allowed
+    const auto r5 = fsm.Advance("doc-1", DocState::kArchived);
+    EXPECT_FALSE(r5.ok) << "kDeleted is terminal — no transitions allowed";
 }
 
-} // namespace themis::test
+// ===========================================================================
+// IRS-02 — Idempotency under repeated identical commands
+// ===========================================================================
+
+TEST_F(IncidentRegressionShieldingTest,
+       IRS02_IdempotentCommandBusDeduplicatesRepeatedSubmissions) {
+    SCOPED_TRACE("IRS-02: idempotent command bus regression");
+
+    IdempotentCommandBus bus;
+
+    // First dispatch — should execute
+    const auto r1 = bus.Dispatch("cmd-abc-001", "payload-A");
+    EXPECT_TRUE(r1.executed);
+    EXPECT_FALSE(r1.duplicate);
+
+    // Repeated dispatch with same command_id — must be de-duplicated
+    const auto r2 = bus.Dispatch("cmd-abc-001", "payload-A");
+    EXPECT_FALSE(r2.executed) << "duplicate command must not re-execute";
+    EXPECT_TRUE(r2.duplicate);
+
+    // A third repetition
+    const auto r3 = bus.Dispatch("cmd-abc-001", "payload-A");
+    EXPECT_FALSE(r3.executed);
+    EXPECT_TRUE(r3.duplicate);
+
+    // Different command_id — must execute independently
+    const auto r4 = bus.Dispatch("cmd-abc-002", "payload-B");
+    EXPECT_TRUE(r4.executed);
+    EXPECT_FALSE(r4.duplicate);
+
+    // Executed count must reflect unique commands only
+    EXPECT_EQ(bus.ExecutedCount(), 2u)
+        << "only 2 distinct command IDs should be counted";
+
+    // Payload list must contain exactly the two payloads, in order
+    const auto payloads = bus.ExecutedPayloads();
+    ASSERT_EQ(payloads.size(), 2u);
+    EXPECT_EQ(payloads[0], "payload-A");
+    EXPECT_EQ(payloads[1], "payload-B");
+}
+
+// ===========================================================================
+// IRS-03 — Ordering regression: out-of-order command is rejected
+// ===========================================================================
+
+TEST_F(IncidentRegressionShieldingTest,
+       IRS03_OutOfOrderCommandIsRejectedByOrderedQueue) {
+    SCOPED_TRACE("IRS-03: out-of-order command rejection regression");
+
+    OrderedCommandQueue queue;
+
+    // Normal in-order sequence
+    ASSERT_TRUE(queue.Enqueue(1, "cmd-1").ok);
+    ASSERT_TRUE(queue.Enqueue(2, "cmd-2").ok);
+    ASSERT_TRUE(queue.Enqueue(3, "cmd-3").ok);
+    EXPECT_EQ(queue.Size(), 3u);
+    EXPECT_EQ(queue.NextExpected(), 4u);
+
+    // Out-of-order submission (incident pattern: gap / duplicate)
+    const auto gap = queue.Enqueue(5, "cmd-5");  // skips seq=4
+    EXPECT_FALSE(gap.ok) << "seq=5 must be rejected; expected seq=4";
+    EXPECT_EQ(gap.expected_seq, 4u);
+    EXPECT_EQ(gap.received_seq, 5u);
+
+    // Duplicate submission (incident pattern: re-delivery)
+    const auto dup = queue.Enqueue(2, "cmd-2-again");
+    EXPECT_FALSE(dup.ok) << "seq=2 re-submission must be rejected";
+
+    // Correct next command is still accepted
+    ASSERT_TRUE(queue.Enqueue(4, "cmd-4").ok);
+    EXPECT_EQ(queue.Size(), 4u);
+}
+
+// ===========================================================================
+// IRS-04 — Retry edge case: timeout failures are retriable and counted
+// ===========================================================================
+
+TEST_F(IncidentRegressionShieldingTest,
+       IRS04_TimeoutFailuresAreRetriableAndCountedSeparately) {
+    SCOPED_TRACE("IRS-04: timeout-failure retry regression");
+
+    TimeoutAwarePipeline pipeline;
+
+    // Inject 2 timeout failures; succeed on attempt 3
+    const auto result = pipeline.Execute(
+        TimeoutAwarePipeline::FailureKind::kTimeout,
+        /*fail_for=*/2,
+        /*max_attempts=*/4);
+
+    EXPECT_TRUE(result.succeeded) << "must succeed after 2 timeout retries";
+    EXPECT_EQ(result.attempts, 3u) << "must take exactly 3 attempts";
+    EXPECT_EQ(result.timeout_count, 2u) << "must record 2 timeouts";
+
+    // Exhausted retries with all timeouts
+    const auto exhausted = pipeline.Execute(
+        TimeoutAwarePipeline::FailureKind::kTimeout,
+        /*fail_for=*/99,
+        /*max_attempts=*/3);
+
+    EXPECT_FALSE(exhausted.succeeded) << "must fail after exhausting 3 attempts";
+    EXPECT_EQ(exhausted.attempts, 3u);
+    EXPECT_EQ(exhausted.timeout_count, 3u);
+}
+
+// ===========================================================================
+// IRS-05 — Timeout cascade: stage N timeout does not block stage N+1
+// ===========================================================================
+
+TEST_F(IncidentRegressionShieldingTest,
+       IRS05_TimeoutInStageNDoesNotBlockSubsequentStages) {
+    SCOPED_TRACE("IRS-05: cascade timeout containment regression");
+
+    CascadeContainmentPipeline pipeline;
+
+    // Inject timeout only in stage 2; stages 1 and 3 must succeed
+    const auto result = pipeline.Run(/*stage_timeout_mask=*/0x2U);
+
+    EXPECT_TRUE(result.stage1.ok) << "stage1 must succeed";
+    EXPECT_FALSE(result.stage2.ok) << "stage2 must time out";
+    EXPECT_TRUE(result.stage2.timed_out);
+    EXPECT_TRUE(result.stage3.ok) << "stage3 must succeed independently of stage2 timeout";
+
+    // Inject timeout only in stage 1; stage 2 and 3 must succeed
+    const auto result2 = pipeline.Run(0x1U);
+    EXPECT_FALSE(result2.stage1.ok);
+    EXPECT_TRUE(result2.stage2.ok) << "stage2 must be unaffected by stage1 timeout";
+    EXPECT_TRUE(result2.stage3.ok) << "stage3 must be unaffected by stage1 timeout";
+}
+
+// ===========================================================================
+// IRS-06 — Auth revocation mid-session: revoked token is denied immediately
+// ===========================================================================
+
+TEST_F(IncidentRegressionShieldingTest,
+       IRS06_RevokedTokenIsDeniedOnNextOperation) {
+    SCOPED_TRACE("IRS-06: auth revocation regression");
+
+    auto auth    = CreateMockAuth();
+    auto storage = CreateInMemoryStorage();
+    RevocableAuthPipeline pipeline(auth, storage);
+
+    auth->AllowToken("session-token-XYZ");
+
+    // First write succeeds with valid token
+    const auto w1 = pipeline.Write("session-token-XYZ", "key1", "value1");
+    EXPECT_TRUE(w1.ok) << "initial write must succeed";
+    EXPECT_TRUE(pipeline.Contains("key1"));
+
+    // Revoke the token (simulate session expiry / security incident)
+    auth->DenyToken("session-token-XYZ");
+
+    // Subsequent write must fail
+    const auto w2 = pipeline.Write("session-token-XYZ", "key2", "value2");
+    EXPECT_FALSE(w2.ok) << "write must fail after token revocation";
+    EXPECT_FALSE(pipeline.Contains("key2"))
+        << "no data must be written after revocation";
+
+    // Previously written data must not be retroactively removed
+    EXPECT_TRUE(pipeline.Contains("key1"))
+        << "pre-revocation data must remain intact";
+}
+
+// ===========================================================================
+// IRS-07 — Partial-update atomicity: failed update leaves no partial state
+// ===========================================================================
+
+TEST_F(IncidentRegressionShieldingTest,
+       IRS07_FailedAtomicUpdateLeavesNoPartialState) {
+    SCOPED_TRACE("IRS-07: partial-update atomicity regression");
+
+    AtomicUpdatePipeline pipeline;
+
+    // Establish baseline record
+    const AtomicUpdatePipeline::Record baseline{"alpha", "beta", "gamma"};
+    ASSERT_TRUE(pipeline.Update("rec-1", baseline));
+
+    const auto before = pipeline.Get("rec-1");
+    ASSERT_TRUE(before.has_value());
+    EXPECT_EQ(before->field_a, "alpha");
+
+    // Simulate crash mid-update (fail_mid_update=true)
+    const AtomicUpdatePipeline::Record partial{"UPDATED_A", "UPDATED_B", "UPDATED_C"};
+    const bool ok = pipeline.Update("rec-1", partial, /*fail_mid_update=*/true);
+    EXPECT_FALSE(ok) << "update with simulated mid-crash must return false";
+
+    // Record must be unchanged — no partial field_a visible
+    const auto after = pipeline.Get("rec-1");
+    ASSERT_TRUE(after.has_value()) << "record must still exist after failed update";
+    EXPECT_EQ(after->field_a, "alpha")
+        << "field_a must remain unchanged after failed atomic update";
+    EXPECT_EQ(after->field_b, "beta");
+    EXPECT_EQ(after->field_c, "gamma");
+
+    // Size must still be 1 — no phantom entry created
+    EXPECT_EQ(pipeline.Size(), 1u);
+}
+
+// ===========================================================================
+// IRS-08 — Empty vs. null result contract: distinguishable response shapes
+// ===========================================================================
+
+TEST_F(IncidentRegressionShieldingTest,
+       IRS08_EmptyResultSetIsDistinguishableFromUnknownKey) {
+    SCOPED_TRACE("IRS-08: empty-result vs. null-result contract regression");
+
+    EmptyResultPipeline pipeline;
+
+    // Registered key with zero results — empty set, not null
+    pipeline.Register("known-empty-key", {});
+
+    // Registered key with results
+    pipeline.Register("populated-key", {"item-A", "item-B"});
+
+    // Query an unknown key — must return found=false
+    const auto unknown = pipeline.Query("never-registered-key");
+    EXPECT_FALSE(unknown.found) << "unknown key must return found=false (null-like)";
+    EXPECT_TRUE(unknown.items.empty());
+
+    // Query the empty-registered key — must return found=true, items empty
+    const auto empty_result = pipeline.Query("known-empty-key");
+    EXPECT_TRUE(empty_result.found)
+        << "registered key must return found=true even with zero items";
+    EXPECT_TRUE(empty_result.items.empty())
+        << "zero-item result set must have empty items vector";
+
+    // Query the populated key — must return found=true, items non-empty
+    const auto populated = pipeline.Query("populated-key");
+    EXPECT_TRUE(populated.found);
+    ASSERT_EQ(populated.items.size(), 2u);
+    EXPECT_EQ(populated.items[0], "item-A");
+    EXPECT_EQ(populated.items[1], "item-B");
+
+    // Contract: unknown.found != empty_result.found — they are distinguishable
+    EXPECT_NE(unknown.found, empty_result.found)
+        << "null result and empty result must be distinguishable by found flag";
+}
+
+}  // namespace themis::test

@@ -2,51 +2,29 @@
  * ThemisDB | File: w8b_contract_compatibility_reliability_test.cpp | Version: 0.0.1
  * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
  * Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0
- * Status: Production Ready — Wave 8B Contract Compatibility & Reliability Suite
+ * Status: Production Ready — Wave 8B Contract & Compatibility Reliability Layer
  */
 
 /**
  * @file w8b_contract_compatibility_reliability_test.cpp
- * @brief Wave 8B — Contract Compatibility & Reliability (CCR-01..CCR-08).
+ * @brief Wave 8B — Contract & Compatibility Reliability Layer (CCR-01..CCR-08).
  *
- * Validates that module-boundary contracts remain stable under serialization
- * round-trips, schema evolution, interface substitution, and concurrent
- * access patterns.  These tests encode the minimum compatibility surface that
- * must not regress between releases.
- *
- * CCR-01  Serialization round-trip — a record serialized to bytes and
- *         deserialized returns an identical in-memory representation.
- * CCR-02  Schema evolution (additive) — a reader built against v1 schema can
- *         consume a v2 payload that adds new optional fields without error.
- * CCR-03  Interface substitution — swapping a concrete storage backend with a
- *         compliant alternative satisfies the same read/write contract.
- * CCR-04  Concurrent reader isolation — concurrent readers never observe a
- *         partially-written record; each read sees either the old or the new
- *         complete value.
- * CCR-05  Error contract stability — operations on a closed/invalid resource
- *         return a well-defined sentinel, not undefined behaviour.
- * CCR-06  Empty-collection contracts — operations on empty stores, empty
- *         ranges, and empty batches return well-defined empty results.
- * CCR-07  Idempotent-write contract — writing the same key/value pair twice
- *         produces the same observable state as writing it once.
- * CCR-08  Cross-module pipeline contract — data written via the ingest module
- *         is retrievable via the query module without transformation loss.
- *
+ * Hardens API/schema/contract tests against unintended breaking changes.
+ * Covers forward/backward schema compatibility, required-field enforcement,
+ * type contracts, API idempotency, pagination and error-response contracts.
  * All tests are deterministic via kCanonicalSeed = 42.
  */
 
 #include "../test_data_generator.h"
 #include "../test_fixture.h"
 
-#include <atomic>
-#include <chrono>
-#include <memory>
+#include <algorithm>
+#include <cstdint>
+#include <map>
 #include <mutex>
 #include <optional>
 #include <random>
-#include <sstream>
 #include <string>
-#include <thread>
 #include <unordered_map>
 #include <vector>
 
@@ -57,437 +35,635 @@ namespace {
 static constexpr uint32_t kCanonicalSeed = 42;
 
 // ---------------------------------------------------------------------------
-// Record — minimal serializable value type for CCR-01/CCR-02
+// SchemaField — simple schema descriptor used by CCR tests
 // ---------------------------------------------------------------------------
 
-/**
- * @brief A minimal record type used to exercise serialization contracts.
- *
- * Supports a v1 field set (id, name, score) and optional v2 extensions
- * (tags, description).  Serialization uses a simple key=value text encoding
- * that is both human-readable and deterministic.
- */
-struct Record {
-    uint64_t    id{0};
+/// @brief Data types recognised by the schema validator.
+enum class FieldType { kString, kInteger, kBoolean };
+
+/// @brief Schema field definition.
+struct SchemaFieldDef {
     std::string name;
-    double      score{0.0};
+    FieldType   type{FieldType::kString};
+    bool        required{false};
+};
 
-    // v2 optional extensions
-    std::vector<std::string> tags;
-    std::string              description;
+/// @brief Runtime field value (variant-like, discriminated by active member).
+struct FieldValue {
+    FieldType   type{FieldType::kString};
+    std::string string_val;
+    int64_t     int_val{0};
+    bool        bool_val{false};
+};
 
-    /// Serialize to a stable string representation.
-    std::string Serialize() const {
-        std::ostringstream ss;
-        ss << "id=" << id << ";name=" << name << ";score=" << score;
-        if (!tags.empty()) {
-            ss << ";tags=";
-            for (size_t i = 0; i < tags.size(); ++i) {
-                if (i > 0) { ss << ','; }
-                ss << tags[i];
+using SchemaRecord = std::unordered_map<std::string, FieldValue>;
+using Schema       = std::vector<SchemaFieldDef>;
+
+/// @brief Validation result.
+struct ValidationResult {
+    bool                     ok{false};
+    std::vector<std::string> errors;
+};
+
+// ---------------------------------------------------------------------------
+// SchemaValidator — CCR-02/CCR-05: required fields + type enforcement
+// ---------------------------------------------------------------------------
+
+/// @brief Validates a record against a schema definition.
+///
+/// Enforces required-field presence and field type correctness.
+/// Unknown fields in the record are tolerated (forward-compatibility).
+class SchemaValidator {
+public:
+    explicit SchemaValidator(Schema schema) : schema_(std::move(schema)) {}
+
+    /// @brief Validate a record.
+    /// @param record  Input record to validate.
+    /// @return ValidationResult; ok=false if any required field is absent or
+    ///         any present field has the wrong type.
+    [[nodiscard]] ValidationResult Validate(const SchemaRecord& record) const {
+        ValidationResult result;
+        result.ok = true;
+        for (const auto& field_def : schema_) {
+            const auto it = record.find(field_def.name);
+            if (it == record.end()) {
+                if (field_def.required) {
+                    result.ok = false;
+                    result.errors.push_back("missing_required:" + field_def.name);
+                }
+                continue;
+            }
+            // Type check
+            if (it->second.type != field_def.type) {
+                result.ok = false;
+                result.errors.push_back("type_mismatch:" + field_def.name);
             }
         }
-        if (!description.empty()) { ss << ";desc=" << description; }
-        return ss.str();
+        return result;
     }
 
-    static Record Deserialize(const std::string& s) {
-        Record r;
-        std::istringstream ss(s);
-        std::string token;
-        while (std::getline(ss, token, ';')) {
-            const auto eq = token.find('=');
-            if (eq == std::string::npos) { continue; }
-            const auto key   = token.substr(0, eq);
-            const auto value = token.substr(eq + 1);
-            if (key == "id")   { r.id   = std::stoull(value); }
-            if (key == "name") { r.name = value; }
-            if (key == "score") { r.score = std::stod(value); }
-            if (key == "desc") { r.description = value; }
-            if (key == "tags") {
-                std::istringstream ts(value);
-                std::string tag;
-                while (std::getline(ts, tag, ',')) { r.tags.push_back(tag); }
-            }
+private:
+    Schema schema_;
+};
+
+// ---------------------------------------------------------------------------
+// VersionedSchemaStore — CCR-03/CCR-04: forward/backward compatibility
+// ---------------------------------------------------------------------------
+
+/// @brief Record version tag.
+enum class RecordVersion : uint32_t { kV1 = 1, kV2 = 2 };
+
+/// @brief V1 record — original schema.
+struct RecordV1 {
+    std::string id;
+    std::string name;
+    int64_t     value{0};
+};
+
+/// @brief V2 record — adds optional `tags` field (forward-compatible extension).
+struct RecordV2 {
+    std::string              id;
+    std::string              name;
+    int64_t                  value{0};
+    std::vector<std::string> tags;  ///< New in V2; absent in V1
+};
+
+/// @brief Store that can hold records serialised as either V1 or V2.
+///        V2 reader must be able to read V1 records without error (backward).
+///        V1 reader must not crash on V2 records even if it ignores `tags`.
+class VersionedSchemaStore {
+public:
+    /// @brief Write a V1 record.
+    void WriteV1(const RecordV1& rec) {
+        std::lock_guard<std::mutex> lk(mutex_);
+        // Store as a generic map; V1 has no "tags" key
+        auto& entry = store_[rec.id];
+        entry["_version"] = "1";
+        entry["name"]     = rec.name;
+        entry["value"]    = std::to_string(rec.value);
+    }
+
+    /// @brief Write a V2 record.
+    void WriteV2(const RecordV2& rec) {
+        std::lock_guard<std::mutex> lk(mutex_);
+        auto& entry = store_[rec.id];
+        entry["_version"] = "2";
+        entry["name"]     = rec.name;
+        entry["value"]    = std::to_string(rec.value);
+        // Serialise tags as comma-joined list
+        std::string tags_str;
+        for (size_t i = 0; i < rec.tags.size(); ++i) {
+            if (i > 0) { tags_str += ','; }
+            tags_str += rec.tags[i];
         }
-        return r;
+        entry["tags"] = tags_str;
     }
 
-    bool operator==(const Record& o) const {
-        return id == o.id && name == o.name &&
-               std::abs(score - o.score) < 1e-9 &&
-               tags == o.tags && description == o.description;
-    }
-};
-
-// ---------------------------------------------------------------------------
-// IBackend — abstract storage backend interface for CCR-03
-// ---------------------------------------------------------------------------
-
-/**
- * @brief Minimal storage interface used to validate substitution contracts.
- */
-class IBackend {
-public:
-    virtual ~IBackend() = default;
-    virtual void Write(const std::string& key, const std::string& value) = 0;
-    virtual std::optional<std::string> Read(const std::string& key) const  = 0;
-    virtual bool Delete(const std::string& key) = 0;
-};
-
-class InMemoryBackend final : public IBackend {
-public:
-    void Write(const std::string& key, const std::string& value) override {
-        std::lock_guard<std::mutex> lk(mu_);
-        data_[key] = value;
-    }
-    std::optional<std::string> Read(const std::string& key) const override {
-        std::lock_guard<std::mutex> lk(mu_);
-        const auto it = data_.find(key);
-        if (it == data_.end()) { return std::nullopt; }
-        return it->second;
-    }
-    bool Delete(const std::string& key) override {
-        std::lock_guard<std::mutex> lk(mu_);
-        return data_.erase(key) > 0;
-    }
-private:
-    mutable std::mutex mu_;
-    std::unordered_map<std::string, std::string> data_;
-};
-
-/**
- * @brief A second in-memory backend implementation with prefix-scoped storage
- *        to verify that any IBackend-compliant class satisfies the contract.
- */
-class PrefixedInMemoryBackend final : public IBackend {
-public:
-    explicit PrefixedInMemoryBackend(std::string prefix)
-        : prefix_(std::move(prefix)) {}
-
-    void Write(const std::string& key, const std::string& value) override {
-        std::lock_guard<std::mutex> lk(mu_);
-        data_[prefix_ + key] = value;
-    }
-    std::optional<std::string> Read(const std::string& key) const override {
-        std::lock_guard<std::mutex> lk(mu_);
-        const auto it = data_.find(prefix_ + key);
-        if (it == data_.end()) { return std::nullopt; }
-        return it->second;
-    }
-    bool Delete(const std::string& key) override {
-        std::lock_guard<std::mutex> lk(mu_);
-        return data_.erase(prefix_ + key) > 0;
-    }
-private:
-    std::string                                   prefix_;
-    mutable std::mutex                            mu_;
-    std::unordered_map<std::string, std::string>  data_;
-};
-
-// ---------------------------------------------------------------------------
-// CrossModulePipeline — minimal ingest→query pipeline for CCR-08
-// ---------------------------------------------------------------------------
-
-/**
- * @brief Minimal two-stage pipeline: ingest writes records; query reads them.
- *
- * Models the ingest→query module boundary without external dependencies.
- * The "ingest" stage normalises field order; the "query" stage retrieves and
- * deserialises.
- */
-class CrossModulePipeline {
-public:
-    /// Ingest: normalise and store a record.
-    void Ingest(const Record& rec) {
-        const std::string serialised = rec.Serialize();
-        store_.Write("record_" + std::to_string(rec.id), serialised);
-        ++ingest_count_;
-    }
-
-    /// Query: retrieve and deserialise a record by id.
-    std::optional<Record> Query(uint64_t id) const {
-        const auto raw = store_.Read("record_" + std::to_string(id));
-        if (!raw.has_value()) { return std::nullopt; }
-        return Record::Deserialize(*raw);
-    }
-
-    size_t IngestCount() const { return ingest_count_.load(); }
-
-private:
-    InMemoryBackend        store_;
-    std::atomic<size_t>    ingest_count_{0};
-};
-
-} // anonymous namespace
-
-// ===========================================================================
-// Test fixture
-// ===========================================================================
-
-class ContractCompatibilityReliabilityTest : public ::testing::Test {
-protected:
-    void SetUp() override {
-        backend_  = std::make_unique<InMemoryBackend>();
-        pipeline_ = std::make_unique<CrossModulePipeline>();
-        gen_.seed(kCanonicalSeed);
-    }
-
-    void TearDown() override {
-        backend_.reset();
-        pipeline_.reset();
-    }
-
-    std::unique_ptr<InMemoryBackend>      backend_;
-    std::unique_ptr<CrossModulePipeline>  pipeline_;
-    std::mt19937                           gen_;
-};
-
-// ===========================================================================
-// CCR-01 — Serialization round-trip
-// ===========================================================================
-TEST_F(ContractCompatibilityReliabilityTest,
-       CCR01_SerializationRoundTripIdenticalRepresentation) {
-    SCOPED_TRACE("CCR-01: serialization round-trip");
-
-    Record original;
-    original.id    = 12345;
-    original.name  = "themis_entity";
-    original.score = 0.987654321;
-    original.tags  = {"alpha", "beta", "gamma"};
-    original.description = "production record";
-
-    const std::string serialised = original.Serialize();
-    EXPECT_FALSE(serialised.empty()) << "serialized form must not be empty";
-
-    const Record recovered = Record::Deserialize(serialised);
-    EXPECT_EQ(recovered.id,          original.id)          << "id mismatch after round-trip";
-    EXPECT_EQ(recovered.name,        original.name)        << "name mismatch after round-trip";
-    EXPECT_NEAR(recovered.score,     original.score, 1e-9) << "score mismatch after round-trip";
-    EXPECT_EQ(recovered.tags,        original.tags)        << "tags mismatch after round-trip";
-    EXPECT_EQ(recovered.description, original.description) << "description mismatch after round-trip";
-    EXPECT_TRUE(recovered == original) << "round-trip equality check failed";
-}
-
-// ===========================================================================
-// CCR-02 — Schema evolution (additive): v1 reader consumes v2 payload
-// ===========================================================================
-TEST_F(ContractCompatibilityReliabilityTest,
-       CCR02_SchemaEvolutionAdditiveV1ReaderConsumesV2Payload) {
-    SCOPED_TRACE("CCR-02: schema evolution, v1 reader on v2 payload");
-
-    // v2 payload with new optional fields
-    const std::string v2_payload =
-        "id=999;name=v2_entity;score=1.23456;tags=new_tag;desc=added_in_v2";
-
-    // A v1-era reader only extracts id, name, score — extras are silently
-    // ignored.  We verify no parse error occurs and core fields are correct.
-    Record v1_view = Record::Deserialize(v2_payload);
-
-    EXPECT_EQ(v1_view.id,   999U)          << "id extraction failed from v2 payload";
-    EXPECT_EQ(v1_view.name, "v2_entity")   << "name extraction failed from v2 payload";
-    EXPECT_NEAR(v1_view.score, 1.23456, 1e-9) << "score extraction failed from v2 payload";
-
-    // v2 optional fields are also parsed (v2-aware path)
-    EXPECT_EQ(v1_view.description, "added_in_v2") << "v2 description not parsed";
-    ASSERT_EQ(v1_view.tags.size(), 1U);
-    EXPECT_EQ(v1_view.tags[0], "new_tag") << "v2 tag not parsed";
-}
-
-// ===========================================================================
-// CCR-03 — Interface substitution: both backends satisfy the contract
-// ===========================================================================
-TEST_F(ContractCompatibilityReliabilityTest,
-       CCR03_InterfaceSubstitutionBothBackendsSatisfyContract) {
-    SCOPED_TRACE("CCR-03: interface substitution, compliant alternative backend");
-
-    auto run_contract = [](IBackend& b) {
-        b.Write("key_a", "value_a");
-        b.Write("key_b", "value_b");
-
-        auto a = b.Read("key_a");
-        auto c = b.Read("key_c");
-
-        EXPECT_TRUE(a.has_value())       << "read of written key must succeed";
-        EXPECT_EQ(*a, "value_a")         << "read value mismatch";
-        EXPECT_FALSE(c.has_value())      << "read of absent key must return nullopt";
-
-        bool del_b = b.Delete("key_b");
-        bool del_b2 = b.Delete("key_b");
-        EXPECT_TRUE(del_b)  << "first delete must succeed";
-        EXPECT_FALSE(del_b2)<< "second delete must return false";
-        EXPECT_FALSE(b.Read("key_b").has_value()) << "deleted key must not be readable";
-    };
-
-    // Primary backend
-    InMemoryBackend primary;
-    run_contract(primary);
-
-    // Substitutable backend
-    PrefixedInMemoryBackend substitute("pfx_");
-    run_contract(substitute);
-}
-
-// ===========================================================================
-// CCR-04 — Concurrent reader isolation: no partial-write visibility
-// ===========================================================================
-TEST_F(ContractCompatibilityReliabilityTest,
-       CCR04_ConcurrentReaderIsolationNoPartialWriteVisibility) {
-    SCOPED_TRACE("CCR-04: concurrent reader isolation");
-
-    const std::string key       = "ccr04_shared_key";
-    const std::string value_v1  = "value_version_1";
-    const std::string value_v2  = "value_version_2";
-
-    backend_->Write(key, value_v1);
-
-    constexpr int kReaders   = 4;
-    constexpr int kReadCycles = 30;
-
-    std::atomic<size_t> corrupt_reads{0};
-    std::atomic<bool>   write_done{false};
-
-    std::vector<std::thread> readers;
-    readers.reserve(kReaders);
-
-    for (int r = 0; r < kReaders; ++r) {
-        readers.emplace_back([&]() {
-            for (int i = 0; i < kReadCycles; ++i) {
-                const auto got = backend_->Read(key);
-                if (got.has_value() && *got != value_v1 && *got != value_v2) {
-                    corrupt_reads.fetch_add(1, std::memory_order_relaxed);
+    /// @brief Read as V2 — tolerates missing "tags" field (backward compat).
+    [[nodiscard]] std::optional<RecordV2> ReadAsV2(const std::string& id) const {
+        std::lock_guard<std::mutex> lk(mutex_);
+        const auto it = store_.find(id);
+        if (it == store_.end()) { return std::nullopt; }
+        RecordV2 rec;
+        rec.id    = id;
+        rec.name  = it->second.at("name");
+        rec.value = std::stoll(it->second.at("value"));
+        const auto tags_it = it->second.find("tags");
+        if (tags_it != it->second.end() && !tags_it->second.empty()) {
+            // Split by comma
+            std::string token;
+            for (const char ch : tags_it->second) {
+                if (ch == ',') {
+                    if (!token.empty()) {
+                        rec.tags.push_back(std::move(token));
+                        token.clear();
+                    }
+                } else {
+                    token += ch;
                 }
             }
-        });
+            if (!token.empty()) { rec.tags.push_back(std::move(token)); }
+        }
+        return rec;
     }
 
-    // Single writer updates the value while readers are active
-    std::thread writer([&]() {
-        backend_->Write(key, value_v2);
-        write_done.store(true, std::memory_order_release);
-    });
-
-    writer.join();
-    for (auto& r : readers) { r.join(); }
-
-    EXPECT_EQ(corrupt_reads.load(), 0U)
-        << corrupt_reads.load() << " reads saw neither v1 nor v2 — partial-write visible";
-    EXPECT_TRUE(write_done.load());
-
-    const auto final_val = backend_->Read(key);
-    ASSERT_TRUE(final_val.has_value());
-    EXPECT_EQ(*final_val, value_v2) << "final value must be v2 after write completes";
-}
-
-// ===========================================================================
-// CCR-05 — Error contract: closed/invalid resource returns sentinel
-// ===========================================================================
-TEST_F(ContractCompatibilityReliabilityTest,
-       CCR05_ErrorContractClosedResourceReturnsSentinel) {
-    SCOPED_TRACE("CCR-05: error contract, closed/invalid resource");
-
-    // Simulate a "closed" resource by reading a key that was never written
-    const auto missing = backend_->Read("nonexistent_key_ccr05");
-    EXPECT_FALSE(missing.has_value())
-        << "read on non-existent key must return nullopt, not throw";
-
-    // Delete on absent key must return false (not throw)
-    bool del = backend_->Delete("nonexistent_key_ccr05");
-    EXPECT_FALSE(del)
-        << "delete on non-existent key must return false, not throw";
-
-    // Write, delete, then read must return nullopt
-    backend_->Write("transient_key", "transient_val");
-    backend_->Delete("transient_key");
-    EXPECT_FALSE(backend_->Read("transient_key").has_value())
-        << "read after delete must return nullopt";
-}
-
-// ===========================================================================
-// CCR-06 — Empty-collection contracts
-// ===========================================================================
-TEST_F(ContractCompatibilityReliabilityTest,
-       CCR06_EmptyCollectionContractsWellDefinedEmptyResults) {
-    SCOPED_TRACE("CCR-06: empty-collection contracts");
-
-    // Reading from an empty store returns nullopt (no crash)
-    EXPECT_FALSE(backend_->Read("any_key").has_value())
-        << "read from empty store must return nullopt";
-
-    // Deleting from an empty store returns false (no crash)
-    EXPECT_FALSE(backend_->Delete("any_key"))
-        << "delete from empty store must return false";
-
-    // Pipeline with zero ingest records
-    CrossModulePipeline empty_pipeline;
-    EXPECT_EQ(empty_pipeline.IngestCount(), 0U);
-    EXPECT_FALSE(empty_pipeline.Query(1).has_value())
-        << "query on empty pipeline must return nullopt";
-}
-
-// ===========================================================================
-// CCR-07 — Idempotent-write contract
-// ===========================================================================
-TEST_F(ContractCompatibilityReliabilityTest,
-       CCR07_IdempotentWriteContractSameStateAsSingleWrite) {
-    SCOPED_TRACE("CCR-07: idempotent write contract");
-
-    const std::string key   = "ccr07_key";
-    const std::string value = "ccr07_value";
-
-    // Write once
-    backend_->Write(key, value);
-    const auto after_first = backend_->Read(key);
-    ASSERT_TRUE(after_first.has_value());
-    EXPECT_EQ(*after_first, value);
-
-    // Write identical key/value again
-    backend_->Write(key, value);
-    const auto after_second = backend_->Read(key);
-    ASSERT_TRUE(after_second.has_value());
-    EXPECT_EQ(*after_second, value) << "second identical write must not corrupt value";
-
-    // State is identical whether written once or twice
-    EXPECT_EQ(*after_first, *after_second)
-        << "idempotent write must produce identical observable state";
-}
-
-// ===========================================================================
-// CCR-08 — Cross-module pipeline contract: ingest→query without loss
-// ===========================================================================
-TEST_F(ContractCompatibilityReliabilityTest,
-       CCR08_CrossModulePipelineContractIngestQueryNoTransformationLoss) {
-    SCOPED_TRACE("CCR-08: cross-module pipeline contract, ingest→query");
-
-    constexpr size_t kRecords = 20;
-    std::vector<Record> originals;
-    originals.reserve(kRecords);
-
-    std::mt19937 rng(kCanonicalSeed);
-    for (size_t i = 0; i < kRecords; ++i) {
-        Record r;
-        r.id          = i + 1;
-        r.name        = "entity_" + std::to_string(i);
-        r.score       = static_cast<double>(rng() % 1000) / 1000.0;
-        r.tags        = {"tag_" + std::to_string(i % 4)};
-        r.description = "desc_" + std::to_string(i);
-        originals.push_back(r);
-        pipeline_->Ingest(r);
+    /// @brief Read as V1 — ignores unknown fields (forward compat).
+    [[nodiscard]] std::optional<RecordV1> ReadAsV1(const std::string& id) const {
+        std::lock_guard<std::mutex> lk(mutex_);
+        const auto it = store_.find(id);
+        if (it == store_.end()) { return std::nullopt; }
+        RecordV1 rec;
+        rec.id    = id;
+        rec.name  = it->second.at("name");
+        rec.value = std::stoll(it->second.at("value"));
+        // "tags" field is silently ignored — forward compatibility
+        return rec;
     }
 
-    EXPECT_EQ(pipeline_->IngestCount(), kRecords)
-        << "ingest count mismatch";
+private:
+    mutable std::mutex mutex_;
+    std::unordered_map<std::string, std::unordered_map<std::string, std::string>> store_;
+};
 
-    size_t loss_count = 0;
-    for (const auto& original : originals) {
-        const auto queried = pipeline_->Query(original.id);
-        ASSERT_TRUE(queried.has_value())
-            << "query returned nullopt for ingested id=" << original.id;
-        if (!(queried == original)) { ++loss_count; }
+// ---------------------------------------------------------------------------
+// IdempotentApiEndpoint — CCR-06: API idempotency contract
+// ---------------------------------------------------------------------------
+
+/// @brief Models an API endpoint that guarantees idempotent creation via a
+///        client-supplied idempotency key.
+class IdempotentApiEndpoint {
+public:
+    struct CreateRequest {
+        std::string idempotency_key;
+        std::string resource_name;
+        int64_t     resource_value{0};
+    };
+
+    struct CreateResponse {
+        bool        created{false};  ///< true if newly created; false if duplicate
+        std::string resource_id;
+        std::string resource_name;
+        int64_t     resource_value{0};
+        std::string error;
+    };
+
+    /// @brief Process a creation request.
+    /// Duplicate requests (same idempotency_key) return the original response.
+    [[nodiscard]] CreateResponse Create(const CreateRequest& req) {
+        std::lock_guard<std::mutex> lk(mutex_);
+        const auto it = idempotency_map_.find(req.idempotency_key);
+        if (it != idempotency_map_.end()) {
+            // Return cached response unchanged
+            return it->second;
+        }
+        // New creation
+        CreateResponse resp;
+        resp.created        = true;
+        resp.resource_id    = "res-" + req.idempotency_key;
+        resp.resource_name  = req.resource_name;
+        resp.resource_value = req.resource_value;
+        idempotency_map_[req.idempotency_key] = resp;
+        return resp;
     }
 
-    EXPECT_EQ(loss_count, 0U)
-        << loss_count << " records lost transformation fidelity across pipeline";
+    [[nodiscard]] size_t ResourceCount() const {
+        std::lock_guard<std::mutex> lk(mutex_);
+        return idempotency_map_.size();
+    }
+
+private:
+    mutable std::mutex mutex_;
+    std::unordered_map<std::string, CreateResponse> idempotency_map_;
+};
+
+// ---------------------------------------------------------------------------
+// PaginatedQueryEngine — CCR-07: pagination contract
+// ---------------------------------------------------------------------------
+
+/// @brief Simple deterministic in-memory query engine with cursor-based
+///        pagination.
+class PaginatedQueryEngine {
+public:
+    /// @brief Populate the store with N entries (key = "item-{i}").
+    void Populate(size_t count) {
+        std::lock_guard<std::mutex> lk(mutex_);
+        items_.clear();
+        items_.reserve(count);
+        for (size_t i = 0; i < count; ++i) {
+            items_.push_back("item-" + std::to_string(i));
+        }
+    }
+
+    struct PageResult {
+        std::vector<std::string> items;
+        size_t                   next_cursor{0};  ///< 0 == end of results
+        bool                     has_more{false};
+    };
+
+    /// @brief Fetch a page starting at cursor with the given page_size.
+    /// @param cursor     Inclusive start offset (0-based).
+    /// @param page_size  Maximum items per page.
+    /// @return PageResult with items and next_cursor.
+    [[nodiscard]] PageResult Fetch(size_t cursor, size_t page_size) const {
+        std::lock_guard<std::mutex> lk(mutex_);
+        PageResult result;
+        if (cursor >= items_.size()) {
+            return result;
+        }
+        const size_t end = std::min(cursor + page_size, items_.size());
+        result.items.assign(items_.begin() + static_cast<ptrdiff_t>(cursor),
+                            items_.begin() + static_cast<ptrdiff_t>(end));
+        if (end < items_.size()) {
+            result.next_cursor = end;
+            result.has_more    = true;
+        }
+        return result;
+    }
+
+    [[nodiscard]] size_t TotalCount() const {
+        std::lock_guard<std::mutex> lk(mutex_);
+        return items_.size();
+    }
+
+private:
+    mutable std::mutex mutex_;
+    std::vector<std::string> items_;
+};
+
+// ---------------------------------------------------------------------------
+// ErrorContractValidator — CCR-08: structured error contract
+// ---------------------------------------------------------------------------
+
+/// @brief Error severity.
+enum class ErrorSeverity { kInfo, kWarning, kError, kFatal };
+
+/// @brief Structured API error response.
+struct ApiError {
+    std::string   code;      ///< machine-readable code (e.g. "not_found")
+    std::string   message;   ///< human-readable description
+    ErrorSeverity severity{ErrorSeverity::kError};
+    std::string   context;   ///< optional additional context
+};
+
+/// @brief Validates that an error response conforms to the API error contract.
+struct ErrorContractChecker {
+    /// @brief All required fields must be non-empty; severity must be in range.
+    /// @param error  Error to validate.
+    /// @return true if the error conforms to the contract.
+    [[nodiscard]] static bool IsConformant(const ApiError& error) noexcept {
+        if (error.code.empty())    { return false; }
+        if (error.message.empty()) { return false; }
+        // severity must be a valid enum value
+        const auto sv = static_cast<int>(error.severity);
+        if (sv < 0 || sv > static_cast<int>(ErrorSeverity::kFatal)) { return false; }
+        return true;
+    }
+};
+
+/// @brief Produces typed API errors for common failure cases, used to assert
+///        the error contract across different failure paths.
+class ApiErrorFactory {
+public:
+    /// @brief Produce a "not_found" error.
+    [[nodiscard]] static ApiError NotFound(const std::string& detail) {
+        return {"not_found", "Resource not found: " + detail,
+                ErrorSeverity::kError, detail};
+    }
+
+    /// @brief Produce a "validation_error" for a bad field.
+    [[nodiscard]] static ApiError ValidationError(const std::string& field) {
+        return {"validation_error", "Validation failed for field: " + field,
+                ErrorSeverity::kWarning, field};
+    }
+
+    /// @brief Produce an "auth_denied" error.
+    [[nodiscard]] static ApiError AuthDenied(const std::string& reason) {
+        return {"auth_denied", "Authorization denied: " + reason,
+                ErrorSeverity::kError, reason};
+    }
+
+    /// @brief Produce an "internal_error" with no context (edge case).
+    [[nodiscard]] static ApiError InternalError() {
+        return {"internal_error", "An unexpected internal error occurred",
+                ErrorSeverity::kFatal, ""};
+    }
+};
+
+}  // namespace
+
+// ===========================================================================
+// Test Fixture
+// ===========================================================================
+
+class ContractCompatibilityReliabilityTest : public IntegrationTestFixture {
+protected:
+    void SetUp() override {
+        IntegrationTestFixture::SetUp();
+        rng_ = std::mt19937{kCanonicalSeed};
+    }
+
+    std::mt19937 rng_;
+};
+
+// ===========================================================================
+// CCR-01 — Forward compatibility: unknown fields in record are tolerated
+// ===========================================================================
+
+TEST_F(ContractCompatibilityReliabilityTest,
+       CCR01_UnknownFieldsInRecordAreTolerated) {
+    SCOPED_TRACE("CCR-01: forward compatibility — unknown fields tolerated");
+
+    // Define a V1 schema with two known fields
+    Schema schema_v1 = {
+        {"name",  FieldType::kString,  true},
+        {"value", FieldType::kInteger, true},
+    };
+    SchemaValidator validator(schema_v1);
+
+    // V1-compliant record — must pass
+    SchemaRecord v1_record;
+    v1_record["name"]  = {FieldType::kString, "Alice", 0, false};
+    v1_record["value"] = {FieldType::kInteger, "", 42, false};
+
+    const auto r1 = validator.Validate(v1_record);
+    EXPECT_TRUE(r1.ok) << "V1-compliant record must pass V1 schema";
+
+    // V2 record adds "tags" (unknown to V1 validator) — must still pass
+    SchemaRecord v2_record = v1_record;
+    v2_record["tags"] = {FieldType::kString, "alpha,beta", 0, false};
+
+    const auto r2 = validator.Validate(v2_record);
+    EXPECT_TRUE(r2.ok) << "V2 record with unknown field must still pass V1 schema";
+    EXPECT_TRUE(r2.errors.empty());
 }
 
-} // namespace themis::test
+// ===========================================================================
+// CCR-02 — Required-field contract: absent required field returns error
+// ===========================================================================
+
+TEST_F(ContractCompatibilityReliabilityTest,
+       CCR02_AbsentRequiredFieldProducesStructuredError) {
+    SCOPED_TRACE("CCR-02: required-field contract");
+
+    Schema schema = {
+        {"id",    FieldType::kString,  true},
+        {"name",  FieldType::kString,  true},
+        {"score", FieldType::kInteger, false},  // optional
+    };
+    SchemaValidator validator(schema);
+
+    // Record missing required "name"
+    SchemaRecord record;
+    record["id"]    = {FieldType::kString, "doc-1", 0, false};
+    record["score"] = {FieldType::kInteger, "", 99, false};
+
+    const auto result = validator.Validate(record);
+    EXPECT_FALSE(result.ok) << "missing required field must fail validation";
+    ASSERT_FALSE(result.errors.empty());
+    EXPECT_EQ(result.errors[0], "missing_required:name");
+
+    // Record with all required fields present — must pass
+    record["name"] = {FieldType::kString, "Alice", 0, false};
+    const auto ok_result = validator.Validate(record);
+    EXPECT_TRUE(ok_result.ok);
+    EXPECT_TRUE(ok_result.errors.empty());
+}
+
+// ===========================================================================
+// CCR-03 — Backward compatibility: V2 reader tolerates V1 records
+// ===========================================================================
+
+TEST_F(ContractCompatibilityReliabilityTest,
+       CCR03_V2ReaderToleratesV1RecordsMissingTagsField) {
+    SCOPED_TRACE("CCR-03: backward compatibility — V2 reader handles V1 record");
+
+    VersionedSchemaStore store;
+
+    // Write a V1 record (no "tags" field)
+    store.WriteV1({"id-v1", "AliceV1", 100});
+
+    // V2 reader must read it without error; tags must be empty vector
+    const auto result = store.ReadAsV2("id-v1");
+    ASSERT_TRUE(result.has_value()) << "V2 reader must find V1 record";
+    EXPECT_EQ(result->id,    "id-v1");
+    EXPECT_EQ(result->name,  "AliceV1");
+    EXPECT_EQ(result->value, 100);
+    EXPECT_TRUE(result->tags.empty())
+        << "V2 tags must be empty vector when reading a V1 record";
+}
+
+// ===========================================================================
+// CCR-04 — Forward compatibility: V1 reader ignores extra V2 fields
+// ===========================================================================
+
+TEST_F(ContractCompatibilityReliabilityTest,
+       CCR04_V1ReaderIgnoresExtraFieldsFromV2Record) {
+    SCOPED_TRACE("CCR-04: forward compatibility — V1 reader ignores V2 tags");
+
+    VersionedSchemaStore store;
+
+    // Write a V2 record with tags
+    store.WriteV2({"id-v2", "BobV2", 200, {"tag-x", "tag-y"}});
+
+    // V1 reader must read it without error; "tags" field is silently ignored
+    const auto result = store.ReadAsV1("id-v2");
+    ASSERT_TRUE(result.has_value()) << "V1 reader must find V2 record";
+    EXPECT_EQ(result->id,    "id-v2");
+    EXPECT_EQ(result->name,  "BobV2");
+    EXPECT_EQ(result->value, 200);
+    // No crash, no error — forward compatibility achieved
+}
+
+// ===========================================================================
+// CCR-05 — Type contract: numeric field rejects string-typed value
+// ===========================================================================
+
+TEST_F(ContractCompatibilityReliabilityTest,
+       CCR05_NumericFieldRejectsStringTypedValue) {
+    SCOPED_TRACE("CCR-05: type-contract enforcement");
+
+    Schema schema = {
+        {"count", FieldType::kInteger, true},
+        {"label", FieldType::kString,  true},
+    };
+    SchemaValidator validator(schema);
+
+    // Correct types
+    SchemaRecord correct;
+    correct["count"] = {FieldType::kInteger, "", 7, false};
+    correct["label"] = {FieldType::kString, "ok", 0, false};
+
+    const auto r_ok = validator.Validate(correct);
+    EXPECT_TRUE(r_ok.ok);
+
+    // "count" provided as string — type mismatch
+    SchemaRecord wrong_type;
+    wrong_type["count"] = {FieldType::kString, "seven", 0, false};  // wrong type!
+    wrong_type["label"] = {FieldType::kString, "label", 0, false};
+
+    const auto r_err = validator.Validate(wrong_type);
+    EXPECT_FALSE(r_err.ok) << "string value for integer field must fail";
+    ASSERT_FALSE(r_err.errors.empty());
+    EXPECT_EQ(r_err.errors[0], "type_mismatch:count");
+
+    // "label" provided as integer — type mismatch
+    SchemaRecord wrong_label;
+    wrong_label["count"] = {FieldType::kInteger, "", 1, false};
+    wrong_label["label"] = {FieldType::kInteger, "", 99, false};  // wrong type!
+
+    const auto r_err2 = validator.Validate(wrong_label);
+    EXPECT_FALSE(r_err2.ok);
+    ASSERT_FALSE(r_err2.errors.empty());
+    EXPECT_EQ(r_err2.errors[0], "type_mismatch:label");
+}
+
+// ===========================================================================
+// CCR-06 — API idempotency contract: repeated calls return identical result
+// ===========================================================================
+
+TEST_F(ContractCompatibilityReliabilityTest,
+       CCR06_RepeatedApiCallWithSameIdempotencyKeyReturnsSameResult) {
+    SCOPED_TRACE("CCR-06: API idempotency contract");
+
+    IdempotentApiEndpoint endpoint;
+
+    IdempotentApiEndpoint::CreateRequest req;
+    req.idempotency_key  = "idem-key-001";
+    req.resource_name    = "my-resource";
+    req.resource_value   = 42;
+
+    // First call — must create
+    const auto first = endpoint.Create(req);
+    EXPECT_TRUE(first.created);
+    EXPECT_EQ(first.resource_name, "my-resource");
+    EXPECT_EQ(first.resource_value, 42);
+
+    // Second call — must NOT create; must return identical fields
+    const auto second = endpoint.Create(req);
+    EXPECT_FALSE(second.created) << "second call must not create a new resource";
+    EXPECT_EQ(second.resource_id,    first.resource_id);
+    EXPECT_EQ(second.resource_name,  first.resource_name);
+    EXPECT_EQ(second.resource_value, first.resource_value);
+
+    // Third call — same contract
+    const auto third = endpoint.Create(req);
+    EXPECT_FALSE(third.created);
+    EXPECT_EQ(third.resource_id, first.resource_id);
+
+    // Resource count must remain 1
+    EXPECT_EQ(endpoint.ResourceCount(), 1u);
+
+    // Different idempotency key — creates independently
+    req.idempotency_key = "idem-key-002";
+    const auto other = endpoint.Create(req);
+    EXPECT_TRUE(other.created);
+    EXPECT_EQ(endpoint.ResourceCount(), 2u);
+}
+
+// ===========================================================================
+// CCR-07 — Pagination contract: sequential pages are non-overlapping
+// ===========================================================================
+
+TEST_F(ContractCompatibilityReliabilityTest,
+       CCR07_SequentialPagesAreNonOverlappingAndCoverAllItems) {
+    SCOPED_TRACE("CCR-07: pagination contract — non-overlapping sequential pages");
+
+    PaginatedQueryEngine engine;
+    engine.Populate(25);
+
+    constexpr size_t kPageSize = 10;
+    std::unordered_set<std::string> seen;
+    size_t cursor = 0;
+    size_t page_count = 0;
+
+    while (true) {
+        const auto page = engine.Fetch(cursor, kPageSize);
+        ASSERT_FALSE(page.items.empty() && cursor == 0)
+            << "first page must not be empty for a populated store";
+
+        for (const auto& item : page.items) {
+            EXPECT_EQ(seen.count(item), 0u)
+                << "item '" << item << "' appeared in multiple pages (overlap)";
+            seen.insert(item);
+        }
+        ++page_count;
+
+        if (!page.has_more) { break; }
+        cursor = page.next_cursor;
+
+        // Guard against infinite loop
+        ASSERT_LT(page_count, 10u) << "too many pages — pagination loop detected";
+    }
+
+    // All 25 items must appear across pages
+    EXPECT_EQ(seen.size(), engine.TotalCount())
+        << "all items must appear in exactly one page";
+    EXPECT_EQ(seen.size(), 25u);
+
+    // Exactly 3 pages for 25 items at page_size=10: [0..9], [10..19], [20..24]
+    EXPECT_EQ(page_count, 3u);
+}
+
+// ===========================================================================
+// CCR-08 — Error contract: all API errors have consistent structure
+// ===========================================================================
+
+TEST_F(ContractCompatibilityReliabilityTest,
+       CCR08_AllApiErrorPathsProduceConformantErrorStructures) {
+    SCOPED_TRACE("CCR-08: error contract — all error paths produce valid structure");
+
+    // Every error factory path must produce a conformant error
+    const std::vector<ApiError> errors = {
+        ApiErrorFactory::NotFound("doc-42"),
+        ApiErrorFactory::ValidationError("field_name"),
+        ApiErrorFactory::AuthDenied("token-expired"),
+        ApiErrorFactory::InternalError(),
+    };
+
+    for (const auto& err : errors) {
+        EXPECT_TRUE(ErrorContractChecker::IsConformant(err))
+            << "non-conformant error for code='" << err.code
+            << "' message='" << err.message << "'";
+        EXPECT_FALSE(err.code.empty())
+            << "error.code must never be empty";
+        EXPECT_FALSE(err.message.empty())
+            << "error.message must never be empty";
+    }
+
+    // Specific field checks
+    const auto not_found = ApiErrorFactory::NotFound("my-doc");
+    EXPECT_EQ(not_found.code, "not_found");
+    EXPECT_EQ(not_found.severity, ErrorSeverity::kError);
+    EXPECT_FALSE(not_found.context.empty());
+
+    const auto val_err = ApiErrorFactory::ValidationError("my_field");
+    EXPECT_EQ(val_err.code, "validation_error");
+    EXPECT_EQ(val_err.severity, ErrorSeverity::kWarning);
+
+    const auto internal = ApiErrorFactory::InternalError();
+    EXPECT_EQ(internal.code, "internal_error");
+    EXPECT_EQ(internal.severity, ErrorSeverity::kFatal);
+    // context is optional — empty is allowed for internal errors
+}
+
+}  // namespace themis::test
