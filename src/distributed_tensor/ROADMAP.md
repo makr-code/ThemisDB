@@ -32,6 +32,7 @@ track remain gated.
 - [~] Phase 5: Adapter-Distribution & Sharding-Kopplung — LoRA artifact distribution interfaces,
   RAID/Merkle proof engine, distribution receipts, shard snapshots, and recovery ordering (Issue #5418, Target: Q3 2026)
 - [~] tensor artifact manifest schema: ArtifactManifest + ManifestStore wiring (Target: Q3 2026)
+- [x] derived-artifact lifecycle and staleness management: LifecycleState FSM, ArtifactClassifier, manifest fields, invalidation manager (issue #5442, Target: Q3 2026)
 - [x] phase-4 distributed contract and fault-path coverage expansion beyond the focused regression suite (Target: Q4 2026)
 
 ## Planned Features
@@ -85,6 +86,9 @@ track remain gated.
 - [x] EPIC 3.4 (Integrity Model) contract ownership mapped and documented
 - [x] tensor-update rollout track staged (Phases A–D) in `ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md`
 - [x] advisory-only artifact policy documented with invariant: tensor artifacts never replace graph-verified results (Target: Q3 2026)
+- [x] derived-artifact lifecycle model: `LifecycleState` (READY/STALE/INVALIDATED/REBUILDING/FAILED), `TruthSemantic`, `ArtifactClass`, `RebuildState`, `UpdateMode`, `InvalidationReason` defined in `artifact_manifest.h` (issue #5442, Target: Q3 2026)
+- [x] manifest lifecycle fields defined: `source_seq_start`, `source_seq_end`, `delta_lag`, `artifact_age_ms`, `residual`, `rank_cap`, `lifecycle_state`, `invalidation_reason` (issue #5442, Target: Q3 2026)
+- [x] advisory-only enforcement: `ArtifactClassifier::isValidCombination` prevents DERIVED/EPHEMERAL from acquiring GROUND_TRUTH semantic (issue #5442, Target: Q3 2026)
 
 ### Phase 2: Core Implementation
 - [x] production translation units and public headers implemented
@@ -114,6 +118,7 @@ track remain gated.
 - [x] receipt chain verification tests (genesis, appends, tampering)
 - [x] integration tests for full verification workflow
 - [x] integrity verification unit and benchmark sources added for follow-on coverage expansion
+- [x] lifecycle & staleness management unit tests — `test_lifecycle_staleness_management.cpp` (31 tests, LSM-01..LSM-31, issue #5442)
 - [ ] `test_tensor_delta_log` — Phase B ctest gate (Target: Q3 2026)
 - [ ] `test_tensor_rebuild_fallback` — Phase B ctest gate (Target: Q3 2026)
 - [ ] `test_tensor_shard_summary` — Phase C ctest gate (Target: Q4 2026)

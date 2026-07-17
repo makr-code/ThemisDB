@@ -10,7 +10,6 @@
 #pragma once
 
 #include "src/distributed_tensor/include/artifact_manifest.h"
-#include "src/distributed_tensor/include/manifest_store.h"
 #include <string>
 #include <memory>
 #include <vector>
