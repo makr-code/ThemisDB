@@ -1,0 +1,81 @@
+{
+  "_comment": "Wave 5 / B5-C — Determinism & Variance Baselines",
+  "_doc": "Baseline for determinism and variance benchmarks. The key metric is CV_pct — must stay ≤ 5%.",
+  "version": "5.0.0",
+  "wave": "w5c",
+  "branch": "develop",
+  "commit": "initial-wave5-baseline",
+  "timestamp": "2026-07-16T14:00:00Z",
+  "context": {
+    "build_type": "Release",
+    "preset": "windows-release / linux-release",
+    "warmup": "3-phase (cold=50, warm=100, hot=200)",
+    "seed": 42,
+    "note": "Placeholder baseline — replace with real measurements from the target CI runner"
+  },
+  "benchmarks": {
+    "BM_W5C_ReadVariance": {
+      "real_time": 6.8,
+      "cpu_time": 6.6,
+      "iterations": 5000,
+      "items_per_second": 147059,
+      "counters": {
+        "CV_pct": 3.2,
+        "CV_ok":  1.0
+      }
+    },
+    "BM_W5C_WriteVariance": {
+      "real_time": 12.1,
+      "cpu_time": 11.8,
+      "iterations": 3000,
+      "items_per_second": 82645,
+      "counters": {
+        "CV_pct": 4.1,
+        "CV_ok":  1.0
+      }
+    },
+    "BM_W5C_WarmupConvergence/0": {
+      "real_time": 42.5,
+      "cpu_time": 41.8,
+      "iterations": 3000,
+      "items_per_second": 23529,
+      "note": "cold — no warmup"
+    },
+    "BM_W5C_WarmupConvergence/1": {
+      "real_time": 12.3,
+      "cpu_time": 12.0,
+      "iterations": 3000,
+      "items_per_second": 81301,
+      "note": "warm — partial warmup"
+    },
+    "BM_W5C_WarmupConvergence/2": {
+      "real_time": 6.9,
+      "cpu_time": 6.7,
+      "iterations": 3000,
+      "items_per_second": 144928,
+      "note": "hot — full 3-phase warmup"
+    },
+    "BM_W5C_RngDeterminism/100": {
+      "real_time": 3.1,
+      "cpu_time": 3.0,
+      "iterations": 10,
+      "counters": {
+        "deterministic": 1.0
+      }
+    },
+    "BM_W5C_RngDeterminism/1000": {
+      "real_time": 28.5,
+      "cpu_time": 28.1,
+      "iterations": 10,
+      "counters": {
+        "deterministic": 1.0
+      }
+    },
+    "BM_W5C_CanonicalWarmup_Throughput": {
+      "real_time": 6.7,
+      "cpu_time": 6.5,
+      "iterations": 5000,
+      "items_per_second": 149254
+    }
+  }
+}

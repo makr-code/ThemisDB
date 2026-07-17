@@ -1,0 +1,198 @@
+{
+  "schema_version": "1.0",
+  "wave": "8",
+  "description": "Wave 8 Post-Release Performance Reliability Gates — incident shielding, threshold hardening, drift detection, and operability.",
+  "effective_date": "2026-07-17",
+  "owners": ["platform-perf@themisdb"],
+
+  "baseline_freeze": {
+    "compiler": "clang-17",
+    "compiler_flags": "-O3 -march=native -DNDEBUG",
+    "preset": "linux-release",
+    "hardware_profile": "ci-runner-standard",
+    "os_image": "ubuntu-22.04"
+  },
+
+  "seed": 42,
+  "warmup_iterations": 500,
+  "repetitions": 5,
+  "min_sample_size": 30,
+
+  "wave7_reference": {
+    "note": "W8 thresholds are tightened relative to W7.  W7 gates remain active as the outer hard limit.",
+    "read_p99_us_w7": 200,
+    "write_throughput_w7": 80000,
+    "batch_p99_ms_w7": 5
+  },
+
+  "hard_gates": [
+    {
+      "id": "GATE-W8-01",
+      "benchmark": "W8B/THD01_TightenedRead_p99_175us_gate",
+      "metric": "latency_p99_us",
+      "threshold": 175,
+      "direction": "lower_is_better",
+      "severity": "blocking",
+      "description": "Hardened point-read p99 must not exceed 175 µs (tightened from W7's 200 µs).",
+      "rationale": "A 12.5% tighter gate provides early-warning margin before the W7 outer limit is reached.",
+      "prior_wave_threshold_us": 200
+    },
+    {
+      "id": "GATE-W8-02",
+      "benchmark": "W8B/THD02_TightenedWrite_90k_ops_s_gate",
+      "metric": "items_per_second",
+      "threshold": 90000,
+      "direction": "higher_is_better",
+      "severity": "blocking",
+      "description": "Hardened write throughput must sustain ≥ 90 000 ops/s (raised from W7's 80 000).",
+      "rationale": "A 12.5% higher throughput floor catches write-path erosion before ingest SLAs are at risk.",
+      "prior_wave_threshold_ops_s": 80000
+    },
+    {
+      "id": "GATE-W8-03",
+      "benchmark": "W8B/THD07_TightenedBatch_p99_4ms_gate",
+      "metric": "latency_p99_ms",
+      "threshold": 4,
+      "direction": "lower_is_better",
+      "severity": "blocking",
+      "description": "Hardened batch write (500 records) p99 must not exceed 4 ms (tightened from W7's 5 ms).",
+      "rationale": "20% tighter gate catches batch-path regression before pipeline SLAs are breached.",
+      "prior_wave_threshold_ms": 5
+    },
+    {
+      "id": "GATE-W8-04",
+      "benchmark": "W8A/IRS02_WriteStorm_throughput_60k_gate",
+      "metric": "items_per_second",
+      "threshold": 60000,
+      "direction": "higher_is_better",
+      "severity": "blocking",
+      "description": "Concurrent write-storm scenario must sustain ≥ 60 000 ops/s across 4 writer threads.",
+      "rationale": "Write-storm incident gate: below this rate, peak ingest cannot recover from a write-storm."
+    },
+    {
+      "id": "GATE-W8-05",
+      "benchmark": "W8D/ORP01_TriageMetrics_completeness_1_0_gate",
+      "metric": "triage_completeness_score",
+      "threshold": 1.0,
+      "direction": "higher_is_better",
+      "severity": "blocking",
+      "description": "All required triage counters (mean, p99, throughput, gate_passed) must be emitted.",
+      "rationale": "Missing triage counters make automated incident routing impossible."
+    },
+    {
+      "id": "GATE-W8-06",
+      "benchmark": "W8D/ORP08_GuardrailCoverage_score_80pct_gate",
+      "metric": "guardrail_coverage_score",
+      "threshold": 0.80,
+      "direction": "higher_is_better",
+      "severity": "blocking",
+      "description": "At least 80% of hot paths must have a performance gate assigned.",
+      "rationale": "Uncovered hot paths are invisible to regression detection."
+    }
+  ],
+
+  "soft_gates": [
+    {
+      "id": "SGATE-W8-01",
+      "benchmark": "W8B/THD03_ReadThroughput_drift_detection",
+      "metric": "read_drift_cv_pct",
+      "threshold": 8.0,
+      "direction": "lower_is_better",
+      "severity": "warning",
+      "description": "Read throughput drift CV across rolling segments should stay below 8%.",
+      "rationale": "CV > 8% on rolling windows indicates creeping degradation that requires investigation."
+    },
+    {
+      "id": "SGATE-W8-02",
+      "benchmark": "W8B/THD04_WriteThroughput_drift_detection",
+      "metric": "write_drift_cv_pct",
+      "threshold": 10.0,
+      "direction": "lower_is_better",
+      "severity": "warning",
+      "description": "Write throughput drift CV across rolling segments should stay below 10%.",
+      "rationale": "Write CV is higher due to compaction; 10% is the post-release acceptable ceiling."
+    },
+    {
+      "id": "SGATE-W8-03",
+      "benchmark": "W8B/THD05_Latency_trend_slope",
+      "metric": "latency_trend_rising",
+      "threshold": 0,
+      "direction": "lower_is_better",
+      "severity": "warning",
+      "description": "Latency trend slope must not be consistently positive (rising trend = drift).",
+      "rationale": "A sustained upward latency trend is the earliest signal of performance degradation."
+    },
+    {
+      "id": "SGATE-W8-04",
+      "benchmark": "W8C/DCH08_FlakeDetection_cv_3pct_gate",
+      "metric": "flake_cv_pct",
+      "threshold": 3.0,
+      "direction": "lower_is_better",
+      "severity": "warning",
+      "description": "Per-benchmark CV across repetitions should stay below 3% (flake noise floor).",
+      "rationale": "High CV masks real regressions and increases false-positive rate."
+    },
+    {
+      "id": "SGATE-W8-05",
+      "benchmark": "W8D/ORP07_BaselineStaleness_fresh_gate",
+      "metric": "baseline_fresh",
+      "threshold": 1.0,
+      "direction": "higher_is_better",
+      "severity": "warning",
+      "description": "Frozen baseline must not be older than 30 days.",
+      "rationale": "A stale baseline drifts from current hardware/software reality, causing false positives."
+    },
+    {
+      "id": "SGATE-W8-06",
+      "benchmark": "W8A/IRS01_BurstReadSpike_mean_250us_gate",
+      "metric": "latency_mean_us",
+      "threshold": 250,
+      "direction": "lower_is_better",
+      "severity": "warning",
+      "description": "Burst-read spike mean latency should stay below 250 µs.",
+      "rationale": "Burst-pattern latency directly impacts SLA during traffic spikes."
+    },
+    {
+      "id": "SGATE-W8-07",
+      "benchmark": "W8C/DCH01_SeedReproducibility_zero_mismatch",
+      "metric": "seed_mismatch_count",
+      "threshold": 0,
+      "direction": "lower_is_better",
+      "severity": "warning",
+      "description": "Seed reproducibility must produce zero key-sequence mismatches.",
+      "rationale": "Non-determinism invalidates cross-run comparisons."
+    },
+    {
+      "id": "SGATE-W8-08",
+      "benchmark": "W8D/ORP06_MaintenancePolicy_compliance_score",
+      "metric": "policy_compliance_score",
+      "threshold": 1.0,
+      "direction": "higher_is_better",
+      "severity": "warning",
+      "description": "All W8 threshold changes must comply with the maintenance window policy rules.",
+      "rationale": "Loosened gates without policy approval violate the performance governance contract."
+    }
+  ],
+
+  "regression_policy": {
+    "tolerance_percent": 5.0,
+    "min_regressions_for_block": 1,
+    "auto_ticket_on_hard_gate_failure": true,
+    "ci_action_on_hard_gate_failure": "block_merge",
+    "ci_action_on_soft_gate_failure": "warn_and_continue",
+    "drift_detection_window_segments": 6,
+    "drift_alert_threshold_pct": 8.0,
+    "baseline_max_age_days": 30,
+    "report_output": "benchmarks/results/wave8/gate_report.json",
+    "regression_tickets_output": "benchmarks/results/wave8/regression_tickets.json"
+  },
+
+  "known_limitations": [
+    "IRS-02 write-storm uses 4 threads (reduced from 8 in the original incident) to fit CI resource budget.",
+    "IRS-05 concurrent ingest+read background reader runs until main thread finishes; jitter on shared CI runners may cause occasional soft-gate warnings.",
+    "THD-03/04 drift detection runs kDriftSegments=6 segments per benchmark iteration; on slow CI runners each repetition may take >60 s.",
+    "DCH-06 parallel isolation benchmark uses a shared global instance counter; results must be interpreted per-fixture-instance.",
+    "ORP-07 simulates a 14-day-old baseline; in production CI the actual baseline JSON creation timestamp must be read and compared.",
+    "Drift slope values (THD-05, THD-03, THD-04) depend on steady_clock resolution; results on VMs with coarse clocks may show zero slope."
+  ]
+}

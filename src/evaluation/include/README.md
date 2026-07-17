@@ -5,11 +5,10 @@
 ## Purpose
 
 This directory hosts EPIC 2 public contracts for evaluation policy, measurement,
-and query path planning. The contracts are intentionally stable scaffolds for phased delivery.
+and query path planning. `hardware_profile.h` is now active; the remaining contracts
+continue as phased-delivery scaffolds.
 
 ## Header Ownership Map
-
-> These headers are deferred to the implementation PR. The table documents planned ownership.
 
 | Header | EPIC sub-issue | Contract focus |
 |---|---|---|
@@ -36,7 +35,7 @@ and query path planning. The contracts are intentionally stable scaffolds for ph
 ## Installation
 
 No separate installation step is required for contract headers.
-Keep this directory documentation-first until runtime behavior is approved.
+Keep the non-hardware-profile contracts documentation-first until their runtime behavior is approved.
 
 ## Usage
 

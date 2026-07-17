@@ -1,8 +1,16 @@
 # EPIC 3 distributed tensor tests
 
+<<<<<<< HEAD
 <!-- Status: current | planning scaffold | validated: 2026-07-17 -->
+=======
+<!-- Status: current | phase-3 focused coverage | validated: 2026-07-13 -->
+>>>>>>> origin/develop
 
-## Planned test files
+## Implemented test files
+
+- `test_phase3_failure_semantics.cpp`
+
+## Planned expansion files
 
 - `tensor_artifact_classes_test.cc`
 - `artifact_manifest_test.cc`
@@ -14,8 +22,8 @@
 
 ## Coverage goals
 
-- Contract tests first
-- Integration scenarios once public interfaces stabilize
+- Focused Phase 3 safety gates are active in CTest
+- Expand to per-component contract tests next
 - Benchmark comparisons live in the matching `benchmarks/` epic directory
 - Reserve hardening scenarios for degraded mode, retry/recovery, and integrity under load
 
@@ -25,8 +33,11 @@
 
 ## Installation
 
-This directory is a documentation-first scaffold. No additional build step is required until the planned files move into implementation.
+This directory now builds the focused Phase 3 regression target via the repository
+test harness. Additional fault-path and integration scenarios remain queued for
+Phase 4 expansion.
 
 ## Usage
 
-Use this README together with the matching epic document and local `CMakeLists.txt` placeholder to create issues, review file ownership, and stage implementation work without enabling production targets yet.
+Use this README together with the local `CMakeLists.txt` to extend EPIC 3 focused
+tests without reintroducing scaffold-only placeholders.

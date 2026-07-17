@@ -1,0 +1,34 @@
+{
+  "total": 4,
+  "found": 4,
+  "gaps": [
+    {
+      "num": 1,
+      "file": "src/sharding/cross_shard_transaction.cpp",
+      "line": 3472,
+      "type": "conditional_move",
+      "desc": "Transaction retry logic with conditional move"
+    },
+    {
+      "num": 2,
+      "file": "src/storage/wom_tree.cpp",
+      "line": 408,
+      "type": "loop_move",
+      "desc": "Tree traversal with move semantics"
+    },
+    {
+      "num": 3,
+      "file": "src/training/auto_labeler.cpp",
+      "line": 291,
+      "type": "conditional_branch",
+      "desc": "Modality fallback with move in if-branch"
+    },
+    {
+      "num": 4,
+      "file": "src/gpu/launcher.cpp",
+      "line": 131,
+      "type": "lambda_capture",
+      "desc": "Async executor with lambda capture-by-move"
+    }
+  ]
+}

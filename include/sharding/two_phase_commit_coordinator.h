@@ -106,6 +106,9 @@ struct CoordinatorTxnRecord {
     CoordinatorTxnState state   = CoordinatorTxnState::ACTIVE;
     std::chrono::steady_clock::time_point started_at;
 
+    /// Ordered list of participant shard IDs used for Phase 2 replay after recovery.
+    std::vector<std::string> participant_shards;
+
     /// Map: shard_id → serialised per-shard operations (JSON)
     std::map<std::string, std::string> shard_payloads;
 

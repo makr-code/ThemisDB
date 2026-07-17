@@ -110,6 +110,7 @@ include_directories(
     ${THEMIS_ROOT_DIR}/src
     ${THEMIS_ROOT_DIR}/benchmarks
     ${GTest_INCLUDE_DIRS}
+    ${CMAKE_CURRENT_SOURCE_DIR}  # Allows test utilities (e.g. utils/test_stability.h) to be included
 )
 
 file(GLOB_RECURSE ALL_TEST_SOURCES
@@ -119,6 +120,7 @@ file(GLOB_RECURSE ALL_TEST_SOURCES
 # Module-local tests under tests/<module> are built via dedicated module
 # CMakeLists; exclude all subdirectory tests from the monolithic aggregate.
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*[/\\]tests[/\\][^/\\]+[/\\]test_.*\\.cpp$")
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*[/\\]tests[/\\]legacy[/\\].*[/\\]test_.*\\.cpp$")
 
 # Additional GoogleTest sources that intentionally use a non-test_*.cpp naming scheme.
 list(APPEND ALL_TEST_SOURCES
@@ -654,6 +656,7 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_lora_provenance\\.cpp$"
     ".*test_shader_integrity\\.cpp$"
     ".*test_two_phase_commit\\.cpp$"
+    ".*test_wal_logging_helper\\.cpp$"
     ".*test_vulkan_health\\.cpp$"
     ".*test_vulkan_metrics\\.cpp$"
     ".*test_vulkan_compute_equivalents\.cpp$"
@@ -23194,6 +23197,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cross/test_cross_module_temporal_bitempor
     target_include_directories(test_cross_module_temporal_bitemporal_focused PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
+        ${THEMIS_ROOT_DIR}/tests  # Provides utils/test_stability.h and other test utilities
     )
 
     target_link_libraries(test_cross_module_temporal_bitemporal_focused PRIVATE

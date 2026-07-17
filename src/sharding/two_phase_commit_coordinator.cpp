@@ -35,12 +35,21 @@
 #include "sharding/shard_rpc_client_adapter.h"
 #include "sharding/metrics_registry.h"
 #include "sharding/prometheus_metrics.h"
+#include "sharding/wal_logging_helper.h"
 #include "transaction/two_phase_commit_wal_recovery.h"
 #include "utils/logger.h"
 #include <chrono>
 #include <stdexcept>
 
 namespace themis::sharding {
+
+// ============================================================================
+// Sprint 8 Phase 1: Use-After-Move Safety (GAP B-1/B-2)
+// ============================================================================
+// Coordinator adapters are moved to owned_adapters_ map for lifetime management,
+// but raw pointers are stored in participants_ for O(1) lookup during 2PC operations.
+// This pattern ensures coordinator state survives moves through pipeline stages.
+// Pattern: Move unique_ptr to storage, access via raw pointer; safe reference semantics.
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Constructor
@@ -110,7 +119,10 @@ void TwoPhaseCommitCoordinator::registerParticipantByEndpoint(
 ) {
     std::lock_guard<std::timed_mutex> lock(mutex_);
     auto adapter = std::make_unique<ShardRPCClientAdapter>(rpc_config);
-    participants_[shard_id] = adapter.get();
+    participants_[shard_id] = adapter.get();  // Sprint 8: Store raw pointer for O(1) lookup
+    // Sprint 8 Phase 1 (GAP B-1/B-2): Unique_ptr moved to owned_adapters_ for lifetime management.
+    // Raw pointer stored in participants_ for transaction phase access. Pattern: Move for storage,
+    // access via pointer; never access moved unique_ptr.
     owned_adapters_[shard_id] = std::move(adapter);
     THEMIS_DEBUG("2PC coordinator [{}] registered remote participant shard {} at {}",
                  coordinator_id_, shard_id, rpc_config.endpoint);
@@ -186,6 +198,7 @@ CoordinatorTxnOutcome TwoPhaseCommitCoordinator::commit(
 
         // Build per-shard payloads
         for (const auto& [shard_id, ops] : ops_per_shard) {
+            rec.participant_shards.push_back(shard_id);
             rec.shard_payloads[shard_id] = buildPayload(ops);
         }
 
@@ -303,45 +316,27 @@ size_t TwoPhaseCommitCoordinator::recoverInDoubtTransactions() {
 
     try {
         auto entries = wal_->readRange(wal_->getOldestLSN());
+        const auto recovered_wal =
+            themis::transaction::TwoPhaseCommitWALRecovery::reconstruct(entries);
 
-        // Replay entries to rebuild coordinator state
         std::map<std::string, CoordinatorTxnRecord> recovered;
-        std::map<std::string, bool>                 decisions; // txn_id → commit?
+        for (const auto& [txn_id, replay_txn] : recovered_wal) {
+            CoordinatorTxnRecord rec;
+            rec.transaction_id     = txn_id;
+            rec.started_at         = std::chrono::steady_clock::now();
+            rec.participant_shards = replay_txn.participants;
 
-        for (const auto& entry : entries) {
-            const std::string& txn_id = entry.transaction_id;
-            if (txn_id.empty()) continue;
-
-            if (entry.type == WALEntryType::BEGIN_TX) {
-                CoordinatorTxnRecord& rec  = recovered[txn_id];
-                rec.transaction_id         = txn_id;
-                rec.state                  = CoordinatorTxnState::ACTIVE;
-                rec.started_at             = std::chrono::steady_clock::now();
-            } else if (entry.type == WALEntryType::COMMIT_TX) {
-                auto phase = entry.data.value("phase", "");
-                if (phase == "complete") {
-                    if (recovered.count(txn_id)) {
-                        recovered[txn_id].state = CoordinatorTxnState::COMPLETED;
-                    }
-                } else {
-                    auto decision = entry.data.value("decision", "");
-                    if (decision == "commit") {
-                        decisions[txn_id] = true;
-                        if (recovered.count(txn_id))
-                            recovered[txn_id].state = CoordinatorTxnState::COMMIT_DECIDED;
-                    }
-                }
-            } else if (entry.type == WALEntryType::ABORT_TX) {
-                auto phase = entry.data.value("phase", "");
-                if (phase == "complete") {
-                    if (recovered.count(txn_id))
-                        recovered[txn_id].state = CoordinatorTxnState::COMPLETED;
-                } else {
-                    decisions[txn_id] = false;
-                    if (recovered.count(txn_id))
-                        recovered[txn_id].state = CoordinatorTxnState::ABORT_DECIDED;
-                }
+            if (replay_txn.completed) {
+                rec.state = CoordinatorTxnState::COMPLETED;
+            } else if (replay_txn.has_decision) {
+                rec.state = replay_txn.decision_commit
+                    ? CoordinatorTxnState::COMMIT_DECIDED
+                    : CoordinatorTxnState::ABORT_DECIDED;
+            } else {
+                rec.state = CoordinatorTxnState::ACTIVE;
             }
+
+            recovered.emplace(txn_id, std::move(rec));
         }
 
         // Re-drive transactions that have a Phase 2 decision but are not COMPLETED
@@ -353,8 +348,9 @@ size_t TwoPhaseCommitCoordinator::recoverInDoubtTransactions() {
                 continue;
             }
 
-            auto it = decisions.find(txn_id);
-            if (it == decisions.end()) {
+            const bool has_decision = rec.state == CoordinatorTxnState::COMMIT_DECIDED ||
+                                      rec.state == CoordinatorTxnState::ABORT_DECIDED;
+            if (!has_decision) {
                 // No decision logged → abort conservatively and broadcast ABORT
                 // to release participants from PREPARED state (2PC-2 fix).
                 THEMIS_WARN("2PC coordinator [{}] in-doubt txn {} has no decision "
@@ -376,10 +372,7 @@ size_t TwoPhaseCommitCoordinator::recoverInDoubtTransactions() {
                 continue;
             }
 
-            const bool do_commit = it->second;
-            rec.state = do_commit
-                ? CoordinatorTxnState::COMMIT_DECIDED
-                : CoordinatorTxnState::ABORT_DECIDED;
+            const bool do_commit = rec.state == CoordinatorTxnState::COMMIT_DECIDED;
 
             THEMIS_WARN("2PC coordinator [{}] re-driving in-doubt txn {} with decision {}",
                         coordinator_id_, txn_id, do_commit ? "COMMIT" : "ABORT");
@@ -587,7 +580,19 @@ bool TwoPhaseCommitCoordinator::runPhase1(CoordinatorTxnRecord& rec,
 void TwoPhaseCommitCoordinator::runPhase2(CoordinatorTxnRecord& rec, bool do_commit,
                                           std::unique_lock<std::timed_mutex>& lock) {
     // 2PC-1: same pattern as runPhase1 — release lock around each blocking RPC.
-    for (const auto& [shard_id, _] : rec.shard_payloads) {
+    const auto shard_ids =
+        rec.participant_shards.empty()
+            ? [&rec]() {
+                  std::vector<std::string> ids;
+                  ids.reserve(rec.shard_payloads.size());
+                  for (const auto& [shard_id, _] : rec.shard_payloads) {
+                      ids.push_back(shard_id);
+                  }
+                  return ids;
+              }()
+            : rec.participant_shards;
+
+    for (const auto& shard_id : shard_ids) {
         auto pit = participants_.find(shard_id);  // safe: lock held
         if (pit == participants_.end()) {
             THEMIS_WARN("2PC coordinator [{}] Phase 2 – participant {} not found for txn {} "
@@ -640,27 +645,11 @@ void TwoPhaseCommitCoordinator::logToWAL(
     const std::string&    txn_id,
     const nlohmann::json& data
 ) {
-    if (!wal_) return;
-
-    try {
-        WALEntry entry;
-        entry.type           = type;
-        entry.transaction_id = txn_id;
-        entry.timestamp      = static_cast<uint64_t>(
-            std::chrono::duration_cast<std::chrono::milliseconds>(
-                std::chrono::system_clock::now().time_since_epoch()
-            ).count()
-        );
-        entry.data = data;
-
-        wal_->append(entry);
-        if (config_.sync_wal_writes) {
-            wal_->flush();
-        }
-    } catch (const std::exception& e) {
-        THEMIS_ERROR("2PC coordinator [{}] WAL write failed for txn {}: {}",
-                     coordinator_id_, txn_id, e.what());
-    }
+    WALLoggingHelper::appendEntry(
+        wal_.get(), type, txn_id, data,
+        config_.sync_wal_writes,
+        "coordinator", coordinator_id_
+    );
 }
 
 } // namespace themis::sharding

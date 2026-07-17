@@ -14,6 +14,7 @@
 #include <algorithm>
 #include <cctype>
 #include <cmath>
+#include <limits>
 #include <mutex>
 #include <sstream>
 #include <string>
@@ -102,31 +103,40 @@ double TensorAwareQueryOptimizer::estimateTTCost(
     std::size_t max_rank) noexcept {
 
     // Complexity estimates from Holtz et al. (2012) / paper §AQL.
-    const double d = static_cast<double>(order    > 0 ? order    : 4);
-    const double n = static_cast<double>(mode_size > 0 ? mode_size : 4);
-    const double r = static_cast<double>(max_rank  > 0 ? max_rank  : 8);
+    // Cap inputs to prevent intermediate products from overflowing to infinity.
+    // Maximum realistic tensor rank / mode size in production: 1e6 per axis.
+    constexpr double kMaxDim = 1.0e6;
+    const double d = std::min(static_cast<double>(order    > 0 ? order    : 4), kMaxDim);
+    const double n = std::min(static_cast<double>(mode_size > 0 ? mode_size : 4), kMaxDim);
+    const double r = std::min(static_cast<double>(max_rank  > 0 ? max_rank  : 8), kMaxDim);
 
+    double cost = 0.0;
     if (function_name == "TENSOR_SIMILARITY" ||
         function_name == "TENSOR_NORM"        ||
         function_name == "TENSOR_CONTRACT") {
         // Inner-product / transfer-matrix: O(d·n·r³)
-        return d * n * r * r * r;
-    }
-    if (function_name == "TENSOR_SLICE" ||
-        function_name == "TENSOR_PROJECT") {
+        cost = d * n * r * r * r;
+    } else if (function_name == "TENSOR_SLICE" ||
+               function_name == "TENSOR_PROJECT") {
         // Slice / marginalize one core: O(d·n·r²)
-        return d * n * r * r;
+        cost = d * n * r * r;
+    } else if (function_name == "TENSOR_COMPRESS" ||
+               function_name == "TENSOR_DECOMPOSE") {
+        // TT-rounding / decomposition: O(d·r²·n·log n)
+        cost = d * r * r * n * std::log2(n + 1.0);
+    } else if (function_name == "TENSOR_INFO") {
+        cost = d * n;
+    } else {
+        // Unknown — use a generic linear estimate.
+        cost = d * n * r;
     }
-    if (function_name == "TENSOR_COMPRESS" ||
-        function_name == "TENSOR_DECOMPOSE") {
-        // TT-rounding / decomposition: O(d·r²·n)
-        return d * r * r * n * std::log2(n + 1.0);
+
+    // Guard against infinity/NaN from extreme-but-capped inputs; return a
+    // large but finite sentinel that cost-based planning can still compare.
+    if (!std::isfinite(cost)) {
+        return std::numeric_limits<double>::max() / 2.0;
     }
-    if (function_name == "TENSOR_INFO") {
-        return d * n;
-    }
-    // Unknown — use a generic linear estimate.
-    return d * n * r;
+    return cost;
 }
 
 void TensorAwareQueryOptimizer::setTensorNodeDetectorFn(TensorNodeDetectorFn fn) {
