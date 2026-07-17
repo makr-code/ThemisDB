@@ -32,6 +32,7 @@
 #include <sstream>
 #include <thread>
 #include <cctype>
+#include "utils/logger.h"
 
 namespace themisdb {
 namespace storage {
@@ -380,6 +381,7 @@ void TransactionRetryManager::invokeAlertCallback(CircuitState state, const std:
         try {
             callback(state, message);
         } catch (...) {
+            THEMIS_WARN("transaction_retry_manager: unhandled exception caught");
             // Ignore callback exceptions
         }
     }

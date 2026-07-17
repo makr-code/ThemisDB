@@ -24,6 +24,7 @@
 #include <sstream>
 #include <iomanip>
 #include "utils/tracing.h"
+#include "utils/logger.h"
 
 namespace themis {
 namespace server {
@@ -165,6 +166,7 @@ SAGABatchInfo SAGAApiHandler::parseBatchInfo(const std::string& batch_id) {
                 break;
             }
         } catch (...) {
+            THEMIS_WARN("saga_api_handler: unhandled exception caught");
             continue;
         }
     }
@@ -244,6 +246,7 @@ nlohmann::json SAGAApiHandler::getBatchDetail(const std::string& batch_id) {
                         break;
                     }
                 } catch (...) {
+                    THEMIS_WARN("saga_api_handler: unhandled exception caught");
                     continue;
                 }
             }

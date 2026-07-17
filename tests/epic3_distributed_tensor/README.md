@@ -1,25 +1,27 @@
 # EPIC 3 distributed tensor tests
 
-<!-- Status: current | phase-3 focused coverage | validated: 2026-07-13 -->
+<!-- Status: current | phase-4 contract coverage + phase-a manifest tests active | validated: 2026-07-17 -->
 
 ## Implemented test files
 
 - `test_phase3_failure_semantics.cpp`
-
-## Planned expansion files
-
-- `tensor_artifact_classes_test.cc`
-- `artifact_manifest_test.cc`
-- `shard_placement_test.cc`
+- `test_phase4_contract_coverage.cpp`
+- `test_manifest_store_phase_a.cpp`
+- `test_tensor_delta_log.cpp`
+- `test_tensor_rebuild_fallback.cpp`
 - `integrity_verification_test.cc`
-- `recovery_manager_test.cc`
-- `distributed_planner_test.cc`
-- `tensor_infrastructure_test.cc`
+- `integrity_verification_bench.cc`
+
+## Remaining planned expansion files
+
+- `test_tensor_shard_summary.cpp`
 
 ## Coverage goals
 
 - Focused Phase 3 safety gates are active in CTest
-- Expand to per-component contract tests next
+- Phase 4 contract and fault-path coverage is active through `test_phase4_contract_coverage.cpp`
+- Phase A ManifestStore advisory-only behavior is covered by `MS-01..12`
+- Phase B local-maintenance gates now cover delta-log extraction and rebuild fallback behavior
 - Benchmark comparisons live in the matching `benchmarks/` epic directory
 
 ## Reference
@@ -28,9 +30,10 @@
 
 ## Installation
 
-This directory now builds the focused Phase 3 regression target via the repository
-test harness. Additional fault-path and integration scenarios remain queued for
-Phase 4 expansion.
+This directory now builds the focused EPIC 3 regression targets via the repository
+test harness. Phase 4 broadened contract coverage, Phase A ManifestStore tests, and the first
+Phase B delta-log/rebuild-fallback gates are now part of the active test set; shard-summary
+scenarios remain queued for later phases.
 
 ## Usage
 

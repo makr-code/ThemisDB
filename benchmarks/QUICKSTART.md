@@ -1,13 +1,20 @@
-> **Aktueller Build-Flow:** `cmake --preset linux-ninja-perf && cmake --build --preset linux-ninja-perf`
-
 # 🚀 CHIMERA Suite - Quick Start Guide
 
-**Version:** 2.0 (CHIMERA Suite - Scientific + Industry Standards)  
-**Status:** ✅ PRODUCTION READY  
-**Date:** 2026-01-20
+> **Status:** Historical CHIMERA snapshot. Use [`README.md`](README.md), [`INDEX.md`](INDEX.md),
+> and the `nightly-bench-sweep` preset from `CMakePresets.json` for current benchmark entry points.
+>
+> **Current build flow:** `cmake --preset nightly-bench-sweep && cmake --build --preset nightly-bench-sweep`
+
+**Version:** 2.0 (CHIMERA Suite - Scientific + Industry Standards)
+**Status:** Historical / archived reference
+**Date:** 2026-01-20 (snapshot), reviewed 2026-07-17
 
 > **CHIMERA Suite** - _Comprehensive Hybrid Inferencing & Multi-model Evaluation Resource Assessment_  
 > _"Benchmark the Unbenchmarkable"_
+
+> Historical note: the benchmark claims and examples below are preserved for provenance. Environment-
+> specific commands and point-in-time performance statements are not the current source of truth for
+> repository validation or release gating.
 
 ## ✨ What's Included
 
@@ -26,7 +33,7 @@ Complete enterprise-grade benchmarking system powered by CHIMERA Suite:
 ## ⚡ Installation
 
 ```bash
-cd C:\VCC\themis\benchmarks
+cd benchmarks
 
 # Dependencies
 pip install scipy psutil

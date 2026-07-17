@@ -227,6 +227,7 @@ size_t PromptManager::loadFromYAML(const std::string& yaml_path) {
                     emitter << prompt_node["metadata"];
                     pt.metadata = nlohmann::json::parse(emitter.c_str());
                 } catch (...) {
+                    THEMIS_DEBUG("prompt_manager: unhandled exception caught");
                     pt.metadata = nlohmann::json::object();
                 }
             }

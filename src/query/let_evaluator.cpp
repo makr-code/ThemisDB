@@ -248,6 +248,7 @@ nlohmann::json LetEvaluator::evaluateFieldAccess(
                     return baseValue[idx];
                 }
             } catch (...) {
+                THEMIS_WARN("let_evaluator::constexpr: unhandled exception caught");
                 // fallthrough to null
             }
         }
@@ -275,6 +276,7 @@ nlohmann::json LetEvaluator::getNestedValue(
                     return nlohmann::json(nullptr);
                 }
             } catch (...) {
+                THEMIS_DEBUG("let_evaluator: unhandled exception caught");
                 return nlohmann::json(nullptr);
             }
         } else {
@@ -717,6 +719,7 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
         try {
             return testWithin(g1, g2);
         } catch (...) {
+            THEMIS_WARN("let_evaluator: unhandled exception caught");
             // If geometry cannot be parsed, fail open (do not drop the document).
             return true;
         }
@@ -1495,6 +1498,7 @@ double LetEvaluator::toNumber(const nlohmann::json& value) const {
         try {
             return std::stod(value.get<std::string>());
         } catch (...) {
+            THEMIS_WARN("let_evaluator: unhandled exception caught");
             return 0.0;
         }
     }

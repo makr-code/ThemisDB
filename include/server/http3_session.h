@@ -167,11 +167,44 @@ public:
                                       void* user_data, void* stream_user_data);
 
 private:
+    struct SslCtxDeleter {
+        void operator()(SSL_CTX* ctx) const noexcept {
+            if (ctx) {
+                SSL_CTX_free(ctx);
+            }
+        }
+    };
+
+    struct QuicConnDeleter {
+        void operator()(ngtcp2_conn* conn) const noexcept {
+            if (!conn) {
+                return;
+            }
+            if (void* tls_handle = ngtcp2_conn_get_tls_native_handle(conn)) {
+                SSL_free(static_cast<SSL*>(tls_handle));
+            }
+            ngtcp2_conn_del(conn);
+        }
+    };
+
+    struct Http3ConnDeleter {
+        void operator()(nghttp3_conn* conn) const noexcept {
+            if (conn) {
+                nghttp3_conn_del(conn);
+            }
+        }
+    };
+
+    using SslCtxOwner  = std::unique_ptr<SSL_CTX, SslCtxDeleter>;
+    using QuicConnOwner = std::unique_ptr<ngtcp2_conn, QuicConnDeleter>;
+    using Http3ConnOwner = std::unique_ptr<nghttp3_conn, Http3ConnDeleter>;
+
     // QUIC connection management
     void doRead();
     void onRead(boost::system::error_code ec, std::size_t bytes_transferred);
     void doWrite();
     void onTimeout();
+    void scheduleIdleTimeout();
     
     // Stream data management
     struct StreamData {
@@ -199,8 +232,8 @@ private:
     udp::endpoint remote_endpoint_;
     HttpServer* server_;
     
-    ngtcp2_conn* quic_conn_;
-    nghttp3_conn* http3_conn_;
+    QuicConnOwner quic_conn_;
+    Http3ConnOwner http3_conn_;
     SSL_CTX* ssl_ctx_;
     SSL* ssl_;
     
@@ -261,6 +294,16 @@ public:
     const Http3FallbackManager& fallbackManager() const { return fallback_manager_; }
 
 private:
+    struct SslCtxDeleter {
+        void operator()(SSL_CTX* ctx) const noexcept {
+            if (ctx) {
+                SSL_CTX_free(ctx);
+            }
+        }
+    };
+
+    using SslCtxOwner = std::unique_ptr<SSL_CTX, SslCtxDeleter>;
+
     void doAccept();
     void onReceive(boost::system::error_code ec, std::size_t bytes_transferred);
     void cleanupInactiveSessions();
@@ -286,7 +329,7 @@ private:
     udp::socket socket_;
     udp::endpoint remote_endpoint_;
     HttpServer* server_;
-    SSL_CTX* ssl_ctx_;
+    SslCtxOwner ssl_ctx_;
     
     std::array<uint8_t, 65536> recv_buffer_;
 

@@ -28,6 +28,7 @@
 #include <sstream>
 #include <iomanip>
 #include <cstring>
+#include "utils/logger.h"
 
 namespace themis {
 
@@ -185,6 +186,7 @@ std::optional<HistoryRecord> HistoryManager::deserializeHistoryRecord(std::strin
         rec.txn_id    = j.value("txn_id", uint64_t{0});
         return rec;
     } catch (...) {
+        THEMIS_WARN("history_manager: unhandled exception caught");
         return std::nullopt;
     }
 }
@@ -359,6 +361,7 @@ std::optional<ConflictRecord> ConflictManager::deserializeConflictRecord(std::st
         rec.type         = j.value("type", std::string{});
         return rec;
     } catch (...) {
+        THEMIS_WARN("history_manager: unhandled exception caught");
         return std::nullopt;
     }
 }
@@ -430,6 +433,7 @@ std::optional<ConflictSet> ConflictManager::deserializeConflictSet(std::string_v
         set.affected_keys     = j.value("affected_keys", std::vector<std::string>{});
         return set;
     } catch (...) {
+        THEMIS_WARN("history_manager: unhandled exception caught");
         return std::nullopt;
     }
 }

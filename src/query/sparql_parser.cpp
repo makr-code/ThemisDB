@@ -35,6 +35,7 @@
 #include <unordered_map>
 
 #include "utils/error_registry.h"
+#include "utils/logger.h"
 
 namespace themis {
 namespace query {
@@ -535,6 +536,7 @@ private:
             }
             try { stmt.limit = std::stoll(current().value); }
             catch (...) {
+                THEMIS_DEBUG("sparql_parser: unhandled exception caught");
                 throw std::runtime_error("SPARQL LIMIT value '" + current().value + "' is out of integer range");
             }
             advance();
@@ -548,6 +550,7 @@ private:
             }
             try { stmt.offset = std::stoll(current().value); }
             catch (...) {
+                THEMIS_DEBUG("sparql_parser: unhandled exception caught");
                 throw std::runtime_error("SPARQL OFFSET value '" + current().value + "' is out of integer range");
             }
             advance();
@@ -598,6 +601,7 @@ private:
             term.value          = current().value;
             try { term.literal_value  = std::stoll(current().value); }
             catch (...) {
+                THEMIS_WARN("sparql_parser::parseTerm: unhandled exception caught");
                 throw std::runtime_error("Integer literal '" + current().value + "' is out of range");
             }
             term.is_literal_value = true;
@@ -607,6 +611,7 @@ private:
             term.value          = current().value;
             try { term.literal_value  = std::stod(current().value); }
             catch (...) {
+                THEMIS_WARN("sparql_parser::parseTerm: unhandled exception caught");
                 throw std::runtime_error("Float literal '" + current().value + "' is out of range");
             }
             term.is_literal_value = true;
@@ -744,6 +749,7 @@ private:
             auto node  = std::make_shared<SPARQLLiteralExpr>();
             try { node->value = std::stoll(current().value); }
             catch (...) {
+                THEMIS_WARN("sparql_parser::parsePrimaryExpr: unhandled exception caught");
                 throw std::runtime_error("Integer literal '" + current().value + "' is out of range");
             }
             advance();
@@ -753,6 +759,7 @@ private:
             auto node  = std::make_shared<SPARQLLiteralExpr>();
             try { node->value = std::stod(current().value); }
             catch (...) {
+                THEMIS_WARN("sparql_parser::parsePrimaryExpr: unhandled exception caught");
                 throw std::runtime_error("Float literal '" + current().value + "' is out of range");
             }
             advance();

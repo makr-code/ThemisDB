@@ -120,6 +120,7 @@ public:
                     base = std::stoull(
                         std::string(existing_value->data(), existing_value->size()));
                 } catch (...) {
+                    THEMIS_WARN("rocksdb_wrapper: unhandled exception caught");
                     base = 0;
                 }
             }
@@ -2410,6 +2411,7 @@ uint32_t RocksDBWrapper::getBackupCount(const std::string& backup_dir) const {
         return static_cast<uint32_t>(backup_info.size());
         
     } catch (...) {
+        THEMIS_WARN("rocksdb_wrapper: unhandled exception caught");
         return 0;
     }
 #endif

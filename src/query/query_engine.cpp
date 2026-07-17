@@ -272,6 +272,7 @@ static bool evalAqlExpression(const std::string& expression,
         if (!ctx) return false;
         return engine->evaluateCondition(expr, *ctx);
     } catch (...) {
+        THEMIS_WARN("query_engine::logSortedDeserializeFailures: unhandled exception caught");
         return false;
     }
 }
@@ -312,6 +313,7 @@ bool QueryEngine::QueryExpressionEvaluator::canEvaluate(std::string_view express
         auto expr = parser.parseExpression(std::string(expression));
         return expr != nullptr;
     } catch (...) {
+        THEMIS_DEBUG("query_engine: unhandled exception caught");
         return false;
     }
 }
@@ -923,6 +925,7 @@ QueryEngine::executeAndEntities(const ConjunctiveQuery& q) const {
 					if (!blob) continue;
 					try { local_entities.emplace_back(BaseEntity::deserialize(pk, *blob)); }
 					catch (...) {
+         THEMIS_DEBUG("query_engine: unhandled exception caught");
 						std::lock_guard<std::mutex> lk(failed_deserialize_mutex);
 						failed_deserialize_pks.push_back(pk);
 					}
@@ -1206,6 +1209,7 @@ QueryEngine::executeOrEntitiesWithFallback(const DisjunctiveQuery& q, bool optim
 					if (!blob) continue;
 					try { local_entities.emplace_back(BaseEntity::deserialize(pk, *blob)); }
 					catch (...) {
+         THEMIS_DEBUG("query_engine: unhandled exception caught");
 						std::lock_guard<std::mutex> lk(failed_deserialize_mutex);
 						failed_deserialize_pks.push_back(pk);
 					}
@@ -1289,6 +1293,7 @@ QueryEngine::executeOrEntities(const DisjunctiveQuery& q) const {
 					if (!blob) continue;
 					try { local_entities.emplace_back(BaseEntity::deserialize(pk, *blob)); }
 					catch (...) {
+         THEMIS_DEBUG("query_engine: unhandled exception caught");
 						std::lock_guard<std::mutex> lk(failed_deserialize_mutex);
 						failed_deserialize_pks.push_back(pk);
 					}
@@ -1445,6 +1450,7 @@ QueryEngine::executeAndEntitiesSequential(const std::string& table,
 					if (!blob) continue;
 					try { local_entities.emplace_back(BaseEntity::deserialize(pk, *blob)); }
 					catch (...) {
+         THEMIS_DEBUG("query_engine: unhandled exception caught");
 						std::lock_guard<std::mutex> lk(failed_deserialize_mutex);
 						failed_deserialize_pks.push_back(pk);
 					}
@@ -2486,6 +2492,7 @@ std::vector<std::string> QueryEngine::fullScanAndFilter_(const ConjunctiveQuery&
 				return 0;
 			}
 		} catch (...) {
+      THEMIS_WARN("query_engine: unhandled exception caught");
 			// Not integers, try doubles
 			try {
 				size_t pos_a = 0, pos_b = 0;
@@ -2551,6 +2558,7 @@ std::vector<std::string> QueryEngine::fullScanAndFilter_(const ConjunctiveQuery&
 				BaseEntity e = BaseEntity::deserialize(entry.pk, entry.blob);
 				if (matchesPredicates(e)) out.emplace_back(std::move(entry.pk));
 			} catch (...) {
+       THEMIS_DEBUG("query_engine: unhandled exception caught");
 				// skip malformed entries
 			}
 		}
@@ -2577,6 +2585,7 @@ std::vector<std::string> QueryEngine::fullScanAndFilter_(const ConjunctiveQuery&
 						BaseEntity e = BaseEntity::deserialize(entry.pk, entry.blob);
 						if (matchesPredicates(e)) local.emplace_back(std::move(entry.pk));
 					} catch (...) {
+         THEMIS_DEBUG("query_engine: unhandled exception caught");
 						// skip malformed entries
 					}
 				}
@@ -3389,6 +3398,7 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 
 					ordered_scan_docs.emplace_back(std::move(doc));
 				} catch (...) {
+        THEMIS_WARN("query_engine: unhandled exception caught");
 					// Skip malformed entities
 				}
 				return true; // Continue iteration
@@ -3508,6 +3518,7 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeGroupBy(
 			auto [group_it, inserted] = groups.try_emplace(std::move(key_str));
 			group_it->second.push_back(doc);
 		} catch (...) {
+      THEMIS_WARN("query_engine: unhandled exception caught");
 			// Skip malformed entities
 		}
 		return true; // Continue iteration
@@ -3694,6 +3705,7 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 		try {
 			return std::stoll(s);
 		} catch (...) {
+      THEMIS_DEBUG("query_engine: unhandled exception caught");
 			return std::nullopt;
 		}
 	};
@@ -3791,6 +3803,7 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 					auto entity = BaseEntity::deserialize(vertexPk, *vertexDataOpt);
 					vertex = nlohmann::json::parse(entity.toJson());
 				} catch (...) {
+        THEMIS_DEBUG("query_engine: unhandled exception caught");
 					pathValid = false;
 					break;
 				}
@@ -4034,6 +4047,7 @@ QueryEngine::executeGeneralTraversal(
 				try {
 					result.vertex_data = nlohmann::json::parse(*vertexDataOpt);
 				} catch (...) {
+        THEMIS_DEBUG("query_engine: unhandled exception caught");
 					// If parsing fails, create minimal JSON
 					result.vertex_data = nlohmann::json{{"_key", current.vertex}};
 				}
@@ -4235,6 +4249,7 @@ static HybridVGConfig loadHybridConfig_(RocksDBWrapper& db) {
 			if (j.contains("min_chunk_vector_bf")) cfg.min_chunk_vector_bf = (std::max)(static_cast<size_t>(64), static_cast<size_t>(j.value("min_chunk_vector_bf", static_cast<int64_t>(cfg.min_chunk_vector_bf))));
 		}
 	} catch (...) {
+     THEMIS_WARN("query_engine::loadHybridConfig_: unhandled exception caught");
 		// keep defaults
 	}
 	return cfg;
@@ -4497,6 +4512,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 						ci.bboxRatio = std::min(std::max(bboxArea / totalArea, 0.0), 1.0); 
 						ci.spatialIndexEntries = stats.entry_count;
 					} catch (...) {
+         THEMIS_WARN("query_engine: unhandled exception caught");
 					}
 			}
 		}
@@ -4653,6 +4669,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 					entityCache.try_emplace(pk, std::move(entity));
 				}
 			} catch (...) {
+       THEMIS_WARN("query_engine: unhandled exception caught");
 				// Skip invalid JSON
 			}
 			return true;

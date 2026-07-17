@@ -22,6 +22,7 @@
 
 #pragma once
 
+#include <algorithm>
 #include <chrono>
 #include <cstdint>
 #include <map>
@@ -49,6 +50,50 @@ enum class ArtifactKind : uint8_t {
     DELTA_LOG        = 1,
     /// Cross-shard summary for routing; Phase C entry gate.
     SHARD_SUMMARY    = 2,
+};
+
+/**
+ * @brief Lifecycle state for an advisory tensor artifact.
+ *
+ * ACTIVE and STALE remain readable by the planner subject to freshness and
+ * residual gates. INVALIDATED artifacts must force exact-graph fallback.
+ */
+enum class LifecycleState : uint8_t {
+    ACTIVE      = 0,
+    STALE       = 1,
+    INVALIDATED = 2,
+};
+
+/**
+ * @brief Last maintenance action applied to an artifact.
+ */
+enum class RebuildState : uint8_t {
+    NONE               = 0,
+    PATCHED            = 1,
+    PARTIAL_REFITTED   = 2,
+    REBUILT            = 3,
+};
+
+/**
+ * @brief Update strategy used to publish the current manifest version.
+ */
+enum class UpdateMode : uint8_t {
+    NONE          = 0,
+    PATCH         = 1,
+    PARTIAL_REFIT = 2,
+    REBUILD       = 3,
+};
+
+/**
+ * @brief Reason an artifact left the ACTIVE/STALE lifecycle.
+ */
+enum class InvalidationReason : uint8_t {
+    NONE                = 0,
+    STALE_DATA          = 1,
+    INTEGRITY_FAILURE   = 2,
+    RANK_CAP_BREACH     = 3,
+    RESIDUAL_THRESHOLD  = 4,
+    MANUAL_INVALIDATION = 5,
 };
 
 // ---------------------------------------------------------------------------
@@ -288,6 +333,7 @@ struct ArtifactManifest {
     /// Integrity token computed over the artifact payload.
     ArtifactIntegrity integrity;
 
+<<<<<<< HEAD
     // -----------------------------------------------------------------------
     // Dynamic update lifecycle fields (Phase B+, populated by update worker)
     // -----------------------------------------------------------------------
@@ -365,6 +411,47 @@ struct ArtifactManifest {
      * @return true if the computed hash diverges from @p manifest_hash.
      */
     [[nodiscard]] bool isCorrupted() const;
+=======
+    /// Current lifecycle state.
+    LifecycleState lifecycle_state = LifecycleState::ACTIVE;
+
+    /// Advisory-only invariant flag. This must stay true for all rollout phases here.
+    bool advisory_only = true;
+
+    /// Sequence range from the exact graph lineage captured by this artifact.
+    uint64_t source_seq_start = 0;
+    uint64_t source_seq_end   = 0;
+
+    /// Delta backlog relative to the exact graph source.
+    uint64_t delta_lag = 0;
+
+    /// Current artifact age in milliseconds.
+    uint64_t artifact_age_ms = 0;
+
+    /// Last full rebuild time in seconds since Unix epoch.
+    int64_t last_rebuild_at_unix_sec = 0;
+
+    /// Freshness budget for staleness checks.
+    int64_t staleness_threshold_sec = 0;
+
+    /// Approximation residual for advisory quality checks.
+    double residual = 0.0;
+
+    /// Maximum permitted rank growth for partial refits (0 disables the cap).
+    uint32_t rank_cap = 0;
+
+    /// Current observed rank after the latest update.
+    uint32_t rank_status = 0;
+
+    /// Last maintenance action applied.
+    RebuildState rebuild_state = RebuildState::NONE;
+
+    /// Strategy used to produce the current version.
+    UpdateMode update_mode = UpdateMode::NONE;
+
+    /// Why the artifact was invalidated, if applicable.
+    InvalidationReason invalidation_reason = InvalidationReason::NONE;
+>>>>>>> origin/develop
 
     /**
      * @brief Freshness age in seconds relative to @p now.
@@ -394,6 +481,98 @@ struct ArtifactManifest {
             std::chrono::system_clock::now()) const noexcept {
         const double age = freshnessAgeSeconds(now);
         return age >= 0.0 && age <= max_age_s;
+    }
+
+    /**
+     * @brief Validate baseline manifest invariants for Phase A/B processing.
+     *
+     * @return true when the manifest carries the minimum fields required for
+     *         advisory publication and update-worker maintenance.
+     */
+    [[nodiscard]] bool validate() const noexcept {
+        if (artifact_id.empty() || tensor_name.empty() || version == 0) {
+            return false;
+        }
+        if (residual < 0.0) {
+            return false;
+        }
+        if (rank_cap > 0 && rank_status > rank_cap) {
+            return false;
+        }
+        if (source_seq_end > 0 && source_seq_start > source_seq_end) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * @brief Returns true when the artifact may still be consulted by the planner.
+     *
+     * INVALIDATED entries are always unusable; ACTIVE and STALE remain advisory.
+     */
+    [[nodiscard]] bool isUsable([[maybe_unused]] int64_t now_unix_sec = 0) const noexcept {
+        return lifecycle_state == LifecycleState::ACTIVE
+            || lifecycle_state == LifecycleState::STALE;
+    }
+
+    /**
+     * @brief Returns true when the artifact exceeds its explicit staleness budget.
+     */
+    [[nodiscard]] bool isStale(int64_t now_unix_sec) const noexcept {
+        if (staleness_threshold_sec <= 0) {
+            return false;
+        }
+
+        const auto age_ms = computeArtifactAgeMs(now_unix_sec);
+        return age_ms > static_cast<uint64_t>(staleness_threshold_sec) * 1000ULL;
+    }
+
+    /**
+     * @brief Returns true when the artifact integrity token is absent or invalid.
+     */
+    [[nodiscard]] bool isCorrupted() const noexcept {
+        return !integrity.isValid();
+    }
+
+    /**
+     * @brief Refresh derived temporal fields after publication.
+     */
+    void markPublished(
+        UpdateMode mode,
+        RebuildState rebuild,
+        uint64_t latest_source_seq,
+        std::chrono::system_clock::time_point now =
+            std::chrono::system_clock::now()) noexcept {
+        created_at = now;
+        update_mode = mode;
+        rebuild_state = rebuild;
+        source_seq_end = latest_source_seq;
+        delta_lag = 0;
+        artifact_age_ms = 0;
+        lifecycle_state = LifecycleState::ACTIVE;
+        if (rebuild == RebuildState::REBUILT) {
+            last_rebuild_at_unix_sec = std::chrono::duration_cast<std::chrono::seconds>(
+                now.time_since_epoch()).count();
+        }
+    }
+
+    /**
+     * @brief Update the cached artifact age for observability.
+     */
+    void refreshArtifactAge(
+        std::chrono::system_clock::time_point now =
+            std::chrono::system_clock::now()) noexcept {
+        const auto age = now - created_at;
+        artifact_age_ms = static_cast<uint64_t>(std::max<int64_t>(
+            0, std::chrono::duration_cast<std::chrono::milliseconds>(age).count()));
+    }
+
+private:
+    [[nodiscard]] uint64_t computeArtifactAgeMs(int64_t now_unix_sec) const noexcept {
+        const auto created_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            created_at.time_since_epoch()).count();
+        const int64_t now_ms = now_unix_sec > 0 ? now_unix_sec * 1000 : created_ms;
+        return static_cast<uint64_t>(std::max<int64_t>(0, now_ms - created_ms));
     }
 };
 

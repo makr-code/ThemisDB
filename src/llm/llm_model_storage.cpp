@@ -23,6 +23,7 @@
 #include <iomanip>
 #include <sstream>
 #include <openssl/sha.h>
+#include "utils/logger.h"
 
 namespace themis {
 namespace llm {
@@ -266,6 +267,7 @@ public:
                         metadata.capabilities = cap_json.get<std::vector<std::string>>();
                     }
                 } catch (...) {
+                    THEMIS_DEBUG("llm_model_storage::loadModel: unhandled exception caught");
                     // Ignore parse errors
                 }
             }
@@ -278,6 +280,7 @@ public:
                         metadata.languages = lang_json.get<std::vector<std::string>>();
                     }
                 } catch (...) {
+                    THEMIS_DEBUG("llm_model_storage: unhandled exception caught");
                     // Ignore parse errors
                 }
             }
@@ -290,6 +293,7 @@ public:
                         metadata.tags = tags_json.get<std::vector<std::string>>();
                     }
                 } catch (...) {
+                    THEMIS_DEBUG("llm_model_storage: unhandled exception caught");
                     // Ignore parse errors
                 }
             }
@@ -335,6 +339,7 @@ public:
                         metadata.custom_metadata = json::parse(custom_str);
                     }
                 } catch (...) {
+                    THEMIS_DEBUG("llm_model_storage: unhandled exception caught");
                     // Ignore parse errors
                 }
             }
@@ -802,6 +807,7 @@ public:
                             edges.push_back(edge_json);
                         }
                     } catch (...) {
+                        THEMIS_DEBUG("llm_model_storage: unhandled exception caught");
                         // Skip invalid edge data
                     }
                 }
@@ -923,6 +929,7 @@ public:
                             }
                         }
                     } catch (...) {
+                        THEMIS_WARN("llm_model_storage: unhandled exception caught");
                         // Skip invalid embeddings
                     }
                 }

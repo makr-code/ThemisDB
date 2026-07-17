@@ -14,8 +14,6 @@
 
 #include "manifest_store.h"
 
-#include "utils/logger.h"
-
 #include <algorithm>
 #include <chrono>
 
@@ -42,10 +40,6 @@ bool ManifestStore::store(const ArtifactManifest& manifest) {
     if (it != entries_.end()) {
         // Monotonic version enforcement: only replace if newer.
         if (manifest.version <= it->second.version) {
-            THEMIS_DEBUG(
-                "ManifestStore::store: skipping artifact '{}' version {} "
-                "(existing version {} is newer or equal)",
-                manifest.artifact_id, manifest.version, it->second.version);
             return false;
         }
         it->second = manifest;

@@ -57,6 +57,7 @@ std::optional<std::size_t> tryParseVersionSuffix(const std::string& key) {
     try {
         return std::stoull(key.substr(colon + 1));
     } catch (...) {
+        THEMIS_WARN("tensor_network_storage_engine::tryParseVersionSuffix: unhandled exception caught");
         return std::nullopt;
     }
 }

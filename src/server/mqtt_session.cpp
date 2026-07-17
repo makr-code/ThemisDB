@@ -28,6 +28,7 @@
 #include <limits>
 #include <unordered_set>
 #include <stdexcept>
+#include "utils/logger.h"
 
 MqttSession::MqttSession(asio::ip::tcp::socket socket, uint8_t protocolVersion, TransportType transport)
     : socket_(std::move(socket))
@@ -51,6 +52,7 @@ MqttSession::~MqttSession() noexcept {
         metrics_.disconnectCount++;
         stop();
     } catch (...) {
+        THEMIS_WARN("mqtt_session: unhandled exception caught");
         // Destructors must not throw.
     }
 }

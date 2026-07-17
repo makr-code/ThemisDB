@@ -423,6 +423,7 @@ AuthMiddleware::AuthResult AuthMiddleware::validateToken(std::string_view token)
             metrics_.jwt_validation_success_total++;
             return AuthResult::OK(claims.sub, claims.tenant_id, claims.groups);
         } catch (...) {
+            THEMIS_DEBUG("auth_middleware: unhandled exception caught");
             metrics_.jwt_validation_failed_total++;
             // GAP-013: Log JWT validation failures at WARN for auditability (CWE-778).
             // Previously logged at DEBUG, which means auth failures were invisible

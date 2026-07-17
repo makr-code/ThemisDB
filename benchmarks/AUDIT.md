@@ -1,7 +1,7 @@
 # AUDIT — benchmarks
 
 **Scope:** `benchmarks/` — C++ benchmark sources, CMake registration, Python evaluation scripts, and orchestration tooling.
-**Last audited:** 2026-06-15 (automated + manual review)
+**Last audited:** 2026-07-17 (automated + manual review)
 **Auditor:** copilot-swe-agent
 
 ---
@@ -20,12 +20,14 @@
 
 | Metrik | Ergebnis |
 |--------|---------|
-| Benchmark-Quellen entdeckt | 196 |
-| In CMake registriert | 195 |
+| Benchmark-Quellen entdeckt | 217 |
+| In CMake registriert | 216 |
 | Intentional excluded | 1 (`performance_optimizations/phase2/benchmark_phase2.cpp`) |
 | Unregistriert | **0** |
 
-**Befund:** ✅ Kein unregistrierter Benchmark-Source gefunden. Die Exclusion ist in `INTENTIONAL_EXCLUSIONS` explizit dokumentiert (Placeholder/disabled).
+**Befund:** ✅ Alle 217 entdeckten Quellen sind nun registriert (216 aktiv, 1 intentional excluded).
+Behobene Quellen: 3 Root-Level-Dateien via `themis_add_standard_benchmark` ergänzt; Audit-Skript
+um `wave5_add_benchmark`- und `add_w7_benchmark`-Muster erweitert.
 
 **Nachweis:** `benchmarks/scripts/audit_benchmark_registration.py` — automatisch als Pre-Build-Check ausführbar.
 
@@ -48,7 +50,7 @@
 - Liest ausschließlich lokale Dateisystem-Pfade; fehlerhafte Token werden übersprungen, nicht geworfen.
 - Exitcode 0 = sauber, Exitcode 1 = unregistrierte Quellen gefunden (CI-geeignet).
 
-**Befund:** ✅ Geeignet als CI-Gate-Tool.
+**Befund:** ✅ Geeignet als CI-Gate-Tool; aktueller Exitcode 0 auf dem Re-Audit 2026-07-17 bestätigt: keine Registrierungsdrift vorhanden.
 
 ---
 
@@ -88,6 +90,7 @@
 |----|-----------|--------|--------|
 | BENCH-A01 | LOW | CLI-Integration-Test für `scientific_evaluation_framework.py` fehlt | ✅ Geschlossen — `tests/test_scientific_evaluation_framework_cli.py` (9 Tests) |
 | BENCH-A02 | INFO | `performance_optimizations/phase2/benchmark_phase2.cpp` bewusst deaktiviert — Reaktivierungsentscheidung dokumentieren | Akzeptiert |
+| BENCH-A03 | HIGH | 11 Benchmark-Quellen sind im Re-Audit 2026-07-17 unregistriert und umgehen dadurch den vorgesehenen CMake-/CI-Pfad. | ✅ Geschlossen — 3 Root-Quellen via `themis_add_standard_benchmark` ergänzt; Audit-Skript um `wave5_add_benchmark`/`add_w7_benchmark`-Muster erweitert. Exitcode 0 bestätigt. |
 
 ---
 
