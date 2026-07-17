@@ -194,6 +194,23 @@ ThemisDB is organised into tracked source modules under `src/`, grouped into fou
 → Full architecture reference: [ARCHITECTURE.md](ARCHITECTURE.md)  
 → Module list and status: [ROADMAP.md](ROADMAP.md)
 
+### Distributed Transactions
+
+ThemisDB supports distributed transactions across shards using a family of commit protocols.
+Three concrete coordinator classes share the `ITransactionCoordinator` interface:
+
+| Coordinator | Protocols | Use Case |
+|---|---|---|
+| `TwoPhaseCommitCoordinator` | 2PC | Standalone 2PC in sharding module |
+| `CrossShardTransactionCoordinator` | 2PC · 3PC · SAGA · Percolator · Calvin | Multi-protocol orchestration |
+| `DistributedTransactionCoordinator` | 2PC · SAGA | Transaction-manager layer |
+
+All WAL writes use `WALLoggingHelper` (`include/sharding/wal_logging_helper.h`) for a
+consistent durability pattern across coordinators.
+
+→ Full architecture reference: [docs/architecture/transaction_coordinators.md](docs/architecture/transaction_coordinators.md)  
+→ Interface design: [docs/ITRANSACTION_COORDINATOR.md](docs/ITRANSACTION_COORDINATOR.md)
+
 ### Security Tiering Quick Reference
 
 For security and hardening reviews, use the tier model (T0 Trusted Core -> T5 Plugin Boundary) as the default classification.

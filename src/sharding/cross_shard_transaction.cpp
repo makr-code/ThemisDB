@@ -21,13 +21,13 @@
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 //
-// CC-5 NOTE: ThemisDB contains three independent 2PC implementations with
-// different state machines, WAL integration depths, and recovery logic:
-//   1. two_phase_commit_coordinator.cpp  — standalone coordinator
-//   2. cross_shard_transaction.cpp       (this file) — CrossShardTransactionCoordinator
-//   3. distributed_transaction.cpp       — DistributedTransactionCoordinator
-// A transaction begun with one coordinator CANNOT be recovered by another.
-// Future work: unify under a single 2PC engine (Target: v2.0.0).
+// CC-5: ThemisDB provides three transaction coordinator classes.  A shared
+// ITransactionCoordinator interface (include/transaction/transaction_coordinator.h)
+// and WALLoggingHelper (include/sharding/wal_logging_helper.h) unify the API
+// and WAL-write pattern as of v2.0.0.  WAL formats remain coordinator-specific;
+// a transaction begun with one coordinator CANNOT be recovered by another.
+// Cross-coordinator recovery tooling is planned for v3.0.0.
+// → Architecture reference: docs/architecture/transaction_coordinators.md
 
 #include "sharding/cross_shard_transaction.h"
 #include <stdexcept>
