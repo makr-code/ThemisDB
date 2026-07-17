@@ -1223,7 +1223,7 @@ Focus: Enterprise-grade monitoring, alerting, and automated operations.
 - [I] Automated legacy config migration script with dry-run mode (Issue: #1661) (Target: Q4 2026)
 - [I] Integration with JSON Schema / YAML schema validation (Issue: #1666) (Target: Q4 2026)
 - [I] Production release governance automation for promotion/rollback workflows (Target: Q4 2026) — standardize operator approvals, compatibility gates, and rollout audit events
-- [I] Operational runbook validation for package/model lifecycle changes (Target: Q4 2026) — staging drill, rollback rehearsal, and incident evidence checklist
+- [x] Operational runbook validation for package/model lifecycle changes (Issue: #5420, Target: Q4 2026) — Role-based SOPs (Dev/Operator/Auditor/Data Owner), review templates, lessons learned, and E2E pipeline guide delivered; see `docs/operations/PIPELINE_E2E_SOPs.md`, `docs/reviews/PIPELINE_REVIEW_TEMPLATES.md`, `docs/PIPELINE_LESSONS_LEARNED.md`, `docs/PIPELINE_E2E_GUIDE.md` ✅
 
 #### 4.5 Maintenance — Advanced Orchestration
 - [x] Explicit per-task DAG dependency graph with topological sort (Target: v1.2.0) — `MaintenanceTaskDependency` + `resolveTaskExecutionOrder` (Kahn's algorithm) in `database_maintenance_orchestrator.h/cpp` ✅
