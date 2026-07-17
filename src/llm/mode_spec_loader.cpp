@@ -17,6 +17,7 @@
 #include <sstream>
 #include <algorithm>
 #include <cctype>
+#include "utils/logger.h"
 
 namespace themis::llm {
 
@@ -136,6 +137,7 @@ ToolSpec parseToolSpec(const YAML::Node& node) {
             ss << node["schema"];
             spec.args_schema = json::parse(ss.str());
         } catch (...) {
+            THEMIS_DEBUG("mode_spec_loader::parseToolSpec: unhandled exception caught");
             spec.args_schema = json::object();
         }
     }

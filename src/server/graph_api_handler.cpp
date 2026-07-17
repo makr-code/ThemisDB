@@ -590,6 +590,7 @@ http::response<http::string_body> GraphApiHandler::handleIncrementalQueryUnregis
     try {
         handle = std::stoull(handle_str);
     } catch (...) {
+        THEMIS_WARN("graph_api_handler: unhandled exception caught");
         span.setStatus(false, "invalid handle");
         return makeErrorResponse(http::status::bad_request,
             "Invalid handle: not a valid integer", req);

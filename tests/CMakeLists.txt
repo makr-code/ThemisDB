@@ -120,6 +120,7 @@ file(GLOB_RECURSE ALL_TEST_SOURCES
 # Module-local tests under tests/<module> are built via dedicated module
 # CMakeLists; exclude all subdirectory tests from the monolithic aggregate.
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*[/\\]tests[/\\][^/\\]+[/\\]test_.*\\.cpp$")
+list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*[/\\]tests[/\\]legacy[/\\].*[/\\]test_.*\\.cpp$")
 
 # Additional GoogleTest sources that intentionally use a non-test_*.cpp naming scheme.
 list(APPEND ALL_TEST_SOURCES
@@ -655,6 +656,7 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_lora_provenance\\.cpp$"
     ".*test_shader_integrity\\.cpp$"
     ".*test_two_phase_commit\\.cpp$"
+    ".*test_wal_logging_helper\\.cpp$"
     ".*test_vulkan_health\\.cpp$"
     ".*test_vulkan_metrics\\.cpp$"
     ".*test_vulkan_compute_equivalents\.cpp$"
@@ -2848,6 +2850,53 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_parallel_traversal.cpp")
     message(STATUS "  Parallel Graph Traversal: multi-source BFS/DFS, fan-out threshold, depth/result limits")
 else()
     message(STATUS "Parallel Graph Traversal tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_parallel_traversal.cpp")
+endif()
+
+# ============================================================================
+# Graph Exact Traversal Phase A Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_exact_traversal.cpp")
+    message(STATUS "Adding Graph Exact Traversal Phase A tests")
+
+    add_executable(test_graph_exact_traversal
+        graph/test_graph_exact_traversal.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/distributed_graph.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/graph_query_optimizer.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/path_constraints.cpp
+        ${THEMIS_ROOT_DIR}/src/graph/parallel_traversal.cpp
+    )
+
+    target_link_libraries(test_graph_exact_traversal PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        fmt::fmt
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_graph_exact_traversal PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_GRAPH_EXPORTS
+    )
+
+    if(WIN32)
+        themis_sync_runtime_dlls_for_target(test_graph_exact_traversal)
+        add_dependencies(test_graph_exact_traversal sync_test_runtime_dlls)
+    endif()
+
+    add_test(NAME GraphExactTraversalPhaseATests COMMAND test_graph_exact_traversal)
+
+    set_tests_properties(GraphExactTraversalPhaseATests PROPERTIES
+        LABELS "graph;distributed;phase_a;exact_traversal;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  Graph Exact Traversal Phase A: invalid input, shard failure, fallback metrics")
+else()
+    message(STATUS "Graph Exact Traversal Phase A tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_exact_traversal.cpp")
 endif()
 
 # ============================================================================
@@ -27905,4 +27954,67 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/multi/test_multi_task_lora_ablation.cpp")
     )
 
     message(STATUS "  MultiTaskLoRAAblation: MTL-ABL-01..07 (joint loss, balanced weights, 3-task, avg_improvement, weight sizes)")
+endif()
+
+# ============================================================================
+# G003: Error Handling & Thread Safety remediation tests
+# EHS-01..EHS-08 + TSF-01..TSF-08 + RVC-01..RVC-04
+# Issue: GAP-SCAN-2026-06-21 G003
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_g003_error_handling_thread_safety.cpp")
+    message(STATUS "Adding G003 error-handling & thread-safety tests (EHS-01..08, TSF-01..08, RVC-01..04)")
+
+    add_executable(test_g003_error_handling_thread_safety_focused
+        test_g003_error_handling_thread_safety.cpp
+    )
+
+    target_include_directories(test_g003_error_handling_thread_safety_focused PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(test_g003_error_handling_thread_safety_focused PRIVATE
+        GTest::gtest
+        GTest::gtest_main
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_g003_error_handling_thread_safety_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    gtest_discover_tests(test_g003_error_handling_thread_safety_focused
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_g003_error_handling_thread_safety_focused>
+        EXTRA_ARGS --gtest_color=yes
+    )
+
+    set_tests_properties(
+        G003_ExceptionHandlingSafety.EHS01_CatchAllLogsBeforeContinuing
+        G003_ExceptionHandlingSafety.EHS02_ParseCatchAllReturnsSafeDefault
+        G003_ExceptionHandlingSafety.EHS03_RaiiReleasesMutexOnException
+        G003_ExceptionHandlingSafety.EHS04_ThreadBoundaryException
+        G003_ExceptionHandlingSafety.EHS05_TransactionRollbackOnException
+        G003_ExceptionHandlingSafety.EHS06_NestedExceptionContext
+        G003_ExceptionHandlingSafety.EHS07_NoexceptCatchAllSafeFallback
+        G003_ExceptionHandlingSafety.EHS08_MultiHandlerDispatchResilient
+        G003_ThreadSafety.TSF01_MutexProtectsSharedCounter
+        G003_ThreadSafety.TSF02_ConsistentLockOrderingPreventsDeadlock
+        G003_ThreadSafety.TSF03_AtomicIncrementUnderContention
+        G003_ThreadSafety.TSF04_SharedMutexReaderWriterPattern
+        G003_ThreadSafety.TSF05_RaiiLockGuardReleasesOnException
+        G003_ThreadSafety.TSF06_ConditionVariableWithPredicate
+        G003_ThreadSafety.TSF07_CheckThenActUnderLockPreventsDoubleCompute
+        G003_ThreadSafety.TSF08_ExceptionSafeLockedScope
+        G003_ReturnValueChecks.RVC01_OptionalReturnCheckedBeforeUse
+        G003_ReturnValueChecks.RVC02_BooleanReturnCodeChecked
+        G003_ReturnValueChecks.RVC03_NullPointerGuardBeforeDereference
+        G003_ReturnValueChecks.RVC04_ErrorPropagationChain
+        PROPERTIES
+        LABELS "error_handling;thread_safety;g003;reliability;release_critical"
+        TIMEOUT 60
+    )
+
+    message(STATUS "  G003: EHS-01..08 (exception safety), TSF-01..08 (thread safety), RVC-01..04 (return value checks)")
 endif()

@@ -37,6 +37,7 @@
 #include <random>
 #include <sstream>
 #include <stdexcept>
+#include "utils/logger.h"
 
 namespace asio = boost::asio;
 
@@ -723,6 +724,7 @@ void MqttClientService::doHandshake() {
         asio_->ssl_ctx = std::make_unique<boost::asio::ssl::context>(
             boost::asio::ssl::context::tlsv12_client);
     } catch (...) {
+        THEMIS_WARN("mqtt_client_service: unhandled exception caught");
         scheduleReconnect();
         return;
     }
@@ -828,6 +830,7 @@ bool MqttCDCTransport::publish(const Changefeed::ChangeEvent& event) {
         std::string    topic   = topicForEvent(event);
         return service_.publish(topic, payload, qos_, false);
     } catch (...) {
+        THEMIS_WARN("mqtt_client_service::service_: unhandled exception caught");
         return false;
     }
 }

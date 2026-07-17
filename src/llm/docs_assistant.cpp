@@ -205,6 +205,7 @@ bool DocsAssistant::loadDatabase(const std::string& path) {
         
         return parseDatabase(db_json);
     } catch (...) {
+        THEMIS_DEBUG("docs_assistant::loadDatabase: unhandled exception caught");
         return false;
     }
 }
@@ -348,6 +349,7 @@ bool DocsAssistant::parseDatabase(const json& db_json) {
         return impl_->database_loaded;
         
     } catch (...) {
+        THEMIS_WARN("docs_assistant: unhandled exception caught");
         impl_->database_loaded = false;
         return false;
     }

@@ -29,6 +29,7 @@
 #include <stdexcept>
 #include <thread>
 #include <spdlog/spdlog.h>
+#include "utils/logger.h"
 
 namespace themis {
 namespace server {
@@ -586,6 +587,7 @@ http::response<http::string_body> WasmHandlerRegistry::handleInvoke(
     try {
         output_json = json::parse(result.output);
     } catch (...) {
+        THEMIS_DEBUG("wasm_handler_registry: unhandled exception caught");
         output_json = json{{"output", result.output}};
     }
 

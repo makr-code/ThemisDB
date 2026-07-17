@@ -269,6 +269,29 @@ public:
     static bool isValidPort(uint16_t port);
 
 private:
+    struct SslCtxDeleter {
+        void operator()(SSL_CTX* ctx) const noexcept {
+            if (ctx) {
+                SSL_CTX_free(ctx);
+            }
+        }
+    };
+
+    struct QuicConnDeleter {
+        void operator()(ngtcp2_conn* conn) const noexcept {
+            if (!conn) {
+                return;
+            }
+            if (void* tls_handle = ngtcp2_conn_get_tls_native_handle(conn)) {
+                SSL_free(static_cast<SSL*>(tls_handle));
+            }
+            ngtcp2_conn_del(conn);
+        }
+    };
+
+    using SslCtxOwner = std::unique_ptr<SSL_CTX, SslCtxDeleter>;
+    using QuicConnOwner = std::unique_ptr<ngtcp2_conn, QuicConnDeleter>;
+
     void doReceive();
     void handlePacket(const udp::endpoint& sender,
                       const uint8_t*       data,
@@ -279,7 +302,7 @@ private:
     std::shared_ptr<RocksDBWrapper> storage_;
     SecondaryIndexManager*          index_mgr_{nullptr};
 
-    SSL_CTX* ssl_ctx_{nullptr};
+    SslCtxOwner ssl_ctx_{nullptr};
 
     std::unique_ptr<net::io_context> io_ctx_;
     std::unique_ptr<udp::socket>     socket_;
@@ -291,8 +314,8 @@ private:
     udp::endpoint               sender_endpoint_;
 
     // Active QUIC connections keyed by "<addr>:<port>" string.
-    mutable std::mutex                            sessions_mutex_;
-    std::unordered_map<std::string, ngtcp2_conn*> sessions_;
+    mutable std::mutex                              sessions_mutex_;
+    std::unordered_map<std::string, QuicConnOwner>  sessions_;
 
     mutable std::mutex stats_mutex_;
     Stats              stats_;
@@ -425,13 +448,36 @@ public:
                          uint16_t&          port);
 
 private:
+    struct SslCtxDeleter {
+        void operator()(SSL_CTX* ctx) const noexcept {
+            if (ctx) {
+                SSL_CTX_free(ctx);
+            }
+        }
+    };
+
+    struct QuicConnDeleter {
+        void operator()(ngtcp2_conn* conn) const noexcept {
+            if (!conn) {
+                return;
+            }
+            if (void* tls_handle = ngtcp2_conn_get_tls_native_handle(conn)) {
+                SSL_free(static_cast<SSL*>(tls_handle));
+            }
+            ngtcp2_conn_del(conn);
+        }
+    };
+
+    using SslCtxOwner = std::unique_ptr<SSL_CTX, SslCtxDeleter>;
+    using QuicConnOwner = std::unique_ptr<ngtcp2_conn, QuicConnDeleter>;
+
     Config      config_;
     std::string url_;
     std::string host_;
     uint16_t    port_{0};
 
-    SSL_CTX*     ssl_ctx_{nullptr};
-    ngtcp2_conn* conn_{nullptr};
+    SslCtxOwner  ssl_ctx_{nullptr};
+    QuicConnOwner conn_{nullptr};
 
     std::atomic<bool> connected_{false};
 
@@ -447,4 +493,3 @@ private:
 }  // namespace themis
 
 #endif  // THEMIS_ENABLE_HTTP3
-

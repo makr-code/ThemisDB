@@ -24,6 +24,7 @@
 #include <numeric>
 #include <sstream>
 #include <utility>
+#include "utils/logger.h"
 
 namespace themis {
 namespace llm {
@@ -617,6 +618,7 @@ bool InferenceEngineEnhanced::cancel(const std::string& request_id) {
             std::make_exception_ptr(std::runtime_error("Request cancelled"))
         );
     } catch (...) {
+        THEMIS_WARN("inference_engine_enhanced: unhandled exception caught");
         // Promise already satisfied
     }
     
@@ -1036,6 +1038,7 @@ void InferenceEngineEnhanced::checkAndHandleTimeouts() {
                 
                 it->second->promise.set_value(timeout_response);
             } catch (...) {
+                THEMIS_WARN("inference_engine_enhanced: unhandled exception caught");
                 // Promise already satisfied
             }
             
@@ -1502,6 +1505,7 @@ void InferenceEngineEnhanced::processBatch(
             try {
                 tracked->promise.set_value(response);
             } catch (...) {
+                THEMIS_WARN("inference_engine_enhanced: unhandled exception caught");
                 // Promise already resolved (rare race with timeout monitor) — ignore.
             }
             
@@ -1527,6 +1531,7 @@ void InferenceEngineEnhanced::processBatch(
             try {
                 tracked->promise.set_value(error_response);
             } catch (...) {
+                THEMIS_WARN("inference_engine_enhanced: unhandled exception caught");
                 // Promise already satisfied
             }
         }
@@ -2117,6 +2122,7 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
                         vocab_size_int;
                 }
             } catch (...) {
+                THEMIS_WARN("inference_engine_enhanced: unhandled exception caught");
                 // Non-fatal: keep target_pred_token = 0.
             }
         }

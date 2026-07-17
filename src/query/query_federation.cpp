@@ -29,6 +29,7 @@
 #include <unordered_set>
 #include <nlohmann/json.hpp>
 #include <spdlog/spdlog.h>
+#include "utils/logger.h"
 
 // Configuration constants
 namespace {
@@ -910,6 +911,7 @@ QueryFederation::QueryMetadata QueryFederation::analyzeQuery(
                     metadata.limit = std::stoull(m2[1].str());
                 }
             } catch (...) {
+                THEMIS_WARN("query_federation: unhandled exception caught");
                 metadata.limit.reset();
                 metadata.offset.reset();
             }

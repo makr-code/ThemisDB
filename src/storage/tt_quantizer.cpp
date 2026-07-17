@@ -26,6 +26,7 @@
 #include <cstring>
 #include <limits>
 #include <stdexcept>
+#include "utils/logger.h"
 
 namespace themis {
 namespace storage {
@@ -84,6 +85,7 @@ std::optional<QuantizedCore> QuantizedCore::deserialize(const std::vector<uint8_
         qc.data.assign(bytes.begin() + pos, bytes.begin() + pos + dlen);
         return qc;
     } catch (...) {
+        THEMIS_WARN("tt_quantizer: unhandled exception caught");
         return std::nullopt;
     }
 }
@@ -173,6 +175,7 @@ std::optional<QuantizedTrain> QuantizedTrain::deserialize(const std::vector<uint
         }
         return qt;
     } catch (...) {
+        THEMIS_WARN("tt_quantizer: unhandled exception caught");
         return std::nullopt;
     }
 }

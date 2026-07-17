@@ -5,6 +5,7 @@ ThemisDB Gap Scanner v3 — Unified Orchestrator (Phase 1-11)
 Runs all Phase 1-11 scanners:
 - Phase 1-4: Security, Memory, Reliability, Concurrency, RAII, Container, Platform, Performance
 - Phase 5: Type Conversion, Input Validation, Exception Safety, Uninitialized, OOP Design
+- Phase 6: ABI Safety & Memory Layout (P6-1), Build System Hardening (P6-4)
 - Phase 7: Audit Trail & Logging, Deprecated APIs
 - Phase 8: Performance Patterns, GPU Memory Safety
 - Phase 9: Query Correctness, Distributed Consistency, LLM/AI Safety
@@ -45,6 +46,10 @@ from gap_scanner_v3_input_validation import InputValidationGapScanner
 from gap_scanner_v3_exception_safety import ExceptionSafetyGapScanner
 from gap_scanner_v3_uninitialized import UninitializedGapScanner
 from gap_scanner_v3_virtual_oop import OOPGapScanner
+
+# Import Phase 6 scanners
+from gap_scanner_v3_phase6_abi_safety import ABISafetyScanner
+from gap_scanner_v3_phase6_build_system import BuildSystemScanner
 
 # Import Phase 7 scanners
 from gap_scanner_v3_phase7_audit_logging import AuditLoggingScan
@@ -211,16 +216,36 @@ class UnifiedGapScannerV3:
         oop_results = self._convert_gaps_to_module_format(oop_gaps)
         results['oop_design'] = oop_results
         
+        # Phase 6 Scanners (ABI Safety + Build System — Sprint 1-2)
+        src_files = list(src_path.rglob('*.cpp')) + list(src_path.rglob('*.h'))
+
+        print("\n[14/30] ABI Safety & Memory Layout Gap Scanner (Phase 6-1)")
+        print("-" * 80)
+        abi_scanner = ABISafetyScanner(str(self.repo_root))
+        abi_gaps = abi_scanner.scan_files(src_files)
+        abi_results = self._convert_phase7_gaps_to_module_format(abi_gaps)
+        results['abi_safety'] = abi_results
+
+        print("\n[15/30] Build System Hardening Gap Scanner (Phase 6-4)")
+        print("-" * 80)
+        cmake_files = (
+            list(self.repo_root.rglob('CMakeLists.txt'))
+            + list(self.repo_root.rglob('*.cmake'))
+        )
+        build_scanner = BuildSystemScanner(str(self.repo_root))
+        build_gaps = build_scanner.scan_files(cmake_files)
+        build_results = self._convert_phase7_gaps_to_module_format(build_gaps)
+        results['build_system'] = build_results
+
         # Phase 7 Scanners
-        print("\n[14/28] Audit Trail & Logging Consistency Gap Scanner (Phase 7)")
+        print("\n[16/30] Audit Trail & Logging Consistency Gap Scanner (Phase 7)")
         print("-" * 80)
         audit_scanner = AuditLoggingScan(str(self.repo_root))
-        src_files = list(src_path.rglob('*.cpp')) + list(src_path.rglob('*.h'))
         audit_gaps = audit_scanner.scan_files(src_files)
         audit_results = self._convert_phase7_gaps_to_module_format(audit_gaps)
         results['audit_logging'] = audit_results
         
-        print("\n[15/28] Deprecated API Usage Gap Scanner (Phase 7)")
+        print("\n[17/30] Deprecated API Usage Gap Scanner (Phase 7)")
         print("-" * 80)
         deprecated_scanner = DeprecatedAPIsScan(str(self.repo_root))
         deprecated_gaps = deprecated_scanner.scan_files(src_files)
@@ -228,14 +253,14 @@ class UnifiedGapScannerV3:
         results['deprecated_apis'] = deprecated_results
         
         # Phase 8 Scanners
-        print("\n[16/28] Performance Patterns Gap Scanner (Phase 8)")
+        print("\n[18/30] Performance Patterns Gap Scanner (Phase 8)")
         print("-" * 80)
         perf_patterns_scanner = PerformanceAntiPatternsScan(str(self.repo_root))
         perf_patterns_gaps = perf_patterns_scanner.scan_files(src_files)
         perf_patterns_results = self._convert_phase7_gaps_to_module_format(perf_patterns_gaps)
         results['performance_patterns'] = perf_patterns_results
         
-        print("\n[17/28] GPU Memory Safety Gap Scanner (Phase 8)")
+        print("\n[20/30] GPU Memory Safety Gap Scanner (Phase 8)")
         print("-" * 80)
         gpu_mem_scanner = GPUMemorySafetyScan(str(self.repo_root))
         gpu_mem_gaps = gpu_mem_scanner.scan_files(src_files)
@@ -243,21 +268,21 @@ class UnifiedGapScannerV3:
         results['gpu_memory_safety'] = gpu_mem_results
         
         # Phase 9 Scanners
-        print("\n[18/28] Query Correctness & Semantic Validation Gap Scanner (Phase 9)")
+        print("\n[21/30] Query Correctness & Semantic Validation Gap Scanner (Phase 9)")
         print("-" * 80)
         query_scanner = QueryCorrectnessScan(str(self.repo_root))
         query_gaps = query_scanner.scan_files(src_files)
         query_results = self._convert_phase7_gaps_to_module_format(query_gaps)
         results['query_correctness'] = query_results
         
-        print("\n[19/28] Distributed Consistency & Consensus Gap Scanner (Phase 9)")
+        print("\n[22/30] Distributed Consistency & Consensus Gap Scanner (Phase 9)")
         print("-" * 80)
         dist_scanner = DistributedConsistencyScan(str(self.repo_root))
         dist_gaps = dist_scanner.scan_files(src_files)
         dist_results = self._convert_phase7_gaps_to_module_format(dist_gaps)
         results['distributed_consistency'] = dist_results
         
-        print("\n[20/28] LLM/AI Safety & Model Integrity Gap Scanner (Phase 9)")
+        print("\n[23/30] LLM/AI Safety & Model Integrity Gap Scanner (Phase 9)")
         print("-" * 80)
         llm_scanner = LLMAISafetyScan(str(self.repo_root))
         llm_gaps = llm_scanner.scan_files(src_files)
@@ -265,21 +290,21 @@ class UnifiedGapScannerV3:
         results['llm_ai_safety'] = llm_results
         
         # Phase 10 Scanners
-        print("\n[21/28] Observability & Instrumentation Gap Scanner (Phase 10)")
+        print("\n[24/30] Observability & Instrumentation Gap Scanner (Phase 10)")
         print("-" * 80)
         obs_scanner = ObservabilityScan(str(self.repo_root))
         obs_gaps = obs_scanner.scan_files(src_files)
         obs_results = self._convert_phase7_gaps_to_module_format(obs_gaps)
         results['observability'] = obs_results
         
-        print("\n[22/28] Determinism & Reproducibility Gap Scanner (Phase 10)")
+        print("\n[25/30] Determinism & Reproducibility Gap Scanner (Phase 10)")
         print("-" * 80)
         det_scanner = DeterminismScan(str(self.repo_root))
         det_gaps = det_scanner.scan_files(src_files)
         det_results = self._convert_phase7_gaps_to_module_format(det_gaps)
         results['determinism'] = det_results
 
-        print("\n[23/28] Legacy Paths & Duplicate Implementation Scanner (Phase 11)")
+        print("\n[26/30] Legacy Paths & Duplicate Implementation Scanner (Phase 11)")
         print("-" * 80)
         legacy_scanner = LegacyDuplicationScan(str(self.repo_root))
         legacy_gaps = legacy_scanner.scan_files(src_files)

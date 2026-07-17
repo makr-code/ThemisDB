@@ -274,6 +274,50 @@ else()
     message(STATUS "ITransactionCoordinator interface tests not found at ${CMAKE_CURRENT_LIST_DIR}/test_itransaction_coordinator.cpp")
 endif()
 
+# Cross-Coordinator WAL Recovery Contract Tests (Issue #5372)
+# CWR-1..CWR-8: WALLoggingHelper null-safety, LSN round-trip, JSON payload
+#               preservation, entry-type correctness, DistributedTransactionManager
+#               recovery with no WAL and with an empty WAL.
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_cross_coordinator_wal_recovery.cpp")
+    message(STATUS "Adding Cross-Coordinator WAL Recovery contract tests (Issue #5372)")
+
+    add_executable(test_cross_coordinator_wal_recovery_focused
+        test_cross_coordinator_wal_recovery.cpp
+        ${THEMIS_ROOT_DIR}/src/transaction/distributed_transaction_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/sharding/wal_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+    )
+
+    target_include_directories(test_cross_coordinator_wal_recovery_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_cross_coordinator_wal_recovery_focused PRIVATE
+        ${TEST_LIBS}
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_cross_coordinator_wal_recovery_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    themis_register_module_test(
+        MODULE transaction
+        NAME CrossCoordinatorWALRecoveryTests
+        TARGET test_cross_coordinator_wal_recovery_focused
+        TIER unit
+        KIND focused
+        TIMEOUT 60
+        LABELS coordinator wal recovery 2pc cross-coordinator cc-5
+    )
+
+    message(STATUS "  CrossCoordinatorWALRecovery: WALLoggingHelper null-safety, LSN, JSON payload, DTM recovery")
+else()
+    message(STATUS "Cross-Coordinator WAL Recovery tests not found at ${CMAKE_CURRENT_LIST_DIR}/test_cross_coordinator_wal_recovery.cpp")
+endif()
+
 # AUTOGEN PREFIX BLOCK: transaction
 file(GLOB TRANSACTION_AUTOGEN_PREFIX_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_*.cpp"

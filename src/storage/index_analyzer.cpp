@@ -528,6 +528,7 @@ IndexAnalysisReport IndexAnalyzer::computeReport(const std::string& index_name,
                     ? static_cast<uint32_t>(age_secs / 3600)
                     : 0u;
             } catch (...) {
+                THEMIS_WARN("index_analyzer: unhandled exception caught");
                 age_hours = kFallbackStatsAgeHours;
             }
         }
