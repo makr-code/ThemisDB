@@ -4446,6 +4446,8 @@ endif()
 # Batch-wired benchmarks (standard Google Benchmark targets)
 # ============================================================================
 
+themis_add_standard_benchmark(bench_ai_plugin_generator    bench_ai_plugin_generator.cpp)
+themis_add_standard_benchmark(bench_ann_cpu_gpu_dispatch   bench_ann_cpu_gpu_dispatch.cpp)
 themis_add_standard_benchmark(bench_arm_memory             bench_arm_memory.cpp)
 themis_add_standard_benchmark(bench_arm_simd               bench_arm_simd.cpp)
 themis_add_standard_benchmark(bench_async_io_multiscan     bench_async_io_multiscan.cpp)
@@ -4537,6 +4539,9 @@ themis_add_standard_benchmark(bench_scalability_comprehensive bench_scalability_
 themis_add_standard_benchmark(bench_shard_resource_manager bench_shard_resource_manager.cpp)
 themis_add_standard_benchmark(bench_simd_distance          bench_simd_distance.cpp)
 themis_add_standard_benchmark(bench_simple_insert_test     bench_simple_insert_test.cpp)
+themis_add_standard_benchmark(bench_tensor_cpu_gpu_dispatch bench_tensor_cpu_gpu_dispatch.cpp)
+themis_add_standard_benchmark(bench_tensor_deduplication_manager bench_tensor_deduplication_manager.cpp)
+themis_add_standard_benchmark(bench_tensor_integration_baseline bench_tensor_integration_baseline.cpp)
 themis_add_standard_benchmark(bench_tensor_deduplication_manager tensor/bench_tensor_deduplication_manager.cpp)
 themis_add_standard_benchmark(bench_tensor_integration_baseline tensor/bench_tensor_integration_baseline.cpp)
 themis_add_standard_benchmark(bench_tpcc                   bench_tpcc.cpp)

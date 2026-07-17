@@ -20,7 +20,9 @@ Tracks public sharding API contract stability, distributed-operations header cov
 
 ## Current Status
 
-All 87 sharding headers are present and cover routing, consensus, quorum, cross-shard transactions, WAL durability, rebalance/repair operations, secure transport, and operational metrics.
+All 99 sharding headers are present and cover routing, consensus, quorum, cross-shard transactions,
+WAL durability, rebalance/repair operations, secure transport, adapter distribution, and operational
+metrics.
 
 ---
 
@@ -32,6 +34,7 @@ All 87 sharding headers are present and cover routing, consensus, quorum, cross-
 - [x] `wal_manager.h`, `wal_applier.h`, `wal_shipper.h`, `metadata_wal.h` — durability and replication plumbing headers
 - [x] `auto_rebalancer.h`, `data_migrator.h`, `shard_repair_engine.h`, `auto_recovery_manager.h` — migration and repair surfaces
 - [x] `mtls_client.h`, `secure_transport_client.h`, `health_monitor.h`, `operational_metrics.h` — secure transport and observability contracts
+- [x] `lora_artifact_distribution.h` — adapter distribution store, Merkle proof, receipt, and recovery contracts
 
 ---
 

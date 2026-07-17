@@ -39,10 +39,10 @@ track remain gated.
 ### Tensor-Update Infrastructure Track (issue #5468)
 
 #### Phase A — Exact-First Infrastructure (Q3 2026, start)
-- [ ] tensor delta log schema (Target: Q3 2026)
+- [~] tensor delta log schema (Target: Q3 2026)
 - [x] manifest schema committed with advisory-only artifact policy documented (Target: Q3 2026)
 - [x] Prometheus freshness metrics wired (`tensor_freshness_age_seconds`, `tensor_delta_log_entries_total`) (Target: Q3 2026)
-- [ ] snapshot-based rebuild worker (Target: Q3 2026)
+- [~] snapshot-based rebuild worker (Target: Q3 2026)
 - [ ] exact graph fallback guarantee documented and tested (Target: Q3 2026)
 
 #### Phase B — Local Tensor Maintenance (Q3 2026, weeks 6–9)
@@ -93,8 +93,8 @@ track remain gated.
 - [x] deterministic JSON hashing and manifest-facing proof/receipt serialization implemented
 - [x] cached-receipt versus fresh-verification rules documented for query-path consumers
 - [x] 3.4 runtime distributed failure semantics completed across recovery/planner integration
-- [ ] Phase A: tensor delta log + manifest store wired (Target: Q3 2026)
-- [ ] Phase A: snapshot-based rebuild worker implemented (Target: Q3 2026)
+- [~] Phase A: tensor delta log + manifest store wired (Target: Q3 2026)
+- [~] Phase A: snapshot-based rebuild worker implemented (Target: Q3 2026)
 - [ ] Phase B: patch path + partial refit + rebuild fallback implemented (Target: Q3 2026)
 - [ ] Phase C: shard summary refresh + summary-first routing + exact-on-demand fetch implemented (Target: Q4 2026)
 
@@ -114,8 +114,8 @@ track remain gated.
 - [x] receipt chain verification tests (genesis, appends, tampering)
 - [x] integration tests for full verification workflow
 - [x] integrity verification unit and benchmark sources added for follow-on coverage expansion
-- [ ] `test_tensor_delta_log` — Phase B ctest gate (Target: Q3 2026)
-- [ ] `test_tensor_rebuild_fallback` — Phase B ctest gate (Target: Q3 2026)
+- [~] `test_tensor_delta_log` — Phase B ctest gate (Target: Q3 2026)
+- [~] `test_tensor_rebuild_fallback` — Phase B ctest gate (Target: Q3 2026)
 - [ ] `test_tensor_shard_summary` — Phase C ctest gate (Target: Q4 2026)
 
 ### Phase 5: Performance and Hardening
@@ -125,7 +125,7 @@ track remain gated.
 - [x] benchmark suite implemented in `tests/epic3_distributed_tensor/integrity_verification_bench.cc`
 - [ ] performance optimization with hardware acceleration (SHA-NI, AVX-512)
 - [ ] alignment with graph provenance performance targets
-- [ ] `bench_tensor_partial_refit` — Phase B benchmark gate (Target: Q3 2026)
+- [~] `bench_tensor_partial_refit` — Phase B benchmark gate (Target: Q3 2026)
 - [ ] `bench_tensor_summary_first` — Phase C benchmark gate (Target: Q4 2026)
 
 ### Phase 6: Documentation and Acceptance

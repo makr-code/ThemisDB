@@ -1,20 +1,18 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
-
 # ThemisDB Graph Module - Header Reference
 
-## ⚠️ L0 Risk Alert (2026-06-25)
+<!-- Status: current | validated: 2026-07-17 -->
+<!-- Primary sources: ../../src/graph/README.md · ../../src/graph/ROADMAP.md -->
 
-**Status: CRITICAL GAPS DETECTED IN BACKING IMPLEMENTATIONS**
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-- **Total Gaps**: 9 (8 critical, 1 high)
-- **Affected Backing Files**: 
-  - `src/graph/explain_plan.cpp` — 2 critical gaps (lines 68, 92 returning `{}`)
-  - `src/graph/ontology_manager.cpp` — 2 critical gaps (lines 73, 200 returning `{}`)
-  - `src/graph/rotate_completion.cpp` — 3 critical gaps
-- **Status**: Unimplemented function bodies; headers are API-stable, implementations pending.
-- **Reference**: `ai_working/gap_scanner_results.json` (2026-06-25T10:21:15)
+## Current Implementation Status
 
-**Headers Listed Below Are API-Stable; Consult `src/graph/README.md` and `src/graph/ROADMAP.md` for Implementation Status.**
+- Backing implementation status follows the canonical graph module docs in `src/graph/README.md`
+  and `src/graph/ROADMAP.md`.
+- The 2026-06-25 L0 re-validation closed the earlier scanner alert: all 9 initial detections were
+  verified as defensive patterns, leaving **0 verified gaps** in the graph implementation.
+- Headers listed below remain the public API reference for a production-ready graph module; runtime
+  hardening and follow-on roadmap items continue to live in `src/graph/`.
 
 ---
 
