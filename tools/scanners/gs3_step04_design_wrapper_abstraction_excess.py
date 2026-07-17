@@ -49,6 +49,13 @@ class WrapperAbstractionExcessScanner(BaseGapScanner):
         self.file_classes: Dict[str, List[ClassInfo]] = {}
         self.wrapper_chains: List[Tuple[str, int, List[str]]] = []
     
+    def scan_files(self, file_list: List[Path]) -> List[Gap]:
+        """Scan a list of pre-collected C++ files. Required by the phase7-10 uniform loop."""
+        self.gaps = []
+        for file_path in file_list:
+            self.scan_file(str(file_path))
+        return self.gaps
+
     def scan(self, source_dir: str = ".") -> list:
         """Implementation of required scan() method from BaseGapScanner."""
         source_path = Path(source_dir)

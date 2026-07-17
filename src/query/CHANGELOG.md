@@ -10,6 +10,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- Phase 5 documentation readiness refreshed for the current update cycle:
+  `README.md` and `ARCHITECTURE.md` now carry explicit source-verification
+  evidence for parser, optimizer, federation, and runtime safety surfaces.
 - Query catch-all hardening (Phase 22, 2026-05-19): replaced all remaining 51 `catch(...)`
   handlers with typed `catch (const std::exception&)` across 7 files; zero catch-all handlers
   remain in `src/query/*.cpp`.

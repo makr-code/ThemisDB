@@ -46,6 +46,42 @@ namespace importers {
 // as inline functions shared across all importer implementations.
 
 // ============================================================================
+// I4: Structured Audit Logging helpers (Phase 4 hardening)
+// ============================================================================
+namespace {
+
+/**
+ * @brief Emit a structured JSON audit event via the THEMIS logger at WARN
+ *        level so it is always captured in production log streams.
+ *
+ * The event payload is a single-line JSON object prefixed with "[AUDIT]":
+ * @code
+ *   [AUDIT] {"event":"import_start","source":"/data/dump.sql","ts_ms":...}
+ * @endcode
+ *
+ * @param event_type  Short identifier, e.g. "import_start", "import_failure",
+ *                    "auth_failure", "schema_change_detection", "importer_timeout"
+ * @param fields      Key→value string pairs appended to the payload.
+ */
+static void mysqlAuditLogEvent(
+    const std::string& event_type,
+    std::initializer_list<std::pair<const char*, std::string>> fields)
+{
+    using json = nlohmann::json;
+    json audit;
+    audit["event"] = event_type;
+    audit["ts_ms"]  = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+    for (const auto& [k, v] : fields) {
+        audit[k] = v;
+    }
+    THEMIS_WARN("[AUDIT] {}", audit.dump());
+}
+
+} // anonymous namespace
+// ============================================================================
+
+// ============================================================================
 // Constructor / Destructor
 // ============================================================================
 
@@ -173,9 +209,23 @@ ImportStats MySQLImporter::importData(
     THEMIS_INFO("Starting MySQL/MariaDB import from: {}", source_path);
     THEMIS_INFO("Options: {}", options.toJson().dump());
 
+    // I4: Audit – import start
+    mysqlAuditLogEvent("import_start", {
+        {"source",      source_path},
+        {"schema_name", options.default_namespace},
+        {"dry_run",     options.dry_run ? "true" : "false"},
+        {"timeout_ms",  std::to_string(options.import_timeout_ms)}
+    });
+
     // --- Permission / ACL check ---
     if (options.permission_check) {
         if (!options.permission_check("import", "write")) {
+            // I4: Audit – authentication / authorisation failure
+            mysqlAuditLogEvent("auth_failure", {
+                {"source", source_path},
+                {"user",   "<caller>"},   // anonymised – never log credentials
+                {"reason", "permission_check denied import:write"}
+            });
             addError(stats, ImportErrorCode::PERMISSION_DENIED,
                      ImportErrorSeverity::CRITICAL,
                      "Permission denied: caller does not hold 'import:write'");
@@ -194,6 +244,16 @@ ImportStats MySQLImporter::importData(
             addError(stats, ImportErrorCode::FILE_READ_FAILED,
                      ImportErrorSeverity::CRITICAL, "Failed to parse dump file");
         }
+        // I4: Audit – import failure (partial or total)
+        const std::string reason = stats.structured_errors.empty()
+            ? "parse_failed"
+            : stats.structured_errors.back().message;
+        mysqlAuditLogEvent("import_failure", {
+            {"source",            source_path},
+            {"reason",            reason},
+            {"records_processed", std::to_string(stats.imported_records)},
+            {"partial_import",    stats.imported_records > 0 ? "true" : "false"}
+        });
     }
 
     auto end_time = std::chrono::steady_clock::now();
@@ -418,8 +478,38 @@ bool MySQLImporter::parseDumpFile(const std::string& file_path, const ImportOpti
     size_t batch_row_count = 0;
     bool line_truncated = false;
 
+    // I1: Timeout / deadline guard ──────────────────────────────────────────
+    // When import_timeout_ms > 0 a deadline is computed and checked every
+    // 500 lines so the loop aborts promptly without polling on every iteration.
+    const bool mysql_timeout_enabled = (options.import_timeout_ms > 0);
+    const auto mysql_import_deadline  = mysql_timeout_enabled
+        ? std::chrono::steady_clock::now() +
+          std::chrono::milliseconds(options.import_timeout_ms)
+        : std::chrono::steady_clock::time_point::max();
+    // ────────────────────────────────────────────────────────────────────────
+
     while (streamReadLine(file, line, line_read_limit, line_truncated) && !cancelled_) {
         line_number++;
+
+        // I1: Deadline check every 500 lines ─────────────────────────────────
+        if (mysql_timeout_enabled && (line_number % 500 == 0)) {
+            if (std::chrono::steady_clock::now() >= mysql_import_deadline) {
+                mysqlAuditLogEvent("importer_timeout", {
+                    {"source",            file_path},
+                    {"reason",            "import_timeout_ms exceeded"},
+                    {"timeout_triggered", "true"},
+                    {"records_processed", std::to_string(stats.imported_records)},
+                    {"timeout_ms",        std::to_string(options.import_timeout_ms)}
+                });
+                addError(stats, ImportErrorCode::DEADLINE_EXCEEDED,
+                         ImportErrorSeverity::CRITICAL,
+                         "Import timed out after " +
+                         std::to_string(options.import_timeout_ms) + " ms");
+                cancelled_ = true;
+                break;
+            }
+        }
+        // ─────────────────────────────────────────────────────────────────────
 
         if (line_truncated) {
             addError(stats, ImportErrorCode::STATEMENT_TOO_LARGE,
@@ -485,6 +575,12 @@ bool MySQLImporter::parseDumpFile(const std::string& file_path, const ImportOpti
                     schemas_[schema.name] = schema;
                     stats.tables_processed++;
                     THEMIS_DEBUG("Parsed MySQL table schema: {}", schema.name);
+                    // I4: Audit – schema change detected
+                    mysqlAuditLogEvent("schema_change_detection", {
+                        {"table_name",  schema.name},
+                        {"change_type", "CREATE_TABLE"},
+                        {"detected_at", "line:" + std::to_string(line_number)}
+                    });
                     reportProgress(callback, "schema", stats.tables_processed, 0);
                     double dur = std::chrono::duration<double>(
                         std::chrono::steady_clock::now() - t0).count();
@@ -974,6 +1070,9 @@ std::vector<std::string> MySQLImporter::parseInsertValues(
     //   - Numeric literals
     //   - Hex literals: 0x... or x'...'
     std::vector<std::string> result;
+    // I3: Pre-allocate for typical column count; avoids per-push reallocation
+    // in the multi-row INSERT hot path.
+    result.reserve(32);
     size_t i = 0;
     size_t n = values_clause.size();
 

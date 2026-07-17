@@ -110,6 +110,9 @@ SagaOrchestratorStatus SAGAOrchestrator::validate(const SAGADefinition& saga) co
 
 void SAGAOrchestrator::registerTemplate(const std::string& template_name, SAGADefinition tmpl) {
     std::lock_guard<std::mutex> lk(templates_mutex_);
+    // Sprint 8 Phase 1 (GAP A-3): Template is moved to map storage.
+    // Subsequent access uses map lookup (instantiateTemplate), never direct reference to moved object.
+    // Pattern: Move to map, retrieve by key; never access moved object.
     templates_[template_name] = std::move(tmpl);
 }
 
@@ -435,7 +438,6 @@ SagaOrchestratorStatus SAGAOrchestrator::execute(const SAGADefinition& saga) {
 
     while (!ready.empty() && failure_reason.empty()) {
         std::vector<std::string> wave = std::move(ready);
-        ready.clear();
 
         for (const auto& name : wave) {
             status_rec.step_states[name] = StepState::RUNNING;

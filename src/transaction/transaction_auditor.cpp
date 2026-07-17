@@ -47,6 +47,9 @@ void TransactionAuditor::record(AuditRecord record)
     if (!enabled_.load(std::memory_order_acquire)) return;
 
     std::lock_guard<std::mutex> lk(log_mutex_);
+    // Sprint 8 Phase 1 (GAP A-2): Record is moved to log vector.
+    // All subsequent accesses use index-based iteration (queryAuditLog), never direct references.
+    // Pattern: Move to vector, access via iterator/index; never access moved object.
     log_.push_back(std::move(record));
 }
 

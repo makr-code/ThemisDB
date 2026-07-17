@@ -3507,7 +3507,6 @@ void CrossShardTransactionCoordinator::preCommitRetryThread() {
             
             // Move all deferred PreCommits to local copy
             retries = std::move(deferred_precommits_);
-            deferred_precommits_.clear();
         }
         
         // Process each transaction with failed PreCommits

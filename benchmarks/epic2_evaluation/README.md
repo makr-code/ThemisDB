@@ -1,21 +1,18 @@
 # EPIC 2 evaluation benchmarks
 
-<!-- Status: current | planning scaffold | validated: 2026-06-01 -->
+<!-- Status: current | phase-5 benchmark baseline implemented | validated: 2026-07-13 -->
 
-## Planned benchmark files
+## Implemented benchmark files
 
-- `hardware_profile_bench.cc`
 - `benchmark_matrix_bench.cc`
-- `metrics_computation_bench.cc`
 - `planner_decision_bench.cc`
-- `artifact_staleness_bench.cc`
 - `storage_strategy_bench.cc`
 
 ## Measurement goals
 
-- Capture latency, throughput, and resource cost for the matching sub-issues
-- Keep hardware profile, dataset, and planner assumptions explicit
-- Store enough metadata to compare approximation strategies across runs
+- Capture planner, placement, integrity, and recovery overhead for issue #5428
+- Keep shard count, topology size, and degraded-mode assumptions explicit
+- Preserve reproducible scenario matrices for cross-epic EPIC 2 / EPIC 3 comparisons
 
 ## Reference
 
@@ -23,8 +20,10 @@
 
 ## Installation
 
-This directory is a documentation-first scaffold. No additional build step is required until the planned files move into implementation.
+This directory now contributes focused Google Benchmark targets when
+`THEMIS_BUILD_BENCHMARKS=ON` and benchmark dependencies are available.
 
 ## Usage
 
-Use this README together with the matching epic document and local `CMakeLists.txt` placeholder to create issues, review file ownership, and stage implementation work without enabling production targets yet.
+Use this README together with `docs/EPIC2_BENCHMARK_FRAMEWORK.md` to extend
+planner and storage-strategy baselines without introducing scaffold-only code.
