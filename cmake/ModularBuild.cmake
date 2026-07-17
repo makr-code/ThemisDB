@@ -1054,6 +1054,9 @@ set(THEMIS_SHARDING_SOURCES
 
     # Phase 4.1 — Epoch-based fencing + lease management
     ../src/sharding/epoch_fencing.cpp
+
+    # Phase 5 — LoRA Artifact Distribution
+    ../src/sharding/lora_artifact_distribution.cpp
 )
 
 set(THEMIS_LLM_SOURCES

@@ -29,6 +29,8 @@ track remain gated.
 
 - [~] EPIC 3 documentation-governance alignment across roadmap/future/audit files (Target: Q3 2026)
 - [~] phase-gate acceptance criteria definition for distributed test/benchmark readiness (Target: Q3 2026)
+- [~] Phase 5: Adapter-Distribution & Sharding-Kopplung — LoRA artifact distribution interfaces,
+  RAID/Merkle proof engine, distribution receipts, shard snapshots, and recovery ordering (Issue #5418, Target: Q3 2026)
 - [~] tensor artifact manifest schema: ArtifactManifest + ManifestStore wiring (Target: Q3 2026)
 - [x] phase-4 distributed contract and fault-path coverage expansion beyond the focused regression suite (Target: Q4 2026)
 
@@ -117,6 +119,9 @@ track remain gated.
 - [ ] `test_tensor_shard_summary` — Phase C ctest gate (Target: Q4 2026)
 
 ### Phase 5: Performance and Hardening
+- [~] Adapter-Distribution & Sharding-Kopplung: LoRA artifact distribution APIs,
+  RAID/Merkle proof engine, distribution receipts, shard snapshots, recovery ordering (Issue #5418)
+- [ ] benchmark suite implemented in `benchmarks/epic3_distributed_tensor/`
 - [x] benchmark suite implemented in `tests/epic3_distributed_tensor/integrity_verification_bench.cc`
 - [ ] performance optimization with hardware acceleration (SHA-NI, AVX-512)
 - [ ] alignment with graph provenance performance targets
