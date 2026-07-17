@@ -1,6 +1,6 @@
 # EPIC 3 distributed tensor tests
 
-<!-- Status: current | planning scaffold | validated: 2026-06-01 -->
+<!-- Status: current | planning scaffold | validated: 2026-07-17 -->
 
 ## Planned test files
 
@@ -17,6 +17,7 @@
 - Contract tests first
 - Integration scenarios once public interfaces stabilize
 - Benchmark comparisons live in the matching `benchmarks/` epic directory
+- Reserve hardening scenarios for degraded mode, retry/recovery, and integrity under load
 
 ## Reference
 

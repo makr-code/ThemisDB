@@ -1,6 +1,6 @@
 # Distributed Tensor Module Documentation
 
-<!-- Status: current | aligned with docs/IMPLEMENTATION_ROADMAP.md | validated: 2026-06-01 -->
+<!-- Status: current | aligned with docs/IMPLEMENTATION_ROADMAP.md | validated: 2026-07-17 -->
 
 ## Purpose
 
@@ -26,8 +26,9 @@ The module currently provides contract-first scaffolding aligned to the seven-ph
 
 - Wave A complete: architecture and sub-issue planning docs available in `docs/EPIC3_*.md`.
 - Wave B partial: module structure (`README.md`, `include/README.md`, `src/README.md`, `CMakeLists.txt`) is in place. Header and source files (`*.h`, `*.cc`) are out of scope for this PR and will be added in a dedicated implementation PR.
-- Wave C pending: distributed correctness tests/benchmarks remain for
-  `tests/epic3_distributed_tensor/` and `benchmarks/epic3_distributed_tensor/`.
+- Wave C partial: distributed correctness tests remain pending for
+  `tests/epic3_distributed_tensor/`; Phase 5 benchmark governance assets now exist in
+  `benchmarks/epic3_distributed_tensor/`, but measured runtime evidence is still pending.
 
 ## Seven-Phase Gate (module view)
 
@@ -35,7 +36,7 @@ The module currently provides contract-first scaffolding aligned to the seven-ph
 - [ ] Phase 2: file-level skeleton surfaces created (deferred to implementation PR)
 - [ ] Phase 3: failure handling for placement/integrity/recovery paths
 - [ ] Phase 4: distributed contract tests and fault-injection scenarios
-- [ ] Phase 5: scale/performance hardening for multi-node environments
+- [~] Phase 5: scale/performance hardening scaffold, deterministic gates, and runbooks
 - [ ] Phase 6: acceptance documentation tied to recovery/integrity evidence
 - [ ] Phase 7: integration with production retrieval/evaluation pipelines
 
@@ -62,6 +63,7 @@ Use this documentation to:
 - align EPIC 3 sub-issue planning with concrete file ownership
 - track wave/phase readiness for distributed tensor work
 - prepare test and benchmark rollout without enabling production targets
+- track Phase 5 gate definitions before any Phase 6 acceptance claims are published
 
 ## References
 

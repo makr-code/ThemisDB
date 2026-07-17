@@ -1,19 +1,22 @@
 # Distributed Tensor Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Status: current | validated: 2026-07-17 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
 
 EPIC 3 distributed tensor contract ownership is documented for sub-issues 3.1–3.7.
 Header and source files are deferred to a dedicated implementation PR.
-Runtime distributed behavior, fault-path tests, and benchmark evidence remain pending.
+Runtime distributed behavior, fault-path tests, and measured benchmark evidence remain pending.
+Phase 5 benchmark governance assets now exist, including deterministic workload profiles,
+hard-gate definitions, and triage/runbook documentation.
 
 ## In Progress
 
 - [~] EPIC 3 documentation-governance alignment across roadmap/future/audit files (Target: Q3 2026)
-- [~] phase-gate acceptance criteria definition for distributed test/benchmark readiness (Target: Q3 2026)
+- [x] phase-gate acceptance criteria definition for distributed benchmark readiness (Target: Q3 2026)
+- [~] phase-5 benchmark metadata scaffold and hardening gates in `benchmarks/epic3_distributed_tensor/` (Target: Q3 2026)
 
 ## Planned Features
 
@@ -41,11 +44,12 @@ Runtime distributed behavior, fault-path tests, and benchmark evidence remain pe
 - [ ] contract and fault-path tests implemented in `tests/epic3_distributed_tensor/`
 
 ### Phase 5: Performance and Hardening
-- [ ] benchmark suite implemented in `benchmarks/epic3_distributed_tensor/`
+- [~] deterministic workload profiles, release-gate manifest, and triage/runbook assets implemented in `benchmarks/epic3_distributed_tensor/`
+- [ ] runtime benchmark source files and measured baselines captured against the distributed tensor implementation
 
 ### Phase 6: Documentation and Acceptance
 - [x] core distributed tensor docs aligned to source-verifiable scaffold state
-- [ ] acceptance docs tied to measured runtime behavior
+- [ ] acceptance docs tied to measured runtime behavior and recorded gate results
 
 ### Phase 7: Production Integration
 - [ ] default pipeline integration enabled after gates are met
@@ -54,5 +58,6 @@ Runtime distributed behavior, fault-path tests, and benchmark evidence remain pe
 
 - [x] contract ownership and scope boundaries documented
 - [x] security and performance expectations documented for scaffold phase
+- [x] phase-5 benchmark governance and deterministic gate definitions documented
 - [ ] runtime resilience hardening completed
-- [ ] test and benchmark gates implemented and passing
+- [ ] test and benchmark gates executed against runtime implementation and passing

@@ -185,6 +185,9 @@ endif()
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/transaction/CMakeLists.txt")
     add_subdirectory(transaction)
 endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/epic3_distributed_tensor/CMakeLists.txt")
+    add_subdirectory(epic3_distributed_tensor)
+endif()
 
 themis_add_standard_benchmark(bench_ycsb bench_ycsb.cpp)
 
