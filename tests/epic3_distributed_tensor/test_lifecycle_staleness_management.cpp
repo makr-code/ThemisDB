@@ -362,6 +362,42 @@ TEST(LifecycleStalenessManagement, LSM27_JsonRoundTripPreservesLifecycleFields) 
     EXPECT_EQ(r.artifact_age_ms,    120000u);
 }
 
+TEST(LifecycleStalenessManagement, LSM27b_YamlRoundTripPreservesLifecycleFields) {
+    ArtifactManifest m = makeLifecycleManifest("art-yaml-roundtrip");
+    m.lifecycle_state      = LifecycleState::STALE;
+    m.rebuild_state        = RebuildState::PARTIAL_REFITTED;
+    m.update_mode          = UpdateMode::PARTIAL_REFIT;
+    m.invalidation_reason  = InvalidationReason::POLICY_VIOLATION;
+    m.source_seq_start     = 111;
+    m.source_seq_end       = 777;
+    m.delta_lag            = 31;
+    m.residual             = 0.25;
+    m.rank_cap             = 300;
+    m.rank_status          = 299;
+    m.artifact_age_ms      = 9000;
+
+    const std::string yaml_str = m.toYAML();
+    ASSERT_FALSE(yaml_str.empty());
+
+    const auto opt = ArtifactManifest::fromYAML(yaml_str);
+    ASSERT_TRUE(opt.has_value()) << "fromYAML failed";
+    const auto& r = *opt;
+
+    EXPECT_EQ(r.artifact_id,         m.artifact_id);
+    EXPECT_EQ(r.version,             m.version);
+    EXPECT_EQ(r.lifecycle_state,     LifecycleState::STALE);
+    EXPECT_EQ(r.rebuild_state,       RebuildState::PARTIAL_REFITTED);
+    EXPECT_EQ(r.update_mode,         UpdateMode::PARTIAL_REFIT);
+    EXPECT_EQ(r.invalidation_reason, InvalidationReason::POLICY_VIOLATION);
+    EXPECT_EQ(r.source_seq_start,    111u);
+    EXPECT_EQ(r.source_seq_end,      777u);
+    EXPECT_EQ(r.delta_lag,           31u);
+    EXPECT_DOUBLE_EQ(r.residual,     0.25);
+    EXPECT_EQ(r.rank_cap,            300u);
+    EXPECT_EQ(r.rank_status,         299u);
+    EXPECT_EQ(r.artifact_age_ms,     9000u);
+}
+
 // ===========================================================================
 // LSM-28..31: ArtifactInvalidationManager
 // ===========================================================================

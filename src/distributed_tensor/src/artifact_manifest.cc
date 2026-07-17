@@ -13,7 +13,10 @@
 #include <iomanip>
 #include <ctime>
 #include <algorithm>
+#include <cctype>
 #include <cmath>
+#include <cerrno>
+#include <cstdlib>
 #include <functional>
 
 using json = nlohmann::json;
@@ -526,6 +529,60 @@ std::optional<ArtifactManifest> ArtifactManifest::fromYAML(
   json j;
   std::istringstream iss(yaml_str);
   std::string line;
+  const auto isWhitespace = [](char c) noexcept {
+    return c == ' ' || c == '\t' || c == '\n' || c == '\r' || c == '\f' || c == '\v';
+  };
+  const auto trim = [&](std::string& s) {
+    while (!s.empty() && isWhitespace(s.front())) {
+      s.erase(s.begin());
+    }
+    while (!s.empty() && isWhitespace(s.back())) {
+      s.pop_back();
+    }
+  };
+  const auto toLower = [](std::string s) {
+    std::transform(s.begin(), s.end(), s.begin(), [](unsigned char c) {
+      return static_cast<char>(std::tolower(c));
+    });
+    return s;
+  };
+  const auto parseYamlScalar = [&](const std::string& value) -> json {
+    const std::string lowered = toLower(value);
+    if (lowered == "true") {
+      return true;
+    }
+    if (lowered == "false") {
+      return false;
+    }
+
+    if (value.find_first_of(".eE") != std::string::npos) {
+      char* end_ptr = nullptr;
+      errno = 0;
+      const double parsed = std::strtod(value.c_str(), &end_ptr);
+      if (end_ptr != value.c_str() && end_ptr != nullptr && *end_ptr == '\0' && errno != ERANGE) {
+        return parsed;
+      }
+    }
+
+    if (!value.empty() && value.front() == '-') {
+      char* end_ptr = nullptr;
+      errno = 0;
+      const long long parsed = std::strtoll(value.c_str(), &end_ptr, 10);
+      if (end_ptr != value.c_str() && end_ptr != nullptr && *end_ptr == '\0' && errno != ERANGE) {
+        return parsed;
+      }
+    } else {
+      char* end_ptr = nullptr;
+      errno = 0;
+      const unsigned long long parsed = std::strtoull(value.c_str(), &end_ptr, 10);
+      if (end_ptr != value.c_str() && end_ptr != nullptr && *end_ptr == '\0' && errno != ERANGE) {
+        return parsed;
+      }
+    }
+
+    return value;
+  };
+
   while (std::getline(iss, line)) {
     if (line.empty() || line[0] == '#') continue;
     const std::size_t colon = line.find(':');
@@ -533,21 +590,11 @@ std::optional<ArtifactManifest> ArtifactManifest::fromYAML(
 
     std::string key   = line.substr(0, colon);
     std::string value = line.substr(colon + 1);
-
-    // Trim whitespace
-    const auto ltrim = [](std::string& s) {
-      s.erase(s.begin(), std::find_if(s.begin(), s.end(),
-        [](unsigned char c) { return !std::isspace(c); }));
-    };
-    const auto rtrim = [](std::string& s) {
-      s.erase(std::find_if(s.rbegin(), s.rend(),
-        [](unsigned char c) { return !std::isspace(c); }).base(), s.end());
-    };
-    ltrim(key);  rtrim(key);
-    ltrim(value); rtrim(value);
+    trim(key);
+    trim(value);
 
     if (!value.empty()) {
-      j[key] = value;
+      j[key] = parseYamlScalar(value);
     }
   }
 
