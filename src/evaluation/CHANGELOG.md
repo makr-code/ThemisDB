@@ -1,6 +1,6 @@
 > WARNING: Historical changelog entries describe implementation state at the time they were recorded.
 
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Status: current | validated: 2026-07-17 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Changelog - Evaluation Module
@@ -15,6 +15,9 @@ The format is based on Keep a Changelog.
 - Kept roadmap/future planning and historical change tracking separated.
 - Added Phase 5 benchmark baselines in `benchmarks/epic2_evaluation/` for issue
   #5428 planner decision, scenario-matrix, and storage-strategy overhead checks.
+- Updated evaluation-module docs to reflect the shipped EPIC 2.5 hybrid query planner
+  contract, implementation, focused tests, and hardening benchmark surfaces for issue
+  #5441.
 
 ## [0.1.0] - 2026-06-01
 
