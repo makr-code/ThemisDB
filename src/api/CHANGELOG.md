@@ -1,7 +1,8 @@
 > WARNING: Historical changelog entries describe implementation state at the time they were recorded.
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+<!-- Status: current | validated: 2026-07-18 -->
+<!-- Agentic status sync: module issue #5618 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · AUDIT.md -->
 
 # Changelog - API Module
 
@@ -13,6 +14,7 @@ The format is based on Keep a Changelog.
 ### Changed
 - Documentation governance sync: README, ARCHITECTURE, SECURITY, ROADMAP, FUTURE_ENHANCEMENTS, AUDIT, and PERFORMANCE_EXPECTATIONS aligned to source-verifiable module behavior.
 - Performance expectations updated to explicit existing benchmark symbols from current API benchmark source.
+- Agentic module status review refreshed all `src/api/*.md` docs to the 2026-07-18 validation pass and added `graphql_aql_resolver.cpp` to source-verification sets where applicable.
 
 ## [2.0.0] - 2026-04
 

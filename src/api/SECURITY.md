@@ -1,7 +1,8 @@
 # Security - API Module
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+<!-- Status: current | validated: 2026-07-18 -->
+<!-- Agentic status sync: module issue #5618 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · AUDIT.md -->
 
 Report vulnerabilities via project-level SECURITY.md.
 
@@ -22,6 +23,7 @@ Security in the API module focuses on transport boundary enforcement, protocol-s
 ## Implemented Security Controls
 
 - API module remains transport adapter focused and avoids embedding core business state mutation logic.
+- GraphQL-to-AQL resolution remains a transport-adjacent bridge rather than a source of business-state ownership.
 - protocol paths provide explicit structured failures on unsupported or invalid flows.
 - tracing/export surfaces are isolated and configurable rather than mandatory for request success.
 
@@ -35,6 +37,7 @@ Security in the API module focuses on transport boundary enforcement, protocol-s
 
 - Verified files:
   - src/api/graphql.cpp
+  - src/api/graphql_aql_resolver.cpp
   - src/api/graphql_ws_handler.cpp
   - src/api/grpc_server.cpp
   - src/api/ws_handler.cpp

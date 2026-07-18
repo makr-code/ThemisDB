@@ -1,14 +1,15 @@
 # Audit Report - API Module
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+<!-- Status: current | validated: 2026-07-18 -->
+<!-- Agentic status sync: module issue #5618 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Summary
 
 | Metric | Result |
 |---|---|
 | Build registration | pass |
-| Source set size | 9 implementation files in src/api |
+| Source set size | 10 implementation files in src/api |
 | Focused test presence | pass |
 | Open hardening findings | yes |
 | Critical blockers | none identified |
@@ -16,6 +17,7 @@
 ## Verified Files
 
 - src/api/graphql.cpp
+- src/api/graphql_aql_resolver.cpp
 - src/api/graphql_ws_handler.cpp
 - src/api/grpc_server.cpp
 - src/api/themisdb_grpc_service.cpp
@@ -47,6 +49,7 @@
 ### Closed
 
 - core API transport surfaces are present and source-verified.
+- GraphQL resolver bridge is now reflected across Level 1 module docs.
 - module docs are synchronized to source-verifiable claims.
 - changelog/roadmap role separation is aligned to governance pattern.
 

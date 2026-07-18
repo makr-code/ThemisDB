@@ -2,6 +2,8 @@
 
 This file documents all documentation and code quality gaps in the **api** module, as identified by the gap scanner (Phase 5 with external submodule filtering).
 
+> Agentic review note (2026-07-18): Level 1 module docs were synchronized in issue #5618. The gap counts below remain scanner-derived historical results and were not re-scanned in this pass.
+
 ## Summary
 
 - **Total Gaps**: 601

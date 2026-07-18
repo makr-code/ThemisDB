@@ -1,5 +1,9 @@
 # PERFORMANCE_EXPECTATIONS - src/api
 
+<!-- Status: current | validated: 2026-07-18 -->
+<!-- Agentic status sync: module issue #5618 -->
+<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · AUDIT.md -->
+
 ## Scope
 
 - Module: src/api
@@ -36,6 +40,7 @@
 
 - Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
 - For proxy-only targets, keep follow-up benchmark hardening explicitly tracked.
+- GraphQL-to-AQL bridging remains part of the parser/execute hot path and should stay observable through benchmark expansion as direct module cases evolve.
 
 ## Sourcecode Verification (Module: api/performance)
 

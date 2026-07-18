@@ -1,0 +1,32 @@
+[
+  {
+    "module": "auth",
+    "build": "not found (module_auth_test_*_focused.exe)",
+    "test": "not executed",
+    "result": "Evidence gap - no focused module_auth binary found in build-msvc-windows-release/bin_out on 2026-07-18."
+  },
+  {
+    "module": "base",
+    "build": "module_base_test_base_entity_focused_focused.exe",
+    "test": "module_base_test_base_entity_focused_focused.exe --gtest_brief=1",
+    "result": "PASS (exit 0, [  PASSED  ] 5 tests.)"
+  },
+  {
+    "module": "cache",
+    "build": "module_cache_test_cache_admin_api_handler_focused.exe",
+    "test": "module_cache_test_cache_admin_api_handler_focused.exe --gtest_brief=1",
+    "result": "PASS with caveat (exit 0, [  PASSED  ] 0 tests.). Potential gating/filter mismatch; verify intended suite coverage."
+  },
+  {
+    "module": "cdc",
+    "build": "module_cdc_test_cdc_admin_focused.exe",
+    "test": "module_cdc_test_cdc_admin_focused.exe --gtest_brief=1",
+    "result": "PASS (exit 0, [  PASSED  ] 20 tests.)"
+  },
+  {
+    "module": "chaos",
+    "build": "module_chaos_test_chaos_framework_focused.exe",
+    "test": "module_chaos_test_chaos_framework_focused.exe --gtest_brief=1",
+    "result": "PASS (exit 0, [  PASSED  ] 27 tests.)"
+  }
+]

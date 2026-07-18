@@ -10,6 +10,8 @@
 
 This document defines a deterministic documentation pipeline with clear source precedence, update intervals, and issue orchestration.
 
+For the per-module markdown contract inside Level 1, see `MODULE_DOCUMENTATION_STANDARD.md`.
+
 Design principle:
 
 **Docs flow from code-adjacent module truth to generated public documentation.**
@@ -32,6 +34,7 @@ Paths:
 Structure:
 - Multiple markdown files per module are allowed and encouraged when separation of concerns is clearer than one large file.
 - Typical split: architecture, roadmap, security, audit, testing, operational notes.
+- The intended role, structure, and update rules for core module markdown files are defined in `MODULE_DOCUMENTATION_STANDARD.md`.
 
 Update model:
 - Updated from source code changes, architecture decisions, draft work, and curated `ai_working` evidence.

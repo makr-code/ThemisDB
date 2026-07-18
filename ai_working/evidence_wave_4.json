@@ -1,0 +1,62 @@
+[
+  {
+    "module": "acceleration",
+    "build": "not found (module_acceleration_test_*_focused.exe)",
+    "test": "not executed",
+    "result": "Evidence gap - no focused module binary found in build-msvc-windows-release/bin_out on 2026-07-18."
+  },
+  {
+    "module": "chimera",
+    "build": "not found (module_chimera_test_*_focused.exe)",
+    "test": "not executed",
+    "result": "Evidence gap - no focused module binary found in build-msvc-windows-release/bin_out on 2026-07-18."
+  },
+  {
+    "module": "config",
+    "build": "not found (module_config_test_*_focused.exe)",
+    "test": "not executed",
+    "result": "Evidence gap - no focused module binary found in build-msvc-windows-release/bin_out on 2026-07-18."
+  },
+  {
+    "module": "core",
+    "build": "not found (module_core_test_*_focused.exe)",
+    "test": "not executed",
+    "result": "Evidence gap - no focused module binary found in build-msvc-windows-release/bin_out on 2026-07-18."
+  },
+  {
+    "module": "distributed_knowledge",
+    "build": "not found (module_distributed_knowledge_test_*_focused.exe)",
+    "test": "not executed",
+    "result": "Evidence gap - no focused module binary found in build-msvc-windows-release/bin_out on 2026-07-18."
+  },
+  {
+    "module": "distributed_tensor",
+    "build": "not found (module_distributed_tensor_test_*_focused.exe)",
+    "test": "not executed",
+    "result": "Evidence gap - no focused module binary found in build-msvc-windows-release/bin_out on 2026-07-18."
+  },
+  {
+    "module": "ethics_ai",
+    "build": "not found (module_ethics_ai_test_*_focused.exe)",
+    "test": "not executed",
+    "result": "Evidence gap - no focused module binary found in build-msvc-windows-release/bin_out on 2026-07-18."
+  },
+  {
+    "module": "evaluation",
+    "build": "not found (module_evaluation_test_*_focused.exe)",
+    "test": "not executed",
+    "result": "Evidence gap - no focused module binary found in build-msvc-windows-release/bin_out on 2026-07-18."
+  },
+  {
+    "module": "importers",
+    "build": "not found (module_importers_test_*_focused.exe)",
+    "test": "not executed",
+    "result": "Evidence gap - no focused module binary found in build-msvc-windows-release/bin_out on 2026-07-18."
+  },
+  {
+    "module": "llama_cpp",
+    "build": "not found (module_llama_cpp_test_*_focused.exe)",
+    "test": "not executed",
+    "result": "Evidence gap - no focused module binary found in build-msvc-windows-release/bin_out on 2026-07-18."
+  }
+]

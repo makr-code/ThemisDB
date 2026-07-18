@@ -1,0 +1,20 @@
+[
+  {
+    "module": "content",
+    "build": "module_content_test_archive_processor_validation_focused.exe",
+    "test": "module_content_test_archive_processor_validation_focused.exe",
+    "result": "FAIL (exit 1, passed 20; failed: ArchiveProcessorValidationTest.DetectFromEmptyBlob, ArchiveProcessorValidationTest.SanitizeBackslashes, ArchiveProcessorValidationTest.SanitizeWindowsPath)"
+  },
+  {
+    "module": "graph",
+    "build": "module_graph_test_entity_type_constraints_focused.exe",
+    "test": "module_graph_test_entity_type_constraints_focused.exe",
+    "result": "FAIL (exit 1, passed 11; failed: EntityTypeConstraintTests.ETC09_UnknownEdgeTypes, EntityTypeConstraintTests.ETC13_ConstraintNegation)"
+  },
+  {
+    "module": "observability",
+    "build": "module_observability_test_observability_hardening_focused.exe",
+    "test": "module_observability_test_observability_hardening_focused.exe",
+    "result": "FAIL (exit 1, passed 23; failed: TraceContextTest.NonEmptyContext)"
+  }
+]

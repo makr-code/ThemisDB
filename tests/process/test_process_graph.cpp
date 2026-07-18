@@ -15,6 +15,104 @@
 
 namespace fs = std::filesystem;
 
+namespace {
+
+void ensureProcessEdgeTypesRegisteredForTests() {
+    auto& registry = themis::EdgeTypeRegistry::instance();
+
+    auto register_if_missing = [&registry](const themis::EdgeTypeInfo& info) {
+        if (registry.isRegistered(info.type_name)) {
+            return;
+        }
+        const auto st = registry.registerType(info);
+        ASSERT_TRUE(st.ok) << st.message;
+    };
+
+    register_if_missing({
+        .type_name = "SEQUENCE_FLOW",
+        .category = themis::EdgeCategory::WORKFLOW,
+        .description = "BPMN sequence flow",
+        .is_bidirectional = false,
+        .requires_temporal = false,
+        .is_weighted = false,
+        .inverse_type = std::nullopt
+    });
+    register_if_missing({
+        .type_name = "MESSAGE_FLOW",
+        .category = themis::EdgeCategory::WORKFLOW,
+        .description = "BPMN message flow",
+        .is_bidirectional = false,
+        .requires_temporal = false,
+        .is_weighted = false,
+        .inverse_type = std::nullopt
+    });
+    register_if_missing({
+        .type_name = "CONTROL_FLOW",
+        .category = themis::EdgeCategory::WORKFLOW,
+        .description = "EPK control flow",
+        .is_bidirectional = false,
+        .requires_temporal = false,
+        .is_weighted = false,
+        .inverse_type = std::nullopt
+    });
+    register_if_missing({
+        .type_name = "INFORMATION_FLOW",
+        .category = themis::EdgeCategory::REFERENCE,
+        .description = "EPK information flow",
+        .is_bidirectional = false,
+        .requires_temporal = false,
+        .is_weighted = false,
+        .inverse_type = std::nullopt
+    });
+    register_if_missing({
+        .type_name = "CONDITIONAL_FLOW",
+        .category = themis::EdgeCategory::WORKFLOW,
+        .description = "Gateway conditional flow",
+        .is_bidirectional = false,
+        .requires_temporal = false,
+        .is_weighted = false,
+        .inverse_type = std::nullopt
+    });
+    register_if_missing({
+        .type_name = "DEFAULT_FLOW",
+        .category = themis::EdgeCategory::WORKFLOW,
+        .description = "Gateway default flow",
+        .is_bidirectional = false,
+        .requires_temporal = false,
+        .is_weighted = false,
+        .inverse_type = std::nullopt
+    });
+    register_if_missing({
+        .type_name = "EXCEPTION_FLOW",
+        .category = themis::EdgeCategory::WORKFLOW,
+        .description = "Exception flow",
+        .is_bidirectional = false,
+        .requires_temporal = false,
+        .is_weighted = false,
+        .inverse_type = std::nullopt
+    });
+    register_if_missing({
+        .type_name = "ASSIGNED_TO",
+        .category = themis::EdgeCategory::ACCESS,
+        .description = "Task assignment relation",
+        .is_bidirectional = false,
+        .requires_temporal = false,
+        .is_weighted = false,
+        .inverse_type = std::nullopt
+    });
+    register_if_missing({
+        .type_name = "CALLS_PROCESS",
+        .category = themis::EdgeCategory::WORKFLOW,
+        .description = "Call activity invokes process",
+        .is_bidirectional = false,
+        .requires_temporal = false,
+        .is_weighted = false,
+        .inverse_type = std::nullopt
+    });
+}
+
+} // namespace
+
 // ============================================================================
 // Edge Type Registry Tests
 // ============================================================================
@@ -189,6 +287,7 @@ protected:
         
         // Register process edge types
         themis::registerProcessEdgeTypes();
+        ensureProcessEdgeTypesRegisteredForTests();
     }
 
     void TearDown() override {

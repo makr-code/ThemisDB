@@ -1,7 +1,8 @@
 # API Module - Future Enhancements
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
+<!-- Status: current | validated: 2026-07-18 -->
+<!-- Agentic status sync: module issue #5618 -->
+<!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md · AUDIT.md -->
 
 ## Scope
 
@@ -21,6 +22,7 @@
 | Interface | Requirement |
 |---|---|
 | GraphQL interfaces | deterministic parse/execute behavior and subscription transport stability |
+| GraphQL-to-AQL resolver path | bounded translation behavior and explicit failure semantics into query execution |
 | gRPC interfaces | explicit adapter error semantics and lifecycle consistency |
 | WebSocket interfaces | bounded queue/session behavior with clear failure contracts |
 | tracing/export interfaces | bounded, observable, non-intrusive telemetry behavior |

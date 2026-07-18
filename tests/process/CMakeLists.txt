@@ -15,6 +15,15 @@ foreach(_src IN LISTS PROCESS_MODULE_TEST_SOURCES)
         target_sources(${_target} PRIVATE
             "${THEMIS_ROOT_DIR}/src/index/edge_types.cpp"
         )
+        target_compile_definitions(${_target} PRIVATE THEMIS_PROCESS_EDGE_REGISTRY_ENABLED=1)
+    endif()
+
+    if(_stem STREQUAL "test_process_module")
+        target_sources(${_target} PRIVATE
+            "${THEMIS_ROOT_DIR}/src/process/dmn_evaluator.cpp"
+            "${THEMIS_ROOT_DIR}/src/process/ocel_exporter.cpp"
+            "${THEMIS_ROOT_DIR}/src/process/process_model_generator.cpp"
+        )
     endif()
 
     target_include_directories(${_target} PRIVATE
@@ -53,6 +62,22 @@ foreach(_src IN LISTS PROCESS_AUTOGEN_PREFIX_TEST_SOURCES)
     endif()
 
     add_executable(${_target} "${_src}")
+
+    if(_stem STREQUAL "test_process_graph")
+        target_sources(${_target} PRIVATE
+            "${THEMIS_ROOT_DIR}/src/index/edge_types.cpp"
+        )
+        target_compile_definitions(${_target} PRIVATE THEMIS_PROCESS_EDGE_REGISTRY_ENABLED=1)
+    endif()
+
+    if(_stem STREQUAL "test_process_module")
+        target_sources(${_target} PRIVATE
+            "${THEMIS_ROOT_DIR}/src/process/dmn_evaluator.cpp"
+            "${THEMIS_ROOT_DIR}/src/process/ocel_exporter.cpp"
+            "${THEMIS_ROOT_DIR}/src/process/process_model_generator.cpp"
+        )
+    endif()
+
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src

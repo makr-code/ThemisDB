@@ -1,0 +1,20 @@
+[
+  {
+    "module": "content",
+    "build": "module_content_test_archive_processor_validation_focused.exe",
+    "test": "ArchiveProcessorValidationTest.DetectFromEmptyBlob (isolated repro)",
+    "result": "FAIL (exit 1; assertion in tests/content/test_archive_processor_validation.cpp:105: expected ArchiveFormat::UNKNOWN, got 0x00000000 for empty blob format detection)"
+  },
+  {
+    "module": "graph",
+    "build": "module_graph_test_entity_type_constraints_focused.exe",
+    "test": "EntityTypeConstraintTests.ETC09_UnknownEdgeTypes (isolated repro)",
+    "result": "FAIL (exit 1; assertion in tests/graph/test_entity_type_constraints.cpp:206: isEdgeTypeAllowed(\"Person\",\"Person\",\"unknownEdge\") expected true, actual false)"
+  },
+  {
+    "module": "observability",
+    "build": "module_observability_test_observability_hardening_focused.exe",
+    "test": "TraceContextTest.NonEmptyContext (isolated repro)",
+    "result": "FAIL (exit 1; assertion in tests/observability/test_observability_hardening.cpp:68: expected request_id=\"req-456\", actual empty string)"
+  }
+]

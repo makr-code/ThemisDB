@@ -1,0 +1,56 @@
+[
+  {
+    "module": "graph",
+    "build": "module_graph_test_entity_type_constraints_focused.exe",
+    "test": "module_graph_test_entity_type_constraints_focused.exe --gtest_brief=1",
+    "result": "FAIL (exit 1, [  PASSED  ] 11 tests.)"
+  },
+  {
+    "module": "index",
+    "build": "module_index_test_ann_frontdoor_focused.exe",
+    "test": "module_index_test_ann_frontdoor_focused.exe --gtest_brief=1",
+    "result": "PASS (exit 0, [  PASSED  ] 46 tests.)"
+  },
+  {
+    "module": "ingestion",
+    "build": "module_ingestion_test_ingestion_assembler_sinks_focused.exe",
+    "test": "module_ingestion_test_ingestion_assembler_sinks_focused.exe --gtest_brief=1",
+    "result": "PASS (exit 0, [  PASSED  ] 30 tests.)"
+  },
+  {
+    "module": "llm",
+    "build": "module_llm_test_active_vram_allocator_focused.exe",
+    "test": "module_llm_test_active_vram_allocator_focused.exe --gtest_brief=1",
+    "result": "PASS (exit 0, [  PASSED  ] 45 tests.)"
+  },
+  {
+    "module": "network",
+    "build": "module_network_test_cdn_cache_middleware_focused.exe",
+    "test": "module_network_test_cdn_cache_middleware_focused.exe --gtest_brief=1",
+    "result": "PASS (exit 0, [  PASSED  ] 42 tests.)"
+  },
+  {
+    "module": "observability",
+    "build": "module_observability_test_observability_hardening_focused.exe",
+    "test": "module_observability_test_observability_hardening_focused.exe --gtest_brief=1",
+    "result": "FAIL (exit 1, [  PASSED  ] 23 tests.)"
+  },
+  {
+    "module": "performance",
+    "build": "module_performance_test_cicada_focused.exe",
+    "test": "module_performance_test_cicada_focused.exe --gtest_brief=1",
+    "result": "PASS (exit 0, [  PASSED  ] 14 tests.)"
+  },
+  {
+    "module": "process",
+    "build": "module_process_test_bottleneck_analytics_focused.exe",
+    "test": "module_process_test_bottleneck_analytics_focused.exe --gtest_brief=1",
+    "result": "PASS (exit 0, [  PASSED  ] 8 tests.)"
+  },
+  {
+    "module": "storage",
+    "build": "module_storage_test_storage_audit_logger_focused.exe",
+    "test": "module_storage_test_storage_audit_logger_focused.exe --gtest_brief=1",
+    "result": "PASS (exit 0, [  PASSED  ] 10 tests.)"
+  }
+]

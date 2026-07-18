@@ -14,6 +14,12 @@ foreach(_src IN LISTS PRODUCTION_MODULE_TEST_SOURCES)
     endif()
 
     add_executable(${_target} "${_src}")
+    if(_stem STREQUAL "test_production_validator")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/production_validator.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/kernel_fusion.cpp
+        )
+    endif()
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src

@@ -1,4 +1,4 @@
-> **Status:** 2026-06-01 – mit aktuellem Api-Code (`grpc_server.cpp`) abgeglichen.
+> **Status:** 2026-07-18 - im Agentic-Modullauf mit aktuellem API-Code (`graphql.cpp`, `graphql_aql_resolver.cpp`, `grpc_server.cpp`) abgeglichen.
 
 # ThemisDB Api Module - Production Requirements
 
@@ -49,3 +49,4 @@ Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für gRPC-Serve
 - `src/api/PRODUCTION_REQUIREMENTS.md`
 - `src/api/grpc_server.cpp`
 - `src/api/graphql.cpp`
+- `src/api/graphql_aql_resolver.cpp`

@@ -1,7 +1,8 @@
 # Architecture - API Module
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+<!-- Status: current | validated: 2026-07-18 -->
+<!-- Agentic status sync: module issue #5618 -->
+<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · AUDIT.md -->
 
 ## Overview
 
@@ -11,6 +12,7 @@ The API module composes protocol adapters and transport middleware for client-fa
 
 1. GraphQL plane
 - parse and execute GraphQL requests
+- bridge GraphQL resolver flows into internal AQL/query execution paths
 - support WebSocket-based GraphQL subscription transport
 
 2. gRPC plane
@@ -44,6 +46,7 @@ The API module composes protocol adapters and transport middleware for client-fa
 
 - Verified files:
   - src/api/graphql.cpp
+  - src/api/graphql_aql_resolver.cpp
   - src/api/graphql_ws_handler.cpp
   - src/api/grpc_server.cpp
   - src/api/themisdb_grpc_service.cpp
@@ -52,5 +55,6 @@ The API module composes protocol adapters and transport middleware for client-fa
   - src/api/otlp_exporter.cpp
 - Verified architecture claims:
   - protocol-adapter role of API module
+  - GraphQL-to-AQL resolver bridge within the GraphQL execution plane
   - distinct transport planes for GraphQL/gRPC/WebSocket
   - dedicated tracing/export middleware presence

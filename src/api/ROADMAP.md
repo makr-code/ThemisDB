@@ -1,12 +1,13 @@
 # API Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
+<!-- Status: current | validated: 2026-07-18 -->
+<!-- Agentic status sync: module issue #5618 -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · AUDIT.md -->
 
 ## Current Status
 
-Production API adapter surfaces exist for GraphQL, gRPC, WebSocket, tracing middleware, and OTLP export integration.
+Production API adapter surfaces exist for GraphQL, GraphQL-to-AQL resolver bridging, gRPC, WebSocket, tracing middleware, and OTLP export integration.
 
 ## In Progress
 

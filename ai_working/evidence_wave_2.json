@@ -1,0 +1,62 @@
+[
+  {
+    "module": "ai",
+    "build": "module_ai_test_ai_decision_auditor_focused.exe",
+    "test": "module_ai_test_ai_decision_auditor_focused.exe --gtest_brief=1",
+    "result": "PASS (exit 0, [  PASSED  ] 14 tests.)"
+  },
+  {
+    "module": "analytics",
+    "build": "module_analytics_test_analytics_memory_pool_focused.exe",
+    "test": "module_analytics_test_analytics_memory_pool_focused.exe --gtest_brief=1",
+    "result": "PASS (exit 0, [  PASSED  ] 13 tests.)"
+  },
+  {
+    "module": "aql",
+    "build": "module_aql_test_aql_agent_focused.exe",
+    "test": "module_aql_test_aql_agent_focused.exe --gtest_brief=1",
+    "result": "PASS (exit 0, [  PASSED  ] 17 tests.)"
+  },
+  {
+    "module": "content",
+    "build": "module_content_test_archive_processor_validation_focused.exe",
+    "test": "module_content_test_archive_processor_validation_focused.exe --gtest_brief=1",
+    "result": "FAIL (exit 1, [  PASSED  ] 20 tests.)"
+  },
+  {
+    "module": "document",
+    "build": "module_document_test_document_store_focused.exe",
+    "test": "module_document_test_document_store_focused.exe --gtest_brief=1",
+    "result": "PASS (exit 0, [  PASSED  ] 47 tests.)"
+  },
+  {
+    "module": "exporters",
+    "build": "module_exporters_test_aql_predicate_filter_focused.exe",
+    "test": "module_exporters_test_aql_predicate_filter_focused.exe --gtest_brief=1",
+    "result": "PASS (exit 0, [  PASSED  ] 15 tests.)"
+  },
+  {
+    "module": "failover",
+    "build": "module_failover_test_failover_chaos_scenarios_focused.exe",
+    "test": "module_failover_test_failover_chaos_scenarios_focused.exe --gtest_brief=1",
+    "result": "PASS (exit 0, [  PASSED  ] 17 tests.)"
+  },
+  {
+    "module": "geo",
+    "build": "module_geo_test_aql_st_functions_focused.exe",
+    "test": "module_geo_test_aql_st_functions_focused.exe --gtest_brief=1",
+    "result": "PASS (exit 0, [  PASSED  ] 82 tests.)"
+  },
+  {
+    "module": "governance",
+    "build": "module_governance_test_governance_compliance_time_window_focused.exe",
+    "test": "module_governance_test_governance_compliance_time_window_focused.exe --gtest_brief=1",
+    "result": "PASS (exit 0, [  PASSED  ] 16 tests.)"
+  },
+  {
+    "module": "gpu",
+    "build": "module_gpu_test_gpu_admin_api_focused.exe",
+    "test": "module_gpu_test_gpu_admin_api_focused.exe --gtest_brief=1",
+    "result": "PASS (exit 0, [  PASSED  ] 14 tests.)"
+  }
+]

@@ -3238,6 +3238,7 @@ ProcessGraphManager::Status ProcessGraphManager::activateHyperedgeSource_(
 // ============================================================================
 
 void registerProcessEdgeTypes() {
+#if defined(THEMIS_PROCESS_EDGE_REGISTRY_ENABLED)
     auto& registry = EdgeTypeRegistry::instance();
 
     auto register_if_missing = [&registry](const EdgeTypeInfo& info) {
@@ -3331,6 +3332,9 @@ void registerProcessEdgeTypes() {
         .is_weighted = false,
         .inverse_type = std::nullopt
     });
+#else
+    THEMIS_INFO("registerProcessEdgeTypes: deferred (edge registry module not linked in this build)");
+#endif
 }
 
 } // namespace themis
