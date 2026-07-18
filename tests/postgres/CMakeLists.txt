@@ -14,6 +14,21 @@ foreach(_src IN LISTS POSTGRES_MODULE_TEST_SOURCES)
     endif()
 
     add_executable(${_target} "${_src}")
+
+    if(_stem STREQUAL "test_postgres_importer_fk" OR
+       _stem STREQUAL "test_postgres_import_integration_v2")
+        target_sources(${_target} PRIVATE
+            "${THEMIS_ROOT_DIR}/src/importers/postgres_importer.cpp"
+        )
+    endif()
+
+    if(_stem STREQUAL "test_postgres_importer_mdm")
+        target_sources(${_target} PRIVATE
+            "${THEMIS_ROOT_DIR}/src/importers/postgres_importer.cpp"
+            "${THEMIS_ROOT_DIR}/src/importers/postgres_importer_mdm.cpp"
+        )
+    endif()
+
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src

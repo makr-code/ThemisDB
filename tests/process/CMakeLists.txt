@@ -10,6 +10,13 @@ foreach(_src IN LISTS PROCESS_MODULE_TEST_SOURCES)
     set(_ctest "${_stem}_ProcessFocusedTests")
 
     add_executable(${_target} "${_src}")
+
+    if(_stem STREQUAL "test_process_graph")
+        target_sources(${_target} PRIVATE
+            "${THEMIS_ROOT_DIR}/src/index/edge_types.cpp"
+        )
+    endif()
+
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src

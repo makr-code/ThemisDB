@@ -854,6 +854,7 @@ std::pair<ProcessGraphManager::Status, std::string> ProcessGraphManager::startPr
     tokenEntity.setField("current_node", startNodeId);
     tokenEntity.setField("state", "READY");
     tokenEntity.setField("created_at", token.created_at_ms);
+    tokenEntity.setField("variables", initial_variables.dump());
     tokenEntity.setField("visited_nodes", serializeVisitedNodes(token.visited_nodes));
     tokenEntity.setField("visit_timestamps", serializeVisitTimestamps(token.visit_timestamps));
 
@@ -923,6 +924,15 @@ ProcessGraphManager::getProcessInstance(std::string_view instance_id) const {
             else if (stateStr == "COMPLETED") token.state = ProcessToken::State::COMPLETED;
             else if (stateStr == "WAITING") token.state = ProcessToken::State::WAITING;
             else if (stateStr == "FAILED") token.state = ProcessToken::State::FAILED;
+
+            auto tokenVarsStr = tokenEntity.getFieldAsString("variables");
+            if (tokenVarsStr) {
+                try {
+                    token.variables = nlohmann::json::parse(*tokenVarsStr);
+                } catch (...) {
+                    token.variables = nlohmann::json::object();
+                }
+            }
 
             auto visitedNodesStr = tokenEntity.getFieldAsString("visited_nodes");
             if (visitedNodesStr) {
@@ -1024,7 +1034,9 @@ ProcessGraphManager::Status ProcessGraphManager::advanceToken(
         fields["instance_id"] = std::string(instance_id);
         fields["current_node"] = token->current_node;
         fields["state"] = std::string("COMPLETED");
+        fields["created_at"] = static_cast<int64_t>(token->created_at_ms);
         fields["completed_at"] = static_cast<int64_t>(*token->completed_at_ms);
+        fields["variables"] = token->variables.dump();
         fields["visited_nodes"] = serializeVisitedNodes(token->visited_nodes);
         fields["visit_timestamps"] = serializeVisitTimestamps(token->visit_timestamps);
         BaseEntity tokenEntity = BaseEntity::fromFields(std::string(token_id), fields);
@@ -1147,6 +1159,8 @@ ProcessGraphManager::Status ProcessGraphManager::advanceToken(
     fields2["instance_id"] = std::string(instance_id);
     fields2["current_node"] = token->current_node;
     fields2["state"] = std::string("READY");
+    fields2["created_at"] = static_cast<int64_t>(token->created_at_ms);
+    fields2["variables"] = token->variables.dump();
     fields2["visited_nodes"] = serializeVisitedNodes(token->visited_nodes);
     fields2["visit_timestamps"] = serializeVisitTimestamps(token->visit_timestamps);
     BaseEntity tokenEntity2 = BaseEntity::fromFields(std::string(token_id), fields2);
@@ -1365,14 +1379,11 @@ ProcessGraphManager::findActiveTasks(std::string_view assignee_or_role) const {
         std::string keyStr(key);
         
         // Parse instance_id and token_id from key: process:token:{instance_id}:{token_id}
-        size_t secondColon = keyStr.find(':', 14); // After "process:token:"
-        if (secondColon == std::string::npos) return true;
-        
-        size_t thirdColon = keyStr.find(':', secondColon + 1);
-        if (thirdColon == std::string::npos) return true;
-        
-        std::string instanceId = keyStr.substr(secondColon + 1, thirdColon - secondColon - 1);
-        std::string tokenId = keyStr.substr(thirdColon + 1);
+        size_t sep = keyStr.find(':', 14); // After "process:token:"
+        if (sep == std::string::npos) return true;
+
+        std::string instanceId = keyStr.substr(14, sep - 14);
+        std::string tokenId = keyStr.substr(sep + 1);
         
         std::vector<uint8_t> blob(val.begin(), val.end());
         BaseEntity tokenEntity = BaseEntity::deserialize(tokenId, blob);
@@ -1444,14 +1455,11 @@ ProcessGraphManager::getNodeHistory(
         std::string keyStr(key);
         
         // Parse instance_id and token_id from key
-        size_t secondColon = keyStr.find(':', 14);
-        if (secondColon == std::string::npos) return true;
-        
-        size_t thirdColon = keyStr.find(':', secondColon + 1);
-        if (thirdColon == std::string::npos) return true;
-        
-        std::string instanceId = keyStr.substr(secondColon + 1, thirdColon - secondColon - 1);
-        std::string tokenId = keyStr.substr(thirdColon + 1);
+        size_t sep = keyStr.find(':', 14);
+        if (sep == std::string::npos) return true;
+
+        std::string instanceId = keyStr.substr(14, sep - 14);
+        std::string tokenId = keyStr.substr(sep + 1);
         
         // Get instance to check process_id
         std::string instanceKey = makeInstanceKey_(instanceId);
@@ -1553,14 +1561,11 @@ ProcessGraphManager::getProcessMetrics(std::string_view process_id) const {
         std::string keyStr(key);
         
         // Parse instance_id and token_id
-        size_t secondColon = keyStr.find(':', 14);
-        if (secondColon == std::string::npos) return true;
-        
-        size_t thirdColon = keyStr.find(':', secondColon + 1);
-        if (thirdColon == std::string::npos) return true;
-        
-        std::string instanceId = keyStr.substr(secondColon + 1, thirdColon - secondColon - 1);
-        std::string tokenId = keyStr.substr(thirdColon + 1);
+        size_t sep = keyStr.find(':', 14);
+        if (sep == std::string::npos) return true;
+
+        std::string instanceId = keyStr.substr(14, sep - 14);
+        std::string tokenId = keyStr.substr(sep + 1);
         
         // Check if this instance belongs to the target process
         std::string instanceKey = makeInstanceKey_(instanceId);
@@ -1677,7 +1682,7 @@ ProcessGraphManager::findCriticalPath(std::string_view process_id) const {
     }
     
     if (metrics.empty()) {
-        return {Status::Error("No metrics available for this process"), result};
+        return {Status::OK(), result};
     }
     
     // Build a graph of the process flow
@@ -3233,7 +3238,99 @@ ProcessGraphManager::Status ProcessGraphManager::activateHyperedgeSource_(
 // ============================================================================
 
 void registerProcessEdgeTypes() {
-    THEMIS_INFO("registerProcessEdgeTypes: deferred (edge registry module not linked in this build)");
+    auto& registry = EdgeTypeRegistry::instance();
+
+    auto register_if_missing = [&registry](const EdgeTypeInfo& info) {
+        if (registry.isRegistered(info.type_name)) {
+            return;
+        }
+        const auto st = registry.registerType(info);
+        if (!st.ok) {
+            THEMIS_WARN("registerProcessEdgeTypes failed for {}: {}", info.type_name, st.message);
+        }
+    };
+
+    register_if_missing({
+        .type_name = "SEQUENCE_FLOW",
+        .category = EdgeCategory::WORKFLOW,
+        .description = "BPMN sequence flow",
+        .is_bidirectional = false,
+        .requires_temporal = false,
+        .is_weighted = false,
+        .inverse_type = std::nullopt
+    });
+    register_if_missing({
+        .type_name = "MESSAGE_FLOW",
+        .category = EdgeCategory::WORKFLOW,
+        .description = "BPMN message flow",
+        .is_bidirectional = false,
+        .requires_temporal = false,
+        .is_weighted = false,
+        .inverse_type = std::nullopt
+    });
+    register_if_missing({
+        .type_name = "CONTROL_FLOW",
+        .category = EdgeCategory::WORKFLOW,
+        .description = "EPK control flow",
+        .is_bidirectional = false,
+        .requires_temporal = false,
+        .is_weighted = false,
+        .inverse_type = std::nullopt
+    });
+    register_if_missing({
+        .type_name = "INFORMATION_FLOW",
+        .category = EdgeCategory::REFERENCE,
+        .description = "EPK information flow",
+        .is_bidirectional = false,
+        .requires_temporal = false,
+        .is_weighted = false,
+        .inverse_type = std::nullopt
+    });
+    register_if_missing({
+        .type_name = "CONDITIONAL_FLOW",
+        .category = EdgeCategory::WORKFLOW,
+        .description = "Gateway-conditional execution flow",
+        .is_bidirectional = false,
+        .requires_temporal = false,
+        .is_weighted = false,
+        .inverse_type = std::nullopt
+    });
+    register_if_missing({
+        .type_name = "DEFAULT_FLOW",
+        .category = EdgeCategory::WORKFLOW,
+        .description = "Default gateway flow",
+        .is_bidirectional = false,
+        .requires_temporal = false,
+        .is_weighted = false,
+        .inverse_type = std::nullopt
+    });
+    register_if_missing({
+        .type_name = "EXCEPTION_FLOW",
+        .category = EdgeCategory::WORKFLOW,
+        .description = "Exception/compensation flow",
+        .is_bidirectional = false,
+        .requires_temporal = false,
+        .is_weighted = false,
+        .inverse_type = std::nullopt
+    });
+    register_if_missing({
+        .type_name = "ASSIGNED_TO",
+        .category = EdgeCategory::ACCESS,
+        .description = "Task assignment relation",
+        .is_bidirectional = false,
+        .requires_temporal = false,
+        .is_weighted = false,
+        .inverse_type = std::nullopt
+    });
+    register_if_missing({
+        .type_name = "CALLS_PROCESS",
+        .category = EdgeCategory::WORKFLOW,
+        .description = "Call activity invokes another process",
+        .is_bidirectional = false,
+        .requires_temporal = false,
+        .is_weighted = false,
+        .inverse_type = std::nullopt
+    });
 }
 
 } // namespace themis

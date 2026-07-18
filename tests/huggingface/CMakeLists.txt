@@ -14,6 +14,13 @@ foreach(_src IN LISTS HUGGINGFACE_MODULE_TEST_SOURCES)
     endif()
 
     add_executable(${_target} "${_src}")
+
+    if(_stem STREQUAL "test_huggingface_ingest_plugin")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/importers/huggingface_ingest_plugin.cpp
+        )
+    endif()
+
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src

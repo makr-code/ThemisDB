@@ -93,12 +93,14 @@ TEST(HuggingFaceIngestPlugin, ExportsDeterministicAdaLoraJsonl) {
     ASSERT_TRUE(export_report.success);
     ASSERT_EQ(export_report.exported_examples, 2u);
 
-    std::ifstream in(output);
-    ASSERT_TRUE(in.is_open());
-    std::string line;
-    ASSERT_TRUE(static_cast<bool>(std::getline(in, line)));
-    EXPECT_NE(line.find("\"instruction\""), std::string::npos);
-    EXPECT_NE(line.find("\"system\":\"legal-assistant\""), std::string::npos);
+    {
+        std::ifstream in(output);
+        ASSERT_TRUE(in.is_open());
+        std::string line;
+        ASSERT_TRUE(static_cast<bool>(std::getline(in, line)));
+        EXPECT_NE(line.find("\"instruction\""), std::string::npos);
+        EXPECT_NE(line.find("\"system\":\"legal-assistant\""), std::string::npos);
+    }
     std::filesystem::remove(output);
 }
 

@@ -1017,6 +1017,8 @@ set(THEMIS_SHARDING_SOURCES
     ../src/sharding/paxos_state_persistence.cpp
     ../src/sharding/dual_consensus_orchestrator.cpp
     ../src/sharding/cross_shard_transaction.cpp
+    ../src/sharding/cross_shard_ssi_manager.cpp
+    ../src/sharding/cross_shard_fk_validator.cpp
     ../src/sharding/transaction_wal.cpp
     ../src/sharding/transaction_snapshot.cpp
 
@@ -1182,9 +1184,6 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/lora_security_validator.cpp
     ../src/llm/lora_certificate_store.cpp
     ../src/llm/security/signature_verifier.cpp
-    # Vision resource monitoring
-    ../src/llm/vision_config.cpp
-    ../src/llm/vision_resource_monitor.cpp
     # LoRA framework additions (unconditional)
     $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/llm/lora_framework/distributed_dataloader.cpp>
     ../src/llm/lora_framework/kernels/cpu_fused_kernels.cpp

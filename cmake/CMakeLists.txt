@@ -1280,6 +1280,10 @@ if(MSVC)
     add_link_options($<$<CONFIG:Release>:/LTCG:OFF>)
     add_link_options($<$<CONFIG:RelWithDebInfo>:/LTCG:OFF>)
     add_link_options($<$<CONFIG:MinSizeRel>:/LTCG:OFF>)
+    # Some third-party imported targets can propagate Unix-style linker flags
+    # (for example -lpthreads) on Windows. MSVC ignores these, but emits
+    # LNK4044 noise; suppress that warning globally for cleaner logs.
+    add_link_options(/IGNORE:4044)
 else()
     add_compile_options(-Wall -Wextra -Wpedantic)
     if(THEMIS_STRICT_BUILD)
@@ -4631,10 +4635,17 @@ if(THEMIS_ENABLE_LLM)
         message(STATUS "Skipping LoRA GPU sources (THEMIS_ENABLE_GPU=OFF)")
     endif()
 
-    # Add CLIP vision encoder only when explicitly enabled
+    # Add CLIP vision-related sources only once.
+    # In modular LLM builds these files are compiled in themis_llm; keeping them
+    # in themis_core as well causes duplicate symbol definitions at link time.
+    if(NOT (THEMIS_BUILD_MODULAR AND THEMIS_MODULE_LLM))
+        target_sources(themis_core PRIVATE
+            ../src/llm/vision_config.cpp
+            ../src/llm/vision_resource_monitor.cpp    # Vision resource tracking and VRAM budget
+        )
+    endif()
+
     target_sources(themis_core PRIVATE
-        ../src/llm/vision_config.cpp
-        ../src/llm/vision_resource_monitor.cpp    # Vision resource tracking and VRAM budget
         ../src/llm/inference_handle.cpp           # Per-request inference handle with cancellation
         ../src/llm/llm_security_utils.cpp         # LLM security utilities (API key masking, etc.)
     )
@@ -4693,6 +4704,13 @@ if(THEMIS_ENABLE_LLM)
     
     # Threading support required for async inference
     find_package(Threads REQUIRED)
+    if(MSVC AND TARGET Threads::Threads)
+        get_target_property(_themis_threads_libs Threads::Threads INTERFACE_LINK_LIBRARIES)
+        if(_themis_threads_libs)
+            list(FILTER _themis_threads_libs EXCLUDE REGEX "^-l?pthreads$")
+            set_property(TARGET Threads::Threads PROPERTY INTERFACE_LINK_LIBRARIES "${_themis_threads_libs}")
+        endif()
+    endif()
     target_link_libraries(themis_core PRIVATE Threads::Threads)
     
     # Link llama.cpp library
