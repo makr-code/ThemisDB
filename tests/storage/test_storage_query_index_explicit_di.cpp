@@ -38,6 +38,12 @@ protected:
         key_provider_ = std::make_shared<MockKeyProvider>();
         key_provider_->createKey("default", 1);
 
+        // Skip suite if field_encryption feature unavailable; tests assert exception behaviour
+        std::string edition_err;
+        if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+            GTEST_SKIP() << "Field encryption unavailable: " << edition_err;
+        }
+
         encryption_ = std::make_shared<FieldEncryption>(key_provider_);
         index_manager_ = std::make_shared<IndexManager>();
 

@@ -246,19 +246,35 @@ std::vector<std::string> LEKManager::getRevokedKeys() const {
 }
 
 bool LEKManager::isExpired(const std::string& date_str, int max_age_days) {
-    // Parse date_str "YYYY-MM-DD"
+    // Parse date_str "YYYY-MM-DD" and validate calendar fields
     if (date_str.size() != 10) return false;
     try {
         int year  = std::stoi(date_str.substr(0, 4));
         int month = std::stoi(date_str.substr(5, 2));
         int day   = std::stoi(date_str.substr(8, 2));
 
+        // Basic range checks
+        if (month < 1 || month > 12) return false;
+        if (day < 1 || day > 31) return false;
+
         std::tm key_tm{};
         key_tm.tm_year = year - 1900;
         key_tm.tm_mon  = month - 1;
         key_tm.tm_mday = day;
-        auto key_time  = std::chrono::system_clock::from_time_t(std::mktime(&key_tm));
+        key_tm.tm_hour = 0;
+        key_tm.tm_min  = 0;
+        key_tm.tm_sec  = 0;
+        key_tm.tm_isdst = -1;
 
+        // mktime normalizes invalid dates. We use the normalized result
+        // to detect invalid input: if fields changed, input was invalid.
+        std::time_t tt = std::mktime(&key_tm);
+        if (tt == static_cast<std::time_t>(-1)) return false;
+        if (key_tm.tm_year != year - 1900 || key_tm.tm_mon != month - 1 || key_tm.tm_mday != day) {
+            return false; // invalid calendar date (e.g. month=13, day=99)
+        }
+
+        auto key_time = std::chrono::system_clock::from_time_t(tt);
         auto age_days = std::chrono::duration_cast<std::chrono::hours>(
             std::chrono::system_clock::now() - key_time).count() / 24;
         return age_days > max_age_days;

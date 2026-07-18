@@ -14,18 +14,13 @@
 #include "core/security_initialization.h"
 #include "themis/base/interfaces/security_interface.h"
 #include "security/mock_key_provider.h"
+#include "themis/edition_manager.h"
+#include "themis/runtime_license_gate.h"
 
 using namespace themis;
 using namespace testing;
 
-/**
- * @brief Mock Key Provider for testing
- */
-class MockKeyProvider : public IKeyProvider {
-public:
-    MOCK_METHOD(std::vector<uint8_t>, get_key, (const std::string&), (override));
-    MOCK_METHOD(std::vector<uint8_t>, rotate_key, (const std::string&), (override));
-};
+// Use the canonical themis::MockKeyProvider from include/security/mock_key_provider.h
 
 /**
  * @brief Test FieldEncryption with Dependency Injection
@@ -37,6 +32,10 @@ protected:
     
     void SetUp() override {
         real_mock_provider_ = std::make_shared<themis::MockKeyProvider>();
+        std::string edition_err;
+        if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+            GTEST_SKIP() << "Field encryption unavailable: " << edition_err;
+        }
         encryption_ = std::make_shared<FieldEncryption>(real_mock_provider_);
     }
 };
@@ -100,6 +99,10 @@ protected:
     void SetUp() override {
         security::RBACConfig config;
         config.use_builtin_roles = true;
+        std::string license_err;
+        if (!license::RuntimeLicenseGate::instance().isFeatureAllowed("rbac", license_err)) {
+            GTEST_SKIP() << "RBAC unavailable: " << license_err;
+        }
         rbac_ = std::make_shared<security::RBAC>(config);
         
         // Define roles
@@ -231,6 +234,11 @@ TEST_F(SecurityLayerBuilderTest, BuilderIsChainable) {
  * @brief Integration test: Full security layer
  */
 TEST(SecurityLayerIntegrationTest, FullSecurityLayerWorks) {
+    std::string edition_err;
+    if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+        GTEST_SKIP() << "Field encryption unavailable: " << edition_err;
+    }
+
     // Build complete security layer
     EncryptionConfig enc_config;
     enc_config.encrypted_fields.insert("ssn");

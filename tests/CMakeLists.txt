@@ -540,7 +540,6 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_flatfile_importer\\.cpp$"
     ".*test_adaptive_cache_fuzz\\.cpp$"
     ".*test_adaptive_cache_integration\\.cpp$"
-    ".*test_adaptive_cache_phase1\\.cpp$"
     ".*test_continuous_learning_client\\.cpp$"
     ".*test_geval\\.cpp$"
     ".*test_metrics\\.cpp$"
@@ -2748,6 +2747,10 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_distributed.cpp")
         set_target_properties(test_graph_distributed PROPERTIES 
             OUTPUT_NAME "tgdist"
             RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/test_outputs"
+            RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/test_outputs"
+            RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/test_outputs"
+            RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_BINARY_DIR}/test_outputs"
+            RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${CMAKE_BINARY_DIR}/test_outputs"
         )
         set_target_properties(test_graph_distributed PROPERTIES SKIP_RPATH TRUE)
     endif()

@@ -25,6 +25,7 @@
 #include "transaction/transaction_manager.h"
 #include "security/encryption.h"
 #include "security/mock_key_provider.h"
+#include "themis/edition_manager.h"
 #include "server/auth_middleware.h"
 #include "storage/key_schema.h"
 #include <memory>
@@ -70,6 +71,10 @@ protected:
         
         // Initialize encryption components
         key_provider_ = std::make_shared<themis::MockKeyProvider>();
+        std::string edition_err;
+        if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+            GTEST_SKIP() << "Field encryption unavailable: " << edition_err;
+        }
         field_encryption_ = std::make_shared<FieldEncryption>(key_provider_);
         
         // Initialize auth middleware (default constructor)

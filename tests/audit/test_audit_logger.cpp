@@ -11,6 +11,7 @@
 #include "utils/audit_logger.h"
 #include "security/mock_key_provider.h"
 #include "themis/edition.h"
+#include "themis/edition_manager.h"
 
 #include <fstream>
 #include <filesystem>
@@ -23,6 +24,10 @@ using namespace themis::utils;
 class AuditLoggerTest : public ::testing::Test {
 protected:
     void SetUp() override {
+        std::string edition_err;
+        if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+            GTEST_SKIP() << "Field encryption unavailable: " << edition_err;
+        }
         key_provider_ = std::make_shared<MockKeyProvider>();
         // Create default key for saga_log
         key_provider_->createKey("saga_log", 1);

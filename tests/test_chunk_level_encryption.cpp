@@ -32,6 +32,7 @@
 #include "utils/audit_logger.h"
 #include "security/mock_key_provider.h"
 #include "utils/pki_client.h"
+#include "themis/edition_manager.h"
 
 #include <algorithm>
 #include <chrono>
@@ -89,7 +90,11 @@ static std::string makeTempPath(const std::string& tag) {
 static std::unique_ptr<utils::AuditLogger> makeTestAuditLogger(const std::string& log_path) {
     auto key_provider = std::make_shared<MockKeyProvider>();
     key_provider->createKey("saga_log", 1);
-    auto field_enc = std::make_shared<FieldEncryption>(key_provider);
+    std::shared_ptr<FieldEncryption> field_enc;
+    std::string edition_err;
+    if (themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+        field_enc = std::make_shared<FieldEncryption>(key_provider);
+    }
     utils::PKIConfig pki_cfg;
     pki_cfg.service_id = "test";
     auto pki = std::make_shared<utils::VCCPKIClient>(pki_cfg);

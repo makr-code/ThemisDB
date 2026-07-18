@@ -10,6 +10,7 @@
 #include "security/encryption.h"
 #include "security/mock_key_provider.h"
 #include "utils/logger.h"
+#include "themis/edition_manager.h"
 #include <memory>
 
 using namespace themis;
@@ -29,6 +30,12 @@ using namespace themis;
 class LazyReEncryptionTest : public ::testing::Test {
 protected:
     void SetUp() override {
+        // Skip suite if field_encryption feature is not available
+        std::string edition_err;
+        if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+            GTEST_SKIP() << "Field encryption unavailable: " << edition_err;
+        }
+
         key_provider_ = std::make_shared<MockKeyProvider>();
         field_encryption_ = std::make_shared<FieldEncryption>(key_provider_);
         

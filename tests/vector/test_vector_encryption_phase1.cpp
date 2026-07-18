@@ -10,6 +10,7 @@
 #include "security/encryption.h"
 #include "security/mock_key_provider.h"
 #include "utils/logger.h"
+#include "themis/edition_manager.h"
 #include <vector>
 #include <cmath>
 
@@ -32,6 +33,12 @@ using namespace themis;
 class VectorEncryptionPhase1Test : public ::testing::Test {
 protected:
     void SetUp() override {
+        // Skip entire suite if field_encryption feature is not available
+        std::string edition_err;
+        if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+            GTEST_SKIP() << "Field encryption unavailable: " << edition_err;
+        }
+
         // Initialize MockKeyProvider
         key_provider_ = std::make_shared<MockKeyProvider>();
         key_provider_->createKey("vector_embeddings", 1);

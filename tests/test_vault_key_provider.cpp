@@ -197,6 +197,10 @@ TEST_F(VaultKeyProviderTest, CacheHitRate_ImprovesOverTime) {
 
 TEST_F(VaultKeyProviderTest, Integration_EncryptDecryptWithVault) {
     if (!vault_available_) GTEST_SKIP();
+    std::string edition_err;
+    if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+        GTEST_SKIP() << "Field encryption unavailable: " << edition_err;
+    }
     
     auto encryption = std::make_shared<FieldEncryption>(provider_);
     EncryptedField<std::string>::setFieldEncryption(encryption);
@@ -210,6 +214,10 @@ TEST_F(VaultKeyProviderTest, Integration_EncryptDecryptWithVault) {
 
 TEST_F(VaultKeyProviderTest, Integration_UserEntity) {
     if (!vault_available_) GTEST_SKIP();
+    std::string edition_err;
+    if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+        GTEST_SKIP() << "Field encryption unavailable: " << edition_err;
+    }
     
     auto encryption = std::make_shared<FieldEncryption>(provider_);
     EncryptedField<std::string>::setFieldEncryption(encryption);
@@ -245,6 +253,10 @@ TEST_F(VaultKeyProviderTest, Integration_UserEntity) {
 
 TEST_F(VaultKeyProviderTest, Integration_CustomerEntity) {
     if (!vault_available_) GTEST_SKIP();
+    std::string edition_err;
+    if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+        GTEST_SKIP() << "Field encryption unavailable: " << edition_err;
+    }
     
     auto encryption = std::make_shared<FieldEncryption>(provider_);
     EncryptedField<std::string>::setFieldEncryption(encryption);
@@ -272,6 +284,10 @@ TEST_F(VaultKeyProviderTest, Integration_CustomerEntity) {
 
 TEST_F(VaultKeyProviderTest, Integration_KeyRotation) {
     if (!vault_available_) GTEST_SKIP();
+    std::string edition_err;
+    if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+        GTEST_SKIP() << "Field encryption unavailable: " << edition_err;
+    }
     
     auto encryption = std::make_shared<FieldEncryption>(provider_);
     EncryptedField<std::string>::setFieldEncryption(encryption);

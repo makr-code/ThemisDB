@@ -14,6 +14,7 @@
 #include "storage/base_entity.h"
 #include "utils/hkdf_helper.h"
 #include "utils/logger.h"
+#include "themis/edition_manager.h"
 #include <memory>
 #include <filesystem>
 #include <nlohmann/json.hpp>
@@ -58,6 +59,12 @@ protected:
         // Create DEK for tests
         key_provider_->createKey("dek", 1);
         
+        // Skip suite if field_encryption feature is not available
+        std::string edition_err;
+        if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+            GTEST_SKIP() << "Field encryption unavailable: " << edition_err;
+        }
+
         // Initialize FieldEncryption
         field_encryption_ = std::make_shared<FieldEncryption>(key_provider_);
         
@@ -392,6 +399,11 @@ TEST_F(EncryptionE2ETest, KeyRotation_VersionTracking) {
     // Decrypt v2
     auto decrypted_v2_bytes = field_encryption_->decryptWithKey(blob_v2, field_key_v2);
     std::string decrypted_v2(decrypted_v2_bytes.begin(), decrypted_v2_bytes.end());
+        // Skip suite if field_encryption feature is not available
+        std::string edition_err;
+        if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+            GTEST_SKIP() << "Field encryption unavailable: " << edition_err;
+        }
     EXPECT_EQ(decrypted_v2, new_plaintext);
 }
 

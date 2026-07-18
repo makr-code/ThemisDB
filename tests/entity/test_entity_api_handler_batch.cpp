@@ -22,6 +22,7 @@
 #include "transaction/transaction_manager.h"
 #include "security/encryption.h"
 #include "security/mock_key_provider.h"
+#include "themis/edition_manager.h"
 #include "server/auth_middleware.h"
 #include "storage/key_schema.h"
 #include <memory>
@@ -62,6 +63,12 @@ protected:
 
         tx_manager_ = std::make_shared<TransactionManager>(
             *storage_, *secondary_index_, *graph_index_, *vector_index_);
+
+        // Skip suite if field_encryption feature is not available
+        std::string edition_err;
+        if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+            GTEST_SKIP() << "Field encryption unavailable: " << edition_err;
+        }
 
         key_provider_     = std::make_shared<themis::MockKeyProvider>();
         field_encryption_ = std::make_shared<FieldEncryption>(key_provider_);

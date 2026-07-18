@@ -13,6 +13,7 @@
 #include "security/encryption.h"
 #include "security/mock_key_provider.h"
 #include "auth/jwt_validator.h"
+#include "themis/edition_manager.h"
 #include "utils/hkdf_helper.h"
 #include <nlohmann/json.hpp>
 #include <filesystem>
@@ -25,6 +26,12 @@ using json = nlohmann::json;
 class GraphEdgeEncryptionTest : public ::testing::Test {
 protected:
     void SetUp() override {
+        // Skip suite if field_encryption feature is not available
+        std::string edition_err;
+        if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+            GTEST_SKIP() << "Field encryption unavailable: " << edition_err;
+        }
+
         // Create temporary database
         const auto unique_suffix = std::to_string(
             std::chrono::high_resolution_clock::now().time_since_epoch().count());

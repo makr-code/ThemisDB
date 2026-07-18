@@ -14,6 +14,7 @@
 #include "themis/edition.h"
 #include "utils/pki_client.h"
 #include "storage/rocksdb_wrapper.h"
+#include "themis/edition_manager.h"
 #include <filesystem>
 
 using namespace themis;
@@ -29,8 +30,9 @@ bool IsFieldEncryptionAvailable() {
 class SAGALoggerTest : public ::testing::Test {
 protected:
     void SetUp() override {
-    if (!IsFieldEncryptionAvailable()) {
-      GTEST_SKIP() << "Field encryption unavailable in Community edition";
+    std::string edition_err;
+    if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+      GTEST_SKIP() << "Field encryption unavailable: " << edition_err;
     }
 
         // Clean test directories

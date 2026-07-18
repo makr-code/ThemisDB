@@ -46,25 +46,23 @@ foreach(_src IN LISTS GRAPH_MODULE_TEST_SOURCES)
 endforeach()
 
 # Lightweight launcher for focused shared-mutex distributed graph tests
-add_executable(tgdsmf "${CMAKE_CURRENT_SOURCE_DIR}/tgdsmf_launcher.cpp")
-target_include_directories(tgdsmf PRIVATE
+add_executable(tgdsmf_launcher "${CMAKE_CURRENT_SOURCE_DIR}/tgdsmf_launcher.cpp")
+target_include_directories(tgdsmf_launcher PRIVATE
     ${THEMIS_ROOT_DIR}/include
     ${THEMIS_ROOT_DIR}/src
 )
-target_link_libraries(tgdsmf PRIVATE
+target_link_libraries(tgdsmf_launcher PRIVATE
     ${TEST_LIBS}
     themis_core
     spdlog::spdlog
     Threads::Threads
 )
-target_compile_definitions(tgdsmf PRIVATE THEMIS_TEST_BUILD=1)
+target_compile_definitions(tgdsmf_launcher PRIVATE THEMIS_TEST_BUILD=1)
 
-themis_register_module_focused_test(
-    MODULE graph
-    NAME DistributedGraphSharedMutexFocusedTests
-    TARGET tgdsmf
-    TIER unit
-    TIMEOUT 60
+# After building the launcher, copy it to the canonical test name so CTest finds `tgdsmf.exe`.
+add_custom_command(TARGET tgdsmf_launcher POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_BINARY_DIR}/bin_out"
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:tgdsmf_launcher> "${CMAKE_BINARY_DIR}/bin_out/tgdsmf.exe"
 )
 
 # AUTOGEN PREFIX BLOCK: graph

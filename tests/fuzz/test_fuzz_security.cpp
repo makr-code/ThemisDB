@@ -32,6 +32,7 @@
 #include "utils/audit_logger.h"
 #include "security/mock_key_provider.h"
 #include "security/user_registration_plugin.h"
+#include "themis/edition_manager.h"
 
 #include <string>
 #include <vector>
@@ -363,6 +364,11 @@ TEST_F(RateLimiterFuzzTest, HighVolumeRequests_StatsConsistent) {
 class AuditLoggerFuzzTest : public ::testing::Test {
 protected:
     void SetUp() override {
+        std::string edition_err;
+        if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+            // For fuzz tests that require encryption, skip to avoid runtime exceptions
+            GTEST_SKIP() << "Field encryption unavailable: " << edition_err;
+        }
         tmp_dir_ = std::filesystem::temp_directory_path() / "audit_fuzz_test";
         std::filesystem::create_directories(tmp_dir_);
         log_path_ = (tmp_dir_ / "fuzz_audit.jsonl").string();

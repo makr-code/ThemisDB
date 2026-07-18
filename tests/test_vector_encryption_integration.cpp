@@ -26,6 +26,7 @@
 #include "security/encryption.h"
 #include "security/mock_key_provider.h"
 #include "utils/logger.h"
+#include "themis/edition_manager.h"
 #include <filesystem>
 #include <vector>
 #include <memory>
@@ -48,7 +49,12 @@ protected:
         key_provider_ = std::make_shared<MockKeyProvider>();
         key_provider_->createKey("vector_embeddings", 1);
         key_provider_->createKey("hnsw_index", 1);
-        
+
+        std::string edition_err;
+        if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+            GTEST_SKIP() << "Field encryption unavailable: " << edition_err;
+        }
+
         field_encryption_ = std::make_shared<FieldEncryption>(key_provider_);
         
         // Set global FieldEncryption for EncryptedField templates

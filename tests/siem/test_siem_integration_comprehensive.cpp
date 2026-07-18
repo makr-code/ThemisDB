@@ -29,6 +29,7 @@
 #include <gtest/gtest.h>
 #include "utils/audit_logger.h"
 #include "security/mock_key_provider.h"
+#include "themis/edition_manager.h"
 #include <filesystem>
 #include <fstream>
 
@@ -48,6 +49,10 @@ protected:
 
         auto kp = std::make_shared<MockKeyProvider>();
         kp->createKey("saga_log", 1);
+        std::string edition_err;
+        if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+            GTEST_SKIP() << "Field encryption unavailable: " << edition_err;
+        }
         enc_ = std::make_shared<FieldEncryption>(kp);
 
         PKIConfig pki_cfg;

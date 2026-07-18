@@ -14,6 +14,7 @@
 #include "storage/base_entity.h"
 #include "utils/hkdf_helper.h"
 #include "utils/logger.h"
+#include "themis/edition_manager.h"
 #include <memory>
 #include <filesystem>
 #include <nlohmann/json.hpp>
@@ -58,6 +59,12 @@ protected:
         // Create DEK for tests
         key_provider_->createKey("dek", 1);
         
+        // Skip suite if field_encryption feature is not available
+        std::string edition_err;
+        if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+            GTEST_SKIP() << "Field encryption unavailable: " << edition_err;
+        }
+
         // Initialize FieldEncryption
         field_encryption_ = std::make_shared<FieldEncryption>(key_provider_);
         
