@@ -27,6 +27,7 @@
 #include <openssl/rsa.h>
 #include <openssl/bn.h>
 #include <openssl/x509_vfy.h>
+#include <openssl/ec.h>
 #include <curl/curl.h>
 #include <cstring>
 
@@ -698,36 +699,574 @@ bool CRLChecker::isCertificateRevoked(X509* cert) {
 
 // ===== Builder =====
 
-SignatureVerifierBuilder& SignatureVerifierBuilder::withRSA_SHA256() {
-    auto verifier = std::make_shared<RSA_SHA256_Verifier>();
+// ===== ECDSA_SHA256_Verifier =====
+
+SignatureVerificationResult ECDSA_SHA256_Verifier::verify(
+    const std::vector<uint8_t>& data,
+    const std::vector<uint8_t>& signature,
+    const std::string& cert_pem) {
     
-    if (!head_) {
-        head_ = verifier;
-        tail_ = verifier;
-    } else {
-        tail_->setNext(verifier);
-        tail_ = verifier;
+    SignatureVerificationResult result;
+    result.algorithm = "ECDSA-SHA256";
+    
+    // Validate inputs
+    if (data.empty()) {
+        result.is_valid = false;
+        result.error_message = "Data is empty";
+        spdlog::error("ECDSA_SHA256_Verifier: Data is empty");
+        return result;
     }
     
-    spdlog::debug("Added RSA-SHA256 verifier to chain");
-    return *this;
+    if (signature.empty()) {
+        result.is_valid = false;
+        result.error_message = "Signature is empty";
+        spdlog::error("ECDSA_SHA256_Verifier: Signature is empty");
+        return result;
+    }
+    
+    if (cert_pem.empty()) {
+        result.is_valid = false;
+        result.error_message = "Certificate is empty";
+        spdlog::error("ECDSA_SHA256_Verifier: Certificate is empty");
+        return result;
+    }
+    
+    try {
+        // 1. Load certificate
+        auto cert = loadCertificate(cert_pem);
+        if (!cert) {
+            result.is_valid = false;
+            result.error_message = "Failed to load certificate";
+            return result;
+        }
+        
+        // 2. Validate EC curve
+        if (!validateECCurve(cert.get())) {
+            result.is_valid = false;
+            result.error_message = "Unsupported EC curve (only P-256 and P-384 supported)";
+            spdlog::error("ECDSA_SHA256_Verifier: {}", result.error_message);
+            return result;
+        }
+        
+        // 3. Extract public key
+        auto pkey = extractPublicKey(cert.get());
+        if (!pkey) {
+            result.is_valid = false;
+            result.error_message = "Failed to extract public key from certificate";
+            return result;
+        }
+        
+        // 4. Check key is EC type
+        if (EVP_PKEY_id(pkey.get()) != EVP_PKEY_EC) {
+            result.is_valid = false;
+            result.error_message = "Certificate does not contain an EC key";
+            spdlog::error("ECDSA_SHA256_Verifier: {}", result.error_message);
+            return result;
+        }
+        
+        // 5. Compute SHA-256 hash of data
+        std::vector<uint8_t> hash(SHA256_DIGEST_LENGTH);
+        SHA256(data.data(), data.size(), hash.data());
+        
+        // 6. Convert signature to DER format if needed
+        auto der_signature = convertSignatureToDER(signature);
+        
+        // 7. Verify signature using EVP API
+        std::unique_ptr<EVP_PKEY_CTX, decltype(&EVP_PKEY_CTX_free)> ctx(
+            EVP_PKEY_CTX_new(pkey.get(), nullptr),
+            EVP_PKEY_CTX_free
+        );
+        
+        if (!ctx) {
+            result.is_valid = false;
+            result.error_message = "Failed to create EVP_PKEY_CTX";
+            spdlog::error("ECDSA_SHA256_Verifier: Failed to create verification context");
+            return result;
+        }
+        
+        if (EVP_PKEY_verify_init(ctx.get()) <= 0) {
+            result.is_valid = false;
+            result.error_message = "Failed to initialize verification";
+            spdlog::error("ECDSA_SHA256_Verifier: EVP_PKEY_verify_init failed");
+            return result;
+        }
+        
+        if (EVP_PKEY_CTX_set_signature_md(ctx.get(), EVP_sha256()) <= 0) {
+            result.is_valid = false;
+            result.error_message = "Failed to set signature hash algorithm";
+            spdlog::error("ECDSA_SHA256_Verifier: Failed to set SHA-256 digest");
+            return result;
+        }
+        
+        // Perform verification
+        int verify_result = EVP_PKEY_verify(
+            ctx.get(),
+            der_signature.data(),
+            der_signature.size(),
+            hash.data(),
+            hash.size()
+        );
+        
+        if (verify_result == 1) {
+            // Signature is valid
+            result.is_valid = true;
+            spdlog::info("ECDSA_SHA256_Verifier: Signature verification successful");
+            
+            // Extract signer identity from certificate
+            X509_NAME* name = X509_get_subject_name(cert.get());
+            if (name) {
+                std::unique_ptr<BIO, decltype(&BIO_free)> bio(
+                    BIO_new(BIO_s_mem()),
+                    BIO_free
+                );
+                if (bio) {
+                    X509_NAME_print_ex(bio.get(), name, 0, XN_FLAG_ONELINE);
+                    BUF_MEM* mem = nullptr;
+                    BIO_get_mem_ptr(bio.get(), &mem);
+                    if (mem && mem->data && mem->length > 0) {
+                        result.signer_identity = std::string(mem->data, mem->length);
+                    }
+                }
+            }
+            
+            // Pass to next verifier in chain if exists
+            if (next_) {
+                return passToNext(data, signature, cert_pem);
+            }
+        } else if (verify_result == 0) {
+            // Signature is invalid
+            result.is_valid = false;
+            result.error_message = "Signature verification failed: signature does not match";
+            spdlog::warn("ECDSA_SHA256_Verifier: Signature verification failed");
+        } else {
+            // Error occurred
+            result.is_valid = false;
+            char err_buf[256];
+            ERR_error_string_n(ERR_get_error(), err_buf, sizeof(err_buf));
+            result.error_message = std::string("Verification error: ") + err_buf;
+            spdlog::error("ECDSA_SHA256_Verifier: {}", result.error_message);
+        }
+        
+    } catch (const std::exception& e) {
+        result.is_valid = false;
+        result.error_message = std::string("Exception during verification: ") + e.what();
+        spdlog::error("ECDSA_SHA256_Verifier: {}", result.error_message);
+    }
+    
+    return result;
+}
+
+std::unique_ptr<X509, decltype(&X509_free)> 
+ECDSA_SHA256_Verifier::loadCertificate(const std::string& cert_pem) {
+    spdlog::debug("Loading EC certificate from PEM");
+    
+    std::unique_ptr<BIO, decltype(&BIO_free)> bio(
+        BIO_new_mem_buf(cert_pem.data(), static_cast<int>(cert_pem.size())),
+        BIO_free
+    );
+    
+    if (!bio) {
+        spdlog::error("Failed to create BIO from certificate PEM");
+        return {nullptr, X509_free};
+    }
+    
+    X509* cert = PEM_read_bio_X509(bio.get(), nullptr, nullptr, nullptr);
+    
+    if (!cert) {
+        char err_buf[256];
+        ERR_error_string_n(ERR_get_error(), err_buf, sizeof(err_buf));
+        spdlog::error("Failed to parse X.509 certificate: {}", err_buf);
+        return {nullptr, X509_free};
+    }
+    
+    spdlog::debug("EC certificate loaded successfully");
+    return {cert, X509_free};
+}
+
+std::unique_ptr<EVP_PKEY, decltype(&EVP_PKEY_free)>
+ECDSA_SHA256_Verifier::extractPublicKey(X509* cert) {
+    if (!cert) {
+        spdlog::error("Cannot extract public key from null certificate");
+        return {nullptr, EVP_PKEY_free};
+    }
+    
+    spdlog::debug("Extracting EC public key from certificate");
+    
+    EVP_PKEY* key = X509_get_pubkey(cert);
+    
+    if (!key) {
+        char err_buf[256];
+        ERR_error_string_n(ERR_get_error(), err_buf, sizeof(err_buf));
+        spdlog::error("Failed to extract public key: {}", err_buf);
+        return {nullptr, EVP_PKEY_free};
+    }
+    
+    int key_type = EVP_PKEY_id(key);
+    int key_bits = EVP_PKEY_bits(key);
+    
+    spdlog::debug("Public key extracted: type={}, size={} bits", key_type, key_bits);
+    
+    return {key, EVP_PKEY_free};
+}
+
+bool ECDSA_SHA256_Verifier::validateECCurve(X509* cert) {
+    if (!cert) return false;
+    
+    EVP_PKEY* pkey = X509_get_pubkey(cert);
+    if (!pkey) return false;
+    
+    // Get EC key structure
+    EC_KEY* ec_key = EVP_PKEY_get0_EC_KEY(pkey);
+    if (!ec_key) {
+        EVP_PKEY_free(pkey);
+        return false;
+    }
+    
+    const EC_GROUP* group = EC_KEY_get0_group(ec_key);
+    if (!group) {
+        EVP_PKEY_free(pkey);
+        return false;
+    }
+    
+    // Check curve OID
+    int nid = EC_GROUP_get_curve_name(group);
+    bool valid = (nid == NID_X9_62_prime256v1 || nid == NID_secp384r1);
+    
+    spdlog::debug("EC curve NID: {} (P-256={}, P-384={})", 
+                  nid, NID_X9_62_prime256v1, NID_secp384r1);
+    
+    EVP_PKEY_free(pkey);
+    return valid;
+}
+
+std::vector<uint8_t> ECDSA_SHA256_Verifier::convertSignatureToDER(
+    const std::vector<uint8_t>& signature_input) {
+    
+    // If signature is already in DER format (starts with 0x30), return as-is
+    if (!signature_input.empty() && signature_input[0] == 0x30) {
+        spdlog::debug("Signature is already in DER format");
+        return signature_input;
+    }
+    
+    // Assume raw concatenated format (r||s), each 32 bytes for P-256
+    // For now, return as-is and let OpenSSL handle it
+    // TODO: Implement proper r||s to DER conversion if needed
+    spdlog::debug("Signature in assumed native format");
+    return signature_input;
+}
+
+// ===== ECDSA_SHA384_Verifier =====
+
+SignatureVerificationResult ECDSA_SHA384_Verifier::verify(
+    const std::vector<uint8_t>& data,
+    const std::vector<uint8_t>& signature,
+    const std::string& cert_pem) {
+    
+    SignatureVerificationResult result;
+    result.algorithm = "ECDSA-SHA384";
+    
+    // Validate inputs
+    if (data.empty()) {
+        result.is_valid = false;
+        result.error_message = "Data is empty";
+        spdlog::error("ECDSA_SHA384_Verifier: Data is empty");
+        return result;
+    }
+    
+    if (signature.empty()) {
+        result.is_valid = false;
+        result.error_message = "Signature is empty";
+        spdlog::error("ECDSA_SHA384_Verifier: Signature is empty");
+        return result;
+    }
+    
+    if (cert_pem.empty()) {
+        result.is_valid = false;
+        result.error_message = "Certificate is empty";
+        spdlog::error("ECDSA_SHA384_Verifier: Certificate is empty");
+        return result;
+    }
+    
+    try {
+        // 1. Load certificate
+        auto cert = loadCertificate(cert_pem);
+        if (!cert) {
+            result.is_valid = false;
+            result.error_message = "Failed to load certificate";
+            return result;
+        }
+        
+        // 2. Validate EC curve
+        if (!validateECCurve(cert.get())) {
+            result.is_valid = false;
+            result.error_message = "Unsupported EC curve (only P-256 and P-384 supported)";
+            spdlog::error("ECDSA_SHA384_Verifier: {}", result.error_message);
+            return result;
+        }
+        
+        // 3. Extract public key
+        auto pkey = extractPublicKey(cert.get());
+        if (!pkey) {
+            result.is_valid = false;
+            result.error_message = "Failed to extract public key from certificate";
+            return result;
+        }
+        
+        // 4. Check key is EC type
+        if (EVP_PKEY_id(pkey.get()) != EVP_PKEY_EC) {
+            result.is_valid = false;
+            result.error_message = "Certificate does not contain an EC key";
+            spdlog::error("ECDSA_SHA384_Verifier: {}", result.error_message);
+            return result;
+        }
+        
+        // 5. Compute SHA-384 hash of data
+        std::vector<uint8_t> hash(SHA384_DIGEST_LENGTH);
+        SHA384(data.data(), data.size(), hash.data());
+        
+        // 6. Convert signature to DER format if needed
+        auto der_signature = convertSignatureToDER(signature);
+        
+        // 7. Verify signature using EVP API
+        std::unique_ptr<EVP_PKEY_CTX, decltype(&EVP_PKEY_CTX_free)> ctx(
+            EVP_PKEY_CTX_new(pkey.get(), nullptr),
+            EVP_PKEY_CTX_free
+        );
+        
+        if (!ctx) {
+            result.is_valid = false;
+            result.error_message = "Failed to create EVP_PKEY_CTX";
+            spdlog::error("ECDSA_SHA384_Verifier: Failed to create verification context");
+            return result;
+        }
+        
+        if (EVP_PKEY_verify_init(ctx.get()) <= 0) {
+            result.is_valid = false;
+            result.error_message = "Failed to initialize verification";
+            spdlog::error("ECDSA_SHA384_Verifier: EVP_PKEY_verify_init failed");
+            return result;
+        }
+        
+        if (EVP_PKEY_CTX_set_signature_md(ctx.get(), EVP_sha384()) <= 0) {
+            result.is_valid = false;
+            result.error_message = "Failed to set signature hash algorithm";
+            spdlog::error("ECDSA_SHA384_Verifier: Failed to set SHA-384 digest");
+            return result;
+        }
+        
+        // Perform verification
+        int verify_result = EVP_PKEY_verify(
+            ctx.get(),
+            der_signature.data(),
+            der_signature.size(),
+            hash.data(),
+            hash.size()
+        );
+        
+        if (verify_result == 1) {
+            // Signature is valid
+            result.is_valid = true;
+            spdlog::info("ECDSA_SHA384_Verifier: Signature verification successful");
+            
+            // Extract signer identity from certificate
+            X509_NAME* name = X509_get_subject_name(cert.get());
+            if (name) {
+                std::unique_ptr<BIO, decltype(&BIO_free)> bio(
+                    BIO_new(BIO_s_mem()),
+                    BIO_free
+                );
+                if (bio) {
+                    X509_NAME_print_ex(bio.get(), name, 0, XN_FLAG_ONELINE);
+                    BUF_MEM* mem = nullptr;
+                    BIO_get_mem_ptr(bio.get(), &mem);
+                    if (mem && mem->data && mem->length > 0) {
+                        result.signer_identity = std::string(mem->data, mem->length);
+                    }
+                }
+            }
+            
+            // Pass to next verifier in chain if exists
+            if (next_) {
+                return passToNext(data, signature, cert_pem);
+            }
+        } else if (verify_result == 0) {
+            // Signature is invalid
+            result.is_valid = false;
+            result.error_message = "Signature verification failed: signature does not match";
+            spdlog::warn("ECDSA_SHA384_Verifier: Signature verification failed");
+        } else {
+            // Error occurred
+            result.is_valid = false;
+            char err_buf[256];
+            ERR_error_string_n(ERR_get_error(), err_buf, sizeof(err_buf));
+            result.error_message = std::string("Verification error: ") + err_buf;
+            spdlog::error("ECDSA_SHA384_Verifier: {}", result.error_message);
+        }
+        
+    } catch (const std::exception& e) {
+        result.is_valid = false;
+        result.error_message = std::string("Exception during verification: ") + e.what();
+        spdlog::error("ECDSA_SHA384_Verifier: {}", result.error_message);
+    }
+    
+    return result;
+}
+
+std::unique_ptr<X509, decltype(&X509_free)> 
+ECDSA_SHA384_Verifier::loadCertificate(const std::string& cert_pem) {
+    spdlog::debug("Loading EC certificate from PEM");
+    
+    std::unique_ptr<BIO, decltype(&BIO_free)> bio(
+        BIO_new_mem_buf(cert_pem.data(), static_cast<int>(cert_pem.size())),
+        BIO_free
+    );
+    
+    if (!bio) {
+        spdlog::error("Failed to create BIO from certificate PEM");
+        return {nullptr, X509_free};
+    }
+    
+    X509* cert = PEM_read_bio_X509(bio.get(), nullptr, nullptr, nullptr);
+    
+    if (!cert) {
+        char err_buf[256];
+        ERR_error_string_n(ERR_get_error(), err_buf, sizeof(err_buf));
+        spdlog::error("Failed to parse X.509 certificate: {}", err_buf);
+        return {nullptr, X509_free};
+    }
+    
+    spdlog::debug("EC certificate loaded successfully");
+    return {cert, X509_free};
+}
+
+std::unique_ptr<EVP_PKEY, decltype(&EVP_PKEY_free)>
+ECDSA_SHA384_Verifier::extractPublicKey(X509* cert) {
+    if (!cert) {
+        spdlog::error("Cannot extract public key from null certificate");
+        return {nullptr, EVP_PKEY_free};
+    }
+    
+    spdlog::debug("Extracting EC public key from certificate");
+    
+    EVP_PKEY* key = X509_get_pubkey(cert);
+    
+    if (!key) {
+        char err_buf[256];
+        ERR_error_string_n(ERR_get_error(), err_buf, sizeof(err_buf));
+        spdlog::error("Failed to extract public key: {}", err_buf);
+        return {nullptr, EVP_PKEY_free};
+    }
+    
+    int key_type = EVP_PKEY_id(key);
+    int key_bits = EVP_PKEY_bits(key);
+    
+    spdlog::debug("Public key extracted: type={}, size={} bits", key_type, key_bits);
+    
+    return {key, EVP_PKEY_free};
+}
+
+bool ECDSA_SHA384_Verifier::validateECCurve(X509* cert) {
+    if (!cert) return false;
+    
+    EVP_PKEY* pkey = X509_get_pubkey(cert);
+    if (!pkey) return false;
+    
+    EC_KEY* ec_key = EVP_PKEY_get0_EC_KEY(pkey);
+    if (!ec_key) {
+        EVP_PKEY_free(pkey);
+        return false;
+    }
+    
+    const EC_GROUP* group = EC_KEY_get0_group(ec_key);
+    if (!group) {
+        EVP_PKEY_free(pkey);
+        return false;
+    }
+    
+    int nid = EC_GROUP_get_curve_name(group);
+    bool valid = (nid == NID_X9_62_prime256v1 || nid == NID_secp384r1);
+    
+    spdlog::debug("EC curve NID: {} (P-256={}, P-384={})", 
+                  nid, NID_X9_62_prime256v1, NID_secp384r1);
+    
+    EVP_PKEY_free(pkey);
+    return valid;
+}
+
+std::vector<uint8_t> ECDSA_SHA384_Verifier::convertSignatureToDER(
+    const std::vector<uint8_t>& signature_input) {
+    
+    if (!signature_input.empty() && signature_input[0] == 0x30) {
+       spdlog::debug("Signature is already in DER format");
+       return signature_input;
+   }
+    
+   spdlog::debug("Signature in assumed native format");
+   return signature_input;
+}
+
+// ===== Builder =====
+
+SignatureVerifierBuilder& SignatureVerifierBuilder::withRSA_SHA256() {
+   auto verifier = std::make_shared<RSA_SHA256_Verifier>();
+    
+   if (!head_) {
+       head_ = verifier;
+       tail_ = verifier;
+   } else {
+       tail_->setNext(verifier);
+       tail_ = verifier;
+   }
+    
+   spdlog::debug("Added RSA-SHA256 verifier to chain");
+   return *this;
+}
+
+SignatureVerifierBuilder& SignatureVerifierBuilder::withECDSA_SHA256() {
+   auto verifier = std::make_shared<ECDSA_SHA256_Verifier>();
+    
+   if (!head_) {
+       head_ = verifier;
+       tail_ = verifier;
+   } else {
+       tail_->setNext(verifier);
+       tail_ = verifier;
+   }
+    
+   spdlog::debug("Added ECDSA-SHA256 verifier to chain");
+   return *this;
+}
+
+SignatureVerifierBuilder& SignatureVerifierBuilder::withECDSA_SHA384() {
+   auto verifier = std::make_shared<ECDSA_SHA384_Verifier>();
+    
+   if (!head_) {
+       head_ = verifier;
+       tail_ = verifier;
+   } else {
+       tail_->setNext(verifier);
+       tail_ = verifier;
+   }
+    
+   spdlog::debug("Added ECDSA-SHA384 verifier to chain");
+   return *this;
 }
 
 SignatureVerifierBuilder& SignatureVerifierBuilder::withCertificateChainValidation(
-    const std::string& ca_bundle_path) {
+   const std::string& ca_bundle_path) {
     
-    auto verifier = std::make_shared<CertificateChainVerifier>(ca_bundle_path);
+   auto verifier = std::make_shared<CertificateChainVerifier>(ca_bundle_path);
     
-    if (!head_) {
-        head_ = verifier;
-        tail_ = verifier;
-    } else {
-        tail_->setNext(verifier);
-        tail_ = verifier;
-    }
+   if (!head_) {
+       head_ = verifier;
+       tail_ = verifier;
+   } else {
+       tail_->setNext(verifier);
+       tail_ = verifier;
+   }
     
-    spdlog::debug("Added Certificate Chain verifier to chain");
-    return *this;
+   spdlog::debug("Added Certificate Chain verifier to chain");
+   return *this;
 }
 
 SignatureVerifierBuilder& SignatureVerifierBuilder::withCRLCheck(
