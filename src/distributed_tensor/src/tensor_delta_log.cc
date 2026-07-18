@@ -15,6 +15,82 @@ namespace distributed_tensor {
 
 namespace {
 
+/// @brief Escapes a string value for safe JSON embedding.
+/// Escapes backslashes, double-quotes, and ASCII control characters.
+/// @param s Raw string value
+/// @return JSON-safe escaped string (without surrounding quotes)
+std::string jsonEscape(const std::string& s) {
+  std::string out;
+  out.reserve(s.size() + 8);
+  for (unsigned char c : s) {
+    switch (c) {
+      case '"':  out += "\\\""; break;
+      case '\\': out += "\\\\"; break;
+      case '\b': out += "\\b";  break;
+      case '\f': out += "\\f";  break;
+      case '\n': out += "\\n";  break;
+      case '\r': out += "\\r";  break;
+      case '\t': out += "\\t";  break;
+      default:
+        if (c < 0x20) {
+          // Escape remaining control characters as \uXXXX
+          char buf[7];
+          std::snprintf(buf, sizeof(buf), "\\u%04x", static_cast<unsigned>(c));
+          out += buf;
+        } else {
+          out += static_cast<char>(c);
+        }
+    }
+  }
+  return out;
+}
+
+/// @brief Extracts a JSON string field value (unescapes basic sequences).
+/// Supports the escape sequences emitted by jsonEscape().
+/// @param json   Full JSON string to search
+/// @param key    Field key (without quotes)
+/// @param start  Search start position; updated to position after the closing quote
+/// @return Extracted and unescaped string value, or std::nullopt on parse error
+std::optional<std::string> extractJsonString(const std::string& json,
+                                              const std::string& key,
+                                              size_t& start) {
+  const std::string search = "\"" + key + "\":\"";
+  size_t pos = json.find(search, start);
+  if (pos == std::string::npos) return std::nullopt;
+  pos += search.size();
+
+  std::string result;
+  bool escaped = false;
+  while (pos < json.size()) {
+    char c = json[pos++];
+    if (escaped) {
+      switch (c) {
+        case '"':  result += '"';  break;
+        case '\\': result += '\\'; break;
+        case 'b':  result += '\b'; break;
+        case 'f':  result += '\f'; break;
+        case 'n':  result += '\n'; break;
+        case 'r':  result += '\r'; break;
+        case 't':  result += '\t'; break;
+        default:   result += c;    break;
+      }
+      escaped = false;
+    } else if (c == '\\') {
+      escaped = true;
+    } else if (c == '"') {
+      start = pos;
+      return result;
+    } else {
+      result += c;
+    }
+  }
+  return std::nullopt;  // Unterminated string
+}
+
+}  // namespace
+
+namespace {
+
 int64_t getCurrentTimeMs() {
   return std::chrono::duration_cast<std::chrono::milliseconds>(
              std::chrono::system_clock::now().time_since_epoch())
@@ -442,10 +518,9 @@ TensorDeltaLog::Stats TensorDeltaLog::getStats() const {
 }
 
 std::string DeltaWindow::toJSON() const {
-  // Simple JSON representation using string concatenation
-  // Format: { "artifact_id": "...", "sequence_start": N, "sequence_end": N, ... }
+  // JSON representation with proper escaping of all string fields
   std::ostringstream oss;
-  oss << "{\"artifact_id\":\"" << artifact_id << "\","
+  oss << "{\"artifact_id\":\"" << jsonEscape(artifact_id) << "\","
       << "\"sequence_start\":" << sequence_start << ","
       << "\"sequence_end\":" << sequence_end << ","
       << "\"extracted_at_ms\":" << extracted_at_ms << ","
@@ -457,12 +532,12 @@ std::string DeltaWindow::toJSON() const {
     const auto& entry = entries[i];
     oss << "{\"sequence_number\":" << entry.sequence_number << ","
         << "\"mutation_type\":" << static_cast<int>(entry.mutation_type) << ","
-        << "\"affected_entity_id\":\"" << entry.affected_entity_id << "\","
+        << "\"affected_entity_id\":\"" << jsonEscape(entry.affected_entity_id) << "\","
         << "\"recorded_at_ms\":" << entry.recorded_at_ms << ","
-        << "\"source_transaction_id\":\"" << entry.source_transaction_id << "\","
-        << "\"shard_hint\":\"" << entry.shard_hint << "\","
+        << "\"source_transaction_id\":\"" << jsonEscape(entry.source_transaction_id) << "\","
+        << "\"shard_hint\":\"" << jsonEscape(entry.shard_hint) << "\","
         << "\"payload_size_bytes\":" << entry.payload_size_bytes << ","
-        << "\"payload_checksum\":\"" << entry.payload_checksum << "\"}";
+        << "\"payload_checksum\":\"" << jsonEscape(entry.payload_checksum) << "\"}";
   }
 
   oss << "]}";
@@ -471,40 +546,137 @@ std::string DeltaWindow::toJSON() const {
 
 std::optional<DeltaWindow> DeltaWindow::fromJSON(const std::string& json_str) {
   try {
-    // Simple JSON parser without external dependencies
     DeltaWindow window;
-    
-    // Extract artifact_id
-    size_t pos = json_str.find("\"artifact_id\":\"");
-    if (pos == std::string::npos) return std::nullopt;
-    pos += 16;  // Skip "artifact_id":"
-    size_t end = json_str.find("\"", pos);
-    if (end == std::string::npos) return std::nullopt;
-    window.artifact_id = json_str.substr(pos, end - pos);
+    size_t cursor = 0;
 
-    // Extract sequence_start
-    pos = json_str.find("\"sequence_start\":", end);
-    if (pos == std::string::npos) return std::nullopt;
-    window.sequence_start = std::stoull(json_str.substr(pos + 17));
+    // Extract artifact_id (string field)
+    auto artifact_id_val = extractJsonString(json_str, "artifact_id", cursor);
+    if (!artifact_id_val) return std::nullopt;
+    window.artifact_id = *artifact_id_val;
 
-    // Extract sequence_end
-    pos = json_str.find("\"sequence_end\":", end);
-    if (pos == std::string::npos) return std::nullopt;
-    window.sequence_end = std::stoull(json_str.substr(pos + 15));
+    // Extract numeric fields – search from start to handle any ordering
+    auto findUint64 = [&](const std::string& key) -> std::optional<uint64_t> {
+      const std::string search = "\"" + key + "\":";
+      size_t pos = json_str.find(search);
+      if (pos == std::string::npos) return std::nullopt;
+      return std::stoull(json_str.substr(pos + search.size()));
+    };
+    auto findInt64 = [&](const std::string& key) -> std::optional<int64_t> {
+      const std::string search = "\"" + key + "\":";
+      size_t pos = json_str.find(search);
+      if (pos == std::string::npos) return std::nullopt;
+      return std::stoll(json_str.substr(pos + search.size()));
+    };
 
-    // Extract extracted_at_ms
-    pos = json_str.find("\"extracted_at_ms\":", end);
-    if (pos == std::string::npos) return std::nullopt;
-    window.extracted_at_ms = std::stoll(json_str.substr(pos + 18));
+    auto seq_start = findUint64("sequence_start");
+    if (!seq_start) return std::nullopt;
+    window.sequence_start = *seq_start;
 
-    // Extract total_payload_size_bytes
-    pos = json_str.find("\"total_payload_size_bytes\":", end);
-    if (pos == std::string::npos) return std::nullopt;
-    window.total_payload_size_bytes = std::stoull(json_str.substr(pos + 26));
+    auto seq_end = findUint64("sequence_end");
+    if (!seq_end) return std::nullopt;
+    window.sequence_end = *seq_end;
 
-    // Extract entries array - simplified parsing
-    pos = json_str.find("\"entries\":[", end);
-    if (pos == std::string::npos) return std::nullopt;
+    auto ext_ms = findInt64("extracted_at_ms");
+    if (!ext_ms) return std::nullopt;
+    window.extracted_at_ms = *ext_ms;
+
+    auto payload_sz = findUint64("total_payload_size_bytes");
+    if (!payload_sz) return std::nullopt;
+    window.total_payload_size_bytes = *payload_sz;
+
+    // Parse entries array
+    size_t entries_pos = json_str.find("\"entries\":[");
+    if (entries_pos == std::string::npos) return std::nullopt;
+    entries_pos += 11;  // Skip past "entries":[
+
+    // Scan for entry objects: each starts with '{'
+    while (entries_pos < json_str.size()) {
+      // Skip whitespace
+      while (entries_pos < json_str.size() &&
+             (json_str[entries_pos] == ' ' || json_str[entries_pos] == '\n' ||
+              json_str[entries_pos] == '\r' || json_str[entries_pos] == '\t')) {
+        ++entries_pos;
+      }
+      if (entries_pos >= json_str.size() || json_str[entries_pos] != '{') break;
+
+      // Find the closing '}' of this entry object, respecting nesting
+      size_t entry_end = entries_pos + 1;
+      int depth = 1;
+      while (entry_end < json_str.size() && depth > 0) {
+        if (json_str[entry_end] == '{') ++depth;
+        else if (json_str[entry_end] == '}') --depth;
+        else if (json_str[entry_end] == '"') {
+          // Skip string literal
+          ++entry_end;
+          while (entry_end < json_str.size()) {
+            if (json_str[entry_end] == '\\') { entry_end += 2; continue; }
+            if (json_str[entry_end] == '"') { ++entry_end; break; }
+            ++entry_end;
+          }
+          continue;
+        }
+        ++entry_end;
+      }
+
+      const std::string entry_json = json_str.substr(entries_pos, entry_end - entries_pos);
+      DeltaLogEntry entry;
+
+      // Parse entry fields from the isolated entry JSON string
+      auto findEntryUint64 = [&](const std::string& key) -> std::optional<uint64_t> {
+        const std::string search = "\"" + key + "\":";
+        size_t p = entry_json.find(search);
+        if (p == std::string::npos) return std::nullopt;
+        return std::stoull(entry_json.substr(p + search.size()));
+      };
+      auto findEntryInt64 = [&](const std::string& key) -> std::optional<int64_t> {
+        const std::string search = "\"" + key + "\":";
+        size_t p = entry_json.find(search);
+        if (p == std::string::npos) return std::nullopt;
+        return std::stoll(entry_json.substr(p + search.size()));
+      };
+      auto findEntryString = [&](const std::string& key) -> std::optional<std::string> {
+        size_t tmp = 0;
+        return extractJsonString(entry_json, key, tmp);
+      };
+
+      auto seq_num = findEntryUint64("sequence_number");
+      if (!seq_num) return std::nullopt;
+      entry.sequence_number = *seq_num;
+
+      auto mut_type = findEntryInt64("mutation_type");
+      if (!mut_type) return std::nullopt;
+      entry.mutation_type = static_cast<DeltaMutationType>(*mut_type);
+
+      auto entity_id = findEntryString("affected_entity_id");
+      if (!entity_id) return std::nullopt;
+      entry.affected_entity_id = *entity_id;
+
+      auto rec_ms = findEntryInt64("recorded_at_ms");
+      if (!rec_ms) return std::nullopt;
+      entry.recorded_at_ms = *rec_ms;
+
+      auto tx_id = findEntryString("source_transaction_id");
+      entry.source_transaction_id = tx_id.value_or("");
+
+      auto shard = findEntryString("shard_hint");
+      entry.shard_hint = shard.value_or("");
+
+      auto pl_sz = findEntryUint64("payload_size_bytes");
+      entry.payload_size_bytes = pl_sz ? static_cast<uint32_t>(*pl_sz) : 0;
+
+      auto checksum = findEntryString("payload_checksum");
+      entry.payload_checksum = checksum.value_or("");
+
+      window.entries.push_back(std::move(entry));
+
+      // Advance past this entry; skip ',' between entries
+      entries_pos = entry_end;
+      while (entries_pos < json_str.size() &&
+             (json_str[entries_pos] == ',' || json_str[entries_pos] == ' ' ||
+              json_str[entries_pos] == '\n')) {
+        ++entries_pos;
+      }
+    }
 
     if (!window.isValid()) {
       return std::nullopt;

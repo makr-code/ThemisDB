@@ -23,7 +23,7 @@ openssl req -new -key test_key_2048.pem -out test_csr.pem \
 # 4. Sign the certificate with CA
 echo "4. Signing certificate with CA..."
 openssl x509 -req -in test_csr.pem -CA ca_cert.pem -CAkey ca_key.pem \
-    -CAcreateserial -out test_cert.pem -days 365 -sha256
+    -set_serial 1 -out test_cert.pem -days 365 -sha256
 
 # 5. Generate 3072-bit key for additional tests
 echo "5. Generating 3072-bit RSA test key..."
@@ -31,7 +31,7 @@ openssl genrsa -out test_key_3072.pem 3072
 openssl req -new -key test_key_3072.pem -out test_csr_3072.pem \
     -subj "/C=US/ST=Test/L=Test/O=ThemisDB/CN=test-3072.themisdb.com"
 openssl x509 -req -in test_csr_3072.pem -CA ca_cert.pem -CAkey ca_key.pem \
-    -CAcreateserial -out test_cert_3072.pem -days 365 -sha256
+    -set_serial 2 -out test_cert_3072.pem -days 365 -sha256
 
 # 6. Generate 4096-bit key for additional tests
 echo "6. Generating 4096-bit RSA test key..."
@@ -39,7 +39,7 @@ openssl genrsa -out test_key_4096.pem 4096
 openssl req -new -key test_key_4096.pem -out test_csr_4096.pem \
     -subj "/C=US/ST=Test/L=Test/O=ThemisDB/CN=test-4096.themisdb.com"
 openssl x509 -req -in test_csr_4096.pem -CA ca_cert.pem -CAkey ca_key.pem \
-    -CAcreateserial -out test_cert_4096.pem -days 365 -sha256
+    -set_serial 3 -out test_cert_4096.pem -days 365 -sha256
 
 # 7. Generate self-signed certificate (should fail chain validation)
 echo "7. Generating self-signed certificate..."
@@ -61,7 +61,7 @@ openssl genrsa -out weak_key_1024.pem 1024
 openssl req -new -key weak_key_1024.pem -out weak_csr.pem \
     -subj "/C=US/ST=Test/L=Test/O=ThemisDB/CN=weak.themisdb.com"
 openssl x509 -req -in weak_csr.pem -CA ca_cert.pem -CAkey ca_key.pem \
-    -CAcreateserial -out weak_cert_1024.pem -days 365 -sha256
+    -set_serial 4 -out weak_cert_1024.pem -days 365 -sha256
 
 # 10. Create test data file
 echo "10. Creating test data file..."
@@ -89,7 +89,7 @@ openssl req -new -key test_key_p256.pem -out test_csr_p256.pem \
 
 echo "15. Signing P-256 certificate with CA..."
 openssl x509 -req -in test_csr_p256.pem -CA ca_cert.pem -CAkey ca_key.pem \
-    -CAcreateserial -out test_cert_p256.pem -days 365 -sha256
+    -set_serial 101 -out test_cert_p256.pem -days 365 -sha256
 
 echo "16. Generating P-384 ECDSA key..."
 openssl ecparam -name secp384r1 -genkey -noout -out test_key_p384.pem
@@ -100,7 +100,7 @@ openssl req -new -key test_key_p384.pem -out test_csr_p384.pem \
 
 echo "18. Signing P-384 certificate with CA..."
 openssl x509 -req -in test_csr_p384.pem -CA ca_cert.pem -CAkey ca_key.pem \
-    -CAcreateserial -out test_cert_p384.pem -days 365 -sha256
+    -set_serial 102 -out test_cert_p384.pem -days 365 -sha256
 
 # 14. Generate ECDSA-SHA256 signatures
 echo "19. Creating ECDSA-SHA256 signature with P-256..."
@@ -140,7 +140,7 @@ openssl req -new -key test_key_p521.pem -out test_csr_p521.pem \
 
 echo "26. Signing P-521 certificate with CA..."
 openssl x509 -req -in test_csr_p521.pem -CA ca_cert.pem -CAkey ca_key.pem \
-    -CAcreateserial -out test_cert_p521.pem -days 365 -sha256
+    -set_serial 103 -out test_cert_p521.pem -days 365 -sha256
 
 echo "27. Creating signature with P-521 (unsupported curve)..."
 openssl dgst -sha256 -sign test_key_p521.pem -out test_data_signature_ecdsa_p521.bin test_data.txt

@@ -978,14 +978,21 @@ protected:
         // Create self-signed X.509 certificate
         X509* x509 = X509_new();
         X509_set_version(x509, 2);  // Version 3
-        X509_set_serialNumber(x509, BN_value_one());
+
+        // Set serial number using ASN1_INTEGER (BN_value_one() returns BIGNUM*, not ASN1_INTEGER*)
+        ASN1_INTEGER* serial = ASN1_INTEGER_new();
+        ASSERT_NE(nullptr, serial);
+        ASN1_INTEGER_set(serial, 1);
+        X509_set_serialNumber(x509, serial);
+        ASN1_INTEGER_free(serial);
         
         X509_gmtime_adj(X509_getm_notBefore(x509), 0);
         X509_gmtime_adj(X509_getm_notAfter(x509), 365*24*3600);  // 1 year
         
         X509_NAME* name = X509_get_subject_name(x509);
+        // X509_NAME_add_entry_by_txt requires 7 args: name, field, type, bytes, len, loc, set
         X509_NAME_add_entry_by_txt(name, "CN", MBSTRING_ASN1, 
-                                   (const unsigned char*)"Test LoRA Signer", -1, -1);
+                                   (const unsigned char*)"Test LoRA Signer", -1, -1, 0);
         X509_set_issuer_name(x509, name);
         
         X509_set_pubkey(x509, pkey_);

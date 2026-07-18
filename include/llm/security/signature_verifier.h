@@ -105,7 +105,9 @@ private:
  * @brief ECDSA-SHA256 Signature Verifier
  * 
  * Supports P-256 (prime256v1) and P-384 (secp384r1) curves.
- * Handles both concatenated (r||s) and DER-encoded signature formats.
+ * Accepts DER-encoded ECDSA signatures (standard OpenSSL output format).
+ * Raw concatenated (r||s) input (64 bytes for P-256, 96 bytes for P-384)
+ * is automatically converted to DER before verification.
  */
 class ECDSA_SHA256_Verifier : public ISignatureVerifier {
 public:
@@ -145,6 +147,9 @@ private:
  * 
  * Supports P-256 (prime256v1) and P-384 (secp384r1) curves.
  * Provides stronger cryptographic guarantees than SHA256.
+ * Accepts DER-encoded ECDSA signatures (standard OpenSSL output format).
+ * Raw concatenated (r||s) input (64 bytes for P-256, 96 bytes for P-384)
+ * is automatically converted to DER before verification.
  */
 class ECDSA_SHA384_Verifier : public ISignatureVerifier {
 public:

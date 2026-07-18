@@ -942,17 +942,58 @@ bool ECDSA_SHA256_Verifier::validateECCurve(X509* cert) {
 std::vector<uint8_t> ECDSA_SHA256_Verifier::convertSignatureToDER(
     const std::vector<uint8_t>& signature_input) {
     
-    // If signature is already in DER format (starts with 0x30), return as-is
+    // If signature is already in DER format (SEQUENCE tag 0x30), return as-is
     if (!signature_input.empty() && signature_input[0] == 0x30) {
-        spdlog::debug("Signature is already in DER format");
+        spdlog::debug("ECDSA_SHA256_Verifier: signature is already in DER format");
         return signature_input;
     }
     
-    // Assume raw concatenated format (r||s), each 32 bytes for P-256
-    // For now, return as-is and let OpenSSL handle it
-    // TODO: Implement proper r||s to DER conversion if needed
-    spdlog::debug("Signature in assumed native format");
-    return signature_input;
+    // Attempt to interpret as raw concatenated r||s format.
+    // P-256: 32-byte r + 32-byte s = 64 bytes total
+    // P-384: 48-byte r + 48-byte s = 96 bytes total
+    const size_t sz = signature_input.size();
+    if (sz != 64 && sz != 96) {
+        spdlog::debug("ECDSA_SHA256_Verifier: signature size {} is not a recognised r||s length; "
+                      "passing through unchanged", sz);
+        return signature_input;
+    }
+
+    const size_t half = sz / 2;
+    const uint8_t* r_ptr = signature_input.data();
+    const uint8_t* s_ptr = signature_input.data() + half;
+
+    // Build DER-encoded ECDSA-Sig-Value ::= SEQUENCE { r INTEGER, s INTEGER }
+    // Helper: encode a big-endian unsigned integer as a DER INTEGER
+    auto encodeDERInt = [](const uint8_t* val, size_t len) -> std::vector<uint8_t> {
+        // Skip leading zero bytes (but keep at least one byte)
+        size_t start = 0;
+        while (start < len - 1 && val[start] == 0x00) ++start;
+
+        std::vector<uint8_t> bytes(val + start, val + len);
+        // If the high bit is set, prepend a 0x00 padding byte to keep sign positive
+        if (bytes[0] & 0x80) bytes.insert(bytes.begin(), 0x00);
+
+        std::vector<uint8_t> der;
+        der.push_back(0x02);  // INTEGER tag
+        der.push_back(static_cast<uint8_t>(bytes.size()));
+        der.insert(der.end(), bytes.begin(), bytes.end());
+        return der;
+    };
+
+    auto r_der = encodeDERInt(r_ptr, half);
+    auto s_der = encodeDERInt(s_ptr, half);
+
+    const size_t payload_len = r_der.size() + s_der.size();
+    std::vector<uint8_t> result;
+    result.reserve(2 + payload_len);
+    result.push_back(0x30);  // SEQUENCE tag
+    result.push_back(static_cast<uint8_t>(payload_len));
+    result.insert(result.end(), r_der.begin(), r_der.end());
+    result.insert(result.end(), s_der.begin(), s_der.end());
+
+    spdlog::debug("ECDSA_SHA256_Verifier: converted {}-byte r||s to {}-byte DER",
+                  sz, result.size());
+    return result;
 }
 
 // ===== ECDSA_SHA384_Verifier =====
@@ -1195,14 +1236,51 @@ bool ECDSA_SHA384_Verifier::validateECCurve(X509* cert) {
 
 std::vector<uint8_t> ECDSA_SHA384_Verifier::convertSignatureToDER(
     const std::vector<uint8_t>& signature_input) {
-    
+
     if (!signature_input.empty() && signature_input[0] == 0x30) {
-       spdlog::debug("Signature is already in DER format");
-       return signature_input;
-   }
-    
-   spdlog::debug("Signature in assumed native format");
-   return signature_input;
+        spdlog::debug("ECDSA_SHA384_Verifier: signature is already in DER format");
+        return signature_input;
+    }
+
+    // Attempt to interpret as raw concatenated r||s format.
+    // P-256: 64 bytes, P-384: 96 bytes
+    const size_t sz = signature_input.size();
+    if (sz != 64 && sz != 96) {
+        spdlog::debug("ECDSA_SHA384_Verifier: signature size {} is not a recognised r||s length; "
+                      "passing through unchanged", sz);
+        return signature_input;
+    }
+
+    const size_t half = sz / 2;
+    const uint8_t* r_ptr = signature_input.data();
+    const uint8_t* s_ptr = signature_input.data() + half;
+
+    auto encodeDERInt = [](const uint8_t* val, size_t len) -> std::vector<uint8_t> {
+        size_t start = 0;
+        while (start < len - 1 && val[start] == 0x00) ++start;
+        std::vector<uint8_t> bytes(val + start, val + len);
+        if (bytes[0] & 0x80) bytes.insert(bytes.begin(), 0x00);
+        std::vector<uint8_t> der;
+        der.push_back(0x02);
+        der.push_back(static_cast<uint8_t>(bytes.size()));
+        der.insert(der.end(), bytes.begin(), bytes.end());
+        return der;
+    };
+
+    auto r_der = encodeDERInt(r_ptr, half);
+    auto s_der = encodeDERInt(s_ptr, half);
+    const size_t payload_len = r_der.size() + s_der.size();
+
+    std::vector<uint8_t> result;
+    result.reserve(2 + payload_len);
+    result.push_back(0x30);
+    result.push_back(static_cast<uint8_t>(payload_len));
+    result.insert(result.end(), r_der.begin(), r_der.end());
+    result.insert(result.end(), s_der.begin(), s_der.end());
+
+    spdlog::debug("ECDSA_SHA384_Verifier: converted {}-byte r||s to {}-byte DER",
+                  sz, result.size());
+    return result;
 }
 
 // ===== Builder =====

@@ -590,3 +590,4 @@ ai_working/*.py  # Temporary/auto-generated scripts
 /ingestion_tracker.db
 /ingestion.log
 /themisdb.log
+tests/data/certificates/ca_cert.srl
