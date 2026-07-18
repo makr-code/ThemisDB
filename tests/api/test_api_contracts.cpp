@@ -20,6 +20,7 @@
 #include "api/websocket_handler.h"
 #include "api/api_version_router.h"
 #include "api/correlation_id.h"
+#include "api/grpc_bridge.h"
 
 using namespace themis::api;
 
@@ -38,7 +39,7 @@ public:
         // Verify fail-closed behavior for invalid input
         if (req.method.empty() || req.path.empty()) {
             return tl::unexpected(themis::Error(
-                themis::errors::ErrorCode::ERR_API_INTERNAL_ERROR,
+                themis::errors::ErrorCode::ERR_API_INVALID_REQUEST,
                 "Invalid request: empty method or path"));
         }
         // Verify backward compatibility: always support v1
@@ -46,7 +47,7 @@ public:
             auto version = req.headers.at("X-API-Version");
             if (version != "v1" && version != "v2") {
                 return tl::unexpected(themis::Error(
-                    themis::errors::ErrorCode::ERR_API_INTERNAL_ERROR,
+                    themis::errors::ErrorCode::ERR_API_INVALID_REQUEST,
                     "Unsupported API version: " + version));
             }
         }
@@ -115,6 +116,7 @@ TEST(APIContractsTest, FailClosedOnEmptyMethod)
 
     auto result = adapter->handle(req);
     EXPECT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code(), themis::errors::ErrorCode::ERR_API_INVALID_REQUEST);
     EXPECT_NE(result.error().message().find("Invalid request"), std::string::npos);
 }
 
@@ -132,6 +134,7 @@ TEST(APIContractsTest, FailClosedOnUnsupportedVersion)
 
     auto result = adapter->handle(req);
     EXPECT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code(), themis::errors::ErrorCode::ERR_API_INVALID_REQUEST);
     EXPECT_NE(result.error().message().find("Unsupported API version"), std::string::npos);
 }
 
@@ -249,7 +252,7 @@ TEST(APIContractsTest, SuccessNoContentResponseContractMet)
 TEST(APIContractsTest, MiddlewareConcurrencyBounding)
 {
     MiddlewareChain chain;
-    // Simulate bounded chain insertion (max 32 handlers per documented contracts)
+    // Use a representative bounded chain size for focused contract validation.
     for (int i = 0; i < 32; ++i) {
         chain.append(std::make_shared<ContractValidatingAdapter>());
     }
@@ -458,22 +461,24 @@ TEST(APIContractsTest, RoadmapAcceptanceAdapterSurfacesVerified)
 
     auto verify_status = [](int code) {
         switch (code) {
-            case 200: HttpResponse::ok("{}"); break;
-            case 201: HttpResponse::created("{}"); break;
-            case 204: HttpResponse::noContent(); break;
-            case 400: HttpResponse::badRequest(""); break;
-            case 401: HttpResponse::unauthorized(); break;
-            case 403: HttpResponse::forbidden(); break;
-            case 404: HttpResponse::notFound(); break;
-            case 500: HttpResponse::internalError(""); break;
-            default: FAIL() << "Unexpected status code: " << code;
+            case 200: return HttpResponse::ok("{}");
+            case 201: return HttpResponse::created("{}");
+            case 204: return HttpResponse::noContent();
+            case 400: return HttpResponse::badRequest("");
+            case 401: return HttpResponse::unauthorized();
+            case 403: return HttpResponse::forbidden();
+            case 404: return HttpResponse::notFound();
+            case 500: return HttpResponse::internalError("");
+            default:
+                ADD_FAILURE() << "Unexpected status code: " << code;
+                return HttpResponse::internalError("unexpected status code");
         }
     };
 
     for (const auto& [code, name] : expected_codes) {
-        verify_status(code);
+        const auto response = verify_status(code);
+        EXPECT_EQ(response.status_code, code) << name;
     }
-    SUCCEED();
 }
 
 /**
@@ -493,6 +498,7 @@ TEST(APIContractsTest, RoadmapAcceptanceSecurityAndFailureHandling)
     invalid.path = "";
     auto result = handler->handle(invalid);
     EXPECT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code(), themis::errors::ErrorCode::ERR_API_INVALID_REQUEST);
 
     // Test fail-closed behavior on unsupported versions
     HttpRequest unsupported;
@@ -501,8 +507,7 @@ TEST(APIContractsTest, RoadmapAcceptanceSecurityAndFailureHandling)
     unsupported.headers["X-API-Version"] = "v99";
     auto result2 = handler->handle(unsupported);
     EXPECT_FALSE(result2.has_value());
-
-    SUCCEED();
+    EXPECT_EQ(result2.error().code(), themis::errors::ErrorCode::ERR_API_INVALID_REQUEST);
 }
 
 // ============================================================================
