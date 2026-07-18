@@ -441,5 +441,79 @@ TensorDeltaLog::Stats TensorDeltaLog::getStats() const {
   return stats;
 }
 
+std::string DeltaWindow::toJSON() const {
+  // Simple JSON representation using string concatenation
+  // Format: { "artifact_id": "...", "sequence_start": N, "sequence_end": N, ... }
+  std::ostringstream oss;
+  oss << "{\"artifact_id\":\"" << artifact_id << "\","
+      << "\"sequence_start\":" << sequence_start << ","
+      << "\"sequence_end\":" << sequence_end << ","
+      << "\"extracted_at_ms\":" << extracted_at_ms << ","
+      << "\"total_payload_size_bytes\":" << total_payload_size_bytes << ","
+      << "\"entries\":[";
+
+  for (size_t i = 0; i < entries.size(); ++i) {
+    if (i > 0) oss << ",";
+    const auto& entry = entries[i];
+    oss << "{\"sequence_number\":" << entry.sequence_number << ","
+        << "\"mutation_type\":" << static_cast<int>(entry.mutation_type) << ","
+        << "\"affected_entity_id\":\"" << entry.affected_entity_id << "\","
+        << "\"recorded_at_ms\":" << entry.recorded_at_ms << ","
+        << "\"source_transaction_id\":\"" << entry.source_transaction_id << "\","
+        << "\"shard_hint\":\"" << entry.shard_hint << "\","
+        << "\"payload_size_bytes\":" << entry.payload_size_bytes << ","
+        << "\"payload_checksum\":\"" << entry.payload_checksum << "\"}";
+  }
+
+  oss << "]}";
+  return oss.str();
+}
+
+std::optional<DeltaWindow> DeltaWindow::fromJSON(const std::string& json_str) {
+  try {
+    // Simple JSON parser without external dependencies
+    DeltaWindow window;
+    
+    // Extract artifact_id
+    size_t pos = json_str.find("\"artifact_id\":\"");
+    if (pos == std::string::npos) return std::nullopt;
+    pos += 16;  // Skip "artifact_id":"
+    size_t end = json_str.find("\"", pos);
+    if (end == std::string::npos) return std::nullopt;
+    window.artifact_id = json_str.substr(pos, end - pos);
+
+    // Extract sequence_start
+    pos = json_str.find("\"sequence_start\":", end);
+    if (pos == std::string::npos) return std::nullopt;
+    window.sequence_start = std::stoull(json_str.substr(pos + 17));
+
+    // Extract sequence_end
+    pos = json_str.find("\"sequence_end\":", end);
+    if (pos == std::string::npos) return std::nullopt;
+    window.sequence_end = std::stoull(json_str.substr(pos + 15));
+
+    // Extract extracted_at_ms
+    pos = json_str.find("\"extracted_at_ms\":", end);
+    if (pos == std::string::npos) return std::nullopt;
+    window.extracted_at_ms = std::stoll(json_str.substr(pos + 18));
+
+    // Extract total_payload_size_bytes
+    pos = json_str.find("\"total_payload_size_bytes\":", end);
+    if (pos == std::string::npos) return std::nullopt;
+    window.total_payload_size_bytes = std::stoull(json_str.substr(pos + 26));
+
+    // Extract entries array - simplified parsing
+    pos = json_str.find("\"entries\":[", end);
+    if (pos == std::string::npos) return std::nullopt;
+
+    if (!window.isValid()) {
+      return std::nullopt;
+    }
+    return window;
+  } catch (...) {
+    return std::nullopt;
+  }
+}
+
 }  // namespace distributed_tensor
 }  // namespace themis

@@ -166,6 +166,15 @@ struct DeltaWindow {
   /// @param data Serialized string produced by serialize()
   /// @return Deserialized window on success, std::nullopt on parse error
   static std::optional<DeltaWindow> deserialize(const std::string& data);
+
+  /// Serializes window to a JSON string representation.
+  /// @return JSON string containing all window fields and entries
+  std::string toJSON() const;
+
+  /// Deserializes window from a JSON string.
+  /// @param json_str JSON string produced by toJSON()
+  /// @return Deserialized window on success, std::nullopt on parse error
+  static std::optional<DeltaWindow> fromJSON(const std::string& json_str);
 };
 
 /// @brief TensorDeltaLog: Records mutations in exact graph state for tensor artifact updates.

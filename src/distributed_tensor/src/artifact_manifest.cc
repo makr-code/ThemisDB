@@ -602,5 +602,29 @@ std::optional<ArtifactManifest> ArtifactManifest::fromYAML(
   return fromJSON(j.dump());
 }
 
+void ArtifactManifest::markPublished(UpdateMode mode, RebuildState rebuild_state,
+                                     uint64_t new_source_seq) {
+  // Record the update mode
+  update_mode = mode;
+  rebuild_state_val = rebuild_state;
+
+  // Update source sequence to reflect the new end point
+  if (new_source_seq > source_seq_end) {
+    source_seq_end = new_source_seq;
+  }
+
+  // Update the last verification time to now
+  last_verified_unix_sec = std::chrono::duration_cast<std::chrono::seconds>(
+      std::chrono::system_clock::now().time_since_epoch()).count();
+
+  // Recalculate delta lag based on new source_seq_end
+  // (Delta lag would typically be computed from the current exact-graph sequence,
+  // but for now we reset it to 0 to indicate a fresh update)
+  delta_lag = 0;
+
+  // Mark lifecycle as READY after successful publish
+  lifecycle_state = LifecycleState::READY;
+}
+
 }  // namespace distributed_tensor
 }  // namespace themis
