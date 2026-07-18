@@ -45,6 +45,28 @@ foreach(_src IN LISTS GRAPH_MODULE_TEST_SOURCES)
     )
 endforeach()
 
+# Lightweight launcher for focused shared-mutex distributed graph tests
+add_executable(tgdsmf "${CMAKE_CURRENT_SOURCE_DIR}/tgdsmf_launcher.cpp")
+target_include_directories(tgdsmf PRIVATE
+    ${THEMIS_ROOT_DIR}/include
+    ${THEMIS_ROOT_DIR}/src
+)
+target_link_libraries(tgdsmf PRIVATE
+    ${TEST_LIBS}
+    themis_core
+    spdlog::spdlog
+    Threads::Threads
+)
+target_compile_definitions(tgdsmf PRIVATE THEMIS_TEST_BUILD=1)
+
+themis_register_module_focused_test(
+    MODULE graph
+    NAME DistributedGraphSharedMutexFocusedTests
+    TARGET tgdsmf
+    TIER unit
+    TIMEOUT 60
+)
+
 # AUTOGEN PREFIX BLOCK: graph
 file(GLOB GRAPH_AUTOGEN_PREFIX_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_*.cpp"

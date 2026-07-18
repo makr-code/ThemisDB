@@ -323,9 +323,12 @@ MigrationResult TieredIndexManager::doMigrate(const std::string&  name,
 
     const std::string dest_path = pathForTier(name, to);
     const std::string src_path  = pathForTier(name, from);
-    // Always report the registered path (live_path) in migration results
-    const std::string target_path = live_path;
+    // Source path always reflects the currently registered data location.
     const std::string source_path = live_path;
+    // Promotion to HOT keeps the registered path; demotions target tier paths.
+    const std::string target_path = (to == Tier::HOT)
+        ? live_path
+        : (dest_path.empty() ? live_path : dest_path);
     // Actual filesystem paths for export/import callbacks
     const std::string export_dest = dest_path.empty() ? live_path : dest_path;
     const std::string import_src  = src_path.empty() ? live_path : src_path;

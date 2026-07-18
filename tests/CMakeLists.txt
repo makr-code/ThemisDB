@@ -2718,7 +2718,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_distributed.cpp")
 
     # TEMP WORKAROUND: These targets experience LNK1104 file-lock during parallel build on Windows.
     # Build them serially: cmake --build --preset windows-release --target test_graph_distributed --parallel 1
-    add_executable(test_graph_distributed EXCLUDE_FROM_ALL
+    add_executable(test_graph_distributed
         graph/test_graph_distributed.cpp
         ${THEMIS_ROOT_DIR}/src/graph/graph_query_optimizer.cpp
         ${THEMIS_ROOT_DIR}/src/graph/path_constraints.cpp

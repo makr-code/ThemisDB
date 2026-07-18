@@ -17,6 +17,7 @@
 #include <exception>
 #include <cstring>
 #include <algorithm>
+#include <cctype>
 #include <random>
 #include <sstream>
 #include <iomanip>
@@ -121,6 +122,11 @@ bool ArchiveProcessor::canHandle(const std::string &mime_type) const {
 }
 
 ArchiveFormat ArchiveProcessor::detectFormat(const std::string &blob, const std::string &filename) {
+    // Empty payload must never be classified as an archive format.
+    if (blob.empty()) {
+        return ArchiveFormat::UNKNOWN;
+    }
+
     // Check magic bytes first
     if (blob.size() >= 4) {
         uint32_t magic32;
@@ -358,11 +364,23 @@ bool ArchiveProcessor::isEncrypted(const std::string &blob, ArchiveFormat format
 }
 
 std::string ArchiveProcessor::sanitizePath(const std::string &path) {
+    std::string normalized = path;
+    std::replace(normalized.begin(), normalized.end(), '\\', '/');
+
+    // Drop Windows drive prefix (e.g. C:/...) to enforce a relative path.
+    if (normalized.size() >= 2 && std::isalpha(static_cast<unsigned char>(normalized[0])) && normalized[1] == ':') {
+        normalized.erase(0, 2);
+    }
+
+    while (!normalized.empty() && normalized.front() == '/') {
+        normalized.erase(normalized.begin());
+    }
+
     std::string result;
-    result.reserve(path.size());
+    result.reserve(normalized.size());
 
     std::vector<std::string> components;
-    std::istringstream iss(path);
+    std::istringstream iss(normalized);
     std::string component;
 
     while (std::getline(iss, component, '/')) {

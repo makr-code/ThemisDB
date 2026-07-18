@@ -196,6 +196,9 @@ public:
 
     /**
      * @brief Detect archive format from blob
+        *
+        * Returns ArchiveFormat::UNKNOWN for empty payloads, even when the filename
+        * extension suggests a known archive type.
      */
     static ArchiveFormat detectFormat(const std::string& blob, const std::string& filename);
     
