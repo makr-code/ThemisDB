@@ -24,6 +24,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <nlohmann/json.hpp>
+#include "themis/edition_manager.h"
 
 namespace themis {
 
@@ -176,12 +177,18 @@ SecurityLayerBuilder::SecurityLayer SecurityLayerBuilder::build() {
         throw std::runtime_error("Key provider does not implement KeyProvider interface");
     }
     
-    // Create field encryption
-    auto field_enc = std::make_shared<FieldEncryption>(key_provider_concrete);
-    if (!encryption_config_.empty()) {
-        field_enc->setEncryptionConfig(encryption_config_);
+    // Create field encryption, gated by edition at runtime
+    std::string edition_err;
+    if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+        spdlog::warn("Field encryption unavailable: {}", edition_err);
+        layer.field_encryption = nullptr;
+    } else {
+        auto field_enc = std::make_shared<FieldEncryption>(key_provider_concrete);
+        if (!encryption_config_.empty()) {
+            field_enc->setEncryptionConfig(encryption_config_);
+        }
+        layer.field_encryption = field_enc;
     }
-    layer.field_encryption = field_enc;
     
     // Create RBAC
     security::RBACConfig rbac_config;

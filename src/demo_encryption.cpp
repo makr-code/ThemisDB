@@ -14,6 +14,7 @@
 #include "security/key_provider.h" // Stub dependency added/corrected
 #include "security/mock_key_provider.h"
 #include "security/vault_key_provider.h"
+#include "themis/edition_manager.h"
 #include "storage/rocksdb_wrapper.h"
 
 #include <chrono>
@@ -122,12 +123,19 @@ private:
         std::cout << "🔐 Step 2: Initializing Encryption Engine\n";
         std::cout << "──────────────────────────────────────────────────────────────\n";
         
-        encryption_ = std::make_shared<FieldEncryption>(key_provider_);
-        
-        // Set global encryption for EncryptedField templates
-        EncryptedField<std::string>::setFieldEncryption(encryption_);
-        EncryptedField<int64_t>::setFieldEncryption(encryption_);
-        EncryptedField<double>::setFieldEncryption(encryption_);
+        {
+            std::string edition_err;
+            if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+                std::cerr << "Field encryption unavailable: " << edition_err << "\n";
+            } else {
+                encryption_ = std::make_shared<FieldEncryption>(key_provider_);
+
+                // Set global encryption for EncryptedField templates
+                EncryptedField<std::string>::setFieldEncryption(encryption_);
+                EncryptedField<int64_t>::setFieldEncryption(encryption_);
+                EncryptedField<double>::setFieldEncryption(encryption_);
+            }
+        }
         
         std::cout << "✅ FieldEncryption configured\n";
         std::cout << "   Algorithm: AES-256-GCM\n";

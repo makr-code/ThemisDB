@@ -12,6 +12,7 @@
 #include "security/mock_key_provider.h"
 #include "security/encryption.h"
 #include "storage/rocksdb_wrapper.h"
+#include "themis/edition_manager.h"
 
 using namespace themis;
 using namespace themis::utils;
@@ -32,6 +33,10 @@ protected:
         ASSERT_TRUE(storage_->open());
         key_provider_ = std::make_shared<MockKeyProvider>();
         key_provider_->createKey("default", 1);
+        std::string edition_err;
+        if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+            GTEST_SKIP() << "Field encryption unavailable: " << edition_err;
+        }
         enc_ = std::make_shared<FieldEncryption>(key_provider_);
         detector_ = std::make_shared<PIIDetector>();
     }

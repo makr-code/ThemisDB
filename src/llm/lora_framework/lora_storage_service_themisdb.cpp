@@ -27,6 +27,7 @@
 #include "security/pki_key_provider.h"
 #include "security/vault_key_provider.h"
 #include "security/encryption.h"
+#include "themis/edition_manager.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <cstring>
@@ -66,9 +67,13 @@ public:
         if (config_.enable_encryption && !encryption_) {
             try {
                 auto key_provider = createKeyProvider();
-                encryption_ = std::make_shared<FieldEncryption>(key_provider);
-                spdlog::info("✓ Encryption initialized successfully");
-                
+                std::string edition_err;
+                if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+                    spdlog::warn("Field encryption unavailable: {}", edition_err);
+                } else {
+                    encryption_ = std::make_shared<FieldEncryption>(key_provider);
+                    spdlog::info("✓ Encryption initialized successfully");
+                }
             } catch (const std::exception& e) {
                 spdlog::error("Failed to initialize encryption: {}", e.what());
                 throw;  // Re-throw to prevent insecure operation

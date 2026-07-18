@@ -14,6 +14,7 @@
 #include "storage/base_entity.h"
 #include "storage/security_signature_manager.h"
 #include "security/mock_key_provider.h"
+#include "themis/edition_manager.h"
 #include <spdlog/spdlog.h>
 #include <nlohmann/json.hpp>
 #include <fstream>
@@ -59,8 +60,13 @@ public:
                     spdlog::warn("PRODUCTION WARNING: Use VaultKeyProvider or HSMProvider in production!");
                     key_provider = std::make_shared<MockKeyProvider>();
                 }
-                encryption_ = std::make_shared<FieldEncryption>(key_provider);
-                spdlog::info("  Encryption service initialized with key provider");
+                std::string edition_err;
+                if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+                    spdlog::warn("Field encryption unavailable: {}", edition_err);
+                } else {
+                    encryption_ = std::make_shared<FieldEncryption>(key_provider);
+                    spdlog::info("  Encryption service initialized with key provider");
+                }
             } catch (const std::exception& e) {
                 spdlog::warn("  Failed to initialize encryption: {}", e.what());
             }

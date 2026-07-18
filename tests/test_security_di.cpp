@@ -14,6 +14,7 @@
 #include "core/security_initialization.h"
 #include "themis/base/interfaces/security_interface.h"
 #include "security/mock_key_provider.h"
+#include "themis/edition_manager.h"
 
 using namespace themis;
 using namespace testing;
@@ -36,6 +37,11 @@ protected:
     std::shared_ptr<FieldEncryption> encryption_;
     
     void SetUp() override {
+        std::string edition_err;
+        if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+            GTEST_SKIP() << "Field encryption unavailable: " << edition_err;
+        }
+
         real_mock_provider_ = std::make_shared<themis::MockKeyProvider>();
         encryption_ = std::make_shared<FieldEncryption>(real_mock_provider_);
     }

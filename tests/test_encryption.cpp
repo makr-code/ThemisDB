@@ -9,6 +9,7 @@
 #include <gtest/gtest.h>
 #include "security/mock_key_provider.h"
 #include "security/encryption.h"
+#include "themis/edition_manager.h"
 #include <memory>
 #include <thread>
 #include <vector>

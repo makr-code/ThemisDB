@@ -10,6 +10,7 @@
 #include "security/encryption.h"
 #include "security/mock_key_provider.h"
 #include "utils/logger.h"
+#include "themis/edition_manager.h"
 #include <vector>
 #include <cmath>
 

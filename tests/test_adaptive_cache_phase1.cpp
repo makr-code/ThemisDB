@@ -73,7 +73,7 @@ TEST_F(AdaptiveCachePhase1Test, SizeLimitRejection) {
     EXPECT_GT(metrics.size_limit_rejections.load(), 0);
     
     // Verify entry was not cached
-    auto cached = cache.get(fingerprint);
+    auto cached = cache.get(fingerprint, "");
     EXPECT_FALSE(cached.has_value());
 }
 
@@ -92,7 +92,7 @@ TEST_F(AdaptiveCachePhase1Test, SizeLimitL1Enforcement) {
     EXPECT_TRUE(stored);
     
     // Retrieve and verify it's not in L1 (would be in L2 or L3)
-    auto cached = cache.get(fingerprint);
+    auto cached = cache.get(fingerprint, "");
     ASSERT_TRUE(cached.has_value());
     // L1 should not have this entry (it should be in L2 or L3)
     EXPECT_NE(cached->level, AdaptiveQueryCache::CacheLevel::HOT);
@@ -145,7 +145,7 @@ TEST_F(AdaptiveCachePhase1Test, EnhancedMetricsL1Hit) {
     
     // Store and retrieve
     EXPECT_TRUE(cache.put(fingerprint, {}, result));
-    auto cached = cache.get(fingerprint);
+    auto cached = cache.get(fingerprint, "");
     ASSERT_TRUE(cached.has_value());
     
     // Check enhanced metrics
@@ -161,7 +161,7 @@ TEST_F(AdaptiveCachePhase1Test, EnhancedMetricsCacheMiss) {
     AdaptiveQueryCache cache(config_);
     
     std::string fingerprint = "nonexistent";
-    auto cached = cache.get(fingerprint);
+    auto cached = cache.get(fingerprint, "");
     EXPECT_FALSE(cached.has_value());
     
     // Check enhanced metrics
@@ -220,7 +220,7 @@ TEST_F(AdaptiveCachePhase1Test, EnhancedMetricsPromotion) {
     
     // Access multiple times to trigger promotion
     for (int i = 0; i < 5; i++) {
-        cache.get(fingerprint);
+        cache.get(fingerprint, "");
     }
     
     // Check if promotion occurred
@@ -415,9 +415,9 @@ TEST_F(AdaptiveCachePhase1Test, L3PatternInvalidation) {
     EXPECT_GT(invalidated, 0);
     
     // Verify entries are gone
-    EXPECT_FALSE(cache.get(fp1).has_value());
-    EXPECT_FALSE(cache.get(fp2).has_value());
-    EXPECT_FALSE(cache.get(fp3).has_value());
+    EXPECT_FALSE(cache.get(fp1, "").has_value());
+    EXPECT_FALSE(cache.get(fp2, "").has_value());
+    EXPECT_FALSE(cache.get(fp3, "").has_value());
 }
 
 TEST_F(AdaptiveCachePhase1Test, L3InvalidationWithCircuitBreaker) {
@@ -595,7 +595,7 @@ TEST_F(AdaptiveCachePhase1Test, RateLimitingGet) {
     size_t rate_limited = 0;
     
     for (int i = 0; i < 30; i++) {
-        auto cached = cache.get(fp);
+        auto cached = cache.get(fp, "");
         if (cached.has_value()) {
             hits++;
         } else {
@@ -663,7 +663,7 @@ TEST_F(AdaptiveCachePhase1Test, TenantIsolationDisabled) {
     EXPECT_TRUE(cache.put(fp, {}, result, "tenant1"));
     
     // Should be accessible without tenant
-    auto cached = cache.get(fp);
+    auto cached = cache.get(fp, "");
     ASSERT_TRUE(cached.has_value());
 }
 
@@ -834,7 +834,7 @@ TEST_F(AdaptiveCachePhase1Test, AdminAPIBulkPut) {
     // Verify entries are cached
     for (int i = 0; i < 10; i++) {
         std::string fp = cache.generateFingerprint("bulk" + std::to_string(i), {});
-        auto cached_entry = cache.get(fp);
+        auto cached_entry = cache.get(fp, "");
         EXPECT_TRUE(cached_entry.has_value());
     }
 }
@@ -883,7 +883,7 @@ TEST_F(AdaptiveCachePhase1Test, AdaptiveTTLDisabled) {
     EXPECT_TRUE(cache.put(fp, {}, result));
     
     // TTL should be tier-specific (L1)
-    auto cached = cache.get(fp);
+    auto cached = cache.get(fp, "");
     ASSERT_TRUE(cached.has_value());
     EXPECT_EQ(cached->ttl_seconds, config_.l1_ttl_seconds);
 }
@@ -901,7 +901,7 @@ TEST_F(AdaptiveCachePhase1Test, AdaptiveTTLEnabled) {
     EXPECT_TRUE(cache.put(fp, {}, result));
     
     // Initial TTL should be min
-    auto cached1 = cache.get(fp);
+    auto cached1 = cache.get(fp, "");
     ASSERT_TRUE(cached1.has_value());
     int initial_ttl = cached1->ttl_seconds;
     EXPECT_GE(initial_ttl, config_.adaptive_ttl_min_seconds);
@@ -909,11 +909,11 @@ TEST_F(AdaptiveCachePhase1Test, AdaptiveTTLEnabled) {
     
     // Access multiple times to increase access_count
     for (int i = 0; i < 10; i++) {
-        cache.get(fp);
+        cache.get(fp, "");
     }
     
     // TTL should increase with access count
-    auto cached2 = cache.get(fp);
+    auto cached2 = cache.get(fp, "");
     ASSERT_TRUE(cached2.has_value());
     int final_ttl = cached2->ttl_seconds;
     
@@ -938,7 +938,7 @@ TEST_F(AdaptiveCachePhase1Test, AdaptiveTTLLogarithmicScaling) {
     
     // Access 100 times and track TTL growth
     for (int i = 0; i < 100; i++) {
-        auto cached = cache.get(fp);
+        auto cached = cache.get(fp, "");
         if (cached.has_value() && i % 10 == 0) {
             ttls.push_back(cached->ttl_seconds);
         }
@@ -968,7 +968,7 @@ TEST_F(AdaptiveCachePhase1Test, AdaptiveTTLBounds) {
     
     // Access many times to try to exceed max
     for (int i = 0; i < 1000; i++) {
-        auto cached = cache.get(fp);
+        auto cached = cache.get(fp, "");
         if (cached.has_value()) {
             // Should never exceed max
             EXPECT_LE(cached->ttl_seconds, config_.adaptive_ttl_max_seconds);
@@ -1022,12 +1022,12 @@ TEST_F(AdaptiveCachePhase1Test, AdaptiveTTLWithL2Promotion) {
     
     // Access multiple times to build access count
     for (int i = 0; i < 5; i++) {
-        auto cached = cache.get(fp);
+        auto cached = cache.get(fp, "");
         ASSERT_TRUE(cached.has_value());
     }
     
     // TTL should have been updated with each access
-    auto final = cache.get(fp);
+    auto final = cache.get(fp, "");
     ASSERT_TRUE(final.has_value());
     EXPECT_GT(final->ttl_seconds, config_.adaptive_ttl_min_seconds);
 }
@@ -1047,17 +1047,17 @@ TEST_F(AdaptiveCachePhase1Test, AdaptiveTTLHotKeyPolicyFires) {
     EXPECT_TRUE(cache.put(fp, {}, result));
 
     // First get: records access_count=1, window_count=1 – below hot threshold
-    auto first = cache.get(fp);
+    auto first = cache.get(fp, "");
     ASSERT_TRUE(first.has_value());
     int ttl_before_hot = first->ttl_seconds;
 
     // 9 more accesses – window_count reaches 10, triggering the hot-key policy
     for (int i = 0; i < 9; i++) {
-        auto r = cache.get(fp);
+        auto r = cache.get(fp, "");
         ASSERT_TRUE(r.has_value());
     }
 
-    auto after_hot = cache.get(fp);
+    auto after_hot = cache.get(fp, "");
     ASSERT_TRUE(after_hot.has_value());
 
     // TTL must have grown beyond the logarithmic baseline
@@ -1109,7 +1109,7 @@ TEST_F(AdaptiveCachePhase1Test, AdaptiveTTLMetricsJsonExport) {
     std::string fp = cache.generateFingerprint("metrics_key", {});
     cache.put(fp, {}, result);
     for (int i = 0; i < 11; i++) {
-        cache.get(fp);
+        cache.get(fp, "");
     }
 
     json m = cache.getEnhancedMetrics().toJson();

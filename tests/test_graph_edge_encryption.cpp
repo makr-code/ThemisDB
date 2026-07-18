@@ -16,6 +16,7 @@
 #include "utils/hkdf_helper.h"
 #include <nlohmann/json.hpp>
 #include <filesystem>
+#include "themis/edition_manager.h"
 
 using namespace themis;
 using namespace themis::auth;
@@ -24,6 +25,10 @@ using json = nlohmann::json;
 class GraphEdgeEncryptionTest : public ::testing::Test {
 protected:
     void SetUp() override {
+        std::string edition_err;
+        if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+            GTEST_SKIP() << "Field encryption unavailable: " << edition_err;
+        }
         // Create temporary database
         test_dir_ = std::filesystem::temp_directory_path() / "themis_test_graph_enc";
         std::filesystem::remove_all(test_dir_);

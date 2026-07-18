@@ -57,6 +57,7 @@
 #include "utils/logger.h"
 #include "themis/build_info.h"
 #include "themis/license_info.h"
+#include "themis/edition_manager.h"
 
 #include "utils/logger_impl.h"
 #include "utils/tracing.h"
@@ -716,9 +717,17 @@ HttpServer::HttpServer(
     );
     THEMIS_INFO("PKIKeyProvider initialized with persistent KEK/DEK");
 
-    // Field encryption for PII and schema-based encryption
-    field_encryption_ = std::make_shared<themis::FieldEncryption>(key_provider_);
-    THEMIS_INFO("FieldEncryption initialized");
+    // Field encryption for PII and schema-based encryption (edition gated)
+    {
+        std::string edition_err;
+        if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+            THEMIS_WARN("Field encryption unavailable: {}", edition_err);
+            field_encryption_ = nullptr;
+        } else {
+            field_encryption_ = std::make_shared<themis::FieldEncryption>(key_provider_);
+            THEMIS_INFO("FieldEncryption initialized");
+        }
+    }
 
     // Initialize ContentManager and register built-in processors (now with encryption)
     try {
@@ -727,7 +736,7 @@ HttpServer::HttpServer(
         text_processor_ = std::make_unique<themis::content::TextProcessor>();
         content_manager_->registerProcessor(std::unique_ptr<themis::content::IContentProcessor>(text_processor_.release()));
         // Provide FieldEncryption to GraphIndexManager so edges can be encrypted on write
-        if (graph_index_) {
+        if (graph_index_ && field_encryption_) {
             graph_index_->setFieldEncryption(field_encryption_);
         }
     } catch (const std::exception& e) {

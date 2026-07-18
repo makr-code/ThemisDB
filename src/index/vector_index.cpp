@@ -44,6 +44,7 @@
 
 // Phase 1: Vector encryption support
 #include "security/encryption.h"
+#include "themis/edition_manager.h"
 
 #include <shared_mutex>
 #ifdef IN
@@ -336,7 +337,15 @@ bool VectorIndexManager::isVectorEncryptionEnabled() const {
 		if (auto cfg = db_.get("config:vector")) {
 			std::string s(cfg->begin(), cfg->end());
 			nlohmann::json j = nlohmann::json::parse(s);
-			return j.value("encryption_enabled", false);
+			bool enabled = j.value("encryption_enabled", false);
+			if (enabled) {
+				std::string edition_err;
+				if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+					THEMIS_WARN("Vector encryption config present but feature unavailable: {}", edition_err);
+					return false;
+				}
+			}
+			return enabled;
 		}
 	} catch (...) {
 		// If config doesn't exist or can't be parsed, default to disabled
@@ -345,6 +354,14 @@ bool VectorIndexManager::isVectorEncryptionEnabled() const {
 }
 
 void VectorIndexManager::setVectorEncryptionEnabled(bool enabled) {
+	if (enabled) {
+		std::string edition_err;
+		if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+			THEMIS_WARN("Attempt to enable vector encryption denied: {}", edition_err);
+			return;
+		}
+	}
+    
 	try {
 		nlohmann::json j;
 		// Read existing config if present
@@ -375,7 +392,15 @@ bool VectorIndexManager::isHnswEncryptionEnabled() const {
 		if (auto cfg = db_.get("config:hnsw")) {
 			std::string s(cfg->begin(), cfg->end());
 			nlohmann::json j = nlohmann::json::parse(s);
-			return j.value("encryption_enabled", false);
+			bool enabled = j.value("encryption_enabled", false);
+			if (enabled) {
+				std::string edition_err;
+				if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+					THEMIS_WARN("HNSW encryption config present but feature unavailable: {}", edition_err);
+					return false;
+				}
+			}
+			return enabled;
 		}
 	} catch (...) {
 		// If config doesn't exist or can't be parsed, default to disabled
@@ -384,6 +409,14 @@ bool VectorIndexManager::isHnswEncryptionEnabled() const {
 }
 
 void VectorIndexManager::setHnswEncryptionEnabled(bool enabled) {
+	if (enabled) {
+		std::string edition_err;
+		if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+			THEMIS_WARN("Attempt to enable HNSW encryption denied: {}", edition_err);
+			return;
+		}
+	}
+    
 	try {
 		nlohmann::json j;
 		// Read existing config if present

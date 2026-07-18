@@ -46,6 +46,7 @@
 #include "security/mock_key_provider.h"
 #include "security/post_quantum_crypto.h"
 #include "themis/runtime_license_gate.h"
+#include "themis/edition_manager.h"
 
 #include <string>
 #include <vector>
