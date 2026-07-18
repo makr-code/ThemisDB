@@ -1,8 +1,8 @@
-# RSA-SHA256 Signature Verification - Usage Guide
+# RSA-SHA256 and ECDSA Signature Verification - Usage Guide
 
 ## Overview
 
-The signature verification system provides production-ready cryptographic verification for LoRA adapters and model weights using OpenSSL. It implements RSA-SHA256 signature verification with X.509 certificate validation.
+The signature verification system provides production-ready cryptographic verification for LoRA adapters and model weights using OpenSSL. It implements RSA-SHA256, ECDSA-SHA256, and ECDSA-SHA384 signature verification with X.509 certificate validation.
 
 ## Architecture
 
@@ -17,13 +17,16 @@ The system uses the **Chain of Responsibility** and **Builder** patterns:
                       ▼
 ┌─────────────────────────────────────────────────────────┐
 │            ISignatureVerifier (Base Class)              │
-└─────┬───────────────────┬──────────────────┬────────────┘
-      │                   │                  │
-      ▼                   ▼                  ▼
-┌──────────────┐  ┌──────────────────┐  ┌──────────┐
-│ RSA_SHA256   │  │ CertificateChain │  │   CRL    │
-│  Verifier    │→ │    Verifier      │→ │ Checker  │
-└──────────────┘  └──────────────────┘  └──────────┘
+└──┬─────────┬──────────────┬────────────┬────────────┬───┘
+   │         │              │            │            │
+   ▼         ▼              ▼            ▼            ▼
+┌──────┐ ┌────────┐ ┌──────────────┐ ┌───────┐ ┌──────────┐
+│ RSA  │ │ ECDSA  │ │Certificate   │ │ CRL   │ │CRL       │
+│ SHA  │→│ SHA256 │→│Chain         │→│Check  │ │Checker   │
+│ 256  │ │        │ │Verifier      │ │       │ └──────────┘
+└──────┘ │ECDSA   │ └──────────────┘ └───────┘
+         │ SHA384 │
+         └────────┘
 ```
 
 ## Quick Start
@@ -54,7 +57,74 @@ if (result.is_valid) {
 }
 ```
 
-### Full Verification Chain with Builder
+### Basic ECDSA-SHA256 Verification (P-256 or P-384)
+
+```cpp
+#include "llm/security/signature_verifier.h"
+
+using namespace themis::llm::security;
+
+// Create ECDSA-SHA256 verifier (supports P-256 and P-384 curves)
+ECDSA_SHA256_Verifier verifier;
+
+// Load data and signature
+std::vector<uint8_t> data = /* your data */;
+std::vector<uint8_t> signature = /* ECDSA signature bytes */;
+std::string cert_pem = /* X.509 certificate with P-256 or P-384 public key */;
+
+// Verify
+auto result = verifier.verify(data, signature, cert_pem);
+
+if (result.is_valid) {
+    std::cout << "ECDSA signature valid!" << std::endl;
+    std::cout << "Algorithm: " << result.algorithm << std::endl;  // "ECDSA-SHA256"
+    std::cout << "Signer: " << result.signer_identity << std::endl;
+} else {
+    std::cerr << "Signature invalid: " << result.error_message << std::endl;
+}
+```
+
+### Basic ECDSA-SHA384 Verification
+
+```cpp
+#include "llm/security/signature_verifier.h"
+
+using namespace themis::llm::security;
+
+// Create ECDSA-SHA384 verifier
+ECDSA_SHA384_Verifier verifier;
+
+// Verify (same interface as SHA256)
+auto result = verifier.verify(data, signature, cert_pem);
+
+if (result.is_valid) {
+    std::cout << "ECDSA-SHA384 signature valid!" << std::endl;
+}
+```
+
+### Mixed Algorithm Verification with Builder
+
+```cpp
+#include "llm/security/signature_verifier.h"
+
+using namespace themis::llm::security;
+
+// Build chain supporting both RSA and ECDSA signatures
+SignatureVerifierBuilder builder;
+auto verifier = builder
+    .withRSA_SHA256()                  // Also accept RSA signatures
+    .withECDSA_SHA256()                // Accept ECDSA-SHA256 (P-256, P-384)
+    .withECDSA_SHA384()                // Accept ECDSA-SHA384 (P-256, P-384)
+    .withCertificateChainValidation("/etc/ssl/certs/ca-certificates.crt")
+    .build();
+
+// Verify with full chain (accepts any of RSA, ECDSA-SHA256, or ECDSA-SHA384)
+auto result = verifier->verify(data, signature, cert_pem);
+
+if (result.is_valid) {
+    std::cout << "Verification passed with: " << result.algorithm << std::endl;
+}
+```
 
 ```cpp
 #include "llm/security/signature_verifier.h"
@@ -98,7 +168,56 @@ RSA_SHA256_Verifier verifier;
 auto result = verifier.verify(data, signature, cert_pem);
 ```
 
-### 2. CertificateChainVerifier
+### 2. ECDSA_SHA256_Verifier
+
+Performs cryptographic ECDSA-SHA256 signature verification with elliptic curve cryptography.
+
+**Features**:
+- Supports P-256 (prime256v1) and P-384 (secp384r1) curves
+- Rejects unsupported curves (P-521, etc.) to prevent downgrade attacks
+- Loads X.509 certificates from PEM format
+- Extracts and validates EC public keys
+- Computes SHA-256 hash of data
+- Verifies signature using OpenSSL EVP API
+- More efficient than RSA for equivalent security
+
+**Supported Curves**:
+- ✅ P-256 (secp256r1/prime256v1): NIST standard, 256-bit security
+- ✅ P-384 (secp384r1): NIST standard, 384-bit security
+- ❌ P-521 and other curves: Rejected for security consistency
+
+**Usage**:
+```cpp
+ECDSA_SHA256_Verifier verifier;
+auto result = verifier.verify(data, signature, cert_pem);
+
+if (result.is_valid && result.algorithm == "ECDSA-SHA256") {
+    std::cout << "ECDSA-SHA256 signature verified" << std::endl;
+}
+```
+
+### 3. ECDSA_SHA384_Verifier
+
+Performs cryptographic ECDSA-SHA384 signature verification with elliptic curve cryptography.
+
+**Features**:
+- Supports P-256 and P-384 curves
+- Computes SHA-384 hash (longer than SHA-256)
+- Suitable for high-security applications
+- Same security as ECDSA-SHA256 but with larger hash digest
+- Uses OpenSSL EVP API for verification
+
+**Usage**:
+```cpp
+ECDSA_SHA384_Verifier verifier;
+auto result = verifier.verify(data, signature, cert_pem);
+
+if (result.is_valid && result.algorithm == "ECDSA-SHA384") {
+    std::cout << "ECDSA-SHA384 signature verified" << std::endl;
+}
+```
+
+### 4. CertificateChainVerifier
 
 Validates X.509 certificate chains against trusted CAs.
 
@@ -126,7 +245,7 @@ if (!result.chain_valid) {
 - `/usr/local/share/certs/ca-root-nss.crt` (FreeBSD)
 - System default paths
 
-### 3. CRLChecker
+### 5. CRLChecker
 
 Checks if certificates are revoked via Certificate Revocation Lists.
 
@@ -144,23 +263,40 @@ auto result = checker.verify(data, signature, cert_pem);
 
 **Note**: Full CRL download requires HTTP client integration (planned).
 
-### 4. SignatureVerifierBuilder
+### 6. SignatureVerifierBuilder
 
-Fluent interface for building verification chains.
+Fluent interface for building verification chains supporting RSA and ECDSA algorithms.
 
-**Usage**:
+**Available Methods**:
+- `.withRSA_SHA256()` - Add RSA-SHA256 verification
+- `.withECDSA_SHA256()` - Add ECDSA-SHA256 verification (P-256, P-384)
+- `.withECDSA_SHA384()` - Add ECDSA-SHA384 verification (P-256, P-384)
+- `.withCertificateChainValidation(path)` - Add certificate chain validation
+- `.withCRLCheck(url)` - Add CRL revocation checking
+
+**Usage Examples**:
 ```cpp
 SignatureVerifierBuilder builder;
 
-// Add verifiers in desired order
+// Add verifiers in desired order (Chain of Responsibility pattern)
 auto verifier = builder
-    .withRSA_SHA256()                              // Step 1: RSA verification
-    .withCertificateChainValidation("/path/to/ca") // Step 2: Chain validation
-    .withCRLCheck("http://crl.url")                // Step 3: Revocation check
+    .withRSA_SHA256()                              // Accept RSA-SHA256
+    .withECDSA_SHA256()                            // Accept ECDSA-SHA256
+    .withECDSA_SHA384()                            // Accept ECDSA-SHA384
+    .withCertificateChainValidation("/path/to/ca") // Step: Chain validation
+    .withCRLCheck("http://crl.url")                // Step: Revocation check
     .build();
 
 // Execute verification chain
 auto result = verifier->verify(data, signature, cert_pem);
+```
+
+**Builder Chaining**:
+The builder uses fluent interface for natural call sequences:
+```cpp
+auto verifier = SignatureVerifierBuilder()
+    .withECDSA_SHA256()
+    .build();  // Build returns shared_ptr<ISignatureVerifier>
 ```
 
 ## Result Structure
@@ -201,11 +337,31 @@ if (result.is_valid) {
 }
 ```
 
+## RSA vs ECDSA Comparison
+
+| Aspect | RSA-SHA256 | ECDSA-SHA256 | ECDSA-SHA384 |
+|--------|-----------|-------------|-------------|
+| **Curves** | N/A (RSA) | P-256, P-384 | P-256, P-384 |
+| **Key Size for 256-bit Security** | 2048-3072 bits | 256-bit key | 256-bit key |
+| **Key Size for 384-bit Security** | 4096 bits | 384-bit key | 384-bit key |
+| **Hash Algorithm** | SHA-256 | SHA-256 | SHA-384 |
+| **Signature Size** | 256-512 bytes | 64 bytes (P-256) / 96 bytes (P-384) | 64 bytes (P-256) / 96 bytes (P-384) |
+| **Performance** | Slower | Faster | Faster |
+| **Memory** | More | Less | Less |
+| **Verification Speed** | ~1ms (2048-bit) | <1ms | <1ms |
+| **Recommended For** | Legacy systems | New deployments | High-security apps |
+
+**Curve Selection Rationale**:
+- **P-256**: Standard NIST curve, widely supported, 128-bit security level
+- **P-384**: Higher security margin, FIPS approved, 192-bit security level
+- **Others (P-521)**: Rejected to maintain algorithm consistency
+
 ## Security Considerations
 
 ### Key Requirements
 - ✅ Minimum 2048-bit RSA keys (enforced)
-- ✅ SHA-256 hash algorithm (not SHA-1)
+- ✅ P-256 or P-384 ECDSA curves (others rejected)
+- ✅ SHA-256 or SHA-384 hash algorithms (not SHA-1)
 - ✅ X.509 v3 certificates
 - ✅ Certificate chain to trusted CA
 - ✅ Detailed error messages
@@ -217,7 +373,9 @@ if (result.is_valid) {
 | Malicious adapter | Unsigned or improperly signed adapter rejected |
 | Compromised key | CRL check fails (when CRL available) |
 | Man-in-the-middle | Certificate chain validation fails |
-| Weak keys | 1024-bit and smaller keys rejected |
+| Weak keys | 1024-bit RSA keys rejected; only P-256/P-384 ECDSA accepted |
+| Algorithm downgrade | Unsupported ECDSA curves (P-521, etc.) rejected |
+| Key confusion | Verifier enforces specific algorithm (RSA vs ECDSA) |
 
 ### TODO: Security Enhancements
 - [ ] Constant-time comparison (timing attack resistance)
@@ -236,11 +394,12 @@ cd tests/data/certificates
 
 This creates:
 - CA certificate and key
-- Test certificates (2048, 3072, 4096-bit)
+- RSA test certificates (2048, 3072, 4096-bit)
+- ECDSA test certificates (P-256, P-384, P-521)
 - Self-signed certificate
 - Expired certificate
 - Weak 1024-bit certificate
-- Test data and signatures
+- Test data and signatures (RSA and ECDSA variants)
 
 ### Run Tests
 
@@ -292,6 +451,56 @@ auto result = verifier.verify(adapter_data, signature, cert_pem);
 
 if (result.is_valid) {
     // Load and use the adapter
+    loadLoRAAdapter("adapter.safetensors");
+}
+```
+
+## Example: ECDSA Signing and Verification
+
+### 1. Generate ECDSA Key Pair
+
+```bash
+# Generate P-256 ECDSA key
+openssl ecparam -name prime256v1 -genkey -noout -out lora_ecdsa_key.pem
+
+# Or P-384 for higher security
+openssl ecparam -name secp384r1 -genkey -noout -out lora_ecdsa_key.pem
+
+# Create certificate signing request
+openssl req -new -key lora_ecdsa_key.pem -out lora_ecdsa.csr \
+    -subj "/C=US/ST=CA/O=YourOrg/CN=lora-ecdsa-signer"
+
+# Sign with your CA (or create self-signed for testing)
+openssl x509 -req -in lora_ecdsa.csr -CA ca_cert.pem -CAkey ca_key.pem \
+    -CAcreateserial -out lora_ecdsa_cert.pem -days 365 -sha256
+```
+
+### 2. Sign LoRA Adapter with ECDSA
+
+```bash
+# Sign with SHA-256
+openssl dgst -sha256 -sign lora_ecdsa_key.pem \
+    -out adapter_ecdsa_sha256.bin adapter.safetensors
+
+# Or sign with SHA-384
+openssl dgst -sha384 -sign lora_ecdsa_key.pem \
+    -out adapter_ecdsa_sha384.bin adapter.safetensors
+```
+
+### 3. Verify ECDSA Signature in Code
+
+```cpp
+// Load adapter, signature, and certificate
+auto adapter_data = loadFile("adapter.safetensors");
+auto signature = loadFile("adapter_ecdsa_sha256.bin");
+auto cert_pem = loadFile("lora_ecdsa_cert.pem");
+
+// Verify with ECDSA-SHA256
+ECDSA_SHA256_Verifier verifier;
+auto result = verifier.verify(adapter_data, signature, cert_pem);
+
+if (result.is_valid) {
+    std::cout << "ECDSA signature valid on: " << result.signer_identity << std::endl;
     loadLoRAAdapter("adapter.safetensors");
 }
 ```
@@ -348,6 +557,7 @@ For issues or questions:
 
 ---
 
-**Version**: 1.0  
+**Version**: 2.0  
 **Status**: Production Ready  
-**Last Updated**: 2026-04-06
+**Last Updated**: 2026-07-18  
+**Changes**: Added ECDSA-SHA256 and ECDSA-SHA384 support (Phase 2 Block B)
