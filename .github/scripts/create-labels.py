@@ -37,6 +37,9 @@ LABELS_TO_CREATE = {
     # Issue labels
     "queue/copilot": {"color": "7057ff", "description": "Issue is eligible for automatic Copilot processing"},
     "copilot/delegated": {"color": "1f6feb", "description": "Delegation comment posted; Copilot Coding Agent has been tasked"},
+    # ── EPIC labels ────────────────────────────────────────────────────────
+    # EPIC 5518: Hybrid Retrieval Execution Boundaries
+    "epic/5518": {"color": "6e40c9", "description": "Part of EPIC #5518: Hybrid Retrieval Execution Boundaries"},
 }
 
 def create_label(name, data):

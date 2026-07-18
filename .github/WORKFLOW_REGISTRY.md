@@ -35,6 +35,8 @@ Quarantaene, nicht einen inoffiziellen Reservepool fuer schnelle Reaktivierung.
   — Orphan/Broken-Reference-Pruefung fuer `docs/de` und `docs/en`
 - `.github/workflows/08-maintenance_code-maturity.yml`
   — Code-Maturity-Analyse via `code_maturity_header_writer.py` (delegiert intern auf `analyze_code_maturity.py`); check-only per Default (kein Header-Rewrite), Rewrite-Modus nur via `workflow_dispatch` mit `update_headers=true`; enger PR-Trigger auf Script und Workflow-Datei
+- `.github/workflows/08-maintenance_epic-5518-retarget.yml`
+  — EPIC 5518 PR Retargeting; automatische Umleitung von PRs mit Marker "Part of makr-code/ThemisDB#5518" oder Label `epic/5518` zum Ziel-Branch `epic/hybrid-boundaries-5518` (policy #5545); dokumentiert in `docs/ci-cd/workflows/08-maintenance/epic-5518-retarget.md`
 - `.github/workflows/09-pr-gates_workflow-boundary-guard.yml`
   — Enger PR-Gate fuer Workflow-Governance; blockiert Reaktivierungen ohne Quarantaene-Regeln, Doku-Update und harte Triggergrenzen
 - `.github/workflows/09-pr-gates_scanner-delta-report.yml`
@@ -89,6 +91,6 @@ pwsh -NoProfile -File ./scripts/test-github-actions-local.ps1 -Mode all
 ```
 
 ## Stand
-- Aktive Workflows im Verzeichnis `.github/workflows/`: 20
+- Aktive Workflows im Verzeichnis `.github/workflows/`: 21
 - Deaktivierte Workflows in `.github/no_workflows/`: 23
 - Strategie: Lean + harte Triggergrenzen + Quarantaene fuer uebertriggernde CI
