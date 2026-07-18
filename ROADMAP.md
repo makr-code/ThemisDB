@@ -2,9 +2,9 @@
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
-**Version:** 2.4  
-**Last Updated:** 2026-06-25
-**Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–6 complete; active baseline 22.085 deduplicated findings)
+**Version:** 2.5  
+**Last Updated:** 2026-07-18
+**Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–6 complete; active baseline 22.085 deduplicated findings). Phase 3-5 next-phase implementation plans active.
 
 > For module-specific details see each module's `src/<module>/ROADMAP.md`.
 
@@ -68,7 +68,60 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 
 ---
 
-## 🟢 Graph Module Completion (Q3 2026)
+## 🚀 NEXT PHASE IMPLEMENTATION (2026-07-22 to 2026-08-31) — KICKOFF
+
+**Status:** 🔵 PLANNED → 🚀 Kickoff 2026-07-22  
+**Implementation Plans:** [NEXT_PHASE_IMPLEMENTATION_PLAN.md](NEXT_PHASE_IMPLEMENTATION_PLAN.md), [ai_working/PHASE3_OPTIMIZATION_DETAILED_PLAN.md](ai_working/PHASE3_OPTIMIZATION_DETAILED_PLAN.md), [ai_working/PHASE5_HARDENING_DETAILED_PLAN.md](ai_working/PHASE5_HARDENING_DETAILED_PLAN.md)
+
+### Parallel Work Streams (4-6 weeks)
+
+| Phase | Component | Timeline | Effort | Teams | Target Tests | Status |
+|-------|-----------|----------|--------|-------|-------------|--------|
+| **Phase 3** | Graph: Query optimization, cache efficiency, resource pooling | 6 weeks | 10 weeks | A+B (4 eng) | 130 new | 🔵 Planned |
+| **Phase 5-S** | Server: Wire-protocol retry + HTTP timeout patterns | 3 weeks | 4 weeks | C (2 eng) | 39 new | 🔵 Planned |
+| **Phase 5-L** | LLM: Exception safety + memory leak fixes | 3 weeks | 6 weeks | D (2 eng) | 51 new | 🔵 Planned |
+| **Phase 6** | Sharding: 2PC/3PC consistency + fault injection | 3 weeks | 6 weeks | E+F (4 eng) | 60+ new | 🔵 Queued |
+| **AQL Phase 2** | DDL implementation (parser + executor) | 4-6 weeks | 6 weeks | G (2 eng) | 32 new | 🔵 Queued |
+| **Wave 8** | Soak + endurance + degradation fault injection | Parallel | 8 weeks | F (2 eng) | 40+ scenarios | 🔵 Queued |
+
+**Total New Tests:** 352+ (Phase 3: 130, Phase 5: 90, Phase 6: 60+, AQL: 32, Wave 8: 40+)  
+**Total Team Effort:** ~38 weeks across 8 teams (~15 engineers)  
+**Release Target:** v1.9.0-beta (Sept 2026), v2.0.0-rc1 (Oct 2026), v2.0.0 GA (Nov 2026)
+
+### Immediate Kickoff Actions (Week 1: 2026-07-22 to 2026-07-26)
+
+- [ ] **Architecture reviews** (Teams A-D present roadmaps, 2 hours per team)
+- [ ] **Feature branches created:** `feature/graph-phase3-optimization`, `feature/server-phase5-hardening`, `feature/llm-phase5-hardening`
+- [ ] **GitHub issues created:** Phase 3 P3-01..05, Phase 5-S P5-S01..02, Phase 5-L P5-L01..02
+- [ ] **Baseline measurements:** Wave 7 gates re-confirmed PASS, query latency profiled, memory baseline established
+- [ ] **Test scaffolding:** Empty test files + stubs + CMakeLists.txt (no logic yet)
+- [ ] **First commit cycle:** Infrastructure + test stubs (by Friday 2026-07-26)
+
+### Decision Tree: Phase Prioritization
+
+```
+Current Date: 2026-07-18
+Team Capacity: Assume 8 teams available (15 engineers)
+
+ARE WAVE 7 GATES CONFIRMED PASS?
+├─ YES  → Start Phase 3 + Phase 5 in parallel (PRIMARY PATH)
+│         Phase 3: Graph optimization (production readiness)
+│         Phase 5: Server + LLM hardening (fault tolerance)
+│
+└─ NO   → BLOCKER: Re-run Wave 7 until all 6 gates pass
+          Cannot advance without baseline confirmation
+
+DO YOU HAVE >= 12 ENGINEERS AVAILABLE?
+├─ YES  → Full parallel execution: Phase 3, Phase 5-S, Phase 5-L (weeks 1-3)
+│         Then stagger: Phase 6 (week 4+), AQL Phase 2 (parallel)
+│
+└─ NO   → Stagger by priority: Phase 3 weeks 1-2, Phase 5 weeks 2-4
+          (Server criticality may warrant Phase 5-S acceleration)
+```
+
+---
+
+
 
 **Status:** ✅ **COMPLETE** — All Phases 2.1-2.4 Delivered  
 **Timeline:** Weeks 1-6 (Target: 2026-08-06 Phase 2.4 complete) ✅ ACHIEVED 2026-07-03
