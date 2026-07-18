@@ -210,6 +210,12 @@ endif()
 
 themis_add_standard_benchmark(bench_ycsb bench_ycsb.cpp)
 
+# ============================================================================
+# Phase 3 Optimization Benchmarks (P3-05)
+# ============================================================================
+
+themis_add_standard_benchmark(bench_phase3_optimization bench_phase3_optimization.cpp)
+
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_gpu_module.cpp" AND NOT TARGET bench_gpu_module)
     message(STATUS "Adding GPU Module benchmarks")
 

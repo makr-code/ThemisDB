@@ -635,6 +635,24 @@ struct ArtifactManifest {
      */
     [[nodiscard]] static std::optional<ArtifactManifest> fromYAML(
         const std::string& yaml_str);
+
+    /**
+     * @brief Mark this artifact as published after a successful update.
+     *
+     * Updates the manifest metadata to reflect a completed update operation:
+     *   - Sets @p rebuild_state to indicate the type of update performed
+     *   - Sets @p source_seq_end to reflect the latest included sequence
+     *   - Updates @p last_verified_unix_sec to mark the time of publish
+     *   - Resets @p delta_lag based on new source_seq_end
+     *
+     * This is called by the snapshot-based update worker after patch/refit/rebuild.
+     *
+     * @param mode              Update mode (PATCH, PARTIAL_REFIT, REBUILD)
+     * @param rebuild_state     State to record (PATCHED, REFITTED, REBUILT)
+     * @param new_source_seq    Latest exact-graph sequence now incorporated
+     */
+    void markPublished(UpdateMode mode, RebuildState rebuild_state,
+                      uint64_t new_source_seq);
 };
 
 } // namespace distributed_tensor

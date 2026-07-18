@@ -235,6 +235,225 @@ TEST_F(SignatureVerifierTest, RSA_SHA256_EmptySignature) {
     EXPECT_FALSE(result.is_valid);
 }
 
+// ===== ECDSA-SHA256 Verifier Tests =====
+
+TEST_F(SignatureVerifierTest, ECDSA_SHA256_ValidSignature_P256) {
+    // Test valid ECDSA-SHA256 signature verification with P-256 curve
+    std::string ecdsa_p256_cert = readFile(cert_dir_ + "test_cert_p256.pem");
+    auto ecdsa_data = readFileBinary(cert_dir_ + "test_data_signature_ecdsa_p256_sha256.bin");
+    
+    ASSERT_FALSE(ecdsa_p256_cert.empty()) << "P-256 certificate not loaded";
+    ASSERT_FALSE(ecdsa_data.empty()) << "P-256 ECDSA-SHA256 signature not loaded";
+    
+    auto verifier = std::make_unique<ECDSA_SHA256_Verifier>();
+    auto result = verifier->verify(test_data_, ecdsa_data, ecdsa_p256_cert);
+    
+    EXPECT_TRUE(result.is_valid) << "Valid ECDSA-SHA256 signature should pass verification: " << result.error_message;
+    EXPECT_EQ(result.algorithm, "ECDSA-SHA256");
+    EXPECT_FALSE(result.signer_identity.empty()) << "Signer identity should be extracted";
+}
+
+TEST_F(SignatureVerifierTest, ECDSA_SHA256_ValidSignature_P384) {
+    // Test valid ECDSA-SHA256 signature verification with P-384 curve
+    std::string ecdsa_p384_cert = readFile(cert_dir_ + "test_cert_p384.pem");
+    auto ecdsa_data = readFileBinary(cert_dir_ + "test_data_signature_ecdsa_p384_sha256.bin");
+    
+    ASSERT_FALSE(ecdsa_p384_cert.empty()) << "P-384 certificate not loaded";
+    ASSERT_FALSE(ecdsa_data.empty()) << "P-384 ECDSA-SHA256 signature not loaded";
+    
+    auto verifier = std::make_unique<ECDSA_SHA256_Verifier>();
+    auto result = verifier->verify(test_data_, ecdsa_data, ecdsa_p384_cert);
+    
+    EXPECT_TRUE(result.is_valid) << "Valid ECDSA-SHA256 signature with P-384 should pass: " << result.error_message;
+    EXPECT_EQ(result.algorithm, "ECDSA-SHA256");
+}
+
+TEST_F(SignatureVerifierTest, ECDSA_SHA256_TamperedSignature_P256) {
+    // Test detection of tampered ECDSA-SHA256 signature
+    std::string ecdsa_p256_cert = readFile(cert_dir_ + "test_cert_p256.pem");
+    auto tampered_sig = readFileBinary(cert_dir_ + "test_data_signature_ecdsa_p256_sha256_tampered.bin");
+    
+    ASSERT_FALSE(ecdsa_p256_cert.empty()) << "P-256 certificate not loaded";
+    ASSERT_FALSE(tampered_sig.empty()) << "Tampered signature not loaded";
+    
+    auto verifier = std::make_unique<ECDSA_SHA256_Verifier>();
+    auto result = verifier->verify(test_data_, tampered_sig, ecdsa_p256_cert);
+    
+    EXPECT_FALSE(result.is_valid) << "Tampered ECDSA-SHA256 signature should fail verification";
+}
+
+TEST_F(SignatureVerifierTest, ECDSA_SHA256_TamperedData_P256) {
+    // Test detection of tampered data with ECDSA-SHA256
+    std::string ecdsa_p256_cert = readFile(cert_dir_ + "test_cert_p256.pem");
+    auto ecdsa_data = readFileBinary(cert_dir_ + "test_data_signature_ecdsa_p256_sha256.bin");
+    
+    auto tampered_data = test_data_;
+    if (!tampered_data.empty()) {
+        tampered_data[0] = 0xFF;  // Tamper with data
+    }
+    
+    auto verifier = std::make_unique<ECDSA_SHA256_Verifier>();
+    auto result = verifier->verify(tampered_data, ecdsa_data, ecdsa_p256_cert);
+    
+    EXPECT_FALSE(result.is_valid) << "Tampered data should fail ECDSA-SHA256 verification";
+}
+
+TEST_F(SignatureVerifierTest, ECDSA_SHA256_WrongCertificate_P256) {
+    // Test signature verification with wrong certificate
+    std::string ecdsa_p256_cert = readFile(cert_dir_ + "test_cert_p256.pem");
+    std::string ecdsa_p384_cert = readFile(cert_dir_ + "test_cert_p384.pem");
+    auto ecdsa_p256_sig = readFileBinary(cert_dir_ + "test_data_signature_ecdsa_p256_sha256.bin");
+    
+    // Try to verify P-256 signature with P-384 certificate
+    auto verifier = std::make_unique<ECDSA_SHA256_Verifier>();
+    auto result = verifier->verify(test_data_, ecdsa_p256_sig, ecdsa_p384_cert);
+    
+    EXPECT_FALSE(result.is_valid) << "Signature with wrong certificate should fail";
+}
+
+TEST_F(SignatureVerifierTest, ECDSA_SHA256_UnsupportedCurve_P521) {
+    // Test rejection of unsupported curve (P-521)
+    std::string ecdsa_p521_cert = readFile(cert_dir_ + "test_cert_p521.pem");
+    auto ecdsa_p521_sig = readFileBinary(cert_dir_ + "test_data_signature_ecdsa_p521.bin");
+    
+    ASSERT_FALSE(ecdsa_p521_cert.empty()) << "P-521 certificate not loaded";
+    
+    auto verifier = std::make_unique<ECDSA_SHA256_Verifier>();
+    auto result = verifier->verify(test_data_, ecdsa_p521_sig, ecdsa_p521_cert);
+    
+    EXPECT_FALSE(result.is_valid) << "Unsupported P-521 curve should be rejected";
+}
+
+TEST_F(SignatureVerifierTest, ECDSA_SHA256_EmptyData) {
+    // Test handling of empty data
+    std::string ecdsa_p256_cert = readFile(cert_dir_ + "test_cert_p256.pem");
+    auto ecdsa_data = readFileBinary(cert_dir_ + "test_data_signature_ecdsa_p256_sha256.bin");
+    
+    auto verifier = std::make_unique<ECDSA_SHA256_Verifier>();
+    std::vector<uint8_t> empty_data;
+    auto result = verifier->verify(empty_data, ecdsa_data, ecdsa_p256_cert);
+    
+    EXPECT_FALSE(result.is_valid) << "Empty data should fail verification";
+}
+
+TEST_F(SignatureVerifierTest, ECDSA_SHA256_EmptySignature) {
+    // Test handling of empty signature
+    std::string ecdsa_p256_cert = readFile(cert_dir_ + "test_cert_p256.pem");
+    
+    auto verifier = std::make_unique<ECDSA_SHA256_Verifier>();
+    std::vector<uint8_t> empty_sig;
+    auto result = verifier->verify(test_data_, empty_sig, ecdsa_p256_cert);
+    
+    EXPECT_FALSE(result.is_valid) << "Empty signature should fail verification";
+}
+
+// ===== ECDSA-SHA384 Verifier Tests =====
+
+TEST_F(SignatureVerifierTest, ECDSA_SHA384_ValidSignature_P256) {
+    // Test valid ECDSA-SHA384 signature verification with P-256 curve
+    std::string ecdsa_p256_cert = readFile(cert_dir_ + "test_cert_p256.pem");
+    auto ecdsa_data = readFileBinary(cert_dir_ + "test_data_signature_ecdsa_p256_sha384.bin");
+    
+    ASSERT_FALSE(ecdsa_p256_cert.empty()) << "P-256 certificate not loaded";
+    ASSERT_FALSE(ecdsa_data.empty()) << "P-256 ECDSA-SHA384 signature not loaded";
+    
+    auto verifier = std::make_unique<ECDSA_SHA384_Verifier>();
+    auto result = verifier->verify(test_data_, ecdsa_data, ecdsa_p256_cert);
+    
+    EXPECT_TRUE(result.is_valid) << "Valid ECDSA-SHA384 signature should pass verification: " << result.error_message;
+    EXPECT_EQ(result.algorithm, "ECDSA-SHA384");
+    EXPECT_FALSE(result.signer_identity.empty()) << "Signer identity should be extracted";
+}
+
+TEST_F(SignatureVerifierTest, ECDSA_SHA384_ValidSignature_P384) {
+    // Test valid ECDSA-SHA384 signature verification with P-384 curve
+    std::string ecdsa_p384_cert = readFile(cert_dir_ + "test_cert_p384.pem");
+    auto ecdsa_data = readFileBinary(cert_dir_ + "test_data_signature_ecdsa_p384_sha384.bin");
+    
+    ASSERT_FALSE(ecdsa_p384_cert.empty()) << "P-384 certificate not loaded";
+    ASSERT_FALSE(ecdsa_data.empty()) << "P-384 ECDSA-SHA384 signature not loaded";
+    
+    auto verifier = std::make_unique<ECDSA_SHA384_Verifier>();
+    auto result = verifier->verify(test_data_, ecdsa_data, ecdsa_p384_cert);
+    
+    EXPECT_TRUE(result.is_valid) << "Valid ECDSA-SHA384 signature with P-384 should pass: " << result.error_message;
+    EXPECT_EQ(result.algorithm, "ECDSA-SHA384");
+}
+
+TEST_F(SignatureVerifierTest, ECDSA_SHA384_TamperedSignature_P384) {
+    // Test detection of tampered ECDSA-SHA384 signature
+    std::string ecdsa_p384_cert = readFile(cert_dir_ + "test_cert_p384.pem");
+    auto tampered_sig = readFileBinary(cert_dir_ + "test_data_signature_ecdsa_p384_sha384_tampered.bin");
+    
+    ASSERT_FALSE(ecdsa_p384_cert.empty()) << "P-384 certificate not loaded";
+    ASSERT_FALSE(tampered_sig.empty()) << "Tampered signature not loaded";
+    
+    auto verifier = std::make_unique<ECDSA_SHA384_Verifier>();
+    auto result = verifier->verify(test_data_, tampered_sig, ecdsa_p384_cert);
+    
+    EXPECT_FALSE(result.is_valid) << "Tampered ECDSA-SHA384 signature should fail verification";
+}
+
+TEST_F(SignatureVerifierTest, ECDSA_SHA384_TamperedData_P384) {
+    // Test detection of tampered data with ECDSA-SHA384
+    std::string ecdsa_p384_cert = readFile(cert_dir_ + "test_cert_p384.pem");
+    auto ecdsa_data = readFileBinary(cert_dir_ + "test_data_signature_ecdsa_p384_sha384.bin");
+    
+    auto tampered_data = test_data_;
+    if (!tampered_data.empty()) {
+        tampered_data[0] = 0xFF;  // Tamper with data
+    }
+    
+    auto verifier = std::make_unique<ECDSA_SHA384_Verifier>();
+    auto result = verifier->verify(tampered_data, ecdsa_data, ecdsa_p384_cert);
+    
+    EXPECT_FALSE(result.is_valid) << "Tampered data should fail ECDSA-SHA384 verification";
+}
+
+// ===== Cross-Algorithm Tests =====
+
+TEST_F(SignatureVerifierTest, CrossAlgorithm_ECDSA_SHA256_vs_SHA384_Mismatch) {
+    // Test that ECDSA-SHA256 verifier rejects SHA384-signed data
+    std::string ecdsa_p256_cert = readFile(cert_dir_ + "test_cert_p256.pem");
+    auto sha384_sig = readFileBinary(cert_dir_ + "test_data_signature_ecdsa_p256_sha384.bin");
+    
+    auto verifier = std::make_unique<ECDSA_SHA256_Verifier>();
+    auto result = verifier->verify(test_data_, sha384_sig, ecdsa_p256_cert);
+    
+    EXPECT_FALSE(result.is_valid) << "SHA384 signature should not verify with SHA256 verifier";
+}
+
+TEST_F(SignatureVerifierTest, Builder_ECDSA_SHA256) {
+    // Test builder pattern with ECDSA-SHA256
+    SignatureVerifierBuilder builder;
+    auto verifier = builder
+        .withECDSA_SHA256()
+        .build();
+    
+    EXPECT_TRUE(verifier != nullptr) << "Builder should create verifier chain";
+}
+
+TEST_F(SignatureVerifierTest, Builder_ECDSA_SHA384) {
+    // Test builder pattern with ECDSA-SHA384
+    SignatureVerifierBuilder builder;
+    auto verifier = builder
+        .withECDSA_SHA384()
+        .build();
+    
+    EXPECT_TRUE(verifier != nullptr) << "Builder should create verifier chain";
+}
+
+TEST_F(SignatureVerifierTest, Builder_MultipleECDSA) {
+    // Test builder with multiple ECDSA algorithms
+    SignatureVerifierBuilder builder;
+    auto verifier = builder
+        .withECDSA_SHA256()
+        .withECDSA_SHA384()
+        .build();
+    
+    EXPECT_TRUE(verifier != nullptr) << "Builder should chain multiple ECDSA verifiers";
+}
+
 // ===== Certificate Chain Verifier Tests =====
 
 TEST_F(SignatureVerifierTest, CertChain_ValidChain) {

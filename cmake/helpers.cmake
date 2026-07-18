@@ -1,13 +1,81 @@
 # CMake helper utilities for ThemisDB
-# - Sets a project-wide C++ standard if not configured by the caller
-# - Provides a small `themis_add_test()` wrapper to apply default TIMEOUT and LABELS
+# ===========================================================================
+#
+# This module provides reusable CMake macros and functions for:
+#   1. Consistent C++ standard configuration
+#   2. Consistent edition option registration (via themis_register_edition_option)
+#   3. Uniform test target creation (via themis_add_test)
+#
+# Philosophy:
+#   - Reduce boilerplate and consolidate repeated patterns
+#   - Maintain readability and semantic clarity
+#   - Aid contributor onboarding by providing standard idioms
+#
+# ===========================================================================
 
+# ============================================================================
+# C++ Standard Configuration
+# ============================================================================
+# 
+# Ensures all targets use C++20 by default unless explicitly overridden.
+# Can be customized via -DCMAKE_CXX_STANDARD=<value> at configure time.
 if(NOT DEFINED CMAKE_CXX_STANDARD)
     set(CMAKE_CXX_STANDARD 20 CACHE STRING "C++ standard to use for ThemisDB targets" FORCE)
 endif()
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+# ============================================================================
+# Edition Option Registration Macro
+# ============================================================================
+# 
+# Consolidates repeated edition option declaration pattern.
+# Reduces duplication across cmake/editions/*.cmake files.
+#
+# Usage:
+#   themis_register_edition_option(
+#       OPTION_NAME <option-var-name>
+#       DESCRIPTION <help-text>
+#       DEFAULT <ON|OFF>
+#       [ADVANCED]
+#   )
+#
+# Example:
+#   themis_register_edition_option(
+#       OPTION_NAME THEMIS_ENABLE_HTTP3
+#       DESCRIPTION "Enable HTTP/3 (QUIC) support"
+#       DEFAULT ON
+#       ADVANCED
+#   )
+macro(themis_register_edition_option)
+    # Parse keyword arguments
+    set(_opt_options ADVANCED)
+    set(_opt_single OPTION_NAME DESCRIPTION DEFAULT)
+    set(_opt_multi)
+    cmake_parse_arguments(_ero "${_opt_options}" "${_opt_single}" "${_opt_multi}" ${ARGN})
+    
+    if(NOT _ero_OPTION_NAME)
+        message(FATAL_ERROR "themis_register_edition_option: OPTION_NAME is required")
+    endif()
+    if(NOT _ero_DESCRIPTION)
+        message(FATAL_ERROR "themis_register_edition_option: DESCRIPTION is required")
+    endif()
+    if(NOT DEFINED _ero_DEFAULT)
+        message(FATAL_ERROR "themis_register_edition_option: DEFAULT (ON/OFF) is required")
+    endif()
+    
+    # Create option
+    option(${_ero_OPTION_NAME} "${_ero_DESCRIPTION}" "${_ero_DEFAULT}")
+    
+    # Mark as advanced if requested
+    if(_ero_ADVANCED)
+        mark_as_advanced(${_ero_OPTION_NAME})
+    endif()
+endmacro()
+
+# ============================================================================
+# Test Helper
+# ============================================================================
 # Simple test helper: adds a CTest test and applies uniform properties
 # Usage: themis_add_test(<name> <cmd> [args...])
 function(themis_add_test name)

@@ -243,11 +243,6 @@ private:
     bool loadLoRAFile(const std::string& path, std::vector<uint8_t>& data);
     bool parseLoRAMetadata(const std::vector<uint8_t>& data, json& metadata);
     std::vector<float> loadWeightsFromLoRAFile(const std::string& path);
-    bool verifyX509Signature(
-        const std::vector<uint8_t>& data,
-        const std::vector<uint8_t>& signature,
-        const std::string& cert_fingerprint
-    );
     
     // Statistical helpers for anomaly detection
     float calculateMean(const std::vector<float>& values);
