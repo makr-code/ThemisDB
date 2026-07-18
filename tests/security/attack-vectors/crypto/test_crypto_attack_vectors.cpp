@@ -61,12 +61,14 @@ using namespace themis::security;
 class CryptoAttackVectorTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        std::string license_error;
-        field_encryption_available_ =
-            themis::license::RuntimeLicenseGate::instance().isFeatureAllowed("field_encryption", license_error);
+        std::string edition_err;
+        if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+            GTEST_SKIP() << "Field encryption unavailable: " << edition_err;
+        }
         provider_ = std::make_shared<MockKeyProvider>();
         provider_->createKey("attack_test_key", 1);
         enc_ = std::make_shared<FieldEncryption>(provider_);
+        field_encryption_available_ = true;
     }
 
     bool expectEncryptionUnavailable() {

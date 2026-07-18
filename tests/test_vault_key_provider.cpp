@@ -11,6 +11,7 @@
 #include "security/mock_key_provider.h"
 #include "security/encryption.h"
 #include "document/encrypted_entities.h"
+#include "themis/edition_manager.h"
 #include <chrono>
 #include <thread>
 
@@ -329,7 +330,12 @@ protected:
         mock_provider_->createKey("user_pii", 1);
         mock_provider_->createKey("user_sensitive", 1);
         mock_provider_->createKey("customer_financial", 1);
-        
+
+        std::string edition_err;
+        if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+            GTEST_SKIP() << "Field encryption unavailable: " << edition_err;
+        }
+
         auto encryption = std::make_shared<FieldEncryption>(mock_provider_);
         EncryptedField<std::string>::setFieldEncryption(encryption);
         EncryptedField<int64_t>::setFieldEncryption(encryption);

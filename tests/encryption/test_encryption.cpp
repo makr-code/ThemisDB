@@ -295,16 +295,11 @@ protected:
         provider_ = std::make_shared<MockKeyProvider>();
         provider_->createKey("test_key", 1);
 
-        try {
-            encryption_ = std::make_shared<FieldEncryption>(provider_);
-            (void) encryption_->encrypt(std::string("probe"), "test_key");
-        } catch (const std::exception& ex) {
-            const std::string msg = ex.what();
-            if (msg.find("COMMUNITY edition") != std::string::npos) {
-                GTEST_SKIP() << "Field encryption unavailable in COMMUNITY edition";
-            }
-            throw;
+        std::string edition_err;
+        if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+            GTEST_SKIP() << "Field encryption unavailable: " << edition_err;
         }
+        encryption_ = std::make_shared<FieldEncryption>(provider_);
     }
     
     std::shared_ptr<MockKeyProvider> provider_;
@@ -485,16 +480,12 @@ protected:
         provider_ = std::make_shared<MockKeyProvider>();
         provider_->createKey("test_key", 1);
 
-        try {
-            encryption_ = std::make_shared<FieldEncryption>(provider_);
-            (void)encryption_->encrypt(std::string("probe"), "test_key");
-        } catch (const std::exception& ex) {
-            const std::string msg = ex.what();
-            if (msg.find("COMMUNITY edition") != std::string::npos) {
-                GTEST_SKIP() << "EncryptedField unavailable in COMMUNITY edition";
-            }
-            throw;
+        std::string edition_err;
+        if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+            GTEST_SKIP() << "Field encryption unavailable: " << edition_err;
         }
+
+        encryption_ = std::make_shared<FieldEncryption>(provider_);
 
         EncryptedField<std::string>::setFieldEncryption(encryption_);
         EncryptedField<int64_t>::setFieldEncryption(encryption_);
