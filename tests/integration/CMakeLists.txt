@@ -520,6 +520,42 @@ if(THEMIS_ENABLE_PROCESS_MINING_TESTS AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/te
 endif()
 
 # ============================================================================
+# Phase 3 Optimization Tests (P3-03 / P3-04)
+# ============================================================================
+
+# P3-03: Resource Pooling — Connection/Thread/Buffer Manager Tests (36 tests)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_resource_pooling.cpp")
+    add_integration_test(
+        test_resource_pooling
+        test_resource_pooling.cpp
+    )
+    target_link_libraries(test_resource_pooling PRIVATE
+        themis_core
+        Threads::Threads
+    )
+    set_tests_properties(test_resource_pooling PROPERTIES
+        LABELS "integration;phase3;p3-03;resource_pooling;performance"
+        TIMEOUT 300
+    )
+endif()
+
+# P3-04: Load Balancing & Query Scheduling Tests (24 tests)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_load_balancing.cpp")
+    add_integration_test(
+        test_load_balancing
+        test_load_balancing.cpp
+    )
+    target_link_libraries(test_load_balancing PRIVATE
+        themis_core
+        Threads::Threads
+    )
+    set_tests_properties(test_load_balancing PROPERTIES
+        LABELS "integration;phase3;p3-04;load_balancing;scheduling;performance"
+        TIMEOUT 300
+    )
+endif()
+
+# ============================================================================
 # Integration Test Summary
 # ============================================================================
 

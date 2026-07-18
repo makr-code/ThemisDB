@@ -174,3 +174,37 @@ if(NOT TARGET ablation_framework_test)
         message(STATUS "ablation_framework_test: GTest or themis_evaluation not available – skipped")
     endif()
 endif()
+
+# ============================================================================
+# test_query_planner_cache — Phase 3 P3-01: Query Optimizer Hardening (28 tests)
+# ============================================================================
+
+if(NOT TARGET test_query_planner_cache)
+    find_package(GTest QUIET)
+    if(GTest_FOUND AND TARGET themis_evaluation)
+        add_executable(test_query_planner_cache
+            test_query_planner_cache.cc
+        )
+
+        target_include_directories(test_query_planner_cache PRIVATE
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../src/evaluation
+        )
+
+        target_link_libraries(test_query_planner_cache PRIVATE
+            themis_evaluation
+            GTest::gtest_main
+        )
+
+        target_compile_features(test_query_planner_cache PRIVATE cxx_std_17)
+
+        add_test(
+            NAME test_query_planner_cache
+            COMMAND test_query_planner_cache
+        )
+        set_tests_properties(test_query_planner_cache PROPERTIES
+            LABELS "phase3;p3-01;query_optimization;evaluation"
+        )
+    else()
+        message(STATUS "test_query_planner_cache: GTest or themis_evaluation not available – skipped")
+    endif()
+endif()

@@ -26,12 +26,19 @@ foreach(_src IN LISTS CACHE_MODULE_TEST_SOURCES)
     )
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
+    # Phase 3 P3-02 tests get additional labels
+    if(_stem MATCHES "test_cache_efficiency_multilevel")
+        set(_labels "cache;phase3;p3-02;cache_efficiency")
+    else()
+        set(_labels "cache")
+    endif()
+
     themis_register_module_focused_test(
         MODULE cache
         NAME ${_ctest}
         TARGET ${_target}
         TIER unit
         TIMEOUT 120
-        LABELS cache
+        LABELS ${_labels}
     )
 endforeach()
