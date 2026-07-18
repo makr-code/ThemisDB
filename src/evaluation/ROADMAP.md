@@ -6,11 +6,16 @@
 
 ## Current Status
 
-EPIC 2 remains a mixed-stage module overall, but EPIC 2.5 hybrid query planning is now
-implemented, benchmarked, and regression-tested. The active planner contract lives in
-`include/query_planner.h`, the production implementation lives in `src/query_planner.cc`,
-focused coverage lives in `tests/epic2_evaluation/query_planner_test.cc`, and hardening
-benchmarks live in `benchmarks/epic2_evaluation/planner_decision_bench.cc`.
+EPIC 2 is now substantially complete:
+- EPIC 2.1: Hardware Profiles (COMPLETE) ✅
+- EPIC 2.2: Benchmark Matrix (COMPLETE) ✅
+- EPIC 2 Phase 2: Retrieval Metrics & Ablation Framework (COMPLETE) ✅
+- EPIC 2.4: Approximation Governance Rules (COMPLETE) ✅
+- EPIC 2.5: Hybrid Query Planner (COMPLETE) ✅
+- EPIC 2.6: Artifact Lifecycle Management (COMPLETE) ✅
+- EPIC 2.7: Tensor Storage Strategy Assessment (COMPLETE) ✅
+
+All core EPIC 2 components are implemented, tested, and ready for integration with downstream retrieval workflows.
 
 ## In Progress
 

@@ -1,11 +1,13 @@
 # EPIC 2 — Evaluation & Benchmarking module.
 # Includes benchmark_matrix (EPIC 2.2, Issue #5438), hardware_profile sources,
 # the query planner (EPIC 2.5), retrieval metrics and ablation framework
-# (Issue #5439) implementations.
+# (Issue #5439), and artifact lifecycle management (EPIC 2.6, Issue #5442)
+# implementations.
 
 # ============================================================================
 # themis_evaluation — EPIC 2.2 evaluation library (benchmark_matrix, hardware_profile)
 #                   + EPIC 2 Phase 2 retrieval metrics and ablation framework
+#                   + EPIC 2.6 artifact lifecycle management
 # ============================================================================
 
 set(EVALUATION_PUBLIC_HEADERS
@@ -13,6 +15,9 @@ set(EVALUATION_PUBLIC_HEADERS
     "${CMAKE_CURRENT_SOURCE_DIR}/include/hardware_profile.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/include/retrieval_metrics.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/include/ablation_framework.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/approximation_rules.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/query_planner.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/artifact_lifecycle.h"
 )
 
 set(EVALUATION_SOURCES
@@ -20,6 +25,7 @@ set(EVALUATION_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/src/hardware_profile.cc"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/retrieval_metrics.cc"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/ablation_framework.cc"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/artifact_lifecycle.cc"
 )
 
 if(NOT TARGET themis_evaluation)
@@ -96,3 +102,26 @@ if(TARGET GTest::gtest OR DEFINED THEMIS_BUILD_EPIC2)
         target_link_libraries(epic2_approximation_lib PUBLIC epic2_evaluation_lib)
     endif()
 endif()
+
+# ============================================================================
+# epic2_artifact_lifecycle_lib — EPIC 2.6 artifact lifecycle management
+# ============================================================================
+
+set(EVALUATION_ARTIFACT_LIFECYCLE_HEADERS
+    include/artifact_lifecycle.h
+)
+set(EVALUATION_ARTIFACT_LIFECYCLE_SOURCES
+    src/artifact_lifecycle.cc
+)
+
+if(TARGET GTest::gtest OR DEFINED THEMIS_BUILD_EPIC2)
+    add_library(epic2_artifact_lifecycle_lib STATIC
+        ${EVALUATION_ARTIFACT_LIFECYCLE_SOURCES}
+    )
+    target_include_directories(epic2_artifact_lifecycle_lib PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+    )
+    target_compile_features(epic2_artifact_lifecycle_lib PUBLIC cxx_std_17)
+endif()
+
