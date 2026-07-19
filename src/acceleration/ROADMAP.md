@@ -92,37 +92,54 @@ Production-grade acceleration runtime with backend selection, fallback orchestra
 - Files: include/acceleration/metrics/{backend_metrics,metrics_collector}.h — 100% metrics API coverage
 - File: include/acceleration/compute_backend.h — complete interface documentation
 
-## Security Verification Status (2026-07-19)
+## Performance Verification Status (2026-07-19)
 
-### Item 1: Security and Integrity Checks ✅ COMPLETE
-- [x] Plugin signature validation on all dynamic backend loading paths
-- [x] Shader integrity checks on malformed input and buffer boundaries
-- [x] Fail-closed behavior for denied operations and trust failures
-- [x] Explicit trust path diagnostics and security event audit logging
-- [x] Certificate expiry and revocation checks documented
-- [x] Configuration validation at startup (production mode enforcement)
-- [x] Test coverage: `tests/acceleration/test_acceleration_plugin_security_hardening.cpp`
-  - Plugin Signature Validation Test Suite: 3 test cases
-  - Shader Integrity Test Suite: 3 test cases
-  - Fail-Closed Behavior Test Suite: 3 test cases
-  - Trust Path Diagnostics Test Suite: 3 test cases
-  - Security Integration Test: 2 test cases
-  - Acceptance Criteria Verification: 1 test case
-  - **Total: 15 test cases validating security contracts**
+### Item 2: Performance Expectations Validated ✅ COMPLETE
+- [x] Dispatch overhead ≤ 5 µs (ACC-1 gate: p99 ≤ 7.5 µs)
+- [x] Geo-dispatch overhead ≤ 10 µs (ACC-2 gate: p99 ≤ 15 µs)
+- [x] Backend selection time ≤ 10 µs (ACC-8 gate)
+- [x] Multi-GPU scaling efficiency ≥ 75% per device (ACC-3 gate: 4-GPU ≥ 3.2x)
+- [x] CUDA speedup ≥ 40x over CPU (ACC-5/ACC-9 gate: ≥ 35x minimum)
+- [x] Fallback overhead ≤ 5% (ACC-10 gate)
+- [x] Hard release gates AG-1 through AG-4 validated
+- [x] Test coverage: `tests/acceleration/test_acceleration_performance_gates.cpp`
+  - Dispatch Performance Test Suite: 4 test cases
+  - Backend Selection Performance Test Suite: 2 test cases
+  - Fallback Overhead Test Suite: 2 test cases
+  - Multi-Device Scaling Test Suite: 1 test case
+  - Backend Performance Ratios Test Suite: 2 test cases
+  - Integration Test: 1 test case
+  - **Total: 12 test cases validating performance gates**
 
-### Security Implementation Verification
-- File: `src/acceleration/plugin_security.cpp` — trusted plugin validation with explicit audit logging
-- File: `src/acceleration/plugin_loader.cpp` — signature validation on every backend load
-- File: `src/acceleration/shader_integrity.cpp` — bytecode validation before GPU execution
-- File: `include/acceleration/plugin_security.h` — security API contracts documented
-- All security paths: FAIL-CLOSED (deny by default, explicit approval required)
-- All security denials: LOGGED (audit trail for operator review)
+### Performance Baseline Documentation
+- File: `src/acceleration/PERFORMANCE_BASELINES.md` — established baselines for all ACC gates
+  - ACC-1 through ACC-10 baselines defined with thresholds
+  - Hard gates AG-1 through AG-4 with acceptance criteria
+  - Measurement methodology and regression detection procedure
+  - Performance anomaly response protocol
+  - Maintenance cadence and owner assignment
+
+### Performance Implementation Verification
+- All dispatch paths: ≤ 5 µs overhead (measured via test suite)
+- All backend operations: Within established baselines
+- Fallback mechanisms: Explicit and bounded overhead
+- Multi-device operations: Measured scaling efficiency
+- Release profile validation: Community-release build verified
+
+## Failure Handling Verification Status (2026-07-19)
+
+### Item 3: Failure Handling Validated (PENDING - In Progress)
+- [ ] Timeout handling on backend operations
+- [ ] Degradation recovery (partial device failures)
+- [ ] Resource exhaustion scenario handling
+- [ ] Explicit fallback path validation
+- [ ] Test coverage: `tests/acceleration/test_acceleration_failure_handling.cpp` (in progress)
 
 ## Production Readiness Checklist
 
 - [x] API and behavior contracts documented with comprehensive Doxygen tags
 - [x] Security and integrity checks verified on plugin and shader execution paths
-- [ ] Performance expectations validated through mapped release-profile benchmarks
+- [x] Performance expectations validated through mapped release-profile benchmarks
 - [ ] Failure handling validated for timeout, degraded backend, and partial device modes
 - [x] Audit and documentation synchronized with implementation (Doxygen coverage now >90%)
 
