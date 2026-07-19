@@ -137,6 +137,7 @@ public:
         size_t total_requests = 0;
         size_t successful_requests = 0;
         size_t failed_requests = 0;
+        size_t skipped_requests = 0;
     };
     
     explicit ProductionValidator(const ValidationConfig& config);

@@ -118,7 +118,7 @@ public:
      * @brief Inject a production ring all-reduce implementation.
      *
      * When set, ring_allreduce() delegates to this function instead of the
-     * in-process CPU fallback.  This allows wiring a real NCCL/RCCL/MPI
+     * default failure path. This allows wiring a real NCCL/RCCL/MPI
      * collective at runtime without recompiling.
      * @param fn Callable that performs the actual collective and writes the
      *           reduced result back into the tensor in-place.

@@ -40,7 +40,9 @@ TEST_F(ProductionValidatorTest, BenchmarkInference_BasicFunctionality) {
     // Verify basic structure
     EXPECT_EQ(metrics.model_id, "test-model-7b");
     EXPECT_EQ(metrics.total_requests, 100);
-    EXPECT_GT(metrics.successful_requests, 0);
+    EXPECT_EQ(metrics.successful_requests, 0);
+    EXPECT_EQ(metrics.failed_requests, 0);
+    EXPECT_EQ(metrics.skipped_requests, metrics.total_requests);
     
     // Verify latency metrics are populated
     EXPECT_GT(metrics.latency_p50_ms, 0.0);
@@ -79,11 +81,10 @@ TEST_F(ProductionValidatorTest, BenchmarkInference_ThroughputMetrics) {
     
     auto metrics = validator.benchmarkInference("test-model-7b");
     
-    // Throughput should be positive
-    EXPECT_GT(metrics.throughput_tokens_per_sec, 0.0);
-    
-    // Total tokens should be generated
-    EXPECT_GT(metrics.total_tokens_generated, 0);
+    // Without an attached inference engine, throughput remains zero and no
+    // tokens are counted as generated.
+    EXPECT_DOUBLE_EQ(metrics.throughput_tokens_per_sec, 0.0);
+    EXPECT_EQ(metrics.total_tokens_generated, 0u);
     
     // Total time should be recorded
     EXPECT_GT(metrics.total_time_seconds, 0.0);
@@ -150,11 +151,11 @@ TEST_F(ProductionValidatorTest, BenchmarkInference_RequestStatistics) {
     // Total requests should be 100
     EXPECT_EQ(metrics.total_requests, 100);
     
-    // Successful + failed should equal total
-    EXPECT_EQ(metrics.successful_requests + metrics.failed_requests, metrics.total_requests);
-    
-    // Should have some successful requests
-    EXPECT_GT(metrics.successful_requests, 0);
+    // Successful + failed + skipped should equal total
+    EXPECT_EQ(
+        metrics.successful_requests + metrics.failed_requests + metrics.skipped_requests,
+        metrics.total_requests);
+    EXPECT_EQ(metrics.skipped_requests, metrics.total_requests);
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -176,9 +177,8 @@ TEST_F(ProductionValidatorTest, ValidateQuality_ThresholdCheck) {
     // Run quality validation
     bool result = validator.validateQuality("test-model-7b");
     
-    // Quality should meet 80% threshold in simulation
-    // (In real implementation, this would test actual model quality)
-    EXPECT_TRUE(result);
+    // Quality validation requires a real inference engine.
+    EXPECT_FALSE(result);
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -312,5 +312,4 @@ TEST_F(ProductionValidatorTest, LiveStats_Available) {
 // ═══════════════════════════════════════════════════════════
 // Main
 // ═══════════════════════════════════════════════════════════
-
 

@@ -44,4 +44,20 @@ TEST(EmbeddedLLMBatchContract, HandlesEmptyBatch) {
     EXPECT_TRUE(llm.embedBatch({}).empty());
 }
 
+TEST(EmbeddedLLMBatchContract, ReportsStubMetadataConsistently) {
+    EmbeddedLLM llm;
+
+    InferenceRequest request;
+    request.prompt = "What is 2+2?";
+    request.request_id = "req-1";
+
+    const auto response = llm.generateFull(request);
+    const auto stats = llm.getStats();
+
+    EXPECT_FALSE(response.metadata.value("llm_enabled", true));
+    EXPECT_EQ(response.metadata.value("backend", std::string{}), "deterministic-fallback");
+    EXPECT_FALSE(stats.value("llm_enabled", true));
+    EXPECT_EQ(stats.value("backend", std::string{}), "deterministic-fallback");
+}
+
 } // namespace themis::llm

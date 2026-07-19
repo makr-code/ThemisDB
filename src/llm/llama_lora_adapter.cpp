@@ -20,6 +20,8 @@
 
 #include <llama.h>
 #include <spdlog/spdlog.h>
+#include <algorithm>
+#include <vector>
 #include <mutex>
 #include <cstdint>
 #include <unordered_map>

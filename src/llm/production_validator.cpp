@@ -173,6 +173,11 @@ ProductionValidator::ProductionMetrics ProductionValidator::benchmarkInference(
     auto benchmark_start = std::chrono::high_resolution_clock::now();
     
     spdlog::info("Running 100 benchmark requests with varying lengths...");
+    if (!inference_engine_) {
+        metrics.warnings.push_back(
+            "Benchmark ran without an attached inference engine; requests were marked skipped.");
+        spdlog::warn("No inference engine attached; benchmark requests will be marked skipped");
+    }
     
     for (int i = 0; i < 100; i++) {
         // Generate benchmark prompt (10 variants cycling)
@@ -204,9 +209,7 @@ ProductionValidator::ProductionMetrics ProductionValidator::benchmarkInference(
                     failed++;
                 }
             } else {
-                const auto response = buildDeterministicResponse(prompt);
-                total_tokens += estimateTokenCount(response);
-                successful++;
+                skipped++;
             }
             
         } catch (const std::exception& e) {
@@ -247,7 +250,9 @@ ProductionValidator::ProductionMetrics ProductionValidator::benchmarkInference(
     }
     
     // 3. Calculate throughput (tokens/sec)
-    metrics.throughput_tokens_per_sec = total_tokens / total_time_s;
+    metrics.throughput_tokens_per_sec = total_time_s > 0.0
+        ? static_cast<double>(total_tokens) / total_time_s
+        : 0.0;
     metrics.total_tokens_generated = total_tokens;
     metrics.total_time_seconds = total_time_s;
     
@@ -255,6 +260,7 @@ ProductionValidator::ProductionMetrics ProductionValidator::benchmarkInference(
     metrics.total_requests = 100;
     metrics.successful_requests = successful;
     metrics.failed_requests = failed;
+    metrics.skipped_requests = skipped;
     
     // 5. Measure memory usage
     size_t final_memory_mb = measureMemoryUsage();
@@ -344,6 +350,11 @@ ProductionValidator::ProductionMetrics ProductionValidator::benchmarkInference(
 
 bool ProductionValidator::validateQuality(const std::string& model_id) {
     spdlog::info("Running quality tests for model: {}", model_id);
+
+    if (!inference_engine_) {
+        spdlog::warn("Quality validation requires an attached inference engine");
+        return false;
+    }
     
     auto tests = getQualityTests();
     size_t passed = 0;
@@ -1806,25 +1817,28 @@ std::vector<ProductionValidator::QualityTest> ProductionValidator::getQualityTes
 }
 
 bool ProductionValidator::evaluateQualityTest(const QualityTest& test, const std::string& model_id) {
+    if (!inference_engine_) {
+        return false;
+    }
+
+    InferenceEngineEnhanced::EnhancedInferenceRequest eng_req;
+    eng_req.base_request.prompt = test.prompt;
+    eng_req.base_request.model_id = model_id.empty() ? "default" : model_id;
+    eng_req.base_request.max_tokens = 64;
+    eng_req.timeout = std::chrono::milliseconds(10000);
+
     std::string response;
-
-    if (inference_engine_) {
-        InferenceEngineEnhanced::EnhancedInferenceRequest eng_req;
-        eng_req.base_request.prompt = test.prompt;
-        eng_req.base_request.model_id = model_id.empty() ? "default" : model_id;
-        eng_req.base_request.max_tokens = 64;
-        eng_req.timeout = std::chrono::milliseconds(10000);
-
-        try {
-            auto handle = inference_engine_->submit(eng_req);
-            response = handle.get().text;
-        } catch (const std::exception& e) {
-            spdlog::warn("Quality validation request failed, using deterministic fallback: {}", e.what());
-        }
+    try {
+        auto handle = inference_engine_->submit(eng_req);
+        response = handle.get().text;
+    } catch (const std::exception& e) {
+        spdlog::warn("Quality validation request failed: {}", e.what());
+        return false;
     }
 
     if (response.empty()) {
-        response = buildDeterministicResponse(test.prompt);
+        spdlog::warn("Quality validation request returned an empty response");
+        return false;
     }
 
     return matchesExpectedAnswer(response, test.expected_answers);

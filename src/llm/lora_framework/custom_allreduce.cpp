@@ -188,8 +188,9 @@ bool CustomAllReduce::ring_allreduce(GPUTensor& tensor, bool average) {
         return true;  // No reduction needed
     }
 
-    std::vector<GPUTensor*> tensors = {&tensor};
-    return allreduce(tensors, average);
+    spdlog::error(
+        "CustomAllReduce ring_allreduce requires an injected backend when world_size > 1");
+    return false;
 }
 
 void CustomAllReduce::gpu_to_gpu_copy(const GPUTensor& src, GPUTensor& dst,

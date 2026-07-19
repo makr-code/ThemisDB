@@ -284,7 +284,7 @@ InferenceResponse EmbeddedLLM::generateFull(const InferenceRequest& request) {
     resp.tokens_generated = static_cast<int>(std::max<std::size_t>(1, (resp.text.size() + 3) / 4));
     resp.success = true;
     resp.metadata = json{
-        {"llm_enabled", true},
+        {"llm_enabled", false},
         {"backend", "deterministic-fallback"},
         {"model_backend_ready", false}
     };
@@ -305,7 +305,7 @@ std::string EmbeddedLLM::getModelInfo() const {
 json EmbeddedLLM::getStats() const {
     std::lock_guard<std::mutex> lock(callback_mutex_);
     return json{
-        {"llm_enabled", true},
+        {"llm_enabled", false},
         {"embedding_enabled", true},
         {"initialized", true},
         {"backend", "deterministic-fallback"},
