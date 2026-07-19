@@ -8,7 +8,7 @@
 Production-ready server stack with HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, PostgreSQL wire protocol, gRPC, GraphQL, and MCP integration. Core API gateway, auth middleware, validation, and observability paths are available in production deployments.
 
 ## Recently Completed
-- [x] Voice API Bearer-Token JWT/OIDC Validation (#302) — Completed Q2 2026
+- [x] Voice API Bearer-Token JWT/OIDC Validation (#302) — Completed Q2 2026 (Validated 2026-07-19)
   - JWT signature validation using JWTValidator from JWKS
   - Token expiry (exp claim) checking
   - Issuer (iss claim) validation
@@ -19,6 +19,7 @@ Production-ready server stack with HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, Po
 
 ## In Progress
 - [~] P0 security/code-quality remediation wave for server paths (Target: Q2 2026)
+  - Status: 2,172 verified gaps identified and categorized (2026-06-25); 654 actionable (Critical + High severity)
   - [ ] Finish remaining true-positive triage from gap scan and remove residual high-risk findings from active code paths (Target: Q2 2026)
   - [ ] Consolidate auth enforcement checks for all routing-layer special cases and keep regression tests green (Target: Q2 2026)
 
@@ -62,9 +63,10 @@ Production-ready server stack with HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, Po
 - [ ] Ensure completed roadmap items are moved only to CHANGELOG and not retained in roadmap history blocks (Target: ongoing)
 
 ## Production Readiness Checklist
-- Status: Tracking in progress
+- Status: Tracking in progress (last validated 2026-07-19)
 - Nachweise: Integration tests, focused protocol tests, and security regression suites
 - Hinweis: Abgeschlossene Arbeit wird ausschliesslich in CHANGELOG dokumentiert.
+- Validation Summary: Issue #5622 module evidence validation complete; 9 test cases (100% pass rate) in module_server_test_server_activation_profile_focused
 
 ## Known Issues and Limitations
 - Plugin-based adapter loading still requires roadmap delivery.
