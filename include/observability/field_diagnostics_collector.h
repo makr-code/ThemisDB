@@ -10,7 +10,8 @@
  *
  * Design:
  * - Singleton pattern for process-wide collection
- * - Lock-free circular buffer with std::shared_mutex for efficiency
+ * - Mutex-protected deque buffer (std::shared_mutex for concurrent reads,
+ *   exclusive lock for writes/eviction)
  * - Automatic PII masking before emission
  * - Optional async batch export to observability backend
  * - <1% CPU overhead target

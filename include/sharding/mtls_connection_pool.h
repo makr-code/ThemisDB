@@ -122,10 +122,13 @@ public:
      * 
      * @param endpoint Target endpoint (e.g., "localhost:50051")
      * @param config Pool configuration
-     * @param factory Connection factory callable; must outlive the pool
-     * 
-     * @note Factory ownership: caller retains ownership of factory.
-     *       Ensure factory lifetime exceeds pool lifetime.
+     * @param factory Connection factory callable stored by value.
+     *        The callable itself is copied/moved into the pool.
+     *        Any external state **captured by reference** inside the
+     *        callable (e.g., an MTLSConnectionFactory instance) must
+     *        outlive the pool.  If all captured state is captured by
+     *        value (or via shared_ptr), there is no additional lifetime
+     *        constraint beyond the pool itself.
      */
     explicit EndpointConnectionPool(
         const std::string& endpoint,

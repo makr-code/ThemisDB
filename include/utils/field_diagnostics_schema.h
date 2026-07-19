@@ -26,6 +26,52 @@
 #include <ctime>
 #include <nlohmann/json.hpp>
 
+// ---------------------------------------------------------------------------
+// Portable UTC time helpers
+// ---------------------------------------------------------------------------
+namespace themis::observability::detail {
+
+/**
+ * @brief Thread-safe UTC breakdown of a `time_t` value.
+ *
+ * `std::gmtime()` returns a pointer to static storage that is not protected by
+ * any lock, making it unsafe to call concurrently.  This wrapper uses the
+ * POSIX `gmtime_r()` on non-Windows platforms, and the Windows-specific
+ * `gmtime_s()` on MSVC/MinGW.
+ *
+ * @param tt Input POSIX timestamp.
+ * @param result Output `std::tm` structure filled in UTC.
+ * @return `true` on success; `false` if the platform call fails.
+ */
+inline bool gmtime_utc(std::time_t tt, std::tm& result) noexcept {
+#ifdef _WIN32
+    return ::gmtime_s(&result, &tt) == 0;
+#else
+    return ::gmtime_r(&tt, &result) != nullptr;
+#endif
+}
+
+/**
+ * @brief Inverse of `gmtime_utc()`: convert a UTC `std::tm` to `time_t`.
+ *
+ * `std::mktime()` interprets its argument as *local* time, which produces
+ * incorrect results for UTC timestamps when the host timezone differs from UTC.
+ * This wrapper uses POSIX `timegm()` on non-Windows platforms and the
+ * Windows-specific `_mkgmtime()` on MSVC/MinGW.
+ *
+ * @param tm UTC-based `std::tm` structure.
+ * @return Corresponding POSIX `time_t`, or `(time_t)-1` on failure.
+ */
+inline std::time_t mktime_utc(std::tm& tm) noexcept {
+#ifdef _WIN32
+    return ::_mkgmtime(&tm);
+#else
+    return ::timegm(&tm);
+#endif
+}
+
+}  // namespace themis::observability::detail
+
 namespace themis {
 namespace observability {
 
@@ -181,19 +227,30 @@ struct DiagnosticEvent {
      * @brief Serialize event to JSON for observability backend.
      *
      * Assumes all string fields have been pre-sanitized for PII.
+     * The timestamp is serialized as an ISO 8601 UTC string with millisecond
+     * precision (e.g. `"2026-07-19T10:30:00.123Z"`).
+     *
+     * Thread-safety: this method is safe to call concurrently; it does not
+     * rely on `std::gmtime()` (which uses static storage).
      *
      * @return JSON object with event data
      */
     json toJson() const {
         json obj;
         
-        // Timestamp as ISO 8601 string
+        // Timestamp as ISO 8601 UTC string.
+        // Use thread-safe gmtime_utc() instead of std::gmtime().
         auto tt = std::chrono::system_clock::to_time_t(timestamp);
         auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(
             timestamp.time_since_epoch()) % 1000;
         
+        std::tm tm_utc = {};
         std::ostringstream oss;
-        oss << std::put_time(std::gmtime(&tt), "%Y-%m-%dT%H:%M:%S");
+        if (themis::observability::detail::gmtime_utc(tt, tm_utc)) {
+            oss << std::put_time(&tm_utc, "%Y-%m-%dT%H:%M:%S");
+        } else {
+            oss << "1970-01-01T00:00:00";
+        }
         oss << '.' << std::setfill('0') << std::setw(3) << ms.count() << 'Z';
         
         obj["timestamp"] = oss.str();
@@ -313,7 +370,9 @@ struct adl_serializer<themis::observability::DiagnosticEvent> {
     static void from_json(const json& j, themis::observability::DiagnosticEvent& evt) {
         using namespace themis::observability;
 
-        // Parse timestamp from ISO 8601 string; fall back to epoch on failure
+        // Parse timestamp from ISO 8601 UTC string; fall back to epoch on failure.
+        // Use mktime_utc() (wraps timegm / _mkgmtime) so the tm is interpreted
+        // as UTC rather than the host local timezone.
         if (j.contains("timestamp")) {
             std::string ts_str;
             j.at("timestamp").get_to(ts_str);
@@ -321,8 +380,10 @@ struct adl_serializer<themis::observability::DiagnosticEvent> {
             std::istringstream ss(ts_str);
             ss >> std::get_time(&tm, "%Y-%m-%dT%H:%M:%S");
             if (!ss.fail()) {
-                evt.timestamp = std::chrono::system_clock::from_time_t(
-                    std::mktime(&tm));
+                std::time_t tt = themis::observability::detail::mktime_utc(tm);
+                if (tt != static_cast<std::time_t>(-1)) {
+                    evt.timestamp = std::chrono::system_clock::from_time_t(tt);
+                }
             }
         }
 

@@ -221,7 +221,21 @@ struct NLIFaithfulnessVerifier::Impl {
             return onnx_result;
         }
         
-        // Fallback to heuristic
+        // ONNX required but unavailable and no fallback permitted: fail hard.
+        // This enforces the contract documented in Config::fallback_to_heuristic.
+        if (config.use_onnx && !model_loaded && !config.fallback_to_heuristic) {
+            THEMIS_ERROR("NLI ONNX inference required (fallback_to_heuristic=false) "
+                         "but no model is loaded. Returning neutral result.");
+            NLIResult fail_result;
+            fail_result.label          = NLILabel::NEUTRAL;
+            fail_result.entailment_score    = 0.0;
+            fail_result.neutral_score       = 1.0;
+            fail_result.contradiction_score = 0.0;
+            fail_result.confidence          = 0.0;
+            return fail_result;
+        }
+        
+        // Fallback to heuristic (either ONNX disabled, or fallback permitted)
         heuristic_inference_count_++;
         
         NLIResult result;
@@ -553,6 +567,39 @@ void NLIFaithfulnessVerifier::loadModel(const std::string& model_path) {
 
 bool NLIFaithfulnessVerifier::isModelLoaded() const {
     return impl_->model_loaded;
+}
+
+/**
+ * @brief Check whether the verifier can service inference requests.
+ *
+ * Evaluates whether at least one of the following inference paths is available:
+ * - ONNX model is loaded and ready.
+ * - ONNX is disabled (`use_onnx == false`), so the heuristic path is the
+ *   sole path and is always available.
+ * - ONNX is enabled but heuristic fallback is permitted
+ *   (`fallback_to_heuristic == true`), making the verifier ready even before
+ *   a model is loaded.
+ *
+ * Only returns `false` when ONNX is the required path (`use_onnx == true`),
+ * fallback is prohibited (`fallback_to_heuristic == false`), **and** no model
+ * has been loaded yet.
+ *
+ * @return true if the verifier can perform inference
+ */
+bool NLIFaithfulnessVerifier::isReady() const {
+    if (impl_->model_loaded) {
+        return true;
+    }
+    // If ONNX is disabled, heuristic is always available
+    if (!impl_->config.use_onnx) {
+        return true;
+    }
+    // If ONNX is required but fallback is allowed, heuristic covers us
+    if (impl_->config.fallback_to_heuristic) {
+        return true;
+    }
+    // ONNX required, no fallback, and model not yet loaded
+    return false;
 }
 
 NLIFaithfulnessVerifier::Config NLIFaithfulnessVerifier::getConfig() const {

@@ -413,8 +413,3 @@ TEST_F(IntegrationTest, PrometheusMetricsEmission) {
 
 }  // namespace observability
 }  // namespace themis
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

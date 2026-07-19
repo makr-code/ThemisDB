@@ -262,7 +262,7 @@ std::optional<std::unique_ptr<SSL, SSLDeleter>> EndpointConnectionPool::createNe
                  "For production use, inject a factory via constructor or setConnectionFactory().",
                  endpoint_);
     
-    total_created_++;
+    connections_failed_++;
     return std::nullopt;
 }
 

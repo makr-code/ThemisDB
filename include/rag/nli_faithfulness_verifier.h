@@ -182,10 +182,22 @@ public:
     bool isModelLoaded() const;
     
     /**
-     * @brief Check if verifier is ready for inference
-     * @return true if ready (ONNX loaded or heuristic fallback available)
+     * @brief Check if verifier is ready for inference.
+     *
+     * Returns `true` when at least one inference path is available:
+     * - ONNX model is loaded (`isModelLoaded()` is `true`), **or**
+     * - ONNX is disabled (`Config::use_onnx == false`), so heuristic runs
+     *   unconditionally, **or**
+     * - ONNX is enabled but the heuristic fallback is also enabled
+     *   (`Config::fallback_to_heuristic == true`).
+     *
+     * Returns `false` only when ONNX is required (`use_onnx == true`) **and**
+     * no fallback is permitted (`fallback_to_heuristic == false`) **and** no
+     * model has been loaded yet.
+     *
+     * @return true if the verifier can perform inference
      */
-    bool isReady() const { return isModelLoaded(); }
+    bool isReady() const;
     
     /**
      * @brief Get current configuration

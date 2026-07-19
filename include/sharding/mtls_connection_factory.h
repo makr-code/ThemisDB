@@ -17,13 +17,23 @@
 #include <memory>
 #include <optional>
 #include <functional>
+#include <cstdint>
 
-// Forward declarations for OpenSSL SSL type
+// Forward declarations for OpenSSL types — avoids pulling in all of <openssl/ssl.h>
+// in headers that only need the pointer types.
 typedef struct ssl_st SSL;
+typedef struct ssl_ctx_st SSL_CTX;
 
 namespace themis::sharding {
 
-// Custom deleter for SSL pointers
+/**
+ * @brief Custom deleter for OpenSSL SSL connection objects.
+ *
+ * Used with `std::unique_ptr<SSL, SSLDeleter>` to ensure `SSL_free()` is
+ * called when the pointer goes out of scope.  `SSL_free()` also releases the
+ * underlying BIO (and thus the socket file descriptor / SOCKET handle) when
+ * `BIO_CLOSE` was specified during BIO creation.
+ */
 struct SSLDeleter {
     void operator()(SSL* ptr) const;
 };
