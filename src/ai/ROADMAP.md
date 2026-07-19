@@ -1,12 +1,22 @@
 # AI Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Status: current | validated: 2026-07-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
 
 Production runtime exists for prompt validation, endpoint invocation, JSON mapping, and structured fail-closed error handling.
+
+## Module Documentation Enhancements (2026-07-19)
+
+- [x] Added comprehensive Doxygen documentation to all implementation functions
+- [x] Documented aiPluginGenerator::validatePrompt() with detailed validation rules
+- [x] Documented aiPluginGenerator::generatePlugin() with complete execution pipeline
+- [x] Documented all CAI ethics integration functions with semantics and contracts
+- [x] Added inline documentation for error handling, thread-safety, and retry policies
+- [x] Lines added: ai_plugin_generator.cpp +133, cai_ethics_integration.cpp +130
+- [x] Total module documentation lines: ~1,473 (up from 1,210)
 
 ## In Progress
 
