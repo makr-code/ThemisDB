@@ -2,10 +2,10 @@
  * @file ai_plugin_generator.cpp
  * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
  * @version 0.1.0
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 98/100 (all HIGH-severity gaps resolved or documented as false positives)
+ * @note Maturity: 🟡 HARDENED-IMPLEMENTATION
+ * @note Score: 88/100 (focused hardening implemented; full production validation still environment-dependent)
  * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=3, L=0
- * @note Status: Production Ready - All critical gaps verified and resolved
+ * @note Status: Focused hardening implemented; do not treat this file header as standalone production sign-off
  * @note Gap Resolution Evidence: Validation comments added (2026-07-19); retry logic documented; LLM output schema validation complete
  */
 
@@ -22,10 +22,11 @@
 #include <stdexcept>
 #include <string>
 #include <array>
-#include <thread>
-#include <chrono>
 #include <algorithm>
 #include <cctype>
+#include <chrono>
+#include <string_view>
+#include <thread>
 #include <unordered_set>
 
 namespace themis {
@@ -49,6 +50,10 @@ std::string truncateForLog(const std::string& s) {
         return s;
     }
     return s.substr(0, kLogMaxLen) + "[…]";
+}
+
+bool isHttpStatusErrorMessage(std::string_view message) {
+    return message.find("HTTP ") != std::string_view::npos;
 }
 
 /// @brief CURL write callback for accumulating HTTP response body.
@@ -204,9 +209,11 @@ AIPluginGenerator::~AIPluginGenerator() = default;
 
 /// @brief Inject an HTTP POST function for invoking the LLM code-generation endpoint.
 ///
-/// When set, generatePlugin() calls this function instead of performing a direct HTTP POST.
-/// This allows injecting custom transport logic (e.g., retry wrappers, mock implementations for testing).
-/// The callback receives the endpoint URL and full request body (JSON), and must return the raw HTTP response body.
+/// When set, generatePlugin() uses this function if Config::endpoint_invoke_fn is not configured.
+/// This allows injecting custom transport logic for tests or alternate HTTP clients while keeping
+/// the Result-based config hook as the first-choice override.
+/// The callback receives the endpoint URL and full request body (JSON), and must return the raw
+/// HTTP response body or throw if the transport fails.
 ///
 /// Thread-safety: Not thread-safe for concurrent calls to setLlmHttpPostFn() and generatePlugin().
 ///
@@ -240,10 +247,10 @@ AIPluginGenerator::Stats AIPluginGenerator::getStats() const {
 
 Result<void> AIPluginGenerator::validatePrompt(const PluginGenerationPrompt& prompt)
 {
-    /// @brief Validation limits for prompt fields.
-    /// - kMaxPromptListEntries: Maximum entries in required_capabilities or dependencies arrays (64).
-    /// - kMaxCapabilityTokenLen: Maximum length of a single capability token (128 chars).
-    /// - kMaxDependencyTokenLen: Maximum length of a single dependency token (256 chars).
+    // Validation limits for prompt fields.
+    // - kMaxPromptListEntries: Maximum entries in required_capabilities or dependencies arrays (64).
+    // - kMaxCapabilityTokenLen: Maximum length of a single capability token (128 chars).
+    // - kMaxDependencyTokenLen: Maximum length of a single dependency token (256 chars).
     static constexpr std::size_t kMaxPromptListEntries = 64u;
     static constexpr std::size_t kMaxCapabilityTokenLen = 128u;
     static constexpr std::size_t kMaxDependencyTokenLen = 256u;
@@ -360,8 +367,9 @@ Result<void> AIPluginGenerator::validatePrompt(const PluginGenerationPrompt& pro
 /// Thread-safety: Not thread-safe for concurrent calls; callers must serialize access or create
 /// separate AIPluginGenerator instances per thread.
 ///
-/// @param prompt Validated (caller is responsible) generation prompt with description, type,
-///               capabilities, dependencies, and optional LLM/security settings.
+/// @param prompt Generation prompt with description, type, capabilities, dependencies, and optional
+///               LLM/security settings. generatePlugin() performs validatePrompt() internally
+///               before any outbound endpoint invocation.
 /// @return Expected<GeneratedPlugin, Error>: on success, the generated plugin with code/manifest;
 ///         on error, an Error with details of the failure point.
 Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
@@ -420,23 +428,39 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
     }
 
     // --- Invoke endpoint with deterministic retry logic ---
-    // PRODUCTION REQUIREMENT: Transient endpoint failures (network, timeout) are retried.
+    // Transient transport failures (network, timeout, client exceptions) are retried.
     // Retry strategy: up to 3 attempts, exponential backoff (100ms -> 200ms -> 400ms).
-    // Non-retryable failures (HTTP 4xx, malformed request) fail immediately.
+    // HTTP status failures fail immediately and are not retried.
     static constexpr int kMaxRetries = 3;
     Result<std::string> endpoint_result =
         tl::unexpected(Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                              "AIPluginGenerator: endpoint not attempted"));
     for (int attempt = 0; attempt < kMaxRetries; ++attempt) {
-        // Invoke endpoint via configured callback or CURL transport
-        endpoint_result = config_.endpoint_invoke_fn
-            ? config_.endpoint_invoke_fn(config_.llm_endpoint, request_body, config_.timeout_ms)
-            : invokeEndpointWithCurl(config_.llm_endpoint, request_body, config_.timeout_ms);
+        if (config_.endpoint_invoke_fn) {
+            endpoint_result =
+                config_.endpoint_invoke_fn(config_.llm_endpoint, request_body, config_.timeout_ms);
+        } else if (llm_http_post_fn_) {
+            try {
+                endpoint_result = (*llm_http_post_fn_)(config_.llm_endpoint, request_body);
+            } catch (const std::exception& e) {
+                endpoint_result = tl::unexpected(
+                    Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                          std::string("AIPluginGenerator: endpoint request failed: ") + e.what()));
+            } catch (...) {
+                endpoint_result = tl::unexpected(
+                    Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                          "AIPluginGenerator: endpoint request failed: unknown transport exception"));
+            }
+        } else {
+            endpoint_result =
+                invokeEndpointWithCurl(config_.llm_endpoint, request_body, config_.timeout_ms);
+        }
         if (endpoint_result) {
-            // Success; stop retrying
             break;
         }
-        // On failure: log and retry if attempts remain
+        if (isHttpStatusErrorMessage(endpoint_result.error().message())) {
+            break;
+        }
         if (attempt + 1 < kMaxRetries) {
             spdlog::warn("[AIPluginGenerator] endpoint attempt {} failed: {}; retrying",
                          attempt + 1, endpoint_result.error().message());
@@ -445,14 +469,14 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
         }
     }
     if (!endpoint_result) {
-        if (endpoint_result.error().message().find("HTTP ") != std::string::npos) {
+        if (isHttpStatusErrorMessage(endpoint_result.error().message())) {
             ++stat_http_errors_;
         } else {
             ++stat_transport_errors_;
         }
         return tl::unexpected(endpoint_result.error());
     }
-    if (endpoint_result->size() > config_.max_response_body_bytes) {
+    if (endpoint_result.value().size() > config_.max_response_body_bytes) {
         ++stat_http_errors_;
         return tl::unexpected(
             Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,

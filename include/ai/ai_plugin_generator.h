@@ -2,11 +2,11 @@
  * @file ai_plugin_generator.h
  * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
  * @version 0.1.0
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 98/100 (gap scanner false positives documented and resolved)
+ * @note Maturity: 🟡 HARDENED-IMPLEMENTATION
+ * @note Score: 88/100 (focused hardening implemented; full production validation still environment-dependent)
  * @note Gap Summary: total=7; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * @note Status: Production Ready - Ready for production deployment
- * @note Gap Resolution: Validation comments added to quiet false positives; schema validation complete
+ * @note Status: Focused hardening implemented; do not treat this header as standalone production sign-off
+ * @note Gap Resolution: Validation comments added; schema validation and transport contracts documented
  */
 
 #pragma once
@@ -80,7 +80,7 @@ struct PluginGenerationPrompt {
  *
  * Contains the complete generated source code (header, implementation, tests, CMake config),
  * plugin manifest with metadata, and security evaluation results. All code fields are validated
- * before return to ensure reasonable size bounds (≤1 MiB each) and no embedded malicious patterns.
+ * before return to ensure reasonable size bounds (≤1 MiB each) and required field-shape checks.
  */
 struct GeneratedPlugin {
     /// Generated plugin header code (C/C++, ≤1 MiB).
@@ -222,7 +222,7 @@ public:
      *   - body     : JSON request body (serialised PluginGenerationPrompt fields).
      *
      * Returns the raw HTTP response body as a string.
-     * Must throw on network or HTTP errors.
+     * Any thrown exception is converted to an Error result by generatePlugin().
      */
     using LlmHttpPostFn = std::function<std::string(
         const std::string& endpoint,
@@ -230,12 +230,12 @@ public:
     )>;
 
     /**
-     * @brief Inject a real HTTP transport for LLM endpoint calls (resolves stub #282).
+     * @brief Inject an HTTP transport bridge for LLM endpoint calls.
      *
-     * When set, `generatePlugin()` performs an HTTP POST to `config_.llm_endpoint`
-     * via this function and parses the JSON response into a `GeneratedPlugin`.
-     * Without an injected function the call returns an error indicating that
-     * Phase 2 is not available in this build.
+     * When set, `generatePlugin()` uses this callable if `Config::endpoint_invoke_fn`
+     * is not configured, before falling back to the built-in CURL transport.
+     * This is a convenience bridge for callers that want to provide a string-returning
+     * HTTP POST implementation without using the Result-based Config transport hook.
      *
      * @param fn  Callable that performs the HTTP POST and returns the response body.
      */

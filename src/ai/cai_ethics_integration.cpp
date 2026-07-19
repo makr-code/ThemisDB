@@ -2,10 +2,10 @@
  * @file cai_ethics_integration.cpp
  * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
  * @version 0.1.0
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 98/100 (all HIGH-severity gaps resolved or documented as false positives)
+ * @note Maturity: 🟡 HARDENED-IMPLEMENTATION
+ * @note Score: 88/100 (focused hardening implemented; full production validation still environment-dependent)
  * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=0, M=3, L=0
- * @note Status: Production Ready - All critical gaps verified and resolved
+ * @note Status: Focused hardening implemented; do not treat this file header as standalone production sign-off
  * @note Gap Resolution Evidence: Variant safety verified (2026-07-19); safe assignment patterns documented; false positives resolved
  */
 

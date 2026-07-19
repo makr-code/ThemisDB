@@ -2,10 +2,10 @@
  * @file cai_ethics_integration.h
  * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
  * @version 0.1.0
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 98/100 (gap scanner false positives documented and resolved)
+ * @note Maturity: 🟡 HARDENED-IMPLEMENTATION
+ * @note Score: 88/100 (focused hardening implemented; full production validation still environment-dependent)
  * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * @note Status: Production Ready - Ready for production deployment
+ * @note Status: Focused hardening implemented; do not treat this header as standalone production sign-off
  * @note Gap Resolution: Variant safety verified; safe assignment patterns documented
  */
 
@@ -27,7 +27,8 @@ namespace ai {
  * @brief Result returned by CAIEthicsIntegration::evaluate().
  *
  * Combines Constitutional AI scores with multi-dimensional ethics evaluation scores
- * into a comprehensive safety assessment. All scores are in the 0–1 range (or 0–100 for latency).
+ * into a comprehensive safety assessment. All scores are in the 0–1 range; total_latency
+ * is reported in elapsed milliseconds and may exceed 100 ms.
  */
 struct CAIEvaluationResult {
     // --- CAI layer ---
