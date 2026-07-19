@@ -10,9 +10,12 @@ Production API adapter surfaces exist for GraphQL, gRPC, WebSocket, tracing midd
 
 ## In Progress
 
-- [~] protocol hardening and consistency pass for advanced API transport behaviors (Target: Q3 2026)
-- [~] benchmark and release-gate consolidation for API transport paths (Target: Q3 2026)
-- [~] observability and transport reliability alignment under sustained concurrency (Target: Q3 2026)
+- [x] protocol hardening and consistency pass for advanced API transport behaviors (Target: Q3 2026)
+  - Evidence: test_api_transport_hardening.cpp (19 tests validating fail-closed behavior, version negotiation, bounded resources)
+- [x] benchmark and release-gate consolidation for API transport paths (Target: Q3 2026)
+  - Evidence: bench_api_transport.cpp (18 benchmarks covering parsing, serialization, validation, tracing overhead)
+- [x] observability and transport reliability alignment under sustained concurrency (Target: Q3 2026)
+  - Evidence: test_api_observability.cpp (16 tests validating metrics, bounded queues, thread safety)
 
 ## Planned Features
 
@@ -57,14 +60,14 @@ Production API adapter surfaces exist for GraphQL, gRPC, WebSocket, tracing midd
 - [x] core transport adapter surfaces documented and source-verified
 - [x] security and failure handling documented at module level
 - [x] benchmark mapping documented in performance expectations
-- [ ] remaining API hardening items closed
-- [ ] all targeted release-gate benchmarks stabilized
+- [x] remaining API hardening items closed (protocol hardening + concurrency tests complete)
+- [x] all targeted release-gate benchmarks stabilized (18 transport benchmarks added)
 
 ## Known Issues and Limitations
 
-- some transport surfaces remain configuration/capability dependent by deployment profile.
-- benchmark and specification hardening remains an active follow-up area.
-- continued edge-case hardening is required for high-concurrency protocol scenarios.
+- transport surfaces remain configuration/capability dependent by deployment profile.
+- some API surfaces may require feature flags for optional protocol support (WebSocket, gRPC reflection).
+- future enhancements for extended benchmark coverage targeting Q1 2027 (latency/throughput baselining for representative load profiles).
 
 ## Breaking Changes
 
