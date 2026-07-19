@@ -9,11 +9,11 @@
 
 // Short Git SHA (7 hex chars) of the source tree at configure time.
 // Falls back to "unknown" when the build directory is not inside a git repo.
-#define THEMIS_BUILD_ID "6091f5fa"
+#define THEMIS_BUILD_ID "79b0fb32"
 
 // UTC ISO-8601 build timestamp. Uses SOURCE_DATE_EPOCH when set; otherwise
 // BuildInfo.cmake falls back to deterministic git metadata when available.
-#define THEMIS_BUILD_TIMESTAMP "2026-07-19T16:59:12Z"
+#define THEMIS_BUILD_TIMESTAMP "2026-07-19T17:27:59Z"
 
 // Ed25519 signature over the canonical manifest string:
 //   "<channel>|<version>|<build_id>|<timestamp>"
