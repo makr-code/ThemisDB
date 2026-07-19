@@ -393,16 +393,60 @@ struct NLIFaithfulnessVerifier::Impl {
     }
 };
 
+/**
+ * @brief Default constructor; initialises with the default `Config`.
+ *
+ * Delegates to the explicit-config constructor, which sets all thresholds,
+ * ONNX options, and performance flags to their documented defaults.
+ */
 NLIFaithfulnessVerifier::NLIFaithfulnessVerifier()
     : NLIFaithfulnessVerifier(Config{}) {
 }
 
+/**
+ * @brief Construct the verifier with a custom configuration.
+ *
+ * Allocates the `Impl` pimpl struct, which initialises the ONNX model loader
+ * if `config.use_onnx == true`, and logs the effective thresholds for audit.
+ *
+ * @param config Verifier configuration (thresholds, ONNX settings, batching).
+ */
 NLIFaithfulnessVerifier::NLIFaithfulnessVerifier(const Config& config)
     : impl_(std::make_unique<Impl>(config)) {
 }
 
+/**
+ * @brief Destructor; defined out-of-line to allow the pimpl `Impl` type to
+ *        remain incomplete in the header.
+ */
 NLIFaithfulnessVerifier::~NLIFaithfulnessVerifier() = default;
 
+/**
+ * @brief Verify the faithfulness of @p answer with respect to @p documents.
+ *
+ * Execution steps:
+ * 1. Extract individual factual claims from @p answer using sentence splitting.
+ * 2. For each claim, run `computeNLI()` against every document to obtain
+ *    entailment/neutral/contradiction scores.
+ * 3. Classify each claim as FULLY_SUPPORTED, PARTIALLY_SUPPORTED, UNSUPPORTED,
+ *    or CONTRADICTED based on the best per-document entailment score and the
+ *    configured thresholds.
+ * 4. Compute a weighted faithfulness score
+ *    (1.0 / 0.5 / 0.0 / −0.5 per support level) and determine whether the
+ *    answer meets `Config::min_faithfulness_score`.
+ *
+ * Edge cases:
+ * - Empty @p answer or empty @p documents: returns score=0, not faithful.
+ * - No claims extracted (e.g. purely generic answer): returns score=0.7,
+ *   is_faithful=true (no claims to contradict).
+ *
+ * @param answer    Generated answer text whose claims will be verified.
+ * @param documents Retrieved documents as (document_id, content) pairs.
+ *                  Content is used as the NLI premise for each claim.
+ *
+ * @return `FaithfulnessVerificationResult` containing the overall score,
+ *         per-claim analysis, an explanation string, and the elapsed time.
+ */
 FaithfulnessVerificationResult NLIFaithfulnessVerifier::verify(
     const std::string& answer,
     const std::vector<std::pair<std::string, std::string>>& documents
@@ -536,6 +580,20 @@ FaithfulnessVerificationResult NLIFaithfulnessVerifier::verify(
     return result;
 }
 
+/**
+ * @brief Check the entailment relationship between @p premise and @p hypothesis.
+ *
+ * Routes to the configured inference path via `Impl::computeNLI()`:
+ * - ONNX model (stub in Phase 1, real ONNX Runtime in Phase 2) if loaded.
+ * - Heuristic term-overlap + negation detection otherwise.
+ *
+ * @param premise    Context text that may entail the hypothesis (typically a
+ *                   retrieved document passage).
+ * @param hypothesis Claim to verify (typically a sentence from the answer).
+ *
+ * @return `NLIResult` with probability scores for ENTAILMENT, NEUTRAL, and
+ *         CONTRADICTION, plus an overall confidence value.
+ */
 NLIResult NLIFaithfulnessVerifier::checkEntailment(
     const std::string& premise,
     const std::string& hypothesis
@@ -543,6 +601,24 @@ NLIResult NLIFaithfulnessVerifier::checkEntailment(
     return impl_->computeNLI(premise, hypothesis);
 }
 
+/**
+ * @brief Load an NLI model from @p model_path and prepare it for inference.
+ *
+ * Behaviour depends on the `use_onnx` configuration flag:
+ * - `use_onnx == false`: ONNX is disabled; marks the model as "loaded" so
+ *   that the heuristic path is gated by `isModelLoaded()`, and logs an
+ *   informational message.
+ * - `use_onnx == true` and load succeeds: sets `model_loaded = true`, logs
+ *   model name and size.
+ * - `use_onnx == true`, load fails, `fallback_to_heuristic == true`: sets
+ *   `model_loaded = true` (heuristic path takes over), logs a warning.
+ * - `use_onnx == true`, load fails, `fallback_to_heuristic == false`: leaves
+ *   `model_loaded = false` and logs an error; subsequent `computeNLI()` calls
+ *   will return zero-confidence results.
+ *
+ * @param model_path File system path (or identifier) passed to the ONNX
+ *                   model loader.
+ */
 void NLIFaithfulnessVerifier::loadModel(const std::string& model_path) {
     if (!impl_->model_loader_) {
         THEMIS_WARN("ONNX model loader not initialized (use_onnx=false)");
@@ -565,6 +641,15 @@ void NLIFaithfulnessVerifier::loadModel(const std::string& model_path) {
     }
 }
 
+/**
+ * @brief Report whether the ONNX model (or its surrogate) has been loaded.
+ *
+ * Returns the raw `Impl::model_loaded` flag.  This is set by `loadModel()`.
+ * Callers that want to know whether *any* inference path is available should
+ * use `isReady()` instead.
+ *
+ * @return `true` if a model (or heuristic surrogate) was successfully loaded.
+ */
 bool NLIFaithfulnessVerifier::isModelLoaded() const {
     return impl_->model_loaded;
 }
@@ -602,10 +687,24 @@ bool NLIFaithfulnessVerifier::isReady() const {
     return false;
 }
 
+/**
+ * @brief Return a copy of the current verifier configuration.
+ *
+ * @return Snapshot of the `Config` used to initialise the verifier (or the
+ *         last value set by `setConfig()`).
+ */
 NLIFaithfulnessVerifier::Config NLIFaithfulnessVerifier::getConfig() const {
     return impl_->config;
 }
 
+/**
+ * @brief Replace the verifier configuration at runtime.
+ *
+ * @note Does **not** reload the ONNX model; call `loadModel()` explicitly if
+ *       `config.onnx_model_path` changed.
+ *
+ * @param config New configuration to apply.
+ */
 void NLIFaithfulnessVerifier::setConfig(const Config& config) {
     impl_->config = config;
 }
