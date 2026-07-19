@@ -2767,7 +2767,7 @@ Result<uint32_t> BackupManager::repairDecompressedBackup(const std::string& back
 
         // If compressed_source is not available, we can't repair
         if (compressed_source.empty() || !fs::exists(compressed_source)) {
-            THEMIS_WARN("Phase 1: Compressed source not available for repair; corrupted files will be quarantined. "
+            THEMIS_WARN("Phase 1: Compressed source not available for repair; returning without quarantine. "
                        "Original compressed backup: {}", compressed_source);
             return Err(errors::ErrorCode::ERR_BACKUP_RESTORATION_FAILED,
                       "Cannot repair: compressed source not available");
