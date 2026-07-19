@@ -978,6 +978,23 @@ Result<std::string> BackupManager::compressBackup(const std::string& backup_dir)
                                    "Backup directory not found: " + backup_dir);
         }
 
+        // Phase 1 Enhancement: Build integrity manifest before compression
+        THEMIS_INFO("Phase 1: Building integrity manifest for compression");
+        std::vector<FileIntegrityInfo> integrity_map;
+        auto build_result = buildIntegrityManifest(backup_dir, integrity_map);
+        if (build_result) {
+            // Write integrity manifest to backup directory
+            auto write_result = writeIntegrityManifest(backup_dir, integrity_map);
+            if (!write_result) {
+                THEMIS_WARN("Phase 1: Failed to write integrity manifest: {}", 
+                           write_result.error().message());
+                // Continue anyway - compression is not blocked by this
+            }
+        } else {
+            THEMIS_WARN("Phase 1: Failed to build integrity manifest: {}", 
+                       build_result.error().message());
+        }
+
         auto compressed_file = backup_dir + ".tar.gz";
         const std::string parent_dir = fs::path(backup_dir).parent_path().string();
         const std::string dir_name   = fs::path(backup_dir).filename().string();
@@ -994,7 +1011,7 @@ Result<std::string> BackupManager::compressBackup(const std::string& backup_dir)
         pid_t pid = fork();
         if (pid < 0) {
             return Err<std::string>(errors::ErrorCode::ERR_BACKUP_COMPRESSION_FAILED,
-                                   "fork() failed when invoking tar");
+                                  "fork() failed when invoking tar");
         }
         if (pid == 0) {
             // Child: exec tar directly, no shell involved.
@@ -1015,7 +1032,7 @@ Result<std::string> BackupManager::compressBackup(const std::string& backup_dir)
         waitpid(pid, &status, 0);
         if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) {
             return Err<std::string>(errors::ErrorCode::ERR_BACKUP_COMPRESSION_FAILED,
-                                   "tar exited with error during compression");
+                                  "tar exited with error during compression");
         }
 #else
         // Windows: build a quoted command for CreateProcess (no shell).
@@ -1029,7 +1046,7 @@ Result<std::string> BackupManager::compressBackup(const std::string& backup_dir)
         if (!CreateProcessA(nullptr, mutable_cmd.data(),
                             nullptr, nullptr, FALSE, 0, nullptr, nullptr, &si, &pi)) {
             return Err<std::string>(errors::ErrorCode::ERR_BACKUP_COMPRESSION_FAILED,
-                                   "CreateProcess failed for tar (compression)");
+                                  "CreateProcess failed for tar (compression)");
         }
         WaitForSingleObject(pi.hProcess, INFINITE);
         DWORD exit_code = 0;
@@ -1038,7 +1055,7 @@ Result<std::string> BackupManager::compressBackup(const std::string& backup_dir)
         CloseHandle(pi.hThread);
         if (exit_code != 0) {
             return Err<std::string>(errors::ErrorCode::ERR_BACKUP_COMPRESSION_FAILED,
-                                   "tar exited with error during compression");
+                                  "tar exited with error during compression");
         }
 #endif
 
