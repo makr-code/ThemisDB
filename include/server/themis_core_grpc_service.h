@@ -39,8 +39,8 @@ namespace core {
  * Wraps the ThemisCoreService implementation defined in proto/themis_core.proto.
  * Follows the same conditional-compilation pattern as WalGrpcService: the actual
  * grpc::Service-derived implementation is compiled in only when the generated
- * `themis_core.grpc.pb.h` header is on the include path; otherwise the wrapper
- * becomes a safe no-op that returns nullptr from getServiceInstance().
+ * `themis_core.grpc.pb.h` header is on the include path. In non-proto builds,
+ * construction requires an injected non-null service instance callback.
  *
  * Part of ThemisDB v1.3.0 – Feature #8: gRPC Protocol
  */
@@ -68,11 +68,13 @@ public:
      * @brief Return the underlying grpc::Service pointer for registration.
      *
      * Returns the concrete service implementation when `themis_core.grpc.pb.h`
-     * is available (i.e. protoc has been run).  Returns nullptr otherwise so
-     * that callers can safely skip registration without crashing.
+     * is available (i.e. protoc has been run).
      *
      * If a service-instance callback was registered via setServiceInstanceFn(),
      * the result of that callback is returned for non-proto builds.
+     *
+     * A missing callback, thrown callback exception, or nullptr callback result
+     * causes constructor failure via std::runtime_error (fail-closed).
      */
     void* getServiceInstance();
 
@@ -80,9 +82,8 @@ public:
      * @brief Configure a process-wide callback that provides a grpc::Service*.
      *
      * Used in non-proto builds to wire a service instance obtained from another
-     * module (e.g. a dynamically loaded plugin or a test double).  The callback
-     * is invoked once during construction in an exception-safe manner; exceptions
-     * cause the service pointer to remain null (fail-closed).
+     * module (e.g. a dynamically loaded plugin or generated stubs). The callback
+     * is invoked once during construction.
      *
      * Pass an empty function to remove a previously registered callback.
      */
