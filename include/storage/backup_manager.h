@@ -322,14 +322,15 @@ public:
     /**
      * Verify decompressed backup integrity
      * @param backup_dir: Decompressed backup directory to verify
-     * @return Result<void> on success (all files verified), Error on integrity mismatch
+     * @return Result<void> on success (all files verified or legacy backup has no
+     *         integrity manifest), Error on manifest read/parse failure or integrity mismatch
      * 
      * @note Performs post-decompression verification:
+     *       - Missing `INTEGRITY_MANIFEST.json` is treated as a legacy backup and skips verification
      *       - Reads integrity manifest from backup
      *       - Calculates SHA-256 checksum of each file
      *       - Compares against stored checksums
      *       - Reports corrupted files with details
-     * @throws On detection of corruption, returns error with list of corrupted files
      */
     Result<void> verifyDecompressedBackup(const std::string& backup_dir);
     
@@ -342,7 +343,7 @@ public:
      * @note This is an advanced recovery method:
      *       - Identifies corrupted files during verification
      *       - Attempts to repair from original compressed source if provided
-     *       - If source unavailable, quarantines corrupted files with warnings
+     *       - If source unavailable, logs a warning and returns a repair error; it does not quarantine files
      */
     Result<uint32_t> repairDecompressedBackup(const std::string& backup_dir,
                                               const std::string& compressed_source = "");
@@ -693,4 +694,3 @@ private:
 };
 
 } // namespace themis
-

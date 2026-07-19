@@ -1140,7 +1140,7 @@ Result<std::string> BackupManager::decompressBackup(const std::string& compresse
         if (!verify_result) {
             THEMIS_ERROR("Phase 1: Post-decompression integrity verification failed: {}",
                         verify_result.error().message());
-            return Err<std::string>(errors::ErrorCode::ERR_BACKUP_DECOMPRESSION_FAILED,
+            return Err<std::string>(verify_result.error().code(),
                                   "Post-decompression integrity verification failed: " +
                                   verify_result.error().message());
         }
@@ -2693,22 +2693,28 @@ Result<void> BackupManager::verifyDecompressedBackup(const std::string& backup_d
                       "Backup directory not found: " + backup_dir);
         }
 
-        // Try to load integrity manifest
-        auto manifest_result = readIntegrityManifest(backup_dir);
-        if (!manifest_result) {
-            // If no manifest, we skip integrity check (backward compatibility)
-            // but log a warning
+        const fs::path manifest_path = fs::path(backup_dir) / "INTEGRITY_MANIFEST.json";
+        if (!fs::exists(manifest_path)) {
             THEMIS_WARN("Phase 1: No integrity manifest found in {}; skipping post-decompression verification. "
                        "Consider creating backups with integrity tracking enabled.",
                        backup_dir);
-            return Ok();
+            return OkVoid();
+        }
+
+        // Try to load integrity manifest
+        auto manifest_result = readIntegrityManifest(backup_dir);
+        if (!manifest_result) {
+            THEMIS_ERROR("Phase 1: Failed to read integrity manifest in {}: {}",
+                        backup_dir, manifest_result.error().message());
+            return ErrVoid(manifest_result.error().code(),
+                          "Failed to read integrity manifest: " + manifest_result.error().message());
         }
 
         const auto& integrity_map = manifest_result.value();
         
         if (integrity_map.empty()) {
             THEMIS_INFO("Phase 1: Integrity map is empty, skipping verification");
-            return Ok();
+            return OkVoid();
         }
 
         // Verify all files match stored checksums
@@ -2737,7 +2743,7 @@ Result<void> BackupManager::verifyDecompressedBackup(const std::string& backup_d
         }
 
         THEMIS_INFO("Phase 1: Post-decompression integrity verification passed");
-        return Ok();
+        return OkVoid();
     } catch (const std::exception& e) {
         THEMIS_ERROR("Phase 1: Exception during integrity verification: {}", e.what());
         return Err(errors::ErrorCode::ERR_BACKUP_VERIFICATION_FAILED,
@@ -2839,7 +2845,7 @@ Result<void> BackupManager::buildIntegrityManifest(const std::string& backup_dir
         }
 
         THEMIS_INFO("Phase 1: Built integrity manifest with {} files", integrity_map.size());
-        return Ok();
+        return OkVoid();
     } catch (const std::exception& e) {
         return Err(errors::ErrorCode::ERR_BACKUP_VERIFICATION_FAILED,
                   "Exception building manifest: " + std::string(e.what()));
@@ -2871,7 +2877,7 @@ Result<void> BackupManager::writeIntegrityManifest(const std::string& backup_dir
         fout << manifest_json.dump(2);
         
         THEMIS_INFO("Phase 1: Wrote integrity manifest to: {}", manifest_path.string());
-        return Ok();
+        return OkVoid();
     } catch (const std::exception& e) {
         return Err(errors::ErrorCode::ERR_BACKUP_MANIFEST_CORRUPT,
                   "Exception writing manifest: " + std::string(e.what()));
@@ -3006,4 +3012,3 @@ bool BackupManager::decompressPathWithIntegrity(const std::string& src_path,
 }
 
 } // namespace themis
-
