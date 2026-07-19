@@ -263,7 +263,8 @@ public:
  *
  * ### Failure contract guarantees
  * - `isSupportedVersion()` returns `false` for any version string not in
- *   kSupportedApiVersions, including empty strings.
+ *   kSupportedApiVersions; empty strings (absent header) are treated as valid
+ *   (the header is optional and defaults to the latest supported version).
  * - `isPayloadWithinLimit()` uses the global kMaxPayloadBytes bound.
  * - `requiresContentType()` returns `true` for all mutating HTTP methods.
  */

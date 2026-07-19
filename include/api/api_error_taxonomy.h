@@ -153,7 +153,7 @@ public:
             case TransportFailureClass::None:
                 return prefix + "no error";
             case TransportFailureClass::MalformedRequest:
-                return prefix + "ERR_TRANSPORT_MALFORMED_REQUEST: request method and path must be non-empty";
+                return prefix + "ERR_TRANSPORT_MALFORMED_REQUEST: request method or path is missing or too long (path limit: " + std::to_string(kMaxPathBytes) + " bytes)";
             case TransportFailureClass::PayloadTooLarge:
                 return prefix + "ERR_TRANSPORT_PAYLOAD_TOO_LARGE: request body exceeds maximum allowed size";
             case TransportFailureClass::UnsupportedVersion:

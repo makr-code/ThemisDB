@@ -232,8 +232,8 @@ static void BM_TransportCorrelationIdPropagation(benchmark::State& state) {
 
         auto result = adapter->handle(req);
         if (result.has_value()) {
-            auto request_id = result->headers["X-Request-ID"];
-            benchmark::DoNotOptimize(request_id);
+            auto it = result->headers.find("X-Correlation-ID");
+            benchmark::DoNotOptimize(it);
         }
     }
 }
@@ -313,7 +313,7 @@ static void BM_TransportVersionNegotiation(benchmark::State& state) {
     auto adapter = std::make_shared<BenchmarkTransportAdapter>();
 
     for (auto _ : state) {
-        for (const auto version : {"v1", "v2", "v3"}) {
+        for (const auto version : {"v1", "v2"}) {
             auto req = CreateBenchmarkRequest("GET", "/api/v1/entities");
             req.headers["X-API-Version"] = version;
             auto result = adapter->handle(req);

@@ -60,10 +60,10 @@ public:
             }
         }
 
-        // Validation: enforce protocol version negotiation
+        // Validation: enforce protocol version negotiation (only v1, v2 are supported)
         if (req.headers.count("X-API-Version") > 0) {
             auto version = req.headers.at("X-API-Version");
-            if (version != "v1" && version != "v2" && version != "v3") {
+            if (version != "v1" && version != "v2") {
                 return tl::unexpected(themis::Error(
                     themis::errors::ErrorCode::ERR_API_INVALID_REQUEST,
                     "ERR_TRANSPORT_UNSUPPORTED_VERSION: API version " + version + 
@@ -76,9 +76,12 @@ public:
         resp.status_code = 200;
         resp.body = "{\"success\": true}";
         resp.headers["Content-Type"] = "application/json";
-        resp.headers["X-Request-ID"] = req.headers.count("X-Correlation-ID") > 0
-            ? req.headers.at("X-Correlation-ID")
-            : "no-correlation-id";
+        // X-Correlation-ID is echoed from the request (correlation tracing concept)
+        if (req.headers.count("X-Correlation-ID") > 0) {
+            resp.headers["X-Correlation-ID"] = req.headers.at("X-Correlation-ID");
+        }
+        // X-Request-ID is a separately generated per-request identifier
+        resp.headers["X-Request-ID"] = "generated-request-id";
         return resp;
     }
 
@@ -178,14 +181,14 @@ TEST(TransportHardeningTest, EnforceContentTypeForPost)
 
 /**
  * @test Version negotiation
- * Transport adapter supports v1, v2, v3 and rejects unsupported versions
+ * Transport adapter supports v1, v2 and rejects unsupported versions
  */
 TEST(TransportHardeningTest, VersionNegotiationSupported)
 {
     auto adapter = std::make_shared<TransportHardeningAdapter>();
 
-    // Test valid versions
-    for (const auto version : {"v1", "v2", "v3"}) {
+    // Test valid versions (v1 and v2 per kSupportedApiVersions)
+    for (const auto version : {"v1", "v2"}) {
         HttpRequest req;
         req.method = "GET";
         req.path = "/api/v1/entities";
@@ -310,7 +313,7 @@ TEST(TransportHardeningTest, BoundedResourceBehaviorUnderLoad)
 
 /**
  * @test Correlation ID propagation
- * Requests with X-Correlation-ID header are echoed in response X-Request-ID
+ * Requests with X-Correlation-ID header are echoed in response X-Correlation-ID
  */
 TEST(TransportHardeningTest, CorrelationIdPropagation)
 {
@@ -324,12 +327,13 @@ TEST(TransportHardeningTest, CorrelationIdPropagation)
 
     auto result = adapter->handle(req);
     ASSERT_TRUE(result.has_value());
-    EXPECT_EQ(result->headers["X-Request-ID"], correlation_id);
+    EXPECT_EQ(result->headers["X-Correlation-ID"], correlation_id);
 }
 
 /**
  * @test Request without correlation ID
- * Requests without X-Correlation-ID get a default X-Request-ID value
+ * Requests without X-Correlation-ID result in no X-Correlation-ID in the response
+ * (X-Request-ID is always present as a separately generated per-request identifier)
  */
 TEST(TransportHardeningTest, DefaultRequestIdWhenNoCorrelation)
 {
@@ -340,8 +344,10 @@ TEST(TransportHardeningTest, DefaultRequestIdWhenNoCorrelation)
 
     auto result = adapter->handle(req);
     ASSERT_TRUE(result.has_value());
+    // No incoming X-Correlation-ID → none echoed in response
+    EXPECT_EQ(result->headers.find("X-Correlation-ID"), result->headers.end());
+    // X-Request-ID is always present as a generated identifier
     EXPECT_NE(result->headers.find("X-Request-ID"), result->headers.end());
-    EXPECT_EQ(result->headers["X-Request-ID"], "no-correlation-id");
 }
 
 /**

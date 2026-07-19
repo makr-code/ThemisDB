@@ -8,7 +8,7 @@
 
 The API module has completed all Q3 2026 roadmap items and all Phase 1–5 implementation phases, including Q4 2026 planned features. The complete delivery includes transport contract locking (Phase 1), shared policy middleware (Phase 2), unified error taxonomy (Phase 3), expanded concurrency/edge-case tests (Phase 4), and benchmark-backed release gates (Phase 5). Q4 2026 degraded-mode hardening and integration diagnostics are also complete.
 
-Total new artifacts: 37 Q3 tests + 14 Phase 4 tests + 10 degraded-mode tests = **61 total tests**, plus 13 Q3 benchmarks + 13 release-gate benchmarks = **26 total benchmarks**, and 3 new production source files.
+Total new artifacts: 37 Q3 tests + 14 Phase 4 tests + 10 degraded-mode tests = **61 total tests**, plus 13 Q3 benchmarks + 13 release-gate benchmarks = **26 total benchmarks**, and 4 new production source files (3 headers + 1 .cpp).
 
 ## Q3 2026 Roadmap Items (Previously Completed)
 
@@ -394,10 +394,10 @@ server_ = std::move(server);
 
 ## Future Work
 
-### Q4 2026 Items (Planned)
-- [ ] Complete remaining API surface specification and contract consistency tasks
-- [ ] Strengthen degraded-mode handling for optional transport features
-- [ ] Extend integration diagnostics for protocol-level failure classes
+### Q4 2026 Items (Complete)
+- [x] Complete remaining API surface specification and contract consistency tasks
+- [x] Strengthen degraded-mode handling for optional transport features
+- [x] Extend integration diagnostics for protocol-level failure classes
 
 ### Q1 2027 Items (Planned)
 - [ ] Expand direct benchmark coverage for currently proxy-like API goals

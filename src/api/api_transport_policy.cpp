@@ -115,8 +115,10 @@ TransportFailureClass TransportPolicyMiddleware::applyPolicy(
     if (config_.enforce_content_type
         && TransportContractValidator::requiresContentType(request.method)
         && !request.body.empty()) {
-        const bool has_ct = request.headers.count("Content-Type") > 0
-                         || request.headers.count("content-type") > 0;
+        auto it_ct  = request.headers.find("Content-Type");
+        auto it_ctL = request.headers.find("content-type");
+        const bool has_ct = (it_ct  != request.headers.end() && !it_ct->second.empty())
+                         || (it_ctL != request.headers.end() && !it_ctL->second.empty());
         if (!has_ct) {
             return TransportFailureClass::ContentTypeMissing;
         }

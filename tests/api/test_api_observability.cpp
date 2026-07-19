@@ -12,6 +12,7 @@
  */
 
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
 #include <thread>
 #include <mutex>
 #include <condition_variable>
@@ -214,36 +215,159 @@ TEST(ObservabilityTest, SessionCountTracking)
 
 /**
  * @test Queue size limit enforcement
- * Adapter rejects requests when queue is at capacity
+ * Adapter rejects requests when queue is at capacity.
+ * Uses a small-limit variant (kMaxQueueSize = 3) so concurrent threads can fill
+ * the queue reliably without launching thousands of threads.
  */
 TEST(BoundedResourceTest, QueueSizeLimit)
 {
-    auto adapter = std::make_shared<ObservableAdapter>();
-    
-    // We can't actually fill the queue to 1000 in a unit test without significant
-    // infrastructure, so we test the error path directly by checking the logic
-    HttpRequest req;
-    req.method = "GET";
-    req.path = "/api/v1/entities";
+    // Local adapter with a deliberately small queue to make the full-queue
+    // path reachable in a unit test.
+    class SmallQueueAdapter : public IHttpHandler {
+    public:
+        static constexpr size_t kMaxQueueSize = 3;
 
-    auto result = adapter->handle(req);
-    EXPECT_TRUE(result.has_value());  // Normal case should succeed
+        themis::Result<HttpResponse> handle(const HttpRequest& /*req*/) override {
+            std::unique_lock<std::mutex> lock(lock_);
+            if (queue_depth_ >= kMaxQueueSize) {
+                return tl::unexpected(themis::Error(
+                    themis::errors::ErrorCode::ERR_API_INVALID_REQUEST,
+                    "ERR_OBSERVABILITY_QUEUE_FULL: request queue at capacity (" +
+                    std::to_string(kMaxQueueSize) + ")"));
+            }
+            queue_depth_++;
+            lock.unlock();
+
+            // Hold the queue slot long enough for other threads to see it full.
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+
+            lock.lock();
+            queue_depth_--;
+            lock.unlock();
+
+            HttpResponse resp;
+            resp.status_code = 200;
+            resp.body = "{}";
+            resp.headers["Content-Type"] = "application/json";
+            return resp;
+        }
+
+        std::string_view handlerName() const noexcept override { return "SmallQueueAdapter"; }
+        bool requiresAuthentication() const noexcept override { return false; }
+
+    private:
+        std::mutex lock_;
+        size_t queue_depth_{0};
+    };
+
+    auto adapter = std::make_shared<SmallQueueAdapter>();
+    std::atomic<int> rejected{0};
+    std::atomic<int> accepted{0};
+
+    // Launch 8 concurrent threads; with queue limit 3 and 10 ms hold time,
+    // at least 5 threads will observe the queue full and be rejected.
+    const int num_threads = 8;
+    std::vector<std::thread> threads;
+    threads.reserve(num_threads);
+    for (int i = 0; i < num_threads; ++i) {
+        threads.emplace_back([&]() {
+            HttpRequest req;
+            req.method = "GET";
+            req.path = "/api/v1/entities";
+            auto result = adapter->handle(req);
+            if (result.has_value()) {
+                accepted++;
+            } else {
+                rejected++;
+                EXPECT_THAT(result.error().message(),
+                            ::testing::HasSubstr("ERR_OBSERVABILITY_QUEUE_FULL"));
+                EXPECT_EQ(result.error().code(),
+                          themis::errors::ErrorCode::ERR_API_INVALID_REQUEST);
+            }
+        });
+    }
+    for (auto& t : threads) t.join();
+
+    EXPECT_GT(rejected, 0) << "At least one request must be rejected when queue is full";
+    EXPECT_GT(accepted, 0) << "Some requests must succeed";
+    EXPECT_EQ(rejected + accepted, num_threads);
 }
 
 /**
  * @test Session limit enforcement
- * Adapter rejects requests when session limit is reached
+ * Adapter rejects requests when the active-session limit is reached.
+ * Uses a small-limit variant (kMaxActiveSessions = 3) so concurrent threads
+ * can exhaust the session budget without thousands of goroutines.
  */
 TEST(BoundedResourceTest, SessionLimitEnforcement)
 {
-    auto adapter = std::make_shared<ObservableAdapter>();
-    
-    HttpRequest req;
-    req.method = "GET";
-    req.path = "/api/v1/entities";
+    // Local adapter with a deliberately small session budget.
+    class SmallSessionAdapter : public IHttpHandler {
+    public:
+        static constexpr size_t kMaxActiveSessions = 3;
 
-    auto result = adapter->handle(req);
-    EXPECT_TRUE(result.has_value());  // Normal case should succeed
+        themis::Result<HttpResponse> handle(const HttpRequest& /*req*/) override {
+            std::unique_lock<std::mutex> lock(lock_);
+            if (active_sessions_ >= kMaxActiveSessions) {
+                return tl::unexpected(themis::Error(
+                    themis::errors::ErrorCode::ERR_API_INVALID_REQUEST,
+                    "ERR_OBSERVABILITY_SESSION_LIMIT: active sessions at limit (" +
+                    std::to_string(kMaxActiveSessions) + ")"));
+            }
+            active_sessions_++;
+            lock.unlock();
+
+            // Hold the session open long enough for other threads to see the limit.
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+
+            lock.lock();
+            active_sessions_--;
+            lock.unlock();
+
+            HttpResponse resp;
+            resp.status_code = 200;
+            resp.body = "{}";
+            resp.headers["Content-Type"] = "application/json";
+            return resp;
+        }
+
+        std::string_view handlerName() const noexcept override { return "SmallSessionAdapter"; }
+        bool requiresAuthentication() const noexcept override { return false; }
+
+    private:
+        std::mutex lock_;
+        size_t active_sessions_{0};
+    };
+
+    auto adapter = std::make_shared<SmallSessionAdapter>();
+    std::atomic<int> rejected{0};
+    std::atomic<int> accepted{0};
+
+    const int num_threads = 8;
+    std::vector<std::thread> threads;
+    threads.reserve(num_threads);
+    for (int i = 0; i < num_threads; ++i) {
+        threads.emplace_back([&]() {
+            HttpRequest req;
+            req.method = "GET";
+            req.path = "/api/v1/entities";
+            auto result = adapter->handle(req);
+            if (result.has_value()) {
+                accepted++;
+            } else {
+                rejected++;
+                EXPECT_THAT(result.error().message(),
+                            ::testing::HasSubstr("ERR_OBSERVABILITY_SESSION_LIMIT"));
+                EXPECT_EQ(result.error().code(),
+                          themis::errors::ErrorCode::ERR_API_INVALID_REQUEST);
+            }
+        });
+    }
+    for (auto& t : threads) t.join();
+
+    EXPECT_GT(rejected, 0) << "At least one request must be rejected when session limit is reached";
+    EXPECT_GT(accepted, 0) << "Some requests must succeed";
+    EXPECT_EQ(rejected + accepted, num_threads);
 }
 
 /**

@@ -21,12 +21,13 @@
  *
  * ### Typical usage
  * ```cpp
+ * // Default bounds:
  * auto policy = std::make_shared<TransportPolicyMiddleware>(inner_handler);
  *
  * // Optional: override bounds from the default config.
  * TransportPolicyConfig cfg;
  * cfg.max_payload_bytes = 1 * 1024 * 1024; // 1 MiB for this endpoint
- * auto policy = std::make_shared<TransportPolicyMiddleware>(inner_handler, cfg);
+ * auto custom_policy = std::make_shared<TransportPolicyMiddleware>(inner_handler, cfg);
  *
  * auto result = policy->handle(request);
  * ```
