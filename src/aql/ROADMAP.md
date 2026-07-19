@@ -38,6 +38,11 @@ Production AQL-assistance surfaces exist across translation, validation, tooling
 
 ## In Progress
 
+- [~] **Phase 4: Error Handling and Edge Cases** (Target: Q3 2026) — Block 4.1 COMPLETED
+  - [x] Block 4.1: Error Taxonomy Definition (aql_error_types.h, ERROR_RECOVERY_MATRIX.md)
+  - [~] Block 4.2: Validation Component Hardening (validateAQLWithParser enhancements)
+  - [~] Block 4.3: Translation Pipeline Error Handling (translateNLToAQL retry logic)
+  - [~] Block 4.4: Bridge/Helper Component Diagnostics (embedding, context, scoring)
 - [~] performance gate consolidation for AQL assistance benchmark paths (Target: Q3 2026)
 - [~] consistency hardening across helper and bridge integration surfaces (Target: Q3 2026)
 
@@ -67,23 +72,29 @@ Production AQL-assistance surfaces exist across translation, validation, tooling
   - [x] Bounded conversation history with token budget
 - [~] align helper components to shared bounded runtime contracts (Target: Q4 2026)
 
-### Phase 3: Error Handling and Edge Cases
-- [ ] standardize fail-closed behavior for malformed/generated query edge cases (Target: Q4 2026)
-- [ ] unify error taxonomy and diagnostics across assistance components (Target: Q4 2026)
-
-### Phase 4: Tests
-- [ ] expand focused regressions for concurrency, degraded-mode, and policy-edge behavior (Target: Q4 2026)
-- [ ] extend deterministic fixture coverage for provider and schema-context variability (Target: Q4 2026)
-
-### Phase 5: Performance and Hardening
-- [ ] lock benchmark-backed release gates for translation/highlighter/scorer/few-shot paths (Target: Q4 2026)
-- [ ] validate p95/p99 behavior against release baselines under representative workloads (Target: Q4 2026)
-
-### Phase 6: Documentation and Acceptance
+### Phase 3: Documentation and Acceptance
 - [x] core module docs aligned to source-verifiable behavior
 - [x] roadmap/future planning separated from historical changelog entries
 - [x] comprehensive Doxygen API documentation for all public interfaces
 - [x] ROADMAP.md and FUTURE_ENHANCEMENTS.md synchronized with implementation (2026-07-19)
+
+### Phase 4: Error Handling and Edge Cases
+- [~] standardize fail-closed behavior for malformed/generated query edge cases (Target: Q4 2026)
+- [~] unify error taxonomy and diagnostics across assistance components (Target: Q4 2026)
+- [x] Block 4.1: Error Taxonomy Definition — completed 2026-07-19
+  - aql_error_types.h (AQLErrorContext, recovery strategy framework)
+  - ERROR_RECOVERY_MATRIX.md (recovery specifications)
+  - test_aql_validation_error_handling.cpp (8 validation error test cases)
+  - test_aql_translation_recovery.cpp (8 translation recovery test cases)
+  - test_aql_bridge_degradation.cpp (7 bridge/context degradation test cases)
+
+### Phase 5: Unified Testing
+- [ ] expand focused regressions for concurrency, degraded-mode, and policy-edge behavior (Target: Q4 2026)
+- [ ] extend deterministic fixture coverage for provider and schema-context variability (Target: Q4 2026)
+
+### Phase 6: Performance and Benchmarking
+- [ ] lock benchmark-backed release gates for translation/highlighter/scorer/few-shot paths (Target: Q4 2026)
+- [ ] validate p95/p99 behavior against release baselines under representative workloads (Target: Q4 2026)
 
 ## Production Readiness Checklist
 

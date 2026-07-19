@@ -54,6 +54,41 @@ Additional documentation expansion completed in Issue #5628 on 2026-07-19.
   - Validation date updated from 2026-06-10 to 2026-07-19
   - Status: ✅ COMPLETE
 
+## Phase 4: Error Handling and Edge Cases (2026-07-19)
+
+- [x] **Block 4.1: Error Taxonomy Definition — COMPLETED**
+  - AQL Error Context Framework: `include/aql/aql_error_types.h`
+    - AQLErrorContext class with diagnostic metadata (operation type, line/token position, schema context, retry count, recoverability)
+    - Namespaced error categories: ValidationError (7 types), TranslationError (5 types), BridgeError (6 types), ProviderError (7 types)
+    - Recovery strategy mapping: FAIL_CLOSED, RETRY_WITH_BACKOFF, DEGRADE_GRACEFULLY, CIRCUIT_BREAK
+  - Error Recovery Matrix: `src/aql/ERROR_RECOVERY_MATRIX.md`
+    - Detailed recovery specifications per error type (severity, max retries, backoff strategy, diagnostics)
+    - Per-component error handling (validation, translation, embedding bridge, conversation context)
+    - Metrics and observability recommendations with Prometheus counters and structured logging
+  - Unit Test Infrastructure (23 test cases total):
+    - `tests/aql/test_aql_validation_error_handling.cpp` (8 tests covering validation error paths)
+    - `tests/aql/test_aql_translation_recovery.cpp` (8 tests covering translation recovery with backoff timing)
+    - `tests/aql/test_aql_bridge_degradation.cpp` (7 tests covering bridge/context degradation)
+  - Status: ✅ PRODUCTION-READY
+
+- [~] **Block 4.2: Validation Component Hardening — PLANNED**
+  - Modify validateAQLWithParser() to use AQLErrorContext instead of generic error strings
+  - Add detailed error diagnostics: AST location, token position, schema field, suggested fixes
+  - Integrate Prometheus metrics for error type distribution
+  - Target: Q3 2026
+
+- [~] **Block 4.3: Translation Pipeline Error Handling — PLANNED**
+  - Enhance translateNLToAQL() with structured retry logic (exponential backoff, max 3 retries)
+  - Integrate InvalidResponse retry with error feedback in LLM prompt
+  - Add circuit breaker checks before provider calls
+  - Target: Q3 2026
+
+- [~] **Block 4.4: Bridge/Helper Component Diagnostics — PLANNED**
+  - Update llm_aql_embedding_bridge.cpp to handle provider failures gracefully
+  - Update aql_conversation_context.cpp to handle context bound exhaustion
+  - Add error context to all helper components (highlighter, scorer, few-shot library)
+  - Target: Q3 2026
+
 ## Scope
 
 - hardening and refinement of NL-to-AQL and command-assistance flows
