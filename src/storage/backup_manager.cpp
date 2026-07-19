@@ -66,20 +66,24 @@ namespace fs = std::filesystem;
 
 constexpr std::string_view kLocalBackupUriScheme{"file://"};
 
+/// Return whether @p value begins with the provider prefix @p prefix.
 bool hasUriPrefix(const std::string& value, std::string_view prefix) {
     return value.size() >= prefix.size() &&
            value.compare(0, prefix.size(), prefix) == 0;
 }
 
+/// Return whether @p value is a local mirror URI handled by the storage module.
 bool isLocalBackupUri(const std::string& value) {
     return hasUriPrefix(value, kLocalBackupUriScheme);
 }
 
+/// Accept either a local `file://` URI or an absolute filesystem path.
 bool isAbsoluteOrLocalBackupUri(const std::string& value) {
     return !value.empty() &&
            (isLocalBackupUri(value) || fs::path(value).is_absolute());
 }
 
+/// Normalize a local mirror URI or absolute filesystem path into an `fs::path`.
 fs::path resolveLocalBackupPath(const std::string& value) {
     if (isLocalBackupUri(value)) {
         return fs::path(value.substr(kLocalBackupUriScheme.size()));
@@ -87,6 +91,7 @@ fs::path resolveLocalBackupPath(const std::string& value) {
     return fs::path(value);
 }
 
+/// Validate that one cron field only uses the supported literal characters.
 bool isValidCronField(const std::string& field) {
     if (field.empty()) {
         return false;
@@ -97,6 +102,7 @@ bool isValidCronField(const std::string& field) {
     });
 }
 
+/// Validate the five-field cron syntax accepted by the in-memory scheduler.
 bool isValidCronExpression(const std::string& expression) {
     std::istringstream iss(expression);
     std::vector<std::string> fields;
@@ -112,6 +118,7 @@ bool isValidCronExpression(const std::string& expression) {
     return std::all_of(fields.begin(), fields.end(), isValidCronField);
 }
 
+/// Copy either a single file or a full directory tree while preserving structure.
 bool copyPathRecursively(const fs::path& source,
                          const fs::path& destination,
                          std::error_code& ec) {
@@ -186,6 +193,7 @@ bool copyPathRecursively(const fs::path& source,
     return true;
 }
 
+/// Check whether @p uri uses one of the currently recognized remote cloud schemes.
 bool isValidRemoteCloudUri(const std::string& uri) {
     static const std::array<std::string_view, 3> kSchemes{
         "s3://", "azure://", "gs://"
@@ -1799,6 +1807,9 @@ bool BackupManager::uploadToCloud(const std::string& local_path, [[maybe_unused]
                                   const std::map<std::string, std::string>& /*config*/,
                                   [[maybe_unused]] std::error_code& ec) {
     if (backend == StorageBackend::LOCAL || isLocalBackupUri(cloud_path)) {
+        // Local transport is a real implementation, not a placeholder cloud shim:
+        // the backup tree is mirrored byte-for-byte into another absolute path so
+        // operators can stage backup handoffs without a remote SDK dependency.
         const auto destination = resolveLocalBackupPath(cloud_path);
         if (destination.empty()) {
             ec = std::make_error_code(std::errc::invalid_argument);
@@ -1832,6 +1843,9 @@ bool BackupManager::downloadFromCloud(const std::string& cloud_path,
                                       const std::map<std::string, std::string>& /*config*/,
                                       std::error_code& ec) {
     if (backend == StorageBackend::LOCAL || isLocalBackupUri(cloud_path)) {
+        // Local restore reuses the same mirrored payload rules as uploadToCloud():
+        // a file:// URI or absolute path is treated as an operator-managed backup
+        // source and copied into the requested restore directory.
         const auto source = resolveLocalBackupPath(cloud_path);
         if (source.empty()) {
             ec = std::make_error_code(std::errc::invalid_argument);
@@ -2892,6 +2906,9 @@ Result<void> BackupManager::verifyDecompressedBackup(const std::string& backup_d
 
         const fs::path manifest_path = fs::path(backup_dir) / "INTEGRITY_MANIFEST.json";
         if (!fs::exists(manifest_path)) {
+            // Backward compatibility: backups created before integrity tracking was
+            // introduced are still restorable. Missing manifests are therefore a
+            // documented legacy case, while malformed manifests remain hard errors.
             THEMIS_WARN("Phase 1: No integrity manifest found in {}; skipping post-decompression verification. "
                        "Consider creating backups with integrity tracking enabled.",
                        backup_dir);

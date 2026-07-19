@@ -11,6 +11,7 @@ The storage module provides persistence, versioned data handling, blob and tiere
 
 | Interface / File | Role |
 |---|---|
+| include/storage/storage_module.h | Doxygen module entry point for storage-wide API grouping |
 | rocksdb_wrapper.cpp | RocksDB integration and durable storage wrapper behavior |
 | storage_engine.cpp | storage orchestration and lifecycle behavior |
 | mvcc_store.cpp | MVCC version/snapshot behavior |
