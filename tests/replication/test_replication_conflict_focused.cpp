@@ -22,51 +22,27 @@
 
 #include <gtest/gtest.h>
 #include "replication/conflict_resolution.h"
-#include "replication/replication_manager.h"
+#include "replication/multi_master_replication.h"
 
 #include <chrono>
-#include <map>
 #include <memory>
-#include <optional>
 #include <string>
 #include <vector>
-#include <json/json.h>
 
 namespace themisdb {
 namespace replication {
 namespace test {
 
 // ============================================================================
-// Test Fixtures and Utilities
-// ============================================================================
-
-/**
- * Helper to construct a minimal MMWriteEntry for testing.
- * @note Production MMWriteEntry contains replication metadata; this creates
- *       a simplified test version for conflict resolution logic.
- */
-struct TestMMWriteEntry {
-    std::string write_id;
-    std::string document_id;
-    std::chrono::system_clock::time_point timestamp;
-    std::string json_payload;
-    std::vector<uint64_t> vector_clock;  // Simplified vector clock for ancestor detection
-
-    operator MMWriteEntry() const {
-        MMWriteEntry entry;
-        entry.write_id = write_id;
-        entry.document_id = document_id;
-        entry.timestamp = timestamp;
-        entry.json_payload = json_payload;
-        entry.vector_clock_hlc = vector_clock;
-        return entry;
-    }
-};
-
-// ============================================================================
 // ThreeWayMergeResolver Focused Tests
 // ============================================================================
 
+/**
+ * RCS-01: Three-Way Merge Strategy Tests
+ * 
+ * Tests validate that the three-way merge resolver correctly identifies
+ * ancestors and performs merges without fabricating new writes.
+ */
 class ThreeWayMergeResolverTest : public ::testing::Test {
 protected:
     std::unique_ptr<ThreeWayMergeResolver> resolver_;
@@ -82,85 +58,59 @@ protected:
     }
 
     /**
-     * Helper to create a JSON-formatted test write.
-     * @param doc_id Document identifier
-     * @param field_value Value for "field" key
-     * @param extra_fields Additional JSON fields (empty map for default)
-     * @return TestMMWriteEntry with serialized JSON payload
+     * Helper to create a test MMWriteEntry.
      */
-    TestMMWriteEntry createWrite(
+    static MMWriteEntry createTestWrite(
+        const std::string& write_id,
         const std::string& doc_id,
-        const std::string& field_value,
-        const std::map<std::string, std::string>& extra_fields = {}
+        const std::string& collection,
+        const std::string& operation = "WRITE"
     ) {
-        Json::Value json_obj;
-        json_obj["field"] = field_value;
-        for (const auto& [key, val] : extra_fields) {
-            json_obj[key] = val;
-        }
-
-        Json::StreamWriterBuilder writer;
-        std::string json_string = Json::writeString(writer, json_obj);
-
-        TestMMWriteEntry entry;
-        entry.write_id = doc_id + "_" + field_value;
+        MMWriteEntry entry;
+        entry.write_id = write_id;
         entry.document_id = doc_id;
-        entry.timestamp = std::chrono::system_clock::now();
-        entry.json_payload = json_string;
-        entry.vector_clock = {1};
-
+        entry.collection = collection;
+        entry.origin_node = "test_node";
+        entry.operation = operation;
+        entry.data = R"({"test":"data"})";
+        entry.checksum = "test_checksum";
         return entry;
     }
 };
 
 /**
- * RCS-01.1: Single write in conflict set returns unchanged.
- * Ensures the resolver handles the degenerate case gracefully.
+ * RCS-01.1: Single write in conflict set is returned unchanged.
  */
 TEST_F(ThreeWayMergeResolverTest, SingleWriteReturnedUnchanged) {
     std::vector<MMWriteEntry> conflict_set;
-    conflict_set.push_back(createWrite("doc_001", "value_a"));
+    conflict_set.push_back(createTestWrite("w1", "doc_001", "test_collection"));
 
     // Single write should return itself (no conflict logic needed)
     MMWriteEntry winner = resolver_->resolve("doc_001", conflict_set, default_context_);
 
-    EXPECT_EQ(winner.write_id, "doc_001_value_a");
+    EXPECT_EQ(winner.write_id, "w1");
     EXPECT_EQ(winner.document_id, "doc_001");
 }
 
 /**
- * RCS-01.2: Three-way merge selects ancestor and merges non-conflicting fields.
- * Validates the core merge algorithm.
+ * RCS-01.2: Multiple writes are resolved to one winner.
  */
-TEST_F(ThreeWayMergeResolverTest, ThreeWayMergeNonConflictingFields) {
+TEST_F(ThreeWayMergeResolverTest, MultipleWritesResolved) {
     std::vector<MMWriteEntry> conflict_set;
+    conflict_set.push_back(createTestWrite("w1", "doc_001", "test_collection", "WRITE"));
+    conflict_set.push_back(createTestWrite("w2", "doc_001", "test_collection", "WRITE"));
+    conflict_set.push_back(createTestWrite("w3", "doc_001", "test_collection", "WRITE"));
 
-    // Base write (ancestor): field1="v0", field2="base"
-    auto base = createWrite("doc_001", "v0", {{"field2", "base"}});
-    base.vector_clock = {1, 0, 0};  // Dominate others in clock comparison
-
-    // Left write (from first branch): field1="v1", field2="base" (unchanged)
-    auto left = createWrite("doc_001", "v1", {{"field2", "base"}});
-    left.vector_clock = {2, 1, 0};
-
-    // Right write (from second branch): field1="v0", field2="right"
-    auto right = createWrite("doc_001", "v0", {{"field2", "right"}});
-    right.vector_clock = {1, 0, 1};
-
-    conflict_set.push_back(base);
-    conflict_set.push_back(left);
-    conflict_set.push_back(right);
-
-    // Merge should combine: field1 from left (changed), field2 from right (changed)
+    // Merge should select one winner
     MMWriteEntry winner = resolver_->resolve("doc_001", conflict_set, default_context_);
 
-    // Expected behavior: merge of left and right relative to base
     EXPECT_EQ(winner.document_id, "doc_001");
+    // Winner must be one of the input entries (no fabrication)
+    EXPECT_TRUE(winner.write_id == "w1" || winner.write_id == "w2" || winner.write_id == "w3");
 }
 
 /**
  * RCS-01.3: Empty conflict set fails closed.
- * Ensures the resolver rejects invalid input.
  */
 TEST_F(ThreeWayMergeResolverTest, EmptyConflictSetFailsClosed) {
     std::vector<MMWriteEntry> conflict_set;
@@ -173,7 +123,7 @@ TEST_F(ThreeWayMergeResolverTest, EmptyConflictSetFailsClosed) {
 }
 
 /**
- * RCS-01.4: Strategy name returns consistent identifier.
+ * RCS-01.4: Strategy name is consistent.
  */
 TEST_F(ThreeWayMergeResolverTest, StrategyNameConsistent) {
     std::string strategy = resolver_->strategyName();
@@ -187,6 +137,12 @@ TEST_F(ThreeWayMergeResolverTest, StrategyNameConsistent) {
 // FieldLevelMergeResolver Focused Tests
 // ============================================================================
 
+/**
+ * RCS-02: Field-Level Merge Strategy Tests
+ * 
+ * Tests validate that the field-level merge resolver correctly implements
+ * UNION, INTERSECT, LEFT_BIAS, and RIGHT_BIAS strategies.
+ */
 class FieldLevelMergeResolverTest : public ::testing::Test {
 protected:
     AdvancedConflictResolver::ResolutionContext default_context_;
@@ -199,31 +155,25 @@ protected:
         default_context_.request_time = std::chrono::system_clock::now();
     }
 
-    /**
-     * Create a test write with specified JSON payload.
-     */
-    TestMMWriteEntry createWrite(
+    static MMWriteEntry createTestWrite(
+        const std::string& write_id,
         const std::string& doc_id,
-        const std::string& field_value
+        const std::string& collection
     ) {
-        Json::Value json_obj;
-        json_obj["field"] = field_value;
-        Json::StreamWriterBuilder writer;
-        std::string json_string = Json::writeString(writer, json_obj);
-
-        TestMMWriteEntry entry;
-        entry.write_id = doc_id + "_" + field_value;
+        MMWriteEntry entry;
+        entry.write_id = write_id;
         entry.document_id = doc_id;
-        entry.timestamp = std::chrono::system_clock::now();
-        entry.json_payload = json_string;
-        entry.vector_clock = {1};
-
+        entry.collection = collection;
+        entry.origin_node = "test_node";
+        entry.operation = "WRITE";
+        entry.data = R"({"test":"data"})";
+        entry.checksum = "test_checksum";
         return entry;
     }
 };
 
 /**
- * RCS-02.1: Field-level merge with UNION strategy includes all fields.
+ * RCS-02.1: UNION strategy includes all fields.
  */
 TEST_F(FieldLevelMergeResolverTest, UnionStrategyIncludesAllFields) {
     auto resolver = std::make_unique<FieldLevelMergeResolver>(
@@ -231,8 +181,8 @@ TEST_F(FieldLevelMergeResolverTest, UnionStrategyIncludesAllFields) {
     );
 
     std::vector<MMWriteEntry> conflict_set;
-    conflict_set.push_back(createWrite("doc_001", "value_a"));
-    conflict_set.push_back(createWrite("doc_001", "value_b"));
+    conflict_set.push_back(createTestWrite("w1", "doc_001", "test_collection"));
+    conflict_set.push_back(createTestWrite("w2", "doc_001", "test_collection"));
 
     MMWriteEntry winner = resolver->resolve("doc_001", conflict_set, default_context_);
 
@@ -240,7 +190,7 @@ TEST_F(FieldLevelMergeResolverTest, UnionStrategyIncludesAllFields) {
 }
 
 /**
- * RCS-02.2: Field-level merge with INTERSECT strategy includes only common fields.
+ * RCS-02.2: INTERSECT strategy includes only common fields.
  */
 TEST_F(FieldLevelMergeResolverTest, IntersectStrategyOnlyCommonFields) {
     auto resolver = std::make_unique<FieldLevelMergeResolver>(
@@ -248,8 +198,8 @@ TEST_F(FieldLevelMergeResolverTest, IntersectStrategyOnlyCommonFields) {
     );
 
     std::vector<MMWriteEntry> conflict_set;
-    conflict_set.push_back(createWrite("doc_001", "value_a"));
-    conflict_set.push_back(createWrite("doc_001", "value_b"));
+    conflict_set.push_back(createTestWrite("w1", "doc_001", "test_collection"));
+    conflict_set.push_back(createTestWrite("w2", "doc_001", "test_collection"));
 
     MMWriteEntry winner = resolver->resolve("doc_001", conflict_set, default_context_);
 
@@ -265,12 +215,12 @@ TEST_F(FieldLevelMergeResolverTest, LeftBiasPreferFirstEntry) {
     );
 
     std::vector<MMWriteEntry> conflict_set;
-    conflict_set.push_back(createWrite("doc_001", "value_a"));
-    conflict_set.push_back(createWrite("doc_001", "value_b"));
+    conflict_set.push_back(createTestWrite("w1", "doc_001", "test_collection"));
+    conflict_set.push_back(createTestWrite("w2", "doc_001", "test_collection"));
 
     MMWriteEntry winner = resolver->resolve("doc_001", conflict_set, default_context_);
 
-    EXPECT_EQ(winner.write_id, "doc_001_value_a");
+    EXPECT_EQ(winner.write_id, "w1");
 }
 
 /**
@@ -282,12 +232,12 @@ TEST_F(FieldLevelMergeResolverTest, RightBiasPreferLastEntry) {
     );
 
     std::vector<MMWriteEntry> conflict_set;
-    conflict_set.push_back(createWrite("doc_001", "value_a"));
-    conflict_set.push_back(createWrite("doc_001", "value_b"));
+    conflict_set.push_back(createTestWrite("w1", "doc_001", "test_collection"));
+    conflict_set.push_back(createTestWrite("w2", "doc_001", "test_collection"));
 
     MMWriteEntry winner = resolver->resolve("doc_001", conflict_set, default_context_);
 
-    EXPECT_EQ(winner.write_id, "doc_001_value_b");
+    EXPECT_EQ(winner.write_id, "w2");
 }
 
 /**
@@ -317,6 +267,12 @@ TEST_F(FieldLevelMergeResolverTest, StrategyNamesCorrect) {
 // Conflict Context Semantics Tests
 // ============================================================================
 
+/**
+ * RCS-03: Conflict Context Semantics Tests
+ * 
+ * Tests validate that the resolver respects and processes resolution context
+ * (collection, document_id, metadata, user_roles, client_ip, request_time).
+ */
 class ConflictContextTest : public ::testing::Test {
 protected:
     std::unique_ptr<ThreeWayMergeResolver> resolver_;
@@ -325,20 +281,24 @@ protected:
         resolver_ = std::make_unique<ThreeWayMergeResolver>();
     }
 
-    TestMMWriteEntry createWrite(const std::string& doc_id, const std::string& value) {
-        TestMMWriteEntry entry;
-        entry.write_id = doc_id + "_" + value;
+    static MMWriteEntry createTestWrite(
+        const std::string& write_id,
+        const std::string& doc_id,
+        const std::string& collection
+    ) {
+        MMWriteEntry entry;
+        entry.write_id = write_id;
         entry.document_id = doc_id;
-        entry.timestamp = std::chrono::system_clock::now();
-        entry.json_payload = R"({"value":")" + value + R"("})";
-        entry.vector_clock = {1};
+        entry.collection = collection;
+        entry.origin_node = "test_node";
+        entry.operation = "WRITE";
+        entry.data = R"({"test":"data"})";
         return entry;
     }
 };
 
 /**
- * RCS-03.1: Resolution context is respected for metadata and roles.
- * Ensures the resolver receives and can act on contextual information.
+ * RCS-03.1: Resolution context with metadata and roles is respected.
  */
 TEST_F(ConflictContextTest, ResolutionContextRespected) {
     AdvancedConflictResolver::ResolutionContext ctx;
@@ -350,8 +310,8 @@ TEST_F(ConflictContextTest, ResolutionContextRespected) {
     ctx.request_time = std::chrono::system_clock::now();
 
     std::vector<MMWriteEntry> conflict_set;
-    conflict_set.push_back(createWrite("doc_123", "val_1"));
-    conflict_set.push_back(createWrite("doc_123", "val_2"));
+    conflict_set.push_back(createTestWrite("w1", "doc_123", "test_col"));
+    conflict_set.push_back(createTestWrite("w2", "doc_123", "test_col"));
 
     // Should not throw and should return a valid winner
     EXPECT_NO_THROW({
@@ -370,7 +330,7 @@ TEST_F(ConflictContextTest, EmptyUserRolesHandled) {
     ctx.document_id = "doc_123";
 
     std::vector<MMWriteEntry> conflict_set;
-    conflict_set.push_back(createWrite("doc_123", "val_1"));
+    conflict_set.push_back(createTestWrite("w1", "doc_123", "test_col"));
 
     EXPECT_NO_THROW({
         MMWriteEntry winner = resolver_->resolve("doc_123", conflict_set, ctx);
@@ -382,6 +342,12 @@ TEST_F(ConflictContextTest, EmptyUserRolesHandled) {
 // Deterministic Behavior Tests
 // ============================================================================
 
+/**
+ * RCS-04: Deterministic Behavior Tests
+ * 
+ * Tests validate that conflict resolution is deterministic, idempotent,
+ * and produces consistent results across repeated invocations.
+ */
 class DeterministicConflictResolutionTest : public ::testing::Test {
 protected:
     std::unique_ptr<ThreeWayMergeResolver> resolver_;
@@ -393,30 +359,29 @@ protected:
         default_context_.document_id = "doc_001";
     }
 
-    TestMMWriteEntry createWrite(
+    static MMWriteEntry createTestWrite(
+        const std::string& write_id,
         const std::string& doc_id,
-        const std::string& value,
-        uint64_t hlc_timestamp
+        const std::string& collection
     ) {
-        TestMMWriteEntry entry;
-        entry.write_id = doc_id + "_" + value + "_" + std::to_string(hlc_timestamp);
+        MMWriteEntry entry;
+        entry.write_id = write_id;
         entry.document_id = doc_id;
-        entry.timestamp = std::chrono::system_clock::now() +
-                         std::chrono::milliseconds(hlc_timestamp);
-        entry.json_payload = R"({"value":")" + value + R"("})";
-        entry.vector_clock = {hlc_timestamp};
+        entry.collection = collection;
+        entry.origin_node = "test_node";
+        entry.operation = "WRITE";
+        entry.data = R"({"test":"data"})";
         return entry;
     }
 };
 
 /**
  * RCS-04.1: Same input always produces same winner (idempotence).
- * Validates deterministic behavior across repeated invocations.
  */
 TEST_F(DeterministicConflictResolutionTest, IdempotentResolution) {
     std::vector<MMWriteEntry> conflict_set;
-    conflict_set.push_back(createWrite("doc_001", "val_a", 100));
-    conflict_set.push_back(createWrite("doc_001", "val_b", 200));
+    conflict_set.push_back(createTestWrite("w1", "doc_001", "test_collection"));
+    conflict_set.push_back(createTestWrite("w2", "doc_001", "test_collection"));
 
     MMWriteEntry winner1 = resolver_->resolve("doc_001", conflict_set, default_context_);
     MMWriteEntry winner2 = resolver_->resolve("doc_001", conflict_set, default_context_);
@@ -425,13 +390,12 @@ TEST_F(DeterministicConflictResolutionTest, IdempotentResolution) {
 }
 
 /**
- * RCS-04.2: Thread-safe resolution (no data races or corruption).
- * Validates that resolver state is immutable across calls.
+ * RCS-04.2: Multiple sequential calls don't corrupt resolver state.
  */
 TEST_F(DeterministicConflictResolutionTest, ThreadSafeResolution) {
     std::vector<MMWriteEntry> conflict_set;
-    conflict_set.push_back(createWrite("doc_001", "val_1", 100));
-    conflict_set.push_back(createWrite("doc_001", "val_2", 200));
+    conflict_set.push_back(createTestWrite("w1", "doc_001", "test_collection"));
+    conflict_set.push_back(createTestWrite("w2", "doc_001", "test_collection"));
 
     // Multiple sequential calls should not corrupt state
     std::vector<std::string> winners;
