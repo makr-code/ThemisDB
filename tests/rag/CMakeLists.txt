@@ -22,6 +22,11 @@ foreach(_src IN LISTS RAG_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/rag/tensor_rag_pipeline.cpp
         )
     endif()
+    if("${_stem}" STREQUAL "test_rag_rlaif_trainer")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/rag/rlaif_trainer.cpp
+        )
+    endif()
     target_link_libraries(${_target} PRIVATE
         ${TEST_LIBS}
         themis_core

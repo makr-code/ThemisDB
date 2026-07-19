@@ -22,6 +22,31 @@ foreach(_src IN LISTS SECURITY_MODULE_TEST_SOURCES)
     )
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
+    if("${_stem}" STREQUAL "test_kdf_argon2_bridge")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/user_storage_encrypted/key_derivation_service.cpp
+        )
+    endif()
+
+    if("${_stem}" STREQUAL "test_oauth_token_manager")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/ingestion/oauth_token_manager.cpp
+        )
+    endif()
+
+    if("${_stem}" STREQUAL "test_safe_format")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/security/safe_format.cpp
+        )
+    endif()
+
+    if("${_stem}" STREQUAL "test_stub_279_302_remediation")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/transaction/distributed_transaction_manager.cpp
+            ${THEMIS_ROOT_DIR}/src/server/voice_api_handler.cpp
+        )
+    endif()
+
     if(_stem STREQUAL "test_aql_safety_validator")
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/query/aql_safety_validator.cpp

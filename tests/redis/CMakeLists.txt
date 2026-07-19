@@ -26,6 +26,12 @@ foreach(_src IN LISTS REDIS_MODULE_TEST_SOURCES)
     )
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
+    if("${_stem}" STREQUAL "test_redis_hiredis_bridge")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/cache/redis_cache_coordinator.cpp
+        )
+    endif()
+
     themis_register_module_focused_test(
         MODULE redis
         NAME ${_ctest}

@@ -26,6 +26,14 @@ foreach(_src IN LISTS SEARCH_MODULE_TEST_SOURCES)
     )
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
+    if("${_stem}" STREQUAL "test_search_future_interfaces")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/search/conversational_search.cpp
+            ${THEMIS_ROOT_DIR}/src/search/federated_search.cpp
+            ${THEMIS_ROOT_DIR}/src/search/search_result_stream.cpp
+        )
+    endif()
+
     themis_register_module_focused_test(
         MODULE search
         NAME ${_ctest}

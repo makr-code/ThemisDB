@@ -26,6 +26,17 @@ foreach(_src IN LISTS SCRAPER_PREFIX_TEST_SOURCES)
     )
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
+    if("${_stem}" STREQUAL "test_scraper_plugin")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/scraper/scraper_plugin.cpp
+            ${THEMIS_ROOT_DIR}/src/scraper/scraper_api_client.cpp
+            ${THEMIS_ROOT_DIR}/src/scraper/scraper_search_engine.cpp
+            ${THEMIS_ROOT_DIR}/src/scraper/scraper_metadata_writer.cpp
+            ${THEMIS_ROOT_DIR}/src/scraper/scraper_llm_evaluator.cpp
+            ${THEMIS_ROOT_DIR}/src/scraper/gov_source_catalog.cpp
+        )
+    endif()
+
     themis_register_module_focused_test(
         MODULE scraper
         NAME ${_ctest}
