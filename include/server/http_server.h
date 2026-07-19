@@ -628,6 +628,50 @@ private:
 
     // Request routing
     void setupRoutes();
+    
+    /**
+     * @brief Route an HTTP request to the appropriate handler and return a response.
+     * 
+     * This is the main request dispatcher that implements the core routing logic:
+     * 1. Parse method and path from request
+     * 2. Apply request validation middleware (JSON schema checks)
+     * 3. Check rate limits (per-client and global)
+     * 4. Enforce routing-layer authorization before handler dispatch
+     * 5. Dispatch to registered handler or return 404/405
+     * 6. Optionally apply response transformation middleware
+     * 7. Return HTTP response
+     * 
+     * ### Authorization Enforcement
+     * All privileged routes must pass auth checks before reaching their handler.
+     * Special-case routes (early-routing blocks, admin paths, metrics/reporting paths)
+     * are explicitly gated with authorization checks.
+     * 
+     * ### Failure Responses
+     * - 400 Bad Request: Malformed request body or header
+     * - 401 Unauthorized: Authentication failed
+     * - 403 Forbidden: Authenticated but insufficient scope
+     * - 404 Not Found: No route registered for (method, path)
+     * - 405 Method Not Allowed: Route exists but method not supported
+     * - 429 Too Many Requests: Rate limit exceeded
+     * - 500 Internal Server Error: Handler exception or internal error
+     * - 503 Service Unavailable: Server overloaded or shutting down
+     * 
+     * @param req HTTP request with method, target, headers, and body
+     * 
+     * @return HTTP response with appropriate status code and body:
+     *         - Status 2xx: Successfully routed and handler succeeded
+     *         - Status 4xx: Client error (bad request, auth failure, rate limited, not found)
+     *         - Status 5xx: Server error (handler exception, internal failure)
+     * 
+     * @note Thread-safe; multiple threads may call concurrently
+     * @note Never throws exceptions; all errors converted to HTTP error responses
+     * @note All authorization decisions are audit-logged (without logging sensitive request data)
+     * @note Request body size is limited by max_request_size_mb in Config
+     * 
+     * @see AuthMiddleware::authorize() for authorization logic
+     * @see RequestValidationMiddleware::validate() for request validation
+     * @see RateLimiterV2::checkRateLimit() for rate limiting
+     */
     http::response<http::string_body> routeRequest(const http::request<http::string_body>& req);
 
 

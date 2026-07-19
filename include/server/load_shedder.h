@@ -32,6 +32,36 @@ namespace server {
  * Monitors system load and rejects low-priority requests when
  * resources are constrained.
  */
+/**
+ * @brief Adaptive load shedding for server overload protection.
+ * 
+ * Monitors server health metrics (CPU, memory, queue depth) and progressively
+ * sheds low-priority traffic to maintain SLA for high-priority requests.
+ * 
+ * ### Shedding Policy
+ * - At 70% load: Shed batch requests (priority = LOW)
+ * - At 85% load: Shed non-essential requests (priority = NORMAL)
+ * - At 95% load: Only accept critical requests (priority = HIGH)
+ * - Above 95%: Shed all non-critical traffic
+ * 
+ * ### Health Metrics
+ * - CPU utilization percentage
+ * - Memory utilization percentage
+ * - Request queue depth
+ * - P99 response time
+ * - Active connection count
+ * 
+ * ### Shedding Strategies
+ * - Random: Randomly select candidates based on priority
+ * - LRU: Evict least-recently-used requests
+ * - FIFO: Evict oldest requests first
+ * 
+ * @note Decision-making is best-effort; no guarantee that all high-priority requests succeed
+ * @note Shedding threshold and strategy are configurable
+ * @note Enables graceful degradation under extreme load
+ * 
+ * @see RateLimitingMiddleware for request-level rate limiting
+ */
 class LoadShedder {
 public:
     /**

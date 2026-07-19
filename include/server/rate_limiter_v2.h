@@ -151,37 +151,135 @@ public:
     TokenBucketRateLimiter& operator=(TokenBucketRateLimiter&&) = delete;
 
     /**
-     * @brief Try to acquire tokens from the bucket
+     * @brief Try to acquire tokens from the token bucket.
      * 
-     * @param tokens Number of tokens to consume (default: 1)
-     * @param prio Priority lane to use
-     * @return true if tokens acquired, false if bucket empty (rate limit exceeded)
+     * Attempts to consume the requested number of tokens from the appropriate priority lane.
+     * If not enough tokens are available, the request is rejected immediately (fail-fast).
+     * This method is called for every incoming request as part of rate-limit enforcement.
+     * 
+     * ### Priority Lanes
+     * - HIGH: VIP clients with higher burst and sustained rate limits
+     * - NORMAL: Standard clients with default limits
+     * - LOW: Batch/background jobs with lower limits
+     * 
+     * ### Token Bucket Algorithm
+     * 1. Calculate refill amount based on time elapsed since last refill
+     * 2. Add refilled tokens to current bucket (capped at capacity)
+     * 3. If bucket has enough tokens, consume and return true
+     * 4. Otherwise, return false (rate limit exceeded)
+     * 
+     * ### Distributed Mode (Redis backend)
+     * When Backend::REDIS is configured, the token bucket state is stored in Redis
+     * and shared across all server instances. This ensures consistent rate limiting
+     * across the entire cluster. If Redis becomes unhealthy, the local bucket is used
+     * as fallback.
+     * 
+     * @param tokens Number of tokens to consume (default: 1).
+     *               Must be > 0; implementation-defined behavior for 0 or negative values.
+     * @param prio Priority lane to use (HIGH, NORMAL, LOW)
+     * 
+     * @return true if tokens were successfully acquired and consumed; false if rate limit exceeded
+     *         (bucket did not have enough tokens)
+     * 
+     * @note Thread-safe; concurrent calls allowed on the same limiter
+     * @note Time-based refills are processed only when tryAcquire is called
+     * @note In distributed mode (Redis), Redis errors trigger local fallback; see isRedisHealthy()
+     * @note Does NOT block; returns immediately with success/failure status
+     * 
+     * @see getAvailableTokens() to query current token count without consuming
+     * @see getTotalRequests() and getTotalRejections() for metrics
+     * @see isRedisHealthy() to check distributed backend status
      */
     bool tryAcquire(size_t tokens = 1, Priority prio = Priority::NORMAL);
 
     /**
-     * @brief Get current token count (for monitoring)
+     * @brief Query the current number of available tokens without consuming any.
+     * 
+     * Useful for monitoring and debugging rate-limiter state.
+     * Like tryAcquire(), this call triggers token refill calculations.
+     * 
+     * @param prio Priority lane to query (HIGH, NORMAL, LOW)
+     * 
+     * @return Current number of tokens in the specified priority lane bucket
+     * 
+     * @note Thread-safe; returns snapshot of current state
+     * @note Does NOT consume tokens; subsequent tryAcquire() calls are unaffected
+     * @note In distributed mode (Redis), reads the latest state from Redis
+     * 
+     * @see tryAcquire() to consume tokens and enforce the limit
      */
     size_t getAvailableTokens(Priority prio = Priority::NORMAL) const;
 
     /**
-     * @brief Get total requests handled (metrics)
+     * @brief Get total number of requests that attempted token acquisition.
+     * 
+     * Includes both successful acquisitions and rejections.
+     * Useful for calculating rejection rate and monitoring traffic volume.
+     * 
+     * @return Cumulative count of all tryAcquire() calls
+     * 
+     * @note Thread-safe; returns snapshot
+     * @note Covers both successful and failed acquisitions; see getTotalRejections() for failures only
+     * 
+     * @see getTotalRejections() for count of rate-limited requests
      */
     uint64_t getTotalRequests() const { return total_requests_.load(); }
 
     /**
-     * @brief Get total rejections (metrics)
+     * @brief Get total number of rate-limited requests (failed token acquisitions).
+     * 
+     * Useful for calculating rejection rate and monitoring rate-limit effectiveness.
+     * Rejection rate = getTotalRejections() / getTotalRequests()
+     * 
+     * @return Cumulative count of all tryAcquire() calls that returned false
+     * 
+     * @note Thread-safe; returns snapshot
+     * @note Only counts failed attempts; successful acquisitions are not counted here
+     * 
+     * @see getTotalRequests() for total attempt count (successful + rejected)
      */
     uint64_t getTotalRejections() const { return total_rejections_.load(); }
 
     /**
-     * @brief Returns true when the Redis backend is configured and currently
-     *        reachable; false when running in local-fallback mode.
+     * @brief Check if the distributed Redis backend is currently healthy and reachable.
+     * 
+     * Returns true only when:
+     * - Backend::REDIS is configured
+     * - Redis connection is established
+     * - Recent EVALSHA calls have succeeded
+     * 
+     * Returns false when:
+     * - Backend::LOCAL is configured (no Redis)
+     * - Redis connection failed or timed out
+     * - Too many consecutive Redis errors (max_errors threshold exceeded)
+     * 
+     * When Redis becomes unhealthy, the rate limiter automatically falls back to
+     * local token bucket mode. When Redis recovers, health checks resume periodically.
+     * 
+     * @return true if Redis backend is healthy; false if unavailable or not configured
+     * 
+     * @note Thread-safe; returns snapshot
+     * @note Even when isRedisHealthy() returns false, rate limiting continues using local fallback
+     * @note This is informational; rate limiter behavior is unaffected by return value
+     * 
+     * @see Backend enum for configuration options
      */
     bool isRedisHealthy() const;
 
     /**
-     * @brief Reset counters (for testing)
+     * @brief Reset all counters and token buckets to initial state.
+     * 
+     * Useful for testing and performance profiling. Resets:
+     * - Total requests counter
+     * - Total rejections counter
+     * - Token bucket levels to capacity for each priority lane
+     * 
+     * @note Thread-safe; safe to call while other threads are using tryAcquire()
+     * @note Does NOT change configuration; only affects counters and token state
+     * @note Does NOT reset Redis backend (if configured); only affects local state
+     * @note Intended for testing only; avoid in production
+     * 
+     * @see Config for initial configuration
      */
     void reset();
 

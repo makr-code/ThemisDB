@@ -35,6 +35,23 @@ namespace themis::server {
 
 /**
  * @brief Description of a single gateway node in the cluster.
+ * 
+ * Represents one instance of the distributed API gateway participating in cluster-wide
+ * routing decisions, rate limiting, and failover logic. Each node has a unique identifier,
+ * network address, and port for inter-node communication and client routing.
+ * 
+ * ### Member fields:
+ * - node_id: Unique identifier (e.g., "gw-1", "gateway-east-1"); used in Raft consensus
+ * - address: Hostname or IP address (IPv4 or IPv6)
+ * - port: HTTP(S) port for accepting client requests (default 8080)
+ * 
+ * ### Equality
+ * Two nodes are equal if they have the same node_id, regardless of address or port.
+ * This is important for Raft cluster membership comparisons.
+ * 
+ * @note All fields are used by distributed consensus (Raft) and cluster topology management
+ * @note Address and port must be reachable from all cluster nodes for inter-node communication
+ * @note node_id must be globally unique across the cluster
  */
 struct GatewayNode {
     std::string node_id;   ///< Unique node identifier (e.g. "gw-1")
@@ -51,9 +68,35 @@ struct GatewayNode {
 // ---------------------------------------------------------------------------
 
 /**
- * @brief A single routing rule that is replicated via Raft.
- */
-struct GatewayRouteConfig {
+ * @brief A single routing rule that is replicated via Raft across the cluster.
+ * 
+ * Defines how requests matching a path prefix are forwarded to upstream services.
+ * All instances of this struct in the cluster converge to the same state via Raft consensus,
+ * ensuring consistent routing behavior across nodes.
+ * 
+ * ### Routing Logic
+ * When a request arrives:
+ * 1. Match request path against path_prefix
+     * 2. If matched, forward to upstream_url
+     * 3. Apply per-request timeout
+     * 4. Retry on transient errors (up to retry_count times)
+     * 5. If circuit breaker enabled, track failures and trip on threshold
+     * 
+     * ### Member fields:
+     * - path_prefix: Longest-prefix matching; "/api" matches "/api/v1/entities"
+     * - upstream_url: Target service URL (e.g., "http://query-service:8081")
+     * - timeout_ms: Request deadline (default 30s); includes all retries
+     * - retry_count: Transient error retry attempts (default 2; excludes initial attempt)
+     * - circuit_breaker_enabled: Enable circuit-breaker logic for this route
+     * - circuit_breaker_failure_threshold: Consecutive failures before tripping (default 5)
+     * 
+     * @note This config is replicated to all gateway nodes via Raft for consistency
+     * @note Changes to configs are applied immediately to ongoing requests
+     * @note Upstream URL must be reachable from all gateway nodes
+     * 
+     * @see ClusterGatewayConfig for the full configuration snapshot
+     */
+    struct GatewayRouteConfig {
     std::string path_prefix;        ///< Path prefix to match (e.g. "/api/v1/query")
     std::string upstream_url;       ///< Target upstream URL
     uint32_t    timeout_ms{30000};  ///< Per-request timeout (ms)
@@ -70,9 +113,40 @@ struct GatewayRouteConfig {
 // ---------------------------------------------------------------------------
 
 /**
- * @brief Complete gateway configuration that is replicated across the cluster.
- */
-struct ClusterGatewayConfig {
+ * @brief Complete gateway configuration snapshot that is replicated across the cluster via Raft.
+ * 
+ * Represents the full state of cluster-wide gateway configuration at a given version.
+ * All nodes converge to the same config version through Raft consensus, ensuring
+ * consistent routing, rate limiting, and cluster behavior.
+ * 
+ * ### Configuration Elements
+ * - version: Monotonically increasing integer; incremented on every config change
+     * - routes: Ordered list of routing rules (first match wins)
+     * - rate_limits: Per-client-key rate limits (overrides global limit if set)
+     * - global_rate_limit_rps: Default cluster-wide rate limit (requests per second)
+     * - updated_by: Node ID of the peer that committed this version (for tracing)
+     * - updated_at: Timestamp when config was committed to Raft log
+     * 
+     * ### Cluster Convergence
+     * When one node updates the config:
+     * 1. Change is appended to Raft log
+     * 2. Leader broadcasts change to followers
+     * 3. Followers apply change when it's committed (quorum confirmation)
+     * 4. All nodes now have identical config (same version, routes, rate_limits)
+     * 
+     * ### Rate Limiting Rules
+     * - If rate_limits[client_key] is set, use per-client limit
+     * - Otherwise, use global_rate_limit_rps
+     * - Enforcement is per-node; Redis backend provides cluster-wide consistency
+     * 
+     * @note All fields must be serializable to/from JSON for Raft replication
+     * @note version is used for concurrency control and conflict detection
+     * @note updated_at is purely informational; uses system clock (may drift)
+     * 
+     * @see GatewayRouteConfig for individual routing rules
+     * @see DistributedGateway for runtime management
+     */
+    struct ClusterGatewayConfig {
     uint64_t                        version{0};       ///< Monotonically increasing config version
     std::vector<GatewayRouteConfig> routes;           ///< Ordered routing rules
     std::unordered_map<std::string, uint32_t> rate_limits; ///< per-client-key limit (req/s)
@@ -89,12 +163,36 @@ struct ClusterGatewayConfig {
 // ---------------------------------------------------------------------------
 
 /**
- * @brief Consistent-hash ring for sticky routing of WebSocket/SSE sessions.
- *
- * Each virtual node is mapped to a physical GatewayNode; clients are routed
- * to the same node for the lifetime of their session.
- */
-class ConsistentHashRing {
+ * @brief Consistent-hash ring for sticky session routing across gateway nodes.
+ * 
+ * Implements consistent hashing to route WebSocket and SSE (Server-Sent Events) sessions
+ * to the same gateway node throughout their lifetime. This ensures session affinity
+ * and allows stateful operations (e.g., context variables in streaming queries).
+ * 
+ * ### Consistent Hashing Algorithm
+ * 1. Create virtual nodes (replicas) for each physical GatewayNode
+ * 2. Hash each virtual node into a ring (0 to MAX_UINT64)
+ * 3. For a new session, hash the session_id and find the next higher virtual node on the ring
+ * 4. Route session to the physical node owning that virtual node
+ * 5. If a node joins/leaves, only keys between old and new node positions are re-hashed
+ * 
+     * ### Virtual Node Replication
+     * Multiple virtual nodes per physical node reduce the impact of node failures
+     * and improve load distribution. Default is 160 virtual nodes per physical node.
+     * 
+     * ### Sticky Routing Benefits
+     * - Session context remains local to one node (no cross-node session store needed)
+     * - Connection state (subscriptions, temporary tables) is preserved
+     * - Reduced latency for stateful operations
+     * - Simplified operational management
+     * 
+     * @note Used only for stateful protocols (WebSocket, SSE); REST requests are not pinned
+     * @note When nodes join/leave, sessions are rebalanced but not interrupted
+     * @note Separate from TCP connection routing; a single connection may span multiple nodes
+     * 
+     * @see GatewayNode for physical node descriptors
+     */
+    class ConsistentHashRing {
 public:
     /**
      * @brief Construct ring with the given virtual-node replication factor.

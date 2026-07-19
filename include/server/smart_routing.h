@@ -50,6 +50,41 @@ struct BackendEndpoint {
  * every registered backend.  These are updated via `record*` calls after each
  * request and used to inform future routing decisions.
  */
+/**
+ * @brief Intelligent request routing with latency-aware load balancing.
+ * 
+ * Analyzes request characteristics and backend latencies to route requests
+ * to the best available backend:
+ * - Short queries → Fast backends (in-memory, cache-hit optimized)
+ * - Long queries → Batch backends (distributed, optimized for throughput)
+ * - Streaming → Dedicated streaming backends
+ * - Admin → Primary/leadership nodes
+ * 
+ * ### Latency-Aware Routing
+ * 1. Measure P50, P99, P99.9 latencies per backend
+ * 2. When choosing destination for incoming request:
+     *    - Compare recent latencies
+     *    - Route to least-loaded backend
+     *    - Avoid backends showing latency spikes
+ * 3. Periodically refresh latency estimates
+ * 
+ * ### Request Classification
+ * - Query type (SELECT, INSERT, UPDATE, DELETE)
+ * - Query complexity (predicates, joins, aggregations)
+ * - Estimated execution time
+ * - User priority or tenant class
+ * 
+ * ### Fallback Behavior
+ * If primary backend becomes unavailable:
+ * - Route to next-best backend (round-robin or latency-based)
+ * - If all backends unhealthy, use local fallback or error response
+ * 
+ * @note Routing decisions are made in < 1ms
+ * @note Compatible with read replicas and multi-datacenter deployments
+ * @note Supports request batching for throughput optimization
+ * 
+ * @see DistributedGateway for cluster-wide routing
+ */
 class SmartRouter {
 public:
     // -----------------------------------------------------------------------

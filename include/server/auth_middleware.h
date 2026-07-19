@@ -164,10 +164,42 @@ public:
     /// @param required_scope Required scope (e.g., "admin", "config:write", "cdc:read", "metrics:read")
     AuthResult authorize(std::string_view token, std::string_view required_scope) const;
 
-    /// Check if token is valid (any scope)
+    /**
+     * @brief Check if a token is valid without requiring a specific scope.
+     * 
+     * Validates the token against configured authentication methods (JWT, Kerberos, mTLS, API Key).
+     * This is useful for endpoints that don't require a specific scope but still need authentication.
+     * 
+     * @param token Token string (typically from Authorization header without "Bearer" prefix)
+     * 
+     * @return AuthResult with:
+     *         - authorized=true, user_id, tenant_id, groups if valid
+     *         - authorized=false with reason if validation failed
+     * 
+     * @note Thread-safe; concurrent calls allowed
+     * @note Fail-closed: any validation failure results in Denied result
+     * 
+     * @see authorize() to check both token validity and scope
+     */
     AuthResult validateToken(std::string_view token) const;
 
-    /// Extract basic context (user_id, groups) from token if valid
+    /**
+     * @brief Extract basic context (user_id, groups) from a valid token.
+     * 
+     * Parses the token and extracts user context without performing full authorization.
+     * Useful for operations that need user information but skip detailed scope checking.
+     * Returns std::nullopt if token is invalid or cannot be parsed.
+     * 
+     * @param token Token string (typically from Authorization header without "Bearer" prefix)
+     * 
+     * @return std::optional containing AuthContext with user_id, tenant_id, and groups
+     *         if token is valid; std::nullopt if token is invalid or cannot be parsed
+     * 
+     * @note Thread-safe; concurrent calls allowed
+     * @note Does NOT perform scope validation; use authorize() for full authorization checks
+     * 
+     * @see authorize() for full authorization including scope validation
+     */
     std::optional<AuthContext> extractContext(std::string_view token) const;
 
     /// Extract token from "Bearer <token>" header value
