@@ -70,7 +70,6 @@ public:
     /// @note The caller owns the returned instance; responsibility is transferred.
     virtual std::unique_ptr<IGeoBackend> createGeoBackend() = 0;
 };
-};
 
 /// @brief Dynamic plugin loader for acceleration backend implementations.
 ///
