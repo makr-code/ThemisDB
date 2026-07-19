@@ -13,6 +13,7 @@
  */
 
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
 #include <thread>
 #include <mutex>
 #include <condition_variable>
@@ -20,6 +21,7 @@
 #include <memory>
 #include <atomic>
 #include <chrono>
+#include <sstream>
 
 #include "api/http_handler.h"
 #include "api/websocket_handler.h"
@@ -232,11 +234,12 @@ TEST(TransportHardeningTest, ConcurrentRequestHandling)
 
     auto worker = [&]() {
         for (int i = 0; i < requests_per_thread; ++i) {
+            std::ostringstream oss;
+            oss << std::this_thread::get_id() << "-" << i;
             HttpRequest req;
             req.method = "GET";
             req.path = "/api/v1/entities";
-            req.headers["X-Correlation-ID"] = 
-                std::to_string(std::this_thread::get_id()) + "-" + std::to_string(i);
+            req.headers["X-Correlation-ID"] = oss.str();
 
             auto result = adapter->handle(req);
             if (result.has_value()) {
@@ -281,17 +284,24 @@ TEST(TransportHardeningTest, BoundedResourceBehaviorUnderLoad)
         requests.push_back(req);
     }
 
-    // Process all requests in rapid succession
+    // Process all requests in rapid succession; count successes and well-formed errors
     int processed = 0;
+    int errors = 0;
     for (const auto& req : requests) {
         auto result = adapter->handle(req);
-        if (result.has_value() || !result.has_value()) {
-            // Either success or well-formed error
+        if (result.has_value()) {
             processed++;
+        } else {
+            // Well-formed error response (e.g., payload too large)
+            EXPECT_EQ(result.error().code(), themis::errors::ErrorCode::ERR_API_INVALID_REQUEST);
+            errors++;
         }
     }
 
-    EXPECT_EQ(processed, static_cast<int>(requests.size()));
+    // All requests must be handled (either success or a well-formed error)
+    EXPECT_EQ(processed + errors, static_cast<int>(requests.size()));
+    // At least one request should succeed (GET requests never exceed the size limit)
+    EXPECT_GT(processed, 0);
 }
 
 // ============================================================================
@@ -377,13 +387,13 @@ TEST(TransportHardeningTest, GetRequestWithBodyIgnored)
 
 /**
  * @test Empty payload handling
- * POST/PUT requests with empty body are accepted
+ * POST/PUT requests with empty body are accepted (no Content-Type enforcement for empty body)
  */
 TEST(TransportHardeningTest, EmptyPayloadAccepted)
 {
     auto adapter = std::make_shared<TransportHardeningAdapter>();
     HttpRequest req;
-    req.method = "GET";
+    req.method = "POST";
     req.path = "/api/v1/entities";
     req.body = "";
 

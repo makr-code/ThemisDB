@@ -11,6 +11,7 @@
  */
 
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
 #include <memory>
 #include <vector>
 #include <string>

@@ -6,7 +6,7 @@
 
 ## Executive Summary
 
-The API module has successfully completed all three Q3 2026 in-progress roadmap items through comprehensive implementation of transport hardening, performance benchmarks, and concurrency testing. A critical bug (blocking_no_timeout) was identified and fixed. The module now exceeds production readiness requirements with 51 new focused tests and 18 performance benchmarks.
+The API module has successfully completed all three Q3 2026 in-progress roadmap items through comprehensive implementation of transport hardening, performance benchmarks, and concurrency testing. A critical bug (blocking_no_timeout) was identified and fixed. The module now exceeds production readiness requirements with 37 new focused tests and 13 performance benchmarks.
 
 ## Roadmap Items Completed
 
@@ -16,7 +16,7 @@ The API module has successfully completed all three Q3 2026 in-progress roadmap 
 **Evidence**: `tests/api/test_api_transport_hardening.cpp`
 
 #### Implementation:
-- 19 comprehensive tests validating transport layer behavior
+- 13 comprehensive tests validating transport layer behavior
 - Fail-closed behavior for malformed requests (empty method/path)
 - Payload size validation (10 MB bounded limit)
 - Version negotiation (v1, v2, v3 support)
@@ -32,7 +32,7 @@ The API module has successfully completed all three Q3 2026 in-progress roadmap 
 - Backward compatibility: 2 tests
 
 #### Test Results:
-- All 19 tests validate fail-closed behavior
+- All 13 tests validate fail-closed behavior
 - Supports concurrent requests without data corruption
 - Response headers consistently include required metadata
 
@@ -42,7 +42,7 @@ The API module has successfully completed all three Q3 2026 in-progress roadmap 
 **Evidence**: `benchmarks/bench_api_transport.cpp`
 
 #### Implementation:
-- 18 performance benchmarks for transport hot paths
+- 13 performance benchmarks for transport hot paths
 - Coverage of request parsing, validation, serialization
 - Response header construction and lookup performance
 - Correlation ID propagation overhead measurement
@@ -85,7 +85,7 @@ The API module has successfully completed all three Q3 2026 in-progress roadmap 
 **Evidence**: `tests/api/test_api_observability.cpp`
 
 #### Implementation:
-- 16 tests validating observability and reliability
+- 12 tests validating observability and reliability
 - Metric tracking for request lifecycle
 - Queue depth and session count monitoring
 - Bounded resource enforcement (1000 queue, 100 sessions)
@@ -148,19 +148,19 @@ server_ = std::move(server);
 
 ### New Test Files Created
 
-#### 1. test_api_transport_hardening.cpp (19 tests)
+#### 1. test_api_transport_hardening.cpp (13 tests)
 - Protocol validation and hardening
 - Concurrent request processing
 - Error semantics and observability
 - Backward compatibility
 
-#### 2. test_api_error_handling.cpp (16 tests)
+#### 2. test_api_error_handling.cpp (12 tests)
 - Error condition handling
 - Degraded mode operation
 - Error recovery patterns
 - Message quality validation
 
-#### 3. test_api_observability.cpp (16 tests)
+#### 3. test_api_observability.cpp (12 tests)
 - Metric tracking and monitoring
 - Bounded resource management
 - Thread-safe operations
@@ -168,7 +168,7 @@ server_ = std::move(server);
 
 ### New Benchmark File Created
 
-#### bench_api_transport.cpp (18 benchmarks)
+#### bench_api_transport.cpp (13 benchmarks)
 - Request/response cycle measurements
 - Parsing and validation performance
 - Correlation ID overhead
@@ -195,17 +195,17 @@ server_ = std::move(server);
 ## Test Execution Evidence
 
 ### Test Suite Summary
-- **Total Tests**: 51 new focused tests
-- **Total Benchmarks**: 18 performance benchmarks
+- **Total Tests**: 37 new focused tests
+- **Total Benchmarks**: 13 performance benchmarks
 - **Code Fixes**: 1 critical bug fixed
 - **Concurrency Testing**: Up to 16 threads, 100+ operations per thread
 - **Error Scenarios**: 10+ distinct error conditions validated
 
 ### Test Categories
-1. **Protocol Hardening**: 19 tests
-2. **Error Handling**: 16 tests
-3. **Observability/Reliability**: 16 tests
-4. **Performance Benchmarks**: 18 benchmarks
+1. **Protocol Hardening**: 13 tests
+2. **Error Handling**: 12 tests
+3. **Observability/Reliability**: 12 tests
+4. **Performance Benchmarks**: 13 benchmarks
 
 ### Concurrency Coverage
 - Sequential: 100+ requests verified
@@ -224,7 +224,7 @@ server_ = std::move(server);
 
 ### Issue Closure Criteria
 - [x] Module acceptance criteria updated and traceable
-- [x] Evidence updated (51 tests + 18 benchmarks)
+- [x] Evidence updated (37 tests + 13 benchmarks)
 - [x] Roadmap items marked complete with citations
 - [x] Critical bug fixed (blocking_no_timeout)
 - [x] Documentation updated to reflect status
@@ -249,15 +249,15 @@ The API module has successfully completed all three Q3 2026 in-progress roadmap 
 2. **Performance Validation**: Benchmarks establish baselines for release gates across all critical API paths.
 3. **Reliability Under Concurrency**: Metrics tracking and bounded resource enforcement ensure system stability under sustained load.
 
-The module is ready for production deployment with evidence of 51 focused tests and 18 performance benchmarks validating all transport behaviors.
+The module is ready for production deployment with evidence of 37 focused tests and 13 performance benchmarks validating all transport behaviors.
 
 ---
 
 **Implementation Date**: 2026-07-18  
 **Evidence Files**:
 - `src/api/grpc_server.cpp` (critical fix)
-- `tests/api/test_api_transport_hardening.cpp` (19 tests)
-- `tests/api/test_api_error_handling.cpp` (16 tests)
-- `tests/api/test_api_observability.cpp` (16 tests)
-- `benchmarks/bench_api_transport.cpp` (18 benchmarks)
+- `tests/api/test_api_transport_hardening.cpp` (13 tests)
+- `tests/api/test_api_error_handling.cpp` (12 tests)
+- `tests/api/test_api_observability.cpp` (12 tests)
+- `benchmarks/bench_api_transport.cpp` (13 benchmarks)
 - `src/api/ROADMAP.md` (updated status)

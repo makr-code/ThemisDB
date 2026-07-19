@@ -11,11 +11,11 @@ Production API adapter surfaces exist for GraphQL, gRPC, WebSocket, tracing midd
 ## In Progress
 
 - [x] protocol hardening and consistency pass for advanced API transport behaviors (Target: Q3 2026)
-  - Evidence: test_api_transport_hardening.cpp (19 tests validating fail-closed behavior, version negotiation, bounded resources)
+  - Evidence: test_api_transport_hardening.cpp (13 tests validating fail-closed behavior, version negotiation, bounded resources)
 - [x] benchmark and release-gate consolidation for API transport paths (Target: Q3 2026)
-  - Evidence: bench_api_transport.cpp (18 benchmarks covering parsing, serialization, validation, tracing overhead)
+  - Evidence: bench_api_transport.cpp (13 benchmarks covering parsing, serialization, validation, tracing overhead)
 - [x] observability and transport reliability alignment under sustained concurrency (Target: Q3 2026)
-  - Evidence: test_api_observability.cpp (16 tests validating metrics, bounded queues, thread safety)
+  - Evidence: test_api_observability.cpp (12 tests validating metrics, bounded queues, thread safety)
 
 ## Planned Features
 
@@ -61,7 +61,7 @@ Production API adapter surfaces exist for GraphQL, gRPC, WebSocket, tracing midd
 - [x] security and failure handling documented at module level
 - [x] benchmark mapping documented in performance expectations
 - [x] remaining API hardening items closed (protocol hardening + concurrency tests complete)
-- [x] all targeted release-gate benchmarks stabilized (18 transport benchmarks added)
+- [x] all targeted release-gate benchmarks stabilized (13 transport benchmarks added)
 
 ## Known Issues and Limitations
 

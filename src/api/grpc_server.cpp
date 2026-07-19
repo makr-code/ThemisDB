@@ -77,7 +77,7 @@ GrpcApiServer::~GrpcApiServer() {
 // ---------------------------------------------------------------------------
 
 bool GrpcApiServer::initialize(const GrpcServerConfig& config) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::timed_mutex> lock(mutex_);
 
     if (running_) {
         THEMIS_WARN("GrpcApiServer::initialize called while server is already running");
@@ -165,7 +165,7 @@ void GrpcApiServer::registerService(grpc::Service* service) {
         THEMIS_WARN("GrpcApiServer::registerService - null service pointer ignored");
         return;
     }
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::lock_guard<std::timed_mutex> lock(mutex_);
     services_.push_back(service);
     THEMIS_INFO("GrpcApiServer: registered gRPC service");
 }
@@ -179,7 +179,7 @@ bool GrpcApiServer::start() {
     // BuildAndStart() call (which binds a network socket).  Holding the mutex
     // across BuildAndStart() would prevent other threads from calling stop()
     // or any accessor while the socket is being opened.
-    std::unique_lock<std::mutex> lock(mutex_);
+    std::unique_lock<std::timed_mutex> lock(mutex_);
 
     if (running_) {
         THEMIS_WARN("GrpcApiServer::start - server is already running on " + server_address_);
@@ -264,7 +264,7 @@ bool GrpcApiServer::start() {
 // ---------------------------------------------------------------------------
 
 void GrpcApiServer::stop() {
-    std::unique_lock<std::mutex> lock(mutex_);
+    std::unique_lock<std::timed_mutex> lock(mutex_);
 
     if (!running_ || !server_) {
         return;
