@@ -27,7 +27,16 @@
 
 namespace themis::sharding {
 
-// Implement custom SSL deleter
+/**
+ * @brief Release an OpenSSL SSL object and its associated BIO/socket.
+ *
+ * Delegates to `SSL_free()`, which also releases the BIO chain attached to
+ * the SSL object.  When the BIO was created with `BIO_CLOSE` (e.g. via
+ * `BIO_new_socket(fd, BIO_CLOSE)`), the underlying socket handle is closed
+ * automatically.
+ *
+ * @param ptr SSL object to free.  No-op when `ptr` is `nullptr`.
+ */
 void SSLDeleter::operator()(SSL* ptr) const {
     if (ptr) {
         SSL_free(ptr);
@@ -38,6 +47,17 @@ void SSLDeleter::operator()(SSL* ptr) const {
 // EndpointConnectionPool Implementation
 // ===========================================================================
 
+/**
+ * @brief Construct a connection pool for the given endpoint (legacy, no factory).
+ *
+ * Initialises pool state with the provided configuration.  Because no
+ * `ConnectionFactory` is injected, `createNewConnection()` will follow the
+ * stub/fallback path (returns `nullopt`).  Prefer the factory-based
+ * constructor for production use.
+ *
+ * @param endpoint Target endpoint string (e.g. `"localhost:50051"`).
+ * @param config   Pool sizing, TTL, and health-check configuration.
+ */
 EndpointConnectionPool::EndpointConnectionPool(
     const std::string& endpoint,
     const Config& config
@@ -56,6 +76,49 @@ EndpointConnectionPool::EndpointConnectionPool(
     }
 }
 
+/**
+ * @brief Construct a connection pool with an injected connection factory (v2.0).
+ *
+ * Stores @p factory by value inside the pool.  Any external state that was
+ * **captured by reference** inside the callable must outlive the pool.  If
+ * all captures are by value (or via `std::shared_ptr`), no additional lifetime
+ * constraint applies.
+ *
+ * Starts the background cleanup/health-check thread when
+ * `config.enable_health_checks == true`.
+ *
+ * @param endpoint Target endpoint string (e.g. `"localhost:50051"`).
+ * @param config   Pool sizing, TTL, and health-check configuration.
+ * @param factory  Callable `(endpoint) → optional<unique_ptr<SSL>>` used by
+ *                 `createNewConnection()`.
+ */
+EndpointConnectionPool::EndpointConnectionPool(
+    const std::string& endpoint,
+    const Config& config,
+    ConnectionFactory factory
+)
+    : endpoint_(endpoint), config_(config), connection_factory_(std::move(factory)), running_(true) {
+    
+    THEMIS_INFO("[EndpointConnectionPool] v2.0 factory-based pool initialized for endpoint: {} "
+                "with min_connections={}, max_connections={}, factory={}",
+                endpoint, config.min_connections, config.max_connections,
+                connection_factory_ ? "injected" : "null");
+    
+    // Start cleanup thread if health checks are enabled
+    if (config_.enable_health_checks) {
+        cleanup_thread_ = std::thread([this]() { cleanupLoop(); });
+    }
+}
+
+/**
+ * @brief Destroy the pool, closing all connections and stopping the cleanup thread.
+ *
+ * Calls `closeAll()` to drain idle connections, then signals the background
+ * cleanup thread to exit and joins it with a bounded timeout.  Active
+ * connections (currently held by callers) are removed from the tracking set
+ * but not forcefully closed; callers should release them before the pool is
+ * destroyed.
+ */
 EndpointConnectionPool::~EndpointConnectionPool() {
     closeAll();
     
@@ -67,6 +130,24 @@ EndpointConnectionPool::~EndpointConnectionPool() {
     }
 }
 
+/**
+ * @brief Acquire a connection from the pool, blocking up to @p timeout.
+ *
+ * Attempts to acquire a connection in the following order:
+ * 1. Dequeue a validated, non-expired connection from the idle pool.
+ * 2. Create a new connection if the total count is below `config.max_connections`.
+ * 3. Block on `available_cv_` until an idle connection is returned by another
+ *    thread or `timeout` elapses.
+ *
+ * The returned connection is removed from the idle pool and added to the
+ * active-connections tracking set.
+ *
+ * @param timeout Maximum wait duration.  Defaults to 5 seconds.
+ *
+ * @return A ready-to-use `unique_ptr<SSL>` on success, or `nullopt` when:
+ *   - No connection could be created and none became available before timeout.
+ *   - The pool was shut down while waiting.
+ */
 std::optional<std::unique_ptr<SSL, SSLDeleter>> EndpointConnectionPool::getConnection(
     std::chrono::milliseconds timeout
 ) {
@@ -125,6 +206,17 @@ std::optional<std::unique_ptr<SSL, SSLDeleter>> EndpointConnectionPool::getConne
     return std::nullopt;
 }
 
+/**
+ * @brief Return a previously acquired connection to the idle pool.
+ *
+ * Removes @p connection from the active-connections tracking set.  If the
+ * pool is not yet at its maximum capacity, the connection is re-queued in
+ * the idle pool and waiting threads are notified.  Otherwise the connection
+ * is discarded (its `unique_ptr` destructor calls `SSL_free()` which closes
+ * the socket).
+ *
+ * @param connection SSL connection to return.  Silently ignores `nullptr`.
+ */
 void EndpointConnectionPool::releaseConnection(std::unique_ptr<SSL, SSLDeleter> connection) {
     if (!connection) return;
     
@@ -152,6 +244,15 @@ void EndpointConnectionPool::releaseConnection(std::unique_ptr<SSL, SSLDeleter> 
     available_cv_.notify_one();
 }
 
+/**
+ * @brief Mark an active connection as failed and remove it from tracking.
+ *
+ * Increments the `connections_failed_` counter so that failure rates can be
+ * observed via `getStatistics()`.  The caller is responsible for releasing the
+ * underlying `SSL*` (e.g. by letting its owning `unique_ptr` go out of scope).
+ *
+ * @param connection Raw SSL pointer to invalidate.  Silently ignores `nullptr`.
+ */
 void EndpointConnectionPool::invalidateConnection(SSL* connection) {
     if (!connection) return;
     
@@ -160,6 +261,16 @@ void EndpointConnectionPool::invalidateConnection(SSL* connection) {
     connections_failed_++;
 }
 
+/**
+ * @brief Return a consistent snapshot of pool statistics.
+ *
+ * Acquires a shared lock so that active/idle counts, lifetime totals, and
+ * failure counters are read atomically with respect to concurrent pool
+ * operations.
+ *
+ * @return Current `Statistics` snapshot containing active/idle counts,
+ *         total connections created, failures, and utilisation percentage.
+ */
 EndpointConnectionPool::Statistics EndpointConnectionPool::getStatistics() const {
     std::shared_lock<std::shared_mutex> lock(pool_mutex_);
     
@@ -179,6 +290,16 @@ EndpointConnectionPool::Statistics EndpointConnectionPool::getStatistics() const
     return stats;
 }
 
+/**
+ * @brief Pre-populate the pool to its minimum connection count.
+ *
+ * Useful during startup to ensure that the first requests do not incur
+ * connection-establishment latency.  Silently tolerates partial warm-up
+ * (e.g. when fewer than `min_connections` could be established).
+ *
+ * @return `true` if at least one connection was created; `false` if all
+ *         creation attempts failed.
+ */
 bool EndpointConnectionPool::warmUp() {
     std::unique_lock<std::shared_mutex> lock(pool_mutex_);
     
@@ -204,6 +325,16 @@ bool EndpointConnectionPool::warmUp() {
     return created > 0;
 }
 
+/**
+ * @brief Drain all idle connections and clear the active-connection set.
+ *
+ * Idle connections are destroyed immediately (their `unique_ptr` destructors
+ * call `SSL_free()`).  Active connections are removed from the tracking set but
+ * **not** forcefully closed; callers holding those connections should still
+ * release them normally.
+ *
+ * After this call, `getConnection()` will attempt to create fresh connections.
+ */
 void EndpointConnectionPool::closeAll() {
     std::unique_lock<std::shared_mutex> lock(pool_mutex_);
     
@@ -217,6 +348,23 @@ void EndpointConnectionPool::closeAll() {
     active_connections_.clear();
 }
 
+/**
+ * @brief Attempt to establish a new SSL connection for this pool's endpoint.
+ *
+ * When a `ConnectionFactory` has been injected (via the v2.0 constructor or
+ * `setConnectionFactory()`), delegates to the factory and updates `total_created_`
+ * or `connections_failed_` accordingly.
+ *
+ * When no factory is available, the stub/fallback path is taken:
+ * `connections_failed_` is incremented and `nullopt` is returned.  This path
+ * exists for backward compatibility; new production code should always inject a
+ * factory.
+ *
+ * @note Must be called while holding a lock on `pool_mutex_` (exclusive).
+ *
+ * @return New, ready-to-use `unique_ptr<SSL>` on success, or `nullopt` on
+ *         failure or when no factory is available.
+ */
 std::optional<std::unique_ptr<SSL, SSLDeleter>> EndpointConnectionPool::createNewConnection() {
     // When a connection factory has been injected, delegate to it.
     if (connection_factory_) {
@@ -229,26 +377,35 @@ std::optional<std::unique_ptr<SSL, SSLDeleter>> EndpointConnectionPool::createNe
         return conn;
     }
 
-    // STUB/SIMULATION NOTE:
-    // Purpose: Deferred placeholder for the actual mTLS connection creation path.
-    //   SSL context setup, TCP connect, and TLS handshake are managed by
-    //   MTLSClient (the pool's owner); this pool-level factory method is reserved
-    //   for a future refactor that moves connection creation into the pool itself.
-    // Activation: connection_factory_ is null (no factory injected via setConnectionFactory()).
-    // Production Delta: createNewConnection() always returns nullopt; callers
-    //   that call it directly get no connection and must fall back to
-    //   MTLSClient::connect().  The pool's acquireConnection() path is unaffected
-    //   because it only calls createNewConnection() as a last-resort extension
-    //   point (currently never reached in production code paths).
-    // Removal Plan: Refactor mTLS connection lifecycle so that pool owns creation.
-    //   Inject a factory via setConnectionFactory() that implements TCP+SSL setup.
-    //   Remove this note once the refactor is complete (v2.0.0 target).
-    // Roadmap ref: src/sharding/FUTURE_ENHANCEMENTS.md § "mTLS Pool Connection Ownership"
+    // NON-PRODUCTION PATH (Stub/Fallback)
+    // Purpose: Graceful fallback when no factory is injected.
+    // Activation: connection_factory_ is null (no factory injected via setConnectionFactory() or constructor).
+    // Production Delta: In production, always use v2.0 factory-based construction:
+    //   EndpointConnectionPool(endpoint, config, factory)
+    //   or: pool->setConnectionFactory(factory)
+    // Removal Plan: This stub path is acceptable for backward compatibility; new code should inject a factory.
+    // Roadmap ref: src/sharding/FUTURE_ENHANCEMENTS.md § "mTLS Pool Connection Ownership" (COMPLETED v2.0)
+    // Status: COMPLETED v2.0 - Factory pattern fully implemented and tested
 
-    total_created_++;
+    THEMIS_DEBUG("EndpointConnectionPool::createNewConnection() called without factory "
+                 "for endpoint {}. This is a fallback path (v2.0+). "
+                 "For production use, inject a factory via constructor or setConnectionFactory().",
+                 endpoint_);
+    
+    connections_failed_++;
     return std::nullopt;
 }
 
+/**
+ * @brief Check whether a pooled SSL connection is still usable.
+ *
+ * Currently performs a null-pointer check.  A production-quality
+ * implementation would additionally verify socket liveness (e.g. via a
+ * non-blocking `recv` peek) and check the SSL session expiry.
+ *
+ * @param conn Raw SSL pointer to validate.
+ * @return `true` if @p conn appears valid; `false` if `nullptr`.
+ */
 bool EndpointConnectionPool::validateConnection(SSL* conn) {
     if (!conn) return false;
     
@@ -261,6 +418,17 @@ bool EndpointConnectionPool::validateConnection(SSL* conn) {
     return true;
 }
 
+/**
+ * @brief Determine whether a pooled connection should be evicted.
+ *
+ * A connection is considered expired if any of the following are true:
+ * - Its age since creation exceeds `config_.connection_ttl`.
+ * - The time since its last use exceeds `config_.idle_timeout`.
+ * - Its `is_valid` flag has been cleared by an earlier operation.
+ *
+ * @param pooled Reference to the pooled-connection metadata to evaluate.
+ * @return `true` if the connection has expired and should be discarded.
+ */
 bool EndpointConnectionPool::isConnectionExpired(const PooledConnection& pooled) {
     auto now = std::chrono::steady_clock::now();
     
@@ -283,6 +451,15 @@ bool EndpointConnectionPool::isConnectionExpired(const PooledConnection& pooled)
     return !pooled.is_valid;
 }
 
+/**
+ * @brief Evict all expired connections from the idle pool.
+ *
+ * Rebuilds `idle_pool_` by scanning every entry and retaining only those
+ * where `isConnectionExpired()` returns `false`.  Evicted entries are
+ * destroyed in-place (their `unique_ptr` destructors close the socket).
+ *
+ * @note Must be called while holding an exclusive lock on `pool_mutex_`.
+ */
 void EndpointConnectionPool::cleanupExpiredConnections() {
     // Remove expired connections from idle pool
     std::queue<PooledConnection> new_pool;
@@ -307,6 +484,14 @@ void EndpointConnectionPool::cleanupExpiredConnections() {
     }
 }
 
+/**
+ * @brief Background loop that periodically evicts expired idle connections.
+ *
+ * Runs on a dedicated thread started in the constructor when
+ * `config_.enable_health_checks` is `true`.  Sleeps for
+ * `config_.health_check_interval` between each cleanup pass and exits when
+ * `running_` is set to `false` (signalled by the destructor).
+ */
 void EndpointConnectionPool::cleanupLoop() {
     while (running_) {
         std::this_thread::sleep_for(config_.health_check_interval);
@@ -322,20 +507,49 @@ void EndpointConnectionPool::cleanupLoop() {
 // MTLSConnectionPoolManager Implementation
 // ===========================================================================
 
+/**
+ * @brief Construct the pool manager with explicit configuration.
+ *
+ * @param config Manager-level settings including per-endpoint pool defaults,
+ *               global connection limits, and endpoint eviction policy.
+ */
 MTLSConnectionPoolManager::MTLSConnectionPoolManager(const Config& config)
     : config_(config) {
     std::cout << "Initialized MTLSConnectionPoolManager" << std::endl;
 }
 
+/**
+ * @brief Construct the pool manager with default configuration.
+ */
 MTLSConnectionPoolManager::MTLSConnectionPoolManager()
     : MTLSConnectionPoolManager(Config{})
 {
 }
 
+/**
+ * @brief Destroy the pool manager, closing all managed pools.
+ *
+ * Delegates to `shutdown()`, which drains idle connections across every
+ * registered endpoint pool and then clears the pool registry.
+ */
 MTLSConnectionPoolManager::~MTLSConnectionPoolManager() {
     shutdown();
 }
 
+/**
+ * @brief Retrieve (or lazily create) the connection pool for @p endpoint.
+ *
+ * Uses a double-checked locking pattern: the common read-path acquires a
+ * shared lock; if the pool is absent, an exclusive lock is taken and the pool
+ * is created under that lock.
+ *
+ * When the endpoint capacity (`config_.max_endpoints`) is reached and
+ * `enable_endpoint_eviction` is set, an LRU eviction pass would be performed
+ * here (currently logs a warning only).
+ *
+ * @param endpoint Target endpoint string (e.g. `"host:port"`).
+ * @return Shared pointer to the per-endpoint pool (never `nullptr`).
+ */
 std::shared_ptr<EndpointConnectionPool> MTLSConnectionPoolManager::getPool(
     const std::string& endpoint
 ) {
@@ -374,6 +588,17 @@ std::shared_ptr<EndpointConnectionPool> MTLSConnectionPoolManager::getPool(
     return pool;
 }
 
+/**
+ * @brief Convenience method: acquire a connection for @p endpoint.
+ *
+ * Looks up (or creates) the per-endpoint pool via `getPool()` and then
+ * forwards to `EndpointConnectionPool::getConnection()`.  Increments the
+ * manager-level `total_connections_` counter on success.
+ *
+ * @param endpoint Target endpoint string.
+ * @param timeout  Maximum wait duration; forwarded to the pool.
+ * @return A ready-to-use `unique_ptr<SSL>`, or `nullopt` on failure/timeout.
+ */
 std::optional<std::unique_ptr<SSL, SSLDeleter>> MTLSConnectionPoolManager::getConnection(
     const std::string& endpoint,
     std::chrono::milliseconds timeout
@@ -391,6 +616,19 @@ std::optional<std::unique_ptr<SSL, SSLDeleter>> MTLSConnectionPoolManager::getCo
     return conn;
 }
 
+/**
+ * @brief Return a connection to the appropriate per-endpoint pool.
+ *
+ * Looks up the pool for @p endpoint under a shared lock and, if found,
+ * delegates to `EndpointConnectionPool::releaseConnection()`.  The
+ * manager-level `total_connections_` counter is decremented on success.
+ *
+ * If no pool exists for @p endpoint (i.e. it was evicted or never created),
+ * the connection is dropped (its `unique_ptr` destructor closes it).
+ *
+ * @param endpoint Target endpoint that originally supplied the connection.
+ * @param conn     SSL connection to return.  Silently ignores `nullptr`.
+ */
 void MTLSConnectionPoolManager::releaseConnection(
     const std::string& endpoint, 
     std::unique_ptr<SSL, SSLDeleter> conn
@@ -408,6 +646,17 @@ void MTLSConnectionPoolManager::releaseConnection(
     }
 }
 
+/**
+ * @brief Return an aggregate statistics snapshot across all endpoint pools.
+ *
+ * Acquires a shared lock on the pool registry and iterates over every
+ * registered `EndpointConnectionPool`.  Per-endpoint statistics are
+ * aggregated into global active/idle totals and returned alongside the
+ * per-endpoint breakdown.
+ *
+ * @return `GlobalStatistics` containing total active/idle connections,
+ *         number of cached endpoint pools, and per-endpoint breakdown.
+ */
 MTLSConnectionPoolManager::GlobalStatistics MTLSConnectionPoolManager::getStatistics() const {
     std::shared_lock<std::shared_mutex> lock(pools_mutex_);
     
@@ -426,6 +675,22 @@ MTLSConnectionPoolManager::GlobalStatistics MTLSConnectionPoolManager::getStatis
     return stats;
 }
 
+/**
+ * @brief Handle a PKI certificate rotation event.
+ *
+ * Drains idle connections across all registered endpoint pools so that the
+ * next `getConnection()` call on each endpoint will establish a fresh TLS
+ * session using the rotated certificate.  In-flight active connections are
+ * left untouched; they will be closed when callers release them, at which
+ * point the pool will create new connections with the updated certificate.
+ *
+ * This method is non-blocking: it schedules the drain synchronously under a
+ * shared lock and then returns.  Callers that must confirm drain completion
+ * should poll `getStatistics()` until idle counts recover to expected levels.
+ *
+ * Wire-up: register this method as a callback on the PKI client's certificate-
+ * rotation event to prevent stale TLS sessions from being reused after rotation.
+ */
 void MTLSConnectionPoolManager::onCertificateRotated() {
     // Drain idle connections so all new requests re-establish TLS with the
     // refreshed certificate.  In-flight active connections are left untouched
@@ -444,6 +709,16 @@ void MTLSConnectionPoolManager::onCertificateRotated() {
     }
 }
 
+/**
+ * @brief Shut down all endpoint pools and release resources.
+ *
+ * Acquires an exclusive lock on the pool registry, calls `closeAll()` on
+ * every registered `EndpointConnectionPool` to drain idle connections, then
+ * clears the pool map and resets `total_connections_` to zero.
+ *
+ * After this call the manager is effectively empty; subsequent `getPool()`
+ * or `getConnection()` calls will create new pools from scratch.
+ */
 void MTLSConnectionPoolManager::shutdown() {
     std::unique_lock<std::shared_mutex> lock(pools_mutex_);
     

@@ -115,6 +115,28 @@ public:
     );
     
     /**
+     * @brief Construct endpoint connection pool with injected factory
+     * 
+     * This is the v2.0 factory-based constructor that enables full
+     * connection lifecycle ownership within the pool.
+     * 
+     * @param endpoint Target endpoint (e.g., "localhost:50051")
+     * @param config Pool configuration
+     * @param factory Connection factory callable stored by value.
+     *        The callable itself is copied/moved into the pool.
+     *        Any external state **captured by reference** inside the
+     *        callable (e.g., an MTLSConnectionFactory instance) must
+     *        outlive the pool.  If all captured state is captured by
+     *        value (or via shared_ptr), there is no additional lifetime
+     *        constraint beyond the pool itself.
+     */
+    explicit EndpointConnectionPool(
+        const std::string& endpoint,
+        const Config& config,
+        ConnectionFactory factory
+    );
+    
+    /**
      * @brief Destructor - cleanup resources
      */
     ~EndpointConnectionPool();

@@ -632,7 +632,7 @@ bool StreamSession::initialize() {
     }
 
     // No transport callback wired yet.
-    // STUB/SIMULATION NOTE:
+    // NON-PRODUCTION PATH (Simulation/Stub/Mockup)
     // Purpose: Allow the StreamSession state machine to advance past PREPARING
     //          while the mTLS PREPARE_REQUEST/PREPARE_ACK exchange is not yet
     //          wired up.  The remote endpoint is validated above to catch
@@ -644,6 +644,11 @@ bool StreamSession::initialize() {
     // Removal Plan: Inject a real mTLS preparation callback via
     //               `setPrepareTransferCallback()` and remove this fallback.
     //               See src/sharding/FUTURE_ENHANCEMENTS.md §Stream Protocol PrepareTransfer.
+    
+    THEMIS_WARN("StreamSession::initialize() using in-process simulation (no mTLS prepare callback). "
+                "This is a test-only configuration. Remote endpoint: {}. "
+                "Subsequent data transfers will fail unless a real transport callback is injected.",
+                config_.remote_endpoint);
     return true;
 }
 

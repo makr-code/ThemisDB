@@ -11,11 +11,14 @@
 
 #include "rag/nli_faithfulness_verifier.h"
 #include "rag/faithfulness_evaluator.h"
+#include "rag/onnx_model_loader.h"
 #include "utils/logger.h"
 #include <algorithm>
 #include <sstream>
 #include <cmath>
 #include <regex>
+#include <chrono>
+#include <iomanip>
 
 // Regex patterns compiled once at program startup to avoid per-call overhead.
 // Positive-complement phrases that begin with a negation word but express
@@ -38,22 +41,203 @@ struct NLIFaithfulnessVerifier::Impl {
     Config config;
     bool model_loaded = false;
     
+    // ONNX model loader and cached model info
+    std::unique_ptr<ONNXModelLoader> model_loader_;
+    std::optional<ONNXModelInfo> loaded_model_;
+    
+    // Inference statistics
+    size_t onnx_inference_count_ = 0;
+    size_t heuristic_inference_count_ = 0;
+    double total_onnx_latency_ms_ = 0.0;
+    
     Impl(const Config& cfg) : config(cfg) {
-        // Uses heuristic term-overlap and negation detection.
-        // Replace with an NLI model (e.g. RoBERTa-large-MNLI, DeBERTa) when available.
         THEMIS_INFO("NLIFaithfulnessVerifier initialized");
         THEMIS_INFO("  Entailment threshold: {}", config.entailment_threshold);
         THEMIS_INFO("  Contradiction threshold: {}", config.contradiction_threshold);
+        
+        // Initialize ONNX model loader if ONNX is enabled
+        if (config.use_onnx) {
+            ONNXModelLoaderConfig loader_config;
+            loader_config.cache_dir = "./models";
+            loader_config.verify_checksum = false;
+            loader_config.auto_download = false;
+            loader_config.create_cache_dir = true;
+            
+            model_loader_ = std::make_unique<ONNXModelLoader>(loader_config);
+            THEMIS_INFO("ONNX Model Loader initialized");
+            THEMIS_INFO("  ONNX model path: {}", config.onnx_model_path);
+            THEMIS_INFO("  Fallback to heuristic: {}", config.fallback_to_heuristic);
+            THEMIS_INFO("  ONNX inference timeout: {}ms", config.onnx_inference_timeout_ms);
+        }
+    }
+    
+    /**
+     * @brief Load ONNX model from specified path
+     * @return true if model loaded successfully
+     */
+    bool loadOnnxModel(const std::string& model_path) {
+        if (!model_loader_) {
+            THEMIS_WARN("ONNX model loader not initialized (use_onnx=false)");
+            return false;
+        }
+        
+        if (model_path.empty()) {
+            THEMIS_ERROR("Empty model path provided");
+            return false;
+        }
+        
+        auto model_info = model_loader_->loadModel(model_path);
+        if (!model_info) {
+            THEMIS_ERROR("Failed to load ONNX model from: {}", model_path);
+            return false;
+        }
+        
+        loaded_model_ = model_info.value();
+        model_loaded = true;
+        THEMIS_INFO("Successfully loaded ONNX model: {} ({} bytes)", 
+                   model_info->model_name, model_info->model_size_bytes);
+        return true;
+    }
+    
+    /**
+     * @brief Compute NLI score using ONNX model.
+     *
+     * @note STUB/SIMULATION NOTE:
+     * Purpose: Demonstrates ONNX integration pattern; actual ONNX Runtime not yet wired.
+     * Activation: config.use_onnx == true && model_loaded == true
+     * Production Delta: Uses text-overlap heuristics instead of ONNX Runtime inference.
+     * Removal Plan: Phase 2 will replace with actual ONNX Runtime tokenization and inference.
+     */
+    NLIResult computeNLIWithOnnx(const std::string& premise, const std::string& hypothesis) {
+        auto start_time = std::chrono::steady_clock::now();
+        
+        NLIResult result;
+        
+        // Phase 1: Stub implementation that demonstrates ONNX integration pattern
+        // Phase 2 will replace this with actual ONNX Runtime tokenization and inference
+        
+        // In a full implementation, this would:
+        // 1. Tokenize premise and hypothesis using tokenizer
+        // 2. Prepare input tensors for ONNX model
+        // 3. Run model inference
+        // 4. Extract logits and compute softmax probabilities
+        // 5. Return NLI result
+        
+        // For now, we use a deterministic mapping based on text overlap
+        // This maintains compatibility while showing the integration point
+        
+        std::string premise_lower = premise;
+        std::string hypothesis_lower = hypothesis;
+        std::transform(premise_lower.begin(), premise_lower.end(), 
+                      premise_lower.begin(), ::tolower);
+        std::transform(hypothesis_lower.begin(), hypothesis_lower.end(), 
+                      hypothesis_lower.begin(), ::tolower);
+        
+        // Count overlapping words (simple heuristic for Phase 1)
+        std::istringstream hyp_stream(hypothesis_lower);
+        std::vector<std::string> hyp_words;
+        std::string word;
+        while (hyp_stream >> word) {
+            if (word.length() > 3) {
+                hyp_words.push_back(word);
+            }
+        }
+        
+        if (hyp_words.empty()) {
+            result.label = NLILabel::NEUTRAL;
+            result.entailment_score = 0.33;
+            result.neutral_score = 0.34;
+            result.contradiction_score = 0.33;
+            result.confidence = 0.5;
+        } else {
+            size_t matches = 0;
+            for (const auto& w : hyp_words) {
+                if (premise_lower.find(w) != std::string::npos) {
+                    matches++;
+                }
+            }
+            
+            double match_ratio = static_cast<double>(matches) / hyp_words.size();
+            
+            if (match_ratio >= 0.8) {
+                result.entailment_score = 0.75;
+                result.neutral_score = 0.15;
+                result.contradiction_score = 0.10;
+                result.label = NLILabel::ENTAILMENT;
+            } else if (match_ratio >= 0.5) {
+                result.entailment_score = 0.30;
+                result.neutral_score = 0.55;
+                result.contradiction_score = 0.15;
+                result.label = NLILabel::NEUTRAL;
+            } else {
+                result.entailment_score = 0.10;
+                result.neutral_score = 0.20;
+                result.contradiction_score = 0.70;
+                result.label = NLILabel::CONTRADICTION;
+            }
+            
+            result.confidence = std::max({result.entailment_score, 
+                                         result.neutral_score, 
+                                         result.contradiction_score});
+        }
+        
+        auto end_time = std::chrono::steady_clock::now();
+        auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(
+            end_time - start_time).count();
+        
+        onnx_inference_count_++;
+        total_onnx_latency_ms_ += latency;
+        
+        if (config.log_inference_mode) {
+            double avg_latency = total_onnx_latency_ms_ / onnx_inference_count_;
+            THEMIS_DEBUG("NLI inference (ONNX stub/heuristic): count={}, latency={}ms, avg={}ms",
+                        onnx_inference_count_, latency, avg_latency);
+        }
+        
+        return result;
     }
     
     /**
      * @brief Compute NLI score using heuristic term-overlap and negation detection.
      *
      * Produces entailment / neutral / contradiction labels and scores based on
-     * weighted term overlap and negation signals.  For higher accuracy, swap this
-     * method with a transformer-based NLI model (tokenise → forward pass → softmax).
+     * weighted term overlap and negation signals.
      */
     NLIResult computeNLI(const std::string& premise, const std::string& hypothesis) {
+        auto start_time = std::chrono::steady_clock::now();
+        
+        // Try ONNX first if enabled and model is loaded
+        if (config.use_onnx && model_loaded && loaded_model_) {
+            auto onnx_result = computeNLIWithOnnx(premise, hypothesis);
+            
+            if (config.log_inference_mode) {
+                auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(
+                    std::chrono::steady_clock::now() - start_time).count();
+                THEMIS_INFO("NLI inference (ONNX stub/heuristic): latency={}ms, label={}", 
+                           latency, 
+                           static_cast<int>(onnx_result.label));
+            }
+            
+            return onnx_result;
+        }
+        
+        // ONNX required but unavailable and no fallback permitted: fail hard.
+        // This enforces the contract documented in Config::fallback_to_heuristic.
+        if (config.use_onnx && !model_loaded && !config.fallback_to_heuristic) {
+            THEMIS_ERROR("NLI ONNX inference required (fallback_to_heuristic=false) "
+                         "but no model is loaded. Returning neutral result.");
+            NLIResult fail_result;
+            fail_result.label          = NLILabel::NEUTRAL;
+            fail_result.entailment_score    = 0.0;
+            fail_result.neutral_score       = 1.0;
+            fail_result.contradiction_score = 0.0;
+            fail_result.confidence          = 0.0;
+            return fail_result;
+        }
+        
+        // Fallback to heuristic (either ONNX disabled, or fallback permitted)
+        heuristic_inference_count_++;
+        
         NLIResult result;
         
         // Convert to lowercase for comparison
@@ -80,6 +264,12 @@ struct NLIFaithfulnessVerifier::Impl {
             result.neutral_score = 0.34;
             result.contradiction_score = 0.33;
             result.confidence = 0.5;
+            
+            auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::steady_clock::now() - start_time).count();
+            if (config.log_inference_mode) {
+                THEMIS_DEBUG("NLI inference (heuristic): latency={}ms (empty hypothesis)", latency);
+            }
             return result;
         }
         
@@ -95,10 +285,6 @@ struct NLIFaithfulnessVerifier::Impl {
         double match_ratio = static_cast<double>(matches) / hyp_words.size();
 
         // Negation detection using word-boundary regex on the full hypothesis.
-        // Positive-complementing phrases ("not only", "never before", "no less",
-        // "not yet", "not just", "not even") are excluded first to avoid false
-        // positives that occur when a negation word opens a comparative or
-        // additive phrase rather than expressing contradiction.
         std::string hyp_for_negation =
             std::regex_replace(hypothesis_lower, kPositivePhrase, " ");
         auto neg_begin = std::sregex_iterator(
@@ -144,6 +330,14 @@ struct NLIFaithfulnessVerifier::Impl {
         result.confidence = std::max({result.entailment_score, 
                                      result.neutral_score, 
                                      result.contradiction_score});
+        
+        auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now() - start_time).count();
+        if (config.log_inference_mode) {
+            THEMIS_DEBUG("NLI inference (heuristic): latency={}ms, label={}, confidence={:.3f}",
+                        latency, static_cast<int>(result.label), 
+                        result.confidence);
+        }
         
         return result;
     }
@@ -199,16 +393,60 @@ struct NLIFaithfulnessVerifier::Impl {
     }
 };
 
+/**
+ * @brief Default constructor; initialises with the default `Config`.
+ *
+ * Delegates to the explicit-config constructor, which sets all thresholds,
+ * ONNX options, and performance flags to their documented defaults.
+ */
 NLIFaithfulnessVerifier::NLIFaithfulnessVerifier()
     : NLIFaithfulnessVerifier(Config{}) {
 }
 
+/**
+ * @brief Construct the verifier with a custom configuration.
+ *
+ * Allocates the `Impl` pimpl struct, which initialises the ONNX model loader
+ * if `config.use_onnx == true`, and logs the effective thresholds for audit.
+ *
+ * @param config Verifier configuration (thresholds, ONNX settings, batching).
+ */
 NLIFaithfulnessVerifier::NLIFaithfulnessVerifier(const Config& config)
     : impl_(std::make_unique<Impl>(config)) {
 }
 
+/**
+ * @brief Destructor; defined out-of-line to allow the pimpl `Impl` type to
+ *        remain incomplete in the header.
+ */
 NLIFaithfulnessVerifier::~NLIFaithfulnessVerifier() = default;
 
+/**
+ * @brief Verify the faithfulness of @p answer with respect to @p documents.
+ *
+ * Execution steps:
+ * 1. Extract individual factual claims from @p answer using sentence splitting.
+ * 2. For each claim, run `computeNLI()` against every document to obtain
+ *    entailment/neutral/contradiction scores.
+ * 3. Classify each claim as FULLY_SUPPORTED, PARTIALLY_SUPPORTED, UNSUPPORTED,
+ *    or CONTRADICTED based on the best per-document entailment score and the
+ *    configured thresholds.
+ * 4. Compute a weighted faithfulness score
+ *    (1.0 / 0.5 / 0.0 / −0.5 per support level) and determine whether the
+ *    answer meets `Config::min_faithfulness_score`.
+ *
+ * Edge cases:
+ * - Empty @p answer or empty @p documents: returns score=0, not faithful.
+ * - No claims extracted (e.g. purely generic answer): returns score=0.7,
+ *   is_faithful=true (no claims to contradict).
+ *
+ * @param answer    Generated answer text whose claims will be verified.
+ * @param documents Retrieved documents as (document_id, content) pairs.
+ *                  Content is used as the NLI premise for each claim.
+ *
+ * @return `FaithfulnessVerificationResult` containing the overall score,
+ *         per-claim analysis, an explanation string, and the elapsed time.
+ */
 FaithfulnessVerificationResult NLIFaithfulnessVerifier::verify(
     const std::string& answer,
     const std::vector<std::pair<std::string, std::string>>& documents
@@ -342,6 +580,20 @@ FaithfulnessVerificationResult NLIFaithfulnessVerifier::verify(
     return result;
 }
 
+/**
+ * @brief Check the entailment relationship between @p premise and @p hypothesis.
+ *
+ * Routes to the configured inference path via `Impl::computeNLI()`:
+ * - ONNX model (stub in Phase 1, real ONNX Runtime in Phase 2) if loaded.
+ * - Heuristic term-overlap + negation detection otherwise.
+ *
+ * @param premise    Context text that may entail the hypothesis (typically a
+ *                   retrieved document passage).
+ * @param hypothesis Claim to verify (typically a sentence from the answer).
+ *
+ * @return `NLIResult` with probability scores for ENTAILMENT, NEUTRAL, and
+ *         CONTRADICTION, plus an overall confidence value.
+ */
 NLIResult NLIFaithfulnessVerifier::checkEntailment(
     const std::string& premise,
     const std::string& hypothesis
@@ -349,20 +601,110 @@ NLIResult NLIFaithfulnessVerifier::checkEntailment(
     return impl_->computeNLI(premise, hypothesis);
 }
 
+/**
+ * @brief Load an NLI model from @p model_path and prepare it for inference.
+ *
+ * Behaviour depends on the `use_onnx` configuration flag:
+ * - `use_onnx == false`: ONNX is disabled; marks the model as "loaded" so
+ *   that the heuristic path is gated by `isModelLoaded()`, and logs an
+ *   informational message.
+ * - `use_onnx == true` and load succeeds: sets `model_loaded = true`, logs
+ *   model name and size.
+ * - `use_onnx == true`, load fails, `fallback_to_heuristic == true`: sets
+ *   `model_loaded = true` (heuristic path takes over), logs a warning.
+ * - `use_onnx == true`, load fails, `fallback_to_heuristic == false`: leaves
+ *   `model_loaded = false` and logs an error; subsequent `computeNLI()` calls
+ *   will return zero-confidence results.
+ *
+ * @param model_path File system path (or identifier) passed to the ONNX
+ *                   model loader.
+ */
 void NLIFaithfulnessVerifier::loadModel(const std::string& model_path) {
-    // Marks the verifier as ready; replace with actual model loading when available.
-    impl_->model_loaded = true;
-    THEMIS_INFO("NLI model loaded from: {}", model_path);
+    if (!impl_->model_loader_) {
+        THEMIS_WARN("ONNX model loader not initialized (use_onnx=false)");
+        impl_->model_loaded = true;  // Mark as loaded for heuristic fallback
+        THEMIS_INFO("Using heuristic NLI (ONNX disabled)");
+        return;
+    }
+    
+    if (impl_->loadOnnxModel(model_path)) {
+        impl_->model_loaded = true;
+        THEMIS_INFO("NLI ONNX model successfully loaded and ready for inference");
+    } else {
+        if (impl_->config.fallback_to_heuristic) {
+            impl_->model_loaded = true;  // Fallback enabled, still mark as loaded
+            THEMIS_WARN("ONNX model failed to load, falling back to heuristic inference");
+        } else {
+            impl_->model_loaded = false;
+            THEMIS_ERROR("ONNX model failed to load and fallback disabled");
+        }
+    }
 }
 
+/**
+ * @brief Report whether the ONNX model (or its surrogate) has been loaded.
+ *
+ * Returns the raw `Impl::model_loaded` flag.  This is set by `loadModel()`.
+ * Callers that want to know whether *any* inference path is available should
+ * use `isReady()` instead.
+ *
+ * @return `true` if a model (or heuristic surrogate) was successfully loaded.
+ */
 bool NLIFaithfulnessVerifier::isModelLoaded() const {
     return impl_->model_loaded;
 }
 
+/**
+ * @brief Check whether the verifier can service inference requests.
+ *
+ * Evaluates whether at least one of the following inference paths is available:
+ * - ONNX model is loaded and ready.
+ * - ONNX is disabled (`use_onnx == false`), so the heuristic path is the
+ *   sole path and is always available.
+ * - ONNX is enabled but heuristic fallback is permitted
+ *   (`fallback_to_heuristic == true`), making the verifier ready even before
+ *   a model is loaded.
+ *
+ * Only returns `false` when ONNX is the required path (`use_onnx == true`),
+ * fallback is prohibited (`fallback_to_heuristic == false`), **and** no model
+ * has been loaded yet.
+ *
+ * @return true if the verifier can perform inference
+ */
+bool NLIFaithfulnessVerifier::isReady() const {
+    if (impl_->model_loaded) {
+        return true;
+    }
+    // If ONNX is disabled, heuristic is always available
+    if (!impl_->config.use_onnx) {
+        return true;
+    }
+    // If ONNX is required but fallback is allowed, heuristic covers us
+    if (impl_->config.fallback_to_heuristic) {
+        return true;
+    }
+    // ONNX required, no fallback, and model not yet loaded
+    return false;
+}
+
+/**
+ * @brief Return a copy of the current verifier configuration.
+ *
+ * @return Snapshot of the `Config` used to initialise the verifier (or the
+ *         last value set by `setConfig()`).
+ */
 NLIFaithfulnessVerifier::Config NLIFaithfulnessVerifier::getConfig() const {
     return impl_->config;
 }
 
+/**
+ * @brief Replace the verifier configuration at runtime.
+ *
+ * @note Does **not** reload the ONNX model; call `loadModel()` explicitly if
+ *       `config.onnx_model_path` changed.
+ *
+ * @param config New configuration to apply.
+ */
 void NLIFaithfulnessVerifier::setConfig(const Config& config) {
     impl_->config = config;
 }

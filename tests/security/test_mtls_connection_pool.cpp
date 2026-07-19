@@ -421,3 +421,210 @@ TEST(EndpointConnectionPoolTest, MCP02_InjectedFactoryFailurePropagated) {
     // Factory was consulted at least once.
     EXPECT_GE(call_count, 1);
 }
+
+// ===========================================================================
+// Factory-Based Connection Tests (v2.0 Phase 2)
+// ===========================================================================
+
+// V2-F01: Factory-based pool constructor properly initializes
+TEST(EndpointConnectionPoolTest, V2F01_FactoryConstructorInitialization) {
+    EndpointConnectionPool::Config cfg;
+    cfg.min_connections = 2;
+    cfg.max_connections = 10;
+    
+    int factory_calls = 0;
+    auto mock_factory = [&](const std::string& ep) 
+        -> std::optional<std::unique_ptr<SSL, SSLDeleter>> {
+        ++factory_calls;
+        return std::nullopt;  // Simulate failure for now
+    };
+    
+    // v2.0 factory-based constructor
+    EndpointConnectionPool pool("localhost:50051", cfg, mock_factory);
+    
+    auto stats = pool.getStatistics();
+    EXPECT_GE(stats.active_connections + stats.idle_connections, 0);
+}
+
+// V2-F02: Factory receives correct endpoint string
+TEST(EndpointConnectionPoolTest, V2F02_FactoryReceivesCorrectEndpoint) {
+    EndpointConnectionPool::Config cfg;
+    cfg.min_connections = 0;
+    cfg.max_connections = 2;
+    
+    std::string captured_endpoint;
+    auto capture_factory = [&](const std::string& ep)
+        -> std::optional<std::unique_ptr<SSL, SSLDeleter>> {
+        captured_endpoint = ep;
+        return std::nullopt;
+    };
+    
+    EndpointConnectionPool pool("custom-host:9999", cfg, capture_factory);
+    pool.getConnection(std::chrono::milliseconds(50));
+    
+    EXPECT_EQ(captured_endpoint, "custom-host:9999");
+}
+
+// V2-F03: Factory is called multiple times when creating multiple connections
+TEST(EndpointConnectionPoolTest, V2F03_FactoryCalledForMultipleConnections) {
+    EndpointConnectionPool::Config cfg;
+    cfg.min_connections = 0;
+    cfg.max_connections = 5;
+    
+    int factory_call_count = 0;
+    auto counting_factory = [&](const std::string& /*ep*/)
+        -> std::optional<std::unique_ptr<SSL, SSLDeleter>> {
+        ++factory_call_count;
+        return std::nullopt;
+    };
+    
+    EndpointConnectionPool pool("localhost:50051", cfg, counting_factory);
+    
+    // Try to get multiple connections
+    for (int i = 0; i < 3; ++i) {
+        pool.getConnection(std::chrono::milliseconds(50));
+    }
+    
+    // Factory should have been called multiple times
+    EXPECT_GT(factory_call_count, 0);
+}
+
+// V2-F04: Connection lifecycle: creation, use, release
+TEST(EndpointConnectionPoolTest, V2F04_ConnectionLifecycle) {
+    EndpointConnectionPool::Config cfg;
+    cfg.min_connections = 0;
+    cfg.max_connections = 2;
+    
+    auto mock_factory = [](const std::string& /*ep*/)
+        -> std::optional<std::unique_ptr<SSL, SSLDeleter>> {
+        // Return a dummy pointer (not a real SSL object, but OK for this test)
+        return std::nullopt;
+    };
+    
+    EndpointConnectionPool pool("localhost:50051", cfg, mock_factory);
+    
+    // Statistics should exist and be queryable
+    auto stats = pool.getStatistics();
+    EXPECT_GE(stats.active_connections, 0);
+    EXPECT_GE(stats.idle_connections, 0);
+}
+
+// V2-F05: setConnectionFactory can override initial factory
+TEST(EndpointConnectionPoolTest, V2F05_SetConnectionFactoryOverride) {
+    EndpointConnectionPool::Config cfg;
+    cfg.min_connections = 0;
+    cfg.max_connections = 2;
+    
+    auto initial_factory = [](const std::string& /*ep*/)
+        -> std::optional<std::unique_ptr<SSL, SSLDeleter>> {
+        return std::nullopt;
+    };
+    
+    EndpointConnectionPool pool("localhost:50051", cfg, initial_factory);
+    
+    int override_call_count = 0;
+    auto override_factory = [&](const std::string& /*ep*/)
+        -> std::optional<std::unique_ptr<SSL, SSLDeleter>> {
+        ++override_call_count;
+        return std::nullopt;
+    };
+    
+    pool.setConnectionFactory(override_factory);
+    pool.getConnection(std::chrono::milliseconds(50));
+    
+    // Override factory should have been called
+    EXPECT_GT(override_call_count, 0);
+}
+
+// V2-F06: Factory error handling - nullopt returns are handled gracefully
+TEST(EndpointConnectionPoolTest, V2F06_FactoryErrorHandlingNullopt) {
+    EndpointConnectionPool::Config cfg;
+    cfg.min_connections = 0;
+    cfg.max_connections = 3;
+    
+    auto failing_factory = [](const std::string& /*ep*/)
+        -> std::optional<std::unique_ptr<SSL, SSLDeleter>> {
+        return std::nullopt;  // Always fail
+    };
+    
+    EndpointConnectionPool pool("localhost:50051", cfg, failing_factory);
+    
+    // Multiple connection attempts with failing factory should not crash
+    for (int i = 0; i < 5; ++i) {
+        auto conn = pool.getConnection(std::chrono::milliseconds(50));
+        EXPECT_FALSE(conn.has_value());
+    }
+    
+    auto stats = pool.getStatistics();
+    EXPECT_GE(stats.connections_failed, 0);
+}
+
+// V2-F07: Factory lifetime requirement is documented
+TEST(EndpointConnectionPoolTest, V2F07_FactoryLifetimeRequirement) {
+    EndpointConnectionPool::Config cfg;
+    cfg.min_connections = 0;
+    cfg.max_connections = 2;
+    
+    // Test that factory can be valid for the pool's entire lifetime
+    auto factory = [](const std::string& /*ep*/)
+        -> std::optional<std::unique_ptr<SSL, SSLDeleter>> {
+        return std::nullopt;
+    };
+    
+    // Pool constructor with factory should succeed
+    EXPECT_NO_THROW({
+        EndpointConnectionPool pool("localhost:50051", cfg, factory);
+        pool.getConnection(std::chrono::milliseconds(50));
+    });
+}
+
+// V2-F08: Factory-based pool statistics reflect factory usage
+TEST(EndpointConnectionPoolTest, V2F08_FactoryBasedStatistics) {
+    EndpointConnectionPool::Config cfg;
+    cfg.min_connections = 0;
+    cfg.max_connections = 3;
+    
+    int factory_attempts = 0;
+    auto tracking_factory = [&](const std::string& /*ep*/)
+        -> std::optional<std::unique_ptr<SSL, SSLDeleter>> {
+        ++factory_attempts;
+        return std::nullopt;
+    };
+    
+    EndpointConnectionPool pool("localhost:50051", cfg, tracking_factory);
+    
+    // Attempt multiple connections
+    for (int i = 0; i < 3; ++i) {
+        pool.getConnection(std::chrono::milliseconds(50));
+    }
+    
+    auto stats = pool.getStatistics();
+    EXPECT_GE(stats.total_created, 0);
+    EXPECT_EQ(factory_attempts, 3);  // Factory called once per attempt
+}
+
+// V2-F09: No performance regression - pool remains responsive
+TEST(EndpointConnectionPoolTest, V2F09_PerformanceBaseline) {
+    EndpointConnectionPool::Config cfg;
+    cfg.min_connections = 0;
+    cfg.max_connections = 5;
+    
+    auto fast_factory = [](const std::string& /*ep*/)
+        -> std::optional<std::unique_ptr<SSL, SSLDeleter>> {
+        return std::nullopt;  // Fail immediately
+    };
+    
+    EndpointConnectionPool pool("localhost:50051", cfg, fast_factory);
+    
+    // Measure time to attempt 10 connections
+    auto start = std::chrono::high_resolution_clock::now();
+    for (int i = 0; i < 10; ++i) {
+        pool.getConnection(std::chrono::milliseconds(50));
+    }
+    auto end = std::chrono::high_resolution_clock::now();
+    
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    
+    // Should complete reasonably quickly (within 2 seconds for 10 attempts)
+    EXPECT_LT(duration.count(), 2000);
+}

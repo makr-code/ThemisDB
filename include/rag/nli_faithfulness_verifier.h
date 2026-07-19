@@ -14,6 +14,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <optional>
 #include <chrono>
 #include <unordered_map>
 
@@ -120,6 +121,14 @@ public:
         // Performance
         bool enable_batching = true;          ///< Batch NLI inference
         size_t batch_size = 8;
+        
+        // ONNX Runtime options (Phase 1 v1.5)
+        std::string onnx_model_path = "roberta-large-mnli";           ///< ONNX model path
+        std::string onnx_tokenizer_path = "tokenizer.json";           ///< Tokenizer config path
+        bool use_onnx = true;                                         ///< Enable ONNX inference
+        bool fallback_to_heuristic = true;                            ///< Fallback if ONNX fails
+        int onnx_inference_timeout_ms = 500;                          ///< ONNX inference timeout
+        bool log_inference_mode = false;                              ///< Log ONNX vs heuristic
     };
     
     /**
@@ -171,6 +180,24 @@ public:
      * @return true if model is loaded
      */
     bool isModelLoaded() const;
+    
+    /**
+     * @brief Check if verifier is ready for inference.
+     *
+     * Returns `true` when at least one inference path is available:
+     * - ONNX model is loaded (`isModelLoaded()` is `true`), **or**
+     * - ONNX is disabled (`Config::use_onnx == false`), so heuristic runs
+     *   unconditionally, **or**
+     * - ONNX is enabled but the heuristic fallback is also enabled
+     *   (`Config::fallback_to_heuristic == true`).
+     *
+     * Returns `false` only when ONNX is required (`use_onnx == true`) **and**
+     * no fallback is permitted (`fallback_to_heuristic == false`) **and** no
+     * model has been loaded yet.
+     *
+     * @return true if the verifier can perform inference
+     */
+    bool isReady() const;
     
     /**
      * @brief Get current configuration

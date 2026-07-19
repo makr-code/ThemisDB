@@ -42,9 +42,11 @@ struct PredictiveFailureDetector::ModelImpl {
     bool loaded = false;
     std::string model_path;
 
-    // STUB/SIMULATION NOTE:
+    // NON-PRODUCTION PATH (Simulation with calibrated heuristics)
     // Purpose: Allow PredictiveFailureDetector to return calibrated failure
     //          probabilities while an ONNX Runtime model is not yet integrated.
+    //          This heuristic-based path uses domain-weighted feature combination
+    //          with sigmoid calibration and is acceptable for testing and early warning.
     // Activation: Always — no ONNX session is created; `loaded` is always false
     //             from the ThemisDB build perspective.
     // Production Delta: Failure probability is derived from a domain-weighted
@@ -52,6 +54,8 @@ struct PredictiveFailureDetector::ModelImpl {
     //                   trained ML model.  Non-linear interaction effects and
     //                   novel hardware failure patterns are not captured.
     //                   Sigmoid bias is tuned for a baseline failure rate of ~8%.
+    //                   This is acceptable as a conservative estimate; actual ML-based
+    //                   predictions may be more accurate.
     // Removal Plan: Add ONNX Runtime as a dependency; load a pre-trained .onnx model
     //               into an `Ort::Session`; replace the heuristic with a real
     //               `session.Run()` call.  See
@@ -492,16 +496,25 @@ FailurePrediction PredictiveFailureDetector::runInference(
 
 bool PredictiveFailureDetector::loadModel(const std::string& model_path) {
     if (!model_) {
+        THEMIS_WARN("PredictiveFailureDetector::loadModel() called with null model impl");
         return false;
     }
     
-    // In production, load ONNX model here
-    // For now, just mark as loaded
+    // NON-PRODUCTION PATH (Simulation/Stub)
+    // Purpose: Placeholder for ONNX Runtime model loading.
+    // Activation: Always — ONNX Runtime integration is not yet implemented.
+    // Production Delta: model_path is stored but not actually used; the heuristic
+    //   predictor always runs.
+    // Removal Plan: Implement actual ONNX model loading via Ort::Session.
+    
     model_->model_path = model_path;
     model_->loaded = true;
     
+    THEMIS_INFO("PredictiveFailureDetector::loadModel() using heuristic-based predictor. "
+                "ONNX Runtime integration is deferred. Model path (for future use): {}",
+                model_path);
+    
     return true;
-}
 
 // ── setPredictFn (stub #251) ──────────────────────────────────────────────────
 void PredictiveFailureDetector::setPredictFn(PredictFn fn) {

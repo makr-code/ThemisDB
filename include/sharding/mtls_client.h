@@ -124,6 +124,12 @@ public:
      * @param endpoint Server endpoint (e.g., "https://shard-001.dc1:8080")
      * @param path Request path (e.g., "/api/v1/status")
      * @return Response with JSON body, or error
+     * 
+     * @deprecated v2.0: Direct connection creation via MTLSClient is being phased out
+     * in favor of EndpointConnectionPool with injected MTLSConnectionFactory.
+     * Use the connection pool API instead: MTLSConnectionPoolManager::getConnection().
+     * This method remains for backward compatibility but will be removed in v3.0.
+     * Transition guide: See include/sharding/mtls_connection_factory.h
      */
     Response get(const std::string& endpoint, const std::string& path);
     
@@ -133,6 +139,9 @@ public:
      * @param path Request path
      * @param body Request body (JSON)
      * @return Response with JSON body, or error
+     * 
+     * @deprecated v2.0: See get() for migration details.
+     * Transition to EndpointConnectionPool with MTLSConnectionFactory.
      */
     Response post(const std::string& endpoint, 
                   const std::string& path,
