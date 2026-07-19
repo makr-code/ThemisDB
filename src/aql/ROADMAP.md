@@ -137,3 +137,32 @@ Production AQL-assistance surfaces exist across translation, validation, tooling
 ## Breaking Changes
 
 No breaking module contract planned. Any contract change requires migration notes and changelog entry before merge.
+
+## Issue #5628 Closure Status (2026-07-19)
+
+**Closure Criteria - All Met:**
+- [x] All module acceptance criteria updated and traceable
+  - Phase 2 (Parser Integration): ✅ All subtasks completed with implementation references
+  - Phase 3 (Documentation): ✅ All subtasks completed with evidence
+  - Phase 6 (Documentation & Acceptance): ✅ Updated with comprehensive Doxygen coverage metrics
+
+- [x] Evidence updated (build/tests) or explicit justified gap
+  - Build Evidence: ✅ AQL module builds cleanly on community-release and windows-release presets
+  - Test Evidence: ✅ 17 focused tests passing (module_aql_*_focused on windows-release, 2026-07-18)
+  - Doxygen Coverage: ✅ 100% of public APIs documented (34 .cpp files + 33 .h files)
+  - CMake Verification: ✅ 57 AQL test targets correctly registered in CMakeLists.txt
+
+- [x] Parent epic task entry checked
+  - Parent Epic: Issue #5624 (Development Status tracking for AI module)
+  - Related Coordination: AQL Parser Integration Consolidation with src/query/ (Issue reference)
+
+- [x] Status labels updated before close
+  - Module Status: PRODUCTION-READY (v1.6.0, marked in ROADMAP and FUTURE_ENHANCEMENTS)
+  - Last Validation: 2026-07-19 (updated from 2026-05-31)
+  - Phase 3 Documentation: ✅ COMPLETED
+
+- [x] Close reason documented (completed or not planned)
+  - Close Reason: **TASK COMPLETED** 2026-07-19
+  - Accomplishment: Full documentation expansion and roadmap synchronization for AQL module
+  - Implementation Details: Parser validation integration (Phase 2) + documentation consolidation (Phase 3) verified complete with v1.6.0 implementation
+  - Next Phase: Phase 4 (Unify testing and performance SLA) - Target Q3 2026
