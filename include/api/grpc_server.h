@@ -150,7 +150,7 @@ private:
     std::atomic<bool>                 running_{false};
     std::string                       server_address_;
     std::vector<grpc::Service*>       services_;
-    mutable std::mutex                mutex_;
+    mutable std::timed_mutex          mutex_;
 
     /// Load the contents of a PEM file.  Throws std::runtime_error on failure.
     static std::string loadFile(const std::string& path);
