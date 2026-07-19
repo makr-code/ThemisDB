@@ -209,28 +209,33 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 - ✅ Observability counters for error classes
 
 ### Production Readiness Status
-- **Maturity**: 🟢 PRODUCTION-READY
+- **Maturity**: 🟡 BETA (validation in progress; 13 HIGH-severity gaps pending resolution)
 - **Configuration**: Validatable via CMakeLists.txt, CMakePresets.json
 - **Testing**: Focused test targets auto-discovered (module_ai_*_focused.exe)
 - **Error Handling**: Fail-closed with structured Error result types
 - **Logging**: Redaction-aware with configurable truncation (120 chars max)
 - **Thread Safety**: Document-specified (not thread-safe for concurrent generatePlugin)
-- **Memory Safety**: RAII compliance, smart pointers for ownership
+- **Memory Safety**: RAII compliance, smart pointers for ownership (with some pointer_arithmetic flags)
 - **Security**: Input validation, output bounds checking, endpoint allow-listing
 
 ### Known Limitations (MODULE_GAPS.md reference)
-- Pointer arithmetic: Some std::vector access patterns flagged (safe in practice; reserved capacity)
+- **HIGH-severity gaps (13 total)**: Identified by gap_scanner; require resolution before prod merge
+  - Pointer arithmetic bounds: 8 occurrences (some may be false positives; require verification)
+  - Unvalidated LLM output: 2 occurrences (size limits applied; schema validation needed)
+  - Retry logic: Implemented for transient transport; flagged by scanner (possible false positive)
+  - Result checking: 1 occurrence (ostringstream usage; verify if error path needed)
+  - Range temporaries: 1 occurrence (std::unordered_set::insert; verify safety)
+- MEDIUM-severity gaps (119 total): Mostly scope_mismatch (namespace-internal functions); lower priority
 - Scope mismatches: Some namespace-internal functions flagged (MEDIUM priority)
-- LLM output validation: Handled via size limits and schema field validation
-- Retry logic: Implemented for transient transport failures (not for HTTP status errors)
+- LLM output validation: Handled via size limits and schema field validation (incomplete validation per gap_scanner)
 
-### Acceptance Criteria Met
-- [x] Validation-first execution path verified
-- [x] Structured error handling for all failure points verified
-- [x] Hardening follow-ups: endpoint safety, payload validation, observability counters
+### Acceptance Criteria Status
+- [x] Validation-first execution path implemented
+- [x] Structured error handling for most failure points
+- [ ] Hardening follow-ups: 13 HIGH gaps must be resolved
 - [x] API documentation complete and comprehensive
 - [x] Implementation semantics documented at function level
-- [x] Roadmap and Future Enhancements synchronized (validated 2026-07-19)
+- [~] Roadmap and Future Enhancements synchronized (2026-07-19; gaps documented)
 
 ## Breaking Changes
 

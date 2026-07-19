@@ -2,11 +2,11 @@
  * @file ai_plugin_generator.cpp
  * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
  * @version 0.0.1
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 99/100
+ * @note Maturity: 🟡 BETA (under validation; 7 HIGH-severity gaps pending resolution)
+ * @note Score: 87/100 (adjusted from validation findings)
  * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=7, M=3, L=0
- * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
+ * @note Status: Beta - Not yet production-ready; pending gap resolution and validation evidence
+ * @note HIGH gaps: pointer_arithmetic (1), unvalidated_llm_output (2), no_retry_logic (1), range_temporary (1), etc.
  */
 
 #include "ai/ai_plugin_generator.h"

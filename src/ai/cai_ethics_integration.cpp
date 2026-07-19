@@ -2,11 +2,11 @@
  * @file cai_ethics_integration.cpp
  * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
  * @version 0.0.1
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 100/100
+ * @note Maturity: 🟡 BETA (under validation; 8 HIGH-severity gaps pending resolution)
+ * @note Score: 85/100 (adjusted from validation findings)
  * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=8, M=3, L=0
- * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
+ * @note Status: Beta - Not yet production-ready; pending gap resolution and validation evidence
+ * @note HIGH gaps: pointer_arithmetic (8), unchecked_result (1), etc.
  */
 
 #include "ai/cai_ethics_integration.h"
