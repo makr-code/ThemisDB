@@ -66,7 +66,7 @@ TEST_F(SafeFormatTest, Format_EscapeForDisplay_SpecialCharacters) {
 
 TEST_F(SafeFormatTest, Format_EscapeForDisplay_NonPrintable) {
     // Test escaping of non-printable characters
-    std::string input = "\x00\x01\x1F";  // NUL, SOH, US control chars
+    std::string input = std::string("\x00\x01\x1F", 3);  // NUL, SOH, US control chars
     std::string escaped = SafeFormat::escape_for_display(input);
     EXPECT_THAT(escaped, testing::HasSubstr("\\x"));
 }
