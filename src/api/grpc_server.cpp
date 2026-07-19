@@ -238,8 +238,14 @@ bool GrpcApiServer::start() {
             return false;
         }
 
-        // Re-acquire lock to update shared state.
-        lock.lock();
+        // Re-acquire lock to update shared state with timeout.
+        // Fail-closed: if lock acquisition times out (5s), server startup fails
+        // to prevent indefinite blocking (blocking_no_timeout CRITICAL fix).
+        if (!lock.try_lock_for(std::chrono::seconds(5))) {
+            THEMIS_ERROR("GrpcApiServer::start - failed to reacquire lock within 5s timeout");
+            server.reset();  // Clean up the started server
+            return false;
+        }
         server_  = std::move(server);
         running_ = true;
         lock.unlock();
