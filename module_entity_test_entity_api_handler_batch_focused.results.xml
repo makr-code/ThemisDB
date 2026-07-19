@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites tests="9" failures="0" disabled="0" errors="0" time="0.005" timestamp="2026-07-19T10:48:11.537" name="AllTests">
+  <testsuite name="EntityApiBatchTest" tests="9" failures="0" disabled="0" skipped="9" errors="0" time="0.004" timestamp="2026-07-19T10:48:11.537">
+    <testcase name="BatchInsertTwoEntities" file="C:\Projects\ThemisDB\tests\entity\test_entity_api_handler_batch.cpp" line="121" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.537" classname="EntityApiBatchTest">
+      <skipped message="C:\Projects\ThemisDB\tests\entity\test_entity_api_handler_batch.cpp:49&#x0A;Skipping unstable entity batch API tests on Windows&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\entity\test_entity_api_handler_batch.cpp:49
+Skipping unstable entity batch API tests on Windows
+]]></skipped>
+    </testcase>
+    <testcase name="BatchDeleteEntity" file="C:\Projects\ThemisDB\tests\entity\test_entity_api_handler_batch.cpp" line="147" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.538" classname="EntityApiBatchTest">
+      <skipped message="C:\Projects\ThemisDB\tests\entity\test_entity_api_handler_batch.cpp:49&#x0A;Skipping unstable entity batch API tests on Windows&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\entity\test_entity_api_handler_batch.cpp:49
+Skipping unstable entity batch API tests on Windows
+]]></skipped>
+    </testcase>
+    <testcase name="MixedBatchPutAndDelete" file="C:\Projects\ThemisDB\tests\entity\test_entity_api_handler_batch.cpp" line="186" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.538" classname="EntityApiBatchTest">
+      <skipped message="C:\Projects\ThemisDB\tests\entity\test_entity_api_handler_batch.cpp:49&#x0A;Skipping unstable entity batch API tests on Windows&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\entity\test_entity_api_handler_batch.cpp:49
+Skipping unstable entity batch API tests on Windows
+]]></skipped>
+    </testcase>
+    <testcase name="EmptyOperationsArrayRejected" file="C:\Projects\ThemisDB\tests\entity\test_entity_api_handler_batch.cpp" line="223" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.539" classname="EntityApiBatchTest">
+      <skipped message="C:\Projects\ThemisDB\tests\entity\test_entity_api_handler_batch.cpp:49&#x0A;Skipping unstable entity batch API tests on Windows&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\entity\test_entity_api_handler_batch.cpp:49
+Skipping unstable entity batch API tests on Windows
+]]></skipped>
+    </testcase>
+    <testcase name="MissingOperationsFieldRejected" file="C:\Projects\ThemisDB\tests\entity\test_entity_api_handler_batch.cpp" line="235" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.539" classname="EntityApiBatchTest">
+      <skipped message="C:\Projects\ThemisDB\tests\entity\test_entity_api_handler_batch.cpp:49&#x0A;Skipping unstable entity batch API tests on Windows&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\entity\test_entity_api_handler_batch.cpp:49
+Skipping unstable entity batch API tests on Windows
+]]></skipped>
+    </testcase>
+    <testcase name="InvalidKeyFormatReportedAsError" file="C:\Projects\ThemisDB\tests\entity\test_entity_api_handler_batch.cpp" line="247" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.540" classname="EntityApiBatchTest">
+      <skipped message="C:\Projects\ThemisDB\tests\entity\test_entity_api_handler_batch.cpp:49&#x0A;Skipping unstable entity batch API tests on Windows&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\entity\test_entity_api_handler_batch.cpp:49
+Skipping unstable entity batch API tests on Windows
+]]></skipped>
+    </testcase>
+    <testcase name="InvalidKeyTraversalReportedAsError" file="C:\Projects\ThemisDB\tests\entity\test_entity_api_handler_batch.cpp" line="268" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.540" classname="EntityApiBatchTest">
+      <skipped message="C:\Projects\ThemisDB\tests\entity\test_entity_api_handler_batch.cpp:49&#x0A;Skipping unstable entity batch API tests on Windows&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\entity\test_entity_api_handler_batch.cpp:49
+Skipping unstable entity batch API tests on Windows
+]]></skipped>
+    </testcase>
+    <testcase name="InvalidKeyHeaderInjectionReportedAsError" file="C:\Projects\ThemisDB\tests\entity\test_entity_api_handler_batch.cpp" line="288" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.541" classname="EntityApiBatchTest">
+      <skipped message="C:\Projects\ThemisDB\tests\entity\test_entity_api_handler_batch.cpp:49&#x0A;Skipping unstable entity batch API tests on Windows&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\entity\test_entity_api_handler_batch.cpp:49
+Skipping unstable entity batch API tests on Windows
+]]></skipped>
+    </testcase>
+    <testcase name="UnknownOpTypeReportedAsError" file="C:\Projects\ThemisDB\tests\entity\test_entity_api_handler_batch.cpp" line="310" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.541" classname="EntityApiBatchTest">
+      <skipped message="C:\Projects\ThemisDB\tests\entity\test_entity_api_handler_batch.cpp:49&#x0A;Skipping unstable entity batch API tests on Windows&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\entity\test_entity_api_handler_batch.cpp:49
+Skipping unstable entity batch API tests on Windows
+]]></skipped>
+    </testcase>
+  </testsuite>
+</testsuites>

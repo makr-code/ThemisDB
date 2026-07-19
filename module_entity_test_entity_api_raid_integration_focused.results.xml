@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites tests="3" failures="0" disabled="0" errors="0" time="0.002" timestamp="2026-07-19T10:48:11.858" name="AllTests">
+  <testsuite name="EntityApiRaidIntegrationTest" tests="3" failures="0" disabled="0" skipped="3" errors="0" time="0.001" timestamp="2026-07-19T10:48:11.858">
+    <testcase name="RaidDisabledByDefault" file="C:\Projects\ThemisDB\tests\entity\test_entity_api_raid_integration.cpp" line="126" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.859" classname="EntityApiRaidIntegrationTest">
+      <skipped message="C:\Projects\ThemisDB\tests\entity\test_entity_api_raid_integration.cpp:51&#x0A;Skipping unstable entity RAID integration tests on Windows&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\entity\test_entity_api_raid_integration.cpp:51
+Skipping unstable entity RAID integration tests on Windows
+]]></skipped>
+    </testcase>
+    <testcase name="RaidEnabledWithComponents" file="C:\Projects\ThemisDB\tests\entity\test_entity_api_raid_integration.cpp" line="173" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.859" classname="EntityApiRaidIntegrationTest">
+      <skipped message="C:\Projects\ThemisDB\tests\entity\test_entity_api_raid_integration.cpp:51&#x0A;Skipping unstable entity RAID integration tests on Windows&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\entity\test_entity_api_raid_integration.cpp:51
+Skipping unstable entity RAID integration tests on Windows
+]]></skipped>
+    </testcase>
+    <testcase name="RaidDisabledWhenComponentsMissing" file="C:\Projects\ThemisDB\tests\entity\test_entity_api_raid_integration.cpp" line="234" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.860" classname="EntityApiRaidIntegrationTest">
+      <skipped message="C:\Projects\ThemisDB\tests\entity\test_entity_api_raid_integration.cpp:51&#x0A;Skipping unstable entity RAID integration tests on Windows&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\entity\test_entity_api_raid_integration.cpp:51
+Skipping unstable entity RAID integration tests on Windows
+]]></skipped>
+    </testcase>
+  </testsuite>
+</testsuites>

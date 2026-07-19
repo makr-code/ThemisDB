@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites tests="1" failures="0" disabled="0" errors="0" time="0.298" timestamp="2026-07-19T10:48:12.139" name="AllTests">
+  <testsuite name="PIISoftDeleteTest" tests="1" failures="0" disabled="0" skipped="1" errors="0" time="0.297" timestamp="2026-07-19T10:48:12.139">
+    <testcase name="SoftDeleteBlocksReveal" file="C:\Projects\ThemisDB\tests\pii\test_pii_soft_delete.cpp" line="51" status="run" result="skipped" time="0.297" timestamp="2026-07-19T10:48:12.139" classname="PIISoftDeleteTest">
+      <skipped message="C:\Projects\ThemisDB\tests\pii\test_pii_soft_delete.cpp:38&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\pii\test_pii_soft_delete.cpp:38
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+  </testsuite>
+</testsuites>

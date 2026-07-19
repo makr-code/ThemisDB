@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites tests="8" failures="0" disabled="0" errors="0" time="0.004" timestamp="2026-07-19T10:38:08.520" name="AllTests">
+  <testsuite name="VectorEncryptionIntegrationTest" tests="8" failures="0" disabled="0" skipped="8" errors="0" time="0.003" timestamp="2026-07-19T10:38:08.520">
+    <testcase name="Phase1_VectorEncryptionOnly" file="C:\Projects\ThemisDB\tests\vector\test_vector_encryption_integration.cpp" line="87" status="run" result="skipped" time="0." timestamp="2026-07-19T10:38:08.520" classname="VectorEncryptionIntegrationTest">
+      <skipped message="C:\Projects\ThemisDB\tests\vector\test_vector_encryption_integration.cpp:45&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\vector\test_vector_encryption_integration.cpp:45
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="Phase2_HnswEncryptionOnly" file="C:\Projects\ThemisDB\tests\vector\test_vector_encryption_integration.cpp" line="131" status="run" result="skipped" time="0." timestamp="2026-07-19T10:38:08.521" classname="VectorEncryptionIntegrationTest">
+      <skipped message="C:\Projects\ThemisDB\tests\vector\test_vector_encryption_integration.cpp:45&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\vector\test_vector_encryption_integration.cpp:45
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="FullEncryption_BothPhases" file="C:\Projects\ThemisDB\tests\vector\test_vector_encryption_integration.cpp" line="183" status="run" result="skipped" time="0." timestamp="2026-07-19T10:38:08.522" classname="VectorEncryptionIntegrationTest">
+      <skipped message="C:\Projects\ThemisDB\tests\vector\test_vector_encryption_integration.cpp:45&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\vector\test_vector_encryption_integration.cpp:45
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="BackwardCompatibility_PlaintextIndex" file="C:\Projects\ThemisDB\tests\vector\test_vector_encryption_integration.cpp" line="231" status="run" result="skipped" time="0." timestamp="2026-07-19T10:38:08.522" classname="VectorEncryptionIntegrationTest">
+      <skipped message="C:\Projects\ThemisDB\tests\vector\test_vector_encryption_integration.cpp:45&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\vector\test_vector_encryption_integration.cpp:45
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="MixedMode_EncryptedAndPlaintext" file="C:\Projects\ThemisDB\tests\vector\test_vector_encryption_integration.cpp" line="270" status="run" result="skipped" time="0." timestamp="2026-07-19T10:38:08.522" classname="VectorEncryptionIntegrationTest">
+      <skipped message="C:\Projects\ThemisDB\tests\vector\test_vector_encryption_integration.cpp:45&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\vector\test_vector_encryption_integration.cpp:45
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="Performance_EncryptionOverhead" file="C:\Projects\ThemisDB\tests\vector\test_vector_encryption_integration.cpp" line="305" status="run" result="skipped" time="0." timestamp="2026-07-19T10:38:08.523" classname="VectorEncryptionIntegrationTest">
+      <skipped message="C:\Projects\ThemisDB\tests\vector\test_vector_encryption_integration.cpp:45&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\vector\test_vector_encryption_integration.cpp:45
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="ErrorHandling_MissingEncryptionKey" file="C:\Projects\ThemisDB\tests\vector\test_vector_encryption_integration.cpp" line="356" status="run" result="skipped" time="0." timestamp="2026-07-19T10:38:08.523" classname="VectorEncryptionIntegrationTest">
+      <skipped message="C:\Projects\ThemisDB\tests\vector\test_vector_encryption_integration.cpp:45&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\vector\test_vector_encryption_integration.cpp:45
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="AutoSave_OnShutdown" file="C:\Projects\ThemisDB\tests\vector\test_vector_encryption_integration.cpp" line="379" status="run" result="skipped" time="0." timestamp="2026-07-19T10:38:08.523" classname="VectorEncryptionIntegrationTest">
+      <skipped message="C:\Projects\ThemisDB\tests\vector\test_vector_encryption_integration.cpp:45&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\vector\test_vector_encryption_integration.cpp:45
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+  </testsuite>
+</testsuites>

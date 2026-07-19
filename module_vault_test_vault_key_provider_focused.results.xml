@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites tests="16" failures="0" disabled="0" errors="0" time="0.007" timestamp="2026-07-19T10:48:13.028" name="AllTests">
+  <testsuite name="VaultKeyProviderTest" tests="12" failures="0" disabled="0" skipped="12" errors="0" time="0.004" timestamp="2026-07-19T10:48:13.029">
+    <testcase name="GetKey_ValidKey_ReturnsKeyBytes" file="C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp" line="76" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:13.029" classname="VaultKeyProviderTest">
+      <skipped message="C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp:53&#x0A;Vault not configured. Set VAULT_ADDR and VAULT_TOKEN environment variables.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp:53
+Vault not configured. Set VAULT_ADDR and VAULT_TOKEN environment variables.
+]]></skipped>
+    </testcase>
+    <testcase name="GetKey_NonexistentKey_ThrowsException" file="C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp" line="85" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:13.030" classname="VaultKeyProviderTest">
+      <skipped message="C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp:53&#x0A;Vault not configured. Set VAULT_ADDR and VAULT_TOKEN environment variables.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp:53
+Vault not configured. Set VAULT_ADDR and VAULT_TOKEN environment variables.
+]]></skipped>
+    </testcase>
+    <testcase name="GetKey_Cached_ReturnsSameKey" file="C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp" line="94" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:13.030" classname="VaultKeyProviderTest">
+      <skipped message="C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp:53&#x0A;Vault not configured. Set VAULT_ADDR and VAULT_TOKEN environment variables.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp:53
+Vault not configured. Set VAULT_ADDR and VAULT_TOKEN environment variables.
+]]></skipped>
+    </testcase>
+    <testcase name="ClearCache_ForcesRefetch" file="C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp" line="108" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:13.031" classname="VaultKeyProviderTest">
+      <skipped message="C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp:53&#x0A;Vault not configured. Set VAULT_ADDR and VAULT_TOKEN environment variables.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp:53
+Vault not configured. Set VAULT_ADDR and VAULT_TOKEN environment variables.
+]]></skipped>
+    </testcase>
+    <testcase name="GetKeyMetadata_ValidKey_ReturnsMetadata" file="C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp" line="121" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:13.031" classname="VaultKeyProviderTest">
+      <skipped message="C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp:53&#x0A;Vault not configured. Set VAULT_ADDR and VAULT_TOKEN environment variables.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp:53
+Vault not configured. Set VAULT_ADDR and VAULT_TOKEN environment variables.
+]]></skipped>
+    </testcase>
+    <testcase name="RotateKey_CreatesNewVersion" file="C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp" line="132" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:13.031" classname="VaultKeyProviderTest">
+      <skipped message="C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp:53&#x0A;Vault not configured. Set VAULT_ADDR and VAULT_TOKEN environment variables.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp:53
+Vault not configured. Set VAULT_ADDR and VAULT_TOKEN environment variables.
+]]></skipped>
+    </testcase>
+    <testcase name="ListKeys_ReturnsAllKeys" file="C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp" line="153" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:13.032" classname="VaultKeyProviderTest">
+      <skipped message="C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp:53&#x0A;Vault not configured. Set VAULT_ADDR and VAULT_TOKEN environment variables.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp:53
+Vault not configured. Set VAULT_ADDR and VAULT_TOKEN environment variables.
+]]></skipped>
+    </testcase>
+    <testcase name="CacheHitRate_ImprovesOverTime" file="C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp" line="175" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:13.032" classname="VaultKeyProviderTest">
+      <skipped message="C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp:53&#x0A;Vault not configured. Set VAULT_ADDR and VAULT_TOKEN environment variables.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp:53
+Vault not configured. Set VAULT_ADDR and VAULT_TOKEN environment variables.
+]]></skipped>
+    </testcase>
+    <testcase name="Integration_EncryptDecryptWithVault" file="C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp" line="199" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:13.032" classname="VaultKeyProviderTest">
+      <skipped message="C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp:53&#x0A;Vault not configured. Set VAULT_ADDR and VAULT_TOKEN environment variables.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp:53
+Vault not configured. Set VAULT_ADDR and VAULT_TOKEN environment variables.
+]]></skipped>
+    </testcase>
+    <testcase name="Integration_UserEntity" file="C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp" line="216" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:13.033" classname="VaultKeyProviderTest">
+      <skipped message="C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp:53&#x0A;Vault not configured. Set VAULT_ADDR and VAULT_TOKEN environment variables.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp:53
+Vault not configured. Set VAULT_ADDR and VAULT_TOKEN environment variables.
+]]></skipped>
+    </testcase>
+    <testcase name="Integration_CustomerEntity" file="C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp" line="255" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:13.033" classname="VaultKeyProviderTest">
+      <skipped message="C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp:53&#x0A;Vault not configured. Set VAULT_ADDR and VAULT_TOKEN environment variables.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp:53
+Vault not configured. Set VAULT_ADDR and VAULT_TOKEN environment variables.
+]]></skipped>
+    </testcase>
+    <testcase name="Integration_KeyRotation" file="C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp" line="286" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:13.034" classname="VaultKeyProviderTest">
+      <skipped message="C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp:53&#x0A;Vault not configured. Set VAULT_ADDR and VAULT_TOKEN environment variables.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp:53
+Vault not configured. Set VAULT_ADDR and VAULT_TOKEN environment variables.
+]]></skipped>
+    </testcase>
+  </testsuite>
+  <testsuite name="EncryptedEntitiesTest" tests="4" failures="0" disabled="0" skipped="4" errors="0" time="0.001" timestamp="2026-07-19T10:48:13.034">
+    <testcase name="UserEntity_EncryptDecryptRoundtrip" file="C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp" line="345" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:13.034" classname="EncryptedEntitiesTest">
+      <skipped message="C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp:331&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp:331
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="CustomerEntity_NumericTypes" file="C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp" line="371" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:13.035" classname="EncryptedEntitiesTest">
+      <skipped message="C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp:331&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp:331
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="SecureDocument_ContentEncryption" file="C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp" line="388" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:13.035" classname="EncryptedEntitiesTest">
+      <skipped message="C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp:331&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp:331
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="Performance_BulkUserCreation" file="C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp" line="405" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:13.036" classname="EncryptedEntitiesTest">
+      <skipped message="C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp:331&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\vault\test_vault_key_provider.cpp:331
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+  </testsuite>
+</testsuites>

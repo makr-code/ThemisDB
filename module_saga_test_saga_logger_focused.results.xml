@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites tests="4" failures="0" disabled="0" errors="0" time="0.002" timestamp="2026-07-19T10:48:12.490" name="AllTests">
+  <testsuite name="SAGALoggerTest" tests="4" failures="0" disabled="0" skipped="4" errors="0" time="0.002" timestamp="2026-07-19T10:48:12.491">
+    <testcase name="LogAndFlush_CreatesSignedBatch" file="C:\Projects\ThemisDB\tests\saga\test_saga_logger.cpp" line="65" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:12.491" classname="SAGALoggerTest">
+      <skipped message="C:\Projects\ThemisDB\tests\saga\test_saga_logger.cpp:35&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\saga\test_saga_logger.cpp:35
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="VerifyBatch_ValidSignature_ReturnsTrue" file="C:\Projects\ThemisDB\tests\saga\test_saga_logger.cpp" line="111" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:12.492" classname="SAGALoggerTest">
+      <skipped message="C:\Projects\ThemisDB\tests\saga\test_saga_logger.cpp:35&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\saga\test_saga_logger.cpp:35
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="LoadBatch_DecryptsAndReturnsSteps" file="C:\Projects\ThemisDB\tests\saga\test_saga_logger.cpp" line="144" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:12.492" classname="SAGALoggerTest">
+      <skipped message="C:\Projects\ThemisDB\tests\saga\test_saga_logger.cpp:35&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\saga\test_saga_logger.cpp:35
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="Flush_EmptyBuffer_DoesNothing" file="C:\Projects\ThemisDB\tests\saga\test_saga_logger.cpp" line="195" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:12.493" classname="SAGALoggerTest">
+      <skipped message="C:\Projects\ThemisDB\tests\saga\test_saga_logger.cpp:35&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\saga\test_saga_logger.cpp:35
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+  </testsuite>
+</testsuites>

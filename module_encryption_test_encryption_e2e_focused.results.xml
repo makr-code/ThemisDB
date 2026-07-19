@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites tests="10" failures="0" disabled="0" errors="0" time="0.006" timestamp="2026-07-19T10:48:11.016" name="AllTests">
+  <testsuite name="EncryptionE2ETest" tests="10" failures="0" disabled="0" skipped="10" errors="0" time="0.005" timestamp="2026-07-19T10:48:11.017">
+    <testcase name="UserIsolation_UserA_CannotDecrypt_UserB_Data" file="C:\Projects\ThemisDB\tests\encryption\test_encryption_e2e.cpp" line="160" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.017" classname="EncryptionE2ETest">
+      <skipped message="C:\Projects\ThemisDB\tests\encryption\test_encryption_e2e.cpp:41&#x0A;Skipping unstable encryption E2E tests on Windows&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\encryption\test_encryption_e2e.cpp:41
+Skipping unstable encryption E2E tests on Windows
+]]></skipped>
+    </testcase>
+    <testcase name="GroupSharing_HR_Team_CanShare_SalaryData" file="C:\Projects\ThemisDB\tests\encryption\test_encryption_e2e.cpp" line="187" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.018" classname="EncryptionE2ETest">
+      <skipped message="C:\Projects\ThemisDB\tests\encryption\test_encryption_e2e.cpp:41&#x0A;Skipping unstable encryption E2E tests on Windows&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\encryption\test_encryption_e2e.cpp:41
+Skipping unstable encryption E2E tests on Windows
+]]></skipped>
+    </testcase>
+    <testcase name="GroupDEKRotation_UserLeavingGroup_LosesAccessToNewData" file="C:\Projects\ThemisDB\tests\encryption\test_encryption_e2e.cpp" line="206" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.018" classname="EncryptionE2ETest">
+      <skipped message="C:\Projects\ThemisDB\tests\encryption\test_encryption_e2e.cpp:41&#x0A;Skipping unstable encryption E2E tests on Windows&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\encryption\test_encryption_e2e.cpp:41
+Skipping unstable encryption E2E tests on Windows
+]]></skipped>
+    </testcase>
+    <testcase name="SchemaEncryption_MultiField_Entity" file="C:\Projects\ThemisDB\tests\encryption\test_encryption_e2e.cpp" line="247" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.019" classname="EncryptionE2ETest">
+      <skipped message="C:\Projects\ThemisDB\tests\encryption\test_encryption_e2e.cpp:41&#x0A;Skipping unstable encryption E2E tests on Windows&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\encryption\test_encryption_e2e.cpp:41
+Skipping unstable encryption E2E tests on Windows
+]]></skipped>
+    </testcase>
+    <testcase name="ComplexType_VectorFloat_Embedding" file="C:\Projects\ThemisDB\tests\encryption\test_encryption_e2e.cpp" line="304" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.020" classname="EncryptionE2ETest">
+      <skipped message="C:\Projects\ThemisDB\tests\encryption\test_encryption_e2e.cpp:41&#x0A;Skipping unstable encryption E2E tests on Windows&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\encryption\test_encryption_e2e.cpp:41
+Skipping unstable encryption E2E tests on Windows
+]]></skipped>
+    </testcase>
+    <testcase name="ComplexType_NestedJSON_Metadata" file="C:\Projects\ThemisDB\tests\encryption\test_encryption_e2e.cpp" line="338" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.020" classname="EncryptionE2ETest">
+      <skipped message="C:\Projects\ThemisDB\tests\encryption\test_encryption_e2e.cpp:41&#x0A;Skipping unstable encryption E2E tests on Windows&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\encryption\test_encryption_e2e.cpp:41
+Skipping unstable encryption E2E tests on Windows
+]]></skipped>
+    </testcase>
+    <testcase name="KeyRotation_VersionTracking" file="C:\Projects\ThemisDB\tests\encryption\test_encryption_e2e.cpp" line="370" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.021" classname="EncryptionE2ETest">
+      <skipped message="C:\Projects\ThemisDB\tests\encryption\test_encryption_e2e.cpp:41&#x0A;Skipping unstable encryption E2E tests on Windows&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\encryption\test_encryption_e2e.cpp:41
+Skipping unstable encryption E2E tests on Windows
+]]></skipped>
+    </testcase>
+    <testcase name="Performance_BulkEncryption_1000Entities" file="C:\Projects\ThemisDB\tests\encryption\test_encryption_e2e.cpp" line="412" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.021" classname="EncryptionE2ETest">
+      <skipped message="C:\Projects\ThemisDB\tests\encryption\test_encryption_e2e.cpp:41&#x0A;Skipping unstable encryption E2E tests on Windows&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\encryption\test_encryption_e2e.cpp:41
+Skipping unstable encryption E2E tests on Windows
+]]></skipped>
+    </testcase>
+    <testcase name="CrossField_Consistency_SameUserSameKeys" file="C:\Projects\ThemisDB\tests\encryption\test_encryption_e2e.cpp" line="465" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.022" classname="EncryptionE2ETest">
+      <skipped message="C:\Projects\ThemisDB\tests\encryption\test_encryption_e2e.cpp:41&#x0A;Skipping unstable encryption E2E tests on Windows&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\encryption\test_encryption_e2e.cpp:41
+Skipping unstable encryption E2E tests on Windows
+]]></skipped>
+    </testcase>
+    <testcase name="EdgeCase_EmptyString_Encryption" file="C:\Projects\ThemisDB\tests\encryption\test_encryption_e2e.cpp" line="484" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.022" classname="EncryptionE2ETest">
+      <skipped message="C:\Projects\ThemisDB\tests\encryption\test_encryption_e2e.cpp:41&#x0A;Skipping unstable encryption E2E tests on Windows&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\encryption\test_encryption_e2e.cpp:41
+Skipping unstable encryption E2E tests on Windows
+]]></skipped>
+    </testcase>
+  </testsuite>
+</testsuites>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites tests="21" failures="0" disabled="0" errors="0" time="1.518" timestamp="2026-07-19T10:48:09.439" name="AllTests">
+  <testsuite name="EncryptedChunkStoreTest" tests="10" failures="0" disabled="0" skipped="10" errors="0" time="0.003" timestamp="2026-07-19T10:48:09.440">
+    <testcase name="RoundTripIdentity" file="C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp" line="131" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:09.440" classname="EncryptedChunkStoreTest">
+      <skipped message="C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp:119&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp:119
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="RoundTripEmpty" file="C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp" line="141" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:09.441" classname="EncryptedChunkStoreTest">
+      <skipped message="C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp:119&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp:119
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="RoundTripLarge" file="C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp" line="150" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:09.441" classname="EncryptedChunkStoreTest">
+      <skipped message="C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp:119&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp:119
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="WrongKeyFailsAuth" file="C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp" line="160" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:09.442" classname="EncryptedChunkStoreTest">
+      <skipped message="C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp:119&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp:119
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="UnknownKeyIdFails" file="C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp" line="173" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:09.442" classname="EncryptedChunkStoreTest">
+      <skipped message="C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp:119&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp:119
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="TruncatedBlobFails" file="C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp" line="200" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:09.442" classname="EncryptedChunkStoreTest">
+      <skipped message="C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp:119&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp:119
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="DifferentSeriesProduceDifferentCiphertext" file="C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp" line="207" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:09.443" classname="EncryptedChunkStoreTest">
+      <skipped message="C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp:119&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp:119
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="RandomIVEachEncrypt" file="C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp" line="216" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:09.443" classname="EncryptedChunkStoreTest">
+      <skipped message="C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp:119&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp:119
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="IsAuditEnabled" file="C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp" line="225" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:09.443" classname="EncryptedChunkStoreTest">
+      <skipped message="C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp:119&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp:119
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="AuditLogWritten" file="C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp" line="238" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:09.444" classname="EncryptedChunkStoreTest">
+      <skipped message="C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp:119&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp:119
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+  </testsuite>
+  <testsuite name="TSStoreEncryptionTest" tests="7" failures="0" disabled="0" skipped="7" errors="0" time="0.002" timestamp="2026-07-19T10:48:09.444">
+    <testcase name="WriteAndQueryEncryptedChunks" file="C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp" line="334" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:09.444" classname="TSStoreEncryptionTest">
+      <skipped message="C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp:282&#x0A;Skipping TSStoreEncryptionTest on Windows due to intermittent heap corruption in RocksDB-backed fixture.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp:282
+Skipping TSStoreEncryptionTest on Windows due to intermittent heap corruption in RocksDB-backed fixture.
+]]></skipped>
+    </testcase>
+    <testcase name="EncryptedValueIsOpaque" file="C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp" line="354" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:09.445" classname="TSStoreEncryptionTest">
+      <skipped message="C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp:282&#x0A;Skipping TSStoreEncryptionTest on Windows due to intermittent heap corruption in RocksDB-backed fixture.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp:282
+Skipping TSStoreEncryptionTest on Windows due to intermittent heap corruption in RocksDB-backed fixture.
+]]></skipped>
+    </testcase>
+    <testcase name="AggregateTransparentDecryption" file="C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp" line="377" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:09.445" classname="TSStoreEncryptionTest">
+      <skipped message="C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp:282&#x0A;Skipping TSStoreEncryptionTest on Windows due to intermittent heap corruption in RocksDB-backed fixture.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp:282
+Skipping TSStoreEncryptionTest on Windows due to intermittent heap corruption in RocksDB-backed fixture.
+]]></skipped>
+    </testcase>
+    <testcase name="GetEncryptedChunkStore" file="C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp" line="395" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:09.446" classname="TSStoreEncryptionTest">
+      <skipped message="C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp:282&#x0A;Skipping TSStoreEncryptionTest on Windows due to intermittent heap corruption in RocksDB-backed fixture.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp:282
+Skipping TSStoreEncryptionTest on Windows due to intermittent heap corruption in RocksDB-backed fixture.
+]]></skipped>
+    </testcase>
+    <testcase name="DetachEncryption" file="C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp" line="400" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:09.446" classname="TSStoreEncryptionTest">
+      <skipped message="C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp:282&#x0A;Skipping TSStoreEncryptionTest on Windows due to intermittent heap corruption in RocksDB-backed fixture.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp:282
+Skipping TSStoreEncryptionTest on Windows due to intermittent heap corruption in RocksDB-backed fixture.
+]]></skipped>
+    </testcase>
+    <testcase name="EncryptedChunkWithNoEncStoreReturnsError" file="C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp" line="407" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:09.446" classname="TSStoreEncryptionTest">
+      <skipped message="C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp:282&#x0A;Skipping TSStoreEncryptionTest on Windows due to intermittent heap corruption in RocksDB-backed fixture.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp:282
+Skipping TSStoreEncryptionTest on Windows due to intermittent heap corruption in RocksDB-backed fixture.
+]]></skipped>
+    </testcase>
+    <testcase name="PlainChunksReadableWithoutEncryption" file="C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp" line="427" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:09.447" classname="TSStoreEncryptionTest">
+      <skipped message="C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp:282&#x0A;Skipping TSStoreEncryptionTest on Windows due to intermittent heap corruption in RocksDB-backed fixture.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp:282
+Skipping TSStoreEncryptionTest on Windows due to intermittent heap corruption in RocksDB-backed fixture.
+]]></skipped>
+    </testcase>
+  </testsuite>
+  <testsuite name="TsEncryptedKeyRotationTest" tests="4" failures="0" disabled="0" skipped="0" errors="0" time="1.51" timestamp="2026-07-19T10:48:09.447">
+    <testcase name="ReencryptsChunksWithNewKey" file="C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp" line="541" status="run" result="completed" time="0.547" timestamp="2026-07-19T10:48:09.447" classname="TsEncryptedKeyRotationTest" />
+    <testcase name="SkipsPlainChunks" file="C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp" line="568" status="run" result="completed" time="0.487" timestamp="2026-07-19T10:48:09.995" classname="TsEncryptedKeyRotationTest" />
+    <testcase name="StartStopLifecycle" file="C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp" line="579" status="run" result="completed" time="0.246" timestamp="2026-07-19T10:48:10.483" classname="TsEncryptedKeyRotationTest" />
+    <testcase name="DoubleStartIsNoOp" file="C:\Projects\ThemisDB\tests\chunk\test_chunk_level_encryption.cpp" line="592" status="run" result="completed" time="0.228" timestamp="2026-07-19T10:48:10.729" classname="TsEncryptedKeyRotationTest" />
+  </testsuite>
+</testsuites>

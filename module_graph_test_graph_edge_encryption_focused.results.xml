@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites tests="10" failures="0" disabled="0" errors="0" time="0.005" timestamp="2026-07-19T10:48:12.011" name="AllTests">
+  <testsuite name="GraphEdgeEncryptionTest" tests="10" failures="0" disabled="0" skipped="10" errors="0" time="0.004" timestamp="2026-07-19T10:48:12.012">
+    <testcase name="AddEdge_WithoutEncryption_StoresPlaintext" file="C:\Projects\ThemisDB\tests\graph\test_graph_edge_encryption.cpp" line="157" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:12.012" classname="GraphEdgeEncryptionTest">
+      <skipped message="C:\Projects\ThemisDB\tests\graph\test_graph_edge_encryption.cpp:32&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\graph\test_graph_edge_encryption.cpp:32
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="AddEdge_WithEncryption_StoresEncryptedFields" file="C:\Projects\ThemisDB\tests\graph\test_graph_edge_encryption.cpp" line="177" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:12.013" classname="GraphEdgeEncryptionTest">
+      <skipped message="C:\Projects\ThemisDB\tests\graph\test_graph_edge_encryption.cpp:32&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\graph\test_graph_edge_encryption.cpp:32
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="EncryptedEdge_Decrypt_RoundTrip" file="C:\Projects\ThemisDB\tests\graph\test_graph_edge_encryption.cpp" line="200" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:12.013" classname="GraphEdgeEncryptionTest">
+      <skipped message="C:\Projects\ThemisDB\tests\graph\test_graph_edge_encryption.cpp:32&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\graph\test_graph_edge_encryption.cpp:32
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="DifferentUser_CannotDecrypt" file="C:\Projects\ThemisDB\tests\graph\test_graph_edge_encryption.cpp" line="234" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:12.014" classname="GraphEdgeEncryptionTest">
+      <skipped message="C:\Projects\ThemisDB\tests\graph\test_graph_edge_encryption.cpp:32&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\graph\test_graph_edge_encryption.cpp:32
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="GroupEncryption_MultipleUsersAccess" file="C:\Projects\ThemisDB\tests\graph\test_graph_edge_encryption.cpp" line="261" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:12.014" classname="GraphEdgeEncryptionTest">
+      <skipped message="C:\Projects\ThemisDB\tests\graph\test_graph_edge_encryption.cpp:32&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\graph\test_graph_edge_encryption.cpp:32
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="PartialEncryption_WeightPlain_MetadataEncrypted" file="C:\Projects\ThemisDB\tests\graph\test_graph_edge_encryption.cpp" line="303" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:12.014" classname="GraphEdgeEncryptionTest">
+      <skipped message="C:\Projects\ThemisDB\tests\graph\test_graph_edge_encryption.cpp:32&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\graph\test_graph_edge_encryption.cpp:32
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="TopologyFields_AlwaysPlaintext" file="C:\Projects\ThemisDB\tests\graph\test_graph_edge_encryption.cpp" line="323" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:12.015" classname="GraphEdgeEncryptionTest">
+      <skipped message="C:\Projects\ThemisDB\tests\graph\test_graph_edge_encryption.cpp:32&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\graph\test_graph_edge_encryption.cpp:32
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="BFS_WithEncryptedEdges_StillTraverses" file="C:\Projects\ThemisDB\tests\graph\test_graph_edge_encryption.cpp" line="356" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:12.015" classname="GraphEdgeEncryptionTest">
+      <skipped message="C:\Projects\ThemisDB\tests\graph\test_graph_edge_encryption.cpp:32&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\graph\test_graph_edge_encryption.cpp:32
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="MultipleFieldsEncryption_AllDecryptCorrectly" file="C:\Projects\ThemisDB\tests\graph\test_graph_edge_encryption.cpp" line="376" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:12.016" classname="GraphEdgeEncryptionTest">
+      <skipped message="C:\Projects\ThemisDB\tests\graph\test_graph_edge_encryption.cpp:32&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\graph\test_graph_edge_encryption.cpp:32
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="EncryptedEdge_DeletedCorrectly" file="C:\Projects\ThemisDB\tests\graph\test_graph_edge_encryption.cpp" line="416" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:12.016" classname="GraphEdgeEncryptionTest">
+      <skipped message="C:\Projects\ThemisDB\tests\graph\test_graph_edge_encryption.cpp:32&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\graph\test_graph_edge_encryption.cpp:32
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+  </testsuite>
+</testsuites>

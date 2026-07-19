@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites tests="51" failures="0" disabled="0" errors="0" time="0.024" timestamp="2026-07-19T10:48:11.089" name="AllTests">
+  <testsuite name="MockKeyProviderTest" tests="17" failures="0" disabled="0" skipped="0" errors="0" time="0.007" timestamp="2026-07-19T10:48:11.089">
+    <testcase name="CreateKey_GeneratesRandomKey" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="30" status="run" result="completed" time="0." timestamp="2026-07-19T10:48:11.089" classname="MockKeyProviderTest" />
+    <testcase name="CreateKey_DuplicateThrowsException" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="37" status="run" result="completed" time="0." timestamp="2026-07-19T10:48:11.090" classname="MockKeyProviderTest" />
+    <testcase name="CreateKeyWithBytes_StoresExactBytes" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="46" status="run" result="completed" time="0." timestamp="2026-07-19T10:48:11.090" classname="MockKeyProviderTest" />
+    <testcase name="CreateKeyWithBytes_InvalidSize_ThrowsException" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="54" status="run" result="completed" time="0." timestamp="2026-07-19T10:48:11.091" classname="MockKeyProviderTest" />
+    <testcase name="GetKey_NonExistent_ThrowsException" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="63" status="run" result="completed" time="0." timestamp="2026-07-19T10:48:11.091" classname="MockKeyProviderTest" />
+    <testcase name="GetKey_ReturnsLatestActive" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="70" status="run" result="completed" time="0." timestamp="2026-07-19T10:48:11.091" classname="MockKeyProviderTest" />
+    <testcase name="GetKey_WithVersion_ReturnsSpecificVersion" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="80" status="run" result="completed" time="0." timestamp="2026-07-19T10:48:11.092" classname="MockKeyProviderTest" />
+    <testcase name="RotateKey_CreatesNewVersion" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="90" status="run" result="completed" time="0." timestamp="2026-07-19T10:48:11.092" classname="MockKeyProviderTest" />
+    <testcase name="RotateKey_DeprecatesOldVersion" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="98" status="run" result="completed" time="0." timestamp="2026-07-19T10:48:11.092" classname="MockKeyProviderTest" />
+    <testcase name="RotateKey_NonExistent_ThrowsException" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="109" status="run" result="completed" time="0." timestamp="2026-07-19T10:48:11.093" classname="MockKeyProviderTest" />
+    <testcase name="ListKeys_ReturnsAllVersions" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="116" status="run" result="completed" time="0." timestamp="2026-07-19T10:48:11.093" classname="MockKeyProviderTest" />
+    <testcase name="GetKeyMetadata_ReturnsCorrectInfo" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="126" status="run" result="completed" time="0." timestamp="2026-07-19T10:48:11.093" classname="MockKeyProviderTest" />
+    <testcase name="DeleteKey_ActiveKey_ThrowsException" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="138" status="run" result="completed" time="0." timestamp="2026-07-19T10:48:11.094" classname="MockKeyProviderTest" />
+    <testcase name="DeleteKey_DeprecatedKey_Succeeds" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="147" status="run" result="completed" time="0." timestamp="2026-07-19T10:48:11.094" classname="MockKeyProviderTest" />
+    <testcase name="GetKey_DeletedKey_ThrowsException" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="157" status="run" result="completed" time="0." timestamp="2026-07-19T10:48:11.095" classname="MockKeyProviderTest" />
+    <testcase name="Clear_RemovesAllKeys" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="168" status="run" result="completed" time="0." timestamp="2026-07-19T10:48:11.095" classname="MockKeyProviderTest" />
+    <testcase name="ThreadSafety_ConcurrentCreates" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="178" status="run" result="completed" time="0.001" timestamp="2026-07-19T10:48:11.095" classname="MockKeyProviderTest" />
+  </testsuite>
+  <testsuite name="KeyCacheTest" tests="8" failures="0" disabled="0" skipped="0" errors="0" time="0.002" timestamp="2026-07-19T10:48:11.098">
+    <testcase name="Get_EmptyCache_ReturnsFalse" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="206" status="run" result="completed" time="0." timestamp="2026-07-19T10:48:11.098" classname="KeyCacheTest" />
+    <testcase name="PutAndGet_ReturnsKey" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="213" status="run" result="completed" time="0." timestamp="2026-07-19T10:48:11.098" classname="KeyCacheTest" />
+    <testcase name="Get_DifferentVersion_ReturnsFalse" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="224" status="run" result="completed" time="0." timestamp="2026-07-19T10:48:11.099" classname="KeyCacheTest" />
+    <testcase name="Evict_RemovesKey" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="234" status="run" result="completed" time="0." timestamp="2026-07-19T10:48:11.099" classname="KeyCacheTest" />
+    <testcase name="Evict_AllVersions_RemovesAll" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="244" status="run" result="completed" time="0." timestamp="2026-07-19T10:48:11.099" classname="KeyCacheTest" />
+    <testcase name="Clear_RemovesAll" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="256" status="run" result="completed" time="0." timestamp="2026-07-19T10:48:11.100" classname="KeyCacheTest" />
+    <testcase name="HitRate_TracksAccurately" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="266" status="run" result="completed" time="0." timestamp="2026-07-19T10:48:11.100" classname="KeyCacheTest" />
+    <testcase name="Size_ReflectsEntries" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="279" status="run" result="completed" time="0." timestamp="2026-07-19T10:48:11.100" classname="KeyCacheTest" />
+  </testsuite>
+  <testsuite name="FieldEncryptionTest" tests="17" failures="0" disabled="0" skipped="17" errors="0" time="0.007" timestamp="2026-07-19T10:48:11.101">
+    <testcase name="Constructor_NullProvider_ThrowsException" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="310" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.101" classname="FieldEncryptionTest">
+      <skipped message="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:301&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:301
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="EncryptDecrypt_Roundtrip_String" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="317" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.102" classname="FieldEncryptionTest">
+      <skipped message="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:301&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:301
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="EncryptDecrypt_Roundtrip_Binary" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="326" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.102" classname="FieldEncryptionTest">
+      <skipped message="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:301&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:301
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="Encrypt_GeneratesRandomIV" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="335" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.103" classname="FieldEncryptionTest">
+      <skipped message="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:301&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:301
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="Encrypt_GeneratesAuthTag" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="345" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.103" classname="FieldEncryptionTest">
+      <skipped message="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:301&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:301
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="Encrypt_SetsKeyMetadata" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="353" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.104" classname="FieldEncryptionTest">
+      <skipped message="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:301&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:301
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="Decrypt_TamperedCiphertext_ThrowsException" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="362" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.104" classname="FieldEncryptionTest">
+      <skipped message="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:301&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:301
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="Decrypt_TamperedTag_ThrowsException" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="375" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.104" classname="FieldEncryptionTest">
+      <skipped message="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:301&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:301
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="Decrypt_WrongKey_ThrowsException" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="388" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.105" classname="FieldEncryptionTest">
+      <skipped message="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:301&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:301
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="EncryptWithKey_UsesProvidedKey" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="404" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.105" classname="FieldEncryptionTest">
+      <skipped message="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:301&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:301
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="Decrypt_OldKeyVersion_AfterRotation" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="414" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.106" classname="FieldEncryptionTest">
+      <skipped message="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:301&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:301
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="Encrypt_EmptyString_Works" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="425" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.106" classname="FieldEncryptionTest">
+      <skipped message="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:301&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:301
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="Encrypt_LargeData_Works" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="434" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.107" classname="FieldEncryptionTest">
+      <skipped message="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:301&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:301
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="EncryptedBlob_SerializeBase64_Roundtrip" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="443" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.107" classname="FieldEncryptionTest">
+      <skipped message="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:301&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:301
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="EncryptedBlob_SerializeBase64_InvalidSegmentsFailClosed" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="457" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.108" classname="FieldEncryptionTest">
+      <skipped message="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:301&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:301
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="EncryptedBlob_SerializeJson_Roundtrip" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="465" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.108" classname="FieldEncryptionTest">
+      <skipped message="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:301&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:301
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="Performance_1000EncryptDecrypt" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="580" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.108" classname="FieldEncryptionTest">
+      <skipped message="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:301&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:301
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+  </testsuite>
+  <testsuite name="EncryptedFieldTest" tests="9" failures="0" disabled="0" skipped="9" errors="0" time="0.003" timestamp="2026-07-19T10:48:11.109">
+    <testcase name="StringField_EncryptDecrypt" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="500" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.109" classname="EncryptedFieldTest">
+      <skipped message="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:486&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:486
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="Int64Field_EncryptDecrypt" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="507" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.110" classname="EncryptedFieldTest">
+      <skipped message="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:486&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:486
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="DoubleField_EncryptDecrypt" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="514" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.110" classname="EncryptedFieldTest">
+      <skipped message="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:486&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:486
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="HasValue_EmptyField_ReturnsFalse" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="521" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.111" classname="EncryptedFieldTest">
+      <skipped message="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:486&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:486
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="HasValue_AfterEncrypt_ReturnsTrue" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="526" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.111" classname="EncryptedFieldTest">
+      <skipped message="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:486&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:486
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="ToBase64_FromBase64_Roundtrip" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="531" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.111" classname="EncryptedFieldTest">
+      <skipped message="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:486&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:486
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="ToJson_FromJson_Roundtrip" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="540" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.112" classname="EncryptedFieldTest">
+      <skipped message="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:486&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:486
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="Encrypt_UpdatesValue" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="549" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.112" classname="EncryptedFieldTest">
+      <skipped message="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:486&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:486
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="KeyRotation_OldDataStillDecryptable" file="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp" line="559" status="run" result="skipped" time="0." timestamp="2026-07-19T10:48:11.113" classname="EncryptedFieldTest">
+      <skipped message="C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:486&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\encryption\test_encryption.cpp:486
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+  </testsuite>
+</testsuites>
