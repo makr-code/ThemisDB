@@ -93,39 +93,39 @@ struct WasmHandlerConfig {
  * 
  * ### Handler Lifecycle
  * 1. Tenant uploads WASM binary via serverless API
-     * 2. Handler is validated, sandboxed, and stored in registry
-     * 3. When a matching route is invoked, handler is loaded and executed
-     * 4. After execution, result is returned to client
-     * 5. Handler may be updated (version incremented) or deleted
-     * 
-     * ### Registry Key
-     * Handlers are indexed by (tenant_id, id) pair:
-     * - tenant_id: Owner of the handler (empty = globally accessible)
-     * - id: Unique function/handler identifier
-     * 
-     * ### Resource Limits
-     * Each handler has a WasmHandlerConfig that defines:
-     * - CPU time limit per invocation
-     * - Memory limit per invocation
-     * - Entry point function name
-     * 
-     * ### Metrics
-     * - version: Incremented each time the WASM binary is re-uploaded
-     * - invocation_count: Total successful invocations (for monitoring)
-     * - created_at, updated_at: Timestamps for auditing
-     * 
-     * ### Move Semantics
-     * WasmHandlerEntry is move-only (non-copyable) due to atomic<uint64_t> member.
-     * Moving a handler is efficient; use std::move when storing in containers.
-     * 
-     * @note Handler ID must be URL-safe (alphanumeric, hyphens, underscores)
-     * @note WASM binary is validated at upload time; malformed binaries are rejected
-     * @note Handler invocation is always sandboxed with resource limits
-     * @note Concurrent invocations of the same handler are allowed and isolated
-     * 
-     * @see WasmHandlerRegistry for management operations
-     * @see WasmHandlerConfig for resource limit details
-     */
+ * 2. Handler is validated, sandboxed, and stored in registry
+ * 3. When a matching route is invoked, handler is loaded and executed
+ * 4. After execution, result is returned to client
+ * 5. Handler may be updated (version incremented) or deleted
+ * 
+ * ### Registry Key
+ * Handlers are indexed by (tenant_id, id) pair:
+ * - tenant_id: Owner of the handler (empty = globally accessible)
+ * - id: Unique function/handler identifier
+ * 
+ * ### Resource Limits
+ * Each handler has a WasmHandlerConfig that defines:
+ * - CPU time limit per invocation
+ * - Memory limit per invocation
+ * - Entry point function name
+ * 
+ * ### Metrics
+ * - version: Incremented each time the WASM binary is re-uploaded
+ * - invocation_count: Total successful invocations (for monitoring)
+ * - created_at, updated_at: Timestamps for auditing
+ * 
+ * ### Move Semantics
+ * WasmHandlerEntry is move-only (non-copyable) due to atomic<uint64_t> member.
+ * Moving a handler is efficient; use std::move when storing in containers.
+ * 
+ * @note Handler ID must be URL-safe (alphanumeric, hyphens, underscores)
+ * @note WASM binary is validated at upload time; malformed binaries are rejected
+ * @note Handler invocation is always sandboxed with resource limits
+ * @note Concurrent invocations of the same handler are allowed and isolated
+ * 
+ * @see WasmHandlerRegistry for management operations
+ * @see WasmHandlerConfig for resource limit details
+ */
     struct WasmHandlerEntry {
     std::string id;          ///< Unique function / handler ID
     std::string tenant_id;   ///< Owning tenant (empty = global)

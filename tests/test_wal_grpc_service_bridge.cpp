@@ -10,9 +10,9 @@
  * @file test_wal_grpc_service_bridge.cpp
  * @brief Unit tests for WalGrpcService service-fn bridge (STUB #49).
  *
- * Tests verify strict fail-closed behavior in non-proto builds: constructor
- * throws without a callback, accepts a non-null injected pointer, and throws
- * when callback execution fails or returns nullptr.
+ * Tests verify non-proto bridge behavior: construction without callback keeps
+ * the endpoint disabled, a non-null injected pointer is returned by service(),
+ * and callback failures still fail closed with exceptions.
  *
  * Tests: WAL-GRPC-BRIDGE-01..03
  *
@@ -37,10 +37,11 @@ protected:
 };
 
 // ── WAL-GRPC-BRIDGE-01 ─────────────────────────────────────────────────────
-// Without any injected ServiceFn construction must fail closed.
-TEST_F(WalGrpcServiceBridgeTest, NoServiceFnThrows) {
+// Without any injected ServiceFn the endpoint remains disabled.
+TEST_F(WalGrpcServiceBridgeTest, NoServiceFnKeepsEndpointDisabled) {
     WalGrpcService::setServiceFn({});   // ensure clean state
-    EXPECT_THROW((void)makeService(), std::runtime_error);
+    auto svc = makeService();
+    EXPECT_EQ(svc.service(), nullptr);
 }
 
 // ── WAL-GRPC-BRIDGE-02 ─────────────────────────────────────────────────────

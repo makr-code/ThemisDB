@@ -671,7 +671,7 @@ private:
      * 
      * @see AuthMiddleware::authorize() for authorization logic
      * @see RequestValidationMiddleware::validate() for request validation
-     * @see RateLimiterV2::checkRateLimit() for rate limiting
+     * @see TokenBucketRateLimiter::tryAcquire() for rate limiting
      */
     http::response<http::string_body> routeRequest(const http::request<http::string_body>& req);
 

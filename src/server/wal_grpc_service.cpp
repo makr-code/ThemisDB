@@ -192,26 +192,26 @@ WalGrpcService::WalGrpcService(std::shared_ptr<sharding::WALApplier> wal_applier
         fn = g_wal_grpc_service_fn;
     }
     if (!fn) {
-        const std::string error =
-            "WalGrpcService requires generated shard gRPC stubs or an injected "
-            "non-null ServiceFn in non-proto builds";
-        THEMIS_CRITICAL("{}", error);
-        throw std::runtime_error(error);
-    }
-    try {
-        service_ptr_ = fn();
-    } catch (const std::exception& e) {
-        THEMIS_ERROR("WalGrpcService: service callback failed: {}", e.what());
-        throw std::runtime_error("WalGrpcService service callback threw an exception");
-    } catch (...) {
-        THEMIS_ERROR("WalGrpcService: service callback failed: unknown error");
-        throw std::runtime_error("WalGrpcService service callback threw an unknown exception");
-    }
-    if (!service_ptr_) {
-        const std::string error =
-            "WalGrpcService ServiceFn returned nullptr in non-proto build";
-        THEMIS_CRITICAL("{}", error);
-        throw std::runtime_error(error);
+        THEMIS_WARN(
+            "Shard gRPC stubs not found and no injected ServiceFn; "
+            "WalGrpcService endpoint remains disabled in this build"
+        );
+    } else {
+        try {
+            service_ptr_ = fn();
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("WalGrpcService: service callback failed: {}", e.what());
+            throw std::runtime_error("WalGrpcService service callback threw an exception");
+        } catch (...) {
+            THEMIS_ERROR("WalGrpcService: service callback failed: unknown error");
+            throw std::runtime_error("WalGrpcService service callback threw an unknown exception");
+        }
+        if (!service_ptr_) {
+            const std::string error =
+                "WalGrpcService ServiceFn returned nullptr in non-proto build";
+            THEMIS_CRITICAL("{}", error);
+            throw std::runtime_error(error);
+        }
     }
 #endif
 }

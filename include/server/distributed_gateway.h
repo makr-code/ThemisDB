@@ -77,25 +77,25 @@ struct GatewayNode {
  * ### Routing Logic
  * When a request arrives:
  * 1. Match request path against path_prefix
-     * 2. If matched, forward to upstream_url
-     * 3. Apply per-request timeout
-     * 4. Retry on transient errors (up to retry_count times)
-     * 5. If circuit breaker enabled, track failures and trip on threshold
-     * 
-     * ### Member fields:
-     * - path_prefix: Longest-prefix matching; "/api" matches "/api/v1/entities"
-     * - upstream_url: Target service URL (e.g., "http://query-service:8081")
-     * - timeout_ms: Request deadline (default 30s); includes all retries
-     * - retry_count: Transient error retry attempts (default 2; excludes initial attempt)
-     * - circuit_breaker_enabled: Enable circuit-breaker logic for this route
-     * - circuit_breaker_failure_threshold: Consecutive failures before tripping (default 5)
-     * 
-     * @note This config is replicated to all gateway nodes via Raft for consistency
-     * @note Changes to configs are applied immediately to ongoing requests
-     * @note Upstream URL must be reachable from all gateway nodes
-     * 
-     * @see ClusterGatewayConfig for the full configuration snapshot
-     */
+ * 2. If matched, forward to upstream_url
+ * 3. Apply per-request timeout
+ * 4. Retry on transient errors (up to retry_count times)
+ * 5. If circuit breaker enabled, track failures and trip on threshold
+ * 
+ * ### Member fields:
+ * - path_prefix: Longest-prefix matching; "/api" matches "/api/v1/entities"
+ * - upstream_url: Target service URL (e.g., "http://query-service:8081")
+ * - timeout_ms: Request deadline (default 30s); includes all retries
+ * - retry_count: Transient error retry attempts (default 2; excludes initial attempt)
+ * - circuit_breaker_enabled: Enable circuit-breaker logic for this route
+ * - circuit_breaker_failure_threshold: Consecutive failures before tripping (default 5)
+ * 
+ * @note This config is replicated to all gateway nodes via Raft for consistency
+ * @note Changes to configs are applied immediately to ongoing requests
+ * @note Upstream URL must be reachable from all gateway nodes
+ * 
+ * @see ClusterGatewayConfig for the full configuration snapshot
+ */
     struct GatewayRouteConfig {
     std::string path_prefix;        ///< Path prefix to match (e.g. "/api/v1/query")
     std::string upstream_url;       ///< Target upstream URL
@@ -121,31 +121,31 @@ struct GatewayNode {
  * 
  * ### Configuration Elements
  * - version: Monotonically increasing integer; incremented on every config change
-     * - routes: Ordered list of routing rules (first match wins)
-     * - rate_limits: Per-client-key rate limits (overrides global limit if set)
-     * - global_rate_limit_rps: Default cluster-wide rate limit (requests per second)
-     * - updated_by: Node ID of the peer that committed this version (for tracing)
-     * - updated_at: Timestamp when config was committed to Raft log
-     * 
-     * ### Cluster Convergence
-     * When one node updates the config:
-     * 1. Change is appended to Raft log
-     * 2. Leader broadcasts change to followers
-     * 3. Followers apply change when it's committed (quorum confirmation)
-     * 4. All nodes now have identical config (same version, routes, rate_limits)
-     * 
-     * ### Rate Limiting Rules
-     * - If rate_limits[client_key] is set, use per-client limit
-     * - Otherwise, use global_rate_limit_rps
-     * - Enforcement is per-node; Redis backend provides cluster-wide consistency
-     * 
-     * @note All fields must be serializable to/from JSON for Raft replication
-     * @note version is used for concurrency control and conflict detection
-     * @note updated_at is purely informational; uses system clock (may drift)
-     * 
-     * @see GatewayRouteConfig for individual routing rules
-     * @see DistributedGateway for runtime management
-     */
+ * - routes: Ordered list of routing rules (first match wins)
+ * - rate_limits: Per-client-key rate limits (overrides global limit if set)
+ * - global_rate_limit_rps: Default cluster-wide rate limit (requests per second)
+ * - updated_by: Node ID of the peer that committed this version (for tracing)
+ * - updated_at: Timestamp when config was committed to Raft log
+ * 
+ * ### Cluster Convergence
+ * When one node updates the config:
+ * 1. Change is appended to Raft log
+ * 2. Leader broadcasts change to followers
+ * 3. Followers apply change when it's committed (quorum confirmation)
+ * 4. All nodes now have identical config (same version, routes, rate_limits)
+ * 
+ * ### Rate Limiting Rules
+ * - If rate_limits[client_key] is set, use per-client limit
+ * - Otherwise, use global_rate_limit_rps
+ * - Enforcement is per-node; Redis backend provides cluster-wide consistency
+ * 
+ * @note All fields must be serializable to/from JSON for Raft replication
+ * @note version is used for concurrency control and conflict detection
+ * @note updated_at is purely informational; uses system clock (may drift)
+ * 
+ * @see GatewayRouteConfig for individual routing rules
+ * @see DistributedGateway for runtime management
+ */
     struct ClusterGatewayConfig {
     uint64_t                        version{0};       ///< Monotonically increasing config version
     std::vector<GatewayRouteConfig> routes;           ///< Ordered routing rules

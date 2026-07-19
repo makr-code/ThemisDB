@@ -29,7 +29,7 @@ class WALApplier;
 
 namespace server {
 
-// gRPC WAL Apply service wrapper with strict non-proto fail-closed behavior.
+// gRPC WAL Apply service wrapper with optional non-proto service injection.
 class WalGrpcService {
 public:
     /// Callback type that provides an opaque grpc::Service* to the wrapper
@@ -45,9 +45,8 @@ public:
      * Returns the concrete service implementation when shard gRPC headers are
      * available.
      *
-     * In non-proto builds, construction requires a non-empty callback registered
-     * via setServiceFn() that returns a non-null service pointer. If that
-     * requirement is not met, the constructor throws and no instance is created.
+     * In non-proto builds, this returns nullptr unless a callback is registered
+     * via setServiceFn() and returns a non-null service pointer.
      */
     void* service();
 
@@ -58,8 +57,9 @@ public:
      * instance obtained from another module (e.g. dynamically loaded generated
      * stubs). The callback is invoked once during construction.
      *
-     * A missing callback, thrown callback exception, or nullptr callback result
-     * causes constructor failure via std::runtime_error (fail-closed).
+     * A missing callback leaves the endpoint disabled (service() returns nullptr).
+     * A thrown callback exception or nullptr callback result causes constructor
+     * failure via std::runtime_error.
      *
      * Pass an empty function to remove a previously registered callback.
      */
