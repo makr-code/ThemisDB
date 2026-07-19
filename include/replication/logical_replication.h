@@ -108,18 +108,18 @@ public:
     /**
      * Construct a LogicalReplicationManager with default configuration.
      *
-     * @param wal Shared pointer to the WAL manager (must not be nullptr).
-     * @throws std::invalid_argument if wal is nullptr.
-     * @post Object is not yet active; call loadSlots() to restore persisted slots.
+     * @param wal Shared pointer to the WAL manager; may be nullptr (WAL-dependent
+     *            operations such as restart_lsn will default to 0).
+     * @post Persisted slots are loaded from the configured wal_directory (if set).
      */
     explicit LogicalReplicationManager(std::shared_ptr<WALManager> wal);
     
     /**
      * Construct a LogicalReplicationManager with custom configuration.
      *
-     * @param wal Shared pointer to the WAL manager (must not be nullptr).
+     * @param wal Shared pointer to the WAL manager; may be nullptr.
      * @param config Custom configuration (WAL directory, schema versions, decoding mode).
-     * @throws std::invalid_argument if wal is nullptr.
+     * @post Persisted slots are loaded from config.wal_directory (if non-empty).
      */
     LogicalReplicationManager(std::shared_ptr<WALManager> wal, Config config);
     ~LogicalReplicationManager() override = default;
@@ -138,7 +138,7 @@ public:
      * @param slot_name Unique identifier for the slot.
      * @param output_plugin Plugin name (e.g., "test_decoding", "wal2json").
      * @return LogicalReplicationSlot with restart_lsn set to current WAL position.
-     * @throws std::invalid_argument if slot_name already exists or is empty.
+     * @throws std::runtime_error if a slot with slot_name already exists.
      *
      * @note Default filter allows all collections and operations.
      */
@@ -203,8 +203,10 @@ public:
      * prevent redelivery on restart. LSN must monotonically increase.
      *
      * @param slot_name Identifier of the slot to advance.
-     * @param lsn New confirmed flush LSN (must be >= current).
-     * @throws std::invalid_argument if slot does not exist or LSN goes backward.
+     * @param lsn New confirmed flush LSN.
+     *
+     * @note Silently returns if slot does not exist or if lsn is less than
+     *       the current confirmed_flush_lsn (backwards LSN is ignored).
      */
     void advanceSlot(const std::string& slot_name, uint64_t lsn);
     
@@ -238,11 +240,12 @@ public:
      *
      * @param slot_name Identifier of the slot.
      * @param max_changes Maximum number of changes to return (default: 1000).
-     * @return Vector of LogicalChange entries; empty if no new changes.
-     * @throws std::invalid_argument if slot does not exist.
+     * @return Vector of LogicalChange entries; empty if slot does not exist or
+     *         has no buffered changes.
      *
-     * @note Caller must call advanceSlot() after processing to update confirmed_flush_lsn.
-     * @note Changes are not removed from the buffer until explicitly confirmed.
+     * @note Changes are removed from the in-memory buffer immediately upon return.
+     *       Call advanceSlot() after processing to persist the confirmed_flush_lsn
+     *       so that changes are not re-delivered after a restart.
      */
     std::vector<LogicalChange> readChanges(const std::string& slot_name, uint32_t max_changes = 1000);
     

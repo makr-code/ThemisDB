@@ -52,7 +52,7 @@ Production-capable replication runtime exists for orchestration, promotion/failo
 - [x] core replication module docs aligned to source-verifiable behavior
 - [x] roadmap/future planning separated from historical changelog entries
 - [x] comprehensive Doxygen documentation for all public APIs in replication manager, logical replication, and observability
-- [x] focused conflict resolution test suite (RCS-01..RCS-04) validates strategy determinism and edge-case handling
+- [x] focused conflict resolution test suite (RCS-01..RCS-06) validates strategy determinism and edge-case handling
 
 ## Production Readiness Checklist
 

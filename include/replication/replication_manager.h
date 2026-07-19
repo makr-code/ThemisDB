@@ -633,11 +633,10 @@ public:
      * Initialize replication subsystem and start background threads.
      *
      * Initializes WAL, replicas, leader election state, and background replication
-     * threads. Must be called exactly once before replicate() or waitForReplication()
-     * can succeed.
+     * threads. If already initialized, returns true immediately (idempotent).
      *
-     * @return true on success; false if WAL initialization or thread creation fails.
-     * @throws std::runtime_error if already initialized.
+     * @return true on success or if already initialized; false if configuration
+     *         validation (validateConfig()) fails.
      *
      * @post On success, background replication threads are running and this node
      *       has joined the configured replica group.
@@ -664,13 +663,11 @@ public:
      *
      * @param entry WAL entry containing operation, document, data, and checksum.
      * @return true if entry was appended to WAL; false if this node is not
-     *         the leader or WAL append failed.
+     *         the leader, WAL append failed, or replication is not initialized.
      *
      * @note In ASYNC mode, returns true immediately without waiting for replicas.
      *       In SEMI_SYNC mode, waits for min_sync_replicas to acknowledge.
      *       In SYNC mode, waits for all voting replicas.
-     *
-     * @throws std::invalid_argument if entry.checksum is empty or malformed.
      */
     bool replicate(const WALEntry& entry);
     
@@ -683,7 +680,8 @@ public:
      *   - timeout_ms milliseconds have elapsed (0 = no timeout).
      *
      * @param sequence WAL sequence number to wait for.
-     * @param timeout_ms Maximum time to wait in milliseconds; 0 means infinite.
+     * @param timeout_ms Maximum time to wait in milliseconds; 0 means use
+     *        the configured replication_timeout_ms from ReplicationConfig.
      * @return true if replication completed within timeout; false on timeout or error.
      *
      * @note Unused in ASYNC mode (returns immediately).
