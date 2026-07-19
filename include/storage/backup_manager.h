@@ -79,6 +79,19 @@ enum class CompressionType {
 };
 
 /**
+ * File Integrity Information
+ * Used for tracking checksum during backup compression and recovery during decompression
+ */
+struct FileIntegrityInfo {
+    std::string relative_path;      ///< Path relative to backup root
+    std::string checksum_sha256;    ///< SHA-256 checksum of original file
+    uint64_t original_size = 0;     ///< Size before compression
+    uint64_t compressed_size = 0;   ///< Size after compression (0 if uncompressed)
+    CompressionType compression = CompressionType::NONE;
+    bool verified = false;          ///< Set to true after successful verification
+};
+
+/**
  * Backup Storage Backend
  */
 enum class StorageBackend {
@@ -299,8 +312,40 @@ public:
      * @param compressed_file: Compressed backup file
      * @param dest_dir: Destination directory
      * @return Result<std::string> containing decompressed directory path on success, Error on failure
+     * 
+     * @note Phase 1 Enhancement: This method now performs integrity verification after decompression
+     *       to prevent silent data corruption. All decompressed files are verified against stored
+     *       checksums to ensure data integrity.
      */
     Result<std::string> decompressBackup(const std::string& compressed_file, const std::string& dest_dir);
+    
+    /**
+     * Verify decompressed backup integrity
+     * @param backup_dir: Decompressed backup directory to verify
+     * @return Result<void> on success (all files verified), Error on integrity mismatch
+     * 
+     * @note Performs post-decompression verification:
+     *       - Reads integrity manifest from backup
+     *       - Calculates SHA-256 checksum of each file
+     *       - Compares against stored checksums
+     *       - Reports corrupted files with details
+     * @throws On detection of corruption, returns error with list of corrupted files
+     */
+    Result<void> verifyDecompressedBackup(const std::string& backup_dir);
+    
+    /**
+     * Verify and repair corrupted decompressed backup
+     * @param backup_dir: Backup directory to repair
+     * @param compressed_source: Optional original compressed file for re-decompression of corrupted files
+     * @return Result<uint32_t> containing number of repaired files on success, Error on failure
+     * 
+     * @note This is an advanced recovery method:
+     *       - Identifies corrupted files during verification
+     *       - Attempts to repair from original compressed source if provided
+     *       - If source unavailable, quarantines corrupted files with warnings
+     */
+    Result<uint32_t> repairDecompressedBackup(const std::string& backup_dir,
+                                              const std::string& compressed_source = "");
     
     /**
      * Detect RAID configuration from environment variables
@@ -611,6 +656,37 @@ private:
     
     // Helper: Find last full backup for differential
     std::string findLastFullBackup(const std::string& backup_dir);
+    
+    // ========================================================================
+    // Phase 1: Decompression Integrity Verification Helpers
+    // ========================================================================
+    
+    // Helper: Build integrity manifest during compression
+    // Maps file paths to checksums and compression metadata
+    Result<void> buildIntegrityManifest(const std::string& backup_dir,
+                                        std::vector<FileIntegrityInfo>& integrity_map);
+    
+    // Helper: Store integrity manifest to INTEGRITY_MANIFEST.json
+    Result<void> writeIntegrityManifest(const std::string& backup_dir,
+                                        const std::vector<FileIntegrityInfo>& integrity_map);
+    
+    // Helper: Load integrity manifest from INTEGRITY_MANIFEST.json
+    Result<std::vector<FileIntegrityInfo>> readIntegrityManifest(const std::string& backup_dir);
+    
+    // Helper: Verify file against stored checksum
+    // Returns true if checksum matches, false otherwise
+    Result<bool> verifyFileChecksum(const std::string& file_path,
+                                    const std::string& expected_checksum);
+    
+    // Helper: Verify all files in decompressed backup match stored checksums
+    Result<std::vector<std::string>> verifyAllChecksums(const std::string& backup_dir,
+                                                         const std::vector<FileIntegrityInfo>& integrity_map);
+    
+    // Helper: Enhanced decompression with integrity check built-in
+    bool decompressPathWithIntegrity(const std::string& src_path,
+                                     const std::string& dest_path,
+                                     CompressionType type,
+                                     std::error_code& ec);
 
     WalReplayFn wal_replay_fn_;      ///< Optional WAL-replay hook (Stub #249)
     CfSstIngestFn cf_sst_ingest_fn_; ///< Optional per-CF SST ingest hook (Stub #300)

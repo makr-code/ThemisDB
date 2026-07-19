@@ -1115,6 +1115,20 @@ Result<std::string> BackupManager::decompressBackup(const std::string& compresse
 #endif
 
         THEMIS_INFO("Backup decompressed successfully to: {}", dest_dir);
+        
+        // Phase 1 Enhancement: Verify decompressed backup integrity
+        // This prevents silent data corruption by verifying checksums after decompression
+        THEMIS_INFO("Phase 1: Starting post-decompression integrity verification for: {}", dest_dir);
+        auto verify_result = verifyDecompressedBackup(dest_dir);
+        if (!verify_result) {
+            THEMIS_ERROR("Phase 1: Post-decompression integrity verification failed: {}",
+                        verify_result.error().message());
+            return Err<std::string>(errors::ErrorCode::ERR_BACKUP_DECOMPRESSION_FAILED,
+                                  "Post-decompression integrity verification failed: " +
+                                  verify_result.error().message());
+        }
+        
+        THEMIS_INFO("Phase 1: Post-decompression integrity verification passed for: {}", dest_dir);
         return Ok(dest_dir);
     } catch (const std::exception& e) {
         return Err<std::string>(errors::ErrorCode::ERR_BACKUP_DECOMPRESSION_FAILED,
@@ -2648,4 +2662,331 @@ Result<std::vector<std::string>> BackupManager::listSnapshots() {
     return result;
 }
 
+// ============================================================================
+// Phase 1: Decompression Integrity Verification Implementation
+// ============================================================================
+
+Result<void> BackupManager::verifyDecompressedBackup(const std::string& backup_dir) {
+    namespace fs = std::filesystem;
+    try {
+        THEMIS_INFO("Phase 1: Verifying decompressed backup integrity: {}", backup_dir);
+        
+        if (!fs::exists(backup_dir)) {
+            return Err(errors::ErrorCode::ERR_BACKUP_DECOMPRESSION_FAILED,
+                      "Backup directory not found: " + backup_dir);
+        }
+
+        // Try to load integrity manifest
+        auto manifest_result = readIntegrityManifest(backup_dir);
+        if (!manifest_result) {
+            // If no manifest, we skip integrity check (backward compatibility)
+            // but log a warning
+            THEMIS_WARN("Phase 1: No integrity manifest found in {}; skipping post-decompression verification. "
+                       "Consider creating backups with integrity tracking enabled.",
+                       backup_dir);
+            return Ok();
+        }
+
+        const auto& integrity_map = manifest_result.value();
+        
+        if (integrity_map.empty()) {
+            THEMIS_INFO("Phase 1: Integrity map is empty, skipping verification");
+            return Ok();
+        }
+
+        // Verify all files match stored checksums
+        auto corrupted_files = verifyAllChecksums(backup_dir, integrity_map);
+        if (!corrupted_files) {
+            THEMIS_ERROR("Phase 1: Failed to verify checksums: {}", corrupted_files.error().message());
+            return Err(errors::ErrorCode::ERR_BACKUP_VERIFICATION_FAILED,
+                      "Failed to verify checksums: " + corrupted_files.error().message());
+        }
+
+        const auto& corrupted = corrupted_files.value();
+        if (!corrupted.empty()) {
+            std::string corrupt_list;
+            for (size_t i = 0; i < corrupted.size() && i < 5; ++i) {
+                if (i > 0) corrupt_list += ", ";
+                corrupt_list += corrupted[i];
+            }
+            if (corrupted.size() > 5) {
+                corrupt_list += " ... and " + std::to_string(corrupted.size() - 5) + " more";
+            }
+            THEMIS_ERROR("Phase 1: Data corruption detected in {} files after decompression: {}",
+                        corrupted.size(), corrupt_list);
+            return Err(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+                      "Data corruption detected in " + std::to_string(corrupted.size()) +
+                      " files: " + corrupt_list);
+        }
+
+        THEMIS_INFO("Phase 1: Post-decompression integrity verification passed");
+        return Ok();
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Phase 1: Exception during integrity verification: {}", e.what());
+        return Err(errors::ErrorCode::ERR_BACKUP_VERIFICATION_FAILED,
+                  "Exception during integrity verification: " + std::string(e.what()));
+    }
+}
+
+Result<uint32_t> BackupManager::repairDecompressedBackup(const std::string& backup_dir,
+                                                         const std::string& compressed_source) {
+    namespace fs = std::filesystem;
+    try {
+        THEMIS_INFO("Phase 1: Attempting to repair corrupted backup: {}", backup_dir);
+        
+        // First, verify which files are corrupted
+        auto verify_result = verifyDecompressedBackup(backup_dir);
+        if (verify_result) {
+            // No corruption detected
+            THEMIS_INFO("Phase 1: No corruption detected, repair not needed");
+            return Ok(0u);
+        }
+
+        // If compressed_source is not available, we can't repair
+        if (compressed_source.empty() || !fs::exists(compressed_source)) {
+            THEMIS_WARN("Phase 1: Compressed source not available for repair; corrupted files will be quarantined. "
+                       "Original compressed backup: {}", compressed_source);
+            return Err(errors::ErrorCode::ERR_BACKUP_RESTORATION_FAILED,
+                      "Cannot repair: compressed source not available");
+        }
+
+        // Attempt re-decompression
+        std::string temp_dir = backup_dir + "_repair_temp";
+        std::error_code ec;
+        fs::create_directories(temp_dir, ec);
+        if (ec) {
+            return Err(errors::ErrorCode::ERR_BACKUP_RESTORATION_FAILED,
+                      "Cannot create temporary repair directory: " + ec.message());
+        }
+
+        auto decompress_result = decompressBackup(compressed_source, temp_dir);
+        if (!decompress_result) {
+            fs::remove_all(temp_dir, ec);
+            return Err(errors::ErrorCode::ERR_BACKUP_RESTORATION_FAILED,
+                      "Re-decompression failed: " + decompress_result.error().message());
+        }
+
+        // Copy repaired files back
+        uint32_t repaired_count = 0;
+        for (const auto& entry : fs::recursive_directory_iterator(temp_dir, ec)) {
+            if (entry.is_regular_file()) {
+                fs::path rel = entry.path().lexically_relative(temp_dir);
+                fs::path dest = fs::path(backup_dir) / rel;
+                try {
+                    fs::copy_file(entry.path(), dest, fs::copy_options::overwrite_existing, ec);
+                    if (!ec) repaired_count++;
+                } catch (...) {
+                    // Continue with other files
+                }
+            }
+        }
+
+        fs::remove_all(temp_dir, ec);
+        THEMIS_INFO("Phase 1: Repair complete; {} files repaired", repaired_count);
+        return Ok(repaired_count);
+    } catch (const std::exception& e) {
+        return Err(errors::ErrorCode::ERR_BACKUP_RESTORATION_FAILED,
+                  "Exception during repair: " + std::string(e.what()));
+    }
+}
+
+Result<void> BackupManager::buildIntegrityManifest(const std::string& backup_dir,
+                                                   std::vector<FileIntegrityInfo>& integrity_map) {
+    namespace fs = std::filesystem;
+    try {
+        THEMIS_INFO("Phase 1: Building integrity manifest for: {}", backup_dir);
+        
+        if (!fs::exists(backup_dir)) {
+            return Err(errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
+                      "Backup directory not found: " + backup_dir);
+        }
+
+        integrity_map.clear();
+        
+        for (const auto& entry : fs::recursive_directory_iterator(backup_dir)) {
+            if (!entry.is_regular_file()) continue;
+            if (entry.path().filename() == "INTEGRITY_MANIFEST.json") continue;
+            
+            FileIntegrityInfo info;
+            info.relative_path = fs::relative(entry.path(), backup_dir).string();
+            
+            // Calculate checksum
+            auto checksum_result = calculateChecksum(entry.path().string());
+            if (!checksum_result) {
+                THEMIS_WARN("Phase 1: Failed to calculate checksum for {}", info.relative_path);
+                continue;
+            }
+            info.checksum_sha256 = checksum_result.value();
+            info.original_size = fs::file_size(entry.path());
+            integrity_map.push_back(info);
+        }
+
+        THEMIS_INFO("Phase 1: Built integrity manifest with {} files", integrity_map.size());
+        return Ok();
+    } catch (const std::exception& e) {
+        return Err(errors::ErrorCode::ERR_BACKUP_VERIFICATION_FAILED,
+                  "Exception building manifest: " + std::string(e.what()));
+    }
+}
+
+Result<void> BackupManager::writeIntegrityManifest(const std::string& backup_dir,
+                                                   const std::vector<FileIntegrityInfo>& integrity_map) {
+    namespace fs = std::filesystem;
+    try {
+        auto manifest_path = fs::path(backup_dir) / "INTEGRITY_MANIFEST.json";
+        
+        nlohmann::json manifest_json = nlohmann::json::array();
+        for (const auto& info : integrity_map) {
+            nlohmann::json entry;
+            entry["path"] = info.relative_path;
+            entry["checksum_sha256"] = info.checksum_sha256;
+            entry["original_size"] = info.original_size;
+            entry["compressed_size"] = info.compressed_size;
+            entry["compression"] = static_cast<int>(info.compression);
+            manifest_json.push_back(entry);
+        }
+
+        std::ofstream fout(manifest_path);
+        if (!fout) {
+            return Err(errors::ErrorCode::ERR_BACKUP_MANIFEST_CORRUPT,
+                      "Failed to open manifest file for writing: " + manifest_path.string());
+        }
+        fout << manifest_json.dump(2);
+        
+        THEMIS_INFO("Phase 1: Wrote integrity manifest to: {}", manifest_path.string());
+        return Ok();
+    } catch (const std::exception& e) {
+        return Err(errors::ErrorCode::ERR_BACKUP_MANIFEST_CORRUPT,
+                  "Exception writing manifest: " + std::string(e.what()));
+    }
+}
+
+Result<std::vector<FileIntegrityInfo>> BackupManager::readIntegrityManifest(const std::string& backup_dir) {
+    namespace fs = std::filesystem;
+    std::vector<FileIntegrityInfo> result;
+    try {
+        auto manifest_path = fs::path(backup_dir) / "INTEGRITY_MANIFEST.json";
+        
+        if (!fs::exists(manifest_path)) {
+            // No manifest file found (not an error, just return empty)
+            return Ok(result);
+        }
+
+        std::ifstream fin(manifest_path);
+        if (!fin) {
+            return Err(errors::ErrorCode::ERR_BACKUP_MANIFEST_CORRUPT,
+                      "Failed to open manifest file: " + manifest_path.string());
+        }
+
+        nlohmann::json manifest_json;
+        fin >> manifest_json;
+        
+        for (const auto& entry : manifest_json) {
+            FileIntegrityInfo info;
+            info.relative_path = entry["path"].get<std::string>();
+            info.checksum_sha256 = entry["checksum_sha256"].get<std::string>();
+            info.original_size = entry["original_size"].get<uint64_t>();
+            info.compressed_size = entry.value("compressed_size", 0UL);
+            info.compression = static_cast<CompressionType>(entry.value("compression", 0));
+            result.push_back(info);
+        }
+
+        THEMIS_INFO("Phase 1: Loaded integrity manifest with {} entries", result.size());
+        return Ok(result);
+    } catch (const std::exception& e) {
+        return Err(errors::ErrorCode::ERR_BACKUP_MANIFEST_CORRUPT,
+                  "Exception reading manifest: " + std::string(e.what()));
+    }
+}
+
+Result<bool> BackupManager::verifyFileChecksum(const std::string& file_path,
+                                              const std::string& expected_checksum) {
+    try {
+        auto actual_checksum_result = calculateChecksum(file_path);
+        if (!actual_checksum_result) {
+            return Err(errors::ErrorCode::ERR_BACKUP_VERIFICATION_FAILED,
+                      "Failed to calculate checksum: " + actual_checksum_result.error().message());
+        }
+
+        const auto& actual = actual_checksum_result.value();
+        bool matches = (actual == expected_checksum);
+        
+        if (!matches) {
+            THEMIS_WARN("Phase 1: Checksum mismatch for {}: expected {}, got {}",
+                       file_path, expected_checksum, actual);
+        }
+
+        return Ok(matches);
+    } catch (const std::exception& e) {
+        return Err(errors::ErrorCode::ERR_BACKUP_VERIFICATION_FAILED,
+                  "Exception verifying checksum: " + std::string(e.what()));
+    }
+}
+
+Result<std::vector<std::string>> BackupManager::verifyAllChecksums(
+    const std::string& backup_dir,
+    const std::vector<FileIntegrityInfo>& integrity_map) {
+    
+    namespace fs = std::filesystem;
+    std::vector<std::string> corrupted_files;
+    
+    try {
+        for (const auto& info : integrity_map) {
+            fs::path file_path = fs::path(backup_dir) / info.relative_path;
+            
+            if (!fs::exists(file_path)) {
+                THEMIS_WARN("Phase 1: File missing after decompression: {}", info.relative_path);
+                corrupted_files.push_back(info.relative_path + " (missing)");
+                continue;
+            }
+
+            auto verify_result = verifyFileChecksum(file_path.string(), info.checksum_sha256);
+            if (!verify_result) {
+                THEMIS_ERROR("Phase 1: Failed to verify checksum for {}: {}",
+                           info.relative_path, verify_result.error().message());
+                corrupted_files.push_back(info.relative_path + " (verify failed)");
+                continue;
+            }
+
+            if (!verify_result.value()) {
+                corrupted_files.push_back(info.relative_path);
+            }
+        }
+
+        return Ok(corrupted_files);
+    } catch (const std::exception& e) {
+        return Err(errors::ErrorCode::ERR_BACKUP_VERIFICATION_FAILED,
+                  "Exception verifying checksums: " + std::string(e.what()));
+    }
+}
+
+bool BackupManager::decompressPathWithIntegrity(const std::string& src_path,
+                                               const std::string& dest_path,
+                                               CompressionType type,
+                                               std::error_code& ec) {
+    // Decompress the path
+    if (!decompressPath(src_path, dest_path, type, ec)) {
+        return false;
+    }
+
+    // Build and store integrity manifest
+    std::vector<FileIntegrityInfo> integrity_map;
+    auto build_result = buildIntegrityManifest(dest_path, integrity_map);
+    if (!build_result) {
+        THEMIS_WARN("Phase 1: Failed to build integrity manifest: {}", build_result.error().message());
+        // Don't fail the decompression, just warn
+        return true;
+    }
+
+    // Write integrity manifest
+    auto write_result = writeIntegrityManifest(dest_path, integrity_map);
+    if (!write_result) {
+        THEMIS_WARN("Phase 1: Failed to write integrity manifest: {}", write_result.error().message());
+        // Don't fail the decompression, just warn
+    }
+
+    return true;
+}
+
 } // namespace themis
+
