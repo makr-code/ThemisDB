@@ -176,23 +176,23 @@ struct GatewayNode {
  * 4. Route session to the physical node owning that virtual node
  * 5. If a node joins/leaves, only keys between old and new node positions are re-hashed
  * 
-     * ### Virtual Node Replication
-     * Multiple virtual nodes per physical node reduce the impact of node failures
-     * and improve load distribution. Default is 160 virtual nodes per physical node.
-     * 
-     * ### Sticky Routing Benefits
-     * - Session context remains local to one node (no cross-node session store needed)
-     * - Connection state (subscriptions, temporary tables) is preserved
-     * - Reduced latency for stateful operations
-     * - Simplified operational management
-     * 
-     * @note Used only for stateful protocols (WebSocket, SSE); REST requests are not pinned
-     * @note When nodes join/leave, sessions are rebalanced but not interrupted
-     * @note Separate from TCP connection routing; a single connection may span multiple nodes
-     * 
-     * @see GatewayNode for physical node descriptors
-     */
-    class ConsistentHashRing {
+ * ### Virtual Node Replication
+ * Multiple virtual nodes per physical node reduce the impact of node failures
+ * and improve load distribution. Default is 150 virtual nodes per physical node.
+ * 
+ * ### Sticky Routing Benefits
+ * - Session context remains local to one node (no cross-node session store needed)
+ * - Connection state (subscriptions, temporary tables) is preserved
+ * - Reduced latency for stateful operations
+ * - Simplified operational management
+ * 
+ * @note Used only for stateful protocols (WebSocket, SSE); REST requests are not pinned
+ * @note When nodes join/leave, sessions are rebalanced but not interrupted
+ * @note Separate from TCP connection routing; a single connection may span multiple nodes
+ * 
+ * @see GatewayNode for physical node descriptors
+ */
+class ConsistentHashRing {
 public:
     /**
      * @brief Construct ring with the given virtual-node replication factor.

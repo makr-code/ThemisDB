@@ -53,7 +53,7 @@ using RouteHandler = std::function<void(const Request&, Response&)>;
 /**
  * @brief ErrorApiHandler - Error response and diagnostic API operations.
  * 
- * HTTP API handler for error response and diagnostic api operations.
+ * HTTP API handler for error response and diagnostic API operations.
  * Implements endpoint-specific routing, request validation, business logic,
  * and response formatting.
  * 

@@ -175,7 +175,7 @@ public:
      * as fallback.
      * 
      * @param tokens Number of tokens to consume (default: 1).
-     *               Must be > 0; implementation-defined behavior for 0 or negative values.
+     *               A value of 0 is treated as a no-op acquisition and succeeds.
      * @param prio Priority lane to use (HIGH, NORMAL, LOW)
      * 
      * @return true if tokens were successfully acquired and consumed; false if rate limit exceeded
@@ -196,7 +196,6 @@ public:
      * @brief Query the current number of available tokens without consuming any.
      * 
      * Useful for monitoring and debugging rate-limiter state.
-     * Like tryAcquire(), this call triggers token refill calculations.
      * 
      * @param prio Priority lane to query (HIGH, NORMAL, LOW)
      * 
@@ -204,7 +203,8 @@ public:
      * 
      * @note Thread-safe; returns snapshot of current state
      * @note Does NOT consume tokens; subsequent tryAcquire() calls are unaffected
-     * @note In distributed mode (Redis), reads the latest state from Redis
+     * @note Returns local in-process bucket counters only; this call does not query Redis
+     * @note Does not trigger refill; values may lag until tryAcquire() or explicit refill paths run
      * 
      * @see tryAcquire() to consume tokens and enforce the limit
      */
@@ -453,4 +453,3 @@ private:
 
 } // namespace server
 } // namespace themis
-

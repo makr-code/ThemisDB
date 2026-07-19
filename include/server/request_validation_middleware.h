@@ -119,7 +119,8 @@ public:
      * @brief Validate a raw request body string against the schema registered for an endpoint.
      * 
      * Performs JSON Schema Draft-7 validation before the request reaches the handler.
-     * This is called as part of request intake validation (after auth/rate-limiting but before handler dispatch).
+     * In HttpServer routing, body validation is executed during request intake before
+     * final handler dispatch, but not globally after all auth checks for every path.
      * 
      * ### Path Matching Priority
      * Routes are matched in this order (first match wins):
@@ -131,8 +132,8 @@ public:
      * If no schema is registered for a request path, validation is skipped (returns OK).
      * 
      * ### Empty Body Handling
-     * Empty or whitespace-only bodies are treated as if the body is `null` in JSON Schema terms.
-     * Validation skips for schemas where no fields are marked as required.
+     * An empty body string is converted to an empty JSON object (`{}`) and then validated.
+     * Whitespace-only bodies are parsed as-is and may fail with a JSON parse error.
      * 
      * ### Validation Features (JSON Schema Draft-7 subset)
      * - type: "object", "array", "string", "number", "boolean", "null"
@@ -148,13 +149,12 @@ public:
      * @param method HTTP method string (case-insensitive, e.g. "POST", "post", "Post")
      * @param path Request target path (e.g. "/api/v1/entities/42" or "/api/v1/entities").
      *             No automatic trailing-slash normalization; "/entities" and "/entities/" are different.
-     * @param body Raw request body string. Empty string is valid and skips validation if no required fields.
+     * @param body Raw request body string. Empty string is converted to `{}` before validation.
      * 
      * @return ValidationResult::OK() when:
      *         - Body is valid against registered schema
      *         - No schema is registered for this (method, path)
-     *         - Body is empty and schema has no required fields
-     *         ValidationResult::Error(msg) when body fails validation
+     *         ValidationResult::Error(msg) when parsing fails or schema validation fails
      * 
      * @note Thread-safe; concurrent validate() calls allowed
      * @note Validation is best-effort; complex schemas may have limitations

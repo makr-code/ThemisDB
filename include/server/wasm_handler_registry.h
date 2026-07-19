@@ -41,31 +41,33 @@ namespace server {
  * 
  * ### Resource Constraints
  * - cpu_time_limit: Maximum wall-clock time; enforced via async timeout
-     * - memory_limit_bytes: Max linear-memory size (64 MiB default)
-     * - linear_memory_pages: Pre-allocated pages (64 KiB each); growing pages trigger error
-     * - entry_point: Export function to invoke (default "handle" for all handlers)
-     * 
-     * ### Invocation Flow
-     * 1. Allocate sandbox with linear_memory_pages
-     * 2. Start execution timeout timer
-     * 3. Call entry_point function with request data
-     * 4. If timeout exceeded or memory exceeded, terminate handler
-     * 5. Return error response (HTTP 500) to client
-     * 
-     * ### Security Implications
-     * - cpu_time_limit prevents infinite loops and DoS attacks
-     * - memory_limit_bytes prevents memory exhaustion on the host
-     * - linear_memory_pages prevents out-of-bounds memory access
-     * - entry_point validation ensures handlers export the expected interface
-     * 
-     * @note These limits are per-invocation; multiple concurrent invocations each have their own envelope
-     * @note Unused fields remain at their defaults; does not require full specification
-     * @note Default limits are conservative; production deployments may adjust based on workload
-     * 
-     * @see WasmHandlerEntry for handler registration with config
-     * @see themis::modules::WasmPluginSandbox for enforcement implementation
-     */
-    struct WasmHandlerConfig {
+ * - memory_limit_bytes: Max linear-memory size (64 MiB default)
+ * - linear_memory_pages: Pre-allocated pages (64 KiB each); growing pages trigger error
+ * - entry_point: Export function to invoke (default "handle" for all handlers)
+ * 
+ * ### Invocation Flow
+ * 1. Allocate sandbox with linear_memory_pages
+ * 2. Start execution timeout timer
+ * 3. Call entry_point function with request data
+ * 4. If timeout exceeded or memory exceeded, terminate handler
+ * 5. Return error response to client:
+ *    - HTTP 504 Gateway Timeout for wall-clock limit violations
+ *    - HTTP 500 Internal Server Error for memory-limit and other runtime failures
+ * 
+ * ### Security Implications
+ * - cpu_time_limit prevents infinite loops and DoS attacks
+ * - memory_limit_bytes prevents memory exhaustion on the host
+ * - linear_memory_pages prevents out-of-bounds memory access
+ * - entry_point validation ensures handlers export the expected interface
+ * 
+ * @note These limits are per-invocation; multiple concurrent invocations each have their own envelope
+ * @note Unused fields remain at their defaults; does not require full specification
+ * @note Default limits are conservative; production deployments may adjust based on workload
+ * 
+ * @see WasmHandlerEntry for handler registration with config
+ * @see themis::modules::WasmPluginSandbox for enforcement implementation
+ */
+struct WasmHandlerConfig {
     /// Maximum wall-clock execution time per invocation (default 500 ms).
     std::chrono::milliseconds cpu_time_limit{500};
 
@@ -386,4 +388,3 @@ private:
 
 } // namespace server
 } // namespace themis
-

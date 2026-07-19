@@ -63,7 +63,7 @@ struct AuditQueryFilter {
 /**
  * @brief AuditApiHandler - Audit log API operations.
  * 
- * HTTP API handler for audit log api operations.
+ * HTTP API handler for audit log API operations.
  * Implements endpoint-specific routing, request validation, business logic,
  * and response formatting.
  * 

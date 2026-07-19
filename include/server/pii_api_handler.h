@@ -49,9 +49,9 @@ struct PiiMapping {
 };
 
 /**
- * @brief PIIApiHandler - Personal Identifiable Information (PII) data handling and masking.
+ * @brief PIIApiHandler - Personally Identifiable Information (PII) data handling and masking.
  * 
- * HTTP API handler for personal identifiable information (pii) data handling and masking.
+ * HTTP API handler for personally identifiable information (PII) data handling and masking.
  * Implements endpoint-specific routing, request validation, business logic,
  * and response formatting.
  * 

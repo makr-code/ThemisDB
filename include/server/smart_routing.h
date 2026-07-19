@@ -44,15 +44,12 @@ struct BackendEndpoint {
 // ---------------------------------------------------------------------------
 
 /**
- * @brief Runtime-learning router for API Gateway backend selection.
- *
- * The router maintains a rolling latency window and access-frequency map for
- * every registered backend.  These are updated via `record*` calls after each
- * request and used to inform future routing decisions.
- */
-/**
  * @brief Intelligent request routing with latency-aware load balancing.
  * 
+ * The router maintains a rolling latency window and access-frequency map for
+ * every registered backend. These are updated via `record*` calls after each
+ * request and used to inform future routing decisions.
+ *
  * Analyzes request characteristics and backend latencies to route requests
  * to the best available backend:
  * - Short queries → Fast backends (in-memory, cache-hit optimized)
@@ -63,9 +60,9 @@ struct BackendEndpoint {
  * ### Latency-Aware Routing
  * 1. Measure P50, P99, P99.9 latencies per backend
  * 2. When choosing destination for incoming request:
-     *    - Compare recent latencies
-     *    - Route to least-loaded backend
-     *    - Avoid backends showing latency spikes
+ *    - Compare recent latencies
+ *    - Route to least-loaded backend
+ *    - Avoid backends showing latency spikes
  * 3. Periodically refresh latency estimates
  * 
  * ### Request Classification

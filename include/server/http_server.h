@@ -634,8 +634,8 @@ private:
      * 
      * This is the main request dispatcher that implements the core routing logic:
      * 1. Parse method and path from request
-     * 2. Apply request validation middleware (JSON schema checks)
-     * 3. Check rate limits (per-client and global)
+     * 2. Check rate limits (per-client and global)
+     * 3. Apply request validation middleware (JSON schema checks for body-carrying methods)
      * 4. Enforce routing-layer authorization before handler dispatch
      * 5. Dispatch to registered handler or return 404/405
      * 6. Optionally apply response transformation middleware
@@ -664,7 +664,8 @@ private:
      *         - Status 5xx: Server error (handler exception, internal failure)
      * 
      * @note Thread-safe; multiple threads may call concurrently
-     * @note Never throws exceptions; all errors converted to HTTP error responses
+     * @note Most expected failures are converted to HTTP error responses; std/json exceptions
+     *       are handled at guarded call sites, while non-standard exceptions are not guaranteed
      * @note All authorization decisions are audit-logged (without logging sensitive request data)
      * @note Request body size is limited by max_request_size_mb in Config
      * 
