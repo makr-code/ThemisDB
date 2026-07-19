@@ -1,0 +1,1 @@
+include("/home/runner/work/ThemisDB/ThemisDB/cmake/tests/test_wasm_runtime_injector[1]_include.cmake")

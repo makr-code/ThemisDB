@@ -39,11 +39,37 @@ namespace raii {
 // CUDA Stream RAII Wrapper
 // ============================================================================
 
+/// @brief RAII wrapper for CUDA stream (cudaStream_t).
+///
+/// Manages the lifetime of a CUDA stream created with cudaStreamCreate().
+/// Automatically destroys the stream on scope exit (exception-safe RAII).
+/// 
+/// Supports ownership semantics:
+/// - **Owned streams**: created by CudaStream itself, destroyed on scope exit.
+/// - **Non-owned streams**: wrapped around externally-created streams, not destroyed.
+///
+/// Features:
+/// - Move semantics: efficient transfer of stream ownership.
+/// - Non-copyable: prevents accidental stream duplication.
+/// - Exception-safe: stream is released even during unwinding.
+///
+/// Example usage:
+/// ```cpp
+/// CudaStream stream(true);  // Create and manage a new stream
+/// stream.synchronize();      // Wait for all work in the stream
+/// // stream automatically destroyed on scope exit
+/// ```
+///
+/// @note For wrapping externally-created streams, use wrap() static factory.
 class CudaStream {
 public:
+    /// @brief Default constructor; does not create a stream.
     CudaStream() : stream_(nullptr), owned_(false) {}
     
-    // Create a new stream
+    /// @brief Create a new CUDA stream.
+    /// @param createNow If true, create the stream immediately; if false, defer creation.
+    /// @param flags Stream creation flags (e.g., cudaStreamDefault, cudaStreamNonBlocking).
+    /// @throws std::runtime_error if stream creation fails and createNow is true.
     explicit CudaStream(bool createNow, unsigned int flags = cudaStreamDefault) 
         : stream_(nullptr), owned_(false) {
         if (createNow) {
@@ -51,7 +77,10 @@ public:
         }
     }
     
-    // Wrap an existing stream (non-owning)
+    /// @brief Wrap an existing stream without taking ownership.
+    /// @param stream The CUDA stream handle to wrap (not owned by the wrapper).
+    /// @return A CudaStream instance that wraps but does not own the stream.
+    /// @note The stream will not be destroyed when this wrapper goes out of scope.
     static CudaStream wrap(cudaStream_t stream) {
         CudaStream wrapper;
         wrapper.stream_ = stream;
@@ -59,17 +88,18 @@ public:
         return wrapper;
     }
     
-    // No copy
+    // Non-copyable
     CudaStream(const CudaStream&) = delete;
     CudaStream& operator=(const CudaStream&) = delete;
     
-    // Move semantics
+    /// @brief Move constructor; transfers stream ownership.
     CudaStream(CudaStream&& other) noexcept 
         : stream_(other.stream_), owned_(other.owned_) {
         other.stream_ = nullptr;
         other.owned_ = false;
     }
     
+    /// @brief Move assignment; transfers stream ownership.
     CudaStream& operator=(CudaStream&& other) noexcept {
         if (this != &other) {
             destroy();
@@ -81,11 +111,15 @@ public:
         return *this;
     }
     
+    /// @brief Destructor; destroys the stream if it is owned.
     ~CudaStream() {
         destroy();
     }
     
-    // Create stream with specified flags
+    /// @brief Create a new stream with specified flags.
+    /// @param flags Stream creation flags (default: cudaStreamDefault).
+    /// @throws std::runtime_error if stream creation fails.
+    /// @note If a stream is already owned, it is destroyed first.
     void create(unsigned int flags = cudaStreamDefault) {
         if (stream_ && owned_) {
             destroy();
@@ -101,7 +135,10 @@ public:
         owned_ = true;
     }
     
-    // Create with priority
+    /// @brief Create a stream with a specified priority.
+    /// @param priority Stream priority (lower values have higher priority).
+    /// @param flags Stream creation flags (default: cudaStreamNonBlocking).
+    /// @throws std::runtime_error if stream creation fails.
     void createWithPriority(int priority, unsigned int flags = cudaStreamNonBlocking) {
         if (stream_ && owned_) {
             destroy();
@@ -117,7 +154,9 @@ public:
         owned_ = true;
     }
     
-    // Synchronize stream
+    /// @brief Wait for all operations in this stream to complete.
+    /// @throws std::runtime_error if synchronization fails.
+    /// @note No-op if stream is invalid (nullptr).
     void synchronize() {
         if (stream_) {
             cudaError_t err = cudaStreamSynchronize(stream_);
@@ -130,13 +169,18 @@ public:
         }
     }
     
-    // Check if stream is valid
+    /// @brief Check if the stream is valid and ready for use.
+    /// @return true if the stream has been created and is non-null; false otherwise.
     bool valid() const { return stream_ != nullptr; }
     
-    // Get underlying stream handle
+    /// @brief Get the underlying CUDA stream handle.
+    /// @return The cudaStream_t handle; nullptr if not created.
+    /// @note The returned handle remains valid until this object is destroyed or reassigned.
     cudaStream_t get() const { return stream_; }
     
-    // Release ownership (caller must manage lifetime)
+    /// @brief Release ownership of the stream without destroying it.
+    /// @return The underlying CUDA stream handle.
+    /// @note After calling release(), the caller is responsible for destroying the stream.
     cudaStream_t release() {
         owned_ = false;
         cudaStream_t tmp = stream_;
@@ -161,27 +205,55 @@ private:
 // CUDA Device Memory RAII Wrapper
 // ============================================================================
 
+/// @brief RAII wrapper for CUDA device memory (allocated via cudaMalloc).
+///
+/// Manages the lifetime of GPU device memory. Automatically frees memory on
+/// scope exit (exception-safe RAII).
+///
+/// Features:
+/// - Type-agnostic: wraps raw device memory in bytes.
+/// - Move semantics: efficient transfer of memory ownership.
+/// - Non-copyable: prevents accidental memory duplication.
+/// - Bounds-checked copy operations (host↔device).
+/// - Exception-safe: memory is released even during unwinding.
+///
+/// For type-safe allocation and copying, use CudaDeviceBuffer<T> instead.
+///
+/// Example usage:
+/// ```cpp
+/// CudaDeviceMemory dev_mem(1024);  // Allocate 1024 bytes
+/// host_data to_device(host_buffer, 1024);  // Copy host→device
+/// dev_mem.copyTo(host_buffer, 1024);       // Copy device→host
+/// // Memory automatically freed on scope exit
+/// ```
+///
+/// @see CudaDeviceBuffer for type-safe memory management.
 class CudaDeviceMemory {
 public:
+    /// @brief Default constructor; does not allocate memory.
     CudaDeviceMemory() : ptr_(nullptr), size_(0) {}
     
+    /// @brief Allocate device memory.
+    /// @param size Number of bytes to allocate.
+    /// @throws std::runtime_error if allocation fails (e.g., out of device memory).
     explicit CudaDeviceMemory(size_t size) : ptr_(nullptr), size_(0) {
         if (size > 0) {
             allocate(size);
         }
     }
     
-    // No copy
+    // Non-copyable
     CudaDeviceMemory(const CudaDeviceMemory&) = delete;
     CudaDeviceMemory& operator=(const CudaDeviceMemory&) = delete;
     
-    // Move semantics
+    /// @brief Move constructor; transfers memory ownership.
     CudaDeviceMemory(CudaDeviceMemory&& other) noexcept 
         : ptr_(other.ptr_), size_(other.size_) {
         other.ptr_ = nullptr;
         other.size_ = 0;
     }
     
+    /// @brief Move assignment; transfers memory ownership.
     CudaDeviceMemory& operator=(CudaDeviceMemory&& other) noexcept {
         if (this != &other) {
             free();
@@ -193,10 +265,14 @@ public:
         return *this;
     }
     
+    /// @brief Destructor; frees the allocated device memory.
     ~CudaDeviceMemory() {
         free();
     }
     
+    /// @brief Allocate device memory.
+    /// @param size Number of bytes to allocate.
+    /// @throws std::runtime_error if allocation fails or if memory is already allocated.
     void allocate(size_t size) {
         if (ptr_) {
             free();
@@ -217,6 +293,11 @@ public:
         size_ = size;
     }
     
+    /// @brief Copy data from host to device.
+    /// @param host Source pointer on the host (must be valid for @p size bytes).
+    /// @param size Number of bytes to copy (must be ≤ allocated size).
+    /// @param stream Optional CUDA stream for asynchronous copy; 0 for synchronous.
+    /// @throws std::runtime_error if memory is unallocated, copy exceeds capacity, or copy fails.
     void copyFrom(const void* host, size_t size, cudaStream_t stream = 0) {
         if (!ptr_) {
             throw std::runtime_error("Cannot copy to unallocated CUDA memory");
@@ -240,6 +321,11 @@ public:
         }
     }
     
+    /// @brief Copy data from device to host.
+    /// @param host Destination pointer on the host (must be writable for @p size bytes).
+    /// @param size Number of bytes to copy (must be ≤ allocated size).
+    /// @param stream Optional CUDA stream for asynchronous copy; 0 for synchronous.
+    /// @throws std::runtime_error if memory is unallocated, copy exceeds capacity, or copy fails.
     void copyTo(void* host, size_t size, cudaStream_t stream = 0) const {
         if (!ptr_) {
             throw std::runtime_error("Cannot copy from unallocated CUDA memory");
@@ -263,10 +349,21 @@ public:
         }
     }
     
+    /// @brief Check if memory has been allocated.
+    /// @return true if memory is allocated; false otherwise.
     bool valid() const { return ptr_ != nullptr; }
+    
+    /// @brief Get the raw device memory pointer.
+    /// @return The device pointer; nullptr if unallocated.
     void* get() const { return ptr_; }
+    
+    /// @brief Get the allocated size in bytes.
+    /// @return The size of the allocated memory; 0 if unallocated.
     size_t size() const { return size_; }
     
+    /// @brief Release ownership of the memory without freeing it.
+    /// @return The raw device pointer.
+    /// @note After calling release(), the caller is responsible for calling cudaFree().
     void* release() {
         void* tmp = ptr_;
         ptr_ = nullptr;

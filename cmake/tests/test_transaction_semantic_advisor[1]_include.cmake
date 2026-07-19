@@ -1,0 +1,1 @@
+include("/home/runner/work/ThemisDB/ThemisDB/cmake/tests/test_transaction_semantic_advisor[1]_include.cmake")

@@ -1,0 +1,1 @@
+include("/home/runner/work/ThemisDB/ThemisDB/cmake/tests/WasmSandboxInjectionFocusedTests[1]_include.cmake")

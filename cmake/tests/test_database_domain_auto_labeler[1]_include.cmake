@@ -1,0 +1,1 @@
+include("/home/runner/work/ThemisDB/ThemisDB/cmake/tests/test_database_domain_auto_labeler[1]_include.cmake")

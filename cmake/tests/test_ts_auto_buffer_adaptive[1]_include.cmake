@@ -1,0 +1,1 @@
+include("/home/runner/work/ThemisDB/ThemisDB/cmake/tests/test_ts_auto_buffer_adaptive[1]_include.cmake")

@@ -62,19 +62,31 @@ namespace acceleration {
 // RetryPolicy
 // ---------------------------------------------------------------------------
 
-/// Controls retry behaviour when a kernel returns a transient error.
+/// @brief Controls retry behaviour when a kernel returns a transient error.
+///
+/// Configures exponential backoff and retry limits for transient device errors.
+/// When a kernel returns a transient error code (DeviceLost, OperationTimeout,
+/// SynchronizationFailed), the dispatcher will sleep and retry up to maxAttempts times.
+///
+/// @details The backoff algorithm uses exponential delay: each failed attempt
+/// increases the delay by backoffMultiplier (capped at maxDelayMs). This allows
+/// brief GPU glitches to recover without overwhelming the device.
 struct RetryPolicy {
-    /// Total invocation attempts (primary only; 1 = no retry).
+    /// @brief Total invocation attempts (primary only; 1 = no retry).
+    /// When maxAttempts=1, no retry occurs; transient errors immediately trigger fallback.
     uint32_t maxAttempts       = 3;
 
-    /// Delay before the first retry, in milliseconds.  0 disables sleeping
-    /// (useful in tests and when the caller manages its own back-off).
+    /// @brief Delay before the first retry, in milliseconds.
+    /// 0 disables sleeping (useful in tests or when caller manages back-off).
     uint32_t initialDelayMs    = 1;
 
-    /// Upper bound on back-off delay, in milliseconds.
+    /// @brief Upper bound on back-off delay, in milliseconds.
+    /// After maxDelayMs is reached, no further delay increase occurs.
     uint32_t maxDelayMs        = 100;
 
-    /// Multiplicative factor applied after each failed attempt.
+    /// @brief Multiplicative factor applied after each failed attempt.
+    /// Delay grows as: d[i+1] = min(d[i] * backoffMultiplier, maxDelayMs).
+    /// Typical value: 2.0 (exponential backoff).
     float    backoffMultiplier = 2.0f;
 };
 
@@ -163,10 +175,30 @@ int invokeWithFallback(Fn primary, Fn fallback,
 // ANNKernelFallbackDispatcher
 // ---------------------------------------------------------------------------
 
-/// Fallback/retry dispatcher for ANN (vector similarity) kernels.
+/// @brief Fallback/retry dispatcher for ANN (vector similarity) kernels.
 ///
-/// Usage
-/// -----
+/// Implements automatic fallback and retry semantics on top of the frozen kernel
+/// dispatch tables defined in kernel_invocation.h. When a primary kernel fails or
+/// is unsupported, seamlessly delegates to the fallback kernel with exponential
+/// back-off retry for transient errors.
+///
+/// ## Behavior
+/// 1. **Unsupported kernel (null slot):** If a slot in the primary dispatch table
+///    is nullptr, the corresponding fallback slot is invoked directly.
+/// 2. **Transient device error (retry):** If the primary kernel returns a transient
+///    error code (DeviceLost, OperationTimeout, SynchronizationFailed), the
+///    dispatcher sleeps for an exponentially increasing delay and retries up to
+///    RetryPolicy::maxAttempts times.
+/// 3. **Permanent error or exhausted retries:** After a non-transient error or once
+///    all retry attempts are consumed, the dispatcher falls back to the
+///    corresponding fallback slot.
+///
+/// ## Return Values
+/// All dispatch functions return 0 on success. Errors are returned as
+/// static_cast<int>(AccelerationErrorCode::XYZ) following the same convention
+/// used by the CPU-backend kernel adapters.
+///
+/// ## Example Usage
 /// @code
 ///   CPUVectorBackend cpu;
 ///   cpu.initialize();
@@ -180,26 +212,31 @@ int invokeWithFallback(Fn primary, Fn fallback,
 /// @endcode
 class ANNKernelFallbackDispatcher {
 public:
+    /// @brief Construct a new dispatcher with primary and fallback dispatch tables.
+    ///
     /// @param primary  Dispatch table from the preferred (GPU) backend.
     ///                 Null slots are treated as unsupported and are routed
     ///                 directly to the corresponding fallback slot.
     /// @param fallback Dispatch table from the fallback (typically CPU) backend.
     /// @param policy   Retry policy applied to transient errors from primary.
+    ///                 Defaults to { maxAttempts=3, initialDelayMs=1, maxDelayMs=100 }.
     ANNKernelFallbackDispatcher(ANNKernelDispatch primary,
                                 ANNKernelDispatch fallback,
                                 RetryPolicy       policy = {}) noexcept
         : primary_(primary), fallback_(fallback), policy_(policy) {}
 
-    // -------------------------------------------------------------------------
-    // resolvedDispatch()
-    //
-    // Returns a plain ANNKernelDispatch where each null slot in the primary
-    // is replaced by the corresponding fallback slot.  The returned table
-    // does NOT perform retries — it is a static resolution only.  Callers that
-    // need retry behaviour should use the invoke* methods below.
-    // -------------------------------------------------------------------------
-
-    /// Returns a plain ANNKernelDispatch with static null-slot resolution.
+    /// @brief Returns a plain ANNKernelDispatch with static null-slot resolution.
+    ///
+    /// Replaces null entries in the primary table with corresponding fallback
+    /// entries, creating a resolved dispatch table. This table does NOT perform
+    /// retries — it is a static resolution only.
+    ///
+    /// Callers that need retry behaviour should use the invoke* methods below
+    /// instead of this static table.
+    ///
+    /// @return Plain ANNKernelDispatch where each null slot in primary is
+    ///         replaced by the corresponding fallback slot. Null entries
+    ///         (when both primary and fallback are null) remain null.
     [[nodiscard]] ANNKernelDispatch resolvedDispatch() const noexcept {
         ANNKernelDispatch d;
         d.launchL2Distance   = primary_.launchL2Distance
@@ -217,10 +254,16 @@ public:
         return d;
     }
 
-    // -------------------------------------------------------------------------
-    // Per-kernel invocations with full retry/fallback semantics
-    // -------------------------------------------------------------------------
-
+    /// @brief Launch L2 distance kernel with automatic fallback and retry.
+    ///
+    /// @param q        Query matrix [numQueries × dim] (row-major)
+    /// @param v        Vector/corpus matrix [numVectors × dim] (row-major)
+    /// @param d        Output distance matrix [numQueries × numVectors] (caller-allocated)
+    /// @param nq       Number of queries
+    /// @param nv       Number of vectors
+    /// @param dim      Vector dimensionality
+    /// @param stream   Backend-specific stream handle (cudaStream_t, VkCommandBuffer, etc.)
+    /// @return 0 on success, non-zero error code on failure
     int launchL2Distance(const float* q, const float* v, float* d,
                          int nq, int nv, int dim, void* stream) {
         return detail::invokeWithFallback(
@@ -228,6 +271,8 @@ public:
             q, v, d, nq, nv, dim, stream);
     }
 
+    /// @brief Launch cosine distance kernel with automatic fallback and retry.
+    /// @copydetails launchL2Distance
     int launchCosine(const float* q, const float* v, float* d,
                      int nq, int nv, int dim, void* stream) {
         return detail::invokeWithFallback(
@@ -235,6 +280,8 @@ public:
             q, v, d, nq, nv, dim, stream);
     }
 
+    /// @brief Launch inner-product distance kernel with automatic fallback and retry.
+    /// @copydetails launchL2Distance
     int launchInnerProduct(const float* q, const float* v, float* d,
                            int nq, int nv, int dim, void* stream) {
         return detail::invokeWithFallback(
@@ -242,6 +289,16 @@ public:
             q, v, d, nq, nv, dim, stream);
     }
 
+    /// @brief Launch top-k selection kernel with automatic fallback and retry.
+    ///
+    /// @param d_dists      Input distance matrix [numQueries × numVectors]
+    /// @param idx          Output indices [numQueries × topK] (caller-allocated)
+    /// @param out_dists    Output distances [numQueries × topK] (caller-allocated)
+    /// @param nq           Number of queries
+    /// @param nv           Number of vectors
+    /// @param topK         Number of top matches to select
+    /// @param stream       Backend-specific stream handle
+    /// @return 0 on success, non-zero error code on failure
     int launchTopK(const float* d_dists, uint32_t* idx, float* out_dists,
                    int nq, int nv, int topK, void* stream) {
         return detail::invokeWithFallback(
@@ -259,18 +316,56 @@ private:
 // GeoKernelFallbackDispatcher
 // ---------------------------------------------------------------------------
 
-/// Fallback/retry dispatcher for geospatial kernels.
+/// @brief Fallback/retry dispatcher for geospatial kernels.
 ///
-/// Provides the same semantics as ANNKernelFallbackDispatcher for the two
-/// geospatial kernel slots (launchDistance, launchContainment).
+/// Provides the same fallback and retry semantics as ANNKernelFallbackDispatcher
+/// for the two geospatial kernel slots (launchDistance, launchContainment).
+/// Handles null slots and transient errors with exponential back-off retry.
+///
+/// ## Behavior
+/// Identical to ANNKernelFallbackDispatcher: unsupported kernels trigger fallback,
+/// transient errors trigger retry with exponential delay, and permanent errors
+/// either use fallback or return the error code.
+///
+/// ## Example Usage
+/// @code
+///   CPUGeoBackend cpu;
+///   cpu.initialize();
+///   GeoKernelDispatch cpuTable  = cpu.populateGeoDispatch();
+///   GeoKernelDispatch gpuTable  = gpuBackend.populateGeoDispatch();
+///
+///   GeoKernelFallbackDispatcher dispatcher(gpuTable, cpuTable);
+///
+///   // Invoke with automatic fallback / retry:
+///   int rc = dispatcher.launchDistance(lats1, lons1, lats2, lons2,
+///                                       distances, count, HAVERSINE, stream);
+/// @endcode
 class GeoKernelFallbackDispatcher {
 public:
+    /// @brief Construct a new dispatcher with primary and fallback dispatch tables.
+    ///
+    /// @param primary  Dispatch table from the preferred (GPU) backend.
+    ///                 Null slots are treated as unsupported and are routed
+    ///                 directly to the corresponding fallback slot.
+    /// @param fallback Dispatch table from the fallback (typically CPU) backend.
+    /// @param policy   Retry policy applied to transient errors from primary.
+    ///                 Defaults to { maxAttempts=3, initialDelayMs=1, maxDelayMs=100 }.
     GeoKernelFallbackDispatcher(GeoKernelDispatch primary,
                                 GeoKernelDispatch fallback,
                                 RetryPolicy       policy = {}) noexcept
         : primary_(primary), fallback_(fallback), policy_(policy) {}
 
-    /// Returns a plain GeoKernelDispatch with static null-slot resolution.
+    /// @brief Returns a plain GeoKernelDispatch with static null-slot resolution.
+    ///
+    /// Replaces null entries in the primary table with corresponding fallback
+    /// entries, creating a resolved dispatch table. This table does NOT perform
+    /// retries — it is a static resolution only.
+    ///
+    /// Callers that need retry behaviour should use the invoke* methods below
+    /// instead of this static table.
+    ///
+    /// @return Plain GeoKernelDispatch where each null slot in primary is
+    ///         replaced by the corresponding fallback slot.
     [[nodiscard]] GeoKernelDispatch resolvedDispatch() const noexcept {
         GeoKernelDispatch d;
         d.launchDistance    = primary_.launchDistance
@@ -282,6 +377,20 @@ public:
         return d;
     }
 
+    /// @brief Launch distance calculation kernel with automatic fallback and retry.
+    ///
+    /// Computes geodesic distances between latitude/longitude pairs using Haversine
+    /// or Vincenty formula. Supports automatic GPU fallback and transient error retry.
+    ///
+    /// @param lats1        First set of latitudes (degrees, WGS84) [count]
+    /// @param lons1        First set of longitudes (degrees, WGS84) [count]
+    /// @param lats2        Second set of latitudes (degrees, WGS84) [count]
+    /// @param lons2        Second set of longitudes (degrees, WGS84) [count]
+    /// @param out          Output distance array [count] in kilometers (caller-allocated)
+    /// @param count        Number of point pairs
+    /// @param formula      Distance formula: HAVERSINE (default, fast) or VINCENTY (precise)
+    /// @param stream       Backend-specific stream handle (cudaStream_t, VkCommandBuffer, etc.)
+    /// @return 0 on success, non-zero error code on failure
     int launchDistance(const double* lats1, const double* lons1,
                        const double* lats2, const double* lons2,
                        float* out, int count,
@@ -291,6 +400,19 @@ public:
             lats1, lons1, lats2, lons2, out, count, formula, stream);
     }
 
+    /// @brief Launch point-in-polygon test kernel with automatic fallback and retry.
+    ///
+    /// Tests whether each point is inside the given polygon using ray-casting.
+    /// Supports automatic GPU fallback and transient error retry.
+    ///
+    /// @param pLats        Test point latitudes (degrees, WGS84) [numPoints]
+    /// @param pLons        Test point longitudes (degrees, WGS84) [numPoints]
+    /// @param numPoints    Number of test points
+    /// @param polygon      Interleaved polygon vertices [lat0, lon0, lat1, lon1, ...] [numVertices × 2]
+    /// @param numVertices  Number of polygon vertices (must be >= 3)
+    /// @param results      Output containment flags [numPoints] (caller-allocated, non-zero=inside)
+    /// @param stream       Backend-specific stream handle
+    /// @return 0 on success, non-zero error code on failure
     int launchContainment(const double* pLats, const double* pLons,
                           int numPoints,
                           const double* polygon, int numVertices,
