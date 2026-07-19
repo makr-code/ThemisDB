@@ -1,6 +1,6 @@
 # Storage Module - Future Enhancements
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-07-19 -->
 <!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
 
 ## Scope

@@ -8,18 +8,19 @@
 
 /**
  * @file test_gap008_backup_automation.cpp
- * @brief Example tests for GAP-008 Backup Automation features
+ * @brief Focused tests for GAP-008 backup automation and provider transport helpers.
  * 
- * Tests the new backup automation stub features:
- * - Backup scheduling interface
- * - Cloud backup placeholders
- * - Snapshot management stubs
+ * Tests:
+ * - in-memory backup scheduling registration/cancellation
+ * - local filesystem mirror transport used by the cloud-backup abstraction
+ * - validation and failure paths for unsupported remote providers
  */
 
 #include <gtest/gtest.h>
 #include "storage/backup_manager.h"
 #include "storage/rocksdb_wrapper.h"
 #include <filesystem>
+#include <fstream>
 #include <memory>
 
 namespace fs = std::filesystem;
@@ -89,6 +90,12 @@ TEST_F(GAP008BackupAutomationTest, ScheduleBackupRejectsEmptyType) {
     BackupOptions options;
     auto result = backup_manager_->scheduleBackup("0 2 * * *", "", options);
     EXPECT_FALSE(result.has_value()) << "Empty backup type should be rejected";
+}
+
+TEST_F(GAP008BackupAutomationTest, ScheduleBackupRejectsMalformedCron) {
+    BackupOptions options;
+    auto result = backup_manager_->scheduleBackup("invalid cron", "full", options);
+    EXPECT_FALSE(result.has_value()) << "Malformed cron should be rejected";
 }
 
 TEST_F(GAP008BackupAutomationTest, ListScheduledBackupsReturnsEntries) {
@@ -202,6 +209,58 @@ TEST_F(GAP008BackupAutomationTest, UploadToCloudReturnsNotAvailable) {
     std::filesystem::remove_all(local_path, ec);
 }
 
+TEST_F(GAP008BackupAutomationTest, UploadToLocalMirrorCopiesBackupTree) {
+    std::string local_path = "./data/gap008_local_backup";
+    std::string mirror_path = "./data/gap008_local_mirror";
+    std::error_code ec;
+
+    std::filesystem::remove_all(local_path, ec);
+    std::filesystem::remove_all(mirror_path, ec);
+    std::filesystem::create_directories(local_path + "/nested", ec);
+    ASSERT_FALSE(ec);
+
+    {
+        std::ofstream root_file(local_path + "/manifest.txt");
+        root_file << "backup-root";
+    }
+    {
+        std::ofstream nested_file(local_path + "/nested/payload.bin");
+        nested_file << "payload";
+    }
+
+    BackupOptions options;
+    options.storage = StorageBackend::LOCAL;
+
+    auto result = backup_manager_->uploadBackupToCloud(
+        local_path,
+        "file://" + fs::absolute(mirror_path).string(),
+        options
+    );
+
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    EXPECT_TRUE(fs::exists(fs::path(mirror_path) / "manifest.txt"));
+    EXPECT_TRUE(fs::exists(fs::path(mirror_path) / "nested" / "payload.bin"));
+
+    std::filesystem::remove_all(local_path, ec);
+    std::filesystem::remove_all(mirror_path, ec);
+}
+
+TEST_F(GAP008BackupAutomationTest, UploadToLocalMirrorRejectsRelativeFileUri) {
+    std::string local_path = "./data/gap008_local_backup_uri_validation";
+    std::error_code ec;
+    std::filesystem::remove_all(local_path, ec);
+    std::filesystem::create_directories(local_path, ec);
+    ASSERT_FALSE(ec);
+
+    BackupOptions options;
+    options.storage = StorageBackend::LOCAL;
+
+    auto result = backup_manager_->uploadBackupToCloud(local_path, "file://relative/path", options);
+    EXPECT_FALSE(result.has_value());
+
+    std::filesystem::remove_all(local_path, ec);
+}
+
 TEST_F(GAP008BackupAutomationTest, UploadToCloudWithNonExistentPathReturnsError) {
     BackupOptions options;
     options.storage = StorageBackend::S3;
@@ -259,6 +318,58 @@ TEST_F(GAP008BackupAutomationTest, RestoreFromCloudReturnsNotAvailable) {
     // Cleanup
     std::error_code ec;
     std::filesystem::remove_all("./data/gap008_restore_path", ec);
+}
+
+TEST_F(GAP008BackupAutomationTest, RestoreFromLocalMirrorCopiesBackupTree) {
+    std::string local_source = "./data/gap008_local_source";
+    std::string restore_path = "./data/gap008_local_restore";
+    std::error_code ec;
+
+    std::filesystem::remove_all(local_source, ec);
+    std::filesystem::remove_all(restore_path, ec);
+    std::filesystem::create_directories(local_source + "/checkpoint", ec);
+    ASSERT_FALSE(ec);
+
+    {
+        std::ofstream root_file(local_source + "/MANIFEST.json");
+        root_file << "{\"type\":\"full\"}";
+    }
+    {
+        std::ofstream checkpoint_file(local_source + "/checkpoint/data.sst");
+        checkpoint_file << "sst-data";
+    }
+
+    BackupOptions options;
+    options.storage = StorageBackend::LOCAL;
+
+    auto result = backup_manager_->restoreFromCloud(
+        "file://" + fs::absolute(local_source).string(),
+        restore_path,
+        options
+    );
+
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    EXPECT_TRUE(fs::exists(fs::path(restore_path) / "MANIFEST.json"));
+    EXPECT_TRUE(fs::exists(fs::path(restore_path) / "checkpoint" / "data.sst"));
+
+    std::filesystem::remove_all(local_source, ec);
+    std::filesystem::remove_all(restore_path, ec);
+}
+
+TEST_F(GAP008BackupAutomationTest, RestoreFromLocalMirrorRejectsRelativeFileUri) {
+    BackupOptions options;
+    options.storage = StorageBackend::LOCAL;
+
+    auto result = backup_manager_->restoreFromCloud(
+        "file://relative/path",
+        "./data/gap008_local_restore_relative",
+        options
+    );
+
+    EXPECT_FALSE(result.has_value());
+
+    std::error_code ec;
+    std::filesystem::remove_all("./data/gap008_local_restore_relative", ec);
 }
 
 // ============================================================================

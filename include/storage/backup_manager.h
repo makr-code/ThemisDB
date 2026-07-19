@@ -35,7 +35,9 @@ namespace themis {
 class RocksDBWrapper;
 
 /**
- * RAID Mode Types
+ * @enum RAIDMode
+ * @brief Supported redundancy layouts for backup coordination.
+ * @ingroup storage
  */
 enum class RAIDMode {
     NONE,           // Single node, no redundancy
@@ -47,7 +49,8 @@ enum class RAIDMode {
 };
 
 /**
- * Shard Information for RAID configurations
+ * @brief Describes a single shard participating in a coordinated backup.
+ * @ingroup storage
  */
 struct ShardInfo {
     std::string shard_id;
@@ -57,7 +60,8 @@ struct ShardInfo {
 };
 
 /**
- * RAID Configuration detected from environment
+ * @brief RAID topology detected from the runtime environment.
+ * @ingroup storage
  */
 struct RAIDConfig {
     RAIDMode mode = RAIDMode::NONE;
@@ -69,7 +73,9 @@ struct RAIDConfig {
 };
 
 /**
- * Backup Compression Type
+ * @enum CompressionType
+ * @brief Compression modes supported by backup creation and restore flows.
+ * @ingroup storage
  */
 enum class CompressionType {
     NONE,           // No compression
@@ -79,7 +85,25 @@ enum class CompressionType {
 };
 
 /**
- * Backup Storage Backend
+ * @brief Integrity metadata recorded for a file inside a backup payload.
+ * @ingroup storage
+ *
+ * Used when building or validating `INTEGRITY_MANIFEST.json` entries during
+ * backup compression and post-decompression verification.
+ */
+struct FileIntegrityInfo {
+    std::string relative_path;      ///< Path relative to backup root
+    std::string checksum_sha256;    ///< SHA-256 checksum of original file
+    uint64_t original_size = 0;     ///< Size before compression
+    uint64_t compressed_size = 0;   ///< Size after compression (0 if uncompressed)
+    CompressionType compression = CompressionType::NONE;
+    bool verified = false;          ///< Set to true after successful verification
+};
+
+/**
+ * @enum StorageBackend
+ * @brief Transport backends available to backup upload and restore operations.
+ * @ingroup storage
  */
 enum class StorageBackend {
     LOCAL,          // Local filesystem
@@ -89,7 +113,8 @@ enum class StorageBackend {
 };
 
 /**
- * Backup Options
+ * @brief Runtime options that control backup creation, transport, and retention.
+ * @ingroup storage
  */
 struct BackupOptions {
     CompressionType compression = CompressionType::NONE;
@@ -103,7 +128,8 @@ struct BackupOptions {
 };
 
 /**
- * Point-in-Time Recovery Options
+ * @brief Point-in-time recovery target selection parameters.
+ * @ingroup storage
  */
 struct PITROptions {
     std::chrono::system_clock::time_point target_time;
@@ -112,7 +138,8 @@ struct PITROptions {
 };
 
 /**
- * Recovery Statistics
+ * @brief Aggregated metrics produced by restore and PITR flows.
+ * @ingroup storage
  */
 struct RecoveryStats {
     std::chrono::system_clock::time_point start_time;
@@ -124,7 +151,9 @@ struct RecoveryStats {
 };
 
 /**
- * Production-ready BackupManager for incremental backups and WAL archiving
+ * @class BackupManager
+ * @brief Backup, restore, snapshot, and PITR orchestrator for the storage module.
+ * @ingroup storage
  *
  * Features:
  * - RocksDB Checkpoint API integration for consistent snapshots
@@ -166,242 +195,390 @@ struct RecoveryStats {
 class BackupManager {
 public:
     /**
-     * @param db_wrapper: Shared pointer to RocksDBWrapper for checkpoint operations
+     * @brief Construct a backup manager around an open RocksDB wrapper.
+     *
+     * The wrapper is used for checkpoint creation, sequence-number discovery,
+     * restore operations, and snapshot orchestration.
+     *
+     * @param db_wrapper Shared pointer to the storage wrapper used for
+     *        checkpoint and restore operations.
      */
     explicit BackupManager(std::shared_ptr<RocksDBWrapper> db_wrapper);
+
+    /**
+     * @brief Destroy the backup manager.
+     *
+     * Destruction only releases in-memory state such as the schedule registry.
+     * It does not delete backups or mutate persisted storage state.
+     */
     ~BackupManager();
 
     /**
-     * Create a full backup using RocksDB checkpoint
-     * For RAID5/6: Backs up ALL shards (data + parity) to ensure complete recovery
-     * @param dest_dir: Base backup directory (will create timestamped subdirectory)
-     * @param ec: Error code on failure
-     * @param options: Backup options (compression, encryption, storage)
-     * @return true on success, false otherwise
+     * @brief Create a full backup using a RocksDB checkpoint plus WAL capture.
+     *
+     * For RAID5/6 deployments, a successful full backup includes every data and
+     * parity shard required for later recovery.
+     *
+     * @param dest_dir Base backup directory. The method creates a timestamped
+     *        subdirectory beneath this path.
+     * @param ec Receives the failure reason when the operation returns `false`.
+     * @param options Backup options for compression, encryption, verification,
+     *        retention, and transport handling.
+     * @return `true` on success, or `false` when checkpoint creation, file copy,
+     *         manifest generation, or verification fails.
      */
     bool createFullBackup(const std::string& dest_dir, std::error_code& ec, 
                           const BackupOptions& options = BackupOptions());
     
     /**
-     * Create a full backup (simplified Result-based API)
-     * @param dest_dir: Base backup directory
-     * @return Result<std::string> containing backup directory path on success, Error on failure
+     * @brief Create a full backup and return the created backup directory path.
+     *
+     * @param dest_dir Base backup directory.
+     * @return `Result<std::string>` containing the created backup directory on
+     *         success, or an error when the backup cannot be created.
      */
     Result<std::string> createFullBackup(const std::string& dest_dir);
 
     /**
-     * Create an incremental backup (WAL files since last backup)
-     * For RAID5/6: Backs up incremental changes from ALL shards
-     * @param dest_dir: Base backup directory
-     * @param ec: Error code on failure
-     * @param options: Backup options (compression, encryption, storage)
-     * @return true on success, false otherwise
+     * @brief Create an incremental backup from WAL changes since the last backup.
+     *
+     * For RAID5/6 deployments, incremental state is collected across all shards
+     * participating in the backup set.
+     *
+     * @param dest_dir Base backup directory.
+     * @param ec Receives the failure reason when the operation returns `false`.
+     * @param options Backup options for compression, encryption, verification,
+     *        retention, and transport handling.
+     * @return `true` on success, or `false` if the incremental window cannot be
+     *         computed or the backup payload cannot be written.
      */
     bool createIncrementalBackup(const std::string& dest_dir, std::error_code& ec,
                                   const BackupOptions& options = BackupOptions());
     
     /**
-     * Create an incremental backup (simplified Result-based API)
-     * @param dest_dir: Base backup directory
-     * @return Result<std::string> containing backup directory path on success, Error on failure
+     * @brief Create an incremental backup and return the created backup path.
+     *
+     * @param dest_dir Base backup directory.
+     * @return `Result<std::string>` containing the created backup directory on
+     *         success, or an error when the backup cannot be created.
      */
     Result<std::string> createIncrementalBackup(const std::string& dest_dir);
     
     /**
-     * Create a differential backup (changes since last full backup)
-     * @param dest_dir: Base backup directory
-     * @param ec: Error code on failure
-     * @param options: Backup options
-     * @return true on success, false otherwise
+     * @brief Create a differential backup containing changes since the last full backup.
+     *
+     * @param dest_dir Base backup directory.
+     * @param ec Receives the failure reason when the operation returns `false`.
+     * @param options Backup options that shape backup generation.
+     * @return `true` on success, or `false` if no valid base full backup exists
+     *         or the differential payload cannot be assembled.
      */
     bool createDifferentialBackup(const std::string& dest_dir, std::error_code& ec,
                                    const BackupOptions& options = BackupOptions());
     
     /**
-     * Create a differential backup (simplified Result-based API)
-     * @param dest_dir: Base backup directory
-     * @return Result<std::string> containing backup directory path on success, Error on failure
+     * @brief Create a differential backup and return the resulting directory path.
+     *
+     * @param dest_dir Base backup directory.
+     * @return `Result<std::string>` containing the created backup directory on
+     *         success, or an error when the differential backup cannot be created.
      */
     Result<std::string> createDifferentialBackup(const std::string& dest_dir);
 
     /**
-     * Archive WAL files to destination directory
-     * @param dest_dir: Destination for WAL files
-     * @return Result<void> on success, Error on failure
+     * @brief Archive WAL files into a destination directory.
+     *
+     * @param dest_dir Destination directory for archived WAL files.
+     * @param ec Receives the failure reason when the operation returns `false`.
+     * @return `true` on success, or `false` if WAL discovery or copy fails.
      */
     bool archiveWAL(const std::string& dest_dir, std::error_code& ec);
+
+    /**
+     * @brief Archive WAL files into a destination directory.
+     *
+     * @param dest_dir Destination directory for archived WAL files.
+     * @return `Result<void>` on success, or an error when WAL discovery or copy
+     *         fails.
+     */
     Result<void> archiveWAL(const std::string& dest_dir);
 
     /**
-     * Restore database from backup directory
-     * For RAID5/6: Restores from all shards (data + parity) to reconstruct complete data
-     * @param src_dir: Source backup directory (full or incremental chain)
-     * @param ec: Error code on failure
-     * @param stats: Optional recovery statistics output
-     * @return true on success, false otherwise
+     * @brief Restore the database from a full or incremental backup chain.
+     *
+     * For RAID5/6 deployments, restore requires all data and parity shards that
+     * belong to the backup set.
+     *
+     * @param src_dir Source backup directory.
+     * @param ec Receives the failure reason when the operation returns `false`.
+     * @param stats Optional pointer that receives recovery metrics on success.
+     * @return `true` on success, or `false` when manifest validation, payload
+     *         extraction, or RocksDB restore fails.
      */
     bool restoreFromBackup(const std::string& src_dir, std::error_code& ec,
                            RecoveryStats* stats = nullptr);
     
     /**
-     * Perform point-in-time recovery (PITR)
-     * @param dest_dir: Base backup directory containing backup chain
-     * @param pitr_options: PITR target time/LSN
-     * @param ec: Error code on failure
-     * @param stats: Optional recovery statistics output
-     * @return true on success, false otherwise
+     * @brief Perform point-in-time recovery from a backup chain and WAL replay target.
+     *
+     * @param dest_dir Base backup directory containing the recovery chain.
+     * @param pitr_options PITR target timestamp and optional LSN metadata.
+     * @param ec Receives the failure reason when the operation returns `false`.
+     * @param stats Optional pointer that receives recovery metrics on success.
+     * @return `true` on success, or `false` when the base restore fails, the
+     *         target cannot be satisfied, or WAL replay reports failure.
      */
     bool performPITR(const std::string& dest_dir, const PITROptions& pitr_options,
                      std::error_code& ec, RecoveryStats* stats = nullptr);
     
     /**
-     * Restore specific collections (partial recovery)
-     * @param src_dir: Source backup directory
-     * @param collections: List of collection names to restore
-     * @param ec: Error code on failure
-     * @return true on success, false otherwise
+     * @brief Restore a selected subset of collections from a checkpoint backup.
+     *
+     * @param src_dir Source backup directory.
+     * @param collections Collection or column-family names to restore.
+     * @param ec Receives the failure reason when the operation returns `false`.
+     * @return `true` on success, or `false` when selective ingest is
+     *         unavailable or the restore pipeline fails.
      */
     bool restoreCollections(const std::string& src_dir, 
                            const std::vector<std::string>& collections,
                            std::error_code& ec);
     
     /**
-     * Restore database from backup (simplified Result-based API)
-     * @param src_dir: Source backup directory
-     * @return Result<void> on success, Error on failure
+     * @brief Restore the database from a backup using the `Result` API.
+     *
+     * @param src_dir Source backup directory.
+     * @return `Result<void>` on success, or an error when the restore fails.
      */
     Result<void> restoreFromBackup(const std::string& src_dir);
 
     /**
-     * List available backups in directory
-     * @param backup_dir: Base backup directory
-     * @return Vector of backup directory names sorted by timestamp
+     * @brief List available backups beneath a base backup directory.
+     *
+     * @param backup_dir Base backup directory.
+     * @return Backup directory names sorted by timestamp. Returns an empty vector
+     *         when the directory has no recognized backups.
      */
     std::vector<std::string> listBackups(const std::string& backup_dir);
 
     /**
-     * Verify backup integrity with checksum validation
-     * For RAID5/6: Verifies ALL shards are present and consistent
-     * @param backup_dir: Backup directory to verify
-     * @return Result<void> on success, Error on failure
+     * @brief Verify a backup payload, manifest, and shard completeness.
+     *
+     * For RAID5/6 deployments, verification ensures that all required data and
+     * parity shards are present and internally consistent.
+     *
+     * @param backup_dir Backup directory to verify.
+     * @return `Result<void>` on success, or an error when checksums, manifests,
+     *         or shard requirements fail validation.
      */
     Result<void> verifyBackup(const std::string& backup_dir);
     
     /**
-     * Compress a backup directory
-     * @param backup_dir: Backup directory to compress
-     * @return Result<std::string> containing compressed file path on success, Error on failure
+     * @brief Compress a backup directory into an archive file.
+     *
+     * @param backup_dir Backup directory to compress.
+     * @return `Result<std::string>` containing the compressed archive path on
+     *         success, or an error when the archive cannot be created.
      */
     Result<std::string> compressBackup(const std::string& backup_dir);
     
     /**
-     * Decompress a backup file
-     * @param compressed_file: Compressed backup file
-     * @param dest_dir: Destination directory
-     * @return Result<std::string> containing decompressed directory path on success, Error on failure
+     * @brief Decompress a backup archive into a destination directory.
+     *
+     * @param compressed_file Compressed backup archive.
+     * @param dest_dir Destination directory for extracted files.
+     * @return `Result<std::string>` containing the decompressed directory path on
+     *         success, or an error when extraction or post-extraction
+     *         verification fails.
+     * 
+     * @note Phase 1 Enhancement: This method now performs integrity verification after decompression
+     *       to prevent silent data corruption. All decompressed files are verified against stored
+     *       checksums to ensure data integrity.
      */
     Result<std::string> decompressBackup(const std::string& compressed_file, const std::string& dest_dir);
     
     /**
-     * Detect RAID configuration from environment variables
-     * Reads: THEMIS_RAID_GROUP, THEMIS_SHARD_ID, THEMIS_SHARDS
-     * @return RAIDConfig structure with detected configuration
+     * @brief Verify the payload extracted from a compressed backup.
+     *
+     * @param backup_dir Decompressed backup directory to verify.
+     * @return `Result<void>` on success, including the backward-compatible case
+     *         where the backup predates `INTEGRITY_MANIFEST.json`; returns an
+     *         error when manifest loading fails or file checksums do not match.
+     * 
+     * @note Performs post-decompression verification:
+     *       - Missing `INTEGRITY_MANIFEST.json` is treated as a legacy backup and skips verification
+     *       - Reads integrity manifest from backup
+     *       - Calculates SHA-256 checksum of each file
+     *       - Compares against stored checksums
+     *       - Reports corrupted files with details
+     */
+    Result<void> verifyDecompressedBackup(const std::string& backup_dir);
+    
+    /**
+     * @brief Attempt to repair files that fail post-decompression verification.
+     *
+     * @param backup_dir Backup directory to repair.
+     * @param compressed_source Optional original compressed archive used to retry
+     *        recovery of corrupted files.
+     * @return `Result<uint32_t>` containing the number of repaired files on
+     *         success, or an error when corruption cannot be isolated or the
+     *         repair path fails.
+     * 
+     * @note This is an advanced recovery method:
+     *       - Identifies corrupted files during verification
+     *       - Attempts to repair from original compressed source if provided
+     *       - If source unavailable, logs a warning and returns a repair error; it does not quarantine files
+     */
+    Result<uint32_t> repairDecompressedBackup(const std::string& backup_dir,
+                                              const std::string& compressed_source = "");
+    
+    /**
+     * @brief Detect RAID topology from environment variables.
+     *
+     * Reads `THEMIS_RAID_GROUP`, `THEMIS_SHARD_ID`, and `THEMIS_SHARDS`.
+     *
+     * @return Parsed RAID configuration. Returns `RAIDMode::NONE` when the
+     *         environment does not describe a coordinated backup topology.
      */
     static RAIDConfig detectRAIDConfiguration();
     
     /**
-     * Check if backups are complete for RAID5/6 configurations
-     * Verifies that all required shards (data + parity) are backed up
-     * @param backup_dir: Backup directory to check
-     * @param raid_config: RAID configuration
-     * @return Result<void> on success, Error on failure
+     * @brief Check whether a backup contains the shards required by a RAID topology.
+     *
+     * @param backup_dir Backup directory to inspect.
+     * @param raid_config RAID topology expected for the backup set.
+     * @param ec Receives the failure reason when the operation returns `false`.
+     * @return `true` when every required shard is present, or `false` when the
+     *         backup is incomplete or the directory cannot be inspected.
      */
     bool isBackupComplete(const std::string& backup_dir, 
                          const RAIDConfig& raid_config, 
                          std::error_code& ec);
     
     /**
-     * Apply backup retention policy (delete old backups)
-     * @param backup_dir: Base backup directory
-     * @param retention_days: Keep backups younger than this many days
-     * @param ec: Error code on failure
-     * @return Number of backups deleted
+     * @brief Delete backups older than the retention window.
+     *
+     * @param backup_dir Base backup directory.
+     * @param retention_days Number of days to retain.
+     * @param ec Receives the failure reason when directory traversal or deletion
+     *        fails. Partial deletion may already have occurred.
+     * @return Number of backups deleted.
      */
     uint32_t applyRetentionPolicy(const std::string& backup_dir, 
                                    uint32_t retention_days,
                                    std::error_code& ec);
     
     /**
-     * Get backup metrics
-     * @param backup_dir: Backup directory to analyze
-     * @return Map of metric name to value
+     * @brief Collect size and count metrics for a backup directory.
+     *
+     * @param backup_dir Backup directory to analyze.
+     * @return Map of metric name to metric value. Returns an empty map when the
+     *         directory cannot be analyzed.
      */
     std::map<std::string, uint64_t> getBackupMetrics(const std::string& backup_dir);
     
     /**
-     * Calculate Recovery Time Objective (RTO) estimate
-     * @param backup_dir: Backup to analyze
-     * @return Estimated RTO in seconds
+     * @brief Estimate the recovery time objective for a backup payload.
+     *
+     * @param backup_dir Backup directory to analyze.
+     * @return Estimated RTO in seconds.
      */
     uint32_t estimateRTO(const std::string& backup_dir);
     
     /**
-     * Get Recovery Point Objective (RPO) information
-     * @param backup_dir: Base backup directory
-     * @return Timestamp of most recent recoverable point
+     * @brief Determine the most recent recoverable point for a backup set.
+     *
+     * @param backup_dir Base backup directory.
+     * @return Timestamp representing the latest recoverable point. Returns the
+     *         epoch when no recoverable backup can be determined.
      */
     std::chrono::system_clock::time_point getRPO(const std::string& backup_dir);
+
+    /**
+     * @brief Check whether a backup contains the shards required by a RAID topology.
+     *
+     * @param backup_dir Backup directory to inspect.
+     * @param raid_config RAID topology expected for the backup set.
+     * @return `Result<void>` on success, or an error when the backup is
+     *         incomplete or cannot be inspected.
+     */
     Result<void> isBackupComplete(const std::string& backup_dir, 
                                    const RAIDConfig& raid_config);
 
     // ============================================================================
-    // GAP-008: Cloud Backup & Snapshot Scheduling (Stub/Placeholder)
+    // GAP-008: Cloud Backup & Snapshot Scheduling
     // ============================================================================
     
     /**
-     * Schedule automatic backup (stub for future implementation)
-     * @param schedule_cron: Cron expression for scheduling (e.g., "0 2 * * *")
-     * @param backup_type: Type of backup (full/incremental/differential)
-     * @param options: Backup options
-     * @return Result<std::string> containing schedule ID on success, Error on failure
-     * @note This is a placeholder for K8s CronJob or internal scheduler integration
+     * @brief Register an automatic backup schedule in the in-process schedule registry.
+     *
+     * The current implementation validates the cron-like expression, allocates a
+     * stable schedule identifier, and stores the schedule metadata in memory for
+     * later inspection or cancellation. It does not spawn a background executor or
+     * persist schedules across process restarts.
+     *
+     * @param schedule_cron Cron-style expression with five space-separated fields
+     *        (for example, `0 2 * * *`).
+     * @param backup_type Backup class to register (for example `full`,
+     *        `incremental`, or `differential`).
+     * @param options Backup options captured with the schedule entry.
+     * @return Result<std::string> containing the generated schedule identifier on
+     *         success, or an Error when the inputs are invalid.
      */
     Result<std::string> scheduleBackup(const std::string& schedule_cron,
                                        const std::string& backup_type,
                                        const BackupOptions& options);
     
     /**
-     * Cancel scheduled backup (stub for future implementation)
-     * @param schedule_id: Schedule ID to cancel
-     * @return Result<void> on success, Error on failure
+     * @brief Cancel a previously registered in-memory backup schedule.
+     *
+     * @param schedule_id Schedule identifier returned by scheduleBackup().
+     * @return Result<void> on success, or an Error if the identifier is empty or
+     *         no matching schedule exists.
      */
     Result<void> cancelScheduledBackup(const std::string& schedule_id);
     
     /**
-     * List all scheduled backups (stub for future implementation)
-     * @return Vector of schedule IDs and their configurations
+     * @brief List all schedules currently stored in the in-memory registry.
+     *
+     * @return Vector of `(schedule_id, cron_expression)` pairs. Returns an empty
+     *         vector when no schedules are registered.
      */
     std::vector<std::pair<std::string, std::string>> listScheduledBackups();
     
     /**
-     * Perform cloud backup to S3/Azure/GCS (stub for future implementation)
-     * @param local_backup_path: Local backup path
-     * @param cloud_uri: Cloud storage URI (s3://bucket/path, azure://container/path, gs://bucket/path)
-     * @param options: Cloud-specific options
-     * @return Result<std::string> containing cloud backup URI on success, Error on failure
-     * @note This is a placeholder for cloud provider integration
+     * @brief Copy a finished backup to a provider-specific destination.
+     *
+     * Supported destinations:
+     * - `StorageBackend::LOCAL`: local filesystem mirror via `file:///absolute/path`
+     *   or an absolute path.
+     * - `StorageBackend::S3`: `s3://bucket/path` (requires provider integration).
+     * - `StorageBackend::AZURE`: `azure://account/container/path` (requires provider integration).
+     * - `StorageBackend::GCS`: `gs://bucket/path` (requires provider integration).
+     *
+     * @param local_backup_path Existing local backup directory or archive.
+     * @param cloud_uri Provider URI or local mirror path, depending on @p options.storage.
+     * @param options Transfer options, backend selection, and provider-specific configuration.
+     * @return Result<std::string> containing the destination URI/path on success,
+     *         or an Error when validation fails or the provider backend is unavailable.
      */
     Result<std::string> uploadBackupToCloud(const std::string& local_backup_path,
                                             const std::string& cloud_uri,
                                             const BackupOptions& options);
     
     /**
-     * Restore from cloud backup (stub for future implementation)
-     * @param cloud_uri: Cloud storage URI
-     * @param local_restore_path: Local path to restore to
-     * @param options: Restore options
-     * @return Result<void> on success, Error on failure
-     * @note This is a placeholder for cloud provider integration
+     * @brief Restore a backup payload from a provider-specific source into a local directory.
+     *
+     * For `StorageBackend::LOCAL`, the method copies the source tree from a
+     * `file:///absolute/path` URI or absolute path into @p local_restore_path.
+     * Remote backends validate the URI format and then delegate to the matching
+     * provider integration when available.
+     *
+     * @param cloud_uri Provider URI or local mirror path, depending on @p options.storage.
+     * @param local_restore_path Local destination directory for the restored payload.
+     * @param options Restore options, backend selection, and provider-specific configuration.
+     * @return Result<void> on success, or an Error when validation fails, the source
+     *         cannot be copied, or the provider backend is unavailable.
      */
     Result<void> restoreFromCloud(const std::string& cloud_uri,
                                   const std::string& local_restore_path,
@@ -544,77 +721,274 @@ private:
     std::shared_ptr<RocksDBWrapper> db_wrapper_;
     RAIDConfig raid_config_;
     
-    // Helper: Get current timestamp string (YYYYMMDD_HHMMSS)
+    /**
+     * @brief Return the current wall-clock timestamp formatted as `YYYYMMDD_HHMMSS`.
+     */
     std::string getTimestamp() const;
     
-    // Helper: Create backup manifest file (with RAID info)
+    /**
+     * @brief Create the `MANIFEST.json` file for a backup payload.
+     *
+     * @param backup_dir Backup directory that receives the manifest.
+     * @param type Logical backup type (`full`, `incremental`, `differential`).
+     * @param sequence_number RocksDB sequence number captured for the backup.
+     * @return `Result<void>` on success, or an error when the manifest cannot be written.
+     */
     Result<void> createManifest(const std::string& backup_dir, const std::string& type,
                                 uint64_t sequence_number);
     
-    // Helper: Read backup manifest (including RAID info)
+    /**
+     * @brief Read backup type and sequence metadata from `MANIFEST.json`.
+     *
+     * @param backup_dir Backup directory containing the manifest.
+     * @param type Receives the parsed backup type on success.
+     * @param sequence_number Receives the parsed sequence number on success.
+     * @return `Result<void>` on success, or an error when the manifest is missing
+     *         or malformed.
+     */
     Result<void> readManifest(const std::string& backup_dir, std::string& type,
                               uint64_t& sequence_number);
     
-    // Helper: Copy WAL files with sequence number filtering
+    /**
+     * @brief Copy WAL files whose sequence number is at least @p min_sequence.
+     *
+     * @param src_dir Source WAL directory.
+     * @param dest_dir Destination WAL directory.
+     * @param min_sequence Minimum sequence number to retain.
+     * @return `Result<void>` on success, or an error when traversal or copy fails.
+     */
     Result<void> copyWALFiles(const std::string& src_dir, const std::string& dest_dir,
                               uint64_t min_sequence);
     
-    // Helper: Calculate checksum for a file
+    /**
+     * @brief Calculate the SHA-256 checksum for a file.
+     *
+     * @param file_path File to hash.
+     * @return `Result<std::string>` containing the lowercase hexadecimal digest
+     *         on success, or an error when the file cannot be read.
+     */
     Result<std::string> calculateChecksum(const std::string& file_path);
     
-    // Helper: Verify checksum of a file
+    /**
+     * @brief Verify that a file matches an expected SHA-256 checksum.
+     *
+     * @param file_path File to verify.
+     * @param expected_checksum Expected lowercase hexadecimal SHA-256 digest.
+     * @return `Result<void>` on success, or an error when the checksum does not
+     *         match or the file cannot be read.
+     */
     Result<void> verifyChecksum(const std::string& file_path, const std::string& expected_checksum);
     
-    // Helper: Get current WAL sequence number from RocksDB
+    /**
+     * @brief Query the latest RocksDB sequence number.
+     *
+     * @return Latest sequence number, or zero when the wrapper is unavailable.
+     */
     uint64_t getCurrentSequenceNumber() const;
     
-    // Helper: Parse RAID mode from string
+    /**
+     * @brief Parse a textual RAID mode identifier.
+     *
+     * @param mode_str Mode string such as `raid5`.
+     * @return Parsed RAID mode, or `RAIDMode::NONE` for unrecognized inputs.
+     */
     static RAIDMode parseRAIDMode(const std::string& mode_str);
     
-    // Helper: Convert RAID mode to string
+    /**
+     * @brief Convert a RAID mode enum to its manifest/environment string form.
+     *
+     * @param mode RAID mode to format.
+     * @return Lowercase RAID mode name.
+     */
     static std::string raidModeToString(RAIDMode mode);
     
-    // Helper: Verify all RAID5/6 shards are present in backup
+    /**
+     * @brief Verify that the backup contains every shard required by the RAID topology.
+     *
+     * @param backup_dir Backup directory to inspect.
+     * @param raid_config Expected RAID topology.
+     * @param ec Receives the failure reason when the operation returns `false`.
+     * @return `true` on success, or `false` when required shards are missing or
+     *         the directory cannot be traversed.
+     */
     bool verifyRAIDShardsInBackup(const std::string& backup_dir, 
                                   const RAIDConfig& raid_config,
                                   std::error_code& ec);
+
+    /**
+     * @brief Verify that the backup contains every shard required by the RAID topology.
+     *
+     * @param backup_dir Backup directory to inspect.
+     * @param raid_config Expected RAID topology.
+     * @return `Result<void>` on success, or an error when required shards are
+     *         missing or the directory cannot be traversed.
+     */
     Result<void> verifyRAIDShardsInBackup(const std::string& backup_dir, 
                                           const RAIDConfig& raid_config);
     
-    // Helper: Compress file/directory
+    /**
+     * @brief Compress or copy a file tree into a destination path.
+     *
+     * The exact behavior depends on the selected compression type and which
+     * compression libraries were linked into the build.
+     *
+     * @param src_path Source file or directory.
+     * @param dest_path Destination path for compressed output.
+     * @param type Compression mode to apply.
+     * @param ec Receives the failure reason when the operation returns `false`.
+     * @return `true` on success, or `false` when traversal, compression, or copy fails.
+     */
     bool compressPath(const std::string& src_path, const std::string& dest_path,
                       CompressionType type, std::error_code& ec);
     
-    // Helper: Decompress file
+    /**
+     * @brief Decompress or copy a backup payload into a destination path.
+     *
+     * @param src_path Source file or directory.
+     * @param dest_path Destination directory for decompressed output.
+     * @param type Compression mode expected in the source payload.
+     * @param ec Receives the failure reason when the operation returns `false`.
+     * @return `true` on success, or `false` when traversal, decompression, or
+     *         copy fails.
+     */
     bool decompressPath(const std::string& src_path, const std::string& dest_path,
                         CompressionType type, std::error_code& ec);
     
-    // Helper: Encrypt file
+    /**
+     * @brief Encrypt a file or directory payload into a destination path.
+     *
+     * @param src_path Source file or directory.
+     * @param dest_path Destination path for encrypted output.
+     * @param key Caller-supplied encryption key material.
+     * @param ec Receives the failure reason when the operation returns `false`.
+     * @return `true` on success, or `false` when encryption or copy fails.
+     */
     bool encryptFile(const std::string& src_path, const std::string& dest_path,
                      [[maybe_unused]] const std::string& key, std::error_code& ec);
     
-    // Helper: Decrypt file
+    /**
+     * @brief Decrypt a file or directory payload into a destination path.
+     *
+     * @param src_path Source file or directory.
+     * @param dest_path Destination path for decrypted output.
+     * @param key Caller-supplied encryption key material.
+     * @param ec Receives the failure reason when the operation returns `false`.
+     * @return `true` on success, or `false` when decryption or copy fails.
+     */
     bool decryptFile(const std::string& src_path, const std::string& dest_path,
                      [[maybe_unused]] const std::string& key, std::error_code& ec);
     
-    // Helper: Upload to cloud storage
+    /**
+     * @brief Upload or mirror a local backup payload to the selected backend.
+     *
+     * @param local_path Existing local backup directory or archive.
+     * @param cloud_path Provider URI or local mirror path.
+     * @param backend Transport backend to use.
+     * @param config Provider-specific configuration values.
+     * @param ec Receives the failure reason when the operation returns `false`.
+     * @return `true` on success, or `false` when validation or transfer fails.
+     */
     bool uploadToCloud(const std::string& local_path, const std::string& cloud_path,
                        StorageBackend backend, 
                        const std::map<std::string, std::string>& config,
                        std::error_code& ec);
     
-    // Helper: Download from cloud storage
+    /**
+     * @brief Download or mirror a backup payload from the selected backend.
+     *
+     * @param cloud_path Provider URI or local mirror path.
+     * @param local_path Local destination directory or archive path.
+     * @param backend Transport backend to use.
+     * @param config Provider-specific configuration values.
+     * @param ec Receives the failure reason when the operation returns `false`.
+     * @return `true` on success, or `false` when validation or transfer fails.
+     */
     bool downloadFromCloud(const std::string& cloud_path, const std::string& local_path,
                            StorageBackend backend,
                            const std::map<std::string, std::string>& config,
                            std::error_code& ec);
     
-    // Helper: Find last full backup for differential
+    /**
+     * @brief Find the most recent full backup beneath a base directory.
+     *
+     * @param backup_dir Base backup directory.
+     * @return Path to the latest full backup, or an empty string when no full
+     *         backup can be found.
+     */
     std::string findLastFullBackup(const std::string& backup_dir);
+    
+    // ========================================================================
+    // Phase 1: Decompression Integrity Verification Helpers
+    // ========================================================================
+    
+    /**
+     * @brief Build integrity metadata for a backup payload before compression completes.
+     *
+     * @param backup_dir Backup directory whose files should be fingerprinted.
+     * @param integrity_map Receives one entry per tracked file on success.
+     * @return `Result<void>` on success, or an error when checksum generation fails.
+     */
+    Result<void> buildIntegrityManifest(const std::string& backup_dir,
+                                        std::vector<FileIntegrityInfo>& integrity_map);
+    
+    /**
+     * @brief Write `INTEGRITY_MANIFEST.json` for a backup payload.
+     *
+     * @param backup_dir Backup directory that receives the manifest.
+     * @param integrity_map Integrity entries to serialize.
+     * @return `Result<void>` on success, or an error when the manifest cannot be written.
+     */
+    Result<void> writeIntegrityManifest(const std::string& backup_dir,
+                                        const std::vector<FileIntegrityInfo>& integrity_map);
+    
+    /**
+     * @brief Load `INTEGRITY_MANIFEST.json` from a backup directory.
+     *
+     * @param backup_dir Backup directory containing the manifest.
+     * @return `Result<std::vector<FileIntegrityInfo>>` containing parsed entries
+     *         on success, or an error when the manifest is missing or malformed.
+     */
+    Result<std::vector<FileIntegrityInfo>> readIntegrityManifest(const std::string& backup_dir);
+    
+    /**
+     * @brief Compare a single file with an expected checksum value.
+     *
+     * @param file_path File to verify.
+     * @param expected_checksum Expected lowercase hexadecimal SHA-256 digest.
+     * @return `Result<bool>` containing `true` for a match and `false` for a
+     *         mismatch; returns an error when the file cannot be read.
+     */
+    Result<bool> verifyFileChecksum(const std::string& file_path,
+                                    const std::string& expected_checksum);
+    
+    /**
+     * @brief Verify every tracked file in a decompressed backup payload.
+     *
+     * @param backup_dir Decompressed backup directory to verify.
+     * @param integrity_map Expected integrity entries for the payload.
+     * @return `Result<std::vector<std::string>>` containing the relative paths of
+     *         corrupted or missing files, or an error when verification cannot run.
+     */
+    Result<std::vector<std::string>> verifyAllChecksums(const std::string& backup_dir,
+                                                         const std::vector<FileIntegrityInfo>& integrity_map);
+    
+    /**
+     * @brief Decompress a payload and run the built-in integrity verification path.
+     *
+     * @param src_path Source file or directory.
+     * @param dest_path Destination directory for decompressed output.
+     * @param type Compression mode expected in the source payload.
+     * @param ec Receives the failure reason when the operation returns `false`.
+     * @return `true` on success, or `false` when extraction or integrity
+     *         verification fails.
+     */
+    bool decompressPathWithIntegrity(const std::string& src_path,
+                                     const std::string& dest_path,
+                                     CompressionType type,
+                                     std::error_code& ec);
 
     WalReplayFn wal_replay_fn_;      ///< Optional WAL-replay hook (Stub #249)
     CfSstIngestFn cf_sst_ingest_fn_; ///< Optional per-CF SST ingest hook (Stub #300)
 };
 
 } // namespace themis
-

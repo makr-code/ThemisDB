@@ -97,6 +97,12 @@ protected:
         }
         return true;
     }
+
+    void WriteIntegrityManifestFile(const std::filesystem::path& backup_dir, const json& manifest) {
+        std::ofstream manifest_file(backup_dir / "INTEGRITY_MANIFEST.json");
+        ASSERT_TRUE(manifest_file.is_open()) << "Failed to create integrity manifest";
+        manifest_file << manifest.dump(2);
+    }
     
     std::unique_ptr<TestDataGenerator> data_gen_;
 };
@@ -361,6 +367,73 @@ TEST_F(BackupRecoveryIntegrationTest, BackupDuringActiveOperations) {
     EXPECT_TRUE(VerifyTestData(db, 30, "during_backup"))
         << "Data inserted during backup should be accessible";
     
+    db->close();
+}
+
+TEST_F(BackupRecoveryIntegrationTest, VerifyDecompressedBackupAllowsLegacyBackupWithoutManifest) {
+    auto db = CreateTestDatabase("verify_decompressed_legacy_db");
+    ASSERT_NE(db, nullptr) << "Failed to create test database";
+
+    auto backup_manager = std::make_shared<BackupManager>(db);
+    auto backup_dir = GetTempDir() / "legacy_backup_without_manifest";
+    std::filesystem::create_directories(backup_dir);
+
+    std::ofstream payload(backup_dir / "payload.txt");
+    ASSERT_TRUE(payload.is_open()) << "Failed to create payload file";
+    payload << "legacy-backup-payload";
+    payload.close();
+
+    auto verify_result = backup_manager->verifyDecompressedBackup(backup_dir.string());
+
+    EXPECT_TRUE(verify_result.has_value()) << "Legacy backup without manifest should remain valid: "
+                                           << verify_result.error().message();
+    db->close();
+}
+
+TEST_F(BackupRecoveryIntegrationTest, VerifyDecompressedBackupFailsForCorruptManifest) {
+    auto db = CreateTestDatabase("verify_decompressed_corrupt_manifest_db");
+    ASSERT_NE(db, nullptr) << "Failed to create test database";
+
+    auto backup_manager = std::make_shared<BackupManager>(db);
+    auto backup_dir = GetTempDir() / "backup_with_corrupt_manifest";
+    std::filesystem::create_directories(backup_dir);
+
+    std::ofstream manifest_file(backup_dir / "INTEGRITY_MANIFEST.json");
+    ASSERT_TRUE(manifest_file.is_open()) << "Failed to create integrity manifest";
+    manifest_file << "{ invalid json";
+    manifest_file.close();
+
+    auto verify_result = backup_manager->verifyDecompressedBackup(backup_dir.string());
+
+    ASSERT_FALSE(verify_result.has_value()) << "Corrupt manifest should fail verification";
+    EXPECT_EQ(verify_result.error().code(), errors::ErrorCode::ERR_BACKUP_MANIFEST_CORRUPT);
+    db->close();
+}
+
+TEST_F(BackupRecoveryIntegrationTest, VerifyDecompressedBackupFailsWhenManifestFileIsMissingFromPayload) {
+    auto db = CreateTestDatabase("verify_decompressed_missing_file_db");
+    ASSERT_NE(db, nullptr) << "Failed to create test database";
+
+    auto backup_manager = std::make_shared<BackupManager>(db);
+    auto backup_dir = GetTempDir() / "backup_with_missing_payload_file";
+    std::filesystem::create_directories(backup_dir);
+
+    json manifest = json::array({
+        {
+            {"path", "payload.txt"},
+            {"checksum_sha256", std::string(64, '0')},
+            {"original_size", 21},
+            {"compressed_size", 0},
+            {"compression", static_cast<int>(CompressionType::NONE)}
+        }
+    });
+    WriteIntegrityManifestFile(backup_dir, manifest);
+
+    auto verify_result = backup_manager->verifyDecompressedBackup(backup_dir.string());
+
+    ASSERT_FALSE(verify_result.has_value()) << "Missing payload file should fail verification";
+    EXPECT_EQ(verify_result.error().code(), errors::ErrorCode::ERR_STORAGE_CORRUPTION);
+    EXPECT_NE(verify_result.error().message().find("payload.txt"), std::string::npos);
     db->close();
 }
 
