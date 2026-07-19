@@ -12,6 +12,7 @@
 #include <gtest/gtest.h>
 #include "ai/ai_plugin_generator.h"
 #include <limits>
+#include <stdexcept>
 #include <string>
 
 using namespace themis::plugins::ai;
@@ -148,10 +149,10 @@ TEST(AIPluginGeneratorTest, APG06_GeneratePluginReturnsGeneratedPlugin) {
     auto gen = makeGenerator();
     auto result = gen.generatePlugin(validPrompt());
     ASSERT_TRUE(result.has_value()) << result.error().message();
-    EXPECT_EQ(result->manifest.name, "generated_test_plugin");
-    EXPECT_EQ(result->manifest.version, "1.0.0");
-    EXPECT_EQ(result->build_dependencies.size(), 1u);
-    EXPECT_TRUE(result->passed_security_checks);
+    EXPECT_EQ(result.value().manifest.name, "generated_test_plugin");
+    EXPECT_EQ(result.value().manifest.version, "1.0.0");
+    EXPECT_EQ(result.value().build_dependencies.size(), 1u);
+    EXPECT_TRUE(result.value().passed_security_checks);
 }
 
 // APG-07: generatePlugin returns a parsed GeneratedPlugin when endpoint callback succeeds.
@@ -175,11 +176,11 @@ TEST(AIPluginGeneratorTest, APG07_GeneratePluginParsesEndpointResponse) {
 
     auto result = gen.generatePlugin(validPrompt());
     ASSERT_TRUE(result.has_value()) << result.error().message();
-    EXPECT_EQ(result->manifest.name, "generated_demo_plugin");
-    EXPECT_EQ(result->manifest.version, "1.2.3");
-    EXPECT_EQ(result->implementation_code, "int generated() { return 42; }");
-    EXPECT_EQ(result->build_dependencies.size(), 2u);
-    EXPECT_TRUE(result->passed_security_checks);
+    EXPECT_EQ(result.value().manifest.name, "generated_demo_plugin");
+    EXPECT_EQ(result.value().manifest.version, "1.2.3");
+    EXPECT_EQ(result.value().implementation_code, "int generated() { return 42; }");
+    EXPECT_EQ(result.value().build_dependencies.size(), 2u);
+    EXPECT_TRUE(result.value().passed_security_checks);
 }
 
 // APG-08: endpoint responses missing implementation_code are rejected.
@@ -210,7 +211,7 @@ TEST(AIPluginGeneratorTest, APG09_C1SafetyGateAcceptsWhenThresholdMet) {
     auto gen = makeGeneratorFromConfig(std::move(cfg));
     auto result = gen.generatePlugin(validPrompt());
     ASSERT_TRUE(result.has_value()) << result.error().message();
-    EXPECT_NE(result->security_report.find("C1 safety gate: pass"), std::string::npos);
+    EXPECT_NE(result.value().security_report.find("C1 safety gate: pass"), std::string::npos);
 }
 
 // APG-10: C1 runtime safety-gate rejects output when score is below threshold.
@@ -247,7 +248,7 @@ TEST(AIPluginGeneratorTest, APG11_C2FederatedTelemetryReceivesMetrics) {
     EXPECT_TRUE(telemetry_called);
     EXPECT_TRUE(observed_metrics.contains("implementation_code_bytes"));
     EXPECT_TRUE(observed_metrics.contains("passed_security_checks"));
-    EXPECT_NE(result->security_report.find("C2 federated telemetry"), std::string::npos);
+    EXPECT_NE(result.value().security_report.find("C2 federated telemetry"), std::string::npos);
 }
 
 // APG-12: C1 runtime safety-gate fails closed when callback is missing.
@@ -353,7 +354,7 @@ TEST(AIPluginGeneratorTest, APG19_GeneratePluginRejectsEndpointOutsideAllowList)
     cfg.llm_endpoint = "http://mock-endpoint.invalid/generate";
     cfg.allowed_llm_endpoints = {"http://allowed-endpoint.invalid/generate"};
     cfg.endpoint_invoke_fn = [](const std::string&, const std::string&, long) -> themis::Result<std::string> {
-        return R"({"implementation_code":"int generated() { return 1; }"})";
+        return std::string(R"({"implementation_code":"int generated() { return 1; }"})");
     };
 
     auto gen = makeGeneratorFromConfig(std::move(cfg));
@@ -381,7 +382,7 @@ TEST(AIPluginGeneratorTest, APG21_GeneratePluginRejectsOversizedSerializedReques
     AIPluginGenerator::Config cfg;
     cfg.max_request_body_bytes = 16;
     cfg.endpoint_invoke_fn = [](const std::string&, const std::string&, long) -> themis::Result<std::string> {
-        return R"({"implementation_code":"int generated() { return 1; }"})";
+        return std::string(R"({"implementation_code":"int generated() { return 1; }"})");
     };
 
     auto gen = makeGeneratorFromConfig(std::move(cfg));
@@ -430,7 +431,7 @@ TEST(AIPluginGeneratorTest, APG24_SandboxGateSuccessAppendsSecurityReport) {
     auto gen = makeGeneratorFromConfig(std::move(cfg));
     auto result = gen.generatePlugin(validPrompt());
     ASSERT_TRUE(result.has_value()) << result.error().message();
-    EXPECT_NE(result->security_report.find("Sandbox verification: pass"), std::string::npos);
+    EXPECT_NE(result.value().security_report.find("Sandbox verification: pass"), std::string::npos);
     EXPECT_EQ(gen.getStats().successes, 1u);
 }
 
@@ -514,7 +515,7 @@ TEST(AIPluginGeneratorTest, APG28_OversizedVersionDefaulted) {
         });
     auto result = gen.generatePlugin(validPrompt());
     ASSERT_TRUE(result.has_value()) << result.error().message();
-    EXPECT_EQ(result->manifest.version, "0.1.0");
+    EXPECT_EQ(result.value().manifest.version, "0.1.0");
 }
 
 // APG-29: generatePlugin truncates manifest description to 8192 characters when LLM returns an oversized one.
@@ -529,7 +530,7 @@ TEST(AIPluginGeneratorTest, APG29_OversizedManifestDescriptionTruncated) {
         });
     auto result = gen.generatePlugin(validPrompt());
     ASSERT_TRUE(result.has_value()) << result.error().message();
-    EXPECT_EQ(result->manifest.description.size(), 8192u);
+    EXPECT_EQ(result.value().manifest.description.size(), 8192u);
 }
 
 // APG-30: generatePlugin silently drops build_dependency entries exceeding 256 characters.
@@ -549,9 +550,54 @@ TEST(AIPluginGeneratorTest, APG30_OversizedBuildDependencyEntryDropped) {
     auto result = gen.generatePlugin(validPrompt());
     ASSERT_TRUE(result.has_value()) << result.error().message();
     // Only "fmt" and "spdlog" should survive; the oversized entry is dropped.
-    ASSERT_EQ(result->build_dependencies.size(), 2u);
-    EXPECT_EQ(result->build_dependencies[0], "fmt");
-    EXPECT_EQ(result->build_dependencies[1], "spdlog");
+    ASSERT_EQ(result.value().build_dependencies.size(), 2u);
+    EXPECT_EQ(result.value().build_dependencies[0], "fmt");
+    EXPECT_EQ(result.value().build_dependencies[1], "spdlog");
+}
+
+// APG-31: setLlmHttpPostFn is used when no Result-based transport override is configured.
+TEST(AIPluginGeneratorTest, APG31_LlmHttpPostBridgeInvokedWhenConfigured) {
+    AIPluginGenerator::Config cfg;
+    cfg.llm_endpoint = "http://mock-endpoint.invalid/generate";
+
+    AIPluginGenerator gen(cfg);
+    bool bridge_called = false;
+    gen.setLlmHttpPostFn([&](const std::string& endpoint, const std::string&) -> std::string {
+        bridge_called = true;
+        EXPECT_EQ(endpoint, "http://mock-endpoint.invalid/generate");
+        return json{
+            {"generated_plugin", {
+                {"implementation_code", "int generated() { return 7; }"},
+                {"header_code", "// header"},
+                {"test_code", "// tests"},
+                {"cmake_code", "# cmake"},
+                {"passed_security_checks", true}
+            }}
+        }.dump();
+    });
+
+    auto result = gen.generatePlugin(validPrompt());
+    ASSERT_TRUE(result.has_value()) << result.error().message();
+    EXPECT_TRUE(bridge_called);
+    EXPECT_EQ(result.value().implementation_code, "int generated() { return 7; }");
+}
+
+// APG-32: HTTP status failures are not retried.
+TEST(AIPluginGeneratorTest, APG32_HttpStatusFailuresAreNotRetried) {
+    int attempts = 0;
+    auto gen = makeGeneratorWithEndpointFn(
+        [&](const std::string&, const std::string&, long) -> themis::Result<std::string> {
+            ++attempts;
+            return tl::unexpected(themis::Error(
+                themis::errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                "AIPluginGenerator: endpoint returned HTTP 503"));
+        });
+
+    auto result = gen.generatePlugin(validPrompt());
+    EXPECT_FALSE(result.has_value());
+    EXPECT_EQ(attempts, 1);
+    EXPECT_EQ(gen.getStats().http_errors, 1u);
+    EXPECT_EQ(gen.getStats().transport_errors, 0u);
 }
 
 // APG-INT-01: Full happy-path integration with a deterministic endpoint fixture.
@@ -587,18 +633,18 @@ TEST(AIPluginGeneratorTest, APGINT01_DeterministicEndpointFixtureFullPath) {
     auto result = gen.generatePlugin(validPrompt());
     ASSERT_TRUE(result.has_value()) << result.error().message();
 
-    EXPECT_EQ(result->manifest.name,             "my_plugin");
-    EXPECT_EQ(result->manifest.version,          "2.0.0");
-    EXPECT_EQ(result->manifest.description,      "A deterministic test plugin");
-    EXPECT_EQ(result->implementation_code,       expected_impl);
-    EXPECT_EQ(result->header_code,               expected_header);
-    EXPECT_EQ(result->test_code,                 expected_tests);
-    EXPECT_EQ(result->cmake_code,                expected_cmake);
-    EXPECT_TRUE(result->passed_security_checks);
-    EXPECT_EQ(result->security_report,           expected_report);
-    ASSERT_EQ(result->build_dependencies.size(), 2u);
-    EXPECT_EQ(result->build_dependencies[0], "fmt");
-    EXPECT_EQ(result->build_dependencies[1], "spdlog");
+    EXPECT_EQ(result.value().manifest.name,             "my_plugin");
+    EXPECT_EQ(result.value().manifest.version,          "2.0.0");
+    EXPECT_EQ(result.value().manifest.description,      "A deterministic test plugin");
+    EXPECT_EQ(result.value().implementation_code,       expected_impl);
+    EXPECT_EQ(result.value().header_code,               expected_header);
+    EXPECT_EQ(result.value().test_code,                 expected_tests);
+    EXPECT_EQ(result.value().cmake_code,                expected_cmake);
+    EXPECT_TRUE(result.value().passed_security_checks);
+    EXPECT_EQ(result.value().security_report,           expected_report);
+    ASSERT_EQ(result.value().build_dependencies.size(), 2u);
+    EXPECT_EQ(result.value().build_dependencies[0], "fmt");
+    EXPECT_EQ(result.value().build_dependencies[1], "spdlog");
     EXPECT_EQ(gen.getStats().successes, 1u);
     EXPECT_EQ(gen.getStats().parse_errors, 0u);
     EXPECT_EQ(gen.getStats().validation_errors, 0u);

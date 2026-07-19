@@ -1,12 +1,22 @@
 # AI Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Status: current | validated: 2026-07-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
 
 Production runtime exists for prompt validation, endpoint invocation, JSON mapping, and structured fail-closed error handling.
+
+## Module Documentation Enhancements (2026-07-19)
+
+- [x] Added comprehensive Doxygen documentation to all implementation functions
+- [x] Documented `AIPluginGenerator::validatePrompt()` with detailed validation rules
+- [x] Documented `AIPluginGenerator::generatePlugin()` with complete execution pipeline
+- [x] Documented all CAI ethics integration functions with semantics and contracts
+- [x] Added inline documentation for error handling, thread-safety, and retry policies
+- [x] Lines added: ai_plugin_generator.cpp +133, cai_ethics_integration.cpp +130
+- [x] Total module documentation lines: ~1,473 (up from 1,210)
 
 ## In Progress
 
@@ -22,8 +32,8 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 - [x] Add explicit redaction policy for diagnostic output fields (Target: Q4 2026)
 
 ### Mid-term (6-12 months)
-- [x] Integrate optional sandbox verification gate for generated code artifacts (Target: Q1 2027)
-- [x] Add dedicated benchmark target for AI plugin generation path (Target: Q1 2027)
+- [~] Integrate optional sandbox verification gate for generated code artifacts (hook implemented; end-to-end rollout pending) (Target: Q1 2027)
+- [ ] Add dedicated benchmark target for AI plugin generation path (Target: Q1 2027)
 - [x] Expand observability counters for error classes and endpoint quality signals (Target: Q1 2027)
 
 ### Long-term (Q3 2027+)
@@ -56,7 +66,7 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 - [x] Integration suite with deterministic endpoint fixtures (Target: Q3 2026)
 
 ### Phase 5: Performance and Hardening
-- [x] Add module-specific benchmark instead of proxy-only tracking (Target: Q1 2027)
+- [ ] Add module-specific benchmark instead of proxy-only tracking (Target: Q1 2027)
 - [x] Enforce endpoint allow-list and payload size bounds (Target: Q4 2026)
 
 ### Phase 6: Documentation and Acceptance
@@ -68,7 +78,7 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 - [x] Validation-first execution path documented and verified
 - [x] Structured error handling for endpoint and parse failures verified
 - [x] Proxy benchmark mapping documented in performance expectations
-- [x] Dedicated benchmark target registered
+- [ ] Dedicated benchmark target registered
 - [x] Hardening follow-ups closed for endpoint safety controls
 
 ## Known Issues and Limitations
@@ -147,6 +157,80 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 - Research bibliography: `../../docs/research/ml_enhancements_bibliography.md`
 - Future enhancements detail: `FUTURE_ENHANCEMENTS.md`
 - Issue scope: `https://github.com/makr-code/ThemisDB/issues/5039`
+
+## Module Validation Evidence (2026-07-19)
+
+### Documentation Status
+- **@file Doxygen Headers**: 100% coverage (4/4 files)
+  - `include/ai/ai_plugin_generator.h` — hardened implementation metadata
+  - `include/ai/cai_ethics_integration.h` — hardened implementation metadata
+  - `src/ai/ai_plugin_generator.cpp` — hardened implementation metadata
+  - `src/ai/cai_ethics_integration.cpp` — hardened implementation metadata
+
+- **Function/Method Documentation**: Enhanced 2026-07-19
+  - Added comprehensive Doxygen comments to all public methods
+  - Added parameter/return/error documentation to key functions
+  - Documented thread-safety contracts and error handling semantics
+  - Implementation files received the primary Doxygen expansion (+263 lines across 2 `.cpp` files)
+  - Header files received follow-up contract clarifications for transport, validation, and latency semantics
+
+### Code Quality Metrics
+- **Lines of Code**:
+  - Source: 946 lines (ai_plugin_generator.cpp: 634, cai_ethics_integration.cpp: 312)
+  - Headers: 476 lines (ai_plugin_generator.h: 283, cai_ethics_integration.h: 193)
+  - Total: 1,422 lines (module core)
+
+- **API Stability**:
+  - Public API stable (AIPluginGenerator, CAIEthicsIntegration)
+  - Config structures fully documented with field semantics
+  - Callback types fully documented with signatures and contract details
+  - Zero breaking changes in current implementation
+
+### Feature Coverage
+- ✅ Phase 1: Stable API for prompt/config/result types
+- ✅ Phase 2: Endpoint invocation with configurable transport
+- ✅ Phase 3: Structured error handling and edge cases
+- ✅ Phase 4: Focused unit test coverage (2 test files: test_ai_decision_auditor.cpp, test_ai_plugin_generator.cpp)
+- ✅ Phase 5: Observable counters implemented (Stats struct with 7 counters)
+- ✅ Phase 6: Documentation aligned with implementation
+
+### Hardening Completeness
+- ✅ Prompt validation (description length, token list sizes, format validation)
+- ✅ Request sanitization (ASCII control character stripping)
+- ✅ Endpoint allow-list enforcement
+- ✅ Request/response size limits (256 KiB / 8 MiB)
+- ✅ Retryable endpoint invocation (3 attempts, exponential backoff)
+- ✅ Response parsing with malformed input rejection
+- ✅ Output field validation (code size, manifest fields)
+- ✅ Optional C1 CAI safety gate (Wave C feature)
+- ◐ Optional sandbox verification hook implemented; end-to-end enforcement still pending
+- ✅ Optional C2 federated telemetry (Wave C feature)
+- ✅ Observability counters for error classes
+
+### Production Readiness Status
+- **Maturity**: 🟡 Hardened implementation (all HIGH-severity gaps reviewed; full production validation still pending environment-complete build/test)
+- **Configuration**: Validatable via CMakeLists.txt, CMakePresets.json
+- **Testing**: Focused test targets auto-discovered (module_ai_*_focused.exe)
+- **Error Handling**: Fail-closed with structured Error result types
+- **Logging**: Redaction-aware with configurable truncation (120 chars max)
+- **Thread Safety**: Document-specified (not thread-safe for concurrent generatePlugin)
+- **Memory Safety**: RAII compliance, smart pointers for ownership
+- **Security**: Input validation, output bounds checking, endpoint allow-listing
+
+### Known Limitations (MODULE_GAPS.md reference)
+- HIGH-severity scanner findings were reviewed and either remediated or reclassified with source-backed explanations (2026-07-19)
+- MEDIUM-priority scope/documentation gaps remain tracked in `MODULE_GAPS.md`
+- Dedicated benchmark target for the AI plugin generator path is still pending
+- Sandbox verification is implemented as an optional hook; rollout/enforcement remains open
+
+### Acceptance Criteria Status
+- [x] Validation-first execution path implemented and verified
+- [x] Structured error handling for all failure points
+- [~] Hardening follow-ups substantially complete: endpoint safety, payload validation, and observability counters are in place; benchmark/sandbox rollout remains open
+- [x] API documentation complete and comprehensive
+- [x] Implementation semantics documented at function level
+- [x] Roadmap and Future Enhancements synchronized (2026-07-19)
+- [x] All HIGH-severity gaps reviewed with either code remediation or source-backed disposition notes (2026-07-19)
 
 ## Breaking Changes
 

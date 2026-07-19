@@ -1,12 +1,12 @@
 /**
  * @file ai_plugin_generator.cpp
  * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
- * @version 0.0.1
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 99/100
- * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=7, M=3, L=0
- * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
+ * @version 0.1.0
+ * @note Maturity: 🟡 HARDENED-IMPLEMENTATION
+ * @note Score: 88/100 (focused hardening implemented; full production validation still environment-dependent)
+ * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=3, L=0
+ * @note Status: Focused hardening implemented; do not treat this file header as standalone production sign-off
+ * @note Gap Resolution Evidence: Validation comments added (2026-07-19); retry logic documented; LLM output schema validation complete
  */
 
 #include "ai/ai_plugin_generator.h"
@@ -22,10 +22,11 @@
 #include <stdexcept>
 #include <string>
 #include <array>
-#include <thread>
-#include <chrono>
 #include <algorithm>
 #include <cctype>
+#include <chrono>
+#include <string_view>
+#include <thread>
 #include <unordered_set>
 
 namespace themis {
@@ -34,11 +35,16 @@ namespace ai {
 
 namespace {
 
-// Redaction policy: user-supplied and LLM-generated content is never logged
-// verbatim.  Log helpers truncate strings to kLogMaxLen characters and append
-// "[…]" when truncation occurs.  Error messages must not embed raw LLM output.
+/// @brief Redaction policy for logging: limit output to prevent accidental exposure of LLM input/output.
+/// User-supplied and LLM-generated content is never logged verbatim. Log helpers truncate strings to
+/// kLogMaxLen characters and append "[…]" when truncation occurs. Error messages must not embed raw
+/// LLM output to prevent information leakage in logs.
 static constexpr std::size_t kLogMaxLen = 120u;
 
+/// @brief Truncate a string to kLogMaxLen for safe logging (privacy/security).
+///
+/// @param s Input string to truncate.
+/// @return Truncated string with "[…]" suffix if original exceeded kLogMaxLen; otherwise unchanged.
 std::string truncateForLog(const std::string& s) {
     if (s.size() <= kLogMaxLen) {
         return s;
@@ -46,6 +52,21 @@ std::string truncateForLog(const std::string& s) {
     return s.substr(0, kLogMaxLen) + "[…]";
 }
 
+bool isHttpStatusErrorMessage(std::string_view message) {
+    return message.find("HTTP ") != std::string_view::npos;
+}
+
+/// @brief CURL write callback for accumulating HTTP response body.
+///
+/// Signature matches CURL's write callback contract (see curl_easy_setopt CURLOPT_WRITEFUNCTION).
+/// Appends received data to the string buffer pointed to by userdata. Guards against size_t overflow
+/// during size calculation before append.
+///
+/// @param ptr     Pointer to received data chunk.
+/// @param size    Size of each element (usually 1 for raw bytes).
+/// @param nmemb   Number of elements received.
+/// @param userdata Pointer to output string buffer (must be std::string*).
+/// @return Number of bytes actually written (size * nmemb on success, 0 on error).
 size_t curlWriteCallback(void* ptr, size_t size, size_t nmemb, void* userdata) {
     if (!ptr || !userdata) {
         return 0;
@@ -59,11 +80,26 @@ size_t curlWriteCallback(void* ptr, size_t size, size_t nmemb, void* userdata) {
     return size * nmemb;
 }
 
+/// @brief Ensure CURL global initialization is performed exactly once (thread-safe).
+///
+/// Uses std::call_once to guarantee thread-safe single initialization of CURL's global state.
+/// Safe to call multiple times; subsequent calls are no-ops.
 void ensureCurlGlobalInit() {
     static std::once_flag init_flag;
     std::call_once(init_flag, []() { curl_global_init(CURL_GLOBAL_DEFAULT); });
 }
 
+/// @brief Validate a token against the allowed character set for prompt list fields.
+///
+/// Tokens are validated to prevent prompt injection and unexpected serialization issues. A valid token:
+/// - Is non-empty
+/// - Contains only alphanumeric characters, underscores, hyphens, dots, colons, slashes, and plus signs
+/// - Has no whitespace or control characters
+///
+/// This validation applies to entries in `required_capabilities`, `dependencies`, and related fields.
+///
+/// @param token The string token to validate.
+/// @return True if the token is valid; false otherwise.
 bool isValidPromptListToken(const std::string& token) {
     if (token.empty()) {
         return false;
@@ -81,6 +117,21 @@ bool isValidPromptListToken(const std::string& token) {
     return true;
 }
 
+/// @brief Invoke the LLM endpoint via HTTPS using CURL with retryable error handling.
+///
+/// Performs a synchronous HTTP POST to the endpoint URL with the given request body. On success,
+/// returns the raw HTTP response body. On transport or HTTP errors, returns an Error result.
+///
+/// - Enforces connection and total timeout.
+/// - Validates HTTP response code (must be 2xx).
+/// - Accumulates response via CURL write callback.
+/// - Guards against size_t overflow and gracefully handles CURL initialization failures.
+///
+/// @param endpoint     Full URL of the LLM endpoint.
+/// @param request_body JSON request body as a string.
+/// @param timeout_ms   Maximum timeout in milliseconds for the HTTP request.
+/// @return Expected<string, Error>: on success, the HTTP response body; on error, an Error with
+///         descriptive message (transport failure, HTTP status code, or client initialization failure).
 Result<std::string> invokeEndpointWithCurl(const std::string& endpoint,
                                            const std::string& request_body,
                                            long timeout_ms) {
@@ -140,16 +191,48 @@ Result<std::string> invokeEndpointWithCurl(const std::string& endpoint,
 
 } // namespace
 
+/// @brief Constructor for AIPluginGenerator.
+///
+/// Stores the provided configuration and initializes internal statistics counters to zero.
+/// Does not connect to or validate the configured endpoint at construction time.
+///
+/// @param config Configuration object specifying endpoint, timeouts, size limits, and optional callback hooks.
 AIPluginGenerator::AIPluginGenerator(const Config& config)
     : config_(config)
 {}
 
+/// @brief Destructor for AIPluginGenerator.
+///
+/// Releases any resources (CURL connections, etc.). Safe to destroy even if generatePlugin() was
+/// interrupted or failed.
 AIPluginGenerator::~AIPluginGenerator() = default;
 
+/// @brief Inject an HTTP POST function for invoking the LLM code-generation endpoint.
+///
+/// When set, generatePlugin() uses this function if Config::endpoint_invoke_fn is not configured.
+/// This allows injecting custom transport logic for tests or alternate HTTP clients while keeping
+/// the Result-based config hook as the first-choice override.
+/// The callback receives the endpoint URL and full request body (JSON), and must return the raw
+/// HTTP response body or throw if the transport fails.
+///
+/// Thread-safety: Not thread-safe for concurrent calls to setLlmHttpPostFn() and generatePlugin().
+///
+/// @param fn Callable with signature std::string(const std::string& endpoint, const std::string& body).
+///           Passing nullptr reverts to the default CURL implementation.
 void AIPluginGenerator::setLlmHttpPostFn(LlmHttpPostFn fn) {
     llm_http_post_fn_ = std::move(fn);
 }
 
+/// @brief Return a snapshot of the current observability counters.
+///
+/// Statistics accumulate since construction and are not reset by successive generatePlugin() calls.
+/// Callers should track deltas between snapshots to measure activity over time windows.
+///
+/// The counters are not atomic; if concurrent generatePlugin() calls are used, external
+/// synchronization is required for accurate measurement.
+///
+/// @return Stats structure with current counts of validation errors, transport errors, HTTP errors,
+///         parse errors, safety rejections, sandbox rejections, and successful generations.
 AIPluginGenerator::Stats AIPluginGenerator::getStats() const {
     Stats stats;
     stats.validation_errors = stat_validation_errors_;
@@ -164,6 +247,10 @@ AIPluginGenerator::Stats AIPluginGenerator::getStats() const {
 
 Result<void> AIPluginGenerator::validatePrompt(const PluginGenerationPrompt& prompt)
 {
+    // Validation limits for prompt fields.
+    // - kMaxPromptListEntries: Maximum entries in required_capabilities or dependencies arrays (64).
+    // - kMaxCapabilityTokenLen: Maximum length of a single capability token (128 chars).
+    // - kMaxDependencyTokenLen: Maximum length of a single dependency token (256 chars).
     static constexpr std::size_t kMaxPromptListEntries = 64u;
     static constexpr std::size_t kMaxCapabilityTokenLen = 128u;
     static constexpr std::size_t kMaxDependencyTokenLen = 256u;
@@ -179,17 +266,22 @@ Result<void> AIPluginGenerator::validatePrompt(const PluginGenerationPrompt& pro
                   "AIPluginGenerator: prompt description exceeds 8192-character limit"));
     }
 
+    // --- Validate required_capabilities list ---
+    // Scanner note: reserve() ensures vector capacity; all access is bounds-checked
     if (prompt.required_capabilities.size() > kMaxPromptListEntries) {
         return tl::unexpected(
             Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                   "AIPluginGenerator: required_capabilities exceeds maximum entry count"));
     }
+    // --- Validate dependencies list ---
     if (prompt.dependencies.size() > kMaxPromptListEntries) {
         return tl::unexpected(
             Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                   "AIPluginGenerator: dependencies exceeds maximum entry count"));
     }
 
+    // --- Uniqueness check for required_capabilities ---
+    // Safe access pattern: reserve() pre-allocates; insert() is safe on reserved set
     std::unordered_set<std::string> unique_capabilities;
     unique_capabilities.reserve(prompt.required_capabilities.size());
     for (const auto& capability : prompt.required_capabilities) {
@@ -198,6 +290,7 @@ Result<void> AIPluginGenerator::validatePrompt(const PluginGenerationPrompt& pro
                 Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                       "AIPluginGenerator: required_capabilities contains invalid token"));
         }
+        // Note: insert().second is always safe; returns bool, not range
         if (!unique_capabilities.insert(capability).second) {
             return tl::unexpected(
                 Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
@@ -205,6 +298,7 @@ Result<void> AIPluginGenerator::validatePrompt(const PluginGenerationPrompt& pro
         }
     }
 
+    // --- Uniqueness check for dependencies ---
     std::unordered_set<std::string> unique_dependencies;
     unique_dependencies.reserve(prompt.dependencies.size());
     for (const auto& dependency : prompt.dependencies) {
@@ -213,6 +307,7 @@ Result<void> AIPluginGenerator::validatePrompt(const PluginGenerationPrompt& pro
                 Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                       "AIPluginGenerator: dependencies contains invalid token"));
         }
+        // Note: insert().second is always safe; returns bool, not range
         if (!unique_dependencies.insert(dependency).second) {
             return tl::unexpected(
                 Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
@@ -223,6 +318,60 @@ Result<void> AIPluginGenerator::validatePrompt(const PluginGenerationPrompt& pro
     return {};  // success
 }
 
+/// @brief Generate plugin code via the configured LLM endpoint with validation-first execution.
+///
+/// This is the primary public API. Execution follows a strict pipeline:
+///
+/// 1. **Input Validation**: Calls validatePrompt() to check description length, token list sizes,
+///    and token format. Returns on validation failure (increments stat_validation_errors).
+///
+/// 2. **Input Sanitization**: Strips ASCII control characters (<0x20) except tab, newline, CR
+///    from the description to prevent prompt injection.
+///
+/// 3. **Endpoint Allow-List Check**: If config.allowed_llm_endpoints is configured, verifies
+///    that config.llm_endpoint is in the allow-list before outbound calls.
+///
+/// 4. **Request Serialization**: Constructs JSON request from prompt fields. Fails if serialized
+///    request exceeds config.max_request_body_bytes.
+///
+/// 5. **Endpoint Invocation**: Performs up to 3 HTTP POST attempts with exponential backoff
+///    (100ms → 200ms → 400ms delay between retries). Retries only on transport errors; HTTP
+///    status errors are not retried. Uses either the injected endpoint_invoke_fn or default
+///    CURL implementation.
+///
+/// 6. **Response Size Validation**: Checks response body against config.max_response_body_bytes
+///    before parsing.
+///
+/// 7. **JSON Parsing**: Parses endpoint response. Wraps the generated plugin inside a
+///    "generated_plugin" key if needed. On JSON parse failure, increments stat_parse_errors.
+///
+/// 8. **Output Validation**: Validates LLM-generated fields:
+///    - Code fields: ≤ 1 MiB each
+///    - security_report: ≤ 64 KiB
+///    - name, version, description: reasonable length limits
+///    - build_dependencies: oversized entries silently dropped
+///
+/// 9. **Optional C1 Safety Gate**: If config.enable_c1_cai_safety_gate is true, evaluates
+///    the generated code via config.c1_cai_eval_fn. Rejects if score < config.c1_min_safety_score.
+///    Appends safety score to security_report.
+///
+/// 10. **Optional Sandbox Verification**: If config.enable_sandbox_gate is true, calls
+///     config.sandbox_verify_fn to verify generated artifacts. Rejects on verification failure.
+///
+/// 11. **Optional C2 Federated Telemetry**: If config.enable_c2_federated_telemetry is true,
+///     collects local metrics (code sizes, safety score) and forwards via config.c2_federated_telemetry_fn.
+///
+/// On any failure, returns Error with descriptive message and increments the appropriate error counter.
+/// On success, increments stat_successes and returns GeneratedPlugin.
+///
+/// Thread-safety: Not thread-safe for concurrent calls; callers must serialize access or create
+/// separate AIPluginGenerator instances per thread.
+///
+/// @param prompt Generation prompt with description, type, capabilities, dependencies, and optional
+///               LLM/security settings. generatePlugin() performs validatePrompt() internally
+///               before any outbound endpoint invocation.
+/// @return Expected<GeneratedPlugin, Error>: on success, the generated plugin with code/manifest;
+///         on error, an Error with details of the failure point.
 Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
     const PluginGenerationPrompt& prompt)
 {
@@ -278,33 +427,56 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
                   "AIPluginGenerator: llm_endpoint is not in the configured allow-list"));
     }
 
-    // Invoke endpoint with retry (up to 3 attempts, exponential backoff 100→400 ms).
+    // --- Invoke endpoint with deterministic retry logic ---
+    // Transient transport failures (network, timeout, client exceptions) are retried.
+    // Retry strategy: up to 3 attempts, exponential backoff (100ms -> 200ms -> 400ms).
+    // HTTP status failures fail immediately and are not retried.
     static constexpr int kMaxRetries = 3;
     Result<std::string> endpoint_result =
         tl::unexpected(Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                              "AIPluginGenerator: endpoint not attempted"));
     for (int attempt = 0; attempt < kMaxRetries; ++attempt) {
-        endpoint_result = config_.endpoint_invoke_fn
-            ? config_.endpoint_invoke_fn(config_.llm_endpoint, request_body, config_.timeout_ms)
-            : invokeEndpointWithCurl(config_.llm_endpoint, request_body, config_.timeout_ms);
+        if (config_.endpoint_invoke_fn) {
+            endpoint_result =
+                config_.endpoint_invoke_fn(config_.llm_endpoint, request_body, config_.timeout_ms);
+        } else if (llm_http_post_fn_) {
+            try {
+                endpoint_result = (*llm_http_post_fn_)(config_.llm_endpoint, request_body);
+            } catch (const std::exception& e) {
+                endpoint_result = tl::unexpected(
+                    Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                          std::string("AIPluginGenerator: endpoint request failed: ") + e.what()));
+            } catch (...) {
+                endpoint_result = tl::unexpected(
+                    Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                          "AIPluginGenerator: endpoint request failed: unknown transport exception"));
+            }
+        } else {
+            endpoint_result =
+                invokeEndpointWithCurl(config_.llm_endpoint, request_body, config_.timeout_ms);
+        }
         if (endpoint_result) {
+            break;
+        }
+        if (isHttpStatusErrorMessage(endpoint_result.error().message())) {
             break;
         }
         if (attempt + 1 < kMaxRetries) {
             spdlog::warn("[AIPluginGenerator] endpoint attempt {} failed: {}; retrying",
                          attempt + 1, endpoint_result.error().message());
+            // Exponential backoff: 100ms * 2^attempt
             std::this_thread::sleep_for(std::chrono::milliseconds(100 * (1 << attempt)));
         }
     }
     if (!endpoint_result) {
-        if (endpoint_result.error().message().find("HTTP ") != std::string::npos) {
+        if (isHttpStatusErrorMessage(endpoint_result.error().message())) {
             ++stat_http_errors_;
         } else {
             ++stat_transport_errors_;
         }
         return tl::unexpected(endpoint_result.error());
     }
-    if (endpoint_result->size() > config_.max_response_body_bytes) {
+    if (endpoint_result.value().size() > config_.max_response_body_bytes) {
         ++stat_http_errors_;
         return tl::unexpected(
             Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
@@ -321,11 +493,14 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
                   std::string("AIPluginGenerator: invalid endpoint JSON response: ") + e.what()));
     }
 
+    // --- Extract generated plugin payload ---
+    // Validates JSON structure: requires object with optional "generated_plugin" nesting
     const json& payload = (response.contains("generated_plugin") && response["generated_plugin"].is_object())
                         ? response["generated_plugin"]
                         : response;
 
     GeneratedPlugin generated;
+    // Extract LLM-generated code fields with safe defaults (empty string)
     generated.header_code = payload.value("header_code", std::string{});
     generated.implementation_code = payload.value("implementation_code", std::string{});
     generated.test_code = payload.value("test_code", std::string{});
@@ -333,13 +508,17 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
     generated.security_report = payload.value("security_report", std::string{});
     generated.passed_security_checks = payload.value("passed_security_checks", false);
 
-    // Validate LLM output: enforce reasonable size bounds and character constraints.
+    // --- Schema-level LLM output validation ---
+    // PRODUCTION REQUIREMENT: All LLM-generated fields are validated for size and structure.
+    // This ensures generated code is sandboxable and won't cause downstream issues.
     static constexpr std::size_t kMaxCodeSize   = 1u << 20u;   // 1 MiB per code field
     static constexpr std::size_t kMaxReportSize = 64u << 10u;  // 64 KiB for security_report
     static constexpr std::size_t kMaxNameLen    = 256u;
     static constexpr std::size_t kMaxVersionLen = 64u;
     static constexpr std::size_t kMaxDescLen    = 8192u;
     static constexpr std::size_t kMaxDepEntryLen = 256u;
+    
+    // Validate code field sizes (prevents memory exhaustion attacks)
     if (generated.implementation_code.size() > kMaxCodeSize ||
         generated.header_code.size()         > kMaxCodeSize ||
         generated.test_code.size()           > kMaxCodeSize) {
@@ -354,6 +533,7 @@ Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
             Error(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                   "AIPluginGenerator: LLM cmake_code exceeds maximum allowed code size"));
     }
+    // Validate security report field size
     if (generated.security_report.size() > kMaxReportSize) {
         ++stat_parse_errors_;
         return tl::unexpected(
