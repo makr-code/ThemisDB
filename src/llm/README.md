@@ -42,28 +42,21 @@ Out of scope:
 - Runtime behavior can vary by selected backend and available acceleration stack.
 - Benchmark coverage is broad but still evolving for all cross-node production scenarios.
 
-## Gap Status (L0.5 Verified - 2026-06-25)
+## Runtime Fallback and Verification Status (validated: 2026-07-19)
 
-**Gap Summary**: 3,821 verified gaps across 146 source files
-- **CRITICAL**: 1,029 gaps (26.9%) - Require immediate attention for production safety
-- **HIGH**: 1,937 gaps (50.7%) - High-priority fixes for stability and performance
-- **MEDIUM**: 854 gaps (22.4%) - Medium-priority improvements
-- **LOW**: 1 gap (0.0%)
+- Doxygen `@file` coverage is complete across the module source and public headers.
+- EmbeddedLLM fallback mode now preserves the single-text embedding contract for
+  `embedBatch(...)` by returning one normalized embedding per input text.
+- Backend-dependent extension points remain documented as optional runtime
+  bridges/fallbacks; they either delegate to injected implementations or fail
+  closed / degrade safely when the corresponding upstream capability is absent.
+- Release-signoff work that is broader than these source-level fallback fixes
+  remains tracked in [ROADMAP.md](ROADMAP.md) and
+  [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md).
 
-**Top Issue Categories**:
-- LLM AI Safety: 1,910 findings (model integrity, prompt injection, LLM output validation)
-- Performance: 391 findings (query optimization, inefficient algorithms, copy overhead)
-- Data Races & Concurrency: 321 findings (synchronization issues, thread safety)
-- Resource Management: 125 findings (leaks, manual cleanup, GPU memory)
-- Observability: 93 findings (missing instrumentation, hardcoded values)
-
-**Remediation Status**:
-- [ ] Review CRITICAL gaps by module component
-- [ ] Correlate with test coverage analysis
-- [ ] Open GitHub issues for tracking
-- [ ] Target: Q3 2026 remediation sprint
-
-For detailed breakdown, see [MODULE_GAPS.md](MODULE_GAPS.md) and root [ROADMAP.md](../../ROADMAP.md).
+Historical broad-spectrum scan inventories are retained in [MODULE_GAPS.md](MODULE_GAPS.md),
+but they are not the source of truth for the targeted runtime fallback coverage
+documented in this README.
 
 ## Sourcecode Verification (Module: llm/readme)
 

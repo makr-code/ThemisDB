@@ -73,22 +73,57 @@ bool CustomAllReduce::allreduce(std::vector<GPUTensor*>& tensors, bool average) 
         return false;
     }
     
-    if (world_size_ == 1) {
+    if (tensors.empty() || world_size_ == 1) {
         return true;  // Single GPU, no reduction needed
     }
-    
-    // Perform ring all-reduce for each tensor
+
+    std::vector<std::vector<float>> contributions;
+    contributions.reserve(tensors.size());
+    std::size_t tensor_size = 0;
+
     for (auto* tensor : tensors) {
         if (!tensor) {
             spdlog::warn("Skipping null tensor in allreduce");
             continue;
         }
-        
-        if (!ring_allreduce(*tensor, average)) {
+
+        auto data = tensor->cpu_data();
+        if (tensor_size == 0) {
+            tensor_size = data.size();
+        } else if (data.size() != tensor_size) {
+            spdlog::error("CustomAllReduce shape mismatch: {} vs {}", data.size(), tensor_size);
             return false;
         }
+
+        contributions.push_back(std::move(data));
     }
-    
+
+    if (contributions.empty()) {
+        return true;
+    }
+
+    std::vector<float> reduced(tensor_size, 0.0f);
+    for (const auto& contribution : contributions) {
+        for (std::size_t i = 0; i < tensor_size; ++i) {
+            reduced[i] += contribution[i];
+        }
+    }
+
+    if (average) {
+        const float scale = 1.0f / static_cast<float>(contributions.size());
+        for (float& value : reduced) {
+            value *= scale;
+        }
+    }
+
+    for (auto* tensor : tensors) {
+        if (!tensor) {
+            continue;
+        }
+        tensor->upload(reduced);
+    }
+
+    ctx_.synchronize_all();
     return true;
 }
 
@@ -149,68 +184,13 @@ bool CustomAllReduce::ring_allreduce(GPUTensor& tensor, bool average) {
         return (*ring_allreduce_fn_)(tensor, average);
     }
 
-    // STUB/SIMULATION NOTE:
-    // Purpose: Allow single-process multi-GPU training to run an all-reduce step
-    //          without NCCL or MPI by doing peer reads through the CPU.
-    // Activation: Always when world_size_ > 1, no NCCL/MPI backend is linked,
-    //             and no RingAllreduceFn has been injected via setRingAllreduceFn().
-    // Production Delta: For `world_size_ > 1`, all ranks read the same in-process
-    //                   `tensor.cpu_data()` snapshot — peer-to-peer GPU copies are
-    //                   not performed.  Gradients from ranks ≠ rank_ are the
-    //                   initiating rank's own gradients, not their real gradients.
-    //                   The "all-reduce" is mathematically incorrect for true
-    //                   multi-process distributed training.
-    // Removal Plan: Inject a real NCCL/RCCL/MPI all-reduce via setRingAllreduceFn().
-    //               See src/llm/FUTURE_ENHANCEMENTS.md §CustomAllReduce NCCL Integration.
-
     if (world_size_ == 1) {
         return true;  // No reduction needed
     }
 
-    // For single-process multi-GPU, we can directly access all GPU memories
-    // Collect data from all GPUs
-    std::vector<std::vector<float>> all_gpu_data;
-    all_gpu_data.reserve(world_size_);
-
-    for (int i = 0; i < world_size_; ++i) {
-        Device device = ctx_.get_device(i);
-        GPUTensor gpu_tensor({tensor.size()}, device);
-
-        // In real implementation, this would be the gradient tensor on each GPU
-        // For now, copy the current tensor (assumes same layout on all GPUs)
-        if (i == rank_) {
-            all_gpu_data.push_back(tensor.cpu_data());
-        } else {
-            // STUB: peer-to-peer GPU copy not implemented; using rank_ data as proxy
-            all_gpu_data.push_back(tensor.cpu_data());
-        }
-    }
-    
-    // Sum all gradients
-    size_t tensor_size = tensor.size();
-    std::vector<float> reduced_data(tensor_size, 0.0f);
-    
-    for (const auto& gpu_data : all_gpu_data) {
-        for (size_t i = 0; i < tensor_size; ++i) {
-            reduced_data[i] += gpu_data[i];
-        }
-    }
-    
-    // Average if requested
-    if (average && world_size_ > 1) {
-        float scale = 1.0f / static_cast<float>(world_size_);
-        for (auto& val : reduced_data) {
-            val *= scale;
-        }
-    }
-    
-    // Upload reduced data back to this GPU
-    tensor.upload(reduced_data);
-    
-    // Synchronize to ensure all GPUs complete
-    ctx_.synchronize_all();
-    
-    return true;
+    spdlog::error(
+        "CustomAllReduce ring_allreduce requires an injected backend when world_size > 1");
+    return false;
 }
 
 void CustomAllReduce::gpu_to_gpu_copy(const GPUTensor& src, GPUTensor& dst,

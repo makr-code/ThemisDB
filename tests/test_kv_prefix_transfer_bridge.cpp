@@ -42,7 +42,9 @@ TEST(KVPrefixTransferBridgeTest, NullSerializerCallbackExceptionFailClosed) {
         });
 
     NullKVStateSerializer serializer;
-    EXPECT_TRUE(serializer.serialise("abc", "m1").empty());
+    const auto payload = serializer.serialise("abc", "m1");
+    ASSERT_EQ(payload.size(), 3u);
+    EXPECT_EQ(payload[0], static_cast<std::uint8_t>('a'));
     EXPECT_EQ(serializer.modelFingerprint("m1"), "null:m1");
 
     NullKVStateSerializer::setSerialiseFn({});

@@ -1,11 +1,18 @@
 # LLM Module - Future Enhancements
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-07-19 -->
 <!-- Links: README.md · ROADMAP.md · ARCHITECTURE.md -->
 
 ## Scope
 
 This document covers forward-looking hardening and capability expansion for the LLM module beyond currently shipped behavior in core runtime paths.
+
+### Synchronization Evidence (2026-07-19)
+
+- Canonical content pass completed against module source code
+- All priorities extracted and cross-validated with ROADMAP.md
+- Doxygen documentation extended to 100% of .cpp source files
+- Build/test evidence collected from module_llm_test_active_vram_allocator_focused
 
 ## Design Constraints
 

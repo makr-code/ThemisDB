@@ -20,8 +20,11 @@
 
 #include <llama.h>
 #include <spdlog/spdlog.h>
+#include <algorithm>
+#include <vector>
 #include <mutex>
 #include <cstdint>
+#include <unordered_map>
 
 // Platform-specific dynamic library loading
 #ifdef _WIN32
@@ -48,36 +51,6 @@
 // Compatibility:
 // - llama.cpp b1000+ (with LoRA adapter API)
 // - Older llama.cpp versions (graceful fallback)
-//
-// STUB/SIMULATION NOTE:
-// Purpose: Provide a graceful runtime fallback when llama.cpp is built
-//   without LoRA support.  At first call, `initializeLoRAAPI()` attempts to
-//   locate `llama_lora_adapter_init` and `llama_lora_adapter_set` via
-//   `dlsym`/`GetProcAddress`.  If either is absent, `g_lora_api_available` is
-//   set to false and all LoRA operations (init, set, remove, clear, free) log
-//   an error and return -1 / nullptr.  Additionally, the legacy
-//   `llama_lora_adapter_set_path(ctx, path)` signature always returns -1
-//   because the required `llama_model*` pointer is unavailable at that call site.
-// Activation: llama.cpp linked without LoRA support (pre-b1000 builds or builds
-//   without `LLAMA_LORA=ON`); or `llama_lora_adapter_init` not exported from
-//   the linked llama.cpp shared/static library.  When `themis_lora_inject_api_functions()`
-//   has been called with non-null init and set pointers, the override path is
-//   active and the dlsym-detected path is bypassed entirely.
-// Production Delta: LoRA fine-tuned adapter hot-swapping is disabled.
-//   All inference requests run the base model at full weight; per-client or
-//   per-jurisdiction LoRA personalisation is silently skipped.
-//   MultiLoRAManager will report all adapters as inactive.
-// Removal Plan: Rebuild llama.cpp with `-DLLAMA_LORA=ON` (≥ b1000) and ensure
-//   the shared library exports `llama_lora_adapter_init` / `llama_lora_adapter_set`.
-//   Verify by re-running ThemisDB — the log line
-//   "✓ llama.cpp LoRA API detected and loaded successfully" confirms activation.
-//   The override path (themis_lora_inject_api_functions) is retained for testing.
-// Roadmap ref: src/llm/FUTURE_ENHANCEMENTS.md §"LlamaCpp LoRA Adapter Runtime Activation"
-// RESOLVED 2026-05-06 — `themis_lora_inject_api_functions(init, set, remove, clear, free)`
-//   extern "C" API added; when called with non-null init+set, the override path
-//   bypasses dlsym detection so tests can exercise all LoRA code paths without a
-//   real llama.cpp LoRA build; null arguments revert to detected path; tests
-//   LORA-INJ-01..03 added in test_gpu_lora_integration.cpp.
 //
 // ═══════════════════════════════════════════════════════════
 
@@ -109,6 +82,8 @@ namespace {
     llama_lora_adapter_clear_fn  g_override_lora_clear  = nullptr;
     llama_lora_adapter_free_fn   g_override_lora_free   = nullptr;
     bool g_lora_api_override_active = false;
+    std::mutex g_legacy_adapter_mutex;
+    std::unordered_map<struct llama_context*, std::vector<void*>> g_legacy_adapters;
     
     /**
      * @brief Initialize LoRA API function pointers via dynamic lookup
@@ -202,6 +177,10 @@ namespace {
 
 extern "C" {
 
+void* llama_lora_adapter_init(struct llama_model* model, const char* path_lora);
+int llama_lora_adapter_set_with_scale(struct llama_context* ctx, void* adapter, float scale);
+void llama_lora_adapter_free(void* adapter);
+
 /**
  * @brief Set/apply a LoRA adapter to a llama context
  * 
@@ -236,21 +215,29 @@ int llama_lora_adapter_set_path(struct llama_context* ctx, const char* adapter_p
         return -1;
     }
     
-    // Note: This simplified signature is for backward compatibility only
-    // The modern API requires separate init and set steps:
-    // 1. adapter = llama_lora_adapter_init(model, path)
-    // 2. llama_lora_adapter_set_with_scale(ctx, adapter, scale)
-    //
-    // Since we don't have the model pointer here, we cannot load the adapter.
-    // Real implementation should be done through MultiLoRAManager which properly
-    // handles the full lifecycle.
-    spdlog::error("llama_lora_adapter_set(ctx, path): Legacy signature not supported");
-    spdlog::error("  This function requires both model and context, but only context is provided");
-    spdlog::error("  Use MultiLoRAManager::applyLoRA() or the full API instead:");
-    spdlog::error("    1. adapter = llama_lora_adapter_init(model, path)");
-    spdlog::error("    2. llama_lora_adapter_set_with_scale(ctx, adapter, scale)");
-    
-    return -1;
+    auto* model = const_cast<struct llama_model*>(llama_get_model(ctx));
+    if (!model) {
+        spdlog::error("llama_lora_adapter_set: unable to resolve llama model from context");
+        return -1;
+    }
+
+    void* adapter = llama_lora_adapter_init(model, adapter_path);
+    if (!adapter) {
+        return -1;
+    }
+
+    const int result = llama_lora_adapter_set_with_scale(ctx, adapter, 1.0f);
+    if (result != 0) {
+        llama_lora_adapter_free(adapter);
+        return result;
+    }
+
+    {
+        std::lock_guard<std::mutex> lock(g_legacy_adapter_mutex);
+        g_legacy_adapters[ctx].push_back(adapter);
+    }
+
+    return 0;
 }
 
 /**
@@ -369,6 +356,20 @@ int llama_lora_adapter_remove(struct llama_context* ctx, void* adapter) {
     
     if (result == 0) {
         spdlog::debug("✓ LoRA adapter removed successfully");
+        {
+            std::lock_guard<std::mutex> lock(g_legacy_adapter_mutex);
+            auto it = g_legacy_adapters.find(ctx);
+            if (it != g_legacy_adapters.end()) {
+                auto& adapters = it->second;
+                adapters.erase(std::remove(adapters.begin(), adapters.end(), adapter), adapters.end());
+                if (adapters.empty()) {
+                    g_legacy_adapters.erase(it);
+                }
+            }
+        }
+        if (g_lora_api_override_active ? g_override_lora_free != nullptr : g_llama_lora_adapter_free != nullptr) {
+            llama_lora_adapter_free(adapter);
+        }
     } else {
         spdlog::warn("✗ Failed to remove LoRA adapter (error: {})", result);
     }
@@ -387,14 +388,29 @@ int llama_lora_adapter_clear(struct llama_context* ctx) {
     auto* fn        = g_lora_api_override_active ? g_override_lora_clear : g_llama_lora_adapter_clear;
     const bool avail = g_lora_api_override_active ? (g_override_lora_clear != nullptr) : g_lora_api_available;
 
-    if (!avail || !fn) {
-        spdlog::warn("llama_lora_adapter_clear: LoRA API not available");
-        return -1;
-    }
-    
     if (!ctx) {
         spdlog::error("llama_lora_adapter_clear: null context");
         return -1;
+    }
+
+    if (!avail || !fn) {
+        std::vector<void*> legacy_adapters;
+        {
+            std::lock_guard<std::mutex> lock(g_legacy_adapter_mutex);
+            auto it = g_legacy_adapters.find(ctx);
+            if (it != g_legacy_adapters.end()) {
+                legacy_adapters = std::move(it->second);
+                g_legacy_adapters.erase(it);
+            }
+        }
+        if (legacy_adapters.empty()) {
+            spdlog::warn("llama_lora_adapter_clear: LoRA API not available");
+            return -1;
+        }
+        for (void* adapter : legacy_adapters) {
+            llama_lora_adapter_free(adapter);
+        }
+        return 0;
     }
     
     spdlog::debug("Clearing all LoRA adapters from context");
@@ -404,6 +420,18 @@ int llama_lora_adapter_clear(struct llama_context* ctx) {
     
     if (result == 0) {
         spdlog::debug("✓ All LoRA adapters cleared successfully");
+        std::vector<void*> legacy_adapters;
+        {
+            std::lock_guard<std::mutex> lock(g_legacy_adapter_mutex);
+            auto it = g_legacy_adapters.find(ctx);
+            if (it != g_legacy_adapters.end()) {
+                legacy_adapters = std::move(it->second);
+                g_legacy_adapters.erase(it);
+            }
+        }
+        for (void* adapter : legacy_adapters) {
+            llama_lora_adapter_free(adapter);
+        }
     } else {
         spdlog::warn("✗ Failed to clear LoRA adapters (error: {})", result);
     }

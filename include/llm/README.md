@@ -78,7 +78,7 @@ See [`../../src/llm/README.md`](../../src/llm/README.md) for detailed architectu
 
 | Header | Purpose |
 |--------|---------|
-| `active_vram_allocator.h` | Active VRAM allocation tracking <!-- TODO: verify --> |
+| `active_vram_allocator.h` | Active VRAM allocation tracking |
 | `adapter_compatibility.h` | Adapter compatibility checks |
 | `adapter_deployment_manager.h` | Adapter deployment lifecycle manager |
 | `adapter_load_balancer.h` | Load balancing across adapters |

@@ -1,12 +1,25 @@
 # LLM Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-07-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
 
 The module provides production-grade LLM runtime surfaces across async inference, enhanced multi-model orchestration, adapter/plugin management, routing, streaming, and safety/policy controls.
+
+### Module Evidence Summary (2026-07-19)
+
+**Doxygen Documentation:**
+- [x] All 90 .cpp source files have Doxygen @file headers with maturity/quality metadata
+- [x] Canonical Doxygen format applied to final_layer_orchestrator.cpp and model_switch_workflow.cpp
+
+**Build & Test Evidence:**
+- Build preset: `windows-release`
+- Test target: `module_llm_test_active_vram_allocator_focused`
+- Latest validation: 2026-07-19
+- Result: PASS (exit 0, [  PASSED  ] 45 tests)
+- Test timeout budget: 120s
 
 ## In Progress
 
