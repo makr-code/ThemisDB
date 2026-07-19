@@ -1,7 +1,8 @@
 # Sharding Module - Future Enhancements
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-07-18 -->
 <!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
+<!-- Issue Link: makr-code/ThemisDB#5620 (development status snapshot) -->
 
 ## Scope
 
