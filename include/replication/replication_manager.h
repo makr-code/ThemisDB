@@ -617,42 +617,134 @@ private:
  */
 class ReplicationManager {
 public:
+    /**
+     * Construct a ReplicationManager with the given configuration.
+     * 
+     * @param config Configuration parameters for replication behavior
+     *        (mode, failover settings, WAL, conflict resolution, etc.)
+     * 
+     * @post Object is not yet active; call initialize() to start replication threads.
+     */
     explicit ReplicationManager(const ReplicationConfig& config);
+    
     ~ReplicationManager();
     
-    // Initialize replication
+    /**
+     * Initialize replication subsystem and start background threads.
+     *
+     * Initializes WAL, replicas, leader election state, and background replication
+     * threads. Must be called exactly once before replicate() or waitForReplication()
+     * can succeed.
+     *
+     * @return true on success; false if WAL initialization or thread creation fails.
+     * @throws std::runtime_error if already initialized.
+     *
+     * @post On success, background replication threads are running and this node
+     *       has joined the configured replica group.
+     */
     bool initialize();
     
-    // Shutdown replication
+    /**
+     * Shutdown replication subsystem and wait for background threads to exit.
+     *
+     * Gracefully stops replication threads, flushes any pending WAL entries,
+     * and releases all replica connections. Safe to call from any thread.
+     *
+     * @note Blocking; may take up to heartbeat_interval_ms + election_timeout_max_ms
+     *       to complete in worst case (if leader election is in progress).
+     */
     void shutdown();
     
-    // Replicate a write operation
+    /**
+     * Replicate a write operation to all configured replicas.
+     *
+     * Appends the WAL entry to this node's Write-Ahead Log and schedules
+     * replication to followers according to the configured replication mode
+     * (SYNC, SEMI_SYNC, or ASYNC).
+     *
+     * @param entry WAL entry containing operation, document, data, and checksum.
+     * @return true if entry was appended to WAL; false if this node is not
+     *         the leader or WAL append failed.
+     *
+     * @note In ASYNC mode, returns true immediately without waiting for replicas.
+     *       In SEMI_SYNC mode, waits for min_sync_replicas to acknowledge.
+     *       In SYNC mode, waits for all voting replicas.
+     *
+     * @throws std::invalid_argument if entry.checksum is empty or malformed.
+     */
     bool replicate(const WALEntry& entry);
     
-    // Wait for replication to complete (sync mode)
+    /**
+     * Wait for a specific WAL entry to be replicated to a sufficient number of replicas.
+     *
+     * Blocks until either:
+     *   - The entry (identified by sequence number) has been acknowledged by
+     *     enough replicas to satisfy the configured replication mode, or
+     *   - timeout_ms milliseconds have elapsed (0 = no timeout).
+     *
+     * @param sequence WAL sequence number to wait for.
+     * @param timeout_ms Maximum time to wait in milliseconds; 0 means infinite.
+     * @return true if replication completed within timeout; false on timeout or error.
+     *
+     * @note Unused in ASYNC mode (returns immediately).
+     */
     bool waitForReplication(uint64_t sequence, uint32_t timeout_ms = 0);
     
-    // Get current role
+    /**
+     * Get the current replication role of this node.
+     *
+     * @return ReplicationRole::LEADER if this node is the leader; otherwise
+     *         FOLLOWER, CANDIDATE, OBSERVER, or WITNESS.
+     */
     ReplicationRole getRole() const;
     
-    // Get leader endpoint (empty if this node is leader)
+    /**
+     * Get the network endpoint of the current leader.
+     *
+     * @return Empty string if this node is the leader; otherwise the
+     *         "hostname:port" endpoint of the current leader.
+     */
     std::string getLeaderEndpoint() const;
     
-    // Get all replicas
+    /**
+     * Get information about all configured replicas.
+     *
+     * @return Vector of ReplicaInfo structs for all known replicas,
+     *         including role, health status, and replication lag.
+     */
     std::vector<ReplicaInfo> getReplicas() const;
     
-    // Get replication statistics
+    /**
+     * Get replication runtime statistics.
+     *
+     * @return Const reference to the current ReplicationStats (entries replicated,
+     *         failures, latencies, etc.).
+     */
     const ReplicationStats& getStats() const { return stats_; }
-    
-    // Add/remove replicas
     
     /**
      * Add a replica to the replication group.
-     * @param replica Replica information (node_id and endpoint must be non-empty)
-     * @note Rejects empty node_id or endpoint fail-closed to prevent silent replica registration failures
+     *
+     * The new replica will receive a full snapshot followed by incremental WAL
+     * entries. Adding a replica during active write traffic may incur lag
+     * until the replica catches up.
+     *
+     * @param replica Replica information (node_id and endpoint must be non-empty).
+     * @throws std::invalid_argument if node_id or endpoint is empty.
+     * @note Rejects empty node_id or endpoint fail-closed to prevent silent
+     *       replica registration failures.
      */
     void addReplica(const ReplicaInfo& replica);
     
+    /**
+     * Remove a replica from the replication group.
+     *
+     * Existing WAL entries are not deleted; the replica simply stops
+     * receiving new replication updates.
+     *
+     * @param node_id Unique identifier of the replica to remove.
+     * @note If the removed replica is the current leader, failover is triggered.
+     */
     void removeReplica(const std::string& node_id);
 
     /**
@@ -668,19 +760,69 @@ public:
      */
     void addWitnessNode(const std::string& node_id, const std::string& endpoint);
     
-    // Set custom conflict resolver
+    /**
+     * Set a custom conflict resolver for multi-master replication.
+     *
+     * The resolver will be called whenever two or more writes conflict on the
+     * same document. The resolver must be thread-safe and idempotent.
+     *
+     * @param resolver Implementation of IConflictResolver; if nullptr, the
+     *                 default Last-Write-Wins strategy is used.
+     *
+     * @note This is only meaningful in multi-master (CRDT) replication mode.
+     *       In leader-follower mode, write ordering prevents most conflicts.
+     */
     void setConflictResolver(std::shared_ptr<IConflictResolver> resolver);
     
-    // Add event listener
+    /**
+     * Register a listener for replication lifecycle events.
+     *
+     * The listener will be called on the replication background thread for
+     * each event (apply, failover, conflict, lag, health change, etc.).
+     *
+     * @param listener Shared pointer to an IReplicationListener implementation.
+     * @note Listeners must not block for more than 1 ms or spawn I/O.
+     * @note Multiple listeners can be registered; all are called for each event.
+     */
     void addListener(std::shared_ptr<IReplicationListener> listener);
     
-    // Trigger manual failover to specific node
+    /**
+     * Initiate a manual failover to a specific target replica.
+     *
+     * Attempts to promote the target replica to leader and demote this node
+     * (or the current leader) to follower. Useful for maintenance or
+     * deliberate topology changes.
+     *
+     * @param target_node_id Node ID of the replica to promote.
+     * @return true on success; false if target replica is unreachable or
+     *         unable to assume leadership.
+     *
+     * @note Blocking; may take up to election_timeout_max_ms to complete.
+     * @note If this node is not the current leader, the call is relayed to
+     *       the leader for execution.
+     */
     bool triggerFailover(const std::string& target_node_id);
     
-    // Promote this follower to leader (for maintenance)
+    /**
+     * Promote this follower node to leader (for planned maintenance or
+     * deliberate topology change).
+     *
+     * @return true on success; false if this node is already the leader,
+     *         unable to communicate with other replicas, or the quorum
+     *         is not achieved.
+     * @note Blocking; may take up to election_timeout_max_ms to complete.
+     */
     bool promoteToLeader();
     
-    // Demote this leader to follower
+    /**
+     * Demote this leader node to follower (used during planned maintenance).
+     *
+     * Stops accepting new writes and voluntarily steps down from leadership.
+     * Another replica will be elected as the new leader.
+     *
+     * @return true on success; false if this node is not the leader or
+     *         if the new leader cannot be elected.
+     */
     bool demoteToFollower();
     
     /**
@@ -726,22 +868,72 @@ public:
      * @return Prometheus-formatted metrics string
      */
     std::string exportPrometheusMetrics() const;
-    // Get health status of all replicas
+    /**
+     * Get health status of all replicas.
+     *
+     * @return Vector of (node_id, HealthStatus) pairs for all replicas,
+     *         indicating whether each is HEALTHY, DEGRADED, FAILED, or UNKNOWN.
+     * @see HealthStatus enum for interpretation of each status.
+     */
     std::vector<std::pair<std::string, HealthStatus>> getReplicaHealthStatus() const;
     
-    // Check if cluster has quorum
+    /**
+     * Check if the cluster currently has quorum for write operations.
+     *
+     * Quorum is defined as: for a cluster with N voting members, at least
+     * ceil(N/2)+1 members must be responsive (HEALTHY or DEGRADED status).
+     *
+     * @return true if quorum is achieved; false if partition or insufficient
+     *         healthy replicas.
+     * @note This check is fast (O(1)) as quorum state is maintained continuously.
+     */
     bool hasQuorum() const;
     
-    // Trigger health check on all replicas
+    /**
+     * Trigger a health check on all configured replicas.
+     *
+     * Sends heartbeat/ping messages to all replicas and updates their health
+     * status based on responses. Called automatically at heartbeat_interval_ms
+     * but can also be called explicitly to force immediate health assessment.
+     *
+     * @note Non-blocking; results are available via getReplicaHealthStatus()
+     *       after heartbeat_interval_ms or on next check call.
+     */
     void performHealthCheck();
     
-    // Detect network partition
+    /**
+     * Detect if there is a network partition in the cluster.
+     *
+     * A partition is detected when:
+     *   - This node and some replicas are unable to communicate, and
+     *   - Neither partition can achieve quorum, or
+     *   - Quorum has been lost.
+     *
+     * @return true if a partition is detected; false if cluster is connected
+     *         or this node is isolated but retains quorum.
+     *
+     * @note In leader mode: leader remains available for writes if it has quorum.
+     * @note In follower mode: no writes allowed; read traffic routed to healthy
+     *       replicas or primary.
+     */
     bool detectNetworkPartition() const;
     
-    // Get read preference configuration
+    /**
+     * Get the read preference configuration for query routing.
+     *
+     * @return Configured ReadPreference (PRIMARY, SECONDARY, PRIMARY_PREFERRED, etc.).
+     * @see setReadPreference() to change the default.
+     */
     ReadPreference getReadPreference() const { return config_.default_read_preference; }
     
-    // Set read preference
+    /**
+     * Set the read preference for query routing.
+     *
+     * @param preference New read preference strategy.
+     *
+     * @note Changes take effect immediately for new read requests.
+     *       In-flight reads are not affected.
+     */
     void setReadPreference(ReadPreference preference);
 
     /**
