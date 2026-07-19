@@ -60,6 +60,34 @@ struct AuditQueryFilter {
     int page_size = 100;
 };
 
+/**
+ * @brief AuditApiHandler - Audit log API operations.
+ * 
+ * HTTP API handler for audit log API operations.
+ * Implements endpoint-specific routing, request validation, business logic,
+ * and response formatting.
+ * 
+ * ### HTTP Endpoints
+ * Supported operations depend on the specific handler implementation.
+ * See handler methods for endpoint mappings and request/response schemas.
+ * 
+ * ### Thread Safety
+ * Handler instance and all methods are thread-safe for concurrent requests.
+ * Internal state modifications use appropriate synchronization primitives.
+ * 
+ * ### Error Handling
+ * All endpoints follow consistent error response formatting:
+ * - 400: Bad Request (invalid input)
+ * - 401: Unauthorized (missing/invalid authentication)
+ * - 403: Forbidden (insufficient permissions)
+ * - 404: Not Found (resource doesn't exist)
+ * - 500: Internal Server Error (unexpected failure)
+ * 
+ * @note Integrates with rate limiting, auth middleware, and validation pipeline
+ * @note Request bodies are validated against JSON schemas before processing
+ * @note All operations are auditable and logged
+ */
+
 class AuditApiHandler {
 public:
     AuditApiHandler(std::shared_ptr<themis::FieldEncryption> enc,

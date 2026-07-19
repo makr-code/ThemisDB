@@ -120,41 +120,32 @@ ThemisCoreServiceImpl::ThemisCoreServiceImpl(
     impl_ = std::make_unique<Impl>(db_, txn_mgr_, aql_engine_);
     THEMIS_INFO("ThemisCoreServiceImpl: initialized with gRPC protocol support");
 #else
-    // STUB/SIMULATION NOTE:
-    // Purpose: Allow ThemisCoreServiceImpl to be constructed and linked without
-    //   the generated protobuf/gRPC stub files for themis_core.proto.  The
-    //   service instance is null; getServiceInstance() returns nullptr so the
-    //   gRPC server simply omits this service from its handler list.
-    // Activation: THEMIS_HAS_CORE_GRPC == 0 (default when protoc has not been
-    //   run against proto/themis_core.proto, or when the generated
-    //   themis_core.grpc.pb.h is not on the include path).
-    // Production Delta: ThemisCoreService is completely absent from the gRPC
-    //   server; clients calling any method on this service receive
-    //   UNIMPLEMENTED.  All database, transaction, and AQL operations
-    //   exposed by ThemisCoreService are inaccessible via gRPC.
-    // Removal Plan: Run `cmake -DTHEMIS_ENABLE_GRPC=ON` with protoc installed
-    //   so that themis_core.grpc.pb.{h,cc} are generated.  Re-enable the
-    //   THEMIS_HAS_CORE_GRPC=1 path; this #else block becomes dead code.
-    // Roadmap ref: src/server/FUTURE_ENHANCEMENTS.md §"gRPC Core Service Activation"
-    THEMIS_WARN("ThemisCoreServiceImpl: themis_core.grpc.pb.h not found; "
-                "service will be a no-op until protoc generates the stubs");
-
-    // Try injected accessor (for non-proto builds wiring an external service).
     ServiceInstanceFn fn;
     {
         std::lock_guard<std::mutex> lock(g_core_grpc_instance_mutex);
         fn = g_core_grpc_instance_fn;
     }
-    if (fn) {
-        try {
-            service_ptr_ = fn();
-        } catch (const std::exception& e) {
-            THEMIS_ERROR("ThemisCoreServiceImpl: service-instance callback failed: {}", e.what());
-            service_ptr_ = nullptr;
-        } catch (...) {
-            THEMIS_ERROR("ThemisCoreServiceImpl: service-instance callback failed: unknown error");
-            service_ptr_ = nullptr;
-        }
+    if (!fn) {
+        const std::string error =
+            "ThemisCoreServiceImpl requires generated core gRPC stubs or an "
+            "injected non-null ServiceInstanceFn in non-proto builds";
+        THEMIS_CRITICAL("{}", error);
+        throw std::runtime_error(error);
+    }
+    try {
+        service_ptr_ = fn();
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("ThemisCoreServiceImpl: service-instance callback failed: {}", e.what());
+        throw std::runtime_error("ThemisCoreServiceImpl service callback threw an exception");
+    } catch (...) {
+        THEMIS_ERROR("ThemisCoreServiceImpl: service-instance callback failed: unknown error");
+        throw std::runtime_error("ThemisCoreServiceImpl service callback threw an unknown exception");
+    }
+    if (!service_ptr_) {
+        const std::string error =
+            "ThemisCoreServiceImpl ServiceInstanceFn returned nullptr in non-proto build";
+        THEMIS_CRITICAL("{}", error);
+        throw std::runtime_error(error);
     }
 #endif
 }
@@ -176,4 +167,3 @@ void* ThemisCoreServiceImpl::getServiceInstance() {
 
 } // namespace core
 } // namespace themis
-

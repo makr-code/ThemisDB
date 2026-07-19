@@ -27,10 +27,36 @@ namespace themis {
 namespace server {
 
 /**
- * @brief Load Shedder for adaptive request rejection under overload
+ * @brief Adaptive load shedding for server overload protection.
  * 
- * Monitors system load and rejects low-priority requests when
- * resources are constrained.
+ * Monitors CPU, memory, and queue-depth pressure and rejects lower-priority
+ * requests once configured overload thresholds are crossed.
+ * 
+ * ### Shedding Policy
+ * - HIGH priority: always admitted while shedding is enabled
+ * - LOW priority: rejected when computed load is > 0.80
+ * - NORMAL priority: rejected when computed load is > 0.95
+ * - Shedding can be disabled globally via Config::enable_shedding
+ * 
+ * ### Health Metrics
+ * Current load is a weighted score:
+ * - CPU utilization (50%)
+ * - Memory utilization (30%)
+ * - Queue depth factor normalized by Config::queue_depth_threshold (20%)
+ *
+ * updateLoad() clamps CPU/memory inputs to [0.0, 1.0] before evaluation.
+ * queue_depth_threshold also controls how quickly queue pressure reaches full weight.
+ * 
+ * ### Operational Notes
+ * - Queue depth contributes via Config::queue_depth_threshold normalization
+ * - Policy decisions are deterministic for a given metric snapshot
+ * - No randomized/LRU/FIFO eviction strategy is currently implemented
+ * 
+ * @note Decision-making is best-effort; no guarantee that all high-priority requests succeed
+ * @note Thresholds are fixed in shouldReject(); metric normalization uses Config values
+ * @note Enables graceful degradation under extreme load
+ * 
+ * @see RateLimitingMiddleware for request-level rate limiting
  */
 class LoadShedder {
 public:
@@ -56,10 +82,10 @@ public:
     explicit LoadShedder(const Config& config);
     
     /**
-     * @brief Check if request should be rejected
-     * @param prio Request priority
-    * @return true if request should be rejected (shed), false otherwise.
-    * @note HIGH priority is always admitted by policy.
+     * @brief Check if request should be rejected.
+     * @param prio Request priority.
+     * @return true if request should be rejected (shed), false otherwise.
+     * @note HIGH priority is always admitted by policy.
      */
     bool shouldReject(Priority prio) const;
     
@@ -72,8 +98,8 @@ public:
     void updateLoad(double cpu_usage, double memory_usage, size_t queue_depth);
     
     /**
-    * @brief Get current normalized load factor.
-    * @return Weighted load in [0.0, 1.0] based on CPU, memory, and queue depth.
+     * @brief Get current normalized load factor.
+     * @return Weighted load in [0.0, 1.0] based on CPU, memory, and queue depth.
      */
     double getCurrentLoad() const;
     

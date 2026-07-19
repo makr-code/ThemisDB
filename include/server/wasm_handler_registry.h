@@ -34,7 +34,38 @@ namespace server {
 // =============================================================================
 
 /**
- * @brief Resource limits applied to a single WASM handler invocation.
+ * @brief Resource limits and execution policy for a single WASM handler invocation.
+ * 
+ * Defines the bounded execution envelope for untrusted WASM code.
+ * Violations of these limits result in handler termination and error response.
+ * 
+ * ### Resource Constraints
+ * - cpu_time_limit: Maximum wall-clock time; enforced via async timeout
+ * - memory_limit_bytes: Max linear-memory size (64 MiB default)
+ * - linear_memory_pages: Pre-allocated pages (64 KiB each); growing pages trigger error
+ * - entry_point: Export function to invoke (default "handle" for all handlers)
+ * 
+ * ### Invocation Flow
+ * 1. Allocate sandbox with linear_memory_pages
+ * 2. Start execution timeout timer
+ * 3. Call entry_point function with request data
+ * 4. If timeout exceeded or memory exceeded, terminate handler
+ * 5. Return error response to client:
+ *    - HTTP 504 Gateway Timeout for wall-clock limit violations
+ *    - HTTP 500 Internal Server Error for memory-limit and other runtime failures
+ * 
+ * ### Security Implications
+ * - cpu_time_limit prevents infinite loops and DoS attacks
+ * - memory_limit_bytes prevents memory exhaustion on the host
+ * - linear_memory_pages prevents out-of-bounds memory access
+ * - entry_point validation ensures handlers export the expected interface
+ * 
+ * @note These limits are per-invocation; multiple concurrent invocations each have their own envelope
+ * @note Unused fields remain at their defaults; does not require full specification
+ * @note Default limits are conservative; production deployments may adjust based on workload
+ * 
+ * @see WasmHandlerEntry for handler registration with config
+ * @see themis::modules::WasmPluginSandbox for enforcement implementation
  */
 struct WasmHandlerConfig {
     /// Maximum wall-clock execution time per invocation (default 500 ms).
@@ -55,9 +86,47 @@ struct WasmHandlerConfig {
 // =============================================================================
 
 /**
- * @brief Metadata and binary for a registered WASM API handler.
+ * @brief Complete metadata and binary for a registered WASM API handler.
+ * 
+ * Represents a deployed serverless function implemented in WebAssembly.
+ * Handlers are stored in a tenant-keyed registry and invoked for matching HTTP routes.
+ * 
+ * ### Handler Lifecycle
+ * 1. Tenant uploads WASM binary via serverless API
+ * 2. Handler is validated, sandboxed, and stored in registry
+ * 3. When a matching route is invoked, handler is loaded and executed
+ * 4. After execution, result is returned to client
+ * 5. Handler may be updated (version incremented) or deleted
+ * 
+ * ### Registry Key
+ * Handlers are indexed by (tenant_id, id) pair:
+ * - tenant_id: Owner of the handler (empty = globally accessible)
+ * - id: Unique function/handler identifier
+ * 
+ * ### Resource Limits
+ * Each handler has a WasmHandlerConfig that defines:
+ * - CPU time limit per invocation
+ * - Memory limit per invocation
+ * - Entry point function name
+ * 
+ * ### Metrics
+ * - version: Incremented each time the WASM binary is re-uploaded
+ * - invocation_count: Total successful invocations (for monitoring)
+ * - created_at, updated_at: Timestamps for auditing
+ * 
+ * ### Move Semantics
+ * WasmHandlerEntry is move-only (non-copyable) due to atomic<uint64_t> member.
+ * Moving a handler is efficient; use std::move when storing in containers.
+ * 
+ * @note Handler ID must be URL-safe (alphanumeric, hyphens, underscores)
+ * @note WASM binary is validated at upload time; malformed binaries are rejected
+ * @note Handler invocation is always sandboxed with resource limits
+ * @note Concurrent invocations of the same handler are allowed and isolated
+ * 
+ * @see WasmHandlerRegistry for management operations
+ * @see WasmHandlerConfig for resource limit details
  */
-struct WasmHandlerEntry {
+    struct WasmHandlerEntry {
     std::string id;          ///< Unique function / handler ID
     std::string tenant_id;   ///< Owning tenant (empty = global)
     std::string name;        ///< Human-readable handler name
@@ -319,4 +388,3 @@ private:
 
 } // namespace server
 } // namespace themis
-

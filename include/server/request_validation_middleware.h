@@ -90,41 +90,125 @@ public:
     RequestValidationMiddleware& operator=(RequestValidationMiddleware&&) = delete;
 
     /**
-     * @brief Register a JSON Schema Draft-7 object for an endpoint.
-     *
-     * @param method   HTTP method in any case ("GET", "POST", ...) or "*" for any method.
-     * @param path     Exact path or prefix (e.g. "/api/v1/entities").
-     *                 A trailing "/" is NOT added automatically.
-     * @param schema   nlohmann::json object representing a JSON Schema Draft-7 document.
-     *                 Replaces any previously registered schema for the same key.
+     * @brief Register a JSON Schema Draft-7 for an endpoint to enable request body validation.
+     * 
+     * Replaces any previously registered schema for the same (method, path) key.
+     * Schemas are used during request validation (validate method) to enforce
+     * request contract compliance before the handler is invoked.
+     * 
+     * @param method HTTP method ("GET", "POST", "PUT", "DELETE", etc., case-insensitive)
+     *               or "*" to match any HTTP method
+     * @param path Exact path or prefix (e.g. "/api/v1/entities" or "/api/v1/entities/").
+     *             No automatic trailing-slash normalization; register both if needed.
+     *             Longest-prefix matching applies; "/api/v1" will match "/api/v1/anything"
+     * @param schema nlohmann::json object representing the JSON Schema Draft-7 document.
+     *               Must be a JSON object (not null, array, etc.).
+     *               Replaces any previously registered schema for the same key.
+     * 
+     * @note Thread-safe; safe to register schemas while validate() is running on other threads
+     * @note Schema registration does NOT validate the schema document itself (best-effort parsing)
+     * @note Large schemas may impact lookup performance
+     * 
+     * @see validate() to validate request bodies against registered schemas
+     * @see hasSchema() to check if a schema exists
+     * @see removeSchema() to unregister a schema
      */
     void registerSchema(const std::string& method, const std::string& path, nlohmann::json schema);
 
     /**
-     * @brief Validate the request body against the schema registered for (method, path).
-     *
-     * @param method   HTTP method string (e.g. "POST").
-     * @param path     Request target path (e.g. "/api/v1/entities/42" or just "/api/v1/entities").
-     * @param body     Raw request body string.  Empty body skips validation for
-     *                 schemas that do not mark any field as required.
-     * @return ValidationResult::OK() when valid or when no schema is registered;
-     *         ValidationResult::Error(msg) otherwise.
+     * @brief Validate a raw request body string against the schema registered for an endpoint.
+     * 
+     * Performs JSON Schema Draft-7 validation before the request reaches the handler.
+     * In HttpServer routing, body validation is executed during request intake before
+     * final handler dispatch, but not globally after all auth checks for every path.
+     * 
+     * ### Path Matching Priority
+     * Routes are matched in this order (first match wins):
+     * 1. Exact (method, path)
+     * 2. Longest prefix (method, path_prefix)
+     * 3. Exact ("*", path) - matches any method
+     * 4. Longest prefix ("*", path_prefix)
+     * 
+     * If no schema is registered for a request path, validation is skipped (returns OK).
+     * 
+     * ### Empty Body Handling
+     * An empty body string is converted to an empty JSON object (`{}`) and then validated.
+     * Whitespace-only bodies are parsed as-is and may fail with a JSON parse error.
+     * 
+     * ### Validation Features (JSON Schema Draft-7 subset)
+     * - type: "object", "array", "string", "number", "boolean", "null"
+     * - required: list of mandatory field names
+     * - properties: field-level schema definitions
+     * - additionalProperties: allow/disallow extra fields
+     * - enum: list of allowed values
+     * - minLength, maxLength: string length constraints
+     * - pattern: regex pattern matching
+     * - minimum, maximum: numeric range constraints
+     * - exclusiveMinimum, exclusiveMaximum: exclusive range bounds
+     * 
+     * @param method HTTP method string (case-insensitive, e.g. "POST", "post", "Post")
+     * @param path Request target path (e.g. "/api/v1/entities/42" or "/api/v1/entities").
+     *             No automatic trailing-slash normalization; "/entities" and "/entities/" are different.
+     * @param body Raw request body string. Empty string is converted to `{}` before validation.
+     * 
+     * @return ValidationResult::OK() when:
+     *         - Body is valid against registered schema
+     *         - No schema is registered for this (method, path)
+     *         ValidationResult::Error(msg) when parsing fails or schema validation fails
+     * 
+     * @note Thread-safe; concurrent validate() calls allowed
+     * @note Validation is best-effort; complex schemas may have limitations
+     * @note No sensitive data leakage in error messages (uses JSON pointer paths)
+     * 
+     * @see registerSchema() to register a schema for an endpoint
+     * @see hasSchema() to check if a schema exists without validating
+     * @see validate(method, path, json) for pre-parsed JSON bodies
      */
     ValidationResult validate(const std::string& method,
                               const std::string& path,
                               const std::string& body) const;
 
     /**
-     * @brief Overload that accepts a pre-parsed JSON body.
+     * @brief Validate a pre-parsed JSON body against the schema registered for an endpoint.
+     * 
+     * Identical to validate(method, path, string) except the body is already parsed as JSON.
+     * Avoids re-parsing if the body has already been converted to JSON for other purposes.
+     * 
+     * @param method HTTP method string (case-insensitive)
+     * @param path Request target path
+     * @param body Pre-parsed JSON object (any JSON value: object, array, string, number, boolean, null)
+     * 
+     * @return ValidationResult::OK() or ValidationResult::Error(msg)
+     * 
+     * @note Thread-safe; concurrent calls allowed
+     * @note See validate(method, path, string) for detailed path-matching and validation logic
+     * 
+     * @see validate(method, path, string) for raw body validation
      */
     ValidationResult validate(const std::string& method,
                               const std::string& path,
                               const nlohmann::json& body) const;
 
     /**
-     * @brief Return true if at least one schema is registered for the given (method, path).
-     *
-     * Uses the same lookup logic as validate().
+     * @brief Check if a schema is registered for an endpoint (method, path pair).
+     * 
+     * Uses the same path-matching logic as validate():
+     * 1. Exact (method, path)
+     * 2. Longest prefix (method, path_prefix)
+     * 3. Exact ("*", path)
+     * 4. Longest prefix ("*", path_prefix)
+     * 
+     * Useful for conditional validation or logging.
+     * 
+     * @param method HTTP method (case-insensitive) or "*" for any method
+     * @param path Request target path
+     * 
+     * @return true if a schema is registered for the (method, path) pair; false otherwise
+     * 
+     * @note Thread-safe; returns snapshot
+     * @note Does NOT perform validation; only checks schema existence
+     * 
+     * @see validate() to validate against the schema
      */
     bool hasSchema(const std::string& method, const std::string& path) const;
 

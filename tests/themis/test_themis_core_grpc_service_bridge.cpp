@@ -10,9 +10,9 @@
  * @file test_themis_core_grpc_service_bridge.cpp
  * @brief Unit tests for ThemisCoreServiceImpl service-instance bridge (STUB #58).
  *
- * Tests verify that the ServiceInstanceFn injection mechanism works correctly
- * in non-proto builds: null by default (fail-closed), picks up an injected
- * pointer, and silently clamps to nullptr on callback exceptions.
+ * Tests verify strict fail-closed behavior in non-proto builds: constructor
+ * throws without a callback, accepts a non-null injected pointer, and throws
+ * when callback execution fails or returns nullptr.
  *
  * Tests: CORE-GRPC-BRIDGE-01..03
  */
@@ -31,11 +31,11 @@ static ThemisCoreServiceImpl makeService() {
 }
 
 // ── CORE-GRPC-BRIDGE-01 ────────────────────────────────────────────────────
-// Without any injected accessor the service instance must be null (fail-closed).
-TEST(ThemisCoreServiceImplBridgeTest, NoAccessorReturnsNull) {
+// Without any injected accessor construction must fail closed.
+TEST(ThemisCoreServiceImplBridgeTest, NoAccessorThrows) {
     ThemisCoreServiceImpl::setServiceInstanceFn({});   // ensure clean state
-    auto svc = makeService();
-    EXPECT_EQ(svc.getServiceInstance(), nullptr);
+    EXPECT_THROW((void)makeService(), std::runtime_error);
+    ThemisCoreServiceImpl::setServiceInstanceFn({});   // cleanup
 }
 
 // ── CORE-GRPC-BRIDGE-02 ────────────────────────────────────────────────────
@@ -51,17 +51,20 @@ TEST(ThemisCoreServiceImplBridgeTest, InjectedPointerIsReturned) {
 }
 
 // ── CORE-GRPC-BRIDGE-03 ────────────────────────────────────────────────────
-// If the accessor callback throws, the service pointer must remain null
-// (fail-closed, no uncaught exception propagating to the caller).
-TEST(ThemisCoreServiceImplBridgeTest, AccessorExceptionFailsClosed) {
+// If the accessor callback throws, construction must fail.
+TEST(ThemisCoreServiceImplBridgeTest, AccessorExceptionThrows) {
     ThemisCoreServiceImpl::setServiceInstanceFn([]() -> void* {
         throw std::runtime_error("simulated accessor failure");
     });
+    EXPECT_THROW((void)makeService(), std::runtime_error);
+    ThemisCoreServiceImpl::setServiceInstanceFn({});   // cleanup
+}
 
-    EXPECT_NO_THROW({
-        auto svc = makeService();
-        EXPECT_EQ(svc.getServiceInstance(), nullptr);
+// If the accessor callback returns nullptr, construction must fail.
+TEST(ThemisCoreServiceImplBridgeTest, NullAccessorResultThrows) {
+    ThemisCoreServiceImpl::setServiceInstanceFn([]() -> void* {
+        return nullptr;
     });
-
+    EXPECT_THROW((void)makeService(), std::runtime_error);
     ThemisCoreServiceImpl::setServiceInstanceFn({});   // cleanup
 }

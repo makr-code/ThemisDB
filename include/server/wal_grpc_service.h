@@ -29,7 +29,7 @@ class WALApplier;
 
 namespace server {
 
-// gRPC WAL Apply service wrapper; returns nullptr if gRPC stubs are unavailable
+// gRPC WAL Apply service wrapper with optional non-proto service injection.
 class WalGrpcService {
 public:
     /// Callback type that provides an opaque grpc::Service* to the wrapper
@@ -43,11 +43,10 @@ public:
      * @brief Return the underlying grpc::Service pointer for registration.
      *
      * Returns the concrete service implementation when shard gRPC headers are
-     * available.  Returns nullptr otherwise, and the caller must skip
-     * registration without crashing.
+     * available.
      *
-     * If a callback was registered via setServiceFn() its return value is used
-     * for non-proto builds (provided the production-mode check already passed).
+     * In non-proto builds, this returns nullptr unless a callback is registered
+     * via setServiceFn() and returns a non-null service pointer.
      */
     void* service();
 
@@ -55,11 +54,12 @@ public:
      * @brief Configure a process-wide callback that provides a grpc::Service*.
      *
      * Used in non-proto builds (THEMIS_HAS_SHARD_GRPC == 0) to wire a service
-     * instance obtained from another module (e.g. a test double or a
-     * dynamically loaded plugin).  The callback is invoked once during
-     * construction after the production-mode safety check.  Exceptions in the
-     * callback are caught and the service pointer is clamped to nullptr
-     * (fail-closed).
+     * instance obtained from another module (e.g. dynamically loaded generated
+     * stubs). The callback is invoked once during construction.
+     *
+     * A missing callback leaves the endpoint disabled (service() returns nullptr).
+     * A thrown callback exception or nullptr callback result causes constructor
+     * failure via std::runtime_error.
      *
      * Pass an empty function to remove a previously registered callback.
      */
