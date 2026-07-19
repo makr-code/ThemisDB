@@ -1,7 +1,8 @@
 # Audit Report - Sharding Module
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-07-18 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+<!-- Issue Link: makr-code/ThemisDB#5620 (development status snapshot) -->
 
 ## Summary
 
