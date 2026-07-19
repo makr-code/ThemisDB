@@ -12,6 +12,7 @@
 #include "security/pki_key_provider.h"
 #include "security/mock_key_provider.h"
 #include "themis/edition.h"
+#include "themis/edition_manager.h"
 #include "utils/pki_client.h"
 #include "storage/rocksdb_wrapper.h"
 #include <filesystem>
@@ -21,16 +22,21 @@ using namespace themis::utils;
 using namespace themis::security;
 
 namespace {
+// Helper retained for legacy callers but prefer canonical EditionManager check
 bool IsFieldEncryptionAvailable() {
-  return themis::edition::IsFeatureEnabled("field_encryption");
+  std::string edition_err;
+  return themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err);
 }
 }
 
 class SAGALoggerTest : public ::testing::Test {
 protected:
     void SetUp() override {
-    if (!IsFieldEncryptionAvailable()) {
-      GTEST_SKIP() << "Field encryption unavailable in Community edition";
+    {
+      std::string edition_err;
+      if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+        GTEST_SKIP() << "Field encryption unavailable: " << edition_err;
+      }
     }
 
         // Clean test directories
@@ -61,8 +67,11 @@ protected:
 };
 
 TEST_F(SAGALoggerTest, LogAndFlush_CreatesSignedBatch) {
-  if (!IsFieldEncryptionAvailable()) {
-    GTEST_SKIP() << "Field encryption unavailable in Community edition";
+  {
+    std::string edition_err;
+    if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+      GTEST_SKIP() << "Field encryption unavailable: " << edition_err;
+    }
   }
 
     SAGALoggerConfig cfg;
@@ -107,8 +116,11 @@ TEST_F(SAGALoggerTest, LogAndFlush_CreatesSignedBatch) {
 }
 
 TEST_F(SAGALoggerTest, VerifyBatch_ValidSignature_ReturnsTrue) {
-  if (!IsFieldEncryptionAvailable()) {
-    GTEST_SKIP() << "Field encryption unavailable in Community edition";
+  {
+    std::string edition_err;
+    if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+      GTEST_SKIP() << "Field encryption unavailable: " << edition_err;
+    }
   }
 
     SAGALoggerConfig cfg;
@@ -140,8 +152,11 @@ TEST_F(SAGALoggerTest, VerifyBatch_ValidSignature_ReturnsTrue) {
 }
 
 TEST_F(SAGALoggerTest, LoadBatch_DecryptsAndReturnsSteps) {
-  if (!IsFieldEncryptionAvailable()) {
-    GTEST_SKIP() << "Field encryption unavailable in Community edition";
+  {
+    std::string edition_err;
+    if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+      GTEST_SKIP() << "Field encryption unavailable: " << edition_err;
+    }
   }
 
     SAGALoggerConfig cfg;

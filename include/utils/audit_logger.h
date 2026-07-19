@@ -205,6 +205,10 @@ struct AuditLoggerConfig {
     uint64_t max_file_size_bytes = 0;   ///< rotate when file reaches this size (0 = disabled)
     size_t max_rotated_files = 5;       ///< number of rotated log files to keep
     std::string secondary_log_path;     ///< mirror path for redundancy (empty = disabled)
+    // Test/debug helper: when true, echo each JSON record written to stderr.
+    // Not enabled by default; tests may set this to surface audit entries
+    // directly into test logs for debugging.
+    bool debug_echo_to_stderr = false;
 };
 
 // Minimal Audit Logger supporting Encrypt-then-Sign batches (single-entry for now)

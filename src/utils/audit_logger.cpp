@@ -29,6 +29,7 @@
 #include <cmath>
 #include <algorithm>
 #include <curl/curl.h>
+#include <iostream>
 
 #ifdef _WIN32
 #include <winsock2.h>
@@ -161,6 +162,15 @@ void AuditLogger::appendJsonLine(const nlohmann::json& j) {
     rotateLogIfNeeded();
 
     const std::string line = j.dump() + "\n";
+
+    // If enabled, echo every written audit JSON line to stderr for test debugging.
+    if (cfg_.debug_echo_to_stderr) {
+        try {
+            std::cerr << "[audit] " << line;
+        } catch (...) {
+            // best-effort: don't let stderr failures affect logging
+        }
+    }
 
     // Write primary log file
     {

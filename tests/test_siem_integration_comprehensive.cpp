@@ -31,6 +31,7 @@
 #include "security/mock_key_provider.h"
 #include <filesystem>
 #include <fstream>
+#include "themis/edition_manager.h"
 
 using namespace themis;
 using namespace themis::utils;
@@ -45,6 +46,13 @@ protected:
         tmp_dir_ = std::filesystem::temp_directory_path() / "siem_test";
         std::filesystem::create_directories(tmp_dir_);
         log_path_ = (tmp_dir_ / "audit.jsonl").string();
+
+        {
+            std::string edition_err;
+            if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+                GTEST_SKIP() << "Field encryption unavailable: " << edition_err;
+            }
+        }
 
         auto kp = std::make_shared<MockKeyProvider>();
         kp->createKey("saga_log", 1);

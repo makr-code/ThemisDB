@@ -9,10 +9,21 @@
 #include <gtest/gtest.h>
 #include "security/encryption.h"
 #include "security/mock_key_provider.h"
+#include "themis/edition_manager.h"
 
 using namespace themis;
 
-TEST(FieldEncryptionBatch, RoundtripEncryptDecrypt) {
+class FieldEncryptionBatchTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        std::string edition_err;
+        if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+            GTEST_SKIP() << "Field encryption unavailable: " << edition_err;
+        }
+    }
+};
+
+TEST_F(FieldEncryptionBatchTest, RoundtripEncryptDecrypt) {
     auto provider = std::make_shared<MockKeyProvider>();
     // Create a deterministic test key (create with bytes) to avoid randomness in CI
     std::vector<uint8_t> key_bytes(32, 0x42);
@@ -42,7 +53,7 @@ TEST(FieldEncryptionBatch, RoundtripEncryptDecrypt) {
 // needsReEncryption via KeyProvider::getCurrentVersion (#145)
 // ============================================================================
 
-TEST(FieldEncryptionBatch, NeedsReEncryptionFalseForLatestVersion) {
+TEST_F(FieldEncryptionBatchTest, NeedsReEncryptionFalseForLatestVersion) {
     try {
         auto provider = std::make_shared<MockKeyProvider>();
         std::vector<uint8_t> key_bytes(32, 0xAB);
@@ -61,7 +72,7 @@ TEST(FieldEncryptionBatch, NeedsReEncryptionFalseForLatestVersion) {
     }
 }
 
-TEST(FieldEncryptionBatch, NeedsReEncryptionTrueAfterRotation) {
+TEST_F(FieldEncryptionBatchTest, NeedsReEncryptionTrueAfterRotation) {
     try {
         auto provider = std::make_shared<MockKeyProvider>();
         std::vector<uint8_t> key_bytes(32, 0xCD);
@@ -86,7 +97,7 @@ TEST(FieldEncryptionBatch, NeedsReEncryptionTrueAfterRotation) {
     }
 }
 
-TEST(FieldEncryptionBatch, GetCurrentVersionReturnsProbeResult) {
+TEST_F(FieldEncryptionBatchTest, GetCurrentVersionReturnsProbeResult) {
     auto provider = std::make_shared<MockKeyProvider>();
     std::vector<uint8_t> key_bytes(32, 0xEF);
     provider->createKeyFromBytes("ver_key", key_bytes);   // version 1

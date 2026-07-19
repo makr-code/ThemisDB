@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites tests="21" failures="0" disabled="0" errors="0" time="0.02" timestamp="2026-07-19T10:22:28.553" name="AllTests">
+  <testsuite name="SiemConfigDefaultsTest" tests="9" failures="0" disabled="0" skipped="0" errors="0" time="0.002" timestamp="2026-07-19T10:22:28.554">
+    <testcase name="SiemDisabledByDefault" file="C:\Projects\ThemisDB\tests\siem\test_siem_integration_comprehensive.cpp" line="87" status="run" result="completed" time="0." timestamp="2026-07-19T10:22:28.554" classname="SiemConfigDefaultsTest" />
+    <testcase name="DefaultSiemType_Syslog" file="C:\Projects\ThemisDB\tests\siem\test_siem_integration_comprehensive.cpp" line="92" status="run" result="completed" time="0." timestamp="2026-07-19T10:22:28.555" classname="SiemConfigDefaultsTest" />
+    <testcase name="DefaultSiemFormat_Json" file="C:\Projects\ThemisDB\tests\siem\test_siem_integration_comprehensive.cpp" line="97" status="run" result="completed" time="0." timestamp="2026-07-19T10:22:28.555" classname="SiemConfigDefaultsTest" />
+    <testcase name="DefaultSiemHost_Localhost" file="C:\Projects\ThemisDB\tests\siem\test_siem_integration_comprehensive.cpp" line="102" status="run" result="completed" time="0." timestamp="2026-07-19T10:22:28.555" classname="SiemConfigDefaultsTest" />
+    <testcase name="DefaultSyslogPort_514" file="C:\Projects\ThemisDB\tests\siem\test_siem_integration_comprehensive.cpp" line="107" status="run" result="completed" time="0." timestamp="2026-07-19T10:22:28.556" classname="SiemConfigDefaultsTest" />
+    <testcase name="DefaultElasticIndex_Set" file="C:\Projects\ThemisDB\tests\siem\test_siem_integration_comprehensive.cpp" line="112" status="run" result="completed" time="0." timestamp="2026-07-19T10:22:28.556" classname="SiemConfigDefaultsTest" />
+    <testcase name="DefaultSplunkToken_Empty" file="C:\Projects\ThemisDB\tests\siem\test_siem_integration_comprehensive.cpp" line="117" status="run" result="completed" time="0." timestamp="2026-07-19T10:22:28.556" classname="SiemConfigDefaultsTest" />
+    <testcase name="DefaultCaBundlePath_Empty" file="C:\Projects\ThemisDB\tests\siem\test_siem_integration_comprehensive.cpp" line="122" status="run" result="completed" time="0." timestamp="2026-07-19T10:22:28.556" classname="SiemConfigDefaultsTest" />
+    <testcase name="CaBundlePath_CanBeSet" file="C:\Projects\ThemisDB\tests\siem\test_siem_integration_comprehensive.cpp" line="128" status="run" result="completed" time="0." timestamp="2026-07-19T10:22:28.557" classname="SiemConfigDefaultsTest" />
+  </testsuite>
+  <testsuite name="SiemSplunkConfigTest" tests="2" failures="0" disabled="0" skipped="0" errors="0" time="0." timestamp="2026-07-19T10:22:28.557">
+    <testcase name="SplunkConfig_FieldsSetCorrectly" file="C:\Projects\ThemisDB\tests\siem\test_siem_integration_comprehensive.cpp" line="138" status="run" result="completed" time="0." timestamp="2026-07-19T10:22:28.557" classname="SiemSplunkConfigTest" />
+    <testcase name="SplunkConfig_CefFormat" file="C:\Projects\ThemisDB\tests\siem\test_siem_integration_comprehensive.cpp" line="154" status="run" result="completed" time="0." timestamp="2026-07-19T10:22:28.558" classname="SiemSplunkConfigTest" />
+  </testsuite>
+  <testsuite name="SiemElasticConfigTest" tests="1" failures="0" disabled="0" skipped="0" errors="0" time="0." timestamp="2026-07-19T10:22:28.558">
+    <testcase name="ElasticConfig_FieldsSetCorrectly" file="C:\Projects\ThemisDB\tests\siem\test_siem_integration_comprehensive.cpp" line="167" status="run" result="completed" time="0." timestamp="2026-07-19T10:22:28.558" classname="SiemElasticConfigTest" />
+  </testsuite>
+  <testsuite name="SiemConfigTest" tests="9" failures="0" disabled="0" skipped="9" errors="0" time="0.015" timestamp="2026-07-19T10:22:28.559">
+    <testcase name="SiemDisabled_LogEvent_NoCrash" file="C:\Projects\ThemisDB\tests\siem\test_siem_integration_comprehensive.cpp" line="187" status="run" result="skipped" time="0.002" timestamp="2026-07-19T10:22:28.559" classname="SiemConfigTest">
+      <skipped message="C:\Projects\ThemisDB\tests\siem\test_siem_integration_comprehensive.cpp:54&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\siem\test_siem_integration_comprehensive.cpp:54
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="SiemDisabled_LogSecurityEvent_NoCrash" file="C:\Projects\ThemisDB\tests\siem\test_siem_integration_comprehensive.cpp" line="195" status="run" result="skipped" time="0.001" timestamp="2026-07-19T10:22:28.561" classname="SiemConfigTest">
+      <skipped message="C:\Projects\ThemisDB\tests\siem\test_siem_integration_comprehensive.cpp:54&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\siem\test_siem_integration_comprehensive.cpp:54
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="SiemSplunk_UnreachableHost_NoCrash" file="C:\Projects\ThemisDB\tests\siem\test_siem_integration_comprehensive.cpp" line="208" status="run" result="skipped" time="0.001" timestamp="2026-07-19T10:22:28.563" classname="SiemConfigTest">
+      <skipped message="C:\Projects\ThemisDB\tests\siem\test_siem_integration_comprehensive.cpp:54&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\siem\test_siem_integration_comprehensive.cpp:54
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="SiemElastic_UnreachableHost_NoCrash" file="C:\Projects\ThemisDB\tests\siem\test_siem_integration_comprehensive.cpp" line="221" status="run" result="skipped" time="0.001" timestamp="2026-07-19T10:22:28.564" classname="SiemConfigTest">
+      <skipped message="C:\Projects\ThemisDB\tests\siem\test_siem_integration_comprehensive.cpp:54&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\siem\test_siem_integration_comprehensive.cpp:54
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="SiemSplunk_SecurityEvent_UnreachableHost_NoCrash" file="C:\Projects\ThemisDB\tests\siem\test_siem_integration_comprehensive.cpp" line="233" status="run" result="skipped" time="0.001" timestamp="2026-07-19T10:22:28.566" classname="SiemConfigTest">
+      <skipped message="C:\Projects\ThemisDB\tests\siem\test_siem_integration_comprehensive.cpp:54&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\siem\test_siem_integration_comprehensive.cpp:54
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="SiemElastic_SecurityEvent_UnreachableHost_NoCrash" file="C:\Projects\ThemisDB\tests\siem\test_siem_integration_comprehensive.cpp" line="246" status="run" result="skipped" time="0.001" timestamp="2026-07-19T10:22:28.568" classname="SiemConfigTest">
+      <skipped message="C:\Projects\ThemisDB\tests\siem\test_siem_integration_comprehensive.cpp:54&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\siem\test_siem_integration_comprehensive.cpp:54
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="SiemSplunk_Unreachable_LocalLogStillWritten" file="C:\Projects\ThemisDB\tests\siem\test_siem_integration_comprehensive.cpp" line="263" status="run" result="skipped" time="0.001" timestamp="2026-07-19T10:22:28.569" classname="SiemConfigTest">
+      <skipped message="C:\Projects\ThemisDB\tests\siem\test_siem_integration_comprehensive.cpp:54&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\siem\test_siem_integration_comprehensive.cpp:54
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="SiemElastic_Unreachable_LocalLogStillWritten" file="C:\Projects\ThemisDB\tests\siem\test_siem_integration_comprehensive.cpp" line="279" status="run" result="skipped" time="0.001" timestamp="2026-07-19T10:22:28.571" classname="SiemConfigTest">
+      <skipped message="C:\Projects\ThemisDB\tests\siem\test_siem_integration_comprehensive.cpp:54&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\siem\test_siem_integration_comprehensive.cpp:54
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+    <testcase name="SiemSplunk_MultipleEvents_NoCrash" file="C:\Projects\ThemisDB\tests\siem\test_siem_integration_comprehensive.cpp" line="299" status="run" result="skipped" time="0.001" timestamp="2026-07-19T10:22:28.573" classname="SiemConfigTest">
+      <skipped message="C:\Projects\ThemisDB\tests\siem\test_siem_integration_comprehensive.cpp:54&#x0A;Field encryption unavailable: Feature &apos;field_encryption&apos; is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.&#x0A;"><![CDATA[C:\Projects\ThemisDB\tests\siem\test_siem_integration_comprehensive.cpp:54
+Field encryption unavailable: Feature 'field_encryption' is not available in the COMMUNITY edition. Please upgrade to Enterprise or Hyperscaler Edition.
+]]></skipped>
+    </testcase>
+  </testsuite>
+</testsuites>
