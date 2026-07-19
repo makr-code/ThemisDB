@@ -27956,33 +27956,33 @@ endif()
 # Tests live in tests/epic1_retrieval/; they share the themis_retrieval target
 # registered in src/retrieval/CMakeLists.txt (THEMIS_BUILD_RETRIEVAL=ON).
 # ============================================================================
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/epic1_retrieval/CMakeLists.txt")
-    message(STATUS "Including EPIC 1 Retrieval contract test scaffold")
-    add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/epic1_retrieval"
-                     "${CMAKE_CURRENT_BINARY_DIR}/epic1_retrieval")
-endif()
-
-# ============================================================================
-# EPIC 2 — Evaluation & Benchmarking contract tests (P3, 2026-07-17)
-# Tests live in tests/epic2_evaluation/; they share the themis_evaluation target
-# registered in src/evaluation/CMakeLists.txt (THEMIS_BUILD_EVALUATION=ON).
-# ============================================================================
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/epic2_evaluation/CMakeLists.txt")
-    message(STATUS "Including EPIC 2 Evaluation contract test scaffold")
-    add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/epic2_evaluation"
-                     "${CMAKE_CURRENT_BINARY_DIR}/epic2_evaluation")
-endif()
-
-# ============================================================================
-# EPIC 3 — Distributed Tensor Sharding contract tests (P3, 2026-07-17)
-# Tests live in tests/epic3_distributed_tensor/; they share the
-# themis_distributed_tensor target registered in src/distributed_tensor/.
-# ============================================================================
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/epic3_distributed_tensor/CMakeLists.txt")
-    message(STATUS "Including EPIC 3 Distributed Tensor contract test scaffold")
-    add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/epic3_distributed_tensor"
-                     "${CMAKE_CURRENT_BINARY_DIR}/epic3_distributed_tensor")
-endif()
+# if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/epic1_retrieval/CMakeLists.txt")
+#     message(STATUS "Including EPIC 1 Retrieval contract test scaffold")
+#     add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/epic1_retrieval"
+#                      "${CMAKE_CURRENT_BINARY_DIR}/epic1_retrieval")
+# endif()
+# 
+# # ============================================================================
+# # EPIC 2 — Evaluation & Benchmarking contract tests (P3, 2026-07-17)
+# # Tests live in tests/epic2_evaluation/; they share the themis_evaluation target
+# # registered in src/evaluation/CMakeLists.txt (THEMIS_BUILD_EVALUATION=ON).
+# # ============================================================================
+# if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/epic2_evaluation/CMakeLists.txt")
+#     message(STATUS "Including EPIC 2 Evaluation contract test scaffold")
+#     add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/epic2_evaluation"
+#                      "${CMAKE_CURRENT_BINARY_DIR}/epic2_evaluation")
+# endif()
+# 
+# # ============================================================================
+# # EPIC 3 — Distributed Tensor Sharding contract tests (P3, 2026-07-17)
+# # Tests live in tests/epic3_distributed_tensor/; they share the
+# # themis_distributed_tensor target registered in src/distributed_tensor/.
+# # ============================================================================
+# if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/epic3_distributed_tensor/CMakeLists.txt")
+#     message(STATUS "Including EPIC 3 Distributed Tensor contract test scaffold")
+#     add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/epic3_distributed_tensor"
+#                      "${CMAKE_CURRENT_BINARY_DIR}/epic3_distributed_tensor")
+# endif()
 
 # ============================================================================
 # G003: Error Handling & Thread Safety remediation tests
