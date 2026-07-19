@@ -47,11 +47,13 @@
   - IReplicationListener callback semantics
 
 ### Focused Test Evidence
-- Conflict resolution test suite validates:
-  - Three-Way Merge determinism and ancestor detection
-  - Field-Level Merge strategies (UNION, INTERSECT, LEFT_BIAS, RIGHT_BIAS)
-  - Context semantics (metadata, roles, client_ip, request_time)
-  - Idempotent and thread-safe resolver behavior
+- Conflict resolution test suite validates (17 total unit tests):
+  - Three-Way Merge determinism and ancestor detection (RCS-01, 4 tests)
+  - Field-Level Merge strategies (UNION, INTERSECT, LEFT_BIAS, RIGHT_BIAS) (RCS-02, 5 tests)
+  - Context semantics (metadata, roles, client_ip, request_time) (RCS-03, 2 tests)
+  - Idempotent and thread-safe resolver behavior (RCS-04, 2 tests)
+  - Edge cases (minimal conflict sets, large conflict sets) (RCS-05, 2 tests)
+  - Diagnostics consistency and strategy name observability (RCS-06, 2 tests)
 
 ### Quality Baseline
 - All replication module headers have @file Doxygen metadata

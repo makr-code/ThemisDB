@@ -75,6 +75,8 @@ Production-capable replication runtime exists for orchestration, promotion/failo
   - **RCS-02**: Field-Level Merge strategies (5 tests)
   - **RCS-03**: Conflict context semantics (2 tests)
   - **RCS-04**: Deterministic behavior (2 tests)
+  - **RCS-05**: Edge cases (2 tests)
+  - **RCS-06**: Diagnostics consistency (2 tests)
 
 ### Documentation Coverage
 - **Doxygen Headers**: All 13 replication module headers updated with @file metadata
