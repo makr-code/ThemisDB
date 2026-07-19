@@ -14,6 +14,8 @@ foreach(test_src IN LISTS EPIC3_DISTRIBUTED_TENSOR_TESTS)
         PRIVATE GTest::gtest_main
     )
     add_test(NAME ${test_name} COMMAND ${test_name})
+endforeach()
+
 # EPIC 3 Distributed Tensor — tests and benchmarks
 
 # ── Phase A ManifestStore tests (Phase A advisory-only store, MS-01..12) ──────

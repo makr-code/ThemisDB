@@ -22313,11 +22313,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_security_signature_rocksdb_
         ${THEMIS_ROOT_DIR}/src
     )
 
-    target_link_libraries(test_orphan_detector_wired_focused PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        Threads::Threads
-    )
     target_link_libraries(test_security_signature_rocksdb_iteration_focused PRIVATE
         ${TEST_LIBS}
         themis_core
