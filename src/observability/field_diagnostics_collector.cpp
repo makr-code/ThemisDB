@@ -47,13 +47,20 @@ void FieldDiagnosticsCollector::configure(const FieldDiagnosticsConfig& config) 
 
 // Emit with automatic PII masking
 bool FieldDiagnosticsCollector::emitWithPIIMasking(const DiagnosticEvent& event) {
-    if (!config_.enabled) {
+    bool enabled, pii_masking;
+    {
+        std::shared_lock<std::shared_mutex> lock(buffer_mu_);
+        enabled = config_.enabled;
+        pii_masking = config_.enable_pii_masking;
+    }
+
+    if (!enabled) {
         return false;
     }
 
     DiagnosticEvent sanitized_event = event;
     
-    if (config_.enable_pii_masking) {
+    if (pii_masking) {
         sanitizePII(sanitized_event);
         pii_sanitizations_++;
     }
@@ -63,7 +70,14 @@ bool FieldDiagnosticsCollector::emitWithPIIMasking(const DiagnosticEvent& event)
 
 // Emit diagnostic event directly
 bool FieldDiagnosticsCollector::emitDiagnosticEvent(const DiagnosticEvent& event) {
-    if (!config_.enabled) {
+    bool enabled, metrics_enabled;
+    {
+        std::shared_lock<std::shared_mutex> lock(buffer_mu_);
+        enabled = config_.enabled;
+        metrics_enabled = config_.enable_metrics_emission;
+    }
+
+    if (!enabled) {
         return false;
     }
 
@@ -75,7 +89,7 @@ bool FieldDiagnosticsCollector::emitDiagnosticEvent(const DiagnosticEvent& event
     total_events_emitted_++;
 
     // Update metrics
-    if (config_.enable_metrics_emission) {
+    if (metrics_enabled) {
         updateMetricsForEvent(event);
     }
 
@@ -89,10 +103,14 @@ bool FieldDiagnosticsCollector::emitDiagnosticEvent(const DiagnosticEvent& event
 bool FieldDiagnosticsCollector::addEventToBuffer(const DiagnosticEvent& event) {
     std::unique_lock<std::shared_mutex> lock(buffer_mu_);
 
-    // Check buffer size
+    if (config_.max_buffer_size == 0) {
+        return false;
+    }
+
+    // Buffer full: evict oldest event to make room; count the eviction as dropped
     if (event_buffer_.size() >= config_.max_buffer_size) {
-        // Buffer full; remove oldest event
         event_buffer_.pop_front();
+        events_dropped_++;
     }
 
     event_buffer_.push_back(event);
@@ -145,7 +163,14 @@ size_t FieldDiagnosticsCollector::getBufferSize() const {
 
 // Set enabled state
 void FieldDiagnosticsCollector::setEnabled(bool enabled) {
+    std::unique_lock<std::shared_mutex> lock(buffer_mu_);
     config_.enabled = enabled;
+}
+
+// Check if collection is currently enabled
+bool FieldDiagnosticsCollector::isEnabled() const {
+    std::shared_lock<std::shared_mutex> lock(buffer_mu_);
+    return config_.enabled;
 }
 
 // Register emission callback
@@ -190,11 +215,24 @@ nlohmann::json FieldDiagnosticsCollector::getStats() const {
     stats["total_events_emitted"] = total_events_emitted_.load();
     stats["events_dropped"] = events_dropped_.load();
     stats["pii_sanitizations"] = pii_sanitizations_.load();
-    stats["current_buffer_size"] = getBufferSize();
-    stats["max_buffer_size"] = config_.max_buffer_size;
-    stats["enabled"] = config_.enabled;
-    stats["pii_masking_enabled"] = config_.enable_pii_masking;
-    stats["metrics_emission_enabled"] = config_.enable_metrics_emission;
+
+    // Snapshot config and buffer size under lock to avoid data races
+    size_t buf_size, max_buf;
+    bool enabled, pii_masking, metrics_emit;
+    {
+        std::shared_lock<std::shared_mutex> lock(buffer_mu_);
+        buf_size    = event_buffer_.size();
+        max_buf     = config_.max_buffer_size;
+        enabled     = config_.enabled;
+        pii_masking = config_.enable_pii_masking;
+        metrics_emit = config_.enable_metrics_emission;
+    }
+
+    stats["current_buffer_size"] = buf_size;
+    stats["max_buffer_size"] = max_buf;
+    stats["enabled"] = enabled;
+    stats["pii_masking_enabled"] = pii_masking;
+    stats["metrics_emission_enabled"] = metrics_emit;
     
     // Add category breakdown
     auto counts = getEventCountsByCategory();
@@ -210,12 +248,6 @@ nlohmann::json FieldDiagnosticsCollector::getStats() const {
 // Update metrics for event
 void FieldDiagnosticsCollector::updateMetricsForEvent(const DiagnosticEvent& event) {
     auto& metrics = MetricsCollector::getInstance();
-
-    // Emit counter for each category
-    std::string metric_name = "field_diagnostic_events_total{category=\"" 
-        + failureCategoryToString(event.failure_category) + "\",module=\"" 
-        + event.module_name + "\",severity=\"" 
-        + severityToString(event.severity_level) + "\"}";
 
     metrics.incrementCounter(
         "field_diagnostic_events_total",

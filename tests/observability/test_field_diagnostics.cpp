@@ -12,6 +12,7 @@
  */
 
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
 #include "utils/field_diagnostics_schema.h"
 #include "observability/field_diagnostics_collector.h"
 #include <thread>

@@ -13,8 +13,10 @@
 #include "utils/logger.h"
 #include <openssl/ssl.h>
 #include <openssl/err.h>
+#include <openssl/bio.h>
 #include <boost/asio.hpp>
 #include <boost/asio/ssl.hpp>
+#include <unistd.h>
 #include <iostream>
 #include <sstream>
 
@@ -144,7 +146,7 @@ MTLSConnectionFactory::createConnection(const std::string& endpoint) {
             return std::nullopt;
         }
         
-        // Set hostname for verification (if enabled)
+        // Set hostname for SNI (if enabled)
         if (config_.verify_hostname) {
             if (!SSL_set_tlsext_host_name(ssl, host.c_str())) {
                 SSL_free(ssl);
@@ -153,10 +155,30 @@ MTLSConnectionFactory::createConnection(const std::string& endpoint) {
             }
         }
         
-        // Associate socket with SSL
-        // Note: In production, we would use SSL_set_fd and async I/O
-        // For now, we create the SSL object and return it for pool management
-        // The actual handshake would happen when data is first sent/received
+        // Transfer socket fd ownership to a BIO with BIO_CLOSE so that SSL_free
+        // will close the underlying fd. socket.release() prevents Boost from
+        // closing it again when the socket object goes out of scope.
+        auto raw_fd = static_cast<int>(socket.release());
+        BIO* bio = BIO_new_fd(raw_fd, BIO_CLOSE);
+        if (!bio) {
+            // BIO creation failed; we own raw_fd, so close it manually
+            ::close(raw_fd);
+            SSL_free(ssl);
+            THEMIS_WARN("[MTLSConnectionFactory::createConnection] Failed to create BIO for fd");
+            return std::nullopt;
+        }
+        SSL_set_bio(ssl, bio, bio); // SSL takes ownership of bio (and thus the fd)
+        
+        // Perform TLS handshake
+        int ret = SSL_connect(ssl);
+        if (ret != 1) {
+            char err_buf[256] = {};
+            ERR_error_string_n(ERR_get_error(), err_buf, sizeof(err_buf));
+            THEMIS_WARN("[MTLSConnectionFactory::createConnection] TLS handshake failed to {}:{}: {}",
+                        host, port, err_buf);
+            SSL_free(ssl); // frees bio which closes raw_fd
+            return std::nullopt;
+        }
         
         THEMIS_INFO("[MTLSConnectionFactory::createConnection] Successfully created connection to {}:{}",
                     host, port);

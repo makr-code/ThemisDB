@@ -495,7 +495,6 @@ TEST(EndpointConnectionPoolTest, V2F04_ConnectionLifecycle) {
     cfg.min_connections = 0;
     cfg.max_connections = 2;
     
-    auto stats_initial = cfg;
     auto mock_factory = [](const std::string& /*ep*/)
         -> std::optional<std::unique_ptr<SSL, SSLDeleter>> {
         // Return a dummy pointer (not a real SSL object, but OK for this test)

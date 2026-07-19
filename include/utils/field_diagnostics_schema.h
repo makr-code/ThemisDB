@@ -248,6 +248,9 @@ static constexpr const char* PII_MASK_FIELDS[] = {
     "query",
     "user_id",
     "user_email",
+    "user_name",
+    "user_",
+    "email",
     "customer_id",
     "api_key",
     "token",
@@ -308,13 +311,65 @@ struct adl_serializer<themis::observability::DiagnosticEvent> {
         j = evt.toJson();
     }
     static void from_json(const json& j, themis::observability::DiagnosticEvent& evt) {
-        if (j.contains("timestamp")) evt.timestamp = std::chrono::system_clock::now();
-        if (j.contains("failure_category")) evt.failure_category = themis::observability::DiagnosticFailureCategory::UNKNOWN;
+        using namespace themis::observability;
+
+        // Parse timestamp from ISO 8601 string; fall back to epoch on failure
+        if (j.contains("timestamp")) {
+            std::string ts_str;
+            j.at("timestamp").get_to(ts_str);
+            std::tm tm = {};
+            std::istringstream ss(ts_str);
+            ss >> std::get_time(&tm, "%Y-%m-%dT%H:%M:%S");
+            if (!ss.fail()) {
+                evt.timestamp = std::chrono::system_clock::from_time_t(
+                    std::mktime(&tm));
+            }
+        }
+
+        // Parse failure_category from its string representation
+        if (j.contains("failure_category")) {
+            std::string cat;
+            j.at("failure_category").get_to(cat);
+            if (cat == "NLI_INFERENCE")       evt.failure_category = DiagnosticFailureCategory::NLI_INFERENCE;
+            else if (cat == "MTLS_CONNECTION") evt.failure_category = DiagnosticFailureCategory::MTLS_CONNECTION;
+            else if (cat == "QUERY_TIMEOUT")   evt.failure_category = DiagnosticFailureCategory::QUERY_TIMEOUT;
+            else if (cat == "SHARD_ROUTING")   evt.failure_category = DiagnosticFailureCategory::SHARD_ROUTING;
+            else if (cat == "CACHE_DEGRADATION") evt.failure_category = DiagnosticFailureCategory::CACHE_DEGRADATION;
+            else if (cat == "STORAGE_ERROR")   evt.failure_category = DiagnosticFailureCategory::STORAGE_ERROR;
+            else if (cat == "RPC_ERROR")       evt.failure_category = DiagnosticFailureCategory::RPC_ERROR;
+            else if (cat == "RESOURCE_PRESSURE") evt.failure_category = DiagnosticFailureCategory::RESOURCE_PRESSURE;
+            else if (cat == "CONFIG_ERROR")    evt.failure_category = DiagnosticFailureCategory::CONFIG_ERROR;
+            else                               evt.failure_category = DiagnosticFailureCategory::UNKNOWN;
+        }
+
         if (j.contains("module_name")) j.at("module_name").get_to(evt.module_name);
         if (j.contains("error_message")) j.at("error_message").get_to(evt.error_message);
+
+        // Parse severity_level from its string representation
+        if (j.contains("severity_level")) {
+            std::string sev;
+            j.at("severity_level").get_to(sev);
+            if (sev == "DEBUG")         evt.severity_level = DiagnosticSeverity::DEBUG;
+            else if (sev == "INFO")     evt.severity_level = DiagnosticSeverity::INFO;
+            else if (sev == "WARN")     evt.severity_level = DiagnosticSeverity::WARN;
+            else if (sev == "ERROR")    evt.severity_level = DiagnosticSeverity::ERROR;
+            else if (sev == "CRITICAL") evt.severity_level = DiagnosticSeverity::CRITICAL;
+            else                        evt.severity_level = DiagnosticSeverity::INFO;
+        }
+
         if (j.contains("deployment_environment")) j.at("deployment_environment").get_to(evt.deployment_environment);
         if (j.contains("version")) j.at("version").get_to(evt.version);
         if (j.contains("stacktrace_hash")) j.at("stacktrace_hash").get_to(evt.stacktrace_hash);
+        if (j.contains("affected_user_count")) j.at("affected_user_count").get_to(evt.affected_user_count);
+        if (j.contains("request_id")) j.at("request_id").get_to(evt.request_id);
+
+        if (j.contains("context_data") && j.at("context_data").is_object()) {
+            for (auto& [k, v] : j.at("context_data").items()) {
+                if (v.is_string()) {
+                    evt.context_data[k] = v.get<std::string>();
+                }
+            }
+        }
     }
 };
 }  // namespace nlohmann

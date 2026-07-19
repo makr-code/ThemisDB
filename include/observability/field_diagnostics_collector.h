@@ -188,7 +188,7 @@ public:
      *
      * @return true if enabled
      */
-    bool isEnabled() const { return config_.enabled; }
+    bool isEnabled() const;
 
     /**
      * @brief Register a callback to be invoked on event emission.

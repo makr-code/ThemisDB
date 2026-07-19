@@ -100,10 +100,13 @@ struct NLIFaithfulnessVerifier::Impl {
     }
     
     /**
-     * @brief Compute NLI score using ONNX model (stub for Phase 1)
-     * 
-     * In Phase 2, this will invoke actual ONNX Runtime inference.
-     * For now, it demonstrates the integration pattern.
+     * @brief Compute NLI score using ONNX model.
+     *
+     * @note STUB/SIMULATION NOTE:
+     * Purpose: Demonstrates ONNX integration pattern; actual ONNX Runtime not yet wired.
+     * Activation: config.use_onnx == true && model_loaded == true
+     * Production Delta: Uses text-overlap heuristics instead of ONNX Runtime inference.
+     * Removal Plan: Phase 2 will replace with actual ONNX Runtime tokenization and inference.
      */
     NLIResult computeNLIWithOnnx(const std::string& premise, const std::string& hypothesis) {
         auto start_time = std::chrono::steady_clock::now();
@@ -187,7 +190,7 @@ struct NLIFaithfulnessVerifier::Impl {
         
         if (config.log_inference_mode) {
             double avg_latency = total_onnx_latency_ms_ / onnx_inference_count_;
-            THEMIS_DEBUG("ONNX inference: count={}, latency={}ms, avg={}ms",
+            THEMIS_DEBUG("NLI inference (ONNX stub/heuristic): count={}, latency={}ms, avg={}ms",
                         onnx_inference_count_, latency, avg_latency);
         }
         
@@ -210,7 +213,7 @@ struct NLIFaithfulnessVerifier::Impl {
             if (config.log_inference_mode) {
                 auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(
                     std::chrono::steady_clock::now() - start_time).count();
-                THEMIS_INFO("NLI inference (ONNX): latency={}ms, label={}", 
+                THEMIS_INFO("NLI inference (ONNX stub/heuristic): latency={}ms, label={}", 
                            latency, 
                            static_cast<int>(onnx_result.label));
             }
@@ -317,9 +320,9 @@ struct NLIFaithfulnessVerifier::Impl {
         auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::steady_clock::now() - start_time).count();
         if (config.log_inference_mode) {
-            THEMIS_DEBUG("NLI inference (heuristic): latency={}ms, label={}, confidence={}",
+            THEMIS_DEBUG("NLI inference (heuristic): latency={}ms, label={}, confidence={:.3f}",
                         latency, static_cast<int>(result.label), 
-                        std::fixed << std::setprecision(3) << result.confidence);
+                        result.confidence);
         }
         
         return result;
