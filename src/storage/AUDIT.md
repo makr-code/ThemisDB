@@ -101,8 +101,8 @@
 
 ### Build Configuration
 
-- **Platform**: Community Edition (Linux x86_64)
-- **Compiler**: GCC 13.3.0
+- **Primary issue evidence baseline (#5619 snapshot)**: `windows-release` preset
+- **Audit refresh validation environment**: Community Edition (Linux x86_64), GCC 13.3.0
 - **Standard**: C++20
 - **Build Type**: Release with -O3 optimization
 - **Test Tier**: Unit (timeout: 120s)

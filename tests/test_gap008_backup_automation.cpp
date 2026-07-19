@@ -245,6 +245,22 @@ TEST_F(GAP008BackupAutomationTest, UploadToLocalMirrorCopiesBackupTree) {
     std::filesystem::remove_all(mirror_path, ec);
 }
 
+TEST_F(GAP008BackupAutomationTest, UploadToLocalMirrorRejectsRelativeFileUri) {
+    std::string local_path = "./data/gap008_local_backup_uri_validation";
+    std::error_code ec;
+    std::filesystem::remove_all(local_path, ec);
+    std::filesystem::create_directories(local_path, ec);
+    ASSERT_FALSE(ec);
+
+    BackupOptions options;
+    options.storage = StorageBackend::LOCAL;
+
+    auto result = backup_manager_->uploadBackupToCloud(local_path, "file://relative/path", options);
+    EXPECT_FALSE(result.has_value());
+
+    std::filesystem::remove_all(local_path, ec);
+}
+
 TEST_F(GAP008BackupAutomationTest, UploadToCloudWithNonExistentPathReturnsError) {
     BackupOptions options;
     options.storage = StorageBackend::S3;
@@ -338,6 +354,22 @@ TEST_F(GAP008BackupAutomationTest, RestoreFromLocalMirrorCopiesBackupTree) {
 
     std::filesystem::remove_all(local_source, ec);
     std::filesystem::remove_all(restore_path, ec);
+}
+
+TEST_F(GAP008BackupAutomationTest, RestoreFromLocalMirrorRejectsRelativeFileUri) {
+    BackupOptions options;
+    options.storage = StorageBackend::LOCAL;
+
+    auto result = backup_manager_->restoreFromCloud(
+        "file://relative/path",
+        "./data/gap008_local_restore_relative",
+        options
+    );
+
+    EXPECT_FALSE(result.has_value());
+
+    std::error_code ec;
+    std::filesystem::remove_all("./data/gap008_local_restore_relative", ec);
 }
 
 // ============================================================================

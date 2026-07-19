@@ -79,8 +79,15 @@ bool isLocalBackupUri(const std::string& value) {
 
 /// Accept either a local `file://` URI or an absolute filesystem path.
 bool isAbsoluteOrLocalBackupUri(const std::string& value) {
-    return !value.empty() &&
-           (isLocalBackupUri(value) || fs::path(value).is_absolute());
+    if (value.empty()) {
+        return false;
+    }
+
+    if (isLocalBackupUri(value)) {
+        return fs::path(value.substr(kLocalBackupUriScheme.size())).is_absolute();
+    }
+
+    return fs::path(value).is_absolute();
 }
 
 /// Normalize a local mirror URI or absolute filesystem path into an `fs::path`.
@@ -2990,6 +2997,12 @@ Result<uint32_t> BackupManager::repairDecompressedBackup(const std::string& back
         // Attempt re-decompression
         std::string temp_dir = backup_dir + "_repair_temp";
         std::error_code ec;
+        fs::remove_all(temp_dir, ec);
+        if (ec) {
+            return Err<uint32_t>(errors::ErrorCode::ERR_BACKUP_RESTORATION_FAILED,
+                                 "Cannot clear temporary repair directory: " + ec.message());
+        }
+        ec.clear();
         fs::create_directories(temp_dir, ec);
         if (ec) {
             return Err<uint32_t>(errors::ErrorCode::ERR_BACKUP_RESTORATION_FAILED,
@@ -3050,8 +3063,9 @@ Result<void> BackupManager::buildIntegrityManifest(const std::string& backup_dir
             // Calculate checksum
             auto checksum_result = calculateChecksum(entry.path().string());
             if (!checksum_result) {
-                THEMIS_WARN("Phase 1: Failed to calculate checksum for {}", info.relative_path);
-                continue;
+                return ErrVoid(errors::ErrorCode::ERR_BACKUP_VERIFICATION_FAILED,
+                               "Failed to calculate checksum for '" + info.relative_path +
+                                   "': " + checksum_result.error().message());
             }
             info.checksum_sha256 = checksum_result.value();
             info.original_size = fs::file_size(entry.path());
