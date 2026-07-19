@@ -37,8 +37,7 @@ TEST(ServerActivationProfile, StandardProfileRequiresCoreProductionFlags) {
     caps.http_server = true;
     caps.prometheus = true;
     caps.llm = true;
-    caps.mimalloc = true;
-    caps.grpc = false;
+    caps.mimalloc = false;  // Missing required feature
 
     const auto result = themis::server::validateServerActivationProfile(
         themis::server::ServerActivationProfile::Standard,
@@ -48,7 +47,7 @@ TEST(ServerActivationProfile, StandardProfileRequiresCoreProductionFlags) {
 
     EXPECT_FALSE(result.ok());
     EXPECT_FALSE(result.errors.empty());
-    EXPECT_NE(result.errors.front().find("THEMIS_ENABLE_GRPC"), std::string::npos);
+    EXPECT_NE(result.errors.front().find("THEMIS_ENABLE_MIMALLOC"), std::string::npos);
 }
 
 TEST(ServerActivationProfile, StandardProfileAllowsExplicitDegradedOverride) {
