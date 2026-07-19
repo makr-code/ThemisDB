@@ -1,12 +1,54 @@
 /**
  * @file persisted_queries.h
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief APQ (Automatic Persisted Queries) registry for GraphQL.
+ *
+ * @details Implements server-side APQ support where clients can hash GraphQL
+ * queries and reference them by hash instead of sending full query text,
+ * reducing network bandwidth and improving performance.
+ *
+ * Core components:
+ *  - `PersistedQueryRegistry`: Maps query IDs (hashes) to query text
+ *  - `PersistedQuery`: Entry metadata (query text, description, deprecation)
+ *
+ * APQ protocol:
+ *  1. Client computes SHA-256 hash of query text
+ *  2. Client sends APQ request with { queryId: hash, variables: {} }
+ *  3. Server looks up hash in registry
+ *  4. On hit: executes cached query text; sends response
+ *  5. On miss: returns ERR_PERSISTED_QUERY_NOT_FOUND; client may retry with full query
+ *
+ * Query registration:
+ *  - Queries can be pre-loaded by developers into the registry
+ *  - Clients may optionally request automatic registration (allowAutoRegistration flag)
+ *  - Registry may cap total queries to prevent memory exhaustion
+ *  - Deprecated queries are marked but still executable (for migration)
+ *
+ * Performance benefits:
+ *  - Reduces request payload: 128-byte query → 43-character hex hash
+ *  - Improves parsing performance (cached query already parsed)
+ *  - Lowers bandwidth for high-throughput applications
+ *
+ * ### Thread safety
+ * `PersistedQueryRegistry` is thread-safe via internal mutex.
+ * Concurrent lookups and registrations are serialized.
+ *
+ * ### Usage
+ * ```cpp
+ * PersistedQueryRegistry registry;
+ * registry.registerQuery("abc123...", "{ user { id name } }");
+ *
+ * if (auto query = registry.lookup("abc123...")) {
+ *     // Execute query.query_text
+ * } else {
+ *     // APQ miss; inform client to resend with full query
+ * }
+ * ```
+ *
  * @version 0.0.47
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 86/100
  * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
  */
 
 /*

@@ -1,12 +1,40 @@
 /**
  * @file websocket_handler.h
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief WebSocket transport adapter for ThemisDB GraphQL subscriptions.
+ *
+ * @details Provides WebSocket connection lifecycle management, frame parsing,
+ * and event callback interfaces aligned with RFC 6455.
+ *
+ * Core components:
+ *  - `WebSocketCloseCode`: RFC 6455 close code constants (1000-1015)
+ *  - `WebSocketFrame`: Frame representation with type (Text, Binary, Ping, Pong, Close)
+ *  - `IWebSocketFrameCallback`: Pure-virtual callback for frame reception and connection closure
+ *  - `WebSocketSession`: Opaque handle to an active connection
+ *  - `IWebSocketHandler`: Factory interface for protocol upgrade and session creation
+ *
+ * Design constraints (from FUTURE_ENHANCEMENTS.md):
+ *  - Adapter behavior remains fail-closed on invalid protocol input
+ *  - WebSocket frames must be bounded by explicit resource controls
+ *  - Connection lifecycle is tied to callback delivery — no frames after onClose()
+ *  - Message queuing respects runtime bounds to prevent resource exhaustion
+ *
+ * ### Lifecycle
+ * 1. HTTP Upgrade handshake received by `IWebSocketHandler::upgrade()`
+ * 2. On success, creates `WebSocketSession` and invokes callback with frames
+ * 3. Callback receives frames via `onFrame()`; may call `send()` or `close()`
+ * 4. Connection closes (graceful or abnormal) → `onClose()` invoked once
+ * 5. After `onClose()`, session handle is invalid; no further `send()` allowed
+ *
+ * ### Thread safety
+ * - `send()` and `close()` are thread-safe after `upgrade()` returns
+ * - Callbacks (`onFrame`, `onClose`) must be `noexcept`; exceptions trigger `std::terminate()`
+ * - Session object is internally synchronized; safe for concurrent frame reception and transmission
+ *
  * @version 0.0.13
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 82/100
  * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
  */
 
 /*

@@ -1,12 +1,53 @@
 /**
  * @file http_handler.h
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief HTTP request/response abstractions and handler interfaces.
+ *
+ * @details Provides transport-independent representations of HTTP requests and responses,
+ * along with pluggable handler interfaces for composing middleware stacks.
+ *
+ * Core abstractions:
+ *  - `HttpRequest`: Immutable value type containing parsed request metadata and body
+ *  - `HttpResponse`: Mutable builder for constructing HTTP response payloads
+ *  - `IHttpHandler`: Pure-virtual interface for processing HTTP requests
+ *  - `IHttpServer`: Pure-virtual interface for lifecycle management and request routing
+ *
+ * Request flow:
+ *  1. Raw HTTP connection parsed into `HttpRequest` by transport layer
+ *  2. Request dispatched to `IHttpHandler::handle()` (often a middleware stack)
+ *  3. Handler chain processes request, applying policy, auth, tracing, logging
+ *  4. Final handler produces `HttpResponse` or error
+ *  5. Response serialized back to HTTP wire format and sent to client
+ *
+ * Middleware composition:
+ * Handlers can be chained to compose orthogonal concerns. Example stack:
+ * ```
+ * TransportPolicyMiddleware (validate payload/path/version)
+ *   ↓
+ * AuthenticationMiddleware (enforce authz)
+ *   ↓
+ * TracingMiddleware (correlation ID + OTLP export)
+ *   ↓
+ * RateLimitMiddleware (per-user quota enforcement)
+ *   ↓
+ * ApplicationHandler (business logic)
+ * ```
+ *
+ * ### Thread safety
+ * - `HttpRequest` is immutable and safe to share across threads
+ * - `HttpResponse` must be built by a single thread (not thread-safe for concurrent mutation)
+ * - `IHttpHandler::handle()` must be thread-safe and reentrant
+ *
+ * ### Error handling
+ * - `IHttpHandler::handle()` returns `Result<HttpResponse>` which may contain either
+ *   a successful response or an `HttpError` (status + message)
+ * - On error, the middleware chain should short-circuit and return immediately
+ *   (fail-closed: no upstream handler is invoked)
+ *
  * @version 0.0.13
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 86/100
  * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
  */
 
 /*

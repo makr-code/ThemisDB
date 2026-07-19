@@ -1,12 +1,13 @@
 /**
  * @file themisdb_grpc_service.h
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief gRPC service implementation for ThemisDB database operations.
+ *
+ * @details Implements the generated gRPC service stub, translating protobuf
+ * messages to/from internal data structures and delegating to core service logic.
+ *
  * @version 0.0.15
  * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 85/100
- * @note Gap Summary: total=7; TODO=1, Stub=2, Unimpl=2, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
  */
 
 /*

@@ -1,12 +1,61 @@
 /**
  * @file graphql_ws_handler.h
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief GraphQL WebSocket handler implementing the graphql-transport-ws protocol.
+ *
+ * @details Server-side implementation of the graphql-transport-ws protocol
+ * (https://github.com/enisdenjo/graphql-ws), enabling GraphQL subscriptions
+ * over WebSocket connections.
+ *
+ * Protocol flow:
+ *  1. Client sends `connection_init` → Server replies `connection_ack`
+ *  2. Client sends `subscribe` (with id + query/variables) → Server sends `next` messages
+ *  3. Client may send `complete` (with id) to cancel a subscription
+ *  4. Server sends `error` if subscription query is invalid, `complete` when done
+ *
+ * Message types (JSON-encoded):
+ *  - `connection_init` (client → server)
+ *  - `connection_ack` (server → client)
+ *  - `ping` / `pong` (both directions)
+ *  - `subscribe` (client → server)
+ *  - `next` (server → client)
+ *  - `error` (server → client)
+ *  - `complete` (both directions)
+ *
+ * Core components:
+ *  - `GraphQLWsHandler`: Per-connection state machine and message processor
+ *  - One handler instance per active WebSocket connection
+ *
+ * Security:
+ *  - WebSocket upgrade request must carry valid JWT in Authorization header
+ *    (validated before upgrade, in WsChangeHandler)
+ *  - Subscriptions per connection are capped by QueryLimits::max_subscriptions
+ *    to prevent fan-out DoS
+ *
+ * ### Usage
+ * ```cpp
+ * // On WebSocket upgrade:
+ * auto handler = std::make_unique<GraphQLWsHandler>(schema, limits, changefeed);
+ *
+ * // For each incoming text frame:
+ * auto response_frames = handler->handleFrame(frame_text);
+ * for (auto& frame : response_frames) {
+ *     ws_session->sendText(frame);
+ * }
+ *
+ * // When connection closes:
+ * handler->reset();
+ * ```
+ *
+ * ### Thread safety
+ * - `handleFrame()` must be called from a single I/O thread (not reentrant)
+ * - Safe to call concurrently from different connections' I/O threads
+ * - Changefeed integration uses shared CDC event source (thread-safe)
+ *
  * @version 0.0.13
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 86/100
  * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
  */
 
 /*

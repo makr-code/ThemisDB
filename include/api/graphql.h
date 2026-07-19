@@ -1,12 +1,44 @@
 /**
  * @file graphql.h
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief GraphQL query parsing, AST representation, and execution interfaces.
+ *
+ * @details Provides a complete GraphQL implementation for ThemisDB:
+ *  - Value representations for all GraphQL scalar and composite types (scalars, lists, objects)
+ *  - Field selection structures for representing query/mutation/subscription selections
+ *  - AST construction and execution context management
+ *  - Deterministic parsing and execution with variable substitution support
+ *
+ * Design goals:
+ *  - Decouple GraphQL syntax handling from business logic via ExecutionContext
+ *  - Support GraphQL subscriptions with connection lifecycle and multiplexing
+ *  - Ensure fail-closed behavior on invalid queries (see TransportPolicyMiddleware)
+ *  - Maintain bounded resource consumption for large queries
+ *
+ * ### Usage example
+ * ```cpp
+ * // Parse a GraphQL query string
+ * auto parse_result = GraphQLParser::parse(query_string);
+ * if (!parse_result) {
+ *     return tl::unexpected(ApiErrorTaxonomy::toErrorCode(fc));
+ * }
+ *
+ * // Execute the operation against an execution context
+ * auto context = std::make_shared<ExecutionContext>(...);
+ * auto result = operation.execute(context);
+ * if (!result) {
+ *     // Handle execution error
+ * }
+ * ```
+ *
+ * ### Thread safety
+ * - `Value`, `Field`, `Operation`, `VariableDefinition` are immutable after construction and thread-safe to share.
+ * - `ExecutionContext` access must be synchronized externally if shared across threads.
+ *
  * @version 0.0.47
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 86/100
  * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
  */
 
 /*

@@ -1,12 +1,51 @@
 /**
  * @file graphql_schema_builder.h
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief GraphQL schema construction and validation interfaces.
+ *
+ * @details Provides type descriptors and builder interfaces for constructing
+ * GraphQL schemas without pulling in the full GraphQL parser library.
+ *
+ * Core components:
+ *  - `GraphQLTypeDescriptor`: Plain-data struct for a GraphQL object type
+ *  - `SchemaValidationResult`: Validation result with error information
+ *  - `IGraphQLSchemaBuilder`: Pure-virtual interface for schema registration
+ *
+ * Type descriptor fields:
+ *  - name: GraphQL type name (e.g., "User", "Query")
+ *  - fields: map of field name to GraphQL type string (e.g., { "id": "ID!", "name": "String" })
+ *  - description: Markdown documentation for schema introspection
+ *
+ * Schema validation:
+ *  - Types must have unique names within the schema
+ *  - Field names within a type must be unique
+ *  - Field types must reference valid GraphQL scalar or object types
+ *  - Circular type references are permitted
+ *
+ * ### Thread safety
+ * Schema construction is typically single-threaded at startup.
+ * After schema is finalized, introspection queries are thread-safe.
+ *
+ * ### Usage
+ * ```cpp
+ * auto builder = createGraphQLSchemaBuilder();
+ *
+ * GraphQLTypeDescriptor user_type;
+ * user_type.name = "User";
+ * user_type.fields["id"] = "ID!";
+ * user_type.fields["name"] = "String!";
+ * user_type.fields["email"] = "String";
+ *
+ * auto result = builder->addType(user_type);
+ * if (!result.valid) {
+ *     std::cerr << "Schema error: " << result.errorMessage << "\\n";
+ * }
+ * ```
+ *
  * @version 0.0.13
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 86/100
  * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
  */
 
 /*

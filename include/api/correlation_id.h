@@ -1,12 +1,48 @@
 /**
  * @file correlation_id.h
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief RFC 4122 UUID-based request correlation ID infrastructure.
+ *
+ * @details Provides fixed-width (16-byte) correlation ID value types, parsing,
+ * serialization, and interfaces for request tracing across service boundaries.
+ *
+ * Core components:
+ *  - `CorrelationId`: Trivially copyable 128-bit UUID value type
+ *  - `ICorrelationIDProvider`: Pure-virtual interface for ID generation
+ *  - `RFC4122Generator`: UUID v4 generator with cryptographically-secure randomness
+ *
+ * Design properties:
+ *  - Opaque 128-bit representation (16-byte array)
+ *  - Canonical RFC 4122 string serialization (36 chars, lowercase hex: `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`)
+ *  - Trivially copyable and suitable for `thread_local` contexts
+ *  - Hashable and comparable, works as map keys
+ *  - Never includes PII; format is UUID only
+ *
+ * Parsing:
+ *  - `CorrelationId::parse()` accepts RFC 4122 strings (with or without dashes)
+ *  - Accepts both lowercase and uppercase hex
+ *  - Shorter IDs are zero-padded on the right
+ *  - Throws `std::invalid_argument` on invalid format
+ *
+ * ### Thread safety
+ * - `CorrelationId` is immutable and safe to share across threads
+ * - `ICorrelationIDProvider::generate()` must be thread-safe
+ * - `RFC4122Generator` uses `thread_local` PRNG (safe for concurrent calls)
+ *
+ * ### Usage
+ * ```cpp
+ * // Generate a new ID
+ * auto id = RFC4122Generator::generate();
+ * auto header_value = id.toString();  // "550e8400-e29b-41d4-a716-446655440000"
+ *
+ * // Parse from incoming header
+ * auto parsed = CorrelationId::parse("550e8400-e29b-41d4-a716-446655440000");
+ * ```
+ *
  * @version 0.0.13
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 86/100
  * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
  */
 
 /*

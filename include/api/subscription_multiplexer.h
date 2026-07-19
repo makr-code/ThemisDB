@@ -1,12 +1,40 @@
 /**
  * @file subscription_multiplexer.h
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief Multiplexer for GraphQL subscriptions with topic-based filtering.
+ *
+ * @details Manages multiple concurrent GraphQL subscriptions on a single WebSocket
+ * connection, applying topic filters and rate limiting to each subscription.
+ *
+ * Core components:
+ *  - `SubscriptionFilter`: Topic/attribute selector for filtering events
+ *  - `SubscriptionMultiplexer`: Per-connection state for multiple subscriptions
+ *
+ * Subscription lifecycle:
+ *  1. Client sends `subscribe` message with query and filters
+ *  2. Multiplexer validates subscription and stores filter state
+ *  3. On change event from Changefeed: multiplexer applies filters
+ *  4. Matching events sent to client as `next` messages
+ *  5. Client sends `complete` → subscription canceled
+ *
+ * Filter types:
+ *  - Topic-based: match entity type and operation (e.g., "users:create")
+ *  - Attribute predicates: key-value matching (e.g., {"status": "active"})
+ *  - Complex: boolean combinations (AND, OR, NOT)
+ *
+ * Performance:
+ *  - Filter matching is O(n) where n = number of active subscriptions
+ *  - Suitable for moderately high concurrency (10s-100s of subscriptions)
+ *  - Bounded memory via max_subscriptions config
+ *
+ * ### Thread safety
+ * `SubscriptionMultiplexer` is thread-safe. Event publishing and subscription
+ * management may be called concurrently from different threads.
+ *
  * @version 0.1.0
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 86/100
  * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
  */
 
 /*

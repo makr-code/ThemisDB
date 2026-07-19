@@ -1,12 +1,55 @@
 /**
  * @file audit_logger.h
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief Audit logging for GraphQL operations (security, compliance, debugging).
+ *
+ * @details Records structured audit events for all GraphQL operations,
+ * authentication/authorization events, rate limiting violations, and validation failures.
+ *
+ * Core components:
+ *  - `AuditLogEntry`: Structured log entry with event type, user/tenant/IP, timestamps
+ *  - `AuditLogger`: Thread-safe audit event sink with optional file output
+ *
+ * Event types tracked:
+ *  - QueryExecution, MutationExecution, SubscriptionCreated
+ *  - AuthenticationAttempt, AuthorizationFailure
+ *  - RateLimitExceeded, ValidationFailure
+ *  - DeprecatedFeatureUsed
+ *
+ * Log format:
+ *  - JSON-serialized for machine parsing
+ *  - Includes operation name, type, user ID, tenant ID, IP address, timestamps
+ *  - Query complexity metrics and operation hashes for analytics
+ *  - Optional metadata map for custom attributes
+ *
+ * Design goals:
+ *  - Non-blocking event recording (background thread or buffering)
+ *  - Bounded memory consumption (circular buffer or TTL expiration)
+ *  - PII sanitization: user ID and IP included only if required by policy
+ *  - Never logs full query text or mutation arguments (prevents credential leakage)
+ *
+ * ### Thread safety
+ * `AuditLogger` is thread-safe; multiple HTTP handler threads may log concurrently.
+ * Logging is asynchronous (buffered or background) to avoid critical-path latency.
+ *
+ * ### Usage
+ * ```cpp
+ * AuditLogger logger;
+ * logger.enableFileOutput("/var/log/themisdb/audit.jsonl");
+ *
+ * AuditLogEntry entry;
+ * entry.event_type = AuditLogEntry::EventType::QueryExecution;
+ * entry.operation_name = "GetEntity";
+ * entry.user_id = "user-12345";
+ * entry.ip_address = "192.168.1.100";
+ * entry.success = true;
+ * logger.log(entry);
+ * ```
+ *
  * @version 0.0.47
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 86/100
  * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
  */
 
 /*

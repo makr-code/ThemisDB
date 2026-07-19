@@ -1,12 +1,13 @@
 /**
  * @file grpc_bridge.h
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief Bridge layer between Beast HTTP/REST and gRPC protocol handlers.
+ *
+ * @details Adapts HTTP request/response abstractions to gRPC-compatible serialization
+ * and message encoding.  Enables shared business logic across REST and gRPC transports.
+ *
  * @version 0.0.13
  * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 86/100
- * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
  */
 
 /*

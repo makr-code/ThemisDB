@@ -1,12 +1,49 @@
 /**
  * @file graphql_metrics.h
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief Metrics collection for GraphQL query execution and validation.
+ *
+ * @details Tracks per-operation and aggregate statistics for GraphQL requests,
+ * including execution time, query complexity, error rates, and performance analytics.
+ *
+ * Core components:
+ *  - `Metrics::QueryMetrics`: Counters for total queries, failures, execution times
+ *  - `Metrics::ValidationMetrics`: Counters for validation pass/fail
+ *  - `Metrics::SubscriptionMetrics`: Active subscription count and event rates
+ *  - `Metrics::RateMetrics`: Rate limiting statistics (allowed/rejected requests)
+ *
+ * Tracked dimensions:
+ *  - Query execution: count, failures, latency (min/max/avg), query depth, field count
+ *  - Validation: successful vs. failed, common error patterns
+ *  - Subscriptions: active count, events per second, connection churn
+ *  - Rate limiting: allowed vs. rejected, by key, hit rate
+ *
+ * ### Thread safety
+ * All metrics use `std::atomic<>` for lock-free updates. Suitable for
+ * concurrent calls from multiple HTTP handler threads.
+ *
+ * ### Usage
+ * ```cpp
+ * Metrics metrics;
+ * auto start = std::chrono::steady_clock::now();
+ * // ... execute query ...
+ * auto elapsed = std::chrono::steady_clock::now() - start;
+ * metrics.recordQueryExecution(
+ *     elapsed,
+ *     query_depth,
+ *     field_count,
+ *     /* success */ true
+ * );
+ *
+ * auto stats = metrics.queryMetrics();
+ * std::cout << "Total queries: " << stats.total_queries << "\\n";
+ * std::cout << "Avg time: " << stats.avgExecutionTime() << " ms\\n";
+ * ```
+ *
  * @version 0.0.47
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 86/100
  * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
  */
 
 /*

@@ -1,12 +1,42 @@
 /**
  * @file graphql_aql_resolver.h
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief Bridge between GraphQL queries and ThemisDB's internal AQL engine.
+ *
+ * @details Translates GraphQL operations (queries, mutations, subscriptions)
+ * into AQL (Attribute Query Language) commands executed against the database.
+ *
+ * Core components:
+ *  - `QueryEngine`: Translates GraphQL queries to AQL, enforces limits
+ *  - `QueryResourceLimits`: Configuration for max depth, fields, complexity
+ *  - Field resolvers for scalar types, objects, and collections
+ *
+ * Resolution process:
+ *  1. Parse GraphQL query into Operation AST
+ *  2. Validate against resource limits (depth, field count, complexity)
+ *  3. Translate field selections to AQL projections
+ *  4. Translate filters/arguments to AQL predicates
+ *  5. Execute AQL command against database
+ *  6. Map results back to GraphQL response shape
+ *
+ * Resource limits prevent DoS attacks:
+ *  - max_query_depth: prevents deeply nested selections (e.g., user → friend → friend → ...)
+ *  - max_field_count: limits total fields across all selections
+ *  - max_complexity_score: bounds expensive operations (joins, aggregations)
+ *
+ * ### Thread safety
+ * `QueryEngine` instances are typically per-request (not shared).
+ * Stateless field resolvers are safe for concurrent calls.
+ *
+ * ### Error handling
+ * - Invalid field references return ERR_GRAPHQL_INVALID_SELECTION
+ * - Complexity violations return ERR_GRAPHQL_QUERY_TOO_COMPLEX
+ * - AQL execution errors propagate with context
+ *
  * @version 0.0.10
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 86/100
  * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
  */
 
 /*

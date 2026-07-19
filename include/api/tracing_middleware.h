@@ -1,12 +1,45 @@
 /**
  * @file tracing_middleware.h
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief Request correlation ID extraction and span export middleware.
+ *
+ * @details Extracts or generates correlation IDs from inbound X-Correlation-ID
+ * headers, propagates them through request handling, and optionally exports
+ * finished request spans to an OpenTelemetry OTLP collector.
+ *
+ * Core responsibilities:
+ *  1. Extract (or generate UUID v4) correlation ID from X-Correlation-ID header
+ *  2. Store ID in thread-local context for access across handler chain
+ *  3. Inject correlation ID into all subsequent log lines on the request thread
+ *  4. Record span start/end times and export to OTLP collector (if configured)
+ *  5. Clear context at end of request to avoid bleed-through to next request
+ *
+ * Thread-safety model:
+ *  - Correlation ID context is thread-local (via `thread_local` storage)
+ *  - Each request thread has independent correlation context
+ *  - Safe to call processRequest(), finishSpan(), clearContext() concurrently
+ *  - OtlpExporter (if attached) handles concurrent span enqueueing
+ *
+ * ### Typical usage in HTTP handler
+ * ```cpp
+ * // At start of request handling:
+ * auto corr_id = tracing_middleware_->processRequest(
+ *     req.headers.count("X-Correlation-ID") ? req.headers["X-Correlation-ID"] : "");
+ *
+ * // Inject into response header
+ * response.set("X-Correlation-ID", corr_id);
+ *
+ * // After dispatching to handler, at end of request:
+ * tracing_middleware_->finishSpan("HTTP GET /v1/entity", response_status);
+ *
+ * // Before handling next request on same thread:
+ * TracingMiddleware::clearContext();
+ * ```
+ *
  * @version 0.0.15
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 86/100
  * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
  */
 
 /*
