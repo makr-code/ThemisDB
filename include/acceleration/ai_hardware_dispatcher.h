@@ -70,58 +70,53 @@
 namespace themis {
 namespace acceleration {
 
-// =============================================================================
-// AiInferenceRequest
-// =============================================================================
-// Describes a single AI inference task routed through the dispatcher.
-// The dispatcher fills `chosen_backend` and `chosen_ep` before execution.
-// =============================================================================
+/// @brief AI inference request specifying model, input data, and routing preferences.
+///
+/// This struct describes a single AI inference task to be routed through the dispatcher.
+/// The dispatcher fills the `chosen_backend` and `chosen_ep` fields before execution.
 struct AiInferenceRequest {
-    // ── Input ─────────────────────────────────────────────────────────────────
-    const float*  input_data     = nullptr;  ///< Host-side input tensor (FP32)
-    size_t        input_elements = 0;        ///< Total number of scalar elements
-    std::vector<int64_t> input_shape;        ///< Tensor shape (e.g. {1, 512})
+    /// @brief Input tensor on host memory
+    const float*  input_data     = nullptr;  ///< Host-side input tensor (FP32 array)
+    size_t        input_elements = 0;        ///< Total number of scalar elements in tensor
+    std::vector<int64_t> input_shape;        ///< Tensor shape dimensions (e.g., {1, 512})
 
-    // ── Model / task ──────────────────────────────────────────────────────────
-    std::string   model_path;                ///< Path to .onnx / .coreml / .dlc model
-    std::string   task_tag;                  ///< "embedding" | "rerank" | "classify" | "generate"
+    /// @brief Model and task identification
+    std::string   model_path;                ///< Path to model file (.onnx, .coreml, .dlc, etc.)
+    std::string   task_tag;                  ///< Task category: "embedding", "rerank", "classify", "generate", etc.
 
-    // ── Precision preference ──────────────────────────────────────────────────
-    // Dispatcher picks the highest-capable backend that satisfies this constraint.
-    // Defaults to FP32 (broadest compatibility).
+    /// @brief Precision preference for execution
+    /// Dispatcher picks the highest-capability backend that satisfies this constraint.
+    /// Defaults to FP32 for broadest compatibility across all backends.
     PrecisionMode preferred_precision = PrecisionMode::FP32;
 
-    // ── Routing hint (set automatically by dispatcher) ─────────────────────
-    BackendType   chosen_backend  = BackendType::CPU;
-    std::string   chosen_ep;                 ///< ONNX EP or platform-specific identifier
+    /// @brief Routing decision made by dispatcher (output fields)
+    BackendType   chosen_backend  = BackendType::CPU;  ///< Backend selected by dispatcher
+    std::string   chosen_ep;                           ///< ONNX EP or platform-specific identifier used
 };
 
-// =============================================================================
-// AiInferenceResult
-// =============================================================================
+/// @brief Result of an AI inference operation with output, timing, and backend information.
 struct AiInferenceResult {
-    std::vector<float>   output;             ///< Host-side output tensor (FP32)
-    std::vector<int64_t> output_shape;
-    bool                 success      = false;
-    std::string          error;
-    BackendType          backend_used = BackendType::CPU;
-    std::string          ep_used;            ///< Execution provider that ran the model
-    double               latency_ms   = 0.0; ///< Wall-clock inference time
+    std::vector<float>   output;              ///< Host-side output tensor (FP32)
+    std::vector<int64_t> output_shape;        ///< Output tensor shape dimensions
+    bool                 success      = false; ///< true if inference completed successfully
+    std::string          error;               ///< Error message if success is false
+    BackendType          backend_used = BackendType::CPU;  ///< Backend that executed the model
+    std::string          ep_used;             ///< Execution provider/backend identifier
+    double               latency_ms   = 0.0;  ///< Wall-clock inference time in milliseconds
 };
 
-// =============================================================================
-// AiHardwareCapability
-// =============================================================================
-// Snapshot returned by AiHardwareDispatcher::probeCapabilities().
-// =============================================================================
+/// @brief Hardware capability and availability snapshot for an AI acceleration backend.
+///
+/// Returned by AiHardwareDispatcher::probeCapabilities() to describe the features
+/// and availability of each hardware backend.
 struct AiHardwareCapability {
-    BackendType type             = BackendType::CPU;
-    std::string name;                            ///< Human-readable identifier
-    bool        available        = false;        ///< Probe succeeded at runtime
-    uint32_t    tops             = 0;            ///< Peak throughput estimate (TOPS)
-    PrecisionMode supported_precisions = PrecisionMode::FP32;
-    std::string onnx_ep;                         ///< ONNX EP name (empty for non-ONNX paths)
-    std::string error;                           ///< Non-empty when available == false
+    BackendType type             = BackendType::CPU;  ///< Type of acceleration hardware
+    std::string name;                                  ///< Human-readable backend identifier
+    bool        available        = false;              ///< true if hardware is present and working
+    uint32_t    tops             = 0;                  ///< Peak throughput estimate (Tera-OPerations Per Second)
+    PrecisionMode supported_precisions = PrecisionMode::FP32;  ///< Bitmask of supported precision modes
+    std::string onnx_ep;                               ///< ONNX Runtime execution provider name (empty for non-ONNX)
+    std::string error;                                 ///< Error message when available == false
 };
 
 // =============================================================================
@@ -169,61 +164,65 @@ public:
     /// Probe TTL: re-probe hardware if the cache is older than this.
     static constexpr auto kCacheTTL = std::chrono::seconds(120);
 
-    /// Singleton accessor.
+    /// @brief Singleton accessor
+    /// @return Reference to global AiHardwareDispatcher instance
     static AiHardwareDispatcher& instance();
 
-    // ── Lifecycle ─────────────────────────────────────────────────────────────
-    /**
-     * @brief Probe all AI hardware backends and build the priority chain.
-     *
-     * Safe to call multiple times — subsequent calls are no-ops unless
-     * force == true or the cache TTL has expired.
-     *
-     * @param force  Re-probe even if the cache is still valid.
-     */
+    /// @brief Probe all AI hardware backends and build the priority chain
+    ///
+    /// Performs automatic discovery of all supported AI acceleration hardware.
+    /// Safe to call multiple times — subsequent calls are no-ops unless force == true
+    /// or the cache TTL has expired.
+    ///
+    /// @param force  Re-probe all backends even if cache is still valid; default false
     void initialize(bool force = false);
 
-    // ── Capability query ──────────────────────────────────────────────────────
-    /// Return the capability snapshot for every probed backend (in priority order).
+    /// @brief Get capability snapshot for every probed backend in priority order
+    /// @return Vector of AiHardwareCapability structs ordered by priority (best first)
     std::vector<AiHardwareCapability> probeCapabilities();
 
-    /// Return the highest-priority available backend type.
+    /// @brief Get the highest-priority available backend type
+    /// @return BackendType of the best available accelerator (CPU if no GPU/NPU available)
+    /// @note Does not throw; always returns a valid type
     BackendType bestBackend() const noexcept;
 
-    /// Return the ONNX Runtime execution provider name for the best backend.
-    /// Empty string when ONNX Runtime is not available or not the best path.
+    /// @brief Get ONNX Runtime execution provider for best backend
+    /// @return ONNX Runtime EP name (e.g., "CudaExecutionProvider"); empty string if not available
     std::string bestOnnxEP() const;
 
-    /// True when at least one non-CPU AI accelerator is available.
+    /// @brief Check if at least one non-CPU AI accelerator is available
+    /// @return true if GPU, NPU, or other dedicated accelerator is present and working
     bool hasAccelerator() const noexcept;
 
-    /// True when a dedicated NPU (Apple ANE / Intel / Qualcomm / ARM) is present.
+    /// @brief Check if a dedicated NPU (Apple ANE / Intel / Qualcomm / ARM) is available
+    /// @return true if specialized neural processing unit is detected and functional
     bool hasNPU() const noexcept;
 
-    // ── Inference dispatch ────────────────────────────────────────────────────
-    /**
-     * @brief Run AI inference via the best available backend.
-     *
-     * Routes the request through the priority chain, falling back
-     * automatically on any error.  The `chosen_backend` and `chosen_ep`
-     * fields of @p req are filled before dispatch.
-     *
-     * @param req  Inference request (input data, model path, task tag).
-     * @return     Result including output tensor, latency, and backend used.
-     */
+    /// @brief Run AI inference via the best available backend
+    ///
+    /// Routes the request through the priority chain and falls back automatically
+    /// on any error. Sets the `chosen_backend` and `chosen_ep` fields of the request
+    /// before dispatch.
+    ///
+    /// @param req Inference request (input data, model path, task tag)
+    /// @return Result struct containing output, latency, backend used, and success status
     AiInferenceResult run(AiInferenceRequest& req);
 
-    /**
-     * @brief Attempt inference on a specific backend without fallback.
-     *
-     * Returns an error result when the requested backend is unavailable.
-     */
+    /// @brief Attempt inference on specific backend without fallback
+    ///
+    /// Does not attempt fallback if the requested backend fails.
+    ///
+    /// @param backend Specific backend to execute on (GPU, NPU, CPU, etc.)
+    /// @param req Inference request to execute
+    /// @return Result with success == false and error message if backend unavailable or fails
     AiInferenceResult runOn(BackendType backend, AiInferenceRequest& req);
 
-    // ── Observability ─────────────────────────────────────────────────────────
-    /// Log a structured summary of all probed backends to the ThemisDB logger.
+    /// @brief Log a structured summary of all probed backends
+    /// @note Output is written to ThemisDB logger at INFO level
     void logCapabilities() const;
 
+    /// @brief Register custom dispatch function for Apple Neural Engine
+    /// @param fn Function to call for Apple ANE inference dispatch
     static void setAppleANEDispatchFn(AppleANEDispatchFn fn);
 
 private:
@@ -233,30 +232,60 @@ private:
     AiHardwareDispatcher& operator=(const AiHardwareDispatcher&) = delete;
 
     // ── Internal probe helpers ─────────────────────────────────────────────
+    /// @brief Probe Apple Neural Engine availability and capabilities
     AiHardwareCapability probeAppleANE() const noexcept;
+    
+    /// @brief Probe Intel NPU / OpenVINO availability and capabilities
     AiHardwareCapability probeIntelNPU() const noexcept;
+    
+    /// @brief Probe Qualcomm QNN / Hexagon availability and capabilities
     AiHardwareCapability probeQualcommQNN() const noexcept;
+    
+    /// @brief Probe ARM Mali / Ethos availability and capabilities
     AiHardwareCapability probeArmEthos() const noexcept;
+    
+    /// @brief Probe Android NNAPI availability and capabilities
     AiHardwareCapability probeNNAPI() const noexcept;
+    
+    /// @brief Probe ONNX Runtime EP availability and capabilities
     AiHardwareCapability probeOnnxRuntime() const noexcept;
+    
+    /// @brief Probe GPU backend (CUDA/HIP/Metal/Vulkan) availability
     AiHardwareCapability probeGpuFallback() const noexcept;
+    
+    /// @brief Probe CPU backend (AVX-512/AVX2/NEON) capabilities
     AiHardwareCapability probeCpuFallback() const noexcept;
 
     // ── Internal dispatch helpers ──────────────────────────────────────────
+    /// @brief Dispatch inference to Apple Neural Engine
     AiInferenceResult dispatchAppleANE(AiInferenceRequest& req);
+    
+    /// @brief Dispatch inference to Intel NPU / OpenVINO
     AiInferenceResult dispatchIntelNPU(AiInferenceRequest& req);
+    
+    /// @brief Dispatch inference to Qualcomm QNN / Hexagon
     AiInferenceResult dispatchQualcommQNN(AiInferenceRequest& req);
+    
+    /// @brief Dispatch inference to ARM Mali / Ethos
     AiInferenceResult dispatchArmEthos(AiInferenceRequest& req);
+    
+    /// @brief Dispatch inference to Android NNAPI
     AiInferenceResult dispatchNNAPI(AiInferenceRequest& req);
+    
+    /// @brief Dispatch inference to ONNX Runtime selected EP
     AiInferenceResult dispatchOnnxRuntime([[maybe_unused]] AiInferenceRequest& req);
+    
+    /// @brief Dispatch inference to GPU backend (CUDA/HIP/Metal/Vulkan)
     AiInferenceResult dispatchGpuFallback(AiInferenceRequest& req);
+    
+    /// @brief Dispatch inference to CPU backend (AVX-512/AVX2/NEON)
     AiInferenceResult dispatchCpuFallback(AiInferenceRequest& req);
 
     // ── State ─────────────────────────────────────────────────────────────────
-    mutable std::shared_mutex            mutex_;
-    std::vector<AiHardwareCapability>    capabilities_;   ///< Ordered priority chain
-    std::chrono::steady_clock::time_point last_probe_time_{};
-    std::atomic<bool>                    initialized_{false};
+    mutable std::shared_mutex            mutex_;                   ///< Protects capabilities_ and last_probe_time_
+    std::vector<AiHardwareCapability>    capabilities_;            ///< Hardware capabilities in priority order
+    std::chrono::steady_clock::time_point last_probe_time_{};      ///< Timestamp of last hardware probe
+    std::atomic<bool>                    initialized_{false};      ///< true if initialize() has been called
 };
 
 } // namespace acceleration

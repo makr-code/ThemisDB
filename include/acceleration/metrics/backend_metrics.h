@@ -28,87 +28,117 @@ namespace acceleration {
 namespace metrics {
 
 /**
- * @brief Standard metrics for acceleration backends
+ * @brief Standard metrics collection for acceleration backends (CUDA, HIP, OpenCL, Metal, etc.)
  * 
- * This class provides a consistent set of metrics for all acceleration
- * backends (CUDA, HIP, OpenCL, Metal, etc.)
+ * Provides a consistent set of metrics for all acceleration backends covering:
+ * - Initialization success/failure and duration
+ * - Operation metrics (L2 distance, cosine similarity) with duration and vector counts
+ * - Resource metrics (device memory, queue depth)
+ * - Error tracking (total errors, kernel failures, memory allocation failures)
+ * - Device metrics (count, active device index)
+ * 
+ * All metrics are automatically registered with the central MetricsCollector singleton
+ * and can be exported in Prometheus or JSON format.
  */
 class BackendMetrics {
 public:
+    /// @brief Constructor initializing metrics for a specific backend
+    /// @param backend_name Name of the backend (e.g., "cuda", "hip", "opencl", "metal")
     explicit BackendMetrics(const std::string& backend_name) 
         : backend_name_(backend_name) {
         registerMetrics();
     }
     
-    // Initialization metrics
+    /// @brief Record successful backend initialization
     void recordInitSuccess() {
         if (init_success_) init_success_->increment();
     }
     
+    /// @brief Record failed backend initialization
     void recordInitFailure() {
         if (init_failures_) init_failures_->increment();
     }
     
+    /// @brief Record backend initialization duration
+    /// @param seconds Time taken for initialization in seconds (floating-point)
     void recordInitDuration(double seconds) {
         if (init_duration_) init_duration_->observe(seconds);
     }
     
-    // Operation metrics
+    /// @brief Record L2 distance operation completion
+    /// @param duration_seconds Time taken for the operation in seconds
+    /// @param vector_count Number of vectors processed in this operation
     void recordL2DistanceOperation(double duration_seconds, size_t vector_count) {
         if (l2_distance_duration_) l2_distance_duration_->observe(duration_seconds);
         if (l2_distance_ops_) l2_distance_ops_->increment();
         if (l2_distance_vectors_) l2_distance_vectors_->increment(vector_count);
     }
     
+    /// @brief Record cosine similarity operation completion
+    /// @param duration_seconds Time taken for the operation in seconds
+    /// @param vector_count Number of vectors processed in this operation
     void recordCosineOperation(double duration_seconds, size_t vector_count) {
         if (cosine_duration_) cosine_duration_->observe(duration_seconds);
         if (cosine_ops_) cosine_ops_->increment();
         if (cosine_vectors_) cosine_vectors_->increment(vector_count);
     }
     
-    // Resource metrics
+    /// @brief Update current device memory usage
+    /// @param bytes Number of bytes currently in use on device
     void setDeviceMemoryUsed(double bytes) {
         if (device_memory_used_) device_memory_used_->set(bytes);
     }
     
+    /// @brief Update available device memory
+    /// @param bytes Number of bytes available on device
     void setDeviceMemoryAvailable(double bytes) {
         if (device_memory_available_) device_memory_available_->set(bytes);
     }
     
+    /// @brief Update command queue depth
+    /// @param depth Current number of queued operations
     void setQueueDepth(double depth) {
         if (queue_depth_) queue_depth_->set(depth);
     }
     
-    // Error metrics
+    /// @brief Record an error event
+    /// @param error_code Error category or code (for optional categorization)
     void recordError([[maybe_unused]] const std::string& error_code) {
         if (errors_total_) errors_total_->increment();
-        // Could add per-error-code counters here
     }
     
+    /// @brief Record a kernel launch failure
     void recordKernelLaunchFailure() {
         if (kernel_launch_failures_) kernel_launch_failures_->increment();
     }
     
+    /// @brief Record a memory allocation failure
     void recordMemoryAllocationFailure() {
         if (memory_alloc_failures_) memory_alloc_failures_->increment();
     }
     
-    // Device metrics
+    /// @brief Update the count of available devices
+    /// @param count Number of available acceleration devices
     void setDeviceCount(int count) {
         if (device_count_) device_count_->set(count);
     }
     
+    /// @brief Update the index of the currently active device
+    /// @param index Index (0-based) of the active device
     void setActiveDeviceIndex(int index) {
         if (active_device_) active_device_->set(index);
     }
     
-    // Throughput metrics
+    /// @brief Get total operations per second (L2 + cosine operations)
+    /// @return Combined operation count (not normalized by time; raw counter value)
     double getOperationsPerSecond() const {
         if (!l2_distance_ops_ || !cosine_ops_) return 0.0;
         return static_cast<double>(l2_distance_ops_->value()) +
                static_cast<double>(cosine_ops_->value());
     }
     
+    /// @brief Get total vectors processed per second (L2 + cosine)
+    /// @return Combined vector count (not normalized by time; raw counter value)
     double getVectorsPerSecond() const {
         if (!l2_distance_vectors_ || !cosine_vectors_) return 0.0;
         return static_cast<double>(l2_distance_vectors_->value()) +
@@ -116,6 +146,7 @@ public:
     }
     
 private:
+    /// @brief Register all metrics with the central MetricsCollector
     void registerMetrics() {
         auto& collector = MetricsCollector::instance();
         std::string prefix = "themis_acceleration_" + backend_name_ + "_";
@@ -197,31 +228,35 @@ private:
             "Index of the currently active device");
     }
     
-    std::string backend_name_;
+    std::string backend_name_;  ///< Name of the backend (e.g., "cuda", "hip")
     
-    // Metrics pointers (owned by MetricsCollector)
-    Counter* init_success_ = nullptr;
-    Counter* init_failures_ = nullptr;
-    Histogram* init_duration_ = nullptr;
+    // Initialization metrics (owned by MetricsCollector singleton)
+    Counter* init_success_ = nullptr;           ///< Counter for successful initializations
+    Counter* init_failures_ = nullptr;          ///< Counter for failed initializations
+    Histogram* init_duration_ = nullptr;        ///< Histogram of initialization durations
     
-    Histogram* l2_distance_duration_ = nullptr;
-    Counter* l2_distance_ops_ = nullptr;
-    Counter* l2_distance_vectors_ = nullptr;
+    // Operation metrics (duration histograms and operation counters)
+    Histogram* l2_distance_duration_ = nullptr; ///< Histogram of L2 operation durations
+    Counter* l2_distance_ops_ = nullptr;        ///< Counter of L2 operations
+    Counter* l2_distance_vectors_ = nullptr;    ///< Counter of vectors in L2 operations
     
-    Histogram* cosine_duration_ = nullptr;
-    Counter* cosine_ops_ = nullptr;
-    Counter* cosine_vectors_ = nullptr;
+    Histogram* cosine_duration_ = nullptr;      ///< Histogram of cosine operation durations
+    Counter* cosine_ops_ = nullptr;             ///< Counter of cosine operations
+    Counter* cosine_vectors_ = nullptr;         ///< Counter of vectors in cosine operations
     
-    Gauge* device_memory_used_ = nullptr;
-    Gauge* device_memory_available_ = nullptr;
-    Gauge* queue_depth_ = nullptr;
+    // Resource metrics (gauges)
+    Gauge* device_memory_used_ = nullptr;       ///< Gauge for device memory usage
+    Gauge* device_memory_available_ = nullptr;  ///< Gauge for available device memory
+    Gauge* queue_depth_ = nullptr;              ///< Gauge for command queue depth
     
-    Counter* errors_total_ = nullptr;
-    Counter* kernel_launch_failures_ = nullptr;
-    Counter* memory_alloc_failures_ = nullptr;
+    // Error metrics (counters)
+    Counter* errors_total_ = nullptr;           ///< Counter for total errors
+    Counter* kernel_launch_failures_ = nullptr; ///< Counter for kernel launch failures
+    Counter* memory_alloc_failures_ = nullptr;  ///< Counter for memory allocation failures
     
-    Gauge* device_count_ = nullptr;
-    Gauge* active_device_ = nullptr;
+    // Device metrics (gauges)
+    Gauge* device_count_ = nullptr;             ///< Gauge for number of available devices
+    Gauge* active_device_ = nullptr;            ///< Gauge for active device index
 };
 
 } // namespace metrics
