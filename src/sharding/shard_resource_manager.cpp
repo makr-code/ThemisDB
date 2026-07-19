@@ -663,13 +663,14 @@ std::pair<uint64_t, uint64_t> ShardResourceManager::getVramUsage() const {
     }
     return {0, 0};
 #else
-    // STUB/SIMULATION NOTE:
+    // NON-PRODUCTION PATH (Graceful Degradation)
     // Purpose: Satisfies the VRAM usage query API on platforms without a GPU
-    //          runtime (no CUDA / HIP available at link time).
+    //          runtime (no CUDA / HIP available at link time).  This is acceptable
+    //          fallback behavior, not a stub that breaks functionality.
     // Activation: Neither THEMIS_ENABLE_CUDA nor THEMIS_ENABLE_HIP defined.
     // Production Delta: Returns (0, 0); resource-aware shard scheduling decisions
     //                   that rely on VRAM headroom will not account for actual GPU
-    //                   memory consumption.
+    //                   memory consumption.  This is expected behavior on CPU-only systems.
     // Removal Plan: Enable CUDA or HIP via cmake; the appropriate block above will
     //               activate.  Vulkan (VK_EXT_memory_budget) path deferred.
     //               See src/sharding/FUTURE_ENHANCEMENTS.md §VRAM Usage Monitoring.

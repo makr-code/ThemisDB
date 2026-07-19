@@ -124,7 +124,7 @@ struct ShardRPCClient::Impl {
             initializeGrpcChannel();
         }
 #else
-        // STUB/SIMULATION NOTE:
+        // NON-PRODUCTION PATH (Simulation/Stub/Mockup)
         // Purpose: Allow ShardRPCClient to compile and function in single-node
         //   or test builds that do not have the shard gRPC proto files (themis_shard.grpc.pb.h).
         //   When THEMIS_HAS_SHARD_GRPC is 0, all sendRequest() calls are routed
@@ -140,8 +140,12 @@ struct ShardRPCClient::Impl {
         //   simulation path (sendRequestInProcess) is retained as a fallback for
         //   loopback/single-node mode and test isolation.
         // Roadmap ref: src/sharding/FUTURE_ENHANCEMENTS.md §"WAL gRPC Replication"
+        
         // Force in-process simulation if gRPC is not available
         use_grpc = false;
+        THEMIS_WARN("ShardRPCClient initialized without gRPC support (THEMIS_HAS_SHARD_GRPC=0). "
+                    "This is a test-only configuration; production deployments must enable gRPC "
+                    "via: cmake -DTHEMIS_ENABLE_GRPC=ON after generating proto files with protoc.");
 #endif
     }
     
@@ -921,7 +925,7 @@ nlohmann::json ShardRPCClient::sendRequestInProcess(
     const nlohmann::json& params
 ) {
     (void)params;
-    // STUB/SIMULATION NOTE:
+    // NON-PRODUCTION PATH (Simulation/Stub/Mockup)
     // Purpose: Provide a local in-process fallback for sendRequest() that
     //   returns plausible hardcoded JSON responses for all shard RPC methods
     //   (prepare, commit, abort, compensate, snapshot_read, write_entity, ping).
@@ -946,6 +950,15 @@ nlohmann::json ShardRPCClient::sendRequestInProcess(
     {
         std::lock_guard<std::mutex> lk(impl_->handler_mutex);
         injected_handler = impl_->in_process_handler;
+    }
+    
+    // Log a diagnostic warning that in-process simulation is in use
+    static std::atomic<bool> logged = false;
+    if (!logged.exchange(true)) {
+        THEMIS_WARN("ShardRPCClient: Using in-process simulation path for RPC calls to {}. "
+                    "This is a test-only configuration; production deployments must enable gRPC. "
+                    "To suppress this warning, enable THEMIS_HAS_SHARD_GRPC=1 and deploy real shard peers.",
+                    impl_->config.endpoint);
     }
 
     // In-process simulation for single-node deployments
@@ -1020,7 +1033,12 @@ nlohmann::json ShardRPCClient::sendRequestInProcess(
                         {"shard_id", impl_->config.shard_id}
                     };
                 } else {
-                    throw std::runtime_error("Unknown RPC method: " + method);
+                    // Unknown method in in-process simulation
+                    THEMIS_ERROR("In-process RPC simulation does not support method: {}. "
+                                 "This method is only supported in gRPC mode. "
+                                 "Enable THEMIS_HAS_SHARD_GRPC to use production gRPC transport.",
+                                 method);
+                    throw std::runtime_error("Unknown RPC method in in-process simulation: " + method);
                 }
             }
 

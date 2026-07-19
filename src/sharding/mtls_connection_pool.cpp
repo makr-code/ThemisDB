@@ -229,7 +229,7 @@ std::optional<std::unique_ptr<SSL, SSLDeleter>> EndpointConnectionPool::createNe
         return conn;
     }
 
-    // STUB/SIMULATION NOTE:
+    // NON-PRODUCTION PATH (Simulation/Stub/Mockup)
     // Purpose: Deferred placeholder for the actual mTLS connection creation path.
     //   SSL context setup, TCP connect, and TLS handshake are managed by
     //   MTLSClient (the pool's owner); this pool-level factory method is reserved
@@ -244,7 +244,12 @@ std::optional<std::unique_ptr<SSL, SSLDeleter>> EndpointConnectionPool::createNe
     //   Inject a factory via setConnectionFactory() that implements TCP+SSL setup.
     //   Remove this note once the refactor is complete (v2.0.0 target).
     // Roadmap ref: src/sharding/FUTURE_ENHANCEMENTS.md § "mTLS Pool Connection Ownership"
-
+    
+    THEMIS_DEBUG("EndpointConnectionPool::createNewConnection() called without factory "
+                 "for endpoint {}. This is a deferred feature (v2.0 target). "
+                 "Connection creation is currently managed by MTLSClient::connect().",
+                 endpoint_);
+    
     total_created_++;
     return std::nullopt;
 }
