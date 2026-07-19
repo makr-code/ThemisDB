@@ -134,7 +134,13 @@ public:
     std::vector<float> embed(const std::string& text);
     
     /**
-     * @brief Batch embed multiple texts (more efficient)
+     * @brief Batch embed multiple texts while preserving the single-text
+     *        embedding contract for every entry.
+     *
+     * The implementation may delegate to the configured backend one item at a
+     * time when no native batch API is available. Callers can therefore rely on
+     * each returned vector being equivalent to a corresponding `embed(text)`
+     * invocation, including deterministic fallback behavior and normalization.
      */
     std::vector<std::vector<float>> embedBatch(const std::vector<std::string>& texts);
     
@@ -208,7 +214,7 @@ public:
      * @brief Inject a generation backend override.
      *
      * When set, generation methods delegate to this callback before using the
-     * built-in wrapper/stub path.
+     * built-in wrapper/fallback path.
      */
     void setGenerateFullFn(GenerateFullFn fn);
 
@@ -216,7 +222,7 @@ public:
      * @brief Inject an embedding backend override.
      *
      * When set, embedding methods delegate to this callback before using the
-     * built-in wrapper/stub path.
+     * built-in wrapper/fallback path.
      */
     void setEmbedFn(EmbedFn fn);
     

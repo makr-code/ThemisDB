@@ -209,8 +209,8 @@ std::vector<float> EmbeddedLLM::embed([[maybe_unused]] const std::string& text) 
 std::vector<std::vector<float>> EmbeddedLLM::embedBatch(const std::vector<std::string>& texts) {
     std::vector<std::vector<float>> out;
     out.reserve(texts.size());
-    for ([[maybe_unused]] const auto& t : texts) {
-        out.push_back({});
+    for (const auto& text : texts) {
+        out.push_back(embed(text));
     }
     return out;
 }
