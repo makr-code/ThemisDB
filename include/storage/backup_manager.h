@@ -401,53 +401,79 @@ public:
                                    const RAIDConfig& raid_config);
 
     // ============================================================================
-    // GAP-008: Cloud Backup & Snapshot Scheduling (Stub/Placeholder)
+    // GAP-008: Cloud Backup & Snapshot Scheduling
     // ============================================================================
     
     /**
-     * Schedule automatic backup (stub for future implementation)
-     * @param schedule_cron: Cron expression for scheduling (e.g., "0 2 * * *")
-     * @param backup_type: Type of backup (full/incremental/differential)
-     * @param options: Backup options
-     * @return Result<std::string> containing schedule ID on success, Error on failure
-     * @note This is a placeholder for K8s CronJob or internal scheduler integration
+     * @brief Register an automatic backup schedule in the in-process schedule registry.
+     *
+     * The current implementation validates the cron-like expression, allocates a
+     * stable schedule identifier, and stores the schedule metadata in memory for
+     * later inspection or cancellation. It does not spawn a background executor or
+     * persist schedules across process restarts.
+     *
+     * @param schedule_cron Cron-style expression with five space-separated fields
+     *        (for example, `0 2 * * *`).
+     * @param backup_type Backup class to register (for example `full`,
+     *        `incremental`, or `differential`).
+     * @param options Backup options captured with the schedule entry.
+     * @return Result<std::string> containing the generated schedule identifier on
+     *         success, or an Error when the inputs are invalid.
      */
     Result<std::string> scheduleBackup(const std::string& schedule_cron,
                                        const std::string& backup_type,
                                        const BackupOptions& options);
     
     /**
-     * Cancel scheduled backup (stub for future implementation)
-     * @param schedule_id: Schedule ID to cancel
-     * @return Result<void> on success, Error on failure
+     * @brief Cancel a previously registered in-memory backup schedule.
+     *
+     * @param schedule_id Schedule identifier returned by scheduleBackup().
+     * @return Result<void> on success, or an Error if the identifier is empty or
+     *         no matching schedule exists.
      */
     Result<void> cancelScheduledBackup(const std::string& schedule_id);
     
     /**
-     * List all scheduled backups (stub for future implementation)
-     * @return Vector of schedule IDs and their configurations
+     * @brief List all schedules currently stored in the in-memory registry.
+     *
+     * @return Vector of `(schedule_id, cron_expression)` pairs. Returns an empty
+     *         vector when no schedules are registered.
      */
     std::vector<std::pair<std::string, std::string>> listScheduledBackups();
     
     /**
-     * Perform cloud backup to S3/Azure/GCS (stub for future implementation)
-     * @param local_backup_path: Local backup path
-     * @param cloud_uri: Cloud storage URI (s3://bucket/path, azure://container/path, gs://bucket/path)
-     * @param options: Cloud-specific options
-     * @return Result<std::string> containing cloud backup URI on success, Error on failure
-     * @note This is a placeholder for cloud provider integration
+     * @brief Copy a finished backup to a provider-specific destination.
+     *
+     * Supported destinations:
+     * - `StorageBackend::LOCAL`: local filesystem mirror via `file:///absolute/path`
+     *   or an absolute path.
+     * - `StorageBackend::S3`: `s3://bucket/path` (requires provider integration).
+     * - `StorageBackend::AZURE`: `azure://account/container/path` (requires provider integration).
+     * - `StorageBackend::GCS`: `gs://bucket/path` (requires provider integration).
+     *
+     * @param local_backup_path Existing local backup directory or archive.
+     * @param cloud_uri Provider URI or local mirror path, depending on @p options.storage.
+     * @param options Transfer options, backend selection, and provider-specific configuration.
+     * @return Result<std::string> containing the destination URI/path on success,
+     *         or an Error when validation fails or the provider backend is unavailable.
      */
     Result<std::string> uploadBackupToCloud(const std::string& local_backup_path,
                                             const std::string& cloud_uri,
                                             const BackupOptions& options);
     
     /**
-     * Restore from cloud backup (stub for future implementation)
-     * @param cloud_uri: Cloud storage URI
-     * @param local_restore_path: Local path to restore to
-     * @param options: Restore options
-     * @return Result<void> on success, Error on failure
-     * @note This is a placeholder for cloud provider integration
+     * @brief Restore a backup payload from a provider-specific source into a local directory.
+     *
+     * For `StorageBackend::LOCAL`, the method copies the source tree from a
+     * `file:///absolute/path` URI or absolute path into @p local_restore_path.
+     * Remote backends validate the URI format and then delegate to the matching
+     * provider integration when available.
+     *
+     * @param cloud_uri Provider URI or local mirror path, depending on @p options.storage.
+     * @param local_restore_path Local destination directory for the restored payload.
+     * @param options Restore options, backend selection, and provider-specific configuration.
+     * @return Result<void> on success, or an Error when validation fails, the source
+     *         cannot be copied, or the provider backend is unavailable.
      */
     Result<void> restoreFromCloud(const std::string& cloud_uri,
                                   const std::string& local_restore_path,

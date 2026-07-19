@@ -33,8 +33,10 @@
 #include <fstream>
 #include <chrono>
 #include <ctime>
+#include <cctype>
 #include <iomanip>
 #include <sstream>
+#include <array>
 #include <algorithm>
 #include <mutex>
 #include <unordered_set>
@@ -57,6 +59,144 @@
 #endif
 
 namespace themis {
+
+namespace {
+
+namespace fs = std::filesystem;
+
+constexpr std::string_view kLocalBackupUriScheme{"file://"};
+
+bool hasUriPrefix(const std::string& value, std::string_view prefix) {
+    return value.size() >= prefix.size() &&
+           value.compare(0, prefix.size(), prefix) == 0;
+}
+
+bool isLocalBackupUri(const std::string& value) {
+    return hasUriPrefix(value, kLocalBackupUriScheme);
+}
+
+bool isAbsoluteOrLocalBackupUri(const std::string& value) {
+    return !value.empty() &&
+           (isLocalBackupUri(value) || fs::path(value).is_absolute());
+}
+
+fs::path resolveLocalBackupPath(const std::string& value) {
+    if (isLocalBackupUri(value)) {
+        return fs::path(value.substr(kLocalBackupUriScheme.size()));
+    }
+    return fs::path(value);
+}
+
+bool isValidCronField(const std::string& field) {
+    if (field.empty()) {
+        return false;
+    }
+
+    return std::all_of(field.begin(), field.end(), [](unsigned char ch) {
+        return std::isdigit(ch) || ch == '*' || ch == ',' || ch == '-' || ch == '/';
+    });
+}
+
+bool isValidCronExpression(const std::string& expression) {
+    std::istringstream iss(expression);
+    std::vector<std::string> fields;
+    std::string field;
+    while (iss >> field) {
+        fields.push_back(field);
+    }
+
+    if (fields.size() != 5) {
+        return false;
+    }
+
+    return std::all_of(fields.begin(), fields.end(), isValidCronField);
+}
+
+bool copyPathRecursively(const fs::path& source,
+                         const fs::path& destination,
+                         std::error_code& ec) {
+    ec.clear();
+
+    const bool source_exists = fs::exists(source, ec);
+    if (ec) {
+        return false;
+    }
+    if (!source_exists) {
+        ec = std::make_error_code(std::errc::no_such_file_or_directory);
+        return false;
+    }
+
+    const bool is_directory = fs::is_directory(source, ec);
+    if (ec) {
+        return false;
+    }
+
+    if (!is_directory) {
+        const auto parent = destination.parent_path();
+        if (!parent.empty()) {
+            fs::create_directories(parent, ec);
+            if (ec) {
+                return false;
+            }
+        }
+
+        fs::copy_file(source, destination, fs::copy_options::overwrite_existing, ec);
+        return !ec;
+    }
+
+    fs::create_directories(destination, ec);
+    if (ec) {
+        return false;
+    }
+
+    for (const auto& entry : fs::recursive_directory_iterator(source, ec)) {
+        if (ec) {
+            return false;
+        }
+
+        const auto relative = fs::relative(entry.path(), source, ec);
+        if (ec) {
+            return false;
+        }
+
+        const auto target = destination / relative;
+        if (entry.is_directory()) {
+            fs::create_directories(target, ec);
+            if (ec) {
+                return false;
+            }
+            continue;
+        }
+
+        if (!entry.is_regular_file()) {
+            continue;
+        }
+
+        fs::create_directories(target.parent_path(), ec);
+        if (ec) {
+            return false;
+        }
+
+        fs::copy_file(entry.path(), target, fs::copy_options::overwrite_existing, ec);
+        if (ec) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool isValidRemoteCloudUri(const std::string& uri) {
+    static const std::array<std::string_view, 3> kSchemes{
+        "s3://", "azure://", "gs://"
+    };
+
+    return std::any_of(kSchemes.begin(), kSchemes.end(), [&uri](std::string_view scheme) {
+        return uri.size() > scheme.size() && hasUriPrefix(uri, scheme);
+    });
+}
+
+}  // namespace
 
 #ifdef _WIN32
 /// Wrap a string in double quotes for use as a CreateProcess command argument.
@@ -1658,14 +1798,27 @@ bool BackupManager::uploadToCloud(const std::string& local_path, [[maybe_unused]
                                   StorageBackend backend,
                                   const std::map<std::string, std::string>& /*config*/,
                                   [[maybe_unused]] std::error_code& ec) {
-    // When the relevant SDK compile flag is set, use the real SDK:
-    //   THEMIS_ENABLE_S3:     AWS SDK for C++ (github.com/aws/aws-sdk-cpp)
-    //   THEMIS_ENABLE_GCS:    Google Cloud Storage C++ (github.com/googleapis/google-cloud-cpp)
-    //   THEMIS_ENABLE_AZURE:  Azure Storage C++ (github.com/Azure/azure-storage-cpp)
-    // Without a flag the upload is a no-op (development/testing only).
+    if (backend == StorageBackend::LOCAL || isLocalBackupUri(cloud_path)) {
+        const auto destination = resolveLocalBackupPath(cloud_path);
+        if (destination.empty()) {
+            ec = std::make_error_code(std::errc::invalid_argument);
+            return false;
+        }
+
+        THEMIS_INFO("Mirroring backup {} to local destination {}", local_path, destination.string());
+        return copyPathRecursively(fs::path(local_path), destination, ec);
+    }
+
+    static std::once_flag s_upload_warn;
+    std::call_once(s_upload_warn, [] {
+        THEMIS_WARN("BackupManager::uploadToCloud: remote provider transport not linked. "
+                    "Build with a concrete cloud provider integration.");
+    });
+
     try {
         THEMIS_INFO("Uploading {} to cloud backend {}", local_path, static_cast<int>(backend));
-        return true;
+        ec = std::make_error_code(std::errc::not_supported);
+        return false;
     } catch (const std::exception& e) {
         ec = std::make_error_code(std::errc::io_error);
         THEMIS_ERROR("Exception during cloud upload: {}", e.what());
@@ -1678,27 +1831,24 @@ bool BackupManager::downloadFromCloud(const std::string& cloud_path,
                                       StorageBackend backend,
                                       const std::map<std::string, std::string>& /*config*/,
                                       std::error_code& ec) {
-    // STUB/SIMULATION NOTE:
-    // Purpose: Prevent silent data corruption when no cloud SDK is linked.
-    //          Returns false with a clear error so that restoreFromCloud()
-    //          fails loudly rather than producing an empty/stale restore.
-    // Activation: THEMIS_ENABLE_S3, THEMIS_ENABLE_GCS, and THEMIS_ENABLE_AZURE
-    //             are all absent at compile time (default build without cloud SDKs).
-    // Production Delta: No data is transferred to local_path; function always
-    //                   fails.  Build with a cloud SDK flag to activate the real
-    //                   download path.
-    // Removal Plan: Link the matching cloud SDK (AWS SDK for C++, google-cloud-cpp,
-    //               azure-storage-cpp); dispatch on `backend` to the matching
-    //               ICloudStorageProvider implementation.  See
-    //               src/storage/FUTURE_ENHANCEMENTS.md §Cloud Backup Download.
+    if (backend == StorageBackend::LOCAL || isLocalBackupUri(cloud_path)) {
+        const auto source = resolveLocalBackupPath(cloud_path);
+        if (source.empty()) {
+            ec = std::make_error_code(std::errc::invalid_argument);
+            return false;
+        }
+
+        THEMIS_INFO("Restoring local backup mirror {} into {}", source.string(), local_path);
+        return copyPathRecursively(source, fs::path(local_path), ec);
+    }
+
     static std::once_flag s_download_warn;
     std::call_once(s_download_warn, [] {
-        THEMIS_WARN("BackupManager::downloadFromCloud: STUB — no cloud SDK linked. "
-                    "Build with THEMIS_ENABLE_S3, THEMIS_ENABLE_GCS, or THEMIS_ENABLE_AZURE. "
-                    "(This warning is printed once per process.)");
+        THEMIS_WARN("BackupManager::downloadFromCloud: remote provider transport not linked. "
+                    "Build with a concrete cloud provider integration.");
     });
     THEMIS_ERROR("downloadFromCloud: cannot download {} (cloud backend {}) — "
-                 "no cloud SDK linked. Restore aborted.",
+                 "no cloud provider transport linked. Restore aborted.",
                  cloud_path, static_cast<int>(backend));
     ec = std::make_error_code(std::errc::not_supported);
     return false;
@@ -2309,9 +2459,9 @@ std::chrono::system_clock::time_point BackupManager::getRPO(const std::string& b
 
 // ============================================================================
 // GAP-008: Cloud Backup & Snapshot Scheduling
-// These methods return NOT_IMPLEMENTED errors when no scheduler backend is
-// compiled in.  Enable K8s CronJob support via THEMIS_ENABLE_K8S_SCHEDULER or
-// supply an internal scheduler implementation before calling these APIs.
+// In the current module baseline the scheduler uses an in-memory registry and
+// local filesystem transport. Remote provider transport still depends on the
+// corresponding cloud integration being linked into the build.
 // ============================================================================
 
 Result<std::string> BackupManager::scheduleBackup(
@@ -2333,6 +2483,12 @@ Result<std::string> BackupManager::scheduleBackup(
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_BACKUP_CREATION_FAILED,
             "scheduleBackup: backup type must not be empty"
+        ));
+    }
+    if (!isValidCronExpression(schedule_cron)) {
+        return tl::unexpected(Error(
+            errors::ErrorCode::ERR_BACKUP_CREATION_FAILED,
+            "scheduleBackup: cron expression must have five fields and only use digits, '*', ',', '-', '/'"
         ));
     }
 
@@ -2415,26 +2571,31 @@ Result<std::string> BackupManager::uploadBackupToCloud(
         ));
     }
 
-    // Validate cloud URI: must use a supported scheme (s3://, azure://, gs://)
-    // and have a non-empty bucket/container following the scheme.
-    auto isValidCloudUri = [](const std::string& uri) -> bool {
-        static const char* const schemes[] = {"s3://", "azure://", "gs://"};
-        for (const auto* prefix : schemes) {
-            std::string p(prefix);
-            if (uri.size() > p.size() && uri.rfind(p, 0) == 0) {
-                return true;
-            }
-        }
-        return false;
-    };
-
-    if (!isValidCloudUri(cloud_uri)) {
+    const bool is_local_backend = options.storage == StorageBackend::LOCAL;
+    const bool valid_destination =
+        is_local_backend ? isAbsoluteOrLocalBackupUri(cloud_uri)
+                         : isValidRemoteCloudUri(cloud_uri);
+    if (!valid_destination) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_BACKUP_INVALID_TYPE,
-            "Invalid cloud URI: '" + cloud_uri +
-            "'. Supported schemes: s3://<bucket>/path, azure://<account>/container/path,"
-            " gs://<bucket>/path"
+            is_local_backend
+                ? "Invalid local backup destination: '" + cloud_uri +
+                      "'. Use file:///absolute/path or an absolute filesystem path."
+                : "Invalid cloud URI: '" + cloud_uri +
+                      "'. Supported schemes: s3://<bucket>/path, azure://<account>/container/path,"
+                      " gs://<bucket>/path"
         ));
+    }
+
+    if (is_local_backend) {
+        if (!uploadToCloud(local_backup_path, cloud_uri, options.storage, options.cloud_config, ec)) {
+            return tl::unexpected(Error(
+                errors::ErrorCode::ERR_BACKUP_CREATION_FAILED,
+                "Local backup mirror failed for '" + cloud_uri + "': " + ec.message()
+            ));
+        }
+        THEMIS_INFO("Backup mirrored to local destination: {}", cloud_uri);
+        return cloud_uri;
     }
 
     // Compile-time SDK flags control the active cloud path:
@@ -2474,6 +2635,42 @@ Result<void> BackupManager::restoreFromCloud(
             errors::ErrorCode::ERR_BACKUP_RESTORATION_FAILED,
             "restoreFromCloud: cloud URI must not be empty"
         ));
+    }
+
+    const bool is_local_backend = options.storage == StorageBackend::LOCAL;
+    const bool valid_source =
+        is_local_backend ? isAbsoluteOrLocalBackupUri(cloud_uri)
+                         : isValidRemoteCloudUri(cloud_uri);
+    if (!valid_source) {
+        return tl::unexpected(Error(
+            errors::ErrorCode::ERR_BACKUP_RESTORATION_FAILED,
+            is_local_backend
+                ? "restoreFromCloud: local source must be file:///absolute/path or an absolute filesystem path"
+                : "restoreFromCloud: unsupported cloud URI: " + cloud_uri
+        ));
+    }
+
+    if (is_local_backend) {
+        namespace fs = std::filesystem;
+        std::error_code ec;
+        fs::create_directories(local_restore_path, ec);
+        if (ec) {
+            return tl::unexpected(Error(
+                errors::ErrorCode::ERR_BACKUP_RESTORATION_FAILED,
+                "Failed to create restore directory '" + local_restore_path +
+                "': " + ec.message()
+            ));
+        }
+
+        if (!downloadFromCloud(cloud_uri, local_restore_path, options.storage,
+                               options.cloud_config, ec)) {
+            return tl::unexpected(Error(
+                errors::ErrorCode::ERR_BACKUP_RESTORATION_FAILED,
+                "Local backup restore failed for '" + cloud_uri + "': " + ec.message()
+            ));
+        }
+        THEMIS_INFO("Backup restored from local mirror: {} → {}", cloud_uri, local_restore_path);
+        return OkVoid();
     }
 
     // Compile-time SDK flags control the active cloud path:
@@ -2689,8 +2886,8 @@ Result<void> BackupManager::verifyDecompressedBackup(const std::string& backup_d
         THEMIS_INFO("Phase 1: Verifying decompressed backup integrity: {}", backup_dir);
         
         if (!fs::exists(backup_dir)) {
-            return Err(errors::ErrorCode::ERR_BACKUP_DECOMPRESSION_FAILED,
-                      "Backup directory not found: " + backup_dir);
+            return ErrVoid(errors::ErrorCode::ERR_BACKUP_DECOMPRESSION_FAILED,
+                           "Backup directory not found: " + backup_dir);
         }
 
         const fs::path manifest_path = fs::path(backup_dir) / "INTEGRITY_MANIFEST.json";
@@ -2721,8 +2918,8 @@ Result<void> BackupManager::verifyDecompressedBackup(const std::string& backup_d
         auto corrupted_files = verifyAllChecksums(backup_dir, integrity_map);
         if (!corrupted_files) {
             THEMIS_ERROR("Phase 1: Failed to verify checksums: {}", corrupted_files.error().message());
-            return Err(errors::ErrorCode::ERR_BACKUP_VERIFICATION_FAILED,
-                      "Failed to verify checksums: " + corrupted_files.error().message());
+            return ErrVoid(errors::ErrorCode::ERR_BACKUP_VERIFICATION_FAILED,
+                           "Failed to verify checksums: " + corrupted_files.error().message());
         }
 
         const auto& corrupted = corrupted_files.value();
@@ -2737,17 +2934,17 @@ Result<void> BackupManager::verifyDecompressedBackup(const std::string& backup_d
             }
             THEMIS_ERROR("Phase 1: Data corruption detected in {} files after decompression: {}",
                         corrupted.size(), corrupt_list);
-            return Err(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
-                      "Data corruption detected in " + std::to_string(corrupted.size()) +
-                      " files: " + corrupt_list);
+            return ErrVoid(errors::ErrorCode::ERR_STORAGE_CORRUPTION,
+                           "Data corruption detected in " + std::to_string(corrupted.size()) +
+                               " files: " + corrupt_list);
         }
 
         THEMIS_INFO("Phase 1: Post-decompression integrity verification passed");
         return OkVoid();
     } catch (const std::exception& e) {
         THEMIS_ERROR("Phase 1: Exception during integrity verification: {}", e.what());
-        return Err(errors::ErrorCode::ERR_BACKUP_VERIFICATION_FAILED,
-                  "Exception during integrity verification: " + std::string(e.what()));
+        return ErrVoid(errors::ErrorCode::ERR_BACKUP_VERIFICATION_FAILED,
+                       "Exception during integrity verification: " + std::string(e.what()));
     }
 }
 
@@ -2769,8 +2966,8 @@ Result<uint32_t> BackupManager::repairDecompressedBackup(const std::string& back
         if (compressed_source.empty() || !fs::exists(compressed_source)) {
             THEMIS_WARN("Phase 1: Compressed source not available for repair; returning without quarantine. "
                        "Original compressed backup: {}", compressed_source);
-            return Err(errors::ErrorCode::ERR_BACKUP_RESTORATION_FAILED,
-                      "Cannot repair: compressed source not available");
+            return Err<uint32_t>(errors::ErrorCode::ERR_BACKUP_RESTORATION_FAILED,
+                                 "Cannot repair: compressed source not available");
         }
 
         // Attempt re-decompression
@@ -2778,15 +2975,15 @@ Result<uint32_t> BackupManager::repairDecompressedBackup(const std::string& back
         std::error_code ec;
         fs::create_directories(temp_dir, ec);
         if (ec) {
-            return Err(errors::ErrorCode::ERR_BACKUP_RESTORATION_FAILED,
-                      "Cannot create temporary repair directory: " + ec.message());
+            return Err<uint32_t>(errors::ErrorCode::ERR_BACKUP_RESTORATION_FAILED,
+                                 "Cannot create temporary repair directory: " + ec.message());
         }
 
         auto decompress_result = decompressBackup(compressed_source, temp_dir);
         if (!decompress_result) {
             fs::remove_all(temp_dir, ec);
-            return Err(errors::ErrorCode::ERR_BACKUP_RESTORATION_FAILED,
-                      "Re-decompression failed: " + decompress_result.error().message());
+            return Err<uint32_t>(errors::ErrorCode::ERR_BACKUP_RESTORATION_FAILED,
+                                 "Re-decompression failed: " + decompress_result.error().message());
         }
 
         // Copy repaired files back
@@ -2808,8 +3005,8 @@ Result<uint32_t> BackupManager::repairDecompressedBackup(const std::string& back
         THEMIS_INFO("Phase 1: Repair complete; {} files repaired", repaired_count);
         return Ok(repaired_count);
     } catch (const std::exception& e) {
-        return Err(errors::ErrorCode::ERR_BACKUP_RESTORATION_FAILED,
-                  "Exception during repair: " + std::string(e.what()));
+        return Err<uint32_t>(errors::ErrorCode::ERR_BACKUP_RESTORATION_FAILED,
+                             "Exception during repair: " + std::string(e.what()));
     }
 }
 
@@ -2820,8 +3017,8 @@ Result<void> BackupManager::buildIntegrityManifest(const std::string& backup_dir
         THEMIS_INFO("Phase 1: Building integrity manifest for: {}", backup_dir);
         
         if (!fs::exists(backup_dir)) {
-            return Err(errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
-                      "Backup directory not found: " + backup_dir);
+            return ErrVoid(errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
+                           "Backup directory not found: " + backup_dir);
         }
 
         integrity_map.clear();
@@ -2847,8 +3044,8 @@ Result<void> BackupManager::buildIntegrityManifest(const std::string& backup_dir
         THEMIS_INFO("Phase 1: Built integrity manifest with {} files", integrity_map.size());
         return OkVoid();
     } catch (const std::exception& e) {
-        return Err(errors::ErrorCode::ERR_BACKUP_VERIFICATION_FAILED,
-                  "Exception building manifest: " + std::string(e.what()));
+        return ErrVoid(errors::ErrorCode::ERR_BACKUP_VERIFICATION_FAILED,
+                       "Exception building manifest: " + std::string(e.what()));
     }
 }
 
@@ -2871,16 +3068,16 @@ Result<void> BackupManager::writeIntegrityManifest(const std::string& backup_dir
 
         std::ofstream fout(manifest_path);
         if (!fout) {
-            return Err(errors::ErrorCode::ERR_BACKUP_MANIFEST_CORRUPT,
-                      "Failed to open manifest file for writing: " + manifest_path.string());
+            return ErrVoid(errors::ErrorCode::ERR_BACKUP_MANIFEST_CORRUPT,
+                           "Failed to open manifest file for writing: " + manifest_path.string());
         }
         fout << manifest_json.dump(2);
         
         THEMIS_INFO("Phase 1: Wrote integrity manifest to: {}", manifest_path.string());
         return OkVoid();
     } catch (const std::exception& e) {
-        return Err(errors::ErrorCode::ERR_BACKUP_MANIFEST_CORRUPT,
-                  "Exception writing manifest: " + std::string(e.what()));
+        return ErrVoid(errors::ErrorCode::ERR_BACKUP_MANIFEST_CORRUPT,
+                       "Exception writing manifest: " + std::string(e.what()));
     }
 }
 
@@ -2897,8 +3094,9 @@ Result<std::vector<FileIntegrityInfo>> BackupManager::readIntegrityManifest(cons
 
         std::ifstream fin(manifest_path);
         if (!fin) {
-            return Err(errors::ErrorCode::ERR_BACKUP_MANIFEST_CORRUPT,
-                      "Failed to open manifest file: " + manifest_path.string());
+            return Err<std::vector<FileIntegrityInfo>>(
+                errors::ErrorCode::ERR_BACKUP_MANIFEST_CORRUPT,
+                "Failed to open manifest file: " + manifest_path.string());
         }
 
         nlohmann::json manifest_json;
@@ -2917,8 +3115,9 @@ Result<std::vector<FileIntegrityInfo>> BackupManager::readIntegrityManifest(cons
         THEMIS_INFO("Phase 1: Loaded integrity manifest with {} entries", result.size());
         return Ok(result);
     } catch (const std::exception& e) {
-        return Err(errors::ErrorCode::ERR_BACKUP_MANIFEST_CORRUPT,
-                  "Exception reading manifest: " + std::string(e.what()));
+        return Err<std::vector<FileIntegrityInfo>>(
+            errors::ErrorCode::ERR_BACKUP_MANIFEST_CORRUPT,
+            "Exception reading manifest: " + std::string(e.what()));
     }
 }
 
@@ -2927,8 +3126,8 @@ Result<bool> BackupManager::verifyFileChecksum(const std::string& file_path,
     try {
         auto actual_checksum_result = calculateChecksum(file_path);
         if (!actual_checksum_result) {
-            return Err(errors::ErrorCode::ERR_BACKUP_VERIFICATION_FAILED,
-                      "Failed to calculate checksum: " + actual_checksum_result.error().message());
+            return Err<bool>(errors::ErrorCode::ERR_BACKUP_VERIFICATION_FAILED,
+                             "Failed to calculate checksum: " + actual_checksum_result.error().message());
         }
 
         const auto& actual = actual_checksum_result.value();
@@ -2941,8 +3140,8 @@ Result<bool> BackupManager::verifyFileChecksum(const std::string& file_path,
 
         return Ok(matches);
     } catch (const std::exception& e) {
-        return Err(errors::ErrorCode::ERR_BACKUP_VERIFICATION_FAILED,
-                  "Exception verifying checksum: " + std::string(e.what()));
+        return Err<bool>(errors::ErrorCode::ERR_BACKUP_VERIFICATION_FAILED,
+                         "Exception verifying checksum: " + std::string(e.what()));
     }
 }
 
@@ -2978,8 +3177,9 @@ Result<std::vector<std::string>> BackupManager::verifyAllChecksums(
 
         return Ok(corrupted_files);
     } catch (const std::exception& e) {
-        return Err(errors::ErrorCode::ERR_BACKUP_VERIFICATION_FAILED,
-                  "Exception verifying checksums: " + std::string(e.what()));
+        return Err<std::vector<std::string>>(
+            errors::ErrorCode::ERR_BACKUP_VERIFICATION_FAILED,
+            "Exception verifying checksums: " + std::string(e.what()));
     }
 }
 
