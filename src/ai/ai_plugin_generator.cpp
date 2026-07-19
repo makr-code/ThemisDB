@@ -34,11 +34,16 @@ namespace ai {
 
 namespace {
 
-// Redaction policy: user-supplied and LLM-generated content is never logged
-// verbatim.  Log helpers truncate strings to kLogMaxLen characters and append
-// "[…]" when truncation occurs.  Error messages must not embed raw LLM output.
+/// @brief Redaction policy for logging: limit output to prevent accidental exposure of LLM input/output.
+/// User-supplied and LLM-generated content is never logged verbatim. Log helpers truncate strings to
+/// kLogMaxLen characters and append "[…]" when truncation occurs. Error messages must not embed raw
+/// LLM output to prevent information leakage in logs.
 static constexpr std::size_t kLogMaxLen = 120u;
 
+/// @brief Truncate a string to kLogMaxLen for safe logging (privacy/security).
+///
+/// @param s Input string to truncate.
+/// @return Truncated string with "[…]" suffix if original exceeded kLogMaxLen; otherwise unchanged.
 std::string truncateForLog(const std::string& s) {
     if (s.size() <= kLogMaxLen) {
         return s;
@@ -46,6 +51,17 @@ std::string truncateForLog(const std::string& s) {
     return s.substr(0, kLogMaxLen) + "[…]";
 }
 
+/// @brief CURL write callback for accumulating HTTP response body.
+///
+/// Signature matches CURL's write callback contract (see curl_easy_setopt CURLOPT_WRITEFUNCTION).
+/// Appends received data to the string buffer pointed to by userdata. Guards against size_t overflow
+/// during size calculation before append.
+///
+/// @param ptr     Pointer to received data chunk.
+/// @param size    Size of each element (usually 1 for raw bytes).
+/// @param nmemb   Number of elements received.
+/// @param userdata Pointer to output string buffer (must be std::string*).
+/// @return Number of bytes actually written (size * nmemb on success, 0 on error).
 size_t curlWriteCallback(void* ptr, size_t size, size_t nmemb, void* userdata) {
     if (!ptr || !userdata) {
         return 0;
@@ -59,11 +75,26 @@ size_t curlWriteCallback(void* ptr, size_t size, size_t nmemb, void* userdata) {
     return size * nmemb;
 }
 
+/// @brief Ensure CURL global initialization is performed exactly once (thread-safe).
+///
+/// Uses std::call_once to guarantee thread-safe single initialization of CURL's global state.
+/// Safe to call multiple times; subsequent calls are no-ops.
 void ensureCurlGlobalInit() {
     static std::once_flag init_flag;
     std::call_once(init_flag, []() { curl_global_init(CURL_GLOBAL_DEFAULT); });
 }
 
+/// @brief Validate a token against the allowed character set for prompt list fields.
+///
+/// Tokens are validated to prevent prompt injection and unexpected serialization issues. A valid token:
+/// - Is non-empty
+/// - Contains only alphanumeric characters, underscores, hyphens, dots, colons, slashes, and plus signs
+/// - Has no whitespace or control characters
+///
+/// This validation applies to entries in `required_capabilities`, `dependencies`, and related fields.
+///
+/// @param token The string token to validate.
+/// @return True if the token is valid; false otherwise.
 bool isValidPromptListToken(const std::string& token) {
     if (token.empty()) {
         return false;
@@ -81,6 +112,21 @@ bool isValidPromptListToken(const std::string& token) {
     return true;
 }
 
+/// @brief Invoke the LLM endpoint via HTTPS using CURL with retryable error handling.
+///
+/// Performs a synchronous HTTP POST to the endpoint URL with the given request body. On success,
+/// returns the raw HTTP response body. On transport or HTTP errors, returns an Error result.
+///
+/// - Enforces connection and total timeout.
+/// - Validates HTTP response code (must be 2xx).
+/// - Accumulates response via CURL write callback.
+/// - Guards against size_t overflow and gracefully handles CURL initialization failures.
+///
+/// @param endpoint     Full URL of the LLM endpoint.
+/// @param request_body JSON request body as a string.
+/// @param timeout_ms   Maximum timeout in milliseconds for the HTTP request.
+/// @return Expected<string, Error>: on success, the HTTP response body; on error, an Error with
+///         descriptive message (transport failure, HTTP status code, or client initialization failure).
 Result<std::string> invokeEndpointWithCurl(const std::string& endpoint,
                                            const std::string& request_body,
                                            long timeout_ms) {
@@ -140,16 +186,46 @@ Result<std::string> invokeEndpointWithCurl(const std::string& endpoint,
 
 } // namespace
 
+/// @brief Constructor for AIPluginGenerator.
+///
+/// Stores the provided configuration and initializes internal statistics counters to zero.
+/// Does not connect to or validate the configured endpoint at construction time.
+///
+/// @param config Configuration object specifying endpoint, timeouts, size limits, and optional callback hooks.
 AIPluginGenerator::AIPluginGenerator(const Config& config)
     : config_(config)
 {}
 
+/// @brief Destructor for AIPluginGenerator.
+///
+/// Releases any resources (CURL connections, etc.). Safe to destroy even if generatePlugin() was
+/// interrupted or failed.
 AIPluginGenerator::~AIPluginGenerator() = default;
 
+/// @brief Inject an HTTP POST function for invoking the LLM code-generation endpoint.
+///
+/// When set, generatePlugin() calls this function instead of performing a direct HTTP POST.
+/// This allows injecting custom transport logic (e.g., retry wrappers, mock implementations for testing).
+/// The callback receives the endpoint URL and full request body (JSON), and must return the raw HTTP response body.
+///
+/// Thread-safety: Not thread-safe for concurrent calls to setLlmHttpPostFn() and generatePlugin().
+///
+/// @param fn Callable with signature std::string(const std::string& endpoint, const std::string& body).
+///           Passing nullptr reverts to the default CURL implementation.
 void AIPluginGenerator::setLlmHttpPostFn(LlmHttpPostFn fn) {
     llm_http_post_fn_ = std::move(fn);
 }
 
+/// @brief Return a snapshot of the current observability counters.
+///
+/// Statistics accumulate since construction and are not reset by successive generatePlugin() calls.
+/// Callers should track deltas between snapshots to measure activity over time windows.
+///
+/// The counters are not atomic; if concurrent generatePlugin() calls are used, external
+/// synchronization is required for accurate measurement.
+///
+/// @return Stats structure with current counts of validation errors, transport errors, HTTP errors,
+///         parse errors, safety rejections, sandbox rejections, and successful generations.
 AIPluginGenerator::Stats AIPluginGenerator::getStats() const {
     Stats stats;
     stats.validation_errors = stat_validation_errors_;
@@ -164,6 +240,10 @@ AIPluginGenerator::Stats AIPluginGenerator::getStats() const {
 
 Result<void> AIPluginGenerator::validatePrompt(const PluginGenerationPrompt& prompt)
 {
+    /// @brief Validation limits for prompt fields.
+    /// - kMaxPromptListEntries: Maximum entries in required_capabilities or dependencies arrays (64).
+    /// - kMaxCapabilityTokenLen: Maximum length of a single capability token (128 chars).
+    /// - kMaxDependencyTokenLen: Maximum length of a single dependency token (256 chars).
     static constexpr std::size_t kMaxPromptListEntries = 64u;
     static constexpr std::size_t kMaxCapabilityTokenLen = 128u;
     static constexpr std::size_t kMaxDependencyTokenLen = 256u;
@@ -223,6 +303,59 @@ Result<void> AIPluginGenerator::validatePrompt(const PluginGenerationPrompt& pro
     return {};  // success
 }
 
+/// @brief Generate plugin code via the configured LLM endpoint with validation-first execution.
+///
+/// This is the primary public API. Execution follows a strict pipeline:
+///
+/// 1. **Input Validation**: Calls validatePrompt() to check description length, token list sizes,
+///    and token format. Returns on validation failure (increments stat_validation_errors).
+///
+/// 2. **Input Sanitization**: Strips ASCII control characters (<0x20) except tab, newline, CR
+///    from the description to prevent prompt injection.
+///
+/// 3. **Endpoint Allow-List Check**: If config.allowed_llm_endpoints is configured, verifies
+///    that config.llm_endpoint is in the allow-list before outbound calls.
+///
+/// 4. **Request Serialization**: Constructs JSON request from prompt fields. Fails if serialized
+///    request exceeds config.max_request_body_bytes.
+///
+/// 5. **Endpoint Invocation**: Performs up to 3 HTTP POST attempts with exponential backoff
+///    (100ms → 200ms → 400ms delay between retries). Retries only on transport errors; HTTP
+///    status errors are not retried. Uses either the injected endpoint_invoke_fn or default
+///    CURL implementation.
+///
+/// 6. **Response Size Validation**: Checks response body against config.max_response_body_bytes
+///    before parsing.
+///
+/// 7. **JSON Parsing**: Parses endpoint response. Wraps the generated plugin inside a
+///    "generated_plugin" key if needed. On JSON parse failure, increments stat_parse_errors.
+///
+/// 8. **Output Validation**: Validates LLM-generated fields:
+///    - Code fields: ≤ 1 MiB each
+///    - security_report: ≤ 64 KiB
+///    - name, version, description: reasonable length limits
+///    - build_dependencies: oversized entries silently dropped
+///
+/// 9. **Optional C1 Safety Gate**: If config.enable_c1_cai_safety_gate is true, evaluates
+///    the generated code via config.c1_cai_eval_fn. Rejects if score < config.c1_min_safety_score.
+///    Appends safety score to security_report.
+///
+/// 10. **Optional Sandbox Verification**: If config.enable_sandbox_gate is true, calls
+///     config.sandbox_verify_fn to verify generated artifacts. Rejects on verification failure.
+///
+/// 11. **Optional C2 Federated Telemetry**: If config.enable_c2_federated_telemetry is true,
+///     collects local metrics (code sizes, safety score) and forwards via config.c2_federated_telemetry_fn.
+///
+/// On any failure, returns Error with descriptive message and increments the appropriate error counter.
+/// On success, increments stat_successes and returns GeneratedPlugin.
+///
+/// Thread-safety: Not thread-safe for concurrent calls; callers must serialize access or create
+/// separate AIPluginGenerator instances per thread.
+///
+/// @param prompt Validated (caller is responsible) generation prompt with description, type,
+///               capabilities, dependencies, and optional LLM/security settings.
+/// @return Expected<GeneratedPlugin, Error>: on success, the generated plugin with code/manifest;
+///         on error, an Error with details of the failure point.
 Result<GeneratedPlugin> AIPluginGenerator::generatePlugin(
     const PluginGenerationPrompt& prompt)
 {
