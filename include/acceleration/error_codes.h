@@ -27,16 +27,20 @@ namespace themis {
 namespace acceleration {
 
 /**
- * Structured error codes for acceleration backends
+ * @brief Structured error codes for acceleration backends.
+ * 
+ * Defines a canonical set of error codes across all acceleration backends
+ * (CUDA, HIP, OpenCL, Vulkan) to enable uniform error handling and reporting.
  * 
  * Error codes are organized by category:
  * - 0: Success
- * - 100-199: Initialization errors
- * - 200-299: Resource management errors
- * - 300-399: Runtime/execution errors
- * - 400-499: Configuration errors
- * - 500-599: Kernel/shader errors
- * - 900-999: Unknown/generic errors
+ * - 100-199: Initialization errors (device discovery, driver, context creation)
+ * - 200-299: Resource management errors (memory allocation, buffer creation)
+ * - 300-399: Runtime/execution errors (kernel launch, synchronization, timeouts)
+ * - 400-499: Configuration errors (invalid parameters, feature support)
+ * - 500-599: Kernel/shader errors (compilation, linking, argument validation)
+ * - 600-699: Validation errors (input shape, dtype, batch size constraints)
+ * - 900-999: Unknown/generic errors (internal errors, not implemented)
  */
 enum class AccelerationErrorCode : uint32_t {
     // ========================================================================
@@ -185,7 +189,18 @@ enum class AccelerationErrorCode : uint32_t {
 };
 
 /**
- * Convert error code to its symbolic name (enum identifier string)
+ * @brief Convert an acceleration error code to its symbolic name.
+ *
+ * Provides a human-readable string representation of an AccelerationErrorCode
+ * enum value (e.g., "Success", "NoDevicesFound", "OutOfDeviceMemory").
+ * Useful for logging, debugging, and user-facing error messages.
+ *
+ * @param code The error code to convert.
+ * @return A null-terminated C string with the error code's symbolic name.
+ *         Returns "UnknownErrorCode" for unrecognized values.
+ *
+ * @note The returned pointer is valid for the lifetime of the program and
+ *       points to a string literal.
  */
 inline const char* errorCodeToString(AccelerationErrorCode code) {
     switch (code) {
@@ -286,14 +301,23 @@ inline const char* errorCodeToString(AccelerationErrorCode code) {
 }
 
 /**
- * Check if error code represents a success state
+ * @brief Check if an error code represents a success state.
+ *
+ * @param code The error code to check.
+ * @return true if the code is AccelerationErrorCode::Success, false otherwise.
  */
 inline bool isSuccess(AccelerationErrorCode code) {
     return code == AccelerationErrorCode::Success;
 }
 
 /**
- * Check if error code is an initialization error
+ * @brief Check if an error code is an initialization error (100-199).
+ *
+ * Initialization errors occur during device discovery, driver loading,
+ * context creation, or device enumeration.
+ *
+ * @param code The error code to check.
+ * @return true if the code is in the range [100, 200), false otherwise.
  */
 inline bool isInitializationError(AccelerationErrorCode code) {
     uint32_t c = static_cast<uint32_t>(code);
@@ -301,7 +325,13 @@ inline bool isInitializationError(AccelerationErrorCode code) {
 }
 
 /**
- * Check if error code is a resource error
+ * @brief Check if an error code is a resource error (200-299).
+ *
+ * Resource errors occur during memory allocation, deallocation, or buffer
+ * management operations.
+ *
+ * @param code The error code to check.
+ * @return true if the code is in the range [200, 300), false otherwise.
  */
 inline bool isResourceError(AccelerationErrorCode code) {
     uint32_t c = static_cast<uint32_t>(code);
@@ -309,7 +339,13 @@ inline bool isResourceError(AccelerationErrorCode code) {
 }
 
 /**
- * Check if error code is a runtime error
+ * @brief Check if an error code is a runtime error (300-399).
+ *
+ * Runtime errors occur during kernel execution, device synchronization,
+ * or timeout conditions.
+ *
+ * @param code The error code to check.
+ * @return true if the code is in the range [300, 400), false otherwise.
  */
 inline bool isRuntimeError(AccelerationErrorCode code) {
     uint32_t c = static_cast<uint32_t>(code);
@@ -317,7 +353,13 @@ inline bool isRuntimeError(AccelerationErrorCode code) {
 }
 
 /**
- * Check if error code is a configuration error
+ * @brief Check if an error code is a configuration error (400-499).
+ *
+ * Configuration errors occur when parameters are invalid, features are not
+ * supported, or backend initialization state is incorrect.
+ *
+ * @param code The error code to check.
+ * @return true if the code is in the range [400, 500), false otherwise.
  */
 inline bool isConfigurationError(AccelerationErrorCode code) {
     uint32_t c = static_cast<uint32_t>(code);
@@ -325,7 +367,13 @@ inline bool isConfigurationError(AccelerationErrorCode code) {
 }
 
 /**
- * Check if error code is a kernel/shader error
+ * @brief Check if an error code is a kernel/shader error (500-599).
+ *
+ * Kernel errors occur during shader/kernel compilation, linking, or when
+ * kernel arguments are invalid or not found.
+ *
+ * @param code The error code to check.
+ * @return true if the code is in the range [500, 600), false otherwise.
  */
 inline bool isKernelError(AccelerationErrorCode code) {
     uint32_t c = static_cast<uint32_t>(code);
@@ -333,7 +381,13 @@ inline bool isKernelError(AccelerationErrorCode code) {
 }
 
 /**
- * Check if error code is a validation error
+ * @brief Check if an error code is a validation error (600-699).
+ *
+ * Validation errors occur when input tensor shapes, data types, batch sizes,
+ * or numeric ranges are invalid or violate constraints.
+ *
+ * @param code The error code to check.
+ * @return true if the code is in the range [600, 700), false otherwise.
  */
 inline bool isValidationError(AccelerationErrorCode code) {
     uint32_t c = static_cast<uint32_t>(code);
