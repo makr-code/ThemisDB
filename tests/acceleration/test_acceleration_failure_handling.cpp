@@ -132,6 +132,22 @@ public:
         return {};
     }
 
+    // Additional required pure virtual method implementations
+    PartialBatchResult batchKnnSearchSafe(
+        const float* queries,
+        size_t numQueries,
+        size_t dim,
+        const float* vectors,
+        size_t numVectors,
+        size_t k,
+        bool useL2 = true) override {
+        
+        PartialBatchResult result;
+        result.successCount = numQueries;
+        result.failureCount = 0;
+        return result;
+    }
+
 private:
     FailureScenario scenario_;
     mutable std::atomic<int> call_count_;
