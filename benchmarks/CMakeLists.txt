@@ -4675,3 +4675,13 @@ if(TARGET bench_whisper_transcription)
         THEMIS_PLUGIN_EXPORTS
     )
 endif()
+
+# ============================================================================
+# API Module Benchmarks (Q3 2026 transport + Phase 5 release gates)
+# ============================================================================
+
+# Q3 2026 transport hot-path benchmarks
+themis_add_standard_benchmark(bench_api_transport bench_api_transport.cpp)
+
+# Phase 5 release-gate benchmarks (GATE-API-01..06 + p95/p99 envelopes)
+themis_add_standard_benchmark(bench_api_release_gates bench_api_release_gates.cpp)
