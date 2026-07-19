@@ -1,12 +1,13 @@
 /**
  * @file geo_index_hooks.h
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief Integration hooks for geospatial index operations.
+ *
+ * @details Provides callback interfaces for geospatial query optimization, index
+ * creation/deletion, and spatial predicate evaluation hooks.
+ *
  * @version 0.0.47
  * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 86/100
- * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
  */
 
 /*

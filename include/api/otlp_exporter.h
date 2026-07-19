@@ -1,12 +1,58 @@
 /**
  * @file otlp_exporter.h
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief Asynchronous OpenTelemetry Protocol (OTLP/HTTP) span export.
+ *
+ * @details Provides a background-threaded span exporter that batches and sends
+ * request traces to an OpenTelemetry-compatible collector via HTTP POST,
+ * following the OTLP JSON trace format.
+ *
+ * Core components:
+ *  - `OtlpExporterConfig`: Configuration for endpoint, retry logic, batch sizes
+ *  - `SpanData`: Lightweight span descriptor (trace ID, span ID, name, timestamps, attributes)
+ *  - `OtlpExporter`: Producer/consumer pipeline with dedicated background flush thread
+ *
+ * Thread-safety and lifecycle:
+ *  - `enqueue(SpanData)` is called from HTTP-handling threads (fast, mostly lock-free)
+ *  - Background thread wakes periodically (flush_interval_ms) or when queue size exceeds batch_size
+ *  - Batches are serialized to OTLP JSON and POSTed to the configured collector
+ *  - On transient failures (HTTP 429/503, network errors), exponential backoff retries
+ *    occur before the batch is dropped
+ *  - `start()` launches the background thread; `stop()` flushes remaining spans and joins
+ *
+ * Observability guarantees:
+ *  - Span export is bounded: max_queue_size prevents runaway memory accumulation
+ *  - Export overhead is isolated to background thread (no critical-path latency)
+ *  - Failed batches are logged but do not block ongoing span collection
+ *  - Compatible with any OpenTelemetry collector that accepts OTLP/JSON (Jaeger, Zipkin, etc.)
+ *
+ * ### Usage
+ * ```cpp
+ * OtlpExporterConfig config;
+ * config.endpoint = "http://jaeger:4318/v1/traces";
+ * config.batch_size = 128;
+ * config.flush_interval_ms = 5000;
+ *
+ * OtlpExporter exporter(config);
+ * exporter.start();
+ *
+ * // From HTTP handler threads:
+ * SpanData span;
+ * span.trace_id = correlation_id;
+ * span.name = "HTTP GET /v1/entity";
+ * span.start_time_unix_nano = start_ns;
+ * span.end_time_unix_nano = end_ns;
+ * span.status_code = 1; // OK
+ * exporter.enqueue(span);
+ *
+ * // At shutdown:
+ * exporter.stop(); // flushes and joins background thread
+ * ```
+ *
  * @version 0.0.13
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 86/100
  * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
  */
 
 /*

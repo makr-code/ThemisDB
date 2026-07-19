@@ -1,12 +1,59 @@
 /**
  * @file graphql_cache.h
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief LRU cache with time-based expiration for GraphQL query plans and results.
+ *
+ * @details Generic thread-safe cache template for caching parsed GraphQL queries,
+ * execution plans, and results to reduce repeated parsing/compilation overhead.
+ *
+ * Core components:
+ *  - `Cache<T>`: Template cache with configurable size, TTL, and LRU eviction
+ *  - `CacheEntry`: Entry metadata (creation time, access count, value)
+ *
+ * Eviction strategy:
+ *  - LRU (Least Recently Used): doubly-linked list maintains access order
+ *  - Time-based: entries expire after TTL and are removed on next access
+ *  - On insertion: if at capacity, least-recently-used entry is evicted
+ *  - Automatic expiration: on each get() call, stale entries are removed
+ *
+ * Performance characteristics:
+ *  - `get()`: O(1) amortized (hash lookup + LRU update)
+ *  - `put()`: O(1) amortized (hash insert + LRU link)
+ *  - `clear()`: O(n) where n = number of entries
+ *  - Memory: O(n) where n = max_size
+ *
+ * Design properties:
+ *  - Thread-safe via mutex (suitable for moderate contention)
+ *  - Garbage collection integrated (stale entries cleaned on access)
+ *  - Statistics tracked (hits, misses, evictions)
+ *  - Generic over value type T (queries, execution plans, JSON results, etc.)
+ *
+ * ### Thread safety
+ * `Cache<T>` is fully thread-safe via internal mutex. Concurrent get/put/clear
+ * calls from multiple threads are safe; all operations are atomic with respect
+ * to the cache state.
+ *
+ * ### Usage
+ * ```cpp
+ * // Cache parsed GraphQL queries (TTL = 5 minutes, max 1000 entries)
+ * Cache<graphql::Operation> query_cache(1000, std::chrono::seconds(300));
+ *
+ * // Cache lookup
+ * auto query_key = hashQuery(query_string);
+ * if (auto cached = query_cache.get(query_key)) {
+ *     // Use cached parsed operation
+ *     operation = *cached;
+ * } else {
+ *     // Parse query and cache result
+ *     operation = GraphQLParser::parse(query_string);
+ *     query_cache.put(query_key, operation);
+ * }
+ * ```
+ *
  * @version 0.0.47
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 86/100
  * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
  */
 
 /*

@@ -1,12 +1,13 @@
 /**
  * @file themisdb_grpc_service_factory.h
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief Factory for creating and configuring gRPC service instances.
+ *
+ * @details Provides factory methods to construct gRPC service implementations
+ * with proper configuration, dependency injection, and lifecycle management.
+ *
  * @version 0.0.12
  * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 86/100
- * @note Gap Summary: total=4; TODO=1, Stub=1, Unimpl=1, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
  */
 
 /*

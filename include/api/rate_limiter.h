@@ -1,12 +1,46 @@
 /**
  * @file rate_limiter.h
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief Token bucket rate limiting for GraphQL and API endpoints.
+ *
+ * @details Implements the token bucket algorithm to enforce per-key quotas
+ * for API requests, preventing resource exhaustion and managing traffic burst patterns.
+ *
+ * Core components:
+ *  - `RateLimiter::Config`: Configurable capacity, refill rate, and time window
+ *  - `RateLimiter::Bucket`: Per-key token state with automatic expiration
+ *  - `RateLimiter::allow()`: Check and consume quota for a given key
+ *
+ * Algorithm:
+ *  - Each key maintains a floating-point token count (initially = capacity)
+ *  - On each request, tokens are refilled based on elapsed time and refill_rate
+ *  - If available tokens ≥ requested cost, the request is allowed and tokens are deducted
+ *  - Idle buckets (fully recharged, no activity for 2× time window) are evicted automatically
+ *
+ * Quota semantics:
+ *  - Capacity = maximum burst size (e.g., 100 requests)
+ *  - Refill rate = tokens/second (e.g., 10 tokens/sec = 10 req/s average)
+ *  - Variable cost = number of tokens consumed per request (default: 1)
+ *
+ * ### Thread safety
+ * - All public methods are thread-safe via internal mutex
+ * - Statistics (allowed_requests, rejected_requests) are updated atomically
+ * - Safe for concurrent calls from multiple threads
+ *
+ * ### Usage
+ * ```cpp
+ * RateLimiter limiter(RateLimiter::Config::defaults());
+ * if (limiter.allow(user_id, 1)) {
+ *     // Process request
+ * } else {
+ *     // Return ERR_API_RATE_LIMIT (429 Too Many Requests)
+ * }
+ * ```
+ *
  * @version 0.0.47
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 86/100
  * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
  */
 
 /*

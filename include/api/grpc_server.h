@@ -1,12 +1,58 @@
 /**
  * @file grpc_server.h
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief gRPC API server for ThemisDB.
+ *
+ * @details Provides HTTP/2 + Protocol Buffer transport for database operations,
+ * running in parallel with the existing Beast HTTP/REST server.
+ *
+ * Core components:
+ *  - `GrpcServerConfig`: Configuration for host, port, TLS, max message size
+ *  - `GrpcApiServer`: Lifecycle management (initialize, start, stop)
+ *
+ * Architecture:
+ *  - Reuses existing `ThemisCoreServiceImpl` — no business-logic duplication
+ *  - TLS credentials sourced from same cert/key pair as REST server
+ *  - gRPC reflection exposed in debug builds only (prevents schema leakage in production)
+ *  - Independent of HTTP server lifecycle (can start/stop separately)
+ *
+ * Design constraints (from FUTURE_ENHANCEMENTS.md):
+ *  - Fail-closed guards (QW-42): all config parameters validated before initialization
+ *  - Port must be in [1, 65535]; max_message_size_bytes clamped to 100 MB
+ *  - Host field must be non-empty and <= 256 chars (prevents resource exhaustion)
+ *  - TLS: if enabled, cert_path and key_path must be non-empty
+ *
+ * ### Lifecycle
+ * ```cpp
+ * GrpcApiServer srv;
+ * GrpcServerConfig cfg;
+ * cfg.port = 50051;
+ * cfg.tls_enabled = true;
+ * cfg.tls_cert_path = "/etc/themis/server.pem";
+ * cfg.tls_key_path = "/etc/themis/server-key.pem";
+ *
+ * if (!srv.initialize(cfg)) {
+ *     // Configuration validation failed (fail-closed)
+ *     return error;
+ * }
+ * srv.registerService(&my_core_service);
+ * if (!srv.start()) {
+ *     // Failed to bind or start listening
+ *     return error;
+ * }
+ * // ... serve ...
+ * srv.stop();  // Graceful shutdown
+ * ```
+ *
+ * ### Thread safety
+ * - `initialize()`, `registerService()`, `start()`, `stop()` should only be called
+ *   from a single initialization thread (not concurrent safe)
+ * - Service implementation callbacks may be invoked concurrently from the gRPC thread pool
+ *
  * @version 0.0.15
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 85/100
  * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
  */
 
 /*
