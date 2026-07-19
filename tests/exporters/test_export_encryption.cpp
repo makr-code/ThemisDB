@@ -22,6 +22,7 @@
 #include "security/encryption.h"
 #include "storage/base_entity.h"
 #include "utils/audit_logger.h"
+#include "themis/edition_manager.h"
 #include "utils/pki_client.h"
 #include <ctime>
 #include <filesystem>
@@ -913,6 +914,10 @@ using namespace themis::governance;  // PolicyEngine, ModelGovernancePolicy
 static std::shared_ptr<themis::utils::AuditLogger> makeAuditLogger(const std::string& log_path) {
     auto kp = std::make_shared<MockKeyProvider>();
     kp->createKey("audit_key", 1);
+    std::string edition_err;
+    if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+        return std::make_shared<themis::utils::AuditLogger>(nullptr, std::make_shared<themis::utils::VCCPKIClient>(themis::utils::PKIConfig{}), themis::utils::AuditLoggerConfig{});
+    }
     auto enc = std::make_shared<themis::FieldEncryption>(kp);
     themis::utils::PKIConfig pki_cfg;
     pki_cfg.service_id = "test";

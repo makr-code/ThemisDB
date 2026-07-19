@@ -167,6 +167,12 @@ TEST_F(RBACPolicyTest, AnalystCannotWrite) {
 class SecurityLayerBuilderTest : public ::testing::Test {
 protected:
     SecurityLayerBuilder builder_;
+    void SetUp() override {
+        std::string edition_err;
+        if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+            GTEST_SKIP() << "Field encryption unavailable: " << edition_err;
+        }
+    }
 };
 
 TEST_F(SecurityLayerBuilderTest, StandardBuilderWorks) {
@@ -237,6 +243,10 @@ TEST_F(SecurityLayerBuilderTest, BuilderIsChainable) {
  * @brief Integration test: Full security layer
  */
 TEST(SecurityLayerIntegrationTest, FullSecurityLayerWorks) {
+    std::string edition_err;
+    if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+        GTEST_SKIP() << "Field encryption unavailable: " << edition_err;
+    }
     // Build complete security layer
     EncryptionConfig enc_config;
     enc_config.encrypted_fields.insert("ssn");

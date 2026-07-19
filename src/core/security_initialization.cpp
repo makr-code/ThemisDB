@@ -25,6 +25,7 @@
 #include <stdexcept>
 #include <nlohmann/json.hpp>
 #include "themis/edition_manager.h"
+#include <spdlog/spdlog.h>
 
 namespace themis {
 

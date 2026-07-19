@@ -326,6 +326,10 @@ protected:
     std::shared_ptr<MockKeyProvider> mock_provider_;
     
     void SetUp() override {
+        std::string edition_err;
+        if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+            GTEST_SKIP() << "Field encryption unavailable: " << edition_err;
+        }
         mock_provider_ = std::make_shared<MockKeyProvider>();
         mock_provider_->createKey("user_pii", 1);
         mock_provider_->createKey("user_sensitive", 1);

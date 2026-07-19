@@ -7,6 +7,7 @@
 #include "storage/base_entity.h"
 #include "storage/storage_engine.h"
 #include "themis/edition.h"
+#include "themis/edition_manager.h"
 
 #include <chrono>
 #include <filesystem>

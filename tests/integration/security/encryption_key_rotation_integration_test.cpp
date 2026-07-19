@@ -23,6 +23,7 @@
 #include "security/encryption.h"
 #include "security/key_provider.h"
 #include "storage/rocksdb_wrapper.h"
+#include "themis/edition_manager.h"
 #include <gtest/gtest.h>
 #include <nlohmann/json.hpp>
 #include <algorithm>
@@ -175,6 +176,12 @@ protected:
         // Add initial key v1
         auto key_v1 = data_gen_->GenerateEncryptionKey(32);
         key_provider_->addKey("test_key", 1, key_v1);
+        
+        // Skip entire integration test if field_encryption not available
+        std::string edition_err;
+        if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+            GTEST_SKIP() << "Field encryption unavailable: " << edition_err;
+        }
     }
     
     std::unique_ptr<TestDataGenerator> data_gen_;

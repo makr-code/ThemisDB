@@ -23,6 +23,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include "utils/audit_logger.h"
 #include "utils/hkdf_helper.h"
+#include "themis/edition_manager.h"
 
 #include <openssl/rand.h>
 #include <openssl/evp.h>
@@ -91,6 +92,11 @@ std::vector<uint8_t> LEKManager::deriveKEK() {
 }
 
 void LEKManager::ensureLEKExists(const std::string& date_str) {
+    // Ensure feature is available for field encryption
+    std::string edition_err;
+    if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+        throw std::runtime_error("Field encryption unavailable: " + edition_err);
+    }
     auto key_id = lekKeyId(date_str);
     
     // Check if already in KeyProvider

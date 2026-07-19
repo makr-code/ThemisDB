@@ -154,7 +154,11 @@ TEST_F(EntityApiRaidIntegrationTest, RaidDisabledByDefault) {
     req.set(boost::beast::http::field::content_type, "application/json");
     req.body() = R"({"key":"users:alice","blob":"{\"name\":\"Alice\",\"age\":30}"})";
     req.prepare_payload();
-    
+                std::string edition_err;
+                if (!themis::edition::EditionManager::instance().isFeatureAvailable("field_encryption", edition_err)) {
+                    GTEST_SKIP() << "Field encryption unavailable: " << edition_err;
+                }
+                field_encryption_ = std::make_shared<FieldEncryption>(key_provider_);
     // Execute request
     auto response = handler.handlePut(req);
     
