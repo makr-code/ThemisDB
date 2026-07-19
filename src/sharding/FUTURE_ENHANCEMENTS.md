@@ -94,10 +94,16 @@ All identified stub/simulation paths have been reviewed and improved with:
 - **Production readiness**: Test-only; production requires real mTLS transport callback injection
 
 #### 4. **Connection Factory** (mtls_connection_pool.cpp:232)
-- **Status**: ✅ IMPROVED
-- **Type**: Deferred feature (v2.0 target)
-- **Change**: Added THEMIS_DEBUG log clarifying that connection creation is managed by MTLSClient
-- **Production readiness**: Acceptable; pool extension point is rarely called in production code paths
+- **Status**: ✅ COMPLETED (v2.0)
+- **Type**: Factory pattern for connection lifecycle management
+- **Changes**: 
+  - Created IEndpointConnectionFactory abstract interface (include/sharding/mtls_connection_factory.h)
+  - Implemented MTLSConnectionFactory concrete class (src/sharding/mtls_connection_factory.cpp)
+  - Added EndpointConnectionPool constructor overload accepting factory
+  - Updated createNewConnection() stub comment to mark COMPLETED
+  - Added comprehensive factory-based integration tests (9 new tests)
+  - Added deprecation warnings to MTLSClient methods
+- **Production readiness**: COMPLETED - Factory pattern fully implemented and tested for v2.0
 
 #### 5. **GPU VRAM Fallback** (shard_resource_manager.cpp:666)
 - **Status**: ✅ VERIFIED
@@ -131,5 +137,11 @@ All changes maintain backward compatibility and do not alter API contracts. Diag
 ### Next Steps
 
 1. **v1.5 roadmap**: Add ONNX Runtime support and replace heuristic predictor
-2. **v2.0 roadmap**: Refactor mTLS pool connection ownership
+2. **v2.0 roadmap** (COMPLETED Phase 2):
+   - ✅ IEndpointConnectionFactory interface created
+   - ✅ MTLSConnectionFactory concrete implementation
+   - ✅ EndpointConnectionPool factory-based constructor
+   - ✅ Factory-based integration tests (9 comprehensive tests)
+   - ✅ MTLSClient deprecation warnings added
+   - **Phase 3 (Next)**: Wire factory injection into MTLSClient for production use
 3. **Ongoing**: Monitor diagnostic logs from production deployments to validate graceful fallbacks

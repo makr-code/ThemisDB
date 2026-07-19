@@ -8,7 +8,7 @@
 
 /**
  * @file test_nli_verifier.cpp
- * @brief Unit tests for NLI Faithfulness Verifier
+ * @brief Unit tests for NLI Faithfulness Verifier (v1.5 with ONNX support)
  */
 
 #include <gtest/gtest.h>
@@ -20,11 +20,10 @@ class NLIVerifierTest : public ::testing::Test {
 protected:
     void SetUp() override {
         // Default configuration
-        config_.max_sequence_length = 512;
         config_.entailment_threshold = 0.7;
-        config_.enable_caching = true;
-        config_.num_threads = 4;
-        config_.use_gpu = false;
+        config_.use_onnx = true;
+        config_.fallback_to_heuristic = true;
+        config_.log_inference_mode = false;
     }
     
     NLIFaithfulnessVerifier::Config config_;
@@ -42,6 +41,369 @@ TEST_F(NLIVerifierTest, DefaultConstructor) {
 TEST_F(NLIVerifierTest, ConfigConstructor) {
     NLIFaithfulnessVerifier verifier(config_);
     EXPECT_TRUE(verifier.isReady());
+}
+
+// ═══════════════════════════════════════════════════════════
+// ONNX Configuration Tests (Phase 1 v1.5)
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(NLIVerifierTest, DefaultOnnxConfig) {
+    NLIFaithfulnessVerifier verifier;
+    auto cfg = verifier.getConfig();
+    
+    EXPECT_TRUE(cfg.use_onnx);
+    EXPECT_TRUE(cfg.fallback_to_heuristic);
+    EXPECT_EQ(cfg.onnx_inference_timeout_ms, 500);
+    EXPECT_EQ(cfg.onnx_model_path, "roberta-large-mnli");
+    EXPECT_EQ(cfg.onnx_tokenizer_path, "tokenizer.json");
+}
+
+TEST_F(NLIVerifierTest, DisableOnnxUsesHeuristic) {
+    config_.use_onnx = false;
+    NLIFaithfulnessVerifier verifier(config_);
+    
+    std::string claim = "Paris is the capital of France";
+    std::string document = "Paris is the capital of France and has a population of about 2 million.";
+    
+    auto result = verifier.checkEntailment(document, claim);
+    
+    EXPECT_GE(result.entailment_score, 0.0);
+    EXPECT_LE(result.entailment_score, 1.0);
+    EXPECT_GT(result.entailment_score, 0.5);
+}
+
+TEST_F(NLIVerifierTest, OnnxConfigWithCustomPath) {
+    config_.onnx_model_path = "/custom/path/model.onnx";
+    config_.onnx_tokenizer_path = "/custom/path/tokenizer.json";
+    config_.onnx_inference_timeout_ms = 1000;
+    
+    NLIFaithfulnessVerifier verifier(config_);
+    auto cfg = verifier.getConfig();
+    
+    EXPECT_EQ(cfg.onnx_model_path, "/custom/path/model.onnx");
+    EXPECT_EQ(cfg.onnx_tokenizer_path, "/custom/path/tokenizer.json");
+    EXPECT_EQ(cfg.onnx_inference_timeout_ms, 1000);
+}
+
+TEST_F(NLIVerifierTest, FallbackToHeuristicEnabled) {
+    config_.fallback_to_heuristic = true;
+    NLIFaithfulnessVerifier verifier(config_);
+    
+    auto cfg = verifier.getConfig();
+    EXPECT_TRUE(cfg.fallback_to_heuristic);
+}
+
+TEST_F(NLIVerifierTest, FallbackToHeuristicDisabled) {
+    config_.fallback_to_heuristic = false;
+    NLIFaithfulnessVerifier verifier(config_);
+    
+    auto cfg = verifier.getConfig();
+    EXPECT_FALSE(cfg.fallback_to_heuristic);
+}
+
+// ═══════════════════════════════════════════════════════════
+// Basic Verification Tests
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(NLIVerifierTest, CheckEntailment_HighOverlap) {
+    NLIFaithfulnessVerifier verifier(config_);
+    
+    std::string premise = "Paris is the capital of France and has a population of about 2 million.";
+    std::string hypothesis = "Paris is the capital of France";
+    
+    auto result = verifier.checkEntailment(premise, hypothesis);
+    
+    EXPECT_GE(result.entailment_score, 0.0);
+    EXPECT_LE(result.entailment_score, 1.0);
+    EXPECT_GE(result.neutral_score, 0.0);
+    EXPECT_LE(result.neutral_score, 1.0);
+    EXPECT_GE(result.contradiction_score, 0.0);
+    EXPECT_LE(result.contradiction_score, 1.0);
+    
+    // Probabilities should sum to approximately 1.0
+    double sum = result.entailment_score + result.neutral_score + result.contradiction_score;
+    EXPECT_NEAR(sum, 1.0, 0.01);
+    
+    // High overlap should lead to high entailment probability
+    EXPECT_GT(result.entailment_score, 0.5);
+}
+
+TEST_F(NLIVerifierTest, CheckEntailment_NoSupport) {
+    NLIFaithfulnessVerifier verifier(config_);
+    
+    std::string premise = "Paris is the capital of France and has a population of about 2 million.";
+    std::string hypothesis = "The moon is made of cheese";
+    
+    auto result = verifier.checkEntailment(premise, hypothesis);
+    
+    // No overlap should lead to low entailment
+    EXPECT_LT(result.entailment_score, 0.5);
+}
+
+TEST_F(NLIVerifierTest, CheckEntailment_PartialMatch) {
+    NLIFaithfulnessVerifier verifier(config_);
+    
+    std::string premise = "Paris is the capital of France. The Eiffel Tower is located in Paris.";
+    std::string hypothesis = "Paris has many tourists visiting the Eiffel Tower";
+    
+    auto result = verifier.checkEntailment(premise, hypothesis);
+    
+    // Partial overlap - should be somewhere in the middle
+    EXPECT_GT(result.entailment_score, 0.2);
+    EXPECT_LT(result.entailment_score, 0.95);
+}
+
+TEST_F(NLIVerifierTest, CheckEntailment_EmptyHypothesis) {
+    NLIFaithfulnessVerifier verifier(config_);
+    
+    auto result = verifier.checkEntailment("Some document text", "");
+    
+    EXPECT_EQ(result.label, NLILabel::NEUTRAL);
+}
+
+TEST_F(NLIVerifierTest, CheckEntailment_EmptyPremise) {
+    NLIFaithfulnessVerifier verifier(config_);
+    
+    auto result = verifier.checkEntailment("", "Some claim");
+    
+    // Empty premise should not entail anything
+    EXPECT_NE(result.label, NLILabel::ENTAILMENT);
+}
+
+// ═══════════════════════════════════════════════════════════
+// ONNX vs Heuristic Inference Mode Tests (Phase 1 v1.5)
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(NLIVerifierTest, InferenceWithLogging) {
+    config_.log_inference_mode = true;
+    config_.use_onnx = false;  // Use heuristic for predictable logging
+    
+    NLIFaithfulnessVerifier verifier(config_);
+    
+    std::string premise = "Paris is the capital of France";
+    std::string hypothesis = "Paris is the capital";
+    
+    // Should not crash with logging enabled
+    auto result = verifier.checkEntailment(premise, hypothesis);
+    EXPECT_GE(result.entailment_score, 0.0);
+    EXPECT_LE(result.entailment_score, 1.0);
+}
+
+TEST_F(NLIVerifierTest, InferenceWithoutLogging) {
+    config_.log_inference_mode = false;
+    
+    NLIFaithfulnessVerifier verifier(config_);
+    
+    std::string premise = "Paris is the capital of France";
+    std::string hypothesis = "Paris is the capital";
+    
+    // Should work normally with logging disabled
+    auto result = verifier.checkEntailment(premise, hypothesis);
+    EXPECT_GE(result.entailment_score, 0.0);
+    EXPECT_LE(result.entailment_score, 1.0);
+}
+
+// ═══════════════════════════════════════════════════════════
+// End-to-End Verification Tests
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(NLIVerifierTest, VerifyAnswer_SupportedClaims) {
+    NLIFaithfulnessVerifier verifier(config_);
+    
+    std::string answer = "Paris is the capital of France. It has many tourists.";
+    std::vector<std::pair<std::string, std::string>> documents = {
+        {"doc1", "Paris is the capital of France with a population of 2 million."},
+        {"doc2", "Paris attracts millions of tourists every year."}
+    };
+    
+    auto result = verifier.verify(answer, documents);
+    
+    EXPECT_GE(result.faithfulness_score, 0.0);
+    EXPECT_LE(result.faithfulness_score, 1.0);
+    EXPECT_GT(result.total_claims, 0);
+}
+
+TEST_F(NLIVerifierTest, VerifyAnswer_NoDocuments) {
+    NLIFaithfulnessVerifier verifier(config_);
+    
+    std::string answer = "Paris is the capital of France.";
+    std::vector<std::pair<std::string, std::string>> documents;
+    
+    auto result = verifier.verify(answer, documents);
+    
+    EXPECT_EQ(result.faithfulness_score, 0.0);
+    EXPECT_FALSE(result.is_faithful);
+}
+
+TEST_F(NLIVerifierTest, VerifyAnswer_EmptyAnswer) {
+    NLIFaithfulnessVerifier verifier(config_);
+    
+    std::string answer = "";
+    std::vector<std::pair<std::string, std::string>> documents = {
+        {"doc1", "Some document"}
+    };
+    
+    auto result = verifier.verify(answer, documents);
+    
+    EXPECT_EQ(result.faithfulness_score, 0.0);
+    EXPECT_FALSE(result.is_faithful);
+}
+
+// ═══════════════════════════════════════════════════════════
+// Performance Tests (Latency Target: <100ms per prediction)
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(NLIVerifierTest, Performance_InferenceLatency) {
+    config_.use_onnx = false;  // Use heuristic for deterministic latency
+    NLIFaithfulnessVerifier verifier(config_);
+    
+    std::string premise = "Paris is the capital of France";
+    std::string hypothesis = "Paris is the capital";
+    
+    auto start = std::chrono::steady_clock::now();
+    auto result = verifier.checkEntailment(premise, hypothesis);
+    auto end = std::chrono::steady_clock::now();
+    
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    
+    // Heuristic inference should be <100ms
+    EXPECT_LT(duration.count(), 100);
+}
+
+TEST_F(NLIVerifierTest, Performance_BulkInference) {
+    config_.use_onnx = false;
+    NLIFaithfulnessVerifier verifier(config_);
+    
+    std::string document = "Paris is the capital of France, located in Western Europe. "
+                          "The Eiffel Tower is a famous landmark in Paris.";
+    std::vector<std::pair<std::string, std::string>> documents = {
+        {"doc1", document}
+    };
+    
+    std::string answer = "Paris is the capital. The Eiffel Tower is in Paris. France is in Europe.";
+    
+    auto start = std::chrono::steady_clock::now();
+    auto result = verifier.verify(answer, documents);
+    auto end = std::chrono::steady_clock::now();
+    
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    
+    // Multiple inferences should complete reasonably
+    EXPECT_LT(duration.count(), 500);
+}
+
+// ═══════════════════════════════════════════════════════════
+// Configuration Management Tests
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(NLIVerifierTest, GetConfig) {
+    NLIFaithfulnessVerifier verifier(config_);
+    auto retrieved_config = verifier.getConfig();
+    
+    EXPECT_EQ(retrieved_config.entailment_threshold, config_.entailment_threshold);
+    EXPECT_EQ(retrieved_config.use_onnx, config_.use_onnx);
+    EXPECT_EQ(retrieved_config.fallback_to_heuristic, config_.fallback_to_heuristic);
+}
+
+TEST_F(NLIVerifierTest, SetConfig) {
+    NLIFaithfulnessVerifier verifier;
+    
+    config_.entailment_threshold = 0.85;
+    config_.use_onnx = false;
+    verifier.setConfig(config_);
+    
+    auto retrieved_config = verifier.getConfig();
+    EXPECT_EQ(retrieved_config.entailment_threshold, 0.85);
+    EXPECT_FALSE(retrieved_config.use_onnx);
+}
+
+// ═══════════════════════════════════════════════════════════
+// Model Loading Tests (Phase 1 v1.5)
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(NLIVerifierTest, ModelLoadingInitialized) {
+    config_.use_onnx = true;
+    NLIFaithfulnessVerifier verifier(config_);
+    
+    // Should be ready even without explicit model load
+    // (heuristic fallback is available)
+    EXPECT_TRUE(verifier.isReady());
+}
+
+TEST_F(NLIVerifierTest, LoadModelWithFallback) {
+    config_.use_onnx = true;
+    config_.fallback_to_heuristic = true;
+    NLIFaithfulnessVerifier verifier(config_);
+    
+    // Try to load a model (will fail but should fallback gracefully)
+    verifier.loadModel("/nonexistent/model.onnx");
+    
+    // Should still be usable via heuristic
+    EXPECT_TRUE(verifier.isReady());
+    
+    auto result = verifier.checkEntailment("Paris is the capital", "Paris is capital");
+    EXPECT_GE(result.entailment_score, 0.0);
+    EXPECT_LE(result.entailment_score, 1.0);
+}
+
+TEST_F(NLIVerifierTest, OnnxDisabledUsesHeuristicDirect) {
+    config_.use_onnx = false;
+    NLIFaithfulnessVerifier verifier(config_);
+    
+    // loadModel should still work but use heuristic
+    verifier.loadModel("any_model_name");
+    EXPECT_TRUE(verifier.isReady());
+    
+    auto result = verifier.checkEntailment("Test premise", "Test hypothesis");
+    EXPECT_GE(result.entailment_score, 0.0);
+}
+
+// ═══════════════════════════════════════════════════════════
+// Edge Cases
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(NLIVerifierTest, VeryLongTexts) {
+    NLIFaithfulnessVerifier verifier(config_);
+    
+    std::string long_premise = std::string(5000, 'a');
+    std::string long_hypothesis = std::string(1000, 'a');
+    
+    auto result = verifier.checkEntailment(long_premise, long_hypothesis);
+    
+    EXPECT_GE(result.entailment_score, 0.0);
+    EXPECT_LE(result.entailment_score, 1.0);
+}
+
+TEST_F(NLIVerifierTest, SpecialCharacters) {
+    NLIFaithfulnessVerifier verifier(config_);
+    
+    std::string premise = "Document with special: €£¥ 😀 and ñáéíóú";
+    std::string hypothesis = "Special characters in text";
+    
+    auto result = verifier.checkEntailment(premise, hypothesis);
+    
+    EXPECT_GE(result.entailment_score, 0.0);
+    EXPECT_LE(result.entailment_score, 1.0);
+}
+
+TEST_F(NLIVerifierTest, MultipleConsecutiveInferences) {
+    config_.use_onnx = false;
+    NLIFaithfulnessVerifier verifier(config_);
+    
+    std::string premise = "Paris is the capital of France";
+    std::string hypothesis = "Paris is capital";
+    
+    // Multiple consecutive inferences should work
+    for (int i = 0; i < 10; ++i) {
+        auto result = verifier.checkEntailment(premise, hypothesis);
+        EXPECT_GE(result.entailment_score, 0.0);
+        EXPECT_LE(result.entailment_score, 1.0);
+    }
+}
+
+int main(int argc, char** argv) {
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
 }
 
 // ═══════════════════════════════════════════════════════════

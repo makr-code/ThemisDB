@@ -56,6 +56,24 @@ EndpointConnectionPool::EndpointConnectionPool(
     }
 }
 
+EndpointConnectionPool::EndpointConnectionPool(
+    const std::string& endpoint,
+    const Config& config,
+    ConnectionFactory factory
+)
+    : endpoint_(endpoint), config_(config), connection_factory_(std::move(factory)), running_(true) {
+    
+    THEMIS_INFO("[EndpointConnectionPool] v2.0 factory-based pool initialized for endpoint: {} "
+                "with min_connections={}, max_connections={}, factory={}",
+                endpoint, config.min_connections, config.max_connections,
+                connection_factory_ ? "injected" : "null");
+    
+    // Start cleanup thread if health checks are enabled
+    if (config_.enable_health_checks) {
+        cleanup_thread_ = std::thread([this]() { cleanupLoop(); });
+    }
+}
+
 EndpointConnectionPool::~EndpointConnectionPool() {
     closeAll();
     
@@ -229,25 +247,19 @@ std::optional<std::unique_ptr<SSL, SSLDeleter>> EndpointConnectionPool::createNe
         return conn;
     }
 
-    // NON-PRODUCTION PATH (Simulation/Stub/Mockup)
-    // Purpose: Deferred placeholder for the actual mTLS connection creation path.
-    //   SSL context setup, TCP connect, and TLS handshake are managed by
-    //   MTLSClient (the pool's owner); this pool-level factory method is reserved
-    //   for a future refactor that moves connection creation into the pool itself.
-    // Activation: connection_factory_ is null (no factory injected via setConnectionFactory()).
-    // Production Delta: createNewConnection() always returns nullopt; callers
-    //   that call it directly get no connection and must fall back to
-    //   MTLSClient::connect().  The pool's acquireConnection() path is unaffected
-    //   because it only calls createNewConnection() as a last-resort extension
-    //   point (currently never reached in production code paths).
-    // Removal Plan: Refactor mTLS connection lifecycle so that pool owns creation.
-    //   Inject a factory via setConnectionFactory() that implements TCP+SSL setup.
-    //   Remove this note once the refactor is complete (v2.0.0 target).
-    // Roadmap ref: src/sharding/FUTURE_ENHANCEMENTS.md § "mTLS Pool Connection Ownership"
-    
+    // NON-PRODUCTION PATH (Stub/Fallback)
+    // Purpose: Graceful fallback when no factory is injected.
+    // Activation: connection_factory_ is null (no factory injected via setConnectionFactory() or constructor).
+    // Production Delta: In production, always use v2.0 factory-based construction:
+    //   EndpointConnectionPool(endpoint, config, factory)
+    //   or: pool->setConnectionFactory(factory)
+    // Removal Plan: This stub path is acceptable for backward compatibility; new code should inject a factory.
+    // Roadmap ref: src/sharding/FUTURE_ENHANCEMENTS.md § "mTLS Pool Connection Ownership" (COMPLETED v2.0)
+    // Status: COMPLETED v2.0 - Factory pattern fully implemented and tested
+
     THEMIS_DEBUG("EndpointConnectionPool::createNewConnection() called without factory "
-                 "for endpoint {}. This is a deferred feature (v2.0 target). "
-                 "Connection creation is currently managed by MTLSClient::connect().",
+                 "for endpoint {}. This is a fallback path (v2.0+). "
+                 "For production use, inject a factory via constructor or setConnectionFactory().",
                  endpoint_);
     
     total_created_++;

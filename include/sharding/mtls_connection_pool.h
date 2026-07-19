@@ -115,6 +115,25 @@ public:
     );
     
     /**
+     * @brief Construct endpoint connection pool with injected factory
+     * 
+     * This is the v2.0 factory-based constructor that enables full
+     * connection lifecycle ownership within the pool.
+     * 
+     * @param endpoint Target endpoint (e.g., "localhost:50051")
+     * @param config Pool configuration
+     * @param factory Connection factory callable; must outlive the pool
+     * 
+     * @note Factory ownership: caller retains ownership of factory.
+     *       Ensure factory lifetime exceeds pool lifetime.
+     */
+    explicit EndpointConnectionPool(
+        const std::string& endpoint,
+        const Config& config,
+        ConnectionFactory factory
+    );
+    
+    /**
      * @brief Destructor - cleanup resources
      */
     ~EndpointConnectionPool();
