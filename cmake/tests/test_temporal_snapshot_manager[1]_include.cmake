@@ -1,0 +1,1 @@
+include("/home/runner/work/ThemisDB/ThemisDB/cmake/tests/test_temporal_snapshot_manager[1]_include.cmake")

@@ -1,0 +1,1 @@
+include("/home/runner/work/ThemisDB/ThemisDB/cmake/tests/test_workload_adaptive_optimizer[1]_include.cmake")
