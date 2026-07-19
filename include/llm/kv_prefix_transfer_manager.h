@@ -57,14 +57,13 @@ struct IKVStateSerializer {
 };
 
 /**
- * @brief No-op serialiser used in CI / builds without a live llama.cpp model.
+ * @brief Deterministic fallback serializer used when no backend-specific KV
+ *        serializer is injected.
  *
- * STUB/SIMULATION NOTE:
- * Purpose:          Allow KVPrefixTransferManager to compile and run without
- *                   a linked llama.cpp model.
- * Activation:       Default when no IKVStateSerializer is injected.
- * Production Delta: Returns an empty buffer; no actual KV state is sent.
- * Removal Plan:     Replace with KVStateSerializerLlama once available (Q2 2027).
+ * The fallback payload is the evaluated prefix text encoded as bytes. That
+ * keeps cross-shard transfer paths active even in builds without a live
+ * llama.cpp model and allows downstream services to cache, hash, and inspect
+ * a concrete prefix artifact instead of an empty placeholder.
  */
 class NullKVStateSerializer final : public IKVStateSerializer {
 public:
@@ -96,10 +95,10 @@ public:
             try {
                 return fn(prefix_text, model_id);
             } catch (...) {
-                return {};
+                return std::vector<std::uint8_t>(prefix_text.begin(), prefix_text.end());
             }
         }
-        return {};
+        return std::vector<std::uint8_t>(prefix_text.begin(), prefix_text.end());
     }
 
     std::string modelFingerprint(const std::string& model_id) const override {

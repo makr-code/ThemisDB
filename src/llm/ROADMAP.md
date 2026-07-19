@@ -17,9 +17,9 @@ The module provides production-grade LLM runtime surfaces across async inference
 **Build & Test Evidence:**
 - Build preset: `windows-release`
 - Test target: `module_llm_test_active_vram_allocator_focused`
-- Latest validation: 2026-07-18
+- Latest validation: 2026-07-19
 - Result: PASS (exit 0, [  PASSED  ] 45 tests)
-- Test duration: [standard unit test timeout 120s]
+- Test timeout budget: 120s
 
 ## In Progress
 

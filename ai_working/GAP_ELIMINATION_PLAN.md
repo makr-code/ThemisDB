@@ -5,7 +5,7 @@
 ## Strategy
 
 Instead of complete reimplementation, this plan:
-1. Enhances existing fallback/simulation paths to be production-grade
+1. Replaces non-production fallback/simulation paths with real source-level implementations
 2. Adds comprehensive Doxygen documentation
 3. Implements missing error handling and logging
 4. Ensures all conditional paths are tested and documented
@@ -37,10 +37,9 @@ Instead of complete reimplementation, this plan:
 
 ## Implementation Approach
 
-### Phase 1: Documentation & Error Handling (This PR)
+### Phase 1: Documentation Alignment
 - Add comprehensive Doxygen @file headers to all 11 files
-- Document activation conditions and production deltas
-- Ensure all paths have proper error handling
+- Document runtime behavior and edge cases
 
 ### Phase 2: Callback-Based Implementations
 - Use callback injection pattern (already established in codebase)
@@ -54,12 +53,12 @@ Instead of complete reimplementation, this plan:
 
 ## Production Readiness Criteria
 
-- [x] All fallback paths have clear documentation
-- [x] Error handling is complete and logged
-- [x] Conditional compilation is clear (@ifdef markers)
-- [x] Doxygen documentation covers all public APIs
-- [x] Tests validate both GPU and CPU paths
-- [x] No silent failures or undefined behavior
+- [ ] All fallback paths have clear documentation
+- [ ] Error handling is complete and logged
+- [ ] Conditional compilation is clear (@ifdef markers)
+- [ ] Doxygen documentation covers all public APIs
+- [ ] Tests validate both GPU and CPU paths
+- [ ] No silent failures or undefined behavior
 
 ## Acceptance Criteria
 
