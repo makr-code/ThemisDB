@@ -51,14 +51,44 @@ Production-capable replication runtime exists for orchestration, promotion/failo
 ### Phase 6: Documentation and Acceptance
 - [x] core replication module docs aligned to source-verifiable behavior
 - [x] roadmap/future planning separated from historical changelog entries
+- [x] comprehensive Doxygen documentation for all public APIs in replication manager, logical replication, and observability
+- [x] focused conflict resolution test suite (RCS-01..RCS-06) validates strategy determinism and edge-case handling
 
 ## Production Readiness Checklist
 
 - [x] core replication surfaces documented and source-verified
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
+- [x] focused conflict resolution tests provide evidence for conflict-resolution diagnostics consistency
+- [x] Doxygen coverage verified for all replication module headers and sources
 - [ ] remaining hardening tasks closed for failover/conflict/CDC edge paths
 - [ ] release benchmark stabilization complete
+
+## Evidence Summary (Session: 2026-07-19)
+
+### Test Coverage
+- Build Target: `module_replication_test_replication_conflict_focused_autofocused`
+- Test Tier: unit, Timeout: 120s
+- Test File: `tests/replication/test_replication_conflict_focused.cpp`
+- Test Cases: 17 focused tests covering:
+  - **RCS-01**: Three-Way Merge strategy (4 tests)
+  - **RCS-02**: Field-Level Merge strategies (5 tests)
+  - **RCS-03**: Conflict context semantics (2 tests)
+  - **RCS-04**: Deterministic behavior (2 tests)
+  - **RCS-05**: Edge cases (2 tests)
+  - **RCS-06**: Diagnostics consistency (2 tests)
+
+### Documentation Coverage
+- **Doxygen Headers**: All 13 replication module headers updated with @file metadata
+- **Replication Manager**: Enhanced with comprehensive @brief, @param, @return, @throws annotations
+- **Logical Replication**: Full documentation of slot lifecycle, change streaming, and callbacks
+- **Observability**: Verified comprehensive documentation for observer API
+- **Conflict Resolution**: All strategy classes properly documented
+
+### Compliance
+- Documentation Enforcement: Applied per `.github/instructions/documentation-enforcement.instructions.md`
+- C++ Best Practices: RAII, const-correctness, thread-safety emphasis
+- Test Driven: Focused tests provide evidence for module acceptance criteria
 
 ## Known Issues and Limitations
 
