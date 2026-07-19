@@ -50,30 +50,54 @@ enum class SecurityLevel {
 };
 
 /**
- * @brief Plugin generation prompt
+ * @brief Plugin generation prompt with AI model configuration and feature controls.
+ *
+ * Describes the intent and parameters for LLM-based code generation. All fields are validated
+ * by validatePrompt() before endpoint invocation to ensure reasonable size bounds, token format,
+ * and dependency consistency.
  */
 struct PluginGenerationPrompt {
+    /// Human-readable description of the plugin to be generated (required, ≤8192 chars).
     std::string description;
+    /// Plugin type enum (e.g., DATA_SOURCE, PROCESSOR, SINK).
     PluginType type;
+    /// List of required capabilities/features the plugin must implement (≤64 entries, ≤128 chars each).
     std::vector<std::string> required_capabilities;
+    /// Build/runtime dependencies required by the generated code (≤64 entries, ≤256 chars each).
     std::vector<std::string> dependencies;
+    /// LLM model to use for generation (CODE_LLAMA, CODEX, STARCODER, GITHUB_COPILOT, or CUSTOM).
     LLMModel llm_model = LLMModel::CODE_LLAMA;
+    /// Security analysis level for generated code (LOW, MEDIUM, HIGH, PARANOID).
     SecurityLevel security_level = SecurityLevel::HIGH;
+    /// Whether to generate unit tests for the plugin (default: true).
     bool generate_tests = true;
+    /// Whether to generate API documentation for the plugin (default: true).
     bool generate_docs = true;
 };
 
 /**
- * @brief Generated plugin code and metadata
+ * @brief Generated plugin code and metadata returned by generatePlugin().
+ *
+ * Contains the complete generated source code (header, implementation, tests, CMake config),
+ * plugin manifest with metadata, and security evaluation results. All code fields are validated
+ * before return to ensure reasonable size bounds (≤1 MiB each) and no embedded malicious patterns.
  */
 struct GeneratedPlugin {
+    /// Generated plugin header code (C/C++, ≤1 MiB).
     std::string header_code;
+    /// Generated plugin implementation code (C/C++, ≤1 MiB).
     std::string implementation_code;
+    /// Generated unit test code (C++, ≤1 MiB).
     std::string test_code;
+    /// Generated CMakeLists.txt configuration (≤1 MiB).
     std::string cmake_code;
+    /// Plugin metadata (name, version, description, type).
     PluginManifest manifest;
+    /// Build dependencies detected/required by the generated code (oversized entries filtered).
     std::vector<std::string> build_dependencies;
+    /// Whether the generated code passed security checks (set by security gate if enabled).
     bool passed_security_checks = false;
+    /// Security evaluation report (≤64 KiB; populated by C1/sandbox/telemetry gates).
     std::string security_report;
 };
 
@@ -82,37 +106,69 @@ struct GeneratedPlugin {
  */
 class AIPluginGenerator {
 public:
+    /// @brief Callback for Constitutional AI safety evaluation (Wave C C1 feature).
+    /// Evaluates generated code semantics and context against safety principles.
+    /// @param generated_response The generated code or response to evaluate.
+    /// @param original_query The original user query for context.
+    /// @return Safety score (0–1 range) or Error if evaluation fails.
     using CAISafetyEvalFn = std::function<Result<double>(
         const std::string& generated_response,
         const std::string& original_query)>;
 
+    /// @brief Callback for federated telemetry collection (Wave C C2 feature).
+    /// Collects local metrics for distributed privacy-preserving training.
+    /// @param local_metrics JSON object containing local runtime metrics.
+    /// @return Success or Error if telemetry reporting fails.
     using FederatedTelemetryFn = std::function<Result<void>(const json& local_metrics)>;
 
+    /// @brief Callback for endpoint invocation with custom transport logic.
+    /// Allows injection of retry wrappers, mock implementations, or alternative transports.
+    /// @param endpoint Full URL of the LLM endpoint.
+    /// @param request_body JSON request body as a string.
+    /// @param timeout_ms Maximum timeout in milliseconds.
+    /// @return Raw HTTP response body or Error if invocation fails.
     using EndpointInvokeFn = std::function<Result<std::string>(
         const std::string& endpoint,
         const std::string& request_body,
         long timeout_ms)>;
 
     /// @brief Callback for optional sandbox/static-analysis verification of generated code.
+    /// Performs optional verification (static analysis, sandboxed execution, etc.) before
+    /// returning the generated plugin to the caller.
+    /// @param generated The GeneratedPlugin to verify.
+    /// @return Success or Error if verification fails (will reject the plugin).
     using SandboxVerifyFn = std::function<Result<void>(const GeneratedPlugin& generated)>;
 
     struct Config {
+        /// Full URL of the LLM endpoint (http/https) used for code generation.
         std::string llm_endpoint = "http://localhost:8080";
+        /// Optional allowlist of permitted LLM endpoints (if empty, all endpoints allowed).
         std::vector<std::string> allowed_llm_endpoints;
+        /// Directory for sandboxed plugin execution/verification (requires enable_sandbox_gate=true).
         std::string sandbox_dir = "/tmp/themis_plugin_sandbox";
+        /// Directory where generated plugins are stored (for diagnostics/audit).
         std::string output_dir = "./generated_plugins";
+        /// Maximum HTTP timeout for endpoint invocation (milliseconds).
         long timeout_ms = 10000;
+        /// Maximum allowed size of serialized request JSON body sent to endpoint (256 KiB default).
         std::size_t max_request_body_bytes = 256u * 1024u;
+        /// Maximum allowed size of HTTP response body before parsing (8 MiB default).
         std::size_t max_response_body_bytes = 8u * 1024u * 1024u;
+        /// Callback for endpoint invocation (overrides default CURL implementation if set).
         EndpointInvokeFn endpoint_invoke_fn;
+        /// Enable Constitutional AI (CAI) safety gate (Wave C C1 feature).
         bool enable_c1_cai_safety_gate = false;
+        /// Minimum acceptable CAI safety score (0–1 range; default 0.80).
         double c1_min_safety_score = 0.80;
+        /// Callback for CAI safety evaluation (required if enable_c1_cai_safety_gate=true).
         CAISafetyEvalFn c1_cai_eval_fn;
+        /// Enable federated telemetry collection (Wave C C2 feature).
         bool enable_c2_federated_telemetry = false;
+        /// Callback for federated telemetry reporting (required if enable_c2_federated_telemetry=true).
         FederatedTelemetryFn c2_federated_telemetry_fn;
-        /// @brief Enable optional sandbox verification gate for generated code artifacts.
+        /// Enable optional sandbox verification gate for generated code artifacts.
         bool enable_sandbox_gate = false;
-        /// @brief Callback invoked to verify a generated plugin before it is returned.
+        /// Callback invoked to verify a generated plugin before it is returned (required if enable_sandbox_gate=true).
         SandboxVerifyFn sandbox_verify_fn;
     };
 

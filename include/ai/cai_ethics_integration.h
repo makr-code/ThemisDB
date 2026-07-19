@@ -25,56 +25,82 @@ namespace ai {
 
 /**
  * @brief Result returned by CAIEthicsIntegration::evaluate().
+ *
+ * Combines Constitutional AI scores with multi-dimensional ethics evaluation scores
+ * into a comprehensive safety assessment. All scores are in the 0–1 range (or 0–100 for latency).
  */
 struct CAIEvaluationResult {
     // --- CAI layer ---
+    /// Original (pre-revision) LLM response.
     std::string original_response;
+    /// Revised response after CAI critique-revision loop (may equal original_response).
     std::string revised_response;
+    /// Whether the response was modified during the CAI loop.
     bool was_revised              = false;
+    /// Number of CAI critique-revision iterations performed (≤config.max_cai_rounds).
     int  cai_iterations           = 0;
-    float cai_original_score      = 0.0f;   ///< 0–1, pre-revision CAI score
-    float cai_revised_score       = 0.0f;   ///< 0–1, post-revision CAI score
+    /// Original (pre-revision) CAI score (0–1 range).
+    float cai_original_score      = 0.0f;
+    /// Revised CAI score after critique-revision (0–1 range).
+    float cai_revised_score       = 0.0f;
+    /// Constitutional principles violated by the response.
     std::vector<std::string> violated_principles;
+    /// Constitutional principles successfully applied to the response.
     std::vector<std::string> applied_principles;
 
     // --- Ethics-evaluator layer ---
+    /// Overall ethics score combining all dimensions (0–1 range).
     double ethics_overall_score         = 0.0;
+    /// Decision quality dimension score (0–1 range).
     double ethics_decision_quality      = 0.0;
+    /// Consistency dimension score (0–1 range).
     double ethics_consistency           = 0.0;
+    /// Fairness dimension score (0–1 range).
     double ethics_fairness              = 0.0;
+    /// Alignment dimension score (0–1 range).
     double ethics_alignment             = 0.0;
+    /// Transparency dimension score (0–1 range).
     double ethics_transparency          = 0.0;
+    /// Ethics framework domains invoked (e.g., "autonomy", "fairness", "safety", …).
     std::vector<std::string> ethics_framework_domains;
+    /// Traceability chain IDs for argument reasoning (e.g., "constitutional_chain:autonomy", …).
     std::vector<std::string> ethics_argument_chain_ids;
+    /// Ethics framework principles formalized for this evaluation.
     std::vector<std::string> ethics_framework_principles;
 
     // --- Aggregated acceptance gate ---
     /// Combined safety score: average of cai_revised_score and ethics_overall_score.
+    /// Used for acceptance gating: safety_score() >= min_safety_score.
     double safety_score() const {
         return (static_cast<double>(cai_revised_score) + ethics_overall_score) / 2.0;
     }
 
     // --- Timing ---
+    /// Total latency of the evaluate() call (including CAI loop and ethics evaluation).
     std::chrono::milliseconds total_latency{0};
 };
 
 /**
- * @brief Configuration for CAIEthicsIntegration.
+ * @brief Configuration for CAIEthicsIntegration constructor.
+ *
+ * Tunes the behavior of both the Constitutional AI critique-revision loop and the
+ * multi-dimensional EthicsEvaluator. Default values are sensible for production use.
  */
 struct CAIEthicsConfig {
-    /// Maximum CAI critique-revision rounds (issue requires ≤ 2).
+    /// Maximum CAI critique-revision rounds (issue requires ≤ 2 for latency constraints).
     int max_cai_rounds = 2;
 
-    /// Minimum CAI score delta required to continue iterating.
+    /// Minimum score improvement to continue CAI iterations (0–1 range; 0.05 = 5% delta).
     float improvement_threshold = 0.05f;
 
-    /// Minimum acceptable CAI score; below this the response is flagged.
+    /// Minimum acceptable CAI score before flagging for further review (0–1 range).
     float min_cai_score = 0.7f;
 
     /// EthicsEvaluator dimension weights (forwarded to EthicsEvaluator::Config).
     plugins::ethics::EthicsEvaluator::Config ethics_weights;
 
-    /// If true, loadDefaultPrinciples() is called on the CAI engine at construction.
+    /// If true, loadDefaultPrinciples() is called on the CAI engine at construction
+    /// to register the 21 built-in constitutional principles.
     bool load_default_principles = true;
 };
 
