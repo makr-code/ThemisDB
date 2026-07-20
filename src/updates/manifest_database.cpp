@@ -19,6 +19,7 @@
  */
 
 #include "updates/manifest_database.h"
+#include <memory>
 #include <stdexcept>
 #include "utils/logger.h"
 #include <algorithm>
@@ -150,16 +151,16 @@ std::vector<std::string> ManifestDatabase::listVersions() const {
     std::vector<std::string> versions;
     
     try {
-        auto it = storage_->getRawDB()->NewIterator(
+        // Wrap in unique_ptr so iterator is freed on all paths (Phase 8.4 RAII).
+        auto it = std::unique_ptr<rocksdb::Iterator>(storage_->getRawDB()->NewIterator(
             rocksdb::ReadOptions(),
             cf_manifests_ ? cf_manifests_ : storage_->getRawDB()->DefaultColumnFamily()
-        );
+        ));
         
         for (it->SeekToFirst(); it->Valid(); it->Next()) {
             versions.push_back(it->key().ToString());
         }
-        
-        delete it;
+        // iterator freed automatically by unique_ptr destructor
         
         // Sort versions
         std::sort(versions.begin(), versions.end());
