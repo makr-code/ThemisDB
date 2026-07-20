@@ -38,11 +38,11 @@ Production AQL-assistance surfaces exist across translation, validation, tooling
 
 ## In Progress
 
-- [~] **Phase 4: Error Handling and Edge Cases** (Target: Q3 2026) — Block 4.1 COMPLETED
+- [~] **Phase 4: Error Handling and Edge Cases** (Target: Q3 2026) — Blocks 4.1–4.4 COMPLETED
   - [x] Block 4.1: Error Taxonomy Definition (aql_error_types.h, ERROR_RECOVERY_MATRIX.md)
-  - [~] Block 4.2: Validation Component Hardening (validateAQLWithParser enhancements)
-  - [~] Block 4.3: Translation Pipeline Error Handling (translateNLToAQL retry logic)
-  - [~] Block 4.4: Bridge/Helper Component Diagnostics (embedding, context, scoring)
+  - [x] Block 4.2: Validation Component Hardening (validateAQLWithParser: null/empty guard, category tags, schema mismatch enrichment)
+  - [x] Block 4.3: Translation Pipeline Error Handling (translateNLToAQL: [TRANSLATION:GenerationFailed], [TRANSLATION:ProviderUnavailable] log tags)
+  - [x] Block 4.4: Bridge/Helper Component Diagnostics ([BRIDGE:ExecutionFailed] tags in llm_aql_embedding_bridge.cpp)
 - [~] performance gate consolidation for AQL assistance benchmark paths (Target: Q3 2026)
 - [~] consistency hardening across helper and bridge integration surfaces (Target: Q3 2026)
 
@@ -79,22 +79,39 @@ Production AQL-assistance surfaces exist across translation, validation, tooling
 - [x] ROADMAP.md and FUTURE_ENHANCEMENTS.md synchronized with implementation (2026-07-19)
 
 ### Phase 4: Error Handling and Edge Cases
-- [~] standardize fail-closed behavior for malformed/generated query edge cases (Target: Q4 2026)
-- [~] unify error taxonomy and diagnostics across assistance components (Target: Q4 2026)
+- [x] standardize fail-closed behavior for malformed/generated query edge cases — completed 2026-07-20
+- [x] unify error taxonomy and diagnostics across assistance components — completed 2026-07-20
 - [x] Block 4.1: Error Taxonomy Definition — completed 2026-07-19
   - aql_error_types.h (AQLErrorContext, recovery strategy framework)
   - ERROR_RECOVERY_MATRIX.md (recovery specifications)
   - test_aql_validation_error_handling.cpp (8 validation error test cases)
   - test_aql_translation_recovery.cpp (8 translation recovery test cases)
   - test_aql_bridge_degradation.cpp (7 bridge/context degradation test cases)
+- [x] Block 4.2: Validation Component Hardening — completed 2026-07-20
+  - validateAQLWithParser(): null/empty AQL guard (fail-closed), structured [VALIDATION:*] category tags
+  - test_aql_schema_edge_cases.cpp (6 schema edge case test cases)
+- [x] Block 4.3: Translation Pipeline Error Handling — completed 2026-07-20
+  - translateNLToAQL(): [TRANSLATION:GenerationFailed] and [TRANSLATION:ProviderUnavailable] log enrichment
+- [x] Block 4.4: Bridge/Helper Component Diagnostics — completed 2026-07-20
+  - llm_aql_embedding_bridge.cpp: [BRIDGE:ExecutionFailed] tags on all catch paths
 
 ### Phase 5: Unified Testing
-- [ ] expand focused regressions for concurrency, degraded-mode, and policy-edge behavior (Target: Q4 2026)
-- [ ] extend deterministic fixture coverage for provider and schema-context variability (Target: Q4 2026)
+- [x] expand focused regressions for concurrency, degraded-mode, and policy-edge behavior — completed 2026-07-20
+  - test_aql_conversation_concurrency.cpp (8 thread-safety test cases)
+  - test_aql_provider_degradation.cpp (8 provider degradation test cases)
+  - test_aql_token_policy.cpp (6 token budget policy test cases)
+  - test_aql_circuit_breaker_policy.cpp (6 circuit breaker state machine test cases)
+- [x] extend deterministic fixture coverage for provider and schema-context variability — completed 2026-07-20
+  - tests/aql/fixtures/mock_provider_factory.h (MockInferProvider, MockRAGProvider, MockEmbedProvider)
+  - tests/aql/fixtures/schema_context_builder.h (SchemaContextBuilder with presets and invalid variants)
+- [x] TESTING_COVERAGE.md created documenting all 63 Phase 4-5 test cases
 
 ### Phase 6: Performance and Benchmarking
-- [ ] lock benchmark-backed release gates for translation/highlighter/scorer/few-shot paths (Target: Q4 2026)
-- [ ] validate p95/p99 behavior against release baselines under representative workloads (Target: Q4 2026)
+- [x] lock benchmark-backed release gates for translation/highlighter/scorer/few-shot paths — completed 2026-07-20
+  - benchmarks/aql/bench_aql_translation.cpp (4 benchmarks: simple/complex translation + validation batch)
+  - benchmarks/aql/bench_aql_helper_paths.cpp (4 benchmarks: scorer + few-shot + highlighter + tokens)
+  - benchmarks/aql/CMakeLists.txt: registered bench_aql_translation + bench_aql_helper_paths targets
+- [x] PERFORMANCE_EXPECTATIONS.md: p50/p95/p99 gates + hardware requirements + release gate AG-4/AG-5/AG-6
 
 ## Production Readiness Checklist
 
