@@ -555,6 +555,42 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_load_balancing.cpp")
     )
 endif()
 
+# ----------------------------------------------------------------------------
+# Block C — P5-S01: Wire Protocol Retry/Backoff Hardening (16 tests)
+# ----------------------------------------------------------------------------
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_wire_protocol_retry.cpp")
+    add_integration_test(
+        test_wire_protocol_retry
+        test_wire_protocol_retry.cpp
+    )
+    target_link_libraries(test_wire_protocol_retry PRIVATE
+        themis_core
+        Threads::Threads
+        Boost::system
+    )
+    set_tests_properties(test_wire_protocol_retry PROPERTIES
+        LABELS "integration;phase5;p5-s01;server_hardening;retry_backoff"
+        TIMEOUT 120
+    )
+endif()
+
+# Block C — P5-S02: HTTP Server Timeout + Graceful Shutdown Hardening (16 tests)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_http_server_hardening.cpp")
+    add_integration_test(
+        test_http_server_hardening
+        test_http_server_hardening.cpp
+    )
+    target_link_libraries(test_http_server_hardening PRIVATE
+        themis_core
+        Threads::Threads
+        spdlog::spdlog
+    )
+    set_tests_properties(test_http_server_hardening PROPERTIES
+        LABELS "integration;phase5;p5-s02;server_hardening;graceful_shutdown"
+        TIMEOUT 120
+    )
+endif()
+
 # ============================================================================
 # Integration Test Summary
 # ============================================================================

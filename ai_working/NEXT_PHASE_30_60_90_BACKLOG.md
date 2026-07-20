@@ -15,10 +15,10 @@
 - [ ] Gate: no regression vs existing graph suite, Wave-7 stays PASS
 
 ### Block C — P5-S01 + P5-S02 (Server hardening)
-- [ ] Wire protocol retry/backoff hardening
-- [ ] HTTP timeout + graceful shutdown hardening
-- [ ] Fault-injection gate established and documented
-- [ ] Gate: transient recovery stable, no shutdown/connection leaks
+- [x] Wire protocol retry/backoff hardening
+- [x] HTTP timeout + graceful shutdown hardening
+- [x] Fault-injection gate established and documented
+- [x] Gate: transient recovery stable, no shutdown/connection leaks
 
 ### Block D — P5-L01 + P5-L02 (LLM hardening)
 - [ ] Exception safety closure on critical paths
