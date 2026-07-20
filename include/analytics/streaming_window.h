@@ -270,9 +270,16 @@ struct WindowStats {
     uint64_t records_dropped  = 0;
     uint64_t late_records     = 0;
     uint64_t results_emitted  = 0;
-    /// Windows force-closed and evicted to enforce the max_open_windows /
-    /// max_open_sessions runtime limit. A non-zero value indicates that the
-    /// window is operating under backpressure.
+    /// Backpressure counter for runtime limit enforcement.
+    /// Incremented in two distinct situations:
+    ///   - TumblingWindow / SessionWindow: the oldest open window or session
+    ///     was **force-closed and evicted** to satisfy the max_open_windows /
+    ///     max_open_sessions hard limit.
+    ///   - SlidingWindow / HoppingWindow: creation of a new overlapping window
+    ///     was **skipped** because the number of currently open windows already
+    ///     reached max_open_windows (no eviction; the triggering record is
+    ///     still ingested into existing windows).
+    /// A non-zero value indicates the window is operating under backpressure.
     uint64_t windows_evicted  = 0;
 };
 
@@ -603,6 +610,9 @@ private:
     void updateWatermark(const std::chrono::system_clock::time_point& event_time);
     static std::string generateId();
 };
+
+/** @brief Factory function for HoppingWindow. */
+std::unique_ptr<HoppingWindow> createHoppingWindow(const HoppingWindowConfig& config);
 
 // ============================================================================
 // StreamingWindowPipeline
