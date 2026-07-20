@@ -71,13 +71,25 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
     )
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
-    themis_register_module_focused_test(
-        MODULE llm
-        NAME ${_ctest}
-        TARGET ${_target}
-        TIER unit
-        TIMEOUT 120
-    )
+    # Phase-specific label overrides
+    if(_stem STREQUAL "test_llm_phase5_hardening")
+        themis_register_module_focused_test(
+            MODULE llm
+            NAME ${_ctest}
+            TARGET ${_target}
+            TIER unit
+            TIMEOUT 120
+            LABELS llm hardening phase5
+        )
+    else()
+        themis_register_module_focused_test(
+            MODULE llm
+            NAME ${_ctest}
+            TARGET ${_target}
+            TIER unit
+            TIMEOUT 120
+        )
+    endif()
 endforeach()
 
 # AUTOGEN PREFIX BLOCK: llm

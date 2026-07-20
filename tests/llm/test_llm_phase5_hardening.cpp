@@ -613,7 +613,7 @@ TEST(EXSHardeningTest_Standalone, EXS14_PromptPolicy_ConcurrentEval_Safe) {
                 const std::string prompt =
                     (j % 3 == 0) ? "DANGER zone" : "safe prompt " + std::to_string(j);
                 try {
-                    auto result = policy->evaluate(prompt);
+                    auto result = policy->apply(prompt);
                     (void)result;
                     passed.fetch_add(1, std::memory_order_relaxed);
                 } catch (...) {
@@ -1510,11 +1510,14 @@ TEST_F(MEMHardeningTest, MEM19_LoraCertStore_PrunesExpiredCerts) {
     cert_store.emplace_back(now + std::chrono::seconds(90), 64);  // valid
     cert_store.emplace_back(now + std::chrono::seconds(120),64);  // valid
 
-    // Prune expired
-    cert_store.erase(
-        std::remove_if(cert_store.begin(), cert_store.end(),
-                       [&now](const CertEntry& e) { return e.expires_at <= now; }),
-        cert_store.end());
+    // Prune expired using index-based erase (CertEntry is move-only)
+    for (auto it = cert_store.begin(); it != cert_store.end(); ) {
+        if (it->expires_at <= now) {
+            it = cert_store.erase(it);
+        } else {
+            ++it;
+        }
+    }
 
     EXPECT_EQ(cert_store.size(), 3u)
         << "Only 3 valid certs should remain after pruning";
