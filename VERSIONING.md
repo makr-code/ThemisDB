@@ -100,6 +100,8 @@ Required evidence bundle:
 - synchronized release/governance documentation (`ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `CHANGELOG.md`, branch/release/versioning docs)
 - completed GA hardening execution batches (A-D) with boundary evidence updates in planning/status documents
 
+Current batch tracking is maintained in `ROADMAP.md`, `NEXT_PHASE_IMPLEMENTATION_PLAN.md`, and `ai_working/NEXT_PHASE_STATUS.md`; gate integration progress does not replace the remaining sanitizer/pentest/governance closure requirements.
+
 ## 4. Release Cadence
 
 | Release type | Approximate cadence |

@@ -1,7 +1,7 @@
 # ThemisDB Next Phase Implementation Plan
 
 **Document:** Implementation roadmap and work-stream coordination  
-**Status:** 🟡 ACTIVE EXECUTION (Batch A in progress)  
+**Status:** 🟡 ACTIVE EXECUTION (Batch A complete, Batch B/C/D gate integration active)  
 **Last Updated:** 2026-07-20  
 **Target Completion:** 2026-08-19 (Phase 3), Q4 2026 (Production Release)
 
@@ -15,7 +15,7 @@ The project transitions from **foundational completion** (Graph Phase 2.4 ✅, D
 2. **Cross-Module Hardening** — Critical path fixes: server wire-protocol, LLM exception safety, sharding consistency (Phases 5-7)
 3. **AQL 2.0.0 Language Expansion** — DDL, Geospatial, FTS parser integration (18-23 weeks, parallel)
 
-**Immediate Focus:** Batch A evidence consolidation + Phase 0 gate blockers + Phase 6 sharding sign-off preparation
+**Immediate Focus:** Batch B/C/D evidence closure + Phase 0 gate blockers + sanitizer/pentest finalization
 
 ---
 
@@ -131,16 +131,19 @@ The project transitions from **foundational completion** (Graph Phase 2.4 ✅, D
 
 ## Execution Batches (A-D)
 
-- [~] **Batch A — Status/Evidence Sync + Gate Board Update**
+- [x] **Batch A — Status/Evidence Sync + Gate Board Update**
   - [x] Sync done evidence across roadmap, implementation plan, and status tracker.
   - [x] Lock root gate language for `release_critical` on `develop`.
   - [~] Track active reproducibility blockers (`linux-release`, `community-release` prerequisites).
-- [ ] **Batch B — Sharding Phase 6 Completion**
-  - [ ] Convert P6-01/P6-02 test delivery into full consistency/recovery sign-off evidence.
-- [ ] **Batch C — Wave 8 + Chaos + Sanitizer/Pentest**
-  - [ ] Complete resilience/security evidence bundle for GA hardening chain.
-- [ ] **Batch D — Final GA Readiness**
-  - [ ] Complete operations/SLA/runbook evidence and governance sync before promotion.
+- [~] **Batch B — Sharding Phase 6 Completion**
+  - [x] Promote P6-01/P6-02 to release-gate execution (`test_sharding_phase6_hardening` + `release_critical` integration).
+  - [ ] Finalize consistency/recovery sign-off evidence bundle.
+- [~] **Batch C — Wave 8 + Chaos + Sanitizer/Pentest**
+  - [x] Wire Wave 8 (`w8a/w8b/w8c`) and Wave 9 chaos/SLA/security suites (`w9a/w9b/w9c`) into release-critical workflow build execution.
+  - [ ] Finalize sanitizer + penetration-test sign-off evidence.
+- [~] **Batch D — Final GA Readiness**
+  - [x] Operations/SLA/chaos gate suites are part of release-critical execution chain.
+  - [ ] Complete governance sync, manual checklist closure, and controlled promotion.
 
 ---
 
@@ -161,7 +164,7 @@ The project transitions from **foundational completion** (Graph Phase 2.4 ✅, D
 - `benchmarks/wave7/release_gate_manifest_w7.json` — All gates PASS
 - `benchmarks/wave7/RUNBOOK_W7.md` — Re-run procedure documented
 
-### Wave 8 Endurance & Fault Injection (Planned)
+### Wave 8 Endurance & Fault Injection (Active)
 
 **Timeline:** 2026-08-15 to 2026-09-15  
 **Scope:** Soak tests, degradation scenarios, cascade failures

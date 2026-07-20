@@ -11,10 +11,11 @@
 | Item | Status | Notes |
 |------|--------|-------|
 | **Planning Documents** | ✅ Complete | Root + phase plans synced to GA hardening batch model |
-| **Batch A Evidence Sync** | 🟡 Active | Done evidence consolidated across roadmap and status trackers |
+| **Batch A Evidence Sync** | ✅ Complete | Done evidence consolidated across roadmap and status trackers |
+| **Batch B/C/D Gate Integration** | 🟡 Active | release-critical workflow build scope now includes sharding P6 + W8/W9 suites; evidence closure remains open |
 | **Phase 5 Server** | ✅ Delivered | P5-S01/P5-S02 implemented; GA sign-off evidence still open |
 | **Phase 5 LLM** | ✅ Delivered | P5-L01/P5-L02 implemented; GA sign-off evidence still open |
-| **Phase 6 Sharding** | 🟡 In Progress | P6-01/P6-02 test suites added; full sign-off pending |
+| **Phase 6 Sharding** | 🟡 In Progress | P6-01/P6-02 suites integrated into release gate; full WAL/recovery sign-off bundle pending |
 | **Phase 0 Reproducibility** | 🟡 Blocked | `linux-release` prerequisites missing; `community-release` missing RocksDB |
 
 ---

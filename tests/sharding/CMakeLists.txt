@@ -345,7 +345,7 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_sharding_phase6_hardening.cpp")
         TARGET  test_sharding_phase6_hardening
         TIER    unit
         TIMEOUT 120
-        LABELS  sharding hardening phase6
+        LABELS  sharding hardening phase6 release_critical
     )
     message(STATUS "  P6-01 TXC-01..TXC-32: 2PC/3PC consistency verification (32 tests)")
     message(STATUS "  P6-02 FLR-01..FLR-20: failover logic and recovery-path hardening (20 tests)")

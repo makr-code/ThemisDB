@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Synchronized GA hardening governance across `/home/runner/work/ThemisDB/ThemisDB/ROADMAP.md`, `/home/runner/work/ThemisDB/ThemisDB/FUTURE_ENHANCEMENTS.md`, `/home/runner/work/ThemisDB/ThemisDB/RELEASE_STRATEGY.md`, `/home/runner/work/ThemisDB/ThemisDB/VERSIONING.md`, and `/home/runner/work/ThemisDB/ThemisDB/BRANCHING_STRATEGY.md`.
 - Introduced explicit execution-batch tracking (Batch A-D) for beta-to-GA progression, including batch-boundary evidence expectations.
 - Updated next-phase execution trackers (`/home/runner/work/ThemisDB/ThemisDB/NEXT_PHASE_IMPLEMENTATION_PLAN.md`, `/home/runner/work/ThemisDB/ThemisDB/ai_working/NEXT_PHASE_STATUS.md`) to reflect delivered Phase 5 server/llm implementation status, active sharding sign-off work, and active reproducibility blockers.
+- Implemented Batch B/C/D gate execution wiring by extending `release_critical` workflow target builds to include sharding Phase 6 (`test_sharding_phase6_hardening`) plus Wave 8/9 suites (`w8a/w8b/w8c`, `w9a/w9b/w9c`) and updating root planning/status docs for current closure state.
 
 ## [2.4.0-rc1] — 2026-07-03 — Graph Module Hardening & Release Candidate
 

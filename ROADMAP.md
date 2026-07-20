@@ -24,8 +24,8 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 - [~] The beta-to-GA hardening path runs on `develop`; release-lane promotion happens only after gate evidence is complete.
 - [x] Wave 7 baseline evidence exists with all six PASS gates (`benchmarks/wave7/release_gate_manifest_w7.json`; baseline currently valid, periodic re-confirmation still required).
 - [x] `release_critical` CI on `develop` is defined as the mandatory entry gate for release work (`.github/workflows/09-pr-gates_release-critical-tests.yml`).
-- [~] `server`, `llm`, and `sharding` top-risk hardening is in closure mode: `server` P5-S01/S02 and `llm` P5-L01/P5-L02 delivered; `sharding` P6 sign-off still open.
-- [ ] Wave 8, chaos/fault-injection, sanitizer/recovery, penetration-test, and 99.99% SLA sign-off artefacts are still incomplete.
+- [~] `server`, `llm`, and `sharding` top-risk hardening is in closure mode: `server` P5-S01/S02 and `llm` P5-L01/P5-L02 delivered; `sharding` P6 gate integration delivered and evidence closure ongoing.
+- [~] Wave 8, chaos/fault-injection, sanitizer/recovery, penetration-test, and 99.99% SLA sign-off artefacts are partially delivered; sanitizer/pentest closure remains open.
 
 ## In Progress
 
@@ -80,12 +80,15 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
   - [x] Done-evidence consolidated for Server P5-S01/P5-S02, LLM P5-L01/P5-L02, Wave 5/6, and Wave-7 baseline.
   - [x] Root and execution-plan documents synchronized (`ROADMAP.md`, `NEXT_PHASE_IMPLEMENTATION_PLAN.md`, `ai_working/NEXT_PHASE_STATUS.md`).
   - [~] Build reproducibility blockers on `linux-release`/`community-release` tracked as active Phase-0 gate blockers.
-- [ ] **Batch B — Sharding Phase 6 Sign-Off** (Target: 2026-08)
-  - [ ] Promote P6-01/P6-02 from test implementation to consistency/recovery sign-off with WAL + failover evidence.
-- [ ] **Batch C — Wave 8 + Chaos + Sanitizer/Pentest** (Target: 2026-09)
-  - [ ] Complete resilience and security evidence chain for GA gate eligibility.
-- [ ] **Batch D — Final GA Readiness** (Target: 2026-10)
-  - [ ] Operations/SLA/runbook/governance sign-off and controlled promotion from `develop`.
+- [~] **Batch B — Sharding Phase 6 Sign-Off** (Target: 2026-08)
+  - [x] P6-01/P6-02 implemented in `tests/sharding/test_sharding_phase6_hardening.cpp` and wired to `release_critical` labeling via `tests/sharding/CMakeLists.txt`.
+  - [~] Consolidate WAL + failover sign-off artefacts and attach boundary evidence.
+- [~] **Batch C — Wave 8 + Chaos + Sanitizer/Pentest** (Target: 2026-09)
+  - [x] Wave 8 (`w8a/w8b/w8c`) and chaos/SLA/security (`w9a/w9b/w9c`) suites are wired into the `release_critical` workflow target build.
+  - [ ] Finalize sanitizer + penetration-test evidence bundle for GA gate closure.
+- [~] **Batch D — Final GA Readiness** (Target: 2026-10)
+  - [x] Operations/SLA/chaos runbook-linked test suites are now part of the release-critical execution chain.
+  - [ ] Complete final governance sign-off and controlled promotion from `develop`.
 
 ## Production Readiness Checklist
 
@@ -101,7 +104,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 
 - `linux-release` depends on Ninja plus a bootstrapped `vcpkg` checkout at `vcpkg/scripts/buildsystems/vcpkg.cmake`.
 - `community-release` depends on the system-package path and hard-fails without RocksDB (`librocksdb-dev` or equivalent).
-- The current release-critical CI gate covers the six `release_critical` pipeline tests; Wave 5, Wave 6, Wave 8, chaos, sanitizer, and penetration-test evidence remain separate sign-off artefacts.
+- The release-critical CI gate now builds/runs the baseline six pipeline suites plus Wave 8 (`w8a/w8b/w8c`), Wave 9 (`w9a/w9b/w9c`), and sharding P6 (`test_sharding_phase6_hardening`); sanitizer and penetration-test evidence still require separate sign-off artefacts.
 - Existing module hardening progress does not replace the need for end-to-end GA evidence across release, security, recovery, and operations.
 
 ## Breaking Changes
@@ -161,7 +164,7 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 
 ## 🚀 NEXT PHASE IMPLEMENTATION (2026-07-22 to 2026-08-31) — EXECUTION TRACKING
 
-**Status:** 🟡 ACTIVE (Batch A evidence sync running; Phase 5 server/llm implementations delivered; Phase 6 sharding sign-off open)  
+**Status:** 🟡 ACTIVE (Batch A done; Batch B/C/D gate integration delivered; remaining closure focuses on sanitizer/pentest evidence + final governance approval)  
 **Implementation Plans:** [NEXT_PHASE_IMPLEMENTATION_PLAN.md](NEXT_PHASE_IMPLEMENTATION_PLAN.md), [ai_working/PHASE3_OPTIMIZATION_DETAILED_PLAN.md](ai_working/PHASE3_OPTIMIZATION_DETAILED_PLAN.md), [ai_working/PHASE5_HARDENING_DETAILED_PLAN.md](ai_working/PHASE5_HARDENING_DETAILED_PLAN.md)
 
 ### Parallel Work Streams (4-6 weeks)
@@ -171,9 +174,9 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 | **Phase 3** | Graph: Query optimization, cache efficiency, resource pooling | 6 weeks | 10 weeks | A+B (4 eng) | 130 new | 🟡 In Progress (gate-locked) |
 | **Phase 5-S** | Server: Wire-protocol retry + HTTP timeout patterns | 3 weeks | 4 weeks | C (2 eng) | 39 new | ✅ Implemented (GA sign-off open) |
 | **Phase 5-L** | LLM: Exception safety + memory leak fixes | 3 weeks | 6 weeks | D (2 eng) | 51 new | ✅ Implemented (GA sign-off open) |
-| **Phase 6** | Sharding: 2PC/3PC consistency + fault injection | 3 weeks | 6 weeks | E+F (4 eng) | 60+ new | 🟡 In Progress (P6 sign-off pending) |
+| **Phase 6** | Sharding: 2PC/3PC consistency + fault injection | 3 weeks | 6 weeks | E+F (4 eng) | 60+ new | 🟡 In Progress (P6 gate integration done; sign-off bundle pending) |
 | **AQL Phase 2** | DDL implementation (parser + executor) | 4-6 weeks | 6 weeks | G (2 eng) | 32 new | 🔵 Queued |
-| **Wave 8** | Soak + endurance + degradation fault injection | Parallel | 8 weeks | F (2 eng) | 40+ scenarios | 🔵 Queued |
+| **Wave 8** | Soak + endurance + degradation fault injection | Parallel | 8 weeks | F (2 eng) | 40+ scenarios | 🟡 Active (gate-integrated) |
 
 **Total New Tests:** 352+ (Phase 3: 130, Phase 5: 90, Phase 6: 60+, AQL: 32, Wave 8: 40+)  
 **Total Team Effort:** ~38 weeks across 8 teams (~15 engineers)  

@@ -342,10 +342,10 @@
 - `RELEASE_STRATEGY.md`, `VERSIONING.md`, `CHANGELOG.md`, `BRANCHING_STRATEGY.md`
 
 ### Implementation Notes
-- Batch A: status/evidence sync + gate-board update (active).
-- Batch B: sharding Phase 6 full consistency/recovery sign-off.
-- Batch C: Wave 8 + chaos + sanitizer + penetration-test evidence completion.
-- Batch D: operations/SLA/governance final GA readiness and controlled promotion.
+- Batch A: status/evidence sync + gate-board update (completed).
+- Batch B: sharding Phase 6 gate integration delivered; finalize consistency/recovery sign-off bundle.
+- Batch C: Wave 8 + chaos/SLA/security gate integration delivered; finalize sanitizer + penetration-test evidence completion.
+- Batch D: operations/SLA/governance readiness is gate-integrated; finalize manual governance sign-off and controlled promotion.
 
 ### Test Strategy
 - Verify gate evidence on each batch boundary before moving to the next batch.

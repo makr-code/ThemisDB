@@ -80,6 +80,8 @@ For `v1.9.0-beta` → GA, execution is tracked in four mandatory batches:
 
 Batch boundaries are not advisory: each batch requires updated evidence references in `ROADMAP.md`, `NEXT_PHASE_IMPLEMENTATION_PLAN.md`, and `ai_working/NEXT_PHASE_STATUS.md` before the next batch starts.
 
+Current tracked state: Batch A complete; Batch B/C/D gate integration is active through release-critical workflow coverage for sharding P6 and Wave 8/9 suites, with sanitizer/pentest and final governance sign-off still open.
+
 ## 3. Tags
 
 Minimal tags:
