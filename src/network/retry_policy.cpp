@@ -69,18 +69,22 @@ bool RetryPolicy::isTransient(int error_code) noexcept {
 // IdempotencyCache
 // ============================================================================
 
-const IdempotencyCache::Entry*
+std::optional<IdempotencyCache::Entry>
 IdempotencyCache::lookup(const std::string& request_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = cache_.find(request_id);
     if (it == cache_.end()) {
-        return nullptr;
+        return std::nullopt;
     }
-    return &it->second;
+    return it->second;
 }
 
 void IdempotencyCache::store(const std::string& request_id, std::string result) {
     std::lock_guard<std::mutex> lock(mutex_);
+
+    if (window_size_ == 0) {
+        return;
+    }
 
     // First-write-wins: do not replace an existing entry.
     if (cache_.count(request_id)) {

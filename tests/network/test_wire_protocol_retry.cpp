@@ -27,6 +27,8 @@
  * 22.  IdempotencyCache: concurrent store+lookup is race-free
  * 23.  Retry state machine: immediate success (0 retries)
  * 24.  Retry state machine: fail-then-succeed on attempt 2
+ * 25.  IdempotencyCache: lookup returns stable snapshot after cache clear
+ * 26.  IdempotencyCache: zero window disables retention
  */
 
 /*
@@ -279,14 +281,14 @@ TEST(RetryPolicy, MaxRetriesExceededReturnsFailure) {
 
 TEST(IdempotencyCache, LookupMissOnEmpty) {
     IdempotencyCache cache;
-    EXPECT_EQ(cache.lookup("req-1"), nullptr);
+    EXPECT_FALSE(cache.lookup("req-1").has_value());
 }
 
 TEST(IdempotencyCache, StoreAndLookupRoundtrip) {
     IdempotencyCache cache;
     cache.store("req-1", R"({"ok":true})");
-    const auto* entry = cache.lookup("req-1");
-    ASSERT_NE(entry, nullptr);
+    auto entry = cache.lookup("req-1");
+    ASSERT_TRUE(entry.has_value());
     EXPECT_EQ(entry->result, R"({"ok":true})");
 }
 
@@ -294,8 +296,8 @@ TEST(IdempotencyCache, FirstWriteWins) {
     IdempotencyCache cache;
     cache.store("req-1", "first");
     cache.store("req-1", "second"); // should NOT replace
-    const auto* entry = cache.lookup("req-1");
-    ASSERT_NE(entry, nullptr);
+    auto entry = cache.lookup("req-1");
+    ASSERT_TRUE(entry.has_value());
     EXPECT_EQ(entry->result, "first");
 }
 
@@ -306,9 +308,9 @@ TEST(IdempotencyCache, WindowEvictsOldestEntry) {
     // Window is now full; adding req-3 must evict req-1
     cache.store("req-3", "r3");
 
-    EXPECT_EQ(cache.lookup("req-1"), nullptr) << "req-1 should have been evicted";
-    EXPECT_NE(cache.lookup("req-2"), nullptr);
-    EXPECT_NE(cache.lookup("req-3"), nullptr);
+    EXPECT_FALSE(cache.lookup("req-1").has_value()) << "req-1 should have been evicted";
+    EXPECT_TRUE(cache.lookup("req-2").has_value());
+    EXPECT_TRUE(cache.lookup("req-3").has_value());
     EXPECT_EQ(cache.size(), 2u);
 }
 
@@ -327,7 +329,28 @@ TEST(IdempotencyCache, ClearEmptiesCache) {
     cache.store("req-2", "r2");
     cache.clear();
     EXPECT_EQ(cache.size(), 0u);
-    EXPECT_EQ(cache.lookup("req-1"), nullptr);
+    EXPECT_FALSE(cache.lookup("req-1").has_value());
+}
+
+TEST(IdempotencyCache, LookupReturnsStableSnapshotAfterClear) {
+    IdempotencyCache cache;
+    cache.store("req-1", "r1");
+
+    auto snapshot = cache.lookup("req-1");
+    ASSERT_TRUE(snapshot.has_value());
+
+    cache.clear();
+
+    EXPECT_EQ(snapshot->result, "r1");
+    EXPECT_EQ(cache.size(), 0u);
+}
+
+TEST(IdempotencyCache, ZeroWindowDisablesRetention) {
+    IdempotencyCache cache(/*window_size=*/0);
+    cache.store("req-1", "r1");
+
+    EXPECT_EQ(cache.size(), 0u);
+    EXPECT_FALSE(cache.lookup("req-1").has_value());
 }
 
 // ============================================================================

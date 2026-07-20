@@ -229,6 +229,16 @@ Comprehensive code quality audit across 6 primary modules identified and verifie
 
 ## [Unreleased]
 
+### Server Phase 5-S Hardening Batch (2026-07-20)
+
+- Hardened `IdempotencyCache` in `include/network/wire_protocol_server.h` and
+  `src/network/retry_policy.cpp` so `lookup()` returns a value snapshot instead
+  of exposing unlocked internal storage to concurrent callers.
+- Added fail-safe zero-window handling for idempotency retention to avoid
+  unbounded cache growth when retry deduplication is intentionally disabled.
+- Expanded `tests/network/test_wire_protocol_retry.cpp` with regression coverage
+  for stable lookup snapshots and zero-window behavior.
+
 ### ✅ EPIC 2.5 Query Planner Phases 5-7 Complete (2026-07-06)
 
 **EPIC 2.5 Hybrid Query Planner — All Seven Phases Complete**
@@ -2605,4 +2615,3 @@ ThemisDB follows [Semantic Versioning](https://semver.org/):
 
 ---
 Zuletzt geprueft (Root-Sync): 2026-05-26
-

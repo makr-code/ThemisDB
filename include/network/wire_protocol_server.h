@@ -40,6 +40,7 @@
 #include <chrono>
 #include <mutex>
 #include <functional>
+#include <optional>
 #include <unordered_map>
 #include <nlohmann/json.hpp>
 
@@ -177,6 +178,8 @@ struct RetryPolicy {
  * without re-executing the handler (first-write-wins semantics).
  *
  * Oldest entries are evicted in insertion order once the window is full.
+ * A @p window_size of zero disables retention entirely so retry deduplication
+ * fails safe instead of growing unbounded state.
  *
  * All methods are thread-safe.
  */
@@ -191,17 +194,20 @@ public:
     /**
      * @param window_size Maximum number of distinct request IDs retained.
      *                    Oldest entries are evicted when the window is full.
-     *                    Defaults to 256.
+     *                    A value of zero disables retention. Defaults to 256.
      */
     explicit IdempotencyCache(size_t window_size = 256) noexcept
         : window_size_(window_size) {}
 
     /**
-     * @brief Retrieve a cached result.
+     * @brief Retrieve a cached result snapshot.
      * @param request_id  Unique request identifier.
-     * @return Pointer to the cached @c Entry, or @c nullptr on a cache miss.
+     * @return Copy of the cached @c Entry, or @c std::nullopt on a cache miss.
+     *
+     * The returned snapshot remains valid even if the cache is mutated or
+     * cleared by another thread after the call returns.
      */
-    const Entry* lookup(const std::string& request_id) const;
+    [[nodiscard]] std::optional<Entry> lookup(const std::string& request_id) const;
 
     /**
      * @brief Insert a result into the cache.
