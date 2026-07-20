@@ -23,7 +23,7 @@ Production-ready server stack with HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, Po
   - [ ] Finish remaining true-positive triage from gap scan and remove residual high-risk findings from active code paths (Target: Q2 2026)
   - [ ] Consolidate auth enforcement checks for all routing-layer special cases and keep regression tests green (Target: Q2 2026)
 - [~] Phase 5-S kickoff: wire-protocol retry/idempotency hardening batch (Target: Q3 2026)
-  - [x] Idempotency cache lookup returns stable snapshots instead of exposing unlocked internal storage
+  - [x] Idempotency cache lookup now serves thread-local snapshots and `lookupSnapshot()` exposes by-value reads without exposing unlocked internal storage
   - [x] Zero-window idempotency configuration fails safe by disabling retention rather than growing unbounded state
   - [ ] Extend runtime retry execution paths to consume the hardened idempotency contract end-to-end (Target: Q3 2026)
 

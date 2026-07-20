@@ -200,14 +200,27 @@ public:
         : window_size_(window_size) {}
 
     /**
-     * @brief Retrieve a cached result snapshot.
+         * @brief Retrieve a cached result using legacy pointer semantics.
      * @param request_id  Unique request identifier.
-     * @return Copy of the cached @c Entry, or @c std::nullopt on a cache miss.
-     *
-     * The returned snapshot remains valid even if the cache is mutated or
-     * cleared by another thread after the call returns.
-     */
-    [[nodiscard]] std::optional<Entry> lookup(const std::string& request_id) const;
+         * @return Pointer to a thread-local snapshot of the cached @c Entry, or
+         *         @c nullptr on a cache miss.
+         *
+         * The returned pointer remains valid until the next successful
+         * same-thread @c lookup() for the same cache/request-id pair, even if the
+         * underlying cache is mutated or cleared by another thread after the call
+         * returns.
+         */
+        const Entry* lookup(const std::string& request_id) const;
+
+        /**
+         * @brief Retrieve a cached result snapshot by value.
+         * @param request_id  Unique request identifier.
+         * @return Copy of the cached @c Entry, or @c std::nullopt on a cache miss.
+         *
+         * The returned snapshot remains valid even if the cache is mutated or
+         * cleared by another thread after the call returns.
+         */
+        [[nodiscard]] std::optional<Entry> lookupSnapshot(const std::string& request_id) const;
 
     /**
      * @brief Insert a result into the cache.

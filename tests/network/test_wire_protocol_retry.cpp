@@ -27,8 +27,9 @@
  * 22.  IdempotencyCache: concurrent store+lookup is race-free
  * 23.  Retry state machine: immediate success (0 retries)
  * 24.  Retry state machine: fail-then-succeed on attempt 2
- * 25.  IdempotencyCache: lookup returns stable snapshot after cache clear
+ * 25.  IdempotencyCache: lookupSnapshot returns stable snapshot after cache clear
  * 26.  IdempotencyCache: zero window disables retention
+ * 27.  IdempotencyCache: multiple lookup pointers stay distinct per request id
  */
 
 /*
@@ -281,14 +282,14 @@ TEST(RetryPolicy, MaxRetriesExceededReturnsFailure) {
 
 TEST(IdempotencyCache, LookupMissOnEmpty) {
     IdempotencyCache cache;
-    EXPECT_FALSE(cache.lookup("req-1").has_value());
+    EXPECT_EQ(cache.lookup("req-1"), nullptr);
 }
 
 TEST(IdempotencyCache, StoreAndLookupRoundtrip) {
     IdempotencyCache cache;
     cache.store("req-1", R"({"ok":true})");
-    auto entry = cache.lookup("req-1");
-    ASSERT_TRUE(entry.has_value());
+    const auto* entry = cache.lookup("req-1");
+    ASSERT_NE(entry, nullptr);
     EXPECT_EQ(entry->result, R"({"ok":true})");
 }
 
@@ -296,8 +297,8 @@ TEST(IdempotencyCache, FirstWriteWins) {
     IdempotencyCache cache;
     cache.store("req-1", "first");
     cache.store("req-1", "second"); // should NOT replace
-    auto entry = cache.lookup("req-1");
-    ASSERT_TRUE(entry.has_value());
+    const auto* entry = cache.lookup("req-1");
+    ASSERT_NE(entry, nullptr);
     EXPECT_EQ(entry->result, "first");
 }
 
@@ -308,9 +309,9 @@ TEST(IdempotencyCache, WindowEvictsOldestEntry) {
     // Window is now full; adding req-3 must evict req-1
     cache.store("req-3", "r3");
 
-    EXPECT_FALSE(cache.lookup("req-1").has_value()) << "req-1 should have been evicted";
-    EXPECT_TRUE(cache.lookup("req-2").has_value());
-    EXPECT_TRUE(cache.lookup("req-3").has_value());
+    EXPECT_EQ(cache.lookup("req-1"), nullptr) << "req-1 should have been evicted";
+    EXPECT_NE(cache.lookup("req-2"), nullptr);
+    EXPECT_NE(cache.lookup("req-3"), nullptr);
     EXPECT_EQ(cache.size(), 2u);
 }
 
@@ -329,14 +330,14 @@ TEST(IdempotencyCache, ClearEmptiesCache) {
     cache.store("req-2", "r2");
     cache.clear();
     EXPECT_EQ(cache.size(), 0u);
-    EXPECT_FALSE(cache.lookup("req-1").has_value());
+    EXPECT_EQ(cache.lookup("req-1"), nullptr);
 }
 
-TEST(IdempotencyCache, LookupReturnsStableSnapshotAfterClear) {
+TEST(IdempotencyCache, LookupSnapshotReturnsStableSnapshotAfterClear) {
     IdempotencyCache cache;
     cache.store("req-1", "r1");
 
-    auto snapshot = cache.lookup("req-1");
+    auto snapshot = cache.lookupSnapshot("req-1");
     ASSERT_TRUE(snapshot.has_value());
 
     cache.clear();
@@ -350,7 +351,22 @@ TEST(IdempotencyCache, ZeroWindowDisablesRetention) {
     cache.store("req-1", "r1");
 
     EXPECT_EQ(cache.size(), 0u);
-    EXPECT_FALSE(cache.lookup("req-1").has_value());
+    EXPECT_EQ(cache.lookup("req-1"), nullptr);
+}
+
+TEST(IdempotencyCache, MultipleLookupPointersStayDistinctPerRequestId) {
+    IdempotencyCache cache;
+    cache.store("req-1", "r1");
+    cache.store("req-2", "r2");
+
+    const auto* first = cache.lookup("req-1");
+    const auto* second = cache.lookup("req-2");
+
+    ASSERT_NE(first, nullptr);
+    ASSERT_NE(second, nullptr);
+    EXPECT_NE(first, second);
+    EXPECT_EQ(first->result, "r1");
+    EXPECT_EQ(second->result, "r2");
 }
 
 // ============================================================================

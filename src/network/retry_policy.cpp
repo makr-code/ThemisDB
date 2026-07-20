@@ -69,8 +69,28 @@ bool RetryPolicy::isTransient(int error_code) noexcept {
 // IdempotencyCache
 // ============================================================================
 
-std::optional<IdempotencyCache::Entry>
+const IdempotencyCache::Entry*
 IdempotencyCache::lookup(const std::string& request_id) const {
+    using SnapshotMap = std::unordered_map<std::string, Entry>;
+    thread_local std::unordered_map<const IdempotencyCache*, SnapshotMap> snapshots;
+
+    auto snapshot = lookupSnapshot(request_id);
+    if (!snapshot.has_value()) {
+        auto cache_it = snapshots.find(this);
+        if (cache_it != snapshots.end()) {
+            cache_it->second.erase(request_id);
+        }
+        return nullptr;
+    }
+
+    auto& cache_snapshots = snapshots[this];
+    auto [it, _inserted] =
+        cache_snapshots.insert_or_assign(request_id, std::move(*snapshot));
+    return &it->second;
+}
+
+std::optional<IdempotencyCache::Entry>
+IdempotencyCache::lookupSnapshot(const std::string& request_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     auto it = cache_.find(request_id);
     if (it == cache_.end()) {

@@ -232,8 +232,9 @@ Comprehensive code quality audit across 6 primary modules identified and verifie
 ### Server Phase 5-S Hardening Batch (2026-07-20)
 
 - Hardened `IdempotencyCache` in `include/network/wire_protocol_server.h` and
-  `src/network/retry_policy.cpp` so `lookup()` returns a value snapshot instead
-  of exposing unlocked internal storage to concurrent callers.
+  `src/network/retry_policy.cpp` so legacy `lookup()` returns a thread-local
+  snapshot and new `lookupSnapshot()` exposes by-value reads without exposing
+  unlocked internal storage to concurrent callers.
 - Added fail-safe zero-window handling for idempotency retention to avoid
   unbounded cache growth when retry deduplication is intentionally disabled.
 - Expanded `tests/network/test_wire_protocol_retry.cpp` with regression coverage
