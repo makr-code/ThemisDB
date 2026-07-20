@@ -47,10 +47,10 @@ This document consolidates open backlog items from:
 **Scope:** `src/auth/jwt_validator.cpp` — Add `std::shared_mutex` for concurrent token validation  
 **Acceptance:**
 - [x] Issue tracking created
-- [x] Design: `shared_mutex` lock contract documented — `shared_lock` (read) / `unique_lock` (write) in `jwt_validator.cpp:170,179,185`
-- [x] Implementation: JWKS cache guarded by `shared_lock` (read) / `unique_lock` (write)
-- [x] Tests: 16-thread stress × 10K validate() calls with concurrent refresh — `test_jwt_validator.cpp:JWTValidatorThreadStress_A01_16Thread_500Iter_NoDataRace`
-- [x] Security: `CRYPTO_memcmp` used for key comparison (no early-exit timing leak) — `jwt_validator.cpp:findJwkForKid()`
+- [ ] Design: `shared_mutex` lock contract documented
+- [ ] Implementation: JWKS cache guarded by `shared_lock` (read) / `unique_lock` (write)
+- [ ] Tests: 16-thread stress × 10K validate() calls with concurrent refresh
+- [ ] Security: `CRYPTO_memcmp` used for key comparison (no early-exit timing leak)
 - [ ] PR: Linked to ROADMAP.md v1.1.0 milestone
 
 ---
@@ -61,9 +61,9 @@ This document consolidates open backlog items from:
 **Scope:** `src/auth/ldap_authenticator.cpp` — RFC 4515/4514 escaping for DN and search filters  
 **Acceptance:**
 - [x] Issue tracking created
-- [x] Design: `escapeLdapDn()` and `escapeLdapFilter()` functions per RFC — `ldap_authenticator.cpp:122-218`
-- [x] Implementation: String concatenation → escaped variants — production paths use escaped functions
-- [x] Tests: Fuzz test with injection payloads; unit tests for escape correctness — `tests/test_ldap_authenticator.cpp:390-576`
+- [ ] Design: `escapeLdapDn()` and `escapeLdapFilter()` functions per RFC
+- [ ] Implementation: String concatenation → escaped variants
+- [ ] Tests: Fuzz test with injection payloads; unit tests for escape correctness
 - [ ] PR: Linked to ROADMAP.md v1.1.0 milestone
 
 ---
@@ -74,9 +74,9 @@ This document consolidates open backlog items from:
 **Scope:** `src/auth/mfa_authenticator.cpp`, `src/auth/rate_limiter_backend.cpp`  
 **Acceptance:**
 - [x] Issue tracking created
-- [x] Design: Full-traversal loop with `CRYPTO_memcmp` (no early exit) — documented in `mfa_authenticator.cpp:195-215`
-- [x] Implementation: Replace `std::find()` across both files — `mfa_authenticator.cpp:203-216` uses full scan + CRYPTO_memcmp; `rate_limiter_backend.cpp` has no secret comparisons requiring constant-time treatment
-- [x] Tests: Timing test with std-dev < 500ns for all code paths — `tests/test_mfa_authenticator.cpp:RecoveryCode_ConstantTimeByPosition` (200 iterations, median latency diff < 100µs tolerance; set `THEMIS_RUN_PERF_TESTS=1`)
+- [ ] Design: Full-traversal loop with `CRYPTO_memcmp` (no early exit)
+- [ ] Implementation: Replace `std::find()` across both files
+- [ ] Tests: Timing test with std-dev < 500ns for all code paths
 - [ ] PR: Linked to ROADMAP.md v1.1.0 milestone
 
 ---
@@ -158,9 +158,9 @@ This document consolidates open backlog items from:
 **Scope:** `src/aql/` — Validate generated AQL before execution  
 **Acceptance:**
 - [x] Issue tracking created
-- [x] Design: Validation contract (syntax, semantic checks, timeout policy) — `llm_aql_handler.cpp:validateAQLWithParser()`
-- [x] Implementation: Post-generation validator before executor hand-off — `llm_aql_handler.cpp:1701-1733`; REJECT_ON_ERROR + RETRY_ON_ERROR modes
-- [x] Tests: Malformed query rejection; valid query acceptance; timeout enforcement — existing `tests/test_llm_aql_handler*.cpp`
+- [ ] Design: Validation contract (syntax, semantic checks, timeout policy)
+- [ ] Implementation: Post-generation validator before executor hand-off
+- [ ] Tests: Malformed query rejection; valid query acceptance; timeout enforcement
 - [ ] PR: Linked to ROADMAP.md v1.1.0 milestone
 
 ---
@@ -168,12 +168,12 @@ This document consolidates open backlog items from:
 ### A-10 · `aql` — Thread Leak in `LLMTimeoutManager::executeWithTimeout()`  
 **Priority:** 🔴 Critical | **Target:** v1.1.0 | **Issue:** #3848  
 **Type:** Bug (resource leak, thread lifecycle)  
-**Scope:** `include/aql/llm_timeout_manager.h` — Fix thread lifecycle management (header-only)  
+**Scope:** `src/aql/llm_timeout_manager.cpp` — Fix thread lifecycle management  
 **Acceptance:**
 - [x] Issue tracking created
-- [x] Design: Thread lifecycle contract; cancellation semantics — documented in `llm_timeout_manager.h:86-133`
-- [x] Implementation: Fix thread leak — uses `std::jthread` with cleanup thread that joins on destroy; no detach without ownership transfer (`llm_timeout_manager.h:106,121`)
-- [x] Tests: Run executor 1K times under memory leak detector (valgrind/AddressSanitizer); verify no thread accumulation — `tests/test_aql_hardening_v1_6_0.cpp:LLMTimeoutManager_A10_1KCyclesTest` (A10_1K_Success + A10_1K_Timeout, 1K cycles each, /proc/self/status thread-count guard)
+- [ ] Design: Thread lifecycle contract; cancellation semantics
+- [ ] Implementation: Fix thread leak (likely missing `detach()` or `join()` path)
+- [ ] Tests: Run executor 1K times under memory leak detector (valgrind/AddressSanitizer); verify no thread accumulation
 - [ ] PR: Linked to ROADMAP.md v1.1.0 milestone
 
 ---

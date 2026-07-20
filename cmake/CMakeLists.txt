@@ -1945,6 +1945,7 @@ set(THEMIS_CORE_SOURCES
     ../src/graph/parallel_traversal.cpp
     ../src/graph/distributed_graph.cpp
     ../src/graph/scheduled_edge_refresh.cpp
+    ../src/graph/graph_query_cache.cpp
     ../src/graph/adjacency_list.cpp
     ../src/query/optimizer_cost_model.cpp
     ../src/query/aql_parser.cpp

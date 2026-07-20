@@ -880,8 +880,11 @@ public:
     /// Returns the configured TTL (zero = no TTL expiry).
     std::chrono::milliseconds getPlanCacheTTL() const { return plan_cache_ttl_; }
 
-    /// Returns the current number of entries in the plan cache.
-    size_t getPlanCacheSize() const { return plan_cache_.size(); }
+    /// Returns the current number of entries in the plan cache.  Thread-safe.
+    size_t getPlanCacheSize() const {
+        std::lock_guard<std::mutex> lk(plan_cache_mutex_);
+        return plan_cache_.size();
+    }
 
     /**
      * Clear plan cache
@@ -1258,6 +1261,11 @@ private:
     /// Per-entry TTL; entries older than this are expired (zero = no expiry).
     std::chrono::milliseconds plan_cache_ttl_{0};
 
+    /// Mutex protecting plan_cache_ and plan_cache_lru_ for thread-safe
+    /// concurrent access.  Declared mutable so that const lookup methods
+    /// (getPlanCacheSize) can also take the lock.
+    mutable std::mutex plan_cache_mutex_;
+
     /// LRU access-order list: front = most recently used, back = LRU victim.
     std::list<std::string> plan_cache_lru_;
 
@@ -1267,10 +1275,13 @@ private:
         plan_cache_;
 
     /// Insert or update a plan in the cache, enforcing LRU size limit.
+    /// Thread-safe: acquires plan_cache_mutex_ internally.
     void planCacheInsert(const std::string& key, const OptimizationPlan& plan);
 
-    /// Look up a plan in the cache.  Returns nullptr when not found or expired.
-    const OptimizationPlan* planCacheLookup(const std::string& key);
+    /// Look up a plan in the cache.  Returns the cached plan by value (empty
+    /// optional when not found or expired).  Thread-safe: acquires
+    /// plan_cache_mutex_ internally, so callers receive a safe copy.
+    std::optional<OptimizationPlan> planCacheLookup(const std::string& key);
     
     // Execution history for adaptive optimization
     std::vector<ExecutionStats> execution_history_;

@@ -1896,6 +1896,7 @@ set(THEMIS_GRAPH_SOURCES
     ../src/graph/parallel_traversal.cpp
     ../src/graph/scheduled_edge_refresh.cpp
     ../src/graph/graph_query_rewriter.cpp
+    ../src/graph/graph_query_cache.cpp
 )
 
 # Function to build modular architecture (post-v1.3.0)

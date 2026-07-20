@@ -38,6 +38,7 @@
 #include <stdexcept>
 #include "network/wire_bootstrap_validation.h"
 #include "network/wire_protocol_helpers.h"
+#include "network/wire_retry_policy.h"
 #ifdef THEMIS_ENABLE_WEBSOCKET
 #  include "network/wire_protocol_websocket.h"
 #endif
@@ -97,8 +98,8 @@ constexpr std::size_t kDefaultBpmnHistoryEvents = 1000;
 constexpr std::size_t kMaxBpmnHistoryEvents = 10000;
 constexpr uint32_t kMaxWireFrameSizeMb =
     static_cast<uint32_t>(std::numeric_limits<uint32_t>::max() / (1024u * 1024u));
-constexpr int kBindListenMaxRetries = 3;
-constexpr auto kBindListenRetryBaseDelay = std::chrono::milliseconds(100);
+constexpr int kBindListenMaxRetries = 3; // kept for reference; active retry uses WireRetryPolicy
+constexpr auto kBindListenRetryBaseDelay = std::chrono::milliseconds(100); // kept for reference
 
 /// Maximum ms to wait for a single I/O thread to join during shutdown.
 /// thread_join_no_timeout (W3): capped to prevent indefinite block.
@@ -537,59 +538,64 @@ void WireProtocolServer::start() {
 
     tcp::endpoint endpoint(bind_addr, config_.port);
     boost::system::error_code setup_ec;
-    for (int attempt = 1; attempt <= kBindListenMaxRetries; ++attempt) {
-        boost::system::error_code ec;
 
-        if (acceptor_->is_open()) {
-            acceptor_->close(ec);
-            ec.clear();
-        }
+    // P5-S01: Use WireRetryPolicy for bind/listen with exponential backoff.
+    const auto bind_policy = themis::network::WireRetryPolicy::forBindListen();
+    const bool bind_ok = themis::network::retryWithPolicy(
+        bind_policy,
+        [&]() -> bool {
+            boost::system::error_code ec;
 
-        acceptor_->open(endpoint.protocol(), ec);
-        if (!ec) {
-            acceptor_->set_option(tcp::acceptor::reuse_address(true), ec);
-        }
-
-        // Enable dual-stack (IPV6_V6ONLY=0) when binding to an IPv6 socket and
-        // ipv6_dual_stack is requested.  This allows a single listener to accept
-        // both IPv4-mapped and native IPv6 clients without a second socket.
-        if (!ec && endpoint.address().is_v6() && config_.ipv6_dual_stack) {
-            net::ip::v6_only v6only_opt(false);
-            boost::system::error_code v6ec;
-            acceptor_->set_option(v6only_opt, v6ec);
-            // Non-fatal: some platforms (e.g. OpenBSD) do not support dual-stack.
-            if (v6ec) {
-                std::cerr << "[WireProtocol] Note: dual-stack (IPV6_V6ONLY=0) not supported"
-                             " on this platform, proceeding with IPv6-only socket.\n";
+            if (acceptor_->is_open()) {
+                acceptor_->close(ec);
+                ec.clear();
             }
-        }
 
-        if (!ec) {
-            acceptor_->bind(endpoint, ec);
-        }
-        if (!ec) {
-            acceptor_->listen(config_.tcp_backlog, ec);
-        }
+            acceptor_->open(endpoint.protocol(), ec);
+            if (!ec) {
+                acceptor_->set_option(tcp::acceptor::reuse_address(true), ec);
+            }
 
-        if (!ec) {
-            setup_ec.clear();
-            break;
-        }
+            // Enable dual-stack (IPV6_V6ONLY=0) when binding to an IPv6 socket
+            // and ipv6_dual_stack is requested.  This allows a single listener to
+            // accept both IPv4-mapped and native IPv6 clients without a second
+            // socket.
+            if (!ec && endpoint.address().is_v6() && config_.ipv6_dual_stack) {
+                net::ip::v6_only v6only_opt(false);
+                boost::system::error_code v6ec;
+                acceptor_->set_option(v6only_opt, v6ec);
+                // Non-fatal: some platforms (e.g. OpenBSD) do not support dual-stack.
+                if (v6ec) {
+                    std::cerr << "[WireProtocol] Note: dual-stack (IPV6_V6ONLY=0) not supported"
+                                 " on this platform, proceeding with IPv6-only socket.\n";
+                }
+            }
 
-        setup_ec = ec;
-        std::cerr << "[WireProtocol] Listener setup failed on attempt "
-                  << attempt << "/" << kBindListenMaxRetries
-                  << ": " << setup_ec.message() << std::endl;
+            if (!ec) {
+                acceptor_->bind(endpoint, ec);
+            }
+            if (!ec) {
+                acceptor_->listen(config_.tcp_backlog, ec);
+            }
 
-        if (attempt < kBindListenMaxRetries) {
-            std::this_thread::sleep_for(kBindListenRetryBaseDelay * attempt);
-        }
-    }
+            if (!ec) {
+                setup_ec.clear();
+                return true;
+            }
+            setup_ec = ec;
+            return false;
+        },
+        [&](uint32_t attempt, int64_t delay_ms) {
+            std::cerr << "[WireProtocol] Listener setup failed on attempt "
+                      << attempt << "/" << bind_policy.max_attempts
+                      << ": " << setup_ec.message()
+                      << "; retrying in " << delay_ms << "ms\n";
+        });
 
-    if (setup_ec) {
+    if (!bind_ok || setup_ec) {
         std::cerr << "[WireProtocol] Startup failed: unable to bind/listen on "
                   << endpoint.address().to_string() << ":" << endpoint.port()
-                  << " after " << kBindListenMaxRetries << " attempts: "
+                  << " after " << bind_policy.max_attempts << " attempts: "
                   << setup_ec.message() << std::endl;
         return;
     }

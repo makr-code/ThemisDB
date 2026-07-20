@@ -181,21 +181,28 @@ endif()
 
 if(NOT TARGET test_query_planner_cache)
     find_package(GTest QUIET)
-    if(GTest_FOUND AND TARGET themis_evaluation)
+    if(GTest_FOUND AND TARGET themis_core)
         add_executable(test_query_planner_cache
             test_query_planner_cache.cc
         )
 
         target_include_directories(test_query_planner_cache PRIVATE
+            ${THEMIS_ROOT_DIR}/include
+            ${THEMIS_ROOT_DIR}/src
             ${CMAKE_CURRENT_SOURCE_DIR}/../../src/evaluation
         )
 
         target_link_libraries(test_query_planner_cache PRIVATE
-            themis_evaluation
+            ${TEST_LIBS}
+            themis_core
             GTest::gtest_main
+            spdlog::spdlog
+            Threads::Threads
+            OpenSSL::Crypto
         )
 
         target_compile_features(test_query_planner_cache PRIVATE cxx_std_17)
+        target_compile_definitions(test_query_planner_cache PRIVATE THEMIS_TEST_BUILD=1)
 
         add_test(
             NAME test_query_planner_cache
@@ -205,6 +212,6 @@ if(NOT TARGET test_query_planner_cache)
             LABELS "phase3;p3-01;query_optimization;evaluation"
         )
     else()
-        message(STATUS "test_query_planner_cache: GTest or themis_evaluation not available – skipped")
+        message(STATUS "test_query_planner_cache: GTest or themis_core not available – skipped")
     endif()
 endif()
