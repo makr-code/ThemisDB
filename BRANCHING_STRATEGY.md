@@ -70,6 +70,7 @@ Implications:
 - The beta-to-GA hardening path must be proven on `develop` before any promotion into a canonical edition lane.
 - `release_critical` CI on `develop` is the mandatory entry gate for release work; edition-lane promotion must not bypass it.
 - GA promotion additionally requires current Wave-7 PASS evidence and documented sign-off for the highest-risk modules (`server`, `llm`, `sharding`).
+- GA promotion follows the tracked execution batches (A-D) defined in root governance docs; skipping a batch boundary is not allowed.
 - Direct release-lane bypass is allowed only for the hotfix exception flow in §6.4.
 
 ## 5. Branch Types

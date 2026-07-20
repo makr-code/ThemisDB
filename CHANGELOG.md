@@ -5,6 +5,13 @@ All notable changes to ThemisDB will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+- Synchronized GA hardening governance across `/home/runner/work/ThemisDB/ThemisDB/ROADMAP.md`, `/home/runner/work/ThemisDB/ThemisDB/FUTURE_ENHANCEMENTS.md`, `/home/runner/work/ThemisDB/ThemisDB/RELEASE_STRATEGY.md`, `/home/runner/work/ThemisDB/ThemisDB/VERSIONING.md`, and `/home/runner/work/ThemisDB/ThemisDB/BRANCHING_STRATEGY.md`.
+- Introduced explicit execution-batch tracking (Batch A-D) for beta-to-GA progression, including batch-boundary evidence expectations.
+- Updated next-phase execution trackers (`/home/runner/work/ThemisDB/ThemisDB/NEXT_PHASE_IMPLEMENTATION_PLAN.md`, `/home/runner/work/ThemisDB/ThemisDB/ai_working/NEXT_PHASE_STATUS.md`) to reflect delivered Phase 5 server/llm implementation status, active sharding sign-off work, and active reproducibility blockers.
+
 ## [2.4.0-rc1] — 2026-07-03 — Graph Module Hardening & Release Candidate
 
 ### New Features: Graph Module Phase 2 Completion
@@ -2611,4 +2618,3 @@ ThemisDB follows [Semantic Versioning](https://semver.org/):
 
 ---
 Zuletzt geprueft (Root-Sync): 2026-05-26
-

@@ -98,6 +98,7 @@ Required evidence bundle:
 - no new CRITICAL findings in `server`, `llm`, and `sharding`
 - required sanitizer, recovery, chaos/fault-injection, penetration-test, SLA, and runbook artefacts
 - synchronized release/governance documentation (`ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `CHANGELOG.md`, branch/release/versioning docs)
+- completed GA hardening execution batches (A-D) with boundary evidence updates in planning/status documents
 
 ## 4. Release Cadence
 
@@ -224,4 +225,3 @@ Pre-release versions are never considered "stable" for production use. Docker ta
 
 ---
 Zuletzt geprueft (Root-Sync): 2026-05-26
-

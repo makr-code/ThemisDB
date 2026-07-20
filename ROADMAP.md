@@ -22,29 +22,29 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 ## Current Status
 
 - [~] The beta-to-GA hardening path runs on `develop`; release-lane promotion happens only after gate evidence is complete.
-- [ ] Wave 7 baseline is re-confirmed with all six PASS gates before any further production release activity.
-- [ ] `release_critical` CI on `develop` is enforced as the mandatory entry gate for release work.
-- [ ] `server`, `llm`, and `sharding` close current hardening work with no new CRITICAL findings and documented failure/recovery semantics.
+- [x] Wave 7 baseline evidence exists with all six PASS gates (`benchmarks/wave7/release_gate_manifest_w7.json`; baseline currently valid, periodic re-confirmation still required).
+- [x] `release_critical` CI on `develop` is defined as the mandatory entry gate for release work (`.github/workflows/09-pr-gates_release-critical-tests.yml`).
+- [~] `server`, `llm`, and `sharding` top-risk hardening is in closure mode: `server` P5-S01/S02 and `llm` P5-L01/P5-L02 delivered; `sharding` P6 sign-off still open.
 - [ ] Wave 8, chaos/fault-injection, sanitizer/recovery, penetration-test, and 99.99% SLA sign-off artefacts are still incomplete.
 
 ## In Progress
 
-- [ ] Reconfirm canonical build reproducibility for `linux-release` (Ninja + `vcpkg`) and `community-release` (system packages incl. RocksDB) (Target: Phase 0 / 2026-07)
-- [ ] Complete `server` retry/timeout/graceful-shutdown/fault-recovery hardening across `include/server/`, `src/server/`, `include/network/`, and `src/network/` (Target: Phase 1 / 2026-08)
-- [ ] Complete `llm` exception-safety, RAII, leak-prevention, and race-elimination work across `include/llm/`, `src/llm/`, and `tests/llm/` (Target: Phase 1 / 2026-08)
+- [~] Reconfirm canonical build reproducibility for `linux-release` (Ninja + `vcpkg`) and `community-release` (system packages incl. RocksDB) (Target: Phase 0 / 2026-07)
+- [~] Move `server` hardening from implementation-complete to GA sign-off ready (residual risk register + regression proof + gate evidence sync) (Target: Phase 1 / 2026-08)
+- [~] Move `llm` hardening from implementation-complete to GA sign-off ready (ownership/recovery evidence + regression proof + gate evidence sync) (Target: Phase 1 / 2026-08)
 - [ ] Complete `sharding` 2PC/3PC consistency, WAL/recovery, and fault-injection hardening across `include/sharding/`, `src/sharding/`, `include/replication/`, and `src/replication/` (Target: Phase 1 / 2026-08)
 - [ ] Keep graph/query optimisation work behind measurable latency/cache/pool/Wave-7 regression gates before counting it as production-ready (Target: Phase 2 / 2026-09)
 
 ## Implementation Phases
 
 ### Phase 0 — Release Baseline and Build Stability
-- [ ] Re-run Wave 7 and archive evidence for all six PASS gates (Target: 2026-07)
+- [~] Re-run Wave 7 and archive evidence for all six PASS gates (Target: 2026-07)
 - [ ] Remove open configure/CMake blockers affecting `linux-release` and `community-release` reproducibility (Target: 2026-07)
-- [ ] Treat the `release_critical` suite on `develop` as a non-optional release entry gate (Target: 2026-07)
+- [x] Treat the `release_critical` suite on `develop` as a non-optional release entry gate (Target: 2026-07)
 
 ### Phase 1 — Top-Risk Module Hardening
-- [ ] `server`: close retry, timeout, graceful-shutdown, and fault-recovery gaps with documented error paths and recovery semantics (Target: 2026-08)
-- [ ] `llm`: close exception-safety, RAII, memory-leak, and race-condition gaps with focused tests and documented ownership rules (Target: 2026-08)
+- [~] `server`: close retry, timeout, graceful-shutdown, and fault-recovery gaps with documented error paths and recovery semantics (Target: 2026-08)
+- [~] `llm`: close exception-safety, RAII, memory-leak, and race-condition gaps with focused tests and documented ownership rules (Target: 2026-08)
 - [ ] `sharding`: close 2PC/3PC consistency, WAL/recovery, and partition/fault-injection gaps with explicit commit/abort guarantees (Target: 2026-08)
 - [ ] Hold all three modules to the same exit state: no new CRITICAL findings and no undocumented failure mode in release-critical paths (Target: 2026-08)
 
@@ -70,9 +70,22 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 - [ ] Finish runbooks, release artefacts, and manual release checklists for human sign-off (Target: 2026-10)
 
 ### Phase 6 — Documentation, Governance, and Release Approval
-- [ ] Keep `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `CHANGELOG.md`, `RELEASE_STRATEGY.md`, `VERSIONING.md`, and branch-governance docs synchronized (Target: ongoing)
+- [~] Keep `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `CHANGELOG.md`, `RELEASE_STRATEGY.md`, `VERSIONING.md`, and branch-governance docs synchronized (Target: ongoing)
 - [ ] Promote release work from `develop` into canonical release lanes only after all system gates are proven, not just module-local gates (Target: release cut)
 - [ ] Complete public API, failure-behaviour, and operational-limit documentation before GA sign-off (Target: release cut)
+
+## Execution Batches (GA Hardening)
+
+- [~] **Batch A — Status-/Evidenz-Sync + Gate-Board Update** (Target: 2026-07)
+  - [x] Done-evidence consolidated for Server P5-S01/P5-S02, LLM P5-L01/P5-L02, Wave 5/6, and Wave-7 baseline.
+  - [x] Root and execution-plan documents synchronized (`ROADMAP.md`, `NEXT_PHASE_IMPLEMENTATION_PLAN.md`, `ai_working/NEXT_PHASE_STATUS.md`).
+  - [~] Build reproducibility blockers on `linux-release`/`community-release` tracked as active Phase-0 gate blockers.
+- [ ] **Batch B — Sharding Phase 6 Sign-Off** (Target: 2026-08)
+  - [ ] Promote P6-01/P6-02 from test implementation to consistency/recovery sign-off with WAL + failover evidence.
+- [ ] **Batch C — Wave 8 + Chaos + Sanitizer/Pentest** (Target: 2026-09)
+  - [ ] Complete resilience and security evidence chain for GA gate eligibility.
+- [ ] **Batch D — Final GA Readiness** (Target: 2026-10)
+  - [ ] Operations/SLA/runbook/governance sign-off and controlled promotion from `develop`.
 
 ## Production Readiness Checklist
 
@@ -146,19 +159,19 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 
 ---
 
-## 🚀 NEXT PHASE IMPLEMENTATION (2026-07-22 to 2026-08-31) — KICKOFF
+## 🚀 NEXT PHASE IMPLEMENTATION (2026-07-22 to 2026-08-31) — EXECUTION TRACKING
 
-**Status:** 🔵 PLANNED → 🚀 Kickoff 2026-07-22  
+**Status:** 🟡 ACTIVE (Batch A evidence sync running; Phase 5 server/llm implementations delivered; Phase 6 sharding sign-off open)  
 **Implementation Plans:** [NEXT_PHASE_IMPLEMENTATION_PLAN.md](NEXT_PHASE_IMPLEMENTATION_PLAN.md), [ai_working/PHASE3_OPTIMIZATION_DETAILED_PLAN.md](ai_working/PHASE3_OPTIMIZATION_DETAILED_PLAN.md), [ai_working/PHASE5_HARDENING_DETAILED_PLAN.md](ai_working/PHASE5_HARDENING_DETAILED_PLAN.md)
 
 ### Parallel Work Streams (4-6 weeks)
 
 | Phase | Component | Timeline | Effort | Teams | Target Tests | Status |
 |-------|-----------|----------|--------|-------|-------------|--------|
-| **Phase 3** | Graph: Query optimization, cache efficiency, resource pooling | 6 weeks | 10 weeks | A+B (4 eng) | 130 new | 🔵 Planned |
-| **Phase 5-S** | Server: Wire-protocol retry + HTTP timeout patterns | 3 weeks | 4 weeks | C (2 eng) | 39 new | 🔵 Planned |
-| **Phase 5-L** | LLM: Exception safety + memory leak fixes | 3 weeks | 6 weeks | D (2 eng) | 51 new | 🔵 Planned |
-| **Phase 6** | Sharding: 2PC/3PC consistency + fault injection | 3 weeks | 6 weeks | E+F (4 eng) | 60+ new | 🔵 Queued |
+| **Phase 3** | Graph: Query optimization, cache efficiency, resource pooling | 6 weeks | 10 weeks | A+B (4 eng) | 130 new | 🟡 In Progress (gate-locked) |
+| **Phase 5-S** | Server: Wire-protocol retry + HTTP timeout patterns | 3 weeks | 4 weeks | C (2 eng) | 39 new | ✅ Implemented (GA sign-off open) |
+| **Phase 5-L** | LLM: Exception safety + memory leak fixes | 3 weeks | 6 weeks | D (2 eng) | 51 new | ✅ Implemented (GA sign-off open) |
+| **Phase 6** | Sharding: 2PC/3PC consistency + fault injection | 3 weeks | 6 weeks | E+F (4 eng) | 60+ new | 🟡 In Progress (P6 sign-off pending) |
 | **AQL Phase 2** | DDL implementation (parser + executor) | 4-6 weeks | 6 weeks | G (2 eng) | 32 new | 🔵 Queued |
 | **Wave 8** | Soak + endurance + degradation fault injection | Parallel | 8 weeks | F (2 eng) | 40+ scenarios | 🔵 Queued |
 
@@ -166,14 +179,12 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 **Total Team Effort:** ~38 weeks across 8 teams (~15 engineers)  
 **Release Target:** v1.9.0-beta (Sept 2026), v2.0.0-rc1 (Oct 2026), v2.0.0 GA (Nov 2026)
 
-### Immediate Kickoff Actions (Week 1: 2026-07-22 to 2026-07-26)
+### Immediate Batch-A Actions (Execution Now)
 
-- [ ] **Architecture reviews** (Teams A-D present roadmaps, 2 hours per team)
-- [ ] **Feature branches created:** `feature/graph-phase3-optimization`, `feature/server-phase5-hardening`, `feature/llm-phase5-hardening`
-- [ ] **GitHub issues created:** Phase 3 P3-01..05, Phase 5-S P5-S01..02, Phase 5-L P5-L01..02
-- [ ] **Baseline measurements:** Wave 7 gates re-confirmed PASS, query latency profiled, memory baseline established
-- [ ] **Test scaffolding:** Empty test files + stubs + CMakeLists.txt (no logic yet)
-- [ ] **First commit cycle:** Infrastructure + test stubs (by Friday 2026-07-26)
+- [x] **Done-evidence sync:** Server P5-S01/P5-S02 + LLM P5-L01/P5-L02 consolidated in module roadmaps and plan trackers
+- [x] **Regression evidence retained:** Wave 5/6 completion and Wave 7 PASS baseline linked into GA hardening context
+- [~] **Build reproducibility blocker tracking active:** `linux-release` (missing Ninja + `vcpkg` toolchain), `community-release` (missing RocksDB)
+- [x] **Gate model operationalized:** `release_critical` on `develop` treated as mandatory entry gate in root governance docs
 
 ### Decision Tree: Phase Prioritization
 
@@ -1997,4 +2008,3 @@ ctest --preset community-release --filter "test_layered_retrieval_orchestrator" 
 
 ---
 Zuletzt geprueft (Root-Sync): 2026-05-26
-

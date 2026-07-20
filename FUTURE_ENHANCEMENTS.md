@@ -325,6 +325,40 @@
 - Audit trails and release artefacts must be complete and reviewable.
 - Documentation/governance drift is treated as a release blocker.
 
+## ga-hardening-execution-batches
+
+### Scope
+- Execute the GA hardening program in deterministic batches to avoid unsynchronized module-only completion.
+- Keep status, evidence, and release gates aligned across root governance documents.
+
+### Design Constraints
+- No promotion from `develop` unless the complete gate chain (Phase 0-6) is satisfied.
+- Do not treat implementation-complete module work as GA-complete without sign-off evidence.
+
+### Required Interfaces
+- `ROADMAP.md`
+- `NEXT_PHASE_IMPLEMENTATION_PLAN.md`
+- `ai_working/NEXT_PHASE_STATUS.md`
+- `RELEASE_STRATEGY.md`, `VERSIONING.md`, `CHANGELOG.md`, `BRANCHING_STRATEGY.md`
+
+### Implementation Notes
+- Batch A: status/evidence sync + gate-board update (active).
+- Batch B: sharding Phase 6 full consistency/recovery sign-off.
+- Batch C: Wave 8 + chaos + sanitizer + penetration-test evidence completion.
+- Batch D: operations/SLA/governance final GA readiness and controlled promotion.
+
+### Test Strategy
+- Verify gate evidence on each batch boundary before moving to the next batch.
+- Keep Wave 5/6 retention and `release_critical` on `develop` as mandatory regression baseline.
+
+### Performance Targets
+- No unexplained regression against Wave-7 gate thresholds during batch transitions.
+- Repeatable gate results on reruns before promotion decisions.
+
+### Security / Reliability
+- Penetration-test and residual-risk register are mandatory before GA cut.
+- Incomplete governance synchronization is treated as release-blocking.
+
 ## Documentation Quality Automation (2026-05-11)
 
 ### Scope
@@ -1559,4 +1593,3 @@ stub-replacement, module:<name>, <priority-label>
 
 ---
 Zuletzt geprueft (Root-Sync): 2026-05-26
-

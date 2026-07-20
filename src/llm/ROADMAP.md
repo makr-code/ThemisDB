@@ -26,6 +26,10 @@ The module provides production-grade LLM runtime surfaces across async inference
 - [~] Cross-node and shard-aware inference hardening (Target: Q3 2026)
 - [~] Runtime cancellation semantics and timeout behavior consistency across engine variants (Target: Q3 2026)
 - [~] Runtime benchmark and regression gate alignment for RAID/RAG-heavy inference paths (Target: Q3 2026)
+- [~] GA Sign-off evidence bundling for delivered P5-L01/P5-L02 hardening (Target: Q3 2026)
+  - [ ] Attach residual-risk register for exception-safety/memory/recovery paths (Target: Q3 2026)
+  - [ ] Reconfirm focused + release-critical regression proof on current `develop` baseline (Target: Q3 2026)
+  - [ ] Link ownership/failure-mode sign-off evidence into root gate board docs (Target: Q3 2026)
 
 ## Planned Features
 

@@ -69,6 +69,17 @@ For the current `v1.9.0-beta` → GA path, release work follows a strict gate or
 
 The root evidence set for this path is maintained in `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `CHANGELOG.md`, and the referenced test/benchmark/runbook artefacts.
 
+## 2.4 GA Hardening Execution Batches
+
+For `v1.9.0-beta` → GA, execution is tracked in four mandatory batches:
+
+1. **Batch A** — status/evidence synchronization and gate-board alignment
+2. **Batch B** — sharding Phase 6 consistency/recovery sign-off completion
+3. **Batch C** — Wave 8 + chaos/fault-injection + sanitizer + penetration-test evidence
+4. **Batch D** — operations/SLA/runbook/governance final readiness and controlled promotion
+
+Batch boundaries are not advisory: each batch requires updated evidence references in `ROADMAP.md`, `NEXT_PHASE_IMPLEMENTATION_PLAN.md`, and `ai_working/NEXT_PHASE_STATUS.md` before the next batch starts.
+
 ## 3. Tags
 
 Minimal tags:

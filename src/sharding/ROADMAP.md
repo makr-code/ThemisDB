@@ -23,6 +23,10 @@ Production-capable sharding runtime exists for routing/placement, distributed co
   `tests/sharding/test_sharding_phase6_hardening.cpp` (TXC-01..TXC-32).
 - [~] **P6-02** (2026-07-20): 20 GTest cases for failover logic and recovery-path hardening added to
   `tests/sharding/test_sharding_phase6_hardening.cpp` (FLR-01..FLR-20).
+- [~] **P6 Sign-off Track** (2026-07-20): transition from test-delivery to full consistency/recovery gate evidence.
+  - [ ] P6-01 sign-off: commit/abort/WAL/replay guarantees documented and validated
+  - [ ] P6-02 sign-off: failover/recovery deterministic evidence bundle completed
+  - [ ] P6-03 dependency: Wave-8 fault-injection chain integrated into GA gate board
 
 ## In Progress
 
