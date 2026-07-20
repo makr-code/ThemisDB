@@ -100,7 +100,7 @@ EvictionResult EvictionScheduler::select(
     // Gap B013: previously used hand-rolled index arithmetic that could
     // read one past the sorted vector end on the final iteration.
     // Fix: BoundsChecker::check_dereference() before every access.
-    EvictionResult result;
+    EvictionResult result{};  // value-init: zero freed_bytes / candidates_evaluated
     result.candidates_evaluated = candidates.size();
 
     auto it  = candidates.cbegin();
