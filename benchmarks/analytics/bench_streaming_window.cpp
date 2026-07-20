@@ -52,23 +52,23 @@ constexpr int      kNumPartitionKeys  = 100;
  * @param n           Number of records to generate.
  * @param span_minutes Time span in minutes covered by the records.
  * @param num_keys    Number of distinct partition keys.
- * @return Vector of StreamRecord with monotonically advancing event times per key.
+ * @return Vector of StreamRecord with monotonically advancing event times.
  */
 std::vector<themis::analytics::StreamRecord> makeRecords(int64_t n,
-                                                          int     span_minutes = 60,
-                                                          int     num_keys     = kNumPartitionKeys) {
+                                                        int     span_minutes = 60,
+                                                        int     num_keys     = kNumPartitionKeys) {
     using namespace std::chrono;
     std::mt19937_64 rng(kCanonicalSeed);
 
-    auto base = system_clock::now();
-    int64_t span_us = static_cast<int64_t>(span_minutes) * 60LL * 1'000'000LL;
+    const auto    base    = system_clock::time_point{};
+    const int64_t span_us = static_cast<int64_t>(span_minutes) * 60LL * 1'000'000LL;
 
     std::vector<themis::analytics::StreamRecord> records;
     records.reserve(static_cast<size_t>(n));
 
     for (int64_t i = 0; i < n; ++i) {
         themis::analytics::StreamRecord r;
-        int64_t offset_us = static_cast<int64_t>(rng() % static_cast<uint64_t>(span_us));
+        const int64_t offset_us = (n > 0 && span_us > 0) ? ((i * span_us) / n) : 0;
         r.event_time     = base + microseconds(offset_us);
         r.partition_key  = "key_" + std::to_string(static_cast<int>(rng() % static_cast<uint64_t>(num_keys)));
         r.value          = static_cast<double>(rng() % 10000) / 100.0;
