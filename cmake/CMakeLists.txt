@@ -5045,11 +5045,18 @@ if(THEMIS_ENABLE_LLM)
         )
         target_link_libraries(themis-model PRIVATE 
             themis_core
-            CURL::libcurl
             OpenSSL::SSL
             OpenSSL::Crypto
-            yaml-cpp
         )
+        if(TARGET CURL::libcurl)
+            target_link_libraries(themis-model PRIVATE CURL::libcurl)
+            target_compile_definitions(themis-model PRIVATE CURL_ENABLED=1)
+        endif()
+        if(TARGET yaml-cpp::yaml-cpp)
+            target_link_libraries(themis-model PRIVATE yaml-cpp::yaml-cpp)
+        elseif(TARGET yaml-cpp)
+            target_link_libraries(themis-model PRIVATE yaml-cpp)
+        endif()
         target_include_directories(themis-model PRIVATE ${THEMIS_ROOT_DIR}/include)
         message(STATUS "LLM Model CLI Tool: Enabled (themis-model)")
         
