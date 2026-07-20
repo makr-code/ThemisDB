@@ -39,7 +39,7 @@ foreach(_src IN LISTS RAG_MODULE_TEST_SOURCES)
         # (e.g., spdlog header vs compiled library mismatch).
         target_compile_definitions(rag_rlaif_impl_objs PRIVATE
             THEMIS_TEST_BUILD=1
-            SPDLOG_COMPILED
+            SPDLOG_COMPILED_LIB
             SPDLOG_SHARED_LIB
             SPDLOG_FMT_EXTERNAL
         )
