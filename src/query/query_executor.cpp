@@ -131,9 +131,8 @@ ResultSet QueryExecutor::execute()
     // Gap B002: previously used a raw for-index loop without bounds guard.
     // Fix: RangeValidator + BoundsChecker on source_rows iteration.
     const auto& source = plan_->source_rows;
-
-    RangeValidator<decltype(source)::const_iterator>
-        src_range(source.cbegin(), source.cend());
+ 
+    RangeValidator src_range(source.cbegin(), source.cend());
 
     for (auto it = src_range.begin(); it != src_range.end(); ++it) {
         if (aborted_.load(std::memory_order_relaxed)) {
@@ -162,9 +161,8 @@ std::size_t QueryExecutor::execute_streaming(RowCallback cb)
     }
 
     const auto& source = plan_->source_rows;
-
-    RangeValidator<decltype(source)::const_iterator>
-        src_range(source.cbegin(), source.cend());
+ 
+    RangeValidator src_range(source.cbegin(), source.cend());
 
     std::size_t delivered = 0;
     for (auto it = src_range.begin(); it != src_range.end(); ++it) {
