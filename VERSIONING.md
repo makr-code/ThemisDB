@@ -88,6 +88,17 @@ Canonical suffixes:
 
 ---
 
+## 3.1 Stable / GA Promotion Evidence
+
+A stable / GA tag may only be cut after the release-policy gates in `RELEASE_STRATEGY.md` are satisfied on `develop`.
+
+Required evidence bundle:
+- Wave 7 PASS on the current baseline
+- green `release_critical` CI on `develop`
+- no new CRITICAL findings in `server`, `llm`, and `sharding`
+- required sanitizer, recovery, chaos/fault-injection, penetration-test, SLA, and runbook artefacts
+- synchronized release/governance documentation (`ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `CHANGELOG.md`, branch/release/versioning docs)
+
 ## 4. Release Cadence
 
 | Release type | Approximate cadence |
@@ -121,11 +132,11 @@ All five editions share the same `MAJOR.MINOR.PATCH` base version. Edition-speci
 
 | Edition | Git branch | Docker tag pattern | Git tag pattern |
 |---|---|---|---|
-| COMMUNITY | `main` | `themisdb/themisdb:1.8.0-community-binary-x64` and `...-arm` | `v1.8.0` |
+| COMMUNITY | `community` | `themisdb/themisdb:1.8.0-community-binary-x64` and `...-arm` | `v1.8.0` |
 | ENTERPRISE | `enterprise` | `<private-registry>/themisdb-enterprise:1.8.0-enterprise-binary-x64` and `...-arm` | `enterprise-v1.8.0` |
-| MILITARY | `enterprise` | (private registry) | `military-v1.8.0` |
+| MILITARY | `military` | (private registry) | `military-v1.8.0` |
 | HYPERSCALER | `hyperscaler` | `<oem-registry>/themisdb-hyperscaler:1.8.0-hyperscaler-binary-x64` and `...-arm` | `hyperscaler-v1.8.0` |
-| MINIMAL | `main` | `themisdb/themisdb-minimal:1.8.0-minimal-binary-x64` and `...-arm` | `v1.8.0-minimal` |
+| MINIMAL | `minimal` | `themisdb/themisdb-minimal:1.8.0-minimal-binary-x64` and `...-arm` | `minimal-v1.8.0` |
 
 Release assets on GitHub follow the same canonical basename:
 

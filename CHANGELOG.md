@@ -229,6 +229,12 @@ Comprehensive code quality audit across 6 primary modules identified and verifie
 
 ## [Unreleased]
 
+### Documentation & Governance
+
+- Synchronized the root beta-to-GA release-hardening program across `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `BRANCHING_STRATEGY.md`, `RELEASE_STRATEGY.md`, `VERSIONING.md`, and the AI/documentation-governance rule set.
+- Made `develop` the explicit proving lane for the current `v1.9.0-beta` → GA path, with Wave 7, `release_critical`, top-risk module sign-off, and resilience/security/operations artefacts documented as required promotion gates.
+- Corrected edition branch mappings in `VERSIONING.md` to use canonical branch names (`minimal`, `community`, `military`).
+
 ### ✅ EPIC 2.5 Query Planner Phases 5-7 Complete (2026-07-06)
 
 **EPIC 2.5 Hybrid Query Planner — All Seven Phases Complete**

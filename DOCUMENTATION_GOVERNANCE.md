@@ -170,6 +170,7 @@ Immediate update triggers:
 - Test baseline changes affecting `CTEST.md`
 - Benchmark baseline changes affecting benchmark docs
 - Release/version/release-type changes
+- Release-readiness gate changes (for example Wave 7 / Wave 8 status, `release_critical` policy, security exit criteria, or SLA sign-off rules)
 
 ---
 
@@ -198,6 +199,7 @@ All documentation synchronization is orchestrated via GitHub issues and mileston
 - Drift reason
 - Acceptance criteria
 - Target milestone
+- Release-gate evidence references when the SOT domain is `build-test` or `release-versioning`
 
 Use issue template:
 - `.github/ISSUE_TEMPLATE/docs_audit.md`

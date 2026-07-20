@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 **Version:** 2.5  
-**Last Updated:** 2026-07-18
+**Last Updated:** 2026-07-20
 **Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–6 complete; active baseline 22.085 deduplicated findings). Phase 3-5 next-phase implementation plans active.
 
 > For module-specific details see each module's `src/<module>/ROADMAP.md`.
@@ -16,6 +16,84 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 
 **Overall Timeline:** Q1 2026 – Q4 2027  
 **Current Release:** v1.9.0-beta
+
+## GA Release Hardening Program (v1.9.0-beta → v1.9.0 GA)
+
+## Current Status
+
+- [~] The beta-to-GA hardening path runs on `develop`; release-lane promotion happens only after gate evidence is complete.
+- [ ] Wave 7 baseline is re-confirmed with all six PASS gates before any further production release activity.
+- [ ] `release_critical` CI on `develop` is enforced as the mandatory entry gate for release work.
+- [ ] `server`, `llm`, and `sharding` close current hardening work with no new CRITICAL findings and documented failure/recovery semantics.
+- [ ] Wave 8, chaos/fault-injection, sanitizer/recovery, penetration-test, and 99.99% SLA sign-off artefacts are still incomplete.
+
+## In Progress
+
+- [ ] Reconfirm canonical build reproducibility for `linux-release` (Ninja + `vcpkg`) and `community-release` (system packages incl. RocksDB) (Target: Phase 0 / 2026-07)
+- [ ] Complete `server` retry/timeout/graceful-shutdown/fault-recovery hardening across `include/server/`, `src/server/`, `include/network/`, and `src/network/` (Target: Phase 1 / 2026-08)
+- [ ] Complete `llm` exception-safety, RAII, leak-prevention, and race-elimination work across `include/llm/`, `src/llm/`, and `tests/llm/` (Target: Phase 1 / 2026-08)
+- [ ] Complete `sharding` 2PC/3PC consistency, WAL/recovery, and fault-injection hardening across `include/sharding/`, `src/sharding/`, `include/replication/`, and `src/replication/` (Target: Phase 1 / 2026-08)
+- [ ] Keep graph/query optimisation work behind measurable latency/cache/pool/Wave-7 regression gates before counting it as production-ready (Target: Phase 2 / 2026-09)
+
+## Implementation Phases
+
+### Phase 0 — Release Baseline and Build Stability
+- [ ] Re-run Wave 7 and archive evidence for all six PASS gates (Target: 2026-07)
+- [ ] Remove open configure/CMake blockers affecting `linux-release` and `community-release` reproducibility (Target: 2026-07)
+- [ ] Treat the `release_critical` suite on `develop` as a non-optional release entry gate (Target: 2026-07)
+
+### Phase 1 — Top-Risk Module Hardening
+- [ ] `server`: close retry, timeout, graceful-shutdown, and fault-recovery gaps with documented error paths and recovery semantics (Target: 2026-08)
+- [ ] `llm`: close exception-safety, RAII, memory-leak, and race-condition gaps with focused tests and documented ownership rules (Target: 2026-08)
+- [ ] `sharding`: close 2PC/3PC consistency, WAL/recovery, and partition/fault-injection gaps with explicit commit/abort guarantees (Target: 2026-08)
+- [ ] Hold all three modules to the same exit state: no new CRITICAL findings and no undocumented failure mode in release-critical paths (Target: 2026-08)
+
+### Phase 2 — Performance and Scalability Readiness
+- [ ] Deliver graph/query optimisation backlog for plan-cache, cost-model, cache-efficiency, resource-pooling, and load-balancing work (Target: 2026-09)
+- [ ] Gate performance claims on measured query latency, cache-hit-rate, pool-utilisation, and Wave-7 non-regression evidence (Target: 2026-09)
+- [ ] Require repeatable under-load results before marking any optimisation production-ready (Target: 2026-09)
+
+### Phase 3 — Integration and Resilience Proof
+- [ ] Keep the `release_critical` pipeline green on every relevant `develop` change (Target: ongoing)
+- [ ] Retain Wave 5 and Wave 6 as regression protection and add Wave 8 as the next endurance/degradation sign-off tier (Target: 2026-09)
+- [ ] Add cluster-wide chaos/fault-injection coverage and treat recovery/degradation/endurance scenarios as required sign-off gates (Target: 2026-09)
+
+### Phase 4 — Security and Compliance Hardening
+- [ ] Burn down security-relevant gap clusters in `server`, `llm`, and `sharding` first (Target: 2026-10)
+- [ ] Make input validation, transport/certificate hardening, ownership safety, and concurrency risk review mandatory for GA sign-off (Target: 2026-10)
+- [ ] Require a penetration-test report plus documented residual risks before GA approval (Target: 2026-10)
+
+### Phase 5 — Operational Production Readiness
+- [ ] Complete observability, auditability, error-classification, and SLO-signal coverage for the release-critical operating path (Target: 2026-10)
+- [ ] Close backup/recovery proof across storage-, sharding-, and replication-adjacent flows (Target: 2026-10)
+- [ ] Validate the 99.99% uptime SLA with combined load and fault-injection evidence (Target: 2026-10)
+- [ ] Finish runbooks, release artefacts, and manual release checklists for human sign-off (Target: 2026-10)
+
+### Phase 6 — Documentation, Governance, and Release Approval
+- [ ] Keep `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `CHANGELOG.md`, `RELEASE_STRATEGY.md`, `VERSIONING.md`, and branch-governance docs synchronized (Target: ongoing)
+- [ ] Promote release work from `develop` into canonical release lanes only after all system gates are proven, not just module-local gates (Target: release cut)
+- [ ] Complete public API, failure-behaviour, and operational-limit documentation before GA sign-off (Target: release cut)
+
+## Production Readiness Checklist
+
+- [ ] Wave 7 is fully PASS and regression-free on the current baseline
+- [ ] `release_critical` CI stays green on `develop`
+- [ ] `server`, `llm`, and `sharding` have no new CRITICAL findings
+- [ ] Sanitizer, recovery, and fault-injection evidence exists where relevant
+- [ ] Cluster fault-injection and 99.99% SLA validation are complete
+- [ ] Security penetration testing is complete and residual risks are documented
+- [ ] Documentation, release governance, and branch governance remain synchronized
+
+## Known Issues & Limitations
+
+- `linux-release` depends on Ninja plus a bootstrapped `vcpkg` checkout at `vcpkg/scripts/buildsystems/vcpkg.cmake`.
+- `community-release` depends on the system-package path and hard-fails without RocksDB (`librocksdb-dev` or equivalent).
+- The current release-critical CI gate covers the six `release_critical` pipeline tests; Wave 5, Wave 6, Wave 8, chaos, sanitizer, and penetration-test evidence remain separate sign-off artefacts.
+- Existing module hardening progress does not replace the need for end-to-end GA evidence across release, security, recovery, and operations.
+
+## Breaking Changes
+
+- None planned for the beta-to-GA path; any API, ABI, or wire-protocol break must follow the MAJOR-version rules in `VERSIONING.md`.
 
 ---
 

@@ -57,6 +57,18 @@ Canonical pre-release suffixes are `-alphaN`, `-betaN`, and `-rcN`. Legacy forms
 - `COPILOT_INSTRUCTIONS.md` and `.github/copilot-instructions.md` define how AI/agent documentation updates must keep `BRANCHING_STRATEGY.md`, `VERSIONING.md`, this file, `CHANGELOG.md`, `ROADMAP.md`, and `FUTURE_ENHANCEMENTS.md` synchronized.
 - Release documentation updates are only complete when versioning model, release type mapping, branch model, and changelog traceability remain consistent across these root documents.
 
+## 2.3 Beta-To-GA Gate Model
+
+For the current `v1.9.0-beta` → GA path, release work follows a strict gate order on `develop` before promotion into any release lane:
+
+1. confirm Wave 7 with all six PASS gates on the current baseline
+2. keep `release_critical` CI green on `develop`
+3. close top-risk hardening for `server`, `llm`, and `sharding` with no new CRITICAL findings
+4. prove performance, resilience, security, and operational artefacts (Wave 5/6 retention, Wave 8, chaos/fault injection, sanitizer/recovery, penetration test, SLA, runbooks)
+5. promote the proven state from `develop` into the canonical release lane and tag only after the manual checks pass
+
+The root evidence set for this path is maintained in `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `CHANGELOG.md`, and the referenced test/benchmark/runbook artefacts.
+
 ## 3. Tags
 
 Minimal tags:
@@ -508,6 +520,10 @@ Before tagging, verify manually:
 - correct GitHub milestone exists
 - release issues are assigned to the milestone
 - blockers in the milestone are resolved or consciously deferred
+- Wave 7 evidence shows all six PASS gates on the current baseline
+- `release_critical` CI is green on `develop`
+- top-risk module sign-off exists for `server`, `llm`, and `sharding`
+- resilience/security/operations artefacts (Wave 5/6 retention, Wave 8 or equivalent, chaos/fault injection, sanitizer/recovery, penetration test, SLA, runbooks) are complete or explicitly deferred with approval
 - release notes exist
 - artefacts were built successfully
 - package contents are plausible
