@@ -12202,8 +12202,30 @@ void HttpServer::Session::armReadTimer() {
     read_timer_.expires_after(std::chrono::milliseconds(timeout_ms));
     read_timer_.async_wait([self = shared_from_this(), timeout_ms](beast::error_code ec) {
         if (!ec) {
-            // Timer fired before I/O completed: cancel the pending socket operation
-            THEMIS_WARN("Request I/O timeout ({}ms) - closing connection", timeout_ms);
+            // Timer fired before I/O completed.
+            // RFC 7231 §6.5.7: server SHOULD send 408 before closing.
+            THEMIS_WARN("Request I/O timeout ({}ms) - sending 408 and closing connection",
+                        timeout_ms);
+            // Synchronous write of a minimal 408 response.  The async_read is
+            // still pending on the socket so the socket is open and writable.
+            // Errors here are non-fatal: we close regardless.
+            //
+            // Body = {"error":"Request Timeout","status_code":408}  (45 bytes)
+            static const std::string k408{
+                "HTTP/1.1 408 Request Timeout\r\n"
+                "Content-Type: application/json\r\n"
+                "Content-Length: 45\r\n"
+                "Connection: close\r\n"
+                "\r\n"
+                R"({"error":"Request Timeout","status_code":408})"
+            };
+            beast::error_code write_ec;
+            boost::asio::write(self->socket_,
+                               boost::asio::buffer(k408),
+                               write_ec);
+            if (write_ec) {
+                THEMIS_DEBUG("Session 408 write on timeout: {}", write_ec.message());
+            }
             beast::error_code close_ec;
             self->socket_.shutdown(tcp::socket::shutdown_both, close_ec);
             if (close_ec) THEMIS_DEBUG("Session shutdown on timeout: {}", close_ec.message());
@@ -12496,7 +12518,27 @@ void HttpServer::SslSession::armReadTimer() {
     read_timer_.expires_after(std::chrono::milliseconds(timeout_ms));
     read_timer_.async_wait([self = shared_from_this(), timeout_ms](beast::error_code ec) {
         if (!ec) {
-            THEMIS_WARN("Request I/O timeout ({}ms) - closing TLS connection", timeout_ms);
+            // Timer fired before I/O completed.
+            // RFC 7231 §6.5.7: server SHOULD send 408 before closing.
+            THEMIS_WARN("Request I/O timeout ({}ms) - sending 408 and closing TLS connection",
+                        timeout_ms);
+            // Synchronous write of a minimal 408 response over the TLS stream.
+            // Body = {"error":"Request Timeout","status_code":408}  (45 bytes)
+            static const std::string k408{
+                "HTTP/1.1 408 Request Timeout\r\n"
+                "Content-Type: application/json\r\n"
+                "Content-Length: 45\r\n"
+                "Connection: close\r\n"
+                "\r\n"
+                R"({"error":"Request Timeout","status_code":408})"
+            };
+            beast::error_code write_ec;
+            boost::asio::write(self->stream_,
+                               boost::asio::buffer(k408),
+                               write_ec);
+            if (write_ec) {
+                THEMIS_DEBUG("SslSession 408 write on timeout: {}", write_ec.message());
+            }
             beast::error_code close_ec;
             self->stream_.lowest_layer().shutdown(tcp::socket::shutdown_both, close_ec);
             if (close_ec) THEMIS_DEBUG("SslSession shutdown on timeout: {}", close_ec.message());

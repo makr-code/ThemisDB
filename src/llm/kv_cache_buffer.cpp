@@ -22,6 +22,7 @@
 #include <algorithm>
 #include <limits>
 #include <stdexcept>
+#include <spdlog/spdlog.h>
 
 namespace themis {
 namespace llm {
@@ -34,10 +35,23 @@ KVCacheBuffer::KVCacheBuffer(const Config& config)
     current_batch_.reserve(config_.max_tokens_per_batch / 128);  // Estimate ~128 tokens per sequence
 }
 
-KVCacheBuffer::~KVCacheBuffer() {
-    // Final flush on destruction
+KVCacheBuffer::~KVCacheBuffer() noexcept {
+    // Guard: flush() invokes the user-supplied flush_callback_ which is an
+    // arbitrary std::function and could throw.  Destructors must not propagate
+    // exceptions (ISO C++ §15.5.1), so we wrap the call and log any failure.
     if (!current_batch_.empty()) {
-        flush();
+        try {
+            flush();
+        } catch (const std::exception& e) {
+            // Cannot use spdlog safely inside a potentially-terminating context,
+            // but the log call is best-effort; spdlog itself is noexcept on
+            // common paths.
+            spdlog::warn("KVCacheBuffer::~KVCacheBuffer: flush threw during destruction: {}",
+                         e.what());
+        } catch (...) {
+            spdlog::warn("KVCacheBuffer::~KVCacheBuffer: flush threw unknown exception during "
+                         "destruction — tokens may not have been persisted");
+        }
     }
 }
 

@@ -493,6 +493,8 @@ public:
      *
      * The plan is the canonical pre-execution explanation of how the frontdoor
      * will route the request. It is intentionally richer than planStrategy().
+     * @param context Routing hints (dataset_size, hot_tier, etc.).
+     * @return The complete retrieval plan with strategy and reasoning.
      */
     [[nodiscard]] AnnRetrievalPlan planRetrieval(
         const AnnQueryContext& context) const noexcept;
@@ -516,11 +518,13 @@ public:
 
     /**
      * @brief Returns the number of registered backends (including global).
+     * @return Number of backends currently registered.
      */
     [[nodiscard]] std::size_t registeredBackendCount() const noexcept;
 
     /**
      * @brief Returns the active configuration.
+     * @return Const reference to the current configuration.
      */
     [[nodiscard]] const Config& config() const noexcept;
 

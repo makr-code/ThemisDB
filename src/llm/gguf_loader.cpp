@@ -76,18 +76,33 @@ GGUFLoader::GGUFLoader(RocksDBWrapper* db)
     : fd_(-1), mmap_base_(nullptr), mmap_size_(0), db_(db) {
 }
 
-GGUFLoader::~GGUFLoader() {
+GGUFLoader::~GGUFLoader() noexcept {
+    releaseResources();
+}
+
+void GGUFLoader::releaseResources() noexcept {
 #ifndef _WIN32
     if (mmap_base_ != nullptr) {
         munmap(mmap_base_, mmap_size_);
+        mmap_base_ = nullptr;
+        mmap_size_ = 0;
     }
     if (fd_ >= 0) {
         close(fd_);
+        fd_ = -1;
     }
+#else
+    mmap_base_ = nullptr;
+    mmap_size_ = 0;
+    file_buffer_.clear();
 #endif
 }
 
 bool GGUFLoader::parseFile(const std::string& filepath) {
+    // Release any resources from a previous parse before opening new ones.
+    // Without this guard, calling parseFile() twice leaks the first fd/mmap.
+    releaseResources();
+
     filepath_ = filepath;
     last_error_.clear();
 #ifndef _WIN32
