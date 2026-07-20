@@ -39,6 +39,9 @@
 #endif
 #include <winsock2.h>
 #include <windows.h>
+#else
+#include <sys/socket.h>
+#include <sys/time.h>
 #endif
 
 #include <boost/asio.hpp>
@@ -261,6 +264,12 @@ bool Tracer::initialize([[maybe_unused]] const std::string& serviceName,
                 return false;
             }
             tcp::socket socket(io);
+            // Enforce a 3-second connect timeout so a misconfigured or
+            // unreachable collector endpoint does not block server startup
+            // indefinitely (Phase 8.2 — No-Timeout / Blocking-No-Timeout).
+            struct timeval tv{3, 0};
+            ::setsockopt(socket.native_handle(), SOL_SOCKET, SO_SNDTIMEO,
+                         reinterpret_cast<const char*>(&tv), sizeof(tv));
             socket.connect(*results.begin(), ec);
             if (ec) {
                 THEMIS_WARN("Tracing collector unreachable ({}:{}): {}. Tracing disabled.", host, port, ec.message());

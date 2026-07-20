@@ -106,10 +106,12 @@ private:
     void run();
 
     /**
-     * @brief Handle incoming HTTP connection
-     * @param socket Connected socket
+     * @brief Handle incoming HTTP connection with enforced read/write timeouts
+     * @param raw_socket Connected socket; ownership transferred; wrapped in
+     *        beast::tcp_stream with 10-second per-operation timeout to prevent
+     *        slow-client thread starvation (Phase 8.2 remediation).
      */
-    void handleConnection(tcp::socket socket);
+    void handleConnection(tcp::socket raw_socket);
 
     /**
      * @brief Route and handle HTTP request
