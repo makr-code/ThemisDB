@@ -17,6 +17,8 @@ The project transitions from **foundational completion** (Graph Phase 2.4 ✅, D
 
 **Immediate Focus:** Graph Phase 3 + Wave 7/8 benchmark verification + LLM/Server Phase 5 hardening (first 4 weeks)
 
+**Execution Automation:** use `/home/runner/work/ThemisDB/ThemisDB/scripts/next_phase_kickoff.py` to generate timestamped kickoff baseline/go-no-go reports in `/home/runner/work/ThemisDB/ThemisDB/ai_working`.
+
 ---
 
 ## Phase Hierarchy & Timeline

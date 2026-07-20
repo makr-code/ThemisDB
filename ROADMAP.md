@@ -71,7 +71,8 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 ## 🚀 NEXT PHASE IMPLEMENTATION (2026-07-22 to 2026-08-31) — KICKOFF
 
 **Status:** 🔵 PLANNED → 🚀 Kickoff 2026-07-22  
-**Implementation Plans:** [NEXT_PHASE_IMPLEMENTATION_PLAN.md](NEXT_PHASE_IMPLEMENTATION_PLAN.md), [ai_working/PHASE3_OPTIMIZATION_DETAILED_PLAN.md](ai_working/PHASE3_OPTIMIZATION_DETAILED_PLAN.md), [ai_working/PHASE5_HARDENING_DETAILED_PLAN.md](ai_working/PHASE5_HARDENING_DETAILED_PLAN.md)
+**Implementation Plans:** [NEXT_PHASE_IMPLEMENTATION_PLAN.md](NEXT_PHASE_IMPLEMENTATION_PLAN.md), [ai_working/PHASE3_OPTIMIZATION_DETAILED_PLAN.md](ai_working/PHASE3_OPTIMIZATION_DETAILED_PLAN.md), [ai_working/PHASE5_HARDENING_DETAILED_PLAN.md](ai_working/PHASE5_HARDENING_DETAILED_PLAN.md), [ai_working/NEXT_PHASE_30_60_90_BACKLOG.md](ai_working/NEXT_PHASE_30_60_90_BACKLOG.md)
+**Kickoff Runner:** `/home/runner/work/ThemisDB/ThemisDB/scripts/next_phase_kickoff.py` (Wave-7 hard-gate + baseline go/no-go report)
 
 ### Parallel Work Streams (4-6 weeks)
 
@@ -1919,4 +1920,3 @@ ctest --preset community-release --filter "test_layered_retrieval_orchestrator" 
 
 ---
 Zuletzt geprueft (Root-Sync): 2026-05-26
-
