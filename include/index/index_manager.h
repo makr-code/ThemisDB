@@ -74,6 +74,7 @@ public:
     
     /// @brief Static factory (backward compatible)
     /// Creates default implementation
+    /// @return Shared pointer to a default IndexManager instance.
     static std::shared_ptr<IndexManager> createDefault();
     
     /// @brief Set evaluator (for late binding)
@@ -86,15 +87,19 @@ public:
     void setRocksDB(std::shared_ptr<RocksDBWrapper> db);
     
     /// @brief Get the expression evaluator
+    /// @return Pointer to the expression evaluator (may be nullptr).
     IExpressionEvaluatorPtr getExpressionEvaluator() const;
     
     /// @brief Get the vector index manager
+    /// @return Shared pointer to the VectorIndexManager instance.
     std::shared_ptr<VectorIndexManager> getVectorIndexManager() const;
     
     /// @brief Get the secondary index manager
+    /// @return Shared pointer to the SecondaryIndexManager instance.
     std::shared_ptr<SecondaryIndexManager> getSecondaryIndexManager() const;
     
     /// @brief Get the graph index manager
+    /// @return Shared pointer to the GraphIndexManager instance.
     std::shared_ptr<GraphIndexManager> getGraphIndexManager() const;
     
     // IIndexManager implementation
