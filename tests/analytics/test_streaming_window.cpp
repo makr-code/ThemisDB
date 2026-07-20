@@ -770,3 +770,132 @@ TEST(HelpersTest, AggFuncToString) {
     EXPECT_STREQ(aggFuncToString(AggFunc::LAST),           "LAST");
     EXPECT_STREQ(aggFuncToString(AggFunc::DISTINCT_COUNT), "DISTINCT_COUNT");
 }
+
+// ============================================================================
+// Runtime limit tests
+// ============================================================================
+
+// TumblingWindow: max_open_windows forces eviction of oldest window when
+// a record arrives that would open a new slot while already at capacity.
+TEST(RuntimeLimitTest, TumblingWindowMaxOpenWindowsEviction) {
+    TumblingWindowConfig cfg;
+    cfg.size             = 1000ms; // 1-second windows
+    cfg.max_open_windows = 2;      // allow at most 2 open windows
+    // Use a large watermark tolerance so the watermark does not close
+    // earlier windows before the eviction limit fires.
+    cfg.watermark.max_out_of_orderness = std::chrono::hours(24);
+
+    std::atomic<int> fired{0};
+    TumblingWindow win(cfg);
+    win.setResultCallback([&](WindowResult) { ++fired; });
+
+    // Open window at slot 0 (t=0..1000 ms)
+    EXPECT_TRUE(win.ingest(rec("r1",    0ms, 1.0)));
+    // Open window at slot 1 (t=1000..2000 ms)
+    EXPECT_TRUE(win.ingest(rec("r2", 1000ms, 2.0)));
+    // Opening slot 2 must evict slot 0 → windows_evicted == 1
+    EXPECT_TRUE(win.ingest(rec("r3", 2000ms, 3.0)));
+
+    auto stats = win.getStats();
+    EXPECT_GE(stats.windows_evicted, 1u) << "oldest window must be evicted at capacity";
+    // Eviction emits a result for the evicted window
+    EXPECT_GE(fired.load(), 1);
+}
+
+// TumblingWindow: max_records_per_window drops records once a slot is full.
+TEST(RuntimeLimitTest, TumblingWindowMaxRecordsPerWindowDropsRecords) {
+    TumblingWindowConfig cfg;
+    cfg.size                 = 60000ms; // single window for the test
+    cfg.max_records_per_window = 2;
+
+    TumblingWindow win(cfg);
+
+    EXPECT_TRUE(win.ingest(rec("r1", 0ms, 1.0)));
+    EXPECT_TRUE(win.ingest(rec("r2", 0ms, 2.0)));
+    // Third record in the same slot must be dropped
+    EXPECT_FALSE(win.ingest(rec("r3", 0ms, 3.0)));
+
+    auto stats = win.getStats();
+    EXPECT_EQ(stats.records_dropped, 1u) << "record over limit must be counted as dropped";
+    EXPECT_EQ(stats.records_ingested, 2u);
+}
+
+// SlidingWindow: max_open_windows skips new window creation (not eviction).
+// Verifies the record is still accepted even when window creation is limited.
+TEST(RuntimeLimitTest, SlidingWindowMaxOpenWindowsSkip) {
+    SlidingWindowConfig cfg;
+    cfg.size             = 200ms;
+    cfg.slide            = 100ms;
+    cfg.max_open_windows = 1; // only 1 concurrent window allowed
+
+    SlidingWindow win(cfg);
+
+    // A record at baseTime+0ms would normally open 3 overlapping windows
+    // ([base-200ms,base+0ms), [base-100ms,base+100ms), [base+0ms,base+200ms)).
+    // With max=1, only the first is created; the other 2 are skipped.
+    EXPECT_TRUE(win.ingest(rec("r1", 0ms, 1.0)));
+
+    auto stats = win.getStats();
+    EXPECT_GE(stats.windows_evicted, 1u) << "skipped window creations must be counted";
+    // The record itself must still be ingested
+    EXPECT_EQ(stats.records_ingested, 1u);
+}
+
+// SlidingWindow: with a very tight max_open_windows limit, the skip counter
+// must be non-zero when overlapping windows would otherwise be created.
+TEST(RuntimeLimitTest, SlidingWindowMaxOpenWindowsSkipCounterNonZero) {
+    SlidingWindowConfig cfg;
+    cfg.size             = 500ms;
+    cfg.slide            = 100ms;
+    cfg.max_open_windows = 1; // artificially tight: only 1 concurrent window allowed
+
+    SlidingWindow win(cfg);
+
+    // This record would normally open 5 overlapping windows (500/100 = 5 slides).
+    // With max=1, only the first window is created; the rest are skipped.
+    EXPECT_TRUE(win.ingest(rec("r1", 250ms, 1.0)));
+
+    auto stats = win.getStats();
+    EXPECT_GE(stats.windows_evicted, 1u) << "skipped window creations must be counted";
+}
+
+// SessionWindow: max_open_sessions forces eviction of the oldest session when
+// a new partition key arrives while already at the session limit.
+TEST(RuntimeLimitTest, SessionWindowMaxOpenSessionsEviction) {
+    SessionWindowConfig cfg;
+    cfg.gap                = 60000ms; // long gap so sessions don't expire naturally
+    cfg.max_open_sessions  = 2;
+    cfg.session_expiry_check_interval_ms = 1000ms; // infrequent background check
+
+    std::atomic<int> fired{0};
+    SessionWindow win(cfg);
+    win.setResultCallback([&](WindowResult) { ++fired; });
+
+    // Open sessions for two distinct keys
+    EXPECT_TRUE(win.ingest(rec("r1", 0ms, 1.0, "key_A")));
+    EXPECT_TRUE(win.ingest(rec("r2", 1ms, 2.0, "key_B")));
+    // Third distinct key must evict one of the existing sessions → windows_evicted == 1
+    EXPECT_TRUE(win.ingest(rec("r3", 2ms, 3.0, "key_C")));
+
+    auto stats = win.getStats();
+    EXPECT_GE(stats.windows_evicted, 1u) << "oldest session must be evicted at capacity";
+}
+
+// HoppingWindow: max_open_windows skips new window creation (not eviction),
+// analogous to SlidingWindow behaviour.
+TEST(RuntimeLimitTest, HoppingWindowMaxOpenWindowsSkip) {
+    HoppingWindowConfig cfg;
+    cfg.size             = 500ms;
+    cfg.hop              = 100ms;
+    cfg.max_open_windows = 1; // only 1 concurrent window allowed
+
+    HoppingWindow win(cfg);
+
+    // A record at 250 ms would normally open multiple hop slots.
+    // With max=1, subsequent hop slots are skipped → windows_evicted > 0.
+    EXPECT_TRUE(win.ingest(rec("r1", 250ms, 1.0)));
+
+    auto stats = win.getStats();
+    EXPECT_GE(stats.windows_evicted, 1u) << "skipped hop-window creations must be counted";
+    EXPECT_EQ(stats.records_ingested, 1u) << "record itself must not be dropped";
+}
