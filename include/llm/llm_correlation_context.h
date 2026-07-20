@@ -79,11 +79,31 @@ struct LLMCorrelationContext {
     // -----------------------------------------------------------------------
 
     /**
-     * @return true when trace_id has exactly 32 lower-case hex characters AND
-     *         span_id has exactly 16 lower-case hex characters.
+     * @return true when:
+     *   - `trace_id` is exactly 32 lower-case hex characters and is not all-zero, AND
+     *   - `span_id`  is exactly 16 lower-case hex characters and is not all-zero.
+     *
+     * Enforces the W3C Trace Context spec: IDs must be valid lower-case hex and
+     * the all-zero value is explicitly forbidden as an invalid sentinel.
      */
     [[nodiscard]] bool isValid() const noexcept {
-        return trace_id.size() == 32 && span_id.size() == 16;
+        if (trace_id.size() != 32 || span_id.size() != 16) return false;
+        auto isLowerHexChar = [](unsigned char c) noexcept -> bool {
+            return (c >= '0' && c <= '9') || (c >= 'a' && c <= 'f');
+        };
+        bool any_nonzero_trace = false;
+        for (unsigned char c : trace_id) {
+            if (!isLowerHexChar(c)) return false;
+            if (c != '0') any_nonzero_trace = true;
+        }
+        if (!any_nonzero_trace) return false;  // all-zero trace_id is invalid per W3C spec
+        bool any_nonzero_span = false;
+        for (unsigned char c : span_id) {
+            if (!isLowerHexChar(c)) return false;
+            if (c != '0') any_nonzero_span = true;
+        }
+        if (!any_nonzero_span) return false;   // all-zero span_id is invalid per W3C spec
+        return true;
     }
 
     // -----------------------------------------------------------------------
@@ -136,9 +156,14 @@ struct LLMCorrelationContext {
             std::mt19937_64 rng{rd()};
             std::uniform_int_distribution<uint64_t> dist;
 
-            const uint64_t hi = dist(rng);
-            const uint64_t lo = dist(rng);
-            const uint64_t sp = dist(rng);
+            uint64_t hi = dist(rng);
+            uint64_t lo = dist(rng);
+            uint64_t sp = dist(rng);
+
+            // Guarantee non-zero IDs per W3C Trace Context spec (all-zero is invalid).
+            // The probability of a collision is ~5.4e-20, but we must be deterministic.
+            if (hi == 0 && lo == 0) lo = 1;
+            if (sp == 0)            sp = 1;
 
             auto toHex = [](uint64_t v, int width) {
                 std::ostringstream ss;
@@ -151,10 +176,11 @@ struct LLMCorrelationContext {
             ctx.span_id  = toHex(sp, 16);
             return ctx;
         } catch (...) {
-            // Fallback: all-zero IDs — better than crashing on observability init.
+            // Exception fallback: use a fixed non-zero sentinel to remain valid per W3C spec.
+            // All-zero IDs are forbidden; this value is explicitly a synthetic fallback marker.
             LLMCorrelationContext ctx;
-            ctx.trace_id = std::string(32, '0');
-            ctx.span_id  = std::string(16, '0');
+            ctx.trace_id = "ffffffffffffffffffffffffffffff01";
+            ctx.span_id  = "ffffffffffffff01";
             return ctx;
         }
     }

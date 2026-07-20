@@ -42,10 +42,12 @@
 
 #pragma once
 
+#include <cmath>
 #include <cstdint>
 #include <optional>
 #include <stdexcept>
 #include <string>
+#include <vector>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -207,6 +209,16 @@ struct LLMInferenceParameterSnapshot {
      * @throws std::invalid_argument if any invariant is violated.
      */
     void validate() const {
+        // Enforce finite-value invariant: all float fields must be finite (no NaN/Inf).
+        if (!std::isfinite(temperature)) {
+            throw std::invalid_argument("temperature must be finite (no NaN/Inf)");
+        }
+        if (!std::isfinite(top_p)) {
+            throw std::invalid_argument("top_p must be finite (no NaN/Inf)");
+        }
+        if (!std::isfinite(repetition_penalty)) {
+            throw std::invalid_argument("repetition_penalty must be finite (no NaN/Inf)");
+        }
         if (mode == LLMReproducibilityMode::Deterministic) {
             if (temperature != 0.0f || top_k != 1 || !rng_seed.has_value()) {
                 throw std::invalid_argument(

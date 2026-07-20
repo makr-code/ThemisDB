@@ -19,6 +19,7 @@
 #include "llm/llm_correlation_context.h"
 #include "llm/ai_decision_auditor.h"
 
+#include <cctype>
 #include <string>
 
 using themis::llm::LLMCorrelationContext;

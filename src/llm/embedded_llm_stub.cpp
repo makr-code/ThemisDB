@@ -314,7 +314,9 @@ InferenceResponse EmbeddedLLM::generateFull(const InferenceRequest& request) {
     // Purpose: deterministic response for test/dev builds without a real model
     // Activation: compile-time flag THEMIS_LLM_STUB_MODE (never set in release presets)
     // Production Delta: production returns success=false; stub returns success=true with hardcoded text
-    // Removal Plan: N/A — stub path intentionally retained for test builds only
+    // Approved By: P0.1 AI-native hardening plan (PR: feat(llm) P0/P1/P2 AI-native hardening)
+    // Removal Plan: retain permanently for test-build tier; stub path is the test-build canonical
+    //               path and has no release-build activation — not subject to removal
     InferenceResponse resp;
     resp.request_id = safe_req.request_id;
     resp.model_id   = safe_req.model_id;
