@@ -1911,10 +1911,12 @@ function(themis_build_modular)
         OpenSSL::Crypto
         fmt::fmt
         spdlog::spdlog
-        Boost::system
         nlohmann_json::nlohmann_json
         ${THEMIS_YAML_TARGET}
     )
+    if(TARGET Boost::system)
+        list(APPEND _themis_base_deps Boost::system)
+    endif()
     if(THEMIS_ENABLE_GRPC)
         find_package(gRPC CONFIG)
         find_package(Protobuf CONFIG)

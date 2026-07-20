@@ -5033,32 +5033,36 @@ endif()
 # LLM Model Management CLI Tool (themis-model)
 if(THEMIS_ENABLE_LLM)
     if(EXISTS "${THEMIS_ROOT_DIR}/tools/themis_model_cli.cpp")
-        add_executable(themis-model
-            ${THEMIS_ROOT_DIR}/tools/themis_model_cli.cpp
-        )
-        set_target_properties(themis-model PROPERTIES
-            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin_out"
-            RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/bin_out"
-            RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/bin_out"
-            RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_BINARY_DIR}/bin_out"
-            RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${CMAKE_BINARY_DIR}/bin_out"
-        )
-        target_link_libraries(themis-model PRIVATE 
-            themis_core
-            CURL::libcurl
-            OpenSSL::SSL
-            OpenSSL::Crypto
-            yaml-cpp
-        )
-        target_include_directories(themis-model PRIVATE ${THEMIS_ROOT_DIR}/include)
-        message(STATUS "LLM Model CLI Tool: Enabled (themis-model)")
-        
-        # Install the tool
-        install(TARGETS themis-model
-            OPTIONAL
-            RUNTIME DESTINATION bin
-            COMPONENT tools
-        )
+        if(TARGET CURL::libcurl AND TARGET yaml-cpp::yaml-cpp)
+            add_executable(themis-model
+                ${THEMIS_ROOT_DIR}/tools/themis_model_cli.cpp
+            )
+            set_target_properties(themis-model PROPERTIES
+                RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin_out"
+                RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/bin_out"
+                RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/bin_out"
+                RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_BINARY_DIR}/bin_out"
+                RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${CMAKE_BINARY_DIR}/bin_out"
+            )
+            target_link_libraries(themis-model PRIVATE 
+                themis_core
+                CURL::libcurl
+                OpenSSL::SSL
+                OpenSSL::Crypto
+                yaml-cpp::yaml-cpp
+            )
+            target_include_directories(themis-model PRIVATE ${THEMIS_ROOT_DIR}/include)
+            message(STATUS "LLM Model CLI Tool: Enabled (themis-model)")
+            
+            # Install the tool
+            install(TARGETS themis-model
+                OPTIONAL
+                RUNTIME DESTINATION bin
+                COMPONENT tools
+            )
+        else()
+            message(STATUS "LLM Model CLI Tool: Disabled (requires CURL::libcurl and yaml-cpp::yaml-cpp)")
+        endif()
     endif()
 endif()
 
