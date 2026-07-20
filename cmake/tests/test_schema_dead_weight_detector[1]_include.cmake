@@ -1,0 +1,1 @@
+include("/home/runner/work/ThemisDB/ThemisDB/cmake/tests/test_schema_dead_weight_detector[1]_include.cmake")
