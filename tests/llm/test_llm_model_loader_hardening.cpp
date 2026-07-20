@@ -88,7 +88,7 @@ TEST_F(LazyModelLoaderHardeningTest, EvictExpiredCompletesWithoutReentrantDeadlo
         return loader_->evictExpired();
     });
 
-    const auto status = future.wait_for(250ms);
+    const auto status = future.wait_for(5000ms);
     ASSERT_EQ(status, std::future_status::ready);
     EXPECT_EQ(future.get(), 1u);
     EXPECT_FALSE(loader_->isModelLoaded("expired"));

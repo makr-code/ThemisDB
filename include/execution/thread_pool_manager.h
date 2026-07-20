@@ -1,10 +1,10 @@
 /**
  * @file thread_pool_manager.h
- * @brief Phase 3 P3-03-C: Work-stealing thread pool for ThemisDB execution layer.
+ * @brief Phase 3 P3-03-C: Central-queue thread pool for ThemisDB execution layer.
  *
  * Provides a self-contained, bounded thread pool with:
- *  - Work-stealing deque: each thread owns a private double-ended queue;
- *    idle threads steal from the back of a victim thread's queue.
+ *  - Central dispatch queue: all work items share a single deque; per-thread
+ *    deques are pre-allocated for a future work-stealing upgrade path.
  *  - Backpressure: @ref submit() blocks (with timeout) when the global pending
  *    count exceeds @c Config::max_queue_depth.
  *  - Dynamic thread scaling: threads added when queue depth > 2× threshold;
@@ -57,18 +57,18 @@ struct WorkItem {
 // ============================================================================
 
 /**
- * @brief Bounded work-stealing thread pool.
+ * @brief Bounded central-queue thread pool.
  *
- * ### Work-stealing design
- * Each worker thread owns a @c std::deque<WorkItem>.  @ref submit() appends to
- * a shared dispatch queue which a designated coordinator thread redistributes
- * to per-thread deques.  Idle threads steal from the back of a randomly chosen
- * peer's deque, reducing contention on the hot path.
+ * ### Dispatch design
+ * All submitted work items are placed into a single shared dispatch queue.
+ * Each thread pops work from that central queue.  Per-thread @c ThreadQueue
+ * deques are pre-allocated but not currently used for dispatch; they are
+ * retained for a future work-stealing upgrade path.
  *
  * ### Backpressure
- * If the total pending item count (across all per-thread queues plus the
- * dispatch queue) exceeds @p Config::max_queue_depth, @ref submit() blocks
- * until capacity is available or the supplied @p timeout elapses.
+ * If the total pending item count exceeds @p Config::max_queue_depth,
+ * @ref submit() blocks until capacity is available or the supplied
+ * @p timeout elapses.
  *
  * ### Thread safety
  * All public methods are thread-safe.

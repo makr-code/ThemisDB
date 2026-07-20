@@ -27,24 +27,24 @@ Selects the optimal shard for each incoming query using a weighted score formula
 ```
 score(shard) = cpu_weight * cpu_pct
              + queue_weight * (pending / max_pending * 100)
-             + latency_weight * (latency_p99_us / max_latency_us * 100)
+             + latency_weight * (latency_p99_ms / max_p99_ms * 100)
 ```
 
 Default weights: cpu=0.30, queue=0.40, latency=0.30 (sum = 1.0).
 
 **Selection algorithm:**
 1. Lock shard map.
-2. Compute score for all healthy shards.
+2. Compute score for all available shards.
 3. Return shard with minimum score (ties: insertion order wins, deterministic).
 4. Respect sticky sessions if `client_id` hash maps to a shard and score ≤ `Config::sticky_threshold`.
 
-**Sticky sessions:** client_id → shard index via `hash(client_id) % n`. Abandoned if the stickied shard's score exceeds `Config::sticky_threshold` (default 80.0), falling back to EDF selection.
+**Sticky sessions:** client_id → shard index via `hash(client_id) % n`. Abandoned if the stickied shard's score exceeds `Config::sticky_threshold` (default 80.0), falling back to lowest-score selection.
 
 **Failure model:**
-- `markShardHealthy(id, false)` excludes shard from selection.
-- Failover: if all shards are unhealthy, `selectShard()` returns `""`.
+- `setAvailable(id, false)` excludes shard from selection.
+- Failover: if all shards are unavailable, `selectShard()` throws `std::runtime_error`.
 
-**Latency update:** `reportCompletion(shard_id, latency_us)` updates `latency_p99_us` via Exponential Moving Average (EMA) with smoothing factor `Config::ema_alpha` (default 0.1). CPU and queue stats updated via direct assignment from caller.
+**Latency update:** `reportCompletion(shard_id, latency_ms)` updates `p99_latency_ms` via Exponential Moving Average (EMA) with smoothing factor 0.1. CPU and queue stats updated via direct assignment from caller (`updateMetrics()`).
 
 ### QueryScheduler
 

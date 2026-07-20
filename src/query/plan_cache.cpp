@@ -133,6 +133,20 @@ std::string PlanCache::normalizeQueryTemplate(std::string_view query) {
             continue;
         }
 
+        // Treat a leading '+' or '-' sign as part of a numeric literal when it
+        // is not preceded by an identifier character (so "x-1" keeps its minus
+        // but "x=-1" or "WHERE n=-1" normalises the sign away with the digit).
+        if ((ch == '+' || ch == '-') &&
+            (i == 0 || (!std::isalnum(static_cast<unsigned char>(query[i - 1])) &&
+                        query[i - 1] != '_' && query[i - 1] != '@')) &&
+            i + 1 < query.size() &&
+            std::isdigit(static_cast<unsigned char>(query[i + 1])) != 0) {
+            // The sign is a numeric prefix; skip it so the following digit
+            // handler collapses the whole signed literal into a single '?'.
+            last_was_space = false;
+            continue;
+        }
+
         const bool numeric_literal =
             (std::isdigit(static_cast<unsigned char>(ch)) != 0) &&
             (i == 0 ||
@@ -258,8 +272,10 @@ void PlanCache::put(const std::string&                query,
     cp.consecutive_execution_failures = 0;
 
     if (config_.max_memory_bytes > 0) {
+        const double safe_threshold =
+            std::max(0.0, std::min(1.0, config_.memory_eviction_threshold));
         const size_t threshold_bytes = static_cast<size_t>(
-            static_cast<double>(config_.max_memory_bytes) * config_.memory_eviction_threshold);
+            static_cast<double>(config_.max_memory_bytes) * safe_threshold);
         while (!cache_.empty() &&
                (stats_.current_memory_bytes + cp.estimated_size_bytes > threshold_bytes)) {
             evictLRU_locked();

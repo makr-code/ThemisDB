@@ -221,6 +221,11 @@ private:
     double        enqueue_latency_sum_ = 0.0;
     double        dequeue_latency_sum_ = 0.0;
 
+    // Per-priority queue depth counters (protected by mutex_).
+    std::size_t   count_high_          = 0;
+    std::size_t   count_medium_        = 0;
+    std::size_t   count_low_           = 0;
+
     // Deadline tracking for reportCompletion: query_id → deadline.
     std::unordered_map<std::uint64_t,
         std::chrono::steady_clock::time_point> pending_deadlines_;

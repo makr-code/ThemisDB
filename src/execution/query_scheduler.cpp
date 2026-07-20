@@ -77,6 +77,14 @@ std::uint64_t QueryScheduler::enqueue(
     queue_.push(std::move(entry));
     ++total_enqueued_;
 
+    // Track per-priority depth.
+    switch (priority) {
+        case SLAPriority::HIGH:   ++count_high_;   break;
+        case SLAPriority::MEDIUM: ++count_medium_;  break;
+        case SLAPriority::LOW:    ++count_low_;     break;
+        default:                                   break;
+    }
+
     const double latency_us = std::chrono::duration<double, std::micro>(
         std::chrono::steady_clock::now() - t0).count();
     enqueue_latency_sum_ += latency_us;
@@ -110,6 +118,14 @@ bool QueryScheduler::dequeue(QueryEntry& out, std::chrono::milliseconds timeout)
     out = std::move(const_cast<QueryEntry&>(queue_.top()));
     queue_.pop();
     ++total_dequeued_;
+
+    // Decrement per-priority depth counter.
+    switch (out.priority) {
+        case SLAPriority::HIGH:   if (count_high_   > 0) --count_high_;   break;
+        case SLAPriority::MEDIUM: if (count_medium_ > 0) --count_medium_; break;
+        case SLAPriority::LOW:    if (count_low_    > 0) --count_low_;    break;
+        default:                                                           break;
+    }
 
     const double latency_us = std::chrono::duration<double, std::micro>(
         std::chrono::steady_clock::now() - t0).count();
@@ -145,16 +161,9 @@ void QueryScheduler::reportCompletion(
 QueryScheduler::Metrics QueryScheduler::metrics() const noexcept {
     Metrics m;
     std::lock_guard<std::mutex> lk(mutex_);
-    // Count per-priority-level depths.
-    // (We can't iterate priority_queue, so we approximate from totals.)
-    m.queue_depth_high   = 0;
-    m.queue_depth_medium = 0;
-    m.queue_depth_low    = 0;
-    // total depth:
-    const std::size_t depth = queue_.size();
-    // Approximate breakdown (we track totals but not per-level queue size
-    // without a custom container; return aggregate for now).
-    m.queue_depth_medium = depth;  // conservative approximation
+    m.queue_depth_high   = count_high_;
+    m.queue_depth_medium = count_medium_;
+    m.queue_depth_low    = count_low_;
 
     m.total_enqueued    = total_enqueued_;
     m.total_dequeued    = total_dequeued_;

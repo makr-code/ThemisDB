@@ -95,8 +95,10 @@ bool WorkStealingThreadPool::submit(std::function<void()> fn, std::string name,
 // tryGetWork — try dispatch queue first, then steal from peers
 // ---------------------------------------------------------------------------
 
-bool WorkStealingThreadPool::tryGetWork(std::size_t own_idx, WorkItem& out) {
-    // 1. Pop from dispatch queue.
+bool WorkStealingThreadPool::tryGetWork(std::size_t /*own_idx*/, WorkItem& out) {
+    // Pop from the shared dispatch queue.  Per-thread work deques are
+    // pre-allocated but not yet populated by submit(), so the steal path
+    // is skipped to avoid spurious lock contention on empty queues.
     {
         std::lock_guard<std::mutex> lk(dispatch_mutex_);
         if (!dispatch_queue_.empty()) {
@@ -105,22 +107,6 @@ bool WorkStealingThreadPool::tryGetWork(std::size_t own_idx, WorkItem& out) {
             queued_count_.fetch_sub(1, std::memory_order_relaxed);
             capacity_cv_.notify_one();
             return true;
-        }
-    }
-
-    // 2. Try to steal from a peer thread.
-    const std::size_t n = cfg_.max_threads;
-    for (std::size_t off = 1; off < n; ++off) {
-        const std::size_t victim = (own_idx + off) % n;
-        {
-            std::lock_guard<std::mutex> lk(queues_mutex_);
-            if (victim < queues_.size() && queues_[victim]->active.load()) {
-                if (queues_[victim]->trySteal(out)) {
-                    queued_count_.fetch_sub(1, std::memory_order_relaxed);
-                    capacity_cv_.notify_one();
-                    return true;
-                }
-            }
         }
     }
     return false;

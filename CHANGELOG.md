@@ -5,7 +5,43 @@ All notable changes to ThemisDB will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased] — 2026-07-20 — LLM Phase 5 Block D (P5-L01 + P5-L02) + Graph Phase 3 Block A (P3-01 + P3-02)
+## [Unreleased] — 2026-07-20 — Phase 3 Block B + Phase 5 Block C runtime components + LLM Phase 5 Block D (P5-L01 + P5-L02) + Graph Phase 3 Block A (P3-01 + P3-02)
+
+### Phase 5 Block C — Runtime Components
+
+**P5-S01: Wire Retry Policy** (`include/network/wire_retry_policy.h`, `src/network/wire_retry_policy.cpp`)
+- `WireRetryPolicy` struct + `WireErrorClass` enum + `retryWithPolicy()` generic retry executor.
+- Exponential back-off with optional `on_fail` callback; exceptions from the operation
+  are caught and treated as transient failures.
+
+**P5-S02: HTTP Shutdown Manager** (`include/server/http_shutdown_manager.h`, `src/server/http_shutdown_manager.cpp`)
+- `HttpShutdownManager`: phased drain → force-close → teardown with configurable timeouts.
+- `HttpServer::stop()` now passes a `force_close_sessions` callback (`ioc_.stop()`) so the
+  force-close phase actively cancels in-flight async operations.
+
+**Phase 3 Block B — Runtime Components**
+
+**P3-03: Work-stealing Thread Pool** (`include/execution/thread_pool_manager.h`, `src/execution/thread_pool_manager.cpp`)
+- `WorkStealingThreadPool`: bounded central-queue pool with backpressure, dynamic scaling,
+  and exception-safe task execution.  Per-thread deques are pre-allocated for a future
+  work-stealing upgrade; current dispatch uses the central queue.
+
+**P3-04: Shard Load Balancer + Query Scheduler** (`include/sharding/shard_load_balancer.h`,
+  `src/sharding/shard_load_balancer.cpp`, `include/execution/query_scheduler.h`,
+  `src/execution/query_scheduler.cpp`)
+- `ShardLoadBalancer`: weighted CPU/queue/latency scoring with sticky-session affinity;
+  `setAvailable()` for shard exclusion; throws on no-available-shard.
+- `QueryScheduler`: EDF priority queue with per-priority depth counters (HIGH/MEDIUM/LOW),
+  SLA compliance tracking, and load-shedding for LOW-priority queries.
+
+### Plan Cache Hardening (`src/query/plan_cache.cpp`)
+- `normalizeQueryTemplate()` now strips leading `+`/`-` signs preceding numeric literals
+  so `x=-1` and `x=1` normalise identically.
+- `memory_eviction_threshold` is clamped to `[0, 1]` before computing eviction watermark.
+
+### LazyModelLoader Hardening (`src/llm/lazy_model_loader.cpp`)
+- Ownership/RAII improvements; deadlock-avoidance test timeout raised to 5 s for reliable
+  CI on contended runners.
 
 ### LLM Module Phase 5 — Block D Delivery
 

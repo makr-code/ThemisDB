@@ -14,7 +14,8 @@
  *         + latency_weight * min(p99_ms / max_p99_ms * 100, 100)
  * @endcode
  * Default weights: cpu=0.30, queue=0.40, latency=0.30.  The shard with the
- * minimum score is selected; ties are broken by ascending shard ID.
+ * minimum score is selected; ties are broken by insertion order (earlier-registered
+ * shard wins deterministically).
  *
  * ### Failover
  * If the preferred shard is marked unavailable, the balancer selects the

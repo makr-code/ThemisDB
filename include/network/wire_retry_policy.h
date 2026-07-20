@@ -238,8 +238,8 @@ private:
  * @brief Execute @p op with retry governed by @p policy.
  *
  * @p op must be callable as `bool()`, returning true on success and false
- * on a retryable failure.  The callable must not throw; exceptions are
- * treated as permanent failures.
+ * on a retryable failure.  Exceptions thrown by @p op are caught and treated
+ * as transient failures; they do not propagate through the retry loop.
  *
  * @param policy   Retry parameters.
  * @param op       Operation to retry; returns true on success.

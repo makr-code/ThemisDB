@@ -2222,8 +2222,8 @@ void HttpServer::stop() {
             themis::server::HttpShutdownManager::kDefaultForceCloseTimeoutMs,
             [this]() -> uint64_t {
                 return active_requests_.load(std::memory_order_acquire);
-            }
-            // force_close_sessions: ioc_.stop() below will cancel pending async ops
+            },
+            [this]() { ioc_.stop(); }  // force-close: cancel all pending async ops
         );
         shutdown_mgr.run();
 

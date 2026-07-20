@@ -88,14 +88,14 @@ void ShardLoadBalancer::setAvailable(const std::string& shard_id, bool available
 
 double ShardLoadBalancer::computeScore(const ShardMetrics& m) const noexcept {
     const double cpu_score =
-        std::min(m.cpu_percent, 100.0);
+        std::min(std::max(m.cpu_percent, 0.0), 100.0);
 
     const double queue_score = cfg_.max_pending > 0.0
         ? std::min(static_cast<double>(m.pending_queries) / cfg_.max_pending * 100.0, 100.0)
         : 0.0;
 
     const double lat_score = cfg_.max_p99_ms > 0.0
-        ? std::min(m.p99_latency_ms / cfg_.max_p99_ms * 100.0, 100.0)
+        ? std::min(std::max(m.p99_latency_ms, 0.0) / cfg_.max_p99_ms * 100.0, 100.0)
         : 0.0;
 
     return cfg_.weights.cpu     * cpu_score
