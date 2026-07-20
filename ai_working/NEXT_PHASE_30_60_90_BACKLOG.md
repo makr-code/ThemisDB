@@ -36,10 +36,10 @@
 ## Day 31-60 (Block B + E Start)
 
 ### Block B — P3-03 + P3-04 (Resource pooling + scheduling)
-- [ ] Resource pooling hardening (connection/thread/buffer)
-- [ ] Load-balancing + scheduling hardening
-- [ ] Integration and regression verification against existing graph flow
-- [ ] Gate: no performance regressions, deterministic behavior under load
+- [x] Resource pooling hardening (connection/thread/buffer)
+- [x] Load-balancing + scheduling hardening
+- [x] Integration and regression verification against existing graph flow
+- [x] Gate: no performance regressions, deterministic behavior under load
 
 ### Block E — P6-01 + P6-02 + P6-03 (Sharding consistency + fault injection)
 - [ ] 2PC/3PC consistency and recovery hardening
