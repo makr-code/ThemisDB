@@ -3,50 +3,61 @@
 # ROADMAP
 
 ## Current Status
-- [~] Modul `tools` dokumentiert; Backlog für weitere Härtung und Ausbau wird gepflegt.
+- [~] Scanner-Tuning-Programm für Gap-Analyse ist aktiv: Baseline eingefroren (TP 24%, CRITICAL-TP 50%) und Prioritätskategorien sind definiert.
+- [~] Fokus ist auf `legacy_duplication`, `smart_ptr_misuse`, `memory_order`, `uncaught_exception` gesetzt; High-FP-Kategorien sind für Backlog-Eingang gedrosselt.
 
 ## In Progress
-- [ ] Dokumentations- und Qualitätslücken schließen (Target: 2026-Q2)
+- [~] Scanner-Orchestrierung und Tuning-Policy stabilisieren (Target: 2026-Q3)
+- [~] Reproduzierbare 50er-Stratifizierung + Validierungsberichte automatisieren (Target: 2026-Q3)
+- [~] Validierten Remediation-Backlog mit Modulpriorität `llm -> server -> sharding` erzeugen (Target: 2026-Q3)
 
 ## Planned Features
-- [ ] Schnittstellen und Verantwortlichkeiten präzisieren (Target: 2026-Q3)
-- [ ] Testabdeckung für kritische Pfade erweitern (Target: 2026-Q3)
-- [ ] Betriebs- und Security-Härtung abschließen (Target: 2026-Q4)
+- [ ] Batch-Gates für Delivery-Wellen vollständig in Scanner-Artefakte integrieren (Target: 2026-Q3)
+- [ ] KPI-Wochentracking (Total, TP%, FP%, Severity/Kategorie/Modul) als Standardausgabe absichern (Target: 2026-Q3)
+- [ ] Dokument-Sync mit Root-Governance (`ROADMAP`, `FUTURE_ENHANCEMENTS`, Release-Artefakte) fortlaufend verankern (Target: 2026-Q4)
 
 ## Implementation Phases
 ### Phase 1: Design / API-Vertrag
-- [ ] Öffentliche und interne Interfaces des Moduls konsolidieren (Target: 2026-Q2)
-- [ ] Eingabe-/Ausgabeverträge und Fehlermodelle festlegen (Target: 2026-Q2)
+- [x] Analyse-Baseline als verbindliche Policy erfassen (TP 24%, CRITICAL 50%) (Target: 2026-Q3)
+- [x] Prioritäts- und Defer-Listen für Kategorien definieren (Target: 2026-Q3)
+- [ ] API-Vertrag für Scan→Sample→Analyse→Backlog-Pipeline finalisieren (Target: 2026-Q3)
 
 ### Phase 2: Core-Implementierung
-- [ ] Kernlogik gemäß Schnittstellenvertrag vervollständigen (Target: 2026-Q3)
-- [ ] Integrationspunkte zu abhängigen Modulen stabilisieren (Target: 2026-Q3)
+- [x] Scanner-Tuning-Policy in Orchestrierung integrieren (Target: 2026-Q3)
+- [x] Safe-Pattern-Whitelist und Signal-basierte HIGH/MEDIUM-Härtung implementieren (Target: 2026-Q3)
+- [ ] Vollscan-Runtime für identische Datenbasis als Standard-Runbook absichern (Target: 2026-Q3)
 
 ### Phase 3: Fehlerbehandlung & Edge Cases
-- [ ] Fehlerfälle systematisch abdecken (Target: 2026-Q3)
-- [ ] Edge-Case-Handling und Guardrails ergänzen (Target: 2026-Q3)
+- [x] High-FP-Kategorien für Remediation-Backlog-Eingang explizit drosseln (Target: 2026-Q3)
+- [ ] Edge-Cases in Kategorie-/Signalheuristiken gegen Fehlklassifikation absichern (Target: 2026-Q3)
+- [ ] Fallback-Verhalten bei fehlenden Files/Line-Mapping dokumentieren und testen (Target: 2026-Q3)
 
 ### Phase 4: Tests
-- [ ] Unit-Tests für Kernpfade ausbauen (Target: 2026-Q3)
-- [ ] Integrations- und Regressionstests ergänzen (Target: 2026-Q3)
+- [~] Script-Validierung für Scanner/Sampling/Analyse automatisieren (Target: 2026-Q3)
+- [ ] Reproduzierbare Sample-Regression (Seed=42) in CI-Checks aufnehmen (Target: 2026-Q3)
+- [ ] Delta-Tracking gegen vorherige Reports in Pipeline automatisieren (Target: 2026-Q3)
 
 ### Phase 5: Performance/Hardening
-- [ ] Performance-Bottlenecks messen und reduzieren (Target: 2026-Q4)
-- [ ] Security- und Reliability-Hardening abschließen (Target: 2026-Q4)
+- [ ] Scanner-Durchlaufzeit und FP-Reduktionswirkung pro Wave messbar machen (Target: 2026-Q4)
+- [ ] Batch-Gates erzwingen: keine neuen CRITICAL, Tests grün, Recovery-Semantik dokumentiert (Target: 2026-Q4)
+- [ ] Wave-7-Stabilität + Wave-8-Fault-Injection-Signoff in Delivery-Fluss verankern (Target: 2026-Q4)
 
 ### Phase 6: Dokumentation & Abnahme
-- [ ] Betriebs- und Entwicklerdokumentation aktualisieren (Target: 2026-Q4)
-- [ ] Modulabnahme anhand Checklisten und Akzeptanzkriterien durchführen (Target: 2026-Q4)
+- [~] Wöchentliche KPI-Artefakte aus Scanner-Ausgaben erzeugen (Target: 2026-Q3)
+- [ ] `tools/ROADMAP.md` und `tools/FUTURE_ENHANCEMENTS.md` bei jedem Tuning-Batch synchron halten (Target: 2026-Q4)
+- [ ] Batch-Abschlussreport (erledigt/offen/risiko) als Pflichtartefakt definieren (Target: 2026-Q4)
 
 ## Production Readiness Checklist
-- [ ] Definierte Fehlersemantik und Recovery-Pfade
-- [ ] Ausreichende Testabdeckung inkl. Regression
-- [ ] Security-Review und Dependency-Checks abgeschlossen
-- [ ] Monitoring/Observability-Anforderungen erfüllt
-- [ ] Dokumentation für Betrieb und Entwicklung vollständig
+- [ ] Vollscan und Re-Scan mit identischer Datenbasis reproduzierbar ausführbar
+- [ ] 50er-Stratifizierung reproduzierbar (Seed dokumentiert)
+- [ ] Gesamt-TP-Ziel >= 50% erreicht; CRITICAL-Präzision >= 50% gehalten
+- [ ] Validierter Remediation-Backlog priorisiert nach `llm -> server -> sharding`
+- [ ] Batch-Gates pro Welle nachweislich eingehalten
+- [ ] KPI- und Governance-Artefakte wöchentlich aktualisiert
 
 ## Known Issues & Limitations
-- [!] Detailtiefe der Modul-spezifischen Akzeptanzkriterien variiert und wird sukzessive geschärft.
+- [!] Scanner-Landschaft ist zwischen `tools/` und `tools/legacy/` verteilt; Orchestrierungsimporte müssen beide Pfade berücksichtigen.
+- [!] Heuristische TP/FP-Klassifikation bleibt probabilistisch und benötigt zyklische Nachkalibrierung.
 
 ## Breaking Changes
 - Keine bekannten Breaking Changes dokumentiert.

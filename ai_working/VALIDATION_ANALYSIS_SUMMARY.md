@@ -1,16 +1,23 @@
 # Automated Gap Validation Analysis Summary
 
-**Date:** 2026-06-02
+**Date:** 2026-07-20T10:13:34.344350+00:00
 **Sample Size:** 50 gaps
 **Full Dataset:** 18,795 gaps
+
+## Frozen Baseline
+
+- Baseline TP: 24.0%
+- CRITICAL TP baseline: 50.0%
+- Priority categories: legacy_duplication, smart_ptr_misuse, memory_order, uncaught_exception
+- Deferred high-FP categories: observability, copy_overhead, db_connection_leak, no_health_check, hardcoded_path
 
 ## Classification Results
 
 | Classification | Count | % | Est. in Full Set |
 |---|---|---|---|
-| **True Positives** | 12 | 24.0% | 4,510 |
-| **False Positives** | 18 | 36.0% | 6,766 |
-| **Uncertain** | 20 | 40.0% | 7,518 |
+| **True Positives** | 8 | 16.0% | 3,007 |
+| **False Positives** | 20 | 40.0% | 7,518 |
+| **Uncertain** | 22 | 44.0% | 8,269 |
 
 ## Interpretation
 
@@ -24,8 +31,8 @@
 
 ## Next Steps
 
-1. Use TP rate (24%) as baseline quality metric
-2. Prioritize ~4,510 estimated true positive gaps
+1. Use TP rate (16%) as baseline quality metric
+2. Prioritize ~3,007 estimated true positive gaps
 3. Organize by module and severity for remediation planning
 4. Track remediation progress
 

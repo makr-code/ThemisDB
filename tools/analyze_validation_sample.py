@@ -5,10 +5,20 @@ Loads 50 gaps, analyzes with semantic heuristics, generates assessment report
 """
 
 import json
+import argparse
 from pathlib import Path
 from collections import defaultdict
 import re
+from datetime import datetime, timezone
 from typing import Dict, List, Tuple, Optional
+
+BASELINE_POLICY = {
+    'tp_percent': 24.0,
+    'critical_tp_percent': 50.0,
+    'priority_categories': ['legacy_duplication', 'smart_ptr_misuse', 'memory_order', 'uncaught_exception'],
+    'deferred_high_fp_categories': ['observability', 'copy_overhead', 'db_connection_leak', 'no_health_check', 'hardcoded_path'],
+    'priority_modules': ['llm', 'server', 'sharding'],
+}
 
 class GapAnalyzer:
     """Analyzes gaps for TP vs FP classification"""
@@ -17,13 +27,12 @@ class GapAnalyzer:
         self.repo_root = repo_root
         self.cache = {}
         
-    def load_sample_gaps(self) -> List[Dict]:
+    def load_sample_gaps(self, metadata_path: Path) -> List[Dict]:
         """Load gaps from sample metadata"""
-        metadata_file = self.repo_root / "ai_working" / "sample_validation_metadata.json"
-        if not metadata_file.exists():
+        if not metadata_path.exists():
             return []
         
-        with open(metadata_file) as f:
+        with open(metadata_path) as f:
             data = json.load(f)
         return data.get('gaps', [])
     
@@ -262,15 +271,79 @@ class GapAnalyzer:
         else:
             return ('FP', 0.50, "MEDIUM severity likely false positive or low-priority")
 
+def _build_remediation_backlog(assessments: List[Dict]) -> Dict[str, List[Dict]]:
+    backlog = defaultdict(list)
+    for item in assessments:
+        if item['classification'] != 'TP':
+            continue
+        if str(item['severity']).upper() not in {'CRITICAL', 'HIGH'}:
+            continue
+        backlog[item['module']].append(item)
+
+    # sort each module: CRITICAL first
+    for module in list(backlog.keys()):
+        backlog[module] = sorted(
+            backlog[module],
+            key=lambda a: (str(a['severity']).upper() != 'CRITICAL', a['category'], a['file'], a['line'])
+        )
+    return dict(backlog)
+
+
+def _write_remediation_backlog(backlog: Dict[str, List[Dict]], output_path: Path):
+    module_priority = BASELINE_POLICY['priority_modules']
+    ordered_modules = [m for m in module_priority if m in backlog]
+    ordered_modules.extend(sorted(m for m in backlog.keys() if m not in module_priority))
+
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(output_path, 'w', encoding='utf-8') as f:
+        f.write("# Validated Remediation Backlog\n\n")
+        f.write("## Prioritized Module Order\n\n")
+        for module in module_priority:
+            f.write(f"- {module}\n")
+        f.write("\n## Batch Exit Criteria\n\n")
+        f.write("- No new CRITICAL findings\n")
+        f.write("- Tests green (`release_critical` plus Wave 5/6 regressions)\n")
+        f.write("- Failure/recovery semantics documented\n")
+        f.write("- Wave 7 baseline stable; Wave 8/Fault-Injection as follow-up sign-off\n\n")
+
+        for module in ordered_modules:
+            f.write(f"## {module}\n\n")
+            items = backlog[module]
+            if not items:
+                f.write("- Keine validierten CRITICAL/HIGH Findings\n\n")
+                continue
+            for item in items[:200]:
+                f.write(
+                    f"- [{item['severity']}] {item['category']} "
+                    f"({item['file']}:{item['line']}) — {item['reasoning']}\n"
+                )
+            f.write("\n")
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Analyze validation sample and derive remediation backlog")
+    parser.add_argument("--repo-root", default=str(Path(__file__).parent.parent), help="Repository root")
+    parser.add_argument("--metadata-file", default="ai_working/sample_validation_metadata.json", help="Validation sample metadata path")
+    parser.add_argument("--report-out", default="ai_working/VALIDATION_ANALYSIS_REPORT.json", help="Detailed JSON output")
+    parser.add_argument("--summary-out", default="ai_working/VALIDATION_ANALYSIS_SUMMARY.md", help="Markdown summary output")
+    parser.add_argument("--backlog-out", default="ai_working/VALIDATED_REMEDIATION_BACKLOG.md", help="Validated remediation backlog output")
+    return parser.parse_args()
+
+
 def main():
-    repo_root = Path(__file__).parent.parent
+    args = parse_args()
+    repo_root = Path(args.repo_root).resolve()
+    metadata_file = (repo_root / args.metadata_file).resolve()
+    report_file = (repo_root / args.report_out).resolve()
+    md_file = (repo_root / args.summary_out).resolve()
+    backlog_file = (repo_root / args.backlog_out).resolve()
     analyzer = GapAnalyzer(repo_root)
     
     print("\n" + "=" * 100)
     print("AUTOMATED GAP VALIDATION SAMPLE ANALYSIS")
     print("=" * 100)
     
-    gaps = analyzer.load_sample_gaps()
+    gaps = analyzer.load_sample_gaps(metadata_file)
     if not gaps:
         print("[ERROR] Could not load sample gaps")
         return
@@ -371,10 +444,11 @@ def main():
             print(f"  {sev:8s}: {tp_sev}/{total_sev} TP ({tp_sev_pct:5.1f}%)")
     
     # Save detailed report
-    report_file = repo_root / "ai_working" / "VALIDATION_ANALYSIS_REPORT.json"
+    report_file.parent.mkdir(parents=True, exist_ok=True)
     with open(report_file, 'w') as f:
         json.dump({
-            'date': '2026-06-02',
+            'date': datetime.now(timezone.utc).isoformat(),
+            'baseline_policy': BASELINE_POLICY,
             'sample_size': len(assessments),
             'tp_count': tp_count,
             'tp_percent': tp_pct,
@@ -389,15 +463,20 @@ def main():
             'assessments': assessments
         }, f, indent=2)
     
-    print(f"\n[✓] Detailed report saved to: ai_working/VALIDATION_ANALYSIS_REPORT.json")
+    print(f"\n[✓] Detailed report saved to: {report_file}")
     
     # Generate markdown summary
-    md_file = repo_root / "ai_working" / "VALIDATION_ANALYSIS_SUMMARY.md"
+    md_file.parent.mkdir(parents=True, exist_ok=True)
     with open(md_file, 'w', encoding='utf-8') as f:
         f.write("# Automated Gap Validation Analysis Summary\n\n")
-        f.write(f"**Date:** 2026-06-02\n")
+        f.write(f"**Date:** {datetime.now(timezone.utc).isoformat()}\n")
         f.write(f"**Sample Size:** {len(assessments)} gaps\n")
         f.write(f"**Full Dataset:** 18,795 gaps\n\n")
+        f.write("## Frozen Baseline\n\n")
+        f.write(f"- Baseline TP: {BASELINE_POLICY['tp_percent']}%\n")
+        f.write(f"- CRITICAL TP baseline: {BASELINE_POLICY['critical_tp_percent']}%\n")
+        f.write(f"- Priority categories: {', '.join(BASELINE_POLICY['priority_categories'])}\n")
+        f.write(f"- Deferred high-FP categories: {', '.join(BASELINE_POLICY['deferred_high_fp_categories'])}\n\n")
         
         f.write("## Classification Results\n\n")
         f.write(f"| Classification | Count | % | Est. in Full Set |\n")
@@ -441,7 +520,10 @@ def main():
         f.write("---\n\n")
         f.write("**Detailed assessment data:** See `VALIDATION_ANALYSIS_REPORT.json`\n")
     
-    print(f"[✓] Summary saved to: ai_working/VALIDATION_ANALYSIS_SUMMARY.md")
+    print(f"[✓] Summary saved to: {md_file}")
+    backlog = _build_remediation_backlog(assessments)
+    _write_remediation_backlog(backlog, backlog_file)
+    print(f"[✓] Validated remediation backlog saved to: {backlog_file}")
     print("\n" + "=" * 100)
     print("✅ ANALYSIS COMPLETE")
     print("=" * 100 + "\n")
