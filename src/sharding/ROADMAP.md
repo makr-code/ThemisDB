@@ -1,8 +1,8 @@
 # Sharding Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-07-18 -->
-<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
+<!-- Status: current | validated: 2026-07-20 -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../NEXT_PHASE_IMPLEMENTATION_PLAN.md -->
 <!-- Rollout Plan: ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md §4 (Phase C), §7 (risk) -->
 <!-- Issue Link: makr-code/ThemisDB#5620 (development status snapshot) -->
 
@@ -23,6 +23,7 @@ Production-capable sharding runtime exists for routing/placement, distributed co
 - [~] improving diagnostics consistency across routing/transaction/repair stages (Target: Q3 2026)
 - [~] stabilizing benchmark-backed release guardrails for sharding hot paths (Target: Q3 2026)
 - [x] Real AWS S3, Azure Storage, and Google Cloud Storage SDK integrations for cloud backup (Target: Q2 2026)
+- [~] approved next implementation block: queue 2PC/3PC consistency and recovery verification after the Graph/LLM/Network-Server hardening streams stabilize (Target: Q3 2026)
 
 ## Planned Features
 
@@ -61,6 +62,7 @@ Production-capable sharding runtime exists for routing/placement, distributed co
 ### Phase 4: Tests
 - [ ] expand focused regressions for shard failure, transaction contention, and migration edge scenarios (Target: Q4 2026)
 - [ ] extend deterministic stress fixtures for distributed load and topology churn (Target: Q4 2026)
+- [ ] attach Wave 8 fault-injection gates only after current consistency and recovery baselines are re-verified (Target: Q4 2026)
 
 ### Phase 5: Performance and Hardening
 - [ ] lock benchmark-backed release gates for sharding hot paths (Target: Q4 2026)

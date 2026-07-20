@@ -22,6 +22,7 @@ Production-ready server stack with HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, Po
   - Status: 2,172 verified gaps identified and categorized (2026-06-25); 654 actionable (Critical + High severity)
   - [ ] Finish remaining true-positive triage from gap scan and remove residual high-risk findings from active code paths (Target: Q2 2026)
   - [ ] Consolidate auth enforcement checks for all routing-layer special cases and keep regression tests green (Target: Q2 2026)
+- [~] approved next implementation block: follow Graph + LLM kickoff with server hardening for auth/rate-limit/session guards and lifecycle/backpressure/timeout interplay (Target: Q3 2026)
 
 ## Planned Features
 
@@ -45,6 +46,7 @@ Production-ready server stack with HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, Po
 ### Phase 2: Protocol and Gateway Hardening
 - [ ] Improve HTTP/3 production behavior under migration/retransmit stress (Target: Q4 2026)
 - [ ] Extend gateway resilience tests for quorum loss and split-brain protection paths (Target: Q4 2026)
+- [ ] Prioritize connection lifecycle and timeout interplay evidence before broader gateway resiliency expansion (Target: Q4 2026)
 
 ### Phase 3: Validation and Contract Governance
 - [ ] Strengthen OpenAPI/JSON-Schema drift detection for handler registration changes (Target: Q4 2026)

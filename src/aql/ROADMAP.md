@@ -1,8 +1,8 @@
 # AQL Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
+<!-- Status: current | validated: 2026-07-20 -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../NEXT_PHASE_IMPLEMENTATION_PLAN.md -->
 
 ## Current Status
 
@@ -27,6 +27,7 @@ Production AQL-assistance surfaces exist across translation, validation, tooling
     - Unify duplicate content across AQL roadmaps
   - [ ] Phase 4: Unify testing and performance SLA (20 hrs) 📋 PLANNED
   - Full details: [src/query/AQL_CONSOLIDATION_AUDIT_2026_06_18.md](../query/AQL_CONSOLIDATION_AUDIT_2026_06_18.md)
+- [~] approved next implementation block: keep AQL Phase 2 DDL parser/executor work isolated from Graph/LLM/Network-Server hardening and promote only with dedicated test evidence (Target: Q3 2026)
 
 ## Planned Features
 
@@ -53,6 +54,7 @@ Production AQL-assistance surfaces exist across translation, validation, tooling
   - [x] Per-operation-type circuit breakers
   - [x] Bounded conversation history with token budget
 - [~] align helper components to shared bounded runtime contracts (Target: Q4 2026)
+- [ ] keep DDL parser/executor delivery in a separate stream from runtime hardening work (Target: Q3 2026)
 
 ### Phase 3: Error Handling and Edge Cases
 - [ ] standardize fail-closed behavior for malformed/generated query edge cases (Target: Q4 2026)

@@ -1,8 +1,8 @@
 # LLM Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-07-19 -->
-<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
+<!-- Status: current | validated: 2026-07-20 -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../NEXT_PHASE_IMPLEMENTATION_PLAN.md -->
 
 ## Current Status
 
@@ -26,6 +26,7 @@ The module provides production-grade LLM runtime surfaces across async inference
 - [~] Cross-node and shard-aware inference hardening (Target: Q3 2026)
 - [~] Runtime cancellation semantics and timeout behavior consistency across engine variants (Target: Q3 2026)
 - [~] Runtime benchmark and regression gate alignment for RAID/RAG-heavy inference paths (Target: Q3 2026)
+- [~] approved next implementation block: run LLM hardening in parallel with Graph Phase 3, starting with cancellation/timeout/backend-degradation behavior before remote-failure and memory/VRAM work (Target: Q3 2026)
 
 ## Planned Features
 
@@ -47,6 +48,7 @@ The module provides production-grade LLM runtime surfaces across async inference
 ### Phase 3: Error Handling and Edge Cases
 - [ ] Standardize failure envelopes for timeouts, cancellation, backend unavailability, and partial fan-out errors (Target: Q4 2026)
 - [ ] Harden fallback behavior when optional acceleration/runtime features are unavailable (Target: Q4 2026)
+- [ ] Close remote-orchestration and shard-failure paths after timeout/cancellation contracts are aligned (Target: Q4 2026)
 
 ### Phase 4: Tests
 - [~] Expand focused tests for distributed orchestration, adapter hot-swap races, and stream abort handling (Target: Q4 2026)

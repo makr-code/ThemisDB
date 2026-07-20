@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 **Version:** 2.5  
-**Last Updated:** 2026-07-18
+**Last Updated:** 2026-07-20
 **Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–6 complete; active baseline 22.085 deduplicated findings). Phase 3-5 next-phase implementation plans active.
 
 > For module-specific details see each module's `src/<module>/ROADMAP.md`.
@@ -73,6 +73,15 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 **Status:** 🔵 PLANNED → 🚀 Kickoff 2026-07-22  
 **Implementation Plans:** [NEXT_PHASE_IMPLEMENTATION_PLAN.md](NEXT_PHASE_IMPLEMENTATION_PLAN.md), [ai_working/PHASE3_OPTIMIZATION_DETAILED_PLAN.md](ai_working/PHASE3_OPTIMIZATION_DETAILED_PLAN.md), [ai_working/PHASE5_HARDENING_DETAILED_PLAN.md](ai_working/PHASE5_HARDENING_DETAILED_PLAN.md)
 
+### Approved Execution Order (2026-07-20)
+
+1. **Baseline and release gates first** — build/test baseline + Wave 7 reconfirmation before new implementation work.
+2. **Graph Phase 3 primary stream** — query optimizer, cache efficiency, resource pooling, scheduling/load balancing, then sign-off.
+3. **LLM hardening parallel stream** — cancellation/timeout/backend degradation first, then remote-orchestration failure paths, then memory/VRAM recovery validation.
+4. **Network/Server hardening follow-on stream** — mixed-transport failure injection, auth/rate-limit/session guards, lifecycle/backpressure/timeout interplay.
+5. **Sharding consistency after core hardening** — 2PC/3PC consistency, recovery validation, Wave 8 fault-injection prep.
+6. **AQL Phase 2 isolated stream** — DDL parser/executor work stays separate from the hardening streams.
+
 ### Parallel Work Streams (4-6 weeks)
 
 | Phase | Component | Timeline | Effort | Teams | Target Tests | Status |
@@ -90,12 +99,13 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 
 ### Immediate Kickoff Actions (Week 1: 2026-07-22 to 2026-07-26)
 
-- [ ] **Architecture reviews** (Teams A-D present roadmaps, 2 hours per team)
-- [ ] **Feature branches created:** `feature/graph-phase3-optimization`, `feature/server-phase5-hardening`, `feature/llm-phase5-hardening`
-- [ ] **GitHub issues created:** Phase 3 P3-01..05, Phase 5-S P5-S01..02, Phase 5-L P5-L01..02
-- [ ] **Baseline measurements:** Wave 7 gates re-confirmed PASS, query latency profiled, memory baseline established
-- [ ] **Test scaffolding:** Empty test files + stubs + CMakeLists.txt (no logic yet)
-- [ ] **First commit cycle:** Infrastructure + test stubs (by Friday 2026-07-26)
+- [ ] **Baseline verification:** build/test baseline re-verified and Wave 7 gates re-confirmed PASS
+- [ ] **Architecture reviews** (Teams A-D present Graph/LLM/Network-Server workstream scope, 2 hours per team)
+- [ ] **Feature branches created:** `feature/graph-phase3-optimization`, `feature/llm-phase5-hardening`, `feature/server-phase5-hardening`
+- [ ] **GitHub issues created:** Phase 3 P3-01..05, Phase 5-L P5-L01..02, follow-on Network/Server hardening items
+- [ ] **Baseline measurements:** query latency profiled, memory baseline established, release-gate evidence attached
+- [ ] **Focused test registration:** add only backed tests/fixtures for approved implementation work
+- [ ] **First commit cycle:** baseline evidence + focused implementation/tests (by Friday 2026-07-26)
 
 ### Decision Tree: Phase Prioritization
 
@@ -1919,4 +1929,3 @@ ctest --preset community-release --filter "test_layered_retrieval_orchestrator" 
 
 ---
 Zuletzt geprueft (Root-Sync): 2026-05-26
-

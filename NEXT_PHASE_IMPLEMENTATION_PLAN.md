@@ -2,7 +2,7 @@
 
 **Document:** Implementation roadmap and work-stream coordination  
 **Status:** 🚀 ACTIVE KICKOFF  
-**Last Updated:** 2026-07-18  
+**Last Updated:** 2026-07-20  
 **Target Completion:** 2026-08-19 (Phase 3), Q4 2026 (Production Release)
 
 ---
@@ -15,7 +15,23 @@ The project transitions from **foundational completion** (Graph Phase 2.4 ✅, D
 2. **Cross-Module Hardening** — Critical path fixes: server wire-protocol, LLM exception safety, sharding consistency (Phases 5-7)
 3. **AQL 2.0.0 Language Expansion** — DDL, Geospatial, FTS parser integration (18-23 weeks, parallel)
 
-**Immediate Focus:** Graph Phase 3 + Wave 7/8 benchmark verification + LLM/Server Phase 5 hardening (first 4 weeks)
+**Immediate Focus:** baseline verification first, then Graph Phase 3 as the primary work stream, parallel LLM hardening, followed by Network/Server hardening, Sharding consistency, and isolated AQL Phase 2 delivery.
+
+### Approved Execution Order (2026-07-20)
+
+1. **Baseline and release gates**
+   - Re-verify build/test baseline and reconfirm Wave 7 gates before starting new implementation.
+   - Remove stale planning assumptions so only open work remains tracked.
+2. **Graph Phase 3 (primary)**
+   - Start query-optimizer hardening first, then cache efficiency and resource pooling, then scheduling/load balancing, then sign-off.
+3. **LLM hardening (parallel)**
+   - Start cancellation/timeout/backend-degradation hardening in parallel with Graph Phase 3, then remote-orchestration failure paths, then memory/VRAM recovery validation.
+4. **Network/Server hardening (after Graph + LLM kickoff)**
+   - Expand mixed-transport failure injection, auth/rate-limit/session guard hardening, and connection lifecycle/backpressure/timeout validation.
+5. **Sharding consistency**
+   - Stage 2PC/3PC consistency, recovery-path verification, and Wave 8 fault-injection work after the core hardening streams are stable.
+6. **AQL Phase 2**
+   - Keep DDL parser/executor work isolated from the hardening streams and promote only after baseline, test registration, and evidence are in place.
 
 ---
 
@@ -63,10 +79,10 @@ The project transitions from **foundational completion** (Graph Phase 2.4 ✅, D
 
 | ID | Component | Effort | Owner | Tests | Status |
 |----|-----------|--------|-------|-------|--------|
-| P5-S01 | Server: wire-protocol retry (2-3 retries + exponential backoff) | 1 week | Team C | 16 tests | 🔵 Planned |
-| P5-S02 | Server: HTTP timeout patterns + graceful shutdown | 1 week | Team C | 12 tests | 🔵 Planned |
-| P5-L01 | LLM: exception safety audit + RAII wrapper refactoring | 2 weeks | Team D | 28 tests | 🔵 Planned |
-| P5-L02 | LLM: memory leak fixes (model loading, cache cleanup) | 1.5 weeks | Team D | 24 tests | 🔵 Planned |
+| P5-S01 | Server: wire-protocol retry (2-3 retries + exponential backoff) | 1 week | Team C | 19 tests | 🔵 Planned |
+| P5-S02 | Server: HTTP timeout patterns + graceful shutdown | 1 week | Team C | 20 tests | 🔵 Planned |
+| P5-L01 | LLM: exception safety audit + RAII wrapper refactoring | 2 weeks | Team D | 36 tests | 🔵 Planned |
+| P5-L02 | LLM: memory leak fixes (model loading, cache cleanup) | 1.5 weeks | Team D | 15 tests | 🔵 Planned |
 
 **Success Criteria:**
 - ✅ Server: 99.9% recovery from transient faults (verified with fault injection)
@@ -184,14 +200,15 @@ The project transitions from **foundational completion** (Graph Phase 2.4 ✅, D
 
 ## Immediate Next Actions (Week 1: 2026-07-22 to 2026-07-26)
 
-### Priority 1: Kickoff Phase 3 & Phase 5
+### Priority 1: Secure Baseline and Start the Approved Order
 
-- [ ] **Monday 2026-07-22:** Architecture review meetings (Teams A, B, C, D present roadmaps)
-- [ ] **Monday-Tuesday:** Create GitHub issues + milestones for Phase 3, Phase 5-S, Phase 5-L
-- [ ] **Tuesday:** Feature branch creation: `feature/graph-phase3-optimization`, `feature/server-phase5-hardening`, `feature/llm-phase5-hardening`
-- [ ] **Wednesday:** Update ROADMAP.md section headings to reflect "Phase 3 ACTIVE"
-- [ ] **Wednesday-Thursday:** Setup test scaffolding (P3 test files, Phase 5 test fixtures)
-- [ ] **Friday:** First commit cycle: empty test files + stubs + CMakeLists.txt changes (no logic yet)
+- [ ] **Monday 2026-07-22:** Re-verify build/test baseline and reconfirm Wave 7 gates before new feature work
+- [ ] **Monday 2026-07-22:** Architecture review meetings (Teams A, B, C, D present Graph/LLM/Network-Server workstream scope)
+- [ ] **Monday-Tuesday:** Create GitHub issues + milestones for Phase 3, Phase 5-L, and subsequent Network/Server work
+- [ ] **Tuesday:** Feature branch creation: `feature/graph-phase3-optimization`, `feature/llm-phase5-hardening`, `feature/server-phase5-hardening`
+- [ ] **Wednesday:** Update module and root roadmap status once baseline evidence is attached
+- [ ] **Wednesday-Thursday:** Register focused tests/fixtures only for backed implementation work; avoid placeholder-only stubs
+- [ ] **Friday:** First implementation commit cycle with baseline evidence, focused tests, and source-aligned docs
 
 ### Priority 2: Establish Monitoring & Tracking
 
@@ -208,7 +225,7 @@ The project transitions from **foundational completion** (Graph Phase 2.4 ✅, D
 - [ ] Server connection pool saturation test
 - [ ] Scanner re-run on develop: current baseline for CRITICAL/HIGH gap counts
 
-### Priority 4: AQL Phase 2 Kickoff
+### Priority 4: AQL Phase 2 Kickoff (Isolated Stream)
 
 - [ ] Team G: Review `src/query/sql_parser.cpp` structure
 - [ ] Create `src/query/aql_ddl_parser.cpp` skeleton + test fixture

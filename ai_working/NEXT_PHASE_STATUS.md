@@ -1,7 +1,7 @@
 # Next Phase Implementation Status Tracker
 
 **Document:** Weekly standup + progress tracking  
-**Updated:** 2026-07-18  
+**Updated:** 2026-07-20  
 **Next Review:** 2026-07-26 (Friday EOD)
 
 ---
@@ -11,11 +11,20 @@
 | Item | Status | Notes |
 |------|--------|-------|
 | **Planning Documents** | ✅ Complete | NEXT_PHASE_IMPLEMENTATION_PLAN.md, Phase 3 & 5 detailed plans ready |
-| **Architecture Reviews** | 🔵 Scheduled | Mon 2026-07-22 (Teams A, B, C, D) |
-| **Feature Branches** | 🔵 Pending | Create on Mon after approval |
+| **Architecture Reviews** | 🔵 Scheduled | Mon 2026-07-22 (Graph + LLM first, Network/Server follow-on) |
+| **Feature Branches** | 🔵 Pending | Create after baseline confirmation |
 | **GitHub Issues** | 🔵 Pending | Create after architecture reviews (by Tue) |
-| **Baseline Measurements** | 🔵 Pending | Wave 7 re-run, memory profiling setup (Mon-Wed) |
-| **First Code Commit** | 🔵 Target | Infrastructure + test stubs by Fri 2026-07-26 |
+| **Baseline Measurements** | 🔵 Pending | Build/test baseline, Wave 7 re-run, memory profiling setup (Mon-Wed) |
+| **First Code Commit** | 🔵 Target | Baseline evidence + focused implementation/tests by Fri 2026-07-26 |
+
+### Approved Execution Order (2026-07-20)
+
+1. Baseline and release gates
+2. Graph Phase 3 (primary)
+3. LLM hardening (parallel)
+4. Network/Server hardening
+5. Sharding consistency and Wave 8 preparation
+6. AQL Phase 2 as an isolated stream
 
 ---
 
@@ -48,9 +57,9 @@
 
 | Week | Deliverable | Owner | Status | Notes |
 |------|-------------|-------|--------|-------|
-| **Week 1** | Architecture review + fault injection setup | C1+C2 | 🔵 Planned | Design retry strategy + timeout architecture |
-| **Week 1** | P5-S01: Wire-protocol retry (exponential backoff) | C1 | 🔵 Planned | 19 tests, 1-week delivery |
-| **Week 2** | P5-S02: HTTP timeout + graceful shutdown | C2 | 🔵 Planned | 20 tests, 1-week delivery (parallel with P5-S01) |
+| **Week 1** | Planning + fault-injection setup after baseline confirmation | C1+C2 | 🔵 Planned | Start after Graph/LLM kickoff evidence is attached |
+| **Week 2** | P5-S01: Wire-protocol retry (exponential backoff) | C1 | 🔵 Planned | 19 tests, 1-week delivery |
+| **Week 2-3** | P5-S02: HTTP timeout + graceful shutdown | C2 | 🔵 Planned | 20 tests, 1-week delivery |
 | **Week 3** | Fault injection verification + integration | C1+C2 | 🔵 Planned | 99.9% recovery rate validation |
 | **Week 3** | Sign-off + documentation | C1 | 🔵 Planned | Doxygen complete, no new CRITICAL findings |
 
@@ -110,18 +119,18 @@
 ```
 Start (2026-07-22)
   │
-  ├─ [2 days] Architecture reviews
+  ├─ [2 days] Baseline verification + architecture reviews
   │    └─ [1 day] Feature branches + GitHub issues created
   │         ├─ PHASE 3 Start: Query optimizer (10 days)
   │         │   ├─ Cache efficiency (depends on optimizer cache API, parallel)
   │         │   ├─ Resource pooling (independent, parallel)
   │         │   └─ Load balancing (depends on scheduler, sequential)
   │         │
-  │         ├─ PHASE 5-S Start: Server retry (10 days)
-  │         │   └─ HTTP timeout (parallel, independent)
+  │         ├─ PHASE 5-L Start: LLM exception safety (14 days)
+  │         │   └─ Memory leak fixes (7 days, parallel)
   │         │
-  │         └─ PHASE 5-L Start: LLM exception safety (14 days)
-  │             └─ Memory leak fixes (7 days, parallel)
+  │         └─ PHASE 5-S Start: Server retry (10 days)
+  │         │   └─ HTTP timeout (parallel, independent)
   │
   └─ [21 days] Parallel execution (all phases)
        │
@@ -134,10 +143,10 @@ Start (2026-07-22)
 **Critical Path:** Phase 3 (28 days) >> Phase 5 (21 days)  
 **Longest Pole:** P3-03 Resource Pooling (14 days) + P3-04 Load Balancing (7 days) = 21 days sequential
 
-### Known Blockers (None as of 2026-07-18)
+### Known Blockers (Reviewed 2026-07-20)
 
-- ✅ Wave 7 baseline: ASSUMED PASS (to be confirmed Mon 2026-07-22)
-- ✅ All documentation: COMPLETE
+- ⚠️ Wave 7 baseline: assumed pass until re-confirmed in the current cycle
+- ⚠️ Build baseline must be re-verified before opening the new implementation block
 - ✅ Team allocation: READY (15 engineers identified)
 - ✅ CI infrastructure: EXISTS (ready for Phase 3-5 tests)
 
@@ -237,7 +246,7 @@ Start (2026-07-22)
 
 | Metric | Target | Current | Status |
 |--------|--------|---------|--------|
-| **Total New Tests** | 220+ | 0 | 🔵 In progress (220 expected) |
+| **Total New Tests** | 220+ | 0 | 🔵 Planned (Graph 130 + Server 39 + LLM 51 minimum) |
 | **Wave 7 Gates** | All PASS | TBD | 🔵 Verify Mon 2026-07-22 |
 | **Query Latency p99** | <= 50ms | TBD | 🔵 Baseline measurement |
 | **Cache Hit Ratio** | >= 85% | TBD | 🔵 Baseline measurement |
