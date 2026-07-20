@@ -669,12 +669,7 @@ void SlidingWindow::ensureWindowsExist(const std::chrono::system_clock::time_poi
         if (!found) {
             // Enforce max_open_windows: skip new window creation when at capacity.
             if (config_.max_open_windows > 0) {
-                uint64_t open_count = 0;
-                for (const auto& w : windows_) {
-                    if (!w.closed) {
-                        ++open_count;
-                    }
-                }
+                const uint64_t open_count = windows_opened_.load() - windows_closed_.load();
                 if (open_count >= config_.max_open_windows) {
                     ++windows_evicted_;
                     spdlog::debug("SlidingWindow: skipped new window creation (open={} >= max_open_windows={})",
