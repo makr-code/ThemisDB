@@ -1,8 +1,8 @@
 # ThemisDB — Open Stub Replacement Matrix
 
-<!-- Status: current | generated: 2026-05-27 | source: src/*/FUTURE_ENHANCEMENTS.md + src/ROADMAP.md -->
+<!-- Status: current | generated: 2026-07-20 | source: src/*/FUTURE_ENHANCEMENTS.md + src/ROADMAP.md -->
 <!-- Primary (Quelle der Wahrheit): src/ROADMAP.md -->
-<!-- Datum: 2026-05-27 -->
+<!-- Datum: 2026-07-20 -->
 
 > **Purpose:** This document is the canonical "Open Stub Replacement Matrix" for ThemisDB.
 > It consolidates every open stub, mock, and documented simulation path across all source modules,
@@ -40,14 +40,15 @@
 
 1. [Legend and Priority System](#legend-and-priority-system)
 2. [Statistics](#statistics)
-3. [Implementation Phases](#implementation-phases)
-4. [Code Quality Scanner Enhancements (Phase 5-10)](#code-quality-scanner-enhancements-phase-5-10--roadmap-update-2026-05-19)
-5. [Wave A — Critical / Immediate (≤ v1.4.0)](#wave-a--critical--immediate--v140)
-6. [Wave B — High / Near-term (v1.5.0 – v1.8.0)](#wave-b--high--near-term-v150--v180)
-7. [Wave C — Medium / Long-term (v1.9.0+)](#wave-c--medium--long-term-v190)
-8. [Cross-Cutting Epics](#cross-cutting-epics)
-9. [Definition of Done](#definition-of-done)
-10. [Governance and Tracking](#governance-and-tracking)
+3. [GA Release Readiness Backlog](#ga-release-readiness-backlog-v190-beta--v190-ga)
+4. [Implementation Phases](#implementation-phases)
+5. [Code Quality Scanner Enhancements (Phase 5-10)](#code-quality-scanner-enhancements-phase-5-10--roadmap-update-2026-05-19)
+6. [Wave A — Critical / Immediate (≤ v1.4.0)](#wave-a--critical--immediate--v140)
+7. [Wave B — High / Near-term (v1.5.0 – v1.8.0)](#wave-b--high--near-term-v150--v180)
+8. [Wave C — Medium / Long-term (v1.9.0+)](#wave-c--medium--long-term-v190)
+9. [Cross-Cutting Epics](#cross-cutting-epics)
+10. [Definition of Done](#definition-of-done)
+11. [Governance and Tracking](#governance-and-tracking)
 
 ---
 
@@ -110,6 +111,254 @@
 > **New:** Phase 5 execution results saved to `ai_working/gap_scan_v3_aggregate.json`
 
 ---
+
+## GA Release Readiness Backlog (v1.9.0-beta → v1.9.0 GA)
+
+## server
+
+### Scope
+- Harden release-critical retry, timeout, graceful-shutdown, and fault-recovery behaviour across the HTTP, RPC, and wire-protocol serving path.
+- Close the remaining develop-gate blockers in `include/server/`, `src/server/`, `include/network/`, and `src/network/`.
+
+### Design Constraints
+- No fail-open retry or timeout bypass on production code paths.
+- Release-lane promotion is blocked until `release_critical` remains green on `develop`.
+
+### Required Interfaces
+- `include/network/wire_protocol_connection_pool.h`
+- `include/server/http_server.h`
+- `include/server/ranger_adapter.h`
+- Existing HTTP / wire-protocol server entry points under `src/server/` and `src/network/`
+
+### Implementation Notes
+- Extend retry and timeout semantics consistently across all release-critical handlers.
+- Document shutdown ordering, retry budgets, and fault-recovery behaviour at the module level before sign-off.
+
+### Test Strategy
+- Focused server/network tests plus release-critical pipeline coverage.
+- Wave 5/6 regression retention and Wave 8 degradation scenarios before GA sign-off.
+
+### Performance Targets
+- No Wave-7 regression and no new retry/timeout-induced latency spikes in release-critical paths.
+- Deterministic shutdown and recovery timing under repeated fault scenarios.
+
+### Security / Reliability
+- Fail closed on invalid transport/auth state.
+- No new CRITICAL findings in server/network release-critical paths.
+
+## llm
+
+### Scope
+- Finish exception-safety, RAII, leak-prevention, and race-elimination work across `include/llm/`, `src/llm/`, and `tests/llm/`.
+- Convert existing hardening progress into GA-grade ownership and recovery guarantees.
+
+### Design Constraints
+- No hidden stub fallback in production paths.
+- Ownership, shutdown, and concurrency semantics must be explicit and test-backed.
+
+### Required Interfaces
+- Public LLM APIs under `include/llm/`
+- Runtime/model-management implementations under `src/llm/`
+- Focused registration in `tests/llm/CMakeLists.txt`
+
+### Implementation Notes
+- Prioritise model loading/unloading, plugin lifecycle, batching, quota, and shutdown coordination.
+- Document failure modes and recovery semantics for allocator, scheduler, and adapter paths.
+
+### Test Strategy
+- Focused LLM tests for exception safety, ownership, shutdown, and concurrency.
+- Sanitizer-backed verification and release-critical integration coverage where LLM paths participate.
+
+### Performance Targets
+- No Wave-7 regressions triggered by LLM-facing release-critical flows.
+- Stable under-load behaviour after repeated model lifecycle and backpressure scenarios.
+
+### Security / Reliability
+- No new CRITICAL findings in memory, concurrency, or input-validation categories.
+- Residual risks must be documented before GA promotion.
+
+## sharding
+
+### Scope
+- Harden 2PC/3PC consistency, WAL/recovery behaviour, and partition/fault-injection handling across sharding and replication-adjacent paths.
+- Turn the current production-candidate posture into release-grade recovery semantics.
+
+### Design Constraints
+- No silent data-loss or commit/abort ambiguity under coordinator or participant failure.
+- Recovery semantics must stay compatible with existing WAL and snapshot flows.
+
+### Required Interfaces
+- `include/sharding/` and `src/sharding/` transaction/WAL/coordinator components
+- `include/replication/` and `src/replication/` recovery-adjacent interfaces
+- `docs/architecture/transaction_coordinators.md` for 2PC/3PC/SAGA architecture context
+
+### Implementation Notes
+- Unify documented guarantees for prepare, commit, abort, replay, and in-doubt recovery.
+- Add cluster fault-injection scenarios before promoting any consistency claim to GA.
+
+### Test Strategy
+- Focused sharding/replication tests, recovery drills, and Wave 8 degradation coverage.
+- Dedicated partition and coordinator-failure scenarios with deterministic assertions.
+
+### Performance Targets
+- No Wave-7 regressions caused by sharding-side recovery or retry changes.
+- Recovery and failover behaviour remains repeatable under sustained load.
+
+### Security / Reliability
+- No new CRITICAL findings in consistency, WAL durability, or concurrency categories.
+- Recovery guarantees and residual risks must be explicitly documented.
+
+## graph-query-performance
+
+### Scope
+- Deliver the planned graph/query optimisation track for plan cache, cost model, cache efficiency, resource pooling, and load balancing.
+- Keep optimisation work subordinate to the GA hardening path rather than independent feature expansion.
+
+### Design Constraints
+- Do not mark optimisations production-ready without repeatable under-load evidence.
+- No performance work may regress Wave 7 or the release-critical suite.
+
+### Required Interfaces
+- Query-planner and execution components under `src/query/`, `src/evaluation/`, and graph-related runtime paths in `src/graph/`
+- Benchmark/runbook artefacts under `benchmarks/wave7/`
+
+### Implementation Notes
+- Tie each optimisation batch to explicit latency, cache-hit, pool-utilisation, and regression gates.
+- Record baseline, post-change, and rollback metrics for each accepted optimisation wave.
+
+### Test Strategy
+- Focused unit/integration tests plus Wave-7 benchmark reruns on every accepted optimisation batch.
+- Repeatability checks under sustained load before sign-off.
+
+### Performance Targets
+- Improved query latency, cache-hit rate, and pool utilisation without violating current Wave-7 gates.
+- Stable repeated results rather than single-run wins.
+
+### Security / Reliability
+- No correctness trade-off for speed; planner and cache changes must preserve existing semantics.
+- Rollback path required for every optimisation wave.
+
+## resilience-validation
+
+### Scope
+- Keep release-critical pipeline tests green, retain Wave 5/6 regression coverage, and add Wave 8 plus cluster chaos/fault-injection validation.
+- Promote resilience artefacts to first-class GA sign-off inputs.
+
+### Design Constraints
+- Release readiness is blocked if regression, degradation, or endurance evidence is stale.
+- New suites must stay deterministic enough for repeated sign-off use.
+
+### Required Interfaces
+- `.github/workflows/09-pr-gates_release-critical-tests.yml`
+- `tests/integration/CMakeLists.txt` and Wave 5/6 suites under `tests/integration/pipeline/`
+- Upcoming Wave 8 benchmark/test artefacts
+
+### Implementation Notes
+- Treat Wave 7, release-critical CI, Wave 5/6, Wave 8, and chaos evidence as one chained proof set.
+- Keep sign-off manifests and runbooks updated with the current gate inventory.
+
+### Test Strategy
+- `release_critical` CI on `develop`, repeated ctest runs, Wave 5/6 regression runs, Wave 8 endurance/degradation runs, and cluster chaos drills.
+
+### Performance Targets
+- Zero unexplained regressions against the current Wave-7 gates.
+- Repeatable degradation and recovery envelopes across sign-off reruns.
+
+### Security / Reliability
+- Recovery and degradation behaviour must be observable and auditable.
+- No GA sign-off without documented recovery evidence.
+
+## security-compliance
+
+### Scope
+- Reduce open security-relevant gap clusters in the top-risk modules and make the penetration-test report an explicit GA prerequisite.
+- Standardise review categories for input validation, transport security, ownership safety, and concurrency risk.
+
+### Design Constraints
+- No production release with new CRITICAL findings.
+- Residual risks must be documented rather than implied.
+
+### Required Interfaces
+- `SECURITY.md` and top-risk module docs/tests
+- Release and governance documents that define GA exit criteria
+
+### Implementation Notes
+- Prioritise fixes in `server`, `llm`, and `sharding` before broader backlog reduction.
+- Track penetration-test findings and remediation state as release artefacts, not ad-hoc notes.
+
+### Test Strategy
+- Security regression tests, sanitizer coverage where relevant, and penetration-test remediation verification.
+
+### Performance Targets
+- Security hardening must not invalidate Wave-7 or release-critical gates.
+- Review turnaround should preserve the planned beta-to-GA schedule.
+
+### Security / Reliability
+- No new CRITICAL findings at GA cut time.
+- Documented residual-risk register required for approval.
+
+## operations-release
+
+### Scope
+- Close observability, auditability, backup/recovery, SLA, runbook, and release-artefact gaps needed for manual GA promotion.
+- Ensure release governance stays synchronized from `develop` hardening to edition-lane promotion.
+
+### Design Constraints
+- No manual release without the full evidence bundle.
+- Operational claims must be backed by runbooks, artefacts, or measured sign-off data.
+
+### Required Interfaces
+- Root governance docs (`ROADMAP.md`, `RELEASE_STRATEGY.md`, `VERSIONING.md`, `CHANGELOG.md`)
+- Operational runbooks and benchmark/test artefacts referenced by release sign-off
+
+### Implementation Notes
+- Finish observability and audit signal coverage for release-critical flows.
+- Require backup/recovery proof and 99.99% SLA validation before final promotion.
+
+### Test Strategy
+- Operational drills, restore tests, fault-injection-backed SLA validation, and manual release checklist rehearsal.
+
+### Performance Targets
+- 99.99% uptime objective validated with load + fault evidence.
+- Backup/recovery objectives remain inside documented operational limits.
+
+### Security / Reliability
+- Audit trails and release artefacts must be complete and reviewable.
+- Documentation/governance drift is treated as a release blocker.
+
+## ga-hardening-execution-batches
+
+### Scope
+- Execute the GA hardening program in deterministic batches to avoid unsynchronized module-only completion.
+- Keep status, evidence, and release gates aligned across root governance documents.
+
+### Design Constraints
+- No promotion from `develop` unless the complete gate chain (Phase 0-6) is satisfied.
+- Do not treat implementation-complete module work as GA-complete without sign-off evidence.
+
+### Required Interfaces
+- `ROADMAP.md`
+- `NEXT_PHASE_IMPLEMENTATION_PLAN.md`
+- `ai_working/NEXT_PHASE_STATUS.md`
+- `RELEASE_STRATEGY.md`, `VERSIONING.md`, `CHANGELOG.md`, `BRANCHING_STRATEGY.md`
+
+### Implementation Notes
+- Batch A: status/evidence sync + gate-board update (completed).
+- Batch B: sharding Phase 6 gate integration delivered; WAL/failover boundary evidence attachment in progress (partial).
+- Batch C: **CLOSED** — sanitizer evidence bundle (`docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md`: ASan/UBSan/TSan 0 new defects) and penetration-test evidence bundle (`security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`: 0 new Critical/High; PTR-01/PTR-02 accepted) delivered.
+- Batch D: **IN PROGRESS** — governance sign-off document created at `docs/governance/GA_PROMOTION_SIGN_OFF.md`; all technical gates PASS; awaiting human approval in Section 9 of that document before `develop` → `community` promotion and `v1.9.0` tag.
+
+### Test Strategy
+- Verify gate evidence on each batch boundary before moving to the next batch.
+- Keep Wave 5/6 retention and `release_critical` on `develop` as mandatory regression baseline.
+
+### Performance Targets
+- No unexplained regression against Wave-7 gate thresholds during batch transitions.
+- Repeatable gate results on reruns before promotion decisions.
+
+### Security / Reliability
+- Penetration-test and residual-risk register are mandatory before GA cut.
+- Incomplete governance synchronization is treated as release-blocking.
 
 ## Documentation Quality Automation (2026-05-11)
 
@@ -1345,4 +1594,3 @@ stub-replacement, module:<name>, <priority-label>
 
 ---
 Zuletzt geprueft (Root-Sync): 2026-05-26
-

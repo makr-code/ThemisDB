@@ -73,3 +73,8 @@ Alignment rules:
    - `docs/PR_DOCUMENTATION_CHECKLIST.md`
    - `docs/de/development/SOURCE_CODE_AUDIT.md`
    - `docs/audit-framework/AUDIT_RUNBOOK.md`
+7) For beta-to-GA or release-hardening updates, keep the gate model aligned across `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `RELEASE_STRATEGY.md`, `VERSIONING.md`, and `CHANGELOG.md`:
+   - Wave 7 baseline PASS
+   - `release_critical` on `develop`
+   - top-risk module sign-off (`server`, `llm`, `sharding`)
+   - resilience/security/operations evidence (Wave 5/6 retention, Wave 8 or equivalent, chaos, sanitizer/recovery, penetration test, SLA, runbooks)
