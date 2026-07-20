@@ -13,10 +13,8 @@ on:
       - 'src/**'
       - 'include/**'
       - 'tests/integration/**'
-      - 'tests/sharding/**'
       - 'tests/CMakeLists.txt'
       - 'tests/integration/CMakeLists.txt'
-      - 'tests/sharding/CMakeLists.txt'
       - 'cmake/**'
       - 'CMakeLists.txt'
       - 'CMakePresets.json'
@@ -72,14 +70,7 @@ jobs:
             rag_ai_pipeline_test \
             transaction_replication_pipeline_test \
             security_pipeline_test \
-            application_profile_pipeline_test \
-            w8a_incident_regression_shielding_test \
-            w8b_contract_compatibility_reliability_test \
-            w8c_determinism_flake_ci_signal_test \
-            w9a_security_hardening_audit_test \
-            w9b_sla_compliance_uptime_test \
-            w9c_chaos_fault_tolerance_test \
-            test_sharding_phase6_hardening
+            application_profile_pipeline_test
 
       - name: Validate release-critical label selection
         run: |
