@@ -80,7 +80,7 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 |-------|-----------|----------|--------|-------|-------------|--------|
 | **Phase 3** | Graph: Query optimization, cache efficiency, resource pooling | 6 weeks | 10 weeks | A+B (4 eng) | 130 new | 🟡 Active (Block B complete, Block A complete) |
 | **Phase 5-S** | Server: Wire-protocol retry + HTTP timeout patterns | 3 weeks | 4 weeks | C (2 eng) | 39 new | ✅ Complete (Block C) |
-| **Phase 5-L** | LLM: Exception safety + memory leak fixes | 3 weeks | 6 weeks | D (2 eng) | 51 new | 🔵 Planned (Block D open) |
+| **Phase 5-L** | LLM: Exception safety + memory leak fixes | 3 weeks | 6 weeks | D (2 eng) | 51 new | ✅ Complete (Block D) |
 | **Phase 6** | Sharding: 2PC/3PC consistency + fault injection | 3 weeks | 6 weeks | E+F (4 eng) | 60+ new | 🔵 Queued |
 | **AQL Phase 2** | DDL implementation (parser + executor) | 4-6 weeks | 6 weeks | G (2 eng) | 32 new | 🔵 Queued |
 | **Wave 8** | Soak + endurance + degradation fault injection | Parallel | 8 weeks | F (2 eng) | 40+ scenarios | 🔵 Queued |
@@ -102,7 +102,7 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 
 **Open implementation scope (binding sequence):**
 - [x] Block A first: P3-01/P3-02 (optimizer + cache, 2026-07-20)
-- [ ] Block D second: P5-L01/P5-L02 (LLM hardening)
+- [x] Block D second: P5-L01/P5-L02 (LLM hardening, 2026-07-20)
 - [ ] Block E third: P6-01/P6-02/P6-03 (sharding + fault injection)
 - [ ] AQL Phase 2 in parallel lane (DDL first, Geospatial/FTS sequenced)
 - [ ] Wave 8 as mandatory robustness evidence for Block E/release readiness

@@ -5,6 +5,39 @@ All notable changes to ThemisDB will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-07-20 — LLM Phase 5 Block D (P5-L01 + P5-L02) + Graph Phase 3 Block A (P3-01 + P3-02)
+
+### LLM Module Phase 5 — Block D Delivery
+
+**P5-L01: Exception Safety hardening** (`tests/llm/test_llm_exception_safety.cpp`)
+- 36 GTest cases covering RAII/ownership semantics (ESF-01..08), exception
+  propagation in critical paths (ESF-09..18), cleanup/re-throw semantics
+  (ESF-19..24), and allocation/sequence coverage (ESF-25..36).
+- Validates `CancellationToken` shared-state semantics, `LazyModelLoader`
+  eviction VRAM accounting, `AsyncInferenceEngine` plugin swap / shutdown /
+  throw recovery, `ContinuousBatchScheduler` backpressure, `TokenQuotaManager`
+  quota enforcement, `ModelMetadataCache` null-safety, `LLMPrefixCache`
+  clear/invalidation, `InferenceRequest`/`InferenceResponse` move semantics.
+
+**P5-L02: Memory Safety hardening** (`tests/llm/test_llm_memory_safety.cpp`)
+- 15 GTest cases covering cache eviction shared-ownership lifecycle (MSF-01..06),
+  buffer/cache lifecycle (MSF-07..10), move semantics and request lifecycle
+  (MSF-11..14), and a 100-cycle sustained eviction stress test (MSF-15).
+- All tests are deterministic with no real GGUF files, no real backends.
+
+**CTest registration:** Both files are auto-discovered by
+`tests/llm/CMakeLists.txt` (GLOB `test_*.cpp`) and registered as
+`module_llm_test_llm_exception_safety_focused` and
+`module_llm_test_llm_memory_safety_focused` with TIMEOUT 120 and tier "unit".
+
+### Docs
+- `ROADMAP.md`: Phase 5-L status updated to `✅ Complete (Block D)`; Block D
+  marked `[x]` complete.
+- `CHANGELOG.md`: Block D delivery recorded under [Unreleased].
+- `include/llm/ROADMAP.md`: Phase 5 delivery noted.
+
+---
+
 ## [Unreleased] — 2026-07-20 — Graph Phase 3 Block A (P3-01 + P3-02)
 
 ### Graph Module Phase 3 — Block A Delivery
