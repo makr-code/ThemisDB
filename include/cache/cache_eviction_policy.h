@@ -19,9 +19,12 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <array>
 #include <cstdint>
 #include <functional>
 #include <stdexcept>
+#include <unordered_map>
+#include <mutex>
 
 namespace themis {
 namespace cache {
@@ -52,6 +55,7 @@ public:
      */
     struct EvictionDecision {
         bool should_evict;      ///< true if key should be evicted
+        std::string victim_key; ///< Selected victim key when should_evict is true
         std::string reason;     ///< Human-readable reason
     };
 
@@ -180,9 +184,9 @@ public:
      */
     LRUEvictionPolicy() = default;
 
-    // Move semantics (inherited, but explicitly defined for clarity)
-    LRUEvictionPolicy(LRUEvictionPolicy&& other) noexcept = default;
-    LRUEvictionPolicy& operator=(LRUEvictionPolicy&& other) noexcept = default;
+    // Move semantics (mark source as moved-from so runtime guards remain correct)
+    LRUEvictionPolicy(LRUEvictionPolicy&& other) noexcept;
+    LRUEvictionPolicy& operator=(LRUEvictionPolicy&& other) noexcept;
 
     // No copy
     LRUEvictionPolicy(const LRUEvictionPolicy&) = delete;
@@ -247,8 +251,8 @@ public:
      */
     FIFOEvictionPolicy() = default;
 
-    FIFOEvictionPolicy(FIFOEvictionPolicy&& other) noexcept = default;
-    FIFOEvictionPolicy& operator=(FIFOEvictionPolicy&& other) noexcept = default;
+    FIFOEvictionPolicy(FIFOEvictionPolicy&& other) noexcept;
+    FIFOEvictionPolicy& operator=(FIFOEvictionPolicy&& other) noexcept;
 
     FIFOEvictionPolicy(const FIFOEvictionPolicy&) = delete;
     FIFOEvictionPolicy& operator=(const FIFOEvictionPolicy&) = delete;
@@ -299,6 +303,129 @@ private:
 };
 
 /**
+ * @brief Temperature-aware weighted LRU policy for Phase 3 cache efficiency work.
+ *
+ * The policy classifies entries into cold, warm, and hot tiers based on access
+ * counts, then prefers evicting the lowest-tier entry with the lowest weighted
+ * frequency/recency score. All mutating operations are thread-safe.
+ */
+class WeightedTieredLRUEvictionPolicy : public CacheEvictionPolicy {
+public:
+    /// Cache temperature tiers in ascending retention priority.
+    enum class Tier : uint8_t { Cold = 0, Warm = 1, Hot = 2 };
+
+    /**
+     * @brief Policy tuning parameters.
+     *
+     * Thresholds are percentages of cache capacity and are clamped to sane
+     * ranges. Adaptive threshold tuning changes trigger/safe levels at most once
+     * per @p threshold_adjustment_interval_ns to avoid oscillation.
+     */
+    struct Config {
+        size_t warm_access_threshold = 2;
+        size_t hot_access_threshold = 10;
+        double frequency_weight = 0.3;
+        double recency_weight = 0.7;
+        double frequency_decay_factor = 0.95;
+        size_t trigger_threshold_percent = 70;
+        size_t safe_threshold_percent = 50;
+        size_t severe_threshold_percent = 85;
+        bool adaptive_thresholds = true;
+        int64_t threshold_adjustment_interval_ns = 600000000000LL;  // 10 minutes
+    };
+
+    WeightedTieredLRUEvictionPolicy();
+    explicit WeightedTieredLRUEvictionPolicy(Config config);
+
+    WeightedTieredLRUEvictionPolicy(WeightedTieredLRUEvictionPolicy&& other) noexcept;
+    WeightedTieredLRUEvictionPolicy& operator=(WeightedTieredLRUEvictionPolicy&& other) noexcept;
+
+    WeightedTieredLRUEvictionPolicy(const WeightedTieredLRUEvictionPolicy&) = delete;
+    WeightedTieredLRUEvictionPolicy& operator=(const WeightedTieredLRUEvictionPolicy&) = delete;
+
+    void record_hit(const std::string& key) override;
+    void record_miss(const std::string& key) override;
+    void record_insert(const std::string& key, size_t size) override;
+    void record_delete(const std::string& key) override;
+    EvictionDecision choose_victim(const std::vector<CacheKeyDescriptor>& candidates) override;
+    const char* policy_name() const noexcept override { return "TIERED_LRU"; }
+    std::unique_ptr<CacheEvictionPolicy> clone() const override;
+    bool is_moved_from() const noexcept override { return is_moved_from_; }
+
+    /**
+     * @brief Return the currently assigned tier for @p key.
+     *
+     * Unknown keys are treated as cold because they have no retention history.
+     */
+    Tier tier_for_key(const std::string& key) const;
+
+    /**
+     * @brief Compute the weighted score for a tracked key.
+     *
+     * Higher scores mean the entry is more valuable to keep. Unknown keys return
+     * 0.0. When @p now_ns is zero the current steady-clock timestamp is used.
+     */
+    double score_for_key(const std::string& key, int64_t now_ns = 0) const;
+
+    /**
+     * @brief Compute the weighted score for an arbitrary descriptor.
+     *
+     * Used by tests and by choose_victim() to validate score ordering without
+     * mutating policy state.
+     */
+    double score_for_descriptor(const CacheKeyDescriptor& descriptor, int64_t now_ns = 0) const;
+
+    /**
+     * @brief Observe cache fullness and adapt thresholds if enabled.
+     *
+     * High sustained pressure lowers the trigger threshold; persistently low
+     * pressure raises it. Threshold updates are rate-limited to avoid thrashing.
+     */
+    void observe_capacity(size_t current_capacity_percent, int64_t now_ns = 0);
+
+    /**
+     * @brief Recommend how many entries to evict for the current pressure level.
+     *
+     * Returns 0 below the trigger threshold, 1 between trigger and severe
+     * thresholds, and a bounded batch size once severe pressure is reached.
+     */
+    size_t recommended_batch_size(size_t current_capacity_percent,
+                                  size_t candidate_count) const;
+
+    size_t trigger_threshold_percent() const noexcept { return trigger_threshold_percent_; }
+    size_t safe_threshold_percent() const noexcept { return safe_threshold_percent_; }
+    size_t severe_threshold_percent() const noexcept { return config_.severe_threshold_percent; }
+
+    /**
+     * @brief Return tracked entry counts for {cold, warm, hot} tiers.
+     */
+    std::array<size_t, 3> tier_distribution() const;
+
+private:
+    struct EntryState {
+        size_t access_count = 0;
+        int64_t last_access_ns = 0;
+        int64_t creation_time_ns = 0;
+        double decayed_frequency = 0.0;
+    };
+
+    static int64_t steady_now_ns();
+    static size_t clamp_percent(size_t value, size_t min_value, size_t max_value);
+
+    void ensure_operational() const;
+    Tier classify_locked(size_t access_count) const;
+    double score_locked(const EntryState& state, int64_t now_ns) const;
+
+    Config config_;
+    mutable std::mutex mutex_;
+    std::unordered_map<std::string, EntryState> states_;
+    size_t trigger_threshold_percent_;
+    size_t safe_threshold_percent_;
+    int64_t last_threshold_adjustment_ns_ = 0;
+    bool is_moved_from_ = false;
+};
+
+/**
  * @brief Policy factory for creating eviction policies
  */
 class EvictionPolicyFactory {
@@ -306,7 +433,7 @@ public:
     /**
      * @brief Create eviction policy by name
      * 
-     * @param policy_name Name of policy ("LRU", "LFU", "FIFO", "ARC")
+     * @param policy_name Name of policy ("LRU", "LFU", "FIFO", "ARC", "TIERED_LRU")
      * @return Unique pointer to newly created policy
      * @throws std::invalid_argument If policy name not recognized
      */

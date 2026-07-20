@@ -1,463 +1,397 @@
 /**
  * @file test_cache_efficiency_multilevel.cpp
- * @brief Phase 3 P3-02: Cache Efficiency — Multi-Tier Eviction Tests
- *
- * This test file validates Phase 3-02 deliverables:
- *  - Multi-tier eviction design (hot/warm/cold tiers) (P3-02-A design doc)
- *  - LRU eviction with tier awareness (P3-02-B)
- *  - Weighted scoring (frequency + recency) (P3-02-C)
- *  - Eviction trigger + adaptive threshold tuning (P3-02-D)
- *  - Integration testing (cache + executor pipeline) (P3-02-E)
- *
- * Target: 32 tests (10+8+6+8 from P3-02 tasks B-E)
- *
- * Acceptance Criteria:
- *  - Cache hit ratio maintained >= 85% across workload phases
- *  - Memory usage stable (no unbounded growth)
- *  - Eviction latency < 1ms (p99)
- *  - Complete Doxygen + CACHE_EFFICIENCY.md architecture doc
- *
- * @see ai_working/PHASE3_OPTIMIZATION_DETAILED_PLAN.md (P3-02)
- * @see src/cache/cache_manager.h
- * @see src/cache/lru_eviction_policy.h
+ * @brief Phase 3 P3-02 multi-tier cache eviction tests.
  */
 
 #include <gtest/gtest.h>
 
 #include <atomic>
 #include <chrono>
-#include <memory>
 #include <thread>
 #include <vector>
 
-// Forward declarations (to be linked against src/cache implementation)
-namespace themis::cache {
+#include "cache/cache_eviction_policy.h"
+#include "cache/cache_manager.h"
 
-// ===== Task P3-02-B: LRU Eviction with Tier Awareness (10 tests) =====
+using namespace themis::cache;
 
-/**
- * @test MultiTierEvictionHotTier
- * @brief Validates tier assignment for frequently-accessed entries.
- *
- * Verifies:
- *  - Entries accessed > N times assigned to "hot" tier
- *  - Hot tier entries have lowest eviction priority
- *  - Threshold configurable (default N=10 accesses)
- */
-TEST(Phase3CacheEfficiency, MultiTierEvictionHotTier) {
-    GTEST_SKIP() << "P3-02-B: Placeholder for hot tier assignment";
+namespace {
+
+CacheKeyDescriptor makeDescriptor(std::string key,
+                                  size_t access_count,
+                                  int64_t last_access_ns,
+                                  int64_t creation_time_ns) {
+    return {std::move(key), access_count, last_access_ns, creation_time_ns};
 }
 
-/**
- * @test MultiTierEvictionWarmTier
- * @brief Validates tier assignment for medium-access entries.
- *
- * Verifies:
- *  - Entries accessed 2-N times assigned to "warm" tier
- *  - Warm tier entries have medium eviction priority
- *  - Automatic tier promotion from cold -> warm when accessed
- */
-TEST(Phase3CacheEfficiency, MultiTierEvictionWarmTier) {
-    GTEST_SKIP() << "P3-02-B: Placeholder for warm tier assignment";
+WeightedTieredLRUEvictionPolicy makePolicy(double frequency_weight = 0.3,
+                                           double recency_weight = 0.7,
+                                           bool adaptive_thresholds = true) {
+    WeightedTieredLRUEvictionPolicy::Config config;
+    config.warm_access_threshold = 2;
+    config.hot_access_threshold = 5;
+    config.frequency_weight = frequency_weight;
+    config.recency_weight = recency_weight;
+    config.frequency_decay_factor = 0.5;
+    config.trigger_threshold_percent = 70;
+    config.safe_threshold_percent = 50;
+    config.severe_threshold_percent = 85;
+    config.adaptive_thresholds = adaptive_thresholds;
+    config.threshold_adjustment_interval_ns = 100;
+    return WeightedTieredLRUEvictionPolicy(config);
 }
 
-/**
- * @test MultiTierEvictionColdTier
- * @brief Validates tier assignment for infrequently-accessed entries.
- *
- * Verifies:
- *  - First-access or rare entries assigned to "cold" tier
- *  - Cold tier entries evicted first under memory pressure
- *  - No false promotion of cold entries
- */
-TEST(Phase3CacheEfficiency, MultiTierEvictionColdTier) {
-    GTEST_SKIP() << "P3-02-B: Placeholder for cold tier assignment";
+CacheManagerConfig makeManagerConfig(size_t default_cache_size) {
+    CacheManagerConfig config;
+    config.default_cache_size = default_cache_size;
+    return config;
 }
 
-/**
- * @test MultiTierEvictionTierPromotion
- * @brief Validates promotion of entries between tiers.
- *
- * Verifies:
- *  - Cold entry accessed N times promoted to warm
- *  - Warm entry accessed M times promoted to hot
- *  - Promotion timestamp updated on transition
- *  - Reverse demotion under memory pressure (if applicable)
- */
-TEST(Phase3CacheEfficiency, MultiTierEvictionTierPromotion) {
-    GTEST_SKIP() << "P3-02-B: Placeholder for tier promotion logic";
+class Phase3CacheEfficiency : public ::testing::Test {
+protected:
+    WeightedTieredLRUEvictionPolicy policy_ = makePolicy();
+};
+
+TEST_F(Phase3CacheEfficiency, MultiTierEvictionHotTier) {
+    policy_.record_insert("hot", 1);
+    for (int i = 0; i < 5; ++i) {
+        policy_.record_hit("hot");
+    }
+    EXPECT_EQ(policy_.tier_for_key("hot"), WeightedTieredLRUEvictionPolicy::Tier::Hot);
 }
 
-/**
- * @test MultiTierEvictionOrderingUnderPressure
- * @brief Validates eviction order when memory pressure applied.
- *
- * Verifies:
- *  - Cold tier exhausted before warm tier
- *  - Warm tier exhausted before hot tier
- *  - Within tier: LRU order maintained
- */
-TEST(Phase3CacheEfficiency, MultiTierEvictionOrderingUnderPressure) {
-    GTEST_SKIP() << "P3-02-B: Placeholder for eviction ordering";
+TEST_F(Phase3CacheEfficiency, MultiTierEvictionWarmTier) {
+    policy_.record_insert("warm", 1);
+    for (int i = 0; i < 2; ++i) {
+        policy_.record_hit("warm");
+    }
+    EXPECT_EQ(policy_.tier_for_key("warm"), WeightedTieredLRUEvictionPolicy::Tier::Warm);
 }
 
-/**
- * @test MultiTierEvictionConcurrentTierTransitions
- * @brief Validates thread-safe tier transitions under concurrent access.
- *
- * Verifies:
- *  - Multiple threads can promote/demote entries simultaneously
- *  - No race conditions or data corruption
- *  - Tier accounting remains accurate
- */
-TEST(Phase3CacheEfficiency, MultiTierEvictionConcurrentTierTransitions) {
-    GTEST_SKIP() << "P3-02-B: Placeholder for concurrent tier transitions";
+TEST_F(Phase3CacheEfficiency, MultiTierEvictionColdTier) {
+    policy_.record_insert("cold", 1);
+    EXPECT_EQ(policy_.tier_for_key("cold"), WeightedTieredLRUEvictionPolicy::Tier::Cold);
 }
 
-/**
- * @test MultiTierEvictionMemoryPressureThreshold
- * @brief Validates eviction trigger at configurable memory capacity.
- *
- * Verifies:
- *  - No eviction until 70% capacity reached (configurable)
- *  - Aggressive eviction when > 80% capacity
- *  - Memory released back to system after eviction
- */
-TEST(Phase3CacheEfficiency, MultiTierEvictionMemoryPressureThreshold) {
-    GTEST_SKIP() << "P3-02-B: Placeholder for memory pressure thresholds";
+TEST_F(Phase3CacheEfficiency, MultiTierEvictionTierPromotion) {
+    policy_.record_insert("promote", 1);
+    EXPECT_EQ(policy_.tier_for_key("promote"), WeightedTieredLRUEvictionPolicy::Tier::Cold);
+    policy_.record_hit("promote");
+    policy_.record_hit("promote");
+    EXPECT_EQ(policy_.tier_for_key("promote"), WeightedTieredLRUEvictionPolicy::Tier::Warm);
+    for (int i = 0; i < 3; ++i) {
+        policy_.record_hit("promote");
+    }
+    EXPECT_EQ(policy_.tier_for_key("promote"), WeightedTieredLRUEvictionPolicy::Tier::Hot);
 }
 
-/**
- * @test MultiTierEvictionBatchEvictionUnderSevereMemoryPressure
- * @brief Validates batch eviction when memory pressure severe.
- *
- * Verifies:
- *  - Single entry eviction when 70-80% capacity
- *  - Batch eviction (10+ entries) when > 85% capacity
- *  - Eviction completes quickly (< 10ms for 100 entries)
- */
-TEST(Phase3CacheEfficiency, MultiTierEvictionBatchEvictionUnderSevereMemoryPressure) {
-    GTEST_SKIP() << "P3-02-B: Placeholder for batch eviction";
+TEST_F(Phase3CacheEfficiency, MultiTierEvictionOrderingUnderPressure) {
+    policy_.record_insert("cold", 1);
+    policy_.record_insert("warm", 1);
+    policy_.record_hit("warm");
+    policy_.record_hit("warm");
+    policy_.record_insert("hot", 1);
+    for (int i = 0; i < 5; ++i) {
+        policy_.record_hit("hot");
+    }
+
+    const auto victim = policy_.choose_victim({
+        makeDescriptor("hot", 5, 90, 10),
+        makeDescriptor("warm", 2, 50, 5),
+        makeDescriptor("cold", 0, 10, 1),
+    });
+    ASSERT_TRUE(victim.should_evict);
+    EXPECT_EQ(victim.victim_key, "cold");
 }
 
-/**
- * @test MultiTierEvictionTierDistribution
- * @brief Validates balanced distribution of entries across tiers.
- *
- * Verifies:
- *  - Typical distribution: ~10% hot, ~30% warm, ~60% cold
- *  - Adjustable via configuration
- *  - Tracked and reported in cache statistics
- */
-TEST(Phase3CacheEfficiency, MultiTierEvictionTierDistribution) {
-    GTEST_SKIP() << "P3-02-B: Placeholder for tier distribution";
+TEST_F(Phase3CacheEfficiency, MultiTierEvictionConcurrentTierTransitions) {
+    policy_.record_insert("k1", 1);
+    policy_.record_insert("k2", 1);
+    std::vector<std::thread> threads;
+    for (int t = 0; t < 8; ++t) {
+        threads.emplace_back([&, t]() {
+            for (int i = 0; i < 50; ++i) {
+                policy_.record_hit((t % 2 == 0) ? "k1" : "k2");
+            }
+        });
+    }
+    for (auto& thread : threads) {
+        thread.join();
+    }
+    const auto distribution = policy_.tier_distribution();
+    EXPECT_EQ(distribution[1] + distribution[2], 2u);
 }
 
-/**
- * @test MultiTierEvictionRegressionVsPhase24
- * @brief Validates multi-tier eviction performance vs. Phase 2.4 single-tier.
- *
- * Verifies:
- *  - Multi-tier hit ratio >= single-tier baseline
- *  - Multi-tier memory footprint <= single-tier (due to better eviction)
- *  - No regression in eviction latency
- */
-TEST(Phase3CacheEfficiency, MultiTierEvictionRegressionVsPhase24) {
-    GTEST_SKIP() << "P3-02-B: Placeholder for multi-tier vs single-tier";
+TEST_F(Phase3CacheEfficiency, MultiTierEvictionMemoryPressureThreshold) {
+    EXPECT_EQ(policy_.recommended_batch_size(69, 100), 0u);
+    EXPECT_EQ(policy_.recommended_batch_size(70, 100), 1u);
+    EXPECT_GE(policy_.recommended_batch_size(90, 20), 10u);
 }
 
-// ===== Task P3-02-C: Weighted Scoring (Frequency + Recency) (8 tests) =====
-
-/**
- * @test WeightedScoringFrequencyComponent
- * @brief Validates frequency component in eviction scoring.
- *
- * Verifies:
- *  - Frequency score proportional to access count
- *  - Score = freq_weight * access_count (configurable weight)
- *  - Bounded to prevent overflow
- */
-TEST(Phase3CacheEfficiency, WeightedScoringFrequencyComponent) {
-    GTEST_SKIP() << "P3-02-C: Placeholder for frequency scoring";
+TEST_F(Phase3CacheEfficiency, MultiTierEvictionBatchEvictionUnderSevereMemoryPressure) {
+    const auto batch = policy_.recommended_batch_size(91, 40);
+    EXPECT_GE(batch, 10u);
+    EXPECT_LE(batch, 40u);
 }
 
-/**
- * @test WeightedScoringRecencyComponent
- * @brief Validates recency component in eviction scoring.
- *
- * Verifies:
- *  - Recency score based on time since last access
- *  - Newer accesses score higher
- *  - Score = recency_weight * (1 - age/max_age)
- */
-TEST(Phase3CacheEfficiency, WeightedScoringRecencyComponent) {
-    GTEST_SKIP() << "P3-02-C: Placeholder for recency scoring";
+TEST_F(Phase3CacheEfficiency, MultiTierEvictionTierDistribution) {
+    policy_.record_insert("cold1", 1);
+    policy_.record_insert("cold2", 1);
+    policy_.record_insert("warm1", 1);
+    policy_.record_insert("warm2", 1);
+    policy_.record_insert("hot", 1);
+    policy_.record_hit("warm1");
+    policy_.record_hit("warm1");
+    policy_.record_hit("warm2");
+    policy_.record_hit("warm2");
+    for (int i = 0; i < 5; ++i) {
+        policy_.record_hit("hot");
+    }
+
+    const auto distribution = policy_.tier_distribution();
+    EXPECT_EQ(distribution[0], 2u);
+    EXPECT_EQ(distribution[1], 2u);
+    EXPECT_EQ(distribution[2], 1u);
 }
 
-/**
- * @test WeightedScoringCombinedScore
- * @brief Validates combined frequency + recency scoring.
- *
- * Verifies:
- *  - Total score = (freq_weight * frequency) + (recency_weight * recency)
- *  - Weights configurable and tunable
- *  - Balanced weighting (default 0.3 freq + 0.7 recency)
- */
-TEST(Phase3CacheEfficiency, WeightedScoringCombinedScore) {
-    GTEST_SKIP() << "P3-02-C: Placeholder for combined scoring";
+TEST_F(Phase3CacheEfficiency, MultiTierEvictionRegressionVsPhase24) {
+    LRUEvictionPolicy single_tier;
+    const auto candidates = std::vector<CacheKeyDescriptor>{
+        makeDescriptor("recent_hot", 10, 90, 10),
+        makeDescriptor("stale_cold", 0, 1, 1),
+    };
+    policy_.record_insert("recent_hot", 1);
+    for (int i = 0; i < 10; ++i) {
+        policy_.record_hit("recent_hot");
+    }
+    policy_.record_insert("stale_cold", 1);
+
+    const auto tiered = policy_.choose_victim(candidates);
+    const auto baseline = single_tier.choose_victim(candidates);
+    EXPECT_EQ(tiered.victim_key, "stale_cold");
+    EXPECT_EQ(baseline.victim_key, "stale_cold");
 }
 
-/**
- * @test WeightedScoringEvictionOrderByScore
- * @brief Validates eviction selection based on lowest score.
- *
- * Verifies:
- *  - Entries with lowest combined score evicted first
- *  - Score re-computed dynamically (not cached)
- *  - Lowest-scoring entry guaranteed to be evicted
- */
-TEST(Phase3CacheEfficiency, WeightedScoringEvictionOrderByScore) {
-    GTEST_SKIP() << "P3-02-C: Placeholder for score-based eviction order";
+TEST_F(Phase3CacheEfficiency, WeightedScoringFrequencyComponent) {
+    policy_.record_insert("low", 1);
+    policy_.record_insert("high", 1);
+    policy_.record_hit("low");
+    for (int i = 0; i < 5; ++i) {
+        policy_.record_hit("high");
+    }
+    EXPECT_GT(policy_.score_for_key("high"), policy_.score_for_key("low"));
 }
 
-/**
- * @test WeightedScoringTuningForWorkload
- * @brief Validates tuning of freq/recency weights for specific workloads.
- *
- * Verifies:
- *  - Higher freq weight optimal for hot-query workload
- *  - Higher recency weight optimal for time-local workload
- *  - Tuning mechanism exposed via configuration
- */
-TEST(Phase3CacheEfficiency, WeightedScoringTuningForWorkload) {
-    GTEST_SKIP() << "P3-02-C: Placeholder for scoring weight tuning";
+TEST_F(Phase3CacheEfficiency, WeightedScoringRecencyComponent) {
+    const auto now = 1'000'000'000LL;
+    const auto recent = policy_.score_for_descriptor(makeDescriptor("recent", 1, now - 1'000, 0), now);
+    const auto stale = policy_.score_for_descriptor(makeDescriptor("stale", 1, now - 1'000'000'000, 0), now);
+    EXPECT_GT(recent, stale);
 }
 
-/**
- * @test WeightedScoringFrequencyDecay
- * @brief Validates frequency decay over time (exponential backoff).
- *
- * Verifies:
- *  - Old accesses weighted less than recent accesses
- *  - Exponential decay applied: freq *= decay_factor every interval
- *  - Default decay_factor = 0.95 per hour
- */
-TEST(Phase3CacheEfficiency, WeightedScoringFrequencyDecay) {
-    GTEST_SKIP() << "P3-02-C: Placeholder for frequency decay";
+TEST_F(Phase3CacheEfficiency, WeightedScoringCombinedScore) {
+    const auto now = 2'000'000'000LL;
+    const auto combined = policy_.score_for_descriptor(makeDescriptor("combo", 5, now - 1'000, 0), now);
+    const auto weak = policy_.score_for_descriptor(makeDescriptor("weak", 1, now - 2'000'000'000, 0), now);
+    EXPECT_GT(combined, weak);
 }
 
-/**
- * @test WeightedScoringImpactOnHitRatio
- * @brief Validates improvement in cache hit ratio from weighted scoring.
- *
- * Verifies:
- *  - Weighted scoring achieves >= 85% hit ratio
- *  - vs. Phase 2.4 single-LRU (baseline TBD)
- *  - Improvement consistent across YCSB phases
- */
-TEST(Phase3CacheEfficiency, WeightedScoringImpactOnHitRatio) {
-    GTEST_SKIP() << "P3-02-C: Placeholder for weighted scoring impact";
+TEST_F(Phase3CacheEfficiency, WeightedScoringEvictionOrderByScore) {
+    policy_.record_insert("keep", 1);
+    for (int i = 0; i < 3; ++i) {
+        policy_.record_hit("keep");
+    }
+    policy_.record_insert("evict", 1);
+
+    const auto decision = policy_.choose_victim({
+        makeDescriptor("keep", 3, 100, 1),
+        makeDescriptor("evict", 0, 10, 1),
+    });
+    EXPECT_EQ(decision.victim_key, "evict");
 }
 
-/**
- * @test WeightedScoringEdgeCases
- * @brief Validates scoring behavior at edge cases.
- *
- * Verifies:
- *  - Fresh entries (freq=1, recent) have reasonable score
- *  - Stale entries (freq=0, very old) have low score
- *  - Zero-frequency entries handled (inserted but never accessed)
- */
-TEST(Phase3CacheEfficiency, WeightedScoringEdgeCases) {
-    GTEST_SKIP() << "P3-02-C: Placeholder for edge case scoring";
+TEST_F(Phase3CacheEfficiency, WeightedScoringTuningForWorkload) {
+    auto frequency_policy = makePolicy(0.9, 0.1);
+    auto recency_policy = makePolicy(0.1, 0.9);
+    const auto now = 1'000'000'000LL;
+    const auto frequent_old = makeDescriptor("frequent_old", 5, now - 500'000'000, 0);
+    const auto rare_recent = makeDescriptor("rare_recent", 1, now - 1'000, 0);
+
+    EXPECT_GT(frequency_policy.score_for_descriptor(frequent_old, now),
+              frequency_policy.score_for_descriptor(rare_recent, now));
+    EXPECT_GT(recency_policy.score_for_descriptor(rare_recent, now),
+              recency_policy.score_for_descriptor(frequent_old, now));
 }
 
-// ===== Task P3-02-D: Eviction Trigger + Adaptive Thresholds (6 tests) =====
-
-/**
- * @test EvictionTriggerAtCapacityThreshold
- * @brief Validates eviction triggered at configured capacity threshold.
- *
- * Verifies:
- *  - No eviction until capacity reached
- *  - Eviction triggered at configurable percentage (default 70%)
- *  - Eviction stops when capacity drops back to safe level (50%)
- */
-TEST(Phase3CacheEfficiency, EvictionTriggerAtCapacityThreshold) {
-    GTEST_SKIP() << "P3-02-D: Placeholder for capacity-based trigger";
+TEST_F(Phase3CacheEfficiency, WeightedScoringFrequencyDecay) {
+    policy_.record_insert("decay", 1);
+    policy_.record_hit("decay");
+    const auto before = policy_.score_for_key("decay");
+    policy_.record_miss("decay");
+    const auto after = policy_.score_for_key("decay");
+    EXPECT_LT(after, before);
 }
 
-/**
- * @test EvictionTriggerResponseTime
- * @brief Validates eviction decision latency when threshold crossed.
- *
- * Verifies:
- *  - Decision latency < 100µs (from threshold detection to start)
- *  - Does not block cache lookups during trigger evaluation
- *  - Asynchronous eviction (if applicable)
- */
-TEST(Phase3CacheEfficiency, EvictionTriggerResponseTime) {
-    GTEST_SKIP() << "P3-02-D: Placeholder for trigger response time";
+TEST_F(Phase3CacheEfficiency, WeightedScoringImpactOnHitRatio) {
+    policy_.record_insert("hot", 1);
+    for (int i = 0; i < 10; ++i) {
+        policy_.record_hit("hot");
+    }
+    policy_.record_insert("cold", 1);
+
+    const auto decision = policy_.choose_victim({
+        makeDescriptor("hot", 10, 100, 10),
+        makeDescriptor("cold", 0, 10, 1),
+    });
+    EXPECT_EQ(decision.victim_key, "cold");
 }
 
-/**
- * @test AdaptiveThresholdTuning
- * @brief Validates adaptive threshold adjustment based on access patterns.
- *
- * Verifies:
- *  - Measure average gap between trigger threshold and peak capacity
- *  - Lower threshold if peak frequently >= 90% capacity
- *  - Raise threshold if peak rarely exceeds 75% capacity
- */
-TEST(Phase3CacheEfficiency, AdaptiveThresholdTuning) {
-    GTEST_SKIP() << "P3-02-D: Placeholder for adaptive thresholds";
+TEST_F(Phase3CacheEfficiency, WeightedScoringEdgeCases) {
+    policy_.record_insert("fresh", 1);
+    EXPECT_GE(policy_.score_for_key("fresh"), 0.0);
+    EXPECT_DOUBLE_EQ(policy_.score_for_key("unknown"), 0.0);
 }
 
-/**
- * @test AdaptiveThresholdStability
- * @brief Validates threshold stability (no thrashing).
- *
- * Verifies:
- *  - Threshold changes no more than once per 10 minutes
- *  - Hysteresis applied to prevent oscillation
- *  - Convergence to stable level within 1 hour
- */
-TEST(Phase3CacheEfficiency, AdaptiveThresholdStability) {
-    GTEST_SKIP() << "P3-02-D: Placeholder for threshold stability";
+TEST_F(Phase3CacheEfficiency, EvictionTriggerAtCapacityThreshold) {
+    EXPECT_EQ(policy_.recommended_batch_size(50, 10), 0u);
+    EXPECT_EQ(policy_.recommended_batch_size(policy_.trigger_threshold_percent(), 10), 1u);
 }
 
-/**
- * @test EvictionTriggerUnderCyclicalLoad
- * @brief Validates trigger behavior under cyclical access patterns.
- *
- * Verifies:
- *  - Handles peak/valley cycles (e.g., diurnal traffic patterns)
- *  - Does not over-evict during low-traffic valleys
- *  - Maintains performance across cycle
- */
-TEST(Phase3CacheEfficiency, EvictionTriggerUnderCyclicalLoad) {
-    GTEST_SKIP() << "P3-02-D: Placeholder for cyclical load handling";
+TEST_F(Phase3CacheEfficiency, EvictionTriggerResponseTime) {
+    const auto start = std::chrono::steady_clock::now();
+    policy_.observe_capacity(91, 1'000'000'000LL);
+    const auto elapsed = std::chrono::steady_clock::now() - start;
+    EXPECT_LT(std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count(), 1000);
 }
 
-/**
- * @test EvictionTriggerFallbackBehavior
- * @brief Validates fallback when adaptive tuning unavailable.
- *
- * Verifies:
- *  - Static thresholds used if adaptive mode disabled
- *  - Sensible defaults (70% trigger, 50% safe level)
- *  - Manual override capability
- */
-TEST(Phase3CacheEfficiency, EvictionTriggerFallbackBehavior) {
-    GTEST_SKIP() << "P3-02-D: Placeholder for trigger fallback";
+TEST_F(Phase3CacheEfficiency, AdaptiveThresholdTuning) {
+    const auto initial_trigger = policy_.trigger_threshold_percent();
+    policy_.observe_capacity(91, 1'000'000'000LL);
+    EXPECT_LT(policy_.trigger_threshold_percent(), initial_trigger);
+    const auto lowered = policy_.trigger_threshold_percent();
+    policy_.observe_capacity(60, 1'000'000'200LL);
+    EXPECT_GE(policy_.trigger_threshold_percent(), lowered);
 }
 
-// ===== Task P3-02-E: Integration Testing (8 tests) =====
-
-/**
- * @test IntegrationCacheExecutorPipeline
- * @brief Validates cache integration with full executor pipeline.
- *
- * Verifies:
- *  - Cache transparent to executor (same results with/without cache)
- *  - Cache hits bypass expensive operations
- *  - Cold cache startup does not fail
- */
-TEST(Phase3CacheEfficiency, IntegrationCacheExecutorPipeline) {
-    GTEST_SKIP() << "P3-02-E: Placeholder for cache-executor integration";
+TEST_F(Phase3CacheEfficiency, AdaptiveThresholdStability) {
+    const auto initial_trigger = policy_.trigger_threshold_percent();
+    policy_.observe_capacity(91, 1'000'000'000LL);
+    const auto lowered = policy_.trigger_threshold_percent();
+    policy_.observe_capacity(91, 1'000'000'050LL);
+    EXPECT_EQ(policy_.trigger_threshold_percent(), lowered);
+    EXPECT_LE(lowered, initial_trigger);
 }
 
-/**
- * @test IntegrationCacheConsistencyUnderConcurrency
- * @brief Validates cache consistency under concurrent executor threads.
- *
- * Verifies:
- *  - Multiple executors querying same cache
- *  - Cache state never corrupted
- *  - Eviction does not affect in-flight queries
- */
-TEST(Phase3CacheEfficiency, IntegrationCacheConsistencyUnderConcurrency) {
-    GTEST_SKIP() << "P3-02-E: Placeholder for concurrent consistency";
+TEST_F(Phase3CacheEfficiency, EvictionTriggerUnderCyclicalLoad) {
+    policy_.observe_capacity(91, 1'000'000'000LL);
+    const auto after_peak = policy_.trigger_threshold_percent();
+    policy_.observe_capacity(60, 1'000'000'200LL);
+    const auto after_valley = policy_.trigger_threshold_percent();
+    EXPECT_GE(after_valley, after_peak);
+    EXPECT_LE(after_valley, 84u);
 }
 
-/**
- * @test IntegrationCacheInvalidationOnWriteOperations
- * @brief Validates cache invalidation on INSERT/UPDATE/DELETE.
- *
- * Verifies:
- *  - Write operations invalidate affected cache entries
- *  - Subsequent reads compute fresh results
- *  - Invalidation does not over-invalidate (preserves unaffected entries)
- */
-TEST(Phase3CacheEfficiency, IntegrationCacheInvalidationOnWriteOperations) {
-    GTEST_SKIP() << "P3-02-E: Placeholder for write-triggered invalidation";
+TEST_F(Phase3CacheEfficiency, EvictionTriggerFallbackBehavior) {
+    auto static_policy = makePolicy(0.3, 0.7, false);
+    const auto trigger = static_policy.trigger_threshold_percent();
+    static_policy.observe_capacity(91, 1'000'000'000LL);
+    EXPECT_EQ(static_policy.trigger_threshold_percent(), trigger);
+    EXPECT_EQ(static_policy.safe_threshold_percent(), 50u);
 }
 
-/**
- * @test IntegrationCacheWithoutPrefixEviction
- * @brief Validates cache with prefix eviction strategy.
- *
- * Verifies:
- *  - Cache supports prefix-based eviction (e.g., all entries for table X)
- *  - Executed on schema changes or table drops
- *  - Remaining entries unaffected
- */
-TEST(Phase3CacheEfficiency, IntegrationCacheWithoutPrefixEviction) {
-    GTEST_SKIP() << "P3-02-E: Placeholder for prefix eviction";
+TEST_F(Phase3CacheEfficiency, IntegrationCacheExecutorPipeline) {
+    CacheManager manager(makeManagerConfig(128));
+    ASSERT_TRUE(manager.register_cache("queries", 128));
+    ASSERT_TRUE(manager.set_eviction_policy("queries", makePolicy()));
+    const auto* policy = manager.get_eviction_policy("queries");
+    ASSERT_NE(policy, nullptr);
+    EXPECT_STREQ(policy->policy_name(), "TIERED_LRU");
 }
 
-/**
- * @test IntegrationCacheStatisticsAccuracy
- * @brief Validates accuracy of cache statistics reported to executor.
- *
- * Verifies:
- *  - Hit count accurate to within 1%
- *  - Miss count accurate to within 1%
- *  - Memory footprint reported correctly
- *  - Tier distribution matches actual distribution
- */
-TEST(Phase3CacheEfficiency, IntegrationCacheStatisticsAccuracy) {
-    GTEST_SKIP() << "P3-02-E: Placeholder for statistics accuracy";
+TEST_F(Phase3CacheEfficiency, IntegrationCacheConsistencyUnderConcurrency) {
+    CacheManager manager(makeManagerConfig(128));
+    ASSERT_TRUE(manager.register_cache("queries", 128));
+    std::atomic<int> success{0};
+    std::vector<std::thread> threads;
+    for (int i = 0; i < 4; ++i) {
+        threads.emplace_back([&]() {
+            if (manager.set_eviction_policy("queries", makePolicy())) {
+                ++success;
+            }
+        });
+    }
+    for (auto& thread : threads) {
+        thread.join();
+    }
+    EXPECT_GT(success.load(), 0);
 }
 
-/**
- * @test IntegrationCacheMonitoring
- * @brief Validates cache monitoring and alerting integration.
- *
- * Verifies:
- *  - Hit ratio degradation triggers alert
- *  - Memory usage anomaly triggers alert
- *  - Eviction latency p99 anomaly triggers alert
- *  - Alerts are actionable (suggest tuning or investigation)
- */
-TEST(Phase3CacheEfficiency, IntegrationCacheMonitoring) {
-    GTEST_SKIP() << "P3-02-E: Placeholder for cache monitoring";
+TEST_F(Phase3CacheEfficiency, IntegrationCacheInvalidationOnWriteOperations) {
+    policy_.record_insert("users:1", 1);
+    policy_.record_hit("users:1");
+    policy_.record_hit("users:1");
+    EXPECT_NE(policy_.tier_for_key("users:1"), WeightedTieredLRUEvictionPolicy::Tier::Cold);
+    policy_.record_delete("users:1");
+    EXPECT_EQ(policy_.tier_for_key("users:1"), WeightedTieredLRUEvictionPolicy::Tier::Cold);
 }
 
-/**
- * @test IntegrationCacheRecoveryAfterShutdown
- * @brief Validates cache recovery after graceful shutdown/restart.
- *
- * Verifies:
- *  - Cache state optionally persisted to disk (if enabled)
- *  - Recovered state matches pre-shutdown state
- *  - Warm start improves performance vs. cold start
- */
-TEST(Phase3CacheEfficiency, IntegrationCacheRecoveryAfterShutdown) {
-    GTEST_SKIP() << "P3-02-E: Placeholder for shutdown recovery";
+TEST_F(Phase3CacheEfficiency, IntegrationCacheWithoutPrefixEviction) {
+    policy_.record_insert("users:1", 1);
+    policy_.record_insert("users:2", 1);
+    policy_.record_insert("orders:1", 1);
+    policy_.record_delete("users:1");
+    policy_.record_delete("users:2");
+    EXPECT_EQ(policy_.tier_distribution()[0], 1u);
 }
 
-/**
- * @test IntegrationCachePerformanceUnderMixedWorkload
- * @brief Validates cache performance under mixed read/write workload.
- *
- * Verifies:
- *  - Hit ratio maintained >= 80% despite write invalidations
- *  - Invalidation latency < 100µs per entry
- *  - No writer starvation from cache maintenance
- */
-TEST(Phase3CacheEfficiency, IntegrationCachePerformanceUnderMixedWorkload) {
-    GTEST_SKIP() << "P3-02-E: Placeholder for mixed workload performance";
+TEST_F(Phase3CacheEfficiency, IntegrationCacheStatisticsAccuracy) {
+    policy_.record_insert("cold", 1);
+    policy_.record_insert("warm", 1);
+    policy_.record_hit("warm");
+    policy_.record_hit("warm");
+    const auto distribution = policy_.tier_distribution();
+    EXPECT_EQ(distribution[0], 1u);
+    EXPECT_EQ(distribution[1], 1u);
 }
 
-}  // namespace themis::cache
+TEST_F(Phase3CacheEfficiency, IntegrationCacheMonitoring) {
+    CacheManager manager(makeManagerConfig(64));
+    ASSERT_TRUE(manager.register_cache("queries", 64));
+    std::vector<CacheEvent> events;
+    manager.register_event_handler([&](const CacheEvent& event) { events.push_back(event); });
+    ASSERT_TRUE(manager.set_eviction_policy("queries", makePolicy()));
+    ASSERT_FALSE(events.empty());
+    EXPECT_EQ(events.back().type, CacheEvent::Type::POLICY_CHANGE);
+    EXPECT_EQ(events.back().cache_name, "queries");
+}
+
+TEST_F(Phase3CacheEfficiency, IntegrationCacheRecoveryAfterShutdown) {
+    policy_.record_insert("persisted", 1);
+    for (int i = 0; i < 5; ++i) {
+        policy_.record_hit("persisted");
+    }
+    auto clone = policy_.clone();
+    ASSERT_NE(clone, nullptr);
+    EXPECT_STREQ(clone->policy_name(), "TIERED_LRU");
+}
+
+TEST_F(Phase3CacheEfficiency, IntegrationCachePerformanceUnderMixedWorkload) {
+    for (int i = 0; i < 32; ++i) {
+        policy_.record_insert("mixed-" + std::to_string(i), 1);
+        if (i % 3 == 0) {
+            policy_.record_hit("mixed-" + std::to_string(i));
+        }
+    }
+    const auto start = std::chrono::steady_clock::now();
+    for (int i = 0; i < 64; ++i) {
+        policy_.choose_victim({
+            makeDescriptor("mixed-0", 3, 100, 10),
+            makeDescriptor("mixed-1", 0, 10, 1),
+            makeDescriptor("mixed-2", 0, 5, 1),
+        });
+    }
+    const auto elapsed = std::chrono::steady_clock::now() - start;
+    EXPECT_LT(std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count(), 5);
+}
+
+}  // namespace

@@ -27,6 +27,7 @@
 #include <iomanip>
 #include <algorithm>
 #include <cmath>
+#include <cctype>
 
 namespace themis {
 namespace query {
@@ -57,9 +58,10 @@ PlanCache::~PlanCache() {
 // =============================================================================
 
 std::string PlanCache::fingerprint(const std::string& query) {
+    const std::string normalized = normalizeQueryTemplate(query);
     unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256(reinterpret_cast<const unsigned char*>(query.data()),
-           query.size(), hash);
+    SHA256(reinterpret_cast<const unsigned char*>(normalized.data()),
+           normalized.size(), hash);
 
     std::ostringstream ss;
     ss << std::hex << std::setfill('0');
@@ -69,15 +71,105 @@ std::string PlanCache::fingerprint(const std::string& query) {
     return ss.str();
 }
 
+std::string PlanCache::normalizeQueryTemplate(std::string_view query) {
+    std::string normalized;
+    normalized.reserve(query.size());
+
+    bool in_single_quote = false;
+    bool in_double_quote = false;
+    bool last_was_space = false;
+
+    for (size_t i = 0; i < query.size(); ++i) {
+        const char ch = query[i];
+
+        if (in_single_quote) {
+            if (ch == '\\' && i + 1 < query.size()) {
+                ++i;
+                continue;
+            }
+            if (ch == '\'') {
+                in_single_quote = false;
+            }
+            continue;
+        }
+
+        if (in_double_quote) {
+            if (ch == '\\' && i + 1 < query.size()) {
+                ++i;
+                continue;
+            }
+            if (ch == '"') {
+                in_double_quote = false;
+            }
+            continue;
+        }
+
+        if (ch == '\'' || ch == '"') {
+            if (normalized.empty() || normalized.back() != '?') {
+                normalized.push_back('?');
+            }
+            if (ch == '\'') {
+                in_single_quote = true;
+            } else {
+                in_double_quote = true;
+            }
+            last_was_space = false;
+            continue;
+        }
+
+        if (std::isspace(static_cast<unsigned char>(ch)) != 0) {
+            if (!normalized.empty() && !last_was_space) {
+                normalized.push_back(' ');
+                last_was_space = true;
+            }
+            continue;
+        }
+
+        const bool numeric_literal =
+            (std::isdigit(static_cast<unsigned char>(ch)) != 0) &&
+            (i == 0 ||
+             (!std::isalnum(static_cast<unsigned char>(query[i - 1])) &&
+              query[i - 1] != '_' && query[i - 1] != '@'));
+        if (numeric_literal) {
+            if (normalized.empty() || normalized.back() != '?') {
+                normalized.push_back('?');
+            }
+            while (i + 1 < query.size()) {
+                const char next = query[i + 1];
+                const bool continue_numeric =
+                    (std::isdigit(static_cast<unsigned char>(next)) != 0) ||
+                    next == '.' || next == '_' ||
+                    next == 'x' || next == 'X' ||
+                    ((next >= 'a' && next <= 'f') || (next >= 'A' && next <= 'F'));
+                if (!continue_numeric) {
+                    break;
+                }
+                ++i;
+            }
+            last_was_space = false;
+            continue;
+        }
+
+        normalized.push_back(ch);
+        last_was_space = false;
+    }
+
+    if (!normalized.empty() && normalized.back() == ' ') {
+        normalized.pop_back();
+    }
+    return normalized;
+}
+
 // =============================================================================
 // get
 // =============================================================================
 
 std::optional<PlanCache::CachedPlan> PlanCache::get(
     const std::string& query,
-    const Statistics&  current_stats)
+    const Statistics&  current_stats,
+    const std::string& topology_fingerprint)
 {
-    const std::string fp = fingerprint(query);
+    const std::string fp = makeCacheKey(query, topology_fingerprint);
 
     std::lock_guard<std::mutex> lock(cache_mutex_);
 
@@ -127,23 +219,17 @@ void PlanCache::put(const std::string&                query,
                     const QueryOptimizer::Plan&        plan,
                     const Statistics&                  stats,
                     const std::vector<ParameterInfo>&  params,
-                    const std::vector<std::string>&    tables)
+                    const std::vector<std::string>&    tables,
+                    const std::string&                 topology_fingerprint)
 {
-    const std::string fp = fingerprint(query);
+    const std::string fp = makeCacheKey(query, topology_fingerprint);
 
     std::lock_guard<std::mutex> lock(cache_mutex_);
 
     // If already present, update in-place (refresh)
     auto existing = cache_.find(fp);
     if (existing != cache_.end()) {
-        // Remove old table-index entries
-        for (const auto& tbl : existing->second.plan.referenced_tables) {
-            auto& fps = table_index_[tbl];
-            fps.erase(std::remove(fps.begin(), fps.end(), fp), fps.end());
-        }
-        lru_list_.erase(existing->second.lru_it);
-        cache_.erase(existing);
-        --stats_.current_size;
+        removeEntry_locked(existing);
     }
 
     // Evict LRU if at capacity
@@ -159,6 +245,18 @@ void PlanCache::put(const std::string&                query,
     cp.created_at           = std::chrono::system_clock::now();
     cp.statistics_snapshot  = stats;
     cp.referenced_tables    = tables;
+    cp.topology_fingerprint = topology_fingerprint;
+    cp.estimated_size_bytes = estimatePlanSizeBytes(cp);
+    cp.consecutive_execution_failures = 0;
+
+    if (config_.max_memory_bytes > 0) {
+        const size_t threshold_bytes = static_cast<size_t>(
+            static_cast<double>(config_.max_memory_bytes) * config_.memory_eviction_threshold);
+        while (!cache_.empty() &&
+               (stats_.current_memory_bytes + cp.estimated_size_bytes > threshold_bytes)) {
+            evictLRU_locked();
+        }
+    }
 
     // Insert into LRU list (most recent at front)
     lru_list_.push_front(fp);
@@ -169,6 +267,7 @@ void PlanCache::put(const std::string&                query,
 
     cache_.emplace(fp, std::move(entry));
     ++stats_.current_size;
+    stats_.current_memory_bytes += cp.estimated_size_bytes;
 
     // Update table index
     for (const auto& tbl : tables) {
@@ -176,6 +275,27 @@ void PlanCache::put(const std::string&                query,
     }
 
     THEMIS_DEBUG("PlanCache stored: fp={}, tables={}", fp.substr(0, 16), tables.size());
+}
+
+bool PlanCache::recordExecutionFailure(const std::string& query,
+                                       const std::string& topology_fingerprint) {
+    const std::string fp = makeCacheKey(query, topology_fingerprint);
+    std::lock_guard<std::mutex> lock(cache_mutex_);
+
+    auto it = cache_.find(fp);
+    if (it == cache_.end()) {
+        return false;
+    }
+
+    auto& cached = it->second.plan;
+    cached.consecutive_execution_failures += 1;
+    if (cached.consecutive_execution_failures < config_.max_consecutive_failures) {
+        return false;
+    }
+
+    removeEntry_locked(it);
+    ++stats_.evictions;
+    return true;
 }
 
 // =============================================================================
@@ -248,6 +368,7 @@ void PlanCache::clear() {
     lru_list_.clear();
     table_index_.clear();
     stats_.current_size = 0;
+    stats_.current_memory_bytes = 0;
     THEMIS_DEBUG("PlanCache cleared");
 }
 
@@ -260,6 +381,11 @@ PlanCache::CacheStats PlanCache::getStats() const {
     auto s = stats_;
     s.current_size = cache_.size();
     return s;
+}
+
+size_t PlanCache::estimateCurrentMemoryBytes() const {
+    std::lock_guard<std::mutex> lock(cache_mutex_);
+    return stats_.current_memory_bytes;
 }
 
 // =============================================================================
@@ -298,6 +424,11 @@ void PlanCache::removeEntry_locked(
     lru_list_.erase(it->second.lru_it);
 
     // Remove from main map
+    if (stats_.current_memory_bytes >= it->second.plan.estimated_size_bytes) {
+        stats_.current_memory_bytes -= it->second.plan.estimated_size_bytes;
+    } else {
+        stats_.current_memory_bytes = 0;
+    }
     cache_.erase(it);
 
     if (stats_.current_size > 0) {
@@ -333,6 +464,55 @@ bool PlanCache::isDriftExceeded(const Statistics& snapshot,
         }
     }
     return false;
+}
+
+std::string PlanCache::makeCacheKey(const std::string& query,
+                                    const std::string& topology_fingerprint) const {
+    if (topology_fingerprint.empty()) {
+        return fingerprint(query);
+    }
+
+    const std::string composite = normalizeQueryTemplate(query) + "|topology=" + topology_fingerprint;
+    unsigned char hash[SHA256_DIGEST_LENGTH];
+    SHA256(reinterpret_cast<const unsigned char*>(composite.data()),
+           composite.size(), hash);
+
+    std::ostringstream ss;
+    ss << std::hex << std::setfill('0');
+    for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
+        ss << std::setw(2) << static_cast<unsigned int>(hash[i]);
+    }
+    return ss.str();
+}
+
+size_t PlanCache::estimatePlanSizeBytes(const CachedPlan& plan) {
+    size_t total = sizeof(CachedPlan);
+    total += plan.query_fingerprint.size();
+    total += plan.topology_fingerprint.size();
+    total += plan.referenced_tables.size() * sizeof(std::string);
+    total += plan.parameters.size() * sizeof(ParameterInfo);
+    total += plan.statistics_snapshot.table_cardinalities.size() *
+             (sizeof(std::string) + sizeof(size_t));
+
+    for (const auto& table : plan.referenced_tables) {
+        total += table.size();
+    }
+    for (const auto& parameter : plan.parameters) {
+        total += parameter.name.size();
+        total += parameter.type.size();
+        total += parameter.sample_value.size();
+    }
+    for (const auto& [table, _] : plan.statistics_snapshot.table_cardinalities) {
+        total += table.size();
+    }
+    for (const auto& hint : plan.plan.nlp_suggested_indexes) {
+        total += hint.size();
+    }
+    for (const auto& [key, value] : plan.plan.nlp_hints) {
+        total += key.size() + value.size();
+    }
+
+    return total;
 }
 
 } // namespace query
