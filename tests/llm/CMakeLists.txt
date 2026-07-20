@@ -63,8 +63,16 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/llm/lora_framework/embedding_provider.cpp
         )
     endif()
+    # Tests using EXPECT_THAT/HasSubstr need gmock.
+    set(_gmock_link "")
+    if(TARGET GTest::gmock)
+        set(_gmock_link GTest::gmock)
+    elseif(TARGET gmock::gmock)
+        set(_gmock_link gmock::gmock)
+    endif()
     target_link_libraries(${_target} PRIVATE
         ${TEST_LIBS}
+        ${_gmock_link}
         themis_core
         spdlog::spdlog
         Threads::Threads
@@ -137,8 +145,16 @@ foreach(_src IN LISTS LLM_AUTOGEN_PREFIX_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/llm/lora_framework/embedding_provider.cpp
         )
     endif()
+    # Tests using EXPECT_THAT/HasSubstr need gmock.
+    set(_gmock_link "")
+    if(TARGET GTest::gmock)
+        set(_gmock_link GTest::gmock)
+    elseif(TARGET gmock::gmock)
+        set(_gmock_link gmock::gmock)
+    endif()
     target_link_libraries(${_target} PRIVATE
         ${TEST_LIBS}
+        ${_gmock_link}
         themis_core
         spdlog::spdlog
         Threads::Threads

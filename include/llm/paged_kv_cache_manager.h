@@ -107,6 +107,20 @@ public:
         std::vector<int> block_ids;
         size_t num_tokens = 0;
         bool is_prefix_cached = false;
+
+        /**
+         * @brief Tenant identifier for cross-tenant KV-cache isolation.
+         *
+         * Set from `InferenceRequest::tenant_id` before calling addSequence().
+         * The cache manager uses this field to ensure that prefix-sharing
+         * (Copy-on-Write) never crosses tenant boundaries: two sequences with
+         * different `tenant_id` values MUST NOT share a block, even when the
+         * cached prefix tokens are byte-for-byte identical.
+         *
+         * An empty string means the sequence belongs to the default (untenanted)
+         * context and may only share blocks with other default-context sequences.
+         */
+        std::string tenant_id;
     };
 
     /**
