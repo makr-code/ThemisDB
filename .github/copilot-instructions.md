@@ -58,6 +58,11 @@ Mandatory rules:
 4. No semantic filename duplicates in one scope (for example `ARCHITECTURE.md` + `architecture.md`).
 5. Enforce conformance checks on each docs change: naming, structure, duktus, SOT consistency.
 6. Keep instructions compact and non-redundant to control token size; do not remove normative constraints.
+7. For beta-to-GA or release-hardening updates, keep the gate model aligned across `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `RELEASE_STRATEGY.md`, `VERSIONING.md`, and `CHANGELOG.md`:
+   - Wave 7 baseline PASS
+   - `release_critical` on `develop`
+   - top-risk module sign-off (`server`, `llm`, `sharding`)
+   - resilience/security/operations evidence (Wave 5/6 retention, Wave 8 or equivalent, chaos, sanitizer/recovery, penetration test, SLA, runbooks)
 
 ## 2) Pflichtstruktur für `ROADMAP.md` je Modul
 

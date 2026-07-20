@@ -209,12 +209,27 @@ struct TumblingWindowConfig {
     std::chrono::milliseconds size{60000};
     WatermarkConfig watermark;
     bool emit_empty_windows = false;
+    /// Maximum number of concurrently open windows. 0 = unlimited.
+    /// When the limit is reached on a new-window allocation, the oldest open
+    /// window is emitted and evicted to bound memory under sustained load.
+    uint64_t max_open_windows = 0;
+    /// Maximum records accepted per open window. 0 = unlimited.
+    /// Records that arrive when a window is at capacity are dropped and counted
+    /// in WindowStats::records_dropped.
+    uint64_t max_records_per_window = 0;
 };
 
 struct SlidingWindowConfig {
     std::chrono::milliseconds size{60000};
     std::chrono::milliseconds slide{10000};
     WatermarkConfig watermark;
+    /// Maximum number of concurrently open (non-closed) windows. 0 = unlimited.
+    /// When at limit, new window creation is skipped; the record is still added
+    /// to any existing open windows that cover its event_time.
+    uint64_t max_open_windows = 0;
+    /// Maximum records accepted per open window. 0 = unlimited.
+    /// Records that arrive when a window is at capacity are skipped for that window.
+    uint64_t max_records_per_window = 0;
 };
 
 struct SessionWindowConfig {
@@ -223,12 +238,25 @@ struct SessionWindowConfig {
     /// How often the background expiry thread wakes to check for idle sessions.
     /// Smaller values reduce session-close latency at the cost of more CPU wakeups.
     std::chrono::milliseconds session_expiry_check_interval_ms{200};
+    /// Maximum number of concurrently open sessions (partitions). 0 = unlimited.
+    /// When the limit is reached on new-session creation, the session with the
+    /// oldest last_event is emitted and evicted to bound memory.
+    uint64_t max_open_sessions = 0;
+    /// Maximum records accepted per open session. 0 = unlimited.
+    /// Records that arrive when a session is at capacity are dropped.
+    uint64_t max_records_per_session = 0;
 };
 
 struct HoppingWindowConfig {
     std::chrono::milliseconds size{60000};
     std::chrono::milliseconds hop{10000};
     WatermarkConfig watermark;
+    /// Maximum number of concurrently open (non-closed) windows. 0 = unlimited.
+    /// When at limit, new window creation is skipped for that hop slot.
+    uint64_t max_open_windows = 0;
+    /// Maximum records accepted per open window. 0 = unlimited.
+    /// Records that arrive when a window is at capacity are skipped for that window.
+    uint64_t max_records_per_window = 0;
 };
 
 // ============================================================================
@@ -242,6 +270,17 @@ struct WindowStats {
     uint64_t records_dropped  = 0;
     uint64_t late_records     = 0;
     uint64_t results_emitted  = 0;
+    /// Backpressure counter for runtime limit enforcement.
+    /// Incremented in two distinct situations:
+    ///   - TumblingWindow / SessionWindow: the oldest open window or session
+    ///     was **force-closed and evicted** to satisfy the max_open_windows /
+    ///     max_open_sessions hard limit.
+    ///   - SlidingWindow / HoppingWindow: creation of a new overlapping window
+    ///     was **skipped** because the number of currently open windows already
+    ///     reached max_open_windows (no eviction; the triggering record is
+    ///     still ingested into existing windows).
+    /// A non-zero value indicates the window is operating under backpressure.
+    uint64_t windows_evicted  = 0;
 };
 
 // ============================================================================
@@ -318,8 +357,8 @@ private:
     std::atomic<uint64_t> records_dropped_{0};
     std::atomic<uint64_t> late_records_{0};
     std::atomic<uint64_t> results_emitted_{0};
-
-    // Idle-timeout background thread (TODO #1)
+    /// Incremented when a window is force-evicted due to max_open_windows limit.
+    std::atomic<uint64_t> windows_evicted_{0};
     std::thread idle_thread_;
     std::atomic<bool> idle_running_{false};
     std::condition_variable idle_cv_;
@@ -399,6 +438,8 @@ private:
     std::atomic<uint64_t> records_dropped_{0};
     std::atomic<uint64_t> late_records_{0};
     std::atomic<uint64_t> results_emitted_{0};
+    /// Incremented when new window creation is skipped due to max_open_windows limit.
+    std::atomic<uint64_t> windows_evicted_{0};
 
     // O(1) duplicate-detection index keyed on window start (TODO #5)
     std::unordered_set<int64_t> window_start_set_;
@@ -489,6 +530,8 @@ private:
     std::atomic<uint64_t> records_dropped_{0};
     std::atomic<uint64_t> late_records_{0};
     std::atomic<uint64_t> results_emitted_{0};
+    /// Incremented when a session is force-evicted due to max_open_sessions limit.
+    std::atomic<uint64_t> windows_evicted_{0};
 
     WindowResult computeResult(const Session& s, bool late = false) const;
     void expiryLoop();
@@ -554,6 +597,8 @@ private:
     std::atomic<uint64_t> records_dropped_{0};
     std::atomic<uint64_t> late_records_{0};
     std::atomic<uint64_t> results_emitted_{0};
+    /// Incremented when new window creation is skipped due to max_open_windows limit.
+    std::atomic<uint64_t> windows_evicted_{0};
 
     // O(1) duplicate-detection index keyed on window start (TODO #5)
     std::unordered_set<int64_t> window_start_set_;
@@ -566,6 +611,7 @@ private:
     static std::string generateId();
 };
 
+/** @brief Factory function for HoppingWindow. */
 std::unique_ptr<HoppingWindow> createHoppingWindow(const HoppingWindowConfig& config);
 
 // ============================================================================

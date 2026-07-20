@@ -52,6 +52,7 @@ file(GLOB GRAPH_AUTOGEN_PREFIX_TEST_SOURCES
 
 foreach(_src IN LISTS GRAPH_AUTOGEN_PREFIX_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
+    set(_manual_target "module_graph_${_stem}_focused")
     set(_target "module_graph_${_stem}_autofocused")
     set(_ctest "${_stem}_graph_AutoFocusedTests")
     set(_extra_sources)
@@ -69,7 +70,7 @@ foreach(_src IN LISTS GRAPH_AUTOGEN_PREFIX_TEST_SOURCES)
         )
     endif()
 
-    if(TARGET ${_target})
+    if(TARGET ${_manual_target} OR TARGET ${_target})
         continue()
     endif()
 

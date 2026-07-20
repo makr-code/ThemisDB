@@ -160,6 +160,10 @@ public:
 
         /// When true, one subdirectory per calendar day is created automatically.
         bool create_daily_subdirs{true};
+
+        /// Maximum time flush() will wait for the queue to drain.
+        /// 0 means no timeout (legacy behavior; not recommended in production).
+        std::chrono::milliseconds flush_timeout_ms{10'000};
     };
 
     /**
@@ -202,8 +206,13 @@ public:
 
     /**
      * @brief Block until the queue is empty (for testing / graceful shutdown).
+     * @return true if the queue drained within config_.flush_timeout_ms,
+     *         false if the timeout expired before all records were processed.
+     *         When flush_timeout_ms is zero, blocks indefinitely (legacy mode).
+     * @note The return value MUST be checked: false signals that queued records
+     *       were not persisted and callers must decide how to handle data loss.
      */
-    void flush();
+    [[nodiscard]] bool flush();
 
     // ─── Statistics ────────────────────────────────────────────────────────────
     struct Stats {

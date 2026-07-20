@@ -18,6 +18,7 @@ Production-ready multi-model query stack with parser, optimizer, execution, fede
 - [~] Query hardening wave for safety, resilience, and predictable performance (Target: Q3 2026)
   - [ ] Complete remaining performance/regression benchmark gates for vectorized and federated paths (Target: Q3 2026)
   - [ ] Continue reliability hardening for cancellation, limits, and distributed query failure behavior (Target: Q3 2026)
+- [~] approved next implementation block: support Graph Phase 3 with query-planner and optimizer hardening before follow-on scheduling/load-balancing work (Target: Q3 2026)
 - [~] **AQL LLM Integration Consolidation** — Phase 1-4 (2026-06-18 → ongoing)
   - Formalize dependency contract between src/query/ (Query Engine) and src/aql/ (LLM Integration)
   - Define canonical parser validation pipeline and SLA for LLM-generated AQL
@@ -82,6 +83,7 @@ Production-ready multi-model query stack with parser, optimizer, execution, fede
 ### Phase 2: Optimizer and Planning Hardening
 - [ ] Improve plan-selection robustness under stale or partial statistics (Target: Q4 2026)
 - [ ] Add deterministic regression packs for rewrite, cost, and adaptive plan switches (Target: Q4 2026)
+- [ ] sequence optimizer/cache hardening ahead of broader runtime and federation work in the current execution block (Target: Q3 2026)
 
 ### Phase 3: Federation and Distributed Query Hardening
 - [ ] Expand cross-cluster/federated timeout and retry envelopes with bounded memory behavior (Target: Q4 2026)

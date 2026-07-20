@@ -177,8 +177,23 @@ nlohmann::json JWTValidator::fetchJWKS() {
     // Others wait for it to finish and then read from the (now-fresh) cache.
     {
         std::unique_lock<std::mutex> refresh_lock(jwks_refresh_mutex_);
-        // Wait if another thread is already refreshing.
-        jwks_refresh_cv_.wait(refresh_lock, [this] { return !jwks_refreshing_; });
+        // Wait for the in-progress refresh to complete; bounded by
+        // refresh_wait_timeout to prevent indefinite blocking if the refresher
+        // thread stalls on a slow or unresponsive JWKS endpoint (Phase 8.2).
+        const bool refresher_done = jwks_refresh_cv_.wait_for(
+            refresh_lock,
+            cfg_.refresh_wait_timeout,
+            [this] { return !jwks_refreshing_; });
+
+        if (!refresher_done) {
+            // Timeout expired — return stale cache or empty set (fail-open
+            // is avoided: callers must handle an empty JWKS set as an error).
+            THEMIS_WARN("JWKS single-flight wait timed out after {}ms; "
+                        "returning stale/empty cache",
+                        cfg_.refresh_wait_timeout.count());
+            std::shared_lock<std::shared_mutex> read_lock(jwks_cache_mutex_);
+            return jwks_cache_;
+        }
 
         // Double-check: the refreshing thread may have just updated the cache.
         {
@@ -349,12 +364,43 @@ const nlohmann::json *JWTValidator::findJwkForKid(const nlohmann::json &jwks, co
     if (!jwks.contains("keys")) {
         return nullptr;
     }
+    // Use CRYPTO_memcmp for constant-time key-ID comparison to prevent timing
+    // side-channels that could allow an attacker to enumerate valid kid values
+    // through response-time differences.  Length mismatch is resolved by always
+    // comparing max(len_a, len_b) bytes against a zero-padded scratch buffer so
+    // that the loop time is independent of whether the lengths match.
+    const std::string::size_type target_len = kid.size();
+    const nlohmann::json *match = nullptr;
     for (auto &k : jwks["keys"]) {
-        if (k.is_object() && k.value("kid", std::string()) == kid) {
-            return &k;
+        if (!k.is_object()) {
+            continue;
+        }
+        const std::string stored_kid = k.value("kid", std::string());
+        // Always compare the same number of bytes regardless of stored_kid length
+        // to avoid a length-based early exit that leaks partial information.
+        const std::string::size_type cmp_len =
+            std::max(stored_kid.size(), target_len);
+        if (cmp_len == 0) {
+            // Both empty → equal; record but continue scanning (no early exit).
+            if (match == nullptr) {
+                match = &k;
+            }
+            continue;
+        }
+        // Pad shorter strings to cmp_len with NUL bytes before comparing.
+        std::string a_padded(cmp_len, '\0');
+        std::string b_padded(cmp_len, '\0');
+        std::memcpy(a_padded.data(), stored_kid.data(), stored_kid.size());
+        std::memcpy(b_padded.data(), kid.data(),        target_len);
+        if (CRYPTO_memcmp(a_padded.data(), b_padded.data(), cmp_len) == 0
+                && stored_kid.size() == target_len) {
+            // Record first match but keep iterating to avoid early-exit leakage.
+            if (match == nullptr) {
+                match = &k;
+            }
         }
     }
-    return nullptr;
+    return match;
 }
 
 /**

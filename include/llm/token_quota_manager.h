@@ -156,6 +156,39 @@ public:
     std::optional<size_t> getLimit(const std::string& user_id,
                                    const std::string& model_id) const;
 
+    // -----------------------------------------------------------------------
+    // Tenant-level quota helpers (P2.2 — Multi-tenant Isolation)
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Canonical tenant quota key used for aggregated tenant-level limits.
+     *
+     * When a deployment enforces a shared token budget across all users of
+     * a single tenant (rather than per-user budgets), callers should use
+     * this key as the `user_id` argument to `setQuota()`, `check()`, and
+     * `consume()`.
+     *
+     * The convention avoids cross-tenant collisions by prefixing with a
+     * well-known sentinel that is illegal in normal user IDs.
+     *
+     * @param tenant_id  Tenant identifier from `InferenceRequest::tenant_id`.
+     * @param model_id   Model identifier.
+     * @return           A unique key string suitable for all quota methods.
+     *
+     * ### Example
+     * @code
+     *   const auto key = TokenQuotaManager::tenantKey("acme-corp", "qwen2.5-coder:14b");
+     *   quota.setQuota(key, "qwen2.5-coder:14b", 500'000);  // 500k tokens/min per tenant
+     *   auto r = quota.check(key, "qwen2.5-coder:14b", request_tokens);
+     * @endcode
+     */
+    [[nodiscard]] static std::string tenantKey(const std::string& tenant_id,
+                                               const std::string& model_id)
+    {
+        // Prefix avoids collision with normal user IDs.
+        return "__tenant__:" + tenant_id + '\0' + model_id;
+    }
+
 private:
     struct Event {
         std::chrono::steady_clock::time_point at;

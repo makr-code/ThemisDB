@@ -317,6 +317,40 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_redundancy_consistency.cpp")
     message(STATUS "  RedundancyConsistency: Version-aware merging, conflict resolution, consistency checks")
 endif()
 
+# ============================================================================
+# Phase 6 Sharding Hardening Tests (P6-01 2PC/3PC + P6-02 Failover/Recovery)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_sharding_phase6_hardening.cpp")
+    message(STATUS "Adding Sharding: Phase 6 Hardening tests (P6-01/P6-02)")
+    add_executable(test_sharding_phase6_hardening test_sharding_phase6_hardening.cpp)
+    target_include_directories(test_sharding_phase6_hardening PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(test_sharding_phase6_hardening PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(test_sharding_phase6_hardening PRIVATE THEMIS_TEST_BUILD=1)
+    set_target_properties(test_sharding_phase6_hardening PROPERTIES
+        CXX_STANDARD 20
+        CXX_STANDARD_REQUIRED ON
+    )
+    themis_register_module_focused_test(
+        MODULE  sharding
+        NAME    ShardingPhase6HardeningTests
+        TARGET  test_sharding_phase6_hardening
+        TIER    unit
+        TIMEOUT 120
+        LABELS  sharding hardening phase6 release_critical sharding_p6
+    )
+    message(STATUS "  P6-01 TXC-01..TXC-32: 2PC/3PC consistency verification (32 tests)")
+    message(STATUS "  P6-02 FLR-01..FLR-20: failover logic and recovery-path hardening (20 tests)")
+endif()
+
 # AUTOGEN PREFIX BLOCK: sharding
 file(GLOB SHARDING_AUTOGEN_PREFIX_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_*.cpp"

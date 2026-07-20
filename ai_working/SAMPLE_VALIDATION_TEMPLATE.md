@@ -8,309 +8,26 @@ For each gap, assess as:
 - **FP** = False Positive (code is correct)
 - **?** = Uncertain
 
-## [ 1/50] server - MEDIUM
-**File:** `src\server\voice_api_handler.cpp:308`
-**Category:** no_health_check
-**Message:** Status field defined but no initialization or health check
-
-### Function Context
-```cpp
-  306 |                 if (!isValidVoicePathIdentifier(session_id)) {
-  307 |                     return createErrorResponse(
-  308 | >>>                     http::status::bad_request, "Bad Request", "Invalid session ID");
-  309 |                 }
-  310 |     
-  311 |                 if (action == "context" && method == http::verb::post) {
-  312 |                     return handleUpdateSessionContext(req, session_id);
-  313 |                 }
-  314 |     
-  315 |                 return createErrorResponse(
-  316 |                     http::status::bad_request, "Bad Request", "Invalid session path");
-  317 |             }
-  318 |     
-  319 |             if (!isValidVoicePathIdentifier(session_id)) {
-  320 |                 return createErrorResponse(
-```
-
-### Assessment
-- [ ] **TP** - True Positive (real issue)
-- [ ] **FP** - False Positive (code is safe)
-- [ ] **?** - Uncertain / Needs investigation
-
-**Notes:** _[Add your reasoning here]_
-
-## [ 2/50] query - CRITICAL
-**File:** `src\query\query_engine.cpp:4558`
-**Category:** no_timeout
-**Message:** semaphore_wait without timeout — can block indefinitely
-
-### Function Context
-```cpp
- 4547 |     					bool ok = true; for (auto& ef : q.extra_filters) { if (!evaluateCondition(ef, ctx)) { ok=false; break; } }
- 4548 |     					if (!ok) continue;
- 4549 |     				}
- 4550 |     				std::vector<float> vec = entity[q.vector_field].get<std::vector<float>>();
- 4551 |     				if (vec.size() != q.query_vector.size()) continue;
- 4552 |     				float d = simd::l2_distance(vec.data(), q.query_vector.data(), vec.size());
- 4553 |     				buf.emplace_back(pk, d);
- 4554 |     			}
- 4555 |     			buckets[bi] = std::move(buf);
- 4556 |     		});
- 4557 |     	}
- 4558 | >>> 	tg2.wait();
- 4559 |     	for (auto& b : buckets) {
- 4560 |     		vectorResults.insert(vectorResults.end(), std::make_move_iterator(b.begin()), std::make_move_iterator(b.end()));
- 4561 |     	}
- 4562 |     
- 4563 |     	// Sort by distance and take top-k
- 4564 |     	tbb::parallel_sort(vectorResults.begin(), vectorResults.end(),
- 4565 |     	          [](const auto& a, const auto& b) {
- 4566 |     			  if (a.second == b.second) {
- 4567 |     				  return a.first < b.first;
- 4568 |     			  }
- 4569 |     			  return a.second < b.second;
- 4570 |     		  });
-```
-
-### Assessment
-- [ ] **TP** - True Positive (real issue)
-- [ ] **FP** - False Positive (code is safe)
-- [ ] **?** - Uncertain / Needs investigation
-
-**Notes:** _[Add your reasoning here]_
-
-## [ 3/50] utils - HIGH
-**File:** `src\utils\memory\pool_allocator.cpp:810`
-**Category:** db_connection_leak
-**Message:** Resource acquired but not released — potential leak
-
-### Function Context
-```cpp
-  810 | >>> Result<void*> PoolAllocator::allocate(size_t size, AllocationHint hint) {
-  811 |         IAllocator* allocator = impl_->selectAllocator(size, hint);
-  812 |         auto result = allocator->allocate(size, hint);
-  813 |     
-  814 |         if (result) {
-  815 |             void* ptr = *result;
-  816 |             std::lock_guard<std::mutex> lock(impl_->ownership_mutex);
-  817 |             impl_->ownership[reinterpret_cast<uintptr_t>(ptr)] = allocator;
-  818 |         }
-  819 |     
-  820 |         return result;
-  821 |     }
-  822 |     
-```
-
-### Assessment
-- [ ] **TP** - True Positive (real issue)
-- [ ] **FP** - False Positive (code is safe)
-- [ ] **?** - Uncertain / Needs investigation
-
-**Notes:** _[Add your reasoning here]_
-
-## [ 4/50] network - HIGH
-**File:** `src\network\envoy_xds.cpp:380`
-**Category:** range_temporary
-**Message:** Range-for on temporary container — references may be invalid
-
-### Function Context
-```cpp
-  380 | >>>     for (const auto& item : splitJsonArray(body)) {
-  381 |             ListenerInfo info;
-  382 |             info.name     = extractString(item, "name");
-  383 |     
-  384 |             // Address is nested: address.socket_address.address / port_value
-  385 |             const std::string addr_obj = extractRawValue(item, "address");
-  386 |             if (!addr_obj.empty()) {
-  387 |                 const std::string sa = extractRawValue(addr_obj, "socket_address");
-  388 |                 if (!sa.empty()) {
-  389 |                     info.address  = extractString(sa, "address");
-  390 |                     info.port     = parsePort(extractRawValue(sa, "port_value"));
-  391 |                     info.protocol = extractString(sa, "protocol");
-  392 |                     if (info.protocol.empty()) info.protocol = "TCP";
-```
-
-### Assessment
-- [ ] **TP** - True Positive (real issue)
-- [ ] **FP** - False Positive (code is safe)
-- [ ] **?** - Uncertain / Needs investigation
-
-**Notes:** _[Add your reasoning here]_
-
-## [ 5/50] index - HIGH
-**File:** `src\index\vector_auto_buffer.cpp:384`
-**Category:** lock_contention
-**Message:** Mutex lock in loop — high contention
-
-### Function Context
-```cpp
-  383 |         while (running_.load()) {
-  384 | >>>         std::unique_lock<std::mutex> lock(flush_mutex_);
-  385 |     
-  386 |             // Wait for flush interval or notification
-  387 |             flush_cv_.wait_for(lock, config_.flush_interval, [this] {
-  388 |                 return !running_.load() || shouldFlushGlobal();
-  389 |             });
-  390 |     
-  391 |             if (!running_.load()) {
-  392 |                 break;
-  393 |             }
-  394 |     
-  395 |             // Check if we need to flush
-  396 |             if (shouldFlushGlobal()) {
-```
-
-### Assessment
-- [ ] **TP** - True Positive (real issue)
-- [ ] **FP** - False Positive (code is safe)
-- [ ] **?** - Uncertain / Needs investigation
-
-**Notes:** _[Add your reasoning here]_
-
-## [ 6/50] server - HIGH
-**File:** `src\server\branch_api_handler.cpp:229`
-**Category:** delete_no_nullptr
-**Message:** Delete without nullifying pointer — use-after-free risk
-
-### Function Context
-```cpp
-  228 |         if (!success) {
-  229 | >>>         sendError(res, 400, "Failed to delete branch. Branch may be active or not fully merged.");
-  230 |             return;
-  231 |         }
-  232 |     
-  233 |         json result = {
-  234 |             {"success", true},
-  235 |             {"message", "Branch deleted: " + branch_name}
-  236 |         };
-  237 |         sendJson(res, result);
-  238 |     }
-  239 |     
-  240 |     void BranchApiHandler::handleGetStats(const httplib::Request& /*req*/, httplib::Response& res) {
-  241 |         auto stats = branch_manager_.getStats();
-```
-
-### Assessment
-- [ ] **TP** - True Positive (real issue)
-- [ ] **FP** - False Positive (code is safe)
-- [ ] **?** - Uncertain / Needs investigation
-
-**Notes:** _[Add your reasoning here]_
-
-## [ 7/50] security - MEDIUM
-**File:** `src\security\vault_signing_provider.cpp:44`
-**Category:** copy_overhead
-**Message:** push_back in loop — consider pre-allocating with reserve()
-
-### Function Context
-```cpp
-   38 |             while (valb >= 0) {
-   39 |                 ret.push_back(b64_chars[(val >> valb) & 0x3F]);
-   40 |                 valb -= 6;
-   41 |             }
-   42 |         }
-   43 |         if (valb > -6) ret.push_back(b64_chars[((val << 8) >> (valb + 8)) & 0x3F]);
-   44 | >>>     while (ret.size() % 4) ret.push_back('=');
-   45 |         return ret;
-   46 |     }
-   47 |     
-   48 |     static std::vector<uint8_t> vaultBase64Decode(const std::string& encoded) {
-   49 |         std::vector<int> T(256, -1);
-   50 |         for (int i = 0; i < 64; i++) T[(unsigned char)b64_chars[i]] = i;
-   51 |     
-   52 |         std::vector<uint8_t> out;
-   53 |         int val = 0, valb = -8;
-   54 |         for (unsigned char c : encoded) {
-   55 |             if (T[c] == -1) break;
-   56 |             val = (val << 6) + T[c];
-```
-
-### Assessment
-- [ ] **TP** - True Positive (real issue)
-- [ ] **FP** - False Positive (code is safe)
-- [ ] **?** - Uncertain / Needs investigation
-
-**Notes:** _[Add your reasoning here]_
-
-## [ 8/50] server - MEDIUM
-**File:** `src\server\profiling_api_handler.cpp:150`
-**Category:** copy_overhead
-**Message:** push_back in loop — consider pre-allocating with reserve()
-
-### Function Context
-```cpp
-  149 |         for (const auto& profile : slow_queries) {
-  150 | >>>         result.push_back(profile->toJSON());
-  151 |         }
-  152 |     
-  153 |         return make_response(http::status::ok, result);
-  154 |     }
-  155 |     
-  156 |     http::response<http::string_body> ProfilingApiHandler::handle_get_storage(
-  157 |         const http::request<http::string_body>& /*req*/) {
-  158 |         auto span = Tracer::startSpan("handle_get_storage");
-  159 |     
-  160 |         json result = {
-  161 |             {"operation_summary", storage_profiler_->get_operation_summary()},
-  162 |             {"cache_metrics", storage_profiler_->get_cache_metrics()},
-```
-
-### Assessment
-- [ ] **TP** - True Positive (real issue)
-- [ ] **FP** - False Positive (code is safe)
-- [ ] **?** - Uncertain / Needs investigation
-
-**Notes:** _[Add your reasoning here]_
-
-## [ 9/50] server - MEDIUM
-**File:** `src\server\postgres_session.cpp:730`
-**Category:** copy_overhead
-**Message:** push_back in loop — consider pre-allocating with reserve()
-
-### Function Context
-```cpp
-  730 | >>>                         fields.push_back({colName, 0, 0, 25, -1, -1, 0}); // text type
-  731 |                         }
-  732 |                     }
-  733 |     
-  734 |                     if (fields.empty()) {
-  735 |                         fields.push_back({"?column?", 0, 0, 25, -1, -1, 0});
-  736 |                     }
-  737 |     
-  738 |                     sendRowDescription(fields);
-  739 |                 } else {
-  740 |                     // Non-SELECT query - send NoData
-  741 |                     sendNoData();
-  742 |                 }
-```
-
-### Assessment
-- [ ] **TP** - True Positive (real issue)
-- [ ] **FP** - False Positive (code is safe)
-- [ ] **?** - Uncertain / Needs investigation
-
-**Notes:** _[Add your reasoning here]_
-
-## [10/50] metadata - MEDIUM
-**File:** `src\metadata\information_schema.cpp:314`
+## [ 1/50] plugins - MEDIUM
+**File:** `src/plugins/plugin_manager.cpp:1034`
 **Category:** performance
 **Message:** vector::push_back in loop without prior reserve()
 
 ### Function Context
 ```cpp
-  314 | >>>     for (const auto& row : getColumns()) {
-  315 |             cols_arr.push_back(row.toJSON());
-  316 |         }
-  317 |         j["columns"] = cols_arr;
-  318 |     
-  319 |         json stats_arr = json::array();
-  320 |         for (const auto& row : getStatistics()) {
-  321 |             stats_arr.push_back(row.toJSON());
-  322 |         }
-  323 |         j["statistics"] = stats_arr;
-  324 |     
-  325 |         json kcu_arr = json::array();
-  326 |         for (const auto& row : getKeyColumnUsage()) {
+ 1034 | >>>             if (plugin_it != plugins_.end() && plugin_it->second.loaded) {
+ 1035 |                     result.push_back(plugin_it->second.instance.get());
+ 1036 |                 }
+ 1037 |             }
+ 1038 |         }
+ 1039 |     
+ 1040 |         return result;
+ 1041 |     }
+ 1042 |     
+ 1043 |     std::vector<PluginManifest> PluginManager::listPlugins() const {
+ 1044 |         std::lock_guard<std::mutex> lock(mutex_);
+ 1045 |     
+ 1046 |         std::vector<PluginManifest> result;
 ```
 
 ### Assessment
@@ -320,31 +37,112 @@ For each gap, assess as:
 
 **Notes:** _[Add your reasoning here]_
 
-## [11/50] llm - MEDIUM
-**File:** `src\llm\gguf_loader.cpp:404`
+## [ 2/50] importers - MEDIUM
+**File:** `src/importers/schema_inference.cpp:297`
+**Category:** performance
+**Message:** std::map used only for lookups (consider std::unordered_map)
+
+### Function Context
+```cpp
+  276 |         switch (t) {
+  277 |             case SemanticType::EMAIL:            return "EMAIL";
+  278 |             case SemanticType::PHONE:            return "PHONE";
+  279 |             case SemanticType::CURRENCY:         return "CURRENCY";
+  280 |             case SemanticType::LOCATION_COORD:   return "LOCATION_COORD";
+  281 |             case SemanticType::ISO8601_DATETIME: return "ISO8601_DATETIME";
+  282 |             case SemanticType::UUID:             return "UUID";
+  283 |             case SemanticType::HASH_SHA256:      return "HASH_SHA256";
+  284 |             case SemanticType::IP_ADDRESS:       return "IP_ADDRESS";
+  285 |             case SemanticType::URL:              return "URL";
+  286 |             default:                             return "UNKNOWN";
+  287 |         }
+  288 |     }
+  289 |     
+  290 |     // ---------------------------------------------------------------------------
+  291 |     // Algorithm 3: cardinality estimation
+  292 |     // ---------------------------------------------------------------------------
+  293 |     
+  294 |     std::vector<SchemaInferenceEngine::CardinalityEstimate>
+  295 |     SchemaInferenceEngine::estimateCardinalities(
+  296 |         const std::vector<InferenceTableSchema>& schemas,
+  297 | >>>     const std::map<std::string, ColumnStatistics>& stats)
+  298 |     {
+  299 |         std::vector<CardinalityEstimate> estimates;
+  300 |     
+  301 |         // ── I2: Bounds check ─────────────────────────────────────────────────────
+  302 |         if (schemas.size() > kMaxTableCount) {
+  303 |             return estimates;  // Input too large; reject defensively
+  304 |         }
+  305 |     
+  306 |         for (const auto& schema : schemas) {
+  307 |             for (const auto& fk : schema.foreign_keys) {
+  308 |                 const std::string& local_col = fk.first;
+  309 |                 const std::string& ref = fk.second; // "other_table.other_col"
+```
+
+### Assessment
+- [ ] **TP** - True Positive (real issue)
+- [ ] **FP** - False Positive (code is safe)
+- [ ] **?** - Uncertain / Needs investigation
+
+**Notes:** _[Add your reasoning here]_
+
+## [ 3/50] base - MEDIUM
+**File:** `src/base/plugin_dependency_graph.cpp:135`
+**Category:** performance
+**Message:** std::map used only for lookups (consider std::unordered_map)
+
+### Function Context
+```cpp
+  134 |     {
+  135 | >>>     std::map<std::string, std::set<std::string>> adj;
+  136 |         for (const auto& kv : nodes_) {
+  137 |             adj[kv.first]; // ensure all nodes are present
+  138 |         }
+  139 |         for (const auto& e : edges_) {
+  140 |             adj[e.from].insert(e.to);
+  141 |         }
+  142 |         return adj;
+  143 |     }
+  144 |     
+  145 |     void PluginDependencyGraph::dfsVisit(
+  146 |         const std::string& node,
+  147 |         const std::map<std::string, std::set<std::string>>& adj,
+```
+
+### Assessment
+- [ ] **TP** - True Positive (real issue)
+- [ ] **FP** - False Positive (code is safe)
+- [ ] **?** - Uncertain / Needs investigation
+
+**Notes:** _[Add your reasoning here]_
+
+## [ 4/50] query - MEDIUM
+**File:** `src/query/functions/process_mining_functions.cpp:204`
 **Category:** performance
 **Message:** vector::push_back in loop without prior reserve()
 
 ### Function Context
 ```cpp
-  399 |             for (auto dim : tensor.shape) {
-  400 |                 num_elements *= dim;
-  401 |             }
-  402 |             tensor.size = num_elements * getGGMLTypeSize(tensor.type);
-  403 |             tensor.offset = tensor_offset;
-  404 | >>> 
-  405 |             metadata_.tensors.push_back(tensor);
-  406 |         }
-  407 |     
-  408 |         // Store data offset (aligned to 32 bytes)
-  409 |         metadata_.data_offset = alignOffset(offset, 32);
-  410 |     
-  411 |         return true;
-  412 |     }
-  413 |     
-  414 |     size_t GGUFLoader::getGGMLTypeSize(GGMLType type) const {
-  415 |         switch (type) {
-  416 |             case GGMLType::F32: return 4;
+  198 |         for (const auto& e : proc.edges) {
+  199 |             json ej;
+  200 |             ej["id"]          = e.id;
+  201 |             ej["from"]        = e.from;
+  202 |             ej["to"]          = e.to;
+  203 |             ej["frequency"]   = e.frequency;
+  204 | >>>         ej["probability"] = e.probability;
+  205 |             edges.push_back(std::move(ej));
+  206 |         }
+  207 |         j["edges"]            = std::move(edges);
+  208 |         j["activities_count"] = proc.nodes.size();
+  209 |         j["edges_count"]      = proc.edges.size();
+  210 |         return j;
+  211 |     }
+  212 |     
+  213 |     // ---------------------------------------------------------------------------
+  214 |     // JSON → DiscoveredProcess  (for PM_CONFORMANCE / PM_EXPORT_BPMN input)
+  215 |     // ---------------------------------------------------------------------------
+  216 |     DiscoveredProcess parseDiscoveredProcess(const json& j) {
 ```
 
 ### Assessment
@@ -354,58 +152,26 @@ For each gap, assess as:
 
 **Notes:** _[Add your reasoning here]_
 
-## [12/50] server - MEDIUM
-**File:** `src\server\http_server.cpp:6858`
-**Category:** performance
-**Message:** Unnecessary copy: use auto& for container element access
-
-### Function Context
-```cpp
- 6855 |                     for (const auto& g : auth_ctx.groups) {
- 6856 |                         scheduler_ctx.roles.insert(g);
- 6857 |                     }
- 6858 | >>>                 auto auth_header = req[http::field::authorization];
- 6859 |                     if (!auth_header.empty()) {
- 6860 |                         auto token = themis::AuthMiddleware::extractBearerToken(
- 6861 |                             std::string_view(auth_header.data(), auth_header.size()));
- 6862 |                         if (token) {
- 6863 |                             auto authz = auth_->authorize(*token, "task:register");
- 6864 |                             if (authz.authorized) {
- 6865 |                                 scheduler_ctx.granted_permissions.insert("task:register");
- 6866 |                             }
- 6867 |                         }
- 6868 |                     }
- 6869 |                     TaskScheduler::setRequestContext(scheduler_ctx);
- 6870 |                     scheduler_ctx_set = true;
-```
-
-### Assessment
-- [ ] **TP** - True Positive (real issue)
-- [ ] **FP** - False Positive (code is safe)
-- [ ] **?** - Uncertain / Needs investigation
-
-**Notes:** _[Add your reasoning here]_
-
-## [13/50] security - MEDIUM
-**File:** `src\security\zero_trust_policy_enforcer.cpp:62`
+## [ 5/50] performance - MEDIUM
+**File:** `src/performance/adaptive_query_compiler.cpp:756`
 **Category:** performance
 **Message:** vector::push_back in loop without prior reserve()
 
 ### Function Context
 ```cpp
-   62 | >>>     for (const auto& kv : policies_) {
-   63 |             result.push_back(kv.second);
-   64 |         }
-   65 |         return result;
-   66 |     }
-   67 |     
-   68 |     // ============================================================================
-   69 |     // Core: per-request verification
-   70 |     // ============================================================================
-   71 |     
-   72 |     VerificationResult ZeroTrustPolicyEnforcer::verify(const ZeroTrustContext& context) {
-   73 |         metrics_.requests_total.fetch_add(1, std::memory_order_relaxed);
-   74 |     
+  756 | >>>             for (size_t ci = 0; ci < rit->second.column_names.size(); ++ci) {
+  757 |                     joined.column_names.push_back(
+  758 |                         query.join_table + "." + rit->second.column_names[ci]);
+  759 |                     joined.values.push_back(rit->second.values[ci]);
+  760 |                 }
+  761 |                 result.rows.push_back(std::move(joined));
+  762 |             }
+  763 |             return result;
+  764 |         }
+  765 |     
+  766 |         // ─── Sort execution ────────────────────────────────────────────────────────
+  767 |     
+  768 |         QueryResult execSort(const ParsedQuery& query,
 ```
 
 ### Assessment
@@ -415,27 +181,26 @@ For each gap, assess as:
 
 **Notes:** _[Add your reasoning here]_
 
-## [14/50] index - MEDIUM
-**File:** `src\index\ann_index.cpp:84`
+## [ 6/50] network - MEDIUM
+**File:** `src/network/envoy_xds.cpp:456`
 **Category:** performance
 **Message:** vector::push_back in loop without prior reserve()
 
 ### Function Context
 ```cpp
-   83 |                 if (cumsum >= threshold) { chosen = i; break; }
-   84 | >>>         }
-   85 |             centroids.emplace_back(data + chosen * d, data + chosen * d + d);
-   86 |         }
-   87 |     
-   88 |         assignments.assign(n, 0);
-   89 |     
-   90 |         for (size_t iter = 0; iter < iters; ++iter) {
-   91 |             // Assignment step
-   92 |             for (size_t i = 0; i < n; ++i) {
-   93 |                 float best = std::numeric_limits<float>::max();
-   94 |                 size_t best_c = 0;
-   95 |                 for (size_t c = 0; c < k; ++c) {
-   96 |                     float dist = l2sq(data + i * d, centroids[c].data(), d);
+  456 | >>>                         if (!ep.address.empty()) {
+  457 |                                 info.endpoints.push_back(std::move(ep));
+  458 |                             }
+  459 |                         }
+  460 |                     }
+  461 |                 }
+  462 |             }
+  463 |     
+  464 |             if (!info.name.empty()) {
+  465 |                 result.push_back(std::move(info));
+  466 |             }
+  467 |         }
+  468 |         return result;
 ```
 
 ### Assessment
@@ -445,32 +210,28 @@ For each gap, assess as:
 
 **Notes:** _[Add your reasoning here]_
 
-## [15/50] storage - MEDIUM
-**File:** `src\storage\columnar_format.cpp:343`
+## [ 7/50] index - MEDIUM
+**File:** `src/index/rotary_embeddings.cpp:46`
 **Category:** performance
 **Message:** vector::push_back in loop without prior reserve()
 
 ### Function Context
 ```cpp
-  337 |             if (idx >= dictionary.size()) {
-  338 |                 return tl::unexpected(Error(
-  339 |                     errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
-  340 |                     "Dictionary decode: invalid index"
-  341 |                 ));
-  342 |             }
-  343 | >>> 
-  344 |             decoded.push_back(dictionary[idx]);
-  345 |         }
-  346 |     
-  347 |         return decoded;
-  348 |     }
-  349 |     
-  350 |     bool DictionaryCodec::shouldUseDictionary(const std::vector<std::string>& data,
-  351 |                                              [[maybe_unused]] double min_compression_ratio) {
-  352 |         if (data.empty()) return false;
-  353 |     
-  354 |         // Calculate unique strings
-  355 |         std::unordered_set<std::string> unique_strings(data.begin(), data.end());
+   44 |         for (size_t i = 0; i < num_rotation_pairs; ++i) {
+   45 |             double exponent = -2.0 * static_cast<double>(i) / static_cast<double>(hidden_dim);
+   46 | >>>         double theta = std::pow(base_theta, exponent);
+   47 |             theta_cache.push_back(theta);
+   48 |         }
+   49 |     }
+   50 |     
+   51 |     // ============================================================================
+   52 |     // RotaryEmbedding Implementation
+   53 |     // ============================================================================
+   54 |     
+   55 |     RotaryEmbedding::RotaryEmbedding(const RotationConfig& config)
+   56 |         : config_(config) {
+   57 |         if (!config_.isValid()) {
+   58 |             throw std::invalid_argument(
 ```
 
 ### Assessment
@@ -480,26 +241,27 @@ For each gap, assess as:
 
 **Notes:** _[Add your reasoning here]_
 
-## [16/50] analytics - MEDIUM
-**File:** `src\analytics\anomaly_detection.cpp:966`
+## [ 8/50] importers - MEDIUM
+**File:** `src/importers/huggingface_ingest_plugin.cpp:277`
 **Category:** performance
 **Message:** vector::push_back in loop without prior reserve()
 
 ### Function Context
 ```cpp
-  966 | >>>     for (size_t i = 0; i < contrib.size() && i < impl_->feature_names.size(); ++i) {
-  967 |             exp.feature_contributions.emplace_back(impl_->feature_names[i], contrib[i]);
-  968 |         }
-  969 |     
-  970 |         // Sort by descending contribution
-  971 |         std::sort(exp.feature_contributions.begin(), exp.feature_contributions.end(),
-  972 |                   [](const auto &a, const auto &b) { return a.second > b.second; });
-  973 |     
-  974 |         std::ostringstream ss;
-  975 |         ss << "Anomaly score " << exp.score << " via " << anomalyMethodName(impl_->cfg.method) << ". ";
-  976 |         if (!exp.feature_contributions.empty()) {
-  977 |             ss << "Top driver: " << exp.feature_contributions[0].first
-  978 |                << " (contribution=" << exp.feature_contributions[0].second << ")";
+  276 |             if (!normalized.ok || isDuplicate(normalized.document)) {
+  277 | >>>             ++report.failed_records;
+  278 |                 dead_letter_records_.push_back(DeadLetterRecord{
+  279 |                     dataset,
+  280 |                     normalized.ok ? "duplicate_or_near_duplicate" : normalized.error,
+  281 |                     rows[i]});
+  282 |                 if (config_.strict_mode) {
+  283 |                     report.errors.push_back(dead_letter_records_.back().reason);
+  284 |                     return report;
+  285 |                 }
+  286 |                 continue;
+  287 |             }
+  288 |     
+  289 |             bool inserted = false;
 ```
 
 ### Assessment
@@ -509,31 +271,26 @@ For each gap, assess as:
 
 **Notes:** _[Add your reasoning here]_
 
-## [17/50] llm - MEDIUM
-**File:** `src\llm\lora_security_validator.cpp:781`
+## [ 9/50] transaction - MEDIUM
+**File:** `src/transaction/transaction_manager.cpp:2174`
 **Category:** performance
-**Message:** Unnecessary copy: use auto& for container element access
+**Message:** vector::push_back in loop without prior reserve()
 
 ### Function Context
 ```cpp
-  776 |                 if (!tensor_info.contains("data_offsets") || !tensor_info.contains("dtype")) {
-  777 |                     continue;
-  778 |                 }
-  779 |     
-  780 |                 auto dtype = tensor_info["dtype"].get<std::string>();
-  781 | >>>             auto offsets = tensor_info["data_offsets"].get<std::vector<uint64_t>>();
-  782 |     
-  783 |                 if (offsets.size() != 2) continue;
-  784 |     
-  785 |                 // Validate offsets to prevent overflow and out-of-bounds access
-  786 |                 if (offsets[0] > offsets[1]) {
-  787 |                     spdlog::warn("Invalid tensor offsets: start {} > end {}", offsets[0], offsets[1]);
-  788 |                     continue;
-  789 |                 }
-  790 |     
-  791 |                 // Check for overflow when adding data_offset
-  792 |                 if (offsets[0] > UINT64_MAX - data_offset || offsets[1] > UINT64_MAX - data_offset) {
-  793 |                     spdlog::warn("Tensor offset would overflow: data_offset={}, offsets=[{}, {}]",
+ 2174 | >>>             {
+ 2175 |                     others.emplace_back(id, lock_manager_.getPredicateLockRanges(id));
+ 2176 |                 }
+ 2177 |             }
+ 2178 |         }
+ 2179 |     
+ 2180 |         // For each of our ranges, check for overlap with every range of every other
+ 2181 |         // active SERIALIZABLE transaction.  Overlapping predicate ranges signal a
+ 2182 |         // potential read-write conflict: both transactions have read overlapping key
+ 2183 |         // sets, so a write by either could violate serializability.
+ 2184 |         //
+ 2185 |         // Two ranges [s1, e1] and [s2, e2] overlap iff s1 <= e2 && s2 <= e1.
+ 2186 |         for (const auto& [s1, e1] : my_ranges) {
 ```
 
 ### Assessment
@@ -543,26 +300,27 @@ For each gap, assess as:
 
 **Notes:** _[Add your reasoning here]_
 
-## [18/50] server - MEDIUM
-**File:** `src\server\import_wizard_builder.cpp:268`
-**Category:** performance
-**Message:** String concatenation in loop (use std::stringstream)
+## [10/50] themis - CRITICAL
+**File:** `src/themis/license_info.cpp:209`
+**Category:** audit_logging
+**Message:** Potential PII/credential logging: email
 
 ### Function Context
 ```cpp
-  268 | >>>     html += "  for(var i=1;i<=5;i++){\n";
-  269 |         html += "    var p=document.getElementById('panel-'+i);\n";
-  270 |         html += "    var t=document.getElementById('step-tab-'+i);\n";
-  271 |         html += "    if(p) p.style.display=(i===n)?'':'none';\n";
-  272 |         html += "    if(t){\n";
-  273 |         html += "      t.className='step'+(i===n?' active':i<n?' done':'');\n";
-  274 |         html += "    }\n";
-  275 |         html += "  }\n";
-  276 |         html += "  currentStep=n;\n";
-  277 |         html += "}\n";
-  278 |     
-  279 |         // buildReview
-  280 |         html += "function buildReview(){\n";
+  208 |         if (!license.contact_email.empty()) {
+  209 | >>>         oss << "  Contact Email:      " << license.contact_email << "\n";
+  210 |         }
+  211 |         oss << "\n";
+  212 |     
+  213 |         // License Details
+  214 |         oss << "LICENSE:\n";
+  215 |         oss << "  License Key:        " << license.license_key << "\n";
+  216 |         oss << "  Edition:            " << license.edition << "\n";
+  217 |         oss << "  Issued Date:        " << license.issued_date << "\n";
+  218 |         oss << "  Expiry Date:        " << license.expiry_date << "\n";
+  219 |     
+  220 |         // Calculate days until expiry
+  221 |         int days = getDaysUntilExpiry(license);
 ```
 
 ### Assessment
@@ -572,70 +330,28 @@ For each gap, assess as:
 
 **Notes:** _[Add your reasoning here]_
 
-## [19/50] auth - HIGH
-**File:** `src\auth\rate_limiter_backend.cpp:209`
-**Category:** null_dereference
-**Message:** Potential null pointer dereference
-
-### Function Context
-```cpp
-  209 | >>>         THEMIS_WARN("RedisRateLimiterBackend::increment: command failed: {}", ctx_->errstr);
-  210 |             disconnect();
-  211 |             return 0; // fail-open
-  212 |         }
-  213 |     
-  214 |         int64_t count = 0;
-  215 |         if (reply->type == REDIS_REPLY_INTEGER) {
-  216 |             count = reply->integer;
-  217 |         } else if (reply->type == REDIS_REPLY_ERROR) {
-  218 |             THEMIS_WARN("RedisRateLimiterBackend::increment: Lua error: {}",
-  219 |                         reply->str ? reply->str : "unknown");
-  220 |         }
-  221 |     
-```
-
-### Assessment
-- [ ] **TP** - True Positive (real issue)
-- [ ] **FP** - False Positive (code is safe)
-- [ ] **?** - Uncertain / Needs investigation
-
-**Notes:** _[Add your reasoning here]_
-
-## [20/50] importers - HIGH
-**File:** `src\importers\mdm_engine.cpp:183`
+## [11/50] content - INFO
+**File:** `src/content/content_logger.cpp:52`
 **Category:** pointer_arithmetic
 **Message:** Pointer/array access without bounds validation
 
 ### Function Context
 ```cpp
-  168 |             for (const auto& match : matches) {
-  169 |                 EntityLink link;
-  170 |                 link.source_id           = src_id;
-  171 |                 link.target_id           = match.entity_id;
-  172 |                 link.link_type           = config.preferred_link_type;
-  173 |                 link.status              = (match.hybrid_score >= config.deterministic_threshold)
-  174 |                                            ? ResolutionStatus::RESOLVED
-  175 |                                            : (config.auto_resolve_conflicts
-  176 |                                               ? ResolutionStatus::RESOLVED
-  177 |                                               : ResolutionStatus::MANUAL_REVIEW);
-  178 |                 link.confidence          = match.hybrid_score;
-  179 |                 link.matching_evidence   = match.confidence_evidence;
-  180 |                 link.created_at          = now;
-  181 |                 link.created_by          = config.initiated_by;
-  182 |                 link.metadata["collection"] = collection_name;
-  183 | >>>             link.metadata["match_method"] = match.match_method;
-  184 |     
-  185 |                 if (linker_.createLink(link, options)) {
-  186 |                     if (!options.dry_run) {
-  187 |                         created.push_back(link);
-  188 |                     }
-  189 |                 }
-  190 |     
-  191 |                 // Optionally create the reverse link.
-  192 |                 if (config.create_reverse_links) {
-  193 |                     EntityLink reverse = link;
-  194 |                     std::swap(reverse.source_id, reverse.target_id);
-  195 |                     reverse.metadata["reverse"] = true;
+   50 |     ) {
+   51 |         json metadata;
+   52 | >>>     metadata["content_id"] = content_id;
+   53 |         metadata["mime_type"] = mime_type;
+   54 |         metadata["size_bytes"] = size_bytes;
+   55 |     
+   56 |         if (!filename.empty()) {
+   57 |             metadata["filename"] = pii_sanitization_ ? sanitizeFilename(filename) : filename;
+   58 |         }
+   59 |     
+   60 |         info("content.ingestion", "Content ingested", metadata);
+   61 |     }
+   62 |     
+   63 |     void ContentLogger::logValidation(
+   64 |         const std::string& content_id,
 ```
 
 ### Assessment
@@ -645,251 +361,26 @@ For each gap, assess as:
 
 **Notes:** _[Add your reasoning here]_
 
-## [21/50] query - HIGH
-**File:** `src\query\vectorized_execution.cpp:225`
-**Category:** no_retry_logic
-**Message:** database_query without retry logic — transient failures will propagate
-
-### Function Context
-```cpp
-  221 |         std::vector<VectorizedAggregation>  aggregations) {
-  222 |     
-  223 |         VectorizedQueryPlan plan;
-  224 |         plan.addAggregate(std::move(aggregations));
-  225 | >>>     return execute(rows, plan);
-  226 |     }
-  227 |     
-  228 |     Result<std::vector<nlohmann::json>> VectorizedExecutionEngine::project(
-  229 |         const std::vector<nlohmann::json>& rows,
-  230 |         std::vector<std::string>           fields) {
-  231 |     
-  232 |         VectorizedQueryPlan plan;
-  233 |         plan.addProject(std::move(fields));
-  234 |         return execute(rows, plan);
-  235 |     }
-  236 |     
-  237 |     Result<std::vector<nlohmann::json>> VectorizedExecutionEngine::sort(
-```
-
-### Assessment
-- [ ] **TP** - True Positive (real issue)
-- [ ] **FP** - False Positive (code is safe)
-- [ ] **?** - Uncertain / Needs investigation
-
-**Notes:** _[Add your reasoning here]_
-
-## [22/50] query - CRITICAL
-**File:** `src\query\aql_translator.cpp:1618`
-**Category:** data_race
-**Message:** Shared data access without lock protection
-
-### Function Context
-```cpp
- 1617 |                     if (binOp->op == BinaryOperator::Or) {
- 1618 | >>>                     auto notLeft = std::make_shared<UnaryOpExpr>(UnaryOperator::Not, binOp->left);
- 1619 |                         auto notRight = std::make_shared<UnaryOpExpr>(UnaryOperator::Not, binOp->right);
- 1620 |                         auto andExpr = std::make_shared<BinaryOpExpr>(BinaryOperator::And, notLeft, notRight);
- 1621 |     
- 1622 |                         return convertToDNF(andExpr, table, error);
- 1623 |                     }
- 1624 |     
- 1625 |                     // NOT (A AND B) = (NOT A) OR (NOT B)
- 1626 |                     if (binOp->op == BinaryOperator::And) {
- 1627 |                         auto notLeft = std::make_shared<UnaryOpExpr>(UnaryOperator::Not, binOp->left);
- 1628 |                         auto notRight = std::make_shared<UnaryOpExpr>(UnaryOperator::Not, binOp->right);
- 1629 |                         auto orExpr = std::make_shared<BinaryOpExpr>(BinaryOperator::Or, notLeft, notRight);
- 1630 |     
-```
-
-### Assessment
-- [ ] **TP** - True Positive (real issue)
-- [ ] **FP** - False Positive (code is safe)
-- [ ] **?** - Uncertain / Needs investigation
-
-**Notes:** _[Add your reasoning here]_
-
-## [23/50] performance - CRITICAL
-**File:** `src\performance\prometheus_exporter.cpp:85`
-**Category:** data_race
-**Message:** Shared data access without lock protection
-
-### Function Context
-```cpp
-   77 |                 for (const auto* m : metrics_vec) {
-   78 |                     avg_hnsw += m->hnsw_search_cycles;
-   79 |                     avg_pointer += m->pointer_passing_cycles;
-   80 |                     avg_llm += m->llm_inference_cycles;
-   81 |                     avg_cache += m->cache_miss_cycles;
-   82 |                     avg_pcie_h2d += m->pcie_host_to_device_cycles;
-   83 |                     avg_pcie_d2h += m->pcie_device_to_host_cycles;
-   84 |                     avg_total += m->total_cycles;
-   85 | >>>                 avg_cpu_eff += m->cpu_efficiency_ratio;
-   86 |                 }
-   87 |     
-   88 |                 size_t count = metrics_vec.size();
-   89 |                 avg_hnsw /= count;
-   90 |                 avg_pointer /= count;
-   91 |                 avg_llm /= count;
-   92 |                 avg_cache /= count;
-   93 |                 avg_pcie_h2d /= count;
-   94 |                 avg_pcie_d2h /= count;
-   95 |                 avg_total /= count;
-   96 |                 avg_cpu_eff /= count;
-   97 |     
-```
-
-### Assessment
-- [ ] **TP** - True Positive (real issue)
-- [ ] **FP** - False Positive (code is safe)
-- [ ] **?** - Uncertain / Needs investigation
-
-**Notes:** _[Add your reasoning here]_
-
-## [24/50] analytics - MEDIUM
-**File:** `src\analytics\anomaly_detection.cpp:1169`
-**Category:** observability
-**Message:** No latency measurement for operation
-
-### Function Context
-```cpp
- 1169 | >>> std::optional<AnomalyResult> StreamingAnomalyDetector::process(const DataPoint &point) {
- 1170 |         // ── Phase 0: read trained state under a brief shared detector lock ────────
- 1171 |         bool is_trained = false;
- 1172 |         {
- 1173 |             std::shared_lock<std::shared_mutex> dl(detector_mu_);
- 1174 |             is_trained = detector_.isTrained();
- 1175 |         }
- 1176 |     
- 1177 |         // ── Phase 1: update window under window lock only (≤ 50 µs) ──────────────
- 1178 |         bool need_initial_train = false;
- 1179 |         bool need_retrain       = false;
- 1180 |         {
- 1181 |             std::unique_lock<std::shared_mutex> lk(window_mu_);
-```
-
-### Assessment
-- [ ] **TP** - True Positive (real issue)
-- [ ] **FP** - False Positive (code is safe)
-- [ ] **?** - Uncertain / Needs investigation
-
-**Notes:** _[Add your reasoning here]_
-
-## [25/50] server - HIGH
-**File:** `src\server\http_server.cpp:11693`
-**Category:** legacy_duplication
-**Message:** Legacy/compatibility/deprecation marker detected (review removal/containment plan).
-
-### Function Context
-```cpp
-11685 |                                 "(user={}, from_seq={}, prefix='{}')",
-11686 |                                 decision.user_id, decision.from_sequence,
-11687 |                                 decision.key_prefix);
-11688 |     
-11689 |                     auto ws_session = std::make_shared<WebSocketSession>(
-11690 |                         std::move(socket_), server_);
-11691 |                     ws_session->setRequestPath(ws_path);
-11692 |                     // Pre-configure CDC subscription from URL parameters for the
-11693 | >>>                 // legacy /v2/changes protocol only.  The new /v2/cdc/stream
-11694 |                     // endpoint receives subscriptions via JSON frames after connect.
-11695 |                     if (ws_path == "/v2/changes") {
-11696 |                         ws_session->subscribeToCDC(decision.from_sequence,
-11697 |                                                    decision.key_prefix);
-11698 |                     }
-11699 |                     if (server_->websocket_manager_) {
-11700 |                         server_->websocket_manager_->addSession(ws_session);
-11701 |                     }
-11702 |                     ws_session->run(std::move(request_));
-11703 |                     return;
-11704 |                 }
-11705 |     
-```
-
-### Assessment
-- [ ] **TP** - True Positive (real issue)
-- [ ] **FP** - False Positive (code is safe)
-- [ ] **?** - Uncertain / Needs investigation
-
-**Notes:** _[Add your reasoning here]_
-
-## [26/50] governance - CRITICAL
-**File:** `src\governance\policy_manager.cpp:653`
-**Category:** smart_ptr_misuse
-**Message:** Raw new without immediate wrapping in smart pointer
-
-### Function Context
-```cpp
-  653 | >>>     THEMIS_INFO("Rolled back rule {} to version {} (new version: {})", rule_id, version, restored.version);
-  654 |         return true;
-  655 |     }
-  656 |     
-  657 |     bool PolicyManager::rollbackToPreviousVersion(const std::string &rule_id, const std::string &modified_by) {
-  658 |         std::string latest = version_history_.getLastRecordedVersion(rule_id);
-  659 |         if (latest.empty()) {
-  660 |             THEMIS_WARN("No version history found for rule {}", rule_id);
-  661 |             return false;
-  662 |         }
-  663 |         return rollbackToVersion(rule_id, latest, modified_by);
-  664 |     }
-  665 |     
-```
-
-### Assessment
-- [ ] **TP** - True Positive (real issue)
-- [ ] **FP** - False Positive (code is safe)
-- [ ] **?** - Uncertain / Needs investigation
-
-**Notes:** _[Add your reasoning here]_
-
-## [27/50] rag - MEDIUM
-**File:** `src\rag\continuous_learning_orchestrator.cpp:1122`
-**Category:** string_concat_loop
-**Message:** String concatenation in loop — O(n²) behavior
-
-### Function Context
-```cpp
- 1121 |             for (const char c : s) {
- 1122 | >>>             if      (c == '"')  out += "\\\"";
- 1123 |                 else if (c == '\\') out += "\\\\";
- 1124 |                 else if (c == '\n') out += "\\n";
- 1125 |                 else                out += c;
- 1126 |             }
- 1127 |             return out;
- 1128 |         };
- 1129 |     
- 1130 |         static const std::unordered_map<int, std::string> kPhaseNames{
- 1131 |             {static_cast<int>(LoopPhase::LOOP_1_HNSW_QUERY),   "LOOP_1_HNSW_QUERY"},
- 1132 |             {static_cast<int>(LoopPhase::LOOP_2_WORKLOAD),      "LOOP_2_WORKLOAD"},
- 1133 |             {static_cast<int>(LoopPhase::LOOP_3_SCHEMA_INDEX),  "LOOP_3_SCHEMA_INDEX"},
- 1134 |             {static_cast<int>(LoopPhase::LOOP_4_RLAIF),         "LOOP_4_RLAIF"},
-```
-
-### Assessment
-- [ ] **TP** - True Positive (real issue)
-- [ ] **FP** - False Positive (code is safe)
-- [ ] **?** - Uncertain / Needs investigation
-
-**Notes:** _[Add your reasoning here]_
-
-## [28/50] auth - MEDIUM
-**File:** `src\auth\rate_limiter_backend.cpp:350`
+## [12/50] storage - INFO
+**File:** `src/storage/tensor_train_decomposer.cpp:203`
 **Category:** uncaught_exception
 **Message:** Generic catch(...) — specific exception types ignored
 
 ### Function Context
 ```cpp
-  350 | >>>         } catch (...) {
-  351 |             }
-  352 |         }
-  353 |         return redisFallbackBackend().getCount(key, window_seconds);
-  354 |     }
-  355 |     
-  356 |     void RedisRateLimiterBackend::reset(const std::string& key)
-  357 |     {
-  358 |         ResetFn fn;
-  359 |         {
-  360 |             std::lock_guard<std::mutex> lk(s_redis_rate_bridge_mutex);
-  361 |             fn = s_reset_fn;
-  362 |         }
+  203 | >>>     } catch (...) {
+  204 |             THEMIS_WARN("tensor_train_decomposer: unhandled exception caught");
+  205 |             return std::nullopt;
+  206 |         }
+  207 |     }
+  208 |     
+  209 |     // ============================================================================
+  210 |     // Internal SVD (Golub-Reinsch bidiagonalisation, no external deps)
+  211 |     // ============================================================================
+  212 |     
+  213 |     namespace {
+  214 |     
+  215 |     // Householder vector for a column segment starting at index 0 of `col`.
 ```
 
 ### Assessment
@@ -899,26 +390,27 @@ For each gap, assess as:
 
 **Notes:** _[Add your reasoning here]_
 
-## [29/50] server - MEDIUM
-**File:** `src\server\llm_api_handler.cpp:2127`
+## [13/50] security - INFO
+**File:** `src/security/vault_key_provider.cpp:236`
 **Category:** uncaught_exception
-**Message:** Generic catch(...) — specific exception types ignored
+**Message:** Exception thrown without try/catch context
 
 ### Function Context
 ```cpp
- 2127 | >>>             } catch (...) {
- 2128 |                     spdlog::warn(
- 2129 |                         "LLMApiHandler::handleOpenAIChatCompletions non-stream failed with unknown error: model='{}'",
- 2130 |                         model_id.empty() ? std::string{"default"} : model_id);
- 2131 |                     logCurrentException("LLMApiHandler::handleOpenAIChatCompletions non-streaming");
- 2132 |                     auto err = llm::OpenAICompatAdapter::buildError("Inference failed", "server_error");
- 2133 |                     return createJsonResponse(err, http::status::internal_server_error);
- 2134 |                 }
- 2135 |     
- 2136 |                 json response_json = llm::OpenAICompatAdapter::buildResponse(
- 2137 |                     llm_response, model_id, completion_id);
- 2138 |     
- 2139 |                 spdlog::info(
+  235 |             } else if (http_code == 403) {
+  236 | >>>             throw KeyOperationException("Vault authentication failed (403 Forbidden)", (int)http_code, response, false);
+  237 |             } else if (http_code >= 500) {
+  238 |                 throw KeyOperationException("Vault server error (HTTP " + std::to_string(http_code) + ")", (int)http_code, response, true);
+  239 |             } else if (http_code >= 400) {
+  240 |                 throw KeyOperationException("Vault request failed (HTTP " + std::to_string(http_code) + "): " + response, (int)http_code, response, false);
+  241 |             }
+  242 |     
+  243 |             return response;
+  244 |         }
+  245 |     
+  246 |         void evictExpiredCache() {
+  247 |             auto now = std::chrono::duration_cast<std::chrono::milliseconds>(
+  248 |                 std::chrono::system_clock::now().time_since_epoch()
 ```
 
 ### Assessment
@@ -928,26 +420,27 @@ For each gap, assess as:
 
 **Notes:** _[Add your reasoning here]_
 
-## [30/50] llm - HIGH
-**File:** `src\llm\ethics_aware_confidence_detector.cpp:404`
-**Category:** o_n_squared
-**Message:** O(n²) pattern: find() on vector inside loop
+## [14/50] auth - INFO
+**File:** `src/auth/rocksdb_token_blacklist.cpp:104`
+**Category:** copy_overhead
+**Message:** push_back in loop — consider pre-allocating with reserve()
 
 ### Function Context
 ```cpp
-  404 | >>>     for (const auto& word : impl_->hedge_words_en) {
-  405 |             if (text_lower.find(word) != std::string::npos) {
-  406 |                 detected.push_back(word);
-  407 |             }
-  408 |         }
-  409 |     
-  410 |         // Check German hedge words
-  411 |         for (const auto& word : impl_->hedge_words_de) {
-  412 |             if (text_lower.find(word) != std::string::npos) {
-  413 |                 detected.push_back(word);
-  414 |             }
-  415 |         }
-  416 |     
+  103 |         if (!has_blacklist_cf) {
+  104 | >>>         existing_cfs.push_back(config_.column_family);
+  105 |         }
+  106 |     
+  107 |         std::vector<rocksdb::ColumnFamilyDescriptor> cf_descs;
+  108 |         cf_descs.reserve(existing_cfs.size());
+  109 |         for (const auto &cf : existing_cfs) {
+  110 |             cf_descs.emplace_back(cf, rocksdb::ColumnFamilyOptions{});
+  111 |         }
+  112 |     
+  113 |         std::vector<rocksdb::ColumnFamilyHandle *> cf_handles;
+  114 |         rocksdb::Status s = rocksdb::DB::Open(rocksdb::DBOptions{opts}, config_.db_path, cf_descs, &cf_handles, &db_);
+  115 |         if (!s.ok()) {
+  116 |             throw std::runtime_error("RocksDBTokenBlacklist: failed to open DB at '" + config_.db_path
 ```
 
 ### Assessment
@@ -957,34 +450,27 @@ For each gap, assess as:
 
 **Notes:** _[Add your reasoning here]_
 
-## [31/50] training - MEDIUM
-**File:** `src\training\provenance_tracker.cpp:342`
-**Category:** determinism
-**Message:** Non-deterministic unordered_map/set iteration order
+## [15/50] auth - INFO
+**File:** `src/auth/ldap_authenticator.cpp:319`
+**Category:** copy_overhead
+**Message:** push_back in loop — consider pre-allocating with reserve()
 
 ### Function Context
 ```cpp
-  334 |         const std::vector<std::string>& auditLog() const {
-  335 |             return audit_log_;
-  336 |         }
-  337 |     
-  338 |     private:
-  339 |         ProvenanceTrackerConfig                           config_;
-  340 |         std::string                                       db_connection_;
-  341 |         QueryEngine*                                      query_engine_;   ///< non-owning; nullptr = offline/test
-  342 | >>>     std::unordered_map<std::string, ProvenanceRecord> store_;
-  343 |         std::vector<std::string>                          audit_log_;
-  344 |     
-  345 |         // Build an AQL query string from a template by substituting @placeholder tokens.
-  346 |         // Matches the pattern used in auto_labeler.cpp::buildQuery().
-  347 |         static std::string buildQuery(
-  348 |             const std::string& tmpl,
-  349 |             const std::vector<std::pair<std::string, std::string>>& bindings)
-  350 |         {
-  351 |             std::string query = tmpl;
-  352 |             for (const auto& [placeholder, value] : bindings) {
-  353 |                 std::string token = "@" + placeholder;
-  354 |                 size_t pos = 0;
+  318 |         if (roles.empty() && !config_.default_role.empty()) {
+  319 | >>>         roles.push_back(config_.default_role);
+  320 |         }
+  321 |     
+  322 |         return roles;
+  323 |     }
+  324 |     
+  325 |     std::string LDAPAuthenticator::buildGroupSearchFilter(const std::string& dn,
+  326 |                                                           const std::string& username) const
+  327 |     {
+  328 |         std::string filter = config_.group_search_filter;
+  329 |         substitutePreEscapedPlaceholderValue(filter, "{dn}", escapeLDAPFilterValue(dn));
+  330 |         substitutePreEscapedPlaceholderValue(filter, "{username}", escapeLDAPFilterValue(username));
+  331 |         return filter;
 ```
 
 ### Assessment
@@ -994,30 +480,26 @@ For each gap, assess as:
 
 **Notes:** _[Add your reasoning here]_
 
-## [32/50] llm - MEDIUM
-**File:** `src\llm\embedded_llm.cpp:238`
-**Category:** llm_ai_safety
-**Message:** LLM inference without token limit or timeout (DOS risk)
+## [16/50] index - INFO
+**File:** `src/index/ann_frontdoor.cpp:203`
+**Category:** copy_overhead
+**Message:** push_back in loop — consider pre-allocating with reserve()
 
 ### Function Context
 ```cpp
-  234 |             if (generate_full_fn_) {
-  235 |                 return generate_full_fn_(request);
-  236 |             }
-  237 |         }
-  238 | >>>     return wrapper_->generate(request);
-  239 |     }
-  240 |     
-  241 |     // ═══════════════════════════════════════════════════════════
-  242 |     // Utility methods
-  243 |     // ═══════════════════════════════════════════════════════════
-  244 |     
-  245 |     bool EmbeddedLLM::isReady() const {
-  246 |         {
-  247 |             std::lock_guard<std::mutex> lock(callback_mutex_);
-  248 |             if (generate_full_fn_ || embed_fn_) {
-  249 |                 return true;
-  250 |             }
+  203 | >>>                 shard_list.push_back({scope, backend});
+  204 |                 }
+  205 |             }
+  206 |     
+  207 |             std::vector<std::string> pruned = pruneShardsAwareCost(shard_list, config_);
+  208 |             if (!pruned.empty()) {
+  209 |                 plan.pruned_shard_ids = pruned;
+  210 |                 plan.strategy = AnnStrategy::DISTRIBUTED;
+  211 |                 plan.distributed = true;
+  212 |                 plan.reason = "shard-aware query routed to distributed ANN fan-out (" +
+  213 |                               std::to_string(pruned.size()) + "/" +
+  214 |                               std::to_string(shard_list.size()) + " shards after cost-aware pruning)";
+  215 |                 return plan;
 ```
 
 ### Assessment
@@ -1027,26 +509,30 @@ For each gap, assess as:
 
 **Notes:** _[Add your reasoning here]_
 
-## [33/50] importers - HIGH
-**File:** `src\importers\s3_importer.cpp:613`
+## [17/50] query - INFO
+**File:** `src/query/aql_mutation_validator.cpp:158`
 **Category:** uninitialized_access
 **Message:** Container element access before initialization
 
 ### Function Context
 ```cpp
-  613 | >>>         THEMIS_WARN("S3 import error [{}]: {} ({})", location, message,
-  614 |                         static_cast<uint32_t>(code));
-  615 |         }
-  616 |     }
-  617 |     
-  618 |     void S3Importer::emitMetric(const ImportOptions& options,
-  619 |                                   const std::string& metric,
-  620 |                                   const std::map<std::string, std::string>& labels,
-  621 |                                   double value) const {
-  622 |         if (options.metrics_callback)
-  623 |             options.metrics_callback(metric, labels, value);
-  624 |     }
-  625 |     
+  154 |         if (!isValidCollectionName(node.collection)) {
+  155 |             result.addError(
+  156 |                 "REMOVE: invalid or empty collection name '" + node.collection + "'. "
+  157 |                 "Collection names must start with a letter or underscore and contain "
+  158 | >>>             "only [A-Za-z0-9_], max 256 characters.");
+  159 |         }
+  160 |     
+  161 |         // No filter is a warning (could remove the entire collection)
+  162 |         if (!node.filter && !node.doc_expr) {
+  163 |             result.addWarning(
+  164 |                 "REMOVE: no FILTER or document expression provided. "
+  165 |                 "This may remove the entire collection '" + node.collection + "'. "
+  166 |                 "Add a FILTER predicate to limit the scope of deletion.");
+  167 |         }
+  168 |     
+  169 |         return result;
+  170 |     }
 ```
 
 ### Assessment
@@ -1056,26 +542,26 @@ For each gap, assess as:
 
 **Notes:** _[Add your reasoning here]_
 
-## [34/50] server - MEDIUM
-**File:** `src\server\shard_repair_api_handler.cpp:160`
-**Category:** hardcoded_path
-**Message:** Hardcoded path separator — not portable
+## [18/50] network - INFO
+**File:** `src/network/quic_server.cpp:318`
+**Category:** observability
+**Message:** Service initialization without nearby health/status handling
 
 ### Function Context
 ```cpp
-  160 | >>>          << "async function load(){const res=await fetch('/v1/admin/repair/health');const data=await res.json();raw.textContent=JSON.stringify(data,null,2);summary.innerHTML='';const cards=[['Status',data.status],['Engine',data.engine_running?'running':'stopped'],['Scans',data.metrics?.total_scans ?? 0],['Repairs OK',data.metrics?.total_repairs_successful ?? 0],['Repairs Failed',data.metrics?.total_repairs_failed ?? 0],['Active Jobs',(data.active_jobs||[]).length]];cards.forEach(([label,val])=>{const el=document.createElement('div');el.className='card';el.innerHTML=`<div>${label}</div><div class=\"metric\">${val}</div>`;summary.appendChild(el);});shards.innerHTML=(data.shards||[]).map(s=>`<tr><td>${s.shard_id||'-'}</td><td>${badge(s.status||'healthy')}</td><td>${s.documents_scanned}</td><td>${s.documents_healthy}</td><td>${s.documents_degraded}</td><td>${s.documents_unrecoverable}</td><td>${s.last_error||''}</td></tr>`).join('');jobs.innerHTML=(data.active_jobs||[]).map(j=>`<tr><td>${j.job_id}</td><td>${j.shard_id||'-'}</td><td>${j.document_id||'-'}</td><td>${j.is_full_scan?'yes':'no'}</td><td>${fmtTime(j.submitted_at_unix_ms)}</td><td>${j.completed?'yes':'no'}</td><td>${j.success?'yes':'no'}</td></tr>`).join('');}"
-  161 |              << "async function post(url,body){const res=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body||{})});const data=await res.json();if(!res.ok){throw new Error(data.message||data.error||'request failed');}return data;}"
-  162 |              << "document.getElementById('refreshBtn').onclick=()=>load().catch(e=>setFlash(e.message));"
-  163 |              << "document.getElementById('scanBtn').onclick=async()=>{const r=await post('/v1/admin/repair/scan',{});setFlash(`Full scan queued: ${r.job_id}`);load();};"
-  164 |              << "document.getElementById('repairBtn').onclick=async()=>{const shardId=document.getElementById('shardId').value.trim();const r=await post('/v1/admin/repair',{shard_id:shardId});setFlash(`Repair queued: ${r.job_id}`);load();};"
-  165 |              << "load().catch(e=>{raw.textContent=e.message;setFlash(e.message);});setInterval(()=>load().catch(()=>{}),10000);"
-  166 |              << "</script></main></body></html>";
-  167 |         return html.str();
-  168 |     }
-  169 |     
-  170 |     } // namespace
-  171 |     
-  172 |     ShardRepairApiHandler::ShardRepairApiHandler(
+  318 | >>> void QUICServer::start() {
+  319 |         if (running_.load(std::memory_order_acquire)) {
+  320 |             return;
+  321 |         }
+  322 |     
+  323 |         // Validate congestion control setting before binding.
+  324 |         if (!isValidCongestionControl(config_.congestion_control)) {
+  325 |             THEMIS_ERROR("[QUICServer] Unknown congestion control '{}'; "
+  326 |                          "supported: 'bbr', 'cubic'",
+  327 |                          config_.congestion_control);
+  328 |             return;
+  329 |         }
+  330 |     
 ```
 
 ### Assessment
@@ -1085,55 +571,26 @@ For each gap, assess as:
 
 **Notes:** _[Add your reasoning here]_
 
-## [35/50] llm - CRITICAL
-**File:** `src\llm\lora_framework\gpu_lora_layers.cpp:431`
-**Category:** llm_ai_safety
-**Message:** User input in prompt without sanitization (injection risk)
+## [19/50] core - HIGH
+**File:** `src/core/concerns/redis_cache.cpp:972`
+**Category:** performance
+**Message:** Mutex lock acquired per iteration (move outside loop)
 
 ### Function Context
 ```cpp
-  402 |                 GPUTensor grad_input({batch_size, in_dim_}, device_);
-  403 |     
-  404 |                 // Get raw pointers for GPU kernel
-  405 |                 // Safety: GPUTensor guarantees proper float alignment for GPU memory
-  406 |                 // All GPU tensors (including gradients) are allocated with hipMalloc
-  407 |                 assert(performance::is_aligned<alignof(float)>(input_for_backward.data()) &&
-  408 |                        "Input tensor must be float-aligned for GPU operations");
-  409 |                 assert(performance::is_aligned<alignof(float)>(B_->data()) &&
-  410 |                        "B tensor must be float-aligned for GPU operations");
-  411 |                 assert(performance::is_aligned<alignof(float)>(A_->data()) &&
-  412 |                        "A tensor must be float-aligned for GPU operations");
-  413 |                 assert(performance::is_aligned<alignof(float)>(grad_output.data()) &&
-  414 |                        "Grad output tensor must be float-aligned for GPU operations");
-  415 |                 assert(performance::is_aligned<alignof(float)>(A_->grad->data()) &&
-  416 |                        "Grad A tensor must be float-aligned for GPU operations");
-  417 |                 assert(performance::is_aligned<alignof(float)>(B_->grad->data()) &&
-  418 |                        "Grad B tensor must be float-aligned for GPU operations");
-  419 |                 assert(performance::is_aligned<alignof(float)>(grad_input.data()) &&
-  420 |                        "Grad input tensor must be float-aligned for GPU operations");
-  421 |     
-  422 |                 const float* input_ptr = reinterpret_cast<const float*>(input_for_backward.data());
-  423 |                 const float* B_ptr = reinterpret_cast<const float*>(B_->data());
-  424 |                 const float* A_ptr = reinterpret_cast<const float*>(A_->data());
-  425 |                 const float* grad_output_ptr = reinterpret_cast<const float*>(grad_output.data());
-  426 |                 float* grad_A_ptr = reinterpret_cast<float*>(A_->grad->data());
-  427 |                 float* grad_B_ptr = reinterpret_cast<float*>(B_->grad->data());
-  428 |                 float* grad_input_ptr = reinterpret_cast<float*>(grad_input.data());
-  429 |     
-  430 |                 hipError_t err = hip::fused::launch_fused_lora_backward(
-  431 | >>>                 input_ptr, B_ptr, A_ptr, grad_output_ptr,
-  432 |                     grad_A_ptr, grad_B_ptr, grad_input_ptr,
-  433 |                     batch_size, in_dim_, rank_, out_dim_, scaling_);
-  434 |     
-  435 |                 if (err == hipSuccess) {
-  436 |                     return grad_input;
-  437 |                 }
-  438 |                 // Fall back to unfused on error
-  439 |                 spdlog::warn("Fused HIP backward kernel failed, falling back to unfused");
-  440 |             }
-  441 |     #endif
-  442 |         }
-  443 |     
+  972 | >>>     for (auto &nc : nodes_) {
+  973 |             std::lock_guard<std::mutex> lock(nc->mutex);
+  974 |             closeSocket(nc->fd);
+  975 |             nc->ok = false;
+  976 |         }
+  977 |     }
+  978 |     
+  979 |     ProbeResult RedisCache::isHealthy() const {
+  980 |         if (nodes_.empty()) {
+  981 |             return ProbeResult::unhealthy("RedisCache: no nodes configured");
+  982 |         }
+  983 |         for (auto &nc : nodes_) {
+  984 |             auto reply = sendCommand(*nc, {"PING"});
 ```
 
 ### Assessment
@@ -1143,29 +600,595 @@ For each gap, assess as:
 
 **Notes:** _[Add your reasoning here]_
 
-## [36/50] llm - CRITICAL
-**File:** `src\llm\lora_framework\gpu_embedding_layer.cpp:49`
-**Category:** llm_ai_safety
-**Message:** Model loading without integrity verification (poisoning risk)
+## [20/50] analytics - HIGH
+**File:** `src/analytics/model_serving.cpp:52`
+**Category:** db_connection_leak
+**Message:** Resource acquired but not released — potential leak
 
 ### Function Context
 ```cpp
-   46 |         spdlog::info("Creating GPUEmbeddingLayer: vocab_size={}, hidden_dim={}, device={}",
-   47 |                      vocab_size, hidden_dim, static_cast<int>(device.type));
-   48 |     
-   49 | >>>     // Upload embedding weights to GPU
-   50 |         std::vector<float> weights_vec(embedding_weights, embedding_weights + vocab_size * hidden_dim);
-   51 |         embedding_weights_.upload(weights_vec);
-   52 |     
-   53 |         spdlog::debug("GPUEmbeddingLayer: Uploaded {} MB to GPU",
-   54 |                       (vocab_size * hidden_dim * sizeof(float)) / (1024.0 * 1024.0));
-   55 |     }
-   56 |     
-   57 |     GPUEmbeddingLayer::~GPUEmbeddingLayer() = default;
+   31 |      *     → InferenceResult{class_label, probabilities} + latency update
+   32 |      *   ModelServingEngine::predictBatch(name, version, points)
+   33 |      *     → per-point predict() loop; no batch-optimized path currently
+   34 |      *
+   35 |      * Error paths:
+   36 |      *   - `std::invalid_argument`: unknown model name/version in predict* or
+   37 |      *     unregister calls.
+   38 |      *   - `std::runtime_error`: inference failure inside AutoMLModel::predict()
+   39 |      *     propagates to caller; health metrics record the failure.
+   40 |      *   - `std::invalid_argument`: duplicate registration (same name+version)
+   41 |      *     when called via loadModel() with existing key.
+   42 |      *
+   43 |      * Cross-links:
+   44 |      *   include/analytics/model_serving.h — ModelServingEngine public API
+   45 |      *   src/analytics/ml_serving.cpp — external ONNX/TF Serving backend
+   46 |      *   tests/analytics/test_model_serving.cpp — registry, inference, health metrics
+   47 |      *   - Each registered model is stored in an Entry that bundles the
+   48 |      *     AutoMLModel, its ModelInfo, and a mutable ModelHealthMetrics.
+   49 |      *   - Entries are keyed by "name:version" in a std::unordered_map.
+   50 |      *   - A std::shared_mutex protects the map: read operations (predict*,
+   51 |      *     list*, health*) acquire a shared lock; write operations
+   52 | >>>  *     (register, unregister, load) acquire an exclusive lock.
+   53 |      *
+   54 |      * Latency tracking:
+   55 |      *   - A fixed-size circular buffer (deque capped to latency_window)
+   56 |      *     stores the duration of each inference call in milliseconds.
+   57 |      *   - avg_latency_ms is updated with an incremental running mean.
+   58 |      *   - p99_latency_ms is recomputed from the sorted window on every
+   59 |      *     observation (acceptable cost for latency_window ≤ 1000).
+   60 |      */
+   61 |     
+   62 |     #include "analytics/model_serving.h"
+   63 |     
+   64 |     #include <deque>
+```
+
+### Assessment
+- [ ] **TP** - True Positive (real issue)
+- [ ] **FP** - False Positive (code is safe)
+- [ ] **?** - Uncertain / Needs investigation
+
+**Notes:** _[Add your reasoning here]_
+
+## [21/50] aql - HIGH
+**File:** `src/aql/llm_aql_handler.cpp:1611`
+**Category:** legacy_duplication
+**Message:** Legacy/compatibility/deprecation marker detected (review removal/containment plan).
+
+### Function Context
+```cpp
+ 1608 |             return {true, ""};
+ 1609 |         }
+ 1610 |     
+ 1611 | >>>     // Fallback: String-level validation via AQLQueryValidator (v1.x compatibility)
+ 1612 |         AQLQueryValidator validator;
+ 1613 |         auto vresult = validator.validate(aql_query);
+ 1614 |     
+ 1615 |         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
+ 1616 |             std::chrono::steady_clock::now() - start_time);
+ 1617 |     
+ 1618 |         if (vresult.hasErrors()) {
+ 1619 |             auto err_it = std::find_if(vresult.issues.begin(), vresult.issues.end(),
+ 1620 |                                        [](const ValidationIssue &i) {
+ 1621 |                                            return i.severity == ValidationIssue::Severity::ERROR;
+ 1622 |                                        });
+ 1623 |             std::string error_msg = (err_it != vresult.issues.end()) ? err_it->message : "unknown validation error";
+```
+
+### Assessment
+- [ ] **TP** - True Positive (real issue)
+- [ ] **FP** - False Positive (code is safe)
+- [ ] **?** - Uncertain / Needs investigation
+
+**Notes:** _[Add your reasoning here]_
+
+## [22/50] cdc - INFO
+**File:** `src/cdc/dead_letter_queue.cpp:78`
+**Category:** no_health_check
+**Message:** Status field defined but no initialization or health check
+
+### Function Context
+```cpp
+   73 |     uint64_t DeadLetterQueue::nextSequence() {
+   74 |         std::lock_guard<std::mutex> lock(sequence_mutex_);
+   75 |     
+   76 |         std::string seq_value;
+   77 |         rocksdb::ReadOptions read_opts;
+   78 | >>>     rocksdb::Status s;
+   79 |     
+   80 |         if (cf_) {
+   81 |             s = db_->Get(read_opts, cf_, SEQUENCE_KEY, &seq_value);
+   82 |         } else {
+   83 |             s = db_->Get(read_opts, SEQUENCE_KEY, &seq_value);
+   84 |         }
+   85 |     
+   86 |         uint64_t next_seq = 1;
+   87 |         if (s.ok() && !seq_value.empty()) {
+   88 |             next_seq = std::stoull(seq_value) + 1;
+   89 |         }
+   90 |     
+```
+
+### Assessment
+- [ ] **TP** - True Positive (real issue)
+- [ ] **FP** - False Positive (code is safe)
+- [ ] **?** - Uncertain / Needs investigation
+
+**Notes:** _[Add your reasoning here]_
+
+## [23/50] llm - INFO
+**File:** `src/llm/explanation_generator.cpp:294`
+**Category:** range_temporary
+**Message:** Range-for on temporary container — references may be invalid
+
+### Function Context
+```cpp
+  294 | >>>         for (size_t i = 0; i < std::min(alternatives.size(), size_t(3)); i++) {
+  295 |                 out << "  " << (i + 1) << ". " << alternatives[i] << "\n";
+  296 |             }
+  297 |         }
+  298 |     
+  299 |         return out.str();
+  300 |     }
+  301 |     
+  302 |     std::string ExplanationGenerator::generateComplianceExplanation(
+  303 |         const std::string& query,
+  304 |         const std::string& response,
+  305 |         const std::string& model_info,
+  306 |         const std::vector<std::string>& reasoning_steps,
+```
+
+### Assessment
+- [ ] **TP** - True Positive (real issue)
+- [ ] **FP** - False Positive (code is safe)
+- [ ] **?** - Uncertain / Needs investigation
+
+**Notes:** _[Add your reasoning here]_
+
+## [24/50] storage - INFO
+**File:** `src/storage/blob_backend_s3.cpp:141`
+**Category:** no_retry_logic
+**Message:** http_call without retry logic — transient failures will propagate
+
+### Function Context
+```cpp
+  119 |         Result<BlobRef> put(const std::string& blob_id, const std::vector<uint8_t>& data) override {
+  120 |             std::lock_guard<std::mutex> lock(mutex_);
+  121 |     
+  122 |             std::string s3_key = getS3Key(blob_id);
+  123 |     
+  124 |             // Create PutObject request
+  125 |             Aws::S3::Model::PutObjectRequest request;
+  126 |             request.SetBucket(bucket_);
+  127 |             request.SetKey(s3_key);
+  128 |             request.SetServerSideEncryption(Aws::S3::Model::ServerSideEncryption::AES256);
+  129 |     
+  130 |             // Create stream from data
+  131 |             // prompt_injection scanner alert: this writes raw binary blob bytes to
+  132 |             // an in-memory AWS StringStream — no LLM prompt involved; false positive.
+  133 |             // no_timeout scanner alert: StringStream::write is an in-memory operation;
+  134 |             // the AWS SDK applies request-level timeouts when PutObject is called.
+  135 |             // no_retry_logic scanner alerts (lines 128, 164, 222, 249): all S3 operations
+  136 |             // (PutObject, GetObject, DeleteObject, HeadObject) are issued through
+  137 |             // client_ which is constructed with DefaultRetryStrategy(3) — the SDK
+  138 |             // transparently retries transient errors — false positives.
+  139 |             auto input_stream = Aws::MakeShared<Aws::StringStream>("PutObjectInputStream");
+  140 |             input_stream->write(reinterpret_cast<const char*>(data.data()), data.size());
+  141 | >>>         request.SetBody(input_stream);
+  142 |             request.SetContentLength(data.size());
+  143 |     
+  144 |             // Upload to S3
+  145 |             auto outcome = client_->PutObject(request);
+  146 |     
+  147 |             if (!outcome.IsSuccess()) {
+  148 |                 auto error = outcome.GetError();
+  149 |                 THEMIS_ERROR("S3 PutObject failed: {} - {}",
+  150 |                             error.GetExceptionName(), error.GetMessage());
+  151 |                 return Err<BlobRef>(
+  152 |                     errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+  153 |                     "S3 upload failed: " + error.GetMessage()
+```
+
+### Assessment
+- [ ] **TP** - True Positive (real issue)
+- [ ] **FP** - False Positive (code is safe)
+- [ ] **?** - Uncertain / Needs investigation
+
+**Notes:** _[Add your reasoning here]_
+
+## [25/50] updates - INFO
+**File:** `src/updates/preflight_health_check.cpp:250`
+**Category:** abi_safety
+**Message:** Bitfield layout is implementation-defined across compilers; prefer std::bitset<N> or explicit bitmask constants
+
+### Function Context
+```cpp
+  248 |         for (size_t i = 0; i < len; ++i) {
+  249 |             const int va = (i < pa.size()) ? pa[i] : 0;
+  250 | >>>         const int vb = (i < pb.size()) ? pb[i] : 0;
+  251 |             if (va != vb) {
+  252 |                 return va - vb;
+  253 |             }
+  254 |         }
+  255 |         return 0;
+  256 |     }
+  257 |     
+  258 |     // ---------------------------------------------------------------------------
+  259 |     // PreflightHealthChecker
+  260 |     // ---------------------------------------------------------------------------
+  261 |     
+  262 |     void PreflightHealthChecker::addCheck(std::unique_ptr<IHealthCheck> check) {
+```
+
+### Assessment
+- [ ] **TP** - True Positive (real issue)
+- [ ] **FP** - False Positive (code is safe)
+- [ ] **?** - Uncertain / Needs investigation
+
+**Notes:** _[Add your reasoning here]_
+
+## [26/50] acceleration - MEDIUM
+**File:** `src/acceleration/graphics_backends.cpp:2049`
+**Category:** abi_safety
+**Message:** Struct field order (bool before uint32_t) may create implicit padding; reorder fields by descending alignment to eliminate waste
+
+### Function Context
+```cpp
+ 2049 | >>> class OpenGLVectorBackend::OpenGLVectorBackendImpl {
+ 2050 |     public:
+ 2051 |     #ifdef THEMIS_ENABLE_OPENGL
+ 2052 |         // Library handles
+ 2053 |         void* libEGL_ = nullptr;
+ 2054 |         void* libGL_  = nullptr;
+ 2055 |     
+ 2056 |         // EGL handles
+ 2057 |         EGL_Display eglDisplay_ = nullptr;
+ 2058 |         EGL_Context eglContext_ = nullptr;
+ 2059 |     
+ 2060 |         // EGL function pointers
+ 2061 |         PFN_eglGetDisplay       pfnEglGetDisplay       = nullptr;
+```
+
+### Assessment
+- [ ] **TP** - True Positive (real issue)
+- [ ] **FP** - False Positive (code is safe)
+- [ ] **?** - Uncertain / Needs investigation
+
+**Notes:** _[Add your reasoning here]_
+
+## [27/50] server - INFO
+**File:** `src/server/http_server.cpp:7112`
+**Category:** null_dereference
+**Message:** Potential null pointer dereference
+
+### Function Context
+```cpp
+ 7097 |                         id.substr(id.size() - sv.size()) == sv) {
+ 7098 |                         id = id.substr(0, id.size() - sv.size());
+ 7099 |                         break;
+ 7100 |                     }
+ 7101 |                 }
+ 7102 |                 const auto route_method = req.method();
+ 7103 |                 const bool has_invoke  = fn_path.size() > 7 &&
+ 7104 |                     fn_path.substr(fn_path.size() - 7) == "/invoke";
+ 7105 |                 const bool has_versions = fn_path.size() > 9 &&
+ 7106 |                     fn_path.substr(fn_path.size() - 9) == "/versions";
+ 7107 |                 if (has_invoke)
+ 7108 |                     response = serverless_fn_handler_->handleInvoke(req, id);
+ 7109 |                 else if (has_versions)
+ 7110 |                     response = serverless_fn_handler_->handleVersions(req, id);
+ 7111 |                 else if (route_method == http::verb::get)
+ 7112 | >>>                 response = serverless_fn_handler_->handleGet(req, id);
+ 7113 |                 else if (route_method == http::verb::put)
+ 7114 |                     response = serverless_fn_handler_->handleUpdate(req, id);
+ 7115 |                 else
+ 7116 |                     response = serverless_fn_handler_->handleDelete(req, id);
+ 7117 |                 break;
+ 7118 |             }
+ 7119 |     
+ 7120 |             // ── Async job API ────────────────────────────────────────────────────
+ 7121 |             case Route::AsyncJobSubmitPost:
+ 7122 |                 if (async_job_api_)
+ 7123 |                     response = async_job_api_->handleSubmit(req);
+ 7124 |                 else
+```
+
+### Assessment
+- [ ] **TP** - True Positive (real issue)
+- [ ] **FP** - False Positive (code is safe)
+- [ ] **?** - Uncertain / Needs investigation
+
+**Notes:** _[Add your reasoning here]_
+
+## [28/50] tensor - INFO
+**File:** `src/tensor/hnsw_tt_bridge.cpp:98`
+**Category:** delete_no_nullptr
+**Message:** Delete without nullifying pointer — use-after-free risk
+
+### Function Context
+```cpp
+   96 |         ~HnswLayer() {
+   97 |     #ifdef THEMIS_HNSW_ENABLED
+   98 | >>>         delete appr_;
+   99 |             delete space_;
+  100 |     #endif
+  101 |         }
+  102 |     
+  103 |         HnswLayer(const HnswLayer&)            = delete;
+  104 |         HnswLayer& operator=(const HnswLayer&) = delete;
+  105 |     
+  106 |         // -----------------------------------------------------------------------
+  107 |         // Write operations
+  108 |         // -----------------------------------------------------------------------
+  109 |     
+  110 |         void insert(int64_t id, std::vector<float> sketch) {
+```
+
+### Assessment
+- [ ] **TP** - True Positive (real issue)
+- [ ] **FP** - False Positive (code is safe)
+- [ ] **?** - Uncertain / Needs investigation
+
+**Notes:** _[Add your reasoning here]_
+
+## [29/50] llm - CRITICAL
+**File:** `src/llm/lora_framework/lora_storage_service_themisdb.cpp:145`
+**Category:** data_race
+**Message:** Shared data access without lock protection
+
+### Function Context
+```cpp
+  141 |                 if (config_.backend == Backend::ThemisDB && config_.db) {
+  142 |                     std::string key = makeCollectionKey(adapter_id);
+  143 |     
+  144 |                     // First, retrieve metadata to get blob reference if it exists
+  145 | >>>                 auto data = config_.db->get(key);
+  146 |                     if (data && config_.blob_manager) {
+  147 |                         try {
+  148 |                             // Deserialize entity to extract blob reference
+  149 |                             BaseEntity entity = BaseEntity::deserialize(adapter_id, *data);
+  150 |     
+  151 |                             // Check if adapter uses blob storage (not inline)
+  152 |                             if (entity.hasField("blob_ref_path")) {
+  153 |                                 // Validate blob reference type before casting
+  154 |                                 auto blob_type_value = entity.getFieldAsInt("blob_ref_type").value_or(-1);
+  155 |                                 // Valid range: 0 (INLINE) to 7 (CUSTOM)
+  156 |                                 if (blob_type_value < 0 || blob_type_value > static_cast<int>(storage::BlobStorageType::CUSTOM)) {
+  157 |                                     spdlog::warn("Invalid blob storage type {} for adapter {}, skipping blob deletion",
+```
+
+### Assessment
+- [ ] **TP** - True Positive (real issue)
+- [ ] **FP** - False Positive (code is safe)
+- [ ] **?** - Uncertain / Needs investigation
+
+**Notes:** _[Add your reasoning here]_
+
+## [30/50] sharding - INFO
+**File:** `src/sharding/auto_rebalancer.cpp:277`
+**Category:** lock_contention
+**Message:** Mutex lock in loop — high contention
+
+### Function Context
+```cpp
+  274 |                                 if (config_.require_manual_approval) {
+  275 |                                     // Queue for approval
+  276 |                                     std::string op_id = generateOperationId();
+  277 | >>>                                 std::lock_guard<std::mutex> lock(mutex_);
+  278 |                                     pending_approvals_[op_id] = rec;
+  279 |     
+  280 |                                     THEMIS_INFO("Rebalance operation queued for approval: {}", op_id);
+  281 |     
+  282 |                                     if (metrics_) {
+  283 |                                         metrics_->incrementCounter("themis_rebalance_pending_approvals_total");
+  284 |                                     }
+  285 |                                 } else if (config_.auto_trigger_enabled) {
+  286 |                                     // Execute automatically
+  287 |                                     executeRebalance(rec);
+  288 |                                 }
+  289 |                             }
+```
+
+### Assessment
+- [ ] **TP** - True Positive (real issue)
+- [ ] **FP** - False Positive (code is safe)
+- [ ] **?** - Uncertain / Needs investigation
+
+**Notes:** _[Add your reasoning here]_
+
+## [31/50] server - CRITICAL
+**File:** `src/server/http_server.cpp:2541`
+**Category:** smart_ptr_misuse
+**Message:** Raw new without immediate wrapping in smart pointer
+
+### Function Context
+```cpp
+ 2541 | >>>             THEMIS_WARN("Max connections ({}) reached - rejecting new connection",
+ 2542 |                     config_.max_connections);
+ 2543 |                 beast::error_code close_ec;
+ 2544 |                 socket.shutdown(tcp::socket::shutdown_both, close_ec);
+ 2545 |                 socket.close(close_ec);
+ 2546 |             } else {
+ 2547 |                 try {
+ 2548 |                     // Create new session for this connection.
+ 2549 |                     // Lock briefly to get a stable reference to ssl_ctx_ (hot-reload may swap it).
+ 2550 |                     if (config_.enable_tls) {
+ 2551 |                         std::lock_guard<std::mutex> lock(ssl_ctx_mutex_);
+ 2552 |                         if (ssl_ctx_) {
+ 2553 |     #ifdef THEMIS_ENABLE_HTTP2
+```
+
+### Assessment
+- [ ] **TP** - True Positive (real issue)
+- [ ] **FP** - False Positive (code is safe)
+- [ ] **?** - Uncertain / Needs investigation
+
+**Notes:** _[Add your reasoning here]_
+
+## [32/50] aql - INFO
+**File:** `src/aql/aql_rollback_suggester.cpp:47`
+**Category:** string_concat_loop
+**Message:** String concatenation in loop — O(n²) behavior
+
+### Function Context
+```cpp
+   46 |                 if (!out.empty() && out.back() != ' ') {
+   47 | >>>                 out += ' ';
+   48 |                 }
+   49 |             } else {
+   50 |                 out += static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+   51 |             }
+   52 |         }
+   53 |         while (!out.empty() && out.back() == ' ') {
+   54 |             out.pop_back();
+   55 |         }
+   56 |         return out;
+   57 |     }
    58 |     
-   59 |     GPUEmbeddingLayer::GPUEmbeddingLayer(GPUEmbeddingLayer&& other) noexcept
-   60 |         : embedding_weights_(std::move(other.embedding_weights_))
-   61 |         , vocab_size_(other.vocab_size_)
+   59 |     bool wordContains(const std::string &upper, const std::string &kw) {
+```
+
+### Assessment
+- [ ] **TP** - True Positive (real issue)
+- [ ] **FP** - False Positive (code is safe)
+- [ ] **?** - Uncertain / Needs investigation
+
+**Notes:** _[Add your reasoning here]_
+
+## [33/50] llm - INFO
+**File:** `src/llm/kv_cache_buffer.cpp:224`
+**Category:** performance
+**Message:** vector::push_back in loop without prior reserve()
+
+### Function Context
+```cpp
+  224 | >>>     for (size_t i = 0; i < config_.num_buffers; ++i) {
+  225 |             buffers_.emplace_back(std::make_shared<KVCacheBuffer>(config_.buffer_config));
+  226 |         }
+  227 |     }
+  228 |     
+  229 |     KVCacheBufferPool::~KVCacheBufferPool() = default;
+  230 |     
+  231 |     std::shared_ptr<KVCacheBuffer> KVCacheBufferPool::acquireBuffer() {
+  232 |         std::lock_guard<std::mutex> lock(pool_mutex_);
+  233 |     
+  234 |         // Find first available buffer
+  235 |         for (size_t i = 0; i < buffers_.size(); ++i) {
+  236 |             if (buffer_available_[i]) {
+```
+
+### Assessment
+- [ ] **TP** - True Positive (real issue)
+- [ ] **FP** - False Positive (code is safe)
+- [ ] **?** - Uncertain / Needs investigation
+
+**Notes:** _[Add your reasoning here]_
+
+## [34/50] storage - MEDIUM
+**File:** `src/storage/database_connection_manager.cpp:243`
+**Category:** determinism
+**Message:** Non-deterministic unordered_map/set iteration order
+
+### Function Context
+```cpp
+  228 |             } else {
+  229 |                 auto& health = connection_health_[conn.get()];
+  230 |                 health.last_health_check = std::chrono::system_clock::now();
+  231 |                 health.state = ConnectionState::HEALTHY;
+  232 |                 healthy_connections.push(conn);
+  233 |             }
+  234 |         }
+  235 |     
+  236 |         idle_connections_ = std::move(healthy_connections);
+  237 |     
+  238 |         // Check active connections (just update health check time)
+  239 |         // lock_in_loop scanner alert (line 219): the shared_mutex is acquired by the
+  240 |         // caller of this function and held for the whole function body; no lock is
+  241 |         // acquired *inside* this loop iteration — false positive.
+  242 |         // range_temporary scanner alert (line 252, 276): structured binding loops
+  243 | >>>     // over std::unordered_map — the map outlives the loop and no temporary is
+  244 |         // constructed in the range-init expression — false positive.
+  245 |         // pointer_arithmetic scanner alerts (lines 212-213, 242, 266): ptr is a
+  246 |         // Connection* used only as a stable unordered_map key; no arithmetic is
+  247 |         // performed on the raw pointer value itself — false positive.
+  248 |         for (auto& [ptr, conn] : active_connections_) {
+  249 |             auto& health = connection_health_[ptr];
+  250 |             if (conn->isValid()) {
+  251 |                 health.last_health_check = std::chrono::system_clock::now();
+  252 |             } else {
+  253 |                 health.state = ConnectionState::FAILED;
+  254 |             }
+  255 |         }
+```
+
+### Assessment
+- [ ] **TP** - True Positive (real issue)
+- [ ] **FP** - False Positive (code is safe)
+- [ ] **?** - Uncertain / Needs investigation
+
+**Notes:** _[Add your reasoning here]_
+
+## [35/50] prompt_engineering - INFO
+**File:** `src/prompt_engineering/prompt_injection_detector.cpp:135`
+**Category:** o_n_squared
+**Message:** O(n²) pattern: find() on vector inside loop
+
+### Function Context
+```cpp
+  131 |             const std::string& text, std::vector<std::string>& matched_out) const {
+  132 |         float score = 0.0f;
+  133 |     
+  134 |         // Instruction-bracketing tokens common in LLM hijack attempts
+  135 | >>>     if (text.find("[INST]") != std::string::npos ||
+  136 |             text.find("[/INST]") != std::string::npos) {
+  137 |             score += 0.4f;
+  138 |             matched_out.push_back("syntax:instruction_bracket_token");
+  139 |         }
+  140 |     
+  141 |         // Unusually high density of angle brackets / pipes / braces
+  142 |         size_t special = 0;
+  143 |         for (char c : text) {
+  144 |             if (c == '<' || c == '>' || c == '|') {
+  145 |                 ++special;
+  146 |             }
+  147 |         }
+```
+
+### Assessment
+- [ ] **TP** - True Positive (real issue)
+- [ ] **FP** - False Positive (code is safe)
+- [ ] **?** - Uncertain / Needs investigation
+
+**Notes:** _[Add your reasoning here]_
+
+## [36/50] llm - INFO
+**File:** `src/llm/gpu_memory_manager.cpp:2028`
+**Category:** repeated_lookup
+**Message:** Repeated find() for same key: gpu_device_id
+
+### Function Context
+```cpp
+ 2020 |         if (it != gpu_health_data_.end()) {
+ 2021 |             return it->second;
+ 2022 |         }
+ 2023 |     
+ 2024 |         // Generate default health data
+ 2025 |         auto health_it = gpu_health_status_.find(gpu_device_id);
+ 2026 |         health.is_healthy = (health_it != gpu_health_status_.end()) ? health_it->second : true;
+ 2027 |     
+ 2028 | >>>     auto temp_it = gpu_temperatures_.find(gpu_device_id);
+ 2029 |         health.temperature_celsius = (temp_it != gpu_temperatures_.end()) ? temp_it->second : 0.0f;
+ 2030 |     
+ 2031 |         auto util_it = gpu_utilizations_.find(gpu_device_id);
+ 2032 |         health.utilization_percent = (util_it != gpu_utilizations_.end()) ? util_it->second : 0.0f;
+ 2033 |     
+ 2034 |         auto err_it = gpu_error_counts_.find(gpu_device_id);
+ 2035 |         health.error_count = (err_it != gpu_error_counts_.end()) ? err_it->second : 0;
+ 2036 |     
+ 2037 |         health.last_check_timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+ 2038 |             std::chrono::system_clock::now().time_since_epoch()).count();
+ 2039 |     
+ 2040 |         return health;
 ```
 
 ### Assessment
@@ -1176,105 +1199,26 @@ For each gap, assess as:
 **Notes:** _[Add your reasoning here]_
 
 ## [37/50] llm - HIGH
-**File:** `src\llm\lora_framework\kernels\hip_kernels.cpp:546`
-**Category:** llm_ai_safety
-**Message:** User input passed to LLM without normalization/sanitization
-
-### Function Context
-```cpp
-  544 |         if (stream != nullptr) {
-  545 |             hipLaunchKernelGGL(lora_backward_B_kernel, gridDim, blockDim, 0, stream,
-  546 | >>>             input, A, grad_output, grad_B, batch_size, in_dim, rank, out_dim, scaling);
-  547 |         } else {
-  548 |             hipLaunchKernelGGL(lora_backward_B_kernel, gridDim, blockDim, 0, 0,
-  549 |                 input, A, grad_output, grad_B, batch_size, in_dim, rank, out_dim, scaling);
-  550 |         }
-  551 |     
-  552 |         return hipGetLastError();
-  553 |     }
-  554 |     
-  555 |     hipError_t launch_mse_loss_reduction_kernel(
-  556 |         const float* predictions,
-  557 |         const float* targets,
-  558 |         float* partial_sums,
-```
-
-### Assessment
-- [ ] **TP** - True Positive (real issue)
-- [ ] **FP** - False Positive (code is safe)
-- [ ] **?** - Uncertain / Needs investigation
-
-**Notes:** _[Add your reasoning here]_
-
-## [38/50] query - HIGH
-**File:** `src\query\optimizer_cost_model.cpp:159`
-**Category:** llm_ai_safety
-**Message:** User input passed to LLM without normalization/sanitization
-
-### Function Context
-```cpp
-  148 |             if (it != columnStats.end()) {
-  149 |                 const auto& colStats = it->second;
-  150 |                 predSelectivity = estimateSelectivity(pred, colStats);
-  151 |             }
-  152 |     
-  153 |             combinedSelectivity *= predSelectivity;
-  154 |         }
-  155 |     
-  156 |         cost.selectivity = combinedSelectivity;
-  157 |         cost.outputRows = static_cast<size_t>(inputRows * combinedSelectivity);
-  158 |     
-  159 | >>>     // CPU cost: evaluate predicates for each input row
-  160 |         double predicateCost = static_cast<double>(predicates.size()) *
-  161 |                               constants_.cpuCostPerPredicate;
-  162 |         cost.cpuCost = calculateCpuCost(inputRows, predicateCost);
-  163 |     
-  164 |         return cost;
-  165 |     }
-  166 |     
-  167 |     // =============================
-  168 |     // Join Cost Estimation
-  169 |     // =============================
-  170 |     
-  171 |     OptimizerCostModel::JoinCost OptimizerCostModel::estimateNestedLoopJoin(
-```
-
-### Assessment
-- [ ] **TP** - True Positive (real issue)
-- [ ] **FP** - False Positive (code is safe)
-- [ ] **?** - Uncertain / Needs investigation
-
-**Notes:** _[Add your reasoning here]_
-
-## [39/50] importers - HIGH
-**File:** `src\importers\schema_inference.cpp:46`
+**File:** `src/llm/production_validator.cpp:439`
 **Category:** llm_ai_safety
 **Message:** LLM output used without validation (hallucination/bias risk)
 
 ### Function Context
 ```cpp
-   37 |                     s.compare(s.size() - std::strlen(suf), std::strlen(suf), suf) == 0) {
-   38 |                     s.resize(s.size() - std::strlen(suf));
-   39 |                 }
-   40 |             }
-   41 |             return s;
-   42 |         };
-   43 |         return stripSuffix(a) == stripSuffix(b);
-   44 |     }
-   45 |     
-   46 | >>> double SchemaInferenceEngine::jaccardSimilarity(const std::vector<std::string>& a,
-   47 |                                                      const std::vector<std::string>& b) const {
-   48 |         if (a.empty() && b.empty()) return 1.0;
-   49 |         if (a.empty() || b.empty()) return 0.0;
-   50 |     
-   51 |         std::unordered_set<std::string> setA(a.begin(), a.end());
-   52 |         std::unordered_set<std::string> setB(b.begin(), b.end());
-   53 |     
-   54 |         size_t intersection = 0;
-   55 |         for (const auto& v : setA) {
-   56 |             if (setB.count(v)) ++intersection;
-   57 |         }
-   58 |         size_t union_size = setA.size() + setB.size() - intersection;
+  438 |             if (inference_engine_) {
+  439 | >>>             InferenceEngineEnhanced::EnhancedInferenceRequest eng_req;
+  440 |                 eng_req.base_request.prompt     = "stress test iteration " + std::to_string(iteration);
+  441 |                 eng_req.base_request.model_id   = "default";
+  442 |                 eng_req.base_request.max_tokens = 32;
+  443 |                 eng_req.timeout                 = std::chrono::milliseconds(10000);
+  444 |                 try {
+  445 |                     auto handle = inference_engine_->submit(eng_req);
+  446 |                     handle.get();
+  447 |                     success = true;
+  448 |                 } catch (const std::exception& e) {
+  449 |                     spdlog::warn("Stress test request {} failed: {}", iteration, e.what());
+  450 |                     success = false;
+  451 |                 }
 ```
 
 ### Assessment
@@ -1284,26 +1228,30 @@ For each gap, assess as:
 
 **Notes:** _[Add your reasoning here]_
 
-## [40/50] utils - HIGH
-**File:** `src\utils\memory\pool_allocator.cpp:230`
-**Category:** observability
-**Message:** Critical function allocate without trace point
+## [38/50] llm - HIGH
+**File:** `src/llm/async_inference_engine.cpp:88`
+**Category:** llm_ai_safety
+**Message:** LLM output used without validation (hallucination/bias risk)
 
 ### Function Context
 ```cpp
-  230 | >>> Result<void*> BuddyAllocator::allocate(size_t size, AllocationHint hint) {
-  231 |         if (size == 0) {
-  232 |             return Err<void*>(errors::ErrorCode::ERR_MEMORY_INVALID_SIZE,
-  233 |                              "Allocation size must be greater than 0");
-  234 |         }
-  235 |     
-  236 |         std::lock_guard<std::mutex> lock(impl_->mutex);
-  237 |     
-  238 |         // Align to cache line if requested
-  239 |         if (hint == AllocationHint::CACHE_LINE_ALIGNED) {
-  240 |             size = alignSize(size, CACHE_LINE_SIZE);
-  241 |         }
-  242 |     
+   84 |             spdlog::info("AsyncInferenceEngine: deduplication cache enabled (dir={})",
+   85 |                          config_.dedup_cache_config.cache_dir);
+   86 |         }
+   87 |     
+   88 | >>>     spdlog::info("AsyncInferenceEngine started - inference runs independently from DB operations");
+   89 |     }
+   90 |     
+   91 |     // ─── Shared-pool constructors ─────────────────────────────────────────────────
+   92 |     
+   93 |     AsyncInferenceEngine::AsyncInferenceEngine(
+   94 |         ILLMPlugin* plugin,
+   95 |         const Config& config,
+   96 |         std::shared_ptr<SharedWorkerPool> pool
+   97 |     ) : config_(config), plugin_(plugin), shared_pool_(std::move(pool)) {
+   98 |         if (!plugin_) {
+   99 |             throw std::invalid_argument("Plugin cannot be null");
+  100 |         }
 ```
 
 ### Assessment
@@ -1313,31 +1261,43 @@ For each gap, assess as:
 
 **Notes:** _[Add your reasoning here]_
 
-## [41/50] utils - MEDIUM
-**File:** `src\utils\cron_parser.cpp:283`
-**Category:** repeated_lookup
-**Message:** Repeated find() for same key: tm
+## [39/50] llm - HIGH
+**File:** `src/llm/lora_framework/lora_audit_logger.cpp:359`
+**Category:** llm_ai_safety
+**Message:** LLM output used without validation (hallucination/bias risk)
 
 ### Function Context
 ```cpp
-  278 |             if (!years_.empty()) {
-  279 |                 int year = tm.tm_year + 1900;
-  280 |                 if (years_.find(year) == years_.end()) return false;
-  281 |             }
-  282 |             if (minutes_.find(tm.tm_min) == minutes_.end())      return false;
-  283 | >>>         if (hours_.find(tm.tm_hour) == hours_.end())         return false;
-  284 |     
-  285 |             bool day_matches     = days_.find(tm.tm_mday) != days_.end();
-  286 |             bool weekday_matches = weekdays_.find(tm.tm_wday) != weekdays_.end();
-  287 |             bool day_is_wildcard     = days_.size() == 31;
-  288 |             bool weekday_is_wildcard = weekdays_.size() == 7;
-  289 |     
-  290 |             if (day_is_wildcard && weekday_is_wildcard) {
-  291 |                 // ok
-  292 |             } else if (!day_is_wildcard && weekday_is_wildcard) {
-  293 |                 if (!day_matches) return false;
-  294 |             } else if (day_is_wildcard && !weekday_is_wildcard) {
-  295 |                 if (!weekday_matches) return false;
+  342 |             if (audit_logger_) {
+  343 |                 audit_logger_->flush();
+  344 |             }
+  345 |         }
+  346 |     
+  347 |     private:
+  348 |         utils::AuditLoggerConfig config_;
+  349 |         std::unique_ptr<utils::AuditLogger> audit_logger_;
+  350 |         std::string lora_log_path_;
+  351 |         std::ofstream log_file_;
+  352 |         mutable std::mutex mutex_;
+  353 |         bool enabled_;
+  354 |     
+  355 |         // Provenance manager (optional) – set via setProvenanceManager()
+  356 |         std::shared_ptr<LoRAProvenanceManager> provenance_mgr_;
+  357 |     
+  358 |         // Statistics
+  359 | >>>     uint64_t inference_count_ = 0;
+  360 |         uint64_t event_count_ = 0;
+  361 |     
+  362 |         void writeToLog(const json& entry) {
+  363 |             // Open log file if not already open
+  364 |             if (!log_file_.is_open()) {
+  365 |                 log_file_.open(lora_log_path_, std::ios::app);
+  366 |                 if (!log_file_.is_open()) {
+  367 |                     spdlog::error("Failed to open log file: {}", lora_log_path_);
+  368 |                     return;
+  369 |                 }
+  370 |             }
+  371 |     
 ```
 
 ### Assessment
@@ -1347,27 +1307,36 @@ For each gap, assess as:
 
 **Notes:** _[Add your reasoning here]_
 
-## [42/50] security - HIGH
-**File:** `src\security\encrypted_field.cpp:147`
-**Category:** uncaught_exception
-**Message:** Exception thrown without try/catch context
+## [40/50] ingestion - HIGH
+**File:** `src/ingestion/database_connector.cpp:343`
+**Category:** abi_safety
+**Message:** reinterpret_cast on non-byte type may violate strict-aliasing rule; use std::bit_cast<> (C++20) or std::memcpy for safe type punning
 
 ### Function Context
 ```cpp
-  146 |         if (str.size() < sizeof(uint32_t)) {
-  147 | >>>         throw DecryptionException("Invalid vector serialization: too short");
-  148 |         }
-  149 |     
-  150 |         // Read size
-  151 |         uint32_t size;
-  152 |         std::memcpy(&size, str.data(), sizeof(size));
-  153 |     
-  154 |         // Validate size
-  155 |         size_t expected_bytes = sizeof(uint32_t) + size * sizeof(float);
-  156 |         if (str.size() != expected_bytes) {
-  157 |             throw DecryptionException(
-  158 |                 "Invalid vector serialization: size mismatch (expected " +
-  159 |                 std::to_string(expected_bytes) + " bytes, got " +
+  333 |         bool isAvailable() const {
+  334 |             if (row_fetch_fn_) return true; // test mock always available
+  335 |     
+  336 |     #ifdef THEMIS_ENABLE_ODBC
+  337 |             SQLHENV henv = SQL_NULL_HENV;
+  338 |             SQLHDBC hdbc = SQL_NULL_HDBC;
+  339 |     
+  340 |             if (SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &henv) != SQL_SUCCESS)
+  341 |                 return false;
+  342 |             SQLSetEnvAttr(henv, SQL_ATTR_ODBC_VERSION,
+  343 | >>>                       reinterpret_cast<SQLPOINTER>(SQL_OV_ODBC3), 0);
+  344 |             if (SQLAllocHandle(SQL_HANDLE_DBC, henv, &hdbc) != SQL_SUCCESS) {
+  345 |                 SQLFreeHandle(SQL_HANDLE_ENV, henv);
+  346 |                 return false;
+  347 |             }
+  348 |             SQLSetConnectAttr(hdbc, SQL_ATTR_LOGIN_TIMEOUT,
+  349 |                               reinterpret_cast<SQLPOINTER>(
+  350 |                                   static_cast<intptr_t>(timeout_s_)), 0);
+  351 |     
+  352 |             SQLCHAR out_conn[1024];
+  353 |             SQLSMALLINT out_len = 0;
+  354 |             SQLRETURN rc = SQLDriverConnect(
+  355 |                 hdbc, nullptr,
 ```
 
 ### Assessment
@@ -1377,27 +1346,55 @@ For each gap, assess as:
 
 **Notes:** _[Add your reasoning here]_
 
-## [43/50] temporal - HIGH
-**File:** `src\temporal\temporal_tier_manager.cpp:423`
+## [41/50] content - LOW
+**File:** `src/content/geo_processor.cpp:380`
+**Category:** abi_safety
+**Message:** Use .data() instead of &v[0] to access contiguous storage; &v[0] is UB on empty vector
+
+### Function Context
+```cpp
+  380 | >>>         if (coords.size() >= 2 && coords[0].is_number() && coords[1].is_number()) {
+  381 |                 // [lon, lat] pair
+  382 |                 double lon = coords[0].get<double>();
+  383 |                 double lat = coords[1].get<double>();
+  384 |                 data.coordinates.emplace_back(lat, lon);
+  385 |             } else {
+  386 |                 // Nested array
+  387 |                 for (const auto& item : coords) {
+  388 |                     parseCoordinates(item, data);
+  389 |                 }
+  390 |             }
+  391 |         }
+  392 |     }
+```
+
+### Assessment
+- [ ] **TP** - True Positive (real issue)
+- [ ] **FP** - False Positive (code is safe)
+- [ ] **?** - Uncertain / Needs investigation
+
+**Notes:** _[Add your reasoning here]_
+
+## [42/50] llm - INFO
+**File:** `src/llm/byzantine_detector.cpp:377`
 **Category:** repeated_search
 **Message:** find/search in loop — O(n²) or worse
 
 ### Function Context
 ```cpp
-  422 |                 for (const auto& [t, _] : warm_) {
-  423 | >>>                 if (std::find(tables.begin(), tables.end(), t) == tables.end())
-  424 |                         tables.push_back(t);
-  425 |                 }
-  426 |             }
-  427 |             for (const auto& t : tables) {
-  428 |                 if (!compact_stop_) compactTable(t);
-  429 |             }
-  430 |         }
-  431 |     }
-  432 |     
-  433 |     // ============================================================================
-  434 |     // Observability
-  435 |     // ============================================================================
+  377 | >>>             if (std::find(selected.begin(), selected.end(), shard_id) == selected.end()) {
+  378 |                     result.suspected_shards.push_back(shard_id);
+  379 |                     result.anomaly_scores[shard_id] = 1.0f;  // Rejected by Krum
+  380 |                     result.requires_action = true;
+  381 |                 } else {
+  382 |                     result.anomaly_scores[shard_id] = 0.0f;  // Accepted by Krum
+  383 |                 }
+  384 |             }
+  385 |     
+  386 |             if (result.requires_action) {
+  387 |                 spdlog::warn(
+  388 |                     "Byzantine detection (Krum): Detected {} suspicious shards",
+  389 |                     result.suspected_shards.size()
 ```
 
 ### Assessment
@@ -1407,223 +1404,257 @@ For each gap, assess as:
 
 **Notes:** _[Add your reasoning here]_
 
-## [44/50] llm - HIGH
-**File:** `src\llm\lora_framework\multi_gpu_lora_layer.cpp:115`
+## [43/50] llm - CRITICAL
+**File:** `src/llm/model_loader.cpp:978`
+**Category:** llm_ai_safety
+**Message:** User input in prompt without sanitization (injection risk)
+
+### Function Context
+```cpp
+  977 |             else if (method == "dynamic") {
+  978 | >>>             // Dynamic scaling: adapts to input length
+  979 |                 ctx_params.rope_scaling_type = LLAMA_ROPE_SCALING_TYPE_LINEAR;  // Use linear as base
+  980 |                 ctx_params.rope_freq_scale = scale_factor;
+  981 |                 spdlog::info("RoPE Dynamic scaling: {} → {} tokens (adaptive)",
+  982 |                             original_context, max_context);
+  983 |             }
+  984 |             else {
+  985 |                 spdlog::warn("Unknown RoPE scaling method: {}, using YaRN", method);
+  986 |                 ctx_params.rope_scaling_type = LLAMA_ROPE_SCALING_TYPE_YARN;
+  987 |                 ctx_params.rope_freq_scale = scale_factor;
+  988 |             }
+  989 |         }
+  990 |     
+```
+
+### Assessment
+- [ ] **TP** - True Positive (real issue)
+- [ ] **FP** - False Positive (code is safe)
+- [ ] **?** - Uncertain / Needs investigation
+
+**Notes:** _[Add your reasoning here]_
+
+## [44/50] llm - CRITICAL
+**File:** `src/llm/lora_framework/kernels/hip_fused_kernels.cpp:158`
+**Category:** llm_ai_safety
+**Message:** User input in prompt without sanitization (injection risk)
+
+### Function Context
+```cpp
+  156 |     ) {
+  157 |         // This kernel is complex, so we'll compute different gradients in different thread blocks
+  158 | >>>     // grad_type: 0 = grad_A, 1 = grad_B, 2 = grad_input
+  159 |         int grad_type = blockIdx.z;
+  160 |     
+  161 |         if (grad_type == 0) {
+  162 |             // Compute grad_A = h^T @ (grad_output * scaling)
+  163 |             // grad_A[rank, out_dim]
+  164 |             int r = blockIdx.y * blockDim.y + threadIdx.y;
+  165 |             int o = blockIdx.x * blockDim.x + threadIdx.x;
+  166 |     
+  167 |             if (r >= rank || o >= out_dim) return;
+  168 |     
+  169 |             float sum = 0.0f;
+  170 |             for (size_t b = 0; b < batch_size; b++) {
+```
+
+### Assessment
+- [ ] **TP** - True Positive (real issue)
+- [ ] **FP** - False Positive (code is safe)
+- [ ] **?** - Uncertain / Needs investigation
+
+**Notes:** _[Add your reasoning here]_
+
+## [45/50] scraper - MEDIUM
+**File:** `src/scraper/scraper_llm_evaluator.cpp:213`
+**Category:** llm_ai_safety
+**Message:** LLM inference without token limit or timeout (DOS risk)
+
+### Function Context
+```cpp
+  204 |             try {
+  205 |                 themis::llm::InferenceRequest req;
+  206 |                 req.prompt       = buildPrompt(text, gap);
+  207 |                 req.model_id     = "default";
+  208 |                 req.max_tokens   = 256;
+  209 |                 req.temperature  = 0.1f;
+  210 |                 req.grammar_type = "json";
+  211 |     
+  212 |                 const auto response =
+  213 | >>>                 themis::llm::LLMPluginManager::instance().generate(req);
+  214 |                 return parseLlmResponse(response.text, threshold);
+  215 |             } catch (...) {
+  216 |                 // Fall through to heuristic on any LLM error
+  217 |             }
+  218 |         }
+  219 |     #endif
+  220 |         return heuristicScore(text, gap, threshold);
+  221 |     }
+  222 |     
+  223 |     } // namespace scraper
+  224 |     } // namespace themis
+  225 |     
+```
+
+### Assessment
+- [ ] **TP** - True Positive (real issue)
+- [ ] **FP** - False Positive (code is safe)
+- [ ] **?** - Uncertain / Needs investigation
+
+**Notes:** _[Add your reasoning here]_
+
+## [46/50] server - INFO
+**File:** `src/server/task_scheduler_api_handler.cpp:532`
+**Category:** hardcoded_path
+**Message:** Hardcoded path separator — not portable
+
+### Function Context
+```cpp
+  516 |         html += "#refresh-indicator{font-size:.75rem;color:#64748b;margin-left:auto}\n";
+  517 |         html += "</style>\n</head>\n<body>\n";
+  518 |     
+  519 |         html += "<header>\n";
+  520 |         html += "  <h1>&#x23F2; Task Scheduler</h1>\n";
+  521 |         html += "  <span class=\"badge\">ThemisDB</span>\n";
+  522 |         html += "</header>\n";
+  523 |     
+  524 |         html += "<div class=\"container\">\n";
+  525 |     
+  526 |         // Stats grid
+  527 |         html += "<div class=\"stats-grid\" id=\"stats-grid\">\n";
+  528 |         html += "  <div class=\"stat-card\"><div class=\"val\" id=\"s-registered\">–</div><div class=\"lbl\">Registered</div></div>\n";
+  529 |         html += "  <div class=\"stat-card\"><div class=\"val\" id=\"s-active\">–</div><div class=\"lbl\">Active</div></div>\n";
+  530 |         html += "  <div class=\"stat-card\"><div class=\"val\" id=\"s-running\">–</div><div class=\"lbl\">Running</div></div>\n";
+  531 |         html += "  <div class=\"stat-card\"><div class=\"val\" id=\"s-total\">–</div><div class=\"lbl\">Executions</div></div>\n";
+  532 | >>>     html += "  <div class=\"stat-card\"><div class=\"val\" id=\"s-failed\">–</div><div class=\"lbl\">Failures</div></div>\n";
+  533 |         html += "  <div class=\"stat-card\"><div class=\"val\" id=\"s-status\">–</div><div class=\"lbl\">Scheduler</div></div>\n";
+  534 |         html += "</div>\n";
+  535 |     
+  536 |         // Toolbar
+  537 |         html += "<div class=\"toolbar\">\n";
+  538 |         html += "  <button class=\"btn-primary\" onclick=\"openCreateDialog()\">&#43; New Task</button>\n";
+  539 |         html += "  <button class=\"btn-secondary\" onclick=\"loadAll()\">&#8635; Refresh</button>\n";
+  540 |         html += "  <span id=\"refresh-indicator\"></span>\n";
+  541 |         html += "</div>\n";
+  542 |     
+  543 |         // Table
+  544 |         html += "<table>\n<thead><tr>\n";
+```
+
+### Assessment
+- [ ] **TP** - True Positive (real issue)
+- [ ] **FP** - False Positive (code is safe)
+- [ ] **?** - Uncertain / Needs investigation
+
+**Notes:** _[Add your reasoning here]_
+
+## [47/50] rag - INFO
+**File:** `src/rag/rag_judge.cpp:559`
+**Category:** llm_ai_safety
+**Message:** User input passed to LLM without normalization/sanitization
+
+### Function Context
+```cpp
+  559 | >>>                             [&]() { return verifyClaimAgainstDocuments(claim, safe_input.documents) ? 1.0 : 0.0; },
+  560 |                                 0.0) > 0.5;
+  561 |                             if (verified) {
+  562 |                                 result.verified_claims.push_back(claim);
+  563 |                                 verified_count++;
+  564 |                             } else {
+  565 |                                 result.unverified_claims.push_back(claim);
+  566 |                             }
+  567 |                         }
+  568 |     
+  569 |                         // Adjust faithfulness based on verification
+  570 |                         if (!claims.empty()) {
+  571 |                             double verification_ratio = static_cast<double>(verified_count) / claims.size();
+```
+
+### Assessment
+- [ ] **TP** - True Positive (real issue)
+- [ ] **FP** - False Positive (code is safe)
+- [ ] **?** - Uncertain / Needs investigation
+
+**Notes:** _[Add your reasoning here]_
+
+## [48/50] observability - HIGH
+**File:** `src/observability/opentelemetry_tracer.cpp:565`
+**Category:** determinism
+**Message:** Floating-point exact comparison (use tolerance/epsilon)
+
+### Function Context
+```cpp
+  565 | >>>     if (metrics.cache_hit_rate != 0.0) {
+  566 |             span.setAttribute("db.metrics.cache_hit_rate",
+  567 |                               metrics.cache_hit_rate);
+  568 |         }
+  569 |         for (const auto& [key, val] : metrics.custom) {
+  570 |             span.setAttribute("db.metrics.custom." + key, val);
+  571 |         }
+  572 |     }
+  573 |     
+  574 |     // -- Baggage -----------------------------------------------------------------
+  575 |     
+  576 |     void OpenTelemetryTracer::setBaggageItem(const std::string& key,
+  577 |                                              const std::string& value)
+```
+
+### Assessment
+- [ ] **TP** - True Positive (real issue)
+- [ ] **FP** - False Positive (code is safe)
+- [ ] **?** - Uncertain / Needs investigation
+
+**Notes:** _[Add your reasoning here]_
+
+## [49/50] aql - CRITICAL
+**File:** `src/aql/docs_assistant_functions.cpp:554`
+**Category:** new_without_delete
+**Message:** Raw new without RAII wrapper — potential memory leak
+
+### Function Context
+```cpp
+  553 |         if (!g_docs_assistant_functions) {
+  554 | >>>         g_docs_assistant_functions = new DocsAssistantFunctions();
+  555 |         }
+  556 |         return *g_docs_assistant_functions;
+  557 |     }
+  558 |     
+  559 |     } // namespace aql
+  560 |     } // namespace themis
+  561 |     
+```
+
+### Assessment
+- [ ] **TP** - True Positive (real issue)
+- [ ] **FP** - False Positive (code is safe)
+- [ ] **?** - Uncertain / Needs investigation
+
+**Notes:** _[Add your reasoning here]_
+
+## [50/50] analytics - HIGH
+**File:** `src/analytics/ml_serving.cpp:328`
 **Category:** audit_logging
 **Message:** Hardcoded std::cout/printf instead of structured logging
 
 ### Function Context
 ```cpp
-  115 | >>> std::vector<GPUTensor> MultiGPULoRALayer::forward(const std::vector<GPUTensor>& inputs) {
-  116 |         if (inputs.size() != static_cast<size_t>(ctx_.num_gpus())) {
-  117 |             throw std::invalid_argument(
-  118 |                 "Number of input tensors must match number of GPUs");
-  119 |         }
-  120 |     
-  121 |         auto start = std::chrono::high_resolution_clock::now();
-  122 |     
-  123 |         std::vector<GPUTensor> outputs;
-  124 |         outputs.reserve(inputs.size());
-  125 |     
-  126 |         // Forward pass on each GPU independently
-  127 |         for (int device_index = 0; device_index < ctx_.num_gpus(); ++device_index) {
-```
-
-### Assessment
-- [ ] **TP** - True Positive (real issue)
-- [ ] **FP** - False Positive (code is safe)
-- [ ] **?** - Uncertain / Needs investigation
-
-**Notes:** _[Add your reasoning here]_
-
-## [45/50] llm - HIGH
-**File:** `src\llm\model_loader.cpp:596`
-**Category:** memory_order
-**Message:** memory_order_relaxed used — potential visibility issue
-
-### Function Context
-```cpp
-  591 |     json LazyModelLoader::getCacheStats() const {
-  592 |         std::lock_guard<std::mutex> lock(mutex_);
-  593 |     
-  594 |         // Load atomic counters once to ensure consistency
-  595 |         size_t hits = cache_hits_.load(std::memory_order_relaxed);
-  596 | >>>     size_t misses = cache_misses_.load(std::memory_order_relaxed);
-  597 |         size_t evict = evictions_.load(std::memory_order_relaxed);
-  598 |         size_t loaded = models_loaded_.load(std::memory_order_relaxed);
-  599 |     
-  600 |         json stats;
-  601 |         stats["cache_hits"] = hits;
-  602 |         stats["cache_misses"] = misses;
-  603 |         stats["evictions"] = evict;
-  604 |         stats["models_loaded"] = loaded;
-  605 |     
-  606 |         if ((hits + misses) > 0) {
-  607 |             stats["hit_rate"] = static_cast<double>(hits) / (hits + misses);
-  608 |         } else {
-```
-
-### Assessment
-- [ ] **TP** - True Positive (real issue)
-- [ ] **FP** - False Positive (code is safe)
-- [ ] **?** - Uncertain / Needs investigation
-
-**Notes:** _[Add your reasoning here]_
-
-## [46/50] storage - HIGH
-**File:** `src\storage\columnar_format.cpp:706`
-**Category:** size_assumption
-**Message:** Hardcoded size assumption — pointer/int size may differ on platforms
-
-### Function Context
-```cpp
-  703 |         for (size_t i = 1; i < data.size(); ++i) {
-  704 |             int64_t delta = data[i] - reference;
-  705 |             const uint8_t* delta_bytes = reinterpret_cast<const uint8_t*>(&delta);
-  706 | >>>         encoded.insert(encoded.end(), delta_bytes, delta_bytes + sizeof(int64_t));
-  707 |         }
-  708 |     
-  709 |         return encoded;
-  710 |     }
-  711 |     
-  712 |     Result<std::vector<int32_t>> FrameOfReferenceCodec::decodeInt32(const std::vector<uint8_t>& encoded) {
-  713 |         if (encoded.size() < sizeof(int32_t)) {
-  714 |             return tl::unexpected(Error(
-  715 |                 errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
-  716 |                 "Frame-of-reference decode: no reference value"
-  717 |             ));
-  718 |         }
-```
-
-### Assessment
-- [ ] **TP** - True Positive (real issue)
-- [ ] **FP** - False Positive (code is safe)
-- [ ] **?** - Uncertain / Needs investigation
-
-**Notes:** _[Add your reasoning here]_
-
-## [47/50] plugins - MEDIUM
-**File:** `src\plugins\plugin_hot_plug_monitor.cpp:373`
-**Category:** manual_cleanup
-**Message:** Manual cleanup outside exception handler — not exception-safe
-
-### Function Context
-```cpp
-  372 |             THEMIS_ERROR("Failed to add kevent: {}", strerror(errno));
-  373 | >>>         close(dir_fd);
-  374 |             close(kq);
-  375 |             return;
-  376 |         }
-  377 |     
-  378 |         // Track files we've seen along with their last-write timestamps
-  379 |         std::map<std::string, fs::file_time_type> known_files;
-  380 |         auto scan_directory = [&]() {
-  381 |             std::map<std::string, fs::file_time_type> current_files;
-  382 |             try {
-  383 |                 for (const auto& entry : fs::directory_iterator(watch_directory_)) {
-  384 |                     // Skip symlinks pointing to non-existent targets
-  385 |                     if (entry.is_symlink()) {
-```
-
-### Assessment
-- [ ] **TP** - True Positive (real issue)
-- [ ] **FP** - False Positive (code is safe)
-- [ ] **?** - Uncertain / Needs investigation
-
-**Notes:** _[Add your reasoning here]_
-
-## [48/50] security - CRITICAL
-**File:** `src\security\access_control.cpp:557`
-**Category:** audit_logging
-**Message:** Security function "authorize" without audit log
-
-### Function Context
-```cpp
-  544 |         if (!session_opt.has_value()) {
-  545 |             return false;
-  546 |         }
-  547 |     
-  548 |         auto& session = session_opt.value();
-  549 |     
-  550 |         AuthorizationContext context;
-  551 |         context.user_id = session.user_id;
-  552 |         context.roles = session.roles;
-  553 |         context.resource = resource;
-  554 |         context.action = action;
-  555 |         context.timestamp = std::chrono::system_clock::now();
-  556 |     
-  557 | >>>     return authorize(context);
-  558 |     }
-  559 |     
-  560 |     std::vector<Permission> AccessControl::getUserPermissions(const std::string& user_id) const {
-  561 |         std::lock_guard<std::mutex> lock(mutex_);
-  562 |     
-  563 |         auto roles = user_role_store_->getUserRoles(user_id);
-  564 |         return rbac_->getUserPermissions(roles);
-  565 |     }
-  566 |     
-  567 |     // ============================================================================
-  568 |     // Role Management
-  569 |     // ============================================================================
-```
-
-### Assessment
-- [ ] **TP** - True Positive (real issue)
-- [ ] **FP** - False Positive (code is safe)
-- [ ] **?** - Uncertain / Needs investigation
-
-**Notes:** _[Add your reasoning here]_
-
-## [49/50] observability - HIGH
-**File:** `src\observability\metric_aggregator.cpp:394`
-**Category:** performance
-**Message:** O(n²) pattern: linear search inside nested loop
-
-### Function Context
-```cpp
-  393 |                     for (const auto& gl : rule.group_by_labels) {
-  394 | >>>                     auto it = effective_labels.find(gl);
-  395 |                         if (it != effective_labels.end()) {
-  396 |                             group_labels[gl] = it->second;
-  397 |                         }
-  398 |                     }
-  399 |     
-  400 |                     std::string gk = makeLabelFingerprint(group_labels);
-  401 |                     glabels[gk] = group_labels;
-  402 |                     for (double v : snap.values) {
-  403 |                         grouped[gk].push_back(v);
-  404 |                     }
-  405 |                 }
-  406 |             }
-```
-
-### Assessment
-- [ ] **TP** - True Positive (real issue)
-- [ ] **FP** - False Positive (code is safe)
-- [ ] **?** - Uncertain / Needs investigation
-
-**Notes:** _[Add your reasoning here]_
-
-## [50/50] config - CRITICAL
-**File:** `src\config\config_metrics_exporter.cpp:29`
-**Category:** missing_dtor
-**Message:** Class RegisteredMetrics allocates resources but has no destructor
-
-### Function Context
-```cpp
-   29 | >>> struct RegisteredMetrics {
-   30 |         prometheus::Counter* resolution_hits{nullptr};
-   31 |         prometheus::Counter* resolution_misses{nullptr};
-   32 |         prometheus::Counter* legacy_fallbacks{nullptr};
-   33 |         prometheus::Counter* new_path_hits{nullptr};
-   34 |         prometheus::Counter* cache_hits{nullptr};
-   35 |         prometheus::Counter* cache_misses{nullptr};
-   36 |         prometheus::Counter* unmapped_requests{nullptr};
-   37 |         prometheus::Family<prometheus::Counter>* legacy_family{nullptr};
-   38 |         prometheus::Gauge* cache_hit_ratio{nullptr};
-   39 |         prometheus::Gauge* cache_size{nullptr};
-   40 |         prometheus::Gauge* cache_capacity{nullptr};
-   41 |         prometheus::Gauge* cache_ttl_seconds{nullptr};
+  324 |             auto output_tensors = session.Run(Ort::RunOptions{nullptr}, input_names.data(), input_tensors.data(),
+  325 |                                               input_names.size(), output_names.data(), output_names.size());
+  326 |     
+  327 |             // Convert outputs
+  328 | >>>         resp.outputs.reserve(output_tensors.size());
+  329 |             for (std::size_t i = 0; i < output_tensors.size(); ++i) {
+  330 |                 const auto &ort_t = output_tensors[i];
+  331 |                 auto type_info    = ort_t.GetTensorTypeAndShapeInfo();
+  332 |                 auto ort_shape    = type_info.GetShape();
+  333 |     
+  334 |                 MLTensor out_tensor;
+  335 |                 out_tensor.name = out_name_strs[i];
+  336 |                 out_tensor.shape.assign(ort_shape.begin(), ort_shape.end());
+  337 |     
+  338 |                 const float *ptr    = ort_t.GetTensorData<float>();
+  339 |                 std::size_t n_elems = type_info.GetElementCount();
+  340 |                 out_tensor.data.assign(ptr, ptr + n_elems);
 ```
 
 ### Assessment

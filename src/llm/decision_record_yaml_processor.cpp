@@ -86,15 +86,22 @@ bool DecisionRecordYamlProcessor::submit(DecisionRecord record) {
     return true;
 }
 
-void DecisionRecordYamlProcessor::flush() {
-    std::unique_lock<std::mutex> lk(mutex_);
-    cv_.wait(lk, [this] {
+bool DecisionRecordYamlProcessor::flush() {
+    auto pred = [this] {
         const size_t submitted = submitted_.load(std::memory_order_relaxed);
         const size_t finalized = written_.load(std::memory_order_relaxed)
                                + errors_.load(std::memory_order_relaxed)
                                + dropped_.load(std::memory_order_relaxed);
         return queue_.empty() && in_flight_ == 0 && finalized >= submitted;
-    });
+    };
+
+    std::unique_lock<std::mutex> lk(mutex_);
+    if (config_.flush_timeout_ms.count() == 0) {
+        // Legacy: no timeout — wait indefinitely (not recommended in production).
+        cv_.wait(lk, pred);
+        return true;
+    }
+    return cv_.wait_for(lk, config_.flush_timeout_ms, pred);
 }
 
 DecisionRecordYamlProcessor::Stats DecisionRecordYamlProcessor::getStats() const noexcept {

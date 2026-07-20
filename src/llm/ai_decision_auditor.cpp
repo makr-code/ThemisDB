@@ -29,6 +29,10 @@ json AIDecisionAudit::toJson() const {
     j["user_id"] = user_id;
     j["session_id"] = session_id;
     j["timestamp"] = std::chrono::system_clock::to_time_t(timestamp);
+
+    // P1.3 — W3C traceparent correlation fields (always serialised; empty when not set).
+    j["trace_id"] = trace_id;
+    j["span_id"]  = span_id;
     
     j["query"] = query;
     j["context"] = context;
@@ -67,6 +71,10 @@ AIDecisionAudit AIDecisionAudit::fromJson(const json& j) {
         std::time_t ts = j["timestamp"];
         audit.timestamp = std::chrono::system_clock::from_time_t(ts);
     }
+
+    // P1.3 — W3C traceparent fields (absent in older records → defaults to empty).
+    audit.trace_id = j.value("trace_id", "");
+    audit.span_id  = j.value("span_id",  "");
     
     audit.query = j.value("query", "");
     if (j.contains("context")) {

@@ -5,6 +5,7 @@
  */
 
 #include "auth/distributed_token_blacklist.h"
+#include <memory>
 #include <stdexcept>
 #include <chrono>
 #include <thread>
@@ -188,7 +189,9 @@ void DistributedTokenBlacklist::purgeExpired()
     auto* db = static_cast<rocksdb::DB*>(db_);
     auto* cf = static_cast<rocksdb::ColumnFamilyHandle*>(cf_);
     
-    rocksdb::Iterator* it = db->NewIterator(rocksdb::ReadOptions{}, cf);
+    // Wrap iterator in unique_ptr so it is freed on all paths (RAII, Phase 8.4).
+    auto it = std::unique_ptr<rocksdb::Iterator>(
+        db->NewIterator(rocksdb::ReadOptions{}, cf));
     rocksdb::WriteBatch batch;
     
     auto now = std::chrono::system_clock::now();
@@ -204,8 +207,7 @@ void DistributedTokenBlacklist::purgeExpired()
             // Skip corrupted entries
         }
     }
-    
-    delete it;
+    // iterator freed automatically by unique_ptr destructor
     
     if (batch.Count() > 0) {
         rocksdb::Status status = db->Write(rocksdb::WriteOptions{}, &batch);

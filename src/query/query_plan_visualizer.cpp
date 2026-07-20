@@ -40,21 +40,23 @@ static constexpr int kMaxPlanDepth = 128;
 
 std::string QueryPlanVisualizer::planNodeTypeName(PlanNodeType type) {
     switch (type) {
-        case PlanNodeType::SeqScan:         return "SeqScan";
-        case PlanNodeType::IndexScan:       return "IndexScan";
-        case PlanNodeType::Filter:          return "Filter";
-        case PlanNodeType::Sort:            return "Sort";
-        case PlanNodeType::Limit:           return "Limit";
-        case PlanNodeType::Return:          return "Return";
-        case PlanNodeType::Aggregate:       return "Aggregate";
-        case PlanNodeType::HashJoin:        return "HashJoin";
-        case PlanNodeType::NestedLoopJoin:  return "NestedLoopJoin";
-        case PlanNodeType::GraphTraversal:  return "GraphTraversal";
-        case PlanNodeType::VectorSearch:    return "VectorSearch";
-        case PlanNodeType::SpatialFilter:   return "SpatialFilter";
-        case PlanNodeType::CTE:             return "CTE";
-        case PlanNodeType::Subquery:        return "Subquery";
-        default:                            return "Unknown";
+        case PlanNodeType::SeqScan:           return "SeqScan";
+        case PlanNodeType::IndexScan:         return "IndexScan";
+        case PlanNodeType::Filter:            return "Filter";
+        case PlanNodeType::Sort:              return "Sort";
+        case PlanNodeType::Limit:             return "Limit";
+        case PlanNodeType::Return:            return "Return";
+        case PlanNodeType::Aggregate:         return "Aggregate";
+        case PlanNodeType::HashJoin:          return "HashJoin";
+        case PlanNodeType::NestedLoopJoin:    return "NestedLoopJoin";
+        case PlanNodeType::GraphTraversal:    return "GraphTraversal";
+        case PlanNodeType::VectorSearch:      return "VectorSearch";
+        case PlanNodeType::SpatialFilter:     return "SpatialFilter";
+        case PlanNodeType::CTE:               return "CTE";
+        case PlanNodeType::Subquery:          return "Subquery";
+        case PlanNodeType::TensorContraction: return "TensorContraction";
+        case PlanNodeType::LLMGenerate:       return "LLMGenerate";
+        default:                              return "Unknown";
     }
 }
 

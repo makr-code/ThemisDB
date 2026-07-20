@@ -1946,6 +1946,7 @@ set(THEMIS_CORE_SOURCES
     ../src/graph/distributed_graph.cpp
     ../src/graph/scheduled_edge_refresh.cpp
     ../src/graph/graph_query_cache.cpp
+    ../src/graph/adjacency_list.cpp
     ../src/query/optimizer_cost_model.cpp
     ../src/query/aql_parser.cpp
     ../src/query/aql_parser_json.cpp
@@ -1986,6 +1987,7 @@ set(THEMIS_CORE_SOURCES
     ../src/query/query_canceller.cpp
     ../src/query/query_federation.cpp
     ../src/query/plan_cache.cpp
+    ../src/query/query_executor.cpp
     ../src/query/query_compiler.cpp
     ../src/query/functions/function_registry.cpp
     ../src/api/graphql.cpp
@@ -2234,6 +2236,7 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/cache/grpc_remote_cache_peer.cpp>
     ../src/cache/distributed_cache_coordinator.cpp
     # ../src/cache/redis_cache_coordinator.cpp   # Legacy hiredis impl; conflicts with distributed_cache_coordinator
+    ../src/cache/eviction.cpp
     
     # Ingestion module – unified data intake layer (filesystem, REST, HuggingFace,
     # Kafka, S3/GCS/Azure, JDBC, web-crawler, CDC, distributed coordinator)
@@ -2388,7 +2391,7 @@ set(THEMIS_CORE_SOURCES
     ../src/utils/simd_distance.cpp
     ../src/utils/update_checker.cpp
     ../src/utils/http_client_pool.cpp
-    ../src/utils/grpc_channel_pool.cpp
+    $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/utils/grpc_channel_pool.cpp>
     ../src/utils/thread_pool_manager.cpp
     ../src/themis/build_info.cpp
     ../src/themis/license_info.cpp
@@ -2707,6 +2710,7 @@ set(THEMIS_CORE_SOURCES
     ../src/network/wire_protocol_performance.cpp
     ../src/network/wire_protocol_zero_copy.cpp
     ../src/network/wire_protocol_batch.cpp
+    ../src/network/wire_protocol.cpp
     ../src/network/io_uring_batcher.cpp
     ../src/network/connection_compression.cpp
     ../src/network/socket_timeout_manager.cpp
@@ -2898,6 +2902,12 @@ set(THEMIS_CORE_SOURCES
 
     # Distributed Analytics Sharding – scatter-gather coordinator for distributed OLAP (Phase 3)
     ../src/analytics/distributed_analytics.cpp
+
+    # GROUP BY aggregation engine with SafeIterator remediation (Sprint 7 Batch C)
+    ../src/analytics/aggregation.cpp
+
+    # Time-series data store with SafeIterator remediation (Sprint 7 Batch C)
+    ../src/analytics/time_series.cpp
 
     # Expert System Engine – forward/backward chaining, KnowledgeBase, proof traces (Phase 4)
     ../src/analytics/knowledge_base.cpp
@@ -5034,32 +5044,36 @@ endif()
 # LLM Model Management CLI Tool (themis-model)
 if(THEMIS_ENABLE_LLM)
     if(EXISTS "${THEMIS_ROOT_DIR}/tools/themis_model_cli.cpp")
-        add_executable(themis-model
-            ${THEMIS_ROOT_DIR}/tools/themis_model_cli.cpp
-        )
-        set_target_properties(themis-model PROPERTIES
-            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin_out"
-            RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/bin_out"
-            RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/bin_out"
-            RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_BINARY_DIR}/bin_out"
-            RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${CMAKE_BINARY_DIR}/bin_out"
-        )
-        target_link_libraries(themis-model PRIVATE 
-            themis_core
-            CURL::libcurl
-            OpenSSL::SSL
-            OpenSSL::Crypto
-            yaml-cpp
-        )
-        target_include_directories(themis-model PRIVATE ${THEMIS_ROOT_DIR}/include)
-        message(STATUS "LLM Model CLI Tool: Enabled (themis-model)")
-        
-        # Install the tool
-        install(TARGETS themis-model
-            OPTIONAL
-            RUNTIME DESTINATION bin
-            COMPONENT tools
-        )
+        if(TARGET CURL::libcurl AND TARGET yaml-cpp::yaml-cpp)
+            add_executable(themis-model
+                ${THEMIS_ROOT_DIR}/tools/themis_model_cli.cpp
+            )
+            set_target_properties(themis-model PROPERTIES
+                RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin_out"
+                RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/bin_out"
+                RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/bin_out"
+                RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_BINARY_DIR}/bin_out"
+                RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${CMAKE_BINARY_DIR}/bin_out"
+            )
+            target_link_libraries(themis-model PRIVATE 
+                themis_core
+                CURL::libcurl
+                OpenSSL::SSL
+                OpenSSL::Crypto
+                yaml-cpp::yaml-cpp
+            )
+            target_include_directories(themis-model PRIVATE ${THEMIS_ROOT_DIR}/include)
+            message(STATUS "LLM Model CLI Tool: Enabled (themis-model)")
+            
+            # Install the tool
+            install(TARGETS themis-model
+                OPTIONAL
+                RUNTIME DESTINATION bin
+                COMPONENT tools
+            )
+        else()
+            message(STATUS "LLM Model CLI Tool: Disabled (requires CURL::libcurl and yaml-cpp::yaml-cpp)")
+        endif()
     endif()
 endif()
 

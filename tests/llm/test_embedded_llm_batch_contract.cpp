@@ -44,7 +44,7 @@ TEST(EmbeddedLLMBatchContract, HandlesEmptyBatch) {
     EXPECT_TRUE(llm.embedBatch({}).empty());
 }
 
-TEST(EmbeddedLLMBatchContract, ReportsStubMetadataConsistently) {
+TEST(EmbeddedLLMBatchContract, ReportsCorrectBackendMetadataWhenNoCallback) {
     EmbeddedLLM llm;
 
     InferenceRequest request;
@@ -54,10 +54,22 @@ TEST(EmbeddedLLMBatchContract, ReportsStubMetadataConsistently) {
     const auto response = llm.generateFull(request);
     const auto stats = llm.getStats();
 
+    // Both stub and fail-closed modes report llm_enabled=false.
     EXPECT_FALSE(response.metadata.value("llm_enabled", true));
-    EXPECT_EQ(response.metadata.value("backend", std::string{}), "deterministic-fallback");
     EXPECT_FALSE(stats.value("llm_enabled", true));
+
+#ifdef THEMIS_LLM_STUB_MODE
+    // Stub/dev builds: deterministic fallback with success=true.
+    EXPECT_TRUE(response.success);
+    EXPECT_EQ(response.metadata.value("backend", std::string{}), "deterministic-fallback");
     EXPECT_EQ(stats.value("backend", std::string{}), "deterministic-fallback");
+#else
+    // Production builds (no THEMIS_LLM_STUB_MODE): fail-closed.
+    EXPECT_FALSE(response.success);
+    EXPECT_FALSE(response.error_message.empty());
+    EXPECT_EQ(response.metadata.value("backend", std::string{}), "no-backend-fail-closed");
+    EXPECT_EQ(stats.value("backend", std::string{}), "no-backend-fail-closed");
+#endif
 }
 
 } // namespace themis::llm
