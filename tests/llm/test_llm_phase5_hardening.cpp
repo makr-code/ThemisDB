@@ -87,7 +87,17 @@ public:
         : units_(other.units_), active_(other.active_) {
         other.active_ = false;
     }
-    SimAllocGuard& operator=(SimAllocGuard&&) = delete;
+    SimAllocGuard& operator=(SimAllocGuard&& other) noexcept {
+        if (this != &other) {
+            if (active_) {
+                g_sim_alloc_net.fetch_sub(units_, std::memory_order_relaxed);
+            }
+            units_  = other.units_;
+            active_ = other.active_;
+            other.active_ = false;
+        }
+        return *this;
+    }
     SimAllocGuard(const SimAllocGuard&)           = delete;
     SimAllocGuard& operator=(const SimAllocGuard&) = delete;
 
