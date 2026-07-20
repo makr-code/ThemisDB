@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <atomic>
 #include <chrono>
+#include <cmath>
 #include <functional>
 #include <numeric>
 #include <string>
@@ -32,9 +33,56 @@ QueryOptimizer::Plan makePlan(double complexity = 1.0,
     return plan;
 }
 
+TEST_F(Phase3PlanCacheOptimization, PlanCachePreservesQuotedIdentifiers) {
+    const auto stats = makeStats({{"orders", 1000}});
+    cache_->put("SELECT \"user\" FROM \"orders\" WHERE id = 1", makePlan(1.0), stats, {}, {"orders"});
+
+    EXPECT_TRUE(cache_->get("SELECT \"user\" FROM \"orders\" WHERE id = 99", stats).has_value());
+    EXPECT_FALSE(cache_->get("SELECT \"account\" FROM \"orders\" WHERE id = 99", stats).has_value());
+}
+
 PlanCache::Statistics makeStats(
     std::initializer_list<std::pair<const std::string, size_t>> rows) {
     return PlanCache::Statistics{std::unordered_map<std::string, size_t>(rows)};
+}
+
+TEST_F(Phase3PlanCacheOptimization, CostModelNetworkTransferHandlesZeroBandwidthCalibration) {
+    auto model = makeCostModel();
+    model.calibrateCosts({{"networkBandwidth", 0.0}, {"networkLatency", -1.0}});
+    const auto network = model.estimateNetworkTransfer(10 * 1024 * 1024, 2);
+
+    EXPECT_TRUE(std::isfinite(network.transferCost));
+    EXPECT_GE(network.transferCost, 0.0);
+    EXPECT_GE(network.latencyCost, 0.0);
+}
+
+TEST_F(Phase3PlanCacheOptimization, CostModelSelectivityClampsInvalidNullFraction) {
+    const auto model = makeCostModel();
+    OptimizerCostModel::ColumnStatistics column_stats;
+    column_stats.distinctValues = 10;
+    column_stats.nullFraction = 1.5;
+    EXPECT_NEAR(model.estimateSelectivity("status", column_stats), 0.001, 1e-12);
+
+    column_stats.nullFraction = -0.5;
+    EXPECT_NEAR(model.estimateSelectivity("status", column_stats), 0.1, 1e-9);
+}
+
+TEST_F(Phase3PlanCacheOptimization, CostModelSerializationAdviceAlwaysUsesAtLeastOneThread) {
+    auto model = makeCostModel();
+    model.calibrateCosts({
+        {"cpu_batch_thread_low", 0.0},
+        {"cpu_batch_thread_high", 0.0},
+        {"msgpack_row_threshold", 1.0}
+    });
+
+    const auto advice = model.adviseSerializationStrategy(
+        10'000,
+        128,
+        false,
+        0,
+        WorkloadType::VECTOR_SEARCH);
+
+    EXPECT_GE(advice.recommended_thread_count, 1u);
 }
 
 std::vector<long long> measure_latencies(size_t iterations,

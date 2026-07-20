@@ -77,42 +77,50 @@ std::string PlanCache::normalizeQueryTemplate(std::string_view query) {
 
     bool in_single_quote = false;
     bool in_double_quote = false;
+    bool literal_placeholder_inserted = false;
     bool last_was_space = false;
 
     for (size_t i = 0; i < query.size(); ++i) {
         const char ch = query[i];
 
         if (in_single_quote) {
-            if (ch == '\\' && i + 1 < query.size()) {
-                ++i;
-                continue;
-            }
             if (ch == '\'') {
+                if (i + 1 < query.size() && query[i + 1] == '\'') {
+                    ++i;
+                    continue;
+                }
                 in_single_quote = false;
+                literal_placeholder_inserted = false;
             }
             continue;
         }
 
         if (in_double_quote) {
-            if (ch == '\\' && i + 1 < query.size()) {
-                ++i;
-                continue;
-            }
+            normalized.push_back(ch);
             if (ch == '"') {
+                if (i + 1 < query.size() && query[i + 1] == '"') {
+                    normalized.push_back(query[++i]);
+                    continue;
+                }
                 in_double_quote = false;
             }
+            last_was_space = false;
             continue;
         }
 
-        if (ch == '\'' || ch == '"') {
-            if (normalized.empty() || normalized.back() != '?') {
+        if (ch == '\'') {
+            if (!literal_placeholder_inserted) {
                 normalized.push_back('?');
+                literal_placeholder_inserted = true;
             }
-            if (ch == '\'') {
-                in_single_quote = true;
-            } else {
-                in_double_quote = true;
-            }
+            in_single_quote = true;
+            last_was_space = false;
+            continue;
+        }
+
+        if (ch == '"') {
+            normalized.push_back(ch);
+            in_double_quote = true;
             last_was_space = false;
             continue;
         }
