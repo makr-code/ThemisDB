@@ -1747,6 +1747,23 @@ if(_themis_tests_sources_final)
         endforeach()
         set(_themis_tests_sources_final ${_themis_tests_sources_final_dedup})
     endif()
+    # Guard: drop any source paths that do not yet exist on disk to prevent
+    # CMake generate-step "Cannot find source file" errors for test files that
+    # are planned but not yet committed.  Generator expressions (paths starting
+    # with "$<") are always preserved unchanged.
+    if(_themis_tests_sources_final)
+        set(_themis_tests_sources_disk_checked)
+        foreach(_src_check_item IN LISTS _themis_tests_sources_final)
+            string(SUBSTRING "${_src_check_item}" 0 2 _src_check_prefix)
+            if(_src_check_prefix STREQUAL "$<" OR EXISTS "${_src_check_item}")
+                list(APPEND _themis_tests_sources_disk_checked "${_src_check_item}")
+            endif()
+        endforeach()
+        set(_themis_tests_sources_final ${_themis_tests_sources_disk_checked})
+        unset(_themis_tests_sources_disk_checked)
+        unset(_src_check_item)
+        unset(_src_check_prefix)
+    endif()
     set_property(TARGET themis_tests PROPERTY SOURCES ${_themis_tests_sources_final})
 endif()
 
