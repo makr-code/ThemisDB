@@ -1555,6 +1555,12 @@ static std::pair<bool, std::string> validateAQLWithParser(
     const std::string& aql_query,
     const std::shared_ptr<query::AQLParserService>& parser_service_ptr)
 {
+    // Block 4.2: Fail-closed on null/empty input — no ambiguous pass-through
+    if (aql_query.empty()) {
+        return {false, "[VALIDATION:MalformedAQL] AQL query is empty or null: "
+                       "provide a non-empty AQL query string"};
+    }
+
     // Timing for metrics
     auto start_time = std::chrono::steady_clock::now();
     
@@ -1567,8 +1573,23 @@ static std::pair<bool, std::string> validateAQLWithParser(
             std::chrono::steady_clock::now() - start_time);
         
         if (!parse_result.success) {
-            // Enrich error message with parser diagnostics
-            std::string error_msg = "Parser error: " + parse_result.diagnostics.error_message;
+            // Block 4.2: Select structured category tag based on parser diagnostics
+            std::string category_tag = "[VALIDATION:MalformedAQL]";
+            if (!parse_result.diagnostics.error_category.empty()) {
+                const auto& ec = parse_result.diagnostics.error_category;
+                if (ec.find("schema") != std::string::npos ||
+                    ec.find("collection") != std::string::npos ||
+                    ec.find("field") != std::string::npos) {
+                    category_tag = "[VALIDATION:SchemaMismatch]";
+                } else if (ec.find("injection") != std::string::npos ||
+                           ec.find("security") != std::string::npos) {
+                    category_tag = "[VALIDATION:InjectionAttempt]";
+                } else if (ec.find("type") != std::string::npos) {
+                    category_tag = "[VALIDATION:TypeMismatch]";
+                }
+            }
+            // Enrich error message with parser diagnostics and category tag
+            std::string error_msg = category_tag + " Parser error: " + parse_result.diagnostics.error_message;
             
             // Add location information (line:column)
             if (parse_result.diagnostics.line_number > 0 || parse_result.diagnostics.column_number > 0) {
@@ -1620,7 +1641,9 @@ static std::pair<bool, std::string> validateAQLWithParser(
                                    [](const ValidationIssue &i) {
                                        return i.severity == ValidationIssue::Severity::ERROR;
                                    });
-        std::string error_msg = (err_it != vresult.issues.end()) ? err_it->message : "unknown validation error";
+        // Block 4.2: Prepend category tag for enriched error context
+        std::string error_msg = "[VALIDATION:MalformedAQL] " +
+                                ((err_it != vresult.issues.end()) ? err_it->message : "unknown validation error");
         
         // Include clause hint from legacy validator
         if (err_it != vresult.issues.end() && !err_it->clause.empty()) {
@@ -1706,7 +1729,7 @@ std::string LLMAQLHandler::translateNLToAQL(const std::string &nl_query, const s
             if (!parse_success) {
                 // Validation failed
                 validation_feedback = parse_error;
-                spdlog::warn("NL-to-AQL: Validation failed (attempt {}/{}): {}", 
+                spdlog::warn("[TRANSLATION:GenerationFailed] NL-to-AQL: Validation failed (attempt {}/{}): {}", 
                             attempt + 1, max_attempts, parse_error);
                 
                 // Record validation retry metric
@@ -1772,18 +1795,24 @@ std::string LLMAQLHandler::translateNLToAQL(const std::string &nl_query, const s
             spdlog::info("NL-to-AQL: Translation successful");
             return aql_query;
 
-        } catch (const LLMException &) {
+        } catch (const LLMException &e) {
+            // Block 4.3: Detect circuit-breaker / provider-unavailable errors and log structured tag
+            const std::string what_str(e.what());
+            if (what_str.find("Circuit breaker") != std::string::npos ||
+                what_str.find("temporarily unavailable") != std::string::npos) {
+                spdlog::error("[TRANSLATION:ProviderUnavailable] NL-to-AQL: Provider unavailable (circuit breaker open): {}", what_str);
+            }
             // Re-throw LLMException (PROMPT_INJECTION, PROMPT_TOO_LONG, INVALID_RESPONSE, …)
             // unchanged so callers can distinguish them from generic errors.
             throw;
         } catch (const std::exception &e) {
-            spdlog::error("NL-to-AQL: Translation exception: {}", e.what());
+            spdlog::error("[TRANSLATION:GenerationFailed] NL-to-AQL: Translation exception: {}", e.what());
             throw std::runtime_error(std::string("NL to AQL translation failed: ") + e.what());
         }
     }
 
     // Reached only when max_attempts > 1 and all retries produced validation errors.
-    spdlog::error("NL-to-AQL: Exhausted all {} retries with validation errors", max_attempts);
+    spdlog::error("[TRANSLATION:GenerationFailed] NL-to-AQL: Exhausted all {} retries with validation errors", max_attempts);
     throw LLMException(LLMErrorCode::INVALID_RESPONSE, "NL-to-AQL generation exhausted retries with validation errors");
 }
 
