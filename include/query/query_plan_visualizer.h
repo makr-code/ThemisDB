@@ -52,6 +52,7 @@ enum class PlanNodeType {
     CTE,              // Common Table Expression
     Subquery,         // Inline subquery
     TensorContraction,// TT-compressed tensor operation routed by TensorAwareQueryOptimizer
+    LLMGenerate,      // Probabilistic LLM generation step (non-deterministic)
     Unknown
 };
 

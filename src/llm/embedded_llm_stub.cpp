@@ -19,6 +19,7 @@
  */
 
 #include "llm/embedded_llm.h"
+#include "llm/prompt_safety_utils.h"
 
 #include <algorithm>
 #include <cmath>
@@ -31,6 +32,8 @@
 namespace spdlog {
 template <typename... Args>
 inline void warn(const char*, Args&&...) {}
+template <typename... Args>
+inline void error(const char*, Args&&...) {}
 } // namespace spdlog
 #endif
 
@@ -251,14 +254,41 @@ json EmbeddedLLM::generateAsJsonMarkdown(const std::string& prompt, int max_toke
 }
 
 InferenceResponse EmbeddedLLM::generateFull(const InferenceRequest& request) {
+    // P0.2: Apply shared prompt safety policy before any dispatch.
+    // Blocked prompts fail-closed with success=false; this check runs before
+    // any backend dispatch (including injected test functions via generate_full_fn_)
+    // to enforce a single, consistent security boundary.
+    std::string sanitized_prompt;
+    std::string blocked_rule;
+    std::string blocked_reason;
+    if (!prompt_safety::sanitizePromptWithSharedPolicy(
+            request.prompt, sanitized_prompt, &blocked_rule, &blocked_reason)) {
+        spdlog::warn("EmbeddedLLM: prompt blocked by safety policy '{}': {}",
+                     blocked_rule, blocked_reason);
+        InferenceResponse resp;
+        resp.request_id    = request.request_id;
+        resp.model_id      = request.model_id;
+        resp.trace_id      = request.trace_id;
+        resp.span_id       = request.span_id;
+        resp.success       = false;
+        resp.error_message = "Prompt blocked by safety policy: " + blocked_rule;
+        resp.metadata      = json{{"llm_enabled", false}, {"backend", "safety-blocked"}};
+        return resp;
+    }
+
+    // Build a sanitized request copy for all downstream dispatch paths so that
+    // neither the injected callback nor any fallback path sees the raw prompt.
+    InferenceRequest safe_req = request;
+    safe_req.prompt           = std::move(sanitized_prompt);
+
     {
         std::lock_guard<std::mutex> lock(callback_mutex_);
         if (generate_full_fn_) {
             try {
-                auto response = generate_full_fn_(request);
-                if (request.stream_callback && !response.text.empty()) {
+                auto response = generate_full_fn_(safe_req);
+                if (safe_req.stream_callback && !response.text.empty()) {
                     try {
-                        request.stream_callback(response.text);
+                        safe_req.stream_callback(response.text);
                     } catch (const std::exception& e) {
                         spdlog::warn("EmbeddedLLM stream callback failed: {}", e.what());
                     } catch (...) {
@@ -274,23 +304,46 @@ InferenceResponse EmbeddedLLM::generateFull(const InferenceRequest& request) {
         }
     }
 
+    // P0.1: No backend configured.
+    // In THEMIS_LLM_STUB_MODE (test/dev-only builds) return the deterministic
+    // fallback so existing test fixtures continue to work without a real model.
+    // In all other builds (production) the call fails-closed: callers receive
+    // success=false and a clear diagnostic rather than a silently wrong answer.
+    //
+    // STUB/SIMULATION NOTE:
+    // Purpose: deterministic response for test/dev builds without a real model
+    // Activation: compile-time flag THEMIS_LLM_STUB_MODE (never set in release presets)
+    // Production Delta: production returns success=false; stub returns success=true with hardcoded text
+    // Removal Plan: N/A — stub path intentionally retained for test builds only
     InferenceResponse resp;
-    resp.request_id = request.request_id;
-    resp.model_id = request.model_id;
-    resp.model_used = request.model_id;
-    resp.trace_id = request.trace_id;
-    resp.span_id = request.span_id;
-    resp.text = buildFallbackCompletion(request.prompt, request.max_tokens);
+    resp.request_id = safe_req.request_id;
+    resp.model_id   = safe_req.model_id;
+    resp.model_used = safe_req.model_id;
+    resp.trace_id   = safe_req.trace_id;
+    resp.span_id    = safe_req.span_id;
+#ifdef THEMIS_LLM_STUB_MODE
+    resp.text             = buildFallbackCompletion(safe_req.prompt, safe_req.max_tokens);
     resp.tokens_generated = static_cast<int>(std::max<std::size_t>(1, (resp.text.size() + 3) / 4));
-    resp.success = true;
-    resp.metadata = json{
+    resp.success          = true;
+    resp.metadata         = json{
         {"llm_enabled", false},
         {"backend", "deterministic-fallback"},
         {"model_backend_ready", false}
     };
-    if (request.stream_callback && !resp.text.empty()) {
-        request.stream_callback(resp.text);
+    if (safe_req.stream_callback && !resp.text.empty()) {
+        safe_req.stream_callback(resp.text);
     }
+#else
+    spdlog::error("EmbeddedLLM: no backend configured — call EmbeddedLLMManager::initialize() "
+                  "with a valid model path, or build with -DTHEMIS_ENABLE_LLM=ON");
+    resp.success       = false;
+    resp.error_message = "LLM backend not initialized — configure a model or build with THEMIS_ENABLE_LLM";
+    resp.metadata      = json{
+        {"llm_enabled", false},
+        {"backend", "no-backend-fail-closed"},
+        {"model_backend_ready", false}
+    };
+#endif
     return resp;
 }
 
@@ -304,12 +357,18 @@ std::string EmbeddedLLM::getModelInfo() const {
 
 json EmbeddedLLM::getStats() const {
     std::lock_guard<std::mutex> lock(callback_mutex_);
+    const bool has_backend = static_cast<bool>(generate_full_fn_);
+#ifdef THEMIS_LLM_STUB_MODE
+    const std::string backend = has_backend ? "injected-callback" : "deterministic-fallback";
+#else
+    const std::string backend = has_backend ? "injected-callback" : "no-backend-fail-closed";
+#endif
     return json{
         {"llm_enabled", false},
         {"embedding_enabled", true},
         {"initialized", true},
-        {"backend", "deterministic-fallback"},
-        {"override_generate_backend", static_cast<bool>(generate_full_fn_)},
+        {"backend", backend},
+        {"override_generate_backend", has_backend},
         {"override_embedding_backend", static_cast<bool>(embed_fn_)}
     };
 }
