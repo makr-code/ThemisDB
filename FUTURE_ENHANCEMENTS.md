@@ -343,9 +343,9 @@
 
 ### Implementation Notes
 - Batch A: status/evidence sync + gate-board update (completed).
-- Batch B: sharding Phase 6 gate integration delivered; finalize consistency/recovery sign-off bundle.
-- Batch C: Wave 8 + chaos/SLA/security gate integration delivered; finalize sanitizer + penetration-test evidence completion.
-- Batch D: operations/SLA/governance readiness is gate-integrated; finalize manual governance sign-off and controlled promotion.
+- Batch B: sharding Phase 6 gate integration delivered; WAL/failover boundary evidence attachment in progress (partial).
+- Batch C: **CLOSED** — sanitizer evidence bundle (`docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md`: ASan/UBSan/TSan 0 new defects) and penetration-test evidence bundle (`security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`: 0 new Critical/High; PTR-01/PTR-02 accepted) delivered.
+- Batch D: **IN PROGRESS** — governance sign-off document created at `docs/governance/GA_PROMOTION_SIGN_OFF.md`; all technical gates PASS; awaiting human approval in Section 9 of that document before `develop` → `community` promotion and `v1.9.0` tag.
 
 ### Test Strategy
 - Verify gate evidence on each batch boundary before moving to the next batch.

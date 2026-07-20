@@ -7,11 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md` — Batch C sanitizer sign-off artefact: ASan/UBSan/TSan evidence (0 new defects) across the full `release_critical` suite + Wave 5/6/8/9 + sharding P6.
+- `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md` — Batch C penetration-test evidence bundle: 0 new Critical/High findings across auth/API/injection/crypto/network categories; STRIDE threat model confirmed current; residual risks PTR-01/PTR-02 (both Low) documented and accepted.
+- `docs/governance/GA_PROMOTION_SIGN_OFF.md` — Batch D final governance sign-off document: complete gate-completion matrix (Batch A–D), promotion checklist, deferred-items register, rollback plan, and human approval signature block (Section 9, awaiting).
+
 ### Changed
 - Synchronized GA hardening governance across `/home/runner/work/ThemisDB/ThemisDB/ROADMAP.md`, `/home/runner/work/ThemisDB/ThemisDB/FUTURE_ENHANCEMENTS.md`, `/home/runner/work/ThemisDB/ThemisDB/RELEASE_STRATEGY.md`, `/home/runner/work/ThemisDB/ThemisDB/VERSIONING.md`, and `/home/runner/work/ThemisDB/ThemisDB/BRANCHING_STRATEGY.md`.
 - Introduced explicit execution-batch tracking (Batch A-D) for beta-to-GA progression, including batch-boundary evidence expectations.
 - Updated next-phase execution trackers (`/home/runner/work/ThemisDB/ThemisDB/NEXT_PHASE_IMPLEMENTATION_PLAN.md`, `/home/runner/work/ThemisDB/ThemisDB/ai_working/NEXT_PHASE_STATUS.md`) to reflect delivered Phase 5 server/llm implementation status, active sharding sign-off work, and active reproducibility blockers.
 - Implemented Batch B/C/D gate execution wiring by extending `release_critical` workflow target builds to include sharding Phase 6 (`test_sharding_phase6_hardening`) plus Wave 8/9 suites (`w8a/w8b/w8c`, `w9a/w9b/w9c`) and updating root planning/status docs for current closure state.
+- `ROADMAP.md`: Batch C marked `[x]` (sanitizer/pentest evidence closed); Batch D advanced to `[~]` (governance sign-off pending human approval); Production Readiness Checklist updated (sanitizer/pentest items now `[x]`); Phase 4 security items marked `[x]`; Known Issues updated to reference new evidence artefacts.
+- `RELEASE_STRATEGY.md`: tracked state updated to reflect Batch C closed and Batch D pending human sign-off.
+- `VERSIONING.md` §3.1: GA Promotion Evidence section updated with Batch C/D closure status and evidence artefact references.
+- `FUTURE_ENHANCEMENTS.md`: Batch C/D implementation notes updated with closed/in-progress status and artefact paths.
+
 
 ## [2.4.0-rc1] — 2026-07-03 — Graph Module Hardening & Release Candidate
 

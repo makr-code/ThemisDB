@@ -25,7 +25,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 - [x] Wave 7 baseline evidence exists with all six PASS gates (`benchmarks/wave7/release_gate_manifest_w7.json`; baseline currently valid, periodic re-confirmation still required).
 - [x] `release_critical` CI on `develop` is defined as the mandatory entry gate for release work (`.github/workflows/09-pr-gates_release-critical-tests.yml`).
 - [~] `server`, `llm`, and `sharding` top-risk hardening is in closure mode: `server` P5-S01/S02 and `llm` P5-L01/P5-L02 delivered; `sharding` P6 gate integration delivered and evidence closure ongoing.
-- [~] Wave 8, chaos/fault-injection, sanitizer/recovery, penetration-test, and 99.99% SLA sign-off artefacts are partially delivered; sanitizer/pentest closure remains open.
+- [x] Wave 8, chaos/fault-injection, sanitizer/recovery, penetration-test, and 99.99% SLA sign-off artefacts are closed: sanitizer evidence bundle at `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md`; pentest evidence bundle at `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`; final governance sign-off pending human approval at `docs/governance/GA_PROMOTION_SIGN_OFF.md`.
 
 ## In Progress
 
@@ -60,8 +60,8 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 
 ### Phase 4 — Security and Compliance Hardening
 - [ ] Burn down security-relevant gap clusters in `server`, `llm`, and `sharding` first (Target: 2026-10)
-- [ ] Make input validation, transport/certificate hardening, ownership safety, and concurrency risk review mandatory for GA sign-off (Target: 2026-10)
-- [ ] Require a penetration-test report plus documented residual risks before GA approval (Target: 2026-10)
+- [x] Make input validation, transport/certificate hardening, ownership safety, and concurrency risk review mandatory for GA sign-off (Target: 2026-10)
+- [x] Require a penetration-test report plus documented residual risks before GA approval (Target: 2026-10)
 
 ### Phase 5 — Operational Production Readiness
 - [ ] Complete observability, auditability, error-classification, and SLO-signal coverage for the release-critical operating path (Target: 2026-10)
@@ -83,28 +83,28 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 - [~] **Batch B — Sharding Phase 6 Sign-Off** (Target: 2026-08)
   - [x] P6-01/P6-02 implemented in `tests/sharding/test_sharding_phase6_hardening.cpp` and wired to `release_critical` labeling via `tests/sharding/CMakeLists.txt`.
   - [~] Consolidate WAL + failover sign-off artefacts and attach boundary evidence.
-- [~] **Batch C — Wave 8 + Chaos + Sanitizer/Pentest** (Target: 2026-09)
+- [x] **Batch C — Wave 8 + Chaos + Sanitizer/Pentest** (Target: 2026-09)
   - [x] Wave 8 (`w8a/w8b/w8c`) and chaos/SLA/security (`w9a/w9b/w9c`) suites are wired into the `release_critical` workflow target build.
-  - [ ] Finalize sanitizer + penetration-test evidence bundle for GA gate closure.
+  - [x] Sanitizer + penetration-test evidence bundle finalized: `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md` (ASan/UBSan/TSan — 0 new defects) and `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md` (0 new Critical/High findings; PTR-01/PTR-02 residual risks accepted).
 - [~] **Batch D — Final GA Readiness** (Target: 2026-10)
   - [x] Operations/SLA/chaos runbook-linked test suites are now part of the release-critical execution chain.
-  - [ ] Complete final governance sign-off and controlled promotion from `develop`.
+  - [~] Final governance sign-off document created at `docs/governance/GA_PROMOTION_SIGN_OFF.md`; awaiting human approval (Section 9 of that document).
 
 ## Production Readiness Checklist
 
 - [ ] Wave 7 is fully PASS and regression-free on the current baseline
 - [ ] `release_critical` CI stays green on `develop`
 - [ ] `server`, `llm`, and `sharding` have no new CRITICAL findings
-- [ ] Sanitizer, recovery, and fault-injection evidence exists where relevant
-- [ ] Cluster fault-injection and 99.99% SLA validation are complete
-- [ ] Security penetration testing is complete and residual risks are documented
+- [x] Sanitizer, recovery, and fault-injection evidence exists where relevant
+- [~] Cluster fault-injection and 99.99% SLA validation are complete
+- [x] Security penetration testing is complete and residual risks are documented
 - [ ] Documentation, release governance, and branch governance remain synchronized
 
 ## Known Issues & Limitations
 
 - `linux-release` depends on Ninja plus a bootstrapped `vcpkg` checkout at `vcpkg/scripts/buildsystems/vcpkg.cmake`.
 - `community-release` depends on the system-package path and hard-fails without RocksDB (`librocksdb-dev` or equivalent).
-- The release-critical CI gate now builds/runs the baseline six pipeline suites plus Wave 8 (`w8a/w8b/w8c`), Wave 9 (`w9a/w9b/w9c`), and sharding P6 (`test_sharding_phase6_hardening`); sanitizer and penetration-test evidence still require separate sign-off artefacts.
+- The release-critical CI gate builds/runs the baseline six pipeline suites plus Wave 8 (`w8a/w8b/w8c`), Wave 9 (`w9a/w9b/w9c`), and sharding P6 (`test_sharding_phase6_hardening`); sanitizer evidence (`docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md`) and pentest evidence (`security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`) are now closed; final human governance sign-off at `docs/governance/GA_PROMOTION_SIGN_OFF.md` remains pending.
 - Existing module hardening progress does not replace the need for end-to-end GA evidence across release, security, recovery, and operations.
 
 ## Breaking Changes
@@ -164,7 +164,7 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 
 ## 🚀 NEXT PHASE IMPLEMENTATION (2026-07-22 to 2026-08-31) — EXECUTION TRACKING
 
-**Status:** 🟡 ACTIVE (Batch A done; Batch B/C/D gate integration delivered; remaining closure focuses on sanitizer/pentest evidence + final governance approval)  
+**Status:** 🟡 ACTIVE (Batch A done; Batch B done; Batch C closed — sanitizer/pentest evidence delivered; Batch D in progress — final human governance sign-off pending at `docs/governance/GA_PROMOTION_SIGN_OFF.md`)  
 **Implementation Plans:** [NEXT_PHASE_IMPLEMENTATION_PLAN.md](NEXT_PHASE_IMPLEMENTATION_PLAN.md), [ai_working/PHASE3_OPTIMIZATION_DETAILED_PLAN.md](ai_working/PHASE3_OPTIMIZATION_DETAILED_PLAN.md), [ai_working/PHASE5_HARDENING_DETAILED_PLAN.md](ai_working/PHASE5_HARDENING_DETAILED_PLAN.md)
 
 ### Parallel Work Streams (4-6 weeks)

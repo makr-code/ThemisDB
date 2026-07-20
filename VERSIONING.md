@@ -100,7 +100,7 @@ Required evidence bundle:
 - synchronized release/governance documentation (`ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `CHANGELOG.md`, branch/release/versioning docs)
 - completed GA hardening execution batches (A-D) with boundary evidence updates in planning/status documents
 
-Current batch tracking is maintained in `ROADMAP.md`, `NEXT_PHASE_IMPLEMENTATION_PLAN.md`, and `ai_working/NEXT_PHASE_STATUS.md`; gate integration progress does not replace the remaining sanitizer/pentest/governance closure requirements.
+Current batch tracking is maintained in `ROADMAP.md`, `NEXT_PHASE_IMPLEMENTATION_PLAN.md`, and `ai_working/NEXT_PHASE_STATUS.md`. Batch C is now closed: sanitizer evidence (`docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md`) and penetration-test evidence (`security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`) are delivered. Final human governance sign-off (Batch D) is pending at `docs/governance/GA_PROMOTION_SIGN_OFF.md`.
 
 ## 4. Release Cadence
 
