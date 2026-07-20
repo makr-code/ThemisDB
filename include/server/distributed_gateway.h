@@ -278,6 +278,16 @@ public:
 
         // Degraded-mode behaviour
         bool continue_on_quorum_loss = true; ///< Use last-known config when quorum is lost
+
+        // Wire-protocol retry (P5-S01)
+        /// Maximum number of retry attempts on transient errors (5xx).
+        /// Total attempts = max_retries + 1.  Default: 2 retries (3 total).
+        uint32_t max_retries = 2;
+        /// Base delay (ms) for exponential backoff between retry attempts.
+        /// Actual delay for attempt N = min(retry_base_delay_ms × 2^N, retry_max_delay_ms).
+        uint32_t retry_base_delay_ms = 50;
+        /// Upper bound (ms) for exponential backoff to prevent unbounded waits.
+        uint32_t retry_max_delay_ms = 2000;
     };
 
     // -----------------------------------------------------------------------
@@ -480,6 +490,27 @@ private:
      *        (WebSocket upgrade or SSE Accept header).
      */
     bool needsSessionAffinity(const http::request<http::string_body>& req) const;
+
+    /**
+     * @brief Return true when @p status is a transient HTTP error that should
+     *        trigger a retry (HTTP 429, 500, 502, 503, 504).
+     *
+     * @param status  Numeric HTTP status code.
+     * @return true if the error is retryable.
+     */
+    static bool isTransientError(unsigned status) noexcept;
+
+    /**
+     * @brief Compute the exponential-backoff delay for a given retry attempt.
+     *
+     * @param attempt   0-based attempt index (0 = first retry).
+     * @param base_ms   Base delay in milliseconds.
+     * @param max_ms    Upper bound for the delay in milliseconds.
+     * @return          Clamped delay for this attempt.
+     */
+    static std::chrono::milliseconds retryDelay(uint32_t attempt,
+                                                uint32_t base_ms,
+                                                uint32_t max_ms) noexcept;
 };
 
 } // namespace themis::server

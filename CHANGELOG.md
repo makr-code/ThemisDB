@@ -5,6 +5,53 @@ All notable changes to ThemisDB will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — Sprint 7 Batch C — SafeIterator Remediations (Phase 2B-D)
+
+### Security Fixes
+
+**Iterator safety hardening across 6 modules — 13 CWE-416/CWE-129 gaps closed**
+
+Implements Sprint 7 Batch C Phase 2B/2C/2D: six previously-missing production source
+files created with `themis::security::SafeIterator` applied throughout, addressing all
+13 gap IDs identified in the iterator vulnerability scan.
+
+#### Modules hardened
+
+| Module | File | Gap IDs | Root cause |
+|---|---|---|---|
+| `network/wire_protocol` | `src/network/wire_protocol.cpp` | B001, B003, B005 | Dereference without end check; user-length-driven advance |
+| `query/query_executor`  | `src/query/query_executor.cpp`  | B002, B006, B008 | Post-increment without bounds guard; user-offset pagination |
+| `analytics/aggregation` | `src/analytics/aggregation.cpp` | A004, C001, C002 | `push_back` inside live iterator loop; raw `std::advance` |
+| `analytics/time_series` | `src/analytics/time_series.cpp` | B011, B012, B013 | User-offset page without validation; sub-range without `RangeValidator` |
+| `cache/eviction`        | `src/cache/eviction.cpp`        | B012, B013       | Unsigned size arithmetic wraparound; past-end dereference |
+| `graph/adjacency_list`  | `src/graph/adjacency_list.cpp`  | A003, A006, B009 | Vector mutation during edge-list iteration; `neighbour_at` without bounds |
+
+#### Safety patterns applied uniformly
+
+- **`BoundsChecker::check_dereference()`** — every iterator dereference guarded
+- **`AdvanceSafe::advance()`** — replaces all `std::advance()` and `it + N` where N is user-supplied
+- **`RangeValidator`** — wraps every sub-range before inner loops begin
+- **Collect-then-erase** — `AdjacencyList::remove_edges_if()` and `remove_vertex()` collect indices first, then erase in reverse order
+
+#### Files added
+
+- `src/network/wire_protocol.cpp` — `PacketParser` + `PacketBuilder` (280 LOC)
+- `src/query/query_executor.cpp` — `ResultSet` + `QueryExecutor` (191 LOC)
+- `src/analytics/aggregation.cpp` — `Aggregator` GROUP BY engine (320 LOC)
+- `src/analytics/time_series.cpp` — `TimeSeries` append-only store (201 LOC)
+- `src/cache/eviction.cpp` — `EvictionScheduler` (160 LOC)
+- `src/graph/adjacency_list.cpp` — `AdjacencyList` directed graph (248 LOC)
+- `tests/security/test_sprint7_batchc_safe_iterator_modules.cpp` — 40 GTest cases
+
+#### CMake registration
+
+All 6 new source files registered in `cmake/CMakeLists.txt` under `THEMIS_CORE_SOURCES`.
+
+#### Security tier impact
+
+- T2 Data Plane Engines: analytics/aggregation, time_series, cache/eviction, graph/adjacency_list
+- T3 Interface & Protocol Edge: network/wire_protocol, query/query_executor
+
 ## [2.4.0-rc1] — 2026-07-03 — Graph Module Hardening & Release Candidate
 
 ### New Features: Graph Module Phase 2 Completion

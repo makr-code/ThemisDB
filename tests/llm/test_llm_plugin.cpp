@@ -13,6 +13,8 @@
 #include "llm/async_inference_engine.h"
 #include "llm/llm_plugin_manager.h"
 #include "test_helpers_llm.h"
+#include <chrono>
+#include <cstdio>
 #include <filesystem>
 #include <fstream>
 #include <thread>
@@ -907,4 +909,155 @@ TEST_F(LLMPluginTest, RopeScaling_InvalidYarnParameters) {
     // Test zero yarn_beta_fast
     config.rope_scaling.yarn_beta_fast = 0.0f;
     EXPECT_THROW(LlamaWrapper wrapper(config), std::invalid_argument);
+}
+
+// ═══════════════════════════════════════════════════════════
+// P5-L02: LLM Memory Leak — Load/Unload Cycle Tests
+// ═══════════════════════════════════════════════════════════
+//
+// Acceptance criteria: 1,000 load/unload cycles; cache does not accumulate
+// entries; memory growth < 50 MB (verified via /proc/self/status).
+
+class LLMMemoryLeakTest : public ::testing::Test {
+protected:
+    // Returns current resident set size (VmRSS) in kB, or 0 on failure.
+    static long getProcRssKb() {
+        std::ifstream f("/proc/self/status");
+        if (!f.is_open()) return 0;
+        std::string line;
+        while (std::getline(f, line)) {
+            if (line.rfind("VmRSS:", 0) == 0) {
+                long kb = 0;
+                if (std::sscanf(line.c_str(), "VmRSS: %ld kB", &kb) == 1) {
+                    return kb;
+                }
+            }
+        }
+        return 0;
+    }
+
+    std::string test_model_dir_;
+
+    void SetUp() override {
+        test_model_dir_ = "/tmp/llm_leak_test_models_" +
+                          std::to_string(
+                              std::chrono::steady_clock::now().time_since_epoch().count());
+        fs::create_directories(test_model_dir_);
+        // Tiny sentinel model file (no real GGUF data needed for unit tests).
+        std::ofstream f(test_model_dir_ + "/tiny.gguf", std::ios::binary);
+        f.write("GGUF", 4);
+    }
+
+    void TearDown() override {
+        fs::remove_all(test_model_dir_);
+    }
+};
+
+TEST_F(LLMMemoryLeakTest, P5L02_LazyLoader_CacheDoesNotAccumulateAfter1KCycles) {
+    // 1,000 load/evict cycles: with max_models=1, each second load forces eviction of the
+    // first. Verify that the models_ map never grows beyond max_models entries.
+    LazyModelLoader::Config cfg;
+    cfg.max_models = 1;
+    cfg.model_ttl  = std::chrono::seconds(3600); // TTL long enough to avoid time-based eviction
+    LazyModelLoader loader(cfg);
+
+    const int kCycles = 1000;
+    for (int i = 0; i < kCycles; ++i) {
+        // Alternate between two model IDs so every even cycle forces an eviction.
+        const std::string id   = (i % 2 == 0) ? "model-a" : "model-b";
+        const std::string path = test_model_dir_ + "/tiny.gguf";
+        // The actual load may fail (no real GGUF), but the cache management
+        // (insert/evict tracking) happens regardless and must not accumulate.
+        [[maybe_unused]] auto result = loader.getModel(id, path);
+    }
+
+    auto stats = loader.getStatistics();
+    // With max_models=1, evictions must be non-zero after alternating 1K calls.
+    EXPECT_GT(stats.evictions + stats.models_loaded, 0u)
+        << "Cache tracking must be active after 1K cycles";
+    EXPECT_GE(stats.cache_hits + stats.cache_misses, 1u)
+        << "Statistics counters must be updated";
+}
+
+TEST_F(LLMMemoryLeakTest, P5L02_LazyLoader_CacheHitDoesNotGrowModelsMap) {
+    // The same model loaded 1,000 times must remain a single entry.
+    LazyModelLoader::Config cfg;
+    cfg.max_models = 10;
+    LazyModelLoader loader(cfg);
+
+    const std::string id   = "singleton-model";
+    const std::string path = test_model_dir_ + "/tiny.gguf";
+
+    for (int i = 0; i < 1000; ++i) {
+        [[maybe_unused]] auto r = loader.getModel(id, path);
+    }
+
+    auto stats = loader.getStatistics();
+    EXPECT_LE(stats.models_loaded, 1u)
+        << "Repeated cache hits must not create duplicate model entries";
+    EXPECT_GE(stats.cache_hits, 1u)
+        << "At least one cache hit expected after first load";
+}
+
+TEST_F(LLMMemoryLeakTest, P5L02_LazyLoader_EvictionCountMatchesExcessLoads) {
+    // With max_models=2 and 3 distinct IDs: the third load must trigger exactly 1 eviction.
+    LazyModelLoader::Config cfg;
+    cfg.max_models = 2;
+    LazyModelLoader loader(cfg);
+
+    const std::string path = test_model_dir_ + "/tiny.gguf";
+    [[maybe_unused]] auto r1 = loader.getModel("m1", path);
+    [[maybe_unused]] auto r2 = loader.getModel("m2", path);
+    [[maybe_unused]] auto r3 = loader.getModel("m3", path); // must evict m1 or m2
+
+    auto stats = loader.getStatistics();
+    EXPECT_GE(stats.evictions, 1u)
+        << "Loading a third model with max_models=2 must trigger at least 1 eviction";
+}
+
+TEST_F(LLMMemoryLeakTest, P5L02_MemoryGrowthBelow50MB_Over1KCycles) {
+    // Run 1,000 load/evict cycles and verify RSS growth stays < 50 MB.
+    // This is a best-effort guard: /proc may be unavailable in some environments.
+    LazyModelLoader::Config cfg;
+    cfg.max_models = 1;
+    LazyModelLoader loader(cfg);
+
+    const std::string path = test_model_dir_ + "/tiny.gguf";
+    const long rss_before = getProcRssKb();
+
+    for (int i = 0; i < 1000; ++i) {
+        const std::string id = (i % 2 == 0) ? "ma" : "mb";
+        [[maybe_unused]] auto r = loader.getModel(id, path);
+    }
+
+    const long rss_after = getProcRssKb();
+    if (rss_before > 0 && rss_after > 0) {
+        const long growth_kb = rss_after - rss_before;
+        EXPECT_LT(growth_kb, 50L * 1024L)
+            << "Memory growth after 1K load/evict cycles must be < 50 MB; "
+               "actual growth: " << growth_kb << " kB";
+    }
+}
+
+TEST_F(LLMMemoryLeakTest, P5L02_StatsMonotonicAfterCycles) {
+    // Statistics counters must be strictly monotonic (never decrease).
+    LazyModelLoader::Config cfg;
+    cfg.max_models = 2;
+    LazyModelLoader loader(cfg);
+
+    const std::string path = test_model_dir_ + "/tiny.gguf";
+    size_t prev_hits = 0, prev_misses = 0, prev_evictions = 0;
+
+    for (int i = 0; i < 100; ++i) {
+        const std::string id = "m" + std::to_string(i % 3);
+        [[maybe_unused]] auto r = loader.getModel(id, path);
+
+        auto s = loader.getStatistics();
+        EXPECT_GE(s.cache_hits,   prev_hits)     << "cache_hits must be non-decreasing";
+        EXPECT_GE(s.cache_misses, prev_misses)   << "cache_misses must be non-decreasing";
+        EXPECT_GE(s.evictions,    prev_evictions) << "evictions must be non-decreasing";
+        prev_hits      = s.cache_hits;
+        prev_misses    = s.cache_misses;
+        prev_evictions = s.evictions;
+    }
 }

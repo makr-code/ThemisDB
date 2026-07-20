@@ -23,10 +23,12 @@
 #include <spdlog/spdlog.h>
 
 #include <algorithm>
+#include <chrono>
 #include <functional>
 #include <map>
 #include <sstream>
 #include <stdexcept>
+#include <thread>
 #include <unordered_set>
 
 namespace themis::server {
@@ -291,8 +293,53 @@ http::response<http::string_body> DistributedGateway::handleRequest(
         }
     }
 
-    // Delegate to the underlying APIGateway for actual request processing.
-    return gateway_->handleRequest(req, std::move(local_handler));
+    // Delegate to the underlying APIGateway for actual request processing,
+    // retrying on transient HTTP 5xx / 429 errors with exponential backoff.
+    // Retries are restricted to idempotent, read-only methods (GET, HEAD,
+    // OPTIONS) because non-idempotent mutations (POST, PUT, PATCH, DELETE)
+    // may have been processed by the server before a transient error was
+    // returned, making a retry a double-apply.
+    const auto method = req.method();
+    const bool is_retry_safe = (method == http::verb::get  ||
+                                 method == http::verb::head ||
+                                 method == http::verb::options);
+    if (!is_retry_safe || config_.max_retries == 0) {
+        return gateway_->handleRequest(req, std::move(local_handler));
+    }
+
+    // The local_handler is copied (not moved) so it remains callable for
+    // subsequent retry attempts.  Only the final attempt passes ownership.
+    const uint32_t effective_max_retries = config_.max_retries;
+    http::response<http::string_body> resp;
+    for (uint32_t attempt = 0; attempt <= effective_max_retries; ++attempt) {
+        if (attempt == effective_max_retries) {
+            // Last attempt — pass ownership of local_handler (no further retries).
+            resp = gateway_->handleRequest(req, std::move(local_handler));
+        } else {
+            // Intermediate attempt — keep local_handler alive for possible retry.
+            auto handler_copy = local_handler;
+            resp = gateway_->handleRequest(req, std::move(handler_copy));
+        }
+
+        const auto status_code =
+            static_cast<unsigned>(resp.result_int());
+        if (!isTransientError(status_code)) {
+            // Fast path: successful or non-retryable response.
+            return resp;
+        }
+
+        // Transient error on a non-final attempt: log, back off, retry.
+        const auto delay = retryDelay(attempt,
+                                      config_.retry_base_delay_ms,
+                                      config_.retry_max_delay_ms);
+        spdlog::warn(
+            "DistributedGateway: transient error {} on attempt {}/{} — "
+            "retrying in {}ms (node='{}')",
+            status_code, attempt + 1, effective_max_retries + 1,
+            delay.count(), config_.node_id);
+        std::this_thread::sleep_for(delay);
+    }
+    return resp;
 }
 
 std::optional<GatewayNode> DistributedGateway::resolveAffinityNode(
@@ -514,6 +561,56 @@ bool DistributedGateway::needsSessionAffinity(
     }
 
     return false;
+}
+
+// ---------------------------------------------------------------------------
+// Wire-protocol retry helpers (P5-S01)
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Classify an HTTP status code as a transient error.
+ *
+ * Retryable status codes:
+ *   - 429 Too Many Requests (downstream throttle, momentarily retryable)
+ *   - 500 Internal Server Error (transient backend fault)
+ *   - 502 Bad Gateway          (upstream unreachable / crashed)
+ *   - 503 Service Unavailable  (overloaded / maintenance)
+ *   - 504 Gateway Timeout      (upstream timed out)
+ *
+ * All other codes (1xx, 2xx, 3xx, 4xx except 429) are considered final and
+ * must **not** be retried to avoid double-posting mutations.
+ */
+bool DistributedGateway::isTransientError(unsigned status) noexcept {
+    return status == 429
+        || status == 500
+        || status == 502
+        || status == 503
+        || status == 504;
+}
+
+/**
+ * @brief Exponential-backoff delay: base × 2^attempt, clamped to max.
+ *
+ * Example with base=50ms, max=2000ms:
+ *   attempt 0 → 50ms, attempt 1 → 100ms, attempt 2 → 200ms, … cap at 2000ms.
+ *
+ * @param attempt   0-based retry index.
+ * @param base_ms   Initial delay in milliseconds.
+ * @param max_ms    Maximum delay in milliseconds.
+ * @return          Delay for this attempt.
+ */
+std::chrono::milliseconds DistributedGateway::retryDelay(
+    uint32_t attempt,
+    uint32_t base_ms,
+    uint32_t max_ms) noexcept
+{
+    // Clamp the shift to avoid undefined behaviour on 32-bit left-shift overflow.
+    constexpr uint32_t kMaxShift = 31u;
+    const uint32_t shift = (attempt < kMaxShift) ? attempt : kMaxShift;
+    // base_ms × 2^shift, saturating at UINT32_MAX before the max clamp.
+    const uint64_t raw = static_cast<uint64_t>(base_ms) << shift;
+    const uint32_t clamped = (raw > max_ms) ? max_ms : static_cast<uint32_t>(raw);
+    return std::chrono::milliseconds(clamped);
 }
 
 } // namespace themis::server

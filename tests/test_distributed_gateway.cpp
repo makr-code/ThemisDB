@@ -789,3 +789,184 @@ TEST(DistributedGatewayTest, ConcurrentApplyConfigNoDataRace) {
     EXPECT_GT(current.version, 0ULL)
         << "config version must be non-zero after concurrent applies";
 }
+
+// ============================================================================
+// P5-S01: Wire-Protocol Retry + Exponential Backoff (19 tests)
+// ============================================================================
+
+// ---------------------------------------------------------------------------
+// isTransientError unit tests
+// ---------------------------------------------------------------------------
+
+TEST(RetryPolicyTest, NonRetryableSuccessCode) {
+    EXPECT_FALSE(DistributedGateway::isTransientError(200));
+}
+
+TEST(RetryPolicyTest, NonRetryable4xxExcept429) {
+    EXPECT_FALSE(DistributedGateway::isTransientError(400));
+    EXPECT_FALSE(DistributedGateway::isTransientError(401));
+    EXPECT_FALSE(DistributedGateway::isTransientError(403));
+    EXPECT_FALSE(DistributedGateway::isTransientError(404));
+}
+
+TEST(RetryPolicyTest, Retryable429TooManyRequests) {
+    EXPECT_TRUE(DistributedGateway::isTransientError(429));
+}
+
+TEST(RetryPolicyTest, Retryable500InternalServerError) {
+    EXPECT_TRUE(DistributedGateway::isTransientError(500));
+}
+
+TEST(RetryPolicyTest, Retryable502BadGateway) {
+    EXPECT_TRUE(DistributedGateway::isTransientError(502));
+}
+
+TEST(RetryPolicyTest, Retryable503ServiceUnavailable) {
+    EXPECT_TRUE(DistributedGateway::isTransientError(503));
+}
+
+TEST(RetryPolicyTest, Retryable504GatewayTimeout) {
+    EXPECT_TRUE(DistributedGateway::isTransientError(504));
+}
+
+TEST(RetryPolicyTest, NonRetryable501NotImplemented) {
+    EXPECT_FALSE(DistributedGateway::isTransientError(501));
+}
+
+// ---------------------------------------------------------------------------
+// retryDelay unit tests
+// ---------------------------------------------------------------------------
+
+TEST(RetryPolicyTest, BackoffAttempt0Equals_base) {
+    auto d = DistributedGateway::retryDelay(0, 50, 2000);
+    EXPECT_EQ(d.count(), 50);
+}
+
+TEST(RetryPolicyTest, BackoffDoubles_each_attempt) {
+    EXPECT_EQ(DistributedGateway::retryDelay(0, 50, 2000).count(),  50);
+    EXPECT_EQ(DistributedGateway::retryDelay(1, 50, 2000).count(), 100);
+    EXPECT_EQ(DistributedGateway::retryDelay(2, 50, 2000).count(), 200);
+    EXPECT_EQ(DistributedGateway::retryDelay(3, 50, 2000).count(), 400);
+}
+
+TEST(RetryPolicyTest, BackoffClampedAtMax) {
+    // base=50, max=200: attempt 3 would be 400ms without clamping
+    EXPECT_EQ(DistributedGateway::retryDelay(3, 50, 200).count(), 200);
+    EXPECT_EQ(DistributedGateway::retryDelay(10, 50, 200).count(), 200);
+}
+
+TEST(RetryPolicyTest, BackoffDoesNotOverflowLargeAttempt) {
+    // attempt=31 would overflow uint32_t with base=50 without shift-clamp guard
+    EXPECT_NO_THROW({
+        auto d = DistributedGateway::retryDelay(31, 50, 2000);
+        EXPECT_LE(d.count(), 2000);
+    });
+}
+
+// ---------------------------------------------------------------------------
+// handleRequest retry integration tests (using fault-injection handler)
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Fault-injection handler factory for wire-protocol retry tests.
+ *
+ * Returns a handler that fails with the given @p transient_code for the first
+ * @p fail_times calls, then succeeds with HTTP 200 for subsequent calls.
+ */
+static auto makeFaultHandler(unsigned transient_code, int fail_times) {
+    auto counter = std::make_shared<std::atomic<int>>(0);
+    return [counter, transient_code, fail_times](
+               const http::request<http::string_body>& r)
+               -> http::response<http::string_body> {
+        int call = counter->fetch_add(1, std::memory_order_relaxed) + 1;
+        if (call <= fail_times) {
+            http::response<http::string_body> err{
+                static_cast<http::status>(transient_code), r.version()};
+            err.set(http::field::content_type, "application/json");
+            err.body() = R"({"error":"transient"})";
+            err.prepare_payload();
+            return err;
+        }
+        http::response<http::string_body> ok{http::status::ok, r.version()};
+        ok.set(http::field::content_type, "application/json");
+        ok.body() = R"({"ok":true})";
+        ok.prepare_payload();
+        return ok;
+    };
+}
+
+/// Build a DistributedGateway with fast retry settings for testing.
+static std::unique_ptr<DistributedGateway> makeRetryGateway(uint32_t max_retries = 2) {
+    auto gw  = makeGateway();
+    auto cfg = makeDistConfig();
+    cfg.max_retries        = max_retries;
+    cfg.retry_base_delay_ms = 0;  // zero delay so tests run fast
+    cfg.retry_max_delay_ms  = 0;
+    return std::make_unique<DistributedGateway>(cfg, gw);
+}
+
+TEST(WireRetryTest, SuccessOnFirstAttempt_NoRetry) {
+    auto dg  = makeRetryGateway(2);
+    auto req = makeReq(http::verb::get, "/api/v1/data");
+
+    auto resp = dg->handleRequest(req, echoHandler());
+    EXPECT_EQ(resp.result_int(), 200);
+}
+
+TEST(WireRetryTest, TransientError500_RecoveredOnSecondAttempt) {
+    auto dg      = makeRetryGateway(2);
+    auto req     = makeReq(http::verb::get, "/api/v1/data");
+    auto handler = makeFaultHandler(500, /*fail_times=*/1);
+
+    auto resp = dg->handleRequest(req, std::move(handler));
+    EXPECT_EQ(resp.result_int(), 200);
+}
+
+TEST(WireRetryTest, TransientError503_RecoveredOnThirdAttempt) {
+    auto dg      = makeRetryGateway(2);
+    auto req     = makeReq(http::verb::get, "/api/v1/data");
+    auto handler = makeFaultHandler(503, /*fail_times=*/2);
+
+    auto resp = dg->handleRequest(req, std::move(handler));
+    EXPECT_EQ(resp.result_int(), 200);
+}
+
+TEST(WireRetryTest, MaxRetryExhausted_ReturnsLastError) {
+    // max_retries=2 → 3 total attempts; all fail with 503.
+    auto dg      = makeRetryGateway(2);
+    auto req     = makeReq(http::verb::get, "/api/v1/data");
+    auto handler = makeFaultHandler(503, /*fail_times=*/99);
+
+    auto resp = dg->handleRequest(req, std::move(handler));
+    EXPECT_EQ(resp.result_int(), 503);
+}
+
+TEST(WireRetryTest, MaxRetryLimit_DefaultIsTwo) {
+    DistributedGateway::Config cfg = makeDistConfig();
+    EXPECT_EQ(cfg.max_retries, 2u)
+        << "Default must be 2 retries (3 total attempts) per P5-S01";
+}
+
+TEST(WireRetryTest, NonTransientError404_NotRetried) {
+    // 404 is not retryable — only 1 attempt should happen.
+    auto dg  = makeRetryGateway(2);
+    auto req = makeReq(http::verb::get, "/api/v1/missing");
+
+    // Handler always returns 404.
+    auto handler = [](const http::request<http::string_body>& r) {
+        http::response<http::string_body> resp{http::status::not_found, r.version()};
+        resp.body() = "not found";
+        resp.prepare_payload();
+        return resp;
+    };
+
+    auto resp = dg->handleRequest(req, std::move(handler));
+    EXPECT_EQ(resp.result_int(), 404);
+}
+
+TEST(WireRetryTest, BackoffBaseDelay_ProducesExpectedDurations) {
+    // Verify the public retryDelay interface is accessible for monitoring.
+    auto d0 = DistributedGateway::retryDelay(0, 100, 5000);
+    auto d1 = DistributedGateway::retryDelay(1, 100, 5000);
+    EXPECT_EQ(d1.count(), d0.count() * 2);
+}

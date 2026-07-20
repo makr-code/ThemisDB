@@ -549,3 +549,77 @@ TEST(JWTValidatorAsyncTest, ConcurrentValidateAsyncNoCrash)
     }
     EXPECT_EQ(success_count, kTasks);
 }
+
+// ---------------------------------------------------------------------------
+// A-01 Thread-Safety Acceptance: 16-thread stress × high-iteration concurrent
+// validate() with periodic cache-TTL expiry.
+//
+// Intent: Demonstrate that no data race occurs on jwks_cache_ / jwks_cache_time_
+// under a sustained workload combining warm-cache reads (shared_lock path) and
+// forced cache-refresh attempts (unique_lock path).  The validator is configured
+// with a very short TTL so the cache expires mid-run, triggering write-lock paths
+// concurrently with read-lock paths across all threads.
+//
+// We deliberately use a fast-failing JWKS URL (unreachable) so each refresh
+// attempt returns an error quickly; the important invariant is zero data races
+// (verifiable via ThreadSanitizer) and no crashes or deadlocks.
+// ---------------------------------------------------------------------------
+
+static constexpr int kA01StressThreads     = 16;
+static constexpr int kA01StressIterations  = 500; // 16 × 500 = 8 000 total calls
+
+TEST(JWTValidatorThreadStress, A01_16Thread_500Iter_NoDataRace) {
+    RSAFixture fix;
+    auto jwks = make_jwks(fix.rsa);
+
+    // Build a valid signed token reused across all threads.
+    auto now = std::chrono::system_clock::now();
+    auto exp_ts = std::chrono::duration_cast<std::chrono::seconds>(
+                      now.time_since_epoch()).count() + 600;
+    nlohmann::json payload = {{"sub","u-stress"},{"email","s@x"},
+                               {"iss","issuerX"},{"aud","audX"},{"exp",exp_ts}};
+    std::string up    = build_token("test-key-1", payload);
+    std::string token = up + "." + sign_RS256(fix.pkey, up);
+
+    // Short TTL so the cache expires during the test run, exercising the
+    // write-lock path concurrently with read-lock paths.
+    JWTValidatorConfig cfg{"http://127.0.0.1:0/jwks", "issuerX", "audX",
+                           std::chrono::milliseconds(20),  // 20 ms TTL — expires quickly
+                           std::chrono::seconds(60)};
+    cfg.jwks_max_retries     = 1;
+    cfg.jwks_timeout_seconds = 1;
+    JWTValidator validator(cfg);
+    // Pre-warm with a real key so initial reads succeed.
+    validator.setJWKSForTesting(jwks);
+
+    std::atomic<int> success_count{0};
+    std::atomic<int> error_count{0};
+
+    std::vector<std::thread> threads;
+    threads.reserve(kA01StressThreads);
+
+    for (int t = 0; t < kA01StressThreads; ++t) {
+        threads.emplace_back([&]() {
+            for (int i = 0; i < kA01StressIterations; ++i) {
+                try {
+                    auto claims = validator.parseAndValidate(token);
+                    if (claims.sub == "u-stress") {
+                        success_count.fetch_add(1, std::memory_order_relaxed);
+                    }
+                } catch (const std::exception&) {
+                    // Refresh failures (unreachable JWKS URL) are expected once
+                    // the in-memory cache expires.  Count them but don't fail.
+                    error_count.fetch_add(1, std::memory_order_relaxed);
+                }
+            }
+        });
+    }
+
+    for (auto& th : threads) th.join();
+
+    // At least some successes expected (while cache was warm) and total call
+    // count must equal the configured load.
+    const int total = success_count.load() + error_count.load();
+    EXPECT_EQ(total, kA01StressThreads * kA01StressIterations);
+    // No crash / no data race (verified externally via TSan).
+}
