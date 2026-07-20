@@ -26,14 +26,18 @@ class GapAnalyzer:
     def __init__(self, repo_root: Path):
         self.repo_root = repo_root
         self.cache = {}
+
+    def load_sample_metadata(self, metadata_path: Path) -> Dict:
+        """Load full sample metadata payload."""
+        if not metadata_path.exists():
+            return {}
+
+        with open(metadata_path) as f:
+            return json.load(f)
         
     def load_sample_gaps(self, metadata_path: Path) -> List[Dict]:
         """Load gaps from sample metadata"""
-        if not metadata_path.exists():
-            return []
-        
-        with open(metadata_path) as f:
-            data = json.load(f)
+        data = self.load_sample_metadata(metadata_path)
         return data.get('gaps', [])
     
     def get_source_context(self, file_path: str, line_num: int, context_lines: int = 20) -> str:
@@ -343,7 +347,8 @@ def main():
     print("AUTOMATED GAP VALIDATION SAMPLE ANALYSIS")
     print("=" * 100)
     
-    gaps = analyzer.load_sample_gaps(metadata_file)
+    metadata = analyzer.load_sample_metadata(metadata_file)
+    gaps = metadata.get('gaps', [])
     if not gaps:
         print("[ERROR] Could not load sample gaps")
         return
@@ -359,7 +364,7 @@ def main():
     for idx, gap in enumerate(gaps, 1):
         classification, confidence, reasoning = analyzer.analyze_gap(gap)
         
-        module = gap.get('_module', 'unknown')
+        module = gap.get('_module', gap.get('module', 'unknown'))
         severity = gap.get('severity', 'MEDIUM')
         category = gap.get('category', 'unknown')
         file_path = gap.get('_file', gap.get('file', 'unknown'))
@@ -406,8 +411,8 @@ def main():
     print(f"  Uncertain (?):         {uncertain_count:3d} ({unc_pct:5.1f}%)")
     
     # Extrapolate to full dataset
-    print(f"\n[EXTRAPOLATION TO 18,795 FULL GAPS]")
-    total_gaps = 18795
+    total_gaps = int(metadata.get('total_gaps', len(gaps)))
+    print(f"\n[EXTRAPOLATION TO {total_gaps:,} FULL GAPS]")
     estimated_tp = int(tp_pct / 100 * total_gaps)
     estimated_fp = int(fp_pct / 100 * total_gaps)
     estimated_uncertain = int(unc_pct / 100 * total_gaps)
@@ -456,8 +461,10 @@ def main():
             'fp_percent': fp_pct,
             'uncertain_count': uncertain_count,
             'uncertain_percent': unc_pct,
-            'estimated_tp_in_18795': estimated_tp,
-            'estimated_fp_in_18795': estimated_fp,
+            'full_dataset_size': total_gaps,
+            'estimated_tp_in_full_dataset': estimated_tp,
+            'estimated_fp_in_full_dataset': estimated_fp,
+            'estimated_uncertain_in_full_dataset': estimated_uncertain,
             'by_category': dict(by_category),
             'by_severity': dict(by_severity),
             'assessments': assessments
@@ -471,9 +478,9 @@ def main():
         f.write("# Automated Gap Validation Analysis Summary\n\n")
         f.write(f"**Date:** {datetime.now(timezone.utc).isoformat()}\n")
         f.write(f"**Sample Size:** {len(assessments)} gaps\n")
-        f.write(f"**Full Dataset:** 18,795 gaps\n\n")
+        f.write(f"**Full Dataset:** {total_gaps:,} gaps\n\n")
         f.write("## Frozen Baseline\n\n")
-        f.write(f"- Baseline TP: {BASELINE_POLICY['tp_percent']}%\n")
+        f.write(f"- Frozen baseline TP: {BASELINE_POLICY['tp_percent']}%\n")
         f.write(f"- CRITICAL TP baseline: {BASELINE_POLICY['critical_tp_percent']}%\n")
         f.write(f"- Priority categories: {', '.join(BASELINE_POLICY['priority_categories'])}\n")
         f.write(f"- Deferred high-FP categories: {', '.join(BASELINE_POLICY['deferred_high_fp_categories'])}\n\n")
@@ -494,8 +501,8 @@ def main():
             f.write("❌ **LOW QUALITY** - Most gaps are false positives. Significant scanner tuning needed.\n\n")
         
         f.write("## Recommendations\n\n")
-        if fp_pct > 40:
-            f.write("1. **Scanner Tuning Required:** FP rate exceeds 40%. Focus on high-FP categories:\n")
+        if fp_pct >= 40:
+            f.write("1. **Scanner Tuning Required:** FP rate is at least 40%. Focus on high-FP categories:\n")
             worst_cats = sorted(by_category.items(), 
                                key=lambda x: x[1]['FP'] / (sum(x[1].values()) or 1), 
                                reverse=True)[:3]
@@ -512,7 +519,10 @@ def main():
             f.write("3. Consider sampling additional gaps from low-confidence categories\n\n")
         
         f.write("## Next Steps\n\n")
-        f.write(f"1. Use TP rate ({tp_pct:.0f}%) as baseline quality metric\n")
+        f.write(
+            f"1. Compare the current sample TP rate ({tp_pct:.0f}%) against the "
+            f"frozen baseline ({BASELINE_POLICY['tp_percent']:.0f}%)\n"
+        )
         f.write(f"2. Prioritize ~{estimated_tp:,} estimated true positive gaps\n")
         f.write(f"3. Organize by module and severity for remediation planning\n")
         f.write(f"4. Track remediation progress\n\n")

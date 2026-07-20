@@ -1,5 +1,5 @@
 {
-  "date": "2026-07-20T10:13:34.343570+00:00",
+  "date": "2026-07-20T11:37:26.515115+00:00",
   "baseline_policy": {
     "tp_percent": 24.0,
     "critical_tp_percent": 50.0,
@@ -29,8 +29,10 @@
   "fp_percent": 40.0,
   "uncertain_count": 22,
   "uncertain_percent": 44.0,
-  "estimated_tp_in_18795": 3007,
-  "estimated_fp_in_18795": 7518,
+  "full_dataset_size": 30015,
+  "estimated_tp_in_full_dataset": 4802,
+  "estimated_fp_in_full_dataset": 12006,
+  "estimated_uncertain_in_full_dataset": 13206,
   "by_category": {
     "performance": {
       "TP": 0,
@@ -193,7 +195,7 @@
   "assessments": [
     {
       "index": 1,
-      "module": "unknown",
+      "module": "plugins",
       "file": "src/plugins/plugin_manager.cpp",
       "line": 1034,
       "severity": "MEDIUM",
@@ -204,7 +206,7 @@
     },
     {
       "index": 2,
-      "module": "unknown",
+      "module": "importers",
       "file": "src/importers/schema_inference.cpp",
       "line": 297,
       "severity": "MEDIUM",
@@ -215,7 +217,7 @@
     },
     {
       "index": 3,
-      "module": "unknown",
+      "module": "base",
       "file": "src/base/plugin_dependency_graph.cpp",
       "line": 135,
       "severity": "MEDIUM",
@@ -226,7 +228,7 @@
     },
     {
       "index": 4,
-      "module": "unknown",
+      "module": "query",
       "file": "src/query/functions/process_mining_functions.cpp",
       "line": 204,
       "severity": "MEDIUM",
@@ -237,7 +239,7 @@
     },
     {
       "index": 5,
-      "module": "unknown",
+      "module": "performance",
       "file": "src/performance/adaptive_query_compiler.cpp",
       "line": 756,
       "severity": "MEDIUM",
@@ -248,7 +250,7 @@
     },
     {
       "index": 6,
-      "module": "unknown",
+      "module": "network",
       "file": "src/network/envoy_xds.cpp",
       "line": 456,
       "severity": "MEDIUM",
@@ -259,7 +261,7 @@
     },
     {
       "index": 7,
-      "module": "unknown",
+      "module": "index",
       "file": "src/index/rotary_embeddings.cpp",
       "line": 46,
       "severity": "MEDIUM",
@@ -270,7 +272,7 @@
     },
     {
       "index": 8,
-      "module": "unknown",
+      "module": "importers",
       "file": "src/importers/huggingface_ingest_plugin.cpp",
       "line": 277,
       "severity": "MEDIUM",
@@ -281,7 +283,7 @@
     },
     {
       "index": 9,
-      "module": "unknown",
+      "module": "transaction",
       "file": "src/transaction/transaction_manager.cpp",
       "line": 2174,
       "severity": "MEDIUM",
@@ -292,7 +294,7 @@
     },
     {
       "index": 10,
-      "module": "unknown",
+      "module": "themis",
       "file": "src/themis/license_info.cpp",
       "line": 209,
       "severity": "CRITICAL",
@@ -303,7 +305,7 @@
     },
     {
       "index": 11,
-      "module": "unknown",
+      "module": "content",
       "file": "src/content/content_logger.cpp",
       "line": 52,
       "severity": "INFO",
@@ -314,7 +316,7 @@
     },
     {
       "index": 12,
-      "module": "unknown",
+      "module": "storage",
       "file": "src/storage/tensor_train_decomposer.cpp",
       "line": 203,
       "severity": "INFO",
@@ -325,7 +327,7 @@
     },
     {
       "index": 13,
-      "module": "unknown",
+      "module": "security",
       "file": "src/security/vault_key_provider.cpp",
       "line": 236,
       "severity": "INFO",
@@ -336,7 +338,7 @@
     },
     {
       "index": 14,
-      "module": "unknown",
+      "module": "auth",
       "file": "src/auth/rocksdb_token_blacklist.cpp",
       "line": 104,
       "severity": "INFO",
@@ -347,7 +349,7 @@
     },
     {
       "index": 15,
-      "module": "unknown",
+      "module": "auth",
       "file": "src/auth/ldap_authenticator.cpp",
       "line": 319,
       "severity": "INFO",
@@ -358,7 +360,7 @@
     },
     {
       "index": 16,
-      "module": "unknown",
+      "module": "index",
       "file": "src/index/ann_frontdoor.cpp",
       "line": 203,
       "severity": "INFO",
@@ -369,7 +371,7 @@
     },
     {
       "index": 17,
-      "module": "unknown",
+      "module": "query",
       "file": "src/query/aql_mutation_validator.cpp",
       "line": 158,
       "severity": "INFO",
@@ -380,7 +382,7 @@
     },
     {
       "index": 18,
-      "module": "unknown",
+      "module": "network",
       "file": "src/network/quic_server.cpp",
       "line": 318,
       "severity": "INFO",
@@ -391,7 +393,7 @@
     },
     {
       "index": 19,
-      "module": "unknown",
+      "module": "core",
       "file": "src/core/concerns/redis_cache.cpp",
       "line": 972,
       "severity": "HIGH",
@@ -402,7 +404,7 @@
     },
     {
       "index": 20,
-      "module": "unknown",
+      "module": "analytics",
       "file": "src/analytics/model_serving.cpp",
       "line": 52,
       "severity": "HIGH",
@@ -413,7 +415,7 @@
     },
     {
       "index": 21,
-      "module": "unknown",
+      "module": "aql",
       "file": "src/aql/llm_aql_handler.cpp",
       "line": 1611,
       "severity": "HIGH",
@@ -424,7 +426,7 @@
     },
     {
       "index": 22,
-      "module": "unknown",
+      "module": "cdc",
       "file": "src/cdc/dead_letter_queue.cpp",
       "line": 78,
       "severity": "INFO",
@@ -435,7 +437,7 @@
     },
     {
       "index": 23,
-      "module": "unknown",
+      "module": "llm",
       "file": "src/llm/explanation_generator.cpp",
       "line": 294,
       "severity": "INFO",
@@ -446,7 +448,7 @@
     },
     {
       "index": 24,
-      "module": "unknown",
+      "module": "storage",
       "file": "src/storage/blob_backend_s3.cpp",
       "line": 141,
       "severity": "INFO",
@@ -457,7 +459,7 @@
     },
     {
       "index": 25,
-      "module": "unknown",
+      "module": "updates",
       "file": "src/updates/preflight_health_check.cpp",
       "line": 250,
       "severity": "INFO",
@@ -468,7 +470,7 @@
     },
     {
       "index": 26,
-      "module": "unknown",
+      "module": "acceleration",
       "file": "src/acceleration/graphics_backends.cpp",
       "line": 2049,
       "severity": "MEDIUM",
@@ -479,7 +481,7 @@
     },
     {
       "index": 27,
-      "module": "unknown",
+      "module": "server",
       "file": "src/server/http_server.cpp",
       "line": 7112,
       "severity": "INFO",
@@ -490,7 +492,7 @@
     },
     {
       "index": 28,
-      "module": "unknown",
+      "module": "tensor",
       "file": "src/tensor/hnsw_tt_bridge.cpp",
       "line": 98,
       "severity": "INFO",
@@ -501,7 +503,7 @@
     },
     {
       "index": 29,
-      "module": "unknown",
+      "module": "llm",
       "file": "src/llm/lora_framework/lora_storage_service_themisdb.cpp",
       "line": 145,
       "severity": "CRITICAL",
@@ -512,7 +514,7 @@
     },
     {
       "index": 30,
-      "module": "unknown",
+      "module": "sharding",
       "file": "src/sharding/auto_rebalancer.cpp",
       "line": 277,
       "severity": "INFO",
@@ -523,7 +525,7 @@
     },
     {
       "index": 31,
-      "module": "unknown",
+      "module": "server",
       "file": "src/server/http_server.cpp",
       "line": 2541,
       "severity": "CRITICAL",
@@ -534,7 +536,7 @@
     },
     {
       "index": 32,
-      "module": "unknown",
+      "module": "aql",
       "file": "src/aql/aql_rollback_suggester.cpp",
       "line": 47,
       "severity": "INFO",
@@ -545,7 +547,7 @@
     },
     {
       "index": 33,
-      "module": "unknown",
+      "module": "llm",
       "file": "src/llm/kv_cache_buffer.cpp",
       "line": 224,
       "severity": "INFO",
@@ -556,7 +558,7 @@
     },
     {
       "index": 34,
-      "module": "unknown",
+      "module": "storage",
       "file": "src/storage/database_connection_manager.cpp",
       "line": 243,
       "severity": "MEDIUM",
@@ -567,7 +569,7 @@
     },
     {
       "index": 35,
-      "module": "unknown",
+      "module": "prompt_engineering",
       "file": "src/prompt_engineering/prompt_injection_detector.cpp",
       "line": 135,
       "severity": "INFO",
@@ -578,7 +580,7 @@
     },
     {
       "index": 36,
-      "module": "unknown",
+      "module": "llm",
       "file": "src/llm/gpu_memory_manager.cpp",
       "line": 2028,
       "severity": "INFO",
@@ -589,7 +591,7 @@
     },
     {
       "index": 37,
-      "module": "unknown",
+      "module": "llm",
       "file": "src/llm/production_validator.cpp",
       "line": 439,
       "severity": "HIGH",
@@ -600,7 +602,7 @@
     },
     {
       "index": 38,
-      "module": "unknown",
+      "module": "llm",
       "file": "src/llm/async_inference_engine.cpp",
       "line": 88,
       "severity": "HIGH",
@@ -611,7 +613,7 @@
     },
     {
       "index": 39,
-      "module": "unknown",
+      "module": "llm",
       "file": "src/llm/lora_framework/lora_audit_logger.cpp",
       "line": 359,
       "severity": "HIGH",
@@ -622,7 +624,7 @@
     },
     {
       "index": 40,
-      "module": "unknown",
+      "module": "ingestion",
       "file": "src/ingestion/database_connector.cpp",
       "line": 343,
       "severity": "HIGH",
@@ -633,7 +635,7 @@
     },
     {
       "index": 41,
-      "module": "unknown",
+      "module": "content",
       "file": "src/content/geo_processor.cpp",
       "line": 380,
       "severity": "LOW",
@@ -644,7 +646,7 @@
     },
     {
       "index": 42,
-      "module": "unknown",
+      "module": "llm",
       "file": "src/llm/byzantine_detector.cpp",
       "line": 377,
       "severity": "INFO",
@@ -655,7 +657,7 @@
     },
     {
       "index": 43,
-      "module": "unknown",
+      "module": "llm",
       "file": "src/llm/model_loader.cpp",
       "line": 978,
       "severity": "CRITICAL",
@@ -666,7 +668,7 @@
     },
     {
       "index": 44,
-      "module": "unknown",
+      "module": "llm",
       "file": "src/llm/lora_framework/kernels/hip_fused_kernels.cpp",
       "line": 158,
       "severity": "CRITICAL",
@@ -677,7 +679,7 @@
     },
     {
       "index": 45,
-      "module": "unknown",
+      "module": "scraper",
       "file": "src/scraper/scraper_llm_evaluator.cpp",
       "line": 213,
       "severity": "MEDIUM",
@@ -688,7 +690,7 @@
     },
     {
       "index": 46,
-      "module": "unknown",
+      "module": "server",
       "file": "src/server/task_scheduler_api_handler.cpp",
       "line": 532,
       "severity": "INFO",
@@ -699,7 +701,7 @@
     },
     {
       "index": 47,
-      "module": "unknown",
+      "module": "rag",
       "file": "src/rag/rag_judge.cpp",
       "line": 559,
       "severity": "INFO",
@@ -710,7 +712,7 @@
     },
     {
       "index": 48,
-      "module": "unknown",
+      "module": "observability",
       "file": "src/observability/opentelemetry_tracer.cpp",
       "line": 565,
       "severity": "HIGH",
@@ -721,7 +723,7 @@
     },
     {
       "index": 49,
-      "module": "unknown",
+      "module": "aql",
       "file": "src/aql/docs_assistant_functions.cpp",
       "line": 554,
       "severity": "CRITICAL",
@@ -732,7 +734,7 @@
     },
     {
       "index": 50,
-      "module": "unknown",
+      "module": "analytics",
       "file": "src/analytics/ml_serving.cpp",
       "line": 328,
       "severity": "HIGH",

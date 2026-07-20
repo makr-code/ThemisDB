@@ -16,10 +16,10 @@
 - Sampling muss deterministisch sein (Seed explizit und in Metadaten dokumentiert).
 
 ### Required Interfaces
-- `/home/runner/work/ThemisDB/ThemisDB/tools/gap_scanner_v3.py` (Orchestrierung + Tuning-Policy + KPI/Queue-Artefakte)
-- `/home/runner/work/ThemisDB/ThemisDB/tools/generate_validation_sample.py` (stratifiziertes, reproduzierbares Sampling)
-- `/home/runner/work/ThemisDB/ThemisDB/tools/analyze_validation_sample.py` (TP/FP-Analyse + validierter Backlog)
-- Ausgaben unter `/home/runner/work/ThemisDB/ThemisDB/ai_working/` für Governance und Tracking.
+- `tools/gap_scanner_v3.py` (Orchestrierung + Tuning-Policy + KPI/Queue-Artefakte)
+- `tools/generate_validation_sample.py` (stratifiziertes, reproduzierbares Sampling)
+- `tools/analyze_validation_sample.py` (TP/FP-Analyse + validierter Backlog)
+- Ausgaben unter `ai_working/` für Governance und Tracking.
 
 ### Implementation Notes
 - Scanner-Orchestrierung muss `tools/` und `tools/legacy/` robust importieren können.

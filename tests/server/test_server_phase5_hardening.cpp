@@ -116,7 +116,8 @@ public:
      * The callable receives the current 1-based attempt index and returns a
      * `WireResult`.  On a retryable failure the gate sleeps for the
      * computed back-off and tries again, up to `max_retries` additional
-     * attempts.
+     * attempts. Exceptions thrown by the callable are converted into a
+     * `kFatal` result on the current attempt and are not retried.
      *
      * @param fn          Callable `(int attempt) -> WireResult`.
      * @param on_retry    Optional callback invoked *before* each retry sleep;
@@ -133,7 +134,14 @@ public:
         retry_count_.store(0, std::memory_order_relaxed);
 
         for (int attempt = 1; attempt <= cfg_.max_retries + 1; ++attempt) {
-            WireResult result = fn(attempt);
+            WireResult result;
+            try {
+                result = fn(attempt);
+            } catch (const std::exception& ex) {
+                return {WireErrorCode::kFatal, ex.what(), attempt};
+            } catch (...) {
+                return {WireErrorCode::kFatal, "unknown exception", attempt};
+            }
             result.attempt    = attempt;
 
             if (result.code == WireErrorCode::kOk) {
@@ -234,7 +242,7 @@ struct ServerConfig {
 struct RequestResult {
     WireErrorCode code{WireErrorCode::kOk};
     std::string   message;
-    bool          connection_recycled{false}; ///< True when keepalive recycled the connection.
+    bool          connection_recycled{false}; ///< True when keepalive or idle timeout recycled the connection.
 };
 
 /**
@@ -295,8 +303,10 @@ public:
     }
 
     /**
-     * @brief Dispatch a request that uses keepalive; recycles the connection
-     *        after @p inactivity_duration exceeds `keepalive_timeout`.
+     * @brief Dispatch a request that uses keepalive and idle timeout recycling.
+     *
+     * The connection is recycled once @p inactivity_duration exceeds the
+     * stricter of `idle_timeout` and `keepalive_timeout`.
      *
      * @param inactivity_duration  How long the connection sat idle after the request.
      * @return                     RequestResult with `connection_recycled` set appropriately.
@@ -306,8 +316,9 @@ public:
         std::chrono::milliseconds inactivity_duration) noexcept
     {
         auto result         = dispatch(processing_time);
-        result.connection_recycled =
-            (inactivity_duration >= cfg_.keepalive_timeout);
+        const auto recycle_threshold =
+            std::min(cfg_.idle_timeout, cfg_.keepalive_timeout);
+        result.connection_recycled = (inactivity_duration >= recycle_threshold);
         return result;
     }
 
@@ -778,30 +789,23 @@ TEST_F(WireRetryTest, WSR14_RequestMetadata_PreservedAcrossRetries) {
 }
 
 /**
- * @test WSR-15: Retry logic handles std::exception correctly (no crash).
- *
- * A throwing callable must not propagate the exception through execute();
- * the result should carry an error code instead.
+ * @test WSR-15: Retry logic converts callable exceptions into fatal results.
  */
 TEST_F(WireRetryTest, WSR15_ExceptionInCallable_HandledGracefully) {
     RetryGate gate(cfg_);
 
-    // Wrap throwing callable safely (caller responsibility in production code)
-    WireResult safe_result;
+    WireResult result;
     EXPECT_NO_THROW({
-        try {
-            safe_result = gate.execute([](int attempt) -> WireResult {
-                if (attempt == 1) throw std::runtime_error("network error");
-                return {WireErrorCode::kOk, "ok"};
-            });
-        } catch (const std::exception& ex) {
-            safe_result.code    = WireErrorCode::kFatal;
-            safe_result.message = ex.what();
-        }
+        result = gate.execute([](int attempt) -> WireResult {
+            if (attempt == 1) throw std::runtime_error("network error");
+            return {WireErrorCode::kOk, "ok"};
+        });
     });
 
-    // Either the gate handled it or the caller caught it — no crash either way
-    SUCCEED() << "No crash observed; code=" << static_cast<int>(safe_result.code);
+    EXPECT_EQ(result.code, WireErrorCode::kFatal);
+    EXPECT_EQ(result.attempt, 1);
+    EXPECT_NE(result.message.find("network error"), std::string::npos);
+    EXPECT_EQ(gate.retryCount(), 0);
 }
 
 /**
@@ -916,10 +920,15 @@ TEST_F(HttpShutdownTest, HST05_NewConnectionsRejected_AfterShutdown) {
  * that a connection inactive longer than idle_timeout would be recycled.
  */
 TEST_F(HttpShutdownTest, HST06_IdleConnections_ClosedWithinIdleTimeout) {
-    ServerStub server(cfg_);
+    ServerConfig cfg = cfg_;
+    cfg.idle_timeout = 40ms;
+    cfg.keepalive_timeout = 200ms;
+    ServerStub server(cfg);
     // idle_timeout must be configured and positive
     EXPECT_GT(server.idleTimeout().count(), 0)
         << "idle_timeout must be configured";
+    EXPECT_LT(server.idleTimeout(), server.keepaliveTimeout())
+        << "Test requires idle_timeout to be stricter than keepalive_timeout";
 
     // Simulate: a connection idle longer than idle_timeout is recycled
     auto inactivity = server.idleTimeout() + 10ms;

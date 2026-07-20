@@ -125,8 +125,9 @@
 - Release-lane promotion is blocked until `release_critical` remains green on `develop`.
 
 ### Required Interfaces
-- `include/network/wire_retry_policy.h`
-- `include/server/http_shutdown_manager.h`
+- `include/network/wire_protocol_connection_pool.h`
+- `include/server/http_server.h`
+- `include/server/ranger_adapter.h`
 - Existing HTTP / wire-protocol server entry points under `src/server/` and `src/network/`
 
 ### Implementation Notes
