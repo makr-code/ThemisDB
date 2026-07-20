@@ -26,12 +26,23 @@ foreach(_src IN LISTS SERVER_MODULE_TEST_SOURCES)
     )
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
-    themis_register_module_focused_test(
-        MODULE server
-        NAME ${_ctest}
-        TARGET ${_target}
-        TIER unit
-        TIMEOUT 120
-        LABELS server api
-    )
+    if(_stem STREQUAL "test_server_phase5_hardening")
+        themis_register_module_focused_test(
+            MODULE server
+            NAME ${_ctest}
+            TARGET ${_target}
+            TIER unit
+            TIMEOUT 120
+            LABELS server hardening phase5
+        )
+    else()
+        themis_register_module_focused_test(
+            MODULE server
+            NAME ${_ctest}
+            TARGET ${_target}
+            TIER unit
+            TIMEOUT 120
+            LABELS server api
+        )
+    endif()
 endforeach()

@@ -1,7 +1,7 @@
 # LLM Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-07-19 -->
+<!-- Status: current | validated: 2026-07-20 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
@@ -58,8 +58,19 @@ The module provides production-grade LLM runtime surfaces across async inference
   - [x] SHD-H-01..04: Engine + scheduler shutdown-under-load teardown
 
 ### Phase 5: Performance and Hardening
-- [ ] Lock performance gates to benchmark-backed thresholds and release baselines (Target: Q4 2026)
-- [ ] Validate memory-pressure and VRAM-recovery behavior under sustained multi-model load (Target: Q4 2026)
+- [x] P5-L01: Exception safety audit + RAII wrapper hardening — 28 EXS-* tests delivered (tests/llm/test_llm_phase5_hardening.cpp)
+- [x] P5-L02: Memory leak fixes (model loading, cache cleanup) — 24 MEM-* tests delivered (tests/llm/test_llm_phase5_hardening.cpp)
+- [~] Lock performance gates to benchmark-backed thresholds and release baselines (Target: Q4 2026)
+- [~] Validate memory-pressure and VRAM-recovery behavior under sustained multi-model load (Target: Q4 2026)
+
+#### Recently Delivered — Phase 5 Hardening (2026-07-20)
+- [x] EXS-01..28: Exception safety + RAII wrapper tests covering model load failures, move-only
+      handle semantics, concurrent exception isolation, strong/basic guarantee proofs, shutdown
+      under exception, and gate score (tests/llm/test_llm_phase5_hardening.cpp)
+- [x] MEM-01..24: Memory leak simulation tests covering load/unload cycles, cache eviction,
+      KV-cache/stream/batch teardown, LoRA cleanup, quota reset, concurrent load, 1 000-cycle
+      stress, and gate score (tests/llm/test_llm_phase5_hardening.cpp)
+- [x] 52 new deterministic GTest cases; CTest labels: llm;hardening;phase5; TIMEOUT 120
 
 ### Phase 6: Documentation and Acceptance
 - [ ] Synchronize operator docs/runbooks with implemented runtime behavior and metrics (Target: Q4 2026)
