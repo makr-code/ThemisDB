@@ -17,6 +17,38 @@ The project transitions from **foundational completion** (Graph Phase 2.4 ✅, D
 
 **Immediate Focus:** Graph Phase 3 + Wave 7/8 benchmark verification + LLM/Server Phase 5 hardening (first 4 weeks)
 
+**Execution Automation:** use `/home/runner/work/ThemisDB/ThemisDB/scripts/next_phase_kickoff.py` to generate timestamped kickoff baseline/go-no-go reports in `/home/runner/work/ThemisDB/ThemisDB/ai_working`.
+
+---
+
+## Scope Freeze & Baseline Confirmation (2026-07-20)
+
+### Fixed Done Baseline (not re-opened in this execution cycle)
+
+- [x] Graph Phase 2.4 completed and accepted
+- [x] Wave 5 completed
+- [x] Wave 6 completed
+- [x] Wave 7 hard-gate signoff completed
+- [x] Block B completed (P3-03/P3-04)
+- [x] Block C completed (P5-S01/P5-S02)
+- [x] Block A completed (P3-01/P3-02, 2026-07-20)
+
+### Remaining Open Scope (binding order)
+
+1. **Block A** — P3-01 + P3-02 (Graph optimizer + cache)
+2. **Block D** — P5-L01 + P5-L02 (LLM hardening)
+3. **Block E** — P6-01 + P6-02 + P6-03 (Sharding consistency + fault injection)
+4. **Parallel lane** — AQL 2.0 Phase 2 (DDL first; Geospatial/FTS after DDL gate)
+5. **Evidence stream** — Wave 8 mandatory for distributed robustness signoff
+
+### Acceptance Source Mapping (open scope)
+
+- Block A criteria: Phase-3 gates in this document + root roadmap phase targets
+- Block D criteria: Phase-5 LLM hardening gates in this document + module hardening targets
+- Block E criteria: Phase-6 consistency/failover criteria + Wave-8 fault-injection evidence
+- AQL lane criteria: DDL-first non-breaking sequencing with tracked compatibility notes
+- Cross-cutting execution model: six-phase delivery contract from `FUTURE_ENHANCEMENTS.md` (Design → Core → Error/Edge → Tests → Hardening → Documentation/Acceptance)
+
 ---
 
 ## Phase Hierarchy & Timeline
@@ -24,7 +56,7 @@ The project transitions from **foundational completion** (Graph Phase 2.4 ✅, D
 ### 🎯 **Phase 3: Graph Module Optimization & Hardening** (PRIMARY)
 
 **Timeline:** 2026-07-08 to 2026-08-19 (6 weeks)  
-**Status:** 🟡 In preparation → 🚀 Kickoff 2026-07-22  
+**Status:** 🟡 Active (Block A complete; Block B complete; Block D complete)  
 **Scope:** Query optimization, cache, resource pooling, load balancing, distributed consistency  
 **Target Release:** v1.9.0-beta (Q4 2026)
 
@@ -32,10 +64,10 @@ The project transitions from **foundational completion** (Graph Phase 2.4 ✅, D
 
 | ID | Component | Effort | Owner | Gate | Status |
 |----|-----------|--------|-------|------|--------|
-| P3-01 | Query optimizer: plan cache + cost model hardening | 2 weeks | Team A | 46 tests | 🔵 Planned |
-| P3-02 | Cache efficiency: LRU + multi-tier eviction | 1.5 weeks | Team A | 32 tests | 🔵 Planned |
-| P3-03 | Resource pooling: connection + thread + buffer managers | 2 weeks | Team B | 28 tests | 🔵 Planned |
-| P3-04 | Load balancing: query distribution + scheduling | 1.5 weeks | Team B | 24 tests | 🔵 Planned |
+| P3-01 | Query optimizer: plan cache + cost model hardening | 2 weeks | Team A | 46 tests | ✅ Complete (Block A, 2026-07-20) |
+| P3-02 | Cache efficiency: LRU + multi-tier eviction | 1.5 weeks | Team A | 32 tests | ✅ Complete (Block A, 2026-07-20) |
+| P3-03 | Resource pooling: connection + thread + buffer managers | 2 weeks | Team B | 28 tests | ✅ Complete (Block B) |
+| P3-04 | Load balancing: query distribution + scheduling | 1.5 weeks | Team B | 24 tests | ✅ Complete (Block B) |
 | P3-05 | Integration + performance benchmarks + sign-off | 1 week | Team A+B | Wave 7 gates | 🔵 Planned |
 
 **Success Criteria:**
@@ -55,7 +87,7 @@ The project transitions from **foundational completion** (Graph Phase 2.4 ✅, D
 ### 🎯 **Phase 5: Server & LLM Hardening** (PARALLEL)
 
 **Timeline:** 2026-07-22 to 2026-08-09 (3 weeks)  
-**Status:** 🔵 Planned  
+**Status:** ✅ Implemented (Block D complete; transition to GA sign-off evidence)  
 **Scope:** Wire-protocol retry logic, LLM exception safety, memory leak fixes  
 **Target Release:** v1.9.0-beta patch
 
@@ -63,10 +95,10 @@ The project transitions from **foundational completion** (Graph Phase 2.4 ✅, D
 
 | ID | Component | Effort | Owner | Tests | Status |
 |----|-----------|--------|-------|-------|--------|
-| P5-S01 | Server: wire-protocol retry (2-3 retries + exponential backoff) | 1 week | Team C | 16 tests | 🔵 Planned |
-| P5-S02 | Server: HTTP timeout patterns + graceful shutdown | 1 week | Team C | 12 tests | 🔵 Planned |
-| P5-L01 | LLM: exception safety audit + RAII wrapper refactoring | 2 weeks | Team D | 28 tests | 🔵 Planned |
-| P5-L02 | LLM: memory leak fixes (model loading, cache cleanup) | 1.5 weeks | Team D | 24 tests | 🔵 Planned |
+| P5-S01 | Server: wire-protocol retry (2-3 retries + exponential backoff) | 1 week | Team C | 16 tests | ✅ Delivered (Block C) |
+| P5-S02 | Server: HTTP timeout patterns + graceful shutdown | 1 week | Team C | 12 tests | ✅ Delivered (Block C) |
+| P5-L01 | LLM: exception safety audit + RAII wrapper refactoring | 2 weeks | Team D | 28 tests | ✅ Delivered (Block D) |
+| P5-L02 | LLM: memory leak fixes (model loading, cache cleanup) | 1.5 weeks | Team D | 24 tests | ✅ Delivered (Block D) |
 
 **Success Criteria:**
 - ✅ Server: 99.9% recovery from transient faults (verified with fault injection)
@@ -256,7 +288,7 @@ The project transitions from **foundational completion** (Graph Phase 2.4 ✅, D
 ### Phase 5 Success (Server + LLM)
 - ✅ Server: 99.9% fault recovery rate (fault injection verified)
 - ✅ LLM: Valgrind clean (no memory leaks); exception safety >= 4/5
-- ✅ 52 new tests PASS (16+12+28+24 = 80 total for Phase 5)
+- ✅ 80 new tests PASS (Phase 5-S + Phase 5-L target set)
 - ✅ Zero regressions in server/llm existing tests
 
 ### Wave 8 Success (Soak + Fault Injection)

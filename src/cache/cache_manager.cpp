@@ -10,6 +10,7 @@
 #include <utility>
 #include <algorithm>
 #include <stdexcept>
+#include <chrono>
 #include "utils/logger.h"
 
 namespace themis {
@@ -122,7 +123,14 @@ bool CacheManager::set_eviction_policy(const std::string& cache_name,
         return false;
     }
 
-    it->second.policy = std::make_unique<CacheEvictionPolicy>(std::move(policy));
+    it->second.policy = policy.clone();
+
+    CacheEvent event;
+    event.type = CacheEvent::Type::POLICY_CHANGE;
+    event.cache_name = cache_name;
+    event.timestamp_us = std::chrono::duration_cast<std::chrono::microseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+    dispatch_event(event);
     return true;
 }
 

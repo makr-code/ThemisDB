@@ -77,7 +77,14 @@ private:
  * @brief Model cache entry with metadata
  */
 struct CachedModel {
-    virtual ~CachedModel() = default;
+    /**
+     * @brief Release any owned llama.cpp handles.
+     *
+     * Frees the cached context before the underlying model handle so
+     * outstanding shared owners can rely on RAII cleanup once the final
+     * reference leaves scope.
+     */
+    virtual ~CachedModel();
     std::string model_id;
     std::string model_path;
     ModelInfo info;
@@ -164,7 +171,7 @@ public:
      * @brief Get or load a model with shared ownership (thread-safe access)
      * 
      * Same as getOrLoadModel() but returns a shared_ptr to ensure the model
-     * remains valid even if another thread unloads it.
+     * remains valid even if another thread unloads or evicts it from the cache.
      * 
      * Thread-safe.
      * 
@@ -299,7 +306,7 @@ public:
 private:
     Config config_;
     
-    std::unordered_map<std::string, std::unique_ptr<CachedModel>> models_;
+    std::unordered_map<std::string, std::shared_ptr<CachedModel>> models_;
     mutable std::mutex mutex_;
     
     // Async loading tracking
@@ -331,6 +338,8 @@ private:
     
     bool hasCapacity(size_t vram_mb, size_t ram_mb) const;
     void updateMemoryUsage();
+    bool unloadModelUnlocked(const std::string& model_id, bool force);
+    size_t evictLRUUnlocked(size_t target_vram_mb = 0);
 };
 
 } // namespace llm

@@ -107,7 +107,7 @@
 
 // Now include http_server.h which has forward declarations
 #include "server/http_server.h"
-#include "server/keys_api_handler.h"
+#include "server/http_shutdown_manager.h"
 #include "server/api_key_mgmt_handler.h"
 #include "server/pki_api_handler.h"
 #include "server/classification_api_handler.h"
@@ -2210,20 +2210,27 @@ void HttpServer::stop() {
     }
 #endif
 
-    // Drain active requests with configurable timeout
-    THEMIS_INFO("Draining active requests (timeout={}ms)...", config_.graceful_shutdown_timeout_ms);
+    // P5-S02: Use HttpShutdownManager for phased, bounded drain + force-close.
+    // Phase DRAINING waits up to graceful_shutdown_timeout_ms for in-flight
+    // requests to finish naturally.  Phase FORCE_CLOSE hard-cancels any
+    // sessions that survive the drain window.
+    THEMIS_INFO("Initiating phased shutdown (drain_timeout={}ms)...",
+                config_.graceful_shutdown_timeout_ms);
     {
-        const auto drain_deadline = std::chrono::steady_clock::now()
-            + std::chrono::milliseconds(config_.graceful_shutdown_timeout_ms);
-        while (active_requests_.load(std::memory_order_acquire) > 0
-               && std::chrono::steady_clock::now() < drain_deadline) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(50));
-        }
-        auto remaining = active_requests_.load(std::memory_order_acquire);
-        if (remaining > 0) {
-            THEMIS_WARN("Shutdown timeout: {} request(s) still in flight - forcing close", remaining);
-        } else {
-            THEMIS_INFO("All active requests completed");
+        themis::server::HttpShutdownManager shutdown_mgr(
+            config_.graceful_shutdown_timeout_ms,
+            themis::server::HttpShutdownManager::kDefaultForceCloseTimeoutMs,
+            [this]() -> uint64_t {
+                return active_requests_.load(std::memory_order_acquire);
+            },
+            [this]() { ioc_.stop(); }  // force-close: cancel all pending async ops
+        );
+        shutdown_mgr.run();
+
+        const uint64_t forced = shutdown_mgr.forcedCount();
+        if (forced > 0) {
+            THEMIS_WARN("Shutdown forced: {} request(s) still in flight after "
+                        "force-close phase", forced);
         }
     }
 
