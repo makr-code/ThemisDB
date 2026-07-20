@@ -2583,12 +2583,24 @@ endif()
 # Graph Query Optimizer Tests (standalone)
 # ============================================================================
 
+set(_graph_query_optimizer_test_source "")
+
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_query_optimizer.cpp")
+    set(_graph_query_optimizer_test_source
+        "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_query_optimizer.cpp"
+    )
+elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_query_optimizer.cpp")
+    set(_graph_query_optimizer_test_source
+        "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_query_optimizer.cpp"
+    )
+endif()
+
+if(_graph_query_optimizer_test_source)
     message(STATUS "Adding Graph Query Optimizer tests")
 
 # [RESTORED: test_graph_query_optimizer]
     add_executable(test_graph_query_optimizer
-        graph/test_graph_query_optimizer.cpp
+        "${_graph_query_optimizer_test_source}"
         ${THEMIS_ROOT_DIR}/src/graph/graph_query_optimizer.cpp
         ${THEMIS_ROOT_DIR}/src/graph/path_constraints.cpp
         ${THEMIS_ROOT_DIR}/src/graph/parallel_traversal.cpp
@@ -2623,8 +2635,14 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_query_optimizer.cpp")
 
     message(STATUS "  Graph Query Optimizer: BFS/DFS/Dijkstra/A*/Bidirectional, pattern matching, subgraph isomorphism")
 else()
-    message(STATUS "Graph Query Optimizer tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_query_optimizer.cpp")
+    message(STATUS
+        "Graph Query Optimizer tests not found at either "
+        "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_query_optimizer.cpp or "
+        "${CMAKE_CURRENT_SOURCE_DIR}/test_graph_query_optimizer.cpp"
+    )
 endif()
+
+unset(_graph_query_optimizer_test_source)
 
 # ============================================================================
 # Graph Query Rewriter Tests (standalone, Issue #250)
