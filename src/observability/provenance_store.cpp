@@ -330,15 +330,14 @@ std::vector<ProvenanceStepRecord> RocksDBProvenanceStore::getProvenanceChain(
 
         // Range scan: "provenance:<query_id>:00000000" to "provenance:<query_id>:99999999"
         const auto prefix = "provenance:" + query_id + ":";
-        rocksdb::Iterator* it = db->NewIterator(rocksdb::ReadOptions());
+        // Wrap in unique_ptr: iterator freed on all paths including exceptions (Phase 8.4).
+        auto it = std::unique_ptr<rocksdb::Iterator>(db->NewIterator(rocksdb::ReadOptions()));
 
         for (it->Seek(prefix); it->Valid() && it->key().ToString().find(prefix) == 0;
              it->Next()) {
             const auto value_str = it->value().ToString();
             records.push_back(deserializeRecord(value_str));
         }
-
-        delete it;
 
         // Sort by step_number (should already be in order due to key format, but ensure it)
         std::sort(records.begin(), records.end(),
@@ -372,7 +371,7 @@ std::vector<ProvenanceStepRecord> RocksDBProvenanceStore::getRecordsByTimeRange(
         const auto start_prefix = oss_start.str();
         const auto end_prefix   = oss_end.str();
 
-        rocksdb::Iterator* it = db->NewIterator(rocksdb::ReadOptions());
+        auto it = std::unique_ptr<rocksdb::Iterator>(db->NewIterator(rocksdb::ReadOptions()));
 
         for (it->Seek(start_prefix); it->Valid(); it->Next()) {
             const auto key = it->key().ToString();
@@ -412,7 +411,7 @@ std::vector<ProvenanceStepRecord> RocksDBProvenanceStore::getRecordsByTimeRange(
             }
         }
 
-        delete it;
+        // iterator freed automatically by unique_ptr destructor
 
         // Sort by timestamp
         std::sort(records.begin(), records.end(),
@@ -443,7 +442,7 @@ std::vector<std::string> RocksDBProvenanceStore::listQueryIds() {
             return query_ids;
         }
 
-        rocksdb::Iterator* it = db->NewIterator(rocksdb::ReadOptions());
+        auto it = std::unique_ptr<rocksdb::Iterator>(db->NewIterator(rocksdb::ReadOptions()));
 
         std::string last_query_id;
         for (it->Seek("provenance:"); it->Valid(); it->Next()) {
@@ -468,8 +467,7 @@ std::vector<std::string> RocksDBProvenanceStore::listQueryIds() {
                 last_query_id = query_id;
             }
         }
-
-        delete it;
+        // iterator freed automatically by unique_ptr destructor
     } catch (...) {
         // Silently return what we have on error
     }
@@ -487,26 +485,28 @@ bool RocksDBProvenanceStore::deleteQuery(const std::string& query_id) {
         rocksdb::WriteBatch batch;
         const auto prefix = "provenance:" + query_id + ":";
 
-        // Delete main provenance entries
-        rocksdb::Iterator* it = db->NewIterator(rocksdb::ReadOptions());
-        for (it->Seek(prefix); it->Valid() && it->key().ToString().find(prefix) == 0;
-             it->Next()) {
-            batch.Delete(it->key().ToString());
+        // Delete main provenance entries; unique_ptr ensures no leak on throw (Phase 8.4).
+        {
+            auto it = std::unique_ptr<rocksdb::Iterator>(db->NewIterator(rocksdb::ReadOptions()));
+            for (it->Seek(prefix); it->Valid() && it->key().ToString().find(prefix) == 0;
+                 it->Next()) {
+                batch.Delete(it->key().ToString());
+            }
         }
-        delete it;
 
         // Delete time-index entries for this query
         const auto time_prefix = "provenance_ts:";
-        it = db->NewIterator(rocksdb::ReadOptions());
-        for (it->Seek(time_prefix); it->Valid() && it->key().ToString().find(time_prefix) == 0;
-             it->Next()) {
-            const auto key = it->key().ToString();
-            const auto parsed = parseTimeIndexKey(key);
-            if (parsed.has_value() && parsed->query_id == query_id) {
-                batch.Delete(key);
+        {
+            auto it = std::unique_ptr<rocksdb::Iterator>(db->NewIterator(rocksdb::ReadOptions()));
+            for (it->Seek(time_prefix); it->Valid() && it->key().ToString().find(time_prefix) == 0;
+                 it->Next()) {
+                const auto key = it->key().ToString();
+                const auto parsed = parseTimeIndexKey(key);
+                if (parsed.has_value() && parsed->query_id == query_id) {
+                    batch.Delete(key);
+                }
             }
         }
-        delete it;
 
         const auto status = db->Write(rocksdb::WriteOptions(), &batch);
         return status.ok();
