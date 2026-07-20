@@ -31,6 +31,7 @@ The project transitions from **foundational completion** (Graph Phase 2.4 ✅, D
 - [x] Wave 7 hard-gate signoff completed
 - [x] Block B completed (P3-03/P3-04)
 - [x] Block C completed (P5-S01/P5-S02)
+- [x] Block A completed (P3-01/P3-02, 2026-07-20)
 
 ### Remaining Open Scope (binding order)
 
@@ -55,7 +56,7 @@ The project transitions from **foundational completion** (Graph Phase 2.4 ✅, D
 ### 🎯 **Phase 3: Graph Module Optimization & Hardening** (PRIMARY)
 
 **Timeline:** 2026-07-08 to 2026-08-19 (6 weeks)  
-**Status:** 🟡 Active (Block B complete; Block A prioritized next)  
+**Status:** 🟡 Active (Block A complete; Block B complete; Block D next)  
 **Scope:** Query optimization, cache, resource pooling, load balancing, distributed consistency  
 **Target Release:** v1.9.0-beta (Q4 2026)
 
@@ -63,8 +64,8 @@ The project transitions from **foundational completion** (Graph Phase 2.4 ✅, D
 
 | ID | Component | Effort | Owner | Gate | Status |
 |----|-----------|--------|-------|------|--------|
-| P3-01 | Query optimizer: plan cache + cost model hardening | 2 weeks | Team A | 46 tests | 🔵 Planned |
-| P3-02 | Cache efficiency: LRU + multi-tier eviction | 1.5 weeks | Team A | 32 tests | 🔵 Planned |
+| P3-01 | Query optimizer: plan cache + cost model hardening | 2 weeks | Team A | 46 tests | ✅ Complete (Block A, 2026-07-20) |
+| P3-02 | Cache efficiency: LRU + multi-tier eviction | 1.5 weeks | Team A | 32 tests | ✅ Complete (Block A, 2026-07-20) |
 | P3-03 | Resource pooling: connection + thread + buffer managers | 2 weeks | Team B | 28 tests | ✅ Complete (Block B) |
 | P3-04 | Load balancing: query distribution + scheduling | 1.5 weeks | Team B | 24 tests | ✅ Complete (Block B) |
 | P3-05 | Integration + performance benchmarks + sign-off | 1 week | Team A+B | Wave 7 gates | 🔵 Planned |

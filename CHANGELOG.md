@@ -5,6 +5,37 @@ All notable changes to ThemisDB will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-07-20 — Graph Phase 3 Block A (P3-01 + P3-02)
+
+### Graph Module Phase 3 — Block A Delivery
+
+**P3-01: Plan cache + cost model hardening** (`graph_query_optimizer.cpp/h`)
+- Added `std::mutex plan_cache_mutex_` to protect `plan_cache_` and `plan_cache_lru_`
+  for thread-safe concurrent access from multiple optimizer paths.
+- Changed `planCacheLookup()` to return `std::optional<OptimizationPlan>` by value so
+  callers receive a safe copy and raw-pointer invalidation on rehash is eliminated.
+- All 9 call sites updated; direct `plan_cache_.find()` access migrated to helper.
+- `clearPlanCache()` and `getPlanCacheSize()` also acquire the mutex.
+- Existing 276-test suite (`test_graph_query_optimizer.cpp`) covers the hardened paths.
+
+**P3-02: Multi-tier LRU graph query result cache** (`graph_query_cache.{h,cpp}`)
+- New `GraphQueryCache` class: two-tier in-memory cache with thread-safe API.
+  - L1 (hot tier): strict LRU eviction, default 64 entries.
+  - L2 (warm tier): cost-weighted eviction (`score = recency / cost`), default 512 entries.
+  - L1 victims are demoted to L2; L2 hits are promoted to L1.
+- `put(key, result, cost_hint)`, `get(key)`, `invalidate(key)`, `clear()`, `getStats()`, `resetStats()`.
+- `Stats` includes hits, misses, l1_hits, l2_promotions, evictions, hit ratio.
+- TTL support (zero = no expiry).
+- Registered in `cmake/CMakeLists.txt` and `cmake/ModularBuild.cmake`.
+- 32-test suite `tests/graph/test_graph_query_cache.cpp` delivered (gate: 32 tests).
+
+### Docs
+- `ROADMAP.md`: Block A marked `[x]` complete; Phase 3 status updated.
+- `NEXT_PHASE_IMPLEMENTATION_PLAN.md`: P3-01/P3-02 marked `✅ Complete`.
+- `ai_working/NEXT_PHASE_30_60_90_BACKLOG.md`: Block A tasks checked.
+
+---
+
 ## [2.4.0-rc1] — 2026-07-03 — Graph Module Hardening & Release Candidate
 
 ### New Features: Graph Module Phase 2 Completion

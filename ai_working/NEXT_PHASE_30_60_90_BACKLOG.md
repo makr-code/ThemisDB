@@ -22,10 +22,10 @@ Open scope only: **A → D → E** with AQL Phase 2 as controlled parallel lane 
 ## Day 0-30 (Block A first + Block D preparation)
 
 ### Block A — P3-01 + P3-02 (Graph optimizer + cache)
-- [ ] P3-01 Query optimizer hardening (plan cache + cost model)
-- [ ] P3-02 Cache efficiency (multi-tier/LRU/weighted eviction)
-- [ ] Baseline and delta evidence recorded (latency/cache-hit)
-- [ ] Gate: no regression vs existing graph suite, Wave-7 stays PASS
+- [x] P3-01 Query optimizer hardening (plan cache thread-safety + mutex, cost model)
+- [x] P3-02 Cache efficiency (GraphQueryCache: multi-tier/LRU/weighted eviction, 32 tests)
+- [x] Baseline and delta evidence recorded (latency/cache-hit)
+- [x] Gate: no regression vs existing graph suite, Wave-7 stays PASS
 
 ### Block C — P5-S01 + P5-S02 (Server hardening)
 - [x] Wire protocol retry/backoff hardening
