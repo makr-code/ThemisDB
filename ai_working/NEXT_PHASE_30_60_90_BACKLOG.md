@@ -6,7 +6,20 @@
 
 ---
 
-## Day 0-30 (Kickoff + Block A/C/D Start)
+## Scope Freeze Baseline (confirmed 2026-07-20)
+
+- [x] Graph Phase 2.4 completion baseline fixed
+- [x] Wave 5 hardening baseline fixed
+- [x] Wave 6 hardening baseline fixed
+- [x] Wave 7 hard-gate baseline fixed
+- [x] Block B complete (P3-03 + P3-04)
+- [x] Block C complete (P5-S01 + P5-S02)
+
+Open scope only: **A → D → E** with AQL Phase 2 as controlled parallel lane and Wave 8 as mandatory evidence for distributed robustness.
+
+---
+
+## Day 0-30 (Block A first + Block D preparation)
 
 ### Block A — P3-01 + P3-02 (Graph optimizer + cache)
 - [ ] P3-01 Query optimizer hardening (plan cache + cost model)
@@ -33,13 +46,7 @@
 
 ---
 
-## Day 31-60 (Block B + E Start)
-
-### Block B — P3-03 + P3-04 (Resource pooling + scheduling)
-- [x] Resource pooling hardening (connection/thread/buffer)
-- [x] Load-balancing + scheduling hardening
-- [x] Integration and regression verification against existing graph flow
-- [x] Gate: no performance regressions, deterministic behavior under load
+## Day 31-60 (Block D execution + Block E start)
 
 ### Block E — P6-01 + P6-02 + P6-03 (Sharding consistency + fault injection)
 - [ ] 2PC/3PC consistency and recovery hardening
@@ -75,12 +82,11 @@
 ## Block Execution Order (Binding)
 
 1. **Block A:** P3-01 + P3-02  
-2. **Block B:** P3-03 + P3-04  
-3. **Block C:** P5-S01 + P5-S02  
-4. **Block D:** P5-L01 + P5-L02  
-5. **Block E:** P6-01 + P6-02 + P6-03
+2. **Block D:** P5-L01 + P5-L02  
+3. **Block E:** P6-01 + P6-02 + P6-03  
+4. **Parallel lane:** AQL Phase 2 (DDL first, Geospatial/FTS sequenced)  
+5. **Mandatory evidence stream:** Wave 8 soak/degradation/fault-injection
 
 After each block:
 - [ ] Full gate-check completed (build/test/bench/security)
 - [ ] Risks and regressions triaged before next block starts
-

@@ -68,9 +68,9 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 
 ---
 
-## 🚀 NEXT PHASE IMPLEMENTATION (2026-07-22 to 2026-08-31) — KICKOFF
+## 🚀 NEXT PHASE IMPLEMENTATION (2026-07-22 to 2026-08-31) — EXECUTION
 
-**Status:** 🔵 PLANNED → 🚀 Kickoff 2026-07-22  
+**Status:** 🟡 ACTIVE (Scope-Freeze baseline confirmed 2026-07-20)  
 **Implementation Plans:** [NEXT_PHASE_IMPLEMENTATION_PLAN.md](NEXT_PHASE_IMPLEMENTATION_PLAN.md), [ai_working/PHASE3_OPTIMIZATION_DETAILED_PLAN.md](ai_working/PHASE3_OPTIMIZATION_DETAILED_PLAN.md), [ai_working/PHASE5_HARDENING_DETAILED_PLAN.md](ai_working/PHASE5_HARDENING_DETAILED_PLAN.md), [ai_working/NEXT_PHASE_30_60_90_BACKLOG.md](ai_working/NEXT_PHASE_30_60_90_BACKLOG.md)
 **Kickoff Runner:** `/home/runner/work/ThemisDB/ThemisDB/scripts/next_phase_kickoff.py` (Wave-7 hard-gate + baseline go/no-go report)
 
@@ -78,9 +78,9 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 
 | Phase | Component | Timeline | Effort | Teams | Target Tests | Status |
 |-------|-----------|----------|--------|-------|-------------|--------|
-| **Phase 3** | Graph: Query optimization, cache efficiency, resource pooling | 6 weeks | 10 weeks | A+B (4 eng) | 130 new | 🔵 Planned |
-| **Phase 5-S** | Server: Wire-protocol retry + HTTP timeout patterns | 3 weeks | 4 weeks | C (2 eng) | 39 new | 🔵 Planned |
-| **Phase 5-L** | LLM: Exception safety + memory leak fixes | 3 weeks | 6 weeks | D (2 eng) | 51 new | 🔵 Planned |
+| **Phase 3** | Graph: Query optimization, cache efficiency, resource pooling | 6 weeks | 10 weeks | A+B (4 eng) | 130 new | 🟡 Active (Block B complete, Block A open) |
+| **Phase 5-S** | Server: Wire-protocol retry + HTTP timeout patterns | 3 weeks | 4 weeks | C (2 eng) | 39 new | ✅ Complete (Block C) |
+| **Phase 5-L** | LLM: Exception safety + memory leak fixes | 3 weeks | 6 weeks | D (2 eng) | 51 new | 🔵 Planned (Block D open) |
 | **Phase 6** | Sharding: 2PC/3PC consistency + fault injection | 3 weeks | 6 weeks | E+F (4 eng) | 60+ new | 🔵 Queued |
 | **AQL Phase 2** | DDL implementation (parser + executor) | 4-6 weeks | 6 weeks | G (2 eng) | 32 new | 🔵 Queued |
 | **Wave 8** | Soak + endurance + degradation fault injection | Parallel | 8 weeks | F (2 eng) | 40+ scenarios | 🔵 Queued |
@@ -89,14 +89,29 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 **Total Team Effort:** ~38 weeks across 8 teams (~15 engineers)  
 **Release Target:** v1.9.0-beta (Sept 2026), v2.0.0-rc1 (Oct 2026), v2.0.0 GA (Nov 2026)
 
-### Immediate Kickoff Actions (Week 1: 2026-07-22 to 2026-07-26)
+### Scope-Freeze & Remaining Work (2026-07-20)
 
-- [ ] **Architecture reviews** (Teams A-D present roadmaps, 2 hours per team)
-- [ ] **Feature branches created:** `feature/graph-phase3-optimization`, `feature/server-phase5-hardening`, `feature/llm-phase5-hardening`
-- [ ] **GitHub issues created:** Phase 3 P3-01..05, Phase 5-S P5-S01..02, Phase 5-L P5-L01..02
-- [ ] **Baseline measurements:** Wave 7 gates re-confirmed PASS, query latency profiled, memory baseline established
-- [ ] **Test scaffolding:** Empty test files + stubs + CMakeLists.txt (no logic yet)
-- [ ] **First commit cycle:** Infrastructure + test stubs (by Friday 2026-07-26)
+**Done baseline (fixed, not re-opened):**
+- [x] Graph Phase 2.4 complete (326 tests, CRITICAL-gap closure baseline)
+- [x] Wave 5 hardening complete
+- [x] Wave 6 hardening complete
+- [x] Wave 7 release-critical hard gates complete
+- [x] Block C complete (P5-S01/P5-S02, server hardening)
+- [x] Block B complete (P3-03/P3-04, resource/scheduling hardening)
+
+**Open implementation scope (binding sequence):**
+- [ ] Block A first: P3-01/P3-02 (optimizer + cache)
+- [ ] Block D second: P5-L01/P5-L02 (LLM hardening)
+- [ ] Block E third: P6-01/P6-02/P6-03 (sharding + fault injection)
+- [ ] AQL Phase 2 in parallel lane (DDL first, Geospatial/FTS sequenced)
+- [ ] Wave 8 as mandatory robustness evidence for Block E/release readiness
+
+### Gate-Oriented Execution Rules (Binding)
+
+- [ ] After each open block: full gate-check (build/test/bench/security) must be green before next block starts
+- [ ] Acceptance criteria for open blocks are sourced from this roadmap + `FUTURE_ENHANCEMENTS.md` six-phase execution model
+- [ ] Any failed gate or unresolved risk is returned to backlog/governance before promotion
+- [ ] Promotion path remains evidence-driven: `v1.9.0-beta` → `v2.0.0-rc1` → `v2.0.0 GA`
 
 ### Decision Tree: Phase Prioritization
 
