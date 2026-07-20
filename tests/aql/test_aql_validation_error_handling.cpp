@@ -66,7 +66,7 @@ public:
         if (aql.find("users") != std::string::npos) {
             bool found = false;
             for (const auto& coll : schema) {
-                if (coll.collection_name == "users") {
+                if (coll.name == "users") {
                     found = true;
                     break;
                 }
@@ -155,8 +155,8 @@ TEST(AQLValidationErrorHandling, InjectionAttempt_SQLInjection) {
 TEST(AQLValidationErrorHandling, SchemaMismatch_FieldNotFound) {
     std::vector<CollectionMetadata> schema;
     CollectionMetadata users_coll;
-    users_coll.collection_name = "users";
-    users_coll.is_document = true;
+    users_coll.name = "users";
+    users_coll.type = "document";
     
     CollectionFieldInfo name_field;
     name_field.name = "name";
@@ -201,7 +201,7 @@ TEST(AQLValidationErrorHandling, SchemaMismatch_FieldNotFound) {
 TEST(AQLValidationErrorHandling, TypeMismatch_StringComparison) {
     std::vector<CollectionMetadata> schema;
     CollectionMetadata users_coll;
-    users_coll.collection_name = "users";
+    users_coll.name = "users";
     
     CollectionFieldInfo age_field;
     age_field.name = "age";
@@ -292,7 +292,7 @@ TEST(AQLValidationErrorHandling, NullSchemaContext_MissingSchema) {
 TEST(AQLValidationErrorHandling, MissingFieldMetadata_IncompleteType) {
     std::vector<CollectionMetadata> schema;
     CollectionMetadata users_coll;
-    users_coll.collection_name = "users";
+    users_coll.name = "users";
     
     CollectionFieldInfo incomplete_field;
     incomplete_field.name = "custom_data";
@@ -359,8 +359,3 @@ TEST(AQLValidationErrorHandling, ErrorContextFormatting_CompleteContext) {
 }  // namespace testing
 }  // namespace aql
 }  // namespace themis
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

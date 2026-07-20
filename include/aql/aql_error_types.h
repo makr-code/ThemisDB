@@ -26,6 +26,7 @@
 #include <ctime>
 #include <sstream>
 #include <iomanip>
+#include <vector>
 
 namespace themis {
 namespace aql {
@@ -304,25 +305,29 @@ inline RecoveryStrategy getRecoveryStrategy(const std::string& error_type,
     // Validation errors: always fail-closed
     if (error_type == "validation") {
         if (category == ValidationError::InjectionAttempt ||
-            category == ValidationError::MalformedAQL) {
-            return RecoveryStrategy::FAIL_CLOSED;
-        }
-        if (category == ValidationError::SchemaMismatch ||
-            category == ValidationError::TypeMismatch) {
+            category == ValidationError::MalformedAQL ||
+            category == ValidationError::SchemaMismatch ||
+            category == ValidationError::TypeMismatch ||
+            category == ValidationError::UnsupportedOperator ||
+            category == ValidationError::NullSchemaContext ||
+            category == ValidationError::MissingFieldMetadata) {
             return RecoveryStrategy::FAIL_CLOSED;
         }
     }
 
-    // Translation errors: retry with backoff (except context overflow)
+    // Translation errors: context overflow degrades, retry exhaustion propagates,
+    // remaining translation failures retry with backoff.
     if (error_type == "translation") {
         if (category == TranslationError::ContextOverflow) {
             return RecoveryStrategy::DEGRADE_GRACEFULLY;
         }
-        if (category == TranslationError::ProviderUnavailable ||
-            category == TranslationError::TimeoutExceeded) {
-            return RecoveryStrategy::RETRY_WITH_BACKOFF;
+        if (category == TranslationError::RetryExhausted) {
+            return RecoveryStrategy::PROPAGATE_ERROR;
         }
-        if (category == TranslationError::InvalidResponse) {
+        if (category == TranslationError::ProviderUnavailable ||
+            category == TranslationError::TimeoutExceeded ||
+            category == TranslationError::InvalidResponse ||
+            category == TranslationError::GenerationFailed) {
             return RecoveryStrategy::RETRY_WITH_BACKOFF;
         }
     }

@@ -391,8 +391,3 @@ TEST(AQLTranslationRecovery, Backoff_TimingAccuracy) {
 }  // namespace testing
 }  // namespace aql
 }  // namespace themis
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

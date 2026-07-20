@@ -203,21 +203,18 @@ static std::vector<std::string> buildComplexNLCorpus(int n, uint64_t seed = kW7C
  * Release gate: p95 ≤ 2 ms (see PERFORMANCE_EXPECTATIONS.md)
  */
 static void BM_AQLTranslationSimple(benchmark::State& state) {
-    // Warmup phase: skip first kWarmupIterations iterations from measurement
+    // Warmup phase before timed benchmark loop.
     MockAQLTranslator translator(kW7CanonicalSeed);
     const auto corpus = buildSimpleNLCorpus(256);
 
     int idx = 0;
-    int warmup_count = 0;
+    for (int warmup_count = 0; warmup_count < kWarmupIterations; ++warmup_count) {
+        auto warmup_result = translator.translateSimple(corpus[idx % corpus.size()]);
+        benchmark::DoNotOptimize(warmup_result);
+        ++idx;
+    }
 
     for (auto _ : state) {
-        if (warmup_count < kWarmupIterations) {
-            translator.translateSimple(corpus[idx % corpus.size()]);
-            ++warmup_count;
-            state.SkipWithMessage("warmup");
-            ++idx;
-            continue;
-        }
         const auto& query = corpus[idx % corpus.size()];
         auto result = translator.translateSimple(query);
         benchmark::DoNotOptimize(result);
@@ -247,16 +244,13 @@ static void BM_AQLTranslationComplex(benchmark::State& state) {
     const auto corpus = buildComplexNLCorpus(128);
 
     int idx = 0;
-    int warmup_count = 0;
+    for (int warmup_count = 0; warmup_count < kWarmupIterations; ++warmup_count) {
+        auto warmup_result = translator.translateComplex(corpus[idx % corpus.size()]);
+        benchmark::DoNotOptimize(warmup_result);
+        ++idx;
+    }
 
     for (auto _ : state) {
-        if (warmup_count < kWarmupIterations) {
-            translator.translateComplex(corpus[idx % corpus.size()]);
-            ++warmup_count;
-            state.SkipWithMessage("warmup");
-            ++idx;
-            continue;
-        }
         const auto& query = corpus[idx % corpus.size()];
         auto result = translator.translateComplex(query);
         benchmark::DoNotOptimize(result);
