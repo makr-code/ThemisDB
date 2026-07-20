@@ -458,11 +458,25 @@ bool TumblingWindow::ingest(const StreamRecord &record) {
 
     std::vector<WindowResult> pending;
     ResultCallback cb;
+    bool record_added = true;
     {
         std::lock_guard lk(mutex_);
 
         int64_t idx = slotIndex(record.event_time);
         if (open_windows_.find(idx) == open_windows_.end()) {
+            // Enforce max_open_windows: evict the oldest window when at capacity.
+            if (config_.max_open_windows > 0 && open_windows_.size() >= config_.max_open_windows) {
+                auto oldest = open_windows_.begin();
+                if (config_.emit_empty_windows || !oldest->second.records.empty()) {
+                    pending.push_back(computeResult(oldest->second, false));
+                    ++results_emitted_;
+                }
+                ++windows_closed_;
+                ++windows_evicted_;
+                open_windows_.erase(oldest);
+                spdlog::warn("TumblingWindow: evicted oldest window (open >= max_open_windows={})",
+                             config_.max_open_windows);
+            }
             InternalWindow win;
             win.start          = slotStart(idx);
             win.end            = win.start + config_.size;
@@ -471,10 +485,19 @@ bool TumblingWindow::ingest(const StreamRecord &record) {
             ++windows_opened_;
         }
 
-        if (ev_us < wm && config_.watermark.allow_late_data) {
-            ++late_records_;
+        // Enforce max_records_per_window: drop the record when the window is full.
+        if (config_.max_records_per_window > 0 &&
+            open_windows_[idx].records.size() >= config_.max_records_per_window) {
+            ++records_dropped_;
+            record_added = false;
+            spdlog::debug("TumblingWindow: dropped record (window full, limit={})",
+                          config_.max_records_per_window);
+        } else {
+            if (ev_us < wm && config_.watermark.allow_late_data) {
+                ++late_records_;
+            }
+            open_windows_[idx].records.push_back(record);
         }
-        open_windows_[idx].records.push_back(record);
 
         pending = closeExpiredWindows(wm);
         cb      = callback_;
@@ -486,7 +509,7 @@ bool TumblingWindow::ingest(const StreamRecord &record) {
             try { cb(r); } catch (...) {}
         }
     }
-    return true;
+    return record_added;
 }
 
 void TumblingWindow::flush() {
@@ -505,8 +528,15 @@ void TumblingWindow::flush() {
 }
 
 WindowStats TumblingWindow::getStats() const {
-    return WindowStats{windows_opened_.load(),  windows_closed_.load(), records_ingested_.load(),
-                       records_dropped_.load(), late_records_.load(),   results_emitted_.load()};
+    WindowStats s;
+    s.windows_opened   = windows_opened_.load();
+    s.windows_closed   = windows_closed_.load();
+    s.records_ingested = records_ingested_.load();
+    s.records_dropped  = records_dropped_.load();
+    s.late_records     = late_records_.load();
+    s.results_emitted  = results_emitted_.load();
+    s.windows_evicted  = windows_evicted_.load();
+    return s;
 }
 
 void TumblingWindow::idleTimeoutLoop() {
@@ -637,6 +667,21 @@ void SlidingWindow::ensureWindowsExist(const std::chrono::system_clock::time_poi
         // O(1) duplicate check via hash set
         bool found = (window_start_set_.count(start_us) > 0);
         if (!found) {
+            // Enforce max_open_windows: skip new window creation when at capacity.
+            if (config_.max_open_windows > 0) {
+                uint64_t open_count = 0;
+                for (const auto& w : windows_) {
+                    if (!w.closed) {
+                        ++open_count;
+                    }
+                }
+                if (open_count >= config_.max_open_windows) {
+                    ++windows_evicted_;
+                    spdlog::debug("SlidingWindow: skipped new window creation (open={} >= max_open_windows={})",
+                                  open_count, config_.max_open_windows);
+                    continue;
+                }
+            }
             InternalWindow win;
             win.window_id     = genId();
             win.start         = fromMicros(start_us);
@@ -707,10 +752,17 @@ bool SlidingWindow::ingest(const StreamRecord &record) {
 
         ensureWindowsExist(record.event_time, record.partition_key);
 
-        // Add record to all overlapping open windows
+        // Add record to all overlapping open windows, respecting max_records_per_window.
         for (auto &w : windows_) {
             if (!w.closed && record.event_time >= w.start && record.event_time < w.end) {
-                w.records.push_back(record);
+                if (config_.max_records_per_window > 0 &&
+                    w.records.size() >= config_.max_records_per_window) {
+                    ++records_dropped_;
+                    spdlog::debug("SlidingWindow: dropped record from window (limit={})",
+                                  config_.max_records_per_window);
+                } else {
+                    w.records.push_back(record);
+                }
             }
         }
 
@@ -747,8 +799,15 @@ void SlidingWindow::flush() {
 }
 
 WindowStats SlidingWindow::getStats() const {
-    return WindowStats{windows_opened_.load(),  windows_closed_.load(), records_ingested_.load(),
-                       records_dropped_.load(), late_records_.load(),   results_emitted_.load()};
+    WindowStats s;
+    s.windows_opened   = windows_opened_.load();
+    s.windows_closed   = windows_closed_.load();
+    s.records_ingested = records_ingested_.load();
+    s.records_dropped  = records_dropped_.load();
+    s.late_records     = late_records_.load();
+    s.results_emitted  = results_emitted_.load();
+    s.windows_evicted  = windows_evicted_.load();
+    return s;
 }
 
 void SlidingWindow::idleTimeoutLoop() {
@@ -881,12 +940,38 @@ bool SessionWindow::ingest(const StreamRecord &record) {
         const std::string &key = record.partition_key;
         auto it                = sessions_.find(key);
         if (it == sessions_.end()) {
+            // Enforce max_open_sessions: evict the session with the oldest last_event.
+            if (config_.max_open_sessions > 0 && sessions_.size() >= config_.max_open_sessions) {
+                auto oldest = sessions_.end();
+                for (auto sit = sessions_.begin(); sit != sessions_.end(); ++sit) {
+                    if (oldest == sessions_.end() || sit->second.last_event < oldest->second.last_event) {
+                        oldest = sit;
+                    }
+                }
+                if (oldest != sessions_.end()) {
+                    if (!oldest->second.records.empty()) {
+                        pending_result = computeResult(oldest->second, oldest->second.has_late_records);
+                        has_pending    = true;
+                        ++windows_closed_;
+                        ++results_emitted_;
+                    }
+                    ++windows_evicted_;
+                    sessions_.erase(oldest);
+                    spdlog::warn("SessionWindow: evicted oldest session (sessions >= max_open_sessions={})",
+                                 config_.max_open_sessions);
+                }
+            }
             Session s;
             s.session_id    = genId();
             s.partition_key = key;
             s.start         = record.event_time;
             s.last_event    = record.event_time;
-            s.records.push_back(record);
+            // Enforce max_records_per_session on new session creation.
+            if (config_.max_records_per_session == 0 || s.records.size() < config_.max_records_per_session) {
+                s.records.push_back(record);
+            } else {
+                ++records_dropped_;
+            }
             if (ev_us < wm && config_.watermark.allow_late_data) {
                 s.has_late_records = true;
             }
@@ -920,7 +1005,15 @@ bool SessionWindow::ingest(const StreamRecord &record) {
                 // BUG 2 FIX: use max() so that an out-of-order record cannot
                 // regress last_event and cause instant timer-driven expiry.
                 s.last_event = std::max(s.last_event, record.event_time);
-                s.records.push_back(record);
+                // Enforce max_records_per_session on existing session.
+                if (config_.max_records_per_session > 0 &&
+                    s.records.size() >= config_.max_records_per_session) {
+                    ++records_dropped_;
+                    spdlog::debug("SessionWindow: dropped record (session full, limit={})",
+                                  config_.max_records_per_session);
+                } else {
+                    s.records.push_back(record);
+                }
                 if (ev_us < wm && config_.watermark.allow_late_data) {
                     s.has_late_records = true;
                 }
@@ -960,8 +1053,15 @@ void SessionWindow::flush() {
 }
 
 WindowStats SessionWindow::getStats() const {
-    return WindowStats{windows_opened_.load(),  windows_closed_.load(), records_ingested_.load(),
-                       records_dropped_.load(), late_records_.load(),   results_emitted_.load()};
+    WindowStats s;
+    s.windows_opened   = windows_opened_.load();
+    s.windows_closed   = windows_closed_.load();
+    s.records_ingested = records_ingested_.load();
+    s.records_dropped  = records_dropped_.load();
+    s.late_records     = late_records_.load();
+    s.results_emitted  = results_emitted_.load();
+    s.windows_evicted  = windows_evicted_.load();
+    return s;
 }
 
 void SessionWindow::expiryLoop() {
@@ -1072,6 +1172,21 @@ void HoppingWindow::ensureWindowsExist(const std::chrono::system_clock::time_poi
         // O(1) duplicate check via hash set
         bool found = (window_start_set_.count(start_us) > 0);
         if (!found) {
+            // Enforce max_open_windows: skip new window creation when at capacity.
+            if (config_.max_open_windows > 0) {
+                uint64_t open_count = 0;
+                for (const auto& w : windows_) {
+                    if (!w.closed) {
+                        ++open_count;
+                    }
+                }
+                if (open_count >= config_.max_open_windows) {
+                    ++windows_evicted_;
+                    spdlog::debug("HoppingWindow: skipped new window creation (open={} >= max_open_windows={})",
+                                  open_count, config_.max_open_windows);
+                    continue;
+                }
+            }
             InternalWindow win;
             win.window_id = genId();
             win.start     = fromMicros(start_us);
@@ -1134,7 +1249,14 @@ bool HoppingWindow::ingest(const StreamRecord &record) {
 
         for (auto &w : windows_) {
             if (!w.closed && record.event_time >= w.start && record.event_time < w.end) {
-                w.records.push_back(record);
+                if (config_.max_records_per_window > 0 &&
+                    w.records.size() >= config_.max_records_per_window) {
+                    ++records_dropped_;
+                    spdlog::debug("HoppingWindow: dropped record from window (limit={})",
+                                  config_.max_records_per_window);
+                } else {
+                    w.records.push_back(record);
+                }
             }
         }
 
@@ -1170,8 +1292,15 @@ void HoppingWindow::flush() {
 }
 
 WindowStats HoppingWindow::getStats() const {
-    return WindowStats{windows_opened_.load(),  windows_closed_.load(), records_ingested_.load(),
-                       records_dropped_.load(), late_records_.load(),   results_emitted_.load()};
+    WindowStats s;
+    s.windows_opened   = windows_opened_.load();
+    s.windows_closed   = windows_closed_.load();
+    s.records_ingested = records_ingested_.load();
+    s.records_dropped  = records_dropped_.load();
+    s.late_records     = late_records_.load();
+    s.results_emitted  = results_emitted_.load();
+    s.windows_evicted  = windows_evicted_.load();
+    return s;
 }
 
 // ============================================================================
