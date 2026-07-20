@@ -52,6 +52,19 @@ struct AIDecisionAudit {
     std::string user_id;               // User who triggered decision
     std::string session_id;            // Session context
     std::chrono::system_clock::time_point timestamp; // When decision was made
+
+    // P1.3 — End-to-End Observability: W3C traceparent correlation fields.
+    // Both fields are propagated from the originating HTTP request through
+    // retrieval → prompt-build → inference → audit so that all log records
+    // for a single user request share the same trace_id.
+    //
+    // Format:
+    //   trace_id — 32 lower-case hex chars (128-bit)
+    //   span_id  — 16 lower-case hex chars (64-bit)
+    //
+    // An empty string means the field was not provided by the caller.
+    std::string trace_id;              ///< W3C traceparent trace-id (128-bit hex, 32 chars)
+    std::string span_id;               ///< W3C traceparent parent-id (64-bit hex, 16 chars)
     
     // Input Context
     std::string query;                 // Original user query
