@@ -126,17 +126,15 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeShort
     // structurally similar queries (same pattern/constraints, different vertices)
     if (plan_caching_enabled_) {
         auto cache_key = generatePlanCacheKey(QueryPattern::SHORTEST_PATH, start_vertex, target_vertex, constraints);
-        if (const auto* cached = planCacheLookup(cache_key)) {
+        if (auto cached = planCacheLookup(cache_key)) {
             metrics_.plan_cache_hits.fetch_add(1, std::memory_order_relaxed);
             return Ok(*cached);
         }
         // Structural key lookup: reuse plan from a previous query with same
         // constraints but different vertex IDs
         auto struct_key = generateStructuralCacheKey(QueryPattern::SHORTEST_PATH, constraints);
-        if (const auto* cached2 = planCacheLookup(struct_key)) {
+        if (auto cached2 = planCacheLookup(struct_key)) {
             metrics_.plan_cache_hits.fetch_add(1, std::memory_order_relaxed);
-            // Copy plan by value before calling planCacheInsert: emplace may rehash
-            // the map and invalidate the raw pointer returned by planCacheLookup.
             OptimizationPlan promoted = *cached2;
             planCacheInsert(cache_key, promoted); // promote to exact key for faster future lookup
             return Ok(promoted);
@@ -236,7 +234,7 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeKHopN
     if (plan_caching_enabled_) {
         auto struct_key = generateStructuralCacheKey(
             QueryPattern::K_HOP_NEIGHBORS, constraints, static_cast<size_t>(k));
-        if (const auto* cached = planCacheLookup(struct_key)) {
+        if (auto cached = planCacheLookup(struct_key)) {
             metrics_.plan_cache_hits.fetch_add(1, std::memory_order_relaxed);
             return Ok(*cached);
         }
@@ -307,7 +305,7 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizePatte
             QueryPattern::PATTERN_MATCH, constraints, pattern_depth);
         // Append edge count to distinguish patterns with the same vertex count
         struct_key += ":pe=" + std::to_string(pattern_edges.size());
-        if (const auto* cached = planCacheLookup(struct_key)) {
+        if (auto cached = planCacheLookup(struct_key)) {
             metrics_.plan_cache_hits.fetch_add(1, std::memory_order_relaxed);
             return Ok(*cached);
         }
@@ -369,12 +367,12 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeReach
     // Two-level cache lookup: exact key first, then structural key
     if (plan_caching_enabled_) {
         auto cache_key = generatePlanCacheKey(QueryPattern::REACHABILITY, start_vertex, target_vertex, constraints);
-        if (const auto* cached = planCacheLookup(cache_key)) {
+        if (auto cached = planCacheLookup(cache_key)) {
             metrics_.plan_cache_hits.fetch_add(1, std::memory_order_relaxed);
             return Ok(*cached);
         }
         auto struct_key = generateStructuralCacheKey(QueryPattern::REACHABILITY, constraints);
-        if (const auto* cached2 = planCacheLookup(struct_key)) {
+        if (auto cached2 = planCacheLookup(struct_key)) {
             metrics_.plan_cache_hits.fetch_add(1, std::memory_order_relaxed);
             // Copy before planCacheInsert: emplace may rehash and invalidate cached2.
             OptimizationPlan promoted = *cached2;
@@ -549,10 +547,9 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeTempo
         auto struct_key = generateStructuralCacheKey(
             QueryPattern::K_HOP_NEIGHBORS, constraints,
             static_cast<size_t>(max_depth));
-        auto it = plan_cache_.find(struct_key);
-        if (it != plan_cache_.end()) {
+        if (auto cached = planCacheLookup(struct_key)) {
             metrics_.plan_cache_hits.fetch_add(1, std::memory_order_relaxed);
-            return Ok(it->second.first.plan);
+            return Ok(*cached);
         }
         metrics_.plan_cache_misses.fetch_add(1, std::memory_order_relaxed);
     }
@@ -2087,6 +2084,7 @@ std::string GraphQueryOptimizer::explainPlan(const OptimizationPlan& plan) const
 }
 
 void GraphQueryOptimizer::clearPlanCache() {
+    std::lock_guard<std::mutex> lk(plan_cache_mutex_);
     plan_cache_.clear();
     plan_cache_lru_.clear();
 }
@@ -2097,6 +2095,7 @@ void GraphQueryOptimizer::clearPlanCache() {
 
 void GraphQueryOptimizer::planCacheInsert(const std::string& key,
                                           const OptimizationPlan& plan) {
+    std::lock_guard<std::mutex> lk(plan_cache_mutex_);
     auto it = plan_cache_.find(key);
     if (it != plan_cache_.end()) {
         // Key already present: update plan and move to front (MRU)
@@ -2121,11 +2120,12 @@ void GraphQueryOptimizer::planCacheInsert(const std::string& key,
     plan_cache_.emplace(key, std::make_pair(std::move(entry), plan_cache_lru_.begin()));
 }
 
-const GraphQueryOptimizer::OptimizationPlan*
+std::optional<GraphQueryOptimizer::OptimizationPlan>
 GraphQueryOptimizer::planCacheLookup(const std::string& key) {
+    std::lock_guard<std::mutex> lk(plan_cache_mutex_);
     auto it = plan_cache_.find(key);
     if (it == plan_cache_.end()) {
-        return nullptr;
+        return std::nullopt;
     }
 
     // TTL check: evict expired entry
@@ -2136,14 +2136,16 @@ GraphQueryOptimizer::planCacheLookup(const std::string& key) {
             plan_cache_lru_.erase(it->second.second);
             plan_cache_.erase(it);
             metrics_.plan_cache_evictions.fetch_add(1, std::memory_order_relaxed);
-            return nullptr;
+            return std::nullopt;
         }
     }
 
     // Move to front (MRU position)
     plan_cache_lru_.splice(plan_cache_lru_.begin(), plan_cache_lru_,
                            it->second.second);
-    return &it->second.first.plan;
+    // Return a value copy so the caller is not affected by subsequent
+    // rehashes or evictions of the plan_cache_ map.
+    return it->second.first.plan;
 }
 
 double GraphQueryOptimizer::estimateCost(

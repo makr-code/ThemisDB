@@ -26,6 +26,7 @@
 #include <mutex>
 #include <chrono>
 #include <optional>
+#include <string_view>
 
 #include "query/query_optimizer.h"
 
@@ -98,6 +99,9 @@ public:
         std::vector<ParameterInfo> parameters;
         std::chrono::system_clock::time_point created_at;
         Statistics statistics_snapshot;
+        std::string topology_fingerprint;
+        size_t estimated_size_bytes = 0;
+        size_t consecutive_execution_failures = 0;
 
         /// Tables referenced by this plan (drives table-level invalidation).
         std::vector<std::string> referenced_tables;
@@ -122,6 +126,15 @@ public:
         /// Statistics drift factor that triggers invalidation (default 10×).
         double statistics_drift_factor = 10.0;
 
+        /// Optional approximate memory ceiling for cached plans (0 = disabled).
+        size_t max_memory_bytes = 0;
+
+        /// Start capacity evictions once memory use exceeds this fraction.
+        double memory_eviction_threshold = 0.8;
+
+        /// Evict an entry after this many consecutive execution failures.
+        size_t max_consecutive_failures = 3;
+
         Config() = default;
     };
 
@@ -135,6 +148,7 @@ public:
         uint64_t evictions     = 0;  ///< entries removed by age or capacity
         uint64_t stat_drifts   = 0;  ///< entries rejected due to statistics drift
         size_t   current_size  = 0;
+        size_t   current_memory_bytes = 0;
 
         double hitRate() const {
             uint64_t total = hits + misses;
@@ -170,11 +184,14 @@ public:
      *
      * @param query        Raw query string (used for fingerprinting).
      * @param current_stats Current table cardinalities for drift check.
+     * @param topology_fingerprint Optional shard/topology discriminator for
+     *        distributed plans. Empty means topology-agnostic.
      * @return Optional CachedPlan; nullopt on miss or staleness.
      */
     std::optional<CachedPlan> get(
         const std::string& query,
-        const Statistics&  current_stats = Statistics{});
+        const Statistics&  current_stats = Statistics{},
+        const std::string& topology_fingerprint = {});
 
     /**
      * @brief Store an optimized plan in the cache.
@@ -186,12 +203,29 @@ public:
      * @param stats      Statistics snapshot at plan-creation time.
      * @param params     Bind-parameter metadata (optional).
      * @param tables     Tables referenced by the plan (for schema invalidation).
-     */
+    * @param topology_fingerprint Optional topology discriminator for
+    *        distributed plans that should not be reused across layouts.
+    */
     void put(const std::string&             query,
              const QueryOptimizer::Plan&    plan,
              const Statistics&              stats,
              const std::vector<ParameterInfo>& params = {},
-             const std::vector<std::string>&   tables = {});
+             const std::vector<std::string>&   tables = {},
+             const std::string& topology_fingerprint = {});
+
+    /**
+    * @brief Mark execution of the cached plan as failed.
+    *
+    * Repeated failures indicate that a once-valid plan is no longer safe to
+    * reuse. Once the configured failure budget is exceeded the entry is evicted
+    * and the method returns true.
+    *
+    * @param query Query text used for cache lookup.
+    * @param topology_fingerprint Optional topology discriminator.
+    * @return true if the entry was evicted after the failure was recorded.
+    */
+    bool recordExecutionFailure(const std::string& query,
+                               const std::string& topology_fingerprint = {});
 
     /**
      * @brief Invalidate all cached plans that reference @p table.
@@ -224,12 +258,26 @@ public:
     CacheStats getStats() const;
 
     /**
+     * @brief Return approximate memory used by all cached entries.
+     */
+    size_t estimateCurrentMemoryBytes() const;
+
+    /**
      * @brief Compute a deterministic fingerprint for @p query.
      *
-     * The fingerprint is a 64-character hex SHA256 digest of the query text.
-     * It is stable across process restarts and architectures.
+     * The fingerprint is a 64-character hex SHA256 digest of the normalized
+     * query template. Literal numbers and quoted string values are replaced with
+     * placeholders so the same parameterized structure reuses one entry.
      */
     static std::string fingerprint(const std::string& query);
+
+    /**
+     * @brief Normalize a query to its reusable template form.
+     *
+     * Quoted string literals and numeric literals are replaced with `?`, while
+     * parameter markers such as `@age` are preserved.
+     */
+    static std::string normalizeQueryTemplate(std::string_view query);
 
 private:
     // -------------------------------------------------------------------------
@@ -256,6 +304,11 @@ private:
     /// exceeds statistics_drift_factor (in either direction).
     bool isDriftExceeded(const Statistics& snapshot,
                          const Statistics& current) const;
+
+    std::string makeCacheKey(const std::string& query,
+                             const std::string& topology_fingerprint) const;
+
+    static size_t estimatePlanSizeBytes(const CachedPlan& plan);
 
     // -------------------------------------------------------------------------
     // State

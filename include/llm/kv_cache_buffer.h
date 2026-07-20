@@ -67,7 +67,7 @@ public:
     };
 
     explicit KVCacheBuffer(const Config& config);
-    ~KVCacheBuffer();
+    ~KVCacheBuffer() noexcept;
 
     // Append KV cache for a single token
     // Returns: true if auto-flush triggered

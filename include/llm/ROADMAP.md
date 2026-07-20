@@ -50,6 +50,19 @@ All 97 LLM headers are present. Public entry points exist for llama.cpp-backed a
 
 ---
 
+## Phase 5 Hardening Test Delivery — ✅ Complete (2026-07-20)
+
+**Block D: P5-L01 + P5-L02 (51 tests)**
+
+- `tests/llm/test_llm_exception_safety.cpp` — 36 GTest cases: RAII/ownership,
+  exception propagation, re-throw semantics, allocation coverage.
+- `tests/llm/test_llm_memory_safety.cpp` — 15 GTest cases: shared-ownership
+  lifecycle, VRAM eviction accounting, move semantics, sustained stress (100-cycle).
+- CTest targets: `module_llm_test_llm_exception_safety_focused`,
+  `module_llm_test_llm_memory_safety_focused` — TIMEOUT 120, tier unit.
+
+---
+
 ## Planned
 
 - [ ] `llm_policy.h` — per-request resource, safety, and access-policy contract (Target: 2026-Q4)

@@ -162,18 +162,19 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 
 ---
 
-## 🚀 NEXT PHASE IMPLEMENTATION (2026-07-22 to 2026-08-31) — EXECUTION TRACKING
+## 🚀 NEXT PHASE IMPLEMENTATION (2026-07-22 to 2026-08-31) — EXECUTION
 
-**Status:** 🟡 ACTIVE (Batch A done; Batch B done; Batch C closed — sanitizer/pentest evidence delivered; Batch D in progress — final human governance sign-off pending at `docs/governance/GA_PROMOTION_SIGN_OFF.md`)  
-**Implementation Plans:** [NEXT_PHASE_IMPLEMENTATION_PLAN.md](NEXT_PHASE_IMPLEMENTATION_PLAN.md), [ai_working/PHASE3_OPTIMIZATION_DETAILED_PLAN.md](ai_working/PHASE3_OPTIMIZATION_DETAILED_PLAN.md), [ai_working/PHASE5_HARDENING_DETAILED_PLAN.md](ai_working/PHASE5_HARDENING_DETAILED_PLAN.md)
+**Status:** 🟡 ACTIVE (Scope-Freeze baseline confirmed 2026-07-20; Batch A done; Batch B done; Batch C closed — sanitizer/pentest evidence delivered; Batch D in progress — final human governance sign-off pending at `docs/governance/GA_PROMOTION_SIGN_OFF.md`)  
+**Implementation Plans:** [NEXT_PHASE_IMPLEMENTATION_PLAN.md](NEXT_PHASE_IMPLEMENTATION_PLAN.md), [ai_working/PHASE3_OPTIMIZATION_DETAILED_PLAN.md](ai_working/PHASE3_OPTIMIZATION_DETAILED_PLAN.md), [ai_working/PHASE5_HARDENING_DETAILED_PLAN.md](ai_working/PHASE5_HARDENING_DETAILED_PLAN.md), [ai_working/NEXT_PHASE_30_60_90_BACKLOG.md](ai_working/NEXT_PHASE_30_60_90_BACKLOG.md)
+**Kickoff Runner:** `/home/runner/work/ThemisDB/ThemisDB/scripts/next_phase_kickoff.py` (Wave-7 hard-gate + baseline go/no-go report)
 
 ### Parallel Work Streams (4-6 weeks)
 
 | Phase | Component | Timeline | Effort | Teams | Target Tests | Status |
 |-------|-----------|----------|--------|-------|-------------|--------|
-| **Phase 3** | Graph: Query optimization, cache efficiency, resource pooling | 6 weeks | 10 weeks | A+B (4 eng) | 130 new | 🟡 In Progress (gate-locked) |
-| **Phase 5-S** | Server: Wire-protocol retry + HTTP timeout patterns | 3 weeks | 4 weeks | C (2 eng) | 39 new | ✅ Implemented (GA sign-off open) |
-| **Phase 5-L** | LLM: Exception safety + memory leak fixes | 3 weeks | 6 weeks | D (2 eng) | 51 new | ✅ Implemented (GA sign-off open) |
+| **Phase 3** | Graph: Query optimization, cache efficiency, resource pooling | 6 weeks | 10 weeks | A+B (4 eng) | 130 new | 🟡 Active (Block B complete, Block A complete) |
+| **Phase 5-S** | Server: Wire-protocol retry + HTTP timeout patterns | 3 weeks | 4 weeks | C (2 eng) | 39 new | ✅ Complete (Block C) |
+| **Phase 5-L** | LLM: Exception safety + memory leak fixes | 3 weeks | 6 weeks | D (2 eng) | 51 new | ✅ Complete (Block D) |
 | **Phase 6** | Sharding: 2PC/3PC consistency + fault injection | 3 weeks | 6 weeks | E+F (4 eng) | 60+ new | 🟡 In Progress (P6 gate integration done; sign-off bundle pending) |
 | **AQL Phase 2** | DDL implementation (parser + executor) | 4-6 weeks | 6 weeks | G (2 eng) | 32 new | 🔵 Queued |
 | **Wave 8** | Soak + endurance + degradation fault injection | Parallel | 8 weeks | F (2 eng) | 40+ scenarios | 🟡 Active (gate-integrated) |
@@ -182,12 +183,34 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 **Total Team Effort:** ~38 weeks across 8 teams (~15 engineers)  
 **Release Target:** v1.9.0-beta (Sept 2026), v2.0.0-rc1 (Oct 2026), v2.0.0 GA (Nov 2026)
 
-### Immediate Batch-A Actions (Execution Now)
+### Scope-Freeze & Remaining Work (2026-07-20)
 
+**Done baseline (fixed, not re-opened):**
+- [x] Graph Phase 2.4 complete (326 tests, CRITICAL-gap closure baseline)
+- [x] Wave 5 hardening complete
+- [x] Wave 6 hardening complete
+- [x] Wave 7 release-critical hard gates complete
+- [x] Block C complete (P5-S01/P5-S02, server hardening)
+- [x] Block B complete (P3-03/P3-04, resource/scheduling hardening)
+- [x] Block A complete (P3-01/P3-02, optimizer + cache hardening, 2026-07-20)
 - [x] **Done-evidence sync:** Server P5-S01/P5-S02 + LLM P5-L01/P5-L02 consolidated in module roadmaps and plan trackers
 - [x] **Regression evidence retained:** Wave 5/6 completion and Wave 7 PASS baseline linked into GA hardening context
 - [~] **Build reproducibility blocker tracking active:** `linux-release` (missing Ninja + `vcpkg` toolchain), `community-release` (missing RocksDB)
 - [x] **Gate model operationalized:** `release_critical` on `develop` treated as mandatory entry gate in root governance docs
+
+**Open implementation scope (binding sequence):**
+- [x] Block A first: P3-01/P3-02 (optimizer + cache, 2026-07-20)
+- [x] Block D second: P5-L01/P5-L02 (LLM hardening, 2026-07-20)
+- [ ] Block E third: P6-01/P6-02/P6-03 (sharding + fault injection)
+- [ ] AQL Phase 2 in parallel lane (DDL first, Geospatial/FTS sequenced)
+- [ ] Wave 8 as mandatory robustness evidence for Block E/release readiness
+
+### Gate-Oriented Execution Rules (Binding)
+
+- [ ] After each open block: full gate-check (build/test/bench/security) must be green before next block starts
+- [ ] Acceptance criteria for open blocks are sourced from this roadmap + `FUTURE_ENHANCEMENTS.md` six-phase execution model
+- [ ] Any failed gate or unresolved risk is returned to backlog/governance before promotion
+- [ ] Promotion path remains evidence-driven: `v1.9.0-beta` → `v2.0.0-rc1` → `v2.0.0 GA`
 
 ### Decision Tree: Phase Prioritization
 

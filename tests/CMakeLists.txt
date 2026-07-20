@@ -95,7 +95,10 @@ foreach(_module_cmake IN LISTS _TEST_MODULE_CMAKES)
        _module_dir STREQUAL "integration" OR
        _module_dir STREQUAL "fixtures" OR
        _module_dir STREQUAL "data" OR
-       _module_dir STREQUAL "config")
+       _module_dir STREQUAL "config" OR
+       _module_dir STREQUAL "epic1_retrieval" OR
+       _module_dir STREQUAL "epic2_evaluation" OR
+       _module_dir STREQUAL "epic3_distributed_tensor")
         continue()
     endif()
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${_module_dir}/CMakeLists.txt")
@@ -777,9 +780,11 @@ endif()
 # graph (the thread_local definition was not compiled in).  Now that the source file
 # is registered in cmake/CMakeLists.txt and cmake/ModularBuild.cmake it is safe to
 # re-include unconditionally.
-target_sources(themis_tests PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/context/test_context_propagation.cpp
-)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/context/test_context_propagation.cpp")
+    target_sources(themis_tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/context/test_context_propagation.cpp
+    )
+endif()
 
 # Re-include prompt_engineering production-readiness tests that were excluded
 # by the broad ".*test_prompt_.*\\.cpp$" and ".*test_meta_prompt.*\\.cpp$" patterns.
@@ -5003,12 +5008,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/index/test_index_manager_di.cpp")
 
     add_executable(test_index_manager_di
         index/test_index_manager_di.cpp
-        ${CMAKE_SOURCE_DIR}/src/index/index_manager.cpp
-        ${CMAKE_SOURCE_DIR}/src/index/secondary_index.cpp
-        ${CMAKE_SOURCE_DIR}/src/index/vector_index.cpp
-        ${CMAKE_SOURCE_DIR}/src/index/graph_index.cpp
-        ${CMAKE_SOURCE_DIR}/src/index/index_compression.cpp
-        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+        ${THEMIS_ROOT_DIR}/src/index/index_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/index/secondary_index.cpp
+        ${THEMIS_ROOT_DIR}/src/index/vector_index.cpp
+        ${THEMIS_ROOT_DIR}/src/index/graph_index.cpp
+        ${THEMIS_ROOT_DIR}/src/index/index_compression.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
 
     target_link_libraries(test_index_manager_di PRIVATE
@@ -5114,12 +5119,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/columnar/test_columnar_cache.cpp")
 
     add_executable(test_columnar_cache_focused
         columnar/test_columnar_cache.cpp
-        ${CMAKE_SOURCE_DIR}/src/storage/columnar_cache.cpp
+        ${THEMIS_ROOT_DIR}/src/storage/columnar_cache.cpp
     )
 
     target_include_directories(test_columnar_cache_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_columnar_cache_focused PRIVATE
@@ -5183,8 +5188,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/distributed/test_distributed_trainer_guar
     )
 
     target_include_directories(test_distributed_trainer_guard PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_distributed_trainer_guard PRIVATE
@@ -5215,8 +5220,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/stream/test_stream_protocol_extended.cpp"
     )
 
     target_include_directories(test_stream_protocol_extended_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_stream_protocol_extended_focused PRIVATE
@@ -7999,13 +8004,13 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_streaming_join.cpp")
 
     add_executable(test_streaming_join_focused
         analytics/test_streaming_join.cpp
-        ${CMAKE_SOURCE_DIR}/src/analytics/streaming_join.cpp
-        ${CMAKE_SOURCE_DIR}/src/analytics/columnar_execution.cpp
+        ${THEMIS_ROOT_DIR}/src/analytics/streaming_join.cpp
+        ${THEMIS_ROOT_DIR}/src/analytics/columnar_execution.cpp
     )
 
     target_include_directories(test_streaming_join_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_streaming_join_focused PRIVATE
@@ -9772,7 +9777,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugin/test_plugin_capability_escalation.
     )
 
     target_include_directories(test_plugin_capability_escalation PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_plugin_capability_escalation PRIVATE
@@ -12175,8 +12180,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/path/test_path_mapping_metadata.cpp")
     )
 
     target_include_directories(test_path_mapping_metadata_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_path_mapping_metadata_focused PRIVATE
@@ -12996,7 +13001,7 @@ else()
 endif()
 
 # Async HTTP Authentication Tests
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_http_auth_async.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_http_auth_async.cpp" AND TARGET CURL::libcurl)
     message(STATUS "Adding Async HTTP Authentication tests")
 
     add_executable(test_http_auth_async
@@ -14237,8 +14242,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/adaptive/test_adaptive_flush_controller.c
     )
 
     target_include_directories(test_adaptive_flush_controller_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_adaptive_flush_controller_focused PRIVATE
@@ -14354,8 +14359,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ts/test_ts_future_interfaces.cpp")
     )
 
     target_include_directories(test_ts_future_interfaces_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_ts_future_interfaces_focused PRIVATE
@@ -14392,8 +14397,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tsstore/test_tsstore_batch.cpp")
     )
 
     target_include_directories(test_tsstore_batch_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_tsstore_batch_focused PRIVATE
@@ -14430,8 +14435,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/streaming/test_streaming_ingest_manager.c
     )
 
     target_include_directories(test_streaming_ingest_manager_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_streaming_ingest_manager_focused PRIVATE
@@ -14468,8 +14473,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/index/test_index_analyzer.cpp")
     )
 
     target_include_directories(test_index_analyzer_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_index_analyzer_focused PRIVATE
@@ -14507,8 +14512,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ts/test_ts_stream_cursor.cpp")
     )
 
     target_include_directories(test_ts_stream_cursor_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_ts_stream_cursor_focused PRIVATE
@@ -14545,8 +14550,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/io/test_io_uring_batcher.cpp")
     )
 
     target_include_directories(test_io_uring_batcher_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_io_uring_batcher_focused PRIVATE
@@ -14586,13 +14591,13 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/kernel/test_kernel_bypass.cpp")
 
     add_executable(test_kernel_bypass_focused
         kernel/test_kernel_bypass.cpp
-        ${CMAKE_SOURCE_DIR}/src/network/kernel_bypass.cpp
-        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+        ${THEMIS_ROOT_DIR}/src/network/kernel_bypass.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
 
     target_include_directories(test_kernel_bypass_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_kernel_bypass_focused PRIVATE
@@ -14656,8 +14661,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/request/test_request_coalescer.cpp")
     )
 
     target_include_directories(test_request_coalescer_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_request_coalescer_focused PRIVATE
@@ -14690,8 +14695,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/lockfree/test_lockfree_histogram.cpp")
     )
 
     target_include_directories(test_lockfree_histogram_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_lockfree_histogram_focused PRIVATE
@@ -15076,7 +15081,7 @@ set(CHIMERA_ADAPTER_SOURCES
 function(add_chimera_focused_test target_name test_src test_name labels description)
     set(_chimera_test_src "${CMAKE_CURRENT_SOURCE_DIR}/${test_src}")
     if(NOT EXISTS "${_chimera_test_src}")
-        set(_chimera_test_src "${CMAKE_SOURCE_DIR}/external/chimera/tests/${test_src}")
+        set(_chimera_test_src "${THEMIS_ROOT_DIR}/external/chimera/tests/${test_src}")
     endif()
 
     if(EXISTS "${_chimera_test_src}")
@@ -15088,10 +15093,10 @@ function(add_chimera_focused_test target_name test_src test_name labels descript
         )
 
         target_include_directories(${target_name} PRIVATE
-            ${CMAKE_SOURCE_DIR}/include
-            ${CMAKE_SOURCE_DIR}/tests/chimera
-            ${CMAKE_SOURCE_DIR}/external/chimera/include
-            ${CMAKE_SOURCE_DIR}/external/chimera/tests/chimera
+            ${THEMIS_ROOT_DIR}/include
+            ${THEMIS_ROOT_DIR}/tests/chimera
+            ${THEMIS_ROOT_DIR}/external/chimera/include
+            ${THEMIS_ROOT_DIR}/external/chimera/tests/chimera
             ${THEMIS_ROOT_DIR}/include
             ${THEMIS_ROOT_DIR}/tests/chimera
         )
@@ -16426,8 +16431,25 @@ add_network_focused_test(
     "WireProtocolDataflow: QueryEngine DI, CursorEntry struct, BATCH_GET multiGet shape, BATCH_PUT putBatch shape, cursor-next/close contracts, dispatched-opcode constants, RocksDBWrapper::KeyValuePair API (WPD-01..10, KB-01..05)"
 )
 
+# --- Wire Protocol Retry + Idempotency (Phase 5-S01) ---
+add_network_focused_test(
+    test_wire_protocol_retry_focused
+    network/test_wire_protocol_retry.cpp
+    WireProtocolRetryFocusedTests
+    "network;wire-protocol;retry;backoff;jitter;idempotency;p5-s01;focused;unit"
+    "WireProtocolRetry: RetryPolicy defaults/custom, computeDelay (attempt 0-3), jitter bounds, max-delay cap, isTransient (ECONNRESET/ETIMEDOUT/EAGAIN), IdempotencyCache store/lookup/eviction/concurrency"
+)
 
-# --- Geo Topology Router ---
+# --- HTTP Timeout Patterns (Phase 5-S02) ---
+add_network_focused_test(
+    test_http_timeout_patterns_focused
+    network/test_http_timeout_patterns.cpp
+    HttpTimeoutPatternsFocusedTests
+    "network;http;timeout;408;graceful-shutdown;drain;p5-s02;focused;unit"
+    "HttpTimeoutPatterns: per-request timeout config (408 on fire), graceful shutdown drain, in-flight counter RAII, zero-in-flight instant drain, concurrent request timeouts"
+)
+
+
 # Needs sharding sources for ShardTopology / ShardInfo types.
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/geo/test_geo_topology_router.cpp")
     message(STATUS "Adding Network focused test: test_geo_topology_router_focused")
@@ -16632,7 +16654,7 @@ if(THEMIS_ENABLE_HTTP3)
 
         target_include_directories(test_quic_server_focused PRIVATE
             ${THEMIS_ROOT_DIR}/include
-            ${CMAKE_SOURCE_DIR}/include
+            ${THEMIS_ROOT_DIR}/include
         )
 
         target_link_libraries(test_quic_server_focused PRIVATE
@@ -19442,9 +19464,9 @@ if(THEMIS_ENABLE_GRPC AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/grpc/test_grpc_plu
     )
 
     target_include_directories(test_grpc_plugin PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
-        ${CMAKE_SOURCE_DIR}/src/rpc_grpc
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+        ${THEMIS_ROOT_DIR}/src/rpc_grpc
     )
 
     target_link_libraries(test_grpc_plugin PRIVATE
@@ -19460,7 +19482,7 @@ if(THEMIS_ENABLE_GRPC AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/grpc/test_grpc_plu
     )
 
     target_sources(test_grpc_plugin PRIVATE
-        ${CMAKE_SOURCE_DIR}/src/rpc_grpc/grpc_plugin.cpp
+        ${THEMIS_ROOT_DIR}/src/rpc_grpc/grpc_plugin.cpp
     )
 
     add_test(NAME GrpcPluginTests COMMAND test_grpc_plugin)
@@ -19489,9 +19511,9 @@ if(THEMIS_ENABLE_GRPC AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bidi/test_bidi_str
     )
 
     target_include_directories(test_bidi_stream_adapter PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
-        ${CMAKE_SOURCE_DIR}/src/rpc_grpc
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+        ${THEMIS_ROOT_DIR}/src/rpc_grpc
     )
 
     target_link_libraries(test_bidi_stream_adapter PRIVATE
@@ -19528,18 +19550,18 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/discourse/tes
 
     add_executable(test_discourse_engine_focused
         discourse/test_discourse_engine.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/discourse_engine.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/rag_context_engine.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/argument_store.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/philosophy_loader.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_evaluator.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_ai_types.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/discourse_engine.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/rag_context_engine.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/argument_store.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/philosophy_loader.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/ethics_evaluator.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/ethics_ai_types.cpp
     )
 
     target_include_directories(test_discourse_engine_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+        ${THEMIS_ROOT_DIR}/src/ethics_ai
     )
 
     target_link_libraries(test_discourse_engine_focused PRIVATE
@@ -19581,14 +19603,14 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/philosophy/te
 
     add_executable(test_philosophy_loader_focused
         philosophy/test_philosophy_loader.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/philosophy_loader.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_ai_types.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/philosophy_loader.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/ethics_ai_types.cpp
     )
 
     target_include_directories(test_philosophy_loader_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+        ${THEMIS_ROOT_DIR}/src/ethics_ai
     )
 
     target_link_libraries(test_philosophy_loader_focused PRIVATE
@@ -19635,18 +19657,18 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ethics/test_e
 
     add_executable(test_ethics_ai_integration
         ethics/test_ethics_ai_integration.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/argument_store.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_ai_types.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_evaluator.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/discourse_engine.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/philosophy_loader.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/rag_context_engine.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/argument_store.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/ethics_ai_types.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/ethics_evaluator.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/discourse_engine.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/philosophy_loader.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/rag_context_engine.cpp
     )
 
     target_include_directories(test_ethics_ai_integration PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+        ${THEMIS_ROOT_DIR}/src/ethics_ai
     )
 
     target_link_libraries(test_ethics_ai_integration PRIVATE
@@ -19693,18 +19715,18 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ethics/test_e
 
     add_executable(test_ethics_ai_benchmark
         ethics/test_ethics_ai_benchmark.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/argument_store.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_ai_types.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_evaluator.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/discourse_engine.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/philosophy_loader.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/rag_context_engine.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/argument_store.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/ethics_ai_types.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/ethics_evaluator.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/discourse_engine.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/philosophy_loader.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/rag_context_engine.cpp
     )
 
     target_include_directories(test_ethics_ai_benchmark PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+        ${THEMIS_ROOT_DIR}/src/ethics_ai
     )
 
     target_link_libraries(test_ethics_ai_benchmark PRIVATE
@@ -19751,15 +19773,15 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ethics/test_e
 
     add_executable(test_ethics_ai_chain_visualizer
         ethics/test_ethics_ai_chain_visualizer.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/argument_store.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_ai_types.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/chain_visualizer.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/argument_store.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/ethics_ai_types.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/chain_visualizer.cpp
     )
 
     target_include_directories(test_ethics_ai_chain_visualizer PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+        ${THEMIS_ROOT_DIR}/src/ethics_ai
     )
 
     target_link_libraries(test_ethics_ai_chain_visualizer PRIVATE
@@ -19800,18 +19822,18 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ethics/test_e
 
     add_executable(test_ethics_ai_v030_focused
         ethics/test_ethics_ai_v030.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/argument_store.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_ai_types.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/discourse_engine.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_evaluator.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/philosophy_loader.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/rag_context_engine.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/argument_store.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/ethics_ai_types.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/discourse_engine.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/ethics_evaluator.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/philosophy_loader.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/rag_context_engine.cpp
     )
 
     target_include_directories(test_ethics_ai_v030_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+        ${THEMIS_ROOT_DIR}/src/ethics_ai
     )
 
     target_link_libraries(test_ethics_ai_v030_focused PRIVATE
@@ -19859,13 +19881,13 @@ if(THEMIS_PLUGIN_IMAGE_ANALYSIS_ONNX AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/onn
 
     add_executable(test_onnx_clip_plugin
         onnx/test_onnx_clip_plugin.cpp
-        ${CMAKE_SOURCE_DIR}/src/onnx_clip/onnx_clip_plugin.cpp
+        ${THEMIS_ROOT_DIR}/src/onnx_clip/onnx_clip_plugin.cpp
     )
 
     target_include_directories(test_onnx_clip_plugin PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
-        ${CMAKE_SOURCE_DIR}/src/onnx_clip
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+        ${THEMIS_ROOT_DIR}/src/onnx_clip
     )
 
     target_link_libraries(test_onnx_clip_plugin PRIVATE
@@ -20833,20 +20855,20 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/process/test_process_module.cpp")
     message(STATUS "Adding Process Module focused tests")
     add_executable(test_process_module_focused
         process/test_process_module.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/process_model_manager.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/bpmn_serializer.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/epk_serializer.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/epk_aris_xml_importer.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/llm_process_descriptor.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/vcc_vpb_importer.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/process_linker.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/process_graph_rag.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/process_model_generator.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/ocel_exporter.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/dmn_evaluator.cpp
-        ${CMAKE_SOURCE_DIR}/src/index/process_graph.cpp
-        ${CMAKE_SOURCE_DIR}/src/index/edge_types.cpp
-        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+        ${THEMIS_ROOT_DIR}/src/process/process_model_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/process/bpmn_serializer.cpp
+        ${THEMIS_ROOT_DIR}/src/process/epk_serializer.cpp
+        ${THEMIS_ROOT_DIR}/src/process/epk_aris_xml_importer.cpp
+        ${THEMIS_ROOT_DIR}/src/process/llm_process_descriptor.cpp
+        ${THEMIS_ROOT_DIR}/src/process/vcc_vpb_importer.cpp
+        ${THEMIS_ROOT_DIR}/src/process/process_linker.cpp
+        ${THEMIS_ROOT_DIR}/src/process/process_graph_rag.cpp
+        ${THEMIS_ROOT_DIR}/src/process/process_model_generator.cpp
+        ${THEMIS_ROOT_DIR}/src/process/ocel_exporter.cpp
+        ${THEMIS_ROOT_DIR}/src/process/dmn_evaluator.cpp
+        ${THEMIS_ROOT_DIR}/src/index/process_graph.cpp
+        ${THEMIS_ROOT_DIR}/src/index/edge_types.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
     target_include_directories(test_process_module_focused PRIVATE
         ${THEMIS_ROOT_DIR}/include
@@ -20876,21 +20898,21 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/process/test_process_aris_xml.cpp")
     message(STATUS "Adding Process ARIS-XML + AgenticRAG focused tests")
     add_executable(test_process_aris_xml_focused
         process/test_process_aris_xml.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/epk_aris_xml_importer.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/process_agentic_rag.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/process_model_manager.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/bpmn_serializer.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/epk_serializer.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/llm_process_descriptor.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/vcc_vpb_importer.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/process_linker.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/process_graph_rag.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/process_model_generator.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/ocel_exporter.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/dmn_evaluator.cpp
-        ${CMAKE_SOURCE_DIR}/src/index/process_graph.cpp
-        ${CMAKE_SOURCE_DIR}/src/index/edge_types.cpp
-        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+        ${THEMIS_ROOT_DIR}/src/process/epk_aris_xml_importer.cpp
+        ${THEMIS_ROOT_DIR}/src/process/process_agentic_rag.cpp
+        ${THEMIS_ROOT_DIR}/src/process/process_model_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/process/bpmn_serializer.cpp
+        ${THEMIS_ROOT_DIR}/src/process/epk_serializer.cpp
+        ${THEMIS_ROOT_DIR}/src/process/llm_process_descriptor.cpp
+        ${THEMIS_ROOT_DIR}/src/process/vcc_vpb_importer.cpp
+        ${THEMIS_ROOT_DIR}/src/process/process_linker.cpp
+        ${THEMIS_ROOT_DIR}/src/process/process_graph_rag.cpp
+        ${THEMIS_ROOT_DIR}/src/process/process_model_generator.cpp
+        ${THEMIS_ROOT_DIR}/src/process/ocel_exporter.cpp
+        ${THEMIS_ROOT_DIR}/src/process/dmn_evaluator.cpp
+        ${THEMIS_ROOT_DIR}/src/index/process_graph.cpp
+        ${THEMIS_ROOT_DIR}/src/index/edge_types.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
     target_include_directories(test_process_aris_xml_focused PRIVATE
         ${THEMIS_ROOT_DIR}/include
@@ -21103,12 +21125,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_temporal_cold_store.cpp")
 
     add_executable(test_temporal_cold_store_focused
         temporal/test_temporal_cold_store.cpp
-        ${CMAKE_SOURCE_DIR}/src/temporal/temporal_cold_store.cpp
+        ${THEMIS_ROOT_DIR}/src/temporal/temporal_cold_store.cpp
     )
 
     target_include_directories(test_temporal_cold_store_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_temporal_cold_store_focused PRIVATE
@@ -21147,13 +21169,13 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_temporal_tier_manager.cpp")
 
     add_executable(test_temporal_tier_manager_focused
         temporal/test_temporal_tier_manager.cpp
-        ${CMAKE_SOURCE_DIR}/src/temporal/temporal_tier_manager.cpp
-        ${CMAKE_SOURCE_DIR}/src/temporal/temporal_cold_store.cpp
+        ${THEMIS_ROOT_DIR}/src/temporal/temporal_tier_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/temporal/temporal_cold_store.cpp
     )
 
     target_include_directories(test_temporal_tier_manager_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_temporal_tier_manager_focused PRIVATE
@@ -21191,15 +21213,15 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/storage/test_mvcc_chain_pruner.cpp")
 
     add_executable(test_mvcc_chain_pruner_focused
         storage/test_mvcc_chain_pruner.cpp
-        ${CMAKE_SOURCE_DIR}/src/storage/mvcc_chain_pruner.cpp
-        ${CMAKE_SOURCE_DIR}/src/storage/mvcc_store.cpp
-        ${CMAKE_SOURCE_DIR}/src/temporal/temporal_tier_manager.cpp
-        ${CMAKE_SOURCE_DIR}/src/temporal/temporal_cold_store.cpp
+        ${THEMIS_ROOT_DIR}/src/storage/mvcc_chain_pruner.cpp
+        ${THEMIS_ROOT_DIR}/src/storage/mvcc_store.cpp
+        ${THEMIS_ROOT_DIR}/src/temporal/temporal_tier_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/temporal/temporal_cold_store.cpp
     )
 
     target_include_directories(test_mvcc_chain_pruner_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_mvcc_chain_pruner_focused PRIVATE
@@ -21246,15 +21268,15 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_temporal_v18_v19.cpp")
 
     add_executable(test_temporal_v18_v19_focused
         temporal/test_temporal_v18_v19.cpp
-        ${CMAKE_SOURCE_DIR}/src/temporal/temporal_cdc.cpp
-        ${CMAKE_SOURCE_DIR}/src/temporal/snapshot_manager.cpp
-        ${CMAKE_SOURCE_DIR}/src/temporal/system_versioned_table.cpp
-        ${CMAKE_SOURCE_DIR}/src/temporal/bi_temporal.cpp
+        ${THEMIS_ROOT_DIR}/src/temporal/temporal_cdc.cpp
+        ${THEMIS_ROOT_DIR}/src/temporal/snapshot_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/temporal/system_versioned_table.cpp
+        ${THEMIS_ROOT_DIR}/src/temporal/bi_temporal.cpp
     )
 
     target_include_directories(test_temporal_v18_v19_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_temporal_v18_v19_focused PRIVATE
@@ -21655,8 +21677,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/acceleration/test_vec_knn_insert.cpp")
     )
 
     target_include_directories(test_vec_knn_insert_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_vec_knn_insert_focused PRIVATE
@@ -21692,12 +21714,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/acceleration/test_ai_hardware_dispatcher.
 
     add_executable(test_ai_hardware_dispatcher_focused
         acceleration/test_ai_hardware_dispatcher.cpp
-        ${CMAKE_SOURCE_DIR}/src/acceleration/ai_hardware_dispatcher.cpp
+        ${THEMIS_ROOT_DIR}/src/acceleration/ai_hardware_dispatcher.cpp
     )
 
     target_include_directories(test_ai_hardware_dispatcher_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_ai_hardware_dispatcher_focused PRIVATE
@@ -21736,8 +21758,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/acceleration/test_nccl_merge_topk.cpp")
     )
 
     target_include_directories(test_nccl_merge_topk_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_nccl_merge_topk_focused PRIVATE
@@ -22151,12 +22173,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/numa/test_numa_memory_manager.cpp")
 
     add_executable(test_numa_memory_manager_focused
         numa/test_numa_memory_manager.cpp
-        ${CMAKE_SOURCE_DIR}/src/performance/numa_memory_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/performance/numa_memory_manager.cpp
     )
 
     target_include_directories(test_numa_memory_manager_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_numa_memory_manager_focused PRIVATE
@@ -22189,12 +22211,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/advanced/test_advanced_cache_manager.cpp"
 
     add_executable(test_advanced_cache_manager_focused
         advanced/test_advanced_cache_manager.cpp
-        ${CMAKE_SOURCE_DIR}/src/performance/advanced_cache_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/performance/advanced_cache_manager.cpp
     )
 
     target_include_directories(test_advanced_cache_manager_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_advanced_cache_manager_focused PRIVATE
@@ -22227,12 +22249,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/workload/test_workload_adaptive_optimizer
 
     add_executable(test_workload_adaptive_optimizer_focused
         workload/test_workload_adaptive_optimizer.cpp
-        ${CMAKE_SOURCE_DIR}/src/performance/workload_adaptive_optimizer.cpp
+        ${THEMIS_ROOT_DIR}/src/performance/workload_adaptive_optimizer.cpp
     )
 
     target_include_directories(test_workload_adaptive_optimizer_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_workload_adaptive_optimizer_focused PRIVATE
@@ -22430,8 +22452,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/paxos/test_paxos_persistence_recovery.cpp
     )
 
     target_include_directories(test_paxos_persistence_recovery_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_paxos_persistence_recovery_focused PRIVATE
@@ -22463,7 +22485,15 @@ if(TARGET themis_tests)
     if(_themis_tests_sources_final)
         list(FILTER _themis_tests_sources_final EXCLUDE REGEX ".*[\\/]src[\\/]importers[\\/]postgres_importer\\.cpp$")
         list(FILTER _themis_tests_sources_final EXCLUDE REGEX ".*[\\/]src[\\/]importers[\\/]postgres_importer_mdm\\.cpp$")
-        set_property(TARGET themis_tests PROPERTY SOURCES ${_themis_tests_sources_final})
+        # Remove any source file entries that do not exist on disk to avoid
+        # configure-time errors when optional test modules are not yet present.
+        set(_themis_tests_sources_verified)
+        foreach(_src IN LISTS _themis_tests_sources_final)
+            if(EXISTS "${_src}")
+                list(APPEND _themis_tests_sources_verified "${_src}")
+            endif()
+        endforeach()
+        set_property(TARGET themis_tests PROPERTY SOURCES ${_themis_tests_sources_verified})
     endif()
 endif()
 
@@ -22764,7 +22794,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/document/test_document_store.cpp")
     )
 
     target_include_directories(test_document_store_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_document_store_focused PRIVATE
@@ -23895,8 +23925,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/connector/test_connector_mode_api.cpp")
     )
 
     target_include_directories(test_connector_mode_api PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_connector_mode_api PRIVATE
@@ -24050,7 +24080,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/context/test_context_window_budget.cpp")
     )
 
     target_include_directories(test_context_window_budget_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_context_window_budget_focused PRIVATE
@@ -24084,11 +24114,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rag/test_rag_context_assembler.cpp")
 
     add_executable(test_rag_context_assembler_focused
         rag/test_rag_context_assembler.cpp
-        ${CMAKE_SOURCE_DIR}/src/rag/rag_context_assembler.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/rag_context_assembler.cpp
     )
 
     target_include_directories(test_rag_context_assembler_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_rag_context_assembler_focused PRIVATE
@@ -24122,12 +24152,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/multi/test_multi_step_rag.cpp")
 
     add_executable(test_multi_step_rag_focused
         multi/test_multi_step_rag.cpp
-        ${CMAKE_SOURCE_DIR}/src/rag/multi_step_rag.cpp
-        ${CMAKE_SOURCE_DIR}/src/rag/rag_context_assembler.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/multi_step_rag.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/rag_context_assembler.cpp
     )
 
     target_include_directories(test_multi_step_rag_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_multi_step_rag_focused PRIVATE
@@ -24162,11 +24192,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rag/test_rag_multi_hop_reasoner.cpp")
 
     add_executable(test_rag_multi_hop_reasoner_focused
         rag/test_rag_multi_hop_reasoner.cpp
-        ${CMAKE_SOURCE_DIR}/src/rag/multi_hop_reasoner.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/multi_hop_reasoner.cpp
     )
 
     target_include_directories(test_rag_multi_hop_reasoner_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_rag_multi_hop_reasoner_focused PRIVATE
@@ -24201,11 +24231,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rag/test_rag_adaptive_retrieval.cpp")
 
     add_executable(test_rag_adaptive_retrieval_focused
         rag/test_rag_adaptive_retrieval.cpp
-        ${CMAKE_SOURCE_DIR}/src/rag/adaptive_retrieval.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/adaptive_retrieval.cpp
     )
 
     target_include_directories(test_rag_adaptive_retrieval_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${THEMIS_ROOT_DIR}/include
     )
 
     target_link_libraries(test_rag_adaptive_retrieval_focused PRIVATE
@@ -24240,18 +24270,18 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/argument/test
 
     add_executable(test_argument_store_standalone
         argument/test_argument_store_standalone.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/argument_store.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_ai_types.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_evaluator.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/discourse_engine.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/philosophy_loader.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/rag_context_engine.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/argument_store.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/ethics_ai_types.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/ethics_evaluator.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/discourse_engine.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/philosophy_loader.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/rag_context_engine.cpp
     )
 
     target_include_directories(test_argument_store_standalone PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+        ${THEMIS_ROOT_DIR}/src/ethics_ai
     )
 
     target_link_libraries(test_argument_store_standalone PRIVATE
@@ -24285,18 +24315,18 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ethics/test_e
 
     add_executable(test_ethics_ai_argument_store_rocksdb_focused
         ethics/test_ethics_ai_argument_store_rocksdb.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/argument_store.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_ai_types.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_evaluator.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/discourse_engine.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/philosophy_loader.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/rag_context_engine.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/argument_store.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/ethics_ai_types.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/ethics_evaluator.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/discourse_engine.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/philosophy_loader.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/rag_context_engine.cpp
     )
 
     target_include_directories(test_ethics_ai_argument_store_rocksdb_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+        ${THEMIS_ROOT_DIR}/src/ethics_ai
     )
 
     target_link_libraries(test_ethics_ai_argument_store_rocksdb_focused PRIVATE
@@ -24331,18 +24361,18 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rag/test_rag_
 
     add_executable(test_rag_context_engine_focused
         rag/test_rag_context_engine.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/argument_store.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/rag_context_engine.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_ai_types.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_evaluator.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/discourse_engine.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/philosophy_loader.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/argument_store.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/rag_context_engine.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/ethics_ai_types.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/ethics_evaluator.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/discourse_engine.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/philosophy_loader.cpp
     )
 
     target_include_directories(test_rag_context_engine_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+        ${THEMIS_ROOT_DIR}/src/ethics_ai
     )
 
     target_link_libraries(test_rag_context_engine_focused PRIVATE
@@ -24385,9 +24415,9 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ethics/test_e
     )
 
     target_include_directories(test_ethics_ai_plugin_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+        ${THEMIS_ROOT_DIR}/src/ethics_ai
     )
 
     target_link_libraries(test_ethics_ai_plugin_focused PRIVATE
@@ -24428,15 +24458,15 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ethics/test_e
 
     add_executable(test_ethics_profile_registry_focused
         ethics/test_ethics_profile_registry.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_ai_types.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/philosophy_loader.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_profile_registry.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/ethics_ai_types.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/philosophy_loader.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/ethics_profile_registry.cpp
     )
 
     target_include_directories(test_ethics_profile_registry_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+        ${THEMIS_ROOT_DIR}/src/ethics_ai
     )
 
     target_link_libraries(test_ethics_profile_registry_focused PRIVATE
@@ -24455,7 +24485,7 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ethics/test_e
 
     target_compile_definitions(test_ethics_profile_registry_focused PRIVATE
         THEMIS_TEST_BUILD=1
-        "THEMIS_PHILOSOPHIES_DIR=\"${CMAKE_SOURCE_DIR}/plugins/ethics_ai/philosophies\""
+        "THEMIS_PHILOSOPHIES_DIR=\"${THEMIS_ROOT_DIR}/plugins/ethics_ai/philosophies\""
     )
 
     add_test(NAME EthicsProfileRegistryTests COMMAND test_ethics_profile_registry_focused)
@@ -24476,16 +24506,16 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ethics/test_e
 
     add_executable(test_ethics_selection_router_focused
         ethics/test_ethics_selection_router.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_ai_types.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/philosophy_loader.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_profile_registry.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_selection_router.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/ethics_ai_types.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/philosophy_loader.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/ethics_profile_registry.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/ethics_selection_router.cpp
     )
 
     target_include_directories(test_ethics_selection_router_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+        ${THEMIS_ROOT_DIR}/src/ethics_ai
     )
 
     target_link_libraries(test_ethics_selection_router_focused PRIVATE
@@ -24504,8 +24534,8 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ethics/test_e
 
     target_compile_definitions(test_ethics_selection_router_focused PRIVATE
         THEMIS_TEST_BUILD=1
-        "THEMIS_PHILOSOPHIES_DIR=\"${CMAKE_SOURCE_DIR}/plugins/ethics_ai/philosophies\""
-        "THEMIS_ETHICS_TAXONOMY_PATH=\"${CMAKE_SOURCE_DIR}/config/ethics_ai/ethics_taxonomy.yaml\""
+        "THEMIS_PHILOSOPHIES_DIR=\"${THEMIS_ROOT_DIR}/plugins/ethics_ai/philosophies\""
+        "THEMIS_ETHICS_TAXONOMY_PATH=\"${THEMIS_ROOT_DIR}/config/ethics_ai/ethics_taxonomy.yaml\""
     )
 
     add_test(NAME EthicsSelectionRouterTests COMMAND test_ethics_selection_router_focused)
@@ -24526,15 +24556,15 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/thesis/test_t
 
     add_executable(test_thesis_budget_management_focused
         thesis/test_thesis_budget_management.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/ethics_ai_types.cpp
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai/philosophy_loader.cpp
-        ${CMAKE_SOURCE_DIR}/src/prompt_engineering/context_window_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/ethics_ai_types.cpp
+        ${THEMIS_ROOT_DIR}/src/ethics_ai/philosophy_loader.cpp
+        ${THEMIS_ROOT_DIR}/src/prompt_engineering/context_window_manager.cpp
     )
 
     target_include_directories(test_thesis_budget_management_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
-        ${CMAKE_SOURCE_DIR}/src/ethics_ai
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+        ${THEMIS_ROOT_DIR}/src/ethics_ai
     )
 
     target_link_libraries(test_thesis_budget_management_focused PRIVATE
@@ -24553,7 +24583,7 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/thesis/test_t
 
     target_compile_definitions(test_thesis_budget_management_focused PRIVATE
         THEMIS_TEST_BUILD=1
-        "THEMIS_PHILOSOPHIES_DIR=\"${CMAKE_SOURCE_DIR}/plugins/ethics_ai/philosophies\""
+        "THEMIS_PHILOSOPHIES_DIR=\"${THEMIS_ROOT_DIR}/plugins/ethics_ai/philosophies\""
     )
 
     add_test(NAME ThesisBudgetManagementTests COMMAND test_thesis_budget_management_focused)
@@ -24609,12 +24639,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/concurrent/test_concurrent_write_controll
 
     add_executable(test_concurrent_write_controller_focused
         concurrent/test_concurrent_write_controller.cpp
-        ${CMAKE_SOURCE_DIR}/src/storage/concurrent_write_controller.cpp
+        ${THEMIS_ROOT_DIR}/src/storage/concurrent_write_controller.cpp
     )
 
     target_include_directories(test_concurrent_write_controller_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_concurrent_write_controller_focused PRIVATE
@@ -24646,13 +24676,13 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/simd/test_simd_columnar_filter.cpp")
 
     add_executable(test_simd_columnar_filter_focused
         simd/test_simd_columnar_filter.cpp
-        ${CMAKE_SOURCE_DIR}/src/storage/simd_filter.cpp
-        ${CMAKE_SOURCE_DIR}/src/storage/columnar_format.cpp
+        ${THEMIS_ROOT_DIR}/src/storage/simd_filter.cpp
+        ${THEMIS_ROOT_DIR}/src/storage/columnar_format.cpp
     )
 
     target_include_directories(test_simd_columnar_filter_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_simd_columnar_filter_focused PRIVATE
@@ -24699,13 +24729,13 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/storage/test_storage_parquet_exporter.cpp
 
     add_executable(test_storage_parquet_exporter_focused
         storage/test_storage_parquet_exporter.cpp
-        ${CMAKE_SOURCE_DIR}/src/storage/storage_parquet_exporter.cpp
-        ${CMAKE_SOURCE_DIR}/src/storage/columnar_format.cpp
+        ${THEMIS_ROOT_DIR}/src/storage/storage_parquet_exporter.cpp
+        ${THEMIS_ROOT_DIR}/src/storage/columnar_format.cpp
     )
 
     target_include_directories(test_storage_parquet_exporter_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_storage_parquet_exporter_focused PRIVATE
@@ -24747,17 +24777,17 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/projects/test_projects.cpp")
 
     add_executable(test_projects
         projects/test_projects.cpp
-        ${CMAKE_SOURCE_DIR}/src/projects/project_versioning.cpp
-        ${CMAKE_SOURCE_DIR}/src/projects/project_diff.cpp
-        ${CMAKE_SOURCE_DIR}/src/projects/project_lifecycle.cpp
-        ${CMAKE_SOURCE_DIR}/src/projects/project_template.cpp
-        ${CMAKE_SOURCE_DIR}/src/projects/collaboration_manager.cpp
-        ${CMAKE_SOURCE_DIR}/src/projects/project_metrics.cpp
+        ${THEMIS_ROOT_DIR}/src/projects/project_versioning.cpp
+        ${THEMIS_ROOT_DIR}/src/projects/project_diff.cpp
+        ${THEMIS_ROOT_DIR}/src/projects/project_lifecycle.cpp
+        ${THEMIS_ROOT_DIR}/src/projects/project_template.cpp
+        ${THEMIS_ROOT_DIR}/src/projects/collaboration_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/projects/project_metrics.cpp
     )
 
     target_include_directories(test_projects PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_projects PRIVATE
@@ -24799,15 +24829,15 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/project/test_project_collaboration_concur
 
     add_executable(test_project_collaboration_concurrent
         project/test_project_collaboration_concurrent.cpp
-        ${CMAKE_SOURCE_DIR}/src/projects/collaboration_manager.cpp
-        ${CMAKE_SOURCE_DIR}/src/projects/in_memory_project_audit_log.cpp
-        ${CMAKE_SOURCE_DIR}/src/storage/rocksdb_wrapper.cpp
-        ${CMAKE_SOURCE_DIR}/src/storage/nvme_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/projects/collaboration_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/projects/in_memory_project_audit_log.cpp
+        ${THEMIS_ROOT_DIR}/src/storage/rocksdb_wrapper.cpp
+        ${THEMIS_ROOT_DIR}/src/storage/nvme_manager.cpp
     )
 
     target_include_directories(test_project_collaboration_concurrent PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/third_party
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/third_party
     )
 
     target_link_libraries(test_project_collaboration_concurrent PRIVATE
@@ -25198,12 +25228,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/encrypted/test_encrypted_blob_backend.cpp
 
     add_executable(test_encrypted_blob_backend_focused
         encrypted/test_encrypted_blob_backend.cpp
-        ${CMAKE_SOURCE_DIR}/src/storage/encrypted_blob_backend.cpp
+        ${THEMIS_ROOT_DIR}/src/storage/encrypted_blob_backend.cpp
     )
 
     target_include_directories(test_encrypted_blob_backend_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_encrypted_blob_backend_focused PRIVATE
@@ -25234,12 +25264,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/vector/test_vector_index_comprehensive.cp
 
     add_executable(test_vector_index_backend_focused
         vector/test_vector_index_comprehensive.cpp
-        ${CMAKE_SOURCE_DIR}/src/storage/vector_index_backend.cpp
+        ${THEMIS_ROOT_DIR}/src/storage/vector_index_backend.cpp
     )
 
     target_include_directories(test_vector_index_backend_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_vector_index_backend_focused PRIVATE
@@ -25794,15 +25824,15 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/project/test_project_collaboration_concur
 
     add_executable(test_project_collaboration_concurrent_focused
         project/test_project_collaboration_concurrent.cpp
-        ${CMAKE_SOURCE_DIR}/src/projects/collaboration_manager.cpp
-        ${CMAKE_SOURCE_DIR}/src/projects/project_lifecycle.cpp
-        ${CMAKE_SOURCE_DIR}/src/storage/rocksdb_wrapper.cpp
-        ${CMAKE_SOURCE_DIR}/src/storage/nvme_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/projects/collaboration_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/projects/project_lifecycle.cpp
+        ${THEMIS_ROOT_DIR}/src/storage/rocksdb_wrapper.cpp
+        ${THEMIS_ROOT_DIR}/src/storage/nvme_manager.cpp
     )
 
     target_include_directories(test_project_collaboration_concurrent_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_project_collaboration_concurrent_focused PRIVATE
@@ -25848,12 +25878,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_ai_operation_guard.cpp")
 
     add_executable(test_ai_operation_guard
         security/test_ai_operation_guard.cpp
-        ${CMAKE_SOURCE_DIR}/src/security/ai_operation_guard.cpp
+        ${THEMIS_ROOT_DIR}/src/security/ai_operation_guard.cpp
     )
 
     target_include_directories(test_ai_operation_guard PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_ai_operation_guard PRIVATE
@@ -25892,12 +25922,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_ai_snapshot_cleanup.cpp")
 
     add_executable(test_ai_snapshot_cleanup
         security/test_ai_snapshot_cleanup.cpp
-        ${CMAKE_SOURCE_DIR}/src/security/ai_snapshot_cleanup.cpp
+        ${THEMIS_ROOT_DIR}/src/security/ai_snapshot_cleanup.cpp
     )
 
     target_include_directories(test_ai_snapshot_cleanup PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_ai_snapshot_cleanup PRIVATE
@@ -25943,8 +25973,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/ai_safety/test_ai_safety_chaos.c
         ${THEMIS_ROOT_DIR}/src/query/aql_safety_validator.cpp
     )
     target_include_directories(test_ai_safety_chaos PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
     target_link_libraries(test_ai_safety_chaos PRIVATE
         ${TEST_LIBS}
@@ -25969,20 +25999,20 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/process/test_process_community_detector.c
     message(STATUS "Adding ProcessCommunityDetector focused tests (LCD-01..LCD-10)")
     add_executable(ProcessCommunityDetectorTests
         process/test_process_community_detector.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/process_community_detector.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/process_model_manager.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/bpmn_serializer.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/epk_serializer.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/llm_process_descriptor.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/vcc_vpb_importer.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/process_linker.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/process_graph_rag.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/process_model_generator.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/ocel_exporter.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/dmn_evaluator.cpp
-        ${CMAKE_SOURCE_DIR}/src/index/process_graph.cpp
-        ${CMAKE_SOURCE_DIR}/src/index/edge_types.cpp
-        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+        ${THEMIS_ROOT_DIR}/src/process/process_community_detector.cpp
+        ${THEMIS_ROOT_DIR}/src/process/process_model_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/process/bpmn_serializer.cpp
+        ${THEMIS_ROOT_DIR}/src/process/epk_serializer.cpp
+        ${THEMIS_ROOT_DIR}/src/process/llm_process_descriptor.cpp
+        ${THEMIS_ROOT_DIR}/src/process/vcc_vpb_importer.cpp
+        ${THEMIS_ROOT_DIR}/src/process/process_linker.cpp
+        ${THEMIS_ROOT_DIR}/src/process/process_graph_rag.cpp
+        ${THEMIS_ROOT_DIR}/src/process/process_model_generator.cpp
+        ${THEMIS_ROOT_DIR}/src/process/ocel_exporter.cpp
+        ${THEMIS_ROOT_DIR}/src/process/dmn_evaluator.cpp
+        ${THEMIS_ROOT_DIR}/src/index/process_graph.cpp
+        ${THEMIS_ROOT_DIR}/src/index/edge_types.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
     target_include_directories(ProcessCommunityDetectorTests PRIVATE
         ${THEMIS_ROOT_DIR}/include
@@ -26010,21 +26040,21 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/process/test_process_light_retriever.cpp"
     message(STATUS "Adding ProcessLightRetriever focused tests (PLR-01..PLR-08)")
     add_executable(ProcessLightRetrieverTests
         process/test_process_light_retriever.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/process_light_retriever.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/process_community_detector.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/process_graph_rag.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/process_model_manager.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/bpmn_serializer.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/epk_serializer.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/llm_process_descriptor.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/vcc_vpb_importer.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/process_linker.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/process_model_generator.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/ocel_exporter.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/dmn_evaluator.cpp
-        ${CMAKE_SOURCE_DIR}/src/index/process_graph.cpp
-        ${CMAKE_SOURCE_DIR}/src/index/edge_types.cpp
-        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+        ${THEMIS_ROOT_DIR}/src/process/process_light_retriever.cpp
+        ${THEMIS_ROOT_DIR}/src/process/process_community_detector.cpp
+        ${THEMIS_ROOT_DIR}/src/process/process_graph_rag.cpp
+        ${THEMIS_ROOT_DIR}/src/process/process_model_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/process/bpmn_serializer.cpp
+        ${THEMIS_ROOT_DIR}/src/process/epk_serializer.cpp
+        ${THEMIS_ROOT_DIR}/src/process/llm_process_descriptor.cpp
+        ${THEMIS_ROOT_DIR}/src/process/vcc_vpb_importer.cpp
+        ${THEMIS_ROOT_DIR}/src/process/process_linker.cpp
+        ${THEMIS_ROOT_DIR}/src/process/process_model_generator.cpp
+        ${THEMIS_ROOT_DIR}/src/process/ocel_exporter.cpp
+        ${THEMIS_ROOT_DIR}/src/process/dmn_evaluator.cpp
+        ${THEMIS_ROOT_DIR}/src/index/process_graph.cpp
+        ${THEMIS_ROOT_DIR}/src/index/edge_types.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
     target_include_directories(ProcessLightRetrieverTests PRIVATE
         ${THEMIS_ROOT_DIR}/include
@@ -26052,19 +26082,19 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/process/test_object_centric_tracer.cpp")
     message(STATUS "Adding ObjectCentricTracer focused tests (OCT-01..OCT-10)")
     add_executable(ObjectCentricTracerTests
         process/test_object_centric_tracer.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/object_centric_tracer.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/process_model_manager.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/bpmn_serializer.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/epk_serializer.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/llm_process_descriptor.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/vcc_vpb_importer.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/process_linker.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/process_model_generator.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/ocel_exporter.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/dmn_evaluator.cpp
-        ${CMAKE_SOURCE_DIR}/src/index/process_graph.cpp
-        ${CMAKE_SOURCE_DIR}/src/index/edge_types.cpp
-        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+        ${THEMIS_ROOT_DIR}/src/process/object_centric_tracer.cpp
+        ${THEMIS_ROOT_DIR}/src/process/process_model_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/process/bpmn_serializer.cpp
+        ${THEMIS_ROOT_DIR}/src/process/epk_serializer.cpp
+        ${THEMIS_ROOT_DIR}/src/process/llm_process_descriptor.cpp
+        ${THEMIS_ROOT_DIR}/src/process/vcc_vpb_importer.cpp
+        ${THEMIS_ROOT_DIR}/src/process/process_linker.cpp
+        ${THEMIS_ROOT_DIR}/src/process/process_model_generator.cpp
+        ${THEMIS_ROOT_DIR}/src/process/ocel_exporter.cpp
+        ${THEMIS_ROOT_DIR}/src/process/dmn_evaluator.cpp
+        ${THEMIS_ROOT_DIR}/src/index/process_graph.cpp
+        ${THEMIS_ROOT_DIR}/src/index/edge_types.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
     target_include_directories(ObjectCentricTracerTests PRIVATE
         ${THEMIS_ROOT_DIR}/include
@@ -26092,20 +26122,20 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/process/test_sla_monitoring.cpp")
     message(STATUS "Adding SLA Monitoring focused tests (SLA-01..SLA-08)")
     add_executable(SlaMonitoringTests
         process/test_sla_monitoring.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/process_graph_rag.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/process_model_manager.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/bpmn_serializer.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/epk_serializer.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/llm_process_descriptor.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/vcc_vpb_importer.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/process_linker.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/process_model_generator.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/ocel_exporter.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/dmn_evaluator.cpp
-        ${CMAKE_SOURCE_DIR}/src/analytics/cep_engine.cpp
-        ${CMAKE_SOURCE_DIR}/src/index/process_graph.cpp
-        ${CMAKE_SOURCE_DIR}/src/index/edge_types.cpp
-        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+        ${THEMIS_ROOT_DIR}/src/process/process_graph_rag.cpp
+        ${THEMIS_ROOT_DIR}/src/process/process_model_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/process/bpmn_serializer.cpp
+        ${THEMIS_ROOT_DIR}/src/process/epk_serializer.cpp
+        ${THEMIS_ROOT_DIR}/src/process/llm_process_descriptor.cpp
+        ${THEMIS_ROOT_DIR}/src/process/vcc_vpb_importer.cpp
+        ${THEMIS_ROOT_DIR}/src/process/process_linker.cpp
+        ${THEMIS_ROOT_DIR}/src/process/process_model_generator.cpp
+        ${THEMIS_ROOT_DIR}/src/process/ocel_exporter.cpp
+        ${THEMIS_ROOT_DIR}/src/process/dmn_evaluator.cpp
+        ${THEMIS_ROOT_DIR}/src/analytics/cep_engine.cpp
+        ${THEMIS_ROOT_DIR}/src/index/process_graph.cpp
+        ${THEMIS_ROOT_DIR}/src/index/edge_types.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
     target_include_directories(SlaMonitoringTests PRIVATE
         ${THEMIS_ROOT_DIR}/include
@@ -26133,20 +26163,20 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/process/test_bottleneck_analytics.cpp")
     message(STATUS "Adding Bottleneck Analytics focused tests (BOT-01..BOT-08)")
     add_executable(BottleneckAnalyticsTests
         process/test_bottleneck_analytics.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/process_graph_rag.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/process_model_manager.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/bpmn_serializer.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/epk_serializer.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/llm_process_descriptor.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/vcc_vpb_importer.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/process_linker.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/process_model_generator.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/ocel_exporter.cpp
-        ${CMAKE_SOURCE_DIR}/src/process/dmn_evaluator.cpp
-        ${CMAKE_SOURCE_DIR}/src/analytics/cep_engine.cpp
-        ${CMAKE_SOURCE_DIR}/src/index/process_graph.cpp
-        ${CMAKE_SOURCE_DIR}/src/index/edge_types.cpp
-        ${CMAKE_SOURCE_DIR}/src/utils/logger.cpp
+        ${THEMIS_ROOT_DIR}/src/process/process_graph_rag.cpp
+        ${THEMIS_ROOT_DIR}/src/process/process_model_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/process/bpmn_serializer.cpp
+        ${THEMIS_ROOT_DIR}/src/process/epk_serializer.cpp
+        ${THEMIS_ROOT_DIR}/src/process/llm_process_descriptor.cpp
+        ${THEMIS_ROOT_DIR}/src/process/vcc_vpb_importer.cpp
+        ${THEMIS_ROOT_DIR}/src/process/process_linker.cpp
+        ${THEMIS_ROOT_DIR}/src/process/process_model_generator.cpp
+        ${THEMIS_ROOT_DIR}/src/process/ocel_exporter.cpp
+        ${THEMIS_ROOT_DIR}/src/process/dmn_evaluator.cpp
+        ${THEMIS_ROOT_DIR}/src/analytics/cep_engine.cpp
+        ${THEMIS_ROOT_DIR}/src/index/process_graph.cpp
+        ${THEMIS_ROOT_DIR}/src/index/edge_types.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
     )
     target_include_directories(BottleneckAnalyticsTests PRIVATE
         ${THEMIS_ROOT_DIR}/include
@@ -26201,61 +26231,70 @@ add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/integration" "${CMAKE_CURRENT_BINA
 # Additional test targets migrated from cmake/CMakeLists.txt
 # ============================================================================
 # Leichtgewichtiger Test-Target: Nur SecondaryIndex-Tests
-add_executable(themis_secidx_tests
-    ${THEMIS_ROOT_DIR}/tests/secondary/test_secondary_index.cpp
-)
-target_link_libraries(themis_secidx_tests
-    PRIVATE
-        themis_core
-        GTest::gtest
-        GTest::gtest_main
-        Boost::system
-)
-include(GoogleTest)
-gtest_discover_tests(themis_secidx_tests
-    DISCOVERY_MODE PRE_TEST
-    WORKING_DIRECTORY $<TARGET_FILE_DIR:themis_secidx_tests>
-    EXTRA_ARGS --gtest_color=yes
-    CONFIGURATIONS Release Debug
-)
-
-# Sync runtime DLLs next to the secidx test binary so CTest discovery
-# can resolve them without a manual PATH adjustment.
-if(WIN32)
-    add_custom_command(TARGET themis_secidx_tests POST_BUILD
-        COMMAND ${CMAKE_COMMAND}
-                -D "BIN_DIR=${CMAKE_BINARY_DIR}/bin"
-            -D "DST_DIR=$<TARGET_FILE_DIR:themis_secidx_tests>"
-            -P "${THEMIS_ROOT_DIR}/cmake/CopyRuntimeDlls.cmake"
-        COMMENT "Syncing runtime DLLs for themis_secidx_tests"
-        VERBATIM
+if(EXISTS "${THEMIS_ROOT_DIR}/tests/secondary/test_secondary_index.cpp")
+    add_executable(themis_secidx_tests
+        ${THEMIS_ROOT_DIR}/tests/secondary/test_secondary_index.cpp
     )
+    target_link_libraries(themis_secidx_tests
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+            Boost::system
+    )
+    include(GoogleTest)
+    gtest_discover_tests(themis_secidx_tests
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:themis_secidx_tests>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+
+    # Sync runtime DLLs next to the secidx test binary so CTest discovery
+    # can resolve them without a manual PATH adjustment.
+    if(WIN32)
+        add_custom_command(TARGET themis_secidx_tests POST_BUILD
+            COMMAND ${CMAKE_COMMAND}
+                    -D "BIN_DIR=${CMAKE_BINARY_DIR}/bin"
+                -D "DST_DIR=$<TARGET_FILE_DIR:themis_secidx_tests>"
+                -P "${THEMIS_ROOT_DIR}/cmake/CopyRuntimeDlls.cmake"
+            COMMENT "Syncing runtime DLLs for themis_secidx_tests"
+            VERBATIM
+        )
+    endif()
 endif()
 
 # CRITICAL TESTS ONLY (for fast validation)
-add_executable(themis_tests_critical
-    ${THEMIS_ROOT_DIR}/tests/lib/test_lib_rocksdb_integration.cpp
-    ${THEMIS_ROOT_DIR}/tests/lib/test_lib_hnsw_integration.cpp
-    ${THEMIS_ROOT_DIR}/tests/lib/test_lib_boost_integration.cpp
-    ${THEMIS_ROOT_DIR}/tests/secondary/test_secondary_index.cpp
-    ${THEMIS_ROOT_DIR}/tests/thread/test_thread_pool_manager.cpp
-    ${THEMIS_ROOT_DIR}/tests/batch/test_batch_write_optimizer.cpp
-)
-target_link_libraries(themis_tests_critical
-    PRIVATE
-        themis_core
-        GTest::gtest
-        GTest::gtest_main
-        Boost::system
-)
-include(GoogleTest)
-gtest_discover_tests(themis_tests_critical
-    DISCOVERY_MODE PRE_TEST
-    DISCOVERY_TIMEOUT 300
-    WORKING_DIRECTORY $<TARGET_FILE_DIR:themis_tests_critical>
-    EXTRA_ARGS --gtest_color=yes
-    CONFIGURATIONS Release Debug
-)
+if(EXISTS "${THEMIS_ROOT_DIR}/tests/lib/test_lib_rocksdb_integration.cpp" AND
+   EXISTS "${THEMIS_ROOT_DIR}/tests/lib/test_lib_hnsw_integration.cpp" AND
+   EXISTS "${THEMIS_ROOT_DIR}/tests/lib/test_lib_boost_integration.cpp" AND
+   EXISTS "${THEMIS_ROOT_DIR}/tests/secondary/test_secondary_index.cpp" AND
+   EXISTS "${THEMIS_ROOT_DIR}/tests/thread/test_thread_pool_manager.cpp" AND
+   EXISTS "${THEMIS_ROOT_DIR}/tests/batch/test_batch_write_optimizer.cpp")
+    add_executable(themis_tests_critical
+        ${THEMIS_ROOT_DIR}/tests/lib/test_lib_rocksdb_integration.cpp
+        ${THEMIS_ROOT_DIR}/tests/lib/test_lib_hnsw_integration.cpp
+        ${THEMIS_ROOT_DIR}/tests/lib/test_lib_boost_integration.cpp
+        ${THEMIS_ROOT_DIR}/tests/secondary/test_secondary_index.cpp
+        ${THEMIS_ROOT_DIR}/tests/thread/test_thread_pool_manager.cpp
+        ${THEMIS_ROOT_DIR}/tests/batch/test_batch_write_optimizer.cpp
+    )
+    target_link_libraries(themis_tests_critical
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+            Boost::system
+    )
+    include(GoogleTest)
+    gtest_discover_tests(themis_tests_critical
+        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_TIMEOUT 300
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:themis_tests_critical>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+endif()
 
 # Conditionally add LLM tests only when LLM is enabled
 if(THEMIS_ENABLE_LLM)
@@ -26295,38 +26334,42 @@ if(THEMIS_ENABLE_LLM)
     
     # Phase 1 Feature Tests (Flash Attention, KV-Cache Reuse, Embeddings)
     # Flash Attention Tests
-    add_executable(test_phase1_flash_attention
-        ${THEMIS_ROOT_DIR}/tests/phase1/test_phase1_flash_attention.cpp
-    )
-    target_link_libraries(test_phase1_flash_attention
-        PRIVATE
-            themis_core
-            GTest::gtest
-            GTest::gtest_main
-    )
-    gtest_discover_tests(test_phase1_flash_attention
-        DISCOVERY_MODE PRE_TEST
-        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_phase1_flash_attention>
-        EXTRA_ARGS --gtest_color=yes
-        CONFIGURATIONS Release Debug
-    )
+    if(EXISTS "${THEMIS_ROOT_DIR}/tests/phase1/test_phase1_flash_attention.cpp")
+        add_executable(test_phase1_flash_attention
+            ${THEMIS_ROOT_DIR}/tests/phase1/test_phase1_flash_attention.cpp
+        )
+        target_link_libraries(test_phase1_flash_attention
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_phase1_flash_attention
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_phase1_flash_attention>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+    endif()
     
     # KV-Cache Reuse Tests
-    add_executable(test_phase1_kv_cache_reuse
-        ${THEMIS_ROOT_DIR}/tests/phase1/test_phase1_kv_cache_reuse.cpp
-    )
-    target_link_libraries(test_phase1_kv_cache_reuse
-        PRIVATE
-            themis_core
-            GTest::gtest
-            GTest::gtest_main
-    )
-    gtest_discover_tests(test_phase1_kv_cache_reuse
-        DISCOVERY_MODE PRE_TEST
-        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_phase1_kv_cache_reuse>
-        EXTRA_ARGS --gtest_color=yes
-        CONFIGURATIONS Release Debug
-    )
+    if(EXISTS "${THEMIS_ROOT_DIR}/tests/phase1/test_phase1_kv_cache_reuse.cpp")
+        add_executable(test_phase1_kv_cache_reuse
+            ${THEMIS_ROOT_DIR}/tests/phase1/test_phase1_kv_cache_reuse.cpp
+        )
+        target_link_libraries(test_phase1_kv_cache_reuse
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_phase1_kv_cache_reuse
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_phase1_kv_cache_reuse>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+    endif()
 endif()
 
 # Note: themis_tests discovery is now handled in tests/CMakeLists.txt
@@ -26355,21 +26398,23 @@ gtest_discover_tests(test_ann_index
 # ── New feature tests ────────────────────────────────────────────────────
 
 # Erasure Coding Backend Tests (v1.7.0 – Issue #207)
-add_executable(test_erasure_coding_backend
-    ${THEMIS_ROOT_DIR}/tests/erasure/test_erasure_coding_backend.cpp
-)
-target_link_libraries(test_erasure_coding_backend
-    PRIVATE themis_core GTest::gtest GTest::gtest_main
-)
-gtest_discover_tests(test_erasure_coding_backend
-    DISCOVERY_MODE PRE_TEST
-    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_erasure_coding_backend>
-    EXTRA_ARGS --gtest_color=yes
-    CONFIGURATIONS Release Debug
-    PROPERTIES
-        LABELS "storage;erasure-coding;blob;reed-solomon;unit"
-        TIMEOUT 60
-)
+if(EXISTS "${THEMIS_ROOT_DIR}/tests/erasure/test_erasure_coding_backend.cpp")
+    add_executable(test_erasure_coding_backend
+        ${THEMIS_ROOT_DIR}/tests/erasure/test_erasure_coding_backend.cpp
+    )
+    target_link_libraries(test_erasure_coding_backend
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_erasure_coding_backend
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_erasure_coding_backend>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+        PROPERTIES
+            LABELS "storage;erasure-coding;blob;reed-solomon;unit"
+            TIMEOUT 60
+    )
+endif()
 
 add_executable(test_search_highlighter
     ${THEMIS_ROOT_DIR}/tests/search/test_search_highlighter.cpp
@@ -26384,45 +26429,51 @@ gtest_discover_tests(test_search_highlighter
     CONFIGURATIONS Release Debug
 )
 
-add_executable(test_distributed_hybrid_search
-    ${THEMIS_ROOT_DIR}/tests/distributed/test_distributed_hybrid_search.cpp
-)
-target_link_libraries(test_distributed_hybrid_search
-    PRIVATE themis_core GTest::gtest GTest::gtest_main
-)
-gtest_discover_tests(test_distributed_hybrid_search
-    DISCOVERY_MODE PRE_TEST
-    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_distributed_hybrid_search>
-    EXTRA_ARGS --gtest_color=yes
-    CONFIGURATIONS Release Debug
-)
+if(EXISTS "${THEMIS_ROOT_DIR}/tests/distributed/test_distributed_hybrid_search.cpp")
+    add_executable(test_distributed_hybrid_search
+        ${THEMIS_ROOT_DIR}/tests/distributed/test_distributed_hybrid_search.cpp
+    )
+    target_link_libraries(test_distributed_hybrid_search
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_distributed_hybrid_search
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_distributed_hybrid_search>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+endif()
 
-add_executable(test_knowledge_gap_retrieval_callback
-    ${THEMIS_ROOT_DIR}/tests/knowledge/test_knowledge_gap_retrieval_callback.cpp
-    ${THEMIS_ROOT_DIR}/src/rag/knowledge_gap_detector.cpp
-)
-target_link_libraries(test_knowledge_gap_retrieval_callback
-    PRIVATE themis_core GTest::gtest GTest::gtest_main
-)
-gtest_discover_tests(test_knowledge_gap_retrieval_callback
-    DISCOVERY_MODE PRE_TEST
-    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_knowledge_gap_retrieval_callback>
-    EXTRA_ARGS --gtest_color=yes
-    CONFIGURATIONS Release Debug
-)
+if(EXISTS "${THEMIS_ROOT_DIR}/tests/knowledge/test_knowledge_gap_retrieval_callback.cpp")
+    add_executable(test_knowledge_gap_retrieval_callback
+        ${THEMIS_ROOT_DIR}/tests/knowledge/test_knowledge_gap_retrieval_callback.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/knowledge_gap_detector.cpp
+    )
+    target_link_libraries(test_knowledge_gap_retrieval_callback
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_knowledge_gap_retrieval_callback
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_knowledge_gap_retrieval_callback>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+endif()
 
-add_executable(test_bitemporal_join
-    ${THEMIS_ROOT_DIR}/tests/bitemporal/test_bitemporal_join.cpp
-)
-target_link_libraries(test_bitemporal_join
-    PRIVATE themis_core GTest::gtest GTest::gtest_main
-)
-gtest_discover_tests(test_bitemporal_join
-    DISCOVERY_MODE PRE_TEST
-    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_bitemporal_join>
-    EXTRA_ARGS --gtest_color=yes
-    CONFIGURATIONS Release Debug
-)
+if(EXISTS "${THEMIS_ROOT_DIR}/tests/bitemporal/test_bitemporal_join.cpp")
+    add_executable(test_bitemporal_join
+        ${THEMIS_ROOT_DIR}/tests/bitemporal/test_bitemporal_join.cpp
+    )
+    target_link_libraries(test_bitemporal_join
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_bitemporal_join
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_bitemporal_join>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+endif()
 
 # Temporal Snapshot Isolation Tests (v1.1.0 – Issue: Snapshot Isolation)
 if(EXISTS "${THEMIS_ROOT_DIR}/tests/temporal/test_snapshot_manager.cpp")
@@ -26643,46 +26694,52 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tests/temporal/test_temporal_query_engine.cpp")
     message(STATUS "  TemporalQueryEngine: AS-OF/FROM-TO/BETWEEN/CONTAINED-IN/SEQUENCED-DISTINCT")
 endif()
 
-add_executable(test_ts_auto_buffer_adaptive
-    ${THEMIS_ROOT_DIR}/tests/ts/test_ts_auto_buffer_adaptive.cpp
-)
-target_link_libraries(test_ts_auto_buffer_adaptive
-    PRIVATE themis_core GTest::gtest GTest::gtest_main
-)
-gtest_discover_tests(test_ts_auto_buffer_adaptive
-    DISCOVERY_MODE PRE_TEST
-    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_ts_auto_buffer_adaptive>
-    EXTRA_ARGS --gtest_color=yes
-    CONFIGURATIONS Release Debug
-)
+if(EXISTS "${THEMIS_ROOT_DIR}/tests/ts/test_ts_auto_buffer_adaptive.cpp")
+    add_executable(test_ts_auto_buffer_adaptive
+        ${THEMIS_ROOT_DIR}/tests/ts/test_ts_auto_buffer_adaptive.cpp
+    )
+    target_link_libraries(test_ts_auto_buffer_adaptive
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_ts_auto_buffer_adaptive
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_ts_auto_buffer_adaptive>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+endif()
 
-add_executable(test_adaptive_flush_controller
-    ${THEMIS_ROOT_DIR}/tests/adaptive/test_adaptive_flush_controller.cpp
-    ${THEMIS_ROOT_DIR}/src/timeseries/adaptive_flush_controller.cpp
-)
-target_link_libraries(test_adaptive_flush_controller
-    PRIVATE themis_core GTest::gtest GTest::gtest_main
-)
-gtest_discover_tests(test_adaptive_flush_controller
-    DISCOVERY_MODE PRE_TEST
-    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_adaptive_flush_controller>
-    EXTRA_ARGS --gtest_color=yes
-    CONFIGURATIONS Release Debug
-)
+if(EXISTS "${THEMIS_ROOT_DIR}/tests/adaptive/test_adaptive_flush_controller.cpp")
+    add_executable(test_adaptive_flush_controller
+        ${THEMIS_ROOT_DIR}/tests/adaptive/test_adaptive_flush_controller.cpp
+        ${THEMIS_ROOT_DIR}/src/timeseries/adaptive_flush_controller.cpp
+    )
+    target_link_libraries(test_adaptive_flush_controller
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_adaptive_flush_controller
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_adaptive_flush_controller>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+endif()
 
-add_executable(test_chunk_level_encryption
-    ${THEMIS_ROOT_DIR}/tests/chunk/test_chunk_level_encryption.cpp
-)
-target_link_libraries(test_chunk_level_encryption
-    PRIVATE themis_core GTest::gtest GTest::gtest_main
-)
-gtest_discover_tests(test_chunk_level_encryption
-    DISCOVERY_MODE PRE_TEST
-    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_chunk_level_encryption>
-    EXTRA_ARGS --gtest_color=yes
-    CONFIGURATIONS Release Debug
-    PROPERTIES LABELS "timeseries;encryption;security;integration" TIMEOUT 60
-)
+if(EXISTS "${THEMIS_ROOT_DIR}/tests/chunk/test_chunk_level_encryption.cpp")
+    add_executable(test_chunk_level_encryption
+        ${THEMIS_ROOT_DIR}/tests/chunk/test_chunk_level_encryption.cpp
+    )
+    target_link_libraries(test_chunk_level_encryption
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_chunk_level_encryption
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_chunk_level_encryption>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+        PROPERTIES LABELS "timeseries;encryption;security;integration" TIMEOUT 60
+    )
+endif()
 
 if(THEMIS_ENABLE_CUDA)
     add_executable(test_cuda_hnsw_graph_traversal
@@ -26712,33 +26769,37 @@ if(THEMIS_ENABLE_CUDA)
     )
 endif()
 
-add_executable(test_wasm_runtime_injector
-    ${THEMIS_ROOT_DIR}/tests/wasm/test_wasm_runtime_injector.cpp
-    ${THEMIS_ROOT_DIR}/src/plugins/wasm_plugin_loader.cpp
-)
-target_link_libraries(test_wasm_runtime_injector
-    PRIVATE themis_core GTest::gtest GTest::gtest_main
-)
-gtest_discover_tests(test_wasm_runtime_injector
-    DISCOVERY_MODE PRE_TEST
-    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_wasm_runtime_injector>
-    EXTRA_ARGS --gtest_color=yes
-    CONFIGURATIONS Release Debug
-)
+if(EXISTS "${THEMIS_ROOT_DIR}/tests/wasm/test_wasm_runtime_injector.cpp")
+    add_executable(test_wasm_runtime_injector
+        ${THEMIS_ROOT_DIR}/tests/wasm/test_wasm_runtime_injector.cpp
+        ${THEMIS_ROOT_DIR}/src/plugins/wasm_plugin_loader.cpp
+    )
+    target_link_libraries(test_wasm_runtime_injector
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_wasm_runtime_injector
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_wasm_runtime_injector>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+endif()
 
 # WASM Sandbox Injection focused tests (v1.8.0 – Issue #1572)
-add_executable(WasmSandboxInjectionFocusedTests
-    ${THEMIS_ROOT_DIR}/tests/module/test_module_sandbox_wasm_injection.cpp
-)
-target_link_libraries(WasmSandboxInjectionFocusedTests
-    PRIVATE themis_core GTest::gtest GTest::gtest_main
-)
-gtest_discover_tests(WasmSandboxInjectionFocusedTests
-    DISCOVERY_MODE PRE_TEST
-    WORKING_DIRECTORY $<TARGET_FILE_DIR:WasmSandboxInjectionFocusedTests>
-    EXTRA_ARGS --gtest_color=yes
-    CONFIGURATIONS Release Debug
-)
+if(EXISTS "${THEMIS_ROOT_DIR}/tests/module/test_module_sandbox_wasm_injection.cpp")
+    add_executable(WasmSandboxInjectionFocusedTests
+        ${THEMIS_ROOT_DIR}/tests/module/test_module_sandbox_wasm_injection.cpp
+    )
+    target_link_libraries(WasmSandboxInjectionFocusedTests
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(WasmSandboxInjectionFocusedTests
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:WasmSandboxInjectionFocusedTests>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+endif()
 
 if(THEMIS_ENABLE_VOICE_ASSISTANT)
     add_executable(test_voice_browser_streaming
@@ -26961,20 +27022,22 @@ gtest_discover_tests(test_workload_predictor
 )
 
 # Workload-Adaptive Optimizer tests (v1.9.0, Issue #230)
-add_executable(test_workload_adaptive_optimizer
-    ${THEMIS_ROOT_DIR}/tests/workload/test_workload_adaptive_optimizer.cpp
-)
-target_link_libraries(test_workload_adaptive_optimizer
-    PRIVATE
-        themis_core
-        GTest::gtest
-        GTest::gtest_main
-)
-gtest_discover_tests(test_workload_adaptive_optimizer
-    DISCOVERY_MODE PRE_TEST
-    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_workload_adaptive_optimizer>
-    EXTRA_ARGS --gtest_color=yes
-)
+if(EXISTS "${THEMIS_ROOT_DIR}/tests/workload/test_workload_adaptive_optimizer.cpp")
+    add_executable(test_workload_adaptive_optimizer
+        ${THEMIS_ROOT_DIR}/tests/workload/test_workload_adaptive_optimizer.cpp
+    )
+    target_link_libraries(test_workload_adaptive_optimizer
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_workload_adaptive_optimizer
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_workload_adaptive_optimizer>
+        EXTRA_ARGS --gtest_color=yes
+    )
+endif()
 
 # RaBitQ ProductQuantizer k-means tests
 if(THEMIS_ENABLE_RABITQ)
@@ -27045,36 +27108,40 @@ gtest_discover_tests(test_numa_topology
 )
 
 # Advanced Cache Manager tests (Issue #229 – v1.9.0 partitioned cache with bloom filters)
-add_executable(test_advanced_cache_manager
-    ${THEMIS_ROOT_DIR}/tests/advanced/test_advanced_cache_manager.cpp
-)
-target_link_libraries(test_advanced_cache_manager
-    PRIVATE
-        themis_core
-        GTest::gtest
-        GTest::gtest_main
-)
-gtest_discover_tests(test_advanced_cache_manager
-    DISCOVERY_MODE PRE_TEST
-    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_advanced_cache_manager>
-    EXTRA_ARGS --gtest_color=yes
-)
+if(EXISTS "${THEMIS_ROOT_DIR}/tests/advanced/test_advanced_cache_manager.cpp")
+    add_executable(test_advanced_cache_manager
+        ${THEMIS_ROOT_DIR}/tests/advanced/test_advanced_cache_manager.cpp
+    )
+    target_link_libraries(test_advanced_cache_manager
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_advanced_cache_manager
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_advanced_cache_manager>
+        EXTRA_ARGS --gtest_color=yes
+    )
+endif()
 
 # NUMA-aware memory manager tests (Issue #228 – v1.9.0)
-add_executable(test_numa_memory_manager
-    ${THEMIS_ROOT_DIR}/tests/numa/test_numa_memory_manager.cpp
-)
-target_link_libraries(test_numa_memory_manager
-    PRIVATE
-        themis_core
-        GTest::gtest
-        GTest::gtest_main
-)
-gtest_discover_tests(test_numa_memory_manager
-    DISCOVERY_MODE PRE_TEST
-    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_numa_memory_manager>
-    EXTRA_ARGS --gtest_color=yes
-)
+if(EXISTS "${THEMIS_ROOT_DIR}/tests/numa/test_numa_memory_manager.cpp")
+    add_executable(test_numa_memory_manager
+        ${THEMIS_ROOT_DIR}/tests/numa/test_numa_memory_manager.cpp
+    )
+    target_link_libraries(test_numa_memory_manager
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(test_numa_memory_manager
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_numa_memory_manager>
+        EXTRA_ARGS --gtest_color=yes
+    )
+endif()
 
 # RAG Time-To-First-Token (TTFT) benchmark tests
 # Validates TTFT SLO (p99 ≤ 200 ms) for classical-RAG and streaming paths.
@@ -27307,78 +27374,88 @@ endif()
 # =========================================================================
 # S-2 / IMPL-A1: DatabaseDomainAutoLabeler tests
 # =========================================================================
-add_executable(test_database_domain_auto_labeler
-    ${THEMIS_ROOT_DIR}/tests/database/test_database_domain_auto_labeler.cpp
-    ${THEMIS_ROOT_DIR}/src/training/database_domain_auto_labeler.cpp
-)
-target_link_libraries(test_database_domain_auto_labeler
-    PRIVATE themis_core GTest::gtest GTest::gtest_main
-)
-gtest_discover_tests(test_database_domain_auto_labeler
-    DISCOVERY_MODE PRE_TEST
-    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_database_domain_auto_labeler>
-    EXTRA_ARGS --gtest_color=yes
-)
+if(EXISTS "${THEMIS_ROOT_DIR}/tests/database/test_database_domain_auto_labeler.cpp")
+    add_executable(test_database_domain_auto_labeler
+        ${THEMIS_ROOT_DIR}/tests/database/test_database_domain_auto_labeler.cpp
+        ${THEMIS_ROOT_DIR}/src/training/database_domain_auto_labeler.cpp
+    )
+    target_link_libraries(test_database_domain_auto_labeler
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_database_domain_auto_labeler
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_database_domain_auto_labeler>
+        EXTRA_ARGS --gtest_color=yes
+    )
+endif()
 
 # =========================================================================
 # S-3 / IMPL-A2: ContinuousLearningOrchestrator tests (Loops 1–4 + Fed)
 # =========================================================================
-add_executable(test_continuous_learning_orchestrator
-    ${THEMIS_ROOT_DIR}/tests/continuous/test_continuous_learning_orchestrator.cpp
-)
-target_link_libraries(test_continuous_learning_orchestrator
-    PRIVATE themis_core GTest::gtest GTest::gtest_main
-)
-gtest_discover_tests(test_continuous_learning_orchestrator
-    DISCOVERY_MODE PRE_TEST
-    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_continuous_learning_orchestrator>
-    EXTRA_ARGS --gtest_color=yes
-)
+if(EXISTS "${THEMIS_ROOT_DIR}/tests/continuous/test_continuous_learning_orchestrator.cpp")
+    add_executable(test_continuous_learning_orchestrator
+        ${THEMIS_ROOT_DIR}/tests/continuous/test_continuous_learning_orchestrator.cpp
+    )
+    target_link_libraries(test_continuous_learning_orchestrator
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_continuous_learning_orchestrator
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_continuous_learning_orchestrator>
+        EXTRA_ARGS --gtest_color=yes
+    )
+endif()
 
 # =========================================================================
 # S-4 / IMPL-A3: IncrementalLoRATrainer federation hooks tests
 # =========================================================================
-add_executable(test_incremental_lora_trainer
-    ${THEMIS_ROOT_DIR}/tests/incremental/test_incremental_lora_trainer.cpp
-)
-target_link_libraries(test_incremental_lora_trainer
-    PRIVATE themis_core GTest::gtest GTest::gtest_main
-)
-gtest_discover_tests(test_incremental_lora_trainer
-    DISCOVERY_MODE PRE_TEST
-    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_incremental_lora_trainer>
-    EXTRA_ARGS --gtest_color=yes
-)
+if(EXISTS "${THEMIS_ROOT_DIR}/tests/incremental/test_incremental_lora_trainer.cpp")
+    add_executable(test_incremental_lora_trainer
+        ${THEMIS_ROOT_DIR}/tests/incremental/test_incremental_lora_trainer.cpp
+    )
+    target_link_libraries(test_incremental_lora_trainer
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_incremental_lora_trainer
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_incremental_lora_trainer>
+        EXTRA_ARGS --gtest_color=yes
+    )
+endif()
 
 # =========================================================================
 # S-5 / DK-2: GossipProtocol custom handler tests
 # =========================================================================
-add_executable(test_gossip_custom_handler
-    ${THEMIS_ROOT_DIR}/tests/gossip/test_gossip_custom_handler.cpp
-)
-target_link_libraries(test_gossip_custom_handler
-    PRIVATE themis_core GTest::gtest GTest::gtest_main
-)
-gtest_discover_tests(test_gossip_custom_handler
-    DISCOVERY_MODE PRE_TEST
-    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_gossip_custom_handler>
-    EXTRA_ARGS --gtest_color=yes
-)
+if(EXISTS "${THEMIS_ROOT_DIR}/tests/gossip/test_gossip_custom_handler.cpp")
+    add_executable(test_gossip_custom_handler
+        ${THEMIS_ROOT_DIR}/tests/gossip/test_gossip_custom_handler.cpp
+    )
+    target_link_libraries(test_gossip_custom_handler
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_gossip_custom_handler
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_gossip_custom_handler>
+        EXTRA_ARGS --gtest_color=yes
+    )
+endif()
 
 # =========================================================================
 # S-5 / DK-2: AdaptiveShardRouter domain routing tests
 # =========================================================================
-add_executable(test_adaptive_shard_router
-    ${THEMIS_ROOT_DIR}/tests/adaptive/test_adaptive_shard_router.cpp
-)
-target_link_libraries(test_adaptive_shard_router
-    PRIVATE themis_core GTest::gtest GTest::gtest_main
-)
-gtest_discover_tests(test_adaptive_shard_router
-    DISCOVERY_MODE PRE_TEST
-    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_adaptive_shard_router>
-    EXTRA_ARGS --gtest_color=yes
-)
+if(EXISTS "${THEMIS_ROOT_DIR}/tests/adaptive/test_adaptive_shard_router.cpp")
+    add_executable(test_adaptive_shard_router
+        ${THEMIS_ROOT_DIR}/tests/adaptive/test_adaptive_shard_router.cpp
+    )
+    target_link_libraries(test_adaptive_shard_router
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_adaptive_shard_router
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_adaptive_shard_router>
+        EXTRA_ARGS --gtest_color=yes
+    )
+endif()
 
 # =========================================================================
 # S-6 / IMPL-B5: TransactionSemanticAdvisor tests
@@ -27399,66 +27476,74 @@ gtest_discover_tests(test_transaction_semantic_advisor
 # =========================================================================
 # S-6 / IMPL-B6: SchemaDeadWeightDetector tests
 # =========================================================================
-add_executable(test_schema_dead_weight_detector
-    ${THEMIS_ROOT_DIR}/tests/schema/test_schema_dead_weight_detector.cpp
-    ${THEMIS_ROOT_DIR}/src/storage/schema_dead_weight_detector.cpp
-)
-target_link_libraries(test_schema_dead_weight_detector
-    PRIVATE themis_core GTest::gtest GTest::gtest_main
-)
-gtest_discover_tests(test_schema_dead_weight_detector
-    DISCOVERY_MODE PRE_TEST
-    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_schema_dead_weight_detector>
-    EXTRA_ARGS --gtest_color=yes
-)
+if(EXISTS "${THEMIS_ROOT_DIR}/tests/schema/test_schema_dead_weight_detector.cpp")
+    add_executable(test_schema_dead_weight_detector
+        ${THEMIS_ROOT_DIR}/tests/schema/test_schema_dead_weight_detector.cpp
+        ${THEMIS_ROOT_DIR}/src/storage/schema_dead_weight_detector.cpp
+    )
+    target_link_libraries(test_schema_dead_weight_detector
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_schema_dead_weight_detector
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_schema_dead_weight_detector>
+        EXTRA_ARGS --gtest_color=yes
+    )
+endif()
 
 # =========================================================================
 # S-7 / IMPL-B7: IntentClassifier tests
 # =========================================================================
-add_executable(test_intent_classifier
-    ${THEMIS_ROOT_DIR}/tests/intent/test_intent_classifier.cpp
-    ${THEMIS_ROOT_DIR}/src/security/intent_classifier.cpp
-)
-target_link_libraries(test_intent_classifier
-    PRIVATE themis_core GTest::gtest GTest::gtest_main
-)
-gtest_discover_tests(test_intent_classifier
-    DISCOVERY_MODE PRE_TEST
-    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_intent_classifier>
-    EXTRA_ARGS --gtest_color=yes
-)
+if(EXISTS "${THEMIS_ROOT_DIR}/tests/intent/test_intent_classifier.cpp")
+    add_executable(test_intent_classifier
+        ${THEMIS_ROOT_DIR}/tests/intent/test_intent_classifier.cpp
+        ${THEMIS_ROOT_DIR}/src/security/intent_classifier.cpp
+    )
+    target_link_libraries(test_intent_classifier
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_intent_classifier
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_intent_classifier>
+        EXTRA_ARGS --gtest_color=yes
+    )
+endif()
 
 # =========================================================================
 # S-7 / IMPL-B8: WorkloadFingerprintEngine tests
 # =========================================================================
-add_executable(test_workload_fingerprint_engine
-    ${THEMIS_ROOT_DIR}/tests/workload/test_workload_fingerprint_engine.cpp
-    ${THEMIS_ROOT_DIR}/src/server/workload_fingerprint_engine.cpp
-)
-target_link_libraries(test_workload_fingerprint_engine
-    PRIVATE themis_core GTest::gtest GTest::gtest_main
-)
-gtest_discover_tests(test_workload_fingerprint_engine
-    DISCOVERY_MODE PRE_TEST
-    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_workload_fingerprint_engine>
-    EXTRA_ARGS --gtest_color=yes
-)
+if(EXISTS "${THEMIS_ROOT_DIR}/tests/workload/test_workload_fingerprint_engine.cpp")
+    add_executable(test_workload_fingerprint_engine
+        ${THEMIS_ROOT_DIR}/tests/workload/test_workload_fingerprint_engine.cpp
+        ${THEMIS_ROOT_DIR}/src/server/workload_fingerprint_engine.cpp
+    )
+    target_link_libraries(test_workload_fingerprint_engine
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_workload_fingerprint_engine
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_workload_fingerprint_engine>
+        EXTRA_ARGS --gtest_color=yes
+    )
+endif()
 
 # =========================================================================
 # S-8 / IMPL-B9: ExplainabilityReasonBuilder tests
 # =========================================================================
-add_executable(test_explainability_reason_builder
-    ${THEMIS_ROOT_DIR}/tests/explainability/test_explainability_reason_builder.cpp
-    ${THEMIS_ROOT_DIR}/src/rag/explainability_reason_builder.cpp
-)
-target_link_libraries(test_explainability_reason_builder
-    PRIVATE themis_core GTest::gtest GTest::gtest_main
-)
-gtest_discover_tests(test_explainability_reason_builder
-    DISCOVERY_MODE PRE_TEST
-    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_explainability_reason_builder>
-    EXTRA_ARGS --gtest_color=yes
-)
+if(EXISTS "${THEMIS_ROOT_DIR}/tests/explainability/test_explainability_reason_builder.cpp")
+    add_executable(test_explainability_reason_builder
+        ${THEMIS_ROOT_DIR}/tests/explainability/test_explainability_reason_builder.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/explainability_reason_builder.cpp
+    )
+    target_link_libraries(test_explainability_reason_builder
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_explainability_reason_builder
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_explainability_reason_builder>
+        EXTRA_ARGS --gtest_color=yes
+    )
+endif()
 
 # =========================================================================
 # S-8 / IMPL-B10: StorageLayoutAdvisor tests
@@ -27486,17 +27571,19 @@ gtest_discover_tests(test_storage_layout_advisor
 # =========================================================================
 # DK-1: Distributed Knowledge Layer 11 unit tests (25+ cases)
 # =========================================================================
-add_executable(test_distributed_knowledge
-    ${THEMIS_ROOT_DIR}/tests/distributed/test_distributed_knowledge.cpp
-)
-target_link_libraries(test_distributed_knowledge
-    PRIVATE themis_core GTest::gtest GTest::gtest_main
-)
-gtest_discover_tests(test_distributed_knowledge
-    DISCOVERY_MODE PRE_TEST
-    WORKING_DIRECTORY $<TARGET_FILE_DIR:test_distributed_knowledge>
-    EXTRA_ARGS --gtest_color=yes
-)
+if(EXISTS "${THEMIS_ROOT_DIR}/tests/distributed/test_distributed_knowledge.cpp")
+    add_executable(test_distributed_knowledge
+        ${THEMIS_ROOT_DIR}/tests/distributed/test_distributed_knowledge.cpp
+    )
+    target_link_libraries(test_distributed_knowledge
+        PRIVATE themis_core GTest::gtest GTest::gtest_main
+    )
+    gtest_discover_tests(test_distributed_knowledge
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_distributed_knowledge>
+        EXTRA_ARGS --gtest_color=yes
+    )
+endif()
 
 # =========================================================================
 # CHIMERA adapter focused tests (Target: Q3 2026, ROADMAP Phase 4)
@@ -27510,8 +27597,8 @@ if(THEMIS_BUILD_CHIMERA)
     )
     target_include_directories(ThemisDBAdapterFocusedTests
         PRIVATE
-            ${CMAKE_SOURCE_DIR}/include
-            ${CMAKE_SOURCE_DIR}/external/chimera/include
+            ${THEMIS_ROOT_DIR}/include
+            ${THEMIS_ROOT_DIR}/external/chimera/include
     )
     target_link_libraries(ThemisDBAdapterFocusedTests
         PRIVATE themis_core GTest::gtest GTest::gtest_main
@@ -27529,8 +27616,8 @@ if(THEMIS_BUILD_CHIMERA)
     )
     target_include_directories(ChimeraStreamingFocusedTests
         PRIVATE
-            ${CMAKE_SOURCE_DIR}/include
-            ${CMAKE_SOURCE_DIR}/external/chimera/include
+            ${THEMIS_ROOT_DIR}/include
+            ${THEMIS_ROOT_DIR}/external/chimera/include
     )
     target_link_libraries(ChimeraStreamingFocusedTests
         PRIVATE themis_core GTest::gtest GTest::gtest_main
@@ -27548,8 +27635,8 @@ if(THEMIS_BUILD_CHIMERA)
     )
     target_include_directories(ChimeraPreparedStatementFocusedTests
         PRIVATE
-            ${CMAKE_SOURCE_DIR}/include
-            ${CMAKE_SOURCE_DIR}/external/chimera/include
+            ${THEMIS_ROOT_DIR}/include
+            ${THEMIS_ROOT_DIR}/external/chimera/include
     )
     target_link_libraries(ChimeraPreparedStatementFocusedTests
         PRIVATE themis_core GTest::gtest GTest::gtest_main
@@ -27575,7 +27662,7 @@ endif() # THEMIS_BUILD_CHIMERA
 get_directory_property(_focused_test_targets BUILDSYSTEM_TARGETS)
 set(_logger_src_variants
     "${THEMIS_ROOT_DIR}/src/utils/logger.cpp"
-    "${CMAKE_SOURCE_DIR}/src/utils/logger.cpp"
+    "${THEMIS_ROOT_DIR}/src/utils/logger.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/../src/utils/logger.cpp"
     "../src/utils/logger.cpp"
 )
@@ -27998,8 +28085,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_g003_error_handling_thread_safety.cp
     )
 
     target_include_directories(test_g003_error_handling_thread_safety_focused PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
     )
 
     target_link_libraries(test_g003_error_handling_thread_safety_focused PRIVATE
@@ -28012,36 +28099,16 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_g003_error_handling_thread_safety.cp
         THEMIS_TEST_BUILD=1
     )
 
+    # DISCOVERY_MODE POST_BUILD ensures tests are registered at build time so that
+    # PROPERTIES can be applied correctly.  PRE_TEST defers discovery to run time,
+    # which breaks set_tests_properties at configure time (pre-existing issue fixed here).
     gtest_discover_tests(test_g003_error_handling_thread_safety_focused
-        DISCOVERY_MODE PRE_TEST
+        DISCOVERY_MODE POST_BUILD
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_g003_error_handling_thread_safety_focused>
         EXTRA_ARGS --gtest_color=yes
-    )
-
-    set_tests_properties(
-        G003_ExceptionHandlingSafety.EHS01_CatchAllLogsBeforeContinuing
-        G003_ExceptionHandlingSafety.EHS02_ParseCatchAllReturnsSafeDefault
-        G003_ExceptionHandlingSafety.EHS03_RaiiReleasesMutexOnException
-        G003_ExceptionHandlingSafety.EHS04_ThreadBoundaryException
-        G003_ExceptionHandlingSafety.EHS05_TransactionRollbackOnException
-        G003_ExceptionHandlingSafety.EHS06_NestedExceptionContext
-        G003_ExceptionHandlingSafety.EHS07_NoexceptCatchAllSafeFallback
-        G003_ExceptionHandlingSafety.EHS08_MultiHandlerDispatchResilient
-        G003_ThreadSafety.TSF01_MutexProtectsSharedCounter
-        G003_ThreadSafety.TSF02_ConsistentLockOrderingPreventsDeadlock
-        G003_ThreadSafety.TSF03_AtomicIncrementUnderContention
-        G003_ThreadSafety.TSF04_SharedMutexReaderWriterPattern
-        G003_ThreadSafety.TSF05_RaiiLockGuardReleasesOnException
-        G003_ThreadSafety.TSF06_ConditionVariableWithPredicate
-        G003_ThreadSafety.TSF07_CheckThenActUnderLockPreventsDoubleCompute
-        G003_ThreadSafety.TSF08_ExceptionSafeLockedScope
-        G003_ReturnValueChecks.RVC01_OptionalReturnCheckedBeforeUse
-        G003_ReturnValueChecks.RVC02_BooleanReturnCodeChecked
-        G003_ReturnValueChecks.RVC03_NullPointerGuardBeforeDereference
-        G003_ReturnValueChecks.RVC04_ErrorPropagationChain
         PROPERTIES
-        LABELS "error_handling;thread_safety;g003;reliability;release_critical"
-        TIMEOUT 60
+            LABELS "error_handling;thread_safety;g003;reliability;release_critical"
+            TIMEOUT 60
     )
 
     message(STATUS "  G003: EHS-01..08 (exception safety), TSF-01..08 (thread safety), RVC-01..04 (return value checks)")

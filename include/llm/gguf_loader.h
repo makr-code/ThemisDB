@@ -104,7 +104,7 @@ class GGUFLoader {
 public:
     GGUFLoader();
     explicit GGUFLoader(RocksDBWrapper* db);
-    ~GGUFLoader();
+    ~GGUFLoader() noexcept;
 
     // Parse GGUF file header and metadata.
     // Returns false and sets getLastError() on failure (including unsupported
@@ -171,6 +171,11 @@ private:
     bool parseHeader();
     bool parseMetadataKV();
     bool parseTensorInfo();
+    
+    // RAII resource cleanup — safe to call multiple times (idempotent).
+    // Used by destructor and at the top of parseFile() to prevent fd/mmap
+    // leaks when parseFile() is called more than once on the same object.
+    void releaseResources() noexcept;
     
     // Type size helpers
     size_t getDtypeSize(const std::string& dtype) const;

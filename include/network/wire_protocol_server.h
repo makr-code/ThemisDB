@@ -37,8 +37,10 @@
 #include <vector>
 #include <deque>
 #include <atomic>
+#include <chrono>
 #include <mutex>
 #include <functional>
+#include <optional>
 #include <unordered_map>
 #include <nlohmann/json.hpp>
 
@@ -109,6 +111,141 @@ using GeoQueryFn = std::function<nlohmann::json(
  * @param fn  Callable to handle GEO_QUERY messages, or nullptr to clear.
  */
 void setNetworkGeoQueryFn(GeoQueryFn fn);
+
+// ============================================================================
+// Retry policy + idempotency cache (P5-S01)
+// ============================================================================
+
+/**
+ * @brief Exponential back-off retry policy for transient wire-protocol faults.
+ *
+ * Delay formula (all values in milliseconds):
+ * @code
+ *   delay(n) = min( base_delay_ms * 2^n + uniform(0, jitter_ms), max_delay_ms )
+ * @endcode
+ *
+ * Retryable error codes (POSIX):
+ *  - ECONNRESET  — connection reset by peer
+ *  - ETIMEDOUT   — operation timed out
+ *  - EAGAIN / EWOULDBLOCK — transient resource unavailability
+ *
+ * The policy object is value-copyable and thread-safe for read access;
+ * @c computeDelay() uses a thread-local PRNG so no external synchronisation
+ * is required.
+ */
+struct RetryPolicy {
+    /// Maximum number of retry attempts (0 = no retries; first attempt is not counted).
+    uint32_t max_retries   = 3;
+    /// Base delay before the first retry, in milliseconds.
+    uint32_t base_delay_ms = 100;
+    /// Upper bound on random jitter added to each back-off delay, in milliseconds.
+    uint32_t jitter_ms     = 50;
+    /// Absolute cap on any single back-off delay, in milliseconds.
+    uint32_t max_delay_ms  = 2000;
+
+    /**
+     * @brief Compute the back-off delay for the given zero-indexed attempt.
+     *
+     * Uses @c std::chrono::steady_clock epoch (cast to nanoseconds) as the
+     * random seed when the thread-local PRNG is first accessed so that the
+     * jitter is not deterministic across processes.  The function never
+     * sleeps; callers are responsible for applying the returned duration
+     * (e.g. via @c std::this_thread::sleep_for).
+     *
+     * @param attempt  Zero-based index: 0 = delay before the 1st retry,
+     *                 1 = before the 2nd, and so on.
+     * @return         Back-off duration capped at @c max_delay_ms.
+     */
+    [[nodiscard]] std::chrono::milliseconds computeDelay(uint32_t attempt) const noexcept;
+
+    /**
+     * @brief Return @c true when @p error_code represents a transient error.
+     *
+     * Recognised codes: @c ECONNRESET, @c ETIMEDOUT, @c EAGAIN, @c EWOULDBLOCK.
+     *
+     * @param error_code  POSIX errno value.
+     */
+    [[nodiscard]] static bool isTransient(int error_code) noexcept;
+};
+
+/**
+ * @brief Per-session idempotency window for deduplicating retried requests.
+ *
+ * Each request is assigned a unique @c request_id (typically a combination of
+ * session-id and a per-session monotonic sequence number).  The cache stores
+ * the serialised result of the first successful execution; subsequent
+ * submissions of the same id within the window return the cached result
+ * without re-executing the handler (first-write-wins semantics).
+ *
+ * Oldest entries are evicted in insertion order once the window is full.
+ * A @p window_size of zero disables retention entirely so retry deduplication
+ * fails safe instead of growing unbounded state.
+ *
+ * All methods are thread-safe.
+ */
+class IdempotencyCache {
+public:
+    /// An entry in the idempotency cache.
+    struct Entry {
+        std::string                           result;     ///< Serialised response.
+        std::chrono::steady_clock::time_point created_at; ///< Insertion timestamp.
+    };
+
+    /**
+     * @param window_size Maximum number of distinct request IDs retained.
+     *                    Oldest entries are evicted when the window is full.
+     *                    A value of zero disables retention. Defaults to 256.
+     */
+    explicit IdempotencyCache(size_t window_size = 256) noexcept
+        : window_size_(window_size) {}
+
+    /**
+         * @brief Retrieve a cached result using legacy pointer semantics.
+     * @param request_id  Unique request identifier.
+         * @return Pointer to a thread-local snapshot of the cached @c Entry, or
+         *         @c nullptr on a cache miss.
+         *
+         * The returned pointer remains valid until the next successful
+         * same-thread @c lookup() for the same cache/request-id pair, even if the
+         * underlying cache is mutated or cleared by another thread after the call
+         * returns.
+         */
+        const Entry* lookup(const std::string& request_id) const;
+
+        /**
+         * @brief Retrieve a cached result snapshot by value.
+         * @param request_id  Unique request identifier.
+         * @return Copy of the cached @c Entry, or @c std::nullopt on a cache miss.
+         *
+         * The returned snapshot remains valid even if the cache is mutated or
+         * cleared by another thread after the call returns.
+         */
+        [[nodiscard]] std::optional<Entry> lookupSnapshot(const std::string& request_id) const;
+
+    /**
+     * @brief Insert a result into the cache.
+     *
+     * If an entry for @p request_id already exists it is left unchanged
+     * (first-write-wins).  When the cache is full, the oldest entry is
+     * evicted before inserting the new one.
+     *
+     * @param request_id  Unique request identifier.
+     * @param result      Serialised response to cache.
+     */
+    void store(const std::string& request_id, std::string result);
+
+    /// Remove all cached entries.
+    void clear();
+
+    /// @return Current number of entries in the cache.
+    [[nodiscard]] size_t size() const;
+
+private:
+    mutable std::mutex                     mutex_;
+    size_t                                 window_size_;
+    std::unordered_map<std::string, Entry> cache_;
+    std::deque<std::string>                insertion_order_;
+};
 
 /**
  * @brief Wire Protocol Server - Binary TCP Protocol

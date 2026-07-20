@@ -28,6 +28,24 @@
 #include <thread>
 
 namespace themis {
+namespace {
+
+size_t saturatingMultiply(size_t a, size_t b) {
+    if (a == 0 || b == 0) {
+        return 0;
+    }
+    if (a > (std::numeric_limits<size_t>::max() / b)) {
+        return std::numeric_limits<size_t>::max();
+    }
+    return a * b;
+}
+
+double clampUnitInterval(double value, double fallback = 0.0) {
+    const double candidate = std::isfinite(value) ? value : fallback;
+    return std::clamp(candidate, 0.0, 1.0);
+}
+
+} // namespace
 
 // =============================
 // OptimizerCostModel Implementation
@@ -67,7 +85,7 @@ double OptimizerCostModel::estimateCardinality(size_t baseRows, double selectivi
 
 // Check if external sort is needed
 bool OptimizerCostModel::needsExternalSort(size_t rowCount, size_t rowSize) const {
-    size_t totalSize = rowCount * rowSize;
+    size_t totalSize = saturatingMultiply(rowCount, rowSize);
     // External sort needed if data size exceeds threshold of available memory
     size_t memoryThreshold = static_cast<size_t>(
         constants_.availableMemory * constants_.memoryThresholdRatio
@@ -332,7 +350,7 @@ OptimizerCostModel::SortCost OptimizerCostModel::estimateSort(
         cost.ioCost = 0.0;
         
         // Memory cost: need to hold all data in memory
-        size_t totalSize = rowCount * rowSize;
+        size_t totalSize = saturatingMultiply(rowCount, rowSize);
         cost.memoryCost = calculateMemoryCost(totalSize);
     }
     
@@ -355,10 +373,17 @@ OptimizerCostModel::NetworkCost OptimizerCostModel::estimateNetworkTransfer(
     
     // Transfer cost: data size / bandwidth (convert to milliseconds)
     double dataSizeMB = static_cast<double>(dataSize) / (1024.0 * 1024.0);
-    cost.transferCost = (dataSizeMB / constants_.networkBandwidth) * 1000.0;
+    const double safeBandwidth = (std::isfinite(constants_.networkBandwidth) &&
+                                  constants_.networkBandwidth > 0.0)
+                                     ? constants_.networkBandwidth
+                                     : 1.0;
+    cost.transferCost = (dataSizeMB / safeBandwidth) * 1000.0;
     
     // Latency cost: number of network hops
-    cost.latencyCost = static_cast<double>(cost.numHops) * constants_.networkLatency;
+    const double safeLatency = std::isfinite(constants_.networkLatency)
+                                   ? std::max(constants_.networkLatency, 0.0)
+                                   : 0.0;
+    cost.latencyCost = static_cast<double>(cost.numHops) * safeLatency;
     
     cost.totalCost = cost.transferCost + cost.latencyCost;
     
@@ -384,7 +409,8 @@ double OptimizerCostModel::estimateSelectivity(
     double selectivity = 1.0 / static_cast<double>(columnStats.distinctValues);
     
     // Adjust for null fraction
-    selectivity *= (1.0 - columnStats.nullFraction);
+    const double nullFraction = clampUnitInterval(columnStats.nullFraction);
+    selectivity *= (1.0 - nullFraction);
     
     // Clamp between reasonable bounds
     return std::max(0.001, std::min(1.0, selectivity));
@@ -406,7 +432,9 @@ double OptimizerCostModel::estimateJoinSelectivity(
     double selectivity = 1.0 / static_cast<double>(maxDistinct);
     
     // Adjust for null fractions (nulls don't match)
-    double nonNullFraction = (1.0 - leftCol.nullFraction) * (1.0 - rightCol.nullFraction);
+    const double leftNull = clampUnitInterval(leftCol.nullFraction);
+    const double rightNull = clampUnitInterval(rightCol.nullFraction);
+    double nonNullFraction = (1.0 - leftNull) * (1.0 - rightNull);
     selectivity *= nonNullFraction;
     
     return std::max(0.0001, std::min(1.0, selectivity));
@@ -426,32 +454,35 @@ void OptimizerCostModel::calibrateCosts(
 }
 
 void OptimizerCostModel::updateConstant(const std::string& name, double value) {
+    if (!std::isfinite(value)) {
+        return;
+    }
     if (name == "cpuCostPerRow") {
-        constants_.cpuCostPerRow = value;
+        constants_.cpuCostPerRow = std::max(value, 0.0);
     } else if (name == "cpuCostPerPredicate") {
-        constants_.cpuCostPerPredicate = value;
+        constants_.cpuCostPerPredicate = std::max(value, 0.0);
     } else if (name == "cpuCostPerHash") {
-        constants_.cpuCostPerHash = value;
+        constants_.cpuCostPerHash = std::max(value, 0.0);
     } else if (name == "cpuCostPerSort") {
-        constants_.cpuCostPerSort = value;
+        constants_.cpuCostPerSort = std::max(value, 0.0);
     } else if (name == "pageReadCost") {
-        constants_.pageReadCost = value;
+        constants_.pageReadCost = std::max(value, 0.0);
     } else if (name == "randomPageReadCost") {
-        constants_.randomPageReadCost = value;
+        constants_.randomPageReadCost = std::max(value, 0.0);
     } else if (name == "pageWriteCost") {
-        constants_.pageWriteCost = value;
+        constants_.pageWriteCost = std::max(value, 0.0);
     } else if (name == "networkBandwidth") {
-        constants_.networkBandwidth = value;
+        constants_.networkBandwidth = std::max(value, 1e-9);
     } else if (name == "networkLatency") {
-        constants_.networkLatency = value;
+        constants_.networkLatency = std::max(value, 0.0);
     } else if (name == "gpu_row_threshold_low") {
         constants_.gpu_row_threshold_low = static_cast<size_t>(std::max(value, 0.0));
     } else if (name == "gpu_row_threshold_high") {
         constants_.gpu_row_threshold_high = static_cast<size_t>(std::max(value, 0.0));
     } else if (name == "vram_safety_factor") {
-        constants_.vram_safety_factor = value;
+        constants_.vram_safety_factor = std::max(value, 0.1);
     } else if (name == "cpu_batch_thread_low") {
-        constants_.cpu_batch_thread_low = static_cast<size_t>(std::max(value, 0.0));
+        constants_.cpu_batch_thread_low = static_cast<size_t>(std::max(value, 1.0));
     } else if (name == "cpu_batch_thread_high") {
         constants_.cpu_batch_thread_high = static_cast<size_t>(std::max(value, 0.0));
     } else if (name == "msgpack_row_threshold") {
@@ -477,7 +508,9 @@ OptimizerCostModel::adviseSerializationStrategy(
     SerializationAdvice advice;
 
     // Effective CPU thread count for batch paths
-    const size_t hw_threads = std::thread::hardware_concurrency();
+    const size_t hw_threads_raw = static_cast<size_t>(std::thread::hardware_concurrency());
+    const size_t hw_threads = std::max<size_t>(hw_threads_raw, 1);
+    const size_t threads_low = std::max<size_t>(constants_.cpu_batch_thread_low, 1);
     const size_t threads_high = (constants_.cpu_batch_thread_high > 0)
                                     ? constants_.cpu_batch_thread_high
                                     : hw_threads;
@@ -489,7 +522,7 @@ OptimizerCostModel::adviseSerializationStrategy(
         advice.wire_format              = Format::SF_BINARY_CUSTOM;
         advice.exec_path                = ExecutionPath::CPU_THREADED_BATCH;
         advice.recommended_batch_size   = 256;
-        advice.recommended_thread_count = constants_.cpu_batch_thread_low;
+        advice.recommended_thread_count = threads_low;
         advice.use_vram_pinned_memory   = false;
         advice.rationale                = "CDC_STREAM → BINARY_CUSTOM/CPU_THREADED_BATCH";
         return advice;
@@ -500,7 +533,7 @@ OptimizerCostModel::adviseSerializationStrategy(
         advice.wire_format              = Format::SF_PROTOBUF_WIRE;
         advice.exec_path                = ExecutionPath::CPU_THREADED_BATCH;
         advice.recommended_batch_size   = 512;
-        advice.recommended_thread_count = constants_.cpu_batch_thread_low;
+        advice.recommended_thread_count = threads_low;
         advice.use_vram_pinned_memory   = false;
         advice.rationale                = "CACHE_REPL → PROTOBUF/CPU_THREADED_BATCH";
         return advice;

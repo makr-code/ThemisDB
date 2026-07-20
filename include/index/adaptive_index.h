@@ -100,7 +100,8 @@ public:
     void clear();
     
     /**
-     * @brief Get total number of tracked patterns
+     * @brief Get total number of tracked patterns.
+     * @return Number of distinct query patterns currently tracked.
      */
     size_t size() const;
 

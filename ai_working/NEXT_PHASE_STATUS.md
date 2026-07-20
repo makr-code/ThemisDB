@@ -17,6 +17,26 @@
 | **Baseline Measurements** | 🔵 Pending | Wave 7 re-run, memory profiling setup (Mon-Wed) |
 | **First Code Commit** | 🔵 Target | Infrastructure + test stubs by Fri 2026-07-26 |
 
+### Kickoff Automation (2026-07-20)
+
+- ✅ Added executable kickoff runner: `/home/runner/work/ThemisDB/ThemisDB/scripts/next_phase_kickoff.py`
+- ✅ Runner writes timestamped baseline artifacts under `/home/runner/work/ThemisDB/ThemisDB/ai_working`
+- ✅ Runner enforces go/no-go on:
+  - mandatory kickoff artifacts
+  - Wave-7 hard gates (when benchmark json input is provided)
+  - baseline input presence (query latency / llm memory / server fault profile)
+
+**Usage**
+
+```bash
+python3 /home/runner/work/ThemisDB/ThemisDB/scripts/next_phase_kickoff.py \
+  --wave7-json /absolute/path/to/w7a.json \
+  --wave7-json /absolute/path/to/w7d.json \
+  --query-latency-baseline /absolute/path/to/query_latency.json \
+  --llm-memory-baseline /absolute/path/to/llm_massif.txt \
+  --server-fault-baseline /absolute/path/to/server_fault_report.json
+```
+
 ---
 
 ## Phase 3: Graph Module Optimization (Team A+B)

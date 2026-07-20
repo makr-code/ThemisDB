@@ -84,19 +84,41 @@ public:
     // Index lifecycle
     // -----------------------------------------------------------------------
 
-    /** Create (or overwrite) the index metadata for table/column. */
+    /**
+     * @brief Create (or overwrite) the index metadata for table/column.
+     * @return Status indicating success or failure.
+     */
     Status create(std::string_view table, std::string_view column);
+
+    /**
+     * @brief Create (or overwrite) the index metadata with custom configuration.
+     * @param table Table name.
+     * @param column Column name.
+     * @param config Configuration settings for the index.
+     * @return Status indicating success or failure.
+     */
     Status create(std::string_view table, std::string_view column,
                   Config config);
 
-    /** Remove the index metadata key (posting data is NOT purged here).
-     *  Call deindex() for each document before dropping to avoid orphaned keys. */
+    /**
+     * @brief Remove the index metadata key.
+     *
+     * Posting data is NOT purged here. Call deindex() for each document
+     * before dropping to avoid orphaned keys.
+     * @return Status indicating success or failure.
+     */
     Status drop(std::string_view table, std::string_view column);
 
-    /** Return true if the index metadata key exists. */
+    /**
+     * @brief Check if the index metadata key exists.
+     * @return True if the index exists, false otherwise.
+     */
     bool exists(std::string_view table, std::string_view column) const;
 
-    /** Retrieve the stored Config, or nullopt if the index does not exist. */
+    /**
+     * @brief Retrieve the stored configuration for the index.
+     * @return Configuration if the index exists, nullopt if the index does not exist.
+     */
     std::optional<Config> getConfig(std::string_view table,
                                     std::string_view column) const;
 
@@ -138,6 +160,7 @@ public:
      *
      * All query tokens must appear in a document for it to be returned
      * (AND semantics).  Results are sorted by descending BM25 score.
+     * @return Pair containing Status and vector of search results sorted by score.
      */
     std::pair<Status, std::vector<SearchResult>> search(
         std::string_view table, std::string_view column,
@@ -148,6 +171,7 @@ public:
      *
      * Candidates must contain all phrase tokens (AND), then the original
      * field text is checked for the verbatim lowercased phrase substring.
+     * @return Pair containing Status and vector of phrase search results.
      */
     std::pair<Status, std::vector<SearchResult>> searchPhrase(
         std::string_view table, std::string_view column,
@@ -156,7 +180,12 @@ public:
     /**
      * @brief Fuzzy search using Levenshtein edit distance.
      *
-     * @p maxDistance  Maximum edit distance (0 = exact, default 2).
+     * @param table Table name.
+     * @param column Column name.
+     * @param query Query text.
+     * @param maxDistance Maximum edit distance (0 = exact, default 2).
+     * @param limit Maximum number of results to return.
+     * @return Pair containing Status and vector of fuzzy search results.
      */
     std::pair<Status, std::vector<SearchResult>> searchFuzzy(
         std::string_view table, std::string_view column,
@@ -167,10 +196,25 @@ public:
     // Tokenisation utilities (public for reuse / testing)
     // -----------------------------------------------------------------------
 
-    /** Whitespace/punctuation split + lowercase; no stemming or stop-words. */
+    /**
+     * @brief Tokenize text with basic whitespace and punctuation splitting.
+     *
+     * Performs whitespace/punctuation split and lowercase conversion.
+     * No stemming or stop-word removal.
+     * @param text Text to tokenize.
+     * @return Vector of lowercase tokens.
+     */
     static std::vector<std::string> tokenize(std::string_view text);
 
-    /** Tokenise with optional normalisation, stop-word removal, and stemming. */
+    /**
+     * @brief Tokenize text with optional normalisation, stop-word removal, and stemming.
+     *
+     * Applies configuration-specific transformations including normalization,
+     * stop-word removal, and language-specific stemming.
+     * @param text Text to tokenize.
+     * @param config Configuration settings for tokenization.
+     * @return Vector of processed tokens.
+     */
     static std::vector<std::string> tokenize(std::string_view text,
                                              const Config& config);
 

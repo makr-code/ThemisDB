@@ -5,6 +5,106 @@ All notable changes to ThemisDB will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-07-20 — Phase 3 Block B + Phase 5 Block C runtime components + LLM Phase 5 Block D (P5-L01 + P5-L02) + Graph Phase 3 Block A (P3-01 + P3-02)
+
+### Phase 5 Block C — Runtime Components
+
+**P5-S01: Wire Retry Policy** (`include/network/wire_retry_policy.h`, `src/network/wire_retry_policy.cpp`)
+- `WireRetryPolicy` struct + `WireErrorClass` enum + `retryWithPolicy()` generic retry executor.
+- Exponential back-off with optional `on_fail` callback; exceptions from the operation
+  are caught and treated as transient failures.
+
+**P5-S02: HTTP Shutdown Manager** (`include/server/http_shutdown_manager.h`, `src/server/http_shutdown_manager.cpp`)
+- `HttpShutdownManager`: phased drain → force-close → teardown with configurable timeouts.
+- `HttpServer::stop()` now passes a `force_close_sessions` callback (`ioc_.stop()`) so the
+  force-close phase actively cancels in-flight async operations.
+
+**Phase 3 Block B — Runtime Components**
+
+**P3-03: Work-stealing Thread Pool** (`include/execution/thread_pool_manager.h`, `src/execution/thread_pool_manager.cpp`)
+- `WorkStealingThreadPool`: bounded central-queue pool with backpressure, dynamic scaling,
+  and exception-safe task execution.  Per-thread deques are pre-allocated for a future
+  work-stealing upgrade; current dispatch uses the central queue.
+
+**P3-04: Shard Load Balancer + Query Scheduler** (`include/sharding/shard_load_balancer.h`,
+  `src/sharding/shard_load_balancer.cpp`, `include/execution/query_scheduler.h`,
+  `src/execution/query_scheduler.cpp`)
+- `ShardLoadBalancer`: weighted CPU/queue/latency scoring with sticky-session affinity;
+  `setAvailable()` for shard exclusion; throws on no-available-shard.
+- `QueryScheduler`: EDF priority queue with per-priority depth counters (HIGH/MEDIUM/LOW),
+  SLA compliance tracking, and load-shedding for LOW-priority queries.
+
+### Plan Cache Hardening (`src/query/plan_cache.cpp`)
+- `normalizeQueryTemplate()` now strips leading `+`/`-` signs preceding numeric literals
+  so `x=-1` and `x=1` normalise identically.
+- `memory_eviction_threshold` is clamped to `[0, 1]` before computing eviction watermark.
+
+### LazyModelLoader Hardening (`src/llm/lazy_model_loader.cpp`)
+- Ownership/RAII improvements; deadlock-avoidance test timeout raised to 5 s for reliable
+  CI on contended runners.
+
+### LLM Module Phase 5 — Block D Delivery
+
+**P5-L01: Exception Safety hardening** (`tests/llm/test_llm_exception_safety.cpp`)
+- 36 GTest cases covering RAII/ownership semantics (ESF-01..08), exception
+  propagation in critical paths (ESF-09..18), cleanup/re-throw semantics
+  (ESF-19..24), and allocation/sequence coverage (ESF-25..36).
+- Validates `CancellationToken` shared-state semantics, `LazyModelLoader`
+  eviction VRAM accounting, `AsyncInferenceEngine` plugin swap / shutdown /
+  throw recovery, `ContinuousBatchScheduler` backpressure, `TokenQuotaManager`
+  quota enforcement, `ModelMetadataCache` null-safety, `LLMPrefixCache`
+  clear/invalidation, `InferenceRequest`/`InferenceResponse` move semantics.
+
+**P5-L02: Memory Safety hardening** (`tests/llm/test_llm_memory_safety.cpp`)
+- 15 GTest cases covering cache eviction shared-ownership lifecycle (MSF-01..06),
+  buffer/cache lifecycle (MSF-07..10), move semantics and request lifecycle
+  (MSF-11..14), and a 100-cycle sustained eviction stress test (MSF-15).
+- All tests are deterministic with no real GGUF files, no real backends.
+
+**CTest registration:** Both files are auto-discovered by
+`tests/llm/CMakeLists.txt` (GLOB `test_*.cpp`) and registered as
+`module_llm_test_llm_exception_safety_focused` and
+`module_llm_test_llm_memory_safety_focused` with TIMEOUT 120 and tier "unit".
+
+### Docs
+- `ROADMAP.md`: Phase 5-L status updated to `✅ Complete (Block D)`; Block D
+  marked `[x]` complete.
+- `CHANGELOG.md`: Block D delivery recorded under [Unreleased].
+- `include/llm/ROADMAP.md`: Phase 5 delivery noted.
+
+---
+
+## [Unreleased] — 2026-07-20 — Graph Phase 3 Block A (P3-01 + P3-02)
+
+### Graph Module Phase 3 — Block A Delivery
+
+**P3-01: Plan cache + cost model hardening** (`graph_query_optimizer.cpp/h`)
+- Added `std::mutex plan_cache_mutex_` to protect `plan_cache_` and `plan_cache_lru_`
+  for thread-safe concurrent access from multiple optimizer paths.
+- Changed `planCacheLookup()` to return `std::optional<OptimizationPlan>` by value so
+  callers receive a safe copy and raw-pointer invalidation on rehash is eliminated.
+- All 9 call sites updated; direct `plan_cache_.find()` access migrated to helper.
+- `clearPlanCache()` and `getPlanCacheSize()` also acquire the mutex.
+- Existing 276-test suite (`test_graph_query_optimizer.cpp`) covers the hardened paths.
+
+**P3-02: Multi-tier LRU graph query result cache** (`graph_query_cache.{h,cpp}`)
+- New `GraphQueryCache` class: two-tier in-memory cache with thread-safe API.
+  - L1 (hot tier): strict LRU eviction, default 64 entries.
+  - L2 (warm tier): cost-weighted eviction (`score = recency / cost`), default 512 entries.
+  - L1 victims are demoted to L2; L2 hits are promoted to L1.
+- `put(key, result, cost_hint)`, `get(key)`, `invalidate(key)`, `clear()`, `getStats()`, `resetStats()`.
+- `Stats` includes hits, misses, l1_hits, l2_promotions, evictions, hit ratio.
+- TTL support (zero = no expiry).
+- Registered in `cmake/CMakeLists.txt` and `cmake/ModularBuild.cmake`.
+- 32-test suite `tests/graph/test_graph_query_cache.cpp` delivered (gate: 32 tests).
+
+### Docs
+- `ROADMAP.md`: Block A marked `[x]` complete; Phase 3 status updated.
+- `NEXT_PHASE_IMPLEMENTATION_PLAN.md`: P3-01/P3-02 marked `✅ Complete`.
+- `ai_working/NEXT_PHASE_30_60_90_BACKLOG.md`: Block A tasks checked.
+
+---
+
 ## [Unreleased] — Sprint 7 Batch C — SafeIterator Remediations (Phase 2B-D)
 
 ### Security Fixes
@@ -276,6 +376,16 @@ Comprehensive code quality audit across 6 primary modules identified and verifie
 
 ## [Unreleased]
 
+### Server Phase 5-S Hardening Batch (2026-07-20)
+
+- Hardened `IdempotencyCache` in `include/network/wire_protocol_server.h` and
+  `src/network/retry_policy.cpp` so legacy `lookup()` returns a thread-local
+  snapshot and new `lookupSnapshot()` exposes by-value reads without exposing
+  unlocked internal storage to concurrent callers.
+- Added fail-safe zero-window handling for idempotency retention to avoid
+  unbounded cache growth when retry deduplication is intentionally disabled.
+- Expanded `tests/network/test_wire_protocol_retry.cpp` with regression coverage
+  for stable lookup snapshots and zero-window behavior.
 ### Documentation & Governance
 
 - Added `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md`, `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`, and `docs/governance/GA_PROMOTION_SIGN_OFF.md` as the Batch C/D GA hardening evidence bundle and final human sign-off artefact.

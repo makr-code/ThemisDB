@@ -123,22 +123,47 @@ public:
     float asymmetricDistance(const std::vector<float>& query,
                             const std::vector<uint8_t>& codes) const;
 
+    /**
+     * @brief Check if the quantizer has been trained.
+     * @return True if trained, false otherwise.
+     */
     bool isTrained() const { return trained_; }
+
+    /**
+     * @brief Get the compression ratio achieved by this quantizer.
+     * @return Compression ratio (32.0 for binary quantization: float32 -> 1 bit).
+     */
     float getCompressionRatio() const { return 32.0f; }  // float32 -> 1 bit = 32x
+
+    /**
+     * @brief Get total memory usage of the quantizer.
+     * @return Memory usage in bytes.
+     */
     size_t getMemoryUsage() const;
+
+    /**
+     * @brief Get the dimensionality of vectors handled by this quantizer.
+     * @return Vector dimension.
+     */
     int getDimension() const { return dimension_; }
+
+    /**
+     * @brief Get the learned scale factor used during quantization.
+     * @return Scale factor.
+     */
     float getScale() const { return scale_; }  // Get learned scale factor
     
     /**
-     * @brief Get encoded size in bytes
+     * @brief Get encoded size in bytes.
+     * @return Number of bytes needed to store one encoded vector.
      */
     size_t getEncodedSize() const {
         return (dimension_ + 7) / 8;  // Ceiling division for bit packing
     }
     
     /**
-     * @brief Check which backend is being used
-     * @return "faiss" or "custom"
+     * @brief Check which backend is being used.
+     * @return Backend name: "faiss" or "custom".
      */
     const char* getBackend() const;
 

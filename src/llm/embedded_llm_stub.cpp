@@ -188,7 +188,15 @@ std::vector<float> EmbeddedLLM::embed([[maybe_unused]] const std::string& text) 
             } catch (const std::exception& e) {
                 spdlog::warn("EmbeddedLLM embed bridge callback failed: {}", e.what());
             } catch (...) {
-                spdlog::warn("EmbeddedLLM embed bridge callback failed with unknown exception");
+                // Identify the exception type via rethrow so the log is actionable.
+                try { throw; }
+                catch (const std::exception& nested) {
+                    spdlog::warn("EmbeddedLLM embed bridge callback threw (nested): {}",
+                                 nested.what());
+                } catch (...) {
+                    spdlog::warn("EmbeddedLLM embed bridge callback threw a non-std exception; "
+                                 "falling back to deterministic embedding");
+                }
             }
         }
     }
@@ -292,14 +300,32 @@ InferenceResponse EmbeddedLLM::generateFull(const InferenceRequest& request) {
                     } catch (const std::exception& e) {
                         spdlog::warn("EmbeddedLLM stream callback failed: {}", e.what());
                     } catch (...) {
-                        spdlog::warn("EmbeddedLLM stream callback failed with unknown exception");
+                        try { throw; }
+                        catch (const std::exception& nested) {
+                            spdlog::warn("EmbeddedLLM stream callback threw (nested): {}",
+                                         nested.what());
+                        } catch (...) {
+                            spdlog::warn("EmbeddedLLM stream callback threw a non-std exception; "
+                                         "stream token delivery skipped");
+                        }
                     }
                 }
                 return response;
             } catch (const std::exception& e) {
                 spdlog::warn("EmbeddedLLM generate bridge callback failed: {}", e.what());
             } catch (...) {
-                spdlog::warn("EmbeddedLLM generate bridge callback failed with unknown exception");
+                // Structured identification: rethrow inside the catch-all to
+                // recover the dynamic type and log a meaningful message before
+                // falling through to the no-backend fallback path.
+                try { throw; }
+                catch (const std::exception& nested) {
+                    spdlog::warn("EmbeddedLLM generate bridge callback threw (nested): {}; "
+                                 "falling back to no-backend path",
+                                 nested.what());
+                } catch (...) {
+                    spdlog::warn("EmbeddedLLM generate bridge callback threw a non-std exception; "
+                                 "falling back to no-backend path");
+                }
             }
         }
     }
