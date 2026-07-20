@@ -218,7 +218,7 @@ TEST(ThreadPoolTest, ConcurrentSubmission) {
 
 TEST(ThreadPoolTest, TaskExceptionPropagates) {
     GraphThreadPool pool(2);
-    auto f = pool.submit([] -> int {
+    auto f = pool.submit([]() -> int {
         throw std::runtime_error("expected_failure");
         return 0;
     });
@@ -317,6 +317,52 @@ TEST(BufferPoolTest, ScopedBufferBoolOperator) {
     GraphBufferPool pool(1, 64);
     auto b = pool.acquire();
     EXPECT_TRUE(static_cast<bool>(b));
+}
+
+TEST(BufferPoolTest, MultipleSequentialAcquireAndRelease) {
+    GraphBufferPool pool(2, 64);
+    for (int i = 0; i < 10; ++i) {
+        auto b = pool.acquire();
+        EXPECT_TRUE(static_cast<bool>(b));
+    }
+    EXPECT_EQ(2u, pool.available());
+    EXPECT_EQ(10u, pool.acquiredCount());
+}
+
+TEST(BufferPoolTest, AllBuffersExhaustedThenRefilled) {
+    GraphBufferPool pool(3, 32);
+    {
+        auto b1 = pool.acquire();
+        auto b2 = pool.acquire();
+        auto b3 = pool.acquire();
+        EXPECT_EQ(0u, pool.available());
+    }
+    // All returned after scope exit
+    EXPECT_EQ(3u, pool.available());
+}
+
+TEST(ConnectionPoolTest, SequentialAcquireReleaseCycles) {
+    GraphConnectionPool<MockConnection> pool(2, [] {
+        return std::make_shared<MockConnection>(0);
+    });
+    for (int i = 0; i < 5; ++i) {
+        auto h = pool.acquire();
+        EXPECT_TRUE(static_cast<bool>(h));
+    }
+    EXPECT_EQ(5u, pool.acquiredCount());
+    EXPECT_EQ(2u, pool.available());
+}
+
+TEST(ThreadPoolTest, SingleThreadHandlesManyTasks) {
+    GraphThreadPool pool(1);
+    std::atomic<int> sum{0};
+    std::vector<std::future<void>> futs;
+    for (int i = 0; i < 20; ++i) {
+        futs.push_back(pool.submit([&, i] { sum.fetch_add(i); }));
+    }
+    for (auto& f : futs) f.get();
+    // Sum of 0..19 = 190
+    EXPECT_EQ(190, sum.load());
 }
 
 TEST(BufferPoolTest, MoveConstructedBufferPreservesValidity) {

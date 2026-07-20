@@ -299,3 +299,61 @@ TEST(GraphLRUPlanCacheTest, PurgeExpired) {
     EXPECT_EQ(2u, purged);
     EXPECT_EQ(0u, cache.size());
 }
+
+// ============================================================================
+// P3-01 Group 7: GraphAdvancedCostModel standalone
+// ============================================================================
+
+TEST(GraphAdvancedCostModelTest, InitialStateIsZero) {
+    GraphAdvancedCostModel m;
+    EXPECT_EQ(0.0, m.emaCostMs());
+    EXPECT_EQ(0.0, m.confidence());
+    EXPECT_EQ(0u,  m.execCount());
+}
+
+TEST(GraphAdvancedCostModelTest, FirstObservationSetsEMA) {
+    GraphAdvancedCostModel m;
+    m.observe(20.0);
+    EXPECT_NEAR(20.0, m.emaCostMs(), 1e-9);
+    EXPECT_EQ(1u, m.execCount());
+}
+
+TEST(GraphAdvancedCostModelTest, EMAConvergesOverTime) {
+    GraphAdvancedCostModel m;
+    for (int i = 0; i < 50; ++i) m.observe(10.0);
+    EXPECT_NEAR(10.0, m.emaCostMs(), 0.5);
+}
+
+TEST(GraphAdvancedCostModelTest, ConfidenceGrowsToOne) {
+    GraphAdvancedCostModel m;
+    for (int i = 0; i < 100; ++i) m.observe(1.0);
+    EXPECT_NEAR(1.0, m.confidence(), 1e-6);
+}
+
+TEST(GraphAdvancedCostModelTest, BlendedEstimateUsesTheoryWhenNoData) {
+    GraphAdvancedCostModel m;
+    // confidence = 0 → blended = 0 * ema + 1 * theoretical
+    EXPECT_NEAR(50.0, m.blendedEstimate(50.0), 1e-9);
+}
+
+TEST(GraphAdvancedCostModelTest, BlendedEstimateUsesEMAWhenConfident) {
+    GraphAdvancedCostModel m;
+    for (int i = 0; i < 100; ++i) m.observe(10.0);
+    // confidence ≈ 1 → blended ≈ ema = 10
+    EXPECT_NEAR(10.0, m.blendedEstimate(999.0), 0.1);
+}
+
+TEST(GraphAdvancedCostModelTest, P99LessThanOrEqualP50PlusSlack) {
+    GraphAdvancedCostModel m;
+    for (int i = 0; i < 100; ++i) m.observe(5.0);
+    EXPECT_LE(m.p50Ms(), m.p99Ms() + 1.0);
+}
+
+TEST(GraphAdvancedCostModelTest, ResetClearsAllState) {
+    GraphAdvancedCostModel m;
+    for (int i = 0; i < 10; ++i) m.observe(100.0);
+    m.reset();
+    EXPECT_EQ(0.0, m.emaCostMs());
+    EXPECT_EQ(0u,  m.execCount());
+    EXPECT_EQ(0u,  m.histogram().total());
+}
