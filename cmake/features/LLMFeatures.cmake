@@ -41,6 +41,18 @@ if(NOT DEFINED THEMIS_ENABLE_OCR)
     option(THEMIS_ENABLE_OCR "Enable OCR support for scanned documents (requires Tesseract)" OFF)
 endif()
 
+# Stub mode: deterministic fallback for tests/dev builds only.
+# Production builds (release presets) must NEVER set this flag.
+# When OFF (default), the stub returns an error (fail-closed) in non-LLM builds.
+# When ON, the stub returns a deterministic canned response (test/dev only).
+if(NOT DEFINED THEMIS_LLM_STUB_MODE)
+    option(THEMIS_LLM_STUB_MODE "Enable deterministic stub responses in non-LLM builds (TEST/DEV ONLY — never set in release presets)" OFF)
+endif()
+if(THEMIS_LLM_STUB_MODE)
+    add_compile_definitions(THEMIS_LLM_STUB_MODE)
+    message(STATUS "  LLM stub mode: ON (deterministic fallback — TEST/DEV ONLY)")
+endif()
+
 # Display LLM features
 if(THEMIS_ENABLE_LLM)
     message(STATUS "  LLM: Enabled")

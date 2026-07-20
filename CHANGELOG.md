@@ -276,6 +276,15 @@ Comprehensive code quality audit across 6 primary modules identified and verifie
 
 ## [Unreleased]
 
+### Documentation & Governance
+
+- Added `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md`, `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`, and `docs/governance/GA_PROMOTION_SIGN_OFF.md` as the Batch C/D GA hardening evidence bundle and final human sign-off artefact.
+- Synchronized the root beta-to-GA release-hardening program across `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `BRANCHING_STRATEGY.md`, `RELEASE_STRATEGY.md`, `VERSIONING.md`, and the AI/documentation-governance rule set.
+- Made `develop` the explicit proving lane for the current `v1.9.0-beta` → GA path, with Wave 7, `release_critical`, top-risk module sign-off, and resilience/security/operations artefacts documented as required promotion gates.
+- Corrected edition branch mappings in `VERSIONING.md` to use canonical branch names (`minimal`, `community`, `military`).
+- Updated `NEXT_PHASE_IMPLEMENTATION_PLAN.md` and `ai_working/NEXT_PHASE_STATUS.md` to reflect delivered Phase 5 server/llm implementation status, active sharding sign-off work, and active reproducibility blockers.
+- Implemented Batch B/C/D gate execution wiring by extending the `release_critical` workflow target builds to include sharding Phase 6 (`test_sharding_phase6_hardening`) plus the Wave 8/9 suites (`w8a/w8b/w8c`, `w9a/w9b/w9c`).
+
 ### ✅ EPIC 2.5 Query Planner Phases 5-7 Complete (2026-07-06)
 
 **EPIC 2.5 Hybrid Query Planner — All Seven Phases Complete**
@@ -2652,4 +2661,3 @@ ThemisDB follows [Semantic Versioning](https://semver.org/):
 
 ---
 Zuletzt geprueft (Root-Sync): 2026-05-26
-

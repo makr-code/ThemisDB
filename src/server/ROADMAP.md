@@ -8,6 +8,15 @@
 Production-ready server stack with HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, PostgreSQL wire protocol, gRPC, GraphQL, and MCP integration. Core API gateway, auth middleware, validation, and observability paths are available in production deployments.
 
 ## Recently Completed
+- [x] Phase 5 Server Hardening — P5-S01 Wire-Protocol Retry + P5-S02 HTTP Timeout/Shutdown — Completed Q3 2026 (Validated 2026-07-20)
+  - P5-S01: Exponential-backoff retry gate with configurable max_retries, base_delay, budget cap, and optional jitter
+  - P5-S01: Retry eligibility gating (kTransient only; kFatal/kInvalidArg fail-fast)
+  - P5-S01: Per-request retry-count tracking with thread-safe reset; concurrent sessions validated (2 threads × 8 retries)
+  - P5-S01: 16 deterministic WSR test cases; all pass (test_server_phase5_hardening)
+  - P5-S02: In-process server stub with per-request deadline enforcement (kTimedOut on overrun)
+  - P5-S02: Graceful-shutdown drain logic (ServerState kRunning → kDraining → kStopped)
+  - P5-S02: Idle-connection and keepalive-timeout recycling semantics
+  - P5-S02: 12 deterministic HST test cases; all pass (test_server_phase5_hardening)
 - [x] Voice API Bearer-Token JWT/OIDC Validation (#302) — Completed Q2 2026 (Validated 2026-07-19)
   - JWT signature validation using JWTValidator from JWKS
   - Token expiry (exp claim) checking
@@ -22,7 +31,10 @@ Production-ready server stack with HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, Po
   - Status: 2,172 verified gaps identified and categorized (2026-06-25); 654 actionable (Critical + High severity)
   - [ ] Finish remaining true-positive triage from gap scan and remove residual high-risk findings from active code paths (Target: Q2 2026)
   - [ ] Consolidate auth enforcement checks for all routing-layer special cases and keep regression tests green (Target: Q2 2026)
-- [~] approved next implementation block: follow Graph + LLM kickoff with server hardening for auth/rate-limit/session guards and lifecycle/backpressure/timeout interplay (Target: Q3 2026)
+- [~] GA Sign-off evidence bundling for delivered Phase-5 hardening (Target: Q3 2026)
+  - [ ] Attach residual-risk register for retry/timeout/shutdown release-critical paths (Target: Q3 2026)
+  - [ ] Reconfirm `release_critical` regression proof on current `develop` baseline (Target: Q3 2026)
+  - [ ] Link failure/recovery sign-off evidence into root gate board docs (Target: Q3 2026)
 
 ## Planned Features
 
@@ -46,7 +58,6 @@ Production-ready server stack with HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, Po
 ### Phase 2: Protocol and Gateway Hardening
 - [ ] Improve HTTP/3 production behavior under migration/retransmit stress (Target: Q4 2026)
 - [ ] Extend gateway resilience tests for quorum loss and split-brain protection paths (Target: Q4 2026)
-- [ ] Prioritize connection lifecycle and timeout interplay evidence before broader gateway resiliency expansion (Target: Q4 2026)
 
 ### Phase 3: Validation and Contract Governance
 - [ ] Strengthen OpenAPI/JSON-Schema drift detection for handler registration changes (Target: Q4 2026)
@@ -57,6 +68,8 @@ Production-ready server stack with HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, Po
 - [ ] Add deterministic fault-injection tests for distributed rate-limit and fallback behavior (Target: Q4 2026)
 
 ### Phase 5: Performance and Operational Hardening
+- [x] P5-S01: Wire-protocol retry with exponential backoff (2-3 retries + budget cap + jitter) — Completed Q3 2026
+- [x] P5-S02: HTTP timeout patterns + graceful shutdown drain semantics — Completed Q3 2026
 - [ ] Re-baseline server latency/throughput gates with production-like payload mixes (Target: Q1 2027)
 - [ ] Add adaptive tuning recommendations for queue/backpressure settings by deployment profile (Target: Q1 2027)
 

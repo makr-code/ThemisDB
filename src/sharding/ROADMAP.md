@@ -1,8 +1,8 @@
 # Sharding Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-07-20 -->
-<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../NEXT_PHASE_IMPLEMENTATION_PLAN.md -->
+<!-- Status: current | validated: 2026-07-18 -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 <!-- Rollout Plan: ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md §4 (Phase C), §7 (risk) -->
 <!-- Issue Link: makr-code/ThemisDB#5620 (development status snapshot) -->
 
@@ -17,13 +17,23 @@ Production-capable sharding runtime exists for routing/placement, distributed co
 - **Critical**: Multi-shard is disabled until Phase C thread-safety and lock-ordering gates pass.
 - Rollout risk detail: `ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md §7`
 
+## Recently In Progress
+
+- [~] **P6-01** (2026-07-20): 32 GTest cases for 2PC/3PC consistency verification added to
+  `tests/sharding/test_sharding_phase6_hardening.cpp` (TXC-01..TXC-32).
+- [~] **P6-02** (2026-07-20): 20 GTest cases for failover logic and recovery-path hardening added to
+  `tests/sharding/test_sharding_phase6_hardening.cpp` (FLR-01..FLR-20).
+- [~] **P6 Sign-off Track** (2026-07-20): transition from test-delivery to full consistency/recovery gate evidence.
+  - [ ] P6-01 sign-off: commit/abort/WAL/replay guarantees documented and validated
+  - [ ] P6-02 sign-off: failover/recovery deterministic evidence bundle completed
+  - [ ] P6-03 dependency: Wave-8 fault-injection chain integrated into GA gate board
+
 ## In Progress
 
 - [~] hardening distributed failure-path behavior under shard outage and quorum stress (Target: Q3 2026)
 - [~] improving diagnostics consistency across routing/transaction/repair stages (Target: Q3 2026)
 - [~] stabilizing benchmark-backed release guardrails for sharding hot paths (Target: Q3 2026)
 - [x] Real AWS S3, Azure Storage, and Google Cloud Storage SDK integrations for cloud backup (Target: Q2 2026)
-- [~] approved next implementation block: queue 2PC/3PC consistency and recovery verification after the Graph/LLM/Network-Server hardening streams stabilize (Target: Q3 2026)
 
 ## Planned Features
 
@@ -60,9 +70,8 @@ Production-capable sharding runtime exists for routing/placement, distributed co
 - [ ] unify diagnostics across routing/transaction/operations incident classes (Target: Q4 2026)
 
 ### Phase 4: Tests
-- [ ] expand focused regressions for shard failure, transaction contention, and migration edge scenarios (Target: Q4 2026)
-- [ ] extend deterministic stress fixtures for distributed load and topology churn (Target: Q4 2026)
-- [ ] attach Wave 8 fault-injection gates only after current consistency and recovery baselines are re-verified (Target: Q4 2026)
+- [~] expand focused regressions for shard failure, transaction contention, and migration edge scenarios (P6-01: TXC-01..TXC-32 2PC/3PC consistency; P6-02: FLR-01..FLR-20 failover/recovery — added in test_sharding_phase6_hardening.cpp) (Target: Q4 2026)
+- [~] extend deterministic stress fixtures for distributed load and topology churn (P6-01/P6-02 seed-42 deterministic suites delivered) (Target: Q4 2026)
 
 ### Phase 5: Performance and Hardening
 - [ ] lock benchmark-backed release gates for sharding hot paths (Target: Q4 2026)

@@ -20,6 +20,7 @@ A clear and concise description of the documentation gap or inaccuracy found dur
 - **SOT Domain:** <!-- module-behavior | api-contract | build-test | release-versioning | security | architecture-governance -->
 - **Update Interval:** <!-- Event-driven | Weekly | Monthly -->
 - **Target Milestone:** <!-- DOC-WEEKLY-YYYY-WW | DOC-MONTHLY-YYYY-MM | DOC-RELEASE-vX.Y.Z -->
+- **Gate Evidence:** <!-- Required for build-test or release-versioning findings: link Wave/CI/security/recovery/SLA artefacts -->
 
 ## Canonical Source References
 
@@ -64,6 +65,7 @@ Describe what the documentation should say or cover after fixing this issue.
 - [ ] If applicable: German and English versions are in sync
 - [ ] Tier precedence check passed (`Primary > Secondary > Tertiary`)
 - [ ] Issue is assigned to the correct docs milestone
+- [ ] Release-gate evidence is linked when the SOT domain is `build-test` or `release-versioning`
 
 ## Additional Context
 

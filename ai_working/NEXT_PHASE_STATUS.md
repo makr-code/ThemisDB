@@ -6,25 +6,17 @@
 
 ---
 
-## Executive Summary (Start of Week)
+## Executive Summary (Current Batch)
 
 | Item | Status | Notes |
 |------|--------|-------|
-| **Planning Documents** | ✅ Complete | NEXT_PHASE_IMPLEMENTATION_PLAN.md, Phase 3 & 5 detailed plans ready |
-| **Architecture Reviews** | 🔵 Scheduled | Mon 2026-07-22 (Graph + LLM first, Network/Server follow-on) |
-| **Feature Branches** | 🔵 Pending | Create after baseline confirmation |
-| **GitHub Issues** | 🔵 Pending | Create after architecture reviews (by Tue) |
-| **Baseline Measurements** | 🔵 Pending | Build/test baseline, Wave 7 re-run, memory profiling setup (Mon-Wed) |
-| **First Code Commit** | 🔵 Target | Baseline evidence + focused implementation/tests by Fri 2026-07-26 |
-
-### Approved Execution Order (2026-07-20)
-
-1. Baseline and release gates
-2. Graph Phase 3 (primary)
-3. LLM hardening (parallel)
-4. Network/Server hardening
-5. Sharding consistency and Wave 8 preparation
-6. AQL Phase 2 as an isolated stream
+| **Planning Documents** | ✅ Complete | Root + phase plans synced to GA hardening batch model |
+| **Batch A Evidence Sync** | ✅ Complete | Done evidence consolidated across roadmap and status trackers |
+| **Batch B/C/D Gate Integration** | 🟡 Active | release-critical workflow build scope now includes sharding P6 + W8/W9 suites; evidence closure remains open |
+| **Phase 5 Server** | ✅ Delivered | P5-S01/P5-S02 implemented; GA sign-off evidence still open |
+| **Phase 5 LLM** | ✅ Delivered | P5-L01/P5-L02 implemented; GA sign-off evidence still open |
+| **Phase 6 Sharding** | 🟡 In Progress | P6-01/P6-02 suites integrated into release gate; full WAL/recovery sign-off bundle pending |
+| **Phase 0 Reproducibility** | 🟡 Blocked | `linux-release` prerequisites missing; `community-release` missing RocksDB |
 
 ---
 
@@ -34,11 +26,11 @@
 
 | Week | Deliverable | Owner | Status | Notes |
 |------|-------------|-------|--------|-------|
-| **Week 1** | Architecture review + baseline measurements | A1+B1 | 🔵 Planned | Query latency, cache hit ratio, resource pool baseline TBD |
-| **Week 1-2** | P3-01: Query optimizer (plan cache + cost model) | A1+A2 | 🔵 Planned | 28 tests target, 10-day delivery |
-| **Week 2-3** | P3-02: Cache efficiency (LRU + multi-tier) | A1+A2 | 🔵 Planned | 32 tests target, 10-day delivery |
-| **Week 2-4** | P3-03: Resource pooling (connection/thread/buffer) | B1+B2 | 🔵 Planned | 36 tests target, 2-week delivery (parallel with P3-02) |
-| **Week 3-4** | P3-04: Load balancing (query scheduler + shard selection) | B1+B2 | 🔵 Planned | 24 tests target, 1-week delivery |
+| **Week 1** | Gate baseline + evidence sync | A1+B1 | 🟡 In Progress | Wave 7 re-confirmation + reproducibility blockers tracked |
+| **Week 1-2** | P3-01: Query optimizer (plan cache + cost model) | A1+A2 | 🟡 In Progress | 28 tests target, gate-locked rollout |
+| **Week 2-3** | P3-02: Cache efficiency (LRU + multi-tier) | A1+A2 | 🟡 In Progress | 32 tests target |
+| **Week 2-4** | P3-03: Resource pooling (connection/thread/buffer) | B1+B2 | 🟡 In Progress | 36 tests target |
+| **Week 3-4** | P3-04: Load balancing (query scheduler + shard selection) | B1+B2 | 🔵 Planned | depends on upstream gates |
 | **Week 4-5** | P3-05: Integration + Wave 7 re-verification | A+B | 🔵 Planned | Performance regression testing, sign-off gate |
 | **Week 6** | Final review + documentation | A1+B1 | 🔵 Planned | Doxygen audit, ADR decisions, release readiness |
 
@@ -57,11 +49,10 @@
 
 | Week | Deliverable | Owner | Status | Notes |
 |------|-------------|-------|--------|-------|
-| **Week 1** | Planning + fault-injection setup after baseline confirmation | C1+C2 | 🔵 Planned | Start after Graph/LLM kickoff evidence is attached |
-| **Week 2** | P5-S01: Wire-protocol retry (exponential backoff) | C1 | 🔵 Planned | 19 tests, 1-week delivery |
-| **Week 2-3** | P5-S02: HTTP timeout + graceful shutdown | C2 | 🔵 Planned | 20 tests, 1-week delivery |
-| **Week 3** | Fault injection verification + integration | C1+C2 | 🔵 Planned | 99.9% recovery rate validation |
-| **Week 3** | Sign-off + documentation | C1 | 🔵 Planned | Doxygen complete, no new CRITICAL findings |
+| **Week 1** | P5-S01: Wire-protocol retry (exponential backoff) | C1 | ✅ Complete | Implemented + validated in module roadmap |
+| **Week 2** | P5-S02: HTTP timeout + graceful shutdown | C2 | ✅ Complete | Implemented + validated in module roadmap |
+| **Week 3** | Fault injection verification + integration | C1+C2 | 🟡 Pending GA proof | Evidence bundling for release gate remains open |
+| **Week 3** | Sign-off + documentation | C1 | 🟡 In Progress | residual risk + regression proof bundle required |
 
 **Success Criteria:**
 - ✅ 39 new server tests PASS (19 + 20)
@@ -77,11 +68,10 @@
 
 | Week | Deliverable | Owner | Status | Notes |
 |------|-------------|-------|--------|-------|
-| **Week 1** | Architecture review + memory baseline profiling | D1+D2 | 🔵 Planned | Audit model loading, establish Valgrind baseline |
-| **Week 1-2** | P5-L01: Exception safety + RAII wrappers | D1 | 🔵 Planned | 36 tests, 2-week delivery |
-| **Week 2-3** | P5-L02: Memory leak fixes (cache + tokenizer) | D2 | 🔵 Planned | 15 tests, 1.5-week delivery |
-| **Week 3** | Valgrind clean + TSan verification | D1+D2 | 🔵 Planned | Long-running test (1000 cycles) |
-| **Week 3** | Sign-off + documentation | D1 | 🔵 Planned | Exception contracts documented, memory guarantees |
+| **Week 1-2** | P5-L01: Exception safety + RAII wrappers | D1 | ✅ Complete | Implemented + validated in module roadmap |
+| **Week 2-3** | P5-L02: Memory leak fixes (cache + tokenizer) | D2 | ✅ Complete | Implemented + validated in module roadmap |
+| **Week 3** | Valgrind clean + TSan verification | D1+D2 | 🟡 Pending GA proof | attach reproducible evidence bundle for release gate |
+| **Week 3** | Sign-off + documentation | D1 | 🟡 In Progress | residual risk and regression proof pending |
 
 **Success Criteria:**
 - ✅ 51 new LLM tests PASS (36 + 15)
@@ -119,18 +109,18 @@
 ```
 Start (2026-07-22)
   │
-  ├─ [2 days] Baseline verification + architecture reviews
+  ├─ [2 days] Architecture reviews
   │    └─ [1 day] Feature branches + GitHub issues created
   │         ├─ PHASE 3 Start: Query optimizer (10 days)
   │         │   ├─ Cache efficiency (depends on optimizer cache API, parallel)
   │         │   ├─ Resource pooling (independent, parallel)
   │         │   └─ Load balancing (depends on scheduler, sequential)
   │         │
-  │         ├─ PHASE 5-L Start: LLM exception safety (14 days)
-  │         │   └─ Memory leak fixes (7 days, parallel)
-  │         │
-  │         └─ PHASE 5-S Start: Server retry (10 days)
+  │         ├─ PHASE 5-S Start: Server retry (10 days)
   │         │   └─ HTTP timeout (parallel, independent)
+  │         │
+  │         └─ PHASE 5-L Start: LLM exception safety (14 days)
+  │             └─ Memory leak fixes (7 days, parallel)
   │
   └─ [21 days] Parallel execution (all phases)
        │
@@ -143,17 +133,12 @@ Start (2026-07-22)
 **Critical Path:** Phase 3 (28 days) >> Phase 5 (21 days)  
 **Longest Pole:** P3-03 Resource Pooling (14 days) + P3-04 Load Balancing (7 days) = 21 days sequential
 
-### Known Blockers (Reviewed 2026-07-20)
+### Known Blockers (2026-07-20)
 
-- ⚠️ Wave 7 baseline: assumed pass until re-confirmed in the current cycle
-- ⚠️ Build baseline must be re-verified before opening the new implementation block
-- ✅ Team allocation: READY (15 engineers identified)
-- ✅ CI infrastructure: EXISTS (ready for Phase 3-5 tests)
-
-**If Wave 7 gates do NOT pass:**
-- Action: Emergency debug (1-2 days)
-- Contingency: Revert Phase 2.4 commit (if regression caused)
-- Impact: Delays Phase 3 start by 2-3 days
+- ⚠️ `linux-release` configure currently blocked by missing `vcpkg` toolchain path and missing Ninja on runner.
+- ⚠️ `community-release` configure currently blocked by missing RocksDB dependency (`librocksdb-dev` or vcpkg `rocksdb`).
+- 🟡 Wave 7 baseline evidence exists and must be explicitly re-confirmed in current execution window.
+- 🟢 `release_critical` gate definition exists; current-baseline pass confirmation remains part of Phase 0.
 
 ---
 
@@ -246,7 +231,7 @@ Start (2026-07-22)
 
 | Metric | Target | Current | Status |
 |--------|--------|---------|--------|
-| **Total New Tests** | 220+ | 0 | 🔵 Planned (Graph 130 + Server 39 + LLM 51 minimum) |
+| **Total New Tests** | 220+ | 0 | 🔵 In progress (220 expected) |
 | **Wave 7 Gates** | All PASS | TBD | 🔵 Verify Mon 2026-07-22 |
 | **Query Latency p99** | <= 50ms | TBD | 🔵 Baseline measurement |
 | **Cache Hit Ratio** | >= 85% | TBD | 🔵 Baseline measurement |

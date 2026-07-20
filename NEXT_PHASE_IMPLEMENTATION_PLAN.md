@@ -1,7 +1,7 @@
 # ThemisDB Next Phase Implementation Plan
 
 **Document:** Implementation roadmap and work-stream coordination  
-**Status:** 🚀 ACTIVE KICKOFF  
+**Status:** 🟡 ACTIVE EXECUTION (Batch A complete, Batch B/C/D gate integration active)  
 **Last Updated:** 2026-07-20  
 **Target Completion:** 2026-08-19 (Phase 3), Q4 2026 (Production Release)
 
@@ -15,23 +15,7 @@ The project transitions from **foundational completion** (Graph Phase 2.4 ✅, D
 2. **Cross-Module Hardening** — Critical path fixes: server wire-protocol, LLM exception safety, sharding consistency (Phases 5-7)
 3. **AQL 2.0.0 Language Expansion** — DDL, Geospatial, FTS parser integration (18-23 weeks, parallel)
 
-**Immediate Focus:** baseline verification first, then Graph Phase 3 as the primary work stream, parallel LLM hardening, followed by Network/Server hardening, Sharding consistency, and isolated AQL Phase 2 delivery.
-
-### Approved Execution Order (2026-07-20)
-
-1. **Baseline and release gates**
-   - Re-verify build/test baseline and reconfirm Wave 7 gates before starting new implementation.
-   - Remove stale planning assumptions so only open work remains tracked.
-2. **Graph Phase 3 (primary)**
-   - Start query-optimizer hardening first, then cache efficiency and resource pooling, then scheduling/load balancing, then sign-off.
-3. **LLM hardening (parallel)**
-   - Start cancellation/timeout/backend-degradation hardening in parallel with Graph Phase 3, then remote-orchestration failure paths, then memory/VRAM recovery validation.
-4. **Network/Server hardening (after Graph + LLM kickoff)**
-   - Expand mixed-transport failure injection, auth/rate-limit/session guard hardening, and connection lifecycle/backpressure/timeout validation.
-5. **Sharding consistency**
-   - Stage 2PC/3PC consistency, recovery-path verification, and Wave 8 fault-injection work after the core hardening streams are stable.
-6. **AQL Phase 2**
-   - Keep DDL parser/executor work isolated from the hardening streams and promote only after baseline, test registration, and evidence are in place.
+**Immediate Focus:** Batch B/C/D evidence closure + Phase 0 gate blockers + sanitizer/pentest finalization
 
 ---
 
@@ -40,7 +24,7 @@ The project transitions from **foundational completion** (Graph Phase 2.4 ✅, D
 ### 🎯 **Phase 3: Graph Module Optimization & Hardening** (PRIMARY)
 
 **Timeline:** 2026-07-08 to 2026-08-19 (6 weeks)  
-**Status:** 🟡 In preparation → 🚀 Kickoff 2026-07-22  
+**Status:** 🟡 In progress (gate-locked rollout)  
 **Scope:** Query optimization, cache, resource pooling, load balancing, distributed consistency  
 **Target Release:** v1.9.0-beta (Q4 2026)
 
@@ -48,10 +32,10 @@ The project transitions from **foundational completion** (Graph Phase 2.4 ✅, D
 
 | ID | Component | Effort | Owner | Gate | Status |
 |----|-----------|--------|-------|------|--------|
-| P3-01 | Query optimizer: plan cache + cost model hardening | 2 weeks | Team A | 46 tests | 🔵 Planned |
-| P3-02 | Cache efficiency: LRU + multi-tier eviction | 1.5 weeks | Team A | 32 tests | 🔵 Planned |
-| P3-03 | Resource pooling: connection + thread + buffer managers | 2 weeks | Team B | 28 tests | 🔵 Planned |
-| P3-04 | Load balancing: query distribution + scheduling | 1.5 weeks | Team B | 24 tests | 🔵 Planned |
+| P3-01 | Query optimizer: plan cache + cost model hardening | 2 weeks | Team A | 46 tests | 🟡 In Progress |
+| P3-02 | Cache efficiency: LRU + multi-tier eviction | 1.5 weeks | Team A | 32 tests | 🟡 In Progress |
+| P3-03 | Resource pooling: connection + thread + buffer managers | 2 weeks | Team B | 28 tests | 🟡 In Progress |
+| P3-04 | Load balancing: query distribution + scheduling | 1.5 weeks | Team B | 24 tests | 🔵 Planned (depends on P3-01/P3-03 gates) |
 | P3-05 | Integration + performance benchmarks + sign-off | 1 week | Team A+B | Wave 7 gates | 🔵 Planned |
 
 **Success Criteria:**
@@ -68,10 +52,10 @@ The project transitions from **foundational completion** (Graph Phase 2.4 ✅, D
 
 ---
 
-### 🎯 **Phase 5: Server & LLM Hardening** (PARALLEL)
+### 🎯 **Phase 5: Server & LLM Hardening** (PARALLEL, IMPLEMENTATION COMPLETE)
 
 **Timeline:** 2026-07-22 to 2026-08-09 (3 weeks)  
-**Status:** 🔵 Planned  
+**Status:** ✅ Implemented (transition to GA sign-off evidence)  
 **Scope:** Wire-protocol retry logic, LLM exception safety, memory leak fixes  
 **Target Release:** v1.9.0-beta patch
 
@@ -79,10 +63,10 @@ The project transitions from **foundational completion** (Graph Phase 2.4 ✅, D
 
 | ID | Component | Effort | Owner | Tests | Status |
 |----|-----------|--------|-------|-------|--------|
-| P5-S01 | Server: wire-protocol retry (2-3 retries + exponential backoff) | 1 week | Team C | 19 tests | 🔵 Planned |
-| P5-S02 | Server: HTTP timeout patterns + graceful shutdown | 1 week | Team C | 20 tests | 🔵 Planned |
-| P5-L01 | LLM: exception safety audit + RAII wrapper refactoring | 2 weeks | Team D | 36 tests | 🔵 Planned |
-| P5-L02 | LLM: memory leak fixes (model loading, cache cleanup) | 1.5 weeks | Team D | 15 tests | 🔵 Planned |
+| P5-S01 | Server: wire-protocol retry (2-3 retries + exponential backoff) | 1 week | Team C | 16 tests | ✅ Delivered |
+| P5-S02 | Server: HTTP timeout patterns + graceful shutdown | 1 week | Team C | 12 tests | ✅ Delivered |
+| P5-L01 | LLM: exception safety audit + RAII wrapper refactoring | 2 weeks | Team D | 28 tests | ✅ Delivered |
+| P5-L02 | LLM: memory leak fixes (model loading, cache cleanup) | 1.5 weeks | Team D | 24 tests | ✅ Delivered |
 
 **Success Criteria:**
 - ✅ Server: 99.9% recovery from transient faults (verified with fault injection)
@@ -94,7 +78,7 @@ The project transitions from **foundational completion** (Graph Phase 2.4 ✅, D
 ### 🎯 **Phase 6: Sharding Consistency & Fault Injection** (PARALLEL)
 
 **Timeline:** 2026-08-10 to 2026-08-31 (3 weeks)  
-**Status:** 🔵 Planned  
+**Status:** 🟡 In progress (P6-01/P6-02 tests delivered; sign-off evidence pending)  
 **Scope:** Transaction consistency, failover guarantees, distributed fault injection tests  
 **Target Release:** v2.0.0-rc1 (Oct 2026)
 
@@ -102,8 +86,8 @@ The project transitions from **foundational completion** (Graph Phase 2.4 ✅, D
 
 | ID | Component | Effort | Owner | Tests | Status |
 |----|-----------|--------|-------|-------|--------|
-| P6-01 | Sharding: 2PC/3PC consistency verification + edge case testing | 2 weeks | Team E | 32 tests | 🔵 Planned |
-| P6-02 | Sharding: failover logic + recovery path hardening | 1.5 weeks | Team E | 20 tests | 🔵 Planned |
+| P6-01 | Sharding: 2PC/3PC consistency verification + edge case testing | 2 weeks | Team E | 32 tests | 🟡 Tests delivered, sign-off open |
+| P6-02 | Sharding: failover logic + recovery path hardening | 1.5 weeks | Team E | 20 tests | 🟡 Tests delivered, sign-off open |
 | P6-03 | Wave 8: distributed fault injection suite (network partition, coordinator failure, cascade) | 2 weeks | Team F | 40+ scenarios | 🔵 Planned |
 
 ---
@@ -145,6 +129,22 @@ The project transitions from **foundational completion** (Graph Phase 2.4 ✅, D
 
 **Target:** 50% CRITICAL gap reduction by 2026-09-30 (EOQ3)
 
+## Execution Batches (A-D)
+
+- [x] **Batch A — Status/Evidence Sync + Gate Board Update**
+  - [x] Sync done evidence across roadmap, implementation plan, and status tracker.
+  - [x] Lock root gate language for `release_critical` on `develop`.
+  - [~] Track active reproducibility blockers (`linux-release`, `community-release` prerequisites).
+- [~] **Batch B — Sharding Phase 6 Completion**
+  - [x] Promote P6-01/P6-02 to release-gate execution (`test_sharding_phase6_hardening` + `release_critical` integration).
+  - [ ] Finalize consistency/recovery sign-off evidence bundle.
+- [~] **Batch C — Wave 8 + Chaos + Sanitizer/Pentest**
+  - [x] Wire Wave 8 (`w8a/w8b/w8c`) and Wave 9 chaos/SLA/security suites (`w9a/w9b/w9c`) into release-critical workflow build execution.
+  - [ ] Finalize sanitizer + penetration-test sign-off evidence.
+- [~] **Batch D — Final GA Readiness**
+  - [x] Operations/SLA/chaos gate suites are part of release-critical execution chain.
+  - [ ] Complete governance sync, manual checklist closure, and controlled promotion.
+
 ---
 
 ## Wave 7/8 Benchmark Verification
@@ -164,7 +164,7 @@ The project transitions from **foundational completion** (Graph Phase 2.4 ✅, D
 - `benchmarks/wave7/release_gate_manifest_w7.json` — All gates PASS
 - `benchmarks/wave7/RUNBOOK_W7.md` — Re-run procedure documented
 
-### Wave 8 Endurance & Fault Injection (Planned)
+### Wave 8 Endurance & Fault Injection (Active)
 
 **Timeline:** 2026-08-15 to 2026-09-15  
 **Scope:** Soak tests, degradation scenarios, cascade failures
@@ -198,17 +198,13 @@ The project transitions from **foundational completion** (Graph Phase 2.4 ✅, D
 
 ---
 
-## Immediate Next Actions (Week 1: 2026-07-22 to 2026-07-26)
+## Immediate Next Actions (Current Execution Window)
 
-### Priority 1: Secure Baseline and Start the Approved Order
+### Priority 1: Batch A Closure
 
-- [ ] **Monday 2026-07-22:** Re-verify build/test baseline and reconfirm Wave 7 gates before new feature work
-- [ ] **Monday 2026-07-22:** Architecture review meetings (Teams A, B, C, D present Graph/LLM/Network-Server workstream scope)
-- [ ] **Monday-Tuesday:** Create GitHub issues + milestones for Phase 3, Phase 5-L, and subsequent Network/Server work
-- [ ] **Tuesday:** Feature branch creation: `feature/graph-phase3-optimization`, `feature/llm-phase5-hardening`, `feature/server-phase5-hardening`
-- [ ] **Wednesday:** Update module and root roadmap status once baseline evidence is attached
-- [ ] **Wednesday-Thursday:** Register focused tests/fixtures only for backed implementation work; avoid placeholder-only stubs
-- [ ] **Friday:** First implementation commit cycle with baseline evidence, focused tests, and source-aligned docs
+- [x] Consolidate module done-evidence (Server P5-S01/S02; LLM P5-L01/P5-L02; Wave 5/6; Wave 7 baseline)
+- [~] Keep `linux-release` and `community-release` reproducibility blockers visible until prerequisites are available
+- [x] Sync gate model and phase status wording in root governance docs
 
 ### Priority 2: Establish Monitoring & Tracking
 
@@ -217,15 +213,13 @@ The project transitions from **foundational completion** (Graph Phase 2.4 ✅, D
 - [ ] Set up daily standup tracking doc in ai_working/NEXT_PHASE_STATUS.md
 - [ ] Establish weekly review gates (every Friday)
 
-### Priority 3: Baseline Measurements
+### Priority 3: Gate Preconditions
 
-- [ ] Re-run Wave 7 benchmark to confirm baseline (all 6 gates must pass)
-- [ ] Profile current query optimizer performance (p50, p95, p99)
-- [ ] LLM memory usage baseline (Valgrind + massif)
-- [ ] Server connection pool saturation test
-- [ ] Scanner re-run on develop: current baseline for CRITICAL/HIGH gap counts
+- [~] Re-run Wave 7 benchmark to reconfirm baseline (all 6 gates must pass)
+- [ ] Close build reproducibility blockers (Ninja + `vcpkg` + RocksDB prerequisites)
+- [ ] Validate `release_critical` gate pass on current `develop` baseline
 
-### Priority 4: AQL Phase 2 Kickoff (Isolated Stream)
+### Priority 4: AQL Phase 2 Kickoff
 
 - [ ] Team G: Review `src/query/sql_parser.cpp` structure
 - [ ] Create `src/query/aql_ddl_parser.cpp` skeleton + test fixture

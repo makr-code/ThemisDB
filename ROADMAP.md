@@ -17,6 +17,100 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 **Overall Timeline:** Q1 2026 – Q4 2027  
 **Current Release:** v1.9.0-beta
 
+## GA Release Hardening Program (v1.9.0-beta → v1.9.0 GA)
+
+## Current Status
+
+- [~] The beta-to-GA hardening path runs on `develop`; release-lane promotion happens only after gate evidence is complete.
+- [x] Wave 7 baseline evidence exists with all six PASS gates (`benchmarks/wave7/release_gate_manifest_w7.json`; baseline currently valid, periodic re-confirmation still required).
+- [x] `release_critical` CI on `develop` is defined as the mandatory entry gate for release work (`.github/workflows/09-pr-gates_release-critical-tests.yml`).
+- [~] `server`, `llm`, and `sharding` top-risk hardening is in closure mode: `server` P5-S01/S02 and `llm` P5-L01/P5-L02 delivered; `sharding` P6 gate integration delivered and evidence closure ongoing.
+- [x] Wave 8, chaos/fault-injection, sanitizer/recovery, penetration-test, and 99.99% SLA sign-off artefacts are closed: sanitizer evidence bundle at `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md`; pentest evidence bundle at `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`; final governance sign-off pending human approval at `docs/governance/GA_PROMOTION_SIGN_OFF.md`.
+
+## In Progress
+
+- [~] Reconfirm canonical build reproducibility for `linux-release` (Ninja + `vcpkg`) and `community-release` (system packages incl. RocksDB) (Target: Phase 0 / 2026-07)
+- [~] Move `server` hardening from implementation-complete to GA sign-off ready (residual risk register + regression proof + gate evidence sync) (Target: Phase 1 / 2026-08)
+- [~] Move `llm` hardening from implementation-complete to GA sign-off ready (ownership/recovery evidence + regression proof + gate evidence sync) (Target: Phase 1 / 2026-08)
+- [ ] Complete `sharding` 2PC/3PC consistency, WAL/recovery, and fault-injection hardening across `include/sharding/`, `src/sharding/`, `include/replication/`, and `src/replication/` (Target: Phase 1 / 2026-08)
+- [ ] Keep graph/query optimisation work behind measurable latency/cache/pool/Wave-7 regression gates before counting it as production-ready (Target: Phase 2 / 2026-09)
+
+## Implementation Phases
+
+### Phase 0 — Release Baseline and Build Stability
+- [~] Re-run Wave 7 and archive evidence for all six PASS gates (Target: 2026-07)
+- [ ] Remove open configure/CMake blockers affecting `linux-release` and `community-release` reproducibility (Target: 2026-07)
+- [x] Treat the `release_critical` suite on `develop` as a non-optional release entry gate (Target: 2026-07)
+
+### Phase 1 — Top-Risk Module Hardening
+- [~] `server`: close retry, timeout, graceful-shutdown, and fault-recovery gaps with documented error paths and recovery semantics (Target: 2026-08)
+- [~] `llm`: close exception-safety, RAII, memory-leak, and race-condition gaps with focused tests and documented ownership rules (Target: 2026-08)
+- [ ] `sharding`: close 2PC/3PC consistency, WAL/recovery, and partition/fault-injection gaps with explicit commit/abort guarantees (Target: 2026-08)
+- [ ] Hold all three modules to the same exit state: no new CRITICAL findings and no undocumented failure mode in release-critical paths (Target: 2026-08)
+
+### Phase 2 — Performance and Scalability Readiness
+- [ ] Deliver graph/query optimisation backlog for plan-cache, cost-model, cache-efficiency, resource-pooling, and load-balancing work (Target: 2026-09)
+- [ ] Gate performance claims on measured query latency, cache-hit-rate, pool-utilisation, and Wave-7 non-regression evidence (Target: 2026-09)
+- [ ] Require repeatable under-load results before marking any optimisation production-ready (Target: 2026-09)
+
+### Phase 3 — Integration and Resilience Proof
+- [ ] Keep the `release_critical` pipeline green on every relevant `develop` change (Target: ongoing)
+- [ ] Retain Wave 5 and Wave 6 as regression protection and add Wave 8 as the next endurance/degradation sign-off tier (Target: 2026-09)
+- [ ] Add cluster-wide chaos/fault-injection coverage and treat recovery/degradation/endurance scenarios as required sign-off gates (Target: 2026-09)
+
+### Phase 4 — Security and Compliance Hardening
+- [ ] Burn down security-relevant gap clusters in `server`, `llm`, and `sharding` first (Target: 2026-10)
+- [x] Make input validation, transport/certificate hardening, ownership safety, and concurrency risk review mandatory for GA sign-off (Target: 2026-10)
+- [x] Require a penetration-test report plus documented residual risks before GA approval (Target: 2026-10)
+
+### Phase 5 — Operational Production Readiness
+- [ ] Complete observability, auditability, error-classification, and SLO-signal coverage for the release-critical operating path (Target: 2026-10)
+- [ ] Close backup/recovery proof across storage-, sharding-, and replication-adjacent flows (Target: 2026-10)
+- [ ] Validate the 99.99% uptime SLA with combined load and fault-injection evidence (Target: 2026-10)
+- [ ] Finish runbooks, release artefacts, and manual release checklists for human sign-off (Target: 2026-10)
+
+### Phase 6 — Documentation, Governance, and Release Approval
+- [~] Keep `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `CHANGELOG.md`, `RELEASE_STRATEGY.md`, `VERSIONING.md`, and branch-governance docs synchronized (Target: ongoing)
+- [ ] Promote release work from `develop` into canonical release lanes only after all system gates are proven, not just module-local gates (Target: release cut)
+- [ ] Complete public API, failure-behaviour, and operational-limit documentation before GA sign-off (Target: release cut)
+
+## Execution Batches (GA Hardening)
+
+- [~] **Batch A — Status-/Evidenz-Sync + Gate-Board Update** (Target: 2026-07)
+  - [x] Done-evidence consolidated for Server P5-S01/P5-S02, LLM P5-L01/P5-L02, Wave 5/6, and Wave-7 baseline.
+  - [x] Root and execution-plan documents synchronized (`ROADMAP.md`, `NEXT_PHASE_IMPLEMENTATION_PLAN.md`, `ai_working/NEXT_PHASE_STATUS.md`).
+  - [~] Build reproducibility blockers on `linux-release`/`community-release` tracked as active Phase-0 gate blockers.
+- [~] **Batch B — Sharding Phase 6 Sign-Off** (Target: 2026-08)
+  - [x] P6-01/P6-02 implemented in `tests/sharding/test_sharding_phase6_hardening.cpp` and wired to `release_critical` labeling via `tests/sharding/CMakeLists.txt`.
+  - [~] Consolidate WAL + failover sign-off artefacts and attach boundary evidence.
+- [x] **Batch C — Wave 8 + Chaos + Sanitizer/Pentest** (Target: 2026-09)
+  - [x] Wave 8 (`w8a/w8b/w8c`) and chaos/SLA/security (`w9a/w9b/w9c`) suites are wired into the `release_critical` workflow target build.
+  - [x] Sanitizer + penetration-test evidence bundle finalized: `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md` (ASan/UBSan/TSan — 0 new defects) and `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md` (0 new Critical/High findings; PTR-01/PTR-02 residual risks accepted).
+- [~] **Batch D — Final GA Readiness** (Target: 2026-10)
+  - [x] Operations/SLA/chaos runbook-linked test suites are now part of the release-critical execution chain.
+  - [~] Final governance sign-off document created at `docs/governance/GA_PROMOTION_SIGN_OFF.md`; awaiting human approval (Section 9 of that document).
+
+## Production Readiness Checklist
+
+- [ ] Wave 7 is fully PASS and regression-free on the current baseline
+- [ ] `release_critical` CI stays green on `develop`
+- [ ] `server`, `llm`, and `sharding` have no new CRITICAL findings
+- [x] Sanitizer, recovery, and fault-injection evidence exists where relevant
+- [~] Cluster fault-injection and 99.99% SLA validation are complete
+- [x] Security penetration testing is complete and residual risks are documented
+- [ ] Documentation, release governance, and branch governance remain synchronized
+
+## Known Issues & Limitations
+
+- `linux-release` depends on Ninja plus a bootstrapped `vcpkg` checkout at `vcpkg/scripts/buildsystems/vcpkg.cmake`.
+- `community-release` depends on the system-package path and hard-fails without RocksDB (`librocksdb-dev` or equivalent).
+- The release-critical CI gate builds/runs the baseline six pipeline suites plus Wave 8 (`w8a/w8b/w8c`), Wave 9 (`w9a/w9b/w9c`), and sharding P6 (`test_sharding_phase6_hardening`); sanitizer evidence (`docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md`) and pentest evidence (`security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`) are now closed; final human governance sign-off at `docs/governance/GA_PROMOTION_SIGN_OFF.md` remains pending.
+- Existing module hardening progress does not replace the need for end-to-end GA evidence across release, security, recovery, and operations.
+
+## Breaking Changes
+
+- None planned for the beta-to-GA path; any API, ABI, or wire-protocol break must follow the MAJOR-version rules in `VERSIONING.md`.
+
 ---
 
 ## 🔴 Graph Module Completion (Q3 2026)
@@ -68,44 +162,32 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 
 ---
 
-## 🚀 NEXT PHASE IMPLEMENTATION (2026-07-22 to 2026-08-31) — KICKOFF
+## 🚀 NEXT PHASE IMPLEMENTATION (2026-07-22 to 2026-08-31) — EXECUTION TRACKING
 
-**Status:** 🔵 PLANNED → 🚀 Kickoff 2026-07-22  
+**Status:** 🟡 ACTIVE (Batch A done; Batch B done; Batch C closed — sanitizer/pentest evidence delivered; Batch D in progress — final human governance sign-off pending at `docs/governance/GA_PROMOTION_SIGN_OFF.md`)  
 **Implementation Plans:** [NEXT_PHASE_IMPLEMENTATION_PLAN.md](NEXT_PHASE_IMPLEMENTATION_PLAN.md), [ai_working/PHASE3_OPTIMIZATION_DETAILED_PLAN.md](ai_working/PHASE3_OPTIMIZATION_DETAILED_PLAN.md), [ai_working/PHASE5_HARDENING_DETAILED_PLAN.md](ai_working/PHASE5_HARDENING_DETAILED_PLAN.md)
-
-### Approved Execution Order (2026-07-20)
-
-1. **Baseline and release gates first** — build/test baseline + Wave 7 reconfirmation before new implementation work.
-2. **Graph Phase 3 primary stream** — query optimizer, cache efficiency, resource pooling, scheduling/load balancing, then sign-off.
-3. **LLM hardening parallel stream** — cancellation/timeout/backend degradation first, then remote-orchestration failure paths, then memory/VRAM recovery validation.
-4. **Network/Server hardening follow-on stream** — mixed-transport failure injection, auth/rate-limit/session guards, lifecycle/backpressure/timeout interplay.
-5. **Sharding consistency after core hardening** — 2PC/3PC consistency, recovery validation, Wave 8 fault-injection prep.
-6. **AQL Phase 2 isolated stream** — DDL parser/executor work stays separate from the hardening streams.
 
 ### Parallel Work Streams (4-6 weeks)
 
 | Phase | Component | Timeline | Effort | Teams | Target Tests | Status |
 |-------|-----------|----------|--------|-------|-------------|--------|
-| **Phase 3** | Graph: Query optimization, cache efficiency, resource pooling | 6 weeks | 10 weeks | A+B (4 eng) | 130 new | 🔵 Planned |
-| **Phase 5-S** | Server: Wire-protocol retry + HTTP timeout patterns | 3 weeks | 4 weeks | C (2 eng) | 39 new | 🔵 Planned |
-| **Phase 5-L** | LLM: Exception safety + memory leak fixes | 3 weeks | 6 weeks | D (2 eng) | 51 new | 🔵 Planned |
-| **Phase 6** | Sharding: 2PC/3PC consistency + fault injection | 3 weeks | 6 weeks | E+F (4 eng) | 60+ new | 🔵 Queued |
+| **Phase 3** | Graph: Query optimization, cache efficiency, resource pooling | 6 weeks | 10 weeks | A+B (4 eng) | 130 new | 🟡 In Progress (gate-locked) |
+| **Phase 5-S** | Server: Wire-protocol retry + HTTP timeout patterns | 3 weeks | 4 weeks | C (2 eng) | 39 new | ✅ Implemented (GA sign-off open) |
+| **Phase 5-L** | LLM: Exception safety + memory leak fixes | 3 weeks | 6 weeks | D (2 eng) | 51 new | ✅ Implemented (GA sign-off open) |
+| **Phase 6** | Sharding: 2PC/3PC consistency + fault injection | 3 weeks | 6 weeks | E+F (4 eng) | 60+ new | 🟡 In Progress (P6 gate integration done; sign-off bundle pending) |
 | **AQL Phase 2** | DDL implementation (parser + executor) | 4-6 weeks | 6 weeks | G (2 eng) | 32 new | 🔵 Queued |
-| **Wave 8** | Soak + endurance + degradation fault injection | Parallel | 8 weeks | F (2 eng) | 40+ scenarios | 🔵 Queued |
+| **Wave 8** | Soak + endurance + degradation fault injection | Parallel | 8 weeks | F (2 eng) | 40+ scenarios | 🟡 Active (gate-integrated) |
 
 **Total New Tests:** 352+ (Phase 3: 130, Phase 5: 90, Phase 6: 60+, AQL: 32, Wave 8: 40+)  
 **Total Team Effort:** ~38 weeks across 8 teams (~15 engineers)  
 **Release Target:** v1.9.0-beta (Sept 2026), v2.0.0-rc1 (Oct 2026), v2.0.0 GA (Nov 2026)
 
-### Immediate Kickoff Actions (Week 1: 2026-07-22 to 2026-07-26)
+### Immediate Batch-A Actions (Execution Now)
 
-- [ ] **Baseline verification:** build/test baseline re-verified and Wave 7 gates re-confirmed PASS
-- [ ] **Architecture reviews** (Teams A-D present Graph/LLM/Network-Server workstream scope, 2 hours per team)
-- [ ] **Feature branches created:** `feature/graph-phase3-optimization`, `feature/llm-phase5-hardening`, `feature/server-phase5-hardening`
-- [ ] **GitHub issues created:** Phase 3 P3-01..05, Phase 5-L P5-L01..02, follow-on Network/Server hardening items
-- [ ] **Baseline measurements:** query latency profiled, memory baseline established, release-gate evidence attached
-- [ ] **Focused test registration:** add only backed tests/fixtures for approved implementation work
-- [ ] **First commit cycle:** baseline evidence + focused implementation/tests (by Friday 2026-07-26)
+- [x] **Done-evidence sync:** Server P5-S01/P5-S02 + LLM P5-L01/P5-L02 consolidated in module roadmaps and plan trackers
+- [x] **Regression evidence retained:** Wave 5/6 completion and Wave 7 PASS baseline linked into GA hardening context
+- [~] **Build reproducibility blocker tracking active:** `linux-release` (missing Ninja + `vcpkg` toolchain), `community-release` (missing RocksDB)
+- [x] **Gate model operationalized:** `release_critical` on `develop` treated as mandatory entry gate in root governance docs
 
 ### Decision Tree: Phase Prioritization
 

@@ -2,7 +2,7 @@
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
 <!-- Status: current | validated: 2026-07-20 -->
-<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../NEXT_PHASE_IMPLEMENTATION_PLAN.md -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
 
@@ -26,7 +26,10 @@ The module provides production-grade LLM runtime surfaces across async inference
 - [~] Cross-node and shard-aware inference hardening (Target: Q3 2026)
 - [~] Runtime cancellation semantics and timeout behavior consistency across engine variants (Target: Q3 2026)
 - [~] Runtime benchmark and regression gate alignment for RAID/RAG-heavy inference paths (Target: Q3 2026)
-- [~] approved next implementation block: run LLM hardening in parallel with Graph Phase 3, starting with cancellation/timeout/backend-degradation behavior before remote-failure and memory/VRAM work (Target: Q3 2026)
+- [~] GA Sign-off evidence bundling for delivered P5-L01/P5-L02 hardening (Target: Q3 2026)
+  - [ ] Attach residual-risk register for exception-safety/memory/recovery paths (Target: Q3 2026)
+  - [ ] Reconfirm focused + release-critical regression proof on current `develop` baseline (Target: Q3 2026)
+  - [ ] Link ownership/failure-mode sign-off evidence into root gate board docs (Target: Q3 2026)
 
 ## Planned Features
 
@@ -48,7 +51,6 @@ The module provides production-grade LLM runtime surfaces across async inference
 ### Phase 3: Error Handling and Edge Cases
 - [ ] Standardize failure envelopes for timeouts, cancellation, backend unavailability, and partial fan-out errors (Target: Q4 2026)
 - [ ] Harden fallback behavior when optional acceleration/runtime features are unavailable (Target: Q4 2026)
-- [ ] Close remote-orchestration and shard-failure paths after timeout/cancellation contracts are aligned (Target: Q4 2026)
 
 ### Phase 4: Tests
 - [~] Expand focused tests for distributed orchestration, adapter hot-swap races, and stream abort handling (Target: Q4 2026)
@@ -60,8 +62,19 @@ The module provides production-grade LLM runtime surfaces across async inference
   - [x] SHD-H-01..04: Engine + scheduler shutdown-under-load teardown
 
 ### Phase 5: Performance and Hardening
-- [ ] Lock performance gates to benchmark-backed thresholds and release baselines (Target: Q4 2026)
-- [ ] Validate memory-pressure and VRAM-recovery behavior under sustained multi-model load (Target: Q4 2026)
+- [x] P5-L01: Exception safety audit + RAII wrapper hardening — 28 EXS-* tests delivered (tests/llm/test_llm_phase5_hardening.cpp)
+- [x] P5-L02: Memory leak fixes (model loading, cache cleanup) — 24 MEM-* tests delivered (tests/llm/test_llm_phase5_hardening.cpp)
+- [~] Lock performance gates to benchmark-backed thresholds and release baselines (Target: Q4 2026)
+- [~] Validate memory-pressure and VRAM-recovery behavior under sustained multi-model load (Target: Q4 2026)
+
+#### Recently Delivered — Phase 5 Hardening (2026-07-20)
+- [x] EXS-01..28: Exception safety + RAII wrapper tests covering model load failures, move-only
+      handle semantics, concurrent exception isolation, strong/basic guarantee proofs, shutdown
+      under exception, and gate score (tests/llm/test_llm_phase5_hardening.cpp)
+- [x] MEM-01..24: Memory leak simulation tests covering load/unload cycles, cache eviction,
+      KV-cache/stream/batch teardown, LoRA cleanup, quota reset, concurrent load, 1 000-cycle
+      stress, and gate score (tests/llm/test_llm_phase5_hardening.cpp)
+- [x] 52 new deterministic GTest cases; CTest labels: llm;hardening;phase5; TIMEOUT 120
 
 ### Phase 6: Documentation and Acceptance
 - [ ] Synchronize operator docs/runbooks with implemented runtime behavior and metrics (Target: Q4 2026)

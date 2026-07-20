@@ -39,6 +39,14 @@ Führen Sie `ctest` vollständig oder gefiltert (`-R`) aus, um betroffene Module
 - Neue Tests als deterministische `test_*.cpp`
 - Keine stillen Flaky-Retries in Testlogik
 - Fixtures unter `tests/fixtures/`, wenn wiederverwendbar
+- Modulnahe Tests über `tests/<module>/CMakeLists.txt` registrieren und dafür
+  `themis_register_module_test()` oder `themis_register_module_focused_test()`
+  verwenden
+- Root-nahe Einzeltests nur registrieren, wenn das zugehörige
+  `add_executable()`-Target im selben CMake-Pfad tatsächlich existiert
+- `add_test()` nicht auf veraltete oder auskommentierte Targets zeigen lassen;
+  fehlende Targets zuerst im Modulpfad reparieren oder die Root-Registrierung
+  entfernen
 
 ## Bezug
 

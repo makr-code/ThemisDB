@@ -32,6 +32,71 @@
 | LG-3 | Routing overhead p99 <= release threshold | p99 from BM_DomainRouting_OverheadPerRequest |
 | LG-4 | No benchmark case missing in mapped release run | benchmark run manifest completeness |
 
+## P0.3 — Absolute SLO Baselines per VRAM Class
+
+These absolute gates supplement the relative LG-1..LG-4 guards.  Values are
+**engineering targets derived from llama.cpp community benchmarks on equivalent
+hardware** — marked as **ESTIMATE** until measured on ThemisDB hardware.
+
+*Measurement conditions assumed:* single-user, q4_K_M quantization, no LoRA,
+prompt = 512 tokens, generation = 256 tokens, context window = 4096.
+
+### 8 GB VRAM (RTX 3060 / RTX 4060 class)
+
+| SLO ID | Metric | Target | Status |
+|--------|--------|--------|--------|
+| SLO-8G-01 | TTFT (time-to-first-token), p50 | ≤ 800 ms | ESTIMATE |
+| SLO-8G-02 | TTFT, p99 | ≤ 2 500 ms | ESTIMATE |
+| SLO-8G-03 | Tokens/s (generation), p50 | ≥ 20 tok/s | ESTIMATE |
+| SLO-8G-04 | Tokens/s (generation), p99 | ≥ 10 tok/s | ESTIMATE |
+| SLO-8G-05 | End-to-end latency (512+256 tokens), p95 | ≤ 18 s | ESTIMATE |
+| SLO-8G-06 | Max sustainable concurrency (no OOM) | 1 request | ESTIMATE |
+
+*Applicable model*: 7B parameter models at Q4_K_M (≈ 4 GB VRAM).
+
+### 12 GB VRAM (RTX 3080 / RTX 4070 class)
+
+| SLO ID | Metric | Target | Status |
+|--------|--------|--------|--------|
+| SLO-12G-01 | TTFT, p50 | ≤ 500 ms | ESTIMATE |
+| SLO-12G-02 | TTFT, p99 | ≤ 1 500 ms | ESTIMATE |
+| SLO-12G-03 | Tokens/s (generation), p50 | ≥ 35 tok/s | ESTIMATE |
+| SLO-12G-04 | Tokens/s (generation), p99 | ≥ 18 tok/s | ESTIMATE |
+| SLO-12G-05 | End-to-end latency (512+256 tokens), p95 | ≤ 10 s | ESTIMATE |
+| SLO-12G-06 | Max sustainable concurrency (no OOM) | 2 requests | ESTIMATE |
+
+*Applicable models*: 7B Q8_0 (≈ 8 GB VRAM) or 13B Q4_K_M (≈ 8 GB VRAM).
+
+### 24 GB VRAM (RTX 3090 / RTX 4090 / A5000 class)
+
+| SLO ID | Metric | Target | Status |
+|--------|--------|--------|--------|
+| SLO-24G-01 | TTFT, p50 | ≤ 250 ms | ESTIMATE |
+| SLO-24G-02 | TTFT, p99 | ≤ 800 ms | ESTIMATE |
+| SLO-24G-03 | Tokens/s (generation), p50 | ≥ 55 tok/s | ESTIMATE |
+| SLO-24G-04 | Tokens/s (generation), p99 | ≥ 30 tok/s | ESTIMATE |
+| SLO-24G-05 | End-to-end latency (512+256 tokens), p95 | ≤ 6 s | ESTIMATE |
+| SLO-24G-06 | Max sustainable concurrency (no OOM) | 4 requests | ESTIMATE |
+
+*Applicable models*: 13B Q8_0 (≈ 14 GB VRAM) or 34B Q4_K_M (≈ 20 GB VRAM).
+
+### Absolute Regression Gate
+
+| Gate ID | Condition | Action |
+|---------|-----------|--------|
+| SLO-REG-01 | p99 Tokens/s drops > 20% vs preceding release run on same hardware class | Block release — requires investigation |
+| SLO-REG-02 | p99 TTFT exceeds class target by > 50% | Block release — requires investigation |
+| SLO-REG-03 | Concurrent-request OOM at rated concurrency | Block release |
+
+### Measurement Methodology
+
+- Run benchmarks with `kCanonicalRngSeed=42` (consistent with `benchmarks/bench_fixtures.h`).
+- Use `UseRealTime()` for all latency measurements.
+- Record hardware class, driver version, model path, quantization level, and context size in
+  each benchmark result artifact.
+- Promote ESTIMATE → MEASURED once a reproducible baseline run is captured on ThemisDB CI
+  hardware and merged to `RELEASE_GATE_MANIFEST_LLM.json` (to be created).
+
 ## Validation
 - Expectations are considered met when mapped benchmarks run reproducibly in release profile and stay within configured thresholds.
 - For proxy-only targets, follow-up benchmark hardening tasks must remain tracked.
@@ -58,3 +123,4 @@
 - Wave B tracking issue: `https://github.com/makr-code/ThemisDB/issues/5039`
 - dependent Wave A issue: `https://github.com/makr-code/ThemisDB/issues/5038`
 - follow-on Wave C issue: `https://github.com/makr-code/ThemisDB/issues/5040`
+
