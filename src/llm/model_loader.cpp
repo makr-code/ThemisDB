@@ -137,6 +137,17 @@ std::string getExpectedModelChecksum(const json& config) {
 
 } // namespace
 
+CachedModel::~CachedModel() {
+    if (context_handle != nullptr) {
+        llama_free(reinterpret_cast<llama_context*>(context_handle));
+        context_handle = nullptr;
+    }
+    if (model_handle != nullptr) {
+        llama_free_model(reinterpret_cast<llama_model*>(model_handle));
+        model_handle = nullptr;
+    }
+}
+
 bool LazyModelLoader::verifyModelChecksum(
     const std::string& model_id,
     const std::string& model_path,
@@ -205,28 +216,18 @@ LazyModelLoader::LazyModelLoader(const Config& config)
 }
 
 LazyModelLoader::~LazyModelLoader() {
-    std::lock_guard<std::mutex> lock(mutex_);
-    
-    // Unload all models properly
-    for (auto& [id, model] : models_) {
-        spdlog::info("Unloading model: {}", id);
-        
-        // Free llama.cpp resources if they exist
-        // Safety: reinterpret_cast is safe here because:
-        // 1. These are opaque C API handles from llama.cpp
-        // 2. Handles were originally cast TO void* when stored (type-erasing pattern)
-        // 3. We're now casting them back to their original types for proper cleanup
-        // 4. llama_free and llama_free_model expect the original pointer types
-        if (model->context_handle) {
-            llama_free(reinterpret_cast<llama_context*>(model->context_handle));
-            model->context_handle = nullptr;
-        }
-        if (model->model_handle) {
-            llama_free_model(reinterpret_cast<llama_model*>(model->model_handle));
-            model->model_handle = nullptr;
-        }
+    std::unordered_map<std::string, std::future<CachedModel*>> pending_loads;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        pending_loads.swap(pending_loads_);
     }
+
+    pending_loads.clear();
+
+    std::lock_guard<std::mutex> lock(mutex_);
     models_.clear();
+    total_vram_mb_ = 0;
+    total_ram_mb_ = 0;
 }
 
 CachedModel* LazyModelLoader::getOrLoadModel(
@@ -304,7 +305,7 @@ CachedModel* LazyModelLoader::getOrLoadModel(
     // Check if we need to evict
     if (models_.size() >= config_.max_models) {
         spdlog::info("Model cache full, evicting LRU");
-        evictLRU();
+        evictLRUUnlocked();
     }
     
     // Load model
@@ -461,7 +462,7 @@ std::future<CachedModel*> LazyModelLoader::loadAsync(
                 spdlog::info("Model load cancelled after loading: {}", model_id);
                 // Model was loaded but user cancelled, so unload it
                 load_lock.lock();
-                unloadModel(model_id, true);
+                unloadModelUnlocked(model_id, true);
                 load_lock.unlock();
                 return nullptr;
             }
@@ -504,34 +505,29 @@ bool LazyModelLoader::unloadModel(const std::string& model_id, bool force) {
     // W1-L01: Model unload operation. Scanner flags as model_integrity_gap but this is
     // a cleanup function (not a load); integrity checks are irrelevant for unload path. False positive.
     std::lock_guard<std::mutex> lock(mutex_);
-    
+    return unloadModelUnlocked(model_id, force);
+}
+
+bool LazyModelLoader::unloadModelUnlocked(const std::string& model_id, bool force) {
     auto it = models_.find(model_id);
     if (it == models_.end()) {
         return false;
     }
-    
+
     if (it->second->keep_loaded && !force) {
         spdlog::warn("Model {} is pinned, cannot unload (use force=true)", model_id);
         return false;
     }
-    
+
     spdlog::info("Unloading model: {}", model_id);
 
-    // Free llama.cpp resources
-    // Safety: reinterpret_cast safe - recovering original types from type-erased C API handles
-    if (it->second->context_handle) {
-        llama_free(reinterpret_cast<llama_context*>(it->second->context_handle));
-        it->second->context_handle = nullptr;
-    }
-    if (it->second->model_handle) {
-        llama_free_model(reinterpret_cast<llama_model*>(it->second->model_handle));
-        it->second->model_handle = nullptr;
-    }
+    total_vram_mb_ = (total_vram_mb_ > it->second->vram_mb)
+                         ? (total_vram_mb_ - it->second->vram_mb)
+                         : 0;
+    total_ram_mb_ = (total_ram_mb_ > it->second->ram_mb)
+                        ? (total_ram_mb_ - it->second->ram_mb)
+                        : 0;
 
-    // Update memory usage
-    total_vram_mb_ -= it->second->vram_mb;
-    total_ram_mb_ -= it->second->ram_mb;
-    
     models_.erase(it);
     return true;
 }
@@ -586,8 +582,11 @@ std::vector<std::string> LazyModelLoader::listLoadedModels() const {
 }
 
 size_t LazyModelLoader::evictLRU(size_t /*target_vram_mb*/) {
-    // Already locked by caller
-    
+    std::lock_guard<std::mutex> lock(mutex_);
+    return evictLRUUnlocked();
+}
+
+size_t LazyModelLoader::evictLRUUnlocked(size_t /*target_vram_mb*/) {
     if (models_.empty()) {
         return 0;
     }
@@ -618,11 +617,9 @@ size_t LazyModelLoader::evictLRU(size_t /*target_vram_mb*/) {
     
     spdlog::info("Evicting LRU model: {} (freed {} MB VRAM)", lru_id, freed_vram);
     
-    total_vram_mb_ -= lru_model->vram_mb;
-    total_ram_mb_ -= lru_model->ram_mb;
     evictions_.fetch_add(1, std::memory_order_relaxed);
     
-    models_.erase(lru_id);
+    unloadModelUnlocked(lru_id, true);
     
     return freed_vram;
 }
@@ -651,8 +648,9 @@ size_t LazyModelLoader::evictExpired() {
     
     for (const auto& id : to_evict) {
         spdlog::info("Evicting expired model: {}", id);
-        unloadModel(id, true);
-        evicted++;
+        if (unloadModelUnlocked(id, true)) {
+            evicted++;
+        }
     }
     
     return evicted;
@@ -722,7 +720,7 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
     // checksum before handing the file to llama.cpp.
     spdlog::info("Loading model: {} from {}", model_id, model_path);
 
-    auto model = std::make_unique<CachedModel>();
+    auto model = std::make_shared<CachedModel>();
     model->model_id = model_id;
     model->model_path = model_path;
     model->loaded_at = std::chrono::system_clock::now();
@@ -1040,7 +1038,7 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
     model->info.metadata["runtime_llama_backend_cpu_only_hint"] = log_capture.state().backend_cpu_only_hint;
 
     auto* result = model.get();
-    models_[model_id] = std::move(model);
+    models_[model_id] = model;
 
     // Update memory accounting and stats
     total_vram_mb_ += vram_mb;
@@ -1093,17 +1091,12 @@ std::shared_ptr<CachedModel> LazyModelLoader::getOrLoadModelShared(
 ) {
     std::lock_guard<std::mutex> lock(mutex_);
 
-    auto make_non_owning = [](CachedModel* ptr) {
-        // Non-owning wrapper over cache-owned model memory.
-        return std::shared_ptr<CachedModel>(ptr, [](CachedModel*) {});
-    };
-
     auto it = models_.find(model_id);
     if (it != models_.end()) {
         cache_hits_.fetch_add(1, std::memory_order_relaxed);
         it->second->last_used = std::chrono::system_clock::now();
         it->second->use_count++;
-        return make_non_owning(it->second.get());
+        return it->second;
     }
 
     cache_misses_.fetch_add(1, std::memory_order_relaxed);
@@ -1116,7 +1109,11 @@ std::shared_ptr<CachedModel> LazyModelLoader::getOrLoadModelShared(
     auto* loaded = *result;
     loaded->last_used = std::chrono::system_clock::now();
     loaded->use_count = 1;
-    return make_non_owning(loaded);
+    auto loaded_it = models_.find(model_id);
+    if (loaded_it == models_.end()) {
+        return nullptr;
+    }
+    return loaded_it->second;
 }
 
 } // namespace llm
