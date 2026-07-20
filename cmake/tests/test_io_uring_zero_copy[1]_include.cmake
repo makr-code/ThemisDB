@@ -1,0 +1,1 @@
+include("/home/runner/work/ThemisDB/ThemisDB/cmake/tests/test_io_uring_zero_copy[1]_include.cmake")

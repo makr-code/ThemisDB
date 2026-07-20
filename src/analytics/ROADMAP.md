@@ -1,7 +1,7 @@
 # Analytics Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-07-19 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
@@ -11,7 +11,13 @@ Production analytics runtime exists across OLAP, streaming/CEP, forecasting, ano
 ## In Progress
 
 - [~] hardening of streaming and distributed runtime limits under sustained load (Target: Q3 2026)
+  - [x] `max_open_windows` / `max_records_per_window` runtime limits added to TumblingWindow, SlidingWindow, HoppingWindow
+  - [x] `max_open_sessions` / `max_records_per_session` runtime limits added to SessionWindow
+  - [x] `windows_evicted` counter added to `WindowStats` for all four window types
+  - [ ] distributed analytics coordinator safety controls (Target: Q3 2026)
 - [~] benchmark and release-gate consolidation for analytics-critical paths (Target: Q3 2026)
+  - [x] `benchmarks/analytics/bench_streaming_window.cpp` added (7 benchmarks covering throughput, eviction, flush latency)
+  - [ ] remaining proxy-mapped benchmark paths need direct coverage (Target: Q4 2026)
 - [~] consistency hardening for optional dependency and fallback behavior (Target: Q3 2026)
 
 ## Planned Features
@@ -33,7 +39,8 @@ Production analytics runtime exists across OLAP, streaming/CEP, forecasting, ano
 - [ ] define explicit failure classes for unsupported dependency/capability states (Target: Q3 2026)
 
 ### Phase 2: Core Implementation
-- [ ] complete remaining runtime hardening in streaming and distributed high-load scenarios (Target: Q4 2026)
+- [x] streaming window runtime limits (max_open_windows, max_records_per_window/session, eviction) implemented
+- [ ] complete remaining runtime hardening in distributed high-load scenarios (Target: Q4 2026)
 - [ ] align serving/export integration behavior to shared bounded execution policy (Target: Q4 2026)
 
 ### Phase 3: Error Handling and Edge Cases
@@ -57,6 +64,8 @@ Production analytics runtime exists across OLAP, streaming/CEP, forecasting, ano
 - [x] core runtime surfaces documented with source verification
 - [x] security and failure behavior documented at module level
 - [x] mapped benchmark expectations documented
+- [x] streaming window runtime limits (max_open_windows, max_records, eviction) implemented
+- [x] dedicated streaming window benchmark added (bench_streaming_window.cpp)
 - [ ] dedicated benchmark coverage complete for all critical paths
 - [ ] remaining hardening tasks closed for sustained-load reliability
 

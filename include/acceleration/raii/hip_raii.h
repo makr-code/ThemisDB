@@ -39,11 +39,38 @@ namespace raii {
 // HIP Stream RAII Wrapper
 // ============================================================================
 
+/// @brief RAII wrapper for HIP stream (hipStream_t).
+///
+/// Manages the lifetime of a HIP stream created with hipStreamCreate().
+/// Automatically destroys the stream on scope exit (exception-safe RAII).
+/// 
+/// Supports ownership semantics:
+/// - **Owned streams**: created by HipStream itself, destroyed on scope exit.
+/// - **Non-owned streams**: wrapped around externally-created streams, not destroyed.
+///
+/// Features:
+/// - Move semantics: efficient transfer of stream ownership.
+/// - Non-copyable: prevents accidental stream duplication.
+/// - Exception-safe: stream is released even during unwinding.
+/// - Equivalent API to CudaStream for portability.
+///
+/// Example usage:
+/// ```cpp
+/// HipStream stream(true);  // Create and manage a new stream
+/// stream.synchronize();     // Wait for all work in the stream
+/// // stream automatically destroyed on scope exit
+/// ```
+///
+/// @note For wrapping externally-created streams, use wrap() static factory.
 class HipStream {
 public:
+    /// @brief Default constructor; does not create a stream.
     HipStream() : stream_(nullptr), owned_(false) {}
     
-    // Create a new stream
+    /// @brief Create a new HIP stream.
+    /// @param createNow If true, create the stream immediately; if false, defer creation.
+    /// @param flags Stream creation flags (default: 0).
+    /// @throws std::runtime_error if stream creation fails and createNow is true.
     explicit HipStream(bool createNow, unsigned int flags = 0) 
         : stream_(nullptr), owned_(false) {
         if (createNow) {
@@ -51,7 +78,10 @@ public:
         }
     }
     
-    // Wrap an existing stream (non-owning)
+    /// @brief Wrap an existing stream without taking ownership.
+    /// @param stream The HIP stream handle to wrap (not owned by the wrapper).
+    /// @return A HipStream instance that wraps but does not own the stream.
+    /// @note The stream will not be destroyed when this wrapper goes out of scope.
     static HipStream wrap(hipStream_t stream) {
         HipStream wrapper;
         wrapper.stream_ = stream;
@@ -59,17 +89,18 @@ public:
         return wrapper;
     }
     
-    // No copy
+    // Non-copyable
     HipStream(const HipStream&) = delete;
     HipStream& operator=(const HipStream&) = delete;
     
-    // Move semantics
+    /// @brief Move constructor; transfers stream ownership.
     HipStream(HipStream&& other) noexcept 
         : stream_(other.stream_), owned_(other.owned_) {
         other.stream_ = nullptr;
         other.owned_ = false;
     }
     
+    /// @brief Move assignment; transfers stream ownership.
     HipStream& operator=(HipStream&& other) noexcept {
         if (this != &other) {
             destroy();
@@ -81,11 +112,15 @@ public:
         return *this;
     }
     
+    /// @brief Destructor; destroys the stream if it is owned.
     ~HipStream() {
         destroy();
     }
     
-    // Create stream with specified flags
+    /// @brief Create a new stream with specified flags.
+    /// @param flags Stream creation flags (default: 0).
+    /// @throws std::runtime_error if stream creation fails.
+    /// @note If a stream is already owned, it is destroyed first.
     void create(unsigned int flags = 0) {
         if (stream_ && owned_) {
             destroy();
@@ -101,7 +136,10 @@ public:
         owned_ = true;
     }
     
-    // Create with priority
+    /// @brief Create a stream with a specified priority.
+    /// @param priority Stream priority (lower values have higher priority).
+    /// @param flags Stream creation flags (default: hipStreamNonBlocking).
+    /// @throws std::runtime_error if stream creation fails.
     void createWithPriority(int priority, unsigned int flags = hipStreamNonBlocking) {
         if (stream_ && owned_) {
             destroy();
@@ -117,7 +155,9 @@ public:
         owned_ = true;
     }
     
-    // Synchronize stream
+    /// @brief Wait for all operations in this stream to complete.
+    /// @throws std::runtime_error if synchronization fails.
+    /// @note No-op if stream is invalid (nullptr).
     void synchronize() {
         if (stream_) {
             hipError_t err = hipStreamSynchronize(stream_);
@@ -130,13 +170,18 @@ public:
         }
     }
     
-    // Check if stream is valid
+    /// @brief Check if the stream is valid and ready for use.
+    /// @return true if the stream has been created and is non-null; false otherwise.
     bool valid() const { return stream_ != nullptr; }
     
-    // Get underlying stream handle
+    /// @brief Get the underlying HIP stream handle.
+    /// @return The hipStream_t handle; nullptr if not created.
+    /// @note The returned handle remains valid until this object is destroyed or reassigned.
     hipStream_t get() const { return stream_; }
     
-    // Release ownership (caller must manage lifetime)
+    /// @brief Release ownership of the stream without destroying it.
+    /// @return The underlying HIP stream handle.
+    /// @note After calling release(), the caller is responsible for destroying the stream.
     hipStream_t release() {
         owned_ = false;
         hipStream_t tmp = stream_;
@@ -161,27 +206,56 @@ private:
 // HIP Device Memory RAII Wrapper
 // ============================================================================
 
+/// @brief RAII wrapper for HIP device memory (allocated via hipMalloc).
+///
+/// Manages the lifetime of GPU device memory on AMD ROCm. Automatically frees
+/// memory on scope exit (exception-safe RAII).
+///
+/// Features:
+/// - Type-agnostic: wraps raw device memory in bytes.
+/// - Move semantics: efficient transfer of memory ownership.
+/// - Non-copyable: prevents accidental memory duplication.
+/// - Bounds-checked copy operations (host↔device).
+/// - Exception-safe: memory is released even during unwinding.
+/// - Equivalent API to CudaDeviceMemory for portability.
+///
+/// For type-safe allocation and copying, use HipDeviceBuffer<T> instead.
+///
+/// Example usage:
+/// ```cpp
+/// HipDeviceMemory dev_mem(1024);  // Allocate 1024 bytes
+/// dev_mem.copyFrom(host_buffer, 1024);  // Copy host→device
+/// dev_mem.copyTo(host_buffer, 1024);    // Copy device→host
+/// // Memory automatically freed on scope exit
+/// ```
+///
+/// @see HipDeviceBuffer for type-safe memory management.
 class HipDeviceMemory {
 public:
+    /// @brief Default constructor; does not allocate memory.
     HipDeviceMemory() : ptr_(nullptr), size_(0) {}
     
+    /// @brief Allocate device memory.
+    /// @param size Number of bytes to allocate.
+    /// @throws std::runtime_error if allocation fails (e.g., out of device memory).
     explicit HipDeviceMemory(size_t size) : ptr_(nullptr), size_(0) {
         if (size > 0) {
             allocate(size);
         }
     }
     
-    // No copy
+    // Non-copyable
     HipDeviceMemory(const HipDeviceMemory&) = delete;
     HipDeviceMemory& operator=(const HipDeviceMemory&) = delete;
     
-    // Move semantics
+    /// @brief Move constructor; transfers memory ownership.
     HipDeviceMemory(HipDeviceMemory&& other) noexcept 
         : ptr_(other.ptr_), size_(other.size_) {
         other.ptr_ = nullptr;
         other.size_ = 0;
     }
     
+    /// @brief Move assignment; transfers memory ownership.
     HipDeviceMemory& operator=(HipDeviceMemory&& other) noexcept {
         if (this != &other) {
             free();
@@ -193,10 +267,14 @@ public:
         return *this;
     }
     
+    /// @brief Destructor; frees the allocated device memory.
     ~HipDeviceMemory() {
         free();
     }
     
+    /// @brief Allocate device memory.
+    /// @param size Number of bytes to allocate.
+    /// @throws std::runtime_error if allocation fails or if memory is already allocated.
     void allocate(size_t size) {
         if (ptr_) {
             free();
@@ -217,6 +295,11 @@ public:
         size_ = size;
     }
     
+    /// @brief Copy data from host to device.
+    /// @param host Source pointer on the host (must be valid for @p size bytes).
+    /// @param size Number of bytes to copy (must be ≤ allocated size).
+    /// @param stream Optional HIP stream for asynchronous copy; 0 for synchronous.
+    /// @throws std::runtime_error if memory is unallocated, copy exceeds capacity, or copy fails.
     void copyFrom(const void* host, size_t size, hipStream_t stream = 0) {
         if (!ptr_) {
             throw std::runtime_error("Cannot copy to unallocated HIP memory");
@@ -240,6 +323,11 @@ public:
         }
     }
     
+    /// @brief Copy data from device to host.
+    /// @param host Destination pointer on the host (must be writable for @p size bytes).
+    /// @param size Number of bytes to copy (must be ≤ allocated size).
+    /// @param stream Optional HIP stream for asynchronous copy; 0 for synchronous.
+    /// @throws std::runtime_error if memory is unallocated, copy exceeds capacity, or copy fails.
     void copyTo(void* host, size_t size, hipStream_t stream = 0) const {
         if (!ptr_) {
             throw std::runtime_error("Cannot copy from unallocated HIP memory");
@@ -263,10 +351,21 @@ public:
         }
     }
     
+    /// @brief Check if memory has been allocated.
+    /// @return true if memory is allocated; false otherwise.
     bool valid() const { return ptr_ != nullptr; }
+    
+    /// @brief Get the raw device memory pointer.
+    /// @return The device pointer; nullptr if unallocated.
     void* get() const { return ptr_; }
+    
+    /// @brief Get the allocated size in bytes.
+    /// @return The size of the allocated memory; 0 if unallocated.
     size_t size() const { return size_; }
     
+    /// @brief Release ownership of the memory without freeing it.
+    /// @return The raw device pointer.
+    /// @note After calling release(), the caller is responsible for calling hipFree().
     void* release() {
         void* tmp = ptr_;
         ptr_ = nullptr;
@@ -291,8 +390,33 @@ private:
 // Scoped HIP Device Setter
 // ============================================================================
 
+/// @brief RAII wrapper for HIP device context switching.
+///
+/// Saves the current HIP device on construction, sets a new device,
+/// and restores the previous device on destruction. Enables scoped device
+/// context management without manual save/restore logic.
+///
+/// Features:
+/// - Non-copyable and non-movable: enforces single-threaded usage.
+/// - Exception-safe: previous device is restored during unwinding.
+/// - Automatic cleanup: no explicit reset() call required.
+///
+/// Example usage:
+/// ```cpp
+/// {
+///     ScopedHipDevice scoped_dev(1);  // Switch to device 1
+///     // All HIP calls use device 1
+/// }  // Automatically switch back to original device
+/// ```
+///
+/// @note Not thread-safe; use in single-threaded contexts only.
+///       For multi-threaded scenarios, synchronize access or use device
+///       thread-local storage.
 class ScopedHipDevice {
 public:
+    /// @brief Switch to the specified HIP device.
+    /// @param deviceId The device ID to switch to.
+    /// @throws std::runtime_error if the device cannot be queried or set.
     explicit ScopedHipDevice(int deviceId) : previousDevice_(-1) {
         hipError_t err = hipGetDevice(&previousDevice_);
         if (err != hipSuccess) {

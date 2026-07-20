@@ -1,0 +1,1 @@
+include("/home/runner/work/ThemisDB/ThemisDB/cmake/tests/test_temporal_conflict_resolver[1]_include.cmake")

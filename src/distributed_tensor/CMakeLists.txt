@@ -1,16 +1,3 @@
-# EPIC 3 — Distributed Tensor Artifacts
-# Distributed tensor retrieval and manifesting support
-
-set(DISTRIBUTED_TENSOR_PUBLIC_HEADERS
-    include/distributed_planner.h
-)
-
-set(DISTRIBUTED_TENSOR_SOURCES
-    src/distributed_planner.cc
-)
-
-# Active implementation target for the distributed tensor module.
-
 set(DISTRIBUTED_TENSOR_PUBLIC_HEADERS
     ${CMAKE_SOURCE_DIR}/include/distributed_tensor/tensor_artifact_classes.h
     ${CMAKE_SOURCE_DIR}/include/distributed_tensor/artifact_manifest.h

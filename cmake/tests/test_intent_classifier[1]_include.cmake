@@ -1,0 +1,1 @@
+include("/home/runner/work/ThemisDB/ThemisDB/cmake/tests/test_intent_classifier[1]_include.cmake")

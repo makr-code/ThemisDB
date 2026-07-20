@@ -1,0 +1,1 @@
+include("/home/runner/work/ThemisDB/ThemisDB/cmake/tests/test_simd_distance[1]_include.cmake")
