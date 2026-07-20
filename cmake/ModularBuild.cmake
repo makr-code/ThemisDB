@@ -194,7 +194,7 @@ set(THEMIS_BASE_SOURCES
     ../src/utils/simd_distance.cpp
     ../src/utils/update_checker.cpp
     ../src/utils/http_client_pool.cpp
-    ../src/utils/grpc_channel_pool.cpp
+    $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/utils/grpc_channel_pool.cpp>
     ../src/utils/cron_parser.cpp
     ../src/utils/bloom_filter.cpp
     ../src/utils/checksum_utils.cpp
@@ -612,7 +612,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/performance/phase3/per_query_cost_model.cpp
     ../src/cache/cache_replication.cpp
     ../src/cache/cache_replication_coordinator.cpp
-    ../src/cache/grpc_remote_cache_peer.cpp
+    $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/cache/grpc_remote_cache_peer.cpp>
     # Legacy hiredis implementation conflicts with distributed_cache_coordinator
     # (duplicate symbol definitions). Keep only the distributed implementation.
     ../src/cache/distributed_cache_coordinator.cpp
