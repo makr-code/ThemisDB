@@ -98,6 +98,10 @@ struct JWTValidatorConfig {
     bool require_issuer_validation = true;   // throw at construction if expected_issuer is unset
     bool require_audience_validation = true; // throw at construction if expected_audience is unset
     bool require_jti = false;                // when true, reject tokens that are missing the jti claim
+    /// Maximum time to wait for a concurrent JWKS refresh to complete.
+    /// If the refresher thread does not finish within this window, validation
+    /// proceeds with the stale cache (or returns an empty set if no cache exists).
+    std::chrono::milliseconds refresh_wait_timeout{15'000};
 };
 
 class JWTValidator {

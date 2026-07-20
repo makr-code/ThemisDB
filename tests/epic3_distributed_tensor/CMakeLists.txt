@@ -5,6 +5,11 @@ set(EPIC3_DISTRIBUTED_TENSOR_TESTS
 )
 
 foreach(test_src IN LISTS EPIC3_DISTRIBUTED_TENSOR_TESTS)
+    if(NOT EXISTS "${CMAKE_CURRENT_LIST_DIR}/${test_src}")
+        message(STATUS "EPIC3 distributed tensor test source not found at ${CMAKE_CURRENT_LIST_DIR}/${test_src}")
+        continue()
+    endif()
+
     get_filename_component(test_name ${test_src} NAME_WE)
     add_executable(${test_name} ${test_src})
     target_link_libraries(${test_name} 
@@ -188,7 +193,7 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_tensor_rebuild_fallback.cpp")
     if(COMMAND themis_register_module_focused_test)
         themis_register_module_focused_test(
             MODULE distributed_tensor
-            NAME TensorRebuildFallbackPhaseB Tests
+            NAME TensorRebuildFallbackPhaseBTests
             TARGET test_tensor_rebuild_fallback
             TIER unit
             TIMEOUT 60

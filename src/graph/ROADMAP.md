@@ -1,8 +1,8 @@
 # Graph Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-06-25 -->
-<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · MODULE_GAPS.md -->
+<!-- Status: current | validated: 2026-07-20 -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · MODULE_GAPS.md · ../../NEXT_PHASE_IMPLEMENTATION_PLAN.md -->
 
 ## L0 Verification Status (2026-06-25) — **0 REAL GAPS**
 
@@ -44,6 +44,7 @@ Production graph runtime exists across query planning, constraint-aware traversa
 - [~] benchmark stabilization for optimizer, traversal, and tensor-fingerprint graph hot paths (Target: Q3 2026)
 - [~] diagnostics consistency for constraint denial, fallback, and reasoning conflict incidents (Target: Q3 2026)
 - [~] hybrid retrieval rollout Phase A entry: error path and thread-safety hardening (Target: Q3 2026)
+- [~] approved next implementation block: start Phase 3 with query-optimizer hardening, then cache efficiency and resource pooling, then scheduling/load-balancing sign-off (Target: Q3 2026)
 
 ## Planned Features
 
@@ -74,6 +75,7 @@ Production graph runtime exists across query planning, constraint-aware traversa
 ### Phase 2: Core Implementation
 - [ ] complete hardening for optimizer, traversal, and distributed orchestration internals (Target: Q4 2026)
 - [ ] align semantic/reasoning and tensor utility behavior with bounded runtime contracts (Target: Q4 2026)
+- [ ] stage query-optimizer work before cache/resource/scheduling follow-on items in the current Phase 3 execution order (Target: Q3 2026)
 
 ### Phase 3: Error Handling and Edge Cases
 - [ ] standardize fail-safe behavior for invalid constraints and degraded acceleration routes (Target: Q4 2026)

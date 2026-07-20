@@ -29,6 +29,7 @@ from typing import Dict, Any, List, Tuple
 
 # Ensure tools/ is in sys.path for local module imports (critical for subprocess execution)
 sys.path.insert(0, str(Path(__file__).parent))
+sys.path.insert(1, str(Path(__file__).parent / 'legacy'))
 
 # Import Phase 1-4 scanners
 from gap_scanner_v3_security import SecurityGapScanner
@@ -105,6 +106,34 @@ print(f"[DEBUG] WAVE6_FILTERING_ENABLED: {WAVE6_FILTERING_ENABLED} (WAVE6_PARALL
 
 class UnifiedGapScannerV3:
     """Orchestrate Phase 1-4 security, memory, reliability, concurrency, RAII, container, platform & performance scanning"""
+
+    BASELINE_ANALYSIS = {
+        'tp_percent': 24.0,
+        'critical_tp_percent': 50.0,
+        'source': 'ai_working/ANALYSIS_EXECUTIVE_SUMMARY.md',
+    }
+    HIGH_CONFIDENCE_PRIORITY_CATEGORIES = {
+        'legacy_duplication',
+        'smart_ptr_misuse',
+        'memory_order',
+        'uncaught_exception',
+    }
+    DEFERRED_HIGH_FP_CATEGORIES = {
+        'copy_overhead',
+        'observability',
+        'db_connection_leak',
+        'no_health_check',
+        'hardcoded_path',
+    }
+    SAFE_PATTERN_WHITELIST = (
+        r'std::make_shared',
+        r'std::make_unique',
+        r'std::lock_guard',
+        r'std::unique_lock',
+        r'std::scoped_lock',
+        r'\?.*:\s*',
+    )
+    MIN_SIGNALS_HIGH_MEDIUM = 2
     
     def __init__(self, repo_root: str = '.', output_dir: str = 'ai_working'):
         self.repo_root = Path(repo_root)
@@ -326,11 +355,15 @@ class UnifiedGapScannerV3:
             print("\n[...] Applying Wave 6 Semantic FP reduction filters (context-aware)...")
             aggregate = self._apply_wave6_filters(aggregate)
             print("[OK] Wave 6 semantic filters applied! (Expected: -30-40% additional reduction)")
+
+        # Apply scanner tuning policy from analysis baseline.
+        aggregate = self._apply_tuning_policy_to_aggregate(aggregate)
         
         # Save aggregates
         self._save_aggregate(aggregate)
         self._save_module_reports(aggregate)
         self._save_summary(aggregate)
+        self._save_tuning_baseline(aggregate)
         
         print("\n[OK] Phase 1-11 scan complete!")
         print(f"\n[INFO] Results saved to: {self.output_dir}/")
@@ -679,11 +712,28 @@ class UnifiedGapScannerV3:
 
         by_category: Dict[str, int] = {}
         by_file: Dict[str, int] = {}
+        by_module: Dict[str, int] = {}
         for item in actionable:
             category = str(item.get('category') or 'unknown')
             file_path = str(item.get('file') or 'unknown')
+            module_name = str(item.get('module') or 'unknown')
             by_category[category] = by_category.get(category, 0) + 1
             by_file[file_path] = by_file.get(file_path, 0) + 1
+            by_module[module_name] = by_module.get(module_name, 0) + 1
+
+        module_priority_order = ['llm', 'server', 'sharding']
+        prioritized_modules = []
+        for module_name in module_priority_order:
+            prioritized_modules.append({
+                'module': module_name,
+                'count': by_module.get(module_name, 0),
+            })
+        remaining_modules = [
+            {'module': module_name, 'count': count}
+            for module_name, count in sorted(by_module.items(), key=lambda kv: kv[1], reverse=True)
+            if module_name not in module_priority_order
+        ]
+        prioritized_modules.extend(remaining_modules[:10])
 
         top_n = 200
         top_files_n = 25
@@ -713,6 +763,16 @@ class UnifiedGapScannerV3:
                     reverse=True,
                 )[:top_files_n]
             ],
+            'prioritized_modules': prioritized_modules,
+            'delivery_gates': {
+                'batch_exit_criteria': [
+                    'no_new_critical',
+                    'tests_green',
+                    'documented_failure_and_recovery_semantics',
+                ],
+                'required_ci': ['release_critical', 'wave5_regression', 'wave6_regression'],
+                'release_signoff': ['wave7_baseline_stable', 'wave8_fault_injection_after_batches'],
+            },
         }
 
         queue_file = self.output_dir / 'gap_scan_v3_preflight_actionable_queue.json'
@@ -738,6 +798,18 @@ class UnifiedGapScannerV3:
             for row in queue_payload['top_files']:
                 f.write(f"- {row['file']}: {row['count']}\n")
             f.write("\n")
+
+            f.write("## Module Remediation Order\n\n")
+            for row in queue_payload['prioritized_modules']:
+                f.write(f"- {row['module']}: {row['count']}\n")
+            f.write("\n")
+
+            f.write("## Batch Exit Gates\n\n")
+            f.write("- No new CRITICAL findings\n")
+            f.write("- Build/tests green (incl. `release_critical`)\n")
+            f.write("- Failure and recovery semantics documented\n")
+            f.write("- Wave 5/6 regression protection intact\n")
+            f.write("- Wave 7 stable; Wave 8 fault-injection as final sign-off\n\n")
 
             f.write("## Top Actionable Items (Top 25)\n\n")
             for item in actionable[:25]:
@@ -880,6 +952,75 @@ class UnifiedGapScannerV3:
         print(f"[OK] Saved: {output_file.name}")
         self._save_confidence_review(aggregate)
         self._save_confidence_by_category(summary['confidence_by_category'])
+        self._save_weekly_kpi(summary, aggregate)
+
+    def _save_tuning_baseline(self, aggregate: Dict[str, Any]):
+        """Persist frozen baseline and policy metadata used by this scan run."""
+        output_file = self.output_dir / 'gap_scan_v3_tuning_baseline.json'
+        payload = {
+            'generated_at': datetime.now().isoformat(),
+            'baseline': self.BASELINE_ANALYSIS,
+            'high_confidence_priority_categories': sorted(self.HIGH_CONFIDENCE_PRIORITY_CATEGORIES),
+            'deferred_high_fp_categories': sorted(self.DEFERRED_HIGH_FP_CATEGORIES),
+            'min_signals_for_high_medium': self.MIN_SIGNALS_HIGH_MEDIUM,
+            'safe_pattern_whitelist': list(self.SAFE_PATTERN_WHITELIST),
+            'modules': sorted(aggregate.keys()),
+        }
+        with open(output_file, 'w', encoding='utf-8') as f:
+            json.dump(payload, f, indent=2)
+        print(f"[OK] Saved: {output_file.name}")
+
+    def _save_weekly_kpi(self, summary: Dict[str, Any], aggregate: Dict[str, Any]):
+        """Persist weekly KPI snapshot and markdown report scaffold."""
+        kpi_json = self.output_dir / 'gap_scan_v3_weekly_kpi.json'
+        by_module = {}
+        for module_name, module_data in aggregate.items():
+            by_module[module_name] = {
+                'total': module_data.get('total', 0),
+                'critical': module_data.get('severity_critical', 0),
+                'high': module_data.get('severity_high', 0),
+                'medium': module_data.get('severity_medium', 0),
+            }
+
+        kpi_payload = {
+            'generated_at': datetime.now().isoformat(),
+            'overall': {
+                'total_gaps': summary.get('total_gaps', 0),
+                'critical': summary.get('by_severity', {}).get('critical', 0),
+                'high': summary.get('by_severity', {}).get('high', 0),
+                'medium': summary.get('by_severity', {}).get('medium', 0),
+            },
+            'priority_modules': {
+                module: by_module.get(module, {'total': 0, 'critical': 0, 'high': 0, 'medium': 0})
+                for module in ['llm', 'server', 'sharding']
+            },
+            'top_categories': summary.get('by_category', {}),
+        }
+        with open(kpi_json, 'w', encoding='utf-8') as f:
+            json.dump(kpi_payload, f, indent=2)
+        print(f"[OK] Saved: {kpi_json.name}")
+
+        kpi_md = self.output_dir / 'gap_scan_v3_weekly_kpi.md'
+        with open(kpi_md, 'w', encoding='utf-8') as f:
+            f.write("# Weekly Scanner KPI Snapshot\n\n")
+            f.write(f"Generated: {kpi_payload['generated_at']}\n\n")
+            f.write("## Overall\n\n")
+            f.write("| Metric | Value |\n|---|---|\n")
+            f.write(f"| Total Gaps | {kpi_payload['overall']['total_gaps']} |\n")
+            f.write(f"| CRITICAL | {kpi_payload['overall']['critical']} |\n")
+            f.write(f"| HIGH | {kpi_payload['overall']['high']} |\n")
+            f.write(f"| MEDIUM | {kpi_payload['overall']['medium']} |\n\n")
+            f.write("## Priority Modules (Remediation Order)\n\n")
+            f.write("| Module | Total | CRITICAL | HIGH | MEDIUM |\n|---|---|---|---|---|\n")
+            for module in ['llm', 'server', 'sharding']:
+                row = kpi_payload['priority_modules'][module]
+                f.write(f"| {module} | {row['total']} | {row['critical']} | {row['high']} | {row['medium']} |\n")
+            f.write("\n## Batch Gates\n\n")
+            f.write("- release_critical must stay green\n")
+            f.write("- No new CRITICAL findings per batch\n")
+            f.write("- Wave 5/6 regression tests must pass\n")
+            f.write("- Wave 7 baseline stable; Wave 8 after remediation waves\n")
+        print(f"[OK] Saved: {kpi_md.name}")
 
     def _build_confidence_overview(self, aggregate: Dict[str, Any]) -> Dict[str, int]:
         """Count gaps by confidence band across the full aggregate."""
@@ -971,6 +1112,7 @@ class UnifiedGapScannerV3:
     def _compute_gap_confidence(self, gap: Dict[str, Any]) -> Dict[str, Any]:
         """Compute a heuristic confidence score for a single gap entry."""
         severity = str(gap.get('severity', 'MEDIUM')).upper()
+        category = str(gap.get('category', 'unknown') or 'unknown')
         pattern = str(gap.get('pattern', '') or '')
         description = str(gap.get('description', '') or '')
         context = str(gap.get('context', '') or '')
@@ -1015,6 +1157,22 @@ class UnifiedGapScannerV3:
             score -= 0.08
             rationale.append('historically_noisy_pattern')
 
+        if category in self.HIGH_CONFIDENCE_PRIORITY_CATEGORIES:
+            score += 0.08
+            rationale.append('high_confidence_priority_category')
+
+        if category in self.DEFERRED_HIGH_FP_CATEGORIES and severity != 'CRITICAL':
+            score -= 0.18
+            rationale.append('deferred_high_fp_category')
+
+        if self._matches_safe_whitelist(gap):
+            score -= 0.22
+            rationale.append('safe_whitelist_match')
+
+        if severity in {'HIGH', 'MEDIUM'} and self._count_gap_signals(gap) < self.MIN_SIGNALS_HIGH_MEDIUM:
+            score -= 0.12
+            rationale.append('insufficient_signals_high_medium')
+
         if score < 0.05:
             score = 0.05
         if score > 0.99:
@@ -1034,6 +1192,97 @@ class UnifiedGapScannerV3:
         enriched['confidence_band'] = band
         enriched['confidence_rationale'] = ','.join(rationale)
         return enriched
+
+    def _count_gap_signals(self, gap: Dict[str, Any]) -> int:
+        """Count independent signals that support keeping HIGH/MEDIUM finding severity."""
+        signals = 0
+        if str(gap.get('pattern', '') or '').strip():
+            signals += 1
+        line = gap.get('line_number', gap.get('line', 0))
+        if isinstance(line, int) and line > 0:
+            signals += 1
+        context = str(gap.get('context', '') or '')
+        if len(context.strip()) >= 20:
+            signals += 1
+        description = str(gap.get('description', '') or '').lower()
+        if any(token in description for token in ('unsafe', 'unbounded', 'race', 'leak', 'deadlock', 'overflow', 'uncaught')):
+            signals += 1
+        if str(gap.get('category', '') or '') in self.HIGH_CONFIDENCE_PRIORITY_CATEGORIES:
+            signals += 1
+        return signals
+
+    def _matches_safe_whitelist(self, gap: Dict[str, Any]) -> bool:
+        """Detect safe idioms that should be de-prioritized for remediation."""
+        haystack = " ".join([
+            str(gap.get('description', '') or ''),
+            str(gap.get('context', '') or ''),
+            str(gap.get('pattern', '') or ''),
+        ])
+        return any(re.search(pattern, haystack, re.IGNORECASE) for pattern in self.SAFE_PATTERN_WHITELIST)
+
+    def _apply_tuning_policy_to_aggregate(self, aggregate: Dict[str, Any]) -> Dict[str, Any]:
+        """Apply severity and backlog policy derived from validation analysis."""
+        tuned = {}
+        for module_name, module_data in aggregate.items():
+            tuned_module = dict(module_data)
+            tuned_by_file = {}
+            critical = high = medium = 0
+            for file_path, gaps in module_data.get('by_file', {}).items():
+                tuned_gaps = []
+                for gap in gaps:
+                    tuned_gap = self._apply_tuning_policy_to_gap(dict(gap))
+                    tuned_gaps.append(self._compute_gap_confidence(tuned_gap))
+                    sev = str(tuned_gap.get('severity', 'MEDIUM')).upper()
+                    if sev == 'CRITICAL':
+                        critical += 1
+                    elif sev == 'HIGH':
+                        high += 1
+                    elif sev == 'MEDIUM':
+                        medium += 1
+                tuned_by_file[file_path] = tuned_gaps
+            tuned_module['by_file'] = tuned_by_file
+            tuned_module['total'] = sum(len(gaps) for gaps in tuned_by_file.values())
+            tuned_module['severity_critical'] = critical
+            tuned_module['severity_high'] = high
+            tuned_module['severity_medium'] = medium
+            tuned[module_name] = tuned_module
+        return tuned
+
+    def _apply_tuning_policy_to_gap(self, gap: Dict[str, Any]) -> Dict[str, Any]:
+        """Apply policy: prioritize CRITICAL + high-confidence categories, defer noisy categories."""
+        category = str(gap.get('category', 'unknown') or 'unknown')
+        original_severity = str(gap.get('severity', 'MEDIUM')).upper()
+        severity = original_severity
+        policy_notes: List[str] = []
+
+        if category in self.DEFERRED_HIGH_FP_CATEGORIES and severity in {'HIGH', 'MEDIUM'}:
+            severity = 'INFO'
+            policy_notes.append('deferred_high_fp_category')
+
+        if severity in {'HIGH', 'MEDIUM'}:
+            signals = self._count_gap_signals(gap)
+            if signals < self.MIN_SIGNALS_HIGH_MEDIUM:
+                severity = 'INFO'
+                policy_notes.append(f'low_signal_count<{self.MIN_SIGNALS_HIGH_MEDIUM}')
+            else:
+                policy_notes.append(f'signal_count={signals}')
+
+        if self._matches_safe_whitelist(gap) and severity in {'HIGH', 'MEDIUM'}:
+            severity = 'INFO'
+            policy_notes.append('safe_pattern_whitelist')
+
+        if category in self.HIGH_CONFIDENCE_PRIORITY_CATEGORIES:
+            policy_notes.append('high_confidence_priority')
+
+        gap['severity'] = severity
+        gap['tuning_policy'] = {
+            'baseline_tp_percent': self.BASELINE_ANALYSIS['tp_percent'],
+            'critical_tp_percent': self.BASELINE_ANALYSIS['critical_tp_percent'],
+            'original_severity': original_severity,
+            'final_severity': severity,
+            'notes': policy_notes,
+        }
+        return gap
     
     def _convert_gaps_to_module_format(self, gaps: list) -> Dict[str, Dict]:
         """Convert TypeConversionGap list to module-based aggregation format"""

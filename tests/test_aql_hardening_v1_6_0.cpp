@@ -20,6 +20,8 @@
 #include <thread>
 #include <chrono>
 #include <atomic>
+#include <cstdio>
+#include <fstream>
 #include <memory>
 #include "aql/llm_aql_handler.h"
 #include "aql/aql_conversation_context.h"
@@ -310,6 +312,111 @@ TEST_F(AQLHardeningIntegrationTest, ValidationAndCircuitBreakerConsistency) {
     // Circuit breaker states should remain unchanged
     auto after_states = handler->getCircuitBreakerStates();
     EXPECT_EQ(initial_states.infer, after_states.infer);
+}
+
+// ============================================================================
+// A-10 Acceptance: 1K executor cycles — thread leak verification
+// ============================================================================
+
+/**
+ * @brief A-10 acceptance gate: LLMTimeoutManager must not accumulate threads
+ *        across 1,000 execution cycles (mix of success + timeout paths).
+ *
+ * Reads /proc/self/status to obtain the kernel-reported thread count before
+ * and after 1,000 cycles.  A leaked std::thread would increment the count by
+ * one per cycle, so the test allows only a slack of ±20 threads (noise from
+ * GTest infrastructure).  When run under ThreadSanitizer the thread lifecycle
+ * is additionally validated at no extra cost.
+ */
+class LLMTimeoutManager_A10_1KCyclesTest : public ::testing::Test {
+protected:
+    /// Returns the current process thread count via /proc/self/status, or 0 if unavailable.
+    static int getProcThreadCount() {
+        std::ifstream f("/proc/self/status");
+        if (!f.is_open()) {
+            return 0;
+        }
+        std::string line;
+        while (std::getline(f, line)) {
+            if (line.rfind("Threads:", 0) == 0) {
+                int count = 0;
+                if (std::sscanf(line.c_str(), "Threads: %d", &count) == 1) {
+                    return count;
+                }
+            }
+        }
+        return 0;
+    }
+};
+
+TEST_F(LLMTimeoutManager_A10_1KCyclesTest, A10_1K_Success_NoThreadLeak) {
+    // 500 success-path cycles: executor returns before timeout → jthread joins inline.
+    LLMTimeoutManager mgr;
+    const int kCycles = 500;
+    std::atomic<int> counter{0};
+
+    const int threads_before = getProcThreadCount();
+
+    for (int i = 0; i < kCycles; ++i) {
+        int result = mgr.executeWithTimeout(
+            [&counter]() -> int {
+                counter.fetch_add(1, std::memory_order_relaxed);
+                return 1;
+            },
+            std::chrono::seconds(10),
+            "a10_success_cycle");
+        EXPECT_EQ(result, 1);
+    }
+
+    EXPECT_EQ(counter.load(), kCycles);
+
+    // Allow any jthread destructors triggered by this scope to complete.
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+
+    const int threads_after = getProcThreadCount();
+    if (threads_before > 0 && threads_after > 0) {
+        // No thread accumulation: allow ±20 threads of slack for GTest / OS noise.
+        EXPECT_LE(threads_after - threads_before, 20)
+            << "Thread count grew from " << threads_before << " to " << threads_after
+            << " — possible thread leak in success path";
+    }
+}
+
+TEST_F(LLMTimeoutManager_A10_1KCyclesTest, A10_1K_Timeout_NoThreadLeak) {
+    // 500 timeout-path cycles: worker takes 200ms but timeout is 1ms →
+    // cleanup thread detaches and joins the worker without blocking the caller.
+    LLMTimeoutManager mgr;
+    const int kCycles = 500;
+    int timeout_exceptions = 0;
+
+    const int threads_before = getProcThreadCount();
+
+    for (int i = 0; i < kCycles; ++i) {
+        try {
+            mgr.executeWithTimeout(
+                []() -> int {
+                    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+                    return 0;
+                },
+                std::chrono::milliseconds(1),
+                "a10_timeout_cycle");
+        } catch (const LLMException& ex) {
+            EXPECT_EQ(ex.getErrorCode(), LLMErrorCode::TIMEOUT);
+            ++timeout_exceptions;
+        }
+    }
+
+    EXPECT_EQ(timeout_exceptions, kCycles);
+
+    // Allow cleanup threads to drain (each has a 200 ms worker → give 500 ms extra).
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+
+    const int threads_after = getProcThreadCount();
+    if (threads_before > 0 && threads_after > 0) {
+        EXPECT_LE(threads_after - threads_before, 20)
+            << "Thread count grew from " << threads_before << " to " << threads_after
+            << " — possible thread leak in timeout path";
+    }
 }
 
 int main(int argc, char** argv) {

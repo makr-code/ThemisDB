@@ -1,61 +1,90 @@
 {
-  "date": "2026-06-02",
+  "date": "2026-07-20T11:37:26.515115+00:00",
+  "baseline_policy": {
+    "tp_percent": 24.0,
+    "critical_tp_percent": 50.0,
+    "priority_categories": [
+      "legacy_duplication",
+      "smart_ptr_misuse",
+      "memory_order",
+      "uncaught_exception"
+    ],
+    "deferred_high_fp_categories": [
+      "observability",
+      "copy_overhead",
+      "db_connection_leak",
+      "no_health_check",
+      "hardcoded_path"
+    ],
+    "priority_modules": [
+      "llm",
+      "server",
+      "sharding"
+    ]
+  },
   "sample_size": 50,
-  "tp_count": 12,
-  "tp_percent": 24.0,
-  "fp_count": 18,
-  "fp_percent": 36.0,
-  "uncertain_count": 20,
-  "uncertain_percent": 40.0,
-  "estimated_tp_in_18795": 4510,
-  "estimated_fp_in_18795": 6766,
+  "tp_count": 8,
+  "tp_percent": 16.0,
+  "fp_count": 20,
+  "fp_percent": 40.0,
+  "uncertain_count": 22,
+  "uncertain_percent": 44.0,
+  "full_dataset_size": 30015,
+  "estimated_tp_in_full_dataset": 4802,
+  "estimated_fp_in_full_dataset": 12006,
+  "estimated_uncertain_in_full_dataset": 13206,
   "by_category": {
-    "no_health_check": {
+    "performance": {
+      "TP": 0,
+      "FP": 6,
+      "?": 5
+    },
+    "audit_logging": {
+      "TP": 1,
+      "FP": 0,
+      "?": 1
+    },
+    "pointer_arithmetic": {
       "TP": 0,
       "FP": 1,
       "?": 0
     },
-    "no_timeout": {
-      "TP": 0,
+    "uncaught_exception": {
+      "TP": 1,
       "FP": 1,
       "?": 0
-    },
-    "db_connection_leak": {
-      "TP": 0,
-      "FP": 1,
-      "?": 0
-    },
-    "range_temporary": {
-      "TP": 0,
-      "FP": 0,
-      "?": 1
-    },
-    "lock_contention": {
-      "TP": 0,
-      "FP": 0,
-      "?": 1
-    },
-    "delete_no_nullptr": {
-      "TP": 0,
-      "FP": 0,
-      "?": 1
     },
     "copy_overhead": {
       "TP": 0,
       "FP": 0,
       "?": 3
     },
-    "performance": {
-      "TP": 1,
-      "FP": 4,
-      "?": 5
-    },
-    "null_dereference": {
+    "uninitialized_access": {
       "TP": 0,
       "FP": 1,
       "?": 0
     },
-    "pointer_arithmetic": {
+    "observability": {
+      "TP": 0,
+      "FP": 0,
+      "?": 1
+    },
+    "db_connection_leak": {
+      "TP": 0,
+      "FP": 0,
+      "?": 1
+    },
+    "legacy_duplication": {
+      "TP": 1,
+      "FP": 0,
+      "?": 0
+    },
+    "no_health_check": {
+      "TP": 0,
+      "FP": 0,
+      "?": 1
+    },
+    "range_temporary": {
       "TP": 0,
       "FP": 1,
       "?": 0
@@ -65,19 +94,29 @@
       "FP": 1,
       "?": 0
     },
-    "data_race": {
-      "TP": 1,
+    "abi_safety": {
+      "TP": 0,
+      "FP": 3,
+      "?": 1
+    },
+    "null_dereference": {
+      "TP": 0,
       "FP": 1,
       "?": 0
     },
-    "observability": {
+    "delete_no_nullptr": {
+      "TP": 0,
+      "FP": 1,
+      "?": 0
+    },
+    "data_race": {
       "TP": 0,
       "FP": 0,
-      "?": 2
+      "?": 1
     },
-    "legacy_duplication": {
-      "TP": 1,
-      "FP": 0,
+    "lock_contention": {
+      "TP": 0,
+      "FP": 1,
       "?": 0
     },
     "smart_ptr_misuse": {
@@ -90,32 +129,12 @@
       "FP": 0,
       "?": 0
     },
-    "uncaught_exception": {
-      "TP": 2,
-      "FP": 1,
-      "?": 0
+    "determinism": {
+      "TP": 1,
+      "FP": 0,
+      "?": 1
     },
     "o_n_squared": {
-      "TP": 0,
-      "FP": 1,
-      "?": 0
-    },
-    "determinism": {
-      "TP": 0,
-      "FP": 0,
-      "?": 1
-    },
-    "llm_ai_safety": {
-      "TP": 1,
-      "FP": 2,
-      "?": 3
-    },
-    "uninitialized_access": {
-      "TP": 0,
-      "FP": 0,
-      "?": 1
-    },
-    "hardcoded_path": {
       "TP": 0,
       "FP": 1,
       "?": 0
@@ -125,32 +144,22 @@
       "FP": 1,
       "?": 0
     },
+    "llm_ai_safety": {
+      "TP": 0,
+      "FP": 0,
+      "?": 7
+    },
     "repeated_search": {
       "TP": 1,
       "FP": 0,
       "?": 0
     },
-    "audit_logging": {
-      "TP": 1,
-      "FP": 0,
-      "?": 1
-    },
-    "memory_order": {
-      "TP": 1,
-      "FP": 0,
-      "?": 0
-    },
-    "size_assumption": {
-      "TP": 0,
-      "FP": 0,
-      "?": 1
-    },
-    "manual_cleanup": {
+    "hardcoded_path": {
       "TP": 0,
       "FP": 1,
       "?": 0
     },
-    "missing_dtor": {
+    "new_without_delete": {
       "TP": 1,
       "FP": 0,
       "?": 0
@@ -158,291 +167,257 @@
   },
   "by_severity": {
     "MEDIUM": {
-      "TP": 5,
+      "TP": 1,
       "FP": 7,
-      "?": 10
+      "?": 4
     },
     "CRITICAL": {
-      "TP": 4,
-      "FP": 3,
-      "?": 1
+      "TP": 3,
+      "FP": 0,
+      "?": 3
+    },
+    "INFO": {
+      "TP": 3,
+      "FP": 12,
+      "?": 7
     },
     "HIGH": {
-      "TP": 3,
-      "FP": 8,
-      "?": 9
+      "TP": 1,
+      "FP": 0,
+      "?": 8
+    },
+    "LOW": {
+      "TP": 0,
+      "FP": 1,
+      "?": 0
     }
   },
   "assessments": [
     {
       "index": 1,
-      "module": "unknown",
-      "file": "src\\server\\voice_api_handler.cpp",
-      "line": 308,
+      "module": "plugins",
+      "file": "src/plugins/plugin_manager.cpp",
+      "line": 1034,
       "severity": "MEDIUM",
-      "category": "no_health_check",
+      "category": "performance",
       "classification": "FP",
-      "confidence": 0.85,
-      "reasoning": "Status used in response creation, not internal state"
+      "confidence": 0.6,
+      "reasoning": "Vector push_back without reserve is acceptable pattern"
     },
     {
       "index": 2,
-      "module": "unknown",
-      "file": "src\\query\\query_engine.cpp",
-      "line": 4558,
-      "severity": "CRITICAL",
-      "category": "no_timeout",
-      "classification": "FP",
-      "confidence": 0.6,
-      "reasoning": "Wait/lock has implicit timeout or is in try-catch block"
+      "module": "importers",
+      "file": "src/importers/schema_inference.cpp",
+      "line": 297,
+      "severity": "MEDIUM",
+      "category": "performance",
+      "classification": "?",
+      "confidence": 0.5,
+      "reasoning": "Need algorithm analysis"
     },
     {
       "index": 3,
-      "module": "unknown",
-      "file": "src\\utils\\memory\\pool_allocator.cpp",
-      "line": 810,
-      "severity": "HIGH",
-      "category": "db_connection_leak",
-      "classification": "FP",
-      "confidence": 0.8,
-      "reasoning": "RAII lock guard present, no leak"
+      "module": "base",
+      "file": "src/base/plugin_dependency_graph.cpp",
+      "line": 135,
+      "severity": "MEDIUM",
+      "category": "performance",
+      "classification": "?",
+      "confidence": 0.5,
+      "reasoning": "Need algorithm analysis"
     },
     {
       "index": 4,
-      "module": "unknown",
-      "file": "src\\network\\envoy_xds.cpp",
-      "line": 380,
-      "severity": "HIGH",
-      "category": "range_temporary",
-      "classification": "?",
-      "confidence": 0.55,
-      "reasoning": "HIGH severity warrants investigation"
+      "module": "query",
+      "file": "src/query/functions/process_mining_functions.cpp",
+      "line": 204,
+      "severity": "MEDIUM",
+      "category": "performance",
+      "classification": "FP",
+      "confidence": 0.6,
+      "reasoning": "Vector push_back without reserve is acceptable pattern"
     },
     {
       "index": 5,
-      "module": "unknown",
-      "file": "src\\index\\vector_auto_buffer.cpp",
-      "line": 384,
-      "severity": "HIGH",
-      "category": "lock_contention",
-      "classification": "?",
-      "confidence": 0.55,
-      "reasoning": "HIGH severity warrants investigation"
+      "module": "performance",
+      "file": "src/performance/adaptive_query_compiler.cpp",
+      "line": 756,
+      "severity": "MEDIUM",
+      "category": "performance",
+      "classification": "FP",
+      "confidence": 0.6,
+      "reasoning": "Vector push_back without reserve is acceptable pattern"
     },
     {
       "index": 6,
-      "module": "unknown",
-      "file": "src\\server\\branch_api_handler.cpp",
-      "line": 229,
-      "severity": "HIGH",
-      "category": "delete_no_nullptr",
-      "classification": "?",
-      "confidence": 0.55,
-      "reasoning": "HIGH severity warrants investigation"
+      "module": "network",
+      "file": "src/network/envoy_xds.cpp",
+      "line": 456,
+      "severity": "MEDIUM",
+      "category": "performance",
+      "classification": "FP",
+      "confidence": 0.6,
+      "reasoning": "Vector push_back without reserve is acceptable pattern"
     },
     {
       "index": 7,
-      "module": "unknown",
-      "file": "src\\security\\vault_signing_provider.cpp",
-      "line": 44,
+      "module": "index",
+      "file": "src/index/rotary_embeddings.cpp",
+      "line": 46,
       "severity": "MEDIUM",
-      "category": "copy_overhead",
+      "category": "performance",
       "classification": "?",
       "confidence": 0.5,
-      "reasoning": "Concurrency pattern unclear"
+      "reasoning": "Need algorithm analysis"
     },
     {
       "index": 8,
-      "module": "unknown",
-      "file": "src\\server\\profiling_api_handler.cpp",
-      "line": 150,
+      "module": "importers",
+      "file": "src/importers/huggingface_ingest_plugin.cpp",
+      "line": 277,
       "severity": "MEDIUM",
-      "category": "copy_overhead",
-      "classification": "?",
-      "confidence": 0.5,
-      "reasoning": "Concurrency pattern unclear"
+      "category": "performance",
+      "classification": "FP",
+      "confidence": 0.6,
+      "reasoning": "Vector push_back without reserve is acceptable pattern"
     },
     {
       "index": 9,
-      "module": "unknown",
-      "file": "src\\server\\postgres_session.cpp",
-      "line": 730,
+      "module": "transaction",
+      "file": "src/transaction/transaction_manager.cpp",
+      "line": 2174,
       "severity": "MEDIUM",
-      "category": "copy_overhead",
-      "classification": "?",
-      "confidence": 0.5,
-      "reasoning": "Concurrency pattern unclear"
+      "category": "performance",
+      "classification": "FP",
+      "confidence": 0.6,
+      "reasoning": "Vector push_back without reserve is acceptable pattern"
     },
     {
       "index": 10,
-      "module": "unknown",
-      "file": "src\\metadata\\information_schema.cpp",
-      "line": 314,
-      "severity": "MEDIUM",
-      "category": "performance",
-      "classification": "FP",
+      "module": "themis",
+      "file": "src/themis/license_info.cpp",
+      "line": 209,
+      "severity": "CRITICAL",
+      "category": "audit_logging",
+      "classification": "TP",
       "confidence": 0.6,
-      "reasoning": "Vector push_back without reserve is acceptable pattern"
+      "reasoning": "CRITICAL severity suggests real issue"
     },
     {
       "index": 11,
-      "module": "unknown",
-      "file": "src\\llm\\gguf_loader.cpp",
-      "line": 404,
-      "severity": "MEDIUM",
-      "category": "performance",
-      "classification": "FP",
-      "confidence": 0.6,
-      "reasoning": "Vector push_back without reserve is acceptable pattern"
-    },
-    {
-      "index": 12,
-      "module": "unknown",
-      "file": "src\\server\\http_server.cpp",
-      "line": 6858,
-      "severity": "MEDIUM",
-      "category": "performance",
-      "classification": "?",
-      "confidence": 0.5,
-      "reasoning": "Need algorithm analysis"
-    },
-    {
-      "index": 13,
-      "module": "unknown",
-      "file": "src\\security\\zero_trust_policy_enforcer.cpp",
-      "line": 62,
-      "severity": "MEDIUM",
-      "category": "performance",
-      "classification": "?",
-      "confidence": 0.5,
-      "reasoning": "Need algorithm analysis"
-    },
-    {
-      "index": 14,
-      "module": "unknown",
-      "file": "src\\index\\ann_index.cpp",
-      "line": 84,
-      "severity": "MEDIUM",
-      "category": "performance",
-      "classification": "?",
-      "confidence": 0.5,
-      "reasoning": "Need algorithm analysis"
-    },
-    {
-      "index": 15,
-      "module": "unknown",
-      "file": "src\\storage\\columnar_format.cpp",
-      "line": 343,
-      "severity": "MEDIUM",
-      "category": "performance",
-      "classification": "?",
-      "confidence": 0.5,
-      "reasoning": "Need algorithm analysis"
-    },
-    {
-      "index": 16,
-      "module": "unknown",
-      "file": "src\\analytics\\anomaly_detection.cpp",
-      "line": 966,
-      "severity": "MEDIUM",
-      "category": "performance",
-      "classification": "FP",
-      "confidence": 0.6,
-      "reasoning": "Vector push_back without reserve is acceptable pattern"
-    },
-    {
-      "index": 17,
-      "module": "unknown",
-      "file": "src\\llm\\lora_security_validator.cpp",
-      "line": 781,
-      "severity": "MEDIUM",
-      "category": "performance",
-      "classification": "TP",
-      "confidence": 0.65,
-      "reasoning": "String concatenation in loop"
-    },
-    {
-      "index": 18,
-      "module": "unknown",
-      "file": "src\\server\\import_wizard_builder.cpp",
-      "line": 268,
-      "severity": "MEDIUM",
-      "category": "performance",
-      "classification": "?",
-      "confidence": 0.5,
-      "reasoning": "Need algorithm analysis"
-    },
-    {
-      "index": 19,
-      "module": "unknown",
-      "file": "src\\auth\\rate_limiter_backend.cpp",
-      "line": 209,
-      "severity": "HIGH",
-      "category": "null_dereference",
-      "classification": "FP",
-      "confidence": 0.85,
-      "reasoning": "Ternary guard before use"
-    },
-    {
-      "index": 20,
-      "module": "unknown",
-      "file": "src\\importers\\mdm_engine.cpp",
-      "line": 183,
-      "severity": "HIGH",
+      "module": "content",
+      "file": "src/content/content_logger.cpp",
+      "line": 52,
+      "severity": "INFO",
       "category": "pointer_arithmetic",
       "classification": "FP",
       "confidence": 0.85,
       "reasoning": "Map access is bounds-safe (not raw array)"
     },
     {
-      "index": 21,
-      "module": "unknown",
-      "file": "src\\query\\vectorized_execution.cpp",
-      "line": 225,
-      "severity": "HIGH",
-      "category": "no_retry_logic",
-      "classification": "FP",
-      "confidence": 0.7,
-      "reasoning": "Query execution without visible retry is common pattern"
-    },
-    {
-      "index": 22,
-      "module": "unknown",
-      "file": "src\\query\\aql_translator.cpp",
-      "line": 1618,
-      "severity": "CRITICAL",
-      "category": "data_race",
-      "classification": "FP",
-      "confidence": 0.85,
-      "reasoning": "make_shared is thread-safe construction, not racy"
-    },
-    {
-      "index": 23,
-      "module": "unknown",
-      "file": "src\\performance\\prometheus_exporter.cpp",
-      "line": 85,
-      "severity": "CRITICAL",
-      "category": "data_race",
+      "index": 12,
+      "module": "storage",
+      "file": "src/storage/tensor_train_decomposer.cpp",
+      "line": 203,
+      "severity": "INFO",
+      "category": "uncaught_exception",
       "classification": "TP",
-      "confidence": 0.7,
-      "reasoning": "Unprotected iteration over shared metrics"
+      "confidence": 0.75,
+      "reasoning": "Generic catch(...) masks specific error types"
     },
     {
-      "index": 24,
-      "module": "unknown",
-      "file": "src\\analytics\\anomaly_detection.cpp",
-      "line": 1169,
-      "severity": "MEDIUM",
+      "index": 13,
+      "module": "security",
+      "file": "src/security/vault_key_provider.cpp",
+      "line": 236,
+      "severity": "INFO",
+      "category": "uncaught_exception",
+      "classification": "FP",
+      "confidence": 0.7,
+      "reasoning": "Exception thrown in try block or non-noexcept context"
+    },
+    {
+      "index": 14,
+      "module": "auth",
+      "file": "src/auth/rocksdb_token_blacklist.cpp",
+      "line": 104,
+      "severity": "INFO",
+      "category": "copy_overhead",
+      "classification": "?",
+      "confidence": 0.5,
+      "reasoning": "Concurrency pattern unclear"
+    },
+    {
+      "index": 15,
+      "module": "auth",
+      "file": "src/auth/ldap_authenticator.cpp",
+      "line": 319,
+      "severity": "INFO",
+      "category": "copy_overhead",
+      "classification": "?",
+      "confidence": 0.5,
+      "reasoning": "Concurrency pattern unclear"
+    },
+    {
+      "index": 16,
+      "module": "index",
+      "file": "src/index/ann_frontdoor.cpp",
+      "line": 203,
+      "severity": "INFO",
+      "category": "copy_overhead",
+      "classification": "?",
+      "confidence": 0.5,
+      "reasoning": "Concurrency pattern unclear"
+    },
+    {
+      "index": 17,
+      "module": "query",
+      "file": "src/query/aql_mutation_validator.cpp",
+      "line": 158,
+      "severity": "INFO",
+      "category": "uninitialized_access",
+      "classification": "FP",
+      "confidence": 0.5,
+      "reasoning": "MEDIUM severity likely false positive or low-priority"
+    },
+    {
+      "index": 18,
+      "module": "network",
+      "file": "src/network/quic_server.cpp",
+      "line": 318,
+      "severity": "INFO",
       "category": "observability",
       "classification": "?",
       "confidence": 0.5,
       "reasoning": "Depends on tracing infrastructure usage"
     },
     {
-      "index": 25,
-      "module": "unknown",
-      "file": "src\\server\\http_server.cpp",
-      "line": 11693,
+      "index": 19,
+      "module": "core",
+      "file": "src/core/concerns/redis_cache.cpp",
+      "line": 972,
+      "severity": "HIGH",
+      "category": "performance",
+      "classification": "?",
+      "confidence": 0.5,
+      "reasoning": "Need algorithm analysis"
+    },
+    {
+      "index": 20,
+      "module": "analytics",
+      "file": "src/analytics/model_serving.cpp",
+      "line": 52,
+      "severity": "HIGH",
+      "category": "db_connection_leak",
+      "classification": "?",
+      "confidence": 0.5,
+      "reasoning": "Need to see allocation/deallocation pairing"
+    },
+    {
+      "index": 21,
+      "module": "aql",
+      "file": "src/aql/llm_aql_handler.cpp",
+      "line": 1611,
       "severity": "HIGH",
       "category": "legacy_duplication",
       "classification": "TP",
@@ -450,10 +425,109 @@
       "reasoning": "Explicitly marked legacy code"
     },
     {
+      "index": 22,
+      "module": "cdc",
+      "file": "src/cdc/dead_letter_queue.cpp",
+      "line": 78,
+      "severity": "INFO",
+      "category": "no_health_check",
+      "classification": "?",
+      "confidence": 0.5,
+      "reasoning": "Inconclusive without full class definition"
+    },
+    {
+      "index": 23,
+      "module": "llm",
+      "file": "src/llm/explanation_generator.cpp",
+      "line": 294,
+      "severity": "INFO",
+      "category": "range_temporary",
+      "classification": "FP",
+      "confidence": 0.5,
+      "reasoning": "MEDIUM severity likely false positive or low-priority"
+    },
+    {
+      "index": 24,
+      "module": "storage",
+      "file": "src/storage/blob_backend_s3.cpp",
+      "line": 141,
+      "severity": "INFO",
+      "category": "no_retry_logic",
+      "classification": "FP",
+      "confidence": 0.65,
+      "reasoning": "Returning Result type, caller can retry"
+    },
+    {
+      "index": 25,
+      "module": "updates",
+      "file": "src/updates/preflight_health_check.cpp",
+      "line": 250,
+      "severity": "INFO",
+      "category": "abi_safety",
+      "classification": "FP",
+      "confidence": 0.5,
+      "reasoning": "MEDIUM severity likely false positive or low-priority"
+    },
+    {
       "index": 26,
-      "module": "unknown",
-      "file": "src\\governance\\policy_manager.cpp",
-      "line": 653,
+      "module": "acceleration",
+      "file": "src/acceleration/graphics_backends.cpp",
+      "line": 2049,
+      "severity": "MEDIUM",
+      "category": "abi_safety",
+      "classification": "FP",
+      "confidence": 0.5,
+      "reasoning": "MEDIUM severity likely false positive or low-priority"
+    },
+    {
+      "index": 27,
+      "module": "server",
+      "file": "src/server/http_server.cpp",
+      "line": 7112,
+      "severity": "INFO",
+      "category": "null_dereference",
+      "classification": "FP",
+      "confidence": 0.85,
+      "reasoning": "Ternary guard before use"
+    },
+    {
+      "index": 28,
+      "module": "tensor",
+      "file": "src/tensor/hnsw_tt_bridge.cpp",
+      "line": 98,
+      "severity": "INFO",
+      "category": "delete_no_nullptr",
+      "classification": "FP",
+      "confidence": 0.5,
+      "reasoning": "MEDIUM severity likely false positive or low-priority"
+    },
+    {
+      "index": 29,
+      "module": "llm",
+      "file": "src/llm/lora_framework/lora_storage_service_themisdb.cpp",
+      "line": 145,
+      "severity": "CRITICAL",
+      "category": "data_race",
+      "classification": "?",
+      "confidence": 0.5,
+      "reasoning": "Need visibility of synchronization context"
+    },
+    {
+      "index": 30,
+      "module": "sharding",
+      "file": "src/sharding/auto_rebalancer.cpp",
+      "line": 277,
+      "severity": "INFO",
+      "category": "lock_contention",
+      "classification": "FP",
+      "confidence": 0.5,
+      "reasoning": "MEDIUM severity likely false positive or low-priority"
+    },
+    {
+      "index": 31,
+      "module": "server",
+      "file": "src/server/http_server.cpp",
+      "line": 2541,
       "severity": "CRITICAL",
       "category": "smart_ptr_misuse",
       "classification": "TP",
@@ -461,131 +535,76 @@
       "reasoning": "Raw new without immediate smart pointer wrapping"
     },
     {
-      "index": 27,
-      "module": "unknown",
-      "file": "src\\rag\\continuous_learning_orchestrator.cpp",
-      "line": 1122,
-      "severity": "MEDIUM",
+      "index": 32,
+      "module": "aql",
+      "file": "src/aql/aql_rollback_suggester.cpp",
+      "line": 47,
+      "severity": "INFO",
       "category": "string_concat_loop",
       "classification": "TP",
       "confidence": 0.8,
       "reasoning": "String concatenation in loop is O(n\u00b2)"
     },
     {
-      "index": 28,
-      "module": "unknown",
-      "file": "src\\auth\\rate_limiter_backend.cpp",
-      "line": 350,
-      "severity": "MEDIUM",
-      "category": "uncaught_exception",
-      "classification": "TP",
-      "confidence": 0.75,
-      "reasoning": "Generic catch(...) masks specific error types"
+      "index": 33,
+      "module": "llm",
+      "file": "src/llm/kv_cache_buffer.cpp",
+      "line": 224,
+      "severity": "INFO",
+      "category": "performance",
+      "classification": "?",
+      "confidence": 0.5,
+      "reasoning": "Need algorithm analysis"
     },
     {
-      "index": 29,
-      "module": "unknown",
-      "file": "src\\server\\llm_api_handler.cpp",
-      "line": 2127,
+      "index": 34,
+      "module": "storage",
+      "file": "src/storage/database_connection_manager.cpp",
+      "line": 243,
       "severity": "MEDIUM",
-      "category": "uncaught_exception",
+      "category": "determinism",
       "classification": "TP",
-      "confidence": 0.75,
-      "reasoning": "Generic catch(...) masks specific error types"
+      "confidence": 0.65,
+      "reasoning": "unordered_map iteration is non-deterministic"
     },
     {
-      "index": 30,
-      "module": "unknown",
-      "file": "src\\llm\\ethics_aware_confidence_detector.cpp",
-      "line": 404,
-      "severity": "HIGH",
+      "index": 35,
+      "module": "prompt_engineering",
+      "file": "src/prompt_engineering/prompt_injection_detector.cpp",
+      "line": 135,
+      "severity": "INFO",
       "category": "o_n_squared",
       "classification": "FP",
       "confidence": 0.6,
       "reasoning": "Pattern not actually problematic"
     },
     {
-      "index": 31,
-      "module": "unknown",
-      "file": "src\\training\\provenance_tracker.cpp",
-      "line": 342,
-      "severity": "MEDIUM",
-      "category": "determinism",
-      "classification": "?",
-      "confidence": 0.5,
-      "reasoning": "Concurrency pattern unclear"
-    },
-    {
-      "index": 32,
-      "module": "unknown",
-      "file": "src\\llm\\embedded_llm.cpp",
-      "line": 238,
-      "severity": "MEDIUM",
-      "category": "llm_ai_safety",
-      "classification": "TP",
-      "confidence": 0.75,
-      "reasoning": "LLM generation without visible safeguards"
-    },
-    {
-      "index": 33,
-      "module": "unknown",
-      "file": "src\\importers\\s3_importer.cpp",
-      "line": 613,
-      "severity": "HIGH",
-      "category": "uninitialized_access",
-      "classification": "?",
-      "confidence": 0.55,
-      "reasoning": "HIGH severity warrants investigation"
-    },
-    {
-      "index": 34,
-      "module": "unknown",
-      "file": "src\\server\\shard_repair_api_handler.cpp",
-      "line": 160,
-      "severity": "MEDIUM",
-      "category": "hardcoded_path",
+      "index": 36,
+      "module": "llm",
+      "file": "src/llm/gpu_memory_manager.cpp",
+      "line": 2028,
+      "severity": "INFO",
+      "category": "repeated_lookup",
       "classification": "FP",
-      "confidence": 0.5,
-      "reasoning": "MEDIUM severity likely false positive or low-priority"
+      "confidence": 0.6,
+      "reasoning": "Pattern not actually problematic"
     },
     {
-      "index": 35,
-      "module": "unknown",
-      "file": "src\\llm\\lora_framework\\gpu_lora_layers.cpp",
-      "line": 431,
-      "severity": "CRITICAL",
+      "index": 37,
+      "module": "llm",
+      "file": "src/llm/production_validator.cpp",
+      "line": 439,
+      "severity": "HIGH",
       "category": "llm_ai_safety",
       "classification": "?",
       "confidence": 0.5,
       "reasoning": "Unclear if this is actual LLM inference path"
     },
     {
-      "index": 36,
-      "module": "unknown",
-      "file": "src\\llm\\lora_framework\\gpu_embedding_layer.cpp",
-      "line": 49,
-      "severity": "CRITICAL",
-      "category": "llm_ai_safety",
-      "classification": "FP",
-      "confidence": 0.85,
-      "reasoning": "Weight upload is not LLM input injection"
-    },
-    {
-      "index": 37,
-      "module": "unknown",
-      "file": "src\\llm\\lora_framework\\kernels\\hip_kernels.cpp",
-      "line": 546,
-      "severity": "HIGH",
-      "category": "llm_ai_safety",
-      "classification": "FP",
-      "confidence": 0.9,
-      "reasoning": "GPU kernel launch, not LLM input"
-    },
-    {
       "index": 38,
-      "module": "unknown",
-      "file": "src\\query\\optimizer_cost_model.cpp",
-      "line": 159,
+      "module": "llm",
+      "file": "src/llm/async_inference_engine.cpp",
+      "line": 88,
       "severity": "HIGH",
       "category": "llm_ai_safety",
       "classification": "?",
@@ -594,9 +613,9 @@
     },
     {
       "index": 39,
-      "module": "unknown",
-      "file": "src\\importers\\schema_inference.cpp",
-      "line": 46,
+      "module": "llm",
+      "file": "src/llm/lora_framework/lora_audit_logger.cpp",
+      "line": 359,
       "severity": "HIGH",
       "category": "llm_ai_safety",
       "classification": "?",
@@ -605,124 +624,124 @@
     },
     {
       "index": 40,
-      "module": "unknown",
-      "file": "src\\utils\\memory\\pool_allocator.cpp",
-      "line": 230,
+      "module": "ingestion",
+      "file": "src/ingestion/database_connector.cpp",
+      "line": 343,
       "severity": "HIGH",
-      "category": "observability",
+      "category": "abi_safety",
       "classification": "?",
-      "confidence": 0.5,
-      "reasoning": "Depends on tracing infrastructure usage"
+      "confidence": 0.55,
+      "reasoning": "HIGH severity warrants investigation"
     },
     {
       "index": 41,
-      "module": "unknown",
-      "file": "src\\utils\\cron_parser.cpp",
-      "line": 283,
-      "severity": "MEDIUM",
-      "category": "repeated_lookup",
+      "module": "content",
+      "file": "src/content/geo_processor.cpp",
+      "line": 380,
+      "severity": "LOW",
+      "category": "abi_safety",
       "classification": "FP",
-      "confidence": 0.6,
-      "reasoning": "Pattern not actually problematic"
+      "confidence": 0.5,
+      "reasoning": "MEDIUM severity likely false positive or low-priority"
     },
     {
       "index": 42,
-      "module": "unknown",
-      "file": "src\\security\\encrypted_field.cpp",
-      "line": 147,
-      "severity": "HIGH",
-      "category": "uncaught_exception",
-      "classification": "FP",
-      "confidence": 0.7,
-      "reasoning": "Exception thrown in try block or non-noexcept context"
-    },
-    {
-      "index": 43,
-      "module": "unknown",
-      "file": "src\\temporal\\temporal_tier_manager.cpp",
-      "line": 423,
-      "severity": "HIGH",
+      "module": "llm",
+      "file": "src/llm/byzantine_detector.cpp",
+      "line": 377,
+      "severity": "INFO",
       "category": "repeated_search",
       "classification": "TP",
       "confidence": 0.75,
       "reasoning": "std::find in loop is O(n\u00b2)"
     },
     {
-      "index": 44,
-      "module": "unknown",
-      "file": "src\\llm\\lora_framework\\multi_gpu_lora_layer.cpp",
-      "line": 115,
-      "severity": "HIGH",
-      "category": "audit_logging",
+      "index": 43,
+      "module": "llm",
+      "file": "src/llm/model_loader.cpp",
+      "line": 978,
+      "severity": "CRITICAL",
+      "category": "llm_ai_safety",
       "classification": "?",
-      "confidence": 0.55,
-      "reasoning": "HIGH severity warrants investigation"
+      "confidence": 0.5,
+      "reasoning": "Unclear if this is actual LLM inference path"
+    },
+    {
+      "index": 44,
+      "module": "llm",
+      "file": "src/llm/lora_framework/kernels/hip_fused_kernels.cpp",
+      "line": 158,
+      "severity": "CRITICAL",
+      "category": "llm_ai_safety",
+      "classification": "?",
+      "confidence": 0.5,
+      "reasoning": "Unclear if this is actual LLM inference path"
     },
     {
       "index": 45,
-      "module": "unknown",
-      "file": "src\\llm\\model_loader.cpp",
-      "line": 596,
-      "severity": "HIGH",
-      "category": "memory_order",
-      "classification": "TP",
-      "confidence": 0.7,
-      "reasoning": "Relaxed atomics with mutex may mask synchronization"
+      "module": "scraper",
+      "file": "src/scraper/scraper_llm_evaluator.cpp",
+      "line": 213,
+      "severity": "MEDIUM",
+      "category": "llm_ai_safety",
+      "classification": "?",
+      "confidence": 0.5,
+      "reasoning": "Unclear if this is actual LLM inference path"
     },
     {
       "index": 46,
-      "module": "unknown",
-      "file": "src\\storage\\columnar_format.cpp",
-      "line": 706,
-      "severity": "HIGH",
-      "category": "size_assumption",
-      "classification": "?",
-      "confidence": 0.55,
-      "reasoning": "HIGH severity warrants investigation"
-    },
-    {
-      "index": 47,
-      "module": "unknown",
-      "file": "src\\plugins\\plugin_hot_plug_monitor.cpp",
-      "line": 373,
-      "severity": "MEDIUM",
-      "category": "manual_cleanup",
+      "module": "server",
+      "file": "src/server/task_scheduler_api_handler.cpp",
+      "line": 532,
+      "severity": "INFO",
+      "category": "hardcoded_path",
       "classification": "FP",
       "confidence": 0.5,
       "reasoning": "MEDIUM severity likely false positive or low-priority"
     },
     {
+      "index": 47,
+      "module": "rag",
+      "file": "src/rag/rag_judge.cpp",
+      "line": 559,
+      "severity": "INFO",
+      "category": "llm_ai_safety",
+      "classification": "?",
+      "confidence": 0.5,
+      "reasoning": "Unclear if this is actual LLM inference path"
+    },
+    {
       "index": 48,
-      "module": "unknown",
-      "file": "src\\security\\access_control.cpp",
-      "line": 557,
-      "severity": "CRITICAL",
-      "category": "audit_logging",
-      "classification": "TP",
-      "confidence": 0.6,
-      "reasoning": "CRITICAL severity suggests real issue"
+      "module": "observability",
+      "file": "src/observability/opentelemetry_tracer.cpp",
+      "line": 565,
+      "severity": "HIGH",
+      "category": "determinism",
+      "classification": "?",
+      "confidence": 0.5,
+      "reasoning": "Concurrency pattern unclear"
     },
     {
       "index": 49,
-      "module": "unknown",
-      "file": "src\\observability\\metric_aggregator.cpp",
-      "line": 394,
-      "severity": "HIGH",
-      "category": "performance",
-      "classification": "FP",
-      "confidence": 0.6,
-      "reasoning": "Vector push_back without reserve is acceptable pattern"
-    },
-    {
-      "index": 50,
-      "module": "unknown",
-      "file": "src\\config\\config_metrics_exporter.cpp",
-      "line": 29,
+      "module": "aql",
+      "file": "src/aql/docs_assistant_functions.cpp",
+      "line": 554,
       "severity": "CRITICAL",
-      "category": "missing_dtor",
+      "category": "new_without_delete",
       "classification": "TP",
       "confidence": 0.6,
       "reasoning": "CRITICAL severity suggests real issue"
+    },
+    {
+      "index": 50,
+      "module": "analytics",
+      "file": "src/analytics/ml_serving.cpp",
+      "line": 328,
+      "severity": "HIGH",
+      "category": "audit_logging",
+      "classification": "?",
+      "confidence": 0.55,
+      "reasoning": "HIGH severity warrants investigation"
     }
   ]
 }

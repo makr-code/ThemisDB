@@ -157,23 +157,29 @@ void HealthErrorService::run() {
     }
 }
 
-void HealthErrorService::handleConnection(tcp::socket socket) {
+void HealthErrorService::handleConnection(tcp::socket raw_socket) {
     try {
+        // Wrap socket in tcp_stream so we can enforce per-operation timeouts and
+        // prevent a slow or malicious client from blocking the service thread
+        // indefinitely (Phase 8.2 — No-Timeout / Blocking-No-Timeout remediation).
+        beast::tcp_stream stream(std::move(raw_socket));
+        stream.expires_after(std::chrono::seconds(10));
+
         beast::flat_buffer buffer;
         http::request<http::string_body> req;
-        
+
         // Set buffer size limit to prevent memory exhaustion (1MB max)
         buffer.max_size(1024 * 1024);
-        
-        // Read HTTP request with error handling
+
+        // Read HTTP request; deadline enforced by stream.expires_after() above.
         beast::error_code ec;
-        http::read(socket, buffer, req, ec);
-        
+        http::read(stream, buffer, req, ec);
+
         if (ec) {
             THEMIS_DEBUG("Failed to read request: {}", ec.message());
             return;
         }
-        
+
         // Check request size limit
         if (req.body().size() > 1024 * 1024) {
             // Request too large, send 413 Payload Too Large
@@ -182,18 +188,21 @@ void HealthErrorService::handleConnection(tcp::socket socket) {
             error_res.set(http::field::content_type, "application/json");
             error_res.body() = R"({"status":"error","message":"Request too large"})";
             error_res.prepare_payload();
-            http::write(socket, error_res, ec);
+            stream.expires_after(std::chrono::seconds(5));
+            http::write(stream, error_res, ec);
             return;
         }
-        
+
         // Handle request and get response
         auto res = handleRequest(req);
-        
-        // Send response
-        http::write(socket, res, ec);
-        
+
+        // Send response; refresh deadline for write phase.
+        stream.expires_after(std::chrono::seconds(10));
+        http::write(stream, res, ec);
+
         // Graceful shutdown
-        socket.shutdown(tcp::socket::shutdown_send, ec);
+        beast::error_code shutdown_ec;
+        stream.socket().shutdown(tcp::socket::shutdown_send, shutdown_ec);
     } catch (const std::exception& e) {
         THEMIS_DEBUG("Connection handling error: {}", e.what());
     }

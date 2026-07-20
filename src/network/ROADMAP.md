@@ -11,6 +11,7 @@ Production-grade transport and protocol layer with TCP wire protocol, WebSocket,
 - [~] Network hardening wave for protocol safety, transport resilience, and predictable latency behavior (Target: Q3 2026)
   - [ ] Complete remaining failure-injection coverage for multi-transport edge cases (Target: Q3 2026)
   - [ ] Tighten auth/rate-limit/session guard behavior under sustained adversarial traffic (Target: Q3 2026)
+- [~] approved next implementation block: schedule mixed-transport failure injection and lifecycle/backpressure/timeout validation after Graph + LLM kickoff evidence is secured (Target: Q3 2026)
 
 ## Planned Features
 
@@ -33,6 +34,7 @@ Production-grade transport and protocol layer with TCP wire protocol, WebSocket,
 ### Phase 2: Multi-Transport Resilience
 - [ ] Strengthen failure handling across TCP, WebSocket, UDP, QUIC/HTTP3, and gRPC paths (Target: Q4 2026)
 - [ ] Validate transport fallback/retry behavior under network degradation (Target: Q4 2026)
+- [ ] Use the follow-on hardening block to prioritize transport fault injection before broader routing diagnostics work (Target: Q4 2026)
 
 ### Phase 3: Routing and Topology Hardening
 - [ ] Expand routing correctness checks under changing health/latency/topology signals (Target: Q4 2026)
