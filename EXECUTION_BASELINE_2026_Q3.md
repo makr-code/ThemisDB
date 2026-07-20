@@ -76,7 +76,7 @@ This document consolidates open backlog items from:
 - [x] Issue tracking created
 - [x] Design: Full-traversal loop with `CRYPTO_memcmp` (no early exit) — documented in `mfa_authenticator.cpp:195-215`
 - [x] Implementation: Replace `std::find()` across both files — `mfa_authenticator.cpp:203-216` uses full scan + CRYPTO_memcmp; `rate_limiter_backend.cpp` has no secret comparisons requiring constant-time treatment
-- [ ] Tests: Timing test with std-dev < 500ns for all code paths
+- [x] Tests: Timing test with std-dev < 500ns for all code paths — `tests/test_mfa_authenticator.cpp:RecoveryCode_ConstantTimeByPosition` (200 iterations, median latency diff < 100µs tolerance; set `THEMIS_RUN_PERF_TESTS=1`)
 - [ ] PR: Linked to ROADMAP.md v1.1.0 milestone
 
 ---
