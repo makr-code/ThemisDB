@@ -33,6 +33,13 @@ using themis::security::SafeIterator::RangeValidator;
 
 const AggregationOutputRow& AggregationResult::at(std::size_t idx) const
 {
+    // Explicit size check before iterator formation prevents UB when
+    // idx > rows.size() (forming an out-of-range random-access iterator is UB).
+    if (idx >= rows.size()) {
+        throw std::out_of_range(
+            "AggregationResult::at: index " + std::to_string(idx) +
+            " out of range [0, " + std::to_string(rows.size()) + ")");
+    }
     auto it = rows.cbegin() + static_cast<std::ptrdiff_t>(idx);
     BoundsChecker::check_dereference(it, rows.cbegin(), rows.cend());
     return *it;

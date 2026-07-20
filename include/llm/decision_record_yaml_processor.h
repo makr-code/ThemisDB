@@ -209,8 +209,10 @@ public:
      * @return true if the queue drained within config_.flush_timeout_ms,
      *         false if the timeout expired before all records were processed.
      *         When flush_timeout_ms is zero, blocks indefinitely (legacy mode).
+     * @note The return value MUST be checked: false signals that queued records
+     *       were not persisted and callers must decide how to handle data loss.
      */
-    bool flush();
+    [[nodiscard]] bool flush();
 
     // ─── Statistics ────────────────────────────────────────────────────────────
     struct Stats {

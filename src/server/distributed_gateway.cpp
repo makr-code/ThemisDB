@@ -295,6 +295,18 @@ http::response<http::string_body> DistributedGateway::handleRequest(
 
     // Delegate to the underlying APIGateway for actual request processing,
     // retrying on transient HTTP 5xx / 429 errors with exponential backoff.
+    // Retries are restricted to idempotent, read-only methods (GET, HEAD,
+    // OPTIONS) because non-idempotent mutations (POST, PUT, PATCH, DELETE)
+    // may have been processed by the server before a transient error was
+    // returned, making a retry a double-apply.
+    const auto method = req.method();
+    const bool is_retry_safe = (method == http::verb::get  ||
+                                 method == http::verb::head ||
+                                 method == http::verb::options);
+    if (!is_retry_safe || config_.max_retries == 0) {
+        return gateway_->handleRequest(req, std::move(local_handler));
+    }
+
     // The local_handler is copied (not moved) so it remains callable for
     // subsequent retry attempts.  Only the final attempt passes ownership.
     const uint32_t effective_max_retries = config_.max_retries;

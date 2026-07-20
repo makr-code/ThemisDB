@@ -447,8 +447,11 @@ public:
 
 private:
     void returnBuffer(Buffer buf) {
-        // Zero-fill so stale data does not leak across uses.
-        std::fill(buf.begin(), buf.end(), uint8_t{0});
+        // Restore the buffer to its canonical pool size in case the caller
+        // resized or moved-from it via ScopedBuffer::get().  assign() sets
+        // exactly buffer_size_ elements to zero in one step, covering both
+        // the size-mismatch and the zero-fill requirements.
+        buf.assign(buffer_size_, uint8_t{0});
         {
             std::lock_guard<std::mutex> lock(mutex_);
             free_.push(std::move(buf));

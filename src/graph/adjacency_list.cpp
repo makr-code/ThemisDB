@@ -215,8 +215,15 @@ const Edge& AdjacencyList::neighbour_at(VertexId src, std::size_t index) const
     }
 
     // Gap B009: previously used edges[index] without bounds guard.
-    // Fix: BoundsChecker::check_dereference() before index access.
+    // Fix: explicit size check before iterator formation; forming a random-access
+    // iterator past the end is UB even before dereferencing.
     const auto& edges = vit->second.edges;
+    if (index >= edges.size()) {
+        throw std::out_of_range(
+            "AdjacencyList::neighbour_at: index " + std::to_string(index) +
+            " out of range [0, " + std::to_string(edges.size()) + ") for vertex " +
+            std::to_string(src));
+    }
     auto it = edges.cbegin() + static_cast<std::ptrdiff_t>(index);
     BoundsChecker::check_dereference(it, edges.cbegin(), edges.cend());
     return *it;

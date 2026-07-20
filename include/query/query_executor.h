@@ -24,6 +24,7 @@
 
 #pragma once
 
+#include <atomic>
 #include <cstdint>
 #include <functional>
 #include <optional>
@@ -230,7 +231,7 @@ public:
 private:
     const QueryPlan*     plan_;
     const ExecutionContext* context_;
-    bool                 aborted_{false};
+    std::atomic<bool>    aborted_{false};
 
     /// Build one Row from a source map entry.
     Row build_row(const std::unordered_map<std::string, ColumnValue>& src) const;

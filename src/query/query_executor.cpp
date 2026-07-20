@@ -32,7 +32,13 @@ using themis::security::SafeIterator::RangeValidator;
 const Row& ResultSet::at(std::size_t index) const
 {
     // Gap B002: previously used rows[index] without bounds guard.
-    // Fix: BoundsChecker::check_dereference() validates position before access.
+    // Fix: explicit size check before iterator formation prevents UB when
+    // index > rows.size() (forming an out-of-range iterator is itself UB).
+    if (index >= rows.size()) {
+        throw std::out_of_range(
+            "ResultSet::at: index " + std::to_string(index) +
+            " out of range [0, " + std::to_string(rows.size()) + ")");
+    }
     auto it = rows.cbegin() + static_cast<std::ptrdiff_t>(index);
     BoundsChecker::check_dereference(it, rows.cbegin(), rows.cend());
     return *it;
@@ -130,7 +136,7 @@ ResultSet QueryExecutor::execute()
         src_range(source.cbegin(), source.cend());
 
     for (auto it = src_range.begin(); it != src_range.end(); ++it) {
-        if (aborted_) {
+        if (aborted_.load(std::memory_order_relaxed)) {
             break;
         }
         if (context_->row_limit > 0 && rs.rows.size() >= context_->row_limit) {
@@ -162,7 +168,7 @@ std::size_t QueryExecutor::execute_streaming(RowCallback cb)
 
     std::size_t delivered = 0;
     for (auto it = src_range.begin(); it != src_range.end(); ++it) {
-        if (aborted_) {
+        if (aborted_.load(std::memory_order_relaxed)) {
             break;
         }
         if (context_->row_limit > 0 && delivered >= context_->row_limit) {
@@ -184,7 +190,7 @@ std::size_t QueryExecutor::execute_streaming(RowCallback cb)
 
 void QueryExecutor::abort() noexcept
 {
-    aborted_ = true;
+    aborted_.store(true, std::memory_order_relaxed);
 }
 
 }  // namespace query

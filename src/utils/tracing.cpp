@@ -264,13 +264,28 @@ bool Tracer::initialize([[maybe_unused]] const std::string& serviceName,
                 return false;
             }
             tcp::socket socket(io);
-            // Enforce a 3-second connect timeout so a misconfigured or
-            // unreachable collector endpoint does not block server startup
-            // indefinitely (Phase 8.2 — No-Timeout / Blocking-No-Timeout).
-            struct timeval tv{3, 0};
-            ::setsockopt(socket.native_handle(), SOL_SOCKET, SO_SNDTIMEO,
-                         reinterpret_cast<const char*>(&tv), sizeof(tv));
-            socket.connect(*results.begin(), ec);
+            // Enforce a 3-second connect timeout using async operations.
+            // SO_SNDTIMEO does not reliably bound a blocking connect(); we
+            // use Boost.Asio's async_connect + a steady_timer instead so the
+            // probe always completes within the deadline regardless of OS.
+            boost::system::error_code connect_ec{
+                boost::asio::error::operation_aborted};
+            net::steady_timer timeout(io);
+            timeout.expires_after(std::chrono::seconds(3));
+            timeout.async_wait([&socket](const boost::system::error_code& te) {
+                if (!te) {
+                    boost::system::error_code ignored;
+                    socket.cancel(ignored);
+                }
+            });
+            net::async_connect(socket, results,
+                [&](const boost::system::error_code& ce,
+                    const tcp::endpoint&) {
+                    connect_ec = ce;
+                    timeout.cancel();
+                });
+            io.run();
+            ec = connect_ec;
             if (ec) {
                 THEMIS_WARN("Tracing collector unreachable ({}:{}): {}. Tracing disabled.", host, port, ec.message());
                 initialized_ = true;
