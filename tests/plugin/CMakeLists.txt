@@ -4,7 +4,7 @@ file(GLOB PLUGIN_MODULE_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"
 )
 
-if(NOT TARGET themis_plugin_runtime_test_plugin)
+if(NOT TARGET themis_plugin_runtime_test_plugin AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/runtime_test_plugin.cpp")
     add_library(themis_plugin_runtime_test_plugin SHARED
         "${CMAKE_CURRENT_SOURCE_DIR}/runtime_test_plugin.cpp"
     )

@@ -49,6 +49,9 @@ if(NOT GTest_FOUND)
     return()
 endif()
 
+# Make GoogleTest CMake helpers available (provides gtest_discover_tests)
+include(GoogleTest)
+
 # Find yaml-cpp for test configuration (optional - tests that need it add it explicitly)
 find_package(yaml-cpp CONFIG QUIET)
 if(NOT yaml-cpp_FOUND)
@@ -27337,9 +27340,11 @@ if(THEMIS_ENABLE_GPU AND THEMIS_ENABLE_VECTOR_SEARCH)
     )
     
     # Multi-GPU Vector Index Test
-    add_executable(test_multi_gpu_vector_index
-        ${THEMIS_ROOT_DIR}/tests/multi/test_multi_gpu_vector_index.cpp
-    )
+    if(EXISTS "${THEMIS_ROOT_DIR}/tests/multi/test_multi_gpu_vector_index.cpp")
+        add_executable(test_multi_gpu_vector_index
+            ${THEMIS_ROOT_DIR}/tests/multi/test_multi_gpu_vector_index.cpp
+        )
+    endif()
     target_link_libraries(test_multi_gpu_vector_index
         PRIVATE
             themis_core
@@ -27354,9 +27359,11 @@ if(THEMIS_ENABLE_GPU AND THEMIS_ENABLE_VECTOR_SEARCH)
     )
     
     # NCCL/RCCL Collective Backends Test (v2.5+)
-    add_executable(test_collective_backends
-        ${THEMIS_ROOT_DIR}/tests/collective/test_collective_backends.cpp
-    )
+    if(EXISTS "${THEMIS_ROOT_DIR}/tests/collective/test_collective_backends.cpp")
+        add_executable(test_collective_backends
+            ${THEMIS_ROOT_DIR}/tests/collective/test_collective_backends.cpp
+        )
+    endif()
     target_link_libraries(test_collective_backends
         PRIVATE
             themis_core

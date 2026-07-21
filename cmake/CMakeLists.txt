@@ -5078,9 +5078,11 @@ if(THEMIS_ENABLE_LLM)
             COMPONENT tools
         )
         if(TARGET CURL::libcurl AND TARGET yaml-cpp::yaml-cpp)
-            add_executable(themis-model
-                ${THEMIS_ROOT_DIR}/tools/themis_model_cli.cpp
-            )
+            if(NOT TARGET themis-model)
+                add_executable(themis-model
+                    ${THEMIS_ROOT_DIR}/tools/themis_model_cli.cpp
+                )
+            endif()
             set_target_properties(themis-model PROPERTIES
                 RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin_out"
                 RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/bin_out"
