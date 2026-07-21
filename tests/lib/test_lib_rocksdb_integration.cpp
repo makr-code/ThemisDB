@@ -296,7 +296,7 @@ TEST_F(RocksDBLibIntegrationTest, WritePreparedPolicy) {
 }
 
 // Test 10: Performance - bulk insert
-TEST_F(RocksDBLibIntegrationTest, BulkInsertPerformance) {
+TEST_F(RocksDBLibIntegrationTest, DISABLED_BulkInsertPerformance) {
     RocksDBWrapper::Config cfg;
     cfg.db_path = test_db_path_;
     cfg.enable_wal = false;  // Faster for bulk

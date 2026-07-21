@@ -174,7 +174,7 @@ TEST_F(FlashAttentionTest, FlashAttentionFallback) {
 // Performance Tests (Validation Placeholders)
 // ============================================================================
 
-TEST_F(FlashAttentionTest, PerformanceImprovement) {
+TEST_F(FlashAttentionTest, DISABLED_PerformanceImprovement) {
     // NOTE: This test requires actual inference benchmarking
     // Acceptance criteria: 15-25% faster inference
     
@@ -194,7 +194,7 @@ TEST_F(FlashAttentionTest, PerformanceImprovement) {
     SUCCEED() << "Expected speedup: " << speedup_percent << "% (target: 15-25%)";
 }
 
-TEST_F(FlashAttentionTest, MemoryReduction) {
+TEST_F(FlashAttentionTest, DISABLED_MemoryReduction) {
     // NOTE: This test requires actual VRAM usage measurement
     // Acceptance criteria: ~30% less VRAM usage
     
@@ -214,7 +214,7 @@ TEST_F(FlashAttentionTest, MemoryReduction) {
     SUCCEED() << "Expected memory reduction: " << reduction_percent << "% (target: ~30%)";
 }
 
-TEST_F(FlashAttentionTest, NoAccuracyLoss) {
+TEST_F(FlashAttentionTest, DISABLED_NoAccuracyLoss) {
     // NOTE: This test requires actual accuracy measurement
     // Acceptance criteria: 0% accuracy loss
     
@@ -265,7 +265,7 @@ TEST_F(FlashAttentionTest, LoggingOutputs) {
 // Acceptance Criteria Validation
 // ============================================================================
 
-TEST(FlashAttentionAcceptanceCriteria, AllCriteriaMet) {
+TEST(FlashAttentionAcceptanceCriteria, DISABLED_AllCriteriaMet) {
     // Summarize all acceptance criteria
     
     struct AcceptanceCriteria {

@@ -24,6 +24,7 @@
 #include <thread>
 #include <chrono>
 #include <atomic>
+#include <future>
 #include <memory>
 
 #include "utils/thread_pool_manager.h"
@@ -67,26 +68,37 @@ TEST(ThreadPoolTest, QueueFull) {
     config.name = "queue_full_test";
     
     auto pool = std::make_unique<ThreadPool>(config);
-    
-    // Submit tasks that sleep to fill up the queue
-    // Task 1 will be executed immediately, Task 2 will be queued
-    for (int i = 0; i < 2; i++) {
-        auto task = std::make_shared<Task>(
-            []() { std::this_thread::sleep_for(std::chrono::seconds(10)); },  // Long sleep
-            Task::Priority::NORMAL,
-            "blocking_task"
-        );
-        pool->submit(task);
-    }
-    
-    // Short wait to ensure tasks are submitted
-    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+
+    std::promise<void> blocking_started;
+    auto blocking_started_future = blocking_started.get_future();
+    std::promise<void> release_blocking_task;
+    auto release_blocking_task_future = release_blocking_task.get_future().share();
+
+    auto blocking_task = std::make_shared<Task>(
+        [&blocking_started, release_blocking_task_future]() {
+            blocking_started.set_value();
+            release_blocking_task_future.wait();
+        },
+        Task::Priority::NORMAL,
+        "blocking_task"
+    );
+    ASSERT_TRUE(pool->submit(blocking_task));
+    ASSERT_EQ(blocking_started_future.wait_for(std::chrono::milliseconds(500)), std::future_status::ready);
+
+    auto queued_task = std::make_shared<Task>(
+        []() {},
+        Task::Priority::NORMAL,
+        "queued_task"
+    );
+    ASSERT_TRUE(pool->submit(queued_task));
     
     // Now: 1 task executing, 1 task in queue (queue full)
     // Next should fail (queue full, worker busy)
     auto task = std::make_shared<Task>([]() {}, Task::Priority::NORMAL, "overflow_task");
     bool result = pool->submit(task, std::chrono::milliseconds(50));  // Short timeout
     EXPECT_FALSE(result);
+
+    release_blocking_task.set_value();
 }
 
 /**
