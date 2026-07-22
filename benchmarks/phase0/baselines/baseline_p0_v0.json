@@ -1,0 +1,83 @@
+{
+  "version": "1.0",
+  "baseline_name": "Phase-0 CRUD Baseline v0",
+  "created_date": "2026-07-22",
+  "description": "Initial Phase-0 baseline for core CRUD operations (insert, read, update, delete).",
+  
+  "measurement_protocol": {
+    "seed": 42,
+    "warmup_phases": {
+      "cold": 50,
+      "warm": 100,
+      "hot": 200
+    },
+    "workloads": {
+      "insert_heavy": {
+        "insert_ratio": 0.80,
+        "read_ratio": 0.20,
+        "purpose": "Write throughput focus"
+      },
+      "read_heavy": {
+        "read_ratio": 0.80,
+        "write_ratio": 0.20,
+        "purpose": "Read throughput focus"
+      },
+      "update_heavy": {
+        "update_ratio": 0.80,
+        "read_ratio": 0.20,
+        "purpose": "Update throughput focus"
+      },
+      "delete_heavy": {
+        "delete_ratio": 0.80,
+        "insert_ratio": 0.20,
+        "purpose": "Delete throughput focus"
+      }
+    }
+  },
+
+  "baseline_metrics": {
+    "insert_heavy": {
+      "min_ops_per_sec": 100000,
+      "target_ops_per_sec": 150000,
+      "max_latency_p99_us": 1000,
+      "expected_latency_p50_us": 50
+    },
+    "read_heavy": {
+      "min_ops_per_sec": 200000,
+      "target_ops_per_sec": 250000,
+      "max_latency_p99_us": 500,
+      "expected_latency_p50_us": 25
+    },
+    "update_heavy": {
+      "min_ops_per_sec": 80000,
+      "target_ops_per_sec": 120000,
+      "max_latency_p99_us": 1200,
+      "expected_latency_p50_us": 60
+    },
+    "delete_heavy": {
+      "min_ops_per_sec": 120000,
+      "target_ops_per_sec": 180000,
+      "max_latency_p99_us": 800,
+      "expected_latency_p50_us": 45
+    }
+  },
+
+  "hardware_constraints": {
+    "assumed_cpu_cores": 8,
+    "assumed_ram_gb": 16,
+    "assumed_storage": "SSD",
+    "notes": "Baselines measured on standardized hardware; adjust expectations for different configurations"
+  },
+
+  "gate_rules": {
+    "regression_threshold_percent": 10,
+    "variance_cv_max": 0.15,
+    "sample_count_min": 30
+  },
+
+  "known_limitations": [
+    "Initial baseline uses in-memory KV store stub; production will link against themis_core",
+    "Baseline does not include network overhead or multi-node scenarios",
+    "CPU-specific tuning (SIMD, cache affinity) not yet optimized"
+  ]
+}
