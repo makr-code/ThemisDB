@@ -400,6 +400,44 @@ else()
     message(STATUS "AQL Validation Performance tests not found at ${CMAKE_CURRENT_LIST_DIR}/test_aql_validation_performance.cpp")
 endif()
 
+# AQL DDL Phase 2 — Schema DDL parser + executor tests (DDL-01..DDL-32)
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_aql_ddl_phase2.cpp")
+    message(STATUS "Adding AQL DDL Phase 2 focused tests (DDL-01..DDL-32)")
+
+    add_executable(test_aql_ddl_phase2_focused
+        test_aql_ddl_phase2.cpp
+        ${THEMIS_ROOT_DIR}/src/query/ddl_executor.cpp
+    )
+
+    target_include_directories(test_aql_ddl_phase2_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_aql_ddl_phase2_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        nlohmann_json::nlohmann_json
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_aql_ddl_phase2_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    themis_register_module_focused_test(
+        MODULE query
+        NAME AQLDDLPhase2Tests
+        TARGET test_aql_ddl_phase2_focused
+        TIER unit
+        TIMEOUT 120
+        LABELS aql ddl schema phase2 parser executor
+    )
+
+    message(STATUS "  AQL DDL Phase 2: CREATE/DROP/ALTER COLLECTION/INDEX/VIEW, IF EXISTS, OPTIONS, thread-safety")
+endif()
+
 # Phase 4 Block 1 — Query Hardening tests (Issue #5184)
 if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_phase4_query_hardening.cpp")
     message(STATUS "Adding Phase 4 Block 1: Query Module Hardening tests (Issue #5184)")

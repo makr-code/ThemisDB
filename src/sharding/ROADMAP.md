@@ -17,16 +17,22 @@ Production-capable sharding runtime exists for routing/placement, distributed co
 - **Critical**: Multi-shard is disabled until Phase C thread-safety and lock-ordering gates pass.
 - Rollout risk detail: `ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md §7`
 
-## Recently In Progress
+## Recently Completed
 
-- [~] **P6-01** (2026-07-20): 32 GTest cases for 2PC/3PC consistency verification added to
-  `tests/sharding/test_sharding_phase6_hardening.cpp` (TXC-01..TXC-32).
-- [~] **P6-02** (2026-07-20): 20 GTest cases for failover logic and recovery-path hardening added to
-  `tests/sharding/test_sharding_phase6_hardening.cpp` (FLR-01..FLR-20).
-- [~] **P6 Sign-off Track** (2026-07-20): transition from test-delivery to full consistency/recovery gate evidence.
-  - [ ] P6-01 sign-off: commit/abort/WAL/replay guarantees documented and validated
-  - [ ] P6-02 sign-off: failover/recovery deterministic evidence bundle completed
-  - [ ] P6-03 dependency: Wave-8 fault-injection chain integrated into GA gate board
+- [x] **P6-01** (2026-07-20): 32 GTest cases for 2PC/3PC consistency verification delivered in
+  `tests/sharding/test_sharding_phase6_hardening.cpp` (TXC-01..TXC-32). All cases pass with
+  deterministic seed-42 simulation; commit/abort/WAL/replay guarantees validated in-process.
+- [x] **P6-02** (2026-07-20): 20 GTest cases for failover logic and recovery-path hardening delivered in
+  `tests/sharding/test_sharding_phase6_hardening.cpp` (FLR-01..FLR-20). Coordinator crash +
+  WAL re-drive + idempotent recovery scenarios all verified.
+- [x] **P6-03** (2026-07-22): 40 Wave-8 fault injection GTest cases delivered in
+  `tests/sharding/test_sharding_p6_fault_injection.cpp` (FI-01..FI-40). Covers: network
+  partition (FI-01..FI-15), coordinator failure (FI-16..FI-25), cascade/multi-failure
+  (FI-26..FI-40). All 40 tests registered as `release_critical` in `tests/sharding/CMakeLists.txt`.
+- [x] **P6 Sign-off** (2026-07-22): sign-off artefacts at `docs/sharding/SHARDING_P6_SIGN_OFF.md`.
+  - [x] P6-01 sign-off: commit/abort/WAL/replay guarantees documented and validated (TXC-01..TXC-32 all green)
+  - [x] P6-02 sign-off: failover/recovery deterministic evidence bundle completed (FLR-01..FLR-20 all green)
+  - [x] P6-03 sign-off: Wave-8 fault-injection chain integrated into GA gate board (FI-01..FI-40 registered `release_critical`)
 
 ## In Progress
 
@@ -70,8 +76,8 @@ Production-capable sharding runtime exists for routing/placement, distributed co
 - [ ] unify diagnostics across routing/transaction/operations incident classes (Target: Q4 2026)
 
 ### Phase 4: Tests
-- [~] expand focused regressions for shard failure, transaction contention, and migration edge scenarios (P6-01: TXC-01..TXC-32 2PC/3PC consistency; P6-02: FLR-01..FLR-20 failover/recovery — added in test_sharding_phase6_hardening.cpp) (Target: Q4 2026)
-- [~] extend deterministic stress fixtures for distributed load and topology churn (P6-01/P6-02 seed-42 deterministic suites delivered) (Target: Q4 2026)
+- [x] expand focused regressions for shard failure, transaction contention, and migration edge scenarios (P6-01: TXC-01..TXC-32 2PC/3PC consistency; P6-02: FLR-01..FLR-20 failover/recovery — in test_sharding_phase6_hardening.cpp; P6-03: FI-01..FI-40 Wave-8 fault injection — in test_sharding_p6_fault_injection.cpp) (Target: Q4 2026 → delivered 2026-07-22)
+- [x] extend deterministic stress fixtures for distributed load and topology churn (P6-01/P6-02/P6-03 seed-42 deterministic suites delivered) (Target: Q4 2026 → delivered 2026-07-22)
 
 ### Phase 5: Performance and Hardening
 - [ ] lock benchmark-backed release gates for sharding hot paths (Target: Q4 2026)

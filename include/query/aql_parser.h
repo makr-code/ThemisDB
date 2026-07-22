@@ -825,6 +825,68 @@ struct ContinuousQueryDDL {
 };
 
 // ============================================================================
+// Schema DDL (AQL Phase 2 — CREATE/DROP/ALTER COLLECTION/INDEX/VIEW)
+// ============================================================================
+
+/// @brief Schema DDL command category.
+enum class SchemaDDLType {
+    CREATE_COLLECTION, ///< CREATE COLLECTION name [OPTIONS {...}]
+    DROP_COLLECTION,   ///< DROP COLLECTION name [IF EXISTS]
+    CREATE_INDEX,      ///< CREATE [UNIQUE] INDEX name ON collection (fields…)
+    DROP_INDEX,        ///< DROP INDEX name ON collection [IF EXISTS]
+    CREATE_VIEW,       ///< CREATE VIEW name AS FOR … RETURN …
+    DROP_VIEW,         ///< DROP VIEW name [IF EXISTS]
+    ALTER_COLLECTION   ///< ALTER COLLECTION name SET OPTIONS {...}
+};
+
+/// @brief Column/field descriptor used in CREATE INDEX and CREATE COLLECTION.
+struct FieldDef {
+    std::string name;           ///< Field name (e.g. "email").
+    std::string type_hint;      ///< Optional type hint (e.g. "string", "number", "geo").
+    bool        nullable{true}; ///< Whether the field may be null/absent.
+};
+
+/// @brief Index descriptor for CREATE INDEX.
+struct IndexDef {
+    std::string            name;            ///< Index name.
+    std::string            collection;      ///< Target collection.
+    std::vector<FieldDef>  fields;          ///< Indexed fields.
+    bool                   unique{false};   ///< Unique constraint.
+    bool                   sparse{false};   ///< Sparse (skip null values).
+    std::string            index_type;      ///< "hash", "skiplist", "geo", "fulltext", "vector".
+};
+
+/**
+ * @brief AST node produced by AQLParser::parseSchemaDDL().
+ *
+ * Covers CREATE/DROP COLLECTION, CREATE/DROP INDEX, CREATE/DROP VIEW,
+ * and ALTER COLLECTION as defined in AQL 2.0.0 DDL spec.
+ */
+struct SchemaDDL {
+    SchemaDDLType          ddl_type{SchemaDDLType::CREATE_COLLECTION};
+    std::string            name;            ///< Object name (collection/index/view).
+    std::string            collection;      ///< Relevant collection (for index ops).
+    bool                   if_exists{false};///< IF EXISTS/IF NOT EXISTS modifier.
+    std::vector<FieldDef>  fields;          ///< Field list (for CREATE COLLECTION).
+    IndexDef               index_def;       ///< Index descriptor (for CREATE INDEX).
+    std::string            view_body;       ///< AQL body (for CREATE VIEW … AS …).
+    nlohmann::json         options;         ///< Engine-specific options (optional).
+
+    [[nodiscard]] std::string typeString() const {
+        switch (ddl_type) {
+            case SchemaDDLType::CREATE_COLLECTION: return "CREATE COLLECTION";
+            case SchemaDDLType::DROP_COLLECTION:   return "DROP COLLECTION";
+            case SchemaDDLType::CREATE_INDEX:      return "CREATE INDEX";
+            case SchemaDDLType::DROP_INDEX:        return "DROP INDEX";
+            case SchemaDDLType::CREATE_VIEW:       return "CREATE VIEW";
+            case SchemaDDLType::DROP_VIEW:         return "DROP VIEW";
+            case SchemaDDLType::ALTER_COLLECTION:  return "ALTER COLLECTION";
+        }
+        return "UNKNOWN";
+    }
+};
+
+// ============================================================================
 // Multi-Statement Transaction AQL
 // ============================================================================
 
@@ -1053,6 +1115,24 @@ public:
      * @return       Parsed MutationNode, or a parse error.
      */
     [[nodiscard]] Result<std::shared_ptr<MutationNode>> parseMutation(const std::string& input);
+
+    /**
+     * @brief Parse a Schema DDL statement.
+     *
+     * Recognises:
+     *   CREATE COLLECTION name [IF NOT EXISTS] [OPTIONS {...}]
+     *   DROP   COLLECTION name [IF EXISTS]
+     *   CREATE [UNIQUE] INDEX name ON collection (field [, field]…)
+     *          [TYPE hash|skiplist|geo|fulltext|vector] [SPARSE]
+     *   DROP   INDEX name ON collection [IF EXISTS]
+     *   CREATE VIEW name AS FOR … RETURN …
+     *   DROP   VIEW name [IF EXISTS]
+     *   ALTER  COLLECTION name SET OPTIONS {...}
+     *
+     * @param input  DDL statement string (case-insensitive keywords).
+     * @return       Parsed SchemaDDL node or an error.
+     */
+    [[nodiscard]] Result<SchemaDDL> parseSchemaDDL(const std::string& input);
 
 private:
     // Helper methods (implemented in aql_parser.cpp)

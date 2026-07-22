@@ -2098,6 +2098,408 @@ Result<std::shared_ptr<MutationNode>> AQLParser::parseMutation(const std::string
     return p.parseMutation();
 }
 
+// ============================================================================
+// AQLParser::parseSchemaDDL
+// ============================================================================
+
+/// @brief Lightweight token produced by the schema-DDL tokeniser.
+///
+/// Each token carries both the uppercased form (for keyword comparison) and the
+/// original-case form (for identifier names that must preserve user casing).
+/// A character offset into the source string is stored so that the view-body
+/// extractor can slice the original input without reconstructing it from tokens.
+struct SchemaDdlToken {
+    std::string upper;    ///< Uppercased value — used for keyword comparison.
+    std::string original; ///< Original-case value — used for identifier names.
+    size_t      start{0}; ///< Character offset in the source string.
+};
+
+/// @brief Tokenise a Schema DDL string into SchemaDdlToken entries.
+///
+/// Splits on whitespace and treats `(`, `)`, `,` as single-character tokens.
+/// Curly braces `{` and `}` are intentionally NOT split so that OPTIONS blocks
+/// are left intact for JSON extraction via substring search.
+static std::vector<SchemaDdlToken> tokeniseSchemaDdl(const std::string& input) {
+    std::vector<SchemaDdlToken> tokens;
+    size_t i = 0;
+    const size_t n = input.size();
+
+    while (i < n) {
+        // Skip whitespace
+        while (i < n && std::isspace(static_cast<unsigned char>(input[i]))) ++i;
+        if (i >= n) break;
+
+        char ch = input[i];
+
+        // Single-character structural tokens
+        if (ch == '(' || ch == ')' || ch == ',') {
+            SchemaDdlToken t;
+            t.original = std::string(1, ch);
+            t.upper    = t.original;
+            t.start    = i;
+            tokens.push_back(std::move(t));
+            ++i;
+            continue;
+        }
+
+        // Word / identifier token — collect until whitespace or structural char
+        size_t word_start = i;
+        while (i < n
+               && !std::isspace(static_cast<unsigned char>(input[i]))
+               && input[i] != '(' && input[i] != ')' && input[i] != ',') {
+            ++i;
+        }
+
+        SchemaDdlToken t;
+        t.original = input.substr(word_start, i - word_start);
+        t.upper    = t.original;
+        std::transform(t.upper.begin(), t.upper.end(), t.upper.begin(),
+                       [](unsigned char c) { return static_cast<char>(std::toupper(c)); });
+        t.start = word_start;
+        tokens.push_back(std::move(t));
+    }
+    return tokens;
+}
+
+/// @brief Extract a JSON object block `{ … }` from @p source starting at or after @p from_pos.
+///
+/// Balances curly braces to locate the end of the JSON block.  Returns an empty
+/// string if no complete `{…}` block is found.
+static std::string extractJsonBlock(const std::string& source, size_t from_pos) {
+    size_t brace_open = source.find('{', from_pos);
+    if (brace_open == std::string::npos) return {};
+
+    int depth = 0;
+    for (size_t i = brace_open; i < source.size(); ++i) {
+        if (source[i] == '{')      ++depth;
+        else if (source[i] == '}') {
+            --depth;
+            if (depth == 0) return source.substr(brace_open, i - brace_open + 1);
+        }
+    }
+    return {}; // unbalanced
+}
+
+/**
+ * @brief Parse a Schema DDL statement into a SchemaDDL AST node.
+ *
+ * Implements the seven DDL forms listed in the AQL DDL Phase 2 specification.
+ * Keyword matching is case-insensitive; identifier names preserve the casing
+ * supplied by the caller.
+ */
+Result<SchemaDDL> AQLParser::parseSchemaDDL(const std::string& input) {
+    // ── error helper ──────────────────────────────────────────────────────────
+    auto make_err = [](const std::string& msg) -> Result<SchemaDDL> {
+        return Err<SchemaDDL>(errors::ErrorCode::ERR_QUERY_INVALID_SYNTAX, msg);
+    };
+
+    // ── trim ──────────────────────────────────────────────────────────────────
+    std::string trimmed = input;
+    {
+        size_t s = trimmed.find_first_not_of(" \t\n\r");
+        if (s == std::string::npos) return make_err("Empty Schema DDL statement");
+        size_t e = trimmed.find_last_not_of(" \t\n\r");
+        trimmed = trimmed.substr(s, e - s + 1);
+    }
+
+    // ── uppercase for keyword comparisons (same character positions as trimmed)
+    std::string upper = trimmed;
+    std::transform(upper.begin(), upper.end(), upper.begin(),
+                   [](unsigned char c) { return static_cast<char>(std::toupper(c)); });
+
+    // ── tokenise ──────────────────────────────────────────────────────────────
+    const auto tokens = tokeniseSchemaDdl(trimmed);
+    if (tokens.empty()) return make_err("Empty Schema DDL statement");
+
+    // Bounds-safe token accessors
+    auto tok_up = [&](size_t idx) -> const std::string& {
+        static const std::string empty;
+        return idx < tokens.size() ? tokens[idx].upper : empty;
+    };
+    auto tok_orig = [&](size_t idx) -> const std::string& {
+        static const std::string empty;
+        return idx < tokens.size() ? tokens[idx].original : empty;
+    };
+    auto tok_start = [&](size_t idx) -> size_t {
+        return idx < tokens.size() ? tokens[idx].start : trimmed.size();
+    };
+
+    const std::string& kw0 = tok_up(0);
+
+    // ── CREATE ────────────────────────────────────────────────────────────────
+    if (kw0 == "CREATE") {
+        const std::string& kw1 = tok_up(1);
+
+        // ── CREATE COLLECTION ─────────────────────────────────────────────────
+        if (kw1 == "COLLECTION") {
+            const std::string& name = tok_orig(2);
+            if (name.empty()) {
+                return make_err("CREATE COLLECTION requires a collection name");
+            }
+
+            SchemaDDL ddl;
+            ddl.ddl_type = SchemaDDLType::CREATE_COLLECTION;
+            ddl.name     = name;
+
+            // Optional IF NOT EXISTS
+            if (tok_up(3) == "IF" && tok_up(4) == "NOT" && tok_up(5) == "EXISTS") {
+                ddl.if_exists = true;
+            }
+
+            // Optional OPTIONS {…}
+            size_t opts_kw = upper.find("OPTIONS", tok_start(2));
+            if (opts_kw != std::string::npos) {
+                // Verify word boundary on left
+                bool lb = (opts_kw == 0) ||
+                          !std::isalnum(static_cast<unsigned char>(upper[opts_kw - 1]));
+                if (lb) {
+                    std::string json_str = extractJsonBlock(trimmed, opts_kw + 7);
+                    if (!json_str.empty()) {
+                        try {
+                            ddl.options = nlohmann::json::parse(json_str);
+                        } catch (const nlohmann::json::exception& je) {
+                            return make_err(
+                                fmt::format("Invalid OPTIONS JSON in CREATE COLLECTION: {}", je.what()));
+                        }
+                    }
+                }
+            }
+            return Ok(std::move(ddl));
+        }
+
+        // ── CREATE [UNIQUE] INDEX ─────────────────────────────────────────────
+        if (kw1 == "UNIQUE" || kw1 == "INDEX") {
+            const bool is_unique = (kw1 == "UNIQUE");
+            const size_t idx_kw  = is_unique ? 2u : 1u; // token index of INDEX keyword
+
+            if (tok_up(idx_kw) != "INDEX") {
+                return make_err(
+                    fmt::format("Expected INDEX keyword, got '{}'", tok_orig(idx_kw)));
+            }
+
+            const std::string& idx_name = tok_orig(idx_kw + 1);
+            if (idx_name.empty()) {
+                return make_err("CREATE INDEX requires an index name");
+            }
+
+            if (tok_up(idx_kw + 2) != "ON") {
+                return make_err("Expected ON after index name in CREATE INDEX");
+            }
+
+            const std::string& coll = tok_orig(idx_kw + 3);
+            if (coll.empty()) {
+                return make_err("CREATE INDEX requires a collection name after ON");
+            }
+
+            // Expect opening parenthesis
+            const size_t paren_open_idx = idx_kw + 4;
+            if (tok_up(paren_open_idx) != "(") {
+                return make_err(
+                    fmt::format("Expected '(' after collection name in CREATE INDEX, got '{}'",
+                                tok_orig(paren_open_idx)));
+            }
+
+            // Parse comma-separated field names
+            std::vector<FieldDef> fields;
+            size_t fi = paren_open_idx + 1;
+            while (fi < tokens.size() && tok_up(fi) != ")") {
+                if (tok_up(fi) == ",") { ++fi; continue; }
+                FieldDef f;
+                f.name = tok_orig(fi);
+                if (f.name.empty()) break;
+                fields.push_back(std::move(f));
+                ++fi;
+            }
+            if (tok_up(fi) != ")") {
+                return make_err("Unterminated field list in CREATE INDEX — missing ')'");
+            }
+            if (fields.empty()) {
+                return make_err("CREATE INDEX requires at least one field");
+            }
+
+            // Optional modifiers after ')'
+            std::string index_type = "hash"; // default
+            bool is_sparse   = false;
+            bool if_not_exists = false;
+            for (size_t mi = fi + 1; mi < tokens.size(); ++mi) {
+                if (tok_up(mi) == "TYPE" && mi + 1 < tokens.size()) {
+                    index_type = tok_orig(mi + 1);
+                    ++mi;
+                } else if (tok_up(mi) == "SPARSE") {
+                    is_sparse = true;
+                } else if (tok_up(mi) == "IF"
+                           && tok_up(mi + 1) == "NOT"
+                           && tok_up(mi + 2) == "EXISTS") {
+                    if_not_exists = true;
+                    mi += 2;
+                }
+            }
+
+            SchemaDDL ddl;
+            ddl.ddl_type   = SchemaDDLType::CREATE_INDEX;
+            ddl.name       = idx_name;
+            ddl.collection = coll;
+            ddl.if_exists  = if_not_exists;
+            ddl.fields     = fields;
+
+            ddl.index_def.name       = idx_name;
+            ddl.index_def.collection = coll;
+            ddl.index_def.fields     = fields;
+            ddl.index_def.unique     = is_unique;
+            ddl.index_def.sparse     = is_sparse;
+            ddl.index_def.index_type = index_type;
+
+            return Ok(std::move(ddl));
+        }
+
+        // ── CREATE VIEW ───────────────────────────────────────────────────────
+        if (kw1 == "VIEW") {
+            const std::string& view_name = tok_orig(2);
+            if (view_name.empty()) {
+                return make_err("CREATE VIEW requires a view name");
+            }
+
+            // Determine if IF NOT EXISTS appears before AS
+            bool if_not_exists = false;
+            size_t as_token_idx = 3; // expected index of "AS"
+
+            if (tok_up(3) == "IF" && tok_up(4) == "NOT" && tok_up(5) == "EXISTS") {
+                if_not_exists  = true;
+                as_token_idx   = 6;
+            }
+
+            if (tok_up(as_token_idx) != "AS") {
+                return make_err(
+                    fmt::format("Expected AS after view name in CREATE VIEW, got '{}'",
+                                tok_orig(as_token_idx)));
+            }
+
+            // Body starts immediately after "AS" — use character offset
+            size_t body_start = tok_start(as_token_idx) + 2; // skip the 2-char "AS"
+            while (body_start < trimmed.size()
+                   && std::isspace(static_cast<unsigned char>(trimmed[body_start]))) {
+                ++body_start;
+            }
+            std::string body = trimmed.substr(body_start);
+            if (body.empty()) {
+                return make_err("CREATE VIEW requires an AQL body after AS");
+            }
+
+            SchemaDDL ddl;
+            ddl.ddl_type  = SchemaDDLType::CREATE_VIEW;
+            ddl.name      = view_name;
+            ddl.view_body = std::move(body);
+            ddl.if_exists = if_not_exists;
+            return Ok(std::move(ddl));
+        }
+
+        return make_err(
+            fmt::format("Unknown Schema DDL after CREATE: '{}'; expected COLLECTION, INDEX, UNIQUE, or VIEW",
+                        tok_up(1)));
+    }
+
+    // ── DROP ──────────────────────────────────────────────────────────────────
+    if (kw0 == "DROP") {
+        const std::string& kw1 = tok_up(1);
+
+        // ── DROP COLLECTION ───────────────────────────────────────────────────
+        if (kw1 == "COLLECTION") {
+            const std::string& name = tok_orig(2);
+            if (name.empty()) {
+                return make_err("DROP COLLECTION requires a collection name");
+            }
+            SchemaDDL ddl;
+            ddl.ddl_type = SchemaDDLType::DROP_COLLECTION;
+            ddl.name     = name;
+            if (tok_up(3) == "IF" && tok_up(4) == "EXISTS") {
+                ddl.if_exists = true;
+            }
+            return Ok(std::move(ddl));
+        }
+
+        // ── DROP INDEX ────────────────────────────────────────────────────────
+        if (kw1 == "INDEX") {
+            const std::string& idx_name = tok_orig(2);
+            if (idx_name.empty()) {
+                return make_err("DROP INDEX requires an index name");
+            }
+            if (tok_up(3) != "ON") {
+                return make_err("Expected ON after index name in DROP INDEX");
+            }
+            const std::string& coll = tok_orig(4);
+            if (coll.empty()) {
+                return make_err("DROP INDEX requires a collection name after ON");
+            }
+            SchemaDDL ddl;
+            ddl.ddl_type   = SchemaDDLType::DROP_INDEX;
+            ddl.name       = idx_name;
+            ddl.collection = coll;
+            if (tok_up(5) == "IF" && tok_up(6) == "EXISTS") {
+                ddl.if_exists = true;
+            }
+            return Ok(std::move(ddl));
+        }
+
+        // ── DROP VIEW ─────────────────────────────────────────────────────────
+        if (kw1 == "VIEW") {
+            const std::string& view_name = tok_orig(2);
+            if (view_name.empty()) {
+                return make_err("DROP VIEW requires a view name");
+            }
+            SchemaDDL ddl;
+            ddl.ddl_type = SchemaDDLType::DROP_VIEW;
+            ddl.name     = view_name;
+            if (tok_up(3) == "IF" && tok_up(4) == "EXISTS") {
+                ddl.if_exists = true;
+            }
+            return Ok(std::move(ddl));
+        }
+
+        return make_err(
+            fmt::format("Unknown Schema DDL after DROP: '{}'; expected COLLECTION, INDEX, or VIEW",
+                        tok_up(1)));
+    }
+
+    // ── ALTER ─────────────────────────────────────────────────────────────────
+    if (kw0 == "ALTER") {
+        if (tok_up(1) != "COLLECTION") {
+            return make_err(
+                fmt::format("Expected COLLECTION after ALTER, got '{}'", tok_orig(1)));
+        }
+        const std::string& name = tok_orig(2);
+        if (name.empty()) {
+            return make_err("ALTER COLLECTION requires a collection name");
+        }
+        if (tok_up(3) != "SET") {
+            return make_err("Expected SET after collection name in ALTER COLLECTION");
+        }
+        if (tok_up(4) != "OPTIONS") {
+            return make_err("Expected OPTIONS after SET in ALTER COLLECTION");
+        }
+
+        std::string json_str = extractJsonBlock(trimmed, tok_start(4) + 7 /*"OPTIONS"*/);
+        if (json_str.empty()) {
+            return make_err("ALTER COLLECTION requires a JSON OPTIONS block after SET OPTIONS");
+        }
+        nlohmann::json opts;
+        try {
+            opts = nlohmann::json::parse(json_str);
+        } catch (const nlohmann::json::exception& je) {
+            return make_err(
+                fmt::format("Invalid OPTIONS JSON in ALTER COLLECTION: {}", je.what()));
+        }
+
+        SchemaDDL ddl;
+        ddl.ddl_type = SchemaDDLType::ALTER_COLLECTION;
+        ddl.name     = name;
+        ddl.options  = std::move(opts);
+        return Ok(std::move(ddl));
+    }
+
+    return make_err(
+        fmt::format("Unknown Schema DDL keyword '{}'; expected CREATE, DROP, or ALTER", kw0));
+}
+
 }  // namespace query
 }  // namespace themis
 

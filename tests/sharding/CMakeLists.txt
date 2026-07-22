@@ -351,6 +351,41 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_sharding_phase6_hardening.cpp")
     message(STATUS "  P6-02 FLR-01..FLR-20: failover logic and recovery-path hardening (20 tests)")
 endif()
 
+# ============================================================================
+# Phase 6 / P6-03 — Wave-8 Sharding Fault Injection Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_sharding_p6_fault_injection.cpp")
+    message(STATUS "Adding Sharding: P6-03 Wave-8 Fault Injection tests")
+    add_executable(test_sharding_p6_fault_injection test_sharding_p6_fault_injection.cpp)
+    target_include_directories(test_sharding_p6_fault_injection PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(test_sharding_p6_fault_injection PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(test_sharding_p6_fault_injection PRIVATE THEMIS_TEST_BUILD=1)
+    set_target_properties(test_sharding_p6_fault_injection PROPERTIES
+        CXX_STANDARD 20
+        CXX_STANDARD_REQUIRED ON
+    )
+    themis_register_module_focused_test(
+        MODULE  sharding
+        NAME    ShardingP6FaultInjectionTests
+        TARGET  test_sharding_p6_fault_injection
+        TIER    unit
+        TIMEOUT 120
+        LABELS  sharding fault_injection phase6 release_critical sharding_p6
+    )
+    message(STATUS "  P6-03 FI-01..FI-15: network partition scenarios (15 tests)")
+    message(STATUS "  P6-03 FI-16..FI-25: coordinator failure scenarios (10 tests)")
+    message(STATUS "  P6-03 FI-26..FI-40: cascade / multi-failure scenarios (15 tests)")
+endif()
+
 # AUTOGEN PREFIX BLOCK: sharding
 file(GLOB SHARDING_AUTOGEN_PREFIX_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_*.cpp"
