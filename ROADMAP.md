@@ -90,6 +90,13 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 - [~] **Batch D — Final GA Readiness** (Target: 2026-10)
   - [x] Operations/SLA/chaos runbook-linked test suites are now part of the release-critical execution chain.
   - [~] Final governance sign-off document created at `docs/governance/GA_PROMOTION_SIGN_OFF.md`; awaiting human approval (Section 9 of that document).
+- [~] **BLOCK 1 — P2-D06: Tests & Benchmarks für SSM-Runtime** (Target: 2026-07)
+  - [x] Integration test suite `tests/aql/test_p2_d06_benchmarks.cpp` delivered (10 test cases, all P2-GATE criteria verified)
+  - [x] Wave 7 benchmarks `benchmarks/wave7/bench_p2_d05_compression_state_store.cpp` delivered (RCS-09..RCS-14, canonical seed + repetitions)
+  - [x] Evidence bundle `docs/aql/P2_EXECUTION_EVIDENCE.md` consolidated with all P2-GATE + benchmark results
+  - [x] CMakeLists.txt registration: tests/aql + benchmarks/wave7 updated for auto-discovery
+  - [~] Build verification pending on `linux-release` + `community-release` presets
+  - [~] CodeQL verification (optional, given database size)
 
 ## Production Readiness Checklist
 
