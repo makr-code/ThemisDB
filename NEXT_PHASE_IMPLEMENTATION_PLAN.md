@@ -109,8 +109,8 @@ The project transitions from **foundational completion** (Graph Phase 2.4 ✅, D
 
 ### 🎯 **Phase 6: Sharding Consistency & Fault Injection** (PARALLEL)
 
-**Timeline:** 2026-08-10 to 2026-08-31 (3 weeks)  
-**Status:** 🔵 Planned  
+**Timeline:** 2026-07-22 (delivered ahead of schedule)  
+**Status:** ✅ Complete  
 **Scope:** Transaction consistency, failover guarantees, distributed fault injection tests  
 **Target Release:** v2.0.0-rc1 (Oct 2026)
 
@@ -118,30 +118,30 @@ The project transitions from **foundational completion** (Graph Phase 2.4 ✅, D
 
 | ID | Component | Effort | Owner | Tests | Status |
 |----|-----------|--------|-------|-------|--------|
-| P6-01 | Sharding: 2PC/3PC consistency verification + edge case testing | 2 weeks | Team E | 32 tests | 🔵 Planned |
-| P6-02 | Sharding: failover logic + recovery path hardening | 1.5 weeks | Team E | 20 tests | 🔵 Planned |
-| P6-03 | Wave 8: distributed fault injection suite (network partition, coordinator failure, cascade) | 2 weeks | Team F | 40+ scenarios | 🔵 Planned |
+| P6-01 | Sharding: 2PC/3PC consistency verification + edge case testing | 2 weeks | Team E | 32 tests | ✅ Delivered (TXC-01..TXC-32, 2026-07-22) |
+| P6-02 | Sharding: failover logic + recovery path hardening | 1.5 weeks | Team E | 20 tests | ✅ Delivered (FLR-01..FLR-20, 2026-07-22) |
+| P6-03 | Wave 8: distributed fault injection suite (network partition, coordinator failure, cascade) | 2 weeks | Team F | 40 scenarios | ✅ Delivered (FI-01..FI-40, 2026-07-22) |
 
 ---
 
 ### 🎯 **AQL 2.0.0 Language Expansion** (PARALLEL, LONGER TIMELINE)
 
-**Timeline:** 2026-07-15 onwards (18-23 weeks total)  
-**Status:** 🟡 Phase 1 Complete, Phase 2 Kickoff
+**Timeline:** 2026-07-15 onwards  
+**Status:** 🟡 Phase 2 Complete, Phase 3 (Geospatial) Queued
 
 | Phase | Component | Duration | Owner | Status |
 |-------|-----------|----------|-------|--------|
 | Phase 1 | Parser + AST + Tokenizer + Safety | 5 weeks | ✅ Complete | ✅ DONE 2026-07-15 |
-| Phase 2 | DDL (CREATE/DROP/ALTER) | 4-6 weeks | Team G | 🚀 Kickoff 2026-07-22 |
+| Phase 2 | DDL (CREATE/DROP/ALTER COLLECTION/INDEX/VIEW) | 4-6 weeks | Team G | ✅ DONE 2026-07-22 |
 | Phase 3 | Geospatial (ST_* parser integration) | 2-3 weeks | Team H | 🔵 Queued (after Phase 2) |
 | Phase 4 | FTS enhancement | 2-3 weeks | Team H | 🔵 Queued (parallel with Phase 3) |
 | Phase 5 | Integration & testing | 3-4 weeks | Team G+H | 🔵 Queued |
 
-**Phase 2 Kickoff (DDL):**
-- [ ] Team G assignment: 2 engineers
-- [ ] Branch: `feature/aql-ddl-phase2`
-- [ ] Reference: `src/query/sql_parser.cpp` (existing INSERT/UPDATE/DELETE parser)
-- [ ] Target: 32 tests, zero breaking changes to v1.x
+**Phase 2 Delivery (DDL):**
+- [x] `SchemaDDLType`, `FieldDef`, `IndexDef`, `SchemaDDL` AST types added to `include/query/aql_parser.h`
+- [x] `AQLParser::parseSchemaDDL()` implemented in `src/query/aql_parser.cpp`
+- [x] `DDLExecutor` + `SchemaRegistry` in `include/query/ddl_executor.h` + `src/query/ddl_executor.cpp`
+- [x] 32 GTest cases (DDL-01..DDL-32) in `tests/query/test_aql_ddl_phase2.cpp`, registered in CMakeLists
 
 ---
 

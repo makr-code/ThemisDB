@@ -63,6 +63,12 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/llm/lora_framework/embedding_provider.cpp
         )
     endif()
+    if(_stem STREQUAL "test_ssm_rocksdb_store")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/ssm_state_rocksdb_store.cpp
+        )
+        target_link_libraries(${_target} PRIVATE rocksdb)
+    endif()
     # Tests using EXPECT_THAT/HasSubstr need gmock.
     set(_gmock_link "")
     if(TARGET GTest::gmock)
@@ -156,6 +162,12 @@ foreach(_src IN LISTS LLM_AUTOGEN_PREFIX_TEST_SOURCES)
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/llm/lora_framework/embedding_provider.cpp
         )
+    endif()
+    if(_stem STREQUAL "test_llm_ssm_rocksdb_store")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/ssm_state_rocksdb_store.cpp
+        )
+        target_link_libraries(${_target} PRIVATE rocksdb)
     endif()
     # Tests using EXPECT_THAT/HasSubstr need gmock.
     set(_gmock_link "")

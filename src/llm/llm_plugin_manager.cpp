@@ -23,6 +23,7 @@
 #include "llm/context_window_budget.h"
 #include "llm/llama_wrapper.h"
 #include "llm/embedded_llm.h"
+#include "llm/ssm_state_rocksdb_store.h"
 #include "utils/error_registry.h"
 #include <spdlog/spdlog.h>
 #include <stdexcept>
@@ -804,6 +805,158 @@ void LLMPluginManager::wireMetricsServerCallbacks(monitoring::MetricsServer& ser
     spdlog::info("LLMPluginManager::wireMetricsServerCallbacks: "
                  "reload/simulate/{} wired",
                  cancel_cb ? "session-delete" : "session-delete(not_configured)");
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// SSM State Store Management (P2-D04 / P2-D05 Runtime Integration)
+// ═══════════════════════════════════════════════════════════════════════════
+
+bool LLMPluginManager::initializeStateStore(const SSMStateStoreConfig& config) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    if (!config.enabled) {
+        spdlog::info("LLMPluginManager::initializeStateStore: disabled by configuration");
+        return false;
+    }
+    
+    try {
+        if (config.rocksdb_path.empty()) {
+            throw std::invalid_argument("rocksdb_path cannot be empty when state store is enabled");
+        }
+        
+        // Create RocksDB path if it doesn't exist
+        std::filesystem::create_directories(config.rocksdb_path);
+        
+        // TODO: P2-D05: Initialize RocksDB TransactionDB instance
+        // For now, this is a placeholder that logs the intent
+        spdlog::info("LLMPluginManager::initializeStateStore: "
+                    "RocksDB path={}, retention_window_ms={}, max_snapshots_per_session={}",
+                    config.rocksdb_path, config.retention_window_ms, config.max_snapshots_per_session);
+        
+        // Create SSMStateRocksDBStore instance (state_db_ and state_cf_ will be initialized separately)
+        if (state_db_) {
+            SSMStateRocksDBStore::Config store_cfg;
+            store_cfg.retention_window_ms = config.retention_window_ms;
+            store_cfg.max_snapshots_per_session = config.max_snapshots_per_session;
+            store_cfg.enable_compression = config.enable_compression;
+            store_cfg.sync_on_checkpoint = config.sync_on_checkpoint;
+            
+            state_store_ = std::make_unique<SSMStateRocksDBStore>(state_db_, state_cf_, store_cfg);
+            spdlog::info("LLMPluginManager: SSM state store initialized successfully");
+            return true;
+        } else {
+            spdlog::warn("LLMPluginManager::initializeStateStore: RocksDB not initialized, deferring state store creation");
+            return false;
+        }
+    } catch (const std::exception& e) {
+        spdlog::error("LLMPluginManager::initializeStateStore failed: {}", e.what());
+        state_store_ = nullptr;
+        return false;
+    }
+}
+
+bool LLMPluginManager::checkpointState(const std::string& session_id, const SSMStateSnapshot& snapshot) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    if (!state_store_) {
+        return false;  // State store not initialized
+    }
+    
+    try {
+        if (session_id.empty()) {
+            throw std::invalid_argument("session_id cannot be empty");
+        }
+        
+        const bool success = state_store_->checkpoint(session_id, snapshot);
+        if (success) {
+            spdlog::debug("LLMPluginManager::checkpointState: session_id={} checkpointed", session_id);
+        } else {
+            spdlog::warn("LLMPluginManager::checkpointState: session_id={} checkpoint failed", session_id);
+        }
+        return success;
+    } catch (const std::exception& e) {
+        spdlog::error("LLMPluginManager::checkpointState failed: {}", e.what());
+        return false;
+    }
+}
+
+std::optional<SSMStateSnapshot> LLMPluginManager::recoverState(const std::string& session_id) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    if (!state_store_) {
+        return std::nullopt;  // State store not initialized
+    }
+    
+    try {
+        if (session_id.empty()) {
+            throw std::invalid_argument("session_id cannot be empty");
+        }
+        
+        auto result = state_store_->resume(session_id);
+        if (result) {
+            spdlog::debug("LLMPluginManager::recoverState: session_id={} recovered", session_id);
+        }
+        return result;
+    } catch (const std::exception& e) {
+        spdlog::error("LLMPluginManager::recoverState failed: {}", e.what());
+        return std::nullopt;
+    }
+}
+
+bool LLMPluginManager::invalidateState(const std::string& session_id) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    if (!state_store_) {
+        return false;  // State store not initialized
+    }
+    
+    try {
+        if (session_id.empty()) {
+            throw std::invalid_argument("session_id cannot be empty");
+        }
+        
+        const bool success = state_store_->invalidate(session_id);
+        if (success) {
+            spdlog::debug("LLMPluginManager::invalidateState: session_id={} invalidated", session_id);
+        }
+        return success;
+    } catch (const std::exception& e) {
+        spdlog::error("LLMPluginManager::invalidateState failed: {}", e.what());
+        return false;
+    }
+}
+
+uint64_t LLMPluginManager::compactStateStore() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    if (!state_store_) {
+        return 0;  // State store not initialized
+    }
+    
+    try {
+        // Use default retention window from state store config
+        const uint64_t removed = state_store_->compact();
+        spdlog::info("LLMPluginManager::compactStateStore: {} snapshots removed", removed);
+        return removed;
+    } catch (const std::exception& e) {
+        spdlog::error("LLMPluginManager::compactStateStore failed: {}", e.what());
+        return 0;
+    }
+}
+
+std::string LLMPluginManager::getStateStoreStatistics() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    if (!state_store_) {
+        return "{}";  // State store not initialized
+    }
+    
+    try {
+        return state_store_->getStats();
+    } catch (const std::exception& e) {
+        spdlog::error("LLMPluginManager::getStateStoreStatistics failed: {}", e.what());
+        return "{}";
+    }
 }
 
 } // namespace llm

@@ -27,6 +27,9 @@
   - [ ] Performance-Baselines in `benchmarks/baselines/` eintragen (Target: 2026-Q3)
 
 ## Planned Features
+- [x] Phase-0 CRUD Baseline Benchmark Suite anlegen (P0-D04) — `benchmarks/phase0/` inkl. `bench_p0_crud_baseline.cpp` mit 4 Workloads (insert, read, update, delete) (Target: 2026-Q3)
+- [x] Phase-0 Messpfad + Baseline-JSON implementiert: `phase0_fixtures.h` mit kanonischen Konstanten, `baseline_p0_v0.json` mit Erwartungen (Target: 2026-Q3)
+- [x] Phase-0 Runbook & Measurement Protocol dokumentiert für manuellen + CI-Messpfad (Target: 2026-Q3)
 - [ ] Persistente Historisierung von Eval-Reports für Trendanalysen über Releases hinweg (Target: 2026-Q3)
 - [ ] Erweiterte Kostenmodelle (Cloud-Instance-Typen, Energie/KWh) in Gate-Entscheidungen integrieren (Target: 2026-Q3)
 - [ ] Schichtbezogene Benchmark-Matrix (ANN/Tensor/Graph/LLM) mit evidenzbasierten Referenzsuites dokumentieren (Target: 2026-Q3)
