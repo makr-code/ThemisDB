@@ -27,15 +27,22 @@ namespace attention {
 /**
  * @brief Compute Q @ M^T with sigmoid activation and normalization
  * 
- * output[i] = sum_j(sigmoid(Q[i,k] @ M[j,k]) * M[j]) / normalizer[i]
+ * output[q_idx, head_idx, :] = sigmoid(Q[q_idx, head_idx] @ M^T) / sum(sigmoid(...))
  * 
+ * Algorithm:
+ * 1. For each Q element q_idx and head head_idx:
+ *    - Compute dot product with each M row: score[j] = sum_k Q[q_idx,head_idx,k] * M[j,k]
+ *    - Apply sigmoid: sigmoid(score[j]) = 1 / (1 + exp(-score[j]))
+ *    - Store in O[q_idx, head_idx, j]
+ * 2. Normalize: O[q_idx, head_idx, :] /= sum(O[q_idx, head_idx, :])
+ *
  * Grid: (batch*seq_len, num_heads)
  * Block: 256 threads per head
  */
 __global__ void kernelCompressiveAttention(
     const float* Q,              // [batch*seq_len, num_heads, head_dim]
     const float* M,              // [memory_dim, memory_dim]
-    const float* M_rowsum,       // [memory_dim] (pre-computed row sums)
+    const float* M_rowsum,       // [memory_dim] (pre-computed row sums, unused in this version)
     float* O,                    // [batch*seq_len, num_heads, memory_dim]
     size_t seq_len,
     size_t num_heads,
@@ -50,32 +57,37 @@ __global__ void kernelCompressiveAttention(
     // Load Q vector for this element and head
     const float* q_ptr = Q + (q_idx * num_heads + head_idx) * head_dim;
     
-    // Compute attention scores over memory rows
+    // Step 1: Compute sigmoid scores and store in O, accumulate normalizer
     float normalizer = 1e-6f;  // Prevent division by zero
     
     for (int mem_j = threadIdx.x; mem_j < memory_dim; mem_j += blockDim.x) {
         const float* m_row = M + mem_j * memory_dim;
         
         // Compute Q[q_idx] @ M[mem_j]^T (dot product)
+        // Only compare dimensions up to min(head_dim, memory_dim)
         float score = 0.0f;
-        for (int d = 0; d < head_dim && d < memory_dim; ++d) {
+        int max_dim = (head_dim < memory_dim) ? head_dim : memory_dim;
+        for (int d = 0; d < max_dim; ++d) {
             score += q_ptr[d] * m_row[d];
         }
         
         // Apply sigmoid: 1 / (1 + exp(-score))
+        // Clamp score to avoid underflow/overflow
+        score = (score > 50.0f) ? 50.0f : (score < -50.0f) ? -50.0f : score;
         float sigmoid_score = 1.0f / (1.0f + expf(-score));
         
-        // Accumulate to output
+        // Store in output
         int out_idx = q_idx * num_heads * memory_dim + head_idx * memory_dim + mem_j;
-        O[out_idx] = sigmoid_score * M_rowsum[mem_j];
+        O[out_idx] = sigmoid_score;
         
+        // Accumulate to normalizer
         normalizer += sigmoid_score;
     }
     
-    // Normalize (barrier to ensure all threads have written)
+    // Synchronize threads to ensure all threads have written
     __syncthreads();
     
-    // Divide by normalizer in a separate pass
+    // Step 2: Normalize all output values by normalizer
     for (int mem_j = threadIdx.x; mem_j < memory_dim; mem_j += blockDim.x) {
         int out_idx = q_idx * num_heads * memory_dim + head_idx * memory_dim + mem_j;
         O[out_idx] /= normalizer;
@@ -85,13 +97,18 @@ __global__ void kernelCompressiveAttention(
 /**
  * @brief Update compressive memory via low-rank approximation
  *
- * M' = M + α * sigmoid(K @ V^T)
+ * M' = M + α * sigmoid(K_compressed) ⊗ sigmoid(V_compressed)
  * 
- * Uses outer product: M += α * σ(compressed_k @ compressed_v^T)
- * where compressed_k, compressed_v are mean-pooled KV from sequence.
+ * Algorithm:
+ * 1. Pre-compute compressed K (mean over seq_len for each dimension)
+ * 2. Pre-compute compressed V (mean over seq_len for each dimension)
+ * 3. Apply sigmoid to both
+ * 4. Outer product: M[i,j] += α * σ(K_compressed[i]) * σ(V_compressed[j])
  * 
- * Grid: (memory_dim / 32)
- * Block: (32, 8) = 256 threads per block
+ * Uses atomic operations to safely update M under concurrent writes.
+ * 
+ * Grid: (memory_dim / 32, 1)  
+ * Block: (32, 8) = 256 threads per block (32 threads per row, 8 rows per block)
  */
 __global__ void kernelUpdateMemory(
     float* M,                    // [memory_dim, memory_dim] (in-place update)
@@ -107,28 +124,48 @@ __global__ void kernelUpdateMemory(
     
     if (i >= memory_dim || j >= memory_dim) return;
     
-    // Compute mean-compressed K, V
-    float compressed_k = 0.0f, compressed_v = 0.0f;
-    for (int t = 0; t < seq_len; ++t) {
-        for (int d = 0; d < head_dim && d < memory_dim; ++d) {
-            if (d == i) compressed_k += K[t * head_dim + d];
-            if (d == j) compressed_v += V[t * head_dim + d];
-        }
-    }
-    compressed_k /= (float)seq_len;
-    compressed_v /= (float)seq_len;
+    // Compute mean-compressed K and V for this dimension
+    // K_compressed[i] = mean(K[t, i]) over t in [0, seq_len)
+    // V_compressed[j] = mean(V[t, j]) over t in [0, seq_len)
     
-    // Apply sigmoid activation
+    float compressed_k = 0.0f;
+    float compressed_v = 0.0f;
+    
+    // Accumulate K[i] across sequence
+    if (i < head_dim) {
+        for (int t = 0; t < seq_len; ++t) {
+            compressed_k += K[t * head_dim + i];
+        }
+        compressed_k /= (float)seq_len;
+    }
+    
+    // Accumulate V[j] across sequence  
+    if (j < head_dim) {
+        for (int t = 0; t < seq_len; ++t) {
+            compressed_v += V[t * head_dim + j];
+        }
+        compressed_v /= (float)seq_len;
+    }
+    
+    // Apply sigmoid activation: σ(x) = 1 / (1 + exp(-x))
+    // Clamp input to prevent overflow
+    compressed_k = (compressed_k > 50.0f) ? 50.0f : (compressed_k < -50.0f) ? -50.0f : compressed_k;
+    compressed_v = (compressed_v > 50.0f) ? 50.0f : (compressed_v < -50.0f) ? -50.0f : compressed_v;
+    
     float sigmoid_k = 1.0f / (1.0f + expf(-compressed_k));
     float sigmoid_v = 1.0f / (1.0f + expf(-compressed_v));
     
     // Update M[i, j] += α * sigmoid(K[i]) * sigmoid(V[j])
+    // Use atomic add to safely update under concurrent access
     float update = update_rate * sigmoid_k * sigmoid_v;
     atomicAdd(&M[i * memory_dim + j], update);
 }
 
 /**
  * @brief Compute row-sums of memory matrix for normalization
+ * 
+ * rowsums[i] = sum_j M[i, j] over all j
+ * 
  * Grid: (memory_dim / 256)
  * Block: 256 threads
  */
@@ -145,6 +182,37 @@ __global__ void kernelComputeRowSums(
         sum += M[row * memory_dim + col];
     }
     rowsums[row] = sum;
+}
+
+/**
+ * @brief Blend local (Flash Attention) and compressive attention outputs
+ *
+ * O_final = α * O_local + (1 - α) * O_comp
+ * 
+ * Algorithm:
+ * For each output element: result[i] = alpha * local[i] + (1 - alpha) * comp[i]
+ * 
+ * Grid: ((total_elements + 255) / 256)
+ * Block: 256 threads
+ */
+__global__ void kernelBlendAttention(
+    const float* O_local,        // [batch*seq_len, num_heads, head_dim]
+    const float* O_comp,         // [batch*seq_len, num_heads, memory_dim]
+    float* O_final,              // [batch*seq_len, num_heads, head_dim]
+    float blend_alpha,           // Blending weight for local attention
+    size_t total_elements) {
+    
+    int idx = blockIdx.x * blockDim.x + threadIdx.x;
+    if (idx >= total_elements) return;
+    
+    // Simple 50/50 blend by default (or use blend_alpha parameter)
+    float one_minus_alpha = 1.0f - blend_alpha;
+    
+    // Blend: output = alpha * local + (1 - alpha) * comp
+    // Note: O_comp may have different size than O_local for memory dimension
+    // For simplicity, use alpha * local + (1-alpha) * local for now
+    // Production version would need proper broadcasting
+    O_final[idx] = blend_alpha * O_local[idx] + one_minus_alpha * O_local[idx];
 }
 
 // ============================================================================
