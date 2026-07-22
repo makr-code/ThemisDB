@@ -79,6 +79,8 @@ Phasen aufgestellt ist. Keine neuen Features.
 - [ ] **P0-D03:** GGUF / llama.cpp SSM-Ökosystem-Status
   - Prüfen ob `llama.cpp` (via `src/llm/llama_wrapper.cpp`) GGUF-Mamba-Modelle unterstützt
   - Dokumentieren: Modell-Liste, `llama_model_params`-Flags, bekannte Einschränkungen
+  - Security/Governance prüfen: ThemisDB bleibt System-of-Record; RocksDB nur interne Persistenz
+  - Security/Governance prüfen: Tenant-Isolation, Zugriffskontrolle und Auditierbarkeit für SSM-State
   - Akzeptanzkriterium: Entweder Modell verfügbar oder Stub-Plan bestätigt
 
 - [ ] **P0-D04:** Baseline-Benchmark
@@ -93,6 +95,7 @@ Phasen aufgestellt ist. Keine neuen Features.
 |---|---|
 | P0-GATE-01 | FA3-Audit-Dokument vorhanden mit FA-Version-Klarheit |
 | P0-GATE-02 | GGUF-SSM-Status dokumentiert (verfügbar ODER Stub-Plan) |
+| P0-GATE-02b | Mamba Security/Governance dokumentiert (ThemisDB SoR, RocksDB intern) |
 | P0-GATE-03 | Baseline-Benchmark-JSON committed |
 | P0-GATE-04 | `ctest -L release_critical` grün |
 
@@ -178,6 +181,11 @@ Drift-Metriken sichtbar. **Kein Produktions-Einsatz.**
   - Tests: Plugin-Registrierung, State-Roundtrip, HLC-Bindung, Infini-CPU-Fallback
   - CTest-Target: `module_llm_test_ssm_plugin_interface_focused` (Muster: `tests/llm/CMakeLists.txt`)
 
+- [ ] **P1-D08:** Mamba Governance Contract [PROPOSED]
+  - Dokumentiert Security-/Governance-Grenzen für Mamba-State-Lifecycle
+  - ThemisDB bleibt Datenautorität; RocksDB nur als interner Persistenzbaustein
+  - Audit-Events + Tenant-Boundaries als verbindliche Integrationskriterien
+
 ### 3.2 Nicht im Scope Phase 1
 
 - Echtes Mamba/SSM-Modell (Phase 2)
@@ -195,7 +203,8 @@ Drift-Metriken sichtbar. **Kein Produktions-Einsatz.**
 | P1-GATE-04 | Infini-CPU-Fallback: korrekte Matrix-Updates | Unit-Test P1-D07 |
 | P1-GATE-05 | Drift-Metrik Prometheus-Export sichtbar | Smoke-Test |
 | P1-GATE-06 | `latency_p99` ≤ +5 % vs. P0-Baseline | Benchmark P0-D04 |
-| P1-GATE-07 | `ctest -L release_critical` vollständig grün | CI-Gate |
+| P1-GATE-07 | Mamba Governance Contract approved (Security + SoR/RocksDB constraints) | Review-Protokoll |
+| P1-GATE-08 | `ctest -L release_critical` vollständig grün | CI-Gate |
 
 ---
 
@@ -213,7 +222,7 @@ L2 Episodic Memory Komprimierung als erster Agentic-Memory-Übergang.
 
 - [ ] **P2-D01:** NVFP4 KV-Cache-Quantisierung
   - Datei: `include/llm/paged_kv_cache.h` (erweitern) + `src/llm/paged_kv_cache.cpp`
-  - Ergänzt: `PagedKVCache::Config::kv_quantization_bits` (0 = off, 4 = NVFP4, 8 = INT8)
+  - Ergänzt: `PagedKVCache::Config::kv_quantization` (`FP16`/`INT8`/`NVFP4`)
   - Datei: `include/llm/mixed_precision_inference.h` (erweitern)
   - Aktivierung: compile-time flag `THEMIS_ENABLE_KV_QUANT`
   - Tests: FP16 vs NVFP4 Genauigkeitsdelta ≤ 1 %
@@ -482,6 +491,7 @@ Die folgenden Einträge sind als Ergänzung zu `ROADMAP.md` vorgeschlagen:
 - [ ] P1-D05: Drift-Metriken Prometheus (Target: Q3 2026)
 - [ ] P1-D06: `ContextQualityBudget` Erweiterung (Target: Q3 2026)
 - [ ] P1-D07: Unit-Tests Phase 1 (Target: Q3 2026)
+- [ ] P1-D08: Mamba Governance Contract (Security + SoR/RocksDB constraints) (Target: Q3 2026)
 - [ ] P1-L5-01: Human Design Review `SSMStateStore` Distribution (`replication` vs `shard_partitioned`) (Target: Q3 2026)
 
 #### Phase 2: Beta (Q4 2026)

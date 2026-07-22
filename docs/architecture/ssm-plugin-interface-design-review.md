@@ -21,6 +21,10 @@ Human-review Pflichtartefakt vor Implementierung von `ISSMPlugin` und `SSMStateS
   - [ ] bounded-staleness
   - [ ] strong consistency (nur mit expliziter Begründung)
 - [ ] **Ownership + Removal/Migration-Pfad** für Übergang von In-Memory zu persistenter Store-Variante dokumentiert.
+- [ ] **Mamba Security/Governance-Klarstellung:**
+  - ThemisDB bleibt Datenautorität (System-of-Record)
+  - RocksDB nur interne Persistenz, kein externer Parallel-DB-Pfad
+  - Zugriff/Audit für SSM-State-Snapshots verbindlich spezifiziert
 
 ## L5-Ausrichtung (muss vorliegen)
 
@@ -34,4 +38,3 @@ Human-review Pflichtartefakt vor Implementierung von `ISSMPlugin` und `SSMStateS
 
 Reviewer (human): ____________________  
 Datum: ____________________
-
