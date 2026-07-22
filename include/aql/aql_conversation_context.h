@@ -22,6 +22,7 @@
 
 #include "aql/llm_aql_handler.h"
 #include "aql/llm_token_estimator.h"
+#include "aql/i_history_compressor.h"
 #include <string>
 #include <vector>
 #include <memory>
@@ -30,6 +31,9 @@
 
 namespace themis {
 namespace aql {
+
+// Forward declarations
+struct IHistoryCompressor;
 
 /**
  * @brief Multi-turn conversation context for iterative AQL query refinement.
@@ -109,6 +113,42 @@ public:
          */
         std::function<std::string(const std::vector<std::pair<std::string, std::string>>&)>
             llm_executor = nullptr;
+
+        /**
+         * @brief Enable episodic memory compression (L2 rotation) for conversation history.
+         *
+         * When enabled and history exceeds episodic_compaction_trigger_tokens,
+         * conversation is compressed using extractive summarization to preserve
+         * semantic meaning while reducing token count.
+         *
+         * Defaults to false (disabled). Enable via P2-D03 Phase 2+ implementation.
+         *
+         * Related: P2-D03 L2 Episodic Memory Compression (SSM-hybrid Phase 2).
+         */
+        bool enable_episodic_compaction = false;
+
+        /**
+         * @brief Token count threshold to trigger episodic memory compression.
+         *
+         * When total conversation history exceeds this value and
+         * enable_episodic_compaction is true, compression is triggered.
+         *
+         * Defaults to 0 (disabled). Set to value < max_history_tokens for
+         * early compression before eviction.
+         *
+         * Typical value: 6144 (compress when approaching 8192 budget).
+         */
+        int32_t episodic_compaction_trigger_tokens = 0;
+
+        /**
+         * @brief Minimum semantic similarity required for compressed episodes.
+         *
+         * Acceptance gate P2-GATE-03: compressed episode must preserve
+         * >= this similarity score to the original conversation.
+         *
+         * Defaults to 0.85 (per P2-GATE-03 specification).
+         */
+        float episodic_compression_gate_similarity = 0.85f;
     };
 
     /**
@@ -130,6 +170,23 @@ public:
       LLMAQLHandler& handler,
       Config config,
       std::unique_ptr<TokenEstimator> estimator = nullptr
+    );
+
+    /**
+     * @brief Construct a context with handler, configuration, estimator, and compressor
+     * @param handler     Reference to an LLMAQLHandler instance.
+     *                    The handler must outlive this context.
+     * @param config      Runtime configuration (max turns, token budget).
+     * @param estimator   Optional token estimator; defaults to CharDivisionEstimator.
+     * @param compressor  Optional IHistoryCompressor for episodic compression (L2 rotation).
+     *                    If nullptr and enable_episodic_compaction is true, compression
+     *                    will be silently skipped. The compressor must outlive this context.
+     */
+    explicit AQLConversationContext(
+      LLMAQLHandler& handler,
+      Config config,
+      std::unique_ptr<TokenEstimator> estimator,
+      IHistoryCompressor* compressor
     );
     ~AQLConversationContext();
 
@@ -153,6 +210,27 @@ public:
 
     /** @brief Return the current schema context string. */
     std::string getSchemaContext() const;
+
+    /**
+     * @brief Set the history compressor for episodic memory compression (L2 rotation).
+     *
+     * The compressor is invoked automatically during `refine()` when conversation
+     * history exceeds episodic_compaction_trigger_tokens and enable_episodic_compaction
+     * is true.
+     *
+     * @param compressor Pointer to IHistoryCompressor instance. The compressor must
+     *                   outlive this context. Can be nullptr to disable compression.
+     * @note Thread-safe; can be called concurrently with conversation operations.
+     */
+    void setCompressor(IHistoryCompressor* compressor);
+
+    /**
+     * @brief Get the currently configured history compressor.
+     *
+     * @return Pointer to the IHistoryCompressor, or nullptr if not configured.
+     * @note Thread-safe; returns a snapshot of the current compressor pointer.
+     */
+    IHistoryCompressor* getCompressor() const;
 
     // =========================================================================
     // Conversation

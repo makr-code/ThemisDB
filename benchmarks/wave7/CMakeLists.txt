@@ -79,3 +79,11 @@ add_w7_benchmark(
     bench_w7d_guardrails_variance_operability
     bench_w7d_guardrails_variance_operability.cpp
 )
+
+# ---------------------------------------------------------------------------
+# W7-P2D05: Phase 2 D05 Runtime Integration (Compression + State Store)
+# ---------------------------------------------------------------------------
+add_w7_benchmark(
+    bench_w7_p2d05_compression_state_store
+    bench_p2_d05_compression_state_store.cpp
+)

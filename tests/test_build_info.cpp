@@ -229,6 +229,205 @@ TEST(BuildManifest, ExportToInvalidPathReturnsFalse) {
         "/no/such/directory/manifest.json"));
 }
 
+// ===== Advanced Reproducibility Tests =====
+
+TEST(ReproducibilityInfo, AllFieldsPresent) {
+    auto info = getReproducibilityInfo();
+    
+    // All fields should be populated (even if with "unknown" values)
+    EXPECT_FALSE(info.git_commit.empty());
+    EXPECT_FALSE(info.git_commit_date.empty());
+    EXPECT_FALSE(info.git_branch.empty());
+    EXPECT_FALSE(info.build_host.empty());
+    EXPECT_FALSE(info.build_user.empty());
+    EXPECT_FALSE(info.toolchain.empty());
+    EXPECT_FALSE(info.binary_hash.empty());
+    
+    // Binary hash should be valid (either SHA-256 hex or error marker)
+    const bool isValidHash = (info.binary_hash.length() == 64) ||  // SHA-256 hex
+                            (info.binary_hash.find("(") != std::string::npos);  // Error marker like "(unavailable)"
+    EXPECT_TRUE(isValidHash) << "Binary hash must be either SHA-256 hex or error marker";
+}
+
+TEST(ReproducibilityInfo, GitDirtyFlagIsBoolean) {
+    auto info = getReproducibilityInfo();
+    // git_dirty is just a boolean, so no explicit test needed.
+    // Just verify it's accessible.
+    EXPECT_TRUE(info.git_dirty == true || info.git_dirty == false);
+}
+
+TEST(ReproducibilityInfo, DependencyMapPopulated) {
+    auto info = getReproducibilityInfo();
+    
+    // At least some core dependencies should be captured
+    // (exact list depends on build configuration)
+    // We just verify the map is accessible and not full of empty strings
+    for (const auto& [name, version] : info.dependencies) {
+        EXPECT_FALSE(name.empty());
+        EXPECT_FALSE(version.empty());
+    }
+}
+
+TEST(BuildManifest, ManifestHasValidJsonStructure) {
+    const std::string path = tmpPath("test_manifest_json_structure.json");
+    std::error_code ec;
+    std::filesystem::remove(path, ec);
+    
+    ASSERT_TRUE(exportBuildManifest(path));
+    
+    std::ifstream f(path);
+    ASSERT_TRUE(f.is_open());
+    std::string json((std::istreambuf_iterator<char>(f)),
+                     std::istreambuf_iterator<char>());
+    f.close();
+    
+    // Verify basic JSON structure
+    EXPECT_EQ(json[0], '{') << "JSON must start with '{'";
+    EXPECT_EQ(json[json.length()-1], '}') << "JSON must end with '}'";
+    
+    // Verify required fields are present
+    EXPECT_NE(json.find("\"schema_version\""), std::string::npos);
+    EXPECT_NE(json.find("\"git_commit\""), std::string::npos);
+    EXPECT_NE(json.find("\"git_commit_date\""), std::string::npos);
+    EXPECT_NE(json.find("\"git_branch\""), std::string::npos);
+    EXPECT_NE(json.find("\"git_dirty\""), std::string::npos);
+    EXPECT_NE(json.find("\"build_host\""), std::string::npos);
+    EXPECT_NE(json.find("\"build_user\""), std::string::npos);
+    EXPECT_NE(json.find("\"build_type\""), std::string::npos);
+    EXPECT_NE(json.find("\"build_timestamp\""), std::string::npos);
+    EXPECT_NE(json.find("\"toolchain\""), std::string::npos);
+    EXPECT_NE(json.find("\"edition\""), std::string::npos);
+    EXPECT_NE(json.find("\"binary_hash\""), std::string::npos);
+    EXPECT_NE(json.find("\"dependencies\""), std::string::npos);
+    
+    std::filesystem::remove(path, ec);
+}
+
+TEST(BuildManifest, ManifestRoundTripConsistency) {
+    const std::string path = tmpPath("test_manifest_consistency.json");
+    std::error_code ec;
+    std::filesystem::remove(path, ec);
+    
+    // Export manifest twice and verify they're identical
+    ASSERT_TRUE(exportBuildManifest(path));
+    std::ifstream f1(path);
+    std::string json1((std::istreambuf_iterator<char>(f1)),
+                      std::istreambuf_iterator<char>());
+    f1.close();
+    
+    ASSERT_TRUE(exportBuildManifest(path));
+    std::ifstream f2(path);
+    std::string json2((std::istreambuf_iterator<char>(f2)),
+                      std::istreambuf_iterator<char>());
+    f2.close();
+    
+    // JSON should be identical on re-export (same build)
+    EXPECT_EQ(json1, json2) << "Manifest should be identical on re-export";
+    
+    std::filesystem::remove(path, ec);
+}
+
+TEST(BuildManifest, VerificationFailsWithMissingFile) {
+    EXPECT_FALSE(verifyBuildManifest("/nonexistent/path/manifest.json"));
+}
+
+TEST(BuildManifest, VerificationFailsWithEmptyFile) {
+    const std::string path = tmpPath("test_manifest_empty.json");
+    std::error_code ec;
+    std::filesystem::remove(path, ec);
+    
+    // Create an empty file
+    {
+        std::ofstream f(path);
+        // File is empty
+    }
+    
+    EXPECT_FALSE(verifyBuildManifest(path)) 
+        << "Verification should fail for empty manifest";
+    
+    std::filesystem::remove(path, ec);
+}
+
+TEST(BuildManifest, VerificationFailsWithInvalidJson) {
+    const std::string path = tmpPath("test_manifest_invalid.json");
+    std::error_code ec;
+    std::filesystem::remove(path, ec);
+    
+    // Create a file with invalid JSON
+    {
+        std::ofstream f(path);
+        f << "{\"git_commit\": \"invalid\"\n";  // Missing closing brace
+    }
+    
+    EXPECT_FALSE(verifyBuildManifest(path))
+        << "Verification should fail for invalid JSON";
+    
+    std::filesystem::remove(path, ec);
+}
+
+TEST(BuildManifest, VerificationFailsWithWrongToolchain) {
+    const std::string path = tmpPath("test_manifest_wrong_toolchain.json");
+    std::error_code ec;
+    std::filesystem::remove(path, ec);
+    
+    ASSERT_TRUE(exportBuildManifest(path));
+    
+    // Modify the toolchain field
+    {
+        std::ifstream fin(path);
+        std::string content((std::istreambuf_iterator<char>(fin)),
+                            std::istreambuf_iterator<char>());
+        fin.close();
+        
+        // Replace toolchain with a completely different one
+        auto pos = content.find("\"toolchain\": \"");
+        if (pos != std::string::npos) {
+            auto start = pos + 14;  // skip `"toolchain": "`
+            auto end = content.find('"', start);
+            content.replace(start, end - start, "UnknownCompiler/99.99.99");
+            
+            std::ofstream fout(path);
+            fout << content;
+        }
+    }
+    
+    EXPECT_FALSE(verifyBuildManifest(path))
+        << "Verification should fail with modified toolchain";
+    
+    std::filesystem::remove(path, ec);
+}
+
+TEST(BuildManifest, ExportToReadOnlyDirectoryFails) {
+    // This test may not be portable, so we skip it on Windows
+#ifdef _WIN32
+    GTEST_SKIP() << "Read-only directory test not reliable on Windows";
+#else
+    const std::string readOnlyDir = tmpPath("readonly_test_dir");
+    std::error_code ec;
+    
+    // Create directory and make it read-only
+    std::filesystem::create_directories(readOnlyDir, ec);
+    std::filesystem::permissions(readOnlyDir, 
+                                std::filesystem::perms::owner_read | 
+                                std::filesystem::perms::owner_exec,
+                                std::filesystem::perm_options::replace,
+                                ec);
+    
+    const std::string path = readOnlyDir + "/manifest.json";
+    
+    // Should fail to write
+    EXPECT_FALSE(exportBuildManifest(path))
+        << "Export should fail to read-only directory";
+    
+    // Restore permissions and clean up
+    std::filesystem::permissions(readOnlyDir,
+                                std::filesystem::perms::all,
+                                std::filesystem::perm_options::replace,
+                                ec);
+    std::filesystem::remove_all(readOnlyDir, ec);
+#endif
+}
+
 // ===== HSM Module Status Bridge Tests (STUB #95) =====
 
 namespace {

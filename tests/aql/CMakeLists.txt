@@ -36,6 +36,18 @@ foreach(_src IN LISTS AQL_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/aql/aql_lora_finetuner.cpp
         )
     endif()
+    
+    if(_stem STREQUAL "test_episodic_compaction")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/aql/llm_extractive_compressor.cpp
+        )
+    endif()
+
+    if(_stem STREQUAL "test_p2_d06_benchmarks")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/aql/llm_extractive_compressor.cpp
+        )
+    endif()
 
     add_executable(${_target}
         "${_src}"

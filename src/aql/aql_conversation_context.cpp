@@ -39,18 +39,21 @@ namespace aql {
 class AQLConversationContext::Impl {
   public:
     explicit Impl(LLMAQLHandler &handler, AQLConversationContext::Config config,
-                  std::unique_ptr<TokenEstimator> estimator)
+                  std::unique_ptr<TokenEstimator> estimator,
+                  IHistoryCompressor* compressor = nullptr)
         : handler_(handler), config_(config),
-          estimator_(estimator ? std::move(estimator) : std::make_unique<CharDivisionEstimator>()), turn_count_(0) {}
+          estimator_(estimator ? std::move(estimator) : std::make_unique<CharDivisionEstimator>()), 
+          compressor_(compressor), turn_count_(0) {}
 
     LLMAQLHandler &handler_;
     AQLConversationContext::Config config_;
     std::unique_ptr<TokenEstimator> estimator_;
+    IHistoryCompressor* compressor_;  // Non-owning pointer to compressor (can be nullptr)
     std::string schema_context_;
     std::vector<llm::ChatMessage> history_;
     std::string last_query_;
     std::size_t turn_count_;
-    mutable std::shared_mutex history_mutex_; // guards history_, turn_count_, last_query_
+    mutable std::shared_mutex history_mutex_; // guards history_, turn_count_, last_query_, compressor_
     std::mutex call_mutex_;                   // serializes LLM round-trips and reset/start
 
     // Build the system prompt once so every call uses a consistent context.
@@ -202,6 +205,47 @@ class AQLConversationContext::Impl {
                         }
                     }
                 }
+
+                // Trigger episodic memory compression if enabled and threshold exceeded
+                if (config_.enable_episodic_compaction && 
+                    config_.episodic_compaction_trigger_tokens > 0 && 
+                    compressor_ && compressor_->isAvailable()) {
+                    
+                    const std::size_t current_tokens = estimateHistoryTokens();
+                    if (current_tokens > static_cast<std::size_t>(config_.episodic_compaction_trigger_tokens)) {
+                        try {
+                            // Convert history to vector of pairs for compressor
+                            std::vector<std::pair<std::string, std::string>> history_pairs;
+                            history_pairs.reserve(history_.size());
+                            for (const auto &msg : history_) {
+                                history_pairs.emplace_back(msg.role, msg.content);
+                            }
+
+                            // Compress history
+                            int32_t max_tokens = config_.max_history_tokens > 0 ? 
+                                static_cast<int32_t>(config_.max_history_tokens) : 8192;
+                            float min_similarity = config_.episodic_compression_gate_similarity;
+                            
+                            auto result = compressor_->compressHistory(history_pairs, max_tokens, min_similarity);
+                            if (result && result->semantic_similarity >= min_similarity) {
+                                // Compression succeeded; replace history with compressed summary + system message
+                                std::vector<llm::ChatMessage> compressed_history;
+                                if (!history_.empty() && history_.front().role == "system") {
+                                    compressed_history.emplace_back("system", history_.front().content);
+                                }
+                                compressed_history.emplace_back("assistant", result->summary);
+                                history_ = std::move(compressed_history);
+                                spdlog::debug("AQLConversationContext: Episodic compression triggered. "
+                                           "Original={} tokens, Compressed={} tokens, Similarity={}",
+                                           result->original_token_count, result->compressed_token_count,
+                                           result->semantic_similarity);
+                            }
+                        } catch (const std::exception &e) {
+                            spdlog::warn("AQLConversationContext: Episodic compression failed: {}", e.what());
+                            // Continue without compression if it fails
+                        }
+                    }
+                }
             }
             return query;
         } catch (const std::exception &e) {
@@ -231,11 +275,16 @@ class AQLConversationContext::Impl {
 // ============================================================================
 
 AQLConversationContext::AQLConversationContext(LLMAQLHandler &handler)
-    : AQLConversationContext(handler, Config{}, nullptr) {}
+    : AQLConversationContext(handler, Config{}, nullptr, nullptr) {}
 
 AQLConversationContext::AQLConversationContext(LLMAQLHandler &handler, Config config,
                                                std::unique_ptr<TokenEstimator> estimator)
-    : impl_(std::make_unique<Impl>(handler, config, std::move(estimator))) {}
+    : AQLConversationContext(handler, config, std::move(estimator), nullptr) {}
+
+AQLConversationContext::AQLConversationContext(LLMAQLHandler &handler, Config config,
+                                               std::unique_ptr<TokenEstimator> estimator,
+                                               IHistoryCompressor* compressor)
+    : impl_(std::make_unique<Impl>(handler, config, std::move(estimator), compressor)) {}
 
 AQLConversationContext::~AQLConversationContext() = default;
 
@@ -259,6 +308,17 @@ std::string AQLConversationContext::getSchemaContext() const {
     std::shared_lock<std::shared_mutex> lock(impl_->history_mutex_);
     return impl_->schema_context_;
 }
+
+void AQLConversationContext::setCompressor(IHistoryCompressor* compressor) {
+    std::unique_lock<std::shared_mutex> lock(impl_->history_mutex_);
+    impl_->compressor_ = compressor;
+}
+
+IHistoryCompressor* AQLConversationContext::getCompressor() const {
+    std::shared_lock<std::shared_mutex> lock(impl_->history_mutex_);
+    return impl_->compressor_;
+}
+
 
 // ============================================================================
 // Conversation

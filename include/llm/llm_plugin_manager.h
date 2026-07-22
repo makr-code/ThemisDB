@@ -15,6 +15,7 @@
 #include "llm/active_vram_allocator.h"
 #include "llm/grafana_metrics.h"
 #include "llm/llm_plugin_interface.h"
+#include "llm/ssm_state_store.h"
 
 #include <memory>
 #include <mutex>
@@ -22,8 +23,16 @@
 #include <unordered_map>
 #include <vector>
 
+namespace rocksdb {
+    class TransactionDB;
+    class ColumnFamilyHandle;
+}
+
 namespace themis {
 namespace llm {
+
+// Forward declaration
+class SSMStateRocksDBStore;
 
 /**
  * @brief LLM Plugin Manager
@@ -188,6 +197,32 @@ public:
         bool   vram_oom_threshold_exceeded = false;
     };
 
+    /**
+     * @brief Configuration for SSM state store initialization (P2-D04).
+     *
+     * Controls whether and how the LLMPluginManager manages persistent SSM state
+     * snapshots via RocksDB. Used by initializeStateStore() during setup.
+     */
+    struct SSMStateStoreConfig {
+        // Enable SSM state persistence
+        bool enabled = false;
+
+        // Path to RocksDB database directory for state storage
+        std::string rocksdb_path = "";
+
+        // Retention window for snapshots (milliseconds)
+        int64_t retention_window_ms = 24 * 60 * 60 * 1000;  // 24 hours
+
+        // Maximum snapshots per session
+        int32_t max_snapshots_per_session = 100;
+
+        // Enable compression for stored snapshots
+        bool enable_compression = true;
+
+        // Sync writes to disk (safety vs. performance tradeoff)
+        bool sync_on_checkpoint = false;
+    };
+
     PluginStatistics getStatistics() const;
     CacheStatistics getCacheStatistics() const;
     HealthStatus getHealthStatus() const;
@@ -274,6 +309,116 @@ public:
         distributed_knowledge::GossipAdapterPublisher* publisher,
         std::string local_shard_id = "");
 
+    // ═══════════════════════════════════════════════════════════
+    // SSM State Store Management (P2-D04 / P2-D05 Runtime Integration)
+    // ═══════════════════════════════════════════════════════════
+
+    /**
+     * @brief Initialize and configure SSM state persistence via RocksDB.
+     *
+     * Creates an SSMStateRocksDBStore instance for durable session state snapshots.
+     * Must be called before checkpoint() or recovery operations. If called multiple
+     * times, the previous state store is replaced.
+     *
+     * @param config SSMStateStoreConfig specifying database path, retention policy, etc.
+     * @return true if initialization succeeded, false if disabled or failed
+     * @throws std::runtime_error if RocksDB initialization fails (when enabled)
+     *
+     * **Thread Safety:** Safe to call concurrently with plugin registration.
+     * Acquires internal mutex briefly to swap state store instance.
+     *
+     * **Typical Usage:**
+     * @code
+     * LLMPluginManager mgr;
+     * LLMPluginManager::SSMStateStoreConfig cfg;
+     * cfg.enabled = true;
+     * cfg.rocksdb_path = "/var/lib/themis/ssm_state";
+     * mgr.initializeStateStore(cfg);
+     *
+     * // Later, checkpoint LLM operation results:
+     * SSMStateSnapshot snap = {...};
+     * mgr.checkpointState("session_123", snap);
+     *
+     * // And recover on restart:
+     * auto restored = mgr.recoverState("session_123");
+     * @endcode
+     */
+    bool initializeStateStore(const SSMStateStoreConfig& config);
+
+    /**
+     * @brief Persist an SSM state snapshot to durable storage.
+     *
+     * Checkpoints the given SSMStateSnapshot for later recovery. Requires a prior
+     * call to initializeStateStore(). Does nothing if state store is not initialized.
+     *
+     * @param session_id Unique session identifier
+     * @param snapshot SSMStateSnapshot to persist (includes LLM response, drift signal, etc.)
+     * @return true if checkpoint succeeded or state store is disabled, false on error
+     *
+     * **Thread Safety:** Safe to call concurrently from multiple threads/sessions.
+     * Each session_id is independently keyed.
+     *
+     * **Performance:** O(log N) RocksDB write with HLC-ordered key (typically <1ms).
+     */
+    bool checkpointState(const std::string& session_id, const SSMStateSnapshot& snapshot);
+
+    /**
+     * @brief Recover the most recent SSM state snapshot for a session.
+     *
+     * Retrieves the latest persisted SSM state snapshot for the given session_id.
+     * Returns std::nullopt if no snapshots exist or state store is not initialized.
+     *
+     * @param session_id Unique session identifier
+     * @return Most recent SSMStateSnapshot if available, nullopt otherwise
+     *
+     * **Thread Safety:** Safe to call concurrently.
+     *
+     * **Performance:** O(log N) RocksDB range scan (typically <5ms for 1000+ snapshots).
+     *
+     * **Use Case:**
+     * - Load LLM session state on recovery/reconnect
+     * - Validate that a session's episodic memory compressions are consistent
+     * - Support point-in-time recovery via overload with explicit HLC timestamp
+     */
+    std::optional<SSMStateSnapshot> recoverState(const std::string& session_id);
+
+    /**
+     * @brief Clear all persisted snapshots for a session.
+     *
+     * Invalidates all stored state for the session_id (useful for session cleanup
+     * or explicit state reset).
+     *
+     * @param session_id Unique session identifier
+     * @return true if invalidation succeeded, false if state store not initialized or error
+     *
+     * **Thread Safety:** Safe to call concurrently.
+     */
+    bool invalidateState(const std::string& session_id);
+
+    /**
+     * @brief Run compaction to remove expired SSM state snapshots.
+     *
+     * Removes snapshots older than the configured retention window (default 24h).
+     * Typically called during maintenance or low-traffic periods.
+     *
+     * @return Number of snapshots removed (0 if disabled or no expired snapshots)
+     *
+     * **Thread Safety:** Safe to call concurrently. Acquires mutex briefly.
+     *
+     * **Performance:** O(N) full-table scan (can take 100s of milliseconds for large databases).
+     */
+    uint64_t compactStateStore();
+
+    /**
+     * @brief Get statistics about persisted SSM state snapshots.
+     *
+     * Returns a JSON string with session count, total snapshot count, storage size, etc.
+     * Useful for monitoring and capacity planning.
+     *
+     * @return JSON object as string, or "{}" if state store not initialized
+     */
+    std::string getStateStoreStatistics() const;
+
 private:
     struct PluginEntry {
         std::string name;
@@ -300,6 +445,15 @@ private:
 
     /// Shard ID used in outgoing adapter capability announcements.
     std::string local_shard_id_;
+
+    /// SSM state store for persistent snapshot storage (P2-D04 / P2-D05)
+    std::unique_ptr<SSMStateRocksDBStore> state_store_;
+    
+    /// RocksDB instance for state storage (not owned by this class)
+    rocksdb::TransactionDB* state_db_ = nullptr;
+    
+    /// Column family handle for SSM state (not owned by this class)
+    rocksdb::ColumnFamilyHandle* state_cf_ = nullptr;
     
     ILLMPlugin* getDefaultPluginLocked() const;
 };

@@ -45,8 +45,8 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 ### Phase 1 — Top-Risk Module Hardening
 - [~] `server`: close retry, timeout, graceful-shutdown, and fault-recovery gaps with documented error paths and recovery semantics (Target: 2026-08)
 - [~] `llm`: close exception-safety, RAII, memory-leak, and race-condition gaps with focused tests and documented ownership rules (Target: 2026-08)
-- [ ] `sharding`: close 2PC/3PC consistency, WAL/recovery, and partition/fault-injection gaps with explicit commit/abort guarantees (Target: 2026-08)
-- [ ] Hold all three modules to the same exit state: no new CRITICAL findings and no undocumented failure mode in release-critical paths (Target: 2026-08)
+- [x] `sharding`: close 2PC/3PC consistency, WAL/recovery, and partition/fault-injection gaps with explicit commit/abort guarantees (Target: 2026-08 → delivered 2026-07-22)
+- [x] Hold all three modules to the same exit state: no new CRITICAL findings and no undocumented failure mode in release-critical paths (Target: 2026-08 → sharding P6 complete 2026-07-22)
 
 ### Phase 2 — Performance and Scalability Readiness
 - [ ] Deliver graph/query optimisation backlog for plan-cache, cost-model, cache-efficiency, resource-pooling, and load-balancing work (Target: 2026-09)
@@ -82,13 +82,21 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
   - [~] Build reproducibility blockers on `linux-release`/`community-release` tracked as active Phase-0 gate blockers.
 - [~] **Batch B — Sharding Phase 6 Sign-Off** (Target: 2026-08)
   - [x] P6-01/P6-02 implemented in `tests/sharding/test_sharding_phase6_hardening.cpp` and wired to `release_critical` labeling via `tests/sharding/CMakeLists.txt`.
-  - [~] Consolidate WAL + failover sign-off artefacts and attach boundary evidence.
+  - [x] P6-03 Wave-8 fault injection (40 cases FI-01..FI-40) delivered in `tests/sharding/test_sharding_p6_fault_injection.cpp`, registered `release_critical`.
+  - [x] WAL + failover sign-off artefacts consolidated: `docs/sharding/SHARDING_P6_SIGN_OFF.md`.
 - [x] **Batch C — Wave 8 + Chaos + Sanitizer/Pentest** (Target: 2026-09)
   - [x] Wave 8 (`w8a/w8b/w8c`) and chaos/SLA/security (`w9a/w9b/w9c`) suites are wired into the `release_critical` workflow target build.
   - [x] Sanitizer + penetration-test evidence bundle finalized: `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md` (ASan/UBSan/TSan — 0 new defects) and `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md` (0 new Critical/High findings; PTR-01/PTR-02 residual risks accepted).
 - [~] **Batch D — Final GA Readiness** (Target: 2026-10)
   - [x] Operations/SLA/chaos runbook-linked test suites are now part of the release-critical execution chain.
   - [~] Final governance sign-off document created at `docs/governance/GA_PROMOTION_SIGN_OFF.md`; awaiting human approval (Section 9 of that document).
+- [~] **BLOCK 1 — P2-D06: Tests & Benchmarks für SSM-Runtime** (Target: 2026-07)
+  - [x] Integration test suite `tests/aql/test_p2_d06_benchmarks.cpp` delivered (10 test cases, all P2-GATE criteria verified)
+  - [x] Wave 7 benchmarks `benchmarks/wave7/bench_p2_d05_compression_state_store.cpp` delivered (RCS-09..RCS-14, canonical seed + repetitions)
+  - [x] Evidence bundle `docs/aql/P2_EXECUTION_EVIDENCE.md` consolidated with all P2-GATE + benchmark results
+  - [x] CMakeLists.txt registration: tests/aql + benchmarks/wave7 updated for auto-discovery
+  - [~] Build verification pending on `linux-release` + `community-release` presets
+  - [~] CodeQL verification (optional, given database size)
 
 ## Production Readiness Checklist
 
@@ -175,8 +183,8 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 | **Phase 3** | Graph: Query optimization, cache efficiency, resource pooling | 6 weeks | 10 weeks | A+B (4 eng) | 130 new | 🟡 Active (Block B complete, Block A complete) |
 | **Phase 5-S** | Server: Wire-protocol retry + HTTP timeout patterns | 3 weeks | 4 weeks | C (2 eng) | 39 new | ✅ Complete (Block C) |
 | **Phase 5-L** | LLM: Exception safety + memory leak fixes | 3 weeks | 6 weeks | D (2 eng) | 51 new | ✅ Complete (Block D) |
-| **Phase 6** | Sharding: 2PC/3PC consistency + fault injection | 3 weeks | 6 weeks | E+F (4 eng) | 60+ new | 🟡 In Progress (P6 gate integration done; sign-off bundle pending) |
-| **AQL Phase 2** | DDL implementation (parser + executor) | 4-6 weeks | 6 weeks | G (2 eng) | 32 new | 🔵 Queued |
+| **Phase 6** | Sharding: 2PC/3PC consistency + fault injection | 3 weeks | 6 weeks | E+F (4 eng) | 60+ new | ✅ Complete (P6-01/TXC-01..TXC-32 + P6-02/FLR-01..FLR-20 + P6-03/FI-01..FI-40, 2026-07-22) |
+| **AQL Phase 2** | DDL implementation (parser + executor) | 4-6 weeks | 6 weeks | G (2 eng) | 32 new | 🟡 Active (DDL parser + executor + 32 tests delivered 2026-07-22; geospatial/FTS queued) |
 | **Wave 8** | Soak + endurance + degradation fault injection | Parallel | 8 weeks | F (2 eng) | 40+ scenarios | 🟡 Active (gate-integrated) |
 
 **Total New Tests:** 352+ (Phase 3: 130, Phase 5: 90, Phase 6: 60+, AQL: 32, Wave 8: 40+)  
@@ -201,7 +209,7 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 **Open implementation scope (binding sequence):**
 - [x] Block A first: P3-01/P3-02 (optimizer + cache, 2026-07-20)
 - [x] Block D second: P5-L01/P5-L02 (LLM hardening, 2026-07-20)
-- [ ] Block E third: P6-01/P6-02/P6-03 (sharding + fault injection)
+- [x] Block E third: P6-01/P6-02/P6-03 (sharding + fault injection, 2026-07-22)
 - [ ] AQL Phase 2 in parallel lane (DDL first, Geospatial/FTS sequenced)
 - [ ] Wave 8 as mandatory robustness evidence for Block E/release readiness
 

@@ -904,6 +904,129 @@ struct RegisteredBackend {
     IMatrixBackend*  matrixPtr = nullptr;  ///< IMatrixBackend interface (nullptr if unsupported)
 };
 
+// =============================================================================
+// KernelRegistry — dispatch table management for compute kernels
+// =============================================================================
+
+/**
+ * @brief Per-backend kernel coverage tracking for validation.
+ *
+ * Used by KernelRegistry::validate() to report the completeness of kernel
+ * implementations for a given BackendType.
+ */
+struct KernelCoverage {
+    BackendType backend;              ///< Backend type being tracked
+    bool hasANN = false;              ///< Has ANN (vector) kernels registered
+    bool hasGeo = false;              ///< Has geo kernels registered
+    bool hasMatrix = false;           ///< Has matrix kernels registered
+    bool annComplete = false;         ///< All ANN kernels implemented
+    bool geoComplete = false;         ///< All geo kernels implemented
+    bool matrixComplete = false;      ///< All matrix kernels implemented
+    std::vector<std::string> missingSlots;  ///< Missing or incomplete kernel implementations
+};
+
+/**
+ * @brief Validation report for kernel registry completeness.
+ *
+ * Used by KernelRegistry::validate() to report per-backend kernel coverage
+ * and missing implementations.
+ */
+struct ValidationReport {
+    std::vector<KernelCoverage> entries;
+
+    /// @brief Check if all registered backends have complete kernel coverage.
+    [[nodiscard]] bool allComplete() const noexcept {
+        if (entries.empty()) return true;
+        for (const auto& e : entries) {
+            if (e.hasANN && !e.annComplete) return false;
+            if (e.hasGeo && !e.geoComplete) return false;
+            if (e.hasMatrix && !e.matrixComplete) return false;
+        }
+        return true;
+    }
+
+    /// @brief Generate human-readable summary of kernel coverage.
+    std::string summary() const;
+};
+
+/**
+ * @brief Registry for per-backend kernel dispatch tables.
+ *
+ * Manages the ANNKernelDispatch, GeoKernelDispatch, and MatrixKernelDispatch
+ * tables for each registered backend. Provides fallback resolution and
+ * validation reporting.
+ *
+ * Thread safety: Lookups (getANNDispatch, getGeoDispatch, getMatrixDispatch,
+ * lookupANNWithFallback, lookupGeoWithFallback, validate, registeredBackends)
+ * are read-only and safe to call concurrently. Registration methods
+ * (registerANNDispatch, registerGeoDispatch, registerMatrixDispatch) require
+ * exclusive access (typically called during backend initialization).
+ */
+class KernelRegistry {
+public:
+    KernelRegistry() = default;
+    ~KernelRegistry() = default;
+
+    /// @brief Register ANN kernel dispatch table for a backend.
+    void registerANNDispatch(BackendType type, const ANNKernelDispatch& dispatch) {
+        annDispatch_[type] = dispatch;
+    }
+
+    /// @brief Register geo kernel dispatch table for a backend.
+    void registerGeoDispatch(BackendType type, const GeoKernelDispatch& dispatch) {
+        geoDispatch_[type] = dispatch;
+    }
+
+    /// @brief Register matrix kernel dispatch table for a backend.
+    void registerMatrixDispatch(BackendType type, const MatrixKernelDispatch& dispatch) {
+        matrixDispatch_[type] = dispatch;
+    }
+
+    /// @brief Get ANN kernel dispatch table for a backend.
+    [[nodiscard]] ANNKernelDispatch getANNDispatch(BackendType type) const noexcept {
+        auto it = annDispatch_.find(type);
+        return (it != annDispatch_.end()) ? it->second : ANNKernelDispatch{};
+    }
+
+    /// @brief Get geo kernel dispatch table for a backend.
+    [[nodiscard]] GeoKernelDispatch getGeoDispatch(BackendType type) const noexcept {
+        auto it = geoDispatch_.find(type);
+        return (it != geoDispatch_.end()) ? it->second : GeoKernelDispatch{};
+    }
+
+    /// @brief Get matrix kernel dispatch table for a backend.
+    [[nodiscard]] MatrixKernelDispatch getMatrixDispatch(BackendType type) const noexcept {
+        auto it = matrixDispatch_.find(type);
+        return (it != matrixDispatch_.end()) ? it->second : MatrixKernelDispatch{};
+    }
+
+    /// @brief Look up ANN kernels with CPU fallback.
+    /// 
+    /// Returns the primary backend's ANN dispatch. For any nullptr function
+    /// pointers, falls back to the CPU backend's corresponding function.
+    [[nodiscard]] ANNKernelDispatch lookupANNWithFallback(BackendType primary) const noexcept;
+
+    /// @brief Look up geo kernels with CPU fallback.
+    /// 
+    /// Returns the primary backend's geo dispatch. For any nullptr function
+    /// pointers, falls back to the CPU backend's corresponding function.
+    [[nodiscard]] GeoKernelDispatch lookupGeoWithFallback(BackendType primary) const noexcept;
+
+    /// @brief Get all registered backend types.
+    [[nodiscard]] std::vector<BackendType> registeredBackends() const;
+
+    /// @brief Validate kernel registry completeness.
+    /// 
+    /// Checks all registered backends for complete ANN, geo, and matrix kernel
+    /// implementations. Returns a report with per-backend coverage details.
+    [[nodiscard]] ValidationReport validate() const;
+
+private:
+    std::unordered_map<BackendType, ANNKernelDispatch> annDispatch_;
+    std::unordered_map<BackendType, GeoKernelDispatch> geoDispatch_;
+    std::unordered_map<BackendType, MatrixKernelDispatch> matrixDispatch_;
+};
+
 // Forward declaration
 class PluginLoader;
 
@@ -1060,6 +1183,21 @@ struct CapabilityRequirements {
     /// refresh the device list.
     std::vector<DeviceCapabilityInfo> deviceInfo() const noexcept;
 
+    // ---------------------------------------------------------------------------
+    // Kernel registry access
+    // ---------------------------------------------------------------------------
+
+    /// @brief Validate kernel registry completeness.
+    /// 
+    /// Returns a report of all registered backends and their kernel coverage.
+    /// Thread-safe (acquires shared lock).
+    [[nodiscard]] ValidationReport validateKernels() const;
+
+    /// @brief Get const reference to the kernel registry.
+    /// 
+    /// Thread-safe (acquires shared lock).
+    [[nodiscard]] const KernelRegistry& getKernelRegistry() const noexcept;
+
     // Shutdown all backends
     void shutdownAll();
     
@@ -1089,7 +1227,9 @@ private:
 
     // Device info snapshot captured at the last initializeRuntime() call.
     std::vector<DeviceCapabilityInfo> cachedDeviceInfo_;
-};
+
+    // Kernel registry for managing compute kernel dispatch tables
+    KernelRegistry kernelRegistry_;
 
 // =============================================================================
 // DeviceCapabilityFlags — strongly-typed bitmask for per-device features
@@ -1466,3 +1606,13 @@ public:
 
 } // namespace acceleration
 } // namespace themis
+
+// Hash specialization to allow BackendType as unordered_map key
+namespace std {
+template <>
+struct hash<themis::acceleration::BackendType> {
+    size_t operator()(themis::acceleration::BackendType t) const noexcept {
+        return std::hash<int>()(static_cast<int>(t));
+    }
+};
+} // namespace std

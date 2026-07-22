@@ -5,6 +5,84 @@ All notable changes to ThemisDB will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-07-22 — Block E Sharding P6 (P6-01/P6-02/P6-03) + AQL DDL Phase 2
+
+### Block E — Sharding Phase 6 Hardening (P6-01 / P6-02 / P6-03)
+
+**P6-01: 2PC/3PC Consistency Verification** (`tests/sharding/test_sharding_phase6_hardening.cpp`)
+- TXC-01..TXC-32: 32 GTest cases covering 2PC prepare/vote/commit/abort, in-doubt WAL replay,
+  idempotent delivery, 3PC PreCommit fail-closed semantics, Percolator TrueTime edge-cases,
+  and Calvin deterministic ordering. All tests self-contained with seed-42 determinism.
+
+**P6-02: Failover Logic and Recovery-Path Hardening** (`tests/sharding/test_sharding_phase6_hardening.cpp`)
+- FLR-01..FLR-20: 20 GTest cases covering coordinator crash mid-Phase-2, WAL-driven recovery
+  re-drive, multiple coordinator restarts (idempotent), new coordinator leadership takeover,
+  participant timeout detection, and multi-txn isolation under coordinator failure.
+
+**P6-03: Wave-8 Fault Injection** (`tests/sharding/test_sharding_p6_fault_injection.cpp`)
+- FI-01..FI-40: 40 GTest cases covering three failure groups:
+  - Network Partition (FI-01..FI-15): single + multi-participant partition, partition-heal
+    re-delivery, 3PC fail-closed, transient partition, cascading partition, split-brain
+    prevention, SAGA compensation re-delivery, Percolator lock-failure abort, concurrent
+    partition isolation, WAL-driven batch in-doubt recovery.
+  - Coordinator Failure (FI-16..FI-25): crash after Phase-1, crash after abort decision,
+    restart with clean WAL, new coordinator takeover, repeated crash/recovery cycles,
+    crash mid-3PC, exactly-once WAL delivery, SAGA compensation re-drive, multi-restart
+    idempotency, multi-txn isolation under crash.
+  - Cascade / Multi-Failure (FI-26..FI-40): simultaneous dual-participant failure, cascade
+    abort propagation, three-way partition atomic abort, concurrent multi-in-doubt recovery,
+    orphan-lock cleanup, 5-shard deterministic abort, SAGA reverse compensation, WAL-gap
+    in-doubt probe, lock-ordering deadlock-free under timeout, Calvin deterministic ordering,
+    Percolator primary-lock takeover, replication-lag stale-read verification, thundering-herd
+    parallel recovery, WAL-snapshot durability proof, end-to-end consistency invariant
+    (no txn both committed and aborted).
+
+**CMakeLists registration:**
+- Both `test_sharding_phase6_hardening` and `test_sharding_p6_fault_injection` are registered
+  under `LABELS release_critical sharding_p6` in `tests/sharding/CMakeLists.txt`.
+- `09-pr-gates_release-critical-tests.yml` CI gate includes sharding_p6 suites.
+
+**Sign-off artefacts:**
+- `docs/sharding/SHARDING_P6_SIGN_OFF.md` — cross-module WAL/recovery contract,
+  per-suite acceptance criteria, residual risks.
+- `src/sharding/ROADMAP.md` — P6-01/P6-02/P6-03 marked `[x]` complete.
+
+---
+
+### AQL DDL Phase 2 — Schema DDL (CREATE/DROP/ALTER COLLECTION/INDEX/VIEW)
+
+**Parser extension** (`include/query/aql_parser.h`, `src/query/aql_parser.cpp`)
+- New `SchemaDDLType` enum: `CREATE_COLLECTION`, `DROP_COLLECTION`, `CREATE_INDEX`,
+  `DROP_INDEX`, `CREATE_VIEW`, `DROP_VIEW`, `ALTER_COLLECTION`.
+- New `FieldDef` struct: field name, type hint, nullable flag.
+- New `IndexDef` struct: name, collection, fields, unique/sparse flags, index_type.
+- New `SchemaDDL` struct: DDL type, name, collection, if_exists, fields, index_def,
+  view_body, options (nlohmann::json).
+- New `AQLParser::parseSchemaDDL()` public method — case-insensitive parsing for all
+  7 DDL statement types, with `IF EXISTS`/`IF NOT EXISTS` modifier support.
+- Backward-compatible: existing `parseDDL()` (ContinuousQuery DDL) unchanged.
+
+**DDL Executor** (`include/query/ddl_executor.h`, `src/query/ddl_executor.cpp`)
+- `SchemaRegistry`: thread-safe in-memory catalog for collections, indexes, and views.
+  O(1) amortised lookup for all `has*()/collections()/views()` operations.
+- `DDLExecutor`: validates and executes `SchemaDDL` nodes against a `SchemaRegistry`.
+  - Duplicate CREATE without `IF NOT EXISTS` → `ERR_QUERY_DDL_DUPLICATE_OBJECT`.
+  - DROP of non-existent object without `IF EXISTS` → `ERR_QUERY_DDL_OBJECT_NOT_FOUND`.
+  - CREATE INDEX on non-existent collection → `ERR_QUERY_DDL_COLLECTION_NOT_FOUND`.
+  - ALTER on non-existent collection → `ERR_QUERY_DDL_OBJECT_NOT_FOUND`.
+
+**Tests** (`tests/query/test_aql_ddl_phase2.cpp`)
+- DDL-01..DDL-32: 32 GTest cases covering:
+  - Parser round-trips for all 7 DDL types (DDL-01..DDL-12)
+  - Executor semantics: create/drop/duplicate/idempotent/error paths (DDL-13..DDL-28)
+  - Thread-safety under concurrent CREATE/DROP (DDL-30)
+  - Full lifecycle: CREATE COLLECTION → CREATE INDEX → DROP INDEX → DROP COLLECTION (DDL-29)
+  - Parse+Execute round-trip for all 7 types (DDL-31)
+  - SchemaRegistry inventory methods (DDL-32)
+- Registered in `tests/query/CMakeLists.txt` under LABELS `aql ddl schema phase2`.
+
+---
+
 ## [Unreleased] — 2026-07-20 — Phase 3 Block B + Phase 5 Block C runtime components + LLM Phase 5 Block D (P5-L01 + P5-L02) + Graph Phase 3 Block A (P3-01 + P3-02)
 
 ### Phase 5 Block C — Runtime Components
