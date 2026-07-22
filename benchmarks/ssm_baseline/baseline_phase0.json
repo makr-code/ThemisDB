@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "status": "pending_measurement",
+  "validated": "2026-07-22",
+  "target_branch": "develop",
+  "description": "Phase-0 SSM-hybrid baseline execution contract for the pre-implementation transformer path. This artifact fixes the measurement matrix and output expectations before Phase-1 feature work begins.",
+  "preset": "linux-release",
+  "seed": 42,
+  "parallel_sessions": 10,
+  "sequence_lengths": [512, 2048, 8192],
+  "metrics": [
+    "latency_p99_ms",
+    "vram_footprint_mb",
+    "throughput_tokens_per_second"
+  ],
+  "benchmark_hygiene": {
+    "source": "/home/runner/work/ThemisDB/ThemisDB/benchmarks/MEASUREMENT_HYGIENE.md",
+    "rng_seed_constant": "themis::bench::kCanonicalRngSeed",
+    "temp_dir_required": true,
+    "json_output_required": true,
+    "use_real_time_for_io": true
+  },
+  "execution_contract": {
+    "configure": "cmake --preset linux-release -DTHEMIS_BUILD_BENCHMARKS=ON",
+    "build": "cmake --build --preset linux-release --target <phase0-ssm-baseline-target>",
+    "run": "<phase0-ssm-baseline-target> --benchmark_out=benchmarks/ssm_baseline/baseline_phase0.json --benchmark_out_format=json",
+    "notes": [
+      "A dedicated Phase-0 SSM baseline benchmark target is not yet present in the repository.",
+      "This file intentionally captures the frozen baseline matrix and required output path before benchmark code lands.",
+      "Do not replace status=pending_measurement until results are generated from a real benchmark executable on the declared preset."
+    ]
+  },
+  "gates": {
+    "release_critical_tests_required": true,
+    "release_critical_ctest_label": "release_critical",
+    "transformer_regression_budget_p99_percent": 5
+  },
+  "results": []
+}

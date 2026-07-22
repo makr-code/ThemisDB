@@ -68,16 +68,18 @@ Phasen aufgestellt ist. Keine neuen Features.
 - [ ] **P0-D01:** FA3 Kernel-Audit
   - Datei: `src/llm/attention/cuda/flash_attention_cuda.cu`
   - Prüfen ob SM90-Pfad TMA/WGMMA-Instruktionen nutzt (FA3) oder FA2-Kernels auf SM90 ausführt
-  - Dokumentieren in `src/llm/attention/FLASH_ATTENTION_VERSION_EVIDENCE.md` [PROPOSED]
+  - Dokumentieren in `src/llm/attention/FLASH_ATTENTION_VERSION_EVIDENCE.md`
   - Akzeptanzkriterium: Klarheit über aktuellen FA-Versionsstand auf SM90
 
 - [ ] **P0-D02:** NVFP4 Capability-Assessment
   - Datei: `include/llm/paged_kv_cache.h`, `include/llm/mixed_precision_inference.h`
   - Evaluieren ob llama.cpp-Backend KV-Cache-Quantisierung auf 4-Bit unterstützt
+  - Evidenz: `src/llm/NVFP4_KV_CACHE_CAPABILITY_ASSESSMENT.md`
   - Dokumentieren als Entscheidungsgrundlage für P2-D01
 
 - [ ] **P0-D03:** GGUF / llama.cpp SSM-Ökosystem-Status
   - Prüfen ob `llama.cpp` (via `src/llm/llama_wrapper.cpp`) GGUF-Mamba-Modelle unterstützt
+  - Evidenz: `docs/architecture/ssm-gguf-mamba-status.md` [PROPOSED]
   - Dokumentieren: Modell-Liste, `llama_model_params`-Flags, bekannte Einschränkungen
   - Security/Governance prüfen: ThemisDB bleibt System-of-Record; RocksDB nur interne Persistenz
   - Security/Governance prüfen: Tenant-Isolation, Zugriffskontrolle und Auditierbarkeit für SSM-State
@@ -87,7 +89,7 @@ Phasen aufgestellt ist. Keine neuen Features.
   - Sequenzlängen: 512, 2048, 8192 Token; 10 parallele Sessions; Seed=42
   - Metriken: `latency_p99`, `vram_footprint`, `throughput_tokens_per_second`
   - Tool: Google Benchmark (kompatibel mit `benchmarks/bench_fixtures.h`)
-  - Ergebnisse als Datei `benchmarks/ssm_baseline/baseline_phase0.json` [PROPOSED]
+  - Ergebnisse als Datei `benchmarks/ssm_baseline/baseline_phase0.json`
 
 ### 2.2 Akzeptanzgates Phase 0
 
