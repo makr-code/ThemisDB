@@ -104,14 +104,14 @@ public:
 
     bool invalidate(const std::string& session_id) override;
 
-    bool compact(int64_t retention_window_ms = 0) override;
+    uint64_t compact(uint64_t retention_window_ms = 24 * 60 * 60 * 1000) override;
 
     /**
      * @brief Get statistics about stored snapshots.
      *
      * @return JSON object with session count, snapshot count, storage size, etc.
      */
-    std::string getStatistics() const;
+    std::string getStats() const override;
 
 private:
     rocksdb::TransactionDB* db_;  // Not owned

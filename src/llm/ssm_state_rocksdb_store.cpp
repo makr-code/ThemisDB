@@ -160,7 +160,7 @@ bool SSMStateRocksDBStore::invalidate(const std::string& session_id) {
     }
 }
 
-bool SSMStateRocksDBStore::compact(int64_t retention_window_ms) {
+uint64_t SSMStateRocksDBStore::compact(uint64_t retention_window_ms) {
     std::lock_guard<std::mutex> lock(mutex_);
 
     if (retention_window_ms == 0) {
@@ -174,7 +174,7 @@ bool SSMStateRocksDBStore::compact(int64_t retention_window_ms) {
         // Scan all snapshots and delete expired ones
         rocksdb::Iterator* it = db_->NewIterator(rocksdb::ReadOptions());
         if (!it) {
-            return false;
+            return 0;
         }
 
         std::vector<std::string> keys_to_delete;
@@ -204,17 +204,17 @@ bool SSMStateRocksDBStore::compact(int64_t retention_window_ms) {
                 status = db_->Delete(write_opts, key);
             }
             if (!status.ok()) {
-                return false;
+                return keys_to_delete.size() - 1;  // Return partial count
             }
         }
 
-        return true;
+        return keys_to_delete.size();
     } catch (...) {
-        return false;
+        return 0;
     }
 }
 
-std::string SSMStateRocksDBStore::getStatistics() const {
+std::string SSMStateRocksDBStore::getStats() const {
     std::lock_guard<std::mutex> lock(mutex_);
 
     nlohmann::json stats;

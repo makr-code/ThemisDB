@@ -11,7 +11,7 @@
 #pragma once
 
 #include "llm/i_ssm_plugin.h"
-#include "core/timestamp.h"
+#include "storage/hlc.h"
 
 #include <cstdint>
 #include <memory>
@@ -74,7 +74,7 @@ struct ISSMStateStore {
      */
     virtual std::optional<SSMStateSnapshot> resume(
         const std::string& session_id,
-        const std::optional<core::HLCTimestamp>& snapshot_ts = std::nullopt) = 0;
+        const std::optional<HLCTimestamp>& snapshot_ts = std::nullopt) = 0;
 
     /**
      * @brief Invalidate SSM state for a session.
@@ -130,7 +130,7 @@ public:
 
     std::optional<SSMStateSnapshot> resume(
         const std::string& session_id,
-        const std::optional<core::HLCTimestamp>& snapshot_ts =
+        const std::optional<HLCTimestamp>& snapshot_ts =
             std::nullopt) override;
 
     bool invalidate(const std::string& session_id) override;
