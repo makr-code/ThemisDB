@@ -36,12 +36,25 @@ namespace llm {
  */
 class PagedKVCache {
 public:
+    /**
+     * @brief KV-cache quantization mode metadata for page allocation planning.
+     *
+     * @note This enum declares intended storage mode. The current cache payload
+     *       remains float-based until quantized storage paths are introduced.
+     */
+    enum class KVQuantizationType {
+        FP16,   ///< Baseline half-precision KV cache mode.
+        INT8,   ///< 8-bit KV quantization mode.
+        NVFP4   ///< NVIDIA FP4 KV quantization mode.
+    };
+
     struct Config {
         size_t block_size = 16;           // Tokens per block
         size_t num_blocks = 4096;         // Total blocks available
         size_t num_layers = 32;           // Number of transformer layers
         size_t head_dim = 128;            // Dimension per attention head
         size_t num_kv_heads = 8;          // Number of KV heads (GQA)
+        KVQuantizationType kv_quantization = KVQuantizationType::FP16; // Planned KV quantization target
         bool enable_prefix_caching = true; // Enable prefix sharing
     };
 

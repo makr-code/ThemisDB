@@ -115,6 +115,10 @@ Drift-Metriken sichtbar. **Kein Produktions-Einsatz.**
   - Erbt von `ILLMPlugin` (`include/llm/llm_plugin_interface.h`)
   - Ergänzt: `updateState(token_batch)`, `getStateSnapshot()`, `restoreState(snapshot)`
   - Integrationspunkt: `LLMPluginManager::registerPlugin()` bleibt unverändert
+  - **Human Design Review Gate (verbindlich vor Implementierung):**
+    - Entscheidung `SSMStateStore` Verteilstrategie für L5: `replication` vs `shard_partitioned`
+    - Failure-Semantik bei Cross-Shard-State-Loss (fail-closed/fail-open) festlegen
+    - Eigentümer und Migrationspfad für spätere Persistenz (`RocksDB`/Shard-Storage) festhalten
 
   ```cpp
   // PROPOSED INTERFACE (not yet implemented)
@@ -419,8 +423,28 @@ P0: Verifikation und Baseline
  │                                                   │
  │                                                   └──► P4: GA-Hardening
  │
+ ├──► L5a: RAID-Sharding Gate (blockiert P3+ produktiv)
+ │         │
+ │         ├──► Phase-C Thread-Safety/Lock-Ordering Gates grün
+ │         ├──► Cross-Shard-Execution stabil (`RemoteExecutor`-Pfad)
+ │         └──► Erst danach: produktives P3 Hybrid-Routing + Cross-Shard-Decoding
+ │
+ ├──► L5b: LoRA/AdaLoRA Federation-Hardening
+ │         │
+ │         ├──► Cross-Shard Importance-Aggregation (AdaLoRA Rank-Awareness)
+ │         └──► Federationspfad mit SSM-State-Distribution-Entscheidung aus P1-D01 ausrichten
+ │
  └──► P2-D05: KnowledgeGapDetector Drift-Signal (kann früh parallel starten)
 ```
+
+### Kritische Blocker (L5)
+
+- **L5a ist ein harter Blocker für Phase 3+ in Produktion:** Ohne Phase-C-Gates im Sharding-System
+  (Thread-Safety, Lock-Ordering, Cross-Shard-Stabilität) bleiben Hybrid-Router, Cross-Shard
+  Speculative Decoding und KV-Prefix-Sharing auf nicht-produktive Pfade begrenzt.
+- **L5b ist ein funktionaler Blocker für verteiltes AdaLoRA-Wissen:** Ohne shard-übergreifende
+  Importance-Aggregation verbleiben Rank-Entscheidungen lokal und verhindern konsistente
+  Föderationsqualität für SSM-gekoppelte Workloads.
 
 ### Parallelisierbare Aufgaben
 
@@ -430,6 +454,8 @@ P0: Verifikation und Baseline
 | P1-D05 (Drift-Metriken) + P1-D04 (Infini-CPU) | ✅ Parallel nach P1-D01 |
 | P2-D01 (NVFP4) kann nach P0 sofort starten | ✅ Parallel zu P1 |
 | P2-D05 (KnowledgeGap) kann nach P1-D05 starten | ✅ Parallel zu P2-D02 |
+| L5a Vorarbeit (Phase-C Thread-Safety-Gates) + P2-D01 (NVFP4) | ✅ Parallel nach P0 |
+| L5b AdaLoRA Federation-Hardening + P1 Design-Review-Artefakte | ✅ Parallel zu P1/P2 |
 
 ---
 
@@ -456,6 +482,7 @@ Die folgenden Einträge sind als Ergänzung zu `ROADMAP.md` vorgeschlagen:
 - [ ] P1-D05: Drift-Metriken Prometheus (Target: Q3 2026)
 - [ ] P1-D06: `ContextQualityBudget` Erweiterung (Target: Q3 2026)
 - [ ] P1-D07: Unit-Tests Phase 1 (Target: Q3 2026)
+- [ ] P1-L5-01: Human Design Review `SSMStateStore` Distribution (`replication` vs `shard_partitioned`) (Target: Q3 2026)
 
 #### Phase 2: Beta (Q4 2026)
 - [ ] P2-D01: NVFP4 KV-Cache-Quantisierung (`PagedKVCache::Config`) (Target: Q4 2026)
@@ -464,6 +491,8 @@ Die folgenden Einträge sind als Ergänzung zu `ROADMAP.md` vorgeschlagen:
 - [ ] P2-D04: SSM-State RocksDB-Persistierung (Target: Q4 2026)
 - [ ] P2-D05: KnowledgeGapDetector SSM-Drift-Signal (Target: Q4 2026)
 - [ ] P2-D06: Tests und Benchmarks Phase 2 (Target: Q4 2026)
+- [ ] P2-L5-01: LoRA Federation um AdaLoRA Rank-Awareness + Cross-Shard-Importance erweitern (Target: Q4 2026)
+- [ ] P2-L5-02: LLM-RAID Phase-1 Routing-Pfad (`LLMAQLHandler` + AdaptiveShardRouter Domain-Routing) verifizieren/härten (Target: Q4 2026)
 
 #### Phase 3: Beta+ (Q1 2027)
 - [ ] P3-D01: `HybridContextRouter` (Target: Q1 2027)
@@ -471,6 +500,7 @@ Die folgenden Einträge sind als Ergänzung zu `ROADMAP.md` vorgeschlagen:
 - [ ] P3-D03: Reasoning-Density-Telemetrie (Target: Q1 2027)
 - [ ] P3-D04: `ContextQualityBudget` vollständig (Target: Q1 2027)
 - [ ] P3-D05: Sektor-spezifische RAG-Konfigurationen (Target: Q1 2027)
+- [ ] P3-L5-01: Produktionsfreigabe nur mit bestandenem L5a Sharding Phase-C Gate (Target: Q1 2027)
 
 #### Phase 4: GA-Hardening (Q2 2027)
 - [ ] P4-D01: Wave-8-kompatible Benchmarks (Target: Q2 2027)
