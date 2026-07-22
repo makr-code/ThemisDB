@@ -3574,6 +3574,7 @@ if(THEMIS_ENABLE_CUDA)
     ../src/acceleration/cuda/ann_kernels.cu
     ../src/acceleration/cuda/vector_kernels.cu
     ../src/acceleration/cuda/tensor_core_matmul.cu
+    ../src/acceleration/cuda/tensor_compression_routing_kernels.cu
     ../src/acceleration/cuda/geo_kernels.cu
     ../src/acceleration/cuda/cuda_hnsw_kernels.cu
     ../src/acceleration/cuda/graph_kernels.cu

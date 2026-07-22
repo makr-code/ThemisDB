@@ -48,6 +48,18 @@ foreach(_src IN LISTS TENSOR_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/tensor/compression_strategy.cpp
         )
     endif()
+    if("${_stem}" STREQUAL "test_persistent_tensor_fingerprint_graph")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/tensor/tensor_fingerprint_graph.cpp
+            ${THEMIS_ROOT_DIR}/src/tensor/persistent_tensor_fingerprint_graph.cpp
+        )
+    endif()
+    if("${_stem}" STREQUAL "test_tensor_acceleration_observability")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/tensor/tensor_compression_routing_accelerator.cpp
+            ${THEMIS_ROOT_DIR}/src/tensor/tensor_workflow_observability.cpp
+        )
+    endif()
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
