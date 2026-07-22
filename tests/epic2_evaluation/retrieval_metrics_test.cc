@@ -34,7 +34,7 @@
 
 #include <gtest/gtest.h>
 
-#include "include/retrieval_metrics.h"
+#include "retrieval_metrics.h"
 
 using namespace themis::evaluation;
 

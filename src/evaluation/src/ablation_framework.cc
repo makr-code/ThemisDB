@@ -34,7 +34,7 @@
  * @see include/retrieval_metrics.h
  */
 
-#include "include/ablation_framework.h"
+#include "ablation_framework.h"
 
 #include <algorithm>
 #include <stdexcept>

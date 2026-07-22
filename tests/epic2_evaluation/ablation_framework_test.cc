@@ -29,7 +29,7 @@
 
 #include <gtest/gtest.h>
 
-#include "include/ablation_framework.h"
+#include "ablation_framework.h"
 
 using namespace themis::evaluation;
 

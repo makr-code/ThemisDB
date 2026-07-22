@@ -24,7 +24,7 @@
 
 #include <gtest/gtest.h>
 
-#include "include/approximation_rules.h"
+#include "approximation_rules.h"
 #include "include/query_planner.h"
 
 using namespace themis::evaluation;

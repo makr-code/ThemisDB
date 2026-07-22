@@ -904,6 +904,73 @@ struct RegisteredBackend {
     IMatrixBackend*  matrixPtr = nullptr;  ///< IMatrixBackend interface (nullptr if unsupported)
 };
 
+// ---------------------------------------------------------------------------
+// Kernel registry types (forward-declared here so cpp implementations can
+// provide method bodies in src/acceleration/kernel_registry.cpp).
+// These are intentionally lightweight declarations matching the runtime
+// behavior expected by the implementation file.
+// ---------------------------------------------------------------------------
+
+/// Per-backend kernel coverage summary used by ValidationReport
+struct KernelCoverage {
+    BackendType backend = BackendType::CPU;
+    bool hasANN    = false;
+    bool annComplete = false;
+    bool hasGeo    = false;
+    bool geoComplete = false;
+    bool hasMatrix = false;
+    bool matrixComplete = false;
+    std::vector<std::string> missingSlots;
+};
+
+/// ValidationReport summarises KernelCoverage for all registered backends
+struct ValidationReport {
+    std::vector<KernelCoverage> entries;
+
+    [[nodiscard]] bool allComplete() const noexcept {
+        for (const auto& e : entries) {
+            if ((e.hasANN && !e.annComplete) ||
+                (e.hasGeo && !e.geoComplete) ||
+                (e.hasMatrix && !e.matrixComplete)) return false;
+        }
+        return true;
+    }
+    std::string summary() const; // implemented in kernel_registry.cpp
+};
+
+/// Central registry holding frozen kernel dispatch tables per BackendType
+class KernelRegistry {
+public:
+    ANNKernelDispatch getANNDispatch(BackendType t) const noexcept {
+        auto it = annDispatch_.find(t);
+        return (it != annDispatch_.end()) ? it->second : ANNKernelDispatch{};
+    }
+    GeoKernelDispatch getGeoDispatch(BackendType t) const noexcept {
+        auto it = geoDispatch_.find(t);
+        return (it != geoDispatch_.end()) ? it->second : GeoKernelDispatch{};
+    }
+
+    void registerANNDispatch(BackendType t, const ANNKernelDispatch& d) {
+        annDispatch_[t] = d;
+    }
+    void registerGeoDispatch(BackendType t, const GeoKernelDispatch& d) {
+        geoDispatch_[t] = d;
+    }
+    void registerMatrixDispatch(BackendType t, const MatrixKernelDispatch& d) {
+        matrixDispatch_[t] = d;
+    }
+
+    ANNKernelDispatch lookupANNWithFallback(BackendType primary) const noexcept;
+    GeoKernelDispatch lookupGeoWithFallback(BackendType primary) const noexcept;
+    std::vector<BackendType> registeredBackends() const;
+    ValidationReport validate() const;
+
+private:
+    std::unordered_map<BackendType, ANNKernelDispatch>    annDispatch_;
+    std::unordered_map<BackendType, GeoKernelDispatch>    geoDispatch_;
+    std::unordered_map<BackendType, MatrixKernelDispatch> matrixDispatch_;
+};
+
 // Forward declaration
 class PluginLoader;
 
@@ -1079,6 +1146,7 @@ private:
     std::vector<std::unique_ptr<IComputeBackend>> backends_;
     std::unordered_map<BackendType, RegisteredBackend> typeIndex_;
     std::unique_ptr<PluginLoader> pluginLoader_;
+    KernelRegistry kernelRegistry_;
 
     // Backends selected at the last initializeRuntime() call (nullptr until
     // initializeRuntime() has been called).

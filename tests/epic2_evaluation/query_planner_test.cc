@@ -25,7 +25,7 @@
 
 #include <gtest/gtest.h>
 
-#include "include/query_planner.h"
+#include "query_planner.h"
 
 // Pull in the DefaultQueryPlanner implementation via the factory.
 // The factory is declared in the header and defined in query_planner.cc.

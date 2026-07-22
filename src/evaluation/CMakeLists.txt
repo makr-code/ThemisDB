@@ -73,6 +73,7 @@ if(TARGET GTest::gtest OR DEFINED THEMIS_BUILD_EPIC2)
     )
     target_include_directories(epic2_evaluation_lib PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
     )
     target_compile_features(epic2_evaluation_lib PUBLIC cxx_std_17)
 endif()
