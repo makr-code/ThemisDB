@@ -5,6 +5,7 @@ set(DISTRIBUTED_TENSOR_PUBLIC_HEADERS
     ${CMAKE_SOURCE_DIR}/include/distributed_tensor/integrity_verification.h
     ${CMAKE_SOURCE_DIR}/include/distributed_tensor/recovery_manager.h
     ${CMAKE_SOURCE_DIR}/include/distributed_tensor/distributed_planner.h
+    ${CMAKE_SOURCE_DIR}/include/distributed_tensor/tensor_training_coordinator.h
     ${CMAKE_SOURCE_DIR}/include/distributed_tensor/tensor_infrastructure.h
     ${CMAKE_SOURCE_DIR}/include/distributed_tensor/tensor_storage_strategy.h
 )
@@ -16,6 +17,7 @@ set(DISTRIBUTED_TENSOR_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/integrity_verification.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/recovery_manager.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/distributed_planner.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/tensor_training_coordinator.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/tensor_infrastructure.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/src/tensor_storage_strategy.cc
 )

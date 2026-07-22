@@ -3,7 +3,7 @@
 # Library target: themis_tensor (Phase 4: Integration & Documentation)
 # Version: Phase 4 (2026-07-01)
 #
-# Sources: 20 implementation files for the Tensor Mid-Layer Abstractions module.
+# Sources: 23 implementation files for the Tensor Mid-Layer Abstractions module.
 # Responsibilities:
 #   - Tensor-layer orchestration and mid-layer routing
 #   - Compression strategies (TT-SVD, Quantization, Sampling, Hashing)
@@ -25,8 +25,10 @@ set(THEMIS_TENSOR_SOURCES
     compression_strategy.cpp
     hiss_structural_search.cpp
     hnsw_tt_bridge.cpp
+    persistent_tensor_fingerprint_graph.cpp
     ht_index.cpp
     hyper_index_builder.cpp
+    tensor_compression_routing_accelerator.cpp
     tensor_butterfly_operator.cpp
     tensor_core_bridge.cpp
     tensor_error_handling.cpp
@@ -39,6 +41,7 @@ set(THEMIS_TENSOR_SOURCES
     tensor_redundancy_detection.cpp
     tensor_routing_strategy.cpp
     tensor_summary_types.cpp
+    tensor_workflow_observability.cpp
     tnsr_task.cpp
     utr_converter.cpp
 )
@@ -102,4 +105,4 @@ if(NOT DEFINED THEMIS_SKIP_EXPORTS)
     export(TARGETS themis_tensor FILE ThemisThensorTargets.cmake)
 endif()
 
-message(STATUS "Tensor module: themis_tensor library configured (20 sources, C++17)")
+message(STATUS "Tensor module: themis_tensor library configured (23 sources, C++17)")

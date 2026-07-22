@@ -299,10 +299,20 @@ config.max_fallback_depth = 4;      // Max fallback chain length
 
 ## Next Steps (Phase 5+)
 
-1. **Phase 5: RocksDB Persistence** — Persist adapters and fingerprints to storage
-2. **Phase 6: Distributed Training** — Multi-node tensor decomposition
-3. **Phase 7: GPU Acceleration** — CUDA kernels for compression/routing
-4. **Phase 8: Observability** — Full metric export and SLO tracking
+1. **Phase 5: RocksDB Persistence** — ✅ Implemented via durable fingerprint entry storage + journaled recovery  
+   - Runtime wrapper: `include/tensor/persistent_tensor_fingerprint_graph.h`, `src/tensor/persistent_tensor_fingerprint_graph.cpp`
+   - Tests: `tests/tensor/test_persistent_tensor_fingerprint_graph.cpp`
+2. **Phase 6: Distributed Training** — ✅ Implemented via multi-node coordinator with lifecycle/retry/aggregation  
+   - Coordinator: `include/distributed_tensor/tensor_training_coordinator.h`, `src/distributed_tensor/tensor_training_coordinator.cc`
+   - Tests: `tests/epic3_distributed_tensor/test_tensor_training_coordinator.cpp`
+3. **Phase 7: GPU Acceleration** — ✅ Implemented CUDA kernels for tensor compression/routing with CPU fallback  
+   - CUDA kernels: `src/acceleration/cuda/tensor_compression_routing_kernels.cu`
+   - Runtime dispatch: `include/tensor/tensor_compression_routing_accelerator.h`, `src/tensor/tensor_compression_routing_accelerator.cpp`
+   - CMake integration: `cmake/ModularBuild.cmake`, `cmake/CMakeLists.txt`
+   - Tests: `tests/tensor/test_tensor_acceleration_observability.cpp`
+4. **Phase 8: Observability** — ✅ Implemented metrics export + SLO evaluator for tensor workflows  
+   - Observability surface: `include/tensor/tensor_workflow_observability.h`, `src/tensor/tensor_workflow_observability.cpp`
+   - Tests: `tests/tensor/test_tensor_acceleration_observability.cpp`
 
 ## References
 
