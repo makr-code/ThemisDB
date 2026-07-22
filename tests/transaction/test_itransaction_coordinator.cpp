@@ -117,7 +117,7 @@ public:
 
     TxnCoordinatorResult begin(
         std::string_view txn_id,
-        const TxnCoordinatorOptions& opts
+        const TxnCoordinatorOptions& opts = {}
     ) override {
         if (txn_id.empty()) {
             return TxnCoordinatorResult::Fail(

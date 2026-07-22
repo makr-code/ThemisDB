@@ -59,7 +59,8 @@ namespace distributed_tensor {
  * store->store(m);
  *
  * // Consumer (query planner): get the freshest advisory entry.
- * auto entry = store->get("users/embedding", 0 /* shard_id */);
+ * auto entry = store->get("users/embedding", 0 // shard_id
+ * );
  * if (!entry || !entry->isFresh(max_age_s)) {
  *     // Fall back to exact graph retrieval.
  * }

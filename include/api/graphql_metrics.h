@@ -31,7 +31,7 @@
  *     elapsed,
  *     query_depth,
  *     field_count,
- *     /* success */ true
+ *     true
  * );
  *
  * auto stats = metrics.queryMetrics();

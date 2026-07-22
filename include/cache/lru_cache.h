@@ -119,7 +119,8 @@ public:
      * 
      * @pre !is_moved_from()
      */
-    bool insert(const Key& key, Value&& value);
+    template<typename V>
+    bool insert(const Key& key, V&& value);
 
     /**
      * @brief Retrieve cached value

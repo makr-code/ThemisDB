@@ -448,6 +448,23 @@ public:
      */
     bool applyConfigEntry(const std::string& entry_json);
 
+    /**
+     * @brief Return true if @p status is a transient HTTP error that should
+     *        trigger a retry (HTTP 429, 500, 502, 503, 504).
+     *
+     * Exposed publicly for unit tests.
+     */
+    static bool isTransientError(unsigned status) noexcept;
+
+    /**
+     * @brief Compute the exponential-backoff delay for a given retry attempt.
+     *
+     * Exposed publicly for unit tests.
+     */
+    static std::chrono::milliseconds retryDelay(uint32_t attempt,
+                                                uint32_t base_ms,
+                                                uint32_t max_ms) noexcept;
+
 private:
     Config     config_;
     std::shared_ptr<APIGateway> gateway_;
@@ -491,26 +508,7 @@ private:
      */
     bool needsSessionAffinity(const http::request<http::string_body>& req) const;
 
-    /**
-     * @brief Return true when @p status is a transient HTTP error that should
-     *        trigger a retry (HTTP 429, 500, 502, 503, 504).
-     *
-     * @param status  Numeric HTTP status code.
-     * @return true if the error is retryable.
-     */
-    static bool isTransientError(unsigned status) noexcept;
-
-    /**
-     * @brief Compute the exponential-backoff delay for a given retry attempt.
-     *
-     * @param attempt   0-based attempt index (0 = first retry).
-     * @param base_ms   Base delay in milliseconds.
-     * @param max_ms    Upper bound for the delay in milliseconds.
-     * @return          Clamped delay for this attempt.
-     */
-    static std::chrono::milliseconds retryDelay(uint32_t attempt,
-                                                uint32_t base_ms,
-                                                uint32_t max_ms) noexcept;
+    // (moved to public section for unit test access)
 };
 
 } // namespace themis::server

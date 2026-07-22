@@ -233,6 +233,9 @@ struct DistributedTxnManagerConfig {
     /// Flush WAL synchronously on every write.
     bool sync_wal_writes = true;
 
+    /// When true, coordinator writes a recovery log for each transaction (optional).
+    bool enable_recovery_log = false;
+
     /// Maximum number of concurrent transactions tracked in memory.
     size_t max_active_transactions = 10000;
 

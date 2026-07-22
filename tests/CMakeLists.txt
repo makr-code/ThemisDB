@@ -27344,38 +27344,38 @@ if(THEMIS_ENABLE_GPU AND THEMIS_ENABLE_VECTOR_SEARCH)
         add_executable(test_multi_gpu_vector_index
             ${THEMIS_ROOT_DIR}/tests/multi/test_multi_gpu_vector_index.cpp
         )
+        target_link_libraries(test_multi_gpu_vector_index
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_multi_gpu_vector_index
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_multi_gpu_vector_index>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
     endif()
-    target_link_libraries(test_multi_gpu_vector_index
-        PRIVATE
-            themis_core
-            GTest::gtest
-            GTest::gtest_main
-    )
-    gtest_discover_tests(test_multi_gpu_vector_index
-        DISCOVERY_MODE PRE_TEST
-        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_multi_gpu_vector_index>
-        EXTRA_ARGS --gtest_color=yes
-        CONFIGURATIONS Release Debug
-    )
     
     # NCCL/RCCL Collective Backends Test (v2.5+)
     if(EXISTS "${THEMIS_ROOT_DIR}/tests/collective/test_collective_backends.cpp")
         add_executable(test_collective_backends
             ${THEMIS_ROOT_DIR}/tests/collective/test_collective_backends.cpp
         )
+        target_link_libraries(test_collective_backends
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_collective_backends
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_collective_backends>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
     endif()
-    target_link_libraries(test_collective_backends
-        PRIVATE
-            themis_core
-            GTest::gtest
-            GTest::gtest_main
-    )
-    gtest_discover_tests(test_collective_backends
-        DISCOVERY_MODE PRE_TEST
-        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_collective_backends>
-        EXTRA_ARGS --gtest_color=yes
-        CONFIGURATIONS Release Debug
-    )
 endif()
 
 # =========================================================================

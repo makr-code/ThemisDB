@@ -37,8 +37,8 @@ namespace lora {
 
 namespace {
 
-/// ISO 8601 UTC timestamp for the current moment.
-static std::string nowISO8601() {
+/// ISO 8601 UTC timestamp for the current moment (package-specific helper).
+static std::string nowISO8601_pkg() {
     auto now = std::chrono::system_clock::now();
     auto t   = std::chrono::system_clock::to_time_t(now);
     std::tm tm_utc{};
@@ -52,8 +52,8 @@ static std::string nowISO8601() {
     return ss.str();
 }
 
-/// Generate a UUID-like identifier from two random 64-bit values.
-static std::string generateId() {
+/// Generate a UUID-like identifier from two random 64-bit values (package-specific helper).
+static std::string generateId_pkg() {
     static std::mutex id_mu;
     static std::random_device rd;
     static std::mt19937_64 gen(rd());
@@ -480,7 +480,7 @@ LoRAPackage ProvenanceHashLedger::appendPackage(LoRAPackage pkg) {
         pkg.package_id = generateId();
     }
     if (pkg.created_at.empty()) {
-        pkg.created_at = nowISO8601();
+        pkg.created_at = nowISO8601_pkg();
     }
 
     // Set parent_hash from the current head of this adapter's chain.
@@ -535,7 +535,7 @@ AdapterProduct ProvenanceHashLedger::appendProduct(AdapterProduct product) {
         product.product_id = generateId();
     }
     if (product.created_at.empty()) {
-        product.created_at = nowISO8601();
+        product.created_at = nowISO8601_pkg();
     }
 
     auto& chain = impl_->product_chains[product.package_id];
@@ -593,7 +593,7 @@ DistributionReceipt ProvenanceHashLedger::appendReceipt(DistributionReceipt rece
         receipt.receipt_id = generateId();
     }
     if (receipt.distribution_timestamp.empty()) {
-        receipt.distribution_timestamp = nowISO8601();
+        receipt.distribution_timestamp = nowISO8601_pkg();
     }
 
     // Initialise or update the receipt chain for this artifact.
@@ -689,7 +689,7 @@ ReceiptManifest ProvenanceHashLedger::createManifest(
     manifest.manifest_id = generateId();
     manifest.event_type  = event_type;
     manifest.artifact_id = artifact_id;
-    manifest.created_at  = nowISO8601();
+    manifest.created_at  = nowISO8601_pkg();
 
     // Append each receipt to the artifact's chain so they are durably linked.
     // We do this without the outer mutex held to avoid re-entrancy; appendReceipt
@@ -771,7 +771,7 @@ ShardLedgerEntry ProvenanceHashLedger::appendShardEntry(ShardLedgerEntry entry) 
         entry.entry_id = generateId();
     }
     if (entry.placement_timestamp.empty()) {
-        entry.placement_timestamp = nowISO8601();
+        entry.placement_timestamp = nowISO8601_pkg();
     }
 
     auto& ledger = impl_->shard_ledgers[entry.artifact_id];

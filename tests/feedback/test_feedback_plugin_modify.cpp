@@ -10,6 +10,8 @@
 #include "llm/feedback_store.h"
 #include "llm/i_feedback_plugin.h"
 #include "storage/rocksdb_wrapper.h"
+#include <rocksdb/options.h>
+#include <rocksdb/utilities/transaction_db.h>
 #include <filesystem>
 #include <memory>
 #include <chrono>
@@ -114,15 +116,12 @@ protected:
         std::filesystem::create_directories(db_path_);
         
         // Create RocksDB with unique path
-        db_ = rocksdb::TransactionDB::Open(
-            rocksdb::Options{.create_if_missing = true},
-            rocksdb::TransactionDBOptions{},
-            db_path_.string(),
-            nullptr
-        );
-        
-        if (!db_) {
-            throw std::runtime_error("Failed to create RocksDB instance");
+        rocksdb::Options options;
+        options.create_if_missing = true;
+        rocksdb::TransactionDBOptions txn_opts;
+        rocksdb::Status s = rocksdb::TransactionDB::Open(options, txn_opts, db_path_.string(), &db_);
+        if (!s.ok() || db_ == nullptr) {
+            throw std::runtime_error("Failed to create RocksDB instance: " + s.ToString());
         }
         
         feedback_store_ = std::make_unique<FeedbackStore>(db_, nullptr);

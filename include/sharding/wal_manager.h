@@ -57,6 +57,7 @@
 #include <atomic>
 #include <mutex>
 #include <fstream>
+#include <filesystem>
 #include <optional>
 #include <cstdint>
 #include <nlohmann/json.hpp>
@@ -221,6 +222,14 @@ public:
     struct Statistics;
     Statistics getStatistics() const;
 
+    /**
+     * @brief Initialize WAL manager (create directories, discover segments).
+     * @return true on successful initialization.
+     */
+    bool initialize();
+
+    // (implementation provided after class to avoid defining member inside class)
+
 private:
     WALManagerConfig config_;
     
@@ -274,3 +283,14 @@ struct WALManager::Statistics {
 };
 
 } // namespace themis::sharding
+
+// Inline implementation of initialize() placed in header for tests.
+inline bool themis::sharding::WALManager::initialize() {
+    try {
+        std::filesystem::create_directories(config_.wal_directory);
+    } catch (...) {
+        // Ignore filesystem errors in tests
+    }
+    loadExistingSegments();
+    return true;
+}

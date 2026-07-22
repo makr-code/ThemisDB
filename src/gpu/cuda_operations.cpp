@@ -114,6 +114,10 @@ bool CudaStream::is_valid() const noexcept {
     return !is_moved_from_ && stream_handle_ != nullptr;
 }
 
+bool CudaStream::is_moved_from() const noexcept {
+    return is_moved_from_;
+}
+
 // =============================================================================
 // CudaOperation Implementation
 // =============================================================================
@@ -384,6 +388,10 @@ size_t CudaOperationBatch::failed_count() const noexcept {
 
 bool CudaOperationBatch::is_valid() const noexcept {
     return !is_moved_from_ && stream_ != nullptr && stream_->is_valid();
+}
+
+bool CudaOperationBatch::is_moved_from() const noexcept {
+    return is_moved_from_;
 }
 
 } // namespace gpu

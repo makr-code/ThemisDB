@@ -554,7 +554,7 @@ protected:
     }
     /// @}
     
-private:
+protected:
     ErrorContext lastError_;  ///< Last error context (stored for programmatic access)
 };
 

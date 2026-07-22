@@ -144,6 +144,7 @@ struct MerkleProof {
     std::string          fragment_hash;    ///< SHA-256 of fragment content
     std::vector<MerkleProofComponent> proof_path;  ///< Path from leaf to root
     std::string          artifact_root_hash;       ///< Expected root hash for verification
+    std::string          root_hash;                ///< Compatibility alias for artifact_root_hash
 
     /**
      * @brief Verify this proof against an artifact root hash.
@@ -158,6 +159,13 @@ struct MerkleProof {
      * @return Depth of the proof path (O(log N))
      */
     [[nodiscard]] size_t verificationCost() const { return proof_path.size(); }
+
+    // Compatibility public member `root_hash` exists for tests and older APIs.
+
+    /**
+     * Compatibility method matching older API name `getProofDepth()`.
+     */
+    [[nodiscard]] size_t getProofDepth() const { return verificationCost(); }
 
     /**
      * @brief Convert this proof into manifest-safe JSON.
@@ -658,6 +666,14 @@ IntegrityRecoveryHook* getIntegrityRecoveryHook();
  * @return 64-character lowercase hex SHA-256 hash
  */
 [[nodiscard]] std::string computeSHA256(std::string_view data);
+
+/**
+ * @brief Compute SHA-256 hash of arbitrary C-string (compat overload).
+ *
+ * Provides an exact-match overload for calls with string literals to avoid
+ * ambiguity between `std::string` and `std::string_view` overloads.
+ */
+[[nodiscard]] std::string computeSHA256(const char* data);
 
 /**
  * @brief Compute deterministic SHA-256 hash of a JSON object.

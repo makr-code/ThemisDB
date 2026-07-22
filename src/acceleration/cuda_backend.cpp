@@ -247,7 +247,7 @@ bool CUDAVectorBackend::initialize() {
         }
 
         // Keep backward-compatible logging
-        std::cerr << lastError_.format() << std::endl;
+        std::cerr << getLastError().format() << std::endl;
         return false;
     }
 
@@ -327,7 +327,7 @@ bool CUDAVectorBackend::initialize() {
     setError(ErrorContext(AccelerationErrorCode::FeatureNotSupported, "CUDA",
                           "Not compiled with CUDA support (THEMIS_ENABLE_CUDA not defined)",
                           "Recompile with CUDA support enabled"));
-    std::cerr << lastError_.format() << std::endl;
+    std::cerr << getLastError().format() << std::endl;
     return false;
 #endif
 }

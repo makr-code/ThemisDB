@@ -99,12 +99,13 @@ protected:
     IAnalyticsExporter() = default;
 
 public:
-     * @brief Export a RecordBatch to file
-     * @param batch The record batch to export
-     * @param output_path Output file path
-     * @param options Export options
-     * @return Export result
-     */
+    /**
+    * @brief Export a RecordBatch to file
+    * @param batch The record batch to export
+    * @param output_path Output file path
+    * @param options Export options
+    * @return Export result
+    */
     [[nodiscard]] virtual ExportResult exportToFile(
         const ArrowRecordBatch& batch,
         const std::string& output_path,

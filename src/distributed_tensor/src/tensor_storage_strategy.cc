@@ -155,6 +155,10 @@ std::pair<MmapRegion, MmapError> MmapLoader::open(
     MmapRegion region;
     region.path_ = std::string(file_path);
 
+#if defined(_WIN32)
+    (void)lock_pages; // parameter not used on Windows implementation
+#endif
+
 #if defined(THEMIS_NO_MMAP)
     (void)lock_pages;
     return {std::move(region), MmapError::UNSUPPORTED_PLATFORM};

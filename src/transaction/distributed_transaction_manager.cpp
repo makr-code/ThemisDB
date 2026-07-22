@@ -61,10 +61,14 @@ struct TransactionStateSnapshot {
     explicit TransactionStateSnapshot(const DistributedTransaction& txn)
         : txn_id(txn.txn_id)
         , state(txn.state)
-        , participants(txn.participants)
         , created_at(txn.created_at)
         , timeout(txn.timeout)
-        , error_detail(txn.error_detail) {}
+        , error_detail(txn.error_detail)
+    {
+        participants.reserve(txn.participants.size());
+        for (const auto& p : txn.participants) participants.push_back(p.node_id);
+    }
+    
 };
 
 // ============================================================================

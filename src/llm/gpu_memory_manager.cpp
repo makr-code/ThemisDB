@@ -23,6 +23,7 @@
 #include <limits>
 #include "utils/error_registry.h"
 #include "security/vram_secure_clear.h"
+#include "utils/logger.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <cstring>

@@ -31,6 +31,7 @@ PlacementPlan DefaultShardPlacementStrategy::compute_placement(
     const std::optional<FactorizationPlacementHint>& factorization_hint,
     PlacementConstraint constraints) noexcept {
   PlacementPlan plan;
+  (void)constraints; // suppress unused-parameter warning when not needed
   plan.artifact_id = artifact_id;
   plan.computed_at = get_iso8601_timestamp();
   plan.placement_rationale =
@@ -182,6 +183,7 @@ std::string DefaultShardPlacementStrategy::select_best_node(
     const std::vector<NodeCapacity>& available_nodes,
     uint64_t shard_size_bytes,
     PlacementConstraint constraints) noexcept {
+  (void)constraints; // suppress unused-parameter warning
   // Select the node with the most available capacity.
   auto best_node = std::max_element(
       available_nodes.begin(), available_nodes.end(),

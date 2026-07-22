@@ -515,6 +515,7 @@ bool PredictiveFailureDetector::loadModel(const std::string& model_path) {
                 model_path);
     
     return true;
+}
 
 // ── setPredictFn (stub #251) ──────────────────────────────────────────────────
 void PredictiveFailureDetector::setPredictFn(PredictFn fn) {

@@ -48,7 +48,8 @@ class TestDataGenerator {
 public:
     static constexpr uint32_t kDefaultSeed = 42U;
 
-    explicit TestDataGenerator(uint32_t seed = kDefaultSeed) : gen_(seed) {}
+    // Default constructor uses non-deterministic random device for non-seeded tests.
+    TestDataGenerator() : gen_(std::random_device{}()) {}
 
     [[nodiscard]] std::string GenerateRandomString(size_t length) {
         static constexpr char kCharset[] =

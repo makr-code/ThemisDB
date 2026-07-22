@@ -740,7 +740,7 @@ Result<nlohmann::json> executeMultiStatementAql(const std::string&              
         txn_ctx = std::make_unique<query::MutationTransactionContext>(*storage);
     }
 
-    query::AqlMutationTranslator mutationTranslator;
+    AqlMutationTranslator mutationTranslator;
     query::MutationExecutor      mutationExecutor;
 
     nlohmann::json results = nlohmann::json::array();

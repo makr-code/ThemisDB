@@ -916,7 +916,7 @@ bool ECDSA_SHA256_Verifier::validateECCurve(X509* cert) {
     if (!pkey) return false;
     
     // Get EC key structure
-    EC_KEY* ec_key = EVP_PKEY_get0_EC_KEY(pkey);
+    const EC_KEY* ec_key = EVP_PKEY_get0_EC_KEY(pkey);
     if (!ec_key) {
         EVP_PKEY_free(pkey);
         return false;
@@ -1212,7 +1212,7 @@ bool ECDSA_SHA384_Verifier::validateECCurve(X509* cert) {
     EVP_PKEY* pkey = X509_get_pubkey(cert);
     if (!pkey) return false;
     
-    EC_KEY* ec_key = EVP_PKEY_get0_EC_KEY(pkey);
+    const EC_KEY* ec_key = EVP_PKEY_get0_EC_KEY(pkey);
     if (!ec_key) {
         EVP_PKEY_free(pkey);
         return false;

@@ -102,10 +102,14 @@ foreach(_src IN LISTS PLUGIN_MODULE_TEST_SOURCES)
 endforeach()
 
 if(TARGET module_plugin_test_plugin_runtime_loading_focused)
-    add_dependencies(module_plugin_test_plugin_runtime_loading_focused
-        themis_plugin_runtime_test_plugin
-    )
-    target_compile_definitions(module_plugin_test_plugin_runtime_loading_focused PRIVATE
-        THEMIS_RUNTIME_TEST_PLUGIN_PATH="$<TARGET_FILE:themis_plugin_runtime_test_plugin>"
-    )
+    if(TARGET themis_plugin_runtime_test_plugin)
+        add_dependencies(module_plugin_test_plugin_runtime_loading_focused
+            themis_plugin_runtime_test_plugin
+        )
+        target_compile_definitions(module_plugin_test_plugin_runtime_loading_focused PRIVATE
+            THEMIS_RUNTIME_TEST_PLUGIN_PATH="$<TARGET_FILE:themis_plugin_runtime_test_plugin>"
+        )
+    else()
+        message(STATUS "tests/plugin: runtime_test_plugin.cpp not present — skipping runtime plugin dependency for module_plugin_test_plugin_runtime_loading_focused")
+    endif()
 endif()

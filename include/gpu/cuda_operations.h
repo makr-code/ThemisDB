@@ -23,6 +23,13 @@
 #include <chrono>
 #include <stdexcept>
 
+// Test compatibility: provide SKIP() macro alias to GTEST_SKIP() when available
+#ifndef SKIP
+#ifdef GTEST_SKIP
+#define SKIP() GTEST_SKIP()
+#endif
+#endif
+
 namespace themis {
 namespace gpu {
 
@@ -91,6 +98,13 @@ public:
      * @return true if stream is alive
      */
     bool is_valid() const noexcept;
+
+    /**
+     * @brief Check if this stream is in moved-from state
+     * 
+     * @return true if resources were transferred to another object
+     */
+    bool is_moved_from() const noexcept;
 
 private:
     void* stream_handle_;
@@ -294,6 +308,13 @@ public:
      * @return true if batch can accept operations
      */
     bool is_valid() const noexcept;
+
+    /**
+     * @brief Check if batch is in moved-from state
+     * 
+     * @return true if resources were transferred to another object
+     */
+    bool is_moved_from() const noexcept;
 
 private:
     const CudaStream* stream_;

@@ -90,8 +90,8 @@ struct JWTValidatorConfig {
     std::string jwks_url;                                    // Keycloak JWKS endpoint
     std::optional<std::string> expected_issuer;              // must be set when require_issuer_validation=true
     std::optional<std::string> expected_audience;            // must be set when require_audience_validation=true
-    std::chrono::seconds cache_ttl{600};
-    std::chrono::seconds clock_skew{60};
+    std::chrono::milliseconds cache_ttl{600000};
+    std::chrono::milliseconds clock_skew{60000};
     std::vector<std::string> revoked_kids;                   // Kid denylist for revoked keys
     int jwks_timeout_seconds{DEFAULT_JWKS_TIMEOUT_SECONDS};  // JWKS fetch timeout
     int jwks_max_retries{MAX_JWKS_RETRY_ATTEMPTS};           // JWKS fetch max retries

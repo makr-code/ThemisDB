@@ -75,7 +75,8 @@ LRUCache<Key, Value>& LRUCache<Key, Value>::operator=(LRUCache&& other) noexcept
 }
 
 template <typename Key, typename Value>
-bool LRUCache<Key, Value>::insert(const Key& key, Value&& value) {
+template <typename V>
+bool LRUCache<Key, Value>::insert(const Key& key, V&& value) {
     if (is_moved_from_) {
         throw std::logic_error("Cannot insert into moved-from cache");
     }
@@ -96,7 +97,7 @@ bool LRUCache<Key, Value>::insert(const Key& key, Value&& value) {
 
     // Insert new entry
     lru_list_.push_front(key);
-    map_[key] = {lru_list_.begin(), std::forward<Value>(value)};
+    map_[key] = {lru_list_.begin(), std::forward<V>(value)};
 
     return true;
 }

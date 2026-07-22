@@ -27,6 +27,10 @@
 
 namespace themis::test::sprint8_batch_d {
 
+namespace {
+    static std::atomic<int> g_sprint8_model_instance_count{0};
+}
+
 // ============================================================================
 // Gap A-1: DistributedTransactionManager Move Chain Tests
 // ============================================================================
@@ -357,27 +361,23 @@ TEST_F(ModelPipelineSharedOwnershipTests, ModelPipelineStagaAccessViasharedPtr) 
 TEST_F(ModelPipelineSharedOwnershipTests, ModelRefCountingPreventsDeletion) {
     struct Model {
         std::string id;
-        static int instance_count;
-        
-        Model() { instance_count++; }
-        ~Model() { instance_count--; }
+        Model() { ++g_sprint8_model_instance_count; }
+        ~Model() { --g_sprint8_model_instance_count; }
     };
-    
-    int Model::instance_count = 0;
     
     {
         auto model = std::make_shared<Model>();
         model->id = "model-1";
-        EXPECT_EQ(Model::instance_count, 1);
-        
+        EXPECT_EQ(g_sprint8_model_instance_count.load(), 1);
+
         // Model remains alive despite scope
         auto copy = model;
-        EXPECT_EQ(Model::instance_count, 1);
+        EXPECT_EQ(g_sprint8_model_instance_count.load(), 1);
     }
-    
+
     // Model should be deleted when last shared_ptr goes out of scope
     // (Note: actual deletion might be deferred)
-    EXPECT_LE(Model::instance_count, 1);
+    EXPECT_LE(g_sprint8_model_instance_count.load(), 1);
 }
 
 // ============================================================================

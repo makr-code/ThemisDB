@@ -570,6 +570,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/aql_parser_service.cpp
     ../src/query/sql_parser.cpp
     ../src/query/aql_translator.cpp
+    ../src/query/aql_mutation_translator.cpp
     ../src/query/aql_runner.cpp
     ../src/query/result_type_annotation.cpp
     ../src/query/query_plan_visualizer.cpp
@@ -601,6 +602,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/plan_cache.cpp
     ../src/query/query_compiler.cpp
     ../src/query/materialized_view.cpp
+    ../src/query/mutation_executor.cpp
     # Vectorized Execution Engine – column-store style batch processing (Issue #2434)
     ../src/query/vectorized_execution.cpp
     ../src/query/sparql_parser.cpp

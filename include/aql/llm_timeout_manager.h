@@ -94,8 +94,8 @@ public:
      *       For cooperative early exit (so the function can abort at its next
      *       check-point) use @ref executeWithCancelToken() instead.
      */
-    template<typename Func, typename Result = std::invoke_result_t<Func>>
-    Result executeWithTimeout(Func&& func, std::chrono::seconds timeout, const std::string& operation_name) {
+    template<typename Func, typename Duration, typename Result = std::invoke_result_t<Func>>
+    Result executeWithTimeout(Func&& func, Duration timeout, const std::string& operation_name) {
         // Wrap the user callable in a packaged_task so we can retrieve the result
         // (or propagated exception) via a future.
         std::packaged_task<Result()> task(std::forward<Func>(func));
@@ -123,9 +123,11 @@ public:
                 // the worker finishes, then both this cleanup thread and the worker
                 // thread exit cleanly.
             }).detach();
+            using seconds_t = std::chrono::seconds;
+            auto secs = std::chrono::duration_cast<seconds_t>(timeout);
             throw LLMException(LLMErrorCode::TIMEOUT,
                 "Operation '" + operation_name + "' exceeded timeout of " +
-                std::to_string(timeout.count()) + " seconds");
+                std::to_string(secs.count()) + " seconds");
         }
 
         // Task is already complete; future.get() returns/throws immediately.
@@ -195,9 +197,10 @@ public:
      * @endcode
      */
     template<typename Func,
+             typename Duration,
              typename Result = std::invoke_result_t<std::decay_t<Func>, std::shared_ptr<std::atomic<bool>>>>
     Result executeWithCancelToken(Func&& func,
-                                  std::chrono::seconds timeout,
+                                  Duration timeout,
                                   const std::string& operation_name) {
         auto cancel_token = std::make_shared<std::atomic<bool>>(false);
 
@@ -226,9 +229,11 @@ public:
                 // the worker finishes, then both this cleanup thread and the worker
                 // thread exit cleanly.
             }).detach();
+            using seconds_t = std::chrono::seconds;
+            auto secs = std::chrono::duration_cast<seconds_t>(timeout);
             throw LLMException(LLMErrorCode::TIMEOUT,
                 "Operation '" + operation_name + "' exceeded timeout of " +
-                std::to_string(timeout.count()) + " seconds");
+                std::to_string(secs.count()) + " seconds");
         }
 
         // Task is already complete; future.get() returns/throws immediately.

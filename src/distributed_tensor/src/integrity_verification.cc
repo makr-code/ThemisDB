@@ -126,8 +126,10 @@ bool MerkleProof::verify(const std::string& expected_root) const {
         spdlog::warn("MerkleProof::verify: invalid fragment_hash");
         return false;
     }
-    if (!isValidSHA256Hex(artifact_root_hash) || artifact_root_hash.empty()) {
-        spdlog::warn("MerkleProof::verify: invalid artifact_root_hash");
+    // Support compatibility with older tests that set `root_hash` directly.
+    const std::string& actual_artifact_root = !artifact_root_hash.empty() ? artifact_root_hash : root_hash;
+    if (!isValidSHA256Hex(actual_artifact_root) || actual_artifact_root.empty()) {
+        spdlog::warn("MerkleProof::verify: invalid artifact_root_hash/root_hash");
         return false;
     }
     if (!isValidSHA256Hex(expected_root) || expected_root.empty()) {
@@ -157,8 +159,8 @@ bool MerkleProof::verify(const std::string& expected_root) const {
     }
 
     // Verify final hash matches expected root
-    bool verified = (current_hash == artifact_root_hash) &&
-                    (artifact_root_hash == expected_root);
+    bool verified = (current_hash == actual_artifact_root) &&
+                    (actual_artifact_root == expected_root);
 
     if (!verified) {
         spdlog::debug("MerkleProof::verify: computed root {} does not match expected {}",
@@ -210,13 +212,16 @@ std::optional<MerkleProof> MerkleProof::fromJSON(const json& j) {
         proof_path.push_back(std::move(*component));
     }
 
-    return MerkleProof{
+    MerkleProof proof{
         .artifact_id = *artifact_id,
         .fragment_index = fragment_index_iter->get<uint64_t>(),
         .fragment_hash = *fragment_hash,
         .proof_path = std::move(proof_path),
         .artifact_root_hash = *artifact_root_hash,
     };
+    // Keep compatibility alias in sync.
+    proof.root_hash = proof.artifact_root_hash;
+    return proof;
 }
 
 // ============================================================================
@@ -859,6 +864,11 @@ std::string computeSHA256(std::string_view data) {
     }
 
     return oss.str();
+}
+
+std::string computeSHA256(const char* data) {
+    if (data == nullptr) return std::string();
+    return computeSHA256(std::string_view(data));
 }
 
 std::string computeJSONHash(const json& j) {

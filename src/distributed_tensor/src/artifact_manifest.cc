@@ -606,7 +606,7 @@ void ArtifactManifest::markPublished(UpdateMode mode, RebuildState rebuild_state
                                      uint64_t new_source_seq) {
   // Record the update mode
   update_mode = mode;
-  rebuild_state_val = rebuild_state;
+  this->rebuild_state = rebuild_state;
 
   // Update source sequence to reflect the new end point
   if (new_source_seq > source_seq_end) {

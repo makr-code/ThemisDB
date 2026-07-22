@@ -175,12 +175,14 @@ enum class RebuildState : uint8_t {
  * @brief Requested or executed update strategy for a rebuild operation.
  */
 enum class UpdateMode : uint8_t {
-    /// Apply patch updates for small delta windows (delta_size < 10% artifact).
-    PATCH         = 0,
-    /// Apply partial refit for medium delta windows (10%–50% artifact size).
-    PARTIAL_REFIT = 1,
-    /// Full rebuild; required when delta_size > 50% or quality metrics breach thresholds.
-    REBUILD       = 2,
+    /// No update requested / default-initialized
+        NONE          = 0,
+        /// Apply patch updates for small delta windows (delta_size < 10% artifact).
+        PATCH         = 1,
+        /// Apply partial refit for medium delta windows (10%–50% artifact size).
+        PARTIAL_REFIT = 2,
+        /// Full rebuild; required when delta_size > 50% or quality metrics breach thresholds.
+        REBUILD       = 3,
 };
 
 // ---------------------------------------------------------------------------

@@ -149,6 +149,7 @@ std::string DefaultRecoveryManager::submit_recovery_job(
     const std::string& shard_id,
     RecoveryStrategy recovery_strategy,
     uint32_t priority) noexcept {
+  (void)priority; // suppress unused-parameter warning when not used
   std::string job_id = generate_job_id();
 
   RecoveryJob job;
@@ -233,6 +234,8 @@ bool DefaultRecoveryManager::retry_recovery_job(
 
   return true;
 }
+
+// NOTE: no global suppressions here.
 
 RecoveryStrategy DefaultRecoveryManager::select_recovery_strategy(
     const ArtifactManifest& manifest,
