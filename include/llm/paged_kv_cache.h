@@ -54,8 +54,10 @@ public:
         size_t num_layers = 32;           // Number of transformer layers
         size_t head_dim = 128;            // Dimension per attention head
         size_t num_kv_heads = 8;          // Number of KV heads (GQA)
-        KVQuantizationType kv_quantization = KVQuantizationType::FP16; // Planned KV quantization target
+        KVQuantizationType kv_quantization = KVQuantizationType::FP16; // KV quantization target (FP16/INT8/NVFP4)
+        int kv_quantization_bits = 16;    // Bit-width for quantized KV storage: 16=FP16, 8=INT8, 4=NVFP4
         bool enable_prefix_caching = true; // Enable prefix sharing
+        bool enable_kv_quantization_runtime = false; // Enable runtime KV quantization (Phase 2+)
     };
 
     PagedKVCache(const Config& config, std::shared_ptr<PagedBlockManager> block_manager);
@@ -131,6 +133,16 @@ public:
      * @return Expected accuracy retention (0.0 to 1.0)
      */
     static float getExpectedAccuracy(KVQuantizationType type);
+
+    /**
+     * @brief Get bit-width (storage bits per value) for quantization type.
+     *
+     * Used to calculate storage reduction and validate Config consistency.
+     *
+     * @param type Quantization type
+     * @return Bits per value: 16 for FP16, 8 for INT8, 4 for NVFP4
+     */
+    static int getBitWidthForQuantizationType(KVQuantizationType type);
 
 private:
     Config config_;

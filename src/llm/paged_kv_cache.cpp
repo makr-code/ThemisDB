@@ -361,6 +361,18 @@ float PagedKVCache::getExpectedAccuracy(KVQuantizationType type) {
     return 1.0f;
 }
 
+int PagedKVCache::getBitWidthForQuantizationType(KVQuantizationType type) {
+    switch (type) {
+        case KVQuantizationType::FP16:
+            return 16;  // Half-precision floating point
+        case KVQuantizationType::INT8:
+            return 8;   // 8-bit signed integer
+        case KVQuantizationType::NVFP4:
+            return 4;   // 4-bit NVIDIA floating point
+    }
+    return 32;  // Default to FP32 (no quantization)
+}
+
 uint8_t PagedKVCache::quantizeToNVFP4(float value) {
     // NVFP4: [s1e2m1] format (1 sign, 2 exponent, 1 mantissa)
     // Range: [-448, +448], ~4-5% precision loss vs FP16
