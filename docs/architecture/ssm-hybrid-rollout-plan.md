@@ -79,7 +79,7 @@ Phasen aufgestellt ist. Keine neuen Features.
 
 - [ ] **P0-D03:** GGUF / llama.cpp SSM-Ökosystem-Status
   - Prüfen ob `llama.cpp` (via `src/llm/llama_wrapper.cpp`) GGUF-Mamba-Modelle unterstützt
-  - Evidenz: `docs/architecture/ssm-gguf-mamba-status.md` [PROPOSED]
+  - Evidenz: `docs/architecture/ssm-gguf-mamba-status.md`
   - Dokumentieren: Modell-Liste, `llama_model_params`-Flags, bekannte Einschränkungen
   - Security/Governance prüfen: ThemisDB bleibt System-of-Record; RocksDB nur interne Persistenz
   - Security/Governance prüfen: Tenant-Isolation, Zugriffskontrolle und Auditierbarkeit für SSM-State
