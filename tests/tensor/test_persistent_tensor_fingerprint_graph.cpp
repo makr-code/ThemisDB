@@ -43,6 +43,49 @@ private:
     mutable std::unordered_map<std::string, std::vector<uint8_t>> store_;
 };
 
+class JournalDeleteFailBackend final : public storage::ITensorStorageBackend {
+public:
+    void armJournalDeleteFailure() {
+        fail_next_journal_delete_ = true;
+    }
+
+    bool put(const std::string& key, const std::vector<uint8_t>& value) override {
+        store_[key] = value;
+        return true;
+    }
+
+    std::optional<std::vector<uint8_t>> get(const std::string& key) const override {
+        auto it = store_.find(key);
+        if (it == store_.end()) {
+            return std::nullopt;
+        }
+        return it->second;
+    }
+
+    bool del(const std::string& key) override {
+        if (fail_next_journal_delete_ && key.find(":txn:") != std::string::npos) {
+            fail_next_journal_delete_ = false;
+            return false;
+        }
+        return store_.erase(key) > 0;
+    }
+
+    std::vector<std::string> listKeys(const std::string& prefix) const override {
+        std::vector<std::string> keys;
+        for (const auto& kv : store_) {
+            if (kv.first.rfind(prefix, 0) == 0) {
+                keys.push_back(kv.first);
+            }
+        }
+        std::sort(keys.begin(), keys.end());
+        return keys;
+    }
+
+private:
+    mutable std::unordered_map<std::string, std::vector<uint8_t>> store_;
+    bool fail_next_journal_delete_ = false;
+};
+
 storage::TTTrain makeTrain(float base) {
     storage::TTTrain train;
     storage::TTCore core;
@@ -104,6 +147,21 @@ TEST(PersistentTensorFingerprintGraphTest, RehydratesAcrossRestartSimulation) {
     EXPECT_EQ(graph_after_restart->size(), 2u);
     EXPECT_TRUE(graph_after_restart->entry("adapter_1").has_value());
     EXPECT_TRUE(graph_after_restart->entry("adapter_2").has_value());
+}
+
+TEST(PersistentTensorFingerprintGraphTest, RecoversDeleteJournalReplayWhenTargetAlreadyMissing) {
+    auto backend = std::make_shared<JournalDeleteFailBackend>();
+    auto graph = std::make_shared<TensorFingerprintGraph>();
+    PersistentTensorFingerprintGraph persistent(graph, backend, "tenant", "domain");
+    ASSERT_TRUE(persistent.addAdapter("adapter", makeTrain(1.0f), "model"));
+
+    backend->armJournalDeleteFailure();
+    EXPECT_FALSE(persistent.removeAdapter("adapter"));
+
+    auto graph_after_restart = std::make_shared<TensorFingerprintGraph>();
+    PersistentTensorFingerprintGraph restored(graph_after_restart, backend, "tenant", "domain");
+    ASSERT_TRUE(restored.rehydrate());
+    EXPECT_FALSE(graph_after_restart->entry("adapter").has_value());
 }
 
 }  // namespace themis::tensor::test

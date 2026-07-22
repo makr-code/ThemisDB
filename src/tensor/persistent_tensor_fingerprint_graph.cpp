@@ -21,6 +21,13 @@ std::string makeJournalKey(const std::string& prefix) {
     return prefix + std::to_string(now);
 }
 
+bool deleteIfPresent(storage::ITensorStorageBackend& backend, const std::string& key) {
+    if (backend.del(key)) {
+        return true;
+    }
+    return !backend.get(key).has_value();
+}
+
 }  // namespace
 
 PersistentTensorFingerprintGraph::PersistentTensorFingerprintGraph(
@@ -163,7 +170,7 @@ bool PersistentTensorFingerprintGraph::writeWithJournal(JournalOp op,
     if (op == JournalOp::Put) {
         applied = backend_->put(target_key, payload);
     } else {
-        applied = backend_->del(target_key);
+        applied = deleteIfPresent(*backend_, target_key);
     }
 
     if (!applied) {
@@ -192,7 +199,7 @@ bool PersistentTensorFingerprintGraph::recoverJournal() {
         if (op == JournalOp::Put) {
             applied = backend_->put(target_key, target_payload);
         } else {
-            applied = backend_->del(target_key);
+            applied = deleteIfPresent(*backend_, target_key);
         }
 
         if (!applied) {

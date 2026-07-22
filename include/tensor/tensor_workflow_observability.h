@@ -42,6 +42,7 @@ public:
 
     void recordPersistenceOp(double latency_ms, bool success);
     void recordTrainingTransition(TrainingState state);
+    void recordTrainingLatency(double latency_ms);
     void recordGpuDispatch(bool used_gpu, bool used_fallback, bool error);
     void recordCompressionLatency(double latency_ms);
     void recordRoutingLatency(double latency_ms);
@@ -64,6 +65,7 @@ private:
     std::size_t training_failed_ = 0;
     std::size_t training_retry_ = 0;
     std::size_t training_cancelled_ = 0;
+    std::vector<double> training_latency_ms_;
 
     std::size_t gpu_used_ = 0;
     std::size_t gpu_fallback_ = 0;

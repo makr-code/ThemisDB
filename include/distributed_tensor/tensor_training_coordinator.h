@@ -2,6 +2,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <deque>
 #include <memory>
 #include <optional>
 #include <string>
@@ -77,7 +78,7 @@ private:
                              const std::vector<float>& next,
                              double epsilon);
 
-    std::vector<std::string> job_queue_;
+    std::deque<std::string> job_queue_;
     std::unordered_map<std::string, TensorTrainingJobSpec> jobs_;
     std::unordered_map<std::string, TensorTrainingJobResult> results_;
     std::unordered_map<std::string, std::shared_ptr<ITensorTrainingWorker>> workers_;

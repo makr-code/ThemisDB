@@ -85,4 +85,27 @@ TEST(TensorTrainingCoordinatorTest, EndToEndMultiNodeSimulation) {
     EXPECT_NEAR(result->aggregated_tensor[2], 4.0f, 1e-6f);
 }
 
+TEST(TensorTrainingCoordinatorTest, FailsOnMismatchedShardDimensions) {
+    TensorTrainingCoordinator coordinator;
+    coordinator.registerWorker("node-0", std::make_shared<DeterministicWorker>());
+
+    TensorTrainingJobSpec spec;
+    spec.job_id = "job-dim-mismatch";
+    spec.tenant_id = "tenant";
+    spec.domain = "domain";
+    spec.max_retries = 0;
+    spec.max_iterations = 1;
+    spec.shard_work = {
+        {"a", {1.0f, 2.0f}},
+        {"b", {3.0f}},
+    };
+
+    ASSERT_TRUE(coordinator.submitJob(spec));
+    ASSERT_TRUE(coordinator.runNextJob());
+    const auto result = coordinator.result(spec.job_id);
+    ASSERT_TRUE(result.has_value());
+    EXPECT_EQ(result->state, TrainingJobState::FAILED);
+    EXPECT_EQ(result->error_message, "shard output dimension mismatch");
+}
+
 }  // namespace themis::distributed_tensor::test

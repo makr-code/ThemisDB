@@ -5,6 +5,23 @@
 
 namespace themis::distributed_tensor {
 
+namespace {
+
+bool hasConsistentShardDimensions(const std::vector<std::vector<float>>& shard_outputs) {
+    if (shard_outputs.empty()) {
+        return true;
+    }
+    const std::size_t dim = shard_outputs.front().size();
+    for (const auto& shard : shard_outputs) {
+        if (shard.size() != dim) {
+            return false;
+        }
+    }
+    return true;
+}
+
+}  // namespace
+
 void TensorTrainingCoordinator::registerWorker(const std::string& node_id,
                                                std::shared_ptr<ITensorTrainingWorker> worker) {
     if (node_id.empty() || !worker) {
@@ -44,7 +61,7 @@ bool TensorTrainingCoordinator::runNextJob() {
     }
 
     const std::string job_id = job_queue_.front();
-    job_queue_.erase(job_queue_.begin());
+    job_queue_.pop_front();
 
     auto result_it = results_.find(job_id);
     auto job_it = jobs_.find(job_id);
@@ -78,6 +95,11 @@ bool TensorTrainingCoordinator::runNextJob() {
             shard_outputs.push_back(std::move(*shard_result));
         }
 
+        if (!hasConsistentShardDimensions(shard_outputs)) {
+            result.state = TrainingJobState::FAILED;
+            result.error_message = "shard output dimension mismatch";
+            return true;
+        }
         auto aggregated = aggregateShardResults(shard_outputs);
         result.iterations = iter + 1;
         if (!previous_aggregate.empty() && hasConverged(previous_aggregate, aggregated, spec.convergence_epsilon)) {

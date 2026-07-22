@@ -37,6 +37,8 @@ TEST(TensorObservabilityTest, EmitsPrometheusAndDetectsSloViolation) {
     obs.recordTrainingTransition(TensorWorkflowObservability::TrainingState::Running);
     obs.recordTrainingTransition(TensorWorkflowObservability::TrainingState::Retry);
     obs.recordTrainingTransition(TensorWorkflowObservability::TrainingState::Failed);
+    obs.recordTrainingLatency(120.0);
+    obs.recordTrainingLatency(360.0);
     obs.recordGpuDispatch(true, true, true);
     obs.recordCompressionLatency(5.0);
     obs.recordCompressionLatency(45.0);
@@ -46,14 +48,17 @@ TEST(TensorObservabilityTest, EmitsPrometheusAndDetectsSloViolation) {
     const auto text = obs.exportPrometheusText();
     EXPECT_NE(text.find("tensor_persistence_ops_total 2"), std::string::npos);
     EXPECT_NE(text.find("tensor_gpu_fallback_total 1"), std::string::npos);
+    EXPECT_NE(text.find("tensor_training_latency_p95_ms"), std::string::npos);
 
     TensorWorkflowSloConfig cfg;
+    cfg.max_p95_training_ms = 200.0;
     cfg.max_p95_compression_ms = 10.0;
     cfg.max_p95_routing_ms = 10.0;
     cfg.max_error_rate = 0.05;
 
     const auto summary = obs.evaluateSlo(cfg);
     EXPECT_FALSE(summary.healthy);
+    EXPECT_GT(summary.p95_latency_ms.at("training"), cfg.max_p95_training_ms);
     EXPECT_FALSE(summary.violations.empty());
 }
 
