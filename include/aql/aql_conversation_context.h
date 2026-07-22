@@ -109,6 +109,42 @@ public:
          */
         std::function<std::string(const std::vector<std::pair<std::string, std::string>>&)>
             llm_executor = nullptr;
+
+        /**
+         * @brief Enable episodic memory compression (L2 rotation) for conversation history.
+         *
+         * When enabled and history exceeds episodic_compaction_trigger_tokens,
+         * conversation is compressed using extractive summarization to preserve
+         * semantic meaning while reducing token count.
+         *
+         * Defaults to false (disabled). Enable via P2-D03 Phase 2+ implementation.
+         *
+         * Related: P2-D03 L2 Episodic Memory Compression (SSM-hybrid Phase 2).
+         */
+        bool enable_episodic_compaction = false;
+
+        /**
+         * @brief Token count threshold to trigger episodic memory compression.
+         *
+         * When total conversation history exceeds this value and
+         * enable_episodic_compaction is true, compression is triggered.
+         *
+         * Defaults to 0 (disabled). Set to value < max_history_tokens for
+         * early compression before eviction.
+         *
+         * Typical value: 6144 (compress when approaching 8192 budget).
+         */
+        int32_t episodic_compaction_trigger_tokens = 0;
+
+        /**
+         * @brief Minimum semantic similarity required for compressed episodes.
+         *
+         * Acceptance gate P2-GATE-03: compressed episode must preserve
+         * >= this similarity score to the original conversation.
+         *
+         * Defaults to 0.85 (per P2-GATE-03 specification).
+         */
+        float episodic_compression_gate_similarity = 0.85f;
     };
 
     /**
