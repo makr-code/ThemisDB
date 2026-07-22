@@ -93,6 +93,7 @@ if(THEMIS_ENABLE_HIP OR HIP_FOUND)
     list(APPEND FLASH_ATTENTION_SOURCES
         hip/flash_attention_hip.hip
         hip/infini_attention_hip.hip
+        hip/infini_attention_hip.cpp
     )
     
     set_source_files_properties(
