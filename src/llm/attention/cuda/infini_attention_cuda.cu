@@ -314,16 +314,31 @@ Status InfiniAttentionCUDA::computeLocalAttention(
     const Tensor& V,
     Tensor& O_local) {
     
-    // Local attention using existing Flash Attention mechanism
-    // In production, this would call TensorRT or cuDNN for optimal performance
-    // For P2 validation, delegate to CPU fallback or simplified CUDA implementation
+    // Local attention using simplified implementation
+    // In production, this would call TensorRT/cuDNN or Flash Attention v3 library
+    // For P2 validation, delegate to a simplified kernel or fallback
     
-    // Copy Q, K, V to GPU (if not already there)
-    // Call simplified CUDA kernel
-    // Copy output back
+    if (!Q.isValid() || !K.isValid() || !V.isValid() || !O_local.isValid()) {
+        return Status::ERROR_INVALID_TENSOR;
+    }
     
-    // Stub: just copy V to output as placeholder
-    cudaMemcpy(O_local.data, V.data, O_local.size * sizeof(float), cudaMemcpyHostToDevice);
+    // Simplified fallback for now: copy V to O as placeholder
+    // Production implementation would:
+    // 1. Transpose K: K_T = K^T
+    // 2. Compute scores: scores = Q @ K_T / sqrt(head_dim)
+    // 3. Apply softmax (causal if needed)
+    // 4. Compute output: O = softmax(scores) @ V
+    
+    if (O_local.data && V.data && O_local.size == V.size) {
+        cudaError_t err = cudaMemcpy(
+            O_local.data, V.data, 
+            O_local.size * sizeof(float), 
+            cudaMemcpyHostToHost);
+        
+        if (err != cudaSuccess) {
+            return Status::ERROR_CUDA_ERROR;
+        }
+    }
     
     return Status::SUCCESS;
 }
@@ -336,16 +351,37 @@ Status InfiniAttentionCUDA::computeCompressiveAttention(
         return Status::ERROR_OUT_OF_MEMORY;
     }
     
+    if (!Q.isValid() || !O_comp.isValid()) {
+        return Status::ERROR_INVALID_TENSOR;
+    }
+    
     // Compute row sums for normalization
     float* gpu_rowsums = gpu_temp_buffer_;
-    dim3 grid((config_.memory_dim + 255) / 256);
-    dim3 block(256);
-    kernelComputeRowSums<<<grid, block>>>(gpu_memory_, gpu_rowsums, config_.memory_dim);
+    if (!gpu_rowsums) {
+        return Status::ERROR_OUT_OF_MEMORY;
+    }
     
-    // Compute compressive attention
-    dim3 grid2(Q.shape[0] * Q.shape[1], config_.num_heads);  // batch*seq_len, num_heads
-    dim3 block2(256);
-    kernelCompressiveAttention<<<grid2, block2>>>(
+    // Launch kernel to compute row sums
+    dim3 grid_rowsum((config_.memory_dim + 255) / 256);
+    dim3 block_rowsum(256);
+    kernelComputeRowSums<<<grid_rowsum, block_rowsum>>>(
+        gpu_memory_, 
+        gpu_rowsums, 
+        config_.memory_dim);
+    
+    // Check for kernel launch errors
+    cudaError_t err = cudaGetLastError();
+    if (err != cudaSuccess) {
+        return Status::ERROR_CUDA_ERROR;
+    }
+    
+    // Compute compressive attention Q @ M^T with sigmoid
+    // Flatten Q dimension: batch*seq_len = Q.shape[0] * Q.shape[1]
+    size_t total_q_elements = Q.shape[0] * Q.shape[1];
+    
+    dim3 grid_comp(total_q_elements, config_.num_heads);
+    dim3 block_comp(256);
+    kernelCompressiveAttention<<<grid_comp, block_comp>>>(
         (const float*)Q.data,
         gpu_memory_,
         gpu_rowsums,
@@ -355,6 +391,17 @@ Status InfiniAttentionCUDA::computeCompressiveAttention(
         config_.head_dim,
         config_.memory_dim);
     
+    err = cudaGetLastError();
+    if (err != cudaSuccess) {
+        return Status::ERROR_CUDA_ERROR;
+    }
+    
+    // Synchronize to ensure kernel completion
+    err = cudaDeviceSynchronize();
+    if (err != cudaSuccess) {
+        return Status::ERROR_CUDA_ERROR;
+    }
+    
     return Status::SUCCESS;
 }
 
@@ -363,11 +410,31 @@ Status InfiniAttentionCUDA::blendOutputs(
     const Tensor& O_comp,
     Tensor& O_final) {
     
-    // Simple blending: O = 0.5 * O_local + 0.5 * O_comp
-    // In production, this would use learned gating or importance scores
+    if (!O_local.isValid() || !O_comp.isValid() || !O_final.isValid()) {
+        return Status::ERROR_INVALID_TENSOR;
+    }
     
-    // Stub for P2 validation
-    cudaMemcpy(O_final.data, O_local.data, O_final.size * sizeof(float), cudaMemcpyHostToDevice);
+    // Default: simple 50/50 blend using SAXPY-like operation
+    // O_final = 0.5 * O_local + 0.5 * O_local (simplified for now)
+    // Production: would properly blend O_local and O_comp dimensions
+    
+    if (O_final.size != O_local.size) {
+        return Status::ERROR_INVALID_TENSOR;
+    }
+    
+    // For P2 validation: copy local attention as output
+    // (proper blending requires handling dimension mismatch: O_local has head_dim, O_comp has memory_dim)
+    if (O_final.data && O_local.data) {
+        cudaError_t err = cudaMemcpy(
+            O_final.data, 
+            O_local.data, 
+            O_final.size * sizeof(float), 
+            cudaMemcpyHostToHost);
+        
+        if (err != cudaSuccess) {
+            return Status::ERROR_CUDA_ERROR;
+        }
+    }
     
     return Status::SUCCESS;
 }
@@ -380,9 +447,19 @@ Status InfiniAttentionCUDA::updateCompressiveMemory(
         return Status::ERROR_OUT_OF_MEMORY;
     }
     
+    if (!K.isValid() || !V.isValid()) {
+        return Status::ERROR_INVALID_TENSOR;
+    }
+    
     // Launch memory update kernel
-    dim3 grid((config_.memory_dim + 31) / 32, (config_.memory_dim + 7) / 8);
-    dim3 block(32, 8);  // 256 total threads
+    // Grid dimension: (memory_dim / 32, 1)
+    // Block dimension: (32, 8) = 256 threads
+    
+    dim3 grid(
+        (config_.memory_dim + 31) / 32,
+        1
+    );
+    dim3 block(32, 8);  // 256 total threads per block
     
     kernelUpdateMemory<<<grid, block>>>(
         gpu_memory_,
@@ -393,15 +470,42 @@ Status InfiniAttentionCUDA::updateCompressiveMemory(
         config_.head_dim,
         K.shape[0]);  // seq_len
     
+    // Check for kernel launch errors
+    cudaError_t err = cudaGetLastError();
+    if (err != cudaSuccess) {
+        return Status::ERROR_CUDA_ERROR;
+    }
+    
+    // Synchronize to ensure kernel completion
+    err = cudaDeviceSynchronize();
+    if (err != cudaSuccess) {
+        return Status::ERROR_CUDA_ERROR;
+    }
+    
     return Status::SUCCESS;
 }
 
 float* InfiniAttentionCUDA::allocateGPUMemory(size_t size_bytes) {
-    float* ptr = nullptr;
-    cudaError_t err = cudaMalloc(&ptr, size_bytes);
-    if (err != cudaSuccess) {
+    if (size_bytes == 0) {
         return nullptr;
     }
+    
+    float* ptr = nullptr;
+    cudaError_t err = cudaMalloc(&ptr, size_bytes);
+    
+    if (err != cudaSuccess) {
+        // Log error if logging is available
+        // For now, silently return nullptr
+        return nullptr;
+    }
+    
+    // Initialize to zero
+    err = cudaMemset(ptr, 0, size_bytes);
+    if (err != cudaSuccess) {
+        cudaFree(ptr);
+        return nullptr;
+    }
+    
     return ptr;
 }
 
@@ -428,8 +532,17 @@ Status InfiniAttentionCUDA::resetMemory() {
 
 AttentionMemoryStats InfiniAttentionCUDA::getMemoryStats() const {
     AttentionMemoryStats stats;
-    stats.vram_used = gpu_memory_size_ * 3;  // memory_ + memory_update_ + temp_buffer_
-    stats.vram_available = 0;  // Would query device properties
+    
+    // Calculate memory breakdown
+    size_t memory_matrix_bytes = config_.memory_dim * config_.memory_dim * sizeof(float);
+    size_t temp_buffer_bytes = memory_matrix_bytes * 2;  // 2x for temporary storage
+    
+    // Total: memory_matrix_ + memory_update_ + temp_buffer_
+    stats.total_memory_bytes = memory_matrix_bytes * 3;
+    stats.workspace_bytes = temp_buffer_bytes;
+    stats.activation_bytes = memory_matrix_bytes;
+    stats.kv_cache_bytes = memory_matrix_bytes;
+    
     return stats;
 }
 
@@ -437,12 +550,36 @@ Tensor InfiniAttentionCUDA::getCompressiveMemory() const {
     Tensor memory_copy;
     memory_copy.size = config_.memory_dim * config_.memory_dim;
     memory_copy.shape = {(int)config_.memory_dim, (int)config_.memory_dim};
-    memory_copy.data = new float[memory_copy.size];
     
-    if (gpu_memory_) {
-        cudaMemcpy(memory_copy.data, gpu_memory_, 
-                  config_.memory_dim * config_.memory_dim * sizeof(float),
-                  cudaMemcpyDeviceToHost);
+    try {
+        // Allocate host memory
+        memory_copy.data = new float[memory_copy.size];
+        
+        if (!memory_copy.data) {
+            memory_copy.size = 0;
+            return memory_copy;
+        }
+        
+        // Copy from GPU if available
+        if (gpu_memory_) {
+            cudaError_t err = cudaMemcpy(
+                memory_copy.data, 
+                gpu_memory_, 
+                config_.memory_dim * config_.memory_dim * sizeof(float),
+                cudaMemcpyDeviceToHost);
+            
+            if (err != cudaSuccess) {
+                delete[] memory_copy.data;
+                memory_copy.data = nullptr;
+                memory_copy.size = 0;
+            }
+        }
+    } catch (...) {
+        if (memory_copy.data) {
+            delete[] memory_copy.data;
+        }
+        memory_copy.data = nullptr;
+        memory_copy.size = 0;
     }
     
     return memory_copy;
@@ -453,13 +590,24 @@ Status InfiniAttentionCUDA::restoreCompressiveMemory(const Tensor& checkpoint) {
         return Status::ERROR_OUT_OF_MEMORY;
     }
     
+    if (!checkpoint.isValid()) {
+        return Status::ERROR_INVALID_TENSOR;
+    }
+    
     if (checkpoint.size != config_.memory_dim * config_.memory_dim) {
         return Status::ERROR_INVALID_TENSOR;
     }
     
-    cudaMemcpy(gpu_memory_, checkpoint.data,
-              config_.memory_dim * config_.memory_dim * sizeof(float),
-              cudaMemcpyHostToDevice);
+    // Copy checkpoint from host to GPU
+    cudaError_t err = cudaMemcpy(
+        gpu_memory_, 
+        checkpoint.data,
+        config_.memory_dim * config_.memory_dim * sizeof(float),
+        cudaMemcpyHostToDevice);
+    
+    if (err != cudaSuccess) {
+        return Status::ERROR_CUDA_ERROR;
+    }
     
     return Status::SUCCESS;
 }
