@@ -27,6 +27,7 @@
  */
 
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
 
 #include "tensor/adapter_repository.h"
 #include "tensor/tensor_fingerprint_graph.h"
@@ -38,6 +39,7 @@
 #include <memory>
 #include <unordered_set>
 #include <vector>
+#include <cstdio>
 
 namespace themis {
 namespace tensor {
@@ -60,6 +62,8 @@ protected:
         // Create fingerprint graph (mock)
         fp_graph_ = std::make_shared<TensorFingerprintGraph>();
         mid_layer_->setFingerprintGraph(fp_graph_);
+        // Ensure adapter repository can also access the fingerprint graph
+        adapter_repo_->setFingerprintGraph(fp_graph_);
     }
 
     std::unique_ptr<TensorMidLayer> mid_layer_;
@@ -212,24 +216,21 @@ TEST_F(FederatedTensorSummariesTest, FS_05_SummaryFirstRoutingContext) {
 
 TEST_F(FederatedTensorSummariesTest, FS_06_MergingShardResults) {
     // Setup: Force shard summaries to return overlapping candidates through production path
-    struct ExactSimilarityReset {
-        ~ExactSimilarityReset() { AdapterRepository::clearExactSimilarityFn(); }
-    } exact_similarity_reset;
+    // Populate the fingerprint graph with deterministic adapters so the
+    // fingerprint-based path returns predictable top-k candidates.
+    tensor::TensorTrainCore core;
+    core.train.cores.resize(1);
+    core.train.cores[0].n = 1;
+    core.train.cores[0].r_left = 1;
+    core.train.cores[0].r_right = 1;
+    core.train.cores[0].data = {1.0f};
 
-    AdapterRepository::setExactSimilarityFn(
-        [](const std::string&, std::size_t k, const std::shared_ptr<storage::ITensorStorageBackend>&)
-            -> std::vector<SimilarityResult> {
-            std::vector<SimilarityResult> results{
-                SimilarityResult{"adapter_a", "research", "model_a", 0.92f},
-                SimilarityResult{"adapter_b", "research", "model_b", 0.85f},
-                SimilarityResult{"adapter_c", "research", "model_c", 0.81f},
-                SimilarityResult{"adapter_d", "research", "model_d", 0.73f},
-            };
-            if (results.size() > k) {
-                results.resize(k);
-            }
-            return results;
-        });
+    fp_graph_->addAdapter("__adapters__:default:research:adapter_a", core, "research", "model_a");
+    fp_graph_->addAdapter("__adapters__:default:research:adapter_b", core, "research", "model_b");
+    fp_graph_->addAdapter("__adapters__:default:research:adapter_c", core, "research", "model_c");
+    fp_graph_->addAdapter("__adapters__:default:research:adapter_d", core, "research", "model_d");
+    // Register the query adapter so findSimilar() can look up its TTTrain.
+    fp_graph_->addAdapter("__adapters__:default:research:model_a", core, "research", "model_a");
 
     TensorLayerContext context;
     context.tenant_id = "tenant1";
@@ -243,8 +244,8 @@ TEST_F(FederatedTensorSummariesTest, FS_06_MergingShardResults) {
     FederatedTensorSummary federated = mid_layer_->summarizeFederatedShards(context);
 
     // Verify: shard-level summaries exist and merged output is deduplicated + top-k bounded
-    EXPECT_EQ(federated.shard_summaries.size(), context.shard_scope_ids.size());
-    EXPECT_EQ(federated.merged_similar_adapters.size(), context.top_k);
+    ASSERT_EQ(federated.shard_summaries.size(), context.shard_scope_ids.size());
+    ASSERT_EQ(federated.merged_similar_adapters.size(), context.top_k);
     std::unordered_set<std::string> unique_adapter_keys;
     for (const auto& candidate : federated.merged_similar_adapters) {
         unique_adapter_keys.insert(candidate.adapter_key);
@@ -357,24 +358,22 @@ TEST_F(FederatedTensorSummariesTest, FS_11_AggregatedCandidateCounts) {
     context.shard_aware = true;
     context.top_k = 4;
 
-    struct ExactSimilarityReset {
-        ~ExactSimilarityReset() { AdapterRepository::clearExactSimilarityFn(); }
-    } exact_similarity_reset;
-    AdapterRepository::setExactSimilarityFn(
-        [](const std::string&, std::size_t k, const std::shared_ptr<storage::ITensorStorageBackend>&)
-            -> std::vector<SimilarityResult> {
-            std::vector<SimilarityResult> results{
-                SimilarityResult{"adapter_a", "d1", "m1", 0.94f},
-                SimilarityResult{"adapter_b", "d1", "m2", 0.89f},
-                SimilarityResult{"adapter_c", "d1", "m3", 0.83f},
-                SimilarityResult{"adapter_d", "d1", "m4", 0.79f},
-                SimilarityResult{"adapter_e", "d1", "m5", 0.70f},
-            };
-            if (results.size() > k) {
-                results.resize(k);
-            }
-            return results;
-        });
+    // Populate the fingerprint graph with deterministic adapters so the
+    // fingerprint-based path returns predictable top-k candidates.
+    tensor::TensorTrainCore core;
+    core.train.cores.resize(1);
+    core.train.cores[0].n = 1;
+    core.train.cores[0].r_left = 1;
+    core.train.cores[0].r_right = 1;
+    core.train.cores[0].data = {1.0f};
+
+    fp_graph_->addAdapter("__adapters__:default:d1:adapter_a", core, "d1", "m1");
+    fp_graph_->addAdapter("__adapters__:default:d1:adapter_b", core, "d1", "m2");
+    fp_graph_->addAdapter("__adapters__:default:d1:adapter_c", core, "d1", "m3");
+    fp_graph_->addAdapter("__adapters__:default:d1:adapter_d", core, "d1", "m4");
+    fp_graph_->addAdapter("__adapters__:default:d1:adapter_e", core, "d1", "m5");
+    // Register the query adapter so findSimilar() can look up its TTTrain.
+    fp_graph_->addAdapter("__adapters__:default:d1:m1", core, "d1", "m1");
     
     // Execute: Get federated summary
     FederatedTensorSummary federated = mid_layer_->summarizeFederatedShards(context);
@@ -389,7 +388,7 @@ TEST_F(FederatedTensorSummariesTest, FS_11_AggregatedCandidateCounts) {
     }
     
     // Validate aggregation and top-k contract
-    EXPECT_EQ(total_candidates, context.top_k * context.shard_scope_ids.size());
+    ASSERT_EQ(total_candidates, context.top_k * context.shard_scope_ids.size());
     EXPECT_LE(federated.merged_similar_adapters.size(), context.top_k);
     EXPECT_LE(federated.merged_similar_adapters.size(), total_candidates);
 }
@@ -461,8 +460,10 @@ TEST_F(FederatedTensorSummariesTest, FS_14_TimestampMetadata) {
     EXPECT_FALSE(s1.created_at.empty());
     EXPECT_FALSE(s2.created_at.empty());
     
-    // Timestamps should follow ISO-8601 format
-    EXPECT_THAT(s1.created_at, ::testing::MatchesRegex("\\d{4}-\\d{2}-\\d{2}T.*Z"));
+    // Timestamps should follow ISO-8601 format (YYYY-MM-DDTHH:MM:SSZ)
+    int y, mo, d, hh, mm, ss;
+    int matched = std::sscanf(s1.created_at.c_str(), "%4d-%2d-%2dT%2d:%2d:%2dZ", &y, &mo, &d, &hh, &mm, &ss);
+    EXPECT_EQ(matched, 6);
 }
 
 // ============================================================================

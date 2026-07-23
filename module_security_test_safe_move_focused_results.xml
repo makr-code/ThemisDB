@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites tests="31" failures="0" disabled="0" errors="0" time="0.012" timestamp="2026-07-23T17:42:28.582" name="AllTests">
+  <testsuite name="MoveValidatorTest" tests="5" failures="0" disabled="0" skipped="0" errors="0" time="0.002" timestamp="2026-07-23T17:42:28.583">
+    <testcase name="ValidatePreMoveWithValidObject" file="C:\Projects\ThemisDB\tests\security\test_safe_move.cpp" line="51" status="run" result="completed" time="0." timestamp="2026-07-23T17:42:28.583" classname="MoveValidatorTest" />
+    <testcase name="ValidatePreMoveWithEmptyObject" file="C:\Projects\ThemisDB\tests\security\test_safe_move.cpp" line="58" status="run" result="completed" time="0." timestamp="2026-07-23T17:42:28.584" classname="MoveValidatorTest" />
+    <testcase name="ValidatePostMoveVector" file="C:\Projects\ThemisDB\tests\security\test_safe_move.cpp" line="65" status="run" result="completed" time="0." timestamp="2026-07-23T17:42:28.584" classname="MoveValidatorTest" />
+    <testcase name="ValidateUniquePtr" file="C:\Projects\ThemisDB\tests\security\test_safe_move.cpp" line="75" status="run" result="completed" time="0." timestamp="2026-07-23T17:42:28.585" classname="MoveValidatorTest" />
+    <testcase name="ValidateSharedPtr" file="C:\Projects\ThemisDB\tests\security\test_safe_move.cpp" line="86" status="run" result="completed" time="0." timestamp="2026-07-23T17:42:28.585" classname="MoveValidatorTest" />
+  </testsuite>
+  <testsuite name="MoveGuardTest" tests="6" failures="0" disabled="0" skipped="0" errors="0" time="0.002" timestamp="2026-07-23T17:42:28.586">
+    <testcase name="GuardCreation" file="C:\Projects\ThemisDB\tests\security\test_safe_move.cpp" line="121" status="run" result="completed" time="0." timestamp="2026-07-23T17:42:28.586" classname="MoveGuardTest" />
+    <testcase name="GuardDetectsAfterMove" file="C:\Projects\ThemisDB\tests\security\test_safe_move.cpp" line="128" status="run" result="completed" time="0." timestamp="2026-07-23T17:42:28.586" classname="MoveGuardTest" />
+    <testcase name="GuardAccessAfterMove" file="C:\Projects\ThemisDB\tests\security\test_safe_move.cpp" line="137" status="run" result="completed" time="0." timestamp="2026-07-23T17:42:28.587" classname="MoveGuardTest" />
+    <testcase name="GuardMoveConstruction" file="C:\Projects\ThemisDB\tests\security\test_safe_move.cpp" line="148" status="run" result="completed" time="0." timestamp="2026-07-23T17:42:28.587" classname="MoveGuardTest" />
+    <testcase name="GuardMoveAssignment" file="C:\Projects\ThemisDB\tests\security\test_safe_move.cpp" line="159" status="run" result="completed" time="0." timestamp="2026-07-23T17:42:28.587" classname="MoveGuardTest" />
+    <testcase name="NullPointerAssertion" file="C:\Projects\ThemisDB\tests\security\test_safe_move.cpp" line="171" status="run" result="completed" time="0." timestamp="2026-07-23T17:42:28.588" classname="MoveGuardTest" />
+  </testsuite>
+  <testsuite name="SafeMoveTest" tests="6" failures="0" disabled="0" skipped="0" errors="0" time="0.001" timestamp="2026-07-23T17:42:28.588">
+    <testcase name="CreateAndTake" file="C:\Projects\ThemisDB\tests\security\test_safe_move.cpp" line="204" status="run" result="completed" time="0." timestamp="2026-07-23T17:42:28.588" classname="SafeMoveTest" />
+    <testcase name="SafeMoveWithObject" file="C:\Projects\ThemisDB\tests\security\test_safe_move.cpp" line="215" status="run" result="completed" time="0." timestamp="2026-07-23T17:42:28.588" classname="SafeMoveTest" />
+    <testcase name="SafeMoveIsValid" file="C:\Projects\ThemisDB\tests\security\test_safe_move.cpp" line="223" status="run" result="completed" time="0." timestamp="2026-07-23T17:42:28.589" classname="SafeMoveTest" />
+    <testcase name="SafeMoveGetConst" file="C:\Projects\ThemisDB\tests\security\test_safe_move.cpp" line="229" status="run" result="completed" time="0." timestamp="2026-07-23T17:42:28.589" classname="SafeMoveTest" />
+    <testcase name="SafeMoveGetMutable" file="C:\Projects\ThemisDB\tests\security\test_safe_move.cpp" line="237" status="run" result="completed" time="0." timestamp="2026-07-23T17:42:28.589" classname="SafeMoveTest" />
+    <testcase name="SafeMoveMacro" file="C:\Projects\ThemisDB\tests\security\test_safe_move.cpp" line="248" status="run" result="completed" time="0." timestamp="2026-07-23T17:42:28.589" classname="SafeMoveTest" />
+  </testsuite>
+  <testsuite name="MoveChainTrackerTest" tests="5" failures="0" disabled="0" skipped="0" errors="0" time="0.001" timestamp="2026-07-23T17:42:28.590">
+    <testcase name="InitialState" file="C:\Projects\ThemisDB\tests\security\test_safe_move.cpp" line="263" status="run" result="completed" time="0." timestamp="2026-07-23T17:42:28.590" classname="MoveChainTrackerTest" />
+    <testcase name="ChainBeginEnd" file="C:\Projects\ThemisDB\tests\security\test_safe_move.cpp" line="269" status="run" result="completed" time="0." timestamp="2026-07-23T17:42:28.590" classname="MoveChainTrackerTest" />
+    <testcase name="MultipleChainLevels" file="C:\Projects\ThemisDB\tests\security\test_safe_move.cpp" line="279" status="run" result="completed" time="0." timestamp="2026-07-23T17:42:28.590" classname="MoveChainTrackerTest" />
+    <testcase name="ChainDepthExceeded" file="C:\Projects\ThemisDB\tests\security\test_safe_move.cpp" line="293" status="run" result="completed" time="0." timestamp="2026-07-23T17:42:28.591" classname="MoveChainTrackerTest" />
+    <testcase name="Reset" file="C:\Projects\ThemisDB\tests\security\test_safe_move.cpp" line="308" status="run" result="completed" time="0." timestamp="2026-07-23T17:42:28.591" classname="MoveChainTrackerTest" />
+  </testsuite>
+  <testsuite name="MoveExceptionTest" tests="3" failures="0" disabled="0" skipped="0" errors="0" time="0." timestamp="2026-07-23T17:42:28.591">
+    <testcase name="UseAfterMoveException" file="C:\Projects\ThemisDB\tests\security\test_safe_move.cpp" line="325" status="run" result="completed" time="0." timestamp="2026-07-23T17:42:28.591" classname="MoveExceptionTest" />
+    <testcase name="MoveSourceNotClearedException" file="C:\Projects\ThemisDB\tests\security\test_safe_move.cpp" line="332" status="run" result="completed" time="0." timestamp="2026-07-23T17:42:28.592" classname="MoveExceptionTest" />
+    <testcase name="ExceptionMessage" file="C:\Projects\ThemisDB\tests\security\test_safe_move.cpp" line="339" status="run" result="completed" time="0." timestamp="2026-07-23T17:42:28.592" classname="MoveExceptionTest" />
+  </testsuite>
+  <testsuite name="MoveIntegrationTest" tests="3" failures="0" disabled="0" skipped="0" errors="0" time="0." timestamp="2026-07-23T17:42:28.592">
+    <testcase name="ComplexObjectMove" file="C:\Projects\ThemisDB\tests\security\test_safe_move.cpp" line="378" status="run" result="completed" time="0." timestamp="2026-07-23T17:42:28.593" classname="MoveIntegrationTest" />
+    <testcase name="MoveChainWithGuard" file="C:\Projects\ThemisDB\tests\security\test_safe_move.cpp" line="392" status="run" result="completed" time="0." timestamp="2026-07-23T17:42:28.593" classname="MoveIntegrationTest" />
+    <testcase name="SequentialMoves" file="C:\Projects\ThemisDB\tests\security\test_safe_move.cpp" line="409" status="run" result="completed" time="0." timestamp="2026-07-23T17:42:28.593" classname="MoveIntegrationTest" />
+  </testsuite>
+  <testsuite name="MoveValidatorSpecializationTest" tests="3" failures="0" disabled="0" skipped="0" errors="0" time="0." timestamp="2026-07-23T17:42:28.593">
+    <testcase name="VectorSpecialization" file="C:\Projects\ThemisDB\tests\security\test_safe_move.cpp" line="428" status="run" result="completed" time="0." timestamp="2026-07-23T17:42:28.594" classname="MoveValidatorSpecializationTest" />
+    <testcase name="UniquePtrSpecialization" file="C:\Projects\ThemisDB\tests\security\test_safe_move.cpp" line="441" status="run" result="completed" time="0." timestamp="2026-07-23T17:42:28.594" classname="MoveValidatorSpecializationTest" />
+    <testcase name="SharedPtrSpecialization" file="C:\Projects\ThemisDB\tests\security\test_safe_move.cpp" line="454" status="run" result="completed" time="0." timestamp="2026-07-23T17:42:28.594" classname="MoveValidatorSpecializationTest" />
+  </testsuite>
+</testsuites>

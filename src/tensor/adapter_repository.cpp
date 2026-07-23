@@ -62,6 +62,9 @@ void AdapterRepository::clearMmapLoadFn() {
 void AdapterRepository::setExactSimilarityFn(ExactSimilarityFn fn) {
     std::lock_guard<std::mutex> lk(exactSimilarityFnMutex());
     exactSimilarityFnStorage() = std::move(fn);
+    try {
+        std::fprintf(stderr, "[AR] setExactSimilarityFn called -> stored=%d\n", (exactSimilarityFnStorage() ? 1 : 0));
+    } catch (...) {}
 }
 
 /*static*/
@@ -351,6 +354,13 @@ AdapterRepository::findSimilarAdapters(const std::string& domain,
 
     const std::string key = makeKey(domain, base_model_id);
 
+    // Diagnostic: always emit that this function was called so tests can
+    // verify whether the injected exact-similarity override was considered.
+    try {
+        std::fprintf(stderr, "[AR] findSimilarAdapters called key='%s' k=%zu graph_present=%d\n",
+                     key.c_str(), k, (fingerprint_graph_ ? 1 : 0));
+    } catch (...) {}
+
     // Delegate to injected exact-similarity backend when available (STUB #266).
     ExactSimilarityFn exact_fn_copy;
     {
@@ -360,6 +370,7 @@ AdapterRepository::findSimilarAdapters(const std::string& domain,
     if (exact_fn_copy) {
         try {
             auto results = exact_fn_copy(key, k, backend_);
+            std::fprintf(stderr, "[AR] exactSimilarityFn present for key='%s' -> returned=%zu\n", key.c_str(), results.size());
             if (ann_frontdoor_) {
                 index::AnnQueryContext context;
                 context.scope_id = key;

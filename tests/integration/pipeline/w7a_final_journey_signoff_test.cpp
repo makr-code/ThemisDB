@@ -35,7 +35,6 @@ namespace {
 // ---------------------------------------------------------------------------
 // Canonical seed required by all Wave 7 tests
 // ---------------------------------------------------------------------------
-static constexpr uint32_t kCanonicalSeed = 42;
 
 // ---------------------------------------------------------------------------
 // FullLifecyclePipeline — ingest → index → query → delete

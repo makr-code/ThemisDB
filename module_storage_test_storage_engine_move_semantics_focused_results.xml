@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites tests="9" failures="0" disabled="0" errors="0" time="2.727" timestamp="2026-07-23T17:57:46.060" name="AllTests">
+  <testsuite name="StorageEngineMoveSemanticTest" tests="9" failures="0" disabled="0" skipped="0" errors="0" time="2.726" timestamp="2026-07-23T17:57:46.061">
+    <testcase name="MoveConstructor_TransfersState" file="C:\Projects\ThemisDB\tests\storage\test_storage_engine_move_semantics.cpp" line="62" status="run" result="completed" time="0.793" timestamp="2026-07-23T17:57:46.061" classname="StorageEngineMoveSemanticTest" />
+    <testcase name="MoveAssignmentOperator_TransfersState" file="C:\Projects\ThemisDB\tests\storage\test_storage_engine_move_semantics.cpp" line="87" status="run" result="completed" time="1.433" timestamp="2026-07-23T17:57:46.855" classname="StorageEngineMoveSemanticTest" />
+    <testcase name="MovedFrom_ObjectInValidState" file="C:\Projects\ThemisDB\tests\storage\test_storage_engine_move_semantics.cpp" line="119" status="run" result="completed" time="0.144" timestamp="2026-07-23T17:57:48.289" classname="StorageEngineMoveSemanticTest" />
+    <testcase name="EncryptField_ReturnsVectorByMove" file="C:\Projects\ThemisDB\tests\storage\test_storage_engine_move_semantics.cpp" line="148" status="run" result="completed" time="0.068" timestamp="2026-07-23T17:57:48.433" classname="StorageEngineMoveSemanticTest" />
+    <testcase name="DecryptField_ReturnsVectorByMove" file="C:\Projects\ThemisDB\tests\storage\test_storage_engine_move_semantics.cpp" line="172" status="run" result="completed" time="0.068" timestamp="2026-07-23T17:57:48.502" classname="StorageEngineMoveSemanticTest" />
+    <testcase name="IOMetrics_ReturnsStructByMove" file="C:\Projects\ThemisDB\tests\storage\test_storage_engine_move_semantics.cpp" line="196" status="run" result="completed" time="0.071" timestamp="2026-07-23T17:57:48.571" classname="StorageEngineMoveSemanticTest" />
+    <testcase name="ScanCounters_ReturnsStructByMove" file="C:\Projects\ThemisDB\tests\storage\test_storage_engine_move_semantics.cpp" line="223" status="run" result="completed" time="0.071" timestamp="2026-07-23T17:57:48.642" classname="StorageEngineMoveSemanticTest" />
+    <testcase name="CopyConstructor_IsDeleted" file="C:\Projects\ThemisDB\tests\storage\test_storage_engine_move_semantics.cpp" line="253" status="run" result="completed" time="0." timestamp="2026-07-23T17:57:48.715" classname="StorageEngineMoveSemanticTest" />
+    <testcase name="MultipleMetricsReturns_NoDoubleFreeSS" file="C:\Projects\ThemisDB\tests\storage\test_storage_engine_move_semantics.cpp" line="273" status="run" result="completed" time="0.071" timestamp="2026-07-23T17:57:48.715" classname="StorageEngineMoveSemanticTest" />
+  </testsuite>
+</testsuites>

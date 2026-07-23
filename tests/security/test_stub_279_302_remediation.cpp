@@ -164,7 +164,7 @@ TEST_F(DistributedTransactionManagerStub279Test, AllowConstructionWithRemotePhas
     auto cfg = createBaseConfig();
     
     cfg.remote_phase2_dispatch = [](const std::string&, const std::string&,
-                                     const std::string&, const std::set<std::string>&) {
+                                     const std::string&, bool) {
         return true;
     };
     

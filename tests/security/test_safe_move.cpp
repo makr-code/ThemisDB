@@ -13,7 +13,7 @@
 #include <memory>
 #include <vector>
 #include <string>
-#include "include/security/safe_move.h"
+#include "security/safe_move.h"
 
 namespace themis::security::test {
 

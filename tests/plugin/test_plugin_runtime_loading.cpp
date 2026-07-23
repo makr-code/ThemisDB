@@ -16,12 +16,34 @@ namespace fs = std::filesystem;
 
 namespace {
 
-#ifndef THEMIS_RUNTIME_TEST_PLUGIN_PATH
-#error "THEMIS_RUNTIME_TEST_PLUGIN_PATH must be defined for runtime plugin tests"
-#endif
-
+// Resolve runtime plugin path with sensible fallbacks when the build system
+// hasn't injected `THEMIS_RUNTIME_TEST_PLUGIN_PATH` via CMake. This makes the
+// test more robust for local builds where the helper target might be absent.
 [[nodiscard]] fs::path runtimePluginPath() {
+#ifdef THEMIS_RUNTIME_TEST_PLUGIN_PATH
+    // Macro provided by CMake: use it directly
     return fs::path{THEMIS_RUNTIME_TEST_PLUGIN_PATH};
+#else
+    // 1) Check environment variable override
+    if (auto env_p = std::getenv("THEMIS_RUNTIME_TEST_PLUGIN_PATH"); env_p && *env_p) {
+        return fs::path(env_p);
+    }
+
+    // 2) Common build output locations relative to repo root or current working dir
+    const std::vector<fs::path> candidates = {
+        fs::path("./bin_out/themis_plugin_runtime_test_plugin.dll"),
+        fs::path("../build-msvc-windows-release/bin_out/themis_plugin_runtime_test_plugin.dll"),
+        fs::path("build-msvc-windows-release/bin_out/themis_plugin_runtime_test_plugin.dll"),
+        fs::path("./themis_plugin_runtime_test_plugin.dll"),
+    };
+
+    for (const auto& p : candidates) {
+        if (fs::exists(p)) return fs::absolute(p);
+    }
+
+    // 3) Last resort: return the bare filename and let the loader search PATH
+    return fs::path("themis_plugin_runtime_test_plugin.dll");
+#endif
 }
 
 constexpr const char* kTrustedIssuerDn = "CN=ThemisDB Official Plugins, O=ThemisDB, C=DE";
@@ -130,13 +152,28 @@ struct BioDeleter {
     if (!raw_ctx) {
         return {};
     }
-
     std::unique_ptr<EVP_MD_CTX, decltype(&EVP_MD_CTX_free)> ctx(raw_ctx, &EVP_MD_CTX_free);
     if (EVP_DigestSignInit(ctx.get(), nullptr, EVP_sha256(), nullptr, key) <= 0) {
         return {};
     }
 
-    if (EVP_DigestSignUpdate(ctx.get(), hash_text.data(), hash_text.size()) <= 0) {
+    // The verifier expects the signature to be over the raw hash bytes (not hex ASCII).
+    // Decode the hex hash_text into raw bytes first.
+    std::vector<unsigned char> hash_bytes;
+    hash_bytes.reserve(hash_text.size() / 2);
+    try {
+        for (size_t i = 0; i < hash_text.size(); i += 2) {
+            std::string byteStr = hash_text.substr(i, 2);
+            unsigned int val = std::stoul(byteStr, nullptr, 16);
+            hash_bytes.push_back(static_cast<unsigned char>(val & 0xFF));
+        }
+    } catch (...) {
+        return {};
+    }
+
+    if (hash_bytes.empty()) return {};
+
+    if (EVP_DigestSignUpdate(ctx.get(), hash_bytes.data(), hash_bytes.size()) <= 0) {
         return {};
     }
 

@@ -179,11 +179,10 @@ TEST_F(ManifestStoreTest, IsFreshAdvisoryGate) {
 class ManifestStoreMetricsTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        metrics_.reset();
-        store_ = std::make_unique<ManifestStore>(&metrics_);
+        themis::observability::MetricsCollector::getInstance().reset();
+        store_ = std::make_unique<ManifestStore>(&themis::observability::MetricsCollector::getInstance());
     }
 
-    themis::observability::MetricsCollector metrics_;
     std::unique_ptr<ManifestStore> store_;
 };
 
@@ -192,7 +191,7 @@ TEST_F(ManifestStoreMetricsTest, RefreshFreshnessMetricsUpdatesGauge) {
     store_->store(makeEntry("docs/embed", 0, "art-1", 1, 10s));
     store_->refreshFreshnessMetrics();
 
-    const auto exported = metrics_.getPrometheusMetrics();
+    const auto exported = themis::observability::MetricsCollector::getInstance().getPrometheusMetrics();
     EXPECT_NE(exported.find("tensor_freshness_age_seconds"), std::string::npos)
         << "tensor_freshness_age_seconds gauge not found in Prometheus export";
 }
@@ -202,7 +201,7 @@ TEST_F(ManifestStoreMetricsTest, DeltaLogCounterIncrementedOnStore) {
     store_->store(makeEntry("docs/embed", 0, "art-1", 1));
     store_->store(makeEntry("docs/embed", 0, "art-2", 2));
 
-    const auto exported = metrics_.getPrometheusMetrics();
+    const auto exported = themis::observability::MetricsCollector::getInstance().getPrometheusMetrics();
     EXPECT_NE(exported.find("tensor_delta_log_entries_total"), std::string::npos)
         << "tensor_delta_log_entries_total counter not found in Prometheus export";
 }

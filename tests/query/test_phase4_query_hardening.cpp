@@ -79,7 +79,7 @@ protected:
 
 TEST_F(AdaptiveJoinPreallocTest, GraceHashJoinEmptyTables)
 {
-    auto result = exec_.join(spec_, makeTable({}), makeTable({}), {});
+    auto result = exec_.executeJoin(spec_, makeTable({}), makeTable({}), {});
     EXPECT_EQ(result.algorithm_used, themis::JoinAlgorithm::NESTED_LOOP_JOIN);
     EXPECT_TRUE(result.rows.empty());
 }
@@ -89,8 +89,9 @@ TEST_F(AdaptiveJoinPreallocTest, GraceHashJoinMatchingRows)
     // Build tables large enough to trigger GRACE_HASH_JOIN (>100k rows would be ideal
     // but for unit tests use the GRACE threshold via RuntimeStats).
     themis::RuntimeStats stats;
-    stats.actual_left_rows  = 50001;
-    stats.actual_right_rows = 50001;
+    // Force GRACE_HASH_JOIN by making estimated memory >> memory budget.
+    stats.bytes_per_row = 1024 * 1024; // 1 MiB per row
+    stats.memory_budget_bytes = 1;     // tiny budget to trigger grace-hash path
 
     std::vector<themis::RowValue> left_rows, right_rows;
     left_rows.reserve(10);
@@ -100,21 +101,21 @@ TEST_F(AdaptiveJoinPreallocTest, GraceHashJoinMatchingRows)
         right_rows.push_back({{"id", std::to_string(i)}, {"rval", "r" + std::to_string(i)}});
     }
 
-    auto result = exec_.join(spec_, makeTable(left_rows), makeTable(right_rows), stats);
+    auto result = exec_.executeJoin(spec_, makeTable(left_rows), makeTable(right_rows), stats);
     EXPECT_EQ(result.rows.size(), 10u);
 }
 
 TEST_F(AdaptiveJoinPreallocTest, GraceHashJoinNoMatchReturnsEmpty)
 {
     themis::RuntimeStats stats;
-    stats.actual_left_rows  = 50001;
-    stats.actual_right_rows = 50001;
+    stats.bytes_per_row = 1024 * 1024;
+    stats.memory_budget_bytes = 1;
 
     std::vector<themis::RowValue> left_rows, right_rows;
     for (int i = 0; i < 5; ++i)  left_rows.push_back({{"id", "l" + std::to_string(i)}});
     for (int i = 0; i < 5; ++i) right_rows.push_back({{"id", "r" + std::to_string(i)}});
 
-    auto result = exec_.join(spec_, makeTable(left_rows), makeTable(right_rows), stats);
+    auto result = exec_.executeJoin(spec_, makeTable(left_rows), makeTable(right_rows), stats);
     EXPECT_TRUE(result.rows.empty());
 }
 
@@ -129,10 +130,10 @@ TEST_F(AdaptiveJoinPreallocTest, HashJoinReserveDoesNotCorruptResults)
         right_rows.push_back({{"id", std::to_string(i % 50)}, {"y", std::to_string(i)}});
     }
     themis::RuntimeStats stats;
-    stats.actual_left_rows  = 200;
-    stats.actual_right_rows = 200;
+    stats.bytes_per_row = 1;
+    stats.memory_budget_bytes = 1024 * 1024 * 1024; // ample budget to prefer HASH_JOIN
 
-    auto result = exec_.join(spec_, makeTable(left_rows), makeTable(right_rows), stats);
+    auto result = exec_.executeJoin(spec_, makeTable(left_rows), makeTable(right_rows), stats);
     EXPECT_GT(result.rows.size(), 0u);
 }
 
@@ -147,10 +148,10 @@ TEST_F(AdaptiveJoinPreallocTest, MergeJoinSortedReturnsCorrectCount)
     auto left  = makeTable(left_rows,  true);
     auto right = makeTable(right_rows, true);
     themis::RuntimeStats stats;
-    stats.actual_left_rows  = 3;
-    stats.actual_right_rows = 2;
+    stats.bytes_per_row = 1;
+    stats.memory_budget_bytes = 1024 * 1024 * 1024;
 
-    auto result = exec_.join(spec_, left, right, stats);
+    auto result = exec_.executeJoin(spec_, left, right, stats);
     EXPECT_EQ(result.rows.size(), 2u);
 }
 
@@ -160,10 +161,10 @@ TEST_F(AdaptiveJoinPreallocTest, NestedLoopJoinReserveHint)
     std::vector<themis::RowValue> lv = {{{"id","a"}}, {{"id","b"}}};
     std::vector<themis::RowValue> rv = {{{"id","a"}}, {{"id","c"}}};
     themis::RuntimeStats stats;
-    stats.actual_left_rows  = 2;
-    stats.actual_right_rows = 2;
+    stats.bytes_per_row = 1;
+    stats.memory_budget_bytes = 1024 * 1024 * 1024;
 
-    auto result = exec_.join(spec_, makeTable(lv), makeTable(rv), stats);
+    auto result = exec_.executeJoin(spec_, makeTable(lv), makeTable(rv), stats);
     EXPECT_EQ(result.rows.size(), 1u);
 }
 
@@ -251,9 +252,9 @@ TEST(TimeoutEnforcementTest, AdaptiveJoinCompletesWithinReasonableTime)
 
     const auto t0 = std::chrono::steady_clock::now();
     themis::RuntimeStats stats;
-    stats.actual_left_rows  = N;
-    stats.actual_right_rows = N;
-    auto result = exec.join(spec, makeTable(lv), makeTable(rv), stats);
+    stats.bytes_per_row = 1;
+    stats.memory_budget_bytes = 1024 * 1024 * 1024;
+    auto result = exec.executeJoin(spec, makeTable(lv), makeTable(rv), stats);
     const auto elapsed = std::chrono::steady_clock::now() - t0;
 
     EXPECT_EQ(result.rows.size(), static_cast<size_t>(N));
@@ -269,7 +270,7 @@ TEST(TimeoutEnforcementTest, AdaptiveJoinEmptyInputImmediateReturn)
     spec.right_key = "id";
 
     const auto t0 = std::chrono::steady_clock::now();
-    auto result = exec.join(spec, makeTable({}), makeTable({}), {});
+    auto result = exec.executeJoin(spec, makeTable({}), makeTable({}), {});
     const auto elapsed_us = std::chrono::duration_cast<std::chrono::microseconds>(
         std::chrono::steady_clock::now() - t0).count();
 

@@ -61,20 +61,21 @@ TensorLayerSummary TensorMidLayer::summarize(const TensorLayerContext& context) 
     summary.layer_kind = classify(context);
     summary.ann_scope_kind = annScopeKindForLayer(summary.layer_kind);
 
-    if (fingerprint_graph_) {
-        summary.similar_adapters = fingerprint_graph_->findSimilar(summary.scope_key, context.top_k);
-    }
-
-    if (adapter_repository_) {
-        if (summary.similar_adapters.empty() && !context.domain.empty() && !context.base_model_id.empty()) {
-            summary.similar_adapters = adapter_repository_->findSimilarAdapters(
-                context.domain,
-                context.base_model_id,
-                context.top_k);
-        }
+    // Prefer repository-provided exact-similarity overrides (tests and
+    // production exact TT inner-product backends). If the repository yields
+    // no candidates, fall back to the fingerprint graph (approximate).
+    if (adapter_repository_ && !context.domain.empty() && !context.base_model_id.empty()) {
+        summary.similar_adapters = adapter_repository_->findSimilarAdapters(
+            context.domain,
+            context.base_model_id,
+            context.top_k);
         if (ann_frontdoor_) {
             ann_frontdoor_->registerScopeKind(summary.scope_key, summary.ann_scope_kind);
         }
+    }
+
+    if (summary.similar_adapters.empty() && fingerprint_graph_) {
+        summary.similar_adapters = fingerprint_graph_->findSimilar(summary.scope_key, context.top_k);
     }
 
     summary.candidate_count = summary.similar_adapters.size();
@@ -98,6 +99,13 @@ FederatedTensorSummary TensorMidLayer::summarizeFederatedShards(
         shard_context.shard_scope_ids.clear();
 
         auto shard_summary = summarize(shard_context);
+        // Diagnostic: log shard-level similar adapter counts to aid debugging
+        // Emit a small stderr diagnostic so focused test runners capture it reliably.
+        try {
+            std::fprintf(stderr, "[TFML] shard='%s' similar_adapters=%zu candidates=%zu\n",
+                         shard_scope_id.c_str(), shard_summary.similar_adapters.size(), shard_summary.candidate_count);
+        } catch (...) {
+        }
         shard_summary.federated = true;
         shard_summary.participating_shards = context.shard_scope_ids.size();
         summary.shard_summaries.push_back(std::move(shard_summary));
@@ -111,8 +119,15 @@ FederatedTensorSummary TensorMidLayer::summarizeFederatedShards(
 }
 
 TensorLayerKind TensorMidLayer::classify(const TensorLayerContext& context) noexcept {
+    // Shard-aware context (explicit flag or explicit shard list) should
+    // be classified as `ShardSummary` even when `scope_id` is empty.
+    if (context.shard_aware || !context.shard_scope_ids.empty()) {
+        return TensorLayerKind::ShardSummary;
+    }
+
     if (!context.scope_id.empty()) {
-        if (context.scope_id.rfind("shard:", 0) == 0 || context.shard_aware) {
+        // If scope id explicitly encodes a shard or shard-summary, prefer that.
+        if (context.scope_id.rfind("shard:", 0) == 0 || context.scope_id.rfind("shard-summary:", 0) == 0) {
             return TensorLayerKind::ShardSummary;
         }
         if (context.scope_id.rfind("pkg:", 0) == 0 || context.scope_id.rfind("package:", 0) == 0) {

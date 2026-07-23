@@ -136,6 +136,11 @@ public:
     /// @brief Returns a statistics snapshot.
     [[nodiscard]] Statistics statistics() const noexcept;
 
+    /// @brief Returns true once shutdown() has been called.
+    [[nodiscard]] bool is_shutdown() const noexcept {
+        return shutdown_.load(std::memory_order_acquire);
+    }
+
     /**
      * @brief Shuts down the pool, unblocking all waiters.
      *

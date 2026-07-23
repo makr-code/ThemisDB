@@ -2236,6 +2236,7 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/cache/grpc_remote_cache_peer.cpp>
     ../src/cache/distributed_cache_coordinator.cpp
     # ../src/cache/redis_cache_coordinator.cpp   # Legacy hiredis impl; conflicts with distributed_cache_coordinator
+    ../src/cache/cache_eviction_policy.cpp
     ../src/cache/eviction.cpp
     
     # Ingestion module – unified data intake layer (filesystem, REST, HuggingFace,

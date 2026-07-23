@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites tests="25" failures="0" disabled="0" errors="0" time="0.022" timestamp="2026-07-23T17:29:26.584" name="AllTests">
+  <testsuite name="AdaptiveJoinPreallocTest" tests="6" failures="0" disabled="0" skipped="0" errors="0" time="0.007" timestamp="2026-07-23T17:29:26.585">
+    <testcase name="GraceHashJoinEmptyTables" file="C:\Projects\ThemisDB\tests\query\test_phase4_query_hardening.cpp" line="80" status="run" result="completed" time="0.001" timestamp="2026-07-23T17:29:26.585" classname="AdaptiveJoinPreallocTest" />
+    <testcase name="GraceHashJoinMatchingRows" file="C:\Projects\ThemisDB\tests\query\test_phase4_query_hardening.cpp" line="87" status="run" result="completed" time="0." timestamp="2026-07-23T17:29:26.587" classname="AdaptiveJoinPreallocTest" />
+    <testcase name="GraceHashJoinNoMatchReturnsEmpty" file="C:\Projects\ThemisDB\tests\query\test_phase4_query_hardening.cpp" line="108" status="run" result="completed" time="0." timestamp="2026-07-23T17:29:26.588" classname="AdaptiveJoinPreallocTest" />
+    <testcase name="HashJoinReserveDoesNotCorruptResults" file="C:\Projects\ThemisDB\tests\query\test_phase4_query_hardening.cpp" line="122" status="run" result="completed" time="0.002" timestamp="2026-07-23T17:29:26.588" classname="AdaptiveJoinPreallocTest" />
+    <testcase name="MergeJoinSortedReturnsCorrectCount" file="C:\Projects\ThemisDB\tests\query\test_phase4_query_hardening.cpp" line="140" status="run" result="completed" time="0." timestamp="2026-07-23T17:29:26.591" classname="AdaptiveJoinPreallocTest" />
+    <testcase name="NestedLoopJoinReserveHint" file="C:\Projects\ThemisDB\tests\query\test_phase4_query_hardening.cpp" line="158" status="run" result="completed" time="0." timestamp="2026-07-23T17:29:26.592" classname="AdaptiveJoinPreallocTest" />
+  </testsuite>
+  <testsuite name="AqlTranslatorPreallocTest" tests="6" failures="0" disabled="0" skipped="0" errors="0" time="0.002" timestamp="2026-07-23T17:29:26.592">
+    <testcase name="SimpleConjunctiveTranslation" file="C:\Projects\ThemisDB\tests\query\test_phase4_query_hardening.cpp" line="177" status="run" result="completed" time="0." timestamp="2026-07-23T17:29:26.592" classname="AqlTranslatorPreallocTest" />
+    <testcase name="DisjunctiveTranslationProducesMultipleDisjuncts" file="C:\Projects\ThemisDB\tests\query\test_phase4_query_hardening.cpp" line="185" status="run" result="completed" time="0." timestamp="2026-07-23T17:29:26.593" classname="AqlTranslatorPreallocTest" />
+    <testcase name="AndWithOrExpansionDoesNotOverallocate" file="C:\Projects\ThemisDB\tests\query\test_phase4_query_hardening.cpp" line="194" status="run" result="completed" time="0." timestamp="2026-07-23T17:29:26.593" classname="AqlTranslatorPreallocTest" />
+    <testcase name="PredicateVectorsHaveCorrectCapacity" file="C:\Projects\ThemisDB\tests\query\test_phase4_query_hardening.cpp" line="204" status="run" result="completed" time="0." timestamp="2026-07-23T17:29:26.594" classname="AqlTranslatorPreallocTest" />
+    <testcase name="RangePredicateExtracted" file="C:\Projects\ThemisDB\tests\query\test_phase4_query_hardening.cpp" line="214" status="run" result="completed" time="0." timestamp="2026-07-23T17:29:26.594" classname="AqlTranslatorPreallocTest" />
+    <testcase name="FulltextPredicateExtracted" file="C:\Projects\ThemisDB\tests\query\test_phase4_query_hardening.cpp" line="221" status="run" result="completed" time="0." timestamp="2026-07-23T17:29:26.594" classname="AqlTranslatorPreallocTest" />
+  </testsuite>
+  <testsuite name="TimeoutEnforcementTest" tests="2" failures="0" disabled="0" skipped="0" errors="0" time="0.003" timestamp="2026-07-23T17:29:26.595">
+    <testcase name="AdaptiveJoinCompletesWithinReasonableTime" file="C:\Projects\ThemisDB\tests\query\test_phase4_query_hardening.cpp" line="237" status="run" result="completed" time="0.002" timestamp="2026-07-23T17:29:26.595" classname="TimeoutEnforcementTest" />
+    <testcase name="AdaptiveJoinEmptyInputImmediateReturn" file="C:\Projects\ThemisDB\tests\query\test_phase4_query_hardening.cpp" line="265" status="run" result="completed" time="0." timestamp="2026-07-23T17:29:26.598" classname="TimeoutEnforcementTest" />
+  </testsuite>
+  <testsuite name="QueryEngineConcurrencyTest" tests="5" failures="0" disabled="0" skipped="0" errors="0" time="0.004" timestamp="2026-07-23T17:29:26.598">
+    <testcase name="SetQueryTimeoutIsThreadSafe" file="C:\Projects\ThemisDB\tests\query\test_phase4_query_hardening.cpp" line="307" status="run" result="completed" time="0.001" timestamp="2026-07-23T17:29:26.599" classname="QueryEngineConcurrencyTest" />
+    <testcase name="SetCollectionAccessCheckerIsThreadSafe" file="C:\Projects\ThemisDB\tests\query\test_phase4_query_hardening.cpp" line="325" status="run" result="completed" time="0." timestamp="2026-07-23T17:29:26.600" classname="QueryEngineConcurrencyTest" />
+    <testcase name="SetStatisticsCollectorIsThreadSafe" file="C:\Projects\ThemisDB\tests\query\test_phase4_query_hardening.cpp" line="343" status="run" result="completed" time="0." timestamp="2026-07-23T17:29:26.601" classname="QueryEngineConcurrencyTest" />
+    <testcase name="SetAuditLoggerIsThreadSafe" file="C:\Projects\ThemisDB\tests\query\test_phase4_query_hardening.cpp" line="359" status="run" result="completed" time="0." timestamp="2026-07-23T17:29:26.602" classname="QueryEngineConcurrencyTest" />
+    <testcase name="ConcurrentSetAndQueryDoNotDeadlock" file="C:\Projects\ThemisDB\tests\query\test_phase4_query_hardening.cpp" line="375" status="run" result="completed" time="0." timestamp="2026-07-23T17:29:26.603" classname="QueryEngineConcurrencyTest" />
+  </testsuite>
+  <testsuite name="FederationAuditTest" tests="4" failures="0" disabled="0" skipped="0" errors="0" time="0.001" timestamp="2026-07-23T17:29:26.604">
+    <testcase name="DispatchEventKeysPresent" file="C:\Projects\ThemisDB\tests\query\test_phase4_query_hardening.cpp" line="401" status="run" result="completed" time="0." timestamp="2026-07-23T17:29:26.604" classname="FederationAuditTest" />
+    <testcase name="ResultMergeEventKeysPresent" file="C:\Projects\ThemisDB\tests\query\test_phase4_query_hardening.cpp" line="418" status="run" result="completed" time="0." timestamp="2026-07-23T17:29:26.604" classname="FederationAuditTest" />
+    <testcase name="FailureEventKeysPresent" file="C:\Projects\ThemisDB\tests\query\test_phase4_query_hardening.cpp" line="431" status="run" result="completed" time="0." timestamp="2026-07-23T17:29:26.604" classname="FederationAuditTest" />
+    <testcase name="TimeoutEventKeysPresent" file="C:\Projects\ThemisDB\tests\query\test_phase4_query_hardening.cpp" line="443" status="run" result="completed" time="0." timestamp="2026-07-23T17:29:26.605" classname="FederationAuditTest" />
+  </testsuite>
+  <testsuite name="AqlTranslatorReserveTest" tests="2" failures="0" disabled="0" skipped="0" errors="0" time="0." timestamp="2026-07-23T17:29:26.605">
+    <testcase name="TripleOrProducesThreeDisjuncts" file="C:\Projects\ThemisDB\tests\query\test_phase4_query_hardening.cpp" line="461" status="run" result="completed" time="0." timestamp="2026-07-23T17:29:26.605" classname="AqlTranslatorReserveTest" />
+    <testcase name="LargeOrQueryReserveDoesNotOverflow" file="C:\Projects\ThemisDB\tests\query\test_phase4_query_hardening.cpp" line="470" status="run" result="completed" time="0." timestamp="2026-07-23T17:29:26.605" classname="AqlTranslatorReserveTest" />
+  </testsuite>
+</testsuites>

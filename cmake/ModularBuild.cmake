@@ -470,6 +470,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/performance/workload_adaptive_optimizer.cpp
     
     # Storage enhancements
+    ../src/cache/cache_eviction_policy.cpp
     ../src/cache/semantic_cache.cpp
     
     # Updates
@@ -1591,6 +1592,7 @@ set(THEMIS_INGESTION_SOURCES
 set(THEMIS_NETWORK_SOURCES
     # HTTP Server (conditional)
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/http_server.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/http_shutdown_manager.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/transaction_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/distributed_txn_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/api_auth_config.cpp>

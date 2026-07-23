@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites tests="2" failures="0" disabled="0" errors="0" time="0.139" timestamp="2026-07-23T17:21:30.695" name="AllTests">
+  <testsuite name="PluginRuntimeLoadingFocusedTests" tests="2" failures="0" disabled="0" skipped="0" errors="0" time="0.138" timestamp="2026-07-23T17:21:30.696">
+    <testcase name="LoadPluginFromPathLoadsRealSharedLibrary" file="C:\Projects\ThemisDB\tests\plugin\test_plugin_runtime_loading.cpp" line="252" status="run" result="completed" time="0.081" timestamp="2026-07-23T17:21:30.696" classname="PluginRuntimeLoadingFocusedTests" />
+    <testcase name="LoadPluginFromPathFailsWhenInitializeRejectsInvalidJson" file="C:\Projects\ThemisDB\tests\plugin\test_plugin_runtime_loading.cpp" line="287" status="run" result="completed" time="0.055" timestamp="2026-07-23T17:21:30.778" classname="PluginRuntimeLoadingFocusedTests" />
+  </testsuite>
+</testsuites>

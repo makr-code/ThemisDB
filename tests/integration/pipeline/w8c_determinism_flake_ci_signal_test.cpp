@@ -38,7 +38,7 @@ namespace themis::test {
 
 namespace {
 
-static constexpr uint32_t kCanonicalSeed = 42;
+// Canonical seed is provided by test_data_generator.h (themis::test::kCanonicalSeed)
 
 // ---------------------------------------------------------------------------
 // DeterministicDataProducer — DFQ-01/DFQ-06: identical seed → identical output
