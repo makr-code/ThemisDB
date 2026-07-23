@@ -15,7 +15,7 @@
 #include "ethics_ai/rag_context_engine.h"
 #include "ethics_ai/ethics_ai_types.h"
 
-#include "test_performance_helpers.h"
+#include "../test_performance_helpers.h"
 
 #include <chrono>
 #include <memory>

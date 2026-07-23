@@ -122,6 +122,9 @@ public:
     /// @returns DOT source string.
     static std::string toDOT(const QueryPlanNode& root);
 
+    /// Return a short textual name for a PlanNodeType (public for tests).
+    static std::string planNodeTypeName(PlanNodeType type);
+
 private:
     // Internal helpers
     static void toTextImpl(const QueryPlanNode& node, bool analyze,
@@ -133,7 +136,7 @@ private:
     static void toDOTImpl(const QueryPlanNode& node, int& id_counter,
                           std::string& nodes_out, std::string& edges_out, int depth);
 
-    static std::string planNodeTypeName(PlanNodeType type);
+    
 };
 
 } // namespace query

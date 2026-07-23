@@ -83,26 +83,28 @@ std::optional<Feedback> FeedbackStorageService::createFeedback(Feedback feedback
     
     // Store in database
     try {
-        std::lock_guard<std::mutex> lock(mutex_);
-        
-        std::string key = makeFeedbackKey(feedback.id);
-        std::string value = feedback.toJSON().dump();
-        
-        bool success = config_.db->put(key, value);
-        if (!success) {
-            spdlog::error("Failed to store feedback {}", feedback.id);
-            return std::nullopt;
+        // Store in DB under lock to protect DB handle usage
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            std::string key = makeFeedbackKey(feedback.id);
+            std::string value = feedback.toJSON().dump();
+
+            bool success = config_.db->put(key, value);
+            if (!success) {
+                spdlog::error("Failed to store feedback {}", feedback.id);
+                return std::nullopt;
+            }
         }
-        
-        // Create graph link to adapter
+
+        // Create graph link to adapter without holding the service mutex to avoid nested locks
         if (config_.enable_graph_links &&
             (config_.graph_index || config_.create_graph_link_fn)) {
             createGraphLink(feedback.id, feedback.adapter_id);
         }
-        
+
         spdlog::debug("Created feedback {} for adapter {}", feedback.id, feedback.adapter_id);
         return feedback;
-        
+
     } catch (const std::exception& e) {
         spdlog::error("Exception storing feedback: {}", e.what());
         return std::nullopt;
@@ -213,28 +215,30 @@ bool FeedbackStorageService::updateFeedback(const std::string& id, const Feedbac
 
 bool FeedbackStorageService::deleteFeedback(const std::string& id) {
     try {
-        std::lock_guard<std::mutex> lock(mutex_);
-        
-        // Get feedback to find adapter_id for graph link removal
+        // Retrieve feedback (acquires lock internally)
         auto feedback = getFeedback(id);
-        
-        std::string key = makeFeedbackKey(id);
-        bool success = config_.db->del(key);
-        
-        if (!success) {
-            return false;
+
+        // Delete under lock to protect DB handle
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            std::string key = makeFeedbackKey(id);
+            bool success = config_.db->del(key);
+
+            if (!success) {
+                return false;
+            }
         }
-        
-        // Remove graph link
+
+        // Remove graph link without holding mutex to avoid nested locks
         if (config_.enable_graph_links &&
             (config_.graph_index || config_.remove_graph_link_fn) &&
             feedback) {
             removeGraphLink(id, feedback->adapter_id);
         }
-        
+
         spdlog::debug("Deleted feedback {}", id);
         return true;
-        
+
     } catch (const std::exception& e) {
         spdlog::error("Exception deleting feedback {}: {}", id, e.what());
         return false;

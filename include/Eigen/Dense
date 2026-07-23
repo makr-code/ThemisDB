@@ -1,0 +1,6 @@
+// Project-local Eigen Dense shim. This file provides a minimal Eigen
+// replacement when the system Eigen headers are not available.
+// It forwards to the lightweight stub at include/llm/eigen_stub.h.
+#pragma once
+
+#include "llm/eigen_stub.h"

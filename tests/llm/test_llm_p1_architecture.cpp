@@ -38,7 +38,7 @@ using namespace themis::query;
 // ============================================================================
 
 TEST(P1LLMQueryContext, FromSnapshotSetsIsolationMode) {
-    const HLCTimestamp ts{12345678ULL};
+    const HLCTimestamp ts(12345678ULL);
     const LLMQueryContext ctx = LLMQueryContext::fromSnapshot(ts);
 
     EXPECT_EQ(ctx.isolation_mode, "snapshot-isolated");
@@ -55,13 +55,13 @@ TEST(P1LLMQueryContext, WithoutSnapshotSetsNoSnapshotMode) {
 }
 
 TEST(P1LLMQueryContext, HasSnapshotOnlyForNonZeroTimestamp) {
-    EXPECT_TRUE(LLMQueryContext::fromSnapshot(HLCTimestamp{1}).hasSnapshot());
-    EXPECT_FALSE(LLMQueryContext::fromSnapshot(HLCTimestamp{0}).hasSnapshot());
+    EXPECT_TRUE(LLMQueryContext::fromSnapshot(HLCTimestamp(1)).hasSnapshot());
+    EXPECT_FALSE(LLMQueryContext::fromSnapshot(HLCTimestamp(0)).hasSnapshot());
     EXPECT_FALSE(LLMQueryContext::withoutSnapshot().hasSnapshot());
 }
 
 TEST(P1LLMQueryContext, TraceAndSpanIdPropagated) {
-    const HLCTimestamp ts{99ULL};
+    const HLCTimestamp ts(99ULL);
     const LLMQueryContext ctx =
         LLMQueryContext::fromSnapshot(ts, "trace-abc-def", "span-1234");
 
@@ -71,7 +71,7 @@ TEST(P1LLMQueryContext, TraceAndSpanIdPropagated) {
 
 TEST(P1LLMQueryContext, ZeroTimestampIsNoSnapshot) {
     // HLCTimestamp{0} is the default-constructed value.
-    const LLMQueryContext ctx = LLMQueryContext::fromSnapshot(HLCTimestamp{0});
+    const LLMQueryContext ctx = LLMQueryContext::fromSnapshot(HLCTimestamp(0));
     // Even fromSnapshot with ts=0 yields hasSnapshot=false because value == 0.
     EXPECT_FALSE(ctx.hasSnapshot())
         << "Zero HLCTimestamp must not be treated as a meaningful snapshot";
@@ -85,7 +85,7 @@ namespace {
 
 LLMGenerateOperator makeOperator(uint32_t budget_ms = 5000) {
     aql::LLMQueryContext ctx =
-        aql::LLMQueryContext::fromSnapshot(HLCTimestamp{42ULL});
+    aql::LLMQueryContext::fromSnapshot(HLCTimestamp(42ULL));
     LLMOperatorCost cost;
     cost.latency_budget_ms = budget_ms;
     return LLMGenerateOperator(std::move(ctx), cost, "test-model");

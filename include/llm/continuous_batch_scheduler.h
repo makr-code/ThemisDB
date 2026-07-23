@@ -89,6 +89,8 @@ public:
         size_t low_memory_threshold_blocks = 10;  // Memory pressure trigger
         double memory_pressure_throughput_factor = 0.8;  // Throughput reduction (0.0-1.0)
     };
+    // Backwards-compatibility alias: older callers used `ContinuousBatchScheduler::Config`
+    using Config = SchedulerConfig;
     
     enum class RequestPriority {
         LOW = 0,
@@ -329,4 +331,12 @@ private:
 
 } // namespace llm
 } // namespace themis
+
+// Backwards-compatibility: expose the nested RequestPriority as a namespace-level
+// alias so older tests and callers can refer to `themis::llm::RequestPriority`.
+namespace themis {
+namespace llm {
+using RequestPriority = ContinuousBatchScheduler::RequestPriority;
+}
+}
 

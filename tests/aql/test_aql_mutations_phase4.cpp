@@ -109,7 +109,11 @@ TEST(AqlMutationsPhase4, P4_02_SingleInsertClassifiedAsMutation) {
     ASSERT_EQ(block.ordered_statements.size(), 1u);
     EXPECT_EQ(block.ordered_statements[0].kind, AqlStatement::Kind::Mutation);
     ASSERT_NE(block.ordered_statements[0].mutation, nullptr);
-    EXPECT_EQ(block.ordered_statements[0].mutation->collection, "users");
+    {
+        auto ins = std::dynamic_pointer_cast<InsertNode>(block.ordered_statements[0].mutation);
+        ASSERT_NE(ins, nullptr);
+        EXPECT_EQ(ins->collection, "users");
+    }
 }
 
 // ============================================================================
@@ -327,8 +331,16 @@ TEST(AqlMutationsPhase4, P4_15_MultipleDmlTypesInBlock) {
     EXPECT_EQ(block.ordered_statements[0].kind, AqlStatement::Kind::Mutation);
     EXPECT_EQ(block.ordered_statements[1].kind, AqlStatement::Kind::Mutation);
     // Both are mutations; verify collection names
-    EXPECT_EQ(block.ordered_statements[0].mutation->collection, "users");
-    EXPECT_EQ(block.ordered_statements[1].mutation->collection, "archive");
+    {
+        auto ins = std::dynamic_pointer_cast<InsertNode>(block.ordered_statements[0].mutation);
+        ASSERT_NE(ins, nullptr);
+        EXPECT_EQ(ins->collection, "users");
+    }
+    {
+        auto rem = std::dynamic_pointer_cast<RemoveNode>(block.ordered_statements[1].mutation);
+        ASSERT_NE(rem, nullptr);
+        EXPECT_EQ(rem->collection, "archive");
+    }
 }
 
 // ============================================================================

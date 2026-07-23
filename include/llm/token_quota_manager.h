@@ -150,6 +150,16 @@ public:
                         const std::string& model_id) const;
 
     /**
+     * @brief Backwards-compat shim: tokensConsumed() historically used by
+     * tests/consumers. Forward to currentUsage().
+     */
+    size_t tokensConsumed(const std::string& user_id,
+                          const std::string& model_id) const
+    {
+        return currentUsage(user_id, model_id);
+    }
+
+    /**
      * @brief Return the configured limit for (user_id, model_id), or
      *        std::nullopt if no quota is set.
      */

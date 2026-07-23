@@ -92,7 +92,7 @@ HLCTimestamp HybridLogicalClock::advanceTo(uint64_t phys_ms) {
         if (state_.compare_exchange_weak(cur, desired,
                                          std::memory_order_acq_rel,
                                          std::memory_order_relaxed)) {
-            return HLCTimestamp{desired};
+            return HLCTimestamp(desired);
         }
         // cur has been updated by compare_exchange_weak on failure – retry.
     }
@@ -139,14 +139,14 @@ HLCTimestamp HybridLogicalClock::update(HLCTimestamp received) {
         if (state_.compare_exchange_weak(cur, desired,
                                          std::memory_order_acq_rel,
                                          std::memory_order_relaxed)) {
-            return HLCTimestamp{desired};
+            return HLCTimestamp(desired);
         }
         // cur was refreshed by CAS failure – retry with new wall clock sample.
     }
 }
 
 HLCTimestamp HybridLogicalClock::peek() const {
-    return HLCTimestamp{state_.load(std::memory_order_acquire)};
+    return HLCTimestamp(state_.load(std::memory_order_acquire));
 }
 
 } // namespace themis

@@ -684,6 +684,20 @@ public:
         return entries_.size();
     }
 
+    /**
+     * @brief Reconfigure the cache at runtime and clear existing state.
+     *
+     * Useful for tests that want to reuse the same instance across fixtures
+     * without relying on copy/move assignment (std::mutex is non-copyable).
+     */
+    void configure(Config new_cfg) {
+        std::lock_guard<std::mutex> lk(mu_);
+        cfg_ = new_cfg;
+        entries_.clear();
+        hot_count_ = warm_count_ = cold_count_ = 0;
+        metrics_ = Metrics{};
+    }
+
 private:
     double tick() {
         return static_cast<double>(
@@ -783,7 +797,7 @@ struct MultiTierFixture : public ::testing::Test {
         cfg.hot_capacity  = 4;
         cfg.warm_capacity = 8;
         cfg.cold_capacity = 16;
-        cache = cem::MultiTierCache(cfg);
+        cache.configure(cfg);
     }
 };
 

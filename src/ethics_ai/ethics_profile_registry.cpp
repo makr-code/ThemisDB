@@ -38,6 +38,7 @@ namespace ethics {
 static constexpr size_t kDescriptionSnippetMaxLength = 150;
 
 namespace {
+#ifdef HAVE_YAML_CPP
 /// Helper: read a sequence of strings from a YAML node (scalar or sequence).
 std::vector<std::string> yamlStringSeq(const YAML::Node& node) {
     std::vector<std::string> result;
@@ -55,29 +56,12 @@ std::vector<std::string> yamlStringSeq(const YAML::Node& node) {
     }
     return result;
 }
+#endif
 } // anonymous namespace
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Constructor
+// Query index
 // ─────────────────────────────────────────────────────────────────────────────
-
-EthicsProfileRegistry::EthicsProfileRegistry(size_t lru_capacity)
-    : lru_capacity_(lru_capacity < 1 ? 1 : lru_capacity)
-{}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// IEthicsProfileRegistry implementation
-// ─────────────────────────────────────────────────────────────────────────────
-
-size_t EthicsProfileRegistry::indexSize() const {
-    std::lock_guard<std::mutex> lock(mutex_);
-    return index_.size();
-}
-
-bool EthicsProfileRegistry::hasProfile(const std::string& school_id) const {
-    std::lock_guard<std::mutex> lock(mutex_);
-    return index_.count(school_id) > 0;
-}
 
 std::vector<EthicsProfileMeta> EthicsProfileRegistry::queryIndex(
     const EthicsIndexQuery& query) const
@@ -125,6 +109,25 @@ std::vector<EthicsProfileMeta> EthicsProfileRegistry::queryIndex(
     }
 
     return results;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Constructor + simple accessors
+// ─────────────────────────────────────────────────────────────────────────────
+
+EthicsProfileRegistry::EthicsProfileRegistry(size_t lru_capacity)
+    : lru_capacity_(lru_capacity)
+{
+}
+
+size_t EthicsProfileRegistry::indexSize() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return index_.size();
+}
+
+bool EthicsProfileRegistry::hasProfile(const std::string& school_id) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return index_.find(school_id) != index_.end();
 }
 
 std::variant<PhilosophyProfile, Status> EthicsProfileRegistry::getProfile(

@@ -55,7 +55,7 @@ TEST_F(ISSMPluginInterfaceTest, StateSnapshotRoundTrip) {
     EXPECT_TRUE(plugin_->updateState(tokens));
 
     // Get snapshot with dummy HLC timestamp
-    core::HLCTimestamp ts{.wall_clock_ms = 1000, .logical_clock = 1};
+    core::HLCTimestamp ts = core::HLCTimestamp::from(1000, 1);
     SSMStateSnapshot snap = plugin_->getStateSnapshot(ts);
 
     EXPECT_EQ(snap.snapshot_ts.wall_clock_ms, 1000);
@@ -75,7 +75,7 @@ TEST_F(ISSMPluginInterfaceTest, FingerPrintValidation) {
     std::vector<int32_t> tokens = {100, 101};
     EXPECT_TRUE(plugin_->updateState(tokens));
 
-    core::HLCTimestamp ts{.wall_clock_ms = 2000, .logical_clock = 2};
+    core::HLCTimestamp ts = core::HLCTimestamp::from(2000, 2);
     SSMStateSnapshot snap = plugin_->getStateSnapshot(ts);
 
     // Corrupt fingerprint
@@ -123,7 +123,7 @@ protected:
 
 TEST_F(SSMStateStoreTest, CheckpointResumeRoundTrip) {
     std::string session_id = "test-session-1";
-    core::HLCTimestamp ts{.wall_clock_ms = 1000, .logical_clock = 1};
+    core::HLCTimestamp ts = core::HLCTimestamp::from(1000, 1);
     SSMStateSnapshot snap = makeSnapshot("fp-v0", 100, ts);
 
     // Checkpoint
@@ -138,7 +138,7 @@ TEST_F(SSMStateStoreTest, CheckpointResumeRoundTrip) {
 
 TEST_F(SSMStateStoreTest, DuplicateCheckpointRejected) {
     std::string session_id = "test-session-2";
-    core::HLCTimestamp ts{.wall_clock_ms = 2000, .logical_clock = 2};
+    core::HLCTimestamp ts = core::HLCTimestamp::from(2000, 2);
     SSMStateSnapshot snap1 = makeSnapshot("fp-v0", 50, ts);
     SSMStateSnapshot snap2 = makeSnapshot("fp-v0", 60, ts);  // Same timestamp
 
@@ -149,8 +149,8 @@ TEST_F(SSMStateStoreTest, DuplicateCheckpointRejected) {
 TEST_F(SSMStateStoreTest, ResumeLatestSnapshot) {
     std::string session_id = "test-session-3";
 
-    core::HLCTimestamp ts1{.wall_clock_ms = 1000, .logical_clock = 1};
-    core::HLCTimestamp ts2{.wall_clock_ms = 2000, .logical_clock = 2};
+    core::HLCTimestamp ts1 = core::HLCTimestamp::from(1000, 1);
+    core::HLCTimestamp ts2 = core::HLCTimestamp::from(2000, 2);
 
     SSMStateSnapshot snap1 = makeSnapshot("fp-v0", 50, ts1);
     SSMStateSnapshot snap2 = makeSnapshot("fp-v0", 100, ts2);
@@ -166,7 +166,7 @@ TEST_F(SSMStateStoreTest, ResumeLatestSnapshot) {
 
 TEST_F(SSMStateStoreTest, InvalidateSession) {
     std::string session_id = "test-session-4";
-    core::HLCTimestamp ts{.wall_clock_ms = 3000, .logical_clock = 3};
+    core::HLCTimestamp ts = core::HLCTimestamp::from(3000, 3);
     SSMStateSnapshot snap = makeSnapshot("fp-v0", 200, ts);
 
     store_->checkpoint(session_id, snap);
@@ -179,7 +179,7 @@ TEST_F(SSMStateStoreTest, InvalidateSession) {
 
 TEST_F(SSMStateStoreTest, StoreStats) {
     std::string session_id = "test-session-5";
-    core::HLCTimestamp ts{.wall_clock_ms = 4000, .logical_clock = 4};
+    core::HLCTimestamp ts = core::HLCTimestamp::from(4000, 4);
     SSMStateSnapshot snap = makeSnapshot("fp-v0", 300, ts);
 
     store_->checkpoint(session_id, snap);
@@ -375,8 +375,7 @@ TEST_F(SSMStateStoreTest, ThreadSafety) {
 
     auto worker = [this, &errors](const std::string& session_id) {
         for (int i = 0; i < 10; ++i) {
-            core::HLCTimestamp ts{.wall_clock_ms = static_cast<uint64_t>(i * 1000),
-                                  .logical_clock = static_cast<uint32_t>(i)};
+            core::HLCTimestamp ts = core::HLCTimestamp::from(static_cast<uint64_t>(i * 1000), static_cast<uint32_t>(i));
             SSMStateSnapshot snap = makeSnapshot("fp", i, ts);
 
             if (!store_->checkpoint(session_id, snap)) {
@@ -418,7 +417,7 @@ TEST_F(Phase1IntegrationTest, EndToEndStateLifecycle) {
     EXPECT_TRUE(plugin_->updateState(tokens));
 
     // 2. Capture state
-    core::HLCTimestamp ts{.wall_clock_ms = 5000, .logical_clock = 5};
+    core::HLCTimestamp ts = core::HLCTimestamp::from(5000, 5);
     SSMStateSnapshot snap = plugin_->getStateSnapshot(ts);
 
     // 3. Store checkpoint

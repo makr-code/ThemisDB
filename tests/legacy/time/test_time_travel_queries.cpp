@@ -159,13 +159,13 @@ TEST_F(TimeTravelQueryTest, ReadEntityAtTimestamp_BeforeFirstWrite_ReturnsNullop
     writeEntity("products", "p3", "price", 99);
 
     // A timestamp before any write should return nullopt.
-    auto r = tx_mgr_->readEntityAtTimestamp("products", "p3", HLCTimestamp{0});
+    auto r = tx_mgr_->readEntityAtTimestamp("products", "p3", HLCTimestamp(0));
     EXPECT_FALSE(r.has_value());
 }
 
 TEST_F(TimeTravelQueryTest, ReadEntityAtTimestamp_UnknownEntity_ReturnsNullopt) {
     auto r = tx_mgr_->readEntityAtTimestamp("products", "nonexistent",
-                                             HLCTimestamp{~0ULL});
+                                             HLCTimestamp(~0ULL));
     EXPECT_FALSE(r.has_value());
 }
 
@@ -173,7 +173,7 @@ TEST_F(TimeTravelQueryTest, ReadEntityAtTimestamp_NoHistoryManager_ReturnsNullop
     // Disable history manager.
     tx_mgr_->setHistoryManager(nullptr);
     auto r = tx_mgr_->readEntityAtTimestamp("products", "p99",
-                                             HLCTimestamp{~0ULL});
+                                             HLCTimestamp(~0ULL));
     EXPECT_FALSE(r.has_value());
     // Re-enable for other tests that may share the fixture.
     tx_mgr_->setHistoryManager(history_.get());

@@ -55,6 +55,7 @@ struct Feedback {
     
     // Cache information
     bool is_cached_response = false;              // True if response was from cache
+    bool is_training = false;                     // True if feedback occurred during training/runtime training mode
     std::optional<std::string> cache_key;         // Cache key if cached
     float cache_similarity_score = 1.0f;          // Similarity score (1.0 = exact match)
     
@@ -85,6 +86,7 @@ struct Feedback {
             {"flagged_for_training", flagged_for_training},
             {"training_category", training_category},
             {"is_cached_response", is_cached_response},
+            {"is_training", is_training},
             {"cache_similarity_score", cache_similarity_score},
             {"training_weight", training_weight}
         };
@@ -128,6 +130,9 @@ struct Feedback {
         
         if (j.contains("is_cached_response")) {
             fb.is_cached_response = j["is_cached_response"].get<bool>();
+        }
+        if (j.contains("is_training")) {
+            fb.is_training = j["is_training"].get<bool>();
         }
         
         if (j.contains("cache_similarity_score")) {

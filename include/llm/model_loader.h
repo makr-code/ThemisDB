@@ -185,6 +185,18 @@ public:
         const std::string& model_path,
         const json& load_config = {}
     );
+
+    /**
+     * @brief Backwards-compat wrapper: historical API `getModel` forwarded
+     * to `getOrLoadModel` for tests and older callers.
+     */
+    CachedModel* getModel(
+        const std::string& model_id,
+        const std::string& model_path,
+        const json& load_config = {}
+    ) {
+        return getOrLoadModel(model_id, model_path, load_config);
+    }
     
     /**
      * @brief Preload a model (background loading)

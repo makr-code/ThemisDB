@@ -38,6 +38,12 @@ struct SSMStateSnapshot {
 
     /// Sequence counter: tokens processed up to this snapshot
     uint64_t sequence_counter = 0;
+
+    // Backwards-compatibility fields expected by older tests
+    std::string session_id;
+    std::string hidden_state; // string form of state_data for legacy tests
+    std::string cell_state;
+    std::string metadata; // JSON string metadata
 };
 
 /**

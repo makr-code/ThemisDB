@@ -1021,6 +1021,25 @@ public:
     /// implementations. Returns a report with per-backend coverage details.
     [[nodiscard]] ValidationReport validate() const;
 
+    /**
+     * @brief Check whether an ANN dispatch table has been registered for @p type.
+     */
+    [[nodiscard]] bool hasANNDispatch(BackendType type) const noexcept {
+        return annDispatch_.find(type) != annDispatch_.end();
+    }
+
+    /**
+     * @brief Clear all registered dispatch tables.
+     *
+     * Restores the registry to an empty state. Used by unit tests to reset
+     * global or local registries between cases.
+     */
+    void clear() {
+        annDispatch_.clear();
+        geoDispatch_.clear();
+        matrixDispatch_.clear();
+    }
+
 private:
     std::unordered_map<BackendType, ANNKernelDispatch> annDispatch_;
     std::unordered_map<BackendType, GeoKernelDispatch> geoDispatch_;

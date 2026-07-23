@@ -37,6 +37,11 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/llm/kernel_fusion.cpp
         )
     endif()
+    if(_stem STREQUAL "test_infini_attention")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/tests/llm/infini_attention_cuda_fallback.cpp
+        )
+    endif()
     if(_stem STREQUAL "test_llm_caching")
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/llm/model_metadata_cache.cpp

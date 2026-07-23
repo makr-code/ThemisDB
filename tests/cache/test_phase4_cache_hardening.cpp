@@ -361,8 +361,8 @@ TEST(ReplicationCoordinatorC3Test, QueueDropTrackedInMetrics) {
     auto bus = std::make_shared<InProcessCacheCoordinator::Bus>();
 
     // Peer factory that creates a slow peer to fill the queue.
-    auto slowFactory = [](const std::string& addr) {
-        return std::make_shared<MockRemotePeer2>(addr);
+    auto slowFactory = [](const std::string& addr) -> std::unique_ptr<themis::cache::IRemoteCachePeer> {
+        return std::make_unique<MockRemotePeer2>(addr);
     };
 
     // Use a two-peer cluster.
@@ -403,9 +403,8 @@ TEST(ReplicationCoordinatorC3Test, RetryCountIncrementsOnPeerFailure) {
         std::string addr_;
     };
 
-    auto failFactory = [](const std::string& addr) {
-        return std::static_pointer_cast<IRemoteCachePeer>(
-            std::make_shared<FailingPeer>(addr));
+    auto failFactory = [](const std::string& addr) -> std::unique_ptr<themis::cache::IRemoteCachePeer> {
+        return std::make_unique<FailingPeer>(addr);
     };
 
     auto view = std::make_shared<StaticClusterView2>(

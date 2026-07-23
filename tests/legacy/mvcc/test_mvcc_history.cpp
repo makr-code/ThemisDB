@@ -103,7 +103,7 @@ TEST(HistoryManagerKeyTest, HistoryKeyIncludesTimestamp) {
 TEST(HistoryManagerKeyTest, NoCollisionWithLiveKeys) {
     // History keys must not sort alongside live entity keys.
     auto live    = std::string("entity:users:u1");
-    auto history = HistoryManager::historyKey("entity:users:u1", HLCTimestamp{100});
+    auto history = HistoryManager::historyKey("entity:users:u1", HLCTimestamp(100));
     // They are different strings.
     EXPECT_NE(live, history);
     // History key starts with "hist:".

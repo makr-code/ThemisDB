@@ -102,6 +102,8 @@ struct FlashAttentionConfig {
  */
 struct AttentionMemoryStats {
     virtual ~AttentionMemoryStats() = default;
+    // Total VRAM bytes used by attention (including buffers, KV cache, temps)
+    size_t vram_used = 0;
     size_t total_memory_bytes = 0;
     size_t kv_cache_bytes = 0;
     size_t activation_bytes = 0;

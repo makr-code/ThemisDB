@@ -370,7 +370,7 @@ TEST_F(InfiniAttentionTest, InvalidTensorHandling) {
     std::vector<float> empty_data;
     Tensor invalid = makeTestTensor(empty_data, {0, 0, 0, 0});
     
-    Tensor O_data_holder(5, 1.0f);
+    std::vector<float> O_data_holder(5, 1.0f);
     Tensor O;
     O.data = O_data_holder.data();
     O.size = O_data_holder.size();

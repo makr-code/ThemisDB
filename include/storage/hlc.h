@@ -47,22 +47,49 @@ namespace themis {
 struct HLCTimestamp {
     uint64_t value{0};  // Encoded (physical_ms << 20) | logical
 
+    // Backwards-compatibility fields (older code used named aggregate init)
+    // These are kept in sync with `value` when constructors are used.
+    uint64_t wall_clock_ms{0};
+    uint32_t logical_clock{0};
+
     static constexpr uint32_t LOGICAL_BITS = 20;
     static constexpr uint64_t LOGICAL_MASK = (1ULL << LOGICAL_BITS) - 1;
     static constexpr uint64_t MAX_LOGICAL  = LOGICAL_MASK;
 
     HLCTimestamp() = default;
-    explicit HLCTimestamp(uint64_t v) : value(v) {}
+    explicit HLCTimestamp(uint64_t v) : value(v) {
+        wall_clock_ms = (value >> LOGICAL_BITS);
+        logical_clock = static_cast<uint32_t>(value & LOGICAL_MASK);
+    }
+
+    /**
+     * Backwards-compatible constructor used by older tests: HLCTimestamp(physical, logical)
+     */
+    HLCTimestamp(uint64_t physical_ms, uint32_t logical_cnt)
+        : value((physical_ms << LOGICAL_BITS) | (static_cast<uint64_t>(logical_cnt) & LOGICAL_MASK)),
+          wall_clock_ms(physical_ms), logical_clock(logical_cnt) {}
+
+    // Note: avoid user-defined converting constructors so that designated
+    // initializers (C-style designators) remain usable in tests. Use helper
+    // factory methods for encoded construction.
 
     /** Physical component (wall-clock milliseconds since Unix epoch) */
-    uint64_t physical() const { return value >> LOGICAL_BITS; }
+    uint64_t physical() const { return (value != 0) ? (value >> LOGICAL_BITS) : wall_clock_ms; }
 
     /** Logical component (tie-breaker within the same millisecond) */
-    uint32_t logical() const { return static_cast<uint32_t>(value & LOGICAL_MASK); }
+    uint32_t logical() const { return (value != 0) ? static_cast<uint32_t>(value & LOGICAL_MASK) : logical_clock; }
+
+    /** Backwards-compat wrapper names expected by tests */
+    uint64_t getPhysicalTime() const { return physical(); }
+    uint32_t getLogicalCounter() const { return logical(); }
 
     /** Build an HLCTimestamp from physical and logical components */
     static HLCTimestamp from(uint64_t physical_ms, uint32_t logical_counter) {
-        return HLCTimestamp{(physical_ms << LOGICAL_BITS) | (logical_counter & LOGICAL_MASK)};
+        HLCTimestamp t;
+        t.value = (physical_ms << LOGICAL_BITS) | (static_cast<uint64_t>(logical_counter) & LOGICAL_MASK);
+        t.wall_clock_ms = physical_ms;
+        t.logical_clock = logical_counter;
+        return t;
     }
 
     bool operator<(const HLCTimestamp& o)  const { return value <  o.value; }
@@ -92,7 +119,7 @@ struct HLCTimestamp {
         for (int i = 0; i < 8; ++i) {
             v = (v << 8) | in[i];
         }
-        return HLCTimestamp{v};
+        return HLCTimestamp(v);
     }
 
     /**
@@ -118,7 +145,7 @@ struct HLCTimestamp {
         for (int i = 0; i < 8; ++i) {
             v = (v << 8) | static_cast<uint8_t>(s[i]);
         }
-        return HLCTimestamp{v};
+        return HLCTimestamp(v);
     }
 
     /** Human-readable representation: "<physical_ms>.<logical>" */

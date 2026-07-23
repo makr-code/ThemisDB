@@ -50,6 +50,20 @@ enum class Status {
  */
 struct Tensor {
     virtual ~Tensor() = default;
+    Tensor() = default;
+    Tensor(size_t n, float init_value) {
+        owned_data = std::make_shared<std::vector<float>>(n, init_value);
+        data = owned_data->data();
+        size = owned_data->size();
+    }
+    // Allow moving ownership from a std::vector
+    Tensor(std::shared_ptr<std::vector<float>> vec) {
+        owned_data = std::move(vec);
+        if (owned_data) {
+            data = owned_data->data();
+            size = owned_data->size();
+        }
+    }
     float* data = nullptr;
     size_t size = 0;
     std::vector<int> shape;  // [batch, seq_len, num_heads, head_dim]
@@ -57,6 +71,8 @@ struct Tensor {
     bool isValid() const {
         return data != nullptr && size > 0 && !shape.empty();
     }
+private:
+    std::shared_ptr<std::vector<float>> owned_data;
 };
 
 /**

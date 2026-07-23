@@ -49,20 +49,28 @@ foreach(_src IN LISTS AQL_MODULE_TEST_SOURCES)
         )
     endif()
 
-    # Ensure mutation-focused tests have the necessary implementation units
-    # when the shared themis_query target is not present in modular builds.
-    if(_stem MATCHES "test_aql_mutations_.*" AND NOT TARGET themis_query)
+    # Ensure mutation-focused tests have the necessary implementation units.
+    # Always include the validator implementation if present (some modular
+    # configurations omit query/ validation sources from themis_query), but
+    # only append translator/executor units when themis_query is not built to
+    # avoid duplicate-definition LNK2005 errors.
+    if(_stem MATCHES "test_aql_mutations_.*")
+        # Support both THEMIS_ROOT_DIR and CMAKE_SOURCE_DIR layouts to be robust
         if(EXISTS "${THEMIS_ROOT_DIR}/src/query/aql_mutation_validator.cpp")
             list(APPEND _extra_sources ${THEMIS_ROOT_DIR}/src/query/aql_mutation_validator.cpp)
+        elseif(EXISTS "${CMAKE_SOURCE_DIR}/src/query/aql_mutation_validator.cpp")
+            list(APPEND _extra_sources ${CMAKE_SOURCE_DIR}/src/query/aql_mutation_validator.cpp)
         endif()
-        if(EXISTS "${THEMIS_ROOT_DIR}/src/query/aql_mutation_translator.cpp")
-            list(APPEND _extra_sources ${THEMIS_ROOT_DIR}/src/query/aql_mutation_translator.cpp)
-        endif()
-        if(EXISTS "${THEMIS_ROOT_DIR}/src/query/aql_translator.cpp")
-            list(APPEND _extra_sources ${THEMIS_ROOT_DIR}/src/query/aql_translator.cpp)
-        endif()
-        if(EXISTS "${THEMIS_ROOT_DIR}/src/query/mutation_executor.cpp")
-            list(APPEND _extra_sources ${THEMIS_ROOT_DIR}/src/query/mutation_executor.cpp)
+        if(NOT TARGET themis_query)
+            if(EXISTS "${THEMIS_ROOT_DIR}/src/query/aql_mutation_translator.cpp")
+                list(APPEND _extra_sources ${THEMIS_ROOT_DIR}/src/query/aql_mutation_translator.cpp)
+            endif()
+            if(EXISTS "${THEMIS_ROOT_DIR}/src/query/aql_translator.cpp")
+                list(APPEND _extra_sources ${THEMIS_ROOT_DIR}/src/query/aql_translator.cpp)
+            endif()
+            if(EXISTS "${THEMIS_ROOT_DIR}/src/query/mutation_executor.cpp")
+                list(APPEND _extra_sources ${THEMIS_ROOT_DIR}/src/query/mutation_executor.cpp)
+            endif()
         endif()
     endif()
 
@@ -70,6 +78,16 @@ foreach(_src IN LISTS AQL_MODULE_TEST_SOURCES)
         "${_src}"
         ${_extra_sources}
     )
+    # If the validator source exists but for some reason wasn't picked up
+    # earlier (generator/ordering edge-case), explicitly add it to the
+    # target so the linker has the symbol available in modular builds.
+    if(_stem MATCHES "test_aql_mutations_.*")
+        if(EXISTS "${THEMIS_ROOT_DIR}/src/query/aql_mutation_validator.cpp")
+            target_sources(${_target} PRIVATE ${THEMIS_ROOT_DIR}/src/query/aql_mutation_validator.cpp)
+        elseif(EXISTS "${CMAKE_SOURCE_DIR}/src/query/aql_mutation_validator.cpp")
+            target_sources(${_target} PRIVATE ${CMAKE_SOURCE_DIR}/src/query/aql_mutation_validator.cpp)
+        endif()
+    endif()
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src

@@ -45,8 +45,15 @@ using namespace themis::plugins::ethics;
 namespace fs = std::filesystem;
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Taxonomy YAML path injected via CMake
+// Taxonomy YAML path injected via CMake (fallbacks for focused builds)
 // ─────────────────────────────────────────────────────────────────────────────
+#ifndef THEMIS_ETHICS_TAXONOMY_PATH
+#define THEMIS_ETHICS_TAXONOMY_PATH ""
+#endif
+#ifndef THEMIS_PHILOSOPHIES_DIR
+#define THEMIS_PHILOSOPHIES_DIR ""
+#endif
+
 static const char* kTaxonomyPath = THEMIS_ETHICS_TAXONOMY_PATH;
 static const char* kPhiloDir     = THEMIS_PHILOSOPHIES_DIR;
 

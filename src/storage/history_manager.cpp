@@ -180,7 +180,7 @@ std::optional<HistoryRecord> HistoryManager::deserializeHistoryRecord(std::strin
         HistoryRecord rec;
         rec.version   = j.value("v", 1);
         rec.base_key  = j.value("base_key", std::string{});
-        rec.timestamp = HLCTimestamp{j.value("ts", uint64_t{0})};
+        rec.timestamp = HLCTimestamp(j.value("ts", uint64_t{0}));
         rec.op        = j.value("op", std::string{"put"});
         rec.value     = hexToBytes(j.value("value", std::string{}));
         rec.txn_id    = j.value("txn_id", uint64_t{0});
@@ -249,7 +249,7 @@ std::optional<HistoryRecord> HistoryManager::getAtTimestamp(
         seek_key.append(base_key.data(), base_key.size());
         seek_key.push_back('\x01');
     } else {
-        seek_key = historyKey(base_key, HLCTimestamp{ts.value + 1});
+        seek_key = historyKey(base_key, HLCTimestamp(ts.value + 1));
     }
 
     auto iter_result = db_->newSafeIterator();
@@ -353,7 +353,7 @@ std::optional<ConflictRecord> ConflictManager::deserializeConflictRecord(std::st
         rec.version      = j.value("v", 1);
         rec.conflict_id  = j.value("conflict_id", std::string{});
         rec.base_key     = j.value("base_key", std::string{});
-        rec.detected_at  = HLCTimestamp{j.value("detected_at", uint64_t{0})};
+        rec.detected_at  = HLCTimestamp(j.value("detected_at", uint64_t{0}));
         rec.txn_id       = j.value("txn_id", uint64_t{0});
         rec.base_value   = hexToBytes(j.value("base_hex", std::string{}));
         rec.ours_value   = hexToBytes(j.value("ours_hex", std::string{}));
@@ -427,7 +427,7 @@ std::optional<ConflictSet> ConflictManager::deserializeConflictSet(std::string_v
         ConflictSet set;
         set.version           = j.value("v", 1);
         set.conflict_set_id   = j.value("conflict_set_id", std::string{});
-        set.detected_at       = HLCTimestamp{j.value("detected_at", uint64_t{0})};
+        set.detected_at       = HLCTimestamp(j.value("detected_at", uint64_t{0}));
         set.txn_id            = j.value("txn_id", uint64_t{0});
         set.conflict_record_ids = j.value("conflict_record_ids", std::vector<std::string>{});
         set.affected_keys     = j.value("affected_keys", std::vector<std::string>{});

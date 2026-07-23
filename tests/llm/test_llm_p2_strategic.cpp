@@ -61,7 +61,7 @@ RAGStageHandler makePassthroughHandler(
         r.stage  = stage_id;
         r.status = StageStatus::Success;
         if (stage_id == RAGStageId::Generate) {
-            llm::InferenceResponse resp;
+            InferenceResponse resp;
             resp.success = true;
             resp.text    = "answer";
             r.inference_response = std::move(resp);

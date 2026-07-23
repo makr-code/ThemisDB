@@ -166,7 +166,7 @@ protected:
 
     /** Return the timestamp immediately before @p ts (saturates at 0). */
     static HLCTimestamp justBefore(HLCTimestamp ts) {
-        return HLCTimestamp{ts.value > 0 ? ts.value - 1 : 0};
+        return HLCTimestamp(ts.value > 0 ? ts.value - 1 : 0);
     }
 
     std::string db_path_;
@@ -205,7 +205,7 @@ TEST(MVCCKeyEncodingTest, DecodeTimestamp_RoundTrip) {
 TEST(MVCCKeyEncodingTest, DecodeTimestamp_InvalidKey) {
     // A key that is too short should return zero timestamp.
     HLCTimestamp ts = MVCCStore::decodeTimestamp("short");
-    EXPECT_EQ(ts, HLCTimestamp{0});
+    EXPECT_EQ(ts, HLCTimestamp(0));
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

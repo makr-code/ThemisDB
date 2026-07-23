@@ -301,6 +301,22 @@ public:
      */
     size_t GetCacheSize() const;
 
+    /**
+     * @brief Convert KernelType enum to string for logging/metrics.
+     *
+     * @param kernel Kernel type
+     * @return String representation (e.g., "distance", "bfs")
+     */
+    static std::string KernelTypeToString(KernelType kernel);
+
+    /**
+     * @brief Convert DeviceType enum to string for logging/metrics.
+     *
+     * @param device Device type
+     * @return String representation (e.g., "nvidia_rtx", "cpu")
+     */
+    static std::string DeviceTypeToString(DeviceType device);
+
 private:
     /**
      * @brief Profile CPU execution time for the given workload.
@@ -326,21 +342,7 @@ private:
     std::optional<std::chrono::milliseconds> ProfileGPU(
         const WorkloadProfile& profile);
 
-    /**
-     * @brief Convert KernelType enum to string for logging/metrics.
-     *
-     * @param kernel Kernel type
-     * @return String representation (e.g., "distance", "bfs")
-     */
-    static std::string KernelTypeToString(KernelType kernel);
-
-    /**
-     * @brief Convert DeviceType enum to string for logging/metrics.
-     *
-     * @param device Device type
-     * @return String representation (e.g., "nvidia_rtx", "cpu")
-     */
-    static std::string DeviceTypeToString(DeviceType device);
+    
 
     /**
      * @brief Parse KernelType from string.

@@ -165,7 +165,7 @@ std::optional<std::vector<uint8_t>> MVCCStore::getLatest(std::string_view key) {
         }
     }
     // Slow path: iterator-based seek for time-travel reads or cache misses.
-    return getAtTimestamp(key, HLCTimestamp{UINT64_MAX});
+    return getAtTimestamp(key, HLCTimestamp(UINT64_MAX));
 }
 
 std::optional<std::vector<uint8_t>> MVCCStore::getAtTimestamp(
@@ -191,7 +191,7 @@ std::optional<std::vector<uint8_t>> MVCCStore::getAtTimestamp(
         seek_key = std::string(key.data(), key.size());
         seek_key.push_back('\x01');
     } else {
-        seek_key = encodeVersionedKey(key, HLCTimestamp{ts.value + 1});
+        seek_key = encodeVersionedKey(key, HLCTimestamp(ts.value + 1));
     }
 
     auto iter_result = db_->newSafeIterator();

@@ -151,3 +151,53 @@ private:
 
 }  // namespace themis::llm
 
+// Inline simple implementation for InMemorySSMStateStore (phase-1)
+namespace themis::llm {
+
+inline InMemorySSMStateStore::InMemorySSMStateStore(size_t max_snapshots_per_session)
+    : max_snapshots_per_session_(max_snapshots_per_session) {}
+
+inline bool InMemorySSMStateStore::checkpoint(const std::string& session_id,
+                                              const SSMStateSnapshot& snapshot) {
+    std::lock_guard<std::mutex> lk(mu_);
+    auto &vec = state_by_session_[session_id];
+    // duplicate timestamp rejected
+    for (const auto &s : vec) if (s.snapshot_ts == snapshot.snapshot_ts) return false;
+    vec.push_back(snapshot);
+    if (vec.size() > max_snapshots_per_session_) vec.erase(vec.begin());
+    return true;
+}
+
+inline std::optional<SSMStateSnapshot> InMemorySSMStateStore::resume(
+    const std::string& session_id,
+    const std::optional<HLCTimestamp>& snapshot_ts) {
+    std::lock_guard<std::mutex> lk(mu_);
+    auto it = state_by_session_.find(session_id);
+    if (it == state_by_session_.end() || it->second.empty()) return std::nullopt;
+    if (snapshot_ts.has_value()) {
+        for (const auto &s : it->second) if (s.snapshot_ts == snapshot_ts.value()) return s;
+        return std::nullopt;
+    }
+    return it->second.back();
+}
+
+inline bool InMemorySSMStateStore::invalidate(const std::string& session_id) {
+    std::lock_guard<std::mutex> lk(mu_);
+    return state_by_session_.erase(session_id) > 0;
+}
+
+inline uint64_t InMemorySSMStateStore::compact(uint64_t /*retention_window_ms*/) {
+    // Phase1: no-op
+    return 0;
+}
+
+inline std::string InMemorySSMStateStore::getStats() const {
+    std::lock_guard<std::mutex> lk(mu_);
+    size_t sessions = state_by_session_.size();
+    size_t total = 0;
+    for (const auto &p : state_by_session_) total += p.second.size();
+    return "{\"sessions\": " + std::to_string(sessions) + ", \"snapshots\": " + std::to_string(total) + "}";
+}
+
+} // namespace themis::llm
+

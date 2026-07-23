@@ -43,8 +43,12 @@ namespace fs = std::filesystem;
 // Test fixture: writes minimal YAML files to a temp directory
 // ─────────────────────────────────────────────────────────────────────────────
 
-static const char* kPhiloDir =
-    THEMIS_PHILOSOPHIES_DIR;  // defined by CMake
+// CMake normally injects `THEMIS_PHILOSOPHIES_DIR`; provide a fallback
+// for focused builds where the plugin target may not set it.
+#ifndef THEMIS_PHILOSOPHIES_DIR
+#define THEMIS_PHILOSOPHIES_DIR ""
+#endif
+static const char* kPhiloDir = THEMIS_PHILOSOPHIES_DIR;  // defined by CMake
 
 class EthicsProfileRegistryTest : public ::testing::Test {
 protected:

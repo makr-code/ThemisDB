@@ -113,6 +113,9 @@ public:
      */
     std::string getStats() const override;
 
+    // Backwards-compat wrapper for older tests that expect `getStatistics()`
+    inline std::string getStatistics() const { return getStats(); }
+
 private:
     rocksdb::TransactionDB* db_;  // Not owned
     rocksdb::ColumnFamilyHandle* cf_;  // Not owned

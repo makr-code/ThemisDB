@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites tests="6" failures="0" disabled="0" errors="0" time="1.967" timestamp="2026-07-23T17:11:51.974" name="AllTests">
+  <testsuite name="LoRAGraphLinkingTest" tests="6" failures="0" disabled="0" skipped="0" errors="0" time="1.966" timestamp="2026-07-23T17:11:51.975">
+    <testcase name="CreateFeedbackWithCallbackGraphLink" file="C:\Projects\ThemisDB\tests\lora\test_lora_graph_linking.cpp" line="66" status="run" result="completed" time="1.473" timestamp="2026-07-23T17:11:51.975" classname="LoRAGraphLinkingTest" />
+    <testcase name="RemoveFeedbackWithCallbackGraphLinkRemoval" file="C:\Projects\ThemisDB\tests\lora\test_lora_graph_linking.cpp" line="108" status="run" result="completed" time="0.071" timestamp="2026-07-23T17:11:53.450" classname="LoRAGraphLinkingTest" />
+    <testcase name="DirectGraphIndexLinking" file="C:\Projects\ThemisDB\tests\lora\test_lora_graph_linking.cpp" line="149" status="run" result="completed" time="0.079" timestamp="2026-07-23T17:11:53.522" classname="LoRAGraphLinkingTest" />
+    <testcase name="CallbackErrorHandling" file="C:\Projects\ThemisDB\tests\lora\test_lora_graph_linking.cpp" line="169" status="run" result="completed" time="0.136" timestamp="2026-07-23T17:11:53.602" classname="LoRAGraphLinkingTest" />
+    <testcase name="CallbackExceptionHandling" file="C:\Projects\ThemisDB\tests\lora\test_lora_graph_linking.cpp" line="193" status="run" result="completed" time="0.071" timestamp="2026-07-23T17:11:53.739" classname="LoRAGraphLinkingTest" />
+    <testcase name="SwitchCallbackModes" file="C:\Projects\ThemisDB\tests\lora\test_lora_graph_linking.cpp" line="216" status="run" result="completed" time="0.13" timestamp="2026-07-23T17:11:53.811" classname="LoRAGraphLinkingTest" />
+  </testsuite>
+</testsuites>
