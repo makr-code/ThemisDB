@@ -12,12 +12,16 @@ foreach(test_src IN LISTS EPIC3_DISTRIBUTED_TENSOR_TESTS)
 
     get_filename_component(test_name ${test_src} NAME_WE)
     add_executable(${test_name} ${test_src})
-    target_link_libraries(${test_name} 
-        PRIVATE themis_distributed_tensor
-        PRIVATE themis_tensor
-        PRIVATE themis_rag
-        PRIVATE GTest::gtest_main
-    )
+    # Link only available module targets to avoid forcing missing .lib files
+    set(_epic3_link_libs themis_distributed_tensor)
+    if(TARGET themis_tensor)
+        list(APPEND _epic3_link_libs themis_tensor)
+    endif()
+    if(TARGET themis_rag)
+        list(APPEND _epic3_link_libs themis_rag)
+    endif()
+    list(APPEND _epic3_link_libs GTest::gtest_main)
+    target_link_libraries(${test_name} PRIVATE ${_epic3_link_libs})
     add_test(NAME ${test_name} COMMAND ${test_name})
 endforeach()
 

@@ -1094,6 +1094,8 @@ set(THEMIS_LLM_SOURCES
     ../src/prompt_engineering/protegi_optimizer.cpp
     ../src/prompt_engineering/dspy_module.cpp
     ../src/prompt_engineering/structured_output.cpp
+    # SSM RocksDB-backed store: ensure implementation is part of modular LLM build
+    ../src/llm/ssm_state_rocksdb_store.cpp
     ../src/prompt_engineering/markdown_utils.cpp
     ../src/prompt_engineering/prompt_compressor.cpp
     ../src/prompt_engineering/adversarial_prompt_tester.cpp
@@ -2438,6 +2440,12 @@ function(themis_build_modular)
             target_link_libraries(themis_llm PUBLIC Vulkan::Vulkan)
             if(THEMIS_MODULE_LLM_SPLIT AND TARGET themis_llm_ext)
                 target_link_libraries(themis_llm_ext PUBLIC Vulkan::Vulkan)
+            endif()
+        endif()
+        if(DEFINED THEMIS_ROCKSDB_TARGET AND NOT "${THEMIS_ROCKSDB_TARGET}" STREQUAL "")
+            target_link_libraries(themis_llm PUBLIC ${THEMIS_ROCKSDB_TARGET})
+            if(THEMIS_MODULE_LLM_SPLIT AND TARGET themis_llm_ext)
+                target_link_libraries(themis_llm_ext PUBLIC ${THEMIS_ROCKSDB_TARGET})
             endif()
         endif()
     endif()

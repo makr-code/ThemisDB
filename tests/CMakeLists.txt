@@ -64,6 +64,15 @@ set(TEST_LIBS
     GTest::gtest_main
 )
 
+# Ensure security module is linked into tests that pull in shared helpers
+# (e.g. logger.cpp uses PIIRedactionPolicy). If the themis_security target
+# is available in the modular build, add it to the default test link set so
+# focused tests don't miss required symbols during linking.
+if(TARGET themis_security)
+    list(APPEND TEST_LIBS themis_security)
+    message(STATUS "Test suite: linking themis_security into ${TEST_LIBS}")
+endif()
+
 set(TEST_GMOCK_LIB "")
 if(TARGET GTest::gmock)
     set(TEST_GMOCK_LIB GTest::gmock)

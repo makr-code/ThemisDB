@@ -1229,6 +1229,8 @@ private:
     // Device info snapshot captured at the last initializeRuntime() call.
     std::vector<DeviceCapabilityInfo> cachedDeviceInfo_;
 
+};
+
 // =============================================================================
 // DeviceCapabilityFlags — strongly-typed bitmask for per-device features
 // =============================================================================
@@ -1604,13 +1606,3 @@ public:
 
 } // namespace acceleration
 } // namespace themis
-
-// Hash specialization to allow BackendType as unordered_map key
-namespace std {
-template <>
-struct hash<themis::acceleration::BackendType> {
-    size_t operator()(themis::acceleration::BackendType t) const noexcept {
-        return std::hash<int>()(static_cast<int>(t));
-    }
-};
-} // namespace std

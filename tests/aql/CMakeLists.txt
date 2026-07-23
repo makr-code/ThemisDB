@@ -49,6 +49,23 @@ foreach(_src IN LISTS AQL_MODULE_TEST_SOURCES)
         )
     endif()
 
+    # Ensure mutation-focused tests have the necessary implementation units
+    # when the shared themis_query target is not present in modular builds.
+    if(_stem MATCHES "test_aql_mutations_.*" AND NOT TARGET themis_query)
+        if(EXISTS "${THEMIS_ROOT_DIR}/src/query/aql_mutation_validator.cpp")
+            list(APPEND _extra_sources ${THEMIS_ROOT_DIR}/src/query/aql_mutation_validator.cpp)
+        endif()
+        if(EXISTS "${THEMIS_ROOT_DIR}/src/query/aql_mutation_translator.cpp")
+            list(APPEND _extra_sources ${THEMIS_ROOT_DIR}/src/query/aql_mutation_translator.cpp)
+        endif()
+        if(EXISTS "${THEMIS_ROOT_DIR}/src/query/aql_translator.cpp")
+            list(APPEND _extra_sources ${THEMIS_ROOT_DIR}/src/query/aql_translator.cpp)
+        endif()
+        if(EXISTS "${THEMIS_ROOT_DIR}/src/query/mutation_executor.cpp")
+            list(APPEND _extra_sources ${THEMIS_ROOT_DIR}/src/query/mutation_executor.cpp)
+        endif()
+    endif()
+
     add_executable(${_target}
         "${_src}"
         ${_extra_sources}

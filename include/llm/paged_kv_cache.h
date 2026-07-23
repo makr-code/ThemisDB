@@ -153,6 +153,10 @@ private:
     
     // KV cache storage: block_id -> layer_id -> kv_data (stored as quantized bytes)
     std::unordered_map<int, std::unordered_map<size_t, std::vector<uint8_t>>> kv_storage_quantized_;
+
+    // Backwards-compatibility: legacy full-precision KV storage used by
+    // existing implementation paths. New code should use `kv_storage_quantized_`.
+    std::unordered_map<int, std::unordered_map<size_t, std::vector<float>>> kv_storage_;
     
     // Metadata for quantized storage: block_id -> layer_id -> quantization_type
     std::unordered_map<int, std::unordered_map<size_t, KVQuantizationType>> quantization_metadata_;

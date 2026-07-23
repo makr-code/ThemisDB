@@ -10,7 +10,7 @@
 #include "storage/hlc.h"
 
 #include <rocksdb/db.h>
-#include <rocksdb/transaction_db.h>
+#include <rocksdb/utilities/transaction_db.h>
 #include <rocksdb/options.h>
 #include <memory>
 #include <filesystem>

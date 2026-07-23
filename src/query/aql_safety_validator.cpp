@@ -85,18 +85,21 @@ std::size_t AqlSafetyValidator::findKeyword(const std::string& haystack,
 }
 
 std::optional<AqlSafetyValidator::Violation>
-AqlSafetyValidator::validateMutationSafety(const std::string& aql_query) const {
+AqlSafetyValidator::validateMutationSafety(std::string_view aql_query) const {
+    // Convert to std::string for operations that rely on std::string APIs
+    const std::string query_str(aql_query);
+
     // --- Embedded NUL character check ----------------------------------------
-    if (aql_query.find('\0') != std::string::npos) {
+    if (query_str.find('\0') != std::string::npos) {
         return Violation{
             "NUL_INJECTION",
-            aql_query.find('\0'),
+            static_cast<std::size_t>(query_str.find('\0')),
             "AQL_MUTATION_SAFETY: Embedded NUL character detected in query. "
             "This is a classic injection vector and is unconditionally rejected."
         };
     }
 
-    const std::string upper = toUpper(aql_query);
+    const std::string upper = toUpper(query_str);
 
     // --- Multi-statement injection patterns -----------------------------------
     static constexpr const char* kInjectionPatterns[] = {
@@ -206,14 +209,15 @@ AqlSafetyValidator::validateMutationSafety(const std::string& aql_query) const {
 }
 
 std::optional<AqlSafetyValidator::Violation>
-AqlSafetyValidator::validate(const std::string& aql_query) const {
+AqlSafetyValidator::validate(std::string_view aql_query) const {
+    const std::string query_str(aql_query);
     // When mutations are explicitly allowed, skip the keyword-blocking scan
     // but still run injection-pattern and safety checks.
     if (mode_ == ValidationMode::AllowMutations) {
-        return validateMutationSafety(aql_query);
+        return validateMutationSafety(query_str);
     }
 
-    const std::string upper = toUpper(aql_query);
+    const std::string upper = toUpper(query_str);
 
     // --- Single-keyword scan ------------------------------------------------
     const MutationPattern* first_match = nullptr;

@@ -34,6 +34,12 @@ target_link_libraries(themis_distributed_tensor
         themis_base
 )
 
+# If the core tensor module is available, link it so consumers of
+# themis_distributed_tensor automatically get tensor symbols (e.g. ShardSummary).
+if(TARGET themis_tensor)
+    target_link_libraries(themis_distributed_tensor PRIVATE themis_tensor)
+endif()
+
 target_compile_features(themis_distributed_tensor PRIVATE cxx_std_17)
 
 if(MSVC)

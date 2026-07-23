@@ -27,6 +27,7 @@
 #include <stdexcept>
 
 using namespace themis;
+using namespace themis::query;
 
 namespace {
 

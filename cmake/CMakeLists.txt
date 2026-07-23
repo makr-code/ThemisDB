@@ -3145,7 +3145,6 @@ if(THEMIS_ENABLE_LLM)
     ../src/llm/lora_framework/rccl_backend.cpp
     # SSM-hybrid Phase 2: Episodic memory and RocksDB persistence
     ../src/aql/llm_extractive_compressor.cpp
-    ../src/llm/ssm_state_rocksdb_store.cpp
     )
 
     # GPU LoRA/VRAM implementation (GPU-only)

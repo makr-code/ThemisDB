@@ -43,8 +43,8 @@ class SSMStateRocksDBStore;
  */
 class LLMPluginManager {
 public:
-    LLMPluginManager() = default;
-    ~LLMPluginManager() = default;
+    LLMPluginManager();
+    ~LLMPluginManager();
     
     // Prevent copying
     LLMPluginManager(const LLMPluginManager&) = delete;

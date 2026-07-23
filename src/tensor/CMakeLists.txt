@@ -100,8 +100,11 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")
     target_compile_options(themis_tensor PRIVATE -Wall -Wextra -Wpedantic)
 endif()
 
-# Add library to exports
-if(NOT DEFINED THEMIS_SKIP_EXPORTS)
+# Add library to exports only when explicitly enabled
+# Exporting targets during an in-source configure can fail if dependent
+# targets are not part of the same export set. Make this opt-in so
+# consuming build systems enable it during install/export steps.
+if(DEFINED THEMIS_ENABLE_EXPORTS AND THEMIS_ENABLE_EXPORTS)
     export(TARGETS themis_tensor FILE ThemisThensorTargets.cmake)
 endif()
 

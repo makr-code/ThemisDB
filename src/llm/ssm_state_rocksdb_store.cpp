@@ -8,7 +8,7 @@
 #include "storage/hlc.h"
 
 #include <rocksdb/db.h>
-#include <rocksdb/transaction_db.h>
+#include <rocksdb/utilities/transaction_db.h>
 #include <rocksdb/slice.h>
 #include <rocksdb/status.h>
 
@@ -186,7 +186,7 @@ uint64_t SSMStateRocksDBStore::compact(uint64_t retention_window_ms) {
                 // Convert HLC physical time to milliseconds and compare
                 // TODO: Proper HLC comparison
                 // For now, simple heuristic: if physical_time < cutoff, delete
-                if (ts->getPhysicalTime() < cutoff_ms) {
+                if (ts->physical() < static_cast<uint64_t>(cutoff_ms)) {
                     keys_to_delete.push_back(it->key().ToString());
                 }
             }
@@ -235,8 +235,8 @@ std::string SSMStateRocksDBStore::makeSSMStateKey(
     
     std::ostringstream key;
     key << "ssm_state:" << session_id << ":"
-        << ts.getPhysicalTime() << ":"
-        << ts.getLogicalCounter();
+        << ts.physical() << ":"
+        << ts.logical();
     
     return key.str();
 }
@@ -251,11 +251,18 @@ std::string SSMStateRocksDBStore::serializeSnapshot(
     // Serialize snapshot to JSON and then to binary
     // TODO: Use protobuf or binary serialization for efficiency
     nlohmann::json j;
-    j["session_id"] = snapshot.session_id;
-    j["snapshot_ts_physical"] = snapshot.snapshot_ts.getPhysicalTime();
-    j["snapshot_ts_logical"] = snapshot.snapshot_ts.getLogicalCounter();
-    
-    // Serialize state data as base64-encoded string
+    j["snapshot_ts_physical"] = snapshot.snapshot_ts.physical();
+    j["snapshot_ts_logical"] = snapshot.snapshot_ts.logical();
+    j["state_fingerprint"] = snapshot.state_fingerprint;
+    j["sequence_counter"] = snapshot.sequence_counter;
+
+    // Serialize binary state as hex string
+    std::ostringstream hex;
+    for (auto b : snapshot.state_data) {
+        hex << std::hex << std::setw(2) << std::setfill('0') << (static_cast<int>(b) & 0xFF);
+    }
+    j["state_data_hex"] = hex.str();
+
     std::string state_json = j.dump();
     result.append(state_json);
 
@@ -280,11 +287,20 @@ std::optional<SSMStateSnapshot> SSMStateRocksDBStore::deserializeSnapshot(
         nlohmann::json j = nlohmann::json::parse(data.substr(1));
 
         SSMStateSnapshot snapshot;
-        snapshot.session_id = j["session_id"].get<std::string>();
-        
         int64_t physical = j["snapshot_ts_physical"].get<int64_t>();
         int64_t logical = j["snapshot_ts_logical"].get<int64_t>();
-        snapshot.snapshot_ts = HLCTimestamp(physical, logical);
+        snapshot.snapshot_ts = HLCTimestamp::from(static_cast<uint64_t>(physical), static_cast<uint32_t>(logical));
+        snapshot.state_fingerprint = j.value("state_fingerprint", std::string());
+        snapshot.sequence_counter = j.value("sequence_counter", 0ULL);
+        std::string hex = j.value("state_data_hex", std::string());
+        snapshot.state_data.clear();
+        snapshot.state_data.reserve(hex.size() / 2);
+        for (size_t i = 0; i + 1 < hex.size(); i += 2) {
+            unsigned int byte = 0;
+            std::istringstream iss(hex.substr(i,2));
+            iss >> std::hex >> byte;
+            snapshot.state_data.push_back(static_cast<uint8_t>(byte));
+        }
 
         return snapshot;
     } catch (...) {
@@ -314,7 +330,7 @@ std::optional<HLCTimestamp> SSMStateRocksDBStore::parseTimestampFromKey(
         int64_t physical = std::stoll(key.substr(second_last_colon + 1, 
                                                   last_colon - second_last_colon - 1));
 
-        return HLCTimestamp(physical, logical);
+        return HLCTimestamp::from(static_cast<uint64_t>(physical), static_cast<uint32_t>(logical));
     } catch (...) {
         return std::nullopt;
     }
@@ -336,10 +352,10 @@ SSMStateRocksDBStore::findMostRecentSnapshot(const std::string& session_id) {
     for (it->Seek(prefix); it->Valid() && it->key().starts_with(prefix); it->Next()) {
         auto ts = parseTimestampFromKey(it->key().ToString());
         if (ts.has_value()) {
-            if (!most_recent.has_value() || 
-                ts->getPhysicalTime() > most_recent->first.getPhysicalTime() ||
-                (ts->getPhysicalTime() == most_recent->first.getPhysicalTime() &&
-                 ts->getLogicalCounter() > most_recent->first.getLogicalCounter())) {
+            if (!most_recent.has_value() ||
+                ts->physical() > most_recent->first.physical() ||
+                (ts->physical() == most_recent->first.physical() &&
+                 ts->logical() > most_recent->first.logical())) {
                 most_recent = std::make_pair(*ts, it->value().ToString());
             }
         }

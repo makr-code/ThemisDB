@@ -31,7 +31,39 @@
 #include <functional>
 #include <mutex>
 #include <utility>
+#ifndef _WIN32
 #include <dlfcn.h>
+#else
+#include <windows.h>
+// Minimal dl* compatibility layer for Windows builds (maps to LoadLibrary/GetProcAddress)
+static inline void* dlopen(const char* name, int /*flags*/) {
+    return reinterpret_cast<void*>(::LoadLibraryA(name));
+}
+static inline void* dlsym(void* handle, const char* name) {
+    if (!handle) return nullptr;
+    return reinterpret_cast<void*>(::GetProcAddress(reinterpret_cast<HMODULE>(handle), name));
+}
+static inline int dlclose(void* handle) {
+    if (!handle) return 0;
+    return ::FreeLibrary(reinterpret_cast<HMODULE>(handle)) ? 0 : -1;
+}
+#define RTLD_NOW 0
+#define RTLD_LOCAL 0
+#endif
+
+// Provide a minimal `dim3` type on Windows when CUDA headers are not available.
+// This avoids build errors on MSVC for code that references `dim3` in ZLUDA
+// compatibility code. If CUDA headers are present, they define `dim3` and
+// this shim will be skipped.
+#if defined(_WIN32) && !defined(__CUDACC__) && !defined(__CUDA_RUNTIME_H__)
+struct dim3 {
+    unsigned int x;
+    unsigned int y;
+    unsigned int z;
+    constexpr dim3(unsigned int x_ = 1u, unsigned int y_ = 1u, unsigned int z_ = 1u) noexcept
+        : x(x_), y(y_), z(z_) {}
+};
+#endif
 
 #ifdef THEMIS_ENABLE_ZLUDA
 

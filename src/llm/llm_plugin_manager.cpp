@@ -34,6 +34,9 @@
 namespace themis {
 namespace llm {
 
+LLMPluginManager::LLMPluginManager() = default;
+LLMPluginManager::~LLMPluginManager() = default;
+
 void LLMPluginManager::registerPlugin(
     const std::string& name,
     std::unique_ptr<ILLMPlugin> plugin

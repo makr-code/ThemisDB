@@ -209,7 +209,7 @@ public:
 
 private:
     std::string             name_;
-    std::vector<DataPoint>  points_;
+    mutable std::vector<DataPoint>  points_;
     mutable bool            sorted_{true};
 
     /// Ensure `points_` is sorted by timestamp (lazy sort).

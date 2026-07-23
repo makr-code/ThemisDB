@@ -119,6 +119,9 @@ private:
 
 }  // anonymous namespace
 
+// Make the RequestMetrics type available unqualified in this translation unit
+using RequestMetrics = ObservableAdapter::RequestMetrics;
+
 // ============================================================================
 // Observability Tests
 // ============================================================================
@@ -225,7 +228,7 @@ TEST(BoundedResourceTest, QueueSizeLimit)
     // path reachable in a unit test.
     class SmallQueueAdapter : public IHttpHandler {
     public:
-        static constexpr size_t kMaxQueueSize = 3;
+        enum { kMaxQueueSize = 3 };
 
         themis::Result<HttpResponse> handle(const HttpRequest& /*req*/) override {
             std::unique_lock<std::mutex> lock(lock_);
@@ -304,7 +307,7 @@ TEST(BoundedResourceTest, SessionLimitEnforcement)
     // Local adapter with a deliberately small session budget.
     class SmallSessionAdapter : public IHttpHandler {
     public:
-        static constexpr size_t kMaxActiveSessions = 3;
+        enum { kMaxActiveSessions = 3 };
 
         themis::Result<HttpResponse> handle(const HttpRequest& /*req*/) override {
             std::unique_lock<std::mutex> lock(lock_);

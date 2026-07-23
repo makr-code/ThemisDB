@@ -399,11 +399,12 @@ TEST(AqlMutationsPhase5, P5_20_RoundTripInsert) {
     MutationExecutor      executor;
     MockStorage           ctx;
 
-    auto node = parser.parseMutation("INSERT {name: 'RoundTrip'} INTO rt_collection");
-    ASSERT_NE(node, nullptr);
+    auto parse_res = parser.parseMutation("INSERT {name: 'RoundTrip'} INTO rt_collection");
+    ASSERT_TRUE(parse_res.has_value()) << parse_res.error().message();
+    auto node = parse_res.value();
 
     auto validation = validator.validate(*node);
-    ASSERT_TRUE(validation.valid) << validation.errors[0];
+    ASSERT_TRUE(validation.valid) << (!validation.errors.empty() ? validation.errors[0] : "validation failed");
 
     auto plan   = translator.translate(node);
     auto result = executor.execute(plan, ctx);
@@ -422,13 +423,14 @@ TEST(AqlMutationsPhase5, P5_21_RoundTripRemove) {
     MockStorage           ctx;
     ctx.store["old_doc"] = R"({"x":1})";
 
-    auto node = parser.parseMutation("REMOVE 'old_doc' IN rt_remove_col");
-    ASSERT_NE(node, nullptr);
+    auto parse_res2 = parser.parseMutation("REMOVE 'old_doc' IN rt_remove_col");
+    ASSERT_TRUE(parse_res2.has_value()) << parse_res2.error().message();
+    auto node2 = parse_res2.value();
 
-    auto validation = validator.validate(*node);
-    ASSERT_TRUE(validation.valid) << (!validation.errors.empty() ? validation.errors[0] : "");
+    auto validation2 = validator.validate(*node2);
+    ASSERT_TRUE(validation2.valid) << (!validation2.errors.empty() ? validation2.errors[0] : "validation failed");
 
-    auto plan   = translator.translate(node);
+    auto plan   = translator.translate(node2);
     auto result = executor.execute(plan, ctx);
     EXPECT_TRUE(result.success);
 }

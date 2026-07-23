@@ -147,6 +147,11 @@ private:
     std::string formatTurnsForPrompt(
         const std::vector<std::pair<std::string, std::string>>& history,
         const std::vector<int32_t>& selected_indices);
+
+    /**
+     * @brief Generate a UUID v4 for episode identification.
+     */
+    std::string generateUUID();
 };
 
 } // namespace aql

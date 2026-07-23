@@ -105,15 +105,7 @@ public:
      * @return `std::nullopt` when the query is read-only (safe to execute).
      *         A `Violation` describing the first detected mutation otherwise.
      */
-    [[nodiscard]] std::optional<Violation> validate(const std::string& aql_query) const;
-
-    /**
-     * @brief Overload accepting `std::string_view` to avoid an extra copy when
-     *        the caller already holds a view or a temporary string.
-     */
-    [[nodiscard]] std::optional<Violation> validate(std::string_view aql_query) const {
-        return validate(std::string{aql_query});
-    }
+    [[nodiscard]] std::optional<Violation> validate(std::string_view aql_query) const;
 
     /**
      * @brief Validate mutation safety even when AllowMutations mode is active.
@@ -133,17 +125,12 @@ public:
      *         @c std::nullopt if no safety issue is detected.
      */
     [[nodiscard]] std::optional<Violation> validateMutationSafety(
-        const std::string& aql_query) const;
+        std::string_view aql_query) const;
 
     /**
      * @brief Convenience wrapper: returns true when @p aql_query is safe
      *        (contains no mutation keywords).
      */
-    [[nodiscard]] bool isSafe(const std::string& aql_query) const {
-        return !validate(aql_query).has_value();
-    }
-
-    /// @overload
     [[nodiscard]] bool isSafe(std::string_view aql_query) const {
         return !validate(aql_query).has_value();
     }

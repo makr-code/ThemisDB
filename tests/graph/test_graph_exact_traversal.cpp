@@ -33,7 +33,7 @@ public:
     }
 };
 
-class FailingExactExecutor final : public themis::graph::ShardGraphExecutor {
+class FailingExactExecutor : public themis::graph::ShardGraphExecutor {
 public:
     explicit FailingExactExecutor(std::string shard_id) : shard_id_(std::move(shard_id)) {}
 
