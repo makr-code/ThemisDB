@@ -333,6 +333,8 @@ set(THEMIS_STORAGE_SOURCES
     ../src/storage/tensor_network_storage_engine.cpp
     ../src/storage/tt_quantizer.cpp
     ../src/storage/tensor_router.cpp
+    ../src/storage/hierarchical_tucker_decomposer.cpp
+    ../src/tensor/hyper_index_builder.cpp
     ../src/tensor/tensor_mmap_bridge.cpp
     ../src/tensor/hiss_structural_search.cpp
     ../src/tensor/tensor_index_manager.cpp
@@ -341,6 +343,9 @@ set(THEMIS_STORAGE_SOURCES
     ../src/tensor/tensor_fingerprint_graph.cpp
     ../src/tensor/adapter_repository.cpp
     ../src/tensor/tensor_mid_layer.cpp
+    ../src/tensor/utr_converter.cpp
+    ../src/tensor/tnsr_task.cpp
+    ../src/tensor/hnsw_tt_bridge.cpp
     ../src/storage/batch_write_optimizer.cpp
     # ../src/storage/pitr_manager.cpp  # Temporarily disabled - needs transaction module
     ../src/storage/blob_redundancy_manager.cpp
@@ -378,6 +383,9 @@ set(THEMIS_STORAGE_SOURCES
     ../src/storage/storage_engine.cpp
     # Compression strategies (pluggable per-column-family)
     ../src/storage/compressed_storage.cpp
+    ../src/storage/zero_copy_blob_transfer.cpp
+    ../src/storage/gguf_metadata.cpp
+    ../src/storage/blob_backend_gcs.cpp
     ../src/storage/compression_strategy.cpp
     ../src/storage/gpu_compression.cpp
     # Index maintenance moved to THEMIS_SECURITY_SOURCES (depends on vector index internals)
@@ -472,6 +480,7 @@ set(THEMIS_STORAGE_SOURCES
     # Storage enhancements
     ../src/cache/cache_eviction_policy.cpp
     ../src/cache/semantic_cache.cpp
+    ../src/cache/cache_manager.cpp
     
     # Updates
     ../src/updates/build_verifier.cpp
@@ -794,6 +803,7 @@ set(THEMIS_SECURITY_SOURCES
     ../src/auth/token_blacklist.cpp
     ../src/auth/redis_token_blacklist.cpp
     ../src/auth/rocksdb_token_blacklist.cpp
+    ../src/auth/distributed_token_blacklist.cpp
     ../src/auth/jwks_validator.cpp
     ../src/auth/gssapi_authenticator.cpp
     ../src/auth/mtls_authenticator.cpp
@@ -1768,6 +1778,7 @@ set(THEMIS_NETWORK_SOURCES
     ../src/network/adaptive_circuit_breaker.cpp
     ../src/network/udp_fast_path.cpp
     ../src/network/retry_policy.cpp
+    ../src/network/wire_retry_policy.cpp
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/network/wire_protocol_server_ws.cpp>
     $<$<BOOL:${THEMIS_ENABLE_SERVICE_MESH}>:../src/network/service_mesh.cpp>
     $<$<BOOL:${THEMIS_ENABLE_SERVICE_MESH}>:../src/network/envoy_xds.cpp>
@@ -1857,6 +1868,7 @@ if(THEMIS_ENABLE_GPU)
         ../src/gpu/feature_flags.cpp
         ../src/gpu/memory_pool.cpp
         ../src/gpu/kernel_validator.cpp
+        $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/gpu/cuda_operations.cpp>
         ../src/gpu/policy.cpp
         ../src/gpu/alerts.cpp
         ../src/gpu/launcher.cpp

@@ -1577,10 +1577,24 @@ if(THEMIS_BUILD_MODULAR)
                 ${THEMIS_ROOT_DIR}/src/llm/lora_framework/multi_gpu_lora_layer.cpp
                 ${THEMIS_ROOT_DIR}/src/index/gpu_vector_index.cpp
                 ${THEMIS_ROOT_DIR}/src/index/multi_gpu_vector_index.cpp
+                ${THEMIS_ROOT_DIR}/src/gpu/cuda_operations.cpp
             )
         elseif(THEMIS_ENABLE_GPU)
             message(STATUS "themis_tests: skipping extra GPU sources (linked via themis_llm module)")
         endif()
+
+## Add cuda_operations.cpp only when CUDA headers are actually available
+## to avoid forcing compilation on machines without the CUDA Toolkit.
+find_path(_CUDA_RUNTIME_HEADER cuda_runtime.h)
+if(_CUDA_RUNTIME_HEADER)
+    message(STATUS "CUDA headers found; adding cuda_operations.cpp to themis_tests")
+    target_sources(themis_tests PRIVATE ${THEMIS_ROOT_DIR}/src/gpu/cuda_operations.cpp)
+else()
+    message(STATUS "Skipping cuda_operations.cpp for themis_tests (CUDA headers not found)")
+    # Add a CUDA-free stub implementation so tests that exercise move semantics
+    # can still link on machines without the CUDA Toolkit.
+    target_sources(themis_tests PRIVATE ${THEMIS_ROOT_DIR}/src/gpu/cuda_operations_stub.cpp)
+endif()
         # Also filter _themis_test_extra_sources against module-owned basenames.
         # Absolute paths in extra_sources don't match relative paths in
         # THEMIS_CORE_SOURCES (string mismatch), so the loop's FIND check alone

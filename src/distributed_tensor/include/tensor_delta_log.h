@@ -45,7 +45,7 @@ namespace themis {
 namespace distributed_tensor {
 
 // Forward declarations
-class ArtifactManifest;
+struct ArtifactManifest;
 
 /// @brief Enumeration of delta mutation types.
 ///

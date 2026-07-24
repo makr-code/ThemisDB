@@ -2226,6 +2226,7 @@ set(THEMIS_CORE_SOURCES
     
     ../src/cache/semantic_cache.cpp
     ../src/cache/adaptive_query_cache.cpp
+    ../src/cache/cache_manager.cpp
     ../src/cache/embedding_cache.cpp
     ../src/cache/bounded_lru_cache.cpp
     ../src/cache/warmup.cpp
@@ -2718,6 +2719,7 @@ set(THEMIS_CORE_SOURCES
     ../src/network/adaptive_circuit_breaker.cpp
     ../src/network/qos_manager.cpp
     ../src/network/udp_fast_path.cpp
+    ../src/network/wire_retry_policy.cpp
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/network/wire_protocol_server_ws.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/network/quic_transport.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/network/quic_server.cpp>
@@ -2863,6 +2865,7 @@ set(THEMIS_CORE_SOURCES
     # OLAP Analytics
     ../src/analytics/olap.cpp
     ../src/gpu/query_accelerator.cpp
+    $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/gpu/cuda_operations.cpp>$<$<NOT:$<BOOL:${THEMIS_ENABLE_CUDA}>>:../src/gpu/cuda_operations_stub.cpp>
     ../src/analytics/process_mining.cpp
     ../src/analytics/nlp_text_analyzer.cpp
     ../src/analytics/arrow_export.cpp

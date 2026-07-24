@@ -20,13 +20,15 @@ set(DISTRIBUTED_TENSOR_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/tensor_training_coordinator.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/tensor_infrastructure.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/src/tensor_storage_strategy.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/snapshot_update_worker.cc
 )
 
 add_library(themis_distributed_tensor STATIC ${DISTRIBUTED_TENSOR_SOURCES})
 target_include_directories(themis_distributed_tensor
     PUBLIC
         ${CMAKE_SOURCE_DIR}/include
-        ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}
 )
 
 target_link_libraries(themis_distributed_tensor

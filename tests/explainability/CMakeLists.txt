@@ -14,6 +14,11 @@ foreach(_src IN LISTS EXPLAINABILITY_MODULE_TEST_SOURCES)
     endif()
 
     add_executable(${_target} "${_src}")
+    if(_stem STREQUAL "test_explainability_reason_builder")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/rag/explainability_reason_builder.cpp
+        )
+    endif()
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src

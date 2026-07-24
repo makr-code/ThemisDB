@@ -3,7 +3,7 @@
  * @brief Implementation of integrity verification, Merkle structures, and receipt semantics.
  */
 
-#include "integrity_verification.h"
+#include "src/distributed_tensor/include/integrity_verification.h"
 
 #include <openssl/sha.h>
 #include <spdlog/spdlog.h>
@@ -566,14 +566,18 @@ VerificationResult verifyArtifactIntegrity(
     
     // Step 6: Provenance verification if hook provided
     if (provenance_hook && result.state != VerificationState::CORRUPT) {
+        std::string receipt_lineage_hash;
+        if (receipt_chain.has_value()) {
+            const auto head_receipt = receipt_chain->getHeadReceipt();
+            if (head_receipt.has_value()) {
+                receipt_lineage_hash = head_receipt->package_lineage_hash;
+            }
+        }
+
         auto lineage_result = provenance_hook->verifyProvenance(
             artifact_id,
             result.actual_hash,
-            receipt_chain.has_value() 
-                ? receipt_chain->getHeadReceipt()->has_value()
-                    ? receipt_chain->getHeadReceipt()->value().package_lineage_hash
-                    : ""
-                : "");
+            receipt_lineage_hash);
         
         if (!lineage_result.success && result.state == VerificationState::VERIFIED) {
             result.state = VerificationState::STALE;

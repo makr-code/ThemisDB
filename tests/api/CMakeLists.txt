@@ -14,6 +14,11 @@ foreach(_src IN LISTS API_MODULE_TEST_SOURCES)
     endif()
 
     add_executable(${_target} "${_src}")
+    if(_stem STREQUAL "test_api_degraded_mode" OR _stem STREQUAL "test_api_phase4_concurrency")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/api/api_transport_policy.cpp
+        )
+    endif()
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src

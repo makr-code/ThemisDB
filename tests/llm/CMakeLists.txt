@@ -48,6 +48,11 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/llm/lora_metadata_cache.cpp
         )
     endif()
+    if(_stem STREQUAL "test_llm_memory_safety")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/model_metadata_cache.cpp
+        )
+    endif()
     if(_stem STREQUAL "test_llm_deployment_plugin")
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/llm/llm_deployment_plugin.cpp
@@ -146,6 +151,11 @@ foreach(_src IN LISTS LLM_AUTOGEN_PREFIX_TEST_SOURCES)
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/llm/model_metadata_cache.cpp
             ${THEMIS_ROOT_DIR}/src/llm/lora_metadata_cache.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_llm_memory_safety")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/model_metadata_cache.cpp
         )
     endif()
     if(_stem STREQUAL "test_llm_deployment_plugin")

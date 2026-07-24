@@ -94,7 +94,6 @@ list(APPEND THEMIS_CORE_SOURCES
     ../src/storage/tensor_compaction_filter.cpp
     ../src/storage/ggml_tensor_bridge.cpp
     ../src/storage/gguf_metadata.cpp
-    ../src/storage/hierarchical_tucker_decomposer.cpp
 
     # Core tensor index and manager
     ../src/tensor/tensor_index.cpp

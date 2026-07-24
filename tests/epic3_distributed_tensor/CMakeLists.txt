@@ -12,6 +12,12 @@ foreach(test_src IN LISTS EPIC3_DISTRIBUTED_TENSOR_TESTS)
 
     get_filename_component(test_name ${test_src} NAME_WE)
     add_executable(${test_name} ${test_src})
+    # If the full `themis_tensor` library target is not available in this
+    # configured build, compile the minimal implementation required by these
+    # tests directly into the test executable to avoid unresolved externals.
+    if(NOT TARGET themis_tensor)
+        target_sources(${test_name} PRIVATE ${THEMIS_ROOT_DIR}/src/tensor/tensor_summary_types.cpp)
+    endif()
     # Link only available module targets to avoid forcing missing .lib files
     set(_epic3_link_libs themis_distributed_tensor)
     if(TARGET themis_tensor)
@@ -242,12 +248,26 @@ foreach(_src IN LISTS EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES)
         ${THEMIS_ROOT_DIR}
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
+        ${THEMIS_ROOT_DIR}/src/distributed_tensor/include
     )
     target_link_libraries(${_target} PRIVATE
         ${TEST_LIBS}
         themis_distributed_tensor
         Threads::Threads
     )
+    # If the distributed tensor library is not available, add key source
+    # fallbacks directly into the test target to avoid unresolved externals
+    # during partial builds or when modular targets are disabled.
+    if(NOT TARGET themis_distributed_tensor)
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/snapshot_update_worker.cc
+            ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/integrity_verification.cc
+            ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/tensor_delta_log.cc
+            ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/artifact_manifest.cc
+            ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/manifest_store.cpp
+            ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/crash_recovery_checkpoint.cc
+        )
+    endif()
     if(TARGET themis_base)
         target_link_libraries(${_target} PRIVATE themis_base)
     endif()
