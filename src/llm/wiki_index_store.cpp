@@ -8,7 +8,9 @@
  *   - Manages a COSINE HNSW vector index via VectorIndexManager.
  *   - Embeds text through EmbeddedLLM (single or batch).
  *   - Fuses BM25 and KNN candidate lists through HybridRetriever (RRF).
- *   - Thread-safe: shared_mutex guards the in-flight embedding cache.
+ *   - Thread-safe: shared_mutex guards the chunk embedding cache (exclusive
+ *     for writes, shared for reads); a separate query_embed_mutex_ guards the
+ *     query embedding cache used by const query() callers.
  *
  * JsonWikiIndexReader:
  *   - Reads the Python-MVP index.json format (array of chunk objects).
@@ -41,37 +43,32 @@ namespace llm {
 
 namespace {
 
-/// Build a SecondaryIndexManager-ready BaseEntity from a WikiChunk.
-ingestion::BaseEntity chunkToEntity(const WikiChunk& chunk) {
-    ingestion::BaseEntity e;
-    e.id        = chunk.chunk_id;
-    e.text      = chunk.text;
-    e.embeddings = chunk.embedding;
-    e.properties["doc_id"]        = chunk.doc_id;
-    e.properties["section_title"] = chunk.section_title;
-    e.properties["line_start"]    = std::to_string(chunk.line_start);
-    e.properties["line_end"]      = std::to_string(chunk.line_end);
-    e.properties["source_path"]   = chunk.source_path;
-    // The fulltext index expects the indexed text under the "content" key.
-    e.properties["content"]       = chunk.text;
+/// Build a SecondaryIndexManager / VectorIndexManager-ready BaseEntity from a WikiChunk.
+///
+/// Fields written:
+///  - Primary key: chunk.chunk_id
+///  - "content"        → chunk text (indexed by the BM25 fulltext index)
+///  - "doc_id"         → source document identifier
+///  - "section_title"  → heading of the containing section
+///  - "source_path"    → originating file path
+///  - "line_start" / "line_end" → 1-based line range within the source file
+///  - "embedding"      → dense float vector (stored in the vector index when non-empty)
+///
+/// @param chunk  Source wiki chunk.
+/// @return       `themis::BaseEntity` ready for `SecondaryIndexManager::put()` and
+///               `VectorIndexManager::addEntity()`.
+themis::BaseEntity chunkToEntity(const WikiChunk& chunk) {
+    themis::BaseEntity e(chunk.chunk_id);
+    e.setField("content",       chunk.text);
+    e.setField("doc_id",        chunk.doc_id);
+    e.setField("section_title", chunk.section_title);
+    e.setField("source_path",   chunk.source_path);
+    e.setField("line_start",    static_cast<int64_t>(chunk.line_start));
+    e.setField("line_end",      static_cast<int64_t>(chunk.line_end));
+    if (!chunk.embedding.empty()) {
+        e.setField("embedding", chunk.embedding);
+    }
     return e;
-}
-
-/// Convert a VectorIndexManager Result + entity properties to a WikiChunk.
-WikiChunk entityToChunk(const ingestion::BaseEntity& e, float score) {
-    WikiChunk c;
-    c.chunk_id      = e.id;
-    c.text          = e.text;
-    c.embedding     = e.embeddings;
-    c.score         = score;
-    c.doc_id        = e.getProperty("doc_id", "");
-    c.section_title = e.getProperty("section_title", "");
-    c.source_path   = e.getProperty("source_path", "");
-    try {
-        c.line_start = std::stoi(e.getProperty("line_start", "0"));
-        c.line_end   = std::stoi(e.getProperty("line_end",   "0"));
-    } catch (...) {}
-    return c;
 }
 
 } // namespace
@@ -88,6 +85,7 @@ WikiIndexStore::WikiIndexStore(SecondaryIndexManager& sim,
     , vim_(vim)
     , llm_(llm)
     , config_(std::move(config))
+    , llm_ptr_(&llm)
 {
     // Initialise HybridRetriever with configured RRF parameters
     rag::HybridRetrieverConfig rrf_cfg;
@@ -144,16 +142,14 @@ void WikiIndexStore::writeChunk(WikiChunk chunk) {
         }
     }
 
-    ingestion::BaseEntity entity = chunkToEntity(chunk);
-
-    // Write to secondary index (fulltext + doc_id)
+    themis::BaseEntity entity = chunkToEntity(chunk);
     auto s1 = sim_.put(config_.table_name, entity);
     if (!s1.ok) {
         throw std::runtime_error("[WikiIndexStore] sim_.put failed: " + s1.message);
     }
 
-    // Write to vector index
-    if (config_.enable_vector && !entity.embeddings.empty()) {
+    // Write to vector index (only when an embedding was stored in the entity)
+    if (config_.enable_vector && !chunk.embedding.empty()) {
         auto s2 = vim_.addEntity(entity);
         if (!s2.ok) {
             spdlog::warn("[WikiIndexStore] vim_.addEntity: {}", s2.message);
@@ -203,13 +199,13 @@ void WikiIndexStore::writeBatch(std::vector<WikiChunk> chunks) {
 
     // Write all chunks
     for (const auto& chunk : chunks) {
-        ingestion::BaseEntity entity = chunkToEntity(chunk);
+        themis::BaseEntity entity = chunkToEntity(chunk);
 
         auto s1 = sim_.put(config_.table_name, entity);
         if (!s1.ok) {
             throw std::runtime_error("[WikiIndexStore] writeBatch sim_.put: " + s1.message);
         }
-        if (config_.enable_vector && !entity.embeddings.empty()) {
+        if (config_.enable_vector && !chunk.embedding.empty()) {
             auto s2 = vim_.addEntity(entity);
             if (!s2.ok) {
                 spdlog::warn("[WikiIndexStore] writeBatch vim_.addEntity: {}", s2.message);
@@ -260,15 +256,21 @@ std::vector<WikiChunk> WikiIndexStore::query(const std::string& query_text,
 
     // ── Vector KNN path ────────────────────────────────────────────────────
     if (config_.enable_vector) {
-        // Embed query (check cache first, store under special key)
+        // Embed the query text.  Results are cached in query_embed_cache_ under
+        // query_embed_mutex_ (a dedicated exclusive lock independent of mutex_).
+        // This avoids both a const_cast and a race window: concurrent query()
+        // calls all hold the shared mutex_ but serialise embedding work through
+        // query_embed_mutex_.
         std::vector<float> qvec;
-        const std::string  qkey = "__query__:" + query_text;
-        if (auto it = embed_cache_.find(qkey); it != embed_cache_.end()) {
-            qvec = it->second;
-        } else {
-            // Need write access to cache — but we hold a shared lock.
-            // Embed without caching (caller may upgrade on the next call).
-            qvec = const_cast<EmbeddedLLM&>(llm_).embed(query_text);
+        {
+            std::lock_guard<std::mutex> qlock(query_embed_mutex_);
+            if (auto it = query_embed_cache_.find(query_text);
+                it != query_embed_cache_.end()) {
+                qvec = it->second;
+            } else {
+                qvec = llm_ptr_->embed(query_text);
+                query_embed_cache_.emplace(query_text, qvec);
+            }
         }
 
         if (!qvec.empty()) {
@@ -336,7 +338,7 @@ bool WikiIndexStore::isReady() const noexcept {
 // WikiIndexStore — toEntity (static)
 // ─────────────────────────────────────────────────────────────────────────────
 
-ingestion::BaseEntity WikiIndexStore::toEntity(const WikiChunk& chunk) {
+themis::BaseEntity WikiIndexStore::toEntity(const WikiChunk& chunk) {
     return chunkToEntity(chunk);
 }
 

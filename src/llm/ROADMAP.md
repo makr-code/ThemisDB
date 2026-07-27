@@ -35,9 +35,29 @@ The module provides production-grade LLM runtime surfaces across async inference
 - [x] `tests/llm/test_wiki_rag_quality.cpp` — WISQ-01..05 quality gate tests
   (Recall@5 ≥ 80 %, latency < 200 ms/10 queries on 100 chunks)
 
-### Phase B (planned, Q3 2026)
+### Phase B (2026-07-27, partial delivery)
 
-- [ ] `WikiIndexStore` integration tests with RocksDB fixture
+**Delivered:**
+
+- [x] Fix `ingestion::BaseEntity` → `themis::BaseEntity` type mismatch in
+      `wiki_index_store.cpp` — `writeChunk()` and `writeBatch()` now build
+      storage-compatible entities via `chunkToEntity()` that uses
+      `themis::BaseEntity::setField()`.  The `entityToChunk()` dead-code stub
+      (which referenced the non-existent `getProperty()` API) was removed.
+- [x] `tests/llm/test_wiki_index_store_phase_b.cpp` — WIS-B-01..16
+      RocksDB-backed integration tests covering: construction, empty query,
+      BM25-only retrieval, KNN-only retrieval, hybrid RRF, `writeBatch()`,
+      `top_k`, `min_score`, pre-embedded chunks, concurrent reads,
+      writer+reader concurrency, score monotonicity, `flush()` no-op, query
+      embedding cache, and multi-doc-id ingestion.
+- [x] Thread-safety hardening: removed `const_cast<EmbeddedLLM&>(llm_)` from
+      `query()`; added `mutable EmbeddedLLM* llm_ptr_` +
+      `mutable std::mutex query_embed_mutex_` +
+      `mutable std::unordered_map<...> query_embed_cache_` so query-embedding
+      caching is race-free under concurrent readers.
+
+**Remaining (Target: Q3–Q4 2026):**
+
 - [ ] Persistent embedding cache keyed by chunk_id in RocksDB
 - [ ] Embedding dimension auto-probe on first `embed()` call
 - [ ] Streaming ingest via `WriteBatch` with configurable batch size

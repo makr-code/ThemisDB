@@ -89,6 +89,18 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/llm/wiki_rag_source.cpp
         )
     endif()
+    # Phase B wiki integration tests: full RocksDB + BM25 + HNSW + RRF path.
+    if(_stem STREQUAL "test_wiki_index_store_phase_b")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/wiki_index_store.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/wiki_chunk_splitter.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/wiki_rag_source.cpp
+        )
+        # Link RocksDB explicitly when not pulled in through themis_llm.
+        if(NOT TARGET themis_llm)
+            target_link_libraries(${_target} PRIVATE rocksdb)
+        endif()
+    endif()
     # Tests using EXPECT_THAT/HasSubstr need gmock.
     set(_gmock_link "")
     if(TARGET GTest::gmock)

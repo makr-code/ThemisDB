@@ -46,8 +46,9 @@
 #include "index/vector_index.h"
 #include "llm/embedded_llm.h"
 #include "rag/hybrid_retriever.h"
-#include "ingestion/base_entity.h"
+#include "storage/base_entity.h"
 
+#include <mutex>
 #include <shared_mutex>
 #include <string>
 #include <vector>
@@ -180,9 +181,17 @@ public:
  * fuses results through `HybridRetriever` (RRF, configurable weights).
  *
  * Thread safety:
- *  - `query()` acquires a **shared** lock on the internal mutex.
- *  - `writeChunk()`, `writeBatch()`, and `flush()` acquire an **exclusive** lock.
- *  - Multiple readers may query concurrently; writes are serialised.
+ *  - `query()` acquires a **shared** lock on `mutex_` (multiple concurrent
+ *    readers are allowed).  Query embedding is computed through `llm_ptr_`
+ *    (non-const pointer to `llm_`) under a separate `query_embed_mutex_`
+ *    exclusive lock so that there is no race window on the query cache.
+ *  - `writeChunk()`, `writeBatch()`, and `flush()` acquire an **exclusive**
+ *    lock on `mutex_`; writes are fully serialised.
+ *  - The chunk embedding cache (`embed_cache_`) is written only while holding
+ *    the exclusive lock and read only while holding the shared lock — no
+ *    separate per-cache lock is required.
+ *  - The query embedding cache (`query_embed_cache_`) is independent of
+ *    `embed_cache_` and is always accessed under `query_embed_mutex_`.
  */
 class WikiIndexStore : public IWikiIndexReader, public IWikiIndexWriter {
 public:
@@ -263,8 +272,8 @@ public:
     [[nodiscard]] bool isReady() const noexcept override;
 
 private:
-    /// @brief Convert a WikiChunk to a BaseEntity ready for index ingestion.
-    [[nodiscard]] static ingestion::BaseEntity toEntity(const WikiChunk& chunk);
+    /// @brief Convert a WikiChunk to a storage-compatible BaseEntity for index ingestion.
+    [[nodiscard]] static themis::BaseEntity toEntity(const WikiChunk& chunk);
 
     SecondaryIndexManager&      sim_;       ///< Fulltext + regular indexes
     VectorIndexManager&         vim_;       ///< HNSW vector index
@@ -273,9 +282,35 @@ private:
     rag::HybridRetriever        retriever_; ///< RRF fusion engine
     std::atomic<bool>           ready_{false}; ///< Initialization flag
 
-    mutable std::shared_mutex   mutex_;     ///< Guards in-flight embedding cache
-    /// In-memory embedding cache keyed by chunk_id.
+    /// Guards write/read on the chunk embedding cache (exclusive for writes,
+    /// shared for reads during `writeChunk`/`writeBatch`; writes are already
+    /// serialised by `mutex_`).
+    mutable std::shared_mutex   mutex_;
+
+    /// In-memory embedding cache keyed by chunk_id (populated under exclusive lock).
     mutable std::unordered_map<std::string, std::vector<float>> embed_cache_;
+
+    /// Non-owning pointer to `llm_` for use in `const` query contexts.
+    ///
+    /// `EmbeddedLLM::embed()` is not marked `const` (it updates an internal
+    /// LRU cache protected by its own mutex), so a const reference cannot be
+    /// used to call it inside a `const` method.  Storing a raw pointer avoids
+    /// a `const_cast` at every call site.
+    mutable EmbeddedLLM*        llm_ptr_;   ///< Raw non-owning pointer to llm_
+
+    /// Mutex protecting the per-instance query embedding cache below.
+    ///
+    /// Held as an exclusive lock only during cache lookup/insert; both
+    /// concurrent `query()` calls (shared `mutex_`) and concurrent writes
+    /// (`unique_lock` on `mutex_`) are safe because this is an independent lock.
+    mutable std::mutex          query_embed_mutex_;
+
+    /// Cache for query-text embeddings, keyed by the raw query string.
+    ///
+    /// Populated on first `query()` call for a given text; subsequent calls
+    /// return the cached vector without re-invoking the LLM.  Protected by
+    /// `query_embed_mutex_` (not by `mutex_`).
+    mutable std::unordered_map<std::string, std::vector<float>> query_embed_cache_;
 };
 
 // ============================================================================
