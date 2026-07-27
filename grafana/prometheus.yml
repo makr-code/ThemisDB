@@ -10,6 +10,7 @@ rule_files:
   - '/etc/prometheus/alerts/siem_security_alerts.yaml'
   - '/etc/prometheus/alerts/graph_security.yaml'
   - '/etc/prometheus/rules/llm_alerts.yml'
+  - '/etc/prometheus/alerts/bt4_flare_alerts.yml'
 
 # Scrape configurations
 scrape_configs:
@@ -94,3 +95,37 @@ scrape_configs:
           shard_id: 'shard3'
     metrics_path: '/metrics'
     scrape_interval: 10s
+
+  # GGML Bridge – BT-4 adapter metrics
+  - job_name: 'ggml-bridge'
+    static_configs:
+      - targets: ['host.docker.internal:9200']
+        labels:
+          component: 'ggml_bridge'
+          service: 'bt4_adapter'
+    metrics_path: '/metrics'
+    scrape_interval: 5s
+
+  # FLARE Retrieval – retrieval pipeline metrics
+  - job_name: 'flare-retrieval'
+    static_configs:
+      - targets: ['host.docker.internal:9201']
+        labels:
+          component: 'flare_retrieval'
+          service: 'flare_pipeline'
+    metrics_path: '/metrics'
+    scrape_interval: 5s
+
+  # OpenTelemetry Collector – self-metrics and span RED metrics
+  - job_name: 'otel-collector'
+    static_configs:
+      - targets: ['otel-collector:8888']
+        labels:
+          service: 'otel-collector'
+          component: 'observability'
+      - targets: ['otel-collector:8889']
+        labels:
+          service: 'otel-collector-spans'
+          component: 'span_metrics'
+    metrics_path: '/metrics'
+    scrape_interval: 15s

@@ -7,6 +7,7 @@ services:
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
       - ./provisioning/alerts.yml:/etc/prometheus/alerts.yml
+      - ./alerts:/etc/prometheus/alerts:ro
       - prometheus-data:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
@@ -32,30 +33,77 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=admin
       - GF_USERS_ALLOW_SIGN_UP=false
       - GF_SERVER_ROOT_URL=http://localhost:3000
-      - GF_INSTALL_PLUGINS=
+      - GF_INSTALL_PLUGINS=grafana-jaeger-datasource
     ports:
       - "3000:3000"
     networks:
       - themisdb-monitoring
     depends_on:
       - prometheus
+      - jaeger
     restart: unless-stopped
 
-  # Placeholder for ThemisDB - will be replaced with actual service
+  # Jaeger all-in-one: receives OTLP spans, provides trace UI
+  jaeger:
+    image: jaegertracing/all-in-one:1.57
+    container_name: themisdb-jaeger
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+      - SPAN_STORAGE_TYPE=memory
+    ports:
+      - "16686:16686"  # Jaeger UI
+      - "14268:14268"  # Jaeger HTTP collector (thrift)
+      - "14250:14250"  # Jaeger gRPC collector
+      - "4317:4317"    # OTLP gRPC (used by OTel Collector)
+      - "4318:4318"    # OTLP HTTP
+    networks:
+      - themisdb-monitoring
+    restart: unless-stopped
+
+  # OpenTelemetry Collector: receives OTLP spans, fans out to Jaeger + Prometheus
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.101.0
+    container_name: themisdb-otel-collector
+    volumes:
+      - ./otel-collector-config.yml:/etc/otelcol-contrib/config.yaml:ro
+    ports:
+      - "4319:4317"   # OTLP gRPC ingress (application → collector)
+      - "4320:4318"   # OTLP HTTP ingress
+      - "8888:8888"   # OTel Collector self-metrics (Prometheus scrape)
+      - "8889:8889"   # Prometheus exporter (spans → metrics)
+    networks:
+      - themisdb-monitoring
+    depends_on:
+      - jaeger
+      - prometheus
+    restart: unless-stopped
+
+  # ThemisDB service – build from repository source
   themisdb:
-    image: themisdb/themisdb:latest
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      target: release
     container_name: themisdb
     environment:
       - THEMIS_ENABLE_METRICS=true
       - THEMIS_METRICS_PORT=9091
+      - THEMIS_OTEL_ENDPOINT=http://otel-collector:4317
+      - THEMIS_OTEL_SERVICE_NAME=themisdb
     ports:
-      - "19091:9091"  # Metrics endpoint - changed to avoid conflict
-      - "8080:8080"  # API endpoint
+      - "9091:9091"   # Prometheus metrics endpoint
+      - "8080:8080"   # REST API endpoint
     networks:
       - themisdb-monitoring
+    depends_on:
+      - otel-collector
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
     restart: unless-stopped
-    # Remove this if using actual ThemisDB image
-    command: /bin/sh -c "echo 'ThemisDB placeholder'; sleep infinity"
 
 networks:
   themisdb-monitoring:

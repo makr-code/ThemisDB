@@ -33,3 +33,14 @@ providers:
     options:
       path: /etc/grafana/provisioning/dashboards
       foldersFromFilesStructure: true
+
+  - name: 'ThemisDB BT-4/FLARE Dashboards'
+    orgId: 1
+    folder: 'BT4-FLARE'
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 10
+    allowUiUpdates: true
+    options:
+      path: /etc/grafana/provisioning/dashboards
+      foldersFromFilesStructure: true
