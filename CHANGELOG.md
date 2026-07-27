@@ -42,6 +42,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `ROADMAP.md §Research Soll-Ist`: `by_module.md` top-risk module gate marked `[x]` complete.
 - `FUTURE_ENHANCEMENTS.md §Root Documentation Synchronization`: sync note updated.
 
+### Distributed Maturity Phase 3 Planning (Track 2)
+
+- `src/sharding/ROADMAP.md §Distributed Maturity Phase 3`: added automatic shard rebalancing
+  on topology change, cross-datacenter latency-aware routing, global secondary indexes (GSI).
+- `src/replication/ROADMAP.md §Distributed Maturity Phase 3`: added geographic replica placement
+  policies, async cross-region WAL shipping with configurable lag limits.
+- `src/graph/ROADMAP.md §Distributed Maturity Phase 3`: added cross-shard graph query execution,
+  distributed Betweenness Centrality (exact + approximation mode).
+- `src/storage/ROADMAP.md §Distributed Maturity Phase 3`: added tiered storage hot/warm/cold with
+  automatic data migration, cloud-native S3/GCS/Azure backend hardening.
+- `src/network/ROADMAP.md §Distributed Maturity Phase 3`: added HTTP/3 QUIC production enablement,
+  zero-copy socket I/O (`io_uring`/`sendfile`/`splice`).
+- All items have deterministic under-load benchmark + `release_critical` CI as hard gate.
+
+### Gap Scanner Phase 1–4 Enhancement Patterns (Track 5)
+
+- `ai_working/PHASE_6_SCANNER_DESIGN.md`: appended 12 new Phase 1–4 enhancement patterns:
+  C-1 (race conditions / CWE-362), M-1 (use-after-free / CWE-416), M-2 (double-free / CWE-415),
+  S-1 (hardcoded secrets / CWE-798), S-2 (crypto weakness / CWE-327), S-3 (injection / CWE-89).
+- Each pattern includes: 3 specific detection sub-rules, CWE mapping, expected gap yield,
+  target scanner phase, Q3 2026 deployment target.
+- Total projected additional yield from Phase 1–4 enhancements: 490–1,030 gaps.
+- Gate: all 12 detectors deployed with ≤ 5% false-positive rate.
+
 
 
 ### Root Documentation Synchronization
