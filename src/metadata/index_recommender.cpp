@@ -31,6 +31,7 @@
 #include <set>
 
 namespace themis {
+namespace metadata {
 
 // ============================================================================
 // ColumnAccess
@@ -491,5 +492,6 @@ double IndexRecommender::computeCostModelBenefit(
     return std::min(score, 100.0);
 }
 
+} // namespace metadata
 } // namespace themis
 

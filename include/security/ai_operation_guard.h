@@ -171,7 +171,7 @@ public:
         bool auto_snapshot = true;
 
         /// Directory for pre-operation snapshots (informational in response).
-        std::string snapshot_dir = themisDefaultSnapshotDir();
+        std::string snapshot_dir;
 
         /// When true, return a dry-run preview in the approval response.
         /// Loaded from the agentic mode's safety.dry_run_preview (ASL-7).
@@ -184,6 +184,9 @@ public:
         std::vector<std::string> allowed_collections;  ///< Empty = all allowed
         /// Role required for CRITICAL ops in production.
         std::string              critical_ops_role = "AI_DESTRUCTIVE_PRODUCTION_OPS";
+
+        /// Default constructor initializes snapshot_dir with platform-portable path.
+        Config() : snapshot_dir(themisDefaultSnapshotDir()) {}
     };
 
     // ──────────────────────────────────────────────────────────────────────

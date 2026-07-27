@@ -124,7 +124,28 @@ else()
                 INTERFACE_INCLUDE_DIRECTORIES "${RocksDB_PC_INCLUDE_DIRS}"
                 INTERFACE_LINK_LIBRARIES     "${RocksDB_PC_LIBRARIES}"
                 INTERFACE_LINK_DIRECTORIES   "${RocksDB_PC_LIBRARY_DIRS}"
+                INTERFACE_COMPILE_OPTIONS   "-fPIC"
             )
+            # Add Position Independent Code flag and ensure proper linker behavior
+            if(UNIX AND NOT APPLE)
+                # Linux: add -Wl,--as-needed for proper linking and -fPIC for shared object compatibility
+                list(APPEND RocksDB_PC_LDFLAGS "-Wl,--as-needed")
+            elseif(APPLE)
+                # macOS: ensure proper relocation handling
+                list(APPEND RocksDB_PC_LDFLAGS "-fPIC")
+            endif()
+            # Add linker flags if any
+            if(RocksDB_PC_LDFLAGS)
+                get_target_property(LIBS RocksDB::rocksdb INTERFACE_LINK_LIBRARIES)
+                if(LIBS)
+                    list(APPEND LIBS ${RocksDB_PC_LDFLAGS})
+                else()
+                    set(LIBS ${RocksDB_PC_LDFLAGS})
+                endif()
+                set_target_properties(RocksDB::rocksdb PROPERTIES
+                    INTERFACE_LINK_LIBRARIES "${LIBS}"
+                )
+            endif()
             set(RocksDB_FOUND TRUE)
             message(STATUS "RocksDB found via pkg-config: ${RocksDB_PC_VERSION}")
         else()

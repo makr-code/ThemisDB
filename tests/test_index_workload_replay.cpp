@@ -15,6 +15,7 @@
 #include "metadata/index_recommender.h"
 
 using namespace themis;
+using namespace themis::metadata;
 
 // ============================================================================
 // WorkloadEvent – JSON round-trip
