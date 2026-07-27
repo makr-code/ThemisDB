@@ -1,6 +1,6 @@
 # CDC Module - Future Enhancements
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-07-27 -->
 <!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
 
 ## Scope
@@ -32,6 +32,30 @@
 - expand transport degradation resilience and failover behavior.
 - continue replacing proxy-like mappings with dedicated CDC benchmarks.
 
+### Short-term Delivery Plan (Q3-Q4 2026)
+
+- transport/replay hardening:
+  - define deterministic degradation matrix for partial transport outages, reconnect churn, and backend timeout combinations.
+  - enforce ordered replay + idempotent ack behavior across failover transitions.
+- regression expansion:
+  - expand focused replay/ack/timeout permutations with explicit DLQ/outbox transition assertions.
+  - cover malformed-event and stale-offset paths with fail-closed classification checks.
+- operator diagnostics:
+  - normalize lag/redelivery/stream-integrity diagnostics into actionable, class-stable outputs.
+  - require stream-id and consumer-group context in failure telemetry assertions.
+
+### Mid-term Delivery Plan (Q1 2027)
+
+- benchmark re-baselining:
+  - establish CDC-specific release baselines for p95/p99 latency and throughput under release profiles.
+  - require stable multi-run variance before baseline promotion.
+- dedicated microbench coverage:
+  - replace proxy-like mappings with direct microbenchmarks for capture/list/replay/delivery hot paths.
+  - close benchmark-manifest missing-case gaps for CDC critical functions.
+- sustained consistency hardening:
+  - validate multi-tenant and multi-transport determinism under long-running mixed workload and degraded-network conditions.
+  - enforce bounded backlog/memory behavior with reproducible replay outcomes.
+
 ## Test Strategy
 
 - unit and integration suites across capture, replay, delivery, and admin flows.
@@ -44,6 +68,7 @@
 - event record/list/replay hot paths remain within release regression budgets.
 - replication lag and WAN lag benchmark paths remain stable at p95/p99.
 - benchmark manifests for mapped CDC targets reach no-missing-case status.
+- baseline updates require documented variance stability across repeated release-profile runs.
 
 ## Security / Reliability
 
