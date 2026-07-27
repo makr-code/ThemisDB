@@ -4,10 +4,10 @@
 
 **High-performance multi-model database with native AI/LLM integration**
 
-[![Version](https://img.shields.io/badge/version-1.9.0--beta-blue)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.4.0--rc1-blue)](CHANGELOG.md)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Status](https://img.shields.io/badge/status-ACTIVE_DEVELOPMENT-orange)](ROADMAP.md)
-[![Maturity](https://img.shields.io/badge/maturity-66_sync__15_PC__45_H__2_E__4_T-orange)](ROADMAP.md)
+[![Maturity](https://img.shields.io/badge/maturity-66_sync__15_PC__46_H__2_E__3_T-orange)](ROADMAP.md)
 [![Contributing](https://img.shields.io/badge/contributions-welcome-brightgreen)](CONTRIBUTING.md)
 
 [📚 Documentation](docs/Home.md) · [🚀 Quick Start](QUICKSTART.md) · [🛠️ Setup](SETUP.md) · [⚠️ Status](ROADMAP.md) · [🆘 Support](SUPPORT.md) · [Release Notes](CHANGELOG.md)
@@ -28,37 +28,38 @@ Use this code at your own risk. Contributions, feedback, and improvements are we
 
 **This is an active development project.** Current synchronized status snapshot (source-based):
 - ✅ **15 modules** are `PRODUCTION_CANDIDATE`
-- 🟡 **45 modules** are `HARDENING`
+- 🟡 **46 modules** are `HARDENING`
 - 🔴 **2 modules** are `EXPERIMENTAL` (`llama_cpp`, `stable_diffusion`)
-- ⚪ **4 modules** are `THIN/PLACEHOLDER` (`ai_working`, `distributed_tensor`, `evaluation`, `retrieval`)
+- ⚪ **3 modules** are `THIN/PLACEHOLDER` (`ai_working`, `distributed_tensor`, `retrieval`)
 
-### 🔴 CRITICAL Alert: Graph Module Under Development
+### 🟢 Graph Module Status Snapshot
 
-**Status:** ⚠️ **CRITICAL** — Phase 2 implementation phase (6 weeks, Q3 2026)  
-**Blockers:** 9 CRITICAL gaps in query planning & constraint validation; module locked from production releases  
-**Mitigation:** See [ROADMAP.md § Graph Module Completion](ROADMAP.md#-graph-module-completion-q3-2026) and [ai_working/graph_l2_analysis.md](ai_working/graph_l2_analysis.md)  
-**Owner Assignment:** Required before Phase 2.1 kickoff (develop/graph-l2-impl-q3-2026 branch)
+**Status:** ✅ **PRODUCTION_CANDIDATE** — L0 verification reports **0 real gaps** and current work is Phase 3 hardening / optimizer follow-up.  
+**Current focus:** GPU/distributed traversal parity, benchmark stabilization, diagnostics consistency, and hybrid retrieval rollout hardening.  
+**Canonical source:** [src/graph/ROADMAP.md](src/graph/ROADMAP.md) and [ROADMAP.md](ROADMAP.md#-graph-module-completion-q3-2026)
 
 **See [ROADMAP.md](ROADMAP.md) for the full 66-module table.**
 
 Documentation source precedence and update cadence are defined in [DOCUMENTATION_GOVERNANCE.md](DOCUMENTATION_GOVERNANCE.md).
 
 Evidence artifacts:
-- [logs/module_status_66_refined.csv](logs/module_status_66_refined.csv)
-- [logs/module_test_include_refs_66.csv](logs/module_test_include_refs_66.csv)
-- [logs/module_status_66_classified_v2.csv](logs/module_status_66_classified_v2.csv)
+- [ROADMAP.md](ROADMAP.md)
+- [benchmarks/wave7/release_gate_manifest_w7.json](benchmarks/wave7/release_gate_manifest_w7.json)
+- [tests/integration/WAVE5_TEST_COVERAGE.md](tests/integration/WAVE5_TEST_COVERAGE.md)
+- [tests/integration/WAVE6_TEST_COVERAGE.md](tests/integration/WAVE6_TEST_COVERAGE.md)
+- [src/auth/ROADMAP.md](src/auth/ROADMAP.md)
+- [docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md](docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md)
+- [security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md](security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md)
 
-## Documentation Sync (2026-05-26)
+## Documentation Sync (2026-07-27)
 
-- Root-level markdown documentation was reviewed and synchronized.
-- Current wire/themis verification baseline:
-  - `cmake --build --preset windows-release --target themis_tests --parallel 16`
-  - `themis_tests --gtest_filter=WireProtocolServer.SingleThreadedIoContextPrunesSessionsAfterDisconnect`
-  - `ctest --preset windows-release -R ThemisWireProtocolV1Tests --output-on-failure`
-- Recent technical hardening reflected in docs/changelog:
-  - fail-closed wire bootstrap behaviour retained for deprecated bridge-only setup
-  - single-threaded wire server session pruning regression covered by dedicated test
-  - `multi_lora_manager` opaque adapter handle consistency fix (`void*`)
+- Root-level markdown documentation was refreshed against current `src/` module docs and root governance files.
+- Current source-backed release-readiness highlights:
+  - auth module Phase 1-6 hardening is complete (`src/auth/ROADMAP.md`): principal-contract freeze, 12 new auth error codes, RFP/FED/ASY focused tests, and AHP benchmark gates.
+  - Wave 5 and Wave 6 hardening remain the retained regression baseline for release-critical journeys.
+  - Wave 7 PASS evidence and sharding Phase 6 sign-off remain linked into the active GA hardening path.
+  - Batch C sanitizer / pentest evidence is closed; Batch D human governance sign-off is still pending.
+- Broken historical root evidence references were replaced with current source-verifiable artefacts.
 
 ### Scanner Baseline Update (2026-06-11)
 
@@ -79,7 +80,7 @@ Evidence artifacts:
 
 ThemisDB is a **high-performance multi-model database engine in active development** that aims to combine relational, graph, vector, document, geospatial, and time-series storage in a single system with native AI/LLM integration.
 
-**Current Status (2026-06-14, source-evidence based):** 66 modules are tracked in `src`; 15 are `PRODUCTION_CANDIDATE`, 45 are `HARDENING`, 2 are `EXPERIMENTAL`, and 4 are `THIN/PLACEHOLDER`. See [ROADMAP.md](ROADMAP.md) for detailed per-module status.
+**Current Status (2026-07-27, source-evidence based):** 66 modules are tracked in `src`; 15 are `PRODUCTION_CANDIDATE`, 46 are `HARDENING`, 2 are `EXPERIMENTAL`, and 3 are `THIN/PLACEHOLDER`. See [ROADMAP.md](ROADMAP.md) for detailed per-module status.
 
 **Key capabilities at a glance:**
 
@@ -121,6 +122,10 @@ Connect via the wire protocol on port `8766` or the REST/HTTP API on port `8765`
 
 ### Build from source
 
+Source-backed preset prerequisites:
+- `linux-release` expects Ninja and a bootstrapped `vcpkg` checkout at `./vcpkg`.
+- `community-release` requires a system RocksDB development package (`librocksdb-dev` or equivalent).
+
 ```bash
 git clone https://github.com/makr-code/ThemisDB.git
 cd ThemisDB
@@ -130,6 +135,9 @@ cd ThemisDB
 
 cmake --preset linux-release        # Linux x64
 cmake --build --preset linux-release
+
+# Community edition (requires RocksDB system package):
+# cmake --preset community-release && cmake --build --preset community-release
 
 # Windows (run from VS Developer Command Prompt):
 # cmake --preset windows-release && cmake --build --preset windows-release
@@ -238,7 +246,7 @@ Rule of thumb: architecture is layered, but security acceptance is tier-based.
 | [VERSIONING.md](VERSIONING.md) | Versioning policy and release cadence |
 | [RELEASE_STRATEGY.md](RELEASE_STRATEGY.md) | Branch model, edition matrix, CI/CD pipeline |
 | [CHANGELOG.md](CHANGELOG.md) | Release notes (Keep a Changelog format) |
-| [PERFORMANCE_EXPECTATIONS.md](PERFORMANCE_EXPECTATIONS.md) | Benchmarks and performance targets |
+| [docs/performance/PERFORMANCE_EXPECTATIONS.md](docs/performance/PERFORMANCE_EXPECTATIONS.md) | Benchmarks and performance targets |
 | [SOP.md](SOP.md) | Standard operating procedures (release, hotfix, incident) |
 | [GOVERNANCE.md](GOVERNANCE.md) | Project governance: roles, decision-making, contribution policy |
 | [MAINTAINERS.md](MAINTAINERS.md) | Maintainer roster and module ownership |
@@ -248,7 +256,6 @@ Rule of thumb: architecture is layered, but security acceptance is tier-based.
 | [SUPPORT.md](SUPPORT.md) | Where to get help |
 | [INDEX.md](INDEX.md) | Full project structure index |
 | [docs/](docs/) | Extended documentation (API reference, guides, research) |
-| [compendium/](compendium/docs/) | In-depth technical compendium |
 
 ---
 
@@ -312,7 +319,7 @@ python tools/gs3.py report results.json --format json
 ### Documentation
 
 - **[tools/GS3_CLI_GUIDE.md](tools/GS3_CLI_GUIDE.md)** — Complete CLI reference and usage guide
-- **[tools/GS3_COMPLETE_GUIDE.md](tools/GS3_COMPLETE_GUIDE.md)** — System architecture and scanner design
+- **[tools/scanners/GS3_COMPLETE_GUIDE.md](tools/scanners/GS3_COMPLETE_GUIDE.md)** — System architecture and scanner design
 - **[tools/GS3_PROJECT_COMPLETION_REPORT.md](tools/GS3_PROJECT_COMPLETION_REPORT.md)** — Project deliverables and metrics
 - **[tools/legacy/LEGACY_SCANNER_MAPPING.md](tools/legacy/LEGACY_SCANNER_MAPPING.md)** — Legacy code archival and migration info
 
@@ -347,4 +354,4 @@ See [tools/GS3_CLI_GUIDE.md](tools/GS3_CLI_GUIDE.md#cicd-integration) for more C
 > Per-module documentation lives in `src/<module>/README.md` and `include/<module>/`. This section is a navigation index.
 
 ---
-Zuletzt geprueft (Root-Sync): 2026-06-21
+Zuletzt geprueft (Root-Sync): 2026-07-27

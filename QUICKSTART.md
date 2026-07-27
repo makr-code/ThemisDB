@@ -1,6 +1,6 @@
 # ThemisDB — Quick Start
 
-> **Version:** 1.8.x  
+> **Version:** 2.4.0-rc1  
 > Get ThemisDB running in minutes. This is the canonical **Step 1** from [README.md](README.md). For full development-environment setup, continue with [SETUP.md](SETUP.md).
 
 ---
@@ -58,7 +58,7 @@ docker run -d \
   --name themisdb \
   -p 8765:8765 \
   -v themisdb_data:/data \
-  themisdb/themisdb:1.3.4
+  themisdb/themisdb:2.4.0-rc1
 ```
 
 | Port | Protocol |
@@ -72,7 +72,7 @@ docker run -d \
 
 ```bash
 curl http://localhost:8765/health
-# {"status":"ok","version":"1.8.x"}
+# {"status":"ok","version":"2.4.0-rc1"}
 ```
 
 ### 3. Run your first query (AQL)
@@ -99,17 +99,17 @@ For server deployments without Docker:
 
 ```bash
 # Debian / Ubuntu
-wget https://github.com/makr-code/ThemisDB/releases/download/v1.3.4/themisdb_1.3.4_amd64.deb
-sudo dpkg -i themisdb_1.3.4_amd64.deb
+wget https://github.com/makr-code/ThemisDB/releases/download/v2.4.0-rc1/themisdb_2.4.0-rc1_amd64.deb
+sudo dpkg -i themisdb_2.4.0-rc1_amd64.deb
 
 # RHEL / Fedora
-wget https://github.com/makr-code/ThemisDB/releases/download/v1.3.4/themisdb-1.3.4-1.x86_64.rpm
-sudo rpm -i themisdb-1.3.4-1.x86_64.rpm
+wget https://github.com/makr-code/ThemisDB/releases/download/v2.4.0-rc1/themisdb-2.4.0-rc1-1.x86_64.rpm
+sudo rpm -i themisdb-2.4.0-rc1-1.x86_64.rpm
 
 # Generic (TGZ)
-wget https://github.com/makr-code/ThemisDB/releases/download/v1.3.4/themisdb-1.3.4-Linux-x86_64.tar.gz
-tar xzf themisdb-1.3.4-Linux-x86_64.tar.gz
-cd themisdb-1.3.4-Linux-x86_64
+wget https://github.com/makr-code/ThemisDB/releases/download/v2.4.0-rc1/themisdb-2.4.0-rc1-Linux-x86_64.tar.gz
+tar xzf themisdb-2.4.0-rc1-Linux-x86_64.tar.gz
+cd themisdb-2.4.0-rc1-Linux-x86_64
 ./bin/themis_server --config ./config/config.yaml --data-dir ./data
 ```
 
@@ -231,7 +231,7 @@ curl -X POST http://localhost:8765/v2/search/vector \
 | Configuration | [config/](config/) |
 | Security hardening | [SECURITY.md](SECURITY.md) |
 | Production deployment | [docs/de/guides/guides_deployment.md](docs/de/guides/guides_deployment.md) |
-| Performance tuning | [PERFORMANCE_EXPECTATIONS.md](PERFORMANCE_EXPECTATIONS.md) |
+| Performance tuning | [docs/performance/PERFORMANCE_EXPECTATIONS.md](docs/performance/PERFORMANCE_EXPECTATIONS.md) |
 | Examples | [examples/](examples/) |
 | Full documentation | [docs/Home.md](docs/Home.md) |
 
@@ -240,7 +240,7 @@ curl -X POST http://localhost:8765/v2/search/vector \
 ## Troubleshooting
 
 **Container exits immediately (`Exit 139` / SIGSEGV)**  
-Set `enable_response_cache = false` in your config, or use image tag `≥ 1.8.1-rc2`. See [CHANGELOG.md](CHANGELOG.md) for details.
+Set `enable_response_cache = false`, or move to the current tagged image line documented in [CHANGELOG.md](CHANGELOG.md) / [`VERSION`](VERSION) (`2.4.0-rc1` at this sync point).
 
 **Port already in use**  
 Change the host port mapping: `-p 18765:8765`.
@@ -251,5 +251,4 @@ Run `pwsh ./scripts/setup-third-party.ps1` again; vcpkg bootstrap sometimes requ
 **More help:** [SUPPORT.md](SUPPORT.md) · [GitHub Discussions](https://github.com/makr-code/ThemisDB/discussions) · [FAQ](docs/FAQ.md)
 
 ---
-Zuletzt geprueft (Root-Sync): 2026-05-26
-
+Zuletzt geprueft (Root-Sync): 2026-07-27

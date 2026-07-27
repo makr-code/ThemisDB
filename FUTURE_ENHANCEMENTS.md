@@ -25,13 +25,15 @@
 - `COPILOT_INSTRUCTIONS.md` defines mandatory AI/agent synchronization rules for these root governance documents.
 - `FEATURE_ENHANCEMENT.md` remains a generated maturity report and is not used as planning source-of-truth.
 
-## Root Documentation Synchronization (2026-05-26)
+## Root Documentation Synchronization (2026-07-27)
 
-- Root-level markdown set synchronized to current implementation/verification state.
-- Related completed verification path for active wire/themis hardening:
-	- `cmake --build --preset windows-release --target themis_tests --parallel 16`
-	- `themis_tests --gtest_filter=WireProtocolServer.SingleThreadedIoContextPrunesSessionsAfterDisconnect`
-	- `ctest --preset windows-release -R ThemisWireProtocolV1Tests --output-on-failure`
+- Root-level markdown set synchronized to the current `src/` implementation and root governance state.
+- Current root sync references the active GA baseline instead of the older wire-only snapshot:
+	- `benchmarks/wave7/release_gate_manifest_w7.json`
+	- `tests/integration/WAVE5_TEST_COVERAGE.md`
+	- `tests/integration/WAVE6_TEST_COVERAGE.md`
+	- `src/auth/ROADMAP.md`
+- Completed auth v1.2.0 / v1.3.0 delivery remains tracked in `src/auth/ROADMAP.md`; this file continues to track only open enhancement backlog.
 - Changelog trace entry added in `CHANGELOG.md` under `Unreleased`.
 
 ---
@@ -112,7 +114,7 @@
 
 ---
 
-## GA Release Readiness Backlog (v1.9.0-beta → v1.9.0 GA)
+## Release Readiness Backlog (current canonical version: v2.4.0-rc1)
 
 ## server
 
@@ -446,7 +448,7 @@ Every stub replacement **must** follow these six phases before marking `[x]`:
 > **Actual & Projected Impact:** 
 > - Phase 1-4: 31,720 gaps (+2,200–3,200 from enhancements = 33,920–34,920 total)
 > - Phase 5: +99,694 gaps (178% increase, completed)
-> - Rescan baseline: 185,190 gaps (27 scanners, 65 modules)
+> - Rescan baseline: 185,190 gaps (27 scanners, 66 modules)
 > - Phase 6: +6,000–10,000 gaps (planned)
 > - **Phase 1-6 Total from current baseline:** ~193,390–198,390 gaps
 >
@@ -1590,7 +1592,7 @@ stub-replacement, module:<name>, <priority-label>
 
 ---
 
-*Last updated: 2026-05-27 | Generated from: `src/ROADMAP.md` + `src/*/FUTURE_ENHANCEMENTS.md` + `ai_working/gap_scan_v3_summary.json`*
+*Last updated: 2026-07-27 | Generated from: `src/ROADMAP.md` + `src/*/FUTURE_ENHANCEMENTS.md` + `ai_working/gap_scan_v3_summary.json`*
 
 ---
-Zuletzt geprueft (Root-Sync): 2026-05-26
+Zuletzt geprueft (Root-Sync): 2026-07-27

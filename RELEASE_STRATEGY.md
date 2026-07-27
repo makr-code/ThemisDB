@@ -23,12 +23,12 @@ ThemisDB uses Semantic Versioning.
 
 Allowed examples:
 
-- `1.9.0`
-- `1.9.1`
-- `1.10.0`
-- `1.9.0-alpha1`
-- `1.9.0-beta1`
-- `1.9.0-rc1`
+- `2.4.0`
+- `2.4.1`
+- `2.5.0`
+- `2.5.0-alpha1`
+- `2.5.0-beta1`
+- `2.4.0-rc1`
 
 Rules:
 
@@ -47,19 +47,19 @@ Canonical pre-release suffixes are `-alphaN`, `-betaN`, and `-rcN`. Legacy forms
 
 | `RELEASE_TYPE` value | Tag suffix example | Milestone naming pattern | Changelog entry pattern |
 |---|---|---|---|
-| `alpha` | `v1.9.0-alpha1` | `v1.9.0-alpha1` | `## [Unreleased]` until cut, then `## [1.9.0-alpha1] - YYYY-MM-DD` |
-| `beta` | `v1.9.0-beta1` | `v1.9.0-beta1` | `## [Unreleased]` until cut, then `## [1.9.0-beta1] - YYYY-MM-DD` |
-| `rc` | `v1.9.0-rc1` | `v1.9.0-rc1` | `## [Unreleased]` until cut, then `## [1.9.0-rc1] - YYYY-MM-DD` |
-| `stable` | `v1.9.0` | `v1.9.0` | `## [Unreleased]` until cut, then `## [1.9.0] - YYYY-MM-DD` |
+| `alpha` | `v2.5.0-alpha1` | `v2.5.0-alpha1` | `## [Unreleased]` until cut, then `## [2.5.0-alpha1] - YYYY-MM-DD` |
+| `beta` | `v2.5.0-beta1` | `v2.5.0-beta1` | `## [Unreleased]` until cut, then `## [2.5.0-beta1] - YYYY-MM-DD` |
+| `rc` | `v2.4.0-rc1` | `v2.4.0-rc1` | `## [Unreleased]` until cut, then `## [2.4.0-rc1] - YYYY-MM-DD` |
+| `stable` | `v2.4.0` | `v2.4.0` | `## [Unreleased]` until cut, then `## [2.4.0] - YYYY-MM-DD` |
 
 ## 2.2 AI-/Agent Governance Alignment
 
 - `COPILOT_INSTRUCTIONS.md` and `.github/copilot-instructions.md` define how AI/agent documentation updates must keep `BRANCHING_STRATEGY.md`, `VERSIONING.md`, this file, `CHANGELOG.md`, `ROADMAP.md`, and `FUTURE_ENHANCEMENTS.md` synchronized.
 - Release documentation updates are only complete when versioning model, release type mapping, branch model, and changelog traceability remain consistent across these root documents.
 
-## 2.3 Beta-To-GA Gate Model
+## 2.3 Current RC-To-Stable Gate Model
 
-For the current `v1.9.0-beta` → GA path, release work follows a strict gate order on `develop` before promotion into any release lane:
+For the current `v2.4.0-rc1` → `v2.4.0` path, release work follows a strict gate order on `develop` before promotion into any release lane:
 
 1. confirm Wave 7 with all six PASS gates on the current baseline
 2. keep `release_critical` CI green on `develop`
@@ -69,9 +69,9 @@ For the current `v1.9.0-beta` → GA path, release work follows a strict gate or
 
 The root evidence set for this path is maintained in `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `CHANGELOG.md`, and the referenced test/benchmark/runbook artefacts.
 
-## 2.4 GA Hardening Execution Batches
+## 2.4 Release Hardening Execution Batches
 
-For `v1.9.0-beta` → GA, execution is tracked in four mandatory batches:
+For the current release-candidate hardening path, execution is tracked in four mandatory batches:
 
 1. **Batch A** — status/evidence synchronization and gate-board alignment
 2. **Batch B** — sharding Phase 6 consistency/recovery sign-off completion
@@ -363,7 +363,7 @@ ThemisDB Community releases are published to the [Windows Package Manager Commun
 winget install ThemisDB.ThemisDB
 
 # Specific version
-winget install ThemisDB.ThemisDB --version 1.3.4
+winget install ThemisDB.ThemisDB --version 2.4.0-rc1
 
 # Upgrade to latest stable
 winget upgrade ThemisDB.ThemisDB
@@ -385,17 +385,17 @@ Manifests live under `packaging/winget/manifests/t/ThemisDB/ThemisDB/<version>/`
 ```powershell
 # From a published GitHub Release asset (ZIP)
 pwsh scripts/release/new-winget-manifest.ps1 `
-    -Version 1.3.4 `
+    -Version 2.4.0-rc1 `
     -InstallerType zip `
-    -InstallerUrl https://github.com/makr-code/ThemisDB/releases/download/v1.3.4/themisdb-1.3.4-community-binary-x64.zip `
+    -InstallerUrl https://github.com/makr-code/ThemisDB/releases/download/v2.4.0-rc1/themisdb-2.4.0-rc1-community-binary-x64.zip `
     -InstallerSha256 <SHA256_FROM_RELEASE> `
     -IncludeGermanLocale
 
 # From an MSI release
 pwsh scripts/release/new-winget-manifest.ps1 `
-    -Version 1.9.0-rc1 `
+    -Version 2.4.0-rc1 `
     -InstallerType msi `
-    -InstallerUrl https://github.com/makr-code/ThemisDB/releases/download/v1.9.0-rc1/ThemisDB-COMMUNITY-1.9.0-rc1-windows-x64.msi `
+    -InstallerUrl https://github.com/makr-code/ThemisDB/releases/download/v2.4.0-rc1/ThemisDB-COMMUNITY-2.4.0-rc1-windows-x64.msi `
     -InstallerSha256 <SHA256_FROM_RELEASE> `
     -IncludeGermanLocale
 ```
@@ -407,7 +407,7 @@ Versions with a pre-release suffix (`-alpha`, `-beta`, `-rc*`) automatically rec
 ```powershell
 # Erstellt Fork, Branch, Commit und Draft-PR gegen microsoft/winget-pkgs
 pwsh scripts/release/submit-winget-pkgs.ps1 `
-    -Version 1.3.4 `
+    -Version 2.4.0-rc1 `
     -ForkOwner <github-username>
 ```
 
@@ -431,8 +431,8 @@ ThemisDB Community images are published to Docker Hub as `themisdb/themisdb`.
 
 | Tag | Meaning |
 |---|---|
-| `themisdb/themisdb:1.3.4` | Pinned version |
-| `themisdb/themisdb:1.3` | Minor-version floating tag |
+| `themisdb/themisdb:2.4.0-rc1` | Pinned version |
+| `themisdb/themisdb:2.4` | Minor-version floating tag |
 | `themisdb/themisdb:latest` | Latest stable release only |
 
 Pre-release versions (any version with a `-` suffix) do **not** receive the `latest` tag.
@@ -451,18 +451,18 @@ Dockerfile: `docker/Dockerfile.unified` with `--build-arg THEMIS_EDITION=COMMUNI
 
 ```bash
 # Build + push stable release
-TAG=1.3.4 PUSH=true bash scripts/build-docker.sh
+TAG=2.4.0-rc1 PUSH=true bash scripts/build-docker.sh
 
 # Build only (no push, for local testing)
-TAG=1.3.4 bash scripts/build-docker.sh
+TAG=2.4.0-rc1 bash scripts/build-docker.sh
 
 # Multi-arch (requires buildx builder)
-PLATFORMS=linux/amd64,linux/arm64 TAG=1.3.4 PUSH=true bash scripts/build-docker.sh
+PLATFORMS=linux/amd64,linux/arm64 TAG=2.4.0-rc1 PUSH=true bash scripts/build-docker.sh
 ```
 
 ```powershell
 # Windows (PowerShell)
-.\scripts\build-docker.ps1 -Tag 1.3.4 -Push
+.\scripts\build-docker.ps1 -Tag 2.4.0-rc1 -Push
 ```
 
 ### Rules
@@ -585,4 +585,4 @@ git push origin v1.9.1
 - prefer canonical branch alignment over rewriting published tags
 
 ---
-Zuletzt geprueft (Root-Sync): 2026-06-15
+Zuletzt geprueft (Root-Sync): 2026-07-27
