@@ -21,6 +21,7 @@
 #include <string>
 
 #include "content/content_metrics.h"
+#include "security/xxe_safe_xml_parser.h"
 
 // POSIX subprocess support for LibreOffice headless fallback
 #ifndef _WIN32
@@ -269,13 +270,13 @@ ExtractionResult OfficeProcessor::extractDOCX(const std::string &blob) {
         result.metadata["application"]   = metadata.application;
 
         // Parse XML and extract text
-        pugi::xml_document doc;
-        pugi::xml_parse_result parse_result = doc.load_string(document_xml.c_str());
-
-        if (!parse_result) {
-            result.error_message = "Failed to parse document.xml: " + std::string(parse_result.description());
+        auto parse_result = themis::security::parseXmlSafe(document_xml, "DOCX document.xml");
+        if (!parse_result.success) {
+            result.error_message = "Failed to parse document.xml: " + parse_result.error_message;
             return result;
         }
+
+        pugi::xml_document& doc = parse_result.document;
 
         // Extract paragraphs
         std::vector<std::string> paragraphs;
@@ -340,8 +341,9 @@ ExtractionResult OfficeProcessor::extractXLSX(const std::string &blob) {
         // Parse shared strings
         std::vector<std::string> shared_strings;
         if (!shared_strings_xml.empty()) {
-            pugi::xml_document ss_doc;
-            if (ss_doc.load_string(shared_strings_xml.c_str())) {
+            auto ss_parse = themis::security::parseXmlSafe(shared_strings_xml, "XLSX sharedStrings.xml");
+            if (ss_parse.success) {
+                pugi::xml_document& ss_doc = ss_parse.document;
                 for (auto si : ss_doc.select_nodes("//si")) {
                     std::string text;
                     for (auto t : si.node().select_nodes(".//t")) {
@@ -363,8 +365,9 @@ ExtractionResult OfficeProcessor::extractXLSX(const std::string &blob) {
         std::string workbook_xml = readZipEntry(blob, "xl/workbook.xml");
         std::vector<std::string> sheet_names;
         if (!workbook_xml.empty()) {
-            pugi::xml_document wb_doc;
-            if (wb_doc.load_string(workbook_xml.c_str())) {
+            auto wb_parse = themis::security::parseXmlSafe(workbook_xml, "XLSX workbook.xml");
+            if (wb_parse.success) {
+                pugi::xml_document& wb_doc = wb_parse.document;
                 for (auto sheet : wb_doc.select_nodes("//sheet")) {
                     const char *name = sheet.node().attribute("name").value();
                     if (name) {
@@ -384,8 +387,9 @@ ExtractionResult OfficeProcessor::extractXLSX(const std::string &blob) {
         int cell_count = 0;
 
         if (!sheet1_xml.empty()) {
-            pugi::xml_document sheet_doc;
-            if (sheet_doc.load_string(sheet1_xml.c_str())) {
+            auto sheet_parse = themis::security::parseXmlSafe(sheet1_xml, "XLSX sheet1.xml");
+            if (sheet_parse.success) {
+                pugi::xml_document& sheet_doc = sheet_parse.document;
                 for (auto row : sheet_doc.select_nodes("//row")) {
                     row_count++;
                     std::vector<std::string> row_values;
@@ -491,10 +495,12 @@ ExtractionResult OfficeProcessor::extractPPTX(const std::string &blob) {
                 continue;
             }
 
-            pugi::xml_document slide_doc;
-            if (!slide_doc.load_string(slide_xml.c_str())) {
+            auto slide_parse = themis::security::parseXmlSafe(slide_xml, "PPTX slide.xml");
+            if (!slide_parse.success) {
                 continue;
             }
+
+            pugi::xml_document& slide_doc = slide_parse.document;
 
             all_text << "--- Slide " << slide_num << " ---\n";
 
@@ -517,10 +523,12 @@ ExtractionResult OfficeProcessor::extractPPTX(const std::string &blob) {
                     continue;
                 }
 
-                pugi::xml_document notes_doc;
-                if (!notes_doc.load_string(notes_xml.c_str())) {
+                auto notes_parse = themis::security::parseXmlSafe(notes_xml, "PPTX notes.xml");
+                if (!notes_parse.success) {
                     continue;
                 }
+
+                pugi::xml_document& notes_doc = notes_parse.document;
 
                 all_text << "--- Notes for Slide " << i << " ---\n";
                 for (auto t : notes_doc.select_nodes("//a:t")) {
@@ -580,11 +588,13 @@ ExtractionResult OfficeProcessor::extractODF(const std::string &blob, OfficeDocu
         }
 
         // Parse and extract text
-        pugi::xml_document doc;
-        if (!doc.load_string(content_xml.c_str())) {
-            result.error_message = "Failed to parse content.xml";
+        auto content_parse = themis::security::parseXmlSafe(content_xml, "Office content.xml");
+        if (!content_parse.success) {
+            result.error_message = "Failed to parse content.xml: " + content_parse.error_message;
             return result;
         }
+
+        pugi::xml_document& doc = content_parse.document;
 
         std::ostringstream all_text;
 
@@ -674,10 +684,12 @@ OfficeMetadata OfficeProcessor::extractOOXMLMetadata(const std::string &zip_blob
         return metadata;
     }
 
-    pugi::xml_document doc;
-    if (!doc.load_string(core_xml.c_str())) {
+    auto core_parse = themis::security::parseXmlSafe(core_xml, "Office core.xml");
+    if (!core_parse.success) {
         return metadata;
     }
+
+    pugi::xml_document& doc = core_parse.document;
 
     // Extract properties
     auto get_text = [&doc](const char *xpath) -> std::string {
@@ -696,8 +708,9 @@ OfficeMetadata OfficeProcessor::extractOOXMLMetadata(const std::string &zip_blob
     // Read docProps/app.xml for application info
     std::string app_xml = readZipEntry(zip_blob, "docProps/app.xml");
     if (!app_xml.empty()) {
-        pugi::xml_document app_doc;
-        if (app_doc.load_string(app_xml.c_str())) {
+        auto app_parse = themis::security::parseXmlSafe(app_xml, "Office app.xml");
+        if (app_parse.success) {
+            pugi::xml_document& app_doc = app_parse.document;
             auto app_node = app_doc.select_node("//Application");
             if (app_node) {
                 metadata.application = app_node.node().child_value();

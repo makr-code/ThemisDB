@@ -18,6 +18,7 @@
 #include <thread>
 #include <vector>
 #include <chrono>
+#include <memory>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -383,15 +384,15 @@ class IntegrationTest : public FieldDiagnosticsCollectorTest {
 TEST_F(IntegrationTest, EmitCallbackInvocation) {
     auto& collector = FieldDiagnosticsCollector::getInstance();
 
-    int callback_invoked = 0;
-    collector.registerEmitCallback([&](const DiagnosticEvent&) {
-        callback_invoked++;
+    auto callback_invoked = std::make_shared<int>(0);
+    collector.registerEmitCallback([callback_invoked](const DiagnosticEvent&) {
+        ++(*callback_invoked);
     });
 
     collector.emitDiagnosticEvent(createEvent());
     collector.emitDiagnosticEvent(createEvent());
 
-    EXPECT_EQ(callback_invoked, 2);
+    EXPECT_EQ(*callback_invoked, 2);
 }
 
 TEST_F(IntegrationTest, PrometheusMetricsEmission) {

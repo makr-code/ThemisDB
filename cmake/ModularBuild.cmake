@@ -797,6 +797,7 @@ set(THEMIS_SECURITY_SOURCES
     ../src/security/timestamp_authority.cpp
     ../src/security/timestamp_authority_openssl.cpp
     ../src/security/vcc_pki_client.cpp
+    ../src/security/xxe_safe_xml_parser.cpp
     
     # Authentication
     ../src/auth/jwt_validator.cpp

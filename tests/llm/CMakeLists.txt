@@ -58,7 +58,7 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/llm/llm_deployment_plugin.cpp
         )
     endif()
-    if(_stem STREQUAL "test_llm_vision_encoder" OR _stem STREQUAL "test_llm_vision_integration")
+    if((_stem STREQUAL "test_llm_vision_encoder" OR _stem STREQUAL "test_llm_vision_integration") AND NOT TARGET themis_llm)
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/llm/vision_config.cpp
         )
@@ -73,7 +73,7 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/llm/lora_framework/embedding_provider.cpp
         )
     endif()
-    if(_stem STREQUAL "test_ssm_rocksdb_store")
+    if(_stem STREQUAL "test_ssm_rocksdb_store" AND NOT TARGET themis_llm)
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/llm/ssm_state_rocksdb_store.cpp
         )
@@ -163,7 +163,7 @@ foreach(_src IN LISTS LLM_AUTOGEN_PREFIX_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/llm/llm_deployment_plugin.cpp
         )
     endif()
-    if(_stem STREQUAL "test_llm_vision_encoder" OR _stem STREQUAL "test_llm_vision_integration")
+    if((_stem STREQUAL "test_llm_vision_encoder" OR _stem STREQUAL "test_llm_vision_integration") AND NOT TARGET themis_llm)
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/llm/vision_config.cpp
         )
@@ -178,7 +178,7 @@ foreach(_src IN LISTS LLM_AUTOGEN_PREFIX_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/llm/lora_framework/embedding_provider.cpp
         )
     endif()
-    if(_stem STREQUAL "test_llm_ssm_rocksdb_store")
+    if(_stem STREQUAL "test_llm_ssm_rocksdb_store" AND NOT TARGET themis_llm)
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/llm/ssm_state_rocksdb_store.cpp
         )

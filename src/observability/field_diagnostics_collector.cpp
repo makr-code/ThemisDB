@@ -431,8 +431,9 @@ nlohmann::json FieldDiagnosticsCollector::getStats() const {
 void FieldDiagnosticsCollector::updateMetricsForEvent(const DiagnosticEvent& event) {
     auto& metrics = MetricsCollector::getInstance();
 
-    metrics.incrementCounter(
+    metrics.addCounter(
         "field_diagnostic_events_total",
+        1,
         {
             {"category", failureCategoryToString(event.failure_category)},
             {"module", event.module_name},

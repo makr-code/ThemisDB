@@ -1890,6 +1890,7 @@ set(THEMIS_CORE_SOURCES
     ../src/security/keyprovider_signing.cpp
     ../src/security/hsm_signing.cpp
     ../src/security/vault_signing_provider.cpp
+    ../src/security/xxe_safe_xml_parser.cpp
     ../src/security/field_encryption.cpp
     ../src/security/encrypted_field.cpp
     ../src/security/malware_scanner.cpp

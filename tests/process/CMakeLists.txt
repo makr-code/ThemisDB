@@ -8,8 +8,24 @@ foreach(_src IN LISTS PROCESS_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_process_${_stem}_focused")
     set(_ctest "${_stem}_ProcessFocusedTests")
+    set(_extra_sources)
 
-    add_executable(${_target} "${_src}")
+    if(_stem STREQUAL "test_process_graph")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/index/edge_types.cpp
+        )
+    elseif(_stem STREQUAL "test_process_module")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/process/dmn_evaluator.cpp
+            ${THEMIS_ROOT_DIR}/src/process/ocel_exporter.cpp
+            ${THEMIS_ROOT_DIR}/src/process/process_model_generator.cpp
+        )
+    endif()
+
+    add_executable(${_target}
+        "${_src}"
+        ${_extra_sources}
+    )
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
@@ -40,12 +56,28 @@ foreach(_src IN LISTS PROCESS_AUTOGEN_PREFIX_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_process_${_stem}_autofocused")
     set(_ctest "${_stem}_process_AutoFocusedTests")
+    set(_extra_sources)
+
+    if(_stem STREQUAL "test_process_graph")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/index/edge_types.cpp
+        )
+    elseif(_stem STREQUAL "test_process_module")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/process/dmn_evaluator.cpp
+            ${THEMIS_ROOT_DIR}/src/process/ocel_exporter.cpp
+            ${THEMIS_ROOT_DIR}/src/process/process_model_generator.cpp
+        )
+    endif()
 
     if(TARGET ${_target})
         continue()
     endif()
 
-    add_executable(${_target} "${_src}")
+    add_executable(${_target}
+        "${_src}"
+        ${_extra_sources}
+    )
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src

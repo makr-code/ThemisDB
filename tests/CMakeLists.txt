@@ -726,7 +726,13 @@ target_sources(themis_tests PRIVATE
     ${THEMIS_ROOT_DIR}/src/transaction/distributed_transaction_manager.cpp
     ${THEMIS_ROOT_DIR}/src/network/udp_server.cpp
     ${THEMIS_ROOT_DIR}/src/training/ada_lora_adapter.cpp
+    ${THEMIS_ROOT_DIR}/src/training/adalora_tt_bridge.cpp
+    ${THEMIS_ROOT_DIR}/src/training/knowledge_graph_enricher.cpp
+    ${THEMIS_ROOT_DIR}/src/training/modality_parser.cpp
+    ${THEMIS_ROOT_DIR}/src/training/lora_adapter.cpp
+    ${THEMIS_ROOT_DIR}/src/training/database_domain_auto_labeler.cpp
     ${THEMIS_ROOT_DIR}/src/training/lora_adapter_merger.cpp
+    ${THEMIS_ROOT_DIR}/src/acceleration/ai_hardware_dispatcher.cpp
     ${THEMIS_ROOT_DIR}/src/governance/gdpr_subject_rights.cpp
     ${THEMIS_ROOT_DIR}/src/governance/hipaa_rules.cpp
     ${THEMIS_ROOT_DIR}/src/governance/iso27001_rules.cpp

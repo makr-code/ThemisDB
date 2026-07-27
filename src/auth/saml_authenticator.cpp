@@ -39,6 +39,7 @@
 #include "auth/auth_error.h"
 #include "utils/audit_logger.h"
 #include "utils/logger.h"
+#include "security/xxe_safe_xml_parser.h"
 
 namespace themis {
 namespace auth {
@@ -789,13 +790,13 @@ SAMLClaims SAMLAuthenticator::processResponseImpl(const std::string &saml_respon
     // ----------------------------------------------------------------
     // Step 2: Parse XML
     // ----------------------------------------------------------------
-    pugi::xml_document doc;
-    auto parse_result = doc.load_string(xml_str.c_str());
-    if (!parse_result) {
+    auto parse_result = themis::security::parseXmlSafe(xml_str, "SAML Response");
+    if (!parse_result.success) {
         THROW_AUTH_ERROR(AuthErrorCode::SAML_INVALID_RESPONSE, "Invalid SAML response",
-                         std::string("XML parse error: ") + parse_result.description());
+                         parse_result.error_message);
     }
 
+    pugi::xml_document& doc = parse_result.document;
     pugi::xml_node response_node = doc.first_child();
     if (!response_node) {
         THROW_AUTH_ERROR(AuthErrorCode::SAML_INVALID_RESPONSE, "Invalid SAML response", "XML document is empty");
@@ -859,11 +860,12 @@ SAMLClaims SAMLAuthenticator::processResponseImpl(const std::string &saml_respon
 
     if (encrypted_assertion_node) {
         const std::string decrypted_xml = decryptAssertion(encrypted_assertion_node);
-        auto dec_parse                  = decrypted_assertion_doc.load_string(decrypted_xml.c_str());
-        if (!dec_parse) {
+        auto dec_parse                  = themis::security::parseXmlSafe(decrypted_xml, "SAML Decrypted Assertion");
+        if (!dec_parse.success) {
             THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED, "Assertion decryption failed",
-                             std::string("Decrypted assertion is not valid XML: ") + dec_parse.description());
+                             std::string("Decrypted assertion is not valid XML: ") + dec_parse.error_message);
         }
+        decrypted_assertion_doc = std::move(dec_parse.document);
         assertion_node = decrypted_assertion_doc.document_element();
         if (!assertion_node) {
             THROW_AUTH_ERROR(AuthErrorCode::SAML_DECRYPTION_FAILED, "Assertion decryption failed",

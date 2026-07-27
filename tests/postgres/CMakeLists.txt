@@ -8,12 +8,22 @@ foreach(_src IN LISTS POSTGRES_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_postgres_${_stem}_focused")
     set(_ctest "${_stem}_postgres_FocusedTests")
+    set(_extra_sources)
 
     if(TARGET ${_target})
         continue()
     endif()
 
-    add_executable(${_target} "${_src}")
+    if(_stem STREQUAL "test_postgres_importer_fk")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/importers/postgres_importer.cpp
+        )
+    endif()
+
+    add_executable(${_target}
+        "${_src}"
+        ${_extra_sources}
+    )
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
