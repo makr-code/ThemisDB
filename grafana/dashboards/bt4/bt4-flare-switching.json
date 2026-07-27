@@ -1,0 +1,194 @@
+{
+  "dashboard": {
+    "title": "BT-4 / FLARE – Adapter Switching",
+    "tags": ["themisdb", "bt4", "flare", "observability"],
+    "timezone": "browser",
+    "refresh": "10s",
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "templating": {
+      "list": [
+        {
+          "name": "instance",
+          "type": "query",
+          "datasource": "Prometheus",
+          "query": "label_values(bt4_map_adapter_calls_total, instance)",
+          "refresh": 2,
+          "multi": true,
+          "includeAll": true,
+          "label": "Instance"
+        }
+      ]
+    },
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": "-- Grafana --",
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "panels": [
+      {
+        "id": 1,
+        "title": "mapAdapter() – Call Rate (success / failure)",
+        "type": "timeseries",
+        "description": "Per-second rate of mapAdapter() calls, split by result (success/failure). Any failure is immediately critical.",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "sum(rate(bt4_map_adapter_calls_total{result=\"success\", instance=~\"$instance\"}[1m])) by (instance)",
+            "legendFormat": "success – {{instance}}"
+          },
+          {
+            "expr": "sum(rate(bt4_map_adapter_calls_total{result=\"failure\", instance=~\"$instance\"}[1m])) by (instance)",
+            "legendFormat": "failure – {{instance}}"
+          },
+          {
+            "expr": "sum(rate(bt4_map_adapter_failures_total{instance=~\"$instance\"}[1m])) by (instance)",
+            "legendFormat": "failures_total – {{instance}}"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "reqps",
+            "custom": {
+              "lineWidth": 2,
+              "fillOpacity": 10
+            }
+          },
+          "overrides": [
+            {
+              "matcher": { "id": "byRegexp", "options": "failure.*|failures_total.*" },
+              "properties": [
+                { "id": "color", "value": { "mode": "fixed", "fixedColor": "red" } }
+              ]
+            },
+            {
+              "matcher": { "id": "byRegexp", "options": "success.*" },
+              "properties": [
+                { "id": "color", "value": { "mode": "fixed", "fixedColor": "green" } }
+              ]
+            }
+          ]
+        },
+        "gridPos": { "x": 0, "y": 0, "w": 12, "h": 8 }
+      },
+      {
+        "id": 2,
+        "title": "GgmlAllocFn Wired?",
+        "type": "stat",
+        "description": "Shows 1 when the GGML allocation function is bound (wired), 0 when unbound. A value of 0 is immediately critical – inference will fail.",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "bt4_ggml_alloc_fn_wired{instance=~\"$instance\"}",
+            "legendFormat": "{{instance}}"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "mappings": [
+              { "type": "value", "options": { "0": { "text": "NOT WIRED", "color": "red" } } },
+              { "type": "value", "options": { "1": { "text": "WIRED", "color": "green" } } }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                { "value": 0, "color": "red" },
+                { "value": 1, "color": "green" }
+              ]
+            },
+            "unit": "short"
+          }
+        },
+        "options": {
+          "reduceOptions": {
+            "calcs": ["lastNotNull"]
+          },
+          "colorMode": "background",
+          "graphMode": "none",
+          "textMode": "auto"
+        },
+        "gridPos": { "x": 12, "y": 0, "w": 6, "h": 8 }
+      },
+      {
+        "id": 3,
+        "title": "FLARE Switch Latency (p50 / p95 / p99)",
+        "type": "timeseries",
+        "description": "Latency percentiles for the FLARE retrieval → adapter switching path. Alert threshold: p99 > 500 ms (warning), p99 > 2 s (critical).",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.50, sum(rate(flare_switch_latency_seconds_bucket{instance=~\"$instance\"}[5m])) by (le, instance))",
+            "legendFormat": "p50 – {{instance}}"
+          },
+          {
+            "expr": "histogram_quantile(0.95, sum(rate(flare_switch_latency_seconds_bucket{instance=~\"$instance\"}[5m])) by (le, instance))",
+            "legendFormat": "p95 – {{instance}}"
+          },
+          {
+            "expr": "histogram_quantile(0.99, sum(rate(flare_switch_latency_seconds_bucket{instance=~\"$instance\"}[5m])) by (le, instance))",
+            "legendFormat": "p99 – {{instance}}"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "s",
+            "custom": {
+              "lineWidth": 2,
+              "fillOpacity": 5
+            },
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                { "value": 0, "color": "green" },
+                { "value": 0.5, "color": "yellow" },
+                { "value": 2.0, "color": "red" }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": { "id": "byRegexp", "options": "p99.*" },
+              "properties": [
+                { "id": "color", "value": { "mode": "fixed", "fixedColor": "orange" } }
+              ]
+            }
+          ]
+        },
+        "gridPos": { "x": 0, "y": 8, "w": 12, "h": 8 }
+      },
+      {
+        "id": 4,
+        "title": "Jaeger – Retrieval → Adapter → Decode Traces",
+        "type": "traces",
+        "description": "Live Jaeger trace feed for the BT-4/FLARE pipeline: Retrieval → mapAdapter() → Decode. Click a span row to open the full trace.",
+        "datasource": "Jaeger",
+        "targets": [
+          {
+            "queryType": "search",
+            "service": "themisdb",
+            "operation": "bt4.mapAdapter",
+            "limit": 20
+          }
+        ],
+        "options": {
+          "dedupStrategy": "none"
+        },
+        "gridPos": { "x": 12, "y": 8, "w": 12, "h": 8 }
+      }
+    ],
+    "schemaVersion": 36,
+    "version": 1
+  },
+  "folderId": 0,
+  "overwrite": false
+}

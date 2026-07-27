@@ -113,35 +113,45 @@ These are necessary interface checks but insufficient to claim system-level serv
 
 ### 4.2 Reproducible experiment protocol (required for publication claims)
 
-To elevate this draft from design-level evidence to quantitative publication evidence, the following experiments are required:
+> **A complete, publication-grade benchmark protocol now exists in this repository.**
+> See `research/ADALORA_TT_BRIDGE_BENCHMARK_PROTOCOL.md` for the full specification,
+> including exact experiment matrices, hardware/software environment schema, statistical
+> minimums, artifact naming conventions, failure modes, and validity threats.
+> Lightweight tooling is available under `research/experiments/adalora_tt_bridge/`.
 
-1. **Adapter load path benchmark**
-   - Compare cold/warm load for:
-     - baseline adapter path,
-     - bridge path with callback-backed GGML allocation.
-   - Report p50/p95/p99 latency and environment details.
+To elevate this draft from design-level evidence to quantitative publication evidence, the following experiment tracks are defined (abbreviated here; see the protocol document for the full matrices):
 
-2. **Storage dedup benchmark**
-   - Use at least one domain-homogeneous and one domain-heterogeneous adapter set.
-   - Report effective storage bytes before/after dedup and collision/false-positive checks.
+1. **BT-1: Adapter load path latency**
+   - Compare cold/warm load for baseline adapter path vs. bridge path.
+   - Report p50/p95/p99, CV(%), 95% bootstrap CI, ≥ 30 runs per cell.
+   - Runnable today (in-process bridge path).
 
-3. **Rank pruning quality benchmark**
-   - Compare AdaLoRA baseline pruning vs bridge rounding strategy under equal parameter budgets.
-   - Report reconstruction error and downstream task metric deltas.
+2. **BT-2: Storage deduplication efficiency**
+   - Domain-homogeneous and domain-heterogeneous adapter sets (10 and 50 adapters).
+   - Report bytes before/after, dedup ratio, and false-positive collision count.
+   - Runnable today (`TensorFingerprintGraph` path).
 
-4. **FLARE-style online switch benchmark**
-   - Measure token-latency impact and quality with runtime adapter selection.
-   - Clearly separate retrieval-only and retrieval+adapter modes.
+3. **BT-3: Rank pruning / reconstruction quality**
+   - AdaLoRA greedy vs. TT-rounding under budget-equivalent rank cuts (10%/30%/50%).
+   - Report per-layer Frobenius reconstruction error and (when available) downstream task delta.
+   - BT-3-A/B runnable today; BT-3-C requires an external downstream eval task.
+
+4. **BT-4: FLARE-style runtime adapter switching**
+   - Token latency and task quality with/without live adapter switching.
+   - **Blocked:** requires GGML bridge wiring (Stub #271) and FLARE integration.
+   - Must not be published before the gate documented in §6.4 of the protocol is cleared.
 
 ### 4.3 Reporting requirements
 
-Any future quantitative claim must include:
+Any future quantitative claim must include all fields defined in
+`research/ADALORA_TT_BRIDGE_BENCHMARK_PROTOCOL.md §7 (Reporting Contract)`:
 
-- hardware + software stack,
-- dataset/task description,
-- exact command/configuration,
-- run count/statistics,
-- artifact path in repository.
+- hardware + software stack (full environment descriptor per §3.1 of the protocol),
+- dataset/task description with split seed,
+- exact command and configuration (archived in `results/` directory),
+- ≥ 30 independent runs per configuration,
+- mean, stddev, CV(%), p50, p95, p99, Cohen's d, 95% bootstrap CI,
+- artifact path under `research/experiments/adalora_tt_bridge/results/`.
 
 ---
 
@@ -174,12 +184,22 @@ Any future quantitative claim must include:
 - **Active retrieval generation (FLARE)** motivates adaptive context-time specialization scenarios [R7].
 
 This draft contributes a repository-grounded systems review, not yet a completed performance paper.
+The benchmark protocol to produce that performance evidence is now defined in
+`research/ADALORA_TT_BRIDGE_BENCHMARK_PROTOCOL.md` with tooling under
+`research/experiments/adalora_tt_bridge/`.
 
 ---
 
 ## 7. Conclusion
 
 The ThemisDB repository already contains meaningful AdaLoRA-TT bridge infrastructure: export/import logic, rank-rounding and mapping hooks, and similarity graph integration points. What is still missing for publication-grade claims is rigorous benchmark evidence and artifact traceability for latency, storage, and quality outcomes. This revised draft is therefore review-ready in structure and factual scope: it documents what is implemented now, what remains hypothesis, and what experiments are required to close the evidence gap.
+
+A complete, implementation-aware benchmark protocol is now defined at
+`research/ADALORA_TT_BRIDGE_BENCHMARK_PROTOCOL.md`. Tracks BT-1 (load latency),
+BT-2 (dedup efficiency), and BT-3 (rank pruning quality) are runnable against the
+current in-process bridge. Track BT-4 (FLARE runtime switching) is explicitly gated
+on GGML bridge wiring and FLARE integration and must not be reported until that gate
+is cleared.
 
 ---
 
@@ -223,6 +243,12 @@ This section records claim corrections made in this revision relative to earlier
 
 - **[R1]** ThemisDB README (project architecture and capability framing).
   https://github.com/makr-code/ThemisDB/blob/develop/README.md
+
+- **[R1b]** ThemisDB AdaLoRA↔TT Bridge Benchmark Protocol.
+  `research/ADALORA_TT_BRIDGE_BENCHMARK_PROTOCOL.md` (this repository, 2026)
+
+- **[R1c]** ThemisDB AdaLoRA↔TT Bridge Benchmark Tooling.
+  `research/experiments/adalora_tt_bridge/` (this repository, 2026)
 
 - **[R2]** Hu, E. J. et al. (2022). *LoRA: Low-Rank Adaptation of Large Language Models.*
   arXiv: https://arxiv.org/abs/2106.09685
