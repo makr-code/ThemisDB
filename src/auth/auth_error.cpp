@@ -590,8 +590,135 @@ void registerAuthErrors() {
         {},
         {"saml", "encryption", "assertion", "decryption"}
     });
+
+    // Provider / federation availability errors
+    registry.registerError({
+        toErrorCode(AuthErrorCode::PROVIDER_DEGRADED),
+        "Authentication", "Error",
+        "Identity provider is temporarily unavailable",
+        "The backend identity provider is unreachable or returned an unexpected transient error. "
+        "Access is denied until the provider is confirmed healthy (fail-closed policy).",
+        "Check provider connectivity, certificates, and health endpoints. "
+        "Review auth module logs for the specific network or RPC error.",
+        {}, {"provider", "federation", "availability", "fail-closed"}
+    });
+    registry.registerError({
+        toErrorCode(AuthErrorCode::PROVIDER_CAPABILITY_MISMATCH),
+        "Authentication", "Error",
+        "Provider capability not available in current environment",
+        "The identity provider requires a capability (e.g. TLS, JWKS cache) that is not "
+        "available or not satisfied in the current runtime environment.",
+        "Verify provider configuration against the runtime environment "
+        "(TLS certificates, JWKS endpoint reachability, connection pool health).",
+        {}, {"provider", "capability", "configuration"}
+    });
+    registry.registerError({
+        toErrorCode(AuthErrorCode::FEDERATION_REALM_UNAVAILABLE),
+        "Authentication", "Error",
+        "Federated identity realm is currently unavailable",
+        "The OIDC discovery endpoint for a registered federation realm is unreachable "
+        "or returned an invalid discovery document.",
+        "Check realm issuer URL and network connectivity. Review JWKS cache TTL settings.",
+        {}, {"federation", "realm", "oidc", "discovery"}
+    });
+    registry.registerError({
+        toErrorCode(AuthErrorCode::FEDERATION_UNKNOWN_REALM),
+        "Authentication", "Error",
+        "Token issuer is not a registered federation realm",
+        "The iss claim in the presented token does not match any realm registered "
+        "in FederatedIdentityManager.",
+        "Register the issuer URL as a realm via FederatedIdentityManager::addRealm() "
+        "or reject tokens from unknown issuers.",
+        {}, {"federation", "realm", "issuer", "jwt"}
+    });
+
+    // Revocation backend errors
+    registry.registerError({
+        toErrorCode(AuthErrorCode::REVOCATION_BACKEND_UNAVAILABLE),
+        "Authentication", "Error",
+        "Token revocation backend is unavailable",
+        "The revocation backend (in-memory, Redis, RocksDB, or distributed cluster) "
+        "is unreachable. isRevoked() returns true (deny) for unconfirmed tokens.",
+        "Check revocation backend health. Review DistributedTokenBlacklist replication stats. "
+        "Ensure RocksDB or Redis endpoint is reachable from this node.",
+        {}, {"revocation", "blacklist", "backend", "availability"}
+    });
+    registry.registerError({
+        toErrorCode(AuthErrorCode::REVOCATION_ENTRY_INVALID),
+        "Authentication", "Error",
+        "Revocation entry is structurally invalid",
+        "A JTI or expiry value presented to the revocation backend violates size or format constraints.",
+        "Validate JTI length (<= 1024 bytes) and expiry epoch. "
+        "Ensure callers do not pass empty or oversized JTI strings.",
+        {}, {"revocation", "jti", "validation"}
+    });
+    registry.registerError({
+        toErrorCode(AuthErrorCode::REVOCATION_CLUSTER_SYNC_FAILED),
+        "Authentication", "Warning",
+        "Distributed revocation cluster sync failed",
+        "The distributed token blacklist failed to synchronize with one or more peer nodes. "
+        "Local state may be stale; the node continues to accept local revocations.",
+        "Check cluster node connectivity, TBLK/v1 RPC port reachability, and peer_rpc_timeout_ms. "
+        "Review DistributedTokenBlacklist::getReplicationStats() for sync failure counts.",
+        {}, {"revocation", "cluster", "sync", "distributed"}
+    });
+
+    // Policy / authorization edge errors
+    registry.registerError({
+        toErrorCode(AuthErrorCode::POLICY_EDGE_UNDEFINED),
+        "Authorization", "Error",
+        "No applicable policy rule found; access denied by default",
+        "The policy engine evaluated all applicable rules and found no matching rule. "
+        "The default-deny policy applies (fail-closed).",
+        "Ensure all expected resource types and actions have explicit policy entries. "
+        "Review authorization_policy configuration for missing rules.",
+        {}, {"policy", "authorization", "default-deny", "fail-closed"}
+    });
+    registry.registerError({
+        toErrorCode(AuthErrorCode::POLICY_MISSING_REQUIRED_CLAIM),
+        "Authorization", "Error",
+        "Required claim absent from token",
+        "The policy gate requires a claim (e.g. groups, tenant_id, clearance_level) "
+        "that is not present in the validated principal.",
+        "Ensure the identity provider includes the required claims in issued tokens. "
+        "Check token scope and IdP claim mapping configuration.",
+        {}, {"policy", "claim", "authorization", "jwt"}
+    });
+
+    // Async provider / timeout errors
+    registry.registerError({
+        toErrorCode(AuthErrorCode::ASYNC_PROVIDER_TIMEOUT),
+        "Authentication", "Error",
+        "Async provider call timed out",
+        "An asynchronous identity provider call exceeded its configured timeout. "
+        "The outstanding future holds this error; access is denied (fail-closed).",
+        "Increase async_timeout_ms if the provider legitimately needs more time, "
+        "or investigate provider latency spikes. Review AsyncHTTPAuth and LDAP pool health.",
+        {}, {"async", "timeout", "provider", "fail-closed"}
+    });
+    registry.registerError({
+        toErrorCode(AuthErrorCode::ASYNC_POOL_EXHAUSTED),
+        "Authentication", "Error",
+        "Async worker thread pool is exhausted",
+        "All async worker threads are busy; the auth request cannot be dispatched. "
+        "Access is denied to avoid silent queue build-up.",
+        "Increase AuthWorkerThreadPool max_threads or reduce request concurrency. "
+        "Monitor pool utilisation metrics.",
+        {}, {"async", "pool", "exhaustion", "capacity"}
+    });
+    registry.registerError({
+        toErrorCode(AuthErrorCode::ASYNC_PROVIDER_EXCEPTION),
+        "Authentication", "Error",
+        "Async provider call raised an unexpected exception",
+        "A future from an async provider propagated an unclassified exception. "
+        "Access is denied (fail-closed).",
+        "Review auth module logs for the underlying exception message. "
+        "Ensure provider adapters wrap all exceptions as structured AuthExceptions.",
+        {}, {"async", "exception", "provider"}
+    });
 }
 
 } // namespace auth
 } // namespace themis
+
 

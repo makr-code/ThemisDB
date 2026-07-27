@@ -93,6 +93,32 @@ struct TokenExchangeResult {
  *   std::cout << "Authenticated via realm: " << result.realm << "\n";
  *   std::cout << "Subject: " << result.claims.sub << "\n";
  * @endcode
+ *
+ * ### Provider-degradation contract (auth_principal_contract.h §6)
+ *
+ * Each realm is backed by an OIDCProvider that performs network I/O (JWKS fetch,
+ * token-exchange POST).  The following failure semantics apply to all network-bound
+ * paths:
+ *
+ *   - **Realm not found**: validateToken() throws AuthException with
+ *     AuthErrorCode::FEDERATION_UNKNOWN_REALM (fail-closed — not a known issuer).
+ *   - **Provider network error**: if OIDCProvider::validateToken() throws a network
+ *     or JWKS-fetch error, FederatedIdentityManager re-throws as
+ *     AuthErrorCode::PROVIDER_DEGRADED.  The caller MUST treat this as a hard denial.
+ *   - **Provider capability mismatch**: if the token exchange endpoint is absent or
+ *     requires TLS that is not configured, exchangeToken() throws
+ *     AuthErrorCode::PROVIDER_CAPABILITY_MISMATCH.
+ *   - **Multiple realms share an issuer URL**: addRealm() throws
+ *     AuthErrorCode::AUTH_CONFIG_INVALID at registration time; no duplicate realms
+ *     are silently accepted.
+ *   - **Token size violation**: tokens exceeding kMaxJwtTokenBytes are rejected
+ *     before any realm lookup with AuthErrorCode::JWT_INVALID_FORMAT.
+ *
+ * All network-bound operations are synchronous.  Callers that need non-blocking
+ * federation MUST dispatch to an async worker thread and handle the resulting
+ * future according to the async-provider contract (auth_principal_contract.h §7).
+ *
+ * @see include/auth/auth_principal_contract.h — §4 Fail-closed, §6 Provider capability
  */
 class FederatedIdentityManager {
 public:

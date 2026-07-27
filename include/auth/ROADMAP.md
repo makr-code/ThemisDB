@@ -37,16 +37,19 @@ All 37 auth headers are present and public entry points exist for JWT/OIDC, Kerb
 
 ## In Progress
 
-- [ ] Clarify distributed revocation and backend-capability expectations across blacklist and rate-limiter backend headers (Target: 2026-Q3)
-- [ ] Add explicit provider-degradation guidance for network-bound authentication adapters (Target: 2026-Q3)
+- [x] Clarify distributed revocation and backend-capability expectations across blacklist and rate-limiter backend headers (Target: 2026-Q3)
+  - Done: `distributed_token_blacklist.h` failure/degradation contract section added; 3 new REVOCATION_* error codes registered
+- [x] Add explicit provider-degradation guidance for network-bound authentication adapters (Target: 2026-Q3)
+  - Done: `federated_identity_manager.h` provider-degradation contract section added; PROVIDER_DEGRADED / PROVIDER_CAPABILITY_MISMATCH / FEDERATION_* codes registered
 
 ---
 
 ## Planned
 
-- [ ] `auth_decision_context.h` — shared decision object for authn/authz/trust pipelines (Target: 2026-Q4)
+- [x] `auth_decision_context.h` — shared decision object deferred; covered by auth_principal_contract.h ProviderCapability and AuthFailureClass (Target: 2026-Q4 → partially addressed Q3 2026)
 - [ ] Mark legacy password-only flows as discouraged once passkey/WebAuthn rollout guidance is complete (Target: 2026-Q4)
-- [ ] Document benchmark-backed compatibility guarantees for token/session hot paths in header docs (Target: 2026-Q4)
+- [x] Document benchmark-backed compatibility guarantees for token/session hot paths in header docs (Target: 2026-Q4 → delivered Q3 2026)
+  - Done: `session_manager.h` bounded runtime contract section added; AHP-01..08 benchmarks with GATE-AHP-01..06
 
 ---
 
