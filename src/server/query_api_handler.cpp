@@ -984,15 +984,15 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
         auto recordFromConjunct = [&](const themis::ConjunctiveQuery& cq) {
             for (const auto& p : cq.predicates) {
                 index_recommender->recordAccess(cq.table, p.column,
-                    IndexRecommender::AccessType::FILTER, kFilterEqSelectivity);
+                   metadata::IndexRecommender::AccessType::FILTER, kFilterEqSelectivity);
             }
             for (const auto& rp : cq.rangePredicates) {
                 index_recommender->recordAccess(cq.table, rp.column,
-                    IndexRecommender::AccessType::FILTER, kFilterRangeSelectivity);
+                   metadata::IndexRecommender::AccessType::FILTER, kFilterRangeSelectivity);
             }
             if (cq.orderBy.has_value()) {
                 index_recommender->recordAccess(cq.table, cq.orderBy->column,
-                    IndexRecommender::AccessType::SORT, kSortSelectivity);
+                   metadata::IndexRecommender::AccessType::SORT, kSortSelectivity);
             }
         };
 

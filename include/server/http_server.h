@@ -1182,7 +1182,7 @@ private:
     std::unique_ptr<StatisticsCollector>      stats_collector_;
     std::unique_ptr<SchemaConstraints>        schema_constraints_;
     std::unique_ptr<SchemaVersionManager>     schema_version_mgr_;
-    std::unique_ptr<IndexRecommender>         index_recommender_;
+    std::unique_ptr<themis::metadata::IndexRecommender>       index_recommender_;
     std::unique_ptr<SchemaAuditLog>           schema_audit_log_;
     std::unique_ptr<SchemaConsistencyChecker> schema_consistency_checker_;
     std::unique_ptr<themis::metadata::ColumnLineageTracker> column_lineage_tracker_;

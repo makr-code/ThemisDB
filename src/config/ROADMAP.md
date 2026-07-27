@@ -10,9 +10,9 @@ Production config runtime exists for path resolution, schema validation, config 
 
 ## In Progress
 
-- [~] hardening resolver/validator edge-case consistency under complex config sets (Target: Q3 2026)
-- [~] benchmark stabilization for config resolution and update-serialization hot paths (Target: Q3 2026)
-- [~] diagnostics consistency improvements across audit/watcher/encrypted-store failures (Target: Q3 2026)
+- [x] hardening resolver/validator edge-case consistency under complex config sets (Target: Q3 2026)
+- [x] benchmark stabilization for config resolution and update-serialization hot paths (Target: Q3 2026)
+- [x] diagnostics consistency improvements across audit/watcher/encrypted-store failures (Target: Q3 2026)
 
 ## Planned Features
 
@@ -29,36 +29,57 @@ Production config runtime exists for path resolution, schema validation, config 
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [ ] freeze resolver/validator/secure-store contracts for active major line (Target: Q3 2026)
-- [ ] define explicit error taxonomy for mapping/validation/watcher/store failure classes (Target: Q3 2026)
+- [x] freeze resolver/validator/secure-store contracts for active major line (Target: Q3 2026)
+  - Delivered: `include/config/config_contract.h` — frozen v1.x contract (size constraints, temporal bounds,
+    failure classes, fail-closed semantics, resolver/validator contract, watcher contract, encrypted-store contract)
+- [x] define explicit error taxonomy for mapping/validation/watcher/store failure classes (Target: Q3 2026)
+  - Delivered: failure classes registered in `config_contract.h` with isFailClosedClass() predicate
 
 ### Phase 2: Core Implementation
-- [ ] complete hardening for resolution, validation, and watcher internals (Target: Q4 2026)
-- [ ] align encrypted-store and metrics/audit behavior to bounded runtime contracts (Target: Q4 2026)
+- [x] complete hardening for resolution, validation, and watcher internals (Target: Q4 2026)
+- [x] align encrypted-store and metrics/audit behavior to bounded runtime contracts (Target: Q4 2026)
 
 ### Phase 3: Error Handling and Edge Cases
-- [ ] standardize fail-closed behavior for malformed config and invalid mapping states (Target: Q4 2026)
-- [ ] unify diagnostics across resolver/validator/watcher/store failure paths (Target: Q4 2026)
+- [x] standardize fail-closed behavior for malformed config and invalid mapping states (Target: Q4 2026)
+- [x] unify diagnostics across resolver/validator/watcher/store failure paths (Target: Q4 2026)
 
 ### Phase 4: Tests
-- [ ] expand focused regressions for schema, resolver fallback, and watcher race scenarios (Target: Q4 2026)
-- [ ] extend deterministic fixture coverage for secure-store and metrics/audit permutations (Target: Q4 2026)
+- [x] expand focused regressions for schema, resolver fallback, and watcher race scenarios (Target: Q4 2026)
+  - Delivered: `tests/config/test_config_hardening_resolver_validator.cpp`
+    CFG-01..08 (resolver edge cases: oversized paths, missing paths, circular fallbacks, special characters)
+  - Delivered: `tests/config/test_config_hardening_resolver_validator.cpp`
+    CFG-09..16 (validator edge cases: oversized schemas, circular refs, nesting depth, external $ref prevention)
+- [x] extend deterministic fixture coverage for secure-store and metrics/audit permutations (Target: Q4 2026)
+  - Delivered: `tests/config/test_config_hardening_watcher_store.cpp`
+    CFG-17..24 (watcher edge cases: polling bounds, modification detection, file deletion, operation timeout)
+  - Delivered: `tests/config/test_config_hardening_watcher_store.cpp`
+    CFG-25..32 (encrypted-store edge cases: algorithm verification, auth-tag length, key rotation, metadata validation)
 
 ### Phase 5: Performance and Hardening
-- [ ] lock benchmark-backed release gates for config hot paths (Target: Q4 2026)
-- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+- [x] lock benchmark-backed release gates for config hot paths (Target: Q4 2026)
+  - Delivered: `benchmarks/config/bench_config_release_gates.cpp` — GATE-CFG-01..06
+    (resolve p99 ≤ 1 µs, validate p99 ≤ 500 µs, encrypted-store get/put p99 ≤ 1 ms,
+     watcher poll within bounds, metrics < 5% overhead)
+- [x] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+  - Gate thresholds documented in benchmark file and config_contract.h
 
 ### Phase 6: Documentation and Acceptance
 - [x] core config module docs aligned to source-verifiable behavior
 - [x] roadmap/future planning separated from historical changelog entries
+- [x] frozen contract header with all runtime semantics documented
+  - `include/config/config_contract.h` § 1-8 with size constraints, temporal bounds, failure classes, 
+    fail-closed contracts, validator bounds, watcher availability, encrypted-store consistency,
+    audit/observability contracts
 
 ## Production Readiness Checklist
 
 - [x] core config surfaces documented and source-verified
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
-- [ ] remaining hardening tasks closed for resolver/validator/watcher/store edges
-- [ ] release benchmark stabilization complete
+- [x] remaining hardening tasks closed for resolver/validator/watcher/store edges
+  - Phase 1-6 complete with frozen contract, comprehensive tests, and release gates
+- [x] release benchmark stabilization complete
+  - GATE-CFG-01..06 documented and measured
 
 ## Known Issues and Limitations
 

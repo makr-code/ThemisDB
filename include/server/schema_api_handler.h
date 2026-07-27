@@ -36,10 +36,10 @@ class SchemaManager;
 class StatisticsCollector;
 class SchemaConstraints;
 class SchemaVersionManager;
-class IndexRecommender;
 class SchemaAuditLog;
 
 namespace metadata {
+class IndexRecommender;
 class ColumnLineageTracker;
 } // namespace metadata
 
@@ -118,7 +118,7 @@ public:
     void setSchemaVersionManager(SchemaVersionManager* version_mgr);
 
     /// Attach an IndexRecommender to enable /api/v1/metadata/index_recommendations/* endpoints.
-    void setIndexRecommender(IndexRecommender* index_recommender);
+    void setIndexRecommender(metadata::IndexRecommender* index_recommender);
 
     /// Attach a SchemaAuditLog to enable /api/v1/metadata/audit/* endpoints.
     void setAuditLog(SchemaAuditLog* audit_log);
@@ -278,7 +278,7 @@ private:
     StatisticsCollector*    stats_collector_     = nullptr;  ///< Non-owning
     SchemaConstraints*      schema_constraints_  = nullptr;  ///< Non-owning
     SchemaVersionManager*   version_mgr_         = nullptr;  ///< Non-owning
-    IndexRecommender*       index_recommender_   = nullptr;  ///< Non-owning
+    metadata::IndexRecommender*       index_recommender_   = nullptr;  ///< Non-owning
     SchemaAuditLog*         audit_log_           = nullptr;  ///< Non-owning
     themis::metadata::ColumnLineageTracker* column_lineage_tracker_ = nullptr;  ///< Non-owning
 };

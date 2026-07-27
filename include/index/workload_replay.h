@@ -36,6 +36,11 @@ namespace themis {
 
 using json = nlohmann::json;
 
+// Use declarations for metadata types (previously in themis, now in themis::metadata)
+using metadata::IndexRecommendation;
+using metadata::ColumnAccess;
+using metadata::IndexRecommender;
+
 /**
  * @brief A single recorded query event in a captured workload.
  *

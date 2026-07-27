@@ -46,6 +46,8 @@ class MetricsCollector;
 
 using json = nlohmann::json;
 
+namespace metadata {
+
 /// A single observed query access pattern for a column
 struct ColumnAccess {
     std::string table_name;
@@ -224,4 +226,5 @@ private:
     std::atomic<uint64_t>                                  total_queries_{0};
 };
 
+} // namespace metadata
 } // namespace themis

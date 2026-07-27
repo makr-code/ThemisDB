@@ -1288,7 +1288,7 @@ HttpServer::HttpServer(
             schema_constraints_ = std::make_unique<SchemaConstraints>();
             schema_constraints_->loadFrom(*storage_);  // Reload persisted constraints
             schema_version_mgr_ = std::make_unique<SchemaVersionManager>(*storage_, *schema_manager_);
-            index_recommender_  = std::make_unique<IndexRecommender>();
+            index_recommender_  = std::make_unique<metadata::IndexRecommender>();
             schema_audit_log_   = std::make_unique<SchemaAuditLog>(*storage_);
 
             // Connect audit log to version manager so every version is audited

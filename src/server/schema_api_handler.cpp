@@ -585,7 +585,7 @@ void SchemaApiHandler::setSchemaVersionManager(SchemaVersionManager* version_mgr
     version_mgr_ = version_mgr;
 }
 
-void SchemaApiHandler::setIndexRecommender(IndexRecommender* index_recommender) {
+void SchemaApiHandler::setIndexRecommender(metadata::IndexRecommender* index_recommender) {
     index_recommender_ = index_recommender;
 }
 

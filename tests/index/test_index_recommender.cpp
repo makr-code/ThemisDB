@@ -21,6 +21,7 @@
 
 namespace fs = std::filesystem;
 using namespace themis;
+using namespace themis::metadata;
 using namespace themis::observability;
 
 // ---------------------------------------------------------------------------
