@@ -4298,6 +4298,43 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_chaos_stress.cpp")
 endif()
 
 # ============================================================================
+# Chaos Framework Release Gate Benchmarks (Phase 5 hardening)
+# Validates: GATE-CHS-01..06 release gates for scheduler/concurrency hot paths
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/chaos/bench_chaos_release_gates.cpp")
+    message(STATUS "Adding chaos framework release gate benchmarks (Phase 5)")
+
+    add_executable(bench_chaos_release_gates
+        chaos/bench_chaos_release_gates.cpp
+        ${CMAKE_SOURCE_DIR}/src/chaos/chaos_framework.cpp
+    )
+
+    target_include_directories(bench_chaos_release_gates PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(bench_chaos_release_gates PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_chaos_release_gates PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    themis_apply_benchmark_release_flags(bench_chaos_release_gates)
+
+    install(TARGETS bench_chaos_release_gates
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Chaos gates: GATE-CHS-01 inject throughput, GATE-CHS-02 query latency, GATE-CHS-03 recover throughput, GATE-CHS-04 concurrent ops, GATE-CHS-05 schedule throughput, GATE-CHS-06 callback overhead")
+endif()
+
+# ============================================================================
 # Auto-registration for eligible benchmark sources not yet manually wired
 #
 # Goal: keep benchmark coverage aligned with current edition/feature switches

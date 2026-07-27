@@ -87,7 +87,8 @@ public:
     explicit FaultInjector(std::string injector_id = "default");
     ~FaultInjector();
 
-    // Inject a fault.  Returns false if the same node + type is already active.
+    // Inject a fault. If the same node + type is already active, the existing
+    // entry is updated in-place (last-writer-wins) and true is returned.
     bool injectFault(const FaultSpec& fault);
 
     // Clear the active fault on target_node_id (all types).
