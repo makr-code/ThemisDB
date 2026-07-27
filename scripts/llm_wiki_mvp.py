@@ -693,6 +693,17 @@ def ingest_source(
                 }
             )
             break
+    if _contains_unsafe_pattern(content):
+        state["tasks"].append(
+            {
+                "id": f"task-{hashlib.sha1((source_id + 'unsafe').encode('utf-8')).hexdigest()[:10]}",
+                "type": "needs_review",
+                "status": "open",
+                "source_id": source_id,
+                "note": "Unsafe prompt-injection style pattern detected in source text.",
+                "created_at": _utc_now(),
+            }
+        )
 
     state["assertions"].append(
         {
@@ -827,7 +838,9 @@ def lint_workspace(workspace_root: Path) -> dict[str, Any]:
             stale_synthesis.append(page_id)
 
     unresolved_contradictions = [
-        t for t in state["tasks"] if t.get("type") == "contradiction_review" and t.get("status") == "open"
+        t
+        for t in state["tasks"]
+        if t.get("type") in {"contradiction_review", "needs_review"} and t.get("status") == "open"
     ]
 
     report = {
