@@ -58,27 +58,42 @@
 
 ### v1.3.0: Distributed Token Blacklist
 
-**In Progress Components (v1.3.0 — core storage complete, RPC layer stubbed):**
+**Completed Components (v1.3.0 — production-ready, TBLK/v1 RPC fully shipped):**
 
 1. **DistributedTokenBlacklist** (`distributed_token_blacklist.h/.cpp`)
    - [x] RocksDB persistence layer (extends RocksDBTokenBlacklist)
    - [x] Background purge thread for expired entries
    - [x] Background replication thread for cluster sync
-   - [x] Leader election using node ID ordering
-   - [~] Pull-based synchronization from followers to leader (RPC stub — production RPC pending)
+   - [x] Leader election using node ID ordering (local O(#peers) string comparison)
+   - [x] Pull-based synchronization from followers to leader — production TBLK/v1 TCP implementation
+   - [x] Push-based synchronization from leader to all followers — production TBLK/v1 TCP implementation
+   - [x] TCP server listener (`serveIncomingConnections` / `handlePeerConnection`) for inbound PUSH and PULL_REQ
+   - [x] `getAllEntries()` — full RocksDB iterator scan, filtered to non-expired entries
+   - [x] `applyEntries()` — LWW batch write, expired entries dropped silently
 
-2. **Cluster Architecture**
+2. **TBLK/v1 Binary Wire Protocol**
+   - Header layout: `magic[4]("TBLK") | version[1](0x01) | type[1] | count[4 BE]` = 10 bytes
+   - Entry layout per entry: `jti_len[2 BE] | jti[jti_len] | expiry_unix_secs[8 BE int64]`
+   - Message types: PUSH(0x01) = leader→follower, PULL_REQ(0x02) = follower→leader,
+     PULL_RESP(0x03) = leader→follower, ACK(0x04) = any direction
+   - Safety caps: max JTI length = 1024 bytes; max entries per message = 1,000,000
+   - Timeout enforcement: non-blocking `connectWithTimeout()` via `select()` + SO_ERROR;
+     SO_RCVTIMEO / SO_SNDTIMEO for data transfer, bounded by `peer_rpc_timeout_ms`
+   - POSIX (`sendAll` uses `MSG_NOSIGNAL`) and Windows (`ioctlsocket` + `closesocket`) both supported
+
+3. **Cluster Architecture**
    - Local node: persists JTI revocations to RocksDB
    - Peer nodes: maintain synchronized copy of blacklist
-   - Leader: acts as the source of truth for revocation state
-   - Followers: pull updates periodically (configurable interval)
-   - Conflict resolution: Last-Write-Wins based on expiry timestamp
+   - Leader: node with lexicographically lowest `node_id`; acts as source of truth
+   - Followers: pull updates from leader via PULL_REQ / PULL_RESP exchange
+   - Leader also pushes: leader initiates PUSH to each follower in `performClusterSync()`
+   - Conflict resolution: Last-Write-Wins — `applyEntries()` overwrites without comparing
 
-3. **Fault Tolerance**
-   - Continues operating if peers are temporarily unavailable
-   - Automatic leader re-election if current leader fails
-   - Bounded RPC timeout to prevent cascading delays
-   - Graceful degradation when cluster connectivity is lost
+4. **Fault Tolerance**
+   - Continues operating if peers are temporarily unavailable (bind failure is non-fatal)
+   - Leader re-election on each `performClusterSync()` call (stateless, purely local)
+   - Bounded `peer_rpc_timeout_ms` prevents cascading delays
+   - Graceful degradation: `performClusterSync()` returns `false` when no peers are reachable
 
 ## Test Strategy
 
@@ -88,8 +103,11 @@
 - release-profile benchmark runs for mapped auth targets.
 - **New for v1.2.0**: async non-blocking behavior validation
 - **New for v1.2.0**: connection pool health checks and reuse metrics
-- **New for v1.3.0**: distributed sync under concurrent load
-- **New for v1.3.0**: cluster convergence and leader election tests
+- **v1.3.0 delivered** (tests/auth/test_auth_distributed_blacklist.cpp, DBL-01..DBL-17):
+  - DBL-01..08: core CRUD (add, isRevoked, future/past expiry, purgeExpired, concurrency, idempotent re-add)
+  - DBL-09..11: leader election (sole node, lowest node_id wins, isLeader() post-election state)
+  - DBL-12..14: cluster API (syncWithCluster future, single-node convergence, timeout with unreachable peer)
+  - DBL-15..17: observability + lifecycle (ReplicationStats zero-init, config accessor round-trip, RAII destructor)
 
 ## Performance Targets
 
@@ -100,12 +118,13 @@
 - HTTP retry logic completes within configured timeout (default 30 sec)
 
 ### v1.3.0
-- isRevoked() remains O(1) lookup in RocksDB (constant-time)
-- add() to RocksDB + local cache negligible overhead (< 1 ms)
-- Cluster sync every 30 seconds without blocking revocation checks
-- Token validation hot path unaffected by replication activity
+- isRevoked() remains O(1) lookup in RocksDB (constant-time, < 1 µs warm cache)
+- add() to RocksDB negligible overhead (< 1 ms, single RocksDB Put)
+- Cluster sync every 30 seconds without blocking revocation checks (configurable sync_interval_seconds)
+- Token validation hot path unaffected by replication activity (background threads)
 - Purge thread runs independently; does not compete with validation
-- Leader election converges within 1 minute under normal conditions
+- Leader election converges locally (O(#peers) string comparison, < 1 ms)
+- `pushRevisionsToFollower()` / `pullRevisionsFromLeader()` bounded by `peer_rpc_timeout_ms` (default 5 s)
 
 ## Security / Reliability
 

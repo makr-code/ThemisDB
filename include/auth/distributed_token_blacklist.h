@@ -1,7 +1,7 @@
 /*
- * ThemisDB | File: distributed_token_blacklist.h | Version: 0.0.1
- * Author: Copilot | Maturity: 🟡 BETA | Status: New Implementation
- * Purpose: Distributed token blacklist with cluster synchronization
+ * ThemisDB | File: distributed_token_blacklist.h | Version: 0.1.0
+ * Author: Copilot | Maturity: 🟡 BETA | Status: Production Implementation (v1.3.0)
+ * Purpose: Distributed token blacklist with full TCP cluster synchronization (TBLK/v1 RPC)
  */
 
 #pragma once
@@ -63,28 +63,38 @@ struct DistributedBlacklistConfig {
 };
 
 /**
- * @brief Distributed token blacklist implementation
+ * @brief Distributed token blacklist with full cluster synchronization (v1.3.0)
  *
- * Extends the RocksDB-backed token blacklist with cluster synchronization:
+ * Extends the RocksDB-backed token blacklist with production-grade cluster sync:
  *
  * - Local: Persists revoked JTIs to RocksDB for durability across restarts
- * - Distributed: Periodically syncs the local blacklist state with peer nodes
- * - Atomic: Revocation checks remain deterministic during sync operations
+ * - Distributed: Periodically syncs local blacklist state with peer nodes via TCP
+ * - Atomic: Revocation checks remain deterministic and constant-time during sync
  * - Resilient: Continues operation if peers are temporarily unavailable
  *
- * Architecture:
- *   - Leader election: One node acts as the replication leader
- *   - Pull-based sync: Followers periodically pull updates from the leader
- *   - Conflict resolution: Latest timestamp wins (Last-Write-Wins)
- *   - Fault tolerance: If leader fails, another node is elected
+ * ### Architecture
+ *   - Leader election: node with the lowest `node_id` string is the replication leader
+ *   - Leader pushes all non-expired revocations to each follower via TCP PUSH messages
+ *   - Follower pulls revocations from the leader via TCP PULL_REQ / PULL_RESP exchange
+ *   - Every node runs a TCP server listener on `local_node.rpc_port` to receive inbound
+ *     connections from peers; bind failure is non-fatal (node still initiates outbound)
+ *   - Conflict resolution: Last-Write-Wins on expiry timestamp; older entries are overwritten
  *
- * Thread-safety: All public methods are thread-safe. Replication happens
- * in background threads without blocking revocation checks.
+ * ### Wire Protocol (TBLK/v1)
+ *   - 10-byte header: magic[4] = "TBLK", version[1] = 0x01, type[1], count[4] (big-endian)
+ *   - Message types: PUSH(0x01), PULL_REQ(0x02), PULL_RESP(0x03), ACK(0x04)
+ *   - Entry encoding: jti_len[2] + jti[jti_len] + expiry[8] (unix seconds, big-endian int64)
+ *   - Timeouts: `peer_rpc_timeout_ms` controls connect/send/recv deadlines
  *
- * Performance targets (auth roadmap v1.3.0):
- *   - isRevoked() remains constant-time lookup (1 RocksDB read)
- *   - add() to RocksDB + local cache (negligible overhead)
- *   - Cluster sync happens every 30 seconds without blocking callers
+ * ### Thread-safety
+ *   All public methods are thread-safe. Replication and purge happen in background
+ *   threads without blocking revocation checks (`isRevoked()` is one RocksDB read).
+ *
+ * ### Performance targets (v1.3.0)
+ *   - `isRevoked()`: O(1) RocksDB point-read, < 1 µs on warm cache
+ *   - `add()`: < 1 ms (single RocksDB Put)
+ *   - Cluster sync every 30 seconds (configurable); does not block validation hot path
+ *   - Leader election converges in < 1 second (local node-ID comparison)
  */
 class DistributedTokenBlacklist final : public ITokenBlacklist {
 public:
@@ -211,9 +221,51 @@ private:
     
     std::atomic<std::chrono::system_clock::time_point> last_successful_sync_;
     
+    /// Server socket file descriptor that accepts inbound connections from cluster peers.
+    /// -1 (or INVALID_SOCKET on Windows) when the listener could not be bound (non-fatal).
+    int server_fd_{-1};
+    
+    /// Background thread that runs the TCP accept loop for incoming peer connections.
+    std::thread listener_thread_;
+    
     // Background loops
     void purgeLoop();
     void replicationLoop();
+    
+    // TCP server listener — accepts PUSH and PULL_REQ connections from cluster peers
+    void serveIncomingConnections();
+    
+    /**
+     * @brief Handle a single inbound peer connection.
+     *
+     * Dispatches on the TBLK/v1 message type:
+     *   - PUSH: reads entries sent by a leader and writes them to local RocksDB (LWW)
+     *   - PULL_REQ: reads all non-expired local entries and sends them as PULL_RESP
+     *
+     * @param client_fd POSIX file descriptor (or SOCKET on Windows) for the accepted connection.
+     *                  Ownership is retained by the caller; this method closes nothing.
+     */
+    void handlePeerConnection(int client_fd);
+    
+    /**
+     * @brief Return all non-expired entries from RocksDB.
+     *
+     * Used by `handlePeerConnection` (PULL_REQ) and `pushRevisionsToFollower`.
+     * Expired entries are omitted; the result is used as the push/pull payload.
+     */
+    std::vector<std::pair<std::string, std::chrono::system_clock::time_point>>
+        getAllEntries() const;
+    
+    /**
+     * @brief Apply a batch of (jti, expiry_unix_seconds) pairs to local RocksDB.
+     *
+     * Entries with past expiry are silently dropped. Existing entries are overwritten
+     * (Last-Write-Wins semantics). Writes are batched for efficiency.
+     *
+     * @param entries Vector of (jti, unix_seconds_since_epoch) pairs received from a peer.
+     * @throws std::runtime_error if the RocksDB batch write fails.
+     */
+    void applyEntries(const std::vector<std::pair<std::string, int64_t>>& entries);
     
     // RPC handlers (for peer-to-peer communication)
     bool performClusterSync();
