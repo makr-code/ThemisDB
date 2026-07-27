@@ -69,12 +69,14 @@ TEST_F(ArchiveProcessorTest, DetectFormatZip) {
 TEST_F(ArchiveProcessorTest, DetectFormatFromFilename) {
     // Non-empty blob with matching extension should detect format
     std::string zip_blob = createMockZipBlob();
-    
     EXPECT_EQ(ArchiveProcessor::detectFormat(zip_blob, "test.zip"), ArchiveFormat::ZIP);
-    
-    // For non-empty blobs with different extensions, magic bytes take priority
+
+    // For non-empty blobs without archive magic, extension fallback applies
     std::string blob_with_text = "Not an archive but has some content";
-    EXPECT_EQ(ArchiveProcessor::detectFormat(blob_with_text, "test.zip"), ArchiveFormat::UNKNOWN);
+    EXPECT_EQ(ArchiveProcessor::detectFormat(blob_with_text, "test.zip"), ArchiveFormat::ZIP);
+
+    // Magic bytes still take priority over conflicting extension
+    EXPECT_EQ(ArchiveProcessor::detectFormat(zip_blob, "test.txt"), ArchiveFormat::ZIP);
 }
 
 TEST_F(ArchiveProcessorTest, DetectFormatEmptyBlobReturnsUnknown) {
