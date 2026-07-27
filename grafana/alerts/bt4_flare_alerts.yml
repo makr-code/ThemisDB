@@ -1,0 +1,61 @@
+groups:
+  - name: bt4_flare_alerts
+    interval: 10s
+    rules:
+      # mapAdapter failure rate – any failure is immediately critical
+      - alert: MapAdapterFailure
+        expr: rate(bt4_map_adapter_failures_total[1m]) > 0
+        for: 0m
+        labels:
+          severity: critical
+          component: ggml_bridge
+        annotations:
+          summary: "CRITICAL: mapAdapter() failure detected"
+          description: "mapAdapter() failure rate is {{$value | humanize}} failures/s on instance {{$labels.instance}}. Immediate investigation required."
+
+      # mapAdapter success rate low (complementary warning)
+      - alert: MapAdapterSuccessRateDegraded
+        expr: |
+          sum by (instance) (rate(bt4_map_adapter_calls_total{result="success"}[5m]))
+          /
+          clamp_min(sum by (instance) (rate(bt4_map_adapter_calls_total[5m])), 1e-9)
+          < 0.95
+        for: 2m
+        labels:
+          severity: warning
+          component: ggml_bridge
+        annotations:
+          summary: "mapAdapter() success rate below 95%"
+          description: "mapAdapter() success rate is {{$value | humanizePercentage}} (threshold: 95%) on instance {{$labels.instance}}."
+
+      # GgmlAllocFn not wired
+      - alert: GgmlAllocFnNotWired
+        expr: bt4_ggml_alloc_fn_wired == 0
+        for: 1m
+        labels:
+          severity: critical
+          component: ggml_bridge
+        annotations:
+          summary: "CRITICAL: GgmlAllocFn is not wired"
+          description: "bt4_ggml_alloc_fn_wired is 0 on instance {{$labels.instance}}. GGML allocation function is not bound; inference will fail."
+
+      # FLARE switch latency p99 high
+      - alert: FlareSwitchLatencyHigh
+        expr: histogram_quantile(0.99, rate(flare_switch_latency_seconds_bucket[5m])) > 0.5
+        for: 3m
+        labels:
+          severity: warning
+          component: flare_retrieval
+        annotations:
+          summary: "FLARE switch latency p99 elevated"
+          description: "FLARE switch latency p99 is {{$value | humanizeDuration}} (threshold: 500ms) on instance {{$labels.instance}}."
+
+      - alert: FlareSwitchLatencyCritical
+        expr: histogram_quantile(0.99, rate(flare_switch_latency_seconds_bucket[5m])) > 2.0
+        for: 1m
+        labels:
+          severity: critical
+          component: flare_retrieval
+        annotations:
+          summary: "CRITICAL: FLARE switch latency p99 critical"
+          description: "FLARE switch latency p99 is {{$value | humanizeDuration}} (threshold: 2s) on instance {{$labels.instance}}."

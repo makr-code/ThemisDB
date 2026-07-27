@@ -2041,6 +2041,53 @@ else()
 endif()
 
 # ============================================================================
+# Auth Hot-Path Release-Gate Benchmarks (Phase 5 — Q3 2026)
+# Covers token/session/revocation hot paths with hard release gates
+# (GATE-AHP-01..06).  Feeds into src/auth/ROADMAP.md Phase 5 sign-off.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/auth/bench_auth_hotpaths.cpp" AND NOT TARGET bench_auth_hotpaths)
+    message(STATUS "Adding auth hot-path release-gate benchmarks (AHP-01..08)")
+
+    add_executable(bench_auth_hotpaths
+        auth/bench_auth_hotpaths.cpp
+    )
+
+    target_include_directories(bench_auth_hotpaths PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(bench_auth_hotpaths PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_auth_hotpaths PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    themis_apply_benchmark_release_flags(bench_auth_hotpaths)
+
+    install(TARGETS bench_auth_hotpaths
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Auth hot-paths: blacklist hit/miss p99, session create/validate p99, "
+                   "distributed revocation RocksDB add/isRevoked, federation realm-lookup overhead "
+                   "(GATE-AHP-01..06)")
+else()
+    if(NOT TARGET bench_auth_hotpaths)
+        message(STATUS "Auth hot-path benchmark not found at ${CMAKE_CURRENT_SOURCE_DIR}/auth/bench_auth_hotpaths.cpp")
+    endif()
+endif()
+
+
+# ============================================================================
 # Policy Evaluation Benchmarks (Issue #1779)
 # Measures RBAC/ABAC rule evaluation performance with varying policy set sizes.
 # Uses a self-contained mock PolicyEngine (no external library dependencies).
@@ -3906,6 +3953,76 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_module_load_hot_reload.cpp")
     )
 
     message(STATUS "  Base: loadModule fast-fail, unload, isLoaded, loadAllModules empty dir, getMetrics, audit trail, concurrent reload 1..16 threads")
+endif()
+
+# ============================================================================
+# Base Module Hot-Path Release Gate Benchmarks (Issue #5631)
+# Validates: GATE-BASE-01..06 — isModuleLoaded, getMetrics, registeredModules,
+#            isRollbackAvailable, buildFromResolver 100-node, reloadModule fast-fail
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_base_hot_paths.cpp")
+    message(STATUS "Adding base module hot-path release gate benchmarks (GATE-BASE-01..06)")
+
+    add_executable(bench_base_hot_paths
+        bench_base_hot_paths.cpp
+    )
+
+    target_include_directories(bench_base_hot_paths PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(bench_base_hot_paths PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_base_hot_paths PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    themis_apply_benchmark_release_flags(bench_base_hot_paths)
+
+    install(TARGETS bench_base_hot_paths
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Base hot paths: GATE-BASE-01 isModuleLoaded ≥500k ops/s, GATE-BASE-02 getMetrics ≥100k ops/s, GATE-BASE-03 registeredModules p99≤5µs, GATE-BASE-04 isRollbackAvailable p99≤1µs, GATE-BASE-05 buildFromResolver 100-node ≤1ms, GATE-BASE-06 reloadModule fast-fail ≤50µs")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_base_wasm_sandbox.cpp")
+    message(STATUS "Adding base module wasm/sandbox dedicated benchmarks (GATE-BASE-07..12)")
+
+    add_executable(bench_base_wasm_sandbox
+        bench_base_wasm_sandbox.cpp
+    )
+
+    target_include_directories(bench_base_wasm_sandbox PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(bench_base_wasm_sandbox PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_base_wasm_sandbox PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    themis_apply_benchmark_release_flags(bench_base_wasm_sandbox)
+
+    install(TARGETS bench_base_wasm_sandbox
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Base wasm/sandbox: GATE-BASE-07 loadFromBytes valid, GATE-BASE-08 loadFromBytes invalid, GATE-BASE-09 AbiChecker checkVersions, GATE-BASE-10 resolveDescription, GATE-BASE-11 isKnownCode, GATE-BASE-12 sandbox stats")
 endif()
 
 # ============================================================================

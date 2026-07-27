@@ -30,10 +30,10 @@ ThemisDB follows [Semantic Versioning 2.0.0](https://semver.org/):
 MAJOR.MINOR.PATCH[-PRE_RELEASE]
 
 Examples:
-  1.8.0
-  1.8.1-rc1
-  2.0.0-alpha1
-  2.0.0-beta2
+  2.4.0
+  2.4.0-rc1
+  2.5.0-alpha1
+  2.5.0-beta1
 ```
 
 | Segment | Incremented when |
@@ -53,12 +53,12 @@ The canonical version is stored in two places that must always be kept in sync:
 
 | File | Format | Example |
 |---|---|---|
-| [`VERSION`](VERSION) | Plain text, one line | `1.8.2rc` |
-| [`CHANGELOG.md`](CHANGELOG.md) | Keep a Changelog header | `## [1.8.2-rc1] - 2026-04-xx` |
+| [`VERSION`](VERSION) | Plain text, one line | `2.4.0-rc1` |
+| [`CHANGELOG.md`](CHANGELOG.md) | Keep a Changelog header | `## [2.4.0-rc1] - 2026-07-03` |
 
 Additionally, the CMake build system reads the version at configure time via the `VERSION` file and from `CMakeLists.txt` `project()` call. Keep these consistent.
 
-The `RELEASE_TYPE` file contains the current release type string (e.g., `stable`, `rc`, `beta`).
+The `RELEASE_TYPE` file contains the current release type string (e.g., `stable`, `rc`, `beta`). At this root-sync point, the canonical state is `VERSION=2.4.0-rc1` with `RELEASE_TYPE=rc`.
 
 ---
 
@@ -66,11 +66,11 @@ The `RELEASE_TYPE` file contains the current release type string (e.g., `stable`
 
 | Type | Description | Example tag |
 |---|---|---|
-| **Alpha** | Early preview; API may change significantly | `v1.9.0-alpha1` |
-| **Beta** | Feature-complete; API stabilising | `v1.9.0-beta1` |
-| **Release Candidate (RC)** | Feature-frozen; only bug fixes | `v1.9.0-rc1` |
-| **Stable** | General availability (GA) | `v1.9.0` |
-| **Patch / Hotfix** | Critical fixes on a stable release | `v1.8.1` |
+| **Alpha** | Early preview; API may change significantly | `v2.5.0-alpha1` |
+| **Beta** | Feature-complete; API stabilising | `v2.5.0-beta1` |
+| **Release Candidate (RC)** | Feature-frozen; only bug fixes | `v2.4.0-rc1` |
+| **Stable** | General availability (GA) | `v2.4.0` |
+| **Patch / Hotfix** | Critical fixes on a stable release | `v2.4.1` |
 
 Releases progress through the type sequence: alpha → beta → rc → stable.  
 Critical security fixes may bypass the pre-release sequence and be released directly as a patch.
@@ -118,11 +118,8 @@ Release dates are tracked in [`CHANGELOG.md`](CHANGELOG.md) and announced via Gi
 
 | Version line | Status | Security updates | End-of-Life |
 |---|---|---|---|
-| **1.8.x** | ✅ Active / Current | ✅ Yes | TBD |
-| **1.7.x** | 🔧 Maintenance | ✅ Yes | 2026-12-31 |
-| **1.6.x and earlier** | ❌ Unsupported | ❌ No | Reached EOL |
-| **0.9.x** | 🔧 Maintenance (legacy) | ✅ Yes | 2026-12-31 |
-| **< 0.9** | ❌ Unsupported | ❌ No | 2024-01-01 |
+| **2.4.x** | ✅ Active / Current prerelease line | ✅ Yes | TBD |
+| **2.3.x and earlier** | ⚠️ Historical lines — verify per release notes before promising support | Case-by-case | See `CHANGELOG.md` |
 
 **Maintenance** means security patches and critical bug fixes only; no new features.  
 **Unsupported** means no patches of any kind are provided.
@@ -135,11 +132,11 @@ All five editions share the same `MAJOR.MINOR.PATCH` base version. Edition-speci
 
 | Edition | Git branch | Docker tag pattern | Git tag pattern |
 |---|---|---|---|
-| COMMUNITY | `community` | `themisdb/themisdb:1.8.0-community-binary-x64` and `...-arm` | `v1.8.0` |
-| ENTERPRISE | `enterprise` | `<private-registry>/themisdb-enterprise:1.8.0-enterprise-binary-x64` and `...-arm` | `enterprise-v1.8.0` |
-| MILITARY | `military` | (private registry) | `military-v1.8.0` |
-| HYPERSCALER | `hyperscaler` | `<oem-registry>/themisdb-hyperscaler:1.8.0-hyperscaler-binary-x64` and `...-arm` | `hyperscaler-v1.8.0` |
-| MINIMAL | `minimal` | `themisdb/themisdb-minimal:1.8.0-minimal-binary-x64` and `...-arm` | `minimal-v1.8.0` |
+| COMMUNITY | `community` | `themisdb/themisdb:2.4.0-community-binary-x64` and `...-arm` | `v2.4.0` |
+| ENTERPRISE | `enterprise` | `<private-registry>/themisdb-enterprise:2.4.0-enterprise-binary-x64` and `...-arm` | `enterprise-v2.4.0` |
+| MILITARY | `military` | (private registry) | `military-v2.4.0` |
+| HYPERSCALER | `hyperscaler` | `<oem-registry>/themisdb-hyperscaler:2.4.0-hyperscaler-binary-x64` and `...-arm` | `hyperscaler-v2.4.0` |
+| MINIMAL | `minimal` | `themisdb/themisdb-minimal:2.4.0-minimal-binary-x64` and `...-arm` | `minimal-v2.4.0` |
 
 Release assets on GitHub follow the same canonical basename:
 
@@ -221,9 +218,9 @@ Pre-release versions are never considered "stable" for production use. Docker ta
 - [RELEASE_STRATEGY.md](RELEASE_STRATEGY.md) — Branch model, CI/CD, rollback
 - [SOP.md](SOP.md) — Step-by-step release and hotfix procedures
 - [SECURITY.md](SECURITY.md) — Security patch SLA
-- [COPILOT_INSTRUCTIONS.md](COPILOT_INSTRUCTIONS.md) — AI/agent governance and documentation alignment rules
+- [ai_context/COPILOT_INSTRUCTIONS.md](ai_context/COPILOT_INSTRUCTIONS.md) — AI/agent governance and documentation alignment rules
 - [ROADMAP.md](ROADMAP.md) — Canonical feature/milestone scope
 - [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) — Canonical open enhancement backlog
 
 ---
-Zuletzt geprueft (Root-Sync): 2026-05-26
+Zuletzt geprueft (Root-Sync): 2026-07-27

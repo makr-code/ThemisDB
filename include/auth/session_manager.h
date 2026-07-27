@@ -47,6 +47,27 @@ namespace auth {
  * Distributed deployments should back this with a shared cache (Redis,
  * Valkey, …) and replicate revocations across nodes.  This implementation
  * provides the single-node baseline.
+ *
+ * ### Bounded runtime contract (auth_principal_contract.h §2, §4)
+ *
+ * - Session IDs are prefixed "sess_" and are cryptographically random
+ *   (RAND_bytes from OpenSSL).  A construction failure causes createSession()
+ *   to throw std::runtime_error; the caller MUST NOT fall back to a
+ *   deterministic or user-supplied identifier.
+ * - validateSession() returns ValidationResult::valid = false for ANY of:
+ *   expired (absolute or idle), unknown session ID, or internally inconsistent
+ *   state.  It never throws for a "session not found" condition; use the
+ *   returned ValidationResult::reason for diagnostic logging.
+ * - Session-ID comparison uses CRYPTO_memcmp to prevent timing-oracle attacks.
+ *   Callers MUST NOT compare session IDs with == or std::string::compare.
+ * - The maximum absolute lifetime is bounded by kMaxSessionLifetime (30 days)
+ *   and the maximum idle timeout by kMaxSessionIdleTimeout (8 hours) as defined
+ *   in auth_principal_contract.h.  Values exceeding these bounds are silently
+ *   clamped at construction.
+ * - revokeSession() and revokeAllUserSessions() are idempotent; revoking an
+ *   already-expired or non-existent session ID is a no-op (no error thrown).
+ *
+ * @see include/auth/auth_principal_contract.h — §2 Temporal contract, §4 Fail-closed
  */
 class SessionManager {
 public:

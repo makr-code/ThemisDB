@@ -5,6 +5,25 @@ All notable changes to ThemisDB will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-07-27 — Root Documentation Synchronization + Auth Source Status Reflection
+
+### Root Documentation Synchronization
+
+- Refreshed `README.md` against current root governance files and `src/` module docs.
+- Replaced stale root evidence references with current source-backed artefacts for Wave 5, Wave 6,
+  Wave 7, auth hardening, sanitizer evidence, and pentest evidence.
+- Updated root build notes to reflect the current preset prerequisites for `linux-release`
+  (Ninja + `vcpkg`) and `community-release` (system RocksDB package).
+- Refreshed root synchronization markers in `ROADMAP.md` and `FUTURE_ENHANCEMENTS.md`.
+
+### Auth Source Status Reflection
+
+- Root status docs now explicitly reflect the completed `auth` Phase 1-6 hardening block from
+  `src/auth/ROADMAP.md`: frozen principal contract, 12 new error codes (9420-9452),
+  RFP/FED/ASY focused tests, and AHP benchmark gates.
+
+---
+
 ## [Unreleased] — 2026-07-22 — Block E Sharding P6 (P6-01/P6-02/P6-03) + AQL DDL Phase 2
 
 ### Block E — Sharding Phase 6 Hardening (P6-01 / P6-02 / P6-03)
@@ -2848,4 +2867,4 @@ ThemisDB follows [Semantic Versioning](https://semver.org/):
 - **-alpha**, **-beta**, **-rc** suffixes for pre-release versions
 
 ---
-Zuletzt geprueft (Root-Sync): 2026-05-26
+Zuletzt geprueft (Root-Sync): 2026-07-27

@@ -130,7 +130,45 @@ enum class AuthErrorCode {
     PASSWORD_POLICY_VIOLATION = 9410,
 
     // SAML assertion decryption errors (9411)
-    SAML_DECRYPTION_FAILED = 9411
+    SAML_DECRYPTION_FAILED = 9411,
+
+    // Provider / federation availability errors (9420-9429)
+    /// Provider backend is unreachable or returned an unexpected transient error.
+    /// Decision is fail-closed: deny until the provider is confirmed healthy.
+    PROVIDER_DEGRADED = 9420,
+    /// Provider configuration declares a capability that the runtime environment
+    /// cannot satisfy (e.g., TLS required but not configured).
+    PROVIDER_CAPABILITY_MISMATCH = 9421,
+    /// A federation realm is registered but its OIDC discovery endpoint is
+    /// currently unreachable or returns an invalid document.
+    FEDERATION_REALM_UNAVAILABLE = 9422,
+    /// The token carries an issuer claim that does not match any registered realm.
+    FEDERATION_UNKNOWN_REALM = 9423,
+
+    // Revocation backend errors (9430-9439)
+    /// The local or distributed revocation backend is unreachable.
+    /// isRevoked() returns true (deny) when this error fires.
+    REVOCATION_BACKEND_UNAVAILABLE = 9430,
+    /// A revocation entry is structurally invalid (e.g., JTI too long, bad expiry).
+    REVOCATION_ENTRY_INVALID = 9431,
+    /// Distributed cluster sync failed; local state may be stale.
+    REVOCATION_CLUSTER_SYNC_FAILED = 9432,
+
+    // Policy / authorization edge errors (9440-9449)
+    /// The policy engine reached an undefined edge case (no applicable rule found
+    /// and no explicit default).  Treated as fail-closed (DENY).
+    POLICY_EDGE_UNDEFINED = 9440,
+    /// A policy requires a claim that is absent from the validated principal.
+    POLICY_MISSING_REQUIRED_CLAIM = 9441,
+
+    // Async provider / timeout errors (9450-9459)
+    /// An async provider call exceeded its configured timeout.
+    /// The outstanding future holds this error; callers MUST treat it as DENY.
+    ASYNC_PROVIDER_TIMEOUT = 9450,
+    /// The async worker thread pool is exhausted; the request cannot be dispatched.
+    ASYNC_POOL_EXHAUSTED = 9451,
+    /// An async provider future propagated an unexpected exception.
+    ASYNC_PROVIDER_EXCEPTION = 9452
 };
 
 /**

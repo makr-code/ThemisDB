@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 **Version:** 2.5  
-**Last Updated:** 2026-07-20
+**Last Updated:** 2026-07-27
 **Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–6 complete; active baseline 22.085 deduplicated findings). Phase 3-5 next-phase implementation plans active.
 
 > For module-specific details see each module's `src/<module>/ROADMAP.md`.
@@ -15,15 +15,30 @@
 ThemisDB is a high-performance multi-model database with native AI/LLM integration. This top-level roadmap aggregates the status and planned work across tracked source modules. The project follows a phased approach: stabilise core infrastructure first, then harden distributed and AI layers, and finally deliver operational excellence at hyperscale.
 
 **Overall Timeline:** Q1 2026 – Q4 2027  
-**Current Release:** v1.9.0-beta
+**Current Release:** v2.4.0-rc1
 
-## GA Release Hardening Program (v1.9.0-beta → v1.9.0 GA)
+## Research & Papers Integration (Soll-Ist Vergleich)
+
+**Soll (target state):**
+- [ ] Every roadmap status claim with scientific/algorithmic relevance is linked to canonical research sources in `research/` and/or `research/papers/` (Target: ongoing, enforced in Phase 6).
+- [ ] For each top-risk or release-critical module, maintain an explicit mapping `research source -> planned capability -> implementation evidence` via `research/implementation_influence/by_module.md` (Target: 2026-08).
+- [ ] Root roadmap updates include a recurring Soll-Ist snapshot for research-backed features (Target: every root roadmap sync).
+
+**Ist (current state, 2026-07-27):**
+- [x] Research and paper inventories exist (`research/README.md`, `research/papers/README.md`) and already contain implementation status entries.
+- [~] Roadmap includes research references in selected domains (for example Tensor/LoRA sections), but the comparison is not yet maintained as a dedicated recurring root checklist across all modules.
+- [ ] A consolidated root-level Soll-Ist matrix for all research-backed roadmap claims is not yet fully established.
+
+## Release Hardening Program (current canonical version: v2.4.0-rc1)
+
+> **Canonical version note:** `VERSION` and `CHANGELOG.md` currently identify `v2.4.0-rc1` as the active repository version. Historical `v1.9.0-beta` batch names below are retained only where they are part of existing execution-plan terminology or evidence labels.
 
 ## Current Status
 
 - [~] The beta-to-GA hardening path runs on `develop`; release-lane promotion happens only after gate evidence is complete.
 - [x] Wave 7 baseline evidence exists with all six PASS gates (`benchmarks/wave7/release_gate_manifest_w7.json`; baseline currently valid, periodic re-confirmation still required).
 - [x] `release_critical` CI on `develop` is defined as the mandatory entry gate for release work (`.github/workflows/09-pr-gates_release-critical-tests.yml`).
+- [x] `auth` source hardening documentation is current: Phase 1-6 is complete with frozen principal contract, 12 new error codes (9420-9452), RFP/FED/ASY focused tests, and AHP benchmark gates (`src/auth/ROADMAP.md`).
 - [~] `server`, `llm`, and `sharding` top-risk hardening is in closure mode: `server` P5-S01/S02 and `llm` P5-L01/P5-L02 delivered; `sharding` P6 gate integration delivered and evidence closure ongoing.
 - [x] Wave 8, chaos/fault-injection, sanitizer/recovery, penetration-test, and 99.99% SLA sign-off artefacts are closed: sanitizer evidence bundle at `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md`; pentest evidence bundle at `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`; final governance sign-off pending human approval at `docs/governance/GA_PROMOTION_SIGN_OFF.md`.
 
@@ -32,7 +47,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 - [~] Reconfirm canonical build reproducibility for `linux-release` (Ninja + `vcpkg`) and `community-release` (system packages incl. RocksDB) (Target: Phase 0 / 2026-07)
 - [~] Move `server` hardening from implementation-complete to GA sign-off ready (residual risk register + regression proof + gate evidence sync) (Target: Phase 1 / 2026-08)
 - [~] Move `llm` hardening from implementation-complete to GA sign-off ready (ownership/recovery evidence + regression proof + gate evidence sync) (Target: Phase 1 / 2026-08)
-- [ ] Complete `sharding` 2PC/3PC consistency, WAL/recovery, and fault-injection hardening across `include/sharding/`, `src/sharding/`, `include/replication/`, and `src/replication/` (Target: Phase 1 / 2026-08)
+- [~] Keep sharding Phase 6 sign-off evidence current and retain regression proof across `include/sharding/`, `src/sharding/`, `include/replication/`, and `src/replication/` (Target: Phase 1 / 2026-08)
 - [ ] Keep graph/query optimisation work behind measurable latency/cache/pool/Wave-7 regression gates before counting it as production-ready (Target: Phase 2 / 2026-09)
 
 ## Implementation Phases
@@ -71,6 +86,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 
 ### Phase 6 — Documentation, Governance, and Release Approval
 - [~] Keep `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `CHANGELOG.md`, `RELEASE_STRATEGY.md`, `VERSIONING.md`, and branch-governance docs synchronized (Target: ongoing)
+- [~] Include `research/` and `research/papers/` in each root documentation sync and update the root Soll-Ist comparison for research-backed roadmap claims (Target: ongoing)
 - [ ] Promote release work from `develop` into canonical release lanes only after all system gates are proven, not just module-local gates (Target: release cut)
 - [ ] Complete public API, failure-behaviour, and operational-limit documentation before GA sign-off (Target: release cut)
 
@@ -189,7 +205,7 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 
 **Total New Tests:** 352+ (Phase 3: 130, Phase 5: 90, Phase 6: 60+, AQL: 32, Wave 8: 40+)  
 **Total Team Effort:** ~38 weeks across 8 teams (~15 engineers)  
-**Release Target:** v1.9.0-beta (Sept 2026), v2.0.0-rc1 (Oct 2026), v2.0.0 GA (Nov 2026)
+**Release Target (historical execution label):** originally planned as `v1.9.0-beta` → `v2.0.0`; current canonical repository version is `v2.4.0-rc1` (`VERSION`, `CHANGELOG.md`).
 
 ### Scope-Freeze & Remaining Work (2026-07-20)
 
@@ -218,7 +234,7 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 - [ ] After each open block: full gate-check (build/test/bench/security) must be green before next block starts
 - [ ] Acceptance criteria for open blocks are sourced from this roadmap + `FUTURE_ENHANCEMENTS.md` six-phase execution model
 - [ ] Any failed gate or unresolved risk is returned to backlog/governance before promotion
-- [ ] Promotion path remains evidence-driven: `v1.9.0-beta` → `v2.0.0-rc1` → `v2.0.0 GA`
+- [ ] Promotion path remains evidence-driven and must stay aligned with the canonical `VERSION` / `RELEASE_TYPE` state before any release cut
 
 ### Decision Tree: Phase Prioritization
 
@@ -583,7 +599,7 @@ Status: [x] adopted
 - [x] Update intervals and GitHub issue/milestone orchestration standardized (`DOC-WEEKLY-*`, `DOC-MONTHLY-*`, `DOC-RELEASE-*`).
 - [x] Root reference added: `DOCUMENTATION_GOVERNANCE.md`.
 
-### Root Documentation Sync (2026-05-26)
+### Root Documentation Sync (2026-07-27)
 
 Status: [x] completed
 
@@ -787,7 +803,7 @@ Audit method:
 | **voice** | HARDENING | LOC=11483, Stub/KLOC=6,01, Tests=603, TestRefs=26 |
 | **whisper** | HARDENING | LOC=2766, Stub/KLOC=18,08, Tests=76, TestRefs=4 |
 
-**Legend:** PRODUCTION_CANDIDATE · HARDENING · EXPERIMENTAL · THIN/PLACEHOLDER *(full src coverage: 66/66 modules, evidence from logs/module_status_66_refined.csv and logs/module_test_include_refs_66.csv)*
+**Legend:** PRODUCTION_CANDIDATE · HARDENING · EXPERIMENTAL · THIN/PLACEHOLDER *(full src coverage: 66/66 modules; evidence consolidated in this roadmap table and the corresponding `src/<module>/ROADMAP.md` files)*
 
 **Phase 1-4 Gap Scanner Results Summary (2026-05-18):**
 - Total gaps: 31,720 across 8 categories
@@ -2041,4 +2057,4 @@ ctest --preset community-release --filter "test_layered_retrieval_orchestrator" 
 - [FEATURE_ENHANCEMENT.md](FEATURE_ENHANCEMENT.md) — Generated code maturity analysis (reporting snapshot)
 
 ---
-Zuletzt geprueft (Root-Sync): 2026-05-26
+Zuletzt geprueft (Root-Sync): 2026-07-27

@@ -212,23 +212,41 @@ FederatedValidationResult FederatedIdentityManager::validateToken(const std::str
     const std::string raw_iss = extractIssuer(token);
     const std::string iss     = normalize(raw_iss);
 
-    // Step 2: find the matching realm (obtain a shared_ptr to keep it alive)
+    // Step 2: find the matching realm (obtain a shared_ptr to keep it alive).
+    // Use the canonical FEDERATION_UNKNOWN_REALM code so callers can distinguish
+    // "no such realm" from "realm exists but token is cryptographically invalid".
     std::shared_ptr<OIDCProvider> provider;
     {
         std::lock_guard<std::mutex> lock(mutex_);
         const auto it = realms_.find(iss);
         if (it == realms_.end()) {
             spdlog::warn("FederatedIdentityManager: no realm registered for issuer '{}'", iss);
-            throw AuthException(AuthError(AuthErrorCode::JWT_ISSUER_MISMATCH, "Token issuer is not trusted",
+            throw AuthException(AuthError(AuthErrorCode::FEDERATION_UNKNOWN_REALM,
+                                          "Token issuer is not a registered federation realm",
                                           "No realm registered for issuer '" + iss + "'"));
         }
         provider = it->second;
     }
 
-    // Step 3: delegate full validation to the realm's provider
-    // (lock released – provider kept alive via shared_ptr)
+    // Step 3: delegate full validation to the realm's provider.
+    // Re-classify network / JWKS-fetch failures as PROVIDER_DEGRADED so callers
+    // can apply the fail-closed policy without inspecting provider-internal codes.
     spdlog::debug("FederatedIdentityManager: validating token for realm '{}'", iss);
-    JWTClaims claims = provider->validateToken(token);
+    JWTClaims claims;
+    try {
+        claims = provider->validateToken(token);
+    } catch (const AuthException &) {
+        // Structured auth errors (bad signature, expired, missing claim, …) are
+        // already correctly classified — propagate unchanged.
+        throw;
+    } catch (const std::exception &ex) {
+        // Unstructured exceptions from network I/O or internal provider state:
+        // reclassify as PROVIDER_DEGRADED (fail-closed).
+        spdlog::error("FederatedIdentityManager: provider error for realm '{}': {}", iss, ex.what());
+        throw AuthException(AuthError(AuthErrorCode::PROVIDER_DEGRADED,
+                                      "Identity provider is temporarily unavailable",
+                                      "Provider error for realm '" + iss + "': " + ex.what()));
+    }
 
     return FederatedValidationResult{std::move(claims), iss};
 }
@@ -238,7 +256,8 @@ OIDCProvider &FederatedIdentityManager::realmProvider(const std::string &issuer_
     std::lock_guard<std::mutex> lock(mutex_);
     const auto it = realms_.find(key);
     if (it == realms_.end()) {
-        throw AuthException(AuthError(AuthErrorCode::AUTH_CONFIG_INVALID, "Unknown realm",
+        throw AuthException(AuthError(AuthErrorCode::FEDERATION_UNKNOWN_REALM,
+                                      "Unknown federation realm",
                                       "No realm registered for issuer '" + key + "'"));
     }
     return *it->second;
@@ -415,7 +434,8 @@ TokenExchangeResult FederatedIdentityManager::exchangeToken(const std::string &s
             spdlog::warn("FederatedIdentityManager::exchangeToken: "
                          "no realm registered for issuer '{}'",
                          iss);
-            throw AuthException(AuthError(AuthErrorCode::JWT_ISSUER_MISMATCH, "Token issuer is not trusted",
+            throw AuthException(AuthError(AuthErrorCode::FEDERATION_UNKNOWN_REALM,
+                                          "Token issuer is not a registered federation realm",
                                           "No realm registered for issuer '" + iss + "'"));
         }
         provider = it->second;
@@ -433,15 +453,17 @@ TokenExchangeResult FederatedIdentityManager::exchangeToken(const std::string &s
     const std::string token_endpoint = provider->discoveryDocument().token_endpoint;
 
     if (token_endpoint.empty()) {
-        throw AuthException(AuthError(AuthErrorCode::AUTH_CONFIG_INVALID, "Token exchange not available",
+        throw AuthException(AuthError(AuthErrorCode::PROVIDER_CAPABILITY_MISMATCH,
+                                      "Token exchange not available for this realm",
                                       "Realm '" + iss + "' discovery document does not contain a token_endpoint"));
     }
 
     // Reject non-HTTPS endpoints to prevent accidental secret leakage over
     // cleartext connections (RFC 8693 §2.1 mandates TLS for the token endpoint).
     if (token_endpoint.compare(0, 8, "https://") != 0) {
-        throw AuthException(AuthError(AuthErrorCode::AUTH_CONFIG_INVALID, "Token exchange requires a secure connection",
-                                      "token_endpoint '" + token_endpoint + "' must use HTTPS"));
+        throw AuthException(AuthError(AuthErrorCode::PROVIDER_CAPABILITY_MISMATCH,
+                                      "Token exchange requires a secure connection",
+                                      "token_endpoint '" + token_endpoint + "' must use HTTPS (RFC 8693 §2.1)"));
     }
 
     // Step 6: build the RFC 8693 token-exchange POST body
