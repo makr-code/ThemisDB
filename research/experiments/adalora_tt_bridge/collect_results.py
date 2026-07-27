@@ -18,7 +18,22 @@ Usage:
 Exit codes:
     0  All validity checks passed.
     1  One or more validity checks failed (run is invalid for publication).
+        For BT-4 this includes the hard gate: if --bt4-gate-cleared is not
+        supplied, the tool exits 1 immediately before loading any input files
+        or writing any output artifacts.
     2  Input/argument error.
+
+BT-4 hard gate:
+    Track BT-4 (FLARE runtime switching) is blocked until all three conditions
+    in ADALORA_TT_BRIDGE_BENCHMARK_PROTOCOL.md §6.4 are met:
+      1. AdaLoraTTBridge::setMapAdapterFn() wired to a production
+         GgmlTensorBridge::mapAdapter() implementation (not returning false).
+      2. GgmlTensorBridge real alloc callbacks wired
+         (GgmlAllocFn / PrefetchFn / TypeRegistrationFn injection bridges
+         connected to an active ggml context).
+      3. FLARE retrieval scenario implemented in the llama.cpp integration layer.
+    Attempting --track bt4 without --bt4-gate-cleared triggers exit code 1
+    before any file I/O so no invalid summary.json is ever written to disk.
 
 Notes:
     - Requires Python >= 3.10 and numpy (pip install numpy).
@@ -208,8 +223,13 @@ def check_validity(measurements: list[dict[str, Any]],
 
     if track_id == "bt4" and not bt4_gate_cleared:
         violations.append(
-            "BT-4 gate not cleared (GGML bridge wiring Stub #271 outstanding). "
-            "BT-4 results must not be published."
+            "BT-4 gate not cleared. Unblocking conditions (§6.4 of benchmark protocol): "
+            "(1) AdaLoraTTBridge::setMapAdapterFn() wired to production "
+            "GgmlTensorBridge::mapAdapter(); "
+            "(2) GgmlTensorBridge alloc callbacks connected to a live ggml context "
+            "(GgmlAllocFn / PrefetchFn / TypeRegistrationFn); "
+            "(3) FLARE retrieval integration wired in llama.cpp layer. "
+            "BT-4 results must not be published until all three conditions are met."
         )
 
     env_present = env_file is not None and env_file.exists()
@@ -315,6 +335,24 @@ def main() -> int:
     import datetime
 
     args = parse_args()
+
+    # ── Hard BT-4 gate ───────────────────────────────────────────────────────
+    # Exit before loading any input files or writing any output so that no
+    # invalid summary.json is ever created on disk.
+    if args.track == "bt4" and not args.bt4_gate_cleared:
+        print(
+            "ERROR: BT-4 (FLARE runtime switching) is gated — gate not cleared.\n"
+            "Unblocking conditions "
+            "(research/ADALORA_TT_BRIDGE_BENCHMARK_PROTOCOL.md §6.4):\n"
+            "  1. AdaLoraTTBridge::setMapAdapterFn() wired to a production\n"
+            "     GgmlTensorBridge::mapAdapter() implementation (not returning false).\n"
+            "  2. GgmlTensorBridge real alloc callbacks connected to a live ggml\n"
+            "     context (GgmlAllocFn / PrefetchFn / TypeRegistrationFn).\n"
+            "  3. FLARE retrieval scenario implemented in the llama.cpp integration layer.\n"
+            "Pass --bt4-gate-cleared only after all three conditions are confirmed.",
+            file=sys.stderr,
+        )
+        return 1
 
     run_date = args.date or datetime.date.today().isoformat()
 
