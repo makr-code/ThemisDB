@@ -7,6 +7,7 @@ import json
 import math
 import os
 import re
+import shutil
 import sys
 import urllib.request
 from dataclasses import dataclass
@@ -16,6 +17,7 @@ from typing import Any
 
 TOKEN_RE = re.compile(r"[A-Za-z0-9_\-]+", re.UNICODE)
 HEADING_RE = re.compile(r"^(#{1,6})\s+(.+?)\s*$")
+SENTENCE_RE = re.compile(r"(?<=[.!?])\s+")
 UNSAFE_PATTERNS = (
     "ignore previous instructions",
     "ignore all previous instructions",
@@ -24,6 +26,13 @@ UNSAFE_PATTERNS = (
     "api key",
     "password",
     "private key",
+)
+CONTRADICTION_CUES = (
+    "however",
+    "but",
+    "contradict",
+    "in contrast",
+    "on the other hand",
 )
 
 
@@ -107,6 +116,16 @@ class OpenAIEmbeddingProvider(EmbeddingProvider):
         return [[float(v) for v in row["embedding"]] for row in payload.get("data", [])]
 
 
+WIKI_STATE_TEMPLATE: dict[str, Any] = {
+    "version": "wiki-mvp-2",
+    "sources": {},
+    "pages": {},
+    "links": [],
+    "assertions": [],
+    "tasks": [],
+}
+
+
 def _normalize(vec: list[float]) -> list[float]:
     norm = math.sqrt(sum(v * v for v in vec))
     if norm <= 0:
@@ -116,6 +135,46 @@ def _normalize(vec: list[float]) -> list[float]:
 
 def _tokenize(text: str) -> list[str]:
     return TOKEN_RE.findall(text)
+
+
+def _slugify(text: str) -> str:
+    base = re.sub(r"[^a-zA-Z0-9]+", "-", text.strip().lower()).strip("-")
+    return base or "untitled"
+
+
+def _utc_now() -> str:
+    return datetime.now(UTC).isoformat()
+
+
+def _default_schema_text() -> str:
+    return (
+        "# LLM Wiki Schema\n\n"
+        "## Layers\n"
+        "- raw_sources/: immutable source-of-truth files\n"
+        "- wiki/pages/: LLM-maintained markdown pages\n"
+        "- wiki/index.md: content catalog\n"
+        "- wiki/log.md: append-only operation log\n\n"
+        "## Page Types\n"
+        "- source_summary\n- entity\n- concept\n- topic\n- synthesis\n- query_answer\n\n"
+        "## Governance\n"
+        "- Every claim should carry source references.\n"
+        "- Contradictions create review tasks instead of silent overwrite.\n"
+        "- Keep links explicit and bidirectional where useful.\n"
+    )
+
+
+def _workspace_paths(workspace_root: Path) -> dict[str, Path]:
+    return {
+        "root": workspace_root,
+        "raw": workspace_root / "raw_sources",
+        "wiki": workspace_root / "wiki",
+        "pages": workspace_root / "wiki" / "pages",
+        "index": workspace_root / "wiki" / "index.md",
+        "log": workspace_root / "wiki" / "log.md",
+        "schema": workspace_root / "wiki" / "schema.md",
+        "state": workspace_root / "wiki" / "state.json",
+        "cache_index": workspace_root / "wiki" / "wiki_index.json",
+    }
 
 
 def build_embedding_provider(provider_name: str, dimensions: int) -> EmbeddingProvider:
@@ -307,7 +366,7 @@ def build_index(
         )
     artifact = {
         "version": "mvp-1",
-        "generated_at": datetime.now(UTC).isoformat(),
+        "generated_at": _utc_now(),
         "source_root": str(source_root.resolve()),
         "embedding": {
             "provider": provider.name,
@@ -401,8 +460,398 @@ def _format_result(result: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
+def init_wiki_workspace(workspace_root: Path, schema_text: str | None = None) -> dict[str, Any]:
+    p = _workspace_paths(workspace_root)
+    p["raw"].mkdir(parents=True, exist_ok=True)
+    p["pages"].mkdir(parents=True, exist_ok=True)
+    if not p["schema"].exists():
+        p["schema"].write_text(schema_text or _default_schema_text(), encoding="utf-8")
+    if not p["index"].exists():
+        p["index"].write_text("# index\n\n", encoding="utf-8")
+    if not p["log"].exists():
+        p["log"].write_text("# log\n\n", encoding="utf-8")
+    if not p["state"].exists():
+        p["state"].write_text(json.dumps(WIKI_STATE_TEMPLATE, indent=2, ensure_ascii=False), encoding="utf-8")
+    return {"workspace_root": str(workspace_root), "created": True}
+
+
+def _load_state(workspace_root: Path) -> dict[str, Any]:
+    p = _workspace_paths(workspace_root)
+    if not p["state"].exists():
+        init_wiki_workspace(workspace_root)
+    raw = json.loads(p["state"].read_text(encoding="utf-8"))
+    state = dict(WIKI_STATE_TEMPLATE)
+    state.update(raw)
+    for field in ("sources", "pages"):
+        state[field] = dict(state.get(field, {}))
+    for field in ("links", "assertions", "tasks"):
+        state[field] = list(state.get(field, []))
+    return state
+
+
+def _save_state(workspace_root: Path, state: dict[str, Any]) -> None:
+    _workspace_paths(workspace_root)["state"].write_text(
+        json.dumps(state, indent=2, ensure_ascii=False), encoding="utf-8"
+    )
+
+
+def _append_log(workspace_root: Path, operation: str, title: str, details: list[str] | None = None) -> None:
+    p = _workspace_paths(workspace_root)
+    timestamp = datetime.now(UTC).strftime("%Y-%m-%d")
+    body = [f"## [{timestamp}] {operation} | {title}"]
+    for detail in (details or []):
+        body.append(f"- {detail}")
+    body.append("")
+    with p["log"].open("a", encoding="utf-8") as handle:
+        handle.write("\n".join(body))
+
+
+def _summarize_text(text: str, sentence_limit: int = 4) -> list[str]:
+    compact = re.sub(r"\s+", " ", text.strip())
+    if not compact:
+        return ["No textual content extracted."]
+    parts = [p.strip() for p in SENTENCE_RE.split(compact) if p.strip()]
+    if not parts:
+        return [compact[:300]]
+    selected = parts[:sentence_limit]
+    return [line if line.endswith((".", "!", "?")) else line + "." for line in selected]
+
+
+def _extract_topic_terms(text: str, max_terms: int = 5) -> list[str]:
+    stopwords = {
+        "the",
+        "and",
+        "for",
+        "with",
+        "this",
+        "that",
+        "from",
+        "into",
+        "your",
+        "their",
+        "about",
+        "when",
+        "where",
+        "which",
+        "have",
+        "will",
+        "shall",
+        "could",
+        "should",
+        "would",
+        "also",
+        "more",
+        "less",
+        "than",
+        "each",
+        "them",
+        "they",
+        "what",
+        "wie",
+        "und",
+        "der",
+        "die",
+        "das",
+        "mit",
+        "von",
+        "für",
+        "eine",
+        "einer",
+        "einem",
+        "über",
+    }
+    counts: dict[str, int] = {}
+    for token in TOKEN_RE.findall(text.lower()):
+        if len(token) < 5 or token in stopwords:
+            continue
+        counts[token] = counts.get(token, 0) + 1
+    ranked = sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))
+    return [term for term, _ in ranked[:max_terms]]
+
+
+def _register_page(
+    state: dict[str, Any],
+    page_id: str,
+    page_title: str,
+    path: str,
+    page_type: str,
+    source_ids: list[str],
+) -> None:
+    state["pages"][page_id] = {
+        "title": page_title,
+        "path": path,
+        "type": page_type,
+        "source_ids": sorted(set(source_ids)),
+        "updated_at": _utc_now(),
+    }
+
+
+def _add_link(state: dict[str, Any], from_page: str, to_page: str, relation: str, evidence_source: str) -> None:
+    link = {
+        "from": from_page,
+        "to": to_page,
+        "relation": relation,
+        "evidence_source": evidence_source,
+        "created_at": _utc_now(),
+    }
+    if link not in state["links"]:
+        state["links"].append(link)
+
+
+def _rewrite_index(workspace_root: Path, state: dict[str, Any]) -> None:
+    p = _workspace_paths(workspace_root)
+    by_type: dict[str, list[tuple[str, dict[str, Any]]]] = {}
+    for page_id, meta in state["pages"].items():
+        by_type.setdefault(meta.get("type", "unknown"), []).append((page_id, meta))
+    lines = ["# index", ""]
+    for category in sorted(by_type.keys()):
+        lines.append(f"## {category}")
+        for page_id, meta in sorted(by_type[category], key=lambda item: item[1].get("title", "")):
+            lines.append(
+                f"- [{meta.get('title', page_id)}](pages/{meta.get('path','')}) "
+                f"— id: `{page_id}`; sources: {len(meta.get('source_ids', []))}"
+            )
+        lines.append("")
+    p["index"].write_text("\n".join(lines).strip() + "\n", encoding="utf-8")
+
+
+def ingest_source(
+    workspace_root: Path,
+    source_path: Path,
+    title: str | None = None,
+    provider_name: str = "hash",
+    embedding_dim: int = 384,
+) -> dict[str, Any]:
+    init_wiki_workspace(workspace_root)
+    p = _workspace_paths(workspace_root)
+    state = _load_state(workspace_root)
+
+    content = source_path.read_text(encoding="utf-8", errors="replace")
+    source_hash = hashlib.sha1(content.encode("utf-8")).hexdigest()[:16]
+    source_id = f"source-{source_hash}"
+    source_title = title or source_path.stem.replace("_", " ").replace("-", " ").strip().title()
+    raw_copy = p["raw"] / f"{source_id}-{source_path.name}"
+    if not raw_copy.exists():
+        shutil.copyfile(source_path, raw_copy)
+
+    state["sources"][source_id] = {
+        "title": source_title,
+        "original_path": str(source_path),
+        "raw_copy": raw_copy.name,
+        "sha1": source_hash,
+        "ingested_at": _utc_now(),
+    }
+
+    summary_lines = _summarize_text(content)
+    page_id = f"page-source-{_slugify(source_title)}"
+    page_file = f"{_slugify(source_title)}.md"
+    page_path = p["pages"] / page_file
+    page_content = [
+        f"# {source_title}",
+        "",
+        "## Type",
+        "source_summary",
+        "",
+        "## Summary",
+        *[f"- {line}" for line in summary_lines],
+        "",
+        "## Sources",
+        f"- `{source_id}` → `raw_sources/{raw_copy.name}`",
+        "",
+    ]
+    page_path.write_text("\n".join(page_content), encoding="utf-8")
+    _register_page(state, page_id, source_title, page_file, "source_summary", [source_id])
+
+    terms = _extract_topic_terms(content)
+    concept_pages: list[str] = []
+    for term in terms:
+        concept_id = f"page-concept-{_slugify(term)}"
+        concept_file = f"concept-{_slugify(term)}.md"
+        concept_pages.append(concept_id)
+        concept_path = p["pages"] / concept_file
+        if concept_path.exists():
+            existing = concept_path.read_text(encoding="utf-8")
+        else:
+            existing = f"# Concept: {term}\n\n## Linked Sources\n"
+        marker = f"- [{source_title}]({page_file})"
+        if marker not in existing:
+            existing = existing.rstrip() + f"\n{marker}\n"
+        concept_path.write_text(existing, encoding="utf-8")
+        _register_page(state, concept_id, f"Concept: {term}", concept_file, "concept", [source_id])
+        _add_link(state, page_id, concept_id, "about", source_id)
+
+    for cue in CONTRADICTION_CUES:
+        if cue in content.lower():
+            state["tasks"].append(
+                {
+                    "id": f"task-{hashlib.sha1((source_id + cue).encode('utf-8')).hexdigest()[:10]}",
+                    "type": "contradiction_review",
+                    "status": "open",
+                    "source_id": source_id,
+                    "note": f"Cue detected: {cue}",
+                    "created_at": _utc_now(),
+                }
+            )
+            break
+
+    state["assertions"].append(
+        {
+            "id": f"assert-{hashlib.sha1((source_id + page_id).encode('utf-8')).hexdigest()[:10]}",
+            "page_id": page_id,
+            "source_id": source_id,
+            "confidence": 0.55,
+            "summary": summary_lines[0],
+            "created_at": _utc_now(),
+        }
+    )
+
+    _save_state(workspace_root, state)
+    _rewrite_index(workspace_root, state)
+    _append_log(
+        workspace_root,
+        operation="ingest",
+        title=source_title,
+        details=[
+            f"source_id: {source_id}",
+            f"summary_page: pages/{page_file}",
+            f"concept_links: {len(concept_pages)}",
+            f"embedding_provider: {provider_name}",
+            f"embedding_dim: {embedding_dim}",
+        ],
+    )
+
+    return {
+        "source_id": source_id,
+        "summary_page": str(page_path),
+        "concept_links": len(concept_pages),
+        "tasks_open": len([t for t in state["tasks"] if t.get("status") == "open"]),
+    }
+
+
+def query_workspace(
+    workspace_root: Path,
+    question: str,
+    top_k: int,
+    min_score: float,
+    provider_name: str,
+    embedding_dim: int,
+    save_as_page: bool = False,
+    page_title: str | None = None,
+) -> dict[str, Any]:
+    init_wiki_workspace(workspace_root)
+    p = _workspace_paths(workspace_root)
+    state = _load_state(workspace_root)
+    build_index(
+        source_root=p["wiki"],
+        output_path=p["cache_index"],
+        provider_name=provider_name,
+        dimensions=embedding_dim,
+        max_tokens=220,
+        overlap_tokens=40,
+    )
+    result = query_index(
+        index_path=p["cache_index"],
+        question=question,
+        top_k=top_k,
+        min_score=min_score,
+        provider_name=provider_name,
+    )
+    if save_as_page:
+        answer_title = page_title or f"Query: {question[:60]}"
+        answer_slug = _slugify(answer_title)
+        answer_id = f"page-query-{answer_slug}"
+        answer_file = f"query-{answer_slug}.md"
+        answer_path = p["pages"] / answer_file
+        citations = [
+            f"- {r['source']['file_path']}::{r['source']['section_title']}:{r['source']['line_start']}-{r['source']['line_end']}"
+            for r in result["results"]
+        ]
+        content = [
+            f"# {answer_title}",
+            "",
+            "## Question",
+            question,
+            "",
+            "## Evidence",
+            *(citations or ["- no citations found"]),
+            "",
+            "## Draft Answer",
+            "This page captures retrieval evidence and should be refined by the LLM maintainer.",
+            "",
+        ]
+        answer_path.write_text("\n".join(content), encoding="utf-8")
+        _register_page(state, answer_id, answer_title, answer_file, "query_answer", [])
+        _save_state(workspace_root, state)
+        _rewrite_index(workspace_root, state)
+        _append_log(
+            workspace_root,
+            operation="query",
+            title=answer_title,
+            details=[f"question: {question}", f"saved_page: pages/{answer_file}", f"hits: {len(result['results'])}"],
+        )
+        result["saved_page"] = str(answer_path)
+    return result
+
+
+def lint_workspace(workspace_root: Path) -> dict[str, Any]:
+    init_wiki_workspace(workspace_root)
+    state = _load_state(workspace_root)
+
+    incoming: dict[str, int] = {page_id: 0 for page_id in state["pages"].keys()}
+    for link in state["links"]:
+        target = link.get("to")
+        if target in incoming:
+            incoming[target] += 1
+
+    orphan_pages = [
+        page_id
+        for page_id, count in incoming.items()
+        if count == 0 and state["pages"].get(page_id, {}).get("type") not in {"source_summary"}
+    ]
+
+    link_pairs = {(l.get("from"), l.get("to")) for l in state["links"]}
+    missing_backlinks = []
+    for src, dst in sorted(link_pairs):
+        if (dst, src) not in link_pairs:
+            missing_backlinks.append({"from": src, "to": dst})
+
+    latest_source_time = ""
+    for source in state["sources"].values():
+        latest_source_time = max(latest_source_time, str(source.get("ingested_at", "")))
+
+    stale_synthesis = []
+    for page_id, meta in state["pages"].items():
+        if meta.get("type") != "synthesis":
+            continue
+        if str(meta.get("updated_at", "")) < latest_source_time:
+            stale_synthesis.append(page_id)
+
+    unresolved_contradictions = [
+        t for t in state["tasks"] if t.get("type") == "contradiction_review" and t.get("status") == "open"
+    ]
+
+    report = {
+        "orphan_pages": orphan_pages,
+        "missing_backlinks": missing_backlinks,
+        "stale_synthesis_pages": stale_synthesis,
+        "unresolved_contradictions": unresolved_contradictions,
+    }
+    _append_log(
+        workspace_root,
+        operation="lint",
+        title="workspace health",
+        details=[
+            f"orphans: {len(orphan_pages)}",
+            f"missing_backlinks: {len(missing_backlinks)}",
+            f"stale_synthesis: {len(stale_synthesis)}",
+            f"open_contradictions: {len(unresolved_contradictions)}",
+        ],
+    )
+    return report
+
+
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="ThemisDB LLM Wiki MVP (index/query)")
+    parser = argparse.ArgumentParser(description="ThemisDB LLM Wiki MVP (index/query + persistent wiki operations)")
     sub = parser.add_subparsers(dest="command", required=True)
 
     index_cmd = sub.add_parser("index", help="Index markdown docs into an embeddable JSON artifact")
@@ -420,6 +869,32 @@ def build_parser() -> argparse.ArgumentParser:
     query_cmd.add_argument("--min-score", type=float, default=0.15)
     query_cmd.add_argument("--embedding-provider", default=None)
     query_cmd.add_argument("--json", action="store_true", dest="as_json")
+
+    init_cmd = sub.add_parser("wiki-init", help="Initialize a persistent wiki workspace")
+    init_cmd.add_argument("--workspace-root", required=True)
+
+    ingest_cmd = sub.add_parser("wiki-ingest", help="Ingest one immutable source into wiki workspace")
+    ingest_cmd.add_argument("--workspace-root", required=True)
+    ingest_cmd.add_argument("--source", required=True)
+    ingest_cmd.add_argument("--title", default=None)
+    ingest_cmd.add_argument("--embedding-provider", default=os.getenv("THEMIS_LLM_WIKI_EMBEDDING_PROVIDER", "hash"))
+    ingest_cmd.add_argument("--embedding-dim", type=int, default=384)
+
+    wquery_cmd = sub.add_parser("wiki-query", help="Query the persistent wiki workspace")
+    wquery_cmd.add_argument("--workspace-root", required=True)
+    wquery_cmd.add_argument("--question", required=True)
+    wquery_cmd.add_argument("--top-k", type=int, default=5)
+    wquery_cmd.add_argument("--min-score", type=float, default=0.1)
+    wquery_cmd.add_argument("--embedding-provider", default=os.getenv("THEMIS_LLM_WIKI_EMBEDDING_PROVIDER", "hash"))
+    wquery_cmd.add_argument("--embedding-dim", type=int, default=384)
+    wquery_cmd.add_argument("--save-as-page", action="store_true")
+    wquery_cmd.add_argument("--page-title", default=None)
+    wquery_cmd.add_argument("--json", action="store_true", dest="as_json")
+
+    lint_cmd = sub.add_parser("wiki-lint", help="Run health checks over the persistent wiki workspace")
+    lint_cmd.add_argument("--workspace-root", required=True)
+    lint_cmd.add_argument("--json", action="store_true", dest="as_json")
+
     return parser
 
 
@@ -442,18 +917,63 @@ def main(argv: list[str] | None = None) -> int:
         )
         return 0
 
-    result = query_index(
-        index_path=Path(args.index),
-        question=args.question,
-        top_k=args.top_k,
-        min_score=args.min_score,
-        provider_name=args.embedding_provider,
-    )
-    if args.as_json:
+    if args.command == "query":
+        result = query_index(
+            index_path=Path(args.index),
+            question=args.question,
+            top_k=args.top_k,
+            min_score=args.min_score,
+            provider_name=args.embedding_provider,
+        )
+        if args.as_json:
+            print(json.dumps(result, indent=2, ensure_ascii=False))
+        else:
+            print(_format_result(result))
+        return 0
+
+    if args.command == "wiki-init":
+        result = init_wiki_workspace(Path(args.workspace_root))
         print(json.dumps(result, indent=2, ensure_ascii=False))
-    else:
-        print(_format_result(result))
-    return 0
+        return 0
+
+    if args.command == "wiki-ingest":
+        result = ingest_source(
+            workspace_root=Path(args.workspace_root),
+            source_path=Path(args.source),
+            title=args.title,
+            provider_name=args.embedding_provider,
+            embedding_dim=args.embedding_dim,
+        )
+        print(json.dumps(result, indent=2, ensure_ascii=False))
+        return 0
+
+    if args.command == "wiki-query":
+        result = query_workspace(
+            workspace_root=Path(args.workspace_root),
+            question=args.question,
+            top_k=args.top_k,
+            min_score=args.min_score,
+            provider_name=args.embedding_provider,
+            embedding_dim=args.embedding_dim,
+            save_as_page=args.save_as_page,
+            page_title=args.page_title,
+        )
+        if args.as_json:
+            print(json.dumps(result, indent=2, ensure_ascii=False))
+        else:
+            print(_format_result(result))
+        return 0
+
+    if args.command == "wiki-lint":
+        result = lint_workspace(Path(args.workspace_root))
+        if args.as_json:
+            print(json.dumps(result, indent=2, ensure_ascii=False))
+        else:
+            print(json.dumps(result, indent=2, ensure_ascii=False))
+        return 0
+
+    parser.print_help()
+    return 2
 
 
 if __name__ == "__main__":

@@ -31,6 +31,7 @@ class LlmWikiMvpTests(unittest.TestCase):
             encoding="utf-8",
         )
         self.index_path = self.root / "index.json"
+        self.workspace = self.root / "workspace"
 
     def tearDown(self) -> None:
         self.tmp.cleanup()
@@ -107,6 +108,58 @@ class LlmWikiMvpTests(unittest.TestCase):
         payload = json.loads(run.stdout)
         self.assertGreater(len(payload["results"]), 0)
         self.assertIn("source", payload["results"][0])
+
+    def test_workspace_ingest_updates_pages_index_and_log(self) -> None:
+        source = self.root / "docs" / "ops.md"
+        result = wiki.ingest_source(
+            workspace_root=self.workspace,
+            source_path=source,
+            title="Operations Source",
+            provider_name="mock",
+            embedding_dim=64,
+        )
+        self.assertIn("source_id", result)
+        index_md = (self.workspace / "wiki" / "index.md").read_text(encoding="utf-8")
+        log_md = (self.workspace / "wiki" / "log.md").read_text(encoding="utf-8")
+        self.assertIn("Operations Source", index_md)
+        self.assertIn("ingest", log_md)
+
+    def test_workspace_query_can_persist_answer_page(self) -> None:
+        source = self.root / "docs" / "ops.md"
+        wiki.ingest_source(
+            workspace_root=self.workspace,
+            source_path=source,
+            title="Operations Source",
+            provider_name="mock",
+            embedding_dim=64,
+        )
+        result = wiki.query_workspace(
+            workspace_root=self.workspace,
+            question="What is restore guidance?",
+            top_k=3,
+            min_score=0.0,
+            provider_name="mock",
+            embedding_dim=64,
+            save_as_page=True,
+            page_title="Restore Analysis",
+        )
+        self.assertIn("saved_page", result)
+        saved_page = Path(result["saved_page"])
+        self.assertTrue(saved_page.exists())
+        self.assertIn("Evidence", saved_page.read_text(encoding="utf-8"))
+
+    def test_workspace_lint_reports_open_contradiction_task(self) -> None:
+        source = self.root / "docs" / "security.md"
+        wiki.ingest_source(
+            workspace_root=self.workspace,
+            source_path=source,
+            title="Security Source",
+            provider_name="mock",
+            embedding_dim=64,
+        )
+        report = wiki.lint_workspace(self.workspace)
+        self.assertIn("unresolved_contradictions", report)
+        self.assertGreaterEqual(len(report["unresolved_contradictions"]), 1)
 
 
 if __name__ == "__main__":

@@ -14,9 +14,9 @@ Optional embedding providers:
 - `THEMIS_LLM_WIKI_EMBEDDING_MODEL` (used by `sentence-transformers`)
 - `OPENAI_API_KEY` and `OPENAI_EMBEDDING_MODEL` (used by `openai`)
 
-## Usage
+## Modes
 
-### 1) Index markdown documentation
+### 1) Classic JSON index/query mode (RAG-like baseline)
 
 ```bash
 python3 /home/runner/work/ThemisDB/ThemisDB/scripts/llm_wiki_mvp.py index \
@@ -24,38 +24,83 @@ python3 /home/runner/work/ThemisDB/ThemisDB/scripts/llm_wiki_mvp.py index \
   --output /home/runner/work/ThemisDB/ThemisDB/artifacts/llm-wiki-mvp/index.json
 ```
 
-### 2) Query indexed docs
-
 ```bash
 python3 /home/runner/work/ThemisDB/ThemisDB/scripts/llm_wiki_mvp.py query \
   --index /home/runner/work/ThemisDB/ThemisDB/artifacts/llm-wiki-mvp/index.json \
   --question "How do I configure sharding?" \
   --top-k 5 \
-  --min-score 0.15
-```
-
-### 3) JSON output (for integrations)
-
-```bash
-python3 /home/runner/work/ThemisDB/ThemisDB/scripts/llm_wiki_mvp.py query \
-  --index /home/runner/work/ThemisDB/ThemisDB/artifacts/llm-wiki-mvp/index.json \
-  --question "How do I configure sharding?" \
+  --min-score 0.15 \
   --json
 ```
 
-## MVP Guardrails
+### 2) Persistent LLM Wiki workspace mode
+
+This mode keeps a compounding knowledge base under one workspace root:
+
+- `raw_sources/` immutable source copies
+- `wiki/pages/` LLM-maintained pages
+- `wiki/index.md` content catalog
+- `wiki/log.md` append-only ingest/query/lint timeline
+- `wiki/schema.md` maintenance rules
+- `wiki/state.json` structured state for links/assertions/tasks
+
+#### Initialize workspace
+
+```bash
+python3 /home/runner/work/ThemisDB/ThemisDB/scripts/llm_wiki_mvp.py wiki-init \
+  --workspace-root /home/runner/work/ThemisDB/ThemisDB/artifacts/llm-wiki-workspace
+```
+
+#### Ingest one source (creates summary + concept links + log entry)
+
+```bash
+python3 /home/runner/work/ThemisDB/ThemisDB/scripts/llm_wiki_mvp.py wiki-ingest \
+  --workspace-root /home/runner/work/ThemisDB/ThemisDB/artifacts/llm-wiki-workspace \
+  --source /home/runner/work/ThemisDB/ThemisDB/docs/architecture/llm_wiki_mvp_adr.md \
+  --title "LLM Wiki ADR"
+```
+
+#### Query workspace and save answer as a page
+
+```bash
+python3 /home/runner/work/ThemisDB/ThemisDB/scripts/llm_wiki_mvp.py wiki-query \
+  --workspace-root /home/runner/work/ThemisDB/ThemisDB/artifacts/llm-wiki-workspace \
+  --question "What are the key governance constraints?" \
+  --top-k 5 \
+  --min-score 0.1 \
+  --save-as-page \
+  --page-title "Governance Constraints" \
+  --json
+```
+
+#### Run wiki lint checks
+
+```bash
+python3 /home/runner/work/ThemisDB/ThemisDB/scripts/llm_wiki_mvp.py wiki-lint \
+  --workspace-root /home/runner/work/ThemisDB/ThemisDB/artifacts/llm-wiki-workspace \
+  --json
+```
+
+Lint reports:
+- orphan pages
+- missing backlinks
+- stale synthesis pages
+- unresolved contradiction-review tasks
+
+## Guardrails
 
 - Query/chunk filtering blocks known prompt-injection style patterns and secret-exfiltration cues.
 - Output reports `query_flagged_for_prompt_injection` and `filtered_unsafe_chunks`.
+- Contradiction cues create explicit review tasks in persistent workspace mode.
 
-## Known MVP Limits
+## Current Limits
 
-- JSON index is optimized for small/medium corpora and local workflows.
+- Persistent mode is still an MVP orchestration layer, not full RocksDB-native persistence.
 - Retrieval is cosine top-k over stored vectors (no ANN index yet).
-- Guardrails are baseline heuristics and should be expanded for production hardening.
+- Summarization and concept extraction are heuristic and should be replaced by stronger model workflows in production.
 
 ## Next Steps
 
-- Optional ThemisDB-native vector index persistence.
-- Reranking stage for improved precision.
-- Structured evaluation harness (Recall@k, MRR, p95 latency dashboards).
+- Move workspace state (`pages`, `links`, `assertions`, `tasks`, `log`) to ThemisDB-native storage.
+- Add graph-native traversal and contradiction resolution workflows.
+- Add structured quality evaluation (Recall@k, MRR, p95 latency, citation coverage).
