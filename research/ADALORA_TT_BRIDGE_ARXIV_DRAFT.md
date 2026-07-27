@@ -1,7 +1,7 @@
 # From Adapters to Archives: A Tensor-Train Bridge for AdaLoRA in ThemisDB
 
 **Status:** Review-ready draft
-**Last Updated:** 2026-05-13
+**Last Updated:** 2026-07-27
 **Target Venue:** arXiv (cs.DB / cs.LG)
 **Repository Artifact:** `research/ADALORA_TT_BRIDGE_ARXIV_DRAFT.md`
 
@@ -51,7 +51,7 @@ We use a code-and-test grounded review method:
 
 - **AdaLoRA -> TT export** via norm-product singular-value approximation and TT-core construction (`exportLayer`, `exportToTT`).
 - **TT -> AdaLoRA import** (`importFromTT`).
-- **In-process store/load path** through an internal cache keyed by `tenant + adapter_name` (`store`, `loadAdapter`).
+- **In-process store/load path** through an internal cache keyed by `tenant + adapter_name` (`store`, `loadAdapter`).  `store()` writes to an in-memory `export_cache` (`std::unordered_map`) and optionally to `TensorFingerprintGraph`; it does **not** persist to `TensorNetworkStorageEngine` in the current implementation path.  `storeAdapter()` is a backward-compatible alias that forwards to `store()`.  `loadAdapter()` reads from the same in-memory cache and reconstructs via `importFromTT()`.
 - **Optional similarity registration** through `TensorFingerprintGraph` insertion on `store()` when deduplication is enabled.
 - **Rank-rounding path** (`roundAndReallocate`) using either:
   - injected training callback (`TrainingStepFn`), or
@@ -76,7 +76,7 @@ Accordingly, those points are treated as future experimental hypotheses, not est
 |---|---|---|
 | E1 | `src/training/adalora_tt_bridge.cpp` | Concrete implementation of export/import, store/load, similarity lookup path, rank-rounding fallback, and callback bridges |
 | E2 | `include/training/adalora_tt_bridge.h` | Public bridge API and intended semantics for Phase-3/4 integration hooks |
-| E3 | `tests/test_adalora_tt_bridge.cpp` | Verified behavior for `mapAdapter()` fallback/delegation and `roundAndReallocate()` callback routing |
+| E3 | `tests/test_adalora_tt_bridge.cpp` | Verified behavior for `mapAdapter()` fallback/delegation (ALTB-P3-01..P3-03) and `roundAndReallocate()` callback routing (ALTB-P4-01..P4-03); thread-safety under concurrent `storeAdapter()` and `findSimilarAdapters()` calls (ALTB-DR-01..DR-02, data-race regression batch) |
 | E4 | `include/storage/ggml_tensor_bridge.h` + `src/storage/ggml_tensor_bridge.cpp` | GGML bridge is compile-gated and still contains simulation/fallback behavior unless real alloc/registration callbacks are wired |
 | E5 | `src/training/ROADMAP.md` | Bridge roadmap tracks phases and identifies broader integration as planned work |
 | E6 | `src/STUB_INVENTORY.md` | Historical stub context and current callback-based bridge status for AdaLoRA TT and GGML bridge paths |
@@ -155,9 +155,12 @@ Any future quantitative claim must include:
    - GGML bridge code is compile-gated and includes fallback/simulation paths; production behavior depends on real allocator/type-registration integration.
 
 4. **Store/load semantics in bridge implementation**
-   - `AdaLoraTTBridge::store/loadAdapter` currently operate through bridge-managed cache semantics in this implementation path; durable lifecycle guarantees should be validated explicitly per deployment wiring.
+   - `AdaLoraTTBridge::store/loadAdapter` currently operate through bridge-managed in-memory cache semantics (`export_cache`); persistence to `TensorNetworkStorageEngine` is not exercised in this implementation path.  Durable lifecycle guarantees should be validated explicitly per deployment wiring.
 
-5. **Threats to validity**
+5. **Design-target latency estimates not benchmark-backed**
+   - The `adalora_tt_bridge.h` source comment contains a design estimate of `~5–15 ms` for FLARE live adapter switching (vs. `300–2000 ms` model reload), and `findSimilarAdapters()` carries a `≤ 15 ms per call` note.  These figures appear as code comments expressing design intent; no reproducible benchmark artifact exists in this repository state to confirm or refute them.  They are treated as unverified design targets until the experiments described in §4.2 are executed.
+
+6. **Threats to validity**
    - External validity is limited until experiments include multiple model sizes, domains, and hardware classes.
 
 ---
@@ -178,10 +181,44 @@ The ThemisDB repository already contains meaningful AdaLoRA-TT bridge infrastruc
 
 ---
 
+## 8. Revision Audit
+
+This section records claim corrections made in this revision relative to earlier drafts, the rationale for each change, and outstanding evidence gaps.
+
+### 8.1 Downgraded or Removed Claims
+
+| # | Original Claim | Action | Rationale |
+|---|---|---|---|
+| A1 | FLARE live adapter switching completes in `~5–15 ms` (presented as a result) | Downgraded to **design estimate** | Appears only as a source comment in `adalora_tt_bridge.h`; no benchmark artifact present (E3 tests are functional, not performance) |
+| A2 | `findSimilarAdapters()` latency `≤ 15 ms per call` (presented as measured) | Downgraded to **design target** | Header Doxygen comment, not a measured result; no timing test in `tests/test_adalora_tt_bridge.cpp` |
+| A3 | Specific storage reduction percentages across adapter corpora | Maintained as **deferred / requires evidence** | No dedup-ratio artifact available; `auto_deduplicate` path exists (E1) but has no corpus benchmark |
+| A4 | `store()`/`loadAdapter()` route through `TensorNetworkStorageEngine` durable storage | Clarified to **in-memory cache path** | `src/training/adalora_tt_bridge.cpp` shows `export_cache` (`std::unordered_map`); `TensorNetworkStorageEngine` member is held but the current `store()`/`loadAdapter()` code does not write to or read from it |
+| A5 | R1 reference URL pointed to `blob/main/README.md` | **Fixed** to `blob/develop/README.md` | `main` is a legacy branch name superseded by `community`; `develop` is the canonical integration branch per `BRANCHING_STRATEGY.md` |
+
+### 8.2 Added or Upgraded Evidence
+
+| # | Addition | Reason |
+|---|---|---|
+| N1 | ALTB-DR-01 and ALTB-DR-02 added to E3 | These data-race regression tests are present in `tests/test_adalora_tt_bridge.cpp` but were absent from the evidence table; they verify thread-safety of `storeAdapter()` + `findSimilarAdapters()` under concurrent access |
+| N2 | `storeAdapter()` backward-compatible alias documented in §2.2 | The alias is present in the header but was omitted; tests explicitly call it |
+
+### 8.3 Outstanding Evidence Gaps
+
+| Gap | Required Artifact | Target |
+|---|---|---|
+| G1 | Cold/warm adapter load latency benchmark | benchmarks/training/ or benchmarks/wave*/; report p50/p95/p99 + hardware spec |
+| G2 | Cross-adapter dedup ratio benchmark (homogeneous vs. heterogeneous adapter corpus) | Needs corpus, run script, and result artifact |
+| G3 | Rank-pruning quality benchmark (reconstruction error, downstream task delta) | Needs baseline comparator and task dataset |
+| G4 | FLARE-style online switch end-to-end quality + latency benchmark | Requires live GGML bridge wiring (STUB #263a/#263b) |
+| G5 | `TensorNetworkStorageEngine` durable persistence integration for `store()`/`loadAdapter()` | Tracked under bridge roadmap Phase 3/4 |
+| G6 | GGML_TYPE_TT upstream registration (replaces STUB #263c) | Targeted Q1 2027 per `ggml_tensor_bridge.h` |
+
+---
+
 ## References
 
 - **[R1]** ThemisDB README (project architecture and capability framing).
-  https://github.com/makr-code/ThemisDB/blob/main/README.md
+  https://github.com/makr-code/ThemisDB/blob/develop/README.md
 
 - **[R2]** Hu, E. J. et al. (2022). *LoRA: Low-Rank Adaptation of Large Language Models.*
   arXiv: https://arxiv.org/abs/2106.09685
