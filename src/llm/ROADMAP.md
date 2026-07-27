@@ -21,6 +21,29 @@ The module provides production-grade LLM runtime surfaces across async inference
 - Result: PASS (exit 0, [  PASSED  ] 45 tests)
 - Test timeout budget: 120s
 
+## Wiki Secondary Index — Phase A (2026-07-27)
+
+### Implementation units delivered
+
+- [x] `wiki_index_store.cpp` — `WikiIndexStore` (BM25 + HNSW + RRF) + `JsonWikiIndexReader`
+- [x] `wiki_chunk_splitter.cpp` — `WikiChunkSplitter` (heading-aware, sliding-window)
+- [x] `wiki_rag_source.cpp` — `WikiRagSource` (RAGStageHandler, fail-open)
+
+### Test coverage
+
+- [x] `tests/llm/test_wiki_index_store.cpp` — WIS-01..16 unit tests
+- [x] `tests/llm/test_wiki_rag_quality.cpp` — WISQ-01..05 quality gate tests
+  (Recall@5 ≥ 80 %, latency < 200 ms/10 queries on 100 chunks)
+
+### Phase B (planned, Q3 2026)
+
+- [ ] `WikiIndexStore` integration tests with RocksDB fixture
+- [ ] Persistent embedding cache keyed by chunk_id in RocksDB
+- [ ] Embedding dimension auto-probe on first `embed()` call
+- [ ] Streaming ingest via `WriteBatch` with configurable batch size
+
+---
+
 ## In Progress
 
 - [~] Cross-node and shard-aware inference hardening (Target: Q3 2026)

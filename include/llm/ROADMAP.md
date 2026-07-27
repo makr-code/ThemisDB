@@ -24,6 +24,28 @@ All 97 LLM headers are present. Public entry points exist for llama.cpp-backed a
 
 ---
 
+## Wiki Secondary Index — Phase A Delivered (2026-07-27)
+
+### New public headers
+
+- [x] `wiki_index_store.h` — `WikiChunk`, `WikiIndexConfig`, `IWikiIndexReader`,
+  `IWikiIndexWriter`, `WikiIndexStore` (BM25 + HNSW + RRF fusion),
+  `JsonWikiIndexReader` (Phase A JSON fallback, no RocksDB)
+- [x] `wiki_chunk_splitter.h` — `WikiChunkSplitter`: heading-aware Markdown split,
+  sliding-window overlap, FNV-1a deterministic chunk IDs
+- [x] `wiki_rag_source.h` — `WikiRagSourceConfig`, `WikiRagSource`: RAGStageHandler
+  adapter, fail-open error handling, provenance tagging
+
+### ADR
+See [`../../docs/architecture/wiki_secondary_index.md`](../../docs/architecture/wiki_secondary_index.md)
+
+### Phase B (planned)
+- [ ] Integration tests for `WikiIndexStore` with live RocksDB fixture
+- [ ] Embedding dimension auto-detection from `EmbeddedLLM::embed` output
+- [ ] Persistent embedding cache (RocksDB-backed) in `WikiIndexStore`
+
+---
+
 ## Completed ✅
 
 - [x] Inference engines: `llamacpp_inference_engine.h`, `inference_engine_enhanced.h`, `async_inference_engine.h`, `embedded_llm.h`, `mixed_precision_inference.h`, `speculative_decoder.h`, `inference_handle.h`

@@ -79,6 +79,16 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
         )
         target_link_libraries(${_target} PRIVATE rocksdb)
     endif()
+    # Wiki secondary index tests: compile the three wiki implementation units
+    # directly into the test target.  JsonWikiIndexReader and WikiChunkSplitter
+    # have no RocksDB dependency, so these tests are always runnable.
+    if(_stem STREQUAL "test_wiki_index_store" OR _stem STREQUAL "test_wiki_rag_quality")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/wiki_index_store.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/wiki_chunk_splitter.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/wiki_rag_source.cpp
+        )
+    endif()
     # Tests using EXPECT_THAT/HasSubstr need gmock.
     set(_gmock_link "")
     if(TARGET GTest::gmock)
