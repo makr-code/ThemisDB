@@ -62,7 +62,10 @@ protected:
     std::unique_ptr<ConsumerGroupManager> manager;
 
     void SetUp() override {
-        test_db_path = "/tmp/test_cdc_trd_" + std::to_string(::time(nullptr));
+        test_db_path = (fs::temp_directory_path()
+                        / ("test_cdc_trd_" + std::to_string(
+                               std::chrono::steady_clock::now().time_since_epoch().count())))
+                           .string();
         fs::create_directories(test_db_path);
 
         rocksdb::Options opts;

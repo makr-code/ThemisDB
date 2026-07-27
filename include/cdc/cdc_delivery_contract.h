@@ -169,7 +169,8 @@ enum class CdcTransportFailureClass : int {
     return fc == CdcTransportFailureClass::BackendUnreachable
         || fc == CdcTransportFailureClass::AuthFailure
         || fc == CdcTransportFailureClass::InternalError
-        || fc == CdcTransportFailureClass::BackpressureRequired;
+        || fc == CdcTransportFailureClass::BackpressureRequired
+        || fc == CdcTransportFailureClass::PayloadInvalid;
 }
 
 // ============================================================================

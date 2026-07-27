@@ -56,7 +56,10 @@ protected:
     std::unique_ptr<CDCAdmin> admin;
 
     void SetUp() override {
-        db_path = "/tmp/test_cdc_dgh_" + std::to_string(::time(nullptr));
+        db_path = (fs::temp_directory_path()
+                   / ("test_cdc_dgh_" + std::to_string(
+                          std::chrono::steady_clock::now().time_since_epoch().count())))
+                      .string();
         fs::create_directories(db_path);
 
         rocksdb::Options opts;
