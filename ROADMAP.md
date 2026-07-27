@@ -17,6 +17,18 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 **Overall Timeline:** Q1 2026 – Q4 2027  
 **Current Release:** v2.4.0-rc1
 
+## Research & Papers Integration (Soll-Ist Vergleich)
+
+**Soll (target state):**
+- [ ] Every roadmap status claim with scientific/algorithmic relevance is linked to canonical research sources in `research/` and/or `research/papers/` (Target: ongoing, enforced in Phase 6).
+- [ ] For each top-risk or release-critical module, maintain an explicit mapping `research source -> planned capability -> implementation evidence` via `research/implementation_influence/by_module.md` (Target: 2026-08).
+- [ ] Root roadmap updates include a recurring Soll-Ist snapshot for research-backed features (Target: every root roadmap sync).
+
+**Ist (current state, 2026-07-27):**
+- [x] Research and paper inventories exist (`research/README.md`, `research/papers/README.md`) and already contain implementation status entries.
+- [~] Roadmap includes research references in selected domains (for example Tensor/LoRA sections), but the comparison is not yet maintained as a dedicated recurring root checklist across all modules.
+- [ ] A consolidated root-level Soll-Ist matrix for all research-backed roadmap claims is not yet fully established.
+
 ## Release Hardening Program (current canonical version: v2.4.0-rc1)
 
 > **Canonical version note:** `VERSION` and `CHANGELOG.md` currently identify `v2.4.0-rc1` as the active repository version. Historical `v1.9.0-beta` batch names below are retained only where they are part of existing execution-plan terminology or evidence labels.
@@ -74,6 +86,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 
 ### Phase 6 — Documentation, Governance, and Release Approval
 - [~] Keep `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `CHANGELOG.md`, `RELEASE_STRATEGY.md`, `VERSIONING.md`, and branch-governance docs synchronized (Target: ongoing)
+- [~] Include `research/` and `research/papers/` in each root documentation sync and update the root Soll-Ist comparison for research-backed roadmap claims (Target: ongoing)
 - [ ] Promote release work from `develop` into canonical release lanes only after all system gates are proven, not just module-local gates (Target: release cut)
 - [ ] Complete public API, failure-behaviour, and operational-limit documentation before GA sign-off (Target: release cut)
 
