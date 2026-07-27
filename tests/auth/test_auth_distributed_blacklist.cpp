@@ -23,8 +23,8 @@
  *   DBL-11  isLeader() reflects result of performLeaderElection via syncWithCluster
  *   DBL-12  syncWithCluster returns a valid future (resolves to bool)
  *   DBL-13  waitForClusterConvergence returns true immediately in single-node mode
- *   DBL-14  waitForClusterConvergence times out when cluster sync is disabled
- *            and peers are configured (no actual peers present)
+ *   DBL-14  waitForClusterConvergence times out when cluster sync is enabled
+ *            but configured peers are unreachable (no actual peers present)
  *   DBL-15  getReplicationStats() returns zero-initialised struct at startup
  *   DBL-16  Config defaults are applied correctly
  *   DBL-17  Destructor cleans up without crashing (RAII lifecycle test)

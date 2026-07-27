@@ -10,6 +10,7 @@
 #include <stdexcept>
 #include <chrono>
 #include <thread>
+#include <future>
 #include <cstring>
 #include <algorithm>
 #include <string>
@@ -37,6 +38,20 @@
    static bool sockValid(SockFd f) noexcept { return f != INVALID_SOCKET; }
    static int  sockLastErr() noexcept       { return ::WSAGetLastError(); }
    static constexpr int kConnInProgress = WSAEWOULDBLOCK;
+
+namespace {
+    /// RAII guard: calls WSAStartup once on construction and WSACleanup on
+    /// destruction so every Winsock API in this translation unit is guaranteed
+    /// to have an active Winsock service provider initialised.
+    struct WinsockInit {
+        WinsockInit() noexcept {
+            WSADATA wd{};
+            ::WSAStartup(MAKEWORD(2, 2), &wd);
+        }
+        ~WinsockInit() noexcept { ::WSACleanup(); }
+    };
+    static WinsockInit s_winsock_init;
+} // anonymous namespace
 #else
 #  include <sys/socket.h>
 #  include <netinet/in.h>
@@ -114,7 +129,16 @@ static int64_t decodeI64(const uint8_t* in) noexcept {
 // ===========================================================================
 
 /// Set SO_RCVTIMEO and SO_SNDTIMEO on a socket.
+/// On Windows, SO_RCVTIMEO/SO_SNDTIMEO expect a DWORD timeout in milliseconds.
+/// On POSIX, they expect a struct timeval.
 static void sockSetTimeout(SockFd fd, int timeout_ms) noexcept {
+#ifdef _WIN32
+    DWORD tv = static_cast<DWORD>(timeout_ms);
+    ::setsockopt(fd, SOL_SOCKET, SO_RCVTIMEO,
+                 reinterpret_cast<const char*>(&tv), sizeof(tv));
+    ::setsockopt(fd, SOL_SOCKET, SO_SNDTIMEO,
+                 reinterpret_cast<const char*>(&tv), sizeof(tv));
+#else
     struct timeval tv{};
     tv.tv_sec  = timeout_ms / 1000;
     tv.tv_usec = static_cast<long>((timeout_ms % 1000) * 1000);
@@ -122,6 +146,7 @@ static void sockSetTimeout(SockFd fd, int timeout_ms) noexcept {
                  reinterpret_cast<const char*>(&tv), sizeof(tv));
     ::setsockopt(fd, SOL_SOCKET, SO_SNDTIMEO,
                  reinterpret_cast<const char*>(&tv), sizeof(tv));
+#endif
 }
 
 /**
@@ -357,7 +382,7 @@ DistributedTokenBlacklist::DistributedTokenBlacklist(
             
             if (::bind(srv, reinterpret_cast<sockaddr*>(&addr), sizeof(addr)) == 0
                 && ::listen(srv, 8) == 0) {
-                server_fd_ = static_cast<int>(srv);
+                server_fd_ = static_cast<std::uintptr_t>(srv);
                 listener_thread_ = std::thread([this] { serveIncomingConnections(); });
             } else {
                 sockClose(srv);
@@ -375,9 +400,9 @@ DistributedTokenBlacklist::~DistributedTokenBlacklist()
     
     // Close the server socket to unblock any pending select()/accept() in the
     // listener thread so it exits promptly rather than waiting up to 200 ms.
-    if (server_fd_ >= 0) {
+    if (server_fd_ != static_cast<std::uintptr_t>(-1)) {
         sockClose(static_cast<SockFd>(server_fd_));
-        server_fd_ = -1;
+        server_fd_ = static_cast<std::uintptr_t>(-1);
     }
     
     if (purge_thread_.joinable())       purge_thread_.join();
@@ -486,9 +511,8 @@ void DistributedTokenBlacklist::purgeExpired()
 
 std::future<bool> DistributedTokenBlacklist::syncWithCluster()
 {
-    std::promise<bool> promise;
-    promise.set_value(performClusterSync());
-    return promise.get_future();
+    return std::async(std::launch::async,
+                      [this]() { return performClusterSync(); });
 }
 
 DistributedTokenBlacklist::ReplicationStats
@@ -649,7 +673,13 @@ void DistributedTokenBlacklist::serveIncomingConnections()
         tv.tv_sec  = 0;
         tv.tv_usec = 200 * 1000;  // 200 ms poll interval
         
-        int ret = ::select(server_fd_ + 1, &rfds, nullptr, nullptr, &tv);
+        // On POSIX, select() requires nfds = highest_fd + 1.
+        // On Windows, the nfds argument is ignored but must be present.
+#ifdef _WIN32
+        int ret = ::select(0, &rfds, nullptr, nullptr, &tv);
+#else
+        int ret = ::select(static_cast<int>(server_fd_) + 1, &rfds, nullptr, nullptr, &tv);
+#endif
         if (ret <= 0) continue;  // timeout or interrupted
         if (!running_.load()) break;
         
@@ -658,7 +688,7 @@ void DistributedTokenBlacklist::serveIncomingConnections()
         
         // Apply per-request timeout to the accepted connection
         sockSetTimeout(client, config_.peer_rpc_timeout_ms);
-        handlePeerConnection(static_cast<int>(client));
+        handlePeerConnection(static_cast<std::uintptr_t>(client));
         sockClose(client);
     }
 }
@@ -679,7 +709,7 @@ void DistributedTokenBlacklist::serveIncomingConnections()
  * @param client_fd Socket descriptor for the accepted connection.
  *                  Caller retains ownership and closes the socket after return.
  */
-void DistributedTokenBlacklist::handlePeerConnection(int client_fd)
+void DistributedTokenBlacklist::handlePeerConnection(std::uintptr_t client_fd)
 {
     const SockFd fd = static_cast<SockFd>(client_fd);
     
@@ -777,8 +807,10 @@ void DistributedTokenBlacklist::handlePeerConnection(int client_fd)
  *  1. Run leader election (local, O(#peers) string comparison).
  *  2. If no peers → trivially succeeded.
  *  3. If leader → push all non-expired local entries to each peer via TCP PUSH.
- *  4. If follower → identify the leader peer (lowest node_id) and pull from it
- *     via TCP PULL_REQ / PULL_RESP exchange.
+ *  4. If follower → identify the leader peer (lowest node_id), pull from it
+ *     via TCP PULL_REQ / PULL_RESP exchange, then push local revocations back to
+ *     the leader via TCP PUSH so that follower-originated revocations are
+ *     propagated cluster-wide on the leader's next sync cycle.
  *
  * @return true if at least one peer sync succeeded (or there are no peers to sync).
  *         false if all peer connections failed (peers unreachable / timed out).
@@ -807,7 +839,9 @@ bool DistributedTokenBlacklist::performClusterSync()
             }
         }
     } else {
-        // Follower path: connect to the leader peer and pull its revocations.
+        // Follower path: connect to the leader peer and pull its revocations,
+        // then push any locally-held revocations up to the leader so they are
+        // propagated cluster-wide on the leader's next sync cycle.
         // The leader is the peer with the strictly smallest node_id string.
         std::string leader_id = config_.local_node.node_id;
         const ClusterNode* leader_peer = nullptr;
@@ -826,6 +860,13 @@ bool DistributedTokenBlacklist::performClusterSync()
                 any_success = true;
                 std::lock_guard<std::mutex> lk(stats_mutex_);
                 ++stats_.entries_pulled;
+            }
+            // Push locally-held revocations to the leader so tokens revoked on
+            // this follower are not silently dropped from the cluster view.
+            if (pushRevisionsToFollower(addr)) {
+                any_success = true;
+                std::lock_guard<std::mutex> lk(stats_mutex_);
+                ++stats_.entries_pushed;
             }
         }
     }

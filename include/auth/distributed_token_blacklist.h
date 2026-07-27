@@ -239,8 +239,11 @@ private:
     std::atomic<std::chrono::system_clock::time_point> last_successful_sync_;
     
     /// Server socket file descriptor that accepts inbound connections from cluster peers.
-    /// -1 (or INVALID_SOCKET on Windows) when the listener could not be bound (non-fatal).
-    int server_fd_{-1};
+    /// Stored as std::uintptr_t to accommodate both POSIX (int) and Windows (SOCKET =
+    /// ULONG_PTR) handle types without truncation. Sentinel value is static_cast<std::uintptr_t>(-1)
+    /// (equivalent to INVALID_SOCKET on Windows and maps to UINTPTR_MAX on POSIX),
+    /// meaning the listener could not be bound (non-fatal).
+    std::uintptr_t server_fd_{static_cast<std::uintptr_t>(-1)};
     
     /// Background thread that runs the TCP accept loop for incoming peer connections.
     std::thread listener_thread_;
@@ -259,10 +262,11 @@ private:
      *   - PUSH: reads entries sent by a leader and writes them to local RocksDB (LWW)
      *   - PULL_REQ: reads all non-expired local entries and sends them as PULL_RESP
      *
-     * @param client_fd POSIX file descriptor (or SOCKET on Windows) for the accepted connection.
+     * @param client_fd Accepted socket handle stored as std::uintptr_t to avoid truncating
+     *                  the Windows SOCKET (ULONG_PTR) type to int.
      *                  Ownership is retained by the caller; this method closes nothing.
      */
-    void handlePeerConnection(int client_fd);
+    void handlePeerConnection(std::uintptr_t client_fd);
     
     /**
      * @brief Return all non-expired entries from RocksDB.

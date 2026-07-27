@@ -24,9 +24,7 @@
  * ### FED — Federation Manager Failure Classification
  *   FED-01  Unknown realm throws FEDERATION_UNKNOWN_REALM (not JWT_ISSUER_MISMATCH)
  *   FED-02  Duplicate realm registration throws AUTH_CONFIG_INVALID
- *   FED-03  Token with oversized payload extracted issuer rejected with JWT_INVALID_FORMAT
- *   FED-04  exchangeToken with non-HTTPS endpoint throws PROVIDER_CAPABILITY_MISMATCH
- *   FED-05  exchangeToken with empty token_endpoint throws PROVIDER_CAPABILITY_MISMATCH
+ *   FED-03  Token that is not a valid JWT (no dot separators) throws JWT_INVALID_FORMAT
  *   FED-06  realmProvider for unknown issuer throws FEDERATION_UNKNOWN_REALM
  *   FED-07  Multiple realms coexist; correct realm selected by issuer
  *   FED-08  realmCount() reflects realm additions correctly
