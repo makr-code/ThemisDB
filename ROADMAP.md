@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 **Version:** 2.5  
-**Last Updated:** 2026-07-20
+**Last Updated:** 2026-07-27
 **Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–6 complete; active baseline 22.085 deduplicated findings). Phase 3-5 next-phase implementation plans active.
 
 > For module-specific details see each module's `src/<module>/ROADMAP.md`.
@@ -24,6 +24,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 - [~] The beta-to-GA hardening path runs on `develop`; release-lane promotion happens only after gate evidence is complete.
 - [x] Wave 7 baseline evidence exists with all six PASS gates (`benchmarks/wave7/release_gate_manifest_w7.json`; baseline currently valid, periodic re-confirmation still required).
 - [x] `release_critical` CI on `develop` is defined as the mandatory entry gate for release work (`.github/workflows/09-pr-gates_release-critical-tests.yml`).
+- [x] `auth` source hardening documentation is current: Phase 1-6 is complete with frozen principal contract, 12 new error codes (9420-9452), RFP/FED/ASY focused tests, and AHP benchmark gates (`src/auth/ROADMAP.md`).
 - [~] `server`, `llm`, and `sharding` top-risk hardening is in closure mode: `server` P5-S01/S02 and `llm` P5-L01/P5-L02 delivered; `sharding` P6 gate integration delivered and evidence closure ongoing.
 - [x] Wave 8, chaos/fault-injection, sanitizer/recovery, penetration-test, and 99.99% SLA sign-off artefacts are closed: sanitizer evidence bundle at `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md`; pentest evidence bundle at `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`; final governance sign-off pending human approval at `docs/governance/GA_PROMOTION_SIGN_OFF.md`.
 

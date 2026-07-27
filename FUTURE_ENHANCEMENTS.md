@@ -25,13 +25,15 @@
 - `COPILOT_INSTRUCTIONS.md` defines mandatory AI/agent synchronization rules for these root governance documents.
 - `FEATURE_ENHANCEMENT.md` remains a generated maturity report and is not used as planning source-of-truth.
 
-## Root Documentation Synchronization (2026-05-26)
+## Root Documentation Synchronization (2026-07-27)
 
-- Root-level markdown set synchronized to current implementation/verification state.
-- Related completed verification path for active wire/themis hardening:
-	- `cmake --build --preset windows-release --target themis_tests --parallel 16`
-	- `themis_tests --gtest_filter=WireProtocolServer.SingleThreadedIoContextPrunesSessionsAfterDisconnect`
-	- `ctest --preset windows-release -R ThemisWireProtocolV1Tests --output-on-failure`
+- Root-level markdown set synchronized to the current `src/` implementation and root governance state.
+- Current root sync references the active GA baseline instead of the older wire-only snapshot:
+	- `benchmarks/wave7/release_gate_manifest_w7.json`
+	- `tests/integration/WAVE5_TEST_COVERAGE.md`
+	- `tests/integration/WAVE6_TEST_COVERAGE.md`
+	- `src/auth/ROADMAP.md`
+- Completed auth v1.2.0 / v1.3.0 delivery remains tracked in `src/auth/ROADMAP.md`; this file continues to track only open enhancement backlog.
 - Changelog trace entry added in `CHANGELOG.md` under `Unreleased`.
 
 ---

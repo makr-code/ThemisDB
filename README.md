@@ -44,21 +44,23 @@ Use this code at your own risk. Contributions, feedback, and improvements are we
 Documentation source precedence and update cadence are defined in [DOCUMENTATION_GOVERNANCE.md](DOCUMENTATION_GOVERNANCE.md).
 
 Evidence artifacts:
-- [logs/module_status_66_refined.csv](logs/module_status_66_refined.csv)
-- [logs/module_test_include_refs_66.csv](logs/module_test_include_refs_66.csv)
-- [logs/module_status_66_classified_v2.csv](logs/module_status_66_classified_v2.csv)
+- [ROADMAP.md](ROADMAP.md)
+- [benchmarks/wave7/release_gate_manifest_w7.json](benchmarks/wave7/release_gate_manifest_w7.json)
+- [tests/integration/WAVE5_TEST_COVERAGE.md](tests/integration/WAVE5_TEST_COVERAGE.md)
+- [tests/integration/WAVE6_TEST_COVERAGE.md](tests/integration/WAVE6_TEST_COVERAGE.md)
+- [src/auth/ROADMAP.md](src/auth/ROADMAP.md)
+- [docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md](docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md)
+- [security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md](security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md)
 
-## Documentation Sync (2026-05-26)
+## Documentation Sync (2026-07-27)
 
-- Root-level markdown documentation was reviewed and synchronized.
-- Current wire/themis verification baseline:
-  - `cmake --build --preset windows-release --target themis_tests --parallel 16`
-  - `themis_tests --gtest_filter=WireProtocolServer.SingleThreadedIoContextPrunesSessionsAfterDisconnect`
-  - `ctest --preset windows-release -R ThemisWireProtocolV1Tests --output-on-failure`
-- Recent technical hardening reflected in docs/changelog:
-  - fail-closed wire bootstrap behaviour retained for deprecated bridge-only setup
-  - single-threaded wire server session pruning regression covered by dedicated test
-  - `multi_lora_manager` opaque adapter handle consistency fix (`void*`)
+- Root-level markdown documentation was refreshed against current `src/` module docs and root governance files.
+- Current source-backed release-readiness highlights:
+  - auth module Phase 1-6 hardening is complete (`src/auth/ROADMAP.md`): principal-contract freeze, 12 new auth error codes, RFP/FED/ASY focused tests, and AHP benchmark gates.
+  - Wave 5 and Wave 6 hardening remain the retained regression baseline for release-critical journeys.
+  - Wave 7 PASS evidence and sharding Phase 6 sign-off remain linked into the active GA hardening path.
+  - Batch C sanitizer / pentest evidence is closed; Batch D human governance sign-off is still pending.
+- Broken historical root evidence references were replaced with current source-verifiable artefacts.
 
 ### Scanner Baseline Update (2026-06-11)
 
@@ -79,7 +81,7 @@ Evidence artifacts:
 
 ThemisDB is a **high-performance multi-model database engine in active development** that aims to combine relational, graph, vector, document, geospatial, and time-series storage in a single system with native AI/LLM integration.
 
-**Current Status (2026-06-14, source-evidence based):** 66 modules are tracked in `src`; 15 are `PRODUCTION_CANDIDATE`, 45 are `HARDENING`, 2 are `EXPERIMENTAL`, and 4 are `THIN/PLACEHOLDER`. See [ROADMAP.md](ROADMAP.md) for detailed per-module status.
+**Current Status (2026-07-27, source-evidence based):** 66 modules are tracked in `src`; 15 are `PRODUCTION_CANDIDATE`, 45 are `HARDENING`, 2 are `EXPERIMENTAL`, and 4 are `THIN/PLACEHOLDER`. See [ROADMAP.md](ROADMAP.md) for detailed per-module status.
 
 **Key capabilities at a glance:**
 
@@ -121,6 +123,10 @@ Connect via the wire protocol on port `8766` or the REST/HTTP API on port `8765`
 
 ### Build from source
 
+Source-backed preset prerequisites:
+- `linux-release` expects Ninja and a bootstrapped `vcpkg` checkout at `./vcpkg`.
+- `community-release` requires a system RocksDB development package (`librocksdb-dev` or equivalent).
+
 ```bash
 git clone https://github.com/makr-code/ThemisDB.git
 cd ThemisDB
@@ -130,6 +136,9 @@ cd ThemisDB
 
 cmake --preset linux-release        # Linux x64
 cmake --build --preset linux-release
+
+# Community edition (requires RocksDB system package):
+# cmake --preset community-release && cmake --build --preset community-release
 
 # Windows (run from VS Developer Command Prompt):
 # cmake --preset windows-release && cmake --build --preset windows-release
@@ -347,4 +356,4 @@ See [tools/GS3_CLI_GUIDE.md](tools/GS3_CLI_GUIDE.md#cicd-integration) for more C
 > Per-module documentation lives in `src/<module>/README.md` and `include/<module>/`. This section is a navigation index.
 
 ---
-Zuletzt geprueft (Root-Sync): 2026-06-21
+Zuletzt geprueft (Root-Sync): 2026-07-27
