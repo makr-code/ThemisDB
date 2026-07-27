@@ -12202,6 +12202,76 @@ else()
     message(STATUS "ConfigEncryptedStore focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/config/test_config_encrypted_store.cpp")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/config/test_config_hardening_resolver_validator.cpp")
+    message(STATUS "Adding ConfigHardeningResolverValidator focused tests")
+
+    add_executable(test_config_hardening_resolver_validator_focused
+        config/test_config_hardening_resolver_validator.cpp
+    )
+
+    target_include_directories(test_config_hardening_resolver_validator_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_config_hardening_resolver_validator_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_config_hardening_resolver_validator_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ConfigHardeningResolverValidatorFocusedTests COMMAND test_config_hardening_resolver_validator_focused)
+
+    set_tests_properties(ConfigHardeningResolverValidatorFocusedTests PROPERTIES
+        LABELS "config;hardening;resolver;validator;cfg-01-08;cfg-09-16;unit;focused"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ConfigHardeningResolverValidator: CFG-01..16 edge-case tests for resolver/validator")
+else()
+    message(STATUS "ConfigHardeningResolverValidator focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/config/test_config_hardening_resolver_validator.cpp")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/config/test_config_hardening_watcher_store.cpp")
+    message(STATUS "Adding ConfigHardeningWatcherStore focused tests")
+
+    add_executable(test_config_hardening_watcher_store_focused
+        config/test_config_hardening_watcher_store.cpp
+    )
+
+    target_include_directories(test_config_hardening_watcher_store_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_config_hardening_watcher_store_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_config_hardening_watcher_store_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME ConfigHardeningWatcherStoreFocusedTests COMMAND test_config_hardening_watcher_store_focused)
+
+    set_tests_properties(ConfigHardeningWatcherStoreFocusedTests PROPERTIES
+        LABELS "config;hardening;watcher;encrypted-store;cfg-17-24;cfg-25-32;unit;focused"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  ConfigHardeningWatcherStore: CFG-17..32 edge-case tests for watcher/encrypted-store")
+else()
+    message(STATUS "ConfigHardeningWatcherStore focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/config/test_config_hardening_watcher_store.cpp")
+endif()
+
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/path/test_path_mapping_metadata.cpp")
     message(STATUS "Adding PathMappingMetadata focused tests")
 
