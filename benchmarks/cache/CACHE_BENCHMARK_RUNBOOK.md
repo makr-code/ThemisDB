@@ -53,7 +53,7 @@ Compare results against `release_gate_manifest_cache.json`:
 
 ```bash
 # Manual gate check (print p99 for each mapped case):
-python3 benchmarks/report_variance_w7.py \
+python3 benchmarks/wave7/report_variance_w7.py \
   --manifest benchmarks/cache/release_gate_manifest_cache.json \
   --results benchmarks/results/cache/adaptive_query_cache_results.json \
            benchmarks/results/cache/embedding_cache_results.json

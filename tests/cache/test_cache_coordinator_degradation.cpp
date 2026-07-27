@@ -12,7 +12,7 @@
  *   CCD-03 – Mixed peers: healthy peers receive delivery; degraded do not
  *   CCD-04 – Tenant invalidation is propagated to all healthy peers
  *   CCD-05 – Degraded peer does not affect healthy-peer delivery count
- *   CCD-06 – Entry publication reaches all healthy peers (publishEntry)
+ *   CCD-06 – Entry publication reaches local in-process subscribers
  *   CCD-07 – isHealthy() reflects throw state of mock peer (§5 contract)
  *   CCD-08 – Zero peers: coordinator operations complete without panic
  *
@@ -29,6 +29,7 @@
 #include <condition_variable>
 #include <memory>
 #include <mutex>
+#include <stdexcept>
 #include <string>
 #include <thread>
 #include <vector>
@@ -37,6 +38,24 @@
 #include "cache/cache_contract.h"
 
 using namespace themis::cache;
+
+namespace {
+
+template <typename Predicate>
+bool waitUntil(Predicate&& predicate,
+               std::chrono::milliseconds timeout =
+                   std::chrono::milliseconds{2000}) {
+    const auto deadline = std::chrono::steady_clock::now() + timeout;
+    while (std::chrono::steady_clock::now() < deadline) {
+        if (predicate()) {
+            return true;
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds{10});
+    }
+    return predicate();
+}
+
+}  // namespace
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Mock IRemoteCachePeer — records calls and optionally simulates degradation
@@ -198,9 +217,10 @@ TEST(CacheCoordinatorDegradation, CCD02_AllDegradedPeersDoNotThrowToCaller) {
         h.coordinator->publishInvalidation("key_x", "tenant_b"));
 
     // Both peers should have been attempted (and each recorded a failure).
-    // Allow a brief settling period for async dispatch.
-    std::this_thread::sleep_for(std::chrono::milliseconds{300});
     for (auto* peer : h.raw_peers) {
+        ASSERT_TRUE(waitUntil([&] {
+            return peer->invalidate_calls.load() >= 1;
+        })) << "Degraded peer " << peer->address() << " was not attempted in time";
         EXPECT_GE(peer->invalidate_calls.load(), 1)
             << "Degraded peer " << peer->address() << " must still be attempted";
         EXPECT_GE(peer->failure_count.load(), 1);
@@ -224,7 +244,9 @@ TEST(CacheCoordinatorDegradation, CCD03_MixedPeersPartialDelivery) {
     EXPECT_EQ(h.raw_peers[0]->invalidate_calls.load(), 1);
 
     // Degraded peer must have been attempted.
-    std::this_thread::sleep_for(std::chrono::milliseconds{300});
+    ASSERT_TRUE(waitUntil([&] {
+        return h.raw_peers[1]->invalidate_calls.load() >= 1;
+    })) << "Degraded peer was not attempted in time";
     EXPECT_GE(h.raw_peers[1]->invalidate_calls.load(), 1)
         << "Degraded peer must be attempted (§7 partial delivery)";
     EXPECT_GE(h.raw_peers[1]->failure_count.load(), 1);
@@ -268,26 +290,39 @@ TEST(CacheCoordinatorDegradation, CCD05_DegradedPeerIsolation) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// CCD-06: publishEntry reaches all healthy peers
+// CCD-06: publishEntry reaches local in-process subscribers
 // ─────────────────────────────────────────────────────────────────────────────
 
-TEST(CacheCoordinatorDegradation, CCD06_PublishEntryReachesHealthyPeers) {
-    constexpr int kPeers = 2;
-    auto h = DegradationHarness::make(kPeers);
+TEST(CacheCoordinatorDegradation, CCD06_PublishEntryReachesLocalSubscribers) {
+    auto bus = std::make_shared<InProcessCacheCoordinator::Bus>();
+    CacheReplicationCoordinator publisher(nullptr, bus);
+    CacheReplicationCoordinator subscriber(nullptr, bus);
+
+    std::mutex callback_mutex;
+    std::condition_variable callback_cv;
+    bool received = false;
+    ReplicationMessage observed{};
+
+    subscriber.subscribeEntries([&](const ReplicationMessage& msg) {
+        std::lock_guard<std::mutex> lock(callback_mutex);
+        observed = msg;
+        received = true;
+        callback_cv.notify_all();
+    });
 
     nlohmann::json result = {{"rows", 10}, {"status", "ok"}};
     EXPECT_NO_THROW(
-        h.coordinator->publishEntry("fp_contract_test", result, 300, "tenant_f"));
+        publisher.publishEntry("fp_contract_test", result, 300, "tenant_f"));
 
-    // The coordinator's publishEntry will call invalidate or a custom method on
-    // the peer.  For the mock, we verify no exception was propagated and the
-    // coordinator handled it normally.
-    // (CacheReplicationCoordinator routes ENTRY_PUT to peers via the bus.)
-    std::this_thread::sleep_for(std::chrono::milliseconds{300});
-    // No exception must escape.  Healthy peers remain so.
-    for (auto* peer : h.raw_peers) {
-        EXPECT_TRUE(peer->isHealthy());
-    }
+    std::unique_lock<std::mutex> lock(callback_mutex);
+    ASSERT_TRUE(callback_cv.wait_for(lock, std::chrono::seconds{2}, [&] {
+        return received;
+    })) << "publishEntry() must fan out to local in-process subscribers";
+    EXPECT_EQ(observed.type, ReplicationMessage::Type::ENTRY_PUT);
+    EXPECT_EQ(observed.key, "fp_contract_test");
+    EXPECT_EQ(observed.ttl_seconds, 300);
+    EXPECT_EQ(observed.tenant_id, "tenant_f");
+    EXPECT_EQ(observed.result, result);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

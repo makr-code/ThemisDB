@@ -41,7 +41,7 @@ using namespace themis::cache;
 static AdaptiveQueryCache::Config makeContractConfig() {
     AdaptiveQueryCache::Config cfg;
     cfg.l1_max_entries         = 64;
-    cfg.l1_max_entry_size      = kMaxCacheKeyBytes;    // align to contract constant
+    cfg.l1_max_entry_size      = kMaxCacheValueBytes;  // align to value-size contract
     cfg.l2_max_entries         = 128;
     cfg.l2_max_entry_size      = 65536;
     cfg.l3_db_path             = "";                    // L3 disabled

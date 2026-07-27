@@ -123,17 +123,10 @@ TEST(CacheTenantIsolationHardening, CTI03_CrossTenantLeakageNotPossible) {
     EXPECT_NE(fp_owner, fp_attacker)
         << "Tenant-namespaced fingerprints must differ (§1 tenant-ID keying)";
 
-    // Attacker's namespace must not find owner's entry.
+    // Attacker's namespace must always miss when tenant isolation is enabled.
     const auto leaked = cache.get(fp_owner, "attacker_tenant");
-    // Either the entry is not found, or the returned result must not contain
-    // the secret payload (implementation-dependent miss semantics).
-    if (leaked.has_value()) {
-        // If returned, the result must not carry the owner's payload
-        // (this would be a cross-tenant data leak).
-        EXPECT_NE(leaked->result.value("payload", std::string{}), "secret")
-            << "Cross-tenant data leakage detected — tenant isolation failure";
-    }
-    // Most likely: attacker simply gets a miss.
+    EXPECT_FALSE(leaked.has_value())
+        << "Cross-tenant get() must miss when tenant isolation is enabled";
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -186,8 +179,7 @@ TEST(CacheTenantIsolationHardening, CTI05_TenantInvalidationEvictsOnlyTargetTena
 TEST(CacheTenantIsolationHardening, CTI06_DistinctFingerprintsPerTenant) {
     AdaptiveQueryCache cache(makeIsolationConfig(true));
 
-    const std::string query  = "SELECT fp_test FROM table";
-    const std::string params = "";
+    const std::string query = "SELECT fp_test FROM table";
 
     const std::string fp_t1 = cache.generateFingerprint(query, {}, "tenant_one");
     const std::string fp_t2 = cache.generateFingerprint(query, {}, "tenant_two");

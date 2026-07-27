@@ -252,7 +252,7 @@ inline constexpr std::chrono::milliseconds kCoordinatorMinRetryBackoff{100};
 // Distributed coordinator adapters MUST declare their capability requirement
 // before performing any outbound call.  If the capability is not available at
 // runtime, the adapter must surface a DegradedBackend failure class rather
-/// than blocking or timing out silently.
+// than blocking or timing out silently.
 // ============================================================================
 
 /**
