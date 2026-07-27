@@ -5,6 +5,7 @@
  */
 
 #include "auth/distributed_token_blacklist.h"
+#include "auth/auth_error.h"
 #include <memory>
 #include <stdexcept>
 #include <chrono>
@@ -405,6 +406,20 @@ void DistributedTokenBlacklist::add(
     const std::string& jti,
     std::chrono::system_clock::time_point expiry)
 {
+    // Input validation: empty JTI and oversized JTI are rejected early so they
+    // never reach RocksDB or the wire (contract: auth_principal_contract.h §5).
+    if (jti.empty()) {
+        throw AuthException(AuthError(AuthErrorCode::REVOCATION_ENTRY_INVALID,
+                                      "JTI must not be empty",
+                                      "Attempted to add an empty JTI to the revocation blacklist"));
+    }
+    if (jti.size() > kMaxJtiLen) {
+        throw AuthException(AuthError(AuthErrorCode::REVOCATION_ENTRY_INVALID,
+                                      "JTI exceeds maximum allowed length",
+                                      "JTI length " + std::to_string(jti.size())
+                                      + " exceeds limit " + std::to_string(kMaxJtiLen)));
+    }
+
     auto* db = static_cast<rocksdb::DB*>(db_);
     auto* cf = static_cast<rocksdb::ColumnFamilyHandle*>(cf_);
     

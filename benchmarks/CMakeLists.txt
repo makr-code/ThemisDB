@@ -2041,6 +2041,53 @@ else()
 endif()
 
 # ============================================================================
+# Auth Hot-Path Release-Gate Benchmarks (Phase 5 — Q3 2026)
+# Covers token/session/revocation hot paths with hard release gates
+# (GATE-AHP-01..06).  Feeds into src/auth/ROADMAP.md Phase 5 sign-off.
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/auth/bench_auth_hotpaths.cpp" AND NOT TARGET bench_auth_hotpaths)
+    message(STATUS "Adding auth hot-path release-gate benchmarks (AHP-01..08)")
+
+    add_executable(bench_auth_hotpaths
+        auth/bench_auth_hotpaths.cpp
+    )
+
+    target_include_directories(bench_auth_hotpaths PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+    )
+
+    target_link_libraries(bench_auth_hotpaths PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        nlohmann_json::nlohmann_json
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_auth_hotpaths PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    themis_apply_benchmark_release_flags(bench_auth_hotpaths)
+
+    install(TARGETS bench_auth_hotpaths
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Auth hot-paths: blacklist hit/miss p99, session create/validate p99, "
+                   "distributed revocation RocksDB add/isRevoked, federation realm-lookup overhead "
+                   "(GATE-AHP-01..06)")
+else()
+    if(NOT TARGET bench_auth_hotpaths)
+        message(STATUS "Auth hot-path benchmark not found at ${CMAKE_CURRENT_SOURCE_DIR}/auth/bench_auth_hotpaths.cpp")
+    endif()
+endif()
+
+
+# ============================================================================
 # Policy Evaluation Benchmarks (Issue #1779)
 # Measures RBAC/ABAC rule evaluation performance with varying policy set sizes.
 # Uses a self-contained mock PolicyEngine (no external library dependencies).

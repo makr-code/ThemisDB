@@ -95,6 +95,23 @@ struct DistributedBlacklistConfig {
  *   - `add()`: < 1 ms (single RocksDB Put)
  *   - Cluster sync every 30 seconds (configurable); does not block validation hot path
  *   - Leader election converges in < 1 second (local node-ID comparison)
+ *
+ * ### Failure / degradation contract (auth_principal_contract.h §5)
+ *   - If the RocksDB backend is unavailable at construction, the constructor throws
+ *     std::runtime_error; no partial-open state is exposed to callers.
+ *   - If the backend becomes unavailable after construction, isRevoked() MUST return
+ *     true (deny) for any JTI that cannot be positively confirmed from the local cache.
+ *     Implementations that expose this class SHOULD emit AuthErrorCode::REVOCATION_BACKEND_UNAVAILABLE.
+ *   - Cluster sync failures are non-fatal to the local node: revocations continue to be
+ *     accepted and persisted locally. Failures are reported via ReplicationStats::failed_syncs
+ *     and logged at WARNING level. Callers MAY surface AuthErrorCode::REVOCATION_CLUSTER_SYNC_FAILED
+ *     to operators via metrics/alerting.
+ *   - JTI length exceeding kMaxJtiBytes (1024) causes add() to throw AuthException with
+ *     AuthErrorCode::REVOCATION_ENTRY_INVALID; isRevoked() for such a JTI returns false
+ *     (unknown, not revoked) — callers SHOULD validate JTI size at the inbound boundary.
+ *   - Peer bind failure (TCP server listener) is non-fatal; outbound replication still works.
+ *
+ * @see include/auth/auth_principal_contract.h — §4 Fail-closed contract, §5 Revocation contract
  */
 class DistributedTokenBlacklist final : public ITokenBlacklist {
 public:
