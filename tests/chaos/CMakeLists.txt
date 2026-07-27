@@ -14,7 +14,11 @@ foreach(_src IN LISTS CHAOS_MODULE_TEST_SOURCES)
         continue()
     endif()
 
-    if(_stem STREQUAL "test_chaos_framework" OR _stem STREQUAL "test_chaos_stress")
+    if(_stem STREQUAL "test_chaos_framework"
+            OR _stem STREQUAL "test_chaos_stress"
+            OR _stem STREQUAL "test_chaos_concurrency_hardening"
+            OR _stem STREQUAL "test_chaos_callback_determinism"
+            OR _stem STREQUAL "test_chaos_scheduler_timing")
         list(APPEND _extra_sources
             ${THEMIS_ROOT_DIR}/src/chaos/chaos_framework.cpp
         )
