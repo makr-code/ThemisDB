@@ -41,19 +41,21 @@ namespace chaos {
 // ============================================================================
 // § 1  Fault descriptor constraints
 //
-// These limits are enforced at every inbound boundary (injectFault(),
-// scheduleIn(), schedule()).  Inputs exceeding these limits are rejected
-// immediately (injectFault returns false) without touching the registry.
+// Current v1.x runtime guarantees:
+//   - injectFault() rejects empty node_id and probability outside [0.0, 1.0].
+//   - schedule()/scheduleIn() accept entries without additional range checks.
+//
+// Additional constants in this section are frozen interoperability guardrails
+// for callers/tests and future hardening work; they are not yet uniformly
+// enforced by chaos_framework.cpp.
 // ============================================================================
 
-/// Maximum accepted node identifier length in UTF-8 bytes.
-/// Node IDs exceeding this limit are rejected by injectFault() and recoverFault()
-/// before any registry mutation is attempted.
+/// Maximum recommended node identifier length in UTF-8 bytes (not currently
+/// enforced by the v1.x FaultInjector runtime).
 inline constexpr std::size_t kMaxNodeIdBytes = 512;
 
-/// Maximum accepted fault description length in UTF-8 bytes.
-/// Descriptions exceeding this limit are truncated to kMaxDescriptionBytes at
-/// the FaultSpec construction boundary; they do not cause a fault rejection.
+/// Maximum recommended fault description length in UTF-8 bytes (not currently
+/// enforced or truncated by the v1.x FaultSpec/FaultInjector runtime).
 inline constexpr std::size_t kMaxDescriptionBytes = 4096;
 
 /// Valid probability range for RANDOM_FAILURE faults: [0.0, 1.0].
@@ -71,21 +73,20 @@ inline constexpr std::size_t kMinNodeIdBytes = 1;
 // faults as soon as their trigger_at time has elapsed within the tick window.
 // ============================================================================
 
-/// Maximum accepted fault duration.  Faults with duration > kMaxFaultDuration
-/// are clamped to kMaxFaultDuration by the FaultInjector before registration.
-/// Zero duration means permanent (no expiry) and is always valid.
+/// Maximum recommended fault duration for integration scenarios.
+/// Current v1.x runtime does not clamp durations above this bound.
 inline constexpr std::chrono::hours kMaxFaultDuration{24 * 7};  ///< 7 days
 
-/// Maximum accepted scheduler tick_interval for ChaosSchedulerConfig.
-/// A tick_interval of zero is rejected at ChaosScheduler construction time.
+/// Maximum recommended scheduler tick_interval for ChaosSchedulerConfig.
+/// Current v1.x runtime does not enforce this upper bound.
 inline constexpr std::chrono::milliseconds kMaxTickInterval{60'000};  ///< 60 s
 
-/// Minimum accepted scheduler tick_interval to prevent busy-spin.
+/// Minimum recommended scheduler tick_interval to prevent busy-spin.
+/// Current v1.x runtime does not enforce this lower bound.
 inline constexpr std::chrono::milliseconds kMinTickInterval{1};  ///< 1 ms
 
-/// Maximum number of pending entries in the ChaosScheduler queue.
-/// Attempts to schedule beyond this limit are silently dropped.
-/// Use pendingCount() before scheduling to stay within budget.
+/// Maximum recommended number of pending entries in the ChaosScheduler queue.
+/// Current v1.x runtime does not enforce queue-cap drops at this limit.
 inline constexpr std::size_t kMaxPendingEntries = 4096;
 
 // ============================================================================
@@ -127,11 +128,10 @@ enum class ChaosFailureClass : int {
 // ============================================================================
 // § 4  Fail-closed contract
 //
-// All fault-injection decision paths MUST default to a no-op (return false)
-// when:
-//   a) The input descriptor violates any § 1 / § 2 constraint.
-//   b) The ChaosScheduler is not running at the time of schedule() / scheduleIn().
-//   c) The pending queue has reached kMaxPendingEntries.
+// Current v1.x fail-closed behavior is limited to:
+//   a) injectFault(): return false on empty node_id or probability out of range.
+//   b) recoverFault(): return false if no matching active fault exists.
+//   c) schedule()/scheduleIn(): always queue; entries fire only while RUNNING.
 //
 // Callers MUST NOT rely on undefined behaviour when inputs are out of range.
 // ============================================================================
@@ -162,17 +162,17 @@ enum class ChaosFailureClass : int {
 // FaultInjector::registerEventCallback() consumers must honour the following
 // invariants to remain correct under concurrent use:
 //   1. Callbacks are invoked synchronously on the thread that calls
-//      injectFault() or recoverFault(); they MUST NOT re-enter the FaultInjector
-//      on the same thread (deadlock risk: the fault_mutex_ is held during dispatch).
-//   2. Callbacks are invoked in registration order (FIFO).
-//   3. A callback that throws terminates std::terminate; callers must catch
-//      exceptions internally if they can fail.
-//   4. The callback receives a copy of the FaultSpec and an injected flag;
-//      the copy is made under fault_mutex_ before dispatch.
+//      injectFault() or recoverFault().
+//   2. recoverFault() currently dispatches while fault_mutex_ is held; callbacks
+//      should not re-enter the same FaultInjector from that call path.
+//      injectFault() dispatches after registry mutation is complete.
+//   3. Callbacks are invoked in registration order (FIFO).
+//   4. Callback exceptions are not caught by the framework.
+//   5. Callback arguments are passed as (const FaultSpec&, bool injected).
 // ============================================================================
 
-/// Maximum number of event callbacks that may be registered with a single
-/// FaultInjector.  Registrations beyond this limit are silently dropped.
+/// Maximum recommended number of event callbacks for a single FaultInjector.
+/// Current v1.x runtime does not enforce a hard registration cap.
 inline constexpr std::size_t kMaxEventCallbacks = 64;
 
 // ============================================================================

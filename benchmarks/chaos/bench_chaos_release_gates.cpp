@@ -156,7 +156,6 @@ static void BM_GATE_CHS04_ConcurrentInjectQuery(benchmark::State& state) {
     for (auto _ : state) {
         state.PauseTiming();
         fi.clearAllFaults();
-        total_ops.store(0);
         std::atomic<bool> go{false};
         std::vector<std::thread> workers;
         workers.reserve(kThreads * 2);

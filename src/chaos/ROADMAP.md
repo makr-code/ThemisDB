@@ -46,7 +46,8 @@ Production-ready in-process fault injection and scheduler surfaces are available
 ### Phase 2: Core Implementation
 - [x] complete remaining hardening for registry and scheduler internals (Target: Q4 2026)
   - Delivered: `include/chaos/chaos_contract.h` § 1–§ 7 governs all registry and scheduler internals;
-    constraints enforced at injectFault() / scheduleIn() / schedule() boundaries
+    current runtime enforcement documented at injectFault() boundaries (empty node_id/probability),
+    with additional frozen guardrail constants for scheduler/queue hardening follow-up
 - [x] align callback/state transition behavior to bounded runtime contracts (Target: Q4 2026)
   - Delivered: § 5 callback semantics (FIFO order, no re-entry, bounded dispatch) +
     § 6 scheduler FSM (STOPPED / RUNNING, idempotent start/stop)

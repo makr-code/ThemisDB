@@ -12,7 +12,7 @@
  *
  * ### CCD — Callback and Contract Determinism
  *   CCD-01  Recover callback fires for every successful recoverFault()
- *   CCD-02  Inject on already-active (node, type) returns false and does NOT fire callback again
+ *   CCD-02  Inject on already-active (node, type) applies LWW update (returns true, callback fires again)
  *   CCD-03  Inject with empty node_id returns false; callback is NOT fired
  *   CCD-04  Inject with out-of-range probability returns false; callback is NOT fired
  *   CCD-05  clearAllFaults() does NOT fire any callbacks
