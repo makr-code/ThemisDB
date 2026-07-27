@@ -114,7 +114,7 @@
 
 ---
 
-## GA Release Readiness Backlog (v1.9.0-beta → v1.9.0 GA)
+## Release Readiness Backlog (current canonical version: v2.4.0-rc1)
 
 ## server
 
@@ -448,7 +448,7 @@ Every stub replacement **must** follow these six phases before marking `[x]`:
 > **Actual & Projected Impact:** 
 > - Phase 1-4: 31,720 gaps (+2,200–3,200 from enhancements = 33,920–34,920 total)
 > - Phase 5: +99,694 gaps (178% increase, completed)
-> - Rescan baseline: 185,190 gaps (27 scanners, 65 modules)
+> - Rescan baseline: 185,190 gaps (27 scanners, 66 modules)
 > - Phase 6: +6,000–10,000 gaps (planned)
 > - **Phase 1-6 Total from current baseline:** ~193,390–198,390 gaps
 >
@@ -1592,7 +1592,7 @@ stub-replacement, module:<name>, <priority-label>
 
 ---
 
-*Last updated: 2026-05-27 | Generated from: `src/ROADMAP.md` + `src/*/FUTURE_ENHANCEMENTS.md` + `ai_working/gap_scan_v3_summary.json`*
+*Last updated: 2026-07-27 | Generated from: `src/ROADMAP.md` + `src/*/FUTURE_ENHANCEMENTS.md` + `ai_working/gap_scan_v3_summary.json`*
 
 ---
-Zuletzt geprueft (Root-Sync): 2026-05-26
+Zuletzt geprueft (Root-Sync): 2026-07-27

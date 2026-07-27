@@ -15,7 +15,7 @@ ThemisDB is a high-performance, multi-model database system that integrates rela
 
 ## Main Directory Structure
 
-### `/src/` - Implementation (58 Core Components)
+### `/src/` - Implementation (66 tracked modules)
 
 | Directory | Purpose | Key Classes |
 |-----------|---------|-------------|
@@ -893,8 +893,8 @@ Schutzmaßnahmen Produktionsdatenbanken unwiederbringlich löschen können.
 ## Root-Dokument-Abgleich (Architektur / Security / Audit / Performance)
 
 Die folgenden Architekturannahmen sind für Root-Dokumente verbindlich und werden
-in `SECURITY.md`, `AUDIT.md`, `CTEST.md`, `PERFORMANCE_EXPECTATIONS.md`,
-`PERFORMANCE_OPTIMIZATION_PLAN.md` und `PERFORMANCE_BOTTLENECKS.md` gespiegelt:
+in `SECURITY.md`, `AUDIT.md`, `CTEST.md`, `docs/performance/PERFORMANCE_EXPECTATIONS.md`,
+`docs/performance/PERFORMANCE_OPTIMIZATION_PLAN.md` und `docs/performance/PERFORMANCE_BOTTLENECKS.md` gespiegelt:
 
 | Kontrollpunkt | Architekturannahme | Referenzpfade |
 |---|---|---|
@@ -902,7 +902,7 @@ in `SECURITY.md`, `AUDIT.md`, `CTEST.md`, `PERFORMANCE_EXPECTATIONS.md`,
 | Transportschutz | TLS 1.3 als Primärpfad, TLS 1.2 Fallback nur aus Kompatibilitätsgründen; mTLS für sensible Cluster-/WAL-Pfade | [SECURITY.md](SECURITY.md), [AUDIT.md](AUDIT.md) |
 | Zugriffskontrolle | RBAC Least-Privilege und rollenbasierte Maintenance-/Admin-Gates sind Teil der Kernarchitektur | [SECURITY.md](SECURITY.md), [audit/AUDIT.md](audit/AUDIT.md) |
 | Nachvollziehbarkeit | Audit-Trail ist manipulationserschwerend ausgelegt (Encrypt-then-Sign, Hash-Chain, SIEM-Anbindung) | [SECURITY.md](SECURITY.md), [audit/AUDIT.md](audit/AUDIT.md), [CTEST.md](CTEST.md) |
-| Performance-Gates | Performanceziele gelten nur mit aktivierten Sicherheitskontrollen und reproduzierbaren Verifikationspfaden | [PERFORMANCE_EXPECTATIONS.md](PERFORMANCE_EXPECTATIONS.md), [PERFORMANCE_OPTIMIZATION_PLAN.md](PERFORMANCE_OPTIMIZATION_PLAN.md), [PERFORMANCE_BOTTLENECKS.md](PERFORMANCE_BOTTLENECKS.md) |
+| Performance-Gates | Performanceziele gelten nur mit aktivierten Sicherheitskontrollen und reproduzierbaren Verifikationspfaden | [docs/performance/PERFORMANCE_EXPECTATIONS.md](docs/performance/PERFORMANCE_EXPECTATIONS.md), [docs/performance/PERFORMANCE_OPTIMIZATION_PLAN.md](docs/performance/PERFORMANCE_OPTIMIZATION_PLAN.md), [docs/performance/PERFORMANCE_BOTTLENECKS.md](docs/performance/PERFORMANCE_BOTTLENECKS.md) |
 
 ---
 
@@ -1540,4 +1540,4 @@ build if any discrepancies are found.
 *Last Updated: 2026-03-24 | Generated from codebase analysis*
 
 ---
-Zuletzt geprueft (Root-Sync): 2026-05-26
+Zuletzt geprueft (Root-Sync): 2026-07-27

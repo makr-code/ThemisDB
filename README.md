@@ -4,10 +4,10 @@
 
 **High-performance multi-model database with native AI/LLM integration**
 
-[![Version](https://img.shields.io/badge/version-1.9.0--beta-blue)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.4.0--rc1-blue)](CHANGELOG.md)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Status](https://img.shields.io/badge/status-ACTIVE_DEVELOPMENT-orange)](ROADMAP.md)
-[![Maturity](https://img.shields.io/badge/maturity-66_sync__15_PC__45_H__2_E__4_T-orange)](ROADMAP.md)
+[![Maturity](https://img.shields.io/badge/maturity-66_sync__15_PC__46_H__2_E__3_T-orange)](ROADMAP.md)
 [![Contributing](https://img.shields.io/badge/contributions-welcome-brightgreen)](CONTRIBUTING.md)
 
 [📚 Documentation](docs/Home.md) · [🚀 Quick Start](QUICKSTART.md) · [🛠️ Setup](SETUP.md) · [⚠️ Status](ROADMAP.md) · [🆘 Support](SUPPORT.md) · [Release Notes](CHANGELOG.md)
@@ -28,16 +28,15 @@ Use this code at your own risk. Contributions, feedback, and improvements are we
 
 **This is an active development project.** Current synchronized status snapshot (source-based):
 - ✅ **15 modules** are `PRODUCTION_CANDIDATE`
-- 🟡 **45 modules** are `HARDENING`
+- 🟡 **46 modules** are `HARDENING`
 - 🔴 **2 modules** are `EXPERIMENTAL` (`llama_cpp`, `stable_diffusion`)
-- ⚪ **4 modules** are `THIN/PLACEHOLDER` (`ai_working`, `distributed_tensor`, `evaluation`, `retrieval`)
+- ⚪ **3 modules** are `THIN/PLACEHOLDER` (`ai_working`, `distributed_tensor`, `retrieval`)
 
-### 🔴 CRITICAL Alert: Graph Module Under Development
+### 🟢 Graph Module Status Snapshot
 
-**Status:** ⚠️ **CRITICAL** — Phase 2 implementation phase (6 weeks, Q3 2026)  
-**Blockers:** 9 CRITICAL gaps in query planning & constraint validation; module locked from production releases  
-**Mitigation:** See [ROADMAP.md § Graph Module Completion](ROADMAP.md#-graph-module-completion-q3-2026) and [ai_working/graph_l2_analysis.md](ai_working/graph_l2_analysis.md)  
-**Owner Assignment:** Required before Phase 2.1 kickoff (develop/graph-l2-impl-q3-2026 branch)
+**Status:** ✅ **PRODUCTION_CANDIDATE** — L0 verification reports **0 real gaps** and current work is Phase 3 hardening / optimizer follow-up.  
+**Current focus:** GPU/distributed traversal parity, benchmark stabilization, diagnostics consistency, and hybrid retrieval rollout hardening.  
+**Canonical source:** [src/graph/ROADMAP.md](src/graph/ROADMAP.md) and [ROADMAP.md](ROADMAP.md#-graph-module-completion-q3-2026)
 
 **See [ROADMAP.md](ROADMAP.md) for the full 66-module table.**
 
@@ -81,7 +80,7 @@ Evidence artifacts:
 
 ThemisDB is a **high-performance multi-model database engine in active development** that aims to combine relational, graph, vector, document, geospatial, and time-series storage in a single system with native AI/LLM integration.
 
-**Current Status (2026-07-27, source-evidence based):** 66 modules are tracked in `src`; 15 are `PRODUCTION_CANDIDATE`, 45 are `HARDENING`, 2 are `EXPERIMENTAL`, and 4 are `THIN/PLACEHOLDER`. See [ROADMAP.md](ROADMAP.md) for detailed per-module status.
+**Current Status (2026-07-27, source-evidence based):** 66 modules are tracked in `src`; 15 are `PRODUCTION_CANDIDATE`, 46 are `HARDENING`, 2 are `EXPERIMENTAL`, and 3 are `THIN/PLACEHOLDER`. See [ROADMAP.md](ROADMAP.md) for detailed per-module status.
 
 **Key capabilities at a glance:**
 
@@ -247,7 +246,7 @@ Rule of thumb: architecture is layered, but security acceptance is tier-based.
 | [VERSIONING.md](VERSIONING.md) | Versioning policy and release cadence |
 | [RELEASE_STRATEGY.md](RELEASE_STRATEGY.md) | Branch model, edition matrix, CI/CD pipeline |
 | [CHANGELOG.md](CHANGELOG.md) | Release notes (Keep a Changelog format) |
-| [PERFORMANCE_EXPECTATIONS.md](PERFORMANCE_EXPECTATIONS.md) | Benchmarks and performance targets |
+| [docs/performance/PERFORMANCE_EXPECTATIONS.md](docs/performance/PERFORMANCE_EXPECTATIONS.md) | Benchmarks and performance targets |
 | [SOP.md](SOP.md) | Standard operating procedures (release, hotfix, incident) |
 | [GOVERNANCE.md](GOVERNANCE.md) | Project governance: roles, decision-making, contribution policy |
 | [MAINTAINERS.md](MAINTAINERS.md) | Maintainer roster and module ownership |
@@ -257,7 +256,6 @@ Rule of thumb: architecture is layered, but security acceptance is tier-based.
 | [SUPPORT.md](SUPPORT.md) | Where to get help |
 | [INDEX.md](INDEX.md) | Full project structure index |
 | [docs/](docs/) | Extended documentation (API reference, guides, research) |
-| [compendium/](compendium/docs/) | In-depth technical compendium |
 
 ---
 
@@ -321,7 +319,7 @@ python tools/gs3.py report results.json --format json
 ### Documentation
 
 - **[tools/GS3_CLI_GUIDE.md](tools/GS3_CLI_GUIDE.md)** — Complete CLI reference and usage guide
-- **[tools/GS3_COMPLETE_GUIDE.md](tools/GS3_COMPLETE_GUIDE.md)** — System architecture and scanner design
+- **[tools/scanners/GS3_COMPLETE_GUIDE.md](tools/scanners/GS3_COMPLETE_GUIDE.md)** — System architecture and scanner design
 - **[tools/GS3_PROJECT_COMPLETION_REPORT.md](tools/GS3_PROJECT_COMPLETION_REPORT.md)** — Project deliverables and metrics
 - **[tools/legacy/LEGACY_SCANNER_MAPPING.md](tools/legacy/LEGACY_SCANNER_MAPPING.md)** — Legacy code archival and migration info
 

@@ -15,9 +15,11 @@
 ThemisDB is a high-performance multi-model database with native AI/LLM integration. This top-level roadmap aggregates the status and planned work across tracked source modules. The project follows a phased approach: stabilise core infrastructure first, then harden distributed and AI layers, and finally deliver operational excellence at hyperscale.
 
 **Overall Timeline:** Q1 2026 – Q4 2027  
-**Current Release:** v1.9.0-beta
+**Current Release:** v2.4.0-rc1
 
-## GA Release Hardening Program (v1.9.0-beta → v1.9.0 GA)
+## Release Hardening Program (current canonical version: v2.4.0-rc1)
+
+> **Canonical version note:** `VERSION` and `CHANGELOG.md` currently identify `v2.4.0-rc1` as the active repository version. Historical `v1.9.0-beta` batch names below are retained only where they are part of existing execution-plan terminology or evidence labels.
 
 ## Current Status
 
@@ -33,7 +35,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 - [~] Reconfirm canonical build reproducibility for `linux-release` (Ninja + `vcpkg`) and `community-release` (system packages incl. RocksDB) (Target: Phase 0 / 2026-07)
 - [~] Move `server` hardening from implementation-complete to GA sign-off ready (residual risk register + regression proof + gate evidence sync) (Target: Phase 1 / 2026-08)
 - [~] Move `llm` hardening from implementation-complete to GA sign-off ready (ownership/recovery evidence + regression proof + gate evidence sync) (Target: Phase 1 / 2026-08)
-- [ ] Complete `sharding` 2PC/3PC consistency, WAL/recovery, and fault-injection hardening across `include/sharding/`, `src/sharding/`, `include/replication/`, and `src/replication/` (Target: Phase 1 / 2026-08)
+- [~] Keep sharding Phase 6 sign-off evidence current and retain regression proof across `include/sharding/`, `src/sharding/`, `include/replication/`, and `src/replication/` (Target: Phase 1 / 2026-08)
 - [ ] Keep graph/query optimisation work behind measurable latency/cache/pool/Wave-7 regression gates before counting it as production-ready (Target: Phase 2 / 2026-09)
 
 ## Implementation Phases
@@ -190,7 +192,7 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 
 **Total New Tests:** 352+ (Phase 3: 130, Phase 5: 90, Phase 6: 60+, AQL: 32, Wave 8: 40+)  
 **Total Team Effort:** ~38 weeks across 8 teams (~15 engineers)  
-**Release Target:** v1.9.0-beta (Sept 2026), v2.0.0-rc1 (Oct 2026), v2.0.0 GA (Nov 2026)
+**Release Target (historical execution label):** originally planned as `v1.9.0-beta` → `v2.0.0`; current canonical repository version is `v2.4.0-rc1` (`VERSION`, `CHANGELOG.md`).
 
 ### Scope-Freeze & Remaining Work (2026-07-20)
 
@@ -219,7 +221,7 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 - [ ] After each open block: full gate-check (build/test/bench/security) must be green before next block starts
 - [ ] Acceptance criteria for open blocks are sourced from this roadmap + `FUTURE_ENHANCEMENTS.md` six-phase execution model
 - [ ] Any failed gate or unresolved risk is returned to backlog/governance before promotion
-- [ ] Promotion path remains evidence-driven: `v1.9.0-beta` → `v2.0.0-rc1` → `v2.0.0 GA`
+- [ ] Promotion path remains evidence-driven and must stay aligned with the canonical `VERSION` / `RELEASE_TYPE` state before any release cut
 
 ### Decision Tree: Phase Prioritization
 
@@ -584,7 +586,7 @@ Status: [x] adopted
 - [x] Update intervals and GitHub issue/milestone orchestration standardized (`DOC-WEEKLY-*`, `DOC-MONTHLY-*`, `DOC-RELEASE-*`).
 - [x] Root reference added: `DOCUMENTATION_GOVERNANCE.md`.
 
-### Root Documentation Sync (2026-05-26)
+### Root Documentation Sync (2026-07-27)
 
 Status: [x] completed
 
@@ -788,7 +790,7 @@ Audit method:
 | **voice** | HARDENING | LOC=11483, Stub/KLOC=6,01, Tests=603, TestRefs=26 |
 | **whisper** | HARDENING | LOC=2766, Stub/KLOC=18,08, Tests=76, TestRefs=4 |
 
-**Legend:** PRODUCTION_CANDIDATE · HARDENING · EXPERIMENTAL · THIN/PLACEHOLDER *(full src coverage: 66/66 modules, evidence from logs/module_status_66_refined.csv and logs/module_test_include_refs_66.csv)*
+**Legend:** PRODUCTION_CANDIDATE · HARDENING · EXPERIMENTAL · THIN/PLACEHOLDER *(full src coverage: 66/66 modules; evidence consolidated in this roadmap table and the corresponding `src/<module>/ROADMAP.md` files)*
 
 **Phase 1-4 Gap Scanner Results Summary (2026-05-18):**
 - Total gaps: 31,720 across 8 categories
@@ -2042,4 +2044,4 @@ ctest --preset community-release --filter "test_layered_retrieval_orchestrator" 
 - [FEATURE_ENHANCEMENT.md](FEATURE_ENHANCEMENT.md) — Generated code maturity analysis (reporting snapshot)
 
 ---
-Zuletzt geprueft (Root-Sync): 2026-05-26
+Zuletzt geprueft (Root-Sync): 2026-07-27

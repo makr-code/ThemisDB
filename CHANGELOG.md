@@ -2867,4 +2867,4 @@ ThemisDB follows [Semantic Versioning](https://semver.org/):
 - **-alpha**, **-beta**, **-rc** suffixes for pre-release versions
 
 ---
-Zuletzt geprueft (Root-Sync): 2026-05-26
+Zuletzt geprueft (Root-Sync): 2026-07-27
