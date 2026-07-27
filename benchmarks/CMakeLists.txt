@@ -3956,6 +3956,76 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_module_load_hot_reload.cpp")
 endif()
 
 # ============================================================================
+# Base Module Hot-Path Release Gate Benchmarks (Issue #5631)
+# Validates: GATE-BASE-01..06 — isModuleLoaded, getMetrics, registeredModules,
+#            isRollbackAvailable, buildFromResolver 100-node, reloadModule fast-fail
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_base_hot_paths.cpp")
+    message(STATUS "Adding base module hot-path release gate benchmarks (GATE-BASE-01..06)")
+
+    add_executable(bench_base_hot_paths
+        bench_base_hot_paths.cpp
+    )
+
+    target_include_directories(bench_base_hot_paths PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(bench_base_hot_paths PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_base_hot_paths PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    themis_apply_benchmark_release_flags(bench_base_hot_paths)
+
+    install(TARGETS bench_base_hot_paths
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Base hot paths: GATE-BASE-01 isModuleLoaded ≥500k ops/s, GATE-BASE-02 getMetrics ≥100k ops/s, GATE-BASE-03 registeredModules p99≤5µs, GATE-BASE-04 isRollbackAvailable p99≤1µs, GATE-BASE-05 buildFromResolver 100-node ≤1ms, GATE-BASE-06 reloadModule fast-fail ≤50µs")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_base_wasm_sandbox.cpp")
+    message(STATUS "Adding base module wasm/sandbox dedicated benchmarks (GATE-BASE-07..12)")
+
+    add_executable(bench_base_wasm_sandbox
+        bench_base_wasm_sandbox.cpp
+    )
+
+    target_include_directories(bench_base_wasm_sandbox PRIVATE
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(bench_base_wasm_sandbox PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_base_wasm_sandbox PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    themis_apply_benchmark_release_flags(bench_base_wasm_sandbox)
+
+    install(TARGETS bench_base_wasm_sandbox
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Base wasm/sandbox: GATE-BASE-07 loadFromBytes valid, GATE-BASE-08 loadFromBytes invalid, GATE-BASE-09 AbiChecker checkVersions, GATE-BASE-10 resolveDescription, GATE-BASE-11 isKnownCode, GATE-BASE-12 sandbox stats")
+endif()
+
+# ============================================================================
 # Themis Core SLO Benchmarks (TH-1..TH-5)
 # ============================================================================
 
