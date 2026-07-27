@@ -77,9 +77,11 @@ test coverage.
 
 **Goal:** Optimizer recognises spatial predicates and selects geo index when available.
 
-- [ ] Add `GeoPredicatePattern` detection in `src/query/adaptive_optimizer.cpp` (Target: Q3 2026)
+- [~] Add `GeoPredicatePattern` detection in `src/query/adaptive_optimizer.cpp` (Target: Q3 2026)
   - Detect `ST_Within(field_ref, literal)` and `ST_Distance(field_ref, literal) < threshold`
   - Emit `IndexHint::GEO` for those predicates
+  - Implemented 2026-07-27: `GeoPredicatePatternDetector` now recognizes
+    `FILTER ST_Within(field, @poly)` and injects `GEO` optimizer hints
 - [ ] Wire `IndexHint::GEO` into index selection in `QueryEngine` (Target: Q3 2026)
 - [ ] Plan caching: include geo predicate in cache key hash (Target: Q3 2026)
 
@@ -89,9 +91,11 @@ test coverage.
 
 **Goal:** Spatial query performance gate — ST_Within on 100K point dataset ≤ 50 ms p99.
 
-- [ ] Benchmark `FILTER ST_Within` at 100 000 point documents (Target: Q3 2026)
+- [~] Benchmark `FILTER ST_Within` at 100 000 point documents (Target: Q3 2026)
   - No spatial index: sequential scan baseline
   - With R-tree geo index: ≤ 50 ms p99
+  - Implemented 2026-07-27: `benchmarks/bench_aql_geo_filter.cpp`
+    (index path + sequential baseline with p99 counters)
 - [ ] Optional GPU acceleration hint: `FILTER ST_Distance(...) < r USE INDEX geo_cuda` (Target: Q4 2026)
 
 **Acceptance (Gate 4):** Spatial query with geo index ≥ 50× speedup vs. sequential scan on 100K geometries.

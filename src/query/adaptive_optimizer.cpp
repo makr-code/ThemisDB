@@ -20,6 +20,7 @@
 
 #include "query/adaptive_optimizer.h"
 #include <algorithm>
+#include <cctype>
 #include <cmath>
 #include <numeric>
 #include <spdlog/spdlog.h>
@@ -37,6 +38,36 @@
 
 namespace themis {
 namespace query {
+
+namespace {
+
+std::string trimCopy(const std::string& input) {
+    const auto first = std::find_if_not(input.begin(), input.end(), [](unsigned char c) {
+        return std::isspace(c) != 0;
+    });
+    if (first == input.end()) {
+        return {};
+    }
+    const auto last = std::find_if_not(input.rbegin(), input.rend(), [](unsigned char c) {
+        return std::isspace(c) != 0;
+    }).base();
+    return std::string(first, last);
+}
+
+std::string toLowerCopy(const std::string& input) {
+    std::string lowered = input;
+    std::transform(lowered.begin(), lowered.end(), lowered.begin(), [](unsigned char c) {
+        return static_cast<char>(std::tolower(c));
+    });
+    return lowered;
+}
+
+bool startsWith(const std::string& text, const std::string& prefix) {
+    return text.size() >= prefix.size() &&
+           std::equal(prefix.begin(), prefix.end(), text.begin());
+}
+
+} // namespace
 
 // ============================================================================
 // AdaptiveQueryStats Implementation
@@ -526,7 +557,110 @@ bool NumaAwareOptimizer::pinThreadToCpu(int cpu_id) {
 #endif
 }
 
+// ============================================================================
+// GeoPredicatePatternDetector Implementation
+// ============================================================================
+
+std::optional<GeoPredicatePatternDetector::DetectedSpatialHint>
+GeoPredicatePatternDetector::detect(const std::string& query_text) {
+    if (query_text.empty()) {
+        return std::nullopt;
+    }
+
+    const std::string lowered = toLowerCopy(query_text);
+    const auto filter_pos = lowered.find("filter");
+    const auto within_pos = lowered.find("st_within", filter_pos == std::string::npos ? 0 : filter_pos);
+    if (within_pos == std::string::npos) {
+        return std::nullopt;
+    }
+
+    const auto open_pos = lowered.find('(', within_pos);
+    if (open_pos == std::string::npos) {
+        return std::nullopt;
+    }
+
+    int depth = 1;
+    std::size_t close_pos = open_pos + 1;
+    for (; close_pos < lowered.size(); ++close_pos) {
+        const char ch = lowered[close_pos];
+        if (ch == '(') {
+            ++depth;
+        } else if (ch == ')') {
+            --depth;
+            if (depth == 0) {
+                break;
+            }
+        }
+    }
+
+    if (close_pos >= lowered.size() || depth != 0) {
+        return std::nullopt;
+    }
+
+    const std::string arg_text = query_text.substr(open_pos + 1, close_pos - open_pos - 1);
+    int nested = 0;
+    std::size_t split_pos = std::string::npos;
+    for (std::size_t i = 0; i < arg_text.size(); ++i) {
+        const char ch = arg_text[i];
+        if (ch == '(') {
+            ++nested;
+        } else if (ch == ')') {
+            if (nested > 0) {
+                --nested;
+            }
+        } else if (ch == ',' && nested == 0) {
+            split_pos = i;
+            break;
+        }
+    }
+
+    if (split_pos == std::string::npos) {
+        return std::nullopt;
+    }
+
+    const std::string first_arg = trimCopy(arg_text.substr(0, split_pos));
+    const std::string second_arg = trimCopy(arg_text.substr(split_pos + 1));
+    if (first_arg.empty() || second_arg.empty()) {
+        return std::nullopt;
+    }
+
+    if (first_arg[0] == '@' || startsWith(toLowerCopy(first_arg), "st_")) {
+        return std::nullopt;
+    }
+
+    const std::string second_lower = toLowerCopy(second_arg);
+    const bool second_is_literal_like =
+        second_arg[0] == '@' || second_arg[0] == '[' || second_arg[0] == '{' ||
+        second_arg[0] == '"' || second_arg[0] == '\'' ||
+        startsWith(second_lower, "st_geomfromgeojson(");
+    if (!second_is_literal_like) {
+        return std::nullopt;
+    }
+
+    return DetectedSpatialHint{"st_within", first_arg};
+}
+
+void GeoPredicatePatternDetector::injectSpatialIndexHints(
+    const std::string& query_text,
+    std::map<std::string, std::string>& hints,
+    std::vector<std::string>& suggested_indexes) {
+    const auto detected = detect(query_text);
+    if (!detected.has_value()) {
+        return;
+    }
+
+    hints["index_hint"] = "GEO";
+    hints["geo_index_scan"] = "enabled";
+    hints["geo_predicate"] = "ST_Within";
+    hints["geo_field"] = detected->field_reference;
+
+    const bool has_geo_suggestion = std::find(
+        suggested_indexes.begin(), suggested_indexes.end(), "geo") != suggested_indexes.end();
+    if (!has_geo_suggestion) {
+        suggested_indexes.emplace_back("geo");
+    }
+}
+
 } // namespace query
 } // namespace themis
-
 
