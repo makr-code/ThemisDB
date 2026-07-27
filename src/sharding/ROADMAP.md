@@ -61,6 +61,28 @@ Production-capable sharding runtime exists for routing/placement, distributed co
 - [ ] broaden benchmark depth for advanced multi-DC and topology-failure scenarios (Target: Q1 2027)
 - [ ] harden long-run reliability under sustained distributed write pressure (Target: Q1 2027)
 
+### Distributed Maturity Phase 3 — Track 2 Items (Q3–Q4 2026)
+
+These items are part of the next-phase **Track 2: Distributed Systems Maturity** plan
+(see `ROADMAP.md §Track 2`). Hard gate per item: deterministic under-load benchmark + `release_critical` CI green.
+
+#### 3.2 Sharding
+
+- [ ] **Automatic shard rebalancing on topology change**: when a node joins or leaves the cluster,
+  automatically redistribute shards to maintain target balance; rebalancing must complete within a
+  configurable time bound without halting query throughput (Target: Q3 2026)
+  - Inputs: topology change event, rebalance policy (min-movement / round-robin), target shard count
+  - Acceptance: rebalance completes at ≥ 80% throughput of steady-state; no data loss; CTest `release_critical` green
+- [ ] **Cross-datacenter latency-aware routing**: route cross-shard reads to the replica with lowest
+  measured RTT in the requesting DC; fall back to nearest-replica on timeout (Target: Q3 2026)
+  - Acceptance: routing selects correct replica in 3-DC topology benchmark; p99 read latency
+    improves vs. random routing; deterministic under-load benchmark result
+- [ ] **Global secondary indexes (GSI)**: maintain a distributed index over all shards for a user-specified
+  field; GSI updates are asynchronous and eventually consistent; index-backed range scan available in AQL (Target: Q4 2026)
+  - Inputs: `CREATE INDEX … GLOBAL` DDL (via AQL DDL extension); field, type, consistency level
+  - Acceptance: GSI scan returns correct results for 100K documents across 4 shards;
+    AQL `FILTER doc.field == @val USE INDEX gsi_name` selects GSI plan
+
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
