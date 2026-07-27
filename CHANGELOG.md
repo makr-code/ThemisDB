@@ -7,7 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] — 2026-07-27 — Next-Phase Tracks 0–6 Governance + Research Traceability
 
+### AQL v2.0.0 Roadmap Artifacts — Batch E (2026-07-27)
+
+- Created `src/query/AQL_DDL_ROADMAP.md`: DDL Phases 1–4 documented as complete (delivered 2026-07-22);
+  32 tests; production readiness checklist with 2 deferred items (security audit, migration guide, Q4 2026).
+- Created `src/index/AQL_FTS_ROADMAP.md`: Full-Text Search AQL integration Phases 1–4 planned;
+  PHRASE/NEAR/STARTS_WITH AQL functions wiring to `InvertedIndex::searchPhrase()`; Gate 5 target ≤ 100 ms
+  on 100K documents; 25+ test plan.
+- Created `src/query/AQL_GEOSPATIAL_ROADMAP.md`: Geospatial AQL FILTER/SORT/RETURN wiring Phases 1–4
+  planned; ST_* functions already implemented in `let_evaluator.cpp` (LET-only); Phase 1 wiring in progress;
+  Gate 4 target ≤ 50 ms on 100K points with geo index.
+- Updated `src/query/AQL_V2_0_0_COMPLETE_ROADMAP.md`: marked 3 "to create" roadmap docs `[x]` done;
+  Week 1 roadmap-creation task `[x]` done.
+
 ### Next-Phase Governance Sync (Tracks 0–6)
+
 
 - `ROADMAP.md`: replaced stale NEXT PHASE section with structured Tracks 0–6 (GA promotion gate,
   AQL 2.0.0 completion, distributed systems maturity, observability, security hardening,
