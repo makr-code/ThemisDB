@@ -196,6 +196,19 @@ public:
 
     /**
      * @brief Detect archive format from blob
+     * 
+     * Detection strategy:
+     * 1. If blob is empty, returns ArchiveFormat::UNKNOWN (fail-closed validation)
+     * 2. Checks magic bytes for ZIP, GZIP, 7-Zip, and TAR formats
+     * 3. Falls back to filename extension detection for non-empty blobs
+     * 4. Returns ArchiveFormat::UNKNOWN if no format is detected
+     * 
+     * @param blob Archive binary data (may be empty)
+     * @param filename Original filename for extension-based fallback detection
+     * @return Detected archive format or UNKNOWN if detection fails
+     * 
+     * @note Empty blobs always return UNKNOWN regardless of filename to prevent
+     *       false positives and ensure security validation passes.
      */
     static ArchiveFormat detectFormat(const std::string& blob, const std::string& filename);
     

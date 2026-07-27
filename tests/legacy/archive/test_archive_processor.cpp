@@ -67,13 +67,27 @@ TEST_F(ArchiveProcessorTest, DetectFormatZip) {
 }
 
 TEST_F(ArchiveProcessorTest, DetectFormatFromFilename) {
+    // Non-empty blob with matching extension should detect format
+    std::string zip_blob = createMockZipBlob();
+    EXPECT_EQ(ArchiveProcessor::detectFormat(zip_blob, "test.zip"), ArchiveFormat::ZIP);
+
+    // For non-empty blobs without archive magic, extension fallback applies
+    std::string blob_with_text = "Not an archive but has some content";
+    EXPECT_EQ(ArchiveProcessor::detectFormat(blob_with_text, "test.zip"), ArchiveFormat::ZIP);
+
+    // Magic bytes still take priority over conflicting extension
+    EXPECT_EQ(ArchiveProcessor::detectFormat(zip_blob, "test.txt"), ArchiveFormat::ZIP);
+}
+
+TEST_F(ArchiveProcessorTest, DetectFormatEmptyBlobReturnsUnknown) {
     std::string empty_blob;
     
-    // Test various extensions
-    EXPECT_EQ(ArchiveProcessor::detectFormat(empty_blob, "test.zip"), ArchiveFormat::ZIP);
-    EXPECT_EQ(ArchiveProcessor::detectFormat(empty_blob, "test.tar"), ArchiveFormat::TAR);
-    EXPECT_EQ(ArchiveProcessor::detectFormat(empty_blob, "test.tar.gz"), ArchiveFormat::TAR_GZ);
-    EXPECT_EQ(ArchiveProcessor::detectFormat(empty_blob, "test.7z"), ArchiveFormat::SEVEN_ZIP);
+    // Empty blobs must return UNKNOWN regardless of filename extension
+    // This prevents false positives and improves security validation
+    EXPECT_EQ(ArchiveProcessor::detectFormat(empty_blob, "test.zip"), ArchiveFormat::UNKNOWN);
+    EXPECT_EQ(ArchiveProcessor::detectFormat(empty_blob, "test.tar"), ArchiveFormat::UNKNOWN);
+    EXPECT_EQ(ArchiveProcessor::detectFormat(empty_blob, "test.tar.gz"), ArchiveFormat::UNKNOWN);
+    EXPECT_EQ(ArchiveProcessor::detectFormat(empty_blob, "test.7z"), ArchiveFormat::UNKNOWN);
 }
 
 TEST_F(ArchiveProcessorTest, DetectFormatUnknown) {
