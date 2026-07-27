@@ -45,10 +45,25 @@
   (isRollbackAvailable p99 ≤1µs), GATE-BASE-05 (buildFromResolver 100-node chain ≤1ms),
   GATE-BASE-06 (reloadModule fast-fail path ≤50µs). Completed 2026-07-27 (Issue #5631).
 
-- tighten compatibility and rollback consistency under stressed reload scenarios.
-- standardize diagnostics for load, dependency, and registry failure classes.
-- expand runtime-backend resilience for sandbox and wasm paths.
-- continue replacing proxy-like mappings with dedicated base benchmarks.
+- `tests/base/test_base_future_enhancements.cpp` delivers the short-term hardening
+  targets (Q4 2026): AbiChecker version-compatibility edge cases (major/minor mismatch,
+  patch tolerance, forward/backward compatibility), WasmPluginSandbox validation-only
+  mode (magic validation, invalid bytes, no-runtime callExport, fuel-budget behavior,
+  host-function allowlist), WasmModuleInfo invariants, ModuleSandbox WASM-isolation
+  state predicates, advanced reload/dependency edge permutations (diamond, multi-root,
+  5-level chain, indirect cycle, re-register), and operator-facing diagnostic completeness
+  (format prefix consistency, resolveDescription/isKnownCode coverage). 10 test suites,
+  55+ GTest cases. Completed 2026-07-27 (Issue #5631).
+
+- `benchmarks/bench_base_wasm_sandbox.cpp` delivers the mid-term dedicated microbenchmark
+  targets (Q1 2027): GATE-BASE-07 (WasmPluginSandbox loadFromBytes valid WASM),
+  GATE-BASE-08 (loadFromBytes invalid bytes fast-fail), GATE-BASE-09 (AbiChecker
+  checkVersions throughput), GATE-BASE-10 (BaseErrorTaxonomy resolveDescription/format),
+  GATE-BASE-11 (isKnownCode throughput), GATE-BASE-12 (ModuleSandbox stats inactive),
+  plus dedicated microbenchmarks for addHostFunction, hostFunctionCount, callExport
+  no-runtime, PluginDependencyGraph DOT/JSON/ASCII export, detectCycles, and sandbox
+  construction/destruction. Eliminates proxy-like benchmark mappings for wasm/sandbox
+  surfaces. Completed 2026-07-27 (Issue #5631).
 
 ## Test Strategy
 

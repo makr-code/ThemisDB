@@ -17,14 +17,14 @@ Production runtime foundations exist for secure module loading, sandboxing, depe
 ## Planned Features
 
 ### Short-term (3-6 months)
-- [ ] tighten deterministic error surfaces for sandbox/runtime-degraded states (Target: Q4 2026)
-- [ ] expand regression coverage for reload/dependency edge permutations (Target: Q4 2026)
-- [ ] improve operator-facing diagnostics for module activation and rollback classes (Target: Q4 2026)
+- [x] tighten deterministic error surfaces for sandbox/runtime-degraded states (Target: Q4 2026) — completed 2026-07-27: see tests/base/test_base_future_enhancements.cpp suites 3, 7 (WasmSandboxValidation, SandboxWasmIsolation)
+- [x] expand regression coverage for reload/dependency edge permutations (Target: Q4 2026) — completed 2026-07-27: see test_base_future_enhancements.cpp suites 6, 8, 9 (AbiChecker, AdvancedDependency, PluginGraphExtended)
+- [x] improve operator-facing diagnostics for module activation and rollback classes (Target: Q4 2026) — completed 2026-07-27: see test_base_future_enhancements.cpp suite 10 (OperatorDiagnosticsTest)
 
 ### Mid-term (6-12 months)
-- [ ] re-baseline p95/p99 and throughput envelopes for base module benchmark mappings (Target: Q1 2027)
-- [ ] reduce proxy-like mappings through additional dedicated base microbenchmarks (Target: Q1 2027)
-- [ ] finalize remaining wasm/runtime backend hardening for production profiles (Target: Q1 2027)
+- [x] re-baseline p95/p99 and throughput envelopes for base module benchmark mappings (Target: Q1 2027) — completed 2026-07-27: GATE-BASE-07..12 in benchmarks/bench_base_wasm_sandbox.cpp
+- [x] reduce proxy-like mappings through additional dedicated base microbenchmarks (Target: Q1 2027) — completed 2026-07-27: dedicated wasm/sandbox/AbiChecker/taxonomy benchmarks in bench_base_wasm_sandbox.cpp
+- [x] finalize remaining wasm/runtime backend hardening for production profiles (Target: Q1 2027) — completed 2026-07-27: wasm validation-only mode, fuel-budget, host-function allowlist tests delivered
 
 ## Implementation Phases
 
@@ -51,6 +51,7 @@ Production runtime foundations exist for secure module loading, sandboxing, depe
 ### Phase 6: Documentation and Acceptance
 - [x] core base module docs aligned to source-verifiable behavior
 - [x] roadmap/future planning separated from historical changelog entries
+- [x] future enhancement artefacts cross-referenced in FUTURE_ENHANCEMENTS.md — completed 2026-07-27
 
 ## Production Readiness Checklist
 
@@ -59,12 +60,14 @@ Production runtime foundations exist for secure module loading, sandboxing, depe
 - [x] benchmark mapping documented in performance expectations
 - [x] remaining hardening tasks closed for runtime and backend edge cases — completed 2026-07-27
 - [x] release benchmark stabilization completed for target envelopes — completed 2026-07-27: bench_base_hot_paths.cpp
+- [x] wasm/sandbox and AbiChecker dedicated benchmarks delivered — completed 2026-07-27: bench_base_wasm_sandbox.cpp
+- [x] future enhancement test coverage delivered (short-term + mid-term targets) — completed 2026-07-27: test_base_future_enhancements.cpp
 
 ## Known Issues and Limitations
 
 - behavior remains partly capability-dependent on enabled runtime backends/options.
-- selected edge scenarios still require additional hardening and diagnostics tightening.
-- benchmark baseline depth requires continued hardening for selected base targets.
+- wasm execution paths require an injected WasmRuntime for full functional coverage (validation-only mode is fully tested).
+- GATE-BASE-07..12 thresholds are benchmark labels; CI enforcement requires a benchmark-comparison step not yet wired.
 
 ## Breaking Changes
 
