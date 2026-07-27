@@ -77,10 +77,11 @@ Accordingly, those points are treated as future experimental hypotheses, not est
 | E1 | `src/training/adalora_tt_bridge.cpp` | Concrete implementation of export/import, store/load, similarity lookup path, rank-rounding fallback, and callback bridges |
 | E2 | `include/training/adalora_tt_bridge.h` | Public bridge API and intended semantics for Phase-3/4 integration hooks |
 | E3 | `tests/test_adalora_tt_bridge.cpp` | Verified behavior for `mapAdapter()` fallback/delegation (ALTB-P3-01..P3-03) and `roundAndReallocate()` callback routing (ALTB-P4-01..P4-03); thread-safety under concurrent `storeAdapter()` and `findSimilarAdapters()` calls (ALTB-DR-01..DR-02, data-race regression batch) |
-| E4 | `include/storage/ggml_tensor_bridge.h` + `src/storage/ggml_tensor_bridge.cpp` | GGML bridge is compile-gated and still contains simulation/fallback behavior unless real alloc/registration callbacks are wired |
+| E4 | `include/storage/ggml_tensor_bridge.h` + `src/storage/ggml_tensor_bridge.cpp` + `tests/tensor/test_tensor_phase3.cpp` | GGML bridge is compile-gated (`THEMIS_ENABLE_GGML_BRIDGE`). Injection APIs for all three former stubs are resolved: `GgmlAllocFn` (STUB #263a), `PrefetchFn` (STUB #263b), and `TypeRegistrationFn` (STUB #263c) — all resolved 2026-05-11. Test coverage: GTB-01..GTB-09 in `tests/tensor/test_tensor_phase3.cpp`. The fallback when no fn is injected (nullptr / no-op / placeholder id 9999) is now intentional design, not an unresolved stub. Remaining external gap: upstream ggml type patch for `GGML_TYPE_TT` and llama.cpp `llama_kv_cache_inject()` API (both external to ThemisDB). |
 | E5 | `src/training/ROADMAP.md` | Bridge roadmap tracks phases and identifies broader integration as planned work |
 | E6 | `src/STUB_INVENTORY.md` | Historical stub context and current callback-based bridge status for AdaLoRA TT and GGML bridge paths |
 | E7 | `README.md` | Canonical system positioning and terminology: multi-model architecture, AQL query layer, ACID transaction capabilities |
+| E8 | `include/storage/tt_quantizer.h` + `src/storage/tt_quantizer.cpp` | `TTQuantizer` provides post-decomposition INT8 and NF4 quantisation of TT-cores, integrated as a private member of `TensorNetworkStorageEngine`. Directly relevant to any future storage reduction claims: quantised TT-trains reduce per-adapter storage footprint before durability benchmarks are run |
 
 ### Claim boundaries
 
@@ -88,7 +89,8 @@ Accordingly, those points are treated as future experimental hypotheses, not est
 
 - AdaLoRA-to-TT bridge APIs are implemented and test-covered for hook behavior (E1-E3).
 - Similarity graph integration points exist in bridge code (E1) and align with fingerprint-graph capabilities (E6).
-- GGML integration is not a fully unconditional production path yet; it depends on integration callbacks/build gating (E4, E6).
+- GGML injection bridge APIs (`GgmlAllocFn`, `PrefetchFn`, `TypeRegistrationFn`) are resolved in ThemisDB; GTB-01..GTB-09 verify callback delegation (E4).
+- `TTQuantizer` (INT8/NF4) is integrated into `TensorNetworkStorageEngine`, enabling compressed TT-core storage (E8).
 
 **Deferred claims (need new experiments/artifacts):**
 
@@ -151,11 +153,11 @@ Any future quantitative claim must include:
 2. **Hook-based integration status**
    - Core map/round integration points are callback-based; full deployment behavior depends on runtime wiring.
 
-3. **GGML path maturity constraints**
-   - GGML bridge code is compile-gated and includes fallback/simulation paths; production behavior depends on real allocator/type-registration integration.
+3. **GGML path maturity — injection resolved, external dependencies remain**
+   - GGML injection APIs (`GgmlAllocFn`, `PrefetchFn`, `TypeRegistrationFn`) are fully resolved in ThemisDB (STUB #263a/b/c, 2026-05-11, GTB-01..GTB-09).  The intentional fallback behavior when no fn is injected (nullptr / no-op / type-id 9999) is by design.  Remaining external dependencies: upstream `GGML_TYPE_TT` type registration in ggml (targeted Q1 2027) and `llama_kv_cache_inject()` API in llama.cpp (not yet upstream).
 
 4. **Store/load semantics in bridge implementation**
-   - `AdaLoraTTBridge::store/loadAdapter` currently operate through bridge-managed in-memory cache semantics (`export_cache`); persistence to `TensorNetworkStorageEngine` is not exercised in this implementation path.  Durable lifecycle guarantees should be validated explicitly per deployment wiring.
+   - `AdaLoraTTBridge::store/loadAdapter` currently operate through bridge-managed in-memory cache semantics (`export_cache`); persistence to `TensorNetworkStorageEngine` is not exercised in this implementation path.  Durable lifecycle guarantees should be validated explicitly per deployment wiring.  Note: `RocksDBTensorBackend` provides the infrastructure for durable TT-core persistence through `TensorNetworkStorageEngine::put()` (annotated as resolving adalora durability in the backend Doxygen), but the bridge's `store()` method does not call through to the engine — it remains an open wiring gap in the bridge code.
 
 5. **Design-target latency estimates not benchmark-backed**
    - The `adalora_tt_bridge.h` source comment contains a design estimate of `~5–15 ms` for FLARE live adapter switching (vs. `300–2000 ms` model reload), and `findSimilarAdapters()` carries a `≤ 15 ms per call` note.  These figures appear as code comments expressing design intent; no reproducible benchmark artifact exists in this repository state to confirm or refute them.  They are treated as unverified design targets until the experiments described in §4.2 are executed.
@@ -201,17 +203,19 @@ This section records claim corrections made in this revision relative to earlier
 |---|---|---|
 | N1 | ALTB-DR-01 and ALTB-DR-02 added to E3 | These data-race regression tests are present in `tests/test_adalora_tt_bridge.cpp` but were absent from the evidence table; they verify thread-safety of `storeAdapter()` + `findSimilarAdapters()` under concurrent access |
 | N2 | `storeAdapter()` backward-compatible alias documented in §2.2 | The alias is present in the header but was omitted; tests explicitly call it |
+| N3 | E4 updated to reflect resolved GGML injection APIs (STUB #263a/#263b/#263c) + GTB-01..GTB-09 test coverage | All three injection stubs were resolved 2026-05-11; the draft's prior wording implied unresolved stubs when the injection mechanism is fully implemented and test-covered in `tests/tensor/test_tensor_phase3.cpp` |
+| N4 | E8 added: `TTQuantizer` (INT8/NF4) as new storage infrastructure evidence | New component (`include/storage/tt_quantizer.h`, `src/storage/tt_quantizer.cpp`) integrated into `TensorNetworkStorageEngine`; directly relevant to future storage reduction claims |
 
 ### 8.3 Outstanding Evidence Gaps
 
 | Gap | Required Artifact | Target |
 |---|---|---|
 | G1 | Cold/warm adapter load latency benchmark | benchmarks/training/ or benchmarks/wave*/; report p50/p95/p99 + hardware spec |
-| G2 | Cross-adapter dedup ratio benchmark (homogeneous vs. heterogeneous adapter corpus) | Needs corpus, run script, and result artifact |
+| G2 | Cross-adapter dedup ratio benchmark (homogeneous vs. heterogeneous adapter corpus) | Needs corpus, run script, and result artifact; `TTQuantizer` (E8) should be included to measure compressed storage impact |
 | G3 | Rank-pruning quality benchmark (reconstruction error, downstream task delta) | Needs baseline comparator and task dataset |
-| G4 | FLARE-style online switch end-to-end quality + latency benchmark | Requires live GGML bridge wiring (STUB #263a/#263b) |
-| G5 | `TensorNetworkStorageEngine` durable persistence integration for `store()`/`loadAdapter()` | Tracked under bridge roadmap Phase 3/4 |
-| G6 | GGML_TYPE_TT upstream registration (replaces STUB #263c) | Targeted Q1 2027 per `ggml_tensor_bridge.h` |
+| G4 | FLARE-style online switch end-to-end quality + latency benchmark | ThemisDB injection APIs resolved (E4 GTB-01..GTB-09); remaining external dependency: `llama_kv_cache_inject()` API in upstream llama.cpp |
+| G5 | `TensorNetworkStorageEngine` durable persistence wiring for `store()`/`loadAdapter()` in bridge | `RocksDBTensorBackend` provides the durable backend (E4); the bridge's `store()` does not yet call `engine->put()` — open wiring gap in `adalora_tt_bridge.cpp` |
+| G6 | `GGML_TYPE_TT` upstream registration in ggml runtime | `TypeRegistrationFn` injection resolved in ThemisDB (STUB #263c, E4); remaining dependency is the upstream ggml type registration PR (external); targeted Q1 2027 per `ggml_tensor_bridge.h` |
 
 ---
 
