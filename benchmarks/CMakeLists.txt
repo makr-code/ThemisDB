@@ -2284,6 +2284,44 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_cdc_pipeline.cpp")
 endif()
 
 # ============================================================================
+# CDC Delivery Gates Benchmarks
+# DeliveryTracker, ConsumerGroupManager, InMemoryReplayController hot paths
+# CDG-01..06 / GATE-CDC-01..06
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_cdc_delivery_gates.cpp")
+    message(STATUS "Adding CDC Delivery Gates benchmarks")
+
+    add_executable(bench_cdc_delivery_gates
+        cdc/bench_cdc_delivery_gates.cpp
+    )
+
+    target_link_libraries(bench_cdc_delivery_gates PRIVATE
+        themis_core
+        ${BENCHMARK_LIBS}
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_cdc_delivery_gates PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    themis_apply_benchmark_release_flags(bench_cdc_delivery_gates)
+
+    install(TARGETS bench_cdc_delivery_gates
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  CDC Delivery Gates: trackDelivery, acknowledge, acknowledgeUpTo, createGroup/deleteGroup, fetchEventsAtLeastOnce, replayFromSequence (CDG-01..06)")
+endif()
+
+# ============================================================================
 # Temporal Queries Benchmarks
 # BiTemporalTable: insertWithValidTime, queryBiTemporal,
 # queryCurrentByValidTime, updateForValidTime, deleteForValidTime, getHistory
