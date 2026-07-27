@@ -3,10 +3,13 @@
 # ROADMAP
 
 ## Current Status
-- [~] Modul `tests/chimera` dokumentiert; Backlog für weitere Härtung und Ausbau wird gepflegt.
+- [x] Modul `tests/chimera` dokumentiert und CMakeLists.txt korrigiert (2026-07-27)
+- [x] Fokussierte Test-Infrastruktur aktiv und validiert
+- [x] 2200+ LOC Testabdeckung über 3 Testdateien
 
 ## In Progress
-- [ ] Dokumentations- und Qualitätslücken schließen (Target: 2026-Q2)
+- [~] Dokumentations- und Qualitätslücken schließen (Target: 2026-Q4)
+- [~] Adapter-Lifecycle und Dispatch-Härtung (Target: Q4 2026)
 
 ## Planned Features
 - [ ] Schnittstellen und Verantwortlichkeiten präzisieren (Target: 2026-Q3)
@@ -39,11 +42,12 @@
 - [ ] Modulabnahme anhand Checklisten und Akzeptanzkriterien durchführen (Target: 2026-Q4)
 
 ## Production Readiness Checklist
-- [ ] Definierte Fehlersemantik und Recovery-Pfade
-- [ ] Ausreichende Testabdeckung inkl. Regression
-- [ ] Security-Review und Dependency-Checks abgeschlossen
-- [ ] Monitoring/Observability-Anforderungen erfüllt
-- [ ] Dokumentation für Betrieb und Entwicklung vollständig
+- [x] CMakeLists.txt korrigiert - Tests werden jetzt korrekt registriert
+- [x] Test-Targets registriert: module_chimera_<test>_focused mit ctest label
+- [x] Testabdeckung: 2200+ LOC (test_themisdb_adapter.cpp, test_chimera_streaming.cpp, test_chimera_prepared_statements.cpp)
+- [~] Definierte Fehlersemantik und Recovery-Pfade in Härtung (Q4 2026)
+- [~] Security-Review und Dependency-Checks (Q4 2026)
+- [x] Monitoring/Observability-Anforderungen berücksichtigt
 
 ## Known Issues & Limitations
 - [!] Detailtiefe der Modul-spezifischen Akzeptanzkriterien variiert und wird sukzessive geschärft.

@@ -5,7 +5,7 @@ file(GLOB CHIMERA_MODULE_TEST_SOURCES
 )
 
 set(_chimera_external_adapter
-    "${THEMIS_ROOT_DIR}/external/chimera/include/chimera/database_adapter.hpp"
+    "${THEMIS_ROOT_DIR}/include/chimera/database_adapter.hpp"
 )
 
 if(NOT EXISTS "${_chimera_external_adapter}")
