@@ -112,7 +112,7 @@ All tracks share these reporting requirements. Track-specific additions are in S
 | Requirement | Minimum |
 |-------------|---------|
 | Independent runs per configuration | ≥ 30 |
-| Warmup iterations (Google Benchmark repetitions) | 500 (cold: 50, warm: 100, hot: 200 per MEASUREMENT_HYGIENE.md §3) |
+| Warmup iterations (Google Benchmark repetitions) | 350 (cold: 50, warm: 100, hot: 200 per MEASUREMENT_HYGIENE.md §3) |
 | Google Benchmark `--benchmark_repetitions` | 10 |
 | Summary statistics required | mean, stddev, CV(%), p50, p95, p99 |
 | Effect size | Cohen's d vs. baseline (for comparison tracks) |

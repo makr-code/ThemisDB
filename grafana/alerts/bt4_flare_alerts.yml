@@ -16,9 +16,9 @@ groups:
       # mapAdapter success rate low (complementary warning)
       - alert: MapAdapterSuccessRateDegraded
         expr: |
-          rate(bt4_map_adapter_calls_total{result="success"}[5m])
+          sum by (instance) (rate(bt4_map_adapter_calls_total{result="success"}[5m]))
           /
-          (rate(bt4_map_adapter_calls_total[5m]) > 0)
+          clamp_min(sum by (instance) (rate(bt4_map_adapter_calls_total[5m])), 1e-9)
           < 0.95
         for: 2m
         labels:

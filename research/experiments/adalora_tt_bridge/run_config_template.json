@@ -3,7 +3,7 @@
 
   "config_schema_version": "1.0",
   "track_id": "bt1",
-  "variant": "cold_load_rank8",
+  "variant": "cold_warm_load_rank4_16_64",
   "corpus_type": "synthetic",
 
   "environment": {
@@ -16,10 +16,10 @@
   },
 
   "benchmark_binary": "bench_adalora_tt_bridge_latency",
-  "benchmark_filter": "BT1.*cold",
+  "benchmark_filter": "BT1.*",
 
   "google_benchmark_options": {
-    "benchmark_repetitions": 10,
+    "benchmark_repetitions": 30,
     "benchmark_report_aggregates_only": false,
     "benchmark_out_format": "json"
   },

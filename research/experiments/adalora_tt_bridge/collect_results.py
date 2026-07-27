@@ -23,6 +23,13 @@ Exit codes:
         or writing any output artifacts.
     2  Input/argument error.
 
+Track support:
+    - bt1: fully supported.
+    - bt4: supported, but hard-gated (see below).
+    - bt2/bt3: currently unsupported in this collector because their required
+      track-specific metrics are not emitted from Google Benchmark latency
+      samples alone.
+
 BT-4 hard gate:
     Track BT-4 (FLARE runtime switching) is blocked until all three conditions
     in ADALORA_TT_BRIDGE_BENCHMARK_PROTOCOL.md §6.4 are met:
@@ -335,6 +342,16 @@ def main() -> int:
     import datetime
 
     args = parse_args()
+
+    # ── Track support guard ───────────────────────────────────────────────────
+    if args.track in {"bt2", "bt3"}:
+        print(
+            "ERROR: collect_results.py currently supports only bt1 and bt4.\n"
+            f"Track '{args.track}' requires track-specific counters/metrics "
+            "that are not derivable from latency samples alone.",
+            file=sys.stderr,
+        )
+        return 2
 
     # ── Hard BT-4 gate ───────────────────────────────────────────────────────
     # Exit before loading any input files or writing any output so that no

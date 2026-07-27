@@ -23,6 +23,7 @@ adalora_tt_bridge/
 
 ```bash
 # 1. Capture environment
+mkdir -p results
 python3 -c "
 import json, subprocess, sys
 env = {
@@ -44,7 +45,7 @@ cmake --build --preset linux-release --parallel 8 \
 
 # 3. Run
 ./build-linux-release/benchmarks/bench_adalora_tt_bridge_latency \
-  --benchmark_repetitions=10 \
+  --benchmark_repetitions=30 \
   --benchmark_out=results/bt1_raw.json \
   --benchmark_out_format=json
 
@@ -63,6 +64,9 @@ python3 collect_results.py \
 
 See `research/ADALORA_TT_BRIDGE_BENCHMARK_PROTOCOL.md` for the full protocol,
 including experiment matrix, validity requirements, and reporting contract.
+
+`collect_results.py` currently supports `bt1` and `bt4` collection flows only.
+`bt2`/`bt3` require track-specific counters not derivable from latency samples alone.
 
 ## Status
 
