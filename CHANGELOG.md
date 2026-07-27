@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] — 2026-07-27 — Next-Phase Tracks 0–6 Governance + Research Traceability
 
+### AQL v2.0.0 Geospatial Parser Wiring — Phase 1 Complete (Batch C, 2026-07-27)
+
+- `tests/aql/test_aql_st_predicates.cpp`: rewritten with 26 production tests across 4 suites
+  (`AQLGeoParserFilterTest` × 7, `AQLGeoParserContextTest` × 3, `AQLGeoFilterEvalTest` × 13,
+  `AQLGeoFilterParseEvalTest` × 3); covers FILTER/SORT/RETURN + parse-then-eval end-to-end.
+- **Key finding**: ST_* functions (`ST_Distance`, `ST_Within`, `ST_Contains`, `ST_Intersects`,
+  `ST_DWithin`, `ST_GeomFromGeoJSON`, `ST_AsGeoJSON`) already evaluate in FILTER/SORT/RETURN
+  contexts via `qe_evalFunction` in `query_engine.cpp` — no parser changes required.
+- `src/query/AQL_GEOSPATIAL_ROADMAP.md`: Phase 1 status updated to `[x]` COMPLETE; Phase 2
+  (optimizer spatial index hints) and Phase 3 (performance gate ≤ 50 ms / 100K points) remain open.
+- `src/query/ROADMAP.md`: Geospatial entry updated from `[~]` to `[x]` Phase 1 complete.
+- `src/query/AQL_V2_0_0_COMPLETE_ROADMAP.md`: overall status updated to "In Progress (2026-07-27)";
+  Phase 1 completion evidence block added.
+
 ### AQL v2.0.0 Roadmap Artifacts — Batch E (2026-07-27)
 
 - Created `src/query/AQL_DDL_ROADMAP.md`: DDL Phases 1–4 documented as complete (delivered 2026-07-22);

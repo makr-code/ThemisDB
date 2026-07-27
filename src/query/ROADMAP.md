@@ -55,7 +55,7 @@ Production-ready multi-model query stack with parser, optimizer, execution, fede
 - [~] **AQL v2.0.0 Remaining Work** — Geospatial + FTS wiring (Target: Q3–Q4 2026)
   - Full language roadmap: [AQL_V2_0_0_COMPLETE_ROADMAP.md](./AQL_V2_0_0_COMPLETE_ROADMAP.md)
   - [x] DDL (CREATE/DROP COLLECTION/INDEX/VIEW) — parser + executor + 32 tests delivered 2026-07-22
-  - [~] Geospatial parser wiring (ST_* functions exist in let_evaluator, need FILTER/SORT/RETURN context) (Target: Q3 2026)
+  - [x] Geospatial parser Phase 1 COMPLETE 2026-07-27: ST_* already work in FILTER/SORT/RETURN via qe_evalFunction; 26 tests in test_aql_st_predicates.cpp; Phase 2 (optimizer hints) next (Target: Q3 2026)
   - [ ] FTS query enhancement (phrase/proximity queries; ≤100ms on 100K documents) (Target: Q3–Q4 2026)
   - [ ] Cross-feature integration tests (1000+ tests, zero v1.x regressions) (Target: Q4 2026)
 

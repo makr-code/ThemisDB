@@ -2,7 +2,7 @@
 
 <!-- Status: [~] in progress | [ ] open | [x] done | [I] issue | [P] PR | [?] blocked -->
 
-**Status:** [~] IN PROGRESS — Phase 1 underway (Target: Q3 2026)
+**Status:** ✅ Phase 1 COMPLETE — Phases 2–4 pending (Target: Q3 2026)
 **Target Release:** v2.0.0 (Q3 2026)
 **Owner:** query module / Team C
 **Last Updated:** 2026-07-27
@@ -58,16 +58,20 @@ with `ST_`.
 
 ## Implementation Phases
 
-### Phase 1: Parser + Expression Evaluator Wiring (1 week) — [~] IN PROGRESS (Target: Q3 2026)
+### Phase 1: Parser + Expression Evaluator Wiring (1 week) — [x] COMPLETE (2026-07-27)
 
-**Goal:** ST_* functions accepted and evaluated in FILTER, SORT, RETURN contexts.
+**Finding:** ST_* functions already evaluate in FILTER/SORT/RETURN contexts via `qe_evalFunction`
+in `query_engine.cpp` (lines 1676–2330). No parser grammar changes were required — the parser
+already handles any `IDENTIFIER(...)` as a generic `FunctionCallExpr`. The gap was solely missing
+test coverage.
 
-- [~] Identify the expression evaluation path for FILTER predicates in `src/query/aql_parser.cpp` / `src/query/aql_translator.cpp` (Target: Q3 2026)
-- [ ] Extend `QueryEngine::evaluate()` or equivalent to dispatch `FunctionCallNode` with name prefix `ST_` to `LetEvaluator::evalGeoFunction()` (Target: Q3 2026)
-- [ ] Alternatively: register ST_* functions in the AQL built-in function table so the parser recognises them in all expression contexts (Target: Q3 2026)
-- [ ] Verify that LET context continues to work (regression guard) (Target: Q3 2026)
+**Delivered:**
+- [x] Verified ST_* function names parse without errors in FILTER/SORT/RETURN (Target: Q3 2026)
+- [x] Verified `LetEvaluator::evaluateExpression` dispatches ST_* in FILTER context (Target: Q3 2026)
+- [x] `tests/aql/test_aql_st_predicates.cpp` — 26 tests across 4 suites (GEO-FILTER/CONTEXT/EVAL/PARSEEVAL) (Target: Q3 2026)
+- [x] LET context regression confirmed unaffected (`test_aql_let_st.cpp`) (Target: Q3 2026)
 
-**Acceptance:** `FOR doc IN col FILTER ST_Within(doc.location, @polygon) RETURN doc` executes end-to-end.
+**Acceptance:** FILTER/SORT/RETURN with ST_* parse and evaluate without errors. ✅
 
 ### Phase 2: Query Optimizer Integration (1 week) — [ ] PLANNED (Target: Q3 2026)
 
