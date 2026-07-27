@@ -35,6 +35,7 @@
 #pragma once
 
 #include <chrono>
+#include <cstddef>
 #include <string>
 
 namespace themis {

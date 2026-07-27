@@ -152,18 +152,24 @@ BENCHMARK_REGISTER_F(ConfigValidateHotPathFixture, GATE_CFG_02_ValidateCoreSchem
 class ConfigEncryptedStoreHotPathFixture : public benchmark::Fixture {
 public:
     void SetUp(const benchmark::State& /*state*/) override {
-        // Note: actual encrypted-store benchmarks depend on store initialization
-        // For release gate purposes, we document expected behavior
+        store_ = std::make_unique<ConfigEncryptedStore>();
+        // Warm up: insert the key that will be read in GATE-CFG-03
+        store_->set("bench_key", "bench_value");
     }
 
-    void TearDown(const benchmark::State& /*state*/) override {}
+    void TearDown(const benchmark::State& /*state*/) override {
+        store_.reset();
+    }
+
+protected:
+    std::unique_ptr<ConfigEncryptedStore> store_;
 };
 
 BENCHMARK_DEFINE_F(ConfigEncryptedStoreHotPathFixture, GATE_CFG_03_EncryptedStoreGet)
 (benchmark::State& state) {
-    // Placeholder: actual implementation depends on store availability
     for (auto _ : state) {
-        benchmark::DoNotOptimize(state);
+        auto result = store_->get("bench_key");
+        benchmark::DoNotOptimize(result);
     }
     state.SetLabel("target: p99 ≤ 100 µs");
 }
@@ -174,9 +180,11 @@ BENCHMARK_REGISTER_F(ConfigEncryptedStoreHotPathFixture, GATE_CFG_03_EncryptedSt
 
 BENCHMARK_DEFINE_F(ConfigEncryptedStoreHotPathFixture, GATE_CFG_04_EncryptedStorePut)
 (benchmark::State& state) {
-    // Placeholder: actual implementation depends on store availability
+    const std::string key   = "bench_key";
+    const std::string value = "bench_value";
     for (auto _ : state) {
-        benchmark::DoNotOptimize(state);
+        store_->set(key, value);
+        benchmark::DoNotOptimize(key);
     }
     state.SetLabel("target: p99 ≤ 1 ms");
 }
@@ -192,19 +200,23 @@ BENCHMARK_REGISTER_F(ConfigEncryptedStoreHotPathFixture, GATE_CFG_04_EncryptedSt
 // Verify watcher contracts are bounded
 static void BenchmarkGateCfg05WatcherPollInterval(benchmark::State& state) {
     // Validate polling interval is within bounds
-    auto poll_seconds = kFileWatcherDefaultPollInterval.count();
-    
+    auto poll_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                       kFileWatcherDefaultPollInterval).count();
+
     for (auto _ : state) {
-        benchmark::DoNotOptimize(poll_seconds);
+        benchmark::DoNotOptimize(poll_ms);
     }
-    
-    // Add assertion: poll interval must be between min and max
+
+    // Report all intervals in milliseconds for consistent tooling interpretation
     state.counters["min_ms"] = benchmark::Counter(
-        static_cast<double>(kFileWatcherMinPollInterval.count()));
+        static_cast<double>(std::chrono::duration_cast<std::chrono::milliseconds>(
+            kFileWatcherMinPollInterval).count()));
     state.counters["default_ms"] = benchmark::Counter(
-        static_cast<double>(kFileWatcherDefaultPollInterval.count()));
+        static_cast<double>(std::chrono::duration_cast<std::chrono::milliseconds>(
+            kFileWatcherDefaultPollInterval).count()));
     state.counters["max_ms"] = benchmark::Counter(
-        static_cast<double>(kFileWatcherMaxPollInterval.count()));
+        static_cast<double>(std::chrono::duration_cast<std::chrono::milliseconds>(
+            kFileWatcherMaxPollInterval).count()));
     state.SetLabel("target: poll within bounds");
 }
 

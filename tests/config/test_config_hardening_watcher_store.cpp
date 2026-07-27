@@ -19,6 +19,8 @@
 #include <gtest/gtest.h>
 #include <atomic>
 #include <chrono>
+#include <filesystem>
+#include <fstream>
 #include <thread>
 
 #include "config/config_contract.h"
@@ -29,6 +31,8 @@
 namespace themis {
 namespace config {
 namespace test {
+
+namespace fs = std::filesystem;
 
 // ============================================================================
 // CFG-17..CFG-24: File Watcher Edge Cases
@@ -58,9 +62,29 @@ TEST_F(ConfigFileWatcherHardeningTest, CFG18_ModificationDetectionLatency) {
 
 /// CFG-19: Watcher handles file deletion gracefully (signals change, no crash)
 TEST_F(ConfigFileWatcherHardeningTest, CFG19_FileDeletionHandling) {
-    // When a watched file is deleted, watcher should signal change event
-    // and not crash or hang
-    SUCCEED();
+    // Create a temp directory with a watched file
+    auto temp_dir = fs::temp_directory_path() /
+                    ("themisdb_cfg19_" + std::to_string(
+                        std::chrono::steady_clock::now().time_since_epoch().count()));
+    fs::create_directories(temp_dir);
+    auto test_file = temp_dir / "watched.yaml";
+    { std::ofstream f(test_file); f << "key: value\n"; }
+
+    std::atomic<int> callback_count{0};
+    ConfigFileWatcher watcher(temp_dir.string(), [&] { ++callback_count; });
+    EXPECT_TRUE(watcher.start()) << "Watcher should start successfully";
+    EXPECT_TRUE(watcher.isRunning()) << "Watcher should be running after start()";
+
+    // Delete the watched file — watcher should not crash
+    fs::remove(test_file);
+    // Allow time for the watcher poll cycle to observe the deletion
+    std::this_thread::sleep_for(kFileWatcherDefaultPollInterval + std::chrono::milliseconds(500));
+
+    // Watcher must still be running (not crashed by file deletion)
+    EXPECT_TRUE(watcher.isRunning()) << "Watcher should remain running after watched file is deleted";
+    watcher.stop();
+    EXPECT_FALSE(watcher.isRunning()) << "Watcher should stop cleanly";
+    fs::remove_all(temp_dir);
 }
 
 /// CFG-20: Watcher prevents busy-wait by enforcing minimum poll interval
@@ -70,8 +94,34 @@ TEST_F(ConfigFileWatcherHardeningTest, CFG20_MinimumPollInterval) {
 
 /// CFG-21: Watcher handles concurrent modifications during watch window (eventual consistency)
 TEST_F(ConfigFileWatcherHardeningTest, CFG21_ConcurrentModificationConsistency) {
-    // Watcher should eventually see the final state even with concurrent modifications
-    SUCCEED();
+    // Create a temp directory and file
+    auto temp_dir = fs::temp_directory_path() /
+                    ("themisdb_cfg21_" + std::to_string(
+                        std::chrono::steady_clock::now().time_since_epoch().count()));
+    fs::create_directories(temp_dir);
+    auto test_file = temp_dir / "concurrent.yaml";
+    { std::ofstream f(test_file); f << "version: 0\n"; }
+
+    std::atomic<int> callback_count{0};
+    ConfigFileWatcher watcher(temp_dir.string(), [&] { ++callback_count; });
+    EXPECT_TRUE(watcher.start()) << "Watcher should start";
+
+    // Concurrently modify the file multiple times
+    auto writer = std::thread([&] {
+        for (int i = 1; i <= 5; ++i) {
+            { std::ofstream f(test_file); f << "version: " << i << "\n"; }
+            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        }
+    });
+    writer.join();
+
+    // Allow the watcher to react to the final state
+    std::this_thread::sleep_for(kFileWatcherDefaultPollInterval + std::chrono::milliseconds(500));
+
+    // Watcher must have remained stable — no crash during concurrent writes
+    EXPECT_TRUE(watcher.isRunning()) << "Watcher should remain running after concurrent modifications";
+    watcher.stop();
+    fs::remove_all(temp_dir);
 }
 
 /// CFG-22: Watcher operation timeout prevents indefinite blocking (kFileWatcherOperationTimeout)
@@ -83,14 +133,54 @@ TEST_F(ConfigFileWatcherHardeningTest, CFG22_OperationTimeout) {
 
 /// CFG-23: Watcher handles permission denied errors gracefully (logs, signals error, no crash)
 TEST_F(ConfigFileWatcherHardeningTest, CFG23_PermissionDeniedHandling) {
-    // If file becomes unreadable, watcher should signal error and not crash
-    SUCCEED();
+    // Create a temp directory and start a watcher
+    auto temp_dir = fs::temp_directory_path() /
+                    ("themisdb_cfg23_" + std::to_string(
+                        std::chrono::steady_clock::now().time_since_epoch().count()));
+    fs::create_directories(temp_dir);
+    auto test_file = temp_dir / "secret.yaml";
+    { std::ofstream f(test_file); f << "secret: value\n"; }
+
+    std::atomic<int> callback_count{0};
+    ConfigFileWatcher watcher(temp_dir.string(), [&] { ++callback_count; });
+    EXPECT_TRUE(watcher.start()) << "Watcher should start";
+    EXPECT_TRUE(watcher.isRunning());
+
+#if !defined(_WIN32)
+    // On POSIX: revoke read permission on the file and observe graceful handling
+    fs::permissions(test_file, fs::perms::none);
+    std::this_thread::sleep_for(kFileWatcherDefaultPollInterval + std::chrono::milliseconds(500));
+    // Restore permissions for cleanup
+    fs::permissions(test_file, fs::perms::owner_read | fs::perms::owner_write);
+#endif
+
+    // Watcher must not have crashed due to permission error
+    EXPECT_TRUE(watcher.isRunning()) << "Watcher should remain running after permission error";
+    watcher.stop();
+    fs::remove_all(temp_dir);
 }
 
 /// CFG-24: Watcher does not block main application threads (all I/O is async or threaded)
 TEST_F(ConfigFileWatcherHardeningTest, CFG24_NonBlockingWatcher) {
-    // Watcher implementation must not use blocking I/O on app's critical path
-    SUCCEED();
+    auto temp_dir = fs::temp_directory_path() /
+                    ("themisdb_cfg24_" + std::to_string(
+                        std::chrono::steady_clock::now().time_since_epoch().count()));
+    fs::create_directories(temp_dir);
+    { std::ofstream f(temp_dir / "cfg.yaml"); f << "key: val\n"; }
+
+    // Measure how long start() takes: it must return quickly (non-blocking)
+    auto t0 = std::chrono::steady_clock::now();
+    ConfigFileWatcher watcher(temp_dir.string(), [] {});
+    bool started = watcher.start();
+    auto elapsed = std::chrono::steady_clock::now() - t0;
+
+    if (started) {
+        // start() must not block the calling thread — expect return in < 500 ms
+        EXPECT_LT(std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count(), 500)
+            << "Watcher start() should return quickly without blocking the calling thread";
+        watcher.stop();
+    }
+    fs::remove_all(temp_dir);
 }
 
 // ============================================================================

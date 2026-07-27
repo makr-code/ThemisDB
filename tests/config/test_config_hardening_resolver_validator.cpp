@@ -75,20 +75,27 @@ TEST_F(ConfigResolverHardeningTest, CFG04_PreventDirectoryTraversal) {
 
     // Resolver must either reject or resolve safely
     auto result = ConfigPathResolver::tryResolve(traversal_path);
-    // Safe behavior: either rejection or normalization
+    // Safe behavior: either rejection or normalization without unresolved ".." segments
     if (result.has_value()) {
-        EXPECT_NE(result->find(".."), std::string::npos)
-            << "If resolved, path should not contain unresolved ..";
+        EXPECT_EQ(result->find(".."), std::string::npos)
+            << "If resolved, path should not contain unresolved .. segments";
     }
 }
 
 /// CFG-05: Resolver handles paths with null bytes safely
 TEST_F(ConfigResolverHardeningTest, CFG05_NullBytesInPath) {
-    std::string path_with_null = "/config/file\0null.yaml";
+    // Construct a string with an embedded NUL byte by explicit concatenation
+    std::string path_with_null = std::string("/config/file", 12) + '\0' + std::string("null.yaml", 9);
+    ASSERT_EQ(path_with_null.size(), 22u) << "Path must contain embedded NUL byte";
 
-    // Resolver must handle safely (typically reject or truncate safely)
+    // Resolver must handle safely — it should either reject or truncate at the NUL byte
     auto result = ConfigPathResolver::tryResolve(path_with_null);
-    EXPECT_TRUE(result.has_value() || !result.has_value()) << "No crash expected";
+    // Whether it resolves or not, the result must not contain the NUL byte
+    if (result.has_value()) {
+        EXPECT_EQ(result->find('\0'), std::string::npos)
+            << "Resolved path must not propagate embedded NUL bytes";
+    }
+    // No crash or undefined behavior is the primary contract here
 }
 
 /// CFG-06: Resolver handles absolute vs. relative paths consistently
@@ -138,29 +145,29 @@ protected:
 TEST_F(ConfigValidatorHardeningTest, CFG09_RejectOversizedConfigFile) {
     // This test checks behavior with oversized input
     // In practice, this would be tested by file I/O interception
-    EXPECT_LE(kMaxConfigFileSizeBytes, 100 * 1024 * 1024) << "Size limit should be >= 100 MiB";
+    EXPECT_EQ(kMaxConfigFileSizeBytes, 100ULL * 1024 * 1024) << "Config file size limit must be exactly 100 MiB";
 }
 
 /// CFG-10: Validator rejects oversized schemas (> kMaxSchemaSizeBytes)
 TEST_F(ConfigValidatorHardeningTest, CFG10_RejectOversizedSchema) {
-    EXPECT_LE(kMaxSchemaSizeBytes, 10 * 1024 * 1024) << "Schema size limit should be >= 10 MiB";
+    EXPECT_EQ(kMaxSchemaSizeBytes, 10ULL * 1024 * 1024) << "Schema size limit must be exactly 10 MiB";
 }
 
 /// CFG-11: Validator detects and rejects circular schema references
 TEST_F(ConfigValidatorHardeningTest, CFG11_CircularSchemaReferences) {
-    // Create a schema with circular $ref
+    // Create a schema with circular $ref rooted at the document level to exercise cycle detection
     json schema = json::object();
     schema["definitions"]["A"]["$ref"] = "#/definitions/B";
     schema["definitions"]["B"]["$ref"] = "#/definitions/A";
+    schema["$ref"] = "#/definitions/A";  // root-level reference triggers traversal
 
     json config = json::object();
     config["field"] = "value";
 
-    // Validator must detect and report circular reference (not infinite loop)
-    auto result = ConfigSchemaValidator::validate(config, schema);
-    // If circular refs are detected, errors should be present
-    // If not detected, validator must at least not hang
-    SUCCEED();
+    // Validator must complete (not hang) — circular $ref cycle detection is enforced
+    auto result = ConfigSchemaValidator::validateFromString(config.dump(), false, schema);
+    // Circular refs are detected; validation completes and errors are reported
+    EXPECT_FALSE(result.errors.empty()) << "Circular $ref should produce a validation error";
 }
 
 /// CFG-12: Validator enforces maximum nesting depth (kMaxConfigNestingDepth)
@@ -178,7 +185,7 @@ TEST_F(ConfigValidatorHardeningTest, CFG12_MaxNestingDepth) {
     schema["type"] = "object";
 
     // Validator must handle without crashing
-    auto result = ConfigSchemaValidator::validate(config, schema);
+    auto result = ConfigSchemaValidator::validateFromString(config.dump(), false, schema);
     SUCCEED();
 }
 
@@ -196,7 +203,7 @@ TEST_F(ConfigValidatorHardeningTest, CFG13_MaxTopLevelKeys) {
     schema["additionalProperties"] = true;
 
     // Validator should handle without memory exhaustion
-    auto result = ConfigSchemaValidator::validate(config, schema);
+    auto result = ConfigSchemaValidator::validateFromString(config.dump(), false, schema);
     SUCCEED();
 }
 
@@ -208,9 +215,9 @@ TEST_F(ConfigValidatorHardeningTest, CFG14_MalformedJsonHandling) {
     json config = json::object();
     config["field"] = 123;
 
-    // Validator must handle gracefully
-    auto result = ConfigSchemaValidator::validate(config, malformed_schema);
-    SUCCEED();
+    // Validator must handle gracefully and report a validation error for the unknown type
+    auto result = ConfigSchemaValidator::validateFromString(config.dump(), false, malformed_schema);
+    EXPECT_FALSE(result.valid) << "Unknown schema type should produce a validation error";
 }
 
 /// CFG-15: Validator enforces maximum value size (kMaxConfigValueBytes)
@@ -224,10 +231,9 @@ TEST_F(ConfigValidatorHardeningTest, CFG15_MaxValueSize) {
     schema["properties"]["oversized_field"]["type"] = "string";
     schema["properties"]["oversized_field"]["maxLength"] = kMaxConfigValueBytes;
 
-    // Validator should flag oversized value
-    auto result = ConfigSchemaValidator::validate(config, schema);
-    // Validation should either fail or complete without crashing
-    SUCCEED();
+    // Validator should flag oversized value as a validation error
+    auto result = ConfigSchemaValidator::validateFromString(config.dump(), false, schema);
+    EXPECT_FALSE(result.valid) << "Value exceeding maxLength should fail validation";
 }
 
 /// CFG-16: Validator prevents external $ref resolution (SSRF prevention)
@@ -238,9 +244,10 @@ TEST_F(ConfigValidatorHardeningTest, CFG16_ExternalRefPrevention) {
     json schema = json::object();
     schema["$ref"] = "http://external.com/schema.json";
 
-    // Validator must reject external $ref or ignore it safely
-    auto result = ConfigSchemaValidator::validate(config, schema);
-    // Should not attempt to resolve external URL
+    // Validator must not attempt to resolve external URL (SSRF prevention)
+    // External $ref is silently ignored or produces an error — but no network access
+    auto result = ConfigSchemaValidator::validateFromString(config.dump(), false, schema);
+    // Should not hang or make a network call; complete with error or pass (external ref skipped)
     SUCCEED();
 }
 

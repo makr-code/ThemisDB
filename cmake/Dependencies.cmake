@@ -126,13 +126,11 @@ else()
                 INTERFACE_LINK_DIRECTORIES   "${RocksDB_PC_LIBRARY_DIRS}"
                 INTERFACE_COMPILE_OPTIONS   "-fPIC"
             )
-            # Add Position Independent Code flag and ensure proper linker behavior
+            # Add proper linker behavior for Linux; -fPIC is a compile option only and
+            # must not be passed as a linker flag (no-op at best, toolchain warning/error at worst).
             if(UNIX AND NOT APPLE)
-                # Linux: add -Wl,--as-needed for proper linking and -fPIC for shared object compatibility
+                # Linux: add -Wl,--as-needed for proper linking
                 list(APPEND RocksDB_PC_LDFLAGS "-Wl,--as-needed")
-            elseif(APPLE)
-                # macOS: ensure proper relocation handling
-                list(APPEND RocksDB_PC_LDFLAGS "-fPIC")
             endif()
             # Add linker flags if any
             if(RocksDB_PC_LDFLAGS)

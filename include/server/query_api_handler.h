@@ -40,8 +40,11 @@ class SemanticCache;
 class FieldEncryption;
 class KeyProvider;
 class AuthMiddleware;
-class IndexRecommender;
 class StatisticsCollector;
+
+namespace metadata {
+class IndexRecommender;
+} // namespace metadata
 
 namespace prompt_engineering {
 class PromptManager;
@@ -178,7 +181,7 @@ public:
      * The pointer is non-owning; the caller manages the lifetime.
      * Pass nullptr to disable recording.
      */
-    void setIndexRecommender(IndexRecommender* rec) noexcept {
+    void setIndexRecommender(metadata::IndexRecommender* rec) noexcept {
         index_recommender_.store(rec, std::memory_order_release);
     }
 
@@ -206,7 +209,7 @@ private:
     std::shared_ptr<::themis::AuthMiddleware> auth_;
     bool feature_llm_query_enhancement_{false};
     bool feature_llm_store_{false};
-    std::atomic<IndexRecommender*> index_recommender_{nullptr};    ///< Optional; non-owning
+    std::atomic<metadata::IndexRecommender*> index_recommender_{nullptr};    ///< Optional; non-owning
     std::atomic<StatisticsCollector*> stats_collector_{nullptr};   ///< Optional; non-owning
     std::shared_ptr<security::QueryMaskingPolicy> masking_policy_;  ///< Optional PII masking
 
