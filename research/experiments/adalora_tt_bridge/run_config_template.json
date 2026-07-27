@@ -1,0 +1,102 @@
+{
+  "_comment": "Canonical run configuration template for AdaLoRA↔TT bridge benchmarks. Copy and edit for each run. See ADALORA_TT_BRIDGE_BENCHMARK_PROTOCOL.md for full specification.",
+
+  "config_schema_version": "1.0",
+  "track_id": "bt1",
+  "variant": "cold_load_rank8",
+  "corpus_type": "synthetic",
+
+  "environment": {
+    "cmake_preset": "linux-release",
+    "compiler": "clang-17",
+    "compiler_flags": "-O3 -march=native -DNDEBUG",
+    "google_benchmark_version": ">=1.8",
+    "python_version": ">=3.10",
+    "rng_seed": 42
+  },
+
+  "benchmark_binary": "bench_adalora_tt_bridge_latency",
+  "benchmark_filter": "BT1.*cold",
+
+  "google_benchmark_options": {
+    "benchmark_repetitions": 10,
+    "benchmark_report_aggregates_only": false,
+    "benchmark_out_format": "json"
+  },
+
+  "warmup": {
+    "cold_iterations": 50,
+    "warm_iterations": 100,
+    "hot_iterations": 200
+  },
+
+  "statistical_reporting": {
+    "min_independent_runs": 30,
+    "cv_ceiling_pct": 15.0,
+    "cv_invalidation_threshold_pct": 25.0,
+    "confidence_interval_pct": 95,
+    "ci_method": "bootstrap"
+  },
+
+  "adapter_corpus": {
+    "corpus_type": "synthetic",
+    "rng_seed": 42,
+    "shapes": [
+      {"rank": 4,  "in_dim": 768, "out_dim": 768, "layers": 8},
+      {"rank": 16, "in_dim": 768, "out_dim": 768, "layers": 8},
+      {"rank": 64, "in_dim": 768, "out_dim": 768, "layers": 8}
+    ]
+  },
+
+  "bridge_config": {
+    "max_tt_rank": 64,
+    "eps_orth": 1e-4,
+    "normalise_sign": true,
+    "auto_deduplicate": false,
+    "dedup_similarity_threshold": 0.999,
+    "apply_tt_rounding": false,
+    "tt_rounding_eps": 0.01
+  },
+
+  "bt1_specific": {
+    "cache_states": ["cold", "warm"],
+    "ranks_to_test": [4, 16, 64],
+    "layers_per_adapter": 8,
+    "cold_run_cache_flush": "posix_fadvise_dontneed"
+  },
+
+  "bt2_specific": {
+    "corpus_sizes": [10, 50],
+    "corpus_domains": ["homogeneous", "heterogeneous"],
+    "dedup_threshold": 0.999,
+    "fp_check_pairs": 1000
+  },
+
+  "bt3_specific": {
+    "rank_reduction_budgets_pct": [10, 30, 50],
+    "methods": ["adalora_greedy", "tt_rounding"],
+    "budget_equivalence_tolerance_ranks": 1,
+    "tt_eps_sensitivity_values": [0.005, 0.01, 0.02],
+    "downstream_task": null,
+    "downstream_dataset_split_seed": 42
+  },
+
+  "bt4_specific": {
+    "_gate_note": "BT-4 is blocked until GGML bridge wiring (Stub #271) is resolved. Do not run without confirming gate_status = cleared.",
+    "gate_status": "blocked",
+    "modes": ["retrieve_only", "retrieve_switch", "no_retrieve", "cold_switch"],
+    "llm_decode_config": {
+      "temperature": 0.0,
+      "top_p": 1.0,
+      "seed": 42
+    },
+    "retrieval_corpus": "local_only"
+  },
+
+  "artifact_output": {
+    "raw_dir": "research/experiments/adalora_tt_bridge/results/{date}_{track_id}_{variant}_{env_hash}/raw/",
+    "summary_file": "research/experiments/adalora_tt_bridge/results/{date}_{track_id}_{variant}_{env_hash}/summary.json",
+    "env_file": "research/experiments/adalora_tt_bridge/results/{date}_{track_id}_{variant}_{env_hash}/env.json",
+    "readme_file": "research/experiments/adalora_tt_bridge/results/{date}_{track_id}_{variant}_{env_hash}/README.md"
+  }
+}
