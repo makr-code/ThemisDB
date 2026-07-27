@@ -20,14 +20,15 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 ## Research & Papers Integration (Soll-Ist Vergleich)
 
 **Soll (target state):**
-- [ ] Every roadmap status claim with scientific/algorithmic relevance is linked to canonical research sources in `research/` and/or `research/papers/` (Target: ongoing, enforced in Phase 6).
-- [ ] For each top-risk or release-critical module, maintain an explicit mapping `research source -> planned capability -> implementation evidence` via `research/implementation_influence/by_module.md` (Target: 2026-08).
-- [ ] Root roadmap updates include a recurring Soll-Ist snapshot for research-backed features (Target: every root roadmap sync).
+- [~] Every roadmap status claim with scientific/algorithmic relevance is linked to canonical research sources in `research/` and/or `research/papers/` (Target: ongoing, enforced in Phase 6).
+- [x] For each top-risk or release-critical module, maintain an explicit mapping `research source -> planned capability -> implementation evidence` via `research/implementation_influence/by_module.md` (Target: 2026-08). ✅ **Done 2026-07-27** — server, llm, sharding sections fully expanded with five-column format.
+- [~] Root roadmap updates include a recurring Soll-Ist snapshot for research-backed features (Target: every root roadmap sync).
 
 **Ist (current state, 2026-07-27):**
 - [x] Research and paper inventories exist (`research/README.md`, `research/papers/README.md`) and already contain implementation status entries.
-- [~] Roadmap includes research references in selected domains (for example Tensor/LoRA sections), but the comparison is not yet maintained as a dedicated recurring root checklist across all modules.
-- [ ] A consolidated root-level Soll-Ist matrix for all research-backed roadmap claims is not yet fully established.
+- [x] Top-risk modules (`server`, `llm`, `sharding`) now have comprehensive research-source → planned-capability → implementation-evidence mappings in `research/implementation_influence/by_module.md` (updated 2026-07-27).
+- [~] Other modules use legacy four-column format; will be expanded on next per-module roadmap sync.
+- [ ] A consolidated root-level Soll-Ist matrix for all research-backed roadmap claims is not yet fully established (Target: Q3 2026).
 
 ## Release Hardening Program (current canonical version: v2.4.0-rc1)
 
@@ -190,26 +191,23 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 
 **Status:** 🟡 ACTIVE (Scope-Freeze baseline confirmed 2026-07-20; Batch A done; Batch B done; Batch C closed — sanitizer/pentest evidence delivered; Batch D in progress — final human governance sign-off pending at `docs/governance/GA_PROMOTION_SIGN_OFF.md`)  
 **Implementation Plans:** [NEXT_PHASE_IMPLEMENTATION_PLAN.md](NEXT_PHASE_IMPLEMENTATION_PLAN.md), [ai_working/PHASE3_OPTIMIZATION_DETAILED_PLAN.md](ai_working/PHASE3_OPTIMIZATION_DETAILED_PLAN.md), [ai_working/PHASE5_HARDENING_DETAILED_PLAN.md](ai_working/PHASE5_HARDENING_DETAILED_PLAN.md), [ai_working/NEXT_PHASE_30_60_90_BACKLOG.md](ai_working/NEXT_PHASE_30_60_90_BACKLOG.md)
-**Kickoff Runner:** `/home/runner/work/ThemisDB/ThemisDB/scripts/next_phase_kickoff.py` (Wave-7 hard-gate + baseline go/no-go report)
+**Kickoff Runner:** `scripts/next_phase_kickoff.py` (Wave-7 hard-gate + baseline go/no-go report)
 
-### Parallel Work Streams (4-6 weeks)
+### Parallel Work Streams — v2.4.0-rc1 GA Closure (historical)
 
 | Phase | Component | Timeline | Effort | Teams | Target Tests | Status |
 |-------|-----------|----------|--------|-------|-------------|--------|
-| **Phase 3** | Graph: Query optimization, cache efficiency, resource pooling | 6 weeks | 10 weeks | A+B (4 eng) | 130 new | 🟡 Active (Block B complete, Block A complete) |
+| **Phase 3** | Graph: Query optimization, cache efficiency, resource pooling | 6 weeks | 10 weeks | A+B (4 eng) | 130 new | ✅ Complete (Block A + Block B done) |
 | **Phase 5-S** | Server: Wire-protocol retry + HTTP timeout patterns | 3 weeks | 4 weeks | C (2 eng) | 39 new | ✅ Complete (Block C) |
 | **Phase 5-L** | LLM: Exception safety + memory leak fixes | 3 weeks | 6 weeks | D (2 eng) | 51 new | ✅ Complete (Block D) |
-| **Phase 6** | Sharding: 2PC/3PC consistency + fault injection | 3 weeks | 6 weeks | E+F (4 eng) | 60+ new | ✅ Complete (P6-01/TXC-01..TXC-32 + P6-02/FLR-01..FLR-20 + P6-03/FI-01..FI-40, 2026-07-22) |
-| **AQL Phase 2** | DDL implementation (parser + executor) | 4-6 weeks | 6 weeks | G (2 eng) | 32 new | 🟡 Active (DDL parser + executor + 32 tests delivered 2026-07-22; geospatial/FTS queued) |
-| **Wave 8** | Soak + endurance + degradation fault injection | Parallel | 8 weeks | F (2 eng) | 40+ scenarios | 🟡 Active (gate-integrated) |
+| **Phase 6** | Sharding: 2PC/3PC consistency + fault injection | 3 weeks | 6 weeks | E+F (4 eng) | 60+ new | ✅ Complete (P6-01..P6-03, 2026-07-22) |
+| **AQL Phase 2** | DDL implementation (parser + executor) | 4-6 weeks | 6 weeks | G (2 eng) | 32 new | ✅ DDL done 2026-07-22; Geospatial [~] in progress; FTS [ ] queued |
+| **Wave 8** | Soak + endurance + degradation fault injection | Parallel | 8 weeks | F (2 eng) | 40+ scenarios | ✅ Gate-integrated (gate-integrated in `release_critical`) |
 
-**Total New Tests:** 352+ (Phase 3: 130, Phase 5: 90, Phase 6: 60+, AQL: 32, Wave 8: 40+)  
-**Total Team Effort:** ~38 weeks across 8 teams (~15 engineers)  
-**Release Target (historical execution label):** originally planned as `v1.9.0-beta` → `v2.0.0`; current canonical repository version is `v2.4.0-rc1` (`VERSION`, `CHANGELOG.md`).
+**Total New Tests (historical):** 352+ (Phase 3: 130, Phase 5: 90, Phase 6: 60+, AQL DDL: 32, Wave 8: 40+)
 
-### Scope-Freeze & Remaining Work (2026-07-20)
+### Scope-Freeze Done Baseline (fixed, not re-opened)
 
-**Done baseline (fixed, not re-opened):**
 - [x] Graph Phase 2.4 complete (326 tests, CRITICAL-gap closure baseline)
 - [x] Wave 5 hardening complete
 - [x] Wave 6 hardening complete
@@ -217,17 +215,69 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 - [x] Block C complete (P5-S01/P5-S02, server hardening)
 - [x] Block B complete (P3-03/P3-04, resource/scheduling hardening)
 - [x] Block A complete (P3-01/P3-02, optimizer + cache hardening, 2026-07-20)
-- [x] **Done-evidence sync:** Server P5-S01/P5-S02 + LLM P5-L01/P5-L02 consolidated in module roadmaps and plan trackers
-- [x] **Regression evidence retained:** Wave 5/6 completion and Wave 7 PASS baseline linked into GA hardening context
-- [~] **Build reproducibility blocker tracking active:** `linux-release` (missing Ninja + `vcpkg` toolchain), `community-release` (missing RocksDB)
-- [x] **Gate model operationalized:** `release_critical` on `develop` treated as mandatory entry gate in root governance docs
+- [x] Done-evidence sync: Server P5-S01/P5-S02 + LLM P5-L01/P5-L02 consolidated in module roadmaps
+- [x] Regression evidence retained: Wave 5/6 completion and Wave 7 PASS baseline linked into GA hardening context
+- [~] Build reproducibility blocker tracking active: `linux-release` (missing Ninja + `vcpkg` toolchain), `community-release` (missing RocksDB)
+- [x] Gate model operationalized: `release_critical` on `develop` treated as mandatory entry gate
 
-**Open implementation scope (binding sequence):**
-- [x] Block A first: P3-01/P3-02 (optimizer + cache, 2026-07-20)
-- [x] Block D second: P5-L01/P5-L02 (LLM hardening, 2026-07-20)
-- [x] Block E third: P6-01/P6-02/P6-03 (sharding + fault injection, 2026-07-22)
-- [ ] AQL Phase 2 in parallel lane (DDL first, Geospatial/FTS sequenced)
-- [ ] Wave 8 as mandatory robustness evidence for Block E/release readiness
+### Post-v2.4.0-rc1 Next-Phase Tracks (2026-07-27 — active)
+
+> Full plan: `ai_working/NEXT_PHASE_30_60_90_BACKLOG.md`. Tracks below are the canonical execution order.
+
+**Track 0 — GA Promotion Gate** (🔴 Prerequisite — human action)
+- [~] All 9 technical gates PASS; Gate D-9 (human governance sign-off `docs/governance/GA_PROMOTION_SIGN_OFF.md §9`) is the only remaining blocker
+- [ ] Gate D-8 final: confirm CHANGELOG `[Unreleased]` → `[2.4.0]` and VERSIONING updated (Target: on sign-off)
+- [ ] `develop → community` merge and GA tag creation (Target: on human approval)
+- [~] Build-reproducibility blockers tracked as DEF-01 (confirmed deferred, not blocking GA)
+
+**Track 1 — AQL 2.0.0 Completion** (🟡 P1, Q3–Q4 2026)
+- [x] AQL Mutations Phases 1–5 complete (2026-07-15); DDL delivered (2026-07-22)
+- [~] Geospatial parser wiring: ST_* functions need FILTER/SORT/RETURN context wiring (Target: Q3 2026)
+- [ ] FTS query enhancement: phrase/proximity queries; ≤100ms on 100K documents (Target: Q3–Q4 2026)
+- [ ] Cross-feature integration tests: 1000+ tests, zero v1.x regressions (Target: Q4 2026)
+- Gate model: 6 go/no-go gates in `src/query/AQL_V2_0_0_COMPLETE_ROADMAP.md`
+
+**Track 2 — Distributed Systems Maturity** (🟡 P2, Q3–Q4 2026 — Phase 3 of long roadmap)
+- [ ] Replication 3.1: geographic replica placement policies + async cross-region WAL shipping (Target: Q3 2026)
+- [ ] Sharding 3.2: automatic rebalancing + cross-datacenter latency-aware routing + global secondary indexes (Target: Q3–Q4 2026)
+- [ ] Graph 3.3: cross-shard graph query execution + distributed Betweenness Centrality (Target: Q4 2026)
+- [ ] Storage 3.4: tiered hot/warm/cold with automatic data migration + cloud-native S3/GCS/Azure hardening (Target: Q4 2026)
+- [ ] Network 3.5: HTTP/3 QUIC production enablement + zero-copy socket I/O (Target: Q4 2026)
+- Gate: deterministic under-load benchmark + `release_critical` CI green on `develop`
+
+**Track 3 — Observability & Operational Excellence** (🟡 P3, Q4 2026 — Phase 4)
+- [ ] End-to-end distributed trace correlation across all 58 modules (Target: Q4 2026)
+- [ ] Anomaly-driven alerting with root-cause analysis hints + continuous profiling (eBPF/perf) (Target: Q4 2026)
+- [ ] ML-based retention policy recommendations + cost-aware task prioritisation (Target: Q4 2026)
+- [ ] Per-query retrieval guardrails for federated cost/pruning with SLO-validated benchmarks (Target: Q4 2026)
+- [ ] Automated legacy config migration with dry-run mode (Issue #1661, Target: Q4 2026)
+- [ ] Production observability dashboards for ANN/Tensor/Graph/Final-Layer handoff quality (Target: Q4 2026)
+- Gate: SLO dashboards delivered + Wave 9 gate retention
+
+**Track 4 — Security Hardening & Compliance** (🔵 P4, Q1 2027 — Phase 5, prerequisite: GA tag)
+- [ ] Zero-trust continuous verification framework (Issue #1541, Target: Q1 2027)
+- [ ] Fine-grained ABAC with OPA policy expressions (Issue #1538, Target: Q1 2027)
+- [ ] Certificate-based mTLS authentication (Issue #2370, Target: Q1 2027)
+- [ ] SAML 2.0 SP/IdP-initiated SSO completion (Target: Q1 2027)
+- [ ] OPA integration + CCPA/CPRA automated data-subject rights fulfilment (Target: Q1 2027)
+- [ ] Automated SOC 2 Type II evidence collection (Target: Q1 2027)
+- [ ] Plugin/driver interaction security hardening (Issue #1394) + shader integrity (Target: Q1 2027)
+- Gate: zero new CRITICAL findings; SOC 2 evidence complete
+
+**Track 5 — Gap Scanner Phase 6 + Research Traceability** (🟡 P5, Q3–Q4 2026)
+- [x] Top-risk module research traceability: `research/implementation_influence/by_module.md` enhanced for server, llm, sharding with five-column implementation evidence (2026-07-27)
+- [ ] Deploy 5 Phase 6 gap scanners (+6,000–10,000 gaps projected) (Target: Q3–Q4 2026)
+- [ ] Phase 1–4 scanner enhancements: 12 new patterns (C-1 race, M-1 UAF, M-2 double-free, S-1 secrets, S-2 crypto, S-3 injection) (Target: Q3 2026)
+- [ ] Establish recurring root Soll-Ist snapshot for research-backed claims (Target: every root sync)
+- Gate: scanner deployment CI + `by_module.md` completeness for all top-risk modules
+
+**Track 6 — Auth Mid-Term + Wave C Stubs** (🔵 P6, Q4 2026–Q1 2027)
+- [ ] Auth: fail-closed for optional-provider-degraded scenarios + deterministic protocol regression suite (Target: Q4 2026)
+- [ ] Auth: re-baseline p95/p99 on representative production profiles + multi-realm trust-state hardening (Target: Q1 2027)
+- [ ] liboqs SPHINCS+ production implementation (conditioned on liboqs ≥ 0.10.0 in vcpkg) (Target: Q4 2026)
+- [ ] Windows analytics stubs: SIMD port to `<intrin.h>` + Windows CI job (Target: Q4 2026)
+- [ ] OpenGL compute shader 5 remaining kernels (`THEMIS_ENABLE_OPENGL` gate) (Target: Q1 2027)
+- Gate: module ROADMAP `[x]` per item + no new CRITICAL findings
 
 ### Gate-Oriented Execution Rules (Binding)
 
@@ -235,30 +285,6 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 - [ ] Acceptance criteria for open blocks are sourced from this roadmap + `FUTURE_ENHANCEMENTS.md` six-phase execution model
 - [ ] Any failed gate or unresolved risk is returned to backlog/governance before promotion
 - [ ] Promotion path remains evidence-driven and must stay aligned with the canonical `VERSION` / `RELEASE_TYPE` state before any release cut
-
-### Decision Tree: Phase Prioritization
-
-```
-Current Date: 2026-07-18
-Team Capacity: Assume 8 teams available (15 engineers)
-
-ARE WAVE 7 GATES CONFIRMED PASS?
-├─ YES  → Start Phase 3 + Phase 5 in parallel (PRIMARY PATH)
-│         Phase 3: Graph optimization (production readiness)
-│         Phase 5: Server + LLM hardening (fault tolerance)
-│
-└─ NO   → BLOCKER: Re-run Wave 7 until all 6 gates pass
-          Cannot advance without baseline confirmation
-
-DO YOU HAVE >= 12 ENGINEERS AVAILABLE?
-├─ YES  → Full parallel execution: Phase 3, Phase 5-S, Phase 5-L (weeks 1-3)
-│         Then stagger: Phase 6 (week 4+), AQL Phase 2 (parallel)
-│
-└─ NO   → Stagger by priority: Phase 3 weeks 1-2, Phase 5 weeks 2-4
-          (Server criticality may warrant Phase 5-S acceleration)
-```
-
----
 
 
 

@@ -1,7 +1,10 @@
 # Implementation Influence — By Module
 
 This file groups all research influences by ThemisDB module (`src/<module>`).  
-*Generated from the master matrix in [README.md](README.md).*
+*Generated from the master matrix in [README.md](README.md).*  
+*Last enhanced: 2026-07-27 — top-risk modules (server, llm, sharding) expanded with full research-source → planned-capability → implementation-evidence mapping per Phase 6 governance rule.*
+
+> **Top-risk modules** (`server`, `llm`, `sharding`) contain expanded tables with five columns: Category, Source, Planned Capability, Implementation Evidence, Version, Status. All other modules use the legacy four-column format until their next roadmap sync.
 
 ---
 
@@ -135,17 +138,26 @@ This file groups all research influences by ThemisDB module (`src/<module>`).
 
 ## src/llm/
 
-| Category | Source | Version | Status |
-|----------|--------|---------|--------|
-| Paper | Vaswani et al. (2017) — Attention Is All You Need | v1.3.0+ | ✅ Implemented |
-| Paper | Hu et al. (2022) — LoRA | v1.3.0+ | ✅ Implemented |
-| Paper | Dettmers et al. (2023) — QLoRA | v1.3.0+ | ✅ Implemented |
-| Paper | Es et al. (2023) — RAGAS | v1.3.0+ | ✅ Implemented |
-| Paper | Dao et al. (2022) — FlashAttention (CUDA kernels) | v1.4.0-alpha+ | ✅ Implemented |
-| Paper | Chen et al. (2023) — Speculative Decoding | v1.4.0-alpha+ | ✅ Implemented |
-| Paper | Kwon et al. (2023) — PagedAttention | v1.4.0-alpha+ | ✅ Implemented |
-| Paper | Busch et al. (2023) — ProcessGPT | planned Q2 2026 | ⏳ Planned |
-| Paper | Beurer-Kellner et al. (2023) — LMQL | planned v2.x | ⏳ Planned |
+> **Top-risk module** (3,664 gaps, 1,245 CRITICAL — rescan baseline 2026-05-27). GA hardening Phase 1-6 complete 2026-07-27.  
+> Mapping scope: research source → planned capability → implementation evidence.
+
+| Category | Source | Planned Capability | Implementation Evidence | Version | Status |
+|----------|--------|--------------------|------------------------|---------|--------|
+| Paper | Vaswani et al. (2017) — Attention Is All You Need | Transformer inference backbone; context-window budget enforcement | `include/llm/`, `src/llm/`; `ContextWindowBudgetManager`; 190 files with Doxygen coverage | v1.3.0+ | ✅ Implemented |
+| Paper | Hu et al. (2022) — LoRA | Low-rank adapter training and hot-swap serving | `include/training/incremental_lora_trainer.h`; `src/training/`; `exportGradient()` / `applyGlobalDelta()`; ILT-EG-01..03 tests | v1.3.0+ | ✅ Implemented |
+| Paper | Dettmers et al. (2023) — QLoRA | 4-bit quantized fine-tuning; reduced GPU memory footprint | `include/training/`, `src/training/`; quantisation paths in LoRA pipeline | v1.3.0+ | ✅ Implemented |
+| Paper | Es et al. (2023) — RAGAS | RAG quality evaluation (faithfulness, context relevance, answer relevance) | `include/rag/`; `tests/rag/test_rag_quality.cpp`; WISQ-01..05 in `test_wiki_rag_quality.cpp` | v1.3.0+ | ✅ Implemented |
+| Paper | Dao et al. (2022) — FlashAttention (CUDA kernels) | Memory-efficient attention for long-context inference | CUDA kernel paths in `src/llm/`; acceleration integration | v1.4.0-alpha+ | ✅ Implemented |
+| Paper | Chen et al. (2023) — Speculative Decoding | Draft-model assisted token generation; latency reduction | `src/llm/` speculative paths; LLM plugin manager hot-plug | v1.4.0-alpha+ | ✅ Implemented |
+| Paper | Kwon et al. (2023) — PagedAttention (vLLM) | KV-cache paging; high-throughput concurrent request serving | `include/llm/`; `src/llm/`; cache management in plugin manager | v1.4.0-alpha+ | ✅ Implemented |
+| Paper | Sheng et al. (2023) — S-LoRA: Concurrent LoRA Adapter Serving | Multi-LoRA concurrent serving; per-request adapter selection | `include/llm/`; `src/llm/llm_plugin_manager.cpp`; adapter routing | v2.1.0+ | 🔄 In Progress |
+| Paper | Wang et al. (2024) — Speculative RAG | Speculation-driven retrieval augmentation; draft retrieval before full generation | `include/rag/`; RAG pipeline speculative paths | Q1 2027 | ⏳ Planned |
+| Paper | Busch et al. (2023) — ProcessGPT | Process-aware LLM; database-native process reasoning | `include/process/process_agentic_rag.h`; `src/process/` | Q2 2026+ | 🔄 In Progress |
+| Paper | Beurer-Kellner et al. (2023) — LMQL | Constrained LLM decoding; type-safe prompt programming | `include/llm/`; future constrained-decoding integration | v2.x | ⏳ Planned |
+| **GA Hardening** | Phase 5-L Delivery (2026-07-20) | Exception safety, RAII lifecycle, memory-leak closure, race-condition fixes | P5-L01 (`tests/llm/`): 51 focused tests; P5-L02 exception-safe paths; `src/llm/ROADMAP.md` Phase 5-L block | v2.4.0-rc1 | ✅ GA-complete |
+| **GA Hardening** | WikiIndexStore Phase B (2026-07-27) | Thread-safe KNN embedding; wiki-chunk secondary index; LLM-backed RAG source | `include/llm/wiki_index_store.h`; `src/llm/wiki_index_store.cpp`; WIS-B-01..16 tests | v2.4.0-rc1 | ✅ GA-complete |
+| **GA Hardening** | LLM Module Doxygen (2026-07-19) | 100% @file header coverage across 190 files; maturity metadata per file | `src/llm/ROADMAP.md` Module Evidence Summary; 90 .cpp + 100 .h files verified | v2.4.0-rc1 | ✅ GA-complete |
+| Architecture Decision | ADR-002 — RocksDB as Primary Storage Backend | Persistent embedding and model-metadata storage | `include/llm/`; RocksDB integration in LLM persistence paths | v1.0.0+ | ✅ Accepted |
 
 ---
 
@@ -232,29 +244,50 @@ This file groups all research influences by ThemisDB module (`src/<module>`).
 
 ## src/server/
 
-| Category | Source | Version | Status |
-|----------|--------|---------|--------|
-| Best Practice | Herb Sutter (GotW #24) — PIMPL Idiom | v1.9.0 | ✅ Adopted |
-| Best Practice | RFC 6585 — Token Bucket Rate Limiting | v1.6.0 | ✅ Adopted |
-| Best Practice | CNCF OpenTelemetry Spec — Span Instrumentation | v1.9.0 | ✅ Adopted |
-| Best Practice | RFC 7519 + RFC 6749 — JWT Short-Lived Tokens | v1.6.0 | ✅ Adopted |
-| Best Practice | NIST SP 800-52 Rev 2 — TLS 1.3 Cipher Hardening | v1.0.0+ | ✅ Adopted |
-| Best Practice | Karger et al. (1997) — Consistent Hash Ring | v2.1.0 | ✅ Adopted |
-| Best Practice | Boost.Asio Docs — Proactor Async I/O | v1.0.0+ | ✅ Adopted |
-| Architecture Decision | ADR-003 — Boost.Beast + Asio for HTTP Server | v1.0.0+ | ✅ Accepted |
-| Architecture Decision | ADR-007 — gRPC + Protobuf for Internal RPC | v1.0.0+ | ✅ Accepted |
-| Architecture Decision | ADR-008 — JWT + OAuth2 PKCE for API Auth | v1.6.0+ | ✅ Accepted |
+> **Top-risk module** (high gap count, release-critical serving path). GA hardening Phase 5-S complete 2026-07-20.  
+> Mapping scope: research source → planned capability → implementation evidence.
+
+| Category | Source | Planned Capability | Implementation Evidence | Version | Status |
+|----------|--------|--------------------|------------------------|---------|--------|
+| Best Practice | Herb Sutter (GotW #24) — PIMPL Idiom | Stable ABI for plugin/adapter boundaries; reduce recompilation | `include/server/http_server.h`; PIMPL in core server types | v1.9.0 | ✅ Adopted |
+| Best Practice | RFC 6585 — Token Bucket Rate Limiting | Per-client request throttling; DoS protection on public endpoints | `include/server/`; rate-limiter in HTTP handler pipeline | v1.6.0 | ✅ Adopted |
+| Best Practice | CNCF OpenTelemetry Spec — Span Instrumentation | End-to-end distributed trace per request; latency breakdown by handler | `src/server/`; OTel span injection in request lifecycle | v1.9.0 | ✅ Adopted |
+| Best Practice | RFC 7519 + RFC 6749 — JWT Short-Lived Tokens | Stateless auth with short-lived bearer tokens; OAuth2 PKCE flow | `include/auth/`; `src/server/`; JWT middleware in request pipeline | v1.6.0 | ✅ Adopted |
+| Best Practice | NIST SP 800-52 Rev 2 — TLS 1.3 Cipher Hardening | TLS 1.3-only enforcement; AES-256-GCM / ChaCha20-Poly1305 cipher selection | `src/server/` TLS config; cipher suite enforcement | v1.0.0+ | ✅ Adopted |
+| Best Practice | Karger et al. (1997) — Consistent Hash Ring | Load-balanced request routing to shard replicas | `include/server/`; consistent-hash router in cluster dispatch | v2.1.0 | ✅ Adopted |
+| Best Practice | Boost.Asio Docs — Proactor Async I/O | Non-blocking async request handling; high connection concurrency | `src/server/`; Boost.Asio event loop in HTTP/RPC server | v1.0.0+ | ✅ Adopted |
+| Best Practice | NET RFC 7230 / HTTP/2 RFC 7540 — Graceful Shutdown | Drain in-flight requests on SIGTERM; configurable drain timeout | `include/server/http_server.h`; graceful-shutdown handler | v2.4.0-rc1 | ✅ Adopted |
+| Best Practice | Retry with Exponential Backoff (Google SRE Book §22) | Wire-protocol retry with jitter; bounded retry budget; backoff caps | `include/network/wire_protocol_connection_pool.h`; P5-S01 delivery | v2.4.0-rc1 | ✅ Adopted |
+| Architecture Decision | ADR-003 — Boost.Beast + Asio for HTTP Server | Unified async HTTP/WS server; single event-loop model | `src/server/`; Beast HTTP server core | v1.0.0+ | ✅ Accepted |
+| Architecture Decision | ADR-007 — gRPC + Protobuf for Internal RPC | Type-safe internal RPC; language-agnostic service contracts | `src/server/`; gRPC handler registration | v1.0.0+ | ✅ Accepted |
+| Architecture Decision | ADR-008 — JWT + OAuth2 PKCE for API Auth | Stateless API authentication; refresh-token rotation | `include/auth/`; `src/server/`; auth middleware wiring | v1.6.0+ | ✅ Accepted |
+| **GA Hardening** | Phase 5-S Delivery (2026-07-20) | Retry/backoff hardening; HTTP timeout patterns; graceful-shutdown fault closure | P5-S01 / P5-S02: `tests/server/`; 39 new focused tests; `src/server/ROADMAP.md` Phase 5-S block | v2.4.0-rc1 | ✅ GA-complete |
+| **Next Phase** | HTTP/3 QUIC enablement (Phase 3.5) | Zero-RTT reconnect; multiplexed streams; reduced head-of-line blocking | `include/network/`; QUIC transport integration (lsquic or quiche) | Q3 2026 | ⏳ Planned |
+| **Next Phase** | Zero-copy socket I/O (Phase 3.5) | `sendfile()`/`io_uring` for large payload transfers; reduced CPU overhead | `src/server/`; `src/network/`; io_uring backend | Q4 2026 | ⏳ Planned |
 
 ---
 
 ## src/sharding/
 
-| Category | Source | Version | Status |
-|----------|--------|---------|--------|
-| Best Practice | Karger et al. (1997) — Consistent Hash Ring | v2.1.0 | ✅ Adopted |
-| Best Practice | Austin Appleby — MurmurHash3 Sharding | v1.9.0 | ✅ Adopted |
-| Paper | Tarjan (1972) — SCC / Wait-For Graph Cycle Detection | v2.2.0 | ✅ Implemented |
-| Architecture Decision | ADR-010 — Distributed Deadlock Detection via WFG | v2.2.0 | ✅ Accepted |
+> **Top-risk module** (2,051 gaps, 696 CRITICAL — rescan baseline). GA hardening Phase 6 complete 2026-07-22.  
+> Mapping scope: research source → planned capability → implementation evidence.
+
+| Category | Source | Planned Capability | Implementation Evidence | Version | Status |
+|----------|--------|--------------------|------------------------|---------|--------|
+| Best Practice | Karger et al. (1997) — Consistent Hash Ring | Minimal-disruption partition rebalancing on node join/leave | `include/sharding/`; consistent-hash ring in shard router | v2.1.0 | ✅ Adopted |
+| Best Practice | Austin Appleby — MurmurHash3 Sharding | Uniform key distribution; low-collision shard key hashing | `include/sharding/`; MurmurHash3 key hasher | v1.9.0 | ✅ Adopted |
+| Paper | Tarjan (1972) — SCC / Wait-For Graph Cycle Detection | Distributed deadlock detection via wait-for graph SCC scan | `include/sharding/`; `src/sharding/`; WFG cycle-detection algorithm | v2.2.0 | ✅ Implemented |
+| Paper | Gray & Lamport (2006) — Consensus on Transaction Commit (2PC) | Two-phase commit for cross-shard atomic transactions | `include/sharding/transaction_wal.h`; `src/sharding/`; P6-01 TXC-01..TXC-32 | v2.4.0-rc1 | ✅ Implemented |
+| Paper | Skeen (1981) — Non-Blocking Commit Protocol (3PC) | Three-phase commit; avoids coordinator blocking on crash | `include/sharding/`; `src/sharding/`; 2PC/3PC protocol tagging in WAL | v2.4.0-rc1 | ✅ Implemented |
+| Paper | Garcia-Molina & Salem (1987) — SAGAS | Long-running distributed transactions with compensating actions | `include/sharding/`; SAGA protocol implementation; `docs/architecture/transaction_coordinators.md` | v2.4.0-rc1 | ✅ Implemented |
+| Paper | Brewer (2000) — CAP Theorem; Gilbert & Lynch (2002) — CAP Proof | Explicit CAP trade-off documentation per consistency mode; partition tolerance design | `src/sharding/ROADMAP.md`; consistency-mode configuration | v1.9.0+ | ✅ Adopted |
+| Paper | Lamport (1998) — Paxos Made Simple | Consensus leader election for shard coordinator failover | `include/replication/`; `src/replication/`; Paxos-derived leader election | v2.0.0+ | 🔄 In Progress |
+| Paper | Ongaro & Ousterhout (2014) — Raft Consensus | Replicated log; membership changes via joint-consensus | `include/replication/raft_v2.h`; `src/replication/raft_v2.cpp`; JOINT→COMMIT WAL entries | v2.4.0-rc1 | ✅ Implemented |
+| Architecture Decision | ADR-010 — Distributed Deadlock Detection via WFG | WFG-based deadlock detection as mandatory conflict resolution step | `include/sharding/`; `src/sharding/`; WFG integration tests | v2.2.0 | ✅ Accepted |
+| **GA Hardening** | Phase 6 Delivery (2026-07-22) | 2PC/3PC consistency hardening; fault-injection recovery; cross-shard WAL atomicity | P6-01/TXC-01..TXC-32 + P6-02/FLR-01..FLR-20 + P6-03/FI-01..FI-40; `tests/sharding/test_sharding_phase6_hardening.cpp`; label=`release_critical;sharding_p6` | v2.4.0-rc1 | ✅ GA-complete |
+| **Next Phase** | Automatic shard rebalancing (Phase 3.2) | Topology-change-driven partition redistribution; zero-downtime rebalance | `include/sharding/`; rebalancer module (planned) | Q3 2026 | ⏳ Planned |
+| **Next Phase** | Cross-datacenter shard placement (Phase 3.2) | Latency-aware replica placement policies; geo-affinity routing | `include/sharding/`; `include/replication/`; placement policy API | Q4 2026 | ⏳ Planned |
+| **Next Phase** | Global secondary indexes across shards (Phase 3.2) | Index entries federated across shard boundaries; consistent cross-shard index read | `include/index/`; `include/sharding/`; distributed index coordinator | Q4 2026 | ⏳ Planned |
 
 ---
 

@@ -5,7 +5,30 @@ All notable changes to ThemisDB will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased] — 2026-07-27 — Root Documentation Synchronization + Auth Source Status Reflection
+## [Unreleased] — 2026-07-27 — Next-Phase Tracks 0–6 Governance + Research Traceability
+
+### Next-Phase Governance Sync (Tracks 0–6)
+
+- `ROADMAP.md`: replaced stale NEXT PHASE section with structured Tracks 0–6 (GA promotion gate,
+  AQL 2.0.0 completion, distributed systems maturity, observability, security hardening,
+  gap scanners + research traceability, auth mid-term + Wave C stubs).
+- Track 1 AQL status corrected: Mutations Phases 1–5 and DDL marked complete; Geospatial `[~]` in
+  progress; FTS `[ ]` queued.
+- `src/query/ROADMAP.md`: AQL Mutations `[~]` entry updated to `[x]` complete with delivery date
+  2026-07-15; AQL v2.0.0 remaining work (Geo/FTS/cross-feature) now tracked explicitly.
+
+### Research Traceability Enhancement (Track 5)
+
+- `research/implementation_influence/by_module.md`: expanded `src/llm/`, `src/server/`, and
+  `src/sharding/` sections from legacy four-column format to five-column format
+  (research source → planned capability → implementation evidence → version → status).
+- Added GA Hardening delivery evidence rows for each top-risk module (Phase 5-L/5-S/6 blocks).
+- Added Next Phase planned items (HTTP/3 QUIC, zero-copy I/O, shard rebalancing, global secondary
+  indexes) with Q3/Q4 2026 targets.
+- `ROADMAP.md §Research Soll-Ist`: `by_module.md` top-risk module gate marked `[x]` complete.
+- `FUTURE_ENHANCEMENTS.md §Root Documentation Synchronization`: sync note updated.
+
+
 
 ### Root Documentation Synchronization
 

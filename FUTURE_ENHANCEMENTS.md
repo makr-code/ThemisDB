@@ -35,6 +35,7 @@
 	- `src/auth/ROADMAP.md`
 - Completed auth v1.2.0 / v1.3.0 delivery remains tracked in `src/auth/ROADMAP.md`; this file continues to track only open enhancement backlog.
 - Changelog trace entry added in `CHANGELOG.md` under `Unreleased`.
+- **2026-07-27 next-phase sync:** `research/implementation_influence/by_module.md` enhanced for top-risk modules (server, llm, sharding) with five-column research-source → planned-capability → implementation-evidence mapping. `ROADMAP.md` next-phase Tracks 0–6 structure updated. `src/query/ROADMAP.md` AQL Mutations status synced (Phases 1–5 marked complete).
 
 ---
 
