@@ -1,0 +1,182 @@
+{
+  "schema_version": "1.0",
+  "module": "cache",
+  "description": "Cache Module Release Performance Gates — hard and soft guardrails for Phase 5 release sign-off.",
+  "effective_date": "2026-07-27",
+  "owners": ["platform-perf@themisdb"],
+  "roadmap_ref": "src/cache/ROADMAP.md — Phase 5",
+  "performance_expectations_ref": "src/cache/PERFORMANCE_EXPECTATIONS.md",
+
+  "baseline_freeze": {
+    "compiler": "gcc-13",
+    "compiler_flags": "-O3 -ffast-math -DNDEBUG",
+    "preset": "community-release",
+    "hardware_profile": "ci-runner-standard",
+    "os_image": "ubuntu-22.04"
+  },
+
+  "seed": 42,
+  "warmup_iterations": 200,
+  "repetitions": 5,
+  "min_sample_size": 20,
+
+  "benchmark_sources": [
+    "benchmarks/bench_adaptive_query_cache.cpp",
+    "benchmarks/bench_embedding_cache_performance.cpp"
+  ],
+
+  "hard_gates": [
+    {
+      "id": "GATE-CAC-01",
+      "performance_expectation_id": "CAC-1",
+      "benchmark": "BM_Cache_L1_Put",
+      "metric": "latency_p99_us",
+      "threshold": 200,
+      "direction": "lower_is_better",
+      "severity": "blocking",
+      "description": "L1 cache put p99 must not exceed 200 µs.",
+      "rationale": "L1 put latency is on the critical query path; exceeding 200 µs causes SLO violations in high-throughput deployments."
+    },
+    {
+      "id": "GATE-CAC-02",
+      "performance_expectation_id": "CAC-1",
+      "benchmark": "BM_Cache_L1_Get_Hit",
+      "metric": "latency_p99_us",
+      "threshold": 100,
+      "direction": "lower_is_better",
+      "severity": "blocking",
+      "description": "L1 cache get (hit) p99 must not exceed 100 µs.",
+      "rationale": "L1 hit latency must remain sub-millisecond for cache to provide meaningful benefit."
+    },
+    {
+      "id": "GATE-CAC-03",
+      "performance_expectation_id": "CAC-3",
+      "benchmark": "BM_Cache_TenantIsolation_Put",
+      "metric": "latency_p99_us",
+      "threshold": 500,
+      "direction": "lower_is_better",
+      "severity": "blocking",
+      "description": "Tenant-isolation put p99 must not exceed 500 µs.",
+      "rationale": "Tenant isolation must not impose more than 2.5× overhead vs plain put on the critical path."
+    },
+    {
+      "id": "GATE-CAC-04",
+      "performance_expectation_id": "CAC-4",
+      "benchmark": "BM_Cache_Invalidate_Pattern",
+      "metric": "latency_p99_ms",
+      "threshold": 5,
+      "direction": "lower_is_better",
+      "severity": "blocking",
+      "description": "Pattern-based invalidation p99 must not exceed 5 ms.",
+      "rationale": "Invalidation operations must complete well before the next request cycle in high-frequency write workloads."
+    },
+    {
+      "id": "GATE-CAC-05",
+      "performance_expectation_id": "CAC-5",
+      "benchmark": "BM_Cache_Concurrent_Read",
+      "metric": "throughput_ops_per_s",
+      "threshold": 50000,
+      "direction": "higher_is_better",
+      "severity": "blocking",
+      "description": "Concurrent read throughput must sustain ≥ 50 000 ops/s at benchmark thread settings.",
+      "rationale": "Cache must scale to concurrent readers without lock contention degrading throughput below production demand."
+    },
+    {
+      "id": "GATE-CAC-06",
+      "performance_expectation_id": "CAC-7",
+      "benchmark": "BM_EmbeddingCache_Query_WithIndex",
+      "metric": "latency_p99_us",
+      "threshold": 500,
+      "direction": "lower_is_better",
+      "severity": "blocking",
+      "description": "Embedding cache query p99 must not exceed 500 µs.",
+      "rationale": "Embedding cache is on the LLM inference critical path; latency above 500 µs degrades end-to-end LLM query response times."
+    }
+  ],
+
+  "soft_gates": [
+    {
+      "id": "SGATE-CAC-01",
+      "performance_expectation_id": "CAC-2",
+      "benchmark": "BM_Cache_Get_Miss",
+      "metric": "latency_p99_us",
+      "threshold": 50,
+      "direction": "lower_is_better",
+      "severity": "warning",
+      "description": "Cache miss latency p99 should stay below 50 µs.",
+      "rationale": "High miss latency indicates hash-map contention or an oversized L1 that slows lookups."
+    },
+    {
+      "id": "SGATE-CAC-02",
+      "performance_expectation_id": "CAC-2",
+      "benchmark": "BM_Cache_Mixed_ReadWrite",
+      "metric": "throughput_ops_per_s",
+      "threshold": 30000,
+      "direction": "higher_is_better",
+      "severity": "warning",
+      "description": "Mixed read/write throughput should sustain ≥ 30 000 ops/s.",
+      "rationale": "Mixed workload is the realistic production scenario; soft gate catches lock-contention regressions early."
+    },
+    {
+      "id": "SGATE-CAC-03",
+      "performance_expectation_id": "CAC-6",
+      "benchmark": "BM_WarmupFromLog",
+      "metric": "latency_p99_ms",
+      "threshold": 500,
+      "direction": "lower_is_better",
+      "severity": "warning",
+      "description": "Warmup-from-log p99 should complete within 500 ms for a standard-sized log.",
+      "rationale": "Slow warmup delays post-restart hit-rate recovery in production deployments."
+    },
+    {
+      "id": "SGATE-CAC-04",
+      "performance_expectation_id": "CAC-8",
+      "benchmark": "BM_EmbeddingCache_BatchStore",
+      "metric": "latency_p99_ms",
+      "threshold": 10,
+      "direction": "lower_is_better",
+      "severity": "warning",
+      "description": "Embedding batch store p99 should not exceed 10 ms for a standard batch.",
+      "rationale": "Batch store latency impacts offline model inference pipelines."
+    }
+  ],
+
+  "regression_policy": {
+    "tolerance_percent": 10.0,
+    "min_regressions_for_block": 1,
+    "auto_ticket_on_hard_gate_failure": true,
+    "ci_action_on_hard_gate_failure": "block_merge",
+    "ci_action_on_soft_gate_failure": "warn_and_continue",
+    "report_output": "benchmarks/results/cache/gate_report.json",
+    "regression_tickets_output": "benchmarks/results/cache/regression_tickets.json"
+  },
+
+  "manifest_completeness": {
+    "required_benchmark_ids": [
+      "BM_Cache_L1_Put",
+      "BM_Cache_L1_Get_Hit",
+      "BM_Cache_Get_Miss",
+      "BM_Cache_Mixed_ReadWrite",
+      "BM_Cache_TenantIsolation_Put",
+      "BM_Cache_TenantIsolation_Get_Hit",
+      "BM_Cache_Invalidate_Pattern",
+      "BM_Cache_InvalidateTenant",
+      "BM_Cache_Concurrent_Read",
+      "BM_Cache_Concurrent_Mixed",
+      "BM_WarmupFromLog",
+      "BM_Cache_GetStats",
+      "BM_EmbeddingCache_Query_WithIndex",
+      "BM_EmbeddingCache_Eviction",
+      "BM_EmbeddingCache_BatchStore",
+      "BM_EmbeddingCache_CostSavings"
+    ],
+    "policy": "All listed benchmark IDs must be present in the release run output. A missing ID is treated as a blocking gate failure (GATE-CG-3 from PERFORMANCE_EXPECTATIONS.md)."
+  },
+
+  "known_limitations": [
+    "RocksDB L3 benchmarks require a local RocksDB installation; they cannot run in environments without librocksdb-dev. In such environments, L3-dependent benchmark cases are skipped and must be explicitly marked as skipped (not missing) in the release evidence.",
+    "Redis coordinator benchmarks require a reachable Redis endpoint; they are skipped in environments without Redis connectivity. Skips must be documented in the release gate report.",
+    "Benchmark results on shared CI runners may show higher variance than on pinned hardware; variance > 10% CV should trigger a re-run on dedicated hardware before blocking a release.",
+    "Embedding cache benchmarks depend on the vector index stub implementation until real ANN backends are wired; results reflect stub latency and must be re-baselined when real backends land."
+  ]
+}
