@@ -1,7 +1,7 @@
 # Auth Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-07-27 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
@@ -25,10 +25,10 @@ Production authentication runtime exists across JWT/OIDC, Kerberos, MFA, OAuth, 
 ## v1.3.0 Token Blacklist Persistence & Distributed Support (In Progress)
 
 - [x] Token blacklist persistence to RocksDB (RocksDBTokenBlacklist)
-- [~] Distributed token blacklist with cluster synchronization (DistributedTokenBlacklist)
-- [~] Atomic blacklist validation during cluster sync
-- [~] Leader election for distributed deployments
-- [~] Comprehensive test coverage for distributed scenarios
+- [x] Leader election for distributed deployments (node-ID ordering, performLeaderElection)
+- [x] Atomic blacklist validation during cluster sync (fail-closed isRevoked with RocksDB read)
+- [~] Distributed token blacklist with cluster synchronization (DistributedTokenBlacklist — RPC layer stub, core storage complete)
+- [x] Comprehensive test coverage for distributed scenarios (test_auth_distributed_blacklist.cpp, DBL-01..DBL-17)
 
 ## Planned Features
 

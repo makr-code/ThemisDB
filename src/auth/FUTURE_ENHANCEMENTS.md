@@ -1,6 +1,6 @@
 # Auth Module - Future Enhancements
 
-<!-- Status: current | validated: 2026-06-10 -->
+<!-- Status: current | validated: 2026-07-27 -->
 <!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
 
 ## Scope
@@ -35,7 +35,7 @@
 
 ### v1.2.0: Async Operations & Connection Pooling
 
-**Completed Components:**
+**Completed Components (v1.2.0 — production-ready):**
 
 1. **AsyncHTTPAuth** (`http_auth_async.h/.cpp`)
    - Non-blocking HTTP GET/POST for OAuth, OIDC, SAML discovery
@@ -58,14 +58,14 @@
 
 ### v1.3.0: Distributed Token Blacklist
 
-**In Progress Components:**
+**In Progress Components (v1.3.0 — core storage complete, RPC layer stubbed):**
 
 1. **DistributedTokenBlacklist** (`distributed_token_blacklist.h/.cpp`)
-   - RocksDB persistence layer (extends RocksDBTokenBlacklist)
-   - Background purge thread for expired entries
-   - Background replication thread for cluster sync
-   - Leader election using node ID ordering
-   - Pull-based synchronization from followers to leader
+   - [x] RocksDB persistence layer (extends RocksDBTokenBlacklist)
+   - [x] Background purge thread for expired entries
+   - [x] Background replication thread for cluster sync
+   - [x] Leader election using node ID ordering
+   - [~] Pull-based synchronization from followers to leader (RPC stub — production RPC pending)
 
 2. **Cluster Architecture**
    - Local node: persists JTI revocations to RocksDB
