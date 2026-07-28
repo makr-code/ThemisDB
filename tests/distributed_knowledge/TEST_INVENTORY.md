@@ -24,7 +24,7 @@
 | ACA-02 | AdapterDomainTypeToString | Domain type enumeration and string conversion |
 | ACA-03 | GossipPublisherAnnouncesCapability | Gossip publisher announcement dispatch with shard ID |
 | ACA-04 | MultipleAdaptersFromSameShard | Multiple adapters from single shard in sequence |
-| ACA-05 | AdapterUnavailabilityAnnouncement | Adapter unavailability status handling |
+| ACA-05 | AdapterWithdrawalAnnouncement | Adapter withdrawal announcement (is_withdrawal=true) |
 | ACA-06 | CustomDomainLabel | Custom domain label in announcements |
 | ACA-07 | AnnouncementTimestampSet | Timestamp assignment during gossip publish |
 | ACA-08 | ShardIdOverwrittenByPublisher | Publisher overwrites shard ID in announcements |

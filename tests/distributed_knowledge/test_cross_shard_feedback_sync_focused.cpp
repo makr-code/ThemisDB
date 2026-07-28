@@ -249,7 +249,7 @@ TEST_F(CrossShardFeedbackSyncTest, ZeroTrustEnforcerThrowsOnHighRisk) {
  * @test CSS-11: getStats() returns a JSON object with expected counters.
  *
  * Verifies that getStats() returns a JSON object containing at minimum
- * "published_count" and "received_count" after some operations.
+ * "published" and "received" after some operations.
  */
 TEST_F(CrossShardFeedbackSyncTest, GetStatsReturnsJsonWithCounters) {
     CrossShardFeedbackSync sync(cfg_, "shard-001", make_gossip_fn());
@@ -257,8 +257,8 @@ TEST_F(CrossShardFeedbackSyncTest, GetStatsReturnsJsonWithCounters) {
     sync.publishFeedback(makeSummary("sum-stats-2"));
 
     json stats = sync.getStats();
-    EXPECT_TRUE(stats.contains("published_count"));
-    EXPECT_EQ(stats["published_count"].get<size_t>(), 2u);
+    EXPECT_TRUE(stats.contains("published"));
+    EXPECT_EQ(stats["published"].get<size_t>(), 2u);
 }
 
 /**
