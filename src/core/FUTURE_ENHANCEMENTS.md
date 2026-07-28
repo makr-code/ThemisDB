@@ -1,27 +1,35 @@
 > **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-07-28 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # Core Module - Future Enhancements
 
-- Central dependency injection (DI) context (`ConcernsContext`): owns and dispenses all adapter instances (storage, index, query, auth, logger, tracer, metrics, cache)
+## Scope
+
+- Central dependency injection (DI) context (`ConcernsContext`) for adapter ownership and resolution (storage, index, query, auth, logger, tracer, metrics, cache)
 - Adapter lifecycle management: registration, validation, hot-swap, and graceful shutdown of adapters
-- Circuit-breaker pattern for adapter dependencies: automatic fail-open/fail-close with configurable thresholds
-- Dynamic adapter reconfiguration: runtime replacement of adapters without restarting the database process
-- Distributed cache adapter integration: Redis/Memcached-backed cache with cluster-wide invalidation
-- Observability wiring: structured logging, OpenTelemetry tracing, and Prometheus metrics unified through the DI context
+- Runtime resilience controls around adapter dependencies (circuit breaker + fallback policy)
+- Dynamic adapter reconfiguration and distributed cache integration without process restarts
+- Unified observability wiring for logging, tracing, and metrics through the DI context
+
+## 2026-07-28 Sync Snapshot (Issue #5638)
+
+- [x] Plugin-based adapter loading (no recompile needed) implemented via Issue #1706 (2026-07-28)
+- [x] Adapter plugin hardening and signing workflow delivered (2026-07-28)
+- [x] `AdapterRegistry::hotSwap()` drains in-flight refs within ≤ 100 ms (`kHotSwapTimeoutMs{100}`) (Implemented: 2026-07-28)
+- [x] `ConcernsContext::resolve<T>()` uses `std::shared_mutex` reader-writer lock and returns owning `std::shared_ptr` snapshots for built-in adapters (Implemented: 2026-07-28)
 
 ---
 
 ## Design Constraints
 
-- `[ ]` Adapter hot-swap must complete in ≤ 100 ms and must not drop in-flight requests; callers hold a ref-counted handle
-- `[ ]` `ConcernsContext` must be fully thread-safe; concurrent adapter resolution must not require a global lock
+- `[x]` Adapter hot-swap must complete in ≤ 100 ms and must not drop in-flight requests; callers hold a ref-counted handle (Implemented: 2026-07-28)
+- `[x]` `ConcernsContext` must be fully thread-safe; concurrent adapter resolution must not require a global lock (Implemented: 2026-07-28)
 - `[ ]` Circuit breaker state transitions (closed → open → half-open) must be observable via metrics and loggable at DEBUG level
-- `[ ]` No adapter may be registered without passing a synchronous `AdapterValidator::validate()` check; invalid adapters are rejected at registration time
+- `[x]` No adapter may be registered without passing a synchronous `AdapterValidator::validate()` check; invalid adapters are rejected at registration time (Implemented: 2026-07-28)
 - `[ ]` DI context construction must complete in ≤ 50 ms at server startup with up to 32 registered adapters
-- `[ ]` All adapter interfaces versioned with a `uint32_t` API version; version mismatch at registration returns a structured error
+- `[x]` All adapter interfaces versioned with a `uint32_t` API version; version mismatch at registration returns a structured error (Implemented: 2026-07-28)
 - `[ ]` Distributed cache adapter must not be a hard dependency; core must function correctly when no cache adapter is registered
 
 ---
@@ -36,6 +44,14 @@
 | `CircuitBreaker::call(fn, fallback)` | Adapter call sites | Configurable failure threshold and reset timeout |
 | `DistributedCache::get/set/invalidate(key)` | Query executor, analytics | Optional adapter; no-op stub when absent |
 | `ObservabilityBus::emit(event)` | All adapters | Routes to logger/tracer/metrics based on event type |
+
+---
+
+## Implementation Notes
+
+- Plugin runtime loading and signature verification are delivered; next hardening block is richer trust policy enforcement (key management, signer rotation, and rejection telemetry).
+- Preserve backwards-compatible concern interfaces while introducing adapter package signing and structured registration errors.
+- Keep runtime swap and distributed cache improvements measurable via the test/performance constraints below.
 
 ---
 

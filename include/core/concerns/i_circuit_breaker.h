@@ -16,6 +16,7 @@
 #include <string>
 #include <chrono>
 #include <memory>
+#include <type_traits>
 
 namespace themis {
 namespace core {
@@ -113,6 +114,53 @@ public:
      * @brief Immediately trip the circuit to OPEN regardless of failure count.
      */
     virtual void forceOpen() = 0;
+
+    // -----------------------------------------------------------------------
+    // Call wrapper
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Execute @p fn guarded by the circuit breaker; use @p fallback if
+     *        the circuit is open.
+     *
+     * Behaviour by state:
+     *  - CLOSED   → @p fn is called; success/failure is recorded.
+     *  - OPEN     → @p fallback is called immediately (no @p fn attempt).
+     *  - HALF_OPEN → @p fn is called as a probe; result is recorded.
+     *
+     * If @p fn throws the exception is propagated after calling
+     * @c recordFailure().
+     *
+     * @tparam Fn       Callable with signature @c () -> R.
+     * @tparam Fallback Callable with signature @c () -> R (same return type).
+     * @param  fn       Primary function to execute.
+     * @param  fallback Fallback to execute when the circuit is open.
+     * @return          Result of @p fn on success or @p fallback when open.
+     */
+    template<typename Fn, typename Fallback>
+    auto call(Fn&& fn, Fallback&& fallback) -> decltype(fn()) {
+        if (!allowRequest()) {
+            return std::forward<Fallback>(fallback)();
+        }
+        if constexpr (std::is_void_v<decltype(fn())>) {
+            try {
+                std::forward<Fn>(fn)();
+                recordSuccess();
+            } catch (...) {
+                recordFailure();
+                throw;
+            }
+        } else {
+            try {
+                auto result = std::forward<Fn>(fn)();
+                recordSuccess();
+                return result;
+            } catch (...) {
+                recordFailure();
+                throw;
+            }
+        }
+    }
 
     /**
      * @brief Convert a State value to its human-readable name.

@@ -19,13 +19,16 @@
 #include "core/concerns/i_circuit_breaker.h"
 #include "core/concerns/i_feature_flags.h"
 #include "core/concerns/i_audit_log.h"
+#include "core/concerns/adapter_registry.h"
 // lifecycle.h (ProbeResult, HealthStatus) is already transitively included
 // via each of the four interface headers above; no direct include needed.
 #include <memory>
 #include <mutex>
+#include <shared_mutex>
 #include <string>
 #include <map>
 #include <unordered_map>
+#include <type_traits>
 
 namespace themis {
 namespace core {
@@ -277,6 +280,78 @@ public:
     const IFeatureFlags& featureFlags() const { return *featureFlags_; }
     const IAuditLog& auditLog() const { return *auditLog_; }
 
+    // -------------------------------------------------------------------------
+    // Generic type-safe adapter resolution (Phase 1/2 — Issue #5638)
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Resolve an adapter by concrete type @c T in a thread-safe,
+     *        ref-counted manner.
+     *
+     * For the eight built-in concern types (@c ILogger, @c ITracer,
+     * @c IMetrics, @c ICache, @c ISecrets, @c IFeatureFlags, @c IAuditLog,
+     * @c ICircuitBreaker) the method bridges directly to the corresponding
+     * named accessor and returns a strong @c std::shared_ptr snapshot of the
+     * currently active built-in adapter. This ensures the resolved adapter
+     * remains alive even if another thread concurrently performs @c replace*().
+     *
+     * For all other types the call is forwarded to the embedded
+     * @c AdapterRegistry (see @c registry()).
+     *
+     * @tparam T  Adapter interface or concrete type to resolve.
+     * @return    @c std::shared_ptr<T> to the active adapter, or @c nullptr
+     *            if not registered.
+     *
+     * @threadsafety Safe to call concurrently; uses a brief shared read lock
+     *              for built-in concern types.
+     */
+    template<typename T>
+    std::shared_ptr<T> resolve() const {
+        if constexpr (std::is_same_v<T, ILogger>) {
+            std::shared_lock<std::shared_mutex> lk(adapters_mutex_);
+            return std::static_pointer_cast<T>(logger_);
+        } else if constexpr (std::is_same_v<T, ITracer>) {
+            std::shared_lock<std::shared_mutex> lk(adapters_mutex_);
+            return std::static_pointer_cast<T>(tracer_);
+        } else if constexpr (std::is_same_v<T, IMetrics>) {
+            std::shared_lock<std::shared_mutex> lk(adapters_mutex_);
+            return std::static_pointer_cast<T>(metrics_);
+        } else if constexpr (std::is_same_v<T, ICache>) {
+            std::shared_lock<std::shared_mutex> lk(adapters_mutex_);
+            return std::static_pointer_cast<T>(cache_);
+        } else if constexpr (std::is_same_v<T, ISecrets>) {
+            std::shared_lock<std::shared_mutex> lk(adapters_mutex_);
+            return std::static_pointer_cast<T>(secrets_);
+        } else if constexpr (std::is_same_v<T, IFeatureFlags>) {
+            std::shared_lock<std::shared_mutex> lk(adapters_mutex_);
+            return std::static_pointer_cast<T>(featureFlags_);
+        } else if constexpr (std::is_same_v<T, IAuditLog>) {
+            std::shared_lock<std::shared_mutex> lk(adapters_mutex_);
+            return std::static_pointer_cast<T>(auditLog_);
+        } else if constexpr (std::is_same_v<T, ICircuitBreaker>) {
+            std::shared_lock<std::shared_mutex> lk(adapters_mutex_);
+            return std::static_pointer_cast<T>(circuit_breaker_);
+        } else {
+            return registry_->resolve<T>();
+        }
+    }
+
+    /**
+     * @brief Access the embedded AdapterRegistry for custom adapter types.
+     *
+     * Use this to register non-built-in adapters and resolve them via
+     * @c resolve<T>().
+     *
+     * @return Mutable reference to the embedded @c AdapterRegistry.
+     */
+    AdapterRegistry& registry() { return *registry_; }
+
+    /**
+     * @brief Read-only access to the embedded AdapterRegistry.
+     * @return Const reference to the embedded @c AdapterRegistry.
+     */
+    const AdapterRegistry& registry() const { return *registry_; }
+
     // Convenience methods for common operations
     void logInfo(const std::string& message) { logger_->info(message); }
     void logError(const std::string& message) { logger_->error(message); }
@@ -307,9 +382,10 @@ public:
     // These methods replace an active concern adapter at runtime without
     // restarting the database process.  The old adapter is flushed before the
     // swap so that no buffered data is lost.  All replace* calls are
-    // thread-safe: a brief exclusive lock is taken only to swap the pointer;
-    // in-flight calls on the old adapter complete before the old object is
-    // destroyed (the caller retains a shared_ptr reference until the return).
+    // thread-safe for callers that resolve adapters through resolve<T>()
+    // shared_ptr snapshots: a brief exclusive lock is taken only to swap the
+    // pointer; in-flight calls on the old adapter complete while those
+    // snapshots remain alive.
     //
     // Passing nullptr is rejected (throws std::invalid_argument).
     // -------------------------------------------------------------------------
@@ -321,7 +397,8 @@ public:
     * this call, `logger()` returns a reference to the new adapter. Callers
     * should expect a brief synchronization point while the swap occurs.
      *
-     * Thread-safety: safe to call while other threads are logging.
+     * Thread-safety: safe to call while other threads use logger handles
+     * obtained via @c resolve<ILogger>().
      *
      * @param new_logger Replacement adapter; must not be nullptr.
      * @throws std::invalid_argument if @p new_logger is nullptr.
@@ -562,18 +639,21 @@ private:
         secrets_(std::move(secrets)),
         circuit_breaker_(std::move(circuit_breaker)),
         featureFlags_(std::move(featureFlags)),
-        auditLog_(std::move(auditLog)) {}
+        auditLog_(std::move(auditLog)),
+        registry_(std::make_unique<AdapterRegistry>()) {}
 
-    std::unique_ptr<ILogger> logger_;
-    std::unique_ptr<ITracer> tracer_;
-    std::unique_ptr<IMetrics> metrics_;
-    std::unique_ptr<ICache> cache_;
-    std::unique_ptr<ISecrets> secrets_;
-    std::unique_ptr<ICircuitBreaker> circuit_breaker_;
-    std::unique_ptr<IFeatureFlags> featureFlags_;
-    std::unique_ptr<IAuditLog> auditLog_;
-    /// Guards all replaceX() adapter swaps.
-    mutable std::mutex adapters_mutex_;
+    std::shared_ptr<ILogger> logger_;
+    std::shared_ptr<ITracer> tracer_;
+    std::shared_ptr<IMetrics> metrics_;
+    std::shared_ptr<ICache> cache_;
+    std::shared_ptr<ISecrets> secrets_;
+    std::shared_ptr<ICircuitBreaker> circuit_breaker_;
+    std::shared_ptr<IFeatureFlags> featureFlags_;
+    std::shared_ptr<IAuditLog> auditLog_;
+    /// Embedded registry for custom (non-built-in) adapter types.
+    std::unique_ptr<AdapterRegistry> registry_;
+    /// Guards built-in adapter resolve()/replace*() synchronization.
+    mutable std::shared_mutex adapters_mutex_;
 };
 
 } // namespace concerns
