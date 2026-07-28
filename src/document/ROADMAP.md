@@ -30,18 +30,18 @@ Production document runtime exists across store/manager contracts, lifecycle hoo
 
 ### Phase 1: Design / API Contract
 - [ ] freeze store/manager/lifecycle/schema contracts for active major line (Target: Q3 2026)
-- [ ] define explicit error taxonomy for not-found, conflict, and schema-violation classes (Target: Q3 2026)
+- [x] define explicit error taxonomy for not-found, conflict, and schema-violation classes (Target: Q3 2026)
 
 ### Phase 2: Core Implementation
 - [ ] complete hardening for manager orchestration and round-trip persistence internals (Target: Q4 2026)
 - [ ] align schema/merge behavior to bounded runtime contracts (Target: Q4 2026)
 
 ### Phase 3: Error Handling and Edge Cases
-- [ ] standardize fail-closed behavior for invalid document and schema-transition scenarios (Target: Q4 2026)
-- [ ] unify diagnostics across store, lifecycle, merge, and exchange failure paths (Target: Q4 2026)
+- [~] standardize fail-closed behavior for invalid document and schema-transition scenarios (Target: Q4 2026)
+- [~] unify diagnostics across store, lifecycle, merge, and exchange failure paths (Target: Q4 2026)
 
 ### Phase 4: Tests
-- [ ] expand focused regressions for schema, diff/merge, and round-trip edge scenarios (Target: Q4 2026)
+- [~] expand focused regressions for schema, diff/merge, and round-trip edge scenarios (Target: Q4 2026)
 - [ ] extend deterministic fixture coverage for XDOMEA and multi-version document cases (Target: Q4 2026)
 
 ### Phase 5: Performance and Hardening
