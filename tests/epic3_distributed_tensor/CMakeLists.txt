@@ -331,8 +331,14 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/integrity_verification_bench.cc")
         ${TEST_LIBS}
         themis_distributed_tensor
         Threads::Threads
-        benchmark::benchmark
     )
+    
+    # Link benchmark library only if available
+    if(TARGET benchmark::benchmark)
+        target_link_libraries(module_epic3_distributed_tensor_integrity_verification_bench_focused PRIVATE
+            benchmark::benchmark
+        )
+    endif()
 
     if(TARGET themis_base)
         target_link_libraries(module_epic3_distributed_tensor_integrity_verification_bench_focused PRIVATE themis_base)
