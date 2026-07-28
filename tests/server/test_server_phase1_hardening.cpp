@@ -217,7 +217,7 @@ TEST_F(TimeoutEdgeCaseTests, SRV_09_TimeoutPreDeadline_CompletesInTime) {
     std::this_thread::sleep_for(50ms);
     auto elapsed = std::chrono::steady_clock::now() - start;
     
-    EXPECT_LT(elapsed, timeout);
+    EXPECT_LT(elapsed.count(), timeout.count());
 }
 
 TEST_F(TimeoutEdgeCaseTests, SRV_10_TimeoutAtDeadline_ExactBoundary) {
@@ -225,8 +225,8 @@ TEST_F(TimeoutEdgeCaseTests, SRV_10_TimeoutAtDeadline_ExactBoundary) {
     std::this_thread::sleep_for(timeout);
     auto elapsed = std::chrono::steady_clock::now() - start;
     
-    EXPECT_GE(elapsed, timeout - 5ms);
-    EXPECT_LE(elapsed, timeout + 5ms);
+    EXPECT_GE(elapsed.count(), timeout.count() - 5ms);
+    EXPECT_LE(elapsed.count(), timeout.count() + 5ms);
 }
 
 TEST_F(TimeoutEdgeCaseTests, SRV_11_TimeoutPostDeadline_ExceedsLimit) {
@@ -234,7 +234,7 @@ TEST_F(TimeoutEdgeCaseTests, SRV_11_TimeoutPostDeadline_ExceedsLimit) {
     std::this_thread::sleep_for(timeout + 50ms);
     auto elapsed = std::chrono::steady_clock::now() - start;
     
-    EXPECT_GT(elapsed, timeout);
+    EXPECT_GT(elapsed.count(), timeout.count());
 }
 
 TEST_F(TimeoutEdgeCaseTests, SRV_12_TimeoutZeroBudget_ImmediateFail) {
@@ -264,7 +264,7 @@ TEST_F(TimeoutEdgeCaseTests, SRV_14_TimeoutWithRetry_CumulativeBudget) {
     }
     
     auto total = std::chrono::steady_clock::now() - start;
-    EXPECT_LE(total, timeout + 10ms);
+    EXPECT_LE(total.count(), timeout.count() + 10ms);
 }
 
 TEST_F(TimeoutEdgeCaseTests, SRV_15_TimeoutCancellation_EarlyReturn) {
@@ -275,7 +275,7 @@ TEST_F(TimeoutEdgeCaseTests, SRV_15_TimeoutCancellation_EarlyReturn) {
     cancelled = true;
     
     auto elapsed = std::chrono::steady_clock::now() - start;
-    EXPECT_LT(elapsed, timeout);
+    EXPECT_LT(elapsed.count(), timeout.count());
 }
 
 TEST_F(TimeoutEdgeCaseTests, SRV_16_TimeoutContextDeadline_TimerFires) {
@@ -293,7 +293,7 @@ TEST_F(TimeoutEdgeCaseTests, SRV_16_TimeoutContextDeadline_TimerFires) {
     
     timer.join();
     auto elapsed = std::chrono::steady_clock::now() - start;
-    EXPECT_GE(elapsed, timeout - 5ms);
+    EXPECT_GE(elapsed.count(), timeout.count() - 5ms);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
