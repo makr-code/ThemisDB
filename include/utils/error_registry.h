@@ -229,6 +229,16 @@ enum class ErrorCode {
     ERR_DOC_ENCRYPT_FAILED        = 9410,  ///< Encrypted entity operation failed
     ERR_DOC_INVALID_ARGUMENT      = 9411,  ///< A required argument is invalid or missing
 
+    // ── Document module: extended error codes (Phase 2 taxonomy) ─────────────────
+    ERR_DOC_SCHEMA_TRANSITION_INVALID  = 9412,  ///< Schema version transition violates ordering or compatibility rules
+    ERR_DOC_SNAPSHOT_COLLISION         = 9413,  ///< Round-trip snapshot ID already exists (relay/index collision)
+    ERR_DOC_ROUND_TRIP_PERSIST_FAIL    = 9414,  ///< Round-trip persistence failed at store level
+    ERR_DOC_EXCHANGE_BOUNDARY_VIOLATED = 9415,  ///< XDOMEA/exchange boundary enforcement failed
+    ERR_DOC_STORE_UNAVAILABLE          = 9416,  ///< Backing document store is unavailable or unresponsive
+    ERR_DOC_LIFECYCLE_HOOK_FAILED      = 9417,  ///< Lifecycle hook signaled a terminal failure (rare; hooks are noexcept)
+    ERR_DOC_VALIDATION_ABORTED         = 9418,  ///< Schema validation aborted due to structural document error (non-object body)
+    ERR_DOC_VERSION_CONFLICT           = 9419,  ///< Concurrent version update conflict detected
+
     // -------------------------------------------------------------------------
     // Tool errors (ERR_TOOL_*) — 9500–9509
     // -------------------------------------------------------------------------
