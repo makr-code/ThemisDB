@@ -29,7 +29,7 @@ scalable multi-school discourse. Design rationale documented in
 
 ### Mid-term (6–12 months) — Layered Discourse Model (LDM)
 
-- [ ] **LDM-1**: Add `DiscourseMode` enum to `EthicsSelectionRouter` / `RouterConfig`
+- [x] **LDM-1**: Add `DiscourseMode` enum to `EthicsSelectionRouter` / `RouterConfig`
   with values `SELECTION_ONLY`, `LAYERED_FULL`, `LAYERED_FAST` (Target: Q1 2027)
   - Inputs: loaded school set (all 22), `DiscourseMode` config, domain context
   - Outputs: `DiscourseOrchestratorPlan` (per-school Ebene-1 assignments + cluster map)
@@ -90,7 +90,7 @@ scalable multi-school discourse. Design rationale documented in
 ### Phase 1: Design / API Contract
 - [x] research paper on Process Equality and LDM scalability architecture
   (`docs/research/ethics_discourse_process_equality.md`)
-- [ ] freeze LDM `DiscourseMode` API contract in `EthicsSelectionRouter` / `RouterConfig` (Target: Q4 2026)
+- [x] freeze LDM `DiscourseMode` API contract in `EthicsSelectionRouter` / `RouterConfig` (Target: Q4 2026)
 - [ ] define `MetaVerdict` struct and `DiscourseOrchestratorPlan` contract (Target: Q4 2026)
 - [ ] define `cross_cultural_sensitivity` policy schema (Target: Q4 2026)
 - [ ] freeze profile/discourse/store/context/evaluator contracts for active major line (Target: Q3 2026)
@@ -141,7 +141,7 @@ scalable multi-school discourse. Design rationale documented in
 - [x] benchmark mapping documented in performance expectations
 - [x] LDM design rationale documented in research paper
 - [ ] remaining hardening tasks closed for profile/discourse/context edge paths
-- [ ] LDM DiscourseMode API contract frozen
+- [x] LDM DiscourseMode API contract frozen
 - [ ] MetaVerdict struct and audit fields defined
 - [ ] LDM Ebene-1/2/3 implemented and tested
 - [ ] release benchmark stabilization complete
