@@ -1,3 +1,11 @@
+/**
+ * @file cross_shard_fk_validator.cpp
+ * @brief Cross-shard foreign-key constraint validator implementation.
+ *
+ * Implements distributed foreign-key validation that spans shard
+ * boundaries, issuing parallel lookups and merging results.
+ */
+
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 

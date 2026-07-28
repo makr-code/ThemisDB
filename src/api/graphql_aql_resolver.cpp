@@ -1,3 +1,11 @@
+/**
+ * @file graphql_aql_resolver.cpp
+ * @brief GraphQL-to-AQL query resolver implementation.
+ *
+ * Translates incoming GraphQL queries into ThemisDB AQL statements,
+ * executes them, and maps results back to the GraphQL response schema.
+ */
+
 // IMPORTANT: This file is explicitly NOT part of Unity build to avoid namespace corruption.
 // Compile with: cl /TP /EHsc /W4 /permissive- /Zc:inline ...
 // Link into themis_query.lib as separate object file.

@@ -1,3 +1,12 @@
+/**
+ * @file eigen_stub.h
+ * @brief Eigen matrix-library stub for environments without Eigen.
+ *
+ * Provides minimal type aliases and no-op implementations so that
+ * translation units that optionally use Eigen can compile cleanly
+ * when the library is not available.
+ */
+
 // Lightweight Eigen stub used when Eigen headers are unavailable on the build host.
 #pragma once
 

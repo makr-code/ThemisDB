@@ -1,3 +1,11 @@
+/**
+ * @file recoverable_two_phase_coordinator.h
+ * @brief Two-phase commit coordinator with WAL-based crash recovery.
+ *
+ * Extends the base 2PC coordinator with a durable write-ahead log
+ * so that in-doubt transactions survive coordinator crashes.
+ */
+
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 //

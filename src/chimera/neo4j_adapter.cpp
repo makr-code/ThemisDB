@@ -6,6 +6,14 @@
  * Copyright MIT License.
  */
 
+/**
+ * @file neo4j_adapter.cpp
+ * @brief Neo4j backend adapter implementation.
+ *
+ * Cypher generation, result mapping, and connection lifecycle for
+ * the Chimera/Neo4j integration.
+ */
+
 #include "chimera/neo4j_adapter.hpp"
 #include "utils/uuid.h"
 

@@ -1,3 +1,11 @@
+/**
+ * @file tensor_compression_routing_accelerator.cpp
+ * @brief Tensor compression routing accelerator implementation.
+ *
+ * Implements backend selection logic, dispatch tables, and
+ * registration of platform-specific compression kernels.
+ */
+
 #include "tensor/tensor_compression_routing_accelerator.h"
 
 #include <algorithm>

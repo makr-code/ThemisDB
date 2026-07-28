@@ -1,3 +1,11 @@
+/**
+ * @file integrity_verification.h
+ * @brief Integrity verification for distributed tensor artifacts.
+ *
+ * Provides cryptographic hash verification for individual shards and
+ * full artifact manifests to detect corruption during transfer or storage.
+ */
+
 // Copyright 2026 ThemisDB Team
 // SPDX-License-Identifier: Apache-2.0
 

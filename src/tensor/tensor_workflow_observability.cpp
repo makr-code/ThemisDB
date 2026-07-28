@@ -1,3 +1,11 @@
+/**
+ * @file tensor_workflow_observability.cpp
+ * @brief Tensor workflow observability implementation.
+ *
+ * Implements span creation, attribute attachment, and metric
+ * recording for tensor pipeline observability.
+ */
+
 #include "tensor/tensor_workflow_observability.h"
 
 #include <algorithm>

@@ -12,6 +12,14 @@ namespace themis::observability {
 /**
  * @brief Emits one normalized structured log line for layer handoff decisions.
  */
+
+/**
+ * @file layer_decision_log.h
+ * @brief Structured logging for layer routing and model-selection decisions.
+ *
+ * Declares LayerDecisionLog, a lightweight sink that records which
+ * processing layer was chosen for each request and the contributing factors.
+ */
 inline void emitLayerDecisionLog(std::string_view layer_name,
                                  std::string_view correlation_id,
                                  std::string_view routing_reason_code,

@@ -3,6 +3,14 @@
  * Author: Copilot | Maturity: 🟡 BETA
  */
 
+/**
+ * @file transaction.cpp
+ * @brief Chimera multi-backend transaction implementation.
+ *
+ * Implements two-phase coordination across Chimera adapters via
+ * the IChimeraTransaction contract.
+ */
+
 #include "chimera/transaction.hpp"
 
 namespace chimera {

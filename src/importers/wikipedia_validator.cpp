@@ -1,3 +1,11 @@
+/**
+ * @file wikipedia_validator.cpp
+ * @brief Validation stage for Wikipedia import records.
+ *
+ * Implements configurable validation rules (language filter, minimum
+ * article length, namespace whitelist) applied before ingest.
+ */
+
 #include "importers/wikipedia_pipeline.hpp"
 
 #include "importers/wikipedia_transform.hpp"

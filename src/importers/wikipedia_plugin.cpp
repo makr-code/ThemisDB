@@ -1,3 +1,11 @@
+/**
+ * @file wikipedia_plugin.cpp
+ * @brief Wikipedia importer plugin registration implementation.
+ *
+ * Implements WikipediaPlugin::create() and the plugin factory function
+ * used by the dynamic plugin loader.
+ */
+
 #include "importers/wikipedia_plugin.hpp"
 
 #include "plugins/plugin_registry.h"

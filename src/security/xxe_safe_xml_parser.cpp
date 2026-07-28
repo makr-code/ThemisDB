@@ -1,3 +1,11 @@
+/**
+ * @file xxe_safe_xml_parser.cpp
+ * @brief XXE-safe XML parser implementation.
+ *
+ * Implements the hardened XML parsing routines declared in
+ * xxe_safe_xml_parser.h with all dangerous XML features disabled.
+ */
+
 // ThemisDB XXE-safe XML parsing utilities
 
 #include "security/xxe_safe_xml_parser.h"

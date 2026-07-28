@@ -1,3 +1,11 @@
+/**
+ * @file wikipedia_project_graph.cpp
+ * @brief Graph-model projection for Wikipedia article relationships.
+ *
+ * Builds a ThemisDB graph structure from Wikipedia link and category
+ * relationships extracted during the import pipeline.
+ */
+
 #include "importers/wikipedia_pipeline.hpp"
 
 #include "importers/wikipedia_transform.hpp"

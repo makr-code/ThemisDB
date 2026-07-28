@@ -1,3 +1,11 @@
+/**
+ * @file persistent_tensor_fingerprint_graph.h
+ * @brief Persistent fingerprint graph for tensor deduplication.
+ *
+ * Maintains a durable graph of content-addressed tensor fingerprints
+ * enabling cache-hit detection and deduplication across training runs.
+ */
+
 #pragma once
 
 #include "storage/tensor_network_storage_engine.h"

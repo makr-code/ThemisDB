@@ -1,3 +1,11 @@
+/**
+ * @file safe_iterator.cpp
+ * @brief Bounds-safe iterator implementation.
+ *
+ * Out-of-line definitions for SafeIterator diagnostics and
+ * bounds-check error reporting.
+ */
+
 #include "security/safe_iterator.h"
 
 // Try to include spdlog if available for better logging

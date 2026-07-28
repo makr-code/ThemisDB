@@ -6,6 +6,14 @@
  * Copyright MIT License.
  */
 
+/**
+ * @file batch_executor.hpp
+ * @brief Batch operation executor for throughput-focused workloads.
+ *
+ * Wraps an IDatabaseAdapter and coalesces individual operations into
+ * configurable batches, trading per-operation latency for aggregate throughput.
+ */
+
 #pragma once
 
 #include "chimera/database_adapter.hpp"

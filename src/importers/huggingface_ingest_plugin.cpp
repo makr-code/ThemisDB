@@ -1,3 +1,11 @@
+/**
+ * @file huggingface_ingest_plugin.cpp
+ * @brief HuggingFace dataset ingest plugin implementation.
+ *
+ * Implements the HuggingFace dataset importer that fetches dataset
+ * records via the HuggingFace Datasets API and ingests them into ThemisDB.
+ */
+
 #include "importers/huggingface_ingest_plugin.h"
 
 #include <algorithm>

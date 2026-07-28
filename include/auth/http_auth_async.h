@@ -4,6 +4,14 @@
  * Purpose: Async HTTP authentication wrapper for OAuth, OIDC, SAML
  */
 
+/**
+ * @file http_auth_async.h
+ * @brief Asynchronous HTTP-based authentication utilities.
+ *
+ * Declares non-blocking HTTP helpers used by the auth module to validate
+ * bearer tokens and OIDC discovery documents without stalling request threads.
+ */
+
 #pragma once
 
 #include "auth/auth_error.h"

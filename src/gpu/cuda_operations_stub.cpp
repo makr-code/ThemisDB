@@ -1,3 +1,11 @@
+/**
+ * @file cuda_operations_stub.cpp
+ * @brief CUDA operation stubs for CPU-only and CI builds.
+ *
+ * Provides no-op CPU fallbacks for CUDA kernels so that the GPU
+ * module compiles and runs correctness tests without a CUDA device.
+ */
+
 // Fallback implementations for CUDA types when CUDA is not available
 // This file provides minimal, non-device implementations to satisfy
 // link-time dependencies on machines without the CUDA Toolkit.

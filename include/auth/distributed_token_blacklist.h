@@ -4,6 +4,15 @@
  * Purpose: Distributed token blacklist with full TCP cluster synchronization (TBLK/v1 RPC)
  */
 
+/**
+ * @file distributed_token_blacklist.h
+ * @brief Distributed token blacklist with TCP cluster synchronization.
+ *
+ * Provides DistributedTokenBlacklist implementing ITokenBlacklist via a
+ * peer-to-peer TBLK/v1 RPC protocol.  Nodes gossip revocations so that
+ * every replica reaches eventual consistency within the configured TTL.
+ */
+
 #pragma once
 
 #include "auth/token_blacklist.h"

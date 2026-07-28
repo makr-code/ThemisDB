@@ -1,3 +1,11 @@
+/**
+ * @file break_even_validator_impl_fallback.cpp
+ * @brief Fallback validator for CPU/GPU break-even analysis.
+ *
+ * Provides a pure-CPU reference implementation of the break-even
+ * validator used when no hardware accelerator is available.
+ */
+
 #include "acceleration/break_even_validator.h"
 #include <algorithm>
 #include <chrono>

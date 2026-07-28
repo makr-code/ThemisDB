@@ -1,3 +1,11 @@
+/**
+ * @file wal_logging_helper.h
+ * @brief Write-ahead log helpers for the sharding subsystem.
+ *
+ * Utility functions and RAII guards for writing and fsync-ing WAL
+ * entries used by the shard coordinator during distributed commits.
+ */
+
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 //
