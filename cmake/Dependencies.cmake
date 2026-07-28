@@ -140,44 +140,35 @@ else()
                 message(STATUS "RocksDB found as static library: ${_ROCKSDB_STATIC}")
                 message(STATUS "Applying PIC compatibility flags for static RocksDB linking")
                 
-                # Add compile flag to ensure PIC code generation
-                set_target_properties(RocksDB::rocksdb PROPERTIES
-                    INTERFACE_COMPILE_OPTIONS "-fPIC"
-                )
+                # The static RocksDB from system packages is not PIC-compatible.
+                # We use linker flags to work around TPOFF32 relocation errors:
+                # - Wl,--allow-shlib-undefined: Allow undefined TLS symbols in shared libs
+                # - Wl,--relax: Enable linker relaxation to handle TLS relocations
+                # - Wl,--as-needed: Remove unused link dependencies
                 
-                # Add linker flags to handle static library with PIC requirements
-                set(_rocksdb_linker_flags "")
                 if(UNIX AND NOT APPLE)
-                    # Linux: Add flags to handle TPOFF32 relocation errors and force PIC linking
-                    list(APPEND _rocksdb_linker_flags "-Wl,-Bsymbolic-functions")
-                    list(APPEND _rocksdb_linker_flags "-Wl,--relax")
-                    list(APPEND _rocksdb_linker_flags "-Wl,--as-needed")
-                endif()
-                
-                # Append linker flags to existing interface link options
-                get_target_property(_existing_link_opts RocksDB::rocksdb INTERFACE_LINK_OPTIONS)
-                if(_existing_link_opts)
-                    list(APPEND _existing_link_opts ${_rocksdb_linker_flags})
-                else()
-                    set(_existing_link_opts ${_rocksdb_linker_flags})
-                endif()
-                set_target_properties(RocksDB::rocksdb PROPERTIES
-                    INTERFACE_LINK_OPTIONS "${_existing_link_opts}"
-                )
-            else()
-                message(STATUS "RocksDB library type detection inconclusive; applying conservative PIC flags")
-                set_target_properties(RocksDB::rocksdb PROPERTIES
-                    INTERFACE_COMPILE_OPTIONS "-fPIC"
-                )
-            endif()
-            
-            # Add standard linker behavior flags
-            if(UNIX AND NOT APPLE)
-                get_target_property(_link_opts RocksDB::rocksdb INTERFACE_LINK_OPTIONS)
-                if(NOT _link_opts MATCHES "as-needed")
-                    list(APPEND _link_opts "-Wl,--as-needed")
+                    # Apply comprehensive workaround flags
+                    set(_rocksdb_workaround_flags
+                        "SHELL:-Wl,--allow-shlib-undefined"
+                        "SHELL:-Wl,--relax"
+                        "SHELL:-Wl,--as-needed"
+                    )
+                    
+                    get_target_property(_existing_link_opts RocksDB::rocksdb INTERFACE_LINK_OPTIONS)
+                    if(_existing_link_opts)
+                        list(APPEND _existing_link_opts ${_rocksdb_workaround_flags})
+                    else()
+                        set(_existing_link_opts ${_rocksdb_workaround_flags})
+                    endif()
                     set_target_properties(RocksDB::rocksdb PROPERTIES
-                        INTERFACE_LINK_OPTIONS "${_link_opts}"
+                        INTERFACE_LINK_OPTIONS "${_existing_link_opts}"
+                    )
+                endif()
+            else()
+                message(STATUS "RocksDB library type detection inconclusive; applying conservative workaround")
+                if(UNIX AND NOT APPLE)
+                    set_target_properties(RocksDB::rocksdb PROPERTIES
+                        INTERFACE_LINK_OPTIONS "SHELL:-Wl,--allow-shlib-undefined;SHELL:-Wl,--relax;SHELL:-Wl,--as-needed"
                     )
                 endif()
             endif()
