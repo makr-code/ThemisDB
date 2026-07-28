@@ -1,24 +1,19 @@
-# EPIC 3 Distributed Tensor contract tests
+# ── Distributed Planner contract tests (distributed_planner_test.cc) ────
 
-set(EPIC3_DISTRIBUTED_TENSOR_TESTS
-    distributed_planner_test.cc
-)
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/distributed_planner_test.cc")
+    message(STATUS "Adding EPIC3: Distributed Planner contract tests")
 
-foreach(test_src IN LISTS EPIC3_DISTRIBUTED_TENSOR_TESTS)
-    if(NOT EXISTS "${CMAKE_CURRENT_LIST_DIR}/${test_src}")
-        message(STATUS "EPIC3 distributed tensor test source not found at ${CMAKE_CURRENT_LIST_DIR}/${test_src}")
-        continue()
-    endif()
+    add_executable(module_epic3_distributed_tensor_distributed_planner_test_focused
+        distributed_planner_test.cc
+    )
 
-    get_filename_component(test_name ${test_src} NAME_WE)
-    add_executable(${test_name} ${test_src})
-    # If the full `themis_tensor` library target is not available in this
-    # configured build, compile the minimal implementation required by these
-    # tests directly into the test executable to avoid unresolved externals.
-    if(NOT TARGET themis_tensor)
-        target_sources(${test_name} PRIVATE ${THEMIS_ROOT_DIR}/src/tensor/tensor_summary_types.cpp)
-    endif()
-    # Link only available module targets to avoid forcing missing .lib files
+    target_include_directories(module_epic3_distributed_tensor_distributed_planner_test_focused PRIVATE
+        ${THEMIS_ROOT_DIR}
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src/distributed_tensor/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
     set(_epic3_link_libs themis_distributed_tensor)
     if(TARGET themis_tensor)
         list(APPEND _epic3_link_libs themis_tensor)
@@ -26,10 +21,39 @@ foreach(test_src IN LISTS EPIC3_DISTRIBUTED_TENSOR_TESTS)
     if(TARGET themis_rag)
         list(APPEND _epic3_link_libs themis_rag)
     endif()
-    list(APPEND _epic3_link_libs GTest::gtest_main)
-    target_link_libraries(${test_name} PRIVATE ${_epic3_link_libs})
-    add_test(NAME ${test_name} COMMAND ${test_name})
-endforeach()
+    if(NOT TARGET themis_tensor)
+        target_sources(module_epic3_distributed_tensor_distributed_planner_test_focused
+            PRIVATE ${THEMIS_ROOT_DIR}/src/tensor/tensor_summary_types.cpp
+        )
+    endif()
+    list(APPEND _epic3_link_libs ${TEST_LIBS} GTest::gtest_main Threads::Threads)
+    target_link_libraries(module_epic3_distributed_tensor_distributed_planner_test_focused
+        PRIVATE ${_epic3_link_libs}
+    )
+
+    target_compile_definitions(module_epic3_distributed_tensor_distributed_planner_test_focused
+        PRIVATE THEMIS_TEST_BUILD=1
+    )
+
+    if(COMMAND themis_register_module_focused_test)
+        themis_register_module_focused_test(
+            MODULE epic3_distributed_tensor
+            NAME DistributedPlannerContractTests
+            TARGET module_epic3_distributed_tensor_distributed_planner_test_focused
+            TIER unit
+            TIMEOUT 120
+            LABELS epic3 distributed_tensor distributed_planner contract
+        )
+    else()
+        add_test(NAME DistributedPlannerContractTests
+            COMMAND module_epic3_distributed_tensor_distributed_planner_test_focused
+        )
+    endif()
+
+    message(STATUS "  DistributedPlanner: artifact placement, shard assignment, planner contract")
+else()
+    message(STATUS "EPIC3 Distributed Planner tests not found at ${CMAKE_CURRENT_LIST_DIR}/distributed_planner_test.cc")
+endif()
 
 # EPIC 3 Distributed Tensor — tests and benchmarks
 
@@ -286,3 +310,52 @@ foreach(_src IN LISTS EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES)
         add_test(NAME ${_ctest} COMMAND ${_target})
     endif()
 endforeach()
+
+# ── Integrity Verification Benchmark (IV-BENCH-01..08) ────────────────────────
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/integrity_verification_bench.cc")
+    message(STATUS "Adding EPIC3: Integrity Verification Benchmark (IV-BENCH-01..08)")
+
+    add_executable(module_epic3_distributed_tensor_integrity_verification_bench_focused
+        integrity_verification_bench.cc
+    )
+
+    target_include_directories(module_epic3_distributed_tensor_integrity_verification_bench_focused PRIVATE
+        ${THEMIS_ROOT_DIR}
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+        ${THEMIS_ROOT_DIR}/src/distributed_tensor/include
+    )
+
+    target_link_libraries(module_epic3_distributed_tensor_integrity_verification_bench_focused PRIVATE
+        ${TEST_LIBS}
+        themis_distributed_tensor
+        Threads::Threads
+        benchmark::benchmark
+    )
+
+    if(TARGET themis_base)
+        target_link_libraries(module_epic3_distributed_tensor_integrity_verification_bench_focused PRIVATE themis_base)
+    endif()
+
+    target_compile_definitions(module_epic3_distributed_tensor_integrity_verification_bench_focused PRIVATE THEMIS_TEST_BUILD=1)
+
+    if(COMMAND themis_register_module_focused_test)
+        themis_register_module_focused_test(
+            MODULE epic3_distributed_tensor
+            NAME IntegrityVerificationBenchmark
+            TARGET module_epic3_distributed_tensor_integrity_verification_bench_focused
+            TIER benchmark
+            TIMEOUT 300
+            LABELS epic3 distributed_tensor integrity verification benchmark
+        )
+    else()
+        add_test(NAME IntegrityVerificationBenchmark
+            COMMAND module_epic3_distributed_tensor_integrity_verification_bench_focused
+        )
+    endif()
+
+    message(STATUS "  IntegrityVerificationBenchmark: SHA-256, Merkle proofs, receipt chains (IV-BENCH-01..08)")
+else()
+    message(STATUS "EPIC3 Integrity Verification Benchmark not found at ${CMAKE_CURRENT_SOURCE_DIR}/integrity_verification_bench.cc")
+endif()
