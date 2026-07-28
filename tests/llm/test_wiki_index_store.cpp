@@ -38,6 +38,8 @@
 #include "rag/modular_rag_pipeline.h"
 
 #include <algorithm>
+#include <fstream>
+#include <functional>
 #include <sstream>
 #include <string>
 #include <vector>

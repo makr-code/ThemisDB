@@ -41,9 +41,11 @@ tests/llm/test_wiki_rag_quality.cpp — WISQ-01..05 quality gate tests
 - `std::shared_mutex` (C++17, available since our toolchain baseline) guards the
   embedding cache with fine-grained read/write separation.
 - `[[nodiscard]]` on all query methods enforces result handling at call sites.
-- `std::atomic<bool>` for `ready_` ensures a sequentially consistent visibility
-  fence between the constructor and concurrent `isReady()` calls.
-- `std::filesystem` is used in `wiki_chunk_splitter.cpp` for path normalisation.
+- `std::atomic<bool>` for `ready_` uses release semantics on write and
+  acquire semantics on read, providing visibility ordering between the
+  constructor and concurrent `isReady()` calls (not sequential consistency).
+- No `std::filesystem` dependency: path strings are passed through directly
+  and chunk IDs are derived from a FNV-1a hash in `wiki_chunk_splitter.cpp`.
 
 ## Phase A vs Phase B
 

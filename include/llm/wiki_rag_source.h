@@ -69,9 +69,8 @@ struct WikiRagSourceConfig {
  *
  * Provenance tags appended per candidate:
  *  - `"retrieve:wiki-hybrid"` when the reader is a `WikiIndexStore` (BM25+vector)
- *  - `"retrieve:wiki-bm25"`   when only BM25 is used
- *  - `"retrieve:wiki-vector"` when only vector search is used
  *  - `"retrieve:wiki-json"`   when the reader is a `JsonWikiIndexReader`
+ *  - `"retrieve:wiki"`        for any other `IWikiIndexReader` implementation
  */
 class WikiRagSource {
 public:

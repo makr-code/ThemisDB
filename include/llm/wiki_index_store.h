@@ -218,8 +218,10 @@ public:
      * @brief Write a single chunk into both the fulltext and vector indexes.
      *
      * If `chunk.embedding` is empty the method calls `EmbeddedLLM::embed` to
-     * compute it.  The chunk is stored atomically: a `WriteBatchWrapper` is
-     * used so either both indexes are updated or neither is.
+     * compute it.  The secondary index (`sim_`) is written first; on success
+     * the vector index (`vim_`) is updated on a best-effort basis.  There is
+     * no transactional rollback: a failure in the vector write is logged as a
+     * warning but does not undo the secondary-index write.
      *
      * @param chunk  Chunk to store; `chunk.embedding` is populated if empty.
      * @throws std::runtime_error on index write failure.

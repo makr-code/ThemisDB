@@ -4,6 +4,12 @@
 
 No extra dependencies are required for the default mode.
 
+Set `$REPO_ROOT` to the repository root before running the examples below:
+
+```bash
+export REPO_ROOT=$(git rev-parse --show-toplevel)
+```
+
 Optional embedding providers:
 - `sentence-transformers` (if installed)
 - `openai` (requires `OPENAI_API_KEY`)
@@ -19,14 +25,14 @@ Optional embedding providers:
 ### 1) Classic JSON index/query mode (RAG-like baseline)
 
 ```bash
-python3 /home/runner/work/ThemisDB/ThemisDB/scripts/llm_wiki_mvp.py index \
-  --source-root /home/runner/work/ThemisDB/ThemisDB \
-  --output /home/runner/work/ThemisDB/ThemisDB/artifacts/llm-wiki-mvp/index.json
+python3 $REPO_ROOT/scripts/llm_wiki_mvp.py index \
+  --source-root $REPO_ROOT \
+  --output $REPO_ROOT/artifacts/llm-wiki-mvp/index.json
 ```
 
 ```bash
-python3 /home/runner/work/ThemisDB/ThemisDB/scripts/llm_wiki_mvp.py query \
-  --index /home/runner/work/ThemisDB/ThemisDB/artifacts/llm-wiki-mvp/index.json \
+python3 $REPO_ROOT/scripts/llm_wiki_mvp.py query \
+  --index $REPO_ROOT/artifacts/llm-wiki-mvp/index.json \
   --question "How do I configure sharding?" \
   --top-k 5 \
   --min-score 0.15 \
@@ -47,24 +53,24 @@ This mode keeps a compounding knowledge base under one workspace root:
 #### Initialize workspace
 
 ```bash
-python3 /home/runner/work/ThemisDB/ThemisDB/scripts/llm_wiki_mvp.py wiki-init \
-  --workspace-root /home/runner/work/ThemisDB/ThemisDB/artifacts/llm-wiki-workspace
+python3 $REPO_ROOT/scripts/llm_wiki_mvp.py wiki-init \
+  --workspace-root $REPO_ROOT/artifacts/llm-wiki-workspace
 ```
 
 #### Ingest one source (creates summary + concept links + log entry)
 
 ```bash
-python3 /home/runner/work/ThemisDB/ThemisDB/scripts/llm_wiki_mvp.py wiki-ingest \
-  --workspace-root /home/runner/work/ThemisDB/ThemisDB/artifacts/llm-wiki-workspace \
-  --source /home/runner/work/ThemisDB/ThemisDB/docs/architecture/llm_wiki_mvp_adr.md \
+python3 $REPO_ROOT/scripts/llm_wiki_mvp.py wiki-ingest \
+  --workspace-root $REPO_ROOT/artifacts/llm-wiki-workspace \
+  --source $REPO_ROOT/docs/architecture/llm_wiki_mvp_adr.md \
   --title "LLM Wiki ADR"
 ```
 
 #### Query workspace and save answer as a page
 
 ```bash
-python3 /home/runner/work/ThemisDB/ThemisDB/scripts/llm_wiki_mvp.py wiki-query \
-  --workspace-root /home/runner/work/ThemisDB/ThemisDB/artifacts/llm-wiki-workspace \
+python3 $REPO_ROOT/scripts/llm_wiki_mvp.py wiki-query \
+  --workspace-root $REPO_ROOT/artifacts/llm-wiki-workspace \
   --question "What are the key governance constraints?" \
   --top-k 5 \
   --min-score 0.1 \
@@ -76,8 +82,8 @@ python3 /home/runner/work/ThemisDB/ThemisDB/scripts/llm_wiki_mvp.py wiki-query \
 #### Run wiki lint checks
 
 ```bash
-python3 /home/runner/work/ThemisDB/ThemisDB/scripts/llm_wiki_mvp.py wiki-lint \
-  --workspace-root /home/runner/work/ThemisDB/ThemisDB/artifacts/llm-wiki-workspace \
+python3 $REPO_ROOT/scripts/llm_wiki_mvp.py wiki-lint \
+  --workspace-root $REPO_ROOT/artifacts/llm-wiki-workspace \
   --json
 ```
 
