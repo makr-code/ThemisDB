@@ -15,7 +15,7 @@
 #include <unordered_map>
 #include <vector>
 
-namespace themis::test {
+namespace themis { namespace test { 
 
 namespace {
 
@@ -153,5 +153,4 @@ TEST_F(AnalyticsExportPipelineTest, AEP03_ParquetExportUsesSecurityKeyContext) {
     EXPECT_NE(line.find("enc(kms-key-1):42"), std::string::npos);
     EXPECT_TRUE(audit_->Contains("export", "parquet_encrypted"));
 }
-
-} // namespace themis::test
+} } // namespace themis::test

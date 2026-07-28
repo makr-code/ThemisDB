@@ -14,7 +14,7 @@
 
 #include <gtest/gtest.h>
 
-namespace themis::distributed_tensor {
+namespace themis { namespace distributed_tensor { 
 namespace {
 
 // ---------------------------------------------------------------------------
@@ -861,4 +861,4 @@ TEST(Phase4TensorInfrastructure, GetSetStripeTransportRoundtrip) {
 }
 
 }  // namespace
-}  // namespace themis::distributed_tensor
+} } // namespace themis::distributed_tensor

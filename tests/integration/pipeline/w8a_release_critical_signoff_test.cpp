@@ -38,7 +38,7 @@
 #include <unordered_map>
 #include <vector>
 
-namespace themis::test {
+namespace themis { namespace test { 
 
 namespace {
 
@@ -489,9 +489,7 @@ TEST_F(ReleaseSignoffTest, RCS_08_RecoveryFromTransientFailures) {
     EXPECT_TRUE(result.has_value());
     EXPECT_EQ(result.value(), "content_0");
 }
-
-}  // namespace themis::test
-
+} } // namespace themis::test
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();

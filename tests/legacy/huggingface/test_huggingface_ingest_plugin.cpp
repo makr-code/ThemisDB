@@ -6,7 +6,7 @@
 #include <filesystem>
 #include <fstream>
 
-namespace themis::importers {
+namespace themis { namespace importers { 
 
 TEST(HuggingFaceIngestPlugin, LifecycleAndCanonicalTables) {
     HuggingFaceIngestPlugin plugin;
@@ -101,5 +101,4 @@ TEST(HuggingFaceIngestPlugin, ExportsDeterministicAdaLoraJsonl) {
     EXPECT_NE(line.find("\"system\":\"legal-assistant\""), std::string::npos);
     std::filesystem::remove(output);
 }
-
-} // namespace themis::importers
+} } // namespace themis::importers

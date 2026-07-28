@@ -9,7 +9,7 @@
 
 #include <gtest/gtest.h>
 
-namespace themis::distributed_tensor {
+namespace themis { namespace distributed_tensor { 
 namespace {
 
 ArtifactManifest make_primary_manifest() {
@@ -152,4 +152,4 @@ TEST(DistributedTensorPhase3Test, PlannerAllowsExplicitDegradedReadsOnlyWhenPerm
 }
 
 }  // namespace
-}  // namespace themis::distributed_tensor
+} } // namespace themis::distributed_tensor

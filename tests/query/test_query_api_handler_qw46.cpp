@@ -22,7 +22,7 @@
 #include "server/query_api_handler.h"
 #include "utils/input_validator.h"
 
-namespace themis::server::test {
+namespace themis { namespace server { namespace test { 
 
 using json = nlohmann::json;
 namespace http = boost::beast::http;
@@ -260,6 +260,4 @@ TEST_F(QueryApiHandlerQW46Test, ConsistentValidationAcrossMultipleNames) {
             << "Name: " << name << " should be invalid";
     }
 }
-
-}  // namespace themis::server::test
-
+} } } // namespace themis::server::test

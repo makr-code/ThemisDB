@@ -16,7 +16,7 @@
 #include <chrono>
 #include <thread>
 
-namespace themisdb::sharding {
+namespace themisdb { namespace sharding { 
 
 class MockPreCommitCallback {
 public:

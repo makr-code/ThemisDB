@@ -16,7 +16,7 @@
 #include "../test_data_generator.h"
 #include "../test_fixture.h"
 
-namespace themis::test {
+namespace themis { namespace test { 
 
 namespace {
 
@@ -423,5 +423,4 @@ TEST_F(ApplicationProfilePipelineTest, APP13_CircuitBreakerBlocksAssistantAfterC
     EXPECT_NE(blocked.answer.find("fallback:circuit-open"), std::string::npos);
     EXPECT_TRUE(audit_->Contains("app_profile", "assistant_circuit_open"));
 }
-
-} // namespace themis::test
+} } // namespace themis::test

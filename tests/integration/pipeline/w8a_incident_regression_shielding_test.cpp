@@ -33,7 +33,7 @@
 #include <unordered_set>
 #include <vector>
 
-namespace themis::test {
+namespace themis { namespace test { 
 
 namespace {
 
@@ -711,5 +711,4 @@ TEST_F(IncidentRegressionShieldingTest,
     EXPECT_NE(unknown.found, empty_result.found)
         << "null result and empty result must be distinguishable by found flag";
 }
-
-}  // namespace themis::test
+} } // namespace themis::test

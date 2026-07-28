@@ -34,7 +34,7 @@
 #include <string>
 #include <vector>
 
-namespace themis::llm {
+namespace themis { namespace llm { 
 namespace {
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -367,5 +367,4 @@ TEST(LLMMemoryLifecycle, GrammarCacheRepeatedInsertSameName) {
     EXPECT_EQ(cache.size(), 1u) << "overwrite must not increase size";
     EXPECT_EQ(cache.get("json"), g2) << "latest value must be returned";
 }
-
-} // namespace themis::llm
+} } // namespace themis::llm

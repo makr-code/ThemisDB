@@ -16,7 +16,7 @@
 #include <string>
 #include <vector>
 
-namespace themis::observability::test {
+namespace themis { namespace observability { namespace test { 
 
 namespace {
 
@@ -228,5 +228,4 @@ TEST(ObservabilityProvenanceApiStandaloneTest, ReturnsServiceUnavailableWithoutS
 }
 
 } // namespace
-
-} // namespace themis::observability::test
+} } } // namespace themis::observability::test

@@ -20,14 +20,22 @@
 #include <string_view>
 #include <vector>
 #include <memory>
+#include <cstring>
+#include <cstddef>
 #include <thread>
 #include <mutex>
 #include <atomic>
 #include <optional>
 #include <sstream>
 
+// Provide a small portable secure-zero helper used by tests.
+// Use a portable volatile-memset loop to avoid depending on OpenSSL at link time.
+static inline void themis_secure_zero(void* ptr, std::size_t len) {
+  volatile unsigned char* p = static_cast<volatile unsigned char*>(ptr);
+  while (len--) *p++ = 0;
+}
 // Mock classes and test utilities for security testing
-namespace themis::security::test {
+namespace themis { namespace security { namespace test {
 
 /**
  * @class InputValidator
@@ -234,7 +242,7 @@ class ErrorPathSecurityChecker {
   }
 };
 
-} // namespace themis::security::test
+} } } // namespace themis::security::test
 
 // ============================================================================
 // Test Suite: Focus Area 1 - Input Validation
@@ -421,8 +429,8 @@ TEST_F(Phase4MemorySafetyTest, SEC_MEM_04_ZeroSensitiveMemory) {
   // Simulate secret use
   volatile unsigned char* ptr = secret.data();
   
-  // Zero the memory
-  OPENSSL_cleanse(secret.data(), secret.size());
+  // Zero the memory (portable helper)
+  themis_secure_zero(secret.data(), secret.size());
   
   // Verify zeroed
   for (unsigned char c : secret) {
@@ -552,8 +560,9 @@ TEST_F(Phase4ErrorPathSecurityTest, SEC_ERR_01_SanitizeErrorMessages) {
   
   auto sanitized = ErrorPathSecurityChecker::SanitizeErrorMessage(sensitive_error);
   
-  EXPECT_NE(sanitized.find("password"), std::string::npos) == false;
-  EXPECT_NE(sanitized.find("user:"), std::string::npos) == false;
+  // Sanitized result should NOT contain sensitive tokens
+  EXPECT_EQ(sanitized.find("password"), std::string::npos);
+  EXPECT_EQ(sanitized.find("user:"), std::string::npos);
 }
 
 // SEC-ERR-02: Stack traces removed
@@ -562,8 +571,8 @@ TEST_F(Phase4ErrorPathSecurityTest, SEC_ERR_02_RemoveStackTraces) {
   
   auto sanitized = ErrorPathSecurityChecker::SanitizeErrorMessage(error_with_trace);
   
-  EXPECT_NE(sanitized.find("0x"), std::string::npos) == false;
-  EXPECT_NE(sanitized.find(".so"), std::string::npos) == false;
+  EXPECT_EQ(sanitized.find("0x"), std::string::npos);
+  EXPECT_EQ(sanitized.find(".so"), std::string::npos);
 }
 
 // SEC-ERR-03: No PII in error messages
@@ -662,10 +671,10 @@ TEST_F(Phase4SecurityIntegrationTest, SEC_INT_02_IntegrationAcrossSecurityAreas)
 
   auto error_sanitized = ErrorPathSecurityChecker::SanitizeErrorMessage(
       "Database error at internal_server");
-  EXPECT_NE(error_sanitized.find("internal"), std::string::npos) == false;
+  EXPECT_EQ(error_sanitized.find("internal"), std::string::npos);
 }
 
-} // namespace themis::security::test
+
 
 // ============================================================================
 // Main Test Entry Point

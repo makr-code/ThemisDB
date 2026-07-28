@@ -50,7 +50,7 @@
 #include <unordered_map>
 #include <vector>
 
-namespace themis::test {
+namespace themis { namespace test { 
 
 namespace {
 
@@ -608,5 +608,4 @@ TEST_F(SlaComplianceUptimeTest, SLA08_SlaGateCounterReportsCorrectly) {
     EXPECT_DOUBLE_EQ(gate_->Value(), 1.0)
         << "gate counter must return to 1.0 after a subsequent passing report";
 }
-
-} // namespace themis::test
+} } // namespace themis::test

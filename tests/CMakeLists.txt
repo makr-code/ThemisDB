@@ -79,6 +79,16 @@ if(NOT yaml-cpp_FOUND)
     message(STATUS "yaml-cpp not found - YAML-based tests will be skipped")
 endif()
 
+# Find OpenSSL for security-related test helpers (we need OPENSSL_cleanse)
+find_package(OpenSSL QUIET)
+if(OpenSSL_FOUND)
+    message(STATUS "OpenSSL found: ${OPENSSL_VERSION}")
+    list(APPEND TEST_LIBS OpenSSL::Crypto)
+    include_directories(${OPENSSL_INCLUDE_DIR})
+else()
+    message(STATUS "OpenSSL not found - tests will fall back to portable secure-zero or require OpenSSL for full checks")
+endif()
+
 # Shared test libraries so individual test executables don't forget to link gtest
 set(TEST_LIBS
     GTest::gtest

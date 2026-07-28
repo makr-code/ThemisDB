@@ -44,7 +44,7 @@
 #include <unordered_map>
 #include <vector>
 
-namespace themis::test {
+namespace themis { namespace test { 
 
 namespace {
 
@@ -461,9 +461,7 @@ TEST_F(DegradationFaultRecoveryTest, DFR_08_NoCascadingFailures) {
     // Verify all healthy
     EXPECT_EQ(cluster_->GetHealthyNodeCount(), 4);
 }
-
-}  // namespace themis::test
-
+} } // namespace themis::test
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();

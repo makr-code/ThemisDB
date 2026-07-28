@@ -5,7 +5,7 @@
 #include "sharding/shard_topology.h"
 #include <memory>
 
-namespace themis::sharding {
+namespace themis { namespace sharding { 
 
 class ShardRouterTest : public ::testing::Test {
 protected:
@@ -84,5 +84,4 @@ TEST_F(ShardRouterTest, RouteRequestAcceptsValidMethodAndPath) {
     EXPECT_NE(result.error_msg, "method is empty");
     EXPECT_NE(result.error_msg, "path is empty");
 }
-
-}  // namespace themis::sharding
+} } // namespace themis::sharding

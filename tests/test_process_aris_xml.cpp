@@ -29,7 +29,7 @@
 #include <string>
 #include <string_view>
 
-namespace themis::process {
+namespace themis { namespace process { 
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -402,5 +402,4 @@ TEST_F(ArisXmlManagerTest, PAR06_ImportArisXmlWithMetaOverride) {
     EXPECT_EQ(loaded->domain, ProcessDomain::ADMINISTRATION);
     EXPECT_EQ(loaded->owner,  "TestTeam");
 }
-
-} // namespace themis::process
+} } // namespace themis::process

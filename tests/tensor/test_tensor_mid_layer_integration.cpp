@@ -41,7 +41,7 @@
 #include <memory>
 #include <vector>
 
-namespace themis::tensor::test {
+namespace themis { namespace tensor { namespace test { 
 
 /**
  * @class TensorMidLayerIntegrationTest
@@ -384,9 +384,7 @@ TEST_F(TensorMidLayerIntegrationTest, RedundancyDetectionPerformanceBaseline) {
     EXPECT_LT(elapsed.count(), 2) 
         << "Redundancy detection took " << elapsed.count() << "ms (budget: 2ms)";
 }
-
-}  // namespace themis::tensor::test
-
+} } } // namespace themis::tensor::test
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();

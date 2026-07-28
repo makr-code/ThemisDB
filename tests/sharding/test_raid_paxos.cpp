@@ -16,7 +16,7 @@
 #include <vector>
 #include <string>
 
-namespace themisdb::sharding {
+namespace themisdb { namespace sharding { 
 
 class RAIDPaxosTest : public ::testing::Test {
 protected:
@@ -369,5 +369,4 @@ TEST_F(RAIDPaxosTest, RAIDModeDescription) {
     EXPECT_EQ(config.getRAIDModeDescription(), 
         "RAID 10 (Stripe+Mirror) - 4 stripe width x 2 mirrors");
 }
-
-} // namespace themisdb::sharding
+} } // namespace themisdb::sharding

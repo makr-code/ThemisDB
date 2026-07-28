@@ -2,7 +2,7 @@
 #include "storage/base_entity.h"
 #include <memory>
 
-namespace themis::storage {
+namespace themis { namespace storage { 
 
 // Test 1: Guard rejects empty field_name
 TEST(BaseEntitySetFieldTest, SetFieldFailsClosedForEmptyFieldName) {
@@ -105,5 +105,4 @@ TEST(BaseEntitySetFieldTest, FieldMapCorruptionPrevented) {
     EXPECT_TRUE(fields.contains("valid_field"));
     EXPECT_FALSE(fields.contains(""));
 }
-
-}  // namespace themis::storage
+} } // namespace themis::storage

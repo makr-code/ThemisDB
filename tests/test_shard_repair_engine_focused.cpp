@@ -20,7 +20,7 @@ static const RedundancyStrategy::WriteHandler kAlwaysSucceedWriteHandler =
         return true;
     };
 
-namespace themis::sharding {
+namespace themis { namespace sharding { 
 
 class ShardRepairEngineTest : public ::testing::Test {
 protected:
@@ -143,5 +143,4 @@ TEST_F(ShardRepairEngineTest, MultipleFailClosedGsGuardsAreIndependent) {
     std::string job_id3 = engine_->triggerDocumentRepair("");
     EXPECT_TRUE(job_id3.empty());
 }
-
-}  // namespace themis::sharding
+} } // namespace themis::sharding

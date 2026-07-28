@@ -37,7 +37,7 @@
 
 using namespace std::chrono_literals;
 
-namespace themisdb::sharding::fi_test {
+namespace themisdb { namespace sharding { namespace fi_test { 
 
 // ============================================================================
 // Constants
@@ -1988,5 +1988,4 @@ TEST_F(CascadeMultiFailureTest, FI40_EndToEndFaultStressNoTxnBothCommittedAndAbo
     // All 20 txns must have a definitive decision
     EXPECT_EQ(decisions.size(), static_cast<size_t>(kTxns));
 }
-
-}  // namespace themisdb::sharding::fi_test
+} } } // namespace themisdb::sharding::fi_test

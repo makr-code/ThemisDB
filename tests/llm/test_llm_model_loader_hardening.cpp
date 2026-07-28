@@ -19,7 +19,7 @@
 
 using namespace std::chrono_literals;
 
-namespace themis::llm {
+namespace themis { namespace llm { 
 namespace {
 
 std::shared_ptr<CachedModel> makeCachedModel(const std::string& model_id,
@@ -118,4 +118,4 @@ TEST_F(LazyModelLoaderHardeningTest, EvictLRURemovesOldestUnpinnedModel) {
 }
 
 }  // namespace
-}  // namespace themis::llm
+} } // namespace themis::llm

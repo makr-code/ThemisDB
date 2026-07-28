@@ -33,7 +33,7 @@
 #include <unordered_map>
 #include <vector>
 
-namespace themis::test {
+namespace themis { namespace test { 
 
 namespace {
 
@@ -362,5 +362,4 @@ TEST_F(CriticalJourneyHardeningTest, RCJ08_StateTransitionsDeterministicUnderReE
             << "Iteration " << iter << ": Query must return exactly 1 result";
     }
 }
-
-} // namespace themis::test
+} } // namespace themis::test

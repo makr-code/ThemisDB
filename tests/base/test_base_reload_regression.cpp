@@ -37,7 +37,7 @@
 #include <string>
 #include <vector>
 
-namespace themis::modules {
+namespace themis { namespace modules { 
 
 // =============================================================================
 // Helpers
@@ -1015,5 +1015,4 @@ TEST_F(BaseErrorTaxonomyTest, IsKnownCodeCorrect) {
     EXPECT_FALSE(isKnownCode(1350));  // just above registry range
     EXPECT_FALSE(isKnownCode(9999));
 }
-
-} // namespace themis::modules
+} } // namespace themis::modules

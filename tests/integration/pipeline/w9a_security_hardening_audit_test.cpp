@@ -51,7 +51,7 @@
 #include <unordered_set>
 #include <vector>
 
-namespace themis::test {
+namespace themis { namespace test { 
 
 namespace {
 
@@ -702,5 +702,4 @@ TEST_F(SecurityHardeningAuditTest, SHA08_AuditLogMonotoneSequenceUnderConcurrenc
     EXPECT_TRUE(audit_->IntegrityCheck())
         << "concurrent writes must not corrupt audit log integrity hashes";
 }
-
-} // namespace themis::test
+} } // namespace themis::test

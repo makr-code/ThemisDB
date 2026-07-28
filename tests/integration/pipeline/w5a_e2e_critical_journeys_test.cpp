@@ -32,7 +32,7 @@
 #include <unordered_map>
 #include <vector>
 
-namespace themis::test {
+namespace themis { namespace test { 
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Seeded generator for deterministic Wave-5 data
@@ -547,5 +547,4 @@ TEST_F(W5AE2ECriticalJourneysTest, E2E08_SchemaInvalidDocumentRejectedAtBoundary
     EXPECT_TRUE(audit_->Contains("ingest", "schema_error"))
         << "Audit must record schema_error";
 }
-
-} // namespace themis::test
+} } // namespace themis::test

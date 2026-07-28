@@ -18,7 +18,7 @@
 #include <string>
 #include <memory>
 
-namespace themisdb::sharding {
+namespace themisdb { namespace sharding { 
 
 class DualConsensusTest : public ::testing::Test {
 protected:
@@ -406,5 +406,4 @@ TEST_F(DualConsensusTest, GetConsistencyState) {
     EXPECT_EQ(orchestrator->checkConsistency("test_key"), 
              CrossLayerConsistencyState::CONSISTENT);
 }
-
-} // namespace themisdb::sharding
+} } // namespace themisdb::sharding

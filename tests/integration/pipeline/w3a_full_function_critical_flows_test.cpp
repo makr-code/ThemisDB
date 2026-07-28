@@ -43,7 +43,7 @@
 #include <unordered_set>
 #include <vector>
 
-namespace themis::test {
+namespace themis { namespace test { 
 
 namespace {
 
@@ -733,5 +733,4 @@ TEST_F(W3AFullFunctionCriticalFlowsTest, FFW08_MultiTenantFullFlowMaintainsStric
     EXPECT_EQ(pipeline_->CdcCount(), 2U)
         << "FFW-08: Global CDC count must equal sum of both tenants' events";
 }
-
-} // namespace themis::test
+} } // namespace themis::test

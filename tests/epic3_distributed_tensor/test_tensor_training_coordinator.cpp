@@ -2,7 +2,7 @@
 
 #include "distributed_tensor/tensor_training_coordinator.h"
 
-namespace themis::distributed_tensor::test {
+namespace themis { namespace distributed_tensor { namespace test { 
 
 class DeterministicWorker final : public ITensorTrainingWorker {
 public:
@@ -107,5 +107,4 @@ TEST(TensorTrainingCoordinatorTest, FailsOnMismatchedShardDimensions) {
     EXPECT_EQ(result->state, TrainingJobState::FAILED);
     EXPECT_EQ(result->error_message, "shard output dimension mismatch");
 }
-
-}  // namespace themis::distributed_tensor::test
+} } } // namespace themis::distributed_tensor::test

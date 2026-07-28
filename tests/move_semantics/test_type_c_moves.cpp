@@ -33,7 +33,7 @@
 #include "analytics/arrow_flight.h"
 #include "temporal/bi_temporal.h"
 
-namespace themis::test::move_semantics {
+namespace themis { namespace test { namespace move_semantics { 
 
 // ============================================================================
 // LLM Module — Type C Gap 1-2: ModelInfo / LoRAInfo polymorphic structs
@@ -581,5 +581,4 @@ TEST_F(NoexceptMoveTraitSummaryTest, AllRemediatedTypesAreNothrowMoveOrDeleted) 
     EXPECT_FALSE(std::is_move_constructible_v<themisdb::temporal::BiTemporalTable>) << "BiTemporalTable";
     EXPECT_FALSE(std::is_move_assignable_v<themisdb::temporal::BiTemporalTable>)    << "BiTemporalTable";
 }
-
-} // namespace themis::test::move_semantics
+} } } // namespace themis::test::move_semantics

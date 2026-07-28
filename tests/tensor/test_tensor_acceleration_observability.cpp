@@ -3,7 +3,7 @@
 #include "tensor/tensor_compression_routing_accelerator.h"
 #include "tensor/tensor_workflow_observability.h"
 
-namespace themis::tensor::test {
+namespace themis { namespace tensor { namespace test { 
 
 TEST(TensorAccelerationTest, CompressionAndRoutingMatchCpuReference) {
     TensorCompressionRoutingAccelerator accelerator;
@@ -61,5 +61,4 @@ TEST(TensorObservabilityTest, EmitsPrometheusAndDetectsSloViolation) {
     EXPECT_GT(summary.p95_latency_ms.at("training"), cfg.max_p95_training_ms);
     EXPECT_FALSE(summary.violations.empty());
 }
-
-}  // namespace themis::tensor::test
+} } } // namespace themis::tensor::test

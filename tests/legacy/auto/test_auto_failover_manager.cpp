@@ -37,7 +37,7 @@
 
 using namespace std::chrono_literals;
 
-namespace themis::failover::test {
+namespace themis { namespace failover { namespace test { 
 
 // ─── helpers ────────────────────────────────────────────────────────────────
 
@@ -581,5 +581,4 @@ TEST(AutoFailoverManagerFocusedTest, MultipleFailoversThenStatsSumCorrectly) {
               stats.successful_failovers + stats.failed_failovers);
     EXPECT_EQ(stats.total_failovers, static_cast<uint64_t>(kRuns));
 }
-
-}  // namespace themis::failover::test
+} } } // namespace themis::failover::test

@@ -59,7 +59,7 @@ AutoFailoverConfig makeFastConfig() {
 
 }  // namespace
 
-namespace themis::failover::test {
+namespace themis { namespace failover { namespace test { 
 
 // ── Lifecycle ─────────────────────────────────────────────────────────────────
 
@@ -398,5 +398,4 @@ TEST(FailoverChaosScenarios, ConcurrentTriggersSafe) {
     EXPECT_EQ(stats.tasks_dropped_queue_full,
               static_cast<uint64_t>(dropped.load()));
 }
-
-}  // namespace themis::failover::test
+} } } // namespace themis::failover::test

@@ -15,7 +15,7 @@
 #include <thread>
 #include <unordered_map>
 
-namespace themis::test {
+namespace themis { namespace test { 
 
 namespace {
 
@@ -234,5 +234,4 @@ TEST_F(QueryExecutionPipelineTest, QP06_StorageMissReturnsDeterministicErrorWith
     EXPECT_EQ(pipeline_->SuccessCount(), 0U);
     EXPECT_EQ(audit_->Count(), before_events);
 }
-
-} // namespace themis::test
+} } // namespace themis::test

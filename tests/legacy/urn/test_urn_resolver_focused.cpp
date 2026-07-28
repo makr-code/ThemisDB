@@ -4,7 +4,7 @@
 #include "sharding/shard_topology.h"
 #include <memory>
 
-namespace themis::sharding {
+namespace themis { namespace sharding { 
 
 class URNResolverTest : public ::testing::Test {
 protected:
@@ -39,5 +39,4 @@ TEST_F(URNResolverTest, GetShardForKeyReturnsValidShardForNonEmptyKey) {
     EXPECT_FALSE(result.empty());
     EXPECT_EQ(result, "shard_001");  // Only one shard in ring
 }
-
-}  // namespace themis::sharding
+} } // namespace themis::sharding

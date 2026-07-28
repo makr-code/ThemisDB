@@ -28,7 +28,7 @@
 #include <unordered_set>
 #include <vector>
 
-namespace themis::test {
+namespace themis { namespace test { 
 
 namespace {
 
@@ -607,5 +607,4 @@ TEST_F(FinalJourneySignoffTest, FJS08_ErrorVariantPipelineStageFailureWithCleanR
     EXPECT_TRUE(storage_->Contains(id3)) << "committed record must be in storage";
     EXPECT_EQ(pipeline.RollbackCount(), 2U) << "rollback count must not increase on success";
 }
-
-} // namespace themis::test
+} } // namespace themis::test

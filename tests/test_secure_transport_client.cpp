@@ -15,7 +15,7 @@
 
 using namespace themis::sharding;
 
-namespace themis::sharding {
+namespace themis { namespace sharding { 
 struct SecureTransportClientTestAccess {
     static void setLz4CompressFn(
         SecureTransportClient& client,
@@ -34,8 +34,7 @@ struct SecureTransportClientTestAccess {
         client.clearLz4CompressFn();
     }
 };
-}  // namespace themis::sharding
-
+} } // namespace themis::sharding
 /**
  * Test suite for SecureTransportClient
  */

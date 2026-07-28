@@ -24,7 +24,7 @@
 using nlohmann::json;
 using ::testing::HasSubstr;
 
-namespace themis::security::test {
+namespace themis { namespace security { namespace test { 
 
 namespace {
 
@@ -273,5 +273,4 @@ TEST(HSMStartupPolicy, RuntimeSecurityAllowsExplicitStubOverride) {
     EXPECT_TRUE(decision.allow_startup);
     EXPECT_EQ(decision.security_classification, "HSM-DEGRADED-EXPLICIT-STUB");
 }
-
-} // namespace themis::security::test
+} } } // namespace themis::security::test

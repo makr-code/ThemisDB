@@ -20,7 +20,7 @@
 #include <string>
 #include <vector>
 
-namespace themis::llm {
+namespace themis { namespace llm { 
 namespace {
 
 // ============================================================================
@@ -226,4 +226,4 @@ TEST(P0HardeningSPH, EmbedUnaffectedBySafetyPolicy) {
 }
 
 } // namespace
-} // namespace themis::llm
+} } // namespace themis::llm

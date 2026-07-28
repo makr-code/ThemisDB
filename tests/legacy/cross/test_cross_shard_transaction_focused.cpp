@@ -13,7 +13,7 @@
 #include <optional>
 #include <vector>
 
-namespace themisdb::sharding {
+namespace themisdb { namespace sharding { 
 
 class FakeConsensusModule final : public ConsensusModule {
 public:
@@ -228,5 +228,4 @@ TEST_F(CrossShardTransactionCoordinatorTest, PrepareCanProceedWhenPreconditionsS
     // but this call must compile and execute against the current API.
     (void)coordinator->prepare("txn-12345");
 }
-
-}  // namespace themisdb::sharding
+} } // namespace themisdb::sharding

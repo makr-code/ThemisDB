@@ -15,7 +15,7 @@
 #include <string>
 #include "security/safe_move.h"
 
-namespace themis::security::test {
+namespace themis { namespace security { namespace test { 
 
 // ============================================================================
 // MoveValidator Tests
@@ -463,5 +463,4 @@ TEST_F(MoveValidatorSpecializationTest, SharedPtrSpecialization) {
   );
   EXPECT_EQ(ptr, nullptr);
 }
-
-} // namespace themis::security::test
+} } } // namespace themis::security::test

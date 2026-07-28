@@ -17,7 +17,7 @@
 #include <thread>
 #include <vector>
 
-namespace themis::llm::tests {
+namespace themis { namespace llm { namespace tests { 
 
 namespace fs = std::filesystem;
 
@@ -333,5 +333,4 @@ TEST_F(SSMRocksDBStoreTest, SnapshotSerialization) {
     EXPECT_EQ(resumed->snapshot_ts.getPhysicalTime(), original.snapshot_ts.getPhysicalTime());
     EXPECT_EQ(resumed->snapshot_ts.getLogicalCounter(), original.snapshot_ts.getLogicalCounter());
 }
-
-} // namespace themis::llm::tests
+} } } // namespace themis::llm::tests

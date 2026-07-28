@@ -30,7 +30,7 @@
 #include "llm/prompt_manager.h"
 #include "llm/token_quota_manager.h"
 
-namespace themis::llm {
+namespace themis { namespace llm { 
 
 // ============================================================================
 // TEST FIXTURE
@@ -348,5 +348,4 @@ TEST_F(MoveSemanticsSafetyTest, RuleOfFive_CopyDeleted) {
     //          MultiLoRAManager& operator=(const MultiLoRAManager&) = delete;
     // - Or: Proper copy implementation
 }
-
-} // namespace themis::llm
+} } // namespace themis::llm

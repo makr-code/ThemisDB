@@ -22,7 +22,7 @@
 #include <thread>
 #include <atomic>
 
-namespace themisdb::sharding {
+namespace themisdb { namespace sharding { 
 
 class ConvergedChaosTest : public ::testing::Test {
 protected:
@@ -404,5 +404,4 @@ TEST_F(ConvergedChaosTest, ConvergedSLOTargetValues) {
     EXPECT_EQ(targets.max_inference_preemption_rate, 0.01);
     EXPECT_EQ(targets.preemption_recovery_time_target_s, 2.0);
 }
-
-} // namespace themisdb::sharding
+} } // namespace themisdb::sharding

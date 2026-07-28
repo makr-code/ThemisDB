@@ -49,7 +49,7 @@
 
 #include <gtest/gtest.h>
 
-namespace themis::distributed_tensor {
+namespace themis { namespace distributed_tensor { 
 namespace {
 
 // ---------------------------------------------------------------------------
@@ -557,4 +557,4 @@ TEST(LifecycleStalenessManagement, LSM35_InvalidationManagerPlannerGateRejectsCo
 }
 
 }  // namespace
-}  // namespace themis::distributed_tensor
+} } // namespace themis::distributed_tensor

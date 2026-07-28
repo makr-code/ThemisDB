@@ -27,7 +27,7 @@
 #include <unordered_map>
 #include <vector>
 
-namespace themis::test {
+namespace themis { namespace test { 
 
 namespace {
 
@@ -543,5 +543,4 @@ TEST_F(RecoveryResilienceTest, HCR08_PostRecoveryQueryResultsMatchPreFailureKnow
             << " (expected='" << expected_value << "' got='" << *actual << "')";
     }
 }
-
-} // namespace themis::test
+} } // namespace themis::test
