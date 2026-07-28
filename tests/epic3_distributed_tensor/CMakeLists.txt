@@ -87,7 +87,7 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_manifest_store_phase_a.cpp")
 
     if(COMMAND themis_register_module_focused_test)
         themis_register_module_focused_test(
-            MODULE distributed_tensor
+            MODULE epic3_distributed_tensor
             NAME ManifestStorePhaseATests
             TARGET test_manifest_store_phase_a
             TIER unit
@@ -133,7 +133,7 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_lifecycle_staleness_management.cpp")
 
     if(COMMAND themis_register_module_focused_test)
         themis_register_module_focused_test(
-            MODULE distributed_tensor
+            MODULE epic3_distributed_tensor
             NAME LifecycleStalenessManagementTests
             TARGET test_lifecycle_staleness_management
             TIER unit
@@ -178,7 +178,7 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_tensor_delta_log.cpp")
 
     if(COMMAND themis_register_module_focused_test)
         themis_register_module_focused_test(
-            MODULE distributed_tensor
+            MODULE epic3_distributed_tensor
             NAME TensorDeltaLogPhaseATests
             TARGET test_tensor_delta_log
             TIER unit
@@ -226,7 +226,7 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_tensor_rebuild_fallback.cpp")
 
     if(COMMAND themis_register_module_focused_test)
         themis_register_module_focused_test(
-            MODULE distributed_tensor
+            MODULE epic3_distributed_tensor
             NAME TensorRebuildFallbackPhaseBTests
             TARGET test_tensor_rebuild_fallback
             TIER unit
