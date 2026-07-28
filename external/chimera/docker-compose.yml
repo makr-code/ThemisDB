@@ -1,0 +1,165 @@
+# CHIMERA Endurance-Benchmark – Docker Compose
+# ============================================================
+# Startet den 24h-Benchmark-Container parallel zu ThemisDB.
+# ThemisDB läuft auf dem QNAP und ist per HTTPS erreichbar.
+#
+# Konfiguration via .env-Datei (siehe .env.example):
+#   THEMISDB_HOST=192.168.1.100   # IP/Hostname des QNAP
+#   THEMISDB_PORT=18765
+#   THEMISDB_USER=bench_user
+#   THEMISDB_PASSWORD=secure_password
+#   THEMISDB_DB=benchmark_db
+#   ENDURANCE_HOURS=24
+# ============================================================
+
+services:
+
+  # ----------------------------------------------------------
+  # CHIMERA Benchmark-Container
+  # ----------------------------------------------------------
+  chimera-benchmark:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: chimera-benchmark:latest
+    container_name: chimera_endurance
+    restart: "no"                   # Nicht automatisch neu starten
+    networks:
+      - default
+      - themis_external
+
+    environment:
+      # ThemisDB-Verbindung (QNAP)
+      THEMISDB_HOST:      "${THEMISDB_HOST:-192.168.1.100}"
+      THEMISDB_PORT:      "${THEMISDB_PORT:-18765}"
+      THEMISDB_USER:      "${THEMISDB_USER:-bench_user}"
+      THEMISDB_PASSWORD:  "${THEMISDB_PASSWORD:-changeme}"
+      THEMISDB_DB:        "${THEMISDB_DB:-benchmark_db}"
+      THEMISDB_HEALTH_ENDPOINT: "${THEMISDB_HEALTH_ENDPOINT:-/api/v1/health}"
+      THEMISDB_QUERY_ENDPOINT: "${THEMISDB_QUERY_ENDPOINT:-/api/v1/query}"
+      THEMISDB_VECTOR_SEARCH_ENDPOINT: "${THEMISDB_VECTOR_SEARCH_ENDPOINT:-/api/v1/vector/search}"
+      THEMISDB_INFO_ENDPOINTS: "${THEMISDB_INFO_ENDPOINTS:-/api/v1/info,/api/v1/version,/api/v1/status,/api/v1/health}"
+
+      # TLS
+      THEMISDB_USE_TLS:   "${THEMISDB_USE_TLS:-true}"
+      # Pfad zum CA-Zertifikat *im Container* (via Volume gemountet)
+      THEMISDB_CA_CERT:   "/certs/ca.crt"
+      # Auf false setzen, wenn das QNAP-Zertifikat selbstsigniert ist
+      # und kein CA-Cert vorhanden ist – NUR in isolierten Netzen!
+      THEMISDB_VERIFY_TLS: "${THEMISDB_VERIFY_TLS:-true}"
+
+      # Testdauer und Parallelität
+      ENDURANCE_HOURS:    "${ENDURANCE_HOURS:-24}"
+      PARALLEL_WORKERS:   "${PARALLEL_WORKERS:-4}"
+
+      # Ausgabe
+      RESULTS_DIR:        "/results"
+      REPORT_INTERVAL_MIN: "${REPORT_INTERVAL_MIN:-30}"
+
+    volumes:
+      # Ergebnisse auf dem Host persistieren
+      - ./endurance_results:/results
+
+      # TLS-Zertifikate (CA-Cert des QNAP/ThemisDB)
+      # Datei: certs/ca.crt  (vor dem Start dort ablegen)
+      - ./certs:/certs:ro
+
+      # Optionale eigene Benchmark-Konfiguration
+      - ./endurance_config.toml:/app/endurance_config.toml:ro
+
+    # Netzwerk-Extras: QNAP per Hostname erreichbar machen
+    extra_hosts:
+      - "qnap-nas:${THEMISDB_HOST:-192.168.1.100}"
+
+    # Ressourcenlimits (QNAP-NAS schonen)
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: "1G"
+        reservations:
+          cpus: "0.5"
+          memory: "256M"
+
+    # Healthcheck: Prüft, ob der Endurance-Runner noch läuft
+    healthcheck:
+      test: ["CMD", "python", "-c",
+             "import os, sys; sys.exit(0 if os.path.exists('/results/.heartbeat') else 1)"]
+      interval: 5m
+      timeout: 30s
+      retries: 3
+      start_period: 2m
+
+  # ----------------------------------------------------------
+  # CHIMERA REST-API-Server (optionaler Service)
+  # ----------------------------------------------------------
+  # Startet den Dashboard-Server, der Ergebnisse aus ./endurance_results
+  # per HTTP(S) bereitstellt.
+  #
+  # Starten:
+  #   docker compose --profile server up chimera-server
+  #
+  # Mit HTTPS (Zertifikat in ./certs/server.crt + ./certs/server.key):
+  #   CHIMERA_SERVER_TLS_CERT=/certs/server.crt \
+  #   CHIMERA_SERVER_TLS_KEY=/certs/server.key \
+  #   docker compose --profile server up chimera-server
+  chimera-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: chimera-benchmark:latest
+    container_name: chimera_server
+    restart: unless-stopped
+    profiles:
+      - server
+
+    command:
+      - python
+      - chimera_cli.py
+      - serve
+      - "--results-dir=/results"
+      - "--server-host=0.0.0.0"
+      - "--server-port=${CHIMERA_SERVER_PORT:-8080}"
+      - "--cache-ttl=${CHIMERA_SERVER_CACHE_TTL:-30}"
+      - "--title=${CHIMERA_SERVER_TITLE:-CHIMERA Benchmark Dashboard}"
+
+    environment:
+      CHIMERA_SERVER_PORT:      "${CHIMERA_SERVER_PORT:-8080}"
+      CHIMERA_SERVER_CACHE_TTL: "${CHIMERA_SERVER_CACHE_TTL:-30}"
+      CHIMERA_SERVER_TITLE:     "${CHIMERA_SERVER_TITLE:-CHIMERA Benchmark Dashboard}"
+      # TLS: Zertifikat und Schlüssel (Pfade im Container, via Volume gemountet)
+      CHIMERA_SERVER_TLS_CERT:  "${CHIMERA_SERVER_TLS_CERT:-}"
+      CHIMERA_SERVER_TLS_KEY:   "${CHIMERA_SERVER_TLS_KEY:-}"
+
+    volumes:
+      # Ergebnisse (geteilt mit dem Benchmark-Container)
+      - ./endurance_results:/results:ro
+      # TLS-Zertifikate für den Server selbst
+      - ./certs:/certs:ro
+
+    ports:
+      - "${CHIMERA_SERVER_PORT:-8080}:${CHIMERA_SERVER_PORT:-8080}"
+
+    healthcheck:
+      test: ["CMD", "python", "-c",
+             "import urllib.request; urllib.request.urlopen('http://localhost:${CHIMERA_SERVER_PORT:-8080}/api/v1/status')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "5"
+
+    # Sauber herunterfahren (laufende Messung abschließen)
+    stop_grace_period: 2m
+
+networks:
+  default:
+    driver: bridge
+  themis_external:
+    external: true
+    name: "${THEMISDB_DOCKER_NETWORK:-themis_themis-net}"

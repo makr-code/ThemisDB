@@ -39,6 +39,27 @@ else()
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 endif()
 
+# Prefer isolating module-focused tests into per-module subdirectories to avoid
+# concurrent linking/writing into the same `bin_out` path which can trigger
+# LNK1104 when multiple parallel linkers race on the same filename.
+set(THEMIS_TESTS_RUNTIME_SUBDIR "${CMAKE_BINARY_DIR}/bin_out_tests_by_module" CACHE PATH "Per-module test binary output base dir")
+file(MAKE_DIRECTORY "${THEMIS_TESTS_RUNTIME_SUBDIR}")
+
+# Helper: set per-target runtime output to a module-scoped folder
+function(themis_set_test_out_dir target module_name)
+    if(NOT TARGET ${target})
+        return()
+    endif()
+    set(_outdir "${THEMIS_TESTS_RUNTIME_SUBDIR}/${module_name}")
+    file(MAKE_DIRECTORY "${_outdir}")
+    set_target_properties(${target} PROPERTIES
+        RUNTIME_OUTPUT_DIRECTORY "${_outdir}"
+        RUNTIME_OUTPUT_DIRECTORY_DEBUG "${_outdir}/Debug"
+        RUNTIME_OUTPUT_DIRECTORY_RELEASE "${_outdir}/Release"
+        RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${_outdir}/RelWithDebInfo"
+        RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${_outdir}/MinSizeRel"
+    )
+endfunction()
 if(MSVC)
     message(STATUS "MSVC Runtime: ${CMAKE_MSVC_RUNTIME_LIBRARY}")
 endif()
@@ -115,6 +136,29 @@ foreach(_module_cmake IN LISTS _TEST_MODULE_CMAKES)
     endif()
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${_module_dir}/CMakeLists.txt")
         add_subdirectory("${_module_dir}")
+    endif()
+endforeach()
+
+# ---------------------------------------------------------------------------
+# Post-fix: ensure test/module executables write into per-target folders to avoid
+# concurrent write/copy collisions (prevents LNK1104 when applocal or parallel
+# link/copy operations target the same path).
+get_property(_all_targets GLOBAL PROPERTY TARGETS)
+foreach(_t IN LISTS _all_targets)
+    if(_t MATCHES "^(test_|module_)")
+        # skip library targets and only adjust executables
+        if(TARGET ${_t} AND NOT "${_t}" STREQUAL "themis_tests")
+            get_target_property(_type ${_t} TYPE)
+            if(_type STREQUAL "EXECUTABLE")
+                set_target_properties(${_t} PROPERTIES
+                    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin_out_tests/${_t}"
+                    RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/bin_out_tests/${_t}/Debug"
+                    RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/bin_out_tests/${_t}/Release"
+                    RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_BINARY_DIR}/bin_out_tests/${_t}/RelWithDebInfo"
+                    RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${CMAKE_BINARY_DIR}/bin_out_tests/${_t}/MinSizeRel"
+                )
+            endif()
+        endif()
     endif()
 endforeach()
 

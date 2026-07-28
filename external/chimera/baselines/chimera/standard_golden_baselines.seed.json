@@ -1,0 +1,85 @@
+{
+  "golden_baseline_id": "chimera.standard.golden-baseline.v1",
+  "golden_baseline_version": "1.0.0",
+  "seed_type": "repository_reference_seed",
+  "generated_by": "manual_seed",
+  "notes": "Repository-seed fuer standardbasierte Golden-Baselines. Laufzeit-Artefakte werden in standard_golden_baselines.json unter results_dir erzeugt.",
+  "standards": {
+    "YCSB": {
+      "required_metrics": [
+        "throughput_ops_per_sec",
+        "mean_latency_ms",
+        "p95_latency_ms",
+        "p99_latency_ms"
+      ]
+    },
+    "TPC-C": {
+      "required_metrics": [
+        "throughput_ops_per_sec",
+        "mean_latency_ms",
+        "p95_latency_ms",
+        "p99_latency_ms",
+        "error_count"
+      ]
+    },
+    "TSBS": {
+      "required_metrics": [
+        "throughput_ops_per_sec",
+        "mean_latency_ms",
+        "p95_latency_ms",
+        "p99_latency_ms",
+        "ingest_rate_points_per_sec"
+      ]
+    },
+    "LDBC-SNB": {
+      "required_metrics": [
+        "throughput_ops_per_sec",
+        "mean_latency_ms",
+        "p95_latency_ms",
+        "p99_latency_ms"
+      ]
+    },
+    "ANN-Benchmarks": {
+      "required_metrics": [
+        "recall_at_k",
+        "qps",
+        "mean_latency_ms",
+        "p99_latency_ms"
+      ]
+    },
+    "BEIR": {
+      "required_metrics": [
+        "ndcg_at_10",
+        "mrr",
+        "map",
+        "throughput_ops_per_sec",
+        "mean_latency_ms",
+        "p95_latency_ms",
+        "p99_latency_ms"
+      ]
+    },
+    "MLPerf-Inference": {
+      "required_metrics": [
+        "throughput_ops_per_sec",
+        "mean_latency_ms",
+        "p95_latency_ms",
+        "p99_latency_ms",
+        "quality_target_passed"
+      ]
+    },
+    "RAGAS": {
+      "required_metrics": [
+        "faithfulness",
+        "answer_relevance",
+        "context_precision",
+        "context_recall",
+        "ragas_score",
+        "ragbench_score",
+        "throughput_ops_per_sec",
+        "mean_latency_ms",
+        "p95_latency_ms",
+        "p99_latency_ms"
+      ]
+    }
+  }
+}

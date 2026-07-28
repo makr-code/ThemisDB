@@ -14,6 +14,16 @@ foreach(_src IN LISTS TENSOR_MODULE_TEST_SOURCES)
     endif()
 
     add_executable(${_target} "${_src}")
+    # Avoid linking collisions in the shared `bin_out` by placing module test
+    # executables into a module-scoped output directory. This prevents
+    # LNK1104 when multiple targets attempt to write the same path.
+    set_target_properties(${_target} PROPERTIES
+        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin_out_module_tensor_tests"
+        RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/bin_out_module_tensor_tests/Debug"
+        RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/bin_out_module_tensor_tests/Release"
+        RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_BINARY_DIR}/bin_out_module_tensor_tests/RelWithDebInfo"
+        RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${CMAKE_BINARY_DIR}/bin_out_module_tensor_tests/MinSizeRel"
+    )
     if("${_stem}" STREQUAL "test_tensor_phase3")
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/query/tensor_aware_query_optimizer.cpp
