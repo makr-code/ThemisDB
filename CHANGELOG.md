@@ -14,12 +14,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 #### Root Documentation Synchronization
 
 - **ROADMAP.md (v2.4.0-rc1)**: Updated Phase 0-6 status with links to phase artifacts and sign-off documents.
-  - Phase 0: Build stable (✅ RocksDB fix + release_critical gate)
+  - Phase 0: Build reproducibility still partially blocked on `community-release` system-package path (🟡)
   - Phase 1: Top-risk module hardening (✅ server, llm, sharding complete)
   - Phase 2: Performance & scalability readiness (🟡 in progress, behind measurable gates)
   - Phase 3: Integration & resilience proof (🟡 Wave 5/6 retained + Wave 8 chaos)
   - Phase 4: Security & compliance hardening (✅ 0 CRITICAL findings, pentest complete)
-  - Phase 5: Operational production readiness (✅ 99.99% SLA validated, runbooks delivered)
+  - Phase 5: Operational production readiness (🟡 in progress; observability/backup/recovery/SLA/runbook closure still tracked in roadmap checkboxes)
   - Phase 6: Documentation & governance (🟡 IN PROGRESS)
 - **VERSIONING.md (v2.4.0-rc1)**: Confirmed v2.4.0-rc1 versioning scheme and GA promotion requirements.
 - **RELEASE_STRATEGY.md**: Updated with v2.4.0-rc1 gate model and release promotion criteria.
@@ -51,11 +51,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 #### Final GA Readiness Checklist
 
 - Created: `FINAL_GA_READINESS_CHECKLIST.md` with comprehensive go/no-go gates
-  - Build & infrastructure checks (✅ linux-release, community-release stable)
-  - Testing: All waves (Wave 5-9) + phase tests passing
-  - Security & compliance: 0 CRITICAL, security audit complete
-  - Documentation: All root docs synchronized, API docs 100%
-  - Decision point: GO for human sign-off if all gates ✅
+  - Build & infrastructure checks include open `community-release` system-package reproducibility item (🟡)
+  - Testing/security/doc evidence is consolidated, but promotion remains blocked until current-head re-verification + unresolved roadmap checkboxes are closed
+  - Decision point: **NO-GO / PENDING** until all required roadmap and promotion checklist items are `[x]`
 
 #### Artifact Linking & Verification
 
