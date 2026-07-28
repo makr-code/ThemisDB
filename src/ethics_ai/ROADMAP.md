@@ -1,7 +1,7 @@
 # Ethics AI Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-06-22 -->
+<!-- Status: current | validated: 2026-07-28 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
@@ -145,6 +145,24 @@ scalable multi-school discourse. Design rationale documented in
 - [ ] MetaVerdict struct and audit fields defined
 - [ ] LDM Ebene-1/2/3 implemented and tested
 - [ ] release benchmark stabilization complete
+
+## Closure Path (for issue #5642)
+
+- [~] Validate and refine extracted roadmap priorities against full module docs in `src/ethics_ai/ROADMAP.md` (Target: 2026-07)
+  - Snapshot alignment kept for Q3/Q4 priorities and LDM-2 roadmap items.
+- [~] Validate and refine extracted future focus points against full module docs in `src/ethics_ai/FUTURE_ENHANCEMENTS.md` (Target: 2026-07)
+  - LDM, Mirror-School, and Legal-DB grounding focus remains source-aligned.
+- [ ] Add/refresh focused build and test evidence for this module (Target: 2026-08)
+  - Current evidence gap: `tests/ethics_ai/CMakeLists.txt` is placeholder-only and no focused `test_*_focused.cpp` files exist.
+- [~] Mark completed synced items and risks with explicit status transitions (Target: 2026-07)
+  - Phase 6 doc synchronization remains complete; implementation evidence remains partial.
+
+### Issue #5642 Evidence Snapshot (2026-07-28)
+
+- Build preset reference: `windows-release` (issue baseline).
+- Test/build target evidence: no `module_ethics_ai_test_*_focused` target is currently generated from `tests/ethics_ai/`.
+- Last module test directory state: placeholder-only (`tests/ethics_ai/CMakeLists.txt`, `tests/ethics_ai/README.md`).
+- Canonical status: implementation coverage remains partial until focused test targets and executable evidence are added.
 
 ## Known Issues and Limitations
 
