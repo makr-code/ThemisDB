@@ -1,16 +1,24 @@
 > **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-07-28 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # Core Module - Future Enhancements
 
-- Central dependency injection (DI) context (`ConcernsContext`): owns and dispenses all adapter instances (storage, index, query, auth, logger, tracer, metrics, cache)
+## Scope
+
+- Central dependency injection (DI) context (`ConcernsContext`) for adapter ownership and resolution (storage, index, query, auth, logger, tracer, metrics, cache)
 - Adapter lifecycle management: registration, validation, hot-swap, and graceful shutdown of adapters
-- Circuit-breaker pattern for adapter dependencies: automatic fail-open/fail-close with configurable thresholds
-- Dynamic adapter reconfiguration: runtime replacement of adapters without restarting the database process
-- Distributed cache adapter integration: Redis/Memcached-backed cache with cluster-wide invalidation
-- Observability wiring: structured logging, OpenTelemetry tracing, and Prometheus metrics unified through the DI context
+- Runtime resilience controls around adapter dependencies (circuit breaker + fallback policy)
+- Dynamic adapter reconfiguration and distributed cache integration without process restarts
+- Unified observability wiring for logging, tracing, and metrics through the DI context
+
+## 2026-07-28 Sync Snapshot (Issue #5638)
+
+- [I] Plugin-based adapter loading (no recompile needed) remains tracked via Issue #1706
+- [ ] Adapter plugin hardening and signing workflow remains targeted for Q4 2026
+- [ ] Adapter hot-swap must complete in ≤ 100 ms with no dropped in-flight requests
+- [ ] `ConcernsContext` concurrent adapter resolution must remain thread-safe without global lock contention
 
 ---
 
@@ -36,6 +44,14 @@
 | `CircuitBreaker::call(fn, fallback)` | Adapter call sites | Configurable failure threshold and reset timeout |
 | `DistributedCache::get/set/invalidate(key)` | Query executor, analytics | Optional adapter; no-op stub when absent |
 | `ObservabilityBus::emit(event)` | All adapters | Routes to logger/tracer/metrics based on event type |
+
+---
+
+## Implementation Notes
+
+- Prioritize plugin runtime loading and signature verification as the next hardening block after the current compiled-adapter baseline.
+- Preserve backwards-compatible concern interfaces while introducing adapter package signing and structured registration errors.
+- Keep runtime swap and distributed cache improvements measurable via the test/performance constraints below.
 
 ---
 

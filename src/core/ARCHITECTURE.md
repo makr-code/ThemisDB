@@ -3,7 +3,7 @@
 # Core Module — Architecture Guide
 
 **Version:** 1.1
-**Last Updated:** 2026-05-31
+**Last Updated:** 2026-07-28
 **Module Path:** `src/core/`
 
 ---
@@ -196,6 +196,7 @@ All logger/tracer calls on this thread include the trace ID automatically
 - Redis cache adapter (`RedisCache`) is implemented in `include/core/concerns/redis_cache.h` / `src/core/concerns/redis_cache.cpp` with consistent hashing, TTL, and pub/sub invalidation.
 - OTel baggage propagation is partial; full W3C Baggage support is planned.
 - Log sampling (high-frequency event suppression) is not yet implemented.
+- Plugin-based adapter loading without recompilation is still open (Issue #1706), and adapter signing/trust hardening remains planned for Q4 2026.
 
 ---
 
