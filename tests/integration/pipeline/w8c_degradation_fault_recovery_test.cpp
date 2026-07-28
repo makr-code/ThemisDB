@@ -29,13 +29,16 @@
 #include <atomic>
 #include <chrono>
 #include <cstdint>
+#include <functional>
 #include <gtest/gtest.h>
+#include <iomanip>
 #include <iostream>
 #include <memory>
 #include <mutex>
 #include <optional>
 #include <queue>
 #include <random>
+#include <sstream>
 #include <string>
 #include <thread>
 #include <unordered_map>

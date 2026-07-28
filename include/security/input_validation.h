@@ -14,14 +14,16 @@
 
 #pragma once
 
+#include <array>
+#include <cstddef>
+#include <memory>
+#include <optional>
+#include <regex>
 #include <string>
 #include <string_view>
 #include <vector>
-#include <optional>
-#include <regex>
-#include <memory>
 
-namespace themis::security {
+namespace themis::security::phase4_hardening {
 
 /**
  * @class ValidationResult
@@ -277,27 +279,27 @@ class InputValidator {
  private:
   // Injection pattern definitions
   static constexpr std::array<std::string_view, 10> SQL_INJECTION_PATTERNS = {
-      "OR.*=.*",           // OR conditions
-      "DROP.*TABLE",       // DROP TABLE
-      "DELETE.*FROM",      // DELETE FROM
-      "INSERT.*INTO",      // INSERT INTO
-      "UPDATE.*SET",       // UPDATE SET
-      ";.*--",             // Comment syntax
-      "UNION.*SELECT",     // UNION queries
-      "exec.*(",           // Dynamic execution
-      "eval.*(",           // Code evaluation
-      "select.*from",      // Capitalization variants
+      R"(\bor\b\s+.+\s*=\s*.+)", // OR conditions
+      R"(\bdrop\b\s+\btable\b)", // DROP TABLE
+      R"(\bdelete\b\s+\bfrom\b)", // DELETE FROM
+      R"(\binsert\b\s+\binto\b)", // INSERT INTO
+      R"(\bupdate\b\s+\bset\b)", // UPDATE SET
+      R"(;\s*--)", // Comment syntax
+      R"(\bunion\b\s+\bselect\b)", // UNION queries
+      R"(\bexec(?:ute)?\s*\()", // Dynamic execution
+      R"(\beval\s*\()", // Code evaluation
+      R"(\bselect\b\s+.+\bfrom\b)", // SELECT FROM
   };
 
   static constexpr std::array<std::string_view, 8> PROMPT_INJECTION_PATTERNS = {
-      "ignore.*instruction",
-      "forget.*previous",
-      "override.*system",
-      "system.*prompt",
-      "developer.*mode",
-      "bypass.*filter",
-      "execute.*code",
-      "run.*command",
+      R"(\bignore\b.+\binstruction)",
+      R"(\bforget\b.+\bprevious)",
+      R"(\boverride\b.+\bsystem)",
+      R"(\bsystem\b.+\bprompt)",
+      R"(\bdeveloper\b.+\bmode)",
+      R"(\bbypass\b.+\bfilter)",
+      R"(\bexecute\b.+\bcode)",
+      R"(\brun\b.+\bcommand)",
   };
 
   // HTTP parameter allowlist
@@ -308,6 +310,4 @@ class InputValidator {
   static bool CheckPromptForInjection(std::string_view prompt);
 };
 
-} // namespace themis::security
-
-#endif // THEMIS_SECURITY_INPUT_VALIDATION_H
+} // namespace themis::security::phase4_hardening

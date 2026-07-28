@@ -52,25 +52,25 @@ for target in "${UNIT_TEST_TARGETS[@]}"; do
     # Try different possible locations
     if [ -f "$BUILD_DIR/tests/epic3_distributed_tensor/$target" ]; then
         echo "  ✓ $target"
-        ((FOUND_COUNT++))
+        FOUND_COUNT=$((FOUND_COUNT + 1))
     elif [ -f "$BUILD_DIR/bin/$target" ]; then
         echo "  ✓ $target (in bin/)"
-        ((FOUND_COUNT++))
+        FOUND_COUNT=$((FOUND_COUNT + 1))
     elif [ -f "$BUILD_DIR/bin_out/$target" ]; then
         echo "  ✓ $target (in bin_out/)"
-        ((FOUND_COUNT++))
+        FOUND_COUNT=$((FOUND_COUNT + 1))
     elif [ -f "$BUILD_DIR/$target" ]; then
         echo "  ✓ $target"
-        ((FOUND_COUNT++))
+        FOUND_COUNT=$((FOUND_COUNT + 1))
     elif [ -f "$BUILD_DIR/tests/epic3_distributed_tensor/${target}.exe" ]; then
         echo "  ✓ $target.exe (Windows)"
-        ((FOUND_COUNT++))
+        FOUND_COUNT=$((FOUND_COUNT + 1))
     elif [ -f "$BUILD_DIR/tests/epic3_distributed_tensor/$target.out" ]; then
         echo "  ✓ $target.out"
-        ((FOUND_COUNT++))
+        FOUND_COUNT=$((FOUND_COUNT + 1))
     else
         echo "  ✗ $target NOT FOUND"
-        ((MISSING_COUNT++))
+        MISSING_COUNT=$((MISSING_COUNT + 1))
     fi
 done
 
@@ -80,22 +80,22 @@ echo "======================================"
 for target in "${BENCHMARK_TARGETS[@]}"; do
     if [ -f "$BUILD_DIR/tests/epic3_distributed_tensor/$target" ]; then
         echo "  ✓ $target"
-        ((FOUND_COUNT++))
+        FOUND_COUNT=$((FOUND_COUNT + 1))
     elif [ -f "$BUILD_DIR/bin/$target" ]; then
         echo "  ✓ $target (in bin/)"
-        ((FOUND_COUNT++))
+        FOUND_COUNT=$((FOUND_COUNT + 1))
     elif [ -f "$BUILD_DIR/bin_out/$target" ]; then
         echo "  ✓ $target (in bin_out/)"
-        ((FOUND_COUNT++))
+        FOUND_COUNT=$((FOUND_COUNT + 1))
     elif [ -f "$BUILD_DIR/tests/epic3_distributed_tensor/${target}.exe" ]; then
         echo "  ✓ $target.exe (Windows)"
-        ((FOUND_COUNT++))
+        FOUND_COUNT=$((FOUND_COUNT + 1))
     elif [ -f "$BUILD_DIR/tests/epic3_distributed_tensor/$target.out" ]; then
         echo "  ✓ $target.out"
-        ((FOUND_COUNT++))
+        FOUND_COUNT=$((FOUND_COUNT + 1))
     else
         echo "  ✗ $target NOT FOUND"
-        ((MISSING_COUNT++))
+        MISSING_COUNT=$((MISSING_COUNT + 1))
     fi
 done
 

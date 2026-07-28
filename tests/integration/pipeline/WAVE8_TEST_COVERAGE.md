@@ -141,37 +141,37 @@ All Wave 8 tests are registered with proper labels and timeouts:
 
 ```cmake
 # W8-A: Incident Regression Shielding
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w8a_release_critical_signoff_test.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w8a_incident_regression_shielding_test.cpp")
     add_integration_test(
-        w8a_release_critical_signoff_test
-        pipeline/w8a_release_critical_signoff_test.cpp
+        w8a_incident_regression_shielding_test
+        pipeline/w8a_incident_regression_shielding_test.cpp
     )
-    set_tests_properties(w8a_release_critical_signoff_test PROPERTIES
-        LABELS "integration;pipeline_integration;pipeline;wave8;w8a;release_critical;endurance"
+    set_tests_properties(w8a_incident_regression_shielding_test PROPERTIES
+        LABELS "integration;pipeline_integration;pipeline;wave8;w8a;release_critical;incident_regression"
         TIMEOUT 120
     )
 endif()
 
-# W8-B: Endurance Soak
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w8b_endurance_soak_test.cpp")
+# W8-B: Contract & Compatibility Reliability
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w8b_contract_compatibility_reliability_test.cpp")
     add_integration_test(
-        w8b_endurance_soak_test
-        pipeline/w8b_endurance_soak_test.cpp
+        w8b_contract_compatibility_reliability_test
+        pipeline/w8b_contract_compatibility_reliability_test.cpp
     )
-    set_tests_properties(w8b_endurance_soak_test PROPERTIES
-        LABELS "integration;pipeline_integration;pipeline;wave8;w8b;stress_soak;endurance"
-        TIMEOUT 180
+    set_tests_properties(w8b_contract_compatibility_reliability_test PROPERTIES
+        LABELS "integration;pipeline_integration;pipeline;wave8;w8b;release_critical;contract_compat"
+        TIMEOUT 120
     )
 endif()
 
-# W8-C: Degradation & Fault Recovery
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w8c_degradation_fault_recovery_test.cpp")
+# W8-C: Determinism, Flake Burn-down & CI Signal
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pipeline/w8c_determinism_flake_ci_signal_test.cpp")
     add_integration_test(
-        w8c_degradation_fault_recovery_test
-        pipeline/w8c_degradation_fault_recovery_test.cpp
+        w8c_determinism_flake_ci_signal_test
+        pipeline/w8c_determinism_flake_ci_signal_test.cpp
     )
-    set_tests_properties(w8c_degradation_fault_recovery_test PROPERTIES
-        LABELS "integration;pipeline_integration;pipeline;wave8;w8c;failure_recovery;degradation"
+    set_tests_properties(w8c_determinism_flake_ci_signal_test PROPERTIES
+        LABELS "integration;pipeline_integration;pipeline;wave8;w8c;release_critical;determinism;flake_burndown;ci_signal"
         TIMEOUT 120
     )
 endif()
@@ -208,9 +208,9 @@ ctest --preset community-release -L release_critical
 
 | Test Suite | Timeout | Reason |
 |:-----------|:--------|:-------|
-| w8a_release_critical_signoff_test | 120s | 10k read ops + 10k write ops + validation |
-| w8b_endurance_soak_test | 180s | 30s sustained load (CI version) + snapshots |
-| w8c_degradation_fault_recovery_test | 120s | 8 failure scenarios + recovery validation |
+| w8a_incident_regression_shielding_test | 120s | Incident regression shielding checks under release-critical gates |
+| w8b_contract_compatibility_reliability_test | 120s | Contract and compatibility reliability checks under release-critical gates |
+| w8c_determinism_flake_ci_signal_test | 120s | Determinism and flake-burndown CI signal checks |
 
 **Total CI Time for Wave 8:** ~7-10 minutes (with -j 2 concurrency)
 

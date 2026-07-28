@@ -11,10 +11,11 @@
 #include <algorithm>
 #include <cctype>
 #include <cstring>
+#include <map>
 #include <regex>
 #include <sstream>
 
-namespace themis::security {
+namespace themis::security::phase4_hardening {
 
 // ============================================================================
 // HTTP Request Validation Implementation
@@ -360,7 +361,7 @@ bool InputValidator::IsWhitelistedCharacters(
     std::string_view value,
     std::string_view allowed_pattern) {
   try {
-    std::regex pattern(std::string(allowed_pattern));
+    std::regex pattern{std::string(allowed_pattern)};
     return std::regex_match(std::string(value), pattern);
   } catch (...) {
     return false; // Invalid regex or no match
@@ -404,23 +405,24 @@ bool InputValidator::IsValidUTF8(std::string_view value) {
 }
 
 bool InputValidator::ContainsInjectionPatterns(std::string_view value) {
-  // Convert to lowercase for case-insensitive matching
-  std::string lower_value(value);
-  std::transform(lower_value.begin(), lower_value.end(), 
-                 lower_value.begin(), ::tolower);
-
-  // Check SQL injection patterns
-  for (const auto& pattern : SQL_INJECTION_PATTERNS) {
-    if (lower_value.find(pattern) != std::string::npos) {
-      return true;
+  try {
+    for (const auto& pattern : SQL_INJECTION_PATTERNS) {
+      if (std::regex_search(value.begin(), value.end(),
+                            std::regex(std::string(pattern),
+                                       std::regex_constants::icase))) {
+        return true;
+      }
     }
-  }
 
-  // Check prompt injection patterns
-  for (const auto& pattern : PROMPT_INJECTION_PATTERNS) {
-    if (lower_value.find(pattern) != std::string::npos) {
-      return true;
+    for (const auto& pattern : PROMPT_INJECTION_PATTERNS) {
+      if (std::regex_search(value.begin(), value.end(),
+                            std::regex(std::string(pattern),
+                                       std::regex_constants::icase))) {
+        return true;
+      }
     }
+  } catch (const std::regex_error&) {
+    return true;
   }
 
   return false;
@@ -510,17 +512,19 @@ bool InputValidator::ValidateSQLKeywords(std::string_view value) {
 }
 
 bool InputValidator::CheckPromptForInjection(std::string_view prompt) {
-  std::string lower_prompt(prompt);
-  std::transform(lower_prompt.begin(), lower_prompt.end(),
-                 lower_prompt.begin(), ::tolower);
-
-  for (const auto& pattern : PROMPT_INJECTION_PATTERNS) {
-    if (lower_prompt.find(pattern) != std::string::npos) {
-      return true; // Found injection pattern
+  try {
+    for (const auto& pattern : PROMPT_INJECTION_PATTERNS) {
+      if (std::regex_search(prompt.begin(), prompt.end(),
+                            std::regex(std::string(pattern),
+                                       std::regex_constants::icase))) {
+        return true;
+      }
     }
+  } catch (const std::regex_error&) {
+    return true;
   }
 
   return false;
 }
 
-} // namespace themis::security
+} // namespace themis::security::phase4_hardening
