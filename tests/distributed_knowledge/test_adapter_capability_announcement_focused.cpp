@@ -58,15 +58,15 @@ TEST_F(AdapterCapabilityAnnouncementTest, CreateAndSerializeAnnouncement) {
     announcement.adapter_id = "adapter-001";
     announcement.domain_type = AdapterDomainType::SECURITY_MONITOR;
     announcement.shard_id = "shard-001";
-    announcement.version_string = "1.0.0";
-    announcement.is_available = true;
+    announcement.adapter_version = "1.0.0";
+    announcement.is_withdrawal = false;
 
     json payload = announcement.toJson();
     
     EXPECT_EQ(payload["adapter_id"], "adapter-001");
     EXPECT_EQ(payload["shard_id"], "shard-001");
-    EXPECT_EQ(payload["version_string"], "1.0.0");
-    EXPECT_EQ(payload["is_available"], true);
+    EXPECT_EQ(payload["adapter_version"], "1.0.0");
+    EXPECT_EQ(payload["is_withdrawal"], false);
 }
 
 /**
@@ -102,7 +102,6 @@ TEST_F(AdapterCapabilityAnnouncementTest, GossipPublisherAnnouncesCapability) {
     AdapterCapabilityAnnouncement announcement;
     announcement.adapter_id = "adapter-001";
     announcement.domain_type = AdapterDomainType::SECURITY_MONITOR;
-    announcement.is_available = true;
     
     publisher.announce(announcement);
     
@@ -130,7 +129,6 @@ TEST_F(AdapterCapabilityAnnouncementTest, MultipleAdaptersFromSameShard) {
         AdapterCapabilityAnnouncement announcement;
         announcement.adapter_id = "adapter-" + std::to_string(i);
         announcement.domain_type = AdapterDomainType::GENERAL;
-        announcement.is_available = true;
         publisher.announce(announcement);
     }
     
@@ -142,24 +140,24 @@ TEST_F(AdapterCapabilityAnnouncementTest, MultipleAdaptersFromSameShard) {
 }
 
 /**
- * @test ACA-05: Adapter unavailability announcement.
+ * @test ACA-05: Adapter withdrawal announcement.
  *
- * Verifies that announcements correctly reflect adapter availability status
- * (is_available = false) for adapter downtime or maintenance scenarios.
+ * Verifies that announcements correctly reflect adapter withdrawal status
+ * (is_withdrawal = true) for adapter downtime or maintenance scenarios.
  */
-TEST_F(AdapterCapabilityAnnouncementTest, AdapterUnavailabilityAnnouncement) {
+TEST_F(AdapterCapabilityAnnouncementTest, AdapterWithdrawalAnnouncement) {
     auto gossip_fn = make_gossip_fn();
     GossipAdapterPublisher publisher("shard-001", gossip_fn);
     
     AdapterCapabilityAnnouncement announcement;
     announcement.adapter_id = "adapter-001";
     announcement.domain_type = AdapterDomainType::SECURITY_MONITOR;
-    announcement.is_available = false;  // Adapter is unavailable
+    announcement.is_withdrawal = true;  // Adapter is being withdrawn
     
     publisher.announce(announcement);
     
     ASSERT_EQ(gossip_messages_.size(), 1);
-    EXPECT_EQ(gossip_messages_[0]["is_available"], false);
+    EXPECT_EQ(gossip_messages_[0]["is_withdrawal"], true);
 }
 
 /**
@@ -176,7 +174,6 @@ TEST_F(AdapterCapabilityAnnouncementTest, CustomDomainLabel) {
     announcement.adapter_id = "adapter-custom";
     announcement.domain_type = AdapterDomainType::CUSTOM;
     announcement.custom_domain_label = "domain-specific-workload";
-    announcement.is_available = true;
     
     publisher.announce(announcement);
     
@@ -201,16 +198,13 @@ TEST_F(AdapterCapabilityAnnouncementTest, AnnouncementTimestampSet) {
     AdapterCapabilityAnnouncement announcement;
     announcement.adapter_id = "adapter-001";
     announcement.domain_type = AdapterDomainType::GENERAL;
-    announcement.is_available = true;
     
-    auto before = std::chrono::system_clock::now();
     publisher.announce(announcement);
-    auto after = std::chrono::system_clock::now();
     
     ASSERT_EQ(gossip_messages_.size(), 1);
-    // Verify that message contains a timestamp (exact value varies, but should exist)
-    EXPECT_TRUE(gossip_messages_[0].contains("announced_at") || 
-                gossip_messages_[0].contains("timestamp"));
+    // Publisher stamps announced_at; toJson() serialises it as announced_at_ms
+    EXPECT_TRUE(gossip_messages_[0].contains("announced_at_ms"));
+    EXPECT_GE(gossip_messages_[0]["announced_at_ms"].get<int64_t>(), 0);
 }
 
 /**
@@ -227,7 +221,6 @@ TEST_F(AdapterCapabilityAnnouncementTest, ShardIdOverwrittenByPublisher) {
     announcement.adapter_id = "adapter-001";
     announcement.shard_id = "shard-wrong";  // Incorrect shard ID
     announcement.domain_type = AdapterDomainType::GENERAL;
-    announcement.is_available = true;
     
     publisher.announce(announcement);
     
@@ -253,7 +246,6 @@ TEST_F(AdapterCapabilityAnnouncementTest, EmptyAdapterIdHandling) {
     AdapterCapabilityAnnouncement announcement;
     announcement.adapter_id = "";  // Empty
     announcement.domain_type = AdapterDomainType::GENERAL;
-    announcement.is_available = true;
     
     publisher.announce(announcement);
     
@@ -275,12 +267,10 @@ TEST_F(AdapterCapabilityAnnouncementTest, MultiplePublishersForSameShard) {
     AdapterCapabilityAnnouncement ann1;
     ann1.adapter_id = "adapter-1";
     ann1.domain_type = AdapterDomainType::GENERAL;
-    ann1.is_available = true;
     
     AdapterCapabilityAnnouncement ann2;
     ann2.adapter_id = "adapter-2";
     ann2.domain_type = AdapterDomainType::SECURITY_MONITOR;
-    ann2.is_available = true;
     
     publisher1.announce(ann1);
     publisher2.announce(ann2);
@@ -301,7 +291,7 @@ TEST_F(AdapterCapabilityAnnouncementTest, MultiplePublishersForSameShard) {
  * ACA-02: AdapterDomainType to string conversion for all types
  * ACA-03: Basic gossip publisher announcement dispatch
  * ACA-04: Multiple adapter announcements from single shard
- * ACA-05: Adapter unavailability announcement handling
+ * ACA-05: Adapter withdrawal announcement handling
  * ACA-06: Custom domain label in announcements
  * ACA-07: Announcement timestamp management
  * ACA-08: Shard ID override by publisher

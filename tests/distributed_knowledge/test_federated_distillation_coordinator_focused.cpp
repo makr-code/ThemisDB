@@ -2,11 +2,13 @@
  * @file test_federated_distillation_coordinator_focused.cpp
  * @brief Focused unit tests for federated distillation coordination.
  *
- * Tests the core distributed knowledge distillation paths:
- * - federated knowledge distillation requests
- * - privacy-aware distillation with DP guards
- * - distillation state transitions and completion
- * - policy-gated distillation workflows
+ * Tests the core distributed knowledge distillation paths against the actual
+ * production API surface:
+ * - SoftLabel creation and JSON round-trip
+ * - FederatedDistillationCoordinator lifecycle and round tracking
+ * - DP budget verification and privacy budget remaining
+ * - Policy gate blocking broadcast
+ * - Student registration and broadcast delivery
  *
  * Target: Production readiness validation for distillation layer.
  * Q3 2026 Hardening: policy-gated flows, DP enforcement, deterministic behavior.
@@ -30,245 +32,246 @@ using json = nlohmann::json;
 class FederatedDistillationCoordinatorTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        // Test setup for distillation tests
+        cfg_.dp_epsilon          = 0.5;
+        cfg_.dp_delta            = 1e-5;
+        cfg_.dp_sensitivity      = 0.1;
+        cfg_.temperature         = 4.0;
+        cfg_.alpha               = 0.5;
+        cfg_.max_rounds          = 0;     // unlimited
+        cfg_.min_utility_threshold = 0.9;
+        cfg_.require_dp          = true;
+    }
+
+    DistillationConfig cfg_;
+
+    /// Build a minimal set of SoftLabels for testing.
+    static std::vector<SoftLabel> makeLabels(size_t n, const std::string& teacher_id = "t1") {
+        std::vector<SoftLabel> labels;
+        labels.reserve(n);
+        for (size_t i = 0; i < n; ++i) {
+            SoftLabel sl;
+            sl.query_id      = "q" + std::to_string(i);
+            sl.probabilities = {0.6, 0.4};
+            sl.temperature   = 4.0;
+            sl.teacher_id    = teacher_id;
+            labels.push_back(sl);
+        }
+        return labels;
     }
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Distillation Request Tests (FDC-01..FDC-03)
+// SoftLabel Tests (FDC-01..FDC-03)
 // ─────────────────────────────────────────────────────────────────────────────
 
 /**
- * @test FDC-01: Create federated distillation request.
+ * @test FDC-01: SoftLabel creation with required fields.
  *
- * Verifies that a FederatedDistillationRequest can be created with required fields:
- * - distillation_id
- * - source_models (teacher shards)
- * - target_model_config
- * - privacy_level
+ * Verifies that a SoftLabel can be constructed and all documented fields
+ * are accessible.
  */
-TEST_F(FederatedDistillationCoordinatorTest, CreateDistillationRequest) {
-    FederatedDistillationRequest request;
-    request.distillation_id = "distill-001";
-    request.source_models = {"shard-001-model", "shard-002-model"};
-    request.target_model_config = "distilled-student-v1";
-    request.privacy_level = PrivacyLevel::STANDARD;
-    
-    EXPECT_EQ(request.distillation_id, "distill-001");
-    EXPECT_EQ(request.source_models.size(), 2);
-    EXPECT_EQ(request.privacy_level, PrivacyLevel::STANDARD);
+TEST_F(FederatedDistillationCoordinatorTest, CreateSoftLabel) {
+    SoftLabel sl = makeLabels(1)[0];
+
+    EXPECT_EQ(sl.query_id,               "q0");
+    EXPECT_EQ(sl.probabilities.size(),   2u);
+    EXPECT_DOUBLE_EQ(sl.temperature,     4.0);
+    EXPECT_EQ(sl.teacher_id,             "t1");
 }
 
 /**
- * @test FDC-02: PrivacyLevel enumeration.
+ * @test FDC-02: DistillationConfig validation — valid config.
  *
- * Verifies that privacy levels are properly defined for DP enforcement:
- * NONE, STANDARD, HIGH, ULTRA (with corresponding epsilon budgets).
+ * Verifies that a properly constructed DistillationConfig reports isValid().
  */
-TEST_F(FederatedDistillationCoordinatorTest, PrivacyLevelEnumeration) {
-    // Verify that key privacy levels exist
-    EXPECT_EQ(static_cast<int>(PrivacyLevel::STANDARD), 0);
-    // Additional levels can be verified here based on implementation
+TEST_F(FederatedDistillationCoordinatorTest, ValidConfigReportsValid) {
+    EXPECT_TRUE(cfg_.isValid());
 }
 
 /**
- * @test FDC-03: Distillation request with DP parameters.
+ * @test FDC-03: SoftLabel JSON serialization round-trip.
  *
- * Verifies that distillation requests can include differential privacy
- * configuration (epsilon, delta, gradient clipping).
+ * Verifies that SoftLabel::toJson() and SoftLabel::fromJson() preserve all fields.
  */
-TEST_F(FederatedDistillationCoordinatorTest, DistillationRequestWithDPParameters) {
-    FederatedDistillationRequest request;
-    request.distillation_id = "distill-dp";
-    request.source_models = {"shard-001-model", "shard-002-model"};
-    request.target_model_config = "student-v1";
-    request.privacy_level = PrivacyLevel::HIGH;
-    request.epsilon_budget = 1.0;
-    request.delta_budget = 1e-5;
-    request.gradient_clipping_norm = 1.0;
-    
-    EXPECT_EQ(request.privacy_level, PrivacyLevel::HIGH);
-    EXPECT_NEAR(request.epsilon_budget, 1.0, 0.01);
-    EXPECT_NEAR(request.delta_budget, 1e-5, 1e-6);
+TEST_F(FederatedDistillationCoordinatorTest, SoftLabelJsonRoundTrip) {
+    SoftLabel original;
+    original.query_id      = "q-rt";
+    original.probabilities = {0.7, 0.2, 0.1};
+    original.temperature   = 3.5;
+    original.teacher_id    = "teacher-42";
+
+    json j = original.toJson();
+    SoftLabel restored = SoftLabel::fromJson(j);
+
+    EXPECT_EQ(restored.query_id,              original.query_id);
+    EXPECT_EQ(restored.probabilities.size(),  original.probabilities.size());
+    EXPECT_DOUBLE_EQ(restored.temperature,    original.temperature);
+    EXPECT_EQ(restored.teacher_id,            original.teacher_id);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Distillation State Tests (FDC-04..FDC-06)
+// Coordinator Lifecycle Tests (FDC-04..FDC-06)
 // ─────────────────────────────────────────────────────────────────────────────
 
 /**
- * @test FDC-04: DistillationState enumeration.
+ * @test FDC-04: Coordinator initial state — round 0, no submissions.
  *
- * Verifies that distillation states are properly defined:
- * INITIALIZED, COLLECTING_KNOWLEDGE, TRAINING, VALIDATED, COMPLETED, FAILED.
+ * Verifies that a freshly constructed coordinator has currentRound()==0,
+ * submittedCount()==0, and no last round.
  */
-TEST_F(FederatedDistillationCoordinatorTest, DistillationStateEnumeration) {
-    // Verify that key distillation states exist
-    EXPECT_EQ(static_cast<int>(DistillationState::INITIALIZED), 0);
-    // Additional states can be verified here based on implementation
+TEST_F(FederatedDistillationCoordinatorTest, CoordinatorInitialState) {
+    FederatedDistillationCoordinator coordinator(cfg_);
+
+    EXPECT_EQ(coordinator.currentRound(),   0u);
+    EXPECT_EQ(coordinator.submittedCount(), 0u);
+    EXPECT_FALSE(coordinator.lastRound().has_value());
 }
 
 /**
- * @test FDC-05: Distillation result structure.
+ * @test FDC-05: submitSoftLabels() + broadcastToStudents() advances round.
  *
- * Verifies that distillation results capture all required output data:
- * - distillation_id
- * - state
- * - distilled_model_path
- * - privacy_budget_consumed
- * - validation_metrics
+ * Verifies that after submitting labels and broadcasting, currentRound()==1
+ * and lastRound() has a value.
  */
-TEST_F(FederatedDistillationCoordinatorTest, DistillationResultStructure) {
-    FederatedDistillationResult result;
-    result.distillation_id = "distill-001";
-    result.state = DistillationState::COMPLETED;
-    result.distilled_model_path = "/models/distilled-student-v1";
-    result.privacy_budget_consumed = 0.5;  // Out of epsilon budget
-    
-    EXPECT_EQ(result.distillation_id, "distill-001");
-    EXPECT_EQ(result.state, DistillationState::COMPLETED);
-    EXPECT_NE(result.distilled_model_path, "");
+TEST_F(FederatedDistillationCoordinatorTest, SubmitAndBroadcastAdvancesRound) {
+    FederatedDistillationCoordinator coordinator(cfg_);
+
+    coordinator.submitSoftLabels("teacher-1", makeLabels(3));
+    ASSERT_NO_THROW(coordinator.broadcastToStudents());
+
+    EXPECT_EQ(coordinator.currentRound(), 1u);
+    EXPECT_TRUE(coordinator.lastRound().has_value());
 }
 
 /**
- * @test FDC-06: Failed distillation result with error details.
+ * @test FDC-06: broadcastToStudents() throws when no labels submitted.
  *
- * Verifies that distillation failures include error messages and
- * potential privacy budget constraints.
+ * Verifies that calling broadcastToStudents() without prior
+ * submitSoftLabels() throws std::runtime_error.
  */
-TEST_F(FederatedDistillationCoordinatorTest, FailedDistillationResult) {
-    FederatedDistillationResult result;
-    result.distillation_id = "distill-fail";
-    result.state = DistillationState::FAILED;
-    result.error_message = "privacy budget exhausted during training";
-    result.privacy_budget_consumed = 1.0;  // Fully consumed, no more budget
-    
-    EXPECT_EQ(result.state, DistillationState::FAILED);
-    EXPECT_NE(result.error_message, "");
-    EXPECT_EQ(result.privacy_budget_consumed, 1.0);
+TEST_F(FederatedDistillationCoordinatorTest, BroadcastWithoutSubmitThrows) {
+    FederatedDistillationCoordinator coordinator(cfg_);
+
+    EXPECT_THROW(coordinator.broadcastToStudents(), std::runtime_error);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Coordinator Tests (FDC-07..FDC-10)
+// Student Registration and Policy Tests (FDC-07..FDC-09)
 // ─────────────────────────────────────────────────────────────────────────────
 
 /**
- * @test FDC-07: FederatedDistillationCoordinator initialization.
+ * @test FDC-07: Registered student callback receives the broadcast round.
  *
- * Verifies that a distillation coordinator can be created and configured
- * with privacy and policy settings.
+ * Verifies that registerStudent() works and the callback is invoked with
+ * the correct round number during broadcastToStudents().
  */
-TEST_F(FederatedDistillationCoordinatorTest, CoordinatorInitialization) {
-    FederatedDistillationCoordinator coordinator("coordinator-001");
-    
-    EXPECT_NE(coordinator.coordinatorId(), "");
+TEST_F(FederatedDistillationCoordinatorTest, RegisteredStudentReceivesBroadcast) {
+    FederatedDistillationCoordinator coordinator(cfg_);
+
+    uint64_t received_round = 0;
+    coordinator.registerStudent("student-1", [&](const DistillationRound& r) {
+        received_round = r.round;
+    });
+
+    coordinator.submitSoftLabels("teacher-1", makeLabels(2));
+    coordinator.broadcastToStudents();
+
+    EXPECT_EQ(received_round, 1u);
 }
 
 /**
- * @test FDC-08: Register distillation request with coordinator.
+ * @test FDC-08: DP budget verification allows broadcast within budget.
  *
- * Verifies that the coordinator can accept and track distillation requests
- * with privacy enforcement.
+ * Verifies that verifyPrivacyBudget() returns true after one round when
+ * max_rounds == 0 (unlimited budget).
  */
-TEST_F(FederatedDistillationCoordinatorTest, RegisterDistillationRequest) {
-    FederatedDistillationCoordinator coordinator("coordinator-001");
-    
-    FederatedDistillationRequest request;
-    request.distillation_id = "distill-001";
-    request.source_models = {"shard-001-model", "shard-002-model"};
-    request.target_model_config = "student-v1";
-    request.privacy_level = PrivacyLevel::STANDARD;
-    
-    EXPECT_NE(request.distillation_id, "");
+TEST_F(FederatedDistillationCoordinatorTest, PrivacyBudgetVerificationUnlimited) {
+    FederatedDistillationCoordinator coordinator(cfg_);
+
+    // Before any broadcasts, budget is valid
+    EXPECT_TRUE(coordinator.verifyPrivacyBudget());
+
+    coordinator.submitSoftLabels("teacher-1", makeLabels(2));
+    coordinator.broadcastToStudents();
+
+    // After one round, budget still valid (unlimited)
+    EXPECT_TRUE(coordinator.verifyPrivacyBudget());
 }
 
 /**
- * @test FDC-09: Policy-gated distillation approval.
+ * @test FDC-09: Policy gate blocks broadcast.
  *
- * Verifies that distillation requests are subject to policy gate evaluation
- * before knowledge extraction is permitted.
+ * Verifies that a policy gate returning false causes broadcastToStudents()
+ * to throw std::runtime_error.
  */
-TEST_F(FederatedDistillationCoordinatorTest, PolicyGatedDistillationApproval) {
-    FederatedDistillationRequest request;
-    request.distillation_id = "distill-policy";
-    request.source_models = {"shard-001-model"};
-    request.target_model_config = "student-v1";
-    request.privacy_level = PrivacyLevel::STANDARD;
-    request.requires_policy_approval = true;
-    request.policy_approver = "data-governance-board";
-    
-    EXPECT_TRUE(request.requires_policy_approval);
-    EXPECT_EQ(request.policy_approver, "data-governance-board");
-}
+TEST_F(FederatedDistillationCoordinatorTest, PolicyGateBlocksBroadcast) {
+    FederatedDistillationCoordinator coordinator(cfg_);
+    coordinator.setPolicyGate([](uint64_t, const std::string&) { return false; });
+    coordinator.submitSoftLabels("teacher-1", makeLabels(2));
 
-/**
- * @test FDC-10: Privacy budget enforcement in distillation.
- *
- * Verifies that distillation respects privacy budgets and stops
- * or degrades gracefully when budgets are exhausted.
- */
-TEST_F(FederatedDistillationCoordinatorTest, PrivacyBudgetEnforcement) {
-    FederatedDistillationRequest request;
-    request.distillation_id = "distill-budget";
-    request.source_models = {"shard-001-model"};
-    request.target_model_config = "student-v1";
-    request.privacy_level = PrivacyLevel::HIGH;
-    request.epsilon_budget = 1.0;
-    request.delta_budget = 1e-5;
-    request.enforce_strict_budget = true;
-    
-    EXPECT_TRUE(request.enforce_strict_budget);
+    EXPECT_THROW(coordinator.broadcastToStudents(), std::runtime_error);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Knowledge Transfer Tests (FDC-11..FDC-12)
+// Privacy Budget and Model Card Tests (FDC-10..FDC-12)
 // ─────────────────────────────────────────────────────────────────────────────
 
 /**
- * @test FDC-11: Multiple concurrent distillations.
+ * @test FDC-10: privacyBudgetRemaining() returns max for unlimited rounds.
  *
- * Verifies that the coordinator can manage multiple distillation workflows
- * concurrently with independent privacy budget tracking.
+ * Verifies that when max_rounds == 0, privacyBudgetRemaining() returns
+ * std::numeric_limits<double>::max().
  */
-TEST_F(FederatedDistillationCoordinatorTest, MultipleConcurrentDistillations) {
-    std::vector<FederatedDistillationRequest> requests;
-    
+TEST_F(FederatedDistillationCoordinatorTest, PrivacyBudgetRemainingUnlimited) {
+    cfg_.max_rounds = 0;
+    FederatedDistillationCoordinator coordinator(cfg_);
+
+    EXPECT_EQ(coordinator.privacyBudgetRemaining(),
+              std::numeric_limits<double>::max());
+}
+
+/**
+ * @test FDC-11: Multiple students all receive the broadcast.
+ *
+ * Verifies that when three students are registered, all three receive
+ * the broadcast round.
+ */
+TEST_F(FederatedDistillationCoordinatorTest, MultipleStudentsAllReceiveBroadcast) {
+    FederatedDistillationCoordinator coordinator(cfg_);
+
+    std::vector<uint64_t> received_rounds;
     for (int i = 0; i < 3; ++i) {
-        FederatedDistillationRequest request;
-        request.distillation_id = "distill-" + std::to_string(i);
-        request.source_models = {"shard-001-model"};
-        request.target_model_config = "student-v" + std::to_string(i);
-        request.privacy_level = PrivacyLevel::STANDARD;
-        requests.push_back(request);
+        coordinator.registerStudent("student-" + std::to_string(i),
+            [&received_rounds](const DistillationRound& r) {
+                received_rounds.push_back(r.round);
+            });
     }
-    
-    EXPECT_EQ(requests.size(), 3);
-    for (int i = 0; i < 3; ++i) {
-        EXPECT_EQ(requests[i].distillation_id, "distill-" + std::to_string(i));
+
+    coordinator.submitSoftLabels("teacher-1", makeLabels(2));
+    coordinator.broadcastToStudents();
+
+    EXPECT_EQ(received_rounds.size(), 3u);
+    for (uint64_t r : received_rounds) {
+        EXPECT_EQ(r, 1u);
     }
 }
 
 /**
- * @test FDC-12: Distillation result JSON serialization.
+ * @test FDC-12: generateModelCard() captures round and DP metadata.
  *
- * Verifies that distillation results can be serialized to JSON for
- * logging, auditing, and cross-shard communication.
+ * Verifies that after one broadcast, generateModelCard() returns a snapshot
+ * with rounds_completed == 1 and the correct dp_epsilon_per_round.
  */
-TEST_F(FederatedDistillationCoordinatorTest, DistillationResultSerialization) {
-    FederatedDistillationResult result;
-    result.distillation_id = "distill-001";
-    result.state = DistillationState::COMPLETED;
-    result.distilled_model_path = "/models/student-v1";
-    result.privacy_budget_consumed = 0.75;
-    
-    json payload;
-    payload["distillation_id"] = result.distillation_id;
-    payload["state"] = static_cast<int>(result.state);
-    payload["model_path"] = result.distilled_model_path;
-    payload["privacy_consumed"] = result.privacy_budget_consumed;
-    
-    EXPECT_EQ(payload["distillation_id"], "distill-001");
-    EXPECT_NEAR(payload["privacy_consumed"].get<double>(), 0.75, 0.01);
+TEST_F(FederatedDistillationCoordinatorTest, GenerateModelCardAfterBroadcast) {
+    FederatedDistillationCoordinator coordinator(cfg_);
+    coordinator.submitSoftLabels("teacher-1", makeLabels(2));
+    coordinator.broadcastToStudents();
+
+    DistillationModelCard card = coordinator.generateModelCard("coordinator-test");
+
+    EXPECT_EQ(card.coordinator_id,    "coordinator-test");
+    EXPECT_EQ(card.rounds_completed,  1u);
+    EXPECT_DOUBLE_EQ(card.dp_epsilon_per_round, cfg_.dp_epsilon);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -278,18 +281,18 @@ TEST_F(FederatedDistillationCoordinatorTest, DistillationResultSerialization) {
 /*
  * Test Coverage Summary (FDC-01..FDC-12):
  *
- * FDC-01: Create federated distillation request
- * FDC-02: PrivacyLevel enumeration
- * FDC-03: Distillation request with DP parameters
- * FDC-04: DistillationState enumeration
- * FDC-05: Distillation result structure
- * FDC-06: Failed distillation result with error details
- * FDC-07: FederatedDistillationCoordinator initialization
- * FDC-08: Register distillation request with coordinator
- * FDC-09: Policy-gated distillation approval
- * FDC-10: Privacy budget enforcement in distillation
- * FDC-11: Multiple concurrent distillations
- * FDC-12: Distillation result JSON serialization
+ * FDC-01: SoftLabel creation with required fields
+ * FDC-02: Valid DistillationConfig reports isValid()
+ * FDC-03: SoftLabel JSON serialization round-trip
+ * FDC-04: Coordinator initial state (round=0, no submissions)
+ * FDC-05: submitSoftLabels + broadcastToStudents advances round
+ * FDC-06: broadcastToStudents without prior submit throws
+ * FDC-07: Registered student callback receives the broadcast round
+ * FDC-08: DP budget verification allows broadcast within unlimited budget
+ * FDC-09: Policy gate blocks broadcast
+ * FDC-10: privacyBudgetRemaining() returns max for unlimited rounds
+ * FDC-11: Multiple students all receive the broadcast
+ * FDC-12: generateModelCard() captures round and DP metadata
  *
  * Target: Q3 2026 Hardening - policy gates, DP enforcement, deterministic workflows.
  * Status: Focused unit test suite for federated distillation coordination layer.

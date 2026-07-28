@@ -10,8 +10,10 @@ Production distributed_knowledge runtime exists across capability exchange, fede
 
 Q3 2026 Status Update (2026-07-28):
 - Core module implementation complete with 5 key federation surfaces
-- Focused test infrastructure established: 58 unit tests covering all surfaces
-- Test targets follow module test pattern: module_distributed_knowledge_<stem>_focused
+- Focused test infrastructure established: 58 unit tests covering all surfaces, aligned with actual production APIs
+- Test targets follow module test pattern: `module_distributed_knowledge_test_<base>_focused`
+  (filename `test_<base>_focused.cpp` → stem stripped of `_focused` → target appends `_focused`)
+- All test files compile against real header APIs (AdapterCapabilityAnnouncement, LoRAFederationCoordinator, FederatedRAGMerger, CrossShardFeedbackSync, FederatedDistillationCoordinator)
 - Evidence gathering in progress for hardening priorities
 
 ## In Progress

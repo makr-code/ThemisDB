@@ -55,8 +55,8 @@ module_distributed_knowledge_<stem>_focused
 
 **Example:**
 - Input: `test_adapter_capability_announcement_focused.cpp`
-- Target: `module_distributed_knowledge_adapter_capability_announcement_focused`
-- CTest Name: `adapter_capability_announcement_distributed_knowledge_FocusedTests`
+- Target: `module_distributed_knowledge_test_adapter_capability_announcement_focused`
+- CTest Name: `test_adapter_capability_announcement_distributed_knowledge_FocusedTests`
 
 ### Test Registration
 
@@ -88,17 +88,17 @@ ctest -L distributed_knowledge --output-on-failure
 
 ```bash
 # Run only adapter capability announcement tests
-ctest -R "adapter_capability_announcement_distributed_knowledge_FocusedTests"
+ctest -R "test_adapter_capability_announcement_distributed_knowledge_FocusedTests"
 
 # Run only LoRA federation coordinator tests
-ctest -R "lora_federation_coordinator_distributed_knowledge_FocusedTests"
+ctest -R "test_lora_federation_coordinator_distributed_knowledge_FocusedTests"
 ```
 
 ### Run Single Test
 
 ```bash
 # Run specific test directly
-./bin/module_distributed_knowledge_adapter_capability_announcement_focused
+./bin/module_distributed_knowledge_test_adapter_capability_announcement_focused
 ```
 
 ## Test Coverage
@@ -178,7 +178,7 @@ TEST_F(MySurfaceTest, MyTestCase) {
 
 CMakeLists.txt registers automatically:
 ```
-module_distributed_knowledge_my_surface_focused -> my_surface_distributed_knowledge_FocusedTests
+module_distributed_knowledge_test_my_surface_focused -> test_my_surface_distributed_knowledge_FocusedTests
 ```
 
 ## Test Maintenance

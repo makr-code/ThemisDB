@@ -7,8 +7,11 @@ file(GLOB DISTRIBUTED_KNOWLEDGE_MODULE_TEST_SOURCES
 
 foreach(_src IN LISTS DISTRIBUTED_KNOWLEDGE_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
-    set(_target "module_distributed_knowledge_${_stem}_focused")
-    set(_ctest "${_stem}_distributed_knowledge_FocusedTests")
+    # Strip trailing _focused suffix (files are already named *_focused.cpp) to
+    # avoid a doubled "_focused_focused" in the generated target name.
+    string(REGEX REPLACE "_focused$" "" _base_stem "${_stem}")
+    set(_target "module_distributed_knowledge_${_base_stem}_focused")
+    set(_ctest "${_base_stem}_distributed_knowledge_FocusedTests")
 
     if(TARGET ${_target})
         continue()

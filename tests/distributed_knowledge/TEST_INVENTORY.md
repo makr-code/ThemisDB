@@ -46,18 +46,18 @@
 
 | Test ID | Name | Coverage |
 |---------|------|----------|
-| LFC-01 | CreateAggregationRequest | Aggregation request creation with required fields |
-| LFC-02 | AggregationModeEnumeration | Aggregation mode types verification |
-| LFC-03 | SingleShardAggregationRequest | Edge case: single shard aggregation |
-| LFC-04 | AggregationStateEnumeration | Aggregation state machine enumeration |
-| LFC-05 | AggregationResultStructure | Result structure captures all output data |
-| LFC-06 | FailedAggregationResult | Failure handling with error details |
-| LFC-07 | CoordinatorInitialization | Coordinator creation and configuration |
-| LFC-08 | RegisterAggregationRequest | Request registration with coordinator |
-| LFC-09 | AggregationStatusTracking | Status tracking during execution |
-| LFC-10 | AggregationTimeoutHandling | Timeout transition and partial responses |
-| LFC-11 | MultipleConcurrentAggregations | Multiple independent aggregations |
-| LFC-12 | AggregationResultSerialization | Result JSON serialization |
+| LFC-01 | ValidConfigReportsValid | FederationConfig isValid() for correct config |
+| LFC-02 | InvalidEpsilonRejected | FederationConfig rejects dp_epsilon==0 |
+| LFC-03 | CoordinatorInitialState | Coordinator starts at round 0, no submissions |
+| LFC-04 | SubmitGradientIncrementsCount | submitGradient() increments submittedCount |
+| LFC-05 | DuplicateGradientIsIdempotent | Duplicate (shard,round) submission idempotency |
+| LFC-06 | TwoShardSubmissionsCountedCorrectly | Two distinct shards counted |
+| LFC-07 | AggregationThrowsBelowMinParticipants | triggerAggregation() throws below min_participants |
+| LFC-08 | AggregationSucceedsWithMinParticipants | triggerAggregation() returns valid GlobalAdapterDelta |
+| LFC-09 | AggregationAdvancesRound | Successful aggregation advances currentRound() |
+| LFC-10 | AggregationTimeoutHandling | triggerAggregation(1ms) throws without gradients |
+| LFC-11 | MultipleConsecutiveRounds | Two sequential rounds advance counter correctly |
+| LFC-12 | GlobalAdapterDeltaSerializationRoundTrip | toJson/fromJson preserves all fields |
 
 **Hardening Targets:**
 - Timeout semantics with partial responses
@@ -75,18 +75,18 @@
 
 | Test ID | Name | Coverage |
 |---------|------|----------|
-| FRM-01 | CreateMergeRequest | Merge request creation with strategy and ranking |
-| FRM-02 | RAGMergeStrategyEnumeration | Merge strategy types verification |
-| FRM-03 | SingleSourceShardMerge | Edge case: single shard fallback merge |
-| FRM-04 | MergeResultWithConsolidatedDocs | Result structure with consolidated documents |
-| FRM-05 | PartialShardFailureInMerge | Partial failure handling (2 of 3 shards) |
-| FRM-06 | MergeTimeoutStatus | Timeout transition with partial results |
-| FRM-07 | DocumentDeduplicationInMerge | Duplicate detection across shards |
-| FRM-08 | TopKTruncation | Top-K result truncation enforcement |
-| FRM-09 | MergerInitialization | Merger creation and configuration |
-| FRM-10 | RegisterMergeRequest | Merge request registration with merger |
-| FRM-11 | ConcurrentMergeRequests | Multiple independent merge operations |
-| FRM-12 | MergeResultSerialization | Result JSON serialization for transmission |
+| FRM-01 | ValidConfigReportsValid | FederatedRAGMergerConfig isValid() for correct config |
+| FRM-02 | MergeStrategyEnumeration | All three MergeStrategy values are distinct |
+| FRM-03 | InvalidConfigTopKZeroRejected | Config with top_k==0 rejected by isValid() |
+| FRM-04 | MergeWithTwoHealthyShardsCorrectCounts | merge() counts shards_queried and shards_responded |
+| FRM-05 | PartialShardFailureSkipsFailedShard | ok==false shard excluded from context |
+| FRM-06 | AllShardsTimedOutThrows | shard_timeout_ms==0 triggers throw |
+| FRM-07 | DeduplicationRemovesDuplicateDocIds | Identical doc_ids reduced in unique_doc_count |
+| FRM-08 | TopKTruncationRespected | Merged output never exceeds top_k |
+| FRM-09 | MergerExposesConfig | config() returns the constructed config |
+| FRM-10 | MergeEmptyShardListReturnsEmptyContext | Empty input produces zero-document context |
+| FRM-11 | MergerIsStateless | Successive merge() calls are independent |
+| FRM-12 | RetrievedDocumentSerialization | RetrievedDocument toJson() produces expected fields |
 
 **Hardening Targets:**
 - Merge determinism under partial failures
@@ -104,18 +104,18 @@
 
 | Test ID | Name | Coverage |
 |---------|------|----------|
-| CSS-01 | CreateFeedbackEvent | Feedback event creation with required fields |
-| CSS-02 | FeedbackTypeEnumeration | Feedback type enumeration (RELEVANCE, UTILITY, etc.) |
-| CSS-03 | FeedbackEventWithMetadata | Feedback with optional metadata for tracing |
-| CSS-04 | CreateFeedbackBatch | Batch creation with multiple feedback events |
-| CSS-05 | FeedbackDeduplication | Duplicate feedback detection and suppression |
-| CSS-06 | FeedbackReplayDetection | Sequence-based replay prevention |
-| CSS-07 | SynchronizerInitialization | Synchronizer creation with policy config |
-| CSS-08 | SubmitFeedbackBatchForSync | Batch submission for cross-shard sync |
-| CSS-09 | MultipleFeedbackBatchesFromShard | Concurrent batch handling from single shard |
-| CSS-10 | FeedbackSyncResultTracking | Result tracking with success/error status |
-| CSS-11 | PrivacyAwareFeedbackFiltering | Privacy policy-based feedback filtering |
-| CSS-12 | FeedbackBatchSerialization | Batch JSON serialization for transmission |
+| CSS-01 | CreateFeedbackSummary | FeedbackSummary creation with required fields |
+| CSS-02 | FeedbackSummaryJsonRoundTrip | toJson/fromJson preserves all fields |
+| CSS-03 | FeedbackSummaryDefaultShardOriginIsAnon | shard_origin defaults to "ANON" |
+| CSS-04 | PublishFeedbackDispatchesGossipMessage | publishFeedback() calls gossip fn, increments count |
+| CSS-05 | HandleInboundSummaryInvokesCallback | handleInboundSummary() invokes registered callback |
+| CSS-06 | PublishFeedbackRejectsWrongEmbeddingDim | Wrong dim throws invalid_argument |
+| CSS-07 | DuplicateSummaryIsDeduped | Duplicate summary_id increments deduplicatedCount |
+| CSS-08 | MultipleDistinctSummariesAllReceived | Five distinct summaries all processed |
+| CSS-09 | InboundPolicyCheckRejectsSummary | Policy false drops summary, increments rejected count |
+| CSS-10 | ZeroTrustEnforcerThrowsOnHighRisk | ZeroTrust false throws runtime_error |
+| CSS-11 | GetStatsReturnsJsonWithCounters | getStats() JSON contains published_count |
+| CSS-12 | FeedbackSyncConfigValidation | Valid config passes; dim==0 rejected |
 
 **Hardening Targets:**
 - Dedup semantics for feedback replay prevention
@@ -134,18 +134,18 @@
 
 | Test ID | Name | Coverage |
 |---------|------|----------|
-| FDC-01 | CreateDistillationRequest | Distillation request creation with models and config |
-| FDC-02 | PrivacyLevelEnumeration | Privacy level types (NONE, STANDARD, HIGH, ULTRA) |
-| FDC-03 | DistillationRequestWithDPParameters | DP configuration (epsilon, delta, gradient clipping) |
-| FDC-04 | DistillationStateEnumeration | Distillation state machine enumeration |
-| FDC-05 | DistillationResultStructure | Result structure with privacy budget tracking |
-| FDC-06 | FailedDistillationResult | Failure handling with budget exhaustion |
-| FDC-07 | CoordinatorInitialization | Coordinator creation with privacy settings |
-| FDC-08 | RegisterDistillationRequest | Request registration with coordinator |
-| FDC-09 | PolicyGatedDistillationApproval | Policy gate evaluation before knowledge extraction |
-| FDC-10 | PrivacyBudgetEnforcement | Budget constraint enforcement (strict mode) |
-| FDC-11 | MultipleConcurrentDistillations | Multiple independent distillation workflows |
-| FDC-12 | DistillationResultSerialization | Result JSON serialization with privacy metadata |
+| FDC-01 | SoftLabelCreationAndAccess | SoftLabel creation, field access |
+| FDC-02 | DistillationConfigValidation | Valid config passes; invalid rejects |
+| FDC-03 | SoftLabelJsonSerialization | SoftLabel toJson/fromJson round-trip |
+| FDC-04 | CoordinatorInitialState | Coordinator starts at round 0, no submissions |
+| FDC-05 | SubmitAndBroadcastAdvancesRound | submitSoftLabels() + broadcastToStudents() advances round |
+| FDC-06 | BroadcastWithoutSubmitThrows | broadcastToStudents() before submitSoftLabels() throws |
+| FDC-07 | RegisteredStudentReceivesBroadcast | registerStudent() callback receives broadcast |
+| FDC-08 | BroadcastVerifiesBudget | broadcastToStudents() verifies privacy budget |
+| FDC-09 | PolicyGateBlocksSubmission | setPolicyGate() returning false blocks submitSoftLabels() |
+| FDC-10 | BudgetRemainingDecrementsAfterBroadcast | budgetRemaining() decreases after each round |
+| FDC-11 | MultipleStudentCallbacksAllCalled | All registered students receive same payload |
+| FDC-12 | GenerateModelCardReturnsJson | generateModelCard() produces well-formed JSON |
 
 **Hardening Targets:**
 - Policy-gated workflow enforcement
@@ -163,11 +163,11 @@
 Each test file creates a focused executable:
 
 ```
-module_distributed_knowledge_adapter_capability_announcement_focused
-module_distributed_knowledge_lora_federation_coordinator_focused
-module_distributed_knowledge_federated_rag_merger_focused
-module_distributed_knowledge_cross_shard_feedback_sync_focused
-module_distributed_knowledge_federated_distillation_coordinator_focused
+module_distributed_knowledge_test_adapter_capability_announcement_focused
+module_distributed_knowledge_test_lora_federation_coordinator_focused
+module_distributed_knowledge_test_federated_rag_merger_focused
+module_distributed_knowledge_test_cross_shard_feedback_sync_focused
+module_distributed_knowledge_test_federated_distillation_coordinator_focused
 ```
 
 ### CTest Registration
@@ -182,7 +182,7 @@ All tests registered with:
 
 **Individual test:**
 ```bash
-ctest -R "adapter_capability_announcement_distributed_knowledge_FocusedTests"
+ctest -R "test_adapter_capability_announcement_distributed_knowledge_FocusedTests"
 ```
 
 **All distributed_knowledge tests:**

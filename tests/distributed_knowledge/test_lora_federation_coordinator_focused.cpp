@@ -2,11 +2,12 @@
  * @file test_lora_federation_coordinator_focused.cpp
  * @brief Focused unit tests for LoRA federated aggregation coordination.
  *
- * Tests the core distributed knowledge LoRA federation paths:
- * - federated aggregation request creation and tracking
- * - cross-shard aggregation coordination
- * - aggregation state transitions and completion
- * - timeout and partial-failure handling
+ * Tests the core distributed knowledge LoRA federation paths against the
+ * actual production API surface:
+ * - EncryptedGradient submission and round tracking
+ * - triggerAggregation() state machine and error conditions
+ * - FederationConfig validation and coordinator lifecycle
+ * - timeout semantics and partial-failure handling
  *
  * Target: Production readiness validation for federated LoRA layer.
  * Q3 2026 Hardening: timeout semantics, aggregation merge contracts, determinism.
@@ -31,236 +32,216 @@ using json = nlohmann::json;
 class LoRAFederationCoordinatorTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        // Test setup for LoRA federation tests
+        cfg_.min_participants = 2;
+        cfg_.max_participants = 8;
+        cfg_.dp_epsilon       = 0.5;
+        cfg_.dp_delta         = 1e-5;
+        cfg_.dp_sensitivity   = 1.0;
+        cfg_.max_rounds       = 0;  // unlimited
+    }
+
+    FederationConfig cfg_;
+
+    /// Build a minimal EncryptedGradient for a given shard/round.
+    static EncryptedGradient makeGradient(const std::string& shard_id, uint64_t round,
+                                          size_t samples = 100) {
+        EncryptedGradient g;
+        g.shard_id     = shard_id;
+        g.round        = round;
+        g.sample_count = samples;
+        g.data         = {{"w0", 0.01}, {"w1", -0.02}};
+        return g;
     }
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Aggregation Request Tests (LFC-01..LFC-03)
+// Configuration and Lifecycle Tests (LFC-01..LFC-03)
 // ─────────────────────────────────────────────────────────────────────────────
 
 /**
- * @test LFC-01: Create federated aggregation request.
+ * @test LFC-01: FederationConfig validation — valid config.
  *
- * Verifies that a FederatedAggregationRequest can be created with required fields:
- * - aggregation_id
- * - target_shards
- * - adapter_ids
- * - aggregation_mode
+ * Verifies that a properly constructed FederationConfig reports isValid() == true.
  */
-TEST_F(LoRAFederationCoordinatorTest, CreateAggregationRequest) {
-    FederatedAggregationRequest request;
-    request.aggregation_id = "agg-001";
-    request.target_shards = {"shard-001", "shard-002", "shard-003"};
-    request.adapter_ids = {"adapter-a", "adapter-b"};
-    request.aggregation_mode = AggregationMode::MEAN_WEIGHTS;
-    
-    EXPECT_EQ(request.aggregation_id, "agg-001");
-    EXPECT_EQ(request.target_shards.size(), 3);
-    EXPECT_EQ(request.adapter_ids.size(), 2);
-    EXPECT_EQ(static_cast<int>(request.aggregation_mode), 
-              static_cast<int>(AggregationMode::MEAN_WEIGHTS));
+TEST_F(LoRAFederationCoordinatorTest, ValidConfigReportsValid) {
+    EXPECT_TRUE(cfg_.isValid());
 }
 
 /**
- * @test LFC-02: AggregationMode enumeration values.
+ * @test LFC-02: FederationConfig validation — invalid epsilon rejected.
  *
- * Verifies that all aggregation modes are properly defined and accessible.
+ * Verifies that a config with dp_epsilon == 0 is rejected by isValid().
  */
-TEST_F(LoRAFederationCoordinatorTest, AggregationModeEnumeration) {
-    // Verify that key aggregation modes exist
-    EXPECT_EQ(static_cast<int>(AggregationMode::MEAN_WEIGHTS), 0);
-    // Additional modes can be verified here based on implementation
+TEST_F(LoRAFederationCoordinatorTest, InvalidEpsilonRejected) {
+    cfg_.dp_epsilon = 0.0;
+    EXPECT_FALSE(cfg_.isValid());
 }
 
 /**
- * @test LFC-03: Aggregation request with single target shard.
+ * @test LFC-03: Coordinator initial state — round 0, no submissions.
  *
- * Verifies that aggregation requests can be created for a single shard
- * (edge case: minimal federation).
+ * Verifies that a freshly constructed coordinator starts at round 0 with
+ * no pending gradients and no completed delta.
  */
-TEST_F(LoRAFederationCoordinatorTest, SingleShardAggregationRequest) {
-    FederatedAggregationRequest request;
-    request.aggregation_id = "agg-single";
-    request.target_shards = {"shard-001"};
-    request.adapter_ids = {"adapter-a"};
-    request.aggregation_mode = AggregationMode::MEAN_WEIGHTS;
-    
-    EXPECT_EQ(request.target_shards.size(), 1);
-    EXPECT_EQ(request.target_shards[0], "shard-001");
+TEST_F(LoRAFederationCoordinatorTest, CoordinatorInitialState) {
+    LoRAFederationCoordinator coordinator(cfg_);
+
+    EXPECT_EQ(coordinator.currentRound(), 0u);
+    EXPECT_EQ(coordinator.submittedCount(), 0u);
+    EXPECT_FALSE(coordinator.lastDelta().has_value());
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Aggregation State Tests (LFC-04..LFC-06)
+// Gradient Submission Tests (LFC-04..LFC-06)
 // ─────────────────────────────────────────────────────────────────────────────
 
 /**
- * @test LFC-04: AggregationState enumeration.
+ * @test LFC-04: submitGradient() increments submittedCount.
  *
- * Verifies that aggregation states are properly defined for state machine tracking.
- * Expected states: PENDING, IN_PROGRESS, COMPLETED, FAILED, TIMEOUT.
+ * Verifies that submitting a gradient for round 0 increments submittedCount().
  */
-TEST_F(LoRAFederationCoordinatorTest, AggregationStateEnumeration) {
-    // Verify that key aggregation states exist
-    EXPECT_EQ(static_cast<int>(AggregationState::PENDING), 0);
-    // Additional states can be verified here based on implementation
+TEST_F(LoRAFederationCoordinatorTest, SubmitGradientIncrementsCount) {
+    LoRAFederationCoordinator coordinator(cfg_);
+
+    coordinator.submitGradient(makeGradient("shard-001", 0));
+    EXPECT_EQ(coordinator.submittedCount(), 1u);
 }
 
 /**
- * @test LFC-05: AggregationResult structure.
+ * @test LFC-05: Duplicate gradient submission is idempotent.
  *
- * Verifies that aggregation results capture all required output data:
- * - aggregation_id
- * - state
- * - aggregated_weights (or equivalent)
- * - participating_shards
- * - errors
+ * Verifies that submitting two gradients from the same shard for the same
+ * round only counts once (idempotency contract).
  */
-TEST_F(LoRAFederationCoordinatorTest, AggregationResultStructure) {
-    AggregationResult result;
-    result.aggregation_id = "agg-001";
-    result.state = AggregationState::COMPLETED;
-    result.participating_shards = {"shard-001", "shard-002"};
-    
-    EXPECT_EQ(result.aggregation_id, "agg-001");
-    EXPECT_EQ(result.state, AggregationState::COMPLETED);
-    EXPECT_EQ(result.participating_shards.size(), 2);
+TEST_F(LoRAFederationCoordinatorTest, DuplicateGradientIsIdempotent) {
+    LoRAFederationCoordinator coordinator(cfg_);
+
+    coordinator.submitGradient(makeGradient("shard-001", 0));
+    coordinator.submitGradient(makeGradient("shard-001", 0));  // duplicate
+    EXPECT_EQ(coordinator.submittedCount(), 1u);
 }
 
 /**
- * @test LFC-06: Failed aggregation result with error details.
+ * @test LFC-06: Multiple distinct shard submissions are counted correctly.
  *
- * Verifies that aggregation failures include error messages and affected shards.
+ * Verifies that two distinct shards contributing gradients results in
+ * submittedCount() == 2.
  */
-TEST_F(LoRAFederationCoordinatorTest, FailedAggregationResult) {
-    AggregationResult result;
-    result.aggregation_id = "agg-001";
-    result.state = AggregationState::FAILED;
-    result.participating_shards = {"shard-001"};
-    result.error_message = "shard-002 timeout";
-    
-    EXPECT_EQ(result.state, AggregationState::FAILED);
-    EXPECT_EQ(result.participating_shards.size(), 1);
-    EXPECT_NE(result.error_message, "");
+TEST_F(LoRAFederationCoordinatorTest, TwoShardSubmissionsCountedCorrectly) {
+    LoRAFederationCoordinator coordinator(cfg_);
+
+    coordinator.submitGradient(makeGradient("shard-001", 0));
+    coordinator.submitGradient(makeGradient("shard-002", 0));
+    EXPECT_EQ(coordinator.submittedCount(), 2u);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// LoRA Coordinator Tests (LFC-07..LFC-10)
+// Aggregation Tests (LFC-07..LFC-10)
 // ─────────────────────────────────────────────────────────────────────────────
 
 /**
- * @test LFC-07: LoRAFederationCoordinator initialization.
+ * @test LFC-07: triggerAggregation() throws when below min_participants.
  *
- * Verifies that a coordinator can be created with configuration and
- * maintains an aggregation registry.
+ * Verifies that calling triggerAggregation() with only one gradient submitted
+ * (min_participants == 2) throws std::runtime_error.
  */
-TEST_F(LoRAFederationCoordinatorTest, CoordinatorInitialization) {
-    LoRAFederationCoordinator coordinator("coordinator-001");
-    
-    // Verify coordinator is operational
-    EXPECT_NE(coordinator.coordinatorId(), "");
+TEST_F(LoRAFederationCoordinatorTest, AggregationThrowsBelowMinParticipants) {
+    LoRAFederationCoordinator coordinator(cfg_);
+    coordinator.submitGradient(makeGradient("shard-001", 0));
+
+    EXPECT_THROW(coordinator.triggerAggregation(), std::runtime_error);
 }
 
 /**
- * @test LFC-08: Register aggregation request with coordinator.
+ * @test LFC-08: triggerAggregation() succeeds with min_participants met.
  *
- * Verifies that the coordinator can track aggregation requests and
- * assign them to an aggregation tracking state.
+ * Verifies that with two gradients submitted (== min_participants),
+ * triggerAggregation() returns a valid GlobalAdapterDelta.
  */
-TEST_F(LoRAFederationCoordinatorTest, RegisterAggregationRequest) {
-    LoRAFederationCoordinator coordinator("coordinator-001");
-    
-    FederatedAggregationRequest request;
-    request.aggregation_id = "agg-001";
-    request.target_shards = {"shard-001", "shard-002"};
-    request.adapter_ids = {"adapter-a"};
-    request.aggregation_mode = AggregationMode::MEAN_WEIGHTS;
-    
-    // Coordinator should be able to register request
-    // (implementation-specific method; test adapted to actual API)
-    EXPECT_NE(request.aggregation_id, "");
+TEST_F(LoRAFederationCoordinatorTest, AggregationSucceedsWithMinParticipants) {
+    LoRAFederationCoordinator coordinator(cfg_);
+    coordinator.submitGradient(makeGradient("shard-001", 0));
+    coordinator.submitGradient(makeGradient("shard-002", 0));
+
+    ASSERT_NO_THROW({
+        GlobalAdapterDelta delta = coordinator.triggerAggregation();
+        EXPECT_EQ(delta.participants, 2u);
+        EXPECT_FALSE(delta.version.empty());
+    });
 }
 
 /**
- * @test LFC-09: Query aggregation status during execution.
+ * @test LFC-09: Successful aggregation advances the round counter.
  *
- * Verifies that the coordinator can report aggregation status while
- * requests are in progress (e.g., waiting for responses).
+ * Verifies that after triggerAggregation() succeeds, currentRound() is 1.
  */
-TEST_F(LoRAFederationCoordinatorTest, AggregationStatusTracking) {
-    AggregationResult result;
-    result.aggregation_id = "agg-001";
-    result.state = AggregationState::IN_PROGRESS;
-    result.participating_shards = {};  // No responses yet
-    
-    EXPECT_EQ(result.state, AggregationState::IN_PROGRESS);
-    EXPECT_EQ(result.participating_shards.size(), 0);
+TEST_F(LoRAFederationCoordinatorTest, AggregationAdvancesRound) {
+    LoRAFederationCoordinator coordinator(cfg_);
+    coordinator.submitGradient(makeGradient("shard-001", 0));
+    coordinator.submitGradient(makeGradient("shard-002", 0));
+    coordinator.triggerAggregation();
+
+    EXPECT_EQ(coordinator.currentRound(), 1u);
+    EXPECT_TRUE(coordinator.lastDelta().has_value());
 }
 
 /**
- * @test LFC-10: Timeout handling in aggregation.
+ * @test LFC-10: triggerAggregation() with timeout_ms=1 throws on zero-gradient round.
  *
- * Verifies that aggregations correctly transition to TIMEOUT state
- * when configured timeout expires.
+ * Verifies timeout error handling: when no gradients are submitted and a
+ * 1 ms timeout is requested, a std::runtime_error is thrown.
  */
 TEST_F(LoRAFederationCoordinatorTest, AggregationTimeoutHandling) {
-    AggregationResult result;
-    result.aggregation_id = "agg-timeout";
-    result.state = AggregationState::TIMEOUT;
-    result.participating_shards = {"shard-001"};  // Partial responses
-    result.error_message = "timeout waiting for shard-002 and shard-003";
-    
-    EXPECT_EQ(result.state, AggregationState::TIMEOUT);
-    EXPECT_NE(result.error_message, "");
+    LoRAFederationCoordinator coordinator(cfg_);
+    // No gradients submitted — aggregation should fail with a meaningful error.
+    EXPECT_THROW(coordinator.triggerAggregation(1u), std::runtime_error);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Multiple Aggregations Tests (LFC-11..LFC-12)
+// Multiple Rounds and Serialization Tests (LFC-11..LFC-12)
 // ─────────────────────────────────────────────────────────────────────────────
 
 /**
- * @test LFC-11: Multiple concurrent aggregations.
+ * @test LFC-11: Multiple consecutive aggregation rounds.
  *
- * Verifies that the coordinator can track multiple aggregation requests
- * independently without interference.
+ * Verifies that the coordinator correctly handles two sequential rounds,
+ * advancing round counter with each successful aggregation.
  */
-TEST_F(LoRAFederationCoordinatorTest, MultipleConcurrentAggregations) {
-    std::vector<FederatedAggregationRequest> requests;
-    
-    for (int i = 0; i < 3; ++i) {
-        FederatedAggregationRequest request;
-        request.aggregation_id = "agg-" + std::to_string(i);
-        request.target_shards = {"shard-001", "shard-002"};
-        request.adapter_ids = {"adapter-a"};
-        request.aggregation_mode = AggregationMode::MEAN_WEIGHTS;
-        requests.push_back(request);
+TEST_F(LoRAFederationCoordinatorTest, MultipleConsecutiveRounds) {
+    LoRAFederationCoordinator coordinator(cfg_);
+
+    for (uint64_t round = 0; round < 2; ++round) {
+        coordinator.submitGradient(makeGradient("shard-001", round));
+        coordinator.submitGradient(makeGradient("shard-002", round));
+        ASSERT_NO_THROW(coordinator.triggerAggregation());
     }
-    
-    EXPECT_EQ(requests.size(), 3);
-    for (int i = 0; i < 3; ++i) {
-        EXPECT_EQ(requests[i].aggregation_id, "agg-" + std::to_string(i));
-    }
+
+    EXPECT_EQ(coordinator.currentRound(), 2u);
 }
 
 /**
- * @test LFC-12: Aggregation result JSON serialization.
+ * @test LFC-12: GlobalAdapterDelta JSON serialization round-trip.
  *
- * Verifies that aggregation results can be serialized to JSON for
- * cross-shard communication and logging.
+ * Verifies that GlobalAdapterDelta serialises to JSON and deserialises back
+ * with consistent field values.
  */
-TEST_F(LoRAFederationCoordinatorTest, AggregationResultSerialization) {
-    AggregationResult result;
-    result.aggregation_id = "agg-001";
-    result.state = AggregationState::COMPLETED;
-    result.participating_shards = {"shard-001", "shard-002"};
-    
-    // Attempt JSON serialization
-    json payload;
-    payload["aggregation_id"] = result.aggregation_id;
-    payload["state"] = static_cast<int>(result.state);
-    
-    EXPECT_EQ(payload["aggregation_id"], "agg-001");
-    EXPECT_EQ(payload["state"], static_cast<int>(AggregationState::COMPLETED));
+TEST_F(LoRAFederationCoordinatorTest, GlobalAdapterDeltaSerializationRoundTrip) {
+    GlobalAdapterDelta delta;
+    delta.round        = 3;
+    delta.version      = "global-v3";
+    delta.participants = 4;
+    delta.algorithm    = "FedAvg";
+    delta.epsilon_spent = 0.1;
+    delta.delta        = {{"w0", 0.005}};
+
+    json j = delta.toJson();
+    GlobalAdapterDelta restored = GlobalAdapterDelta::fromJson(j);
+
+    EXPECT_EQ(restored.round,        delta.round);
+    EXPECT_EQ(restored.version,      delta.version);
+    EXPECT_EQ(restored.participants, delta.participants);
+    EXPECT_EQ(restored.algorithm,    delta.algorithm);
+    EXPECT_DOUBLE_EQ(restored.epsilon_spent, delta.epsilon_spent);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -270,18 +251,18 @@ TEST_F(LoRAFederationCoordinatorTest, AggregationResultSerialization) {
 /*
  * Test Coverage Summary (LFC-01..LFC-12):
  *
- * LFC-01: Create federated aggregation request
- * LFC-02: AggregationMode enumeration
- * LFC-03: Single shard aggregation edge case
- * LFC-04: AggregationState enumeration
- * LFC-05: AggregationResult structure
- * LFC-06: Failed aggregation result
- * LFC-07: LoRAFederationCoordinator initialization
- * LFC-08: Register aggregation request with coordinator
- * LFC-09: Query aggregation status during execution
- * LFC-10: Timeout handling in aggregation
- * LFC-11: Multiple concurrent aggregations
- * LFC-12: Aggregation result JSON serialization
+ * LFC-01: Valid FederationConfig reports isValid()
+ * LFC-02: Invalid epsilon rejected by isValid()
+ * LFC-03: Coordinator initial state (round=0, no submissions)
+ * LFC-04: submitGradient() increments submittedCount
+ * LFC-05: Duplicate gradient submission is idempotent
+ * LFC-06: Two distinct shard submissions counted correctly
+ * LFC-07: triggerAggregation() throws below min_participants
+ * LFC-08: triggerAggregation() succeeds with min_participants met
+ * LFC-09: Successful aggregation advances round counter
+ * LFC-10: Timeout error handling (triggerAggregation with 1ms)
+ * LFC-11: Multiple consecutive aggregation rounds
+ * LFC-12: GlobalAdapterDelta JSON serialization round-trip
  *
  * Target: Q3 2026 Hardening - aggregation coordination, merge contracts, timeout semantics.
  * Status: Focused unit test suite for LoRA federation coordination layer.
