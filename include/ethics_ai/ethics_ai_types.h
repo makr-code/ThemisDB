@@ -270,11 +270,161 @@ ArgumentType stringToArgumentType(const std::string& str);
 const char* argumentStrengthToString(ArgumentStrength strength);
 ArgumentStrength stringToArgumentStrength(const std::string& str);
 
+// ============================================================================
+// LDM — Layered Discourse Model types (LDM-1 through LDM-5)
+// ============================================================================
+
+// Forward declaration — full definition in ethics_selection_router.h.
+// Declared here so MetaVerdict (below) can reference it without introducing
+// a circular include chain (ethics_profile_registry.h → ethics_ai_types.h).
+enum class DiscourseMode : uint8_t;
+
+/**
+ * @brief Per-school Ebene-1 verdict produced by the Layered Discourse Model.
+ *
+ * @note ABSTAIN is the fail-closed verdict assigned when an LLM call times out
+ *       for a given school.  The school is still included in
+ *       MetaVerdict::participating_schools for EU AI Act Art. 13 compliance.
+ *
+ * @since LDM-2 (Target: Q1 2027)
+ */
+enum class DiscourseVerdict : uint8_t {
+    PROHIBIT    = 0, ///< School recommends prohibition.
+    PERMIT      = 1, ///< School permits the action.
+    CONDITIONAL = 2, ///< School permits under stated conditions.
+    ABSTAIN     = 3, ///< Fail-closed: LLM timeout or indeterminate.
+};
+
+/**
+ * @brief Error taxonomy for ethics_ai LDM operations.
+ *
+ * Use EthicsError::ok() to construct a no-error value.
+ *
+ * @since LDM-1 (Target: Q4 2026)
+ */
+enum class EthicsErrorCode : int {
+    OK                          = 0,
+    PROFILE_NOT_FOUND           = 1,  ///< Requested school_id absent from registry.
+    PROFILE_VALIDATION_FAILED   = 2,  ///< Profile loaded but failed schema check.
+    PROFILE_SCHEMA_INVALID      = 3,  ///< YAML schema does not conform to contract.
+    LIFECYCLE_UNINITIALIZED     = 10, ///< Plugin not yet initialised.
+    LIFECYCLE_DOUBLE_INIT       = 11, ///< Plugin initialise() called twice.
+    CONTEXT_RETRIEVAL_FAILED    = 20, ///< RAG context retrieval failure.
+    CONTEXT_SCHEMA_INVALID      = 21, ///< Retrieved context does not match schema.
+    ROUTING_NO_SCHOOLS          = 30, ///< Router returned zero candidate schools.
+    ROUTING_EMPTY_PLAN          = 31, ///< planDiscourse() produced an empty plan.
+    EVALUATOR_SCORE_OUT_OF_RANGE= 40, ///< Score outside [0, 1] contract.
+    LDM_LLM_TIMEOUT             = 50, ///< Per-school LLM call timed out → ABSTAIN.
+    LDM_ALL_ABSTAINED           = 51, ///< All schools ABSTAINED → DISSENT MetaVerdict.
+    LDM_LEGAL_DB_UNAVAILABLE    = 52, ///< Legal-DB offline; MetaVerdict without grounding.
+    LDM_CLUSTER_EMPTY           = 53, ///< Cluster has 0 active (non-ABSTAIN) schools.
+    LDM_EQUAL_WEIGHT_VIOLATION  = 54, ///< Process-integrity audit event: unequal weights.
+};
+
+/**
+ * @brief Typed error value for ethics_ai LDM operations.
+ *
+ * Prefer returning `EthicsError` over throwing exceptions in non-fatal paths.
+ *
+ * @since LDM-1 (Target: Q4 2026)
+ */
+struct EthicsError {
+    EthicsErrorCode code{EthicsErrorCode::OK};
+    std::string     message;
+
+    /// @return A no-error value.
+    [[nodiscard]] static EthicsError ok() noexcept {
+        return EthicsError{EthicsErrorCode::OK, {}};
+    }
+
+    /// @return True when this represents a successful (no-error) state.
+    [[nodiscard]] bool isOk() const noexcept {
+        return code == EthicsErrorCode::OK;
+    }
+
+    /// @return True when this represents an error.
+    [[nodiscard]] explicit operator bool() const noexcept { return !isOk(); }
+};
+
+// ============================================================================
+// Cross-cultural policy
+// ============================================================================
+
+/**
+ * @brief Activation level for the Mirror-School cross-cultural perspective mode.
+ *
+ * Higher levels activate more non-western mirror schools per domain.
+ *
+ * @since LDM-5 (Target: Q2 2027)
+ */
+enum class CrossCulturalSensitivity : uint8_t {
+    OFF    = 0, ///< Mirror schools disabled.
+    LOW    = 1, ///< Activate for explicitly flagged domains only.
+    MEDIUM = 2, ///< Activate for bioethics, family_law, end_of_life, minority_rights.
+    HIGH   = 3, ///< Activate for all domains including ai_governance and data_protection.
+};
+
+/**
+ * @brief Per-domain Mirror-School activation policy.
+ *
+ * Controls which non-western schools run in lightweight parallel-mirror mode
+ * alongside Ebene-2 cluster discourse.
+ *
+ * @note Mirror-school output is ALWAYS persisted in MetaVerdict::minority_dissent
+ *       regardless of the overall convergence_score (EU AI Act Art. 13).
+ *
+ * @since LDM-5 (Target: Q2 2027)
+ */
+struct MirrorSchoolPolicy {
+    /// Global cross-cultural sensitivity level.  Defaults to OFF.
+    CrossCulturalSensitivity cross_cultural_sensitivity{CrossCulturalSensitivity::OFF};
+
+    /// Default non-western mirror school identifiers.
+    std::vector<std::string> mirror_school_ids{
+        "islamische_ethik",
+        "konfuzianismus",
+        "buddhistische_ethik",
+        "juedische_bioethik",
+    };
+
+    /// Per-domain sensitivity overrides (domain → activation level).
+    std::map<std::string, CrossCulturalSensitivity> domain_overrides;
+
+    /**
+     * @brief Return true when the mirror-school mode is active for @p domain.
+     *
+     * Lookup order:
+     * 1. Domain-specific override if present.
+     * 2. Global `cross_cultural_sensitivity` if ≥ LOW.
+     *
+     * @param domain  Dilemma domain key, e.g. "bioethics".
+     * @return true   when at least one mirror school should be activated.
+     */
+    [[nodiscard]] bool isActiveFor(const std::string& domain) const noexcept {
+        auto it = domain_overrides.find(domain);
+        if (it != domain_overrides.end()) {
+            return it->second != CrossCulturalSensitivity::OFF;
+        }
+        return cross_cultural_sensitivity != CrossCulturalSensitivity::OFF;
+    }
+};
+
+// ============================================================================
+// LDM output types
+// ============================================================================
+
 /**
  * @brief Output record for a single school in one discourse round.
  *
- * Produced by EthicalDiscourseEngine::runRound(). The `position_abstract`
+ * Produced by EthicalDiscourseEngine::runRound() (legacy fields) and by
+ * DiscourseOrchestrator::runEbene1() (LDM fields).  The `position_abstract`
  * field implements the DSPy TypedPredictor-equivalent output schema (§12.2.3).
+ *
+ * LDM additions (fields suffixed @since LDM-2):
+ * - `ldm_verdict`    — typed enum version of `verdict` for LDM code paths.
+ * - `initial_weight` — w₀ = 1/N equal-weight contract value, filled by orchestrator.
+ * - `timed_out`      — true when the per-school LLM call exceeded the timeout;
+ *                      forces `ldm_verdict = ABSTAIN` (fail-closed).
  */
 struct DiscourseRoundOutput {
     std::string  school_id;
@@ -286,20 +436,153 @@ struct DiscourseRoundOutput {
     std::string  primary_rebuttal_of;              ///< thesis_id rebutted (R2+)
     std::string  position_abstract;               ///< ≤ 100 tokens — §12.2.3
     bool         schema_valid{false};
+
+    // --- LDM-2 additions ---
+
+    /// Typed Ebene-1 verdict (LDM code paths).  Populated by DiscourseOrchestrator.
+    DiscourseVerdict ldm_verdict{DiscourseVerdict::ABSTAIN};
+
+    /// Equal initial weight w₀ = 1/N, filled by DiscourseOrchestrator.
+    /// @since LDM-2
+    double initial_weight{0.0};
+
+    /// True when the per-school LLM call timed out (forced ABSTAIN, fail-closed).
+    /// @since LDM-2
+    bool timed_out{false};
 };
 
 /**
  * @brief Episodic memory entry for REFLEXION-based memory externalization.
  *
  * Implements the MemGPT Recall Storage pattern (§12.2.4).
+ *
+ * LDM-3 additions: inter-cluster tension-pair fields (`cluster_a`, `cluster_b`,
+ * `tension_axis`, `outcome_summary`, `round_number`).  Legacy per-school fields
+ * remain unchanged.
  */
 struct EpisodicMemoryEntry {
+    // --- Legacy per-school fields (§12.2.4) ---
     std::string school_id;
     int         from_round{0};
     std::string compressed_position;  ///< ≤ 50 tokens
     float       dc_score{0.0f};
     std::string strongest_tension;    ///< thesis_id pair "own:thesis ↔ opponent:thesis"
+
+    // --- LDM-3 inter-cluster fields ---
+    std::string cluster_a;       ///< First cluster in inter-cluster tension pair.
+    std::string cluster_b;       ///< Second cluster in inter-cluster tension pair.
+    std::string tension_axis;    ///< e.g. "Kant↔Utilitarismus"
+    std::string outcome_summary; ///< Brief summary of the inter-cluster discourse outcome.
+    int         round_number{0}; ///< Ebene-2 discourse round (LDM-3).
 };
+
+/**
+ * @brief Ebene-2 per-cluster consolidated position.
+ *
+ * Produced by DiscourseOrchestrator::runEbene2() for each cluster after
+ * intra-cluster consolidation.
+ *
+ * @since LDM-3 (Target: Q2 2027)
+ */
+struct ClusterPosition {
+    std::string cluster_name;                ///< e.g. "Deontological"
+    std::vector<std::string> school_ids;     ///< Active (non-ABSTAIN) schools in this cluster.
+    DiscourseVerdict verdict{DiscourseVerdict::ABSTAIN}; ///< Majority verdict in cluster.
+    double confidence{0.0};                  ///< Confidence in [0, 1].
+    std::vector<std::string> thesis_ids;     ///< Supporting thesis identifiers.
+};
+
+/**
+ * @brief Legal-DB citation grounding for MetaVerdict.
+ *
+ * Populated from the Legal-DB retriever (CitationHighlighter) — NEVER from
+ * LLM-generated text.  When the Legal-DB is offline, `grounding_available`
+ * is set to false and the MetaVerdict is produced without grounding.
+ *
+ * @since LDM-4 (Target: Q2 2027)
+ */
+struct LegalGrounding {
+    std::vector<std::string> citation_ids;   ///< Document reference IDs from Legal-DB.
+    std::vector<std::string> norm_refs;      ///< e.g. {"GG Art. 1", "DSGVO Art. 5"}.
+    bool override_permitted{false};          ///< From dominant school's regulatory_constraints.
+    bool grounding_available{false};         ///< false when Legal-DB is unavailable.
+};
+
+/**
+ * @brief Ebene-3 convergence-counting MetaVerdict (EU AI Act Art. 13 compliant).
+ *
+ * Produced by MetaVerdictBuilder::buildMetaVerdict() after Ebene-1 and,
+ * optionally, Ebene-2 cluster discourse.
+ *
+ * Convergence thresholds:
+ * | convergence_score | convergence_verdict |
+ * |-------------------|---------------------|
+ * | > 0.75            | CLEAR_CONSENSUS     |
+ * | 0.60–0.75         | TENDENCY            |
+ * | 0.40–0.60         | CONTESTED           |
+ * | < 0.40            | DISSENT             |
+ *
+ * @note `participating_schools` MUST include ALL N schools (including ABSTAIN)
+ *       for EU AI Act Art. 13 audit completeness.
+ *
+ * @since LDM-4 (Target: Q2 2027)
+ */
+struct MetaVerdict {
+    /**
+     * @brief Convergence level for the dominant verdict.
+     */
+    enum class ConvergenceVerdict : uint8_t {
+        CLEAR_CONSENSUS = 0, ///< > 0.75 agreement.
+        TENDENCY        = 1, ///< 0.60–0.75 agreement.
+        CONTESTED       = 2, ///< 0.40–0.60 agreement.
+        DISSENT         = 3, ///< < 0.40 agreement (also: all-ABSTAIN).
+    };
+
+    ConvergenceVerdict convergence_verdict{ConvergenceVerdict::DISSENT};
+    double             convergence_score{0.0};
+
+    /// ALL N participating schools, including ABSTAIN votes (EU AI Act Art. 13).
+    std::vector<std::string> participating_schools;
+
+    /// Schools whose verdict differed from the dominant verdict.
+    std::vector<std::string> dissenting_schools;
+
+    /// True when ≥ 2 schools from distinct cultural regions share the same verdict.
+    bool cross_cultural_flag{false};
+
+    /// Mirror-school outputs, always populated when MirrorSchoolPolicy is active.
+    /// Visible in audit trail regardless of convergence_score.
+    std::vector<DiscourseRoundOutput> minority_dissent;
+
+    LegalGrounding legal_grounding;  ///< Legal-DB citation, or flagged unavailable.
+
+    /// Active discourse mode that produced this verdict.
+    DiscourseMode discourse_mode{};  // default-initialised; full type via router header.
+
+    DiscourseVerdict dominant_verdict{DiscourseVerdict::ABSTAIN};
+};
+
+/**
+ * @brief Static helper: map a convergence_score to a ConvergenceVerdict.
+ *
+ * Thresholds:
+ * - score > 0.75  → CLEAR_CONSENSUS
+ * - score in (0.60, 0.75] → TENDENCY
+ * - score in (0.40, 0.60] → CONTESTED
+ * - score ≤ 0.40  → DISSENT
+ *
+ * @param score  Convergence score in [0, 1].
+ * @return Corresponding ConvergenceVerdict.
+ *
+ * @since LDM-4 (Target: Q2 2027)
+ */
+[[nodiscard]] constexpr MetaVerdict::ConvergenceVerdict
+MetaVerdictThreshold(double score) noexcept {
+    if (score > 0.75) return MetaVerdict::ConvergenceVerdict::CLEAR_CONSENSUS;
+    if (score > 0.60) return MetaVerdict::ConvergenceVerdict::TENDENCY;
+    if (score > 0.40) return MetaVerdict::ConvergenceVerdict::CONTESTED;
+    return MetaVerdict::ConvergenceVerdict::DISSENT;
+}
 
 } // namespace ethics
 } // namespace plugins
