@@ -24,6 +24,7 @@
 // via each of the four interface headers above; no direct include needed.
 #include <memory>
 #include <mutex>
+#include <shared_mutex>
 #include <string>
 #include <map>
 #include <unordered_map>
@@ -290,8 +291,9 @@ public:
      * For the eight built-in concern types (@c ILogger, @c ITracer,
      * @c IMetrics, @c ICache, @c ISecrets, @c IFeatureFlags, @c IAuditLog,
      * @c ICircuitBreaker) the method bridges directly to the corresponding
-     * named accessor and returns a non-owning shared_ptr whose lifetime is
-     * bounded by this @c ConcernsContext instance.
+     * named accessor and returns a strong @c std::shared_ptr snapshot of the
+     * currently active built-in adapter. This ensures the resolved adapter
+     * remains alive even if another thread concurrently performs @c replace*().
      *
      * For all other types the call is forwarded to the embedded
      * @c AdapterRegistry (see @c registry()).
@@ -300,39 +302,35 @@ public:
      * @return    @c std::shared_ptr<T> to the active adapter, or @c nullptr
      *            if not registered.
      *
-     * @note For built-in concern types the returned shared_ptr uses a no-op
-     *       deleter — the context retains sole ownership.  Callers must not
-     *       store the handle beyond the lifetime of this @c ConcernsContext.
-     *
      * @threadsafety Safe to call concurrently; uses a brief shared read lock
      *              for built-in concern types.
      */
     template<typename T>
     std::shared_ptr<T> resolve() const {
         if constexpr (std::is_same_v<T, ILogger>) {
-            std::lock_guard<std::mutex> lk(adapters_mutex_);
-            return std::shared_ptr<T>(logger_.get(), [](T*) noexcept {});
+            std::shared_lock<std::shared_mutex> lk(adapters_mutex_);
+            return std::static_pointer_cast<T>(logger_);
         } else if constexpr (std::is_same_v<T, ITracer>) {
-            std::lock_guard<std::mutex> lk(adapters_mutex_);
-            return std::shared_ptr<T>(tracer_.get(), [](T*) noexcept {});
+            std::shared_lock<std::shared_mutex> lk(adapters_mutex_);
+            return std::static_pointer_cast<T>(tracer_);
         } else if constexpr (std::is_same_v<T, IMetrics>) {
-            std::lock_guard<std::mutex> lk(adapters_mutex_);
-            return std::shared_ptr<T>(metrics_.get(), [](T*) noexcept {});
+            std::shared_lock<std::shared_mutex> lk(adapters_mutex_);
+            return std::static_pointer_cast<T>(metrics_);
         } else if constexpr (std::is_same_v<T, ICache>) {
-            std::lock_guard<std::mutex> lk(adapters_mutex_);
-            return std::shared_ptr<T>(cache_.get(), [](T*) noexcept {});
+            std::shared_lock<std::shared_mutex> lk(adapters_mutex_);
+            return std::static_pointer_cast<T>(cache_);
         } else if constexpr (std::is_same_v<T, ISecrets>) {
-            std::lock_guard<std::mutex> lk(adapters_mutex_);
-            return std::shared_ptr<T>(secrets_.get(), [](T*) noexcept {});
+            std::shared_lock<std::shared_mutex> lk(adapters_mutex_);
+            return std::static_pointer_cast<T>(secrets_);
         } else if constexpr (std::is_same_v<T, IFeatureFlags>) {
-            std::lock_guard<std::mutex> lk(adapters_mutex_);
-            return std::shared_ptr<T>(featureFlags_.get(), [](T*) noexcept {});
+            std::shared_lock<std::shared_mutex> lk(adapters_mutex_);
+            return std::static_pointer_cast<T>(featureFlags_);
         } else if constexpr (std::is_same_v<T, IAuditLog>) {
-            std::lock_guard<std::mutex> lk(adapters_mutex_);
-            return std::shared_ptr<T>(auditLog_.get(), [](T*) noexcept {});
+            std::shared_lock<std::shared_mutex> lk(adapters_mutex_);
+            return std::static_pointer_cast<T>(auditLog_);
         } else if constexpr (std::is_same_v<T, ICircuitBreaker>) {
-            std::lock_guard<std::mutex> lk(adapters_mutex_);
-            return std::shared_ptr<T>(circuit_breaker_.get(), [](T*) noexcept {});
+            std::shared_lock<std::shared_mutex> lk(adapters_mutex_);
+            return std::static_pointer_cast<T>(circuit_breaker_);
         } else {
             return registry_->resolve<T>();
         }
@@ -384,9 +382,10 @@ public:
     // These methods replace an active concern adapter at runtime without
     // restarting the database process.  The old adapter is flushed before the
     // swap so that no buffered data is lost.  All replace* calls are
-    // thread-safe: a brief exclusive lock is taken only to swap the pointer;
-    // in-flight calls on the old adapter complete before the old object is
-    // destroyed (the caller retains a shared_ptr reference until the return).
+    // thread-safe for callers that resolve adapters through resolve<T>()
+    // shared_ptr snapshots: a brief exclusive lock is taken only to swap the
+    // pointer; in-flight calls on the old adapter complete while those
+    // snapshots remain alive.
     //
     // Passing nullptr is rejected (throws std::invalid_argument).
     // -------------------------------------------------------------------------
@@ -398,7 +397,8 @@ public:
     * this call, `logger()` returns a reference to the new adapter. Callers
     * should expect a brief synchronization point while the swap occurs.
      *
-     * Thread-safety: safe to call while other threads are logging.
+     * Thread-safety: safe to call while other threads use logger handles
+     * obtained via @c resolve<ILogger>().
      *
      * @param new_logger Replacement adapter; must not be nullptr.
      * @throws std::invalid_argument if @p new_logger is nullptr.
@@ -642,18 +642,18 @@ private:
         auditLog_(std::move(auditLog)),
         registry_(std::make_unique<AdapterRegistry>()) {}
 
-    std::unique_ptr<ILogger> logger_;
-    std::unique_ptr<ITracer> tracer_;
-    std::unique_ptr<IMetrics> metrics_;
-    std::unique_ptr<ICache> cache_;
-    std::unique_ptr<ISecrets> secrets_;
-    std::unique_ptr<ICircuitBreaker> circuit_breaker_;
-    std::unique_ptr<IFeatureFlags> featureFlags_;
-    std::unique_ptr<IAuditLog> auditLog_;
+    std::shared_ptr<ILogger> logger_;
+    std::shared_ptr<ITracer> tracer_;
+    std::shared_ptr<IMetrics> metrics_;
+    std::shared_ptr<ICache> cache_;
+    std::shared_ptr<ISecrets> secrets_;
+    std::shared_ptr<ICircuitBreaker> circuit_breaker_;
+    std::shared_ptr<IFeatureFlags> featureFlags_;
+    std::shared_ptr<IAuditLog> auditLog_;
     /// Embedded registry for custom (non-built-in) adapter types.
     std::unique_ptr<AdapterRegistry> registry_;
-    /// Guards all replaceX() adapter swaps.
-    mutable std::mutex adapters_mutex_;
+    /// Guards built-in adapter resolve()/replace*() synchronization.
+    mutable std::shared_mutex adapters_mutex_;
 };
 
 } // namespace concerns

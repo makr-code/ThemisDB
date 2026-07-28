@@ -126,7 +126,9 @@ public:
      * @param  meta       Optional metadata; id and apiVersion are validated.
      *
      * @throws std::invalid_argument if @p id is empty.
-     * @throws std::invalid_argument if @p meta.apiVersion == 0.
+     * @throws std::invalid_argument if @p adapter is nullptr.
+     * @throws std::invalid_argument if @p meta.apiVersion is below
+     *         @c kCurrentApiVersion.
      * @throws std::invalid_argument if @p validator returns false.
      */
     template<typename T>
@@ -141,10 +143,16 @@ public:
             throw std::invalid_argument(
                 "[AdapterRegistry] registerAdapter: adapter id must not be empty");
         }
-        if (meta.apiVersion == 0) {
+        if (!adapter) {
             throw std::invalid_argument(
-                "[AdapterRegistry] registerAdapter: apiVersion must be >= 1 (got 0) "
+                "[AdapterRegistry] registerAdapter: adapter must not be nullptr "
                 "for adapter id='" + id + "'");
+        }
+        if (meta.apiVersion < kCurrentApiVersion) {
+            throw std::invalid_argument(
+                "[AdapterRegistry] registerAdapter: apiVersion must be >= " +
+                std::to_string(kCurrentApiVersion) + " (got " +
+                std::to_string(meta.apiVersion) + ") for adapter id='" + id + "'");
         }
 
         // Back-fill metadata id if not set
@@ -232,7 +240,7 @@ public:
 
         // Drain: wait for old adapter ref count to drop to 1 (our local copy).
         if (old_adapter_void) {
-            constexpr int kMaxIterations = 100; // 100 × 1 ms = kHotSwapTimeoutMs
+            const auto kMaxIterations = static_cast<int>(kHotSwapTimeoutMs.count());
             for (int i = 0; i < kMaxIterations; ++i) {
                 if (old_adapter_void.use_count() <= 1) {
                     return true; // all callers have released the old adapter
@@ -242,7 +250,7 @@ public:
             // Timeout — emit structured warning
             std::cerr << "[AdapterRegistry] hot-swap drain timeout for type "
                       << typeid(T).name()
-                      << " after 100ms\n";
+                      << " after " << kHotSwapTimeoutMs.count() << "ms\n";
             return false;
         }
         return true; // no prior registration; swap trivially succeeded

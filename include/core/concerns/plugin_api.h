@@ -22,7 +22,7 @@
  * @param registry           The AdapterRegistry instance to register into.
  * @param requested_adapter_id The `adapter_id` string passed to
  *                           AdapterRegistry::loadFromPlugin().
- * @param host_api_version   The value of kCurrentApiVersion at load time.
+ * @param host_api_version   The value of kPluginAbiVersion at load time.
  *                           Plugins should reject if this is incompatible.
  * @return 0 on success; any non-zero value causes loadFromPlugin() to return
  *         false and the library handle to be released.

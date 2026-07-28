@@ -283,16 +283,16 @@ TEST(ConcernsContextTest, CCT_17_ConcurrentResolvesNoCrash) {
 }
 
 // ---------------------------------------------------------------------------
-// CCT_18 — thread-safety: concurrent replaceLogger with concurrent reads
+// CCT_18 — thread-safety: concurrent replaceLogger with shared_ptr resolves
 // ---------------------------------------------------------------------------
 TEST(ConcernsContextTest, CCT_18_ConcurrentReplaceAndReadNoCrash) {
     auto ctx = makeNoOp();
 
     constexpr int kReaders = 16;
-    constexpr int kReads   = 200;
     constexpr int kSwaps   = 10;
 
     std::atomic<bool> done{false};
+    std::atomic<int> null_resolve_count{0};
 
     // Reader threads
     std::vector<std::thread> readers;
@@ -300,8 +300,12 @@ TEST(ConcernsContextTest, CCT_18_ConcurrentReplaceAndReadNoCrash) {
     for (int t = 0; t < kReaders; ++t) {
         readers.emplace_back([&] {
             while (!done.load(std::memory_order_acquire)) {
-                // Access the logger — must not crash even during a swap
-                ctx->logger().info("concurrent read");
+                auto logger = ctx->resolve<ILogger>();
+                if (logger) {
+                    logger->info("concurrent read");
+                } else {
+                    ++null_resolve_count;
+                }
             }
         });
     }
@@ -314,6 +318,6 @@ TEST(ConcernsContextTest, CCT_18_ConcurrentReplaceAndReadNoCrash) {
 
     for (auto& th : readers) th.join();
 
-    // If we reach here without a crash the test passes
+    EXPECT_EQ(null_resolve_count.load(), 0);
     SUCCEED();
 }

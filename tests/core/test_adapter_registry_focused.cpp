@@ -8,13 +8,14 @@
  *   AR_01  empty registry resolve returns null
  *   AR_02  registerAdapter + resolve returns correct adapter
  *   AR_03  wrong-type resolve returns null
- *   AR_04  apiVersion == 0 throws
+ *   AR_04  apiVersion below kCurrentApiVersion throws
  *   AR_05  empty id throws
  *   AR_06  hotSwap installs new adapter; old ref drops
  *   AR_07  validator rejection throws
  *   AR_08  loadFromPlugin with non-existent path returns false
  *   AR_09  count() and hasAdapter() correct after register
  *   AR_10  concurrent resolve (16 threads × 500 calls) does not crash
+ *   AR_11  nullptr adapter throws
  */
 
 #include <gtest/gtest.h>
@@ -90,15 +91,16 @@ TEST(AdapterRegistryTest, AR_03_WrongTypeResolveReturnsNull) {
 }
 
 // ---------------------------------------------------------------------------
-// AR_04 — apiVersion == 0 throws std::invalid_argument
+// AR_04 — apiVersion below kCurrentApiVersion throws std::invalid_argument
 // ---------------------------------------------------------------------------
-TEST(AdapterRegistryTest, AR_04_ApiVersionZeroThrows) {
+TEST(AdapterRegistryTest, AR_04_ApiVersionBelowCurrentThrows) {
+    static_assert(kCurrentApiVersion > 0, "kCurrentApiVersion must remain positive");
     AdapterRegistry reg;
     auto adapter = std::make_shared<FakeAlphaImpl>(1);
 
     AdapterMetadata meta;
     meta.id         = "alpha";
-    meta.apiVersion = 0; // explicitly invalid
+    meta.apiVersion = kCurrentApiVersion - 1; // explicitly invalid
 
     EXPECT_THROW(
         reg.registerAdapter<IFakeAlpha>("alpha", adapter, nullptr, meta),
@@ -218,4 +220,17 @@ TEST(AdapterRegistryTest, AR_10_ConcurrentResolveNoCrash) {
 
     // 16 threads × 500 calls × value 7
     EXPECT_EQ(total_sum.load(), kThreads * kCalls * 7);
+}
+
+// ---------------------------------------------------------------------------
+// AR_11 — nullptr adapter is rejected
+// ---------------------------------------------------------------------------
+TEST(AdapterRegistryTest, AR_11_NullptrAdapterThrows) {
+    AdapterRegistry reg;
+    std::shared_ptr<IFakeAlpha> adapter;
+
+    EXPECT_THROW(
+        reg.registerAdapter<IFakeAlpha>("alpha", adapter),
+        std::invalid_argument
+    );
 }

@@ -18,7 +18,7 @@
 - [x] Plugin-based adapter loading (no recompile needed) implemented via Issue #1706 (2026-07-28)
 - [x] Adapter plugin hardening and signing workflow delivered (2026-07-28)
 - [x] `AdapterRegistry::hotSwap()` drains in-flight refs within ≤ 100 ms (`kHotSwapTimeoutMs{100}`) (Implemented: 2026-07-28)
-- [x] `ConcernsContext::resolve<T>()` uses `std::shared_mutex` reader-writer lock (no global lock contention) (Implemented: 2026-07-28)
+- [x] `ConcernsContext::resolve<T>()` uses `std::shared_mutex` reader-writer lock and returns owning `std::shared_ptr` snapshots for built-in adapters (Implemented: 2026-07-28)
 
 ---
 
@@ -49,7 +49,7 @@
 
 ## Implementation Notes
 
-- Prioritize plugin runtime loading and signature verification as the next hardening block after the current compiled-adapter baseline.
+- Plugin runtime loading and signature verification are delivered; next hardening block is richer trust policy enforcement (key management, signer rotation, and rejection telemetry).
 - Preserve backwards-compatible concern interfaces while introducing adapter package signing and structured registration errors.
 - Keep runtime swap and distributed cache improvements measurable via the test/performance constraints below.
 

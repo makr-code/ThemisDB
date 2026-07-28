@@ -355,7 +355,10 @@ namespace {
 /// adapter itself.  Callers that need guaranteed delivery should flush the
 /// adapter explicitly before calling replaceX().
 template <typename T>
-void drainAdapter(std::unique_ptr<T>& old, bool also_shutdown) noexcept {
+void drainAdapter(const std::shared_ptr<T>& old, bool also_shutdown) noexcept {
+    if (!old) {
+        return;
+    }
     old->flush();
     if (also_shutdown) {
         old->shutdown();
@@ -368,11 +371,12 @@ void ConcernsContext::replaceLogger(std::unique_ptr<ILogger> new_logger) {
     if (!new_logger) {
         throw std::invalid_argument("ConcernsContext::replaceLogger: new_logger must not be nullptr");
     }
-    std::unique_ptr<ILogger> old;
+    auto new_logger_shared = std::shared_ptr<ILogger>(std::move(new_logger));
+    std::shared_ptr<ILogger> old;
     {
-        std::lock_guard<std::mutex> lk(adapters_mutex_);
+        std::unique_lock<std::shared_mutex> lk(adapters_mutex_);
         old = std::move(logger_);
-        logger_ = std::move(new_logger);
+        logger_ = std::move(new_logger_shared);
     }
     // Drain outside the lock so in-flight log calls on the old adapter
     // complete before the object is destroyed.  Note: flush() is noexcept;
@@ -384,11 +388,12 @@ void ConcernsContext::replaceTracer(std::unique_ptr<ITracer> new_tracer) {
     if (!new_tracer) {
         throw std::invalid_argument("ConcernsContext::replaceTracer: new_tracer must not be nullptr");
     }
-    std::unique_ptr<ITracer> old;
+    auto new_tracer_shared = std::shared_ptr<ITracer>(std::move(new_tracer));
+    std::shared_ptr<ITracer> old;
     {
-        std::lock_guard<std::mutex> lk(adapters_mutex_);
+        std::unique_lock<std::shared_mutex> lk(adapters_mutex_);
         old = std::move(tracer_);
-        tracer_ = std::move(new_tracer);
+        tracer_ = std::move(new_tracer_shared);
     }
     drainAdapter(old, /*also_shutdown=*/true);
 }
@@ -397,11 +402,12 @@ void ConcernsContext::replaceMetrics(std::unique_ptr<IMetrics> new_metrics) {
     if (!new_metrics) {
         throw std::invalid_argument("ConcernsContext::replaceMetrics: new_metrics must not be nullptr");
     }
-    std::unique_ptr<IMetrics> old;
+    auto new_metrics_shared = std::shared_ptr<IMetrics>(std::move(new_metrics));
+    std::shared_ptr<IMetrics> old;
     {
-        std::lock_guard<std::mutex> lk(adapters_mutex_);
+        std::unique_lock<std::shared_mutex> lk(adapters_mutex_);
         old = std::move(metrics_);
-        metrics_ = std::move(new_metrics);
+        metrics_ = std::move(new_metrics_shared);
     }
     drainAdapter(old, /*also_shutdown=*/false);
 }
@@ -410,11 +416,12 @@ void ConcernsContext::replaceCache(std::unique_ptr<ICache> new_cache) {
     if (!new_cache) {
         throw std::invalid_argument("ConcernsContext::replaceCache: new_cache must not be nullptr");
     }
-    std::unique_ptr<ICache> old;
+    auto new_cache_shared = std::shared_ptr<ICache>(std::move(new_cache));
+    std::shared_ptr<ICache> old;
     {
-        std::lock_guard<std::mutex> lk(adapters_mutex_);
+        std::unique_lock<std::shared_mutex> lk(adapters_mutex_);
         old = std::move(cache_);
-        cache_ = std::move(new_cache);
+        cache_ = std::move(new_cache_shared);
     }
     drainAdapter(old, /*also_shutdown=*/true);
 }
@@ -423,11 +430,12 @@ void ConcernsContext::replaceSecrets(std::unique_ptr<ISecrets> new_secrets) {
     if (!new_secrets) {
         throw std::invalid_argument("ConcernsContext::replaceSecrets: new_secrets must not be nullptr");
     }
-    std::unique_ptr<ISecrets> old;
+    auto new_secrets_shared = std::shared_ptr<ISecrets>(std::move(new_secrets));
+    std::shared_ptr<ISecrets> old;
     {
-        std::lock_guard<std::mutex> lk(adapters_mutex_);
+        std::unique_lock<std::shared_mutex> lk(adapters_mutex_);
         old = std::move(secrets_);
-        secrets_ = std::move(new_secrets);
+        secrets_ = std::move(new_secrets_shared);
     }
     drainAdapter(old, /*also_shutdown=*/true);
 }
@@ -436,11 +444,12 @@ void ConcernsContext::replaceFeatureFlags(std::unique_ptr<IFeatureFlags> new_ff)
     if (!new_ff) {
         throw std::invalid_argument("ConcernsContext::replaceFeatureFlags: new_ff must not be nullptr");
     }
-    std::unique_ptr<IFeatureFlags> old;
+    auto new_ff_shared = std::shared_ptr<IFeatureFlags>(std::move(new_ff));
+    std::shared_ptr<IFeatureFlags> old;
     {
-        std::lock_guard<std::mutex> lk(adapters_mutex_);
+        std::unique_lock<std::shared_mutex> lk(adapters_mutex_);
         old = std::move(featureFlags_);
-        featureFlags_ = std::move(new_ff);
+        featureFlags_ = std::move(new_ff_shared);
     }
     drainAdapter(old, /*also_shutdown=*/true);
 }
@@ -449,11 +458,12 @@ void ConcernsContext::replaceAuditLog(std::unique_ptr<IAuditLog> new_audit) {
     if (!new_audit) {
         throw std::invalid_argument("ConcernsContext::replaceAuditLog: new_audit must not be nullptr");
     }
-    std::unique_ptr<IAuditLog> old;
+    auto new_audit_shared = std::shared_ptr<IAuditLog>(std::move(new_audit));
+    std::shared_ptr<IAuditLog> old;
     {
-        std::lock_guard<std::mutex> lk(adapters_mutex_);
+        std::unique_lock<std::shared_mutex> lk(adapters_mutex_);
         old = std::move(auditLog_);
-        auditLog_ = std::move(new_audit);
+        auditLog_ = std::move(new_audit_shared);
     }
     drainAdapter(old, /*also_shutdown=*/true);
 }
@@ -461,4 +471,3 @@ void ConcernsContext::replaceAuditLog(std::unique_ptr<IAuditLog> new_audit) {
 } // namespace concerns
 } // namespace core
 } // namespace themis
-

@@ -26,18 +26,17 @@ Core runtime foundations are delivered: `ConcernsContext`, observability/caching
 - [x] Stabilize current concern interfaces (`ILogger`, `ITracer`, `IMetrics`, `ICache`, `ISecrets`, `IFeatureFlags`, `IAuditLog`) as the active baseline
 - [x] Define `AdapterMetadata` / `AdapterValidator` / `AdapterSignature` structs (`include/core/concerns/adapter_metadata.h`) (Implemented: 2026-07-28)
 - [x] Define `AdapterRegistry` class with `registerAdapter`, `resolve<T>`, `hotSwap`, `count`, `hasAdapter` (`include/core/concerns/adapter_registry.h`) (Implemented: 2026-07-28)
-- [ ] Define signed plugin adapter contract and validation envelope (Target: Q4 2026)
-+ [x] Define signed plugin adapter contract and validation envelope — `AdapterSignature` (non-stub), `SignedAdapterValidator`, `canonicalString()`, `sha256Hex()` (Implemented: 2026-07-28)
+- [x] Define signed plugin adapter contract and validation envelope — `AdapterSignature`, `SignedAdapterValidator`, `canonicalString()`, `sha256Hex()` (Implemented: 2026-07-28)
 
 ### Phase 2: Core Implementation
 - [x] Deliver `ConcernsContext` creation and runtime replacement surfaces
 - [x] Add `ConcernsContext::resolve<T>()` generic type-safe adapter resolution bridging built-in concern types and `AdapterRegistry` (Implemented: 2026-07-28)
-- [x] Implement `AdapterRegistry` non-template methods (`count`, `hasAdapter`, `loadFromPlugin` stub) in `src/core/concerns/adapter_registry.cpp` (Implemented: 2026-07-28)
+- [x] Implement `AdapterRegistry` non-template methods (`count`, `hasAdapter`, `loadFromPlugin`) in `src/core/concerns/adapter_registry.cpp` (Implemented: 2026-07-28)
 - [x] Add runtime plugin loading path that avoids core-module recompilation — `loadFromPlugin()` via dlopen/LoadLibraryA, `plugin_api.h` ABI contract, `THEMIS_DEFINE_PLUGIN_INIT` macro (Implemented: 2026-07-28)
 
 ### Phase 3: Error Handling and Edge Cases
 - [x] Fail-fast null replacement protection in runtime `replace*` APIs
-- [x] `registerAdapter` rejects empty id and apiVersion == 0 with `std::invalid_argument` (Implemented: 2026-07-28)
+- [x] `registerAdapter` rejects empty id, null adapter pointers, and `apiVersion < kCurrentApiVersion` with `std::invalid_argument` (Implemented: 2026-07-28)
 - [x] `hotSwap` drain timeout emits structured warning to `std::cerr` (Implemented: 2026-07-28)
 - [x] `ICircuitBreaker::call(fn, fallback)` inline template — guards fn with `allowRequest()`, records success/failure (Implemented: 2026-07-28)
 - [x] Harden plugin load/unload failure semantics (signature mismatch, ABI mismatch, bootstrap errors) — `AdapterTrustPolicy::kRequireSignature`, `.sig` file check, non-zero init return handling (Implemented: 2026-07-28)
@@ -51,8 +50,8 @@ Core runtime foundations are delivered: `ConcernsContext`, observability/caching
 
 ### Phase 5: Performance and Hardening
 - [x] `AdapterRegistry::kHotSwapTimeoutMs{100}` SLO constant defined; drain loop uses 1 ms sleep × 100 iterations (Implemented: 2026-07-28)
-- [x] `kCurrentApiVersion = 1` constant in `adapter_metadata.h`; apiVersion == 0 rejected at registration (Implemented: 2026-07-28)
-- [x] `AdapterSignature` stub struct with STUB/SIMULATION NOTE (Implemented: 2026-07-28)
+- [x] `kCurrentApiVersion = 1` constant in `adapter_metadata.h`; registration enforces `apiVersion >= kCurrentApiVersion` (Implemented: 2026-07-28)
+- [x] `AdapterSignature` production struct defined in `adapter_metadata.h` and enforced by `SignedAdapterValidator` in signing flows (Implemented: 2026-07-28)
 - [x] Add adapter signing and trust policy validation to release hardening flow — `SignedAdapterValidator`, `AdapterTrustPolicy`, `loadFromPlugin` SHA-256 file verification (Implemented: 2026-07-28)
 
 ### Phase 6: Documentation and Acceptance

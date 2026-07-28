@@ -9,11 +9,15 @@
  */
 
 #include "core/concerns/adapter_registry.h"
-#include "core/concerns/adapter_signing.h"
 
+#include <openssl/evp.h>
+
+#include <array>
 #include <filesystem>
 #include <fstream>
+#include <iomanip>
 #include <iostream>
+#include <sstream>
 #include <typeindex>
 
 #ifdef _WIN32
@@ -28,6 +32,56 @@
 namespace themis {
 namespace core {
 namespace concerns {
+
+namespace {
+
+std::string sha256FileHex(const std::string& path) {
+    std::ifstream file(path, std::ios::binary);
+    if (!file.is_open()) {
+        return {};
+    }
+
+    EVP_MD_CTX* ctx = EVP_MD_CTX_new();
+    if (!ctx) {
+        return {};
+    }
+
+    if (EVP_DigestInit_ex(ctx, EVP_sha256(), nullptr) != 1) {
+        EVP_MD_CTX_free(ctx);
+        return {};
+    }
+
+    std::array<char, 16 * 1024> buffer{};
+    while (file.good()) {
+        file.read(buffer.data(), static_cast<std::streamsize>(buffer.size()));
+        const std::streamsize read_bytes = file.gcount();
+        if (read_bytes <= 0) {
+            break;
+        }
+        if (EVP_DigestUpdate(
+                ctx, buffer.data(), static_cast<size_t>(read_bytes)) != 1) {
+            EVP_MD_CTX_free(ctx);
+            return {};
+        }
+    }
+
+    unsigned char hash[EVP_MAX_MD_SIZE];
+    unsigned int hash_len = 0;
+    if (EVP_DigestFinal_ex(ctx, hash, &hash_len) != 1) {
+        EVP_MD_CTX_free(ctx);
+        return {};
+    }
+    EVP_MD_CTX_free(ctx);
+
+    std::ostringstream oss;
+    oss << std::hex << std::setfill('0');
+    for (unsigned int i = 0; i < hash_len; ++i) {
+        oss << std::setw(2) << static_cast<unsigned int>(hash[i]);
+    }
+    return oss.str();
+}
+
+} // namespace
 
 // ---------------------------------------------------------------------------
 // PluginHandle destructor — releases the OS library handle
@@ -139,18 +193,7 @@ bool AdapterRegistry::loadFromPlugin(const std::string& path,
                 expected_digest.pop_back();
             }
 
-            // Compute actual file digest
-            std::ifstream lib_file(path, std::ios::binary);
-            if (!lib_file.is_open()) {
-                std::cerr << "[AdapterRegistry] loadFromPlugin: cannot open "
-                             "library for signature verification: "
-                          << path << '\n';
-                return false;
-            }
-            std::string file_bytes{std::istreambuf_iterator<char>(lib_file),
-                                   std::istreambuf_iterator<char>()};
-            const std::string actual_digest =
-                SignedAdapterValidator::sha256Hex(file_bytes);
+            const std::string actual_digest = sha256FileHex(path);
 
             if (actual_digest.empty() || actual_digest != expected_digest) {
                 std::cerr << "[AdapterRegistry] loadFromPlugin: SHA-256 "
@@ -234,4 +277,3 @@ bool AdapterRegistry::loadFromPlugin(const std::string& path,
 } // namespace concerns
 } // namespace core
 } // namespace themis
-

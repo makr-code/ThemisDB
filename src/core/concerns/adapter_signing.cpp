@@ -10,6 +10,7 @@
 
 #include "core/concerns/adapter_signing.h"
 
+#include <openssl/crypto.h>
 #include <openssl/evp.h>
 
 #include <algorithm>
