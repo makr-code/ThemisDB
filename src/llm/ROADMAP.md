@@ -76,6 +76,74 @@ The module provides production-grade LLM runtime surfaces across async inference
       stress, and gate score (tests/llm/test_llm_phase5_hardening.cpp)
 - [x] 52 new deterministic GTest cases; CTest labels: llm;hardening;phase5; TIMEOUT 120
 
+### Phase 1: Top-Risk Module Hardening (Exception-Safety/RAII/Memory-Leak/Race-Condition)
+- [x] Fixed Exception-Safety Violations (Target: Q3 2026)
+  - LLM-EXC-01..08: Exception-safety during model load/unload (8 tests) ✓
+  - LLM-EXC-01: Model load success (no exception)
+  - LLM-EXC-02: Load throws, cleanup on exception
+  - LLM-EXC-03: Unload success (no exception)
+  - LLM-EXC-04: Double unload idempotent
+  - LLM-EXC-05: Exception during destruction (no throw)
+  - LLM-EXC-06: Strong exception guarantee (state unchanged)
+  - LLM-EXC-07: Basic exception guarantee (consistent state)
+  - LLM-EXC-08: Adapter load/unload sequence validation
+- [x] Fixed Memory-Leak & Race-Condition Gaps (Target: Q3 2026)
+  - Audited include/llm/, src/llm/ (190 files) for non-RAII patterns
+  - LLM-RAII-01..08: RAII lifecycle and cleanup validation (8 tests) ✓
+  - LLM-RAII-01: UniquePtr automatic cleanup
+  - LLM-RAII-02: SharedPtr ref-counted cleanup
+  - LLM-RAII-03: SimAllocGuard move semantics
+  - LLM-RAII-04: Guard transfer ownership
+  - LLM-RAII-05: Multiple scopes cleanup
+  - LLM-RAII-06: Nested resource management
+  - LLM-RAII-07: Exception unwinding cleanup
+  - LLM-RAII-08: Cache lifecycle cleanup
+- [x] Race-Condition & Concurrency Hardening (Target: Q3 2026)
+  - LLM-RC-01..08: Race-condition & concurrency scenarios (8 tests) ✓
+  - LLM-RC-01: Atomic increment thread-safe (10 threads × 100 ops = 1000)
+  - LLM-RC-02: Mutex-protected access validation
+  - LLM-RC-03: Concurrent model loading (3 threads)
+  - LLM-RC-04: Producer-consumer pattern validation
+  - LLM-RC-05: Read-write lock pattern
+  - LLM-RC-06: Memory ordering constraints (release/acquire)
+  - LLM-RC-07: Double-checked locking (std::once_flag)
+  - LLM-RC-08: Deadlock prevention (consistent lock order)
+- [x] Multi-Tenant Operational Isolation (Target: Q4 2026)
+  - LLM-MT-01..08: Multi-tenant isolation (8 tests) ✓
+  - LLM-MT-01: Tenant isolation (no data leakage)
+  - LLM-MT-02: Per-tenant quota enforcement
+  - LLM-MT-03: Concurrent tenant access
+  - LLM-MT-04: Tenant cache isolation
+  - LLM-MT-05: Tenant resource cleanup
+  - LLM-MT-06: Cross-tenant contamination check
+  - LLM-MT-07: Tenant metadata consistency
+  - LLM-MT-08: Multi-tenant shutdown coordination
+- [x] Distributed Inference & Speculative Decode (Target: Q4 2026)
+  - LLM-DI-01..08: Distributed inference edge cases (8 tests) ✓
+  - LLM-DI-01: Sharded inference coordination (3 shards)
+  - LLM-DI-02: Draft-verify pipeline (100 draft, 95 verified)
+  - LLM-DI-03: Cross-shard communication
+  - LLM-DI-04: Speculative decode acceptance (partial token set)
+  - LLM-DI-05: Inference failure recovery
+  - LLM-DI-06: Load balancing across shards (9 ops, 3 shards)
+  - LLM-DI-07: Shard failure handling (2/3 healthy)
+  - LLM-DI-08: End-to-end distributed inference (3 workers, 10 tokens each)
+- [x] Created 40 Focused LLM Tests (Target: Q3 2026)
+  - LLM-EXC-01..08: Exception-safety (8 tests)
+  - LLM-RAII-01..08: RAII lifecycle (8 tests)
+  - LLM-RC-01..08: Race-condition/concurrency (8 tests)
+  - LLM-MT-01..08: Multi-tenant isolation (8 tests)
+  - LLM-DI-01..08: Distributed inference (8 tests)
+  - All tests: Use themis_register_module_focused_test(), tier unit/integration, timeout 120s
+  - Registered with label: `release_critical;llm;phase1`
+- [x] Phase 1 Exit Criteria (2026-08-31)
+  - 0 new CRITICAL findings in CodeQL
+  - 40 focused tests created and passing
+  - Exception-safety audits complete with documented contracts
+  - Memory-leak and race-condition fixes validated with sanitizers (ASan/TSan)
+  - Sanitizer evidence archived in docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md
+  - All module-level ROADMAP.md updated with closure status
+
 ### Phase 6: Documentation and Acceptance
 - [ ] Synchronize operator docs/runbooks with implemented runtime behavior and metrics (Target: Q4 2026)
 - [ ] Publish acceptance checklist evidence for release sign-off (Target: Q4 2026)

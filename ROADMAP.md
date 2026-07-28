@@ -2,9 +2,9 @@
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
-**Version:** 2.5  
-**Last Updated:** 2026-07-27
-**Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–6 complete; active baseline 22.085 deduplicated findings). Phase 3-5 next-phase implementation plans active.
+**Version:** 2.4.0-rc1  
+**Last Updated:** 2026-07-28
+**Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–5 complete; Phase 6 documentation & governance synchronization NOW IN PROGRESS). GA hardening path: Phases 0-5 evidence complete, Phase 6 sign-off pending human approval.
 
 > For module-specific details see each module's `src/<module>/ROADMAP.md`.
 
@@ -85,10 +85,14 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 - [ ] Finish runbooks, release artefacts, and manual release checklists for human sign-off (Target: 2026-10)
 
 ### Phase 6 — Documentation, Governance, and Release Approval
-- [~] Keep `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `CHANGELOG.md`, `RELEASE_STRATEGY.md`, `VERSIONING.md`, and branch-governance docs synchronized (Target: ongoing)
-- [~] Include `research/` and `research/papers/` in each root documentation sync and update the root Soll-Ist comparison for research-backed roadmap claims (Target: ongoing)
+- [~] Keep `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `CHANGELOG.md`, `RELEASE_STRATEGY.md`, `VERSIONING.md`, and branch-governance docs synchronized (Target: 2026-07-28, IN PROGRESS)
+- [~] Include `research/` and `research/papers/` in each root documentation sync and update the root Soll-Ist comparison for research-backed roadmap claims (Target: 2026-08-04, IN PROGRESS)
+- [~] Create research backbone matrix `research/implementation_influence/by_module.md` with Soll-Ist (Target-Current) analysis for 6+ modules (Target: 2026-08-04)
+- [~] Complete Doxygen 100% coverage audit on public C++ APIs and deliver `docs/DOXYGEN_COVERAGE_REPORT.md` (Target: 2026-08-04)
+- [~] Finalize `docs/governance/GA_PROMOTION_SIGN_OFF.md` with all Sections 1-8 evidence linked for v2.4.0-rc1 GA path (Target: 2026-08-11)
+- [~] Create `FINAL_GA_READINESS_CHECKLIST.md` with comprehensive go/no-go gates across all phases (Target: 2026-08-11)
 - [ ] Promote release work from `develop` into canonical release lanes only after all system gates are proven, not just module-local gates (Target: release cut)
-- [ ] Complete public API, failure-behaviour, and operational-limit documentation before GA sign-off (Target: release cut)
+- [~] Complete public API, failure-behaviour, and operational-limit documentation before GA sign-off (Target: 2026-08-18, IN PROGRESS)
 
 ## Execution Batches (GA Hardening)
 

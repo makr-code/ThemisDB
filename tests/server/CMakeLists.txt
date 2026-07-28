@@ -35,6 +35,15 @@ foreach(_src IN LISTS SERVER_MODULE_TEST_SOURCES)
             TIMEOUT 120
             LABELS server hardening phase5
         )
+    elseif(_stem STREQUAL "test_server_phase1_hardening")
+        themis_register_module_focused_test(
+            MODULE server
+            NAME ${_ctest}
+            TARGET ${_target}
+            TIER unit
+            TIMEOUT 120
+            LABELS release_critical server phase1
+        )
     else()
         themis_register_module_focused_test(
             MODULE server

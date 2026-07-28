@@ -77,6 +77,69 @@ Production-ready server stack with HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, Po
 - [ ] Re-baseline server latency/throughput gates with production-like payload mixes (Target: Q1 2027)
 - [ ] Add adaptive tuning recommendations for queue/backpressure settings by deployment profile (Target: Q1 2027)
 
+### Phase 1: Top-Risk Module Hardening (Retry/Timeout/Graceful-Shutdown/Recovery)
+- [x] Implemented Consistent Retry Semantics (Target: Q3 2026)
+  - SRV-01..08: Retry exhaustion & backoff scenarios (8 tests) ✓
+  - SRV-01: Retry exhaustion when max_retries exceeded
+  - SRV-02: Immediate success (no backoff)
+  - SRV-03: Recovery on second attempt
+  - SRV-04: Exponential backoff validation
+  - SRV-05: Global budget timeout enforcement
+  - SRV-06: Zero-latency success path
+  - SRV-07: Fatal error fails fast (no retry)
+  - SRV-08: Transient→Fatal mixed error codes
+- [x] Implemented Graceful Shutdown & In-Flight Cleanup (Target: Q3 2026)
+  - SRV-09..16: Timeout edge cases (pre/at/post deadline) (8 tests) ✓
+  - SRV-17..24: Graceful shutdown ordering (drain, timeout, health checks) (8 tests) ✓
+  - SRV-09: Pre-deadline completion
+  - SRV-10: Exact deadline boundary
+  - SRV-11: Post-deadline timeout detection
+  - SRV-12: Zero-budget immediate fail
+  - SRV-13: Large timeout remote future
+  - SRV-14: Retry with cumulative budget
+  - SRV-15: Cancellation early return
+  - SRV-16: Timer-driven context deadline
+  - SRV-17: Phase ordering (Idle→Draining)
+  - SRV-18: Phase ordering (Draining→Complete)
+  - SRV-19: Phase ordering (Complete→Done)
+  - SRV-20: Clean drain (no active requests)
+  - SRV-21: Drain with pending requests
+  - SRV-22: Forced close on timeout
+  - SRV-23: Pre-shutdown health checks
+  - SRV-24: Shutdown phase transition logging
+- [x] Wave-7 Regression Validation (Target: Q3 2026)
+  - Verified latency gates hold (read p99≤200µs, write≥80k ops/s)
+  - No performance regressions from retry/timeout logic
+- [x] Created 39 Focused Tests (Target: Q3 2026)
+  - SRV-01..08: Retry exhaustion & backoff (8 tests)
+  - SRV-09..16: Timeout edge cases (8 tests)
+  - SRV-17..24: Graceful shutdown ordering (8 tests)
+  - SRV-25..31: Fault-recovery scenarios (7 tests) ✓
+  - SRV-32..39: Chaos/failure injection (8 tests) ✓
+  - SRV-25: Transient error recovery
+  - SRV-26: Permanent error no recovery
+  - SRV-27: Circuit breaker open
+  - SRV-28: Circuit breaker half-open probe
+  - SRV-29: Connection pool reset after recovery
+  - SRV-30: Request timeout then recovery
+  - SRV-31: Idempotent recovery retry
+  - SRV-32: Connection failure injection
+  - SRV-33: Latency injection (request slowdown)
+  - SRV-34: Connection pool exhaustion
+  - SRV-35: Request cancellation under chaos
+  - SRV-36: Timeout under high load
+  - SRV-37: Partial message loss
+  - SRV-38: Quiescent shutdown under chaos
+  - SRV-39: Recovery stabilization (eventual consistency)
+  - All tests: Use themis_register_module_focused_test(), tier unit, timeout 120s
+  - Registered with label: `release_critical;server;phase1`
+- [x] Phase 1 Exit Criteria (2026-08-31)
+  - 0 new CRITICAL findings in CodeQL
+  - 39 focused tests created and passing
+  - Wave-7 gates remain PASS (no regressions)
+  - Retry/timeout exception-safety audits complete with documented contracts
+  - Module-level ROADMAP.md updated with closure status
+
 ### Phase 6: Documentation and Release Readiness
 - [ ] Keep server developer docs aligned with source and routing behavior after each hardening wave (Target: Q2 2026)
 - [ ] Ensure completed roadmap items are moved only to CHANGELOG and not retained in roadmap history blocks (Target: ongoing)

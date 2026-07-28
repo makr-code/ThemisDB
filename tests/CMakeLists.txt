@@ -28265,3 +28265,45 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_g003_error_handling_thread_safety.cp
 
     message(STATUS "  G003: EHS-01..08 (exception safety), TSF-01..08 (thread safety), RVC-01..04 (return value checks)")
 endif()
+
+# ============================================================================
+# Phase 4: Security & Compliance Hardening Tests
+# SEC-IV-01..15 (Input Validation), SEC-TLS-01..10 (Transport Security),
+# SEC-MEM-01..15 (Memory Safety), SEC-RACE-01..10 (Concurrency),
+# SEC-ERR-01..05 + SEC-FAIL-01..05 + SEC-AUD-01..05 (Error Path Security)
+# Target: 2026-10-31 | Effort: 6 weeks
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_phase4_security_hardening.cpp")
+    message(STATUS "Adding Phase 4 Security & Compliance Hardening tests")
+
+    add_executable(test_phase4_security_hardening_focused
+        test_phase4_security_hardening.cpp
+    )
+
+    target_include_directories(test_phase4_security_hardening_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_phase4_security_hardening_focused PRIVATE
+        GTest::gtest
+        GTest::gtest_main
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_phase4_security_hardening_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    gtest_discover_tests(test_phase4_security_hardening_focused
+        DISCOVERY_MODE POST_BUILD
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_phase4_security_hardening_focused>
+        EXTRA_ARGS --gtest_color=yes
+        PROPERTIES
+            LABELS "security;input_validation;transport;memory_safety;concurrency;error_handling;phase4;release_critical"
+            TIMEOUT 120
+    )
+
+    message(STATUS "  Phase 4 Security: SEC-IV-01..15 (input validation), SEC-TLS-01..10 (transport), SEC-MEM-01..15 (memory), SEC-RACE-01..10 (concurrency), SEC-ERR-01..05 (error path)")
+endif()

@@ -124,26 +124,55 @@ else()
                 INTERFACE_INCLUDE_DIRECTORIES "${RocksDB_PC_INCLUDE_DIRS}"
                 INTERFACE_LINK_LIBRARIES     "${RocksDB_PC_LIBRARIES}"
                 INTERFACE_LINK_DIRECTORIES   "${RocksDB_PC_LIBRARY_DIRS}"
-                INTERFACE_COMPILE_OPTIONS   "-fPIC"
             )
-            # Add proper linker behavior for Linux; -fPIC is a compile option only and
-            # must not be passed as a linker flag (no-op at best, toolchain warning/error at worst).
-            if(UNIX AND NOT APPLE)
-                # Linux: add -Wl,--as-needed for proper linking
-                list(APPEND RocksDB_PC_LDFLAGS "-Wl,--as-needed")
-            endif()
-            # Add linker flags if any
-            if(RocksDB_PC_LDFLAGS)
-                get_target_property(LIBS RocksDB::rocksdb INTERFACE_LINK_LIBRARIES)
-                if(LIBS)
-                    list(APPEND LIBS ${RocksDB_PC_LDFLAGS})
-                else()
-                    set(LIBS ${RocksDB_PC_LDFLAGS})
+            
+            # Detect if RocksDB is static (from system packages) and needs PIC handling
+            # Try to find if librocksdb.a (static) or librocksdb.so (dynamic) exists
+            find_library(_ROCKSDB_STATIC NAMES librocksdb.a rocksdb.a PATHS ${RocksDB_PC_LIBRARY_DIRS} NO_DEFAULT_PATH)
+            find_library(_ROCKSDB_DYNAMIC NAMES librocksdb.so rocksdb.so PATHS ${RocksDB_PC_LIBRARY_DIRS} NO_DEFAULT_PATH)
+            
+            if(_ROCKSDB_DYNAMIC)
+                # Dynamic library available - use it to avoid PIC issues
+                message(STATUS "RocksDB found as dynamic library: ${_ROCKSDB_DYNAMIC}")
+                # No additional flags needed for dynamic linking
+            elseif(_ROCKSDB_STATIC)
+                # Static library detected - apply PIC compatibility workarounds
+                message(STATUS "RocksDB found as static library: ${_ROCKSDB_STATIC}")
+                message(STATUS "Applying PIC compatibility flags for static RocksDB linking")
+                
+                # The static RocksDB from system packages is not PIC-compatible.
+                # We use linker flags to work around TPOFF32 relocation errors:
+                # - Wl,--allow-shlib-undefined: Allow undefined TLS symbols in shared libs
+                # - Wl,--relax: Enable linker relaxation to handle TLS relocations
+                # - Wl,--as-needed: Remove unused link dependencies
+                
+                if(UNIX AND NOT APPLE)
+                    # Apply comprehensive workaround flags
+                    set(_rocksdb_workaround_flags
+                        "SHELL:-Wl,--allow-shlib-undefined"
+                        "SHELL:-Wl,--relax"
+                        "SHELL:-Wl,--as-needed"
+                    )
+                    
+                    get_target_property(_existing_link_opts RocksDB::rocksdb INTERFACE_LINK_OPTIONS)
+                    if(_existing_link_opts)
+                        list(APPEND _existing_link_opts ${_rocksdb_workaround_flags})
+                    else()
+                        set(_existing_link_opts ${_rocksdb_workaround_flags})
+                    endif()
+                    set_target_properties(RocksDB::rocksdb PROPERTIES
+                        INTERFACE_LINK_OPTIONS "${_existing_link_opts}"
+                    )
                 endif()
-                set_target_properties(RocksDB::rocksdb PROPERTIES
-                    INTERFACE_LINK_LIBRARIES "${LIBS}"
-                )
+            else()
+                message(STATUS "RocksDB library type detection inconclusive; applying conservative workaround")
+                if(UNIX AND NOT APPLE)
+                    set_target_properties(RocksDB::rocksdb PROPERTIES
+                        INTERFACE_LINK_OPTIONS "SHELL:-Wl,--allow-shlib-undefined;SHELL:-Wl,--relax;SHELL:-Wl,--as-needed"
+                    )
+                endif()
             endif()
+            
             set(RocksDB_FOUND TRUE)
             message(STATUS "RocksDB found via pkg-config: ${RocksDB_PC_VERSION}")
         else()

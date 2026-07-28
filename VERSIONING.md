@@ -223,4 +223,4 @@ Pre-release versions are never considered "stable" for production use. Docker ta
 - [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) — Canonical open enhancement backlog
 
 ---
-Zuletzt geprueft (Root-Sync): 2026-07-27
+Zuletzt geprueft (Root-Sync): 2026-07-28 (Phase 6 in progress)
