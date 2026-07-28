@@ -17,9 +17,9 @@ Production document runtime exists across store/manager contracts, lifecycle hoo
 ## Planned Features
 
 ### Short-term (3-6 months)
-- [ ] tighten deterministic conflict handling for multi-branch merge permutations (Target: Q4 2026)
-- [ ] expand regression coverage for schema sealing/version transition edge cases (Target: Q4 2026)
-- [ ] improve operator diagnostics for document round-trip and exchange failures (Target: Q4 2026)
+- [x] tighten deterministic conflict handling for multi-branch merge permutations (Target: Q4 2026)
+- [x] expand regression coverage for schema sealing/version transition edge cases (Target: Q4 2026)
+- [x] improve operator diagnostics for document round-trip and exchange failures (Target: Q4 2026)
 
 ### Mid-term (6-12 months)
 - [ ] re-baseline p95/p99 envelopes for document serialization and list/read paths (Target: Q1 2027)
