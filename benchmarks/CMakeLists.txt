@@ -212,6 +212,9 @@ endif()
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/phase0/CMakeLists.txt")
     add_subdirectory(phase0)
 endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/document/CMakeLists.txt")
+    add_subdirectory(document)
+endif()
 
 themis_add_standard_benchmark(bench_ycsb bench_ycsb.cpp)
 

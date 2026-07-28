@@ -45,7 +45,7 @@ Production document runtime exists across store/manager contracts, lifecycle hoo
 - [ ] extend deterministic fixture coverage for XDOMEA and multi-version document cases (Target: Q4 2026)
 
 ### Phase 5: Performance and Hardening
-- [ ] lock benchmark-backed release gates for document serialization and list/read hot paths (Target: Q4 2026)
+- [~] lock benchmark-backed release gates for document serialization and list/read hot paths (Target: Q4 2026)
 - [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
 
 ### Phase 6: Documentation and Acceptance
