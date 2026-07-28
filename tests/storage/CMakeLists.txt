@@ -22,6 +22,12 @@ foreach(_src IN LISTS STORAGE_MODULE_TEST_SOURCES)
     )
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
+    if(_stem STREQUAL "test_tensor_storage_observer")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/graph/tensor_fingerprint_graph.cpp
+        )
+    endif()
+
     themis_register_module_focused_test(
         MODULE storage
         NAME ${_ctest}

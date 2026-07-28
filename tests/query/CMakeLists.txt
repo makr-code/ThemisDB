@@ -513,6 +513,11 @@ foreach(_src IN LISTS QUERY_AUTOGEN_PREFIX_TEST_SOURCES)
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
     )
+    if("${_stem}" STREQUAL "test_query_phase_a_gap_fixes")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/query/tensor_aware_query_optimizer.cpp
+        )
+    endif()
     target_link_libraries(${_target} PRIVATE
         ${TEST_LIBS}
         themis_core

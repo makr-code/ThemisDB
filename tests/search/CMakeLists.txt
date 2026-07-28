@@ -14,6 +14,13 @@ foreach(_src IN LISTS SEARCH_MODULE_TEST_SOURCES)
     endif()
 
     add_executable(${_target} "${_src}")
+    # Add implementation sources required by the focused test executable
+    target_sources(${_target} PRIVATE
+        ${THEMIS_ROOT_DIR}/src/search/conversational_search.cpp
+        ${THEMIS_ROOT_DIR}/src/search/federated_search.cpp
+        ${THEMIS_ROOT_DIR}/src/search/search_result_stream.cpp
+        ${THEMIS_ROOT_DIR}/src/search/hybrid_search.cpp
+    )
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src

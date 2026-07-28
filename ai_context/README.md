@@ -1,5 +1,10 @@
 # ai_context
 
+Datum: 2026-07-28
+Status: Active
+Bezug: Persistente Wissensbasis fuer AI-Agenten in ThemisDB
+Primary (Quelle der Wahrheit): ai_context/COPILOT_INSTRUCTIONS.md, DOCUMENTATION_GOVERNANCE.md, AI_WIKI_INTEGRATION_PLAYBOOK.md
+
 Persistente Wissensbasis für KI-Agenten im ThemisDB-Repository.
 
 ## Zweck
@@ -15,8 +20,22 @@ Persistente Wissensbasis für KI-Agenten im ThemisDB-Repository.
 
 ## Struktur
 
-- `memory_management_policy.md` — Ownership-/Lifetime-Regeln (RAII)
-- `api_contracts/` — maschinenlesbare API-Vertragsübersichten
+- [memory_management_policy.md](memory_management_policy.md) — Ownership-/Lifetime-Regeln (RAII)
+- [api_contracts/README.md](api_contracts/README.md) — maschinenlesbare API-Vertragsübersichten
+- [KNOWLEDGE_LINT_REPORT.md](KNOWLEDGE_LINT_REPORT.md) — aktueller AI-Context-Lintstatus (automatisch fortgeschrieben)
+- [KNOWLEDGE_CONFLICTS.md](KNOWLEDGE_CONFLICTS.md) — Konfliktregister mit manuellem und auto-detektiertem Bereich
+- [API_MODULE_STATUS_2026_07_18.md](API_MODULE_STATUS_2026_07_18.md) — referenzierte Status-Synchronisation fuer API
+
+## Automatisierung (LLM-Wiki-Loop)
+
+- Workflow: `.github/workflows/08-maintenance_ai-context-wiki-sync.yml`
+- Script: `scripts/ai-context-lint.py`
+- Betriebsart:
+	- `push`/`pull_request`/`schedule`: pruefender Lintlauf mit Reports als Artefakt
+	- `workflow_dispatch` mit `apply_updates=true`: aktualisiert
+		- `ai_context/KNOWLEDGE_LINT_REPORT.md`
+		- `ai_context/KNOWLEDGE_CONFLICTS.md`
+	- `workflow_dispatch` mit `update_mode=pull-request`: erstellt Update-Branch und automatische PR statt Direkt-Commit
 
 ## Initiale ADR-Referenzen
 
@@ -41,3 +60,6 @@ Keine Installation erforderlich; dieses Verzeichnis ist Teil des Repository-Inha
 ## Usage
 
 Dateien hier als Referenz lesen und bei inhaltlichen Änderungen im selben PR mit den betroffenen Code-/Dokumentationsänderungen synchron halten.
+
+---
+Zuletzt geprueft (AI-Context): 2026-07-28

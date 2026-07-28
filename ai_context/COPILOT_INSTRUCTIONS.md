@@ -1,5 +1,10 @@
 # Copilot Instructions (Repository-wide)
 
+Datum: 2026-07-28
+Status: Active
+Bezug: Repository-weite AI-/Copilot-Arbeitsregeln fuer Dokumentation, Governance und Release-Sync
+Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, .github/copilot-instructions.md, BRANCHING_STRATEGY.md, RELEASE_STRATEGY.md
+
 ## Documentation tasks (MUST)
 If the task involves documentation (any markdown docs change; `docs/**` keeps the stricter format rules below):
 

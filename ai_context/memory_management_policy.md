@@ -1,5 +1,10 @@
 # Memory Management Policy (RAII & Ownership)
 
+Datum: 2026-07-28
+Status: Active
+Bezug: Verbindliche Ownership- und Lifetime-Richtlinie fuer AI-gestuetzte C++-Aenderungen
+Primary (Quelle der Wahrheit): include/**, src/**, ai_context/COPILOT_INSTRUCTIONS.md
+
 Diese Richtlinie beschreibt verpflichtende Ownership- und Lifetime-Regeln für KI-gestützte C++-Änderungen.
 
 ## Kernprinzipien

@@ -118,6 +118,15 @@ foreach(_module_cmake IN LISTS _TEST_MODULE_CMAKES)
     endif()
 endforeach()
 
+# If a monolithic themis_core target exists, record that fact and defer
+# the actual linking until after the aggregated `themis_tests` target is
+# created. Calling `target_link_libraries` before the target exists
+# triggers a configure-time error when CMake regenerates during build.
+if(TARGET themis_core)
+    set(_THEMIS_HAVE_THEMIS_CORE_FOR_TESTS TRUE)
+    message(STATUS "themis_core available for tests; will link after themis_tests target creation")
+endif()
+
 message(STATUS "GTest found - building unified test binary")
 
 include_directories(
@@ -715,6 +724,15 @@ list(LENGTH ALL_TEST_SOURCES TEST_SOURCE_COUNT)
 message(STATUS "Building ${TEST_SOURCE_COUNT} test files after feature gating")
 
 add_executable(themis_tests ${ALL_TEST_SOURCES})
+
+# If we detected a monolithic `themis_core` target earlier in the configure
+# step, link it now that `themis_tests` has been created. This resolves
+# symbols in modular builds without attempting to add sources that may
+# already be provided by the module libraries.
+if(DEFINED _THEMIS_HAVE_THEMIS_CORE_FOR_TESTS)
+    target_link_libraries(themis_tests PRIVATE themis_core)
+    message(STATUS "themis_tests: linked themis_core for full symbol coverage")
+endif()
 
 # Ensure focused tests in the aggregated themis_tests target have their
 # corresponding production implementations linked in modular builds.
@@ -1926,6 +1944,34 @@ target_compile_definitions(themis_tests PRIVATE
     THEMIS_TEST_MODE=1
     THEMIS_TEST_CERT_DIR="${THEMIS_ROOT_DIR}/certs/test/wire_protocol"
 )
+
+# Link common themis module libraries when they exist to resolve
+# unresolved externals for the aggregated themis_tests binary.
+if(TARGET themis_tests)
+foreach(_mod IN LISTS
+    themis_tensor
+    themis_retrieval
+    themis_evaluation
+    themis_distributed_tensor
+    themis_distributed_knowledge
+    themis_rpc_grpc
+    themis_image_onnx_clip
+    themis_flash_attention
+    themis_user_storage_encrypted
+)
+    if(TARGET ${_mod})
+        message(STATUS "themis_tests: linking available module ${_mod}")
+        target_link_libraries(themis_tests PRIVATE ${_mod})
+    endif()
+endforeach()
+
+# If a monolithic themis_core target exists, link it to ensure full symbol
+# coverage for the aggregated test binary in modular or mixed builds.
+if(TARGET themis_core)
+    message(STATUS "themis_tests: linking monolithic themis_core for full symbol coverage")
+    target_link_libraries(themis_tests PRIVATE themis_core)
+endif()
+endif()
 
 # On Windows, disable whole program optimization (/GL) to match DLL ABI.
 # Modular DLLs use /GL- for symbol export, so themis_tests must match.

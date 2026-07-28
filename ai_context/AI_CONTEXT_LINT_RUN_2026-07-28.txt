@@ -1,0 +1,16 @@
+------------------------------------------------------------------------
+  ThemisDB AI context lint  ·  ai-context-lint v1.0.0
+------------------------------------------------------------------------
+
+  Generated at              : 2026-07-28T10:34:23+00:00
+  Total findings            :    0
+  Critical / High / Medium  :  0 /  0 /  0
+  Low                       :    0
+
+  - Link Integrity                0
+  - Orphan Detection              0
+  - Stale Claims                  0
+  - Contradiction Signals         0
+  - Required Cross-References     0
+
+No findings.

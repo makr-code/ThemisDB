@@ -14,6 +14,37 @@ foreach(_src IN LISTS RAG_MODULE_TEST_SOURCES)
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
     )
+    set(_extra_sources)
+    if("${_stem}" STREQUAL "test_rag_adaptive_retrieval")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/rag/adaptive_retrieval.cpp
+        )
+    elseif("${_stem}" STREQUAL "test_rag_rlaif_trainer")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/rag/rlaif_trainer.cpp
+        )
+    elseif("${_stem}" STREQUAL "test_rag_multi_hop_reasoner")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/rag/multi_hop_reasoner.cpp
+        )
+    elseif("${_stem}" STREQUAL "test_rag_replug_retriever")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/rag/replug_retriever.cpp
+        )
+    elseif("${_stem}" STREQUAL "test_rag_context_assembler")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/rag/rag_context_assembler.cpp
+        )
+    elseif("${_stem}" STREQUAL "test_rag_context_engine")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/ethics_ai/argument_store.cpp
+            ${THEMIS_ROOT_DIR}/src/ethics_ai/rag_context_engine.cpp
+            ${THEMIS_ROOT_DIR}/src/ethics_ai/ethics_ai_types.cpp
+        )
+    endif()
+    if(_extra_sources)
+        target_sources(${_target} PRIVATE ${_extra_sources})
+    endif()
     if("${_stem}" STREQUAL "test_tensor_rag_provenance")
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/query/tensor_aware_query_optimizer.cpp
@@ -58,6 +89,37 @@ foreach(_src IN LISTS RAG_AUTOGEN_PREFIX_TEST_SOURCES)
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
     )
+    set(_extra_sources)
+    if("${_stem}" STREQUAL "test_rag_adaptive_retrieval")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/rag/adaptive_retrieval.cpp
+        )
+    elseif("${_stem}" STREQUAL "test_rag_rlaif_trainer")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/rag/rlaif_trainer.cpp
+        )
+    elseif("${_stem}" STREQUAL "test_rag_multi_hop_reasoner")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/rag/multi_hop_reasoner.cpp
+        )
+    elseif("${_stem}" STREQUAL "test_rag_replug_retriever")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/rag/replug_retriever.cpp
+        )
+    elseif("${_stem}" STREQUAL "test_rag_context_assembler")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/rag/rag_context_assembler.cpp
+        )
+    elseif("${_stem}" STREQUAL "test_rag_context_engine")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/ethics_ai/argument_store.cpp
+            ${THEMIS_ROOT_DIR}/src/ethics_ai/rag_context_engine.cpp
+            ${THEMIS_ROOT_DIR}/src/ethics_ai/ethics_ai_types.cpp
+        )
+    endif()
+    if(_extra_sources)
+        target_sources(${_target} PRIVATE ${_extra_sources})
+    endif()
     target_link_libraries(${_target} PRIVATE
         ${TEST_LIBS}
         themis_core

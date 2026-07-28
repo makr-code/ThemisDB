@@ -78,6 +78,43 @@ foreach(_src IN LISTS AQL_MODULE_TEST_SOURCES)
         "${_src}"
         ${_extra_sources}
     )
+    # Some focused tests require additional implementation units that are
+    # not covered by the conditional _extra_sources logic above (edge-cases
+    # when modular targets are present or specific helper files live in
+    # different directories). Explicitly add the commonly-missing AQL
+    # implementation units per-test here to ensure the focused targets link
+    # reliably without pulling the entire `themis_query` unity target.
+    if(_stem STREQUAL "test_aql_agent")
+        # Add the ReActAgent implementation. Only add the LLM handler
+        # implementation directly when the themis_llm library target is
+        # not available to avoid duplicate-definition LNK2005 errors.
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/aql/aql_agent.cpp
+        )
+        if(NOT TARGET themis_llm)
+            target_sources(${_target} PRIVATE ${THEMIS_ROOT_DIR}/src/aql/llm_aql_handler.cpp)
+        endif()
+    elseif(_stem STREQUAL "test_aql_autocomplete")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/aql/aql_autocomplete.cpp
+        )
+    elseif(_stem STREQUAL "test_aql_lora_finetuner")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/aql/aql_lora_finetuner.cpp
+        )
+    elseif(_stem STREQUAL "test_aql_model_router")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/aql/aql_model_router.cpp
+        )
+    elseif(_stem STREQUAL "test_aql_query_diff_explainer")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/aql/aql_query_diff_explainer.cpp
+        )
+    elseif(_stem STREQUAL "test_aql_rollback_suggester")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/aql/aql_rollback_suggester.cpp
+        )
+    endif()
     # If the validator source exists but for some reason wasn't picked up
     # earlier (generator/ordering edge-case), explicitly add it to the
     # target so the linker has the symbol available in modular builds.
