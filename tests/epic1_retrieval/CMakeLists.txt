@@ -5,10 +5,15 @@ if(NOT TARGET themis_retrieval)
     return()
 endif()
 
+# Base tests that only need themis_retrieval.
 set(EPIC1_RETRIEVAL_TESTS
     lora_package_test.cc
-    test_ann_frontdoor_single_shard.cpp
 )
+
+# AnnFrontdoor test requires themis_index.  Only add it when that target exists.
+if(TARGET themis_index)
+    list(APPEND EPIC1_RETRIEVAL_TESTS test_ann_frontdoor_single_shard.cpp)
+endif()
 
 foreach(_src IN LISTS EPIC1_RETRIEVAL_TESTS)
     get_filename_component(_stem "${_src}" NAME_WE)

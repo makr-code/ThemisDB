@@ -393,6 +393,9 @@ tools/*/bin/
 **/obj/**
 **/bin/**
 !tools/bin/
+
+# Auto-generated build metadata header (output to build dir by cmake/BuildInfo.cmake)
+include/updates/build_info.h
 !tools/bin/**
 **/obj/**/*.AssemblyInfo.cs
 **/obj/**/*.AssemblyInfoInputs.cache

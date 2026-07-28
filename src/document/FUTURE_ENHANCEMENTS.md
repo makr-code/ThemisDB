@@ -1,7 +1,7 @@
 # Document Module - Future Enhancements
 
 <!-- Status: current | validated: 2026-07-28 -->
-<!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md · ../../docs/development_status/DEVELOPMENT_STATUS_2026_07_28.md -->
+<!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md · DEVELOPMENT_STATUS_2026_07_28.md -->
 
 ## Scope
 

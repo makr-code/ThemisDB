@@ -346,10 +346,11 @@ private:
  *   validator.setCardinalityDriftFactor(5.0);   // invalidate at 5× drift
  *
  *   auto entry = cache.get(query, current_stats);
- *   if (entry && validator.validate(*entry, current_stats)) {
+ *   auto result = validator.validate(*entry, current_stats);
+ *   if (entry && result.safe()) {
  *       // safe to execute the cached plan
  *   } else {
- *       // must re-plan
+ *       // must re-plan (result.reason explains why)
  *   }
  * @endcode
  *
@@ -366,12 +367,10 @@ public:
         SAFE = 0,
         /// The plan is stale due to statistics drift — must re-plan.
         STALE_STATISTICS = 1,
-        /// The plan references tables that have been schema-changed — re-plan.
-        STALE_SCHEMA = 2,
         /// The plan has exceeded its execution-failure budget — re-plan.
-        FAILURE_BUDGET_EXCEEDED = 3,
+        FAILURE_BUDGET_EXCEEDED = 2,
         /// The plan has exceeded its maximum age — re-plan.
-        PLAN_EXPIRED = 4,
+        PLAN_EXPIRED = 3,
     };
 
     /**

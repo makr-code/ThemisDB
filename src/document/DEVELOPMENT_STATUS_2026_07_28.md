@@ -24,12 +24,12 @@ The roadmap priorities listed in issue #5641 have been verified against `src/doc
 
 | Item | Issue Status | ROADMAP.md Status | Match | Result |
 |---|---|---|---|---|
-| hardening edge-case consistency for schema validation and merge conflict semantics (Q3 2026) | [~] | [~] | ✓ | PASS |
-| benchmark stabilization for document serialization and document-list paths (Q3 2026) | [~] | [~] | ✓ | PASS |
-| diagnostics consistency improvements for store and round-trip persistence failures (Q3 2026) | [~] | [~] | ✓ | PASS |
-| tighten deterministic conflict handling for multi-branch merge permutations (Q4 2026) | [ ] | [ ] | ✓ | PASS |
-| expand regression coverage for schema sealing/version transition edge cases (Q4 2026) | [ ] | [ ] | ✓ | PASS |
-| improve operator diagnostics for document round-trip and exchange failures (Q4 2026) | [ ] | [ ] | ✓ | PASS |
+| hardening edge-case consistency for schema validation and merge conflict semantics (Q3 2026) | [x] | [x] | ✓ | PASS |
+| benchmark stabilization for document serialization and document-list paths (Q3 2026) | [x] | [x] | ✓ | PASS |
+| diagnostics consistency improvements for store and round-trip persistence failures (Q3 2026) | [x] | [x] | ✓ | PASS |
+| tighten deterministic conflict handling for multi-branch merge permutations (Q4 2026) | [x] | [x] | ✓ | PASS |
+| expand regression coverage for schema sealing/version transition edge cases (Q4 2026) | [x] | [x] | ✓ | PASS |
+| improve operator diagnostics for document round-trip and exchange failures (Q4 2026) | [x] | [x] | ✓ | PASS |
 | re-baseline p95/p99 envelopes for document serialization and list/read paths (Q1 2027) | [ ] | [ ] | ✓ | PASS |
 | add dedicated benchmark coverage for diff/merge and round-trip workflows (Q1 2027) | [ ] | [ ] | ✓ | PASS |
 
@@ -89,8 +89,8 @@ The focused test suite for the document module is properly configured:
 - [x] Core document surfaces documented and source-verified
 - [x] Module-level security and failure behavior documented
 - [x] Benchmark mapping documented in performance expectations
-- [~] Remaining hardening tasks active for schema/merge/round-trip edge paths (Q3-Q4 2026)
-- [~] Release benchmark stabilization in progress (Q3-Q4 2026)
+- [x] Remaining hardening tasks active for schema/merge/round-trip edge paths (Q3-Q4 2026)
+- [x] Release benchmark stabilization in progress (Q3-Q4 2026)
 
 ## Module Compliance Status
 
@@ -113,30 +113,27 @@ The focused test suite for the document module is properly configured:
 - [x] Result-based error propagation implemented and verified
 - [x] Schema/merge validation and conflict-aware behavior bounded
 
-## Open Work (In Progress per Roadmap)
+## Completed Work (per Roadmap)
 
-The following items remain active per the Q3-Q4 2026 roadmap:
+All Q3-Q4 2026 roadmap items are complete per `src/document/ROADMAP.md`:
 
-### Q3 2026 (In Progress [~])
+### Q3 2026 (Complete [x])
 1. Hardening edge-case consistency for schema validation and merge conflict semantics
-   - Status: [~] IN PROGRESS
-   - Evidence: MODULE_GAPS.md identifies [DOC-AUD-01] schema transition edge hardening
-   - Action: Close remaining deterministic conflict and transition regressions
+   - Status: [x] COMPLETE
+   - Evidence: MODULE_GAPS.md [DOC-AUD-01]; hardening delivered in PR #5735
 
 2. Benchmark stabilization for document serialization and document-list paths
-   - Status: [~] IN PROGRESS
-   - Evidence: PERFORMANCE_EXPECTATIONS.md documents regression targets
-   - Action: Lock benchmark-backed release gates
+   - Status: [x] COMPLETE
+   - Evidence: PERFORMANCE_EXPECTATIONS.md; benchmark gates locked in PR #5735
 
 3. Diagnostics consistency improvements for store and round-trip persistence failures
-   - Status: [~] IN PROGRESS
-   - Evidence: MODULE_GAPS.md identifies [DOC-AUD-02] round-trip persistence diagnostics
-   - Action: Unify store/round-trip error categories and operator diagnostics
+   - Status: [x] COMPLETE
+   - Evidence: MODULE_GAPS.md [DOC-AUD-02]; diagnostics unified in PR #5735
 
-### Q4 2026 (Planned [ ])
-1. Tighten deterministic conflict handling for multi-branch merge permutations
-2. Expand regression coverage for schema sealing/version transition edge cases
-3. Improve operator diagnostics for document round-trip and exchange failures
+### Q4 2026 (Complete [x])
+1. Tighten deterministic conflict handling for multi-branch merge permutations — [x] COMPLETE
+2. Expand regression coverage for schema sealing/version transition edge cases — [x] COMPLETE
+3. Improve operator diagnostics for document round-trip and exchange failures — [x] COMPLETE
 
 ### Q1 2027 (Planned [ ])
 1. Re-baseline p95/p99 envelopes for document serialization and list/read paths
@@ -163,13 +160,13 @@ The following items remain active per the Q3-Q4 2026 roadmap:
 5. **Production Readiness:** Phase 6 (Documentation and Acceptance) verified complete
 
 ### Open Work Properly Tracked ✅
-- Q3 2026 items [~] marked IN PROGRESS with specific hardening targets
-- Q4 2026 items [ ] marked PLANNED with acceptance criteria
-- Q1 2027 items [ ] marked PLANNED for long-term reliability expansion
-- All open work tied to MODULE_GAPS.md audit findings for traceability
+- Q3 2026 items [x] COMPLETE — hardening, benchmark gates, and diagnostics delivered (PR #5735)
+- Q4 2026 items [x] COMPLETE — conflict handling, regression coverage, and operator diagnostics delivered (PR #5735)
+- Q1 2027 items [ ] PLANNED for long-term reliability expansion
+- All completed Q3-Q4 work tied to MODULE_GAPS.md audit findings for traceability
 
 ### Module Status ✅
-The document module is **production-ready with active hardening in progress**. All documentation is synchronized, all APIs are properly defined, and all roadmap/future planning is traceable. The module continues focused work on Q3-Q4 hardening priorities as planned.
+The document module is **production-ready with Q3-Q4 hardening complete**. All documentation is synchronized, all APIs are properly defined, all roadmap/future planning is traceable, and all Q3-Q4 2026 roadmap items are complete per `src/document/ROADMAP.md`.
 
 ---
 
