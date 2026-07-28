@@ -1,16 +1,17 @@
 /**
  * @file adapter_registry.h
- * @brief Thread-safe typed adapter registry with hot-swap drain semantics.
- * @version 0.0.1
+ * @brief Thread-safe typed adapter registry with hot-swap drain and plugin loading.
+ * @version 0.0.2
  * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 91/100
- * @note Gap Summary: total=1; TODO=0, Stub=1, Unimpl=0, Mock=0, Sim=0, Debt=0
+ * @note Score: 94/100
+ * @note Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0
  * @note Status: Production Ready
  */
 
 #pragma once
 
 #include "core/concerns/adapter_metadata.h"
+#include "core/concerns/plugin_api.h"
 
 #include <memory>
 #include <mutex>
@@ -29,20 +30,29 @@ namespace core {
 namespace concerns {
 
 // ---------------------------------------------------------------------------
-// STUB/SIMULATION NOTE — plugin-based adapter loading
-//
-// Purpose:    Placeholder for future plugin-based adapter loading that avoids
-//             core-module recompilation (Issue #1706, Target: Q4 2026).
-// Activation: NOT active — dlopen/LoadLibrary support requires a platform-
-//             specific implementation that has not yet been written.
-// Production Delta: Adapters are registered programmatically only; no dynamic
-//             library loading occurs at runtime.
-// Removal Plan: Replace loadFromPlugin() stub with plugin_loader.h when
-//             Issue #1706 is implemented (Target: Q4 2026).
+// AdapterTrustPolicy
 // ---------------------------------------------------------------------------
 
 /**
- * @brief Thread-safe typed adapter registry with hot-swap drain semantics.
+ * @brief Trust policy governing signature verification during plugin loading.
+ *
+ * - @c kTrustAll  — load any plugin regardless of signing state (development
+ *                   default).  Adapters that carry an @c AdapterSignature are
+ *                   still verified if one is provided via
+ *                   @c registerAdapter, but @c loadFromPlugin does not require
+ *                   a signature file to be present.
+ * - @c kRequireSignature — @c loadFromPlugin rejects a plugin library unless
+ *                   a `.sig` metadata file is found alongside the library and
+ *                   the SHA-256 digest in that file matches the library's
+ *                   contents.  Recommended for production deployments.
+ */
+enum class AdapterTrustPolicy : uint8_t {
+    kTrustAll        = 0, ///< Accept all plugins without signature verification.
+    kRequireSignature = 1, ///< Reject plugins without a valid SHA-256 signature.
+};
+
+/**
+ * @brief Thread-safe typed adapter registry with hot-swap drain and runtime plugin loading.
  *
  * AdapterRegistry provides O(1) type-keyed storage and retrieval of adapters
  * expressed as @c std::shared_ptr<void> with @c std::type_index keys.
@@ -59,9 +69,33 @@ namespace concerns {
  * @c hotSwap() attempts to drain in-flight references within
  * @c kHotSwapTimeoutMs.  If drain does not complete within the SLO it emits
  * a structured warning to @c std::cerr and returns @c false.
+ *
+ * ## Plugin loading
+ * @c loadFromPlugin() loads a shared library via @c dlopen (POSIX) or
+ * @c LoadLibraryA (Windows), resolves the @c themis_plugin_register entry
+ * point, and invokes it so the plugin can call @c registerAdapter<T>() for
+ * each adapter it provides.  Loaded library handles are kept alive for the
+ * lifetime of the @c AdapterRegistry and released in the destructor.
  */
 class AdapterRegistry {
 public:
+    // -----------------------------------------------------------------------
+    // Lifecycle
+    // -----------------------------------------------------------------------
+
+    AdapterRegistry() = default;
+
+    /**
+     * @brief Destructor — releases all dynamically-loaded plugin library handles.
+     *
+     * Any adapter shared_ptrs stored in the registry that originated from
+     * plugin-loaded code may outlive the registry (callers hold shared_ptrs).
+     * The library handles are closed here; any access through surviving
+     * shared_ptrs after this point is undefined behaviour.  Callers must
+     * ensure no shared_ptrs from plugin adapters remain live before destroying
+     * the registry.
+     */
+    ~AdapterRegistry();
     // -----------------------------------------------------------------------
     // SLO constant
     // -----------------------------------------------------------------------
@@ -233,28 +267,100 @@ public:
     bool hasAdapter(std::type_index type) const;
 
     // -----------------------------------------------------------------------
-    // Plugin loading stub
+    // Plugin loading
     // -----------------------------------------------------------------------
 
     /**
-     * @brief Load an adapter from a dynamic library path.
+     * @brief Set the trust policy applied during plugin loading.
      *
-     * @note STUB — always returns @c false.  See the STUB/SIMULATION NOTE in
-     *       the file header.  Plugin loading is tracked as Issue #1706
-     *       (Target: Q4 2026).
+     * The default policy is @c AdapterTrustPolicy::kTrustAll.  Set to
+     * @c AdapterTrustPolicy::kRequireSignature in production environments to
+     * enforce that every plugin library carries a valid SHA-256 signature file
+     * (`<library_path>.sig`) before loading is permitted.
      *
-     * @param path        Path to the dynamic library (ignored).
-     * @param adapter_id  Adapter identifier to load (ignored).
-     * @return            Always @c false.
+     * @param policy  New trust policy.
      */
-    bool loadFromPlugin(const std::string& path, const std::string& adapter_id);
+    void setTrustPolicy(AdapterTrustPolicy policy);
+
+    /**
+     * @brief Load and register adapters from a dynamic library file.
+     *
+     * Opens the shared library at @p path using @c dlopen (POSIX) or
+     * @c LoadLibraryA (Windows), locates the @c themis_plugin_register
+     * symbol, and invokes it with @c (this, adapter_id, kPluginAbiVersion).
+     * The plugin is expected to call @c registerAdapter<T>() for each adapter
+     * it provides.
+     *
+     * The loaded library handle is retained until the @c AdapterRegistry
+     * instance is destroyed so that code in the library remains valid.
+     *
+     * Error conditions that return @c false:
+     *  - @p path is empty.
+     *  - The library file does not exist or cannot be opened.
+     *  - The library does not export @c themis_plugin_register.
+     *  - The plugin init function returns non-zero.
+     *  - @c AdapterTrustPolicy::kRequireSignature is active and the SHA-256
+     *    signature file (@c path + ".sig") is absent or does not match.
+     *
+     * @param path        Filesystem path to the shared library.
+     * @param adapter_id  Adapter identifier forwarded to the plugin's init
+     *                    function; use this to select among multiple adapters
+     *                    bundled in one library.
+     * @return            @c true if the plugin was loaded and its init
+     *                    function succeeded; @c false otherwise.
+     */
+    [[nodiscard]] bool loadFromPlugin(const std::string& path,
+                                      const std::string& adapter_id);
 
 private:
-    /// Reader-writer lock protecting registry_.
+    // -----------------------------------------------------------------------
+    // PluginHandle — RAII OS library handle
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief RAII wrapper for an OS-specific dynamic library handle.
+     *
+     * Non-copyable and movable.  The handle is released in the destructor via
+     * @c dlclose (POSIX) or @c FreeLibrary (Windows).
+     */
+    struct PluginHandle {
+        void*       handle = nullptr; ///< OS-specific library handle.
+        std::string path;             ///< Path used to open the library.
+
+        PluginHandle() = default;
+        explicit PluginHandle(void* h, std::string p)
+            : handle(h), path(std::move(p)) {}
+
+        PluginHandle(const PluginHandle&)            = delete;
+        PluginHandle& operator=(const PluginHandle&) = delete;
+
+        PluginHandle(PluginHandle&& o) noexcept
+            : handle(o.handle), path(std::move(o.path)) {
+            o.handle = nullptr;
+        }
+        PluginHandle& operator=(PluginHandle&& o) noexcept {
+            if (this != &o) {
+                handle   = o.handle;
+                path     = std::move(o.path);
+                o.handle = nullptr;
+            }
+            return *this;
+        }
+
+        ~PluginHandle(); // defined in adapter_registry.cpp
+    };
+
+    /// Reader-writer lock protecting registry_ and plugin_handles_.
     mutable std::shared_mutex registry_mutex_;
 
     /// Type-keyed adapter storage.
     std::unordered_map<std::type_index, std::shared_ptr<void>> registry_;
+
+    /// Loaded plugin library handles keyed by library path.
+    std::unordered_map<std::string, PluginHandle> plugin_handles_;
+
+    /// Active trust policy for plugin loading.
+    AdapterTrustPolicy trust_policy_ = AdapterTrustPolicy::kTrustAll;
 };
 
 } // namespace concerns

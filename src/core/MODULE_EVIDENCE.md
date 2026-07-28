@@ -46,25 +46,34 @@ This document tracks the current evidence state for the core module status issue
 
 | File | Purpose |
 |---|---|
-| `include/core/concerns/adapter_metadata.h` | `AdapterMetadata`, `AdapterValidator`, `AdapterSignature` (stub), `kCurrentApiVersion` |
-| `include/core/concerns/adapter_registry.h` | `AdapterRegistry` — typed registry, `registerAdapter<T>`, `resolve<T>`, `hotSwap<T>`, `kHotSwapTimeoutMs`, plugin stub |
-| `src/core/concerns/adapter_registry.cpp` | Non-template implementations: `count()`, `hasAdapter()`, `loadFromPlugin()` stub |
+| `include/core/concerns/adapter_metadata.h` | `AdapterMetadata`, `AdapterValidator`, `AdapterSignature` (production), `kCurrentApiVersion` |
+| `include/core/concerns/adapter_registry.h` | `AdapterRegistry` — typed registry, `registerAdapter<T>`, `resolve<T>`, `hotSwap<T>`, `kHotSwapTimeoutMs`, `loadFromPlugin()` (production), `PluginHandle` RAII, `AdapterTrustPolicy` |
+| `src/core/concerns/adapter_registry.cpp` | Non-template implementations: `count()`, `hasAdapter()`, `loadFromPlugin()` (dlopen/LoadLibraryA), `setTrustPolicy()`, destructor |
+| `include/core/concerns/plugin_api.h` | Plugin ABI contract: `ThemisPluginRegisterFn`, `kPluginInitSymbol`, `kPluginAbiVersion`, `THEMIS_DEFINE_PLUGIN_INIT` macro |
+| `include/core/concerns/adapter_signing.h` | `SignedAdapterValidator` — `validate()`, `canonicalString()`, `sha256Hex()` |
+| `src/core/concerns/adapter_signing.cpp` | SHA-256 signing implementation via OpenSSL EVP |
 | `tests/core/test_adapter_registry_focused.cpp` | 10 focused tests (AR_01..AR_10) |
+| `tests/core/test_plugin_loading_focused.cpp` | 8 focused tests (PL_01..PL_08) |
+| `tests/core/test_adapter_signing_focused.cpp` | 10 focused tests (SGN_01..SGN_10) |
 | `tests/core/test_circuit_breaker_focused.cpp` | 8 focused tests (CB_01..CB_08) |
 | `tests/core/test_concerns_context_focused.cpp` | 18 focused tests (CCT_01..CCT_18) |
 
-### Modified Files — Phase 1–6 Implementation
+### Modified Files — Phase 1–6 + Plugin/Signing Implementation
 
 | File | Change Summary |
 |---|---|
 | `include/core/concerns/concerns_context.h` | Added `#include adapter_registry.h`, `resolve<T>()` template, `registry()` accessors, `registry_` member, constructor initialiser |
 | `include/core/concerns/i_circuit_breaker.h` | Added `call(fn, fallback)` template with void/non-void branch via `if constexpr` |
-| `src/core/ROADMAP.md` | Phase 1–5 open items marked `[x]`; Q4 2026 plugin loading remains `[ ]` |
-| `src/core/MODULE_EVIDENCE.md` | This section added |
+| `cmake/CMakeLists.txt` | Added `adapter_registry.cpp` + `adapter_signing.cpp` to `THEMIS_CORE_SOURCES`; added `${CMAKE_DL_LIBS}` link on non-Windows |
+| `cmake/ModularBuild.cmake` | Added `adapter_registry.cpp` + `adapter_signing.cpp` to core concerns sources |
+| `src/core/ROADMAP.md` | All Q4 2026 plugin loading + signing items marked `[x]` (2026-07-28) |
+| `src/core/MODULE_EVIDENCE.md` | This section updated |
 
 ### Test Target Names (auto-discovered by tests/core/CMakeLists.txt)
 
 - `module_core_test_adapter_registry_focused_focused`
+- `module_core_test_plugin_loading_focused_focused`
+- `module_core_test_adapter_signing_focused_focused`
 - `module_core_test_circuit_breaker_focused_focused`
 - `module_core_test_concerns_context_focused_focused`
 
@@ -74,7 +83,10 @@ This document tracks the current evidence state for the core module status issue
 - `hotSwap()` releases the write lock before draining so new resolvers get the new adapter immediately; drain polls use_count() in 1 ms steps up to 100 ms.
 - `ConcernsContext::resolve<T>()` for built-in concern types returns a no-op-deleter `shared_ptr`; callers must not store beyond context lifetime.
 - `ICircuitBreaker::call()` uses `if constexpr (std::is_void_v<decltype(fn())>)` to correctly handle both void and non-void callable return types.
-- All adapter stub/plugin paths carry mandated STUB/SIMULATION NOTE comment blocks (§8 and §11.5 of custom instructions).
+- `loadFromPlugin()` uses `dlopen(RTLD_NOW | RTLD_LOCAL)` on POSIX and `LoadLibraryA` on Windows; holds library handles alive until registry destruction via RAII `PluginHandle`.
+- `AdapterTrustPolicy::kRequireSignature` enforces a SHA-256 digest file (`.sig` suffix) comparison before any `dlopen` call; `kTrustAll` is the development default.
+- `SignedAdapterValidator` computes `sha256Hex(id:apiVersion:description)` and uses `CRYPTO_memcmp` for constant-time comparison to resist timing side-channels.
+- Plugin ABI is a single C-linkage function `themis_plugin_register`; plugins call `registry->registerAdapter<T>()` for full type safety.
 
 ## Next Evidence Actions
 

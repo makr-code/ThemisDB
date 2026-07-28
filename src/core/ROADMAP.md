@@ -9,8 +9,7 @@
 
 ## Current Status
 
-Core runtime foundations are delivered: `ConcernsContext`, observability/caching/security concern interfaces, runtime concern replacement APIs, and production adapters (spdlog, OpenTelemetry-family tracers, Prometheus, Redis cache path).  
-The module remains **open** for plugin runtime loading hardening and signed adapter governance.
+Core runtime foundations are delivered: `ConcernsContext`, observability/caching/security concern interfaces, runtime concern replacement APIs, production adapters (spdlog, OpenTelemetry-family tracers, Prometheus, Redis cache path), plugin-based adapter loading via dlopen/LoadLibrary (Issue #1706), and cryptographic adapter signing via `SignedAdapterValidator`.
 
 ## In Progress
 
@@ -18,8 +17,8 @@ The module remains **open** for plugin runtime loading hardening and signed adap
 
 ## Planned Features
 
-- [I] Plugin-based adapter loading (no recompile needed) (Issue: #1706)
-- [ ] Adapter plugin hardening and signing workflow (Target: Q4 2026)
+- [x] Plugin-based adapter loading (no recompile needed) (Issue: #1706 — Implemented: 2026-07-28)
+- [x] Adapter plugin hardening and signing workflow (Implemented: 2026-07-28)
 
 ## Implementation Phases
 
@@ -28,19 +27,20 @@ The module remains **open** for plugin runtime loading hardening and signed adap
 - [x] Define `AdapterMetadata` / `AdapterValidator` / `AdapterSignature` structs (`include/core/concerns/adapter_metadata.h`) (Implemented: 2026-07-28)
 - [x] Define `AdapterRegistry` class with `registerAdapter`, `resolve<T>`, `hotSwap`, `count`, `hasAdapter` (`include/core/concerns/adapter_registry.h`) (Implemented: 2026-07-28)
 - [ ] Define signed plugin adapter contract and validation envelope (Target: Q4 2026)
++ [x] Define signed plugin adapter contract and validation envelope — `AdapterSignature` (non-stub), `SignedAdapterValidator`, `canonicalString()`, `sha256Hex()` (Implemented: 2026-07-28)
 
 ### Phase 2: Core Implementation
 - [x] Deliver `ConcernsContext` creation and runtime replacement surfaces
 - [x] Add `ConcernsContext::resolve<T>()` generic type-safe adapter resolution bridging built-in concern types and `AdapterRegistry` (Implemented: 2026-07-28)
 - [x] Implement `AdapterRegistry` non-template methods (`count`, `hasAdapter`, `loadFromPlugin` stub) in `src/core/concerns/adapter_registry.cpp` (Implemented: 2026-07-28)
-- [ ] Add runtime plugin loading path that avoids core-module recompilation (Target: Q4 2026)
+- [x] Add runtime plugin loading path that avoids core-module recompilation — `loadFromPlugin()` via dlopen/LoadLibraryA, `plugin_api.h` ABI contract, `THEMIS_DEFINE_PLUGIN_INIT` macro (Implemented: 2026-07-28)
 
 ### Phase 3: Error Handling and Edge Cases
 - [x] Fail-fast null replacement protection in runtime `replace*` APIs
 - [x] `registerAdapter` rejects empty id and apiVersion == 0 with `std::invalid_argument` (Implemented: 2026-07-28)
 - [x] `hotSwap` drain timeout emits structured warning to `std::cerr` (Implemented: 2026-07-28)
 - [x] `ICircuitBreaker::call(fn, fallback)` inline template — guards fn with `allowRequest()`, records success/failure (Implemented: 2026-07-28)
-- [ ] Harden plugin load/unload failure semantics (signature mismatch, ABI mismatch, bootstrap errors) (Target: Q4 2026)
+- [x] Harden plugin load/unload failure semantics (signature mismatch, ABI mismatch, bootstrap errors) — `AdapterTrustPolicy::kRequireSignature`, `.sig` file check, non-zero init return handling (Implemented: 2026-07-28)
 
 ### Phase 4: Tests
 - [x] Focused module test registration in `tests/core/CMakeLists.txt` (`module_core_<test_stem>_focused`)
@@ -53,7 +53,7 @@ The module remains **open** for plugin runtime loading hardening and signed adap
 - [x] `AdapterRegistry::kHotSwapTimeoutMs{100}` SLO constant defined; drain loop uses 1 ms sleep × 100 iterations (Implemented: 2026-07-28)
 - [x] `kCurrentApiVersion = 1` constant in `adapter_metadata.h`; apiVersion == 0 rejected at registration (Implemented: 2026-07-28)
 - [x] `AdapterSignature` stub struct with STUB/SIMULATION NOTE (Implemented: 2026-07-28)
-- [ ] Add adapter signing and trust policy validation to release hardening flow (Target: Q4 2026)
+- [x] Add adapter signing and trust policy validation to release hardening flow — `SignedAdapterValidator`, `AdapterTrustPolicy`, `loadFromPlugin` SHA-256 file verification (Implemented: 2026-07-28)
 
 ### Phase 6: Documentation and Acceptance
 - [x] Keep roadmap/future/architecture synchronization explicit and source-traceable
@@ -68,13 +68,10 @@ The module remains **open** for plugin runtime loading hardening and signed adap
 - [x] Focused core tests are configured (`tests/core/CMakeLists.txt`)
 - [x] Three focused test suites added: `test_concerns_context_focused`, `test_adapter_registry_focused`, `test_circuit_breaker_focused` (2026-07-28)
 - [~] Fresh executable-level focused build/test evidence refreshed for this cycle (see `MODULE_EVIDENCE.md`)
-- [ ] Plugin runtime loading and signing hardening completed (Issue #1706 + Q4 2026 hardening item)
+- [x] Plugin runtime loading and signing hardening completed — Issue #1706 resolved + Q4 2026 hardening delivered (2026-07-28)
 
 ## Known Issues & Limitations
 
-- Plugin-based adapter loading without rebuild remains open (Issue #1706)
-- Adapter plugin hardening/signing workflow remains open (Target: Q4 2026)
-- Canonical Windows evidence snapshot (2026-07-18) documented a focused-binary evidence gap for `module_core_test_*_focused` targets
 - Context propagation across async/thread boundaries still requires caller-managed header propagation (`startSpanFromHeaders` / `injectContext`)
 
 ## Breaking Changes

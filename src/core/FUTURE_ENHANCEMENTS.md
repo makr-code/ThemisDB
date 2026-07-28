@@ -15,8 +15,8 @@
 
 ## 2026-07-28 Sync Snapshot (Issue #5638)
 
-- [I] Plugin-based adapter loading (no recompile needed) remains tracked via Issue #1706
-- [ ] Adapter plugin hardening and signing workflow remains targeted for Q4 2026
+- [x] Plugin-based adapter loading (no recompile needed) implemented via Issue #1706 (2026-07-28)
+- [x] Adapter plugin hardening and signing workflow delivered (2026-07-28)
 - [x] `AdapterRegistry::hotSwap()` drains in-flight refs within ≤ 100 ms (`kHotSwapTimeoutMs{100}`) (Implemented: 2026-07-28)
 - [x] `ConcernsContext::resolve<T>()` uses `std::shared_mutex` reader-writer lock (no global lock contention) (Implemented: 2026-07-28)
 

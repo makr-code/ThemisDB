@@ -1,10 +1,10 @@
 /**
  * @file adapter_metadata.h
- * @brief Adapter metadata, validation interface, and signing stub for the AdapterRegistry.
- * @version 0.0.1
+ * @brief Adapter metadata, validation interface, and cryptographic signing for AdapterRegistry.
+ * @version 0.0.2
  * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 92/100
- * @note Gap Summary: total=1; TODO=0, Stub=1, Unimpl=0, Mock=0, Sim=0, Debt=0
+ * @note Score: 95/100
+ * @note Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0
  * @note Status: Production Ready
  */
 
@@ -57,31 +57,56 @@ struct AdapterMetadata {
 };
 
 // ---------------------------------------------------------------------------
-// AdapterSignature — STUB/SIMULATION NOTE
-//
-// Purpose:    Placeholder for future adapter signing/trust validation
-//             (Target: Q4 2026).
-// Activation: NOT active — AdapterRegistry ignores the signature field
-//             until the signing workflow ships.
-// Production Delta: Signatures are not verified; any adapter passes the
-//             trust check regardless of this field's contents.
-// Removal Plan: Wire into AdapterValidator::validate() when the signing
-//             pipeline is ready (Issue #1706 hardening block, Q4 2026).
+// AdapterSignature
 // ---------------------------------------------------------------------------
 
 /**
- * @brief Adapter cryptographic signing digest.
+ * @brief Cryptographic signing digest for an adapter library or metadata bundle.
  *
- * @note STUB — not yet enforced.  See the STUB/SIMULATION NOTE above.
- *       Both fields are intentionally ignored by AdapterRegistry until
- *       the Q4 2026 signed-adapter hardening milestone is implemented.
+ * Used by @c SignedAdapterValidator to verify that an adapter has not been
+ * tampered with before it is registered in @c AdapterRegistry.
+ *
+ * ## Canonical data conventions
+ *
+ * When signing a **programmatically-registered** adapter, the canonical data
+ * string is constructed by @c SignedAdapterValidator::canonicalString():
+ *
+ * ```
+ * <id> ":" <apiVersion> ":" <description>
+ * ```
+ *
+ * When signing a **file-based plugin** loaded via
+ * @c AdapterRegistry::loadFromPlugin(), the canonical data is the raw bytes
+ * of the plugin library file.  Compute the expected digest at build time with:
+ *
+ * ```bash
+ * openssl dgst -sha256 -hex libmy_adapter.so
+ * ```
+ *
+ * ## Supported algorithms
+ *
+ * Currently only @c "sha256" is accepted; other values cause
+ * @c SignedAdapterValidator::validate() to return @c false.
+ *
+ * ## Empty-signature semantics
+ *
+ * An @c AdapterSignature with empty @c algorithm and @c digest is considered
+ * "unsigned".  @c SignedAdapterValidator rejects unsigned adapters.
  */
 struct AdapterSignature {
-    /// Hash algorithm used to produce @c digest (e.g. "sha256").
+    /// Hash algorithm identifier.  Must be @c "sha256" to pass validation.
     std::string algorithm;
 
-    /// Hex-encoded digest of the adapter's binary or metadata bundle.
+    /// Lowercase hex-encoded SHA-256 digest (64 characters for sha256).
     std::string digest;
+
+    /**
+     * @brief Return true when both fields are non-empty (i.e., signature present).
+     * @return true if algorithm and digest are non-empty.
+     */
+    [[nodiscard]] bool present() const noexcept {
+        return !algorithm.empty() && !digest.empty();
+    }
 };
 
 // ---------------------------------------------------------------------------

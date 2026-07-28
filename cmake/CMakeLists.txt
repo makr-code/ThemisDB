@@ -2368,6 +2368,8 @@ set(THEMIS_CORE_SOURCES
     ../src/core/concerns/i_logger.cpp
     ../src/core/concerns/concerns_context.cpp
     ../src/core/concerns/context_propagation.cpp
+    ../src/core/concerns/adapter_registry.cpp
+    ../src/core/concerns/adapter_signing.cpp
     ../src/core/adapters/otel_tracer.cpp
     ../src/core/concerns/prometheus_metrics.cpp
     ../src/core/concerns/lockfree_metrics.cpp
@@ -3897,6 +3899,9 @@ endif()
 
 if(WIN32)
     target_link_libraries(themis_core PUBLIC Secur32)
+else()
+    # Link libdl for dlopen/dlsym/dlclose used by AdapterRegistry::loadFromPlugin
+    target_link_libraries(themis_core PRIVATE ${CMAKE_DL_LIBS})
 endif()
 
 # Link libzip (for archive and office processing)

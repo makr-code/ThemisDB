@@ -36,11 +36,13 @@
 
 ### 5. ✅ Close Reason Documented
 
-**Close reason candidate**: *Not planned for immediate closure; module remains open for roadmap items*.  
+**Close reason candidate**: *Implementation complete — all Q4 2026 roadmap items delivered (2026-07-28)*.  
 
-Open items that keep the module status in active tracking:
-- Plugin-based adapter loading (Issue #1706)
-- Adapter plugin hardening and signing workflow (Target: Q4 2026)
+Delivered items:
+- [x] Plugin-based adapter loading (Issue #1706) — implemented via `loadFromPlugin()`, `plugin_api.h`, `THEMIS_DEFINE_PLUGIN_INIT` macro (2026-07-28)
+- [x] Adapter plugin hardening and signing workflow — `SignedAdapterValidator`, `AdapterTrustPolicy`, SHA-256 file verification (2026-07-28)
+
+Remaining open:
 - Fresh executable-level focused build/test evidence capture after environment/toolchain restoration
 
 ---

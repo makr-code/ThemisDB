@@ -1,8 +1,8 @@
 /*
- * ThemisDB | File: test_adapter_registry_focused.cpp | Version: 0.0.1
+ * ThemisDB | File: test_adapter_registry_focused.cpp | Version: 0.0.2
  * Module: core
  * Purpose: Focused unit tests for AdapterRegistry — registration, resolution,
- *          hot-swap drain, validator rejection, stub paths, and concurrency.
+ *          hot-swap drain, validator rejection, plugin loading, and concurrency.
  *
  * Test groups:
  *   AR_01  empty registry resolve returns null
@@ -12,7 +12,7 @@
  *   AR_05  empty id throws
  *   AR_06  hotSwap installs new adapter; old ref drops
  *   AR_07  validator rejection throws
- *   AR_08  loadFromPlugin stub returns false
+ *   AR_08  loadFromPlugin with non-existent path returns false
  *   AR_09  count() and hasAdapter() correct after register
  *   AR_10  concurrent resolve (16 threads × 500 calls) does not crash
  */
@@ -158,11 +158,12 @@ TEST(AdapterRegistryTest, AR_07_ValidatorRejectionThrows) {
 }
 
 // ---------------------------------------------------------------------------
-// AR_08 — loadFromPlugin always returns false (stub)
+// AR_08 — loadFromPlugin: non-existent path returns false
 // ---------------------------------------------------------------------------
-TEST(AdapterRegistryTest, AR_08_LoadFromPluginAlwaysReturnsFalse) {
+TEST(AdapterRegistryTest, AR_08_LoadFromPluginNonExistentPathReturnsFalse) {
     AdapterRegistry reg;
-    bool result = reg.loadFromPlugin("/some/path/libadapter.so", "alpha");
+    // A path that is guaranteed not to exist
+    bool result = reg.loadFromPlugin("/tmp/__themis_no_such_plugin_xyz__.so", "alpha");
     EXPECT_FALSE(result);
 }
 
