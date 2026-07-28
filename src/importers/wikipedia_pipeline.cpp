@@ -1,3 +1,11 @@
+/**
+ * @file wikipedia_pipeline.cpp
+ * @brief Wikipedia pipeline orchestrator implementation.
+ *
+ * Implements WikipediaPipeline: stage coordination, back-pressure,
+ * checkpoint commits, and graceful shutdown on signal.
+ */
+
 #include "importers/wikipedia_pipeline.hpp"
 
 #include "importers/wikipedia_transform.hpp"

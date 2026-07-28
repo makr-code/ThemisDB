@@ -28,6 +28,7 @@
 ## Root Documentation Synchronization (2026-07-27)
 
 - Root-level markdown set synchronized to the current `src/` implementation and root governance state.
+- `ROADMAP.md` remains the canonical source-of-truth for release-readiness checkbox closure; this file tracks open enhancement backlog and execution constraints.
 - Current root sync references the active GA baseline instead of the older wire-only snapshot:
 	- `benchmarks/wave7/release_gate_manifest_w7.json`
 	- `tests/integration/WAVE5_TEST_COVERAGE.md`
@@ -35,6 +36,7 @@
 	- `src/auth/ROADMAP.md`
 - Completed auth v1.2.0 / v1.3.0 delivery remains tracked in `src/auth/ROADMAP.md`; this file continues to track only open enhancement backlog.
 - Changelog trace entry added in `CHANGELOG.md` under `Unreleased`.
+- Promotion remains blocked until open roadmap Phase 2/3/5/6 items, Batch D checklist closure, and Section 9 human sign-off in `docs/governance/GA_PROMOTION_SIGN_OFF.md` are complete.
 
 ---
 

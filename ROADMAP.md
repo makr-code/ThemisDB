@@ -35,6 +35,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 
 ## Current Status
 
+- [~] `ROADMAP.md` is the canonical source of truth for GA status; conflicting PASS/GO statements in derivative planning/checklist documents must be treated as provisional until re-verified on current `develop`.
 - [~] The beta-to-GA hardening path runs on `develop`; release-lane promotion happens only after gate evidence is complete.
 - [x] Wave 7 baseline evidence exists with all six PASS gates (`benchmarks/wave7/release_gate_manifest_w7.json`; baseline currently valid, periodic re-confirmation still required).
 - [x] `release_critical` CI on `develop` is defined as the mandatory entry gate for release work (`.github/workflows/09-pr-gates_release-critical-tests.yml`).

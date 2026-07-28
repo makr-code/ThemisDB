@@ -1,3 +1,11 @@
+/**
+ * @file wikipedia_dump_reader.cpp
+ * @brief Streaming XML reader for Wikipedia database dumps.
+ *
+ * Implements low-level XML parsing of bz2-compressed Wikipedia dump files,
+ * yielding raw page records to the transformation pipeline.
+ */
+
 #include "importers/wikipedia_pipeline.hpp"
 
 #include <string>

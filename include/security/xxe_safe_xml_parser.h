@@ -14,6 +14,15 @@ namespace security {
  *
  * The document member is only valid when success is true.
  */
+
+/**
+ * @file xxe_safe_xml_parser.h
+ * @brief XXE-safe XML parser wrapper.
+ *
+ * Provides a thin wrapper around the underlying XML library that
+ * disables external entity expansion and DOCTYPE processing to prevent
+ * XML External Entity (XXE) injection attacks.
+ */
 struct XxeSafeXmlParseResult {
     bool success = false;
     pugi::xml_document document;

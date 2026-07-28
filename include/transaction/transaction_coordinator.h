@@ -1,3 +1,11 @@
+/**
+ * @file transaction_coordinator.h
+ * @brief Unified strategy-pattern interface for transaction coordinators.
+ *
+ * ITransactionCoordinator is the single abstraction that callers use
+ * regardless of the underlying commit protocol (2PC, 3PC, SAGA, Calvin).
+ */
+
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 //

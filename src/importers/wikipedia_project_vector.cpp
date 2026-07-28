@@ -1,3 +1,11 @@
+/**
+ * @file wikipedia_project_vector.cpp
+ * @brief Vector embedding projection for Wikipedia articles.
+ *
+ * Orchestrates embedding inference for Wikipedia article text segments
+ * and writes the resulting vectors to the configured ThemisDB vector index.
+ */
+
 #include "importers/wikipedia_pipeline.hpp"
 
 #include "importers/wikipedia_transform.hpp"

@@ -6,6 +6,14 @@
  * Copyright MIT License.
  */
 
+/**
+ * @file neo4j_adapter.hpp
+ * @brief Neo4j backend adapter for the Chimera abstraction layer.
+ *
+ * Implements IDatabaseAdapter against a Neo4j instance via Bolt/HTTP,
+ * translating ThemisDB graph operations to Cypher queries.
+ */
+
 #pragma once
 
 #include "chimera/database_adapter.hpp"

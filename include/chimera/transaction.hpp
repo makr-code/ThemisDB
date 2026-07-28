@@ -6,6 +6,14 @@
  * Copyright MIT License.
  */
 
+/**
+ * @file transaction.hpp
+ * @brief Multi-backend transaction abstraction for the Chimera layer.
+ *
+ * Provides IChimeraTransaction, a unified handle for distributed
+ * transactions that span heterogeneous backend adapters.
+ */
+
 #pragma once
 
 #include <chrono>

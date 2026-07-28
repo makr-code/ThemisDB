@@ -1,3 +1,11 @@
+/**
+ * @file tensor_workflow_observability.h
+ * @brief Observability hooks for the tensor processing workflow.
+ *
+ * Declares span factories and metric helpers that instrument tensor
+ * pipeline stages with OpenTelemetry traces and counters.
+ */
+
 #pragma once
 
 #include <cstddef>

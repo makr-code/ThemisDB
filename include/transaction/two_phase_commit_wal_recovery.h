@@ -1,3 +1,11 @@
+/**
+ * @file two_phase_commit_wal_recovery.h
+ * @brief WAL recovery logic for the two-phase commit protocol.
+ *
+ * Declares the WAL reader and recovery state machine that resurrect
+ * in-doubt 2PC transactions after a coordinator restart.
+ */
+
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 //

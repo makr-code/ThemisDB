@@ -4,6 +4,14 @@
  * Purpose: Async HTTP authentication implementation
  */
 
+/**
+ * @file http_auth_async.cpp
+ * @brief Asynchronous HTTP authentication implementation.
+ *
+ * Implements the async HTTP helpers declared in http_auth_async.h using
+ * the internal ThemisDB HTTP client abstraction.
+ */
+
 #include "auth/http_auth_async.h"
 #include <stdexcept>
 #include <regex>

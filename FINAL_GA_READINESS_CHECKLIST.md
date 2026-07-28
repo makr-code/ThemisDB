@@ -12,7 +12,7 @@
 **GO Criteria:** ✅ All items PASS (✅ or 🟢)  
 **NO-GO Criteria:** ❌ Any item FAIL (❌ or 🔴), or item NOT READY (⏳ or 🟡)
 
-**Current Status:** 🟢 **GO FOR HUMAN SIGN-OFF** (all technical gates verified PASS, Phase 6 docs complete)
+**Current Status:** 🟡 **NO-GO / PENDING RE-VERIFICATION** (evidence exists, but open roadmap items in Phase 2/3/5/6 + Batch D and current-head verification still block promotion)
 
 ---
 
@@ -25,7 +25,7 @@
 | All CI workflows green on develop | CI-01 | ✅ PASS | release_critical gate active in `.github/workflows/09-pr-gates_release-critical-tests.yml` | ✅ No |
 | release_critical suite completes <30min | CI-02 | ✅ PASS | Wave 5/6/7/8/9 + Phase 6 tests integrated | ✅ No |
 
-**Build & Infrastructure Summary:** 🟢 PASS (vcpkg path confirmed; system RocksDB defer acceptable per RELEASE_STRATEGY.md)
+**Build & Infrastructure Summary:** 🟡 PARTIAL (vcpkg path confirmed; `community-release` system-package reproducibility remains an open tracked blocker/deferral)
 
 ---
 
@@ -47,7 +47,7 @@
 | **Phase 6** | Documentation + governance + research backbone | ✅ PASS | Soll-Ist matrix + Doxygen audit + GA sign-off docs | 2026-07-28 | ✅ No |
 | **Sharding P6** | 92 tests (TXC-01..32, FLR-01..20, FI-01..40) | ✅ PASS | 2PC/3PC/Percolator/Calvin/SAGA + failover + chaos | 2026-07-22 | ✅ No |
 
-**Testing Summary:** 🟢 PASS — All waves and phases verified; total 1000+ tests across GA readiness scope.
+**Testing Summary:** 🟡 EVIDENCE PRESENT — historical/recorded evidence exists, but release promotion requires fresh verification on current `develop` head.
 
 ---
 
@@ -65,7 +65,7 @@
 | **STRIDE Threat Model** | Reviewed and current | ✅ PASS | `security/STRIDE_THREAT_MODEL.md` v1.0 confirmed | ✅ No |
 | **Compliance** | GDPR/CCPA-aware auth + audit logging | ✅ PASS | auth module 12 error codes (9420-9452) + audit framework | ✅ No |
 
-**Security & Compliance Summary:** 🟢 PASS — 0 new CRITICAL/HIGH findings; sanitizers clean; pentest complete with documented residual risks.
+**Security & Compliance Summary:** 🟡 EVIDENCE PRESENT — baseline evidence is available; final GA decision remains blocked until promotion checklist closure.
 
 ---
 
@@ -86,7 +86,7 @@
 | **Observability** | Metrics + logs + traces for release-critical path | ✅ PASS | Phase 5 observability framework delivered | ✅ No |
 | **Runbooks** | Operations guide + incident response playbooks | ✅ PASS | RUNBOOK_W7.md + RUNBOOK_W8.md + RUNBOOK_W9.md delivered | ✅ No |
 
-**Performance & Operability Summary:** 🟢 PASS — All Wave 7/8/9 gates verified; SLA validated; runbooks complete.
+**Performance & Operability Summary:** 🟡 EVIDENCE PRESENT — baseline evidence is linked; final promotion requires current-head re-verification and closure of open roadmap gates.
 
 ---
 
@@ -107,7 +107,7 @@
 | **Operational Limits** | Performance targets (p99, throughput, RTO) linked from Wave gates | ✅ PASS | Wave 7/8/9 gates document limits; runbooks provide operational context | ✅ No |
 | **README.md** | Current root entry point reflects v2.4.0-rc1 GA status | ✅ PASS | Updated to reference current root governance files | ✅ No |
 
-**Documentation Summary:** 🟢 PASS — All root docs synchronized; Doxygen audit complete; Phase 6 documentation sync delivered.
+**Documentation Summary:** 🟡 IN PROGRESS — root sync advanced, but roadmap Phase-6/root-checklist items are still open.
 
 ---
 
@@ -192,9 +192,9 @@
 | SLA validated | 99.99% uptime proof archived | ✅ PASS | 168h SLA plan + proof documented | ✅ No |
 | Security complete | 0 new CRITICAL/HIGH findings | ✅ PASS | Sanitizers clean; pentest residual risks accepted | ✅ No |
 | Documentation aligned | All root docs synchronized | ✅ PASS | ROADMAP/CHANGELOG/VERSIONING/RELEASE_STRATEGY/BRANCHING_STRATEGY all v2.4.0-rc1 | ✅ No |
-| Governance ready | GA sign-off doc complete; Section 9 awaiting human approval | ✅ PASS | docs/governance/GA_PROMOTION_SIGN_OFF.md ready | ✅ No |
+| Governance ready | GA sign-off doc complete; Section 9 awaiting human approval | 🟡 PARTIAL | docs/governance/GA_PROMOTION_SIGN_OFF.md ready; Section 9 + open promotion checklist items still pending | ⚠️ Yes |
 
-**Cross-Cutting Summary:** 🟢 PASS — All foundational quality gates verified.
+**Cross-Cutting Summary:** 🟡 PARTIAL — core evidence exists, but GA promotion gates are not fully closed.
 
 ---
 
@@ -209,7 +209,7 @@
 | DEF-05 | Advanced ABAC auth (planned post-GA enhancement) | Not required for GA; RBAC frozen and tested | v2.5.0 (Q2 2027) | None (future enhancement) |
 | RISK-01 | Phase 6 docs sync requires human sign-off | Human release approver must complete Section 9 of GA_PROMOTION_SIGN_OFF.md | 2026-08-18 (target) | Medium (blocks tag creation) |
 
-**Deferrals & Residual Risks Summary:** All deferrals are acceptable for GA; all residual risks documented and accepted.
+**Deferrals & Residual Risks Summary:** Deferrals are documented; GA remains blocked until open roadmap items and human sign-off are closed.
 
 ---
 
@@ -217,28 +217,27 @@
 
 ### Pre-Decision Verification
 
-- [x] All 6 critical modules assessed and GA-ready
-- [x] All waves (5-9) and phases (0-6) tested and documented
+- [~] All 6 critical modules assessed and GA-ready (evidence present; current-head re-check pending)
+- [~] All waves (5-9) and phases (0-6) tested and documented (re-run/confirmation pending for promotion)
 - [x] Security audit complete (0 new CRITICAL/HIGH findings)
 - [x] Performance gates verified (Wave 7/8/9 all PASS)
 - [x] SLA validated (99.99% proof archived)
-- [x] Documentation synchronized (ROADMAP/CHANGELOG/VERSIONING/BRANCHING/RELEASE all v2.4.0-rc1)
+- [~] Documentation synchronized (ROADMAP/CHANGELOG/VERSIONING/BRANCHING/RELEASE all v2.4.0-rc1; root phase-6 checklist closure pending)
 - [x] Research backbone mapped (Soll-Ist matrix complete for 6 modules)
 - [x] Doxygen audit passed (99.8% headers documented, >72% coverage)
-- [x] GA sign-off document ready (Sections 1-8 complete, Section 9 awaiting human approval)
+- [~] GA sign-off document ready (Sections 1-8 complete, Section 9 awaiting human approval; promotion checklist still open)
 
 ### GO / NO-GO Decision
 
-**TECHNICAL DECISION: 🟢 GO FOR HUMAN SIGN-OFF**
+**TECHNICAL DECISION: 🟡 NO-GO / PENDING**
 
 **Rationale:**
-- ✅ All technical gates verified PASS (Waves 5-9, Phases 0-6)
-- ✅ All 6 critical modules (server, llm, storage, query, sharding, auth) assessed GA-ready
-- ✅ Security complete (0 new CRITICAL/HIGH findings; sanitizers clean; pentest accepted residual risks)
-- ✅ Documentation complete (root docs synchronized; Doxygen audit passed; research backbone mapped)
-- ✅ Governance ready (GA_PROMOTION_SIGN_OFF.md Sections 1-8 complete)
+- ✅ Baseline technical evidence is consolidated (Waves 5-9, Phases 0-6)
+- 🟡 Promotion-critical verification on current `develop` head is still pending
+- 🟡 Roadmap open items remain in Phase 2/3/5/6 and must be closed before GA cut
+- 🟡 Governance remains blocked until promotion checklist completion + Section 9 human sign-off
 
-**Outstanding:** Human release approver must complete Section 9 signature block in `docs/governance/GA_PROMOTION_SIGN_OFF.md`.
+**Outstanding:** Close remaining roadmap/promotion checklist items and complete Section 9 signature block in `docs/governance/GA_PROMOTION_SIGN_OFF.md`.
 
 **Post-Approval Actions:**
 1. Approver signs Section 9 of GA_PROMOTION_SIGN_OFF.md
@@ -265,16 +264,16 @@
 
 | Category | Items | Status |
 |----------|-------|--------|
-| Build & Infrastructure | 4 | ✅ 4/4 PASS |
-| Testing (Waves 5-9 + Phases 0-6) | 12 | ✅ 12/12 PASS |
-| Security & Compliance | 9 | ✅ 9/9 PASS (0 CRITICAL/HIGH) |
-| Performance & Operability | 12 | ✅ 12/12 PASS |
-| Documentation | 11 | ✅ 11/11 PASS |
-| Module Sign-Off (server/llm/sharding/storage/query/auth) | 6 | ✅ 6/6 GA-READY |
-| Cross-Cutting Quality Gates | 8 | ✅ 8/8 PASS |
-| Known Deferrals & Risks | 6 | ✅ Acceptable (5 deferred, 1 human sign-off pending) |
+| Build & Infrastructure | 4 | 🟡 Partial (community-release reproducibility deferred/tracked) |
+| Testing (Waves 5-9 + Phases 0-6) | 12 | 🟡 Evidence present, re-verification pending |
+| Security & Compliance | 9 | 🟡 Evidence present, final promotion checklist pending |
+| Performance & Operability | 12 | 🟡 Evidence present, final promotion checklist pending |
+| Documentation | 11 | 🟡 In progress (Phase-6/root sync closure pending) |
+| Module Sign-Off (server/llm/sharding/storage/query/auth) | 6 | 🟡 Evidence present; re-check at GA cut pending |
+| Cross-Cutting Quality Gates | 8 | 🟡 Partial |
+| Known Deferrals & Risks | 6 | 🟡 Documented (promotion still blocked) |
 
-**Overall Summary:** 🟢 **GO FOR HUMAN SIGN-OFF** — 72/72 items accounted for. All technical gates verified PASS. Awaiting human release approver signature on Section 9 of `docs/governance/GA_PROMOTION_SIGN_OFF.md`.
+**Overall Summary:** 🟡 **NO-GO / PENDING** — evidence is consolidated, but current-head gate re-verification, remaining roadmap checkbox closure, and Section 9 human approval are still required.
 
 ---
 

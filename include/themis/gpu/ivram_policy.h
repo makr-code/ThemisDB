@@ -1,3 +1,11 @@
+/**
+ * @file ivram_policy.h
+ * @brief IVRAM placement policy for GPU tensor buffers.
+ *
+ * Defines policies for allocating and evicting tensor data to and
+ * from in-video-RAM (IVRAM) on discrete GPU devices.
+ */
+
 #pragma once
 
 #include <cstdint>

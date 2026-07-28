@@ -1,3 +1,11 @@
+/**
+ * @file wikipedia_project_timeseries.cpp
+ * @brief Time-series projection for Wikipedia edit history.
+ *
+ * Extracts revision timestamps and edit-frequency metrics from the
+ * Wikipedia dump and stores them as ThemisDB time-series records.
+ */
+
 #include "importers/wikipedia_pipeline.hpp"
 
 #include "importers/wikipedia_transform.hpp"

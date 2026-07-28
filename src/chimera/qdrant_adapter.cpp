@@ -6,6 +6,14 @@
  * Copyright MIT License.
  */
 
+/**
+ * @file qdrant_adapter.cpp
+ * @brief Qdrant vector-store adapter implementation.
+ *
+ * REST/gRPC forwarding for Qdrant operations via the Chimera
+ * IDatabaseAdapter contract, including payload filtering and batch upsert.
+ */
+
 #include "chimera/qdrant_adapter.hpp"
 #include "utils/uuid.h"
 

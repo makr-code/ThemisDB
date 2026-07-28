@@ -11,6 +11,14 @@ using json = nlohmann::json;
 /**
  * @brief Durable checkpoint state for restart-safe full and incremental imports.
  */
+
+/**
+ * @file wikipedia_checkpoint.hpp
+ * @brief Checkpoint support for the Wikipedia import pipeline.
+ *
+ * Defines serialisable checkpoint state that allows an interrupted
+ * Wikipedia XML dump ingestion to resume from the last committed offset.
+ */
 struct WikipediaCheckpointState {
     std::string source_path;
     std::string source_id;

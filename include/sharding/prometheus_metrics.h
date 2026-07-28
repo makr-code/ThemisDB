@@ -101,6 +101,30 @@ public:
     void recordGossipFailedPeer(const std::string& peer_id);
     void recordGossipVersionVector(const std::string& peer_id, uint64_t version);
 
+    // -------------------------------------------------------------------------
+    // sharding_cross_shard_requests_total (Phase C observability gate)
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Increment the canonical cross-shard request counter.
+     *
+     * Emits the Prometheus counter `sharding_cross_shard_requests_total` with
+     * labels `{shard_id, operation, outcome}`.  This counter is the Phase C
+     * observability gate required by the sharding module roadmap.
+     *
+     * @param shard_id   Target shard identifier ("shard-0", "shard-7", …).
+     * @param operation  Logical operation: "route", "scatter_gather", "prepare",
+     *                   "commit", "abort", "repair", "anti_entropy".
+     * @param outcome    "success", "error", or "timeout".
+     *
+     * @note Call this for every cross-shard RPC dispatch point, not just joins.
+     *       For join-specific metrics use recordCrossShardJoin().
+     */
+    void recordCrossShardRequest(
+        const std::string& shard_id,
+        const std::string& operation,
+        const std::string& outcome);
+
     // Cross-Shard Join metrics
     void recordCrossShardJoin(const std::string& strategy); // broadcast_hash/co_located
     void recordCrossShardJoinDuration(const std::string& strategy, double duration_ms);

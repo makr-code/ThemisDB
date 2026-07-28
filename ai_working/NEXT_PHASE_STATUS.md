@@ -1,8 +1,28 @@
 # Next Phase Implementation Status Tracker
 
 **Document:** Weekly standup + progress tracking  
-**Updated:** 2026-07-22  
-**Next Review:** 2026-07-26 (Friday EOD)
+**Updated:** 2026-07-28
+**Next Review:** 2026-08-01 (Gate review)
+
+---
+
+## Source-of-Truth Rebaseline (2026-07-28)
+
+- This tracker is subordinate to `/home/runner/work/ThemisDB/ThemisDB/ROADMAP.md`.
+- Any status conflict must be resolved in favor of the roadmap checkbox state.
+- Current execution focus is gate closure, not kickoff:
+  - close open Phase 2/3/5 roadmap items with fresh evidence,
+  - close remaining Phase 6 governance/documentation sync items,
+  - re-verify Batch D D-1..D-10 on current `develop`,
+  - obtain mandatory human approval (Section 9) in `docs/governance/GA_PROMOTION_SIGN_OFF.md`.
+
+| Rebaseline Item | Status | Notes |
+|------|--------|-------|
+| Roadmap-first status governance | ✅ Active | `ROADMAP.md` is canonical |
+| Phase 2/3/5 gate closure | 🟡 In progress | Must be evidence-backed and reproducible |
+| Phase 6 root sync closure | 🟡 In progress | Root sync checkboxes still open |
+| Batch D technical re-verification | 🟡 Pending | D-1..D-10 require current-head confirmation |
+| Batch D human approval (D-11) | 🔴 Open | Promotion blocked until signed |
 
 ---
 
