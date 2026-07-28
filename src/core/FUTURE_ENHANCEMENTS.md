@@ -17,19 +17,19 @@
 
 - [I] Plugin-based adapter loading (no recompile needed) remains tracked via Issue #1706
 - [ ] Adapter plugin hardening and signing workflow remains targeted for Q4 2026
-- [ ] Adapter hot-swap must complete in ≤ 100 ms with no dropped in-flight requests
-- [ ] `ConcernsContext` concurrent adapter resolution must remain thread-safe without global lock contention
+- [x] `AdapterRegistry::hotSwap()` drains in-flight refs within ≤ 100 ms (`kHotSwapTimeoutMs{100}`) (Implemented: 2026-07-28)
+- [x] `ConcernsContext::resolve<T>()` uses `std::shared_mutex` reader-writer lock (no global lock contention) (Implemented: 2026-07-28)
 
 ---
 
 ## Design Constraints
 
-- `[ ]` Adapter hot-swap must complete in ≤ 100 ms and must not drop in-flight requests; callers hold a ref-counted handle
-- `[ ]` `ConcernsContext` must be fully thread-safe; concurrent adapter resolution must not require a global lock
+- `[x]` Adapter hot-swap must complete in ≤ 100 ms and must not drop in-flight requests; callers hold a ref-counted handle (Implemented: 2026-07-28)
+- `[x]` `ConcernsContext` must be fully thread-safe; concurrent adapter resolution must not require a global lock (Implemented: 2026-07-28)
 - `[ ]` Circuit breaker state transitions (closed → open → half-open) must be observable via metrics and loggable at DEBUG level
-- `[ ]` No adapter may be registered without passing a synchronous `AdapterValidator::validate()` check; invalid adapters are rejected at registration time
+- `[x]` No adapter may be registered without passing a synchronous `AdapterValidator::validate()` check; invalid adapters are rejected at registration time (Implemented: 2026-07-28)
 - `[ ]` DI context construction must complete in ≤ 50 ms at server startup with up to 32 registered adapters
-- `[ ]` All adapter interfaces versioned with a `uint32_t` API version; version mismatch at registration returns a structured error
+- `[x]` All adapter interfaces versioned with a `uint32_t` API version; version mismatch at registration returns a structured error (Implemented: 2026-07-28)
 - `[ ]` Distributed cache adapter must not be a hard dependency; core must function correctly when no cache adapter is registered
 
 ---

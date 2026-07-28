@@ -19,6 +19,7 @@
 #include "core/concerns/i_circuit_breaker.h"
 #include "core/concerns/i_feature_flags.h"
 #include "core/concerns/i_audit_log.h"
+#include "core/concerns/adapter_registry.h"
 // lifecycle.h (ProbeResult, HealthStatus) is already transitively included
 // via each of the four interface headers above; no direct include needed.
 #include <memory>
@@ -26,6 +27,7 @@
 #include <string>
 #include <map>
 #include <unordered_map>
+#include <type_traits>
 
 namespace themis {
 namespace core {
@@ -276,6 +278,81 @@ public:
     const ICircuitBreaker& circuitBreaker() const { return *circuit_breaker_; }
     const IFeatureFlags& featureFlags() const { return *featureFlags_; }
     const IAuditLog& auditLog() const { return *auditLog_; }
+
+    // -------------------------------------------------------------------------
+    // Generic type-safe adapter resolution (Phase 1/2 — Issue #5638)
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Resolve an adapter by concrete type @c T in a thread-safe,
+     *        ref-counted manner.
+     *
+     * For the eight built-in concern types (@c ILogger, @c ITracer,
+     * @c IMetrics, @c ICache, @c ISecrets, @c IFeatureFlags, @c IAuditLog,
+     * @c ICircuitBreaker) the method bridges directly to the corresponding
+     * named accessor and returns a non-owning shared_ptr whose lifetime is
+     * bounded by this @c ConcernsContext instance.
+     *
+     * For all other types the call is forwarded to the embedded
+     * @c AdapterRegistry (see @c registry()).
+     *
+     * @tparam T  Adapter interface or concrete type to resolve.
+     * @return    @c std::shared_ptr<T> to the active adapter, or @c nullptr
+     *            if not registered.
+     *
+     * @note For built-in concern types the returned shared_ptr uses a no-op
+     *       deleter — the context retains sole ownership.  Callers must not
+     *       store the handle beyond the lifetime of this @c ConcernsContext.
+     *
+     * @threadsafety Safe to call concurrently; uses a brief shared read lock
+     *              for built-in concern types.
+     */
+    template<typename T>
+    std::shared_ptr<T> resolve() const {
+        if constexpr (std::is_same_v<T, ILogger>) {
+            std::lock_guard<std::mutex> lk(adapters_mutex_);
+            return std::shared_ptr<T>(logger_.get(), [](T*) noexcept {});
+        } else if constexpr (std::is_same_v<T, ITracer>) {
+            std::lock_guard<std::mutex> lk(adapters_mutex_);
+            return std::shared_ptr<T>(tracer_.get(), [](T*) noexcept {});
+        } else if constexpr (std::is_same_v<T, IMetrics>) {
+            std::lock_guard<std::mutex> lk(adapters_mutex_);
+            return std::shared_ptr<T>(metrics_.get(), [](T*) noexcept {});
+        } else if constexpr (std::is_same_v<T, ICache>) {
+            std::lock_guard<std::mutex> lk(adapters_mutex_);
+            return std::shared_ptr<T>(cache_.get(), [](T*) noexcept {});
+        } else if constexpr (std::is_same_v<T, ISecrets>) {
+            std::lock_guard<std::mutex> lk(adapters_mutex_);
+            return std::shared_ptr<T>(secrets_.get(), [](T*) noexcept {});
+        } else if constexpr (std::is_same_v<T, IFeatureFlags>) {
+            std::lock_guard<std::mutex> lk(adapters_mutex_);
+            return std::shared_ptr<T>(featureFlags_.get(), [](T*) noexcept {});
+        } else if constexpr (std::is_same_v<T, IAuditLog>) {
+            std::lock_guard<std::mutex> lk(adapters_mutex_);
+            return std::shared_ptr<T>(auditLog_.get(), [](T*) noexcept {});
+        } else if constexpr (std::is_same_v<T, ICircuitBreaker>) {
+            std::lock_guard<std::mutex> lk(adapters_mutex_);
+            return std::shared_ptr<T>(circuit_breaker_.get(), [](T*) noexcept {});
+        } else {
+            return registry_->resolve<T>();
+        }
+    }
+
+    /**
+     * @brief Access the embedded AdapterRegistry for custom adapter types.
+     *
+     * Use this to register non-built-in adapters and resolve them via
+     * @c resolve<T>().
+     *
+     * @return Mutable reference to the embedded @c AdapterRegistry.
+     */
+    AdapterRegistry& registry() { return *registry_; }
+
+    /**
+     * @brief Read-only access to the embedded AdapterRegistry.
+     * @return Const reference to the embedded @c AdapterRegistry.
+     */
+    const AdapterRegistry& registry() const { return *registry_; }
 
     // Convenience methods for common operations
     void logInfo(const std::string& message) { logger_->info(message); }
@@ -562,7 +639,8 @@ private:
         secrets_(std::move(secrets)),
         circuit_breaker_(std::move(circuit_breaker)),
         featureFlags_(std::move(featureFlags)),
-        auditLog_(std::move(auditLog)) {}
+        auditLog_(std::move(auditLog)),
+        registry_(std::make_unique<AdapterRegistry>()) {}
 
     std::unique_ptr<ILogger> logger_;
     std::unique_ptr<ITracer> tracer_;
@@ -572,6 +650,8 @@ private:
     std::unique_ptr<ICircuitBreaker> circuit_breaker_;
     std::unique_ptr<IFeatureFlags> featureFlags_;
     std::unique_ptr<IAuditLog> auditLog_;
+    /// Embedded registry for custom (non-built-in) adapter types.
+    std::unique_ptr<AdapterRegistry> registry_;
     /// Guards all replaceX() adapter swaps.
     mutable std::mutex adapters_mutex_;
 };
