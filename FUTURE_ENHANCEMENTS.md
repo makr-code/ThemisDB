@@ -351,6 +351,7 @@
 - Batch B: sharding Phase 6 gate integration delivered; WAL/failover boundary evidence attachment in progress (partial).
 - Batch C: **CLOSED** — sanitizer evidence bundle (`docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md`: ASan/UBSan/TSan 0 new defects) and penetration-test evidence bundle (`security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`: 0 new Critical/High; PTR-01/PTR-02 accepted) delivered.
 - Batch D: **IN PROGRESS** — governance sign-off document created at `docs/governance/GA_PROMOTION_SIGN_OFF.md`; all technical gates PASS; awaiting human approval in Section 9 of that document before `develop` → `community` promotion and `v1.9.0` tag.
+- Execution contract is codified in `NEXT_PHASE_IMPLEMENTATION_PLAN.md` with central control thread, strict Phase 1→6 sequencing, subagent role matrix, and hard no-transition gate package (`build`/`test`/`benchmark`/`security`/`docs`).
 
 ### Test Strategy
 - Verify gate evidence on each batch boundary before moving to the next batch.

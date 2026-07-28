@@ -10,6 +10,8 @@
 
 - This tracker is subordinate to `/home/runner/work/ThemisDB/ThemisDB/ROADMAP.md`.
 - Any status conflict must be resolved in favor of the roadmap checkbox state.
+- Execution sequencing and transition gates are governed by `/home/runner/work/ThemisDB/ThemisDB/NEXT_PHASE_IMPLEMENTATION_PLAN.md` (Phase 1-6 Subagent Execution Contract, 2026-07-28).
+- Any older kickoff-era parallel scheduling notes in this tracker are historical context only and must not override active gate sequencing.
 - Current execution focus is gate closure, not kickoff:
   - close open Phase 2/3/5 roadmap items with fresh evidence,
   - close remaining Phase 6 governance/documentation sync items,
@@ -163,7 +165,7 @@ Start (2026-07-22)
   │         └─ PHASE 5-L Start: LLM exception safety (14 days)
   │             └─ Memory leak fixes (7 days, parallel)
   │
-  └─ [21 days] Parallel execution (all phases)
+  └─ [21 days] Historical kickoff parallelization snapshot (superseded by strict phase sequencing contract)
        │
        └─ [7 days] Integration + sign-off (Phase 3 + Phase 5)
             │

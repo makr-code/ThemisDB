@@ -27,13 +27,120 @@
 
 ---
 
+## Phase 1-6 Subagent Execution Contract (2026-07-28)
+
+### Branch and Promotion Guard
+
+- Default implementation target branch is `develop` (hotfix exception path per `BRANCHING_STRATEGY.md` §6.4 remains valid).
+- Promotion to `community` is blocked until the complete gate chain is PASS and human sign-off in `docs/governance/GA_PROMOTION_SIGN_OFF.md` Section 9 is complete.
+
+### Central Control Thread (mandatory before Phase 1)
+
+- Maintain one central execution board with:
+  - backlog items and owner subagent,
+  - live gate status (`build`, `test`, `benchmark`, `security`, `docs`),
+  - evidence links per completed gate,
+  - current risk register and mitigation owner.
+- Work proceeds strictly in sequence across Phase 1 → Phase 6.
+- Parallel work is allowed only **inside** the active phase.
+- Every phase closure must include:
+  - Definition of Done (DoD),
+  - explicit gate evidence,
+  - risk update,
+  - documentation/governance sync check.
+
+### Subagent Role Matrix
+
+| Subagent | Primary Responsibility | Required Output |
+|---|---|---|
+| `themisdb-implementer` | module implementation/fixes and test updates | merged change set + test/bench evidence |
+| `themisdb-reviewer` | findings-first regression/security/correctness review | review findings + release recommendation |
+| `gap-verifier` | validate scanner gaps and prioritize true positives | validated gap list with severity/order |
+| `themisdb-doc-orchestrator` | roadmap/governance/doc synchronization (L1-L4 + SOT) | synchronized docs + drift report |
+| `doc-orchestrator` (optional) | cross-module documentation cadence control | cadence report + unresolved doc blockers |
+
+### Phase Execution Blocks (entry, parallelization, exit)
+
+#### Phase 1 — Top-Risk Module Hardening (`server`, `llm`, `sharding`)
+- Entry:
+  - validated open critical gaps available from `gap-verifier`.
+- Parallelization:
+  - `themisdb-implementer` runs module workstreams in parallel (`server`/`llm`/`sharding`),
+  - `themisdb-reviewer` performs rolling findings-first review.
+- Exit:
+  - no new CRITICAL findings,
+  - no undocumented failure mode on release-critical paths,
+  - evidence linked on control board.
+
+#### Phase 2 — Performance/Scalability Readiness
+- Entry:
+  - Phase 1 exit criteria fully PASS.
+- Parallelization:
+  - optimization batches can run per subsystem (cache/pool/cost-model/load balancing),
+  - review lane stays independent and mandatory.
+- Exit:
+  - Wave-7 non-regression evidence PASS,
+  - repeatable load results and rollback path documented.
+
+#### Phase 3 — Integration & Resilience Proof
+- Entry:
+  - Phase 2 performance and rollback evidence complete.
+- Parallelization:
+  - `release_critical` stability, Wave5/6 retention, and Wave8/chaos lanes may run concurrently.
+- Exit:
+  - continuous green `release_critical` chain,
+  - resilience/recovery evidence complete and linked.
+
+#### Phase 4 — Security & Compliance Hardening
+- Entry:
+  - integration/resilience evidence from Phase 3 complete.
+- Parallelization:
+  - `gap-verifier` security validation and `themisdb-implementer` remediation batches run in lockstep.
+- Exit:
+  - no new CRITICAL security findings,
+  - sanitizer/pentest/residual-risk status consistent and documented.
+
+#### Phase 5 — Operational Production Readiness
+- Entry:
+  - Phase 4 security/compliance closure complete.
+- Parallelization:
+  - observability/auditability and backup/recovery/SLA proof streams may run in parallel.
+- Exit:
+  - 99.99% SLA evidence complete,
+  - runbook-backed operational readiness approved by reviewer lane.
+
+#### Phase 6 — Documentation, Governance, Release Approval
+- Entry:
+  - Phases 1-5 technical gates all PASS.
+- Parallelization:
+  - `themisdb-doc-orchestrator` drives canonical file synchronization,
+  - optional `doc-orchestrator` verifies cadence and unresolved drifts.
+- Exit:
+  - `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `RELEASE_STRATEGY.md`, `VERSIONING.md`, `CHANGELOG.md`, and branch governance docs are mutually consistent,
+  - human GA promotion sign-off complete.
+
+### Global Transition Rule (hard gate)
+
+- No phase transition is allowed without full gate package PASS:
+  - build,
+  - tests,
+  - benchmarks,
+  - security checks,
+  - documentation/governance checks.
+
+### Delivery Mode
+
+- Execution remains batch-oriented: larger, complete remediation blocks are preferred over micro-fix iterations.
+
+---
+
 ## Executive Summary
 
-The project transitions from **foundational completion** (Graph Phase 2.4 ✅, Distributed Tensor Phase 4 ✅) to **optimization and hardening** across three concurrent work streams:
+The project transitions from **foundational completion** (Graph Phase 2.4 ✅, Distributed Tensor Phase 4 ✅) to **optimization and hardening** across sequenced phases with in-phase parallelization:
 
 1. **Graph Module Phase 3** — Query optimization, cache efficiency, resource pooling (6 weeks)
 2. **Cross-Module Hardening** — Critical path fixes: server wire-protocol, LLM exception safety, sharding consistency (Phases 5-7)
-3. **AQL 2.0.0 Language Expansion** — DDL, Geospatial, FTS parser integration (18-23 weeks, parallel)
+3. **AQL 2.0.0 Language Expansion** — DDL, Geospatial, FTS parser integration (18-23 weeks, sequenced by gate readiness)
 
 **Immediate Focus:** Graph Phase 3 + Wave 7/8 benchmark verification + LLM/Server Phase 5 hardening (first 4 weeks)
 
@@ -104,7 +211,7 @@ The project transitions from **foundational completion** (Graph Phase 2.4 ✅, D
 
 ---
 
-### 🎯 **Phase 5: Server & LLM Hardening** (PARALLEL)
+### 🎯 **Phase 5: Server & LLM Hardening** (SEQUENCED PHASE; MODULE LANES MAY RUN IN PARALLEL)
 
 **Timeline:** 2026-07-22 to 2026-08-09 (3 weeks)  
 **Status:** ✅ Implemented (Block D complete; transition to GA sign-off evidence)  
@@ -127,7 +234,7 @@ The project transitions from **foundational completion** (Graph Phase 2.4 ✅, D
 
 ---
 
-### 🎯 **Phase 6: Sharding Consistency & Fault Injection** (PARALLEL)
+### 🎯 **Phase 6: Sharding Consistency & Fault Injection** (SEQUENCED PHASE)
 
 **Timeline:** 2026-07-22 (delivered ahead of schedule)  
 **Status:** ✅ Complete  
@@ -144,7 +251,7 @@ The project transitions from **foundational completion** (Graph Phase 2.4 ✅, D
 
 ---
 
-### 🎯 **AQL 2.0.0 Language Expansion** (PARALLEL, LONGER TIMELINE)
+### 🎯 **AQL 2.0.0 Language Expansion** (SEPARATE LANE; ADMITTED ONLY AFTER ACTIVE PHASE GATES PASS)
 
 **Timeline:** 2026-07-15 onwards  
 **Status:** 🟡 Phase 2 Complete, Phase 3 (Geospatial) Queued
