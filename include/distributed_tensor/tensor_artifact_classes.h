@@ -1,3 +1,11 @@
+/**
+ * @file tensor_artifact_classes.h
+ * @brief Core data classes for distributed tensor artifacts.
+ *
+ * Central type definitions shared by the artifact manifest, integrity
+ * verification, and recovery subsystems of the distributed tensor module.
+ */
+
 // Copyright 2026 ThemisDB Team
 // SPDX-License-Identifier: Apache-2.0
 

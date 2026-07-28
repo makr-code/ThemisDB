@@ -6,6 +6,14 @@
  * Copyright MIT License.
  */
 
+/**
+ * @file retry_executor.hpp
+ * @brief Retry executor with configurable back-off for adapter operations.
+ *
+ * Decorates an IDatabaseAdapter with retry semantics: exponential
+ * back-off, jitter, per-operation timeout, and error-classification.
+ */
+
 #pragma once
 
 #include "chimera/database_adapter.hpp"

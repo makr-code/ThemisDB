@@ -13,6 +13,14 @@ namespace themis::rag {
 /**
  * @brief Configuration for the explicit graph-truth validation stage.
  */
+
+/**
+ * @file graph_truth_validator.h
+ * @brief Ground-truth validator for RAG graph-retrieval results.
+ *
+ * Declares GraphTruthValidator, which compares RAG graph-retrieval
+ * outputs against annotated ground-truth sets to compute recall and precision.
+ */
 struct GraphTruthValidatorConfig {
     /// Maximum number of tensor summary candidates converted to graph evidence.
     std::size_t max_evidence_candidates = 8;

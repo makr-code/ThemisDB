@@ -1,6 +1,6 @@
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Status: current | validated: 2026-07-28 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · ../../src/document/FUTURE_ENHANCEMENTS.md -->
 
 # Document Module — Public Header Future Enhancements

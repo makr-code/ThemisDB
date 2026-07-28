@@ -1,3 +1,11 @@
+/**
+ * @file artifact_manifest.h
+ * @brief Artifact manifest for distributed tensor checkpoints.
+ *
+ * Defines the ArtifactManifest data model: shard descriptors, content
+ * hashes, placement hints, and format versioning for distributed tensor artifacts.
+ */
+
 // Copyright 2026 ThemisDB Team
 // SPDX-License-Identifier: Apache-2.0
 

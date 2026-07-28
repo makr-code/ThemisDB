@@ -1,3 +1,11 @@
+/**
+ * @file wikipedia_transform.cpp
+ * @brief Wikipedia transformation stage implementation.
+ *
+ * Implements WikipediaTransformer: wikitext parsing, section extraction,
+ * category mapping, and outbound link resolution.
+ */
+
 #include "importers/wikipedia_pipeline.hpp"
 
 #include "importers/wikipedia_transform.hpp"

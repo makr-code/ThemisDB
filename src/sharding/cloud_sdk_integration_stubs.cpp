@@ -1,3 +1,12 @@
+/**
+ * @file cloud_sdk_integration_stubs.cpp
+ * @brief Stub implementations for cloud-SDK sharding integrations.
+ *
+ * Provides no-op or simulation stubs for cloud-provider SDKs
+ * (AWS, GCP, Azure) so that the sharding module compiles and runs
+ * without a live cloud SDK in CI and offline environments.
+ */
+
 // Lightweight stubs for cloud SDK integration functions.
 // These provide linkable symbols when real cloud SDKs are not available
 // in the build environment (e.g., unit test / CI with minimal deps).

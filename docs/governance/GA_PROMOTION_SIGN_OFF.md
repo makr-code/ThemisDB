@@ -1,9 +1,10 @@
 # ThemisDB GA Promotion — Final Governance Sign-Off
 
 **Document Type:** GA Gate Closure — Final Governance and Promotion Sign-Off  
-**Scope:** v1.9.0-beta → v1.9.0 GA — Batch D  
+**Scope:** v2.4.0-rc1 → v2.4.0 GA — Batch D (Final)  
 **Date Opened:** 2026-07-20  
-**Status:** 🟡 PENDING HUMAN SIGN-OFF — All technical gates PASS; awaiting final human approval  
+**Last Updated:** 2026-07-28  
+**Status:** 🟡 PENDING HUMAN SIGN-OFF — evidence set consolidated, but current-head re-verification + remaining roadmap open items still required before promotion
 **Owner:** platform-release@themisdb  
 
 ---
@@ -11,7 +12,7 @@
 ## 1. Purpose
 
 This document is the single-entry governance record for the controlled promotion of ThemisDB
-`v1.9.0-beta` from the `develop` branch into the `community` release lane as `v1.9.0 GA`.
+`v2.4.0-rc1` from the `develop` branch into the `community` release lane as `v2.4.0 GA`.
 
 A human release approver must complete **Section 9** before any tag or release-lane merge is made.
 
@@ -57,21 +58,24 @@ before the human sign-off in Section 9 can be granted.
 
 | Gate | Requirement | Evidence | Status |
 |------|-------------|----------|--------|
-| D-1 | Operations/SLA runbook-linked suites in `release_critical` | Wave 9b (`w9b_sla_measurement_compliance`) + RUNBOOK_W8.md, RUNBOOK_W9.md | ✅ PASS |
-| D-2 | 99.99% SLA gate: RTO ≤ 5000 µs (GATE-W9-04) | `benchmarks/wave9/WAVE9_BENCHMARK_COVERAGE.md` SMC-04 | ✅ PASS |
-| D-3 | Chaos/fault-recovery gate: cluster rejoin ≤ 2000 µs (GATE-W9-03) | `benchmarks/wave9/WAVE9_BENCHMARK_COVERAGE.md` CFR-05 | ✅ PASS |
-| D-4 | Security overhead gate: auth p99 ≤ 150 µs (GATE-W9-02) | `benchmarks/wave9/WAVE9_BENCHMARK_COVERAGE.md` SOA-01 | ✅ PASS |
-| D-5 | Wave 5/6 regression suites retained | `tests/integration/WAVE5_TEST_COVERAGE.md`, `tests/integration/WAVE6_TEST_COVERAGE.md` | ✅ PASS |
-| D-6 | Top-risk modules: no new CRITICAL findings at GA cut | `src/server/MODULE_GAPS.md`, `src/llm/MODULE_GAPS.md`, `src/sharding/MODULE_GAPS.md` reviewed | ✅ PASS |
-| D-7 | Public API and failure-behaviour docs aligned with implementation | LLM module 100% Doxygen @file coverage; `docs/architecture/transaction_coordinators.md` | ✅ PASS |
-| D-8 | Release governance docs synchronized | This document + `ROADMAP.md` Batch C [x], Batch D sign-off pending | 🟡 PENDING |
-| D-9 | Human governance sign-off (Section 9 below) | Awaiting | 🔴 OPEN |
+| D-1 | Operations/SLA runbook-linked suites in `release_critical` | Wave 9b (`w9b_sla_measurement_compliance`) + RUNBOOK_W8.md, RUNBOOK_W9.md | 🟡 EVIDENCE PRESENT — re-verify on current `develop` |
+| D-2 | 99.99% SLA gate: RTO ≤ 5000 µs (GATE-W9-04) | `benchmarks/wave9/WAVE9_BENCHMARK_COVERAGE.md` SMC-04 | 🟡 EVIDENCE PRESENT — re-verify on current `develop` |
+| D-3 | Chaos/fault-recovery gate: cluster rejoin ≤ 2000 µs (GATE-W9-03) | `benchmarks/wave9/WAVE9_BENCHMARK_COVERAGE.md` CFR-05 | 🟡 EVIDENCE PRESENT — re-verify on current `develop` |
+| D-4 | Security overhead gate: auth p99 ≤ 150 µs (GATE-W9-02) | `benchmarks/wave9/WAVE9_BENCHMARK_COVERAGE.md` SOA-01 | 🟡 EVIDENCE PRESENT — re-verify on current `develop` |
+| D-5 | Wave 5/6 regression suites retained | `tests/integration/WAVE5_TEST_COVERAGE.md`, `tests/integration/WAVE6_TEST_COVERAGE.md` | 🟡 EVIDENCE PRESENT — re-verify on current `develop` |
+| D-6 | Top-risk modules: no new CRITICAL findings at GA cut | `src/server/MODULE_GAPS.md`, `src/llm/MODULE_GAPS.md`, `src/sharding/MODULE_GAPS.md` reviewed | 🟡 EVIDENCE PRESENT — re-verify on current `develop` |
+| D-7 | Public API and failure-behaviour docs aligned with implementation | LLM module 100% Doxygen @file coverage; `docs/architecture/transaction_coordinators.md` | 🟡 PARTIAL — evidence present; remaining roadmap Phase-6 checkboxes still open |
+| D-8 | Release governance docs synchronized | ROADMAP.md + CHANGELOG.md + FUTURE_ENHANCEMENTS.md + VERSIONING.md all v2.4.0-rc1 | 🟡 IN PROGRESS — root synchronization remains open in roadmap |
+| D-9 | Doxygen 100% public API coverage audit complete | `docs/DOXYGEN_COVERAGE_REPORT.md` (99.8% headers, >72% overall coverage) | 🟡 EVIDENCE PRESENT — final promotion checklist still open |
+| D-10 | Research backbone Soll-Ist matrix complete | `research/implementation_influence/by_module.md` (6 modules, 21 aspects) | 🟡 PARTIAL — baseline complete; recurring root Soll-Ist closure still open in roadmap |
+| D-11 | Human governance sign-off (Section 9 below) | Awaiting | 🔴 OPEN |
 
 ---
 
 ## 3. Promotion Checklist
 
-The release engineer must verify each item immediately before creating the GA tag:
+The release engineer must verify each item immediately before creating the GA tag.
+Until every checkbox below is marked `[x]`, promotion remains blocked (`NO-GO`):
 
 - [ ] `develop` HEAD passes the full `release_critical` CTest suite (no failures)
 - [ ] Wave 7 hard gates (GATE-W7-01..06) confirmed PASS on current HEAD
@@ -80,11 +84,14 @@ The release engineer must verify each item immediately before creating the GA ta
 - [ ] `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md` reviewed and accepted by Security Lead
 - [ ] `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md` reviewed and accepted by Security Lead
 - [ ] No new CRITICAL findings in `server`, `llm`, or `sharding` module gap registers
-- [ ] `CHANGELOG.md` `[Unreleased]` section moved to `[1.9.0]` entry
-- [ ] `VERSIONING.md` version table updated to reflect `v1.9.0 GA` stable status
+- [ ] `CHANGELOG.md` `[Unreleased]` section moved to `[2.4.0]` entry
+- [ ] `VERSIONING.md` version table updated to reflect `v2.4.0 GA` stable status
+- [ ] `ROADMAP.md` updated with all Phase 0-6 completion markers
+- [ ] `research/implementation_influence/by_module.md` Soll-Ist matrix verified (6 modules)
+- [ ] `docs/DOXYGEN_COVERAGE_REPORT.md` confirms >99% header file documentation
 - [ ] Branch `develop` → `community` merge reviewed and approved
-- [ ] Tag `v1.9.0` created on the approved `community` merge commit
-- [ ] Release artefact (binary/package) built from the `v1.9.0` tag, not from `develop` HEAD
+- [ ] Tag `v2.4.0` created on the approved `community` merge commit
+- [ ] Release artefact (binary/package) built from the `v2.4.0` tag, not from `develop` HEAD
 
 ---
 
@@ -104,9 +111,11 @@ The following items have been explicitly deferred from the v1.9.0 GA scope with 
 ## 5. Release Target and Branch Flow
 
 ```
-develop  ──(gate evidence complete)──►  community  ──(tag v1.9.0)──►  release
+develop  ──(gate evidence complete)──►  community  ──(tag v2.4.0)──►  release
                                             │
-                                        CHANGELOG [Unreleased] → [1.9.0]
+                                    CHANGELOG [Unreleased] → [2.4.0]
+                                    VERSION file → 2.4.0
+                                    RELEASE_TYPE → stable
 ```
 
 Per `BRANCHING_STRATEGY.md`:
@@ -165,7 +174,7 @@ If a post-tag regression is discovered within the controlled promotion window:
 > AI agents may not approve GA promotion on behalf of a human.
 
 ```
-GA Promotion Approval for: ThemisDB v1.9.0 GA
+GA Promotion Approval for: ThemisDB v2.4.0 GA
 Based on: this document (docs/governance/GA_PROMOTION_SIGN_OFF.md)
 Effective date: ________________________________
 
@@ -180,11 +189,11 @@ Notes / conditions:
 ____________________________________________________________
 ____________________________________________________________
 
-APPROVED:  [ ] YES — proceed with develop → community merge and v1.9.0 tag
+APPROVED:  [ ] YES — proceed with develop → community merge and v2.4.0 tag
            [ ] NO  — open items: ______________________________
 ```
 
 ---
 
-_Document last updated: 2026-07-20 by platform-release (AI-assisted GA evidence closure, Batch C/D)._  
+_Document last updated: 2026-07-28 by Phase 6 (AI-assisted GA evidence closure + Phase 6 docs sync)._  
 _Human sign-off in Section 9 is required before any promotion action._

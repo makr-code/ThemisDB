@@ -6,6 +6,14 @@
  * Copyright MIT License.
  */
 
+/**
+ * @file qdrant_adapter.hpp
+ * @brief Qdrant vector-store backend adapter for the Chimera abstraction layer.
+ *
+ * Implements IDatabaseAdapter against a Qdrant instance, forwarding
+ * vector upsert, search, and collection-management operations.
+ */
+
 #pragma once
 
 #include "chimera/database_adapter.hpp"

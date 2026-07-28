@@ -1,3 +1,11 @@
+/**
+ * @file consumer_group.cpp
+ * @brief CDC consumer group coordination implementation.
+ *
+ * Manages a group of change-data-capture consumers: partition assignment,
+ * offset tracking, rebalancing, and dead-consumer detection.
+ */
+
 /*
  * ThemisDB | File: consumer_group.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
  * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 610

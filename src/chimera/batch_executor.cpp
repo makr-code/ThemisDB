@@ -6,6 +6,14 @@
  * Copyright MIT License.
  */
 
+/**
+ * @file batch_executor.cpp
+ * @brief Batch executor implementation for the Chimera multi-backend adapter.
+ *
+ * Implements BatchExecutor: flush strategies (size-based, time-based),
+ * error accumulation, and back-pressure signalling.
+ */
+
 #include "chimera/batch_executor.hpp"
 
 namespace chimera {

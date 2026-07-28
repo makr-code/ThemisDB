@@ -49,7 +49,7 @@ Production-capable sharding runtime exists for routing/placement, distributed co
 - [ ] Phase C pre-requisite: consensus coordination robustness (170 gaps → 51) (Target: Q4 2026)
 - [~] Phase C ctest gate: `test_sharding_multishard_exact` under shard failure injection (implemented; environment validation pending) (Target: Q4 2026)
 - [~] Phase C benchmark gate: `bench_multishard_exact` (implemented; environment validation pending) (Target: Q4 2026)
-- [ ] Phase C observability: `sharding_cross_shard_requests_total` Prometheus metric wired (Target: Q4 2026)
+- [x] Phase C observability: `sharding_cross_shard_requests_total` Prometheus metric wired (Target: Q4 2026)
 
 ### Short-term (3-6 months)
 - [ ] tighten deterministic behavior under sustained shard migration and skewed load (Target: Q4 2026)

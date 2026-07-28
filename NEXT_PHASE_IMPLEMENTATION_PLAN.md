@@ -1,9 +1,29 @@
 # ThemisDB Next Phase Implementation Plan
 
 **Document:** Implementation roadmap and work-stream coordination  
-**Status:** 🚀 ACTIVE KICKOFF  
-**Last Updated:** 2026-07-18  
-**Target Completion:** 2026-08-19 (Phase 3), Q4 2026 (Production Release)
+**Status:** 🟡 ACTIVE — GATE-DRIVEN REBASELINE
+**Last Updated:** 2026-07-28
+**Target Completion:** Re-baselined to roadmap-driven GA closure gates (Phase 2/3/5/6 + Batch D)
+
+---
+
+## Source-of-Truth Rebaseline (2026-07-28)
+
+- `ROADMAP.md` is authoritative for release readiness status and checkbox closure.
+- This plan is now an execution companion only; if any statement conflicts with `ROADMAP.md`, treat the roadmap as canonical.
+- Promotion remains blocked until:
+  - open Phase 2/3/5 tasks in `ROADMAP.md` are closed with fresh evidence,
+  - open Phase 6 governance/documentation checkboxes are closed,
+  - Batch D promotion checklist is complete,
+  - human sign-off in `docs/governance/GA_PROMOTION_SIGN_OFF.md` Section 9 is completed.
+
+### Current Open Scope (rebased to roadmap gates)
+
+1. Phase 2: Graph/query optimisation closure under measurable latency/cache/pool/Wave-7 non-regression gates.
+2. Phase 3: Release-critical + Wave 5/6 retention + Wave 8/chaos evidence re-confirmed on current `develop`.
+3. Phase 5: Operational readiness closure (observability, backup/recovery proof, SLA evidence, runbook/manual checklist closure).
+4. Phase 6: Root governance/documentation synchronization closure across canonical root files.
+5. Batch D: D-1..D-10 evidence re-verified on current `develop`, then D-11 human approval.
 
 ---
 

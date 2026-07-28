@@ -33,7 +33,7 @@ B (local tensor + ANN), C (distributed coordination), D (optional GPU).
 - [ ] implement phase-3 runtime error handling and degraded-mode semantics (Target: Q4 2026)
 - [ ] deliver phase-4 contract and scenario test coverage (Target: Q4 2026)
 - [ ] establish phase-5 benchmark and hardening baselines (Target: Q4 2026)
-- [ ] Phase A gate: single-shard exact retrieval verified end-to-end (Target: Q3 2026)
+- [x] Phase A gate: single-shard exact retrieval verified end-to-end (Target: Q3 2026)
 - [ ] Phase B gate: ANN + CPU parity tests passing for Category A kernels (Target: Q3 2026)
 - [ ] Phase C gate: multi-shard exact routing verified under shard failure injection (Target: Q4 2026)
 
@@ -82,7 +82,7 @@ B (local tensor + ANN), C (distributed coordination), D (optional GPU).
 
 ### Phase 2: Core Implementation
 - [ ] skeleton translation units to be added with the implementation PR
-- [ ] Phase A: single-shard exact retrieval wired (graph + query + index CPU fallback) (Target: Q3 2026)
+- [x] Phase A: single-shard exact retrieval wired (graph + query + index CPU fallback) (Target: Q3 2026)
 - [ ] Phase B: ANN + CPU validation layer wired with advisory-only acceleration (Target: Q3 2026)
 
 ### Phase 3: Error Handling and Edge Cases
@@ -92,7 +92,7 @@ B (local tensor + ANN), C (distributed coordination), D (optional GPU).
 
 ### Phase 4: Tests
 - [ ] contract and integration tests implemented in `tests/epic1_retrieval/`
-- [ ] `test_ann_frontdoor_single_shard` — Phase A gate (Target: Q3 2026)
+- [x] `test_ann_frontdoor_single_shard` — Phase A gate (Target: Q3 2026)
 - [~] `test_ann_cpu_parity` — Phase B gate (implemented; environment validation pending) (Target: Q3 2026)
 - [~] `test_sharding_multishard_exact` — Phase C gate (implemented; environment validation pending) (Target: Q4 2026)
 

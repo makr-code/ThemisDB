@@ -12,6 +12,14 @@ using json = nlohmann::json;
 /**
  * @brief Embedding hook configuration used by the vector projection.
  */
+
+/**
+ * @file wikipedia_config.hpp
+ * @brief Configuration types for the Wikipedia import plugin.
+ *
+ * Declares WikipediaConfig and related options controlling parser behaviour,
+ * batch sizes, language filtering, and category inclusion rules.
+ */
 struct WikipediaEmbeddingHookConfig {
     bool enabled = false;
     std::string provider;

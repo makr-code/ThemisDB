@@ -1,3 +1,11 @@
+/**
+ * @file persistent_tensor_fingerprint_graph.cpp
+ * @brief Persistent tensor fingerprint graph implementation.
+ *
+ * Implements fingerprint insertion, lookup, and RocksDB-backed
+ * persistence for the tensor deduplication graph.
+ */
+
 #include "tensor/persistent_tensor_fingerprint_graph.h"
 
 #include <algorithm>

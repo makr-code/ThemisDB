@@ -1,3 +1,11 @@
+/**
+ * @file tensor_mid_layer.cpp
+ * @brief Tensor mid-layer orchestrator implementation.
+ *
+ * Implements stage sequencing, error propagation, and telemetry
+ * emission for the tensor mid-layer pipeline.
+ */
+
 #include "tensor/tensor_mid_layer.h"
 
 #include <algorithm>

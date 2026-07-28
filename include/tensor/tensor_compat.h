@@ -1,3 +1,11 @@
+/**
+ * @file tensor_compat.h
+ * @brief Compatibility aliases for legacy tensor type names.
+ *
+ * Provides lightweight wrapper types and aliases so that tests and
+ * tool code using older ThemisDB tensor type names continue to compile.
+ */
+
 // Compatibility aliases and lightweight wrappers for legacy test/type names
 #pragma once
 

@@ -1,3 +1,11 @@
+/**
+ * @file reason_codes.h
+ * @brief Enumeration of structured reason codes for observability events.
+ *
+ * Centralises the machine-readable reason codes emitted alongside
+ * observability events so that downstream analytics can aggregate them.
+ */
+
 #pragma once
 
 #include <string_view>

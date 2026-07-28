@@ -6,6 +6,14 @@
  * Copyright MIT License.
  */
 
+/**
+ * @file retry_executor.cpp
+ * @brief Retry executor implementation.
+ *
+ * Implements RetryExecutor wrapping any IDatabaseAdapter with
+ * configurable retry policies and circuit-breaker integration.
+ */
+
 #include "chimera/retry_executor.hpp"
 
 #include <cmath>

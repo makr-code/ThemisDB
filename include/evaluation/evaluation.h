@@ -1,3 +1,11 @@
+/**
+ * @file evaluation.h
+ * @brief Umbrella include for the ThemisDB evaluation and benchmarking module.
+ *
+ * Stable public entry-point for the evaluation module.  Include this header
+ * to access the benchmark matrix, metric collectors, and scoring primitives.
+ */
+
 // ThemisDB — EPIC 2 Evaluation & Benchmarking
 // Canonical umbrella header: include/evaluation/evaluation.h
 //

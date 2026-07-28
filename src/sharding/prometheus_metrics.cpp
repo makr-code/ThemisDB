@@ -186,6 +186,17 @@ void PrometheusMetrics::recordGossipMessagesReceived() {
 
 // ====================================================================================
 
+void PrometheusMetrics::recordCrossShardRequest(
+    const std::string& shard_id,
+    const std::string& operation,
+    const std::string& outcome)
+{
+    incrementCounter("sharding_cross_shard_requests_total",
+                     {{"shard_id", shard_id},
+                      {"operation", operation},
+                      {"outcome",   outcome}});
+}
+
 void PrometheusMetrics::recordCrossShardJoin(const std::string& strategy) {
     incrementCounter("themis_cross_shard_joins_total", {{"strategy", strategy}});
 }

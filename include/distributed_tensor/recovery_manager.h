@@ -1,3 +1,11 @@
+/**
+ * @file recovery_manager.h
+ * @brief Recovery manager for failed or incomplete distributed tensor operations.
+ *
+ * Coordinates checkpoint replication, partial-failure detection, and
+ * re-execution of failed tensor shards within the distributed training pipeline.
+ */
+
 // Copyright 2026 ThemisDB Team
 // SPDX-License-Identifier: Apache-2.0
 

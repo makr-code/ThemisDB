@@ -1,3 +1,11 @@
+/**
+ * @file wikipedia_plugin.hpp
+ * @brief Plugin entry-point for the Wikipedia importer.
+ *
+ * Declares WikipediaPlugin that fulfils the ThemisDB IImportPlugin
+ * interface, making the Wikipedia importer loadable at runtime.
+ */
+
 #pragma once
 
 #include "importers/importer_plugin_api.h"
