@@ -150,6 +150,8 @@ enum class ErrorCode {
     ERR_PLUGIN_OCI_HASH_MISMATCH = 6309,     // Downloaded plugin blob digest does not match manifest
     ERR_PLUGIN_OCI_INVALID_REFERENCE = 6310, // Malformed OCI image reference string
     ERR_PLUGIN_CAPABILITY_ESCALATION = 6311, // Plugin attempted to escalate capabilities beyond manifest declaration
+    ERR_PLUGIN_EDITION_CEILING_EXCEEDED = 6312, // Policy plugin claim exceeds compile-time edition ceiling
+    ERR_PLUGIN_LICENSE_CLAIM_REJECTED   = 6313, // Policy plugin license claim rejected by RuntimeLicenseGate
 
     // Graph Errors (6400-6499)
     ERR_GRAPH_NO_SUCH_VERTEX = 6400,    // Referenced vertex does not exist in the graph

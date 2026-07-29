@@ -72,6 +72,7 @@ namespace plugins {
  * - LLM_BACKEND      -> llm::ILLMPlugin (v1.5.0+)
  * - AUDIO_PROCESSING -> whisper::WhisperPlugin (v2.0.0+)
  * - IMAGE_GENERATION -> stable_diffusion::SDPlugin (v2.0.0+)
+ * - RESOURCE_LIMIT_POLICY -> plugins::IEditionPolicyPlugin (v2.2.0+)
  */
 enum class PluginType {
     COMPUTE_BACKEND,   // Vector/Graph/Geo acceleration (existing)
@@ -85,6 +86,7 @@ enum class PluginType {
     IMAGE_GENERATION,  // Image generation (stable-diffusion.cpp, etc.) - v2.0.0
     AGENTIC_TOOL,      // Agentic tool plugins loaded by ToolRegistry (JSON in/out) - v2.1.0
     INGESTION_STEP,    // Ingestion workflow step plugins (IIngestionStep) - v2.0.0
+    RESOURCE_LIMIT_POLICY, // Signed edition-upgrade: provides IVRAMPolicy or IShardLimitPolicy — v2.2.0
     CUSTOM             // Custom plugins
 };
 
@@ -97,6 +99,8 @@ struct PluginCapabilities {
     bool supports_transactions = false;
     bool thread_safe = false;
     bool gpu_accelerated = false;
+    bool provides_vram_policy  = false;  ///< Supplies an IVRAMPolicy for EditionManager (v2.2.0+)
+    bool provides_shard_policy = false;  ///< Supplies an IShardLimitPolicy for EditionManager (v2.2.0+)
 };
 
 /**
@@ -331,7 +335,8 @@ public:
      * @brief Check whether a named capability is enabled.
      *
      * Recognised names: "streaming", "batching", "transactions",
-     *                   "thread_safe", "gpu_accelerated".
+     *                   "thread_safe", "gpu_accelerated",
+     *                   "provides_vram_policy", "provides_shard_policy".
      * Unknown names always return false.
      *
      * @param name Capability name.
@@ -341,11 +346,13 @@ public:
     static bool checkCapability(const std::string& name,
                                 const PluginCapabilities& caps)
     {
-        if (name == "streaming")       return caps.supports_streaming;
-        if (name == "batching")        return caps.supports_batching;
-        if (name == "transactions")    return caps.supports_transactions;
-        if (name == "thread_safe")     return caps.thread_safe;
-        if (name == "gpu_accelerated") return caps.gpu_accelerated;
+        if (name == "streaming")            return caps.supports_streaming;
+        if (name == "batching")             return caps.supports_batching;
+        if (name == "transactions")         return caps.supports_transactions;
+        if (name == "thread_safe")          return caps.thread_safe;
+        if (name == "gpu_accelerated")      return caps.gpu_accelerated;
+        if (name == "provides_vram_policy") return caps.provides_vram_policy;
+        if (name == "provides_shard_policy") return caps.provides_shard_policy;
         return false;
     }
 

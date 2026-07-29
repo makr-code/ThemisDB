@@ -51,7 +51,10 @@
 
 #include "themis/edition.h"
 #include "themis/export.h"
+#include "themis/gpu/ivram_policy.h"
+#include "themis/sharding/ishard_limit_policy.h"
 
+#include <memory>
 #include <mutex>
 #include <optional>
 #include <string>
@@ -181,6 +184,58 @@ public:
     std::string getUpgradeMessage(std::string_view feature_name) const;
 
     // -------------------------------------------------------------------------
+    // Runtime resource-limit policies (signed edition-upgrade plugins)
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Install a signed VRAM policy supplied by an edition-upgrade plugin.
+     *
+     * The policy is accepted only when @p claimed_max_vram_gb does not exceed
+     * the compile-time ceiling (@c GPU_MAX_VRAM_GB), or the ceiling is -1
+     * (Hyperscaler — unlimited).  A rejected install is logged and returns @c false;
+     * the binary retains its compile-time default.
+     *
+     * Thread-safe.
+     *
+     * @param policy              The IVRAMPolicy implementation provided by the plugin.
+     * @param claimed_max_vram_gb Maximum VRAM (GiB) the policy declares it allows.
+     *                            Must be <= GPU_MAX_VRAM_GB compile-time ceiling, or -1.
+     * @return true   Policy accepted and installed.
+     * @return false  Policy rejected — ceiling exceeded.
+     */
+    bool installVRAMPolicy(std::shared_ptr<gpu::IVRAMPolicy> policy,
+                           int claimed_max_vram_gb);
+
+    /**
+     * @brief Install a signed shard-limit policy supplied by an edition-upgrade plugin.
+     *
+     * Enforces the compile-time ceiling @c SHARDING_MAX_NODES (Defense in Depth).
+     * A rejected install is logged; the binary retains its default node limit.
+     *
+     * Thread-safe.
+     *
+     * @param policy            The IShardLimitPolicy implementation provided by the plugin.
+     * @param claimed_max_nodes Maximum shard-node count the policy declares it allows.
+     *                          Must be <= SHARDING_MAX_NODES compile-time ceiling, or -1.
+     * @return true   Policy accepted and installed.
+     * @return false  Policy rejected — ceiling exceeded.
+     */
+    bool installShardPolicy(std::shared_ptr<sharding::IShardLimitPolicy> policy,
+                            int claimed_max_nodes);
+
+    /**
+     * @brief Remove any previously installed VRAM policy (reverts to compile-time default).
+     * Thread-safe.
+     */
+    void clearVRAMPolicy();
+
+    /**
+     * @brief Remove any previously installed shard-limit policy (reverts to compile-time default).
+     * Thread-safe.
+     */
+    void clearShardPolicy();
+
+    // -------------------------------------------------------------------------
     // Dynamic feature-flag overrides
     // -------------------------------------------------------------------------
 
@@ -251,8 +306,17 @@ private:
     EditionManager()  = default;
     ~EditionManager() = default;
 
-    mutable std::mutex                       overrides_mutex_;
-    std::unordered_map<std::string, bool>    overrides_;
+    mutable std::mutex                                  overrides_mutex_;
+    std::unordered_map<std::string, bool>               overrides_;
+
+    // Resource-limit policy state (protected by policy_mutex_)
+    mutable std::mutex                                  policy_mutex_;
+    std::shared_ptr<gpu::IVRAMPolicy>                   vram_policy_;
+    std::shared_ptr<sharding::IShardLimitPolicy>        shard_policy_;
+    /// Effective VRAM limit (GiB) from the installed plugin; -2 = no plugin installed.
+    int effective_vram_gb_{ -2 };
+    /// Effective max shard nodes from the installed plugin; -2 = no plugin installed.
+    int effective_shard_nodes_{ -2 };
 };
 
 } // namespace edition
