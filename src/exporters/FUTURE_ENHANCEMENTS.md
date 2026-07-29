@@ -33,6 +33,12 @@
 - expand resilience tests for sustained high-volume mixed-format exports.
 - broaden benchmark depth for advanced join/template/upload workflows.
 
+### 2026-07-29 hardening delivery snapshot
+- Filter-parity was extended to incremental and join exporters using `ExportOptions::filter_expression` (merged-record evaluation for join paths).
+- Incremental watermark progression now blocks updates on partial scans (size/error stop) to keep delta semantics fail-safe under non-monotonic input order.
+- Join export now fails closed when right-side state was not initialized via `setRightCollection()`.
+- Streaming encryption path now enforces deterministic precedence (`encryption_config` over legacy `encryption`) to avoid ambiguous/double-encryption behavior.
+
 ## Test Strategy
 
 - unit and integration suites for format, stream, incremental, join, and upload paths.

@@ -22,6 +22,13 @@ environment by a missing RocksDB dependency during configure.
 - [~] benchmark stabilization for export throughput and delta/stream hot paths (Target: Q3 2026)
 - [~] diagnostics consistency improvements for policy denial and export failure classes (Target: Q3 2026)
 
+### Wave 3B hardening batch (2026-07-29)
+- [x] Incremental exporter now applies `ExportOptions::filter_expression` parity with streaming/jsonl flows (`src/exporters/incremental_exporter.cpp`; `tests/exporters/test_incremental_exporter.cpp`).
+- [x] Incremental watermark update is now fail-safe on partial scans (size/error stop) to prevent sequence-skip drift (`src/exporters/incremental_exporter.cpp`; `tests/exporters/test_incremental_exporter.cpp`).
+- [x] Join exporter now fails closed when `setRightCollection()` was not called before `exportEntities()` (`src/exporters/join_exporter.cpp`; `include/exporters/join_exporter.h`; `tests/exporters/test_join_exporter.cpp`).
+- [x] Join exporter now applies additional `ExportOptions::filter_expression` parity on merged records (`src/exporters/join_exporter.cpp`; `tests/exporters/test_join_exporter.cpp`).
+- [x] Streaming exporter encryption path is now deterministic: `encryption_config` takes precedence and legacy + v2 double-encryption ambiguity is removed (`src/exporters/streaming_exporter.cpp`).
+
 ## Planned Features
 
 ### Short-term (3-6 months)
