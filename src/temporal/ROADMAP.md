@@ -29,8 +29,8 @@ Production-capable temporal runtime exists for temporal/bitemporal querying, sys
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [ ] freeze temporal query/version contracts for current major line (Target: Q3 2026)
-- [ ] define explicit error taxonomy for temporal lifecycle incident classes (Target: Q3 2026)
+- [x] freeze temporal query/version contracts for current major line (Completed 2026-07-29)
+- [x] define explicit error taxonomy for temporal lifecycle incident classes (Completed 2026-07-29)
 
 ### Phase 2: Core Implementation
 - [ ] complete hardening for bitemporal/query and lifecycle internals (Target: Q4 2026)
@@ -41,22 +41,26 @@ Production-capable temporal runtime exists for temporal/bitemporal querying, sys
 - [ ] unify diagnostics across query, lifecycle, and CDC incident classes (Target: Q4 2026)
 
 ### Phase 4: Tests
-- [ ] expand focused regressions for temporal query, snapshot, and retention edge scenarios (Target: Q4 2026)
-- [ ] extend deterministic stress fixtures for concurrent temporal workloads (Target: Q4 2026)
+- [x] expand focused regressions for temporal query, snapshot, and retention edge scenarios (Completed 2026-07-29 — test_temporal_contract_hardening_focused.cpp, TCH-01..TCH-16)
+- [x] extend deterministic stress fixtures for concurrent temporal workloads (Completed 2026-07-29)
 
 ### Phase 5: Performance and Hardening
-- [ ] lock benchmark-backed release gates for temporal hot paths (Target: Q4 2026)
+- [x] lock benchmark-backed release gates for temporal hot paths (Completed 2026-07-29 — bench_temporal_release_gates.cpp, TRG-01..TRG-06)
 - [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core temporal module docs aligned to source-verifiable behavior
 - [x] roadmap/future planning separated from historical changelog entries
+- [x] temporal_api_contract.h frozen contract header published (Completed 2026-07-29)
 
 ## Production Readiness Checklist
 
 - [x] core temporal surfaces documented and source-verified
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
+- [x] temporal_api_contract.h frozen contract header (Phase 1 closure, 2026-07-29)
+- [x] test_temporal_contract_hardening_focused.cpp — TCH-01..TCH-16 (Phase 4 closure, 2026-07-29)
+- [x] bench_temporal_release_gates.cpp — TRG-01..TRG-06 gate benchmarks (Phase 5 closure, 2026-07-29)
 - [ ] remaining hardening tasks closed for temporal lifecycle edge paths
 - [ ] release benchmark stabilization complete
 

@@ -96,6 +96,13 @@ struct DiscourseOrchestratorPlan {
     /// Populated only when mode == LAYERED_FULL.
     std::map<std::string, std::vector<std::string>> cluster_map;
 
+    /// Structural tension axes activated for this plan (LAYERED_FULL only).
+    /// These are the canonical 4 axes from the LDM design spec:
+    ///   "Kant↔Utilitarismus", "Würde-cluster↔Aggregation-cluster",
+    ///   "Individualismus↔Kollektivismus", "Positivrecht↔Naturrecht"
+    /// @since LDM-1
+    std::vector<std::string> tension_axes;
+
     /// True when the plan is empty because zero schools survived filtering.
     bool empty() const noexcept { return ebene1_school_ids.empty(); }
 };

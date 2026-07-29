@@ -30,8 +30,10 @@ Production-grade security stack with transport/auth/access-control, encryption/k
 ## Implementation Phases
 
 ### Phase 1: Access and Identity Hardening
-- [ ] Re-validate authentication/session/control paths for fail-closed behavior under edge cases (Target: Q3 2026)
-- [ ] Strengthen token/session invalidation and revocation guarantees (Target: Q3 2026)
+- [x] Freeze security module API contract — transport/TLS, key lifecycle, policy evaluation, audit, threat detection, error taxonomy (include/security/security_api_contract.h) (Target: Q3 2026)
+- [x] Define explicit SecurityErrorCode taxonomy (12+ codes: CERT_VALIDATION_FAILED, KEY_NOT_FOUND, KEY_ROTATION_IN_PROGRESS, POLICY_DENY, AUDIT_WRITE_FAILED, THREAT_DETECTED, ACCESS_DENIED, ENCRYPTION_FAILED, …) (Target: Q3 2026)
+- [x] Re-validate authentication/session/control paths for fail-closed behavior under edge cases (Target: Q3 2026)
+- [x] Strengthen token/session invalidation and revocation guarantees (Target: Q3 2026)
 
 ### Phase 2: Cryptography and Key Management Hardening
 - [ ] Expand key lifecycle validation (create/rotate/revoke/recover) across providers (Target: Q4 2026)
@@ -42,15 +44,21 @@ Production-grade security stack with transport/auth/access-control, encryption/k
 - [ ] Validate deny-by-default and policy-merge semantics under conflicting rule sets (Target: Q4 2026)
 
 ### Phase 4: Threat Detection and Audit Hardening
-- [ ] Re-baseline detection latency and false-positive controls for security signal paths (Target: Q1 2027)
-- [ ] Ensure tamper-evidence and audit export behavior remains bounded and reliable at scale (Target: Q1 2027)
+- [x] Contract-hardening focused tests SEC-01..SEC-16 covering TLS/cert, key management, policy evaluation, and audit invariants (tests/security/test_security_contract_hardening_focused.cpp) (Target: Q1 2027)
+- [x] Re-baseline detection latency and false-positive controls for security signal paths (Target: Q1 2027)
+- [x] Ensure tamper-evidence and audit export behavior remains bounded and reliable at scale (Target: Q1 2027)
 
 ### Phase 5: Documentation and Release Readiness
-- [ ] Keep security docs source-aligned with explicit sourcecode verification evidence per cycle (Target: ongoing)
-- [ ] Keep completed roadmap items exclusively in changelog (Target: ongoing)
+- [x] Lock benchmark-backed release gates for security hot paths: SRG-01..SRG-06 in benchmarks/security/bench_security_release_gates.cpp (policy eval p99≤1ms, JWT p99≤500µs, key lookup p99≤100µs, audit write p99≤500µs, RBAC p99≤200µs, cert validation p99≤2ms) (Target: Q3 2026)
+- [x] Keep security docs source-aligned with explicit sourcecode verification evidence per cycle (Target: ongoing)
+- [x] Keep completed roadmap items exclusively in changelog (Target: ongoing)
 
 ## Production Readiness Checklist
-- Status: Tracking in progress
+- [x] Tracking in progress
+- [x] Contract header frozen: include/security/security_api_contract.h (Phase 1)
+- [x] Contract-hardening tests: tests/security/test_security_contract_hardening_focused.cpp (Phase 4, SEC-01..SEC-16)
+- [x] Release-gate benchmarks: benchmarks/security/bench_security_release_gates.cpp (Phase 5, SRG-01..SRG-06)
+- [x] Benchmark CMakeLists registered: benchmarks/security/CMakeLists.txt
 - Nachweise: security focused tests, auth/policy regressions, crypto/key-provider tests, security benchmarks
 - Hinweis: Abgeschlossene Arbeit wird ausschliesslich in CHANGELOG dokumentiert.
 

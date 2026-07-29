@@ -29,8 +29,8 @@ Production-capable project-domain runtime exists for lifecycle transitions, snap
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [ ] freeze lifecycle/versioning/diff/collaboration contract boundaries for current major line (Target: Q3 2026)
-- [ ] define explicit error taxonomy for project-domain failure classes (Target: Q3 2026)
+- [x] freeze lifecycle/versioning/diff/collaboration contract boundaries for current major line (Target: Q3 2026)
+- [x] define explicit error taxonomy for project-domain failure classes (Target: Q3 2026)
 
 ### Phase 2: Core Implementation
 - [ ] complete hardening for lifecycle/versioning internals and restore guards (Target: Q4 2026)
@@ -41,12 +41,12 @@ Production-capable project-domain runtime exists for lifecycle transitions, snap
 - [ ] unify diagnostics across lifecycle/versioning/collaboration incident classes (Target: Q4 2026)
 
 ### Phase 4: Tests
-- [ ] expand focused regressions for conflict-heavy merge and collaboration contention paths (Target: Q4 2026)
-- [ ] extend deterministic stress fixtures for snapshot/version mutation workloads (Target: Q4 2026)
+- [x] expand focused regressions for conflict-heavy merge and collaboration contention paths (Target: Q4 2026)
+- [x] extend deterministic stress fixtures for snapshot/version mutation workloads (Target: Q4 2026)
 
 ### Phase 5: Performance and Hardening
-- [ ] lock benchmark-backed release gates for project module hot paths (Target: Q4 2026)
-- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+- [x] lock benchmark-backed release gates for project module hot paths (Target: Q4 2026)
+- [x] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core projects module docs aligned to source-verifiable behavior
@@ -58,7 +58,7 @@ Production-capable project-domain runtime exists for lifecycle transitions, snap
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
 - [ ] remaining hardening tasks closed for lifecycle/snapshot/collaboration edge paths
-- [ ] release benchmark stabilization complete
+- [x] release benchmark stabilization complete
 
 ## Known Issues and Limitations
 

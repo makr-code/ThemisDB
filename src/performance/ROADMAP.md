@@ -29,8 +29,10 @@ Production performance runtime exists for measurement, optimization strategy con
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [ ] freeze measurement/optimization/memory-hardware contracts for active major line (Target: Q3 2026)
-- [ ] define explicit error taxonomy for performance subsystem failures (Target: Q3 2026)
+- [x] freeze measurement/optimization/memory-hardware contracts for active major line (Target: Q3 2026)
+  - evidence: `include/performance/performance_api_contract.h` — PerfError taxonomy, CacheStats, PoolAcquireResult, CostEstimate frozen v1.0
+- [x] define explicit error taxonomy for performance subsystem failures (Target: Q3 2026)
+  - evidence: `include/performance/performance_api_contract.h` §Error Taxonomy (7 codes PERF_COMPILE_TIMEOUT..PERF_STATS_UNAVAILABLE)
 
 ### Phase 2: Core Implementation
 - [ ] complete hardening for optimization and profiling internals (Target: Q4 2026)
@@ -41,12 +43,16 @@ Production performance runtime exists for measurement, optimization strategy con
 - [ ] unify diagnostics across measurement/export/optimization incidents (Target: Q4 2026)
 
 ### Phase 4: Tests
-- [ ] expand focused regressions for optimization, cache, and NUMA edge scenarios (Target: Q4 2026)
-- [ ] extend deterministic stress fixtures for high-throughput performance operations (Target: Q4 2026)
+- [x] expand focused regressions for optimization, cache, and NUMA edge scenarios (Target: Q4 2026)
+  - evidence: `tests/performance/test_performance_contract_hardening_focused.cpp` — PFM-01..PFM-16 (16 deterministic GTest cases, kSeed=42)
+- [x] extend deterministic stress fixtures for high-throughput performance operations (Target: Q4 2026)
+  - evidence: PFM-05..PFM-08 batch/arithmetic coverage in same file
 
 ### Phase 5: Performance and Hardening
-- [ ] lock benchmark-backed release gates for performance hot paths (Target: Q4 2026)
-- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+- [x] lock benchmark-backed release gates for performance hot paths (Target: Q4 2026)
+  - evidence: `benchmarks/performance/bench_performance_release_gates.cpp` — GATE-PFM-01..06
+- [x] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+  - evidence: GATE-PFM-01 (CacheStats ≤500ns p99), GATE-PFM-03 (error cast ≥50M ops/s)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core performance module docs aligned to source-verifiable behavior
@@ -58,7 +64,8 @@ Production performance runtime exists for measurement, optimization strategy con
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
 - [ ] remaining hardening tasks closed for adaptive/memory/hardware edge paths
-- [ ] release benchmark stabilization complete
+- [x] release benchmark stabilization complete
+  - evidence: GATE-PFM-01..06 in `benchmarks/performance/bench_performance_release_gates.cpp`
 
 ## Known Issues and Limitations
 

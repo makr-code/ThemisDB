@@ -213,9 +213,13 @@ std::string HuggingFaceHubClient::resolveToken() const {
         if (!config_.key_provider) {
             throw std::invalid_argument("HubUploadConfig::hf_token_kek_id is set but key_provider is null");
         }
-        // getKey() may throw KeyNotFoundException or KeyOperationException.
-        // Raw token bytes are intentionally never logged.
-        auto token_bytes = config_.key_provider->getKey(config_.hf_token_kek_id);
+        // Serialise concurrent callers at the KEK-fetch boundary; raw token
+        // bytes are intentionally never logged.
+        std::vector<uint8_t> token_bytes;
+        {
+            std::lock_guard<std::mutex> lk(config_access_mutex_);
+            token_bytes = config_.key_provider->getKey(config_.hf_token_kek_id);
+        }
         if (token_bytes.empty()) {
             throw std::runtime_error("HubUploadConfig::hf_token_kek_id '" + config_.hf_token_kek_id
                                      + "' resolved to empty token bytes");
@@ -413,6 +417,7 @@ static void writeHubUploadAuditEntry(themis::utils::AuditLogger &audit_log, cons
 HubUploadResult HuggingFaceHubClient::uploadDataset(const std::string &dataset_dir,
                                                     std::function<void(double)> progress_cb) const {
     // ── 0. PolicyEngine authorization check ─────────────────────────────────
+    // Serialise concurrent upload calls at the policy-check boundary.
     if (config_.policy_engine) {
         themis::governance::ModelTrainingExportRequest req;
         req.export_job_id   = "hub-upload-" + config_.repo_id;
@@ -420,13 +425,21 @@ HubUploadResult HuggingFaceHubClient::uploadDataset(const std::string &dataset_d
         req.requesting_user = config_.requesting_user;
         req.purpose         = "HUB_UPLOAD";
 
-        const auto decision = config_.policy_engine->checkExportPermission(req);
+        themis::governance::ModelGovernanceDecision decision;
+        {
+            std::lock_guard<std::mutex> lk(config_access_mutex_);
+            decision = config_.policy_engine->checkExportPermission(req);
+        }
         if (!decision.is_permitted) {
             const HubUploadResult denied{false, {}, "Hub upload denied by PolicyEngine: " + decision.denial_reason, 0};
             if (config_.audit_log) {
                 writeHubUploadAuditEntry(*config_.audit_log, config_, dataset_dir, denied, "denied");
             }
-            THEMIS_WARN("HuggingFaceHubClient: upload to '{}' denied: {}", config_.repo_id, decision.denial_reason);
+            if (config_.metrics) {
+                config_.metrics->recordPolicyDenial(config_.repo_id, config_.requesting_user);
+            }
+            THEMIS_WARN("[EXPORT_DENIED] collection={} user={} reason={}", config_.repo_id, config_.requesting_user,
+                        decision.denial_reason);
             return denied;
         }
     }
@@ -506,6 +519,7 @@ HubUploadResult HuggingFaceHubClient::uploadDataset(const std::string &dataset_d
         for (int attempt = 0; attempt <= config_.max_retries; ++attempt) {
             if (attempt > 0 && !rate_limited) {
                 THEMIS_WARN("HuggingFaceHubClient: retry {} for file {}", attempt, rel);
+                // NOLINT(blocking_no_timeout): wait() is bounded by max_backoff_ms=30'000ms
                 if (!file_backoff.wait()) {
                     break;
                 }
@@ -572,6 +586,11 @@ HubUploadResult HuggingFaceHubClient::uploadDataset(const std::string &dataset_d
             if (config_.audit_log) {
                 writeHubUploadAuditEntry(*config_.audit_log, config_, dataset_dir, retry_fail, "error");
             }
+            if (config_.metrics) {
+                config_.metrics->recordHubUploadFailure("retry_exhausted:" + rel);
+            }
+            THEMIS_WARN("[HUB_UPLOAD_FAILED] repo={} reason={} http_status=0", config_.repo_id,
+                        retry_fail.error_message);
             return retry_fail;
         }
 
@@ -596,6 +615,7 @@ HubUploadResult HuggingFaceHubClient::uploadShards(const std::vector<MemoryShard
     const std::string context = "<memory:" + std::to_string(shards.size()) + " shards>";
 
     // ── 0. PolicyEngine authorization check ─────────────────────────────────
+    // Serialise concurrent upload calls at the policy-check boundary.
     if (config_.policy_engine) {
         themis::governance::ModelTrainingExportRequest req;
         req.export_job_id   = "hub-upload-" + config_.repo_id;
@@ -603,13 +623,21 @@ HubUploadResult HuggingFaceHubClient::uploadShards(const std::vector<MemoryShard
         req.requesting_user = config_.requesting_user;
         req.purpose         = "HUB_UPLOAD";
 
-        const auto decision = config_.policy_engine->checkExportPermission(req);
+        themis::governance::ModelGovernanceDecision decision;
+        {
+            std::lock_guard<std::mutex> lk(config_access_mutex_);
+            decision = config_.policy_engine->checkExportPermission(req);
+        }
         if (!decision.is_permitted) {
             const HubUploadResult denied{false, {}, "Hub upload denied by PolicyEngine: " + decision.denial_reason, 0};
             if (config_.audit_log) {
                 writeHubUploadAuditEntry(*config_.audit_log, config_, context, denied, "denied");
             }
-            THEMIS_WARN("HuggingFaceHubClient: upload to '{}' denied: {}", config_.repo_id, decision.denial_reason);
+            if (config_.metrics) {
+                config_.metrics->recordPolicyDenial(config_.repo_id, config_.requesting_user);
+            }
+            THEMIS_WARN("[EXPORT_DENIED] collection={} user={} reason={}", config_.repo_id, config_.requesting_user,
+                        decision.denial_reason);
             return denied;
         }
     }
@@ -671,6 +699,7 @@ HubUploadResult HuggingFaceHubClient::uploadShards(const std::vector<MemoryShard
         for (int attempt = 0; attempt <= config_.max_retries; ++attempt) {
             if (attempt > 0 && !rate_limited) {
                 THEMIS_WARN("HuggingFaceHubClient: retry {} for shard {}", attempt, rel);
+                // NOLINT(blocking_no_timeout): wait() is bounded by max_backoff_ms=30'000ms
                 if (!shard_backoff.wait()) {
                     break;
                 }
@@ -742,6 +771,11 @@ HubUploadResult HuggingFaceHubClient::uploadShards(const std::vector<MemoryShard
             if (config_.audit_log) {
                 writeHubUploadAuditEntry(*config_.audit_log, config_, context, retry_fail, "error");
             }
+            if (config_.metrics) {
+                config_.metrics->recordHubUploadFailure("retry_exhausted:" + rel);
+            }
+            THEMIS_WARN("[HUB_UPLOAD_FAILED] repo={} reason={} http_status=0", config_.repo_id,
+                        retry_fail.error_message);
             return retry_fail;
         }
 

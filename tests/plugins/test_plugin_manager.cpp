@@ -75,7 +75,8 @@ protected:
     void createManifest(const std::string& name,
                         const std::string& type = "custom",
                         bool auto_load = false,
-                        const std::vector<std::string>& deps = {}) {
+                        const std::vector<std::string>& deps = {},
+                        const nlohmann::json& extra_fields = {}) {
         std::string plugin_dir = test_dir_ + "/" + name;
         fs::create_directories(plugin_dir);
 
@@ -99,6 +100,9 @@ protected:
 
         if (!deps.empty()) {
             manifest["dependencies"] = deps;
+        }
+        for (auto it = extra_fields.begin(); it != extra_fields.end(); ++it) {
+            manifest[it.key()] = it.value();
         }
 
         std::string manifest_path = plugin_dir + "/plugin.json";
@@ -246,6 +250,31 @@ TEST_F(PluginManagerTest, GetManifestAfterScanSucceeds) {
     }
 }
 
+TEST_F(PluginManagerTest, GetManifestParsesPrivateMetadata) {
+    createManifest(
+        "pm_private_manifest_001",
+        "custom",
+        false,
+        {},
+        nlohmann::json{
+            {"visibility", "private"},
+            {"allowed_editions", nlohmann::json::array({"enterprise", "hyperscaler"})},
+            {"license_feature", "private_connector_pack"},
+            {"min_themisdb_version", "2.4.0"},
+            {"compatible_core_abi", "plugin-abi-v2"}
+        });
+    manager_->scanPluginDirectory(test_dir_);
+
+    auto result = manager_->getManifest("pm_private_manifest_001");
+    ASSERT_TRUE(result.has_value());
+    EXPECT_EQ(result->visibility, "private");
+    ASSERT_EQ(result->allowed_editions.size(), 2u);
+    EXPECT_EQ(result->allowed_editions[0], "enterprise");
+    EXPECT_EQ(result->license_feature, "private_connector_pack");
+    EXPECT_EQ(result->min_themisdb_version, "2.4.0");
+    EXPECT_EQ(result->compatible_core_abi, "plugin-abi-v2");
+}
+
 // ============================================================================
 // unloadPlugin / unloadAllPlugins
 // ============================================================================
@@ -339,5 +368,4 @@ TEST_F(PluginManagerTest, NegotiateCapabilitiesForDiscoveredButUnloadedPluginRet
     // Plugin is known but not loaded — negotiation must report failure
     EXPECT_FALSE(result.success);
 }
-
 

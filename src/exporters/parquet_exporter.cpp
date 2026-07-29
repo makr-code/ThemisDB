@@ -26,6 +26,7 @@
 #include <fstream>
 #include <set>
 #include <sstream>
+#include <unordered_set>
 #include <variant>
 
 #include "exporters/aql_predicate_filter.h"
@@ -450,8 +451,9 @@ bool ParquetExporter::isArrowAvailable() {
 
 std::vector<std::string> ParquetExporter::resolveColumns(const std::vector<BaseEntity> &entities,
                                                          const ExportOptions &options) const {
-    // Build candidate set from ExportOptions then ParquetExportConfig
-    std::set<std::string> exclude_set(config_.exclude_columns.begin(), config_.exclude_columns.end());
+    // Build candidate set from ExportOptions then ParquetExportConfig.
+    // Use unordered_set for O(1) average-case lookup over the sorted std::set.
+    std::unordered_set<std::string> exclude_set(config_.exclude_columns.begin(), config_.exclude_columns.end());
     exclude_set.insert(options.exclude_fields.begin(), options.exclude_fields.end());
 
     // Explicit include list
@@ -954,7 +956,7 @@ ExportStats ParquetExporter::exportFallback(const std::vector<BaseEntity> &entit
     ofs.write(magic, 4);
     file_offset += 4;
 
-    ofs.close();
+    // ofs closes via RAII when it goes out of scope.
     stats.bytes_written = file_offset;
 
     THEMIS_INFO("Parquet export complete: {} rows, {} columns, {} bytes", row_count, columns.size(), file_offset);

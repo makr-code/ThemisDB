@@ -19,6 +19,7 @@
  */
 
 #include "exporters/incremental_exporter.h"
+#include "exporters/aql_predicate_filter.h"
 #include "exporters/exporter_errors.h"
 #include "exporters/exporter_interface.h"
 #include "exporters/export_encryption.h"
@@ -79,9 +80,22 @@ ExportStats IncrementalExporter::exportEntities(
 
     int64_t max_sequence = watermark;  // track highest sequence in this run
     bool limit_reached = false;
+    bool full_scan_completed = true;
 
     try {
         StreamWriter writer(writer_config);
+        std::unique_ptr<AqlPredicateFilter> aql_filter;
+        if (!options.filter_expression.empty()) {
+            try {
+                aql_filter = std::make_unique<AqlPredicateFilter>(options.filter_expression);
+            } catch (const AqlPredicateFilterException& e) {
+                throw ExporterException(
+                    errors::ErrorCode::ERR_EXPORT_CONFIG_INVALID,
+                    std::string("IncrementalExporter: invalid filter_expression: ") + e.what(),
+                    "filter_expression=" + options.filter_expression
+                );
+            }
+        }
 
         for (const auto& entity : entities) {
             stats.total_entities++;
@@ -103,12 +117,19 @@ ExportStats IncrementalExporter::exportEntities(
                 continue;
             }
 
+            if (aql_filter && !aql_filter->evaluate(entity)) {
+                stats.skipped_entities++;
+                metrics_->recordQualityFilterRejection("aql_predicate_filtered");
+                continue;
+            }
+
             // --- Step 4: write the entity ---
             try {
                 if (writer.isLimitReached()) {
                     THEMIS_WARN("IncrementalExporter: size limit reached after {} entities",
                                 stats.exported_entities);
                     limit_reached = true;
+                    full_scan_completed = false;
                     break;
                 }
 
@@ -139,6 +160,7 @@ ExportStats IncrementalExporter::exportEntities(
 
             } catch (const SizeLimitException&) {
                 limit_reached = true;
+                full_scan_completed = false;
                 break;
             } catch (const ExporterException& e) {
                 stats.failed_entities++;
@@ -146,6 +168,7 @@ ExportStats IncrementalExporter::exportEntities(
                 metrics_->recordError("exporter_exception");
                 if (stats.errors.size() >= options.max_errors) {
                     limit_reached = true;
+                    full_scan_completed = false;
                     break;
                 }
                 if (!options.continue_on_error) {
@@ -158,6 +181,7 @@ ExportStats IncrementalExporter::exportEntities(
                 metrics_->recordError("std_exception");
                 if (stats.errors.size() >= options.max_errors) {
                     limit_reached = true;
+                    full_scan_completed = false;
                     break;
                 }
                 if (!options.continue_on_error) {
@@ -206,7 +230,7 @@ ExportStats IncrementalExporter::exportEntities(
     }
 
     // --- Step 5: atomically update the watermark ---
-    if (!config_.watermark_path.empty() && max_sequence > watermark) {
+    if (!config_.watermark_path.empty() && max_sequence > watermark && full_scan_completed && !limit_reached) {
         // Build an ISO-8601 timestamp for the watermark file
         const auto now_tp = std::chrono::system_clock::now();
         const auto now_t  = std::chrono::system_clock::to_time_t(now_tp);
@@ -223,6 +247,8 @@ ExportStats IncrementalExporter::exportEntities(
             THEMIS_WARN("IncrementalExporter: failed to write watermark to {}",
                         config_.watermark_path);
         }
+    } else if (!config_.watermark_path.empty() && max_sequence > watermark && !full_scan_completed) {
+        THEMIS_WARN("IncrementalExporter: partial scan detected; watermark update skipped to preserve delta consistency");
     }
 
     const auto end_time = std::chrono::steady_clock::now();
@@ -368,4 +394,3 @@ std::string IncrementalExporter::formatEntity(const BaseEntity& entity,
 }
 
 } // namespace themis::exporters
-

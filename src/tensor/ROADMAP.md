@@ -31,8 +31,8 @@ Production-usable tensor runtime exists for tensor index management, hybrid brid
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [ ] freeze tensor index/bridge/graph contracts for current major line (Target: Q3 2026)
-- [ ] define explicit error taxonomy for tensor incident classes (Target: Q3 2026)
+- [x] freeze tensor index/bridge/graph contracts for current major line (Completed 2026-07-29)
+- [x] define explicit error taxonomy for tensor incident classes (Completed 2026-07-29)
 
 ### Phase 2: Core Implementation
 - [ ] complete hardening for tensor index manager and bridge internals (Target: Q4 2026)
@@ -43,22 +43,26 @@ Production-usable tensor runtime exists for tensor index management, hybrid brid
 - [ ] unify diagnostics across index, bridge, and fingerprint incident classes (Target: Q4 2026)
 
 ### Phase 4: Tests
-- [ ] expand focused regressions for tensor index/bridge and fingerprint edge scenarios (Target: Q4 2026)
-- [ ] extend deterministic stress fixtures for concurrent tensor graph workloads (Target: Q4 2026)
+- [x] expand focused regressions for tensor index/bridge and fingerprint edge scenarios (Completed 2026-07-29 — test_tensor_contract_hardening_focused.cpp, TNCH-01..TNCH-16)
+- [x] extend deterministic stress fixtures for concurrent tensor graph workloads (Completed 2026-07-29)
 
 ### Phase 5: Performance and Hardening
-- [ ] lock benchmark-backed release gates for tensor hot paths (Target: Q4 2026)
+- [x] lock benchmark-backed release gates for tensor hot paths (Completed 2026-07-29 — bench_tensor_release_gates.cpp, TRNRG-01..TRNRG-06)
 - [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core tensor module docs aligned to source-verifiable behavior
 - [x] roadmap/future planning separated from historical changelog entries
+- [x] tensor_api_contract.h frozen contract header published (Completed 2026-07-29)
 
 ## Production Readiness Checklist
 
 - [x] core tensor surfaces documented and source-verified
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
+- [x] tensor_api_contract.h frozen contract header (Phase 1 closure, 2026-07-29)
+- [x] test_tensor_contract_hardening_focused.cpp — TNCH-01..TNCH-16 (Phase 4 closure, 2026-07-29)
+- [x] bench_tensor_release_gates.cpp — TRNRG-01..TRNRG-06 gate benchmarks (Phase 5 closure, 2026-07-29)
 - [ ] remaining hardening tasks closed for index/bridge/graph edge paths
 - [ ] release benchmark stabilization complete
 

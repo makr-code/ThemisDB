@@ -216,6 +216,83 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/document/CMakeLists.txt")
     add_subdirectory(document)
 endif()
 
+# Wave 3D module benchmark subdirectories (contract + release-gate benchmarks)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/performance/CMakeLists.txt")
+    add_subdirectory(performance)
+endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/governance/CMakeLists.txt")
+    add_subdirectory(governance)
+endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/metadata/CMakeLists.txt")
+    add_subdirectory(metadata)
+endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/content/CMakeLists.txt")
+    add_subdirectory(content)
+endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/utils/CMakeLists.txt")
+    add_subdirectory(utils)
+endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/updates/CMakeLists.txt")
+    add_subdirectory(updates)
+endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/projects/CMakeLists.txt")
+    add_subdirectory(projects)
+endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/toolbox/CMakeLists.txt")
+    add_subdirectory(toolbox)
+endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/process/CMakeLists.txt")
+    add_subdirectory(process)
+endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/themis/CMakeLists.txt")
+    add_subdirectory(themis)
+endif()
+# Wave 2 module benchmark subdirectories (security/network/storage/geo)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/CMakeLists.txt")
+    add_subdirectory(security)
+endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/network/CMakeLists.txt")
+    add_subdirectory(network)
+endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/storage/CMakeLists.txt")
+    add_subdirectory(storage)
+endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/geo/CMakeLists.txt")
+    add_subdirectory(geo)
+endif()
+# Wave 3B module benchmark subdirectories
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/failover/CMakeLists.txt")
+    add_subdirectory(failover)
+endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/observability/CMakeLists.txt")
+    add_subdirectory(observability)
+endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/distributed_knowledge/CMakeLists.txt")
+    add_subdirectory(distributed_knowledge)
+endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/exporters/CMakeLists.txt")
+    add_subdirectory(exporters)
+endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/importers/CMakeLists.txt")
+    add_subdirectory(importers)
+endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ingestion/CMakeLists.txt")
+    add_subdirectory(ingestion)
+endif()
+# Wave 3A module benchmark subdirectories
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/replication/CMakeLists.txt")
+    add_subdirectory(replication)
+endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/temporal/CMakeLists.txt")
+    add_subdirectory(temporal)
+endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/timeseries/CMakeLists.txt")
+    add_subdirectory(timeseries)
+endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tensor/CMakeLists.txt")
+    add_subdirectory(tensor)
+endif()
+
 themis_add_standard_benchmark(bench_ycsb bench_ycsb.cpp)
 
 # ============================================================================
@@ -1645,6 +1722,25 @@ if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_llm_inference
     )
     
     message(STATUS "  LLM: Inference, LoRA adapters, throughput")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/llm/bench_llm_hotpaths.cpp" AND NOT TARGET bench_llm_hotpaths)
+    add_executable(bench_llm_hotpaths
+        llm/bench_llm_hotpaths.cpp
+    )
+    target_include_directories(bench_llm_hotpaths PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(bench_llm_hotpaths PRIVATE
+        themis_core ${BENCHMARK_LIBS} OpenSSL::SSL OpenSSL::Crypto
+        spdlog::spdlog nlohmann_json::nlohmann_json RocksDB::rocksdb Threads::Threads
+    )
+    themis_apply_benchmark_release_flags(bench_llm_hotpaths)
+    install(TARGETS bench_llm_hotpaths
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
 endif()
 
 # LLM Model Loading from ThemisDB Benchmarks
@@ -3523,6 +3619,25 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_sharding_performance.cpp")
     message(STATUS "  ShardingPerformance: scatter-gather latency, cross-shard joins, migration and gossip overhead")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/sharding/bench_sharding_release_gates.cpp" AND NOT TARGET bench_sharding_release_gates)
+    add_executable(bench_sharding_release_gates
+        sharding/bench_sharding_release_gates.cpp
+    )
+    target_include_directories(bench_sharding_release_gates PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(bench_sharding_release_gates PRIVATE
+        themis_core ${BENCHMARK_LIBS} OpenSSL::SSL OpenSSL::Crypto
+        spdlog::spdlog nlohmann_json::nlohmann_json RocksDB::rocksdb Threads::Threads
+    )
+    themis_apply_benchmark_release_flags(bench_sharding_release_gates)
+    install(TARGETS bench_sharding_release_gates
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+endif()
+
 # ============================================================================
 # AdaptiveQueryCompiler benchmarks (v1.8.0, Issue #86)
 # Validates:
@@ -4707,6 +4822,11 @@ if(TARGET bench_ethics_ai_plugin)
     endif()
 endif()
 endif()
+
+# LDM benchmark suite (bench_ethics_ai_ldm)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ethics_ai/CMakeLists.txt")
+    add_subdirectory(ethics_ai ${CMAKE_CURRENT_BINARY_DIR}/ethics_ai)
+endif()
 themis_add_standard_benchmark(bench_extended_context       bench_extended_context.cpp)
 themis_add_standard_benchmark(bench_flash_attention        bench_flash_attention.cpp)
 themis_add_standard_benchmark(bench_gnn_embeddings         bench_gnn_embeddings.cpp)
@@ -4887,3 +5007,31 @@ themis_add_standard_benchmark(bench_api_transport bench_api_transport.cpp)
 
 # Phase 5 release-gate benchmarks (GATE-API-01..06 + p95/p99 envelopes)
 themis_add_standard_benchmark(bench_api_release_gates bench_api_release_gates.cpp)
+
+# ============================================================================
+# Wave 3C — Infrastructure Module Release-Gate Benchmarks (Phase 5)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/maintenance/CMakeLists.txt")
+    add_subdirectory(maintenance)
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugins/CMakeLists.txt")
+    add_subdirectory(plugins)
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rpc_grpc/CMakeLists.txt")
+    add_subdirectory(rpc_grpc)
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/scheduler/CMakeLists.txt")
+    add_subdirectory(scheduler)
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/scraper/CMakeLists.txt")
+    add_subdirectory(scraper)
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/user_storage_encrypted/CMakeLists.txt")
+    add_subdirectory(user_storage_encrypted)
+endif()

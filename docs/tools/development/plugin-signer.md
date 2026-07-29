@@ -1,8 +1,14 @@
 # plugin_signer - Plugin Digital Signature Tool
 
+> ⚠️ **[PRIVATE] Governance Update (Hyperscaler):**
+> Signing/Signatur-Generierung ist owner-kontrolliert und wurde in
+> `plugins/private/themisdb-signing-tools` ausgelagert.
+> Das öffentliche Repository stellt nur Verifikationspfade bereit.
+
 ## Overview
 
-The `plugin_signer` tool digitally signs hardware acceleration plugins (DLLs/SOs) with RSA or ECDSA signatures. It generates signature metadata files that the ThemisDB plugin system validates to ensure plugins are authentic and unmodified.
+The historical `plugin_signer` tool was used to sign hardware acceleration plugins (DLLs/SOs).
+For Hyperscaler security hardening, signing is now private-owner-only; this public documentation is retained for verification context and migration.
 
 ## Use Cases
 

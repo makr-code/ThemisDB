@@ -386,6 +386,23 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_sharding_p6_fault_injection.cpp")
     message(STATUS "  P6-03 FI-26..FI-40: cascade / multi-failure scenarios (15 tests)")
 endif()
 
+# ============================================================================
+# Phase 1 / Phase 4 — Sharding Contract Hardening Tests (SCR-01..SCR-16)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_sharding_contract_hardening_focused.cpp")
+    message(STATUS "Adding Sharding: Contract Hardening tests (SCR-01..SCR-16)")
+    add_executable(test_sharding_contract_hardening_focused test_sharding_contract_hardening_focused.cpp)
+    target_include_directories(test_sharding_contract_hardening_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_sharding_contract_hardening_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
+    target_compile_definitions(test_sharding_contract_hardening_focused PRIVATE THEMIS_TEST_BUILD=1)
+    themis_register_module_focused_test(MODULE sharding NAME ShardingContractHardeningFocusedTests TARGET test_sharding_contract_hardening_focused TIER unit TIMEOUT 120 LABELS sharding contract hardening)
+    message(STATUS "  SCR-01..04: Routing contract (consistent hash, fallback)")
+    message(STATUS "  SCR-05..08: 2PC contract (prepare/commit/abort, IN_DOUBT)")
+    message(STATUS "  SCR-09..12: WAL contract (ordering, idempotent replay, corruption)")
+    message(STATUS "  SCR-13..16: Error contract (QUORUM_LOST, MIGRATION_CONFLICT, fail-closed)")
+endif()
+
 # AUTOGEN PREFIX BLOCK: sharding
 file(GLOB SHARDING_AUTOGEN_PREFIX_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_*.cpp"

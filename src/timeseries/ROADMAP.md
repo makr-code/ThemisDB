@@ -29,8 +29,8 @@ Production-capable timeseries runtime exists for ingest, Gorilla compression, ad
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [ ] freeze timeseries ingest/query/lifecycle contracts for current major line (Target: Q3 2026)
-- [ ] define explicit error taxonomy for flush, query, and retention incidents (Target: Q3 2026)
+- [x] freeze timeseries ingest/query/lifecycle contracts for current major line (Completed 2026-07-29)
+- [x] define explicit error taxonomy for flush, query, and retention incidents (Completed 2026-07-29)
 
 ### Phase 2: Core Implementation
 - [ ] complete hardening for TSStore, flush controller, and query internals (Target: Q4 2026)
@@ -41,22 +41,26 @@ Production-capable timeseries runtime exists for ingest, Gorilla compression, ad
 - [ ] unify diagnostics across ingest, lifecycle, and integration incident classes (Target: Q4 2026)
 
 ### Phase 4: Tests
-- [ ] expand focused regressions for adaptive flush, range-query, and encryption edge scenarios (Target: Q4 2026)
-- [ ] extend deterministic stress fixtures for concurrent ingest/query workloads (Target: Q4 2026)
+- [x] expand focused regressions for adaptive flush, range-query, and encryption edge scenarios (Completed 2026-07-29 — test_timeseries_contract_hardening_focused.cpp, TSCH-01..TSCH-16)
+- [x] extend deterministic stress fixtures for concurrent ingest/query workloads (Completed 2026-07-29)
 
 ### Phase 5: Performance and Hardening
-- [ ] lock benchmark-backed release gates for timeseries hot paths (Target: Q4 2026)
+- [x] lock benchmark-backed release gates for timeseries hot paths (Completed 2026-07-29 — bench_timeseries_release_gates.cpp, TSRG-01..TSRG-06)
 - [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core timeseries module docs aligned to source-verifiable behavior
 - [x] roadmap/future planning separated from historical changelog entries
+- [x] timeseries_api_contract.h frozen contract header published (Completed 2026-07-29)
 
 ## Production Readiness Checklist
 
 - [x] core timeseries surfaces documented and source-verified
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
+- [x] timeseries_api_contract.h frozen contract header (Phase 1 closure, 2026-07-29)
+- [x] test_timeseries_contract_hardening_focused.cpp — TSCH-01..TSCH-16 (Phase 4 closure, 2026-07-29)
+- [x] bench_timeseries_release_gates.cpp — TSRG-01..TSRG-06 gate benchmarks (Phase 5 closure, 2026-07-29)
 - [ ] remaining hardening tasks closed for ingest/flush/lifecycle edge paths
 - [ ] release benchmark stabilization complete
 

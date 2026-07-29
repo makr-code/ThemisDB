@@ -23,6 +23,7 @@
 #include <cstddef>
 #include <functional>
 #include <memory>
+#include <mutex>
 #include <string>
 #include <vector>
 
@@ -214,6 +215,12 @@ public:
 
 private:
     HubUploadConfig config_;
+
+    /// Guards concurrent access to config_.policy_engine and
+    /// config_.key_provider within resolveToken(), uploadDataset(), and
+    /// uploadShards(). Serialises the KEK-fetch and policy-check boundaries;
+    /// raw token material is never logged.
+    mutable std::mutex config_access_mutex_;
 
     /// Resolve the effective API token.
     /// Resolution order:

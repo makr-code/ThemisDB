@@ -6,14 +6,14 @@ name: Docs Orphan Check
 # and external/chimera/.
 #
 # Triggers:
-#   - Push to develop/main that touches supported source-doc roots or docs/de/, docs/en/
+#   - Push to develop/community that touches supported source-doc roots or docs/de/, docs/en/
 #   - Any pull_request touching those paths
 #   - Daily schedule at 04:00 UTC
 #   - Manual dispatch
 
 on:
   push:
-    branches: [develop, main]
+    branches: [develop, community]
     paths:
       - 'src/*/**'
       - 'include/*/**'
@@ -27,7 +27,7 @@ on:
       - 'scripts/docs-orphan-check.py'
       - '.github/workflows/08-maintenance_docs-orphan-check.yml'
   pull_request:
-    branches: [develop, main]
+    branches: [develop, community]
     paths:
       - 'src/*/**'
       - 'include/*/**'

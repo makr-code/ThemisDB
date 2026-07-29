@@ -79,6 +79,8 @@ void ExporterMetrics::reset() {
     encryption_output_bytes_    = 0;
     encrypted_bytes_written_ = 0;
     rate_limit_hits_ = 0;
+    policy_denials_ = 0;
+    hub_upload_failures_ = 0;
 }
 
 void ExporterMetrics::recordExport(size_t entity_count, size_t bytes_written,
@@ -269,6 +271,30 @@ size_t ExporterMetrics::getRateLimitHits() const {
     return rate_limit_hits_.load();
 }
 
+void ExporterMetrics::recordPolicyDenial(const std::string& collection,
+                                          const std::string& user) {
+    policy_denials_++;
+    // Also register under the unified error taxonomy so getErrorsByType()
+    // reflects it alongside other error categories.
+    recordError("policy_denied");
+    (void)collection;
+    (void)user;
+}
+
+size_t ExporterMetrics::getPolicyDenials() const {
+    return policy_denials_.load();
+}
+
+void ExporterMetrics::recordHubUploadFailure(const std::string& reason) {
+    hub_upload_failures_++;
+    recordError("hub_upload_failure");
+    (void)reason;
+}
+
+size_t ExporterMetrics::getHubUploadFailures() const {
+    return hub_upload_failures_.load();
+}
+
 json ExporterMetrics::toJson() const {
     json j;
     
@@ -344,6 +370,12 @@ json ExporterMetrics::toJson() const {
 
     // HuggingFace rate-limit hits (exporters.huggingface.rate_limit_hit)
     j["exporters.huggingface.rate_limit_hit"] = rate_limit_hits_.load();
+
+    // Policy denials (exporter_policy_denials_total)
+    j["exporter_policy_denials_total"] = policy_denials_.load();
+
+    // HuggingFace Hub upload failures (exporter_hub_upload_failures_total)
+    j["exporter_hub_upload_failures_total"] = hub_upload_failures_.load();
     
     return j;
 }
@@ -364,6 +396,8 @@ std::string ExporterMetrics::toString() const {
     oss << "  P99 Latency: " << getP99Latency() << " ms\n";
     oss << "  Total Errors: " << total_errors_.load() << "\n";
     oss << "  Total Duplicates: " << total_duplicates_.load() << "\n";
+    oss << "  Policy Denials: " << policy_denials_.load() << "\n";
+    oss << "  Hub Upload Failures: " << hub_upload_failures_.load() << "\n";
     
     auto schema_stats = getSchemaValidationStats();
     oss << "  Schema Validation: " << schema_stats.passed << "/" 

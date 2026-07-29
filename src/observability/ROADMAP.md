@@ -29,8 +29,12 @@ Production observability runtime exists across metrics, tracing, profiling, aler
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [ ] freeze metrics/tracing/profiling/alerting contracts for active major line (Target: Q3 2026)
-- [ ] define explicit error taxonomy for observability failure classes (Target: Q3 2026)
+- [x] freeze metrics/tracing/profiling/alerting contracts for active major line (Delivered: Q3 2026)
+- [x] define explicit error taxonomy for observability failure classes (Delivered: Q3 2026)
+  - Contract header: `include/observability/observability_api_contract.h`
+  - Error codes: METRIC_OVERFLOW, TRACE_SPAN_DROPPED, LOG_WRITE_FAILED, SLO_WINDOW_INVALID,
+    EXPORTER_UNAVAILABLE, HISTOGRAM_BUCKET_ORDER_INVALID, METRIC_CARDINALITY_EXCEEDED,
+    SPAN_DEPTH_EXCEEDED, INTERNAL_ERROR
 
 ### Phase 2: Core Implementation
 - [ ] complete hardening for observability orchestration internals (Target: Q4 2026)
@@ -41,16 +45,25 @@ Production observability runtime exists across metrics, tracing, profiling, aler
 - [ ] unify diagnostics across metrics/tracing/profiling/alert incidents (Target: Q4 2026)
 
 ### Phase 4: Tests
-- [ ] expand focused regressions for high-contention and distributed observability scenarios (Target: Q4 2026)
-- [ ] extend deterministic stress fixtures for telemetry-heavy operational workloads (Target: Q4 2026)
+- [x] expand focused regressions for high-contention and distributed observability scenarios (Delivered: Q3 2026)
+- [x] extend deterministic stress fixtures for telemetry-heavy operational workloads (Delivered: Q3 2026)
+  - Test file: `tests/observability/test_observability_contract_hardening_focused.cpp`
+  - Test cases: OCH-01..OCH-16 (counter/gauge/histogram, tracing, logging, SLO/export)
+  - kObservabilityContractSeed = 42; all tests self-contained, no external I/O
 
 ### Phase 5: Performance and Hardening
-- [ ] lock benchmark-backed release gates for observability hot paths (Target: Q4 2026)
-- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+- [x] lock benchmark-backed release gates for observability hot paths (Delivered: Q3 2026)
+- [x] validate p95/p99 and throughput behavior against release baselines (Delivered: Q3 2026)
+  - Benchmark file: `benchmarks/observability/bench_observability_release_gates.cpp`
+  - Gates: ORG-01..ORG-06 (counter ≥10M/s, histogram ≤100ns, span ≤10µs, log ≤5µs,
+    SLO ≤100µs, scrape ≤5ms)
+  - kObservabilityCanonicalSeed = 42; Repetitions(5)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core observability module docs aligned to source-verifiable behavior
 - [x] roadmap/future planning separated from historical changelog entries
+- [x] Phase 1-6 Wave 3B Category-D closure delivered (Q3 2026)
+  - Contract header, 16 focused tests (OCH-01..16), 6 release-gate benchmarks (ORG-01..06)
 
 ## Production Readiness Checklist
 

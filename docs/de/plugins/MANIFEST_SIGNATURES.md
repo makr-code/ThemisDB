@@ -1,5 +1,11 @@
 # Plugin Manifest Signature Verification
 
+> ⚠️ **[PRIVATE] Governance Update (Hyperscaler):**
+> Manifest-Signatur-Generierung ist owner-kontrolliert und wurde in
+> `plugins/private/themisdb-signing-tools` ausgelagert.
+> Die öffentliche Toolchain bietet Verifikation über
+> `/home/runner/work/ThemisDB/ThemisDB/tools/verify_plugin_manifest.py`.
+
 **Stand:** 6. April 2026  
 **Version:** 1.0.0  
 **Kategorie:** Plugins
@@ -37,32 +43,29 @@ ThemisDB verwendet eine Signatur-Verifikationsstrategie für Plugin-Manifeste (`
 
 ### Signatur-Datei: `plugin.json.sig`
 
-Die Signatur-Datei enthält den SHA256-Hash des Manifests:
+Die Signatur-Datei enthält eine **detached Ed25519-Signatur** (Base64) des Manifests.
 
 ```
-a1b2c3d4e5f6789012345678901234567890abcdefabcdefabcdefabcdefabcd
+5S3g+8a1iW3VZ0d6Y9b1D2sN4h7QwXyK3mPj4w9j+1Tj2x5v1k2GqSgXJz7N7w==
 ```
 
 **Eigenschaften:**
 - Einzeilige Datei
-- 64 Hex-Zeichen (SHA256-Hash)
-- Keine zusätzlichen Metadaten
-- Einfach zu generieren und verifizieren
+- 64-Byte Ed25519-Signatur, Base64-kodiert
+- Signatur wird mit owner-kontrolliertem privatem Schlüssel erzeugt
+- Verifikation mit gepinntem öffentlichem Schlüssel
 
 ---
 
 ## 🛠️ Signatur Generieren
 
-### Mit Python-Tool
+### Verifikation mit öffentlichem Python-Tool
 
 ```bash
-# Einzelnes Manifest signieren
-python tools/sign_plugin_manifest.py plugins/blob/filesystem/plugin.json
-
-# Output:
-# ✓ Generated signature for plugins/blob/filesystem/plugin.json
-#   SHA256: a1b2c3d4e5f6...
-#   Signature file: plugins/blob/filesystem/plugin.json.sig
+# Einzelnes Manifest verifizieren
+python /home/runner/work/ThemisDB/ThemisDB/tools/verify_plugin_manifest.py \
+  plugins/blob/filesystem/plugin.json \
+  plugins/blob/filesystem/plugin.json.sig
 ```
 
 ### Manuell mit OpenSSL
@@ -151,31 +154,20 @@ plugins/
 
 ## 🔐 Erweiterte Signatur-Strategien
 
-### Aktuell: SHA256-Hash
+### Aktuell: Detached Ed25519-Signaturen (Owner-only Signing)
 
 **Vorteile:**
-- ✅ Einfach zu generieren
+- ✅ Starke Authentifizierung mit gepinntem Public Key
 - ✅ Schnelle Verifikation
-- ✅ Keine Zertifikat-Infrastruktur nötig
 - ✅ Schutz gegen Manipulation
 
 **Nachteile:**
-- ⚠️ Keine Authentifizierung (wer hat signiert?)
-- ⚠️ Keine Nicht-Abstreitbarkeit
+- ⚠️ Signatur-Erzeugung ist bewusst auf private Owner-Tooling begrenzt
 
-### Zukünftig: Digitale Signaturen (RSA/ECDSA)
+### Signatur-Erzeugung
 
-**Geplante Erweiterung:**
-```json
-// plugin.json.sig (JSON format)
-{
-  "hash": "a1b2c3d4e5f6...",
-  "signature": "MIIBIjANBgkq...",
-  "certificate": "-----BEGIN CERTIFICATE-----...",
-  "issuer": "CN=ThemisDB Official Plugins, O=ThemisDB",
-  "timestamp": 1732176000
-}
-```
+Die Signatur-Erzeugung erfolgt ausschließlich über das private Repository
+`plugins/private/themisdb-signing-tools`.
 
 **Integration mit bestehendem System:**
 - Nutzt `storage/security_signature.h` (SecuritySignature struct)
@@ -196,10 +188,11 @@ add_library(themis_blob_fs SHARED
     filesystem_plugin.cpp
 )
 
-# Signiere Manifest nach Build
+# Verifiziere Manifest nach Build (öffentlicher Verify-Pfad)
 add_custom_command(TARGET themis_blob_fs POST_BUILD
-    COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tools/sign_plugin_manifest.py
+    COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tools/verify_plugin_manifest.py
             ${CMAKE_CURRENT_SOURCE_DIR}/plugin.json
+            ${CMAKE_CURRENT_SOURCE_DIR}/plugin.json.sig
     COMMENT "Signing plugin manifest: filesystem"
 )
 ```
@@ -211,11 +204,11 @@ add_custom_command(TARGET themis_blob_fs POST_BUILD
 - name: Build Plugins
   run: cmake --build build --target all
 
-- name: Sign Plugin Manifests
+- name: Verify Plugin Manifests
   run: |
-    python tools/sign_plugin_manifest.py plugins/blob/filesystem/plugin.json
-    python tools/sign_plugin_manifest.py plugins/blob/webdav/plugin.json
-    python tools/sign_plugin_manifest.py plugins/importers/postgres/plugin.json
+    python tools/verify_plugin_manifest.py plugins/blob/filesystem/plugin.json plugins/blob/filesystem/plugin.json.sig
+    python tools/verify_plugin_manifest.py plugins/blob/webdav/plugin.json plugins/blob/webdav/plugin.json.sig
+    python tools/verify_plugin_manifest.py plugins/importers/postgres/plugin.json plugins/importers/postgres/plugin.json.sig
 
 - name: Verify Signatures
   run: |
@@ -277,7 +270,7 @@ TEST(PluginManagerTest, ManifestSignatureMismatch) {
 |--------|-------------|---------------|
 | **Datei** | config.yaml | plugin.json |
 | **Signatur-Datei** | RocksDB (SecuritySignature) | plugin.json.sig (Datei) |
-| **Hash-Algorithmus** | SHA256 | SHA256 |
+| **Hash/Signatur** | SHA256 (intern) | Ed25519 detached signature |
 | **Speicherort** | RocksDB (security_sig:*) | Filesystem (neben Manifest) |
 | **Verifikation** | SecuritySignatureManager | PluginManager |
 | **Entwicklung** | Optional | Optional |
@@ -295,8 +288,8 @@ TEST(PluginManagerTest, ManifestSignatureMismatch) {
 
 **Lösung:**
 ```bash
-# Generiere Signatur
-python tools/sign_plugin_manifest.py plugin.json
+# Signatur über private Owner-Pipeline neu erzeugen und danach verifizieren
+python tools/verify_plugin_manifest.py plugin.json plugin.json.sig
 ```
 
 ### Problem: "Hash mismatch"
@@ -305,8 +298,8 @@ python tools/sign_plugin_manifest.py plugin.json
 
 **Lösung:**
 ```bash
-# Neu signieren
-python tools/sign_plugin_manifest.py plugin.json
+# Neu signieren über private Owner-Pipeline, dann verifizieren
+python tools/verify_plugin_manifest.py plugin.json plugin.json.sig
 ```
 
 ### Problem: "Plugin wird nicht geladen (Produktion)"
@@ -316,20 +309,17 @@ python tools/sign_plugin_manifest.py plugin.json
 # Prüfe ob Signatur existiert
 ls -la plugin.json.sig
 
-# Prüfe Hash
-sha256sum plugin.json
-cat plugin.json.sig
-
-# Vergleiche
+# Prüfe Signatur gegen gepinnten Public Key
+python tools/verify_plugin_manifest.py plugin.json plugin.json.sig
 ```
 
 ---
 
 ## 🎯 Best Practices
 
-1. **Immer signieren vor Deployment**
+1. **Signatur immer vor Deployment verifizieren**
    ```bash
-   python tools/sign_plugin_manifest.py plugin.json
+   python tools/verify_plugin_manifest.py plugin.json plugin.json.sig
    ```
 
 2. **Signaturen in Version Control**
@@ -337,7 +327,7 @@ cat plugin.json.sig
    - Nie nur Manifest ohne Signatur commiten
 
 3. **CI/CD Automatisierung**
-   - Automatisches Signieren im Build-Prozess
+   - Signieren nur im privaten Owner-Workflow
    - Verifikation vor Package-Erstellung
 
 4. **Versionierung**
@@ -354,7 +344,7 @@ cat plugin.json.sig
 
 - `include/plugins/plugin_manager.h` - PluginManager Interface
 - `src/plugins/plugin_manager.cpp` - Verifikations-Implementation
-- `tools/sign_plugin_manifest.py` - Signatur-Generator
+- `tools/verify_plugin_manifest.py` - Signatur-Verifikation (öffentlich)
 - `include/storage/security_signature.h` - Bestehende Signatur-Infrastruktur
 - `docs/plugins/PLUGIN_MIGRATION.md` - Plugin-System Architektur
 
@@ -362,4 +352,4 @@ cat plugin.json.sig
 
 **Status:** ✅ Implementiert  
 **Version:** 1.0.0  
-**Nächste Schritte:** RSA/ECDSA digitale Signaturen (optional)
+**Nächste Schritte:** CRL/OCSP-Strategie in privater Hyperscaler-Signing-Infrastruktur

@@ -23,9 +23,9 @@ ThemisDB includes a comprehensive suite of **30+ tools and utilities** for admin
 | compare_hyperscaler.py | Operations | Compare cloud performance | Python 3.8+ | [Guide](tools/operations/compare-hyperscaler.md) |
 | **Development Utilities** |
 | namespace_analyzer.py | Development | Analyze C++ namespace usage | Python 3.8+ | [Guide](tools/development/namespace-analyzer.md) |
-| plugin_signer | Development | Sign plugins for distribution | Python 3.8+ | [Guide](tools/development/plugin-signer.md) |
+| plugin_signer | Development | **[PRIVATE]** Owner-controlled signing tool (public repo: verify-only) | Python 3.8+ | [Guide](tools/development/plugin-signer.md) |
 | sign_pii_engine.py | Development | Sign PII engine components | Python 3.8+ | [Guide](tools/development/sign-pii-engine.md) |
-| sign_plugin_manifest.py | Development | Sign plugin manifests | Python 3.8+ | [Guide](tools/development/sign-plugin-manifest.md) |
+| sign_plugin_manifest.py | Development | **[PRIVATE]** Owner-controlled manifest signer | Python 3.8+ | [Guide](tools/development/sign-plugin-manifest.md) |
 | debug_graph_keys.cpp | Development | Debug graph key issues | C++17 | [Guide](tools/development/debug-graph-keys.md) |
 | migrate_vector_encryption.cpp | Development | Migrate vector encryption | C++17 | [Guide](tools/development/migrate-vector-encryption.md) |
 | txn_smoke.cpp | Development | Transaction smoke tests | C++17 | [Guide](tools/development/txn-smoke.md) |
@@ -100,9 +100,9 @@ Tools for developers working on or with ThemisDB.
 **Requirements:** Varies by tool (Python 3.8+, C++17, or .NET 8.0)
 
 1. **[namespace_analyzer.py](tools/development/namespace-analyzer.md)** - Analyze C++ codebase structure and namespaces
-2. **[plugin_signer](tools/development/plugin-signer.md)** - Digitally sign hardware acceleration plugins
+2. **[plugin_signer](tools/development/plugin-signer.md)** - **[PRIVATE]** owner-controlled plugin signing
 3. **[sign_pii_engine.py](tools/development/sign-pii-engine.md)** - Sign PII detection engine configurations
-4. **[sign_plugin_manifest.py](tools/development/sign-plugin-manifest.md)** - Sign plugin manifest files
+4. **[sign_plugin_manifest.py](tools/development/sign-plugin-manifest.md)** - **[PRIVATE]** owner-controlled manifest signing
 5. **[debug_graph_keys.cpp](tools/development/debug-graph-keys.md)** - Debug graph database key issues
 6. **[migrate_vector_encryption.cpp](tools/development/migrate-vector-encryption.md)** - Migrate vectors to encrypted format
 7. **[txn_smoke.cpp](tools/development/txn-smoke.md)** - Run transaction smoke tests
@@ -134,7 +134,7 @@ Tools for analyzing deployment costs and TCO.
 ### For Developers
 
 - **Code Analysis:** namespace_analyzer.py
-- **Plugin Development:** plugin_signer, sign_plugin_manifest.py
+- **Plugin Development:** plugin signature verification (signing is private-owner-only)
 - **Security:** sign_pii_engine.py, migrate_vector_encryption.cpp
 - **Testing:** txn_smoke.cpp, debug_graph_keys.cpp
 - **Documentation:** publish_wiki.py, themis_docs_builder
@@ -213,8 +213,8 @@ cd tools
 ### Plugin Development
 
 1. **Develop Plugin:** Create hardware acceleration plugin
-2. **Sign Plugin:** Use plugin_signer to add digital signature
-3. **Sign Manifest:** Use sign_plugin_manifest.py for manifest file
+2. **Sign Plugin:** Use private owner-controlled signing pipeline
+3. **Sign Manifest:** Use private owner-controlled manifest signing pipeline
 4. **Test:** Load plugin and verify signature validation
 5. **Distribute:** Share signed plugin with users
 

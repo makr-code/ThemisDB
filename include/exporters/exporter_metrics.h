@@ -151,6 +151,29 @@ public:
     /// HuggingFace: Get total rate-limit hits recorded
     size_t getRateLimitHits() const;
 
+    /// @brief Record an export denied by PolicyEngine.
+    ///
+    /// Increments the policy-denial counter and registers the event under the
+    /// unified error type key "policy_denied" in @c getErrorsByType().
+    ///
+    /// @param collection   Name of the collection that was denied.
+    /// @param user         Identity of the requesting user/service.
+    void recordPolicyDenial(const std::string& collection, const std::string& user);
+
+    /// @return Total number of policy-denial events recorded.
+    size_t getPolicyDenials() const;
+
+    /// @brief Record a HuggingFace Hub upload failure.
+    ///
+    /// Increments the hub-upload-failure counter and registers the event under
+    /// the unified error type key "hub_upload_failure" in @c getErrorsByType().
+    ///
+    /// @param reason   Short reason string (e.g. HTTP status code or error class).
+    void recordHubUploadFailure(const std::string& reason);
+
+    /// @return Total number of hub-upload-failure events recorded.
+    size_t getHubUploadFailures() const;
+
     /// Export metrics as JSON
     nlohmann::json toJson() const;
     
@@ -216,6 +239,12 @@ private:
 
     // HuggingFace: HTTP 429 rate-limit hits (exporters.huggingface.rate_limit_hit)
     std::atomic<size_t> rate_limit_hits_{0};
+
+    // Policy denials (exporter_policy_denials_total)
+    std::atomic<size_t> policy_denials_{0};
+
+    // HuggingFace Hub upload failures (exporter_hub_upload_failures_total)
+    std::atomic<size_t> hub_upload_failures_{0};
     
     // Helper to update latency histogram
     void updateLatencyHistogram(std::chrono::milliseconds duration);

@@ -41,8 +41,12 @@ Q3 2026 Status Update (2026-07-28):
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [ ] freeze capability/federation/merge/sync contracts for active major line (Target: Q3 2026)
-- [ ] define explicit distributed failure taxonomy for timeout/policy/privacy classes (Target: Q3 2026)
+- [x] freeze capability/federation/merge/sync contracts for active major line (Delivered: Q3 2026)
+- [x] define explicit distributed failure taxonomy for timeout/policy/privacy classes (Delivered: Q3 2026)
+  - Contract header: `include/distributed_knowledge/distributed_knowledge_api_contract.h`
+  - Error codes: ENTITY_NOT_FOUND, FEDERATION_TIMEOUT, CONFLICT_UNRESOLVABLE, GRAPH_CORRUPTED,
+    RETRIEVAL_LIMIT_EXCEEDED, TOMBSTONE_PROPAGATION_FAILED, CRDT_MERGE_TYPE_MISMATCH, INTERNAL_ERROR
+  - LWW resolveLww() helper with tie-break semantics
 
 ### Phase 2: Core Implementation
 - [ ] complete hardening for aggregation, merge, and sync coordinator internals (Target: Q4 2026)
@@ -53,17 +57,26 @@ Q3 2026 Status Update (2026-07-28):
 - [ ] unify diagnostics for timeout, dedup, and partial-shard merge failures (Target: Q4 2026)
 
 ### Phase 4: Tests
-- [ ] expand focused regressions for capability/routing and federation edge scenarios (Target: Q4 2026)
-- [ ] extend deterministic fixture coverage for shard-response permutation matrixes (Target: Q4 2026)
+- [x] expand focused regressions for capability/routing and federation edge scenarios (Delivered: Q3 2026)
+- [x] extend deterministic fixture coverage for shard-response permutation matrixes (Delivered: Q3 2026)
+  - Test file: `tests/distributed_knowledge/test_dk_contract_hardening_focused.cpp`
+  - Test cases: DKC-01..DKC-16 (entity lifecycle, federation, retrieval, conflict resolution)
+  - kDKContractSeed = 42; all tests self-contained, no external I/O
 
 ### Phase 5: Performance and Hardening
-- [ ] lock benchmark-backed release gates for federation and merge hot paths (Target: Q4 2026)
-- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+- [x] lock benchmark-backed release gates for federation and merge hot paths (Delivered: Q3 2026)
+- [x] validate p95/p99 and throughput behavior against release baselines (Delivered: Q3 2026)
+  - Benchmark file: `benchmarks/distributed_knowledge/bench_dk_release_gates.cpp`
+  - Gates: DKRG-01..DKRG-06 (insert ≥100k/s, neighbours ≤500µs, path ≤5ms,
+    LWW ≤100µs, federation-union ≤5ms, serialization ≤100µs)
+  - kDKCanonicalSeed = 42; Repetitions(5)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core distributed_knowledge module docs aligned to source-verifiable behavior
 - [x] roadmap/future planning separated from historical changelog entries
 - [x] focused test infrastructure created (58 unit tests, 5 surface areas, Q3 2026)
+- [x] Phase 1-6 Wave 3B Category-D closure delivered (Q3 2026)
+  - Contract header, 16 focused tests (DKC-01..16), 6 release-gate benchmarks (DKRG-01..06)
 
 ## Production Readiness Checklist
 

@@ -66,6 +66,7 @@ Describe what the documentation should say or cover after fixing this issue.
 - [ ] Tier precedence check passed (`Primary > Secondary > Tertiary`)
 - [ ] Issue is assigned to the correct docs milestone
 - [ ] Release-gate evidence is linked when the SOT domain is `build-test` or `release-versioning`
+- [ ] Private-plugin findings do not leak confidential repository paths, URLs, or implementation details into public docs
 
 ## Additional Context
 

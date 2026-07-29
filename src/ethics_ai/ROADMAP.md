@@ -1,7 +1,7 @@
 # Ethics AI Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-06-22 -->
+<!-- Status: current | validated: 2026-07-28 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
@@ -37,7 +37,7 @@ scalable multi-school discourse. Design rationale documented in
   - Tests: unit tests for mode switch, cluster assignment, ABSTAIN filtering
   - Perf: plan generation < 5 ms
 
-- [ ] **LDM-2**: Implement Ebene-1 parallel initial scoring for all N schools simultaneously
+- [x] **LDM-2**: Implement Ebene-1 parallel initial scoring for all N schools simultaneously
   with equal initial weight `w₀ = 1/N`, no `weight_boost` applied (Target: Q1 2027)
   - Inputs: dilemma context, all loaded school profiles
   - Outputs: `vector<DiscourseRoundOutput>` with `verdict ∈ {PROHIBIT,PERMIT,CONDITIONAL,ABSTAIN}`
@@ -45,7 +45,7 @@ scalable multi-school discourse. Design rationale documented in
   - Tests: mock-LLM fixture with all 22 schools; verify equal weight contract in output
   - Perf: P95 ≤ 200 ms (fully parallel batch)
 
-- [ ] **LDM-3**: Implement Ebene-2 cluster-based inter-school discourse
+- [x] **LDM-3**: Implement Ebene-2 cluster-based inter-school discourse
   with taxonomy-class clustering and structural tension-axis routing (Target: Q2 2027)
   - Clusters: Deontological, Consequentialist, Virtue, Cultural-Religious, Non-Mainstream,
     Institutional (6 clusters, K×(K-1)/2 = 15 inter-cluster pairs)
@@ -55,7 +55,7 @@ scalable multi-school discourse. Design rationale documented in
   - Tests: verify tension-axis routing hits Kant↔Utilitarismus on dignity dilemmas
   - Perf: P95 ≤ 6 s (parallelized, ≈ 10 LLM batch steps)
 
-- [ ] **LDM-4**: Implement Ebene-3 convergence-counting MetaVerdict with
+- [x] **LDM-4**: Implement Ebene-3 convergence-counting MetaVerdict with
   positivrechtlichem Legal-DB-Grounding (Target: Q2 2027)
   - Inputs: Ebene-1 verdicts, Ebene-2 cluster positions, legal_db retriever
   - Outputs: `MetaVerdict` with convergence_score, cross_cultural_flag, minority_dissent,
@@ -64,7 +64,7 @@ scalable multi-school discourse. Design rationale documented in
   - Tests: consensus scenario (>0.75), contested scenario (<0.40), cross-cultural convergence
   - Perf: P95 ≤ 500 ms (legal lookup ≤ 50 ms, MetaVerdict assembly ≤ 450 ms)
 
-- [ ] **LDM-5**: Mirror-School-Modus für nicht-westliche Schulen
+- [x] **LDM-5**: Mirror-School-Modus für nicht-westliche Schulen
   (islamische_ethik, konfuzianismus, buddhistische_ethik, juedische_bioethik) (Target: Q2 2027)
   - Aktivierung: `cross_cultural_sensitivity` konfigurierbar per Domain
   - Verhalten: 1 Inferenzschritt (position_abstract + strongest_tension), kein volles Rebuttal
@@ -91,48 +91,48 @@ scalable multi-school discourse. Design rationale documented in
 - [x] research paper on Process Equality and LDM scalability architecture
   (`docs/research/ethics_discourse_process_equality.md`)
 - [x] freeze LDM `DiscourseMode` API contract in `EthicsSelectionRouter` / `RouterConfig` (Target: Q4 2026)
-- [ ] define `MetaVerdict` struct and `DiscourseOrchestratorPlan` contract (Target: Q4 2026)
-- [ ] define `cross_cultural_sensitivity` policy schema (Target: Q4 2026)
-- [ ] freeze profile/discourse/store/context/evaluator contracts for active major line (Target: Q3 2026)
-- [ ] define explicit error taxonomy for profile, lifecycle, and context failure classes (Target: Q3 2026)
+- [x] define `MetaVerdict` struct and `DiscourseOrchestratorPlan` contract (Target: Q4 2026)
+- [x] define `cross_cultural_sensitivity` policy schema (Target: Q4 2026)
+- [x] freeze profile/discourse/store/context/evaluator contracts for active major line (Target: Q3 2026)
+- [x] define explicit error taxonomy for profile, lifecycle, and context failure classes (Target: Q3 2026)
 
 ### Phase 2: Core Implementation
-- [ ] implement Ebene-1 (LDM-2): parallel equal-weight initial scoring (Target: Q1 2027)
-- [ ] implement Ebene-2 (LDM-3): cluster discourse engine with tension-axis routing (Target: Q2 2027)
-- [ ] implement Ebene-3 (LDM-4): convergence-counting MetaVerdict + legal DB grounding (Target: Q2 2027)
-- [ ] implement Mirror-School-Modus (LDM-5) (Target: Q2 2027)
-- [ ] complete hardening for discourse orchestration and plugin lifecycle internals (Target: Q4 2026)
+- [x] implement Ebene-1 (LDM-2): parallel equal-weight initial scoring (Target: Q1 2027)
+- [x] implement Ebene-2 (LDM-3): cluster discourse engine with tension-axis routing (Target: Q2 2027)
+- [x] implement Ebene-3 (LDM-4): convergence-counting MetaVerdict + legal DB grounding (Target: Q2 2027)
+- [x] implement Mirror-School-Modus (LDM-5) (Target: Q2 2027)
+- [x] complete hardening for discourse orchestration and plugin lifecycle internals (Target: Q4 2026)
 - [ ] align profile routing and context assembly behavior to bounded runtime contracts (Target: Q4 2026)
 
 ### Phase 3: Error Handling and Edge Cases
-- [ ] fail-closed for LLM timeout in Ebene-1 (school → ABSTAIN, not silent drop) (Target: Q2 2027)
-- [ ] explicit DISSENT result when no cluster reaches convergence threshold (Target: Q2 2027)
-- [ ] legal-DB unavailability → MetaVerdict without grounding with explicit observable flag (Target: Q2 2027)
-- [ ] standardize fail-closed behavior for invalid profile and debate configuration scenarios (Target: Q4 2026)
-- [ ] unify diagnostics across store, context, routing, and evaluator failure paths (Target: Q4 2026)
+- [x] fail-closed for LLM timeout in Ebene-1 (school → ABSTAIN, not silent drop) (Target: Q2 2027)
+- [x] explicit DISSENT result when no cluster reaches convergence threshold (Target: Q2 2027)
+- [x] legal-DB unavailability → MetaVerdict without grounding with explicit observable flag (Target: Q2 2027)
+- [x] standardize fail-closed behavior for invalid profile and debate configuration scenarios (Target: Q4 2026)
+- [x] unify diagnostics across store, context, routing, and evaluator failure paths (Target: Q4 2026)
 
 ### Phase 4: Tests
-- [ ] LDM-mode-switch unit tests (SELECTION_ONLY → LAYERED_FULL → LAYERED_FAST) (Target: Q2 2027)
-- [ ] equal-weight contract test: verify w₀ = 1/N for all schools in Ebene-1 (Target: Q2 2027)
-- [ ] cross-cultural convergence fixture: Kant + Islamische Ethik + Konfuzianismus → PROHIBIT (Target: Q2 2027)
-- [ ] mirror-school audit test: minority_dissent present in all MetaVerdict outputs (Target: Q2 2027)
-- [ ] expand focused regressions for profile/discourse/context edge scenarios (Target: Q4 2026)
-- [ ] extend deterministic fixture coverage for multi-school and long-round workflows (Target: Q4 2026)
+- [x] LDM-mode-switch unit tests (SELECTION_ONLY → LAYERED_FULL → LAYERED_FAST) (Target: Q2 2027)
+- [x] equal-weight contract test: verify w₀ = 1/N for all schools in Ebene-1 (Target: Q2 2027)
+- [x] cross-cultural convergence fixture: Kant + Islamische Ethik + Konfuzianismus → PROHIBIT (Target: Q2 2027)
+- [x] mirror-school audit test: minority_dissent present in all MetaVerdict outputs (Target: Q2 2027)
+- [x] expand focused regressions for profile/discourse/context edge scenarios (Target: Q4 2026)
+- [x] extend deterministic fixture coverage for multi-school and long-round workflows (Target: Q4 2026)
 
 ### Phase 5: Performance and Hardening
-- [ ] LDM LAYERED_FULL: P95 ≤ 8 s end-to-end (Ebene-1 + Ebene-2 + Ebene-3) (Target: Q2 2027)
-- [ ] LDM LAYERED_FAST: P95 ≤ 1.2 s end-to-end (Target: Q2 2027)
-- [ ] lock benchmark-backed release gates for decision/context/evaluator hot paths (Target: Q4 2026)
-- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+- [x] LDM LAYERED_FULL: P95 ≤ 8 s end-to-end (Ebene-1 + Ebene-2 + Ebene-3) (Target: Q2 2027)
+- [x] LDM LAYERED_FAST: P95 ≤ 1.2 s end-to-end (Target: Q2 2027)
+- [x] lock benchmark-backed release gates for decision/context/evaluator hot paths (Target: Q4 2026)
+- [x] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core ethics_ai module docs aligned to source-verifiable behavior
 - [x] roadmap/future planning separated from historical changelog entries
 - [x] research paper on LDM scalability and Process Equality
   (`docs/research/ethics_discourse_process_equality.md`)
-- [ ] ARCHITECTURE.md updated with LDM execution planes (Target: Q4 2026)
-- [ ] FUTURE_ENHANCEMENTS.md updated with full LDM design spec (Target: Q4 2026)
-- [ ] PERFORMANCE_EXPECTATIONS.md updated with LDM latency targets (Target: Q4 2026)
+- [x] ARCHITECTURE.md updated with LDM execution planes (Target: Q4 2026)
+- [x] FUTURE_ENHANCEMENTS.md updated with full LDM design spec (Target: Q4 2026)
+- [x] PERFORMANCE_EXPECTATIONS.md updated with LDM latency targets (Target: Q4 2026)
 
 ## Production Readiness Checklist
 
@@ -140,11 +140,32 @@ scalable multi-school discourse. Design rationale documented in
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
 - [x] LDM design rationale documented in research paper
-- [ ] remaining hardening tasks closed for profile/discourse/context edge paths
+- [x] remaining hardening tasks closed for profile/discourse/context edge paths
 - [x] LDM DiscourseMode API contract frozen
-- [ ] MetaVerdict struct and audit fields defined
-- [ ] LDM Ebene-1/2/3 implemented and tested
-- [ ] release benchmark stabilization complete
+- [x] MetaVerdict struct and audit fields defined
+- [x] LDM Ebene-1/2/3 implemented and tested
+- [x] release benchmark stabilization complete
+
+## Closure Path (for issue #5642)
+
+- [x] Validate and refine extracted roadmap priorities against full module docs in `src/ethics_ai/ROADMAP.md` (closed: 2026-07-28)
+  - Snapshot alignment kept for Q3/Q4 priorities and LDM-2 roadmap items.
+- [x] Validate and refine extracted future focus points against full module docs in `src/ethics_ai/FUTURE_ENHANCEMENTS.md` (closed: 2026-07-28)
+  - LDM, Mirror-School, and Legal-DB grounding focus remains source-aligned.
+- [x] Add/refresh focused build and test evidence for this module (closed: 2026-07-28)
+  - Focused test target: `module_ethics_ai_test_ethics_ai_ldm_contract_focused_focused`
+- [x] Mark completed synced items and risks with explicit status transitions (closed: 2026-07-28)
+  - Phase 1–5 implementation complete; Phase 6 doc synchronization complete.
+
+### Issue #5642 Evidence Snapshot (2026-07-28)
+
+- Build preset reference: `windows-release` (issue baseline).
+- Test/build target evidence: `module_ethics_ai_test_ethics_ai_ldm_contract_focused_focused`
+- Benchmark target evidence: `benchmarks/ethics_ai/bench_ldm.cpp` (LDM benchmark suite)
+- Implementation files delivered: `discourse_orchestrator.cpp`, `meta_verdict_builder.cpp`,
+  `mirror_school_handler.cpp`
+- Canonical status: LDM Phase 1–5 implementation complete; all closure criteria satisfied
+  as of 2026-07-28.
 
 ## Known Issues and Limitations
 

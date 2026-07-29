@@ -29,8 +29,8 @@ Production-capable process modeling runtime exists for process model lifecycle o
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [ ] freeze process lifecycle/retrieval/linking contracts for active major line (Target: Q3 2026)
-- [ ] define explicit error taxonomy for process module failure classes (Target: Q3 2026)
+- [x] freeze process lifecycle/retrieval/linking contracts for active major line (Target: Q3 2026)
+- [x] define explicit error taxonomy for process module failure classes (Target: Q3 2026)
 
 ### Phase 2: Core Implementation
 - [ ] complete hardening for process model and serializer internals (Target: Q4 2026)
@@ -41,12 +41,12 @@ Production-capable process modeling runtime exists for process model lifecycle o
 - [ ] unify diagnostics across import/lifecycle/retrieval incidents (Target: Q4 2026)
 
 ### Phase 4: Tests
-- [ ] expand focused regressions for process parser and linker edge scenarios (Target: Q4 2026)
-- [ ] extend deterministic stress fixtures for process retrieval/mining operations (Target: Q4 2026)
+- [x] expand focused regressions for process parser and linker edge scenarios (Target: Q4 2026)
+- [x] extend deterministic stress fixtures for process retrieval/mining operations (Target: Q4 2026)
 
 ### Phase 5: Performance and Hardening
-- [ ] lock benchmark-backed release gates for process hot paths (Target: Q4 2026)
-- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+- [x] lock benchmark-backed release gates for process hot paths (Target: Q4 2026)
+- [x] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core process module docs aligned to source-verifiable behavior
@@ -58,7 +58,7 @@ Production-capable process modeling runtime exists for process model lifecycle o
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
 - [ ] remaining hardening tasks closed for parser/lifecycle/retrieval edge paths
-- [ ] release benchmark stabilization complete
+- [x] release benchmark stabilization complete
 
 ## Known Issues and Limitations
 

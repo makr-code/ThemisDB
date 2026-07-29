@@ -216,11 +216,14 @@ ExportStats StreamingExporter::exportFromCursor(ExportCursor &cursor, const Expo
             metrics_->recordCompression(writer.getBytesWritten(), writer.getCompressedBytesWritten());
         }
 
+        const bool has_v2_encryption
+            = options.encryption_config && !options.encryption_config->empty();
+
         // Optional AES-256-GCM encryption of the output file.
         // When enabled, the plaintext export file is encrypted in-place:
         // the ciphertext overwrites the original file at output_path, and
         // the plaintext bytes are securely discarded from memory.
-        if (options.encryption.enabled && !options.output_path.empty()) {
+        if (!has_v2_encryption && options.encryption.enabled && !options.output_path.empty()) {
             const std::string tmp_path = options.output_path + ".enc_tmp";
             ExportEncryption encryptor(options.encryption);
             encryptor.encryptFile(options.output_path, tmp_path);
@@ -240,7 +243,11 @@ ExportStats StreamingExporter::exportFromCursor(ExportCursor &cursor, const Expo
         }
 
         // P3: Encrypt output file if configured
-        if (options.encryption_config && !options.encryption_config->empty()) {
+        if (has_v2_encryption) {
+            if (options.encryption.enabled) {
+                THEMIS_WARN("StreamingExporter: both legacy encryption and encryption_config are set; "
+                            "using encryption_config and ignoring legacy settings.");
+            }
             const std::string enc_tmp = options.output_path + ".enc_tmp";
             try {
                 ExportEncryptor encryptor(*options.encryption_config);
