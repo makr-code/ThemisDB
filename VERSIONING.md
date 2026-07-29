@@ -136,7 +136,7 @@ Rules:
 - plugin `MAJOR`: plugin ABI/API break or incompatible core-compatibility contract change
 - plugin `MINOR`: new backward-compatible capability
 - plugin `PATCH`: backward-compatible fix or hardening
-- the superproject release contract is the combination of submodule pin + manifest compatibility fields, not a floating branch name
+- the superproject release contract is the combination of a plugin-named private submodule pin + manifest compatibility fields, not a floating branch name
 - private plugin manifests should declare `min_themisdb_version`, optional `max_themisdb_version`, and optional `compatible_core_abi`
 - edition-restricted plugins must also declare `allowed_editions` and `license_feature` so runtime and packaging gates can stay fail-closed
 

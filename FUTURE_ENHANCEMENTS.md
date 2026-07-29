@@ -43,7 +43,7 @@
 ## private-plugin-externalization
 
 ### Scope
-- Establish the public/private plugin split for family-based optional submodules under `plugins/private/` without removing public reference plugins from the monorepo.
+- Establish the public/private plugin split for plugin-name-aligned optional submodules under `plugins/private/` without removing public reference plugins from the monorepo.
 - Cover Wave-1 candidates (`ethics_ai`, `user_storage_encrypted`, connector pack) and define the refactor-first boundary for static AI/acceleration modules.
 
 ### Design Constraints
@@ -58,11 +58,11 @@
 - `.gitmodules`, private-release workflows, `ROADMAP.md`, `RELEASE_STRATEGY.md`, and `VERSIONING.md`
 
 ### Implementation Notes
-- Model private plugin families as `compliance`, `connectors`, `acceleration`, and later `regintel`, with `WITH_PRIVATE_*` defaults set to `OFF`.
-- Wave-1 repository cut is by private family (not file-by-file): `makr-code/themisdb-private-compliance` (`ethics_ai`, `user_storage_encrypted`) and `makr-code/themisdb-private-connectors` (MySQL/Mongo/Kafka/S3 importers plus Azure/S3 blob backends).
+- Keep `WITH_PRIVATE_*` defaults at `OFF`, but align repository names and `plugins/private/*` paths with the current plugin names wherever possible.
+- Wave-1 repository cut should use plugin-name-aligned repos and submodule paths: `makr-code/themisdb-private-ethics-ai` → `plugins/private/ethics_ai`, `makr-code/themisdb-private-user-storage-encrypted` → `plugins/private/user_storage_encrypted`, plus matching connector/blob repos for `mysql_importer`, `mongo_importer`, `kafka_importer`, `s3_importer`, `azure_blob_storage`, and `s3_blob_storage`.
 - Keep `src/ethics_ai/ethics_evaluator.{h,cpp}` and `include/ethics_ai/ethics_ai_types.h` as temporary public core shims until CAI/LLM seams are fully decoupled.
 - Keep benchmark split work explicit: extract private connector scenarios from `benchmarks/bench_importer_throughput.cpp` and validate whether `benchmarks/bench_blob_zstd.cpp` must be split before full connector externalization.
-- Defer `themisdb-private-acceleration` and `themisdb-private-regintel` to Wave-2+ after SDK/ABI seam hardening.
+- Defer plugin-named acceleration and regulated-intelligence private repos (for example `gpu-impact-analysis`) to Wave-2+ after SDK/ABI seam hardening.
 - Extend manifests with visibility, edition-allowance, license-feature, and core-compatibility metadata while keeping absent fields backward-compatible.
 - Preserve open reference plugins (for example PostgreSQL importer, JSONL exporter, HuggingFace ingestion, ONNX CLIP) in the public tree.
 

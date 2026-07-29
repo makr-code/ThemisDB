@@ -80,7 +80,7 @@ Private plugin family repositories follow the same canonical branch model when t
 - normal implementation targets `develop`
 - release promotion uses `enterprise`, `hyperscaler`, or `military` only when the family publishes edition-specific artefacts
 - no private plugin repository may introduce new `main` or `millitary` automation, documentation, or PR targets
-- the superproject consumes private plugin repositories only through commit-pinned submodules, never floating branches
+- the superproject consumes private plugin repositories only through commit-pinned submodules whose paths mirror the current plugin names, never floating branches
 
 ## 5. Branch Types
 

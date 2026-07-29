@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Added private-plugin governance groundwork across root roadmap, release strategy, versioning, and documentation policy documents.
-- Added CMake wiring for optional `plugins/private/*` family submodules and default-off `WITH_PRIVATE_*` feature flags.
+- Added CMake wiring for optional `plugins/private/*` plugin-named submodules and default-off `WITH_PRIVATE_*` feature flags.
 - Added manifest/runtime metadata support for plugin visibility, allowed editions, license features, and core compatibility fields.
 - Added a targeted PR workflow gate for private-plugin boundary changes.
 
@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Marked Wave-1 private candidates (`ethics_ai`, `user_storage_encrypted`, connector/blob manifests) with explicit private/restricted metadata for later submodule migration.
 - Converted `plugins/ethics_ai` and `plugins/user_storage_encrypted` CMake compatibility entry points to optional no-hard-fail delegation shims for missing private/public source trees.
 - Split monolithic and modular core source registration for Wave-1 connector/blob candidates behind optional source checks so absent public files can be externalized without community checkout failures.
+- Renamed the planned private repository and `plugins/private/*` layout to stay close to the current plugin names instead of abstract family buckets.
 
 ### Security
 - Tightened Community-vs-private guardrails in governance docs, SBOM/license workflow triggers, and private-plugin PR policy checks.

@@ -132,7 +132,8 @@ All docs changes must follow repository conventions. Violations are review block
 - Status claims must be evidence-backed and traceable to canonical sources.
 - Prefer short declarative sentences and consistent terminology.
 - Reuse repository lifecycle vocabulary; avoid contradictory synonyms.
-- Public documentation must not disclose private repository URLs, private source layouts, or confidential implementation details; describe private plugin families only at the governance/interface level.
+- Public documentation must not disclose private repository URLs, private source layouts, or confidential implementation details; describe private plugin boundaries only at the governance/interface level.
+- When private plugin repos or submodule paths are named in governance docs, prefer names that mirror the current plugin names to keep repository-to-plugin mapping obvious.
 
 ### Mandatory checks per change
 

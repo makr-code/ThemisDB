@@ -77,7 +77,6 @@ if(THEMIS_PLUGIN_SAGA_ORCHESTRATOR AND EXISTS "${THEMIS_ROOT_DIR}/src/transactio
 endif()
 
 include("${THEMIS_ROOT_DIR}/cmake/PrivatePlugins.cmake" OPTIONAL)
-if(COMMAND themis_register_private_plugin_families)
-    themis_register_private_plugin_families("${CMAKE_CURRENT_SOURCE_DIR}")
+if(COMMAND themis_register_private_plugins)
+    themis_register_private_plugins("${CMAKE_CURRENT_SOURCE_DIR}")
 endif()
-
