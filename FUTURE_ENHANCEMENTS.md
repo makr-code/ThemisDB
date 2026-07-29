@@ -59,7 +59,13 @@
 
 ### Implementation Notes
 - Keep `WITH_PRIVATE_*` defaults at `OFF`, but align repository names and `plugins/private/*` paths with the current plugin names wherever possible.
-- Wave-1 repository cut should use plugin-name-aligned repos and submodule paths: `makr-code/themisdb-private-ethics-ai` → `plugins/private/ethics_ai`, `makr-code/themisdb-private-user-storage-encrypted` → `plugins/private/user_storage_encrypted`, plus matching connector/blob repos for `mysql_importer`, `mongo_importer`, `kafka_importer`, `s3_importer`, `azure_blob_storage`, and `s3_blob_storage`.
+- Wave-1 private repositories provisioned (2026-07) with aggregate layout:
+  - `makr-code/themisdb_ethic_ai` → `plugins/private/themisdb_ethic_ai/` (ethics_ai plugin root)
+  - `makr-code/themisdb_storage` → `plugins/private/themisdb_storage/` (subdirs: `user_storage_encrypted/`, `azure_blob_storage/`, `s3_blob_storage/`)
+  - `makr-code/themisdb_importer` → `plugins/private/themisdb_importer/` (subdirs: `mysql_importer/`, `mongo_importer/`, `kafka_importer/`, `s3_importer/`)
+  - `makr-code/themisdb_llm_wiki` → `plugins/private/themisdb_llm_wiki/` (LLM Wiki tool)
+- CMake paths in `cmake/PrivatePlugins.cmake` updated to use aggregate repo subdirectory structure.
+- Commit-pin hashes for all submodule entries pending after initial content push to the private repos.
 - Keep `src/ethics_ai/ethics_evaluator.{h,cpp}` and `include/ethics_ai/ethics_ai_types.h` as temporary public core shims until CAI/LLM seams are fully decoupled.
 - Keep benchmark split work explicit: extract private connector scenarios from `benchmarks/bench_importer_throughput.cpp` and validate whether `benchmarks/bench_blob_zstd.cpp` must be split before full connector externalization.
 - Defer plugin-named acceleration and regulated-intelligence private repos (for example `gpu-impact-analysis`) to Wave-2+ after SDK/ABI seam hardening.

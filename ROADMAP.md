@@ -64,9 +64,14 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 
 #### Phase 2 — Core Implementation
 - [~] Introduce `WITH_PRIVATE_*` grouping/plugin flags and centralized private-plugin loading helpers with no-hard-fail `EXISTS(...)` handling (Target: Q3 2026)
-- [~] Wave-1 repository/plugin mapping fixed: `makr-code/themisdb-private-ethics-ai` → `plugins/private/ethics_ai`, `makr-code/themisdb-private-user-storage-encrypted` → `plugins/private/user_storage_encrypted`; connector/blob candidates should use matching plugin-name repos/submodule paths (`mysql-importer`, `mongo-importer`, `kafka-importer`, `s3-importer`, `azure-blob-storage`, `s3-blob-storage`); `gpu-impact-analysis` remains explicitly out of Wave 1 (Target: Q3 2026)
+- [x] Wave-1 private repositories provisioned and submodule paths finalized (2026-07):
+  - `makr-code/themisdb_ethic_ai` → `plugins/private/themisdb_ethic_ai/` (ethics_ai plugin root)
+  - `makr-code/themisdb_storage` → `plugins/private/themisdb_storage/` (aggregate: `user_storage_encrypted/`, `azure_blob_storage/`, `s3_blob_storage/`)
+  - `makr-code/themisdb_importer` → `plugins/private/themisdb_importer/` (aggregate: `mysql_importer/`, `mongo_importer/`, `kafka_importer/`, `s3_importer/`)
+  - `makr-code/themisdb_llm_wiki` → `plugins/private/themisdb_llm_wiki/` (LLM Wiki tool)
+  - `gpu-impact-analysis` remains explicitly out of Wave 1
 - [~] Core source registration for private connector candidates is split behind optional source checks so missing public files no longer hard-break Community checkouts (Target: Q3 2026)
-- [ ] Move Wave-1 private modules to commit-pinned submodules once the private repositories are provisioned (Target: Q4 2026)
+- [ ] Move Wave-1 private modules to commit-pinned submodules — repositories provisioned, commit pins pending after initial content push (Target: Q3 2026)
 - [ ] Keep static AI/acceleration plugins out of Wave 1 until they have a clean shared-library SDK seam (Target: Q4 2026)
 
 #### Phase 3 — Error Handling & Edge Cases
@@ -97,7 +102,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 - [ ] Open reference plugin paths remain available for onboarding-critical storage, export, and AI scenarios
 
 ### Known Issues & Limitations
-- Plugin-named private repositories are not provisioned in this public clone, so `.gitmodules` pinning remains a follow-up after repository creation.
+- Wave-1 private repositories are provisioned (`themisdb_ethic_ai`, `themisdb_storage`, `themisdb_importer`, `themisdb_llm_wiki`). `.gitmodules` entries added; commit-pin hashes pending after initial content push to the private repos.
 - `ethics_ai` is not yet fully separable from core: `src/ethics_ai/ethics_evaluator.{h,cpp}` and `include/ethics_ai/ethics_ai_types.h` remain public shims for CAI/LLM integration paths.
 - Shared benchmark files (`benchmarks/bench_importer_throughput.cpp`, `benchmarks/bench_blob_zstd.cpp`) still contain mixed public/private scenarios and require split extraction before the plugin-name-aligned connector/blob migration completes.
 - `scraper`, `llama_cpp`, `whisper`, `stable_diffusion`, and acceleration backends still contain static or core-coupled build paths and are intentionally excluded from Wave 1.

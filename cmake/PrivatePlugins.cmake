@@ -1,5 +1,21 @@
 include_guard(GLOBAL)
 
+# Wave-1 private plugin aggregate repository layout (provisioned 2026-07):
+#
+#   makr-code/themisdb_ethic_ai   → plugins/private/themisdb_ethic_ai/
+#   makr-code/themisdb_storage    → plugins/private/themisdb_storage/
+#       user_storage_encrypted/
+#       azure_blob_storage/
+#       s3_blob_storage/
+#   makr-code/themisdb_importer   → plugins/private/themisdb_importer/
+#       mysql_importer/
+#       mongo_importer/
+#       kafka_importer/
+#       s3_importer/
+#   makr-code/themisdb_llm_wiki   → plugins/private/themisdb_llm_wiki/
+#
+# Each submodule is commit-pinned and optional (no-hard-fail when absent).
+
 function(_themis_add_optional_private_plugin_dir label source_dir binary_dir)
     if(EXISTS "${source_dir}/CMakeLists.txt")
         message(STATUS "  - ${label} (private plugin)")
@@ -10,32 +26,58 @@ function(_themis_add_optional_private_plugin_dir label source_dir binary_dir)
 endfunction()
 
 function(themis_register_private_plugins plugins_root)
+    # ethics_ai — aggregate repo root is the plugin dir
     if(WITH_PRIVATE_ETHICS_AI)
-        _themis_add_optional_private_plugin_dir("Private plugin: ethics_ai" "${plugins_root}/private/ethics_ai" "${CMAKE_CURRENT_BINARY_DIR}/private_ethics_ai")
+        _themis_add_optional_private_plugin_dir("Private plugin: ethics_ai"
+            "${plugins_root}/private/themisdb_ethic_ai"
+            "${CMAKE_CURRENT_BINARY_DIR}/private_ethics_ai")
     endif()
 
+    # storage plugins — subdirectories inside themisdb_storage aggregate repo
     if(WITH_PRIVATE_USER_STORAGE_ENCRYPTED)
-        _themis_add_optional_private_plugin_dir("Private plugin: user_storage_encrypted" "${plugins_root}/private/user_storage_encrypted" "${CMAKE_CURRENT_BINARY_DIR}/private_user_storage_encrypted")
+        _themis_add_optional_private_plugin_dir("Private plugin: user_storage_encrypted"
+            "${plugins_root}/private/themisdb_storage/user_storage_encrypted"
+            "${CMAKE_CURRENT_BINARY_DIR}/private_user_storage_encrypted")
     endif()
 
     if(WITH_PRIVATE_CONNECTOR_PACK)
-        _themis_add_optional_private_plugin_dir("Private plugin: mysql_importer" "${plugins_root}/private/mysql_importer" "${CMAKE_CURRENT_BINARY_DIR}/private_mysql_importer")
-        _themis_add_optional_private_plugin_dir("Private plugin: mongo_importer" "${plugins_root}/private/mongo_importer" "${CMAKE_CURRENT_BINARY_DIR}/private_mongo_importer")
-        _themis_add_optional_private_plugin_dir("Private plugin: kafka_importer" "${plugins_root}/private/kafka_importer" "${CMAKE_CURRENT_BINARY_DIR}/private_kafka_importer")
-        _themis_add_optional_private_plugin_dir("Private plugin: s3_importer" "${plugins_root}/private/s3_importer" "${CMAKE_CURRENT_BINARY_DIR}/private_s3_importer")
-        _themis_add_optional_private_plugin_dir("Private plugin: azure_blob_storage" "${plugins_root}/private/azure_blob_storage" "${CMAKE_CURRENT_BINARY_DIR}/private_azure_blob_storage")
-        _themis_add_optional_private_plugin_dir("Private plugin: s3_blob_storage" "${plugins_root}/private/s3_blob_storage" "${CMAKE_CURRENT_BINARY_DIR}/private_s3_blob_storage")
+        # importer plugins — subdirectories inside themisdb_importer aggregate repo
+        _themis_add_optional_private_plugin_dir("Private plugin: mysql_importer"
+            "${plugins_root}/private/themisdb_importer/mysql_importer"
+            "${CMAKE_CURRENT_BINARY_DIR}/private_mysql_importer")
+        _themis_add_optional_private_plugin_dir("Private plugin: mongo_importer"
+            "${plugins_root}/private/themisdb_importer/mongo_importer"
+            "${CMAKE_CURRENT_BINARY_DIR}/private_mongo_importer")
+        _themis_add_optional_private_plugin_dir("Private plugin: kafka_importer"
+            "${plugins_root}/private/themisdb_importer/kafka_importer"
+            "${CMAKE_CURRENT_BINARY_DIR}/private_kafka_importer")
+        _themis_add_optional_private_plugin_dir("Private plugin: s3_importer"
+            "${plugins_root}/private/themisdb_importer/s3_importer"
+            "${CMAKE_CURRENT_BINARY_DIR}/private_s3_importer")
+        # blob storage plugins — subdirectories inside themisdb_storage aggregate repo
+        _themis_add_optional_private_plugin_dir("Private plugin: azure_blob_storage"
+            "${plugins_root}/private/themisdb_storage/azure_blob_storage"
+            "${CMAKE_CURRENT_BINARY_DIR}/private_azure_blob_storage")
+        _themis_add_optional_private_plugin_dir("Private plugin: s3_blob_storage"
+            "${plugins_root}/private/themisdb_storage/s3_blob_storage"
+            "${CMAKE_CURRENT_BINARY_DIR}/private_s3_blob_storage")
     endif()
 
     if(WITH_PRIVATE_REGINTEL)
-        _themis_add_optional_private_plugin_dir("Private regulated-intelligence plugins" "${plugins_root}/private/regintel" "${CMAKE_CURRENT_BINARY_DIR}/private_regintel")
+        _themis_add_optional_private_plugin_dir("Private regulated-intelligence plugins"
+            "${plugins_root}/private/regintel"
+            "${CMAKE_CURRENT_BINARY_DIR}/private_regintel")
     endif()
 
     if(THEMIS_BUILD_GPU_IMPACT_PLUGIN OR WITH_PRIVATE_GPU_IMPACT_ANALYSIS)
         if(EXISTS "${plugins_root}/private/gpu_impact_analysis/CMakeLists.txt")
-            _themis_add_optional_private_plugin_dir("GPU Impact Analysis Plugin" "${plugins_root}/private/gpu_impact_analysis" "${CMAKE_CURRENT_BINARY_DIR}/private_gpu_impact_analysis")
+            _themis_add_optional_private_plugin_dir("GPU Impact Analysis Plugin"
+                "${plugins_root}/private/gpu_impact_analysis"
+                "${CMAKE_CURRENT_BINARY_DIR}/private_gpu_impact_analysis")
         elseif(EXISTS "${plugins_root}/enterprise/gpu_impact_analysis/CMakeLists.txt")
-            _themis_add_optional_private_plugin_dir("GPU Impact Analysis Plugin" "${plugins_root}/enterprise/gpu_impact_analysis" "${CMAKE_CURRENT_BINARY_DIR}/gpu_impact_analysis")
+            _themis_add_optional_private_plugin_dir("GPU Impact Analysis Plugin"
+                "${plugins_root}/enterprise/gpu_impact_analysis"
+                "${CMAKE_CURRENT_BINARY_DIR}/gpu_impact_analysis")
         else()
             message(STATUS "  - GPU Impact Analysis Plugin not available (optional private source missing)")
         endif()
