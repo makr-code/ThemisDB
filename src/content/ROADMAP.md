@@ -1,7 +1,7 @@
 # Content Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-07-29 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
@@ -33,12 +33,16 @@ Production content runtime exists across ingestion orchestration, multi-format e
 - [x] define explicit error taxonomy for policy/security and processor failure classes (Target: Q3 2026)
 
 ### Phase 2: Core Implementation
-- [ ] complete hardening for manager, processor routing, and async worker internals (Target: Q4 2026)
-- [ ] align enrichment and deduplication behavior to bounded runtime contracts (Target: Q4 2026)
+- [~] complete hardening for manager, processor routing, and async worker internals (Target: Q4 2026)
+  - 2026-07-29: `ContentManager::searchContentHybrid()` now uses the same canonical fulltext table/column contract as ingestion (`chunk.text`) and applies one shared whitelist path for vector and fulltext lanes.
+- [~] align enrichment and deduplication behavior to bounded runtime contracts (Target: Q4 2026)
+  - 2026-07-29: `buildChunkWhitelist()` hardened to fail closed for malformed/empty filter constraints and unknown custom keys; scalar + array filter forms and created-at bounds now normalize into one bounded contract path.
 
 ### Phase 3: Error Handling and Edge Cases
-- [ ] standardize fail-closed behavior for invalid payload and policy-violation scenarios (Target: Q4 2026)
-- [ ] unify diagnostics across extraction, enrichment, and fallback failure paths (Target: Q4 2026)
+- [~] standardize fail-closed behavior for invalid payload and policy-violation scenarios (Target: Q4 2026)
+  - 2026-07-29: malformed search filters (`category` object, empty/invalid selector sets) are now rejected via fail-closed whitelist evaluation instead of silently widening result sets.
+- [~] unify diagnostics across extraction, enrichment, and fallback failure paths (Target: Q4 2026)
+  - 2026-07-29: hybrid search no longer uses divergent ad-hoc fulltext filter parsing; filter handling is unified through one bounded whitelist contract for both retrieval paths.
 
 ### Phase 4: Tests
 - [x] expand focused regressions for format-specific and async-pressure edge scenarios (Target: Q4 2026)
@@ -57,7 +61,7 @@ Production content runtime exists across ingestion orchestration, multi-format e
 - [x] core content surfaces documented and source-verified
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
-- [ ] remaining hardening tasks closed for processor and async edge cases
+- [~] remaining hardening tasks closed for processor and async edge cases
 - [x] release benchmark stabilization complete
 
 ## Known Issues and Limitations
