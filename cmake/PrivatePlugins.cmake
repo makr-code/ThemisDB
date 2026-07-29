@@ -8,10 +8,10 @@ include_guard(GLOBAL)
 #       azure_blob_storage/
 #       s3_blob_storage/
 #   makr-code/themisdb_importer   → plugins/private/themisdb_importer/
-#       mysql_importer/
-#       mongo_importer/
-#       kafka_importer/
-#       s3_importer/
+#       mysql/
+#       mongo/
+#       kafka/
+#       s3/
 #   makr-code/themisdb_llm_wiki   → plugins/private/themisdb_llm_wiki/
 #
 # Each submodule is commit-pinned and optional (no-hard-fail when absent).
@@ -43,16 +43,16 @@ function(themis_register_private_plugins plugins_root)
     if(WITH_PRIVATE_CONNECTOR_PACK)
         # importer plugins — subdirectories inside themisdb_importer aggregate repo
         _themis_add_optional_private_plugin_dir("Private plugin: mysql_importer"
-            "${plugins_root}/private/themisdb_importer/mysql_importer"
+            "${plugins_root}/private/themisdb_importer/mysql"
             "${CMAKE_CURRENT_BINARY_DIR}/private_mysql_importer")
         _themis_add_optional_private_plugin_dir("Private plugin: mongo_importer"
-            "${plugins_root}/private/themisdb_importer/mongo_importer"
+            "${plugins_root}/private/themisdb_importer/mongo"
             "${CMAKE_CURRENT_BINARY_DIR}/private_mongo_importer")
         _themis_add_optional_private_plugin_dir("Private plugin: kafka_importer"
-            "${plugins_root}/private/themisdb_importer/kafka_importer"
+            "${plugins_root}/private/themisdb_importer/kafka"
             "${CMAKE_CURRENT_BINARY_DIR}/private_kafka_importer")
         _themis_add_optional_private_plugin_dir("Private plugin: s3_importer"
-            "${plugins_root}/private/themisdb_importer/s3_importer"
+            "${plugins_root}/private/themisdb_importer/s3"
             "${CMAKE_CURRENT_BINARY_DIR}/private_s3_importer")
         # blob storage plugins — subdirectories inside themisdb_storage aggregate repo
         _themis_add_optional_private_plugin_dir("Private plugin: azure_blob_storage"
