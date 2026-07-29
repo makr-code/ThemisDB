@@ -13,26 +13,43 @@
 | `wikipedia_*.cpp` (ingestion pipeline) | 🟢 PRODUCTION-READY | `src/importers/` |
 | `llm_wiki_plugin_interface.h` | 🟡 BETA (Phase 1) | `include/llm_wiki/` |
 | Python MVP CLI (`llm_wiki_mvp.py`) | 🟢 MVP-COMPLETE | `scripts/llm_wiki_mvp.py` |
-| Plugin implementation (`themisdb_llm_wiki_cpp`) | 🔴 NOT STARTED | `src/` in this repo |
+| Plugin implementation (`themisdb_llm_wiki_cpp`) | 🟡 BETA (Phase 2) | `src/wikipedia/` in this repo |
 | Plugin manifest (`plugin.json`) | 🟡 BETA | `plugin.json` |
 
 ---
 
 ## Current Status
 
-- [~] Core C++ building blocks (`WikiIndexStore`, `WikiChunkSplitter`, `WikiRagSource`) are
+- [x] Core C++ building blocks (`WikiIndexStore`, `WikiChunkSplitter`, `WikiRagSource`) are
   production-ready in the ThemisDB LLM module.
-- [~] Python MVP CLI (`llm_wiki_mvp.py`) is MVP-complete: `index`, `query`, `wiki-init`,
+- [x] Python MVP CLI (`llm_wiki_mvp.py`) is MVP-complete: `index`, `query`, `wiki-init`,
   `wiki-ingest`, `wiki-query`, `wiki-lint` subcommands; guardrails; persistent workspace mode.
-- [~] Wikipedia XML dump ingestion C++ pipeline exists in `src/importers/`.
-- [~] Public C++ SDK interface (`llm_wiki_plugin_interface.h`) is defined (Phase 1 delivery).
-- [ ] Private plugin shared library (`themisdb_llm_wiki_cpp`) is not yet implemented.
+- [x] Wikipedia XML dump ingestion C++ pipeline exists in `src/importers/`.
+- [x] Public C++ SDK interface (`llm_wiki_plugin_interface.h`) is defined (Phase 1 delivery).
+  - `Status` struct added to interface (required for `initialize()` / `wikiInit()` return types).
+- [~] Private plugin shared library (`themisdb_llm_wiki_cpp`) Phase 2 implementation delivered:
+  - `LLMWikiPluginImpl` implements all `IThemisPlugin` + `ILLMWikiPlugin` pure virtuals.
+  - `WikiWorkspaceOrchestrator` implements full workspace lifecycle (init/ingest/query/lint/stats).
+  - Hash embedding (FNV-1a), in-memory BM25 fallback, prompt-injection + content guardrails.
+  - Factory entry point (`themisdb_llm_wiki_create`) exported with C linkage.
+  - Phase B (RocksDB) path guarded by `THEMISDB_WIKI_PHASE_B` compile flag; falls back to Phase A.
+  - LWP-01..LWP-08 focused unit tests delivered in `tests/test_lwp_plugin_focused.cpp`.
 
 ## In Progress
 
-- [~] Phase 1 — Design / API Contract: `llm_wiki_plugin_interface.h` delivered (Target: Q3 2026)
-- [ ] Phase 2 — Core Implementation: private plugin `.so` that wraps existing C++ building
+- [x] Phase 1 — Design / API Contract: `llm_wiki_plugin_interface.h` delivered (Target: Q3 2026)
+  - `Status` struct added; all lifecycle method signatures finalised.
+- [~] Phase 2 — Core Implementation: private plugin `.so` wrapping existing C++ building
   blocks behind `ILLMWikiPlugin` (Target: Q3–Q4 2026)
+  - [x] `LLMWikiPluginImpl` skeleton and all pure-virtual overrides
+  - [x] `WikiWorkspaceOrchestrator` (init/ingest/query/lint/stats)
+  - [x] Hash embedding (FNV-1a, deterministic, no external deps)
+  - [x] In-memory BM25 Phase A fallback
+  - [x] Prompt-injection + content guardrails (`UNSAFE_PATTERNS`)
+  - [x] `themisdb_llm_wiki_create()` factory with C linkage
+  - [x] CMakeLists.txt: monorepo detection, STATIC + SHARED targets
+  - [x] LWP-01..LWP-08 focused unit tests
+  - [ ] Phase B (RocksDB + `WikiIndexStore`) activation and integration tests
 
 ## Planned Features
 
@@ -62,22 +79,21 @@
 
 ### Phase 2 — Core Implementation
 - [ ] Implement `LLMWikiPluginImpl : ILLMWikiPlugin` in private plugin repo (Target: Q3–Q4 2026)
-  - Inputs: config JSON, `WikiIngestOptions`, `WikiQueryOptions`
-  - Behavior:
-    - `ingest()`: calls `WikiChunkSplitter::split()` per file → `WikiIndexStore::writeBatch()`
-    - `query()`: calls guardrail filter → `WikiIndexStore::query()` (or `JsonWikiIndexReader` fallback)
-    - `wikiInit()` / `wikiIngest()` / `wikiQuery()` / `wikiLint()`: delegate to workspace orchestrator
-    - `ingestWikipediaDump()`: delegates to `WikipediaPipeline` (requires `llm_wiki_wikipedia` sub-feature)
-  - Error cases: invalid config JSON, missing source path, embedding provider not available, disk full
-  - Fallback: Phase A JSON reader when `rocksdb_dir` is empty (backward-compatible)
+  - [x] `ingest()`: `WikiChunkSplitter::split()` per file → hash embeddings → in-memory chunks_
+  - [x] `query()`: guardrail filter → in-memory BM25 / `JsonWikiIndexReader` fallback
+  - [x] `wikiInit()` / `wikiIngest()` / `wikiQuery()` / `wikiLint()`: delegate to `WikiWorkspaceOrchestrator`
+  - [x] `ingestWikipediaDump()`: delegated to `WikipediaIngestionPipeline` (requires `llm_wiki_wikipedia` license)
+  - [x] Error cases: invalid config JSON, missing source path, >50 MB files, uninitialised
+  - [x] Fallback: Phase A JSON reader / in-memory BM25 when `rocksdb_dir` is empty
 - [ ] Implement `WikiWorkspaceOrchestrator` for persistent workspace mode (Target: Q4 2026)
-  - Directory structure: `raw_sources/`, `wiki/pages/`, `wiki/index.md`, `wiki/log.md`,
+  - [x] Directory structure: `raw_sources/`, `wiki/pages/`, `wiki/index.md`, `wiki/log.md`,
     `wiki/schema.md`, `wiki/state.json`
-  - Append-only log entries per ingest/query/lint operation
-  - Concept link extraction heuristics (heading adjacency + cross-reference detection)
-  - Contradiction detection: CONTRADICTION_CUES list → creates open review tasks in `state.json`
+  - [x] Append-only log entries per ingest/query/lint operation
+  - [x] Concept link extraction (heading adjacency + doc→section links)
+  - [x] Contradiction detection: CONTRADICTION_CUES → open review task in `state.json`
 - [ ] Wire `WikiRagSource` into `ModularRAGPipeline` via plugin initialization hook (Target: Q4 2026)
 - [ ] Export `themisdb_llm_wiki_create()` factory with C linkage (Target: Q3 2026)
+  - [x] Implemented in `src/wikipedia/llm_wiki_plugin_factory.cpp`
   - Safety: verify `host_api_version` ≥ 2 before registering; return non-zero on ABI mismatch
 
 ### Phase 3 — Error Handling & Edge Cases
