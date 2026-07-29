@@ -67,5 +67,6 @@ TEST_F(HotReloadApiHandlerValidationTest, RollbackRejectsInvalidRollbackIdPath) 
     EXPECT_EQ(parseBody(response)["error"], "invalid rollback id");
 }
 
-} // namespace
-} // namespace themis::server
+} // namespace (anonymous)
+} // namespace server
+} // namespace themis
