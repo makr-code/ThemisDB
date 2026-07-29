@@ -1,12 +1,20 @@
 # Exporters Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-07-29 -->
+<!-- Issue: #5644 (Development Status 2026-07-18) -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
 
-Production exporter runtime exists across format-specific pipelines (JSONL/Parquet/Arrow/HuggingFace), streaming/incremental/join orchestration, and policy/security controls.
+Production exporter runtime exists across format-specific pipelines
+(JSONL/Parquet/Arrow/HuggingFace), streaming/incremental/join orchestration,
+and policy/security controls.
+
+Issue #5644 sync pass confirms roadmap priorities and future-enhancement focus
+remain aligned with current module documentation. Closure evidence is still
+partial because current-cycle focused test execution is blocked in this
+environment by a missing RocksDB dependency during configure.
 
 ## In Progress
 
@@ -72,6 +80,36 @@ Production exporter runtime exists across format-specific pipelines (JSONL/Parqu
 - [x] benchmark mapping documented in performance expectations
 - [ ] remaining hardening tasks closed for policy/filter/checkpoint edge paths
 - [ ] release benchmark stabilization complete
+
+## Evidence Summary (Issue #5644 Sync — 2026-07-29)
+
+- Configure attempted: `cmake --preset community-release`
+- Result: failed in `cmake/Dependencies.cmake` with
+  `RocksDB not found. Install via vcpkg (rocksdb) or system package librocksdb-dev.`
+- Follow-up build attempt:
+  `cmake --build --preset community-release --target module_exporters_test_exporters_contract_hardening_focused`
+  failed with `ninja: error: loading 'build.ninja': No such file or directory`
+  because configure did not complete.
+- Build/Test status: focused exporters target execution is blocked until
+  configure succeeds.
+- Last known focused test evidence (from issue context): PASS on
+  `module_exporters_test_aql_predicate_filter_focused.exe` (`15 tests`, exit 0,
+  validated 2026-07-18).
+
+## Open Work (Issue #5644)
+
+- [x] validate and refine extracted roadmap priorities against full module docs in `src/exporters/ROADMAP.md`
+- [x] validate and refine extracted future focus points against full module docs in `src/exporters/FUTURE_ENHANCEMENTS.md`
+- [~] add/refresh focused build and test evidence for this module (configure blocker documented in Evidence Summary)
+- [x] mark completed synced items and risks with explicit status transitions
+
+## Closure Criteria (Issue #5644)
+
+- [x] all module acceptance criteria updated and traceable in roadmap/future docs
+- [~] evidence updated or explicit justified gap documented
+- [ ] parent epic task entry checked by maintainer
+- [ ] status labels updated by maintainer before close
+- [x] close reason documented as "sync pass complete; configure/test evidence blocked by RocksDB dependency in this environment"
 
 ## Known Issues and Limitations
 

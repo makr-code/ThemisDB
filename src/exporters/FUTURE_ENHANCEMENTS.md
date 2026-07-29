@@ -1,6 +1,6 @@
 # Exporters Module - Future Enhancements
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-07-29 -->
 <!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
 
 ## Scope
@@ -8,6 +8,7 @@
 - hardening and refinement of export format/orchestration/safety runtime behavior
 - expansion of deterministic reliability under stream/delta/join stress
 - stricter benchmark-backed guardrails for exporter hot paths
+- issue #5644 sync revalidated this focus set against `ROADMAP.md` priorities
 
 ## Design Constraints
 
