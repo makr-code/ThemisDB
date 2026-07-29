@@ -32,3 +32,19 @@
 	path = tools/codeql
 	url = https://github.com/github/codeql-cli-binaries.git
 	shallow = true
+
+[submodule "plugins/private/themisdb_ethic_ai"]
+	path = plugins/private/themisdb_ethic_ai
+	url = https://github.com/makr-code/themisdb_ethic_ai.git
+
+[submodule "plugins/private/themisdb_llm_wiki"]
+	path = plugins/private/themisdb_llm_wiki
+	url = https://github.com/makr-code/themisdb_llm_wiki.git
+
+[submodule "plugins/private/themisdb_storage"]
+	path = plugins/private/themisdb_storage
+	url = https://github.com/makr-code/themisdb_storage.git
+
+[submodule "plugins/private/themisdb_importer"]
+	path = plugins/private/themisdb_importer
+	url = https://github.com/makr-code/themisdb_importer.git

@@ -966,6 +966,18 @@ endif()
 
 # HYPERSCALER Edition: License ALWAYS MANDATORY (no exceptions)
 if(THEMIS_EDITION STREQUAL "HYPERSCALER")
+    if(NOT THEMIS_BUILD_CHANNEL STREQUAL "official")
+        message(FATAL_ERROR
+            "HYPERSCALER Edition requires official owner-signed builds.\n"
+            "Set -DTHEMIS_BUILD_CHANNEL=official and provide a valid THEMIS_BUILD_SIG.")
+    endif()
+
+    if(NOT THEMIS_BUILD_SIG OR THEMIS_BUILD_SIG STREQUAL "")
+        message(FATAL_ERROR
+            "HYPERSCALER Edition requires THEMIS_BUILD_SIG.\n"
+            "Only owner-issued signing flows are supported.")
+    endif()
+
     if(NOT THEMIS_LICENSE_FILE OR THEMIS_LICENSE_FILE STREQUAL "")
         message(FATAL_ERROR 
             "HYPERSCALER Edition requires an embedded license file (mandatory for all builds).\n"
@@ -977,6 +989,20 @@ if(THEMIS_EDITION STREQUAL "HYPERSCALER")
             "\n"
             "For licensing inquiries, contact: licensing@themisdb.io\n")
     endif()
+
+    set(_themis_hyperscaler_private_root "${THEMIS_ROOT_DIR}/plugins/private")
+    set(_themis_hyperscaler_required_modules
+        "${_themis_hyperscaler_private_root}/themisdb-hyperscaler-core/CMakeLists.txt"
+        "${_themis_hyperscaler_private_root}/themisdb-signing-tools/README.md")
+    foreach(_themis_hyperscaler_required_file IN LISTS _themis_hyperscaler_required_modules)
+        if(NOT EXISTS "${_themis_hyperscaler_required_file}")
+            message(FATAL_ERROR
+                "HYPERSCALER Edition requires private owner-controlled modules.\n"
+                "Missing required private artifact: ${_themis_hyperscaler_required_file}\n"
+                "Initialize the private hyperscaler submodules before configuring.")
+        endif()
+    endforeach()
+
     message(STATUS "HYPERSCALER Edition: License requirement ENFORCED (mandatory)")
 endif()
 
@@ -1086,7 +1112,7 @@ add_compile_definitions(
 #   "max_cores": -1,
 #   "max_storage_tb": -1,
 #   "build_id": "optional-build-id",
-#   "signature": "optional-rsa-signature"
+#   "signature": "required-rsa-signature-for-hyperscaler"
 # }
 
 set(THEMIS_LICENSE_FILE "" CACHE FILEPATH "Path to license JSON file for embedding")
@@ -1178,6 +1204,13 @@ if(THEMIS_LICENSE_FILE AND EXISTS "${THEMIS_LICENSE_FILE}")
             # For MINIMAL/COMMUNITY, just warn
             message(WARNING "License edition (${THEMIS_LICENSE_EDITION}) does not match build edition (${THEMIS_EDITION})")
         endif()
+    endif()
+
+    if(THEMIS_EDITION STREQUAL "HYPERSCALER" AND
+       (NOT THEMIS_LICENSE_SIGNATURE OR THEMIS_LICENSE_SIGNATURE STREQUAL ""))
+        message(FATAL_ERROR
+            "HYPERSCALER Edition requires a signed license (signature field must be present). "
+            "Unsigned licenses are rejected.")
     endif()
 else()
     if(THEMIS_LICENSE_FILE)
@@ -1780,6 +1813,22 @@ function(_themis_normalize_sources list_var)
     set(${list_var} "${_normalized}" PARENT_SCOPE)
 endfunction()
 
+function(_themis_mark_public_optional_source result_var relative_src_path)
+    if(EXISTS "${THEMIS_ROOT_DIR}/${relative_src_path}")
+        set(${result_var} ON PARENT_SCOPE)
+    else()
+        message(STATUS "Optional public source missing (treated as private/externalized): ${relative_src_path}")
+        set(${result_var} OFF PARENT_SCOPE)
+    endif()
+endfunction()
+
+_themis_mark_public_optional_source(THEMIS_HAS_PUBLIC_MYSQL_IMPORTER "src/importers/mysql_importer.cpp")
+_themis_mark_public_optional_source(THEMIS_HAS_PUBLIC_MONGO_IMPORTER "src/importers/mongo_importer.cpp")
+_themis_mark_public_optional_source(THEMIS_HAS_PUBLIC_KAFKA_IMPORTER "src/importers/kafka_importer.cpp")
+_themis_mark_public_optional_source(THEMIS_HAS_PUBLIC_S3_IMPORTER "src/importers/s3_importer.cpp")
+_themis_mark_public_optional_source(THEMIS_HAS_PUBLIC_BLOB_BACKEND_S3 "src/storage/blob_backend_s3.cpp")
+_themis_mark_public_optional_source(THEMIS_HAS_PUBLIC_BLOB_BACKEND_AZURE "src/storage/blob_backend_azure.cpp")
+
 # Core library sources
 set(THEMIS_CORE_SOURCES
     ../src/storage/rocksdb_wrapper.cpp
@@ -1820,8 +1869,8 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/index_analyzer.cpp
     ../src/storage/storage_engine.cpp
     ../src/storage/blob_backend_filesystem.cpp
-    ../src/storage/blob_backend_s3.cpp
-    ../src/storage/blob_backend_azure.cpp
+    $<$<BOOL:${THEMIS_HAS_PUBLIC_BLOB_BACKEND_S3}>:../src/storage/blob_backend_s3.cpp>
+    $<$<BOOL:${THEMIS_HAS_PUBLIC_BLOB_BACKEND_AZURE}>:../src/storage/blob_backend_azure.cpp>
     ../src/storage/blob_backend_webdav.cpp
     ../src/storage/blob_backend_gcs.cpp
     # nvme_manager.cpp is registered via cmake/StorageEnhancements.cmake
@@ -2808,16 +2857,16 @@ set(THEMIS_CORE_SOURCES
     ../src/exporters/join_exporter.cpp
     ../src/exporters/huggingface_hub_client.cpp
     ../src/importers/postgres_importer.cpp
-    ../src/importers/mysql_importer.cpp
-    ../src/importers/mongo_importer.cpp
+    $<$<BOOL:${THEMIS_HAS_PUBLIC_MYSQL_IMPORTER}>:../src/importers/mysql_importer.cpp>
+    $<$<BOOL:${THEMIS_HAS_PUBLIC_MONGO_IMPORTER}>:../src/importers/mongo_importer.cpp>
     ../src/importers/sqlite_importer.cpp
     ../src/importers/flatfile_importer.cpp
     ../src/importers/schema_validator.cpp
     ../src/importers/conflict_resolver.cpp
-    ../src/importers/kafka_importer.cpp
+    $<$<BOOL:${THEMIS_HAS_PUBLIC_KAFKA_IMPORTER}>:../src/importers/kafka_importer.cpp>
     ../src/importers/oracle_importer.cpp
     ../src/importers/gui_import_wizard.cpp
-    $<$<BOOL:${THEMIS_ENABLE_S3}>:../src/importers/s3_importer.cpp>
+    $<$<AND:$<BOOL:${THEMIS_ENABLE_S3}>,$<BOOL:${THEMIS_HAS_PUBLIC_S3_IMPORTER}>>:../src/importers/s3_importer.cpp>
     ../src/importers/schema_inference.cpp
     ../src/importers/column_importance.cpp
     ../src/importers/crdt_importer.cpp

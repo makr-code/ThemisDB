@@ -100,6 +100,7 @@ To avoid ambiguity, each documentation issue must be mapped to one source-of-tru
 | Release and versioning policy | `RELEASE_STRATEGY.md`, `VERSIONING.md`, `VERSION`, `RELEASE_TYPE`, `CHANGELOG.md` | release notes, `README.md`, `docs/` |
 | Security posture and process | `SECURITY.md`, security-relevant source/tests, audit evidence | `README.md`, `docs/`, advisories |
 | Architecture and governance rules | `ARCHITECTURE.md`, `BRANCHING_STRATEGY.md`, `GOVERNANCE.md` | `README.md`, `docs/` |
+| Public/private plugin governance | `include/plugins/`, `src/plugins/`, `plugins/`, `RELEASE_STRATEGY.md`, `VERSIONING.md`, `.gitmodules` | `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, workflow/runbook docs |
 
 Domain rule:
 - If two documents disagree, the canonical source of the mapped SOT domain wins.
@@ -131,6 +132,8 @@ All docs changes must follow repository conventions. Violations are review block
 - Status claims must be evidence-backed and traceable to canonical sources.
 - Prefer short declarative sentences and consistent terminology.
 - Reuse repository lifecycle vocabulary; avoid contradictory synonyms.
+- Public documentation must not disclose private repository URLs, private source layouts, or confidential implementation details; describe private plugin boundaries only at the governance/interface level.
+- When private plugin repos or submodule paths are named in governance docs, prefer names that mirror the current plugin names to keep repository-to-plugin mapping obvious.
 
 ### Mandatory checks per change
 

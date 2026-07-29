@@ -2,7 +2,7 @@ name: Copilot Regression Guard
 
 on:
   pull_request:
-    branches: [main, develop]
+    branches: [community, develop]
     paths:
       - 'tests/CMakeLists.txt'
       - 'src/**'

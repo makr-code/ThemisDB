@@ -43,6 +43,74 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 - [~] `server`, `llm`, and `sharding` top-risk hardening is in closure mode: `server` P5-S01/S02 and `llm` P5-L01/P5-L02 delivered; `sharding` P6 gate integration delivered and evidence closure ongoing.
 - [x] Wave 8, chaos/fault-injection, sanitizer/recovery, penetration-test, and 99.99% SLA sign-off artefacts are closed: sanitizer evidence bundle at `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md`; pentest evidence bundle at `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`; final governance sign-off pending human approval at `docs/governance/GA_PROMOTION_SIGN_OFF.md`.
 
+## Private Plugin Externalization & Monetization Program
+
+### Current Status
+- [~] The plugin landscape is hybrid: runtime-loadable `SHARED` plugins coexist with manifest-only compatibility layers and statically linked AI/acceleration modules.
+- [~] `plugins/CMakeLists.txt` already contains no-hard-fail private-source handling; Wave-1 compatibility shims now degrade gracefully when `src/ethics_ai` or `src/user_storage_encrypted` are absent.
+- [~] Community and Minimal builds already fail closed for `enterprise_plugins`, but manifest metadata does not yet fully express visibility, allowed editions, or private release compatibility.
+
+### In Progress
+- [~] Establish root governance, manifest metadata, and CMake structure for plugin-name-aligned private submodules without breaking Community-only checkouts (Target: Q3 2026)
+- [~] Finalize Wave-1 private candidates (`ethics_ai`, `user_storage_encrypted`, connector pack) and preserve public reference implementations for onboarding-critical paths (Target: Q3 2026)
+- [ ] Add CI policy checks so Community lanes never require private credentials and private lanes remain gated by scoped checkout, SBOM, and leakage rules (Target: Q4 2026)
+
+### Implementation Phases
+
+#### Phase 1 — Design / API Contract
+- [~] Define the public plugin SDK boundary and the permitted private extension points across `include/plugins/*` and `src/plugins/*` (Target: Q3 2026)
+- [~] Extend plugin manifest governance with `visibility`, `allowed_editions`, `license_feature`, `min_themisdb_version`, `max_themisdb_version`, and `compatible_core_abi` semantics (Target: Q3 2026)
+- [~] Freeze a plugin-name-aligned private layout under `plugins/private/` (for example `ethics_ai`, `user_storage_encrypted`, `mysql_importer`, `azure_blob_storage`) in root governance and CMake defaults (Target: Q3 2026)
+
+#### Phase 2 — Core Implementation
+- [~] Introduce `WITH_PRIVATE_*` grouping/plugin flags and centralized private-plugin loading helpers with no-hard-fail `EXISTS(...)` handling (Target: Q3 2026)
+- [x] Wave-1 private repositories provisioned and submodule paths finalized (2026-07):
+  - `makr-code/themisdb_ethic_ai` → `plugins/private/themisdb_ethic_ai/` (ethics_ai plugin root)
+  - `makr-code/themisdb_storage` → `plugins/private/themisdb_storage/` (aggregate: `user_storage_encrypted/`, `azure_blob_storage/`, `s3_blob_storage/`)
+  - `makr-code/themisdb_importer` → `plugins/private/themisdb_importer/` (aggregate: `mysql_importer/`, `mongo_importer/`, `kafka_importer/`, `s3_importer/`)
+  - `makr-code/themisdb_llm_wiki` → `plugins/private/themisdb_llm_wiki/` (LLM Wiki tool)
+  - `gpu-impact-analysis` remains explicitly out of Wave 1
+- [~] Core source registration for private connector candidates is split behind optional source checks so missing public files no longer hard-break Community checkouts (Target: Q3 2026)
+- [ ] Move Wave-1 private modules to commit-pinned submodules — repositories provisioned, commit pins pending after initial content push (Target: Q3 2026)
+- [ ] Keep static AI/acceleration plugins out of Wave 1 until they have a clean shared-library SDK seam (Target: Q4 2026)
+
+#### Phase 3 — Error Handling & Edge Cases
+- [ ] Fail closed when plugin manifests declare unsupported editions, missing license features, invalid hashes, or incompatible core ABI ranges (Target: Q4 2026)
+- [ ] Ensure missing private submodules degrade to disabled targets and packaging omissions, never Community configure/build failures (Target: Q4 2026)
+- [ ] Document rollback for bad private submodule pins and release-lane packaging mismatches (Target: Q4 2026)
+
+#### Phase 4 — Tests
+- [ ] Add manifest-schema and runtime-gate coverage for private/public visibility and edition/license compatibility (Target: Q4 2026)
+- [ ] Gate PRs that touch `plugins/private/**`, `.gitmodules`, private CMake files, or private release workflows on synchronized governance updates (Target: Q4 2026)
+- [ ] Add Community negative checks for missing private sources, absent credentials, and leak-free artifact metadata (Target: Q4 2026)
+
+#### Phase 5 — Performance / Hardening
+- [ ] Keep private plugin artefacts behind signing, hash verification, SBOM, and license-compliance gates before edition release publication (Target: Q1 2027)
+- [ ] Reserve Wave-2 work for acceleration and regulated-intelligence plugin repos after SDK/ABI separation and rollback evidence exist (Target: Q1 2027)
+- [ ] Finalize maintainer/bot/edition access boundaries for private repos and release lanes (Target: Q1 2027)
+
+#### Phase 6 — Documentation & Acceptance
+- [~] Synchronize branch/release/versioning/documentation governance for public-vs-private plugin boundaries and Community guardrails (Target: Q3 2026)
+- [ ] Publish contributor guidance for public-only vs private-enabled checkouts and packaging behaviour (Target: Q1 2027)
+- [ ] Record monetization boundary decisions and edition acceptance criteria in root governance documents before rollout (Target: Q1 2027)
+
+### Production Readiness Checklist
+- [ ] Community pipelines run without private credentials or private submodule checkout
+- [ ] Private plugin manifests express visibility, edition allowance, and license gating consistently
+- [ ] Private plugins load only from optional, commit-pinned submodules whose paths mirror the current plugin names
+- [ ] Source-leakage and artifact-leakage gates are active for Community release paths
+- [ ] Open reference plugin paths remain available for onboarding-critical storage, export, and AI scenarios
+
+### Known Issues & Limitations
+- Wave-1 private repositories are provisioned (`themisdb_ethic_ai`, `themisdb_storage`, `themisdb_importer`, `themisdb_llm_wiki`). `.gitmodules` entries added; commit-pin hashes pending after initial content push to the private repos.
+- `ethics_ai` is not yet fully separable from core: `src/ethics_ai/ethics_evaluator.{h,cpp}` and `include/ethics_ai/ethics_ai_types.h` remain public shims for CAI/LLM integration paths.
+- Shared benchmark files (`benchmarks/bench_importer_throughput.cpp`, `benchmarks/bench_blob_zstd.cpp`) still contain mixed public/private scenarios and require split extraction before the plugin-name-aligned connector/blob migration completes.
+- `scraper`, `llama_cpp`, `whisper`, `stable_diffusion`, and acceleration backends still contain static or core-coupled build paths and are intentionally excluded from Wave 1.
+- Edition/runtime gating in source code is narrower than the full five-lane governance model; current groundwork keeps fail-closed behaviour while adding manifest metadata for later rollouts.
+
+### Breaking Changes
+- Private plugin manifests gain new compatibility and visibility fields; loaders must treat missing fields as backward-compatible defaults during the migration window.
+
 ## In Progress
 
 - [~] Reconfirm canonical build reproducibility for `linux-release` (Ninja + `vcpkg`) and `community-release` (system packages incl. RocksDB) (Target: Phase 0 / 2026-07)

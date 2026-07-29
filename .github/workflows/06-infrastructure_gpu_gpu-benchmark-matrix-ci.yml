@@ -37,7 +37,7 @@ name: GPU Benchmark Matrix (CUDA/HIP/Vulkan)
 on:
   push:
     branches:
-      - main
+      - community
       - develop
     paths:
       - 'benchmarks/bench_fused_kernels.cpp'
@@ -81,7 +81,7 @@ jobs:
     if: >
       github.event_name == 'workflow_dispatch' ||
       github.event_name == 'schedule' ||
-      (github.event_name == 'push' && github.ref == 'refs/heads/main')
+      (github.event_name == 'push' && github.ref == 'refs/heads/community')
     continue-on-error: true  # Non-blocking: GPU runner may not be registered
 
     permissions:
@@ -282,7 +282,7 @@ jobs:
     if: >
       github.event_name == 'workflow_dispatch' ||
       github.event_name == 'schedule' ||
-      (github.event_name == 'push' && github.ref == 'refs/heads/main')
+      (github.event_name == 'push' && github.ref == 'refs/heads/community')
     continue-on-error: true  # Non-blocking: GPU runner may not be registered
 
     permissions:
@@ -413,7 +413,7 @@ jobs:
     if: >
       github.event_name == 'workflow_dispatch' ||
       github.event_name == 'schedule' ||
-      (github.event_name == 'push' && github.ref == 'refs/heads/main')
+      (github.event_name == 'push' && github.ref == 'refs/heads/community')
     continue-on-error: true  # Non-blocking: GPU runner may not be registered
 
     permissions:

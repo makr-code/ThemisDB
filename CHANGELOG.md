@@ -5,6 +5,39 @@ All notable changes to ThemisDB will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-07-29 — Wave-1 Private Plugin Repos Provisioned
+
+### Added
+- Added `.gitmodules` submodule entries for all 4 provisioned Wave-1 private repositories:
+  - `makr-code/themisdb_ethic_ai` → `plugins/private/themisdb_ethic_ai/`
+  - `makr-code/themisdb_storage` → `plugins/private/themisdb_storage/` (aggregate: user_storage_encrypted, azure_blob_storage, s3_blob_storage)
+  - `makr-code/themisdb_importer` → `plugins/private/themisdb_importer/` (aggregate: mysql_importer, mongo_importer, kafka_importer, s3_importer)
+  - `makr-code/themisdb_llm_wiki` → `plugins/private/themisdb_llm_wiki/`
+
+### Changed
+- Updated `cmake/PrivatePlugins.cmake` source paths to use the aggregate repository subdirectory structure instead of individual plugin-name directories.
+- Updated `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, and `BRANCHING_STRATEGY.md` to reflect the provisioned repo names and aggregate layout.
+- Marked Wave-1 `.gitmodules` provisioning as done; commit-pin hashes pending after initial content push to private repos.
+
+---
+
+## [Unreleased] — 2026-07-29 — Private Plugin Externalization Groundwork
+
+### Added
+- Added private-plugin governance groundwork across root roadmap, release strategy, versioning, and documentation policy documents.
+- Added CMake wiring for optional `plugins/private/*` plugin-named submodules and default-off `WITH_PRIVATE_*` feature flags.
+- Added manifest/runtime metadata support for plugin visibility, allowed editions, license features, and core compatibility fields.
+- Added a targeted PR workflow gate for private-plugin boundary changes.
+
+### Changed
+- Updated active workflow branch references from legacy `main` to canonical `community` where the workflow policy participates in the current governance model.
+- Marked Wave-1 private candidates (`ethics_ai`, `user_storage_encrypted`, connector/blob manifests) with explicit private/restricted metadata for later submodule migration.
+- Converted `plugins/ethics_ai` and `plugins/user_storage_encrypted` CMake compatibility entry points to optional no-hard-fail delegation shims for missing private/public source trees.
+- Split monolithic and modular core source registration for Wave-1 connector/blob candidates behind optional source checks so absent public files can be externalized without community checkout failures.
+- Renamed the planned private repository and `plugins/private/*` layout to stay close to the current plugin names instead of abstract family buckets.
+
+### Security
+- Tightened Community-vs-private guardrails in governance docs, SBOM/license workflow triggers, and private-plugin PR policy checks.
 ## [Unreleased] — 2026-07-29 — Production-Ready 2026 Multi-Wave Delivery (Waves 1–3)
 
 ### Wave 1–3 Category-D Phase 1/4/5/6 Closure

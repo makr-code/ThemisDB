@@ -2,7 +2,17 @@
 
 # ThemisDB Plugin Signer
 
-Tool zum Signieren von Hardware-Beschleunigungsplugins mit digitalen Signaturen.
+> ⚠️ **[PRIVATE]** Dieses Signing-Tool wurde in das private, owner-kontrollierte
+> Repository `plugins/private/themisdb-signing-tools` ausgelagert.
+> Die öffentliche Variante signiert nicht mehr.
+
+Öffentlich verfügbar bleibt nur Verifikation, z. B. über:
+
+```bash
+python /home/runner/work/ThemisDB/ThemisDB/tools/verify_plugin_manifest.py \
+  plugins/blob/filesystem/plugin.json \
+  plugins/blob/filesystem/plugin.json.sig
+```
 
 ## Verwendung
 

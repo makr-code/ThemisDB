@@ -182,6 +182,31 @@
       "description": "Expected SHA-256 hash of the platform binary (hex-encoded). When present, verified before loading.",
       "pattern": "^[0-9a-fA-F]{64}$"
     },
+    "visibility": {
+      "type": "string",
+      "description": "Distribution visibility of the plugin.",
+      "enum": ["public", "private", "restricted"],
+      "default": "public"
+    },
+    "allowed_editions": {
+      "type": "array",
+      "description": "Canonical edition lanes allowed to load this plugin.",
+      "items": {
+        "type": "string",
+        "enum": ["minimal", "community", "enterprise", "hyperscaler", "military"]
+      },
+      "uniqueItems": true
+    },
+    "license_feature": {
+      "type": "string",
+      "description": "Runtime license claim required to load the plugin.",
+      "maxLength": 128
+    },
+    "compatible_core_abi": {
+      "type": "string",
+      "description": "Compatibility contract identifier for the required core plugin ABI.",
+      "maxLength": 64
+    },
     "min_themis_version": {
       "type": "string",
       "description": "Minimum ThemisDB version required to run this plugin.",
