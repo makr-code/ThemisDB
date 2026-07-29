@@ -36,15 +36,19 @@
 [submodule "plugins/private/themisdb_ethic_ai"]
 	path = plugins/private/themisdb_ethic_ai
 	url = https://github.com/makr-code/themisdb_ethic_ai.git
+	branch = main
 
 [submodule "plugins/private/themisdb_llm_wiki"]
 	path = plugins/private/themisdb_llm_wiki
 	url = https://github.com/makr-code/themisdb_llm_wiki.git
+	branch = main
 
 [submodule "plugins/private/themisdb_storage"]
 	path = plugins/private/themisdb_storage
 	url = https://github.com/makr-code/themisdb_storage.git
+	branch = main
 
 [submodule "plugins/private/themisdb_importer"]
 	path = plugins/private/themisdb_importer
 	url = https://github.com/makr-code/themisdb_importer.git
+	branch = main
