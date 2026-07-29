@@ -371,5 +371,366 @@ void EditionManager::clearShardPolicy() {
                 "reverted to compile-time default.");
 }
 
+// ============================================================================
+// Group 4: LLM resource policy
+// ============================================================================
+
+bool EditionManager::installLLMResourcePolicy(
+    std::shared_ptr<llm::ILLMResourcePolicy> policy,
+    int64_t claimed_max_context_tokens,
+    int32_t claimed_max_model_instances,
+    int64_t claimed_max_vram_per_model_mb)
+{
+    if (!policy) {
+        THEMIS_WARN("EditionManager::installLLMResourcePolicy: null policy rejected.");
+        return false;
+    }
+
+    // Defense in Depth: 0 = unlimited ceiling → always accepted.
+    if (LLM_MAX_CONTEXT_TOKENS > 0 &&
+        claimed_max_context_tokens > LLM_MAX_CONTEXT_TOKENS) {
+        THEMIS_WARN(
+            "EditionManager::installLLMResourcePolicy: claimed context tokens {} "
+            "exceeds compile-time ceiling {} for edition '{}'. Policy rejected.",
+            claimed_max_context_tokens, LLM_MAX_CONTEXT_TOKENS, EDITION_STRING);
+        return false;
+    }
+    if (LLM_MAX_MODEL_INSTANCES >= 0 &&
+        claimed_max_model_instances > LLM_MAX_MODEL_INSTANCES) {
+        THEMIS_WARN(
+            "EditionManager::installLLMResourcePolicy: claimed model instances {} "
+            "exceeds compile-time ceiling {} for edition '{}'. Policy rejected.",
+            claimed_max_model_instances, LLM_MAX_MODEL_INSTANCES, EDITION_STRING);
+        return false;
+    }
+    if (LLM_MAX_VRAM_PER_MODEL_MB > 0 &&
+        claimed_max_vram_per_model_mb > LLM_MAX_VRAM_PER_MODEL_MB) {
+        THEMIS_WARN(
+            "EditionManager::installLLMResourcePolicy: claimed VRAM per model {} MiB "
+            "exceeds compile-time ceiling {} MiB for edition '{}'. Policy rejected.",
+            claimed_max_vram_per_model_mb, LLM_MAX_VRAM_PER_MODEL_MB, EDITION_STRING);
+        return false;
+    }
+
+    std::lock_guard<std::mutex> lock(policy_mutex_);
+    llm_resource_policy_ = std::move(policy);
+    THEMIS_INFO(
+        "EditionManager::installLLMResourcePolicy: LLM resource policy installed "
+        "(context_tokens={}, model_instances={}, vram_per_model_mb={}).",
+        claimed_max_context_tokens, claimed_max_model_instances,
+        claimed_max_vram_per_model_mb);
+    return true;
+}
+
+void EditionManager::clearLLMResourcePolicy() {
+    std::lock_guard<std::mutex> lock(policy_mutex_);
+    llm_resource_policy_.reset();
+    THEMIS_INFO("EditionManager::clearLLMResourcePolicy: LLM resource policy removed; "
+                "reverted to compile-time default.");
+}
+
+// ============================================================================
+// Group 1+3: Tenant quota policy
+// ============================================================================
+
+bool EditionManager::installTenantQuotaPolicy(
+    std::shared_ptr<tenant::ITenantQuotaPolicy> policy,
+    uint64_t claimed_max_storage_bytes,
+    uint64_t claimed_max_documents,
+    uint32_t claimed_max_collections,
+    uint32_t claimed_max_concurrent_queries,
+    uint32_t claimed_max_rps)
+{
+    if (!policy) {
+        THEMIS_WARN("EditionManager::installTenantQuotaPolicy: null policy rejected.");
+        return false;
+    }
+
+    // Defense in Depth: 0 = unlimited ceiling → always accepted.
+    if (TENANT_MAX_STORAGE_BYTES > 0 &&
+        claimed_max_storage_bytes > TENANT_MAX_STORAGE_BYTES) {
+        THEMIS_WARN(
+            "EditionManager::installTenantQuotaPolicy: claimed storage {} bytes "
+            "exceeds compile-time ceiling for edition '{}'. Policy rejected.",
+            claimed_max_storage_bytes, EDITION_STRING);
+        return false;
+    }
+    if (TENANT_MAX_DOCUMENTS > 0 && claimed_max_documents > TENANT_MAX_DOCUMENTS) {
+        THEMIS_WARN(
+            "EditionManager::installTenantQuotaPolicy: claimed documents {} "
+            "exceeds compile-time ceiling for edition '{}'. Policy rejected.",
+            claimed_max_documents, EDITION_STRING);
+        return false;
+    }
+    if (TENANT_MAX_COLLECTIONS > 0 &&
+        claimed_max_collections > TENANT_MAX_COLLECTIONS) {
+        THEMIS_WARN(
+            "EditionManager::installTenantQuotaPolicy: claimed collections {} "
+            "exceeds compile-time ceiling for edition '{}'. Policy rejected.",
+            claimed_max_collections, EDITION_STRING);
+        return false;
+    }
+    if (TENANT_MAX_CONCURRENT_QUERIES > 0 &&
+        claimed_max_concurrent_queries > TENANT_MAX_CONCURRENT_QUERIES) {
+        THEMIS_WARN(
+            "EditionManager::installTenantQuotaPolicy: claimed concurrent queries {} "
+            "exceeds compile-time ceiling for edition '{}'. Policy rejected.",
+            claimed_max_concurrent_queries, EDITION_STRING);
+        return false;
+    }
+    if (TENANT_MAX_REQUESTS_PER_SECOND > 0 &&
+        claimed_max_rps > TENANT_MAX_REQUESTS_PER_SECOND) {
+        THEMIS_WARN(
+            "EditionManager::installTenantQuotaPolicy: claimed RPS {} "
+            "exceeds compile-time ceiling for edition '{}'. Policy rejected.",
+            claimed_max_rps, EDITION_STRING);
+        return false;
+    }
+
+    std::lock_guard<std::mutex> lock(policy_mutex_);
+    tenant_quota_policy_ = std::move(policy);
+    THEMIS_INFO(
+        "EditionManager::installTenantQuotaPolicy: tenant quota policy installed "
+        "(storage_bytes={}, documents={}, collections={}, queries={}, rps={}).",
+        claimed_max_storage_bytes, claimed_max_documents, claimed_max_collections,
+        claimed_max_concurrent_queries, claimed_max_rps);
+    return true;
+}
+
+void EditionManager::clearTenantQuotaPolicy() {
+    std::lock_guard<std::mutex> lock(policy_mutex_);
+    tenant_quota_policy_.reset();
+    THEMIS_INFO("EditionManager::clearTenantQuotaPolicy: tenant quota policy removed; "
+                "reverted to compile-time default.");
+}
+
+// ============================================================================
+// Group 2: Query limit policy
+// ============================================================================
+
+bool EditionManager::installQueryLimitPolicy(
+    std::shared_ptr<query::IQueryLimitPolicy> policy,
+    uint32_t claimed_max_depth,
+    uint32_t claimed_max_complexity,
+    uint64_t claimed_max_payload_bytes,
+    uint64_t claimed_max_result_rows)
+{
+    if (!policy) {
+        THEMIS_WARN("EditionManager::installQueryLimitPolicy: null policy rejected.");
+        return false;
+    }
+
+    if (QUERY_MAX_GRAPHQL_DEPTH > 0 && claimed_max_depth > QUERY_MAX_GRAPHQL_DEPTH) {
+        THEMIS_WARN(
+            "EditionManager::installQueryLimitPolicy: claimed depth {} "
+            "exceeds compile-time ceiling {} for edition '{}'. Policy rejected.",
+            claimed_max_depth, QUERY_MAX_GRAPHQL_DEPTH, EDITION_STRING);
+        return false;
+    }
+    if (QUERY_MAX_GRAPHQL_COMPLEXITY > 0 &&
+        claimed_max_complexity > QUERY_MAX_GRAPHQL_COMPLEXITY) {
+        THEMIS_WARN(
+            "EditionManager::installQueryLimitPolicy: claimed complexity {} "
+            "exceeds compile-time ceiling {} for edition '{}'. Policy rejected.",
+            claimed_max_complexity, QUERY_MAX_GRAPHQL_COMPLEXITY, EDITION_STRING);
+        return false;
+    }
+    if (QUERY_MAX_PAYLOAD_BYTES > 0 &&
+        claimed_max_payload_bytes > QUERY_MAX_PAYLOAD_BYTES) {
+        THEMIS_WARN(
+            "EditionManager::installQueryLimitPolicy: claimed payload {} bytes "
+            "exceeds compile-time ceiling for edition '{}'. Policy rejected.",
+            claimed_max_payload_bytes, EDITION_STRING);
+        return false;
+    }
+    if (QUERY_MAX_RESULT_ROWS > 0 && claimed_max_result_rows > QUERY_MAX_RESULT_ROWS) {
+        THEMIS_WARN(
+            "EditionManager::installQueryLimitPolicy: claimed result rows {} "
+            "exceeds compile-time ceiling for edition '{}'. Policy rejected.",
+            claimed_max_result_rows, EDITION_STRING);
+        return false;
+    }
+
+    std::lock_guard<std::mutex> lock(policy_mutex_);
+    query_limit_policy_ = std::move(policy);
+    THEMIS_INFO(
+        "EditionManager::installQueryLimitPolicy: query limit policy installed "
+        "(depth={}, complexity={}, payload_bytes={}, result_rows={}).",
+        claimed_max_depth, claimed_max_complexity,
+        claimed_max_payload_bytes, claimed_max_result_rows);
+    return true;
+}
+
+void EditionManager::clearQueryLimitPolicy() {
+    std::lock_guard<std::mutex> lock(policy_mutex_);
+    query_limit_policy_.reset();
+    THEMIS_INFO("EditionManager::clearQueryLimitPolicy: query limit policy removed; "
+                "reverted to compile-time default.");
+}
+
+// ============================================================================
+// Group 2+3: Connection policy
+// ============================================================================
+
+bool EditionManager::installConnectionPolicy(
+    std::shared_ptr<network::IConnectionPolicy> policy,
+    uint32_t claimed_max_http2_streams,
+    uint32_t claimed_max_sse_connections,
+    uint32_t claimed_max_total_connections,
+    uint32_t claimed_max_sse_events_per_sec)
+{
+    if (!policy) {
+        THEMIS_WARN("EditionManager::installConnectionPolicy: null policy rejected.");
+        return false;
+    }
+
+    if (CONNECTION_MAX_HTTP2_STREAMS > 0 &&
+        claimed_max_http2_streams > CONNECTION_MAX_HTTP2_STREAMS) {
+        THEMIS_WARN(
+            "EditionManager::installConnectionPolicy: claimed HTTP/2 streams {} "
+            "exceeds compile-time ceiling {} for edition '{}'. Policy rejected.",
+            claimed_max_http2_streams, CONNECTION_MAX_HTTP2_STREAMS, EDITION_STRING);
+        return false;
+    }
+    if (CONNECTION_MAX_SSE_CONNECTIONS > 0 &&
+        claimed_max_sse_connections > CONNECTION_MAX_SSE_CONNECTIONS) {
+        THEMIS_WARN(
+            "EditionManager::installConnectionPolicy: claimed SSE connections {} "
+            "exceeds compile-time ceiling {} for edition '{}'. Policy rejected.",
+            claimed_max_sse_connections, CONNECTION_MAX_SSE_CONNECTIONS, EDITION_STRING);
+        return false;
+    }
+    if (CONNECTION_MAX_TOTAL > 0 &&
+        claimed_max_total_connections > CONNECTION_MAX_TOTAL) {
+        THEMIS_WARN(
+            "EditionManager::installConnectionPolicy: claimed total connections {} "
+            "exceeds compile-time ceiling {} for edition '{}'. Policy rejected.",
+            claimed_max_total_connections, CONNECTION_MAX_TOTAL, EDITION_STRING);
+        return false;
+    }
+    if (CONNECTION_MAX_SSE_EVENTS_PER_SEC > 0 &&
+        claimed_max_sse_events_per_sec > CONNECTION_MAX_SSE_EVENTS_PER_SEC) {
+        THEMIS_WARN(
+            "EditionManager::installConnectionPolicy: claimed SSE events/sec {} "
+            "exceeds compile-time ceiling {} for edition '{}'. Policy rejected.",
+            claimed_max_sse_events_per_sec, CONNECTION_MAX_SSE_EVENTS_PER_SEC,
+            EDITION_STRING);
+        return false;
+    }
+
+    std::lock_guard<std::mutex> lock(policy_mutex_);
+    connection_policy_ = std::move(policy);
+    THEMIS_INFO(
+        "EditionManager::installConnectionPolicy: connection policy installed "
+        "(http2_streams={}, sse_connections={}, total_connections={}, sse_events/s={}).",
+        claimed_max_http2_streams, claimed_max_sse_connections,
+        claimed_max_total_connections, claimed_max_sse_events_per_sec);
+    return true;
+}
+
+void EditionManager::clearConnectionPolicy() {
+    std::lock_guard<std::mutex> lock(policy_mutex_);
+    connection_policy_.reset();
+    THEMIS_INFO("EditionManager::clearConnectionPolicy: connection policy removed; "
+                "reverted to compile-time default.");
+}
+
+// ============================================================================
+// Group 5: Storage operations policy
+// ============================================================================
+
+bool EditionManager::installStorageOpsPolicy(
+    std::shared_ptr<storage::IStorageOpsPolicy> policy,
+    int32_t  claimed_max_background_jobs,
+    uint64_t claimed_max_compaction_bytes_per_sec,
+    int32_t  claimed_max_concurrent_snapshots)
+{
+    if (!policy) {
+        THEMIS_WARN("EditionManager::installStorageOpsPolicy: null policy rejected.");
+        return false;
+    }
+
+    // -1 = unlimited ceiling for counts; 0 = unlimited for rates.
+    if (STORAGE_MAX_BACKGROUND_JOBS >= 0 &&
+        claimed_max_background_jobs > STORAGE_MAX_BACKGROUND_JOBS) {
+        THEMIS_WARN(
+            "EditionManager::installStorageOpsPolicy: claimed background jobs {} "
+            "exceeds compile-time ceiling {} for edition '{}'. Policy rejected.",
+            claimed_max_background_jobs, STORAGE_MAX_BACKGROUND_JOBS, EDITION_STRING);
+        return false;
+    }
+    if (STORAGE_MAX_COMPACTION_BYTES_PER_SEC > 0 &&
+        claimed_max_compaction_bytes_per_sec > STORAGE_MAX_COMPACTION_BYTES_PER_SEC) {
+        THEMIS_WARN(
+            "EditionManager::installStorageOpsPolicy: claimed compaction rate {} B/s "
+            "exceeds compile-time ceiling for edition '{}'. Policy rejected.",
+            claimed_max_compaction_bytes_per_sec, EDITION_STRING);
+        return false;
+    }
+    if (STORAGE_MAX_CONCURRENT_SNAPSHOTS >= 0 &&
+        claimed_max_concurrent_snapshots > STORAGE_MAX_CONCURRENT_SNAPSHOTS) {
+        THEMIS_WARN(
+            "EditionManager::installStorageOpsPolicy: claimed snapshots {} "
+            "exceeds compile-time ceiling {} for edition '{}'. Policy rejected.",
+            claimed_max_concurrent_snapshots, STORAGE_MAX_CONCURRENT_SNAPSHOTS,
+            EDITION_STRING);
+        return false;
+    }
+
+    std::lock_guard<std::mutex> lock(policy_mutex_);
+    storage_ops_policy_ = std::move(policy);
+    THEMIS_INFO(
+        "EditionManager::installStorageOpsPolicy: storage ops policy installed "
+        "(background_jobs={}, compaction_bytes/s={}, snapshots={}).",
+        claimed_max_background_jobs, claimed_max_compaction_bytes_per_sec,
+        claimed_max_concurrent_snapshots);
+    return true;
+}
+
+void EditionManager::clearStorageOpsPolicy() {
+    std::lock_guard<std::mutex> lock(policy_mutex_);
+    storage_ops_policy_.reset();
+    THEMIS_INFO("EditionManager::clearStorageOpsPolicy: storage ops policy removed; "
+                "reverted to compile-time default.");
+}
+
+// ============================================================================
+// Group 3: Global rate-limit policy
+// ============================================================================
+
+bool EditionManager::installRateLimitPolicy(
+    std::shared_ptr<ratelimit::IRateLimitPolicy> policy,
+    uint64_t claimed_max_global_rps)
+{
+    if (!policy) {
+        THEMIS_WARN("EditionManager::installRateLimitPolicy: null policy rejected.");
+        return false;
+    }
+
+    if (RATE_LIMIT_MAX_GLOBAL_RPS > 0 &&
+        claimed_max_global_rps > RATE_LIMIT_MAX_GLOBAL_RPS) {
+        THEMIS_WARN(
+            "EditionManager::installRateLimitPolicy: claimed global RPS {} "
+            "exceeds compile-time ceiling {} for edition '{}'. Policy rejected.",
+            claimed_max_global_rps, RATE_LIMIT_MAX_GLOBAL_RPS, EDITION_STRING);
+        return false;
+    }
+
+    std::lock_guard<std::mutex> lock(policy_mutex_);
+    rate_limit_policy_ = std::move(policy);
+    THEMIS_INFO(
+        "EditionManager::installRateLimitPolicy: global rate-limit policy installed "
+        "(max_global_rps={}).",
+        claimed_max_global_rps);
+    return true;
+}
+
+void EditionManager::clearRateLimitPolicy() {
+    std::lock_guard<std::mutex> lock(policy_mutex_);
+    rate_limit_policy_.reset();
+    THEMIS_INFO("EditionManager::clearRateLimitPolicy: global rate-limit policy removed; "
+                "reverted to compile-time default.");
+}
+
 } // namespace edition
 } // namespace themis

@@ -33,6 +33,7 @@
 #pragma once
 
 #include <string_view>
+#include <cstdint>
 
 namespace themis {
 namespace edition {
@@ -91,6 +92,156 @@ constexpr int GPU_MAX_VRAM_GB = THEMIS_GPU_MAX_VRAM_GB;
 #define THEMIS_SHARDING_MAX_NODES 1
 #endif
 constexpr int SHARDING_MAX_NODES = THEMIS_SHARDING_MAX_NODES;
+
+// ============================================================================
+// RESOURCE POLICY CEILINGS (compile-time Defense-in-Depth hard limits)
+// ============================================================================
+// Convention for "unlimited":
+//   - Counts (model instances, connections, jobs): -1
+//   - Byte sizes and per-second rates:              0
+//
+// All values start at unlimited so that deployments without explicit tuning
+// experience no artificial constraints.  Edition-aware CMake builds may
+// override these via the corresponding THEMIS_* defines.
+//
+// Policy chain (low to high priority):
+//   constexpr ceiling  (this block — never overridable)
+//   RuntimeLicenseGate (edition tier)
+//   Signed plugin      (fine-tuning within ceiling)
+//   Operational config (per-deployment tuning)
+//
+// Exception: Group 6 (WASM sandbox memory) is a Security-Boundary and MUST
+// NOT receive a plugin-policy override layer.  It is enforced separately and
+// is not part of the edition-policy plugin contract.
+
+// --- Group 4: LLM resource limits ---
+// LLM_MAX_CONTEXT_TOKENS:    maximum prompt+completion tokens per inference.
+//   0 = unlimited.
+#ifndef THEMIS_LLM_MAX_CONTEXT_TOKENS
+#define THEMIS_LLM_MAX_CONTEXT_TOKENS 0
+#endif
+constexpr int64_t LLM_MAX_CONTEXT_TOKENS = THEMIS_LLM_MAX_CONTEXT_TOKENS;
+
+// LLM_MAX_MODEL_INSTANCES:   maximum concurrently loaded model instances.
+//   -1 = unlimited.
+#ifndef THEMIS_LLM_MAX_MODEL_INSTANCES
+#define THEMIS_LLM_MAX_MODEL_INSTANCES -1
+#endif
+constexpr int32_t LLM_MAX_MODEL_INSTANCES = THEMIS_LLM_MAX_MODEL_INSTANCES;
+
+// LLM_MAX_VRAM_PER_MODEL_MB: maximum VRAM per model instance in MiB.
+//   0 = unlimited.
+#ifndef THEMIS_LLM_MAX_VRAM_PER_MODEL_MB
+#define THEMIS_LLM_MAX_VRAM_PER_MODEL_MB 0
+#endif
+constexpr int64_t LLM_MAX_VRAM_PER_MODEL_MB = THEMIS_LLM_MAX_VRAM_PER_MODEL_MB;
+
+// --- Group 1+3: Tenant quota limits ---
+// TENANT_MAX_STORAGE_BYTES:  maximum storage per tenant in bytes.  0 = unlimited.
+#ifndef THEMIS_TENANT_MAX_STORAGE_BYTES
+#define THEMIS_TENANT_MAX_STORAGE_BYTES 0ULL
+#endif
+constexpr uint64_t TENANT_MAX_STORAGE_BYTES = THEMIS_TENANT_MAX_STORAGE_BYTES;
+
+// TENANT_MAX_DOCUMENTS:      maximum document count per tenant.  0 = unlimited.
+#ifndef THEMIS_TENANT_MAX_DOCUMENTS
+#define THEMIS_TENANT_MAX_DOCUMENTS 0ULL
+#endif
+constexpr uint64_t TENANT_MAX_DOCUMENTS = THEMIS_TENANT_MAX_DOCUMENTS;
+
+// TENANT_MAX_COLLECTIONS:    maximum collection count per tenant.  0 = unlimited.
+#ifndef THEMIS_TENANT_MAX_COLLECTIONS
+#define THEMIS_TENANT_MAX_COLLECTIONS 0U
+#endif
+constexpr uint32_t TENANT_MAX_COLLECTIONS = THEMIS_TENANT_MAX_COLLECTIONS;
+
+// TENANT_MAX_CONCURRENT_QUERIES: maximum concurrent queries per tenant.  0 = unlimited.
+#ifndef THEMIS_TENANT_MAX_CONCURRENT_QUERIES
+#define THEMIS_TENANT_MAX_CONCURRENT_QUERIES 0U
+#endif
+constexpr uint32_t TENANT_MAX_CONCURRENT_QUERIES = THEMIS_TENANT_MAX_CONCURRENT_QUERIES;
+
+// TENANT_MAX_REQUESTS_PER_SECOND: maximum request rate per tenant.  0 = unlimited.
+#ifndef THEMIS_TENANT_MAX_REQUESTS_PER_SECOND
+#define THEMIS_TENANT_MAX_REQUESTS_PER_SECOND 0U
+#endif
+constexpr uint32_t TENANT_MAX_REQUESTS_PER_SECOND = THEMIS_TENANT_MAX_REQUESTS_PER_SECOND;
+
+// --- Group 2: Query limit ceilings ---
+// QUERY_MAX_GRAPHQL_DEPTH:     maximum GraphQL/AQL nesting depth.  0 = unlimited.
+#ifndef THEMIS_QUERY_MAX_GRAPHQL_DEPTH
+#define THEMIS_QUERY_MAX_GRAPHQL_DEPTH 0U
+#endif
+constexpr uint32_t QUERY_MAX_GRAPHQL_DEPTH = THEMIS_QUERY_MAX_GRAPHQL_DEPTH;
+
+// QUERY_MAX_GRAPHQL_COMPLEXITY: maximum GraphQL complexity score.  0 = unlimited.
+#ifndef THEMIS_QUERY_MAX_GRAPHQL_COMPLEXITY
+#define THEMIS_QUERY_MAX_GRAPHQL_COMPLEXITY 0U
+#endif
+constexpr uint32_t QUERY_MAX_GRAPHQL_COMPLEXITY = THEMIS_QUERY_MAX_GRAPHQL_COMPLEXITY;
+
+// QUERY_MAX_PAYLOAD_BYTES:      maximum request payload in bytes.  0 = unlimited.
+#ifndef THEMIS_QUERY_MAX_PAYLOAD_BYTES
+#define THEMIS_QUERY_MAX_PAYLOAD_BYTES 0ULL
+#endif
+constexpr uint64_t QUERY_MAX_PAYLOAD_BYTES = THEMIS_QUERY_MAX_PAYLOAD_BYTES;
+
+// QUERY_MAX_RESULT_ROWS:        maximum rows returned per query.  0 = unlimited.
+#ifndef THEMIS_QUERY_MAX_RESULT_ROWS
+#define THEMIS_QUERY_MAX_RESULT_ROWS 0ULL
+#endif
+constexpr uint64_t QUERY_MAX_RESULT_ROWS = THEMIS_QUERY_MAX_RESULT_ROWS;
+
+// --- Group 2+3: Connection policy ceilings ---
+// CONNECTION_MAX_HTTP2_STREAMS:    max concurrent HTTP/2 streams per connection.  0 = unlimited.
+#ifndef THEMIS_CONNECTION_MAX_HTTP2_STREAMS
+#define THEMIS_CONNECTION_MAX_HTTP2_STREAMS 0U
+#endif
+constexpr uint32_t CONNECTION_MAX_HTTP2_STREAMS = THEMIS_CONNECTION_MAX_HTTP2_STREAMS;
+
+// CONNECTION_MAX_SSE_CONNECTIONS:  max total SSE connections.  0 = unlimited.
+#ifndef THEMIS_CONNECTION_MAX_SSE_CONNECTIONS
+#define THEMIS_CONNECTION_MAX_SSE_CONNECTIONS 0U
+#endif
+constexpr uint32_t CONNECTION_MAX_SSE_CONNECTIONS = THEMIS_CONNECTION_MAX_SSE_CONNECTIONS;
+
+// CONNECTION_MAX_TOTAL:            max total simultaneous server connections.  0 = unlimited.
+#ifndef THEMIS_CONNECTION_MAX_TOTAL
+#define THEMIS_CONNECTION_MAX_TOTAL 0U
+#endif
+constexpr uint32_t CONNECTION_MAX_TOTAL = THEMIS_CONNECTION_MAX_TOTAL;
+
+// CONNECTION_MAX_SSE_EVENTS_PER_SEC: max SSE events emitted per second.  0 = unlimited.
+#ifndef THEMIS_CONNECTION_MAX_SSE_EVENTS_PER_SEC
+#define THEMIS_CONNECTION_MAX_SSE_EVENTS_PER_SEC 0U
+#endif
+constexpr uint32_t CONNECTION_MAX_SSE_EVENTS_PER_SEC = THEMIS_CONNECTION_MAX_SSE_EVENTS_PER_SEC;
+
+// --- Group 5: Storage operations ceilings ---
+// STORAGE_MAX_BACKGROUND_JOBS:       max concurrent background storage jobs.  -1 = unlimited.
+#ifndef THEMIS_STORAGE_MAX_BACKGROUND_JOBS
+#define THEMIS_STORAGE_MAX_BACKGROUND_JOBS -1
+#endif
+constexpr int32_t STORAGE_MAX_BACKGROUND_JOBS = THEMIS_STORAGE_MAX_BACKGROUND_JOBS;
+
+// STORAGE_MAX_COMPACTION_BYTES_PER_SEC: max compaction I/O rate in bytes/s.  0 = unlimited.
+#ifndef THEMIS_STORAGE_MAX_COMPACTION_BYTES_PER_SEC
+#define THEMIS_STORAGE_MAX_COMPACTION_BYTES_PER_SEC 0ULL
+#endif
+constexpr uint64_t STORAGE_MAX_COMPACTION_BYTES_PER_SEC = THEMIS_STORAGE_MAX_COMPACTION_BYTES_PER_SEC;
+
+// STORAGE_MAX_CONCURRENT_SNAPSHOTS:  max snapshots running in parallel.  -1 = unlimited.
+#ifndef THEMIS_STORAGE_MAX_CONCURRENT_SNAPSHOTS
+#define THEMIS_STORAGE_MAX_CONCURRENT_SNAPSHOTS -1
+#endif
+constexpr int32_t STORAGE_MAX_CONCURRENT_SNAPSHOTS = THEMIS_STORAGE_MAX_CONCURRENT_SNAPSHOTS;
+
+// --- Group 3: Global rate-limit ceiling ---
+// RATE_LIMIT_MAX_GLOBAL_RPS: max total requests per second across all tenants.  0 = unlimited.
+#ifndef THEMIS_RATE_LIMIT_MAX_GLOBAL_RPS
+#define THEMIS_RATE_LIMIT_MAX_GLOBAL_RPS 0ULL
+#endif
+constexpr uint64_t RATE_LIMIT_MAX_GLOBAL_RPS = THEMIS_RATE_LIMIT_MAX_GLOBAL_RPS;
 
 // ============================================================================
 // FEATURE FLAGS (Compile-time feature availability)
