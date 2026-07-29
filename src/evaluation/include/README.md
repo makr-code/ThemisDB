@@ -1,12 +1,13 @@
 # evaluation/include documentation
 
-<!-- Status: current | aligned with docs/IMPLEMENTATION_ROADMAP.md | validated: 2026-07-17 -->
+<!-- Status: current | aligned with status issue #5643 | validated: 2026-07-29 -->
 
 ## Purpose
 
 This directory hosts EPIC 2 public contracts for evaluation policy, measurement,
-and query path planning. `hardware_profile.h` and `query_planner.h` are now active;
-the remaining contracts continue as phased-delivery scaffolds.
+and query path planning. The evaluation module now carries active headers for
+hardware profiles, benchmark matrices, retrieval metrics, ablation, approximation
+governance, query planning, and artifact lifecycle handling.
 
 ## Header Ownership Map
 
@@ -23,15 +24,15 @@ the remaining contracts continue as phased-delivery scaffolds.
 ## Contract Governance Rules
 
 - keep naming and semantics synchronized with `docs/EPIC2_*.md`
-- avoid introducing runtime-coupled behavior into headers before Phase 3 design sign-off
 - record cross-epic dependencies when contracts influence retrieval or distributed tensor plans
 - preserve advisory-only tensor semantics and CPU-only graph-truth gates in planner-facing APIs
+- document machine-readable failure and downgrade behavior before promoting a contract into Phase 3 closure
 
 ## Transition Checklist (toward implementation hardening)
 
 - define explicit failure modes for each policy interface
 - document expected invariants and value ranges for each request/result type
-- keep `query_planner.h` synchronized with `tests/epic2_evaluation/query_planner_test.cc`
+- keep planner, metrics, approximation, and lifecycle headers synchronized with their focused tests
 
 ## Installation
 
