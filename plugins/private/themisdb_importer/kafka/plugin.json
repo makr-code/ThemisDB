@@ -1,0 +1,115 @@
+{
+  "name": "kafka_importer",
+  "version": "1.0.0",
+  "type": "importer",
+  "description": "Kafka consumer importer for real-time streaming ingestion into ThemisDB",
+  "author": "ThemisDB Team",
+  "license": "Proprietary",
+  "visibility": "private",
+  "allowed_editions": ["enterprise", "hyperscaler", "military"],
+  "license_feature": "private_connector_pack",
+  "min_themisdb_version": "2.4.0",
+  "compatible_core_abi": "plugin-abi-v2",
+  "binary": {
+    "windows": "themis_import_kafka.dll",
+    "linux": "themis_import_kafka.so",
+    "macos": "themis_import_kafka.dylib"
+  },
+  "dependencies": [
+    "nlohmann/json",
+    "librdkafka"
+  ],
+  "build_flags": {
+    "optional_define": "THEMIS_ENABLE_KAFKA",
+    "note": "When THEMIS_ENABLE_KAFKA is not defined the importer compiles but returns an error at runtime"
+  },
+  "capabilities": {
+    "streaming": true,
+    "batching": false,
+    "transactions": false,
+    "thread_safe": true,
+    "gpu_accelerated": false
+  },
+  "config_schema": {
+    "type": "object",
+    "properties": {
+      "brokers": {
+        "type": "string",
+        "default": "",
+        "description": "Comma-separated list of Kafka broker addresses (e.g. 'b1:9092,b2:9092'). Can also be encoded in the source URL as kafka://brokers/topic."
+      },
+      "consumer_group": {
+        "type": "string",
+        "default": "themis-import",
+        "description": "Kafka consumer group ID"
+      },
+      "message_format": {
+        "type": "string",
+        "enum": ["json", "avro", "plaintext"],
+        "default": "json",
+        "description": "Message payload format. 'avro' expects Confluent wire format (magic byte + 4-byte schema ID)."
+      },
+      "text_field": {
+        "type": "string",
+        "default": "text",
+        "description": "JSON key whose value is extracted as the entity text (json format only)"
+      },
+      "poll_timeout_ms": {
+        "type": "integer",
+        "default": 1000,
+        "description": "Per-poll timeout in milliseconds"
+      },
+      "max_messages": {
+        "type": "integer",
+        "default": 0,
+        "description": "Maximum number of messages to consume per run (0 = unlimited)"
+      },
+      "session_timeout_ms": {
+        "type": "integer",
+        "default": 10000,
+        "description": "Consumer group session timeout in milliseconds"
+      },
+      "security_protocol": {
+        "type": "string",
+        "enum": ["plaintext", "ssl", "sasl_plaintext", "sasl_ssl"],
+        "default": "plaintext",
+        "description": "Security protocol for broker connection"
+      },
+      "sasl_mechanism": {
+        "type": "string",
+        "default": "",
+        "description": "SASL mechanism (e.g. PLAIN, SCRAM-SHA-256). Leave empty for no SASL."
+      },
+      "sasl_username": {
+        "type": "string",
+        "default": "",
+        "description": "SASL username. Never logged."
+      },
+      "sasl_password": {
+        "type": "string",
+        "default": "",
+        "description": "SASL password. Never logged."
+      },
+      "ssl_ca_location": {
+        "type": "string",
+        "default": "",
+        "description": "Path to CA certificate bundle for TLS (empty = system default)"
+      },
+      "auto_offset_reset": {
+        "type": "string",
+        "enum": ["earliest", "latest", "none"],
+        "default": "earliest",
+        "description": "Where to start when no committed offset exists for the consumer group"
+      }
+    }
+  },
+  "source_url_format": "kafka://broker:9092/topic",
+  "supported_formats": [
+    "kafka",
+    "kafka-json",
+    "kafka-avro",
+    "kafka-plaintext"
+  ],
+  "auto_load": false,
+  "load_priority": 50
+}
