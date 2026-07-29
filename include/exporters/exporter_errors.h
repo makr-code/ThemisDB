@@ -178,9 +178,10 @@ private:
 
 /// @brief Policy denial exception — thrown when an export is rejected by PolicyEngine.
 ///
-/// This is the canonical exception for all fail-closed policy denials.
-/// Unauthorised or policy-blocked export operations MUST throw this type rather
-/// than returning ad-hoc error codes or emitting log messages alone.
+/// This is the concrete typed wrapper used by exporter paths that surface
+/// `ERR_EXPORT_POLICY_DENIED` via `ExporterException`.
+/// Catching `ExporterException` remains the stable contract for policy-blocked
+/// export operations.
 ///
 /// @note isResumableError(ExporterErrorCode::EXPORT_ABORTED) == false —
 ///       policy denials are fail-closed and never resumable.  The operator or

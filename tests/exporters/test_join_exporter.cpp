@@ -343,33 +343,33 @@ TEST(JoinExporterErrorTest, EmptyRightCollectionSetRightThrows) {
                       errors::ErrorCode::ERR_EXPORT_CONFIG_INVALID);
             throw;
         }
+    }, ExporterException);
+}
 
-        TEST(JoinExporterErrorTest, ExportWithoutSetRightCollectionFailsClosed) {
-            JoinExportConfig cfg;
-            cfg.left_collection  = "docs";
-            cfg.right_collection = "annotations";
-            cfg.left_key_field   = "_key";
-            cfg.right_key_field  = "_key";
+TEST(JoinExporterErrorTest, ExportWithoutSetRightCollectionFailsClosed) {
+    JoinExportConfig cfg;
+    cfg.left_collection  = "docs";
+    cfg.right_collection = "annotations";
+    cfg.left_key_field   = "_key";
+    cfg.right_key_field  = "_key";
 
-            JoinExporter exporter(cfg);
+    JoinExporter exporter(cfg);
 
-            ExportOptions opts;
-            opts.output_path = (fs::temp_directory_path() / "join_err_right_not_loaded.jsonl").string();
-            opts.continue_on_error = false;
+    ExportOptions opts;
+    opts.output_path = (fs::temp_directory_path() / "join_err_right_not_loaded.jsonl").string();
+    opts.continue_on_error = false;
 
-            BaseEntity l;
-            l.setPrimaryKey("l1");
-            l.setField("_key", std::string("x"));
+    BaseEntity l;
+    l.setPrimaryKey("l1");
+    l.setField("_key", std::string("x"));
 
-            EXPECT_THROW({
-                try {
-                    exporter.exportEntities({l}, opts);
-                } catch (const ExporterException& e) {
-                    EXPECT_EQ(e.getErrorCode(),
-                              errors::ErrorCode::ERR_EXPORT_CONFIG_INVALID);
-                    throw;
-                }
-            }, ExporterException);
+    EXPECT_THROW({
+        try {
+            exporter.exportEntities({l}, opts);
+        } catch (const ExporterException& e) {
+            EXPECT_EQ(e.getErrorCode(),
+                      errors::ErrorCode::ERR_EXPORT_CONFIG_INVALID);
+            throw;
         }
     }, ExporterException);
 }

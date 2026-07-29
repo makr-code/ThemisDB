@@ -218,8 +218,8 @@ private:
 
     /// Guards concurrent access to config_.policy_engine and
     /// config_.key_provider within resolveToken(), uploadDataset(), and
-    /// uploadShards().  Serialises the KEK-fetch and policy-check boundaries;
-    /// token material is never copied outside the lock scope.
+    /// uploadShards(). Serialises the KEK-fetch and policy-check boundaries;
+    /// raw token material is never logged.
     mutable std::mutex config_access_mutex_;
 
     /// Resolve the effective API token.

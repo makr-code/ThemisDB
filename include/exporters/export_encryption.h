@@ -63,7 +63,7 @@ private:
     /// Guards all accesses to config_.key_provider->getKey() /
     /// ->getKeyMetadata(). Concurrent encrypt/decrypt calls on one
     /// ExportEncryption instance are serialised at the KEK-fetch boundary;
-    /// key material is never copied outside the lock scope.
+    /// raw key material is never logged.
     mutable std::mutex key_provider_mutex_;
 
     std::vector<uint8_t> deriveJobDEK(uint32_t key_version) const;
@@ -96,7 +96,7 @@ private:
     /// Guards all accesses to config_.key_provider->getKey() /
     /// ->getKeyMetadata(). Concurrent encrypt/decrypt calls on one
     /// ExportEncryptor instance are serialised at the KEK-fetch boundary;
-    /// key material is never copied outside the lock scope.
+    /// raw key material is never logged.
     mutable std::mutex key_provider_mutex_;
 
     static std::vector<uint8_t> deriveDataKey(const std::vector<uint8_t>& kek,

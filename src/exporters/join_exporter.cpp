@@ -118,6 +118,7 @@ ExportStats JoinExporter::exportEntities(
 
     // Build the optional AQL predicate filter (compiled once, reused per row).
     std::unique_ptr<AqlPredicateFilter> aql_filter;
+    std::unique_ptr<AqlPredicateFilter> options_filter;
     if (!config_.join_predicate.empty()) {
         try {
             aql_filter = std::make_unique<AqlPredicateFilter>(config_.join_predicate);
@@ -128,18 +129,17 @@ ExportStats JoinExporter::exportEntities(
                 "join_predicate=" + config_.join_predicate
             );
         }
+    }
 
-        std::unique_ptr<AqlPredicateFilter> options_filter;
-        if (!options.filter_expression.empty()) {
-            try {
-                options_filter = std::make_unique<AqlPredicateFilter>(options.filter_expression);
-            } catch (const AqlPredicateFilterException& e) {
-                throw ExporterException(
-                    errors::ErrorCode::ERR_EXPORT_CONFIG_INVALID,
-                    std::string("JoinExporter: filter_expression parse failed: ") + e.what(),
-                    "filter_expression=" + options.filter_expression
-                );
-            }
+    if (!options.filter_expression.empty()) {
+        try {
+            options_filter = std::make_unique<AqlPredicateFilter>(options.filter_expression);
+        } catch (const AqlPredicateFilterException& e) {
+            throw ExporterException(
+                errors::ErrorCode::ERR_EXPORT_CONFIG_INVALID,
+                std::string("JoinExporter: filter_expression parse failed: ") + e.what(),
+                "filter_expression=" + options.filter_expression
+            );
         }
     }
 

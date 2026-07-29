@@ -132,7 +132,16 @@
       "binaryDir": "${sourceDir}/build-community-release",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
-        "THEMIS_EDITION": "COMMUNITY",
+        "THEMIS_EDITION": "COMMUNITY"
+      }
+    },
+    {
+      "name": "community-release-allow-missing-rocksdb",
+      "displayName": "Configure: Community Release (allow missing RocksDB)",
+      "description": "Opt-in diagnostic preset for configure-only work when RocksDB is not installed. Continues CMake configure with THEMIS_ALLOW_MISSING_ROCKSDB=ON, but RocksDB-dependent targets still require librocksdb-dev or vcpkg rocksdb before build/link.",
+      "inherits": "community-release",
+      "binaryDir": "${sourceDir}/build-community-release-allow-missing-rocksdb",
+      "cacheVariables": {
         "THEMIS_ALLOW_MISSING_ROCKSDB": "ON"
       }
     },
