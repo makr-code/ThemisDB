@@ -112,6 +112,122 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 ### Breaking Changes
 - Private plugin manifests gain new compatibility and visibility fields; loaders must treat missing fields as backward-compatible defaults during the migration window.
 
+---
+
+## LLM Wiki Enterprise Plugin (`themisdb_llm_wiki`)
+
+> Full specification: [`plugins/private/themisdb_llm_wiki/ROADMAP.md`](plugins/private/themisdb_llm_wiki/ROADMAP.md)
+> Enhancement spec: [`plugins/private/themisdb_llm_wiki/FUTURE_ENHANCEMENTS.md`](plugins/private/themisdb_llm_wiki/FUTURE_ENHANCEMENTS.md)
+> Public SDK header: [`include/llm_wiki/llm_wiki_plugin_interface.h`](include/llm_wiki/llm_wiki_plugin_interface.h)
+> Plugin manifest: [`plugins/private/themisdb_llm_wiki/plugin.json`](plugins/private/themisdb_llm_wiki/plugin.json)
+
+### Current Status
+
+- [x] Core C++ building blocks delivered in the LLM module:
+  `WikiIndexStore`, `WikiChunkSplitter`, `WikiRagSource` (🟢 PRODUCTION-READY)
+- [x] Python MVP CLI (`scripts/llm_wiki_mvp.py`) — `index`, `query`, `wiki-init`, `wiki-ingest`,
+  `wiki-query`, `wiki-lint` (🟢 MVP-COMPLETE, tests in `tests/test_llm_wiki_mvp.py`)
+- [x] Wikipedia XML dump ingestion C++ pipeline (`src/importers/wikipedia_*.cpp`) (🟢 PRODUCTION-READY)
+- [x] Public C++ SDK interface `ILLMWikiPlugin` defined (`include/llm_wiki/llm_wiki_plugin_interface.h`)
+  — Phase 1 delivered (🟡 BETA)
+- [x] Plugin manifest `plugin.json` created with full edition/capability/sub-feature metadata
+- [ ] Private plugin shared library (`themisdb_llm_wiki_cpp`) not yet implemented (Phase 2)
+
+### In Progress
+
+- [~] Phase 1 — Design / API contract: `ILLMWikiPlugin` interface + manifest delivered (Target: Q3 2026)
+- [ ] Phase 2 — Core implementation: private plugin `.so` wrapping existing C++ blocks
+  (Target: Q3–Q4 2026)
+
+### Planned Features
+
+- [ ] Private plugin shared library implementing `ILLMWikiPlugin` (Target: Q4 2026)
+  - Inputs: `WikiIngestOptions`, `WikiQueryOptions`; outputs: `WikiIngestResult`, `WikiQueryResult`
+  - Constraint: Phase A JSON fallback when `rocksdb_dir` is empty; no hard RocksDB dep at load time
+- [ ] WikiIndexStore Phase B activation (RocksDB-native BM25 + HNSW + RRF) (Target: Q4 2026)
+  - Perf target: ≥ 2× query throughput vs. Phase A at 50k chunks; p95 < 100 ms
+- [ ] Persistent embedding cache backed by RocksDB (Target: Q4 2026)
+  - Behavior: keyed on `(doc_id + sha256(content))`; cache miss triggers re-embedding; ≥ 99% hit rate on re-ingest
+- [ ] C++ workspace orchestrator (`WikiWorkspaceOrchestrator`), replacing Python MVP (Target: Q4 2026)
+  - State persistence: `state.json` with atomic write-replace; append-only log
+- [ ] `ingestWikipediaDump()` wired through `ILLMWikiPlugin` ABI (Target: Q4 2026)
+  - Sub-feature `"llm_wiki_wikipedia"` required; `Status::PermissionDenied` otherwise
+- [ ] RBAC-aware multi-tenant wiki namespaces (Target: Q2 2027)
+- [ ] Quality evaluation: Recall@k, MRR, p95 latency reporting in `stats()` (Target: Q1 2027)
+
+### Implementation Phases
+
+#### Phase 1 — Design / API Contract
+- [x] `ILLMWikiPlugin` public C++ SDK interface in `include/llm_wiki/llm_wiki_plugin_interface.h`
+  with typed request/response structs and C-linkage factory symbol
+- [x] `plugin.json` manifest with edition gating, sub-features, capabilities, and dependency metadata
+- [ ] Freeze ABI version at v0.1.0 and document backward-compatibility policy (Target: Q3 2026)
+- [ ] Document `initialize()` JSON config schema fully (Target: Q3 2026)
+
+#### Phase 2 — Core Implementation
+- [ ] `LLMWikiPluginImpl : ILLMWikiPlugin` in private plugin repo (Target: Q3–Q4 2026)
+  - `ingest()`: `WikiChunkSplitter::split()` per file → `WikiIndexStore::writeBatch()`
+  - `query()`: guardrail filter → `WikiIndexStore::query()` (Phase A or Phase B)
+  - Workspace methods: delegate to `WikiWorkspaceOrchestrator`
+  - `ingestWikipediaDump()`: delegate to `WikipediaPipeline` with sub-feature check
+- [ ] `WikiWorkspaceOrchestrator` C++ implementation (Target: Q4 2026)
+- [ ] `themisdb_llm_wiki_create()` factory export with C linkage (Target: Q3 2026)
+
+#### Phase 3 — Error Handling & Edge Cases
+- [ ] Partial-failure semantics for `ingest()`: log per-file errors, continue, populate `failed_files` (Target: Q4 2026)
+- [ ] Guardrail extension: add `"sudo"`, `"base64 decode"`, `"eval("`, `"exec("` patterns (Target: Q4 2026)
+- [ ] Workspace corruption detection and recovery for `state.json` (Target: Q4 2026)
+- [ ] Edition-gate enforcement: `Status::Error` in community/minimal runtimes (Target: Q4 2026)
+
+#### Phase 4 — Tests
+- [ ] `LWP-01..LWP-08` — ingest + query round-trip with hash provider; Recall@k ≥ 0.8 (Target: Q4 2026)
+- [ ] `LWP-09..LWP-16` — workspace lifecycle; log entries; page creation; orphan detection (Target: Q4 2026)
+- [ ] `LWP-17..LWP-20` — guardrail coverage (Target: Q4 2026)
+- [ ] `LWP-INT-01..LWP-INT-04` — live RocksDB fixture; Phase B write→query; concurrent safety (Target: Q1 2027)
+- [ ] `LWP-WIKI-01..02` — Wikipedia dump smoke test; sub-feature gate (Target: Q1 2027)
+- [ ] `LWP-GATE-01` — edition-gate negative test (Target: Q4 2026)
+- [ ] `LWP-PERF-01` — p95 query latency < 200 ms at 5k chunks (Target: Q1 2027)
+
+#### Phase 5 — Performance / Hardening
+- [ ] Phase B activation + Phase A→B migration path with automatic index rebuild (Target: Q1 2027)
+- [ ] Persistent embedding cache in RocksDB column family (Target: Q1 2027)
+- [ ] Batch embedding API (`embedBatch()`) during ingestion (Target: Q1 2027)
+- [ ] Wikipedia ingestion throughput ≥ 5k articles/s benchmarked (Target: Q2 2027)
+- [ ] Signed plugin SHA-256 verification active in production CI (Target: Q2 2027)
+
+#### Phase 6 — Documentation & Acceptance
+- [ ] Update `docs/architecture/llm_wiki_mvp_adr.md` with enterprise plugin architecture (Target: Q4 2026)
+- [ ] Operator runbook: install, configure, ingest, query, upgrade, rollback (Target: Q1 2027)
+- [ ] Developer guide: plugin wiring, workspace setup, Wikipedia dump ingestion (Target: Q1 2027)
+- [ ] Migration guide: Python MVP → C++ plugin (index format compat, workspace import) (Target: Q1 2027)
+
+### Production Readiness Checklist
+
+- [ ] `ILLMWikiPlugin` ABI frozen at v0.1; breaking changes require semver minor bump
+- [ ] Edition gate enforced: `Status::Error` in community/minimal runtimes
+- [ ] `LWP-01..LWP-20` focused tests pass with `TIMEOUT 120`
+- [ ] Integration tests `LWP-INT-01..LWP-INT-04` pass with live RocksDB fixture
+- [ ] p95 query latency < 200 ms at 5k chunks (Phase A) and < 100 ms at 50k chunks (Phase B)
+- [ ] Persistent embedding cache ≥ 99% hit rate on re-ingest of unchanged docs
+- [ ] Wikipedia sub-feature license gate verified
+- [ ] Signed plugin verification active in production CI
+- [ ] Operator runbook complete
+
+### Known Issues & Limitations
+
+- Private plugin shared library not yet implemented; Phase A JSON reader is the current production backend.
+- `WikiWorkspaceOrchestrator` C++ port not yet started; Python MVP is the reference implementation.
+- Wikipedia dump ingestion not yet wired through `ILLMWikiPlugin` ABI.
+- `llm_wiki_plugin_interface.h` is BETA (v0.1.0); ABI may change until v1.0.0.
+
+### Breaking Changes
+
+- `llm_wiki_plugin_interface.h` v0.1.0 is BETA; callers must re-link when the interface is promoted to v1.0.0.
+- `plugin.json` sub-feature key `"llm_wiki_wikipedia"` added; loaders that do not understand
+  sub-features must treat it as a no-op (backward-compatible).
+
+---
+
 ## In Progress
 
 - [~] Reconfirm canonical build reproducibility for `linux-release` (Ninja + `vcpkg`) and `community-release` (system packages incl. RocksDB) (Target: Phase 0 / 2026-07)
