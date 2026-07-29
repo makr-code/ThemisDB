@@ -247,6 +247,7 @@ Rule of thumb: architecture is layered, but security acceptance is tier-based.
 | [RELEASE_STRATEGY.md](RELEASE_STRATEGY.md) | Branch model, edition matrix, CI/CD pipeline |
 | [CHANGELOG.md](CHANGELOG.md) | Release notes (Keep a Changelog format) |
 | [docs/performance/PERFORMANCE_EXPECTATIONS.md](docs/performance/PERFORMANCE_EXPECTATIONS.md) | Benchmarks and performance targets |
+| [docs/use-cases/LLM_WIKI_MVP.md](docs/use-cases/LLM_WIKI_MVP.md) | LLM Wiki MVP setup, config, and usage |
 | [SOP.md](SOP.md) | Standard operating procedures (release, hotfix, incident) |
 | [GOVERNANCE.md](GOVERNANCE.md) | Project governance: roles, decision-making, contribution policy |
 | [MAINTAINERS.md](MAINTAINERS.md) | Maintainer roster and module ownership |

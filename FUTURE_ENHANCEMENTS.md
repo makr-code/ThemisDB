@@ -36,6 +36,7 @@
 	- `src/auth/ROADMAP.md`
 - Completed auth v1.2.0 / v1.3.0 delivery remains tracked in `src/auth/ROADMAP.md`; this file continues to track only open enhancement backlog.
 - Changelog trace entry added in `CHANGELOG.md` under `Unreleased`.
+- **2026-07-27 next-phase sync:** `research/implementation_influence/by_module.md` enhanced for top-risk modules (server, llm, sharding) with five-column research-source → planned-capability → implementation-evidence mapping. `ROADMAP.md` next-phase Tracks 0–6 structure updated. `src/query/ROADMAP.md` AQL Mutations status synced (Phases 1–5 marked complete).
 - Promotion remains blocked until open roadmap Phase 2/3/5/6 items, Batch D checklist closure, and Section 9 human sign-off in `docs/governance/GA_PROMOTION_SIGN_OFF.md` are complete.
 
 ---
@@ -84,6 +85,87 @@
 ### Security / Reliability
 - Fail closed on disallowed editions, missing license features, invalid hashes, and incompatible private manifests.
 - Enforce source-leakage, artifact-leakage, SBOM, and license-compliance gates before Community release publication.
+
+---
+
+## llm_wiki (Enterprise Plugin — `themisdb_llm_wiki`)
+
+> Full spec: [`plugins/private/themisdb_llm_wiki/FUTURE_ENHANCEMENTS.md`](plugins/private/themisdb_llm_wiki/FUTURE_ENHANCEMENTS.md)
+> Public SDK: [`include/llm_wiki/llm_wiki_plugin_interface.h`](include/llm_wiki/llm_wiki_plugin_interface.h)
+
+### Scope
+
+- Implement the private plugin shared library (`themisdb_llm_wiki_cpp`) behind `ILLMWikiPlugin`.
+- Activate WikiIndexStore Phase B (RocksDB-native hybrid retrieval: BM25 + HNSW + RRF).
+- Port the Python MVP workspace orchestrator to C++.
+- Wire Wikipedia XML dump ingestion through the plugin ABI.
+- Introduce RBAC-aware multi-tenant wiki namespaces.
+- Structured quality evaluation: Recall@k, MRR, p95 latency reporting.
+
+### Design Constraints
+
+- `ILLMWikiPlugin` ABI is the only public surface; all implementation details stay in the private repo.
+- Phase A `JsonWikiIndexReader` must remain a fallback when `rocksdb_dir` is not set.
+- Community and Minimal builds must compile cleanly without the plugin present; loader degrades gracefully.
+- Embedding providers remain swappable at config time (hash / sentence-transformers / openai).
+- Wikipedia sub-feature `"llm_wiki_wikipedia"` must be license-checked at call time, not only at load time.
+- RBAC integration must not introduce performance regression > 5% on single-tenant queries.
+
+### Required Interfaces
+
+- `ILLMWikiPlugin` (`include/llm_wiki/llm_wiki_plugin_interface.h`):
+  `initialize()`, `ingest()`, `query()`, `wikiInit()`, `wikiIngest()`, `wikiQuery()`,
+  `wikiLint()`, `ingestWikipediaDump()`, `stats()`, `shutdown()`
+- `WikiChunkSplitter` (`include/llm/wiki_chunk_splitter.h`) — consumed internally
+- `WikiIndexStore` (`include/llm/wiki_index_store.h`) — Phase A and Phase B backends
+- `WikiRagSource` (`include/llm/wiki_rag_source.h`) — wired into `ModularRAGPipeline`
+- `WikipediaPipeline` (`include/importers/wikipedia_pipeline.hpp`) — consumed by `ingestWikipediaDump()`
+
+### Implementation Notes
+
+- **Phase A → Phase B migration**: `initialize()` detects empty RocksDB table and auto-rebuilds from
+  the JSON fallback; subsequent queries switch to Phase B backend automatically.
+- **Workspace orchestrator**: `WikiWorkspaceOrchestrator` maintains `raw_sources/`, `wiki/pages/`,
+  `wiki/index.md`, `wiki/log.md`, `wiki/schema.md`, `wiki/state.json` (same layout as Python MVP).
+  `state.json` writes are atomic (write-to-temp + rename); log is append-only.
+- **Guardrail hardening**: extend UNSAFE_PATTERNS with `"sudo"`, `"base64 decode"`, `"eval("`,
+  `"exec("`. Apply to both `query_text` and individual chunk content.
+- **Wikipedia ingestion**: `ingestWikipediaDump()` checks `"llm_wiki_wikipedia"` sub-feature →
+  instantiates `WikipediaPipeline` → streams `WikiIngestResult` accumulation; checkpoint resume.
+- **Persistent embedding cache**: keyed on `(doc_id + sha256(text))`; stored in a separate RocksDB
+  column family; cache hit avoids re-embedding on re-ingest.
+
+### Test Strategy
+
+- `LWP-01..08`: ingest + query round-trip with hash provider; Recall@k ≥ 0.8 on fixture set
+- `LWP-09..16`: workspace lifecycle (init/ingest/query/lint); log entry count; page creation; orphan detection
+- `LWP-17..20`: guardrail coverage (prompt-injection detection; unsafe chunk exclusion)
+- `LWP-INT-01..04`: live RocksDB fixture; Phase B write→query; Phase A→B migration; concurrent safety; `state.json` corruption recovery
+- `LWP-WIKI-01..02`: Wikipedia dump smoke test; sub-feature gate enforcement
+- `LWP-GATE-01`: edition-gate negative test (community runtime → `Status::Error`)
+- `LWP-PERF-01`: p95 query latency < 200 ms at 5k chunks
+
+### Performance Targets
+
+| Operation | Condition | Target |
+|---|---|---|
+| `query()` p95 | ≤ 5k chunks, Phase A | < 200 ms |
+| `query()` p95 | ≤ 50k chunks, Phase B | < 100 ms |
+| `query()` throughput | Phase B, 16 concurrent | ≥ 500 QPS |
+| `ingest()` throughput | hash provider, batch=100 | ≥ 10k chunks/s |
+| Wikipedia dump ingest | `WikipediaPipeline` | ≥ 5k articles/s |
+| Embedding cache hit rate | re-ingest unchanged docs | ≥ 99% |
+
+### Security / Reliability
+
+- Edition gate enforced at `initialize()`; fail closed in community/minimal runtimes.
+- Sub-feature license checked at `ingestWikipediaDump()` call time; `Status::PermissionDenied` when absent.
+- Workspace `state.json` writes atomic (write-to-temp + rename); no partial state on crash.
+- Prompt-injection and unsafe-content guardrails apply to all query/retrieval paths.
+- Signed plugin SHA-256 verification active in production CI; `AdapterTrustPolicy::kTrustAll` development-only.
+- `WikiIndexStore` Phase B: exclusive `shared_mutex` write lock held for minimum duration; no lock held during embedding.
+
+---
 
 ## Table of Contents
 

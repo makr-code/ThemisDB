@@ -422,3 +422,107 @@ Phase 6 extends the gap scanning suite from 13 to 18 scanners, targeting advance
 - [PHASE_5_IMPLEMENTATION_COMPLETE.md](PHASE_5_IMPLEMENTATION_COMPLETE.md)
 - [ROADMAP.md](../ROADMAP.md)
 - [FUTURE_ENHANCEMENTS.md](../FUTURE_ENHANCEMENTS.md)
+
+---
+
+## Phase 1–4 Enhancement Patterns (Track 5, Q3–Q4 2026)
+
+**Last Updated:** 2026-07-27 — Added as part of next-phase Track 5 planning.
+
+These 12 patterns extend existing Phase 1–4 scanners with critical safety and security gaps
+identified during post-GA review. Each maps to a CWE and has a projection of expected gap yield.
+
+### Concurrency Patterns (C-series)
+
+#### C-1: Data Race Detection
+
+**Target scanner:** Phase 2 (Thread Safety Scanner) enhancement  
+**CWE:** CWE-362 (Race Condition / Concurrent Execution with Shared Resource)  
+**Expected gap yield:** 200–400 (server, llm, sharding are top-risk)
+
+Patterns to detect:
+1. **Unguarded shared write**: non-atomic write to shared state without lock in a function that is called from multiple threads based on class documentation
+   - Pattern: member variable write without `std::lock_guard`/`std::unique_lock` where thread annotations exist
+2. **Double-checked locking without `std::atomic`**: `if (!initialized_) { lock(); if (!initialized_) { ... } }` without atomic fence
+3. **Callback-held lock**: holding a `std::mutex` across an external callback invocation (potential deadlock + race)
+
+---
+
+### Memory Safety Patterns (M-series)
+
+#### M-1: Use-After-Free Detection
+
+**Target scanner:** Phase 3 (Memory Safety Scanner) enhancement  
+**CWE:** CWE-416 (Use After Free)  
+**Expected gap yield:** 150–300
+
+Patterns to detect:
+1. **Shared pointer captured lambda escape**: `std::shared_ptr<T>` captured in a lambda that outlives the owning scope after `std::move` of the shared_ptr
+2. **Raw pointer returned after container invalidation**: returning `.data()` of a `std::vector<>` and then modifying the vector in the same scope
+3. **Erased iterator dereferenced**: iterator used after `erase()`/`clear()` without reassignment
+
+#### M-2: Double-Free Detection
+
+**Target scanner:** Phase 3 (Memory Safety Scanner) enhancement  
+**CWE:** CWE-415 (Double Free)  
+**Expected gap yield:** 50–100
+
+Patterns to detect:
+1. **Manual `delete` on shared resource**: calling `delete ptr` on a pointer that is also held by a `std::shared_ptr`
+2. **Copy constructor deletes**: non-rule-of-five class with user-defined destructor calling `delete` but missing copy-assignment prohibition
+3. **`free()` on `new`-allocated memory or vice versa**: mixing C and C++ allocation
+
+---
+
+### Security Patterns (S-series)
+
+#### S-1: Hardcoded Secrets Detection
+
+**Target scanner:** Phase 4 (Security Pattern Scanner) enhancement  
+**CWE:** CWE-798 (Use of Hard-coded Credentials)  
+**Expected gap yield:** 30–80
+
+Patterns to detect:
+1. **String literal matching secret heuristics**: variables named `password`, `secret`, `api_key`, `token` assigned a non-empty string literal
+2. **Base64-looking literals in headers**: strings matching `[A-Za-z0-9+/]{40,}={0,2}` in `.h` files outside test directories
+3. **Default credentials in config structs**: struct fields with `default_password`, `default_key` initialized to non-empty literals
+
+#### S-2: Crypto Weakness Detection
+
+**Target scanner:** Phase 4 (Security Pattern Scanner) enhancement  
+**CWE:** CWE-327 (Use of Broken or Risky Cryptographic Algorithm)  
+**Expected gap yield:** 20–50
+
+Patterns to detect:
+1. **MD5/SHA-1 for security**: calls to `MD5_Init`, `SHA1_Init`, `EVP_md5()`, `EVP_sha1()` outside checksum/non-security contexts
+2. **ECB mode cipher**: `EVP_aes_128_ecb()` or equivalent ECB mode selection
+3. **Static IV/nonce**: IV initialized from a constant or zero array for AES-GCM/CBC
+
+#### S-3: Injection Vulnerability Detection
+
+**Target scanner:** Phase 4 (Security Pattern Scanner) enhancement  
+**CWE:** CWE-89 (SQL/Command Injection), CWE-78 (OS Command Injection)  
+**Expected gap yield:** 40–100
+
+Patterns to detect:
+1. **String concatenation into query strings**: `query = "SELECT ... WHERE id = " + user_input` without parameterization
+2. **`system()`/`popen()` with non-constant argument**: `system(cmd.c_str())` where `cmd` is built from external input
+3. **`sprintf`/`snprintf` format string from external source**: format string is a variable rather than a string literal
+
+---
+
+### Deployment and Gate
+
+| Pattern group | Target scanner phase | Expected yield | Q3 2026 target |
+|---|---|---|---|
+| C-1 (race conditions) | Phase 2 enhancement | 200–400 gaps | Q3 2026 |
+| M-1 (use-after-free) | Phase 3 enhancement | 150–300 gaps | Q3 2026 |
+| M-2 (double-free) | Phase 3 enhancement | 50–100 gaps | Q3 2026 |
+| S-1 (hardcoded secrets) | Phase 4 enhancement | 30–80 gaps | Q3 2026 |
+| S-2 (crypto weakness) | Phase 4 enhancement | 20–50 gaps | Q3 2026 |
+| S-3 (injection) | Phase 4 enhancement | 40–100 gaps | Q3 2026 |
+
+**Total projected new gaps from enhancements:** 490–1,030 additional on top of Phase 6 base (+6,000–10,000).
+
+**Gate (Track 5):** All 12 pattern detectors deployed with ≤ 5% false-positive rate (validated on
+Phase 1–4 known-good samples); `by_module.md` updated with scanner evidence per top-risk module.

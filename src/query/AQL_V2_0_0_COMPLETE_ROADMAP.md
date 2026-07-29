@@ -1,6 +1,6 @@
 # AQL v2.0.0 — Complete Language Standard Roadmap
 
-**Status**: Planning (2026-06-18)  
+**Status**: In Progress (2026-07-27)  
 **Target Release**: v2.0.0 (Q4 2026, November 2026)  
 **Scope**: Full ArangoDB AQL feature parity + ThemisDB extensions  
 **Effort**: 20-25 calendar weeks (5-6 months)  
@@ -89,7 +89,7 @@ v2.0.0 delivers **production-ready AQL with complete DML, DDL, and spatial query
 
 ### 3. GEOSPATIAL (ST_Distance, ST_Contains, ST_Within, ST_DWithin)
 
-**Status**: � **70% IMPLEMENTED** (functions exist, need AQL parser integration)
+**Status**: 🔄 **In Progress** — Phase 1 (Parser wiring + tests, 2026-07-27)
 
 **Current** (2026-06-18 audit):
 - ✅ **Functions implemented** in `src/query/let_evaluator.cpp`:
@@ -103,10 +103,16 @@ v2.0.0 delivers **production-ready AQL with complete DML, DDL, and spatial query
 **Effort Impact**: Roadmap can focus on **Integration + Optimization** instead of reimplementation
 
 **Phases** (revised - leverage existing functions):
-- Phase 1: Parser Integration (1 week)
-  - Wire ST_* functions into AQL parser as callable in FILTER, LET contexts
-  - Add geospatial function tokens (already exist, just enable in parser)
-  - No code generation needed—use existing let_evaluator.cpp implementations
+- ✅ Phase 1: Parser Integration — COMPLETE (2026-07-27)
+  - Confirmed: ST_* functions wire into FILTER/SORT/RETURN via generic IDENTIFIER() function-call path
+  - No parser tokenizer/grammar changes required — parser already handles all function call forms
+  - `qe_evalFunction` in `query_engine.cpp` already handles all ST_* at runtime (lines 1676–2330)
+  - LetEvaluator::evaluateExpression handles ST_* in LET and FILTER contexts
+  - Added 27 production tests in `tests/aql/test_aql_st_predicates.cpp`:
+    - 7 parser acceptance tests (FILTER context, incl. nested ST_GeomFromGeoJSON)
+    - 3 parser context tests (SORT, RETURN, LET+FILTER combined)
+    - 12 evaluation tests (ST_Distance, ST_Within, ST_Contains, ST_Intersects, ST_DWithin, ST_GeomFromGeoJSON)
+    - 5 parse-then-evaluate integration tests
 
 - Phase 2: Query Optimization (1 week)
   - Optimizer recognition of spatial predicates (e.g., `FILTER ST_Within(...)`)
@@ -413,9 +419,9 @@ Q3 2026        Q3 2026        Q4 2026         Q4 2026         Q4 2026         Q4
 - [x] `src/query/AQL_MUTATIONS_ROADMAP.md` (created 2026-06-18)
 
 ### **To Create** (This Week)
-- [ ] `src/query/AQL_DDL_ROADMAP.md` (4-6 weeks, Phase 1-4)
-- [ ] `src/geospatial/AQL_GEOSPATIAL_ROADMAP.md` (3-4 weeks, Phase 1-5)
-- [ ] `src/index/AQL_FULLTEXT_ROADMAP.md` (2-3 weeks, Phase 1-4)
+- [x] `src/query/AQL_DDL_ROADMAP.md` — CREATED 2026-07-27 (DDL Phases 1-4 complete, delivered 2026-07-22)
+- [x] `src/query/AQL_GEOSPATIAL_ROADMAP.md` — CREATED 2026-07-27 (note: module at src/query/, not src/geospatial/)
+- [x] `src/index/AQL_FTS_ROADMAP.md` — CREATED 2026-07-27 (was `AQL_FULLTEXT_ROADMAP.md`)
 - [ ] `src/query/AQL_V2_0_0_INTEGRATION_ROADMAP.md` (testing, perf validation, docs)
 
 ### **Reference Documents** (Update existing)
@@ -430,7 +436,7 @@ Q3 2026        Q3 2026        Q4 2026         Q4 2026         Q4 2026         Q4
 1. **Week 1 (This Week)**: 
    - ✅ Review AQL_MUTATIONS_ROADMAP.md
    - ✅ Approve v2.0.0 scope (Mutations + DDL + Geospatial + FTS)
-   - [ ] Create detailed DDL, Geospatial, FTS roadmaps (3 docs)
+   - [x] Create detailed DDL, Geospatial, FTS roadmaps — DONE 2026-07-27
    - [ ] Assign team leads (Team A, B, C)
    - [ ] Schedule Gate 1 review (Week 3)
 
