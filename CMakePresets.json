@@ -130,7 +130,8 @@
       "binaryDir": "${sourceDir}/build-community-release",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
-        "THEMIS_EDITION": "COMMUNITY"
+        "THEMIS_EDITION": "COMMUNITY",
+        "THEMIS_ALLOW_MISSING_ROCKSDB": "ON"
       }
     },
     {

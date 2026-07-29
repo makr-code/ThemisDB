@@ -280,6 +280,30 @@ TEST_F(JoinExporterTest, JoinPredicateFiltersRows) {
     EXPECT_EQ(row0["label"].get<std::string>(), "positive");
 }
 
+TEST_F(JoinExporterTest, ExportOptionsFilterExpressionFiltersMergedRows) {
+    JoinExportConfig cfg;
+    cfg.left_collection  = "docs";
+    cfg.right_collection = "annotations";
+    cfg.left_key_field   = "_key";
+    cfg.right_key_field  = "doc_id";
+    cfg.output_fields    = {"content", "label", "score"};
+
+    JoinExporter exporter(cfg);
+    exporter.setRightCollection(right_);
+
+    ExportOptions opts;
+    opts.output_path = outPath("options_filter_expression.jsonl");
+    opts.filter_expression = "doc.score >= 0.8";
+
+    auto stats = exporter.exportEntities(left_, opts);
+    EXPECT_EQ(stats.exported_entities, 1u);
+
+    const auto lines = readLines(opts.output_path);
+    ASSERT_EQ(lines.size(), 1u);
+    const auto row0 = json::parse(lines[0]);
+    EXPECT_EQ(row0["label"].get<std::string>(), "positive");
+}
+
 // ── AC-7: error cases ─────────────────────────────────────────────────────────
 
 TEST(JoinExporterErrorTest, EmptyLeftCollectionThrows) {
@@ -318,6 +342,34 @@ TEST(JoinExporterErrorTest, EmptyRightCollectionSetRightThrows) {
             EXPECT_EQ(e.getErrorCode(),
                       errors::ErrorCode::ERR_EXPORT_CONFIG_INVALID);
             throw;
+        }
+
+        TEST(JoinExporterErrorTest, ExportWithoutSetRightCollectionFailsClosed) {
+            JoinExportConfig cfg;
+            cfg.left_collection  = "docs";
+            cfg.right_collection = "annotations";
+            cfg.left_key_field   = "_key";
+            cfg.right_key_field  = "_key";
+
+            JoinExporter exporter(cfg);
+
+            ExportOptions opts;
+            opts.output_path = (fs::temp_directory_path() / "join_err_right_not_loaded.jsonl").string();
+            opts.continue_on_error = false;
+
+            BaseEntity l;
+            l.setPrimaryKey("l1");
+            l.setField("_key", std::string("x"));
+
+            EXPECT_THROW({
+                try {
+                    exporter.exportEntities({l}, opts);
+                } catch (const ExporterException& e) {
+                    EXPECT_EQ(e.getErrorCode(),
+                              errors::ErrorCode::ERR_EXPORT_CONFIG_INVALID);
+                    throw;
+                }
+            }, ExporterException);
         }
     }, ExporterException);
 }

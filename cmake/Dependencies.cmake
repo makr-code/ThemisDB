@@ -103,6 +103,10 @@ else()
     endif()
 endif()
 # RocksDB: Prefer CONFIG (vcpkg) and fallback to unofficial target if provided by vcpkg
+option(THEMIS_ALLOW_MISSING_ROCKSDB
+    "Allow CMake configure to continue without a detected RocksDB install (build of RocksDB-dependent targets may fail)."
+    OFF
+)
 find_package(RocksDB CONFIG QUIET)
 if(RocksDB_FOUND)
     message(STATUS "RocksDB found")
@@ -176,7 +180,19 @@ else()
             set(RocksDB_FOUND TRUE)
             message(STATUS "RocksDB found via pkg-config: ${RocksDB_PC_VERSION}")
         else()
-            message(FATAL_ERROR "RocksDB not found. Install via vcpkg (rocksdb) or system package librocksdb-dev.")
+            if(THEMIS_ALLOW_MISSING_ROCKSDB)
+                message(WARNING
+                    "RocksDB not found. Continuing configure because THEMIS_ALLOW_MISSING_ROCKSDB=ON. "
+                    "Install via vcpkg (rocksdb) or system package librocksdb-dev before building "
+                    "RocksDB-dependent targets."
+                )
+                if(NOT TARGET RocksDB::rocksdb)
+                    add_library(RocksDB::rocksdb INTERFACE IMPORTED)
+                endif()
+                set(RocksDB_FOUND TRUE)
+            else()
+                message(FATAL_ERROR "RocksDB not found. Install via vcpkg (rocksdb) or system package librocksdb-dev.")
+            endif()
         endif()
     endif()
 endif()
@@ -1081,4 +1097,3 @@ if(THEMIS_ENABLE_CLOUD_STORAGE)
     message(STATUS "  - Google Cloud Storage: ${THEMIS_HAS_GCS_SDK}")
 endif()
 message(STATUS "============================================")
-
