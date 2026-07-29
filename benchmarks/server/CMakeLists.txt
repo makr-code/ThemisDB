@@ -85,3 +85,24 @@ themis_add_standard_benchmark(bench_postgres_protocol bench_postgres_protocol.cp
 themis_add_standard_benchmark(bench_postgres_transactions bench_postgres_transactions.cpp)
 themis_add_standard_benchmark(bench_stream_protocol bench_stream_protocol.cpp)
 themis_add_standard_benchmark(bench_wal_apply_grpc bench_wal_apply_grpc.cpp)
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_server_hotpaths.cpp")
+    message(STATUS "Adding server hot-path release-gate benchmarks (SVR-01..SVR-08)")
+    add_executable(bench_server_hotpaths bench_server_hotpaths.cpp)
+    target_include_directories(bench_server_hotpaths PRIVATE ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(bench_server_hotpaths PRIVATE
+        ${BENCHMARK_LIBS}
+        themis_core
+        Threads::Threads
+    )
+    target_compile_definitions(bench_server_hotpaths PRIVATE THEMIS_BENCHMARK_BUILD=1)
+    themis_apply_benchmark_release_flags(bench_server_hotpaths)
+    install(TARGETS bench_server_hotpaths
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+    message(STATUS "  SVR-01: HTTP dispatch p99<=500us  SVR-02: Auth JWT p99<=2ms")
+    message(STATUS "  SVR-03: Rate-limit p99<=100us  SVR-04: WebSocket p99<=200us")
+    message(STATUS "  SVR-05: gRPC unary p99<=1ms  SVR-06: Shutdown drain p99<=5s")
+    message(STATUS "  SVR-07: Retry budget p99<=50us  SVR-08: Route lookup p99<=10us")
+endif()

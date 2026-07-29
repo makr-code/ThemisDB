@@ -29,8 +29,8 @@ Production governance runtime exists across policy enforcement/lifecycle, compli
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [ ] freeze policy/compliance/masking/lineage/versioning contracts for active major line (Target: Q3 2026)
-- [ ] define explicit error taxonomy for denial, conflict, and fallback classes (Target: Q3 2026)
+- [x] freeze policy/compliance/masking/lineage/versioning contracts for active major line (Target: Q3 2026)
+- [x] define explicit error taxonomy for denial, conflict, and fallback classes (Target: Q3 2026)
 
 ### Phase 2: Core Implementation
 - [ ] complete hardening for policy lifecycle and compliance execution internals (Target: Q4 2026)
@@ -41,12 +41,12 @@ Production governance runtime exists across policy enforcement/lifecycle, compli
 - [ ] unify diagnostics across conflict, fallback, and compliance/reporting failures (Target: Q4 2026)
 
 ### Phase 4: Tests
-- [ ] expand focused regressions for policy versioning/inheritance/review edge scenarios (Target: Q4 2026)
-- [ ] extend deterministic fixture coverage for compliance and masking permutations (Target: Q4 2026)
+- [x] expand focused regressions for policy versioning/inheritance/review edge scenarios (Target: Q4 2026)
+- [x] extend deterministic fixture coverage for compliance and masking permutations (Target: Q4 2026)
 
 ### Phase 5: Performance and Hardening
-- [ ] lock benchmark-backed release gates for governance hot paths (Target: Q4 2026)
-- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+- [x] lock benchmark-backed release gates for governance hot paths (Target: Q4 2026)
+- [x] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core governance module docs aligned to source-verifiable behavior
@@ -58,7 +58,7 @@ Production governance runtime exists across policy enforcement/lifecycle, compli
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
 - [ ] remaining hardening tasks closed for conflict/fallback/versioning edge paths
-- [ ] release benchmark stabilization complete
+- [x] release benchmark stabilization complete
 
 ## Known Issues and Limitations
 

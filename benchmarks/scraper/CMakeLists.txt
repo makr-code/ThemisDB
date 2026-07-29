@@ -1,0 +1,5 @@
+if(NOT THEMIS_BUILD_BENCHMARKS)
+    return()
+endif()
+message(STATUS "Configuring benchmark module: scraper")
+themis_add_standard_benchmark(bench_scraper_release_gates bench_scraper_release_gates.cpp)

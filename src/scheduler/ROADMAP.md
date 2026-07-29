@@ -29,8 +29,8 @@ Production-capable scheduler runtime exists for task lifecycle operations, execu
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [ ] freeze scheduler lifecycle/execution/coordination contracts for current major line (Target: Q3 2026)
-- [ ] define explicit error taxonomy for scheduler failure classes (Target: Q3 2026)
+- [x] freeze scheduler lifecycle/execution/coordination contracts for current major line (Target: Q3 2026) — evidence: include/scheduler/scheduler_api_contract.h
+- [x] define explicit error taxonomy for scheduler failure classes (Target: Q3 2026) — evidence: include/scheduler/scheduler_api_contract.h
 
 ### Phase 2: Core Implementation
 - [ ] complete hardening for task scheduler and retention internals (Target: Q4 2026)
@@ -41,12 +41,12 @@ Production-capable scheduler runtime exists for task lifecycle operations, execu
 - [ ] unify diagnostics across scheduler lifecycle/coordination/observability incidents (Target: Q4 2026)
 
 ### Phase 4: Tests
-- [ ] expand focused regressions for concurrent register/execute and trigger edge scenarios (Target: Q4 2026)
-- [ ] extend deterministic stress fixtures for scheduler burst and retention workloads (Target: Q4 2026)
+- [x] expand focused regressions for concurrent register/execute and trigger edge scenarios (Target: Q4 2026) — evidence: tests/scheduler/test_scheduler_contract_hardening_focused.cpp
+- [x] extend deterministic stress fixtures for scheduler burst and retention workloads (Target: Q4 2026) — evidence: tests/scheduler/test_scheduler_contract_hardening_focused.cpp
 
 ### Phase 5: Performance and Hardening
-- [ ] lock benchmark-backed release gates for scheduler hot paths (Target: Q4 2026)
-- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+- [x] lock benchmark-backed release gates for scheduler hot paths (Target: Q4 2026) — evidence: benchmarks/scheduler/bench_scheduler_release_gates.cpp
+- [x] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026) — evidence: benchmarks/scheduler/bench_scheduler_release_gates.cpp
 
 ### Phase 6: Documentation and Acceptance
 - [x] core scheduler module docs aligned to source-verifiable behavior
@@ -58,7 +58,7 @@ Production-capable scheduler runtime exists for task lifecycle operations, execu
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
 - [ ] remaining hardening tasks closed for concurrency/coordination edge paths
-- [ ] release benchmark stabilization complete
+- [x] release benchmark stabilization complete
 
 ## Known Issues and Limitations
 

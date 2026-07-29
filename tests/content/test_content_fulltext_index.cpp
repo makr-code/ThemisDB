@@ -97,7 +97,10 @@ protected:
 
     // Helper: Import test content with chunks
     std::string importTestContent(const std::vector<std::string>& chunk_texts,
-                                    const std::string& content_id = "") {
+                                    const std::string& content_id = "",
+                                    const std::string& mime_type = "text/plain",
+                                    const std::string& category = "TEXT",
+                                    int64_t created_at = 1234567890) {
         json spec;
         
         // Content metadata - use more predictable ID generation for tests
@@ -114,11 +117,11 @@ protected:
         
         spec["content"] = {
             {"id", cid},
-            {"mime_type", "text/plain"},
-            {"category", "TEXT"},
+            {"mime_type", mime_type},
+            {"category", category},
             {"original_filename", "test.txt"},
             {"size_bytes", 1000},
-            {"created_at", 1234567890},
+            {"created_at", created_at},
             {"hash_sha256", "abcd1234"},
             {"text_extracted", true},
             {"chunked", true},
@@ -344,6 +347,47 @@ TEST_F(ContentFulltextIndexTest, MultipleDocumentsShareIndex) {
     
     EXPECT_TRUE(status.ok);
     EXPECT_GE(results.size(), 2) << "Should find chunks from both documents";
+}
+
+TEST_F(ContentFulltextIndexTest, HybridSearchMalformedFilterFailsClosed) {
+    enableAutoFulltextIndex(true, "en", true, false);
+
+    importTestContent({"machine learning systems rely on vector search."}, "hybrid-malformed-a");
+    importTestContent({"machine learning pipelines need deterministic filters."}, "hybrid-malformed-b");
+
+    auto baseline = content_mgr_->searchContentHybrid(
+        "machine learning", 10, json::object(), 0.0f, 1.0f, 60.0f);
+    ASSERT_FALSE(baseline.empty());
+
+    auto filtered = content_mgr_->searchContentHybrid(
+        "machine learning",
+        10,
+        json{{"category", json::object()}},
+        0.0f,
+        1.0f,
+        60.0f);
+
+    EXPECT_TRUE(filtered.empty());
+}
+
+TEST_F(ContentFulltextIndexTest, HybridSearchScalarFiltersAreApplied) {
+    enableAutoFulltextIndex(true, "en", true, false);
+
+    importTestContent({"machine evidence older"}, "hybrid-older", "text/plain", "TEXT", 1000);
+    importTestContent({"machine evidence newer"}, "hybrid-newer", "text/plain", "TEXT", 2000);
+
+    auto filtered = content_mgr_->searchContentHybrid(
+        "machine evidence",
+        10,
+        json{{"mime_type", "text/plain"}, {"date_from", 1500}},
+        0.0f,
+        1.0f,
+        60.0f);
+
+    ASSERT_FALSE(filtered.empty());
+    for (const auto& [pk, _score] : filtered) {
+        EXPECT_NE(pk.find("hybrid-newer-chunk-"), std::string::npos);
+    }
 }
 
 // ============================================================================

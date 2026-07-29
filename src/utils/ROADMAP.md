@@ -29,8 +29,8 @@ Production-usable shared utility behavior exists for observability, privacy proc
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [ ] freeze widely consumed helper contracts for current major line consumers (Target: Q3 2026)
-- [ ] define explicit error taxonomy for audit, privacy, and runtime utility failure classes (Target: Q3 2026)
+- [x] freeze widely consumed helper contracts for current major line consumers (Target: Q3 2026)
+- [x] define explicit error taxonomy for audit, privacy, and runtime utility failure classes (Target: Q3 2026)
 
 ### Phase 2: Core Implementation
 - [ ] complete remaining hardening for shared utility hotspots with broad module fan-out (Target: Q4 2026)
@@ -41,12 +41,12 @@ Production-usable shared utility behavior exists for observability, privacy proc
 - [ ] unify diagnostics and incident categorization for shared-helper failures (Target: Q4 2026)
 
 ### Phase 4: Tests
-- [ ] expand focused regressions for benchmark-mapped utility hotspots and edge scenarios (Target: Q4 2026)
+- [x] expand focused regressions for benchmark-mapped utility hotspots and edge scenarios (Target: Q4 2026)
 - [ ] extend concurrency and stress validation for shared helper fan-out (Target: Q4 2026)
 
 ### Phase 5: Performance and Hardening
-- [ ] lock benchmark-backed release gates for mapped utility hotspots (Target: Q4 2026)
-- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+- [x] lock benchmark-backed release gates for mapped utility hotspots (Target: Q4 2026)
+- [x] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core utils module docs aligned to source-verifiable behavior

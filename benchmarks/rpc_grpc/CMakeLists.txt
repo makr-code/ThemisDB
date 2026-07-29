@@ -1,0 +1,5 @@
+if(NOT THEMIS_BUILD_BENCHMARKS)
+    return()
+endif()
+message(STATUS "Configuring benchmark module: rpc_grpc")
+themis_add_standard_benchmark(bench_rpc_grpc_release_gates bench_rpc_grpc_release_gates.cpp)

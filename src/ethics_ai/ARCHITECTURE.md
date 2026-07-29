@@ -1,6 +1,6 @@
 # Architecture - Ethics AI Module
 
-<!-- Status: current | validated: 2026-06-22 -->
+<!-- Status: current | validated: 2026-07-28 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 <!-- Research: docs/research/ethics_discourse_process_equality.md -->
 
@@ -9,7 +9,7 @@
 The ethics_ai module composes philosophy profile ingestion, argument persistence, discourse orchestration, context assembly, evaluation, and plugin lifecycle wiring into a coherent ethics reasoning runtime for ThemisDB.
 
 The current production mode is `SELECTION_ONLY` (Top-N school pre-selection via
-`EthicsSelectionRouter`). The planned **Layered Discourse Model (LDM)** adds
+`EthicsSelectionRouter`). The **Layered Discourse Model (LDM)** adds
 `LAYERED_FULL` and `LAYERED_FAST` modes that satisfy Habermas participatory fairness
 while remaining computationally tractable. See `FUTURE_ENHANCEMENTS.md` and
 `docs/research/ethics_discourse_process_equality.md` for design details.
@@ -71,14 +71,14 @@ DiscourseMode::SELECTION_ONLY   (current production)
   └─ Discourse: top_n schools only
   └─ MetaVerdict: weighted aggregate
 
-DiscourseMode::LAYERED_FULL     (planned Q1–Q2 2027)
+DiscourseMode::LAYERED_FULL     (implemented)
   └─ Ebene-1: all N schools, parallel, equal w₀=1/N         O(N)
   └─ Ebene-2: K≤6 clusters × 3 rounds, tension-axis routing  O(K²·R)
   └─ Ebene-3: convergence-count + legal-DB grounding          O(1)+lookup
   └─ Mirror: non-western schools, 1 step parallel to Ebene-2
   └─ MetaVerdict: convergence_score + cross_cultural_flag + minority_dissent
 
-DiscourseMode::LAYERED_FAST     (planned Q2 2027)
+DiscourseMode::LAYERED_FAST     (implemented)
   └─ Ebene-1: all N schools parallel (identical to LAYERED_FULL)
   └─ Ebene-2: axis-1 only (Kant↔Utilitarismus) + domain-relevant cluster
   └─ Ebene-3: MetaVerdict from Ebene-1 convergence + legal-DB
@@ -105,12 +105,12 @@ DiscourseMode::LAYERED_FAST     (planned Q2 2027)
   - src/ethics_ai/ethics_evaluator.cpp
   - src/ethics_ai/ethics_profile_registry.cpp
   - src/ethics_ai/ethics_selection_router.cpp
-- Verified architecture claims:
-  - explicit profile/discourse/context/evaluation planes
-  - bounded deterministic failure behavior in lifecycle and profile paths
-  - module-local orchestration for ethics reasoning runtime flows
-- Planned files (LDM — not yet implemented):
   - src/ethics_ai/discourse_orchestrator.cpp (DiscourseMode + DiscourseOrchestratorPlan)
   - src/ethics_ai/cluster_discourse_engine.cpp (Ebene-2 cluster routing)
   - src/ethics_ai/meta_verdict_builder.cpp (Ebene-3 convergence-count + legal grounding)
   - src/ethics_ai/mirror_school_handler.cpp (Mirror-School-Modus)
+- Verified architecture claims:
+  - explicit profile/discourse/context/evaluation planes
+  - bounded deterministic failure behavior in lifecycle and profile paths
+  - module-local orchestration for ethics reasoning runtime flows
+  - LDM Ebene-1/2/3 and Mirror-School-Modus implemented and verified

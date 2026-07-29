@@ -31,8 +31,8 @@ Production geo runtime exists across CPU/GPU backends, spatial indexing, GeoJSON
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [ ] freeze backend/index/geometry/query contracts for active major line (Target: Q3 2026)
-- [ ] define explicit error taxonomy for validation, fallback, and capability failure classes (Target: Q3 2026)
+- [x] Freeze geo module API contract — GeoJSON validation, backend dispatch, spatial index, spatial join, error taxonomy (include/geo/geo_api_contract.h) (Target: Q3 2026)
+- [x] Define explicit GeoErrorCode taxonomy (GEOMETRY_INVALID, BACKEND_UNAVAILABLE, INDEX_CORRUPTED, PRECISION_EXCEEDED, UNSUPPORTED_GEOMETRY_TYPE, …) (Target: Q3 2026)
 
 ### Phase 2: Core Implementation
 - [ ] complete hardening for backend dispatch, indexing, and geometry internals (Target: Q4 2026)
@@ -43,22 +43,31 @@ Production geo runtime exists across CPU/GPU backends, spatial indexing, GeoJSON
 - [ ] unify diagnostics across join/clustering/raster/temporal and fallback paths (Target: Q4 2026)
 
 ### Phase 4: Tests
-- [ ] expand focused regressions for backend/geometry/index edge scenarios (Target: Q4 2026)
-- [ ] extend deterministic fixture coverage for spatial workload permutations (Target: Q4 2026)
+- [x] Contract-hardening focused tests GCH-01..GCH-16 covering GeoJSON validation, backend dispatch, spatial index, and spatial join invariants (tests/geo/test_geo_contract_hardening_focused.cpp) (Target: Q4 2026)
+- [x] Expand focused regressions for backend/geometry/index edge scenarios (Target: Q4 2026)
+- [x] Extend deterministic fixture coverage for spatial workload permutations (Target: Q4 2026)
 
 ### Phase 5: Performance and Hardening
-- [ ] lock benchmark-backed release gates for geo hot paths (Target: Q4 2026)
-- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+- [x] Lock benchmark-backed release gates for geo hot paths: GRG-01..GRG-06 in benchmarks/geo/bench_geo_release_gates.cpp (point-in-polygon 1k p99≤5ms, bbox query 10k p99≤1ms, GeoJSON parse p99≤500µs, Haversine p99≤10µs, spatial join p99≤50ms, backend selection p99≤50µs) (Target: Q4 2026)
+- [x] Validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core geo module docs aligned to source-verifiable behavior
 - [x] roadmap/future planning separated from historical changelog entries
+- [x] Contract header frozen: include/geo/geo_api_contract.h
+- [x] Contract-hardening tests delivered: tests/geo/test_geo_contract_hardening_focused.cpp (GCH-01..GCH-16)
+- [x] Release-gate benchmarks delivered: benchmarks/geo/bench_geo_release_gates.cpp (GRG-01..GRG-06)
+- [x] Benchmark CMakeLists registered: benchmarks/geo/CMakeLists.txt
 
 ## Production Readiness Checklist
 
 - [x] core geo surfaces documented and source-verified
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
+- [x] Contract header frozen: include/geo/geo_api_contract.h (Phase 1)
+- [x] Contract-hardening tests: tests/geo/test_geo_contract_hardening_focused.cpp (Phase 4, GCH-01..GCH-16)
+- [x] Release-gate benchmarks: benchmarks/geo/bench_geo_release_gates.cpp (Phase 5, GRG-01..GRG-06)
+- [x] Benchmark CMakeLists registered: benchmarks/geo/CMakeLists.txt
 - [ ] remaining hardening tasks closed for fallback/validation/advanced-query edge paths
 - [ ] release benchmark stabilization complete
 

@@ -87,6 +87,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 
 ### Phase 6 — Documentation, Governance, and Release Approval
 - [~] Keep `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `CHANGELOG.md`, `RELEASE_STRATEGY.md`, `VERSIONING.md`, and branch-governance docs synchronized (Target: 2026-07-28, IN PROGRESS)
+- [x] Establish central Phase 1-6 subagent execution contract in `NEXT_PHASE_IMPLEMENTATION_PLAN.md` (strict sequencing, per-phase DoD/gate/risk/docs closure, no-transition hard gate, batch-oriented delivery) (Target: 2026-07-28)
 - [~] Include `research/` and `research/papers/` in each root documentation sync and update the root Soll-Ist comparison for research-backed roadmap claims (Target: 2026-08-04, IN PROGRESS)
 - [~] Create research backbone matrix `research/implementation_influence/by_module.md` with Soll-Ist (Target-Current) analysis for 6+ modules (Target: 2026-08-04)
 - [~] Complete Doxygen 100% coverage audit on public C++ APIs and deliver `docs/DOXYGEN_COVERAGE_REPORT.md` (Target: 2026-08-04)
@@ -197,14 +198,16 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 **Implementation Plans:** [NEXT_PHASE_IMPLEMENTATION_PLAN.md](NEXT_PHASE_IMPLEMENTATION_PLAN.md), [ai_working/PHASE3_OPTIMIZATION_DETAILED_PLAN.md](ai_working/PHASE3_OPTIMIZATION_DETAILED_PLAN.md), [ai_working/PHASE5_HARDENING_DETAILED_PLAN.md](ai_working/PHASE5_HARDENING_DETAILED_PLAN.md), [ai_working/NEXT_PHASE_30_60_90_BACKLOG.md](ai_working/NEXT_PHASE_30_60_90_BACKLOG.md)
 **Kickoff Runner:** `/home/runner/work/ThemisDB/ThemisDB/scripts/next_phase_kickoff.py` (Wave-7 hard-gate + baseline go/no-go report)
 
-### Parallel Work Streams (4-6 weeks)
+### Parallel Work Streams (4-6 weeks, historical execution snapshot)
+
+> Historical planning snapshot retained for traceability. Active gate sequencing is governed by the Phase 1-6 execution contract and does not allow cross-phase transitions without full gate closure.
 
 | Phase | Component | Timeline | Effort | Teams | Target Tests | Status |
 |-------|-----------|----------|--------|-------|-------------|--------|
 | **Phase 3** | Graph: Query optimization, cache efficiency, resource pooling | 6 weeks | 10 weeks | A+B (4 eng) | 130 new | 🟡 Active (Block B complete, Block A complete) |
 | **Phase 5-S** | Server: Wire-protocol retry + HTTP timeout patterns | 3 weeks | 4 weeks | C (2 eng) | 39 new | ✅ Complete (Block C) |
 | **Phase 5-L** | LLM: Exception safety + memory leak fixes | 3 weeks | 6 weeks | D (2 eng) | 51 new | ✅ Complete (Block D) |
-| **Phase 6** | Sharding: 2PC/3PC consistency + fault injection | 3 weeks | 6 weeks | E+F (4 eng) | 60+ new | ✅ Complete (P6-01/TXC-01..TXC-32 + P6-02/FLR-01..FLR-20 + P6-03/FI-01..FI-40, 2026-07-22) |
+| **Block E (historical)** | Sharding: 2PC/3PC consistency + fault injection | 3 weeks | 6 weeks | E+F (4 eng) | 60+ new | ✅ Complete (P6-01/TXC-01..TXC-32 + P6-02/FLR-01..FLR-20 + P6-03/FI-01..FI-40, 2026-07-22) |
 | **AQL Phase 2** | DDL implementation (parser + executor) | 4-6 weeks | 6 weeks | G (2 eng) | 32 new | 🟡 Active (DDL parser + executor + 32 tests delivered 2026-07-22; geospatial/FTS queued) |
 | **Wave 8** | Soak + endurance + degradation fault injection | Parallel | 8 weeks | F (2 eng) | 40+ scenarios | 🟡 Active (gate-integrated) |
 
@@ -241,26 +244,18 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 - [ ] Any failed gate or unresolved risk is returned to backlog/governance before promotion
 - [ ] Promotion path remains evidence-driven and must stay aligned with the canonical `VERSION` / `RELEASE_TYPE` state before any release cut
 
-### Decision Tree: Phase Prioritization
+### Decision Tree: Phase Prioritization (contract-aligned)
 
 ```
-Current Date: 2026-07-18
-Team Capacity: Assume 8 teams available (15 engineers)
+Current State: Execute active phase only
+Team Capacity: Parallelization allowed only inside the active phase
 
-ARE WAVE 7 GATES CONFIRMED PASS?
-├─ YES  → Start Phase 3 + Phase 5 in parallel (PRIMARY PATH)
-│         Phase 3: Graph optimization (production readiness)
-│         Phase 5: Server + LLM hardening (fault tolerance)
+IS THE PREVIOUS PHASE FULLY CLOSED (DoD + Gate Evidence + Risk Update + Doc Sync)?
+├─ NO   → BLOCKER: close previous phase before any phase transition
 │
-└─ NO   → BLOCKER: Re-run Wave 7 until all 6 gates pass
-          Cannot advance without baseline confirmation
-
-DO YOU HAVE >= 12 ENGINEERS AVAILABLE?
-├─ YES  → Full parallel execution: Phase 3, Phase 5-S, Phase 5-L (weeks 1-3)
-│         Then stagger: Phase 6 (week 4+), AQL Phase 2 (parallel)
-│
-└─ NO   → Stagger by priority: Phase 3 weeks 1-2, Phase 5 weeks 2-4
-          (Server criticality may warrant Phase 5-S acceleration)
+└─ YES  → Activate next phase in 1→6 sequence
+          ├─ Run module lanes in parallel inside this phase
+          └─ Run review/doc lanes before phase exit
 ```
 
 ---

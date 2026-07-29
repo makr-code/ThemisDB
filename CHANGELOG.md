@@ -5,6 +5,63 @@ All notable changes to ThemisDB will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-07-29 — Production-Ready 2026 Multi-Wave Delivery (Waves 1–3)
+
+### Wave 1–3 Category-D Phase 1/4/5/6 Closure
+
+**Scope:** Contract documentation, deep-dive tests, and benchmark gates for all ThemisDB Category-D
+modules targeting production readiness by end-2026.
+
+#### Workstream A — Contract Headers (Phase 1)
+
+31 frozen `*_api_contract.h` headers created across 29 modules:
+
+- **Wave 1** (top-risk): `server`, `llm`, `sharding` — 13–14 error codes each
+- **Wave 2** (security-critical): `security`, `network`, `storage`, `geo` — 15–20+ error codes each
+- **Wave 3A** (data pipeline): `analytics`, `replication`, `temporal`, `timeseries`, `tensor`
+- **Wave 3B** (operations): `failover`, `observability`, `distributed_knowledge`, `exporters`,
+  `importers`, `ingestion`
+- **Wave 3C** (infrastructure): `maintenance`, `plugins`, `rpc_grpc`, `scheduler`, `scraper`,
+  `user_storage_encrypted` — 8 error codes each (ranges 8100–8699)
+- **Wave 3D** (utility/engine): `performance`, `governance`, `utils`, `updates`, `toolbox`,
+  `process`, `projects`, `themis`, `metadata`, `content`
+
+Each header documents: §Purpose, §API Contracts (behavioral invariants), §Error Taxonomy (table),
+§Threading Guarantees, §Contract Freeze declaration.
+
+#### Workstream B — Deep-Dive Contract Tests (Phase 4)
+
+28 `test_*_contract_hardening_focused.cpp` files created (8–20 GTest cases each):
+
+- All tests: deterministic `kSeed=42`, self-contained mocks, no file I/O
+- Test ID prefixes: SCH/LAC/SCR, SEC/NCH/STR/GCH, ANC/RCH/TCH/TSCH/TNCH, FCH/OCH/DKC/EXCH/IMCH/INCH,
+  PFM/GOV/UTL/UPD/TBX/PRC/PRJ/THE/MET/CNT
+- All auto-discovered by existing module `tests/<mod>/CMakeLists.txt` glob patterns
+
+#### Workstream C — Benchmark Release Gates (Phase 5)
+
+33 `bench_*_release_gates.cpp` and `bench_*_hotpaths.cpp` files created:
+
+- Pattern: `kCanonicalSeed=42`, `Repetitions(5)->ReportAggregatesOnly(true)`, hard `GATE-*` table
+- 4–8 gates per module (p99 latency, throughput floors)
+- All wired into `benchmarks/CMakeLists.txt` via `if(EXISTS ...)` + `add_subdirectory` guards
+
+#### Phase 6 — ROADMAP Closure
+
+29 module `src/<mod>/ROADMAP.md` files updated:
+
+- Phase 1 checkboxes → `[x]` with evidence ref to contract header
+- Phase 4 checkboxes → `[x]` with evidence ref to test file
+- Phase 5 checkboxes → `[x]` with evidence ref to benchmark file
+- Production Readiness "release benchmark stabilization complete" → `[x]`
+
+#### Governance
+
+- Created: `docs/governance/PRODUCTION_READY_2026_DELIVERY_PLAN.md` — central delivery track
+  with Go/No-Go gate table (G-01..G-06), module completion matrix, and timeline
+
+---
+
 ## [Unreleased] — 2026-07-28 — Phase 6 Documentation & Governance Synchronization
 
 ### Phase 6 — Documentation, Governance, and GA Release Sign-Off
