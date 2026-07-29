@@ -60,8 +60,8 @@ jobs:
           set -euo pipefail
           test -f plugins/private/themisdb-hyperscaler-core/CMakeLists.txt \
             || { echo "Missing private module plugins/private/themisdb-hyperscaler-core"; exit 1; }
-          test -f plugins/private/themisdb_plugin_signer/README.md \
-            || { echo "Missing private module plugins/private/themisdb_plugin_signer"; exit 1; }
+          test -f plugins/themisdb_plugin_signer/README.md \
+            || { echo "Missing private module plugins/themisdb_plugin_signer"; exit 1; }
 
       - name: Restore hyperscaler license
         run: |

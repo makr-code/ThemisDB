@@ -9,7 +9,7 @@ import sys
 def main() -> int:
     print(
         "ERROR: Plugin manifest signing has been moved to a private owner-controlled repository.\n"
-        "Use plugins/private/themisdb_plugin_signer for Ed25519 manifest signing.",
+        "Use plugins/themisdb_plugin_signer for Ed25519 manifest signing.",
         file=sys.stderr,
     )
     return 2

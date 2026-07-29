@@ -29367,7 +29367,7 @@
     "score": 100.0,
     "recent_commits": 0
   },
-  "plugins/private/themisdb_plugin_signer/sign_plugin.py": {
+  "plugins/themisdb_plugin_signer/sign_plugin.py": {
     "version": "0.0.48",
     "last_update": "2026-05-11 12:05:52 UTC",
     "author": "copilot-swe-agent[bot]",

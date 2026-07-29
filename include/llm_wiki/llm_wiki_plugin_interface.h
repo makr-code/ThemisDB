@@ -4,7 +4,7 @@
  *
  * Exposes the canonical plugin entry point, typed request/response structs, and
  * the `ILLMWikiPlugin` abstract interface that the private plugin implementation
- * (`plugins/private/themisdb_llm_wiki`) implements.
+ * (`plugins/themisdb_llm_wiki`) implements.
  *
  * ## Plugin identity
  *  - Plugin type: `PluginType::CUSTOM`

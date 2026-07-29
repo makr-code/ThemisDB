@@ -2,7 +2,7 @@
 
 > ⚠️ **[PRIVATE] Governance Update (Hyperscaler):**
 > Signing/Signatur-Generierung ist owner-kontrolliert und wurde in
-> `plugins/private/themisdb_plugin_signer` ausgelagert.
+> `plugins/themisdb_plugin_signer` ausgelagert.
 > Das öffentliche Repository stellt nur Verifikationspfade bereit.
 
 ## Overview
@@ -29,7 +29,7 @@ For Hyperscaler security hardening, signing is now private-owner-only; this publ
 ## Installation
 
 ```bash
-cd /path/to/ThemisDB/plugins/private/themisdb_plugin_signer
+cd /path/to/ThemisDB/plugins/themisdb_plugin_signer
 
 # Install dependencies (if needed)
 pip install cryptography
@@ -76,7 +76,7 @@ python3 verify_plugin.py \
 For development and testing, generate self-signed certificates:
 
 ```bash
-cd plugins/private/themisdb_plugin_signer
+cd plugins/themisdb_plugin_signer
 
 # 1. Generate private key (4096-bit RSA)
 openssl genrsa -out themis_plugin_key.pem 4096
@@ -269,7 +269,7 @@ ThemisDB plugin system verifies:
 
 - name: Sign Plugin
   run: |
-    python3 plugins/private/themisdb_plugin_signer/sign_plugin.py \
+    python3 plugins/themisdb_plugin_signer/sign_plugin.py \
       plugins/accel_cuda/build/themis_accel_cuda.dll \
       ${{ secrets.PLUGIN_SIGNING_KEY }} \
       ${{ secrets.PLUGIN_SIGNING_CERT }}

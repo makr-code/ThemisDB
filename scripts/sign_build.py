@@ -9,7 +9,7 @@ import sys
 def main() -> int:
     print(
         "ERROR: Build signing tooling has been moved to a private owner-controlled repository.\n"
-        "Use the private hyperscaler signing pipeline (plugins/private/themisdb_plugin_signer).",
+        "Use the private hyperscaler signing pipeline (plugins/themisdb_plugin_signer).",
         file=sys.stderr,
     )
     return 2

@@ -42037,7 +42037,7 @@
 
 ---
 
-### `plugins/private/themisdb_plugin_signer/sign_plugin.py` (v0.0.47)
+### `plugins/themisdb_plugin_signer/sign_plugin.py` (v0.0.47)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 

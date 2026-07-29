@@ -171,7 +171,7 @@ themis_accel_cuda.dll.json  ← Metadata + Signature
 ## Plugin Signierung
 
 > ⚠️ **[PRIVATE]** Signatur-Erzeugung ist owner-kontrolliert und läuft über
-> `plugins/private/themisdb_plugin_signer`. Öffentliche Repos nutzen Verify-Only-Pfade.
+> `plugins/themisdb_plugin_signer`. Öffentliche Repos nutzen Verify-Only-Pfade.
 
 ### Signatur-Prozess
 
@@ -198,7 +198,7 @@ base64 themis_accel_cuda.dll.sig > themis_accel_cuda.dll.sig.b64
 
 ```python
 #!/usr/bin/env python3
-# plugins/private/themisdb_plugin_signer/sign_plugin.py
+# plugins/themisdb_plugin_signer/sign_plugin.py
 
 import hashlib
 import subprocess

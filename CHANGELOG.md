@@ -85,10 +85,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Added `.gitmodules` submodule entries for all 4 provisioned Wave-1 private repositories:
-  - `makr-code/themisdb_ethic_ai` → `plugins/private/themisdb_ethic_ai/`
-  - `makr-code/themisdb_storage` → `plugins/private/themisdb_storage/` (aggregate: user_storage_encrypted, azure_blob_storage, s3_blob_storage)
-  - `makr-code/themisdb_importer` → `plugins/private/themisdb_importer/` (aggregate: mysql_importer, mongo_importer, kafka_importer, s3_importer)
-  - `makr-code/themisdb_llm_wiki` → `plugins/private/themisdb_llm_wiki/`
+  - `makr-code/themisdb_ethic_ai` → `plugins/themisdb_ethic_ai/`
+  - `makr-code/themisdb_storage` → `plugins/themisdb_storage/` (aggregate: user_storage_encrypted, azure_blob_storage, s3_blob_storage)
+  - `makr-code/themisdb_importer` → `plugins/themisdb_importer/` (aggregate: mysql_importer, mongo_importer, kafka_importer, s3_importer)
+  - `makr-code/themisdb_llm_wiki` → `plugins/themisdb_llm_wiki/`
 
 ### Changed
 - Updated `cmake/PrivatePlugins.cmake` source paths to use the aggregate repository subdirectory structure instead of individual plugin-name directories.

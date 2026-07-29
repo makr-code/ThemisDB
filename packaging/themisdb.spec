@@ -137,9 +137,9 @@ if [ -d %{_builddir}/ThemisDB-%{version}/examples ]; then
 fi
 
 # Install tools
-if [ -d %{_builddir}/ThemisDB-%{version}/plugins/private/themisdb_plugin_signer ]; then
+if [ -d %{_builddir}/ThemisDB-%{version}/plugins/themisdb_plugin_signer ]; then
     mkdir -p %{buildroot}%{_datadir}/themisdb/tools
-    cp -r %{_builddir}/ThemisDB-%{version}/plugins/private/themisdb_plugin_signer \
+    cp -r %{_builddir}/ThemisDB-%{version}/plugins/themisdb_plugin_signer \
         %{buildroot}%{_datadir}/themisdb/tools/
     install -m 755 %{_builddir}/ThemisDB-%{version}/tools/sign_*.py \
         %{buildroot}%{_datadir}/themisdb/tools/ || true

@@ -2,17 +2,17 @@ include_guard(GLOBAL)
 
 # Wave-1 private plugin aggregate repository layout (provisioned 2026-07):
 #
-#   makr-code/themisdb_ethic_ai   → plugins/private/themisdb_ethic_ai/
-#   makr-code/themisdb_storage    → plugins/private/themisdb_storage/
+#   makr-code/themisdb_ethic_ai   → plugins/themisdb_ethic_ai/
+#   makr-code/themisdb_storage    → plugins/themisdb_storage/
 #       user_storage_encrypted/
 #       azure_blob_storage/
 #       s3_blob_storage/
-#   makr-code/themisdb_importer   → plugins/private/themisdb_importer/
+#   makr-code/themisdb_importer   → plugins/themisdb_importer/
 #       mysql/
 #       mongo/
 #       kafka/
 #       s3/
-#   makr-code/themisdb_llm_wiki   → plugins/private/themisdb_llm_wiki/
+#   makr-code/themisdb_llm_wiki   → plugins/themisdb_llm_wiki/
 #
 # Each submodule is commit-pinned and optional (no-hard-fail when absent).
 
@@ -32,14 +32,14 @@ function(themis_register_private_plugins plugins_root)
     # ethics_ai — aggregate repo root is the plugin dir
     if(WITH_PRIVATE_ETHICS_AI)
         _themis_add_optional_private_plugin_dir("Private plugin: ethics_ai"
-            "${plugins_root}/private/themisdb_ethic_ai"
+            "${plugins_root}/themisdb_ethic_ai"
             "${CMAKE_CURRENT_BINARY_DIR}/private_ethics_ai")
     endif()
 
     # storage plugins — aggregate repo (contains shared + plugin subdirs)
     if(WITH_PRIVATE_USER_STORAGE_ENCRYPTED)
         _themis_add_optional_private_plugin_dir("Private plugin aggregate: themisdb_storage"
-            "${plugins_root}/private/themisdb_storage"
+            "${plugins_root}/themisdb_storage"
             "${CMAKE_CURRENT_BINARY_DIR}/private_themisdb_storage")
         set(_private_storage_added TRUE)
     endif()
@@ -47,14 +47,14 @@ function(themis_register_private_plugins plugins_root)
     if(WITH_PRIVATE_CONNECTOR_PACK)
         # importer plugins — aggregate repo (contains shared + plugin subdirs)
         _themis_add_optional_private_plugin_dir("Private plugin aggregate: themisdb_importer"
-            "${plugins_root}/private/themisdb_importer"
+            "${plugins_root}/themisdb_importer"
             "${CMAKE_CURRENT_BINARY_DIR}/private_themisdb_importer")
         set(_private_importer_added TRUE)
 
         # connector/blob pack also depends on storage aggregate (azure/s3)
         if(NOT _private_storage_added)
             _themis_add_optional_private_plugin_dir("Private plugin aggregate: themisdb_storage"
-                "${plugins_root}/private/themisdb_storage"
+                "${plugins_root}/themisdb_storage"
                 "${CMAKE_CURRENT_BINARY_DIR}/private_themisdb_storage")
             set(_private_storage_added TRUE)
         endif()
