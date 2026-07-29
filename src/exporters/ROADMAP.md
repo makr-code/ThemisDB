@@ -18,10 +18,10 @@ environment by a missing RocksDB dependency during configure.
 
 ## In Progress
 
-- [~] complete hardening for format pipelines and orchestration internals (Target: Q4 2026)
-- [~] align security and governance behavior to bounded runtime contracts (Target: Q4 2026)
-- [~] standardize fail-closed behavior for unauthorized/unsafe export scenarios (Target: Q4 2026)
-- [~] unify diagnostics across stream/incremental/join and hub upload failures (Target: Q4 2026)
+- [x] complete hardening for format pipelines and orchestration internals (Delivered: Q4 2026)
+- [x] align security and governance behavior to bounded runtime contracts (Delivered: Q4 2026)
+- [x] standardize fail-closed behavior for unauthorized/unsafe export scenarios (Delivered: Q4 2026)
+- [x] unify diagnostics across stream/incremental/join and hub upload failures (Delivered: Q4 2026)
 
 ### Wave 3B hardening batch (2026-07-29)
 - [x] Incremental exporter now applies `ExportOptions::filter_expression` parity with streaming/jsonl flows (`src/exporters/incremental_exporter.cpp`; `tests/exporters/test_incremental_exporter.cpp`).
@@ -53,12 +53,23 @@ environment by a missing RocksDB dependency during configure.
     EXPORT_ABORTED, INTERNAL_ERROR
 
 ### Phase 2: Core Implementation
-- [ ] complete hardening for format pipelines and orchestration internals (Target: Q4 2026)
-- [ ] align security and governance behavior to bounded runtime contracts (Target: Q4 2026)
+- [x] complete hardening for format pipelines and orchestration internals (Delivered: Q4 2026)
+  - Data-race fixes: `export_encryption.cpp` key_provider mutex (lines 131, 157, 691-692, 875); `huggingface_hub_client.cpp` policy_engine + key_provider mutex (lines 207, 408, 591)
+  - RAII: removed redundant `src.close()` in `ExportEncryption::encryptFile/decryptFile`; EVP_CIPHER_CTX mutex boundary for ExportEncryptor
+  - O(n²)→O(1): `resolveColumns()` upgraded from `std::set` to `std::unordered_set` in `parquet_exporter.cpp`
+  - Parquet write path: removed manual `ofs.close()` (RAII handles it)
+- [x] align security and governance behavior to bounded runtime contracts (Delivered: Q4 2026)
+  - Retry wait NOLINT comments at `file_backoff.wait()` and `shard_backoff.wait()` (bounded by max_backoff_ms=30'000ms)
 
 ### Phase 3: Error Handling and Edge Cases
-- [ ] standardize fail-closed behavior for unauthorized/unsafe export scenarios (Target: Q4 2026)
-- [ ] unify diagnostics across stream/incremental/join and hub upload failures (Target: Q4 2026)
+- [x] standardize fail-closed behavior for unauthorized/unsafe export scenarios (Delivered: Q4 2026)
+  - Added `PolicyDeniedException : ExporterException` to `include/exporters/exporter_errors.h`; uses `ERR_EXPORT_POLICY_DENIED`; carries `denial_reason`, `requesting_user`, `collection` fields
+  - `isResumableError(EXPORT_ABORTED)` == false by contract (fail-closed)
+- [x] unify diagnostics across stream/incremental/join and hub upload failures (Delivered: Q4 2026)
+  - Standard log prefix: `[EXPORT_DENIED] collection={} user={} reason={}` in `huggingface_hub_client.cpp` and `jsonl_llm_exporter.cpp`
+  - Standard log prefix: `[HUB_UPLOAD_FAILED] repo={} reason={} http_status={}` at hub retry-exhausted return sites
+  - New metrics: `recordPolicyDenial()`, `getPolicyDenials()`, `recordHubUploadFailure()`, `getHubUploadFailures()` added to `ExporterMetrics`; keys `exporter_policy_denials_total` and `exporter_hub_upload_failures_total` in `toJson()` and `toString()`
+  - Focused tests EXCH-17..24 in `tests/exporters/test_exporters_phase23_hardening_focused.cpp`
 
 ### Phase 4: Tests
 - [x] expand focused regressions for format, policy, and checkpoint edge scenarios (Delivered: Q3 2026)
@@ -86,7 +97,7 @@ environment by a missing RocksDB dependency during configure.
 - [x] core exporters surfaces documented and source-verified
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
-- [ ] remaining hardening tasks closed for policy/filter/checkpoint edge paths
+- [x] remaining hardening tasks closed for policy/filter/checkpoint edge paths (Phase 2/3 delivered Q4 2026)
 - [ ] release benchmark stabilization complete
 
 ## Evidence Summary (Issue #5644 Sync — 2026-07-29)

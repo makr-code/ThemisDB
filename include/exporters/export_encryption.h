@@ -28,6 +28,7 @@
 #include <cstdint>
 #include <istream>
 #include <memory>
+#include <mutex>
 #include <ostream>
 #include <string>
 #include <vector>
@@ -59,6 +60,12 @@ public:
 private:
     ExportEncryptionConfig config_;
 
+    /// Guards all accesses to config_.key_provider->getKey() /
+    /// ->getKeyMetadata(). Concurrent encrypt/decrypt calls on one
+    /// ExportEncryption instance are serialised at the KEK-fetch boundary;
+    /// key material is never copied outside the lock scope.
+    mutable std::mutex key_provider_mutex_;
+
     std::vector<uint8_t> deriveJobDEK(uint32_t key_version) const;
 
     static std::vector<uint8_t> buildAAD(const std::string& job_id,
@@ -85,6 +92,12 @@ public:
 
 private:
     ExportEncryptionConfig config_;
+
+    /// Guards all accesses to config_.key_provider->getKey() /
+    /// ->getKeyMetadata(). Concurrent encrypt/decrypt calls on one
+    /// ExportEncryptor instance are serialised at the KEK-fetch boundary;
+    /// key material is never copied outside the lock scope.
+    mutable std::mutex key_provider_mutex_;
 
     static std::vector<uint8_t> deriveDataKey(const std::vector<uint8_t>& kek,
                                               const std::string& job_id);
