@@ -29,8 +29,8 @@ Production metadata runtime exists across schema discovery, consistency tooling,
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [ ] freeze schema/consistency/export contracts for active major line (Target: Q3 2026)
-- [ ] define explicit error taxonomy for schema/export/distributed metadata failure classes (Target: Q3 2026)
+- [x] freeze schema/consistency/export contracts for active major line (Target: Q3 2026)
+- [x] define explicit error taxonomy for schema/export/distributed metadata failure classes (Target: Q3 2026)
 
 ### Phase 2: Core Implementation
 - [ ] complete hardening for metadata orchestration internals (Target: Q4 2026)
@@ -41,12 +41,12 @@ Production metadata runtime exists across schema discovery, consistency tooling,
 - [ ] unify diagnostics across schema/consistency/export incidents (Target: Q4 2026)
 
 ### Phase 4: Tests
-- [ ] expand focused regressions for metadata consistency and export edge scenarios (Target: Q4 2026)
-- [ ] extend deterministic stress fixtures for metadata cache and schema mutation operations (Target: Q4 2026)
+- [x] expand focused regressions for metadata consistency and export edge scenarios (Target: Q4 2026)
+- [x] extend deterministic stress fixtures for metadata cache and schema mutation operations (Target: Q4 2026)
 
 ### Phase 5: Performance and Hardening
-- [ ] lock benchmark-backed release gates for metadata hot paths (Target: Q4 2026)
-- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+- [x] lock benchmark-backed release gates for metadata hot paths (Target: Q4 2026)
+- [x] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core metadata module docs aligned to source-verifiable behavior
@@ -58,7 +58,7 @@ Production metadata runtime exists across schema discovery, consistency tooling,
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
 - [ ] remaining hardening tasks closed for schema/consistency/export edge paths
-- [ ] release benchmark stabilization complete
+- [x] release benchmark stabilization complete
 
 ## Known Issues and Limitations
 

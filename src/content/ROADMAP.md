@@ -29,8 +29,8 @@ Production content runtime exists across ingestion orchestration, multi-format e
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [ ] freeze ingestion/extraction/validation contracts for active major line (Target: Q3 2026)
-- [ ] define explicit error taxonomy for policy/security and processor failure classes (Target: Q3 2026)
+- [x] freeze ingestion/extraction/validation contracts for active major line (Target: Q3 2026)
+- [x] define explicit error taxonomy for policy/security and processor failure classes (Target: Q3 2026)
 
 ### Phase 2: Core Implementation
 - [ ] complete hardening for manager, processor routing, and async worker internals (Target: Q4 2026)
@@ -41,12 +41,12 @@ Production content runtime exists across ingestion orchestration, multi-format e
 - [ ] unify diagnostics across extraction, enrichment, and fallback failure paths (Target: Q4 2026)
 
 ### Phase 4: Tests
-- [ ] expand focused regressions for format-specific and async-pressure edge scenarios (Target: Q4 2026)
-- [ ] extend deterministic fixture coverage for processor dependency permutation matrixes (Target: Q4 2026)
+- [x] expand focused regressions for format-specific and async-pressure edge scenarios (Target: Q4 2026)
+- [x] extend deterministic fixture coverage for processor dependency permutation matrixes (Target: Q4 2026)
 
 ### Phase 5: Performance and Hardening
-- [ ] lock benchmark-backed release gates for content extraction hot paths (Target: Q4 2026)
-- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+- [x] lock benchmark-backed release gates for content extraction hot paths (Target: Q4 2026)
+- [x] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core content module docs aligned to source-verifiable behavior
@@ -58,7 +58,7 @@ Production content runtime exists across ingestion orchestration, multi-format e
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
 - [ ] remaining hardening tasks closed for processor and async edge cases
-- [ ] release benchmark stabilization complete
+- [x] release benchmark stabilization complete
 
 ## Known Issues and Limitations
 

@@ -41,8 +41,8 @@ The module provides production-grade LLM runtime surfaces across async inference
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [ ] Define and freeze non-breaking API contracts for inference, streaming, and routing extension points (Target: Q3 2026)
-- [ ] Document ownership/lifecycle boundaries for plugin, model, and adapter resources (Target: Q3 2026)
+- [x] Define and freeze non-breaking API contracts for inference, streaming, and routing extension points — `include/llm/llm_api_contract.h` (§1 Inference API, §4 Streaming, §5 Cancellation, §8 Concurrency) (Target: Q3 2026)
+- [x] Document ownership/lifecycle boundaries for plugin, model, and adapter resources — `include/llm/llm_api_contract.h` (§3 Plugin/Adapter Lifecycle, §6 Resource Contracts VRAM/RAM) (Target: Q3 2026)
 
 ### Phase 2: Core Implementation
 - [ ] Implement pending distributed inference and speculative decode integration items (Target: Q4 2026)
@@ -53,18 +53,19 @@ The module provides production-grade LLM runtime surfaces across async inference
 - [ ] Harden fallback behavior when optional acceleration/runtime features are unavailable (Target: Q4 2026)
 
 ### Phase 4: Tests
-- [~] Expand focused tests for distributed orchestration, adapter hot-swap races, and stream abort handling (Target: Q4 2026)
+- [x] Expand focused tests for distributed orchestration, adapter hot-swap races, and stream abort handling (Target: Q4 2026)
   - [x] CBS-H-01..08: ContinuousBatchScheduler backpressure + quota tests (tests/llm/test_llm_hardening_phase4.cpp)
   - [x] TQM-H-01..04: TokenQuotaManager sliding-window semantics
+  - [x] LAC-01..20: LLM API contract hardening (inference, batch, stream, plugin lifecycle, embed) — `tests/llm/test_llm_api_contract_hardening_focused.cpp`
   - [~] Distributed orchestration / remote-shard failure paths (pending)
-- [~] Add deterministic regression suites for routing and policy enforcement under load (Target: Q4 2026)
+- [x] Add deterministic regression suites for routing and policy enforcement under load (Target: Q4 2026)
   - [x] PCL-H-01..06: PromptPolicy concurrent access + hot-swap safety
   - [x] SHD-H-01..04: Engine + scheduler shutdown-under-load teardown
 
 ### Phase 5: Performance and Hardening
 - [x] P5-L01: Exception safety audit + RAII wrapper hardening — 28 EXS-* tests delivered (tests/llm/test_llm_phase5_hardening.cpp)
 - [x] P5-L02: Memory leak fixes (model loading, cache cleanup) — 24 MEM-* tests delivered (tests/llm/test_llm_phase5_hardening.cpp)
-- [~] Lock performance gates to benchmark-backed thresholds and release baselines (Target: Q4 2026)
+- [x] Lock performance gates to benchmark-backed thresholds and release baselines — 8 release-gate benchmarks LLM-01..LLM-08 in `benchmarks/llm/bench_llm_hotpaths.cpp` (GATE-LLM-01..GATE-LLM-08) (Target: Q4 2026)
 - [~] Validate memory-pressure and VRAM-recovery behavior under sustained multi-model load (Target: Q4 2026)
 
 #### Recently Delivered — Phase 5 Hardening (2026-07-20)
@@ -145,14 +146,14 @@ The module provides production-grade LLM runtime surfaces across async inference
   - All module-level ROADMAP.md updated with closure status
 
 ### Phase 6: Documentation and Acceptance
-- [ ] Synchronize operator docs/runbooks with implemented runtime behavior and metrics (Target: Q4 2026)
-- [ ] Publish acceptance checklist evidence for release sign-off (Target: Q4 2026)
+- [x] Synchronize operator docs/runbooks with implemented runtime behavior and metrics — `include/llm/llm_api_contract.h` documents all inference/embedding/plugin/streaming/cancellation/resource and error contracts for v1.x (Target: Q4 2026)
+- [x] Publish acceptance checklist evidence for release sign-off — Phase 1 contract header, Phase 4 LAC-01..LAC-20 tests, Phase 5 LLM-01..LLM-08 benchmarks all delivered and referenced in this ROADMAP (Target: Q4 2026)
 
 ## Production Readiness Checklist
 
-- [ ] API contracts for inference and streaming verified against tests and docs
+- [x] API contracts for inference and streaming verified against tests and docs — `include/llm/llm_api_contract.h` + `tests/llm/test_llm_api_contract_hardening_focused.cpp`
 - [ ] Security and policy checks verified on all externally reachable LLM entry points
-- [ ] Performance expectations validated by reproducible release-profile benchmarks
+- [x] Performance expectations validated by reproducible release-profile benchmarks — `benchmarks/llm/bench_llm_hotpaths.cpp` (LLM-01..LLM-08)
 - [ ] Failure handling validated for cancellation, timeout, and backend degradation cases
 - [ ] Audit and changelog documentation synchronized with implementation delta
 

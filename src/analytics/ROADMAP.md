@@ -35,8 +35,8 @@ Production analytics runtime exists across OLAP, streaming/CEP, forecasting, ano
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [ ] freeze analytics runtime contracts for critical execution paths (Target: Q3 2026)
-- [ ] define explicit failure classes for unsupported dependency/capability states (Target: Q3 2026)
+- [x] freeze analytics runtime contracts for critical execution paths (Completed 2026-07-29)
+- [x] define explicit failure classes for unsupported dependency/capability states (Completed 2026-07-29)
 
 ### Phase 2: Core Implementation
 - [x] streaming window runtime limits (max_open_windows, max_records_per_window/session, eviction) implemented
@@ -48,16 +48,17 @@ Production analytics runtime exists across OLAP, streaming/CEP, forecasting, ano
 - [ ] enforce consistent diagnostics for parse/input/state validation failures (Target: Q4 2026)
 
 ### Phase 4: Tests
-- [ ] expand focused regressions for high-load streaming, distributed merge, and integration failure paths (Target: Q4 2026)
-- [ ] extend deterministic fixture coverage for optional dependency off/on matrixes (Target: Q4 2026)
+- [x] expand focused regressions for high-load streaming, distributed merge, and integration failure paths (Completed 2026-07-29 — test_analytics_contract_hardening_focused.cpp, ANC-01..ANC-16)
+- [x] extend deterministic fixture coverage for optional dependency off/on matrixes (Completed 2026-07-29)
 
 ### Phase 5: Performance and Hardening
-- [ ] lock benchmark-backed release gates for analytics-critical paths (Target: Q4 2026)
+- [x] lock benchmark-backed release gates for analytics-critical paths (Completed 2026-07-29 — bench_analytics_release_gates.cpp, ARG-01..ARG-06)
 - [ ] validate p95/p99 behavior under representative production load profiles (Target: Q4 2026)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core analytics module docs aligned to source-verifiable behavior
 - [x] roadmap remains forward-looking while changelog captures historical completion
+- [x] analytics_api_contract.h frozen contract header published (Completed 2026-07-29)
 
 ## Production Readiness Checklist
 
@@ -66,6 +67,9 @@ Production analytics runtime exists across OLAP, streaming/CEP, forecasting, ano
 - [x] mapped benchmark expectations documented
 - [x] streaming window runtime limits (max_open_windows, max_records, eviction) implemented
 - [x] dedicated streaming window benchmark added (bench_streaming_window.cpp)
+- [x] analytics_api_contract.h frozen contract header (Phase 1 closure, 2026-07-29)
+- [x] test_analytics_contract_hardening_focused.cpp — ANC-01..ANC-16 (Phase 4 closure, 2026-07-29)
+- [x] bench_analytics_release_gates.cpp — ARG-01..ARG-06 gate benchmarks (Phase 5 closure, 2026-07-29)
 - [ ] dedicated benchmark coverage complete for all critical paths
 - [ ] remaining hardening tasks closed for sustained-load reliability
 

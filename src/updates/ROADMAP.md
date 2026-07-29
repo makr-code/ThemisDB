@@ -29,8 +29,8 @@ Production-usable updates runtime exists for state-machine orchestration, releas
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [ ] freeze update state/manifest/migration contracts for current major line (Target: Q3 2026)
-- [ ] define explicit error taxonomy for rollback, patch, and rollout incident classes (Target: Q3 2026)
+- [x] freeze update state/manifest/migration contracts for current major line (Target: Q3 2026)
+- [x] define explicit error taxonomy for rollback, patch, and rollout incident classes (Target: Q3 2026)
 
 ### Phase 2: Core Implementation
 - [ ] complete hardening for state machine, delta engine, and migration internals (Target: Q4 2026)
@@ -41,12 +41,12 @@ Production-usable updates runtime exists for state-machine orchestration, releas
 - [ ] unify diagnostics across update state, migration, and rollout incident classes (Target: Q4 2026)
 
 ### Phase 4: Tests
-- [ ] expand focused regressions for update state, delta patch, and rollout edge scenarios (Target: Q4 2026)
-- [ ] extend deterministic stress fixtures for coordinated update workloads (Target: Q4 2026)
+- [x] expand focused regressions for update state, delta patch, and rollout edge scenarios (Target: Q4 2026)
+- [x] extend deterministic stress fixtures for coordinated update workloads (Target: Q4 2026)
 
 ### Phase 5: Performance and Hardening
-- [ ] lock benchmark-backed release gates for update pipeline hot paths (Target: Q4 2026)
-- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+- [x] lock benchmark-backed release gates for update pipeline hot paths (Target: Q4 2026)
+- [x] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core updates module docs aligned to source-verifiable behavior
@@ -58,7 +58,7 @@ Production-usable updates runtime exists for state-machine orchestration, releas
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
 - [ ] remaining hardening tasks closed for rollback/patch/rollout edge paths
-- [ ] release benchmark stabilization complete
+- [x] release benchmark stabilization complete
 
 ## Known Issues and Limitations
 

@@ -216,6 +216,38 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/document/CMakeLists.txt")
     add_subdirectory(document)
 endif()
 
+# Wave 3D module benchmark subdirectories (contract + release-gate benchmarks)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/performance/CMakeLists.txt")
+    add_subdirectory(performance)
+endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/governance/CMakeLists.txt")
+    add_subdirectory(governance)
+endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/metadata/CMakeLists.txt")
+    add_subdirectory(metadata)
+endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/content/CMakeLists.txt")
+    add_subdirectory(content)
+endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/utils/CMakeLists.txt")
+    add_subdirectory(utils)
+endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/updates/CMakeLists.txt")
+    add_subdirectory(updates)
+endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/projects/CMakeLists.txt")
+    add_subdirectory(projects)
+endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/toolbox/CMakeLists.txt")
+    add_subdirectory(toolbox)
+endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/process/CMakeLists.txt")
+    add_subdirectory(process)
+endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/themis/CMakeLists.txt")
+    add_subdirectory(themis)
+endif()
+
 themis_add_standard_benchmark(bench_ycsb bench_ycsb.cpp)
 
 # ============================================================================
@@ -1645,6 +1677,25 @@ if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_llm_inference
     )
     
     message(STATUS "  LLM: Inference, LoRA adapters, throughput")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/llm/bench_llm_hotpaths.cpp" AND NOT TARGET bench_llm_hotpaths)
+    add_executable(bench_llm_hotpaths
+        llm/bench_llm_hotpaths.cpp
+    )
+    target_include_directories(bench_llm_hotpaths PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(bench_llm_hotpaths PRIVATE
+        themis_core ${BENCHMARK_LIBS} OpenSSL::SSL OpenSSL::Crypto
+        spdlog::spdlog nlohmann_json::nlohmann_json RocksDB::rocksdb Threads::Threads
+    )
+    themis_apply_benchmark_release_flags(bench_llm_hotpaths)
+    install(TARGETS bench_llm_hotpaths
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
 endif()
 
 # LLM Model Loading from ThemisDB Benchmarks
@@ -3521,6 +3572,25 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_sharding_performance.cpp")
     )
 
     message(STATUS "  ShardingPerformance: scatter-gather latency, cross-shard joins, migration and gossip overhead")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/sharding/bench_sharding_release_gates.cpp" AND NOT TARGET bench_sharding_release_gates)
+    add_executable(bench_sharding_release_gates
+        sharding/bench_sharding_release_gates.cpp
+    )
+    target_include_directories(bench_sharding_release_gates PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(bench_sharding_release_gates PRIVATE
+        themis_core ${BENCHMARK_LIBS} OpenSSL::SSL OpenSSL::Crypto
+        spdlog::spdlog nlohmann_json::nlohmann_json RocksDB::rocksdb Threads::Threads
+    )
+    themis_apply_benchmark_release_flags(bench_sharding_release_gates)
+    install(TARGETS bench_sharding_release_gates
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
 endif()
 
 # ============================================================================
