@@ -71,13 +71,17 @@ bool AutoFailoverManager::stop() {
         return false;
     }
 
-    failover_cv_.notify_one();
+    // Lock order: failover_mutex_ → stats_mutex_ → callbacks_mutex_
+    // Bounded wait contract:
+    //   failover_thread_:   wakes within ≤1 s (wait_for timeout in failoverLoop).
+    //   monitoring_thread_: wakes within ≤ health_check_interval (500 ms default).
+    failover_cv_.notify_all();
 
     if (monitoring_thread_.joinable()) {
-        monitoring_thread_.join();
+        monitoring_thread_.join();   // exits within health_check_interval
     }
     if (failover_thread_.joinable()) {
-        failover_thread_.join();
+        failover_thread_.join();     // exits within 1 s cv::wait_for timeout
     }
 
     transitionState(FailoverOrchestratorState::IDLE);
@@ -98,6 +102,7 @@ bool AutoFailoverManager::triggerManualFailover(
         return false;
     }
 
+    // Lock order: failover_mutex_ → stats_mutex_ → callbacks_mutex_
     bool pressure_event_pending = false;
     std::string pressure_detail;
 
@@ -523,8 +528,13 @@ bool AutoFailoverManager::verifyFailoverCompletion(const FailoverTask& task) {
 
 bool AutoFailoverManager::preventSplitBrain(const std::string& failed_node_id) {
     if (!fencing_manager_) {
-        spdlog::warn("EpochFencingManager not available");
-        return true;
+        // Fail closed: split-brain prevention requires a fencing manager.
+        // Returning true here would be unsafe — we cannot guarantee exclusive leadership.
+        emitDiagnostic(FailoverErrorCode::QUORUM_UNAVAILABLE, failed_node_id,
+                       "split-brain prevention requires fencing manager: none configured");
+        spdlog::error("preventSplitBrain: no EpochFencingManager configured; "
+                      "failing closed (node={})", failed_node_id);
+        return false;
     }
 
     spdlog::info("Acquiring exclusive lease for node: {}", failed_node_id);
@@ -558,35 +568,51 @@ bool AutoFailoverManager::isNetworkPartitionedFromQuorum() const {
 bool AutoFailoverManager::attemptRecovery(const std::string& failed_node_id) {
     spdlog::info("Attempting recovery for node: {}", failed_node_id);
 
+    // Accumulate counters locally to minimise lock contention; apply a single
+    // lock at the end (or on early success) rather than locking per iteration.
+    uint64_t local_total   = 0;
+    uint64_t local_failed  = 0;
+    uint64_t local_success = 0;
+
     for (uint32_t attempt = 0; attempt < config_.max_recovery_attempts; ++attempt) {
-        {
-            std::lock_guard<std::mutex> stats_lock(stats_mutex_);
-            stats_.total_retry_attempts++;
-        }
+        ++local_total;
 
         if (waitForNodeRecovery(failed_node_id, 1)) {
             spdlog::info("Node recovered: {}", failed_node_id);
+            ++local_success;
+
+            // Batch-flush accumulated counters in a single lock acquisition.
             {
                 std::lock_guard<std::mutex> stats_lock(stats_mutex_);
-                stats_.successful_retries++;
+                stats_.total_retry_attempts += local_total;
+                stats_.successful_retries   += local_success;
+                stats_.failed_retries       += local_failed;
             }
+
             updateFailureTracking(failed_node_id, true);
             emitEvent(FailoverEventType::RECOVERY_COMPLETED, failed_node_id, "");
             return true;
         }
 
-        {
-            std::lock_guard<std::mutex> stats_lock(stats_mutex_);
-            stats_.failed_retries++;
-        }
+        ++local_failed;
 
         if (attempt < config_.max_recovery_attempts - 1) {
             std::this_thread::sleep_for(config_.recovery_retry_interval);
         }
     }
 
-    spdlog::warn("Node failed to recover after {} attempts: {}", config_.max_recovery_attempts,
-                 failed_node_id);
+    // All attempts exhausted — batch-flush stats and emit unified diagnostic.
+    {
+        std::lock_guard<std::mutex> stats_lock(stats_mutex_);
+        stats_.total_retry_attempts += local_total;
+        stats_.failed_retries       += local_failed;
+    }
+
+    emitDiagnostic(FailoverErrorCode::NODE_REJOIN_FAILED, failed_node_id,
+                   "node failed to recover after " +
+                   std::to_string(config_.max_recovery_attempts) + " attempt(s)");
+    spdlog::warn("Node failed to recover after {} attempts: {}",
+                 config_.max_recovery_attempts, failed_node_id);
     return false;
 }
 
@@ -608,16 +634,98 @@ bool AutoFailoverManager::waitForNodeRecovery(const std::string& node_id, uint32
 void AutoFailoverManager::transitionState(FailoverOrchestratorState new_state) {
     auto current_state = state_.exchange(new_state);
 
-    if (current_state != new_state) {
-        spdlog::debug("Failover state transition: {} -> {}",
+    if (!canTransition(current_state, new_state)) {
+        spdlog::warn("Failover state machine: unexpected transition {} → {} — "
+                     "this may indicate a logic error",
+                     static_cast<int>(current_state),
+                     static_cast<int>(new_state));
+    } else if (current_state != new_state) {
+        spdlog::debug("Failover state transition: {} → {}",
                       static_cast<int>(current_state),
                       static_cast<int>(new_state));
     }
 }
 
-bool AutoFailoverManager::canTransition([[maybe_unused]] FailoverOrchestratorState from,
-                                        [[maybe_unused]] FailoverOrchestratorState to) const {
-    return true;
+bool AutoFailoverManager::canTransition(FailoverOrchestratorState from,
+                                        FailoverOrchestratorState to) const {
+    // Any state → IDLE is valid (stop / reset).
+    if (to == FailoverOrchestratorState::IDLE) {
+        return true;
+    }
+    // Any state → FAILED is valid (error path from any step).
+    if (to == FailoverOrchestratorState::FAILED) {
+        return true;
+    }
+
+    // Forward path:
+    //   IDLE → VERIFYING_FAILURE → CHECKING_QUORUM →
+    //   STARTING_LEADER_ELECTION → LEADER_ELECTION_IN_PROGRESS →
+    //   (ACTIVATING_SPARE →) (REDIRECTING_TRAFFIC →) UPDATING_METADATA →
+    //   COMPLETING_FAILOVER → IDLE
+    switch (from) {
+        case FailoverOrchestratorState::IDLE:
+            return to == FailoverOrchestratorState::VERIFYING_FAILURE ||
+                   to == FailoverOrchestratorState::DETECTING_FAILURE;
+
+        case FailoverOrchestratorState::DETECTING_FAILURE:
+            return to == FailoverOrchestratorState::VERIFYING_FAILURE;
+
+        case FailoverOrchestratorState::VERIFYING_FAILURE:
+            return to == FailoverOrchestratorState::CHECKING_QUORUM;
+
+        case FailoverOrchestratorState::CHECKING_QUORUM:
+            return to == FailoverOrchestratorState::STARTING_LEADER_ELECTION;
+
+        case FailoverOrchestratorState::STARTING_LEADER_ELECTION:
+            // LEADER_ELECTION_IN_PROGRESS: via startLeaderElection()
+            // UPDATING_METADATA: direct shortcut in processFailover()
+            return to == FailoverOrchestratorState::LEADER_ELECTION_IN_PROGRESS ||
+                   to == FailoverOrchestratorState::UPDATING_METADATA;
+
+        case FailoverOrchestratorState::LEADER_ELECTION_IN_PROGRESS:
+            return to == FailoverOrchestratorState::ACTIVATING_SPARE ||
+                   to == FailoverOrchestratorState::UPDATING_METADATA;
+
+        case FailoverOrchestratorState::ACTIVATING_SPARE:
+            return to == FailoverOrchestratorState::REDIRECTING_TRAFFIC ||
+                   to == FailoverOrchestratorState::UPDATING_METADATA;
+
+        case FailoverOrchestratorState::REDIRECTING_TRAFFIC:
+            return to == FailoverOrchestratorState::UPDATING_METADATA;
+
+        case FailoverOrchestratorState::UPDATING_METADATA:
+            return to == FailoverOrchestratorState::COMPLETING_FAILOVER;
+
+        case FailoverOrchestratorState::COMPLETING_FAILOVER:
+            // Reaches IDLE — already handled above.
+            return false;
+
+        case FailoverOrchestratorState::FAILED:
+            // Reaches IDLE — already handled above.
+            return false;
+
+        default:
+            return false;
+    }
+}
+
+void AutoFailoverManager::emitDiagnostic(FailoverErrorCode code,
+                                          const std::string& node_id,
+                                          const std::string& detail) {
+    spdlog::error("Failover diagnostic [code={}] node='{}': {}",
+                  static_cast<int>(code), node_id, detail);
+
+    // Map canonical error code to observable event type for callback consumers.
+    FailoverEventType event_type;
+    switch (code) {
+        case FailoverErrorCode::QUORUM_UNAVAILABLE:
+            event_type = FailoverEventType::QUORUM_CHECK_FAILED;
+            break;
+        default:
+            event_type = FailoverEventType::FAILOVER_CANCELLED;
+            break;
+    }
+    emitEvent(event_type, node_id, detail);
 }
 
 void AutoFailoverManager::emitEvent(FailoverEventType type,
