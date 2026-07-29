@@ -51,6 +51,8 @@
       "description": "Linux base: GCC x64 with vcpkg and GPU support. Requires: Linux, GCC 11+, Ninja, vcpkg. Fallback: Use community-release preset with system packages",
       "inherits": "vcpkg-base",
       "cacheVariables": {
+        "THEMIS_AUTO_BOOTSTRAP_DEPS": "ON",
+        "CMAKE_TOOLCHAIN_FILE": "",
         "CMAKE_C_COMPILER": "gcc",
         "CMAKE_CXX_COMPILER": "g++",
         "VCPKG_TARGET_TRIPLET": "x64-linux",
@@ -131,6 +133,16 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
         "THEMIS_EDITION": "COMMUNITY"
+      }
+    },
+    {
+      "name": "community-release-allow-missing-rocksdb",
+      "displayName": "Configure: Community Release (allow missing RocksDB)",
+      "description": "Opt-in diagnostic preset for configure-only work when RocksDB is not installed. Continues CMake configure with THEMIS_ALLOW_MISSING_ROCKSDB=ON, but RocksDB-dependent targets still require librocksdb-dev or vcpkg rocksdb before build/link.",
+      "inherits": "community-release",
+      "binaryDir": "${sourceDir}/build-community-release-allow-missing-rocksdb",
+      "cacheVariables": {
+        "THEMIS_ALLOW_MISSING_ROCKSDB": "ON"
       }
     },
     {

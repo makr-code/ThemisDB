@@ -86,6 +86,8 @@ void enforceExportPolicy(const ExportOptions &options) {
                 themis::utils::SecurityEventType::EXPORT_DENIED, req.requesting_user, options.collection_name,
                 {{"denial_reason", decision.denial_reason}, {"export_job_id", req.export_job_id}});
         }
+        THEMIS_WARN("[EXPORT_DENIED] collection={} user={} reason={}", options.collection_name,
+                    req.requesting_user, decision.denial_reason);
         throw ExporterException(themis::errors::ErrorCode::ERR_EXPORT_POLICY_DENIED,
                                 "Export denied by PolicyEngine: " + decision.denial_reason,
                                 "collection=" + options.collection_name + ", user=" + req.requesting_user);
