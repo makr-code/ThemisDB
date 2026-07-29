@@ -59,6 +59,10 @@
 
 ### Implementation Notes
 - Model private plugin families as `compliance`, `connectors`, `acceleration`, and later `regintel`, with `WITH_PRIVATE_*` defaults set to `OFF`.
+- Wave-1 repository cut is by private family (not file-by-file): `makr-code/themisdb-private-compliance` (`ethics_ai`, `user_storage_encrypted`) and `makr-code/themisdb-private-connectors` (MySQL/Mongo/Kafka/S3 importers plus Azure/S3 blob backends).
+- Keep `src/ethics_ai/ethics_evaluator.{h,cpp}` and `include/ethics_ai/ethics_ai_types.h` as temporary public core shims until CAI/LLM seams are fully decoupled.
+- Keep benchmark split work explicit: extract private connector scenarios from `benchmarks/bench_importer_throughput.cpp` and validate whether `benchmarks/bench_blob_zstd.cpp` must be split before full connector externalization.
+- Defer `themisdb-private-acceleration` and `themisdb-private-regintel` to Wave-2+ after SDK/ABI seam hardening.
 - Extend manifests with visibility, edition-allowance, license-feature, and core-compatibility metadata while keeping absent fields backward-compatible.
 - Preserve open reference plugins (for example PostgreSQL importer, JSONL exporter, HuggingFace ingestion, ONNX CLIP) in the public tree.
 

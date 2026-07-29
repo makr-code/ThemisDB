@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Updated active workflow branch references from legacy `main` to canonical `community` where the workflow policy participates in the current governance model.
 - Marked Wave-1 private candidates (`ethics_ai`, `user_storage_encrypted`, connector/blob manifests) with explicit private/restricted metadata for later submodule migration.
+- Converted `plugins/ethics_ai` and `plugins/user_storage_encrypted` CMake compatibility entry points to optional no-hard-fail delegation shims for missing private/public source trees.
+- Split monolithic and modular core source registration for Wave-1 connector/blob candidates behind optional source checks so absent public files can be externalized without community checkout failures.
 
 ### Security
 - Tightened Community-vs-private guardrails in governance docs, SBOM/license workflow triggers, and private-plugin PR policy checks.

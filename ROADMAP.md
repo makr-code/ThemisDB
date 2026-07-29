@@ -47,12 +47,12 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 
 ### Current Status
 - [~] The plugin landscape is hybrid: runtime-loadable `SHARED` plugins coexist with manifest-only compatibility layers and statically linked AI/acceleration modules.
-- [~] `plugins/CMakeLists.txt` already contains a no-hard-fail private-source precedent via `enterprise/gpu_impact_analysis`, but the newer `plugins/private/*` family split is not yet wired end-to-end.
+- [~] `plugins/CMakeLists.txt` already contains no-hard-fail private-source handling; Wave-1 compatibility shims now degrade gracefully when `src/ethics_ai` or `src/user_storage_encrypted` are absent.
 - [~] Community and Minimal builds already fail closed for `enterprise_plugins`, but manifest metadata does not yet fully express visibility, allowed editions, or private release compatibility.
 
 ### In Progress
 - [~] Establish root governance, manifest metadata, and CMake structure for family-based private plugin submodules without breaking Community-only checkouts (Target: Q3 2026)
-- [ ] Finalize Wave-1 private candidates (`ethics_ai`, `user_storage_encrypted`, connector pack) and preserve public reference implementations for onboarding-critical paths (Target: Q3 2026)
+- [~] Finalize Wave-1 private candidates (`ethics_ai`, `user_storage_encrypted`, connector pack) and preserve public reference implementations for onboarding-critical paths (Target: Q3 2026)
 - [ ] Add CI policy checks so Community lanes never require private credentials and private lanes remain gated by scoped checkout, SBOM, and leakage rules (Target: Q4 2026)
 
 ### Implementation Phases
@@ -64,6 +64,8 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 
 #### Phase 2 — Core Implementation
 - [~] Introduce `WITH_PRIVATE_*` family/plugin flags and centralized private-plugin loading helpers with no-hard-fail `EXISTS(...)` handling (Target: Q3 2026)
+- [~] Wave-1 repository-family mapping fixed: `makr-code/themisdb-private-compliance` (`ethics_ai`, `user_storage_encrypted`) and `makr-code/themisdb-private-connectors` (MySQL/Mongo/Kafka/S3 importers + Azure/S3 blob backends); `themisdb-private-acceleration` and `themisdb-private-regintel` remain explicitly out of Wave 1 (Target: Q3 2026)
+- [~] Core source registration for private connector candidates is split behind optional source checks so missing public files no longer hard-break Community checkouts (Target: Q3 2026)
 - [ ] Move Wave-1 private modules to commit-pinned submodules once the private repositories are provisioned (Target: Q4 2026)
 - [ ] Keep static AI/acceleration plugins out of Wave 1 until they have a clean shared-library SDK seam (Target: Q4 2026)
 
@@ -96,6 +98,8 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 
 ### Known Issues & Limitations
 - Private family repositories are not provisioned in this public clone, so `.gitmodules` pinning remains a follow-up after repository creation.
+- `ethics_ai` is not yet fully separable from core: `src/ethics_ai/ethics_evaluator.{h,cpp}` and `include/ethics_ai/ethics_ai_types.h` remain public shims for CAI/LLM integration paths.
+- Shared benchmark files (`benchmarks/bench_importer_throughput.cpp`, `benchmarks/bench_blob_zstd.cpp`) still contain mixed public/private scenarios and require split extraction before connector-family migration completes.
 - `scraper`, `llama_cpp`, `whisper`, `stable_diffusion`, and acceleration backends still contain static or core-coupled build paths and are intentionally excluded from Wave 1.
 - Edition/runtime gating in source code is narrower than the full five-lane governance model; current groundwork keeps fail-closed behaviour while adding manifest metadata for later rollouts.
 
