@@ -32,6 +32,7 @@
 #include <iomanip>
 #include <ctime>
 #include <chrono>
+#include <cctype>
 #include <cstdio>
 #include <cstring>
 #include <mutex>
@@ -341,9 +342,16 @@ static std::vector<uint8_t> base64Decode(const std::string& encoded) {
 }
 
 bool verifyLicenseSignature(const LicenseData& license) {
-    // If no signature present, consider it valid for development licenses
+    std::string license_edition_normalized = license.edition;
+    for (auto& ch : license_edition_normalized) {
+        ch = static_cast<char>(std::toupper(static_cast<unsigned char>(ch)));
+    }
+    const bool is_hyperscaler_license = (license_edition_normalized == "HYPERSCALER");
+
+    // Hyperscaler licenses must always carry a cryptographic signature.
+    // Other editions keep legacy development behavior.
     if (license.signature.empty()) {
-        return true;
+        return !is_hyperscaler_license;
     }
     
     // Construct the data that was signed (canonical format)
@@ -826,5 +834,4 @@ int LicenseInfo::remaining_grace_days() const {
 
 } // namespace license
 } // namespace themis
-
 

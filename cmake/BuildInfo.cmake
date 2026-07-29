@@ -120,19 +120,53 @@ endif()
 
 # ── Validate channel / signature combination ─────────────────────────────────
 
-if("${THEMIS_BUILD_CHANNEL}" STREQUAL "official" AND "${THEMIS_BUILD_SIG}" STREQUAL "")
-    message(WARNING
-        "[BuildInfo] THEMIS_BUILD_CHANNEL=official but THEMIS_BUILD_SIG is empty. "
-        "Verification will always fail at runtime. "
-        "Did you forget to run scripts/sign_build.py and pass -DTHEMIS_BUILD_SIG=…?")
-endif()
-
 if(NOT "${THEMIS_BUILD_CHANNEL}" STREQUAL "official" AND
    NOT "${THEMIS_BUILD_CHANNEL}" STREQUAL "community")
     message(WARNING
         "[BuildInfo] Unknown THEMIS_BUILD_CHANNEL '${THEMIS_BUILD_CHANNEL}'. "
         "Defaulting to 'community'.")
     set(THEMIS_BUILD_CHANNEL "community")
+endif()
+
+if("${THEMIS_BUILD_CHANNEL}" STREQUAL "official")
+    if("${THEMIS_BUILD_SIG}" STREQUAL "")
+        message(FATAL_ERROR
+            "[BuildInfo] THEMIS_BUILD_CHANNEL=official requires THEMIS_BUILD_SIG. "
+            "Signing is owner-controlled and handled via private signing tooling.")
+    endif()
+
+    set(_THEMIS_BUILD_VERSION_FOR_SIG "${PROJECT_VERSION}")
+    if(DEFINED _ver AND NOT "${_ver}" STREQUAL "")
+        set(_THEMIS_BUILD_VERSION_FOR_SIG "${_ver}")
+    endif()
+    set(_THEMIS_BUILD_MANIFEST
+        "${THEMIS_BUILD_CHANNEL}|${_THEMIS_BUILD_VERSION_FOR_SIG}|${THEMIS_BUILD_ID}|${THEMIS_BUILD_TIMESTAMP}")
+
+    find_package(Python3 COMPONENTS Interpreter QUIET)
+    if(NOT Python3_Interpreter_FOUND)
+        message(FATAL_ERROR
+            "[BuildInfo] Python3 interpreter is required to verify official build signatures.")
+    endif()
+
+    execute_process(
+        COMMAND "${Python3_EXECUTABLE}"
+                "${_THEMIS_BUILDINFO_ROOT}/cmake/verify_ed25519_signature.py"
+                --pubkey-b64 "11qYAYKxCrfVS/7TyWQHOg7hcvPapiMlrwIaaPcHURo="
+                --signature-b64 "${THEMIS_BUILD_SIG}"
+                --message "${_THEMIS_BUILD_MANIFEST}"
+        RESULT_VARIABLE _THEMIS_BUILD_SIG_VERIFY_RC
+        OUTPUT_VARIABLE _THEMIS_BUILD_SIG_VERIFY_STDOUT
+        ERROR_VARIABLE _THEMIS_BUILD_SIG_VERIFY_STDERR
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_STRIP_TRAILING_WHITESPACE
+    )
+    if(NOT _THEMIS_BUILD_SIG_VERIFY_RC EQUAL 0)
+        message(FATAL_ERROR
+            "[BuildInfo] Official build signature verification failed. "
+            "Only owner-issued signatures are accepted.\n"
+            "Manifest: ${_THEMIS_BUILD_MANIFEST}\n"
+            "Details: ${_THEMIS_BUILD_SIG_VERIFY_STDERR}")
+    endif()
 endif()
 
 # ── Generate header ───────────────────────────────────────────────────────────

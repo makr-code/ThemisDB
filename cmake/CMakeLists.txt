@@ -966,6 +966,18 @@ endif()
 
 # HYPERSCALER Edition: License ALWAYS MANDATORY (no exceptions)
 if(THEMIS_EDITION STREQUAL "HYPERSCALER")
+    if(NOT THEMIS_BUILD_CHANNEL STREQUAL "official")
+        message(FATAL_ERROR
+            "HYPERSCALER Edition requires official owner-signed builds.\n"
+            "Set -DTHEMIS_BUILD_CHANNEL=official and provide a valid THEMIS_BUILD_SIG.")
+    endif()
+
+    if(NOT THEMIS_BUILD_SIG OR THEMIS_BUILD_SIG STREQUAL "")
+        message(FATAL_ERROR
+            "HYPERSCALER Edition requires THEMIS_BUILD_SIG.\n"
+            "Only owner-issued signing flows are supported.")
+    endif()
+
     if(NOT THEMIS_LICENSE_FILE OR THEMIS_LICENSE_FILE STREQUAL "")
         message(FATAL_ERROR 
             "HYPERSCALER Edition requires an embedded license file (mandatory for all builds).\n"
@@ -977,6 +989,20 @@ if(THEMIS_EDITION STREQUAL "HYPERSCALER")
             "\n"
             "For licensing inquiries, contact: licensing@themisdb.io\n")
     endif()
+
+    set(_themis_hyperscaler_private_root "${THEMIS_ROOT_DIR}/plugins/private")
+    set(_themis_hyperscaler_required_modules
+        "${_themis_hyperscaler_private_root}/themisdb-hyperscaler-core/CMakeLists.txt"
+        "${_themis_hyperscaler_private_root}/themisdb-signing-tools/README.md")
+    foreach(_themis_hyperscaler_required_file IN LISTS _themis_hyperscaler_required_modules)
+        if(NOT EXISTS "${_themis_hyperscaler_required_file}")
+            message(FATAL_ERROR
+                "HYPERSCALER Edition requires private owner-controlled modules.\n"
+                "Missing required private artifact: ${_themis_hyperscaler_required_file}\n"
+                "Initialize the private hyperscaler submodules before configuring.")
+        endif()
+    endforeach()
+
     message(STATUS "HYPERSCALER Edition: License requirement ENFORCED (mandatory)")
 endif()
 
@@ -1086,7 +1112,7 @@ add_compile_definitions(
 #   "max_cores": -1,
 #   "max_storage_tb": -1,
 #   "build_id": "optional-build-id",
-#   "signature": "optional-rsa-signature"
+#   "signature": "required-rsa-signature-for-hyperscaler"
 # }
 
 set(THEMIS_LICENSE_FILE "" CACHE FILEPATH "Path to license JSON file for embedding")
@@ -1178,6 +1204,13 @@ if(THEMIS_LICENSE_FILE AND EXISTS "${THEMIS_LICENSE_FILE}")
             # For MINIMAL/COMMUNITY, just warn
             message(WARNING "License edition (${THEMIS_LICENSE_EDITION}) does not match build edition (${THEMIS_EDITION})")
         endif()
+    endif()
+
+    if(THEMIS_EDITION STREQUAL "HYPERSCALER" AND
+       (NOT THEMIS_LICENSE_SIGNATURE OR THEMIS_LICENSE_SIGNATURE STREQUAL ""))
+        message(FATAL_ERROR
+            "HYPERSCALER Edition requires a signed license (signature field must be present). "
+            "Unsigned licenses are rejected.")
     endif()
 else()
     if(THEMIS_LICENSE_FILE)

@@ -4,6 +4,10 @@ Dieses Verzeichnis enthält die **öffentlichen** Zertifikate und Lizenzen für 
 
 ⚠️ **WICHTIG:** Private Keys gehören **NICHT** in dieses Repository!
 
+> ⚠️ **[PRIVATE] Hyperscaler Governance:** Signatur-Erzeugung für Assets/Plugins
+> ist owner-kontrolliert und liegt in privaten Repositories unter
+> `plugins/private/*`. Dieses Verzeichnis enthält nur öffentliche Trust-Artefakte.
+
 ---
 
 ## 📁 Verzeichnisstruktur
@@ -71,6 +75,14 @@ Für automatisierte Signierung in GitHub Actions werden folgende Secrets benöti
 | `THEMISDB_CA_CERT` | Root CA Zertifikat | Certificate |
 
 Siehe [GITHUB_SECRETS.md](GITHUB_SECRETS.md) für Details.
+
+---
+
+## 🧾 CRL/Revocation-Strategie (Hyperscaler)
+
+- Für Hyperscaler-Signing wird eine **offline CRL** in der privaten Signing-Infrastruktur geführt.
+- Öffentliche Community/Minimal-Artefakte erhalten **keine** privaten CRL-Daten oder Credentials.
+- Bei Schlüsselkompromittierung muss die private CRL aktualisiert und ein Re-Signing aller betroffenen Artefakte erzwungen werden.
 
 ---
 

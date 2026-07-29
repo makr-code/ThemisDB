@@ -170,6 +170,9 @@ themis_accel_cuda.dll.json  ← Metadata + Signature
 
 ## Plugin Signierung
 
+> ⚠️ **[PRIVATE]** Signatur-Erzeugung ist owner-kontrolliert und läuft über
+> `plugins/private/themisdb-signing-tools`. Öffentliche Repos nutzen Verify-Only-Pfade.
+
 ### Signatur-Prozess
 
 ```bash
@@ -191,11 +194,11 @@ base64 themis_accel_cuda.dll.sig > themis_accel_cuda.dll.sig.b64
 # (siehe Schema oben)
 ```
 
-### Automatisches Signatur-Tool
+### Automatisches Signatur-Tool (privat)
 
 ```python
 #!/usr/bin/env python3
-# tools/sign_plugin.py
+# plugins/private/themisdb-signing-tools/sign_plugin.py
 
 import hashlib
 import subprocess
@@ -253,14 +256,13 @@ if __name__ == '__main__':
     sign_plugin(sys.argv[1], sys.argv[2], sys.argv[3])
 ```
 
-### Verwendung
+### Öffentliche Verifikation
 
 ```bash
-# Plugin signieren
-python tools/sign_plugin.py \
-  plugins/themis_accel_cuda.dll \
-  certs/themis_plugin_key.pem \
-  certs/themis_plugin_cert.pem
+# Signatur verifizieren
+python /home/runner/work/ThemisDB/ThemisDB/tools/verify_plugin_manifest.py \
+  plugins/blob/filesystem/plugin.json \
+  plugins/blob/filesystem/plugin.json.sig
 ```
 
 ---
