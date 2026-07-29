@@ -38,6 +38,18 @@ DisasterRecoveryManager::DisasterRecoveryManager(
       fencing_mgr_(std::move(fencing_mgr)) {}
 
 DisasterRecoveryResult DisasterRecoveryManager::executePlan(const DisasterRecoveryPlan& plan) {
+    // Reject concurrent invocations: concurrent calls race on state_ and fencing_mgr_.
+    std::unique_lock<std::mutex> exec_lock(execution_mutex_, std::try_to_lock);
+    if (!exec_lock.owns_lock()) {
+        DisasterRecoveryResult result;
+        result.success       = false;
+        result.final_state   = DisasterRecoveryState::FAILED;
+        result.error_message = "concurrent execution rejected";
+        spdlog::error("DisasterRecoveryManager::executePlan: concurrent execution rejected "
+                      "(plan_id='{}')", plan.plan_id);
+        return result;
+    }
+
     const auto started_at = std::chrono::steady_clock::now();
 
     DisasterRecoveryResult result;
