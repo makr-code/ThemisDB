@@ -258,7 +258,8 @@ TEST(FailoverPhase2Phase3, P23_06_ExecutePlanConcurrentCallRejected) {
     });
 
     // Wait until the first execution has entered the blocking hook (holds mutex).
-    hook_entered_future.wait();
+    ASSERT_EQ(hook_entered_future.wait_for(2s), std::future_status::ready)
+        << "Timed out waiting for PRECHECKS hook entry; executePlan step ordering may be broken";
 
     // This concurrent call must be rejected immediately (try_to_lock fails).
     const auto rejected = mgr.executePlan(plan2);

@@ -15,12 +15,12 @@
 
 | Target ID | Expectation | Benchmark case |
 |---|---|---|
-| FOP-1 | heartbeat send overhead p99 ≤ 500 µs | BM_Failover_HeartbeatSendOverhead (FRG-01) |
-| FOP-2 | leader election decision p99 ≤ 5 ms | BM_Failover_LeaderElectionDecision (FRG-02) |
-| FOP-3 | state sync message serialize p99 ≤ 200 µs | BM_Failover_StateSyncSerialize (FRG-03) |
-| FOP-4 | health check evaluation p99 ≤ 100 µs | BM_Failover_HealthCheckEvaluation (FRG-04) |
-| FOP-5 | in-flight request buffer check p99 ≤ 50 µs | BM_Failover_InFlightBufferCheck (FRG-05) |
-| FOP-6 | epoch increment + persist (mock) p99 ≤ 1 ms | BM_Failover_EpochIncrementPersist (FRG-06) |
+| FOP-1 | heartbeat send overhead p99 ≤ 500 µs | BM_FRG01_HeartbeatSendOverhead (FRG-01) |
+| FOP-2 | leader election decision p99 ≤ 5 ms | BM_FRG02_ElectionDecision (FRG-02) |
+| FOP-3 | state sync message serialize p99 ≤ 200 µs | BM_FRG03_StateSyncSerialize (FRG-03) |
+| FOP-4 | health check evaluation p99 ≤ 100 µs | BM_FRG04_HealthCheckEvaluation (FRG-04) |
+| FOP-5 | in-flight request buffer check p99 ≤ 50 µs | BM_FRG05_InFlightBufferCheck (FRG-05) |
+| FOP-6 | epoch increment + persist (mock) p99 ≤ 1 ms | BM_FRG06_EpochIncrementPersist (FRG-06) |
 
 ## Module Hard Gates (v1.0 docs baseline)
 

@@ -41,7 +41,7 @@ using namespace themis::failover;
 namespace {
 
 /// Canonical PRNG seed (consistent with other failover test files).
-static constexpr uint64_t kDREdgeSeed = 42;
+[[maybe_unused]] static constexpr uint64_t kDREdgeSeed = 42;
 
 /// Build a minimal DisasterRecoveryConfig suitable for unit tests.
 /// @return Config with quorum not required and no fencing, safe with null managers.
