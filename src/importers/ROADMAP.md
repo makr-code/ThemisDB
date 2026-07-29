@@ -29,8 +29,12 @@ Production importer runtime exists across relational/document/stream/file/object
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [ ] freeze connector/schema/conflict/audit contracts for active major line (Target: Q3 2026)
-- [ ] define explicit error taxonomy for validation, conflict, and connector capability classes (Target: Q3 2026)
+- [x] freeze connector/schema/conflict/audit contracts for active major line (Delivered: Q3 2026)
+- [x] define explicit error taxonomy for validation, conflict, and connector capability classes (Delivered: Q3 2026)
+  - Contract header: `include/importers/importers_api_contract.h`
+  - Error codes: IMPORT_SCHEMA_MISMATCH, IMPORT_ROW_INVALID, IMPORT_DUPLICATE_KEY,
+    IMPORT_FILE_NOT_FOUND, IMPORT_QUOTA_EXCEEDED, IMPORT_DUPLICATE_ID, IMPORT_TIMEOUT,
+    IMPORT_CONNECTOR_UNAVAILABLE, IMPORT_ROLLBACK, INTERNAL_ERROR
 
 ### Phase 2: Core Implementation
 - [ ] complete hardening for connector import and schema/validation internals (Target: Q4 2026)
@@ -41,16 +45,25 @@ Production importer runtime exists across relational/document/stream/file/object
 - [ ] unify diagnostics across schema, conflict, and capability failure incidents (Target: Q4 2026)
 
 ### Phase 4: Tests
-- [ ] expand focused regressions for mixed connector/schema/conflict edge scenarios (Target: Q4 2026)
-- [ ] extend deterministic stress fixtures for high-throughput import workloads (Target: Q4 2026)
+- [x] expand focused regressions for mixed connector/schema/conflict edge scenarios (Delivered: Q3 2026)
+- [x] extend deterministic stress fixtures for high-throughput import workloads (Delivered: Q3 2026)
+  - Test file: `tests/importers/test_importers_contract_hardening_focused.cpp`
+  - Test cases: IMCH-01..IMCH-16 (idempotency, schema evolution, error handling, large import)
+  - kImportersContractSeed = 42; all tests self-contained, no external I/O
 
 ### Phase 5: Performance and Hardening
-- [ ] lock benchmark-backed release gates for importer hot paths (Target: Q4 2026)
-- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+- [x] lock benchmark-backed release gates for importer hot paths (Delivered: Q3 2026)
+- [x] validate p95/p99 and throughput behavior against release baselines (Delivered: Q3 2026)
+  - Benchmark file: `benchmarks/importers/bench_importers_release_gates.cpp`
+  - Gates: IMRG-01..IMRG-06 (CSV parse ≥5M/s, schema ≤50µs, dedup ≤100µs,
+    commit ≤5ms, quota ≤50µs, schema-evolution ≤200µs)
+  - kImportersCanonicalSeed = 42; Repetitions(5)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core importers module docs aligned to source-verifiable behavior
 - [x] roadmap/future planning separated from historical changelog entries
+- [x] Phase 1-6 Wave 3B Category-D closure delivered (Q3 2026)
+  - Contract header, 16 focused tests (IMCH-01..16), 6 release-gate benchmarks (IMRG-01..06)
 
 ## Production Readiness Checklist
 

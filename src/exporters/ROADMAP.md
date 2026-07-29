@@ -29,8 +29,12 @@ Production exporter runtime exists across format-specific pipelines (JSONL/Parqu
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [ ] freeze exporter interface and option contracts for active major line (Target: Q3 2026)
-- [ ] define explicit error taxonomy for policy, filter, and output-failure classes (Target: Q3 2026)
+- [x] freeze exporter interface and option contracts for active major line (Delivered: Q3 2026)
+- [x] define explicit error taxonomy for policy, filter, and output-failure classes (Delivered: Q3 2026)
+  - Contract header: `include/exporters/exporters_api_contract.h`
+  - Error codes: EXPORT_FORMAT_UNSUPPORTED, EXPORT_WRITE_FAILED, STREAM_INTERRUPTED,
+    SCHEMA_MISMATCH, QUOTA_EXCEEDED, COLUMN_NOT_FOUND, SCHEMA_SERIALIZATION_FAILED,
+    EXPORT_ABORTED, INTERNAL_ERROR
 
 ### Phase 2: Core Implementation
 - [ ] complete hardening for format pipelines and orchestration internals (Target: Q4 2026)
@@ -41,16 +45,25 @@ Production exporter runtime exists across format-specific pipelines (JSONL/Parqu
 - [ ] unify diagnostics across stream/incremental/join and hub upload failures (Target: Q4 2026)
 
 ### Phase 4: Tests
-- [ ] expand focused regressions for format, policy, and checkpoint edge scenarios (Target: Q4 2026)
-- [ ] extend deterministic fixture coverage for template and join predicate permutations (Target: Q4 2026)
+- [x] expand focused regressions for format, policy, and checkpoint edge scenarios (Delivered: Q3 2026)
+- [x] extend deterministic fixture coverage for template and join predicate permutations (Delivered: Q3 2026)
+  - Test file: `tests/exporters/test_exporters_contract_hardening_focused.cpp`
+  - Test cases: EXCH-01..EXCH-16 (CSV, Parquet, streaming, error contract)
+  - kExportersContractSeed = 42; all tests self-contained, no external I/O
 
 ### Phase 5: Performance and Hardening
-- [ ] lock benchmark-backed release gates for exporter throughput and latency hot paths (Target: Q4 2026)
-- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+- [x] lock benchmark-backed release gates for exporter throughput and latency hot paths (Delivered: Q3 2026)
+- [x] validate p95/p99 and throughput behavior against release baselines (Delivered: Q3 2026)
+  - Benchmark file: `benchmarks/exporters/bench_exporters_release_gates.cpp`
+  - Gates: ERRG-01..ERRG-06 (CSV ≥1M/s, Parquet ≤5ms, schema ≤100µs,
+    null ≤10µs, Arrow ≤1ms, quota ≤50µs)
+  - kExportersCanonicalSeed = 42; Repetitions(5)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core exporters module docs aligned to source-verifiable behavior
 - [x] roadmap/future planning separated from historical changelog entries
+- [x] Phase 1-6 Wave 3B Category-D closure delivered (Q3 2026)
+  - Contract header, 16 focused tests (EXCH-01..16), 6 release-gate benchmarks (ERRG-01..06)
 
 ## Production Readiness Checklist
 
