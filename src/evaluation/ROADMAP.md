@@ -1,81 +1,96 @@
 # Evaluation Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-07-17 -->
-<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
+<!-- Status: current | validated: 2026-07-29 -->
+<!-- Issue: #5643 (Development Status 2026-07-18) -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · MODULE_EVIDENCE.md · PRODUCTION_REQUIREMENTS.md -->
 
 ## Current Status
 
-EPIC 2 is now substantially complete:
-- EPIC 2.1: Hardware Profiles (COMPLETE) ✅
-- EPIC 2.2: Benchmark Matrix (COMPLETE) ✅
-- EPIC 2 Phase 2: Retrieval Metrics & Ablation Framework (COMPLETE) ✅
-- EPIC 2.4: Approximation Governance Rules (COMPLETE) ✅
-- EPIC 2.5: Hybrid Query Planner (COMPLETE) ✅
-- EPIC 2.6: Artifact Lifecycle Management (COMPLETE) ✅
-- EPIC 2.7: Tensor Storage Strategy Assessment (COMPLETE) ✅
+Issue #5643 remains open. The evaluation module is no longer a pure scaffold: the
+repository already contains runtime-owned EPIC 2 contracts and sources for
+hardware-profile evaluation, benchmark matrices, retrieval metrics, ablation,
+approximation governance, query planning, and artifact lifecycle handling.
 
-All core EPIC 2 components are implemented, tested, and ready for integration with downstream retrieval workflows.
+Implementation coverage is still **partial** for closure purposes because the current
+documentation and evidence do not yet prove Phase 3 through Phase 6 readiness for the
+full module surface. The strongest source-verified maturity is still centered on the
+hybrid planner path, while broader policy/error behavior, measured benchmark gates, and
+current-cycle executable evidence remain open.
+
+Current evidence state for this issue:
+- focused evaluation tests are registered in `tests/epic2_evaluation/CMakeLists.txt`
+- benchmark entry points exist in `benchmarks/epic2_evaluation/`
+- the latest local validation attempt on 2026-07-29 failed at `cmake --preset community-release`
+  because RocksDB is not installed in the current environment
 
 ## In Progress
 
-- [~] EPIC 2 documentation-governance alignment across roadmap/future/audit files (Target: Q3 2026)
-- [~] downstream integration follow-ups for planner decision envelopes and routing diagnostics (Target: Q3 2026)
+- [~] EPIC 2 documentation-governance alignment across roadmap/future/audit/evidence files (Target: Q3 2026)
+- [~] phase-gate acceptance criteria definition for planner and benchmark readiness (Target: Q3 2026)
 
 ## Planned Features
 
 ### Short-term (3-6 months)
-- [ ] integrate planner decisions into TensorRAG decision envelopes and explain output (Target: Q4 2026)
-- [ ] surface ANN frontdoor routing diagnostics in default evaluation flows (Target: Q4 2026)
-- [x] establish phase-5 benchmark/hardening baselines (Target: Q4 2026)
+- [ ] implement phase-3 runtime error/policy behavior across retrieval metrics, approximation, artifact lifecycle, and planner downgrade surfaces (Target: Q4 2026)
+- [ ] deliver phase-4 verification and regression suites for all shipped EPIC 2 contracts (Target: Q4 2026)
+- [ ] establish phase-5 benchmark/hardening baselines with measurable release gates (Target: Q4 2026)
 
 ### Mid-term (6-12 months)
-- [ ] attach graph-truth validation metadata to end-to-end planner decisions (Target: Q1 2027)
-- [ ] complete default workflow integration after downstream gates pass (Target: Q1 2027)
+- [ ] complete phase-6 acceptance documentation from measured build/test/benchmark evidence (Target: Q1 2027)
+- [ ] complete phase-7 default workflow integration after gates pass (Target: Q1 2027)
+- [ ] wire planner decisions into downstream TensorRAG / ANN explain and routing diagnostics after module gates pass (Target: Q1 2027)
 
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [x] hybrid planner execution model documented for ANN-only, tensor-advisory, exact-graph, and distributed summary-first flows
-- [x] freshness, staleness, advisory-only tensor semantics, and graph-truth finalization captured in `docs/EPIC2_QUERY_PLANNER.md`
+- [x] EPIC 2 contract ownership, file mapping, and scope boundaries are documented across `README.md`, `ARCHITECTURE.md`, and the `docs/EPIC2_*.md` design set
+- [~] phase-gate acceptance criteria still need one canonical checklist covering runtime error behavior, focused regressions, benchmark guardrails, and closure evidence
 
 ### Phase 2: Core Implementation
-- [x] `include/query_planner.h` defines typed planner inputs, outputs, policy config, fallback reasons, and observability hooks
-- [x] `src/query_planner.cc` implements the five-path decision model and explicit fallback routing
+- [x] runtime-owned contracts and source files exist for `hardware_profile`, `benchmark_matrix`, `retrieval_metrics`, `ablation_framework`, `approximation_rules`, `query_planner`, and `artifact_lifecycle`
+- [x] local CMake surfaces register evaluation libraries, focused tests, and benchmark entry points behind target-availability gates
+- [ ] downstream default-workflow consumers still need planner-envelope and routing-diagnostics integration
 
-### Phase 3: Error Handling and Edge Cases
-- [x] stale, rebuilding, low-residual, high-delta-lag, and rank-cap violations force exact fallback with reason codes
-- [x] distributed multi-shard routing falls back to exact graph when shard manifests are unavailable
+### Phase 3: Error Handling & Edge Cases
+- [ ] make failure semantics explicit and fail-closed across retrieval metrics, approximation, artifact lifecycle, and planner observer surfaces
+- [ ] enforce hardware/profile mismatch, stale artifacts, and distributed-manifest absence as machine-readable downgrade or error outcomes across the full module contract
+- [ ] document runtime policy ownership, escalation paths, and operator-visible failure conditions in the acceptance evidence set
 
 ### Phase 4: Tests
-- [x] focused planner regression coverage implemented in `tests/epic2_evaluation/query_planner_test.cc`
-- [x] path, fallback, override, distributed, and observer cases are covered by standalone-executable GTests
+- [~] focused source-level tests already exist for planner, hardware profile, benchmark matrix, retrieval metrics, ablation, approximation rules, artifact lifecycle, and query-cache behavior
+- [ ] refresh executable run evidence for focused targets in the current cycle
+- [ ] expand regression coverage for the additional Phase 3 policy/error cases and downstream consumer integrations
 
-### Phase 5: Performance and Hardening
-- [x] benchmark suite implemented in `benchmarks/epic2_evaluation/`
-- [x] planner decision latency and fallback monitoring exposed through `PlannerObserver`
+### Phase 5: Performance / Hardening
+- [~] benchmark sources already exist for planner decision, benchmark matrix, artifact staleness, and storage-strategy follow-up measurement
+- [ ] define explicit guardrails and capture measured baselines for latency, fallback rate, and degradation behavior
+- [ ] record reproducibility assumptions (hardware profile class, shard/manifests, fallback amplification) before promoting the module into default workflows
 
-### Phase 6: Documentation and Acceptance
-- [x] planner design, routing criteria, fallback rules, and acceptance criteria documented in `docs/EPIC2_QUERY_PLANNER.md`
-- [x] module docs updated to reflect live planner code, tests, and benchmarks
+### Phase 6: Documentation & Acceptance
+- [ ] publish acceptance evidence from successful build/test/benchmark runs or maintain an explicit justified blocker record
+- [ ] keep `AUDIT.md`, `MODULE_EVIDENCE.md`, and `PRODUCTION_REQUIREMENTS.md` synchronized with measured results and unresolved gaps
+- [ ] close issue #5643 only after parent-epic traceability and status labels are refreshed
 
-### Phase 7: Production Integration
-- [x] planner library and focused test target wired into local CMake surfaces
-- [ ] downstream retrieval-pipeline decision-envelope integration remains pending
+### Phase 7: Default Workflow Integration
+- [ ] enable downstream retrieval workflow integration only after Phases 3-6 are green and benchmark-backed
 
 ## Production Readiness Checklist
 
-- [x] planner contract and scope boundaries are documented
-- [x] stale / invalid tensor artifacts force explicit exact fallback
-- [x] graph truth remains the final correctness gate in planner design
-- [x] summary-first and exact-on-demand routing are implemented and testable
-- [ ] default product-pipeline integration is still pending
+- [x] contract ownership and scope boundaries are documented
+- [x] focused test and benchmark registration surfaces are present in source
+- [~] phase-gate acceptance criteria are partially documented but not yet fully unified
+- [ ] runtime policy/error behavior is hardened across all shipped EPIC 2 surfaces
+- [ ] executable build/test evidence is refreshed for the current validation cycle
+- [ ] benchmark guardrails are captured from measured runs
+- [ ] default workflow integration remains disabled until Phases 3-6 pass
 
 ## Known Issues & Limitations
 
-- Learned or cost-model-based planning remains out of scope; current selection is heuristic and policy-driven.
-- Full decision-envelope integration with downstream TensorRAG / ANN frontdoor flows is deferred to follow-up work.
-- Planner benchmarks currently measure decision overhead and routing regressions, not full end-to-end retrieval latency.
+- Current local validation is blocked in this environment because `cmake --preset community-release` fails without RocksDB (`librocksdb-dev` or vcpkg `rocksdb`).
+- Focused test and benchmark source files exist, but current-cycle executable evidence is still missing for issue #5643.
+- Learned or cost-model-based planning remains out of scope; current routing is policy-driven and must stay explainable.
+- Downstream TensorRAG / ANN decision-envelope integration is intentionally deferred until module hardening gates pass.
 
 ## Breaking Changes
 
