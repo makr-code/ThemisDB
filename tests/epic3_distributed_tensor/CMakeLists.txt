@@ -313,7 +313,7 @@ endforeach()
 
 # ── Integrity Verification Benchmark (IV-BENCH-01..08) ────────────────────────
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/integrity_verification_bench.cc")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/integrity_verification_bench.cc" AND DEFINED THEMIS_HAS_BENCHMARK AND THEMIS_HAS_BENCHMARK)
     message(STATUS "Adding EPIC3: Integrity Verification Benchmark (IV-BENCH-01..08)")
 
     add_executable(module_epic3_distributed_tensor_integrity_verification_bench_focused
@@ -333,12 +333,10 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/integrity_verification_bench.cc")
         Threads::Threads
     )
     
-    # Link benchmark library only if available
-    if(TARGET benchmark::benchmark)
-        target_link_libraries(module_epic3_distributed_tensor_integrity_verification_bench_focused PRIVATE
-            benchmark::benchmark
-        )
-    endif()
+    # Link benchmark library (the target is expected when THEMIS_HAS_BENCHMARK=1)
+    target_link_libraries(module_epic3_distributed_tensor_integrity_verification_bench_focused PRIVATE
+        benchmark::benchmark
+    )
 
     if(TARGET themis_base)
         target_link_libraries(module_epic3_distributed_tensor_integrity_verification_bench_focused PRIVATE themis_base)
