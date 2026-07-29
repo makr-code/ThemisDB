@@ -162,6 +162,9 @@ private:
     mutable std::mutex state_mutex_;
     std::atomic<DisasterRecoveryState> state_{DisasterRecoveryState::IDLE};
 
+    // Guards against concurrent invocations of executePlan.
+    mutable std::mutex execution_mutex_;
+
     mutable std::mutex stats_mutex_;
     Statistics stats_;
     std::vector<std::chrono::milliseconds> durations_;

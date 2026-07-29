@@ -34,6 +34,7 @@
 #include <thread>
 #include <vector>
 
+#include "failover/failover_api_contract.h"
 #include "replication/replication_manager.h"
 #include "sharding/epoch_fencing.h"
 #include "sharding/health_monitor.h"
@@ -198,7 +199,27 @@ public:
 
     void registerEventCallback(FailoverEventCallback callback);
 
+    // State machine query — pure read, safe to call from any context.
+    bool canTransition(FailoverOrchestratorState from, FailoverOrchestratorState to) const;
+
+#ifdef THEMIS_TEST_BUILD
+    // Test-only accessors for phase-gated unit coverage (Phase 2/3).
+    bool testPreventSplitBrain(const std::string& node_id) {
+        return preventSplitBrain(node_id);
+    }
+    bool testAttemptRecovery(const std::string& node_id) {
+        return attemptRecovery(node_id);
+    }
+    void testEmitDiagnostic(FailoverErrorCode code,
+                            const std::string& node_id,
+                            const std::string& detail) {
+        emitDiagnostic(code, node_id, detail);
+    }
+#endif
+
 private:
+    // Lock order (must be acquired in this order when nesting):
+    //   failover_mutex_ → stats_mutex_ → callbacks_mutex_
     // Configuration and managers
     AutoFailoverConfig config_;
     std::shared_ptr<themisdb::replication::ReplicationManager> replication_mgr_;
@@ -271,7 +292,11 @@ private:
 
     // State machine
     void transitionState(FailoverOrchestratorState new_state);
-    bool canTransition(FailoverOrchestratorState from, FailoverOrchestratorState to) const;
+
+    // Unified diagnostics helper — logs the canonical error code and fires event callbacks.
+    void emitDiagnostic(FailoverErrorCode code,
+                        const std::string& node_id,
+                        const std::string& detail);
 
     // Logging and callbacks
     void emitEvent(FailoverEventType type, const std::string& node_id, const std::string& detail);

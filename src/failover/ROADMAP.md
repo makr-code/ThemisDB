@@ -36,12 +36,24 @@ Production failover runtime exists across automatic failover orchestration, disa
     HEARTBEAT_MISSED, STATE_SYNC_TIMEOUT, QUORUM_UNAVAILABLE, INVALID_EPOCH, INTERNAL_ERROR
 
 ### Phase 2: Core Implementation
-- [ ] complete hardening for queue/worker orchestration and DR-step internals (Target: Q4 2026)
-- [ ] align dependency/fencing integration behavior to bounded runtime contracts (Target: Q4 2026)
+- [x] complete hardening for queue/worker orchestration and DR-step internals (Delivered: Q4 2026)
+  - Bounded stop() with documented worst-case wait per thread (failover_thread_ ≤1 s, monitoring_thread_ ≤health_check_interval)
+  - attemptRecovery stats batch-updated: single lock acquisition per call instead of per iteration
+  - Canonical lock order documented: failover_mutex_ → stats_mutex_ → callbacks_mutex_
+  - executePlan concurrent execution guard (execution_mutex_ + try_to_lock; returns "concurrent execution rejected")
+- [x] align dependency/fencing integration behavior to bounded runtime contracts (Delivered: Q4 2026)
+  - preventSplitBrain fails closed (returns false + emitDiagnostic) when no EpochFencingManager is configured
+  - emitDiagnostic() helper unifies log + event-callback emission for all fencing/quorum contract violations
 
 ### Phase 3: Error Handling and Edge Cases
-- [ ] standardize fail-closed behavior for invalid plans and unsafe transition scenarios (Target: Q4 2026)
-- [ ] unify diagnostics across queue saturation, retry, and DR-step failures (Target: Q4 2026)
+- [x] standardize fail-closed behavior for invalid plans and unsafe transition scenarios (Delivered: Q4 2026)
+  - canTransition() implements real state machine table: IDLE → VERIFYING_FAILURE → CHECKING_QUORUM → STARTING_LEADER_ELECTION → (LEADER_ELECTION_IN_PROGRESS →) UPDATING_METADATA → COMPLETING_FAILOVER → IDLE; FAILED reachable from any state; back to IDLE always valid
+  - transitionState() logs a warning for any transition not in the table (non-blocking, observable)
+  - preventSplitBrain fails closed when fencing manager is absent (QUORUM_UNAVAILABLE diagnostic emitted)
+- [x] unify diagnostics across queue saturation, retry, and DR-step failures (Delivered: Q4 2026)
+  - emitDiagnostic(FailoverErrorCode, node_id, detail) private helper: spdlog::error + emitEvent mapping
+  - Used in: preventSplitBrain (QUORUM_UNAVAILABLE), attemptRecovery exhaustion (NODE_REJOIN_FAILED)
+  - QUORUM_UNAVAILABLE maps to FailoverEventType::QUORUM_CHECK_FAILED for callback consumers
 
 ### Phase 4: Tests
 - [x] expand focused regressions for queue pressure and dependency-degraded recovery scenarios (Delivered: Q3 2026)
@@ -72,6 +84,10 @@ Production failover runtime exists across automatic failover orchestration, disa
 - [x] Q3 2026 status sync: roadmap validated against full module docs (2026-07-29)
   - Test evidence: chaos scenarios (17 tests PASS), contract hardening (FCH-01..16), DR edge (DRE-01..08)
   - Benchmark evidence: FRG-01..FRG-06 (bench_failover_release_gates.cpp)
+- [x] Phase 2/3 hardening delivered (2026-07-29)
+  - Test file: `tests/failover/test_failover_phase2_phase3_focused.cpp`
+  - Test cases: P23-01..P23-08 (canTransition table, fail-closed split-brain, batch stats, concurrent DR rejection, emitDiagnostic callback)
+  - kPhase23Seed = 42; all tests self-contained, no external I/O
 
 ## Production Readiness Checklist
 
@@ -80,7 +96,7 @@ Production failover runtime exists across automatic failover orchestration, disa
 - [x] benchmark mapping documented in performance expectations
 - [x] dedicated failover benchmark file delivered (FRG-01..FRG-06)
 - [x] Q3 2026 hardening, benchmark stabilization, and diagnostics items closed
-- [ ] remaining hardening tasks closed for dependency/queue/DR-step edge paths (Q4 2026)
+- [x] remaining hardening tasks closed for dependency/queue/DR-step edge paths (Q4 2026)
 - [ ] release benchmark stabilization p95/p99 re-baseline complete (Q1 2027)
 
 ## Known Issues and Limitations
