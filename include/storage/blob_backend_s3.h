@@ -1,0 +1,102 @@
+/**
+ * @file blob_backend_s3.h
+ * @brief AWS S3 (and S3-compatible) Blob Storage backend for ThemisDB.
+ * @version 0.1.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Status: Production Ready
+ */
+
+#pragma once
+
+#include "storage/blob_storage_backend.h"
+#include <string>
+#include <vector>
+#include <memory>
+
+namespace themis {
+namespace storage {
+
+/**
+ * @brief AWS S3 Blob Storage Backend
+ *
+ * Stores blobs in an AWS S3 bucket (or any S3-compatible object store) using
+ * the AWS SDK for C++ v3.
+ *
+ * The backend is conditionally compiled behind THEMIS_HAS_AWS_SDK. When the
+ * SDK is absent the constructor marks the instance as unavailable and all
+ * operations return an error, so no unimplemented path is reachable at runtime.
+ *
+ * Authentication uses the standard AWS credential chain (environment variables,
+ * ~/.aws/credentials, instance-profile metadata).
+ *
+ * Thread-Safety: All methods are thread-safe.
+ */
+class S3BlobBackend : public IBlobStorageBackend {
+public:
+    /**
+     * @brief Construct an S3 Blob Storage backend.
+     * @param bucket  Name of the S3 bucket.
+     * @param region  AWS region (e.g. "us-east-1").
+     * @param prefix  Optional object-key prefix (e.g. "blobs/").
+     */
+    explicit S3BlobBackend(const std::string& bucket,
+                            const std::string& region,
+                            const std::string& prefix = "");
+
+    ~S3BlobBackend() override;
+
+    /**
+     * @brief Store a blob in the S3 bucket.
+     * @param blob_id Unique blob identifier (used as the S3 object key).
+     * @param data    Raw blob data.
+     * @return BlobRef on success, or an error if the SDK is unavailable or the
+     *         upload fails.
+     */
+    [[nodiscard]] Result<BlobRef> put(const std::string& blob_id,
+                                      const std::vector<uint8_t>& data) override;
+
+    /**
+     * @brief Retrieve a blob from the S3 bucket.
+     * @param ref Blob reference previously returned by put().
+     * @return Blob data on success, or an error if the object does not exist or
+     *         the download fails.
+     */
+    [[nodiscard]] Result<std::vector<uint8_t>> get(const BlobRef& ref) override;
+
+    /**
+     * @brief Delete a blob from the S3 bucket.
+     * @param ref Blob reference previously returned by put().
+     * @return void on success, or an error if deletion fails.
+     */
+    [[nodiscard]] Result<void> remove(const BlobRef& ref) override;
+
+    /**
+     * @brief Check whether a blob exists in the bucket.
+     * @param ref Blob reference to check.
+     * @return true if the object exists.
+     */
+    [[nodiscard]] bool exists(const BlobRef& ref) override;
+
+    /**
+     * @brief Return the backend name ("s3").
+     */
+    [[nodiscard]] std::string name() const override;
+
+    /**
+     * @brief Check whether the S3 backend is operational.
+     *
+     * Returns false when the AWS SDK was not compiled in, when credentials are
+     * missing, or when the bucket cannot be reached.
+     */
+    [[nodiscard]] bool isAvailable() const override;
+
+private:
+    struct Impl;
+    std::unique_ptr<Impl> impl_;
+
+    static std::string computeSHA256(const std::vector<uint8_t>& data);
+    std::string getS3Key(const std::string& blob_id) const;
+};
+
+} // namespace storage
+} // namespace themis
