@@ -1,6 +1,6 @@
 # Failover Module - Future Enhancements
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-07-29 -->
 <!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
 
 ## Scope
@@ -26,10 +26,10 @@
 
 ## Implementation Notes
 
-- tighten dependency/fencing edge behavior across failover and recovery workflows.
-- standardize diagnostics for queue saturation, retry escalation, and DR-step failures.
-- expand resilience tests for repeated failover/recovery cycle pressure.
-- add dedicated failover-specific benchmarks to replace broad proxy reliance.
+- tighten dependency/fencing edge behavior across failover and recovery workflows (Q4 2026).
+- standardize diagnostics for queue saturation, retry escalation, and DR-step failures — partial delivery complete (Q3 2026), remaining scope in Q4 2026.
+- expand resilience tests for repeated failover/recovery cycle pressure (Q4 2026).
+- add dedicated failover-specific benchmarks to replace broad proxy reliance — FRG-01..FRG-06 delivered (Q3 2026); p95/p99 re-baseline planned Q1 2027.
 
 ## Test Strategy
 

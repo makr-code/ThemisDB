@@ -1,7 +1,7 @@
 # Failover Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-07-29 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
@@ -10,9 +10,9 @@ Production failover runtime exists across automatic failover orchestration, disa
 
 ## In Progress
 
-- [~] hardening dependency-degraded and multi-step recovery edge behavior (Target: Q3 2026)
-- [~] benchmark stabilization for recovery lifecycle hot paths (Target: Q3 2026)
-- [~] diagnostics consistency improvements for failover queue pressure and DR failures (Target: Q3 2026)
+- [x] hardening dependency-degraded and multi-step recovery edge behavior (Delivered: Q3 2026)
+- [x] benchmark stabilization for recovery lifecycle hot paths (Delivered: Q3 2026)
+- [x] diagnostics consistency improvements for failover queue pressure and DR failures (Delivered: Q3 2026)
 
 ## Planned Features
 
@@ -46,9 +46,15 @@ Production failover runtime exists across automatic failover orchestration, disa
 ### Phase 4: Tests
 - [x] expand focused regressions for queue pressure and dependency-degraded recovery scenarios (Delivered: Q3 2026)
 - [x] extend deterministic fixture coverage for DR-step permutation and timeout cases (Delivered: Q3 2026)
+- [x] add DR plan validation and step-isolation focused regressions (Delivered: Q3 2026)
   - Test file: `tests/failover/test_failover_contract_hardening_focused.cpp`
   - Test cases: FCH-01..FCH-16 (election, handover, recovery, error contract)
   - kFailoverContractSeed = 42; all tests self-contained, no external I/O
+  - Test file: `tests/failover/test_failover_chaos_scenarios.cpp`
+  - Test cases: 17 scenarios (queue saturation, pressure telemetry, concurrent access, lifecycle)
+  - Test file: `tests/failover/test_failover_dr_edge_scenarios.cpp`
+  - Test cases: DRE-01..DRE-08 (plan validation, dry-run, step hook failure, statistics)
+  - kDREdgeSeed = 42; all tests self-contained, no external I/O
 
 ### Phase 5: Performance and Hardening
 - [x] lock benchmark-backed release gates for failover/recovery hot paths (Delivered: Q3 2026)
@@ -63,20 +69,25 @@ Production failover runtime exists across automatic failover orchestration, disa
 - [x] roadmap/future planning separated from historical changelog entries
 - [x] Phase 1-6 Wave 3B Category-D closure delivered (Q3 2026)
   - Contract header, 16 focused tests (FCH-01..16), 6 release-gate benchmarks (FRG-01..06)
+- [x] Q3 2026 status sync: roadmap validated against full module docs (2026-07-29)
+  - Test evidence: chaos scenarios (17 tests PASS), contract hardening (FCH-01..16), DR edge (DRE-01..08)
+  - Benchmark evidence: FRG-01..FRG-06 (bench_failover_release_gates.cpp)
 
 ## Production Readiness Checklist
 
 - [x] core failover surfaces documented and source-verified
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
-- [ ] remaining hardening tasks closed for dependency/queue/DR-step edge paths
-- [ ] release benchmark stabilization complete
+- [x] dedicated failover benchmark file delivered (FRG-01..FRG-06)
+- [x] Q3 2026 hardening, benchmark stabilization, and diagnostics items closed
+- [ ] remaining hardening tasks closed for dependency/queue/DR-step edge paths (Q4 2026)
+- [ ] release benchmark stabilization p95/p99 re-baseline complete (Q1 2027)
 
 ## Known Issues and Limitations
 
 - runtime outcomes partially depend on external manager availability and behavior.
-- selected high-pressure queue and dependency edge scenarios require continued hardening.
-- dedicated failover-native benchmark coverage is currently limited.
+- concurrent multi-node failover storm edge cases require continued hardening (Q4 2026).
+- fencing/quorum dependency edge scenarios are covered by contract tests but not yet stress-tested at scale.
 
 ## Breaking Changes
 

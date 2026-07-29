@@ -16,6 +16,12 @@ foreach(_src IN LISTS FAILOVER_PREFIX_TEST_SOURCES)
         )
     endif()
 
+    if(_stem STREQUAL "test_failover_dr_edge_scenarios")
+        list(APPEND _extra_sources
+            "${THEMIS_ROOT_DIR}/src/failover/disaster_recovery_manager.cpp"
+        )
+    endif()
+
     if(TARGET ${_target})
         continue()
     endif()
