@@ -5,7 +5,7 @@ Dieses Verzeichnis ist für private, owner-kontrollierte Submodule reserviert.
 Erwartete private Module:
 
 - `plugins/private/themisdb-hyperscaler-core`
-- `plugins/private/themisdb-signing-tools`
+- `plugins/private/themisdb_plugin_signer`
 
 Hinweise:
 

@@ -2,7 +2,7 @@
 
 > ⚠️ **[PRIVATE] Governance Update (Hyperscaler):**
 > Manifest-Signatur-Generierung ist owner-kontrolliert und wurde in
-> `plugins/private/themisdb-signing-tools` ausgelagert.
+> `plugins/private/themisdb_plugin_signer` ausgelagert.
 > Die öffentliche Toolchain bietet Verifikation über
 > `/home/runner/work/ThemisDB/ThemisDB/tools/verify_plugin_manifest.py`.
 
@@ -167,7 +167,7 @@ plugins/
 ### Signatur-Erzeugung
 
 Die Signatur-Erzeugung erfolgt ausschließlich über das private Repository
-`plugins/private/themisdb-signing-tools`.
+`plugins/private/themisdb_plugin_signer`.
 
 **Integration mit bestehendem System:**
 - Nutzt `storage/security_signature.h` (SecuritySignature struct)

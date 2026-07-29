@@ -993,7 +993,7 @@ if(THEMIS_EDITION STREQUAL "HYPERSCALER")
     set(_themis_hyperscaler_private_root "${THEMIS_ROOT_DIR}/plugins/private")
     set(_themis_hyperscaler_required_modules
         "${_themis_hyperscaler_private_root}/themisdb-hyperscaler-core/CMakeLists.txt"
-        "${_themis_hyperscaler_private_root}/themisdb-signing-tools/README.md")
+        "${_themis_hyperscaler_private_root}/themisdb_plugin_signer/README.md")
     foreach(_themis_hyperscaler_required_file IN LISTS _themis_hyperscaler_required_modules)
         if(NOT EXISTS "${_themis_hyperscaler_required_file}")
             message(FATAL_ERROR
