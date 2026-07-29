@@ -9,7 +9,7 @@
 
 Production geo runtime exists across CPU/GPU backends, spatial indexing, GeoJSON geometry processing, spatial joins, clustering, raster queries, temporal-spatial workflows, and tile integration.
 
-Issue #5646 remains open with partial closure coverage: roadmap/future synchronization is now refreshed, while focused executable evidence refresh in this Linux environment is blocked by configure-time dependency gaps (`RocksDB`, then `fmt`) before test targets can build.
+Issue #5646 remains open with partial closure coverage: roadmap/future synchronization is refreshed, configure now succeeds in this Linux environment after dependency provisioning, but focused executable evidence is still blocked by a pre-existing cross-module compile error in `include/security/ai_snapshot_cleanup.h`.
 
 ## In Progress
 
@@ -79,17 +79,19 @@ Issue #5646 remains open with partial closure coverage: roadmap/future synchroni
 ## Evidence Summary (Issue #5646 Sync — 2026-07-29)
 
 - Configure attempt 1: `cmake --preset community-release`
-  - Result: failed in `cmake/Dependencies.cmake` with `RocksDB not found. Install via vcpkg (rocksdb) or system package librocksdb-dev.`
-- Configure attempt 2: `cmake --preset community-release-allow-missing-rocksdb`
-  - Result: progressed past RocksDB gate, then failed in `cmake/Dependencies.cmake` with missing `fmt` package (`fmtConfig.cmake` / `fmt-config.cmake` not found).
-- Focused build/test status in this environment: blocked before build generation; no executable refresh possible for `module_geo_test_aql_st_functions_focused`.
+  - Result: now passes after installing required system dependencies (`librocksdb-dev`, `libfmt-dev`, `libspdlog-dev`, `nlohmann-json3-dev`, `libmimalloc-dev`, `libgtest-dev`, `libtbb-dev`, `libyaml-cpp-dev`, `libboost-system-dev`, `libboost-filesystem-dev`, `libcurl4-openssl-dev`).
+- Configure attempt 2: `cmake --preset community-release-allow-missing-rocksdb -DCMAKE_DISABLE_FIND_PACKAGE_RocksDB=TRUE`
+  - Result: passes and confirms RocksDB fallback detection via pkg-config dynamic path.
+- Build attempt: `cmake --build /home/runner/work/ThemisDB/ThemisDB/build-community-release-allow-missing-rocksdb --target module_geo_test_aql_st_functions_focused`
+  - Result: blocked by pre-existing compile error outside geo scope: `include/security/ai_snapshot_cleanup.h:63` (`AiSnapshotCleanupJob(Config cfg = {})` brace-init conversion failure).
+- Focused build/test status in this environment: executable refresh still blocked; test binary not produced yet.
 - Last known focused target evidence from issue context: PASS on `module_geo_test_aql_st_functions_focused.exe --gtest_brief=1` (`82` tests, exit `0`, validated `2026-07-18`).
 
 ## Open Work (Issue #5646)
 
 - [x] validate and refine extracted roadmap priorities against full module docs in `src/geo/ROADMAP.md`
 - [x] validate and refine extracted future focus points against full module docs in `src/geo/FUTURE_ENHANCEMENTS.md`
-- [~] add/refresh focused build and test evidence for this module (configure blockers documented in Evidence Summary)
+- [~] add/refresh focused build and test evidence for this module (configure is now unblocked; build is blocked by pre-existing non-geo compile error documented in Evidence Summary)
 - [x] mark completed synced items and risks with explicit status transitions
 
 ## Closure Criteria (Issue #5646)
@@ -98,7 +100,7 @@ Issue #5646 remains open with partial closure coverage: roadmap/future synchroni
 - [x] evidence updated with explicit justified gap in this environment
 - [ ] parent epic task entry checked by maintainer
 - [ ] status labels updated by maintainer before close
-- [x] close reason documented as "sync pass complete; focused evidence refresh blocked by missing build dependencies in this environment"
+- [x] close reason documented as "sync pass complete; focused evidence refresh remains blocked by pre-existing non-geo compile error in current tree"
 
 ## Known Issues & Limitations
 
