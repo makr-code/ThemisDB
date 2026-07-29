@@ -11,7 +11,7 @@
 #include <chrono>
 #include <memory>
 
-namespace themis::sharding {
+namespace themis { namespace sharding { 
 
 class GossipConfigManagerFocusedTest : public ::testing::Test {
 protected:
@@ -119,5 +119,4 @@ TEST_F(GossipConfigManagerFocusedTest, PublishResourceSnapshotAcceptsValidSnapsh
     EXPECT_EQ(stored.shard_id, "shard-1");
     EXPECT_EQ(stored.total_memory_bytes, 128ULL);
 }
-
-}  // namespace themis::sharding
+} } // namespace themis::sharding

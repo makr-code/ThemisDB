@@ -1,3 +1,11 @@
+/**
+ * @file telemetry_keys.h
+ * @brief Canonical telemetry attribute key constants.
+ *
+ * Defines string constants for OpenTelemetry span and metric attribute
+ * keys used throughout the ThemisDB observability layer.
+ */
+
 #pragma once
 
 #include <string_view>

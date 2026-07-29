@@ -1,3 +1,11 @@
+/**
+ * @file shard_placement.h
+ * @brief Shard placement strategy for distributed tensor operations.
+ *
+ * Defines placement policies that map logical tensor shards to physical
+ * nodes based on capacity, topology, and user-specified constraints.
+ */
+
 // Copyright 2026 ThemisDB Team
 // SPDX-License-Identifier: Apache-2.0
 

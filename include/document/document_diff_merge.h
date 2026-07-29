@@ -352,9 +352,16 @@ private:
                 }
             } else {
                 // Both changed: conflict.
-                if (ours_val == theirs_val) {
-                    // Same value on both sides: clean.
-                    merged[key] = ours_val;
+                if (!in_ours && !in_theirs) {
+                    // Both branches deleted the field: clean deletion.
+                    merged.erase(key);
+                } else if (ours_val == theirs_val) {
+                    // Same value on both sides (both added/modified to same value): clean.
+                    if (!in_ours) {
+                        merged.erase(key);
+                    } else {
+                        merged[key] = ours_val;
+                    }
                 } else {
                     result.conflicts.push_back({key, base_val, ours_val, theirs_val});
                     if (strategy == MergeStrategy::OURS_WINS) {

@@ -39,6 +39,27 @@ else()
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 endif()
 
+# Prefer isolating module-focused tests into per-module subdirectories to avoid
+# concurrent linking/writing into the same `bin_out` path which can trigger
+# LNK1104 when multiple parallel linkers race on the same filename.
+set(THEMIS_TESTS_RUNTIME_SUBDIR "${CMAKE_BINARY_DIR}/bin_out_tests_by_module" CACHE PATH "Per-module test binary output base dir")
+file(MAKE_DIRECTORY "${THEMIS_TESTS_RUNTIME_SUBDIR}")
+
+# Helper: set per-target runtime output to a module-scoped folder
+function(themis_set_test_out_dir target module_name)
+    if(NOT TARGET ${target})
+        return()
+    endif()
+    set(_outdir "${THEMIS_TESTS_RUNTIME_SUBDIR}/${module_name}")
+    file(MAKE_DIRECTORY "${_outdir}")
+    set_target_properties(${target} PROPERTIES
+        RUNTIME_OUTPUT_DIRECTORY "${_outdir}"
+        RUNTIME_OUTPUT_DIRECTORY_DEBUG "${_outdir}/Debug"
+        RUNTIME_OUTPUT_DIRECTORY_RELEASE "${_outdir}/Release"
+        RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${_outdir}/RelWithDebInfo"
+        RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${_outdir}/MinSizeRel"
+    )
+endfunction()
 if(MSVC)
     message(STATUS "MSVC Runtime: ${CMAKE_MSVC_RUNTIME_LIBRARY}")
 endif()
@@ -56,6 +77,16 @@ include(GoogleTest)
 find_package(yaml-cpp CONFIG QUIET)
 if(NOT yaml-cpp_FOUND)
     message(STATUS "yaml-cpp not found - YAML-based tests will be skipped")
+endif()
+
+# Find OpenSSL for security-related test helpers (we need OPENSSL_cleanse)
+find_package(OpenSSL QUIET)
+if(OpenSSL_FOUND)
+    message(STATUS "OpenSSL found: ${OPENSSL_VERSION}")
+    list(APPEND TEST_LIBS OpenSSL::Crypto)
+    include_directories(${OPENSSL_INCLUDE_DIR})
+else()
+    message(STATUS "OpenSSL not found - tests will fall back to portable secure-zero or require OpenSSL for full checks")
 endif()
 
 # Shared test libraries so individual test executables don't forget to link gtest
@@ -117,6 +148,38 @@ foreach(_module_cmake IN LISTS _TEST_MODULE_CMAKES)
         add_subdirectory("${_module_dir}")
     endif()
 endforeach()
+
+# ---------------------------------------------------------------------------
+# Post-fix: ensure test/module executables write into per-target folders to avoid
+# concurrent write/copy collisions (prevents LNK1104 when applocal or parallel
+# link/copy operations target the same path).
+get_property(_all_targets GLOBAL PROPERTY TARGETS)
+foreach(_t IN LISTS _all_targets)
+    if(_t MATCHES "^(test_|module_)")
+        # skip library targets and only adjust executables
+        if(TARGET ${_t} AND NOT "${_t}" STREQUAL "themis_tests")
+            get_target_property(_type ${_t} TYPE)
+            if(_type STREQUAL "EXECUTABLE")
+                set_target_properties(${_t} PROPERTIES
+                    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin_out_tests/${_t}"
+                    RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/bin_out_tests/${_t}/Debug"
+                    RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/bin_out_tests/${_t}/Release"
+                    RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${CMAKE_BINARY_DIR}/bin_out_tests/${_t}/RelWithDebInfo"
+                    RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${CMAKE_BINARY_DIR}/bin_out_tests/${_t}/MinSizeRel"
+                )
+            endif()
+        endif()
+    endif()
+endforeach()
+
+# If a monolithic themis_core target exists, record that fact and defer
+# the actual linking until after the aggregated `themis_tests` target is
+# created. Calling `target_link_libraries` before the target exists
+# triggers a configure-time error when CMake regenerates during build.
+if(TARGET themis_core)
+    set(_THEMIS_HAVE_THEMIS_CORE_FOR_TESTS TRUE)
+    message(STATUS "themis_core available for tests; will link after themis_tests target creation")
+endif()
 
 message(STATUS "GTest found - building unified test binary")
 
@@ -715,6 +778,15 @@ list(LENGTH ALL_TEST_SOURCES TEST_SOURCE_COUNT)
 message(STATUS "Building ${TEST_SOURCE_COUNT} test files after feature gating")
 
 add_executable(themis_tests ${ALL_TEST_SOURCES})
+
+# If we detected a monolithic `themis_core` target earlier in the configure
+# step, link it now that `themis_tests` has been created. This resolves
+# symbols in modular builds without attempting to add sources that may
+# already be provided by the module libraries.
+if(DEFINED _THEMIS_HAVE_THEMIS_CORE_FOR_TESTS)
+    target_link_libraries(themis_tests PRIVATE themis_core)
+    message(STATUS "themis_tests: linked themis_core for full symbol coverage")
+endif()
 
 # Ensure focused tests in the aggregated themis_tests target have their
 # corresponding production implementations linked in modular builds.
@@ -1926,6 +1998,34 @@ target_compile_definitions(themis_tests PRIVATE
     THEMIS_TEST_MODE=1
     THEMIS_TEST_CERT_DIR="${THEMIS_ROOT_DIR}/certs/test/wire_protocol"
 )
+
+# Link common themis module libraries when they exist to resolve
+# unresolved externals for the aggregated themis_tests binary.
+if(TARGET themis_tests)
+foreach(_mod IN LISTS
+    themis_tensor
+    themis_retrieval
+    themis_evaluation
+    themis_distributed_tensor
+    themis_distributed_knowledge
+    themis_rpc_grpc
+    themis_image_onnx_clip
+    themis_flash_attention
+    themis_user_storage_encrypted
+)
+    if(TARGET ${_mod})
+        message(STATUS "themis_tests: linking available module ${_mod}")
+        target_link_libraries(themis_tests PRIVATE ${_mod})
+    endif()
+endforeach()
+
+# If a monolithic themis_core target exists, link it to ensure full symbol
+# coverage for the aggregated test binary in modular or mixed builds.
+if(TARGET themis_core)
+    message(STATUS "themis_tests: linking monolithic themis_core for full symbol coverage")
+    target_link_libraries(themis_tests PRIVATE themis_core)
+endif()
+endif()
 
 # On Windows, disable whole program optimization (/GL) to match DLL ABI.
 # Modular DLLs use /GL- for symbol export, so themis_tests must match.
@@ -28218,4 +28318,46 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_g003_error_handling_thread_safety.cp
     )
 
     message(STATUS "  G003: EHS-01..08 (exception safety), TSF-01..08 (thread safety), RVC-01..04 (return value checks)")
+endif()
+
+# ============================================================================
+# Phase 4: Security & Compliance Hardening Tests
+# SEC-IV-01..15 (Input Validation), SEC-TLS-01..10 (Transport Security),
+# SEC-MEM-01..15 (Memory Safety), SEC-RACE-01..10 (Concurrency),
+# SEC-ERR-01..05 + SEC-FAIL-01..05 + SEC-AUD-01..05 (Error Path Security)
+# Target: 2026-10-31 | Effort: 6 weeks
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_phase4_security_hardening.cpp")
+    message(STATUS "Adding Phase 4 Security & Compliance Hardening tests")
+
+    add_executable(test_phase4_security_hardening_focused
+        test_phase4_security_hardening.cpp
+    )
+
+    target_include_directories(test_phase4_security_hardening_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_phase4_security_hardening_focused PRIVATE
+        GTest::gtest
+        GTest::gtest_main
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_phase4_security_hardening_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    gtest_discover_tests(test_phase4_security_hardening_focused
+        DISCOVERY_MODE POST_BUILD
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:test_phase4_security_hardening_focused>
+        EXTRA_ARGS --gtest_color=yes
+        PROPERTIES
+            LABELS "security;input_validation;transport;memory_safety;concurrency;error_handling;phase4;release_critical"
+            TIMEOUT 120
+    )
+
+    message(STATUS "  Phase 4 Security: SEC-IV-01..15 (input validation), SEC-TLS-01..10 (transport), SEC-MEM-01..15 (memory), SEC-RACE-01..10 (concurrency), SEC-ERR-01..05 (error path)")
 endif()

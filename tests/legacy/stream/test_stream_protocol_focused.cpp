@@ -17,7 +17,7 @@
 #include <memory>
 #include <limits>
 
-namespace themisdb::streaming {
+namespace themisdb { namespace streaming { 
 
 // ============================================================================
 // StreamChunk Deserialization Tests
@@ -175,10 +175,8 @@ TEST_F(StreamChunkValidationTest, DeserializeRejectsHeaderOnlyWithNonzeroCompres
     auto result = StreamChunk::deserialize(data);
     EXPECT_FALSE(result.has_value()) << "Should reject when payload missing";
 }
-
-} // namespace themisdb::streaming
-
-namespace themis::sharding {
+} } // namespace themisdb::streaming
+namespace themis { namespace sharding { 
 
 // ============================================================================
 // WAL Applier Validation Tests
@@ -402,5 +400,4 @@ TEST_F(WALApplierValidationTest, ApplyBatchStopsOnApplyFailure) {
     EXPECT_FALSE(result.success) << "Should fail when handler returns false";
     EXPECT_EQ(result.entries_applied, 2) << "Should stop after second successful apply";
 }
-
-} // namespace themis::sharding
+} } // namespace themis::sharding

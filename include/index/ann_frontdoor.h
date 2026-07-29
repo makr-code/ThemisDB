@@ -1,3 +1,11 @@
+/**
+ * @file ann_frontdoor.h
+ * @brief Front-door interface for approximate-nearest-neighbour index operations.
+ *
+ * Provides a unified entry-point that dispatches ANN queries to the
+ * appropriate backend (HNSW, IVF, flat-scan) based on runtime configuration.
+ */
+
 #pragma once
 
 // ANN Frontdoor — explicit first universal retrieval gate

@@ -31,7 +31,7 @@
 #include <string>
 #include <vector>
 
-namespace themis::test {
+namespace themis { namespace test { 
 
 namespace {
 
@@ -441,5 +441,4 @@ TEST_F(FailureInjectionRecoveryTest, FIR08_DataIntegrityAfterFailureBurstNoPhant
             << "All results must originate from successful ingests, not failed ones: '" << r << "'";
     }
 }
-
-} // namespace themis::test
+} } // namespace themis::test

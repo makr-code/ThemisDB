@@ -45,7 +45,7 @@
 
 using namespace std::chrono_literals;
 
-namespace themisdb::graph::test::phase3 {
+namespace themisdb { namespace graph { namespace test { namespace phase3 { 
 
 // ============================================================================
 // Constants
@@ -2205,5 +2205,4 @@ TEST_F(LoadBalancerTest, LBS_24_InvariantGateDispatchedEqualsSlaSumm) {
     EXPECT_EQ(m.dispatched, m.sla_met + m.sla_violated)
         << "dispatched must equal sla_met + sla_violated";
 }
-
-} // namespace themisdb::graph::test::phase3
+} } } } // namespace themisdb::graph::test::phase3

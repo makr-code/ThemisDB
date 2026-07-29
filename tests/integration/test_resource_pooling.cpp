@@ -37,7 +37,7 @@
 #include <thread>
 #include <vector>
 
-namespace themis::resource {
+namespace themis { namespace resource { 
 
 // ===== Task P3-03-B: Adaptive Connection Pool (8 tests) =====
 
@@ -927,5 +927,4 @@ TEST(Phase3ResourcePooling, PerformanceTuningWave7GatesVerification) {
         std::chrono::steady_clock::now() - t0).count();
     EXPECT_LT(elapsed_ms, 500);  // Generous bound; pure in-memory logic.
 }
-
-}  // namespace themis::resource
+} } // namespace themis::resource

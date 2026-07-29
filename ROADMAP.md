@@ -2,9 +2,9 @@
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
-**Version:** 2.5  
-**Last Updated:** 2026-07-27
-**Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–6 complete; active baseline 22.085 deduplicated findings). Phase 3-5 next-phase implementation plans active.
+**Version:** 2.4.0-rc1  
+**Last Updated:** 2026-07-28
+**Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–5 complete; Phase 6 documentation & governance synchronization NOW IN PROGRESS). GA hardening path: Phases 0-5 evidence complete, Phase 6 sign-off pending human approval.
 
 > For module-specific details see each module's `src/<module>/ROADMAP.md`.
 
@@ -36,12 +36,81 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 
 ## Current Status
 
+- [~] `ROADMAP.md` is the canonical source of truth for GA status; conflicting PASS/GO statements in derivative planning/checklist documents must be treated as provisional until re-verified on current `develop`.
 - [~] The beta-to-GA hardening path runs on `develop`; release-lane promotion happens only after gate evidence is complete.
 - [x] Wave 7 baseline evidence exists with all six PASS gates (`benchmarks/wave7/release_gate_manifest_w7.json`; baseline currently valid, periodic re-confirmation still required).
 - [x] `release_critical` CI on `develop` is defined as the mandatory entry gate for release work (`.github/workflows/09-pr-gates_release-critical-tests.yml`).
 - [x] `auth` source hardening documentation is current: Phase 1-6 is complete with frozen principal contract, 12 new error codes (9420-9452), RFP/FED/ASY focused tests, and AHP benchmark gates (`src/auth/ROADMAP.md`).
 - [~] `server`, `llm`, and `sharding` top-risk hardening is in closure mode: `server` P5-S01/S02 and `llm` P5-L01/P5-L02 delivered; `sharding` P6 gate integration delivered and evidence closure ongoing.
 - [x] Wave 8, chaos/fault-injection, sanitizer/recovery, penetration-test, and 99.99% SLA sign-off artefacts are closed: sanitizer evidence bundle at `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md`; pentest evidence bundle at `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`; final governance sign-off pending human approval at `docs/governance/GA_PROMOTION_SIGN_OFF.md`.
+
+## Private Plugin Externalization & Monetization Program
+
+### Current Status
+- [~] The plugin landscape is hybrid: runtime-loadable `SHARED` plugins coexist with manifest-only compatibility layers and statically linked AI/acceleration modules.
+- [~] `plugins/CMakeLists.txt` already contains no-hard-fail private-source handling; Wave-1 compatibility shims now degrade gracefully when `src/ethics_ai` or `src/user_storage_encrypted` are absent.
+- [~] Community and Minimal builds already fail closed for `enterprise_plugins`, but manifest metadata does not yet fully express visibility, allowed editions, or private release compatibility.
+
+### In Progress
+- [~] Establish root governance, manifest metadata, and CMake structure for plugin-name-aligned private submodules without breaking Community-only checkouts (Target: Q3 2026)
+- [~] Finalize Wave-1 private candidates (`ethics_ai`, `user_storage_encrypted`, connector pack) and preserve public reference implementations for onboarding-critical paths (Target: Q3 2026)
+- [ ] Add CI policy checks so Community lanes never require private credentials and private lanes remain gated by scoped checkout, SBOM, and leakage rules (Target: Q4 2026)
+
+### Implementation Phases
+
+#### Phase 1 — Design / API Contract
+- [~] Define the public plugin SDK boundary and the permitted private extension points across `include/plugins/*` and `src/plugins/*` (Target: Q3 2026)
+- [~] Extend plugin manifest governance with `visibility`, `allowed_editions`, `license_feature`, `min_themisdb_version`, `max_themisdb_version`, and `compatible_core_abi` semantics (Target: Q3 2026)
+- [~] Freeze a plugin-name-aligned private layout under `plugins/private/` (for example `ethics_ai`, `user_storage_encrypted`, `mysql_importer`, `azure_blob_storage`) in root governance and CMake defaults (Target: Q3 2026)
+
+#### Phase 2 — Core Implementation
+- [~] Introduce `WITH_PRIVATE_*` grouping/plugin flags and centralized private-plugin loading helpers with no-hard-fail `EXISTS(...)` handling (Target: Q3 2026)
+- [x] Wave-1 private repositories provisioned and submodule paths finalized (2026-07):
+  - `makr-code/themisdb_ethic_ai` → `plugins/private/themisdb_ethic_ai/` (ethics_ai plugin root)
+  - `makr-code/themisdb_storage` → `plugins/private/themisdb_storage/` (aggregate: `user_storage_encrypted/`, `azure_blob_storage/`, `s3_blob_storage/`)
+  - `makr-code/themisdb_importer` → `plugins/private/themisdb_importer/` (aggregate: `mysql_importer/`, `mongo_importer/`, `kafka_importer/`, `s3_importer/`)
+  - `makr-code/themisdb_llm_wiki` → `plugins/private/themisdb_llm_wiki/` (LLM Wiki tool)
+  - `gpu-impact-analysis` remains explicitly out of Wave 1
+- [~] Core source registration for private connector candidates is split behind optional source checks so missing public files no longer hard-break Community checkouts (Target: Q3 2026)
+- [ ] Move Wave-1 private modules to commit-pinned submodules — repositories provisioned, commit pins pending after initial content push (Target: Q3 2026)
+- [ ] Keep static AI/acceleration plugins out of Wave 1 until they have a clean shared-library SDK seam (Target: Q4 2026)
+
+#### Phase 3 — Error Handling & Edge Cases
+- [ ] Fail closed when plugin manifests declare unsupported editions, missing license features, invalid hashes, or incompatible core ABI ranges (Target: Q4 2026)
+- [ ] Ensure missing private submodules degrade to disabled targets and packaging omissions, never Community configure/build failures (Target: Q4 2026)
+- [ ] Document rollback for bad private submodule pins and release-lane packaging mismatches (Target: Q4 2026)
+
+#### Phase 4 — Tests
+- [ ] Add manifest-schema and runtime-gate coverage for private/public visibility and edition/license compatibility (Target: Q4 2026)
+- [ ] Gate PRs that touch `plugins/private/**`, `.gitmodules`, private CMake files, or private release workflows on synchronized governance updates (Target: Q4 2026)
+- [ ] Add Community negative checks for missing private sources, absent credentials, and leak-free artifact metadata (Target: Q4 2026)
+
+#### Phase 5 — Performance / Hardening
+- [ ] Keep private plugin artefacts behind signing, hash verification, SBOM, and license-compliance gates before edition release publication (Target: Q1 2027)
+- [ ] Reserve Wave-2 work for acceleration and regulated-intelligence plugin repos after SDK/ABI separation and rollback evidence exist (Target: Q1 2027)
+- [ ] Finalize maintainer/bot/edition access boundaries for private repos and release lanes (Target: Q1 2027)
+
+#### Phase 6 — Documentation & Acceptance
+- [~] Synchronize branch/release/versioning/documentation governance for public-vs-private plugin boundaries and Community guardrails (Target: Q3 2026)
+- [ ] Publish contributor guidance for public-only vs private-enabled checkouts and packaging behaviour (Target: Q1 2027)
+- [ ] Record monetization boundary decisions and edition acceptance criteria in root governance documents before rollout (Target: Q1 2027)
+
+### Production Readiness Checklist
+- [ ] Community pipelines run without private credentials or private submodule checkout
+- [ ] Private plugin manifests express visibility, edition allowance, and license gating consistently
+- [ ] Private plugins load only from optional, commit-pinned submodules whose paths mirror the current plugin names
+- [ ] Source-leakage and artifact-leakage gates are active for Community release paths
+- [ ] Open reference plugin paths remain available for onboarding-critical storage, export, and AI scenarios
+
+### Known Issues & Limitations
+- Wave-1 private repositories are provisioned (`themisdb_ethic_ai`, `themisdb_storage`, `themisdb_importer`, `themisdb_llm_wiki`). `.gitmodules` entries added; commit-pin hashes pending after initial content push to the private repos.
+- `ethics_ai` is not yet fully separable from core: `src/ethics_ai/ethics_evaluator.{h,cpp}` and `include/ethics_ai/ethics_ai_types.h` remain public shims for CAI/LLM integration paths.
+- Shared benchmark files (`benchmarks/bench_importer_throughput.cpp`, `benchmarks/bench_blob_zstd.cpp`) still contain mixed public/private scenarios and require split extraction before the plugin-name-aligned connector/blob migration completes.
+- `scraper`, `llama_cpp`, `whisper`, `stable_diffusion`, and acceleration backends still contain static or core-coupled build paths and are intentionally excluded from Wave 1.
+- Edition/runtime gating in source code is narrower than the full five-lane governance model; current groundwork keeps fail-closed behaviour while adding manifest metadata for later rollouts.
+
+### Breaking Changes
+- Private plugin manifests gain new compatibility and visibility fields; loaders must treat missing fields as backward-compatible defaults during the migration window.
 
 ## In Progress
 
@@ -86,10 +155,15 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 - [ ] Finish runbooks, release artefacts, and manual release checklists for human sign-off (Target: 2026-10)
 
 ### Phase 6 — Documentation, Governance, and Release Approval
-- [~] Keep `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `CHANGELOG.md`, `RELEASE_STRATEGY.md`, `VERSIONING.md`, and branch-governance docs synchronized (Target: ongoing)
-- [~] Include `research/` and `research/papers/` in each root documentation sync and update the root Soll-Ist comparison for research-backed roadmap claims (Target: ongoing)
+- [~] Keep `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `CHANGELOG.md`, `RELEASE_STRATEGY.md`, `VERSIONING.md`, and branch-governance docs synchronized (Target: 2026-07-28, IN PROGRESS)
+- [x] Establish central Phase 1-6 subagent execution contract in `NEXT_PHASE_IMPLEMENTATION_PLAN.md` (strict sequencing, per-phase DoD/gate/risk/docs closure, no-transition hard gate, batch-oriented delivery) (Target: 2026-07-28)
+- [~] Include `research/` and `research/papers/` in each root documentation sync and update the root Soll-Ist comparison for research-backed roadmap claims (Target: 2026-08-04, IN PROGRESS)
+- [~] Create research backbone matrix `research/implementation_influence/by_module.md` with Soll-Ist (Target-Current) analysis for 6+ modules (Target: 2026-08-04)
+- [~] Complete Doxygen 100% coverage audit on public C++ APIs and deliver `docs/DOXYGEN_COVERAGE_REPORT.md` (Target: 2026-08-04)
+- [~] Finalize `docs/governance/GA_PROMOTION_SIGN_OFF.md` with all Sections 1-8 evidence linked for v2.4.0-rc1 GA path (Target: 2026-08-11)
+- [~] Create `FINAL_GA_READINESS_CHECKLIST.md` with comprehensive go/no-go gates across all phases (Target: 2026-08-11)
 - [ ] Promote release work from `develop` into canonical release lanes only after all system gates are proven, not just module-local gates (Target: release cut)
-- [ ] Complete public API, failure-behaviour, and operational-limit documentation before GA sign-off (Target: release cut)
+- [~] Complete public API, failure-behaviour, and operational-limit documentation before GA sign-off (Target: 2026-08-18, IN PROGRESS)
 
 ## Execution Batches (GA Hardening)
 
@@ -194,6 +268,9 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 **Kickoff Runner:** `scripts/next_phase_kickoff.py` (Wave-7 hard-gate + baseline go/no-go report)
 
 ### Parallel Work Streams — v2.4.0-rc1 GA Closure (historical)
+### Parallel Work Streams (4-6 weeks, historical execution snapshot)
+
+> Historical planning snapshot retained for traceability. Active gate sequencing is governed by the Phase 1-6 execution contract and does not allow cross-phase transitions without full gate closure.
 
 | Phase | Component | Timeline | Effort | Teams | Target Tests | Status |
 |-------|-----------|----------|--------|-------|-------------|--------|
@@ -203,6 +280,9 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 | **Phase 6** | Sharding: 2PC/3PC consistency + fault injection | 3 weeks | 6 weeks | E+F (4 eng) | 60+ new | ✅ Complete (P6-01..P6-03, 2026-07-22) |
 | **AQL Phase 2** | DDL implementation (parser + executor) | 4-6 weeks | 6 weeks | G (2 eng) | 32 new | ✅ DDL done 2026-07-22; Geospatial [~] in progress; FTS [ ] queued |
 | **Wave 8** | Soak + endurance + degradation fault injection | Parallel | 8 weeks | F (2 eng) | 40+ scenarios | ✅ Gate-integrated (gate-integrated in `release_critical`) |
+| **Block E (historical)** | Sharding: 2PC/3PC consistency + fault injection | 3 weeks | 6 weeks | E+F (4 eng) | 60+ new | ✅ Complete (P6-01/TXC-01..TXC-32 + P6-02/FLR-01..FLR-20 + P6-03/FI-01..FI-40, 2026-07-22) |
+| **AQL Phase 2** | DDL implementation (parser + executor) | 4-6 weeks | 6 weeks | G (2 eng) | 32 new | 🟡 Active (DDL parser + executor + 32 tests delivered 2026-07-22; geospatial/FTS queued) |
+| **Wave 8** | Soak + endurance + degradation fault injection | Parallel | 8 weeks | F (2 eng) | 40+ scenarios | 🟡 Active (gate-integrated) |
 
 **Total New Tests (historical):** 352+ (Phase 3: 130, Phase 5: 90, Phase 6: 60+, AQL DDL: 32, Wave 8: 40+)
 
@@ -285,6 +365,22 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 - [ ] Acceptance criteria for open blocks are sourced from this roadmap + `FUTURE_ENHANCEMENTS.md` six-phase execution model
 - [ ] Any failed gate or unresolved risk is returned to backlog/governance before promotion
 - [ ] Promotion path remains evidence-driven and must stay aligned with the canonical `VERSION` / `RELEASE_TYPE` state before any release cut
+
+### Decision Tree: Phase Prioritization (contract-aligned)
+
+```
+Current State: Execute active phase only
+Team Capacity: Parallelization allowed only inside the active phase
+
+IS THE PREVIOUS PHASE FULLY CLOSED (DoD + Gate Evidence + Risk Update + Doc Sync)?
+├─ NO   → BLOCKER: close previous phase before any phase transition
+│
+└─ YES  → Activate next phase in 1→6 sequence
+          ├─ Run module lanes in parallel inside this phase
+          └─ Run review/doc lanes before phase exit
+```
+
+---
 
 
 

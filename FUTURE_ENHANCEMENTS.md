@@ -28,6 +28,7 @@
 ## Root Documentation Synchronization (2026-07-27)
 
 - Root-level markdown set synchronized to the current `src/` implementation and root governance state.
+- `ROADMAP.md` remains the canonical source-of-truth for release-readiness checkbox closure; this file tracks open enhancement backlog and execution constraints.
 - Current root sync references the active GA baseline instead of the older wire-only snapshot:
 	- `benchmarks/wave7/release_gate_manifest_w7.json`
 	- `tests/integration/WAVE5_TEST_COVERAGE.md`
@@ -36,8 +37,54 @@
 - Completed auth v1.2.0 / v1.3.0 delivery remains tracked in `src/auth/ROADMAP.md`; this file continues to track only open enhancement backlog.
 - Changelog trace entry added in `CHANGELOG.md` under `Unreleased`.
 - **2026-07-27 next-phase sync:** `research/implementation_influence/by_module.md` enhanced for top-risk modules (server, llm, sharding) with five-column research-source → planned-capability → implementation-evidence mapping. `ROADMAP.md` next-phase Tracks 0–6 structure updated. `src/query/ROADMAP.md` AQL Mutations status synced (Phases 1–5 marked complete).
+- Promotion remains blocked until open roadmap Phase 2/3/5/6 items, Batch D checklist closure, and Section 9 human sign-off in `docs/governance/GA_PROMOTION_SIGN_OFF.md` are complete.
 
 ---
+
+## private-plugin-externalization
+
+### Scope
+- Establish the public/private plugin split for plugin-name-aligned optional submodules under `plugins/private/` without removing public reference plugins from the monorepo.
+- Cover Wave-1 candidates (`ethics_ai`, `user_storage_encrypted`, connector pack) and define the refactor-first boundary for static AI/acceleration modules.
+
+### Design Constraints
+- Community and Minimal checkouts must configure, build, and test without private credentials, private sources, or private artefacts.
+- Private plugin repositories use commit-pinned submodules and canonical lane names (`develop`, `enterprise`, `hyperscaler`, `military`) only.
+- No new legacy or compatibility path may bypass the public plugin SDK or the existing fail-closed license posture.
+
+### Required Interfaces
+- `include/plugins/plugin_interface.h` and `include/plugins/manifest_schema_v2.json`
+- `src/plugins/plugin_manager.cpp` and related plugin-loading/runtime-license helpers
+- `plugins/CMakeLists.txt`, `cmake/features/PluginFeatures.cmake`, `cmake/features/PrivatePluginFeatures.cmake`, `cmake/PrivatePlugins.cmake`
+- `.gitmodules`, private-release workflows, `ROADMAP.md`, `RELEASE_STRATEGY.md`, and `VERSIONING.md`
+
+### Implementation Notes
+- Keep `WITH_PRIVATE_*` defaults at `OFF`, but align repository names and `plugins/private/*` paths with the current plugin names wherever possible.
+- Wave-1 private repositories provisioned (2026-07) with aggregate layout:
+  - `makr-code/themisdb_ethic_ai` → `plugins/private/themisdb_ethic_ai/` (ethics_ai plugin root)
+  - `makr-code/themisdb_storage` → `plugins/private/themisdb_storage/` (subdirs: `user_storage_encrypted/`, `azure_blob_storage/`, `s3_blob_storage/`)
+  - `makr-code/themisdb_importer` → `plugins/private/themisdb_importer/` (subdirs: `mysql_importer/`, `mongo_importer/`, `kafka_importer/`, `s3_importer/`)
+  - `makr-code/themisdb_llm_wiki` → `plugins/private/themisdb_llm_wiki/` (LLM Wiki tool)
+- CMake paths in `cmake/PrivatePlugins.cmake` updated to use aggregate repo subdirectory structure.
+- Commit-pin hashes for all submodule entries pending after initial content push to the private repos.
+- Keep `src/ethics_ai/ethics_evaluator.{h,cpp}` and `include/ethics_ai/ethics_ai_types.h` as temporary public core shims until CAI/LLM seams are fully decoupled.
+- Keep benchmark split work explicit: extract private connector scenarios from `benchmarks/bench_importer_throughput.cpp` and validate whether `benchmarks/bench_blob_zstd.cpp` must be split before full connector externalization.
+- Defer plugin-named acceleration and regulated-intelligence private repos (for example `gpu-impact-analysis`) to Wave-2+ after SDK/ABI seam hardening.
+- Extend manifests with visibility, edition-allowance, license-feature, and core-compatibility metadata while keeping absent fields backward-compatible.
+- Preserve open reference plugins (for example PostgreSQL importer, JSONL exporter, HuggingFace ingestion, ONNX CLIP) in the public tree.
+
+### Test Strategy
+- Add manifest-schema validation coverage for new compatibility fields and edition lists.
+- Add PR/path-policy checks for `plugins/private/**`, `.gitmodules`, private CMake, packaging, SBOM, and license workflow changes.
+- Keep Community negative-path coverage for missing private submodules, missing licenses, wrong edition, and private-artifact leakage.
+
+### Performance Targets
+- No configure-time hard failure when private sources are absent and all `WITH_PRIVATE_*` toggles remain `OFF`.
+- No regression in public plugin discovery/load behaviour for manifests that omit the new private-plugin fields.
+
+### Security / Reliability
+- Fail closed on disallowed editions, missing license features, invalid hashes, and incompatible private manifests.
+- Enforce source-leakage, artifact-leakage, SBOM, and license-compliance gates before Community release publication.
 
 ## Table of Contents
 
@@ -349,7 +396,8 @@
 - Batch A: status/evidence sync + gate-board update (completed).
 - Batch B: sharding Phase 6 gate integration delivered; WAL/failover boundary evidence attachment in progress (partial).
 - Batch C: **CLOSED** — sanitizer evidence bundle (`docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md`: ASan/UBSan/TSan 0 new defects) and penetration-test evidence bundle (`security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`: 0 new Critical/High; PTR-01/PTR-02 accepted) delivered.
-- Batch D: **IN PROGRESS** — governance sign-off document created at `docs/governance/GA_PROMOTION_SIGN_OFF.md`; all technical gates PASS; awaiting human approval in Section 9 of that document before `develop` → `community` promotion and `v1.9.0` tag.
+- Batch D: **IN PROGRESS** — governance sign-off document created at `docs/governance/GA_PROMOTION_SIGN_OFF.md`; technical gates are partially complete and must be re-verified against open `ROADMAP.md` Phase 2/3/5/6 items on current `develop`; Section 9 human approval remains mandatory before `develop` → `community` promotion and the canonical GA tag defined by `RELEASE_STRATEGY.md`.
+- Execution contract is codified in `NEXT_PHASE_IMPLEMENTATION_PLAN.md` with central control thread, strict Phase 1→6 sequencing, subagent role matrix, and hard no-transition gate package (`build`/`test`/`benchmark`/`security`/`docs`).
 
 ### Test Strategy
 - Verify gate evidence on each batch boundary before moving to the next batch.

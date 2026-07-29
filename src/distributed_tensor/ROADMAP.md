@@ -7,6 +7,8 @@
 
 ## Current Status
 
+<!-- Status: current | validated: 2026-07-28 -->
+
 EPIC 3 distributed tensor contract ownership and core implementation are complete
 for sub-issues 3.1–3.7. Phase 3 runtime failure/degraded-mode semantics are
 implemented and verified. Phase 4 broadened contract and fault-path coverage has
@@ -15,15 +17,31 @@ sub-issues (lifecycle, subclasses, manifest, placement, integrity, recovery,
 planner, infrastructure). Benchmark evidence and final acceptance documentation
 remain pending.
 
+**Test Infrastructure (2026-07-28 Update)**: Focused test targets are now properly
+configured in `tests/epic3_distributed_tensor/CMakeLists.txt` with:
+- 11 unit test targets: `module_epic3_distributed_tensor_*_focused`
+  - distributed_planner_test_focused (contract)
+  - manifest_store_phase_a_focused (advisory-only store)
+  - lifecycle_staleness_management_focused (lifecycle FSM)
+  - tensor_delta_log_focused (Phase A/B)
+  - tensor_rebuild_fallback_focused (Phase B)
+  - phase3_failure_semantics_focused (error handling)
+  - phase4_contract_coverage_focused (broad coverage, 58 tests)
+  - tensor_storage_strategy_focused (strategy validation)
+  - tensor_training_coordinator_focused (training)
+  - tensor_update_worker_focused (update orchestration)
+  - integrity_verification_test_focused (verification)
+- 1 benchmark target: `module_epic3_distributed_tensor_integrity_verification_bench_focused`
+
 **Tensor-Update Rollout Track**: dynamic tensor-update infrastructure is staged across four
 phases (A–D) in `ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md` (issue #5468). Phase A
-(manifest schema + advisory-only policy) is ready to begin. Phase B (delta log + partial refit)
+(manifest schema + advisory-only policy) is complete. Phase B (delta log + partial refit)
 targets Q3 2026. Phase C (shard summary coordination) targets Q4 2026. Phase D (optional
 acceleration) targets 2027+.
 
 **Module readiness**: implementation and Phase 3/4 validation are complete for the EPIC 3
 core artifact path; benchmark evidence, acceptance documentation, and the follow-on tensor-update
-track remain gated.
+track remain gated. Focused test targets now properly configured for CI/evidence collection.
 
 ## In Progress
 
@@ -157,6 +175,44 @@ track remain gated.
 - [ ] Phase B ctest gates (`test_tensor_delta_log`, `test_tensor_rebuild_fallback`) passing
 - [ ] Phase C ctest gates (`test_tensor_shard_summary`) passing
 - [ ] Phase C benchmark gates (`bench_tensor_summary_first`) passing
+
+## Test Evidence & Acceptance (2026-07-28)
+
+### Configured Focused Test Targets
+All test sources in `tests/epic3_distributed_tensor/` are now properly registered as focused test
+targets in CMakeLists.txt with explicit MODULE=epic3_distributed_tensor namespace:
+
+#### Unit Tests (TIER=unit, TIMEOUT=120s)
+- ✅ `module_epic3_distributed_tensor_distributed_planner_test_focused` — Planner contract (placement, routing)
+- ✅ `module_epic3_distributed_tensor_manifest_store_phase_a_focused` — ManifestStore (MS-01..12)
+- ✅ `module_epic3_distributed_tensor_lifecycle_staleness_management_focused` — Lifecycle FSM (LSM-01..31)
+- ✅ `module_epic3_distributed_tensor_tensor_delta_log_focused` — DeltaLog schema (TDL-01..18)
+- ✅ `module_epic3_distributed_tensor_tensor_rebuild_fallback_focused` — Rebuild fallback (RFB-01..10)
+- ✅ `module_epic3_distributed_tensor_phase3_failure_semantics_focused` — Failure handling
+- ✅ `module_epic3_distributed_tensor_phase4_contract_coverage_focused` — Contract coverage (58 tests)
+- ✅ `module_epic3_distributed_tensor_tensor_storage_strategy_focused` — Storage strategy
+- ✅ `module_epic3_distributed_tensor_tensor_training_coordinator_focused` — Training coordination
+- ✅ `module_epic3_distributed_tensor_tensor_update_worker_focused` — Update worker orchestration
+- ✅ `module_epic3_distributed_tensor_integrity_verification_test_focused` — Verification contract
+
+#### Benchmarks (TIER=benchmark, TIMEOUT=300s)
+- ✅ `module_epic3_distributed_tensor_integrity_verification_bench_focused` — Integrity benchmark (IV-BENCH-01..08)
+
+### Evidence Collection Status
+- [x] Test targets properly configured in tests/epic3_distributed_tensor/CMakeLists.txt (2026-07-28)
+- [x] Test registration via themis_register_module_focused_test with MODULE=epic3_distributed_tensor
+- [ ] Build verification: Tests compile on windows-release preset
+- [ ] Execution verification: All focused tests execute and pass
+- [ ] Performance evidence: Benchmark baseline captured
+- [ ] Coverage verification: All sub-issues (3.1–3.7) exercise in tests
+
+### Closure Path (for issue #5640)
+1. ✅ Roadmap priorities validated against ROADMAP.md source
+2. ✅ Future focus points validated against FUTURE_ENHANCEMENTS.md source
+3. ✅ Test configuration refined: focused targets now properly discoverable
+4. ⏳ Evidence collection: Pending CI run on windows-release preset
+5. ⏳ Acceptance criteria verification: Pending test execution results
+6. ⏳ Issue closure: Pending evidence documentation
 
 ## Known Issues & Limitations
 

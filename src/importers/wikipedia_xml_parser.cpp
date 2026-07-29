@@ -1,3 +1,11 @@
+/**
+ * @file wikipedia_xml_parser.cpp
+ * @brief Low-level SAX parser for Wikipedia XML dumps.
+ *
+ * Implements the streaming SAX handler that extracts page titles, ids,
+ * revisions, and wikitext blobs from the MediaWiki XML export schema.
+ */
+
 #include "importers/wikipedia_pipeline.hpp"
 
 #include "importers/wikipedia_transform.hpp"

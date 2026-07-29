@@ -121,6 +121,12 @@ bool ArchiveProcessor::canHandle(const std::string &mime_type) const {
 }
 
 ArchiveFormat ArchiveProcessor::detectFormat(const std::string &blob, const std::string &filename) {
+    // Empty blob cannot be a valid archive - return UNKNOWN immediately
+    // This prevents filename extension fallback from incorrectly identifying format
+    if (blob.empty()) {
+        return ArchiveFormat::UNKNOWN;
+    }
+
     // Check magic bytes first
     if (blob.size() >= 4) {
         uint32_t magic32;
@@ -151,7 +157,7 @@ ArchiveFormat ArchiveProcessor::detectFormat(const std::string &blob, const std:
         }
     }
 
-    // Fallback to filename extension
+    // Fallback to filename extension (only for non-empty blobs where magic bytes didn't match)
     std::string lower_filename = filename;
     std::transform(lower_filename.begin(), lower_filename.end(), lower_filename.begin(), ::tolower);
 

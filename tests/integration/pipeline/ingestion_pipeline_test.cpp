@@ -12,7 +12,7 @@
 #include <algorithm>
 #include <nlohmann/json.hpp>
 
-namespace themis::test {
+namespace themis { namespace test { 
 
 namespace {
 
@@ -200,5 +200,4 @@ TEST_F(IngestionPipelineTest, IP06_ResumeStopsOnBrokenDocumentAndRetainsCheckpoi
     EXPECT_EQ(final_checkpoint, docs.size());
     EXPECT_EQ(pipeline.CdcEvents().size(), docs.size());
 }
-
-} // namespace themis::test
+} } // namespace themis::test

@@ -35,7 +35,7 @@
 #include <type_traits>
 #include <vector>
 
-namespace themis::llm {
+namespace themis { namespace llm { 
 namespace {
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -524,5 +524,4 @@ TEST(LLMExceptionSafety, ConcurrentClearCacheDoesNotCrash) {
 
     SUCCEED();
 }
-
-} // namespace themis::llm
+} } // namespace themis::llm

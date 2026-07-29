@@ -14,7 +14,7 @@
 #include "../test_data_generator.h"
 #include "../test_fixture.h"
 
-namespace themis::test {
+namespace themis { namespace test { 
 
 namespace {
 
@@ -231,5 +231,4 @@ TEST_F(SecurityPipelineTest, SEC06_RevokedTokenIsRejectedAndAuditedWithoutDataLe
     EXPECT_TRUE(audit_->Contains("security", "token_revoked"));
     EXPECT_TRUE(audit_->Contains("security", "auth_reject"));
 }
-
-} // namespace themis::test
+} } // namespace themis::test

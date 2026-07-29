@@ -28,7 +28,7 @@
 #include <unordered_map>
 #include <vector>
 
-namespace themis::test {
+namespace themis { namespace test { 
 
 namespace {
 
@@ -665,5 +665,4 @@ TEST_F(ContractCompatibilityReliabilityTest,
     EXPECT_EQ(internal.severity, ErrorSeverity::kFatal);
     // context is optional — empty is allowed for internal errors
 }
-
-}  // namespace themis::test
+} } // namespace themis::test

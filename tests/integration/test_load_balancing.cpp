@@ -33,7 +33,7 @@
 #include <thread>
 #include <vector>
 
-namespace themis::execution {
+namespace themis { namespace execution { 
 
 // ===== Task P3-04-B: Load-Aware Shard Selection (6 tests) =====
 
@@ -666,5 +666,4 @@ TEST(Phase3LoadBalancing, BenchmarkSchedulerOverheadMeasurement) {
     EXPECT_GT(m.avg_dequeue_us, 0.0);
     sched.shutdown();
 }
-
-}  // namespace themis::execution
+} } // namespace themis::execution

@@ -4,7 +4,7 @@
 
 using namespace themis::voice;
 
-namespace themis::voice {
+namespace themis { namespace voice { 
 
 class VoiceSessionManagerTest : public ::testing::Test {
 protected:
@@ -98,5 +98,4 @@ TEST_F(VoiceSessionManagerTest, ConversationHistoryGrowsOnlyWithValidTurns) {
     EXPECT_TRUE(session3.has_value());
     EXPECT_GT(session3->total_turns, initial_turns);
 }
-
-}  // namespace themis::voice
+} } // namespace themis::voice

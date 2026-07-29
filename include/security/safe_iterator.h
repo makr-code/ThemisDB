@@ -1,3 +1,12 @@
+/**
+ * @file safe_iterator.h
+ * @brief Bounds-safe iterator wrapper to prevent out-of-range memory accesses.
+ *
+ * Wraps standard iterators with runtime bounds checks and clear
+ * diagnostics, guarding against buffer-overrun vulnerabilities in
+ * security-sensitive code paths.
+ */
+
 #ifndef THEMIS_SECURITY_SAFE_ITERATOR_H
 #define THEMIS_SECURITY_SAFE_ITERATOR_H
 

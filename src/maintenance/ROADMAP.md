@@ -29,8 +29,8 @@ Production maintenance runtime exists for schedule orchestration, execution coor
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [ ] freeze schedule/execution/persistence contracts for active major line (Target: Q3 2026)
-- [ ] define explicit error taxonomy for schedule, persistence, and handler execution classes (Target: Q3 2026)
+- [x] freeze schedule/execution/persistence contracts for active major line (Target: Q3 2026) — evidence: include/maintenance/maintenance_api_contract.h
+- [x] define explicit error taxonomy for schedule, persistence, and handler execution classes (Target: Q3 2026) — evidence: include/maintenance/maintenance_api_contract.h
 
 ### Phase 2: Core Implementation
 - [ ] complete hardening for orchestrator and schedule-store internals (Target: Q4 2026)
@@ -41,12 +41,12 @@ Production maintenance runtime exists for schedule orchestration, execution coor
 - [ ] unify diagnostics across scheduling/persistence/execution incidents (Target: Q4 2026)
 
 ### Phase 4: Tests
-- [ ] expand focused regressions for schedule churn and dispatch edge scenarios (Target: Q4 2026)
-- [ ] extend deterministic stress fixtures for maintenance orchestration operations (Target: Q4 2026)
+- [x] expand focused regressions for schedule churn and dispatch edge scenarios (Target: Q4 2026) — evidence: tests/maintenance/test_maintenance_contract_hardening_focused.cpp
+- [x] extend deterministic stress fixtures for maintenance orchestration operations (Target: Q4 2026) — evidence: tests/maintenance/test_maintenance_contract_hardening_focused.cpp
 
 ### Phase 5: Performance and Hardening
-- [ ] lock benchmark-backed release gates for maintenance hot paths (Target: Q4 2026)
-- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+- [x] lock benchmark-backed release gates for maintenance hot paths (Target: Q4 2026) — evidence: benchmarks/maintenance/bench_maintenance_release_gates.cpp
+- [x] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026) — evidence: benchmarks/maintenance/bench_maintenance_release_gates.cpp
 
 ### Phase 6: Documentation and Acceptance
 - [x] core maintenance module docs aligned to source-verifiable behavior
@@ -58,7 +58,7 @@ Production maintenance runtime exists for schedule orchestration, execution coor
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
 - [ ] remaining hardening tasks closed for schedule/persistence/execution edge paths
-- [ ] release benchmark stabilization complete
+- [x] release benchmark stabilization complete
 
 ## Known Issues and Limitations
 

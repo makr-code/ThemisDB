@@ -16,6 +16,14 @@ struct TensorAccelerationStats {
 /**
  * @brief Compression + routing score accelerator with CUDA dispatch and CPU fallback.
  */
+
+/**
+ * @file tensor_compression_routing_accelerator.h
+ * @brief Hardware-accelerated routing for tensor compression operations.
+ *
+ * Declares TensorCompressionRoutingAccelerator, which selects the
+ * optimal compression backend (CPU, CUDA, AVX-512) at runtime.
+ */
 class TensorCompressionRoutingAccelerator {
 public:
     TensorCompressionRoutingAccelerator() = default;

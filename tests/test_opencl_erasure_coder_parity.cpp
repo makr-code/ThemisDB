@@ -37,12 +37,11 @@
 
 using namespace themis::sharding;
 
-namespace themis::sharding {
+namespace themis { namespace sharding { 
 std::unique_ptr<GPUErasureCoderImpl> createOpenCLErasureCoder(
     const GPUConfig& config,
     ErasureCodingAlgorithm algorithm);
-} // namespace themis::sharding
-
+} } // namespace themis::sharding
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 namespace {

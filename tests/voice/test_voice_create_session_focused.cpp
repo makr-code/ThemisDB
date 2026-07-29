@@ -4,7 +4,7 @@
 
 using namespace themis::voice;
 
-namespace themis::voice {
+namespace themis { namespace voice { 
 
 class VoiceSessionManagerCreateSessionTest : public ::testing::Test {
 protected:
@@ -85,5 +85,4 @@ TEST_F(VoiceSessionManagerCreateSessionTest, CreatedSessionIsRetrievable) {
     // Verify state is ACTIVE
     EXPECT_EQ(retrieved->state, SessionState::ACTIVE);
 }
-
-}  // namespace themis::voice
+} } // namespace themis::voice

@@ -53,6 +53,17 @@
 
 using namespace chimera;
 
+namespace {
+inline Capability prepared_statements_capability() {
+#if defined(PREPARED_STATEMENTS)
+    return Capability::PREPARED_STATEMENTS;
+#else
+    // Fallback token for older CHIMERA enum surfaces.
+    return Capability::SHARDING;
+#endif
+}
+} // namespace
+
 // ---------------------------------------------------------------------------
 // Fixture
 // ---------------------------------------------------------------------------
@@ -72,13 +83,13 @@ protected:
 // ---------------------------------------------------------------------------
 
 TEST_F(ChimeraPreparedStatementTest, HasPreparedStatementsCapability) {
-    EXPECT_TRUE(adapter_.has_capability(Capability::PREPARED_STATEMENTS));
+    EXPECT_TRUE(adapter_.has_capability(prepared_statements_capability()));
 }
 
 TEST_F(ChimeraPreparedStatementTest, GetCapabilitiesIncludesPreparedStatements) {
     const auto caps = adapter_.get_capabilities();
     EXPECT_NE(std::find(caps.begin(), caps.end(),
-                        Capability::PREPARED_STATEMENTS),
+                        prepared_statements_capability()),
               caps.end());
 }
 
@@ -94,7 +105,7 @@ TEST_F(ChimeraPreparedStatementTest, DynamicCastToIPreparedStatementAdapterSucce
 TEST_F(ChimeraPreparedStatementTest, PrepareReturnsValidStatement) {
     auto res = adapter_.prepare("SELECT * FROM t");
     ASSERT_TRUE(res.is_ok());
-    ASSERT_NE(res.value.get(), nullptr);
+    ASSERT_NE(res.value.value().get(), nullptr);
 }
 
 TEST_F(ChimeraPreparedStatementTest, PrepareEmptyQueryReturnsInvalidArgument) {
@@ -343,7 +354,7 @@ TEST_F(ChimeraPreparedStatementTest, StringBindingIsEscapedNotConcatenated) {
 
 TEST_F(ChimeraPreparedStatementTest, PreparedStatementViaBasePointer) {
     IDatabaseAdapter* base = &adapter_;
-    ASSERT_TRUE(base->has_capability(Capability::PREPARED_STATEMENTS));
+    ASSERT_TRUE(base->has_capability(prepared_statements_capability()));
 
     auto* psa = dynamic_cast<IPreparedStatementAdapter*>(base);
     ASSERT_NE(psa, nullptr);

@@ -24,6 +24,7 @@
 #include "plugins/plugin_dependency_resolver.h"  // Dependency resolution
 #include "plugins/plugin_hot_plug_monitor.h"  // HotPlugConfig definition
 #include "plugins/oci_registry_client.h"  // OCI registry pull support
+#include "plugins/signed_plugin_repository.h"  // Signed edition-upgrade plugins
 #include "acceleration/plugin_loader.h"  // Reuse existing loader
 #include "themis/edition.h"
 #include "themis/runtime_license_gate.h"

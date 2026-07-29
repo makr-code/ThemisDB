@@ -34,7 +34,7 @@
 #include <unordered_set>
 #include <vector>
 
-namespace themis::test {
+namespace themis { namespace test { 
 
 namespace {
 
@@ -579,5 +579,4 @@ TEST_F(DeterminismFlakeCiSignalTest,
             << "] timestamp — monotonic clock requirement";
     }
 }
-
-}  // namespace themis::test
+} } // namespace themis::test

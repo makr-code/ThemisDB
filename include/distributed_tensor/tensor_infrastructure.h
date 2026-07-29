@@ -1,3 +1,11 @@
+/**
+ * @file tensor_infrastructure.h
+ * @brief Low-level infrastructure for distributed tensor communication.
+ *
+ * Abstractions for inter-node transport, serialisation, and collective
+ * operations used by the distributed tensor subsystem.
+ */
+
 // Copyright 2026 ThemisDB Team
 // SPDX-License-Identifier: Apache-2.0
 

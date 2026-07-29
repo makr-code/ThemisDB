@@ -1,0 +1,10 @@
+if(NOT THEMIS_BUILD_BENCHMARKS)
+    return()
+endif()
+
+message(STATUS "Configuring benchmark module: process")
+
+themis_add_standard_benchmark(bench_process_import_retrieval bench_process_import_retrieval.cpp)
+themis_add_standard_benchmark(bench_process_mining bench_process_mining.cpp)
+themis_add_standard_benchmark(bench_process_retrieval bench_process_retrieval.cpp)
+themis_add_standard_benchmark(bench_process_release_gates bench_process_release_gates.cpp)

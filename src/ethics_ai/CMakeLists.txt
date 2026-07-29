@@ -18,6 +18,9 @@ set(ETHICS_AI_SOURCES
     chain_visualizer.cpp
     ethics_profile_registry.cpp
     ethics_selection_router.cpp
+    discourse_orchestrator.cpp
+    meta_verdict_builder.cpp
+    mirror_school_handler.cpp
 )
 
 add_library(ethics_ai_plugin SHARED ${ETHICS_AI_SOURCES})

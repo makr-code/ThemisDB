@@ -37,7 +37,7 @@
 #include <thread>
 #include <unordered_map>
 
-namespace themis::test {
+namespace themis { namespace test { 
 
 namespace {
 
@@ -546,5 +546,4 @@ TEST_F(CrossModuleIngestIndexQueryTest, CMX06_ParallelIngestAndQueryKeepCounts) 
         << "Every parallel-ingested doc must be retrievable via query";
     EXPECT_EQ(query_->SuccessCount(), kTotalDocs);
 }
-
-} // namespace themis::test
+} } // namespace themis::test

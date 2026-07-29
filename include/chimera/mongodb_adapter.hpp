@@ -6,6 +6,14 @@
  * Copyright MIT License.
  */
 
+/**
+ * @file mongodb_adapter.hpp
+ * @brief MongoDB backend adapter for the Chimera abstraction layer.
+ *
+ * Implements IDatabaseAdapter against a MongoDB replica-set or
+ * standalone instance via the official C++ driver.
+ */
+
 #pragma once
 
 #include "chimera/database_adapter.hpp"

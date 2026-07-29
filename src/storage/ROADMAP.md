@@ -47,8 +47,8 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity �
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [ ] freeze storage wrapper/engine/recovery contracts for current major line (Target: Q3 2026)
-- [ ] define explicit error taxonomy for durability and recovery incident classes (Target: Q3 2026)
+- [x] Freeze storage module API contract — WAL durability, MVCC snapshot isolation, crash-recovery, backup/PITR, tiering transparency, error taxonomy (include/storage/storage_api_contract.h) (Target: Q3 2026)
+- [x] Define explicit StorageErrorCode taxonomy (WAL_WRITE_FAILED, CHECKPOINT_FAILED, RECOVERY_INCOMPLETE, PITR_INVALID_TIMESTAMP, COMPACTION_ABORTED, STORAGE_EXHAUSTED, …) (Target: Q3 2026)
 
 ### Phase 2: Core Implementation
 - [ ] complete hardening for WAL/MVCC and backup/PITR internals (Target: Q4 2026)
@@ -59,22 +59,30 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity �
 - [ ] unify diagnostics across persistence, maintenance, and recovery incident classes (Target: Q4 2026)
 
 ### Phase 4: Tests
-- [ ] expand focused regressions for replay, PITR, and tiered/blob edge scenarios (Target: Q4 2026)
-- [ ] extend deterministic stress fixtures for mixed write + maintenance workloads (Target: Q4 2026)
+- [x] Contract-hardening focused tests STR-01..STR-16 covering WAL durability, MVCC isolation, crash-recovery, and PITR invariants (tests/storage/test_storage_contract_hardening_focused.cpp) (Target: Q4 2026)
+- [x] Expand focused regressions for replay, PITR, and tiered/blob edge scenarios (Target: Q4 2026)
+- [x] Extend deterministic stress fixtures for mixed write + maintenance workloads (Target: Q4 2026)
 
 ### Phase 5: Performance and Hardening
-- [ ] lock benchmark-backed release gates for storage hot paths (Target: Q4 2026)
-- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+- [x] Lock benchmark-backed release gates for storage hot paths: SGRG-01..SGRG-06 in benchmarks/storage/bench_storage_release_gates.cpp (WAL throughput ≥100k ops/s, MVCC read p99≤100µs, MVCC write p99≤500µs, checkpoint p99≤10ms, tiering decision p99≤50µs, compaction check p99≤100µs) (Target: Q4 2026)
+- [x] Validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core storage module docs aligned to source-verifiable behavior
 - [x] roadmap/future planning separated from historical changelog entries
+- [x] Contract header frozen: include/storage/storage_api_contract.h
+- [x] Contract-hardening tests delivered: tests/storage/test_storage_contract_hardening_focused.cpp (STR-01..STR-16)
+- [x] Release-gate benchmarks delivered: benchmarks/storage/bench_storage_release_gates.cpp (SGRG-01..SGRG-06)
 
 ## Production Readiness Checklist
 
 - [x] core storage surfaces documented and source-verified
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
+- [x] Contract header frozen: include/storage/storage_api_contract.h (Phase 1)
+- [x] Contract-hardening tests: tests/storage/test_storage_contract_hardening_focused.cpp (Phase 4, STR-01..STR-16)
+- [x] Release-gate benchmarks: benchmarks/storage/bench_storage_release_gates.cpp (Phase 5, SGRG-01..SGRG-06)
+- [x] Benchmark CMakeLists registered: benchmarks/storage/CMakeLists.txt
 - [ ] remaining hardening tasks closed for durability/recovery edge paths
 - [ ] release benchmark stabilization complete
 

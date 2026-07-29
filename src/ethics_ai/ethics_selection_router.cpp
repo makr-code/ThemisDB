@@ -452,6 +452,73 @@ const RouterConfig& EthicsSelectionRouter::config() const {
     return impl_->config;
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// LDM-1: planDiscourse()
+// ─────────────────────────────────────────────────────────────────────────────
+
+DiscourseOrchestratorPlan EthicsSelectionRouter::planDiscourse(
+    const std::string& domain_context) const
+{
+    DiscourseOrchestratorPlan plan;
+    plan.mode = impl_->config.discourse_mode;
+
+    if (plan.mode == DiscourseMode::SELECTION_ONLY) {
+        // Classical path — no discourse plan needed.
+        return plan;
+    }
+
+    // Collect all loaded school ids via the registry index.
+    EthicsIndexQuery all_query;
+    if (!domain_context.empty()) {
+        all_query.domains = {domain_context};
+    }
+    const auto all_meta = impl_->registry->queryIndex(all_query);
+
+    plan.ebene1_school_ids.reserve(all_meta.size());
+    for (const auto& m : all_meta) {
+        plan.ebene1_school_ids.push_back(m.school_id);
+    }
+
+    if (plan.ebene1_school_ids.empty()) {
+        return plan;
+    }
+
+    // Compute equal initial weight w₀ = 1/N (Ebene-1 contract).
+    plan.initial_weight = 1.0 / static_cast<double>(plan.ebene1_school_ids.size());
+
+    // Build cluster map (required for LAYERED_FULL; omitted for LAYERED_FAST).
+    if (plan.mode == DiscourseMode::LAYERED_FULL) {
+        // Canonical 6 clusters from the LDM taxonomy.
+        static const std::unordered_map<std::string, std::string> kTaxonomyToCluster = {
+            {"deontological",       "Deontological"},
+            {"consequentialist",    "Consequentialist"},
+            {"virtue",              "Virtue"},
+            {"cultural_religious",  "Cultural-Religious"},
+            {"non_mainstream",      "Non-Mainstream"},
+            {"institutional",       "Institutional"},
+        };
+
+        for (const auto& m : all_meta) {
+            const std::string& tc = m.taxonomy_class;
+            auto it = kTaxonomyToCluster.find(tc);
+            const std::string cluster =
+                (it != kTaxonomyToCluster.end()) ? it->second : "Non-Mainstream";
+            plan.cluster_map[cluster].push_back(m.school_id);
+        }
+
+        // Populate the 4 canonical structural tension axes (always activated
+        // for LAYERED_FULL; used by DiscourseOrchestrator::runEbene2).
+        plan.tension_axes = {
+            "Kant\u2194Utilitarismus",
+            "W\u00fcrde-cluster\u2194Aggregation-cluster",
+            "Individualismus\u2194Kollektivismus",
+            "Positivrecht\u2194Naturrecht",
+        };
+    }
+
+    return plan;
+}
+
 RouterResult EthicsSelectionRouter::route(
     const std::string& dilemma_text,
     const std::string& dilemma_domain,

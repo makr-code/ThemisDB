@@ -128,6 +128,19 @@ Release dates are tracked in [`CHANGELOG.md`](CHANGELOG.md) and announced via Gi
 
 ## 6. Edition Versioning
 
+## 6.1 Private Plugin Version Compatibility
+
+Private plugins use their own SemVer in addition to the core repository version.
+
+Rules:
+- plugin `MAJOR`: plugin ABI/API break or incompatible core-compatibility contract change
+- plugin `MINOR`: new backward-compatible capability
+- plugin `PATCH`: backward-compatible fix or hardening
+- the superproject release contract is the combination of a plugin-named private submodule pin + manifest compatibility fields, not a floating branch name
+- private plugin manifests should declare `min_themisdb_version`, optional `max_themisdb_version`, and optional `compatible_core_abi`
+- edition-restricted plugins must also declare `allowed_editions` and `license_feature` so runtime and packaging gates can stay fail-closed
+
+
 All five editions share the same `MAJOR.MINOR.PATCH` base version. Edition-specific builds are distinguished by branch and release naming convention:
 
 | Edition | Git branch | Docker tag pattern | Git tag pattern |
@@ -223,4 +236,4 @@ Pre-release versions are never considered "stable" for production use. Docker ta
 - [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) — Canonical open enhancement backlog
 
 ---
-Zuletzt geprueft (Root-Sync): 2026-07-27
+Zuletzt geprueft (Root-Sync): 2026-07-28 (Phase 6 in progress)

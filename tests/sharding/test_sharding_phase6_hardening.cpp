@@ -37,7 +37,7 @@
 
 using namespace std::chrono_literals;
 
-namespace themisdb::sharding::test {
+namespace themisdb { namespace sharding { namespace test { 
 
 // ============================================================================
 // Constants
@@ -1646,5 +1646,4 @@ TEST_F(FailoverRecoveryTest, FLR20_GateSelfCheck_AllFLR_InvariantsPass) {
     if (inv4()) score += 0.25;
     EXPECT_DOUBLE_EQ(score, 1.0);
 }
-
-} // namespace themisdb::sharding::test
+} } } // namespace themisdb::sharding::test

@@ -29,7 +29,7 @@
 #include "query/approximate_aggregator.h"
 #include "query/semantic_cache.h"
 
-namespace themis::query {
+namespace themis { namespace query { 
 
 // ============================================================================
 // TEST FIXTURE
@@ -340,5 +340,4 @@ TEST_F(QueryMoveSemanticsSafetyTest, RuleOfFive_CopyDeleted) {
     //          AQLParser& operator=(const AQLParser&) = delete;
     // - Or: Proper copy implementation
 }
-
-} // namespace themis::query
+} } // namespace themis::query

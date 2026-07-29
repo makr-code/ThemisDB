@@ -9,7 +9,7 @@ on:
     types: [opened, synchronize, reopened]
     branches:
       - develop
-      - main
+      - community
     paths:
       - '.github/workflows/09-pr-gates_scanner-delta-report.yml'
       - 'tools/scanners/**'

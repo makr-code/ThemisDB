@@ -6,3 +6,4 @@ message(STATUS "Configuring benchmark module: analytics")
 
 themis_add_standard_benchmark(bench_diff_engine bench_diff_engine.cpp)
 themis_add_standard_benchmark(bench_streaming_window bench_streaming_window.cpp)
+themis_add_standard_benchmark(bench_analytics_release_gates bench_analytics_release_gates.cpp)

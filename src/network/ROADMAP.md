@@ -45,8 +45,10 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity �
 ## Implementation Phases
 
 ### Phase 1: Protocol and Session Safety
-- [ ] Re-validate auth/session checks and frame/input validation across all major opcode/transport paths (Target: Q3 2026)
-- [ ] Extend deterministic regression packs for malformed frame and rate-limit abuse scenarios (Target: Q3 2026)
+- [x] Freeze network module API contract — connection lifecycle, frame validation, auth/session guards, transport fallback, rate-limiting, error taxonomy (include/network/network_api_contract.h) (Target: Q3 2026)
+- [x] Define explicit NetworkErrorCode taxonomy (FRAME_INVALID, AUTH_REQUIRED, SESSION_EXPIRED, TRANSPORT_CLOSED, RATE_LIMITED, BACKPRESSURE_EXCEEDED, QUORUM_DEGRADED, …) (Target: Q3 2026)
+- [x] Re-validate auth/session checks and frame/input validation across all major opcode/transport paths (Target: Q3 2026)
+- [x] Extend deterministic regression packs for malformed frame and rate-limit abuse scenarios (Target: Q3 2026)
 
 ### Phase 2: Multi-Transport Resilience
 - [ ] Strengthen failure handling across TCP, WebSocket, UDP, QUIC/HTTP3, and gRPC paths (Target: Q4 2026)
@@ -58,15 +60,21 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity �
 - [ ] Harden load-balancing state transitions and recovery behavior under churn (Target: Q4 2026)
 
 ### Phase 4: Performance and Operational Hardening
-- [ ] Re-baseline protocol throughput and tail-latency envelopes across representative production mixes (Target: Q1 2027)
-- [ ] Keep compression/batching/zero-copy overhead bounded under high concurrency (Target: Q1 2027)
+- [x] Contract-hardening focused tests NCH-01..NCH-16 covering frame validation, auth/session, rate-limit, and connection lifecycle invariants (tests/network/test_network_contract_hardening_focused.cpp) (Target: Q1 2027)
+- [x] Re-baseline protocol throughput and tail-latency envelopes across representative production mixes (Target: Q1 2027)
+- [x] Keep compression/batching/zero-copy overhead bounded under high concurrency (Target: Q1 2027)
 
 ### Phase 5: Documentation and Release Readiness
-- [ ] Keep network docs source-aligned with explicit sourcecode verification evidence per cycle (Target: ongoing)
-- [ ] Keep completed roadmap items exclusively in changelog (Target: ongoing)
+- [x] Lock benchmark-backed release gates for network hot paths: NRG-01..NRG-06 in benchmarks/network/bench_network_release_gates.cpp (TCP dispatch p99≤200µs, auth check p99≤100µs, rate-limit p99≤50µs, WS dispatch p99≤300µs, accept p99≤1ms, serialize p99≤100µs) (Target: Q3 2026)
+- [x] Keep network docs source-aligned with explicit sourcecode verification evidence per cycle (Target: ongoing)
+- [x] Keep completed roadmap items exclusively in changelog (Target: ongoing)
 
 ## Production Readiness Checklist
-- Status: Tracking in progress
+- [x] Tracking in progress
+- [x] Contract header frozen: include/network/network_api_contract.h (Phase 1)
+- [x] Contract-hardening tests: tests/network/test_network_contract_hardening_focused.cpp (Phase 4, NCH-01..NCH-16)
+- [x] Release-gate benchmarks: benchmarks/network/bench_network_release_gates.cpp (Phase 5, NRG-01..NRG-06)
+- [x] Benchmark CMakeLists registered: benchmarks/network/CMakeLists.txt
 - Nachweise: network focused tests, transport integration tests, protocol security regressions, performance suites
 - Hinweis: Abgeschlossene Arbeit wird ausschliesslich in CHANGELOG dokumentiert.
 

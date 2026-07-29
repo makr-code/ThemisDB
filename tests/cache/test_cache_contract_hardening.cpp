@@ -32,6 +32,7 @@
 #include "cache/adaptive_query_cache.h"
 
 using namespace themis::cache;
+using themis::AdaptiveQueryCache;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Shared helpers
@@ -41,10 +42,10 @@ using namespace themis::cache;
 static AdaptiveQueryCache::Config makeContractConfig() {
     AdaptiveQueryCache::Config cfg;
     cfg.l1_max_entries         = 64;
-    cfg.l1_max_entry_size      = kMaxCacheValueBytes;  // align to value-size contract
+    cfg.l1_max_entry_size      = 65536;
     cfg.l2_max_entries         = 128;
     cfg.l2_max_entry_size      = 65536;
-    cfg.l3_db_path             = "";                    // L3 disabled
+    cfg.l3_db_path             = "./cache_contract_hardening_l3";
     cfg.enable_circuit_breaker = false;
     cfg.enable_size_limits     = true;
     cfg.max_total_entry_size   = 67108864;              // 64 MiB hard cap

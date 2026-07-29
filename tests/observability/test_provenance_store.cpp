@@ -14,7 +14,7 @@
 #include <chrono>
 #include <filesystem>
 
-namespace themis::observability::test {
+namespace themis { namespace observability { namespace test { 
 
 namespace fs = std::filesystem;
 
@@ -280,5 +280,4 @@ TEST_F(ProvenanceStoreTest, RetentionMaxAgePrunesOldRecordsOnWrite) {
     ASSERT_EQ(chain.size(), 1u);
     EXPECT_EQ(chain[0].step_number, 1);
 }
-
-}  // namespace themis::observability::test
+} } } // namespace themis::observability::test

@@ -6,7 +6,7 @@
 #include <algorithm>
 #include <unordered_map>
 
-namespace themis::tensor::test {
+namespace themis { namespace tensor { namespace test { 
 namespace {
 
 class MapBackend final : public storage::ITensorStorageBackend {
@@ -163,5 +163,4 @@ TEST(PersistentTensorFingerprintGraphTest, RecoversDeleteJournalReplayWhenTarget
     ASSERT_TRUE(restored.rehydrate());
     EXPECT_FALSE(graph_after_restart->entry("adapter").has_value());
 }
-
-}  // namespace themis::tensor::test
+} } } // namespace themis::tensor::test

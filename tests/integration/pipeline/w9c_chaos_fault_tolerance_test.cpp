@@ -55,7 +55,7 @@
 #include <unordered_set>
 #include <vector>
 
-namespace themis::test {
+namespace themis { namespace test { 
 
 namespace {
 
@@ -758,5 +758,4 @@ TEST_F(ChaosFaultToleranceTest, CFT08_ChaosGateCounterReportsCorrectly) {
     EXPECT_DOUBLE_EQ(gate_->Value(), 1.0)
         << "chaos gate must return to 1.0 after all invariants are restored";
 }
-
-} // namespace themis::test
+} } // namespace themis::test

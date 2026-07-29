@@ -16,7 +16,7 @@
 #include "llm/llm_plugin_manager.h"
 #include "llm/ssm_state_store.h"
 
-namespace themis::aql::tests {
+namespace themis { namespace aql { namespace tests { 
 
 // Mock history compressor for testing compression integration
 class MockHistoryCompressor : public IHistoryCompressor {
@@ -346,5 +346,4 @@ TEST_F(P2D05RuntimeIntegrationTest, HighTokenCountThreshold) {
     // Compression should not trigger due to high threshold
     EXPECT_EQ(compressor_->getCompressionCount(), 0);
 }
-
-} // namespace themis::aql::tests
+} } } // namespace themis::aql::tests

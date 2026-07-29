@@ -1,3 +1,11 @@
+/**
+ * @file distributed_planner.h
+ * @brief Distributed tensor execution planner.
+ *
+ * Produces placement-aware execution plans for tensor operations across
+ * a heterogeneous cluster, respecting bandwidth, memory, and affinity constraints.
+ */
+
 // Copyright 2026 ThemisDB Team
 // SPDX-License-Identifier: Apache-2.0
 

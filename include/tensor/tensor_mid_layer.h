@@ -15,6 +15,14 @@ namespace tensor {
 /**
  * @brief Logical tensor-layer kind selected by the mid-layer planner.
  */
+
+/**
+ * @file tensor_mid_layer.h
+ * @brief Mid-layer orchestrator for tensor processing pipelines.
+ *
+ * Coordinates the transformation stages that sit between raw tensor
+ * ingestion and the storage/retrieval backend within ThemisDB.
+ */
 enum class TensorLayerKind : uint8_t {
     Adapter,
     Package,

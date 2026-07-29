@@ -1,3 +1,11 @@
+/**
+ * @file tensor_training_coordinator.h
+ * @brief Coordinator for distributed tensor training runs.
+ *
+ * Manages the lifecycle of a distributed training job: worker registration,
+ * gradient aggregation, fault tolerance, and checkpoint synchronization.
+ */
+
 #pragma once
 
 #include <cstddef>

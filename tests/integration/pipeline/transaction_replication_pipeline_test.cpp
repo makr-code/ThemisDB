@@ -14,7 +14,7 @@
 #include <utility>
 #include <vector>
 
-namespace themis::test {
+namespace themis { namespace test { 
 
 namespace {
 
@@ -183,5 +183,4 @@ TEST_F(TransactionReplicationPipelineTest, TXR05_RaftFailoverWithEvenLengthTxIdA
     EXPECT_FALSE(pipeline_.HasWalEntry("k_abort"));
     EXPECT_FALSE(pipeline_.HasReplicaEntry("k_abort"));
 }
-
-} // namespace themis::test
+} } // namespace themis::test

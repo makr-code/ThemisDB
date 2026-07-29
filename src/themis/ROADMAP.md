@@ -29,8 +29,8 @@ Production-usable themis core runtime exists for build identity, edition/license
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [ ] freeze themis core runtime/gating/lifecycle contracts for current major line (Target: Q3 2026)
-- [ ] define explicit error taxonomy for license/load/verify incident classes (Target: Q3 2026)
+- [x] freeze themis core runtime/gating/lifecycle contracts for current major line (Target: Q3 2026)
+- [x] define explicit error taxonomy for license/load/verify incident classes (Target: Q3 2026)
 
 ### Phase 2: Core Implementation
 - [ ] complete hardening for loader/verifier and wire-server internals (Target: Q4 2026)
@@ -41,12 +41,12 @@ Production-usable themis core runtime exists for build identity, edition/license
 - [ ] unify diagnostics across license, lifecycle, and wire incident classes (Target: Q4 2026)
 
 ### Phase 4: Tests
-- [ ] expand focused regressions for loader/verify and wire-session edge scenarios (Target: Q4 2026)
-- [ ] extend deterministic stress fixtures for core runtime concurrency (Target: Q4 2026)
+- [x] expand focused regressions for loader/verify and wire-session edge scenarios (Target: Q4 2026)
+- [x] extend deterministic stress fixtures for core runtime concurrency (Target: Q4 2026)
 
 ### Phase 5: Performance and Hardening
-- [ ] lock benchmark-backed release gates for themis core hot paths (Target: Q4 2026)
-- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+- [x] lock benchmark-backed release gates for themis core hot paths (Target: Q4 2026)
+- [x] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core themis module docs aligned to source-verifiable behavior
@@ -58,7 +58,7 @@ Production-usable themis core runtime exists for build identity, edition/license
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
 - [ ] remaining hardening tasks closed for loader/gating/wire edge paths
-- [ ] release benchmark stabilization complete
+- [x] release benchmark stabilization complete
 
 ## Known Issues and Limitations
 

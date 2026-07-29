@@ -26,7 +26,7 @@
 #include <atomic>
 #include <stdexcept>
 
-namespace themis::rag::knowledge_gap {
+namespace themis { namespace rag { namespace knowledge_gap { 
 namespace {
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -199,4 +199,4 @@ TEST_F(KnowledgeGapRetrievalCallbackTest, RespectsMaxRetrievalRounds) {
 }
 
 } // namespace
-} // namespace themis::rag::knowledge_gap
+} } } // namespace themis::rag::knowledge_gap

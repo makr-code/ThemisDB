@@ -50,7 +50,7 @@
 #include <unordered_set>
 #include <vector>
 
-namespace themis::test {
+namespace themis { namespace test { 
 
 namespace {
 
@@ -710,5 +710,4 @@ TEST_F(W3BDataIntegrityRecoveryTest, DIR08_PartialRollbackPreservesCommittedEntr
     EXPECT_EQ(pipeline_->StoreSize(), 3U)
         << "DIR-08: Store must contain exactly 3 entries after recovery (no partial entries)";
 }
-
-} // namespace themis::test
+} } // namespace themis::test

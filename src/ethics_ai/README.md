@@ -1,6 +1,6 @@
 # ThemisDB Ethics AI Module
 
-<!-- Status: current | validated: 2026-06-22 -->
+<!-- Status: current | validated: 2026-07-28 -->
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 <!-- Research: docs/research/ethics_discourse_process_equality.md -->
 
@@ -35,20 +35,20 @@ See `docs/research/ethics_discourse_process_equality.md` for the full design rat
 | prior_round_compressor.cpp | prior-round context compression logic |
 | synthesis_matrix_builder.cpp | synthesis matrix assembly |
 | llm_cascade_router.cpp | LLM cascade routing |
-| *discourse_orchestrator.cpp* | *(planned LDM)* DiscourseMode + OrchestratorPlan |
-| *cluster_discourse_engine.cpp* | *(planned LDM)* Ebene-2 cluster routing |
-| *meta_verdict_builder.cpp* | *(planned LDM)* Ebene-3 convergence + legal grounding |
-| *mirror_school_handler.cpp* | *(planned LDM)* Mirror-School-Modus |
+| discourse_orchestrator.cpp | DiscourseMode + DiscourseOrchestratorPlan |
+| cluster_discourse_engine.cpp | Ebene-2 cluster routing |
+| meta_verdict_builder.cpp | Ebene-3 convergence + legal grounding |
+| mirror_school_handler.cpp | Mirror-School-Modus |
 
 ## Discourse Modes
 
 | Mode | Schools | Method | P95 |
 |---|---|---|---|
 | `SELECTION_ONLY` (current) | Top-N pre-selected | weighted Top-N debate | depends on N |
-| `LAYERED_FULL` (planned) | all 22, equal w₀ | Ebene-1 parallel + Ebene-2 cluster + Ebene-3 MetaVerdict | ≤ 8 s |
-| `LAYERED_FAST` (planned) | all 22, equal w₀ | Ebene-1 + axis-1 + Ebene-3 | ≤ 1.2 s |
+| `LAYERED_FULL` (implemented) | all 22, equal w₀ | Ebene-1 parallel + Ebene-2 cluster + Ebene-3 MetaVerdict | ≤ 8 s |
+| `LAYERED_FAST` (implemented) | all 22, equal w₀ | Ebene-1 + axis-1 + Ebene-3 | ≤ 1.2 s |
 
-## MetaVerdict Structure (planned LDM)
+## MetaVerdict Structure
 
 ```
 MetaVerdict:
@@ -112,10 +112,15 @@ Out of scope:
   - src/ethics_ai/prior_round_compressor.cpp
   - src/ethics_ai/synthesis_matrix_builder.cpp
   - src/ethics_ai/llm_cascade_router.cpp
+  - src/ethics_ai/discourse_orchestrator.cpp
+  - src/ethics_ai/cluster_discourse_engine.cpp
+  - src/ethics_ai/meta_verdict_builder.cpp
+  - src/ethics_ai/mirror_school_handler.cpp
 - Verified behavior surfaces:
   - ethics decision/discourse orchestration and plugin lifecycle behavior
   - profile/store/RAG/evaluator integration boundaries
   - advanced context/routing/compression utility surfaces
+  - LDM Ebene-1/2/3 and Mirror-School-Modus surfaces
 - Note:
   - forward planning is tracked in ROADMAP.md and FUTURE_ENHANCEMENTS.md
   - historical entries remain in CHANGELOG.md

@@ -20,7 +20,7 @@
 #include <string>
 #include <vector>
 
-namespace themisdb::sharding {
+namespace themisdb { namespace sharding { 
 
 // ============================================================================
 // Minimal FakeConsensusModule (reuse pattern from focused tests)
@@ -364,5 +364,4 @@ TEST(CrossShardCoordinatorSSITest, ValidateCrossShardSSINoConflictWhenDisabled) 
     auto conflicts = coord.validateCrossShardSSI("txn2");
     EXPECT_TRUE(conflicts.empty());
 }
-
-} // namespace themisdb::sharding
+} } // namespace themisdb::sharding

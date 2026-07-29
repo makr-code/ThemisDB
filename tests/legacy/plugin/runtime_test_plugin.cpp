@@ -4,7 +4,7 @@
 
 #include <string>
 
-namespace themis::plugins {
+namespace themis { namespace plugins { 
 
 class RuntimeTestPlugin final : public IThemisPlugin {
 public:
@@ -61,9 +61,7 @@ private:
     bool initialized_ = false;
     nlohmann::json config_ = nlohmann::json::object();
 };
-
-} // namespace themis::plugins
-
+} } // namespace themis::plugins
 extern "C" THEMIS_PLUGIN_EXPORT themis::plugins::IThemisPlugin* createPlugin() {
     return new themis::plugins::RuntimeTestPlugin();
 }

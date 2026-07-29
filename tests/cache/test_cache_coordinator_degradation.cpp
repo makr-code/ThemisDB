@@ -261,12 +261,12 @@ TEST(CacheCoordinatorDegradation, CCD04_TenantInvalidationReachesAllHealthyPeers
     auto h = DegradationHarness::make(kPeers);
 
     EXPECT_NO_THROW(
-        h.coordinator->publishTenantInvalidation("tenant_d"));
+        h.coordinator->publishInvalidation("*", "tenant_d"));
 
     for (auto* peer : h.raw_peers) {
         EXPECT_TRUE(peer->waitDeliveries(1))
             << "All healthy peers must receive tenant invalidation";
-        EXPECT_EQ(peer->invalidate_tenant_calls.load(), 1);
+        EXPECT_EQ(peer->invalidate_calls.load(), 1);
         EXPECT_EQ(peer->last_tenant, "tenant_d");
     }
 }
@@ -355,7 +355,7 @@ TEST(CacheCoordinatorDegradation, CCD08_ZeroPeersNoOperation) {
     EXPECT_NO_THROW(
         h.coordinator->publishInvalidation("key_zero", "tenant_z"));
     EXPECT_NO_THROW(
-        h.coordinator->publishTenantInvalidation("tenant_z"));
+        h.coordinator->publishInvalidation("*", "tenant_z"));
     EXPECT_NO_THROW(
         h.coordinator->publishEntry("fp_zero", nlohmann::json::object(), 60, "tenant_z"));
 }

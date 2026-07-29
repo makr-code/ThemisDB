@@ -383,3 +383,79 @@ TEST_F(EthicsSelectionRouterTest, ESR14_SetPrecedentQueryFn_NullRevertsToInMemor
         SUCCEED() << "utilitarian school found with correct in-memory precedent_dc";
     }
 }
+
+// =============================================================================
+// LDM-1 Tests — ESR-15..18
+// DiscourseMode enum, planDiscourse(), DiscourseOrchestratorPlan
+// =============================================================================
+
+// ESR-15: SELECTION_ONLY mode returns empty plan (no discourse phases needed)
+TEST_F(EthicsSelectionRouterTest, ESR15_DiscourseMode_SelectionOnlyReturnsEmptyPlan) {
+    RouterConfig cfg = makeConfig(/*top_n=*/5);
+    cfg.discourse_mode = DiscourseMode::SELECTION_ONLY;
+    EthicsSelectionRouter router(registry.get(), cfg);
+
+    const auto plan = router.planDiscourse("medical");
+    EXPECT_EQ(plan.mode, DiscourseMode::SELECTION_ONLY);
+    EXPECT_TRUE(plan.ebene1_school_ids.empty())
+        << "SELECTION_ONLY must not populate ebene1_school_ids";
+    EXPECT_TRUE(plan.cluster_map.empty())
+        << "SELECTION_ONLY must not populate cluster_map";
+    EXPECT_TRUE(plan.empty());
+}
+
+// ESR-16: LAYERED_FAST mode populates ebene1 school list with equal weight
+TEST_F(EthicsSelectionRouterTest, ESR16_DiscourseMode_LayeredFastPopulatesEbene1) {
+    RouterConfig cfg = makeConfig(/*top_n=*/5);
+    cfg.discourse_mode = DiscourseMode::LAYERED_FAST;
+    EthicsSelectionRouter router(registry.get(), cfg);
+
+    const auto plan = router.planDiscourse();
+    EXPECT_EQ(plan.mode, DiscourseMode::LAYERED_FAST);
+    EXPECT_FALSE(plan.ebene1_school_ids.empty())
+        << "LAYERED_FAST must populate ebene1_school_ids";
+    EXPECT_TRUE(plan.cluster_map.empty())
+        << "LAYERED_FAST must not populate cluster_map";
+    EXPECT_FALSE(plan.empty());
+
+    // Equal initial weight contract: w₀ = 1/N
+    const double n = static_cast<double>(plan.ebene1_school_ids.size());
+    EXPECT_NEAR(plan.initial_weight, 1.0 / n, 1e-9)
+        << "initial_weight must equal 1/N for equal-weight Ebene-1";
+}
+
+// ESR-17: LAYERED_FULL mode populates both ebene1 list and cluster_map
+TEST_F(EthicsSelectionRouterTest, ESR17_DiscourseMode_LayeredFullPopulatesClusterMap) {
+    RouterConfig cfg = makeConfig(/*top_n=*/5);
+    cfg.discourse_mode = DiscourseMode::LAYERED_FULL;
+    EthicsSelectionRouter router(registry.get(), cfg);
+
+    const auto plan = router.planDiscourse();
+    EXPECT_EQ(plan.mode, DiscourseMode::LAYERED_FULL);
+    EXPECT_FALSE(plan.ebene1_school_ids.empty());
+    EXPECT_FALSE(plan.cluster_map.empty())
+        << "LAYERED_FULL must populate cluster_map";
+
+    // Every school in ebene1 must appear in exactly one cluster
+    size_t clustered_schools = 0;
+    for (const auto& [cluster, ids] : plan.cluster_map) {
+        clustered_schools += ids.size();
+    }
+    EXPECT_EQ(clustered_schools, plan.ebene1_school_ids.size())
+        << "Every Ebene-1 school must be assigned to exactly one cluster";
+}
+
+// ESR-18: planDiscourse() completes in < 100 ms (LDM-1 perf requirement)
+TEST_F(EthicsSelectionRouterTest, ESR18_PlanDiscourse_CompletesWithin100ms) {
+    RouterConfig cfg = makeConfig(/*top_n=*/5);
+    cfg.discourse_mode = DiscourseMode::LAYERED_FULL;
+    EthicsSelectionRouter router(registry.get(), cfg);
+
+    const auto t0 = std::chrono::steady_clock::now();
+    const auto plan = router.planDiscourse("ai_governance");
+    const auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::steady_clock::now() - t0).count();
+
+    EXPECT_LT(elapsed_ms, 100) << "planDiscourse() must complete in < 100 ms";
+    EXPECT_EQ(plan.mode, DiscourseMode::LAYERED_FULL);
+}

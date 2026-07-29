@@ -31,6 +31,82 @@ namespace themis {
 namespace plugins {
 namespace ethics {
 
+// ============================================================================
+// LDM-1 — Layered Discourse Model mode selector
+// ============================================================================
+
+/**
+ * @brief Operating mode for the Layered Discourse Model (LDM).
+ *
+ * Controls whether the router runs as a classical Top-N school selector or
+ * initiates the multi-layer discourse pipeline.  The mode is set per call via
+ * @c RouterConfig::discourse_mode and is passed through to the
+ * @c DiscourseOrchestratorPlan produced by @c EthicsSelectionRouter::planDiscourse().
+ *
+ * ## Mode semantics
+ * | Mode          | Ebene-1  | Ebene-2  | Ebene-3  | RouterConfig::top_n |
+ * |---------------|----------|----------|----------|---------------------|
+ * | SELECTION_ONLY| ✗        | ✗        | ✗        | honoured            |
+ * | LAYERED_FAST  | parallel | skipped  | ✗        | ignored             |
+ * | LAYERED_FULL  | parallel | clusters | MetaVerdict| ignored           |
+ *
+ * ### Migration note (Breaking Change)
+ * Callers that rely on `top_n`-bounded output **must** explicitly set
+ * `discourse_mode = DiscourseMode::SELECTION_ONLY` (which is the default) to
+ * preserve the current behaviour.  `LAYERED_FAST` and `LAYERED_FULL` return all
+ * non-ABSTAIN schools from Ebene-1, ignoring `top_n`.
+ *
+ * @since LDM-1 (Target: Q1 2027)
+ */
+enum class DiscourseMode : uint8_t {
+    /// Classical selection path: Top-N school ranking, no discourse phases.
+    /// This is the default and preserves all pre-LDM behaviour.
+    SELECTION_ONLY = 0,
+
+    /// Fast layered path: runs Ebene-1 (parallel equal-weight initial scoring)
+    /// only.  Ebene-2 cluster discourse and Ebene-3 MetaVerdict are skipped.
+    /// P95 target: ≤ 1.2 s end-to-end.
+    LAYERED_FAST = 1,
+
+    /// Full layered path: runs Ebene-1 → Ebene-2 (cluster discourse) →
+    /// Ebene-3 (convergence-counting MetaVerdict).
+    /// P95 target: ≤ 8 s end-to-end.
+    LAYERED_FULL = 2,
+};
+
+/**
+ * @brief Output of @c EthicsSelectionRouter::planDiscourse().
+ *
+ * Describes the per-school Ebene-1 assignments and the cluster mapping that
+ * downstream Ebene-2 orchestration will consume.  Produced in < 5 ms.
+ *
+ * @since LDM-1 (Target: Q1 2027)
+ */
+struct DiscourseOrchestratorPlan {
+    /// Active discourse mode that was used to produce this plan.
+    DiscourseMode mode{DiscourseMode::SELECTION_ONLY};
+
+    /// All school ids that will participate in Ebene-1.
+    std::vector<std::string> ebene1_school_ids;
+
+    /// Initial equal weight w₀ = 1/N (Ebene-1 contract).
+    double initial_weight{1.0};
+
+    /// Cluster assignments: cluster_name → list of school_ids.
+    /// Populated only when mode == LAYERED_FULL.
+    std::map<std::string, std::vector<std::string>> cluster_map;
+
+    /// Structural tension axes activated for this plan (LAYERED_FULL only).
+    /// These are the canonical 4 axes from the LDM design spec:
+    ///   "Kant↔Utilitarismus", "Würde-cluster↔Aggregation-cluster",
+    ///   "Individualismus↔Kollektivismus", "Positivrecht↔Naturrecht"
+    /// @since LDM-1
+    std::vector<std::string> tension_axes;
+
+    /// True when the plan is empty because zero schools survived filtering.
+    bool empty() const noexcept { return ebene1_school_ids.empty(); }
+};
+
 /**
  * @brief Configuration for EthicsSelectionRouter.
  */
@@ -61,6 +137,14 @@ struct RouterConfig {
     /// Well-known values: `"themisdb"`, `"standalone"`, `"embedded"`,
     /// `"enterprise"`.  Custom values are allowed and passed through as-is.
     std::string deployment_context;
+
+    // =========================================================================
+    // LDM-1 additions
+    // =========================================================================
+
+    /// Discourse operating mode.  Defaults to SELECTION_ONLY so all existing
+    /// callers continue to work without modification.
+    DiscourseMode discourse_mode{DiscourseMode::SELECTION_ONLY};
 
     /// Per-school bias multipliers applied to the aggregated @c final_score.
     ///
@@ -177,6 +261,29 @@ public:
     EthicsSelectionRouter& operator=(const EthicsSelectionRouter&) = delete;
     EthicsSelectionRouter(EthicsSelectionRouter&&)                 = default;
     EthicsSelectionRouter& operator=(EthicsSelectionRouter&&)      = default;
+
+    /**
+     * @brief Build a DiscourseOrchestratorPlan from the currently loaded school set.
+     *
+     * Returns a lightweight plan describing which schools participate in
+     * Ebene-1 and how they are clustered for Ebene-2.  The call completes in
+     * < 5 ms regardless of the number of loaded schools.
+     *
+     * When @c config.discourse_mode == SELECTION_ONLY the returned plan has
+     * mode == SELECTION_ONLY and an empty cluster_map; callers can short-circuit
+     * to the classical route() path.
+     *
+     * @param domain_context  Optional domain hint used for affinity-based
+     *                        cluster pre-sorting (e.g. "medical", "ai_governance").
+     * @return DiscourseOrchestratorPlan ready for downstream Ebene-1 execution.
+     *
+     * @note LDM-1 delivery: enum + plan generation.  Ebene-1/2/3 execution
+     *       (LDM-2 through LDM-4) is implemented in subsequent milestones.
+     *
+     * @since LDM-1 (Target: Q1 2027)
+     */
+    DiscourseOrchestratorPlan planDiscourse(
+        const std::string& domain_context = {}) const;
 
     /**
      * @brief Select the best-matching ethics schools for a dilemma.

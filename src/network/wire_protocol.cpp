@@ -133,46 +133,52 @@ WirePacket PacketParser::parse(const std::vector<uint8_t>& buf)
                          " bytes, got " + std::to_string(buf.size()));
     }
 
-    auto it  = buf.cbegin();
-    auto end = buf.cend();
+    try {
+        auto it  = buf.cbegin();
+        auto end = buf.cend();
 
-    // --- magic (2 bytes) ---
-    check_magic(it, end);
+        // --- magic (2 bytes) ---
+        check_magic(it, end);
 
-    // --- type (1 byte) ---
-    BoundsChecker::check_dereference(it, buf.cbegin(), end);
-    auto raw_type  = static_cast<uint8_t>(*it);
-    ++it;
+        // --- type (1 byte) ---
+        BoundsChecker::check_dereference(it, buf.cbegin(), end);
+        auto raw_type  = static_cast<uint8_t>(*it);
+        ++it;
 
-    PacketType type;
-    switch (raw_type) {
-        case 0x01: type = PacketType::kHandshake;   break;
-        case 0x02: type = PacketType::kQuery;       break;
-        case 0x03: type = PacketType::kQueryResult; break;
-        case 0x04: type = PacketType::kPut;         break;
-        case 0x05: type = PacketType::kGet;         break;
-        case 0x06: type = PacketType::kDelete;      break;
-        case 0x10: type = PacketType::kError;       break;
-        case 0x20: type = PacketType::kPing;        break;
-        case 0x21: type = PacketType::kPong;        break;
-        default:   type = PacketType::kUnknown;     break;
+        PacketType type;
+        switch (raw_type) {
+            case 0x01: type = PacketType::kHandshake;   break;
+            case 0x02: type = PacketType::kQuery;       break;
+            case 0x03: type = PacketType::kQueryResult; break;
+            case 0x04: type = PacketType::kPut;         break;
+            case 0x05: type = PacketType::kGet;         break;
+            case 0x06: type = PacketType::kDelete;      break;
+            case 0x10: type = PacketType::kError;       break;
+            case 0x20: type = PacketType::kPing;        break;
+            case 0x21: type = PacketType::kPong;        break;
+            default:   type = PacketType::kUnknown;     break;
+        }
+
+        // --- payload length (4 bytes, big-endian) ---
+        uint32_t payload_len = read_big_endian<uint32_t>(it, end);
+
+        if (payload_len > kWireProtocolMaxPayloadBytes) {
+            throw ParseError("payload length " + std::to_string(payload_len) +
+                             " exceeds maximum " +
+                             std::to_string(kWireProtocolMaxPayloadBytes));
+        }
+
+        // --- payload (payload_len bytes) ---
+        // Gap B003: user-supplied length drives buffer advance.
+        // Fix: read_bytes() wraps AdvanceSafe internally.
+        auto payload = read_bytes(it, end, static_cast<std::size_t>(payload_len));
+
+        return WirePacket{type, std::move(payload)};
+    } catch (const std::out_of_range& e) {
+        throw ParseError(std::string("truncated packet: ") + e.what());
+    } catch (const std::exception& e) {
+        throw ParseError(std::string("parse failure: ") + e.what());
     }
-
-    // --- payload length (4 bytes, big-endian) ---
-    uint32_t payload_len = read_big_endian<uint32_t>(it, end);
-
-    if (payload_len > kWireProtocolMaxPayloadBytes) {
-        throw ParseError("payload length " + std::to_string(payload_len) +
-                         " exceeds maximum " +
-                         std::to_string(kWireProtocolMaxPayloadBytes));
-    }
-
-    // --- payload (payload_len bytes) ---
-    // Gap B003: user-supplied length drives buffer advance.
-    // Fix: read_bytes() wraps AdvanceSafe internally.
-    auto payload = read_bytes(it, end, static_cast<std::size_t>(payload_len));
-
-    return WirePacket{type, std::move(payload)};
 }
 
 // ---------------------------------------------------------------------------

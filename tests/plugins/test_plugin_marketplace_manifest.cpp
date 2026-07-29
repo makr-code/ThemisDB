@@ -168,6 +168,10 @@ TEST(ManifestSchemaValidator, AcceptsFullMarketplaceFields) {
     j["marketplace_id"]     = "550e8400-e29b-41d4-a716-446655440000";
     j["min_themis_version"] = "1.0.0";
     j["max_themis_version"] = "2.0.0";
+    j["visibility"]         = "private";
+    j["allowed_editions"]   = json::array({"enterprise", "hyperscaler"});
+    j["license_feature"]    = "private_connector_pack";
+    j["compatible_core_abi"] = "plugin-abi-v2";
     j["verified_publisher"] = true;
     j["auto_load"]          = false;
     j["load_priority"]      = 50;
@@ -184,6 +188,14 @@ TEST(ManifestSchemaValidator, AcceptsFullMarketplaceFields) {
         for (const auto& e : result.errors) msg += e + "\n";
         return msg;
     }();
+}
+
+TEST(ManifestSchemaValidator, RejectsInvalidVisibilityAndEdition) {
+    auto j = minimalValidManifest();
+    j["visibility"] = "secret";
+    j["allowed_editions"] = json::array({"community", "legacy"});
+    auto result = ManifestSchemaValidator::validate(j);
+    EXPECT_FALSE(result.valid);
 }
 
 TEST(ManifestSchemaValidator, RejectsInvalidCategory) {
@@ -344,8 +356,12 @@ TEST(ParseMarketplaceManifest, PopulatesMarketplaceFields) {
     j["tags"]               = json::array({"storage", "cloud"});
     j["category"]           = "storage";
     j["marketplace_id"]     = "550e8400-e29b-41d4-a716-446655440000";
-    j["min_themis_version"] = "1.2.0";
-    j["max_themis_version"] = "2.0.0";
+    j["min_themisdb_version"] = "1.2.0";
+    j["max_themisdb_version"] = "2.0.0";
+    j["visibility"]         = "restricted";
+    j["allowed_editions"]   = json::array({"enterprise", "military"});
+    j["license_feature"]    = "ethics_ai_advanced";
+    j["compatible_core_abi"] = "plugin-abi-v2";
     j["verified_publisher"] = true;
 
     auto m = ManifestSchemaValidator::parseMarketplaceManifest(j);
@@ -356,12 +372,18 @@ TEST(ParseMarketplaceManifest, PopulatesMarketplaceFields) {
     EXPECT_EQ(m->repository, "https://github.com/example/plugin");
     EXPECT_EQ(m->category, "storage");
     EXPECT_EQ(m->marketplace_id, "550e8400-e29b-41d4-a716-446655440000");
-    EXPECT_EQ(m->min_themis_version, "1.2.0");
-    EXPECT_EQ(m->max_themis_version, "2.0.0");
+    EXPECT_EQ(m->visibility, "restricted");
+    EXPECT_EQ(m->min_themisdb_version, "1.2.0");
+    EXPECT_EQ(m->max_themisdb_version, "2.0.0");
+    EXPECT_EQ(m->license_feature, "ethics_ai_advanced");
+    EXPECT_EQ(m->compatible_core_abi, "plugin-abi-v2");
     EXPECT_TRUE(m->verified_publisher);
     ASSERT_EQ(m->tags.size(), 2u);
     EXPECT_EQ(m->tags[0], "storage");
     EXPECT_EQ(m->tags[1], "cloud");
+    ASSERT_EQ(m->allowed_editions.size(), 2u);
+    EXPECT_EQ(m->allowed_editions[0], "enterprise");
+    EXPECT_EQ(m->allowed_editions[1], "military");
 }
 
 TEST(ParseMarketplaceManifest, PopulatesCapabilities) {
@@ -436,9 +458,12 @@ TEST(ParseMarketplaceManifest, DefaultsForOptionalScalars) {
     EXPECT_FALSE(m->auto_load);
     EXPECT_EQ(m->load_priority, 100);
     EXPECT_TRUE(m->expected_hash.empty());
+    EXPECT_EQ(m->visibility, "public");
     EXPECT_FALSE(m->verified_publisher);
     EXPECT_TRUE(m->author.empty());
     EXPECT_TRUE(m->tags.empty());
+    EXPECT_TRUE(m->allowed_editions.empty());
+    EXPECT_TRUE(m->license_feature.empty());
     EXPECT_TRUE(m->signature.fingerprint.empty());
 }
 

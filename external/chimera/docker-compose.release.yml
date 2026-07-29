@@ -1,0 +1,100 @@
+# CHIMERA Release Deployment (QNAP / Docker Hub)
+# ============================================================
+# Nutzt ein bereits veröffentlichtes Image aus Docker Hub.
+# Kein lokaler Build auf dem Zielsystem notwendig.
+# Image-Inhalt und Abgrenzung: siehe DOCKER_IMAGE_SCOPE.md
+#
+# Nutzung:
+#   1) .env.release.example nach .env kopieren und anpassen
+#   2) docker compose -f docker-compose.release.yml pull
+#   3) docker compose -f docker-compose.release.yml up -d
+# ============================================================
+
+services:
+  chimera-benchmark:
+    image: "${DOCKERHUB_REPO:-themisdb/chimera}:${IMAGE_TAG:-latest}"
+    container_name: chimera_endurance
+    restart: unless-stopped
+    networks:
+      - default
+      - themis_external
+
+    environment:
+      # Allgemeine Test-DB-Konfiguration
+      TEST_DB_SYSTEM: "${TEST_DB_SYSTEM:-themisdb}"
+      TEST_DB_HOST: "${TEST_DB_HOST:-192.168.1.100}"
+      TEST_DB_PORT: "${TEST_DB_PORT:-18765}"
+      TEST_DB_NAME: "${TEST_DB_NAME:-benchmark_db}"
+      TEST_DB_USER: "${TEST_DB_USER:-bench_user}"
+      TEST_DB_PASSWORD: "${TEST_DB_PASSWORD:-changeme}"
+      TEST_DB_PROTOCOL: "${TEST_DB_PROTOCOL:-http_rest}"
+      TEST_DB_HEALTH_ENDPOINT: "${TEST_DB_HEALTH_ENDPOINT:-/api/v1/health}"
+      TEST_DB_QUERY_ENDPOINT: "${TEST_DB_QUERY_ENDPOINT:-/api/v1/query}"
+      TEST_DB_VECTOR_SEARCH_ENDPOINT: "${TEST_DB_VECTOR_SEARCH_ENDPOINT:-/api/v1/vector/search}"
+      TEST_DB_INFO_ENDPOINTS: "${TEST_DB_INFO_ENDPOINTS:-/api/v1/info,/api/v1/version,/api/v1/status,/api/v1/health}"
+      TEST_DB_USE_TLS: "${TEST_DB_USE_TLS:-true}"
+      TEST_DB_VERIFY_TLS: "${TEST_DB_VERIFY_TLS:-true}"
+      TEST_DB_CA_CERT: "${TEST_DB_CA_CERT:-/certs/ca.crt}"
+
+      # Verbund-Konfiguration (z. B. postgresql,neo4j,vector)
+      TEST_FEDERATION_ENABLED: "${TEST_FEDERATION_ENABLED:-true}"
+      TEST_FEDERATION_MODE: "${TEST_FEDERATION_MODE:-gateway}"
+      TEST_FEDERATION_MEMBERS: "${TEST_FEDERATION_MEMBERS:-postgresql,neo4j,vector}"
+      TEST_FEDERATION_REQUIRE_ALL: "${TEST_FEDERATION_REQUIRE_ALL:-false}"
+
+      # LLM-Konfiguration
+      TEST_LLM_ENABLED: "${TEST_LLM_ENABLED:-true}"
+      TEST_LLM_PROVIDER: "${TEST_LLM_PROVIDER:-openai}"
+      TEST_LLM_MODEL: "${TEST_LLM_MODEL:-gpt-4o-mini}"
+      TEST_LLM_ENDPOINT: "${TEST_LLM_ENDPOINT:-}"
+
+      # Kompatibilitäts-Mapping auf bestehende Runner-Variablen
+      THEMISDB_HOST: "${TEST_DB_HOST:-192.168.1.100}"
+      THEMISDB_PORT: "${TEST_DB_PORT:-18765}"
+      THEMISDB_DB: "${TEST_DB_NAME:-benchmark_db}"
+      THEMISDB_USER: "${TEST_DB_USER:-bench_user}"
+      THEMISDB_PASSWORD: "${TEST_DB_PASSWORD:-changeme}"
+      THEMISDB_HEALTH_ENDPOINT: "${TEST_DB_HEALTH_ENDPOINT:-/api/v1/health}"
+      THEMISDB_QUERY_ENDPOINT: "${TEST_DB_QUERY_ENDPOINT:-/api/v1/query}"
+      THEMISDB_VECTOR_SEARCH_ENDPOINT: "${TEST_DB_VECTOR_SEARCH_ENDPOINT:-/api/v1/vector/search}"
+      THEMISDB_INFO_ENDPOINTS: "${TEST_DB_INFO_ENDPOINTS:-/api/v1/info,/api/v1/version,/api/v1/status,/api/v1/health}"
+      THEMISDB_USE_TLS: "${TEST_DB_USE_TLS:-true}"
+      THEMISDB_VERIFY_TLS: "${TEST_DB_VERIFY_TLS:-true}"
+      THEMISDB_CA_CERT: "${TEST_DB_CA_CERT:-/certs/ca.crt}"
+
+      # Capability-Discovery fuer Profile-Strict
+      TEST_DB_CAPABILITIES_ENDPOINT: "${TEST_DB_CAPABILITIES_ENDPOINT:-/api/v1/capabilities}"
+      TEST_DB_CAPABILITIES: "${TEST_DB_CAPABILITIES:-}"
+
+      # Endurance-Settings
+      ENDURANCE_HOURS: "${ENDURANCE_HOURS:-24}"
+      PARALLEL_WORKERS: "${PARALLEL_WORKERS:-4}"
+      REPORT_INTERVAL_MIN: "${REPORT_INTERVAL_MIN:-30}"
+      RESULTS_DIR: "/results"
+
+    volumes:
+      - ./endurance_results:/results
+      - ./certs:/certs:ro
+      - ./endurance_config.toml:/app/endurance_config.toml:ro
+
+    healthcheck:
+      test: ["CMD", "python", "-c", "import os,sys; sys.exit(0 if os.path.exists('/results/.heartbeat') else 1)"]
+      interval: 5m
+      timeout: 30s
+      retries: 3
+      start_period: 2m
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "5"
+
+    stop_grace_period: 2m
+
+networks:
+  default:
+    driver: bridge
+  themis_external:
+    external: true
+    name: "${THEMISDB_DOCKER_NETWORK:-themis_themis-net}"

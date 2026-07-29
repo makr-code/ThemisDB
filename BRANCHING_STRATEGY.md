@@ -73,6 +73,26 @@ Implications:
 - GA promotion follows the tracked execution batches (A-D) defined in root governance docs; skipping a batch boundary is not allowed.
 - Direct release-lane bypass is allowed only for the hotfix exception flow in §6.4.
 
+## 4.2 Private Plugin Family Repositories
+
+Private plugin family repositories follow the same canonical branch model when they are provisioned.
+
+Provisioned Wave-1 private repositories (2026-07):
+
+| Repository | Submodule path | Contents |
+|---|---|---|
+| `makr-code/themisdb_ethic_ai` | `plugins/private/themisdb_ethic_ai/` | ethics_ai plugin root |
+| `makr-code/themisdb_storage` | `plugins/private/themisdb_storage/` | `user_storage_encrypted/`, `azure_blob_storage/`, `s3_blob_storage/` |
+| `makr-code/themisdb_importer` | `plugins/private/themisdb_importer/` | `mysql_importer/`, `mongo_importer/`, `kafka_importer/`, `s3_importer/` |
+| `makr-code/themisdb_llm_wiki` | `plugins/private/themisdb_llm_wiki/` | LLM Wiki tool |
+
+Branch rules:
+
+- normal implementation targets `develop`
+- release promotion uses `enterprise`, `hyperscaler`, or `military` only when the family publishes edition-specific artefacts
+- no private plugin repository may introduce new `main` or `millitary` automation, documentation, or PR targets
+- the superproject consumes private plugin repositories only through commit-pinned submodules at the paths above, never floating branches
+
 ## 5. Branch Types
 
 ### 5.1 Feature Branches

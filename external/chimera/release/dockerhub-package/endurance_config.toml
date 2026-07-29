@@ -1,0 +1,102 @@
+# CHIMERA Endurance-Benchmark – Konfiguration
+# ============================================================
+# Wird als /app/endurance_config.toml in den Container gemountet.
+# Alle Werte können durch Umgebungsvariablen überschrieben werden.
+# ============================================================
+
+# ------------------------------------------------------------
+# ThemisDB-Verbindung (QNAP via HTTPS)
+# ------------------------------------------------------------
+[themisdb]
+host         = "192.168.1.100"    # QNAP-IP oder Hostname
+port         = 18765
+database     = "benchmark_db"
+username     = "bench_user"
+password     = "secure_password"  # In Produktion: Env-Variable nutzen
+
+# Protokoll für den Python-HTTP-Client
+protocol     = "http_rest"        # http_rest | grpc | binary_wire
+
+# TLS/HTTPS
+use_tls      = true
+ca_cert      = "/certs/ca.crt"   # CA-Zertifikat des QNAP (im Container)
+# client_cert = "/certs/client.crt"   # mTLS (optional)
+# client_key  = "/certs/client.key"
+
+# Verbindungspool
+pool_size    = 20
+timeout_ms   = 30000
+max_retries  = 5
+
+[themisdb.parameters]
+max_batch_size      = 500
+enable_compression  = true
+read_preference     = "primary"
+
+# ------------------------------------------------------------
+# Endurance-Testlauf
+# ------------------------------------------------------------
+[endurance]
+duration_hours      = 24          # Gesamte Testdauer
+report_interval_min = 30          # Checkpoint-Report alle 30 Minuten
+parallel_workers    = 4           # Gleichzeitige Benchmark-Threads
+warmup_iterations   = 200         # Aufwärm-Iterationen zu Beginn
+run_iterations      = 1000        # Iterationen pro Messfenster
+
+# Workloads, die im Endurance-Lauf aktiviert sind
+workloads = [
+    "ycsb_a",    # 50 % Read / 50 % Update
+    "ycsb_b",    # 95 % Read /  5 % Update
+    "ycsb_c",    # 100 % Read
+    "ycsb_f",    # 50 % Read / 50 % Read-Modify-Write
+    "vector_search",
+    "graph_traversal",
+]
+
+# Automatische Pause bei hoher Fehlerrate (Schutz des QNAP)
+[endurance.circuit_breaker]
+enabled             = true
+error_threshold_pct = 5.0         # Pause wenn Fehlerrate > 5 %
+cooldown_seconds    = 120
+
+# ------------------------------------------------------------
+# MLPerf-Inference (Szenario-Targets)
+# ------------------------------------------------------------
+[endurance.mlperf]
+dataset             = "mlperf_llm_mock"
+target_qps          = 100.0
+target_latency_ms   = 1500.0
+quality_target      = 0.80
+
+# ------------------------------------------------------------
+# RAGAS / RAGBench Evaluation
+# ------------------------------------------------------------
+[endurance.ragas]
+seed                = 2027
+eval_samples        = 5
+
+# ------------------------------------------------------------
+# Dataset-Provisioning (reproduzierbare Generierung)
+# ------------------------------------------------------------
+[endurance.dataset_provisioning]
+seed                = 4242
+version             = "v1"
+
+# ------------------------------------------------------------
+# Ausgabe
+# ------------------------------------------------------------
+[output]
+results_dir         = "/results"
+formats             = ["json", "csv", "html"]
+compress_checkpoints = true
+
+# Heartbeat-Datei (für Docker-Healthcheck)
+heartbeat_file      = "/results/.heartbeat"
+heartbeat_interval_sec = 60
+
+# ------------------------------------------------------------
+# Metriken
+# ------------------------------------------------------------
+[metrics]
+percentiles         = [50.0, 95.0, 99.0, 99.9]
+collect_system_metrics = false    # CPU/RAM des Containers (optional)

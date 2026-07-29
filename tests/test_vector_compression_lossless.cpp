@@ -17,7 +17,7 @@
 #include <unordered_map>
 
 // Mock implementations for testing (will be in utils/ in actual implementation)
-namespace themis::compression {
+namespace themis { namespace compression { 
 
 // ============================================================================
 // Sparse Vector CSR Implementation
@@ -209,9 +209,7 @@ public:
         return result;
     }
 };
-
-} // namespace themis::compression
-
+} } // namespace themis::compression
 using namespace themis::compression;
 
 // ============================================================================

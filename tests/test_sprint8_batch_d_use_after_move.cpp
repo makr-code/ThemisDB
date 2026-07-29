@@ -25,7 +25,7 @@
 #include <thread>
 #include <chrono>
 
-namespace themis::test::sprint8_batch_d {
+namespace themis { namespace test { namespace sprint8_batch_d { 
 
 namespace {
     static std::atomic<int> g_sprint8_model_instance_count{0};
@@ -427,5 +427,4 @@ TEST_F(Sprint8BatchDIntegrationTests, CompleteTransactionPipelineWithSafetyFixes
     auto model_copy = model;
     EXPECT_TRUE(model_copy != nullptr);
 }
-
-} // namespace themis::test::sprint8_batch_d
+} } } // namespace themis::test::sprint8_batch_d

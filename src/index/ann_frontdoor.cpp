@@ -1,3 +1,11 @@
+/**
+ * @file ann_frontdoor.cpp
+ * @brief ANN front-door dispatcher implementation.
+ *
+ * Implements query routing, index lifecycle management, and telemetry
+ * emission for the ANN front-door abstraction.
+ */
+
 // ANN Frontdoor — explicit first universal retrieval gate
 //
 // Architecture:

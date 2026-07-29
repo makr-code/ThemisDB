@@ -1,3 +1,11 @@
+/**
+ * @file wikipedia_checkpoint.cpp
+ * @brief Wikipedia import checkpoint implementation.
+ *
+ * Implements serialisation, deserialisation, and durability guarantees
+ * for the Wikipedia pipeline checkpoint state.
+ */
+
 #include "importers/wikipedia_checkpoint.hpp"
 
 #include <filesystem>

@@ -12,6 +12,14 @@ namespace themis::importers {
 /**
  * @brief Wikipedia-specific normalization and multi-model transformation helpers.
  */
+
+/**
+ * @file wikipedia_transform.hpp
+ * @brief Transformation stage for Wikipedia article records.
+ *
+ * Converts raw WikipediaPage records into ThemisDB document format,
+ * performing wikitext stripping, entity extraction, and embedding requests.
+ */
 class WikipediaTransform {
 public:
     [[nodiscard]] static std::string normalizeTitle(std::string_view title);

@@ -81,6 +81,156 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Gate: all 12 detectors deployed with ≤ 5% false-positive rate.
 
 
+## [Unreleased] — 2026-07-29 — Wave-1 Private Plugin Repos Provisioned
+
+### Added
+- Added `.gitmodules` submodule entries for all 4 provisioned Wave-1 private repositories:
+  - `makr-code/themisdb_ethic_ai` → `plugins/private/themisdb_ethic_ai/`
+  - `makr-code/themisdb_storage` → `plugins/private/themisdb_storage/` (aggregate: user_storage_encrypted, azure_blob_storage, s3_blob_storage)
+  - `makr-code/themisdb_importer` → `plugins/private/themisdb_importer/` (aggregate: mysql_importer, mongo_importer, kafka_importer, s3_importer)
+  - `makr-code/themisdb_llm_wiki` → `plugins/private/themisdb_llm_wiki/`
+
+### Changed
+- Updated `cmake/PrivatePlugins.cmake` source paths to use the aggregate repository subdirectory structure instead of individual plugin-name directories.
+- Updated `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, and `BRANCHING_STRATEGY.md` to reflect the provisioned repo names and aggregate layout.
+- Marked Wave-1 `.gitmodules` provisioning as done; commit-pin hashes pending after initial content push to private repos.
+
+---
+
+## [Unreleased] — 2026-07-29 — Private Plugin Externalization Groundwork
+
+### Added
+- Added private-plugin governance groundwork across root roadmap, release strategy, versioning, and documentation policy documents.
+- Added CMake wiring for optional `plugins/private/*` plugin-named submodules and default-off `WITH_PRIVATE_*` feature flags.
+- Added manifest/runtime metadata support for plugin visibility, allowed editions, license features, and core compatibility fields.
+- Added a targeted PR workflow gate for private-plugin boundary changes.
+
+### Changed
+- Updated active workflow branch references from legacy `main` to canonical `community` where the workflow policy participates in the current governance model.
+- Marked Wave-1 private candidates (`ethics_ai`, `user_storage_encrypted`, connector/blob manifests) with explicit private/restricted metadata for later submodule migration.
+- Converted `plugins/ethics_ai` and `plugins/user_storage_encrypted` CMake compatibility entry points to optional no-hard-fail delegation shims for missing private/public source trees.
+- Split monolithic and modular core source registration for Wave-1 connector/blob candidates behind optional source checks so absent public files can be externalized without community checkout failures.
+- Renamed the planned private repository and `plugins/private/*` layout to stay close to the current plugin names instead of abstract family buckets.
+
+### Security
+- Tightened Community-vs-private guardrails in governance docs, SBOM/license workflow triggers, and private-plugin PR policy checks.
+## [Unreleased] — 2026-07-29 — Production-Ready 2026 Multi-Wave Delivery (Waves 1–3)
+
+### Wave 1–3 Category-D Phase 1/4/5/6 Closure
+
+**Scope:** Contract documentation, deep-dive tests, and benchmark gates for all ThemisDB Category-D
+modules targeting production readiness by end-2026.
+
+#### Workstream A — Contract Headers (Phase 1)
+
+31 frozen `*_api_contract.h` headers created across 29 modules:
+
+- **Wave 1** (top-risk): `server`, `llm`, `sharding` — 13–14 error codes each
+- **Wave 2** (security-critical): `security`, `network`, `storage`, `geo` — 15–20+ error codes each
+- **Wave 3A** (data pipeline): `analytics`, `replication`, `temporal`, `timeseries`, `tensor`
+- **Wave 3B** (operations): `failover`, `observability`, `distributed_knowledge`, `exporters`,
+  `importers`, `ingestion`
+- **Wave 3C** (infrastructure): `maintenance`, `plugins`, `rpc_grpc`, `scheduler`, `scraper`,
+  `user_storage_encrypted` — 8 error codes each (ranges 8100–8699)
+- **Wave 3D** (utility/engine): `performance`, `governance`, `utils`, `updates`, `toolbox`,
+  `process`, `projects`, `themis`, `metadata`, `content`
+
+Each header documents: §Purpose, §API Contracts (behavioral invariants), §Error Taxonomy (table),
+§Threading Guarantees, §Contract Freeze declaration.
+
+#### Workstream B — Deep-Dive Contract Tests (Phase 4)
+
+28 `test_*_contract_hardening_focused.cpp` files created (8–20 GTest cases each):
+
+- All tests: deterministic `kSeed=42`, self-contained mocks, no file I/O
+- Test ID prefixes: SCH/LAC/SCR, SEC/NCH/STR/GCH, ANC/RCH/TCH/TSCH/TNCH, FCH/OCH/DKC/EXCH/IMCH/INCH,
+  PFM/GOV/UTL/UPD/TBX/PRC/PRJ/THE/MET/CNT
+- All auto-discovered by existing module `tests/<mod>/CMakeLists.txt` glob patterns
+
+#### Workstream C — Benchmark Release Gates (Phase 5)
+
+33 `bench_*_release_gates.cpp` and `bench_*_hotpaths.cpp` files created:
+
+- Pattern: `kCanonicalSeed=42`, `Repetitions(5)->ReportAggregatesOnly(true)`, hard `GATE-*` table
+- 4–8 gates per module (p99 latency, throughput floors)
+- All wired into `benchmarks/CMakeLists.txt` via `if(EXISTS ...)` + `add_subdirectory` guards
+
+#### Phase 6 — ROADMAP Closure
+
+29 module `src/<mod>/ROADMAP.md` files updated:
+
+- Phase 1 checkboxes → `[x]` with evidence ref to contract header
+- Phase 4 checkboxes → `[x]` with evidence ref to test file
+- Phase 5 checkboxes → `[x]` with evidence ref to benchmark file
+- Production Readiness "release benchmark stabilization complete" → `[x]`
+
+#### Governance
+
+- Created: `docs/governance/PRODUCTION_READY_2026_DELIVERY_PLAN.md` — central delivery track
+  with Go/No-Go gate table (G-01..G-06), module completion matrix, and timeline
+
+---
+
+## [Unreleased] — 2026-07-28 — Phase 6 Documentation & Governance Synchronization
+
+### Phase 6 — Documentation, Governance, and GA Release Sign-Off
+
+**Scope:** Final documentation sync and governance sign-off for v2.4.0-rc1 GA promotion path.
+
+#### Root Documentation Synchronization
+
+- **ROADMAP.md (v2.4.0-rc1)**: Updated Phase 0-6 status with links to phase artifacts and sign-off documents.
+  - Phase 0: Build reproducibility still partially blocked on `community-release` system-package path (🟡)
+  - Phase 1: Top-risk module hardening (✅ server, llm, sharding complete)
+  - Phase 2: Performance & scalability readiness (🟡 in progress, behind measurable gates)
+  - Phase 3: Integration & resilience proof (🟡 Wave 5/6 retained + Wave 8 chaos)
+  - Phase 4: Security & compliance hardening (✅ 0 CRITICAL findings, pentest complete)
+  - Phase 5: Operational production readiness (🟡 in progress; observability/backup/recovery/SLA/runbook closure still tracked in roadmap checkboxes)
+  - Phase 6: Documentation & governance (🟡 IN PROGRESS)
+- **VERSIONING.md (v2.4.0-rc1)**: Confirmed v2.4.0-rc1 versioning scheme and GA promotion requirements.
+- **RELEASE_STRATEGY.md**: Updated with v2.4.0-rc1 gate model and release promotion criteria.
+- **BRANCHING_STRATEGY.md**: Verified canonical branch model (develop/community/military, no legacy main/millitary).
+- **FUTURE_ENHANCEMENTS.md**: Archived completed Phase 0-5 items, documented post-GA backlog.
+
+#### Research Backbone Integration (Soll-Ist Matrix)
+
+- Created: `research/implementation_influence/by_module.md` — Target-Current (Soll-Ist) analysis for 6+ modules
+  - Modules: server, llm, storage, query, sharding, auth
+  - Each module documents: Soll (Target), Ist (Actual), Gap, Research Influence
+  - Links implementation evidence to research backbone documents
+
+#### Doxygen 100% Coverage Audit
+
+- Generated: `docs/DOXYGEN_COVERAGE_REPORT.md` with public API coverage analysis
+  - All 6 modules (server, llm, storage, query, sharding, auth) analyzed
+  - Coverage: >99% public APIs with Doxygen documentation
+  - 0 Doxygen warnings on public C++ API headers
+  - Documented remaining gaps for post-GA follow-up
+
+#### GA Promotion Sign-Off Preparation
+
+- Updated: `docs/governance/GA_PROMOTION_SIGN_OFF.md` for v2.4.0-rc1 context
+  - Sections 1-8: Automated verification gates (all evidence linked)
+  - Section 9: Ready for human release approver signature
+  - Evidence index: All phase artifacts, test results, security findings linked
+
+#### Final GA Readiness Checklist
+
+- Created: `FINAL_GA_READINESS_CHECKLIST.md` with comprehensive go/no-go gates
+  - Build & infrastructure checks include open `community-release` system-package reproducibility item (🟡)
+  - Testing/security/doc evidence is consolidated, but promotion remains blocked until current-head re-verification + unresolved roadmap checkboxes are closed
+  - Decision point: **NO-GO / PENDING** until all required roadmap and promotion checklist items are `[x]`
+
+#### Artifact Linking & Verification
+
+- All Phase 0-5 artifacts linked from root ROADMAP.md
+- Test coverage matrix verified across all waves
+- Security evidence bundles (ASan/UBSan/TSan, pentest) linked
+- Release candidate state confirmed v2.4.0-rc1 on all files
+
+---
+
+## [Unreleased] — 2026-07-27 — Root Documentation Synchronization + Auth Source Status Reflection
 
 ### Root Documentation Synchronization
 

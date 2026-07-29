@@ -1,0 +1,43 @@
+.git
+.gitignore
+
+# Python virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Python cache and tooling caches
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.pyre/
+.hypothesis/
+
+# Python build and packaging artifacts
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Coverage output
+.coverage
+.coverage.*
+htmlcov/
+
+.vscode/
+.idea/
+*.log
+endurance_results/
+certs/
+*.tar
+*.tgz
+.env
+.env.*
+demo_reports/
+tests/
+docs/

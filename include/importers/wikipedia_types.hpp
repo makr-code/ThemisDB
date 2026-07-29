@@ -15,6 +15,14 @@ using json = nlohmann::json;
 /**
  * @brief Projection targets that can be rebuilt from the canonical Wikipedia core.
  */
+
+/**
+ * @file wikipedia_types.hpp
+ * @brief Core data types for the Wikipedia import module.
+ *
+ * Defines WikipediaPage, WikipediaSection, WikipediaLink, and related
+ * structures used throughout the Wikipedia import pipeline.
+ */
 enum class WikipediaProjectionModel {
     RELATIONAL_CORE,
     GRAPH,

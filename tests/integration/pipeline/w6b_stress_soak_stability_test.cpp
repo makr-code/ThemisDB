@@ -35,7 +35,7 @@
 #include <thread>
 #include <vector>
 
-namespace themis::test {
+namespace themis { namespace test { 
 
 namespace {
 
@@ -414,5 +414,4 @@ TEST_F(StressSoakStabilityTest, SSS08_ZeroResourceLeaksStorageCleanBetweenRuns) 
     const auto results = pipeline2.Query(kToken, "sss08_term");
     EXPECT_TRUE(results.empty()) << "No data must leak from the previous pipeline instance";
 }
-
-} // namespace themis::test
+} } // namespace themis::test

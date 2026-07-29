@@ -16,7 +16,7 @@
 #include <gtest/gtest.h>
 #include "query/aql_parser_service.h"
 
-namespace themis::query::test {
+namespace themis { namespace query { namespace test { 
 
 class AQLParserServiceTest : public ::testing::Test {
 protected:
@@ -381,5 +381,4 @@ TEST_F(AQLParserServiceTest, ParseNestedFunctionCalls) {
         EXPECT_NE(nullptr, result.ast);
     }
 }
-
-} // namespace themis::query::test
+} } } // namespace themis::query::test

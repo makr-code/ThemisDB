@@ -33,7 +33,7 @@
 using json = nlohmann::json;
 namespace http = boost::beast::http;
 
-namespace themis::server {
+namespace themis { namespace server { 
 
 // ─────────────────────────────────────────────────────────────────────────────
 // POSIX / Win32 compatibility shim
@@ -340,5 +340,4 @@ TEST_F(ExportApiHandlerTest, InvalidExportIdInStatusPath_ReturnsBadRequest) {
     EXPECT_TRUE(res.result() == http::status::bad_request ||
                 res.result() == http::status::not_found);
 }
-
-}  // namespace themis::server
+} } // namespace themis::server

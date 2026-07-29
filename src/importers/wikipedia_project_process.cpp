@@ -1,3 +1,11 @@
+/**
+ * @file wikipedia_project_process.cpp
+ * @brief Process coordination helpers for the Wikipedia import project.
+ *
+ * Utility functions for subprocess spawning, IPC, and pipeline
+ * orchestration used by the Wikipedia import subsystem.
+ */
+
 #include "importers/wikipedia_pipeline.hpp"
 
 #include "importers/wikipedia_transform.hpp"

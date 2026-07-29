@@ -29,8 +29,8 @@ Production-usable toolbox runtime exists for ingestion-oriented extraction orche
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [ ] freeze toolbox orchestration/bridge/helper contracts for current major line (Target: Q3 2026)
-- [ ] define explicit error taxonomy for extraction and registry incident classes (Target: Q3 2026)
+- [x] freeze toolbox orchestration/bridge/helper contracts for current major line (Target: Q3 2026)
+- [x] define explicit error taxonomy for extraction and registry incident classes (Target: Q3 2026)
 
 ### Phase 2: Core Implementation
 - [ ] complete hardening for builder, bridge, and registry internals (Target: Q4 2026)
@@ -41,8 +41,8 @@ Production-usable toolbox runtime exists for ingestion-oriented extraction orche
 - [ ] unify diagnostics across orchestration, helper, and streaming incident classes (Target: Q4 2026)
 
 ### Phase 4: Tests
-- [ ] expand focused regressions for toolbox bridge, registry, and helper edge scenarios (Target: Q4 2026)
-- [ ] extend deterministic stress fixtures for toolbox-adjacent extraction workloads (Target: Q4 2026)
+- [x] expand focused regressions for toolbox bridge, registry, and helper edge scenarios (Target: Q4 2026)
+- [x] extend deterministic stress fixtures for toolbox-adjacent extraction workloads (Target: Q4 2026)
 
 ### Phase 5: Performance and Hardening
 - [ ] lock dedicated benchmark-backed release gates for toolbox hot paths once native suites exist (Target: Q4 2026)

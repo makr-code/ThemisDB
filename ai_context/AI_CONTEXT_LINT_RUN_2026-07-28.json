@@ -1,0 +1,22 @@
+{
+  "tool": "ai-context-lint",
+  "version": "1.0.0",
+  "generated_at": "2026-07-28T10:34:23+00:00",
+  "summary": {
+    "findings": 0,
+    "checks": {
+      "Link Integrity": 0,
+      "Orphan Detection": 0,
+      "Stale Claims": 0,
+      "Contradiction Signals": 0,
+      "Required Cross-References": 0
+    },
+    "severity": {
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "low": 0
+    }
+  },
+  "findings": []
+}

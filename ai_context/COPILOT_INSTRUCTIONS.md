@@ -1,5 +1,10 @@
 # Copilot Instructions (Repository-wide)
 
+Datum: 2026-07-28
+Status: Active
+Bezug: Repository-weite AI-/Copilot-Arbeitsregeln fuer Dokumentation, Governance und Release-Sync
+Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, .github/copilot-instructions.md, BRANCHING_STRATEGY.md, RELEASE_STRATEGY.md
+
 ## Documentation tasks (MUST)
 If the task involves documentation (any markdown docs change; `docs/**` keeps the stricter format rules below):
 
@@ -78,3 +83,6 @@ Alignment rules:
    - `release_critical` on `develop`
    - top-risk module sign-off (`server`, `llm`, `sharding`)
    - resilience/security/operations evidence (Wave 5/6 retention, Wave 8 or equivalent, chaos, sanitizer/recovery, penetration test, SLA, runbooks)
+8) Private plugin changes in the public superproject are limited to SDK, governance, packaging, CI, and optional-submodule wiring under `plugins/private/*`; private implementation code belongs only in the dedicated plugin-named submodules.
+9) When naming private plugin repositories or submodule paths, prefer names that mirror the current plugin names so the repository-to-plugin mapping stays obvious.
+10) Community and Minimal lanes must remain private-free: no private credentials, no mandatory private checkout, and no private artefacts or confidential path disclosures in public docs.

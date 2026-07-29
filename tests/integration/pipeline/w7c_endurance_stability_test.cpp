@@ -28,7 +28,7 @@
 #include <unordered_map>
 #include <vector>
 
-namespace themis::test {
+namespace themis { namespace test { 
 
 namespace {
 
@@ -632,5 +632,4 @@ TEST_F(EnduranceStabilityTest, ESC08_DriftIndicatorMonotonicMetricCheckOverSusta
     EXPECT_GT(throughput_series.Last(), 0.0)
         << "final-phase throughput must be > 0";
 }
-
-} // namespace themis::test
+} } // namespace themis::test

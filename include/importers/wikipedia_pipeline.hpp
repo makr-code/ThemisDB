@@ -1,3 +1,11 @@
+/**
+ * @file wikipedia_pipeline.hpp
+ * @brief End-to-end Wikipedia ingestion pipeline orchestrator.
+ *
+ * Wires together the XML reader, transformer, validator, and ThemisDB
+ * ingest client into a resumable, checkpointed import pipeline.
+ */
+
 #pragma once
 
 #include "importers/importer_interface.h"

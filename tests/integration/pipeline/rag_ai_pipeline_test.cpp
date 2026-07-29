@@ -13,7 +13,7 @@
 #include <optional>
 #include <unordered_map>
 
-namespace themis::test {
+namespace themis { namespace test { 
 
 namespace {
 
@@ -174,5 +174,4 @@ TEST_F(RagAiPipelineTest, RAG06_CacheHitProducesDeterministicAnswerAcrossRepeate
     EXPECT_EQ(first.answer, second.answer);
     EXPECT_TRUE(second.cache_hit);
 }
-
-} // namespace themis::test
+} } // namespace themis::test

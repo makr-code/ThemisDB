@@ -49,8 +49,8 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity**
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [ ] freeze replication/slot/conflict contracts for current major line (Target: Q3 2026)
-- [ ] define explicit error taxonomy for replication failure classes (Target: Q3 2026)
+- [x] freeze replication/slot/conflict contracts for current major line (Completed 2026-07-29)
+- [x] define explicit error taxonomy for replication failure classes (Completed 2026-07-29)
 
 ### Phase 2: Core Implementation
 - [ ] complete hardening for replication manager and failover internals (Target: Q4 2026)
@@ -61,11 +61,11 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity**
 - [ ] unify diagnostics across orchestration/conflict/stream incident classes (Target: Q4 2026)
 
 ### Phase 4: Tests
-- [ ] expand focused regressions for failover and conflict-heavy edge scenarios (Target: Q4 2026)
-- [ ] extend deterministic stress fixtures for replication backpressure and lag workloads (Target: Q4 2026)
+- [x] expand focused regressions for failover and conflict-heavy edge scenarios (Completed 2026-07-29 — test_replication_contract_hardening_focused.cpp, RCH-01..RCH-16)
+- [x] extend deterministic stress fixtures for replication backpressure and lag workloads (Completed 2026-07-29)
 
 ### Phase 5: Performance and Hardening
-- [ ] lock benchmark-backed release gates for replication hot paths (Target: Q4 2026)
+- [x] lock benchmark-backed release gates for replication hot paths (Completed 2026-07-29 — bench_replication_release_gates.cpp, RRG-01..RRG-06)
 - [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
 
 ### Phase 6: Documentation and Acceptance
@@ -73,6 +73,7 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity**
 - [x] roadmap/future planning separated from historical changelog entries
 - [x] comprehensive Doxygen documentation for all public APIs in replication manager, logical replication, and observability
 - [x] focused conflict resolution test suite (RCS-01..RCS-06) validates strategy determinism and edge-case handling
+- [x] replication_api_contract.h frozen contract header published (Completed 2026-07-29)
 
 ## Production Readiness Checklist
 
@@ -81,6 +82,9 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity**
 - [x] benchmark mapping documented in performance expectations
 - [x] focused conflict resolution tests provide evidence for conflict-resolution diagnostics consistency
 - [x] Doxygen coverage verified for all replication module headers and sources
+- [x] replication_api_contract.h frozen contract header (Phase 1 closure, 2026-07-29)
+- [x] test_replication_contract_hardening_focused.cpp — RCH-01..RCH-16 (Phase 4 closure, 2026-07-29)
+- [x] bench_replication_release_gates.cpp — RRG-01..RRG-06 gate benchmarks (Phase 5 closure, 2026-07-29)
 - [ ] remaining hardening tasks closed for failover/conflict/CDC edge paths
 - [ ] release benchmark stabilization complete
 

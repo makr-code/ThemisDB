@@ -1,6 +1,6 @@
 # Ethics AI Module - Future Enhancements
 
-<!-- Status: current | validated: 2026-06-22 -->
+<!-- Status: current | validated: 2026-07-28 -->
 <!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
 <!-- Research: docs/research/ethics_discourse_process_equality.md -->
 
@@ -29,6 +29,8 @@
 ---
 
 ## Layered Discourse Model (LDM)
+
+<!-- Delivery status: [x] Delivered — 2026-07-28 (Ebene-1/2/3 + Mirror-School-Modus) -->
 
 ### Scope
 
@@ -61,7 +63,7 @@ Full design rationale and complexity analysis: `docs/research/ethics_discourse_p
 
 ### Implementation Notes
 
-#### Ebene-1 — Parallele Erstbewertung (O(N))
+#### Ebene-1 — Parallele Erstbewertung (O(N)) — **delivered 2026-07-28**
 
 - All N schools respond simultaneously to the dilemma context.
 - Each school produces: `DiscourseRoundOutput` (verdict + ≤3 core_thesis_ids + position_abstract ≤100 tokens).
@@ -69,7 +71,7 @@ Full design rationale and complexity analysis: `docs/research/ethics_discourse_p
 - LLM timeout per school → failsafe verdict `ABSTAIN`; school remains in `participating_schools`.
 - Expected N_active (non-ABSTAIN) ≈ 14–18 for typical ethical dilemmas.
 
-#### Ebene-2 — Clusterdiskurs (O(K²·R), K≤6, R≤3)
+#### Ebene-2 — Clusterdiskurs (O(K²·R), K≤6, R≤3) — **delivered 2026-07-28**
 
 Taxonomy-class cluster assignments (static default, dynamic in LDM-6):
 
@@ -96,7 +98,7 @@ Structural tension axes (always activated):
 `round_role_weights` from school YAML remain unchanged — they represent each school's
 authentic argumentative character, not a selection bias.
 
-#### Ebene-3 — Normative Synthese (O(1) + Legal-Lookup)
+#### Ebene-3 — Normative Synthese (O(1) + Legal-Lookup) — **delivered 2026-07-28**
 
 Convergence-counting (not weighted aggregation):
 
@@ -119,7 +121,7 @@ Legal-DB grounding appended to MetaVerdict:
 - Attach `citation_ids` (document references, not LLM text)
 - Set `override_permitted` from dominant school's `regulatory_constraints`
 
-#### Mirror-School-Modus
+#### Mirror-School-Modus — **delivered 2026-07-28**
 
 Non-western schools (islamische_ethik, konfuzianismus, buddhistische_ethik, juedische_bioethik)
 participate as structural self-reflection mirrors when `cross_cultural_sensitivity` is active:

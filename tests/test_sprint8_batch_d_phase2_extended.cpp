@@ -19,7 +19,7 @@
 #include "transaction/saga_orchestrator.h"
 #include "transaction/transaction_auditor.h"
 
-namespace themis::test {
+namespace themis { namespace test { 
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Phase 2: Extended SagaOrchestrator Integration Tests (Group A)
@@ -331,5 +331,4 @@ TEST_F(MoveSemanticRegressionTest, StressTestManyTemplatesAndInstances) {
     auto metrics = orchestrator_.getMetrics();
     EXPECT_EQ(metrics.sagas_completed, 500);  // 50 templates * 10 instances
 }
-
-} // namespace themis::test
+} } // namespace themis::test

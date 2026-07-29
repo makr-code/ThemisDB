@@ -39,7 +39,7 @@
 #include <string>
 #include <vector>
 
-namespace themis::modules {
+namespace themis { namespace modules { 
 
 // =============================================================================
 // Suite 1: AbiChecker — version compatibility edge cases
@@ -691,5 +691,4 @@ TEST_F(OperatorDiagnosticsTest, DependencyConflictFormatEmbedsBothModules) {
     EXPECT_NE(msg.find("storage_v2"), std::string::npos);
     EXPECT_NE(msg.find("storage_v1"), std::string::npos);
 }
-
-} // namespace themis::modules
+} } // namespace themis::modules

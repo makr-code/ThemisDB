@@ -43,6 +43,8 @@ Quarantaene, nicht einen inoffiziellen Reservepool fuer schnelle Reaktivierung.
   — Enger PR-Gate fuer Scanner-Delta-Reporting (Baseline vs Current) mit Artefakt-Upload fuer reproduzierbare Triage
 - `.github/workflows/09-pr-gates_high-exception-record.yml`
   — Enger PR-Gate fuer Vollstaendigkeit akzeptierter High-Finding-Exceptions im PR-Text anhand des High-Exception-Records
+- `.github/workflows/09-pr-gates_private-plugin-boundary.yml`
+  — Enger PR-Gate fuer private-plugin Boundary-, Governance- und Packaging-Aenderungen
 - `.github/workflows/08-quality_doxygen-coverage-gate.yml`
   — Doxygen XML Coverage Gate fuer PRs (Threshold zentral in `.github/ci-scope-config.yaml` unter `quality_gates.docs_coverage_threshold`, Default 90%)
 - `.github/workflows/license-compliance.yml`
@@ -91,6 +93,6 @@ pwsh -NoProfile -File ./scripts/test-github-actions-local.ps1 -Mode all
 ```
 
 ## Stand
-- Aktive Workflows im Verzeichnis `.github/workflows/`: 21
+- Aktive Workflows im Verzeichnis `.github/workflows/`: 22
 - Deaktivierte Workflows in `.github/no_workflows/`: 23
 - Strategie: Lean + harte Triggergrenzen + Quarantaene fuer uebertriggernde CI

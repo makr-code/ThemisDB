@@ -66,3 +66,27 @@ da sie keine Produktdokumentation, sondern KI-Agent-Arbeitsartefakte sind:
 ### Sonstige
 - `TODO_TENSOR.md` — Tensor-spezifisches Stub-Backlog
 - `AI_DECISION_AUDITING_IMPLEMENTATION_SUMMARY.md` — Implementierungszusammenfassung (ex docs/)
+
+## Hierher verschobene Root-Artefakte (2026-07-28)
+
+Die folgenden vormals unreferenzierten Root-Markdown-Dateien wurden aus dem Root erst archiviert
+und anschliessend nach `ai_working/root-md-relocated/2026-07-28/` umgezogen, da sie
+inhaltlich als Arbeits-/Zwischenstandsartefakte besser in `ai_working/` verortet sind.
+
+- `CLEAN_ROOT_FILE_INVENTORY.md`
+- `CPU_GPU_OFFLOAD_DECISION_MATRIX.md`
+- `CTEST_TODO.md`
+- `EPIC3.5_RECOVERY_STRATEGY_SUMMARY.md`
+- `ISSUE_5382_COMPLETION_REPORT.md`
+- `ISSUE_5635_CLOSURE_SUMMARY.md`
+- `LLM_MODULE_PHASE3_FINDINGS.md`
+- `P2_D02_CUDA_IMPLEMENTATION_REPORT.md`
+- `P2_D02_IMPLEMENTATION_REPORT.md`
+- `P2_D02_QUICK_REFERENCE.md`
+- `PHASE1_ONNX_INTEGRATION_SUMMARY.md`
+- `PHASE3_FIELD_DIAGNOSTICS_COMPLETION_REPORT.md`
+- `Q3_2026_BATCH_2_VERIFICATION_REPORT.md`
+- `SPRINT8_PHASE1C_COMPLETION.md`
+- `SPRINT8_WAVE1_SUMMARY.md`
+- `SPRINT_7_BATCH_C_PHASE_2_SUMMARY.md`
+- `TENSOR_ARTIFACT_HARDWARE_ASSESSMENT.md`

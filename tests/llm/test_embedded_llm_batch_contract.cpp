@@ -10,7 +10,7 @@
 #include <cmath>
 #include <vector>
 
-namespace themis::llm {
+namespace themis { namespace llm { 
 namespace {
 
 float l2Norm(const std::vector<float>& values) {
@@ -71,5 +71,4 @@ TEST(EmbeddedLLMBatchContract, ReportsCorrectBackendMetadataWhenNoCallback) {
     EXPECT_EQ(stats.value("backend", std::string{}), "no-backend-fail-closed");
 #endif
 }
-
-} // namespace themis::llm
+} } // namespace themis::llm

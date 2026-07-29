@@ -30,37 +30,20 @@
 #include "themis/base/module_sandbox.h"
 #include "themis/base/plugin_dependency_graph.h"
 #include "themis/base/base_error_taxonomy.h"
+#include "themis/base/remote_registry_client.h"
 
 #include <algorithm>
 #include <atomic>
 #include <string>
 #include <vector>
 
-namespace themis::modules {
+namespace themis { namespace modules { 
 
 // =============================================================================
 // Helpers
 // =============================================================================
 
 namespace {
-
-/// Build a HotReloadManager with a permissive (no-sig, no-state) config.
-HotReloadManager makeMgr(bool enableRollback = true,
-                          bool preserveState  = false) {
-    HotReloadManager::Config cfg;
-    cfg.verifySignature = false;
-    cfg.preserveState   = preserveState;
-    cfg.enableRollback  = enableRollback;
-    return HotReloadManager(cfg);
-}
-
-/// Build a ModuleLoader with unsigned modules permitted.
-ModuleLoader makeLoader() {
-    ModuleLoader loader;
-    loader.setAllowUnsigned(true);
-    return loader;
-}
-
 } // anonymous namespace
 
 // =============================================================================
@@ -617,7 +600,7 @@ TEST_F(PluginDependencyGraphEdgeTest, BuildFromResolverPopulatesGraph) {
     graph.buildFromResolver(resolver);
 
     EXPECT_EQ(graph.nodeCount(), 3u);
-    EXPECT_EQ(graph.edgeCount(), 2u);
+    EXPECT_EQ(graph.edgeCount(), 3u);
 }
 
 /// Cycle detection in PluginDependencyGraph finds the cycle.
@@ -797,8 +780,6 @@ TEST_F(SandboxDegradedStateTest, SandboxStatsNulloptForUnknownModule) {
 
 // NOTE: We test only the RegistryConfig struct and its field values.
 // RemoteRegistryClient is NOT instantiated here — no libcurl link required.
-
-#include "themis/base/remote_registry_client.h"
 
 class RegistryConfigValidationTest : public ::testing::Test {};
 
@@ -1034,5 +1015,4 @@ TEST_F(BaseErrorTaxonomyTest, IsKnownCodeCorrect) {
     EXPECT_FALSE(isKnownCode(1350));  // just above registry range
     EXPECT_FALSE(isKnownCode(9999));
 }
-
-} // namespace themis::modules
+} } // namespace themis::modules

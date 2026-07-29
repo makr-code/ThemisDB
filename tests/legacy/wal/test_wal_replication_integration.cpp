@@ -23,7 +23,7 @@
 
 using json = nlohmann::json;
 
-namespace themis::sharding::tests {
+namespace themis { namespace sharding { namespace tests { 
 
 /**
  * WAL Replication MAJORITY Quorum Integration Tests
@@ -472,5 +472,4 @@ TEST_F(WALReplicationIntegrationTest, AutoFailover) {
     auto stats = health_monitor->getStatistics();
     EXPECT_GE(stats.manual_failovers_triggered, 1);
 }
-
-} // namespace themis::sharding::tests
+} } } // namespace themis::sharding::tests

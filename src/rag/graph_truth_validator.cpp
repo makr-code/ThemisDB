@@ -1,3 +1,11 @@
+/**
+ * @file graph_truth_validator.cpp
+ * @brief RAG graph ground-truth validator implementation.
+ *
+ * Implements GraphTruthValidator: set-intersection scoring, per-query
+ * breakdowns, and integration with the evaluation metric collector.
+ */
+
 #include "rag/graph_truth_validator.h"
 #include "observability/layer_decision_log.h"
 #include "observability/reason_codes.h"

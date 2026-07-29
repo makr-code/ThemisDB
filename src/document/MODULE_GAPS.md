@@ -49,3 +49,15 @@ This file documents all documentation and code quality gaps in the **document** 
 ---
 
 **Phase 5 Verification Notes**: External GitHub submodules (llama.cpp, whisper.cpp, vcpkg, etc.) are explicitly excluded from this analysis via Phase 5 filtering. This ensures all gaps are from themis_core (100% scope accuracy).
+
+---
+
+## Resolved Findings
+
+### [DOC-AUD-01] Schema Transition Edge Hardening
+- **Status:** RESOLVED - 2026-07-28
+- **Resolution:** Added `ERR_DOC_SCHEMA_TRANSITION_INVALID` (9412) and `ERR_DOC_VALIDATION_ABORTED` (9418) to the error taxonomy in `include/utils/error_registry.h`. Both codes are classified as `SCHEMA_VIOLATION` and covered by `classifyDocumentError()` and `documentErrorDescription()` in `include/document/document_diagnostics.h`. Schema transition and non-object-body validation failure paths now have distinct, named error codes with deterministic classification.
+
+### [DOC-AUD-03] Unified Diagnostics Taxonomy
+- **Status:** RESOLVED - 2026-07-28
+- **Resolution:** `include/document/document_diagnostics.h` provides the complete Phase 2 diagnostics taxonomy: `DocumentErrorClass` enum (8 classes), `classifyDocumentError()`, `documentErrorClassName()`, `documentErrorDescription()`, `formatDocumentError()`, and `DocumentDiagnosticSink` — covering all 20 `ERR_DOC_*` codes (9400–9419) across store, schema, merge, lifecycle, round-trip, exchange, and input-validation failure paths. `DocumentDiagnosticSink` is thread-safe via `std::mutex`/`std::lock_guard` with per-class and aggregate error counting.

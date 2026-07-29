@@ -27,7 +27,7 @@
 #include <string>
 #include <vector>
 
-namespace themis::test {
+namespace themis { namespace test { 
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Thin pipeline orchestrator — reused from W5-A, inlined here to keep
@@ -440,5 +440,4 @@ TEST_F(W5BFailureInjectionRecoveryTest, FIR08_RagNoHitsRecoveryReportsCleanError
     EXPECT_TRUE(audit_->Contains("rag", "no_hits"))
         << "Audit must record no_hits";
 }
-
-} // namespace themis::test
+} } // namespace themis::test

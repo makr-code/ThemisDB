@@ -239,7 +239,7 @@ DistributedTransactionManager::DistributedTransactionManager(
                 "remote_phase1_dispatch is configured but no Phase-2 transport bridge is available "
                 "(set phase2_rpc_fn, remote_phase2_dispatch, or setRpcPhase2Fn). "
                 "This would cause remote participants to remain PREPARED indefinitely. "
-                "Stub #279 fix: fail-fast on misconfiguration.");
+                "stub #279 fix: fail-fast on misconfiguration.");
         }
     }
 
@@ -318,7 +318,7 @@ DistributedTransactionManager::beginDistributed(
                     "no Phase-2 transport bridge is configured (phase2_rpc_fn, "
                     "remote_phase2_dispatch, or setRpcPhase2Fn). "
                     "This would cause the participant to remain PREPARED indefinitely. "
-                    "Stub #279 fix: fail-fast on misconfiguration.");
+                    "stub #279 fix: fail-fast on misconfiguration.");
             }
         }
     }

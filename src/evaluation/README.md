@@ -1,6 +1,6 @@
 # Evaluation Module Documentation
 
-<!-- Status: current | aligned with docs/IMPLEMENTATION_ROADMAP.md | validated: 2026-07-17 -->
+<!-- Status: current | aligned with status issue #5643 | validated: 2026-07-29 -->
 
 ## Purpose
 
@@ -24,24 +24,23 @@ continue to advance behind their own phase gates.
 ## Current Delivery State
 
 - Wave A complete: EPIC 2 architecture and sub-issue docs are in `docs/EPIC2_*.md`.
-- Wave B active: `hardware_profile.h/.cc` and `query_planner.h/.cc` provide live EPIC 2 runtime-owned contracts.
-- Wave C active: focused contract coverage exists for hardware profiles in
-  `tests/epic2_evaluation/hardware_profile_test.cc` and for hybrid planning in
-  `tests/epic2_evaluation/query_planner_test.cc`.
-- Wave C active: benchmark baselines now exist in `benchmarks/epic2_evaluation/`,
-  including `planner_decision_bench.cc` for tracking issue #5441 hardening work.
-- Remaining EPIC 2 surfaces continue to be phased independently and should not be
-  treated as implemented unless their local docs and source files say so.
+- Wave B complete at source level: runtime-owned contracts and sources exist for
+  hardware profile, benchmark matrix, retrieval metrics, ablation, approximation,
+  query planning, and artifact lifecycle.
+- Wave C partial: focused tests and benchmark entry points exist in source, but
+  current-cycle executable evidence is still incomplete for status issue #5643.
+- Phase 3-6 closure remains open until runtime policy hardening, refreshed build/test
+  evidence, and benchmark-backed acceptance gates are all recorded.
 
 ## Seven-Phase Gate (module view)
 
 - [x] Phase 1: design and API contract baselines captured
-- [x] Phase 2: hardware-profile and hybrid-planner implementation landed
-- [x] Phase 3: hybrid planner policy enforcement and fallback semantics implemented
-- [x] Phase 4: hybrid planner verification matrix and regression tests implemented
-- [x] Phase 5: hardening against drift/cost regressions
-- [x] Phase 6: planner acceptance documentation tied to source-verifiable behavior
-- [~] Phase 7: planner build/test wiring landed; downstream default-workflow integration remains pending
+- [x] Phase 2: core implementation surfaces landed in source
+- [~] Phase 3: planner-centric policy behavior exists, but module-wide runtime hardening remains open
+- [~] Phase 4: source-level focused tests exist, but refreshed executable evidence is still pending
+- [~] Phase 5: benchmark entry points exist, but measured gates are not yet captured for this issue cycle
+- [~] Phase 6: acceptance docs exist, but closure evidence remains incomplete
+- [ ] Phase 7: default workflow integration remains gated
 
 ## Module Boundaries
 
@@ -65,9 +64,10 @@ hardware-profile targets are wired through the local CMake surfaces.
 Use this module documentation to:
 - map EPIC 2 sub-issues to owned files
 - plan implementation and test sequencing
-- review whether phase gates are met before enabling build targets
+- review whether phase gates are met before enabling default workflow integration
 - trace the shipped planner contract across `include/query_planner.h`,
   `src/query_planner.cc`, tests, and benchmarks
+- review current-cycle blockers in `MODULE_EVIDENCE.md`
 
 ## References
 

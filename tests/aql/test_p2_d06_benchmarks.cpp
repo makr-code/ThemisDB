@@ -26,7 +26,7 @@
 #include "llm/llm_plugin_manager.h"
 #include "llm/ssm_state_store.h"
 
-namespace themis::aql::tests {
+namespace themis { namespace aql { namespace tests { 
 
 // ============================================================================
 // Test Fixtures & Mocks
@@ -359,14 +359,12 @@ TEST_F(P2D06BenchmarkFixture, CompressionStatisticsCollection) {
     // Verify stats contain compression count
     EXPECT_NE(stats.find("compression_count"), std::string::npos);
 }
-
-}  // namespace themis::aql::tests
-
+} } } // namespace themis::aql::tests
 // ============================================================================
 // Google Benchmark Tests (for Wave 7 reporting)
 // ============================================================================
 
-namespace themis::benchmark::wave7 {
+namespace themis { namespace benchmark { namespace wave7 { 
 
 using ::benchmark::State;
 
@@ -530,5 +528,4 @@ BENCHMARK(BenchmarkConcurrentCompressionStress)
     ->UseRealTime()
     ->Repetitions(3)
     ->DisplayAggregatesOnly();
-
-}  // namespace themis::benchmark::wave7
+} } } // namespace themis::benchmark::wave7

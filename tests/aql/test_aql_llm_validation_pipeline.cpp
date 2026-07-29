@@ -25,7 +25,7 @@
 #include <thread>
 #include <atomic>
 
-namespace themis::aql::test {
+namespace themis { namespace aql { namespace test { 
 
 // ============================================================================
 // Mock Implementations
@@ -524,5 +524,4 @@ TEST_F(LLMValidationPipelineTest, VeryLongQueryHandled) {
     // Should handle or fail gracefully
     EXPECT_NE(nullptr, pipeline.get());
 }
-
-} // namespace themis::aql::test
+} } } // namespace themis::aql::test

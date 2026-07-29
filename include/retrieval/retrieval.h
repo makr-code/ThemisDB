@@ -1,3 +1,11 @@
+/**
+ * @file retrieval.h
+ * @brief Umbrella include for the ThemisDB retrieval module.
+ *
+ * Stable public entry-point for the retrieval subsystem including
+ * vector search, keyword search, and hybrid-ranking combiners.
+ */
+
 // ThemisDB — EPIC 1 Hybrid Knowledge Retrieval
 // Canonical umbrella header: include/retrieval/retrieval.h
 //

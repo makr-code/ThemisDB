@@ -6,7 +6,7 @@
 
 #include "llm/lora_framework/distributed_trainer.h"
 
-namespace themis::llm::lora {
+namespace themis { namespace llm { namespace lora { 
 
 TEST(DistributedTrainerGuardFocusedTest, InitializeFailsForWorldSizeZero) {
     DistributedConfig cfg;
@@ -83,5 +83,4 @@ TEST(DistributedTrainerGuardFocusedTest, BroadcastParametersFailsWithoutBroadcas
 
     EXPECT_FALSE(trainer.broadcast_parameters(parameters));
 }
-
-} // namespace themis::llm::lora
+} } } // namespace themis::llm::lora

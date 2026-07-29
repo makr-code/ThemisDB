@@ -19,7 +19,7 @@
 #include <vector>
 #include <string>
 
-namespace themis::voice {
+namespace themis { namespace voice { 
 namespace {
 
 using VoiceAssistantConfig = VoiceAssistant::Config;
@@ -298,8 +298,7 @@ TEST_F(VoiceAssistantVerifyIdentifyTest, IdentifyVoiceProfiles_AuditTimestampSet
 }
 
 }  // namespace
-}  // namespace themis::voice
-
+} } // namespace themis::voice
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();

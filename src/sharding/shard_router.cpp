@@ -197,8 +197,6 @@ std::optional<nlohmann::json> ShardRouter::get(
     if (metrics_) {
         metrics_->recordRoutingRequest("single_shard");
     }
-    
-    // W2-S07: Read consistency model
     // - Default: Read from primary shard (eventual consistency)
     // - With snapshot_timestamp: Read from specified snapshot (MVCC)
     // - No quorum checking: Primary shard is source of truth for consistency
@@ -214,6 +212,7 @@ std::optional<nlohmann::json> ShardRouter::get(
     if (result.success) {
         if (metrics_) {
             metrics_->recordRoutingLatency("get", static_cast<double>(result.execution_time_ms));
+            metrics_->recordCrossShardRequest(result.shard_id, "route", "success");
         }
         return result.data;
     }
@@ -221,6 +220,7 @@ std::optional<nlohmann::json> ShardRouter::get(
     errors_++;
     if (metrics_) {
         metrics_->recordRoutingError(result.shard_id, "get_failed");
+        metrics_->recordCrossShardRequest(result.shard_id, "route", "error");
     }
     return std::nullopt;
 }
@@ -539,6 +539,11 @@ std::vector<ShardResult> ShardRouter::scatterGather(const std::string& query) {
         auto duration_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
             end_time - start_time).count();
         metrics_->recordRoutingLatency("scatter_gather", static_cast<double>(duration_ms));
+        // Phase C observability gate: per-shard cross-shard request counters
+        for (const auto& r : results) {
+            metrics_->recordCrossShardRequest(r.shard_id, "scatter_gather",
+                r.success ? "success" : "error");
+        }
     }
     
     return results;

@@ -34,7 +34,7 @@
 #include <unordered_map>
 #include <unordered_set>
 
-namespace themis::test {
+namespace themis { namespace test { 
 
 namespace {
 
@@ -495,5 +495,4 @@ TEST_F(CrossModuleRecoveryPipelineTest, REC07_ConcurrentRetryAndQueryNoDuplicate
     // Storage count must be exactly kDocs.
     EXPECT_EQ(storage->Size(), kDocs);
 }
-
-} // namespace themis::test
+} } // namespace themis::test

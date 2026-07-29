@@ -139,7 +139,13 @@ std::vector<uint8_t> ExportEncryption::deriveJobDEK(uint32_t key_version) const 
     }
 
     // Fetch KEK – referenced by ID only; raw bytes are never logged.
-    auto kek = config_.key_provider->getKey(config_.kek_id, key_version);
+    // Serialise concurrent callers at the KEK-fetch boundary; key material
+    // is not copied outside the lock scope.
+    std::vector<uint8_t> kek;
+    {
+        std::lock_guard<std::mutex> lk(key_provider_mutex_);
+        kek = config_.key_provider->getKey(config_.kek_id, key_version);
+    }
     if (kek.size() != KEY_LEN) {
         throw std::runtime_error("ExportEncryption: KEK must be 32 bytes (AES-256)");
     }
@@ -165,8 +171,12 @@ std::vector<uint8_t> ExportEncryption::encrypt(const std::vector<uint8_t> &plain
     }
 
     // Fetch key metadata to record the version we used.
-    auto meta                  = config_.key_provider->getKeyMetadata(config_.kek_id);
-    const uint32_t key_version = meta.version;
+    // Serialise concurrent callers at the KEK-metadata boundary.
+    uint32_t key_version = 0;
+    {
+        std::lock_guard<std::mutex> lk(key_provider_mutex_);
+        key_version = config_.key_provider->getKeyMetadata(config_.kek_id).version;
+    }
 
     // Derive per-job DEK.
     auto dek = deriveJobDEK(key_version);
@@ -441,7 +451,7 @@ void ExportEncryption::encryptFile(const std::string &src_path, const std::strin
         && !src.read(reinterpret_cast<char *>(plaintext.data()), static_cast<std::streamsize>(file_size))) {
         throw std::runtime_error("ExportEncryption: failed to read source file: " + src_path);
     }
-    src.close();
+    // src closes via RAII when it goes out of scope.
 
     // Encrypt.
     auto container = encrypt(plaintext);
@@ -489,7 +499,7 @@ void ExportEncryption::decryptFile(const std::string &src_path, const std::strin
         && !src.read(reinterpret_cast<char *>(container.data()), static_cast<std::streamsize>(file_size))) {
         throw std::runtime_error("ExportEncryption: failed to read source file: " + src_path);
     }
-    src.close();
+    // src closes via RAII when it goes out of scope.
 
     // Decrypt.
     auto plaintext = decrypt(container);
@@ -696,9 +706,12 @@ size_t ExportEncryptor::encryptFile(const std::string &input_path, const std::st
     }
 
     // ── 1. Retrieve KEK ───────────────────────────────────────────────────
+    // Serialise concurrent callers at the KEK-fetch boundary; key material
+    // is not copied outside the lock scope.
     std::vector<uint8_t> kek;
     uint32_t kek_version = 0;
     try {
+        std::lock_guard<std::mutex> lk(key_provider_mutex_);
         kek         = config_.key_provider->getKey(config_.kek_id);
         kek_version = config_.key_provider->getKeyMetadata(config_.kek_id).version;
     } catch (const std::exception &e) {
@@ -881,8 +894,10 @@ size_t ExportEncryptor::decryptFile(const std::string &input_path, const std::st
     in_f.seekg(static_cast<std::streamoff>(header_size));
 
     // ── 4. Retrieve KEK ───────────────────────────────────────────────────
+    // Serialise concurrent callers at the KEK-fetch boundary.
     std::vector<uint8_t> kek;
     try {
+        std::lock_guard<std::mutex> lk(key_provider_mutex_);
         kek = config_.key_provider->getKey(kek_id, kek_version);
     } catch (const std::exception &e) {
         throw DecryptionException(std::string("Failed to retrieve KEK '") + kek_id + "' v" + std::to_string(kek_version)

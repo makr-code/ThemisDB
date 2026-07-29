@@ -329,5 +329,156 @@ private:
     mutable CacheStats stats_;
 };
 
+// =============================================================================
+// PlanReuseValidator — Roadmap item: "Add plan reuse validation" (Q3 2026)
+// =============================================================================
+
+/**
+ * @brief Validates whether a cached plan is safe to reuse before execution.
+ *
+ * Separates the reuse-safety decision from the cache implementation so that
+ * callers can apply project-specific policy (e.g. explain-plan diffing,
+ * cardinality re-check, parameter compatibility) without modifying PlanCache.
+ *
+ * ## Usage
+ * @code
+ *   PlanReuseValidator validator;
+ *   validator.setCardinalityDriftFactor(5.0);   // invalidate at 5× drift
+ *
+ *   auto entry = cache.get(query, current_stats);
+ *   auto result = validator.validate(*entry, current_stats);
+ *   if (entry && result.safe()) {
+ *       // safe to execute the cached plan
+ *   } else {
+ *       // must re-plan (result.reason explains why)
+ *   }
+ * @endcode
+ *
+ * Thread safety: all methods are const/side-effect-free and safe to call
+ * concurrently.
+ */
+class PlanReuseValidator {
+public:
+    /**
+     * @brief Verdict returned by validate().
+     */
+    enum class Verdict : uint8_t {
+        /// The cached plan is safe to reuse.
+        SAFE = 0,
+        /// The plan is stale due to statistics drift — must re-plan.
+        STALE_STATISTICS = 1,
+        /// The plan has exceeded its execution-failure budget — re-plan.
+        FAILURE_BUDGET_EXCEEDED = 2,
+        /// The plan has exceeded its maximum age — re-plan.
+        PLAN_EXPIRED = 3,
+    };
+
+    /**
+     * @brief Result of a validate() call with verdict and human-readable reason.
+     */
+    struct Result {
+        Verdict     verdict{Verdict::SAFE};
+        std::string reason;
+
+        bool safe() const noexcept { return verdict == Verdict::SAFE; }
+    };
+
+    // -------------------------------------------------------------------------
+    // Configuration
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Set the cardinality-drift factor that triggers STALE_STATISTICS.
+     *
+     * Default: 10.0 (matches PlanCache internal threshold).
+     * Callers that want earlier invalidation can use a smaller value (e.g. 5.0).
+     *
+     * @param factor  Positive multiplier; must be > 1.0.
+     */
+    void setCardinalityDriftFactor(double factor) noexcept {
+        cardinality_drift_factor_ = (factor > 1.0) ? factor : 10.0;
+    }
+
+    /**
+     * @brief Set the maximum allowed execution-failure count before FAILURE_BUDGET_EXCEEDED.
+     *
+     * Default: 3.
+     */
+    void setMaxFailureCount(size_t count) noexcept {
+        max_failure_count_ = count;
+    }
+
+    /**
+     * @brief Set the maximum plan age before PLAN_EXPIRED.
+     *
+     * Default: 24 h (matches PlanCache default).
+     */
+    void setMaxPlanAge(std::chrono::seconds age) noexcept {
+        max_plan_age_ = age;
+    }
+
+    // -------------------------------------------------------------------------
+    // Validation
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Determine whether a cached plan entry is safe to reuse.
+     *
+     * Checks (in order):
+     * 1. Plan age vs. max_plan_age
+     * 2. Execution-failure count vs. max_failure_count
+     * 3. Per-table cardinality drift vs. cardinality_drift_factor
+     *
+     * @param entry           The PlanCache::CachedPlan candidate.
+     * @param current_stats   Statistics collected immediately before this call.
+     * @return                Result with verdict and human-readable reason.
+     */
+    Result validate(const PlanCache::CachedPlan& entry,
+                    const PlanCache::Statistics& current_stats) const
+    {
+        using clock = std::chrono::system_clock;
+
+        // 1. Age check
+        const auto age = std::chrono::duration_cast<std::chrono::seconds>(
+            clock::now() - entry.created_at);
+        if (age > max_plan_age_) {
+            return {Verdict::PLAN_EXPIRED,
+                    "plan age " + std::to_string(age.count()) +
+                    "s exceeds limit " + std::to_string(max_plan_age_.count()) + "s"};
+        }
+
+        // 2. Failure-budget check
+        if (entry.consecutive_execution_failures >= max_failure_count_) {
+            return {Verdict::FAILURE_BUDGET_EXCEEDED,
+                    "failure_count=" + std::to_string(entry.consecutive_execution_failures) +
+                    " >= max=" + std::to_string(max_failure_count_)};
+        }
+
+        // 3. Cardinality-drift check against the cached statistics snapshot
+        for (const auto& [table, cached_card] : entry.statistics_snapshot.table_cardinalities) {
+            if (cached_card == 0) continue;
+            auto it = current_stats.table_cardinalities.find(table);
+            if (it == current_stats.table_cardinalities.end()) continue;
+            const double ratio = static_cast<double>(it->second) /
+                                 static_cast<double>(cached_card);
+            if (ratio > cardinality_drift_factor_ ||
+                ratio < (1.0 / cardinality_drift_factor_))
+            {
+                return {Verdict::STALE_STATISTICS,
+                        "table '" + table + "' cardinality drifted " +
+                        std::to_string(ratio) + "x (threshold " +
+                        std::to_string(cardinality_drift_factor_) + "x)"};
+            }
+        }
+
+        return {Verdict::SAFE, "ok"};
+    }
+
+private:
+    double              cardinality_drift_factor_{10.0};
+    size_t              max_failure_count_{3};
+    std::chrono::seconds max_plan_age_{86400};  // 24 h
+};
+
 } // namespace query
 } // namespace themis

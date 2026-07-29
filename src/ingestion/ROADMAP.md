@@ -29,8 +29,12 @@ Production ingestion runtime exists across multi-source connectors, orchestratio
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [ ] freeze connector/control/quality/workflow contracts for active major line (Target: Q3 2026)
-- [ ] define explicit error taxonomy for connector, validation, and workflow failure classes (Target: Q3 2026)
+- [x] freeze connector/control/quality/workflow contracts for active major line (Delivered: Q3 2026)
+- [x] define explicit error taxonomy for connector, validation, and workflow failure classes (Delivered: Q3 2026)
+  - Contract header: `include/ingestion/ingestion_api_contract.h`
+  - Error codes: INGESTION_BUFFER_FULL, INGESTION_SCHEMA_INVALID, INGESTION_DUPLICATE_KEY,
+    INGESTION_QUOTA_EXCEEDED, INGESTION_TIMEOUT, INGESTION_BATCH_ROLLBACK,
+    INGESTION_BACKEND_UNAVAILABLE, INGESTION_CONNECTOR_FAILED, INTERNAL_ERROR
 
 ### Phase 2: Core Implementation
 - [ ] complete hardening for connector intake and orchestration internals (Target: Q4 2026)
@@ -41,16 +45,25 @@ Production ingestion runtime exists across multi-source connectors, orchestratio
 - [ ] unify diagnostics across retry/quarantine/validation/quality incidents (Target: Q4 2026)
 
 ### Phase 4: Tests
-- [ ] expand focused regressions for mixed connector and workflow edge scenarios (Target: Q4 2026)
-- [ ] extend deterministic stress fixtures for high-throughput ingestion operations (Target: Q4 2026)
+- [x] expand focused regressions for mixed connector and workflow edge scenarios (Delivered: Q3 2026)
+- [x] extend deterministic stress fixtures for high-throughput ingestion operations (Delivered: Q3 2026)
+  - Test file: `tests/ingestion/test_ingestion_contract_hardening_focused.cpp`
+  - Test cases: INCH-01..INCH-16 (write-path, batch atomicity, schema validation, back-pressure)
+  - kIngestionContractSeed = 42; all tests self-contained, no external I/O
 
 ### Phase 5: Performance and Hardening
-- [ ] lock benchmark-backed release gates for ingestion hot paths (Target: Q4 2026)
-- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+- [x] lock benchmark-backed release gates for ingestion hot paths (Delivered: Q3 2026)
+- [x] validate p95/p99 and throughput behavior against release baselines (Delivered: Q3 2026)
+  - Benchmark file: `benchmarks/ingestion/bench_ingestion_release_gates.cpp`
+  - Gates: INRG-01..INRG-06 (write ≥500k/s, batch ≤5ms, schema ≤100µs,
+    buffer ≤10µs, backpressure ≤50µs, quota ≤50µs)
+  - kIngestionCanonicalSeed = 42; Repetitions(5)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core ingestion module docs aligned to source-verifiable behavior
 - [x] roadmap/future planning separated from historical changelog entries
+- [x] Phase 1-6 Wave 3B Category-D closure delivered (Q3 2026)
+  - Contract header, 16 focused tests (INCH-01..16), 6 release-gate benchmarks (INRG-01..06)
 
 ## Production Readiness Checklist
 

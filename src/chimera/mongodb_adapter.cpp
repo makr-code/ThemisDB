@@ -6,6 +6,14 @@
  * Copyright MIT License.
  */
 
+/**
+ * @file mongodb_adapter.cpp
+ * @brief MongoDB backend adapter implementation.
+ *
+ * CRUD, batch, and transaction forwarding to MongoDB through the
+ * Chimera IDatabaseAdapter contract.
+ */
+
 #include "chimera/mongodb_adapter.hpp"
 #include "utils/uuid.h"
 

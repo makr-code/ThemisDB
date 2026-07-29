@@ -30,7 +30,8 @@
 namespace http = boost::beast::http;
 using json = nlohmann::json;
 
-namespace themis::server {
+namespace themis { 
+namespace server { 
 namespace {
 
 http::request<http::string_body> makeRequest(
@@ -170,4 +171,6 @@ TEST_F(FeedbackApiHandlerTest, CreateMirrorsIntoLiveCollectorAndTriggersLoop4) {
 }
 
 } // namespace
+
+}
 } // namespace themis::server

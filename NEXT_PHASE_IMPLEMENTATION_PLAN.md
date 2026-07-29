@@ -1,19 +1,146 @@
 # ThemisDB Next Phase Implementation Plan
 
 **Document:** Implementation roadmap and work-stream coordination  
-**Status:** 🚀 ACTIVE KICKOFF  
-**Last Updated:** 2026-07-18  
-**Target Completion:** 2026-08-19 (Phase 3), Q4 2026 (Production Release)
+**Status:** 🟡 ACTIVE — GATE-DRIVEN REBASELINE
+**Last Updated:** 2026-07-28
+**Target Completion:** Re-baselined to roadmap-driven GA closure gates (Phase 2/3/5/6 + Batch D)
+
+---
+
+## Source-of-Truth Rebaseline (2026-07-28)
+
+- `ROADMAP.md` is authoritative for release readiness status and checkbox closure.
+- This plan is now an execution companion only; if any statement conflicts with `ROADMAP.md`, treat the roadmap as canonical.
+- Promotion remains blocked until:
+  - open Phase 2/3/5 tasks in `ROADMAP.md` are closed with fresh evidence,
+  - open Phase 6 governance/documentation checkboxes are closed,
+  - Batch D promotion checklist is complete,
+  - human sign-off in `docs/governance/GA_PROMOTION_SIGN_OFF.md` Section 9 is completed.
+
+### Current Open Scope (rebased to roadmap gates)
+
+1. Phase 2: Graph/query optimisation closure under measurable latency/cache/pool/Wave-7 non-regression gates.
+2. Phase 3: Release-critical + Wave 5/6 retention + Wave 8/chaos evidence re-confirmed on current `develop`.
+3. Phase 5: Operational readiness closure (observability, backup/recovery proof, SLA evidence, runbook/manual checklist closure).
+4. Phase 6: Root governance/documentation synchronization closure across canonical root files.
+5. Batch D: D-1..D-10 evidence re-verified on current `develop`, then D-11 human approval.
+
+---
+
+## Phase 1-6 Subagent Execution Contract (2026-07-28)
+
+### Branch and Promotion Guard
+
+- Default implementation target branch is `develop` (hotfix exception path per `BRANCHING_STRATEGY.md` §6.4 remains valid).
+- Promotion to `community` is blocked until the complete gate chain is PASS and human sign-off in `docs/governance/GA_PROMOTION_SIGN_OFF.md` Section 9 is complete.
+
+### Central Control Thread (mandatory before Phase 1)
+
+- Maintain one central execution board with:
+  - backlog items and owner subagent,
+  - live gate status (`build`, `test`, `benchmark`, `security`, `docs`),
+  - evidence links per completed gate,
+  - current risk register and mitigation owner.
+- Work proceeds strictly in sequence across Phase 1 → Phase 6.
+- Parallel work is allowed only **inside** the active phase.
+- Every phase closure must include:
+  - Definition of Done (DoD),
+  - explicit gate evidence,
+  - risk update,
+  - documentation/governance sync check.
+
+### Subagent Role Matrix
+
+| Subagent | Primary Responsibility | Required Output |
+|---|---|---|
+| `themisdb-implementer` | module implementation/fixes and test updates | merged change set + test/bench evidence |
+| `themisdb-reviewer` | findings-first regression/security/correctness review | review findings + release recommendation |
+| `gap-verifier` | validate scanner gaps and prioritize true positives | validated gap list with severity/order |
+| `themisdb-doc-orchestrator` | roadmap/governance/doc synchronization (L1-L4 + SOT) | synchronized docs + drift report |
+| `doc-orchestrator` (optional) | cross-module documentation cadence control | cadence report + unresolved doc blockers |
+
+### Phase Execution Blocks (entry, parallelization, exit)
+
+#### Phase 1 — Top-Risk Module Hardening (`server`, `llm`, `sharding`)
+- Entry:
+  - validated open critical gaps available from `gap-verifier`.
+- Parallelization:
+  - `themisdb-implementer` runs module workstreams in parallel (`server`/`llm`/`sharding`),
+  - `themisdb-reviewer` performs rolling findings-first review.
+- Exit:
+  - no new CRITICAL findings,
+  - no undocumented failure mode on release-critical paths,
+  - evidence linked on control board.
+
+#### Phase 2 — Performance/Scalability Readiness
+- Entry:
+  - Phase 1 exit criteria fully PASS.
+- Parallelization:
+  - optimization batches can run per subsystem (cache/pool/cost-model/load balancing),
+  - review lane stays independent and mandatory.
+- Exit:
+  - Wave-7 non-regression evidence PASS,
+  - repeatable load results and rollback path documented.
+
+#### Phase 3 — Integration & Resilience Proof
+- Entry:
+  - Phase 2 performance and rollback evidence complete.
+- Parallelization:
+  - `release_critical` stability, Wave5/6 retention, and Wave8/chaos lanes may run concurrently.
+- Exit:
+  - continuous green `release_critical` chain,
+  - resilience/recovery evidence complete and linked.
+
+#### Phase 4 — Security & Compliance Hardening
+- Entry:
+  - integration/resilience evidence from Phase 3 complete.
+- Parallelization:
+  - `gap-verifier` security validation and `themisdb-implementer` remediation batches run in lockstep.
+- Exit:
+  - no new CRITICAL security findings,
+  - sanitizer/pentest/residual-risk status consistent and documented.
+
+#### Phase 5 — Operational Production Readiness
+- Entry:
+  - Phase 4 security/compliance closure complete.
+- Parallelization:
+  - observability/auditability and backup/recovery/SLA proof streams may run in parallel.
+- Exit:
+  - 99.99% SLA evidence complete,
+  - runbook-backed operational readiness approved by reviewer lane.
+
+#### Phase 6 — Documentation, Governance, Release Approval
+- Entry:
+  - Phases 1-5 technical gates all PASS.
+- Parallelization:
+  - `themisdb-doc-orchestrator` drives canonical file synchronization,
+  - optional `doc-orchestrator` verifies cadence and unresolved drifts.
+- Exit:
+  - `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `RELEASE_STRATEGY.md`, `VERSIONING.md`, `CHANGELOG.md`, and branch governance docs are mutually consistent,
+  - human GA promotion sign-off complete.
+
+### Global Transition Rule (hard gate)
+
+- No phase transition is allowed without full gate package PASS:
+  - build,
+  - tests,
+  - benchmarks,
+  - security checks,
+  - documentation/governance checks.
+
+### Delivery Mode
+
+- Execution remains batch-oriented: larger, complete remediation blocks are preferred over micro-fix iterations.
 
 ---
 
 ## Executive Summary
 
-The project transitions from **foundational completion** (Graph Phase 2.4 ✅, Distributed Tensor Phase 4 ✅) to **optimization and hardening** across three concurrent work streams:
+The project transitions from **foundational completion** (Graph Phase 2.4 ✅, Distributed Tensor Phase 4 ✅) to **optimization and hardening** across sequenced phases with in-phase parallelization:
 
 1. **Graph Module Phase 3** — Query optimization, cache efficiency, resource pooling (6 weeks)
-2. **Cross-Module Hardening** — Critical path fixes: server wire-protocol, LLM exception safety, sharding consistency (Phases 5-7)
-3. **AQL 2.0.0 Language Expansion** — DDL, Geospatial, FTS parser integration (18-23 weeks, parallel)
+2. **Cross-Module Hardening** — Critical path fixes: server wire-protocol, LLM exception safety, sharding consistency (mapped to current Phase 1/4/5 gates)
+3. **AQL 2.0.0 Language Expansion** — DDL, Geospatial, FTS parser integration (18-23 weeks, sequenced by gate readiness)
 
 **Immediate Focus:** Graph Phase 3 + Wave 7/8 benchmark verification + LLM/Server Phase 5 hardening (first 4 weeks)
 
@@ -35,11 +162,11 @@ The project transitions from **foundational completion** (Graph Phase 2.4 ✅, D
 
 ### Remaining Open Scope (binding order)
 
-1. **Block A** — P3-01 + P3-02 (Graph optimizer + cache)
-2. **Block D** — P5-L01 + P5-L02 (LLM hardening)
-3. **Block E** — P6-01 + P6-02 + P6-03 (Sharding consistency + fault injection)
-4. **Parallel lane** — AQL 2.0 Phase 2 (DDL first; Geospatial/FTS after DDL gate)
-5. **Evidence stream** — Wave 8 mandatory for distributed robustness signoff
+1. **Phase 2 closure** — Graph/query optimisation backlog with measurable non-regression evidence.
+2. **Phase 3 closure** — release_critical + Wave 5/6 retention + Wave 8/chaos resilience evidence refresh.
+3. **Phase 5 closure** — operational readiness (observability, backup/recovery, SLA, runbook/manual sign-off artefacts).
+4. **Phase 6 closure** — governance/documentation synchronization across canonical root files.
+5. **Batch D completion** — D-1..D-10 re-verification on current `develop`, then D-11 human approval.
 
 ### Acceptance Source Mapping (open scope)
 
@@ -84,7 +211,7 @@ The project transitions from **foundational completion** (Graph Phase 2.4 ✅, D
 
 ---
 
-### 🎯 **Phase 5: Server & LLM Hardening** (PARALLEL)
+### 🎯 **Phase 5: Server & LLM Hardening** (SEQUENCED PHASE; MODULE LANES MAY RUN IN PARALLEL)
 
 **Timeline:** 2026-07-22 to 2026-08-09 (3 weeks)  
 **Status:** ✅ Implemented (Block D complete; transition to GA sign-off evidence)  
@@ -107,10 +234,10 @@ The project transitions from **foundational completion** (Graph Phase 2.4 ✅, D
 
 ---
 
-### 🎯 **Phase 6: Sharding Consistency & Fault Injection** (PARALLEL)
+### 🎯 **Block E (Historical Delivery Stream): Sharding Consistency & Fault Injection**
 
 **Timeline:** 2026-07-22 (delivered ahead of schedule)  
-**Status:** ✅ Complete  
+**Status:** ✅ Complete (historical delivery stream; not part of current Phase 1-6 numbering contract)  
 **Scope:** Transaction consistency, failover guarantees, distributed fault injection tests  
 **Target Release:** v2.0.0-rc1 (Oct 2026)
 
@@ -124,7 +251,7 @@ The project transitions from **foundational completion** (Graph Phase 2.4 ✅, D
 
 ---
 
-### 🎯 **AQL 2.0.0 Language Expansion** (PARALLEL, LONGER TIMELINE)
+### 🎯 **AQL 2.0.0 Language Expansion** (SEPARATE LANE; ADMITTED ONLY AFTER ACTIVE PHASE GATES PASS)
 
 **Timeline:** 2026-07-15 onwards  
 **Status:** 🟡 Phase 2 Complete, Phase 3 (Geospatial) Queued
@@ -134,7 +261,7 @@ The project transitions from **foundational completion** (Graph Phase 2.4 ✅, D
 | Phase 1 | Parser + AST + Tokenizer + Safety | 5 weeks | ✅ Complete | ✅ DONE 2026-07-15 |
 | Phase 2 | DDL (CREATE/DROP/ALTER COLLECTION/INDEX/VIEW) | 4-6 weeks | Team G | ✅ DONE 2026-07-22 |
 | Phase 3 | Geospatial (ST_* parser integration) | 2-3 weeks | Team H | 🔵 Queued (after Phase 2) |
-| Phase 4 | FTS enhancement | 2-3 weeks | Team H | 🔵 Queued (parallel with Phase 3) |
+| Phase 4 | FTS enhancement | 2-3 weeks | Team H | 🔵 Queued (after active phase-gate admission) |
 | Phase 5 | Integration & testing | 3-4 weeks | Team G+H | 🔵 Queued |
 
 **Phase 2 Delivery (DDL):**
@@ -205,7 +332,7 @@ The project transitions from **foundational completion** (Graph Phase 2.4 ✅, D
 | **Team B** | 2 eng | Phase 3: Resource pooling + load balancing | Phase 5-S02: HTTP patterns |
 | **Team C** | 2 eng | Phase 5: Server hardening | Wave 7 re-runs |
 | **Team D** | 2 eng | Phase 5: LLM exception safety | Gap remediation Batch 1 |
-| **Team E** | 2 eng | Phase 6: Sharding consistency + failover | Wave 8: DFR scenarios |
+| **Team E** | 2 eng | Block E (historical): Sharding consistency + failover | Wave 8: DFR scenarios |
 | **Team F** | 2 eng | Wave 8: Fault injection suite + scenarios | Gap remediation Batch 2 |
 | **Team G** | 2 eng | AQL Phase 2: DDL implementation | — |
 | **Team H** | 1 eng | AQL Phase 3-4: Geospatial + FTS | — |
@@ -214,9 +341,11 @@ The project transitions from **foundational completion** (Graph Phase 2.4 ✅, D
 
 ---
 
-## Immediate Next Actions (Week 1: 2026-07-22 to 2026-07-26)
+## Immediate Next Actions (Week 1: 2026-07-22 to 2026-07-26, historical kickoff snapshot)
 
-### Priority 1: Kickoff Phase 3 & Phase 5
+> Archived planning snapshot. Active execution order and gate transitions are governed by the Phase 1-6 Subagent Execution Contract above.
+
+### Priority 1: Kickoff snapshot (historical)
 
 - [ ] **Monday 2026-07-22:** Architecture review meetings (Teams A, B, C, D present roadmaps)
 - [ ] **Monday-Tuesday:** Create GitHub issues + milestones for Phase 3, Phase 5-S, Phase 5-L
@@ -228,7 +357,7 @@ The project transitions from **foundational completion** (Graph Phase 2.4 ✅, D
 ### Priority 2: Establish Monitoring & Tracking
 
 - [ ] Create GitHub Project for "Next Phase Implementation" with columns: TODO / In Progress / Review / Blocked / Done
-- [ ] Create issue templates for Phase 3, Phase 5, Phase 6, Wave 8
+- [ ] Create issue templates for Phase 3, Phase 5, governance Phase 6, and Wave 8
 - [ ] Set up daily standup tracking doc in ai_working/NEXT_PHASE_STATUS.md
 - [ ] Establish weekly review gates (every Friday)
 
@@ -312,7 +441,7 @@ The project transitions from **foundational completion** (Graph Phase 2.4 ✅, D
 | LLM memory leak not reproducible | Medium | High | Dedicated memory profiler; daily Valgrind runs on CI |
 | Sharding consensus bug discovered | Low | Critical | 2PC/3PC formal verification test; chaos engineering |
 | AQL Phase 2 parser complexity | Medium | Medium | Reference sql_parser.cpp; weekly design reviews |
-| Resource contention (all teams active) | Low | Low | Staggered kickoffs (Phase 3 + Phase 5 week 1; Phase 6 week 4) |
+| Resource contention (all teams active) | Low | Low | Staggered kickoffs within contract sequence; historical Block E work remains closed |
 
 ---
 
@@ -338,26 +467,18 @@ The project transitions from **foundational completion** (Graph Phase 2.4 ✅, D
 
 ---
 
-## Decision Tree: Which Phase to Start?
+## Decision Tree: Which Phase to Start? (Contract-aligned)
 
 ```
-START: You have 2 weeks of capacity
+START: Determine current active phase on central control board
 
-Are Wave 7 gates confirmed PASS? ──YES──> Start Phase 3 + Phase 5 in parallel
-                                          (Primary: Graph Phase 3 focus)
-                                    NO──> BLOCKER: Re-run Wave 7 until gates pass
-                                          (Cannot advance without baseline)
-
-Is LLM exception-safety audit complete? ──YES──> Start Phase 5-L immediately
-                                           NO──> Schedule LLM audit as Day 1 task
-                                                 (3 days, max)
-
-Is server wire-protocol retry merge-ready? ──YES──> Start Phase 5-S immediately
-                                           NO──> Complete code review
-                                                 (1-2 days, then merge)
-
-Do you have >= 12 engineers? ──YES──> Full parallel execution (all phases)
-                               NO──> Stagger: Phase 3 week 1-2, Phase 5 week 2-4
+Is prior phase fully PASS (DoD + gates + risk + docs)? ──NO──> BLOCKER: close prior phase
+                                                        YES
+                                                         │
+                                                         └─ Activate next phase
+                                                              │
+                                                              ├─ Parallelize only module lanes inside active phase
+                                                              └─ Keep reviewer/gap/doc lanes mandatory before exit
 ```
 
 ---
@@ -373,9 +494,9 @@ Do you have >= 12 engineers? ──YES──> Full parallel execution (all phase
 
 ### Release Promotion
 - v1.9.0-beta: 2026-09-15 (Phase 3 + Phase 5 complete, Wave 7/8 verified)
-- v2.0.0-rc1: 2026-10-15 (Phase 6 + AQL Phase 2-3 complete)
+- v2.0.0-rc1: 2026-10-15 (governance Phase 6 + AQL Phase 2-3 complete)
 - v2.0.0 GA: 2026-11-15 (Production hardening + SLA validation)
 
 ---
 
-**Next Action:** Review this plan with team leads. Run the decision tree above. Begin Phase 3 architecture review on 2026-07-22.
+**Next Action:** Review this plan with team leads, update the central control board, and execute the next not-yet-closed phase in contract order.

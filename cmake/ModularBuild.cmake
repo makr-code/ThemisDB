@@ -19,6 +19,22 @@ if(THEMIS_BUILD_MODULAR)
     else()
         message(STATUS "Modular build enabled (v${PROJECT_VERSION} >= 1.4.0)")
     endif()
+
+    function(_themis_modular_mark_public_optional_source result_var relative_src_path)
+        if(EXISTS "${CMAKE_SOURCE_DIR}/${relative_src_path}")
+            set(${result_var} ON PARENT_SCOPE)
+        else()
+            message(STATUS "Modular optional public source missing (treated as private/externalized): ${relative_src_path}")
+            set(${result_var} OFF PARENT_SCOPE)
+        endif()
+    endfunction()
+
+    _themis_modular_mark_public_optional_source(THEMIS_HAS_PUBLIC_MYSQL_IMPORTER "src/importers/mysql_importer.cpp")
+    _themis_modular_mark_public_optional_source(THEMIS_HAS_PUBLIC_MONGO_IMPORTER "src/importers/mongo_importer.cpp")
+    _themis_modular_mark_public_optional_source(THEMIS_HAS_PUBLIC_KAFKA_IMPORTER "src/importers/kafka_importer.cpp")
+    _themis_modular_mark_public_optional_source(THEMIS_HAS_PUBLIC_S3_IMPORTER "src/importers/s3_importer.cpp")
+    _themis_modular_mark_public_optional_source(THEMIS_HAS_PUBLIC_BLOB_BACKEND_S3 "src/storage/blob_backend_s3.cpp")
+    _themis_modular_mark_public_optional_source(THEMIS_HAS_PUBLIC_BLOB_BACKEND_AZURE "src/storage/blob_backend_azure.cpp")
 endif()
 
 # Optional module configuration (only relevant when THEMIS_BUILD_MODULAR=ON)
@@ -233,6 +249,8 @@ set(THEMIS_BASE_SOURCES
     ../src/core/concerns/i_logger.cpp
     ../src/core/concerns/concerns_context.cpp
     ../src/core/concerns/context_propagation.cpp
+    ../src/core/concerns/adapter_registry.cpp
+    ../src/core/concerns/adapter_signing.cpp
     ../src/core/concerns/redis_cache.cpp
     ../src/core/concerns/lockfree_metrics.cpp
     ../src/core/concerns/zero_copy_logger.cpp
@@ -391,8 +409,8 @@ set(THEMIS_STORAGE_SOURCES
     # Index maintenance moved to THEMIS_SECURITY_SOURCES (depends on vector index internals)
     # Blob storage backends
     ../src/storage/blob_backend_filesystem.cpp
-    $<$<AND:$<BOOL:${THEMIS_ENABLE_BLOB_S3}>,$<BOOL:${THEMIS_ENABLE_CLOUD_STORAGE}>,$<BOOL:${THEMIS_HAS_AWS_SDK}>>:../src/storage/blob_backend_s3.cpp>
-    $<$<AND:$<BOOL:${THEMIS_ENABLE_BLOB_AZURE}>,$<BOOL:${THEMIS_ENABLE_CLOUD_STORAGE}>,$<BOOL:${THEMIS_HAS_AZURE_STORAGE}>>:../src/storage/blob_backend_azure.cpp>
+    $<$<AND:$<BOOL:${THEMIS_ENABLE_BLOB_S3}>,$<BOOL:${THEMIS_ENABLE_CLOUD_STORAGE}>,$<BOOL:${THEMIS_HAS_AWS_SDK}>,$<BOOL:${THEMIS_HAS_PUBLIC_BLOB_BACKEND_S3}>>:../src/storage/blob_backend_s3.cpp>
+    $<$<AND:$<BOOL:${THEMIS_ENABLE_BLOB_AZURE}>,$<BOOL:${THEMIS_ENABLE_CLOUD_STORAGE}>,$<BOOL:${THEMIS_HAS_AZURE_STORAGE}>,$<BOOL:${THEMIS_HAS_PUBLIC_BLOB_BACKEND_AZURE}>>:../src/storage/blob_backend_azure.cpp>
     $<$<AND:$<BOOL:${THEMIS_ENABLE_BLOB_WEBDAV}>,$<BOOL:${THEMIS_ENABLE_CLOUD_STORAGE}>>:../src/storage/blob_backend_webdav.cpp>
     $<$<AND:$<BOOL:${THEMIS_ENABLE_BLOB_GCS}>,$<BOOL:${THEMIS_ENABLE_CLOUD_STORAGE}>,$<BOOL:${THEMIS_HAS_GCS_SDK}>>:../src/storage/blob_backend_gcs.cpp>
     # Merge operators (counter, list-append RocksDB custom operators)
@@ -728,16 +746,16 @@ set(THEMIS_QUERY_SOURCES
     ../src/exporters/huggingface_hub_client.cpp
     ../src/importers/conflict_resolver.cpp
     $<$<BOOL:${THEMIS_ENABLE_POSTGRES_WIRE}>:../src/importers/postgres_importer.cpp>
-    ../src/importers/mysql_importer.cpp
-    ../src/importers/mongo_importer.cpp
+    $<$<BOOL:${THEMIS_HAS_PUBLIC_MYSQL_IMPORTER}>:../src/importers/mysql_importer.cpp>
+    $<$<BOOL:${THEMIS_HAS_PUBLIC_MONGO_IMPORTER}>:../src/importers/mongo_importer.cpp>
     ../src/importers/sqlite_importer.cpp
     ../src/importers/flatfile_importer.cpp
     ../src/importers/huggingface_ingest_plugin.cpp
     ../src/importers/schema_validator.cpp
-    ../src/importers/kafka_importer.cpp
+    $<$<BOOL:${THEMIS_HAS_PUBLIC_KAFKA_IMPORTER}>:../src/importers/kafka_importer.cpp>
     ../src/importers/oracle_importer.cpp
     ../src/importers/gui_import_wizard.cpp
-    $<$<BOOL:${THEMIS_ENABLE_S3}>:../src/importers/s3_importer.cpp>
+    $<$<AND:$<BOOL:${THEMIS_ENABLE_S3}>,$<BOOL:${THEMIS_HAS_PUBLIC_S3_IMPORTER}>>:../src/importers/s3_importer.cpp>
     ../src/importers/schema_inference.cpp
     ../src/importers/column_importance.cpp
     ../src/importers/crdt_importer.cpp
