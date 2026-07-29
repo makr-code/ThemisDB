@@ -18,9 +18,10 @@ environment by a missing RocksDB dependency during configure.
 
 ## In Progress
 
-- [~] hardening policy/filter parity and edge behavior across all exporter variants (Target: Q3 2026)
-- [~] benchmark stabilization for export throughput and delta/stream hot paths (Target: Q3 2026)
-- [~] diagnostics consistency improvements for policy denial and export failure classes (Target: Q3 2026)
+- [~] complete hardening for format pipelines and orchestration internals (Target: Q4 2026)
+- [~] align security and governance behavior to bounded runtime contracts (Target: Q4 2026)
+- [~] standardize fail-closed behavior for unauthorized/unsafe export scenarios (Target: Q4 2026)
+- [~] unify diagnostics across stream/incremental/join and hub upload failures (Target: Q4 2026)
 
 ### Wave 3B hardening batch (2026-07-29)
 - [x] Incremental exporter now applies `ExportOptions::filter_expression` parity with streaming/jsonl flows (`src/exporters/incremental_exporter.cpp`; `tests/exporters/test_incremental_exporter.cpp`).
@@ -105,10 +106,10 @@ environment by a missing RocksDB dependency during configure.
 
 ## Open Work (Issue #5644)
 
-- [x] validate and refine extracted roadmap priorities against full module docs in `src/exporters/ROADMAP.md`
-- [x] validate and refine extracted future focus points against full module docs in `src/exporters/FUTURE_ENHANCEMENTS.md`
+- [~] validate and refine extracted roadmap priorities against full module docs in `src/exporters/ROADMAP.md`
+- [~] validate and refine extracted future focus points against full module docs in `src/exporters/FUTURE_ENHANCEMENTS.md`
 - [~] add/refresh focused build and test evidence for this module (configure blocker documented in Evidence Summary)
-- [x] mark completed synced items and risks with explicit status transitions
+- [~] mark completed synced items and risks with explicit status transitions
 
 ## Closure Criteria (Issue #5644)
 

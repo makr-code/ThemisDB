@@ -10,6 +10,18 @@
 - stricter benchmark-backed guardrails for exporter hot paths
 - issue #5644 sync revalidated this focus set against `ROADMAP.md` priorities
 
+### Roadmap-aligned horizon priorities
+
+#### Short-term (3-6 months)
+- tighten deterministic behavior for mixed-format and mixed-policy export permutations (Target: Q4 2026)
+- expand regressions for join/stream/incremental checkpoint edge scenarios (Target: Q4 2026)
+- improve operator-facing observability for hub upload and redaction incidents (Target: Q4 2026)
+
+#### Mid-term (6-12 months)
+- re-baseline p95/p99 and throughput envelopes for major exporter paths (Target: Q1 2027)
+- broaden benchmark depth for join/predicate and template-heavy workflows (Target: Q1 2027)
+- harden long-running reliability under sustained large-export workloads (Target: Q1 2027)
+
 ## Design Constraints
 
 - exporter contracts remain backward compatible within major release line.
@@ -28,10 +40,10 @@
 
 ## Implementation Notes
 
-- tighten policy and filter parity across all exporter variants.
-- standardize diagnostics for denial, redaction, and checkpoint failure classes.
-- expand resilience tests for sustained high-volume mixed-format exports.
-- broaden benchmark depth for advanced join/template/upload workflows.
+- complete hardening for format pipelines and orchestration internals.
+- align security and governance behavior to bounded runtime contracts.
+- standardize fail-closed behavior for unauthorized and unsafe export scenarios.
+- unify diagnostics across stream/incremental/join and hub upload failure classes.
 
 ### 2026-07-29 hardening delivery snapshot
 - Filter-parity was extended to incremental and join exporters using `ExportOptions::filter_expression` (merged-record evaluation for join paths).
