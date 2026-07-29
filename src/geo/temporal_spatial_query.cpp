@@ -195,6 +195,19 @@ TemporalSpatialQuery::entitiesWithinDistanceAtTime(
             search_box.maxx = center_lon + deg_lon;
             search_box.maxy = center_lat + deg_lat;
 
+            // Anti-meridian safety: when the radius crosses ±180° the MBR
+            // would wrap and exclude valid candidates.  Expand to the full
+            // longitude range instead; false positives are filtered by the
+            // exact Haversine check below.
+            if (search_box.minx < -180.0 || search_box.maxx > 180.0) {
+                search_box.minx = -180.0;
+                search_box.maxx = 180.0;
+            }
+
+            // Clamp latitude range to valid WGS-84 limits.
+            search_box.miny = std::max(search_box.miny, -90.0);
+            search_box.maxy = std::min(search_box.maxy,  90.0);
+
             const auto candidate_keys = snapshot_idx.intersects(search_box);
 
             std::vector<themisdb::temporal::VersionedDocument> result;

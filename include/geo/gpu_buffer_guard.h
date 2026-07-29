@@ -67,10 +67,14 @@ struct CudaBuffer {
 
     /**
      * @brief Allocate @p bytes of device memory.
+     *
+     * Any existing allocation owned by this guard is released first.
      * @return cudaSuccess on success; a non-success error code on failure.
-     *         On failure `ptr` remains nullptr.
+     *         On failure the previous allocation has already been freed and
+     *         `ptr` is set to nullptr.
      */
     [[nodiscard]] cudaError_t alloc(std::size_t bytes) noexcept {
+        free(); // release any existing allocation before overwriting ptr
         return cudaMalloc(&ptr, bytes);
     }
 
@@ -157,9 +161,14 @@ struct HipBuffer {
 
     /**
      * @brief Allocate @p bytes of HIP device memory.
+     *
+     * Any existing allocation owned by this guard is released first.
      * @return hipSuccess on success; error code on failure.
+     *         On failure the previous allocation has already been freed and
+     *         `ptr` is set to nullptr.
      */
     [[nodiscard]] hipError_t alloc(std::size_t bytes) noexcept {
+        free(); // release any existing allocation before overwriting ptr
         return hipMalloc(&ptr, bytes);
     }
 

@@ -22,6 +22,8 @@
 #include "geo/spatial_backend.h"
 
 #include <chrono>
+#include <cmath>
+#include <cstdint>
 #include <string>
 #include <vector>
 

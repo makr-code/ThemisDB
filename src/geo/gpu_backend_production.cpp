@@ -19,6 +19,7 @@
  */
 
 #include <algorithm>
+#include <chrono>
 #include <cmath>
 #include <future>
 #include <memory>
