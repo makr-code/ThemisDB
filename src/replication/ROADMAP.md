@@ -26,6 +26,26 @@ Production-capable replication runtime exists for orchestration, promotion/failo
 - [ ] broaden benchmark depth for advanced multi-tier and multi-writer scenarios (Target: Q1 2027)
 - [ ] harden long-run reliability under sustained cross-node replication traffic (Target: Q1 2027)
 
+### Distributed Maturity Phase 3 — Track 2 Items (Q3–Q4 2026)
+
+These items are part of the next-phase **Track 2: Distributed Systems Maturity** plan
+(see `ROADMAP.md §Track 2`). Hard gate per item: deterministic under-load benchmark + `release_critical` CI green.
+
+#### 3.1 Replication
+
+- [ ] **Geographic replica placement policies**: extend `ReplicationManager` to accept placement
+  constraints (region/zone affinity, anti-affinity, minimum copies per DC); reflect constraint in
+  leader election and failover candidate selection (Target: Q3 2026)
+  - Inputs: placement policy DSL (JSON/YAML); DC topology map
+  - Acceptance: leader election respects placement constraints in 3-DC topology test; failover
+    selects candidate in the correct DC; deterministic benchmark confirms sub-50 ms election
+- [ ] **Async cross-region WAL shipping with configurable lag limits**: replicate WAL segments to
+  remote DCs asynchronously; operator-configurable lag limit (default 1 s); emit alert metric
+  when lag limit exceeded (Target: Q3 2026)
+  - Inputs: `replication.wal_shipping.max_lag_ms` config key; remote DC endpoint
+  - Acceptance: WAL ship throughput ≥ 80 MB/s on GbE link; lag alert fires within 2× lag window;
+    `replication_wal_lag_ms` Prometheus histogram wired
+
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract

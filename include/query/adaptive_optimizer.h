@@ -24,6 +24,7 @@
 #include <map>
 #include <memory>
 #include <mutex>
+#include <optional>
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -308,7 +309,38 @@ public:
     static bool pinThreadToCpu(int cpu_id);
 };
 
+/**
+ * @brief Detects geospatial predicate patterns from query text and injects optimizer hints.
+ *
+ * Recognizes FILTER predicates like `ST_Within(field, @poly)` and injects
+ * `GEO` index hints into optimizer metadata for downstream plan selection.
+ */
+class GeoPredicatePatternDetector {
+public:
+    struct DetectedSpatialHint {
+        std::string function_name;   ///< Normalized spatial function name.
+        std::string field_reference; ///< First argument field reference.
+    };
+
+    /**
+     * @brief Detect geospatial FILTER patterns in query text.
+     * @param query_text Raw AQL query text.
+     * @return Spatial hint metadata when a supported pattern is found.
+     */
+    static std::optional<DetectedSpatialHint> detect(const std::string& query_text);
+
+    /**
+     * @brief Inject GEO index hints for supported spatial FILTER patterns.
+     * @param query_text Raw AQL query text.
+     * @param hints Mutable hint map to augment.
+     * @param suggested_indexes Mutable suggested-index list to augment.
+     */
+    static void injectSpatialIndexHints(
+        const std::string& query_text,
+        std::map<std::string, std::string>& hints,
+        std::vector<std::string>& suggested_indexes);
+};
+
 } // namespace query
 } // namespace themis
-
 

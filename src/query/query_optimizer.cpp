@@ -222,6 +222,12 @@ QueryOptimizer::Plan QueryOptimizer::chooseOrderForAndQueryWithNLP(
         // Get index suggestions
         plan.nlp_suggested_indexes = nlp.suggestIndexes(original_query_text);
 
+        // Inject deterministic spatial index hint for FILTER ST_Within(field, literal/@param).
+        GeoPredicatePatternDetector::injectSpatialIndexHints(
+            original_query_text,
+            plan.nlp_hints,
+            plan.nlp_suggested_indexes);
+
         // Re-run serialization advisor with NLP-refined workload type.
         // If the NLP analysis signals an analytics/aggregation workload, upgrade
         // the advice so the execution path correctly reflects OLAP patterns.

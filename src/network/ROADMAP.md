@@ -25,6 +25,23 @@ Production-grade transport and protocol layer with TCP wire protocol, WebSocket,
 - [ ] Expand resilience validation for mesh/topology-aware routing under partial failures (Target: Q1 2027)
 - [ ] Advance transport observability and security telemetry fidelity across all network front doors (Target: Q1 2027)
 
+### Distributed Maturity Phase 3 — Track 2 Items (Q3–Q4 2026)
+
+These items are part of the next-phase **Track 2: Distributed Systems Maturity — 3.5 Network** plan
+(see `ROADMAP.md §Track 2`). Hard gate per item: deterministic under-load benchmark + `release_critical` CI green.
+
+- [ ] **HTTP/3 QUIC production enablement**: promote the existing QUIC/HTTP3 implementation from
+  experimental to production-default for external API endpoints; validate connection migration and
+  0-RTT resumption under realistic packet-loss profiles (Target: Q3 2026)
+  - Acceptance: QUIC connection migration test passes at 1% simulated packet loss; 0-RTT handshake
+    succeeds on reconnect within 50 ms; HTTP/3 throughput ≥ HTTP/2 baseline; `release_critical` green
+- [ ] **Zero-copy socket I/O**: wire `io_uring` (Linux ≥ 5.12) or `sendfile`/`splice` for large
+  payload sends on TCP and QUIC paths; fall back to standard `send()` on platforms without support (Target: Q4 2026)
+  - Inputs: payload size threshold (default 64 KB), platform capability probe at startup
+  - Acceptance: throughput for large payloads (≥ 1 MB) increases ≥ 20% vs. copy-send baseline;
+    CPU utilization decreases ≥ 15% under sustained large-payload load; no regression for small
+    payloads; `release_critical` green
+
 ## Implementation Phases
 
 ### Phase 1: Protocol and Session Safety

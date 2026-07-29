@@ -21,6 +21,7 @@
 #include "query/adaptive_optimizer.h"
 #include "query/query_optimizer.h"
 #include "index/secondary_index.h"
+#include <algorithm>
 #include <thread>
 #include <chrono>
 #include <filesystem>
@@ -215,6 +216,44 @@ TEST(AdaptivePlanSelector, ShouldNotSwitchPlanNearEnd) {
     
     // Near end (95% done), don't switch even if estimates are off
     EXPECT_FALSE(selector.shouldSwitchPlan(9500, 1000, 0.95, 5.0));
+}
+
+// ============================================================================
+// GeoPredicatePatternDetector Tests
+// ============================================================================
+
+TEST(GeoPredicatePatternDetector, DetectsFilterWithinPatternWithBindParam) {
+    const std::string query =
+        "FOR doc IN places FILTER ST_Within(doc.location, @poly) RETURN doc";
+
+    auto detected = GeoPredicatePatternDetector::detect(query);
+    ASSERT_TRUE(detected.has_value());
+    EXPECT_EQ(detected->function_name, "st_within");
+    EXPECT_EQ(detected->field_reference, "doc.location");
+}
+
+TEST(GeoPredicatePatternDetector, InjectsGeoIndexHintsForWithinPattern) {
+    const std::string query =
+        "FOR doc IN places FILTER ST_Within(doc.geometry, @poly) RETURN doc";
+
+    std::map<std::string, std::string> hints;
+    std::vector<std::string> suggested_indexes;
+    GeoPredicatePatternDetector::injectSpatialIndexHints(query, hints, suggested_indexes);
+
+    ASSERT_TRUE(hints.find("index_hint") != hints.end());
+    EXPECT_EQ(hints["index_hint"], "GEO");
+    EXPECT_EQ(hints["geo_predicate"], "ST_Within");
+    EXPECT_EQ(hints["geo_field"], "doc.geometry");
+    EXPECT_NE(std::find(suggested_indexes.begin(), suggested_indexes.end(), "geo"),
+              suggested_indexes.end());
+}
+
+TEST(GeoPredicatePatternDetector, RejectsNonLiteralSecondArgument) {
+    const std::string query =
+        "FOR a IN places FOR b IN areas FILTER ST_Within(a.location, b.region) RETURN a";
+
+    auto detected = GeoPredicatePatternDetector::detect(query);
+    EXPECT_FALSE(detected.has_value());
 }
 
 // ============================================================================

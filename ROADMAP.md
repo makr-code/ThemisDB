@@ -20,14 +20,15 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 ## Research & Papers Integration (Soll-Ist Vergleich)
 
 **Soll (target state):**
-- [ ] Every roadmap status claim with scientific/algorithmic relevance is linked to canonical research sources in `research/` and/or `research/papers/` (Target: ongoing, enforced in Phase 6).
-- [ ] For each top-risk or release-critical module, maintain an explicit mapping `research source -> planned capability -> implementation evidence` via `research/implementation_influence/by_module.md` (Target: 2026-08).
-- [ ] Root roadmap updates include a recurring Soll-Ist snapshot for research-backed features (Target: every root roadmap sync).
+- [~] Every roadmap status claim with scientific/algorithmic relevance is linked to canonical research sources in `research/` and/or `research/papers/` (Target: ongoing, enforced in Phase 6).
+- [x] For each top-risk or release-critical module, maintain an explicit mapping `research source -> planned capability -> implementation evidence` via `research/implementation_influence/by_module.md` (Target: 2026-08). ✅ **Done 2026-07-27** — server, llm, sharding sections fully expanded with five-column format.
+- [~] Root roadmap updates include a recurring Soll-Ist snapshot for research-backed features (Target: every root roadmap sync).
 
 **Ist (current state, 2026-07-27):**
 - [x] Research and paper inventories exist (`research/README.md`, `research/papers/README.md`) and already contain implementation status entries.
-- [~] Roadmap includes research references in selected domains (for example Tensor/LoRA sections), but the comparison is not yet maintained as a dedicated recurring root checklist across all modules.
-- [ ] A consolidated root-level Soll-Ist matrix for all research-backed roadmap claims is not yet fully established.
+- [x] Top-risk modules (`server`, `llm`, `sharding`) now have comprehensive research-source → planned-capability → implementation-evidence mappings in `research/implementation_influence/by_module.md` (updated 2026-07-27).
+- [~] Other modules use legacy four-column format; will be expanded on next per-module roadmap sync.
+- [ ] A consolidated root-level Soll-Ist matrix for all research-backed roadmap claims is not yet fully established (Target: Q3 2026).
 
 ## Release Hardening Program (current canonical version: v2.4.0-rc1)
 
@@ -110,6 +111,122 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 
 ### Breaking Changes
 - Private plugin manifests gain new compatibility and visibility fields; loaders must treat missing fields as backward-compatible defaults during the migration window.
+
+---
+
+## LLM Wiki Enterprise Plugin (`themisdb_llm_wiki`)
+
+> Full specification: [`plugins/private/themisdb_llm_wiki/ROADMAP.md`](plugins/private/themisdb_llm_wiki/ROADMAP.md)
+> Enhancement spec: [`plugins/private/themisdb_llm_wiki/FUTURE_ENHANCEMENTS.md`](plugins/private/themisdb_llm_wiki/FUTURE_ENHANCEMENTS.md)
+> Public SDK header: [`include/llm_wiki/llm_wiki_plugin_interface.h`](include/llm_wiki/llm_wiki_plugin_interface.h)
+> Plugin manifest: [`plugins/private/themisdb_llm_wiki/plugin.json`](plugins/private/themisdb_llm_wiki/plugin.json)
+
+### Current Status
+
+- [x] Core C++ building blocks delivered in the LLM module:
+  `WikiIndexStore`, `WikiChunkSplitter`, `WikiRagSource` (🟢 PRODUCTION-READY)
+- [x] Python MVP CLI (`scripts/llm_wiki_mvp.py`) — `index`, `query`, `wiki-init`, `wiki-ingest`,
+  `wiki-query`, `wiki-lint` (🟢 MVP-COMPLETE, tests in `tests/test_llm_wiki_mvp.py`)
+- [x] Wikipedia XML dump ingestion C++ pipeline (`src/importers/wikipedia_*.cpp`) (🟢 PRODUCTION-READY)
+- [x] Public C++ SDK interface `ILLMWikiPlugin` defined (`include/llm_wiki/llm_wiki_plugin_interface.h`)
+  — Phase 1 delivered (🟡 BETA)
+- [x] Plugin manifest `plugin.json` created with full edition/capability/sub-feature metadata
+- [ ] Private plugin shared library (`themisdb_llm_wiki_cpp`) not yet implemented (Phase 2)
+
+### In Progress
+
+- [~] Phase 1 — Design / API contract: `ILLMWikiPlugin` interface + manifest delivered (Target: Q3 2026)
+- [ ] Phase 2 — Core implementation: private plugin `.so` wrapping existing C++ blocks
+  (Target: Q3–Q4 2026)
+
+### Planned Features
+
+- [ ] Private plugin shared library implementing `ILLMWikiPlugin` (Target: Q4 2026)
+  - Inputs: `WikiIngestOptions`, `WikiQueryOptions`; outputs: `WikiIngestResult`, `WikiQueryResult`
+  - Constraint: Phase A JSON fallback when `rocksdb_dir` is empty; no hard RocksDB dep at load time
+- [ ] WikiIndexStore Phase B activation (RocksDB-native BM25 + HNSW + RRF) (Target: Q4 2026)
+  - Perf target: ≥ 2× query throughput vs. Phase A at 50k chunks; p95 < 100 ms
+- [ ] Persistent embedding cache backed by RocksDB (Target: Q4 2026)
+  - Behavior: keyed on `(doc_id + sha256(content))`; cache miss triggers re-embedding; ≥ 99% hit rate on re-ingest
+- [ ] C++ workspace orchestrator (`WikiWorkspaceOrchestrator`), replacing Python MVP (Target: Q4 2026)
+  - State persistence: `state.json` with atomic write-replace; append-only log
+- [ ] `ingestWikipediaDump()` wired through `ILLMWikiPlugin` ABI (Target: Q4 2026)
+  - Sub-feature `"llm_wiki_wikipedia"` required; `Status::PermissionDenied` otherwise
+- [ ] RBAC-aware multi-tenant wiki namespaces (Target: Q2 2027)
+- [ ] Quality evaluation: Recall@k, MRR, p95 latency reporting in `stats()` (Target: Q1 2027)
+
+### Implementation Phases
+
+#### Phase 1 — Design / API Contract
+- [x] `ILLMWikiPlugin` public C++ SDK interface in `include/llm_wiki/llm_wiki_plugin_interface.h`
+  with typed request/response structs and C-linkage factory symbol
+- [x] `plugin.json` manifest with edition gating, sub-features, capabilities, and dependency metadata
+- [ ] Freeze ABI version at v0.1.0 and document backward-compatibility policy (Target: Q3 2026)
+- [ ] Document `initialize()` JSON config schema fully (Target: Q3 2026)
+
+#### Phase 2 — Core Implementation
+- [ ] `LLMWikiPluginImpl : ILLMWikiPlugin` in private plugin repo (Target: Q3–Q4 2026)
+  - `ingest()`: `WikiChunkSplitter::split()` per file → `WikiIndexStore::writeBatch()`
+  - `query()`: guardrail filter → `WikiIndexStore::query()` (Phase A or Phase B)
+  - Workspace methods: delegate to `WikiWorkspaceOrchestrator`
+  - `ingestWikipediaDump()`: delegate to `WikipediaPipeline` with sub-feature check
+- [ ] `WikiWorkspaceOrchestrator` C++ implementation (Target: Q4 2026)
+- [ ] `themisdb_llm_wiki_create()` factory export with C linkage (Target: Q3 2026)
+
+#### Phase 3 — Error Handling & Edge Cases
+- [ ] Partial-failure semantics for `ingest()`: log per-file errors, continue, populate `failed_files` (Target: Q4 2026)
+- [ ] Guardrail extension: add `"sudo"`, `"base64 decode"`, `"eval("`, `"exec("` patterns (Target: Q4 2026)
+- [ ] Workspace corruption detection and recovery for `state.json` (Target: Q4 2026)
+- [ ] Edition-gate enforcement: `Status::Error` in community/minimal runtimes (Target: Q4 2026)
+
+#### Phase 4 — Tests
+- [ ] `LWP-01..LWP-08` — ingest + query round-trip with hash provider; Recall@k ≥ 0.8 (Target: Q4 2026)
+- [ ] `LWP-09..LWP-16` — workspace lifecycle; log entries; page creation; orphan detection (Target: Q4 2026)
+- [ ] `LWP-17..LWP-20` — guardrail coverage (Target: Q4 2026)
+- [ ] `LWP-INT-01..LWP-INT-04` — live RocksDB fixture; Phase B write→query; concurrent safety (Target: Q1 2027)
+- [ ] `LWP-WIKI-01..02` — Wikipedia dump smoke test; sub-feature gate (Target: Q1 2027)
+- [ ] `LWP-GATE-01` — edition-gate negative test (Target: Q4 2026)
+- [ ] `LWP-PERF-01` — p95 query latency < 200 ms at 5k chunks (Target: Q1 2027)
+
+#### Phase 5 — Performance / Hardening
+- [ ] Phase B activation + Phase A→B migration path with automatic index rebuild (Target: Q1 2027)
+- [ ] Persistent embedding cache in RocksDB column family (Target: Q1 2027)
+- [ ] Batch embedding API (`embedBatch()`) during ingestion (Target: Q1 2027)
+- [ ] Wikipedia ingestion throughput ≥ 5k articles/s benchmarked (Target: Q2 2027)
+- [ ] Signed plugin SHA-256 verification active in production CI (Target: Q2 2027)
+
+#### Phase 6 — Documentation & Acceptance
+- [ ] Update `docs/architecture/llm_wiki_mvp_adr.md` with enterprise plugin architecture (Target: Q4 2026)
+- [ ] Operator runbook: install, configure, ingest, query, upgrade, rollback (Target: Q1 2027)
+- [ ] Developer guide: plugin wiring, workspace setup, Wikipedia dump ingestion (Target: Q1 2027)
+- [ ] Migration guide: Python MVP → C++ plugin (index format compat, workspace import) (Target: Q1 2027)
+
+### Production Readiness Checklist
+
+- [ ] `ILLMWikiPlugin` ABI frozen at v0.1; breaking changes require semver minor bump
+- [ ] Edition gate enforced: `Status::Error` in community/minimal runtimes
+- [ ] `LWP-01..LWP-20` focused tests pass with `TIMEOUT 120`
+- [ ] Integration tests `LWP-INT-01..LWP-INT-04` pass with live RocksDB fixture
+- [ ] p95 query latency < 200 ms at 5k chunks (Phase A) and < 100 ms at 50k chunks (Phase B)
+- [ ] Persistent embedding cache ≥ 99% hit rate on re-ingest of unchanged docs
+- [ ] Wikipedia sub-feature license gate verified
+- [ ] Signed plugin verification active in production CI
+- [ ] Operator runbook complete
+
+### Known Issues & Limitations
+
+- Private plugin shared library not yet implemented; Phase A JSON reader is the current production backend.
+- `WikiWorkspaceOrchestrator` C++ port not yet started; Python MVP is the reference implementation.
+- Wikipedia dump ingestion not yet wired through `ILLMWikiPlugin` ABI.
+- `llm_wiki_plugin_interface.h` is BETA (v0.1.0); ABI may change until v1.0.0.
+
+### Breaking Changes
+
+- `llm_wiki_plugin_interface.h` v0.1.0 is BETA; callers must re-link when the interface is promoted to v1.0.0.
+- `plugin.json` sub-feature key `"llm_wiki_wikipedia"` added; loaders that do not understand
+  sub-features must treat it as a no-op (backward-compatible).
+
+---
 
 ## In Progress
 
@@ -264,28 +381,29 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 
 **Status:** 🟡 ACTIVE (Scope-Freeze baseline confirmed 2026-07-20; Batch A done; Batch B done; Batch C closed — sanitizer/pentest evidence delivered; Batch D in progress — final human governance sign-off pending at `docs/governance/GA_PROMOTION_SIGN_OFF.md`)  
 **Implementation Plans:** [NEXT_PHASE_IMPLEMENTATION_PLAN.md](NEXT_PHASE_IMPLEMENTATION_PLAN.md), [ai_working/PHASE3_OPTIMIZATION_DETAILED_PLAN.md](ai_working/PHASE3_OPTIMIZATION_DETAILED_PLAN.md), [ai_working/PHASE5_HARDENING_DETAILED_PLAN.md](ai_working/PHASE5_HARDENING_DETAILED_PLAN.md), [ai_working/NEXT_PHASE_30_60_90_BACKLOG.md](ai_working/NEXT_PHASE_30_60_90_BACKLOG.md)
-**Kickoff Runner:** `/home/runner/work/ThemisDB/ThemisDB/scripts/next_phase_kickoff.py` (Wave-7 hard-gate + baseline go/no-go report)
+**Kickoff Runner:** `scripts/next_phase_kickoff.py` (Wave-7 hard-gate + baseline go/no-go report)
 
+### Parallel Work Streams — v2.4.0-rc1 GA Closure (historical)
 ### Parallel Work Streams (4-6 weeks, historical execution snapshot)
 
 > Historical planning snapshot retained for traceability. Active gate sequencing is governed by the Phase 1-6 execution contract and does not allow cross-phase transitions without full gate closure.
 
 | Phase | Component | Timeline | Effort | Teams | Target Tests | Status |
 |-------|-----------|----------|--------|-------|-------------|--------|
-| **Phase 3** | Graph: Query optimization, cache efficiency, resource pooling | 6 weeks | 10 weeks | A+B (4 eng) | 130 new | 🟡 Active (Block B complete, Block A complete) |
+| **Phase 3** | Graph: Query optimization, cache efficiency, resource pooling | 6 weeks | 10 weeks | A+B (4 eng) | 130 new | ✅ Complete (Block A + Block B done) |
 | **Phase 5-S** | Server: Wire-protocol retry + HTTP timeout patterns | 3 weeks | 4 weeks | C (2 eng) | 39 new | ✅ Complete (Block C) |
 | **Phase 5-L** | LLM: Exception safety + memory leak fixes | 3 weeks | 6 weeks | D (2 eng) | 51 new | ✅ Complete (Block D) |
+| **Phase 6** | Sharding: 2PC/3PC consistency + fault injection | 3 weeks | 6 weeks | E+F (4 eng) | 60+ new | ✅ Complete (P6-01..P6-03, 2026-07-22) |
+| **AQL Phase 2** | DDL implementation (parser + executor) | 4-6 weeks | 6 weeks | G (2 eng) | 32 new | ✅ DDL done 2026-07-22; Geospatial [~] in progress; FTS [ ] queued |
+| **Wave 8** | Soak + endurance + degradation fault injection | Parallel | 8 weeks | F (2 eng) | 40+ scenarios | ✅ Gate-integrated (gate-integrated in `release_critical`) |
 | **Block E (historical)** | Sharding: 2PC/3PC consistency + fault injection | 3 weeks | 6 weeks | E+F (4 eng) | 60+ new | ✅ Complete (P6-01/TXC-01..TXC-32 + P6-02/FLR-01..FLR-20 + P6-03/FI-01..FI-40, 2026-07-22) |
 | **AQL Phase 2** | DDL implementation (parser + executor) | 4-6 weeks | 6 weeks | G (2 eng) | 32 new | 🟡 Active (DDL parser + executor + 32 tests delivered 2026-07-22; geospatial/FTS queued) |
 | **Wave 8** | Soak + endurance + degradation fault injection | Parallel | 8 weeks | F (2 eng) | 40+ scenarios | 🟡 Active (gate-integrated) |
 
-**Total New Tests:** 352+ (Phase 3: 130, Phase 5: 90, Phase 6: 60+, AQL: 32, Wave 8: 40+)  
-**Total Team Effort:** ~38 weeks across 8 teams (~15 engineers)  
-**Release Target (historical execution label):** originally planned as `v1.9.0-beta` → `v2.0.0`; current canonical repository version is `v2.4.0-rc1` (`VERSION`, `CHANGELOG.md`).
+**Total New Tests (historical):** 352+ (Phase 3: 130, Phase 5: 90, Phase 6: 60+, AQL DDL: 32, Wave 8: 40+)
 
-### Scope-Freeze & Remaining Work (2026-07-20)
+### Scope-Freeze Done Baseline (fixed, not re-opened)
 
-**Done baseline (fixed, not re-opened):**
 - [x] Graph Phase 2.4 complete (326 tests, CRITICAL-gap closure baseline)
 - [x] Wave 5 hardening complete
 - [x] Wave 6 hardening complete
@@ -293,17 +411,69 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 - [x] Block C complete (P5-S01/P5-S02, server hardening)
 - [x] Block B complete (P3-03/P3-04, resource/scheduling hardening)
 - [x] Block A complete (P3-01/P3-02, optimizer + cache hardening, 2026-07-20)
-- [x] **Done-evidence sync:** Server P5-S01/P5-S02 + LLM P5-L01/P5-L02 consolidated in module roadmaps and plan trackers
-- [x] **Regression evidence retained:** Wave 5/6 completion and Wave 7 PASS baseline linked into GA hardening context
-- [~] **Build reproducibility blocker tracking active:** `linux-release` (missing Ninja + `vcpkg` toolchain), `community-release` (missing RocksDB)
-- [x] **Gate model operationalized:** `release_critical` on `develop` treated as mandatory entry gate in root governance docs
+- [x] Done-evidence sync: Server P5-S01/P5-S02 + LLM P5-L01/P5-L02 consolidated in module roadmaps
+- [x] Regression evidence retained: Wave 5/6 completion and Wave 7 PASS baseline linked into GA hardening context
+- [~] Build reproducibility blocker tracking active: `linux-release` (missing Ninja + `vcpkg` toolchain), `community-release` (missing RocksDB)
+- [x] Gate model operationalized: `release_critical` on `develop` treated as mandatory entry gate
 
-**Open implementation scope (binding sequence):**
-- [x] Block A first: P3-01/P3-02 (optimizer + cache, 2026-07-20)
-- [x] Block D second: P5-L01/P5-L02 (LLM hardening, 2026-07-20)
-- [x] Block E third: P6-01/P6-02/P6-03 (sharding + fault injection, 2026-07-22)
-- [ ] AQL Phase 2 in parallel lane (DDL first, Geospatial/FTS sequenced)
-- [ ] Wave 8 as mandatory robustness evidence for Block E/release readiness
+### Post-v2.4.0-rc1 Next-Phase Tracks (2026-07-27 — active)
+
+> Full plan: `ai_working/NEXT_PHASE_30_60_90_BACKLOG.md`. Tracks below are the canonical execution order.
+
+**Track 0 — GA Promotion Gate** (🔴 Prerequisite — human action)
+- [~] All 9 technical gates PASS; Gate D-9 (human governance sign-off `docs/governance/GA_PROMOTION_SIGN_OFF.md §9`) is the only remaining blocker
+- [ ] Gate D-8 final: confirm CHANGELOG `[Unreleased]` → `[2.4.0]` and VERSIONING updated (Target: on sign-off)
+- [ ] `develop → community` merge and GA tag creation (Target: on human approval)
+- [~] Build-reproducibility blockers tracked as DEF-01 (confirmed deferred, not blocking GA)
+
+**Track 1 — AQL 2.0.0 Completion** (🟡 P1, Q3–Q4 2026)
+- [x] AQL Mutations Phases 1–5 complete (2026-07-15); DDL delivered (2026-07-22)
+- [~] Geospatial parser wiring: ST_* functions need FILTER/SORT/RETURN context wiring (Target: Q3 2026)
+- [ ] FTS query enhancement: phrase/proximity queries; ≤100ms on 100K documents (Target: Q3–Q4 2026)
+- [ ] Cross-feature integration tests: 1000+ tests, zero v1.x regressions (Target: Q4 2026)
+- Gate model: 6 go/no-go gates in `src/query/AQL_V2_0_0_COMPLETE_ROADMAP.md`
+
+**Track 2 — Distributed Systems Maturity** (🟡 P2, Q3–Q4 2026 — Phase 3 of long roadmap)
+- [ ] Replication 3.1: geographic replica placement policies + async cross-region WAL shipping (Target: Q3 2026)
+- [ ] Sharding 3.2: automatic rebalancing + cross-datacenter latency-aware routing + global secondary indexes (Target: Q3–Q4 2026)
+- [ ] Graph 3.3: cross-shard graph query execution + distributed Betweenness Centrality (Target: Q4 2026)
+- [ ] Storage 3.4: tiered hot/warm/cold with automatic data migration + cloud-native S3/GCS/Azure hardening (Target: Q4 2026)
+- [ ] Network 3.5: HTTP/3 QUIC production enablement + zero-copy socket I/O (Target: Q4 2026)
+- Gate: deterministic under-load benchmark + `release_critical` CI green on `develop`
+
+**Track 3 — Observability & Operational Excellence** (🟡 P3, Q4 2026 — Phase 4)
+- [ ] End-to-end distributed trace correlation across all 58 modules (Target: Q4 2026)
+- [ ] Anomaly-driven alerting with root-cause analysis hints + continuous profiling (eBPF/perf) (Target: Q4 2026)
+- [ ] ML-based retention policy recommendations + cost-aware task prioritisation (Target: Q4 2026)
+- [ ] Per-query retrieval guardrails for federated cost/pruning with SLO-validated benchmarks (Target: Q4 2026)
+- [ ] Automated legacy config migration with dry-run mode (Issue #1661, Target: Q4 2026)
+- [ ] Production observability dashboards for ANN/Tensor/Graph/Final-Layer handoff quality (Target: Q4 2026)
+- Gate: SLO dashboards delivered + Wave 9 gate retention
+
+**Track 4 — Security Hardening & Compliance** (🔵 P4, Q1 2027 — Phase 5, prerequisite: GA tag)
+- [ ] Zero-trust continuous verification framework (Issue #1541, Target: Q1 2027)
+- [ ] Fine-grained ABAC with OPA policy expressions (Issue #1538, Target: Q1 2027)
+- [ ] Certificate-based mTLS authentication (Issue #2370, Target: Q1 2027)
+- [ ] SAML 2.0 SP/IdP-initiated SSO completion (Target: Q1 2027)
+- [ ] OPA integration + CCPA/CPRA automated data-subject rights fulfilment (Target: Q1 2027)
+- [ ] Automated SOC 2 Type II evidence collection (Target: Q1 2027)
+- [ ] Plugin/driver interaction security hardening (Issue #1394) + shader integrity (Target: Q1 2027)
+- Gate: zero new CRITICAL findings; SOC 2 evidence complete
+
+**Track 5 — Gap Scanner Phase 6 + Research Traceability** (🟡 P5, Q3–Q4 2026)
+- [x] Top-risk module research traceability: `research/implementation_influence/by_module.md` enhanced for server, llm, sharding with five-column implementation evidence (2026-07-27)
+- [ ] Deploy 5 Phase 6 gap scanners (+6,000–10,000 gaps projected) (Target: Q3–Q4 2026)
+- [ ] Phase 1–4 scanner enhancements: 12 new patterns (C-1 race, M-1 UAF, M-2 double-free, S-1 secrets, S-2 crypto, S-3 injection) (Target: Q3 2026)
+- [ ] Establish recurring root Soll-Ist snapshot for research-backed claims (Target: every root sync)
+- Gate: scanner deployment CI + `by_module.md` completeness for all top-risk modules
+
+**Track 6 — Auth Mid-Term + Wave C Stubs** (🔵 P6, Q4 2026–Q1 2027)
+- [ ] Auth: fail-closed for optional-provider-degraded scenarios + deterministic protocol regression suite (Target: Q4 2026)
+- [ ] Auth: re-baseline p95/p99 on representative production profiles + multi-realm trust-state hardening (Target: Q1 2027)
+- [ ] liboqs SPHINCS+ production implementation (conditioned on liboqs ≥ 0.10.0 in vcpkg) (Target: Q4 2026)
+- [ ] Windows analytics stubs: SIMD port to `<intrin.h>` + Windows CI job (Target: Q4 2026)
+- [ ] OpenGL compute shader 5 remaining kernels (`THEMIS_ENABLE_OPENGL` gate) (Target: Q1 2027)
+- Gate: module ROADMAP `[x]` per item + no new CRITICAL findings
 
 ### Gate-Oriented Execution Rules (Binding)
 

@@ -5,6 +5,82 @@ All notable changes to ThemisDB will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-07-27 — Next-Phase Tracks 0–6 Governance + Research Traceability
+
+### AQL v2.0.0 Geospatial Parser Wiring — Phase 1 Complete (Batch C, 2026-07-27)
+
+- `tests/aql/test_aql_st_predicates.cpp`: rewritten with 26 production tests across 4 suites
+  (`AQLGeoParserFilterTest` × 7, `AQLGeoParserContextTest` × 3, `AQLGeoFilterEvalTest` × 13,
+  `AQLGeoFilterParseEvalTest` × 3); covers FILTER/SORT/RETURN + parse-then-eval end-to-end.
+- **Key finding**: ST_* functions (`ST_Distance`, `ST_Within`, `ST_Contains`, `ST_Intersects`,
+  `ST_DWithin`, `ST_GeomFromGeoJSON`, `ST_AsGeoJSON`) already evaluate in FILTER/SORT/RETURN
+  contexts via `qe_evalFunction` in `query_engine.cpp` — no parser changes required.
+- `src/query/AQL_GEOSPATIAL_ROADMAP.md`: Phase 1 status updated to `[x]` COMPLETE; Phase 2
+  (optimizer spatial index hints) and Phase 3 (performance gate ≤ 50 ms / 100K points) remain open.
+- `src/query/ROADMAP.md`: Geospatial entry updated from `[~]` to `[x]` Phase 1 complete.
+- `src/query/AQL_V2_0_0_COMPLETE_ROADMAP.md`: overall status updated to "In Progress (2026-07-27)";
+  Phase 1 completion evidence block added.
+
+### AQL v2.0.0 Roadmap Artifacts — Batch E (2026-07-27)
+
+- Created `src/query/AQL_DDL_ROADMAP.md`: DDL Phases 1–4 documented as complete (delivered 2026-07-22);
+  32 tests; production readiness checklist with 2 deferred items (security audit, migration guide, Q4 2026).
+- Created `src/index/AQL_FTS_ROADMAP.md`: Full-Text Search AQL integration Phases 1–4 planned;
+  PHRASE/NEAR/STARTS_WITH AQL functions wiring to `InvertedIndex::searchPhrase()`; Gate 5 target ≤ 100 ms
+  on 100K documents; 25+ test plan.
+- Created `src/query/AQL_GEOSPATIAL_ROADMAP.md`: Geospatial AQL FILTER/SORT/RETURN wiring Phases 1–4
+  planned; ST_* functions already implemented in `let_evaluator.cpp` (LET-only); Phase 1 wiring in progress;
+  Gate 4 target ≤ 50 ms on 100K points with geo index.
+- Updated `src/query/AQL_V2_0_0_COMPLETE_ROADMAP.md`: marked 3 "to create" roadmap docs `[x]` done;
+  Week 1 roadmap-creation task `[x]` done.
+
+### Next-Phase Governance Sync (Tracks 0–6)
+
+
+- `ROADMAP.md`: replaced stale NEXT PHASE section with structured Tracks 0–6 (GA promotion gate,
+  AQL 2.0.0 completion, distributed systems maturity, observability, security hardening,
+  gap scanners + research traceability, auth mid-term + Wave C stubs).
+- Track 1 AQL status corrected: Mutations Phases 1–5 and DDL marked complete; Geospatial `[~]` in
+  progress; FTS `[ ]` queued.
+- `src/query/ROADMAP.md`: AQL Mutations `[~]` entry updated to `[x]` complete with delivery date
+  2026-07-15; AQL v2.0.0 remaining work (Geo/FTS/cross-feature) now tracked explicitly.
+
+### Research Traceability Enhancement (Track 5)
+
+- `research/implementation_influence/by_module.md`: expanded `src/llm/`, `src/server/`, and
+  `src/sharding/` sections from legacy four-column format to five-column format
+  (research source → planned capability → implementation evidence → version → status).
+- Added GA Hardening delivery evidence rows for each top-risk module (Phase 5-L/5-S/6 blocks).
+- Added Next Phase planned items (HTTP/3 QUIC, zero-copy I/O, shard rebalancing, global secondary
+  indexes) with Q3/Q4 2026 targets.
+- `ROADMAP.md §Research Soll-Ist`: `by_module.md` top-risk module gate marked `[x]` complete.
+- `FUTURE_ENHANCEMENTS.md §Root Documentation Synchronization`: sync note updated.
+
+### Distributed Maturity Phase 3 Planning (Track 2)
+
+- `src/sharding/ROADMAP.md §Distributed Maturity Phase 3`: added automatic shard rebalancing
+  on topology change, cross-datacenter latency-aware routing, global secondary indexes (GSI).
+- `src/replication/ROADMAP.md §Distributed Maturity Phase 3`: added geographic replica placement
+  policies, async cross-region WAL shipping with configurable lag limits.
+- `src/graph/ROADMAP.md §Distributed Maturity Phase 3`: added cross-shard graph query execution,
+  distributed Betweenness Centrality (exact + approximation mode).
+- `src/storage/ROADMAP.md §Distributed Maturity Phase 3`: added tiered storage hot/warm/cold with
+  automatic data migration, cloud-native S3/GCS/Azure backend hardening.
+- `src/network/ROADMAP.md §Distributed Maturity Phase 3`: added HTTP/3 QUIC production enablement,
+  zero-copy socket I/O (`io_uring`/`sendfile`/`splice`).
+- All items have deterministic under-load benchmark + `release_critical` CI as hard gate.
+
+### Gap Scanner Phase 1–4 Enhancement Patterns (Track 5)
+
+- `ai_working/PHASE_6_SCANNER_DESIGN.md`: appended 12 new Phase 1–4 enhancement patterns:
+  C-1 (race conditions / CWE-362), M-1 (use-after-free / CWE-416), M-2 (double-free / CWE-415),
+  S-1 (hardcoded secrets / CWE-798), S-2 (crypto weakness / CWE-327), S-3 (injection / CWE-89).
+- Each pattern includes: 3 specific detection sub-rules, CWE mapping, expected gap yield,
+  target scanner phase, Q3 2026 deployment target.
+- Total projected additional yield from Phase 1–4 enhancements: 490–1,030 gaps.
+- Gate: all 12 detectors deployed with ≤ 5% false-positive rate.
+
+
 ## [Unreleased] — 2026-07-29 — Wave-1 Private Plugin Repos Provisioned
 
 ### Added

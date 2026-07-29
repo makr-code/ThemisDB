@@ -42,15 +42,22 @@ Production-ready multi-model query stack with parser, optimizer, execution, fede
     - ✅ Registered in tests/query/CMakeLists.txt with performance tier/labels
     - Pending: Build verification (blocked by pre-existing LLM linker errors)
   - Full detailed roadmap: [AQL_CONSOLIDATION_AUDIT_2026_06_18.md](./AQL_CONSOLIDATION_AUDIT_2026_06_18.md)
-- [~] **AQL Mutations Language Extension** — Phase 1-5 Implementation (Target: v2.0.0, Q3/Q4 2026)
-  - Implement INSERT, UPDATE, REPLACE, REMOVE, UPSERT statements for data manipulation
-  - Integrate mutations with transaction blocks (BEGIN...COMMIT) for atomic batching
-  - Full detailed roadmap: [AQL_MUTATIONS_ROADMAP.md](./AQL_MUTATIONS_ROADMAP.md)
-  - [ ] Phase 1: Parser & Tokenizer Enhancement (Target: Q3 Week 1-2)
-  - [ ] Phase 2: Safety & Semantic Validation (Target: Q3 Week 2-3)
-  - [ ] Phase 3: Translation & Execution Plan (Target: Q3 Week 3-4)
-  - [ ] Phase 4: Transaction Support & Atomicity (Target: Q3 Week 5-6)
-  - [ ] Phase 5: Testing, Performance & Documentation (Target: Q3 Week 7-8)
+- [x] **AQL Mutations Language Extension** — Phase 1-5 Complete (v2.0.0, 2026-07-15)
+  - INSERT, UPDATE, REPLACE, REMOVE, UPSERT statements implemented and tested
+  - Transaction block integration (BEGIN...COMMIT) with atomic multi-statement batching
+  - Full detailed roadmap + delivery evidence: [AQL_MUTATIONS_ROADMAP.md](./AQL_MUTATIONS_ROADMAP.md)
+  - [x] Phase 1: Parser & Tokenizer Enhancement ✅ 2026-07-15
+  - [x] Phase 2: Safety & Semantic Validation ✅ 2026-07-15
+  - [x] Phase 3: Translation & Execution Plan ✅ 2026-07-15
+  - [x] Phase 4: Transaction Support & Atomicity ✅ 2026-07-15
+  - [x] Phase 5: Testing, Performance & Documentation ✅ 2026-07-15
+  - Open: migration guide (Target: Q4 2026), security audit (Target: Q4 Week 1), production checklist final sign-off
+- [~] **AQL v2.0.0 Remaining Work** — Geospatial + FTS wiring (Target: Q3–Q4 2026)
+  - Full language roadmap: [AQL_V2_0_0_COMPLETE_ROADMAP.md](./AQL_V2_0_0_COMPLETE_ROADMAP.md)
+  - [x] DDL (CREATE/DROP COLLECTION/INDEX/VIEW) — parser + executor + 32 tests delivered 2026-07-22
+  - [x] Geospatial parser Phase 1 COMPLETE 2026-07-27: ST_* already work in FILTER/SORT/RETURN via qe_evalFunction; 26 tests in test_aql_st_predicates.cpp; Phase 2 (optimizer hints) next (Target: Q3 2026)
+  - [ ] FTS query enhancement (phrase/proximity queries; ≤100ms on 100K documents) (Target: Q3–Q4 2026)
+  - [ ] Cross-feature integration tests (1000+ tests, zero v1.x regressions) (Target: Q4 2026)
 
 ## Phase 2 — Performance & Scalability Readiness (Target: 2026-09-30)
 

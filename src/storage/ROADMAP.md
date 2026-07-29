@@ -26,6 +26,24 @@ Production-capable storage runtime exists for durable persistence, MVCC/WAL life
 - [ ] broaden benchmark depth for mount-latency and storage allocator edge paths (Target: Q1 2027)
 - [ ] harden long-run reliability under sustained mixed read/write pressure (Target: Q1 2027)
 
+### Distributed Maturity Phase 3 — Track 2 Items (Q3–Q4 2026)
+
+These items are part of the next-phase **Track 2: Distributed Systems Maturity — 3.4 Storage** plan
+(see `ROADMAP.md §Track 2`). Hard gate per item: deterministic under-load benchmark + `release_critical` CI green.
+
+- [ ] **Tiered storage (hot/warm/cold) with automatic data migration**: implement age- and
+  access-frequency-based tier migration; data that has not been accessed within a configurable
+  window automatically demoted from hot (NVMe) → warm (HDD) → cold (object storage) (Target: Q4 2026)
+  - Inputs: tier policy config (`storage.tier.hot_max_age_s`, `storage.tier.warm_max_age_s`,
+    `storage.tier.cold_backend`); access-frequency tracker
+  - Acceptance: migration runs without blocking foreground I/O; cold-to-hot promotion completes
+    within 100 ms for objects ≤ 1 MB; `storage_tier_migration_total` counter wired; `release_critical` green
+- [ ] **Cloud-native S3/GCS/Azure backend hardening**: harden the existing cloud backend adapter
+  for sustained production use: retry with exponential backoff, integrity checksums (MD5/CRC32C),
+  multipart upload for objects > 100 MB, SDK version pinning (Target: Q4 2026)
+  - Acceptance: 72-hour soak at 1 000 object writes/s with zero data-integrity errors;
+    multipart upload tested for 1 GB object; SDK versions pinned in vcpkg manifest
+
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
