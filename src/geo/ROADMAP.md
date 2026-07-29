@@ -1,12 +1,15 @@
 # Geo Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-07-29 -->
+<!-- Issue: #5646 (Development Status 2026-07-18) -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
 
 Production geo runtime exists across CPU/GPU backends, spatial indexing, GeoJSON geometry processing, spatial joins, clustering, raster queries, temporal-spatial workflows, and tile integration.
+
+Issue #5646 remains open with partial closure coverage: roadmap/future synchronization is now refreshed, while focused executable evidence refresh in this Linux environment is blocked by configure-time dependency gaps (`RocksDB`, then `fmt`) before test targets can build.
 
 ## In Progress
 
@@ -35,12 +38,12 @@ Production geo runtime exists across CPU/GPU backends, spatial indexing, GeoJSON
 - [x] Define explicit GeoErrorCode taxonomy (GEOMETRY_INVALID, BACKEND_UNAVAILABLE, INDEX_CORRUPTED, PRECISION_EXCEEDED, UNSUPPORTED_GEOMETRY_TYPE, …) (Target: Q3 2026)
 
 ### Phase 2: Core Implementation
-- [ ] complete hardening for backend dispatch, indexing, and geometry internals (Target: Q4 2026)
-- [ ] align advanced query features to bounded runtime contracts (Target: Q4 2026)
+- [~] complete hardening for backend dispatch, indexing, and geometry internals (Target: Q4 2026)
+- [~] align advanced query features to bounded runtime contracts (Target: Q4 2026)
 
 ### Phase 3: Error Handling and Edge Cases
-- [ ] standardize fail-closed behavior for invalid geometry and unsupported execution scenarios (Target: Q4 2026)
-- [ ] unify diagnostics across join/clustering/raster/temporal and fallback paths (Target: Q4 2026)
+- [~] standardize fail-closed behavior for invalid geometry and unsupported execution scenarios (Target: Q4 2026)
+- [~] unify diagnostics across join/clustering/raster/temporal and fallback paths (Target: Q4 2026)
 
 ### Phase 4: Tests
 - [x] Contract-hardening focused tests GCH-01..GCH-16 covering GeoJSON validation, backend dispatch, spatial index, and spatial join invariants (tests/geo/test_geo_contract_hardening_focused.cpp) (Target: Q4 2026)
@@ -49,7 +52,7 @@ Production geo runtime exists across CPU/GPU backends, spatial indexing, GeoJSON
 
 ### Phase 5: Performance and Hardening
 - [x] Lock benchmark-backed release gates for geo hot paths: GRG-01..GRG-06 in benchmarks/geo/bench_geo_release_gates.cpp (point-in-polygon 1k p99≤5ms, bbox query 10k p99≤1ms, GeoJSON parse p99≤500µs, Haversine p99≤10µs, spatial join p99≤50ms, backend selection p99≤50µs) (Target: Q4 2026)
-- [x] Validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+- [~] Validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core geo module docs aligned to source-verifiable behavior
@@ -58,6 +61,8 @@ Production geo runtime exists across CPU/GPU backends, spatial indexing, GeoJSON
 - [x] Contract-hardening tests delivered: tests/geo/test_geo_contract_hardening_focused.cpp (GCH-01..GCH-16)
 - [x] Release-gate benchmarks delivered: benchmarks/geo/bench_geo_release_gates.cpp (GRG-01..GRG-06)
 - [x] Benchmark CMakeLists registered: benchmarks/geo/CMakeLists.txt
+- [x] Q3 2026 status sync: roadmap and future priorities revalidated against full module docs (2026-07-29)
+- [~] focused build/test evidence refresh attempted; explicit dependency blocker documented (2026-07-29)
 
 ## Production Readiness Checklist
 
@@ -71,7 +76,31 @@ Production geo runtime exists across CPU/GPU backends, spatial indexing, GeoJSON
 - [ ] remaining hardening tasks closed for fallback/validation/advanced-query edge paths
 - [ ] release benchmark stabilization complete
 
-## Known Issues and Limitations
+## Evidence Summary (Issue #5646 Sync — 2026-07-29)
+
+- Configure attempt 1: `cmake --preset community-release`
+  - Result: failed in `cmake/Dependencies.cmake` with `RocksDB not found. Install via vcpkg (rocksdb) or system package librocksdb-dev.`
+- Configure attempt 2: `cmake --preset community-release-allow-missing-rocksdb`
+  - Result: progressed past RocksDB gate, then failed in `cmake/Dependencies.cmake` with missing `fmt` package (`fmtConfig.cmake` / `fmt-config.cmake` not found).
+- Focused build/test status in this environment: blocked before build generation; no executable refresh possible for `module_geo_test_aql_st_functions_focused`.
+- Last known focused target evidence from issue context: PASS on `module_geo_test_aql_st_functions_focused.exe --gtest_brief=1` (`82` tests, exit `0`, validated `2026-07-18`).
+
+## Open Work (Issue #5646)
+
+- [x] validate and refine extracted roadmap priorities against full module docs in `src/geo/ROADMAP.md`
+- [x] validate and refine extracted future focus points against full module docs in `src/geo/FUTURE_ENHANCEMENTS.md`
+- [~] add/refresh focused build and test evidence for this module (configure blockers documented in Evidence Summary)
+- [x] mark completed synced items and risks with explicit status transitions
+
+## Closure Criteria (Issue #5646)
+
+- [x] all module acceptance criteria updated and traceable
+- [x] evidence updated with explicit justified gap in this environment
+- [ ] parent epic task entry checked by maintainer
+- [ ] status labels updated by maintainer before close
+- [x] close reason documented as "sync pass complete; focused evidence refresh blocked by missing build dependencies in this environment"
+
+## Known Issues & Limitations
 
 - behavior depends on runtime capability and build flag combinations.
 - selected advanced geo paths still require ongoing hardening and benchmark expansion.

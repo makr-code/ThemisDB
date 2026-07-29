@@ -1,6 +1,6 @@
 # Geo Module - Future Enhancements
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-07-29 -->
 <!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
 
 ## Scope
@@ -25,33 +25,30 @@
 | advanced query interfaces | bounded join/clustering/raster/temporal behavior |
 | integration interfaces | explicit capability detection and bridge behavior |
 
-## Implementation Notes (v1.4.0)
+## Implementation Notes (Q3 2026 Status Sync)
 
-### Geospatial GPU Backend - CUDA (Completed)
-- Haversine distance kernel: spherical earth computation, < 0.5% accuracy
-- Point-in-polygon containment kernel: ray-casting algorithm
-- Device memory management and host↔device transfers
-- CUDA error handling and circuit-breaker fallback
-- Block size optimization via cudaOccupancyMaxPotentialBlockSize()
-- Stream-based async kernel execution for pipelined queries
+### Geospatial GPU Backend - CUDA (In Progress Hardening)
+- baseline Haversine distance kernel is present (spherical earth computation, < 0.5% accuracy target); deterministic precision-mode parity hardening remains open.
+- baseline point-in-polygon containment kernel is present (ray-casting); fallback and diagnostics parity across degraded runtime scenarios remains open.
+- device memory lifecycle and host↔device transfer behavior must keep explicit failure signaling and bounded fallback semantics.
 
-### Geospatial GPU Backend - HIP (Completed)  
-- HIP equivalent Haversine and point-in-polygon kernels for AMD ROCm
-- hipMemcpy and hipMalloc device memory management
-- HIP error handling with automatic CPU fallback
-- GCN device optimization (warpSize=64 baseline)
-- Feature-parity with CUDA backend
+### Geospatial GPU Backend - HIP (In Progress Parity)
+- HIP Haversine and point-in-polygon runtime paths are present; full parity with CUDA diagnostics and mixed-capability behavior remains open.
+- hipMemcpy / hipMalloc allocation and transfer paths require continued reliability verification under sustained mixed-load scenarios.
+- ROCm optimization remains constrained by deterministic behavior requirements before benchmark re-baselining.
 
 ### Geospatial GPU Backend - OpenCL Path (Planned v1.5.0+)
 - OpenCL kernels for broader GPU compatibility
 - Portable kernel compilation pipeline
 - Interop with existing CUDA/HIP dispatch layer
 
-### Broader Hardening (v1.4.0+)
-- tighten fallback parity under heterogeneous device/capability scenarios.
-- standardize diagnostics for geometry validation and fallback incident classes.
-- expand resilience tests for sustained large geospatial workloads.
-- broaden benchmark depth for advanced query and bridge workflows.
+### Phase-Aligned Hardening Plan (Phase 1-6)
+- Phase 1 (Design/API): preserve geo contract and error taxonomy compatibility while tightening deterministic backend-dispatch and precision guarantees.
+- Phase 2 (Core): close remaining backend fallback parity gaps across CPU/CUDA/HIP dispatch and advanced query boundedness.
+- Phase 3 (Error/Edge): standardize fail-closed geometry validation and backend-switch diagnostics for degraded-capability incidents.
+- Phase 4 (Tests): expand regressions for mixed backend + precision permutations and complex join/raster validation edges.
+- Phase 5 (Performance): stabilize benchmark envelopes for CPU/GPU geo kernels, indexing, and join hot paths with reproducible p95/p99 guardrails.
+- Phase 6 (Documentation/Acceptance): keep roadmap/future/evidence synchronization current and traceable for issue-driven closure.
 
 ## Test Strategy
 
