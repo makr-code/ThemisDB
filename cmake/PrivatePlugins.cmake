@@ -26,6 +26,9 @@ function(_themis_add_optional_private_plugin_dir label source_dir binary_dir)
 endfunction()
 
 function(themis_register_private_plugins plugins_root)
+    set(_private_storage_added FALSE)
+    set(_private_importer_added FALSE)
+
     # ethics_ai — aggregate repo root is the plugin dir
     if(WITH_PRIVATE_ETHICS_AI)
         _themis_add_optional_private_plugin_dir("Private plugin: ethics_ai"
@@ -33,34 +36,28 @@ function(themis_register_private_plugins plugins_root)
             "${CMAKE_CURRENT_BINARY_DIR}/private_ethics_ai")
     endif()
 
-    # storage plugins — subdirectories inside themisdb_storage aggregate repo
+    # storage plugins — aggregate repo (contains shared + plugin subdirs)
     if(WITH_PRIVATE_USER_STORAGE_ENCRYPTED)
-        _themis_add_optional_private_plugin_dir("Private plugin: user_storage_encrypted"
-            "${plugins_root}/private/themisdb_storage/user_storage_encrypted"
-            "${CMAKE_CURRENT_BINARY_DIR}/private_user_storage_encrypted")
+        _themis_add_optional_private_plugin_dir("Private plugin aggregate: themisdb_storage"
+            "${plugins_root}/private/themisdb_storage"
+            "${CMAKE_CURRENT_BINARY_DIR}/private_themisdb_storage")
+        set(_private_storage_added TRUE)
     endif()
 
     if(WITH_PRIVATE_CONNECTOR_PACK)
-        # importer plugins — subdirectories inside themisdb_importer aggregate repo
-        _themis_add_optional_private_plugin_dir("Private plugin: mysql_importer"
-            "${plugins_root}/private/themisdb_importer/mysql"
-            "${CMAKE_CURRENT_BINARY_DIR}/private_mysql_importer")
-        _themis_add_optional_private_plugin_dir("Private plugin: mongo_importer"
-            "${plugins_root}/private/themisdb_importer/mongo"
-            "${CMAKE_CURRENT_BINARY_DIR}/private_mongo_importer")
-        _themis_add_optional_private_plugin_dir("Private plugin: kafka_importer"
-            "${plugins_root}/private/themisdb_importer/kafka"
-            "${CMAKE_CURRENT_BINARY_DIR}/private_kafka_importer")
-        _themis_add_optional_private_plugin_dir("Private plugin: s3_importer"
-            "${plugins_root}/private/themisdb_importer/s3"
-            "${CMAKE_CURRENT_BINARY_DIR}/private_s3_importer")
-        # blob storage plugins — subdirectories inside themisdb_storage aggregate repo
-        _themis_add_optional_private_plugin_dir("Private plugin: azure_blob_storage"
-            "${plugins_root}/private/themisdb_storage/azure_blob_storage"
-            "${CMAKE_CURRENT_BINARY_DIR}/private_azure_blob_storage")
-        _themis_add_optional_private_plugin_dir("Private plugin: s3_blob_storage"
-            "${plugins_root}/private/themisdb_storage/s3_blob_storage"
-            "${CMAKE_CURRENT_BINARY_DIR}/private_s3_blob_storage")
+        # importer plugins — aggregate repo (contains shared + plugin subdirs)
+        _themis_add_optional_private_plugin_dir("Private plugin aggregate: themisdb_importer"
+            "${plugins_root}/private/themisdb_importer"
+            "${CMAKE_CURRENT_BINARY_DIR}/private_themisdb_importer")
+        set(_private_importer_added TRUE)
+
+        # connector/blob pack also depends on storage aggregate (azure/s3)
+        if(NOT _private_storage_added)
+            _themis_add_optional_private_plugin_dir("Private plugin aggregate: themisdb_storage"
+                "${plugins_root}/private/themisdb_storage"
+                "${CMAKE_CURRENT_BINARY_DIR}/private_themisdb_storage")
+            set(_private_storage_added TRUE)
+        endif()
     endif()
 
     if(WITH_PRIVATE_REGINTEL)
