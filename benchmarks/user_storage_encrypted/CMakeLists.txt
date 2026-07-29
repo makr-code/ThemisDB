@@ -1,0 +1,5 @@
+if(NOT THEMIS_BUILD_BENCHMARKS)
+    return()
+endif()
+message(STATUS "Configuring benchmark module: user_storage_encrypted")
+themis_add_standard_benchmark(bench_user_storage_encrypted_release_gates bench_user_storage_encrypted_release_gates.cpp)

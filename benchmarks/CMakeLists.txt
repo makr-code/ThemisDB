@@ -279,6 +279,19 @@ endif()
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ingestion/CMakeLists.txt")
     add_subdirectory(ingestion)
 endif()
+# Wave 3A module benchmark subdirectories
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/replication/CMakeLists.txt")
+    add_subdirectory(replication)
+endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/temporal/CMakeLists.txt")
+    add_subdirectory(temporal)
+endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/timeseries/CMakeLists.txt")
+    add_subdirectory(timeseries)
+endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tensor/CMakeLists.txt")
+    add_subdirectory(tensor)
+endif()
 
 themis_add_standard_benchmark(bench_ycsb bench_ycsb.cpp)
 
@@ -4994,3 +5007,31 @@ themis_add_standard_benchmark(bench_api_transport bench_api_transport.cpp)
 
 # Phase 5 release-gate benchmarks (GATE-API-01..06 + p95/p99 envelopes)
 themis_add_standard_benchmark(bench_api_release_gates bench_api_release_gates.cpp)
+
+# ============================================================================
+# Wave 3C — Infrastructure Module Release-Gate Benchmarks (Phase 5)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/maintenance/CMakeLists.txt")
+    add_subdirectory(maintenance)
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugins/CMakeLists.txt")
+    add_subdirectory(plugins)
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rpc_grpc/CMakeLists.txt")
+    add_subdirectory(rpc_grpc)
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/scheduler/CMakeLists.txt")
+    add_subdirectory(scheduler)
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/scraper/CMakeLists.txt")
+    add_subdirectory(scraper)
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/user_storage_encrypted/CMakeLists.txt")
+    add_subdirectory(user_storage_encrypted)
+endif()

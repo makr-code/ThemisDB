@@ -1,0 +1,5 @@
+if(NOT THEMIS_BUILD_BENCHMARKS)
+    return()
+endif()
+message(STATUS "Configuring benchmark module: maintenance")
+themis_add_standard_benchmark(bench_maintenance_release_gates bench_maintenance_release_gates.cpp)
