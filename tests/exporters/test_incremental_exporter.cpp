@@ -458,6 +458,26 @@ TEST_F(IncrementalExporterTest, FieldFilteringApplied) {
     }
 }
 
+TEST_F(IncrementalExporterTest, FilterExpressionAppliedBeforeExportWrite) {
+    IncrementalExporter exporter;
+
+    ExportOptions opts;
+    opts.output_path = outputPath();
+    opts.filter_expression = "doc.score >= 0.7";
+
+    auto stats = exporter.exportEntities(test_entities_, opts);
+    EXPECT_EQ(stats.total_entities, test_entities_.size());
+    EXPECT_EQ(stats.exported_entities, 4u);
+    EXPECT_EQ(stats.skipped_entities, 6u);
+
+    auto lines = readLines(outputPath());
+    ASSERT_EQ(lines.size(), 4u);
+    for (const auto& line : lines) {
+        auto j = json::parse(line);
+        EXPECT_GE(j["score"].get<double>(), 0.7);
+    }
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // IExporter metadata
 // ─────────────────────────────────────────────────────────────────────────────
@@ -528,6 +548,53 @@ TEST_F(IncrementalExporterTest, WatermarkUnchangedWhenNothingExported) {
     json wj;
     wf >> wj;
     EXPECT_EQ(wj["last_sequence"].get<int64_t>(), 100);
+}
+
+TEST_F(IncrementalExporterTest, WatermarkNotAdvancedOnPartialSizeLimitedScan) {
+    // Seed watermark at 0
+    {
+        std::ofstream wf(watermarkPath());
+        json wj;
+        wj["last_sequence"]    = 0;
+        wj["last_export_time"] = "2026-01-01T00:00:00Z";
+        wj["exported_count"]   = 0;
+        wf << wj.dump(2) << '\n';
+    }
+
+    // Intentionally unsorted by sequence so partial writes can skip lower seqs later in the vector.
+    std::vector<BaseEntity> unsorted;
+    {
+        BaseEntity e1;
+        e1.setPrimaryKey("u1");
+        e1.setField("_seq", static_cast<int64_t>(100));
+        e1.setField("content", "large-seq-first");
+        unsorted.push_back(e1);
+    }
+    {
+        BaseEntity e2;
+        e2.setPrimaryKey("u2");
+        e2.setField("_seq", static_cast<int64_t>(1));
+        e2.setField("content", "small-seq-second");
+        unsorted.push_back(e2);
+    }
+
+    IncrementalExportConfig cfg;
+    cfg.sequence_field = "_seq";
+    cfg.watermark_path = watermarkPath();
+    IncrementalExporter exporter(cfg);
+
+    ExportOptions opts;
+    opts.output_path = outputPath();
+    opts.max_file_size_bytes = 1; // force partial export/early stop
+
+    auto stats = exporter.exportEntities(unsorted, opts);
+    EXPECT_LT(stats.exported_entities, unsorted.size());
+
+    // Watermark must remain unchanged (0) after partial scan.
+    std::ifstream wf(watermarkPath());
+    json wj;
+    wf >> wj;
+    EXPECT_EQ(wj["last_sequence"].get<int64_t>(), 0);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

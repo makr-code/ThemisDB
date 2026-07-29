@@ -64,8 +64,8 @@ Production-capable sharding runtime exists for routing/placement, distributed co
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [ ] freeze routing/coordination/transaction contracts for current major line (Target: Q3 2026)
-- [ ] define explicit error taxonomy for sharding failure classes (Target: Q3 2026)
+- [x] freeze routing/coordination/transaction contracts for current major line — `include/sharding/sharding_api_contract.h` (§1 Routing, §2 2PC Transaction, §3 WAL Durability, §4 Migration/Rebalance, §6 Threading) (Target: Q3 2026)
+- [x] define explicit error taxonomy for sharding failure classes — `include/sharding/sharding_api_contract.h` §5 Error Taxonomy: 12+ codes (QUORUM_LOST, COORDINATOR_FAILURE, SHARD_UNAVAILABLE, MIGRATION_CONFLICT, WAL_CORRUPTION, CONSENSUS_TIMEOUT, etc.) (Target: Q3 2026)
 
 ### Phase 2: Core Implementation
 - [ ] complete hardening for routing/coordinator and transaction internals (Target: Q4 2026)
@@ -76,22 +76,22 @@ Production-capable sharding runtime exists for routing/placement, distributed co
 - [ ] unify diagnostics across routing/transaction/operations incident classes (Target: Q4 2026)
 
 ### Phase 4: Tests
-- [x] expand focused regressions for shard failure, transaction contention, and migration edge scenarios (P6-01: TXC-01..TXC-32 2PC/3PC consistency; P6-02: FLR-01..FLR-20 failover/recovery — in test_sharding_phase6_hardening.cpp; P6-03: FI-01..FI-40 Wave-8 fault injection — in test_sharding_p6_fault_injection.cpp) (Target: Q4 2026 → delivered 2026-07-22)
-- [x] extend deterministic stress fixtures for distributed load and topology churn (P6-01/P6-02/P6-03 seed-42 deterministic suites delivered) (Target: Q4 2026 → delivered 2026-07-22)
+- [x] expand focused regressions for shard failure, transaction contention, and migration edge scenarios (P6-01: TXC-01..TXC-32 2PC/3PC consistency; P6-02: FLR-01..FLR-20 failover/recovery — in test_sharding_phase6_hardening.cpp; P6-03: FI-01..FI-40 Wave-8 fault injection — in test_sharding_p6_fault_injection.cpp; SCR-01..SCR-16 contract hardening — in `tests/sharding/test_sharding_contract_hardening_focused.cpp`) (Target: Q4 2026 → delivered 2026-07-29)
+- [x] extend deterministic stress fixtures for distributed load and topology churn (P6-01/P6-02/P6-03 seed-42 deterministic suites delivered; SCR-01..SCR-16 kShardContractSeed=42) (Target: Q4 2026 → delivered 2026-07-29)
 
 ### Phase 5: Performance and Hardening
-- [ ] lock benchmark-backed release gates for sharding hot paths (Target: Q4 2026)
+- [x] lock benchmark-backed release gates for sharding hot paths — 6 release-gate benchmarks SRG-01..SRG-06 in `benchmarks/sharding/bench_sharding_release_gates.cpp` (GATE-SRG-01..GATE-SRG-06: consistent-hash routing, 2PC prepare/commit, WAL append, health check, route lookup) (Target: Q4 2026)
 - [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
 
 ### Phase 6: Documentation and Acceptance
-- [x] core sharding module docs aligned to source-verifiable behavior
+- [x] core sharding module docs aligned to source-verifiable behavior — `include/sharding/sharding_api_contract.h` freezes all routing/2PC/WAL/migration contracts for v1.x
 - [x] roadmap/future planning separated from historical changelog entries
 
 ## Production Readiness Checklist
 
 - [x] core sharding surfaces documented and source-verified
 - [x] module-level security and failure behavior documented
-- [x] benchmark mapping documented in performance expectations
+- [x] benchmark mapping documented in performance expectations — `benchmarks/sharding/bench_sharding_release_gates.cpp` (SRG-01..SRG-06)
 - [ ] remaining hardening tasks closed for failure/transaction/repair edge paths
 - [ ] release benchmark stabilization complete
 

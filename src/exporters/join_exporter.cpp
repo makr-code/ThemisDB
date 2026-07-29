@@ -77,6 +77,7 @@ void JoinExporter::setRightCollection(const std::vector<BaseEntity>& right_entit
 
     THEMIS_INFO("JoinExporter: loaded {} right-side rows ({} bytes) from '{}'",
                 right_table_.size(), right_table_bytes_, config_.right_collection);
+    right_collection_loaded_ = true;
 }
 
 // ── exportEntities ────────────────────────────────────────────────────────────
@@ -103,6 +104,13 @@ ExportStats JoinExporter::exportEntities(
             "config_key=right_collection"
         );
     }
+    if (!right_collection_loaded_) {
+        throw ExporterException(
+            errors::ErrorCode::ERR_EXPORT_CONFIG_INVALID,
+            "JoinExporter: setRightCollection() must be called before exportEntities()",
+            "config_key=right_collection_loaded"
+        );
+    }
 
     ExportStats stats;
     stats.metrics = metrics_;
@@ -110,6 +118,7 @@ ExportStats JoinExporter::exportEntities(
 
     // Build the optional AQL predicate filter (compiled once, reused per row).
     std::unique_ptr<AqlPredicateFilter> aql_filter;
+    std::unique_ptr<AqlPredicateFilter> options_filter;
     if (!config_.join_predicate.empty()) {
         try {
             aql_filter = std::make_unique<AqlPredicateFilter>(config_.join_predicate);
@@ -118,6 +127,18 @@ ExportStats JoinExporter::exportEntities(
                 errors::ErrorCode::ERR_EXPORT_JOIN_PREDICATE_INVALID,
                 std::string("JoinExporter: join_predicate parse failed: ") + e.what(),
                 "join_predicate=" + config_.join_predicate
+            );
+        }
+    }
+
+    if (!options.filter_expression.empty()) {
+        try {
+            options_filter = std::make_unique<AqlPredicateFilter>(options.filter_expression);
+        } catch (const AqlPredicateFilterException& e) {
+            throw ExporterException(
+                errors::ErrorCode::ERR_EXPORT_CONFIG_INVALID,
+                std::string("JoinExporter: filter_expression parse failed: ") + e.what(),
+                "filter_expression=" + options.filter_expression
             );
         }
     }
@@ -167,6 +188,10 @@ ExportStats JoinExporter::exportEntities(
 
             // Apply AQL join_predicate on the merged record.
             if (aql_filter && !aql_filter->evaluate(merged)) {
+                stats.skipped_entities++;
+                continue;
+            }
+            if (options_filter && !options_filter->evaluate(merged)) {
                 stats.skipped_entities++;
                 continue;
             }
@@ -391,4 +416,3 @@ size_t JoinExporter::estimateEntityBytes(const BaseEntity& entity) {
 }
 
 } // namespace themis::exporters
-

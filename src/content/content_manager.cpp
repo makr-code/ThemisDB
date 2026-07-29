@@ -55,6 +55,11 @@ namespace content {
 
 using namespace std::chrono;
 
+namespace {
+constexpr std::string_view kFulltextChunkTable = "chunk";
+constexpr std::string_view kFulltextChunkTextColumn = "text";
+} // namespace
+
 // ---------------------------------------------------------------------------
 // Pipeline retry helper
 // ---------------------------------------------------------------------------
@@ -123,8 +128,33 @@ static std::optional<ContentCategory> parseCategory(const std::string& s) {
     return std::nullopt;
 }
 
+static bool hasSearchFilterConstraints(const json& filters) {
+    if (!filters.is_object() || filters.empty()) {
+        return false;
+    }
+    for (auto it = filters.begin(); it != filters.end(); ++it) {
+        if (it.key() != "scoring") {
+            return true;
+        }
+    }
+    return false;
+}
+
+static bool whitelistContainsChunkPk(
+    const std::unordered_set<std::string>& whitelist_set,
+    const std::string& chunk_pk
+) {
+    if (whitelist_set.empty()) {
+        return true;
+    }
+    if (whitelist_set.count(chunk_pk) > 0) {
+        return true;
+    }
+    return whitelist_set.count(std::string("chunks:") + chunk_pk) > 0;
+}
+
 // Helper: convert category enum to string
-static std::string categoryToString(ContentCategory cat) {
+[[maybe_unused]] static std::string categoryToString(ContentCategory cat) {
     switch (cat) {
         case ContentCategory::TEXT: return "TEXT";
         case ContentCategory::IMAGE: return "IMAGE";
@@ -162,51 +192,136 @@ static std::vector<std::string> buildChunkWhitelist(
     std::unordered_map<std::string, json> wantedMeta;
     std::unordered_set<std::string> wantedTags;
     bool hasAnyFilter = false;
+    bool hasEffectiveConstraint = false;
+    bool hasMalformedConstraint = false;
+    std::optional<int64_t> dateFrom;
+    std::optional<int64_t> dateTo;
 
     try {
         if (filters.contains("category")) {
             hasAnyFilter = true;
-            if (filters["category"].is_array()) {
+            const auto& category = filters["category"];
+            if (category.is_string()) {
+                auto cat = parseCategory(category.get<std::string>());
+                if (cat) {
+                    allowedCats.insert(*cat);
+                    hasEffectiveConstraint = true;
+                } else {
+                    hasMalformedConstraint = true;
+                }
+            } else if (category.is_number_integer()) {
+                int ci = category.get<int>();
+                if (ci >= 0 && ci <= static_cast<int>(ContentCategory::BINARY)) {
+                    allowedCats.insert(static_cast<ContentCategory>(ci));
+                    hasEffectiveConstraint = true;
+                } else {
+                    hasMalformedConstraint = true;
+                }
+            } else if (category.is_array()) {
+                bool added = false;
                 for (const auto& v : filters["category"]) {
                     if (v.is_string()) {
                         auto cat = parseCategory(v.get<std::string>());
-                        if (cat) allowedCats.insert(*cat);
+                        if (cat) {
+                            allowedCats.insert(*cat);
+                            added = true;
+                        }
                     } else if (v.is_number_integer()) {
                         int ci = v.get<int>();
                         if (ci >= 0 && ci <= static_cast<int>(ContentCategory::BINARY)) {
                             allowedCats.insert(static_cast<ContentCategory>(ci));
+                            added = true;
                         }
                     }
                 }
-            }
-        }
-        if (filters.contains("mime_type") && filters["mime_type"].is_array()) {
-            hasAnyFilter = true;
-            for (const auto& v : filters["mime_type"]) {
-                if (v.is_string()) allowedMimes.insert(v.get<std::string>());
-            }
-        }
-        if (filters.contains("metadata") && filters["metadata"].is_object()) {
-            hasAnyFilter = true;
-            for (auto it = filters["metadata"].begin(); it != filters["metadata"].end(); ++it) {
-                wantedMeta[it.key()] = it.value();
-            }
-        }
-        if (filters.contains("tags") && filters["tags"].is_array()) {
-            hasAnyFilter = true;
-            for (const auto& t : filters["tags"]) {
-                if (t.is_string()) {
-                    wantedTags.insert(t.get<std::string>());
+                hasEffectiveConstraint = hasEffectiveConstraint || added;
+                if (!added) {
+                    hasMalformedConstraint = true;
                 }
+            } else {
+                hasMalformedConstraint = true;
+            }
+        }
+        if (filters.contains("mime_type")) {
+            hasAnyFilter = true;
+            const auto& mime = filters["mime_type"];
+            if (mime.is_string()) {
+                allowedMimes.insert(mime.get<std::string>());
+                hasEffectiveConstraint = true;
+            } else if (mime.is_array()) {
+                bool added = false;
+                for (const auto& v : filters["mime_type"]) {
+                    if (v.is_string()) {
+                        allowedMimes.insert(v.get<std::string>());
+                        added = true;
+                    }
+                }
+                hasEffectiveConstraint = hasEffectiveConstraint || added;
+                if (!added) {
+                    hasMalformedConstraint = true;
+                }
+            } else {
+                hasMalformedConstraint = true;
+            }
+        }
+        if (filters.contains("metadata")) {
+            hasAnyFilter = true;
+            if (filters["metadata"].is_object() && !filters["metadata"].empty()) {
+                for (auto it = filters["metadata"].begin(); it != filters["metadata"].end(); ++it) {
+                    wantedMeta[it.key()] = it.value();
+                }
+                hasEffectiveConstraint = true;
+            } else {
+                hasMalformedConstraint = true;
+            }
+        }
+        if (filters.contains("tags")) {
+            hasAnyFilter = true;
+            const auto& tags = filters["tags"];
+            if (tags.is_string()) {
+                wantedTags.insert(tags.get<std::string>());
+                hasEffectiveConstraint = true;
+            } else if (tags.is_array()) {
+                bool added = false;
+                for (const auto& t : filters["tags"]) {
+                    if (t.is_string()) {
+                        wantedTags.insert(t.get<std::string>());
+                        added = true;
+                    }
+                }
+                hasEffectiveConstraint = hasEffectiveConstraint || added;
+                if (!added) {
+                    hasMalformedConstraint = true;
+                }
+            } else {
+                hasMalformedConstraint = true;
+            }
+        }
+        if (filters.contains("date_from")) {
+            hasAnyFilter = true;
+            if (filters["date_from"].is_number_integer()) {
+                dateFrom = filters["date_from"].get<int64_t>();
+                hasEffectiveConstraint = true;
+            } else {
+                hasMalformedConstraint = true;
+            }
+        }
+        if (filters.contains("date_to")) {
+            hasAnyFilter = true;
+            if (filters["date_to"].is_number_integer()) {
+                dateTo = filters["date_to"].get<int64_t>();
+                hasEffectiveConstraint = true;
+            } else {
+                hasMalformedConstraint = true;
             }
         }
     } catch (const json::exception&) {
-        // Ignore malformed filter fragments and keep fail-closed semantics.
+        hasMalformedConstraint = true;
     } catch (...) {
-        // Ignore malformed filter fragments and keep fail-closed semantics.
+        hasMalformedConstraint = true;
     }
 
-    if (!hasAnyFilter) return {};
+    if (!hasAnyFilter || !hasEffectiveConstraint || hasMalformedConstraint) return {};
 
     // Load optional filter schema from config
     // Key: config:content_filter_schema, example: { "field_map": { "dataset": "user_metadata.dataset", "region": "user_metadata.region" } }
@@ -252,6 +367,8 @@ static std::vector<std::string> buildChunkWhitelist(
             bool looksMeta = j.contains("mime_type") && j.contains("size_bytes");
             if (!looksMeta) return true;
             ContentMeta m = ContentMeta::fromJson(j);
+            if (dateFrom.has_value() && m.created_at < *dateFrom) return true;
+            if (dateTo.has_value() && m.created_at > *dateTo) return true;
             // category filter
             if (!allowedCats.empty() && allowedCats.count(m.category) == 0) return true;
             // mime filter
@@ -288,9 +405,10 @@ static std::vector<std::string> buildChunkWhitelist(
             // custom filters via schema mapping: for any key present in filters but not reserved
             for (auto it = filters.begin(); it != filters.end(); ++it) {
                 const std::string keyName = it.key();
-                if (keyName == "category" || keyName == "mime_type" || keyName == "metadata" || keyName == "tags" || keyName == "scoring") continue;
+                if (keyName == "category" || keyName == "mime_type" || keyName == "metadata" || keyName == "tags"
+                    || keyName == "scoring" || keyName == "date_from" || keyName == "date_to") continue;
                 auto fmap = fieldMap.find(keyName);
-                if (fmap == fieldMap.end()) continue; // unknown key → ignore
+                if (fmap == fieldMap.end()) return true; // unknown key → reject (fail-closed)
                 const std::string& jpath = fmap->second;
                 const json* vptr = jsonPathRef(j, jpath);
                 if (!vptr) return true; // missing → reject
@@ -896,7 +1014,7 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
                             {"chunk_type", c.chunk_type}
                         }
                     );
-                    auto fulltext_put_result = secondary_index_->put("chunk", chunk_entity);
+                    auto fulltext_put_result = secondary_index_->put(std::string(kFulltextChunkTable), chunk_entity);
                     if (!fulltext_put_result.ok) {
                         THEMIS_WARN("Failed to index chunk {} in fulltext index: {}", c.id, fulltext_put_result.message);
                     }
@@ -1379,6 +1497,9 @@ std::vector<std::pair<std::string, float>> ContentManager::searchContent(
     std::vector<float> q = it->second->generateEmbedding(query_text);
     // Optional: Build whitelist from filters to pre-filter vector search
     std::vector<std::string> whitelist = buildChunkWhitelist(*storage_, filters);
+    if (hasSearchFilterConstraints(filters) && whitelist.empty()) {
+        return res;
+    }
     const std::vector<std::string>* wptr = whitelist.empty() ? nullptr : &whitelist;
     auto [st, results] = vector_index_->searchKnn(q, static_cast<size_t>(k), wptr);
     if (!st.ok) return res;
@@ -1401,17 +1522,24 @@ std::vector<std::pair<std::string, float>> ContentManager::searchContentHybrid(
     // Step 1: Vector Search (HNSW)
     std::unordered_map<std::string, float> vector_scores;
     std::unordered_map<std::string, size_t> vector_ranks;
+    const bool has_filter_constraints = hasSearchFilterConstraints(filters);
+    std::vector<std::string> whitelist = has_filter_constraints
+                                       ? buildChunkWhitelist(*storage_, filters)
+                                       : std::vector<std::string>{};
+    if (has_filter_constraints && whitelist.empty()) {
+        return result;
+    }
+    const std::vector<std::string>* whitelist_ptr = whitelist.empty() ? nullptr : &whitelist;
+    std::unordered_set<std::string> whitelist_set(whitelist.begin(), whitelist.end());
     
     if (vector_index_ && vector_index_->getDimension() > 0 && vector_weight > 0.0f) {
         auto it = processors_.find(ContentCategory::TEXT);
         if (it != processors_.end()) {
             std::vector<float> q = it->second->generateEmbedding(query_text);
-            std::vector<std::string> whitelist = buildChunkWhitelist(*storage_, filters);
-            const std::vector<std::string>* wptr = whitelist.empty() ? nullptr : &whitelist;
             
             // Retrieve more results for better RRF fusion (k*2)
             size_t fetch_k = static_cast<size_t>(k * 2);
-            auto [st, results] = vector_index_->searchKnn(q, fetch_k, wptr);
+            auto [st, results] = vector_index_->searchKnn(q, fetch_k, whitelist_ptr);
             
             if (st.ok) {
                 size_t rank = 1;
@@ -1439,12 +1567,11 @@ std::vector<std::pair<std::string, float>> ContentManager::searchContentHybrid(
     std::unordered_map<std::string, size_t> fulltext_ranks;
     
     if (secondary_index_ && fulltext_weight > 0.0f) {
-        // Check if fulltext index exists on chunks.text_content
-        if (secondary_index_->hasFulltextIndex("chunks", "text_content")) {
+        if (secondary_index_->hasFulltextIndex(kFulltextChunkTable, kFulltextChunkTextColumn)) {
             size_t fetch_k = static_cast<size_t>(k * 2);
             auto [st, ft_results] = secondary_index_->scanFulltextWithScores(
-                "chunks", 
-                "text_content", 
+                kFulltextChunkTable,
+                kFulltextChunkTextColumn,
                 query_text, 
                 fetch_k
             );
@@ -1452,40 +1579,8 @@ std::vector<std::pair<std::string, float>> ContentManager::searchContentHybrid(
             if (st.ok) {
                 size_t rank = 1;
                 for (const auto& r : ft_results) {
-                    // Apply filters manually (fulltext doesn't support filter integration yet)
-                    if (!filters.empty()) {
-                        auto chunk_meta = getChunk(r.pk);
-                        if (!chunk_meta.has_value()) continue;
-                        
-                        // Apply category filter
-                        if (filters.contains("category")) {
-                            auto content_meta = getContentMeta(chunk_meta->content_id);
-                            if (!content_meta.has_value()) continue;
-                            std::string filter_cat = filters["category"].get<std::string>();
-                            if (categoryToString(content_meta->category) != filter_cat) continue;
-                        }
-                        
-                        // Apply mime_type filter
-                        if (filters.contains("mime_type")) {
-                            auto content_meta = getContentMeta(chunk_meta->content_id);
-                            if (!content_meta.has_value()) continue;
-                            std::string filter_mime = filters["mime_type"].get<std::string>();
-                            if (content_meta->mime_type != filter_mime) continue;
-                        }
-                        
-                        // Apply date filters
-                        if (filters.contains("date_from")) {
-                            auto content_meta = getContentMeta(chunk_meta->content_id);
-                            if (!content_meta.has_value()) continue;
-                            int64_t date_from = filters["date_from"].get<int64_t>();
-                            if (content_meta->created_at < date_from) continue;
-                        }
-                        if (filters.contains("date_to")) {
-                            auto content_meta = getContentMeta(chunk_meta->content_id);
-                            if (!content_meta.has_value()) continue;
-                            int64_t date_to = filters["date_to"].get<int64_t>();
-                            if (content_meta->created_at > date_to) continue;
-                        }
+                    if (has_filter_constraints && !whitelistContainsChunkPk(whitelist_set, r.pk)) {
+                        continue;
                     }
                     
                     fulltext_scores[r.pk] = static_cast<float>(r.score);
@@ -2885,4 +2980,3 @@ ContentManager::Stats ContentManager::getStats() {
 
 } // namespace content
 } // namespace themis
-

@@ -1,12 +1,12 @@
 # evaluation/src documentation
 
-<!-- Status: current | aligned with docs/IMPLEMENTATION_ROADMAP.md | validated: 2026-06-01 -->
+<!-- Status: current | aligned with status issue #5643 | validated: 2026-07-29 -->
 
 ## Purpose
 
-This directory now contains the first EPIC 2 runtime-owned implementation
-(`hardware_profile.cc`) while reserving ownership and integration order for the
-remaining planned sources.
+This directory now contains runtime-owned EPIC 2 implementations for hardware profile,
+benchmark matrix, retrieval metrics, ablation, approximation rules, query planning,
+and artifact lifecycle handling.
 
 ## Source Ownership Map
 
@@ -22,14 +22,14 @@ remaining planned sources.
 
 ## Delivery Expectations
 
-- delivered: hardware profile registration, validation, and tier-transition guards
-- next: remaining Phase-2 EPIC 2 sources to be added in later implementation PRs
-- after: broader Phase-3 behavior definitions for validation failures, policy conflicts, and fallback paths
-- later: tests, benchmark evidence, acceptance docs, and product integration per roadmap
+- delivered at source level: the current EPIC 2 runtime files listed above
+- next: broader Phase 3 behavior definitions for validation failures, policy conflicts, and fallback paths
+- after: refreshed executable test/benchmark evidence and measured acceptance gates
+- later: downstream workflow integration per roadmap
 
 ## Integration Notes
 
-- local `CMakeLists.txt` keeps targets disabled until acceptance gates are approved
+- local `CMakeLists.txt` keeps selected targets behind availability gates and environment prerequisites
 - dependency order should follow `docs/EPIC1_2_3_DEPENDENCIES.md`
 
 ## Installation

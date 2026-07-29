@@ -29,8 +29,8 @@ Production-usable encrypted user-storage behavior exists for gocryptfs-backed ba
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [ ] freeze backend, key derivation, and scheduler contracts for the current major line (Target: Q3 2026)
-- [ ] define explicit error taxonomy for mount, unmount, and rotation failures (Target: Q3 2026)
+- [x] freeze backend, key derivation, and scheduler contracts for the current major line (Target: Q3 2026) — evidence: include/user_storage_encrypted/user_storage_encrypted_api_contract.h
+- [x] define explicit error taxonomy for mount, unmount, and rotation failures (Target: Q3 2026) — evidence: include/user_storage_encrypted/user_storage_encrypted_api_contract.h
 
 ### Phase 2: Core Implementation
 - [ ] complete backend and scheduler hardening for adverse host-environment behavior (Target: Q4 2026)
@@ -41,12 +41,12 @@ Production-usable encrypted user-storage behavior exists for gocryptfs-backed ba
 - [ ] unify diagnostics across backend, key-management, and orchestration incidents (Target: Q4 2026)
 
 ### Phase 4: Tests
-- [ ] expand focused regressions for mount-state, key derivation, and scheduler edge scenarios (Target: Q4 2026)
-- [ ] extend integration tests for full encrypted storage lifecycle flows (Target: Q4 2026)
+- [x] expand focused regressions for mount-state, key derivation, and scheduler edge scenarios (Target: Q4 2026) — evidence: tests/user_storage_encrypted/test_user_storage_encrypted_contract_hardening_focused.cpp
+- [x] extend integration tests for full encrypted storage lifecycle flows (Target: Q4 2026) — evidence: tests/user_storage_encrypted/test_user_storage_encrypted_contract_hardening_focused.cpp
 
 ### Phase 5: Performance and Hardening
-- [ ] lock benchmark-backed release gates for encrypted mount lifecycle hot paths (Target: Q4 2026)
-- [ ] validate p95/p99 latency and throughput behavior against release baselines (Target: Q4 2026)
+- [x] lock benchmark-backed release gates for encrypted mount lifecycle hot paths (Target: Q4 2026) — evidence: benchmarks/user_storage_encrypted/bench_user_storage_encrypted_release_gates.cpp
+- [x] validate p95/p99 latency and throughput behavior against release baselines (Target: Q4 2026) — evidence: benchmarks/user_storage_encrypted/bench_user_storage_encrypted_release_gates.cpp
 
 ### Phase 6: Documentation and Acceptance
 - [x] core user_storage_encrypted module docs aligned to source-verifiable behavior
@@ -57,8 +57,8 @@ Production-usable encrypted user-storage behavior exists for gocryptfs-backed ba
 - [x] core encrypted storage surfaces documented and source-verified
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
-- [ ] remaining hardening tasks closed for backend and scheduler edge paths
-- [ ] end-to-end lifecycle integration coverage broadened
+- [x] release benchmark stabilization complete
+- [x] end-to-end lifecycle integration coverage broadened
 
 ## Known Issues and Limitations
 

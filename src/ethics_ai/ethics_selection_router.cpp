@@ -505,6 +505,15 @@ DiscourseOrchestratorPlan EthicsSelectionRouter::planDiscourse(
                 (it != kTaxonomyToCluster.end()) ? it->second : "Non-Mainstream";
             plan.cluster_map[cluster].push_back(m.school_id);
         }
+
+        // Populate the 4 canonical structural tension axes (always activated
+        // for LAYERED_FULL; used by DiscourseOrchestrator::runEbene2).
+        plan.tension_axes = {
+            "Kant\u2194Utilitarismus",
+            "W\u00fcrde-cluster\u2194Aggregation-cluster",
+            "Individualismus\u2194Kollektivismus",
+            "Positivrecht\u2194Naturrecht",
+        };
     }
 
     return plan;

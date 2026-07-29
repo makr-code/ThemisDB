@@ -18,6 +18,9 @@ The format is based on Keep a Changelog.
 - Updated evaluation-module docs to reflect the shipped EPIC 2.5 hybrid query planner
   contract, implementation, focused tests, and hardening benchmark surfaces tracked by
   issue #5441.
+- Refreshed the evaluation status-governance docs for issue #5643, added
+  `MODULE_EVIDENCE.md` and `PRODUCTION_REQUIREMENTS.md`, and recorded the current
+  build-evidence blocker caused by missing RocksDB in the local validation environment.
 
 ## [0.1.0] - 2026-06-01
 

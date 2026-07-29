@@ -176,4 +176,51 @@ private:
     std::string config_key_;
 };
 
+/// @brief Policy denial exception — thrown when an export is rejected by PolicyEngine.
+///
+/// This is the concrete typed wrapper used by exporter paths that surface
+/// `ERR_EXPORT_POLICY_DENIED` via `ExporterException`.
+/// Catching `ExporterException` remains the stable contract for policy-blocked
+/// export operations.
+///
+/// @note isResumableError(ExporterErrorCode::EXPORT_ABORTED) == false —
+///       policy denials are fail-closed and never resumable.  The operator or
+///       requesting user must resolve the policy conflict before re-attempting.
+class PolicyDeniedException : public ExporterException {
+public:
+    /// @brief Construct a PolicyDeniedException.
+    /// @param denial_reason      Human-readable denial reason from
+    ///                           PolicyEngine::checkExportPermission().
+    /// @param requesting_user    Identity of the user/service that requested
+    ///                           the export (may be empty).
+    /// @param collection         Name of the collection being exported
+    ///                           (may be empty).
+    explicit PolicyDeniedException(
+        const std::string& denial_reason,
+        const std::string& requesting_user = "",
+        const std::string& collection = ""
+    ) : ExporterException(
+            errors::ErrorCode::ERR_EXPORT_POLICY_DENIED,
+            "Export denied by policy: " + denial_reason,
+            "user=" + requesting_user + ", collection=" + collection
+        ),
+        denial_reason_(denial_reason),
+        requesting_user_(requesting_user),
+        collection_(collection) {}
+
+    /// @return The denial reason supplied by PolicyEngine.
+    const std::string& getDenialReason() const { return denial_reason_; }
+
+    /// @return The requesting user identity.
+    const std::string& getRequestingUser() const { return requesting_user_; }
+
+    /// @return The collection name that was being exported.
+    const std::string& getCollection() const { return collection_; }
+
+private:
+    std::string denial_reason_;
+    std::string requesting_user_;
+    std::string collection_;
+};
+
 } // namespace themis::exporters

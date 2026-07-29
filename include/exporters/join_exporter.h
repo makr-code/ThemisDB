@@ -152,8 +152,12 @@ public:
      * @brief Export the cross-collection join to a JSONL file.
      *
      * Performs a hash-join of `entities` (left side) against the previously
-     * loaded right-side hash table.  Inner join semantics: left entities with
-     * no matching right entity are skipped.
+     * loaded right-side hash table. `setRightCollection()` must be called once
+     * before this function; otherwise export fails closed with
+     * `ERR_EXPORT_CONFIG_INVALID`.
+     *
+     * Inner join semantics: left entities with no matching right entity are
+     * skipped.
      *
      * @param entities   Left-side entities.
      * @param options    Standard ExportOptions (output_path is mandatory).
@@ -180,6 +184,7 @@ private:
     // Right-side hash table: right_key_field value → entity
     std::unordered_map<std::string, BaseEntity> right_table_;
     size_t right_table_bytes_ = 0;
+    bool right_collection_loaded_ = false;
 
     // ── Helpers ──────────────────────────────────────────────────────────
 

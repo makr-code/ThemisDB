@@ -29,8 +29,8 @@ Production-capable gRPC RPC plugin runtime exists for server lifecycle operation
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [ ] freeze plugin lifecycle/registration/stream contracts for current major line (Target: Q3 2026)
-- [ ] define explicit error taxonomy for rpc_grpc failure classes (Target: Q3 2026)
+- [x] freeze plugin lifecycle/registration/stream contracts for current major line (Target: Q3 2026) — evidence: include/rpc_grpc/rpc_grpc_api_contract.h
+- [x] define explicit error taxonomy for rpc_grpc failure classes (Target: Q3 2026) — evidence: include/rpc_grpc/rpc_grpc_api_contract.h
 
 ### Phase 2: Core Implementation
 - [ ] complete hardening for lifecycle and credential internals (Target: Q4 2026)
@@ -41,12 +41,12 @@ Production-capable gRPC RPC plugin runtime exists for server lifecycle operation
 - [ ] unify diagnostics across lifecycle/credentials/registration incidents (Target: Q4 2026)
 
 ### Phase 4: Tests
-- [ ] expand focused regressions for credential and registration edge scenarios (Target: Q4 2026)
-- [ ] extend deterministic stress fixtures for sustained gRPC traffic paths (Target: Q4 2026)
+- [x] expand focused regressions for credential and registration edge scenarios (Target: Q4 2026) — evidence: tests/rpc_grpc/test_rpc_grpc_contract_hardening_focused.cpp
+- [x] extend deterministic stress fixtures for sustained gRPC traffic paths (Target: Q4 2026) — evidence: tests/rpc_grpc/test_rpc_grpc_contract_hardening_focused.cpp
 
 ### Phase 5: Performance and Hardening
-- [ ] lock benchmark-backed release gates for gRPC WAL-apply hot paths (Target: Q4 2026)
-- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+- [x] lock benchmark-backed release gates for gRPC WAL-apply hot paths (Target: Q4 2026) — evidence: benchmarks/rpc_grpc/bench_rpc_grpc_release_gates.cpp
+- [x] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026) — evidence: benchmarks/rpc_grpc/bench_rpc_grpc_release_gates.cpp
 
 ### Phase 6: Documentation and Acceptance
 - [x] core rpc_grpc docs aligned to source-verifiable behavior
@@ -58,7 +58,7 @@ Production-capable gRPC RPC plugin runtime exists for server lifecycle operation
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
 - [ ] remaining hardening tasks closed for lifecycle/credentials/stream edge paths
-- [ ] release benchmark stabilization complete
+- [x] release benchmark stabilization complete
 
 ## Known Issues and Limitations
 
