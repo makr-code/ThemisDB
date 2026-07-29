@@ -3,6 +3,11 @@
   "version": "@PROJECT_VERSION@",
   "description": "Multi-level encrypted user storage plugin with gocryptfs backend",
   "type": "CUSTOM",
+  "visibility": "private",
+  "allowed_editions": ["enterprise", "hyperscaler", "military"],
+  "license_feature": "secure_user_storage",
+  "min_themisdb_version": "2.4.0",
+  "compatible_core_abi": "plugin-abi-v2",
   "binary": {
     "windows": "themis_user_storage_encrypted.dll",
     "linux": "themis_user_storage_encrypted.so",

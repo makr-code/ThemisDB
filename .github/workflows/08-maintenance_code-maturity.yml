@@ -36,7 +36,7 @@ on:
     types: [opened, synchronize, reopened]
     branches:
       - develop
-      - main
+      - community
     paths:
       - '.github/scripts/code_maturity_header_writer.py'
       - '.github/scripts/analyze_code_maturity.py'

@@ -73,6 +73,15 @@ Implications:
 - GA promotion follows the tracked execution batches (A-D) defined in root governance docs; skipping a batch boundary is not allowed.
 - Direct release-lane bypass is allowed only for the hotfix exception flow in §6.4.
 
+## 4.2 Private Plugin Family Repositories
+
+Private plugin family repositories follow the same canonical branch model when they are provisioned:
+
+- normal implementation targets `develop`
+- release promotion uses `enterprise`, `hyperscaler`, or `military` only when the family publishes edition-specific artefacts
+- no private plugin repository may introduce new `main` or `millitary` automation, documentation, or PR targets
+- the superproject consumes private plugin repositories only through commit-pinned submodules, never floating branches
+
 ## 5. Branch Types
 
 ### 5.1 Feature Branches

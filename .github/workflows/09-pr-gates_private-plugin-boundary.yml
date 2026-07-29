@@ -1,0 +1,105 @@
+name: Private Plugin Boundary Guard
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - develop
+      - community
+      - enterprise
+      - hyperscaler
+      - military
+    paths:
+      - '.gitmodules'
+      - 'plugins/private/**'
+      - 'cmake/PrivatePlugins.cmake'
+      - 'cmake/features/PrivatePluginFeatures.cmake'
+      - '.github/workflows/09-pr-gates_private-plugin-boundary.yml'
+      - '.github/workflows/license-compliance.yml'
+      - '.github/workflows/sbom-ci.yml'
+      - '.github/WORKFLOW_REGISTRY.md'
+      - 'ROADMAP.md'
+      - 'FUTURE_ENHANCEMENTS.md'
+      - 'RELEASE_STRATEGY.md'
+      - 'VERSIONING.md'
+      - 'CHANGELOG.md'
+      - 'DOCUMENTATION_GOVERNANCE.md'
+      - '.github/copilot-instructions.md'
+      - 'ai_context/COPILOT_INSTRUCTIONS.md'
+      - 'BRANCHING_STRATEGY.md'
+  workflow_dispatch: {}
+
+concurrency:
+  group: private-plugin-boundary-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  private-plugin-boundary:
+    name: Enforce private plugin boundary
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Collect changed files
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            git fetch origin "${{ github.base_ref }}" --depth=1
+            git diff --name-only "origin/${{ github.base_ref }}...HEAD" > changed_files.txt
+          else
+            git ls-files '.gitmodules' 'plugins/private/**' 'cmake/PrivatePlugins.cmake' \
+              'cmake/features/PrivatePluginFeatures.cmake' '.github/workflows/09-pr-gates_private-plugin-boundary.yml' \
+              '.github/workflows/license-compliance.yml' '.github/workflows/sbom-ci.yml' '.github/WORKFLOW_REGISTRY.md' \
+              'ROADMAP.md' 'FUTURE_ENHANCEMENTS.md' 'RELEASE_STRATEGY.md' 'VERSIONING.md' 'CHANGELOG.md' \
+              'DOCUMENTATION_GOVERNANCE.md' '.github/copilot-instructions.md' 'ai_context/COPILOT_INSTRUCTIONS.md' \
+              'BRANCHING_STRATEGY.md' > changed_files.txt
+          fi
+          cat changed_files.txt
+
+      - name: Enforce synchronized governance set
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          changed = [line.strip() for line in Path('changed_files.txt').read_text(encoding='utf-8').splitlines() if line.strip()]
+          changed_set = set(changed)
+          governance = {
+              'ROADMAP.md', 'FUTURE_ENHANCEMENTS.md', 'RELEASE_STRATEGY.md', 'VERSIONING.md', 'CHANGELOG.md',
+              'DOCUMENTATION_GOVERNANCE.md', '.github/copilot-instructions.md', 'ai_context/COPILOT_INSTRUCTIONS.md',
+              'BRANCHING_STRATEGY.md',
+          }
+          boundary_touched = any(
+              path == '.gitmodules' or path.startswith('plugins/private/') or path in {
+                  'cmake/PrivatePlugins.cmake', 'cmake/features/PrivatePluginFeatures.cmake',
+                  '.github/workflows/license-compliance.yml', '.github/workflows/sbom-ci.yml',
+              }
+              for path in changed
+          )
+          if boundary_touched:
+              missing = sorted(governance - changed_set)
+              if missing:
+                  raise SystemExit('Private plugin boundary changes require the full root governance sync set. Missing updates: ' + ', '.join(missing))
+          allowed_reference_files = governance | {
+              '.github/WORKFLOW_REGISTRY.md', '.github/workflows/09-pr-gates_private-plugin-boundary.yml',
+              '.github/workflows/license-compliance.yml', '.github/workflows/sbom-ci.yml',
+              'cmake/PrivatePlugins.cmake', 'cmake/features/PrivatePluginFeatures.cmake', 'plugins/CMakeLists.txt',
+          }
+          offenders = []
+          for path in changed:
+              p = Path(path)
+              if path in allowed_reference_files or not p.is_file():
+                  continue
+              if p.suffix.lower() not in {'.md', '.txt', '.cmake', '.yml', '.yaml', '.json', '.in', '.cpp', '.h', '.hpp'}:
+                  continue
+              text = p.read_text(encoding='utf-8', errors='ignore')
+              if 'plugins/private/' in text:
+                  offenders.append(path)
+          if offenders:
+              raise SystemExit('References to plugins/private/ are restricted to approved governance/build files. Offenders: ' + ', '.join(sorted(offenders)))
+          PY

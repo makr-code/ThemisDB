@@ -16,14 +16,14 @@ name: src/include ↔ docs/de Alignment Check
 #     undocumented_modules, coverage_pct
 #
 # Triggers:
-#   - Push to develop/main that touches src/, include/, or docs/de/
+#   - Push to develop/community that touches src/, include/, or docs/de/
 #   - Any pull_request touching those paths
 #   - Weekly schedule (Mondays 05:00 UTC)
 #   - Manual dispatch
 
 on:
   push:
-    branches: [develop, main]
+    branches: [develop, community]
     paths:
       - 'src/*/**'
       - 'include/*/**'
@@ -31,7 +31,7 @@ on:
       - 'scripts/src-include-docs-align.py'
       - '.github/workflows/08-maintenance_src-include-docs-align.yml'
   pull_request:
-    branches: [develop, main]
+    branches: [develop, community]
     paths:
       - 'src/*/**'
       - 'include/*/**'

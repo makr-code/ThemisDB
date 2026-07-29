@@ -379,6 +379,7 @@ struct PluginManifest {
     std::string version;
     std::string description;
     PluginType type;
+    std::string visibility = "public";
     
     // Platform-specific binaries
     std::string binary_windows;  // .dll
@@ -404,6 +405,13 @@ struct PluginManifest {
     // When set, the plugin manager verifies the on-disk binary hash before loading.
     // Leave empty to skip hash enforcement (development/unsigned builds).
     std::string expected_hash;
+
+    // Private/public rollout and compatibility metadata.
+    std::vector<std::string> allowed_editions;
+    std::string license_feature;
+    std::string min_themisdb_version;
+    std::string max_themisdb_version;
+    std::string compatible_core_abi;
 };
 
 /**
@@ -434,7 +442,9 @@ struct PluginSignatureInfo {
  *   "homepage": "https://marketplace.themisdb.io/plugins/s3_blob_storage",
  *   "tags": ["storage", "aws", "s3"],
  *   "category": "storage",
- *   "min_themis_version": "1.2.0",
+ *   "min_themisdb_version": "1.2.0",
+ *   "allowed_editions": ["enterprise", "hyperscaler"],
+ *   "license_feature": "private_connector_pack",
  *   "binary": { "linux": "themis_blob_s3.so" },
  *   "verified_publisher": true
  * }
@@ -554,6 +564,11 @@ public:
         checkOptionalString(j, "marketplace_id", 0, 64, result);
         checkOptionalString(j, "min_themis_version", 0, 32, result);
         checkOptionalString(j, "max_themis_version", 0, 32, result);
+        checkOptionalString(j, "min_themisdb_version", 0, 32, result);
+        checkOptionalString(j, "max_themisdb_version", 0, 32, result);
+        checkOptionalString(j, "license_feature", 0, 128, result);
+        checkOptionalString(j, "compatible_core_abi", 0, 64, result);
+        checkOptionalString(j, "visibility", 0, 32, result);
         checkOptionalString(j, "expected_hash", 0, 128, result);
 
         // expected_hash, when present, must be exactly 64 hex characters (SHA-256)
@@ -602,6 +617,26 @@ public:
                 result.errors.push_back("Field 'tags' must be an array");
             } else if (j["tags"].size() > 16) {
                 result.errors.push_back("Field 'tags' must not have more than 16 items");
+            }
+        }
+        if (j.contains("allowed_editions")) {
+            static const std::vector<std::string> valid_editions = {
+                "minimal", "community", "enterprise", "hyperscaler", "military"
+            };
+            if (!j["allowed_editions"].is_array()) {
+                result.errors.push_back("Field 'allowed_editions' must be an array");
+            } else {
+                for (const auto& ed : j["allowed_editions"]) {
+                    if (!ed.is_string()) {
+                        result.errors.push_back("Field 'allowed_editions' entries must be strings");
+                        continue;
+                    }
+                    if (std::find(valid_editions.begin(), valid_editions.end(),
+                                  ed.get<std::string>()) == valid_editions.end()) {
+                        result.errors.push_back("Field 'allowed_editions' contains invalid edition '" +
+                                                ed.get<std::string>() + "'");
+                    }
+                }
             }
         }
         if (j.contains("supported_formats") && !j["supported_formats"].is_array()) {
@@ -667,6 +702,19 @@ public:
             }
         }
 
+        if (j.contains("visibility")) {
+            static const std::vector<std::string> valid_visibility = {
+                "public", "private", "restricted"
+            };
+            if (!j["visibility"].is_string()) {
+                result.errors.push_back("Field 'visibility' must be a string");
+            } else if (std::find(valid_visibility.begin(), valid_visibility.end(),
+                                 j["visibility"].get<std::string>()) == valid_visibility.end()) {
+                result.errors.push_back("Field 'visibility' has invalid value '" +
+                    j["visibility"].get<std::string>() + "'");
+            }
+        }
+
         result.valid = result.errors.empty();
         return result;
     }
@@ -690,6 +738,7 @@ public:
         m.name        = j.value("name", "");
         m.version     = j.value("version", "");
         m.description = j.value("description", "");
+        m.visibility  = j.value("visibility", "public");
 
         // Resolve type string
         const std::string type_str = j.value("type", "custom");
@@ -730,6 +779,8 @@ public:
         m.auto_load      = j.value("auto_load",    false);
         m.load_priority  = j.value("load_priority", 100);
         m.expected_hash  = j.value("expected_hash", "");
+        m.license_feature = j.value("license_feature", "");
+        m.compatible_core_abi = j.value("compatible_core_abi", "");
 
         if (j.contains("config_schema") && j["config_schema"].is_object()) {
             m.config_schema = j["config_schema"].dump();
@@ -743,14 +794,26 @@ public:
         m.documentation      = j.value("documentation",      "");
         m.category           = j.value("category",           "");
         m.marketplace_id     = j.value("marketplace_id",     "");
-        m.min_themis_version = j.value("min_themis_version", "");
-        m.max_themis_version = j.value("max_themis_version", "");
+        m.min_themis_version = j.value("min_themis_version",
+            j.value("min_themisdb_version", ""));
+        m.max_themis_version = j.value("max_themis_version",
+            j.value("max_themisdb_version", ""));
+        m.min_themisdb_version = m.min_themis_version;
+        m.max_themisdb_version = m.max_themis_version;
         m.verified_publisher = j.value("verified_publisher", false);
 
         if (j.contains("tags") && j["tags"].is_array()) {
             for (const auto& t : j["tags"]) {
                 if (t.is_string()) {
                     m.tags.push_back(t.get<std::string>());
+                }
+            }
+        }
+
+        if (j.contains("allowed_editions") && j["allowed_editions"].is_array()) {
+            for (const auto& ed : j["allowed_editions"]) {
+                if (ed.is_string()) {
+                    m.allowed_editions.push_back(ed.get<std::string>());
                 }
             }
         }
@@ -822,4 +885,3 @@ private:
     }
 
 #endif  // THEMISDB_PLUGIN_INTERFACE_H
-

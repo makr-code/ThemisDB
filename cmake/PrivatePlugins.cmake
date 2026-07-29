@@ -1,0 +1,38 @@
+include_guard(GLOBAL)
+
+function(_themis_add_optional_private_plugin_dir label source_dir binary_dir)
+    if(EXISTS "${source_dir}/CMakeLists.txt")
+        message(STATUS "  - ${label} (private family)")
+        add_subdirectory("${source_dir}" "${binary_dir}")
+    else()
+        message(STATUS "  - ${label} not available (optional private source missing: ${source_dir})")
+    endif()
+endfunction()
+
+function(themis_register_private_plugin_families plugins_root)
+    if(WITH_PRIVATE_COMPLIANCE)
+        _themis_add_optional_private_plugin_dir("Private compliance plugins" "${plugins_root}/private/compliance" "${CMAKE_CURRENT_BINARY_DIR}/private_compliance")
+    endif()
+
+    if(WITH_PRIVATE_CONNECTORS)
+        _themis_add_optional_private_plugin_dir("Private connector plugins" "${plugins_root}/private/connectors" "${CMAKE_CURRENT_BINARY_DIR}/private_connectors")
+    endif()
+
+    if(WITH_PRIVATE_ACCELERATION)
+        _themis_add_optional_private_plugin_dir("Private acceleration plugins" "${plugins_root}/private/acceleration" "${CMAKE_CURRENT_BINARY_DIR}/private_acceleration")
+    endif()
+
+    if(WITH_PRIVATE_REGINTEL)
+        _themis_add_optional_private_plugin_dir("Private regulated-intelligence plugins" "${plugins_root}/private/regintel" "${CMAKE_CURRENT_BINARY_DIR}/private_regintel")
+    endif()
+
+    if(THEMIS_BUILD_GPU_IMPACT_PLUGIN OR WITH_PRIVATE_GPU_IMPACT_ANALYSIS)
+        if(EXISTS "${plugins_root}/private/acceleration/gpu_impact_analysis/CMakeLists.txt")
+            _themis_add_optional_private_plugin_dir("GPU Impact Analysis Plugin" "${plugins_root}/private/acceleration/gpu_impact_analysis" "${CMAKE_CURRENT_BINARY_DIR}/private_gpu_impact_analysis")
+        elseif(EXISTS "${plugins_root}/enterprise/gpu_impact_analysis/CMakeLists.txt")
+            _themis_add_optional_private_plugin_dir("GPU Impact Analysis Plugin" "${plugins_root}/enterprise/gpu_impact_analysis" "${CMAKE_CURRENT_BINARY_DIR}/gpu_impact_analysis")
+        else()
+            message(STATUS "  - GPU Impact Analysis Plugin not available (optional private source missing)")
+        endif()
+    endif()
+endfunction()

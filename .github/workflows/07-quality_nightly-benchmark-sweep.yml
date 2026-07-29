@@ -19,7 +19,7 @@ on:
     workflows: ["🚦 Post-Merge Smoke Test"]
     types: [completed]
     branches:
-      - main
+      - community
       - develop
   workflow_dispatch:
 

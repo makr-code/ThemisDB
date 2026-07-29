@@ -14,7 +14,7 @@ name: Voice Benchmark CI
 #     --benchmark_min_time=0.1s to document at least 1 representative run.
 #   • Results are uploaded as workflow artifacts (30-day retention) to satisfy
 #     the "mindestens 1 Testlauf dokumentiert" acceptance criterion.
-#   • On push to main a baseline JSON is committed back so future runs have a
+#   • On push to community a baseline JSON is committed back so future runs have a
 #     reference point for delta comparison.
 #
 # Acceptance criteria (Issue: Voice-Benchmark-Pfad in optionalem Runner aktivieren):
@@ -39,7 +39,7 @@ on:
       - '.github/workflows/02-feature-modules_llm_voice-benchmark-ci.yml'
   push:
     branches:
-      - main
+      - community
       - develop
     paths:
       - 'include/voice/**'
@@ -274,15 +274,15 @@ jobs:
           fi
 
   # ---------------------------------------------------------------------------
-  # Commit a baseline JSON back to main so future runs have a reference point.
-  # Runs only after a successful benchmark run on main branch push.
+  # Commit a baseline JSON back to community so future runs have a reference point.
+  # Runs only after a successful benchmark run on community branch push.
   # ---------------------------------------------------------------------------
   update-voice-baseline:
     name: Update Voice Benchmark Baseline
     needs: voice-benchmarks
     if: >
       github.event_name == 'push' &&
-      github.ref == 'refs/heads/main' &&
+      github.ref == 'refs/heads/community' &&
       needs.voice-benchmarks.result == 'success'
     runs-on: ubuntu-latest
 
@@ -337,7 +337,7 @@ jobs:
 
           baseline = {
               "version":    version,
-              "branch":     "main",
+              "branch":     "community",
               "commit":     os.environ.get("GITHUB_SHA", "unknown"),
               "timestamp":  datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
               "flag":       "THEMIS_ENABLE_VOICE_ASSISTANT=ON",
@@ -362,9 +362,9 @@ jobs:
             echo "No voice baseline changes to commit."
           else
             git commit -m "chore(voice): auto-update voice benchmark baseline [skip ci]"
-            git pull --rebase origin main
-            git push origin main
-            echo "✅ Voice benchmark baseline committed to main."
+            git pull --rebase origin community
+            git push origin community
+            echo "✅ Voice benchmark baseline committed to community."
           fi
 
       - name: Write job summary

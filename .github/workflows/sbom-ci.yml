@@ -20,6 +20,10 @@ on:
       - 'CMakeLists.txt'
       - 'Dockerfile'
       - '.github/workflows/sbom-ci.yml'
+      - '.gitmodules'
+      - 'plugins/private/**'
+      - 'cmake/PrivatePlugins.cmake'
+      - 'cmake/features/PrivatePluginFeatures.cmake'
       - 'scripts/verify-sbom.sh'
       - 'scripts/verify-vcpkg-baseline-signature.sh'
   release:

@@ -63,6 +63,8 @@ Mandatory rules:
    - `release_critical` on `develop`
    - top-risk module sign-off (`server`, `llm`, `sharding`)
    - resilience/security/operations evidence (Wave 5/6 retention, Wave 8 or equivalent, chaos, sanitizer/recovery, penetration test, SLA, runbooks)
+8. Private plugin work must stay inside the intended public/private boundary: public SDK and governance changes may land in this repository, but private implementation work belongs only in the provisioned `plugins/private/*` family submodules.
+9. Community guardrails are mandatory: no private credentials, private sources, or private artefacts in Community/Minimal workflows, packaging, or docs.
 
 ## 2) Pflichtstruktur für `ROADMAP.md` je Modul
 

@@ -40,6 +40,41 @@
 
 ---
 
+## private-plugin-externalization
+
+### Scope
+- Establish the public/private plugin split for family-based optional submodules under `plugins/private/` without removing public reference plugins from the monorepo.
+- Cover Wave-1 candidates (`ethics_ai`, `user_storage_encrypted`, connector pack) and define the refactor-first boundary for static AI/acceleration modules.
+
+### Design Constraints
+- Community and Minimal checkouts must configure, build, and test without private credentials, private sources, or private artefacts.
+- Private plugin repositories use commit-pinned submodules and canonical lane names (`develop`, `enterprise`, `hyperscaler`, `military`) only.
+- No new legacy or compatibility path may bypass the public plugin SDK or the existing fail-closed license posture.
+
+### Required Interfaces
+- `include/plugins/plugin_interface.h` and `include/plugins/manifest_schema_v2.json`
+- `src/plugins/plugin_manager.cpp` and related plugin-loading/runtime-license helpers
+- `plugins/CMakeLists.txt`, `cmake/features/PluginFeatures.cmake`, `cmake/features/PrivatePluginFeatures.cmake`, `cmake/PrivatePlugins.cmake`
+- `.gitmodules`, private-release workflows, `ROADMAP.md`, `RELEASE_STRATEGY.md`, and `VERSIONING.md`
+
+### Implementation Notes
+- Model private plugin families as `compliance`, `connectors`, `acceleration`, and later `regintel`, with `WITH_PRIVATE_*` defaults set to `OFF`.
+- Extend manifests with visibility, edition-allowance, license-feature, and core-compatibility metadata while keeping absent fields backward-compatible.
+- Preserve open reference plugins (for example PostgreSQL importer, JSONL exporter, HuggingFace ingestion, ONNX CLIP) in the public tree.
+
+### Test Strategy
+- Add manifest-schema validation coverage for new compatibility fields and edition lists.
+- Add PR/path-policy checks for `plugins/private/**`, `.gitmodules`, private CMake, packaging, SBOM, and license workflow changes.
+- Keep Community negative-path coverage for missing private submodules, missing licenses, wrong edition, and private-artifact leakage.
+
+### Performance Targets
+- No configure-time hard failure when private sources are absent and all `WITH_PRIVATE_*` toggles remain `OFF`.
+- No regression in public plugin discovery/load behaviour for manifests that omit the new private-plugin fields.
+
+### Security / Reliability
+- Fail closed on disallowed editions, missing license features, invalid hashes, and incompatible private manifests.
+- Enforce source-leakage, artifact-leakage, SBOM, and license-compliance gates before Community release publication.
+
 ## Table of Contents
 
 1. [Legend and Priority System](#legend-and-priority-system)

@@ -5,6 +5,11 @@
   "description": "MySQL/MariaDB mysqldump importer for ThemisDB with JDBC-compatible config",
   "author": "ThemisDB Team",
   "license": "Proprietary",
+  "visibility": "private",
+  "allowed_editions": ["enterprise", "hyperscaler", "military"],
+  "license_feature": "private_connector_pack",
+  "min_themisdb_version": "2.4.0",
+  "compatible_core_abi": "plugin-abi-v2",
   "binary": {
     "windows": "themis_import_mysql.dll",
     "linux": "themis_import_mysql.so",

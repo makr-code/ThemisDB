@@ -31,6 +31,7 @@
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include <algorithm>
+#include <cctype>
 #include <filesystem>
 #include <fstream>
 #include <openssl/evp.h>
@@ -47,6 +48,27 @@ namespace themis {
 namespace plugins {
 
 namespace fs = std::filesystem;
+
+namespace {
+
+std::string normalizeEditionName(std::string value) {
+    std::transform(value.begin(), value.end(), value.begin(),
+                   [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+    return value;
+}
+
+bool manifestAllowsCurrentEdition(const PluginManifest& manifest) {
+    if (manifest.allowed_editions.empty()) {
+        return true;
+    }
+    const auto current = normalizeEditionName(std::string(edition::EDITION_STRING));
+    return std::any_of(manifest.allowed_editions.begin(), manifest.allowed_editions.end(),
+                       [&](const std::string& allowed) {
+                           return normalizeEditionName(allowed) == current;
+                       });
+}
+
+}  // namespace
 
 // ============================================================================
 // Constants
@@ -441,6 +463,20 @@ std::optional<PluginManifest> PluginManager::loadManifest(const std::string& man
 
         // Optional: expected SHA-256 hash of the binary for integrity enforcement
         manifest.expected_hash = j.value("expected_hash", "");
+        manifest.visibility = j.value("visibility", "public");
+        manifest.license_feature = j.value("license_feature", "");
+        manifest.compatible_core_abi = j.value("compatible_core_abi", "");
+        manifest.min_themisdb_version = j.value("min_themisdb_version",
+                                                j.value("min_themis_version", ""));
+        manifest.max_themisdb_version = j.value("max_themisdb_version",
+                                                j.value("max_themis_version", ""));
+        if (j.contains("allowed_editions") && j["allowed_editions"].is_array()) {
+            for (const auto& ed : j["allowed_editions"]) {
+                if (ed.is_string()) {
+                    manifest.allowed_editions.push_back(ed.get<std::string>());
+                }
+            }
+        }
         
         return manifest;
         
@@ -592,19 +628,6 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
     TracedSpan span("PluginManager.loadPlugin");
     span.setAttribute("plugin.name", name);
 
-    // Edition + runtime license gate: reject early on unsupported editions
-    if (!isEditionSupported()) {
-        const std::string msg = communityUnavailableMessage(name);
-        THEMIS_WARN("{}", msg);
-        return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_NOT_FOUND, msg);
-    }
-    if (!isLicensed()) {
-        const std::string msg = "Plugin '" + name +
-            "' cannot be loaded: runtime license does not permit enterprise_plugins.";
-        THEMIS_WARN("{}", msg);
-        return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_NOT_FOUND, msg);
-    }
-
     auto start = std::chrono::steady_clock::now();
     
     std::unique_lock<std::mutex> lock(mutex_);
@@ -619,6 +642,37 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
     
     auto& entry = it->second;
     const auto deps_to_load = entry.manifest.dependencies;
+
+    // Edition + runtime license gate: reject early on unsupported editions.
+    // Public manifests without explicit private gating remain backward-compatible.
+    const bool requires_enterprise_gate =
+        entry.manifest.visibility != "public" ||
+        !entry.manifest.license_feature.empty() ||
+        !entry.manifest.allowed_editions.empty();
+    if (requires_enterprise_gate && !isEditionSupported()) {
+        const std::string msg = communityUnavailableMessage(name);
+        THEMIS_WARN("{}", msg);
+        return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_NOT_FOUND, msg);
+    }
+    if (requires_enterprise_gate && !isLicensed()) {
+        const std::string msg = "Plugin '" + name +
+            "' cannot be loaded: runtime license does not permit enterprise_plugins.";
+        THEMIS_WARN("{}", msg);
+        return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_NOT_FOUND, msg);
+    }
+    if (!manifestAllowsCurrentEdition(entry.manifest)) {
+        const std::string msg = "Plugin '" + name + "' is not available in edition '" +
+            std::string(edition::EDITION_STRING) + "'.";
+        THEMIS_WARN("{}", msg);
+        return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_NOT_FOUND, msg);
+    }
+    if (!entry.manifest.license_feature.empty() &&
+        !license::RuntimeLicenseGate::instance().isFeatureAllowed(entry.manifest.license_feature)) {
+        const std::string msg = "Plugin '" + name + "' cannot be loaded: runtime license does not permit feature '" +
+            entry.manifest.license_feature + "'.";
+        THEMIS_WARN("{}", msg);
+        return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_NOT_FOUND, msg);
+    }
     
     if (entry.loaded && entry.instance) {
         return Ok(entry.instance.get());
@@ -1694,5 +1748,3 @@ std::string PluginManager::installationInstructions() {
 
 } // namespace plugins
 } // namespace themis
-
-

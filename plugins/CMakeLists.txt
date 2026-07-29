@@ -76,14 +76,8 @@ if(THEMIS_PLUGIN_SAGA_ORCHESTRATOR AND EXISTS "${THEMIS_ROOT_DIR}/src/transactio
     add_subdirectory("${THEMIS_ROOT_DIR}/src/transaction/saga_plugin" "${CMAKE_CURRENT_BINARY_DIR}/saga_plugin")
 endif()
 
-# GPU Impact Analysis Plugin (enterprise/non-open source)
-option(THEMIS_BUILD_GPU_IMPACT_PLUGIN "Build GPU Impact Analysis Plugin" ON)
-if(THEMIS_BUILD_GPU_IMPACT_PLUGIN)
-    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/enterprise/gpu_impact_analysis/CMakeLists.txt")
-        message(STATUS "  - GPU Impact Analysis Plugin")
-        add_subdirectory(enterprise/gpu_impact_analysis)
-    else()
-        message(WARNING "GPU Impact Analysis Plugin source not found at plugins/enterprise/gpu_impact_analysis")
-    endif()
+include("${THEMIS_ROOT_DIR}/cmake/PrivatePlugins.cmake" OPTIONAL)
+if(COMMAND themis_register_private_plugin_families)
+    themis_register_private_plugin_families("${CMAKE_CURRENT_SOURCE_DIR}")
 endif()
 

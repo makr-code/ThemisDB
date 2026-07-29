@@ -69,7 +69,15 @@ For the current `v2.4.0-rc1` → `v2.4.0` path, release work follows a strict ga
 
 The root evidence set for this path is maintained in `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `CHANGELOG.md`, and the referenced test/benchmark/runbook artefacts.
 
-## 2.4 Release Hardening Execution Batches
+## 2.4 Private Plugin Release And Packaging Rules
+
+- Community release lanes (`develop` validation, `community` publication) must not require private credentials, private submodule checkout, or private artefact packaging.
+- Private plugin families are consumed only through commit-pinned submodules under `plugins/private/*` after the corresponding private repositories are provisioned.
+- Private edition publication must use scoped credentials (GitHub App or deploy key) per family/edition; personal credentials and unscoped machine tokens are not allowed.
+- Community publication requires both a source-leakage check (no private paths copied into public trees) and an artefact-leakage check (package contents, symbol/strings scans, and SBOM review).
+- Manifest compatibility fields (`allowed_editions`, `license_feature`, `min_themisdb_version`, `max_themisdb_version`, `compatible_core_abi`) are part of the release acceptance contract for private plugins.
+
+## 2.5 Release Hardening Execution Batches
 
 For the current release-candidate hardening path, execution is tracked in four mandatory batches:
 

@@ -5,6 +5,10 @@
   "description": "Native C++ Ethical AI Framework for moral philosophy-based decision making",
   "author": "ThemisDB Team",
   "license": "MIT",
+  "visibility": "restricted",
+  "allowed_editions": ["enterprise", "hyperscaler", "military"],
+  "license_feature": "ethics_ai_advanced",
+  "compatible_core_abi": "plugin-abi-v2",
   "capabilities": {
     "supports_streaming": false,
     "supports_batching": true,

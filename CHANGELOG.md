@@ -5,6 +5,23 @@ All notable changes to ThemisDB will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-07-29 — Private Plugin Externalization Groundwork
+
+### Added
+- Added private-plugin governance groundwork across root roadmap, release strategy, versioning, and documentation policy documents.
+- Added CMake wiring for optional `plugins/private/*` family submodules and default-off `WITH_PRIVATE_*` feature flags.
+- Added manifest/runtime metadata support for plugin visibility, allowed editions, license features, and core compatibility fields.
+- Added a targeted PR workflow gate for private-plugin boundary changes.
+
+### Changed
+- Updated active workflow branch references from legacy `main` to canonical `community` where the workflow policy participates in the current governance model.
+- Marked Wave-1 private candidates (`ethics_ai`, `user_storage_encrypted`, connector/blob manifests) with explicit private/restricted metadata for later submodule migration.
+
+### Security
+- Tightened Community-vs-private guardrails in governance docs, SBOM/license workflow triggers, and private-plugin PR policy checks.
+
+---
+
 ## [Unreleased] — 2026-07-28 — Phase 6 Documentation & Governance Synchronization
 
 ### Phase 6 — Documentation, Governance, and GA Release Sign-Off
