@@ -126,7 +126,7 @@ static std::int64_t validTimeIntersection(std::int64_t as, std::int64_t ae,
                                            std::int64_t bs, std::int64_t be) {
     std::int64_t start = std::max(as, bs);
     std::int64_t end   = std::min(ae, be);
-    return std::max(0LL, end - start);
+    return std::max(std::int64_t{0}, end - start);
 }
 
 // ---------------------------------------------------------------------------
