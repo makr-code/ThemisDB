@@ -56,6 +56,10 @@ enum class CrsId : int {
 // ---------------------------------------------------------------------------
 
 /// Axis-aligned bounding box following RFC 7946 §5.
+///
+/// @note RFC 7946 §5: a bbox is represented as [west, south, east, north]
+///       for 2D coordinates.  The fields below map to that order:
+///       min_x=west, min_y=south, max_x=east, max_y=north.
 struct BBox {
     double min_x{0.0};
     double min_y{0.0};
@@ -154,6 +158,10 @@ public:
  *
  * Immutable after construction.  The coordinate is stored as (x, y) where
  * x is longitude (or easting) and y is latitude (or northing).
+ *
+ * @note RFC 7946 §3.1.2 — Point:
+ *   Position is an array of at least two numbers [longitude, latitude].
+ *   For WGS-84 (CrsId::WGS84): longitude ∈ [-180, 180], latitude ∈ [-90, 90].
  */
 class GeoPoint final : public IGeoJSONGeometry {
 public:
@@ -191,6 +199,10 @@ private:
  * @brief A GeoJSON LineString geometry (ordered sequence of ≥ 2 positions).
  *
  * Immutable after construction.
+ *
+ * @note RFC 7946 §3.1.4 — LineString:
+ *   Two or more positions.  A LinearRing (closed LineString) requires ≥ 4
+ *   positions with the first and last being identical.
  */
 class GeoLineString final : public IGeoJSONGeometry {
 public:
@@ -237,6 +249,17 @@ private:
  * by `validate()` when the rule is violated; construction still succeeds.
  *
  * Immutable after construction.
+ *
+ * @note RFC 7946 §3.1.6 — Polygon:
+ *   - The exterior ring MUST be counter-clockwise (right-hand rule).
+ *   - Interior rings (holes) MUST be clockwise.
+ *   - Each ring MUST be a LinearRing: ≥ 4 positions, first == last position.
+ *   - Coordinate order within each position: [longitude, latitude] for WGS-84.
+ *
+ * @note RFC 7946 §3.1.9 — Winding order note:
+ *   Tools consuming GeoJSON "SHOULD" follow the right-hand rule even if
+ *   produced by systems that use the left-hand rule.  ThemisDB enforces this
+ *   at validation time and reports WINDING_ORDER_VIOLATION when violated.
  */
 class GeoPolygon final : public IGeoJSONGeometry {
 public:

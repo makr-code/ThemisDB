@@ -33,6 +33,7 @@
 // calls with their HIP equivalents (hipMalloc, hipMemcpy, etc.).
 
 #include "geo/gpu_kernel_dispatcher.h"
+#include "geo/gpu_buffer_guard.h"
 
 #include <hip/hip_runtime.h>
 #include <cstdint>
@@ -82,45 +83,40 @@ GpuKernelDispatcher::ContainmentResult GpuKernelDispatcher::dispatchContainment(
     const size_t poly_sz = static_cast<size_t>(numPolygonVertices) * 2 * sizeof(double);
     const size_t out_sz  = static_cast<size_t>(numPoints) * sizeof(uint8_t);
 
-    double*  d_lats = nullptr;
-    double*  d_lons = nullptr;
-    double*  d_poly = nullptr;
-    uint8_t* d_res  = nullptr;
+    // RAII guards own all device buffers; freed automatically on any return path.
+    HipTypedBuffer<double>  d_lats, d_lons, d_poly;
+    HipTypedBuffer<uint8_t> d_res;
 
     // Allocate device buffers — any failure aborts and returns error_code.
     hipError_t e;
-    if ((e = hipMalloc(&d_lats, pts_sz))  != hipSuccess ||
-        (e = hipMalloc(&d_lons, pts_sz))  != hipSuccess ||
-        (e = hipMalloc(&d_poly, poly_sz)) != hipSuccess ||
-        (e = hipMalloc(&d_res,  out_sz))  != hipSuccess) {
+    if ((e = hipMalloc(&d_lats.ptr, pts_sz))  != hipSuccess ||
+        (e = hipMalloc(&d_lons.ptr, pts_sz))  != hipSuccess ||
+        (e = hipMalloc(&d_poly.ptr, poly_sz)) != hipSuccess ||
+        (e = hipMalloc(&d_res.ptr,  out_sz))  != hipSuccess) {
         res.error_code = static_cast<int>(e);
-        hipFree(d_lats); hipFree(d_lons);
-        hipFree(d_poly); hipFree(d_res);
         return res;
     }
 
     // Copy host → device.
-    if ((e = hipMemcpy(d_lats, point_lats,     pts_sz,  hipMemcpyHostToDevice)) != hipSuccess ||
-        (e = hipMemcpy(d_lons, point_lons,     pts_sz,  hipMemcpyHostToDevice)) != hipSuccess ||
-        (e = hipMemcpy(d_poly, polygon_coords, poly_sz, hipMemcpyHostToDevice)) != hipSuccess ||
-        (e = hipMemset(d_res, 0, out_sz))                                        != hipSuccess) {
+    if ((e = hipMemcpy(d_lats.get(), point_lats,     pts_sz,  hipMemcpyHostToDevice)) != hipSuccess ||
+        (e = hipMemcpy(d_lons.get(), point_lons,     pts_sz,  hipMemcpyHostToDevice)) != hipSuccess ||
+        (e = hipMemcpy(d_poly.get(), polygon_coords, poly_sz, hipMemcpyHostToDevice)) != hipSuccess ||
+        (e = hipMemset(d_res.get(), 0, out_sz))                                        != hipSuccess) {
         res.error_code = static_cast<int>(e);
-        hipFree(d_lats); hipFree(d_lons);
-        hipFree(d_poly); hipFree(d_res);
         return res;
     }
 
     // Launch kernel via dispatch table (default stream).
     const int rc = dispatch_table_.launchContainment(
-        d_lats, d_lons, numPoints,
-        d_poly, numPolygonVertices,
-        d_res, nullptr);
+        d_lats.get(), d_lons.get(), numPoints,
+        d_poly.get(), numPolygonVertices,
+        d_res.get(), nullptr);
 
     if (rc == 0) {
         e = hipDeviceSynchronize();
         if (e == hipSuccess) {
             res.mask.resize(static_cast<size_t>(numPoints));
-            e = hipMemcpy(res.mask.data(), d_res, out_sz, hipMemcpyDeviceToHost);
+            e = hipMemcpy(res.mask.data(), d_res.get(), out_sz, hipMemcpyDeviceToHost);
             if (e == hipSuccess) {
                 res.dispatched = true;
             } else {
@@ -134,8 +130,7 @@ GpuKernelDispatcher::ContainmentResult GpuKernelDispatcher::dispatchContainment(
         res.error_code = rc;
     }
 
-    hipFree(d_lats); hipFree(d_lons);
-    hipFree(d_poly); hipFree(d_res);
+    // RAII destructors free all four device buffers here.
     return res;
 }
 
@@ -161,46 +156,38 @@ GpuKernelDispatcher::DistanceResult GpuKernelDispatcher::dispatchDistance(
     const size_t coord_sz = static_cast<size_t>(count) * sizeof(double);
     const size_t out_sz   = static_cast<size_t>(count) * sizeof(float);
 
-    double* d_lats1 = nullptr;
-    double* d_lons1 = nullptr;
-    double* d_lats2 = nullptr;
-    double* d_lons2 = nullptr;
-    float*  d_out   = nullptr;
+    // RAII guards own all device buffers; freed automatically on any return path.
+    HipTypedBuffer<double> d_lats1, d_lons1, d_lats2, d_lons2;
+    HipTypedBuffer<float>  d_out;
 
     hipError_t e;
-    if ((e = hipMalloc(&d_lats1, coord_sz)) != hipSuccess ||
-        (e = hipMalloc(&d_lons1, coord_sz)) != hipSuccess ||
-        (e = hipMalloc(&d_lats2, coord_sz)) != hipSuccess ||
-        (e = hipMalloc(&d_lons2, coord_sz)) != hipSuccess ||
-        (e = hipMalloc(&d_out,   out_sz))   != hipSuccess) {
+    if ((e = hipMalloc(&d_lats1.ptr, coord_sz)) != hipSuccess ||
+        (e = hipMalloc(&d_lons1.ptr, coord_sz)) != hipSuccess ||
+        (e = hipMalloc(&d_lats2.ptr, coord_sz)) != hipSuccess ||
+        (e = hipMalloc(&d_lons2.ptr, coord_sz)) != hipSuccess ||
+        (e = hipMalloc(&d_out.ptr,   out_sz))   != hipSuccess) {
         res.error_code = static_cast<int>(e);
-        hipFree(d_lats1); hipFree(d_lons1);
-        hipFree(d_lats2); hipFree(d_lons2);
-        hipFree(d_out);
         return res;
     }
 
-    if ((e = hipMemcpy(d_lats1, lats1, coord_sz, hipMemcpyHostToDevice)) != hipSuccess ||
-        (e = hipMemcpy(d_lons1, lons1, coord_sz, hipMemcpyHostToDevice)) != hipSuccess ||
-        (e = hipMemcpy(d_lats2, lats2, coord_sz, hipMemcpyHostToDevice)) != hipSuccess ||
-        (e = hipMemcpy(d_lons2, lons2, coord_sz, hipMemcpyHostToDevice)) != hipSuccess ||
-        (e = hipMemset(d_out, 0, out_sz))                                 != hipSuccess) {
+    if ((e = hipMemcpy(d_lats1.get(), lats1, coord_sz, hipMemcpyHostToDevice)) != hipSuccess ||
+        (e = hipMemcpy(d_lons1.get(), lons1, coord_sz, hipMemcpyHostToDevice)) != hipSuccess ||
+        (e = hipMemcpy(d_lats2.get(), lats2, coord_sz, hipMemcpyHostToDevice)) != hipSuccess ||
+        (e = hipMemcpy(d_lons2.get(), lons2, coord_sz, hipMemcpyHostToDevice)) != hipSuccess ||
+        (e = hipMemset(d_out.get(), 0, out_sz))                                 != hipSuccess) {
         res.error_code = static_cast<int>(e);
-        hipFree(d_lats1); hipFree(d_lons1);
-        hipFree(d_lats2); hipFree(d_lons2);
-        hipFree(d_out);
         return res;
     }
 
     const int rc = dispatch_table_.launchDistance(
-        d_lats1, d_lons1, d_lats2, d_lons2,
-        d_out, count, formula, nullptr);
+        d_lats1.get(), d_lons1.get(), d_lats2.get(), d_lons2.get(),
+        d_out.get(), count, formula, nullptr);
 
     if (rc == 0) {
         e = hipDeviceSynchronize();
         if (e == hipSuccess) {
             res.distances_km.resize(static_cast<size_t>(count));
-            e = hipMemcpy(res.distances_km.data(), d_out, out_sz,
+            e = hipMemcpy(res.distances_km.data(), d_out.get(), out_sz,
                            hipMemcpyDeviceToHost);
             if (e == hipSuccess) {
                 res.dispatched = true;
@@ -215,9 +202,7 @@ GpuKernelDispatcher::DistanceResult GpuKernelDispatcher::dispatchDistance(
         res.error_code = rc;
     }
 
-    hipFree(d_lats1); hipFree(d_lons1);
-    hipFree(d_lats2); hipFree(d_lons2);
-    hipFree(d_out);
+    // RAII destructors free all five device buffers here.
     return res;
 }
 

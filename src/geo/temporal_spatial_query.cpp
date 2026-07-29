@@ -19,10 +19,14 @@
  */
 
 #include "geo/temporal_spatial_query.h"
+#include "geo/geo_math.h"
+#include "geo/geo_rtree.h"
 #include "geo/spatial_join.h"
 #include "utils/logger.h"
 
 #include <algorithm>
+#include <cmath>
+#include <unordered_map>
 
 namespace themis {
 namespace geo {
@@ -146,6 +150,76 @@ TemporalSpatialQuery::entitiesWithinDistanceAtTime(
     }
 
     auto rows = table.scan(as_of);
+
+    // For large snapshots, build an inline R-Tree to reduce the candidate set
+    // from O(n) to O(log n + k) before the exact Haversine pass.
+    // The threshold is set conservatively: below it the R-Tree overhead
+    // (build + query) would outweigh the benefit over a linear scan.
+    static constexpr std::size_t kIndexThreshold = 512;
+
+    if (rows.size() >= kIndexThreshold) {
+        // Build (key → row index) map and a (key → centroid) list for bulk load.
+        std::unordered_map<std::string, std::size_t> key_idx;
+        key_idx.reserve(rows.size());
+        std::vector<std::pair<std::string, GeometryInfo>> geo_entries;
+        geo_entries.reserve(rows.size());
+
+        for (std::size_t i = 0; i < rows.size(); ++i) {
+            auto geom = extractGeometry(rows[i], geo_field);
+            if (!geom.has_value()) {
+                continue;
+            }
+            // Use a synthetic centroid-point geometry as the index entry.
+            const Coordinate centroid = geometryCentroidTSQ(*geom);
+            GeometryInfo pt(GeometryType::Point);
+            pt.coords.push_back(centroid);
+            geo_entries.emplace_back(rows[i].key, std::move(pt));
+            key_idx.emplace(rows[i].key, i);
+        }
+
+        if (!geo_entries.empty()) {
+            GeoRTree snapshot_idx;
+            snapshot_idx.bulkLoad(geo_entries);
+
+            // Expand search box by distance_m → approximate degree radius.
+            static constexpr double kMetersPerDeg = 111320.0;
+            const double deg_lat = distance_m / kMetersPerDeg;
+            const double cos_lat = std::cos(center_lat * 3.14159265358979323846 / 180.0);
+            const double deg_lon = (cos_lat > 1e-6)
+                                       ? distance_m / (kMetersPerDeg * cos_lat)
+                                       : 180.0;
+
+            MBR search_box;
+            search_box.minx = center_lon - deg_lon;
+            search_box.miny = center_lat - deg_lat;
+            search_box.maxx = center_lon + deg_lon;
+            search_box.maxy = center_lat + deg_lat;
+
+            const auto candidate_keys = snapshot_idx.intersects(search_box);
+
+            std::vector<themisdb::temporal::VersionedDocument> result;
+            for (const auto& key : candidate_keys) {
+                auto it = key_idx.find(key);
+                if (it == key_idx.end()) {
+                    continue;
+                }
+                // Exact Haversine check on the centroid.
+                auto geom = extractGeometry(rows[it->second], geo_field);
+                if (!geom.has_value()) {
+                    continue;
+                }
+                const Coordinate centroid = geometryCentroidTSQ(*geom);
+                if (haversineDistanceM(center_lon, center_lat,
+                                       centroid.x, centroid.y) <= distance_m) {
+                    result.push_back(rows[it->second]);
+                }
+            }
+            return result;
+        }
+    }
+
+    // Fallback: linear scan (used when row count < kIndexThreshold or
+    // when all geometry fields are unparseable).
     std::vector<themisdb::temporal::VersionedDocument> result;
     for (auto& row : rows) {
         auto geom = extractGeometry(row, geo_field);

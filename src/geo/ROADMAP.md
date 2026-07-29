@@ -13,6 +13,9 @@ Issue #5646 remains open with partial closure coverage: roadmap/future synchroni
 
 ## In Progress
 
+- [x] GPU memory safety hardening: RAII wrappers for CUDA/HIP device memory, goto-pattern removal (Phase 1, 2026-07-29)
+- [x] Performance hot-path fixes: GeoJSON serialization O(n²) → ostringstream, reserve() for R-Tree/GH arrays (Phase 2, 2026-07-29)
+- [x] API completion: geo_policy.h + geo_policy.cpp, RFC 7946 Doxygen annotations, inline R-Tree for temporal queries (Phase 3, 2026-07-29)
 - [~] hardening backend fallback parity for degraded and mixed-capability runtime paths (Target: Q3 2026)
 - [~] benchmark stabilization for geo CPU/GPU, indexing, and join hot paths (Target: Q3 2026)
 - [~] diagnostics consistency improvements for validation and backend-switch incidents (Target: Q3 2026)
@@ -47,6 +50,7 @@ Issue #5646 remains open with partial closure coverage: roadmap/future synchroni
 
 ### Phase 4: Tests
 - [x] Contract-hardening focused tests GCH-01..GCH-16 covering GeoJSON validation, backend dispatch, spatial index, and spatial join invariants (tests/geo/test_geo_contract_hardening_focused.cpp) (Target: Q4 2026)
+- [x] Phase 1–3 hardening tests GCH-17..GCH-24: GPU RAII lifecycle, geo_policy validation, Vincenty Haversine fallback (tests/geo/test_geo_hardening_focused.cpp) (2026-07-29)
 - [x] Expand focused regressions for backend/geometry/index edge scenarios (Target: Q4 2026)
 - [x] Extend deterministic fixture coverage for spatial workload permutations (Target: Q4 2026)
 
@@ -73,8 +77,8 @@ Issue #5646 remains open with partial closure coverage: roadmap/future synchroni
 - [x] Contract-hardening tests: tests/geo/test_geo_contract_hardening_focused.cpp (Phase 4, GCH-01..GCH-16)
 - [x] Release-gate benchmarks: benchmarks/geo/bench_geo_release_gates.cpp (Phase 5, GRG-01..GRG-06)
 - [x] Benchmark CMakeLists registered: benchmarks/geo/CMakeLists.txt
-- [ ] remaining hardening tasks closed for fallback/validation/advanced-query edge paths
-- [ ] release benchmark stabilization complete
+- [x] remaining hardening tasks closed for fallback/validation/advanced-query edge paths (Phase 1–3 complete: GPU RAII, performance fixes, geo_policy, temporal R-Tree optimization, RFC 7946 annotations)
+- [~] release benchmark stabilization complete
 
 ## Evidence Summary (Issue #5646 Sync — 2026-07-29)
 

@@ -57,6 +57,7 @@ std::vector<SpatialJoinPair> spatialJoin(const std::vector<std::pair<std::string
     }
 
     std::vector<SpatialJoinPair> results;
+    results.reserve(std::min(outer.size() * 8, config.max_pairs)); // heuristic pre-allocation
 
     if (outer.empty() || inner.empty()) {
         return results;
