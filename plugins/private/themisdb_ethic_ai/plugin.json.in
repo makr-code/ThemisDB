@@ -1,0 +1,44 @@
+{
+  "name": "EthicsAI",
+  "version": "@PROJECT_VERSION@",
+  "type": "CUSTOM",
+  "description": "Native C++ Ethical AI Framework for moral philosophy-based decision making",
+  "author": "ThemisDB Team",
+  "license": "MIT",
+  "visibility": "restricted",
+  "allowed_editions": ["enterprise", "hyperscaler", "military"],
+  "license_feature": "ethics_ai_advanced",
+  "compatible_core_abi": "plugin-abi-v2",
+  "capabilities": {
+    "supports_streaming": false,
+    "supports_batching": true,
+    "supports_transactions": true,
+    "thread_safe": true,
+    "gpu_accelerated": false
+  },
+  "dependencies": {
+    "yaml-cpp": ">=0.7.0"
+  },
+  "configuration": {
+    "philosophy_dir": "lib/themisdb/plugins/ethics_ai/philosophies",
+    "rag_enabled": true,
+    "vector_search_enabled": true,
+    "graph_traversal_enabled": true,
+    "monitoring_enabled": true,
+    "default_similarity_threshold": 0.65,
+    "default_rag_limit": 10,
+    "default_argument_limit": 20
+  },
+  "api_version": "1.0",
+  "min_themisdb_version": "1.4.0",
+  "features": [
+    "Multi-philosophy ethical debates",
+    "RAG-based context retrieval (7 AQL patterns)",
+    "Argument chain management",
+    "Decision synthesis and tracking",
+    "5-dimension evaluation metrics",
+    "Multi-model storage integration (Graph/Relational/Vector/Timeline)",
+    "YAML-based philosophy profiles",
+    "Native C++ implementation (no Python dependencies)"
+  ]
+}
