@@ -14,6 +14,7 @@ on:
       - 'plugins/private/**'
       - 'cmake/PrivatePlugins.cmake'
       - 'cmake/features/PrivatePluginFeatures.cmake'
+      - 'plugins/CMakeLists.txt'
       - '.github/workflows/09-pr-gates_private-plugin-boundary.yml'
       - '.github/workflows/license-compliance.yml'
       - '.github/workflows/sbom-ci.yml'
@@ -54,7 +55,7 @@ jobs:
             git fetch origin "${{ github.base_ref }}" --depth=1
             git diff --name-only "origin/${{ github.base_ref }}...HEAD" > changed_files.txt
           else
-            git ls-files '.gitmodules' 'plugins/private/**' 'cmake/PrivatePlugins.cmake' \
+            git ls-files '.gitmodules' 'plugins/private/**' 'cmake/PrivatePlugins.cmake' 'plugins/CMakeLists.txt' \
               'cmake/features/PrivatePluginFeatures.cmake' '.github/workflows/09-pr-gates_private-plugin-boundary.yml' \
               '.github/workflows/license-compliance.yml' '.github/workflows/sbom-ci.yml' '.github/WORKFLOW_REGISTRY.md' \
               'ROADMAP.md' 'FUTURE_ENHANCEMENTS.md' 'RELEASE_STRATEGY.md' 'VERSIONING.md' 'CHANGELOG.md' \

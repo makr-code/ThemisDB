@@ -647,8 +647,7 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
     // Public manifests without explicit private gating remain backward-compatible.
     const bool requires_enterprise_gate =
         entry.manifest.visibility != "public" ||
-        !entry.manifest.license_feature.empty() ||
-        !entry.manifest.allowed_editions.empty();
+        !entry.manifest.license_feature.empty();
     if (requires_enterprise_gate && !isEditionSupported()) {
         const std::string msg = communityUnavailableMessage(name);
         THEMIS_WARN("{}", msg);

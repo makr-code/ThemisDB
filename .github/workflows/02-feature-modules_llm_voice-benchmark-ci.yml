@@ -381,7 +381,7 @@ jobs:
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "Baseline file: \`benchmarks/baselines/voice/baseline.json\`" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "Committed updated voice benchmark baseline back to \`main\` (if changed)." >> "$GITHUB_STEP_SUMMARY"
+          echo "Committed updated voice benchmark baseline back to \`community\` (if changed)." >> "$GITHUB_STEP_SUMMARY"
 
   # ---------------------------------------------------------------------------
   # Gate job – always runs so pull-request status checks are satisfied even

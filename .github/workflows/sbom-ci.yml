@@ -9,12 +9,18 @@ on:
     branches:
       - develop
       - community
+      - enterprise
+      - hyperscaler
+      - military
     tags:
       - 'v*.*.*'
   pull_request:
     branches:
       - community
       - develop
+      - enterprise
+      - hyperscaler
+      - military
     paths:
       - 'vcpkg.json'
       - 'CMakeLists.txt'
