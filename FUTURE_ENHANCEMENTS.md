@@ -1726,3 +1726,762 @@ stub-replacement, module:<name>, <priority-label>
 
 ---
 Zuletzt geprueft (Root-Sync): 2026-07-27
+
+---
+
+## Post-GA Next-Phase Tracks (2026-07-30 Sync)
+
+> **Canonical source:** `ROADMAP.md §Post-v2.4.0-rc1 Next-Phase Tracks`. This section expands each track
+> with implementation-level detail, research backing, and Phase 1–6 acceptance criteria.
+
+---
+
+### Track 1 — AQL 2.0.0 Geospatial & Full-Text Search Completion
+
+**Priority:** 🟡 P1 | **Target:** Q3–Q4 2026 | **Prerequisite:** AQL Mutations Phases 1–5 ✅, DDL ✅
+
+#### Scope
+- Wire existing ST_* evaluator functions (`ST_Distance`, `ST_Within`, `ST_Contains`, `ST_Intersects`,
+  `ST_GeomFromGeoJSON`) into AQL FILTER / SORT / RETURN expression contexts.
+- Implement phrase and proximity full-text search queries with ≤ 100 ms p95 on 100 K documents.
+- Ensure strict RFC 7946 GeoJSON normalization on input and output paths.
+
+#### Design Constraints
+- ST_* functions already implemented in `src/query/let_evaluator.cpp` (≈70 % done); parser wiring only, no reimplementation.
+- BM25+ must not regress exact-keyword recall vs. current BM25 baseline.
+- Geospatial query results must be deterministic across CPU and GPU backends.
+- Anti-meridian correctness (RFC 7946 §3.1.9): polygon winding order and longitude wrap-around handled.
+
+#### Required Interfaces
+- `src/query/aql_parser.cpp` / `include/query/aql_ast.h` — ST_* keyword nodes and proximity token stream
+- `src/query/let_evaluator.cpp` — existing ST_* dispatch (extend, do not replace)
+- `src/index/` — full-text index with phrase/positional posting lists
+- `src/geo/spatial_backend.h` — geodesicDistance and containment contracts (already updated)
+
+#### Implementation Notes
+- **Phase 1 (Design):** Extend AQL grammar with `ST_*()` call nodes; add `PHRASE()` / `NEAR()` FTS operators; freeze AST contract.
+- **Phase 2 (Core):** Wire ST_* into FILTER/SORT/RETURN evaluation pass; implement BM25+ positional scorer. BM25+ lower-bound term frequency δ = 0.5 (Robertson & Zaragoza 2009).
+- **Phase 3 (Error / Edge):** Anti-meridian MBR wrap-around in geo FILTER (already fixed in `temporal_spatial_query.cpp`); FTS empty-index and zero-result edge cases; invalid geometry rejection.
+- **Phase 4 (Tests):** ≥ 200 geo FILTER/SORT/RETURN integration tests; ≥ 100 FTS phrase/proximity tests; zero v1.x AQL regressions.
+- **Phase 5 (Performance):** Geospatial FILTER ≥ 50× vs. O(n²) naive on 100 K geometries (Gate 4 from AQL v2.0.0 roadmap); FTS phrase ≤ 100 ms p95 on 100 K documents (Gate 5).
+- **Phase 6 (Docs):** `src/query/AQL_V2_0_0_COMPLETE_ROADMAP.md` Gates 4/5 marked `[x]`; `docs/de/aql/` updated; research traceability entry in `research/implementation_influence/by_module.md`.
+
+#### Test Strategy
+- Gate 4: `bench_geo_filter_100k` benchmark ≥ 50× vs linear baseline.
+- Gate 5: `bench_fts_phrase_100k` benchmark ≤ 100 ms p95.
+- Cross-feature: `tests/query/test_aql_geo_filter.cpp`, `test_aql_fts_phrase.cpp`.
+- Regression: zero failures in v1.x AQL compatibility suite.
+
+#### Performance Targets
+
+| Operation | Condition | Target |
+|---|---|---|
+| `ST_Within` FILTER | 100 K polygons, R-tree prefilter | ≥ 50× vs naive scan |
+| `ST_Distance` ORDER BY | 10 K results, indexed | ≤ 10 ms p99 |
+| FTS phrase query | 100 K documents, positional index | ≤ 100 ms p95 |
+| FTS exact-keyword recall | vs. BM25 baseline | ≥ 100 % (no regression) |
+
+#### Security / Reliability
+- Invalid GeoJSON or malformed WKT must return a parse error, not a silent empty result.
+- FTS injection: query text sanitized before posting-list lookup; no regex or eval exposure.
+
+#### Scientific References
+- Open Geospatial Consortium (2011). *OGC Simple Features for SQL*, version 1.2.1.
+- Butler, H. et al. (2016). *RFC 7946: The GeoJSON Format*. IETF.
+- Robertson, S. & Zaragoza, H. (2009). *The Probabilistic Relevance Framework: BM25 and Beyond.* Foundations and Trends in Information Retrieval, 3(4), 333–389.
+
+---
+
+### Track 2 — Distributed Systems Maturity (Phase 3)
+
+**Priority:** 🟡 P2 | **Target:** Q3–Q4 2026
+
+#### 2.1 Replication 3.1 — Geographic Replica Placement
+
+##### Scope
+- Implement latency-aware replica placement policies with configurable geographic affinity zones.
+- Async cross-region WAL shipping with configurable lag-tolerance SLOs.
+
+##### Design Constraints
+- Placement decisions must be deterministic and auditable; no implicit data sovereignty violations.
+- WAL shipping lag must be bounded and observable (Prometheus gauge per replica).
+- Compatible with existing `include/replication/` coordinator interfaces.
+
+##### Required Interfaces
+- `include/replication/replica_placement_policy.h` (new)
+- `include/replication/wal_shipper.h` (new async WAL ship path)
+- `include/observability/` — replication-lag metric exports
+
+##### Implementation Notes
+- **Phase 2 (Core):** `ReplicaPlacementPolicy` with zone-affinity scoring; `AsyncWALShipper` with bounded retry and lag-export.
+- **Phase 3 (Edge):** Handle zone-down scenarios fail-closed; detect and alert on WAL queue saturation.
+- **Phase 5 (Perf):** WAL shipping overhead ≤ 2 % of write throughput at 80 K ops/s baseline.
+
+##### Performance Targets
+- Geographic failover decision latency: ≤ 500 ms from zone-failure detection to new primary.
+- Async WAL shipping lag: ≤ 5 s at 80 K writes/s under normal conditions.
+- WAL replay throughput: ≥ 150 K entries/s (3× safety margin over write rate).
+
+##### Scientific References
+- Corbett, J. C. et al. (2012). *Spanner: Google's Globally Distributed Database.* OSDI 2012.
+- Baker, J. et al. (2011). *Megastore: Providing Scalable, Highly Available Storage for Interactive Services.* CIDR 2011.
+
+---
+
+#### 2.2 Sharding 3.2 — Automatic Rebalancing + Global Secondary Indexes
+
+##### Scope
+- Zero-downtime automatic shard rebalancing triggered by partition skew or topology changes.
+- Global secondary indexes federated across shard boundaries with consistent cross-shard reads.
+- Cross-datacenter latency-aware shard routing.
+
+##### Design Constraints
+- Rebalancing must not violate ongoing 2PC transactions; quorum-safe migration window.
+- Global secondary index entries must be consistent with primary key reads under snapshot isolation.
+- No silent data loss if rebalance is interrupted.
+
+##### Required Interfaces
+- `include/sharding/shard_rebalancer.h` (new)
+- `include/index/distributed_index_coordinator.h` (new)
+- `include/sharding/latency_aware_router.h` (extend existing router)
+
+##### Implementation Notes
+- **Phase 1 (Design):** Define migration protocol: freeze shard → copy → hot-cut; WAL-consistent.
+- **Phase 2 (Core):** `ShardRebalancer` with skew-detection trigger (> 20 % imbalance) and progress checkpointing.
+- **Phase 3 (Edge):** Coordinator crash mid-rebalance: resume from checkpoint; quorum-safe abort.
+- **Phase 5 (Perf):** Rebalance ≤ 1 % write throughput degradation on unaffected shards.
+
+##### Performance Targets
+- Rebalance throughput: ≥ 1 GB/s cross-shard copy on 10 GbE.
+- Global secondary index lookup latency: ≤ 5 ms p99 for cross-shard resolution.
+- Latency-aware routing: p99 query latency improvement ≥ 20 % vs. round-robin on 3-datacenter setup.
+
+##### Scientific References
+- DeWitt, D. & Gray, J. (1992). *Parallel Database Systems: The Future of High Performance Database Systems.* CACM, 35(6), 85–98.
+- Ousterhout, J. et al. (2015). *The RAMCloud Storage System.* ACM TOCS. (migration protocol reference)
+- Gray, J. & Reuter, A. (1992). *Transaction Processing: Concepts and Techniques.* Morgan Kaufmann. (2PC + WAL migration)
+
+---
+
+#### 2.3 Storage 3.4 — Tiered Hot/Warm/Cold Storage
+
+##### Scope
+- Automatic data migration between hot (NVMe/RAM), warm (HDD/object-local), and cold (S3/GCS/Azure Blob) tiers.
+- Cloud-native blob backend hardening for S3, GCS, and Azure Blob Storage.
+- Tiering policy: access-frequency + age-based, configurable SLAs per collection.
+
+##### Design Constraints
+- Cold-tier reads must not silently block hot-tier writes.
+- Tier migration must be atomic with respect to concurrent reads (snapshot-safe).
+- Community edition: local-disk tiers only; cloud tiers are enterprise/hyperscaler.
+
+##### Required Interfaces
+- `include/storage/tiering_policy.h` (new)
+- `include/storage/blob_backend.h` (extend: S3/GCS/Azure)
+- `plugins/blob_storage/` (private plugin; Community uses local-disk fallback)
+
+##### Implementation Notes
+- **Phase 2 (Core):** `TieringEngine` with frequency-decay score (exponential moving average, λ = 0.1 / day); async migrate on score crossing thresholds.
+- **Phase 3 (Edge):** Migration abort on cloud backend error; fallback to warm tier; alert on prolonged cold-tier promotion failure.
+- **Phase 5 (Perf):** Hot-tier read overhead ≤ 5 µs additional vs. no-tiering baseline.
+
+##### Performance Targets
+- Hot→warm migration: ≤ 1 ms overhead per 1 KB object (async, background thread).
+- Cold-tier read rehydration: ≤ 500 ms p99 for ≤ 1 MB objects (network-bounded).
+- Tiering CPU overhead: ≤ 1 % total CPU at 80 K ops/s.
+
+##### Scientific References
+- Atikoglu, B. et al. (2012). *Workload Analysis of a Large-Scale Key-Value Store.* SIGMETRICS 2012. (LRU/access-frequency tiering analysis)
+- Vuppalapati, M. et al. (2020). *Building An Elastic Query Engine on Disaggregated Storage.* NSDI 2020. (decoupled storage reference)
+
+---
+
+#### 2.4 Network 3.5 — HTTP/3 QUIC Production Enablement
+
+##### Scope
+- Replace HTTP/1.1 + HTTP/2 wire protocol with HTTP/3 over QUIC for server-to-server and client-to-server paths.
+- Zero-copy socket I/O for large response payloads (response size ≥ 64 KB).
+
+##### Design Constraints
+- HTTP/2 must remain available as a fallback under `THEMIS_ENABLE_HTTP3=OFF`.
+- QUIC TLS 1.3 certificate chain must reuse existing PKI infrastructure.
+- No protocol downgrade on the path that handles authentication tokens.
+
+##### Required Interfaces
+- `include/network/quic_transport.h` (new, gated on `THEMIS_ENABLE_HTTP3`)
+- `include/network/zero_copy_io.h` (new; wraps `sendfile`/`io_uring` on Linux)
+- `include/server/http_server.h` — extend with QUIC acceptor
+
+##### Implementation Notes
+- **Phase 1 (Design):** Choose QUIC library (`lsquic`, `mvfst`, or `msquic`); audit license compatibility.
+- **Phase 2 (Core):** `QuicTransport` wrapper exposing the same `INetworkTransport` interface as TCP; zero-copy send path via `io_uring` (Linux ≥ 5.6) or `sendfile`.
+- **Phase 3 (Edge):** QUIC migration (CID rotation) during long-running queries; fallback on handshake failure.
+- **Phase 5 (Perf):** Tail-latency improvement ≥ 20 % at p99 vs. HTTP/2 under 1 % packet loss.
+
+##### Performance Targets
+- QUIC connection setup: ≤ 1 RTT (0-RTT reconnect for known peers).
+- Throughput on 10 GbE: ≥ 8 Gbit/s sustained (vs. HTTP/2 reference).
+- Tail latency under 1 % packet loss: p99 ≤ 120 % of HTTP/2 zero-loss p99 (QUIC eliminates head-of-line blocking).
+
+##### Scientific References
+- Iyengar, J. & Thomson, M. (2021). *RFC 9000: QUIC: A UDP-Based Multiplexed and Secure Transport.* IETF.
+- Bishop, M. (2022). *RFC 9114: HTTP/3.* IETF.
+- Langley, A. et al. (2017). *The QUIC Transport Protocol: Design and Internet-Scale Deployment.* SIGCOMM 2017.
+
+---
+
+### Track 3 — Observability & Operational Excellence (Phase 4)
+
+**Priority:** 🟡 P3 | **Target:** Q4 2026
+
+#### Scope
+- End-to-end distributed trace correlation across all 58 modules via W3C Trace Context.
+- ML-based anomaly-driven alerting with root-cause hint generation and continuous CPU/memory profiling via eBPF.
+- Per-query retrieval guardrails: cost-aware federated pruning with SLO-validated latency budgets.
+- Automated legacy-config migration with dry-run mode (Issue #1661).
+- Production observability dashboards for ANN / Tensor / Graph / Final-Layer LLM handoff quality.
+
+#### Design Constraints
+- Observability must not add > 2 µs per-request overhead on the hot path.
+- eBPF profiler is Linux-only (`THEMIS_ENABLE_EBPF` gate); no-op stub on other platforms.
+- Anomaly models are loaded at startup; no runtime re-training in production.
+
+#### Required Interfaces
+- `include/observability/trace_context.h` — W3C Trace Context propagation (extend existing)
+- `include/observability/anomaly_detector.h` (new; BOCPD or ARIMA-based)
+- `include/observability/ebpf_profiler.h` (new; Linux-only; `THEMIS_ENABLE_EBPF` gate)
+- `include/query/retrieval_guardrail.h` (new; per-query cost budget)
+
+#### Implementation Notes
+- **Phase 2 (Core):**
+  - Propagate W3C `traceparent` / `tracestate` headers through all gRPC, HTTP, and internal dispatch paths.
+  - `AnomalyDetector` using Bayesian Online Changepoint Detection (BOCPD) on per-module latency time series; emit `anomaly_score` metric and `root_cause_hint` log entry.
+  - `EbpfProfiler` sampling at 99 Hz via `perf_event_open`; export flame-graph data to Prometheus histogram.
+- **Phase 3 (Edge):**
+  - Handle trace-context propagation failure gracefully (missing header → new root span, not error).
+  - Anomaly detector graceful degradation when insufficient history (< 100 samples): suppress alerts.
+- **Phase 4 (Tests):** Trace continuity tests across module boundaries; anomaly detection precision ≥ 0.8 on synthetic fault injection dataset.
+- **Phase 5 (Perf):** Trace propagation ≤ 1 µs overhead per hop; BOCPD update ≤ 50 µs per metric sample.
+- **Phase 6 (Docs):** Grafana dashboard definitions for all 58 module trace heatmaps; runbook for common anomaly patterns.
+
+#### Performance Targets
+
+| Feature | Condition | Target |
+|---|---|---|
+| Trace propagation overhead | Per RPC hop | ≤ 1 µs |
+| BOCPD anomaly model update | Per incoming metric | ≤ 50 µs |
+| eBPF profiler overhead | 99 Hz sampling, all cores | ≤ 1.5 % CPU |
+| Root-cause hint precision | Synthetic fault injection suite | ≥ 0.8 |
+| Retrieval cost guardrail | Per-query evaluation | ≤ 5 µs |
+
+#### Security / Reliability
+- Trace IDs must not leak PII; any user-identifying fields must be pseudonymized before export.
+- Anomaly alerts must be rate-limited to avoid alert fatigue (≤ 10 per 5-minute window per module).
+
+#### Scientific References
+- Sigelman, B. et al. (2010). *Dapper, a Large-Scale Distributed Systems Tracing Infrastructure.* Google Technical Report.
+- W3C Distributed Tracing WG (2021). *Trace Context Level 1.* W3C Recommendation.
+- Adams, R. P. & MacKay, D. J. C. (2007). *Bayesian Online Changepoint Detection.* arXiv:0710.3742.
+- Gregg, B. (2013). *Systems Performance: Enterprise and the Cloud.* Prentice Hall. (eBPF/perf methodology)
+- Viilup, P. et al. (2021). *Continuous Profiling of Production Systems in Grafana Phlare / pprof.* (eBPF practical reference)
+
+---
+
+### Track 4 — Security Hardening & Compliance (Phase 5)
+
+**Priority:** 🔵 P4 | **Target:** Q1 2027 | **Prerequisite:** GA tag
+
+#### Scope
+- Zero-trust continuous verification framework: every request re-verified regardless of network source.
+- Fine-grained ABAC with OPA policy expressions replacing coarse RBAC where collection-level granularity is insufficient.
+- Certificate-based mTLS authentication for all server-to-server paths (Issue #2370).
+- SAML 2.0 SP/IdP-initiated SSO completion.
+- Automated SOC 2 Type II evidence collection pipeline.
+- Plugin/driver interaction hardening and shader integrity verification.
+
+#### Design Constraints
+- Zero-trust must not require breaking changes to existing JWT / OAuth2 PKCE auth flow (RFC 6749).
+- ABAC policies must be hot-reloadable without server restart.
+- mTLS fallback: reject requests without a valid certificate on T2/T3 trust boundaries; no degraded bypass.
+- SPHINCS+ (FIPS 205) gated on `THEMIS_ENABLE_LIBOQS`; existing Ed25519 path retained as fallback.
+
+#### Required Interfaces
+- `include/security/zero_trust_verifier.h` (new; per-request continuous verification)
+- `include/auth/abac_policy_engine.h` (new; OPA expression evaluation)
+- `include/network/mtls_acceptor.h` (extend; certificate chain validation)
+- `include/security/post_quantum_crypto.h` — `SphincsPlus` (existing stub; replace body)
+- `include/auth/saml2_sp.h` (new; SP-initiated and IdP-initiated SSO)
+
+#### Implementation Notes
+- **Phase 1 (Design):** Define trust-boundary matrix T0–T5 explicitly per `SECURITY.md`; map each boundary to required controls (AuthN/AuthZ/audit).
+- **Phase 2 (Core):**
+  - `ZeroTrustVerifier`: per-request token re-validation + client-certificate fingerprint check; emit `auth_decision` audit event.
+  - `AbacPolicyEngine`: load OPA Rego bundles; evaluate `allow/deny` on `(principal, resource, action, context)` tuples; cache policy decisions TTL = 60 s.
+  - mTLS: mutual TLS 1.3 (RFC 8446) for all intra-cluster gRPC; `CertificateRevocationList` checked on every connection.
+- **Phase 3 (Edge):**
+  - CRL/OCSP fetch failure → fail-closed (deny); configurable retry budget.
+  - ABAC policy bundle signature mismatch → bundle rejected; previous bundle retained.
+  - SAML assertion replay attack prevention: `SubjectConfirmation` `NotOnOrAfter` enforced; nonce-based replay window.
+- **Phase 4 (Tests):** Zero-trust negative tests (missing cert, expired token, revoked cert); ABAC boundary tests (deny/allow for each trust tier); SAML IdP mock; SPHINCS+ sign/verify KAT vectors.
+- **Phase 5 (Perf):** Zero-trust check ≤ 50 µs per request; ABAC policy evaluation ≤ 200 µs; mTLS handshake ≤ 2 ms.
+- **Phase 6 (Docs):** Threat model updated; SOC 2 evidence manifest; `SECURITY.md` trust-boundary matrix finalized.
+
+#### Performance Targets
+
+| Feature | Condition | Target |
+|---|---|---|
+| Zero-trust per-request check | Cached token, 1 CPU | ≤ 50 µs |
+| ABAC policy evaluation | OPA Rego bundle, cached | ≤ 200 µs |
+| mTLS handshake | TLS 1.3, ECDHE-P256 | ≤ 2 ms (cold) |
+| SPHINCS+-SHA2-256s sign | liboqs ≥ 0.10.0 | ≤ 20 ms |
+| SPHINCS+-SHA2-256s verify | liboqs ≥ 0.10.0 | ≤ 1 ms |
+
+#### Security / Reliability
+- No `CRITICAL` or `HIGH` findings in zero-trust, mTLS, or ABAC paths at Phase 5 sign-off.
+- Penetration test re-run required for any trust-boundary crossing change.
+- All security events must be written to immutable audit log before response is sent.
+
+#### Scientific References
+- NIST (2020). *SP 800-207: Zero Trust Architecture.* National Institute of Standards and Technology.
+- NIST (2014). *SP 800-162: Guide to ABAC Definition and Considerations.* NIST.
+- Rescorla, E. (2018). *RFC 8446: The Transport Layer Security (TLS) Protocol Version 1.3.* IETF.
+- Cantor, S. et al. (2005). *SAML 2.0 Technical Overview.* OASIS.
+- NIST (2024). *FIPS 205: Stateless Hash-Based Digital Signature Standard (SPHINCS+).* NIST.
+
+---
+
+### Track 5 — Gap Scanner Phase 6 + Research Traceability
+
+**Priority:** 🟡 P5 | **Target:** Q3–Q4 2026
+
+#### Scope
+- Deploy 5 Phase 6 gap scanners: C-1 (race conditions), M-1 (use-after-free), M-2 (double-free),
+  S-1 (secrets in code), S-2 (weak crypto), covering an estimated +6,000–10,000 new gap findings.
+- Phase 1–4 scanner enhancements: 12 new patterns across `C-1`, `M-1`, `M-2`, `S-1`, `S-2`, `S-3` (injection) categories.
+- Recurring root Soll-Ist snapshot aligned to every root-sync cycle.
+
+#### Required Interfaces
+- `ai_working/gap_scan_v3_summary.json` — scanner output (updated on each run)
+- `research/implementation_influence/by_module.md` — five-column traceability matrix (all top-risk modules)
+
+#### Implementation Notes
+- Scanner integration: CI job runs on PR merge to `develop`; any new `critical` in `security`, `concurrency`, `memory` categories blocks merge.
+- Traceability: every open gap item in Wave A/B/C cross-references at least one research source in `by_module.md`.
+- Phase 6 scanner deployment is gated on a baseline pass of all current `release_critical` tests.
+
+#### Performance Targets
+- Scanner pipeline runtime: ≤ 10 minutes for full `src/` scan (CI gate).
+- False-positive rate: ≤ 5 % per category (measured by gap-verification pass).
+
+#### Security / Reliability
+- Any `S-1` (secrets in code) finding triggers immediate triage and blocks promotion.
+- Gap-scanner delta report (baseline vs. current) is mandatory for every root sync.
+
+---
+
+### Track 6 — Auth Mid-Term + Wave C Stub Completion
+
+**Priority:** 🔵 P6 | **Target:** Q4 2026–Q1 2027
+
+#### 6.1 Auth: Fail-Closed Degraded-Provider Scenarios
+
+##### Scope
+- Auth module must fail closed (deny request) when a configured optional provider (LDAP, OIDC) is
+  degraded rather than silently falling back to a weaker authentication path.
+- Multi-realm trust-state hardening: cross-realm principal elevation must be explicitly audited.
+
+##### Design Constraints
+- Optional-provider degradation must emit a `WARN` audit event and return `Status::Unavailable`, not a permissive fallback.
+- Multi-realm trust elevation requires explicit policy entry; no implicit trust transitivity.
+
+##### Required Interfaces
+- `include/auth/provider_health_monitor.h` (new; degraded-state detection)
+- `include/auth/principal_contract.h` — extend with multi-realm trust-state fields
+
+##### Performance Targets
+- Fail-closed degradation response: ≤ 5 ms (immediate reject, no retry storm).
+- Multi-realm p95 latency overhead: ≤ 10 µs vs. single-realm baseline.
+
+##### Scientific References
+- RFC 6749 (2012). *The OAuth 2.0 Authorization Framework.* IETF. §4.1 error handling.
+- NIST SP 800-63B (2017). *Digital Identity Guidelines: Authentication and Lifecycle Management.* NIST.
+
+---
+
+#### 6.2 Wave C — `security` SPHINCS+ Production Implementation
+
+> Elevated from C-01 due to FIPS 205 publication (August 2024) and expected vcpkg liboqs ≥ 0.10.0 landing Q4 2026.
+
+##### Implementation Notes
+- Add `liboqs` to `vcpkg.json` under feature `post-quantum`.
+- Replace `OQS_SIG_sphincs_sha2_256s_sign()` / `verify()` simulation with real liboqs calls.
+- Retain Ed25519 simulation under `STUB/SIMULATION NOTE` for environments without `THEMIS_ENABLE_LIBOQS`.
+- NIST Known-Answer Test (KAT) vectors from FIPS 205 Appendix B are the acceptance test.
+
+##### Scientific References
+- Bernstein, D. J. et al. (2019). *SPHINCS+: Stateless Hash-Based Signatures.* Submission to NIST Post-Quantum Cryptography Standardization.
+- NIST (2024). *FIPS 205: Stateless Hash-Based Digital Signature Standard.* August 2024.
+
+---
+
+## Wave B — New Items (Q3 2026 – Q1 2027)
+
+> Extends the existing Wave B backlog (items B-01 through B-22) with research-backed items surfaced
+> during the Post-GA Phase 3 hardening pass (2026-07-30).
+
+---
+
+### B-23 · `temporal` — Bitemporal HLC Conflict Resolution Hardening
+
+**Priority:** 🟠 High | **Target:** v2.5.0 | **Issue:** TBD
+
+**Stub location:** `src/temporal/temporal_conflict_resolver.cpp` — `CRDT_MERGE` policy present in
+`include/temporal/temporal_conflict_resolver.h:60-68` (`TemporalSnapshot::hlc` field) but HLC skew
+window is not enforced; concurrent distributed writes under > 50 ms clock skew may silently drop
+the lower-priority update.
+
+#### Scope
+- Enforce the HLC 50 ms skew window (Demirbas et al. 2014): reject writes whose HLC timestamp exceeds
+  max-known HLC by more than `kMaxClockSkewMs` (configurable, default 50 ms).
+- Make `CRDT_MERGE` idempotent and commutative across out-of-order delivery scenarios.
+- Add `TEMPORAL_CONFLICT` structured audit event with HLC timestamps, skew delta, and winning-value provenance.
+
+#### Design Constraints
+- HLC monotonicity must be preserved under node restart (persist last-known HLC to WAL).
+- `CRDT_MERGE` must not require synchronous cross-node communication; all decision state is local.
+- SQL:2011 `PERIOD FOR SYSTEM_TIME` semantics must remain correct post-merge.
+
+#### Required Interfaces
+- `include/temporal/temporal_conflict_resolver.h` — `CrdtMergePolicy` (extend)
+- `include/temporal/hybrid_logical_clock.h` — `HLC::advance()`, `HLC::receive()` (new)
+- `include/temporal/bitemporal_table.h` — expose `system_time_hlc` column
+
+#### Implementation Notes
+- **Phase 1 (Design):** Define HLC wire format (`(walltime_ms, logical_counter)` as 96-bit value); document clock-skew rejection contract.
+- **Phase 2 (Core):** `HybridLogicalClock` class with WAL-backed persistence of last-known HLC; `CrdtMergePolicy::merge()` using HLC comparison with skew guard.
+- **Phase 3 (Edge):** Node restart clock recovery; partition-heal re-sync; skew > 50 ms silent-drop vs. alert decision.
+- **Phase 4 (Tests):** TM-HLC-01..12: skew enforcement, idempotency, commutativity, WAL recovery, partition-heal scenarios.
+- **Phase 5 (Perf):** HLC advance overhead ≤ 1 µs; CRDT_MERGE evaluation ≤ 5 µs.
+- **Phase 6 (Docs):** `src/temporal/ROADMAP.md` Phase 3 item closed; `research/implementation_influence/by_module.md` temporal row updated.
+
+#### Performance Targets
+- HLC advance per write: ≤ 1 µs.
+- CRDT merge decision: ≤ 5 µs.
+- Bitemporal insert throughput with HLC: ≥ 100 K rows/s (regression vs. TM-1 gate: ≤ 10 % degradation).
+
+#### Scientific References
+- Demirbas, M. et al. (2014). *Logical Physical Clocks and Consistent Snapshots in Globally Distributed Databases.* OPODIS 2014 (LNCS 8878). arXiv:1406.2914.
+- Kulkarni, S. S. & Michels, J.-E. (2012). *Temporal Features in SQL:2011.* ACM SIGMOD Record, 41(3), 34–43.
+- Shapiro, M. et al. (2011). *A Comprehensive Study of Convergent and Commutative Replicated Data Types.* INRIA Research Report RR-7506. (CRDT formal foundation)
+
+---
+
+### B-24 · `cache` — Semantic Similarity Cache + GDPR-Aware Invalidation
+
+**Priority:** 🟠 High | **Target:** v2.5.0
+
+**Stub location:** `src/cache/semantic_cache.cpp` — vector-similarity path uses placeholder cosine-threshold
+comparison without an ANN index; GDPR invalidation callback not yet wired to `PIIPseudonymizer`.
+
+#### Scope
+- Replace placeholder cosine comparison with a lightweight in-process HNSW index (≤ 50 K entries)
+  for semantic cache lookup.
+- Wire `PIIPseudonymizer::registerCacheInvalidator()` callback to invalidate all cache entries derived
+  from a PII-bearing query when a GDPR Article 17 right-to-erasure request is processed.
+- Add `cdc_redactions` RocksDB audit trail entry per invalidation event.
+
+#### Design Constraints
+- Semantic cache is a best-effort L2/L3 layer; false-positive cache hits must be guarded by a
+  structural-equivalence check before result is returned.
+- HNSW index for semantic cache uses `ef_construction = 128`, `M = 16` (low-overhead defaults).
+- GDPR invalidation is fire-and-forget async; blocking the hot path is not permitted.
+
+#### Required Interfaces
+- `include/cache/semantic_cache.h` — extend `SemanticCache::lookup()` with HNSW backend
+- `include/cache/adaptive_query_cache.h` — wire GDPR callback registration
+- `include/security/pii_pseudonymizer.h` — `registerCacheInvalidator()` (existing, wire only)
+
+#### Performance Targets
+- Semantic cache lookup (HNSW, ef=64): ≤ 500 µs p99 at ≤ 50 K entries.
+- GDPR invalidation pipeline: ≤ 100 ms from `erasure_request` event to all tier confirmations.
+- False-positive guard: ≤ 1 % false hit rate on production query workload.
+
+#### Scientific References
+- Malkov, Y. A. & Yashunin, D. A. (2020). *Efficient and Robust Approximate Nearest Neighbor Search Using Hierarchical Navigable Small World Graphs.* IEEE TPAMI, 42(4), 824–836.
+- Cormack, G. V., Clarke, C. L. A., & Buettcher, S. (2009). *Reciprocal Rank Fusion Outperforms Condorcet and Individual Rank Learning Methods.* SIGIR 2009. (RRF for result re-ranking on cache miss)
+
+---
+
+### B-25 · `index` — Matryoshka Representation Learning (MRL)
+
+**Priority:** 🟡 Medium | **Target:** v2.6.0 | **Issue:** #TBD
+
+**Stub location:** `include/vector/vector_index.h` — HNSW index stores fixed 768-d embeddings;
+no adaptive-dimensionality capability.
+
+#### Scope
+- Implement Matryoshka-aware vector index: allow multi-granularity search (64-d → 128-d → 256-d → 768-d)
+  within the same HNSW index, progressively refining top-k results.
+- Expose `search(ef, max_dim)` overload for latency-sensitive callers that accept lower recall in exchange
+  for reduced memory bandwidth and compute.
+
+#### Design Constraints
+- Requires embedding models trained with Matryoshka Representation Learning loss; existing
+  fixed-dim models are unaffected (no breaking change).
+- Multi-granularity search must not break existing `search(ef)` callers.
+
+#### Required Interfaces
+- `include/vector/matryoshka_index.h` (new; wraps HNSW with adaptive dim slice)
+- `include/llm/embedding_provider.h` — expose `supportsMatryoshka()` flag
+
+#### Performance Targets
+- 64-d first-pass recall@10: ≥ 0.85 (Kusupati et al. Table 1 reference point).
+- 64-d search latency: ≤ 40 % of 768-d HNSW baseline latency (sub-linear with dim reduction).
+- Memory footprint at 64 d / 768 d: ≤ 9 % of full-dim index for the first-pass sub-index.
+
+#### Scientific References
+- Kusupati, A. et al. (2022). *Matryoshka Representation Learning.* NeurIPS 2022. arXiv:2205.13147. (Recall@10 ≥ 0.98 at 768 d; ≥ 0.85 at 64 d for MSMARCO passage retrieval)
+
+---
+
+### B-26 · `index` / `acceleration` — CAGRA GPU Vector Index
+
+**Priority:** 🟡 Medium | **Target:** v2.6.0 | **Issue:** extends A-07 (GPU vector index)
+
+**Stub location:** `src/index/gpu_vector_index.cpp` — CUDA backend uses brute-force L2 distance;
+no GPU-native graph index.
+
+#### Scope
+- Integrate CAGRA (Cuda ANNs GRAph-based, `rapidsai/cuvs` formerly NVIDIA RAFT)
+  as the GPU vector index backend for HNSW-like recall at 5–10× higher QPS than CPU HNSW.
+- Gate on `THEMIS_ENABLE_CUDA` and `cuvs ≥ 24.06`.
+
+#### Design Constraints
+- CPU HNSW fallback must remain available and tested independently.
+- CAGRA index build time ≤ 5 × CPU HNSW build time at the same recall target.
+- Result determinism: CAGRA approximate results are not required to be identical to CPU HNSW but
+  must achieve Recall@10 ≥ 0.95 at the default ef parameter.
+
+#### Required Interfaces
+- `include/index/cagra_gpu_index.h` (new; wraps `cuvs::neighbors::cagra::index<>`)
+- `include/acceleration/cuvs_context.h` (new; cuVS resource pool)
+
+#### Performance Targets
+
+| Metric | CPU HNSW baseline | CAGRA target |
+|---|---|---|
+| QPS (1 M vectors, d=128, SIFT-1M) | ~100–400 K QPS / 32-core CPU | ≥ 2 M QPS / A100-class GPU |
+| Build time (1 M vectors) | ~45 s (CPU) | ≤ 10 s (GPU) |
+| Recall@10 | 0.99 | ≥ 0.95 |
+| GPU memory (1 M × 128 d float32) | — | ≤ 1 GB (float16: ≤ 500 MB) |
+
+#### Scientific References
+- Ootomo, H. et al. (2023). *CAGRA: Highly Parallel Graph Construction and Approximate Nearest Neighbor Search for GPUs.* arXiv:2308.15136.
+- Johnson, J., Douze, M., & Jégou, H. (2021). *Billion-Scale Similarity Search with GPUs.* IEEE TPAMI, 43(7), 2561–2575.
+
+---
+
+## Phase 7 — Tensor-Native Index & Zero-Copy Inference (Q3 2026–Q4 2027)
+
+> Extends the ROADMAP Phase 7 section with implementation-level specifications and research backing.
+
+**Priority:** 🟡 Medium | **Target:** v3.0.0 | **Label:** `phase-7:tensor-native`
+
+### Scope
+- Native tensor storage format in RocksDB (Apache Arrow IPC columnar layout) eliminating
+  serialization overhead for inference-time feature reads.
+- Zero-copy inference pipeline: Arrow record batches passed directly to ONNX Runtime / llama.cpp
+  without intermediate JSON or protobuf conversion.
+- Rank-adaptive LoRA adapter fusing (AdaLoRA-style) for efficient multi-tenant LLM serving.
+- Tensor-partitioned distributed index: shard by embedding cluster (ANN-based), not by key.
+
+### Design Constraints
+- Arrow IPC format must be backward-compatible with existing RocksDB value serialization
+  (migration path: lazy conversion on first access).
+- Zero-copy path is only activated when the requesting backend supports Arrow input (ONNX 1.14+, llama.cpp 2.0+).
+- Rank-adaptive LoRA must not require model re-upload for adapter rank changes.
+- Tensor-partitioned index must degrade gracefully to key-based sharding when cluster imbalance > 30 %.
+
+### Required Interfaces
+- `include/storage/arrow_column_store.h` (new; Arrow IPC value serializer/deserializer)
+- `include/llm/zero_copy_inference_session.h` (new; wraps ONNX RT / llama.cpp with Arrow input)
+- `include/llm/adalora_adapter_manager.h` (new; rank-adaptive adapter fusing)
+- `include/index/tensor_partitioned_index.h` (new; cluster-based shard assignment)
+
+### Implementation Phases
+- **Phase 1 (Design / API Contract):** Define Arrow IPC column layout for ThemisDB value types; freeze `IZeroCopyInference` interface; define `AdaLoRA` rank-change protocol.
+- **Phase 2 (Core):** `ArrowColumnStore` read/write with lazy-convert migration path; `ZeroCopyInferenceSession` passing `ArrowRecordBatch` to ONNX RT without copy.
+- **Phase 3 (Error / Edge):** Arrow schema mismatch on read (schema evolution); ONNX RT input-shape mismatch; rank-change during live adapter serving.
+- **Phase 4 (Tests):** Zero-copy throughput regression tests; serialization correctness tests with golden Arrow IPC fixtures; AdaLoRA rank-switch unit tests.
+- **Phase 5 (Performance):** Benchmark zero-copy vs. JSON serialization path on 10 K batch inference requests; target ≥ 3× throughput improvement.
+- **Phase 6 (Docs):** `src/llm/ROADMAP.md` Phase 7 marked; `research/implementation_influence/by_module.md` tensor row added; migration guide in `docs/migration/`.
+
+### Performance Targets
+
+| Feature | Condition | Target |
+|---|---|---|
+| Arrow IPC serialization | 1 K rows, mixed types | ≤ 50 µs |
+| Zero-copy inference batch | ONNX RT, batch=32, d=768 | ≥ 3× vs. JSON path |
+| AdaLoRA rank change | Hot-swap without model reload | ≤ 100 ms |
+| Tensor-partition build | 1 M vectors, ANN clustering | ≤ 120 s |
+
+### Security / Reliability
+- Arrow record batches containing PII must be cleared after inference (secure-zero on deallocation).
+- Adapter rank changes must be validated against the current model's weight dimensions before applying.
+
+### Scientific References
+- Apache Arrow Community (2016). *Apache Arrow: A Cross-Language Development Platform for In-Memory Data.* VLDB 2017 demo.
+- Zhang, Q. et al. (2023). *AdaLoRA: Adaptive Budget Allocation for Parameter-Efficient Fine-Tuning.* ICLR 2023. arXiv:2303.10512.
+- Hu, E. J. et al. (2022). *LoRA: Low-Rank Adaptation of Large Language Models.* ICLR 2022. arXiv:2106.09685.
+- Dao, T. et al. (2022). *FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness.* NeurIPS 2022. (zero-copy memory access pattern)
+
+---
+
+## Geo Module — Phase 4–6 Enhancement Plan (2026-07-30)
+
+> Extends `src/geo/FUTURE_ENHANCEMENTS.md` Phase-Aligned Hardening Plan with concrete acceptance criteria,
+> research references, and measurable performance gates. Phases 1–3 delivered (2026-07-29).
+
+**Priority:** 🟡 Medium | **Target:** v2.5.0–v2.6.0
+
+### Phase 4 — Tests (Q3 2026)
+
+#### Scope
+- Close geo test coverage gaps identified in the Phase 1–3 hardening pass.
+- Add anti-meridian correctness tests, RFC 7946 winding-order enforcement tests, mixed CPU/GPU precision
+  parity tests, and spatial-join overflow regression tests.
+- Add focused benchmark for Vincenty / Haversine fallback parity.
+
+#### Known Gap (RFC 7946 §3.1.9 — Anti-Meridian Polygon Splitting)
+RFC 7946 §3.1.9 requires that polygons crossing the anti-meridian are **split into two separate
+polygons** at ±180° on ingest; the current implementation expands the MBR to `[-180, 180]` as a
+conservative prefilter (no false negatives) but does not perform the normative polygon split. This
+is tracked as a Phase 4 gap: winding-order (§3.1.6 right-hand rule) validation must also be added
+to `geo_policy.h` to detect inverted containment on mixed-convention ingest (RFC 7946 CCW exterior
+vs. OGC Simple Features CW exterior).
+
+#### Acceptance Criteria
+- `[ ]` GCH-25..GCH-32: anti-meridian MBR wrap-around tests (center near ±175°); all pass.
+- `[ ]` GCH-33..GCH-40: mixed CPU/GPU Haversine parity tests (relative error ≤ 0.5 %).
+- `[ ]` GCH-41: spatial-join reserve-heuristic overflow test (outer.size() = SIZE_MAX / 4).
+- `[ ]` GCH-42: `CudaBuffer::alloc()` double-alloc leak test (verify free() before re-alloc).
+- `[ ]` GCH-43: RFC 7946 winding-order enforcement test (CCW exterior ingested correctly; CW exterior rejected or re-wound with warning).
+- `[ ]` `tests/geo/CMakeLists.txt` updated; all new tests registered with label `geo;phase4`.
+
+#### Scientific References
+- Butler, H. et al. (2016). *RFC 7946: The GeoJSON Format*, §3.1.9 (Antimeridian Cutting). IETF.
+- Karney, C. F. F. (2013). *Algorithms for Geodesics.* Journal of Geodesy, 87(1), 43–55. arXiv:1109.4448. (sub-nanometer accuracy vs. Vincenty's ±0.5 mm)
+
+---
+
+### Phase 5 — Performance / Hardening (Q4 2026)
+
+#### Scope
+- Stabilize benchmark envelopes for CPU geo kernels (Haversine, Vincenty, spatial join, R-tree query).
+- Re-baseline GPU (CUDA/HIP) kernel benchmarks after Phase 3 RAII refactor.
+- Validate Vincenty accuracy: Karney (2013) reference pairs used as ground-truth for near-antipodal test vectors.
+
+#### Performance Targets
+
+| Operation | Backend | Target |
+|---|---|---|
+| Haversine batch (1 M pairs) | CPU, AVX2 | ≤ 20 ms |
+| Haversine batch (1 M pairs) | CUDA kernel | ≤ 2 ms |
+| Vincenty single | CPU, convergence | ≤ 5 µs |
+| R-tree `intersects()` | 1 M points, MBR query | ≤ 500 µs |
+| Spatial join (100 K × 100 K) | CPU, R-tree prefilter | ≤ 2 s |
+| geodesicDistance (antipodal) | CPU, Haversine fallback | finite, ≥ 0 (verified) |
+
+#### Acceptance Criteria
+- `[ ]` Benchmark manifest `benchmarks/geo/bench_geo_kernels.cpp` with GK-01..GK-08.
+- `[ ]` Haversine relative error vs. Karney reference: ≤ 0.5 % for all test pairs.
+- `[ ]` Vincenty Karney test vectors (arXiv:1109.4448 Table 2): max absolute error ≤ 10 m.
+- `[ ]` No Wave-7 regressions triggered by geo module changes.
+
+#### Scientific References
+- Guttman, A. (1984). *R-Trees: A Dynamic Index Structure for Spatial Searching.* SIGMOD 1984.
+- Beckmann, N. et al. (1990). *The R*-Tree: An Efficient and Robust Access Method for Points and Rectangles.* SIGMOD 1990.
+- Karney, C. F. F. (2013). *Algorithms for Geodesics.* Journal of Geodesy, 87(1), 43–55. arXiv:1109.4448.
+
+---
+
+### Phase 6 — Documentation & Acceptance (Q4 2026)
+
+#### Scope
+- Issue #5646 closure criteria: all Phase 1–6 acceptance items must have evidence entries.
+- `src/geo/ROADMAP.md` all Phase 1–6 items marked `[x]` or escalated to a tracked issue.
+- `research/implementation_influence/by_module.md` geo section updated with Karney (2013) and RFC 7946.
+
+#### Acceptance Criteria
+- `[ ]` `src/geo/ROADMAP.md` Phase 4–6 checklist ≥ 90 % `[x]`.
+- `[ ]` Issue #5646 evidence summary: all three CI build attempts documented with artefact links.
+- `[ ]` `research/implementation_influence/by_module.md` geo row: Karney (2013) added with status ⏳ Planned → ✅.
+- `[ ]` `FUTURE_ENHANCEMENTS.md` geo section (this document) updated with current Phase status.
+
+---
+
+## Knowledge Graph — Wave B B2: RotatE Completion (Q1–Q2 2027)
+
+> Extends `src/graph/FUTURE_ENHANCEMENTS.md Wave B B2` with implementation phases and benchmarks.
+
+**Priority:** 🟡 Medium | **Target:** v3.0.0 | **Issue:** #5039 (Wave B)
+
+### Implementation Phases
+- **Phase 1 (Design):** Define `RotatEEmbedding` interface in `include/graph/kg_embeddings.h`; freeze triple-scoring and negative-sampling API.
+- **Phase 2 (Core):** Implement relation-as-rotation scoring `h ∘ r = t` in complex space (L2 of `|h ∘ r − t|`); negative-sampling triple loss with self-adversarial weighting.
+- **Phase 3 (Edge):** Handle degenerate triples (self-loop, unknown entity at inference time); out-of-vocabulary relation at inference: log and skip with `Status::NotFound`.
+- **Phase 4 (Tests):** KGE-01..08: forward pass correctness on FB15k-237 mini fixture; KGE-09..12: negative sampling convergence over 10 epochs; KGE-13: link-prediction top-5 precision ≥ 0.3.
+- **Phase 5 (Perf):** Training throughput ≥ 50 K triples/s on RTX 3090; inference top-20 predictions ≤ 50 ms.
+- **Phase 6 (Docs):** `src/graph/ROADMAP.md` B2 item `[x]`; bibliography entry for RotatE in `docs/research/ml_enhancements_bibliography.md`.
+
+### Performance Targets
+
+| Metric | Condition | Target |
+|---|---|---|
+| MRR | FB15k-237 test set | ≥ 0.35 |
+| Hits@10 | FB15k-237 test set | ≥ 0.55 |
+| Training throughput | RTX-class GPU, batch=1024 | ≥ 50 K triples/s |
+| Inference top-20 | 1 M entities | ≤ 50 ms |
+
+### Scientific References
+- Sun, Z. et al. (2019). *RotatE: Knowledge Graph Embedding by Relational Rotation in Complex Space.* ICLR 2019. arXiv:1902.10197.
+- Bordes, A. et al. (2013). *Translating Embeddings for Modeling Multi-Relational Data (TransE).* NeurIPS 2013. (baseline comparison)
+- Yang, B. et al. (2015). *Embedding Entities and Relations for Learning and Inference in Knowledge Bases (DistMult).* ICLR 2015. (alternative baseline)
+
+---
+
+## LLM — Wave B B3: Multi-Task LoRA Fine-Tuning (Q1–Q2 2027)
+
+> Extends `src/llm/FUTURE_ENHANCEMENTS.md Wave B B3` with implementation phases and benchmarks.
+
+**Priority:** 🟡 Medium | **Target:** v3.0.0 | **Issue:** #5039 (Wave B)
+
+### Implementation Phases
+- **Phase 1 (Design):** Define `MultiTaskLoraManager` in `include/llm/multi_task_lora.h`; task-routing policy interface; shared-base adapter format.
+- **Phase 2 (Core):** Shared LoRA base with per-task projection heads; domain-gating router (`LLMRouterPlugin` extension); joint multi-task cross-entropy loss with configurable α-weighting per task.
+- **Phase 3 (Edge):** Unknown task ID at inference → fallback to most-similar-task adapter (cosine similarity on task embeddings); adapter weight NaN/Inf → reject and log.
+- **Phase 4 (Tests):** MTL-01..08: per-task forward-pass correctness; MTL-09..12: joint training convergence over 5 epochs; MTL-13: ablation correctness (shared vs. separate adapters: shared must be ≥ equal).
+- **Phase 5 (Perf):** Average task performance ≥ +8 % vs. single-task LoRA; training-time increase ≤ 15 %; adapter switch ≤ 10 ms.
+- **Phase 6 (Docs):** `src/llm/ROADMAP.md` B3 item `[x]`; bibliography in `docs/research/ml_enhancements_bibliography.md` updated.
+
+### Performance Targets
+
+| Metric | Condition | Target |
+|---|---|---|
+| Avg task quality vs. single-task | 3-task benchmark | ≥ +8 % |
+| Training overhead vs. single-task | Same GPU, same data | ≤ +15 % |
+| Adapter hot-switch | No reload | ≤ 10 ms |
+| Task routing latency | Domain-gating | ≤ 1 ms |
+
+### Scientific References
+- Hu, E. J. et al. (2022). *LoRA: Low-Rank Adaptation of Large Language Models.* ICLR 2022. arXiv:2106.09685.
+- Ruder, S. (2017). *An Overview of Multi-Task Learning in Deep Neural Networks.* arXiv:1706.05098.
+- Zhang, Q. et al. (2023). *AdaLoRA: Adaptive Budget Allocation for Parameter-Efficient Fine-Tuning.* ICLR 2023. arXiv:2303.10512. (rank-adaptive variant)
+- Sheng, Y. et al. (2023). *S-LoRA: Serving Thousands of Concurrent LoRA Adapters.* arXiv:2311.03285. (concurrent multi-adapter serving reference)
+
+---
+
+*Last updated: 2026-07-30 | Extensions: Post-GA Tracks 1–6; Wave B items B-23..B-26; Phase 7 Tensor-Native; Geo Phase 4–6; KG Wave B B2; LLM Wave B B3*
+
+---
+Zuletzt geprueft (Root-Sync): 2026-07-30
