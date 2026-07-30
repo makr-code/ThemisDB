@@ -9,6 +9,26 @@ endif()
 message(STATUS "  Plugin Features:")
 
 # ---------------------------------------------------------------------------
+# Public optional module externalization plugins (geo / timeseries)
+# ---------------------------------------------------------------------------
+option(THEMIS_PLUGIN_GEO "Enable optional external Geo plugin submodule integration" ON)
+option(THEMIS_PLUGIN_TIMESERIES "Enable optional external TimeSeries plugin submodule integration" ON)
+
+if(THEMIS_PLUGIN_GEO)
+    add_compile_definitions(THEMIS_PLUGIN_GEO_ENABLED)
+    message(STATUS "    Geo Plugin Externalization:         ON")
+else()
+    message(STATUS "    Geo Plugin Externalization:         OFF")
+endif()
+
+if(THEMIS_PLUGIN_TIMESERIES)
+    add_compile_definitions(THEMIS_PLUGIN_TIMESERIES_ENABLED)
+    message(STATUS "    TimeSeries Plugin Externalization:  ON")
+else()
+    message(STATUS "    TimeSeries Plugin Externalization:  OFF")
+endif()
+
+# ---------------------------------------------------------------------------
 # Core plugin infrastructure (always on; part of themis_core)
 # ---------------------------------------------------------------------------
 option(THEMIS_PLUGIN_SYSTEM "Build core plugin infrastructure (plugin manager, registry, hot-reload)" ON)

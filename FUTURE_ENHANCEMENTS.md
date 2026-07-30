@@ -46,6 +46,7 @@
 ### Scope
 - Establish the public/private plugin split for plugin-name-aligned optional submodules under `plugins/private/` without removing public reference plugins from the monorepo.
 - Cover Wave-1 candidates (`ethics_ai`, `user_storage_encrypted`, connector pack) and define the refactor-first boundary for static AI/acceleration modules.
+- Externalize currently integrated public `geo` and `timeseries` modules into optional public submodules (`plugins/themisdb_geo`, `plugins/themisdb_timeseries`) with no-hard-fail fallback.
 
 ### Design Constraints
 - Community and Minimal checkouts must configure, build, and test without private credentials, private sources, or private artefacts.
@@ -60,12 +61,14 @@
 
 ### Implementation Notes
 - Keep `WITH_PRIVATE_*` defaults at `OFF`, but align repository names and `plugins/private/*` paths with the current plugin names wherever possible.
+- Keep `THEMIS_EXTERNALIZE_GEO_PLUGIN` and `THEMIS_EXTERNALIZE_TIMESERIES_PLUGIN` defaults at `OFF` so the integrated monorepo path remains the safe baseline.
 - Wave-1 private repositories provisioned (2026-07) with aggregate layout:
   - `makr-code/themisdb_ethic_ai` → `plugins/themisdb_ethic_ai/` (ethics_ai plugin root)
   - `makr-code/themisdb_storage` → `plugins/themisdb_storage/` (subdirs: `user_storage_encrypted/`, `azure_blob_storage/`, `s3_blob_storage/`)
   - `makr-code/themisdb_importer` → `plugins/themisdb_importer/` (subdirs: `mysql_importer/`, `mongo_importer/`, `kafka_importer/`, `s3_importer/`)
   - `makr-code/themisdb_llm_wiki` → `plugins/themisdb_llm_wiki/` (LLM Wiki tool)
 - CMake paths in `cmake/PrivatePlugins.cmake` updated to use aggregate repo subdirectory structure.
+- Public optional submodule registrations for `themisdb_geo` and `themisdb_timeseries` are resolved from `plugins/` and must degrade cleanly when absent.
 - Commit-pin hashes for all submodule entries pending after initial content push to the private repos.
 - Keep `src/ethics_ai/ethics_evaluator.{h,cpp}` and `include/ethics_ai/ethics_ai_types.h` as temporary public core shims until CAI/LLM seams are fully decoupled.
 - Keep benchmark split work explicit: extract private connector scenarios from `benchmarks/bench_importer_throughput.cpp` and validate whether `benchmarks/bench_blob_zstd.cpp` must be split before full connector externalization.
@@ -77,6 +80,7 @@
 - Add manifest-schema validation coverage for new compatibility fields and edition lists.
 - Add PR/path-policy checks for `plugins/private/**`, `.gitmodules`, private CMake, packaging, SBOM, and license workflow changes.
 - Keep Community negative-path coverage for missing private submodules, missing licenses, wrong edition, and private-artifact leakage.
+- Add configure/build matrix checks for integrated vs externalized Geo/TimeSeries (`externalize=OFF/ON` with/without submodule checkout).
 
 ### Performance Targets
 - No configure-time hard failure when private sources are absent and all `WITH_PRIVATE_*` toggles remain `OFF`.
@@ -95,7 +99,7 @@
 
 ### Scope
 
-- Implement the private plugin shared library (`themisdb_llm_wiki_cpp`) behind `ILLMWikiPlugin`.
+- Harden the private plugin shared library (`themisdb_llm_wiki_cpp`) behind `ILLMWikiPlugin`.
 - Activate WikiIndexStore Phase B (RocksDB-native hybrid retrieval: BM25 + HNSW + RRF).
 - Port the Python MVP workspace orchestrator to C++.
 - Wire Wikipedia XML dump ingestion through the plugin ABI.

@@ -107,11 +107,13 @@ plugins/
 │   ├── ROADMAP.md
 │   ├── FUTURE_ENHANCEMENTS.md
 │   └── config/                         (knowledge_sources.yaml, scraper_urls.yaml, gov_sources.yaml)
+├── themisdb_geo/                       🔌 Optional public submodule (makr-code/themisdb_geo)
+├── themisdb_timeseries/                🔌 Optional public submodule (makr-code/themisdb_timeseries)
 └── user_storage_encrypted/             🔧 Implemented v0.2.0 — 4-tier gocryptfs encrypted storage
-    ├── CHANGELOG.md
-    ├── README.md
-    ├── ROADMAP.md
-    └── FUTURE_ENHANCEMENTS.md
+  ├── CHANGELOG.md
+  ├── README.md
+  ├── ROADMAP.md
+  └── FUTURE_ENHANCEMENTS.md
 
 > 📄 **Per-plugin documentation:** Every plugin subdirectory contains three standard
 > Markdown files: `README.md` (status, architecture, references), `ROADMAP.md`
@@ -121,6 +123,13 @@ Note: Hardware acceleration backends (CUDA, Vulkan, etc.) are implemented
 in src/acceleration/ and can be enabled via build configuration. Several
 runtime plugins are likewise built from src/* while plugins/* preserves
 legacy CMake entry points, manifests, examples, and roadmap material.
+
+Public module externalization (Geo / TimeSeries):
+- `plugins/themisdb_geo` (`makr-code/themisdb_geo`)
+- `plugins/themisdb_timeseries` (`makr-code/themisdb_timeseries`)
+- Enable with `-DTHEMIS_EXTERNALIZE_GEO_PLUGIN=ON` and/or `-DTHEMIS_EXTERNALIZE_TIMESERIES_PLUGIN=ON`
+- If enabled and submodule `CMakeLists.txt` is present, integrated `src/geo/*` and/or `src/timeseries/*`
+  sources are removed from `themis_core` and built from the external submodule instead.
 ```
 
 ## Production Plugin Types

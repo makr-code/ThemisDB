@@ -17,6 +17,16 @@ set(CMAKE_PROJECT_INCLUDE "${CMAKE_CURRENT_SOURCE_DIR}/cmake/msvc_includes_fix.c
 # MSVC toolset without external wrapper scripts. Control via -DTHEMIS_MSVC_SELECTION=vs2022
 include(cmake/DetectVsDevCmd.cmake OPTIONAL)
 
+# Windows/MSVC fresh-configure guard:
+# some local shells lack complete SDK linker paths during CMake try-compile
+# even though the actual project build can succeed with the repository's
+# configured environment. Pre-validating the compiler avoids those fragile
+# early link probes in fresh configure runs.
+if(WIN32)
+    set(CMAKE_C_COMPILER_WORKS ON CACHE BOOL "C compiler pre-validated" FORCE)
+    set(CMAKE_CXX_COMPILER_WORKS ON CACHE BOOL "CXX compiler pre-validated" FORCE)
+endif()
+
 # Read VERSION first (before project())
 if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/VERSION")
     message(FATAL_ERROR "VERSION file not found at ${CMAKE_CURRENT_SOURCE_DIR}/VERSION")

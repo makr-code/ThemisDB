@@ -1944,6 +1944,18 @@ function(themis_build_modular)
         set(THEMIS_MODULE_CONTENT ON CACHE BOOL "Include content processors module (optional)" FORCE)
         message(STATUS "THEMIS_ENABLE_CONTENT is ON -> forcing THEMIS_MODULE_CONTENT=ON for modular consistency")
     endif()
+
+    # Optional externalization path: strip integrated module sources so optional
+    # public submodules can inject their own sources into the modular targets.
+    if(THEMIS_USE_EXTERNAL_TIMESERIES_PLUGIN)
+        list(FILTER THEMIS_TIMESERIES_SOURCES EXCLUDE REGEX "^\.\./src/timeseries/")
+        message(STATUS "Modular externalization active: integrated TimeSeries sources removed from THEMIS_TIMESERIES_SOURCES")
+    endif()
+
+    if(THEMIS_USE_EXTERNAL_GEO_PLUGIN)
+        list(FILTER THEMIS_GEO_SOURCES EXCLUDE REGEX "^\.\./src/geo/")
+        message(STATUS "Modular externalization active: integrated Geo sources removed from THEMIS_GEO_SOURCES")
+    endif()
     
     # Core modules (always required)
     set(_themis_base_deps

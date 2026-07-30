@@ -15,6 +15,15 @@ endif()
 
 message(STATUS "Processing ThemisDB plugin manifests (plugins/)")
 
+function(_themis_add_optional_public_plugin_dir label source_dir binary_dir)
+    if(EXISTS "${source_dir}/CMakeLists.txt")
+        message(STATUS "  - ${label}")
+        add_subdirectory("${source_dir}" "${binary_dir}")
+    else()
+        message(STATUS "  - ${label} not available (optional public source missing: ${source_dir})")
+    endif()
+endfunction()
+
 # Legacy compatibility entry points for integrated runtime plugins.
 # The canonical implementations live under src/* and public APIs under include/*.
 # These add_subdirectory calls resolve older workflows that still reference the
@@ -74,6 +83,20 @@ option(THEMIS_PLUGIN_SAGA_ORCHESTRATOR "Build the SAGA orchestrator plugin" ON)
 if(THEMIS_PLUGIN_SAGA_ORCHESTRATOR AND EXISTS "${THEMIS_ROOT_DIR}/src/transaction/saga_plugin/CMakeLists.txt" AND NOT TARGET saga_orchestrator_plugin)
     message(STATUS "  - SAGA Orchestrator Plugin (transaction workflow orchestration)")
     add_subdirectory("${THEMIS_ROOT_DIR}/src/transaction/saga_plugin" "${CMAKE_CURRENT_BINARY_DIR}/saga_plugin")
+endif()
+
+# Public optional submodule plugins for module externalization.
+# These are no-hard-fail entry points and can be absent in community-only checkouts.
+if(THEMIS_PLUGIN_GEO AND THEMIS_EXTERNALIZE_GEO_PLUGIN)
+    _themis_add_optional_public_plugin_dir("Geo Plugin (public submodule: themisdb_geo)"
+        "${CMAKE_CURRENT_SOURCE_DIR}/themisdb_geo"
+        "${CMAKE_CURRENT_BINARY_DIR}/themisdb_geo")
+endif()
+
+if(THEMIS_PLUGIN_TIMESERIES AND THEMIS_EXTERNALIZE_TIMESERIES_PLUGIN)
+    _themis_add_optional_public_plugin_dir("TimeSeries Plugin (public submodule: themisdb_timeseries)"
+        "${CMAKE_CURRENT_SOURCE_DIR}/themisdb_timeseries"
+        "${CMAKE_CURRENT_BINARY_DIR}/themisdb_timeseries")
 endif()
 
 include("${THEMIS_ROOT_DIR}/cmake/PrivatePlugins.cmake" OPTIONAL)

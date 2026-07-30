@@ -54,6 +54,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 ### In Progress
 - [~] Establish root governance, manifest metadata, and CMake structure for plugin-name-aligned private submodules without breaking Community-only checkouts (Target: Q3 2026)
 - [~] Finalize Wave-1 private candidates (`ethics_ai`, `user_storage_encrypted`, connector pack) and preserve public reference implementations for onboarding-critical paths (Target: Q3 2026)
+- [~] Externalize integrated `geo` and `timeseries` modules into optional public plugin submodules (`plugins/themisdb_geo`, `plugins/themisdb_timeseries`) with integrated-source fallback (Target: Q3 2026)
 - [ ] Add CI policy checks so Community lanes never require private credentials and private lanes remain gated by scoped checkout, SBOM, and leakage rules (Target: Q4 2026)
 
 ### Implementation Phases
@@ -74,6 +75,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 - [~] Core source registration for private connector candidates is split behind optional source checks so missing public files no longer hard-break Community checkouts (Target: Q3 2026)
 - [ ] Move Wave-1 private modules to commit-pinned submodules — repositories provisioned, commit pins pending after initial content push (Target: Q3 2026)
 - [ ] Keep static AI/acceleration plugins out of Wave 1 until they have a clean shared-library SDK seam (Target: Q4 2026)
+- [~] Add build-gated source externalization switches for Geo/TimeSeries (`THEMIS_EXTERNALIZE_GEO_PLUGIN`, `THEMIS_EXTERNALIZE_TIMESERIES_PLUGIN`) and optional submodule registration in CMake (Target: Q3 2026)
 
 #### Phase 3 — Error Handling & Edge Cases
 - [ ] Fail closed when plugin manifests declare unsupported editions, missing license features, invalid hashes, or incompatible core ABI ranges (Target: Q4 2026)
@@ -108,6 +110,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 - Shared benchmark files (`benchmarks/bench_importer_throughput.cpp`, `benchmarks/bench_blob_zstd.cpp`) still contain mixed public/private scenarios and require split extraction before the plugin-name-aligned connector/blob migration completes.
 - `scraper`, `llama_cpp`, `whisper`, `stable_diffusion`, and acceleration backends still contain static or core-coupled build paths and are intentionally excluded from Wave 1.
 - Edition/runtime gating in source code is narrower than the full five-lane governance model; current groundwork keeps fail-closed behaviour while adding manifest metadata for later rollouts.
+- Geo/TimeSeries externalization is currently opt-in and fallback-based: integrated monorepo sources remain default until plugin repos finalize stable exported targets/ABI contracts.
 
 ### Breaking Changes
 - Private plugin manifests gain new compatibility and visibility fields; loaders must treat missing fields as backward-compatible defaults during the migration window.
@@ -131,19 +134,19 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 - [x] Public C++ SDK interface `ILLMWikiPlugin` defined (`include/llm_wiki/llm_wiki_plugin_interface.h`)
   — Phase 1 delivered (🟡 BETA)
 - [x] Plugin manifest `plugin.json` created with full edition/capability/sub-feature metadata
-- [ ] Private plugin shared library (`themisdb_llm_wiki_cpp`) not yet implemented (Phase 2)
+- [x] Private plugin shared library (`themisdb_llm_wiki_cpp`) implemented in the private submodule and exported as `themisdb_llm_wiki_plugin` (Phase 2 baseline delivered)
 
 ### In Progress
 
 - [~] Phase 1 — Design / API contract: `ILLMWikiPlugin` interface + manifest delivered (Target: Q3 2026)
-- [ ] Phase 2 — Core implementation: private plugin `.so` wrapping existing C++ blocks
+- [~] Phase 2 — Core implementation: private plugin `.so` wrapping existing C++ blocks
   (Target: Q3–Q4 2026)
+  - [x] Submodule `plugins/themisdb_llm_wiki` provisioned and tracked in `.gitmodules`
+  - [x] Plugin library and factory exported from the private repo
+  - [ ] Phase B (RocksDB) activation and integration tests
 
 ### Planned Features
 
-- [ ] Private plugin shared library implementing `ILLMWikiPlugin` (Target: Q4 2026)
-  - Inputs: `WikiIngestOptions`, `WikiQueryOptions`; outputs: `WikiIngestResult`, `WikiQueryResult`
-  - Constraint: Phase A JSON fallback when `rocksdb_dir` is empty; no hard RocksDB dep at load time
 - [ ] WikiIndexStore Phase B activation (RocksDB-native BM25 + HNSW + RRF) (Target: Q4 2026)
   - Perf target: ≥ 2× query throughput vs. Phase A at 50k chunks; p95 < 100 ms
 - [ ] Persistent embedding cache backed by RocksDB (Target: Q4 2026)
@@ -165,13 +168,13 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 - [ ] Document `initialize()` JSON config schema fully (Target: Q3 2026)
 
 #### Phase 2 — Core Implementation
-- [ ] `LLMWikiPluginImpl : ILLMWikiPlugin` in private plugin repo (Target: Q3–Q4 2026)
+- [x] `LLMWikiPluginImpl : ILLMWikiPlugin` in private plugin repo (Target: Q3–Q4 2026)
   - `ingest()`: `WikiChunkSplitter::split()` per file → `WikiIndexStore::writeBatch()`
   - `query()`: guardrail filter → `WikiIndexStore::query()` (Phase A or Phase B)
   - Workspace methods: delegate to `WikiWorkspaceOrchestrator`
   - `ingestWikipediaDump()`: delegate to `WikipediaPipeline` with sub-feature check
-- [ ] `WikiWorkspaceOrchestrator` C++ implementation (Target: Q4 2026)
-- [ ] `themisdb_llm_wiki_create()` factory export with C linkage (Target: Q3 2026)
+- [x] `WikiWorkspaceOrchestrator` C++ implementation (Target: Q4 2026)
+- [x] `themisdb_llm_wiki_create()` factory export with C linkage (Target: Q3 2026)
 
 #### Phase 3 — Error Handling & Edge Cases
 - [ ] Partial-failure semantics for `ingest()`: log per-file errors, continue, populate `failed_files` (Target: Q4 2026)
@@ -215,9 +218,11 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 
 ### Known Issues & Limitations
 
-- Private plugin shared library not yet implemented; Phase A JSON reader is the current production backend.
-- `WikiWorkspaceOrchestrator` C++ port not yet started; Python MVP is the reference implementation.
-- Wikipedia dump ingestion not yet wired through `ILLMWikiPlugin` ABI.
+- Private plugin shared library is implemented and embedded as `plugins/themisdb_llm_wiki`; Phase B
+  remains the main follow-up backend hardening task.
+- `WikiWorkspaceOrchestrator` C++ port is present in the private plugin; remaining work is Phase B
+  hardening and larger-scale production validation.
+- Wikipedia dump ingestion is wired through the `ILLMWikiPlugin` ABI; remaining work is production hardening.
 - `llm_wiki_plugin_interface.h` is BETA (v0.1.0); ABI may change until v1.0.0.
 
 ### Breaking Changes

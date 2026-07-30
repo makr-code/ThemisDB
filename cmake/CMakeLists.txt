@@ -778,6 +778,38 @@ option(THEMIS_GEO_GPU "Enable GPU backend for Geo (enterprise add-in)" OFF)
 option(THEMIS_GEO_H3 "Enable H3 integration (enterprise add-in)" OFF)
 option(THEMIS_GEO_GEOS_PLUGIN "Enable GEOS prepared geometries plugin (enterprise add-in)" OFF)
 option(THEMIS_ENTERPRISE "Enable enterprise capabilities bundle" OFF)
+
+# Optional public submodule externalization for formerly integrated modules.
+# When OFF (default), geo/timeseries remain compiled from the monorepo core sources.
+option(THEMIS_EXTERNALIZE_GEO_PLUGIN "Build Geo from optional plugins/themisdb_geo submodule instead of integrated src/geo sources" OFF)
+option(THEMIS_EXTERNALIZE_TIMESERIES_PLUGIN "Build TimeSeries from optional plugins/themisdb_timeseries submodule instead of integrated src/timeseries sources" OFF)
+set(THEMIS_GEO_PLUGIN_SUBMODULE_DIR "${THEMIS_ROOT_DIR}/plugins/themisdb_geo" CACHE PATH "Path to optional public Geo plugin submodule")
+set(THEMIS_TIMESERIES_PLUGIN_SUBMODULE_DIR "${THEMIS_ROOT_DIR}/plugins/themisdb_timeseries" CACHE PATH "Path to optional public TimeSeries plugin submodule")
+
+set(THEMIS_USE_EXTERNAL_GEO_PLUGIN OFF)
+if(THEMIS_EXTERNALIZE_GEO_PLUGIN)
+    if(NOT THEMIS_PLUGIN_GEO)
+        message(STATUS "Geo externalization requested but THEMIS_PLUGIN_GEO=OFF; integrated Geo sources stay active")
+    elseif(EXISTS "${THEMIS_GEO_PLUGIN_SUBMODULE_DIR}/CMakeLists.txt")
+        set(THEMIS_USE_EXTERNAL_GEO_PLUGIN ON)
+        message(STATUS "Geo externalization enabled: using optional submodule at ${THEMIS_GEO_PLUGIN_SUBMODULE_DIR}")
+    else()
+        message(WARNING "Geo externalization requested, but optional submodule CMakeLists is missing: ${THEMIS_GEO_PLUGIN_SUBMODULE_DIR}/CMakeLists.txt")
+    endif()
+endif()
+
+set(THEMIS_USE_EXTERNAL_TIMESERIES_PLUGIN OFF)
+if(THEMIS_EXTERNALIZE_TIMESERIES_PLUGIN)
+    if(NOT THEMIS_PLUGIN_TIMESERIES)
+        message(STATUS "TimeSeries externalization requested but THEMIS_PLUGIN_TIMESERIES=OFF; integrated TimeSeries sources stay active")
+    elseif(EXISTS "${THEMIS_TIMESERIES_PLUGIN_SUBMODULE_DIR}/CMakeLists.txt")
+        set(THEMIS_USE_EXTERNAL_TIMESERIES_PLUGIN ON)
+        message(STATUS "TimeSeries externalization enabled: using optional submodule at ${THEMIS_TIMESERIES_PLUGIN_SUBMODULE_DIR}")
+    else()
+        message(WARNING "TimeSeries externalization requested, but optional submodule CMakeLists is missing: ${THEMIS_TIMESERIES_PLUGIN_SUBMODULE_DIR}/CMakeLists.txt")
+    endif()
+endif()
+
 # Multi-Edition Support (v1.3.5+)
 # THEMIS_EDITION: One of MINIMAL, COMMUNITY, ENTERPRISE, or HYPERSCALER (compile-time selection)
 # This setting determines feature availability, licensing limits, and hardware constraints
@@ -2984,8 +3016,66 @@ set(THEMIS_CORE_SOURCES
     ../src/transaction/merge_engine.cpp
 )
 
+if(THEMIS_USE_EXTERNAL_TIMESERIES_PLUGIN)
+    list(REMOVE_ITEM THEMIS_CORE_SOURCES
+        ../src/timeseries/timeseries.cpp
+        ../src/timeseries/timeseries_metrics.cpp
+        ../src/timeseries/tsstore.cpp
+        ../src/timeseries/gorilla.cpp
+        ../src/timeseries/gorilla_simd.cpp
+        ../src/timeseries/retention.cpp
+        ../src/timeseries/continuous_agg.cpp
+        ../src/timeseries/aggregate_scheduler.cpp
+        ../src/timeseries/aggregate_scheduler_helper.cpp
+        ../src/timeseries/query_optimizer.cpp
+        ../src/timeseries/prometheus_remote_write.cpp
+        ../src/timeseries/ts_auto_buffer.cpp
+        ../src/timeseries/hypertable.cpp
+        ../src/timeseries/aggregates.cpp
+        ../src/timeseries/downsampling.cpp
+        ../src/timeseries/ts_auto_buffer_adaptive.cpp
+        ../src/timeseries/adaptive_flush_controller.cpp
+        ../src/timeseries/encrypted_chunk_store.cpp
+        ../src/timeseries/ts_encrypted_key_rotation.cpp
+        ../src/timeseries/compression_selector.cpp
+        ../src/timeseries/anomaly_detection.cpp
+        ../src/timeseries/gap_fill.cpp
+        ../src/timeseries/ts_stream_cursor.cpp
+    )
+    add_compile_definitions(THEMIS_USE_EXTERNAL_TIMESERIES_PLUGIN)
+    message(STATUS "TimeSeries externalization active: integrated src/timeseries sources removed from themis_core")
+endif()
+
+if(THEMIS_USE_EXTERNAL_GEO_PLUGIN)
+    list(REMOVE_ITEM THEMIS_CORE_SOURCES
+        ../src/geo/cpu_backend.cpp
+        ../src/geo/gpu_backend_stub.cpp
+        ../src/geo/boost_cpu_exact_backend.cpp
+        ../src/geo/geo_rtree.cpp
+        ../src/geo/geo_clustering.cpp
+        ../src/geo/spatial_join.cpp
+        ../src/geo/raster.cpp
+        ../src/geo/temporal_spatial_query.cpp
+        ../src/geo/tile_server.cpp
+        ../src/geo/device_detector.cpp
+        ../src/geo/gpu_backend_production.cpp
+        ../src/geo/geo_json_geometry.cpp
+        ../src/geo/spatial_join_filter.cpp
+        ../src/geo/rtree_cursor.cpp
+        ../src/geo/temporal_spatial_query_builder.cpp
+        ../src/geo/raster_query_interface.cpp
+        ../src/geo/gpu_backend_cuda.cu
+        ../src/geo/gpu_backend_hip.cpp
+        ../src/geo/gpu_kernel_dispatcher_cpu.cpp
+    )
+    add_compile_definitions(THEMIS_USE_EXTERNAL_GEO_PLUGIN)
+    message(STATUS "Geo externalization active: integrated src/geo sources removed from themis_core")
+endif()
+
 # Geo CUDA/HIP kernel dispatch — add the right implementation based on THEMIS_GEO_CUDA / THEMIS_GEO_HIP.
-if(THEMIS_GEO_CUDA)
+if(THEMIS_USE_EXTERNAL_GEO_PLUGIN)
+    message(STATUS "Geo externalization active: GPU dispatcher is expected from external plugin")
+elseif(THEMIS_GEO_CUDA)
     list(APPEND THEMIS_CORE_SOURCES ../src/geo/gpu_backend_cuda.cu)
 elseif(THEMIS_GEO_HIP)
     list(APPEND THEMIS_CORE_SOURCES ../src/geo/gpu_backend_hip.cpp)
@@ -5283,6 +5373,26 @@ if(THEMIS_BUILD_ENTERPRISE_PLUGINS)
                          ${CMAKE_CURRENT_BINARY_DIR}/plugins)
     endif()
 endif() # THEMIS_BUILD_ENTERPRISE_PLUGINS
+
+# Public optional module submodules (geo / timeseries) are wired independently
+# from enterprise plugin bundles so they can be enabled explicitly in any edition.
+if(THEMIS_USE_EXTERNAL_GEO_PLUGIN)
+    if(EXISTS "${THEMIS_GEO_PLUGIN_SUBMODULE_DIR}/CMakeLists.txt")
+        add_subdirectory("${THEMIS_GEO_PLUGIN_SUBMODULE_DIR}"
+                         "${CMAKE_CURRENT_BINARY_DIR}/public_themisdb_geo")
+    else()
+        message(FATAL_ERROR "THEMIS_USE_EXTERNAL_GEO_PLUGIN is ON, but no CMakeLists.txt was found at ${THEMIS_GEO_PLUGIN_SUBMODULE_DIR}")
+    endif()
+endif()
+
+if(THEMIS_USE_EXTERNAL_TIMESERIES_PLUGIN)
+    if(EXISTS "${THEMIS_TIMESERIES_PLUGIN_SUBMODULE_DIR}/CMakeLists.txt")
+        add_subdirectory("${THEMIS_TIMESERIES_PLUGIN_SUBMODULE_DIR}"
+                         "${CMAKE_CURRENT_BINARY_DIR}/public_themisdb_timeseries")
+    else()
+        message(FATAL_ERROR "THEMIS_USE_EXTERNAL_TIMESERIES_PLUGIN is ON, but no CMakeLists.txt was found at ${THEMIS_TIMESERIES_PLUGIN_SUBMODULE_DIR}")
+    endif()
+endif()
 
 
 # EPIC 2 Evaluation module — benchmark_matrix and hardware_profile contracts.
