@@ -75,14 +75,17 @@ foreach ($p in $todo) {
     $stdoutLog = "$logBase.stdout.log"
     $stderrLog = "$logBase.stderr.log"
 
-    if (-not (Test-Path $p)) {
-        Write-Host "SKIP (not exists): $p"
+    $branchExists = @((git branch --list -- "$branch") | Where-Object { $_ -and $_.Trim() }).Count -gt 0
+    if ($branchExists) {
+        Write-Host "SKIP (branch exists): $branch"
         $skipped += 1
         continue
     }
 
-    if ((git branch --list $branch) -ne "") {
-        Write-Host "SKIP (branch exists): $branch"
+    # Validate path against HEAD tree (works even if local working tree path was deleted).
+    $pathInHead = @((git ls-tree -d --name-only HEAD -- "$p") | Where-Object { $_ -and $_.Trim() }).Count -gt 0
+    if (-not $pathInHead) {
+        Write-Host "SKIP (not in HEAD): $p"
         $skipped += 1
         continue
     }

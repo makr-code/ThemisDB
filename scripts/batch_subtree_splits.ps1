@@ -75,15 +75,17 @@ foreach ($p in $found) {
 
     Write-Host "Processing '$p' -> '$branch'"
 
-    $exists = git branch --list $branch
+    $exists = @((git branch --list -- "$branch") | Where-Object { $_ -and $_.Trim() }).Count -gt 0
     if ($exists) {
         Write-Host "  SKIP: branch exists"
         $skipped += 1
         continue
     }
 
-    if (-not (Test-Path $p)) {
-        Write-Host "  SKIP: path does not exist"
+    # Validate path against HEAD tree (works even if local working tree path was deleted).
+    $pathInHead = @((git ls-tree -d --name-only HEAD -- "$p") | Where-Object { $_ -and $_.Trim() }).Count -gt 0
+    if (-not $pathInHead) {
+        Write-Host "  SKIP: path not in HEAD"
         $skipped += 1
         continue
     }
