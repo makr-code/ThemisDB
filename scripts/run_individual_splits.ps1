@@ -1,52 +1,124 @@
-# Run individual subtree splits for a curated list of admin tool folders.
-$paths = @(
-    'projects/Themis.AdminTools.Shared',
-    'tools/admin_tools_dotnet/Themis.AdminTools.Shared',
-    'tools/admin_tools_dotnet/Themis.USBAdminTool',
-    'tools/admin_tools_dotnet/Themis.SAGAVerifier',
-    'tools/Themis.USBAdminTool',
-    'tools/admin_tools_dotnet/Themis.RetentionManager',
-    'tools/Themis.SAGAVerifier',
-    'tools/admin_tools_dotnet/Themis.PIIManager',
-    'tools/Themis.RetentionManager',
-    'tools/admin_tools_dotnet/Themis.KeyRotationDashboard',
-    'tools/Themis.PIIManager',
-    'tools/admin_tools_dotnet/Themis.IngestionTool',
-    'tools/Themis.KeyRotationDashboard',
-    'tools/Themis.IngestionTool',
-    'tools/admin_tools_dotnet/Themis.ImpactAnalysisViewer',
-    'tools/admin_tools_dotnet/Themis.GISViewer.ControlPanel',
-    'tools/Themis.ImpactAnalysisViewer',
-    'tools/admin_tools_dotnet/Themis.ComplianceReports',
-    'tools/Themis.GISViewer.ControlPanel',
-    'tools/Themis.ComplianceReports',
-    'tools/admin_tools_dotnet/Themis.ClassificationDashboard',
-    'tools/Themis.ClassificationDashboard',
-    'tools/admin_tools_dotnet/Themis.AuditLogViewer',
-    'tools/Themis.AuditLogViewer',
-    'tools/admin_tools_dotnet/Themis.AqlQueryBuilder',
-    'tools/Themis.AqlQueryBuilder',
-    'tools/Themis.AdminTools.Shared'
+param(
+    [int]$TimeoutMinutes = 30,
+    [int]$MaxSplits = 0,
+    [switch]$DryRun,
+    [string]$LogDir = "scripts/logs/subtree-splits"
 )
 
-foreach($p in $paths){
-    if(-not (Test-Path $p)){
-        Write-Host "SKIP (not exists): $p"
-        continue
-    }
-    $san = $p -replace '[^a-zA-Z0-9]','-'
-    $branch = "split-$san"
-    if((git branch --list $branch) -ne ''){
-        Write-Host "SKIP (branch exists): $branch"
-        continue
-    }
-    Write-Host "SPLIT: $p -> $branch"
-    git subtree split --prefix=$p -b $branch
-    if($LASTEXITCODE -ne 0){
-        Write-Host "FAILED: $p (exit $LASTEXITCODE)"
-    } else {
-        Write-Host "OK: $branch"
+Set-StrictMode -Version Latest
+$ErrorActionPreference = "Stop"
+
+# Run individual subtree splits for a curated list of admin tool folders.
+$paths = @(
+    "projects/Themis.AdminTools.Shared",
+    "tools/admin_tools_dotnet/Themis.AdminTools.Shared",
+    "tools/admin_tools_dotnet/Themis.USBAdminTool",
+    "tools/admin_tools_dotnet/Themis.SAGAVerifier",
+    "tools/Themis.USBAdminTool",
+    "tools/admin_tools_dotnet/Themis.RetentionManager",
+    "tools/Themis.SAGAVerifier",
+    "tools/admin_tools_dotnet/Themis.PIIManager",
+    "tools/Themis.RetentionManager",
+    "tools/admin_tools_dotnet/Themis.KeyRotationDashboard",
+    "tools/Themis.PIIManager",
+    "tools/admin_tools_dotnet/Themis.IngestionTool",
+    "tools/Themis.KeyRotationDashboard",
+    "tools/Themis.IngestionTool",
+    "tools/admin_tools_dotnet/Themis.ImpactAnalysisViewer",
+    "tools/admin_tools_dotnet/Themis.GISViewer.ControlPanel",
+    "tools/Themis.ImpactAnalysisViewer",
+    "tools/admin_tools_dotnet/Themis.ComplianceReports",
+    "tools/Themis.GISViewer.ControlPanel",
+    "tools/Themis.ComplianceReports",
+    "tools/admin_tools_dotnet/Themis.ClassificationDashboard",
+    "tools/Themis.ClassificationDashboard",
+    "tools/admin_tools_dotnet/Themis.AuditLogViewer",
+    "tools/Themis.AuditLogViewer",
+    "tools/admin_tools_dotnet/Themis.AqlQueryBuilder",
+    "tools/Themis.AqlQueryBuilder",
+    "tools/Themis.AdminTools.Shared"
+)
+
+$repoRoot = (git rev-parse --show-toplevel).Trim()
+if (-not $repoRoot) {
+    throw "Could not detect git repository root."
+}
+
+if (-not (Test-Path $LogDir)) {
+    New-Item -ItemType Directory -Path $LogDir -Force | Out-Null
+}
+
+$dedup = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::OrdinalIgnoreCase)
+$todo = New-Object System.Collections.Generic.List[string]
+foreach ($p in $paths) {
+    if ($dedup.Add($p)) {
+        [void]$todo.Add($p)
     }
 }
 
+$processed = 0
+$ok = 0
+$skipped = 0
+$failed = 0
+$timeouts = 0
+
+Write-Host "Starting subtree splits. Timeout per path: $TimeoutMinutes minute(s)."
+Write-Host "Log directory: $LogDir"
+
+foreach ($p in $todo) {
+    if ($MaxSplits -gt 0 -and $processed -ge $MaxSplits) {
+        Write-Host "Reached MaxSplits=$MaxSplits. Stopping."
+        break
+    }
+
+    $processed += 1
+    $san = $p -replace "[^a-zA-Z0-9]", "-"
+    $branch = "split-$san"
+    $stamp = Get-Date -Format "yyyyMMdd-HHmmss"
+    $logBase = Join-Path $LogDir "$stamp-$san"
+    $stdoutLog = "$logBase.stdout.log"
+    $stderrLog = "$logBase.stderr.log"
+
+    if (-not (Test-Path $p)) {
+        Write-Host "SKIP (not exists): $p"
+        $skipped += 1
+        continue
+    }
+
+    if ((git branch --list $branch) -ne "") {
+        Write-Host "SKIP (branch exists): $branch"
+        $skipped += 1
+        continue
+    }
+
+    Write-Host "SPLIT: $p -> $branch"
+    Write-Host "  logs: $stdoutLog"
+
+    if ($DryRun) {
+        Write-Host "  dry-run: git subtree split --prefix=$p -b $branch"
+        continue
+    }
+
+    $args = @("subtree", "split", "--prefix=$p", "-b", $branch)
+    $proc = Start-Process -FilePath "git" -ArgumentList $args -WorkingDirectory $repoRoot -PassThru -NoNewWindow -RedirectStandardOutput $stdoutLog -RedirectStandardError $stderrLog
+    $exited = $proc.WaitForExit($TimeoutMinutes * 60 * 1000)
+
+    if (-not $exited) {
+        try { Stop-Process -Id $proc.Id -Force -ErrorAction Stop } catch {}
+        Write-Host "TIMEOUT: $p exceeded $TimeoutMinutes minute(s)."
+        $timeouts += 1
+        continue
+    }
+
+    if ($proc.ExitCode -ne 0) {
+        Write-Host "FAILED: $p (exit $($proc.ExitCode))"
+        $failed += 1
+        continue
+    }
+
+    Write-Host "OK: $branch"
+    $ok += 1
+}
+
 Write-Host "Done individual splits."
+Write-Host "Summary: processed=$processed ok=$ok skipped=$skipped failed=$failed timeouts=$timeouts"

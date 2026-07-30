@@ -57,6 +57,16 @@
 	url = https://github.com/makr-code/themisdb_plugin_signer.git
 	branch = develop
 
+[submodule "plugins/themisdb_geo"]
+	path = plugins/themisdb_geo
+	url = https://github.com/makr-code/themisdb_geo.git
+	branch = develop
+
+[submodule "plugins/themisdb_timeseries"]
+	path = plugins/themisdb_timeseries
+	url = https://github.com/makr-code/themisdb_timeseries.git
+	branch = develop
+
 [submodule "projects/Themis.AdminTools.Shared"]
 	path = projects/Themis.AdminTools.Shared
 	url = https://github.com/makr-code/themisdb_admin_tools.git
