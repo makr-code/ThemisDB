@@ -26,6 +26,18 @@ foreach(_src IN LISTS DOCUMENT_PREFIX_TEST_SOURCES)
     )
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
+    # If the module library target is not available at configure time (modular
+    # builds / submodule split), provide a small fallback implementation set
+    # so focused test binaries link correctly on all platforms (Windows linker
+    # issues otherwise). The real implementation lives in src/document/.
+    if(NOT TARGET themis_document)
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/document/round_trip_editor.cpp
+        )
+    else()
+        target_link_libraries(${_target} PRIVATE themis_document)
+    endif()
+
     themis_register_module_focused_test(
         MODULE document
         NAME ${_ctest}

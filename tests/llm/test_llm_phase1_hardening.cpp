@@ -25,6 +25,7 @@
 #include <cstddef>
 #include <memory>
 #include <mutex>
+#include <numeric>
 #include <optional>
 #include <stdexcept>
 #include <string>
@@ -630,7 +631,7 @@ TEST_F(LLMMultiTenantTests, LLM_MT_06_CrossTenantContaminationCheck) {
 TEST_F(LLMMultiTenantTests, LLM_MT_07_TenantMetadataConsistency) {
     struct TenantMeta {
         std::string id;
-        std::atomic<int> token_count{0};
+        int token_count{0};
     };
     
     std::vector<TenantMeta> tenants;

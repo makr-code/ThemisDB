@@ -16,7 +16,7 @@
 namespace http = boost::beast::http;
 using json = nlohmann::json;
 
-namespace themis { namespace server { 
+namespace themis::server {
 namespace {
 
 http::request<http::string_body> makeRequest(http::verb method, const std::string& target) {
@@ -127,6 +127,7 @@ TEST_F(ProfilingApiHandlerTest, SetConfigRejectsOutOfRangeCacheHitThreshold) {
     ASSERT_EQ(response.result(), http::status::bad_request);
     EXPECT_NE(parseBody(response)["error"].get<std::string>().find("cache_hit_rate_threshold"), std::string::npos);
 }
+
 
 } // namespace
 } // namespace themis::server

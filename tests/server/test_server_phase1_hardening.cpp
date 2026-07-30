@@ -168,7 +168,7 @@ TEST_F(RetryExhaustionTests, SRV_06_RetryImmediateSuccess_NoBackoff) {
     auto duration = std::chrono::steady_clock::now() - start;
     
     EXPECT_EQ(result.code, ErrorCode::kOk);
-    EXPECT_LT(duration.count(), 5ms);
+    EXPECT_LT(duration, 5ms);
 }
 
 TEST_F(RetryExhaustionTests, SRV_07_RetryFatalError_NoRetryAttempt) {
@@ -225,8 +225,8 @@ TEST_F(TimeoutEdgeCaseTests, SRV_10_TimeoutAtDeadline_ExactBoundary) {
     std::this_thread::sleep_for(timeout);
     auto elapsed = std::chrono::steady_clock::now() - start;
     
-    EXPECT_GE(elapsed.count(), timeout.count() - 5ms);
-    EXPECT_LE(elapsed.count(), timeout.count() + 5ms);
+    EXPECT_GE(elapsed, timeout - 5ms);
+    EXPECT_LE(elapsed, timeout + 5ms);
 }
 
 TEST_F(TimeoutEdgeCaseTests, SRV_11_TimeoutPostDeadline_ExceedsLimit) {
@@ -264,7 +264,7 @@ TEST_F(TimeoutEdgeCaseTests, SRV_14_TimeoutWithRetry_CumulativeBudget) {
     }
     
     auto total = std::chrono::steady_clock::now() - start;
-    EXPECT_LE(total.count(), timeout.count() + 10ms);
+    EXPECT_LE(total, timeout + 10ms);
 }
 
 TEST_F(TimeoutEdgeCaseTests, SRV_15_TimeoutCancellation_EarlyReturn) {
@@ -293,7 +293,7 @@ TEST_F(TimeoutEdgeCaseTests, SRV_16_TimeoutContextDeadline_TimerFires) {
     
     timer.join();
     auto elapsed = std::chrono::steady_clock::now() - start;
-    EXPECT_GE(elapsed.count(), timeout.count() - 5ms);
+    EXPECT_GE(elapsed, timeout - 5ms);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -477,18 +477,18 @@ TEST_F(FaultRecoveryTests, SRV_27_CircuitBreakerOpen_StopRetrying) {
 
 TEST_F(FaultRecoveryTests, SRV_28_CircuitBreakerHalfOpen_ProbeRetry) {
     std::atomic<int> probe_count{0};
-    std::atomic<bool> recovered{false};
+    std::atomic<bool> probe_recovered{false};
     
     for (int i = 0; i < 2; ++i) {
         probe_count++;
         if (probe_count >= 2) {
-            recovered = true;
+            probe_recovered = true;
             break;
         }
         std::this_thread::sleep_for(10ms);
     }
     
-    EXPECT_TRUE(recovered);
+    EXPECT_TRUE(probe_recovered);
     EXPECT_GE(probe_count, 2);
 }
 

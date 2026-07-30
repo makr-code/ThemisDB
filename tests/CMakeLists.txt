@@ -9,6 +9,24 @@ endif()
 
 message(STATUS "Configuring ThemisDB test suite")
 
+# Windows/Ninja can hit transient file locks while many test executables are
+# linked in parallel (vcpkg applocal + antivirus/indexer contention). Use a
+# dedicated single-slot link job pool for this tests directory.
+if(WIN32 AND CMAKE_GENERATOR MATCHES "Ninja")
+    get_property(_themis_job_pools GLOBAL PROPERTY JOB_POOLS)
+    if(NOT _themis_job_pools)
+        set_property(GLOBAL PROPERTY JOB_POOLS themis_test_link_pool=1)
+    else()
+        list(FIND _themis_job_pools "themis_test_link_pool=1" _themis_link_pool_idx)
+        if(_themis_link_pool_idx EQUAL -1)
+            list(APPEND _themis_job_pools "themis_test_link_pool=1")
+            set_property(GLOBAL PROPERTY JOB_POOLS "${_themis_job_pools}")
+        endif()
+    endif()
+    set(CMAKE_JOB_POOL_LINK themis_test_link_pool)
+    message(STATUS "tests: using Ninja link job pool 'themis_test_link_pool=1' to avoid file-lock link failures")
+endif()
+
 # Per team policy: suppress warnings for test builds only.
 # Core/library targets keep their warning policy unchanged.
 if(MSVC)
@@ -777,7 +795,15 @@ endforeach()
 list(LENGTH ALL_TEST_SOURCES TEST_SOURCE_COUNT)
 message(STATUS "Building ${TEST_SOURCE_COUNT} test files after feature gating")
 
-add_executable(themis_tests ${ALL_TEST_SOURCES})
+if(WIN32 AND THEMIS_BUILD_MODULAR)
+    # In modular Windows builds the unified runner is intentionally disabled
+    # (focused targets are the canonical execution path). Excluding it from ALL
+    # prevents large unresolved-external cascades in full preset builds.
+    add_executable(themis_tests EXCLUDE_FROM_ALL ${ALL_TEST_SOURCES})
+    message(STATUS "themis_tests: EXCLUDE_FROM_ALL enabled for WIN32 modular builds")
+else()
+    add_executable(themis_tests ${ALL_TEST_SOURCES})
+endif()
 
 # If we detected a monolithic `themis_core` target earlier in the configure
 # step, link it now that `themis_tests` has been created. This resolves

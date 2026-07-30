@@ -91,7 +91,7 @@ static DocumentId putDoc(InMemoryDocumentStore& store,
 {
     DocumentRecord rec;
     rec.id         = id;
-    rec.collection = collection;
+    rec.collection_id = collection;
     rec.body       = body;
     auto result    = store.put(rec);
     if (!result.has_value()) {
