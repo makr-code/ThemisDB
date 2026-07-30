@@ -56,3 +56,8 @@
 	path = plugins/themisdb_plugin_signer
 	url = https://github.com/makr-code/themisdb_plugin_signer.git
 	branch = develop
+
+[submodule "projects/themis_admin_tools"]
+	path = projects/themis_admin_tools
+	url = https://github.com/makr-code/themis_admin_tools.git
+	branch = main
