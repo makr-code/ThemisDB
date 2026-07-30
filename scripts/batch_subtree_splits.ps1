@@ -56,18 +56,15 @@ if ($found.Count -eq 0) {
 
 Write-Host "Found $($found.Count) project directories."
 
-$processed = 0
+$visited = 0
+$scheduled = 0
 $ok = 0
 $skipped = 0
 $failed = 0
 $timeouts = 0
 
 foreach ($p in $found) {
-    if ($MaxSplits -gt 0 -and $processed -ge $MaxSplits) {
-        Write-Host "Reached MaxSplits=$MaxSplits. Stopping."
-        break
-    }
-    $processed += 1
+    $visited += 1
 
     $san = $p -replace "[^a-zA-Z0-9]", "-"
     $branch = "split-$san"
@@ -90,6 +87,13 @@ foreach ($p in $found) {
         $skipped += 1
         continue
     }
+
+    if ($MaxSplits -gt 0 -and $scheduled -ge $MaxSplits) {
+        Write-Host "Reached MaxSplits=$MaxSplits new split candidate(s). Stopping."
+        break
+    }
+
+    $scheduled += 1
 
     if ($DryRun) {
         Write-Host "  dry-run: git subtree split --prefix=$p -b $branch"
@@ -119,4 +123,4 @@ foreach ($p in $found) {
 }
 
 Write-Host "All done. No pushes were performed."
-Write-Host "Summary: processed=$processed ok=$ok skipped=$skipped failed=$failed timeouts=$timeouts"
+Write-Host "Summary: visited=$visited scheduled=$scheduled ok=$ok skipped=$skipped failed=$failed timeouts=$timeouts"

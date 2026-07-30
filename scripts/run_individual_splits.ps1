@@ -56,7 +56,8 @@ foreach ($p in $paths) {
     }
 }
 
-$processed = 0
+$visited = 0
+$scheduled = 0
 $ok = 0
 $skipped = 0
 $failed = 0
@@ -66,12 +67,7 @@ Write-Host "Starting subtree splits. Timeout per path: $TimeoutMinutes minute(s)
 Write-Host "Log directory: $LogDir"
 
 foreach ($p in $todo) {
-    if ($MaxSplits -gt 0 -and $processed -ge $MaxSplits) {
-        Write-Host "Reached MaxSplits=$MaxSplits. Stopping."
-        break
-    }
-
-    $processed += 1
+    $visited += 1
     $san = $p -replace "[^a-zA-Z0-9]", "-"
     $branch = "split-$san"
     $stamp = Get-Date -Format "yyyyMMdd-HHmmss"
@@ -90,6 +86,13 @@ foreach ($p in $todo) {
         $skipped += 1
         continue
     }
+
+    if ($MaxSplits -gt 0 -and $scheduled -ge $MaxSplits) {
+        Write-Host "Reached MaxSplits=$MaxSplits new split candidate(s). Stopping."
+        break
+    }
+
+    $scheduled += 1
 
     Write-Host "SPLIT: $p -> $branch"
     Write-Host "  logs: $stdoutLog"
@@ -121,4 +124,4 @@ foreach ($p in $todo) {
 }
 
 Write-Host "Done individual splits."
-Write-Host "Summary: processed=$processed ok=$ok skipped=$skipped failed=$failed timeouts=$timeouts"
+Write-Host "Summary: visited=$visited scheduled=$scheduled ok=$ok skipped=$skipped failed=$failed timeouts=$timeouts"
