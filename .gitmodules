@@ -57,7 +57,7 @@
 	url = https://github.com/makr-code/themisdb_plugin_signer.git
 	branch = develop
 
-[submodule "projects/themis_admin_tools"]
-	path = projects/themis_admin_tools
-	url = https://github.com/makr-code/themis_admin_tools.git
-	branch = main
+[submodule "projects/Themis.AdminTools.Shared"]
+	path = projects/Themis.AdminTools.Shared
+	url = https://github.com/makr-code/themisdb_admin_tools.git
+	branch = admin-tools-split
