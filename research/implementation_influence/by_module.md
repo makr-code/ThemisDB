@@ -370,6 +370,8 @@ This file groups all research influences by ThemisDB module (`src/<module>`).
 | Category | Source | Version | Status |
 |----------|--------|---------|--------|
 | Paper | Kulkarni & Michels (2012) — SQL:2011 Temporal Features | v1.x+ | 🔄 Partial |
+| Paper | Demirbas et al. (2014) — Logical Physical Clocks (HLC), OPODIS 2014 (LNCS 8878), arXiv:1406.2914 | v2.5.0+ | ⏳ Planned (B-23) |
+| Paper | Shapiro et al. (2011) — CRDTs: Comprehensive Study of Convergent and Commutative Replicated Data Types, INRIA RR-7506 | v2.5.0+ | ⏳ Planned (B-23 CRDT_MERGE policy) |
 
 ---
 
@@ -439,6 +441,8 @@ This file groups all research influences by ThemisDB module (`src/<module>`).
 | Paper | Haverkort & van Walderveen (2008) — Locality and Bounding-Box Quality of Space-Filling Curves | v1.0.0+ | ✅ Implemented |
 | Standard | Open Geospatial Consortium (2010) — OGC Simple Feature Access 1.2.1 | v1.0.0+ | ✅ Adopted |
 | Paper | Beckmann et al. (1990) — R*-Tree: An Efficient and Robust Access Method | v1.4.0+ | 🔄 Partial |
+| Standard | Butler et al. (2016) — RFC 7946: The GeoJSON Format (anti-meridian §3.1.9) | v2.4.0+ | ✅ Partial (anti-meridian fix delivered 2026-07-29) |
+| Paper | Karney, C.F.F. (2013) — Algorithms for Geodesics, J. Geodesy 87(1), arXiv:1109.4448 | v2.5.0+ | ⏳ Planned (Vincenty fallback → Haversine; full Karney accuracy in Phase 5) |
 
 ---
 
@@ -506,6 +510,8 @@ This file groups all research influences by ThemisDB module (`src/<module>`).
 | Standard | Rescorla (2018) — RFC 8446 TLS Protocol Version 1.3 | v1.0.0+ | ✅ Adopted |
 | Standard | Belshe, Peon & Thomson (2015) — RFC 7540 HTTP/2 | v1.0.0+ | ✅ Adopted |
 | Best Practice | NIST SP 800-52 Rev 2 — TLS 1.3 Cipher Hardening | v1.0.0+ | ✅ Adopted |
+| Standard | Iyengar & Thomson (2021) — RFC 9000: QUIC Transport Protocol | v2.5.0+ | ⏳ Planned (Track 2.4) |
+| Standard | Bishop (2022) — RFC 9114: HTTP/3 | v2.5.0+ | ⏳ Planned (Track 2.4) |
 
 ---
 
@@ -517,6 +523,7 @@ This file groups all research influences by ThemisDB module (`src/<module>`).
 | Paper | Sigelman et al. (2010) — Dapper, a Large-Scale Distributed Systems Tracing Infrastructure | v1.0.0+ | ✅ Implemented |
 | Standard | W3C Distributed Tracing WG (2021) — Trace Context Level 1 | v1.0.0+ | ✅ Adopted |
 | Standard | OpenMetrics / Prometheus (2021) — OpenMetrics Specification 1.0.0 | v1.0.0+ | ✅ Adopted |
+| Paper | Adams & MacKay (2007) — Bayesian Online Changepoint Detection, arXiv:0710.3742 | v2.5.0+ | ⏳ Planned (Track 3 anomaly detection) |
 
 ---
 

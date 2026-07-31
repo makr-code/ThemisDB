@@ -57,6 +57,9 @@ std::vector<SpatialJoinPair> spatialJoin(const std::vector<std::pair<std::string
     }
 
     std::vector<SpatialJoinPair> results;
+    // Overflow-safe heuristic: cap outer.size() before multiplying to prevent
+    // wrap-around on very large inputs.
+    results.reserve(std::min(outer.size(), config.max_pairs / 8 + 1) * 8);
 
     if (outer.empty() || inner.empty()) {
         return results;

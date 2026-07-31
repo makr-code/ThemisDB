@@ -19,12 +19,15 @@
  */
 
 #include <algorithm>
+#include <chrono>
 #include <cmath>
+#include <future>
 #include <memory>
 #include <mutex>
 #include <thread>
 #include <vector>
 
+#include "geo/gpu_buffer_guard.h"
 #include "geo/spatial_backend.h"
 #include "utils/geo/ewkb.h"
 #include "utils/logger.h"
@@ -72,8 +75,12 @@ class CpuParallelBackend final : public ISpatialComputeBackend {
         // Parallel processing using multiple threads; each thread owns a disjoint
         // index range of `out.mask` so no synchronisation is required on writes.
         const size_t batch_size = (in.count + thread_count_ - 1) / thread_count_;
-        std::vector<std::thread> threads;
-        threads.reserve(thread_count_);
+
+        // Use std::async / std::future so we can detect long-running workers
+        // and emit a diagnostic before blocking on join.
+        static constexpr auto kWorkerTimeout = std::chrono::seconds(30);
+        std::vector<std::future<void>> futures;
+        futures.reserve(thread_count_);
 
         for (size_t t = 0; t < thread_count_; ++t) {
             const size_t start_idx = t * batch_size;
@@ -83,15 +90,21 @@ class CpuParallelBackend final : public ISpatialComputeBackend {
                 break;
             }
 
-            threads.emplace_back([this, &in, &out, start_idx, end_idx]() {
-                for (size_t i = start_idx; i < end_idx; ++i) {
-                    out.mask[i] = exactIntersects(in.geoms_a[i], in.geoms_b[i]) ? 1u : 0u;
-                }
-            });
+            futures.emplace_back(std::async(std::launch::async,
+                [this, &in, &out, start_idx, end_idx]() {
+                    for (size_t i = start_idx; i < end_idx; ++i) {
+                        out.mask[i] = exactIntersects(in.geoms_a[i], in.geoms_b[i]) ? 1u : 0u;
+                    }
+                }));
         }
 
-        for (auto &thread : threads) {
-            thread.join();
+        for (auto &fut : futures) {
+            if (fut.wait_for(kWorkerTimeout) != std::future_status::ready) {
+                THEMIS_WARN("CpuParallelBackend: worker did not complete within {}s; "
+                            "still waiting — possible infinite loop in exactIntersects",
+                            kWorkerTimeout.count());
+            }
+            fut.get(); // synchronise and propagate any exceptions
         }
 
         return out;
@@ -441,75 +454,58 @@ class CudaBackend final : public ISpatialComputeBackend {
         const double d_lat        = distance_m / 111320.0;
         const double d_lon        = distance_m / (111320.0 * (cos_lat > 1e-6 ? cos_lat : 1e-6));
 
-        const int n_verts   = arc_points + 1; // +1 to close the ring
-        const size_t buf_sz = static_cast<size_t>(n_verts) * sizeof(double);
+        const int    n_verts = arc_points + 1; // +1 to close the ring
+        const size_t buf_sz  = static_cast<size_t>(n_verts) * sizeof(double);
 
-        double *d_lon_in = nullptr, *d_lat_in = nullptr;
-        double *d_ring_x = nullptr, *d_ring_y = nullptr;
-        cudaError_t e;
+        // RAII guards own all device allocations.
+        // Any early return frees all allocated device buffers automatically.
+        CudaTypedBuffer<double> d_lon_in, d_lat_in, d_ring_x, d_ring_y;
 
         double h_lon = lon, h_lat = lat;
-        e = cudaMalloc(&d_lon_in, sizeof(double));
+
+        if (d_lon_in.alloc(1) != cudaSuccess)
+            return cpu_exact_.stBuffer(geom, distance_m, arc_points);
+        if (d_lat_in.alloc(1) != cudaSuccess)
+            return cpu_exact_.stBuffer(geom, distance_m, arc_points);
+        if (d_ring_x.alloc(static_cast<size_t>(n_verts)) != cudaSuccess)
+            return cpu_exact_.stBuffer(geom, distance_m, arc_points);
+        if (d_ring_y.alloc(static_cast<size_t>(n_verts)) != cudaSuccess)
+            return cpu_exact_.stBuffer(geom, distance_m, arc_points);
+
+        cudaError_t e;
+        e = cudaMemcpy(d_lon_in.get(), &h_lon, sizeof(double), cudaMemcpyHostToDevice);
         if (e != cudaSuccess)
-            goto fallback;
-        e = cudaMalloc(&d_lat_in, sizeof(double));
-        if (e != cudaSuccess) {
-            cudaFree(d_lon_in);
-            goto fallback;
+            return cpu_exact_.stBuffer(geom, distance_m, arc_points);
+        e = cudaMemcpy(d_lat_in.get(), &h_lat, sizeof(double), cudaMemcpyHostToDevice);
+        if (e != cudaSuccess)
+            return cpu_exact_.stBuffer(geom, distance_m, arc_points);
+
+        cuda_batch_point_buffer_kernel<<<1, n_verts>>>(
+            d_lon_in.get(), d_lat_in.get(), d_ring_x.get(), d_ring_y.get(),
+            arc_points, d_lat, d_lon, 1);
+
+        e = cudaDeviceSynchronize();
+        if (e != cudaSuccess)
+            return cpu_exact_.stBuffer(geom, distance_m, arc_points);
+
+        std::vector<double> h_ring_x(static_cast<size_t>(n_verts));
+        std::vector<double> h_ring_y(static_cast<size_t>(n_verts));
+        e = cudaMemcpy(h_ring_x.data(), d_ring_x.get(), buf_sz, cudaMemcpyDeviceToHost);
+        if (e != cudaSuccess)
+            return cpu_exact_.stBuffer(geom, distance_m, arc_points);
+        e = cudaMemcpy(h_ring_y.data(), d_ring_y.get(), buf_sz, cudaMemcpyDeviceToHost);
+        if (e != cudaSuccess)
+            return cpu_exact_.stBuffer(geom, distance_m, arc_points);
+
+        // RAII destructors free all device buffers on scope exit.
+        GeometryInfo result(GeometryType::Polygon);
+        std::vector<Coordinate> ring;
+        ring.reserve(static_cast<size_t>(n_verts));
+        for (int i = 0; i < n_verts; ++i) {
+            ring.emplace_back(h_ring_x[static_cast<size_t>(i)], h_ring_y[static_cast<size_t>(i)]);
         }
-        e = cudaMalloc(&d_ring_x, buf_sz);
-        if (e != cudaSuccess) {
-            cudaFree(d_lon_in);
-            cudaFree(d_lat_in);
-            goto fallback;
-        }
-        e = cudaMalloc(&d_ring_y, buf_sz);
-        if (e != cudaSuccess) {
-            cudaFree(d_lon_in);
-            cudaFree(d_lat_in);
-            cudaFree(d_ring_x);
-            goto fallback;
-        }
-
-        cudaMemcpy(d_lon_in, &h_lon, sizeof(double), cudaMemcpyHostToDevice);
-        cudaMemcpy(d_lat_in, &h_lat, sizeof(double), cudaMemcpyHostToDevice);
-
-        cuda_batch_point_buffer_kernel<<<1, n_verts>>>(d_lon_in, d_lat_in, d_ring_x, d_ring_y, arc_points, d_lat, d_lon,
-                                                       1);
-
-        {
-            cudaError_t ke = cudaDeviceSynchronize();
-            if (ke != cudaSuccess) {
-                cudaFree(d_lon_in);
-                cudaFree(d_lat_in);
-                cudaFree(d_ring_x);
-                cudaFree(d_ring_y);
-                goto fallback;
-            }
-        }
-
-        {
-            std::vector<double> h_ring_x(static_cast<size_t>(n_verts));
-            std::vector<double> h_ring_y(static_cast<size_t>(n_verts));
-            cudaMemcpy(h_ring_x.data(), d_ring_x, buf_sz, cudaMemcpyDeviceToHost);
-            cudaMemcpy(h_ring_y.data(), d_ring_y, buf_sz, cudaMemcpyDeviceToHost);
-            cudaFree(d_lon_in);
-            cudaFree(d_lat_in);
-            cudaFree(d_ring_x);
-            cudaFree(d_ring_y);
-
-            GeometryInfo result(GeometryType::Polygon);
-            std::vector<Coordinate> ring;
-            ring.reserve(static_cast<size_t>(n_verts));
-            for (int i = 0; i < n_verts; ++i) {
-                ring.emplace_back(h_ring_x[static_cast<size_t>(i)], h_ring_y[static_cast<size_t>(i)]);
-            }
-            result.rings.push_back(std::move(ring));
-            return result;
-        }
-
-    fallback:
-        return cpu_exact_.stBuffer(geom, distance_m, arc_points);
+        result.rings.push_back(std::move(ring));
+        return result;
     }
 
     GeometryInfo stUnion(const GeometryInfo &g1, const GeometryInfo &g2) override {
@@ -632,8 +628,11 @@ class OpenCLBackend final : public ISpatialComputeBackend {
             return;
         }
 
-        // Create command queue
-        queue_ = clCreateCommandQueue(context_, device_, 0, &err);
+        // Create command queue using the OpenCL 2.0+ API.
+        // clCreateCommandQueue is deprecated since OpenCL 2.0; use
+        // clCreateCommandQueueWithProperties with a null-terminated properties array.
+        cl_queue_properties queue_props[] = {0};
+        queue_ = clCreateCommandQueueWithProperties(context_, device_, queue_props, &err);
         if (err != CL_SUCCESS) {
             THEMIS_WARN("OpenCL command queue creation failed");
             clReleaseContext(context_);

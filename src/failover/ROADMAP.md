@@ -75,6 +75,13 @@ Production failover runtime exists across automatic failover orchestration, disa
   - Gates: FRG-01..FRG-06 (heartbeat ≤500µs, election ≤5ms, state-sync ≤200µs,
     health-check ≤100µs, buffer-check ≤50µs, epoch-persist ≤1ms)
   - kFailoverCanonicalSeed = 42; Repetitions(5)
+- [x] Phase 2/3 hot-path benchmarks delivered (Delivered: Q3 2026, 2026-07-29)
+  - Benchmark file: `benchmarks/failover/bench_failover_phase2_phase3_gates.cpp`
+  - Gates: FP23-01..FP23-06 covering canTransition (≤100µs), preventSplitBrain
+    fail-closed (≤200µs), executePlan concurrency guard (≤100µs), attemptRecovery
+    batch stats flush (≤200µs), emitDiagnostic dispatch (≤100µs),
+    triggerManualFailover queue-full drop (≤200µs)
+  - kP23CanonicalSeed = 42; Repetitions(5); mock-only (no I/O, no threads)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core failover module docs aligned to source-verifiable behavior
@@ -88,6 +95,10 @@ Production failover runtime exists across automatic failover orchestration, disa
   - Test file: `tests/failover/test_failover_phase2_phase3_focused.cpp`
   - Test cases: P23-01..P23-08 (canTransition table, fail-closed split-brain, batch stats, concurrent DR rejection, emitDiagnostic callback)
   - kPhase23Seed = 42; all tests self-contained, no external I/O
+- [x] Phase 5 benchmark gates for Phase 2/3 hardening delivered (2026-07-29)
+  - Benchmark file: `benchmarks/failover/bench_failover_phase2_phase3_gates.cpp`
+  - Gates: FP23-01..FP23-06 (canTransition, preventSplitBrain, concurrency guard, batch stats, emitDiagnostic, queue-full drop)
+  - kP23CanonicalSeed = 42; Repetitions(5); all gates documented in benchmarks/failover/README.md
 
 ## Production Readiness Checklist
 
@@ -97,6 +108,7 @@ Production failover runtime exists across automatic failover orchestration, disa
 - [x] dedicated failover benchmark file delivered (FRG-01..FRG-06)
 - [x] Q3 2026 hardening, benchmark stabilization, and diagnostics items closed
 - [x] remaining hardening tasks closed for dependency/queue/DR-step edge paths (Q4 2026)
+- [x] Phase 2/3 hot-path benchmarks delivered (FP23-01..FP23-06) (2026-07-29)
 - [ ] release benchmark stabilization p95/p99 re-baseline complete (Q1 2027)
 
 ## Known Issues and Limitations

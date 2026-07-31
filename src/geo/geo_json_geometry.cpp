@@ -69,15 +69,18 @@ std::string coordToJson(const Coordinate &c) {
 }
 
 std::string coordsToJson(const std::vector<Coordinate> &coords) {
-    std::string result = "[";
+    // Use ostringstream to avoid O(n²) string reallocations from repeated
+    // concatenation inside the coordinate loop.
+    std::ostringstream os;
+    os << "[";
     for (std::size_t i = 0; i < coords.size(); ++i) {
         if (i > 0) {
-            result += ",";
+            os << ",";
         }
-        result += coordToJson(coords[i]);
+        os << "[" << coords[i].x << "," << coords[i].y << "]";
     }
-    result += "]";
-    return result;
+    os << "]";
+    return os.str();
 }
 
 ValidationResult validateCoordinate(const Coordinate &c, CrsId crs, const std::string &ctx) {

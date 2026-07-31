@@ -77,8 +77,10 @@ public:
     // Geodesic distance on the WGS-84 ellipsoid using the Vincenty formula.
     // Returns the distance in metres between two geographic coordinates.
     // lat1/lon1 and lat2/lon2 are in decimal degrees (WGS-84).
-    // Returns 0.0 for coincident points and a negative value if the formula
-    // fails to converge (nearly-antipodal degenerate case).
+    // Returns 0.0 for coincident points.
+    // For nearly-antipodal inputs where Vincenty does not converge, falls back
+    // to the Haversine formula and returns a positive finite approximation
+    // (accuracy ±0.5 %; never returns a negative sentinel value).
     virtual double geodesicDistance([[maybe_unused]] double lat1, [[maybe_unused]] double lon1,
                     [[maybe_unused]] double lat2, [[maybe_unused]] double lon2) const {
         return 0.0;

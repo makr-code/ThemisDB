@@ -169,6 +169,7 @@ struct GeoRTree::Impl {
 
     std::vector<std::string> intersects(const MBR& query_bbox) const {
         std::vector<std::string> result;
+        result.reserve(entries.size()); // worst-case: all entries match
         for (const auto& e : entries) {
             if (e.mbr.intersects(query_bbox)) {
                 result.push_back(e.key);
@@ -179,6 +180,7 @@ struct GeoRTree::Impl {
 
     std::vector<std::string> contains(double x, double y) const {
         std::vector<std::string> result;
+        result.reserve(entries.size()); // worst-case: all entries contain point
         for (const auto& e : entries) {
             if (e.mbr.contains(x, y)) {
                 result.push_back(e.key);

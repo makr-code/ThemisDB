@@ -24,6 +24,7 @@
 #include <mutex>
 #include <stdexcept>
 
+#include "geo/geo_math.h"
 #include "geo/spatial_backend.h"
 #include "utils/geo/ewkb.h"
 #include "utils/logger.h"
@@ -482,7 +483,10 @@ class CpuExactBackend final : public ISpatialComputeBackend {
         }
 
         if (!converged) {
-            return -1.0; // nearly antipodal — did not converge
+            // Nearly-antipodal case: Vincenty did not converge within kMaxIter
+            // iterations.  Fall back to Haversine which always converges.
+            // Haversine accuracy (±0.5 %) is sufficient for the antipodal edge case.
+            return haversineDistanceM(lon1, lat1, lon2, lat2);
         }
 
         const double u2     = cos2Alpha * (a * a - b * b) / (b * b);
@@ -701,6 +705,9 @@ class CpuExactBackend final : public ISpatialComputeBackend {
         if (ips.empty()) {
             return;
         }
+        // Reserve capacity for intersection vertices before inserting them
+        // to avoid repeated reallocations in the push_back loop.
+        A.reserve(A.size() + ips.size());
         for (const auto &ip : ips) {
             GHVert v;
             v.x        = ip.x;
@@ -710,6 +717,7 @@ class CpuExactBackend final : public ISpatialComputeBackend {
             A.push_back(v);
         }
         std::stable_sort(A.begin(), A.end(), [](const GHVert &a, const GHVert &b) { return a.alpha < b.alpha; });
+        B.reserve(B.size() + ips.size());
         for (const auto &ip : ips) {
             GHVert v;
             v.x        = ip.x;
