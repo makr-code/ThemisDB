@@ -32,6 +32,7 @@
 #include <vector>
 
 #include <gtest/gtest.h>
+#include <spdlog/spdlog.h>
 
 #include "llm_wiki/llm_wiki_plugin_interface.h"
 #include "llm_wiki/guardrail_patterns.h"
@@ -389,19 +390,19 @@ TEST_F(WikiPluginPhase34Test, WikiQueryResultStructure) {
 TEST_F(WikiPluginPhase34Test, WorkspacePageCreation_LWP09) {
     // When workspace_root is set, ingest should create wiki/pages/
     WikiIngestOptions opts;
-    opts.workspace_root = temp_dir_.string();
+    opts.workspace_root = test_dir_.string();
     opts.file_glob = "*.md";
     opts.recursive = false;
     
     // Create a test file to ingest
-    auto test_file = temp_dir_ / "test_document.md";
+    auto test_file = test_dir_ / "test_document.md";
     {
         std::ofstream ofs(test_file);
         ofs << "# Test Document\n\nThis is test content for workspace creation.\n";
     }
     
     // Verify wiki directory structure exists after creation
-    auto wiki_dir = temp_dir_ / "wiki";
+    auto wiki_dir = test_dir_ / "wiki";
     auto pages_dir = wiki_dir / "pages";
     
     // After ingest, pages directory should exist
@@ -422,14 +423,14 @@ TEST_F(WikiPluginPhase34Test, WorkspacePageListing_LWP10) {
     };
     
     for (const auto& title : page_titles) {
-        auto file_path = temp_dir_ / title;
+        auto file_path = test_dir_ / title;
         std::ofstream ofs(file_path);
         ofs << "# " << title << "\n\nContent for " << title << "\n";
     }
     
     // Verify files exist
     for (const auto& title : page_titles) {
-        auto file_path = temp_dir_ / title;
+        auto file_path = test_dir_ / title;
         EXPECT_TRUE(std::filesystem::exists(file_path));
     }
 }
@@ -440,7 +441,7 @@ TEST_F(WikiPluginPhase34Test, WorkspacePageListing_LWP10) {
  * Verify that workspace state persists across load/save cycles.
  */
 TEST_F(WikiPluginPhase34Test, WorkspaceStatePersistence_LWP11) {
-    auto wiki_dir = temp_dir_ / "wiki";
+    auto wiki_dir = test_dir_ / "wiki";
     std::filesystem::create_directories(wiki_dir);
     
     auto state_file = wiki_dir / "state.json";
@@ -450,7 +451,7 @@ TEST_F(WikiPluginPhase34Test, WorkspaceStatePersistence_LWP11) {
     
     // After ingest, state.json should be created
     // (implementation detail: depends on workspace_root support in ingest)
-    EXPECT_TRUE(temp_dir_.string().length() > 0);
+    EXPECT_TRUE(test_dir_.string().length() > 0);
 }
 
 /**
@@ -459,7 +460,7 @@ TEST_F(WikiPluginPhase34Test, WorkspaceStatePersistence_LWP11) {
  * Verify that state.log accumulates entries (append-only semantics).
  */
 TEST_F(WikiPluginPhase34Test, WorkspaceStateLogAppend_LWP12) {
-    auto wiki_dir = temp_dir_ / "wiki";
+    auto wiki_dir = test_dir_ / "wiki";
     std::filesystem::create_directories(wiki_dir);
     
     auto log_file = wiki_dir / "state.log";
@@ -494,7 +495,7 @@ TEST_F(WikiPluginPhase34Test, OrphanPageDetection_LWP13) {
         {"orphan.md", "# Orphan\nNo backlinks to this page"},
     };
     
-    auto wiki_dir = temp_dir_ / "wiki";
+    auto wiki_dir = test_dir_ / "wiki";
     auto pages_dir = wiki_dir / "pages";
     std::filesystem::create_directories(pages_dir);
     
@@ -515,7 +516,7 @@ TEST_F(WikiPluginPhase34Test, OrphanPageDetection_LWP13) {
  * Verify that missing backlinks are detected and reported.
  */
 TEST_F(WikiPluginPhase34Test, BacklinkValidation_LWP14) {
-    auto pages_dir = temp_dir_ / "wiki" / "pages";
+    auto pages_dir = test_dir_ / "wiki" / "pages";
     std::filesystem::create_directories(pages_dir);
     
     // Page A references non-existent Page D
@@ -534,7 +535,7 @@ TEST_F(WikiPluginPhase34Test, BacklinkValidation_LWP14) {
  * Verify that corrupted state.json is detected and reported.
  */
 TEST_F(WikiPluginPhase34Test, CorruptionDetection_LWP15) {
-    auto wiki_dir = temp_dir_ / "wiki";
+    auto wiki_dir = test_dir_ / "wiki";
     std::filesystem::create_directories(wiki_dir);
     
     auto state_file = wiki_dir / "state.json";
@@ -565,7 +566,7 @@ TEST_F(WikiPluginPhase34Test, CorruptionDetection_LWP15) {
  * state.json is corrupted.
  */
 TEST_F(WikiPluginPhase34Test, RecoveryFromLog_LWP16) {
-    auto wiki_dir = temp_dir_ / "wiki";
+    auto wiki_dir = test_dir_ / "wiki";
     std::filesystem::create_directories(wiki_dir);
     
     auto state_file = wiki_dir / "state.json";
