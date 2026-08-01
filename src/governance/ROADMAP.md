@@ -1,7 +1,7 @@
 # Governance Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-07-18 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
