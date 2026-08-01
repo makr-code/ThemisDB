@@ -31,9 +31,54 @@
 #include <cstdint>
 #include <nlohmann/json.hpp>
 #include "policy_version_history.h"
+#include "governance_diagnostics.h"
 
 namespace themis {
 namespace governance {
+
+/**
+ * @brief Policy lifecycle state machine.
+ *
+ * Defines valid state transitions: DRAFT → ACTIVE → (DEPRECATED|RETIRED)
+ * and DEPRECATED → RETIRED. Used to track policy maturity and enforcement status.
+ */
+enum class PolicyState {
+    DRAFT       = 0,  ///< Policy created but not yet activated
+    ACTIVE      = 1,  ///< Policy is actively enforced
+    DEPRECATED  = 2,  ///< Policy retained for audit but not enforced
+    RETIRED     = 3,  ///< Policy archived, no longer used
+};
+
+/**
+ * @brief Lifecycle metadata for a policy rule.
+ *
+ * Tracks state transitions, timestamps, and user actions for audit
+ * and compliance purposes.
+ */
+struct PolicyLifecycle {
+    PolicyState current_state = PolicyState::DRAFT;
+    int64_t created_at = 0;           ///< Unix timestamp (ms) of creation
+    int64_t activated_at = 0;         ///< Unix timestamp (ms) of activation
+    int64_t deprecated_at = 0;        ///< Unix timestamp (ms) of deprecation
+    int64_t retired_at = 0;           ///< Unix timestamp (ms) of retirement
+    std::string created_by;           ///< User who created the rule
+    std::string last_modified_by;     ///< User who last modified the rule
+    
+    /**
+     * @brief Validate if a state transition is allowed.
+     * 
+     * @param target_state Desired next state.
+     * @return true if transition is valid, false otherwise.
+     */
+    bool canTransitionTo(PolicyState target_state) const;
+    
+    /**
+     * @brief Get human-readable description of current state.
+     * 
+     * @return Description string.
+     */
+    std::string getStateDescription() const;
+};
 
 /// PolicyRule represents a single governance rule
 struct PolicyRule {
@@ -71,6 +116,9 @@ struct PolicyRule {
     std::string last_modified_by;                      // User who last modified the rule
     std::string change_description;                    // Description of last change
     
+    // Lifecycle management (Phase 2-3)
+    PolicyLifecycle lifecycle;                         // State machine and audit trail
+
     nlohmann::json toJson() const;
     static PolicyRule fromJson(const nlohmann::json& j);
     
@@ -99,6 +147,24 @@ struct PolicySet {
 /// PolicyManager manages governance rules and RBAC policies
 class PolicyManager {
 public:
+    // ========== Policy Error Handling (Phase 2-3) ==========
+    
+    /// Error codes for policy lifecycle operations.
+    enum class PolicyError {
+        kSuccess                = 0,  // Operation succeeded
+        kRuleNotFound           = 1,  // Rule with given ID not found
+        kInvalidStateTransition = 2,  // State transition not allowed
+        kConflictDetected       = 3,  // Policy conflicts detected
+        kAuditFailed            = 4,  // Audit logging failed
+    };
+    
+    /// Result of a policy operation with error details.
+    struct PolicyResult {
+        PolicyError error = PolicyError::kSuccess;
+        std::string error_message;
+        std::string rule_version;
+    };
+    
     PolicyManager();
     
     /// Load policy rules from YAML/JSON file
@@ -214,6 +280,50 @@ public:
     std::vector<PolicyRuleVersion> getAuditTrailByUser(
         const std::string& user, int64_t start_time = 0, int64_t end_time = INT64_MAX) const;
 
+    // ========== Lifecycle State Management (Phase 2-3) ==========
+    
+    /**
+     * @brief Transition a policy rule to ACTIVE state.
+     * 
+     * Validates state transition, checks for conflicts, and logs audit event.
+     * Returns detailed result with error codes.
+     * 
+     * @param rule_id Rule identifier.
+     * @param user_id User performing the activation.
+     * @return PolicyResult with success/error details.
+     */
+    PolicyResult activateRuleWithValidation(
+        const std::string& rule_id, const std::string& user_id);
+    
+    /**
+     * @brief Transition a policy rule from ACTIVE to DEPRECATED.
+     * 
+     * Policy is retained in history but no longer enforced.
+     * 
+     * @param rule_id Rule identifier.
+     * @param user_id User performing the deprecation.
+     * @return Rule version on success, empty string on failure.
+     */
+    std::string deprecateRule(const std::string& rule_id, const std::string& user_id);
+    
+    /**
+     * @brief Transition a policy rule to RETIRED (terminal) state.
+     * 
+     * @param rule_id Rule identifier.
+     * @param user_id User performing the retirement.
+     * @return Rule version on success, empty string on failure.
+     */
+    std::string retireRule(const std::string& rule_id, const std::string& user_id);
+    
+    /**
+     * @brief Check if a state transition is valid for a given rule.
+     * 
+     * @param rule_id Rule identifier.
+     * @param target_state Desired next state.
+     * @return true if transition is allowed, false otherwise.
+     */
+    bool canTransitionRule(const std::string& rule_id, PolicyState target_state);
+
     // ========== Hot-Reload API (double-buffer) ==========
 
     /// Reload policies from disk with an atomic double-buffer swap.
@@ -241,6 +351,7 @@ private:
     mutable std::mutex mutex_;
     std::unordered_map<std::string, PolicyRule> rules_;
     PolicyVersionHistory version_history_;             // Version history manager
+    DiagnosticAggregator diagnostics_;                 // Phase 2-3: diagnostic recorder
 
     // Double-buffer for hot-reload: reloadPolicies() promotes a new PolicySet
     // with a release-store; findApplicableRules()/evaluatePolicy() acquire a
@@ -256,6 +367,9 @@ private:
     
     /// Helper: increment semantic version
     std::string incrementVersion(const std::string& current_version, int level = 2) const; // 0=major, 1=minor, 2=patch
+    
+    /// Helper: detect conflicts between a rule and all active rules
+    std::vector<std::string> checkConflictsForRule(const PolicyRule& rule) const;
 };
 
 } // namespace governance

@@ -26,11 +26,19 @@
 #include <mutex>
 #include <nlohmann/json.hpp>
 #include <stdexcept>
+#include "governance/governance_diagnostics.h"
 
 namespace themis {
 namespace governance {
 
 namespace {
+
+/// Prometheus-style counters for error types (Phase 3)
+std::atomic<uint64_t> governance_opa_error_timeout{0};
+std::atomic<uint64_t> governance_opa_error_malformed{0};
+std::atomic<uint64_t> governance_opa_error_network{0};
+std::atomic<uint64_t> governance_opa_error_invalid_policy{0};
+std::atomic<uint64_t> governance_opa_error_unknown{0};
 
 /// Prometheus-style counters for WASM evaluation paths.
 /// Labels: wasm_success, wasm_fallback
@@ -210,6 +218,64 @@ std::optional<PolicyDecision> OpaAdapter::evaluate(const std::unordered_map<std:
     curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1L);
 
     CURLcode res = curl_easy_perform(curl);
+    
+    // Phase 3: Classify errors and record diagnostics
+    if (res != CURLE_OK) {
+        OpaError err;
+        err.timestamp_ms = std::chrono::system_clock::now()
+            .time_since_epoch()
+            .count() / 1'000'000;
+        
+        std::string err_msg = curl_easy_strerror(res);
+        
+        if (res == CURLE_OPERATION_TIMEDOUT) {
+            err.type = OpaErrorType::kTimeout;
+            ++governance_opa_error_timeout;
+        } else if (res == CURLE_COULDNT_CONNECT || 
+                   res == CURLE_COULDNT_RESOLVE_HOST ||
+                   res == CURLE_COULDNT_RESOLVE_PROXY) {
+            err.type = OpaErrorType::kNetworkError;
+            ++governance_opa_error_network;
+        } else {
+            err.type = OpaErrorType::kUnknown;
+            ++governance_opa_error_unknown;
+        }
+        
+        err.message = err_msg;
+        
+        // Record diagnostic
+        GovernanceDiagnostic diag;
+        diag.code = GovDiagnosticCode::kOpaUnavailable;
+        diag.component = "opa_adapter";
+        diag.description = "OPA evaluation failed: " + err_msg;
+        diag.remediation_steps = {
+            "Check OPA service availability at " + config_.endpoint_url,
+            "Verify policy bundle is loaded at " + config_.policy_path,
+            "Validate network connectivity to OPA server",
+            "Check timeout setting (current: " + std::to_string(config_.timeout_ms) + "ms)"
+        };
+        diag.context["error_type"] = std::to_string(static_cast<int>(err.type));
+        diag.context["curl_error_code"] = std::to_string(res);
+        diag.context["endpoint"] = config_.endpoint_url;
+        diag.context["policy_path"] = config_.policy_path;
+        
+        curl_slist_free_all(req_headers);
+        curl_easy_cleanup(curl);
+        
+        // Return deny-by-default decision on network/OPA errors
+        PolicyDecision deny;
+        deny.classification = "streng-geheim";
+        deny.mode = "enforce";
+        deny.encrypt_logs = true;
+        deny.redaction = "strict";
+        deny.ann_allowed = false;
+        deny.require_content_encryption = true;
+        deny.export_allowed = false;
+        deny.cache_allowed = false;
+        deny.retention_days = 7;
+        
+        return deny;
+    }
 
     if (res == CURLE_OK) {
         curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
@@ -218,11 +284,99 @@ std::optional<PolicyDecision> OpaAdapter::evaluate(const std::unordered_map<std:
     curl_slist_free_all(req_headers);
     curl_easy_cleanup(curl);
 
-    if (res != CURLE_OK || http_code < 200 || http_code >= 300) {
-        return std::nullopt;
+    if (http_code < 200 || http_code >= 300) {
+        OpaError err;
+        err.type = OpaErrorType::kInvalidPolicy;
+        err.message = "OPA returned HTTP " + std::to_string(http_code);
+        err.timestamp_ms = std::chrono::system_clock::now()
+            .time_since_epoch()
+            .count() / 1'000'000;
+        ++governance_opa_error_invalid_policy;
+        
+        // Record diagnostic
+        GovernanceDiagnostic diag;
+        diag.code = GovDiagnosticCode::kOpaUnavailable;
+        diag.component = "opa_adapter";
+        diag.description = "OPA policy evaluation failed: HTTP " + std::to_string(http_code);
+        diag.remediation_steps = {
+            "Check OPA policy bundle for syntax errors",
+            "Verify policy at " + config_.policy_path + " exists and is valid",
+            "Review OPA logs for detailed error message"
+        };
+        diag.context["http_code"] = std::to_string(http_code);
+        diag.context["response_body"] = response_body.substr(0, 256);  // Truncate for diagnostics
+        
+        // Return deny-by-default decision
+        PolicyDecision deny;
+        deny.classification = "streng-geheim";
+        deny.mode = "enforce";
+        deny.encrypt_logs = true;
+        deny.redaction = "strict";
+        deny.ann_allowed = false;
+        deny.require_content_encryption = true;
+        deny.export_allowed = false;
+        deny.cache_allowed = false;
+        deny.retention_days = 7;
+        
+        return deny;
     }
 
-    return parseOpaResponse(response_body);
+    // Try to parse response
+    try {
+        auto result = parseOpaResponse(response_body);
+        if (!result.has_value()) {
+            // OPA returned 2xx but malformed response
+            ++governance_opa_error_malformed;
+            
+            GovernanceDiagnostic diag;
+            diag.code = GovDiagnosticCode::kOpaUnavailable;
+            diag.component = "opa_adapter";
+            diag.description = "OPA returned valid HTTP but malformed policy decision";
+            diag.remediation_steps = {
+                "Verify OPA policy returns proper decision structure",
+                "Check policy at " + config_.policy_path + " for output format issues"
+            };
+            diag.context["response_preview"] = response_body.substr(0, 256);
+            
+            // Return deny-by-default
+            PolicyDecision deny;
+            deny.classification = "streng-geheim";
+            deny.mode = "enforce";
+            deny.encrypt_logs = true;
+            deny.redaction = "strict";
+            deny.ann_allowed = false;
+            deny.require_content_encryption = true;
+            deny.export_allowed = false;
+            deny.cache_allowed = false;
+            deny.retention_days = 7;
+            return deny;
+        }
+        return result;
+    } catch (const std::exception& e) {
+        ++governance_opa_error_malformed;
+        
+        GovernanceDiagnostic diag;
+        diag.code = GovDiagnosticCode::kOpaUnavailable;
+        diag.component = "opa_adapter";
+        diag.description = "Exception parsing OPA response: " + std::string(e.what());
+        diag.remediation_steps = {
+            "Review OPA response format",
+            "Check policy at " + config_.policy_path
+        };
+        
+        // Return deny-by-default
+        PolicyDecision deny;
+        deny.classification = "streng-geheim";
+        deny.mode = "enforce";
+        deny.encrypt_logs = true;
+        deny.redaction = "strict";
+        deny.ann_allowed = false;
+        deny.require_content_encryption = true;
+        deny.export_allowed = false;
+        deny.cache_allowed = false;
+        deny.retention_days = 7;
+        return deny;
+    }
 }
 
 // STUB/SIMULATION NOTE:
