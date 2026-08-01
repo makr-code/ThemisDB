@@ -22,7 +22,7 @@
  * @version 1.0.0 (Phase 3 hardening)
  */
 
-#include "workspace_state_manager.h"
+#include "llm_wiki/workspace_state_manager.h"
 
 #include <spdlog/spdlog.h>
 #include <nlohmann/json.hpp>
@@ -31,6 +31,7 @@
 #include <sstream>
 #include <iomanip>
 #include <cstring>
+#include <filesystem>
 
 namespace themis {
 namespace llm_wiki {
