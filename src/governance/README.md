@@ -1,6 +1,7 @@
 # ThemisDB Governance Module
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-07-18 -->
+<!-- Validation Cycle: 2026-07-18 synchronization complete (Issue #5647) -->
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Module Purpose

@@ -24,6 +24,7 @@
 #include <chrono>
 #include <fstream>
 #include <functional>
+#include <numeric>
 #include <shared_mutex>
 #include <yaml-cpp/yaml.h>
 
@@ -33,6 +34,43 @@
 
 namespace themis {
 namespace governance {
+
+// ========== PolicyLifecycle Implementation ==========
+
+bool PolicyLifecycle::canTransitionTo(PolicyState target_state) const {
+    // Valid transitions:
+    // DRAFT -> ACTIVE
+    // ACTIVE -> DEPRECATED or RETIRED
+    // DEPRECATED -> RETIRED
+    // Others invalid (no RETIRED -> X, no backwards)
+    
+    if (current_state == PolicyState::DRAFT) {
+        return target_state == PolicyState::ACTIVE;
+    }
+    if (current_state == PolicyState::ACTIVE) {
+        return target_state == PolicyState::DEPRECATED || 
+               target_state == PolicyState::RETIRED;
+    }
+    if (current_state == PolicyState::DEPRECATED) {
+        return target_state == PolicyState::RETIRED;
+    }
+    return false;  // RETIRED is terminal
+}
+
+std::string PolicyLifecycle::getStateDescription() const {
+    switch(current_state) {
+        case PolicyState::DRAFT:
+            return "state=DRAFT: policy drafted, not yet activated";
+        case PolicyState::ACTIVE:
+            return "state=ACTIVE: policy actively enforced";
+        case PolicyState::DEPRECATED:
+            return "state=DEPRECATED: deprecated policy retained for audit only";
+        case PolicyState::RETIRED:
+            return "state=RETIRED: policy archived";
+        default:
+            return "state=UNKNOWN: unknown policy state";
+    }
+}
 
 // ========== PolicyRule Implementation ==========
 
@@ -828,6 +866,188 @@ std::string PolicyManager::activePolicyVersion() const {
         return {};
     }
     return active_policy_set_->version_hash;
+}
+
+// ========== Phase 2-3: Lifecycle State Management ==========
+
+bool PolicyManager::canTransitionRule(const std::string& rule_id, PolicyState target_state) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    auto rule_it = rules_.find(rule_id);
+    if (rule_it == rules_.end()) {
+        return false;
+    }
+    
+    return rule_it->second.lifecycle.canTransitionTo(target_state);
+}
+
+PolicyManager::PolicyResult PolicyManager::activateRuleWithValidation(
+    const std::string& rule_id,
+    const std::string& user_id) {
+    PolicyResult result;
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    auto rule_it = rules_.find(rule_id);
+    if (rule_it == rules_.end()) {
+        result.error = PolicyError::kRuleNotFound;
+        result.error_message = "Rule not found: " + rule_id;
+        return result;
+    }
+    
+    // Validate transition
+    if (!rule_it->second.lifecycle.canTransitionTo(PolicyState::ACTIVE)) {
+        result.error = PolicyError::kInvalidStateTransition;
+        result.error_message = "Cannot transition from " + 
+            rule_it->second.lifecycle.getStateDescription() + 
+            " to ACTIVE";
+        
+        GovernanceDiagnostic diag;
+        diag.code = GovDiagnosticCode::kStateTransitionInvalid;
+        diag.component = "policy_manager";
+        diag.description = "Invalid state transition for rule: " + rule_id;
+        diag.remediation_steps = {"Check rule's current state", "Verify transition is allowed"};
+        diagnostics_.recordDiagnostic(diag);
+        
+        return result;
+    }
+    
+    // Check for conflicts with active rules
+    auto conflicts = checkConflictsForRule(rule_it->second);
+    if (!conflicts.empty()) {
+        result.error = PolicyError::kConflictDetected;
+        result.error_message = std::to_string(conflicts.size()) + 
+            " conflicts detected with rules: " + 
+            std::accumulate(conflicts.begin(), conflicts.end(), std::string(),
+                [](const std::string& a, const std::string& b) {
+                    return a.empty() ? b : a + ", " + b;
+                });
+        
+        GovernanceDiagnostic diag;
+        diag.code = GovDiagnosticCode::kConflictDetected;
+        diag.component = "policy_manager";
+        diag.description = "Cannot activate rule " + rule_id + 
+            ": conflicts with " + std::to_string(conflicts.size()) + " active rules";
+        diag.remediation_steps = {
+            "Review conflicting rules: " + diag.description,
+            "Resolve conflicts before activation",
+            "Consider deprecating conflicting rules"
+        };
+        diagnostics_.recordDiagnostic(diag);
+        
+        return result;
+    }
+    
+    // Update lifecycle
+    rule_it->second.lifecycle.current_state = PolicyState::ACTIVE;
+    rule_it->second.lifecycle.activated_at = 
+        std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch())
+            .count();
+    rule_it->second.lifecycle.last_modified_by = user_id;
+    
+    // Log audit event
+    version_history_.addVersion(rule_it->second, user_id, 
+                                 "Policy rule activated");
+    
+    result.error = PolicyError::kSuccess;
+    result.rule_version = rule_it->second.version;
+    return result;
+}
+
+std::string PolicyManager::deprecateRule(
+    const std::string& rule_id,
+    const std::string& user_id) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    auto rule_it = rules_.find(rule_id);
+    if (rule_it == rules_.end()) {
+        return "";
+    }
+    
+    if (!rule_it->second.lifecycle.canTransitionTo(PolicyState::DEPRECATED)) {
+        return "";
+    }
+    
+    rule_it->second.lifecycle.current_state = PolicyState::DEPRECATED;
+    rule_it->second.lifecycle.deprecated_at = 
+        std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch())
+            .count();
+    rule_it->second.lifecycle.last_modified_by = user_id;
+    
+    version_history_.addVersion(rule_it->second, user_id, 
+                                 "Policy rule deprecated");
+    
+    return rule_it->second.version;
+}
+
+std::string PolicyManager::retireRule(
+    const std::string& rule_id,
+    const std::string& user_id) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    auto rule_it = rules_.find(rule_id);
+    if (rule_it == rules_.end()) {
+        return "";
+    }
+    
+    if (!rule_it->second.lifecycle.canTransitionTo(PolicyState::RETIRED)) {
+        return "";
+    }
+    
+    rule_it->second.lifecycle.current_state = PolicyState::RETIRED;
+    rule_it->second.lifecycle.retired_at = 
+        std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch())
+            .count();
+    rule_it->second.lifecycle.last_modified_by = user_id;
+    
+    version_history_.addVersion(rule_it->second, user_id, 
+                                 "Policy rule retired");
+    
+    return rule_it->second.version;
+}
+
+std::vector<std::string> PolicyManager::checkConflictsForRule(const PolicyRule& rule) const {
+    std::vector<std::string> conflicts;
+    
+    for (const auto& [id, existing_rule] : rules_) {
+        if (id == rule.id) continue;
+        if (existing_rule.lifecycle.current_state != PolicyState::ACTIVE) continue;
+        
+        // Check for resource/action overlap
+        bool has_resource_overlap = false;
+        for (const auto& res : rule.resources) {
+            for (const auto& existing_res : existing_rule.resources) {
+                if (matchPattern(res, existing_res) || matchPattern(existing_res, res)) {
+                    has_resource_overlap = true;
+                    break;
+                }
+            }
+            if (has_resource_overlap) break;
+        }
+        
+        if (!has_resource_overlap) continue;
+        
+        bool has_action_overlap = false;
+        for (const auto& act : rule.actions) {
+            for (const auto& existing_act : existing_rule.actions) {
+                if (act == "*" || existing_act == "*" || act == existing_act) {
+                    has_action_overlap = true;
+                    break;
+                }
+            }
+            if (has_action_overlap) break;
+        }
+        
+        // Only flag as conflict if effects are contradictory
+        if (has_resource_overlap && has_action_overlap &&
+            rule.allow_export != existing_rule.allow_export) {
+            conflicts.push_back(id);
+        }
+    }
+    
+    return conflicts;
 }
 
 } // namespace governance

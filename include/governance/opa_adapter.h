@@ -25,9 +25,33 @@
 #include <string>
 #include <unordered_map>
 #include <functional>
+#include <cstdint>
 
 namespace themis {
 namespace governance {
+
+/**
+ * @brief Error classification for OPA adapter failures (Phase 3).
+ *
+ * Used to categorize different types of errors encountered during
+ * OPA policy evaluation for proper fallback handling.
+ */
+enum class OpaErrorType {
+    kTimeout         = 0,  // Request exceeded timeout
+    kMalformedResponse = 1,  // Response could not be parsed
+    kNetworkError    = 2,  // Connection/network failure
+    kInvalidPolicy   = 3,  // OPA policy error
+    kUnknown         = 4,  // Other error
+};
+
+/**
+ * @brief Error information from OPA evaluation failure.
+ */
+struct OpaError {
+    OpaErrorType type = OpaErrorType::kUnknown;
+    std::string message;
+    int64_t timestamp_ms = 0;
+};
 
 /**
  * @brief Adapter that evaluates governance policy decisions via an OPA sidecar.
