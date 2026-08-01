@@ -25,6 +25,12 @@
 #include <cstring>
 #include <limits>
 #include <unordered_map>
+#include <chrono>
+
+// Phase 1 GPU Infrastructure: Error handling, RAII memory, timeout enforcement
+#include "themis/gpu/gpu_error.h"
+#include "themis/gpu/gpu_memory.h"
+#include "themis/gpu/gpu_timeout.h"
 
 #ifdef THEMIS_ENABLE_CUDA
 #include <cuda_runtime.h>
@@ -774,23 +780,38 @@ GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std:
                 const int n = static_cast<int>(a.size());
 
                 if (config_.precision_mode == PrecisionMode::FP32) {
-                    // --- FP32: cublasSdot ---
-                    // CudaDeviceBuffer RAII — freed on scope exit; exception-safe.
-                    themis::acceleration::raii::CudaDeviceBuffer<float> d_a, d_b;
-                    const bool alloc_ok = d_a.tryAllocate(n) && d_b.tryAllocate(n);
-                    if (alloc_ok
-                        && cudaMemcpy(d_a.get(), a.data(), n * sizeof(float), cudaMemcpyHostToDevice) == cudaSuccess
-                        && cudaMemcpy(d_b.get(), b.data(), n * sizeof(float), cudaMemcpyHostToDevice) == cudaSuccess) {
+                    // --- FP32: cublasSdot with RAII GPU memory ---
+                    // Use unique_gpu_ptr for automatic cleanup on scope exit
+                    // CHECKED_CUDA wraps all CUDA calls for error handling
+                    try {
+                        auto d_a = themis::gpu::make_unique_gpu<float>(n);
+                        auto d_b = themis::gpu::make_unique_gpu<float>(n);
+                        
+                        // Copy vectors to device with error checking
+                        CHECKED_CUDA(cudaMemcpy(d_a.get(), a.data(), n * sizeof(float), cudaMemcpyHostToDevice));
+                        CHECKED_CUDA(cudaMemcpy(d_b.get(), b.data(), n * sizeof(float), cudaMemcpyHostToDevice));
+                        
+                        // Enforce SLA: kernel must complete within 5 seconds
+                        KernelSLAGuard kernel_guard(std::chrono::seconds(5));
+                        
                         float dot_result = 0.0f;
                         if (cublasSdot(blas.get(), n, d_a.get(), 1, d_b.get(), 1, &dot_result)
                             == CUBLAS_STATUS_SUCCESS) {
-                            result.value = static_cast<double>(dot_result);
-                            gpu_done     = true;
+                            // Check SLA deadline
+                            if (!kernel_guard.checkTimeoutDeadline()) {
+                                result.value = static_cast<double>(dot_result);
+                                gpu_done     = true;
+                            }
                         }
+                        // d_a, d_b automatically freed on scope exit via unique_gpu_ptr destructor
+                    } catch (const std::exception&) {
+                        // Allocation failure or CUDA error → fall through to CPU
+                        gpu_done = false;
                     }
+                }
 
                 } else if (config_.precision_mode == PrecisionMode::FP16) {
-                    // --- FP16: quantise on host, cublasGemmEx (1×n × n×1) ---
+                    // --- FP16: quantise on host, cublasGemmEx (1×n × n×1) with RAII ---
                     // Use CUDA_R_16F inputs with CUDA_R_32F output + FP32 compute
                     // to avoid overflow/saturation that a __half output would cause.
                     std::vector<__half> ha(n), hb(n);
@@ -798,16 +819,19 @@ GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std:
                         ha[i] = __float2half(a[i]);
                         hb[i] = __float2half(b[i]);
                     }
-                    // CudaDeviceBuffer RAII — freed on scope exit; exception-safe.
-                    themis::acceleration::raii::CudaDeviceBuffer<__half> d_a, d_b;
-                    themis::acceleration::raii::CudaDeviceBuffer<float>  d_c; // FP32 output
-                    const bool alloc_ok = d_a.tryAllocate(n) && d_b.tryAllocate(n)
-                                          && d_c.tryAllocate(1);
-                    if (alloc_ok
-                        && cudaMemcpy(d_a.get(), ha.data(), n * sizeof(__half), cudaMemcpyHostToDevice)
-                               == cudaSuccess
-                        && cudaMemcpy(d_b.get(), hb.data(), n * sizeof(__half), cudaMemcpyHostToDevice)
-                               == cudaSuccess) {
+                    try {
+                        // Allocate GPU memory with unique_gpu_ptr
+                        auto d_a = themis::gpu::make_unique_gpu<__half>(n);
+                        auto d_b = themis::gpu::make_unique_gpu<__half>(n);
+                        auto d_c = themis::gpu::make_unique_gpu<float>(1);
+                        
+                        // Copy quantized vectors to device with error checking
+                        CHECKED_CUDA(cudaMemcpy(d_a.get(), ha.data(), n * sizeof(__half), cudaMemcpyHostToDevice));
+                        CHECKED_CUDA(cudaMemcpy(d_b.get(), hb.data(), n * sizeof(__half), cudaMemcpyHostToDevice));
+                        
+                        // Enforce SLA: kernel must complete within 5 seconds
+                        KernelSLAGuard kernel_guard(std::chrono::seconds(5));
+                        
                         const float alpha = 1.0f, beta = 0.0f;
                         // Compute C (1×1) = A (1×n) * B (n×1) with FP32 accumulation
                         if (cublasGemmEx(blas.get(), CUBLAS_OP_N, CUBLAS_OP_N, 1, 1, n, &alpha,
@@ -818,12 +842,17 @@ GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std:
                                          CUBLAS_GEMM_DEFAULT)
                             == CUBLAS_STATUS_SUCCESS) {
                             float c_host = 0.0f;
-                            if (cudaMemcpy(&c_host, d_c.get(), sizeof(float), cudaMemcpyDeviceToHost)
-                                == cudaSuccess) {
+                            CHECKED_CUDA(cudaMemcpy(&c_host, d_c.get(), sizeof(float), cudaMemcpyDeviceToHost));
+                            // Check SLA deadline
+                            if (!kernel_guard.checkTimeoutDeadline()) {
                                 result.value = static_cast<double>(c_host);
                                 gpu_done     = true;
                             }
                         }
+                        // d_a, d_b, d_c automatically freed on scope exit via unique_gpu_ptr destructor
+                    } catch (const std::exception&) {
+                        // Allocation failure or CUDA error → fall through to CPU
+                        gpu_done = false;
                     }
 
                 } else {
@@ -833,18 +862,19 @@ GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std:
                         ba[i] = __float2bfloat16(a[i]);
                         bb[i] = __float2bfloat16(b[i]);
                     }
-                    // CudaDeviceBuffer RAII — freed on scope exit; exception-safe.
-                    themis::acceleration::raii::CudaDeviceBuffer<__nv_bfloat16> d_a, d_b;
-                    themis::acceleration::raii::CudaDeviceBuffer<float>         d_c; // accumulate FP32
-                    const bool alloc_ok = d_a.tryAllocate(n) && d_b.tryAllocate(n)
-                                          && d_c.tryAllocate(1);
-                    if (alloc_ok
-                        && cudaMemcpy(d_a.get(), ba.data(), n * sizeof(__nv_bfloat16),
-                                      cudaMemcpyHostToDevice)
-                               == cudaSuccess
-                        && cudaMemcpy(d_b.get(), bb.data(), n * sizeof(__nv_bfloat16),
-                                      cudaMemcpyHostToDevice)
-                               == cudaSuccess) {
+                    try {
+                        // Allocate GPU memory with unique_gpu_ptr
+                        auto d_a = themis::gpu::make_unique_gpu<__nv_bfloat16>(n);
+                        auto d_b = themis::gpu::make_unique_gpu<__nv_bfloat16>(n);
+                        auto d_c = themis::gpu::make_unique_gpu<float>(1);
+                        
+                        // Copy quantized vectors to device with error checking
+                        CHECKED_CUDA(cudaMemcpy(d_a.get(), ba.data(), n * sizeof(__nv_bfloat16), cudaMemcpyHostToDevice));
+                        CHECKED_CUDA(cudaMemcpy(d_b.get(), bb.data(), n * sizeof(__nv_bfloat16), cudaMemcpyHostToDevice));
+                        
+                        // Enforce SLA: kernel must complete within 5 seconds
+                        KernelSLAGuard kernel_guard(std::chrono::seconds(5));
+                        
                         const float alpha_f = 1.0f, beta_f = 0.0f;
                         if (cublasGemmEx(blas.get(), CUBLAS_OP_N, CUBLAS_OP_N, 1, 1, n, &alpha_f,
                                          d_b.get(), CUDA_R_16BF, 1, d_a.get(), CUDA_R_16BF, n,
@@ -852,12 +882,17 @@ GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std:
                                          CUBLAS_GEMM_DEFAULT)
                             == CUBLAS_STATUS_SUCCESS) {
                             float h_c = 0.0f;
-                            if (cudaMemcpy(&h_c, d_c.get(), sizeof(float), cudaMemcpyDeviceToHost)
-                                == cudaSuccess) {
+                            CHECKED_CUDA(cudaMemcpy(&h_c, d_c.get(), sizeof(float), cudaMemcpyDeviceToHost));
+                            // Check SLA deadline
+                            if (!kernel_guard.checkTimeoutDeadline()) {
                                 result.value = static_cast<double>(h_c);
                                 gpu_done     = true;
                             }
                         }
+                        // d_a, d_b, d_c automatically freed on scope exit via unique_gpu_ptr destructor
+                    } catch (const std::exception&) {
+                        // Allocation failure or CUDA error → fall through to CPU
+                        gpu_done = false;
                     }
                 }
             }
