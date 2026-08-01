@@ -929,25 +929,37 @@ GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std:
                 const int n = static_cast<int>(a.size());
 
                 if (config_.precision_mode == PrecisionMode::FP32) {
-                    // --- FP32: hipblasSdot ---
-                    // HipDeviceBuffer RAII — freed on scope exit; exception-safe.
-                    themis::acceleration::raii::HipDeviceBuffer<float> d_a, d_b;
-                    const bool alloc_ok = d_a.tryAllocate(n) && d_b.tryAllocate(n);
-                    if (alloc_ok
-                        && hipMemcpy(d_a.get(), a.data(), n * sizeof(float), hipMemcpyHostToDevice)
-                               == hipSuccess
-                        && hipMemcpy(d_b.get(), b.data(), n * sizeof(float), hipMemcpyHostToDevice)
-                               == hipSuccess) {
+                    // --- FP32: hipblasSdot with RAII GPU memory ---
+                    // Use unique_gpu_ptr for automatic cleanup on scope exit
+                    // CHECKED_HIP wraps all HIP calls for error handling
+                    try {
+                        auto d_a = themis::gpu::make_unique_gpu<float>(n);
+                        auto d_b = themis::gpu::make_unique_gpu<float>(n);
+                        
+                        // Copy vectors to device with error checking
+                        CHECKED_HIP(hipMemcpy(d_a.get(), a.data(), n * sizeof(float), hipMemcpyHostToDevice));
+                        CHECKED_HIP(hipMemcpy(d_b.get(), b.data(), n * sizeof(float), hipMemcpyHostToDevice));
+                        
+                        // Enforce SLA: kernel must complete within 5 seconds
+                        KernelSLAGuard kernel_guard(std::chrono::seconds(5));
+                        
                         float dot_result = 0.0f;
                         if (hipblasSdot(blas.get(), n, d_a.get(), 1, d_b.get(), 1, &dot_result)
                             == HIPBLAS_STATUS_SUCCESS) {
-                            result.value = static_cast<double>(dot_result);
-                            gpu_done     = true;
+                            // Check SLA deadline
+                            if (!kernel_guard.checkTimeoutDeadline()) {
+                                result.value = static_cast<double>(dot_result);
+                                gpu_done     = true;
+                            }
                         }
+                        // d_a, d_b automatically freed on scope exit via unique_gpu_ptr destructor
+                    } catch (const std::exception&) {
+                        // Allocation failure or HIP error → fall through to CPU
+                        gpu_done = false;
                     }
 
                 } else if (config_.precision_mode == PrecisionMode::FP16) {
-                    // --- FP16: quantise on host, hipblasGemmEx (1×n × n×1) ---
+                    // --- FP16: quantise on host, hipblasGemmEx (1×n × n×1) with RAII ---
                     // Use HIPBLAS_R_16F inputs + HIPBLAS_R_32F output to avoid
                     // overflow/saturation from a hipblasHalf output.
                     std::vector<hipblasHalf> ha(n), hb(n);
@@ -955,18 +967,19 @@ GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std:
                         ha[i] = __float2half(a[i]);
                         hb[i] = __float2half(b[i]);
                     }
-                    // HipDeviceBuffer RAII — freed on scope exit; exception-safe.
-                    themis::acceleration::raii::HipDeviceBuffer<hipblasHalf> d_a, d_b;
-                    themis::acceleration::raii::HipDeviceBuffer<float>       d_c; // FP32 output
-                    const bool alloc_ok = d_a.tryAllocate(n) && d_b.tryAllocate(n)
-                                          && d_c.tryAllocate(1);
-                    if (alloc_ok
-                        && hipMemcpy(d_a.get(), ha.data(), n * sizeof(hipblasHalf),
-                                     hipMemcpyHostToDevice)
-                               == hipSuccess
-                        && hipMemcpy(d_b.get(), hb.data(), n * sizeof(hipblasHalf),
-                                     hipMemcpyHostToDevice)
-                               == hipSuccess) {
+                    try {
+                        // Allocate GPU memory with unique_gpu_ptr
+                        auto d_a = themis::gpu::make_unique_gpu<hipblasHalf>(n);
+                        auto d_b = themis::gpu::make_unique_gpu<hipblasHalf>(n);
+                        auto d_c = themis::gpu::make_unique_gpu<float>(1);
+                        
+                        // Copy quantized vectors to device with error checking
+                        CHECKED_HIP(hipMemcpy(d_a.get(), ha.data(), n * sizeof(hipblasHalf), hipMemcpyHostToDevice));
+                        CHECKED_HIP(hipMemcpy(d_b.get(), hb.data(), n * sizeof(hipblasHalf), hipMemcpyHostToDevice));
+                        
+                        // Enforce SLA: kernel must complete within 5 seconds
+                        KernelSLAGuard kernel_guard(std::chrono::seconds(5));
+                        
                         const float alpha = 1.0f, beta = 0.0f;
                         if (hipblasGemmEx(blas.get(), HIPBLAS_OP_N, HIPBLAS_OP_N, 1, 1, n, &alpha,
                                           d_b.get(), HIPBLAS_R_16F, 1, d_a.get(), HIPBLAS_R_16F, n,
@@ -974,12 +987,17 @@ GPUQueryAccelerator::DotProductResult GPUQueryAccelerator::dotProduct(const std:
                                           HIPBLAS_GEMM_DEFAULT)
                             == HIPBLAS_STATUS_SUCCESS) {
                             float c_host = 0.0f;
-                            if (hipMemcpy(&c_host, d_c.get(), sizeof(float), hipMemcpyDeviceToHost)
-                                == hipSuccess) {
+                            CHECKED_HIP(hipMemcpy(&c_host, d_c.get(), sizeof(float), hipMemcpyDeviceToHost));
+                            // Check SLA deadline
+                            if (!kernel_guard.checkTimeoutDeadline()) {
                                 result.value = static_cast<double>(c_host);
                                 gpu_done     = true;
                             }
                         }
+                        // d_a, d_b, d_c automatically freed on scope exit via unique_gpu_ptr destructor
+                    } catch (const std::exception&) {
+                        // Allocation failure or HIP error → fall through to CPU
+                        gpu_done = false;
                     }
 
                 } else {
@@ -1098,43 +1116,61 @@ GPUQueryAccelerator::AnnResult GPUQueryAccelerator::annSearch(const std::vector<
 #ifdef THEMIS_ENABLE_CUVS
         try {
             raft::device_resources handle;
-
+ 
             // 1. Copy database to device
             auto db_dev = raft::make_device_matrix<float>(handle, numVectors, dim);
+            CHECKED_CUDA(cudaMemcpy(db_dev.data_handle(), database.data(), numVectors * dim * sizeof(float),
+                                    cudaMemcpyHostToDevice));
             raft::copy(db_dev.data_handle(), database.data(), numVectors * dim, handle.get_stream());
-
-            // 2. Build IVF-Flat index
+ 
+            // 2. Build IVF-Flat index with SLA enforcement
+            KernelSLAGuard build_guard(std::chrono::seconds(5));
             cuvs::neighbors::ivf_flat::index_params idx_params;
             idx_params.metric
                 = useL2 ? cuvs::distance::DistanceType::L2Unexpanded : cuvs::distance::DistanceType::InnerProduct;
             auto index = cuvs::neighbors::ivf_flat::build(handle, idx_params, db_dev.view());
-
-            // 3. Copy queries to device and run search
-            auto q_dev = raft::make_device_matrix<float>(handle, numQueries, dim);
-            raft::copy(q_dev.data_handle(), queries.data(), numQueries * dim, handle.get_stream());
-            auto neighbors_dev = raft::make_device_matrix<uint32_t>(handle, numQueries, k);
-            auto distances_dev = raft::make_device_matrix<float>(handle, numQueries, k);
-            cuvs::neighbors::ivf_flat::search_params search_params;
-            cuvs::neighbors::ivf_flat::search(handle, search_params, index, q_dev.view(), neighbors_dev.view(),
-                                              distances_dev.view());
-
-            // 4. Copy results back to host and populate AnnResult
-            std::vector<uint32_t> neighbor_idx(numQueries * k);
-            std::vector<float> host_distances(numQueries * k);
-            raft::copy(neighbor_idx.data(), neighbors_dev.data_handle(), numQueries * k, handle.get_stream());
-            raft::copy(host_distances.data(), distances_dev.data_handle(), numQueries * k, handle.get_stream());
-            handle.sync_stream();
-
-            result.results.resize(numQueries);
-            for (size_t qi = 0; qi < numQueries; ++qi) {
-                result.results[qi].resize(k);
-                for (size_t ni = 0; ni < k; ++ni) {
-                    result.results[qi][ni].index    = neighbor_idx[qi * k + ni];
-                    result.results[qi][ni].distance = host_distances[qi * k + ni];
+             
+            if (build_guard.checkTimeoutDeadline()) {
+                // Timeout during index build; fall through to CPU path
+                gpu_done = false;
+            } else {
+                // 3. Copy queries to device and run search
+                auto q_dev = raft::make_device_matrix<float>(handle, numQueries, dim);
+                CHECKED_CUDA(cudaMemcpy(q_dev.data_handle(), queries.data(), numQueries * dim * sizeof(float),
+                                        cudaMemcpyHostToDevice));
+                raft::copy(q_dev.data_handle(), queries.data(), numQueries * dim, handle.get_stream());
+                auto neighbors_dev = raft::make_device_matrix<uint32_t>(handle, numQueries, k);
+                auto distances_dev = raft::make_device_matrix<float>(handle, numQueries, k);
+                 
+                KernelSLAGuard search_guard(std::chrono::seconds(5));
+                cuvs::neighbors::ivf_flat::search_params search_params;
+                cuvs::neighbors::ivf_flat::search(handle, search_params, index, q_dev.view(), neighbors_dev.view(),
+                                                  distances_dev.view());
+                 
+                if (!search_guard.checkTimeoutDeadline()) {
+                    // 4. Copy results back to host and populate AnnResult
+                    std::vector<uint32_t> neighbor_idx(numQueries * k);
+                    std::vector<float> host_distances(numQueries * k);
+                    CHECKED_CUDA(cudaMemcpy(neighbor_idx.data(), neighbors_dev.data_handle(), 
+                                            numQueries * k * sizeof(uint32_t), cudaMemcpyDeviceToHost));
+                    CHECKED_CUDA(cudaMemcpy(host_distances.data(), distances_dev.data_handle(), 
+                                            numQueries * k * sizeof(float), cudaMemcpyDeviceToHost));
+                    raft::copy(neighbor_idx.data(), neighbors_dev.data_handle(), numQueries * k, handle.get_stream());
+                    raft::copy(host_distances.data(), distances_dev.data_handle(), numQueries * k, handle.get_stream());
+                    handle.sync_stream();
+ 
+                    result.results.resize(numQueries);
+                    for (size_t qi = 0; qi < numQueries; ++qi) {
+                        result.results[qi].resize(k);
+                        for (size_t ni = 0; ni < k; ++ni) {
+                            result.results[qi][ni].index    = neighbor_idx[qi * k + ni];
+                            result.results[qi][ni].distance = host_distances[qi * k + ni];
+                        }
+                    }
+                    gpu_done = true;
                 }
             }
-            gpu_done = true;
-        } catch (...) {
+        } catch (const std::exception& e) {
             // cudaMalloc failure or cuVS error — fall through to CPU path.
             gpu_done = false;
         }
