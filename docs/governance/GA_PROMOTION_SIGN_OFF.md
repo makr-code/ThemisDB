@@ -3,8 +3,8 @@
 **Document Type:** GA Gate Closure — Final Governance and Promotion Sign-Off  
 **Scope:** v2.4.0-rc1 → v2.4.0 GA — Batch D (Final)  
 **Date Opened:** 2026-07-20  
-**Last Updated:** 2026-07-28  
-**Status:** 🟡 PENDING HUMAN SIGN-OFF — evidence set consolidated, but current-head re-verification + remaining roadmap open items still required before promotion
+**Last Updated:** 2026-08-01  
+**Status:** 🟡 PENDING HUMAN SIGN-OFF — Batch A & B evidence completion (2026-08-01), current-head re-verification + remaining roadmap open items still required before promotion
 **Owner:** platform-release@themisdb  
 
 ---
@@ -39,7 +39,7 @@ before the human sign-off in Section 9 can be granted.
 |------|-------------|----------|--------|
 | B-1 | P6-01/P6-02 sharding hardening tests delivered | `tests/sharding/test_sharding_phase6_hardening.cpp` | ✅ PASS |
 | B-2 | Sharding P6 wired into `release_critical` label | `tests/sharding/CMakeLists.txt` label=`release_critical;sharding_p6` | ✅ PASS |
-| B-3 | WAL + failover sign-off artefacts consolidated | `include/sharding/transaction_wal.h`, `src/sharding/transaction_wal.cpp`; 2PC/3PC/SAGA/Percolator/Calvin protocol tagging | 🟡 PARTIAL — boundary evidence attachment pending human confirmation |
+| B-3 | WAL + failover sign-off artefacts consolidated + boundary evidence attached | `docs/sharding/SHARDING_P6_SIGN_OFF.md` + `docs/sharding/SHARDING_P6_CROSS_MODULE_RECOVERY_VERIFICATION.md` + `docs/governance/SHARDING_P6_RESIDUAL_RISK_ACCEPTANCE.md` | ✅ PASS (2026-08-01) |
 
 ### 2.3 Batch C — Wave 8 + Chaos + Sanitizer/Pentest
 
@@ -101,9 +101,9 @@ The following items have been explicitly deferred from the v1.9.0 GA scope with 
 
 | ID | Item | Deferral Rationale | Target |
 |----|------|-------------------|--------|
-| DEF-01 | Build reproducibility on `community-release` (RocksDB system-package path) | Blocked by `librocksdb-dev` packaging dependency; CI uses vcpkg path | v1.9.1 patch |
+| DEF-01 | Build reproducibility on `community-release` (RocksDB system-package path) + `linux-release` (Ninja + vcpkg) | Blocked by system-package availability and vcpkg toolchain requirements; CI uses vcpkg path; SETUP.md troubleshooting added (2026-08-01) | v1.9.1 patch |
 | DEF-02 | Graph/query optimisation backlog (plan-cache, cost-model, pool) | Behind measurable Wave-7 regression gate; safe to defer | v2.0.0 |
-| DEF-03 | WAL/failover sharding boundary evidence attachment | Partial — protocol tagging delivered; detailed boundary doc in progress | v1.9.0-patch or v2.0.0-rc1 |
+| DEF-03 | WAL/failover sharding boundary evidence attachment | ✅ COMPLETED (2026-08-01): `SHARDING_P6_CROSS_MODULE_RECOVERY_VERIFICATION.md` + risk acceptance doc + CMake dependency fixes | v1.9.0 GA |
 | DEF-04 | Gossip-port firewall documentation (PTR-02) | Infra-layer responsibility; documented in deployment runbook | Operator runbook |
 
 ---
@@ -152,7 +152,9 @@ If a post-tag regression is discovered within the controlled promotion window:
 | Production hardening checklist | `docs/security/PRODUCTION_HARDENING_CHECKLIST.md` | C-6 |
 | Wave 5 test coverage | `tests/integration/WAVE5_TEST_COVERAGE.md` | D-5 |
 | Wave 6 test coverage | `tests/integration/WAVE6_TEST_COVERAGE.md` | D-5 |
-| Sharding P6 test | `tests/sharding/test_sharding_phase6_hardening.cpp` | B-1, B-2 |
+| Sharding P6 sign-off | `docs/sharding/SHARDING_P6_SIGN_OFF.md` | B-1, B-2, B-3 |
+| Sharding P6 cross-module recovery verification | `docs/sharding/SHARDING_P6_CROSS_MODULE_RECOVERY_VERIFICATION.md` | B-3 (boundary evidence attachment) |
+| Sharding P6 residual risk acceptance | `docs/governance/SHARDING_P6_RESIDUAL_RISK_ACCEPTANCE.md` | B-3 (risk acceptance) |
 | Transaction coordinators arch | `docs/architecture/transaction_coordinators.md` | D-7 |
 | Release-critical CI gate | `.github/workflows/09-pr-gates_release-critical-tests.yml` | A-2, C-1, C-2 |
 
@@ -195,5 +197,5 @@ APPROVED:  [ ] YES — proceed with develop → community merge and v2.4.0 tag
 
 ---
 
-_Document last updated: 2026-07-28 by Phase 6 (AI-assisted GA evidence closure + Phase 6 docs sync)._  
+_Document last updated: 2026-08-01 by Phase 6 + Batch A/B completion (build reproducibility + boundary evidence)._  
 _Human sign-off in Section 9 is required before any promotion action._

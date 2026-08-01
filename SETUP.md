@@ -148,7 +148,9 @@ sudo apt-get install -y \
   libssl-dev \
   zlib1g-dev \
   librocksdb-dev \
-  libzstd-dev
+  libzstd-dev \
+  libfmt-dev \
+  libspdlog-dev
 ```
 
 #### Fedora/RHEL:
@@ -161,13 +163,15 @@ sudo dnf install -y \
   openssl-devel \
   zlib-devel \
   rocksdb-devel \
-  libzstd-devel
+  libzstd-devel \
+  fmt-devel \
+  spdlog-devel
 ```
 
 #### macOS:
 
 ```bash
-brew install cmake ninja rocksdb zstd openssl
+brew install cmake ninja rocksdb zstd openssl fmt spdlog
 export OPENSSL_DIR=$(brew --prefix openssl@3)
 ```
 
@@ -289,7 +293,40 @@ not deterministic.
 
 **Solution**: Install system development packages (see [System Package Setup](#system-package-setup) section).
 
-### Error: "Invalid preset" or "Invalid macro expansion"
+### Error: "fmt not found" or "spdlog not found"
+
+**Cause**: Using `community-release` on a system where fmt and spdlog are not installed as system packages.
+
+**Solution**: Install development packages for fmt and spdlog:
+- Debian/Ubuntu: `sudo apt-get install libfmt-dev libspdlog-dev`
+- Fedora/RHEL: `sudo dnf install fmt-devel spdlog-devel`
+- macOS: `brew install fmt spdlog`
+
+Alternatively, use the `linux-release` preset with vcpkg, which includes all dependencies.
+
+### Build Reproducibility Issues on `linux-release` or `community-release`
+
+**Batch A Gate Status**: [~] In Progress (active Phase-0 gate blockers)
+
+**Known Issues**:
+
+1. **`linux-release` requires vcpkg toolchain**: If you receive "Could not find toolchain file", ensure:
+   - vcpkg is cloned to `./vcpkg/`
+   - vcpkg is bootstrapped: `./vcpkg/bootstrap-vcpkg.sh`
+   - CMAKE_TOOLCHAIN_FILE in CMakePresets.json points to correct path
+
+2. **`community-release` may fail on missing packages**: This preset depends on system development packages being installed.
+   - Use the [System Package Setup](#system-package-setup) commands above for your OS
+   - Or use `linux-release` preset with vcpkg if available
+
+3. **Reproducible builds require SOURCE_DATE_EPOCH**: For CI and release builds:
+   ```bash
+   export SOURCE_DATE_EPOCH="$(git log -1 --format=%ct)"
+   cmake --preset linux-release -DTHEMIS_REQUIRE_REPRODUCIBLE_BUILD=ON
+   ```
+   See [Reproducible Builds Policy](#3c-reproducible-builds-policy) above.
+
+**Mitigation**: Both presets are functional and gate-integrated for release-critical tests. Known limitations are tracked in `ROADMAP.md` §Known Issues & Limitations.
 
 **Cause**: CMakePresets.json has invalid syntax or preset references.
 

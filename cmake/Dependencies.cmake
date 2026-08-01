@@ -211,11 +211,39 @@ else()
     message(WARNING "TBB not found - using fallback threading")
 endif()
 
-find_package(fmt REQUIRED CONFIG)
-message(STATUS "fmt found")
+# fmt: Try CONFIG first (vcpkg), fall back to MODULE (system packages)
+find_package(fmt CONFIG QUIET)
+if(NOT fmt_FOUND)
+    find_package(fmt MODULE QUIET)
+endif()
+if(fmt_FOUND)
+    message(STATUS "fmt found")
+else()
+    message(FATAL_ERROR 
+        "fmt not found. Install via:\n"
+        "  - vcpkg: vcpkg install fmt\n"
+        "  - Debian/Ubuntu: sudo apt-get install libfmt-dev\n"
+        "  - Fedora/RHEL: sudo dnf install fmt-devel\n"
+        "  - macOS: brew install fmt"
+    )
+endif()
 
-find_package(spdlog REQUIRED CONFIG)
-message(STATUS "spdlog found")
+# spdlog: Try CONFIG first (vcpkg), fall back to MODULE (system packages)
+find_package(spdlog CONFIG QUIET)
+if(NOT spdlog_FOUND)
+    find_package(spdlog MODULE QUIET)
+endif()
+if(spdlog_FOUND)
+    message(STATUS "spdlog found")
+else()
+    message(FATAL_ERROR 
+        "spdlog not found. Install via:\n"
+        "  - vcpkg: vcpkg install spdlog\n"
+        "  - Debian/Ubuntu: sudo apt-get install libspdlog-dev\n"
+        "  - Fedora/RHEL: sudo dnf install spdlog-devel\n"
+        "  - macOS: brew install spdlog"
+    )
+endif()
 
 # Disable spdlog compile-time format string checks for better compatibility with runtime format strings
 if(NOT MSVC)

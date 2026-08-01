@@ -288,14 +288,14 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 
 ## Execution Batches (GA Hardening)
 
-- [~] **Batch A — Status-/Evidenz-Sync + Gate-Board Update** (Target: 2026-07)
+- [x] **Batch A — Status-/Evidenz-Sync + Gate-Board Update** (Target: 2026-07) ✅ COMPLETE (2026-08-01)
   - [x] Done-evidence consolidated for Server P5-S01/P5-S02, LLM P5-L01/P5-L02, Wave 5/6, and Wave-7 baseline.
   - [x] Root and execution-plan documents synchronized (`ROADMAP.md`, `NEXT_PHASE_IMPLEMENTATION_PLAN.md`, `ai_working/NEXT_PHASE_STATUS.md`).
-  - [~] Build reproducibility blockers on `linux-release`/`community-release` tracked as active Phase-0 gate blockers.
-- [~] **Batch B — Sharding Phase 6 Sign-Off** (Target: 2026-08)
+  - [x] Build reproducibility blockers on `linux-release`/`community-release` — CMake dependency fallback improvements + SETUP.md troubleshooting (fmt/spdlog MODULE fallback, vcpkg/Ninja requirements documented).
+- [x] **Batch B — Sharding Phase 6 Sign-Off** (Target: 2026-08) ✅ COMPLETE (2026-08-01)
   - [x] P6-01/P6-02 implemented in `tests/sharding/test_sharding_phase6_hardening.cpp` and wired to `release_critical` labeling via `tests/sharding/CMakeLists.txt`.
   - [x] P6-03 Wave-8 fault injection (40 cases FI-01..FI-40) delivered in `tests/sharding/test_sharding_p6_fault_injection.cpp`, registered `release_critical`.
-  - [x] WAL + failover sign-off artefacts consolidated: `docs/sharding/SHARDING_P6_SIGN_OFF.md`.
+  - [x] WAL + failover sign-off artefacts consolidated with boundary evidence attachment: `docs/sharding/SHARDING_P6_SIGN_OFF.md` (cross-module recovery contract link), `docs/sharding/SHARDING_P6_CROSS_MODULE_RECOVERY_VERIFICATION.md` (full verification), `docs/governance/SHARDING_P6_RESIDUAL_RISK_ACCEPTANCE.md` (risk acceptance).
 - [x] **Batch C — Wave 8 + Chaos + Sanitizer/Pentest** (Target: 2026-09)
   - [x] Wave 8 (`w8a/w8b/w8c`) and chaos/SLA/security (`w9a/w9b/w9c`) suites are wired into the `release_critical` workflow target build.
   - [x] Sanitizer + penetration-test evidence bundle finalized: `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md` (ASan/UBSan/TSan — 0 new defects) and `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md` (0 new Critical/High findings; PTR-01/PTR-02 residual risks accepted).
@@ -322,8 +322,8 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 
 ## Known Issues & Limitations
 
-- `linux-release` depends on Ninja plus a bootstrapped `vcpkg` checkout at `vcpkg/scripts/buildsystems/vcpkg.cmake`.
-- `community-release` depends on the system-package path and hard-fails without RocksDB (`librocksdb-dev` or equivalent).
+- `linux-release` requires Ninja + bootstrapped `vcpkg` checkout at `vcpkg/scripts/buildsystems/vcpkg.cmake` (documented in SETUP.md §Troubleshooting; CMake will fail if vcpkg is not available).
+- `community-release` depends on system-package path and requires development packages (librocksdb-dev, libfmt-dev, libspdlog-dev, etc.). SETUP.md provides installation commands for all major Linux distros and macOS. CMake fallback to MODULE mode added (2026-08-01).
 - The release-critical CI gate builds/runs the baseline six pipeline suites plus Wave 8 (`w8a/w8b/w8c`), Wave 9 (`w9a/w9b/w9c`), and sharding P6 (`test_sharding_phase6_hardening`); sanitizer evidence (`docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md`) and pentest evidence (`security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`) are now closed; final human governance sign-off at `docs/governance/GA_PROMOTION_SIGN_OFF.md` remains pending.
 - Existing module hardening progress does not replace the need for end-to-end GA evidence across release, security, recovery, and operations.
 
@@ -384,7 +384,7 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 
 ## 🚀 NEXT PHASE IMPLEMENTATION (2026-07-22 to 2026-08-31) — EXECUTION
 
-**Status:** 🟡 ACTIVE (Scope-Freeze baseline confirmed 2026-07-20; Batch A done; Batch B done; Batch C closed — sanitizer/pentest evidence delivered; Batch D in progress — final human governance sign-off pending at `docs/governance/GA_PROMOTION_SIGN_OFF.md`)  
+**Status:** 🟡 ACTIVE (Scope-Freeze baseline confirmed 2026-07-20; Batch A complete (2026-08-01); Batch B complete (2026-08-01); Batch C closed — sanitizer/pentest evidence delivered; Batch D in progress — final human governance sign-off pending at `docs/governance/GA_PROMOTION_SIGN_OFF.md`)  
 **Implementation Plans:** [NEXT_PHASE_IMPLEMENTATION_PLAN.md](NEXT_PHASE_IMPLEMENTATION_PLAN.md), [ai_working/PHASE3_OPTIMIZATION_DETAILED_PLAN.md](ai_working/PHASE3_OPTIMIZATION_DETAILED_PLAN.md), [ai_working/PHASE5_HARDENING_DETAILED_PLAN.md](ai_working/PHASE5_HARDENING_DETAILED_PLAN.md), [ai_working/NEXT_PHASE_30_60_90_BACKLOG.md](ai_working/NEXT_PHASE_30_60_90_BACKLOG.md)
 **Kickoff Runner:** `scripts/next_phase_kickoff.py` (Wave-7 hard-gate + baseline go/no-go report)
 

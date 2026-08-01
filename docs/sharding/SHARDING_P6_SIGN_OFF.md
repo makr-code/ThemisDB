@@ -121,6 +121,16 @@ The following WAL/recovery surface mapping is established and must not diverge:
 **Rule:** No module-local WAL layer may change its `fsync`/`retention`/`replay` assumptions
 without a cross-module review. Diverging durability policies are a P0 blocker.
 
+### Boundary Evidence Attachment
+
+**Link:** [`SHARDING_P6_CROSS_MODULE_RECOVERY_VERIFICATION.md`](./SHARDING_P6_CROSS_MODULE_RECOVERY_VERIFICATION.md)
+
+The formal verification of this cross-module recovery contract is documented in the
+cross-module recovery verification document. All 5 recovery surfaces have been verified
+for idempotency and durability guarantees via targeted integration tests (TXC-09..12,
+FLR-01..10, FI-16..24, FI-39..40). This completes the Batch B boundary evidence attachment
+requirement.
+
 ---
 
 ## Residual Risks
