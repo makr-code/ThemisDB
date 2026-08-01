@@ -60,32 +60,12 @@ class GPUErrorHandlerImpl : public GPUErrorHandler {
 
   void logError(cudaError_t cuda_err, const std::string& context) noexcept override {
     std::lock_guard<std::mutex> lock(mutex_);
-    InitGPULogger();
-
-    auto error_class = classifyError(cuda_err);
-    auto error_name = cudaErrorName(cuda_err);
-    auto class_name = errorClassName(error_class);
-
-    if (g_gpu_logger) {
-      g_gpu_logger->warn("CUDA Error [{}] in {}: {} (code={})",
-                        class_name, context, error_name, 
-                        static_cast<int>(cuda_err));
-    }
+    logErrorNoLock(cuda_err, context);
   }
 
   void logError(hipError_t hip_err, const std::string& context) noexcept override {
     std::lock_guard<std::mutex> lock(mutex_);
-    InitGPULogger();
-
-    auto error_class = classifyError(hip_err);
-    auto error_name = hipErrorName(hip_err);
-    auto class_name = errorClassName(error_class);
-
-    if (g_gpu_logger) {
-      g_gpu_logger->warn("HIP Error [{}] in {}: {} (code={})",
-                        class_name, context, error_name,
-                        static_cast<int>(hip_err));
-    }
+    logErrorNoLock(hip_err, context);
   }
 
   void handleError(cudaError_t cuda_err,
@@ -96,8 +76,8 @@ class GPUErrorHandlerImpl : public GPUErrorHandler {
     auto error_class = classifyError(cuda_err);
     auto recovery_policy = policy ? *policy : defaultPolicy(error_class);
 
-    // Always log
-    logError(cuda_err, context);
+    // Log without re-acquiring the mutex (already held).
+    logErrorNoLock(cuda_err, context);
 
     // Apply recovery policy
     applyRecoveryPolicy(error_class, recovery_policy, context);
@@ -111,14 +91,15 @@ class GPUErrorHandlerImpl : public GPUErrorHandler {
     auto error_class = classifyError(hip_err);
     auto recovery_policy = policy ? *policy : defaultPolicy(error_class);
 
-    // Always log
-    logError(hip_err, context);
+    // Log without re-acquiring the mutex (already held).
+    logErrorNoLock(hip_err, context);
 
     // Apply recovery policy
     applyRecoveryPolicy(error_class, recovery_policy, context);
   }
 
   GPUErrorClass classifyError(cudaError_t cuda_err) const noexcept override {
+#if defined(__CUDACC__) || defined(THEMIS_CUDA_ENABLED)
     switch (cuda_err) {
       case cudaSuccess:
         return GPUErrorClass::kQuotaExceeded;  // Not really an error
@@ -148,9 +129,14 @@ class GPUErrorHandlerImpl : public GPUErrorHandler {
       default:
         return GPUErrorClass::kUnknown;
     }
+#else
+    (void)cuda_err;
+    return GPUErrorClass::kUnknown;
+#endif
   }
 
   GPUErrorClass classifyError(hipError_t hip_err) const noexcept override {
+#if defined(THEMIS_HIP_ENABLED) || defined(__HIP__)
     // HIP error codes map similarly to CUDA
     // Note: Actual values differ; we use string comparison or numeric mapping
     switch (hip_err) {
@@ -176,6 +162,10 @@ class GPUErrorHandlerImpl : public GPUErrorHandler {
       default:
         return GPUErrorClass::kUnknown;
     }
+#else
+    (void)hip_err;
+    return GPUErrorClass::kUnknown;
+#endif
   }
 
   ErrorRecoveryPolicy defaultPolicy(GPUErrorClass error_class) const noexcept override {
@@ -236,6 +226,32 @@ class GPUErrorHandlerImpl : public GPUErrorHandler {
 
  private:
   std::mutex mutex_;
+
+  /// Log a CUDA error without acquiring the mutex (caller must hold it).
+  void logErrorNoLock(cudaError_t cuda_err, const std::string& context) noexcept {
+    InitGPULogger();
+    auto error_class = classifyError(cuda_err);
+    auto error_name = cudaErrorName(cuda_err);
+    auto class_name = errorClassName(error_class);
+    if (g_gpu_logger) {
+      g_gpu_logger->warn("CUDA Error [{}] in {}: {} (code={})",
+                        class_name, context, error_name,
+                        static_cast<int>(cuda_err));
+    }
+  }
+
+  /// Log a HIP error without acquiring the mutex (caller must hold it).
+  void logErrorNoLock(hipError_t hip_err, const std::string& context) noexcept {
+    InitGPULogger();
+    auto error_class = classifyError(hip_err);
+    auto error_name = hipErrorName(hip_err);
+    auto class_name = errorClassName(error_class);
+    if (g_gpu_logger) {
+      g_gpu_logger->warn("HIP Error [{}] in {}: {} (code={})",
+                        class_name, context, error_name,
+                        static_cast<int>(hip_err));
+    }
+  }
 
   /// Apply recovery policy for error.
   void applyRecoveryPolicy(GPUErrorClass error_class,

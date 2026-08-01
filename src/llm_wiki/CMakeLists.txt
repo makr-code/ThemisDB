@@ -1,13 +1,31 @@
-# LLM Wiki module - guardrails and plugin support infrastructure
-# (Phase 3-4 implementation)
+# LLM Wiki module - workspace state persistence and edition gating.
+# Phase 3 implementation: WorkspaceStateManager + EditionGate.
+#
+# Provides: themis_llm_wiki (STATIC)
+#   workspace_state_manager.cpp  - JSON state persistence with checksum validation
+#   edition_gate.cpp             - Edition-aware access control
 
-file(GLOB LLM_WIKI_SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
+add_library(themis_llm_wiki STATIC
+    workspace_state_manager.cpp
+    edition_gate.cpp
 )
 
-# Header-only libraries (guardrail_patterns.h is included by tests)
-# No explicit target needed; included headers are available to dependent targets
+target_include_directories(themis_llm_wiki
+    PUBLIC
+        $<BUILD_INTERFACE:${THEMIS_ROOT_DIR}/include>
+        $<INSTALL_INTERFACE:include>
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}
+)
 
-# For now, this directory provides:
-# - guardrail_patterns.h: Pattern matching for prompt injection detection
-# - (Future Phase 4+) llm_wiki_plugin_impl.cpp when private plugin is ready
+target_link_libraries(themis_llm_wiki
+    PUBLIC
+        themis_core
+        spdlog::spdlog
+)
+
+if(MSVC)
+    target_compile_options(themis_llm_wiki PRIVATE /W4)
+else()
+    target_compile_options(themis_llm_wiki PRIVATE -Wall -Wextra)
+endif()

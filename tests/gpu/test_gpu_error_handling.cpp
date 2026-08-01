@@ -377,8 +377,9 @@ TEST_F(IntegrationTest, CompleteWorkflow_SLAAndErrorHandling) {
   // Check timeout (should be false)
   EXPECT_FALSE(guard.checkTimeoutDeadline());
   
-  // Log a hypothetical error
-  handler->logError(cudaSuccess, "hypothetical_kernel");
+  // Log a hypothetical error; cudaSuccess (0) is available in all builds
+  // because gpu_error.h provides a stub constant in non-CUDA builds.
+  handler->logError(static_cast<cudaError_t>(0), "hypothetical_kernel");
   
   // Still not timed out
   EXPECT_FALSE(guard.checkTimeoutDeadline());
@@ -406,7 +407,9 @@ TEST_F(IntegrationTest, Handler_ThreadSafe_ConcurrentLogCalls) {
   for (int i = 0; i < 4; ++i) {
     threads.emplace_back([handler, i]() {
       for (int j = 0; j < 10; ++j) {
-        handler->logError(cudaSuccess, "thread_" + std::to_string(i));
+        // cudaSuccess (0) is always available; see gpu_error.h stub constant.
+        handler->logError(static_cast<cudaError_t>(0),
+                          "thread_" + std::to_string(i));
       }
     });
   }
@@ -419,11 +422,4 @@ TEST_F(IntegrationTest, Handler_ThreadSafe_ConcurrentLogCalls) {
   EXPECT_TRUE(true);
 }
 
-// ============================================================================
-// Main
-// ============================================================================
-
-int main(int argc, char** argv) {
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
-}
+// Tests are linked against gtest_main; no custom main() needed.

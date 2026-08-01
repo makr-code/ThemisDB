@@ -215,10 +215,10 @@ WorkspaceStatus WorkspaceStateManager::load(WorkspaceState& out_state) noexcept 
         
     } catch (const std::exception& e) {
         SPDLOG_ERROR("Failed to load state: {}", e.what());
-        
-        // Last-resort recovery attempt
-        WorkspaceState recovered;
-        return recoverFromLog(recovered);
+
+        // Last-resort recovery attempt; populate out_state directly so the
+        // caller receives any reconstructed data if recovery succeeds.
+        return recoverFromLog(out_state);
     }
 }
 
@@ -233,8 +233,10 @@ WorkspaceStatus WorkspaceStateManager::save(const WorkspaceState& state) noexcep
         // Serialize state to JSON
         auto state_j = serializeStateToJson(state);
         
-        // Compute checksum (of the JSON without checksum field)
-        std::string json_str = state_j.dump(2);
+        // Compute checksum over the minified JSON representation, matching the
+        // round-trip format used by validateChecksum() (which calls j.dump()
+        // after parsing the written file).
+        std::string json_str = state_j.dump();
         std::string checksum = computeSHA256(json_str);
         
         // Add checksum to JSON
