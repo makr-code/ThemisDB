@@ -303,15 +303,26 @@ public:
     /**
      * @brief Ingest documents from `source_path` into the wiki index.
      *
-     * @param source_path  File or directory path to ingest.
-     *                     Directories are traversed according to `opts.recursive`
-     *                     and `opts.file_glob`.
-     * @param opts         Ingestion options; defaults are production-safe.
-     * @return             `WikiIngestResult` with counts and error list.
-     */
+    * Performs per-file ingestion with partial-failure semantics:
+    *  - Files are processed sequentially
+    *  - If a file fails to parse or chunk, the error is logged and processing continues
+    *  - The result includes a list of failed files and counts of successful/skipped chunks
+    *
+    * @param source_path  File or directory path to ingest.
+    *                     Directories are traversed according to `opts.recursive`
+    *                     and `opts.file_glob`.
+    * @param opts         Ingestion options; defaults are production-safe.
+    * @return             `WikiIngestResult` with counts, error list (`failed_files`),
+    *                     and per-file error details. A non-empty `failed_files` vector
+    *                     indicates partial-failure mode (some files succeeded, some failed).
+    *
+    * @note Partial-failure means the result is non-fatal even if some files error.
+    *       Check `result.failed_files.empty()` to distinguish complete success
+    *       from partial success with errors.
+    */
     [[nodiscard]] virtual WikiIngestResult ingest(
-        const std::string&    source_path,
-        const WikiIngestOptions& opts = {}) = 0;
+       const std::string&    source_path,
+       const WikiIngestOptions& opts = {}) = 0;
 
     // ── Core retrieval ─────────────────────────────────────────────────────
 

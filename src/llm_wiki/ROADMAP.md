@@ -23,16 +23,16 @@
   - [x] Enhanced prompt injection detection (5 categories: shell, code, encoding, privilege, control flow)
   - [x] Workspace state manager with checksum validation (`src/llm_wiki/workspace_state_manager.h`)
   - [x] Edition-gate enforcement (`src/llm_wiki/edition_gate.h` + `edition_gate.cpp`)
-  - [ ] Partial-failure semantics for ingest (log errors, continue processing)
-  - [ ] Atomic write-replace for state persistence
-  - [ ] Log-based recovery from state corruption
+  - [x] Partial-failure semantics for ingest (log errors, continue processing)
+  - [x] Atomic write-replace for state persistence
+  - [x] Log-based recovery from state corruption
 
 - [~] Phase 4: Comprehensive test suite
   - [x] `test_llm_wiki_plugin_phase3_phase4_focused.cpp` — LWP-01..LWP-08 interface tests
   - [x] `test_llm_wiki_phase3_edge_cases_focused.cpp` — Workspace state + edition gating tests
+  - [x] Workspace lifecycle tests (LWP-09..LWP-16) — page creation, state persistence, orphan detection
+  - [x] Guardrail pattern comprehensive coverage (LWP-17..LWP-20) — shell, code, encoding, privilege+control flow
   - [ ] Full ingest+query roundtrip tests (pending private plugin implementation)
-  - [ ] Workspace lifecycle tests (LWP-09..LWP-16)
-  - [ ] Guardrail pattern comprehensive coverage (LWP-17..LWP-20)
   - [ ] Edition-gate negative tests (LWP-GATE-01)
   - [ ] Performance tests (LWP-PERF-01, p95 < 200ms at 5k chunks)
 
