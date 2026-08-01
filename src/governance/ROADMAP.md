@@ -34,12 +34,26 @@ Production governance runtime exists across policy enforcement/lifecycle, compli
 - [x] define explicit error taxonomy for denial, conflict, and fallback classes (Target: Q3 2026)
 
 ### Phase 2: Core Implementation
-- [ ] complete hardening for policy lifecycle and compliance execution internals (Target: Q4 2026)
+- [~] complete hardening for policy lifecycle and compliance execution internals (Target: Q4 2026)
+  - [x] PolicyState enum and lifecycle state machine (DRAFT→ACTIVE→DEPRECATED→RETIRED)
+  - [x] Lifecycle validation and state transition enforcement
+  - [x] Lifecycle audit logging and user tracking
+  - [~] Compliance execution hardening (in progress)
+  - [ ] Masking/lineage/model governance contract bounds enforcement
 - [ ] align masking/lineage/model governance behavior to bounded runtime contracts (Target: Q4 2026)
 
 ### Phase 3: Error Handling and Edge Cases
-- [ ] standardize fail-closed behavior for invalid policy and unsafe access scenarios (Target: Q4 2026)
-- [ ] unify diagnostics across conflict, fallback, and compliance/reporting failures (Target: Q4 2026)
+- [~] standardize fail-closed behavior for invalid policy and unsafe access scenarios (Target: Q4 2026)
+  - [x] OPA adapter error classification (timeout/malformed/network/unknown)
+  - [x] Fail-closed defaults on OPA errors (deny-by-default)
+  - [ ] Policy engine path hardening (exhaustive deny paths)
+  - [ ] Unsafe access scenario testing
+- [~] unify diagnostics across conflict, fallback, and compliance/reporting failures (Target: Q4 2026)
+  - [x] GovernanceDiagnostic struct and DiagnosticAggregator (7300-7399 error codes)
+  - [x] Diagnostic recording for OPA errors
+  - [ ] Conflict diagnostic helpers
+  - [ ] Fallback diagnostic helpers
+  - [ ] Compliance/reporting diagnostic aggregation
 
 ### Phase 4: Tests
 - [x] expand focused regressions for policy versioning/inheritance/review edge scenarios (Target: Q4 2026)
