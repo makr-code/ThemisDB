@@ -11,7 +11,9 @@
 #include "governance/policy_manager.h"
 #include "governance/opa_adapter.h"
 
+#include <algorithm>
 #include <chrono>
+#include <memory>
 #include <thread>
 
 using namespace themis::governance;
@@ -154,8 +156,8 @@ TEST_F(Phase23Test, P2304_ActivateRuleWithValidation) {
     rule.classification_level = "vs-nfd";
     rule.resources = {"data/*"};
     rule.actions = {"read"};
-    rule.lifecycle.created_at = std::chrono::system_clock::now()
-        .time_since_epoch().count() / 1'000'000;
+    rule.lifecycle.created_at = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
     rule.lifecycle.created_by = "test-user";
     
     pm.addRule(rule);
@@ -163,7 +165,8 @@ TEST_F(Phase23Test, P2304_ActivateRuleWithValidation) {
     // Activate the rule
     auto result = pm.activateRuleWithValidation("test-rule-1", "test-user");
     EXPECT_EQ(result.error, PolicyManager::PolicyError::kSuccess);
-    EXPECT_FALSE(result.error_message.empty() || result.error == PolicyManager::PolicyError::kSuccess);
+    EXPECT_TRUE(result.error_message.empty());
+    EXPECT_FALSE(result.rule_version.empty());
     
     // Verify the rule is now active
     auto updated_rule = pm.getRule("test-rule-1");
@@ -459,8 +462,8 @@ TEST_F(Phase23Test, P23_IntegrationPolicyLifecycleWithDiagnostics) {
     rule.classification_level = "vs-nfd";
     rule.resources = {"data/*"};
     rule.actions = {"read"};
-    rule.lifecycle.created_at = std::chrono::system_clock::now()
-        .time_since_epoch().count() / 1'000'000;
+    rule.lifecycle.created_at = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
     rule.lifecycle.created_by = "test-user";
     
     pm.addRule(rule);

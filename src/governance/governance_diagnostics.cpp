@@ -31,9 +31,9 @@ void DiagnosticAggregator::recordDiagnostic(const GovernanceDiagnostic& diag) {
     
     GovernanceDiagnostic d = diag;
     if (d.timestamp_ms == 0) {
-        d.timestamp_ms = std::chrono::system_clock::now()
-            .time_since_epoch()
-            .count() / 1'000'000;  // Convert nanoseconds to milliseconds
+        d.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch())
+            .count();
     }
     diagnostics_.push_back(d);
 }
@@ -123,6 +123,11 @@ void DiagnosticAggregator::clear() {
 size_t DiagnosticAggregator::getTotalCount() const {
     std::lock_guard<std::mutex> lock(mutex_);
     return diagnostics_.size();
+}
+
+DiagnosticAggregator& getGlobalDiagnosticAggregator() {
+    static DiagnosticAggregator aggregator;
+    return aggregator;
 }
 
 } // namespace themis::governance

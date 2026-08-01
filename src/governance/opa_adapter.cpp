@@ -21,6 +21,7 @@
 #include "governance/opa_adapter.h"
 
 #include <atomic>
+#include <chrono>
 #include <curl/curl.h>
 #include <filesystem>
 #include <mutex>
@@ -56,6 +57,12 @@ size_t curl_write_callback(void *ptr, size_t size, size_t nmemb, void *userdata)
 void ensure_curl_global_init() {
     static std::once_flag flag;
     std::call_once(flag, [] { curl_global_init(CURL_GLOBAL_DEFAULT); });
+}
+
+int64_t currentTimestampMs() {
+    return std::chrono::duration_cast<std::chrono::milliseconds>(
+               std::chrono::system_clock::now().time_since_epoch())
+        .count();
 }
 
 } // anonymous namespace
@@ -222,9 +229,7 @@ std::optional<PolicyDecision> OpaAdapter::evaluate(const std::unordered_map<std:
     // Phase 3: Classify errors and record diagnostics
     if (res != CURLE_OK) {
         OpaError err;
-        err.timestamp_ms = std::chrono::system_clock::now()
-            .time_since_epoch()
-            .count() / 1'000'000;
+        err.timestamp_ms = currentTimestampMs();
         
         std::string err_msg = curl_easy_strerror(res);
         
@@ -258,23 +263,12 @@ std::optional<PolicyDecision> OpaAdapter::evaluate(const std::unordered_map<std:
         diag.context["curl_error_code"] = std::to_string(res);
         diag.context["endpoint"] = config_.endpoint_url;
         diag.context["policy_path"] = config_.policy_path;
+        getGlobalDiagnosticAggregator().recordDiagnostic(diag);
         
         curl_slist_free_all(req_headers);
         curl_easy_cleanup(curl);
         
-        // Return deny-by-default decision on network/OPA errors
-        PolicyDecision deny;
-        deny.classification = "streng-geheim";
-        deny.mode = "enforce";
-        deny.encrypt_logs = true;
-        deny.redaction = "strict";
-        deny.ann_allowed = false;
-        deny.require_content_encryption = true;
-        deny.export_allowed = false;
-        deny.cache_allowed = false;
-        deny.retention_days = 7;
-        
-        return deny;
+        return std::nullopt;
     }
 
     if (res == CURLE_OK) {
@@ -288,9 +282,7 @@ std::optional<PolicyDecision> OpaAdapter::evaluate(const std::unordered_map<std:
         OpaError err;
         err.type = OpaErrorType::kInvalidPolicy;
         err.message = "OPA returned HTTP " + std::to_string(http_code);
-        err.timestamp_ms = std::chrono::system_clock::now()
-            .time_since_epoch()
-            .count() / 1'000'000;
+        err.timestamp_ms = currentTimestampMs();
         ++governance_opa_error_invalid_policy;
         
         // Record diagnostic
@@ -305,20 +297,9 @@ std::optional<PolicyDecision> OpaAdapter::evaluate(const std::unordered_map<std:
         };
         diag.context["http_code"] = std::to_string(http_code);
         diag.context["response_body"] = response_body.substr(0, 256);  // Truncate for diagnostics
-        
-        // Return deny-by-default decision
-        PolicyDecision deny;
-        deny.classification = "streng-geheim";
-        deny.mode = "enforce";
-        deny.encrypt_logs = true;
-        deny.redaction = "strict";
-        deny.ann_allowed = false;
-        deny.require_content_encryption = true;
-        deny.export_allowed = false;
-        deny.cache_allowed = false;
-        deny.retention_days = 7;
-        
-        return deny;
+        getGlobalDiagnosticAggregator().recordDiagnostic(diag);
+
+        return std::nullopt;
     }
 
     // Try to parse response
@@ -337,19 +318,9 @@ std::optional<PolicyDecision> OpaAdapter::evaluate(const std::unordered_map<std:
                 "Check policy at " + config_.policy_path + " for output format issues"
             };
             diag.context["response_preview"] = response_body.substr(0, 256);
-            
-            // Return deny-by-default
-            PolicyDecision deny;
-            deny.classification = "streng-geheim";
-            deny.mode = "enforce";
-            deny.encrypt_logs = true;
-            deny.redaction = "strict";
-            deny.ann_allowed = false;
-            deny.require_content_encryption = true;
-            deny.export_allowed = false;
-            deny.cache_allowed = false;
-            deny.retention_days = 7;
-            return deny;
+            getGlobalDiagnosticAggregator().recordDiagnostic(diag);
+
+            return std::nullopt;
         }
         return result;
     } catch (const std::exception& e) {
@@ -363,19 +334,9 @@ std::optional<PolicyDecision> OpaAdapter::evaluate(const std::unordered_map<std:
             "Review OPA response format",
             "Check policy at " + config_.policy_path
         };
-        
-        // Return deny-by-default
-        PolicyDecision deny;
-        deny.classification = "streng-geheim";
-        deny.mode = "enforce";
-        deny.encrypt_logs = true;
-        deny.redaction = "strict";
-        deny.ann_allowed = false;
-        deny.require_content_encryption = true;
-        deny.export_allowed = false;
-        deny.cache_allowed = false;
-        deny.retention_days = 7;
-        return deny;
+        getGlobalDiagnosticAggregator().recordDiagnostic(diag);
+
+        return std::nullopt;
     }
 }
 
@@ -442,4 +403,3 @@ std::optional<PolicyDecision> OpaAdapter::evaluateWasm(const std::unordered_map<
 
 } // namespace governance
 } // namespace themis
-

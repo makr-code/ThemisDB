@@ -157,4 +157,14 @@ private:
     std::vector<GovernanceDiagnostic> diagnostics_;
 };
 
+/**
+ * @brief Get the process-global governance diagnostic aggregator.
+ *
+ * Enables cross-component diagnostic emission when a component does not
+ * maintain its own local DiagnosticAggregator instance.
+ *
+ * @return Singleton DiagnosticAggregator instance.
+ */
+DiagnosticAggregator& getGlobalDiagnosticAggregator();
+
 } // namespace themis::governance

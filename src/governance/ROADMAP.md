@@ -50,7 +50,7 @@ Production governance runtime exists across policy enforcement/lifecycle, compli
   - [ ] Unsafe access scenario testing
 - [~] unify diagnostics across conflict, fallback, and compliance/reporting failures (Target: Q4 2026)
   - [x] GovernanceDiagnostic struct and DiagnosticAggregator (7300-7399 error codes)
-  - [x] Diagnostic recording for OPA errors
+  - [~] Diagnostic recording for OPA errors (global aggregator integration in progress)
   - [ ] Conflict diagnostic helpers
   - [ ] Fallback diagnostic helpers
   - [ ] Compliance/reporting diagnostic aggregation

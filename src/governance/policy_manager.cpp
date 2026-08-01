@@ -60,15 +60,15 @@ bool PolicyLifecycle::canTransitionTo(PolicyState target_state) const {
 std::string PolicyLifecycle::getStateDescription() const {
     switch(current_state) {
         case PolicyState::DRAFT:
-            return "Policy drafted, not yet activated";
+            return "state=DRAFT: policy drafted, not yet activated";
         case PolicyState::ACTIVE:
-            return "Policy actively enforced";
+            return "state=ACTIVE: policy actively enforced";
         case PolicyState::DEPRECATED:
-            return "Policy retained for audit only";
+            return "state=DEPRECATED: deprecated policy retained for audit only";
         case PolicyState::RETIRED:
-            return "Policy archived";
+            return "state=RETIRED: policy archived";
         default:
-            return "Unknown state";
+            return "state=UNKNOWN: unknown policy state";
     }
 }
 
@@ -940,7 +940,9 @@ PolicyManager::PolicyResult PolicyManager::activateRuleWithValidation(
     // Update lifecycle
     rule_it->second.lifecycle.current_state = PolicyState::ACTIVE;
     rule_it->second.lifecycle.activated_at = 
-        std::chrono::system_clock::now().time_since_epoch().count() / 1'000'000;
+        std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch())
+            .count();
     rule_it->second.lifecycle.last_modified_by = user_id;
     
     // Log audit event
@@ -968,7 +970,9 @@ std::string PolicyManager::deprecateRule(
     
     rule_it->second.lifecycle.current_state = PolicyState::DEPRECATED;
     rule_it->second.lifecycle.deprecated_at = 
-        std::chrono::system_clock::now().time_since_epoch().count() / 1'000'000;
+        std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch())
+            .count();
     rule_it->second.lifecycle.last_modified_by = user_id;
     
     version_history_.addVersion(rule_it->second, user_id, 
@@ -993,7 +997,9 @@ std::string PolicyManager::retireRule(
     
     rule_it->second.lifecycle.current_state = PolicyState::RETIRED;
     rule_it->second.lifecycle.retired_at = 
-        std::chrono::system_clock::now().time_since_epoch().count() / 1'000'000;
+        std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch())
+            .count();
     rule_it->second.lifecycle.last_modified_by = user_id;
     
     version_history_.addVersion(rule_it->second, user_id, 
