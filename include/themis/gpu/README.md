@@ -54,6 +54,11 @@ Provides production-safe GPU resource management for ThemisDB: it enforces per-t
 
 | Header | Class / Type | Description |
 |--------|-------------|-------------|
+| **[Phase 1: Foundational Error Handling (NEW)]** | | |
+| `gpu_error.h` | `GPUErrorHandler`, `GPUErrorClass`, `ErrorRecoveryPolicy` | Unified CUDA/HIP error classification, taxonomy, and recovery policies |
+| `gpu_memory.h` | `unique_gpu_ptr<T>`, `shared_gpu_ptr<T>` | RAII GPU memory wrappers with automatic cleanup |
+| `gpu_timeout.h` | `KernelSLAGuard` | Kernel SLA enforcement (5-second hard limit) |
+| | | |
 | `gpu_module.h` | `GPUModule` | Top-level integration façade |
 | `memory_manager.h` | `GPUMemoryManager` | Edition-aware VRAM manager, tenant quotas |
 | `memory_pool.h` | `GPUMemoryPool` | Slab pre-allocator with defragmentation |
@@ -87,7 +92,143 @@ Provides production-safe GPU resource management for ThemisDB: it enforces per-t
 
 ---
 
-## Core Integration Façade
+## Phase 1: Foundational Error Handling Infrastructure
+
+**Status**: 🟢 PRODUCTION-READY (Implemented 2026-08-01)  
+**Phase**: GPU Phase C Readiness - Foundational  
+**Purpose**: Establish unified error handling, RAII memory management, and kernel SLA enforcement as prerequisites for Phase C (Hybrid Retrieval Rollout).
+
+### Components
+
+#### `gpu_error.h` — Error Taxonomy and Handler Interface
+
+Defines unified error classification and recovery policies for CUDA/HIP calls.
+
+**Error Classes** (GPUErrorClass enum):
+- `kQuotaExceeded` → VRAM budget denial → CPU fallback
+- `kKernelTimeout` → SLA violation (5s hard limit) → CPU fallback + diagnostic
+- `kBackendUnavailable` → Device offline / driver error → CPU fallback + mark unavailable
+- `kMemoryCommunication` → H2D/D2H transfer failure → Retry once; CPU fallback
+- `kNumerical` → Precision loss, NaN detection → Emit warning; continue with caution
+- `kUnsupportedOperation` → Kernel not available for config → CPU fallback
+
+**Recovery Policies** (ErrorRecoveryPolicy enum):
+- `kFallbackCPU` — Immediately degrade to CPU execution
+- `kRetryOnce` — Single retry before CPU fallback
+- `kMarkUnavailable` — Mark device unavailable for duration
+- `kEmitWarning` — Log warning and continue (non-blocking)
+
+**Interface** (GPUErrorHandler):
+- `logError(cuda_err, context)` — Log error; no recovery action
+- `handleError(cuda_err, context, policy)` — Classify, log, and apply recovery
+- `classifyError(cuda_err)` → GPUErrorClass
+- `defaultPolicy(error_class)` → ErrorRecoveryPolicy
+- `errorClassName(error_class)`, `cudaErrorName(cuda_err)`, `hipErrorName(hip_err)` — Diagnostics
+
+**Macros**:
+- `CHECKED_CUDA(stmt)` — CUDA error checking; auto-logs and applies policy
+- `CHECKED_HIP(stmt)` — HIP error checking; auto-logs and applies policy
+- `TRY_CUDA(stmt, fallback_action)` — Custom fallback handling
+
+**Usage Example**:
+```cpp
+// Error handling with CHECKED_CUDA
+float* d_data = nullptr;
+CHECKED_CUDA(cudaMalloc(&d_data, num_bytes));  // throws on OOM
+CHECKED_CUDA(cudaMemcpy(d_data, h_data, num_bytes, cudaMemcpyHostToDevice));
+
+// Custom fallback
+TRY_CUDA(cudaMalloc(&ptr, size), {
+  if (++retry_count < 3) {
+    // retry logic
+  } else {
+    // fallback to CPU
+  }
+});
+```
+
+#### `gpu_memory.h` — RAII GPU Memory Wrapper
+
+Provides C++ RAII idiom for GPU device memory with automatic cleanup and move semantics.
+
+**Templates**:
+- `unique_gpu_ptr<T>` — Unique ownership; move-only (like std::unique_ptr)
+- `shared_gpu_ptr<T>` — Reference-counted shared ownership (like std::shared_ptr)
+
+**Factory Functions**:
+- `make_unique_gpu<T>(count)` — Allocate count*sizeof(T) bytes on GPU
+- `make_shared_gpu<T>(count)` — Allocate with shared ownership
+
+**Invariants**:
+- RAII: automatic cleanup on scope exit via CHECKED_CUDA(cudaFree)
+- Move semantics: efficient ownership transfer
+- No copy: prevents accidental duplication
+- Exception-safe: destructor noexcept; handles cleanup on throw
+
+**Usage Example**:
+```cpp
+// Unique ownership (default)
+{
+  auto d_data = make_unique_gpu<float>(1000);  // allocates 4KB
+  kernel<<<grid, block>>>(d_data.get(), ...);
+}  // automatically frees
+
+// Move ownership
+auto allocate_buffer(size_t n) {
+  return make_unique_gpu<float>(n);  // moves out
+}
+auto buffer = allocate_buffer(1000);
+auto moved = std::move(buffer);  // ownership transfer
+
+// Shared ownership (optional)
+auto shared_buf = make_shared_gpu<float>(1000);
+auto copy1 = shared_buf;  // +1 refcount
+auto copy2 = shared_buf;  // +1 refcount
+// All freed when last holder destroyed
+```
+
+#### `gpu_timeout.h` — Kernel SLA Enforcement
+
+Enforces maximum kernel execution time to prevent GPU hangs and ensure deterministic latency.
+
+**Class**: `KernelSLAGuard`
+- Constructor takes timeout duration (default: 5 seconds)
+- `checkTimeoutDeadline()` → true if SLA exceeded
+- `getElapsedTime()` → elapsed duration
+- `getRemainingTime()` → time until deadline
+- Monotonic: once timeout detected, always returns true
+- Uses steady_clock (monotonic; unaffected by system clock)
+
+**Default SLA**: 5 seconds (production); tunable for testing.
+
+**Usage Example**:
+```cpp
+// Production: 5-second SLA
+KernelSLAGuard guard;
+
+// Testing: 100ms SLA
+KernelSLAGuard guard(std::chrono::milliseconds(100));
+
+// Enforce SLA
+myKernel<<<grid, block, 0, stream>>>(args);
+if (guard.checkTimeoutDeadline()) {
+  // Handle timeout: degrade to CPU
+  HANDLE_GPU_TIMEOUT();
+}
+```
+
+#### `gpu_error.cpp` — Implementation
+
+Implements `GPUErrorHandler` interface:
+- Thread-safe error classification and logging
+- Error code taxonomy mapping (CUDA/HIP → GPUErrorClass)
+- Singleton factory: `GPUErrorHandler::Create()`
+- Logging via spdlog (configurable level)
+- Exception safety: noexcept where possible
+
+---
+
+
 
 ### `gpu_module.h`
 **Location:** `include/themis/gpu/gpu_module.h`

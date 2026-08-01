@@ -5416,6 +5416,13 @@ if(THEMIS_BUILD_RETRIEVAL AND EXISTS "${THEMIS_ROOT_DIR}/src/retrieval/CMakeList
     endif()
 endif() # THEMIS_BUILD_RETRIEVAL
 
+# LLM Wiki module – workspace state persistence + edition gating (Phase 3).
+if(EXISTS "${THEMIS_ROOT_DIR}/src/llm_wiki/CMakeLists.txt" AND
+   NOT TARGET themis_llm_wiki)
+    add_subdirectory(${THEMIS_ROOT_DIR}/src/llm_wiki
+                     ${CMAKE_CURRENT_BINARY_DIR}/src/llm_wiki)
+endif()
+
 # Distributed Tensor Artifacts module (EPIC 5428) is community-visible and
 # must be available outside enterprise-plugin builds as well.
 if(EXISTS "${THEMIS_ROOT_DIR}/src/distributed_tensor/CMakeLists.txt" AND

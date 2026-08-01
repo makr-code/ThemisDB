@@ -101,6 +101,22 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
             target_link_libraries(${_target} PRIVATE rocksdb)
         endif()
     endif()
+    if(_stem STREQUAL "test_llm_wiki_phase3_edge_cases")
+        # Workspace state manager and edition gate are in themis_llm_wiki.
+        # If the library target exists (added via src/llm_wiki), link it;
+        # otherwise compile the sources directly for standalone focused builds.
+        if(TARGET themis_llm_wiki)
+            target_link_libraries(${_target} PRIVATE themis_llm_wiki)
+        else()
+            target_sources(${_target} PRIVATE
+                ${THEMIS_ROOT_DIR}/src/llm_wiki/workspace_state_manager.cpp
+                ${THEMIS_ROOT_DIR}/src/llm_wiki/edition_gate.cpp
+            )
+            target_include_directories(${_target} PRIVATE
+                ${THEMIS_ROOT_DIR}/src/llm_wiki
+            )
+        endif()
+    endif()
     # Tests using EXPECT_THAT/HasSubstr need gmock.
     set(_gmock_link "")
     if(TARGET GTest::gmock)
