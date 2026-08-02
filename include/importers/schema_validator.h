@@ -110,6 +110,129 @@ struct TypeCoercionConfig {
     bool validate_iso8601{true};          ///< Enforce ISO8601 or RFC3339 for dates
 };
 
+// ============================================================================
+// PHASE-3-ERROR-HANDLING: Schema Validation Levels & Reporting
+// ============================================================================
+
+/**
+ * @brief Schema validation strictness level.
+ *
+ * PHASE-3-ERROR-HANDLING: Deterministic validation with safe degradation paths
+ * Controls how strictly schemas are validated and what degradation paths are allowed.
+ */
+enum class SchemaValidationLevel {
+    STRICT,        ///< Enforce all rules (NULL types, complex cycles rejected)
+    LENIENT,       ///< Allow NULL types, warn on cycles, truncate oversized identifiers
+    AUTO_REPAIR    ///< Attempt to fix: coerce types, break cycles, truncate
+};
+
+/**
+ * @brief Individual schema error during validation.
+ *
+ * PHASE-3-ERROR-HANDLING: Structured schema errors with suggestions
+ */
+struct SchemaError {
+    std::string error_type;      ///< Error type (NULL_TABLE_NAME, CIRCULAR_FK, etc.)
+    std::string message;          ///< Human-readable error message
+    std::string affected_item;    ///< What caused error (table/column name)
+    std::string suggestion;       ///< How to fix (e.g., "provide table name")
+};
+
+/**
+ * @brief Complete validation report for a schema.
+ *
+ * PHASE-3-ERROR-HANDLING: Comprehensive schema validation results
+ * Provides all information needed to understand validation state and decide
+ * on remediation (accept degradation, fix errors, or reject).
+ */
+struct SchemaValidationReport {
+    /// True if schema is valid at specified level
+    bool is_valid;
+
+    /// Validation level that was applied
+    SchemaValidationLevel level;
+
+    /// Detected errors (only populated if not is_valid)
+    std::vector<SchemaError> errors;
+
+    /// Non-fatal warnings (suggestions for improvement)
+    std::vector<std::string> warnings;
+
+    /// Suggested remediation steps for user
+    std::vector<std::string> suggestions;
+
+    /// Repaired schema (if AUTO_REPAIR was applied and repairs successful)
+    DetectedSchema repaired_schema;
+
+    /// Validation elapsed time (ms)
+    uint64_t validation_time_ms;
+
+    json toJson() const {
+        json errors_json = json::array();
+        for (const auto& err : errors) {
+            errors_json.push_back({
+                {"error_type", err.error_type},
+                {"message", err.message},
+                {"affected_item", err.affected_item},
+                {"suggestion", err.suggestion}
+            });
+        }
+
+        json warnings_json = json::array();
+        for (const auto& w : warnings) {
+            warnings_json.push_back(w);
+        }
+
+        json suggestions_json = json::array();
+        for (const auto& s : suggestions) {
+            suggestions_json.push_back(s);
+        }
+
+        std::string level_str;
+        switch (level) {
+            case SchemaValidationLevel::STRICT:
+                level_str = "STRICT";
+                break;
+            case SchemaValidationLevel::LENIENT:
+                level_str = "LENIENT";
+                break;
+            case SchemaValidationLevel::AUTO_REPAIR:
+                level_str = "AUTO_REPAIR";
+                break;
+        }
+
+        return json{
+            {"is_valid", is_valid},
+            {"level", level_str},
+            {"errors", errors_json},
+            {"warnings", warnings_json},
+            {"suggestions", suggestions_json},
+            {"validation_time_ms", validation_time_ms}
+        };
+    }
+};
+
+/**
+ * @brief Validate schema with specified level and return comprehensive report.
+ *
+ * PHASE-3-ERROR-HANDLING: Deterministic schema validation with safe degradation
+ * Validates a schema according to the specified strictness level and returns
+ * detailed report with errors, warnings, and suggestions.
+ *
+ * @param schema  Schema to validate
+ * @param level   Validation level (STRICT/LENIENT/AUTO_REPAIR)
+ * @return SchemaValidationReport with complete results
+ */
+SchemaValidationReport validateSchemaWithReport(
+    const DetectedSchema& schema,
+    SchemaValidationLevel level);
+
+/**
+ * @brief Constraint violation categorization and null handling
+ */
+static std::pair<std::string, std::string> mapViolationToErrorCode(
+    ConstraintViolationType violation_type
+);
 
 /**
  * @brief Auto-detects column types from sampled string values.

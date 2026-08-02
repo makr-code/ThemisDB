@@ -240,3 +240,57 @@ std::vector<AuditedImporter::AuditEvent> AuditedImporter::ImmutableAuditLog::get
 
 } // namespace importers
 } // namespace themis
+
+// ============================================================================
+// PHASE-3-ERROR-HANDLING: Rollback & Recovery Audit Trail
+// ============================================================================
+
+std::string rollbackReasonToString(RollbackReason reason) {
+    // PHASE-3-ERROR-HANDLING: Convert rollback reason to string
+    switch (reason) {
+        case RollbackReason::USER_REQUESTED:
+            return "USER_REQUESTED";
+        case RollbackReason::QUOTA_EXCEEDED:
+            return "QUOTA_EXCEEDED";
+        case RollbackReason::SCHEMA_VALIDATION_FAILED:
+            return "SCHEMA_VALIDATION_FAILED";
+        case RollbackReason::CONNECTOR_UNAVAILABLE:
+            return "CONNECTOR_UNAVAILABLE";
+        case RollbackReason::QUALITY_GATE_FAILED:
+            return "QUALITY_GATE_FAILED";
+        case RollbackReason::INTEGRITY_VIOLATION:
+            return "INTEGRITY_VIOLATION";
+        case RollbackReason::TIMEOUT:
+            return "TIMEOUT";
+        case RollbackReason::UNKNOWN:
+            return "UNKNOWN";
+        default:
+            return "UNKNOWN";
+    }
+}
+
+void AuditedImporter::ImmutableAuditLog::emitRollbackEvent(
+    const RollbackAuditEvent& rollback_event,
+    const std::string& import_id,
+    const std::string& user_principal) {
+    // PHASE-3-ERROR-HANDLING: Emit rollback audit event with full context
+    
+    AuditEvent event;
+    event.type = EventType::IMPORT_COMPLETED;
+    event.event_type = AuditEventType::IMPORT_ROLLBACK_REQUESTED;
+    event.timestamp = ""; // Will be populated by caller if needed
+    event.user_principal = user_principal;
+    event.importer_instance_id = "";
+    event.import_id = import_id;
+    event.correlation_id = ""; // Will be populated by caller if needed
+    event.sequence_number = events_.size();
+    event.event_timestamp_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(
+        std::chrono::high_resolution_clock::now().time_since_epoch()).count();
+    
+    // Populate details with rollback information
+    event.details = rollback_event.toJson();
+    
+    // Record the event (this will add it to the chain)
+    recordEvent(event);
+}
+

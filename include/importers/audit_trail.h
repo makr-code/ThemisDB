@@ -70,6 +70,76 @@ constexpr size_t kMaxAuditBufferSize = 100000;  ///< Maximum events per process
  */
 std::string auditEventTypeToString(AuditEventType t);
 
+// ============================================================================
+// PHASE-3-ERROR-HANDLING: Rollback & Recovery Audit Trail
+// ============================================================================
+
+/**
+ * @brief Reason for import rollback.
+ *
+ * PHASE-3-ERROR-HANDLING: Structured rollback reasons for diagnostics
+ * Used to categorize why an import failed and was rolled back.
+ */
+enum class RollbackReason {
+    USER_REQUESTED,           ///< User explicitly requested rollback
+    QUOTA_EXCEEDED,           ///< Resource quota limit exceeded
+    SCHEMA_VALIDATION_FAILED, ///< Schema validation error prevented import
+    CONNECTOR_UNAVAILABLE,    ///< Source connector connection failed
+    QUALITY_GATE_FAILED,      ///< Quality check failed and bypass not enabled
+    INTEGRITY_VIOLATION,      ///< Constraint violation during import
+    TIMEOUT,                  ///< Import operation exceeded timeout
+    UNKNOWN                   ///< Unspecified reason
+};
+
+/**
+ * @brief Convert RollbackReason to string.
+ *
+ * @param reason Rollback reason enum value
+ * @return String representation for logging/audit
+ */
+std::string rollbackReasonToString(RollbackReason reason);
+
+/**
+ * @brief Complete audit event for an import rollback.
+ *
+ * PHASE-3-ERROR-HANDLING: Rollback audit trail with full context
+ * Captures all information needed to understand rollback and recovery path.
+ */
+struct RollbackAuditEvent {
+    /// Reason for rollback
+    RollbackReason reason;
+
+    /// Total rows attempted before rollback
+    uint64_t rows_attempted;
+
+    /// Rows successfully committed before failure
+    uint64_t rows_committed;
+
+    /// Rows rolled back (rows_attempted - rows_committed)
+    uint64_t rows_rolled_back;
+
+    /// ID of first row where failure occurred (for deterministic replay)
+    std::string failure_first_row_id;
+
+    /// Actionable suggestion for recovery (e.g., "reconnect and retry from row 5000")
+    std::string recovery_suggestion;
+
+    /// Timestamp when rollback was initiated (nanoseconds)
+    uint64_t rollback_timestamp_ns;
+
+    json toJson() const {
+        return json{
+            {"reason", rollbackReasonToString(reason)},
+            {"rows_attempted", rows_attempted},
+            {"rows_committed", rows_committed},
+            {"rows_rolled_back", rows_rolled_back},
+            {"failure_first_row_id", failure_first_row_id},
+            {"recovery_suggestion", recovery_suggestion},
+            {"rollback_timestamp_ns", rollback_timestamp_ns}
+        };
+    }
+};
+
 /**
  * @brief SOX 404 / HIPAA compliant immutable audit trail for import operations.
  *
@@ -179,6 +249,20 @@ public:
          * @return           Events ordered by sequence_number, or empty vector if not found
          */
         std::vector<AuditEvent> getAuditTrailForImport(const std::string& import_id) const;
+
+        /**
+         * @brief Emit a rollback audit event with full recovery context.
+         *
+         * PHASE-3-ERROR-HANDLING: Rollback audit trail emission
+         * Records complete rollback details for diagnostics and recovery.
+         *
+         * @param rollback_event  Rollback event with reason and context
+         * @param import_id       Unique import session ID
+         * @param user_principal  User/principal that triggered rollback
+         */
+        void emitRollbackEvent(const RollbackAuditEvent& rollback_event,
+                               const std::string& import_id,
+                               const std::string& user_principal);
 
     private:
         std::vector<AuditEvent> events_;

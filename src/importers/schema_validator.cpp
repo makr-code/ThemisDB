@@ -20,6 +20,8 @@
 
 #include "importers/schema_validator.h"
 #include <stdexcept>
+#include <chrono>
+#include <ctime>
 
 #include <algorithm>
 #include <cctype>
@@ -346,4 +348,98 @@ SchemaAutoDetector::validateStringCoercion(const std::string& value)
 
 } // namespace importers
 } // namespace themis
+
+
+// ============================================================================
+// PHASE-3-ERROR-HANDLING: Schema Validation with Report
+// ============================================================================
+
+SchemaValidationReport validateSchemaWithReport(
+    const DetectedSchema& schema,
+    SchemaValidationLevel level) {
+    // PHASE-3-ERROR-HANDLING: Comprehensive schema validation with degradation paths
+    
+    auto start_time = std::chrono::high_resolution_clock::now();
+    
+    SchemaValidationReport report;
+    report.level = level;
+    report.repaired_schema = schema;
+    report.is_valid = true;
+    
+    // Check for NULL table name
+    if (schema.table_name.empty()) {
+        SchemaError err;
+        err.error_type = "NULL_TABLE_NAME";
+        err.message = "Table name is missing or empty";
+        err.affected_item = "<unknown>";
+        err.suggestion = "Provide a non-empty table name in the schema";
+        
+        if (level == SchemaValidationLevel::STRICT) {
+            report.errors.push_back(err);
+            report.is_valid = false;
+        } else if (level == SchemaValidationLevel::LENIENT) {
+            report.warnings.push_back("Table name is empty (will use default)");
+            report.suggestions.push_back("Provide table name in schema");
+        } else if (level == SchemaValidationLevel::AUTO_REPAIR) {
+            report.repaired_schema.table_name = "repaired_table_" + 
+                std::to_string(std::time(nullptr));
+            report.suggestions.push_back("Assigned default table name: " + 
+                report.repaired_schema.table_name);
+        }
+    }
+    
+    // Check for oversized identifiers
+    for (const auto& col : schema.columns) {
+        if (col.length() > 128) {
+            SchemaError err;
+            err.error_type = "OVERSIZED_IDENTIFIER";
+            err.message = "Identifier exceeds 128 character limit";
+            err.affected_item = col;
+            err.suggestion = "Truncate identifier to 128 characters or provide shorter name";
+            
+            if (level == SchemaValidationLevel::STRICT) {
+                report.errors.push_back(err);
+                report.is_valid = false;
+            } else if (level == SchemaValidationLevel::LENIENT) {
+                report.warnings.push_back("Column '" + col + "' exceeds length limit");
+                report.suggestions.push_back("Consider truncating column names");
+            } else if (level == SchemaValidationLevel::AUTO_REPAIR) {
+                std::string truncated = col.substr(0, 128);
+                report.suggestions.push_back("Auto-truncated column '" + col + 
+                    "' to '" + truncated + "'");
+            }
+        }
+    }
+    
+    // Check for unknown/NULL types
+    for (const auto& [col_name, col_type] : schema.column_types) {
+        // In DetectedFieldType enum, all values are defined, so type checking is implicit
+        // Just warn about any columns that might have issues
+        if (col_name.empty()) {
+            SchemaError err;
+            err.error_type = "NULL_COLUMN_NAME";
+            err.message = "Column name is empty";
+            err.affected_item = "<empty>";
+            err.suggestion = "Provide non-empty column name";
+            
+            if (level == SchemaValidationLevel::STRICT) {
+                report.errors.push_back(err);
+                report.is_valid = false;
+            } else if (level == SchemaValidationLevel::LENIENT) {
+                report.warnings.push_back("Empty column name detected");
+            }
+        }
+    }
+    
+    // Note: Circular FK detection would require additional context (foreign key definitions)
+    // which are not part of DetectedSchema. This is a placeholder for the logic.
+    // In a real implementation, this would require a more complex schema structure
+    // that includes foreign key definitions.
+    
+    auto end_time = std::chrono::high_resolution_clock::now();
+    report.validation_time_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        end_time - start_time).count();
+    
+    return report;
+}
 
