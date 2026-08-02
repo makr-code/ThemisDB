@@ -451,9 +451,20 @@ bool OntologyManager::isEdgeTypeAllowed(std::string_view sourceClass, std::strin
     }
     auto allowed = allowedEdgeTypes(sourceClass, targetClass);
     if (allowed.empty()) {
-        return true; // no axioms restrict this pair
+        return false; // strict mode: no axioms for this pair means deny
     }
-    return allowed.count(std::string(edgeType)) > 0;
+    if (allowed.count(std::string(edgeType)) > 0) {
+        return true;
+    }
+
+    const auto is_known_edge_type = std::any_of(
+        axioms_.begin(), axioms_.end(),
+        [edgeType](const Axiom& axiom) { return axiom.edge_type == edgeType; });
+
+    // Graceful fallback for schema evolution: allow unknown edge types when
+    // class-pair axioms exist, but keep strict rejection for known-but-disallowed
+    // edge types.
+    return !is_known_edge_type;
 }
 
 // ── Serialisation ────────────────────────────────────────────────────────────

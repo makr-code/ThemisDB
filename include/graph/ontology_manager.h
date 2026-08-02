@@ -225,10 +225,19 @@ public:
         std::string_view targetClass) const;
 
     /**
-     * @brief Check whether an edge type is permitted between source and target classes.
+     * @brief Check if an edge type is allowed between two entity types.
      *
-     * Shorthand for `allowedEdgeTypes(src, tgt).count(edgeType) > 0`.
-     * Returns `true` when either class is unknown (graceful degradation).
+     * Returns `true` if:
+     * - Either @p sourceClass or @p targetClass is unknown (graceful degradation), OR
+     * - @p edgeType is explicitly allowed for the class pair by ontology axioms, OR
+     * - Axioms exist for the class pair and @p edgeType is unknown globally
+     *   (schema-evolution fallback).
+     *
+     * Returns `false` if:
+     * - Both classes are known AND there are no axioms for this pair (strict mode).
+     * - @p edgeType is known in the ontology but not allowed for this class pair.
+     *
+     * @see allowedEdgeTypes() to retrieve the exact set of axiom-defined edge types.
      */
     [[nodiscard]] bool isEdgeTypeAllowed(std::string_view sourceClass,
                                          std::string_view targetClass,

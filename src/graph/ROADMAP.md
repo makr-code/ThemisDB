@@ -40,11 +40,18 @@ Production graph runtime exists across query planning, constraint-aware traversa
 
 ## In Progress
 
-- [~] hardening GPU/distributed traversal parity and fallback determinism in mixed-capability environments (Target: Q3 2026)
-- [~] benchmark stabilization for optimizer, traversal, and tensor-fingerprint graph hot paths (Target: Q3 2026)
-- [~] diagnostics consistency for constraint denial, fallback, and reasoning conflict incidents (Target: Q3 2026)
-- [~] hybrid retrieval rollout Phase A entry: error path and thread-safety hardening (Target: Q3 2026)
-- [~] approved next implementation block: start Phase 3 with query-optimizer hardening, then cache efficiency and resource pooling, then scheduling/load-balancing sign-off (Target: Q3 2026)
+- [~] **Phase 1 API Contract Freeze** (2026-08-01): ✅ COMPLETE
+  - [x] Error taxonomy frozen (44 error codes, 3 categories: DENIAL/FALLBACK/REASONING_CONFLICT)
+  - [x] API contracts documented for all 4 major component layers
+  - [x] Error context diagnostics framework implemented
+  - [x] Phase 1 validation test suite (test_graph_error_taxonomy_phase1.cpp)
+  - Deliverables: `graph_error_taxonomy.h/cpp`, `GRAPH_API_CONTRACTS_PHASE1.md`
+
+- [~] **Phase 2-6 Tasks** (Target: Q3-Q4 2026)
+  - [~] hardening GPU/distributed traversal parity and fallback determinism in mixed-capability environments (Target: Q4 2026)
+  - [~] benchmark stabilization for optimizer, traversal, and tensor-fingerprint graph hot paths (Target: Q4 2026)
+  - [~] diagnostics consistency for constraint denial, fallback, and reasoning conflict incidents (Target: Q4 2026)
+  - [~] hybrid retrieval rollout Phase A entry: error path and thread-safety hardening (Target: Q3-Q4 2026)
 
 ## Planned Features
 
@@ -87,8 +94,14 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity �
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [ ] freeze planning/traversal/semantic/tensor utility contracts for active major line (Target: Q3 2026)
-- [ ] define explicit error taxonomy for denial, fallback, and reasoning conflict classes (Target: Q3 2026)
+- [x] freeze planning/traversal/semantic/tensor utility contracts for active major line (Target: Q3 2026) — **COMPLETE 2026-08-01**
+  - Frozen API contracts documented in `GRAPH_API_CONTRACTS_PHASE1.md`
+  - All 10 major components have explicit preconditions, postconditions, thread-safety contracts
+  - Breaking change policy established (requires full team review + deprecation period)
+- [x] define explicit error taxonomy for denial, fallback, and reasoning conflict classes (Target: Q3 2026) — **COMPLETE 2026-08-01**
+  - 44 error codes across 7 component categories (Optimizer, Traversal, Reasoning, Tensor, Distributed, Resource, Generic)
+  - Category semantics frozen: DENIAL (fix preconditions), FALLBACK (retry/CPU), REASONING_CONFLICT (operator intervention)
+  - Error description lookup, diagnostics, and validation helpers implemented in `graph_error_taxonomy.h/cpp`
 
 ### Phase 2: Core Implementation
 - [ ] complete hardening for optimizer, traversal, and distributed orchestration internals (Target: Q4 2026)
