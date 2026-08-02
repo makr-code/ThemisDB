@@ -1,7 +1,7 @@
 {
   "timestamp": "/home/runner/work/ThemisDB/ThemisDB",
   "phase": "1-4 Enhancement",
-  "scanners_run": 4,
+  "scanners_run": 5,
   "total_gaps": 0,
   "by_enhancement": {
     "S-1": {
@@ -10,6 +10,15 @@
       "expected_range": [
         100,
         160
+      ],
+      "status": "CHECK"
+    },
+    "S-2": {
+      "title": "Cryptographic Weaknesses (CWE-327)",
+      "gap_count": 0,
+      "expected_range": [
+        70,
+        120
       ],
       "status": "CHECK"
     },

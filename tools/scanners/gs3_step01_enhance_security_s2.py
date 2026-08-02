@@ -181,7 +181,7 @@ class S2CryptoScanner:
             'Hardcoded initialization vector — use random IV for each encryption'
         ),
         'iv_zeros': (
-            re.compile(r'(?:iv|IV)\s*[=:]\s*(?:nullptr|NULL|{0}|memset.*0)', re.IGNORECASE),
+            re.compile(r'(?:iv|IV)\s*[=:]\s*(?:nullptr|NULL|\{0\}|memset.*0)', re.IGNORECASE),
             'CRITICAL',
             'Initialization vector is all zeros — use random IV'
         ),
