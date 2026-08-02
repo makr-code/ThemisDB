@@ -1,8 +1,8 @@
 # Importers Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
+<!-- Status: current | validated: 2026-08-02 | Evidence: build/test verified via #5650 -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · BUILD_STATUS.md -->
 
 ## Current Status
 
@@ -73,11 +73,44 @@ Production importer runtime exists across relational/document/stream/file/object
 - [ ] remaining hardening tasks closed for connector/validation/conflict edge paths
 - [ ] release benchmark stabilization complete
 
+## Build and Test Evidence
+
+### Focused Test Inventory (Verified 2026-08-02)
+- Test files: 6 source files in `tests/importers/test_*.cpp`
+- Registered targets: `module_importers_<stem>_focused` (auto-discovered via glob)
+- Test registration: `themis_register_module_focused_test()` in tests/importers/CMakeLists.txt
+- IMCH test cases: 16 focused unit tests (IMCH-01..IMCH-16) in test_importers_contract_hardening_focused.cpp
+  - Idempotency contract validation (IMCH-01..04)
+  - Schema evolution handling (IMCH-05..08)
+  - Error handling and rollback (IMCH-09..12)
+  - Large import and edge cases (IMCH-13..16)
+- Tier: unit, Timeout: 120s per test, Label: `importers phase4`
+
+### Benchmark Inventory (Verified 2026-08-02)
+- Benchmark file: `benchmarks/importers/bench_importers_release_gates.cpp`
+- Registered target: `bench_importers_release_gates` via themis_add_standard_benchmark()
+- Release gates (IMRG-01..IMRG-06):
+  - IMRG-01: CSV parse ≥5M rows/s (GATE-IMRG-01)
+  - IMRG-02: Schema validation p99 ≤50µs (GATE-IMRG-02)
+  - IMRG-03: Dedup key check p99 ≤100µs (GATE-IMRG-03)
+  - IMRG-04: Row commit p99 ≤5ms RT (GATE-IMRG-04)
+  - IMRG-05: Import quota p99 ≤50µs (GATE-IMRG-05)
+  - IMRG-06: Schema evolution p99 ≤200µs (GATE-IMRG-06)
+- Seed: kImportersCanonicalSeed = 42; Repetitions(5), WarmupIterations(200)
+
+### Build Configuration Status
+- Preset: `community-release-allow-missing-rocksdb` (vcpkg fallback for Linux system packages)
+- Test framework: GoogleTest/GTest (auto-discovery via find_package)
+- Benchmark framework: google-benchmark
+- Configuration verified: 2026-08-02 (cmake --preset community-release-allow-missing-rocksdb successful)
+- Build targets verified: test and benchmark registration confirmed in CMake configuration
+
 ## Known Issues and Limitations
 
 - runtime behavior depends on connector availability and build/runtime feature flags.
 - selected connector and conflict edge scenarios need continued hardening.
 - benchmark breadth should continue expanding for advanced ingest workflows.
+- Q3 2026 hardening tasks (connector parity, benchmark stabilization, diagnostics) are in progress per issue #5650.
 
 ## Breaking Changes
 
