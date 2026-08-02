@@ -393,6 +393,147 @@ class ManagedResource {
   Deleter deleter_;
 };
 
+// ============================================================================
+// QuotaGuard: RAII wrapper for quota management (token, batch count, etc.)
+// ============================================================================
+class QuotaGuard {
+ public:
+  using ReleaseFunc = std::function<void(size_t)>;
+  
+  /**
+   * Construct quota guard
+   * @param quota_amount Amount of quota to acquire/release
+   * @param releaser Function to call when quota is returned
+   */
+  QuotaGuard(size_t quota_amount, ReleaseFunc releaser)
+      : quota_amount_(quota_amount), 
+        releaser_(releaser),
+        is_released_(false) {}
+  
+  // Move semantics
+  QuotaGuard(QuotaGuard&& other) noexcept
+      : quota_amount_(other.quota_amount_),
+        releaser_(other.releaser_),
+        is_released_(other.is_released_) {
+    other.quota_amount_ = 0;
+    other.releaser_ = nullptr;
+    other.is_released_ = true;
+  }
+  
+  // Prevent copying
+  QuotaGuard(const QuotaGuard&) = delete;
+  QuotaGuard& operator=(const QuotaGuard&) = delete;
+  
+  // Destructor: exception-safe quota release
+  ~QuotaGuard() noexcept {
+    release();
+  }
+  
+  size_t getAmount() const { return quota_amount_; }
+  
+  void release() {
+    if (!is_released_ && releaser_ && quota_amount_ > 0) {
+      try {
+        releaser_(quota_amount_);
+      } catch (...) {
+        // Swallow exceptions in destructor
+      }
+      is_released_ = true;
+    }
+  }
+  
+ private:
+  size_t quota_amount_;
+  ReleaseFunc releaser_;
+  std::atomic<bool> is_released_;
+};
+
+// ============================================================================
+// BatchGuard: RAII wrapper for batch resource management
+// ============================================================================
+class BatchGuard {
+ public:
+  using BatchReleaser = std::function<void()>;
+  
+  /**
+   * Construct batch guard for batch operation cleanup
+   * @param batch_id Unique batch identifier
+   * @param releaser Function to clean up batch resources
+   */
+  explicit BatchGuard(int batch_id, BatchReleaser releaser)
+      : batch_id_(batch_id),
+        releaser_(releaser),
+        is_released_(false) {}
+  
+  // Move semantics
+  BatchGuard(BatchGuard&& other) noexcept
+      : batch_id_(other.batch_id_),
+        releaser_(other.releaser_),
+        is_released_(other.is_released_) {
+    other.batch_id_ = -1;
+    other.releaser_ = nullptr;
+    other.is_released_ = true;
+  }
+  
+  // Prevent copying
+  BatchGuard(const BatchGuard&) = delete;
+  BatchGuard& operator=(const BatchGuard&) = delete;
+  
+  // Destructor: exception-safe batch cleanup
+  ~BatchGuard() noexcept {
+    release();
+  }
+  
+  int getId() const { return batch_id_; }
+  
+  void release() {
+    if (!is_released_ && releaser_) {
+      try {
+        releaser_();
+      } catch (...) {
+        // Swallow exceptions
+      }
+      is_released_ = true;
+    }
+  }
+  
+ private:
+  int batch_id_;
+  BatchReleaser releaser_;
+  std::atomic<bool> is_released_;
+};
+
+// ============================================================================
+// ThreadSafeCounter: Atomic counter with RAII semantics
+// ============================================================================
+class ThreadSafeCounter {
+ public:
+  /**
+   * Construct counter with initial value
+   */
+  explicit ThreadSafeCounter(size_t initial = 0) 
+      : value_(initial) {}
+  
+  size_t increment() {
+    return value_.fetch_add(1, std::memory_order_acq_rel) + 1;
+  }
+  
+  size_t decrement() {
+    return value_.fetch_sub(1, std::memory_order_acq_rel) - 1;
+  }
+  
+  size_t get() const {
+    return value_.load(std::memory_order_acquire);
+  }
+  
+  void set(size_t val) {
+    value_.store(val, std::memory_order_release);
+  }
+  
+ private:
+  std::atomic<size_t> value_;
+};
+
 }  // namespace themis::llm
 
 #endif  // THEMIS_LLM_MEMORY_SAFETY_UTILS_H
