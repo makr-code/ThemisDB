@@ -10,9 +10,9 @@ Production importer runtime exists across relational/document/stream/file/object
 
 ## In Progress
 
-- [~] hardening connector parity and fallback determinism across mixed runtime capability profiles (Target: Q3 2026)
-- [~] benchmark stabilization for importer throughput and conflict-resolution hot paths (Target: Q3 2026)
-- [~] diagnostics consistency for schema/conflict/connector denial incidents (Target: Q3 2026)
+- [~] error handling and diagnostics unification for fail-safe behavior (Target: Q4 2026, Phase 3 in progress)
+- [ ] benchmark stabilization for importer throughput and conflict-resolution hot paths (Target: Q3 2026)
+- [ ] diagnostics consistency for schema/conflict/connector denial incidents (Target: Q4 2026, Phase 3 in progress)
 
 ## Planned Features
 
@@ -37,12 +37,22 @@ Production importer runtime exists across relational/document/stream/file/object
     IMPORT_CONNECTOR_UNAVAILABLE, IMPORT_ROLLBACK, INTERNAL_ERROR
 
 ### Phase 2: Core Implementation
-- [ ] complete hardening for connector import and schema/validation internals (Target: Q4 2026)
-- [ ] align conflict/quality/audit behavior to bounded runtime contracts (Target: Q4 2026)
+- [x] complete hardening for connector import and schema/validation internals (Delivered: Q3 2026)
+  - T2.1 Part 1: PostgreSQL connector hardening (commit 01e331e7)
+  - T2.1 Part 2: MySQL/Oracle/SQLite connector hardening (commit 5646694c)
+  - T2.1 Part 3/4: MongoDB/Kafka/S3 connector hardening (Q3 2026)
+  - T2.2: Schema inference and validation hardening (commit 6d5e118c)
+- [x] align conflict/quality/audit behavior to bounded runtime contracts (Delivered: Q3 2026)
+  - T2.3: Conflict resolution determinism, quality scoring bounds, audit trail integration (commit fe2f4cfd)
 
 ### Phase 3: Error Handling and Edge Cases
-- [ ] standardize fail-safe behavior for unsupported connector and malformed schema scenarios (Target: Q4 2026)
-- [ ] unify diagnostics across schema, conflict, and capability failure incidents (Target: Q4 2026)
+- [~] standardize fail-safe behavior for unsupported connector and malformed schema scenarios (Target: Q4 2026, in progress)
+  - T3.1.1: Connector capability fallback chain
+  - T3.1.2: Malformed schema detection and degradation
+  - T3.1.3: Rollback and recovery audit trail
+- [~] unify diagnostics across schema, conflict, and capability failure incidents (Target: Q4 2026, in progress)
+  - T3.2.1: Structured failure diagnostics
+  - T3.2.2: Diagnostic aggregation and reporting
 
 ### Phase 4: Tests
 - [x] expand focused regressions for mixed connector/schema/conflict edge scenarios (Delivered: Q3 2026)
@@ -108,9 +118,11 @@ Production importer runtime exists across relational/document/stream/file/object
 ## Known Issues and Limitations
 
 - runtime behavior depends on connector availability and build/runtime feature flags.
-- selected connector and conflict edge scenarios need continued hardening.
+- Q3 2026 Phase 2 connector hardening completed (parity, timeout, pool management, error mapping per commit 01e331e7, 5646694c, 6d5e118c, fe2f4cfd).
+- Q3 2026 Phase 2 schema/validation hardening completed (bounds, cycles, type fallback per commit 6d5e118c).
+- Q3 2026 Phase 2 conflict/quality/audit hardening completed (determinism, scoring bounds, structured audit per commit fe2f4cfd).
+- Phase 3 error handling and diagnostics work in progress (target Q4 2026).
 - benchmark breadth should continue expanding for advanced ingest workflows.
-- Q3 2026 hardening tasks (connector parity, benchmark stabilization, diagnostics) are in progress per issue #5650.
 
 ## Breaking Changes
 
