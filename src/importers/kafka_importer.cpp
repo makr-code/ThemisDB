@@ -38,7 +38,6 @@
 #include <future>
 #include <algorithm>
 #include <fstream>
-#include <json.hpp>
 
 #ifdef ERROR
 #undef ERROR
