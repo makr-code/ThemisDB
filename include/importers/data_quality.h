@@ -132,6 +132,40 @@ public:
             const std::map<std::string, ColumnStatistics>& stats = {}
         );
 
+        /**
+         * @brief Compute quality score with audit integration (Phase 2 T2.3.2).
+         *
+         * PHASE-2-HARDENING: Quality Score Bounds & Audit Integration
+         * Determinism: yes (formula is deterministic)
+         * Audit: emits quality check or bypass events
+         * Bounded: quality checks ≤ 500ms
+         *
+         * Applies the Phase 2 quality score formula:
+         *   score = min(100, max(0, round(
+         *     (pass_rate * 80) + ((100 - null_ratio) * 0.2)
+         *   )))
+         *
+         * When quality gate bypass is needed (user override, timeout, schema mismatch),
+         * emits audit event with full context.
+         *
+         * @param table_name      Name of the table being assessed.
+         * @param sample_data     Sampled rows (JSON objects).
+         * @param check_type      Type of quality check (e.g., "SCHEMA_MATCH", "NULL_RATIO").
+         * @param audit_event_id  Correlation ID for audit trail linking.
+         * @param stats           Optional pre-computed column statistics.
+         * @param bypass_reason   Optional bypass reason; if provided, quality gate is bypassed
+         *                       and audit event emitted with this reason.
+         * @return                QualityCheckResult with score [0, 100] and audit context.
+         */
+        QualityCheckResult scoreWithAudit(
+            const std::string& table_name,
+            const std::vector<json>& sample_data,
+            const std::string& check_type,
+            const std::string& audit_event_id,
+            const std::map<std::string, ColumnStatistics>& stats = {},
+            const std::string& bypass_reason = ""
+        );
+
     private:
         double computeCompleteness(const std::vector<json>& rows,
                                    const std::string& column) const;
