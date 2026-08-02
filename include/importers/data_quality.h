@@ -30,6 +30,41 @@ namespace themis {
 namespace importers {
 
 /**
+ * @brief Quality score constants (Phase 2 T2.3.2).
+ *
+ * PHASE-2-HARDENING: Quality Score Bounds & Audit Integration
+ * Bounded: all scores in [0, 100]
+ * Audit: quality gates tracked in audit trail
+ * Determinism: no randomness in scoring
+ */
+constexpr uint8_t kMinQualityThreshold = 0;
+constexpr uint8_t kMaxQualityThreshold = 100;
+constexpr uint8_t kDefaultQualityThreshold = 50;  // 50% checks pass
+constexpr size_t kMaxQualityCheckNameLength = 64;
+
+/**
+ * @brief Quality check result structure (Phase 2 T2.3.2).
+ *
+ * PHASE-2-HARDENING: Quality Score Bounds & Audit Integration
+ * Determinism: yes (formula is deterministic)
+ * Audit: all results auditable with full context
+ * Bounded: score always in [0, 100]
+ */
+struct QualityCheckResult {
+    uint8_t score;                          ///< Overall quality score [0, 100] (bounded)
+    std::string check_type;                 ///< Check type name (max 64 chars)
+    bool passed;                            ///< Did the check pass?
+    float null_coverage;                    ///< Null ratio [0.0, 1.0]
+    std::string comment;                    ///< Additional context (max 256 chars)
+
+    /**
+     * @brief Convert result to JSON for audit trail.
+     * @return JSON representation suitable for audit trail
+     */
+    json toJson() const;
+};
+
+/**
  * @brief NIST SP 800-188 compliant Data Quality Framework.
  *
  * Evaluates six quality dimensions (completeness, accuracy, consistency,
