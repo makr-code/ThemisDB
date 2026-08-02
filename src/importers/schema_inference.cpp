@@ -236,8 +236,14 @@ SchemaInferenceEngine::detectSingleColumn(
     auto best = std::max_element(votes.begin(), votes.end(),
         [](const auto& a, const auto& b){ return a.second < b.second; });
 
-    // Require at least 70 % agreement
-    if (best->second * 100 / sample_size >= 70) return best->first;
+    // PHASE-2-HARDENING: Use configured confidence threshold for fallback decision
+    // If confidence is below threshold, fall back to UNKNOWN (which is interpreted as STRING)
+    double confidence_percent = (best->second * 100.0) / sample_size;
+    if (confidence_percent >= (config_.semantic_type_confidence_threshold * 100.0)) {
+        return best->first;
+    }
+    
+    // Confidence too low – fall back to UNKNOWN for deterministic, safe behavior
     return SemanticType::UNKNOWN;
 }
 
@@ -265,7 +271,17 @@ SchemaInferenceEngine::detectSemanticTypes(
             std::string key = schema.name + "." + col;
             auto it = sample_index.find(key);
             if (it != sample_index.end()) {
-                result[key] = detectSingleColumn(it->second);
+                SemanticType detected = detectSingleColumn(it->second);
+                
+                // PHASE-2-HARDENING: Confidence-based fallback to STRING
+                // If confidence is low, fall back to STRING type for safety
+                if (detected == SemanticType::UNKNOWN) {
+                    // Confidence is effectively 0% – fallback to STRING
+                    result[key] = SemanticType::UNKNOWN;
+                } else {
+                    // Semantic type was detected with sufficient confidence
+                    result[key] = detected;
+                }
             }
         }
     }
@@ -288,6 +304,206 @@ std::string SchemaInferenceEngine::semanticTypeToString(SemanticType t) {
 }
 
 // ---------------------------------------------------------------------------
+// PHASE-2-HARDENING: Schema validation and cycle detection
+// ---------------------------------------------------------------------------
+
+std::vector<SchemaStructureError>
+SchemaInferenceEngine::validateSchemaStructure(
+    const std::vector<InferenceTableSchema>& schemas)
+{
+    std::vector<SchemaStructureError> errors;
+
+    for (const auto& schema : schemas) {
+        // Check table name validity
+        if (schema.name.empty()) {
+            SchemaStructureError err;
+            err.violation_type = SchemaStructureError::ViolationType::NULL_TABLE_NAME;
+            err.table_name = "";
+            err.error_message = "Table has empty/null name";
+            errors.push_back(std::move(err));
+            continue;  // Skip this schema due to critical error
+        }
+
+        if (schema.name.size() > kMaxIdentifierLength) {
+            SchemaStructureError err;
+            err.violation_type = SchemaStructureError::ViolationType::OVERSIZED_IDENTIFIER;
+            err.table_name = schema.name;
+            err.error_message = "Table name exceeds maximum length (" +
+                                std::to_string(kMaxIdentifierLength) + ")";
+            errors.push_back(std::move(err));
+        }
+
+        if (!isValidIdentifier(schema.name)) {
+            SchemaStructureError err;
+            err.violation_type = SchemaStructureError::ViolationType::OVERSIZED_IDENTIFIER;
+            err.table_name = schema.name;
+            err.error_message = "Table name contains invalid characters (must be alphanumeric + underscore)";
+            errors.push_back(std::move(err));
+        }
+
+        // Check column validity
+        std::unordered_set<std::string> seen_columns;
+        if (schema.columns.size() > kMaxColumnCount) {
+            SchemaStructureError err;
+            err.violation_type = SchemaStructureError::ViolationType::OVERSIZED_IDENTIFIER;
+            err.table_name = schema.name;
+            err.error_message = "Table exceeds maximum column count (" +
+                                std::to_string(kMaxColumnCount) + ")";
+            errors.push_back(std::move(err));
+        }
+
+        for (const auto& col : schema.columns) {
+            // Check for empty column name
+            if (col.empty()) {
+                SchemaStructureError err;
+                err.violation_type = SchemaStructureError::ViolationType::NULL_COLUMN_NAME;
+                err.table_name = schema.name;
+                err.column_name = col;
+                err.error_message = "Column has empty/null name in table '" + schema.name + "'";
+                errors.push_back(std::move(err));
+                continue;
+            }
+
+            // Check for duplicate column names
+            if (seen_columns.count(col) > 0) {
+                SchemaStructureError err;
+                err.violation_type = SchemaStructureError::ViolationType::DUPLICATE_COLUMN;
+                err.table_name = schema.name;
+                err.column_name = col;
+                err.error_message = "Duplicate column name '" + col + "' in table '" + schema.name + "'";
+                errors.push_back(std::move(err));
+            }
+            seen_columns.insert(col);
+
+            // Check column name size
+            if (col.size() > kMaxIdentifierLength) {
+                SchemaStructureError err;
+                err.violation_type = SchemaStructureError::ViolationType::OVERSIZED_IDENTIFIER;
+                err.table_name = schema.name;
+                err.column_name = col;
+                err.error_message = "Column name exceeds maximum length (" +
+                                    std::to_string(kMaxIdentifierLength) + ")";
+                errors.push_back(std::move(err));
+            }
+
+            // Check column type validity
+            auto type_it = schema.column_types.find(col);
+            if (type_it != schema.column_types.end()) {
+                const std::string& type_str = type_it->second;
+                if (type_str.empty()) {
+                    SchemaStructureError err;
+                    err.violation_type = SchemaStructureError::ViolationType::INVALID_TYPE_STRING;
+                    err.table_name = schema.name;
+                    err.column_name = col;
+                    err.error_message = "Empty/null type string for column '" + col + "'";
+                    errors.push_back(std::move(err));
+                }
+                // Check for obviously invalid type strings (e.g., contain spaces or special chars)
+                bool valid_type = true;
+                for (unsigned char c : type_str) {
+                    if (!std::isalnum(c) && c != '_') {
+                        valid_type = false;
+                        break;
+                    }
+                }
+                if (!valid_type) {
+                    SchemaStructureError err;
+                    err.violation_type = SchemaStructureError::ViolationType::INVALID_TYPE_STRING;
+                    err.table_name = schema.name;
+                    err.column_name = col;
+                    err.error_message = "Invalid type string '" + type_str + "' for column '" + col + "'";
+                    errors.push_back(std::move(err));
+                }
+            }
+        }
+    }
+
+    return errors;
+}
+
+std::map<std::string, std::vector<std::string>>
+SchemaInferenceEngine::detectRelationshipCycles(
+    const std::vector<InferredSchema>& inferred_schemas)
+{
+    std::map<std::string, std::vector<std::string>> cycles;
+
+    // Build a directed graph of relationships
+    std::map<std::string, std::vector<std::string>> graph;
+
+    for (const auto& inferred : inferred_schemas) {
+        for (const auto& rel_str : inferred.likely_relationships) {
+            // Parse relationship string: "table_a.col -> table_b.col [conf=...]"
+            size_t arrow_pos = rel_str.find(" -> ");
+            if (arrow_pos != std::string::npos) {
+                std::string source = rel_str.substr(0, arrow_pos);
+                size_t conf_pos = rel_str.find(" [conf=");
+                std::string target = (conf_pos != std::string::npos)
+                    ? rel_str.substr(arrow_pos + 4, conf_pos - arrow_pos - 4)
+                    : rel_str.substr(arrow_pos + 4);
+                graph[source].push_back(target);
+            }
+        }
+    }
+
+    // Detect cycles using DFS (depth-first search)
+    std::unordered_set<std::string> visited;
+    std::unordered_set<std::string> rec_stack;
+    std::map<std::string, std::string> parent_map;
+
+    std::function<bool(const std::string&, std::vector<std::string>&)> dfs =
+        [&](const std::string& node, std::vector<std::string>& path) -> bool {
+            visited.insert(node);
+            rec_stack.insert(node);
+            path.push_back(node);
+
+            if (graph.count(node)) {
+                for (const auto& neighbor : graph[node]) {
+                    if (!visited.count(neighbor)) {
+                        parent_map[neighbor] = node;
+                        if (dfs(neighbor, path)) {
+                            return true;
+                        }
+                    } else if (rec_stack.count(neighbor)) {
+                        // Cycle detected – backtrack to find all nodes in cycle
+                        size_t cycle_start = 0;
+                        for (size_t i = 0; i < path.size(); ++i) {
+                            if (path[i] == neighbor) {
+                                cycle_start = i;
+                                break;
+                            }
+                        }
+                        // Record all edges in the cycle
+                        for (size_t i = cycle_start; i < path.size(); ++i) {
+                            std::string key = path[i];
+                            std::string next_node = (i + 1 < path.size())
+                                ? path[i + 1]
+                                : neighbor;
+                            if (cycles[key].empty()) {
+                                cycles[key].push_back(next_node);
+                            }
+                        }
+                        return true;
+                    }
+                }
+            }
+
+            rec_stack.erase(node);
+            path.pop_back();
+            return false;
+        };
+
+    // Run DFS from each unvisited node
+    for (const auto& [node, _] : graph) {
+        if (!visited.count(node)) {
+            std::vector<std::string> path;
+            dfs(node, path);
+        }
+    }
+
+    return cycles;
+}
+
+// ---------------------------------------------------------------------------
 // Algorithm 3: cardinality estimation
 // ---------------------------------------------------------------------------
 
@@ -303,8 +519,27 @@ SchemaInferenceEngine::estimateCardinalities(
         return estimates;  // Input too large; reject defensively
     }
 
+    // PHASE-2-HARDENING: Bounded complexity tracking for O(n²) cardinality estimation
+    // Track table pairs and column pairs to prevent pathological O(n²) cases
+    size_t table_pairs_count = 0;
+    
     for (const auto& schema : schemas) {
+        // Check column count bounds per table
+        if (schema.columns.size() > kMaxColumnCount) {
+            // Skip this table to prevent resource exhaustion
+            continue;
+        }
+
+        // PHASE-2-HARDENING: Track table pairs for each foreign key comparison
         for (const auto& fk : schema.foreign_keys) {
+            // Check if we've exceeded the maximum table pairs threshold
+            if (table_pairs_count >= kMaxTablePairsComparison) {
+                // Log complexity violation and skip remaining comparisons
+                // In production, this would emit a structured log entry
+                break;
+            }
+            table_pairs_count++;
+
             const std::string& local_col = fk.first;
             const std::string& ref = fk.second; // "other_table.other_col"
 

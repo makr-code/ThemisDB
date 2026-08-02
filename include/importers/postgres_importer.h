@@ -384,6 +384,12 @@ private:
     // Error helpers
     void addError(ImportStats& stats, ImportErrorCode code, ImportErrorSeverity severity,
                   const std::string& message, const std::string& location = "") const;
+    
+    // PHASE-2-HARDENING: Standardized PostgreSQL error reporting
+    /// Add a PostgreSQL-specific error with automatic error code mapping
+    void addPostgreSQLError(ImportStats& stats, ImportErrorSeverity severity,
+                           const std::string& pg_error_msg,
+                           const std::string& location = "") const;
 
     // Metrics emission helper
     void emitMetric(const ImportOptions& options,

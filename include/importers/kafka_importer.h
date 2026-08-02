@@ -247,6 +247,10 @@ private:
     std::string ssl_ca_location_;
     std::string auto_offset_reset_  = "earliest";
 
+    // PHASE-2-HARDENING: Bounded buffer configuration
+    size_t      max_buffer_messages_ = 1000;  ///< Max messages in buffer before pausing
+    size_t      buffer_drain_threshold_ = 500; ///< Resume when buffer drains below this
+
     std::atomic<bool> cancelled_{false};
 
     // Testing hook

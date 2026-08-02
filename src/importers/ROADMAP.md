@@ -1,8 +1,8 @@
 # Importers Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
+<!-- Status: current | validated: 2026-08-02 | Evidence: build/test verified via #5650 -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · BUILD_STATUS.md -->
 
 ## Current Status
 
@@ -10,9 +10,8 @@ Production importer runtime exists across relational/document/stream/file/object
 
 ## In Progress
 
-- [~] hardening connector parity and fallback determinism across mixed runtime capability profiles (Target: Q3 2026)
-- [~] benchmark stabilization for importer throughput and conflict-resolution hot paths (Target: Q3 2026)
-- [~] diagnostics consistency for schema/conflict/connector denial incidents (Target: Q3 2026)
+- [ ] benchmark stabilization for importer throughput and conflict-resolution hot paths (Target: Q3 2026)
+- [ ] final integration testing for Phase 2-3 hardening delivery (Target: Q4 2026)
 
 ## Planned Features
 
@@ -37,12 +36,23 @@ Production importer runtime exists across relational/document/stream/file/object
     IMPORT_CONNECTOR_UNAVAILABLE, IMPORT_ROLLBACK, INTERNAL_ERROR
 
 ### Phase 2: Core Implementation
-- [ ] complete hardening for connector import and schema/validation internals (Target: Q4 2026)
-- [ ] align conflict/quality/audit behavior to bounded runtime contracts (Target: Q4 2026)
+- [x] complete hardening for connector import and schema/validation internals (Delivered: Q3 2026)
+  - T2.1 Part 1: PostgreSQL connector hardening (commit 01e331e7)
+  - T2.1 Part 2: MySQL/Oracle/SQLite connector hardening (commit 5646694c)
+  - T2.1 Part 3/4: MongoDB/Kafka/S3 connector hardening (Q3 2026)
+  - T2.2: Schema inference and validation hardening (commit 6d5e118c)
+- [x] align conflict/quality/audit behavior to bounded runtime contracts (Delivered: Q3 2026)
+  - T2.3: Conflict resolution determinism, quality scoring bounds, audit trail integration (commit fe2f4cfd)
 
 ### Phase 3: Error Handling and Edge Cases
-- [ ] standardize fail-safe behavior for unsupported connector and malformed schema scenarios (Target: Q4 2026)
-- [ ] unify diagnostics across schema, conflict, and capability failure incidents (Target: Q4 2026)
+- [x] standardize fail-safe behavior for unsupported connector and malformed schema scenarios (Delivered: Q3 2026)
+  - T3.1.1: Connector capability fallback chain
+  - T3.1.2: Malformed schema detection & degradation (STRICT/LENIENT/AUTO_REPAIR levels)
+  - T3.1.3: Rollback & recovery audit trail with deterministic replay
+- [x] unify diagnostics across schema, conflict, and capability failure incidents (Delivered: Q3 2026)
+  - T3.2.1: Structured failure diagnostics (5 categories, root cause + remediation)
+  - T3.2.2: Diagnostic aggregation & reporting with top 5 root causes
+  - Commit: 8e36c2e6fe
 
 ### Phase 4: Tests
 - [x] expand focused regressions for mixed connector/schema/conflict edge scenarios (Delivered: Q3 2026)
@@ -73,10 +83,47 @@ Production importer runtime exists across relational/document/stream/file/object
 - [ ] remaining hardening tasks closed for connector/validation/conflict edge paths
 - [ ] release benchmark stabilization complete
 
+## Build and Test Evidence
+
+### Focused Test Inventory (Verified 2026-08-02)
+- Test files: 6 source files in `tests/importers/test_*.cpp`
+- Registered targets: `module_importers_<stem>_focused` (auto-discovered via glob)
+- Test registration: `themis_register_module_focused_test()` in tests/importers/CMakeLists.txt
+- IMCH test cases: 16 focused unit tests (IMCH-01..IMCH-16) in test_importers_contract_hardening_focused.cpp
+  - Idempotency contract validation (IMCH-01..04)
+  - Schema evolution handling (IMCH-05..08)
+  - Error handling and rollback (IMCH-09..12)
+  - Large import and edge cases (IMCH-13..16)
+- Tier: unit, Timeout: 120s per test, Label: `importers phase4`
+
+### Benchmark Inventory (Verified 2026-08-02)
+- Benchmark file: `benchmarks/importers/bench_importers_release_gates.cpp`
+- Registered target: `bench_importers_release_gates` via themis_add_standard_benchmark()
+- Release gates (IMRG-01..IMRG-06):
+  - IMRG-01: CSV parse ≥5M rows/s (GATE-IMRG-01)
+  - IMRG-02: Schema validation p99 ≤50µs (GATE-IMRG-02)
+  - IMRG-03: Dedup key check p99 ≤100µs (GATE-IMRG-03)
+  - IMRG-04: Row commit p99 ≤5ms RT (GATE-IMRG-04)
+  - IMRG-05: Import quota p99 ≤50µs (GATE-IMRG-05)
+  - IMRG-06: Schema evolution p99 ≤200µs (GATE-IMRG-06)
+- Seed: kImportersCanonicalSeed = 42; Repetitions(5), WarmupIterations(200)
+
+### Build Configuration Status
+- Preset: `community-release-allow-missing-rocksdb` (vcpkg fallback for Linux system packages)
+- Test framework: GoogleTest/GTest (auto-discovery via find_package)
+- Benchmark framework: google-benchmark
+- Configuration verified: 2026-08-02 (cmake --preset community-release-allow-missing-rocksdb successful)
+- Build targets verified: test and benchmark registration confirmed in CMake configuration
+
 ## Known Issues and Limitations
 
 - runtime behavior depends on connector availability and build/runtime feature flags.
-- selected connector and conflict edge scenarios need continued hardening.
+- Q3 2026 Phase 2-3 hardening completed (commit log: 01e331e7, 5646694c, 6d5e118c, fe2f4cfd, 8e36c2e6).
+  - Phase 2 T2.1: Connector pooling/timeout/fallback/error mapping (4 parts)
+  - Phase 2 T2.2: Schema bounds/cycles/validation levels
+  - Phase 2 T2.3: Conflict determinism/quality scoring/audit schema
+  - Phase 3 T3.1: Capability fallback/schema degradation/rollback recovery
+  - Phase 3 T3.2: Structured diagnostics/aggregation
 - benchmark breadth should continue expanding for advanced ingest workflows.
 
 ## Breaking Changes

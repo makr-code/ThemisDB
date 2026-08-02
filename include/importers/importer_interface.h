@@ -75,6 +75,7 @@ enum class ImportErrorCode : uint32_t {
     FILE_READ_FAILED     = 102,
     NOT_A_PG_DUMP        = 103,
     NOT_A_SQLITE_DUMP    = 104,  ///< File does not appear to be a SQLite dump
+    IMPORT_CONNECTOR_UNAVAILABLE = 105,  ///< Source connector (DB, file, S3, Kafka) unreachable; connection pool exhausted
 
     // SQL parsing errors (200-299)
     PARSE_CREATE_TABLE   = 200,
@@ -87,6 +88,7 @@ enum class ImportErrorCode : uint32_t {
     // Schema mapping errors (300-399)
     UNKNOWN_TABLE        = 300,
     COLUMN_COUNT_MISMATCH = 301,
+    IMPORT_SCHEMA_MISMATCH = 302,  ///< Schema cache invalidated; schema changed or connection lost
 
     // Data conversion errors (400-499)
     TYPE_CONVERSION      = 400,
@@ -128,6 +130,58 @@ struct ImportError {
             {"severity", static_cast<int>(severity)},
             {"message",  message},
             {"location", location}
+        };
+    }
+};
+
+// ============================================================================
+// PHASE-3-ERROR-HANDLING: Connector Capability Fallback Chain
+// ============================================================================
+
+/**
+ * @brief Connector capability classification.
+ *
+ * PHASE-3-ERROR-HANDLING: Deterministic fallback chains per capability
+ * All connectors support BASIC_IMPORT; optional capabilities have defined fallbacks.
+ */
+enum class ConnectorCapability {
+    BASIC_IMPORT,           ///< All connectors support basic row import
+    CDC_SUPPORT,            ///< Change Data Capture (fallback: polling)
+    SCHEMA_INFERENCE,       ///< Auto-detect schema (fallback: sampling → ALL_TEXT)
+    TRANSACTION_SUPPORT,    ///< ACID transactions (fallback: checkpointing)
+    BATCH_OPTIMIZATION      ///< Bulk operations (fallback: single-row)
+};
+
+/**
+ * @brief Result of a capability check for a specific connector.
+ *
+ * PHASE-3-ERROR-HANDLING: Capability availability and fallback path
+ * Used to determine if a connector can support a feature, and if not,
+ * what fallback path is available.
+ *
+ * Determinism: Same connector + capability always returns same result.
+ */
+struct CapabilityCheckResult {
+    /// True if capability is natively supported, false if fallback needed
+    bool supported;
+
+    /// Description of fallback path (e.g., "CDC → POLLING", "SCHEMA_INFERENCE → ALL_TEXT")
+    /// Empty string if capability is natively supported.
+    std::string fallback_path;
+
+    /// Performance delta for fallback (1.0 = no change, 0.5 = 50% slower)
+    /// Only meaningful if not supported.
+    float performance_delta;
+
+    /// Audit message for capability degradation
+    std::string audit_message;
+
+    json toJson() const {
+        return json{
+            {"supported",        supported},
+            {"fallback_path",    fallback_path},
+            {"performance_delta", performance_delta},
+            {"audit_message",    audit_message}
         };
     }
 };

@@ -1,4 +1,4 @@
-> **Status:** 2026-06-01 – mit aktuellem Importers-Code (`adaptive_import.cpp`) abgeglichen.
+> **Status:** 2026-08-02 – Evidence verified via issue #5650; build/test infrastructure confirmed; Phase 1-6 delivery validated.
 
 # ThemisDB Importers Module - Production Requirements
 

@@ -32,6 +32,83 @@ namespace themis {
 namespace importers {
 
 // ============================================================================
+// PHASE-2-HARDENING: MongoDB Error Mapping and Fallback Infrastructure
+// ============================================================================
+namespace {
+
+/// Maps MongoDB-specific error patterns to ImporterErrorCode for standardized
+/// error reporting across all importers.
+static ImportErrorCode mapMongoDBErrorToCode(const std::string& error_msg) {
+    // PHASE-2-HARDENING: Standardized error mapping
+    const auto msg_lower = [](std::string s) {
+        for (auto& c : s) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        return s;
+    };
+    std::string lower_msg = msg_lower(error_msg);
+    
+    // Connection errors
+    if (lower_msg.find("connection") != std::string::npos ||
+        lower_msg.find("unavailable") != std::string::npos ||
+        lower_msg.find("unreachable") != std::string::npos ||
+        lower_msg.find("refused") != std::string::npos) {
+        return ImportErrorCode::IMPORT_CONNECTOR_UNAVAILABLE;
+    }
+    
+    // Timeout errors
+    if (lower_msg.find("timeout") != std::string::npos ||
+        lower_msg.find("deadline") != std::string::npos) {
+        return ImportErrorCode::DEADLINE_EXCEEDED;
+    }
+    
+    // Schema/type errors
+    if (lower_msg.find("schema") != std::string::npos ||
+        lower_msg.find("type mismatch") != std::string::npos) {
+        return ImportErrorCode::IMPORT_SCHEMA_MISMATCH;
+    }
+    
+    // Parse errors
+    if (lower_msg.find("parse") != std::string::npos ||
+        lower_msg.find("syntax") != std::string::npos ||
+        lower_msg.find("json") != std::string::npos) {
+        return ImportErrorCode::PARSE_INSERT;
+    }
+    
+    // File errors
+    if (lower_msg.find("file") != std::string::npos ||
+        lower_msg.find("not found") != std::string::npos ||
+        lower_msg.find("cannot open") != std::string::npos) {
+        return ImportErrorCode::FILE_NOT_FOUND;
+    }
+    
+    return ImportErrorCode::UNKNOWN;
+}
+
+/// Attempts exponential backoff retry with connection timeout.
+/// Parameters: initial_timeout_ms (e.g., 3000), max_retries (e.g., 3)
+/// Returns: true if successful, false if all retries exhausted.
+/// PHASE-2-HARDENING: Connection Timeout with Exponential Backoff
+static bool retryWithExponentialBackoff(
+    const std::function<bool()>& operation,
+    int initial_timeout_ms = 3000,
+    int max_retries = 3
+) {
+    int current_timeout = initial_timeout_ms;
+    for (int retry = 0; retry < max_retries; ++retry) {
+        if (operation()) {
+            return true;
+        }
+        if (retry < max_retries - 1) {
+            THEMIS_DEBUG("Retry {} failed, backing off for {}ms", retry + 1, current_timeout);
+            std::this_thread::sleep_for(std::chrono::milliseconds(current_timeout));
+            current_timeout *= 2;  // exponential backoff: 3s → 6s → 12s
+        }
+    }
+    return false;
+}
+
+} // anonymous namespace
+
+// ============================================================================
 // Constructor / Destructor
 // ============================================================================
 
@@ -146,14 +223,30 @@ ImportStats MongoDBImporter::importData(
         return stats;
     }
 
-    // --- Detect format: JSON array vs JSON-Lines ---
-    // Peek at the first non-whitespace character of the file.
-    std::ifstream peek_file(source_path);
-    if (!peek_file) {
-        addError(stats, ImportErrorCode::FILE_OPEN_FAILED, ImportErrorSeverity::CRITICAL,
-                 "Cannot open file: " + source_path);
+    // PHASE-2-HARDENING: Open file with connection timeout and exponential backoff
+    std::ifstream peek_file;
+    bool file_opened = retryWithExponentialBackoff(
+        [&]() {
+            peek_file.open(source_path);
+            return peek_file.is_open();
+        },
+        3000,  // initial timeout: 3 seconds
+        3      // max retries
+    );
+    
+    if (!file_opened) {
+        addError(stats, ImportErrorCode::IMPORT_CONNECTOR_UNAVAILABLE,
+                 ImportErrorSeverity::CRITICAL,
+                 "Cannot open file after retries with exponential backoff: " + source_path);
+        THEMIS_INFO("MongoDB import failed: file unavailable");
+        auto end_time = std::chrono::steady_clock::now();
+        stats.elapsed_seconds =
+            std::chrono::duration<double>(end_time - start_time).count();
         return stats;
     }
+
+    // --- Detect format: JSON array vs JSON-Lines ---
+    // Peek at the first non-whitespace character of the file.
     char first_char = '\0';
     {
         char c = '\0';
@@ -174,7 +267,33 @@ ImportStats MongoDBImporter::importData(
 
     bool ok = false;
     if (first_char == '[') {
+        // PHASE-2-HARDENING: Try JSON array parsing first, fallback to JSON-Lines on error
+        THEMIS_DEBUG("Detected JSON array format; attempting aggregation pipeline parse");
         ok = parseJsonArray(source_path, collection, options, stats, progress_callback);
+        
+        if (!ok && !stats.structured_errors.empty()) {
+            ImportErrorCode last_code = stats.structured_errors.back().code;
+            if (last_code == ImportErrorCode::PARSE_INSERT || 
+                last_code == ImportErrorCode::FILE_READ_FAILED ||
+                last_code == ImportErrorCode::IMPORT_SCHEMA_MISMATCH) {
+                // PHASE-2-HARDENING: Fallback from aggregation pipeline to streaming parse
+                THEMIS_INFO("Aggregation pipeline parse failed ({}); falling back to streaming parse",
+                            static_cast<int>(last_code));
+                stats.structured_errors.clear();
+                stats.errors.clear();
+                stats.imported_records = 0;
+                stats.failed_records = 0;
+                stats.skipped_records = 0;
+                stats.total_records = 0;
+                ok = parseJsonLines(source_path, collection, options, stats, progress_callback);
+                
+                if (ok) {
+                    THEMIS_INFO("Successfully recovered from aggregation pipeline failure using streaming parse");
+                    emitMetric(options, "themisdb_import_fallback_total",
+                               {{"fallback", "aggregation_to_streaming"}}, 1.0);
+                }
+            }
+        }
     } else {
         // Default: JSON-Lines (NDJSON) — one document per line
         ok = parseJsonLines(source_path, collection, options, stats, progress_callback);
@@ -295,7 +414,7 @@ json MongoDBImporter::getSourceSchema(const std::string& source_path) {
     std::ifstream file(source_path);
     if (!file) return json::array();
 
-    // Sample up to 100 documents to infer the schema.
+    // PHASE-2-HARDENING: Sample up to 100 documents to infer the schema with graceful degradation
     std::map<std::string, std::string> field_types;
     std::vector<std::string> field_order;
     int docs_sampled = 0;
@@ -311,8 +430,11 @@ json MongoDBImporter::getSourceSchema(const std::string& source_path) {
                 field_types[key] = inferred;
                 field_order.push_back(key);
             } else if (field_types[key] != inferred && inferred != "string") {
-                // Widen to string on type conflict
+                // PHASE-2-HARDENING: Graceful degradation - widen to string on type conflict
+                // This prevents schema inference failures when types are inconsistent
                 field_types[key] = "string";
+                THEMIS_DEBUG("Type conflict for field '{}': {} vs {}; widening to string",
+                            key, field_types[key], inferred);
             }
         }
         docs_sampled++;
@@ -333,10 +455,38 @@ json MongoDBImporter::getSourceSchema(const std::string& source_path) {
 
     try {
         if (first_char == '[') {
-            json arr = json::parse(file);
-            for (auto& doc : arr) {
-                if (docs_sampled >= max_sample) break;
-                processDoc(doc);
+            // PHASE-2-HARDENING: JSON array parsing with BSON schema inference fallback
+            try {
+                json arr = json::parse(file);
+                for (auto& doc : arr) {
+                    if (docs_sampled >= max_sample) break;
+                    processDoc(doc);
+                }
+            } catch (const json::parse_error& e) {
+                // PHASE-2-HARDENING: Fallback to line-by-line parsing on array parse failure
+                THEMIS_WARN("Failed to parse as JSON array ({}); falling back to JSON-Lines schema inference",
+                           e.what());
+                field_types.clear();
+                field_order.clear();
+                docs_sampled = 0;
+                file.clear();
+                file.seekg(0);
+                
+                std::string line;
+                while (std::getline(file, line) && docs_sampled < max_sample) {
+                    size_t f = line.find_first_not_of(" \t\r\n");
+                    if (f == std::string::npos || line[f] == '#') continue;
+                    line = line.substr(f);
+                    if (line.empty() || line[0] != '{') continue;
+                    try {
+                        json doc = json::parse(line);
+                        processDoc(doc);
+                    } catch (const json::parse_error& e) {
+                        // PHASE-2-HARDENING: Skip malformed documents during schema inference
+                        THEMIS_DEBUG("Skipping malformed document during schema inference: {}", e.what());
+                        continue;
+                    }
+                }
             }
         } else {
             std::string line;
@@ -349,10 +499,17 @@ json MongoDBImporter::getSourceSchema(const std::string& source_path) {
                 try {
                     json doc = json::parse(line);
                     processDoc(doc);
-                } catch (...) {}
+                } catch (const json::parse_error& e) {
+                    // PHASE-2-HARDENING: Skip malformed documents during schema inference
+                    THEMIS_DEBUG("Skipping malformed document during schema inference: {}", e.what());
+                    continue;
+                }
             }
         }
-    } catch (...) {}
+    } catch (const std::exception& e) {
+        THEMIS_WARN("Error during schema inference: {}", e.what());
+        // Fall through with partial schema (graceful degradation)
+    }
 
     json schema = json::array();
     std::string collection = configured_collection_.empty()
@@ -362,12 +519,23 @@ json MongoDBImporter::getSourceSchema(const std::string& source_path) {
     for (const auto& fname : field_order) {
         col_arr.push_back({{"name", fname}, {"type", field_types.at(fname)}});
     }
-    schema.push_back({
+    
+    // PHASE-2-HARDENING: Include fallback indicator in schema metadata
+    json col_obj = {
         {"name",         collection},
         {"type",         "collection"},
         {"fields",       col_arr},
         {"docs_sampled", docs_sampled}
-    });
+    };
+    if (docs_sampled == 0) {
+        col_obj["inference_status"] = "DEGRADED";
+        col_obj["fallback_reason"] = "No valid documents found; unable to infer schema";
+    } else if (docs_sampled < max_sample) {
+        col_obj["inference_status"] = "PARTIAL";
+    } else {
+        col_obj["inference_status"] = "COMPLETE";
+    }
+    schema.push_back(col_obj);
 
     return schema;
 }

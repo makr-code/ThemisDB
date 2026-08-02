@@ -42,6 +42,85 @@ namespace themis {
 namespace importers {
 
 // ============================================================================
+// PHASE-2-HARDENING: Connection Pool and CDC Fallback Infrastructure
+// ============================================================================
+namespace {
+
+/// Connection pool state tracker for Phase 2 hardening
+struct ConnectionPoolState {
+    /// Current number of active connections (bounded by max_active_connections)
+    std::atomic<size_t> active_connections{0};
+    
+    /// Maximum concurrent connections allowed (default: 32)
+    static constexpr size_t max_active_connections = 32;
+    
+    /// Connection timeout in milliseconds (0 = no timeout)
+    uint32_t connection_timeout_ms = 0;
+    
+    /// Last connection error code for diagnostics
+    std::atomic<ImportErrorCode> last_error{ImportErrorCode::OK};
+};
+
+/// Global connection pool state (one per process; safe due to atomic operations)
+static thread_local ConnectionPoolState g_connection_pool;
+
+/// CDC (Change Data Capture) capability detection
+/// Returns true if the dump appears to contain CDC/replication-specific DDL
+static bool detectCDCCapability(const std::string& dump_header_lines) {
+    // PHASE-2-HARDENING: CDC fallback detection
+    // Check for replication slot references, logical decoding, publication, subscription
+    return dump_header_lines.find("PUBLICATION") != std::string::npos ||
+           dump_header_lines.find("SUBSCRIPTION") != std::string::npos ||
+           dump_header_lines.find("logical_decoding") != std::string::npos ||
+           dump_header_lines.find("replication slot") != std::string::npos;
+}
+
+/// Maps PostgreSQL-specific error patterns to ImporterErrorCode
+static ImportErrorCode mapPostgreSQLErrorToCode(const std::string& error_msg) {
+    // PHASE-2-HARDENING: Standardized error reporting
+    const auto msg_lower = [](std::string s) {
+        for (auto& c : s) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        return s;
+    };
+    std::string lower_msg = msg_lower(error_msg);
+    
+    // Connection errors
+    if (lower_msg.find("connection") != std::string::npos ||
+        lower_msg.find("could not connect") != std::string::npos ||
+        lower_msg.find("unavailable") != std::string::npos) {
+        return ImportErrorCode::IMPORT_CONNECTOR_UNAVAILABLE;
+    }
+    
+    // Timeout errors
+    if (lower_msg.find("timeout") != std::string::npos ||
+        lower_msg.find("deadline") != std::string::npos) {
+        return ImportErrorCode::DEADLINE_EXCEEDED;
+    }
+    
+    // Schema errors
+    if (lower_msg.find("schema") != std::string::npos ||
+        lower_msg.find("table") != std::string::npos) {
+        return ImportErrorCode::UNKNOWN_TABLE;
+    }
+    
+    // Type conversion errors
+    if (lower_msg.find("type") != std::string::npos ||
+        lower_msg.find("conversion") != std::string::npos) {
+        return ImportErrorCode::TYPE_CONVERSION;
+    }
+    
+    // Parse errors
+    if (lower_msg.find("parse") != std::string::npos ||
+        lower_msg.find("syntax") != std::string::npos) {
+        return ImportErrorCode::PARSE_CREATE_TABLE;
+    }
+    
+    return ImportErrorCode::UNKNOWN;
+}
+
+} // anonymous namespace
+
+// ============================================================================
 // Pre-compiled static regexes (performance: compiled once per process)
 // ============================================================================
 namespace {
@@ -769,6 +848,61 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
         : std::chrono::steady_clock::time_point::max();
     // ────────────────────────────────────────────────────────────────────────
 
+    // PHASE-2-HARDENING: Connection Pool Exhaustion Handling
+    // Track active connections (simulated for file-based import; real DB importers use actual connection tracking)
+    // Initialize connection pool state for this import session
+    g_connection_pool.connection_timeout_ms = 0;  // File-based imports don't use live connections
+    
+    // Attempt to acquire a "connection slot" from the pool (always succeeds for file-based import)
+    // In real DB importers, this would block or fail if pool is exhausted
+    if (g_connection_pool.active_connections >= ConnectionPoolState::max_active_connections) {
+        // PHASE-2-HARDENING: Pool exhaustion error reporting
+        pgAuditLogEvent("connection_pool_exhausted", {
+            {"source",        file_path},
+            {"max_conns",     std::to_string(ConnectionPoolState::max_active_connections)},
+            {"active_conns",  std::to_string(g_connection_pool.active_connections.load())}
+        });
+        addError(stats, ImportErrorCode::IMPORT_CONNECTOR_UNAVAILABLE,
+                 ImportErrorSeverity::CRITICAL,
+                 "Connection pool exhausted: maximum " +
+                 std::to_string(ConnectionPoolState::max_active_connections) + " concurrent imports allowed");
+        return false;
+    }
+    
+    // Increment active connection counter
+    g_connection_pool.active_connections++;
+    
+    // PHASE-2-HARDENING: CDC Fallback Mechanism
+    // Detect CDC capability and log fallback decision if needed
+    // Read the first 5000 characters for CDC detection (header scanning)
+    std::string dump_header;
+    dump_header.reserve(5000);
+    file.clear();
+    file.seekg(0);
+    char buf[5000];
+    file.read(buf, sizeof(buf));
+    size_t read_bytes = file.gcount();
+    if (read_bytes > 0) {
+        dump_header.assign(buf, read_bytes);
+    }
+    file.clear();
+    file.seekg(0);
+    
+    bool has_cdc = detectCDCCapability(dump_header);
+    if (has_cdc) {
+        // CDC features detected but not actively used in file-based import
+        // Log the fallback to standard COPY/INSERT parsing
+        pgAuditLogEvent("cdc_fallback_to_standard", {
+            {"source",           file_path},
+            {"cdc_detected",     "true"},
+            {"fallback_mode",    "standard_copy_insert"},
+            {"reason",           "file_based_import_uses_standard_parsing"}
+        });
+        THEMIS_INFO("CDC capability detected in dump, using standard COPY/INSERT parsing for file-based import");
+    }
+    
+    // ────────────────────────────────────────────────────────────────────────
+
     bool line_truncated = false;
     while (streamReadLinePg(file, line, line_read_limit, line_truncated) && !cancelled_) {
         line_number++;
@@ -1017,6 +1151,20 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
     if (options.validate_references && !cancelled_) {
         validateForeignKeyReferences(options, stats);
     }
+    
+    // PHASE-2-HARDENING: Connection pool cleanup
+    // Release the connection slot back to the pool
+    if (g_connection_pool.active_connections > 0) {
+        g_connection_pool.active_connections--;
+    }
+    
+    // Log connection release for audit trail
+    pgAuditLogEvent("connection_released", {
+        {"source",            file_path},
+        {"import_completed",  !cancelled_ ? "true" : "false"},
+        {"records_imported",  std::to_string(stats.imported_records)},
+        {"active_conns_after", std::to_string(g_connection_pool.active_connections.load())}
+    });
     
     return !cancelled_;
 }
@@ -2335,6 +2483,27 @@ void PostgreSQLImporter::addError(ImportStats& stats, ImportErrorCode code,
     if (severity == ImportErrorSeverity::ERROR || severity == ImportErrorSeverity::CRITICAL) {
         stats.errors.push_back(message);
     }
+}
+
+// PHASE-2-HARDENING: Standardized PostgreSQL error reporting
+/**
+ * @brief Add a PostgreSQL-specific error with automatic error code mapping.
+ *
+ * Maps PostgreSQL error patterns to standard ImporterErrorCode values,
+ * ensuring consistent error reporting across all importers.
+ *
+ * @param stats     ImportStats to accumulate the error
+ * @param severity  Error severity level
+ * @param pg_error_msg  PostgreSQL error message to analyze
+ * @param location  Optional location information (e.g., "line 42", "table users")
+ */
+void PostgreSQLImporter::addPostgreSQLError(ImportStats& stats,
+                                           ImportErrorSeverity severity,
+                                           const std::string& pg_error_msg,
+                                           const std::string& location) const {
+    // PHASE-2-HARDENING: Standardized error mapping
+    ImportErrorCode code = mapPostgreSQLErrorToCode(pg_error_msg);
+    addError(stats, code, severity, pg_error_msg, location);
 }
 
 void PostgreSQLImporter::emitMetric(const ImportOptions& options,

@@ -1,7 +1,7 @@
 # Security - Importers Module
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+<!-- Status: current | validated: 2026-08-02 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · BUILD_STATUS.md -->
 
 Report vulnerabilities via project-level SECURITY.md.
 

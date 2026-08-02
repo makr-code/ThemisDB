@@ -1,7 +1,7 @@
 > WARNING: Historical changelog entries describe implementation state at the time they were recorded.
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+<!-- Status: current | validated: 2026-08-02 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · BUILD_STATUS.md -->
 
 # Changelog - Importers Module
 

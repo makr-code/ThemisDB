@@ -37,6 +37,7 @@
 #include <thread>
 #include <future>
 #include <algorithm>
+#include <fstream>
 
 #ifdef ERROR
 #undef ERROR
@@ -44,6 +45,81 @@
 
 namespace themis {
 namespace importers {
+
+// ============================================================================
+// PHASE-2-HARDENING: Kafka Stream Position Recovery and Buffer Management
+// ============================================================================
+namespace {
+
+/// Maps Kafka-specific error patterns to ImporterErrorCode
+static ImportErrorCode mapKafkaErrorToCode(const std::string& error_msg) {
+    // PHASE-2-HARDENING: Standardized error mapping for Kafka
+    const auto msg_lower = [](std::string s) {
+        for (auto& c : s) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        return s;
+    };
+    std::string lower_msg = msg_lower(error_msg);
+    
+    // Connection/availability errors
+    if (lower_msg.find("broker") != std::string::npos ||
+        lower_msg.find("connection") != std::string::npos ||
+        lower_msg.find("unavailable") != std::string::npos ||
+        lower_msg.find("unreachable") != std::string::npos) {
+        return ImportErrorCode::IMPORT_CONNECTOR_UNAVAILABLE;
+    }
+    
+    // Timeout/deadline errors
+    if (lower_msg.find("timeout") != std::string::npos ||
+        lower_msg.find("deadline") != std::string::npos) {
+        return ImportErrorCode::DEADLINE_EXCEEDED;
+    }
+    
+    return ImportErrorCode::UNKNOWN;
+}
+
+/// Stream position tracking for Kafka offset recovery
+/// PHASE-2-HARDENING: Checkpoint recovery mechanism
+struct KafkaStreamPosition {
+    int64_t last_committed_offset = -1;
+    size_t messages_in_current_batch = 0;
+    std::string checkpoint_file;
+    
+    bool loadFromCheckpoint() {
+        if (checkpoint_file.empty()) return false;
+        std::ifstream f(checkpoint_file);
+        if (!f) return false;
+        try {
+            std::string content((std::istreambuf_iterator<char>(f)),
+                               std::istreambuf_iterator<char>());
+            auto doc = nlohmann::json::parse(content);
+            last_committed_offset = doc.value("offset", (int64_t)-1);
+            THEMIS_INFO("Kafka stream position loaded from checkpoint: offset={}", 
+                       last_committed_offset);
+            return last_committed_offset >= 0;
+        } catch (const std::exception& e) {
+            THEMIS_DEBUG("Could not load Kafka checkpoint: {}", e.what());
+            return false;
+        }
+    }
+    
+    void saveToCheckpoint() {
+        if (checkpoint_file.empty()) return;
+        std::ofstream f(checkpoint_file, std::ios::trunc);
+        if (!f) return;
+        try {
+            auto doc = nlohmann::json::object();
+            doc["offset"] = last_committed_offset;
+            doc["timestamp"] = std::chrono::system_clock::now().time_since_epoch().count();
+            f << doc.dump(2);
+            THEMIS_DEBUG("Kafka stream position saved to checkpoint: offset={}", 
+                        last_committed_offset);
+        } catch (const std::exception& e) {
+            THEMIS_DEBUG("Could not save Kafka checkpoint: {}", e.what());
+        }
+    }
+};
+
+} // anonymous namespace
 
 // ============================================================================
 // Constructor / Destructor
@@ -99,13 +175,19 @@ bool KafkaImporter::initialize(const std::string& config) {
             max_messages_ = static_cast<size_t>(cfg["max_messages"].get<uint64_t>());
         if (cfg.contains("session_timeout_ms") && cfg["session_timeout_ms"].is_number_integer())
             session_timeout_ms_ = cfg["session_timeout_ms"].get<int>();
+        
+        // PHASE-2-HARDENING: Parse buffer size configuration
+        if (cfg.contains("max_buffer_messages") && cfg["max_buffer_messages"].is_number_integer())
+            max_buffer_messages_ = static_cast<size_t>(cfg["max_buffer_messages"].get<uint64_t>());
+        if (cfg.contains("buffer_drain_threshold") && cfg["buffer_drain_threshold"].is_number_integer())
+            buffer_drain_threshold_ = static_cast<size_t>(cfg["buffer_drain_threshold"].get<uint64_t>());
 
     } catch (const std::exception& e) {
         THEMIS_WARN("Kafka Importer: failed to parse config JSON: {}", e.what());
         return false;
     }
 
-    THEMIS_INFO("Kafka Importer initialized");
+    THEMIS_INFO("Kafka Importer initialized (max_buffer_messages={})", max_buffer_messages_);
     return true;
 }
 
@@ -381,10 +463,35 @@ void KafkaImporter::consumeFromMock(const std::string& topic,
                                      ImportStats& stats,
                                      ProgressCallback& progress_cb) {
     size_t consumed = 0;
+    size_t buffer_size = 0;  // PHASE-2-HARDENING: Track buffer size
     bool abort_requested = false;
+    bool buffer_paused = false;  // PHASE-2-HARDENING: Buffer pause state
+    
     try {
         while (!cancelled_.load() && !abort_requested) {
             if (max_messages_ > 0 && consumed >= max_messages_) break;
+
+            // PHASE-2-HARDENING: Check if buffer is full
+            if (buffer_size >= max_buffer_messages_) {
+                if (!buffer_paused) {
+                    buffer_paused = true;
+                    THEMIS_WARN("Kafka buffer full ({}); pausing consumption", buffer_size);
+                    addError(stats, ImportErrorCode::ROW_TOO_LARGE,
+                             ImportErrorSeverity::WARNING,
+                             "Message buffer reached max size: " + std::to_string(buffer_size),
+                             "buffer pause at offset " + std::to_string(consumed));
+                    emitMetric(options, "themisdb_import_buffer_pause_total",
+                              {{"topic", topic}}, 1.0);
+                }
+                // Don't fetch more messages until buffer drains
+                std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                // Check if buffer has drained enough to resume
+                if (buffer_size <= buffer_drain_threshold_) {
+                    buffer_paused = false;
+                    THEMIS_INFO("Kafka buffer drained below threshold; resuming consumption");
+                }
+                continue;
+            }
 
             auto batch = message_fn_();
             if (batch.empty()) break;
@@ -393,6 +500,8 @@ void KafkaImporter::consumeFromMock(const std::string& topic,
                 if (cancelled_.load() || abort_requested) break;
                 if (max_messages_ > 0 && consumed >= max_messages_) break;
 
+                // PHASE-2-HARDENING: Track buffer size
+                buffer_size++;
                 ++stats.total_records;
 
                 if (options.max_row_size_bytes > 0 &&
@@ -403,6 +512,7 @@ void KafkaImporter::consumeFromMock(const std::string& topic,
                              "message " + std::to_string(consumed));
                     ++stats.failed_records;
                     ++consumed;
+                    buffer_size--;
                     continue;
                 }
 
@@ -410,6 +520,7 @@ void KafkaImporter::consumeFromMock(const std::string& topic,
                 if (entity.is_null()) {
                     ++stats.skipped_records;
                     ++consumed;
+                    buffer_size--;
                     continue;
                 }
 
@@ -417,6 +528,7 @@ void KafkaImporter::consumeFromMock(const std::string& topic,
                     if (options.streaming_row_callback) {
                         bool cont = options.streaming_row_callback(topic, entity);
                         ++stats.imported_records;
+                        buffer_size--;  // Message processed, drain buffer
                         if (!cont) {
                             THEMIS_INFO("Kafka Importer: streaming callback requested abort");
                             abort_requested = true;
@@ -424,11 +536,13 @@ void KafkaImporter::consumeFromMock(const std::string& topic,
                         }
                     } else {
                         ++stats.imported_records;
+                        buffer_size--;  // Message processed, drain buffer
                     }
                 } else {
                     // dry-run: count but don't deliver
                     stats.warnings.push_back("dry-run: message " +
                                              std::to_string(consumed) + " parsed OK");
+                    buffer_size--;  // Message processed, drain buffer
                 }
 
                 ++consumed;
@@ -546,9 +660,39 @@ void KafkaImporter::consumeFromKafka(const std::string& brokers,
     int consecutive_timeouts = 0;
     const int kMaxTimeouts = 3;
 
+    // PHASE-2-HARDENING: Stream position recovery and buffer management
+    KafkaStreamPosition stream_pos;
+    stream_pos.checkpoint_file = options.checkpoint_file;
+    stream_pos.loadFromCheckpoint();
+    
+    size_t buffer_size = 0;
+    bool buffer_paused = false;
+
     try {
         while (!cancelled_.load()) {
             if (max_messages_ > 0 && consumed >= max_messages_) break;
+
+            // PHASE-2-HARDENING: Check if buffer is full
+            if (buffer_size >= max_buffer_messages_) {
+                if (!buffer_paused) {
+                    buffer_paused = true;
+                    THEMIS_WARN("Kafka buffer full ({}); pausing consumption", buffer_size);
+                    addError(stats, ImportErrorCode::ROW_TOO_LARGE,
+                             ImportErrorSeverity::WARNING,
+                             "Message buffer reached max size: " + std::to_string(buffer_size),
+                             "buffer pause at offset " + std::to_string(stream_pos.last_committed_offset));
+                    emitMetric(options, "themisdb_import_buffer_pause_total",
+                              {{"topic", topic}}, 1.0);
+                }
+                // Don't fetch more messages until buffer drains
+                std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                // Check if buffer has drained enough to resume
+                if (buffer_size <= buffer_drain_threshold_) {
+                    buffer_paused = false;
+                    THEMIS_INFO("Kafka buffer drained below threshold; resuming consumption");
+                }
+                continue;
+            }
 
             rd_kafka_message_t* msg =
                 rd_kafka_consumer_poll(rk, poll_timeout_ms_);
@@ -581,6 +725,10 @@ void KafkaImporter::consumeFromKafka(const std::string& brokers,
                 std::string payload(static_cast<const char*>(msg->payload),
                                     msg->len);
 
+                // PHASE-2-HARDENING: Track buffer size and stream position
+                buffer_size++;
+                stream_pos.last_committed_offset = msg->offset;
+
                 if (options.max_row_size_bytes > 0 &&
                     payload.size() > options.max_row_size_bytes) {
                     addError(stats, ImportErrorCode::ROW_TOO_LARGE,
@@ -591,6 +739,7 @@ void KafkaImporter::consumeFromKafka(const std::string& brokers,
                     ++stats.failed_records;
                     rd_kafka_message_destroy(msg);
                     ++consumed;
+                    buffer_size--;
                     continue;
                 }
 
@@ -599,6 +748,7 @@ void KafkaImporter::consumeFromKafka(const std::string& brokers,
                     ++stats.skipped_records;
                     rd_kafka_message_destroy(msg);
                     ++consumed;
+                    buffer_size--;
                     continue;
                 }
 
@@ -606,6 +756,7 @@ void KafkaImporter::consumeFromKafka(const std::string& brokers,
                     if (options.streaming_row_callback) {
                         bool cont = options.streaming_row_callback(topic, entity);
                         ++stats.imported_records;
+                        buffer_size--;  // Message processed, drain buffer
                         if (!cont) {
                             rd_kafka_message_destroy(msg);
                             THEMIS_INFO("Kafka Importer: streaming callback requested abort");
@@ -613,10 +764,20 @@ void KafkaImporter::consumeFromKafka(const std::string& brokers,
                         }
                     } else {
                         ++stats.imported_records;
+                        buffer_size--;  // Message processed, drain buffer
                     }
+                } else {
+                    // dry-run: count but don't deliver
+                    buffer_size--;
                 }
 
                 ++consumed;
+                
+                // PHASE-2-HARDENING: Periodically save checkpoint (every 100 messages)
+                if (consumed % 100 == 0) {
+                    stream_pos.saveToCheckpoint();
+                }
+                
                 reportProgress(progress_cb, "consuming",
                                stats.imported_records, 0);
             }
@@ -628,6 +789,9 @@ void KafkaImporter::consumeFromKafka(const std::string& brokers,
                  ImportErrorSeverity::CRITICAL,
                  "Exception in Kafka consume loop: " + std::string(e.what()));
     }
+
+    // PHASE-2-HARDENING: Save final checkpoint on completion
+    stream_pos.saveToCheckpoint();
 
     rd_kafka_consumer_close(rk);
     rd_kafka_destroy(rk);

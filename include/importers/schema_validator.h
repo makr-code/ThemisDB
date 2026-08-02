@@ -55,14 +55,184 @@ struct DetectedSchema {
 };
 
 /**
+ * @brief Null handling policy for columns during validation.
+ *
+ * PHASE-2-HARDENING: Deterministic null handling across all validators.
+ */
+enum class NullHandlingPolicy {
+    NULLABLE,           ///< NULL accepted, transformed to sentinel value
+    NON_NULLABLE        ///< NULL rejected (error IMPORT_ROW_INVALID)
+};
+
+/**
+ * @brief Category of constraint violation during validation.
+ *
+ * PHASE-2-HARDENING: Constraint violation categorization for structured error reporting.
+ */
+enum class ConstraintViolationType {
+    TYPE_MISMATCH,      ///< Value type does not match column type
+    LENGTH_VIOLATION,   ///< String/binary exceeds max length
+    FOREIGN_KEY_VIOLATION,  ///< Value does not match referenced table
+    UNIQUE_VIOLATION,   ///< Value violates unique constraint
+    NONE                ///< No violation
+};
+
+/**
  * @brief Describes a type mismatch for one field in a validated row.
+ *
+ * PHASE-2-HARDENING: Extended with constraint violation categorization.
  */
 struct SchemaValidationError {
-    std::string       column;         ///< Column name where the mismatch occurred
-    std::string       value;          ///< Actual string value that failed validation
-    DetectedFieldType expected_type;  ///< Type declared in the schema
-    std::string       message;        ///< Human-readable description
+    std::string       column;             ///< Column name where the mismatch occurred
+    std::string       value;              ///< Actual string value that failed validation
+    DetectedFieldType expected_type;      ///< Type declared in the schema
+    std::string       message;            ///< Human-readable description
+    
+    // PHASE-2-HARDENING: Constraint violation categorization
+    ConstraintViolationType violation_type{ConstraintViolationType::NONE};
+    std::string       error_code;         ///< Structured error code (e.g., IMPORT_ROW_INVALID)
 };
+
+/**
+ * @brief Configuration for type coercion during validation.
+ *
+ * PHASE-2-HARDENING: Type coercion with strict bounds checking.
+ */
+struct TypeCoercionConfig {
+    // String constraints
+    static constexpr size_t kMaxStringFieldLength = 4096;  ///< Max 4KB per string field
+    
+    // Numeric constraints
+    double numeric_min_value{-1e308};     ///< Minimum numeric value (IEEE double)
+    double numeric_max_value{1e308};      ///< Maximum numeric value (IEEE double)
+    
+    // Date format validation
+    bool validate_iso8601{true};          ///< Enforce ISO8601 or RFC3339 for dates
+};
+
+// ============================================================================
+// PHASE-3-ERROR-HANDLING: Schema Validation Levels & Reporting
+// ============================================================================
+
+/**
+ * @brief Schema validation strictness level.
+ *
+ * PHASE-3-ERROR-HANDLING: Deterministic validation with safe degradation paths
+ * Controls how strictly schemas are validated and what degradation paths are allowed.
+ */
+enum class SchemaValidationLevel {
+    STRICT,        ///< Enforce all rules (NULL types, complex cycles rejected)
+    LENIENT,       ///< Allow NULL types, warn on cycles, truncate oversized identifiers
+    AUTO_REPAIR    ///< Attempt to fix: coerce types, break cycles, truncate
+};
+
+/**
+ * @brief Individual schema error during validation.
+ *
+ * PHASE-3-ERROR-HANDLING: Structured schema errors with suggestions
+ */
+struct SchemaError {
+    std::string error_type;      ///< Error type (NULL_TABLE_NAME, CIRCULAR_FK, etc.)
+    std::string message;          ///< Human-readable error message
+    std::string affected_item;    ///< What caused error (table/column name)
+    std::string suggestion;       ///< How to fix (e.g., "provide table name")
+};
+
+/**
+ * @brief Complete validation report for a schema.
+ *
+ * PHASE-3-ERROR-HANDLING: Comprehensive schema validation results
+ * Provides all information needed to understand validation state and decide
+ * on remediation (accept degradation, fix errors, or reject).
+ */
+struct SchemaValidationReport {
+    /// True if schema is valid at specified level
+    bool is_valid;
+
+    /// Validation level that was applied
+    SchemaValidationLevel level;
+
+    /// Detected errors (only populated if not is_valid)
+    std::vector<SchemaError> errors;
+
+    /// Non-fatal warnings (suggestions for improvement)
+    std::vector<std::string> warnings;
+
+    /// Suggested remediation steps for user
+    std::vector<std::string> suggestions;
+
+    /// Repaired schema (if AUTO_REPAIR was applied and repairs successful)
+    DetectedSchema repaired_schema;
+
+    /// Validation elapsed time (ms)
+    uint64_t validation_time_ms;
+
+    json toJson() const {
+        json errors_json = json::array();
+        for (const auto& err : errors) {
+            errors_json.push_back({
+                {"error_type", err.error_type},
+                {"message", err.message},
+                {"affected_item", err.affected_item},
+                {"suggestion", err.suggestion}
+            });
+        }
+
+        json warnings_json = json::array();
+        for (const auto& w : warnings) {
+            warnings_json.push_back(w);
+        }
+
+        json suggestions_json = json::array();
+        for (const auto& s : suggestions) {
+            suggestions_json.push_back(s);
+        }
+
+        std::string level_str;
+        switch (level) {
+            case SchemaValidationLevel::STRICT:
+                level_str = "STRICT";
+                break;
+            case SchemaValidationLevel::LENIENT:
+                level_str = "LENIENT";
+                break;
+            case SchemaValidationLevel::AUTO_REPAIR:
+                level_str = "AUTO_REPAIR";
+                break;
+        }
+
+        return json{
+            {"is_valid", is_valid},
+            {"level", level_str},
+            {"errors", errors_json},
+            {"warnings", warnings_json},
+            {"suggestions", suggestions_json},
+            {"validation_time_ms", validation_time_ms}
+        };
+    }
+};
+
+/**
+ * @brief Validate schema with specified level and return comprehensive report.
+ *
+ * PHASE-3-ERROR-HANDLING: Deterministic schema validation with safe degradation
+ * Validates a schema according to the specified strictness level and returns
+ * detailed report with errors, warnings, and suggestions.
+ *
+ * @param schema  Schema to validate
+ * @param level   Validation level (STRICT/LENIENT/AUTO_REPAIR)
+ * @return SchemaValidationReport with complete results
+ */
+SchemaValidationReport validateSchemaWithReport(
+    const DetectedSchema& schema,
+    SchemaValidationLevel level);
+
+/**
+ * @brief Constraint violation categorization and null handling
+ */
+static std::pair<std::string, std::string> mapViolationToErrorCode(
+    ConstraintViolationType violation_type
+);
 
 /**
  * @brief Auto-detects column types from sampled string values.
@@ -174,6 +344,61 @@ public:
         const std::vector<std::string>& columns,
         const std::vector<std::string>& values,
         const DetectedSchema& schema);
+
+    // -------------------------------------------------------------------------
+    // PHASE-2-HARDENING: Constraint violation categorization and null handling
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Map a constraint violation to an error code and description.
+     *
+     * @param violation_type  Type of constraint violation.
+     * @return Pair of (error_code, description).
+     * PHASE-2-HARDENING
+     */
+    static std::pair<std::string, std::string> mapViolationToErrorCode(
+        ConstraintViolationType violation_type
+    );
+
+    /**
+     * @brief Check and apply null handling policy to a field value.
+     *
+     * PHASE-2-HARDENING: Deterministic null handling.
+     *
+     * @param value           The string value to check (empty = NULL).
+     * @param column_name     Column name for error messages.
+     * @param null_policy     Null handling policy (NULLABLE or NON_NULLABLE).
+     * @return Empty string if null handling is acceptable; otherwise error message.
+     */
+    static std::string checkNullHandling(
+        const std::string& value,
+        const std::string& column_name,
+        NullHandlingPolicy null_policy
+    );
+
+    /**
+     * @brief Validate numeric type coercion with bounds checking.
+     *
+     * PHASE-2-HARDENING: Type coercion with strict bounds.
+     *
+     * @param value   String representation of numeric value.
+     * @param config  Type coercion configuration with bounds.
+     * @return Empty string if valid; otherwise error message.
+     */
+    static std::string validateNumericCoercion(
+        const std::string& value,
+        const TypeCoercionConfig& config
+    );
+
+    /**
+     * @brief Validate string type coercion with length limits.
+     *
+     * PHASE-2-HARDENING: String length enforcement.
+     *
+     * @param value   String value to validate.
+     * @return Empty string if valid; otherwise error message.
+     */
+    static std::string validateStringCoercion(const std::string& value);
 
 private:
     std::vector<std::string>                 columns_;
