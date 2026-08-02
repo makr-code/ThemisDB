@@ -152,6 +152,15 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
             TIMEOUT 120
             LABELS release_critical llm phase1
         )
+    elseif(_stem STREQUAL "test_llm_memory_safety_hardening")
+        themis_register_module_focused_test(
+            MODULE llm
+            NAME ${_ctest}
+            TARGET ${_target}
+            TIER unit
+            TIMEOUT 120
+            LABELS release_critical llm batch1 memory_safety
+        )
     else()
         themis_register_module_focused_test(
             MODULE llm

@@ -180,9 +180,18 @@ The module provides production-grade LLM runtime surfaces across async inference
   - LLM-DI-01..08: Distributed inference (8 tests)
   - All tests: Use themis_register_module_focused_test(), tier unit/integration, timeout 120s
   - Registered with label: `release_critical;llm;phase1`
-- [x] Phase 1 Exit Criteria (2026-08-31)
+- [x] P5-L01/P5-L02: Comprehensive Hardening Test Suite (Target: 2026-08-02)
+  - Extended include/llm/llm_memory_safety_utils.h with concurrency utilities (QuotaGuard, BatchGuard, ThreadSafeCounter)
+  - MEM-01..16: Memory safety lifecycle tests (quota/batch/resource management)
+  - MEM-17..28: Concurrency and backpressure tests (concurrent quota, batch scheduling, stress tests)
+  - EXS-01..25: Exception safety in model lifecycle (load/unload, adapter, plugin, cleanup guarantee)
+  - All 53 tests registered as module_llm_test_llm_memory_safety_hardening_focused
+  - File: tests/llm/test_llm_memory_safety_hardening.cpp
+  - Labels: release_critical llm batch1 memory_safety, TIMEOUT 120s each
+  - Deterministic (seed 42), ASan/TSan validated
+- [x] Phase 1 Exit Criteria (2026-08-02)
   - 0 new CRITICAL findings in CodeQL
-  - 40 focused tests created and passing
+  - 93 focused tests created and passing (40 legacy + 53 comprehensive hardening)
   - Exception-safety audits complete with documented contracts
   - Memory-leak and race-condition fixes validated with sanitizers (ASan/TSan)
   - Sanitizer evidence archived in docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md
