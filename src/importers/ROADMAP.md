@@ -10,9 +10,8 @@ Production importer runtime exists across relational/document/stream/file/object
 
 ## In Progress
 
-- [~] error handling and diagnostics unification for fail-safe behavior (Target: Q4 2026, Phase 3 in progress)
 - [ ] benchmark stabilization for importer throughput and conflict-resolution hot paths (Target: Q3 2026)
-- [ ] diagnostics consistency for schema/conflict/connector denial incidents (Target: Q4 2026, Phase 3 in progress)
+- [ ] final integration testing for Phase 2-3 hardening delivery (Target: Q4 2026)
 
 ## Planned Features
 
@@ -46,13 +45,14 @@ Production importer runtime exists across relational/document/stream/file/object
   - T2.3: Conflict resolution determinism, quality scoring bounds, audit trail integration (commit fe2f4cfd)
 
 ### Phase 3: Error Handling and Edge Cases
-- [~] standardize fail-safe behavior for unsupported connector and malformed schema scenarios (Target: Q4 2026, in progress)
+- [x] standardize fail-safe behavior for unsupported connector and malformed schema scenarios (Delivered: Q3 2026)
   - T3.1.1: Connector capability fallback chain
-  - T3.1.2: Malformed schema detection and degradation
-  - T3.1.3: Rollback and recovery audit trail
-- [~] unify diagnostics across schema, conflict, and capability failure incidents (Target: Q4 2026, in progress)
-  - T3.2.1: Structured failure diagnostics
-  - T3.2.2: Diagnostic aggregation and reporting
+  - T3.1.2: Malformed schema detection & degradation (STRICT/LENIENT/AUTO_REPAIR levels)
+  - T3.1.3: Rollback & recovery audit trail with deterministic replay
+- [x] unify diagnostics across schema, conflict, and capability failure incidents (Delivered: Q3 2026)
+  - T3.2.1: Structured failure diagnostics (5 categories, root cause + remediation)
+  - T3.2.2: Diagnostic aggregation & reporting with top 5 root causes
+  - Commit: 8e36c2e6fe
 
 ### Phase 4: Tests
 - [x] expand focused regressions for mixed connector/schema/conflict edge scenarios (Delivered: Q3 2026)
@@ -118,10 +118,12 @@ Production importer runtime exists across relational/document/stream/file/object
 ## Known Issues and Limitations
 
 - runtime behavior depends on connector availability and build/runtime feature flags.
-- Q3 2026 Phase 2 connector hardening completed (parity, timeout, pool management, error mapping per commit 01e331e7, 5646694c, 6d5e118c, fe2f4cfd).
-- Q3 2026 Phase 2 schema/validation hardening completed (bounds, cycles, type fallback per commit 6d5e118c).
-- Q3 2026 Phase 2 conflict/quality/audit hardening completed (determinism, scoring bounds, structured audit per commit fe2f4cfd).
-- Phase 3 error handling and diagnostics work in progress (target Q4 2026).
+- Q3 2026 Phase 2-3 hardening completed (commit log: 01e331e7, 5646694c, 6d5e118c, fe2f4cfd, 8e36c2e6).
+  - Phase 2 T2.1: Connector pooling/timeout/fallback/error mapping (4 parts)
+  - Phase 2 T2.2: Schema bounds/cycles/validation levels
+  - Phase 2 T2.3: Conflict determinism/quality scoring/audit schema
+  - Phase 3 T3.1: Capability fallback/schema degradation/rollback recovery
+  - Phase 3 T3.2: Structured diagnostics/aggregation
 - benchmark breadth should continue expanding for advanced ingest workflows.
 
 ## Breaking Changes
