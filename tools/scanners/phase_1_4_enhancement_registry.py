@@ -16,6 +16,7 @@ Scanners included:
 import sys
 import json
 import subprocess
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, List, Any
 
@@ -64,7 +65,7 @@ class Phase14EnhancementRegistry:
         """Execute all Phase 1-4 enhancement scanners"""
         total_gaps = 0
         summary = {
-            'timestamp': str(Path.cwd()),
+            'timestamp': datetime.now(timezone.utc).isoformat(),
             'phase': '1-4 Enhancement',
             'scanners_run': 0,
             'total_gaps': 0,
@@ -89,10 +90,11 @@ class Phase14EnhancementRegistry:
                     'status': 'PASS' if scanner_info['expected_gaps'][0] <= gap_count <= scanner_info['expected_gaps'][1] * 1.5 else 'CHECK',
                 }
                 
-                # Aggregate by CWE
-                if 'cwe' in gaps[0] if gaps else False:
-                    cwe = gaps[0]['cwe']
-                    summary['gaps_by_cwe'][cwe] = gap_count
+                # Aggregate by CWE — count each gap individually
+                for gap in gaps:
+                    cwe = gap.get('cwe') if isinstance(gap, dict) else None
+                    if cwe:
+                        summary['gaps_by_cwe'][cwe] = summary['gaps_by_cwe'].get(cwe, 0) + 1
                 
                 print(f"✓ {enhancement_id}: {scanner_info['title']}")
                 print(f"  Gaps found: {gap_count} (expected: {scanner_info['expected_gaps'][0]}-{scanner_info['expected_gaps'][1]})")

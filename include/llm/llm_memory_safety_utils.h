@@ -120,22 +120,23 @@ class DBConnectionGuard {
   // Move semantics (for exclusive ownership)
   DBConnectionGuard(DBConnectionGuard&& other) noexcept
       : connection_id_(other.connection_id_),
-        releaser_(other.releaser_),
-        is_released_(other.is_released_) {
+        releaser_(std::move(other.releaser_)),
+        is_released_(other.is_released_.load(std::memory_order_relaxed)) {
     other.connection_id_ = -1;
     other.releaser_ = nullptr;
-    other.is_released_ = true;
+    other.is_released_.store(true, std::memory_order_relaxed);
   }
   
   DBConnectionGuard& operator=(DBConnectionGuard&& other) noexcept {
     if (this != &other) {
       release();
       connection_id_ = other.connection_id_;
-      releaser_ = other.releaser_;
-      is_released_ = other.is_released_;
+      releaser_ = std::move(other.releaser_);
+      is_released_.store(other.is_released_.load(std::memory_order_relaxed),
+                         std::memory_order_relaxed);
       other.connection_id_ = -1;
       other.releaser_ = nullptr;
-      other.is_released_ = true;
+      other.is_released_.store(true, std::memory_order_relaxed);
     }
     return *this;
   }
@@ -195,12 +196,12 @@ class ScopedLockGuard {
   
   // Move semantics
   ScopedLockGuard(ScopedLockGuard&& other) noexcept
-      : lock_(other.lock_),
-        unlock_(other.unlock_),
-        is_locked_(other.is_locked_) {
+      : lock_(std::move(other.lock_)),
+        unlock_(std::move(other.unlock_)),
+        is_locked_(other.is_locked_.load(std::memory_order_relaxed)) {
     other.lock_ = nullptr;
     other.unlock_ = nullptr;
-    other.is_locked_ = false;
+    other.is_locked_.store(false, std::memory_order_relaxed);
   }
   
   // Prevent copying
@@ -413,11 +414,11 @@ class QuotaGuard {
   // Move semantics
   QuotaGuard(QuotaGuard&& other) noexcept
       : quota_amount_(other.quota_amount_),
-        releaser_(other.releaser_),
-        is_released_(other.is_released_) {
+        releaser_(std::move(other.releaser_)),
+        is_released_(other.is_released_.load(std::memory_order_relaxed)) {
     other.quota_amount_ = 0;
     other.releaser_ = nullptr;
-    other.is_released_ = true;
+    other.is_released_.store(true, std::memory_order_relaxed);
   }
   
   // Prevent copying
@@ -468,11 +469,11 @@ class BatchGuard {
   // Move semantics
   BatchGuard(BatchGuard&& other) noexcept
       : batch_id_(other.batch_id_),
-        releaser_(other.releaser_),
-        is_released_(other.is_released_) {
+        releaser_(std::move(other.releaser_)),
+        is_released_(other.is_released_.load(std::memory_order_relaxed)) {
     other.batch_id_ = -1;
     other.releaser_ = nullptr;
-    other.is_released_ = true;
+    other.is_released_.store(true, std::memory_order_relaxed);
   }
   
   // Prevent copying

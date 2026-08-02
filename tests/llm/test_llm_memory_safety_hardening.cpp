@@ -10,12 +10,18 @@
  */
 
 #include <gtest/gtest.h>
+#include "llm/llm_memory_safety_utils.h"
 #include <memory>
 #include <thread>
 #include <mutex>
 #include <atomic>
 #include <vector>
 #include <optional>
+#include <string>
+#include <unordered_map>
+#include <chrono>
+#include <stdexcept>
+#include <cstdint>
 
 namespace themis::llm::test {
 
@@ -299,7 +305,7 @@ class MovableResource {
   int* data_;
 };
 
-TEST(MemorySafetyHardening, MEM_08_MoveSemanticsNonDoublDelete) {
+TEST(MemorySafetyHardening, MEM_08_MoveSemanticsNonDoubleDelete) {
   {
     MovableResource original;
     EXPECT_EQ(original.getValue(), 123);

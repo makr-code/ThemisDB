@@ -187,7 +187,7 @@ The module provides production-grade LLM runtime surfaces across async inference
   - EXS-01..25: Exception safety in model lifecycle (load/unload, adapter, plugin, cleanup guarantee)
   - All 53 tests registered as module_llm_test_llm_memory_safety_hardening_focused
   - File: tests/llm/test_llm_memory_safety_hardening.cpp
-  - Labels: llm;hardening;phase5;release_critical, TIMEOUT 120s each
+  - Labels: release_critical llm batch1 memory_safety, TIMEOUT 120s each
   - Deterministic (seed 42), ASan/TSan validated
 - [x] Phase 1 Exit Criteria (2026-08-02)
   - 0 new CRITICAL findings in CodeQL
