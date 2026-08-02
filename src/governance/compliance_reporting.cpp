@@ -143,7 +143,6 @@ std::string ComplianceReporter::generateHTMLOptimized(
     }
     
     std::ostringstream html;
-    html.reserve(estimated_size);  // Pre-allocate to avoid repeated reallocations
     
     // HTML header
     html << "<html><head><title>" << title << "</title>"
@@ -1792,4 +1791,3 @@ ComplianceReporter::CcpaReport ComplianceReporter::generateCcpaReport(
 
 } // namespace governance
 } // namespace themis
-

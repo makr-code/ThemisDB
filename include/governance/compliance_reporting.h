@@ -22,6 +22,8 @@
 
 #include "governance/policy_manager.h"
 #include "governance/ccpa_rules.h"
+#include <atomic>
+#include <mutex>
 #include <string>
 #include <vector>
 #include <unordered_map>

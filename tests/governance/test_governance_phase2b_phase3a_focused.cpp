@@ -14,20 +14,52 @@
 
 #include <algorithm>
 #include <chrono>
+#include <filesystem>
+#include <fstream>
 #include <memory>
 #include <thread>
+#include <unordered_set>
 
 using namespace themis::governance;
 
 class Phase2B3ATest : public ::testing::Test {
 protected:
     void SetUp() override {
-        // Initialize test data
+        policy_yaml_path_ = (std::filesystem::temp_directory_path()
+            / ("themisdb_governance_profiles_" + std::to_string(
+                std::chrono::steady_clock::now().time_since_epoch().count()) + ".yaml")).string();
+        std::ofstream out(policy_yaml_path_, std::ios::trunc);
+        ASSERT_TRUE(out.is_open());
+        out << "vs_classification:\n"
+            << "  streng-geheim:\n"
+            << "    encryption_required: true\n"
+            << "    ann_allowed: false\n"
+            << "    export_allowed: false\n"
+            << "    cache_allowed: false\n"
+            << "    redaction_level: strict\n"
+            << "    retention_days: 3650\n"
+            << "    log_encryption: true\n"
+            << "  vs-nfd:\n"
+            << "    encryption_required: true\n"
+            << "    ann_allowed: true\n"
+            << "    export_allowed: true\n"
+            << "    cache_allowed: true\n"
+            << "    redaction_level: standard\n"
+            << "    retention_days: 365\n"
+            << "    log_encryption: false\n"
+            << "enforcement:\n"
+            << "  default_mode: enforce\n";
+        out.close();
     }
     
     void TearDown() override {
-        // Cleanup
+        if (!policy_yaml_path_.empty()) {
+            std::error_code ec;
+            std::filesystem::remove(policy_yaml_path_, ec);
+        }
     }
+
+    std::string policy_yaml_path_;
 };
 
 // ========== P2B-01: ComplianceReporterResult Validation ==========
@@ -157,7 +189,7 @@ TEST_F(Phase2B3ATest, P2B03_DiagnosticTimeRangeFiltering) {
 
 TEST_F(Phase2B3ATest, P3A01_MissingClassificationDefaultsToDeny) {
     PolicyEngine engine;
-    engine.loadFromYAML("governance/profiles.yaml");  // Uses default profiles
+    ASSERT_TRUE(engine.loadFromYAML(policy_yaml_path_));
     
     // Headers without classification
     std::unordered_map<std::string, std::string> headers;
@@ -175,7 +207,7 @@ TEST_F(Phase2B3ATest, P3A01_MissingClassificationDefaultsToDeny) {
 
 TEST_F(Phase2B3ATest, P3A01_MissingProfileDefaultsToDeny) {
     PolicyEngine engine;
-    engine.loadFromYAML("governance/profiles.yaml");
+    ASSERT_TRUE(engine.loadFromYAML(policy_yaml_path_));
     
     // Headers with unknown classification (not in profiles)
     std::unordered_map<std::string, std::string> headers;
@@ -195,7 +227,7 @@ TEST_F(Phase2B3ATest, P3A01_MissingProfileDefaultsToDeny) {
 
 TEST_F(Phase2B3ATest, P3A02_StrictClassificationEnforcedAlwaysEncrypt) {
     PolicyEngine engine;
-    engine.loadFromYAML("governance/profiles.yaml");
+    ASSERT_TRUE(engine.loadFromYAML(policy_yaml_path_));
     
     std::unordered_map<std::string, std::string> headers;
     headers["X-Classification"] = "streng-geheim";
@@ -212,7 +244,7 @@ TEST_F(Phase2B3ATest, P3A02_StrictClassificationEnforcedAlwaysEncrypt) {
 
 TEST_F(Phase2B3ATest, P3A02_NormalClassificationValidation) {
     PolicyEngine engine;
-    engine.loadFromYAML("governance/profiles.yaml");
+    ASSERT_TRUE(engine.loadFromYAML(policy_yaml_path_));
     
     std::unordered_map<std::string, std::string> headers;
     headers["X-Classification"] = "vs-nfd";
@@ -229,7 +261,7 @@ TEST_F(Phase2B3ATest, P3A02_NormalClassificationValidation) {
 
 TEST_F(Phase2B3ATest, P3A03_HeaderOverrideValidation) {
     PolicyEngine engine;
-    engine.loadFromYAML("governance/profiles.yaml");
+    ASSERT_TRUE(engine.loadFromYAML(policy_yaml_path_));
     
     // Test that valid headers work
     std::unordered_map<std::string, std::string> headers;
@@ -243,7 +275,7 @@ TEST_F(Phase2B3ATest, P3A03_HeaderOverrideValidation) {
 
 TEST_F(Phase2B3ATest, P3A03_InvalidRedactionLevelAccepted) {
     PolicyEngine engine;
-    engine.loadFromYAML("governance/profiles.yaml");
+    ASSERT_TRUE(engine.loadFromYAML(policy_yaml_path_));
     
     std::unordered_map<std::string, std::string> headers;
     headers["X-Classification"] = "vs-nfd";
@@ -359,7 +391,11 @@ TEST_F(Phase2B3ATest, P2B04_ReporterStateTransitionSequence) {
 
 TEST_F(Phase2B3ATest, P3A04_CcpaOptOutOverridesExportPermission) {
     PolicyEngine engine;
-    engine.loadFromYAML("governance/profiles.yaml");
+    ASSERT_TRUE(engine.loadFromYAML(policy_yaml_path_));
+
+    auto opt_out_registry = std::make_shared<std::unordered_set<std::string>>();
+    opt_out_registry->insert("opted-out-user");
+    engine.setCcpaOptOutSubjects(opt_out_registry);
     
     // Setup CCPA opt-out for user
     std::unordered_map<std::string, std::string> headers;
@@ -368,9 +404,8 @@ TEST_F(Phase2B3ATest, P3A04_CcpaOptOutOverridesExportPermission) {
     
     auto decision = engine.evaluate(headers, "/api/resource");
     
-    // Even if export is normally allowed, CCPA opt-out should disable it
-    // (if user is registered as opted-out)
-    // This depends on CCPA registry setup
+    EXPECT_TRUE(decision.ccpa_opted_out);
+    EXPECT_FALSE(decision.export_allowed);
 }
 
 // ========== Integration Tests ==========

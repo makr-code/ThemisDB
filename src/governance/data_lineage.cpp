@@ -110,50 +110,6 @@ std::string DataLineageTracker::assignEventId() {
     return oss.str();
 }
 
-void DataLineageTracker::recordEvent(LineageEvent event) {
-    // Assign a timestamp if the caller left it at zero
-    if (event.timestamp_ms == 0) {
-        event.timestamp_ms = static_cast<int64_t>(
-            std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch())
-                .count());
-    }
-
-    // Assign an event_id if the caller left it empty
-    if (event.event_id.empty()) {
-        event.event_id = assignEventId();
-    }
-
-    const std::string event_type_str = lineageEventTypeToString(event.event_type);
-
-    std::shared_ptr<themis::utils::AuditLogger> audit_log;
-    {
-        std::lock_guard<std::mutex> lock(mutex_);
-
-        // Append to primary store (chronological order is maintained because
-        // recordEvent() is the only mutation path and timestamps increase)
-        lineage_store_[event.dataset_id].push_back(event);
-
-        // Maintain secondary index for O(1) parent/child traversal
-        event_index_[event.event_id] = event;
-
-        audit_log = audit_logger_;
-    }
-
-    THEMIS_INFO("DataLineageTracker: recorded {} event '{}' for dataset '{}'", event_type_str, event.event_id,
-                event.dataset_id);
-
-    // Emit Prometheus counter
-    observability::MetricsCollector::getInstance().addCounter("governance_lineage_events_total", 1,
-                                                              {{"event_type", event_type_str}});
-
-    // Forward to audit trail (append-only, outside the mutex to avoid deadlock)
-    if (audit_log) {
-        nlohmann::json audit_entry
-            = {{"event_type", "data_lineage"}, {"lineage_event", event.toJson()}, {"timestamp", event.timestamp_ms}};
-        audit_log->logEvent(audit_entry);
-    }
-}
-
 LineageRecord DataLineageTracker::getLineage(const std::string &dataset_id) const {
     std::lock_guard<std::mutex> lock(mutex_);
     LineageRecord record;
@@ -298,7 +254,7 @@ void DataLineageTracker::recordAuditFailure() {
         // Emit diagnostic
         auto& agg = getGlobalDiagnosticAggregator();
         GovernanceDiagnostic diag;
-        diag.code = static_cast<GovDiagnosticCode>(LineageError::kCircuitBreakerOpen);
+        diag.code = GovDiagnosticCode::kLineageCircuitBreakerOpen;
         diag.component = "lineage_tracker";
         diag.description = "Circuit breaker opened due to audit logger failures";
         diag.timestamp_ms = last_open_time_ms_;
@@ -369,7 +325,7 @@ LineageRecordResult DataLineageTracker::checkAndEnforceSizeLimits() {
         // Emit diagnostic
         auto& agg = getGlobalDiagnosticAggregator();
         GovernanceDiagnostic diag;
-        diag.code = static_cast<GovDiagnosticCode>(LineageError::kSizeLimitExceeded);
+        diag.code = GovDiagnosticCode::kLineageSizeLimitExceeded;
         diag.component = "lineage_tracker";
         diag.description = "Total lineage events exceeded limit; FIFO eviction active";
         diag.timestamp_ms = static_cast<int64_t>(

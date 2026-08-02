@@ -71,6 +71,9 @@ CMakeFiles/
 CMakeCache.txt
 cmake_install.cmake
 CTestTestfile.cmake
+CPackConfig.cmake
+CPackSourceConfig.cmake
+_deps/
 Makefile
 build-msvc-windows-release/
 # Explicitly un-ignore edition-specific deployment/packaging directories
