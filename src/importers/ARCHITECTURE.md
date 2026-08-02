@@ -1,7 +1,7 @@
 # Architecture - Importers Module
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+<!-- Status: current | validated: 2026-08-02 -->
+<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · BUILD_STATUS.md -->
 
 ## Overview
 
