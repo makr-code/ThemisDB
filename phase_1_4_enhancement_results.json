@@ -1,0 +1,45 @@
+{
+  "timestamp": "/home/runner/work/ThemisDB/ThemisDB",
+  "phase": "1-4 Enhancement",
+  "scanners_run": 4,
+  "total_gaps": 0,
+  "by_enhancement": {
+    "S-1": {
+      "title": "Hardcoded Secrets Detection (CWE-798)",
+      "gap_count": 0,
+      "expected_range": [
+        100,
+        160
+      ],
+      "status": "CHECK"
+    },
+    "S-3": {
+      "title": "Injection Attack Prevention (CWE-94)",
+      "gap_count": 0,
+      "expected_range": [
+        80,
+        150
+      ],
+      "status": "CHECK"
+    },
+    "M-1/M-2": {
+      "title": "Memory Safety (CWE-416/415)",
+      "gap_count": 0,
+      "expected_range": [
+        50,
+        100
+      ],
+      "status": "CHECK"
+    },
+    "C-1": {
+      "title": "Race Condition Detection (CWE-362)",
+      "gap_count": 0,
+      "expected_range": [
+        40,
+        80
+      ],
+      "status": "CHECK"
+    }
+  },
+  "gaps_by_cwe": {}
+}
