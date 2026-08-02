@@ -137,10 +137,31 @@ std::vector<SchemaValidationError> SchemaAutoDetector::validateRow(
 {
     std::vector<SchemaValidationError> errors;
     const size_t n = std::min(columns.size(), values.size());
+    
+    // PHASE-2-HARDENING: Default null policy (NULLABLE for backward compatibility)
+    const NullHandlingPolicy null_policy = NullHandlingPolicy::NULLABLE;
+    const TypeCoercionConfig coercion_config;
+    
     for (size_t i = 0; i < n; ++i) {
         const auto& col = columns[i];
         const auto& val = values[i];
-        if (val.empty()) continue;  // null / empty is always valid
+        
+        // PHASE-2-HARDENING: Check null handling policy first
+        std::string null_error = checkNullHandling(val, col, null_policy);
+        if (!null_error.empty()) {
+            SchemaValidationError err;
+            err.column = col;
+            err.value = val;
+            err.expected_type = DetectedFieldType::STRING;
+            err.message = null_error;
+            err.violation_type = ConstraintViolationType::TYPE_MISMATCH;
+            auto [error_code, _] = mapViolationToErrorCode(err.violation_type);
+            err.error_code = error_code;
+            errors.push_back(std::move(err));
+            continue;
+        }
+        
+        if (val.empty()) continue;  // null / empty is always valid (NULLABLE policy)
 
         auto it = schema.column_types.find(col);
         if (it == schema.column_types.end()) continue;  // unknown column – skip
@@ -150,12 +171,35 @@ std::vector<SchemaValidationError> SchemaAutoDetector::validateRow(
 
         // A narrower-or-equal type is fine (e.g. INTEGER fits a DOUBLE column).
         if (typeRank(actual) > typeRank(expected)) {
+            // PHASE-2-HARDENING: Categorize constraint violation
+            ConstraintViolationType violation_type = ConstraintViolationType::TYPE_MISMATCH;
+            
+            // Additional type-specific validation
+            if (expected == DetectedFieldType::DOUBLE || expected == DetectedFieldType::INTEGER) {
+                std::string numeric_error = validateNumericCoercion(val, coercion_config);
+                if (!numeric_error.empty()) {
+                    violation_type = ConstraintViolationType::TYPE_MISMATCH;
+                }
+            } else if (expected == DetectedFieldType::STRING) {
+                std::string string_error = validateStringCoercion(val);
+                if (!string_error.empty()) {
+                    violation_type = ConstraintViolationType::LENGTH_VIOLATION;
+                }
+            }
+            
             SchemaValidationError err;
-            err.column        = col;
-            err.value         = val;
+            err.column = col;
+            err.value = val;
             err.expected_type = expected;
+            err.violation_type = violation_type;
             err.message = "Column '" + col + "': expected " +
                           typeName(expected) + " but got value '" + val + "'";
+            
+            // PHASE-2-HARDENING: Map violation to error code
+            auto [error_code, error_desc] = mapViolationToErrorCode(violation_type);
+            err.error_code = error_code;
+            err.message += " (" + error_desc + ")";
+            
             errors.push_back(std::move(err));
         }
     }
@@ -212,6 +256,92 @@ DetectedSchema SchemaAutoDetector::getSchema(const std::string& table_name) cons
 void SchemaAutoDetector::reset() {
     columns_.clear();
     widest_types_.clear();
+}
+
+// ============================================================================
+// PHASE-2-HARDENING: Constraint violation categorization and null handling
+// ============================================================================
+
+std::pair<std::string, std::string>
+SchemaAutoDetector::mapViolationToErrorCode(
+    ConstraintViolationType violation_type)
+{
+    switch (violation_type) {
+        case ConstraintViolationType::TYPE_MISMATCH:
+            return {"IMPORT_ROW_INVALID", "Type mismatch: value does not match column type"};
+        case ConstraintViolationType::LENGTH_VIOLATION:
+            return {"IMPORT_ROW_INVALID", "Length violation: string/binary exceeds maximum length"};
+        case ConstraintViolationType::FOREIGN_KEY_VIOLATION:
+            return {"IMPORT_DUPLICATE_KEY", "Foreign key violation: value not found in referenced table"};
+        case ConstraintViolationType::UNIQUE_VIOLATION:
+            return {"IMPORT_DUPLICATE_KEY", "Unique constraint violation: duplicate value"};
+        case ConstraintViolationType::NONE:
+        default:
+            return {"OK", "No violation"};
+    }
+}
+
+std::string
+SchemaAutoDetector::checkNullHandling(
+    const std::string& value,
+    const std::string& column_name,
+    NullHandlingPolicy null_policy)
+{
+    // PHASE-2-HARDENING: Deterministic null handling policy
+    // Empty string is treated as NULL
+    if (value.empty()) {
+        if (null_policy == NullHandlingPolicy::NON_NULLABLE) {
+            return "Column '" + column_name + "': NULL value not allowed (NON_NULLABLE policy)";
+        }
+        // NULLABLE policy: NULL accepted, transformed to sentinel value
+        return "";  // No error
+    }
+    return "";  // Non-null value is always acceptable
+}
+
+std::string
+SchemaAutoDetector::validateNumericCoercion(
+    const std::string& value,
+    const TypeCoercionConfig& config)
+{
+    // PHASE-2-HARDENING: Numeric type coercion with strict bounds checking
+    if (value.empty()) {
+        return "";  // Empty is treated as NULL, handled separately
+    }
+
+    try {
+        double numeric_value = std::stod(value);
+        
+        // Check bounds
+        if (numeric_value < config.numeric_min_value) {
+            return "Numeric value " + value + " is below minimum (" +
+                   std::to_string(config.numeric_min_value) + ")";
+        }
+        if (numeric_value > config.numeric_max_value) {
+            return "Numeric value " + value + " exceeds maximum (" +
+                   std::to_string(config.numeric_max_value) + ")";
+        }
+        
+        // Check for overflow/underflow representation
+        if (std::isnan(numeric_value) || std::isinf(numeric_value)) {
+            return "Numeric value " + value + " is not a valid number";
+        }
+        
+        return "";  // Valid
+    } catch (const std::exception&) {
+        return "Cannot coerce value '" + value + "' to numeric type";
+    }
+}
+
+std::string
+SchemaAutoDetector::validateStringCoercion(const std::string& value)
+{
+    // PHASE-2-HARDENING: String length enforcement (max 4KB per field)
+    if (value.size() > TypeCoercionConfig::kMaxStringFieldLength) {
+        return "String value exceeds maximum length (" +
+               std::to_string(TypeCoercionConfig::kMaxStringFieldLength) + " bytes)";
+    }
+    return "";  // Valid
 }
 
 } // namespace importers

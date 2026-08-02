@@ -19,6 +19,7 @@
  */
 
 #include "importers/s3_importer.h"
+#include "importers/importers_api_contract.h"
 #include <stdexcept>
 #include "utils/logger.h"
 #include <aws/core/Aws.h>
@@ -29,6 +30,7 @@
 #include <aws/s3/model/GetObjectRequest.h>
 #include <aws/s3/model/HeadObjectRequest.h>
 #include <aws/s3/model/ListObjectsV2Request.h>
+#include <aws/s3/model/ListObjectsRequest.h>
 #include <sstream>
 #include <fstream>
 #include <cstdio>
@@ -46,6 +48,36 @@ namespace importers {
 // ============================================================================
 
 namespace {
+
+// ============================================================================
+// PHASE-2-HARDENING: S3 Error Mapping and Object Listing
+// ============================================================================
+
+/// Maps S3-specific error patterns to ImporterErrorCode
+static ImportErrorCode mapS3ErrorToCode(const std::string& error_msg) {
+    // PHASE-2-HARDENING: Standardized error mapping for S3
+    const auto msg_lower = [](std::string s) {
+        for (auto& c : s) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        return s;
+    };
+    std::string lower_msg = msg_lower(error_msg);
+    
+    // Connection/availability errors
+    if (lower_msg.find("connection") != std::string::npos ||
+        lower_msg.find("unavailable") != std::string::npos ||
+        lower_msg.find("unreachable") != std::string::npos ||
+        lower_msg.find("timeout") != std::string::npos) {
+        return ImportErrorCode::IMPORT_CONNECTOR_UNAVAILABLE;
+    }
+    
+    // Object not found errors
+    if (lower_msg.find("not found") != std::string::npos ||
+        lower_msg.find("no such") != std::string::npos) {
+        return ImportErrorCode::IMPORT_FILE_NOT_FOUND;
+    }
+    
+    return ImportErrorCode::INTERNAL_ERROR;
+}
 
 std::once_flag g_sdk_init_flag;
 
@@ -554,52 +586,120 @@ void S3Importer::importObjectsWithPrefix(const std::string& bucket,
                 prefix.empty() ? "" : "/", prefix);
 
     std::vector<std::string> keys;
+    const size_t MAX_OBJECTS = 100000;  // PHASE-2-HARDENING: Max objects per import
+    
     try {
         auto client = buildS3Client(s3_config_);
 
+        // PHASE-2-HARDENING: Try ListObjectsV2 first, fallback to ListObjects on error
         std::string continuation_token;
         bool has_more = true;
+        bool use_v2_api = true;
 
-        while (has_more && !cancelled_.load()) {
-            Aws::S3::Model::ListObjectsV2Request req;
-            req.SetBucket(bucket);
-            if (!prefix.empty()) req.SetPrefix(prefix);
-            if (!continuation_token.empty())
-                req.SetContinuationToken(continuation_token);
+        while (has_more && !cancelled_.load() && keys.size() < MAX_OBJECTS) {
+            // PHASE-2-HARDENING: Object listing fallback mechanism
+            try {
+                if (use_v2_api) {
+                    Aws::S3::Model::ListObjectsV2Request req;
+                    req.SetBucket(bucket);
+                    if (!prefix.empty()) req.SetPrefix(prefix);
+                    if (!continuation_token.empty())
+                        req.SetContinuationToken(continuation_token);
+                    req.SetMaxKeys(1000);  // Enforce pagination limits
 
-            auto outcome = client->ListObjectsV2(req);
-            if (!outcome.IsSuccess()) {
-                auto& err = outcome.GetError();
-                addError(
-                    stats, ImportErrorCode::FILE_OPEN_FAILED,
-                    ImportErrorSeverity::CRITICAL,
-                    "S3 ListObjectsV2 failed (" + err.GetExceptionName() +
-                        "): " + sanitisedConnectionId(s3_config_, bucket));
-                return;
+                    auto outcome = client->ListObjectsV2(req);
+                    if (!outcome.IsSuccess()) {
+                        auto& err = outcome.GetError();
+                        THEMIS_WARN("ListObjectsV2 failed ({}); falling back to ListObjects API",
+                                   err.GetExceptionName());
+                        // PHASE-2-HARDENING: Fallback to ListObjects
+                        use_v2_api = false;
+                        continuation_token.clear();
+                        continue;  // Retry with v1 API
+                    }
+
+                    const auto& result = outcome.GetResult();
+                    for (const auto& obj : result.GetContents()) {
+                        const std::string& k = obj.GetKey();
+                        // Skip keys that are themselves "directory" markers.
+                        if (!k.empty() && k.back() == '/') continue;
+                        keys.push_back(k);
+                        if (keys.size() >= MAX_OBJECTS) break;
+                    }
+
+                    has_more = result.GetIsTruncated();
+                    if (has_more) continuation_token = result.GetNextContinuationToken();
+                } else {
+                    // PHASE-2-HARDENING: ListObjects V1 API fallback
+                    Aws::S3::Model::ListObjectsRequest req;
+                    req.SetBucket(bucket);
+                    if (!prefix.empty()) req.SetPrefix(prefix);
+                    if (!continuation_token.empty())
+                        req.SetMarker(continuation_token);
+                    req.SetMaxKeys(1000);  // Enforce pagination limits
+
+                    auto outcome = client->ListObjects(req);
+                    if (!outcome.IsSuccess()) {
+                        auto& err = outcome.GetError();
+                        addError(
+                            stats, ImportErrorCode::IMPORT_CONNECTOR_UNAVAILABLE,
+                            ImportErrorSeverity::CRITICAL,
+                            "S3 ListObjects (v1) failed (" + err.GetExceptionName() +
+                                "): " + sanitisedConnectionId(s3_config_, bucket));
+                        return;
+                    }
+
+                    const auto& result = outcome.GetResult();
+                    for (const auto& obj : result.GetContents()) {
+                        const std::string& k = obj.GetKey();
+                        // Skip keys that are themselves "directory" markers.
+                        if (!k.empty() && k.back() == '/') continue;
+                        keys.push_back(k);
+                        if (keys.size() >= MAX_OBJECTS) break;
+                    }
+
+                    has_more = result.GetIsTruncated();
+                    if (has_more) continuation_token = result.GetNextMarker();
+                }
+            } catch (const std::exception& e) {
+                // If both APIs fail, report error
+                if (!use_v2_api) {
+                    addError(stats, ImportErrorCode::IMPORT_CONNECTOR_UNAVAILABLE,
+                             ImportErrorSeverity::CRITICAL,
+                             std::string("S3 object listing exception: ") + e.what(),
+                             sanitisedConnectionId(s3_config_, bucket));
+                    return;
+                }
+                // Try fallback once on v2 error
+                THEMIS_DEBUG("ListObjectsV2 exception: {}; trying ListObjects fallback", e.what());
+                use_v2_api = false;
+                continuation_token.clear();
+                continue;
             }
+        }
 
-            const auto& result = outcome.GetResult();
-            for (const auto& obj : result.GetContents()) {
-                const std::string& k = obj.GetKey();
-                // Skip keys that are themselves "directory" markers.
-                if (!k.empty() && k.back() == '/') continue;
-                keys.push_back(k);
-            }
-
-            has_more = result.GetIsTruncated();
-            if (has_more) continuation_token = result.GetNextContinuationToken();
+        // PHASE-2-HARDENING: Check if we hit the object limit
+        if (keys.size() >= MAX_OBJECTS) {
+            THEMIS_WARN("S3 object listing hit maximum limit of {} objects", MAX_OBJECTS);
+            addError(stats, ImportErrorCode::IMPORT_QUOTA_EXCEEDED,
+                     ImportErrorSeverity::WARNING,
+                     "S3 object listing reached maximum of " + std::to_string(MAX_OBJECTS) +
+                     " objects; truncating results",
+                     sanitisedConnectionId(s3_config_, bucket));
+            emitMetric(options, "themisdb_import_quota_limit_total",
+                      {{"resource", "s3_objects"}}, static_cast<double>(MAX_OBJECTS));
         }
 
     } catch (const std::exception& e) {
-        addError(stats, ImportErrorCode::FILE_OPEN_FAILED,
+        addError(stats, ImportErrorCode::IMPORT_CONNECTOR_UNAVAILABLE,
                  ImportErrorSeverity::CRITICAL,
-                 std::string("S3 ListObjectsV2 exception: ") + e.what(),
+                 std::string("S3 object listing exception: ") + e.what(),
                  sanitisedConnectionId(s3_config_, bucket));
         return;
     }
 
-    THEMIS_INFO("S3 import: found {} objects to import under '{}'",
-                keys.size(), prefix);
+    THEMIS_INFO("S3 import: found {} objects to import under '{}' (max: {})",
+                keys.size(), prefix, MAX_OBJECTS);
 
     for (const auto& k : keys) {
         if (cancelled_.load()) break;

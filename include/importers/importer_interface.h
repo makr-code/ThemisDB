@@ -75,6 +75,7 @@ enum class ImportErrorCode : uint32_t {
     FILE_READ_FAILED     = 102,
     NOT_A_PG_DUMP        = 103,
     NOT_A_SQLITE_DUMP    = 104,  ///< File does not appear to be a SQLite dump
+    IMPORT_CONNECTOR_UNAVAILABLE = 105,  ///< Source connector (DB, file, S3, Kafka) unreachable; connection pool exhausted
 
     // SQL parsing errors (200-299)
     PARSE_CREATE_TABLE   = 200,
@@ -87,6 +88,7 @@ enum class ImportErrorCode : uint32_t {
     // Schema mapping errors (300-399)
     UNKNOWN_TABLE        = 300,
     COLUMN_COUNT_MISMATCH = 301,
+    IMPORT_SCHEMA_MISMATCH = 302,  ///< Schema cache invalidated; schema changed or connection lost
 
     // Data conversion errors (400-499)
     TYPE_CONVERSION      = 400,

@@ -71,8 +71,29 @@ struct InferenceTableSchema {
  */
 struct SchemaInferenceConfig {
     double relationship_confidence_threshold{0.75};
+    double semantic_type_confidence_threshold{0.70};  ///< Min agreement % for semantic type
     size_t max_sample_values{1000};
     bool enable_semantic_detection{true};
+    bool enable_cycle_detection{true};  ///< Detect circular FK references
+};
+
+/**
+ * @brief Schema structural validation error details.
+ */
+struct SchemaStructureError {
+    enum class ViolationType {
+        NULL_TABLE_NAME,           ///< Table has empty/null name
+        NULL_COLUMN_NAME,          ///< Column has empty/null name
+        DUPLICATE_COLUMN,          ///< Column name appears multiple times
+        INVALID_TYPE_STRING,       ///< Unknown/invalid type string
+        OVERSIZED_IDENTIFIER,      ///< Identifier exceeds max length
+        NONE                        ///< No violation
+    };
+    
+    ViolationType violation_type{ViolationType::NONE};
+    std::string table_name;
+    std::string column_name;
+    std::string error_message;
 };
 
 /**
@@ -185,6 +206,16 @@ public:
     /// Maximum number of columns per table accepted by validation.
     static constexpr size_t kMaxColumnCount = 1600;
 
+    /// Maximum number of table pairs to compare for relationship inference.
+    /// Used to bound O(n²) complexity in relationship discovery.
+    /// PHASE-2-HARDENING
+    static constexpr size_t kMaxTablePairsComparison = 10000;
+
+    /// Maximum number of column pairs per table to compare.
+    /// Used to bound O(n²) complexity in cardinality estimation.
+    /// PHASE-2-HARDENING
+    static constexpr size_t kMaxColumnPairsPerTable = 2500;
+
     /**
      * @brief Validate a SQL identifier (table or column name) for safe use
      *        in dynamically-constructed query strings.
@@ -198,6 +229,39 @@ public:
      * @return true if the identifier is safe for SQL use; false otherwise.
      */
     static bool isValidIdentifier(const std::string& identifier);
+
+    /**
+     * @brief Validate the structural integrity of a schema set.
+     *
+     * Checks for:
+     *   - Null or empty table names
+     *   - Null or empty column names
+     *   - Duplicate column names within a table
+     *   - Invalid type strings (non-alphanumeric or oversized)
+     *   - Oversized identifiers
+     *
+     * @param schemas  Vector of schemas to validate.
+     * @return List of structural violations (empty if all valid).
+     * PHASE-2-HARDENING
+     */
+    static std::vector<SchemaStructureError> validateSchemaStructure(
+        const std::vector<InferenceTableSchema>& schemas
+    );
+
+    /**
+     * @brief Detect circular foreign key references (cycles) in implicit relationships.
+     *
+     * A cycle occurs when relationship A → B and B → A exist, which would cause
+     * infinite recursion in schema analysis. This method identifies such cycles
+     * and returns a map of cycles detected.
+     *
+     * @param inferred_schemas  Inferred schemas from inferImplicitRelationships().
+     * @return Map of relationship_id → list of cycle-forming relationship IDs.
+     * PHASE-2-HARDENING
+     */
+    static std::map<std::string, std::vector<std::string>> detectRelationshipCycles(
+        const std::vector<InferredSchema>& inferred_schemas
+    );
 
 private:
     Config config_;

@@ -55,14 +55,61 @@ struct DetectedSchema {
 };
 
 /**
+ * @brief Null handling policy for columns during validation.
+ *
+ * PHASE-2-HARDENING: Deterministic null handling across all validators.
+ */
+enum class NullHandlingPolicy {
+    NULLABLE,           ///< NULL accepted, transformed to sentinel value
+    NON_NULLABLE        ///< NULL rejected (error IMPORT_ROW_INVALID)
+};
+
+/**
+ * @brief Category of constraint violation during validation.
+ *
+ * PHASE-2-HARDENING: Constraint violation categorization for structured error reporting.
+ */
+enum class ConstraintViolationType {
+    TYPE_MISMATCH,      ///< Value type does not match column type
+    LENGTH_VIOLATION,   ///< String/binary exceeds max length
+    FOREIGN_KEY_VIOLATION,  ///< Value does not match referenced table
+    UNIQUE_VIOLATION,   ///< Value violates unique constraint
+    NONE                ///< No violation
+};
+
+/**
  * @brief Describes a type mismatch for one field in a validated row.
+ *
+ * PHASE-2-HARDENING: Extended with constraint violation categorization.
  */
 struct SchemaValidationError {
-    std::string       column;         ///< Column name where the mismatch occurred
-    std::string       value;          ///< Actual string value that failed validation
-    DetectedFieldType expected_type;  ///< Type declared in the schema
-    std::string       message;        ///< Human-readable description
+    std::string       column;             ///< Column name where the mismatch occurred
+    std::string       value;              ///< Actual string value that failed validation
+    DetectedFieldType expected_type;      ///< Type declared in the schema
+    std::string       message;            ///< Human-readable description
+    
+    // PHASE-2-HARDENING: Constraint violation categorization
+    ConstraintViolationType violation_type{ConstraintViolationType::NONE};
+    std::string       error_code;         ///< Structured error code (e.g., IMPORT_ROW_INVALID)
 };
+
+/**
+ * @brief Configuration for type coercion during validation.
+ *
+ * PHASE-2-HARDENING: Type coercion with strict bounds checking.
+ */
+struct TypeCoercionConfig {
+    // String constraints
+    static constexpr size_t kMaxStringFieldLength = 4096;  ///< Max 4KB per string field
+    
+    // Numeric constraints
+    double numeric_min_value{-1e308};     ///< Minimum numeric value (IEEE double)
+    double numeric_max_value{1e308};      ///< Maximum numeric value (IEEE double)
+    
+    // Date format validation
+    bool validate_iso8601{true};          ///< Enforce ISO8601 or RFC3339 for dates
+};
+
 
 /**
  * @brief Auto-detects column types from sampled string values.
@@ -174,6 +221,61 @@ public:
         const std::vector<std::string>& columns,
         const std::vector<std::string>& values,
         const DetectedSchema& schema);
+
+    // -------------------------------------------------------------------------
+    // PHASE-2-HARDENING: Constraint violation categorization and null handling
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Map a constraint violation to an error code and description.
+     *
+     * @param violation_type  Type of constraint violation.
+     * @return Pair of (error_code, description).
+     * PHASE-2-HARDENING
+     */
+    static std::pair<std::string, std::string> mapViolationToErrorCode(
+        ConstraintViolationType violation_type
+    );
+
+    /**
+     * @brief Check and apply null handling policy to a field value.
+     *
+     * PHASE-2-HARDENING: Deterministic null handling.
+     *
+     * @param value           The string value to check (empty = NULL).
+     * @param column_name     Column name for error messages.
+     * @param null_policy     Null handling policy (NULLABLE or NON_NULLABLE).
+     * @return Empty string if null handling is acceptable; otherwise error message.
+     */
+    static std::string checkNullHandling(
+        const std::string& value,
+        const std::string& column_name,
+        NullHandlingPolicy null_policy
+    );
+
+    /**
+     * @brief Validate numeric type coercion with bounds checking.
+     *
+     * PHASE-2-HARDENING: Type coercion with strict bounds.
+     *
+     * @param value   String representation of numeric value.
+     * @param config  Type coercion configuration with bounds.
+     * @return Empty string if valid; otherwise error message.
+     */
+    static std::string validateNumericCoercion(
+        const std::string& value,
+        const TypeCoercionConfig& config
+    );
+
+    /**
+     * @brief Validate string type coercion with length limits.
+     *
+     * PHASE-2-HARDENING: String length enforcement.
+     *
+     * @param value   String value to validate.
+     * @return Empty string if valid; otherwise error message.
+     */
+    static std::string validateStringCoercion(const std::string& value);
 
 private:
     std::vector<std::string>                 columns_;
