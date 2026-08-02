@@ -1,0 +1,27 @@
+{
+  "name": "saga_orchestrator",
+  "version": "1.0.0",
+  "type": "custom",
+  "description": "SAGA orchestration plugin that exports the transaction SAGA pattern as a dynamically loadable module.",
+  "author": "ThemisDB Team",
+  "license": "MIT",
+  "binary": {
+    "windows": "saga_orchestrator_plugin.dll",
+    "linux": "libsaga_orchestrator_plugin.so",
+    "macos": "libsaga_orchestrator_plugin.dylib"
+  },
+  "capabilities": {
+    "streaming": false,
+    "batching": false,
+    "transactions": true,
+    "thread_safe": true,
+    "gpu_accelerated": false
+  },
+  "dependencies": [
+    "nlohmann_json"
+  ],
+  "auto_load": false,
+  "load_priority": 80,
+  "api_version": "1.0",
+  "min_themisdb_version": "2.0.0"
+}

@@ -16,10 +16,18 @@ unset(ENV{CMAKE_TOOLCHAIN_FILE})
 project(llama_cpp-populate NONE)
 
 
+# Pass through things we've already detected in the main project to avoid
+# paying the cost of redetecting them again in ExternalProject_Add()
+set(GIT_EXECUTABLE [==[/usr/bin/git]==])
+set(GIT_VERSION_STRING [==[2.54.0]==])
+set_property(GLOBAL PROPERTY _CMAKE_FindGit_GIT_EXECUTABLE_VERSION
+  [==[/usr/bin/git;2.54.0]==]
+)
+
 
 include(ExternalProject)
 ExternalProject_Add(llama_cpp-populate
-                     "UPDATE_DISCONNECTED" "False" "EXTERNALPROJECT_INTERNAL_ARGUMENT_SEPARATOR" "DOWNLOAD_COMMAND" "" "UPDATE_COMMAND" ""
+                     "UPDATE_DISCONNECTED" "False" "GIT_REPOSITORY" "https://github.com/ggerganov/llama.cpp.git" "EXTERNALPROJECT_INTERNAL_ARGUMENT_SEPARATOR" "GIT_TAG" "b7974" "GIT_SHALLOW" "FALSE"
                     SOURCE_DIR          "/home/runner/work/ThemisDB/ThemisDB/llama.cpp"
                     BINARY_DIR          "/home/runner/work/ThemisDB/ThemisDB/_deps/llama_cpp-build"
                     CONFIGURE_COMMAND   ""
