@@ -33,6 +33,61 @@
 namespace themis {
 namespace governance {
 
+/**
+ * @brief Error codes for compliance reporter operations (7350-7399 range).
+ * 
+ * Used for structured error handling in compliance report generation,
+ * state management, and reporting pipeline.
+ */
+enum class ComplianceError {
+    kSuccess               = 0,      // No error
+    kConflictDetected      = 7350,   // Policy conflict detected during report
+    kReportingFailed       = 7351,   // Report generation failed
+    kStateInvalid          = 7352,   // Reporter state transition invalid
+    kResourceExhausted     = 7353,   // Memory/resource exhaustion
+    kHtmlGenerationFailed  = 7354,   // HTML generation failed
+};
+
+/**
+ * @brief Result struct for compliance report operations with error semantics.
+ * 
+ * Provides structured error handling with error codes, messages, and
+ * optional success data. Thread-safe and auditable.
+ */
+struct ComplianceReporterResult {
+    /// Error classification
+    ComplianceError error = ComplianceError::kSuccess;
+    
+    /// Human-readable error message (empty if kSuccess)
+    std::string error_message;
+    
+    /// Report content (filled if kSuccess)
+    std::string report_content;
+    
+    /// Report format (JSON, CSV, HTML, PDF)
+    std::string report_format;
+    
+    /// Unix timestamp (milliseconds) when result was generated
+    int64_t generated_at_ms = 0;
+    
+    /// Diagnostic code for integration with DiagnosticAggregator
+    int32_t diagnostic_code = 0;
+    
+    /**
+     * @brief Check if operation succeeded.
+     * @return true if error == kSuccess
+     */
+    [[nodiscard]] bool isSuccess() const {
+        return error == ComplianceError::kSuccess;
+    }
+    
+    /**
+     * @brief Get string representation of error code.
+     * @return Human-readable error name
+     */
+    [[nodiscard]] std::string getErrorName() const;
+};
+
 /// PolicyCoverageAnalyzer identifies resources without policies and calculates coverage
 class PolicyCoverageAnalyzer {
 public:
@@ -273,8 +328,39 @@ public:
         std::string toCSV() const override;
     };
 
+    /// Atomic state for compliance reporter (Phase 2B enhancement)
+    enum class ReporterState : int32_t {
+        DRAFT       = 0,      // Reporter initialized, not generating reports
+        REPORTING   = 1,      // Report generation in progress
+        FINALIZED   = 2,      // Report generation complete
+        FAILED      = 3,      // Report generation failed (terminal state)
+    };
+
+    /**
+     * @brief Initialize compliance reporter with atomic state tracking.
+     * @note Thread-safe constructor; sets initial state to DRAFT.
+     */
+    ComplianceReporter();
+    
+    /**
+     * @brief Get current atomic state of reporter.
+     * @return Current ReporterState
+     */
+    [[nodiscard]] ReporterState getState() const;
+    
+    /**
+     * @brief Check if reporter is in valid state for report generation.
+     * @return true if state == DRAFT (ready to start new report)
+     */
+    [[nodiscard]] bool isReadyForReporting() const;
+    
     /// Generate policy summary report
     PolicySummaryReport generatePolicySummary(const PolicyManager& policy_mgr) const;
+    
+    /// Generate policy summary report with error semantics (Phase 2B enhancement)
+    ComplianceReporterResult generatePolicySummaryWithResult(
+        const PolicyManager& policy_mgr);
+
     
     /// Generate compliance status report
     ComplianceStatusReport generateComplianceStatus(
@@ -317,8 +403,53 @@ public:
     std::string exportReport(const nlohmann::json& report, ReportFormat format) const;
     
 private:
-    std::string generateHTMLHeader(const std::string& title) const;
-    std::string generateHTMLFooter() const;
+    /// Atomic state tracking (Phase 2B enhancement)
+    mutable std::atomic<ReporterState> state_{ReporterState::DRAFT};
+    mutable std::mutex state_mutex_;
+    
+    /**
+     * @brief Validate and update atomic state (Phase 2B enhancement).
+     * 
+     * Thread-safe state transition. Fails if state is invalid.
+     * 
+     * @param expected Expected current state
+     * @param target Target state to transition to
+     * @return true if transition succeeded, false if state mismatch
+     */
+    bool transitionState(ReporterState expected, ReporterState target) const;
+    
+    /**
+     * @brief Generate HTML from string builder pattern (optimized, Phase 2B).
+     * 
+     * Avoids O(n²) concatenation by using pre-reserved string buffer
+     * and ostringstream with appropriate capacity.
+     * 
+     * @param title Report title
+     * @param headers Column headers
+     * @param rows Data rows (each row is list of cell values)
+     * @return Optimized HTML string
+     */
+    std::string generateHTMLOptimized(
+        const std::string& title,
+        const std::vector<std::string>& headers,
+        const std::vector<std::vector<std::string>>& rows
+    ) const;
+    
+    /**
+     * @brief Record diagnostic for compliance failures (Phase 2B integration).
+     * 
+     * @param code Error code (e.g., ComplianceError::kReportingFailed)
+     * @param message Error message
+     * @param component Component name (default: "compliance_reporter")
+     */
+    void recordComplianceDiagnostic(
+        int32_t code,
+        const std::string& message,
+        const std::string& component = "compliance_reporter"
+    ) const;
+    
+
+
 };
 
 } // namespace governance

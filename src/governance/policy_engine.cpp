@@ -384,7 +384,10 @@ PolicyDecision PolicyEngine::evaluate(const std::unordered_map<std::string, std:
         if (res_it != resource_map.end()) {
             cls = res_it->second;
         } else {
-            cls = "vs-nfd"; // ultimate default
+            // Phase 3A: Fail-closed default (deny-by-default)
+            // Instead of defaulting to "vs-nfd", require explicit classification
+            // or deny access
+            cls = "streng-geheim";  // Strictest default (deny-by-default)
         }
     }
     d.classification = cls;
@@ -408,15 +411,15 @@ PolicyDecision PolicyEngine::evaluate(const std::unordered_map<std::string, std:
         d.cache_allowed              = profile.cache_allowed;
         d.retention_days             = profile.retention_days;
     } else {
-        // Fallback if profile not found (MVP heuristics)
-        bool strict                  = isStrictClass(cls);
-        d.encrypt_logs               = strict;
-        d.redaction                  = strict ? "strict" : "standard";
-        d.ann_allowed                = !strict;
-        d.require_content_encryption = strict;
-        d.export_allowed             = !strict;
-        d.cache_allowed              = !strict;
-        d.retention_days             = 365;
+        // Phase 3A: Fail-closed fallback (deny-by-default, no implicit allows)
+        // Profile not found - apply strictest security posture
+        d.encrypt_logs               = true;      // Always encrypt logs
+        d.redaction                  = "strict";  // Strictest redaction
+        d.ann_allowed                = false;     // Deny approximate NN
+        d.require_content_encryption = true;      // Always require encryption
+        d.export_allowed             = false;     // Deny export
+        d.cache_allowed              = false;     // Deny caching
+        d.retention_days             = 7;         // Minimal retention
     }
 
     // Allow header override for encrypt_logs

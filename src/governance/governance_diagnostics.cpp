@@ -130,4 +130,111 @@ DiagnosticAggregator& getGlobalDiagnosticAggregator() {
     return aggregator;
 }
 
+// ========== ConflictDiagnosticHelper Implementation ==========
+
+ConflictDiagnosticHelper::ConflictDiagnosticHelper(
+    ResolutionStrategy strategy,
+    DiagnosticAggregator* aggregator
+) : strategy_(strategy), aggregator_(aggregator) {
+    if (aggregator_ == nullptr) {
+        aggregator_ = &getGlobalDiagnosticAggregator();
+        owns_aggregator_ = false;  // Don't delete global singleton
+    }
+}
+
+ConflictDiagnosticHelper::ConflictDetectionResult 
+ConflictDiagnosticHelper::detectConflict(
+    const std::vector<std::string>& policy_ids
+) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    ConflictDetectionResult result;
+    result.recommended_strategy = strategy_;
+    result.diagnostic_code = static_cast<int32_t>(GovDiagnosticCode::kConflictDetected);
+    
+    // Detect conflicts between policy pairs
+    // For Phase 3B, this is a stub implementation that checks policy_ids count
+    if (policy_ids.size() > 1) {
+        // Simple conflict detection: if multiple policies exist, potential conflict
+        result.has_conflicts = true;
+        
+        for (size_t i = 0; i < policy_ids.size(); ++i) {
+            for (size_t j = i + 1; j < policy_ids.size(); ++j) {
+                result.conflicting_pairs.emplace_back(policy_ids[i], policy_ids[j]);
+                result.descriptions.push_back(
+                    "Potential conflict between policies: " + 
+                    policy_ids[i] + " and " + policy_ids[j]
+                );
+            }
+        }
+    }
+    
+    return result;
+}
+
+void ConflictDiagnosticHelper::recordConflict(
+    const ConflictDetectionResult& result,
+    const std::unordered_map<std::string, std::string>& additional_context
+) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    if (!result.has_conflicts || !aggregator_) {
+        return;
+    }
+    
+    // Record conflict history
+    conflict_history_.push_back(result);
+    
+    // Create and emit diagnostic
+    GovernanceDiagnostic diag;
+    diag.code = GovDiagnosticCode::kConflictDetected;
+    diag.component = "conflict_detector";
+    diag.description = "Policy conflicts detected";
+    diag.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+    
+    // Add conflict pairs to remediation steps
+    for (const auto& pair : result.conflicting_pairs) {
+        diag.remediation_steps.push_back(
+            "Review conflict between policies: " + pair.first + " and " + pair.second
+        );
+    }
+    
+    // Add additional context
+    diag.context = additional_context;
+    diag.context["conflict_count"] = std::to_string(result.conflicting_pairs.size());
+    diag.context["resolution_strategy"] = 
+        (result.recommended_strategy == ResolutionStrategy::EXPLICIT_DENY) ? "EXPLICIT_DENY" : 
+        (result.recommended_strategy == ResolutionStrategy::EXPLICIT_ALLOW) ? "EXPLICIT_ALLOW" :
+        (result.recommended_strategy == ResolutionStrategy::FIRST_MATCH) ? "FIRST_MATCH" :
+        (result.recommended_strategy == ResolutionStrategy::MOST_RESTRICTIVE) ? "MOST_RESTRICTIVE" :
+        "WHITELIST";
+    
+    aggregator_->recordDiagnostic(diag);
+}
+
+std::vector<GovernanceDiagnostic> ConflictDiagnosticHelper::getConflictDiagnostics() const {
+    if (!aggregator_) {
+        return {};
+    }
+    
+    std::lock_guard<std::mutex> lock(mutex_);
+    return aggregator_->getDiagnosticsForCode(GovDiagnosticCode::kConflictDetected);
+}
+
+void ConflictDiagnosticHelper::clearConflictHistory() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    conflict_history_.clear();
+}
+
+ConflictDiagnosticHelper::ResolutionStrategy 
+ConflictDiagnosticHelper::getCurrentStrategy() const {
+    return strategy_;
+}
+
+void ConflictDiagnosticHelper::setResolutionStrategy(ResolutionStrategy strategy) {
+    strategy_ = strategy;
+}
+
 } // namespace themis::governance
+
