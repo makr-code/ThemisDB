@@ -28,6 +28,7 @@
 #include <fstream>
 #include <yaml-cpp/yaml.h>
 
+#include "governance/governance_diagnostics.h"
 #include "governance/model_governance.h"
 #include "observability/metrics_collector.h"
 #include "utils/audit_logger.h"
@@ -742,6 +743,26 @@ PolicyEngine::checkInferencePermission(const std::unordered_map<std::string, std
 
     result.allowed = true;
     return result;
+}
+
+SafeAccessResult PolicyEngine::validateAccessSafety(const AccessRequest& request) {
+    // Lazily initialize safety validator if not already done
+    if (!safety_validator_) {
+        safety_validator_ = std::make_unique<SafeAccessValidator>(
+            &getGlobalDiagnosticAggregator()
+        );
+    }
+    
+    return safety_validator_->validateAccessRequest(request);
+}
+
+SafeAccessValidator& PolicyEngine::getSafeAccessValidator() {
+    if (!safety_validator_) {
+        safety_validator_ = std::make_unique<SafeAccessValidator>(
+            &getGlobalDiagnosticAggregator()
+        );
+    }
+    return *safety_validator_;
 }
 
 } // namespace governance

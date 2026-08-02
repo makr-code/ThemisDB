@@ -24,7 +24,7 @@ namespace themis::governance {
  *
  * Used to classify specific error conditions that may occur during
  * policy evaluation, lifecycle state management, compliance checks,
- * and OPA integration.
+ * OPA integration, and lineage backpressure management.
  */
 enum class GovDiagnosticCode : int32_t {
     kConflictDetected         = 7300,  // Policy rules conflict
@@ -36,6 +36,12 @@ enum class GovDiagnosticCode : int32_t {
     kLineageBackpressure      = 7306,  // Data lineage processing backlog
     kPolicyNotFound           = 7307,  // Referenced policy rule not found
     kDenyByDefault            = 7308,  // Security fallback: deny-by-default applied
+    // ─── Phase 2C: Lineage Backpressure Error Codes ──────────────────────
+    kLineageAuditFailure      = 7360,  // Audit logger failure in lineage tracking
+    kLineageSizeLimitExceeded = 7361,  // Lineage size limit reached
+    kLineageMemoryPressure    = 7362,  // Memory pressure detected
+    kLineageCircuitBreakerOpen= 7363,  // Circuit breaker engaged
+    kLineageEventSequence     = 7364,  // Event sequence violation
 };
 
 /**
@@ -270,12 +276,204 @@ public:
      */
     void setResolutionStrategy(ResolutionStrategy strategy);
 
+    // Safety check methods (Phase 3B Extended)
+    
+    /**
+     * @brief Check for conflicting classifications.
+     * @param classifications List of classifications assigned
+     * @return true if conflicting classifications detected
+     */
+    bool hasConflictingClassifications(
+        const std::vector<std::string>& classifications
+    ) const;
+    
+    /**
+     * @brief Validate CCPA compliance path.
+     * @param context Request context with CCPA indicators
+     * @return true if CCPA opt-out properly respected
+     */
+    bool validateCCPACompliancePath(
+        const std::unordered_map<std::string, std::string>& context
+    ) const;
+    
+    /**
+     * @brief Detect privilege escalation attempts.
+     * @param user_tier User's access tier
+     * @param required_tier Tier required for operation
+     * @return true if escalation attempt detected
+     */
+    bool detectPrivilegeEscalation(
+        const std::string& user_tier,
+        const std::string& required_tier
+    ) const;
+    
+    /**
+     * @brief Detect temporal policy violations.
+     * @param policy Policy object (serialized as context map)
+     * @return Vector of temporal issues (empty if none)
+     */
+    std::vector<struct TemporalIssue> detectTemporalViolations(
+        const std::unordered_map<std::string, std::string>& policy
+    ) const;
+    
+    /**
+     * @brief Validate masking rule consistency.
+     * @param mask_rules Masking rules to validate
+     * @return Vector of violations (empty if valid)
+     */
+    std::vector<struct MaskingRuleViolation> validateMaskingRuleConsistency(
+        const std::vector<std::unordered_map<std::string, std::string>>& mask_rules
+    ) const;
+    
+    /**
+     * @brief Validate whitelist policy.
+     * @param whitelist_policy Whitelist policy context
+     * @return true if whitelist is valid (non-empty)
+     */
+    bool validateWhitelistPolicy(
+        const std::unordered_map<std::string, std::string>& whitelist_policy
+    ) const;
+
 private:
     ResolutionStrategy strategy_;
     DiagnosticAggregator* aggregator_;
     bool owns_aggregator_ = false;
     mutable std::mutex mutex_;
     std::vector<ConflictDetectionResult> conflict_history_;
+};
+
+// Unsafe access scenario codes (7381-7388 range)
+enum class UnsafeAccessScenario : int32_t {
+    S1_CONFLICTING_CLASSIFICATIONS = 7381,  // Public + restricted
+    S2_CCPA_OVERRIDE_MISSING        = 7382,  // Missing CCPA profile
+    S3_PRIVILEGE_ESCALATION         = 7383,  // Lower→higher tier
+    S4_TEMPORAL_VIOLATION           = 7384,  // Future policy or zero retention
+    S5_CROSS_BORDER_CONFLICT        = 7385,  // Incompatible jurisdictions
+    S6_MASKING_BYPASS_ATTEMPT       = 7386,  // Redaction circumvention
+    S7_WHITELIST_EXHAUSTION         = 7387,  // Empty/null whitelist
+    S8_CASCADING_DENIALS            = 7388,  // Multiple deny layers
+};
+
+// Temporal violation details
+struct TemporalIssue {
+    std::string issue_type;  // "future_effective_date", "zero_retention", etc.
+    std::string description;
+    int64_t value_ms = 0;
+};
+
+// Masking rule validation error
+struct MaskingRuleViolation {
+    std::string rule_id;
+    std::string violation_type;  // "inconsistent_redaction", "bypass_detected", etc.
+    std::vector<std::string> affected_schemas;
+};
+
+// Single safety violation
+struct SafetyViolation {
+    UnsafeAccessScenario scenario;
+    std::string description;
+    std::vector<std::string> affected_policies;
+    std::string remediation_hint;
+};
+
+// Overall safety assessment
+struct SafeAccessResult {
+    bool is_safe = false;
+    std::vector<SafetyViolation> violations;
+    std::vector<int32_t> scenario_codes;
+    int32_t diagnostic_code = 0;
+    std::vector<std::string> remediation_steps;
+    int64_t evaluated_at_ms = 0;
+};
+
+// AccessRequest context for validation
+struct AccessRequest {
+    std::string request_id;
+    std::string user_id;
+    std::string user_tier;  // "read_only", "editor", "admin", etc.
+    std::vector<std::string> dataset_classifications;  // e.g. ["public", "restricted"]
+    std::vector<std::string> policy_ids;  // Policies to evaluate
+    std::string target_operation;  // "read", "write", "export", "train_model"
+    int64_t requested_at_ms = 0;
+    std::unordered_map<std::string, std::string> context;  // Additional context
+};
+
+/**
+ * @brief High-level access safety validator orchestrator.
+ *
+ * Composes multiple safety checks in fail-closed order to validate
+ * complete access paths. Returns structured result with all violations
+ * and remediation steps.
+ *
+ * Thread-safe. Intended for pre-evaluation checks before policy engine.
+ */
+class SafeAccessValidator {
+public:
+    /**
+     * @brief Create validator with optional external aggregator.
+     * 
+     * @param aggregator Optional external DiagnosticAggregator
+     */
+    explicit SafeAccessValidator(DiagnosticAggregator* aggregator = nullptr);
+    ~SafeAccessValidator();
+    
+    // Non-copyable, non-movable
+    SafeAccessValidator(const SafeAccessValidator&) = delete;
+    SafeAccessValidator& operator=(const SafeAccessValidator&) = delete;
+    SafeAccessValidator(SafeAccessValidator&&) = delete;
+    SafeAccessValidator& operator=(SafeAccessValidator&&) = delete;
+    
+    /**
+     * @brief Validate an access request comprehensively.
+     *
+     * Runs all 8 safety checks in fail-closed order:
+     * 1. Classification conflicts (S1)
+     * 2. CCPA compliance (S2)
+     * 3. Privilege escalation (S3)
+     * 4. Temporal violations (S4)
+     * 5. Cross-border conflicts (S5)
+     * 6. Masking rule consistency (S6)
+     * 7. Whitelist exhaustion (S7)
+     * 8. Cascading denial detection (S8)
+     *
+     * @param request AccessRequest to validate
+     * @return SafeAccessResult with detailed findings
+     */
+    SafeAccessResult validateAccessRequest(const AccessRequest& request);
+    
+    /**
+     * @brief Get all recorded safety diagnostics.
+     * @return Vector of SafetyViolations recorded
+     */
+    std::vector<SafetyViolation> getAllViolations() const;
+    
+    /**
+     * @brief Clear violation history.
+     */
+    void clearViolationHistory();
+    
+    /**
+     * @brief Get total count of violations recorded.
+     * @return Number of violations
+     */
+    size_t getViolationCount() const;
+
+private:
+    DiagnosticAggregator* aggregator_;
+    bool owns_aggregator_ = false;
+    mutable std::mutex mutex_;
+    std::vector<SafetyViolation> violation_history_;
+    std::shared_ptr<ConflictDiagnosticHelper> conflict_helper_;
+    
+    // Helper methods for each scenario check
+    SafetyViolation checkConflictingClassifications(const AccessRequest& req);
+    SafetyViolation checkCCPACompliance(const AccessRequest& req);
+    SafetyViolation checkPrivilegeEscalation(const AccessRequest& req);
+    SafetyViolation checkTemporalViolations(const AccessRequest& req);
+    SafetyViolation checkCrossBorderConflicts(const AccessRequest& req);
+    SafetyViolation checkMaskingRuleConsistency(const AccessRequest& req);
+    SafetyViolation checkWhitelistExhaustion(const AccessRequest& req);
+    SafetyViolation checkCascadingDenials(const AccessRequest& req);
 };
 
 } // namespace themis::governance

@@ -37,6 +37,9 @@ namespace governance {
 class ModelGovernancePolicy;
 struct ModelTrainingExportRequest;
 struct ModelGovernanceDecision;
+class SafeAccessValidator;
+struct AccessRequest;
+struct SafeAccessResult;
 } // namespace governance
 } // namespace themis
 
@@ -281,6 +284,23 @@ class PolicyEngine {
     /// @return SimulationResult containing the decision and which rule/profile was matched.
     SimulationResult simulateDecision(const SimulationRequest &request) const;
 
+    /**
+     * @brief Validate access request for safety before policy evaluation.
+     *
+     * Returns SafeAccessResult. If !result.is_safe, the policy evaluation
+     * should be skipped and access denied.
+     *
+     * @param request AccessRequest to validate
+     * @return SafeAccessResult with detailed findings
+     */
+    SafeAccessResult validateAccessSafety(const AccessRequest& request);
+
+    /**
+     * @brief Get mutable reference to the safety validator.
+     * @return SafeAccessValidator instance
+     */
+    SafeAccessValidator& getSafeAccessValidator();
+
     // Get classification profile by name
     std::optional<ClassificationProfile> getClassificationProfile(const std::string &level) const;
 
@@ -308,6 +328,9 @@ class PolicyEngine {
 
     // External OPA evaluator (optional; raw non-owning pointer).
     IPolicyEvaluator* opa_evaluator_ = nullptr;
+
+    // Safety validator for Phase 3B Extended (fail-closed access checks)
+    std::unique_ptr<SafeAccessValidator> safety_validator_;
 
     static std::string normalize(const std::string &s);
 };
