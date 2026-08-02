@@ -453,9 +453,18 @@ bool OntologyManager::isEdgeTypeAllowed(std::string_view sourceClass, std::strin
     if (allowed.empty()) {
         return false; // strict mode: no axioms for this pair means deny
     }
-    // Axioms exist for this pair → allow any edge type as graceful fallback
-    // This allows the schema to evolve without requiring updates for unknown edge types
-    return true;
+    if (allowed.count(std::string(edgeType)) > 0) {
+        return true;
+    }
+
+    const auto is_known_edge_type = std::any_of(
+        axioms_.begin(), axioms_.end(),
+        [edgeType](const Axiom& axiom) { return axiom.edge_type == edgeType; });
+
+    // Graceful fallback for schema evolution: allow unknown edge types when
+    // class-pair axioms exist, but keep strict rejection for known-but-disallowed
+    // edge types.
+    return !is_known_edge_type;
 }
 
 // ── Serialisation ────────────────────────────────────────────────────────────

@@ -229,14 +229,13 @@ public:
      *
      * Returns `true` if:
      * - Either @p sourceClass or @p targetClass is unknown (graceful degradation), OR
-     * - Both classes are known AND there are axioms allowing edges between them
-     *   (unknown edge types are gracefully allowed as fallback for schema evolution).
+     * - @p edgeType is explicitly allowed for the class pair by ontology axioms, OR
+     * - Axioms exist for the class pair and @p edgeType is unknown globally
+     *   (schema-evolution fallback).
      *
      * Returns `false` if:
      * - Both classes are known AND there are no axioms for this pair (strict mode).
-     *
-     * @note When axioms exist for the pair, all edge types are allowed (including unknown ones)
-     *       to enable graceful schema evolution without requiring ontology updates.
+     * - @p edgeType is known in the ontology but not allowed for this class pair.
      *
      * @see allowedEdgeTypes() to retrieve the exact set of axiom-defined edge types.
      */

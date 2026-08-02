@@ -193,16 +193,11 @@ enum class GraphErrorCode : uint32_t {
 [[nodiscard]] constexpr ErrorCategory
 getErrorCategory(GraphErrorCode code) noexcept {
     const auto c = static_cast<uint32_t>(code);
-    // Extract yy byte (category indicator)
-    const auto category_byte = (c >> 8) & 0xFF;
-    
-    if (category_byte == 0x01 || category_byte == 0x02 || category_byte == 0x03) {
-        // Components 01-07, middle digits: 01=DENIAL, 02=FALLBACK, 03=REASONING_CONFLICT
-        const auto mid = (c >> 16) & 0xFF;
-        if (mid == 0x02) return ErrorCategory::FALLBACK;
-        if (mid == 0x03) return ErrorCategory::REASONING_CONFLICT;
-        return ErrorCategory::DENIAL;
-    }
+    // Error code layout: 0xMMCCSSSS (MM=module, CC=category, SSSS=sequence)
+    const auto category_byte = (c >> 16) & 0xFF;
+    if (category_byte == 0x02) return ErrorCategory::FALLBACK;
+    if (category_byte == 0x03) return ErrorCategory::REASONING_CONFLICT;
+    if (category_byte == 0x01) return ErrorCategory::DENIAL;
     return ErrorCategory::DENIAL; // Default to DENIAL for unknown codes
 }
 
