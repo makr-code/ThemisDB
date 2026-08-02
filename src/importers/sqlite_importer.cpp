@@ -51,7 +51,7 @@ struct SQLiteConnectionPoolState {
     uint32_t connection_timeout_ms = 0;
     
     /// Last connection error code for diagnostics
-    std::atomic<ImportErrorCode> last_error{ImportErrorCode::OK};
+    std::atomic<ImportErrorCode> last_error{ImportErrorCode::SUCCESS};
     
     /// Schema cache validity flag (invalidated on connection loss)
     std::atomic<bool> schema_cache_valid{true};
@@ -105,6 +105,43 @@ static ImportErrorCode mapSQLiteErrorToCode(const std::string& error_msg) {
     }
     
     return ImportErrorCode::UNKNOWN;
+}
+
+/// PHASE-2-HARDENING: Simple fallback parser for INSERT statements when regex fails
+/// This implements the prepared statement fallback mechanism for SQLite importer.
+/// When the main regex-based parser fails to parse an INSERT statement,
+/// this simple parser attempts to extract at least the table name for logging.
+static bool simpleInsertFallbackSQLite(const std::string& sql, std::string& out_table_name) {
+    // Very simple fallback: find "INTO" and extract table name
+    const auto sql_upper = [](std::string s) {
+        for (auto& c : s) c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+        return s;
+    };
+    std::string upper_sql = sql_upper(sql);
+    
+    size_t pos = upper_sql.find("INTO");
+    if (pos == std::string::npos) return false;
+    
+    pos += 4;  // Skip "INTO"
+    // Skip whitespace
+    while (pos < upper_sql.size() && (upper_sql[pos] == ' ' || upper_sql[pos] == '\t'))
+        ++pos;
+    
+    // Extract table name (stop at whitespace or '(')
+    size_t start = pos;
+    while (pos < upper_sql.size() && upper_sql[pos] != ' ' && upper_sql[pos] != '\t' && upper_sql[pos] != '(')
+        ++pos;
+    
+    if (start < pos) {
+        out_table_name = sql.substr(start, pos - start);
+        // Remove quotes if present (both double and backtick for SQLite)
+        if ((out_table_name.size() >= 2 && out_table_name[0] == '"' && out_table_name[out_table_name.size() - 1] == '"') ||
+            (out_table_name.size() >= 2 && out_table_name[0] == '`' && out_table_name[out_table_name.size() - 1] == '`')) {
+            out_table_name = out_table_name.substr(1, out_table_name.size() - 2);
+        }
+        return true;
+    }
+    return false;
 }
 
 } // anonymous namespace
@@ -714,43 +751,6 @@ bool SQLiteImporter::parseCreateTable(const std::string& sql,
     }
 
     return !schema.name.empty();
-}
-
-/// PHASE-2-HARDENING: Simple fallback parser for INSERT statements when regex fails
-/// This implements the prepared statement fallback mechanism for SQLite importer.
-/// When the main regex-based parser fails to parse an INSERT statement,
-/// this simple parser attempts to extract at least the table name for logging.
-static bool simpleInsertFallbackSQLite(const std::string& sql, std::string& out_table_name) {
-    // Very simple fallback: find "INTO" and extract table name
-    const auto sql_upper = [](std::string s) {
-        for (auto& c : s) c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
-        return s;
-    };
-    std::string upper_sql = sql_upper(sql);
-    
-    size_t pos = upper_sql.find("INTO");
-    if (pos == std::string::npos) return false;
-    
-    pos += 4;  // Skip "INTO"
-    // Skip whitespace
-    while (pos < upper_sql.size() && (upper_sql[pos] == ' ' || upper_sql[pos] == '\t'))
-        ++pos;
-    
-    // Extract table name (stop at whitespace or '(')
-    size_t start = pos;
-    while (pos < upper_sql.size() && upper_sql[pos] != ' ' && upper_sql[pos] != '\t' && upper_sql[pos] != '(')
-        ++pos;
-    
-    if (start < pos) {
-        out_table_name = sql.substr(start, pos - start);
-        // Remove quotes if present (both double and backtick for SQLite)
-        if ((out_table_name.size() >= 2 && out_table_name[0] == '"' && out_table_name[out_table_name.size() - 1] == '"') ||
-            (out_table_name.size() >= 2 && out_table_name[0] == '`' && out_table_name[out_table_name.size() - 1] == '`')) {
-            out_table_name = out_table_name.substr(1, out_table_name.size() - 2);
-        }
-        return true;
-    }
-    return false;
 }
 
 bool SQLiteImporter::parseInsert(const std::string& sql,

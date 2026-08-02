@@ -19,7 +19,6 @@
  */
 
 #include "importers/s3_importer.h"
-#include "importers/importers_api_contract.h"
 #include <stdexcept>
 #include "utils/logger.h"
 #include <aws/core/Aws.h>
@@ -73,10 +72,10 @@ static ImportErrorCode mapS3ErrorToCode(const std::string& error_msg) {
     // Object not found errors
     if (lower_msg.find("not found") != std::string::npos ||
         lower_msg.find("no such") != std::string::npos) {
-        return ImportErrorCode::IMPORT_FILE_NOT_FOUND;
+        return ImportErrorCode::FILE_NOT_FOUND;
     }
     
-    return ImportErrorCode::INTERNAL_ERROR;
+    return ImportErrorCode::UNKNOWN;
 }
 
 std::once_flag g_sdk_init_flag;
@@ -681,7 +680,7 @@ void S3Importer::importObjectsWithPrefix(const std::string& bucket,
         // PHASE-2-HARDENING: Check if we hit the object limit
         if (keys.size() >= MAX_OBJECTS) {
             THEMIS_WARN("S3 object listing hit maximum limit of {} objects", MAX_OBJECTS);
-            addError(stats, ImportErrorCode::IMPORT_QUOTA_EXCEEDED,
+            addError(stats, ImportErrorCode::STATEMENT_TOO_LARGE,
                      ImportErrorSeverity::WARNING,
                      "S3 object listing reached maximum of " + std::to_string(MAX_OBJECTS) +
                      " objects; truncating results",

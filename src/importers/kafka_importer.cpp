@@ -25,7 +25,6 @@
 // the URL-parsing helper are available in all build configurations.
 
 #include "importers/kafka_importer.h"
-#include "importers/importers_api_contract.h"
 #include "utils/logger.h"
 
 #ifdef THEMIS_ENABLE_KAFKA
@@ -73,10 +72,10 @@ static ImportErrorCode mapKafkaErrorToCode(const std::string& error_msg) {
     // Timeout/deadline errors
     if (lower_msg.find("timeout") != std::string::npos ||
         lower_msg.find("deadline") != std::string::npos) {
-        return ImportErrorCode::IMPORT_TIMEOUT;
+        return ImportErrorCode::DEADLINE_EXCEEDED;
     }
     
-    return ImportErrorCode::INTERNAL_ERROR;
+    return ImportErrorCode::UNKNOWN;
 }
 
 /// Stream position tracking for Kafka offset recovery
@@ -478,7 +477,7 @@ void KafkaImporter::consumeFromMock(const std::string& topic,
                 if (!buffer_paused) {
                     buffer_paused = true;
                     THEMIS_WARN("Kafka buffer full ({}); pausing consumption", buffer_size);
-                    addError(stats, ImportErrorCode::IMPORT_QUOTA_EXCEEDED,
+                    addError(stats, ImportErrorCode::ROW_TOO_LARGE,
                              ImportErrorSeverity::WARNING,
                              "Message buffer reached max size: " + std::to_string(buffer_size),
                              "buffer pause at offset " + std::to_string(consumed));
@@ -679,7 +678,7 @@ void KafkaImporter::consumeFromKafka(const std::string& brokers,
                 if (!buffer_paused) {
                     buffer_paused = true;
                     THEMIS_WARN("Kafka buffer full ({}); pausing consumption", buffer_size);
-                    addError(stats, ImportErrorCode::IMPORT_QUOTA_EXCEEDED,
+                    addError(stats, ImportErrorCode::ROW_TOO_LARGE,
                              ImportErrorSeverity::WARNING,
                              "Message buffer reached max size: " + std::to_string(buffer_size),
                              "buffer pause at offset " + std::to_string(stream_pos.last_committed_offset));

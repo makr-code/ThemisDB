@@ -105,7 +105,7 @@ struct OracleConnectionPoolState {
     uint32_t connection_timeout_ms = 0;
     
     /// Last connection error code for diagnostics
-    std::atomic<ImportErrorCode> last_error{ImportErrorCode::OK};
+    std::atomic<ImportErrorCode> last_error{ImportErrorCode::SUCCESS};
     
     /// Schema cache validity flag (invalidated on connection loss)
     std::atomic<bool> schema_cache_valid{true};
@@ -159,6 +159,43 @@ static ImportErrorCode mapOracleErrorToCode(const std::string& error_msg) {
     }
     
     return ImportErrorCode::UNKNOWN;
+}
+
+/// PHASE-2-HARDENING: Simple fallback parser for INSERT statements when regex fails
+/// This implements the prepared statement fallback mechanism for Oracle importer.
+/// When the main regex-based parser fails to parse an INSERT statement,
+/// this simple parser attempts to extract at least the table name for logging.
+static bool simpleInsertFallbackOracle(const std::string& sql, std::string& out_table_name) {
+    // Very simple fallback: find "INSERT INTO" and extract table name
+    const auto sql_upper = [](std::string s) {
+        for (auto& c : s) c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+        return s;
+    };
+    std::string upper_sql = sql_upper(sql);
+    
+    size_t pos = upper_sql.find("INTO");
+    if (pos == std::string::npos) return false;
+    
+    pos += 4;  // Skip "INTO"
+    // Skip whitespace
+    while (pos < upper_sql.size() && (upper_sql[pos] == ' ' || upper_sql[pos] == '\t'))
+        ++pos;
+    
+    // Skip owner prefix if present (e.g., "OWNER.")
+    size_t name_start = pos;
+    while (pos < upper_sql.size() && upper_sql[pos] != ' ' && upper_sql[pos] != '\t' && upper_sql[pos] != '(')
+        ++pos;
+    
+    if (name_start < pos) {
+        out_table_name = sql.substr(name_start, pos - name_start);
+        // Remove quotes if present (both double and single quotes for Oracle)
+        if ((out_table_name.size() >= 2 && out_table_name[0] == '"' && out_table_name[out_table_name.size() - 1] == '"') ||
+            (out_table_name.size() >= 2 && out_table_name[0] == '\'' && out_table_name[out_table_name.size() - 1] == '\'')) {
+            out_table_name = out_table_name.substr(1, out_table_name.size() - 2);
+        }
+        return true;
+    }
+    return false;
 }
 
 } // anonymous namespace
@@ -741,43 +778,6 @@ bool OracleImporter::parseCreateTable(const std::string& sql, TableSchema& schem
     }
 
     return !schema.name.empty();
-}
-
-/// PHASE-2-HARDENING: Simple fallback parser for INSERT statements when regex fails
-/// This implements the prepared statement fallback mechanism for Oracle importer.
-/// When the main regex-based parser fails to parse an INSERT statement,
-/// this simple parser attempts to extract at least the table name for logging.
-static bool simpleInsertFallbackOracle(const std::string& sql, std::string& out_table_name) {
-    // Very simple fallback: find "INSERT INTO" and extract table name
-    const auto sql_upper = [](std::string s) {
-        for (auto& c : s) c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
-        return s;
-    };
-    std::string upper_sql = sql_upper(sql);
-    
-    size_t pos = upper_sql.find("INTO");
-    if (pos == std::string::npos) return false;
-    
-    pos += 4;  // Skip "INTO"
-    // Skip whitespace
-    while (pos < upper_sql.size() && (upper_sql[pos] == ' ' || upper_sql[pos] == '\t'))
-        ++pos;
-    
-    // Skip owner prefix if present (e.g., "OWNER.")
-    size_t name_start = pos;
-    while (pos < upper_sql.size() && upper_sql[pos] != ' ' && upper_sql[pos] != '\t' && upper_sql[pos] != '(')
-        ++pos;
-    
-    if (name_start < pos) {
-        out_table_name = sql.substr(name_start, pos - name_start);
-        // Remove quotes if present (both double and single quotes for Oracle)
-        if ((out_table_name.size() >= 2 && out_table_name[0] == '"' && out_table_name[out_table_name.size() - 1] == '"') ||
-            (out_table_name.size() >= 2 && out_table_name[0] == '\'' && out_table_name[out_table_name.size() - 1] == '\'')) {
-            out_table_name = out_table_name.substr(1, out_table_name.size() - 2);
-        }
-        return true;
-    }
-    return false;
 }
 
 bool OracleImporter::parseInsert(const std::string& sql, const ImportOptions& options,

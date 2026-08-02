@@ -19,7 +19,6 @@
  */
 
 #include "importers/mongo_importer.h"
-#include "importers/importers_api_contract.h"
 #include <stdexcept>
 #include "utils/logger.h"
 #include <fstream>
@@ -58,7 +57,7 @@ static ImportErrorCode mapMongoDBErrorToCode(const std::string& error_msg) {
     // Timeout errors
     if (lower_msg.find("timeout") != std::string::npos ||
         lower_msg.find("deadline") != std::string::npos) {
-        return ImportErrorCode::IMPORT_TIMEOUT;
+        return ImportErrorCode::DEADLINE_EXCEEDED;
     }
     
     // Schema/type errors
@@ -71,17 +70,17 @@ static ImportErrorCode mapMongoDBErrorToCode(const std::string& error_msg) {
     if (lower_msg.find("parse") != std::string::npos ||
         lower_msg.find("syntax") != std::string::npos ||
         lower_msg.find("json") != std::string::npos) {
-        return ImportErrorCode::IMPORT_ROW_INVALID;
+        return ImportErrorCode::PARSE_INSERT;
     }
     
     // File errors
     if (lower_msg.find("file") != std::string::npos ||
         lower_msg.find("not found") != std::string::npos ||
         lower_msg.find("cannot open") != std::string::npos) {
-        return ImportErrorCode::IMPORT_FILE_NOT_FOUND;
+        return ImportErrorCode::FILE_NOT_FOUND;
     }
     
-    return ImportErrorCode::INTERNAL_ERROR;
+    return ImportErrorCode::UNKNOWN;
 }
 
 /// Attempts exponential backoff retry with connection timeout.
