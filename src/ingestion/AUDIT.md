@@ -1,6 +1,6 @@
 # Audit Report - Ingestion Module
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-07-18 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 ## Summary
@@ -34,6 +34,27 @@
 - src/ingestion/agentic_reference_validator.cpp
 - src/ingestion/llm_adapter.cpp
 - src/ingestion/workflow_engine.cpp
+
+## Test & Benchmark Evidence (2026-07-18)
+
+### Test Suite Coverage
+- Total test files: 29
+- Total test cases: 697
+- Key focused test suite: test_ingestion_contract_hardening_focused.cpp (16 tests: INCH-01..INCH-16)
+- Focused test: module_ingestion_test_ingestion_assembler_sinks_focused (30 tests)
+- Sample recent run: PASS (exit 0, all tests passed)
+
+### Benchmark Coverage
+- Benchmark files: 4
+  - bench_ingestion_release_gates.cpp (6 release-gate benchmarks: INRG-01..INRG-06)
+  - bench_ingestion_kv.cpp
+  - bench_ingestion_quality_judge.cpp
+  - bench_ingestion_extraction.cpp
+
+### Build & Configuration
+- Supported presets: windows-release, community-release, linux-release
+- Module build targets: module_ingestion_* targets auto-discovered from test_*.cpp files
+- Test registration: via themis_register_module_focused_test() with timeout 120s, tier unit
 
 ## Findings
 
