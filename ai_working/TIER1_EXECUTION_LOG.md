@@ -2,21 +2,30 @@
 
 **Plan:** 12-week module hardening program (2026-08-09 → 2026-11-30)  
 **Target:** 20,653 gap fixes (82,611 → 68,090, 25% reduction)  
-**Status:** Pre-launch (baseline created 2026-08-02)
+**Status:** Pre-execution complete; ready for Part 1 launch (2026-08-09)
 
 ---
 
 ## Week-by-Week Progress
 
-### Week 1-2 (Aug 9-22): Gap Discovery & Triage Phase
+### Pre-Execution Phase (Aug 2-8): Infrastructure & Validation ✅
 
 | Date | Deliverable | Status | Notes |
 |------|-------------|--------|-------|
 | 2026-08-02 | Infrastructure baseline created | ✅ COMPLETE | ai_working/ + TIER1_PRIORITY_MATRIX.md + TIER1_EXECUTION_LOG.md prepared |
+| 2026-08-02 | S-2 Scanner regex fixed | ✅ COMPLETE | Fixed regex pattern `{0}` → `\{0\}` to escape curly braces |
+| 2026-08-02 | `_collect_gaps` method implemented | ✅ COMPLETE | Now scans src/ and include/ for actual gaps (slow baseline) |
+| 2026-08-02 | Build preset validation | ⏳ DEFERRED | RocksDB/fmt missing (expected); documented in fallback plan |
+| 2026-08-03-08 | Scanner execution & gap triage | ⏳ PENDING | phase_1_4_enhancement_registry.py to run Aug 9-11 |
+
+### Week 1-2 (Aug 9-22): Gap Discovery & Triage Phase ⏳
+
+| Date | Deliverable | Status | Notes |
+|------|-------------|--------|-------|
 | 2026-08-09 | phase_1_4_enhancement_registry.py execution | ⏳ PENDING | Expected: 340-610 gaps across S-1/S-2/S-3/M-1/M-2/C-1 |
 | 2026-08-12 | Gap triage & categorization begins | ⏳ PENDING | Load output into MODULE_GAPS.md; create priority matrix |
 | 2026-08-12 | LLM Batch 1 (Memory Safety) kickoff | ⏳ PENDING | Fix 40-50 RAII/leak detection gaps; MEM-01..MEM-16 tests |
-| 2026-08-20 | Build & CI readiness validation | ⏳ PENDING | Confirm focused tests on windows-release + linux-release |
+| 2026-08-20 | Build & CI readiness validation | ⏳ PENDING | Confirm focused tests on community presets |
 | 2026-08-22 | Part 1 phase-out / Part 2 ramp-up | ⏳ PENDING | LLM Batch 1 merged; Server Block 1 kickoff |
 
 ### Week 3-8 (Aug 20 → Oct 1): Parallel Hardening Blocks

@@ -107,11 +107,39 @@ class Phase14EnhancementRegistry:
     
     def _collect_gaps(self, scanner) -> List[Dict]:
         """Collect gaps from scanner using standard interface"""
-        # Use scanner's scan_file method on all .cpp/.h files
         gaps = []
         
-        # Quick implementation: just return empty for now
-        # Actual implementation would iterate through files
+        # Scan all .cpp, .h, .hpp files
+        from pathlib import Path
+        
+        scan_paths = [
+            Path('src'),
+            Path('include'),
+        ]
+        
+        for scan_dir in scan_paths:
+            if not scan_dir.exists():
+                continue
+                
+            for pattern in ['**/*.cpp', '**/*.h', '**/*.hpp', '**/*.cc']:
+                for file_path in scan_dir.glob(pattern):
+                    # Skip test, build, and external directories
+                    if any(skip in str(file_path) for skip in ['/test', '/tests', '/build', '/.git', '/external', '_test.', '_bench.']):
+                        continue
+                    
+                    try:
+                        # Call scanner's scan_file method
+                        file_gaps = scanner.scan_file(str(file_path))
+                        if isinstance(file_gaps, list):
+                            # Convert gap objects to dicts if needed
+                            for gap in file_gaps:
+                                if hasattr(gap, 'to_dict'):
+                                    gaps.append(gap.to_dict())
+                                else:
+                                    gaps.append(gap)
+                    except Exception:
+                        continue
+        
         return gaps
     
     def print_summary(self):
