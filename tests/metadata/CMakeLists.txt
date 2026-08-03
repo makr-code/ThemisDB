@@ -838,6 +838,75 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_metadata_snapshot.cpp")
     message(STATUS "  MetadataSnapshot: save/load/remove/list, empty-id guard, sorted list, thread-safety, toJSON, polymorphic store")
 endif()
 
+# Metadata - contract hardening focused tests (MET-01..MET-08)
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_metadata_contract_hardening_focused.cpp")
+    message(STATUS "Adding Metadata contract hardening focused tests")
+
+    add_executable(test_metadata_contract_hardening_focused
+        test_metadata_contract_hardening_focused.cpp
+    )
+
+    target_include_directories(test_metadata_contract_hardening_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_metadata_contract_hardening_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_metadata_contract_hardening_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    themis_register_module_focused_test(
+        MODULE metadata
+        NAME MetadataContractHardeningFocusedTests
+        TARGET test_metadata_contract_hardening_focused
+        TIER unit
+        TIMEOUT 60
+        LABELS contract error-codes hardening api
+    )
+
+    message(STATUS "  MetadataContractHardening: error code uniqueness, range, dispatch (MET-01..MET-08)")
+endif()
+
+# Metadata - Phase 2/3 hardening focused tests (MCH-01..MCH-08)
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_metadata_hardening_phase23_focused.cpp")
+    message(STATUS "Adding Metadata Phase 2/3 hardening focused tests")
+
+    add_executable(test_metadata_hardening_phase23_focused
+        test_metadata_hardening_phase23_focused.cpp
+    )
+
+    target_include_directories(test_metadata_hardening_phase23_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_metadata_hardening_phase23_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_metadata_hardening_phase23_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    themis_register_module_focused_test(
+        MODULE metadata
+        NAME MetadataHardeningPhase23FocusedTests
+        TARGET test_metadata_hardening_phase23_focused
+        TIER unit
+        TIMEOUT 60
+        LABELS hardening consistency diagnostics phase23 schema export
+    )
+
+    message(STATUS "  MetadataHardeningPhase23: ConsistencyIssue JSON, ColumnRef round-trip, diagnostics (MCH-01..MCH-08)")
+endif()
+
 # AUTOGEN PREFIX BLOCK: metadata
 file(GLOB METADATA_AUTOGEN_PREFIX_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_metadata_*.cpp"

@@ -1,6 +1,6 @@
 # Metadata Module - Future Enhancements
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-08-03 -->
 <!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
 
 ## Scope
@@ -29,6 +29,7 @@
 
 - tighten parity between schema discovery and consistency validation outcomes.
 - standardize diagnostics for schema, export, and distributed catalog incidents.
+- Phase 2/3 hardening delivered: ConsistencyIssue diagnostics verified (MCH-01..MCH-06), ColumnRef contracts verified (MCH-07..MCH-08).
 - expand resilience tests for prolonged metadata operation under churn.
 - broaden benchmark depth beyond metadata-cache-specific scenarios.
 
