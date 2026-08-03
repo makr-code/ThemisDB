@@ -7,6 +7,10 @@
  * @note Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * @note Status: Production Ready
  * @note This block is auto-generated and will be overwritten.
+ *
+ * @note **Delegated Interface**: eID/eIDAS credential validation is delegated to external
+ *       eIDAS service providers. This header defines the contract. Implementation delegated
+ *       to national eID provider plugins (e.g., German BSI eID, Austrian ID Austria).
  */
 
 /*

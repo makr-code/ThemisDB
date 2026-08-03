@@ -6,6 +6,8 @@
  * @note Gap Summary: Interface draft; implementation pending Phase 1 design review
  * @note Status: Pending human architect approval (P1-D01 design gate)
  * @note This file is auto-generated and will be updated per design review feedback.
+ * @note **Plugin Interface**: Abstract interface for SSM/Mamba backend implementations.
+ *       No .cpp implementation needed. Implementations provided by plugin system.
  */
 
 #pragma once

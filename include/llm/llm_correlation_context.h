@@ -3,6 +3,9 @@
  * @brief LLMCorrelationContext — lightweight W3C-compatible correlation context
  *        for end-to-end observability across the ThemisDB LLM pipeline.
  *
+ * @note **Configuration/Context Header**: Defines correlation tracking structures.
+ *       No .cpp implementation needed. Used by consumers for request tracing.
+ *
  * ## Purpose (P1.3)
  *
  * A single LLM inference request traverses multiple subsystems:

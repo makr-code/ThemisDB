@@ -9,6 +9,10 @@
  * @file server_api_contract.h
  * @brief Frozen server module API contracts for the active v1.x line.
  *
+ * @note **Header-Only Contract**: This file defines frozen semantics and invariants.
+ *       No .cpp implementation needed. Consumers link to implementations of the contracts
+ *       (e.g., HttpServer, Http2Session, WebSocketSession, ApiGateway, etc.).
+ *
  * This header defines the normative contract for all server module components
  * including HTTP/gRPC/WebSocket/MQTT handler registration, auth gate enforcement,
  * retry/timeout/backpressure semantics, graceful shutdown ordering, error taxonomy,

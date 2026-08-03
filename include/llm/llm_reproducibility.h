@@ -2,6 +2,9 @@
  * @file llm_reproducibility.h
  * @brief LLM Reproducibility and Governance Standard for ThemisDB.
  *
+ * @note **Configuration/Standards Header**: Defines reproducibility modes and governance.
+ *       No .cpp implementation needed. Used by consumers for reproducibility control.
+ *
  * ## Motivation (P2.3)
  *
  * LLM inference is inherently probabilistic.  In a database system this

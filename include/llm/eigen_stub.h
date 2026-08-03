@@ -2,6 +2,10 @@
  * @file eigen_stub.h
  * @brief Eigen matrix-library stub for environments without Eigen.
  *
+ * @note **Compatibility Stub**: Provides minimal type aliases and no-op implementations
+ *       so translation units can compile cleanly when Eigen is not available.
+ *       No .cpp implementation needed. Delegates to Eigen library when available.
+ *
  * Provides minimal type aliases and no-op implementations so that
  * translation units that optionally use Eigen can compile cleanly
  * when the library is not available.
