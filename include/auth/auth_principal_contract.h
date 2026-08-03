@@ -8,6 +8,10 @@
  * @file auth_principal_contract.h
  * @brief Frozen authentication and principal-contract semantics for the active v1.x line.
  *
+ * @note **Header-Only Contract**: This file defines frozen semantics and invariants.
+ *       No .cpp implementation needed. Consumers link to implementations of the contracts
+ *       (e.g., JwtValidator, SessionManager, FederatedIdentityManager, etc.).
+ *
  * This header defines the normative contract for authentication principals,
  * provider failure classification, and policy-gate behaviour that all auth
  * module components must honour in the current major release line.
