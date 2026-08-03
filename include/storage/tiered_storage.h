@@ -30,6 +30,7 @@
 #include <string>
 #include <thread>
 #include <unordered_map>
+#include "access_model/access_coordinator.h"
 
 namespace themis {
 namespace storage {
@@ -216,6 +217,29 @@ public:
     AccessTracker&             accessTracker()       { return tracker_; }
     const AccessTracker&       accessTracker() const { return tracker_; }
 
+    // ── BLOCK 3: Storage Module Integration — AccessCoordinator Listener ────
+
+    /**
+     * @brief Register a promotion listener for AccessCoordinator integration.
+     *
+     * Once registered, the TieredStorageManager notifies the listener when
+     * detecting hot access patterns (candidates for promotion to cache L3).
+     * Pass nullptr to unregister.
+     *
+     * Typical usage:
+     * @code
+     *   auto coordinator = std::make_shared<access_model::AccessCoordinator>();
+     *   storage->setPromotionListener(coordinator.get());
+     * @endcode
+     *
+     * @param listener Pointer to a PromotionListener implementation;
+     *                 nullptr disables promotion notifications.
+     *
+     * @see include/access_model/access_coordinator.h
+     * @see docs/architecture/UNIFIED_ACCESS_MODEL.md
+     */
+    void setPromotionListener(access_model::PromotionListener* listener) noexcept;
+
     // ── Forced migration (for tests / admin tools) ────────────────────────
 
     /**
@@ -227,6 +251,11 @@ public:
 private:
     TieredStorageConfig config_;
     AccessTracker       tracker_;
+
+    // Phase 5: BLOCK 3 Storage Integration — AccessCoordinator listener
+    // Notified when warm/cold tiers detect hot access patterns
+    access_model::PromotionListener* promotion_listener_{nullptr};
+    mutable std::mutex promotion_listener_mutex_;
 
     // Stats counters
     std::atomic<uint64_t> stat_migrations_hot_to_warm_{0};

@@ -2445,6 +2445,20 @@ void AdaptiveQueryCache::setReplicationListener(std::shared_ptr<cache::ICacheRep
     }
 }
 
+// ============================================================================
+// Phase 5: BLOCK 2 Cache Integration — AccessCoordinator Listener
+// ============================================================================
+
+void AdaptiveQueryCache::setEvictionListener(access_model::EvictionListener* listener) noexcept {
+    std::lock_guard<std::mutex> lock(eviction_listener_mutex_);
+    eviction_listener_ = listener;
+    if (eviction_listener_) {
+        THEMIS_INFO("AdaptiveQueryCache: eviction listener registered for AccessCoordinator");
+    } else {
+        THEMIS_INFO("AdaptiveQueryCache: eviction listener unregistered");
+    }
+}
+
 } // namespace themis
 
 // ============================================================================

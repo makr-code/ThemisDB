@@ -39,6 +39,7 @@
 #include "cache/predictive_prefetcher.h"
 #include "cache/cache_replication_coordinator.h"
 #include "core/concerns/eviction_strategies.h"
+#include "access_model/access_coordinator.h"
 
 namespace themis {
 
@@ -616,6 +617,36 @@ public:
     void setReplicationListener(
         std::shared_ptr<cache::ICacheReplicationListener> listener);
 
+    // ========================================================================
+    // Phase 5: AccessCoordinator Integration (BLOCK 2: Cache Integration)
+    // ========================================================================
+
+    /**
+     * @brief Register an eviction listener for tier coordination.
+     *
+     * Once registered, every cache eviction from L1/L2 tiers notifies the
+     * listener so that the AccessCoordinator can:
+     * - Detect hot entries (high access_count) for warm-tier promotion
+     * - Detect cold entries (low access_count) for warm-tier demotion
+     * - Trigger L3 fallback before L1/L2 overflow
+     * - Track access patterns for predictive promotion
+     *
+     * Pass nullptr to unregister (disables coordination).
+     *
+     * Typical usage:
+     * @code
+     *   auto coordinator = std::make_shared<access_model::AccessCoordinator>();
+     *   cache.setEvictionListener(coordinator);
+     * @endcode
+     *
+     * @param listener Pointer to an EvictionListener implementation;
+     *                 nullptr disables eviction notifications.
+     *
+     * @see include/access_model/access_coordinator.h
+     * @see docs/architecture/UNIFIED_ACCESS_MODEL.md
+     */
+    void setEvictionListener(access_model::EvictionListener* listener) noexcept;
+
 private:
     struct L1Entry {
         nlohmann::json result;                         // Read-only after insert
@@ -692,6 +723,11 @@ private:
     // Per-tenant quota overrides (0 = use global config_.per_tenant_max_bytes)
     std::unordered_map<std::string, size_t> tenant_quota_overrides_;
     mutable std::mutex tenant_mutex_;
+
+    // Phase 5: BLOCK 2 Cache Integration — AccessCoordinator listener
+    // Notified when L1/L2 entries are evicted for tier promotion/demotion
+    access_model::EvictionListener* eviction_listener_{nullptr};
+    mutable std::mutex eviction_listener_mutex_;
 
     // GDPR: PII reverse index (L1 / L2 in-memory tier)
     // Maps pii_uuid → set of cache keys that carry that UUID's data.

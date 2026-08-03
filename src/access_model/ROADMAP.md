@@ -40,16 +40,22 @@
 - [ ] CMakeLists.txt module registration (Target: Q3 2026)
 - [ ] Unit tests ACM-01..ACM-08 (Target: Q3 2026)
 
-### Phase 3: Cache Module Integration 🔵 (PLANNED)
-- [ ] Refactor cache_eviction_policy.cpp (Target: Q4 2026)
-  - Rename `hot_access_threshold` → `l1_promotion_threshold`
-  - Rename `warm_access_threshold` → `l2_promotion_threshold`
-  - Add EvictionListener callbacks
-- [ ] Add storage feedback hooks to AdaptiveQueryCache (Target: Q4 2026)
-- [ ] Integration tests: cache→coordinator→storage (Target: Q4 2026)
+### Phase 3: Cache Module Integration 🟡 (IN PROGRESS — BLOCK 2)
+- [~] Refactor cache_eviction_policy.cpp (Target: Q4 2026)
+  - [x] Thresholds already named: `l1_promotion_threshold`, `l2_promotion_threshold`
+  - [x] Added EvictionListener support to adaptive_query_cache.h/cpp
+  - [x] Added `setEvictionListener()` method
+- [~] Add storage feedback hooks to AdaptiveQueryCache (Target: Q4 2026)
+  - [x] EvictionListener callback interface defined
+  - [ ] Emit onCacheEvicted() during L1/L2 evictions (in progress)
+- [~] Integration tests: cache→coordinator→storage (Target: Q4 2026)
+  - [x] test_cache_storage_integration.cpp created (CAI-01..CAI-10)
+  - [ ] Build and execute tests
 
-### Phase 4: Storage Module Integration 🔵 (PLANNED)
+### Phase 4: Storage Module Integration 🔵 (PLANNED — BLOCK 3, parallel with BLOCK 2)
 - [ ] Extend TieredStorageManager with coordinator callbacks (Target: Q4 2026)
+  - [ ] Add `setPromotionListener()` method
+  - [ ] Emit onStorageAccess() when detecting hot tiers
 - [ ] Add PromotionListener implementation (Target: Q4 2026)
 - [ ] Implement predictive promotion path (cold→warm→L3) (Target: Q4 2026)
 - [ ] Integration tests: storage→coordinator→cache (Target: Q4 2026)
