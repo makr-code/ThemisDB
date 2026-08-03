@@ -305,25 +305,38 @@ private:
 /**
  * @brief Temperature-aware weighted LRU policy for Phase 3 cache efficiency work.
  *
- * The policy classifies entries into cold, warm, and hot tiers based on access
+ * The policy classifies entries into L3, L2, and L1 tiers based on access
  * counts, then prefers evicting the lowest-tier entry with the lowest weighted
  * frequency/recency score. All mutating operations are thread-safe.
+ * 
+ * Phase 3 Integration (Q4 2026):
+ * - Renamed tiers from cold/warm/hot to L3/L2/L1 (canonical access model naming)
+ * - Threshold naming: l2_promotion_threshold, l1_promotion_threshold
+ * - EvictionListener callbacks integrated via AdaptiveQueryCache
+ * - Coordinator signal emission: eviction events → AccessCoordinator
  */
 class WeightedTieredLRUEvictionPolicy : public CacheEvictionPolicy {
 public:
-    /// Cache temperature tiers in ascending retention priority.
-    enum class Tier : uint8_t { Cold = 0, Warm = 1, Hot = 2 };
+    /// Cache storage tiers in ascending retention priority (L3=cold → L1=hot).
+    enum class Tier : uint8_t { L3 = 0, L2 = 1, L1 = 2 };
 
     /**
-     * @brief Policy tuning parameters.
+     * @brief Policy tuning parameters (Phase 3: renamed thresholds).
      *
-     * Thresholds are percentages of cache capacity and are clamped to sane
-     * ranges. Adaptive threshold tuning changes trigger/safe levels at most once
-     * per @p threshold_adjustment_interval_ns to avoid oscillation.
+     * Thresholds are access counts that determine tier promotion:
+     * - entries with < l2_promotion_threshold accesses stay in L3
+     * - entries with >= l2_promotion_threshold accesses promote to L2
+     * - entries with >= l1_promotion_threshold accesses promote to L1
+     * 
+     * Capacity percentages are clamped to sane ranges. Adaptive threshold tuning
+     * changes trigger/safe levels at most once per @p threshold_adjustment_interval_ns
+     * to avoid oscillation.
      */
     struct Config {
-        size_t warm_access_threshold = 2;
-        size_t hot_access_threshold = 10;
+        /// Phase 3: renamed from warm_access_threshold
+        size_t l2_promotion_threshold = 2;
+        /// Phase 3: renamed from hot_access_threshold
+        size_t l1_promotion_threshold = 10;
         double frequency_weight = 0.3;
         double recency_weight = 0.7;
         double frequency_decay_factor = 0.95;

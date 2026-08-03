@@ -331,11 +331,13 @@ WeightedTieredLRUEvictionPolicy::WeightedTieredLRUEvictionPolicy(Config config)
     : config_(std::move(config)),
       trigger_threshold_percent_(clamp_percent(config_.trigger_threshold_percent, 55, 90)),
       safe_threshold_percent_(clamp_percent(config_.safe_threshold_percent, 35, 80)) {
-    if (config_.warm_access_threshold == 0) {
-        config_.warm_access_threshold = 1;
+    // Phase 3: Validate L2 promotion threshold
+    if (config_.l2_promotion_threshold == 0) {
+        config_.l2_promotion_threshold = 1;
     }
-    if (config_.hot_access_threshold < config_.warm_access_threshold) {
-        config_.hot_access_threshold = config_.warm_access_threshold;
+    // Phase 3: Ensure L1 >= L2
+    if (config_.l1_promotion_threshold < config_.l2_promotion_threshold) {
+        config_.l1_promotion_threshold = config_.l2_promotion_threshold;
     }
     if (config_.frequency_weight < 0.0) {
         config_.frequency_weight = 0.0;
@@ -493,11 +495,11 @@ WeightedTieredLRUEvictionPolicy::choose_victim(
 
     const auto tier = classify_locked(
         states_.count(victim->key) ? states_.at(victim->key).access_count : victim->access_count);
-    std::string tier_name = "cold";
-    if (tier == Tier::Warm) {
-        tier_name = "warm";
-    } else if (tier == Tier::Hot) {
-        tier_name = "hot";
+    std::string tier_name = "L3";
+    if (tier == Tier::L2) {
+        tier_name = "L2";
+    } else if (tier == Tier::L1) {
+        tier_name = "L1";
     }
 
     return {true, victim->key, "Tiered LRU victim (" + tier_name + "): " + victim->key};
@@ -519,7 +521,7 @@ WeightedTieredLRUEvictionPolicy::tier_for_key(const std::string& key) const {
     ensure_operational();
     const auto it = states_.find(key);
     if (it == states_.end()) {
-        return Tier::Cold;
+        return Tier::L3;
     }
     return classify_locked(it->second.access_count);
 }
@@ -630,13 +632,13 @@ void WeightedTieredLRUEvictionPolicy::ensure_operational() const {
 
 WeightedTieredLRUEvictionPolicy::Tier
 WeightedTieredLRUEvictionPolicy::classify_locked(size_t access_count) const {
-    if (access_count >= config_.hot_access_threshold) {
-        return Tier::Hot;
+    if (access_count >= config_.l1_promotion_threshold) {
+        return Tier::L1;
     }
-    if (access_count >= config_.warm_access_threshold) {
-        return Tier::Warm;
+    if (access_count >= config_.l2_promotion_threshold) {
+        return Tier::L2;
     }
-    return Tier::Cold;
+    return Tier::L3;
 }
 
 double WeightedTieredLRUEvictionPolicy::score_locked(const EntryState& state,

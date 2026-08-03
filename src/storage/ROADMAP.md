@@ -13,10 +13,23 @@ Production-capable storage runtime exists for durable persistence, MVCC/WAL life
 - [~] hardening failure-path behavior under sustained write/load and maintenance overlap (Target: Q3 2026)
 - [~] improving diagnostics consistency across storage, replay, and recovery stages (Target: Q3 2026)
 - [~] stabilizing benchmark-backed release guardrails for storage hot paths (Target: Q3 2026)
+- [x] BLOCK 3: Storage Module Integration with AccessCoordinator (Target: Q4 2026) ✅ COMPLETE
+  - [x] Added PromotionListener support to TieredStorageManager
+  - [x] Added `setPromotionListener()` method in header and implementation
+  - [x] Emit onStorageAccess() signals when detecting hot tiers
+    - [x] emitPromotionEvent() helper method
+    - [x] Hot pattern detection in get() for WARM/COLD tiers
+    - [x] Hot pattern detection in runMigrationCycle()
+  - [x] Implement predictive promotion callbacks with access window tracking
 
 ## Planned Features
 
 ### Short-term (3-6 months)
+- [ ] integrate with AccessCoordinator for unified cache-storage tier management (Target: Q4 2026)
+  - Add PromotionListener callbacks to emit hot-access signals to coordinator
+  - Implement coordinator-guided promotion paths (cold→warm→L3)
+  - Extend TieredStorageManager with coordinator hooks
+  - See: `src/access_model/ROADMAP.md` Phase 4
 - [ ] tighten deterministic behavior under heavy WAL replay and compaction pressure (Target: Q4 2026)
 - [ ] expand stress coverage for blob/tiering and PITR edge scenarios (Target: Q4 2026)
 - [ ] improve operator-facing diagnostics for recovery and maintenance incidents (Target: Q4 2026)
@@ -55,8 +68,16 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity �
 - [ ] align tiered/blob/redundancy behavior to bounded runtime contracts (Target: Q4 2026)
 
 ### Phase 3: Error Handling and Edge Cases
-- [ ] standardize fail-safe behavior for replay faults, storage pressure, and recovery errors (Target: Q4 2026)
-- [ ] unify diagnostics across persistence, maintenance, and recovery incident classes (Target: Q4 2026)
+- [x] standardize fail-safe behavior for replay faults, storage pressure, and recovery errors (Target: Q4 2026) ✅ COMPLETE (2026-08-03)
+  - [x] Created storage_error_diagnostics.h/cpp with unified error classification
+  - [x] Implemented storage_recovery_fault_handler.h/cpp for recovery fault handling
+  - [x] Implemented storage_pressure_manager.h/cpp for capacity management
+  - [x] Created comprehensive Phase 3 focused tests (24 test cases)
+- [x] unify diagnostics across persistence, maintenance, and recovery incident classes (Target: Q4 2026) ✅ COMPLETE (2026-08-03)
+  - [x] StorageErrorContext struct for detailed error information
+  - [x] emitDiagnosticEvent() for structured event emission
+  - [x] Incident type classification (RECOVERY_FAULT, STORAGE_PRESSURE, etc.)
+  - [x] Error severity levels (INFO, LOW, MEDIUM, HIGH, CRITICAL)
 
 ### Phase 4: Tests
 - [x] Contract-hardening focused tests STR-01..STR-16 covering WAL durability, MVCC isolation, crash-recovery, and PITR invariants (tests/storage/test_storage_contract_hardening_focused.cpp) (Target: Q4 2026)
@@ -83,6 +104,10 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity �
 - [x] Contract-hardening tests: tests/storage/test_storage_contract_hardening_focused.cpp (Phase 4, STR-01..STR-16)
 - [x] Release-gate benchmarks: benchmarks/storage/bench_storage_release_gates.cpp (Phase 5, SGRG-01..SGRG-06)
 - [x] Benchmark CMakeLists registered: benchmarks/storage/CMakeLists.txt
+- [x] Error diagnostics system: include/storage/storage_error_diagnostics.h (Phase 3)
+- [x] Recovery fault handler: include/storage/storage_recovery_fault_handler.h (Phase 3)
+- [x] Storage pressure manager: include/storage/storage_pressure_manager.h (Phase 3)
+- [x] Phase 3 focused tests: tests/storage/test_storage_phase3_error_handling_focused.cpp (24 test cases)
 - [ ] remaining hardening tasks closed for durability/recovery edge paths
 - [ ] release benchmark stabilization complete
 

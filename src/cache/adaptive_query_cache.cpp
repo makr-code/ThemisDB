@@ -1323,6 +1323,13 @@ void AdaptiveQueryCache::evictLRU(CacheLevel level) {
                     std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);
                     l1_eviction_strategy_->onRemove(it->first);
                 }
+                // Emit eviction event before erasing
+                auto last_access_ms = it->second->last_accessed_ms.load(std::memory_order_relaxed);
+                auto access_count = it->second->access_count.load(std::memory_order_relaxed);
+                auto result_size = it->second->result.dump().size();
+                emitEvictionEvent(it->first, access_model::TierLevel::L1_WORKING,
+                                result_size, access_count, last_access_ms, "expired");
+                
                 it = l1_cache_.erase(it);
                 stats_.evictions++;
                 enhanced_metrics_.evictions++;
@@ -1341,10 +1348,20 @@ void AdaptiveQueryCache::evictLRU(CacheLevel level) {
             victim = l1_eviction_strategy_->selectVictim();
         }
         if (victim && l1_cache_.count(*victim)) {
+            auto entry = l1_cache_.at(*victim).get();
+            auto last_access_ms = entry->last_accessed_ms.load(std::memory_order_relaxed);
+            auto access_count = entry->access_count.load(std::memory_order_relaxed);
+            auto result_size = entry->result.dump().size();
+            
             {
                 std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);
                 l1_eviction_strategy_->onRemove(*victim);
             }
+            
+            // Emit eviction event before erasing
+            emitEvictionEvent(*victim, access_model::TierLevel::L1_WORKING,
+                            result_size, access_count, last_access_ms, "lru_selection");
+            
             l1_cache_.erase(*victim);
         } else {
             // Fallback: score-based scan using per-entry atomic counters
@@ -1359,10 +1376,21 @@ void AdaptiveQueryCache::evictLRU(CacheLevel level) {
                     lru_it    = it;
                 }
             }
+            
+            auto entry = lru_it->second.get();
+            auto last_access_ms = entry->last_accessed_ms.load(std::memory_order_relaxed);
+            auto access_count = entry->access_count.load(std::memory_order_relaxed);
+            auto result_size = entry->result.dump().size();
+            
             {
                 std::lock_guard<std::mutex> evict_lock(l1_eviction_mutex_);
                 l1_eviction_strategy_->onRemove(lru_it->first);
             }
+            
+            // Emit eviction event before erasing
+            emitEvictionEvent(lru_it->first, access_model::TierLevel::L1_WORKING,
+                            result_size, access_count, last_access_ms, "lru_fallback");
+            
             l1_cache_.erase(lru_it);
         }
         stats_.evictions++;
@@ -1376,7 +1404,17 @@ void AdaptiveQueryCache::evictLRU(CacheLevel level) {
         // Use the configured eviction strategy to select the victim key
         auto victim = l2_eviction_strategy_->selectVictim();
         if (victim && l2_cache_.count(*victim)) {
+            auto& entry = l2_cache_.at(*victim);
+            auto last_access_ms = entry.last_accessed_ms;
+            auto access_count = entry.access_count;
+            auto size_bytes = entry.compressed_result.size();
+            
             l2_eviction_strategy_->onRemove(*victim);
+            
+            // Emit eviction event before erasing
+            emitEvictionEvent(*victim, access_model::TierLevel::L2_EPISODIC,
+                            size_bytes, access_count, last_access_ms, "lru_selection");
+            
             l2_cache_.erase(*victim);
         } else {
             // Fallback: score-based scan
@@ -1389,12 +1427,51 @@ void AdaptiveQueryCache::evictLRU(CacheLevel level) {
                     lru_it    = it;
                 }
             }
+            
+            auto& entry = lru_it->second;
+            auto last_access_ms = entry.last_accessed_ms;
+            auto access_count = entry.access_count;
+            auto size_bytes = entry.compressed_result.size();
+            
             l2_eviction_strategy_->onRemove(lru_it->first);
+            
+            // Emit eviction event before erasing
+            emitEvictionEvent(lru_it->first, access_model::TierLevel::L2_EPISODIC,
+                            size_bytes, access_count, last_access_ms, "lru_fallback");
+            
             l2_cache_.erase(lru_it);
         }
         stats_.evictions++;
         enhanced_metrics_.evictions++;
     }
+}
+
+// ============================================================================
+// Phase 5: BLOCK 2 Cache Integration — Eviction Event Emission
+// ============================================================================
+
+void AdaptiveQueryCache::emitEvictionEvent(const std::string& key, access_model::TierLevel tier,
+                                          std::size_t size_bytes, uint64_t access_count,
+                                          int64_t last_access_ms, std::string_view reason) {
+    // Snapshot the listener pointer under the lock to avoid holding it during the callback.
+    // Calling the callback while holding the lock can deadlock if the listener (re-)enters
+    // cache or coordinator code that tries to acquire the same or a dependent lock.
+    access_model::EvictionListener* listener = nullptr;
+    {
+        std::lock_guard<std::mutex> lock(eviction_listener_mutex_);
+        listener = eviction_listener_;
+    }
+    if (!listener) {
+        return;  // No listener registered
+    }
+
+    // Calculate time since last access
+    int64_t now_ms = getCurrentTimeMs();
+    int64_t age_ms = (now_ms > last_access_ms) ? (now_ms - last_access_ms) : 0;
+    auto age_secs = std::chrono::seconds(age_ms / 1000);
+
+    // Emit event to coordinator (invoked outside the lock)
+    listener->onCacheEvicted(key, tier, size_bytes, access_count, age_secs, reason);
 }
 
 double AdaptiveQueryCache::calculateLRUScore(int64_t last_accessed_ms, int64_t access_count) const {
@@ -2442,6 +2519,20 @@ void AdaptiveQueryCache::setReplicationListener(std::shared_ptr<cache::ICacheRep
         THEMIS_INFO("AdaptiveQueryCache: replication listener registered ({})", replication_listener_->replicaId());
     } else {
         THEMIS_INFO("AdaptiveQueryCache: replication listener unregistered");
+    }
+}
+
+// ============================================================================
+// Phase 5: BLOCK 2 Cache Integration — AccessCoordinator Listener
+// ============================================================================
+
+void AdaptiveQueryCache::setEvictionListener(access_model::EvictionListener* listener) noexcept {
+    std::lock_guard<std::mutex> lock(eviction_listener_mutex_);
+    eviction_listener_ = listener;
+    if (eviction_listener_) {
+        THEMIS_INFO("AdaptiveQueryCache: eviction listener registered for AccessCoordinator");
+    } else {
+        THEMIS_INFO("AdaptiveQueryCache: eviction listener unregistered");
     }
 }
 

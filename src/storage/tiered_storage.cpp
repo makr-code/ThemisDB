@@ -243,6 +243,22 @@ std::string TieredStorageManager::get(const std::string& key) {
             StorageTierLevel expected = it->second.tier;
             if (existsInTier(key, expected)) {
                 tracker_.recordRead(key);
+                
+                // Phase 5: BLOCK 3 Integration — detect hot pattern in warm/cold tiers
+                if (expected == StorageTierLevel::WARM || expected == StorageTierLevel::COLD) {
+                    auto now = std::chrono::system_clock::now();
+                    auto written_at = std::chrono::system_clock::from_time_t(
+                        std::chrono::system_clock::to_time_t(it->second.written_at));
+                    auto window_secs = std::chrono::duration_cast<std::chrono::seconds>(
+                        now - written_at).count();
+                    
+                    // Emit promotion event if data is hot (accessed in cool tier)
+                    auto tier = (expected == StorageTierLevel::WARM) ?
+                               access_model::TierLevel::STORAGE_WARM :
+                               access_model::TierLevel::STORAGE_COLD;
+                    emitPromotionEvent(key, tier, it->second.read_count, window_secs);
+                }
+                
                 return readFromTier(key, expected);
             }
         }
@@ -252,6 +268,25 @@ std::string TieredStorageManager::get(const std::string& key) {
     for (auto tier : {StorageTierLevel::HOT, StorageTierLevel::WARM, StorageTierLevel::COLD}) {
         if (existsInTier(key, tier)) {
             tracker_.recordRead(key);
+            
+            // Phase 5: BLOCK 3 Integration — detect hot pattern in warm/cold tiers
+            if (tier == StorageTierLevel::WARM || tier == StorageTierLevel::COLD) {
+                auto snap = tracker_.snapshot();
+                auto it = snap.find(key);
+                if (it != snap.end()) {
+                    auto now = std::chrono::system_clock::now();
+                    auto written_at = std::chrono::system_clock::from_time_t(
+                        std::chrono::system_clock::to_time_t(it->second.written_at));
+                    auto window_secs = std::chrono::duration_cast<std::chrono::seconds>(
+                        now - written_at).count();
+                    
+                    auto tier_level = (tier == StorageTierLevel::WARM) ?
+                                     access_model::TierLevel::STORAGE_WARM :
+                                     access_model::TierLevel::STORAGE_COLD;
+                    emitPromotionEvent(key, tier_level, it->second.read_count, window_secs);
+                }
+            }
+            
             return readFromTier(key, tier);
         }
     }
@@ -368,6 +403,21 @@ uint32_t TieredStorageManager::runMigrationCycle() {
 
         } else if (entry.tier == StorageTierLevel::WARM) {
             bool demote = false;
+            bool promote = false;
+
+            // Phase 5: BLOCK 3 Integration — detect hot promotion pattern
+            // If warm tier data is accessed frequently, emit promotion event
+            if (entry.read_count > 0 && daysSince(entry.last_read_at) < 1) {
+                // Warm tier data accessed recently → potential hot candidate
+                auto now = std::chrono::system_clock::now();
+                auto window_secs = std::chrono::duration_cast<std::chrono::seconds>(
+                    now - entry.last_read_at).count();
+                
+                // Emit promotion event for coordinator to consider moving back to HOT
+                emitPromotionEvent(key, access_model::TierLevel::L2_EPISODIC,
+                                  entry.read_count, window_secs);
+                promote = true;
+            }
 
             if (config_.warm_to_cold_days > 0 &&
                 daysSince(entry.written_at) >= static_cast<int64_t>(config_.warm_to_cold_days)) {
@@ -458,6 +508,42 @@ TieredStorageManager::Stats TieredStorageManager::stats() const {
         }
     }
     return s;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// BLOCK 3: Storage Module Integration — AccessCoordinator Listener
+// ─────────────────────────────────────────────────────────────────────────────
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Phase 5: BLOCK 3 Storage Integration — Promotion Event Emission
+// ─────────────────────────────────────────────────────────────────────────────
+
+void TieredStorageManager::emitPromotionEvent(const std::string& key,
+                                             access_model::TierLevel from_tier,
+                                             uint64_t access_count,
+                                             int64_t access_window_secs) {
+    std::lock_guard<std::mutex> lock(promotion_listener_mutex_);
+    if (!promotion_listener_) {
+        return;  // No listener registered
+    }
+
+    // Emit event to coordinator (detected hot pattern in warm/cold tier)
+    promotion_listener_->onStorageAccess(key, from_tier, access_count,
+                                        std::chrono::seconds(access_window_secs));
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// BLOCK 3: Storage Module Integration — AccessCoordinator Listener
+// ─────────────────────────────────────────────────────────────────────────────
+
+void TieredStorageManager::setPromotionListener(access_model::PromotionListener* listener) noexcept {
+    std::lock_guard<std::mutex> lock(promotion_listener_mutex_);
+    promotion_listener_ = listener;
+    if (promotion_listener_) {
+        THEMIS_INFO("TieredStorageManager: promotion listener registered for AccessCoordinator");
+    } else {
+        THEMIS_INFO("TieredStorageManager: promotion listener unregistered");
+    }
 }
 
 } // namespace storage

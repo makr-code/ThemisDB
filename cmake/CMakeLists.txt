@@ -1900,6 +1900,10 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/index_maintenance.cpp
     ../src/storage/index_analyzer.cpp
     ../src/storage/storage_engine.cpp
+    # Phase 3: Error Handling & Edge Cases
+    ../src/storage/storage_error_diagnostics.cpp
+    ../src/storage/storage_recovery_fault_handler.cpp
+    ../src/storage/storage_pressure_manager.cpp
     ../src/storage/blob_backend_filesystem.cpp
     $<$<BOOL:${THEMIS_HAS_PUBLIC_BLOB_BACKEND_S3}>:../src/storage/blob_backend_s3.cpp>
     $<$<BOOL:${THEMIS_HAS_PUBLIC_BLOB_BACKEND_AZURE}>:../src/storage/blob_backend_azure.cpp>
@@ -2320,6 +2324,7 @@ set(THEMIS_CORE_SOURCES
     ../src/cache/distributed_cache_coordinator.cpp
     # ../src/cache/redis_cache_coordinator.cpp   # Legacy hiredis impl; conflicts with distributed_cache_coordinator
     ../src/cache/cache_eviction_policy.cpp
+    ../src/cache/eviction_listener.cpp
     ../src/cache/eviction.cpp
     
     # Ingestion module – unified data intake layer (filesystem, REST, HuggingFace,
