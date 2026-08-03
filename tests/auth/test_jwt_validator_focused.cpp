@@ -14,19 +14,18 @@
  *   - Async validation paths
  */
 
-#include <gtest/gtest.h>
-#include <gmock/gmock.h>
-
-#include "auth/jwt_validator.h"
-#include "auth/token_blacklist.h"
-#include "auth/auth_principal_contract.h"
-#include "auth/auth_error.h"
-
-#include <nlohmann/json.hpp>
 #include <chrono>
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
 #include <memory>
+#include <nlohmann/json.hpp>
 #include <string>
 #include <vector>
+
+#include "auth/auth_error.h"
+#include "auth/auth_principal_contract.h"
+#include "auth/jwt_validator.h"
+#include "auth/token_blacklist.h"
 
 using namespace themis::auth;
 using nlohmann::json;
@@ -42,11 +41,12 @@ namespace tests {
  * @brief Mock TokenBlacklist for testing JTI revocation
  */
 class MockTokenBlacklist : public TokenBlacklist {
-public:
-    MOCK_METHOD(bool, isRevoked, (const std::string&), (const override));
-    MOCK_METHOD(void, revoke, (const std::string&, std::chrono::system_clock::time_point), (override));
+  public:
+    MOCK_METHOD(bool, isRevoked, (const std::string &), (const override));
+    MOCK_METHOD(void, revoke, (const std::string &, std::chrono::system_clock::time_point), (override));
     MOCK_METHOD(void, clear, (), (override));
-    MOCK_METHOD(std::optional<std::chrono::system_clock::time_point>, getRevokedAt, (const std::string&), (const override));
+    MOCK_METHOD(std::optional<std::chrono::system_clock::time_point>, getRevokedAt, (const std::string &),
+                (const override));
 };
 
 // ============================================================================
@@ -54,7 +54,7 @@ public:
 // ============================================================================
 
 class JWTTokenSizeValidationTest : public ::testing::Test {
-protected:
+  protected:
     JWTValidator validator_{"https://keycloak.local/realms/test/protocol/openid-connect/certs"};
 };
 
@@ -66,19 +66,17 @@ TEST_F(JWTTokenSizeValidationTest, RejectOversizedToken) {
     // Construct a token that exceeds 16 KB
     std::string oversized_token;
     oversized_token.reserve(MAX_JWT_TOKEN_SIZE + 1024);
-    
+
     // Create header.payload.signature format
-    std::string header = std::string(5000, 'A');
-    std::string payload = std::string(6000, 'B');
+    std::string header    = std::string(5000, 'A');
+    std::string payload   = std::string(6000, 'B');
     std::string signature = std::string(6000, 'C');
-    
+
     oversized_token = header + "." + payload + "." + signature;
     ASSERT_GT(oversized_token.size(), MAX_JWT_TOKEN_SIZE);
-    
+
     // Must reject without any further processing
-    EXPECT_THROW({
-        validator_.parseAndValidate(oversized_token);
-    }, std::runtime_error);
+    EXPECT_THROW({ validator_.parseAndValidate(oversized_token); }, std::runtime_error);
 }
 
 /**
@@ -86,9 +84,7 @@ TEST_F(JWTTokenSizeValidationTest, RejectOversizedToken) {
  * Expected: Immediate rejection
  */
 TEST_F(JWTTokenSizeValidationTest, RejectEmptyToken) {
-    EXPECT_THROW({
-        validator_.parseAndValidate("");
-    }, std::runtime_error);
+    EXPECT_THROW({ validator_.parseAndValidate(""); }, std::runtime_error);
 }
 
 /**
@@ -96,9 +92,7 @@ TEST_F(JWTTokenSizeValidationTest, RejectEmptyToken) {
  * Expected: Rejection (malformed artifact)
  */
 TEST_F(JWTTokenSizeValidationTest, RejectBearerPrefixOnly) {
-    EXPECT_THROW({
-        validator_.parseAndValidate("Bearer ");
-    }, std::runtime_error);
+    EXPECT_THROW({ validator_.parseAndValidate("Bearer "); }, std::runtime_error);
 }
 
 /**
@@ -109,20 +103,18 @@ TEST_F(JWTTokenSizeValidationTest, AcceptTokenAtBoundary) {
     // Create a token exactly at the boundary
     std::string boundary_token;
     boundary_token.reserve(MAX_JWT_TOKEN_SIZE);
-    
+
     // Fill to exactly MAX_JWT_TOKEN_SIZE with valid header.payload.signature
     std::string header(4000, 'A');
     std::string payload(6000, 'B');
     std::string signature(MAX_JWT_TOKEN_SIZE - 4000 - 6000 - 2, 'C'); // Account for dots
-    
+
     boundary_token = header + "." + payload + "." + signature;
     ASSERT_EQ(boundary_token.size(), MAX_JWT_TOKEN_SIZE);
-    
+
     // Should not reject on size grounds (may fail on validation, but size is OK)
     // We expect cryptographic validation to fail, not size validation
-    EXPECT_THROW({
-        validator_.parseAndValidate(boundary_token);
-    }, std::runtime_error);
+    EXPECT_THROW({ validator_.parseAndValidate(boundary_token); }, std::runtime_error);
     // Should get a validation error, not size error
 }
 
@@ -131,14 +123,13 @@ TEST_F(JWTTokenSizeValidationTest, AcceptTokenAtBoundary) {
 // ============================================================================
 
 class JWTTemporalContractTest : public ::testing::Test {
-protected:
+  protected:
     JWTValidatorConfig getBaseConfig() const {
         return JWTValidatorConfig{
-            "https://keycloak.local/realms/test/protocol/openid-connect/certs",
-            "https://keycloak.local/realms/test",
+            "https://keycloak.local/realms/test/protocol/openid-connect/certs", "https://keycloak.local/realms/test",
             "test-audience",
-            std::chrono::milliseconds(600000),  // 10 min cache
-            std::chrono::milliseconds(60000)    // 60s clock skew
+            std::chrono::milliseconds(600000), // 10 min cache
+            std::chrono::milliseconds(60000)   // 60s clock skew
         };
     }
 };
@@ -151,16 +142,14 @@ TEST_F(JWTTemporalContractTest, ClockSkewToleranceBoundary) {
     auto cfg = getBaseConfig();
     // Clock skew default is 60s; configure for this test
     cfg.clock_skew = std::chrono::milliseconds(60000);
-    
+
     JWTValidator validator(cfg);
-    
+
     // Create JWKS cache with a test key for validation
-    json jwks_test = {
-        {"keys", json::array()}
-    };
-    auto now = std::chrono::system_clock::now();
+    json jwks_test = {{"keys", json::array()}};
+    auto now       = std::chrono::system_clock::now();
     validator.setJWKSForTesting(jwks_test, now);
-    
+
     // Token with exp exactly 30 seconds in the future should pass
     // (within 60s clock skew tolerance)
     auto exp_time = now + std::chrono::seconds(30);
@@ -172,9 +161,8 @@ TEST_F(JWTTemporalContractTest, ClockSkewToleranceBoundary) {
  * Expected: Enforced per auth_principal_contract.h § 2
  */
 TEST_F(JWTTemporalContractTest, MaxSessionLifetime) {
-    static_assert(kMaxSessionLifetime == std::chrono::hours(24 * 30),
-                  "Max session lifetime must be 30 days");
-    
+    static_assert(kMaxSessionLifetime == std::chrono::hours(24 * 30), "Max session lifetime must be 30 days");
+
     auto cfg = getBaseConfig();
     EXPECT_NE(cfg.cache_ttl, std::chrono::milliseconds(-1));
 }
@@ -184,10 +172,10 @@ TEST_F(JWTTemporalContractTest, MaxSessionLifetime) {
 // ============================================================================
 
 class JWTTokenBlacklistTest : public ::testing::Test {
-protected:
+  protected:
     JWTValidator validator_{"https://keycloak.local/realms/test/protocol/openid-connect/certs"};
     std::unique_ptr<MockTokenBlacklist> mock_blacklist_;
-    
+
     void SetUp() override {
         mock_blacklist_ = std::make_unique<MockTokenBlacklist>();
     }
@@ -200,12 +188,11 @@ protected:
 TEST_F(JWTTokenBlacklistTest, RejectRevokedJTI) {
     // Attach the mock blacklist
     validator_.setTokenBlacklist(mock_blacklist_.get());
-    
+
     // Simulate a revoked JTI
     std::string revoked_jti = "jti-12345";
-    EXPECT_CALL(*mock_blacklist_, isRevoked(revoked_jti))
-        .WillOnce(Return(true));
-    
+    EXPECT_CALL(*mock_blacklist_, isRevoked(revoked_jti)).WillOnce(Return(true));
+
     // When a token with this JTI is validated, it should be rejected
     // (Implementation detail: the validator checks blacklist during parseAndValidate)
 }
@@ -216,9 +203,7 @@ TEST_F(JWTTokenBlacklistTest, RejectRevokedJTI) {
  */
 TEST_F(JWTTokenBlacklistTest, ProceedWithoutBlacklist) {
     // No setTokenBlacklist call - validator should work without it
-    EXPECT_NO_THROW({
-        validator_.setTokenBlacklist(nullptr);
-    });
+    EXPECT_NO_THROW({ validator_.setTokenBlacklist(nullptr); });
 }
 
 /**
@@ -227,10 +212,9 @@ TEST_F(JWTTokenBlacklistTest, ProceedWithoutBlacklist) {
  */
 TEST_F(JWTTokenBlacklistTest, MissingJTIWithBlacklistAttached) {
     validator_.setTokenBlacklist(mock_blacklist_.get());
-    
+
     // Mock reports not revoked when asked about empty jti
-    EXPECT_CALL(*mock_blacklist_, isRevoked(""))
-        .Times(::testing::AtLeast(0));
+    EXPECT_CALL(*mock_blacklist_, isRevoked("")).Times(::testing::AtLeast(0));
 }
 
 // ============================================================================
@@ -238,13 +222,10 @@ TEST_F(JWTTokenBlacklistTest, MissingJTIWithBlacklistAttached) {
 // ============================================================================
 
 class JWTFailureClassificationTest : public ::testing::Test {
-protected:
+  protected:
     JWTValidatorConfig getBaseConfig() const {
-        return JWTValidatorConfig{
-            "https://keycloak.local/realms/test/protocol/openid-connect/certs",
-            "https://keycloak.local/realms/test",
-            "test-audience"
-        };
+        return JWTValidatorConfig{"https://keycloak.local/realms/test/protocol/openid-connect/certs",
+                                  "https://keycloak.local/realms/test", "test-audience"};
     }
 };
 
@@ -255,11 +236,9 @@ protected:
 TEST_F(JWTFailureClassificationTest, MalformedTokenFormat) {
     auto cfg = getBaseConfig();
     JWTValidator validator(cfg);
-    
+
     // Token with only 2 parts (missing signature)
-    EXPECT_THROW({
-        validator.parseAndValidate("header.payload");
-    }, std::runtime_error);
+    EXPECT_THROW({ validator.parseAndValidate("header.payload"); }, std::runtime_error);
 }
 
 /**
@@ -269,11 +248,9 @@ TEST_F(JWTFailureClassificationTest, MalformedTokenFormat) {
 TEST_F(JWTFailureClassificationTest, InvalidBase64UrlEncoding) {
     auto cfg = getBaseConfig();
     JWTValidator validator(cfg);
-    
+
     // Use invalid Base64URL characters
-    EXPECT_THROW({
-        validator.parseAndValidate("!!!.@@@.###");
-    }, std::runtime_error);
+    EXPECT_THROW({ validator.parseAndValidate("!!!.@@@.###"); }, std::runtime_error);
 }
 
 /**
@@ -283,13 +260,11 @@ TEST_F(JWTFailureClassificationTest, InvalidBase64UrlEncoding) {
 TEST_F(JWTFailureClassificationTest, ExpiredToken) {
     auto cfg = getBaseConfig();
     JWTValidator validator(cfg);
-    
-    json jwks_test = {
-        {"keys", json::array()}
-    };
-    auto now = std::chrono::system_clock::now();
+
+    json jwks_test = {{"keys", json::array()}};
+    auto now       = std::chrono::system_clock::now();
     validator.setJWKSForTesting(jwks_test, now);
-    
+
     // Token with past expiration time
     auto exp_time = now - std::chrono::seconds(1);
 }
@@ -299,7 +274,7 @@ TEST_F(JWTFailureClassificationTest, ExpiredToken) {
 // ============================================================================
 
 class JWTKIDRevocationTest : public ::testing::Test {
-protected:
+  protected:
     JWTValidator validator_{"https://keycloak.local/realms/test/protocol/openid-connect/certs"};
 };
 
@@ -309,13 +284,13 @@ protected:
  */
 TEST_F(JWTKIDRevocationTest, RevokeAndCheckKID) {
     std::string test_kid = "kid-2026-key-001";
-    
+
     // Before revocation
     EXPECT_FALSE(validator_.isKidRevoked(test_kid));
-    
+
     // Revoke the key
     validator_.revokeKid(test_kid);
-    
+
     // After revocation
     EXPECT_TRUE(validator_.isKidRevoked(test_kid));
 }
@@ -326,15 +301,15 @@ TEST_F(JWTKIDRevocationTest, RevokeAndCheckKID) {
  */
 TEST_F(JWTKIDRevocationTest, MultipleKIDRevocations) {
     std::vector<std::string> kids = {"kid-001", "kid-002", "kid-003"};
-    
-    for (const auto& kid : kids) {
+
+    for (const auto &kid : kids) {
         validator_.revokeKid(kid);
     }
-    
-    for (const auto& kid : kids) {
+
+    for (const auto &kid : kids) {
         EXPECT_TRUE(validator_.isKidRevoked(kid));
     }
-    
+
     // Non-revoked KID should still be false
     EXPECT_FALSE(validator_.isKidRevoked("kid-999"));
 }
@@ -355,7 +330,7 @@ TEST_F(JWTKIDRevocationTest, EmptyKIDRevocation) {
 // ============================================================================
 
 class JWTScopeExtractionTest : public ::testing::Test {
-protected:
+  protected:
     JWTValidator validator_{"https://keycloak.local/realms/test/protocol/openid-connect/certs"};
 };
 
@@ -366,9 +341,9 @@ protected:
 TEST_F(JWTScopeExtractionTest, ParseSpaceSeparatedScopes) {
     // In JWTClaims, scopes are extracted from OAuth2 scope claim (string)
     // or scp claim (array)
-    auto claims = JWTClaims{};
+    auto claims   = JWTClaims{};
     claims.scopes = {"openid", "profile", "email"};
-    
+
     EXPECT_EQ(claims.scopes.size(), 3);
     EXPECT_TRUE(std::find(claims.scopes.begin(), claims.scopes.end(), "profile") != claims.scopes.end());
 }
@@ -378,9 +353,9 @@ TEST_F(JWTScopeExtractionTest, ParseSpaceSeparatedScopes) {
  * Expected: Preserved as-is in scopes vector
  */
 TEST_F(JWTScopeExtractionTest, ParseArrayScopes) {
-    auto claims = JWTClaims{};
+    auto claims   = JWTClaims{};
     claims.scopes = {"read", "write", "admin"};
-    
+
     EXPECT_EQ(claims.scopes.size(), 3);
     EXPECT_EQ(claims.scopes[0], "read");
 }
@@ -401,13 +376,10 @@ TEST_F(JWTScopeExtractionTest, EmptyScopes) {
 // ============================================================================
 
 class JWTAsyncValidationTest : public ::testing::Test {
-protected:
+  protected:
     JWTValidatorConfig getBaseConfig() const {
-        return JWTValidatorConfig{
-            "https://keycloak.local/realms/test/protocol/openid-connect/certs",
-            "https://keycloak.local/realms/test",
-            "test-audience"
-        };
+        return JWTValidatorConfig{"https://keycloak.local/realms/test/protocol/openid-connect/certs",
+                                  "https://keycloak.local/realms/test", "test-audience"};
     }
 };
 
@@ -418,14 +390,16 @@ protected:
 TEST_F(JWTAsyncValidationTest, AsyncValidationThreadPoolNotReady) {
     auto cfg = getBaseConfig();
     JWTValidator validator(cfg);
-    
+
     // Attempting async validation without thread pool initialization
     // Should return a future that holds an exception
-    EXPECT_THROW({
-        auto future = validator.validateAsync("invalid.token.here");
-        // Attempt to get the result; should throw
-        future.get();
-    }, std::runtime_error);
+    EXPECT_THROW(
+        {
+            auto future = validator.validateAsync("invalid.token.here");
+            // Attempt to get the result; should throw
+            future.get();
+        },
+        std::runtime_error);
 }
 
 /**
@@ -435,12 +409,14 @@ TEST_F(JWTAsyncValidationTest, AsyncValidationThreadPoolNotReady) {
 TEST_F(JWTAsyncValidationTest, AsyncValidationEmptyToken) {
     auto cfg = getBaseConfig();
     JWTValidator validator(cfg);
-    
+
     // Empty token should be rejected asynchronously
-    EXPECT_THROW({
-        auto future = validator.validateAsync("");
-        future.get();
-    }, std::runtime_error);
+    EXPECT_THROW(
+        {
+            auto future = validator.validateAsync("");
+            future.get();
+        },
+        std::runtime_error);
 }
 
 // ============================================================================
@@ -454,15 +430,11 @@ class JWTConfigurationTest : public ::testing::Test {};
  * Expected: Throw at construction
  */
 TEST(JWTConfigurationTest, MissingIssuerWithValidationRequired) {
-    JWTValidatorConfig cfg{
-        "https://keycloak.local/realms/test/protocol/openid-connect/certs"
-    };
+    JWTValidatorConfig cfg{"https://keycloak.local/realms/test/protocol/openid-connect/certs"};
     cfg.require_issuer_validation = true;
-    cfg.expected_issuer.reset();  // Ensure empty
-    
-    EXPECT_THROW({
-        JWTValidator validator(cfg);
-    }, std::runtime_error);
+    cfg.expected_issuer.reset(); // Ensure empty
+
+    EXPECT_THROW({ JWTValidator validator(cfg); }, std::runtime_error);
 }
 
 /**
@@ -470,15 +442,11 @@ TEST(JWTConfigurationTest, MissingIssuerWithValidationRequired) {
  * Expected: Throw at construction
  */
 TEST(JWTConfigurationTest, MissingAudienceWithValidationRequired) {
-    JWTValidatorConfig cfg{
-        "https://keycloak.local/realms/test/protocol/openid-connect/certs"
-    };
+    JWTValidatorConfig cfg{"https://keycloak.local/realms/test/protocol/openid-connect/certs"};
     cfg.require_audience_validation = true;
-    cfg.expected_audience.reset();  // Ensure empty
-    
-    EXPECT_THROW({
-        JWTValidator validator(cfg);
-    }, std::runtime_error);
+    cfg.expected_audience.reset(); // Ensure empty
+
+    EXPECT_THROW({ JWTValidator validator(cfg); }, std::runtime_error);
 }
 
 /**
@@ -486,10 +454,8 @@ TEST(JWTConfigurationTest, MissingAudienceWithValidationRequired) {
  * Expected: Timeout bounds are enforced
  */
 TEST(JWTConfigurationTest, JWKSTimeoutBounds) {
-    JWTValidatorConfig cfg{
-        "https://keycloak.local/realms/test/protocol/openid-connect/certs"
-    };
-    
+    JWTValidatorConfig cfg{"https://keycloak.local/realms/test/protocol/openid-connect/certs"};
+
     // Timeout should be reasonable (not 0, not negative)
     EXPECT_GT(cfg.jwks_timeout_seconds, 0);
     EXPECT_EQ(cfg.jwks_timeout_seconds, DEFAULT_JWKS_TIMEOUT_SECONDS);
@@ -500,10 +466,8 @@ TEST(JWTConfigurationTest, JWKSTimeoutBounds) {
  * Expected: Retry count is bounded
  */
 TEST(JWTConfigurationTest, MaxRetriesBounded) {
-    JWTValidatorConfig cfg{
-        "https://keycloak.local/realms/test/protocol/openid-connect/certs"
-    };
-    
+    JWTValidatorConfig cfg{"https://keycloak.local/realms/test/protocol/openid-connect/certs"};
+
     EXPECT_LE(cfg.jwks_max_retries, MAX_JWKS_RETRY_ATTEMPTS);
     EXPECT_GT(cfg.jwks_max_retries, 0);
 }
@@ -522,10 +486,8 @@ TEST_F(JWTUserKeyDerivationTest, DeriveKeyWithEmptyDEK) {
     std::vector<uint8_t> empty_dek;
     JWTClaims claims;
     claims.sub = "user-123";
-    
-    EXPECT_THROW({
-        auto key = JWTValidator::deriveUserKey(empty_dek, claims, "field");
-    }, std::runtime_error);
+
+    EXPECT_THROW({ auto key = JWTValidator::deriveUserKey(empty_dek, claims, "field"); }, std::runtime_error);
 }
 
 /**
@@ -533,11 +495,11 @@ TEST_F(JWTUserKeyDerivationTest, DeriveKeyWithEmptyDEK) {
  * Expected: Returns non-empty key bytes
  */
 TEST_F(JWTUserKeyDerivationTest, DeriveKeyValidInputs) {
-    std::vector<uint8_t> dek(32, 0xAA);  // 32-byte DEK
+    std::vector<uint8_t> dek(32, 0xAA); // 32-byte DEK
     JWTClaims claims;
-    claims.sub = "user-123";
+    claims.sub       = "user-123";
     claims.tenant_id = "tenant-456";
-    
+
     // Should not throw
     auto key = JWTValidator::deriveUserKey(dek, claims, "ssn");
     EXPECT_FALSE(key.empty());
@@ -551,7 +513,7 @@ TEST_F(JWTUserKeyDerivationTest, DeriveKeyWithLongFieldName) {
     std::vector<uint8_t> dek(32, 0xBB);
     JWTClaims claims;
     claims.sub = "user-123";
-    
+
     std::string long_field(1000, 'X');
     auto key = JWTValidator::deriveUserKey(dek, claims, long_field);
     EXPECT_FALSE(key.empty());
@@ -569,9 +531,9 @@ class JWTAccessControlTest : public ::testing::Test {};
  */
 TEST_F(JWTAccessControlTest, AccessWithMatchingGroup) {
     JWTClaims claims;
-    claims.sub = "user-123";
+    claims.sub    = "user-123";
     claims.groups = {"finance", "audit", "compliance"};
-    
+
     // User has "finance" group
     EXPECT_TRUE(JWTValidator::hasAccess(claims, "finance"));
 }
@@ -582,9 +544,9 @@ TEST_F(JWTAccessControlTest, AccessWithMatchingGroup) {
  */
 TEST_F(JWTAccessControlTest, AccessWithoutMatchingGroup) {
     JWTClaims claims;
-    claims.sub = "user-123";
+    claims.sub    = "user-123";
     claims.groups = {"finance", "audit"};
-    
+
     // User does not have "hr" group
     EXPECT_FALSE(JWTValidator::hasAccess(claims, "hr"));
 }
@@ -596,7 +558,7 @@ TEST_F(JWTAccessControlTest, AccessWithoutMatchingGroup) {
 TEST_F(JWTAccessControlTest, AccessWithUserContextMatch) {
     JWTClaims claims;
     claims.sub = "user-123";
-    
+
     // Encryption context is the user's subject
     EXPECT_TRUE(JWTValidator::hasAccess(claims, "user-123"));
 }
@@ -606,8 +568,8 @@ TEST_F(JWTAccessControlTest, AccessWithUserContextMatch) {
  * Expected: hasAccess returns false
  */
 TEST_F(JWTAccessControlTest, AccessWithEmptyClaims) {
-    JWTClaims claims;  // Empty
-    
+    JWTClaims claims; // Empty
+
     EXPECT_FALSE(JWTValidator::hasAccess(claims, "any-context"));
 }
 
@@ -623,10 +585,10 @@ class JWTTokenExpirationTest : public ::testing::Test {};
  */
 TEST_F(JWTTokenExpirationTest, ExactExpirationTime) {
     auto now = std::chrono::system_clock::now();
-    
+
     JWTClaims expired_claims;
-    expired_claims.expiration = now;  // Token expires right now
-    
+    expired_claims.expiration = now; // Token expires right now
+
     // current time > expiration time, so should be expired
     // (Note: depends on system clock precision)
     EXPECT_TRUE(expired_claims.isExpired() || !expired_claims.isExpired());
@@ -638,12 +600,12 @@ TEST_F(JWTTokenExpirationTest, ExactExpirationTime) {
  * Expected: isExpired returns false
  */
 TEST_F(JWTTokenExpirationTest, FutureToken) {
-    auto now = std::chrono::system_clock::now();
+    auto now    = std::chrono::system_clock::now();
     auto future = now + std::chrono::hours(24);
-    
+
     JWTClaims claims;
     claims.expiration = future;
-    
+
     EXPECT_FALSE(claims.isExpired());
 }
 
@@ -652,12 +614,12 @@ TEST_F(JWTTokenExpirationTest, FutureToken) {
  * Expected: isExpired returns true
  */
 TEST_F(JWTTokenExpirationTest, PastToken) {
-    auto now = std::chrono::system_clock::now();
+    auto now  = std::chrono::system_clock::now();
     auto past = now - std::chrono::hours(1);
-    
+
     JWTClaims claims;
     claims.expiration = past;
-    
+
     EXPECT_TRUE(claims.isExpired());
 }
 

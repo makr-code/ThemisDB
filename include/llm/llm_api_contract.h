@@ -9,6 +9,10 @@
  * @file llm_api_contract.h
  * @brief Frozen LLM module API contracts for the active v1.x line.
  *
+ * @note **Header-Only Contract**: This file defines frozen semantics and invariants.
+ *       No .cpp implementation needed. Consumers link to implementations of the contracts
+ *       (e.g., inference engines, plugin managers, embedding pipelines, etc.).
+ *
  * This header defines the normative contract for all LLM module inference,
  * embedding, streaming, plugin/adapter lifecycle, cancellation, resource
  * ownership, and concurrency guarantees.
