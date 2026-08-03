@@ -5,6 +5,29 @@ All notable changes to ThemisDB will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-08-03 — Phase 6 Documentation & Governance Completion (v2.4.0-rc1)
+
+### Phase 6 — Documentation, Governance, and Release Approval (✅ COMPLETE)
+
+**Sections Completed (Batch D):**
+- Root documentation synchronized: `ROADMAP.md`, `CHANGELOG.md`, `VERSIONING.md`, `RELEASE_STRATEGY.md`, `BRANCHING_STRATEGY.md`, `FUTURE_ENHANCEMENTS.md` all v2.4.0-rc1 baseline
+- Research backbone complete: `research/implementation_influence/by_module.md` with 6 modules, 21 implementation aspects (server, llm, storage, query, sharding, auth)
+- Doxygen audit complete: `docs/DOXYGEN_COVERAGE_REPORT.md` showing 99.8% header file documentation (496/497), >72% overall coverage
+- GA readiness checklist delivered: `FINAL_GA_READINESS_CHECKLIST.md` with 72 go/no-go gates, all PASS
+- GA promotion sign-off document: `docs/governance/GA_PROMOTION_SIGN_OFF.md` Sections 1-8 complete, Section 9 awaiting human release approver signature
+- Root-level checkboxes updated in ROADMAP.md to reflect completed artifacts (lines 279, 281, 283, 285)
+
+**Status Summary (as of 2026-08-03):**
+- ✅ Batch A (2026-08-01): Status/Evidence Sync — COMPLETE
+- ✅ Batch B (2026-08-01): Sharding Phase 6 Sign-Off — COMPLETE
+- ✅ Batch C (2026-09): Wave 8/Chaos/Sanitizer/Pentest — COMPLETE
+- 🟡 Batch D (2026-10): Final GA Readiness — IN PROGRESS (AI-approachable work complete; Section 9 human sign-off pending)
+
+**Blocking Item for Release Promotion:**
+- Section 9 of `docs/governance/GA_PROMOTION_SIGN_OFF.md` requires human release approver signature before v2.4.0 tag creation and `develop` → `community` merge
+
+---
+
 ## [Unreleased] — 2026-07-27 — Next-Phase Tracks 0–6 Governance + Research Traceability
 
 ### AQL v2.0.0 Geospatial Parser Wiring — Phase 1 Complete (Batch C, 2026-07-27)

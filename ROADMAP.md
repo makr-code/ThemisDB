@@ -276,14 +276,14 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 - [ ] Finish runbooks, release artefacts, and manual release checklists for human sign-off (Target: 2026-10)
 
 ### Phase 6 — Documentation, Governance, and Release Approval
-- [~] Keep `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `CHANGELOG.md`, `RELEASE_STRATEGY.md`, `VERSIONING.md`, and branch-governance docs synchronized (Target: 2026-07-28, IN PROGRESS)
+- [x] Keep `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `CHANGELOG.md`, `RELEASE_STRATEGY.md`, `VERSIONING.md`, and branch-governance docs synchronized (Target: 2026-07-28, ✅ COMPLETE 2026-08-03)
 - [x] Establish central Phase 1-6 subagent execution contract in `NEXT_PHASE_IMPLEMENTATION_PLAN.md` (strict sequencing, per-phase DoD/gate/risk/docs closure, no-transition hard gate, batch-oriented delivery) (Target: 2026-07-28)
-- [~] Include `research/` and `research/papers/` in each root documentation sync and update the root Soll-Ist comparison for research-backed roadmap claims (Target: 2026-08-04, IN PROGRESS)
-- [~] Create research backbone matrix `research/implementation_influence/by_module.md` with Soll-Ist (Target-Current) analysis for 6+ modules (Target: 2026-08-04)
-- [~] Complete Doxygen 100% coverage audit on public C++ APIs and deliver `docs/DOXYGEN_COVERAGE_REPORT.md` (Target: 2026-08-04)
-- [~] Finalize `docs/governance/GA_PROMOTION_SIGN_OFF.md` with all Sections 1-8 evidence linked for v2.4.0-rc1 GA path (Target: 2026-08-11)
-- [~] Create `FINAL_GA_READINESS_CHECKLIST.md` with comprehensive go/no-go gates across all phases (Target: 2026-08-11)
-- [ ] Promote release work from `develop` into canonical release lanes only after all system gates are proven, not just module-local gates (Target: release cut)
+- [x] Include `research/` and `research/papers/` in each root documentation sync and update the root Soll-Ist comparison for research-backed roadmap claims (Target: 2026-08-04, ✅ COMPLETE 2026-08-03)
+- [x] Create research backbone matrix `research/implementation_influence/by_module.md` with Soll-Ist (Target-Current) analysis for 6+ modules (Target: 2026-08-04, ✅ COMPLETE 2026-08-01)
+- [x] Complete Doxygen 100% coverage audit on public C++ APIs and deliver `docs/DOXYGEN_COVERAGE_REPORT.md` (Target: 2026-08-04, ✅ COMPLETE 2026-08-01)
+- [~] Finalize `docs/governance/GA_PROMOTION_SIGN_OFF.md` with all Sections 1-8 evidence linked for v2.4.0-rc1 GA path (Target: 2026-08-11, Sections 1-8 ✅ COMPLETE; Section 9 awaiting human sign-off)
+- [x] Create `FINAL_GA_READINESS_CHECKLIST.md` with comprehensive go/no-go gates across all phases (Target: 2026-08-11, ✅ COMPLETE 2026-08-01)
+- [ ] Promote release work from `develop` into canonical release lanes only after all system gates are proven, not just module-local gates (Target: release cut, blocked by Section 9 sign-off)
 - [~] Complete public API, failure-behaviour, and operational-limit documentation before GA sign-off (Target: 2026-08-18, IN PROGRESS)
 
 ## Execution Batches (GA Hardening)
