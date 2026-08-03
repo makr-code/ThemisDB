@@ -24,6 +24,11 @@ Validation refresh for issue `#5632` confirms priorities remain correct; evidenc
 ## Planned Features
 
 ### Short-term (3-6 months)
+- [ ] integrate with AccessCoordinator for unified cache-storage tier management (Target: Q4 2026)
+  - Add EvictionListener callbacks to emit cache eviction signals
+  - Refactor cache eviction policy thresholds (hot/warm → L1/L2/L3)
+  - Implement storage demotion feedback hooks
+  - See: `src/access_model/ROADMAP.md` Phase 3
 - [ ] tighten deterministic failure semantics for partial-backend/degraded coordination states (Target: Q4 2026)
 - [ ] expand regression coverage for invalidation and replication edge permutations (Target: Q4 2026)
 - [ ] improve operator diagnostics for cache SLO and tenant-isolation incidents (Target: Q4 2026)

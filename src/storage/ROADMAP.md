@@ -17,6 +17,11 @@ Production-capable storage runtime exists for durable persistence, MVCC/WAL life
 ## Planned Features
 
 ### Short-term (3-6 months)
+- [ ] integrate with AccessCoordinator for unified cache-storage tier management (Target: Q4 2026)
+  - Add PromotionListener callbacks to emit hot-access signals to coordinator
+  - Implement coordinator-guided promotion paths (cold→warm→L3)
+  - Extend TieredStorageManager with coordinator hooks
+  - See: `src/access_model/ROADMAP.md` Phase 4
 - [ ] tighten deterministic behavior under heavy WAL replay and compaction pressure (Target: Q4 2026)
 - [ ] expand stress coverage for blob/tiering and PITR edge scenarios (Target: Q4 2026)
 - [ ] improve operator-facing diagnostics for recovery and maintenance incidents (Target: Q4 2026)
