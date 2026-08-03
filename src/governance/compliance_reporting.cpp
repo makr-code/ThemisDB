@@ -20,6 +20,7 @@
 
 #include "governance/compliance_reporting.h"
 #include "governance/ccpa_rules.h"
+#include "governance/governance_diagnostics.h"
 #include "utils/logger.h"
 
 #include <algorithm>
@@ -31,6 +32,8 @@
 #include <unordered_set>
 #include <ctime>
 #include <cstdio>
+#include <atomic>
+#include <memory>
 
 namespace themis {
 namespace governance {
@@ -76,6 +79,174 @@ std::vector<PolicyRule> find_applicable_rules_for_any_action(
 }
 
 } // namespace
+
+// ========== ComplianceReporterResult Implementation ==========
+
+std::string ComplianceReporterResult::getErrorName() const {
+    switch (error) {
+        case ComplianceError::kSuccess:
+            return "SUCCESS";
+        case ComplianceError::kConflictDetected:
+            return "CONFLICT_DETECTED";
+        case ComplianceError::kReportingFailed:
+            return "REPORTING_FAILED";
+        case ComplianceError::kStateInvalid:
+            return "STATE_INVALID";
+        case ComplianceError::kResourceExhausted:
+            return "RESOURCE_EXHAUSTED";
+        case ComplianceError::kHtmlGenerationFailed:
+            return "HTML_GENERATION_FAILED";
+        default:
+            return "UNKNOWN_ERROR";
+    }
+}
+
+// ========== ComplianceReporter Implementation ==========
+
+ComplianceReporter::ComplianceReporter() : state_(ReporterState::DRAFT) {
+}
+
+ComplianceReporter::ReporterState ComplianceReporter::getState() const {
+    return state_.load(std::memory_order_acquire);
+}
+
+bool ComplianceReporter::isReadyForReporting() const {
+    return getState() == ReporterState::DRAFT;
+}
+
+bool ComplianceReporter::transitionState(ReporterState expected, ReporterState target) const {
+    std::lock_guard<std::mutex> lock(state_mutex_);
+    
+    ReporterState current = state_.load(std::memory_order_relaxed);
+    if (current != expected) {
+        return false;
+    }
+    
+    state_.store(target, std::memory_order_release);
+    return true;
+}
+
+std::string ComplianceReporter::generateHTMLOptimized(
+    const std::string& title,
+    const std::vector<std::string>& headers,
+    const std::vector<std::vector<std::string>>& rows
+) const {
+    // Estimate capacity: reasonable buffer for headers and rows
+    size_t estimated_size = 2048;  // Base HTML structure
+    for (const auto& header : headers) {
+        estimated_size += header.size() + 20;  // Add markup overhead
+    }
+    for (const auto& row : rows) {
+        for (const auto& cell : row) {
+            estimated_size += cell.size() + 20;
+        }
+    }
+    
+    std::ostringstream html;
+    
+    // HTML header
+    html << "<html><head><title>" << title << "</title>"
+         << "<style>"
+         << "body{font-family:Arial,sans-serif;margin:20px;}"
+         << "table{border-collapse:collapse;width:100%;margin-top:20px;}"
+         << "th,td{border:1px solid #ddd;padding:8px;text-align:left;}"
+         << "th{background-color:#4CAF50;color:white;}"
+         << "</style></head><body>"
+         << "<h1>" << title << "</h1>";
+    
+    // Table with headers
+    html << "<table><tr>";
+    for (const auto& header : headers) {
+        html << "<th>" << header << "</th>";
+    }
+    html << "</tr>";
+    
+    // Table rows
+    for (const auto& row : rows) {
+        html << "<tr>";
+        for (const auto& cell : row) {
+            html << "<td>" << cell << "</td>";
+        }
+        html << "</tr>";
+    }
+    
+    html << "</table></body></html>";
+    return html.str();
+}
+
+void ComplianceReporter::recordComplianceDiagnostic(
+    int32_t code,
+    const std::string& message,
+    const std::string& component
+) const {
+    auto& aggregator = getGlobalDiagnosticAggregator();
+    
+    GovernanceDiagnostic diag;
+    diag.code = static_cast<GovDiagnosticCode>(code);
+    diag.component = component;
+    diag.description = message;
+    diag.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+    
+    // Add remediation steps based on error type
+    if (code == 7351) {  // kReportingFailed
+        diag.remediation_steps = {
+            "Check policy manager availability",
+            "Verify compliance detector configuration",
+            "Review system logs for resource constraints"
+        };
+    }
+    
+    aggregator.recordDiagnostic(diag);
+}
+
+ComplianceReporterResult ComplianceReporter::generatePolicySummaryWithResult(
+    const PolicyManager& policy_mgr
+) {
+    ComplianceReporterResult result;
+    result.generated_at_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+    result.report_format = "JSON";
+    
+    // Validate state
+    if (!isReadyForReporting()) {
+        result.error = ComplianceError::kStateInvalid;
+        result.error_message = "Reporter not in DRAFT state; report generation in progress or failed";
+        result.diagnostic_code = 7352;  // kStateInvalid
+        recordComplianceDiagnostic(7352, result.error_message);
+        return result;
+    }
+    
+    // Transition to REPORTING
+    if (!transitionState(ReporterState::DRAFT, ReporterState::REPORTING)) {
+        result.error = ComplianceError::kStateInvalid;
+        result.error_message = "Failed to transition to REPORTING state";
+        result.diagnostic_code = 7352;
+        recordComplianceDiagnostic(7352, result.error_message);
+        return result;
+    }
+    
+    try {
+        // Generate the report
+        auto report = generatePolicySummary(policy_mgr);
+        result.report_content = report.toJson().dump(2);  // Pretty-printed JSON
+        result.error = ComplianceError::kSuccess;
+        
+        // Transition to FINALIZED
+        transitionState(ReporterState::REPORTING, ReporterState::FINALIZED);
+        
+    } catch (const std::exception& ex) {
+        result.error = ComplianceError::kReportingFailed;
+        result.error_message = std::string("Report generation failed: ") + ex.what();
+        result.diagnostic_code = 7351;  // kReportingFailed
+        recordComplianceDiagnostic(7351, result.error_message);
+        
+        // Transition to FAILED
+        transitionState(ReporterState::REPORTING, ReporterState::FAILED);
+    }
+    
+    return result;
+}
 
 // ========== PolicyCoverageAnalyzer::CoverageResult Implementation ==========
 
@@ -1620,4 +1791,3 @@ ComplianceReporter::CcpaReport ComplianceReporter::generateCcpaReport(
 
 } // namespace governance
 } // namespace themis
-
