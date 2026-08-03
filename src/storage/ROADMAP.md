@@ -13,11 +13,14 @@ Production-capable storage runtime exists for durable persistence, MVCC/WAL life
 - [~] hardening failure-path behavior under sustained write/load and maintenance overlap (Target: Q3 2026)
 - [~] improving diagnostics consistency across storage, replay, and recovery stages (Target: Q3 2026)
 - [~] stabilizing benchmark-backed release guardrails for storage hot paths (Target: Q3 2026)
-- [~] BLOCK 3: Storage Module Integration with AccessCoordinator (Target: Q4 2026)
+- [x] BLOCK 3: Storage Module Integration with AccessCoordinator (Target: Q4 2026) ✅ COMPLETE
   - [x] Added PromotionListener support to TieredStorageManager
   - [x] Added `setPromotionListener()` method in header and implementation
-  - [ ] Emit onStorageAccess() signals when detecting hot tiers (in progress)
-  - [ ] Implement predictive promotion callbacks (pending)
+  - [x] Emit onStorageAccess() signals when detecting hot tiers
+    - [x] emitPromotionEvent() helper method
+    - [x] Hot pattern detection in get() for WARM/COLD tiers
+    - [x] Hot pattern detection in runMigrationCycle()
+  - [x] Implement predictive promotion callbacks with access window tracking
 
 ## Planned Features
 
