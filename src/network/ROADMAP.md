@@ -9,9 +9,9 @@ Production-grade transport and protocol layer with TCP wire protocol, WebSocket,
 
 ## In Progress
 - [~] Network hardening wave for protocol safety, transport resilience, and predictable latency behavior (Target: Q3 2026)
-  - [ ] Complete remaining failure-injection coverage for multi-transport edge cases (Target: Q3 2026)
-  - [ ] Tighten auth/rate-limit/session guard behavior under sustained adversarial traffic (Target: Q3 2026)
-- [~] approved next implementation block: schedule mixed-transport failure injection and lifecycle/backpressure/timeout validation after Graph + LLM kickoff evidence is secured (Target: Q3 2026)
+  - [x] Complete remaining failure-injection coverage for multi-transport edge cases (Target: Q3 2026) — NMT-01..NMT-08 in tests/network/test_network_hardening_phase2_focused.cpp
+  - [x] Tighten auth/rate-limit/session guard behavior under sustained adversarial traffic (Target: Q3 2026) — NAG-01..NAG-08 in tests/network/test_network_hardening_phase2_focused.cpp
+- [x] approved next implementation block: mixed-transport failure injection and adversarial guard hardening delivered (Q3 2026)
 
 ## Planned Features
 
@@ -73,6 +73,7 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity �
 - [x] Tracking in progress
 - [x] Contract header frozen: include/network/network_api_contract.h (Phase 1)
 - [x] Contract-hardening tests: tests/network/test_network_contract_hardening_focused.cpp (Phase 4, NCH-01..NCH-16)
+- [x] Phase 2 hardening tests: tests/network/test_network_hardening_phase2_focused.cpp (NMT-01..NMT-08 multi-transport failure injection, NAG-01..NAG-08 adversarial auth/rate-limit guard hardening)
 - [x] Release-gate benchmarks: benchmarks/network/bench_network_release_gates.cpp (Phase 5, NRG-01..NRG-06)
 - [x] Benchmark CMakeLists registered: benchmarks/network/CMakeLists.txt
 - Nachweise: network focused tests, transport integration tests, protocol security regressions, performance suites
