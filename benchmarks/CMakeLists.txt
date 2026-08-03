@@ -1664,6 +1664,42 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_adaptive_query_cache.cpp")
     message(STATUS "  Adaptive Query Cache: L1/L2 put/get, miss, tenant isolation, circuit breaker, concurrent access, invalidation")
 endif()
 
+# Cache Eviction Coordinator Integration Benchmarks (Phase 3: Q4 2026)
+# Measures latency of cache→coordinator→storage event flow
+# Gates: L1→L2 promotion ≤50µs, cache→storage feedback ≤100µs
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cache/bench_cache_eviction_coordinator.cpp")
+   message(STATUS "Adding Cache Eviction Coordinator benchmarks (Phase 3)")
+
+   add_executable(bench_cache_eviction_coordinator
+       cache/bench_cache_eviction_coordinator.cpp
+   )
+
+   target_include_directories(bench_cache_eviction_coordinator PRIVATE
+       ${CMAKE_SOURCE_DIR}/include
+       ${CMAKE_SOURCE_DIR}/src
+   )
+
+   target_link_libraries(bench_cache_eviction_coordinator PRIVATE
+       ${BENCHMARK_LIBS}
+       themis_core
+       spdlog::spdlog
+       Threads::Threads
+   )
+
+   target_compile_definitions(bench_cache_eviction_coordinator PRIVATE
+       THEMIS_BENCHMARK_BUILD=1
+   )
+
+   themis_apply_benchmark_release_flags(bench_cache_eviction_coordinator)
+
+   install(TARGETS bench_cache_eviction_coordinator
+       RUNTIME DESTINATION bin/benchmarks
+       COMPONENT benchmarks
+   )
+
+   message(STATUS "  Cache Eviction Coordinator: event emission, listener delivery, promotion/demotion latency (GATE-CAP-01..06)")
+endif()
+
 # LLM Speculative Decoding & Inference Engine Benchmarks
 # Runs automatically on every PR touching async_inference_engine.cpp or
 # inference_engine_enhanced.cpp.  Acceptance criterion: tokens/sec regression < 5 %.

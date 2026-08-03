@@ -22,7 +22,8 @@
 
   "benchmark_sources": [
     "benchmarks/bench_adaptive_query_cache.cpp",
-    "benchmarks/bench_embedding_cache_performance.cpp"
+    "benchmarks/bench_embedding_cache_performance.cpp",
+    "benchmarks/cache/bench_cache_eviction_coordinator.cpp"
   ],
 
   "hard_gates": [
@@ -91,6 +92,72 @@
       "severity": "blocking",
       "description": "Embedding cache query p99 must not exceed 500 µs.",
       "rationale": "Embedding cache is on the LLM inference critical path; latency above 500 µs degrades end-to-end LLM query response times."
+    },
+    {
+      "id": "GATE-CAP-01",
+      "performance_expectation_id": "CAP-1",
+      "benchmark": "BenchEvictionEventEmissionSingleListener",
+      "metric": "latency_median_us",
+      "threshold": 10,
+      "direction": "lower_is_better",
+      "severity": "blocking",
+      "description": "Single eviction event emission latency must not exceed 10 µs (Phase 3).",
+      "rationale": "Cache eviction notification must be low-latency to avoid impacting cache performance. Phase 3 coordinator integration."
+    },
+    {
+      "id": "GATE-CAP-02",
+      "performance_expectation_id": "CAP-2",
+      "benchmark": "BenchEvictionEventEmissionMultipleListeners/10",
+      "metric": "latency_median_us",
+      "threshold": 50,
+      "direction": "lower_is_better",
+      "severity": "blocking",
+      "description": "Eviction event delivery to 10 listeners must not exceed 50 µs (Phase 3).",
+      "rationale": "Multiple coordinators and observers must receive eviction signals within acceptable latency. Phase 3 L1→L2 promotion deadline."
+    },
+    {
+      "id": "GATE-CAP-03",
+      "performance_expectation_id": "CAP-3",
+      "benchmark": "BenchCapacityPressureNotification",
+      "metric": "latency_median_us",
+      "threshold": 30,
+      "direction": "lower_is_better",
+      "severity": "blocking",
+      "description": "Capacity pressure notification latency must not exceed 30 µs (Phase 3).",
+      "rationale": "Capacity pressure signals must propagate quickly to enable proactive promotion decisions."
+    },
+    {
+      "id": "GATE-CAP-04",
+      "performance_expectation_id": "CAP-4",
+      "benchmark": "BenchListenerRegistration",
+      "metric": "latency_median_us",
+      "threshold": 5,
+      "direction": "lower_is_better",
+      "severity": "blocking",
+      "description": "Listener registration/unregistration must not exceed 5 µs (Phase 3).",
+      "rationale": "Dynamic listener management must be fast for startup and coordinated failover scenarios."
+    },
+    {
+      "id": "GATE-CAP-05",
+      "performance_expectation_id": "CAP-5",
+      "benchmark": "BenchPromotionDecisionLatency",
+      "metric": "latency_median_us",
+      "threshold": 50,
+      "direction": "lower_is_better",
+      "severity": "blocking",
+      "description": "L1→L2 promotion decision latency must not exceed 50 µs (Phase 3).",
+      "rationale": "High-access eviction detection and promotion decision must complete quickly. Critical for efficient tier management."
+    },
+    {
+      "id": "GATE-CAP-06",
+      "performance_expectation_id": "CAP-6",
+      "benchmark": "BenchCacheStorageFeedbackLatency",
+      "metric": "latency_median_us",
+      "threshold": 100,
+      "direction": "lower_is_better",
+      "severity": "blocking",
+      "description": "Cache→storage feedback loop latency must not exceed 100 µs (Phase 3).",
+      "rationale": "Cache eviction must signal storage tier for demotion decisions within acceptable latency. Critical for unified tier management."
     }
   ],
 
@@ -168,9 +235,17 @@
       "BM_EmbeddingCache_Query_WithIndex",
       "BM_EmbeddingCache_Eviction",
       "BM_EmbeddingCache_BatchStore",
-      "BM_EmbeddingCache_CostSavings"
+      "BM_EmbeddingCache_CostSavings",
+      "BenchEvictionEventEmissionSingleListener",
+      "BenchEvictionEventEmissionMultipleListeners/1",
+      "BenchEvictionEventEmissionMultipleListeners/5",
+      "BenchEvictionEventEmissionMultipleListeners/10",
+      "BenchCapacityPressureNotification",
+      "BenchListenerRegistration",
+      "BenchPromotionDecisionLatency",
+      "BenchCacheStorageFeedbackLatency"
     ],
-    "policy": "All listed benchmark IDs must be present in the release run output. A missing ID is treated as a blocking gate failure (GATE-CG-3 from PERFORMANCE_EXPECTATIONS.md)."
+    "policy": "All listed benchmark IDs must be present in the release run output. A missing ID is treated as a blocking gate failure (GATE-CG-3 from PERFORMANCE_EXPECTATIONS.md). Phase 3 benchmarks validate cache→coordinator→storage event flow integration."
   },
 
   "known_limitations": [

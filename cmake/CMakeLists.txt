@@ -2320,6 +2320,7 @@ set(THEMIS_CORE_SOURCES
     ../src/cache/distributed_cache_coordinator.cpp
     # ../src/cache/redis_cache_coordinator.cpp   # Legacy hiredis impl; conflicts with distributed_cache_coordinator
     ../src/cache/cache_eviction_policy.cpp
+    ../src/cache/eviction_listener.cpp
     ../src/cache/eviction.cpp
     
     # Ingestion module – unified data intake layer (filesystem, REST, HuggingFace,
