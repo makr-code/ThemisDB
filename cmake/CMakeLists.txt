@@ -1900,6 +1900,10 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/index_maintenance.cpp
     ../src/storage/index_analyzer.cpp
     ../src/storage/storage_engine.cpp
+    # Phase 3: Error Handling & Edge Cases
+    ../src/storage/storage_error_diagnostics.cpp
+    ../src/storage/storage_recovery_fault_handler.cpp
+    ../src/storage/storage_pressure_manager.cpp
     ../src/storage/blob_backend_filesystem.cpp
     $<$<BOOL:${THEMIS_HAS_PUBLIC_BLOB_BACKEND_S3}>:../src/storage/blob_backend_s3.cpp>
     $<$<BOOL:${THEMIS_HAS_PUBLIC_BLOB_BACKEND_AZURE}>:../src/storage/blob_backend_azure.cpp>
