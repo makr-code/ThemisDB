@@ -768,6 +768,11 @@ private:
     void evictLRU(CacheLevel level);
     double calculateLRUScore(int64_t last_accessed_ms, int64_t access_count) const;
     
+    // Phase 5: BLOCK 2 Cache Integration — Emit eviction events to coordinator
+    void emitEvictionEvent(const std::string& key, TierLevel tier, 
+                          std::size_t size_bytes, uint64_t access_count,
+                          int64_t last_access_ms, std::string_view reason);
+    
     // Phase 1: Size validation and security
     bool validateEntrySize(size_t size, CacheLevel level) const;
     bool isWithinSizeLimit(size_t size) const;
