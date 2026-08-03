@@ -271,6 +271,10 @@ private:
 
     void workerLoop();
 
+    // Phase 5: BLOCK 3 Storage Integration — Emit promotion events to coordinator
+    void emitPromotionEvent(const std::string& key, access_model::TierLevel from_tier,
+                           uint64_t access_count, int64_t access_window_secs);
+
     // ── Tier I/O helpers ──────────────────────────────────────────────────
     std::string tierPath(StorageTierLevel tier) const;
     std::string keyFilePath(const std::string& key, StorageTierLevel tier) const;
