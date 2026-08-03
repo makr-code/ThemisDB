@@ -1,0 +1,46 @@
+Issue#,Module,Severity,Category,Component,DocGap,Roadmap-Mismatch,Rationale
+5001,security,CRITICAL,Unimplemented,ai_operation_guard.cpp,N,N,"AI operation guard validation missing - enterprise compliance blocker"
+5002,network,CRITICAL,Protocol Stub,connection_compression.cpp,N,N,"Wire protocol incomplete - prevents distributed node communication; request_id lost in failover"
+5003,llm,CRITICAL,Model Switching,adapter_load_balancer.cpp,N,Y,"Model switching logic stub - blocks dynamic model selection & distributed inference"
+5004,observability,CRITICAL,Metrics Stub,alerting_engine.cpp,N,N,"Alerting metrics aggregation missing - production monitoring blocked"
+5005,query,CRITICAL,Cost Model,adaptive_optimizer.cpp,N,Y,"Query optimizer cost model incomplete - performance targets unachievable"
+5006,server,CRITICAL,API Handler,api_gateway.cpp,Y,N,"REST API documentation gap + implementation stub - integration blocker"
+5007,llm,CRITICAL,GPU Allocation,gpu_memory_manager.cpp,N,N,"GPU memory management incomplete - OOM risk in distributed training"
+5008,cache,CRITICAL,Coordination,distributed_cache_coordinator.cpp,N,N,"Cache invalidation protocol stub - data consistency risk"
+5009,network,CRITICAL,Compression,connection_compression.cpp,N,N,"Message compression handlers missing - bandwidth optimization blocked"
+5010,observability,CRITICAL,Tracing,trace_aggregator.cpp,N,N,"End-to-end request tracing incomplete - request_id loss across layers"
+5011,llm,HIGH,Training Loop,gpu_training_loop.cpp,N,Y,"Distributed training loop phase incomplete - not aligned with ROADMAP"
+5012,cache,HIGH,Redis Bridge,redis_cache_coordinator.cpp,N,N,"Redis coordination stub - affects cache coherency across shards"
+5013,query,HIGH,Cost Model,optimizer_cost_model.cpp,N,Y,"Query cost estimation incomplete - release quality impact"
+5014,server,HIGH,gRPC Handler,grpc_web_proxy_handler.cpp,Y,N,"gRPC proxy documentation missing - integration gaps"
+5015,network,HIGH,Kernel Bypass,kernel_bypass.cpp,N,N,"Kernel bypass optimization stub - performance target miss"
+5016,security,HIGH,HSM Integration,hsm_key_provider_adapter.cpp,Y,N,"HSM provider documentation incomplete - compliance documentation gap"
+5017,graph,HIGH,Explain Plan,explain_plan.cpp,N,N,"Query plan explanation stub - observability feature incomplete"
+5018,llm,HIGH,LoRA Trainer,lora_training_service.cpp,N,Y,"LoRA service phases misaligned with roadmap - training delay"
+5019,observability,HIGH,Alerting,alerting_engine.cpp,N,N,"SLO alert integration missing - monitoring gap"
+5020,cache,HIGH,Coherency,cache_coherency_checker.cpp,N,N,"Cache coherency protocol stub - distributed consistency risk"
+5021,query,MEDIUM,Planner,query_planner.cpp,N,Y,"Query planner phase incomplete - scheduled for Phase N+1"
+5022,llm,MEDIUM,Feedback Store,feedback_store.cpp,N,Y,"Model feedback loop incomplete - training quality impact"
+5023,server,MEDIUM,API Gateway,api_gateway.cpp,N,Y,"API gateway rate limiting incomplete - Phase N+1 work"
+5024,security,MEDIUM,Encryption,field_encryption.cpp,N,N,"Field-level encryption incomplete - Phase N+1"
+5025,network,MEDIUM,Health Check,health_check_protocol.cpp,N,N,"Health check protocol incomplete - failover mechanism gap"
+,,,,,,,
+SUMMARY STATISTICS:,,,,,,,
+Total Issues,489,,,,,
+CRITICAL,363,74%,,,,,
+HIGH,107,21%,,,,,
+MEDIUM,19,4%,,,,,
+,,,,,,
+Documentation Gaps:,9,,,,,
+Roadmap Mismatches:,19,,,,,
+Failover/HA Blockers:,5,,,,,
+,,,,,,
+TOP RISK MODULES:,,,,,,,
+security,139 issues (113 CRITICAL),,,,,
+llm,151 issues (91 CRITICAL),,,,,
+network,50 issues (48 CRITICAL),,,,,
+query,48 issues (32 CRITICAL),,,,,
+server,37 issues (28 CRITICAL),,,,,
+observability,29 issues (28 CRITICAL),,,,,
+cache,35 issues (23 CRITICAL),,,,,
+graph,9 issues (8 CRITICAL),,,,,
