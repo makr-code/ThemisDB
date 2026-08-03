@@ -1,9 +1,31 @@
 # Copilot Instructions (Repository-wide)
 
-Datum: 2026-07-28
+Datum: 2026-08-03
 Status: Active
 Bezug: Repository-weite AI-/Copilot-Arbeitsregeln fuer Dokumentation, Governance und Release-Sync
 Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, .github/copilot-instructions.md, BRANCHING_STRATEGY.md, RELEASE_STRATEGY.md
+
+## AI Context Knowledge Base (NEW in 2026-08-03)
+
+Before starting any implementation task, consult these curated references:
+
+- **[MODULES_AND_NAMESPACES.md](./MODULES_AND_NAMESPACES.md)** — 62 modules × namespace mapping, SOC boundaries, consumer relationships
+- **[AI_CONTEXT_NAMESPACE_INDEX.md](./AI_CONTEXT_NAMESPACE_INDEX.md)** — Alphabetical namespace directory; public API headers per namespace
+- **[MEMORY_MANAGEMENT_POLICY.md](./memory_management_policy.md)** — 5 core RAII rules + ownership model (compressed, production-ready)
+- **[OOP_AND_SOC_PRINCIPLES.md](./OOP_AND_SOC_PRINCIPLES.md)** — Interfaces, templates/concepts, adapters, const-correctness, module boundaries
+- **[FUNCTION_CLASSIFICATION.md](./FUNCTION_CLASSIFICATION.md)** — API levels, task types, performance criticality (P0/P1/P2), error patterns
+- **[API_CONTRACT_TEMPLATES.md](./API_CONTRACT_TEMPLATES.md)** — Template + filling rules for machine-readable API contracts
+
+### Prioritized API Contracts (Master Reference)
+
+- **[api_contracts/api.md](./api_contracts/api.md)** — HTTP/gRPC/GraphQL transport, routing, error taxonomy; 6 release gates (GATE-API-01..06)
+- **[api_contracts/llm.md](./api_contracts/llm.md)** — LLM inference, embeddings, model switching; GATE-LLM-01..04
+- **[api_contracts/index.md](./api_contracts/index.md)** — Index ops (HNSW, B-tree, R-tree); GATE-INDEX-01..04
+- **[api_contracts/storage.md](./api_contracts/storage.md)** — RocksDB K-V, snapshots, transactions; GATE-STOR-01..04
+- **[api_contracts/transaction.md](./api_contracts/transaction.md)** — 2PC/SAGA/isolation; GATE-TXN-01..05
+- **[api_contracts/auth.md](./api_contracts/auth.md)** — Authentication, RBAC authorization, principal contract v1.x; GATE-AUTH-01..04
+
+**Usage:** Link to contract row when reviewing/implementing public APIs in these modules.
 
 ## Documentation tasks (MUST)
 If the task involves documentation (any markdown docs change; `docs/**` keeps the stricter format rules below):
