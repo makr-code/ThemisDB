@@ -245,6 +245,14 @@ struct MaintenanceScheduleEntry {
         if (j.contains("lock_ttl_ms"))         e.lock_ttl_ms         = j["lock_ttl_ms"].get<int64_t>();
         if (j.contains("created_by"))          e.created_by          = j["created_by"].get<std::string>();
         if (j.contains("updated_by"))          e.updated_by          = j["updated_by"].get<std::string>();
+        // Audit and runtime state: restore from persisted payload so that
+        // schedule timestamps and last-run tracking survive persistence reload.
+        if (j.contains("created_at_ms"))   e.created_at_ms  = j["created_at_ms"].get<int64_t>();
+        if (j.contains("updated_at_ms"))   e.updated_at_ms  = j["updated_at_ms"].get<int64_t>();
+        if (j.contains("last_run_ms"))     e.last_run_ms     = j["last_run_ms"].get<int64_t>();
+        if (j.contains("next_run_ms"))     e.next_run_ms     = j["next_run_ms"].get<int64_t>();
+        if (j.contains("last_run_state"))  e.last_run_state  = j["last_run_state"].get<std::string>();
+        if (j.contains("last_job_id"))     e.last_job_id     = j["last_job_id"].get<std::string>();
         return e;
     }
 
