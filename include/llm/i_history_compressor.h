@@ -4,6 +4,8 @@
  * @version 0.1.0-beta
  * @note Maturity: BETA (Phase 2 P2-D03)
  * @note Status: Interface for extractive summarization + agentic memory L2 rotation
+ * @note **Plugin Interface**: Abstract interface for history compression implementations.
+ *       No .cpp implementation needed. Implementations provided by plugin system.
  */
 
 #pragma once

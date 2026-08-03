@@ -7,6 +7,10 @@
  * @note Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * @note Status: Production Ready
  * @note This block is auto-generated and will be overwritten.
+ *
+ * @note **Plugin Interface**: Defines abstract interface for federated LLM inference backends.
+ *       No .cpp implementation needed. Implementations provided by plugin system.
+ *       See llm_plugin_manager.cpp for plugin lifecycle management.
  */
 
 /*

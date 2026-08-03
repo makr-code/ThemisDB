@@ -2,6 +2,9 @@
  * @file llm_memory_safety_utils.h
  * @brief RAII utilities for memory-safe resource management in LLM module
  * 
+ * @note **Utility Functions**: Header-only or inline utility functions.
+ *       No .cpp implementation needed. Functions are defined in this header.
+ *
  * Tier 1 Batch 1: Memory Safety Hardening
  * Provides utilities to eliminate manual cleanup, leaks, and exception issues.
  * 
