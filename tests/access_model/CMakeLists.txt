@@ -3,42 +3,39 @@ cmake_minimum_required(VERSION 3.20)
 # Access Model Module Tests
 # Unit and integration tests for access model coordinator
 
-# Source files
-file(GLOB TEST_SOURCES "test_*.cpp")
+file(GLOB ACCESS_MODEL_TEST_SOURCES
+    "${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"
+)
 
-# Build each test
-foreach(TEST_FILE ${TEST_SOURCES})
-    get_filename_component(TEST_STEM ${TEST_FILE} NAME_WE)
-    set(TEST_TARGET module_access_model_${TEST_STEM}_focused)
-    
-    add_executable(${TEST_TARGET} ${TEST_FILE})
-    
-    target_link_libraries(${TEST_TARGET}
-      PRIVATE
-        themis_access_model
+foreach(_src IN LISTS ACCESS_MODEL_TEST_SOURCES)
+    get_filename_component(_stem "${_src}" NAME_WE)
+    set(_target "module_access_model_${_stem}_focused")
+
+    if(TARGET ${_target})
+        continue()
+    endif()
+
+    add_executable(${_target} "${_src}")
+    target_include_directories(${_target} PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+    target_link_libraries(${_target} PRIVATE
+        ${TEST_LIBS}
         themis_core
-        themis_test_fixtures
-        GTest::gtest
-        GTest::gtest_main
+        spdlog::spdlog
+        Threads::Threads
         gmock
     )
-    
-    # Register test with CTest
-    if(DEFINED themis_register_module_focused_test)
-        themis_register_module_focused_test(
-            TARGET ${TEST_TARGET}
-            LABEL access_model
-            TIMEOUT 120
-        )
-    else()
-        add_test(
-            NAME ${TEST_TARGET}
-            COMMAND ${TEST_TARGET}
-        )
-        set_tests_properties(${TEST_TARGET} PROPERTIES
-            LABELS "access_model;tier;coordinator"
-            TIMEOUT 120
-        )
-    endif()
+    target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
+
+    themis_register_module_focused_test(
+        MODULE access_model
+        NAME ${_stem}_access_model_FocusedTests
+        TARGET ${_target}
+        TIER unit
+        TIMEOUT 120
+        LABELS "access_model;tier;coordinator;promotion;demotion"
+    )
 endforeach()
 
