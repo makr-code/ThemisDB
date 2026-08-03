@@ -37,15 +37,26 @@ namespace access_model {
 
 class MockAccessTier : public AccessTier {
  public:
-    MOCK_METHOD(TierGetResult, get, (const std::string&, const TierAccessOptions&),
+    MOCK_METHOD(TierGetResult, get, (std::string_view, const TierAccessOptions&),
                 (override));
     MOCK_METHOD(TierPutResult, put,
-                (const std::string&, const std::string&,
-                 const TierAccessOptions&),
+                (std::string_view, std::string_view, const TierAccessOptions&),
                 (override));
-    MOCK_METHOD(bool, invalidate, (const std::string&), (override));
-    MOCK_METHOD(TierMetrics, getMetrics, (), (const, override));
+    MOCK_METHOD(bool, invalidate, (std::string_view), (override));
     MOCK_METHOD(TierLevel, getTierLevel, (), (const, override));
+    MOCK_METHOD(std::string, getTierName, (), (const, override));
+    MOCK_METHOD(bool, hasKey, (std::string_view), (const, override));
+    MOCK_METHOD(std::size_t, getCurrentSizeBytes, (), (const, override));
+    MOCK_METHOD(std::size_t, getMaxCapacityBytes, (), (const, override));
+    MOCK_METHOD(std::size_t, getEntryCount, (), (const, override));
+    MOCK_METHOD(double, getHitRate, (), (const, override));
+    MOCK_METHOD(std::chrono::microseconds, getAverageGetLatency, (), (const, override));
+    MOCK_METHOD(std::chrono::microseconds, getAveragePutLatency, (), (const, override));
+    MOCK_METHOD(uint64_t, getAccessCount, (std::string_view), (const, override));
+    MOCK_METHOD(std::chrono::seconds, getKeyAge, (std::string_view), (const, override));
+    MOCK_METHOD(bool, initialize, (), (override));
+    MOCK_METHOD(void, shutdown, (), (override));
+    MOCK_METHOD(bool, isHealthy, (), (const, override));
 };
 
 class AccessCoordinatorFocusedTest : public ::testing::Test {
@@ -60,13 +71,13 @@ class AccessCoordinatorFocusedTest : public ::testing::Test {
         warm_storage_ = std::make_shared<MockAccessTier>();
         cold_storage_ = std::make_shared<MockAccessTier>();
         
-        ON_CALL(*l1_, getTierLevel).WillByDefault(testing::Return(TierLevel::L1_TRANSACTIONAL));
+        ON_CALL(*l1_, getTierLevel).WillByDefault(testing::Return(TierLevel::L1_WORKING));
         ON_CALL(*l2_, getTierLevel).WillByDefault(testing::Return(TierLevel::L2_EPISODIC));
         ON_CALL(*l3_, getTierLevel).WillByDefault(testing::Return(TierLevel::L3_SEMANTIC));
         ON_CALL(*warm_storage_, getTierLevel).WillByDefault(testing::Return(TierLevel::STORAGE_WARM));
         ON_CALL(*cold_storage_, getTierLevel).WillByDefault(testing::Return(TierLevel::STORAGE_COLD));
         
-        tiers_map_[TierLevel::L1_TRANSACTIONAL] = l1_;
+        tiers_map_[TierLevel::L1_WORKING] = l1_;
         tiers_map_[TierLevel::L2_EPISODIC] = l2_;
         tiers_map_[TierLevel::L3_SEMANTIC] = l3_;
         tiers_map_[TierLevel::STORAGE_WARM] = warm_storage_;
@@ -126,7 +137,7 @@ TEST_F(AccessCoordinatorFocusedTest, ACM02_CacheEvictionEventProcessing) {
     // Record a cache eviction event
     EvictionEvent event{
         .key = "test_key_1",
-        .tier = TierLevel::L1_TRANSACTIONAL,
+        .tier = TierLevel::L1_WORKING,
         .access_count = 5,
         .last_access_age_secs = std::chrono::seconds(10),
     };
@@ -152,7 +163,7 @@ TEST_F(AccessCoordinatorFocusedTest, ACM02_HotAccessEventProcessing) {
         .key = "test_key_2",
         .current_tier = TierLevel::STORAGE_COLD,
         .access_count = 15,  // Exceeds threshold
-        .time_window_secs = std::chrono::seconds(60),
+        .access_window = std::chrono::seconds(60),
     };
     
     coordinator_->onHotAccess(event);
@@ -171,7 +182,7 @@ TEST_F(AccessCoordinatorFocusedTest, ACM02_MultipleEventsProcessing) {
     for (int i = 0; i < 10; ++i) {
         EvictionEvent event{
             .key = "key_" + std::to_string(i),
-            .tier = TierLevel::L1_TRANSACTIONAL,
+            .tier = TierLevel::L1_WORKING,
             .access_count = static_cast<uint64_t>(i),
             .last_access_age_secs = std::chrono::seconds(i * 10),
         };
@@ -232,7 +243,7 @@ TEST_F(AccessCoordinatorFocusedTest, ACM03_TierRecommendation) {
     
     // HOT data → L1
     auto tier = policy.recommendTierForData(150, std::chrono::seconds(3600));
-    EXPECT_EQ(tier, TierLevel::L1_TRANSACTIONAL);
+    EXPECT_EQ(tier, TierLevel::L1_WORKING);
     
     // COLD data → STORAGE_COLD
     tier = policy.recommendTierForData(0, std::chrono::seconds(86400 * 60));
@@ -302,13 +313,13 @@ TEST_F(AccessCoordinatorFocusedTest, ACM05_DemotionPlanCreation) {
     
     auto plan = coordinator_->planDemotion(
         "test_key",
-        TierLevel::L1_TRANSACTIONAL,
+        TierLevel::L1_WORKING,
         TierLevel::L2_EPISODIC,
         2048);  // 2KB
     
     EXPECT_TRUE(plan.has_value());
     EXPECT_EQ(plan->key, "test_key");
-    EXPECT_EQ(plan->from_tier, TierLevel::L1_TRANSACTIONAL);
+    EXPECT_EQ(plan->from_tier, TierLevel::L1_WORKING);
     EXPECT_EQ(plan->to_tier, TierLevel::L2_EPISODIC);
     EXPECT_EQ(plan->data_size_bytes, 2048);
     
@@ -349,14 +360,14 @@ TEST_F(AccessCoordinatorFocusedTest, ACM06_CorrelationIDGeneration) {
     
     EvictionEvent event1{
         .key = "key_1",
-        .tier = TierLevel::L1_TRANSACTIONAL,
+        .tier = TierLevel::L1_WORKING,
         .access_count = 1,
         .last_access_age_secs = std::chrono::seconds(60),
     };
     
     EvictionEvent event2{
         .key = "key_2",
-        .tier = TierLevel::L1_TRANSACTIONAL,
+        .tier = TierLevel::L1_WORKING,
         .access_count = 2,
         .last_access_age_secs = std::chrono::seconds(120),
     };
@@ -394,7 +405,7 @@ TEST_F(AccessCoordinatorFocusedTest, ACM07_MetricsCollection) {
     for (int i = 0; i < 5; ++i) {
         EvictionEvent event{
             .key = "key_" + std::to_string(i),
-            .tier = TierLevel::L1_TRANSACTIONAL,
+            .tier = TierLevel::L1_WORKING,
             .access_count = static_cast<uint64_t>(i),
             .last_access_age_secs = std::chrono::seconds(60),
         };
@@ -461,7 +472,7 @@ TEST_F(AccessCoordinatorFocusedTest, ACM08_ConcurrentEvictionAndPromotion) {
         for (int i = 0; i < 20; ++i) {
             EvictionEvent event{
                 .key = "evict_" + std::to_string(i),
-                .tier = TierLevel::L1_TRANSACTIONAL,
+                .tier = TierLevel::L1_WORKING,
                 .access_count = static_cast<uint64_t>(i),
                 .last_access_age_secs = std::chrono::seconds(60 * i),
             };
@@ -477,7 +488,7 @@ TEST_F(AccessCoordinatorFocusedTest, ACM08_ConcurrentEvictionAndPromotion) {
                 .key = "hot_" + std::to_string(i),
                 .current_tier = TierLevel::STORAGE_WARM,
                 .access_count = static_cast<uint64_t>(50 + i * 10),
-                .time_window_secs = std::chrono::seconds(60),
+                .access_window = std::chrono::seconds(60),
             };
             coordinator_->onHotAccess(event);
         }

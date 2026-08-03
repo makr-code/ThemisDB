@@ -1453,8 +1453,15 @@ void AdaptiveQueryCache::evictLRU(CacheLevel level) {
 void AdaptiveQueryCache::emitEvictionEvent(const std::string& key, access_model::TierLevel tier,
                                           std::size_t size_bytes, uint64_t access_count,
                                           int64_t last_access_ms, std::string_view reason) {
-    std::lock_guard<std::mutex> lock(eviction_listener_mutex_);
-    if (!eviction_listener_) {
+    // Snapshot the listener pointer under the lock to avoid holding it during the callback.
+    // Calling the callback while holding the lock can deadlock if the listener (re-)enters
+    // cache or coordinator code that tries to acquire the same or a dependent lock.
+    access_model::EvictionListener* listener = nullptr;
+    {
+        std::lock_guard<std::mutex> lock(eviction_listener_mutex_);
+        listener = eviction_listener_;
+    }
+    if (!listener) {
         return;  // No listener registered
     }
 
@@ -1463,8 +1470,8 @@ void AdaptiveQueryCache::emitEvictionEvent(const std::string& key, access_model:
     int64_t age_ms = (now_ms > last_access_ms) ? (now_ms - last_access_ms) : 0;
     auto age_secs = std::chrono::seconds(age_ms / 1000);
 
-    // Emit event to coordinator
-    eviction_listener_->onCacheEvicted(key, tier, size_bytes, access_count, age_secs, reason);
+    // Emit event to coordinator (invoked outside the lock)
+    listener->onCacheEvicted(key, tier, size_bytes, access_count, age_secs, reason);
 }
 
 double AdaptiveQueryCache::calculateLRUScore(int64_t last_accessed_ms, int64_t access_count) const {

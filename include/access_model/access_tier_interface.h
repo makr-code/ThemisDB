@@ -19,10 +19,13 @@
 #include <chrono>
 #include <cstddef>
 #include <cstdint>
+#include <functional>
+#include <limits>
 #include <memory>
 #include <optional>
 #include <string>
 #include <string_view>
+#include <vector>
 
 namespace themis {
 namespace access_model {
@@ -44,6 +47,7 @@ enum class TierLevel {
     STORAGE_HOT,     ///< Storage: NVMe-backed tier (1-10ms)
     STORAGE_WARM,    ///< Storage: HDD-backed tier (10-100ms)
     STORAGE_COLD,    ///< Storage: Object-store tier (100ms-1s)
+    UNKNOWN,         ///< Sentinel value: tier not yet determined or invalid
 };
 
 /**
@@ -66,6 +70,7 @@ constexpr TierClassification classifyTier(TierLevel level) {
         case TierLevel::STORAGE_HOT:
         case TierLevel::STORAGE_WARM:
         case TierLevel::STORAGE_COLD:
+        case TierLevel::UNKNOWN:
             return TierClassification::STORAGE;
     }
     __builtin_unreachable();
@@ -88,6 +93,8 @@ constexpr std::string_view tierLevelName(TierLevel level) {
             return "STORAGE_WARM";
         case TierLevel::STORAGE_COLD:
             return "STORAGE_COLD";
+        case TierLevel::UNKNOWN:
+            return "UNKNOWN";
     }
     return "UNKNOWN";
 }
@@ -436,4 +443,3 @@ inline constexpr TierLevel kNoTier = static_cast<TierLevel>(-1);
 }  // namespace access_model
 }  // namespace themis
 
-#endif  // THEMISDB_INCLUDE_ACCESS_MODEL_ACCESS_TIER_INTERFACE_H

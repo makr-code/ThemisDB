@@ -353,4 +353,3 @@ private:
 }  // namespace storage
 }  // namespace themis
 
-#endif  // THEMIS_STORAGE_RECOVERY_FAULT_HANDLER_H_

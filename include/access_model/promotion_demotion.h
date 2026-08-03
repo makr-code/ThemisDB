@@ -11,6 +11,8 @@
 
 #pragma once
 
+#include "access_tier_interface.h"
+
 #include <chrono>
 #include <cstddef>
 #include <cstdint>
@@ -20,9 +22,6 @@
 
 namespace themis {
 namespace access_model {
-
-// Forward declarations
-enum class TierLevel;
 
 // ============================================================================
 // § 1  Demotion Plan & Execution
@@ -101,4 +100,3 @@ struct DemotionResult {
 }  // namespace access_model
 }  // namespace themis
 
-#endif  // THEMISDB_INCLUDE_ACCESS_MODEL_PROMOTION_DEMOTION_H

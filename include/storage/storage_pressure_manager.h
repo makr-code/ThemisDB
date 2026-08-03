@@ -30,6 +30,7 @@
 
 #include <chrono>
 #include <cstdint>
+#include <mutex>
 #include <optional>
 #include <string>
 #include <string_view>
@@ -97,10 +98,11 @@ struct StorageCapacityMetrics {
     }
 
     /// Projected time to capacity at current write rate (milliseconds).
-    /// Returns -1 if write rate is zero or projected time is > 1 year.
+    /// Returns -1 if write rate is zero or available space (minus reserve) is
+    /// insufficient for meaningful projection (i.e., already at/below reserve).
     std::int64_t time_to_exhaustion_ms(std::uint64_t write_rate_bytes_per_sec) const
         noexcept {
-        if (write_rate_bytes_per_sec == 0 || available_bytes >= reserved_bytes) {
+        if (write_rate_bytes_per_sec == 0 || available_bytes <= reserved_bytes) {
             return -1;
         }
         std::uint64_t bytes_until_exhausted = available_bytes - reserved_bytes;
@@ -310,4 +312,3 @@ private:
 }  // namespace storage
 }  // namespace themis
 
-#endif  // THEMIS_STORAGE_PRESSURE_MANAGER_H_

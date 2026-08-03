@@ -198,4 +198,3 @@ std::unique_ptr<EvictionListenerManager> createEvictionListenerManager();
 }  // namespace cache
 }  // namespace themis
 
-#endif  // THEMISDB_INCLUDE_CACHE_EVICTION_LISTENER_H

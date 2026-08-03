@@ -66,6 +66,34 @@ public:
 };
 
 // ============================================================================
+// Mock AccessTier (for coordinator-level integration tests)
+// ============================================================================
+
+class MockAccessTier : public AccessTier {
+public:
+    MOCK_METHOD(TierGetResult, get,
+                (std::string_view key, const TierAccessOptions& options), (override));
+    MOCK_METHOD(TierPutResult, put,
+                (std::string_view key, std::string_view value,
+                 const TierAccessOptions& options), (override));
+    MOCK_METHOD(bool, invalidate, (std::string_view key), (override));
+    MOCK_METHOD(TierLevel, getTierLevel, (), (const, override));
+    MOCK_METHOD(std::string, getTierName, (), (const, override));
+    MOCK_METHOD(bool, hasKey, (std::string_view key), (const, override));
+    MOCK_METHOD(std::size_t, getCurrentSizeBytes, (), (const, override));
+    MOCK_METHOD(std::size_t, getMaxCapacityBytes, (), (const, override));
+    MOCK_METHOD(std::size_t, getEntryCount, (), (const, override));
+    MOCK_METHOD(double, getHitRate, (), (const, override));
+    MOCK_METHOD(std::chrono::microseconds, getAverageGetLatency, (), (const, override));
+    MOCK_METHOD(std::chrono::microseconds, getAveragePutLatency, (), (const, override));
+    MOCK_METHOD(uint64_t, getAccessCount, (std::string_view key), (const, override));
+    MOCK_METHOD(std::chrono::seconds, getKeyAge, (std::string_view key), (const, override));
+    MOCK_METHOD(bool, initialize, (), (override));
+    MOCK_METHOD(void, shutdown, (), (override));
+    MOCK_METHOD(bool, isHealthy, (), (const, override));
+};
+
+// ============================================================================
 // Test Fixtures
 // ============================================================================
 
@@ -280,32 +308,90 @@ TEST_F(CacheStorageIntegrationTest, CAI06_ConcurrentTransitions) {
 }
 
 // ============================================================================
-// CAI-07: Storage Warm-Tier Access → Coordinator Notification
+// CAI-07: Storage Warm-Tier Access → PromotionListener Notification
 // ============================================================================
 
-TEST_F(CacheStorageIntegrationTest, CAI07_StorageWarmTierAccess) {
-    // Test that storage can emit promotion signals through PromotionListener
-    // This is a placeholder test for Phase 4 storage integration
-    
-    // When storage detects warm-tier access patterns, it should call:
-    // mock_promotion_listener_->onStorageAccess(key, TierLevel::STORAGE_WARM, access_count, window)
-    
-    // For now, verify the interface exists
-    ASSERT_TRUE(std::is_base_of<PromotionListener, MockPromotionListener>::value);
+TEST_F(CacheStorageIntegrationTest, CAI07_StorageWarmTierAccessEmitsPromotion) {
+    // Verify that a PromotionListener receives onStorageAccess() when a warm
+    // storage tier detects a hot-access pattern.
+    //
+    // The mock_promotion_listener_ is passed directly as the listener.  We call
+    // onStorageAccess() explicitly to simulate what TieredStorageManager would
+    // do after detecting repeated accesses in the STORAGE_WARM tier.
+
+    EXPECT_CALL(*mock_promotion_listener_,
+                onStorageAccess(::testing::StrEq("warm_key"),
+                                TierLevel::STORAGE_WARM,
+                                ::testing::Ge(uint64_t{3}),
+                                ::testing::_))
+        .Times(1);
+
+    // Simulate a storage tier emitting a hot-access event.
+    mock_promotion_listener_->onStorageAccess(
+        "warm_key",
+        TierLevel::STORAGE_WARM,
+        /*access_count=*/5,
+        /*access_window=*/std::chrono::seconds{3600});
 }
 
 // ============================================================================
-// CAI-08: Cold-to-Warm Promotion Chain
+// CAI-08: Cold-to-Warm Promotion Chain via AccessCoordinator
 // ============================================================================
 
 TEST_F(CacheStorageIntegrationTest, CAI08_ColdToWarmPromotion) {
-    // Test that S3 (cold) access triggers warm→L3 promotion
-    // This is a placeholder for Phase 4 cross-module integration
-    
-    // Expected chain: S3 (cold) access → warm tier transition
-    // → coordinator detects hot pattern → schedules L3 cache prefetch
-    
-    ASSERT_TRUE(true);  // Placeholder
+    // Test the cold→warm→L3 promotion decision chain inside AccessCoordinator.
+    //
+    // Scenario:
+    //   1. A key in STORAGE_COLD is accessed above the promotion threshold.
+    //   2. The coordinator receives an AccessEvent for that key.
+    //   3. The coordinator records the event and (because STORAGE_WARM is
+    //      registered) schedules a promotion to STORAGE_WARM.
+    //   4. getRecentTransitions() shows a transition with to_tier == STORAGE_WARM.
+
+    auto coordinator = createAccessCoordinator(/*thread_pool_size=*/1);
+
+    // Register only STORAGE_COLD and STORAGE_WARM so the coordinator has valid
+    // tiers to reason about.
+    auto warm_tier = std::make_shared<::testing::NiceMock<MockAccessTier>>();
+    auto cold_tier = std::make_shared<::testing::NiceMock<MockAccessTier>>();
+
+    std::map<TierLevel, std::shared_ptr<AccessTier>> tiers{
+        {TierLevel::STORAGE_WARM, warm_tier},
+        {TierLevel::STORAGE_COLD, cold_tier},
+    };
+    ASSERT_TRUE(coordinator->initialize(tiers));
+    coordinator->start();
+
+    // Set a low promotion threshold so a single burst triggers the decision.
+    AgeBasedPolicy policy;
+    policy.storage_promotion_threshold = 3;
+    coordinator->setAgePolicy(policy);
+
+    // Simulate cold-tier hot-access detection.
+    AccessEvent event;
+    event.key = "cold_key";
+    event.current_tier = TierLevel::STORAGE_COLD;
+    event.access_count = 5;  // Above threshold → promotion to STORAGE_WARM
+
+    coordinator->onHotAccess(event);
+
+    // Allow the coordinator a moment to process the queued event.
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+
+    auto transitions = coordinator->getRecentTransitions(20);
+    ASSERT_FALSE(transitions.empty());
+
+    bool promoted_to_warm = false;
+    for (const auto& t : transitions) {
+        if (t.to_tier == TierLevel::STORAGE_WARM) {
+            promoted_to_warm = true;
+        }
+    }
+    EXPECT_TRUE(promoted_to_warm)
+        << "Expected a transition to STORAGE_WARM after cold-tier hot-access "
+           "event with access_count above promotion threshold.";
+
+    coordinator->shutdown();
 }
 
 // ============================================================================

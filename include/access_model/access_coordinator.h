@@ -2,28 +2,37 @@
  * @file access_coordinator.h
  * @brief Broker for cache↔storage promotion/demotion coordination.
  *
- * ThemisDB | File: access_coordinator.h | Version: 1.0.0
- * Maturity: 🟡 ALPHA (Phase 1 API Definition) | Status: Frozen for v1.x
+ * ThemisDB | File: access_coordinator.h | Version: 2.0.0
+ * Maturity: 🟡 ALPHA (Phase 2 Implementation) | Status: Active development
  * Author: Copilot | Date: 2026-08-03
  *
  * The `AccessCoordinator` is the central broker that manages tier transitions
- * between cache and storage tiers. It listens to eviction events from cache,
+ * between cache and storage tiers. It receives eviction events from cache,
  * access patterns from storage, and applies unified aging policies to make
  * promotion/demotion decisions.
  *
+ * **Listener vs. Coordinator design:**
+ * - `EvictionListener` / `PromotionListener` are thin interfaces used by cache
+ *   and storage modules to emit raw events.
+ * - `AccessCoordinator` is the full coordinator that receives structured events
+ *   (`EvictionEvent`, `AccessEvent`) and drives tier transitions.
+ *
  * @see include/access_model/access_tier_interface.h
  * @see include/access_model/promotion_demotion.h
+ * @see include/access_model/access_metrics.h
  * @see docs/architecture/UNIFIED_ACCESS_MODEL.md
  */
 
 #pragma once
 
+#include "access_metrics.h"
 #include "access_tier_interface.h"
+#include "age_based_policy.h"
 #include "promotion_demotion.h"
 
 #include <atomic>
 #include <chrono>
-#include <functional>
+#include <future>
 #include <map>
 #include <memory>
 #include <optional>
@@ -34,19 +43,21 @@
 namespace themis {
 namespace access_model {
 
-// Forward declarations
-class AgeBasedPolicy;
-class AccessMetrics;
-
 // ============================================================================
-// § 1  Coordinator Event Listeners
+// § 1  Thin Event-Listener Interfaces (used by cache & storage modules)
 // ============================================================================
 
 /**
  * @brief Callback interface for cache eviction events.
  *
- * Cache implementations call this to notify the coordinator when evicting
- * entries due to capacity constraints.
+ * Cache implementations (e.g., AdaptiveQueryCache) hold a raw pointer to an
+ * object implementing this interface and call `onCacheEvicted()` synchronously
+ * when an entry is evicted.
+ *
+ * **Implementation contract for listeners:**
+ * - Keep execution time < 1 ms (queue async work; do not block for I/O)
+ * - Do not throw exceptions
+ * - Thread-safe: may be called from concurrent cache operations
  */
 struct EvictionListener {
     virtual ~EvictionListener() = default;
@@ -56,282 +67,350 @@ struct EvictionListener {
      *
      * @param key Evicted key
      * @param from_tier Cache tier that evicted the key
-     * @param size_bytes Size of evicted value
-     * @param access_count Number of accesses to this key
+     * @param size_bytes Size of evicted value in bytes
+     * @param access_count Number of accesses to this key before eviction
      * @param last_access_age_secs Age since last access
      * @param eviction_reason Reason for eviction (e.g., "lru", "lfu", "ttl")
-     *
-     * Coordinator should consider:
-     * - If access_count is high: promote to warm storage
-     * - If access_count is low: demotion candidate
-     * - If from_tier is L1/L2: consider fallback to L3 before evicting
      */
     virtual void onCacheEvicted(std::string_view key, TierLevel from_tier,
-                               std::size_t size_bytes, uint64_t access_count,
-                               std::chrono::seconds last_access_age_secs,
-                               std::string_view eviction_reason) = 0;
+                                std::size_t size_bytes, uint64_t access_count,
+                                std::chrono::seconds last_access_age_secs,
+                                std::string_view eviction_reason) = 0;
 };
 
 /**
  * @brief Callback interface for storage access patterns.
  *
- * Storage implementations call this to notify the coordinator when detecting
- * hot access patterns (candidates for promotion to cache).
+ * Storage implementations hold a raw pointer to an object implementing this
+ * interface and call `onStorageAccess()` when hot access patterns are detected.
  */
 struct PromotionListener {
     virtual ~PromotionListener() = default;
 
     /**
-     * @brief Called when storage detects hot access.
+     * @brief Called when storage detects a hot-access pattern.
      *
      * @param key Accessed key
      * @param from_tier Storage tier that detected the access
-     * @param access_count Total accesses within window
+     * @param access_count Total accesses within the measurement window
      * @param access_window Time window for access counting
-     *
-     * Coordinator should consider:
-     * - If access_count / access_window > threshold: candidate for promotion
-     * - Promote cold→warm→L3 asynchronously
-     * - Warm→L3 if access_count high; cold→warm always
      */
     virtual void onStorageAccess(std::string_view key, TierLevel from_tier,
-                                uint64_t access_count,
-                                std::chrono::seconds access_window) = 0;
+                                 uint64_t access_count,
+                                 std::chrono::seconds access_window) = 0;
 };
 
 // ============================================================================
-// § 2  AccessCoordinator Interface
+// § 2  Structured Event Types (used by AccessCoordinator internal interface)
+// ============================================================================
+
+/**
+ * @brief Structured eviction event passed to AccessCoordinator.
+ *
+ * Higher-level than the raw `EvictionListener::onCacheEvicted()` parameters;
+ * groups all eviction context for coordinator policy decisions.
+ */
+struct EvictionEvent {
+    /// Evicted key
+    std::string key;
+
+    /// Cache tier that performed the eviction
+    TierLevel tier = TierLevel::UNKNOWN;
+
+    /// Reason string (e.g., "lru_eviction", "ttl_expired", "capacity_pressure")
+    std::string reason;
+
+    /// Size of evicted value in bytes
+    std::size_t evicted_size_bytes = 0;
+
+    /// Number of accesses before eviction
+    uint64_t access_count = 0;
+
+    /// Age since last access at eviction time
+    std::chrono::seconds last_access_age_secs{0};
+
+    /// Optional correlation ID for tracing
+    std::string correlation_id;
+};
+
+/**
+ * @brief Structured access event passed to AccessCoordinator.
+ *
+ * Describes a hot-access detection from a storage tier.
+ */
+struct AccessEvent {
+    /// Accessed key
+    std::string key;
+
+    /// Storage tier that observed the hot pattern
+    TierLevel current_tier = TierLevel::UNKNOWN;
+
+    /// Number of accesses within the measurement window
+    uint64_t access_count = 0;
+
+    /// Measurement window duration
+    std::chrono::seconds access_window{86400};  // Default: 24 hours
+
+    /// Optional correlation ID for tracing
+    std::string correlation_id;
+};
+
+/**
+ * @brief Result of an asynchronous promotion operation.
+ *
+ * Returned via `std::future<PromotionResult>` from `promoteAsync()`.
+ */
+struct PromotionResult {
+    /// True if the promotion completed successfully
+    bool success = false;
+
+    /// Error message (populated when success=false)
+    std::string error_message;
+
+    /// Data size promoted in bytes
+    std::size_t size_bytes = 0;
+
+    /// Source tier (where data was promoted from)
+    TierLevel from_tier = TierLevel::UNKNOWN;
+
+    /// Destination tier (where data was promoted to)
+    TierLevel to_tier = TierLevel::UNKNOWN;
+
+    /// End-to-end promotion latency
+    std::chrono::milliseconds total_latency_ms{0};
+
+    /// Correlation ID for tracing
+    std::string correlation_id;
+
+    /// Timestamp when promotion completed
+    std::chrono::system_clock::time_point completed_at = std::chrono::system_clock::now();
+};
+
+/**
+ * @brief Record of a tier transition event (for observability).
+ */
+struct AccessTransitionEvent {
+    /// Key that was transitioned
+    std::string key;
+
+    /// Source tier
+    TierLevel from_tier = TierLevel::UNKNOWN;
+
+    /// Destination tier (UNKNOWN if no transition was triggered)
+    TierLevel to_tier = TierLevel::UNKNOWN;
+
+    /// Human-readable reason for the transition
+    std::string reason;
+
+    /// Timestamp of the event
+    std::chrono::system_clock::time_point timestamp = std::chrono::system_clock::now();
+
+    /// End-to-end processing latency
+    std::chrono::milliseconds latency_ms{0};
+
+    /// Correlation ID for tracing
+    std::string correlation_id;
+
+    /// Whether the transition succeeded
+    bool success = true;
+
+    /// Error message (if success=false)
+    std::string error_message;
+};
+
+// ============================================================================
+// § 3  AccessCoordinator Interface
 // ============================================================================
 
 /**
  * @brief Central broker for cache↔storage tier coordination.
  *
  * The coordinator:
- * 1. Listens to cache eviction events
- * 2. Listens to storage access patterns
- * 3. Applies unified age-based policies
- * 4. Orchestrates promotion/demotion workers
- * 5. Tracks metrics and correlation IDs
- * 6. Exposes observability surfaces
+ * 1. Receives cache eviction events via `onEviction()`
+ * 2. Receives storage hot-access events via `onHotAccess()`
+ * 3. Applies unified age-based policies to decide promotion/demotion
+ * 4. Orchestrates promotion/demotion workers via `promoteAsync()`
+ * 5. Tracks metrics and correlation IDs for observability
  *
- * **Thread Safety:** Yes, all public methods are thread-safe
+ * **Thread Safety:** All public methods are thread-safe.
  *
  * **Opt-In Design:** Applications must explicitly register the coordinator
  * at startup. Existing code continues to work without it.
  */
-class AccessCoordinator : public EvictionListener, public PromotionListener {
+class AccessCoordinator {
 public:
     virtual ~AccessCoordinator() = default;
 
     /// ────────────────────────────────────────────────────────────────────
-    /// Initialization & Lifecycle
+    /// Lifecycle
     /// ────────────────────────────────────────────────────────────────────
 
     /**
-     * @brief Initialize the coordinator with tier registry.
+     * @brief Initialize the coordinator with a tier registry.
      *
-     * @param cache_tiers Map of cache tiers by level (L1, L2, L3)
-     * @param storage_tiers Map of storage tiers by level (hot, warm, cold)
+     * @param all_tiers Map of tier levels to `AccessTier` implementations
      * @return True if initialization succeeded
      *
-     * Must be called before registering listeners or initiating operations.
+     * Must be called before `start()`. Safe to call before registering
+     * listeners.
      */
-    virtual bool initialize(const std::map<TierLevel, std::shared_ptr<AccessTier>>& all_tiers) = 0;
+    virtual bool initialize(
+        const std::map<TierLevel, std::shared_ptr<AccessTier>>& all_tiers) = 0;
+
+    /**
+     * @brief Start background worker threads.
+     *
+     * After this call, promotion/demotion tasks are processed asynchronously.
+     * Must be called after `initialize()`.
+     */
+    virtual void start() = 0;
 
     /**
      * @brief Shutdown the coordinator gracefully.
      *
-     * Stops background workers, flushes pending operations.
+     * Stops background workers and waits for in-flight tasks to complete.
      */
     virtual void shutdown() = 0;
 
     /**
-     * @brief Check if coordinator is running.
+     * @brief Check whether the coordinator is running.
      */
     virtual bool isRunning() const = 0;
+
+    /// ────────────────────────────────────────────────────────────────────
+    /// Event Ingestion
+    /// ────────────────────────────────────────────────────────────────────
+
+    /**
+     * @brief Notify the coordinator of a cache eviction.
+     *
+     * Called (typically by an `EvictionListener` adapter) when a cache tier
+     * evicts a key. The coordinator applies the current `AgeBasedPolicy` to
+     * decide whether to demote to storage.
+     *
+     * @param event Structured eviction event
+     *
+     * **Thread Safety:** Yes.
+     * **Blocking:** Returns quickly; actual demotion is queued asynchronously.
+     */
+    virtual void onEviction(const EvictionEvent& event) = 0;
+
+    /**
+     * @brief Notify the coordinator of a storage hot-access pattern.
+     *
+     * Called (typically by a `PromotionListener` adapter) when a storage tier
+     * detects repeated accesses on a key. The coordinator applies the current
+     * `AgeBasedPolicy` to decide whether to promote to cache.
+     *
+     * @param event Structured access event
+     *
+     * **Thread Safety:** Yes.
+     * **Blocking:** Returns quickly; actual promotion is queued asynchronously.
+     */
+    virtual void onHotAccess(const AccessEvent& event) = 0;
 
     /// ────────────────────────────────────────────────────────────────────
     /// Policy Configuration
     /// ────────────────────────────────────────────────────────────────────
 
     /**
-     * @brief Set unified age-based migration policy.
+     * @brief Set the unified age-based migration policy.
      *
-     * @param policy Age policy applied to both cache and storage tiers
-     *
-     * Ensures cache and storage use consistent "hotness" definitions.
+     * @param policy Policy applied uniformly to cache and storage tiers
      */
     virtual void setAgePolicy(const AgeBasedPolicy& policy) = 0;
 
     /**
-     * @brief Get current age-based policy.
-     */
-    virtual AgeBasedPolicy getAgePolicy() const = 0;
-
-    /**
      * @brief Set access-frequency thresholds for promotion decisions.
      *
-     * @param l1_to_l2_threshold Access count to keep in L1 (default: 10)
-     * @param l2_to_l3_threshold Access count to promote L2→L3 (default: 5)
-     * @param storage_promotion_threshold Access count to promote storage→cache (default: 3)
+     * @param cache_threshold Access count threshold for cache tier retention
+     * @param storage_threshold Access count to trigger storage→cache promotion
      */
-    virtual void setPromotionThresholds(uint64_t l1_to_l2_threshold,
-                                       uint64_t l2_to_l3_threshold,
-                                       uint64_t storage_promotion_threshold) = 0;
+    virtual void setPromotionThresholds(uint64_t cache_threshold,
+                                        uint64_t storage_threshold) = 0;
 
     /// ────────────────────────────────────────────────────────────────────
-    /// Promotion/Demotion Operations
+    /// Promotion / Demotion Operations
     /// ────────────────────────────────────────────────────────────────────
 
     /**
-     * @brief Promote data from a lower tier to a higher tier.
+     * @brief Asynchronously promote data from a lower tier to a higher tier.
      *
      * @param key Data key to promote
-     * @param from_tier Source tier (must be lower than to_tier)
-     * @param to_tier Destination tier (must be higher than from_tier)
-     * @param options Promotion options (timeout, callback, etc.)
-     * @return Promotion result (success, latency, path taken)
+     * @param from_tier Source tier (lower in the hierarchy)
+     * @param to_tier Destination tier (higher in the hierarchy)
+     * @param size_bytes Approximate data size (for scheduling decisions)
+     * @return Future that resolves to `PromotionResult` when promotion completes
      *
-     * **Blocking:** Returns immediately; actual promotion happens async
-     * **Callbacks:** on_complete called when promotion finishes
+     * **Blocking:** Returns immediately; promotion happens on worker thread.
+     * **Error:** Result.success=false if coordinator is not running or tiers
+     *            are not registered.
      */
-    virtual TierPromotionResult promoteAsync(std::string_view key, TierLevel from_tier,
-                                            TierLevel to_tier,
-                                            const TierAccessOptions& options) = 0;
+    virtual std::future<PromotionResult> promoteAsync(const std::string& key,
+                                                     TierLevel from_tier,
+                                                     TierLevel to_tier,
+                                                     uint64_t size_bytes) = 0;
 
     /**
-     * @brief Plan a demotion operation (for review before execution).
+     * @brief Plan a demotion operation (for deferred execution).
      *
      * @param key Data key to demote
      * @param from_tier Source tier
      * @param to_tier Destination tier
-     * @param reason Reason for demotion (e.g., "age", "cache_eviction")
-     * @return Demotion plan (can be cancelled before execute())
+     * @param data_size_bytes Approximate data size
+     * @return Demotion plan with a stable `plan_id`, or `std::nullopt` on error
      *
-     * Does not execute; use execute() on the returned plan.
+     * The returned plan can be cancelled before `executeDemotion()` is called.
      */
-    virtual DemotionPlan planDemotion(std::string_view key, TierLevel from_tier,
-                                     TierLevel to_tier,
-                                     std::string_view reason) = 0;
+    virtual std::optional<DemotionPlan> planDemotion(const std::string& key,
+                                                     TierLevel from_tier,
+                                                     TierLevel to_tier,
+                                                     uint64_t data_size_bytes) = 0;
 
     /**
-     * @brief Execute a demotion plan.
+     * @brief Execute a previously created demotion plan.
      *
-     * @param plan Plan returned from planDemotion()
-     * @param options Execution options (timeout, callback)
-     * @return Result of demotion
+     * @param plan_id Plan ID returned by `planDemotion()`
+     * @return Demotion result, or `std::nullopt` if plan not found
      */
-    virtual DemotionResult executeDemotion(const DemotionPlan& plan,
-                                          const TierAccessOptions& options) = 0;
-
-    /// ────────────────────────────────────────────────────────────────────
-    /// Event Listeners (EvictionListener & PromotionListener Impl)
-    /// ────────────────────────────────────────────────────────────────────
-
-    /**
-     * @brief Callback: cache notifies of eviction.
-     *
-     * Implements EvictionListener interface.
-     */
-    void onCacheEvicted(std::string_view key, TierLevel from_tier,
-                       std::size_t size_bytes, uint64_t access_count,
-                       std::chrono::seconds last_access_age_secs,
-                       std::string_view eviction_reason) override = 0;
-
-    /**
-     * @brief Callback: storage notifies of hot access.
-     *
-     * Implements PromotionListener interface.
-     */
-    void onStorageAccess(std::string_view key, TierLevel from_tier,
-                        uint64_t access_count,
-                        std::chrono::seconds access_window) override = 0;
+    virtual std::optional<DemotionResult> executeDemotion(
+        const std::string& plan_id) = 0;
 
     /// ────────────────────────────────────────────────────────────────────
     /// Observability & Metrics
     /// ────────────────────────────────────────────────────────────────────
 
     /**
-     * @brief Get aggregated metrics for a key across all tiers.
+     * @brief Get aggregated per-key metrics.
      *
      * @param key Data key
-     * @return Aggregated metrics (current tier, access count, promotion path)
+     * @return Per-key access metrics (tier, access count, promotion path)
      */
-    virtual AccessMetrics getKeyMetrics(std::string_view key) const = 0;
+    virtual AccessMetrics getKeyMetrics(const std::string& key) = 0;
 
     /**
-     * @brief Get tier-specific metrics.
+     * @brief Get tier-level metrics.
      *
      * @param tier_level Tier to query
-     * @return Metrics for that tier (hit rate, avg latency, capacity)
+     * @return Aggregated metrics for that tier
      */
-    virtual TierMetrics getTierMetrics(TierLevel tier_level) const = 0;
+    virtual AccessMetrics getTierMetrics(TierLevel tier_level) = 0;
 
     /**
-     * @brief Get recent promotion/demotion operations (for debugging).
+     * @brief Get aggregated model-level metrics (promotions, demotions, latency).
      *
-     * @param limit Maximum number of recent operations to return
-     * @return Vector of recent tier transition events
+     * @return Current snapshot of `AccessModelMetrics`
+     */
+    virtual AccessModelMetrics getAccessModelMetrics() = 0;
+
+    /**
+     * @brief Get recent tier transition events (for debugging and dashboards).
+     *
+     * @param limit Maximum number of events to return (default: 100)
+     * @return Vector of recent transitions (most recent first)
      */
     virtual std::vector<AccessTransitionEvent> getRecentTransitions(
-        std::size_t limit = 100) const = 0;
-
-    /**
-     * @brief Get correlation ID for a recent operation.
-     *
-     * @param key Data key
-     * @return Most recent correlation ID for this key, or empty string
-     */
-    virtual std::string getLastCorrelationId(std::string_view key) const = 0;
-};
-
-// ============================================================================
-// § 3  Supporting Data Structures
-// ============================================================================
-
-/**
- * @brief Metrics for a single tier.
- */
-struct TierMetrics {
-    TierLevel tier;
-    double hit_rate = 0.0;                          ///< 0.0 to 1.0
-    std::chrono::microseconds avg_get_latency_us;
-    std::chrono::microseconds avg_put_latency_us;
-    std::size_t current_size_bytes = 0;
-    std::size_t max_capacity_bytes = 0;
-    std::size_t entry_count = 0;
-    uint64_t total_accesses = 0;
-    uint64_t total_hits = 0;
-    uint64_t total_misses = 0;
-};
-
-/**
- * @brief Aggregated metrics for a key across all tiers.
- */
-struct AccessMetrics {
-    std::string key;
-    TierLevel current_tier;                         ///< Where key currently resides
-    uint64_t total_accesses = 0;
-    std::chrono::seconds age_in_tier;               ///< Time in current tier
-    std::vector<TierLevel> promotion_path;          ///< Tiers key has visited
-    std::chrono::milliseconds total_promotion_latency_ms;
-    std::string last_correlation_id;
-    std::chrono::system_clock::time_point last_access_time;
-};
-
-/**
- * @brief Record of a tier transition event.
- */
-struct AccessTransitionEvent {
-    std::chrono::system_clock::time_point timestamp;
-    std::string correlation_id;
-    std::string key;
-    TierLevel from_tier;
-    TierLevel to_tier;
-    std::chrono::milliseconds latency_ms;
-    std::string reason;                             ///< "eviction", "age", "access", etc.
-    bool success = true;
-    std::string error_message;
+        std::size_t limit = 100) = 0;
 };
 
 // ============================================================================
@@ -341,13 +420,11 @@ struct AccessTransitionEvent {
 /**
  * @brief Create a new AccessCoordinator instance.
  *
- * @param thread_pool_size Number of background worker threads
- * @return Newly allocated coordinator (caller owns)
+ * @param thread_pool_size Number of background worker threads (default: 4)
+ * @return Shared pointer to coordinator (caller shares ownership with listeners)
  */
-std::unique_ptr<AccessCoordinator> createAccessCoordinator(
+std::shared_ptr<AccessCoordinator> createAccessCoordinator(
     std::size_t thread_pool_size = 4);
 
 }  // namespace access_model
 }  // namespace themis
-
-#endif  // THEMISDB_INCLUDE_ACCESS_MODEL_ACCESS_COORDINATOR_H

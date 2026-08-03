@@ -5,7 +5,38 @@ All notable changes to ThemisDB will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased] — 2026-08-03 — Phase 6 Documentation & Governance Completion (v2.4.0-rc1)
+## [Unreleased] — 2026-08-03 — Access Model Coordination Layer + Phase 6 Documentation (v2.4.0-rc1)
+
+### Access Model — Unified Coordination Layer (Runtime C++ Feature Work)
+
+**Note:** This batch contains both the Phase 6 governance/documentation deliverables and substantial
+C++ runtime feature work implementing the `access_model` coordination layer.
+
+**New module: `include/access_model/` + `src/access_model/`**
+- `AccessCoordinator` interface with `EvictionEvent`/`AccessEvent`/`PromotionResult` types, `start()`/`shutdown()`, `onEviction()`/`onHotAccess()`, async promotion via `std::future<PromotionResult>`, demotion planning/execution, and `getAccessModelMetrics()`
+- `AgeBasedPolicy`: tier migration policy with `DataHotnessLevel` classification, `classifyHotness()`, `recommendTierForData()`, and per-tier promotion/demotion predicates
+- `AccessModelMetrics`/`LatencyHistogram`/`AccessOperationCounters`: metrics collection with histogram-based latency tracking (P50/P95/P99)
+- `PromotionDemotion` helpers: `isPlanExecutable()` and `describeResult()`
+
+**Cache integration (`src/cache/adaptive_query_cache.cpp`):**
+- `emitEvictionEvent()` now snapshots the listener pointer before releasing `eviction_listener_mutex_`, then invokes the callback outside the lock — eliminating a potential deadlock on the hot eviction path
+
+**Storage integration (`src/storage/tiered_storage.cpp`):**
+- `emitPromotionEvent()` corrected to use `TierLevel::STORAGE_WARM` and `TierLevel::STORAGE_COLD` instead of the non-existent `L2_EPISODIC`/`L3_PERSISTENT` values
+
+**Bug fixes applied in this batch:**
+- Removed stray `#endif` preprocessor directives from 8 headers that used `#pragma once`
+- Added missing `<functional>`, `<limits>`, `<vector>` includes to `access_tier_interface.h`
+- Fixed `StorageCapacityMetrics::time_to_exhaustion_ms()` inverted condition (`>=` → `<=`) that returned -1 in the normal case and caused unsigned underflow in the exhaustion case
+- Added `TierLevel::UNKNOWN` sentinel to `TierLevel` enum; updated `classifyTier()`/`tierLevelName()` accordingly
+- Fixed `TierLevel::L1_TRANSACTIONAL` (non-existent) → `TierLevel::L1_WORKING` in `age_based_policy.cpp`
+
+**Tests:**
+- `tests/access_model/test_access_coordinator.cpp`: 15 tests (ACM-01–ACM-15) against actual `AccessCoordinator` API; `MockAccessTier` implements all 17 abstract methods
+- `tests/access_model/test_access_coordinator_focused.cpp`: updated `MockAccessTier` to correct method signatures; fixed enum values and field names
+- `tests/access_model/test_cache_storage_integration.cpp`: replaced CAI-07/CAI-08 placeholders with real behavior tests (CAI-07: `PromotionListener::onStorageAccess` receives `STORAGE_WARM` signal; CAI-08: cold→warm promotion chain through coordinator)
+
+---
 
 ### Phase 6 — Documentation, Governance, and Release Approval (✅ COMPLETE)
 

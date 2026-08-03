@@ -254,8 +254,8 @@ std::string TieredStorageManager::get(const std::string& key) {
                     
                     // Emit promotion event if data is hot (accessed in cool tier)
                     auto tier = (expected == StorageTierLevel::WARM) ?
-                               access_model::TierLevel::L2_EPISODIC :
-                               access_model::TierLevel::L3_PERSISTENT;
+                               access_model::TierLevel::STORAGE_WARM :
+                               access_model::TierLevel::STORAGE_COLD;
                     emitPromotionEvent(key, tier, it->second.read_count, window_secs);
                 }
                 
@@ -281,8 +281,8 @@ std::string TieredStorageManager::get(const std::string& key) {
                         now - written_at).count();
                     
                     auto tier_level = (tier == StorageTierLevel::WARM) ?
-                                     access_model::TierLevel::L2_EPISODIC :
-                                     access_model::TierLevel::L3_PERSISTENT;
+                                     access_model::TierLevel::STORAGE_WARM :
+                                     access_model::TierLevel::STORAGE_COLD;
                     emitPromotionEvent(key, tier_level, it->second.read_count, window_secs);
                 }
             }

@@ -196,7 +196,7 @@ TierLevel AgeBasedPolicy::recommendTierForData(
 
     switch (hotness) {
         case DataHotnessLevel::HOT:
-            return TierLevel::L1_TRANSACTIONAL;  // Keep in fastest cache
+            return TierLevel::L1_WORKING;  // Keep in fastest cache
 
         case DataHotnessLevel::WARM:
             // If high frequency, keep in L2; if low frequency, push to L3
@@ -216,10 +216,8 @@ TierLevel AgeBasedPolicy::recommendTierForData(
 
         case DataHotnessLevel::COLD:
             return TierLevel::STORAGE_COLD;  // Coldest tier
-
-        default:
-            return TierLevel::UNKNOWN;
     }
+    return TierLevel::STORAGE_COLD;
 }
 
 // ============================================================================
