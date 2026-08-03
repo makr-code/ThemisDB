@@ -30,8 +30,12 @@
 - tighten parity between schema discovery and consistency validation outcomes.
 - standardize diagnostics for schema, export, and distributed catalog incidents.
 - Phase 2/3 hardening delivered: ConsistencyIssue diagnostics verified (MCH-01..MCH-06), ColumnRef contracts verified (MCH-07..MCH-08).
-- expand resilience tests for prolonged metadata operation under churn.
-- broaden benchmark depth beyond metadata-cache-specific scenarios.
+- Phase A delivered: schema churn stress (MCH-S01..S08), SchemaVersionManager lock-contract (MCH-L01..L04).
+- Phase B delivered: consistency edge cases (MCH-C01..C08), lineage traversal (MCH-LN01..LN04), export failure paths (MCH-EX01..EX04).
+- Phase C delivered: distributed catalog diagnostics via RecordingChangeListener (MCH-DC01..DC04), RBAC diagnostics (MCH-SEC01..SEC04).
+- Phase D delivered: benchmark broadened to consistency/lineage hot paths with GATE-MCL-01..04.
+- expand deep concurrent-access stress coverage beyond focused unit tests (Q2 2027).
+- add operator runbook for metadata incident triage (Q2 2027).
 
 ## Test Strategy
 

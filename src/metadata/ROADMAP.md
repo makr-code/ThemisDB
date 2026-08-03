@@ -10,16 +10,15 @@ Production metadata runtime exists across schema discovery, consistency tooling,
 
 ## In Progress
 
-- [~] tighten deterministic behavior under high metadata churn and concurrent access scenarios (Target: Q4 2026)
-- [~] expand stress coverage for consistency/lineage/export edge cases (Target: Q4 2026)
-- [~] improve operator-facing diagnostics for metadata incident triage (Target: Q4 2026)
+- [~] re-baseline p95/p99 envelopes for metadata access and cache operations (Target: Q1 2027)
+- [~] broaden benchmark depth beyond cache-centric metadata hot paths (Target: Q1 2027)
+- [~] harden long-running reliability under sustained schema mutation pressure (Target: Q1 2027)
 
 ## Planned Features
 
-### Short-term (3-6 months)
-- [ ] re-baseline p95/p99 envelopes for metadata access and cache operations (Target: Q1 2027)
-- [ ] broaden benchmark depth beyond cache-centric metadata hot paths (Target: Q1 2027)
-- [ ] harden long-running reliability under sustained schema mutation pressure (Target: Q1 2027)
+### Mid-term (6-12 months)
+- [ ] expand deep concurrent-access stress coverage beyond focused unit tests (Target: Q2 2027)
+- [ ] add operator runbook for metadata incident triage with actionable diagnostic steps (Target: Q2 2027)
 
 ## Implementation Phases
 
@@ -38,14 +37,19 @@ Production metadata runtime exists across schema discovery, consistency tooling,
 ### Phase 4: Tests
 - [x] expand focused regressions for metadata consistency and export edge scenarios (Target: Q4 2026)
 - [x] extend deterministic stress fixtures for metadata cache and schema mutation operations (Target: Q4 2026)
+- [x] Phase A: schema churn stress + SchemaVersionManager lock contract (MCH-S01..S08, MCH-L01..L04)
+- [x] Phase B: consistency edge cases + lineage traversal + export failure paths (MCH-C01..C08, MCH-LN01..LN04, MCH-EX01..EX04)
+- [x] Phase C: distributed catalog diagnostics + RBAC diagnostics (MCH-DC01..DC04, MCH-SEC01..SEC04)
 
 ### Phase 5: Performance and Hardening
 - [x] lock benchmark-backed release gates for metadata hot paths (Target: Q4 2026)
 - [x] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+- [x] Phase D: broaden benchmarks to consistency/lineage hot paths (GATE-MCL-01..04)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core metadata module docs aligned to source-verifiable behavior
 - [x] roadmap/future planning separated from historical changelog entries
+- [x] benchmark README extended with full gate table (GATE-MET-01..04, GATE-MCL-01..04)
 
 ## Production Readiness Checklist
 
@@ -53,13 +57,14 @@ Production metadata runtime exists across schema discovery, consistency tooling,
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
 - [x] Phase 2/3 hardening closed: ConsistencyIssue diagnostics, ColumnRef contracts, fail-safe edge paths (MCH-01..MCH-08)
+- [x] Phase A–D tests and benchmarks delivered and registered (MCH-S/L/C/LN/EX/DC/SEC + GATE-MCL-01..04)
 - [x] release benchmark stabilization complete
 
 ## Known Issues and Limitations
 
 - runtime behavior depends on schema scale, cache state, and configured integration/export paths.
-- deterministic stress coverage under high metadata churn still expanding (Q4 2026).
-- benchmark breadth should continue expanding beyond metadata-cache dominant paths.
+- deep concurrent-access stress beyond focused unit level still expanding (Q2 2027).
+- operator runbook for metadata incident triage not yet written (Q2 2027).
 
 ## Breaking Changes
 

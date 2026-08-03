@@ -907,6 +907,245 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_metadata_hardening_phase23_focused.cpp
     message(STATUS "  MetadataHardeningPhase23: ConsistencyIssue JSON, ColumnRef round-trip, diagnostics (MCH-01..MCH-08)")
 endif()
 
+# Metadata - Phase A: schema churn stress focused tests (MCH-S01..MCH-S08)
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_metadata_schema_churn_stress_focused.cpp")
+    message(STATUS "Adding Metadata Phase A schema churn stress focused tests")
+
+    add_executable(test_metadata_schema_churn_stress_focused
+        test_metadata_schema_churn_stress_focused.cpp
+    )
+
+    target_include_directories(test_metadata_schema_churn_stress_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_metadata_schema_churn_stress_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_metadata_schema_churn_stress_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    themis_register_module_focused_test(
+        MODULE metadata
+        NAME MetadataSchemaChurnStressFocusedTests
+        TARGET test_metadata_schema_churn_stress_focused
+        TIER unit
+        TIMEOUT 60
+        LABELS hardening churn stress schema phaseA
+    )
+
+    message(STATUS "  MetadataSchemaChurnStress: AdaptiveTTLConfig, PropertyInfo/IndexInfo JSON, schema round-trip (MCH-S01..S08)")
+endif()
+
+# Metadata - Phase A2: SchemaVersionManager lock contract focused tests (MCH-L01..MCH-L04)
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_schema_version_manager_lock_contract_focused.cpp")
+    message(STATUS "Adding Metadata Phase A2 SchemaVersionManager lock contract focused tests")
+
+    add_executable(test_schema_version_manager_lock_contract_focused
+        test_schema_version_manager_lock_contract_focused.cpp
+    )
+
+    target_include_directories(test_schema_version_manager_lock_contract_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_schema_version_manager_lock_contract_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_schema_version_manager_lock_contract_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    themis_register_module_focused_test(
+        MODULE metadata
+        NAME SchemaVersionManagerLockContractFocusedTests
+        TARGET test_schema_version_manager_lock_contract_focused
+        TIER unit
+        TIMEOUT 60
+        LABELS versioning lock-contract error-codes phaseA
+    )
+
+    message(STATUS "  SchemaVersionManagerLockContract: VersionResult failure/success paths, VersionErrorCode distinctness (MCH-L01..L04)")
+endif()
+
+# Metadata - Phase B1: schema consistency edge-case focused tests (MCH-C01..MCH-C08)
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_schema_consistency_edge_cases_focused.cpp")
+    message(STATUS "Adding Metadata Phase B1 schema consistency edge-case focused tests")
+
+    add_executable(test_schema_consistency_edge_cases_focused
+        test_schema_consistency_edge_cases_focused.cpp
+    )
+
+    target_include_directories(test_schema_consistency_edge_cases_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_schema_consistency_edge_cases_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_schema_consistency_edge_cases_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    themis_register_module_focused_test(
+        MODULE metadata
+        NAME SchemaConsistencyEdgeCasesFocusedTests
+        TARGET test_schema_consistency_edge_cases_focused
+        TIER unit
+        TIMEOUT 60
+        LABELS consistency edge-cases diagnostics phaseB
+    )
+
+    message(STATUS "  SchemaConsistencyEdgeCases: ConsistencyIssue default, empty fields, JSON array, issue types (MCH-C01..C08)")
+endif()
+
+# Metadata - Phase B2: column lineage traversal edge-case focused tests (MCH-LN01..MCH-LN04)
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_column_lineage_traversal_edge_focused.cpp")
+    message(STATUS "Adding Metadata Phase B2 column lineage traversal edge-case focused tests")
+
+    add_executable(test_column_lineage_traversal_edge_focused
+        test_column_lineage_traversal_edge_focused.cpp
+    )
+
+    target_include_directories(test_column_lineage_traversal_edge_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_column_lineage_traversal_edge_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_column_lineage_traversal_edge_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    themis_register_module_focused_test(
+        MODULE metadata
+        NAME ColumnLineageTraversalEdgeFocusedTests
+        TARGET test_column_lineage_traversal_edge_focused
+        TIER unit
+        TIMEOUT 60
+        LABELS lineage traversal edge-cases phaseB
+    )
+
+    message(STATUS "  ColumnLineageTraversalEdge: ColumnRef equality/toString/JSON, TransformationType round-trip (MCH-LN01..LN04)")
+endif()
+
+# Metadata - Phase B3: CatalogExporter failure-path focused tests (MCH-EX01..MCH-EX04)
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_catalog_exporter_failure_paths_focused.cpp")
+    message(STATUS "Adding Metadata Phase B3 CatalogExporter failure-path focused tests")
+
+    add_executable(test_catalog_exporter_failure_paths_focused
+        test_catalog_exporter_failure_paths_focused.cpp
+    )
+
+    target_include_directories(test_catalog_exporter_failure_paths_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_catalog_exporter_failure_paths_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_catalog_exporter_failure_paths_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    themis_register_module_focused_test(
+        MODULE metadata
+        NAME CatalogExporterFailurePathsFocusedTests
+        TARGET test_catalog_exporter_failure_paths_focused
+        TIER unit
+        TIMEOUT 60
+        LABELS catalog export failure-paths atlas datahub phaseB
+    )
+
+    message(STATUS "  CatalogExporterFailurePaths: HTTP 500/200, empty list, DataHub (MCH-EX01..EX04)")
+endif()
+
+# Metadata - Phase C1: distributed catalog diagnostics focused tests (MCH-DC01..MCH-DC04)
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_distributed_catalog_diagnostics_focused.cpp")
+    message(STATUS "Adding Metadata Phase C1 distributed catalog diagnostics focused tests")
+
+    add_executable(test_distributed_catalog_diagnostics_focused
+        test_distributed_catalog_diagnostics_focused.cpp
+    )
+
+    target_include_directories(test_distributed_catalog_diagnostics_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_distributed_catalog_diagnostics_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_distributed_catalog_diagnostics_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    themis_register_module_focused_test(
+        MODULE metadata
+        NAME DistributedCatalogDiagnosticsFocusedTests
+        TARGET test_distributed_catalog_diagnostics_focused
+        TIER unit
+        TIMEOUT 60
+        LABELS distributed diagnostics change-listener phaseC
+    )
+
+    message(STATUS "  DistributedCatalogDiagnostics: RecordingChangeListener event count/lastEvent/clear (MCH-DC01..DC04)")
+endif()
+
+# Metadata - Phase C2: RBAC security diagnostics focused tests (MCH-SEC01..MCH-SEC04)
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_metadata_security_rbac_diagnostics_focused.cpp")
+    message(STATUS "Adding Metadata Phase C2 RBAC security diagnostics focused tests")
+
+    add_executable(test_metadata_security_rbac_diagnostics_focused
+        test_metadata_security_rbac_diagnostics_focused.cpp
+    )
+
+    target_include_directories(test_metadata_security_rbac_diagnostics_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_metadata_security_rbac_diagnostics_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_metadata_security_rbac_diagnostics_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    themis_register_module_focused_test(
+        MODULE metadata
+        NAME MetadataSecurityRbacDiagnosticsFocusedTests
+        TARGET test_metadata_security_rbac_diagnostics_focused
+        TIER unit
+        TIMEOUT 60
+        LABELS security rbac diagnostics grant revoke phaseC
+    )
+
+    message(STATUS "  MetadataSecurityRbacDiagnostics: ADMIN implies all, revoke/revokeAll, hasPermission post-revoke (MCH-SEC01..SEC04)")
+endif()
+
 # AUTOGEN PREFIX BLOCK: metadata
 file(GLOB METADATA_AUTOGEN_PREFIX_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_metadata_*.cpp"
