@@ -68,8 +68,16 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity â
 - [ ] align tiered/blob/redundancy behavior to bounded runtime contracts (Target: Q4 2026)
 
 ### Phase 3: Error Handling and Edge Cases
-- [ ] standardize fail-safe behavior for replay faults, storage pressure, and recovery errors (Target: Q4 2026)
-- [ ] unify diagnostics across persistence, maintenance, and recovery incident classes (Target: Q4 2026)
+- [x] standardize fail-safe behavior for replay faults, storage pressure, and recovery errors (Target: Q4 2026) âœ… COMPLETE (2026-08-03)
+  - [x] Created storage_error_diagnostics.h/cpp with unified error classification
+  - [x] Implemented storage_recovery_fault_handler.h/cpp for recovery fault handling
+  - [x] Implemented storage_pressure_manager.h/cpp for capacity management
+  - [x] Created comprehensive Phase 3 focused tests (24 test cases)
+- [x] unify diagnostics across persistence, maintenance, and recovery incident classes (Target: Q4 2026) âœ… COMPLETE (2026-08-03)
+  - [x] StorageErrorContext struct for detailed error information
+  - [x] emitDiagnosticEvent() for structured event emission
+  - [x] Incident type classification (RECOVERY_FAULT, STORAGE_PRESSURE, etc.)
+  - [x] Error severity levels (INFO, LOW, MEDIUM, HIGH, CRITICAL)
 
 ### Phase 4: Tests
 - [x] Contract-hardening focused tests STR-01..STR-16 covering WAL durability, MVCC isolation, crash-recovery, and PITR invariants (tests/storage/test_storage_contract_hardening_focused.cpp) (Target: Q4 2026)
@@ -96,6 +104,10 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity â
 - [x] Contract-hardening tests: tests/storage/test_storage_contract_hardening_focused.cpp (Phase 4, STR-01..STR-16)
 - [x] Release-gate benchmarks: benchmarks/storage/bench_storage_release_gates.cpp (Phase 5, SGRG-01..SGRG-06)
 - [x] Benchmark CMakeLists registered: benchmarks/storage/CMakeLists.txt
+- [x] Error diagnostics system: include/storage/storage_error_diagnostics.h (Phase 3)
+- [x] Recovery fault handler: include/storage/storage_recovery_fault_handler.h (Phase 3)
+- [x] Storage pressure manager: include/storage/storage_pressure_manager.h (Phase 3)
+- [x] Phase 3 focused tests: tests/storage/test_storage_phase3_error_handling_focused.cpp (24 test cases)
 - [ ] remaining hardening tasks closed for durability/recovery edge paths
 - [ ] release benchmark stabilization complete
 
