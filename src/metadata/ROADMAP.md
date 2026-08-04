@@ -1,7 +1,7 @@
 # Metadata Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-08-03 -->
+<!-- Status: current | validated: 2026-08-04 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
@@ -45,11 +45,14 @@ Production metadata runtime exists across schema discovery, consistency tooling,
 - [x] lock benchmark-backed release gates for metadata hot paths (Target: Q4 2026)
 - [x] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
 - [x] Phase D: broaden benchmarks to consistency/lineage hot paths (GATE-MCL-01..04)
+- [x] fix blocking_no_timeout gaps in schema_manager: removed unbounded shared-lock re-acquisition in getTable/getAllRelationships/getDatabaseMetadata; read under existing write lock instead (2026-08-04)
+- [x] fix circular_lock_ordering / deadlock_risk in statistics_collector: release refresh_mutex_ before acquiring cache_mutex_ in refreshLoop_ (2026-08-04)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core metadata module docs aligned to source-verifiable behavior
 - [x] roadmap/future planning separated from historical changelog entries
 - [x] benchmark README extended with full gate table (GATE-MET-01..04, GATE-MCL-01..04)
+- [x] fix schema_consistency_checker: removed const_cast in runCheck() — results_mutex_ already declared mutable (2026-08-04)
 
 ## Production Readiness Checklist
 
@@ -59,12 +62,14 @@ Production metadata runtime exists across schema discovery, consistency tooling,
 - [x] Phase 2/3 hardening closed: ConsistencyIssue diagnostics, ColumnRef contracts, fail-safe edge paths (MCH-01..MCH-08)
 - [x] Phase A–D tests and benchmarks delivered and registered (MCH-S/L/C/LN/EX/DC/SEC + GATE-MCL-01..04)
 - [x] release benchmark stabilization complete
+- [x] CRITICAL gap closure: blocking_no_timeout (schema_manager), circular_lock_ordering (statistics_collector), const_cast (schema_consistency_checker) — resolved 2026-08-04
 
 ## Known Issues and Limitations
 
 - runtime behavior depends on schema scale, cache state, and configured integration/export paths.
 - deep concurrent-access stress beyond focused unit level still expanding (Q2 2027).
 - operator runbook for metadata incident triage not yet written (Q2 2027).
+- remaining gap scanner findings (scope_mismatch, string_concat_loop, copy_overhead, range_temporary) are MEDIUM/LOW severity and deferred to Q2 2027 maintenance sweep.
 
 ## Breaking Changes
 

@@ -174,19 +174,27 @@ std::vector<SchemaManager::TableSchema> SchemaManager::getAllTables() {
 }
 
 std::optional<SchemaManager::TableSchema> SchemaManager::getTable(std::string_view name) {
+    // Optimistic read path: take shared lock first.
+    // If the cache is stale, upgrade to a unique (write) lock to rebuild, then
+    // read directly under that lock instead of downgrading back to shared — which
+    // avoids an unbounded blocking re-lock that has no timeout guarantee.
     std::shared_lock<std::shared_mutex> lock(cache_mutex_);
-    
-    // Check if cache is valid
     if (!isCacheValid()) {
         lock.unlock();
         std::unique_lock<std::shared_mutex> write_lock(cache_mutex_);
         if (!isCacheValid()) {
             buildCache();
         }
-        write_lock.unlock();
-        lock.lock();
+        // Read under the write lock (unique_lock grants full access) — no re-lock needed.
+        auto it = table_cache_.find(std::string(name));
+        if (it != table_cache_.end()) {
+            spdlog::debug("SchemaManager: getTable('{}') found", name);
+            return it->second;
+        }
+        spdlog::debug("SchemaManager: getTable('{}') not found", name);
+        return std::nullopt;
     }
-    
+
     auto it = table_cache_.find(std::string(name));
     if (it != table_cache_.end()) {
         spdlog::debug("SchemaManager: getTable('{}') found", name);
@@ -199,15 +207,20 @@ std::optional<SchemaManager::TableSchema> SchemaManager::getTable(std::string_vi
 
 std::vector<SchemaManager::RelationshipSchema> SchemaManager::getAllRelationships() {
     std::shared_lock<std::shared_mutex> lock(cache_mutex_);
-    
     if (!isCacheValid()) {
         lock.unlock();
         std::unique_lock<std::shared_mutex> write_lock(cache_mutex_);
         if (!isCacheValid()) {
             buildCache();
         }
-        write_lock.unlock();
-        lock.lock();
+        // Read under the write lock — no re-lock needed.
+        std::vector<RelationshipSchema> relationships;
+        relationships.reserve(rel_cache_.size());
+        for (const auto& [name, schema] : rel_cache_) {
+            relationships.push_back(schema);
+        }
+        spdlog::debug("SchemaManager: getAllRelationships() returned {} relationships", relationships.size());
+        return relationships;
     }
     
     std::vector<RelationshipSchema> relationships;
@@ -222,15 +235,13 @@ std::vector<SchemaManager::RelationshipSchema> SchemaManager::getAllRelationship
 
 SchemaManager::DatabaseMetadata SchemaManager::getDatabaseMetadata() {
     std::shared_lock<std::shared_mutex> lock(cache_mutex_);
-    
     if (!isCacheValid()) {
         lock.unlock();
         std::unique_lock<std::shared_mutex> write_lock(cache_mutex_);
         if (!isCacheValid()) {
             buildCache();
         }
-        write_lock.unlock();
-        lock.lock();
+        // Fall through: write_lock still held; read cache below under unique_lock.
     }
     
     DatabaseMetadata metadata;

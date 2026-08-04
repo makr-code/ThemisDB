@@ -88,10 +88,10 @@ std::vector<ConsistencyIssue> SchemaConsistencyChecker::runCheck() const {
 
     spdlog::info("SchemaConsistencyChecker: check complete – {} issue(s) found", issues.size());
 
-    // Update the cached last results
+    // Update the cached last results (results_mutex_ is mutable — no cast needed).
     {
         std::lock_guard<std::mutex> lk(results_mutex_);
-        const_cast<SchemaConsistencyChecker*>(this)->last_results_ = issues;
+        last_results_ = issues;
     }
 
     return issues;
