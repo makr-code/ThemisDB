@@ -62,14 +62,14 @@ TEST(TraceContextTest, EmptyContext) {
 }
 
 TEST(TraceContextTest, NonEmptyContext) {
-    TraceContext ctx{"abc123", "req-456"};
+    TraceContext ctx{"abc123", "", "req-456"};
     EXPECT_FALSE(ctx.empty());
     EXPECT_EQ("abc123", ctx.trace_id);
     EXPECT_EQ("req-456", ctx.request_id);
 }
 
 TEST(TraceContextTest, PartialContext) {
-    TraceContext ctx{"only-trace", ""};
+    TraceContext ctx{"only-trace", "", ""};
     EXPECT_FALSE(ctx.empty());
 }
 
@@ -85,7 +85,7 @@ TEST(NoOpLoggerStructuredTest, LogStructuredDoesNotThrow) {
 
 TEST(NoOpLoggerStructuredTest, LogWithContextDoesNotThrow) {
     NoOpLogger logger;
-    TraceContext ctx{"trace-001", "req-001"};
+    TraceContext ctx{"trace-001", "", "req-001"};
     EXPECT_NO_THROW(logger.logWithContext(ILogger::Level::WARN, "ctx-msg", ctx,
                                            {{"component", "storage"}}));
 }
@@ -152,7 +152,7 @@ TEST_F(SpdlogAdapterJsonTest, TokenFieldIsRedacted) {
 }
 
 TEST_F(SpdlogAdapterJsonTest, LogWithContextInjectsTraceAndRequestId) {
-    TraceContext ctx{"trace-deadbeef", "req-cafebabe"};
+    TraceContext ctx{"trace-deadbeef", "", "req-cafebabe"};
     adapter_->logWithContext(ILogger::Level::ERROR, "ctx-error", ctx,
                               {{"shard", "shard-3"}});
     const std::string msg = stream_->str();
@@ -303,4 +303,3 @@ TEST_F(ExporterHealthTest, DifferentExporterNamesProduceSeparateSeries) {
     EXPECT_NE(std::string::npos, metrics.find("otlp"));
     EXPECT_NE(std::string::npos, metrics.find("pushgateway"));
 }
-
