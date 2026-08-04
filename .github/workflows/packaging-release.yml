@@ -1,4 +1,4 @@
-name: Packaging - Community Release
+name: release-build
 
 on:
   workflow_dispatch: {}
