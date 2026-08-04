@@ -37,12 +37,19 @@ Production observability runtime exists across metrics, tracing, profiling, aler
     SPAN_DEPTH_EXCEEDED, INTERNAL_ERROR
 
 ### Phase 2: Core Implementation
-- [ ] complete hardening for observability orchestration internals (Target: Q4 2026)
-- [ ] align metrics/trace/profile/alert behavior to bounded runtime contracts (Target: Q4 2026)
+- [x] complete hardening for metrics collector bounded-ingest internals (Delivered: Q3 2026)
+  - `MetricsCollector` now rejects malformed label sets fail-closed using the Phase-1 contract
+    limits (`kMaxMetricLabels`, `kMaxLabelKeyBytes`, `kMaxLabelValueBytes`).
+  - Rejected input surfaces `malformed_telemetry_rejections_total{metric=...,reason=...}`.
+- [x] align metrics/exporter behavior to bounded runtime contracts for the metrics collector slice (Delivered: Q3 2026)
+  - Exporter failure and recovery now update explicit health state via
+    `exporter_health_status{exporter=...}` and preserve incident counters.
 
 ### Phase 3: Error Handling and Edge Cases
-- [ ] standardize fail-safe behavior for export/backend unavailability and malformed telemetry (Target: Q4 2026)
-- [ ] unify diagnostics across metrics/tracing/profiling/alert incidents (Target: Q4 2026)
+- [x] standardize fail-safe behavior for metrics-export/backend unavailability and malformed telemetry (Delivered: Q3 2026)
+  - Failure path remains non-silent through `exporter_failures_total` and bounded rejection diagnostics.
+- [x] unify diagnostics across metrics/export incidents in the metrics collector slice (Delivered: Q3 2026)
+  - `getExporterIncidentStats()` provides a single query surface for exporter failure/recovery counters.
 
 ### Phase 4: Tests
 - [x] expand focused regressions for high-contention and distributed observability scenarios (Delivered: Q3 2026)
@@ -58,6 +65,7 @@ Production observability runtime exists across metrics, tracing, profiling, aler
   - Gates: ORG-01..ORG-06 (counter ≥10M/s, histogram ≤100ns, span ≤10µs, log ≤5µs,
     SLO ≤100µs, scrape ≤5ms)
   - kObservabilityCanonicalSeed = 42; Repetitions(5)
+  - Additional bounded-edge path benchmark: `BM_ORG03B_InvalidTelemetryReject`
 
 ### Phase 6: Documentation and Acceptance
 - [x] core observability module docs aligned to source-verifiable behavior
@@ -70,13 +78,13 @@ Production observability runtime exists across metrics, tracing, profiling, aler
 - [x] core observability surfaces documented and source-verified
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
-- [ ] remaining hardening tasks closed for observability edge paths
-- [ ] release benchmark stabilization complete
+- [x] remaining metrics-collector hardening tasks closed for malformed telemetry and exporter health edge paths
+- [x] release benchmark stabilization complete for the metrics collector bounded-ingest slice
 
 ## Known Issues and Limitations
 
 - runtime behavior depends on enabled components, backend integration, and telemetry volume.
-- selected high-contention observability edge scenarios need continued hardening.
+- selected non-metrics observability edge scenarios need continued hardening.
 - benchmark breadth should continue expanding for distributed and mixed workloads.
 
 ## Breaking Changes

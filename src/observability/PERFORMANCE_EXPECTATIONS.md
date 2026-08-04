@@ -10,13 +10,14 @@
 - Relevant benchmark files:
   - benchmarks/bench_observability_goals.cpp
   - benchmarks/bench_metrics_collector.cpp
+  - benchmarks/observability/bench_observability_release_gates.cpp
 
 ## Specific Expectations
 
 | Target ID | Expectation | Benchmark case |
 |---|---|---|
 | OBSP-1 | observability goal coverage for metrics overhead, span overhead, and scrape concurrency remains bounded | OBS1_IncrementCounter, OBS1_ObserveHistogram, OBS1_SimulatedRequestWorkload, OBS1_PrometheusExportLatency, OBS2TracerFixture/SpanLifecycle, OBS2_SpanThroughputStress, OBS2_ConcurrentSpans, OBS3_ExclusiveMutexScrape, OBS3_SharedMutexScrape, OBS3_ProductionScrapeLatency, OBS3_MixedWriteReadContention |
-| OBSP-2 | core metrics collector record and mixed-operation paths remain bounded | BM_RecordQuery, BM_RecordCacheHit, BM_RecordTSStoreWrite, BM_RecordShardLatency, BM_MixedMetrics, BM_HighVolumeRecording, BM_ManyUniqueMetrics |
+| OBSP-2 | core metrics collector record, reject, and mixed-operation paths remain bounded | BM_RecordQuery, BM_RecordCacheHit, BM_RecordTSStoreWrite, BM_RecordShardLatency, BM_MixedMetrics, BM_HighVolumeRecording, BM_ManyUniqueMetrics, BM_ORG03B_InvalidTelemetryReject |
 | OBSP-3 | metrics export and concurrent recording/scrape paths remain bounded | BM_PrometheusExport_Empty, BM_PrometheusExport_WithData, BM_PrometheusExport_LargeDataset, BM_ConcurrentRecording, BM_ConcurrentMixedOperations, BM_ConcurrentExport |
 | OBSP-4 | batch, histogram, reset, and synthetic workload paths remain bounded | BM_TSStoreMetricsBatch, BM_ShardingMetricsBatch, BM_CacheMetricsBatch, BM_SecurityMetricsBatch, BM_HistogramRecording, BM_MultipleHistograms, BM_MemoryFootprint, BM_ResetEmpty, BM_ResetWithData, BM_SimulateQueryWorkload, BM_SimulateMonitoringWorkload |
 
@@ -38,9 +39,10 @@
 - Verified benchmark sources:
   - benchmarks/bench_observability_goals.cpp
   - benchmarks/bench_metrics_collector.cpp
+  - benchmarks/observability/bench_observability_release_gates.cpp
 - Verified mapping surfaces:
   - observability goal benchmark coverage
-  - metrics collector recording/export/concurrency and workload paths
+  - metrics collector recording/export/concurrency, reject-path, and workload paths
 - Result:
   - Referenced benchmark cases exist in current benchmark sources.
   - Release gates remain tied to reproducible benchmark runs and baseline comparisons.
