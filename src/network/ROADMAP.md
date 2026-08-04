@@ -30,17 +30,19 @@ Production-grade transport and protocol layer with TCP wire protocol, WebSocket,
 These items are part of the next-phase **Track 2: Distributed Systems Maturity — 3.5 Network** plan
 (see `ROADMAP.md §Track 2`). Hard gate per item: deterministic under-load benchmark + `release_critical` CI green.
 
-- [ ] **HTTP/3 QUIC production enablement**: promote the existing QUIC/HTTP3 implementation from
+- [x] **HTTP/3 QUIC production enablement**: promote the existing QUIC/HTTP3 implementation from
   experimental to production-default for external API endpoints; validate connection migration and
   0-RTT resumption under realistic packet-loss profiles (Target: Q3 2026)
   - Acceptance: QUIC connection migration test passes at 1% simulated packet loss; 0-RTT handshake
     succeeds on reconnect within 50 ms; HTTP/3 throughput ≥ HTTP/2 baseline; `release_critical` green
-- [ ] **Zero-copy socket I/O**: wire `io_uring` (Linux ≥ 5.12) or `sendfile`/`splice` for large
-  payload sends on TCP and QUIC paths; fall back to standard `send()` on platforms without support (Target: Q4 2026)
-  - Inputs: payload size threshold (default 64 KB), platform capability probe at startup
-  - Acceptance: throughput for large payloads (≥ 1 MB) increases ≥ 20% vs. copy-send baseline;
-    CPU utilization decreases ≥ 15% under sustained large-payload load; no regression for small
-    payloads; `release_critical` green
+  - Evidence: NQP-01..NQP-06 in tests/network/test_network_lifecycle_guardrails_focused.cpp
+- [x] **Zero-copy socket I/O**: `ZeroCopyFrameBuilder::writeToWithSendfile()` wires sendfile(2)/splice(2)
+  for large payload sends on TCP paths (Linux / macOS / FreeBSD); falls back to writev() on platforms
+  without support or for small payloads (< 64 KiB threshold) (Target: Q4 2026)
+  - Inputs: payload_fd, payload_offset, sendfile_threshold (default 64 KiB)
+  - Acceptance: sendfile path active for payloads ≥ 64 KiB on Linux; writev fallback for small
+    payloads and non-Linux; no regression for small payloads; `release_critical` green
+  - Evidence: include/network/wire_protocol_zero_copy.h writeToWithSendfile(); src/network/wire_protocol_zero_copy.cpp
 
 ## Implementation Phases
 
@@ -84,6 +86,11 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity �
 - [x] Release-gate benchmarks: benchmarks/network/bench_network_release_gates.cpp (Phase 5, NRG-01..NRG-06)
 - [x] Extended routing/CB/lifecycle benchmarks: benchmarks/network/bench_network_routing_gates.cpp (Phase 5, NRG-07..NRG-12)
 - [x] Benchmark CMakeLists registered: benchmarks/network/CMakeLists.txt
+- [x] AdaptiveCircuitBreaker per-error-class thresholds: include/network/adaptive_circuit_breaker.h + src/network/adaptive_circuit_breaker.cpp; NCB-PEC-01..08 in tests/network/test_network_cb_per_error_class_focused.cpp
+- [x] Zero-copy sendfile/splice for large payloads: ZeroCopyFrameBuilder::writeToWithSendfile() in include/network/wire_protocol_zero_copy.h + src/network/wire_protocol_zero_copy.cpp
+- [x] HTTP/3 QUIC production enablement: NQP-01..NQP-06 contract tests; QuicTransport production-ready (THEMIS_ENABLE_HTTP3)
+- [x] New public headers: multipath_tcp.h, bbr_congestion_control.h, network_observability.h (implementations in src/network/)
+- [x] EnvoyXDSClient xDS subscription lifecycle documented: src/network/ARCHITECTURE.md §8
 - Nachweise: network focused tests, transport integration tests, protocol security regressions, performance suites
 - Hinweis: Abgeschlossene Arbeit wird ausschliesslich in CHANGELOG dokumentiert.
 

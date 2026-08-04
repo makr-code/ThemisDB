@@ -78,3 +78,68 @@ The network module provides the wire-protocol server runtime, transport adapters
   - transport and routing surfaces
   - timeout/backpressure/circuit-breaker behavior
   - batching/zero-copy/compression optimization paths
+
+## 8. EnvoyXDSClient — xDS Resource Subscription Lifecycle
+
+`EnvoyXDSClient` (implemented in `src/network/envoy_xds.cpp`,
+public header `include/network/envoy_xds.h`) provides dynamic service-mesh
+configuration updates via the xDS (Discovery Service) protocol used by Envoy
+Proxy, Istio, and compatible control planes.
+
+### Subscription Lifecycle
+
+```
+  Start
+    │
+    ├─ connect()  ──────→  TCP/gRPC stream established to xDS management server
+    │                        (configurable host:port, TLS optional)
+    │
+    ├─ subscribe(type)  ──→  DiscoveryRequest sent for resource type:
+    │                          - Cluster Discovery Service  (CDS)  — backend clusters
+    │                          - Listener Discovery Service (LDS)  — front-door listeners
+    │                          - Endpoint Discovery Service (EDS)  — per-cluster endpoints
+    │                          - Route Configuration Service (RDS) — routing rules
+    │
+    ├─ onResponse(DiscoveryResponse)
+    │    ├─ Parse resources from response (TypeUrl dispatch)
+    │    ├─ Invoke registered callback per resource type
+    │    └─ Send ACK (DiscoveryRequest with same version_info) or NACK on parse error
+    │
+    ├─ Reconnect loop (on stream error)
+    │    ├─ Exponential backoff: 100 ms → 200 ms → 400 ms … max 30 s
+    │    └─ Re-subscribe all active resource types after reconnect
+    │
+    └─ disconnect() ──────→  Stream closed; no further callbacks fired
+```
+
+### Resource Callback Contract
+
+- Callbacks registered via `setClusterCallback()`, `setListenerCallback()`,
+  `setEndpointCallback()`, and `setRouteCallback()`.
+- Callbacks are invoked from the I/O thread while the internal lock is **not**
+  held — it is safe to call `subscribe()` / `disconnect()` from within a callback.
+- Callbacks must not block: delegate heavy processing to a separate thread.
+- A NACK (parse failure) does NOT invoke the callback; the previous resource
+  state is retained.
+
+### Thread Safety
+
+- `connect()`, `disconnect()`, and `subscribe()` are safe to call from any
+  thread (internal mutex protects stream state).
+- Multiple concurrent `subscribe()` calls for the same resource type are
+  idempotent (only one DiscoveryRequest is sent per inflight round-trip).
+
+### Error Handling
+
+| Condition                     | Behaviour                                      |
+|-------------------------------|------------------------------------------------|
+| xDS server unreachable        | Reconnect loop with exponential backoff        |
+| DiscoveryResponse parse error | NACK sent; previous resource state retained    |
+| Resource version conflict     | Version mismatch logged; full re-subscribe     |
+| Stream reset by server        | Reconnect loop triggered                       |
+
+### Integration with ServiceMesh
+
+`ServiceMesh` holds an `EnvoyXDSClient` instance and wires the cluster/endpoint
+callbacks directly into `GeoTopologyRouter` and `RaftLoadBalancer` for
+live topology updates without a restart.
