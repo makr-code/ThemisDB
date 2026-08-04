@@ -338,6 +338,23 @@ TEST_F(ExporterHealthTest, ExporterIncidentStatsExposeFailureAndRecoveryCounts) 
     EXPECT_EQ(0, stats.malformed_rejections);
 }
 
+TEST_F(ExporterHealthTest, ExporterIncidentStatsDoNotFoldMetricScopedMalformedTelemetry) {
+    auto& mc = MetricsCollector::getInstance();
+    const std::string oversized_value(kMaxLabelValueBytes + 1, 'x');
+
+    mc.recordExporterFailure("otlp");
+    mc.setGauge("invalid_gauge", 42.0, {{"key", oversized_value}});
+
+    const auto stats = mc.getExporterIncidentStats("otlp");
+    EXPECT_EQ(1, stats.failures);
+    EXPECT_EQ(0, stats.recoveries);
+    EXPECT_EQ(0, stats.malformed_rejections);
+
+    const std::string metrics = mc.getPrometheusMetrics();
+    EXPECT_NE(std::string::npos, metrics.find("malformed_telemetry_rejections_total"));
+    EXPECT_NE(std::string::npos, metrics.find("metric=\"invalid_gauge\""));
+}
+
 TEST_F(ExporterHealthTest, InvalidLabelCountIsRejectedWithDiagnosticMetric) {
     auto& mc = MetricsCollector::getInstance();
     std::map<std::string, std::string> labels;

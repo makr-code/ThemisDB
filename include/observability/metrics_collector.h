@@ -167,9 +167,15 @@ public:
     /**
      * @brief Snapshot exporter incident counters for a single exporter.
      *
+     * The current observability hardening slice tracks exporter reachability
+     * incidents only. Malformed telemetry rejections remain metric-scoped and
+     * are surfaced via `malformed_telemetry_rejections_total{metric=...,reason=...}`
+     * instead of being attributed to an exporter.
+     *
      * @param exporter_name Logical exporter name such as `otlp` or `prometheus`.
-     * @return Current counters for failures, recoveries, and malformed-telemetry
-     *         rejections attributed to that exporter.
+     * @return Current failure and recovery counters for the exporter. The
+     *         malformed-rejection field remains zero until exporter-specific
+     *         attribution is implemented as a separate contract change.
      */
     struct ExporterIncidentStats {
         std::int64_t failures{0};

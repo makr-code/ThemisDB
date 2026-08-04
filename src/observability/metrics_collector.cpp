@@ -317,8 +317,7 @@ MetricsCollector::ExporterIncidentStats MetricsCollector::getExporterIncidentSta
     return ExporterIncidentStats{
         loadCounter("exporter_failures_total", {{"exporter", exporter_name}}),
         loadCounter("exporter_recoveries_total", {{"exporter", exporter_name}}),
-        loadCounter("malformed_telemetry_rejections_total", {{"metric", exporter_name},
-                                                             {"reason", "label_contract"}})};
+        0};
 }
 
 // ===== Generic metric recording (used by adapters) =====
