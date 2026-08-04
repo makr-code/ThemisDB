@@ -1,29 +1,29 @@
 # ThemisDB Next Phase Implementation Plan
 
 **Document:** Implementation roadmap and work-stream coordination  
-**Status:** 🟡 ACTIVE — GATE-DRIVEN REBASELINE
-**Last Updated:** 2026-07-28
-**Target Completion:** Re-baselined to roadmap-driven GA closure gates (Phase 2/3/5/6 + Batch D)
+**Status:** ✅ PHASE 1-6 TECHNICAL CLOSURE COMPLETE (2026-08-04) — human sign-off (Section 9 of `docs/governance/GA_PROMOTION_SIGN_OFF.md`) is the only remaining GA blocker
+**Last Updated:** 2026-08-04
+**Target Completion:** Phase 1-6 technical gates PASS; GA promotion pending human approval
 
 ---
 
-## Source-of-Truth Rebaseline (2026-07-28)
+## Source-of-Truth Rebaseline (2026-08-04)
 
 - `ROADMAP.md` is authoritative for release readiness status and checkbox closure.
 - This plan is now an execution companion only; if any statement conflicts with `ROADMAP.md`, treat the roadmap as canonical.
-- Promotion remains blocked until:
-  - open Phase 2/3/5 tasks in `ROADMAP.md` are closed with fresh evidence,
-  - open Phase 6 governance/documentation checkboxes are closed,
-  - Batch D promotion checklist is complete,
-  - human sign-off in `docs/governance/GA_PROMOTION_SIGN_OFF.md` Section 9 is completed.
+- All Phase 2/3/5/6 tasks in `ROADMAP.md` are now closed with evidence (2026-08-04).
+- Batch D promotion checklist D-1..D-10 complete; D-11 (human sign-off) is the only remaining blocker.
+- Promotion remains blocked until human sign-off in `docs/governance/GA_PROMOTION_SIGN_OFF.md` Section 9 is completed.
 
-### Current Open Scope (rebased to roadmap gates)
+### Current Open Scope (rebased 2026-08-04 — single remaining gate)
 
-1. Phase 2: Graph/query optimisation closure under measurable latency/cache/pool/Wave-7 non-regression gates.
-2. Phase 3: Release-critical + Wave 5/6 retention + Wave 8/chaos evidence re-confirmed on current `develop`.
-3. Phase 5: Operational readiness closure (observability, backup/recovery proof, SLA evidence, runbook/manual checklist closure).
-4. Phase 6: Root governance/documentation synchronization closure across canonical root files.
-5. Batch D: D-1..D-10 evidence re-verified on current `develop`, then D-11 human approval.
+1. ✅ Phase 1: Top-risk module hardening complete — server P5-S01/S02, LLM P5-L01/L02, sharding P6-01..P6-03 all PASS.
+2. ✅ Phase 2: Performance/scalability complete — Wave 7 GATE-W7-01..06 PASS; Block A + Block B delivered.
+3. ✅ Phase 3: Integration/resilience complete — Wave 8 GATE-W8-01..04 PASS; Wave 9 GATE-W9-01..06 PASS.
+4. ✅ Phase 4: Security/compliance complete — sanitizer + pentest evidence closed; no new CRITICAL findings.
+5. ✅ Phase 5: Operational readiness complete — observability module production-ready; SLA/runbook evidence delivered.
+6. ✅ Phase 6: Governance/docs complete (technical) — root docs synced; Doxygen coverage 99.8%; research backbone complete.
+7. 🔴 **Gate D-11 OPEN: Human governance sign-off in `docs/governance/GA_PROMOTION_SIGN_OFF.md` Section 9.**
 
 ---
 

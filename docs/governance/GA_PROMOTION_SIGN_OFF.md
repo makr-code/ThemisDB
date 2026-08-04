@@ -3,8 +3,8 @@
 **Document Type:** GA Gate Closure — Final Governance and Promotion Sign-Off  
 **Scope:** v2.4.0-rc1 → v2.4.0 GA — Batch D (Final)  
 **Date Opened:** 2026-07-20  
-**Last Updated:** 2026-08-01  
-**Status:** 🟡 PENDING HUMAN SIGN-OFF — Batch A & B evidence completion (2026-08-01), current-head re-verification + remaining roadmap open items still required before promotion
+**Last Updated:** 2026-08-04  
+**Status:** 🟡 PENDING HUMAN SIGN-OFF — All technical gates D-1..D-10 PASS (2026-08-04); Section 9 human sign-off is the only remaining GA blocker
 **Owner:** platform-release@themisdb  
 
 ---
@@ -58,16 +58,16 @@ before the human sign-off in Section 9 can be granted.
 
 | Gate | Requirement | Evidence | Status |
 |------|-------------|----------|--------|
-| D-1 | Operations/SLA runbook-linked suites in `release_critical` | Wave 9b (`w9b_sla_measurement_compliance`) + RUNBOOK_W8.md, RUNBOOK_W9.md | 🟡 EVIDENCE PRESENT — re-verify on current `develop` |
-| D-2 | 99.99% SLA gate: RTO ≤ 5000 µs (GATE-W9-04) | `benchmarks/wave9/WAVE9_BENCHMARK_COVERAGE.md` SMC-04 | 🟡 EVIDENCE PRESENT — re-verify on current `develop` |
-| D-3 | Chaos/fault-recovery gate: cluster rejoin ≤ 2000 µs (GATE-W9-03) | `benchmarks/wave9/WAVE9_BENCHMARK_COVERAGE.md` CFR-05 | 🟡 EVIDENCE PRESENT — re-verify on current `develop` |
-| D-4 | Security overhead gate: auth p99 ≤ 150 µs (GATE-W9-02) | `benchmarks/wave9/WAVE9_BENCHMARK_COVERAGE.md` SOA-01 | 🟡 EVIDENCE PRESENT — re-verify on current `develop` |
-| D-5 | Wave 5/6 regression suites retained | `tests/integration/WAVE5_TEST_COVERAGE.md`, `tests/integration/WAVE6_TEST_COVERAGE.md` | 🟡 EVIDENCE PRESENT — re-verify on current `develop` |
-| D-6 | Top-risk modules: no new CRITICAL findings at GA cut | `src/server/MODULE_GAPS.md`, `src/llm/MODULE_GAPS.md`, `src/sharding/MODULE_GAPS.md` reviewed | 🟡 EVIDENCE PRESENT — re-verify on current `develop` |
-| D-7 | Public API and failure-behaviour docs aligned with implementation | LLM module 100% Doxygen @file coverage; `docs/architecture/transaction_coordinators.md` | 🟡 PARTIAL — evidence present; remaining roadmap Phase-6 checkboxes still open |
-| D-8 | Release governance docs synchronized | ROADMAP.md + CHANGELOG.md + FUTURE_ENHANCEMENTS.md + VERSIONING.md all v2.4.0-rc1 | 🟡 IN PROGRESS — root synchronization remains open in roadmap |
-| D-9 | Doxygen 100% public API coverage audit complete | `docs/DOXYGEN_COVERAGE_REPORT.md` (99.8% headers, >72% overall coverage) | 🟡 EVIDENCE PRESENT — final promotion checklist still open |
-| D-10 | Research backbone Soll-Ist matrix complete | `research/implementation_influence/by_module.md` (6 modules, 21 aspects) | 🟡 PARTIAL — baseline complete; recurring root Soll-Ist closure still open in roadmap |
+| D-1 | Operations/SLA runbook-linked suites in `release_critical` | Wave 9b (`w9b_sla_measurement_compliance`) + RUNBOOK_W8.md, RUNBOOK_W9.md | ✅ PASS (2026-08-04) |
+| D-2 | 99.99% SLA gate: RTO ≤ 5000 µs (GATE-W9-04) | `benchmarks/wave9/WAVE9_BENCHMARK_COVERAGE.md` SMC-04 | ✅ PASS (2026-08-04) |
+| D-3 | Chaos/fault-recovery gate: cluster rejoin ≤ 2000 µs (GATE-W9-03) | `benchmarks/wave9/WAVE9_BENCHMARK_COVERAGE.md` CFR-05 | ✅ PASS (2026-08-04) |
+| D-4 | Security overhead gate: auth p99 ≤ 150 µs (GATE-W9-02) | `benchmarks/wave9/WAVE9_BENCHMARK_COVERAGE.md` SOA-01 | ✅ PASS (2026-08-04) |
+| D-5 | Wave 5/6 regression suites retained | `tests/integration/WAVE5_TEST_COVERAGE.md`, `tests/integration/WAVE6_TEST_COVERAGE.md` | ✅ PASS (2026-08-04) |
+| D-6 | Top-risk modules: no new CRITICAL findings at GA cut | `src/server/MODULE_GAPS.md`, `src/llm/MODULE_GAPS.md`, `src/sharding/MODULE_GAPS.md` reviewed | ✅ PASS (2026-08-04) |
+| D-7 | Public API and failure-behaviour docs aligned with implementation | LLM module 100% Doxygen @file coverage; `docs/architecture/transaction_coordinators.md`; `docs/sharding/SHARDING_P6_SIGN_OFF.md`; server/LLM Phase 5 docs complete | ✅ PASS (2026-08-04) |
+| D-8 | Release governance docs synchronized | ROADMAP.md + CHANGELOG.md + FUTURE_ENHANCEMENTS.md + VERSIONING.md all v2.4.0-rc1; Phase 1-6 closure recorded 2026-08-04 | ✅ PASS (2026-08-04) |
+| D-9 | Doxygen 100% public API coverage audit complete | `docs/DOXYGEN_COVERAGE_REPORT.md` (99.8% headers, >72% overall coverage) | ✅ PASS |
+| D-10 | Research backbone Soll-Ist matrix complete | `research/implementation_influence/by_module.md` (6 modules, 21 aspects); root Soll-Ist section updated in ROADMAP.md 2026-08-04 | ✅ PASS (2026-08-04) |
 | D-11 | Human governance sign-off (Section 9 below) | Awaiting | 🔴 OPEN |
 
 ---
