@@ -238,6 +238,17 @@ TEST_F(CardinalityTest, SeriesBeyondLimitAreDropped) {
     EXPECT_GE(mc.getDroppedSeriesCount(), 2);
 }
 
+TEST_F(CardinalityTest, CardinalityOverflowEmitsDiagnosticMetric) {
+    MetricsCollector::getInstance().setCardinalityLimit(1);
+    auto& mc = MetricsCollector::getInstance();
+    mc.recordCacheHit("A");
+    mc.recordCacheHit("B"); // dropped and diagnosed
+
+    const std::string metrics = mc.getPrometheusMetrics();
+    EXPECT_NE(std::string::npos, metrics.find("metric_cardinality_exceeded_total"));
+    EXPECT_NE(std::string::npos, metrics.find("metric=\"cache_hits_total\""));
+}
+
 TEST_F(CardinalityTest, ExistingSeriesAlwaysAllowed) {
     MetricsCollector::getInstance().setCardinalityLimit(1);
     auto& mc = MetricsCollector::getInstance();

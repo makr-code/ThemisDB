@@ -276,6 +276,9 @@ bool MetricsCollector::checkCardinality(const std::string& name, const std::stri
     size_t current = series_count_per_metric_[name];
     if (current >= cardinality_limit_) {
         dropped_series_++;
+        const std::string diagnostic_key =
+            makeKey("metric_cardinality_exceeded_total", {{"metric", name}});
+        counters_[diagnostic_key]++;
         return false;
     }
     series_count_per_metric_[name] = current + 1;
@@ -456,4 +459,3 @@ double LatencyTracker::elapsedMs() const {
 
 } // namespace observability
 } // namespace themis
-
