@@ -19,6 +19,7 @@
  */
 
 #include "observability/metrics_collector.h"
+#include "observability/observability_api_contract.h"
 #include "security/pii_redaction_policy.h"
 #include <algorithm>
 #include <shared_mutex>
@@ -289,16 +290,46 @@ bool MetricsCollector::checkCardinality(const std::string& name, const std::stri
 
 void MetricsCollector::recordExporterFailure(const std::string& exporter_name) {
     incrementCounter("exporter_failures_total", {{"exporter", exporter_name}});
+    setGauge("exporter_health_status", 0.0, {{"exporter", exporter_name}});
 }
 
 void MetricsCollector::recordExporterRecovery(const std::string& exporter_name) {
     incrementCounter("exporter_recoveries_total", {{"exporter", exporter_name}});
+    setGauge("exporter_health_status", 1.0, {{"exporter", exporter_name}});
+}
+
+void MetricsCollector::recordMalformedTelemetry(const std::string& metric_name,
+                                                const std::string& reason) {
+    incrementCounter("malformed_telemetry_rejections_total",
+                     {{"metric", metric_name}, {"reason", reason}});
+}
+
+MetricsCollector::ExporterIncidentStats MetricsCollector::getExporterIncidentStats(
+        const std::string& exporter_name) const {
+    std::shared_lock<std::shared_mutex> lock(mutex_);
+    const auto loadCounter = [this](const std::string& name,
+                                    const std::map<std::string, std::string>& labels) {
+        const std::string key = makeKey(name, labels);
+        auto it = counters_.find(key);
+        return (it != counters_.end()) ? it->second.load() : int64_t{0};
+    };
+
+    return ExporterIncidentStats{
+        loadCounter("exporter_failures_total", {{"exporter", exporter_name}}),
+        loadCounter("exporter_recoveries_total", {{"exporter", exporter_name}}),
+        loadCounter("malformed_telemetry_rejections_total", {{"metric", exporter_name},
+                                                             {"reason", "label_contract"}})};
 }
 
 // ===== Generic metric recording (used by adapters) =====
 
 void MetricsCollector::addCounter(const std::string& name, int64_t delta,
                                    const std::map<std::string, std::string>& labels) {
+    std::string label_failure_reason;
+    if (!areLabelsValid(labels, &label_failure_reason)) {
+        recordMalformedTelemetry(name, label_failure_reason);
+        return;
+    }
     std::string key = makeKey(name, labels);
     std::unique_lock<std::shared_mutex> lock(mutex_);
     if (!checkCardinality(name, key)) return;
@@ -307,6 +338,11 @@ void MetricsCollector::addCounter(const std::string& name, int64_t delta,
 
 void MetricsCollector::modifyGauge(const std::string& name, double delta,
                                     const std::map<std::string, std::string>& labels) {
+    std::string label_failure_reason;
+    if (!areLabelsValid(labels, &label_failure_reason)) {
+        recordMalformedTelemetry(name, label_failure_reason);
+        return;
+    }
     std::string key = makeKey(name, labels);
     std::unique_lock<std::shared_mutex> lock(mutex_);
     if (!checkCardinality(name, key)) return;
@@ -317,6 +353,11 @@ void MetricsCollector::modifyGauge(const std::string& name, double delta,
 }
 
 void MetricsCollector::incrementCounter(const std::string& name, const std::map<std::string, std::string>& labels) {
+    std::string label_failure_reason;
+    if (!areLabelsValid(labels, &label_failure_reason)) {
+        recordMalformedTelemetry(name, label_failure_reason);
+        return;
+    }
     std::string key = makeKey(name, labels);
     std::unique_lock<std::shared_mutex> lock(mutex_);
     if (!checkCardinality(name, key)) return;
@@ -324,6 +365,11 @@ void MetricsCollector::incrementCounter(const std::string& name, const std::map<
 }
 
 void MetricsCollector::setGauge(const std::string& name, double value, const std::map<std::string, std::string>& labels) {
+    std::string label_failure_reason;
+    if (!areLabelsValid(labels, &label_failure_reason)) {
+        recordMalformedTelemetry(name, label_failure_reason);
+        return;
+    }
     std::string key = makeKey(name, labels);
     std::unique_lock<std::shared_mutex> lock(mutex_);
     if (!checkCardinality(name, key)) return;
@@ -331,6 +377,11 @@ void MetricsCollector::setGauge(const std::string& name, double value, const std
 }
 
 void MetricsCollector::observeHistogram(const std::string& name, double value, const std::map<std::string, std::string>& labels) {
+    std::string label_failure_reason;
+    if (!areLabelsValid(labels, &label_failure_reason)) {
+        recordMalformedTelemetry(name, label_failure_reason);
+        return;
+    }
     std::unique_lock<std::shared_mutex> lock(mutex_);
     std::string key = makeKey(name, labels);
     if (!checkCardinality(name, key)) return;
@@ -345,6 +396,11 @@ void MetricsCollector::observeHistogram(const std::string& name, double value, c
 void MetricsCollector::observeHistogramWithExemplar(const std::string& name, double value,
                                                     const Exemplar& exemplar,
                                                     const std::map<std::string, std::string>& labels) {
+    std::string label_failure_reason;
+    if (!areLabelsValid(labels, &label_failure_reason)) {
+        recordMalformedTelemetry(name, label_failure_reason);
+        return;
+    }
     std::unique_lock<std::shared_mutex> lock(mutex_);
     std::string key = makeKey(name, labels);
     if (!checkCardinality(name, key)) return;
@@ -406,6 +462,33 @@ std::string MetricsCollector::formatExemplar(const Exemplar& exemplar) {
         << std::fixed << std::setprecision(3) << exemplar.value
         << " " << std::fixed << std::setprecision(3) << ts_sec;
     return oss.str();
+}
+
+bool MetricsCollector::areLabelsValid(const std::map<std::string, std::string>& labels,
+                                      std::string* failure_reason) {
+    if (labels.size() > kMaxMetricLabels) {
+        if (failure_reason != nullptr) {
+            *failure_reason = "label_count_exceeded";
+        }
+        return false;
+    }
+
+    for (const auto& [key, value] : labels) {
+        if (key.size() > kMaxLabelKeyBytes) {
+            if (failure_reason != nullptr) {
+                *failure_reason = "label_key_too_long";
+            }
+            return false;
+        }
+        if (value.size() > kMaxLabelValueBytes) {
+            if (failure_reason != nullptr) {
+                *failure_reason = "label_value_too_long";
+            }
+            return false;
+        }
+    }
+
+    return true;
 }
 
 // ===== Histogram Implementation =====

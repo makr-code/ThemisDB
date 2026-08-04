@@ -27,6 +27,7 @@
 #include <shared_mutex>
 #include <atomic>
 #include <chrono>
+#include <cstdint>
 #include <memory>
 
 namespace themis {
@@ -159,6 +160,24 @@ public:
     void recordExporterFailure(const std::string& exporter_name);
     /** Record that an exporter has recovered after previous failures. */
     void recordExporterRecovery(const std::string& exporter_name);
+    /** Record an exporter rejection caused by malformed telemetry input. */
+    void recordMalformedTelemetry(const std::string& metric_name,
+                                  const std::string& reason);
+
+    /**
+     * @brief Snapshot exporter incident counters for a single exporter.
+     *
+     * @param exporter_name Logical exporter name such as `otlp` or `prometheus`.
+     * @return Current counters for failures, recoveries, and malformed-telemetry
+     *         rejections attributed to that exporter.
+     */
+    struct ExporterIncidentStats {
+        std::int64_t failures{0};
+        std::int64_t recoveries{0};
+        std::int64_t malformed_rejections{0};
+    };
+    [[nodiscard]] ExporterIncidentStats getExporterIncidentStats(
+        const std::string& exporter_name) const;
 
     // ===== Generic metric recording (used by adapters) =====
 
@@ -271,6 +290,8 @@ private:
     /// Format an exemplar for Prometheus OpenMetrics output.
     /// Returns an empty string if the exemplar has no trace_id.
     static std::string formatExemplar(const Exemplar& exemplar);
+    static bool areLabelsValid(const std::map<std::string, std::string>& labels,
+                               std::string* failure_reason = nullptr);
 };
 
 /**
