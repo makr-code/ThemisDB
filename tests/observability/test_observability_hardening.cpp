@@ -314,3 +314,55 @@ TEST_F(ExporterHealthTest, DifferentExporterNamesProduceSeparateSeries) {
     EXPECT_NE(std::string::npos, metrics.find("otlp"));
     EXPECT_NE(std::string::npos, metrics.find("pushgateway"));
 }
+
+TEST_F(ExporterHealthTest, ExporterHealthGaugeTracksFailureAndRecovery) {
+    auto& mc = MetricsCollector::getInstance();
+    mc.recordExporterFailure("otlp");
+    mc.recordExporterRecovery("otlp");
+
+    const std::string metrics = mc.getPrometheusMetrics();
+    EXPECT_NE(std::string::npos, metrics.find("exporter_health_status"));
+    EXPECT_NE(std::string::npos, metrics.find("exporter=\"otlp\""));
+    EXPECT_NE(std::string::npos, metrics.find(" 1.00"));
+}
+
+TEST_F(ExporterHealthTest, ExporterIncidentStatsExposeFailureAndRecoveryCounts) {
+    auto& mc = MetricsCollector::getInstance();
+    mc.recordExporterFailure("prometheus");
+    mc.recordExporterFailure("prometheus");
+    mc.recordExporterRecovery("prometheus");
+
+    const auto stats = mc.getExporterIncidentStats("prometheus");
+    EXPECT_EQ(2, stats.failures);
+    EXPECT_EQ(1, stats.recoveries);
+    EXPECT_EQ(0, stats.malformed_rejections);
+}
+
+TEST_F(ExporterHealthTest, InvalidLabelCountIsRejectedWithDiagnosticMetric) {
+    auto& mc = MetricsCollector::getInstance();
+    std::map<std::string, std::string> labels;
+    for (std::size_t i = 0; i < kMaxMetricLabels + 1; ++i) {
+        labels.emplace("label_" + std::to_string(i), "value");
+    }
+
+    mc.addCounter("invalid_metric_total", 1, labels);
+
+    const std::string metrics = mc.getPrometheusMetrics();
+    EXPECT_NE(std::string::npos, metrics.find("malformed_telemetry_rejections_total"));
+    EXPECT_NE(std::string::npos, metrics.find("metric=\"invalid_metric_total\""));
+    EXPECT_NE(std::string::npos, metrics.find("reason=\"label_count_exceeded\""));
+    EXPECT_EQ(std::string::npos, metrics.find("invalid_metric_total{"));
+}
+
+TEST_F(ExporterHealthTest, InvalidLabelValueIsRejectedWithDiagnosticMetric) {
+    auto& mc = MetricsCollector::getInstance();
+    const std::string oversized_value(kMaxLabelValueBytes + 1, 'x');
+
+    mc.setGauge("invalid_gauge", 42.0, {{"key", oversized_value}});
+
+    const std::string metrics = mc.getPrometheusMetrics();
+    EXPECT_NE(std::string::npos, metrics.find("malformed_telemetry_rejections_total"));
+    EXPECT_NE(std::string::npos, metrics.find("metric=\"invalid_gauge\""));
+    EXPECT_NE(std::string::npos, metrics.find("reason=\"label_value_too_long\""));
+    EXPECT_EQ(std::string::npos, metrics.find("invalid_gauge{"));
+}
