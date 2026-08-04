@@ -16,9 +16,9 @@ Production-grade transport and protocol layer with TCP wire protocol, WebSocket,
 ## Planned Features
 
 ### Short-term (3-6 months)
-- [ ] Expand transport-level regression coverage for mixed TCP/WS/UDP/QUIC deployments (Target: Q4 2026)
-- [ ] Strengthen distributed routing and failover diagnostics for operator triage (Target: Q4 2026)
-- [ ] Harden connection lifecycle guardrails (limits, backpressure, timeout interplay) under peak load (Target: Q4 2026)
+- [x] Expand transport-level regression coverage for mixed TCP/WS/UDP/QUIC deployments (Target: Q4 2026) — NTR-08 in tests/network/test_network_transport_resilience_focused.cpp
+- [x] Strengthen distributed routing and failover diagnostics for operator triage (Target: Q4 2026) — NRH-06..NRH-07 in tests/network/test_network_routing_hardening_focused.cpp
+- [x] Harden connection lifecycle guardrails (limits, backpressure, timeout interplay) under peak load (Target: Q4 2026) — NLG-01..NLG-08 in tests/network/test_network_lifecycle_guardrails_focused.cpp
 
 ### Mid-term (6-12 months)
 - [ ] Improve protocol-path performance consistency with benchmark-backed promotion gates (Target: Q1 2027)
@@ -51,21 +51,25 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity �
 - [x] Extend deterministic regression packs for malformed frame and rate-limit abuse scenarios (Target: Q3 2026)
 
 ### Phase 2: Multi-Transport Resilience
-- [ ] Strengthen failure handling across TCP, WebSocket, UDP, QUIC/HTTP3, and gRPC paths (Target: Q4 2026)
-- [ ] Validate transport fallback/retry behavior under network degradation (Target: Q4 2026)
-- [ ] Use the follow-on hardening block to prioritize transport fault injection before broader routing diagnostics work (Target: Q4 2026)
+- [x] Strengthen failure handling across TCP, WebSocket, UDP, QUIC/HTTP3, and gRPC paths (Target: Q4 2026) — NTR-01..NTR-08 in tests/network/test_network_transport_resilience_focused.cpp
+- [x] Validate transport fallback/retry behavior under network degradation (Target: Q4 2026) — NTR-01..NTR-02 (retry policy exhaustion + bounded backoff), NTR-05..NTR-06 (gRPC fallback sequence)
+- [x] Expand transport-level regression coverage for mixed TCP/WS/UDP/QUIC deployments (Target: Q4 2026) — NTR-08 (mixed multi-transport failure injection)
 
 ### Phase 3: Routing and Topology Hardening
-- [ ] Expand routing correctness checks under changing health/latency/topology signals (Target: Q4 2026)
-- [ ] Harden load-balancing state transitions and recovery behavior under churn (Target: Q4 2026)
+- [x] Expand routing correctness checks under changing health/latency/topology signals (Target: Q4 2026) — NRH-01..NRH-08 in tests/network/test_network_routing_hardening_focused.cpp
+- [x] Harden load-balancing state transitions and recovery behavior under churn (Target: Q4 2026) — NRH-03..NRH-05 (LB state machine correctness, churn tolerance)
+- [x] Strengthen distributed routing and failover diagnostics for operator triage (Target: Q4 2026) — NRH-06..NRH-07 (failover preference order, region-down routing)
 
 ### Phase 4: Performance and Operational Hardening
 - [x] Contract-hardening focused tests NCH-01..NCH-16 covering frame validation, auth/session, rate-limit, and connection lifecycle invariants (tests/network/test_network_contract_hardening_focused.cpp) (Target: Q1 2027)
+- [x] Harden connection lifecycle guardrails (limits, backpressure, timeout interplay) under peak load (Target: Q4 2026) — NLG-01..NLG-08 in tests/network/test_network_lifecycle_guardrails_focused.cpp
+- [x] QUIC production readiness: connection migration, 0-RTT contract sanity, throughput invariants (Target: Q3 2026) — NQP-01..NQP-06 in tests/network/test_network_lifecycle_guardrails_focused.cpp
 - [x] Re-baseline protocol throughput and tail-latency envelopes across representative production mixes (Target: Q1 2027)
 - [x] Keep compression/batching/zero-copy overhead bounded under high concurrency (Target: Q1 2027)
 
 ### Phase 5: Documentation and Release Readiness
 - [x] Lock benchmark-backed release gates for network hot paths: NRG-01..NRG-06 in benchmarks/network/bench_network_release_gates.cpp (TCP dispatch p99≤200µs, auth check p99≤100µs, rate-limit p99≤50µs, WS dispatch p99≤300µs, accept p99≤1ms, serialize p99≤100µs) (Target: Q3 2026)
+- [x] Extended routing/CB/lifecycle benchmark gates: NRG-07..NRG-12 in benchmarks/network/bench_network_routing_gates.cpp (topology select, LB forward, CB shouldAllow, connection limit, queue gate, session guard) (Target: Q4 2026)
 - [x] Keep network docs source-aligned with explicit sourcecode verification evidence per cycle (Target: ongoing)
 - [x] Keep completed roadmap items exclusively in changelog (Target: ongoing)
 
@@ -74,7 +78,11 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity �
 - [x] Contract header frozen: include/network/network_api_contract.h (Phase 1)
 - [x] Contract-hardening tests: tests/network/test_network_contract_hardening_focused.cpp (Phase 4, NCH-01..NCH-16)
 - [x] Phase 2 hardening tests: tests/network/test_network_hardening_phase2_focused.cpp (NMT-01..NMT-08 multi-transport failure injection, NAG-01..NAG-08 adversarial auth/rate-limit guard hardening)
+- [x] Phase 2 transport resilience tests: tests/network/test_network_transport_resilience_focused.cpp (NTR-01..NTR-08 retry policy, backpressure, gRPC fallback, pool drain, mixed injection)
+- [x] Phase 3 routing hardening tests: tests/network/test_network_routing_hardening_focused.cpp (NRH-01..NRH-08 topology routing, LB state machine, circuit breaker)
+- [x] Phase 4 lifecycle guardrail tests: tests/network/test_network_lifecycle_guardrails_focused.cpp (NLG-01..NLG-08 lifecycle, NQP-01..NQP-06 QUIC readiness)
 - [x] Release-gate benchmarks: benchmarks/network/bench_network_release_gates.cpp (Phase 5, NRG-01..NRG-06)
+- [x] Extended routing/CB/lifecycle benchmarks: benchmarks/network/bench_network_routing_gates.cpp (Phase 5, NRG-07..NRG-12)
 - [x] Benchmark CMakeLists registered: benchmarks/network/CMakeLists.txt
 - Nachweise: network focused tests, transport integration tests, protocol security regressions, performance suites
 - Hinweis: Abgeschlossene Arbeit wird ausschliesslich in CHANGELOG dokumentiert.
