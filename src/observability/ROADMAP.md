@@ -55,7 +55,7 @@ Production observability runtime exists across metrics, tracing, profiling, aler
 - [x] expand focused regressions for high-contention and distributed observability scenarios (Delivered: Q3 2026)
 - [x] extend deterministic stress fixtures for telemetry-heavy operational workloads (Delivered: Q3 2026)
   - Test file: `tests/observability/test_observability_contract_hardening_focused.cpp`
-  - Test cases: OCH-01..OCH-16 (counter/gauge/histogram, tracing, logging, SLO/export)
+  - Test cases: OCH-01..OCH-20 (counter/gauge/histogram, real tracing propagation, logging, SLO/export diagnostics)
   - kObservabilityContractSeed = 42; all tests self-contained, no external I/O
 
 ### Phase 5: Performance and Hardening
