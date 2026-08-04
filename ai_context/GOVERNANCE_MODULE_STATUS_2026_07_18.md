@@ -252,7 +252,7 @@ Two open findings with documented remediation paths:
 
 **Validation Date**: 2026-07-18
 **Validator Role**: Copilot Development Agent
-**Parent Epic**: #5624 - Server Module Hardening & Release Readiness
+**Parent Epic**: #5624 - [EPIC][STATUS][MODULES] ThemisDB Development Status 2026-07-18
 **Related Issues**: #5647 (this issue)
 
 ---
@@ -260,7 +260,7 @@ Two open findings with documented remediation paths:
 ## References
 
 - Issue: [#5647 Development Status 2026-07-18](https://github.com/makr-code/ThemisDB/issues/5647)
-- Parent Epic: [#5624 Server Module Hardening & Release Readiness](https://github.com/makr-code/ThemisDB/issues/5624)
+- Parent Epic: [#5624 ThemisDB Development Status 2026-07-18](https://github.com/makr-code/ThemisDB/issues/5624)
 - Roadmap: [src/governance/ROADMAP.md](../src/governance/ROADMAP.md)
 - Future Enhancements: [src/governance/FUTURE_ENHANCEMENTS.md](../src/governance/FUTURE_ENHANCEMENTS.md)
 - Tests: [tests/governance/](../tests/governance/)

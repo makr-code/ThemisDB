@@ -2,7 +2,7 @@
 
 **Issue**: [#5651] [module:index] Development Status 2026-07-18  
 **Type**: Development Status & Module Synchronization  
-**Parent Epic**: #5624 (Server Module Hardening & Release Readiness)  
+**Parent Epic**: #5624 ([EPIC][STATUS][MODULES] ThemisDB Development Status 2026-07-18)  
 **Module**: index  
 **Area Label**: area:index  
 **Closed**: 2026-08-02

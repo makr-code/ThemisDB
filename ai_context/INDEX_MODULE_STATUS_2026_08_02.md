@@ -105,7 +105,7 @@ Acceptance criteria documented in three synchronized documents:
 **Status**: COMPLETED
 
 - Issue: #5651 (Development Status 2026-07-18)
-- Parent Epic: #5624 (Server Module Hardening & Release Readiness)
+- Parent Epic: #5624 ([EPIC][STATUS][MODULES] ThemisDB Development Status 2026-07-18)
 - Area Label: area:index
 - Module: index
 - Roadmap Path: src/index/ROADMAP.md
@@ -336,7 +336,7 @@ Four open findings with documented remediation paths:
 
 **Validation Date**: 2026-08-02  
 **Validator Role**: Copilot Development Agent  
-**Parent Epic**: #5624 - Server Module Hardening & Release Readiness  
+**Parent Epic**: #5624 - [EPIC][STATUS][MODULES] ThemisDB Development Status 2026-07-18  
 **Related Issues**: #5651 (this issue)
 
 ---
@@ -344,7 +344,7 @@ Four open findings with documented remediation paths:
 ## References
 
 - Issue: [#5651 Development Status 2026-07-18](https://github.com/makr-code/ThemisDB/issues/5651)
-- Parent Epic: [#5624 Server Module Hardening & Release Readiness](https://github.com/makr-code/ThemisDB/issues/5624)
+- Parent Epic: [#5624 ThemisDB Development Status 2026-07-18](https://github.com/makr-code/ThemisDB/issues/5624)
 - Roadmap: [src/index/ROADMAP.md](../src/index/ROADMAP.md)
 - Future Enhancements: [src/index/FUTURE_ENHANCEMENTS.md](../src/index/FUTURE_ENHANCEMENTS.md)
 - Audit: [src/index/AUDIT.md](../src/index/AUDIT.md)
