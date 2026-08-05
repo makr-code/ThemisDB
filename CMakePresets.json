@@ -340,7 +340,7 @@
     {
       "name": "military-release-windows",
       "displayName": "Military Release (Windows) (vcpkg required)",
-      "description": "Production release build for Military edition on Windows. Hardened for government/classified deployments. Requires gRPC. LLM disabled. Requires: Windows 10/11, MSVC 2022+, Ninja, vcpkg. See SETUP.md for setup instructions.",
+      "description": "Production release build for Military edition on Windows. Hardened for government/classified deployments. Requires: Windows 10/11, MSVC 2022+, Ninja, vcpkg. See SETUP.md for setup instructions.",
       "inherits": "windows-base",
       "condition": {
         "type": "equals",
@@ -351,8 +351,7 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
         "THEMIS_EDITION": "MILITARY",
-        "THEMIS_ENABLE_GRPC": "ON",
-        "THEMIS_ENABLE_LLM": "OFF"
+        "THEMIS_ENABLE_GRPC": "ON"
       }
     },
     {
@@ -371,14 +370,13 @@
         "THEMIS_EDITION": "MILITARY",
         "THEMIS_BUILD_BENCHMARKS": "ON",
         "THEMIS_BUILD_TESTS": "ON",
-        "THEMIS_ENABLE_GRPC": "ON",
-        "THEMIS_ENABLE_LLM": "OFF"
+        "THEMIS_ENABLE_GRPC": "ON"
       }
     },
     {
       "name": "military-release-linux",
       "displayName": "Military Release (Linux) (vcpkg required)",
-      "description": "Production release build for Military edition on Linux. Hardened for government/classified deployments. Requires gRPC. LLM disabled. Requires: Linux, GCC 11+, Ninja, vcpkg. See SETUP.md for setup instructions.",
+      "description": "Production release build for Military edition on Linux. Hardened for government/classified deployments. Requires: Linux, GCC 11+, Ninja, vcpkg. See SETUP.md for setup instructions.",
       "inherits": "linux-base",
       "condition": {
         "type": "equals",
@@ -389,8 +387,7 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
         "THEMIS_EDITION": "MILITARY",
-        "THEMIS_ENABLE_GRPC": "ON",
-        "THEMIS_ENABLE_LLM": "OFF"
+        "THEMIS_ENABLE_GRPC": "ON"
       }
     },
     {
@@ -409,8 +406,7 @@
         "THEMIS_EDITION": "MILITARY",
         "THEMIS_BUILD_BENCHMARKS": "ON",
         "THEMIS_BUILD_TESTS": "ON",
-        "THEMIS_ENABLE_GRPC": "ON",
-        "THEMIS_ENABLE_LLM": "OFF"
+        "THEMIS_ENABLE_GRPC": "ON"
       }
     }
   ],
