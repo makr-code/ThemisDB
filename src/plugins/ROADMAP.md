@@ -21,11 +21,20 @@ Production plugin runtime exists for lifecycle management, manifest/signature va
 - [~] diagnostics consistency for validation/security/integration incidents (Target: Q3 2026)
   - Evidence: test_plugin_security_pe_cert_extraction.cpp, test_plugin_security_crl_ocsp.cpp
   - Status: diagnostic tests in place; consistency audit pending
-- [~] Phase 2 implementation hardening (Target: Q4 2026)
-  - Phase 2A: ✅ Lifecycle state machine complete (PluginLifecycleState enum + tests PLG-09..PLG-16)
-  - Phase 2B: ✅ Test infrastructure complete (registry concurrency tests PLG-17..PLG-22)
-  - Phase 2C: ✅ Test infrastructure complete (validation contract tests PLG-23..PLG-28)
-  - Evidence: ai_working/PHASE_2_IMPLEMENTATION_GUIDE.md (integration roadmap)
+- [x] Phase 2 implementation hardening (Target: Q4 2026) — DELIVERED 2026-08-05
+  - Phase 2A: ✅ Lifecycle state machine integrated into plugin_manager.cpp
+    - Implementation: state tracking in PluginEntry, state transitions in load/unload/reload
+    - Evidence: include/plugins/plugin_interface.h, src/plugins/plugin_manager.cpp
+    - Tests: PLG-09..PLG-16 in test_plugin_lifecycle_state_machine.cpp
+  - Phase 2B: ✅ Registry concurrency hardening audited and verified
+    - Implementation: registerFactory/create use reader-writer lock pattern
+    - Evidence: include/plugins/plugin_registry.h (shared_mutex + unique_lock), audit complete
+    - Tests: PLG-17..PLG-22 in test_registry_concurrency_hardening.cpp
+  - Phase 2C: ✅ Unified validation logic implemented
+    - Implementation: validatePluginForLoad() function with 4-stage validation contract
+    - Evidence: src/plugins/plugin_manager.cpp (new unified validation function)
+    - Tests: PLG-23..PLG-28 in test_validation_contract_hardening.cpp
+  - Integration roadmap: ai_working/PHASE_2_IMPLEMENTATION_GUIDE.md
 
 ## Planned Features
 
@@ -46,15 +55,23 @@ Production plugin runtime exists for lifecycle management, manifest/signature va
 - [x] define explicit error taxonomy for plugin failure classes (Target: Q3 2026) — evidence: include/plugins/plugins_api_contract.h
 
 ### Phase 2: Core Implementation
-- [~] complete hardening for plugin lifecycle and registry internals (Target: Q4 2026)
+- [x] complete hardening for plugin lifecycle and registry internals (Target: Q4 2026) — DELIVERED 2026-08-05
   - [x] Phase 2A: lifecycle state machine with explicit transitions (UNLOADED/LOADING/LOADED/UNLOADING)
+    - Implementation: integrated into plugin_manager.cpp load/unload operations
     - Evidence: PluginLifecycleState enum + transition validation in include/plugins/plugin_interface.h
+    - Evidence: lifecycle state tracking in PluginEntry struct (include/plugins/plugin_manager.h)
+    - Evidence: state machine transitions in loadPlugin/unloadPlugin (src/plugins/plugin_manager.cpp)
     - Tests: PLG-09..PLG-16 in test_plugin_lifecycle_state_machine.cpp
-  - [~] Phase 2B: registry concurrency hardening
+  - [x] Phase 2B: registry concurrency hardening
+    - Audit: PluginRegistry concurrency verified using reader-writer lock pattern
+    - Evidence: registerFactory/create/hasPlugin use proper shared_lock/unique_lock
+    - Re-registration is atomic (entire operation under exclusive lock)
     - Tests: PLG-17..PLG-22 in test_registry_concurrency_hardening.cpp
-    - Next: audit PluginRegistry for atomicity guarantees
-  - [ ] Phase 2C: manifest/signature validation tightening
-    - Next: unify validation paths in plugin_manager.cpp, add tests PLG-23..PLG-28
+  - [x] Phase 2C: manifest/signature validation tightening
+    - Implementation: validatePluginForLoad() function with 4-stage validation contract
+    - Evidence: unified validation function in src/plugins/plugin_manager.cpp
+    - Stages: manifest schema → semantic → signature → capability
+    - Tests: PLG-23..PLG-28 in test_validation_contract_hardening.cpp
 - [ ] align hot-plug/health/integration behavior to bounded runtime contracts (Target: Q4 2026)
 
 ### Phase 3: Error Handling and Edge Cases
