@@ -15,6 +15,7 @@
 #include <mutex>
 #include <numeric>
 #include <thread>
+#include <unordered_map>
 
 namespace themis {
 namespace llm {
@@ -193,6 +194,26 @@ public:
                 }
                 break;
 
+            case SubagentMergeStrategy::MAJORITY_VOTE:
+                // Tally outputs by exact-match majority
+                {
+                    std::unordered_map<std::string, size_t> tally;
+                    for (const auto& coord_result : result.per_subagent_results) {
+                        if (coord_result.success) {
+                            tally[coord_result.output]++;
+                        }
+                    }
+                    size_t best_count = 0;
+                    for (const auto& [output, count] : tally) {
+                        if (count > best_count) {
+                            best_count = count;
+                            result.merged_output = output;
+                            merge_success = true;
+                        }
+                    }
+                }
+                break;
+
             case SubagentMergeStrategy::CUSTOM:
                 // Use custom merge function
                 if (config.custom_merge_fn) {
@@ -223,11 +244,12 @@ public:
         result.total_latency_ms = 
             std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count();
 
-        // Build summary
+        // Build summary (also stored in diagnostics for getLastDiagnostics())
         result.summary = "Coordination completed: " +
                         std::to_string(result.num_successful) + " successes, " +
                         std::to_string(result.num_failed) + " failures, " +
                         std::to_string(result.total_latency_ms) + "ms";
+        diagnostics_.summary = result.summary;
 
         if (result.success) {
             stats_.successful_coordinations++;

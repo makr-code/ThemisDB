@@ -72,7 +72,7 @@ public:
         return state_;
     }
 
-    SubagentResult<void> load(int timeout_ms) override {
+    SubagentResult<void> load([[maybe_unused]] int timeout_ms) override {
         std::unique_lock<std::shared_mutex> lock(state_mutex_);
 
         if (state_ != SubagentState::CREATED) {
@@ -98,7 +98,7 @@ public:
         return make_expected();
     }
 
-    SubagentResult<void> warm(int timeout_ms) override {
+    SubagentResult<void> warm([[maybe_unused]] int timeout_ms) override {
         std::shared_lock<std::shared_mutex> lock(state_mutex_);
 
         if (state_ != SubagentState::READY) {
@@ -113,7 +113,7 @@ public:
         return make_expected();
     }
 
-    SubagentResult<void> unload(int timeout_ms) override {
+    SubagentResult<void> unload([[maybe_unused]] int timeout_ms) override {
         std::unique_lock<std::shared_mutex> lock(state_mutex_);
 
         if (state_ == SubagentState::TERMINATED) {
@@ -395,12 +395,15 @@ public:
             return make_unexpected(msg);
         }
 
-        // Check max subagents limit
+        // Check max subagents limit and duplicate ID
         {
             std::unique_lock<std::mutex> lock(subagents_mutex_);
             if (config_.max_subagents > 0 && 
                 subagents_.size() >= config_.max_subagents) {
                 return make_unexpected("Maximum subagents limit reached");
+            }
+            if (subagents_.count(config.id) > 0) {
+                return make_unexpected("Subagent already exists with ID: " + config.id);
             }
         }
 
@@ -414,7 +417,17 @@ public:
             worker_pool_
         );
 
-        auto prompt_policy = std::make_shared<PromptPolicy>();
+        std::shared_ptr<PromptPolicy> prompt_policy;
+        if (!config.policy.prompt_policy_id.empty()) {
+            std::unique_lock<std::mutex> plock(policies_mutex_);
+            auto it = policies_.find(config.policy.prompt_policy_id);
+            if (it != policies_.end()) {
+                prompt_policy = it->second;
+            }
+        }
+        if (!prompt_policy) {
+            prompt_policy = std::make_shared<PromptPolicy>();
+        }
 
         auto subagent = std::make_shared<SubagentImpl>(
             config,
@@ -429,6 +442,7 @@ public:
             std::unique_lock<std::mutex> lock(subagents_mutex_);
             subagents_[config.id] = subagent;
             stats_.total_created++;
+            stats_.currently_active++;
         }
 
         // Set up quota
@@ -455,6 +469,9 @@ public:
             subagent = it->second;
             subagents_.erase(it);
             stats_.total_destroyed++;
+            if (stats_.currently_active > 0) {
+                stats_.currently_active--;
+            }
         }
 
         // Unload subagent

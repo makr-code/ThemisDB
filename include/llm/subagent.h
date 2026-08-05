@@ -40,11 +40,15 @@
 #include "llm/subagent_config.h"
 #include "llm/llm_plugin_interface.h"
 #include "llm/llm_correlation_context.h"
+#include "llm/token_quota_manager.h"
 
+#include <functional>
+#include <future>
 #include <memory>
 #include <string>
 #include <chrono>
 #include <optional>
+#include <vector>
 
 namespace themis {
 namespace llm {

@@ -124,7 +124,7 @@ protected:
             quota_manager_
         );
         ASSERT_TRUE(factory_result);
-        factory_ = factory_result.value();
+        factory_ = std::shared_ptr<SubagentFactory>(std::move(factory_result.value()));
     }
 
     std::shared_ptr<MockLLMPlugin> plugin_;
@@ -132,7 +132,7 @@ protected:
     std::shared_ptr<MockModelLoader> model_loader_;
     std::shared_ptr<MockMultiLoRAManager> lora_manager_;
     std::shared_ptr<TokenQuotaManager> quota_manager_;
-    std::unique_ptr<SubagentFactory> factory_;
+    std::shared_ptr<SubagentFactory> factory_;
 };
 
 // SO-01: Factory creation succeeds
@@ -448,7 +448,7 @@ protected:
 
         auto coordinator_result = SubagentCoordinator::create(factory_);
         ASSERT_TRUE(coordinator_result);
-        coordinator_ = coordinator_result.value();
+        coordinator_ = std::move(coordinator_result.value());
     }
 
     std::vector<std::shared_ptr<Subagent>> subagents_;

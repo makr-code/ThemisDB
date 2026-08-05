@@ -11,22 +11,31 @@ This guide covers production deployment scenarios for ThemisDB's multi-subagent 
 #include <themisdb/llm/subagent_coordinator.h>
 #include <memory>
 
+// In practice, plugin_, worker_pool_, etc. are provided by the application
+// host (e.g., obtained from existing ILLMPlugin/SharedWorkerPool instances).
+// The snippet below illustrates the factory creation call.
+
 int main() {
-    // Step 1: Create shared infrastructure (passed from app)
-    auto plugin = std::make_shared<ILLMPlugin>();        // Your inference backend
-    auto worker_pool = std::make_shared<SharedWorkerPool>();
-    auto model_loader = std::make_shared<ModelLoader>();
-    auto lora_manager = std::make_shared<MultiLoRAManager>();
+    // Step 1: Obtain infrastructure (from application host)
+    ILLMPlugin* plugin = /* ... */;                          // your inference backend
+    auto worker_pool   = std::make_shared<SharedWorkerPool>(/* threads */);
+    auto model_loader  = std::make_shared<ConcreteModelLoader>();
+    auto lora_manager  = std::make_shared<ConcreteMultiLoRAManager>();
     auto quota_manager = std::make_shared<TokenQuotaManager>();
 
     // Step 2: Create factory
-    auto factory = SubagentFactory::create(
+    auto factory_result = SubagentFactory::create(
         plugin,
         worker_pool,
         model_loader,
         lora_manager,
         quota_manager
     );
+    if (!factory_result) {
+        std::cerr << "Factory creation failed: " << factory_result.error() << std::endl;
+        return 1;
+    }
+    auto factory = std::shared_ptr<SubagentFactory>(std::move(factory_result.value()));
 
     // Step 3: Create subagent with configuration
     SubagentConfig config;
@@ -36,18 +45,17 @@ int main() {
     config.budget.timeout_ms = 30000;
     config.isolation_level = SubagentIsolationLevel::STRICT;
 
-    auto result = factory->createSubagent(config);
-    if (!result.success) {
-        std::cerr << "Failed to create subagent: " << result.error << std::endl;
+    auto create_result = factory->createSubagent(config);
+    if (!create_result) {
+        std::cerr << "Failed to create subagent: " << create_result.error() << std::endl;
         return 1;
     }
-
-    auto subagent = result.subagent;
+    auto subagent = create_result.value();
 
     // Step 4: Load model
     auto load_result = subagent->load();
-    if (!load_result.success) {
-        std::cerr << "Failed to load model: " << load_result.error << std::endl;
+    if (!load_result) {
+        std::cerr << "Failed to load model: " << load_result.error() << std::endl;
         return 1;
     }
 
@@ -99,7 +107,12 @@ factory->createSubagent(tenant_b_config);
 Use SubagentCoordinator for parallel inference:
 
 ```cpp
-auto coordinator = SubagentCoordinator::create(factory);
+// factory is std::shared_ptr<SubagentFactory> obtained from SubagentFactory::create()
+auto coord_result = SubagentCoordinator::create(factory);
+if (!coord_result) {
+    std::cerr << "Coordinator creation failed: " << coord_result.error() << std::endl;
+}
+auto coordinator = std::move(coord_result.value());
 
 InferenceRequest req;
 req.prompt = "Analyze this document...";
@@ -117,10 +130,10 @@ auto result = coordinator->inferMultiple(
 
 if (result.success) {
     std::cout << "Ensemble result: " << result.merged_output << std::endl;
-    std::cout << "Subagents succeeded: " << result.successful_count << std::endl;
-    std::cout << "Subagents failed: " << result.failed_count << std::endl;
+    std::cout << "Subagents succeeded: " << result.num_successful << std::endl;
+    std::cout << "Subagents failed: " << result.num_failed << std::endl;
 } else {
-    std::cerr << "Coordination failed: " << result.error << std::endl;
+    std::cerr << "Coordination failed: " << result.summary << std::endl;
 }
 ```
 

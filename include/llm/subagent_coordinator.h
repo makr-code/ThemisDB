@@ -46,6 +46,7 @@
 #include "llm/subagent_factory.h"
 #include "llm/llm_correlation_context.h"
 
+#include <functional>
 #include <memory>
 #include <string>
 #include <vector>
