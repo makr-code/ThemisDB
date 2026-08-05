@@ -6,13 +6,13 @@
 
 ## Current Status
 
-Production-capable process modeling runtime exists for process model lifecycle operations, multi-format import/export, linking, and process retrieval/RAG support surfaces.
+Production-capable process modeling runtime with hardened edge-case behavior, unified diagnostics framework, and bounded resource constraints for process model lifecycle operations, multi-format import/export, linking, and process retrieval/RAG support surfaces.
 
 ## In Progress
 
-- [~] hardening process edge-case behavior across import/parsing and linking transitions (Target: Q3 2026)
-- [~] benchmark stabilization for process import/retrieval/mining hot paths (Target: Q3 2026)
-- [~] diagnostics consistency for model validation and retrieval incident classes (Target: Q3 2026)
+- [x] hardening process edge-case behavior across import/parsing and linking transitions (Target: Q3 2026) ✓ COMPLETE
+- [x] benchmark stabilization for process import/retrieval/mining hot paths (Target: Q3 2026) ✓ COMPLETE
+- [x] diagnostics consistency for model validation and retrieval incident classes (Target: Q3 2026) ✓ COMPLETE
 
 ## Planned Features
 
@@ -33,12 +33,12 @@ Production-capable process modeling runtime exists for process model lifecycle o
 - [x] define explicit error taxonomy for process module failure classes (Target: Q3 2026)
 
 ### Phase 2: Core Implementation
-- [ ] complete hardening for process model and serializer internals (Target: Q4 2026)
-- [ ] align retrieval/linking behavior to bounded runtime contracts (Target: Q4 2026)
+- [x] complete hardening for process model and serializer internals (Target: Q4 2026) ✓ COMPLETE
+- [x] align retrieval/linking behavior to bounded runtime contracts (Target: Q4 2026) ✓ COMPLETE
 
 ### Phase 3: Error Handling and Edge Cases
-- [ ] standardize fail-safe behavior for malformed process input and retrieval faults (Target: Q4 2026)
-- [ ] unify diagnostics across import/lifecycle/retrieval incidents (Target: Q4 2026)
+- [x] standardize fail-safe behavior for malformed process input and retrieval faults (Target: Q4 2026) ✓ COMPLETE
+- [x] unify diagnostics across import/lifecycle/retrieval incidents (Target: Q4 2026) ✓ COMPLETE
 
 ### Phase 4: Tests
 - [x] expand focused regressions for process parser and linker edge scenarios (Target: Q4 2026)
@@ -57,14 +57,14 @@ Production-capable process modeling runtime exists for process model lifecycle o
 - [x] core process surfaces documented and source-verified
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
-- [ ] remaining hardening tasks closed for parser/lifecycle/retrieval edge paths
+- [x] remaining hardening tasks closed for parser/lifecycle/retrieval edge paths ✓ COMPLETE
 - [x] release benchmark stabilization complete
 
 ## Known Issues and Limitations
 
-- runtime behavior depends on process model quality, parser constraints, and retrieval configuration.
-- selected parser/linking/retrieval edge scenarios need continued hardening.
-- benchmark depth should continue expanding for advanced process workflows.
+- Process runtime behavior depends on process model quality, parser constraints, and retrieval configuration.
+- Parser/linking/retrieval edge scenarios are now hardened with bounded resource constraints.
+- Benchmark depth should continue expanding for advanced process workflows.
 
 ## Breaking Changes
 

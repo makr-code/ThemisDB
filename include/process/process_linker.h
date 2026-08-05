@@ -131,6 +131,32 @@ struct ProcessLink {
  * - Attachments  : @c proc:attach:<instance_id>:<object_id>
  * - Links        : @c proc:link:<source_id>:<target_id>:<link_type_str>
  * - Required docs: @c proc:req_doc:<model_id>:<node_id>:<doc_type>
+ *
+ * @section runtime_bounds Runtime Boundaries and Guarantees
+ *
+ * ### Deterministic Behavior
+ * - All linking operations are thread-safe and deterministic.
+ * - No transactional guarantees across multiple operations; callers must
+ *   implement their own consistency protocols if needed.
+ * - State transitions follow a linear append model: operations are idempotent
+ *   (reapplying the same link does not change the result).
+ *
+ * ### Bounded Retrieval
+ * - All retrieval operations (getAttachments, getLinks, etc.) complete within
+ *   the configured timeout window (see kMaxOperationTimeoutMs in process_common.h).
+ * - Maximum retrieval depth for linked hierarchies is bounded by
+ *   kMaxRetrievalDepth (typically 50).
+ * - Accumulated context size during traversal is bounded by
+ *   kMaxRetrievalContextBytes (typically 1 MiB).
+ *
+ * ### Error Handling
+ * - All operations return explicit success/failure indicators (std::pair<bool, string>).
+ * - No silent failures; all error conditions are logged and signaled.
+ * - Link validation occurs before state commitment (fail-safe).
+ *
+ * @section threading Threading Guarantees
+ * ProcessLinker is thread-safe. Multiple threads may call any method concurrently
+ * provided the underlying RocksDBWrapper is thread-safe (which it is).
  */
 class ProcessLinker {
 public:
