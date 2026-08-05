@@ -219,13 +219,23 @@ endif()
 if(fmt_FOUND)
     message(STATUS "fmt found")
 else()
-    message(FATAL_ERROR 
-        "fmt not found. Install via:\n"
-        "  - vcpkg: vcpkg install fmt\n"
-        "  - Debian/Ubuntu: sudo apt-get install libfmt-dev\n"
-        "  - Fedora/RHEL: sudo dnf install fmt-devel\n"
-        "  - macOS: brew install fmt"
-    )
+    if(THEMIS_ALLOW_MISSING_ROCKSDB)
+        message(WARNING
+            "fmt not found. Continuing configure because THEMIS_ALLOW_MISSING_ROCKSDB=ON, "
+            "but fmt-dependent targets will still require fmt before building."
+        )
+        if(NOT TARGET fmt::fmt)
+            add_library(fmt::fmt INTERFACE IMPORTED)
+        endif()
+    else()
+        message(FATAL_ERROR 
+            "fmt not found. Install via:\n"
+            "  - vcpkg: vcpkg install fmt\n"
+            "  - Debian/Ubuntu: sudo apt-get install libfmt-dev\n"
+            "  - Fedora/RHEL: sudo dnf install fmt-devel\n"
+            "  - macOS: brew install fmt"
+        )
+    endif()
 endif()
 
 # spdlog: Try CONFIG first (vcpkg), fall back to MODULE (system packages)
