@@ -69,13 +69,31 @@
 
 ---
 
-### 5. Cross-Feature Integration Tests
+### 5. LLM Integration (Phases 1-3)
+
+| Aspect | Source of Truth | Cross-References |
+|--------|-----------------|------------------|
+| **Roadmap** | src/query/ROADMAP.md line 22-44 | src/aql/ROADMAP.md (LLM orchestration coordination) |
+| **Status** | ✅ COMPLETE (2026-08-05, Phases 1-3 documentation) | Phase 4 SLA tests pending |
+| **Phase 1: Boundary** | src/query/AQL_LLM_INTEGRATION_CONTRACT.md | Parser validation contract definition |
+| **Phase 2: Metrics** | src/query/AQL_LLM_INTEGRATION_PHASE3_METRICS.md | Comprehensive metrics interpretation |
+| **Phase 3: Documentation** | src/query/AQL_LLM_INTEGRATION_PHASE3_PARSER_CHANGES.md | Parser enhancements explained |
+| **API Contract** | src/query/AQL_LLM_INTEGRATION_PHASE3_API_CONTRACT.md | Public API definition for consumers |
+| **Migration Guide** | docs/aql/AQL_LLM_INTEGRATION_MIGRATION_GUIDE.md | User-facing adoption guide |
+| **Tests** | tests/query/test_aql_llm_integration.cpp (16 test cases) | Integration test suite (Phase 2) |
+| **Performance Tests** | tests/query/test_aql_validation_performance.cpp (8 test cases) | SLA verification (Phase 4, pending build) |
+
+**Key Decision**: LLM Integration documentation is canonical. Phase 1-3 complete; Phase 4 SLA tests in build verification.
+
+---
+
+### 6. Cross-Feature Integration Tests
 
 | Aspect | Source of Truth | Cross-References |
 |--------|-----------------|------------------|
 | **Roadmap** | src/query/ROADMAP.md line 60 | src/aql/ROADMAP.md (master schedule) |
 | **Status** | 📋 PENDING (Target: Q4 2026) | 1000+ tests, zero v1.x regressions |
-| **Scope** | Comprehensive integration across all v2.0.0 features | Mutations + DDL + Geospatial + FTS |
+| **Scope** | Comprehensive integration across all v2.0.0 features | Mutations + DDL + Geospatial + FTS + LLM |
 | **Test Location** | tests/query/test_aql_integration_v2_0_0_suite.cpp | To be created |
 | **Regression Baseline** | tests/query/test_query_*.cpp (existing 30+ suites) | Ensure no v1.x feature breakage |
 
@@ -112,7 +130,12 @@
 - **DDL**: src/query/AQL_DDL_ROADMAP.md
 - **Geospatial**: src/query/AQL_GEOSPATIAL_ROADMAP.md
 - **v2.0.0 Complete**: src/query/AQL_V2_0_0_COMPLETE_ROADMAP.md
-- **LLM Integration**: src/query/AQL_LLM_INTEGRATION_CONTRACT.md
+- **LLM Integration**: src/query/AQL_LLM_INTEGRATION_CONTRACT.md (Phase 1 boundary)
+  - Phase 3 Documentation: 
+    - src/query/AQL_LLM_INTEGRATION_PHASE3_PARSER_CHANGES.md
+    - src/query/AQL_LLM_INTEGRATION_PHASE3_METRICS.md
+    - src/query/AQL_LLM_INTEGRATION_PHASE3_API_CONTRACT.md
+    - docs/aql/AQL_LLM_INTEGRATION_MIGRATION_GUIDE.md
 
 ### Module-Level Roadmaps (orchestration)
 - **Query Module**: src/query/ROADMAP.md (master scheduling)
@@ -128,13 +151,13 @@
 
 ### Q3 2026 Priorities (Overlapping)
 
-| Initiative | Owner | Timeline | Blocking Factors |
-|-----------|-------|----------|-----------------|
-| Phase 1: Parser Safety | query-phase-1-safety | Week 1-2 Q3 | None |
-| Phase 2: Optimizer Hardening | query-phase-2-optimizer | Week 1-3 Q3 | Phase 1 baseline needed |
-| Geospatial Phase 2 (Optimizer Hints) | Phase 6 agent (part of Phase 2 work) | Week 2-4 Q3 | Phase 2 Optimizer framework ready |
-| Query Hardening Wave (Reliability) | Phase 6 agent | Week 1-4 Q3 | None |
-| AQL LLM Phase 3 (Doc Consolidation) | Phase 5 agent | Week 1-2 Q3 | None (unblocked) |
+| Initiative | Owner | Timeline | Status | Blocking Factors |
+|-----------|-------|----------|--------|-----------------|
+| Phase 1: Parser Safety | query-phase-1-safety | Week 1-2 Q3 | ✅ COMPLETE 2026-06-18 | None |
+| Phase 2: Optimizer Hardening | query-phase-2-optimizer | Week 1-3 Q3 | ✅ COMPLETE 2026-06-18 | None |
+| Phase 3: Documentation | query-phase-3-documentation | Week 1-2 Q3 | ✅ COMPLETE 2026-08-05 | None |
+| Geospatial Phase 2 (Optimizer Hints) | Phase 6 agent (part of Phase 2 work) | Week 2-4 Q3 | 📋 PENDING | Phase 2 Optimizer framework |
+| Query Hardening Wave (Reliability) | Phase 6 agent | Week 1-4 Q3 | 🔄 IN PROGRESS | None |
 
 ### Q4 2026 Priorities
 
@@ -151,15 +174,21 @@
 
 ## Consolidation Validation Checklist
 
-- [x] Feature-specific roadmaps identified (5 roadmaps)
+- [x] Feature-specific roadmaps identified (6 roadmaps)
 - [x] Canonical source of truth designated for each feature
 - [x] Cross-references documented (bidirectional links)
 - [x] No conflicting task scheduling detected
 - [x] Dependency matrix complete (src/query/ ↔ src/aql/)
 - [x] Q3-Q4 scheduling coordinated without blocking
 - [x] Documentation locations centralized (this index)
+- [x] Phase 3 (LLM Documentation) complete ✅ 2026-08-05
+  - [x] Parser changes documented (AQL_LLM_INTEGRATION_PHASE3_PARSER_CHANGES.md)
+  - [x] Metrics guide created (AQL_LLM_INTEGRATION_PHASE3_METRICS.md)
+  - [x] API contract finalized (AQL_LLM_INTEGRATION_PHASE3_API_CONTRACT.md)
+  - [x] Migration guide for users (AQL_LLM_INTEGRATION_MIGRATION_GUIDE.md)
+  - [x] All cross-references verified (no broken links)
 
-**Status**: ✅ Consolidation index complete. Ready for Phase 5 documentation orchestration.
+**Status**: ✅ Consolidation index complete. Phase 3 documentation complete. Ready for Phase 4 SLA tests and Phase 5 documentation orchestration.
 
 ---
 
