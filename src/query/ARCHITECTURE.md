@@ -179,10 +179,51 @@ AQL: "FOR doc IN documents
 
 ## 8. Security Considerations
 
+### 8.1 Parser Safety Hardening (Phase 1, Q3 2026)
+
+**Expression Depth Bounds**:
+- Recursion depth limited to `kMaxExprDepth = 500` to prevent stack exhaustion
+- Graph traversal depth bounded: min ≥ 0, max ≤ configurable limit (default 100)
+- Test coverage: `test_query_parser_edge_cases.cpp` § Tests 13–16 (nesting scenarios)
+
+**Malformed Input Handling**:
+- Empty or whitespace-only queries rejected with parse error (Tests 1–2)
+- Unclosed strings, parentheses, brackets, braces detected and reported (Tests 5–8)
+- Invalid tokens and operator sequences fail gracefully without crash (Tests 3, 22)
+- Duplicate variable bindings detected and rejected (Test 11)
+- All numeric conversions (`stoll`/`stod`) wrapped in try-catch to prevent exception-based DoS (Tests 9–10)
+
+**Mutation Safety Validation** (`AqlSafetyValidator`):
+- NUL-character injection blocked (Test 24)
+- DML mutations (INSERT, UPDATE, REMOVE, DELETE, REPLACE, UPSERT) detected and flagged for read-only contexts (Tests 25–31)
+- DDL mutations (DROP, TRUNCATE, CREATE COLLECTION) similarly blocked (Test 31)
+- READ queries pass validation (Test 32)
+
+### 8.2 Access Validation Consistency (Phase 1, Q3 2026)
+
+**Three-Stage Access Control Flow**:
+
+1. **Parser Stage**: Collection names extracted from AST; no SQL injection possible (AST round-trip semantics)
+2. **Execution Stage**: All `executeAndKeys*` entry points invoke `collection_access_checker_` callback:
+   - Caller provides: access predicate function + caller ID
+   - QueryEngine enforces: denies execution on `ERR_QUERY_ACCESS_DENIED` if check fails
+   - Scope: AND queries, OR queries, range queries, spatial queries, federation scatter
+3. **Federation Stage**: Remote cluster enforces its own access checks; result merge respects `max_result_size_bytes` limit
+
+**Entry Points Verified**:
+- `executeAndKeys(ConjunctiveQuery)` — line ~323
+- `executeAndKeysWithScores(ConjunctiveQuery)` — line ~733
+- `executeAndEntities(ConjunctiveQuery)` — line ~844
+- `executeOrKeys(DisjunctiveQuery)` — line ~1013
+- `executeRangeQuery(...)` — respects access callback
+
+See `src/query/ACCESS_VALIDATION_CHECKLIST.md` for detailed cross-reference matrix.
+
+### 8.3 General Security Properties
+
 - AQL does not support arbitrary code execution; only registered functions are callable.
-- Parser recursion depth is bounded (`kMaxExprDepth = 500`, `kMaxTraversalDepth = 100`) to avoid stack-overflow style abuse.
-- Query execution can fail closed with `ERR_QUERY_ACCESS_DENIED` when caller-provided collection access checks deny execution.
 - Federation transport restricts request/redirect protocols to HTTP/HTTPS and validates endpoint registration inputs.
+- Continuous-query runtime bounds registry growth and injection-queue depth.
 
 ---
 
