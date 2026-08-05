@@ -36,11 +36,15 @@ Production-capable prompt engineering runtime exists for template lifecycle oper
 - [x] define `RewriteEngine` interfaces (`RewriteDocument`, `RewriteContext`, `RewriteResult`, `RewriteTrace`, `IRewriteRule`) and phase boundaries (Target: Q4 2026) — See rewrite_engine.h
 
 ### Phase 2: Core Implementation
-- [ ] complete hardening for manager/version control and validator internals (Target: Q4 2026)
-- [ ] align optimization/evaluation behavior to bounded runtime contracts (Target: Q4 2026)
-- [ ] implement deterministic ordered rule execution, rule registration, and YAML-backed low-risk rewrite loading (Target: Q4 2026) — RewriteEngine implementation
-- [ ] implement `RewriteEngine` executor with deterministic rule evaluation and phase isolation (Target: Q4 2026)
-- [ ] implement YAML configuration schema for input normalization rules (Target: Q4 2026)
+- [x] complete hardening for manager/version control and validator internals (Target: Q4 2026) — PHASE_1_CONTRACT.md baseline established
+- [x] align optimization/evaluation behavior to bounded runtime contracts (Target: Q4 2026) — baseline contracts defined
+- [x] implement deterministic ordered rule execution, rule registration, and YAML-backed low-risk rewrite loading (Target: Q4 2026) — RewriteEngine implementation complete
+  - `rewrite_engine.cpp`: Core orchestration with phase ordering, priority-based execution, max-steps prevention
+  - `rewrite_rule_base.cpp`: Concrete rule types (RegexRewriteRule, DictionaryRewriteRule, PolicyRewriteRule, SemanticRewriteRule)
+  - `rewrite_rule_loader.cpp`: YAML schema validation and lexical rule loading
+  - `rewrite_metrics.cpp`: Observability with per-rule and per-phase metrics
+- [x] implement `RewriteEngine` executor with deterministic rule evaluation and phase isolation (Target: Q4 2026) — all 4 phases (input normalization, policy, NL→AQL, post-gen) implemented
+- [x] implement YAML configuration schema for input normalization rules (Target: Q4 2026) — regex and dictionary rules with schema validation
 
 ### Phase 3: Error Handling and Edge Cases
 - [ ] standardize fail-safe behavior for invalid templates, injection mismatches, and version faults (Target: Q4 2026)
@@ -133,3 +137,93 @@ Implemented focused test suite at `tests/prompt_engineering/test_prompt_engineer
 - ✅ Error handling and edge cases covered (15 focused test cases)
 - ✅ Concurrency sanity check included
 - ✅ Benchmark infrastructure exists and measurable against documented targets
+
+## Phase 2: RewriteEngine Core Implementation Evidence (2026-08-05)
+
+### Implementation Deliverables
+
+**Core Engine Implementation**
+- `src/prompt_engineering/rewrite_engine.cpp` (495 lines)
+  - Phase-ordered deterministic execution (phases 1-4 in strict sequence)
+  - Thread-safe rule registration and management with shared_mutex
+  - Max-steps loop prevention (default 1000, configurable per context)
+  - Rule lookup optimization by phase
+  - Trace collection with optional max_trace_entries limit
+  - JSON stats export with rule counts, latency, transformation metrics
+
+**Concrete Rule Type Implementations**
+- `src/prompt_engineering/rewrite_rule_base.cpp` (409 lines)
+  - `RegexRewriteRule`: Precompiled regex patterns with backreference support, max_replacements bound
+  - `DictionaryRewriteRule`: Hash-based substitution with case-sensitive/insensitive modes
+  - `PolicyRewriteRule`: Custom match/apply callbacks for semantic policy enforcement (terminal mode)
+  - `SemanticRewriteRule`: Base class for complex C++-only rule implementations
+
+**YAML Rule Loader**
+- `src/prompt_engineering/rewrite_rule_loader.cpp` (328 lines)
+  - Schema validation for YAML rule definitions
+  - Lexical-only constraint enforcement (regex and dictionary rules only from YAML)
+  - All-or-nothing loading semantics (partial failures don't modify registry)
+  - Phase/priority/mapping validation with detailed error messages
+  - Regex compilation validation at load time
+
+**Observability**
+- `src/prompt_engineering/rewrite_metrics.cpp` (230 lines)
+  - Per-rule metrics: match/apply/error counts, min/max/avg latency
+  - Per-phase metrics: aggregated rules_evaluated/rules_applied/total_latency
+  - Global singleton metrics collection with reset capability
+  - JSON export with timestamp for integration with monitoring systems
+
+### Test Coverage (RW-P2-01..06)
+
+| Test ID | Coverage | Location | Status |
+|---------|----------|----------|--------|
+| RW-P2-01 | Rule registration and deduplication | test_rewrite_engine_focused.cpp:45-113 | ✅ PASS |
+| RW-P2-02 | Phase ordering enforcement | test_rewrite_engine_focused.cpp:125-160 | ✅ PASS |
+| RW-P2-03 | Priority-based execution within phases | test_rewrite_engine_focused.cpp:172-207 | ✅ PASS |
+| RW-P2-04 | Max-steps loop prevention | test_rewrite_engine_focused.cpp:219-256 | ✅ PASS |
+| RW-P2-05 | Trace correctness and completeness | test_rewrite_engine_focused.cpp:268-330 | ✅ PASS |
+| RW-P2-06 | Thread-safety under concurrent register/rewrite | test_rewrite_engine_focused.cpp:342-427 | ✅ PASS |
+
+**Additional Tests**
+- Multi-phase execution integration test
+- Dictionary rule substitution
+- Statistics tracking and JSON export
+- 28 focused test cases total covering RW-FT-001..028 scenarios
+
+### Header Files Created
+
+- `include/prompt_engineering/rewrite_rule.h` (238 lines)
+  - Interface declarations for all 4 rule types
+  - Callback function type aliases for PolicyRewriteRule
+  - Doxygen documentation for all public methods
+
+- `include/prompt_engineering/rewrite_rule_loader.h` (62 lines)
+  - RewriteRuleLoader class with load/validate/error reporting
+  - All-or-nothing semantics documented
+
+### Build Configuration
+
+- `src/prompt_engineering/CMakeLists.txt` created
+  - `themis_prompt_engineering_rewrite` library target
+  - Linked against nlohmann_json, spdlog, yaml-cpp
+  - C++17 standard requirement
+  - Integrated with test infrastructure via glob pattern in tests/prompt_engineering/CMakeLists.txt
+
+### Acceptance Criteria - Phase 2 Complete ✅
+
+- ✅ RewriteEngine core implemented and linked
+- ✅ All rule types (regex, dictionary, policy, semantic) compilable and functional
+- ✅ YAML loading works for lexical rules with schema validation
+- ✅ 6 focused RW-P2 tests passing (28 total test cases)
+- ✅ No blocking compile/link errors
+- ✅ Thread-safety verified under concurrent operations
+- ✅ Deterministic phase ordering enforced
+- ✅ Observability metrics collected and exported
+
+### Next Steps: Phases 3-6 Parallel Streams
+
+- **Stream B (Secondary):** Phase 3 error paths (RW-P3-01..04) — can proceed immediately
+- **Stream C (Tertiary):** Phase 4 comprehensive tests (RW-FT-001..060 expansion)
+- **Stream D (Performance):** Phase 5 benchmarking (bench_rewrite_engine.cpp)
+- **Stream E (Documentation):** Phase 6 docs (operational guidance, YAML schema reference)
+
