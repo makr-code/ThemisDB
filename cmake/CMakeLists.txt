@@ -2151,6 +2151,9 @@ set(THEMIS_CORE_SOURCES
     ../src/query/query_cache_manager.cpp
     ../src/query/query_canceller.cpp
     ../src/query/query_federation.cpp
+    ../src/query/query_federation_timeout.cpp
+    ../src/query/query_federation_memory.cpp
+    ../src/query/federation_resilience.cpp
     ../src/query/plan_cache.cpp
     ../src/query/query_executor.cpp
     ../src/query/query_compiler.cpp

@@ -107,6 +107,41 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_query_federation.cpp")
     message(STATUS "  QueryFederation: shard-key routing, partition pruning, scatter-gather")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_query_federation_hardness.cpp")
+    message(STATUS "Adding Query: QueryFederation Phase 3 Hardness tests (FED-01..08, timeout/retry/memory)")
+
+    add_executable(test_query_federation_hardness_focused
+       test_query_federation_hardness.cpp
+    )
+
+    target_include_directories(test_query_federation_hardness_focused PRIVATE
+       ${THEMIS_ROOT_DIR}/include
+       ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_query_federation_hardness_focused PRIVATE
+       ${TEST_LIBS}
+       themis_core
+       spdlog::spdlog
+       Threads::Threads
+    )
+
+    target_compile_definitions(test_query_federation_hardness_focused PRIVATE
+       THEMIS_TEST_BUILD=1
+    )
+
+    themis_register_module_focused_test(
+       MODULE query
+       NAME QueryFederationHardnessTests
+       TARGET test_query_federation_hardness_focused
+       TIER unit
+       TIMEOUT 120
+       LABELS federation hardness timeout memory fault-injection phase3
+    )
+
+    message(STATUS "  QueryFederation Hardness: timeout/retry, bounded memory, shard routing, fault-injection (FED-01..08)")
+endif()
+
 if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_continuous_query_engine.cpp")
     message(STATUS "Adding Query: ContinuousQueryEngine unit tests (CQ-01..CQ-20)")
 
