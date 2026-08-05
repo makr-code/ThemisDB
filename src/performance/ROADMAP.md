@@ -1,30 +1,38 @@
 # Performance Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-08-05 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
 
-Production performance runtime exists for measurement, optimization strategy control, NUMA/cache tuning, and hardware-aware acceleration behavior.
+Production performance runtime with comprehensive measurement, optimization strategy control, NUMA/cache tuning, and hardware-aware acceleration behavior.
+Complete Phase 1–6 delivery with contract frozen, error taxonomy defined, focused tests (PFM-01..16), benchmarks (GATE-PFM-01..06), and documentation aligned.
 
 ## In Progress
 
-- [~] hardening edge-case behavior across adaptive optimization and hardware fallback paths (Target: Q3 2026)
-- [~] benchmark stabilization for performance module hot paths and scalability cases (Target: Q3 2026)
-- [~] diagnostics consistency for profiling/export/optimization incident classes (Target: Q3 2026)
+- [~] tighten deterministic behavior under high-contention optimization workloads (Target: Q4 2026)
+- [~] expand stress coverage for NUMA/cache/accelerator edge scenarios (Target: Q4 2026)
+- [~] improve operator-facing diagnostics for runtime optimization incidents (Target: Q4 2026)
 
 ## Planned Features
 
-### Short-term (3-6 months)
-- [ ] tighten deterministic behavior under high-contention optimization workloads (Target: Q4 2026)
-- [ ] expand stress coverage for NUMA/cache/accelerator edge scenarios (Target: Q4 2026)
-- [ ] improve operator-facing diagnostics for runtime optimization incidents (Target: Q4 2026)
+### Short-term (3-6 months, Q4 2026)
+See "In Progress" section above for current Q4 2026 priorities
 
-### Mid-term (6-12 months)
+### Mid-term (6-12 months, Q1 2027)
 - [ ] re-baseline p95/p99 envelopes for core performance module operations (Target: Q1 2027)
 - [ ] broaden benchmark depth for mixed and distributed performance scenarios (Target: Q1 2027)
 - [ ] harden long-running reliability under sustained adaptive workload shifts (Target: Q1 2027)
+
+## Completed Highlights (Q3 2026)
+
+- [x] hardening edge-case behavior across adaptive optimization and hardware fallback paths
+  - evidence: test_cicada.cpp (14 deterministic GTest cases); test_performance_contract_hardening_focused.cpp (PFM-01..16)
+- [x] benchmark stabilization for performance module hot paths and scalability cases
+  - evidence: `benchmarks/performance/bench_performance_release_gates.cpp` (GATE-PFM-01..06 with deterministic seeding kCanonicalSeed=42)
+- [x] diagnostics consistency for profiling/export/optimization incident classes
+  - evidence: performance_api_contract.h error taxonomy (PERF_COMPILE_TIMEOUT..PERF_STATS_UNAVAILABLE); contract-hardening tests verify consistency
 
 ## Implementation Phases
 
@@ -63,7 +71,8 @@ Production performance runtime exists for measurement, optimization strategy con
 - [x] core performance surfaces documented and source-verified
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
-- [ ] remaining hardening tasks closed for adaptive/memory/hardware edge paths
+- [x] remaining hardening tasks closed for adaptive/memory/hardware edge paths
+  - evidence: contract-hardening tests (PFM-01..16), cicada tests (14 cases), benchmark gates (GATE-PFM-01..06) all passing
 - [x] release benchmark stabilization complete
   - evidence: GATE-PFM-01..06 in `benchmarks/performance/bench_performance_release_gates.cpp`
 
