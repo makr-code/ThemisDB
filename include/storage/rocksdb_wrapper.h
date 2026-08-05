@@ -34,9 +34,12 @@
 
 // RocksDB forward declarations
 // Note: rocksdb/iterator.h is included for full Iterator definition needed by std::unique_ptr
+#ifdef THEMIS_ROCKSDB_AVAILABLE
 #include <rocksdb/iterator.h>
+#endif
 
 namespace rocksdb {
+#ifdef THEMIS_ROCKSDB_AVAILABLE
     class TransactionDB;
     class Transaction;
     class WriteBatch;
@@ -50,6 +53,24 @@ namespace rocksdb {
     class DB;
     class ColumnFamilyHandle;
     class EventListener;
+#else
+    // Stub declarations when RocksDB is not available
+    class TransactionDB {};
+    class Transaction {};
+    class WriteBatch {};
+    class WriteBatchWithIndex {};
+    struct Options {};
+    struct ReadOptions {};
+    struct WriteOptions {};
+    struct TransactionDBOptions {};
+    struct TransactionOptions {};
+    class Snapshot {};
+    class DB {};
+    class ColumnFamilyHandle {};
+    class EventListener {};
+    // Iterator stub - needs to be a real class for unique_ptr to work
+    class Iterator {};
+#endif
 }
 
 namespace themis {

@@ -189,6 +189,11 @@ else()
    endif()
 endif()
 
+# Define THEMIS_ROCKSDB_AVAILABLE for conditional compilation when RocksDB is available
+if(RocksDB_FOUND)
+    add_compile_definitions(THEMIS_ROCKSDB_AVAILABLE)
+endif()
+
 find_package(simdjson CONFIG)
 if(simdjson_FOUND)
     message(STATUS "simdjson found")
