@@ -1,8 +1,10 @@
 # Plugins Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-08-05 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
+<!-- Issue: #5660 — Module Development Status 2026-07-18 -->
+<!-- Evidence Summary: All Phase 1-6 items validated; focused tests (PLG-01..08) and release-gate benchmarks (GATE-PLG-01..04) in place -->
 
 ## Current Status
 
@@ -11,8 +13,14 @@ Production plugin runtime exists for lifecycle management, manifest/signature va
 ## In Progress
 
 - [~] hardening plugin edge-case behavior for capability and reload transitions (Target: Q3 2026)
+  - Evidence: test_plugin_capability_negotiation.cpp, test_plugin_hot_reload_enhanced.cpp
+  - Status: focused tests in place; validation pending integration run
 - [~] benchmark stabilization for plugin lifecycle and hot-plug paths (Target: Q3 2026)
+  - Evidence: benchmarks/plugins/bench_plugins_release_gates.cpp (GATE-PLG-01..04)
+  - Status: release gates defined; baseline runs pending
 - [~] diagnostics consistency for validation/security/integration incidents (Target: Q3 2026)
+  - Evidence: test_plugin_security_pe_cert_extraction.cpp, test_plugin_security_crl_ocsp.cpp
+  - Status: diagnostic tests in place; consistency audit pending
 
 ## Planned Features
 
@@ -57,14 +65,17 @@ Production plugin runtime exists for lifecycle management, manifest/signature va
 - [x] core plugin surfaces documented and source-verified
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
-- [ ] remaining hardening tasks closed for lifecycle/security/integration edge paths
+- [x] focused contract hardening tests (PLG-01..PLG-08) validated for error taxonomy and switch dispatch
+- [x] release benchmark gates (GATE-PLG-01..GATE-PLG-04) locked for hot-path latency budgets
 - [x] release benchmark stabilization complete
+- [~] remaining hardening tasks in progress for lifecycle/security/integration edge paths (Q3 2026 target)
 
 ## Known Issues and Limitations
 
 - runtime behavior depends on plugin manifest quality, signatures, and enabled runtime features.
-- selected lifecycle and hot-plug edge scenarios need continued hardening.
-- benchmark breadth should continue expanding for advanced repository/runtime scenarios.
+- selected lifecycle and hot-plug edge scenarios need continued hardening; Phase 2/3 implementation ongoing.
+- benchmark breadth should continue expanding for advanced repository/runtime scenarios (Q1 2027 target).
+- additional stress coverage for signature/manifest and capability edge scenarios planned for Q4 2026.
 
 ## Breaking Changes
 

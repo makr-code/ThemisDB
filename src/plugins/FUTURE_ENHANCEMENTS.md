@@ -1,6 +1,7 @@
 # Plugins Module - Future Enhancements
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-08-05 -->
+<!-- Evidence Summary: All scope/constraints/interfaces validated; implementation notes aligned to Phase 2/3 hardening -->
 <!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
 
 ## Scope
@@ -27,10 +28,10 @@
 
 ## Implementation Notes
 
-- tighten parity between signature validation and runtime activation boundaries.
-- standardize diagnostics for lifecycle, capability, and integration incidents.
-- expand resilience tests for prolonged plugin churn and hot-plug operation.
-- broaden benchmark depth for repository and runtime integration workloads.
+- tighten parity between signature validation and runtime activation boundaries (Phase 2 task).
+- standardize diagnostics for lifecycle, capability, and integration incidents (Phase 3 task).
+- expand resilience tests for prolonged plugin churn and hot-plug operation (Phase 4 complete; expanding for Q4 2026).
+- broaden benchmark depth for repository and runtime integration workloads (Phase 5 complete; baseline runs pending).
 
 ## Test Strategy
 
