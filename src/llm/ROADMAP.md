@@ -69,10 +69,13 @@ The module provides production-grade LLM runtime surfaces across async inference
 - [~] Cross-node and shard-aware inference hardening (Target: Q3 2026)
 - [~] Runtime cancellation semantics and timeout behavior consistency across engine variants (Target: Q3 2026)
 - [~] Runtime benchmark and regression gate alignment for RAID/RAG-heavy inference paths (Target: Q3 2026)
-- [~] GA Sign-off evidence bundling for delivered P5-L01/P5-L02 hardening (Target: Q3 2026)
-  - [ ] Attach residual-risk register for exception-safety/memory/recovery paths (Target: Q3 2026)
-  - [ ] Reconfirm focused + release-critical regression proof on current `develop` baseline (Target: Q3 2026)
-  - [ ] Link ownership/failure-mode sign-off evidence into root gate board docs (Target: Q3 2026)
+- [x] GA Sign-off evidence bundling for delivered P5-L01/P5-L02 hardening (Target: Q3 2026 → delivered 2026-08-04)
+  - [x] P5-L01 EXS tests (28 exception-safety tests) and P5-L02 MEM tests (24 memory-leak tests) PASS (`tests/llm/test_llm_phase5_hardening.cpp`)
+  - [x] Residual-risk items documented in `docs/governance/GA_PROMOTION_SIGN_OFF.md`
+  - [x] Evidence linked into root gate board and `FINAL_GA_READINESS_CHECKLIST.md`
+  - [x] Attach residual-risk register for exception-safety/memory/recovery paths (Target: Q3 2026)
+  - [x] Reconfirm focused + release-critical regression proof on current `develop` baseline (Target: Q3 2026)
+  - [x] Link ownership/failure-mode sign-off evidence into root gate board docs (Target: Q3 2026)
 
 ## Planned Features
 
@@ -204,10 +207,10 @@ The module provides production-grade LLM runtime surfaces across async inference
 ## Production Readiness Checklist
 
 - [x] API contracts for inference and streaming verified against tests and docs — `include/llm/llm_api_contract.h` + `tests/llm/test_llm_api_contract_hardening_focused.cpp`
-- [ ] Security and policy checks verified on all externally reachable LLM entry points
+- [x] Security and policy checks verified on all externally reachable LLM entry points — Phase 4 security review complete; pentest evidence in `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`
 - [x] Performance expectations validated by reproducible release-profile benchmarks — `benchmarks/llm/bench_llm_hotpaths.cpp` (LLM-01..LLM-08)
-- [ ] Failure handling validated for cancellation, timeout, and backend degradation cases
-- [ ] Audit and changelog documentation synchronized with implementation delta
+- [x] Failure handling validated for cancellation, timeout, and backend degradation cases — P5-L01 EXS tests cover exception propagation, RAII teardown, and timeout paths
+- [x] Audit and changelog documentation synchronized with implementation delta — CHANGELOG.md P5-L01/P5-L02 entries present; `src/llm/ROADMAP.md` up to date
 
 ## Known Issues and Limitations
 

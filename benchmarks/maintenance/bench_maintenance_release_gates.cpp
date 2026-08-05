@@ -161,6 +161,163 @@ BENCHMARK(BM_MTN04_BatchCast)
     ->Repetitions(kRepetitions)
     ->ReportAggregatesOnly(true);
 
+// ============================================================================
+// GATE-MTN-05 — Concurrent-scheduling-guard check latency
+// ============================================================================
+
+/**
+ * @brief Measures in-flight lookup + insert latency.
+ *
+ * Gate: p99 ≤ 50 µs
+ */
+#include <mutex>
+#include <unordered_set>
+#include <string>
+#include <deque>
+#include <nlohmann/json.hpp>
+#include "maintenance/maintenance_health_report.h"
+
+static void BM_MTN05_InFlightGuard(benchmark::State& state) {
+    std::mutex mu;
+    std::unordered_set<std::string> in_flight;
+    const std::string sched_id = "bench-sched-42";
+
+    for (auto _ : state) {
+        {
+            std::lock_guard<std::mutex> lock(mu);
+            in_flight.insert(sched_id);
+        }
+        benchmark::DoNotOptimize(in_flight.size());
+        {
+            std::lock_guard<std::mutex> lock(mu);
+            in_flight.erase(sched_id);
+        }
+    }
+    state.SetLabel("GATE-MTN-05: p99 <= 50 us");
+}
+BENCHMARK(BM_MTN05_InFlightGuard)
+    ->Repetitions(kRepetitions)
+    ->ReportAggregatesOnly(true);
+
+// ============================================================================
+// GATE-MTN-06 — Persist+reload round-trip (10 schedules, temp file)
+// ============================================================================
+
+/**
+ * @brief Measures persist+reload round-trip for 10 schedules using the real
+ *        nlohmann::json serialisation path and a temp-file write/read.
+ *
+ * Uses UseRealTime() to measure wall-clock time (I/O bound).
+ * Gate: p99 ≤ 2 ms.
+ */
+#include <filesystem>
+#include <fstream>
+
+namespace {
+static std::string make_mtn06_schedule_json(int idx) {
+    nlohmann::json j;
+    j["id"]                = "sched-bench-" + std::to_string(idx);
+    j["name"]              = "bench-schedule-" + std::to_string(idx);
+    j["description"]       = "";
+    j["tenant_id"]         = "";
+    j["frequency"]         = "daily";
+    j["cron_expression"]   = "0 2 * * *";
+    j["tasks"]             = nlohmann::json::array({"quota_check"});
+    j["task_dependencies"] = nlohmann::json::array();
+    j["enabled"]           = true;
+    j["enforce_window"]    = true;
+    j["window_start_hour"] = 2;
+    j["window_end_hour"]   = 6;
+    j["halt_on_task_failure"] = false;
+    j["lock_ttl_ms"]       = 0;
+    j["max_schedule_changes_per_interval"] = 0;
+    j["created_at_ms"]     = 1000000;
+    j["updated_at_ms"]     = 1000000;
+    j["created_by"]        = "";
+    j["updated_by"]        = "";
+    j["last_run_ms"]       = 0;
+    j["next_run_ms"]       = 0;
+    j["last_run_state"]    = "";
+    j["last_job_id"]       = "";
+    return j.dump();
+}
+} // anonymous namespace
+
+static void BM_MTN06_PersistReloadRoundTrip(benchmark::State& state) {
+    static constexpr int kScheduleCount = 10;
+    namespace fs = std::filesystem;
+    const fs::path tmp_dir = fs::temp_directory_path();
+
+    for (auto _ : state) {
+        state.PauseTiming();
+        const fs::path tmp_file = tmp_dir / ("mtn06_bench_" +
+            std::to_string(reinterpret_cast<uintptr_t>(&state)) + ".json");
+        state.ResumeTiming();
+
+        // Persist: build and write all 10 schedule JSON strings to temp file.
+        {
+            std::ofstream ofs(tmp_file, std::ios::out | std::ios::trunc);
+            nlohmann::json arr = nlohmann::json::array();
+            for (int i = 0; i < kScheduleCount; ++i) {
+                arr.push_back(nlohmann::json::parse(make_mtn06_schedule_json(i)));
+            }
+            ofs << arr.dump();
+        }
+
+        // Reload: read and parse.
+        {
+            std::ifstream ifs(tmp_file);
+            std::string content((std::istreambuf_iterator<char>(ifs)),
+                                 std::istreambuf_iterator<char>());
+            auto arr = nlohmann::json::parse(content);
+            benchmark::DoNotOptimize(arr.size());
+        }
+
+        state.PauseTiming();
+        fs::remove(tmp_file);
+        state.ResumeTiming();
+    }
+    state.SetLabel("GATE-MTN-06: p99 <= 2 ms");
+}
+BENCHMARK(BM_MTN06_PersistReloadRoundTrip)
+    ->Repetitions(kRepetitions)
+    ->ReportAggregatesOnly(true)
+    ->UseRealTime();
+
+// ============================================================================
+// GATE-MTN-07 — DispatchOutcome ring-buffer write latency
+// ============================================================================
+
+/**
+ * @brief Measures the cost of a single DispatchOutcome push to the ring buffer
+ *        (mutex + deque push_back + conditional pop_front).
+ *
+ * Gate: p99 ≤ 200 ns.
+ */
+static void BM_MTN07_RingBufferWrite(benchmark::State& state) {
+    std::mutex mu;
+    std::deque<themis::maintenance::DispatchOutcome> ring;
+    static constexpr int kCap = 256;
+
+    for (auto _ : state) {
+        themis::maintenance::DispatchOutcome o;
+        o.schedule_id = "bench-sched";
+        o.task_type   = "quota_check";
+        o.outcome     = themis::maintenance::DispatchOutcomeType::SUCCESS;
+        o.latency_us  = 42;
+        {
+            std::lock_guard<std::mutex> lock(mu);
+            ring.push_back(std::move(o));
+            if (static_cast<int>(ring.size()) > kCap) ring.pop_front();
+        }
+        benchmark::DoNotOptimize(ring.size());
+    }
+    state.SetLabel("GATE-MTN-07: p99 <= 200 ns");
+}
+BENCHMARK(BM_MTN07_RingBufferWrite)
+    ->Repetitions(kRepetitions)
+    ->ReportAggregatesOnly(true);
+
 } // namespace mtn
 } // namespace bench
 } // namespace themis

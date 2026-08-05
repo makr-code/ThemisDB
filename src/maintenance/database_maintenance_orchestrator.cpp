@@ -27,6 +27,8 @@
 #include <deque>
 #include <random>
 #include <set>
+#include <unordered_map>
+#include <unordered_set>
 #include <shared_mutex>
 #include <sstream>
 #include <iomanip>
@@ -665,6 +667,15 @@ MaintenanceHealthReport DatabaseMaintenanceOrchestrator::getHealthReport() const
     }
 
     report.overall_status = worst;
+
+    // ---- Phase 4: populate recent_dispatch_outcomes from ring buffer ------
+    {
+        std::lock_guard<std::mutex> rb_lock(ring_buffer_mutex_);
+        report.recent_dispatch_outcomes.assign(
+            dispatch_ring_buffer_.begin(), dispatch_ring_buffer_.end());
+        report.dispatch_outcome_ring_buffer_capacity = ring_buffer_capacity_;
+    }
+
     return report;
 }
 
@@ -707,7 +718,7 @@ DatabaseMaintenanceOrchestrator::listTaskHandlers() const
     for (const auto& [key, handler] : task_handlers_) {
         const auto task_type_str = taskTypeToString(static_cast<MaintenanceTaskType>(key));
         if (handler) {
-            result[task_type_str] = handler->handlerName();
+            result[task_type_str] = handler->handlerName(); // null-checked above
         } else {
             result[task_type_str] = "<null-handler>";
         }
@@ -831,6 +842,59 @@ void DatabaseMaintenanceOrchestrator::deregisterFromScheduler(
 void DatabaseMaintenanceOrchestrator::executeSchedule(
     const std::string& schedule_id, const std::string& job_id, bool force)
 {
+    // ---- Phase 2: in-flight concurrent guard -------------------------------
+    // If this schedule is already executing on another thread, skip with
+    // SKIPPED_CONCURRENT rather than running a duplicate job.
+    {
+        std::lock_guard<std::mutex> ifl(in_flight_mutex_);
+        if (!in_flight_schedules_.insert(schedule_id).second) {
+            // Already in flight — emit diagnostic and skip.
+            spdlog::debug("executeSchedule: schedule {} skipped — already in-flight",
+                          schedule_id);
+            int64_t now = themis::maintenance::nowMs();
+            {
+                std::unique_lock<std::shared_mutex> jlock(jobs_mutex_);
+                if (auto jit = jobs_.find(job_id); jit != jobs_.end()) {
+                    jit->second.state         = MaintenanceJobState::SKIPPED;
+                    jit->second.error_message = "Skipped: schedule already in-flight (concurrent invocation)";
+                    jit->second.finished_at_ms = now;
+                }
+            }
+            {
+                std::unique_lock<std::shared_mutex> slock(schedules_mutex_);
+                if (auto it = schedules_.find(schedule_id); it != schedules_.end()) {
+                    it->second.last_run_ms    = now;
+                    it->second.last_run_state = "skipped";
+                    it->second.last_job_id    = job_id;
+                }
+            }
+            MetricsCollector::getInstance().addCounter(
+                "maintenance_jobs_skipped_total", 1,
+                {{"reason", "concurrent_in_flight"}, {"schedule_id", schedule_id}});
+
+            DispatchOutcome doc;
+            doc.schedule_id   = schedule_id;
+            doc.task_type     = "<concurrent-skip>";
+            doc.outcome       = DispatchOutcomeType::SKIPPED_CONCURRENT;
+            doc.latency_us    = 0;
+            doc.error_message = "Schedule already in-flight";
+            recordDispatchOutcome(std::move(doc));
+            return;
+        }
+    }
+
+    // RAII guard: remove from in_flight_schedules_ on every exit path.
+    struct InFlightGuard {
+        DatabaseMaintenanceOrchestrator* self;
+        const std::string& sched_id;
+        ~InFlightGuard() {
+            std::lock_guard<std::mutex> lk(self->in_flight_mutex_);
+            self->in_flight_schedules_.erase(sched_id);
+        }
+    } in_flight_guard{this, schedule_id};
+
+    int64_t exec_start_us = std::chrono::duration_cast<std::chrono::microseconds>(
+        std::chrono::steady_clock::now().time_since_epoch()).count();
     MaintenanceScheduleEntry entry;
     {
         std::shared_lock<std::shared_mutex> lock(schedules_mutex_);
@@ -1134,6 +1198,20 @@ void DatabaseMaintenanceOrchestrator::executeSchedule(
 
     pruneCompletedJobs();
     // dist_lock_guard destructor releases the distributed lock automatically.
+
+    // ---- Phase 4: record DispatchOutcome in ring buffer -------------------
+    {
+        int64_t finish_us = std::chrono::duration_cast<std::chrono::microseconds>(
+            std::chrono::steady_clock::now().time_since_epoch()).count();
+        DispatchOutcome doc;
+        doc.schedule_id = schedule_id;
+        doc.task_type   = "<schedule>";
+        doc.outcome     = all_ok ? DispatchOutcomeType::SUCCESS
+                                 : DispatchOutcomeType::FAILED_DISPATCH;
+        doc.latency_us  = finish_us - exec_start_us;
+        doc.error_message = last_error;
+        recordDispatchOutcome(std::move(doc));
+    }
 }
 
 void DatabaseMaintenanceOrchestrator::executeTask(
@@ -1289,9 +1367,24 @@ void DatabaseMaintenanceOrchestrator::executeTask(
                 if (!result) {
                     job.state         = MaintenanceJobState::FAILED;
                     job.error_message = result.error().message();
+
+                    DispatchOutcome doc;
+                    doc.schedule_id   = job.schedule_id;
+                    doc.task_type     = taskTypeToString(task_type);
+                    doc.outcome       = DispatchOutcomeType::FAILED_DISPATCH;
+                    doc.latency_us    = 0;
+                    doc.error_message = job.error_message;
+                    recordDispatchOutcome(std::move(doc));
                 } else {
                     job.state          = MaintenanceJobState::SUCCEEDED;
                     job.result_summary = *result;
+
+                    DispatchOutcome doc;
+                    doc.schedule_id = job.schedule_id;
+                    doc.task_type   = taskTypeToString(task_type);
+                    doc.outcome     = DispatchOutcomeType::SUCCESS;
+                    doc.latency_us  = 0;
+                    recordDispatchOutcome(std::move(doc));
                 }
             } else {
                 // No handler registered – skip with a structured diagnostic message.
@@ -1301,8 +1394,17 @@ void DatabaseMaintenanceOrchestrator::executeTask(
                     "real execution for this task type.",
                     taskTypeToString(task_type), job.id);
                 job.state          = MaintenanceJobState::SKIPPED;
+                job.error_message  = "no handler registered for " + taskTypeToString(task_type);
                 job.result_summary = "Task '" + taskTypeToString(task_type) +
                                      "' skipped: no handler registered";
+
+                DispatchOutcome doc;
+                doc.schedule_id   = job.schedule_id;
+                doc.task_type     = taskTypeToString(task_type);
+                doc.outcome       = DispatchOutcomeType::SKIPPED_NO_HANDLER;
+                doc.latency_us    = 0;
+                doc.error_message = job.error_message;
+                recordDispatchOutcome(std::move(doc));
             }
             break;
         }
@@ -1371,21 +1473,26 @@ DatabaseMaintenanceOrchestrator::resolveTaskExecutionOrder(
 
     // Build a stable index map so that tasks with equal eligibility are
     // emitted in the same relative order as entry.tasks (Kahn's seeding).
-    std::map<MaintenanceTaskType, std::size_t> taskIndex;
+    std::unordered_map<int, std::size_t> taskIndex;
     for (std::size_t i = 0; i < entry.tasks.size(); ++i) {
-        taskIndex[entry.tasks[i]] = i;
+        taskIndex[static_cast<int>(entry.tasks[i])] = i;
     }
+
+    auto getIndex = [&](MaintenanceTaskType t) -> std::size_t {
+        auto it = taskIndex.find(static_cast<int>(t));
+        return it != taskIndex.end() ? it->second : SIZE_MAX;
+    };
 
     // ---- Validate that all dependency references name tasks in entry.tasks --
     for (const auto& dep : entry.task_dependencies) {
-        if (taskIndex.find(dep.task_type) == taskIndex.end()) {
+        if (taskIndex.find(static_cast<int>(dep.task_type)) == taskIndex.end()) {
             throw std::invalid_argument(
                 "task_dependencies: task_type '" +
                 taskTypeToString(dep.task_type) +
                 "' is not present in the tasks list");
         }
         for (auto prereq : dep.depends_on) {
-            if (taskIndex.find(prereq) == taskIndex.end()) {
+            if (taskIndex.find(static_cast<int>(prereq)) == taskIndex.end()) {
                 throw std::invalid_argument(
                     "task_dependencies: depends_on task '" +
                     taskTypeToString(prereq) +
@@ -1395,22 +1502,22 @@ DatabaseMaintenanceOrchestrator::resolveTaskExecutionOrder(
     }
 
     // ---- Build in-degree map and reverse adjacency (Kahn's algorithm) ------
-    std::map<MaintenanceTaskType, int>                          inDegree;
-    std::map<MaintenanceTaskType, std::vector<MaintenanceTaskType>> dependents;
+    std::unordered_map<int, int>                                    inDegree;
+    std::unordered_map<int, std::vector<MaintenanceTaskType>>       dependents;
 
     for (auto t : entry.tasks) {
-        inDegree[t]   = 0;
-        dependents[t] = {};
+        inDegree[static_cast<int>(t)]   = 0;
+        dependents[static_cast<int>(t)] = {};
     }
 
     // Deduplicate edges using a set per dependent to avoid double-counting.
-    std::map<MaintenanceTaskType, std::set<MaintenanceTaskType>> seen;
+    std::unordered_map<int, std::set<int>> seen;
     for (const auto& dep : entry.task_dependencies) {
         for (auto prereq : dep.depends_on) {
-            if (seen[dep.task_type].insert(prereq).second) {
+            if (seen[static_cast<int>(dep.task_type)].insert(static_cast<int>(prereq)).second) {
                 // New edge: prereq → dep.task_type
-                dependents[prereq].push_back(dep.task_type);
-                inDegree[dep.task_type]++;
+                dependents[static_cast<int>(prereq)].push_back(dep.task_type);
+                inDegree[static_cast<int>(dep.task_type)]++;
             }
         }
     }
@@ -1420,13 +1527,13 @@ DatabaseMaintenanceOrchestrator::resolveTaskExecutionOrder(
     // with equal eligibility are always emitted in the declared list order.
     // std::deque provides O(1) pop_front (versus O(n) for std::vector).
     auto byOriginalOrder = [&](MaintenanceTaskType a, MaintenanceTaskType b) {
-        return taskIndex.at(a) < taskIndex.at(b);
+        return getIndex(a) < getIndex(b);
     };
 
     // Initialize ready list with zero-in-degree tasks, in entry.tasks order.
     std::deque<MaintenanceTaskType> ready;
     for (auto t : entry.tasks) {
-        if (inDegree[t] == 0) {
+        if (inDegree[static_cast<int>(t)] == 0) {
             ready.push_back(t);
         }
     }
@@ -1441,12 +1548,12 @@ DatabaseMaintenanceOrchestrator::resolveTaskExecutionOrder(
         result.push_back(cur);
 
         // Sort this node's dependents by original position before merging into ready.
-        const auto& deps = dependents[cur];
+        const auto& deps = dependents[static_cast<int>(cur)];
         std::vector<MaintenanceTaskType> sorted_deps(deps.begin(), deps.end());
         std::sort(sorted_deps.begin(), sorted_deps.end(), byOriginalOrder);
 
         for (auto dep : sorted_deps) {
-            if (--inDegree[dep] == 0) {
+            if (--inDegree[static_cast<int>(dep)] == 0) {
                 // Insert in original-order position.
                 auto pos = std::lower_bound(ready.begin(), ready.end(), dep, byOriginalOrder);
                 ready.insert(pos, dep);
@@ -1463,6 +1570,38 @@ DatabaseMaintenanceOrchestrator::resolveTaskExecutionOrder(
     return result;
 }
 
+// ---------------------------------------------------------------------------
+// Phase 4: DispatchOutcome ring buffer
+// ---------------------------------------------------------------------------
+
+void DatabaseMaintenanceOrchestrator::recordDispatchOutcome(DispatchOutcome outcome) {
+    std::lock_guard<std::mutex> lock(ring_buffer_mutex_);
+    dispatch_ring_buffer_.push_back(std::move(outcome));
+    while (static_cast<int>(dispatch_ring_buffer_.size()) > ring_buffer_capacity_) {
+        dispatch_ring_buffer_.pop_front();
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Phase 2: Churn rate-limit check
+// ---------------------------------------------------------------------------
+
+bool DatabaseMaintenanceOrchestrator::checkChurnLimit(
+    const std::string& schedule_id, uint32_t max_changes_per_interval)
+{
+    if (max_changes_per_interval == 0) return true; // disabled
+
+    int64_t now = themis::maintenance::nowMs();
+    std::lock_guard<std::mutex> lock(churn_mutex_);
+    auto& [count, interval_start] = churn_counts_[schedule_id];
+    if (now - interval_start >= kChurnIntervalMs) {
+        // New interval — reset counter
+        interval_start = now;
+        count = 0;
+    }
+    ++count;
+    return count <= max_changes_per_interval;
+}
+
 } // namespace maintenance
 } // namespace themis
-

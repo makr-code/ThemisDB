@@ -1,7 +1,7 @@
 # Maintenance Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-08-03 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
@@ -10,21 +10,21 @@ Production maintenance runtime exists for schedule orchestration, execution coor
 
 ## In Progress
 
-- [~] hardening of schedule edge-case handling and deterministic execution fallbacks (Target: Q3 2026)
-- [~] benchmark stabilization for maintenance orchestration and integration hot paths (Target: Q3 2026)
-- [~] diagnostics consistency across scheduling, persistence, and handler execution incidents (Target: Q3 2026)
+- [x] hardening of schedule edge-case handling and deterministic execution fallbacks (Target: Q3 2026) — evidence: tests/maintenance/test_maintenance_hardening_phase23_focused.cpp (MTN-09..MTN-16)
+- [x] benchmark stabilization for maintenance orchestration and integration hot paths (Target: Q3 2026) — evidence: benchmarks/maintenance/bench_maintenance_release_gates.cpp (GATE-MTN-01..GATE-MTN-04)
+- [x] diagnostics consistency across scheduling, persistence, and handler execution incidents (Target: Q3 2026) — evidence: tests/maintenance/test_maintenance_hardening_phase23_focused.cpp (MTN-13, MTN-15, MTN-16)
 
 ## Planned Features
 
 ### Short-term (3-6 months)
-- [ ] tighten deterministic behavior under high schedule churn and concurrent execution scenarios (Target: Q4 2026)
-- [ ] expand stress coverage for persistence/reload and handler mismatch paths (Target: Q4 2026)
-- [ ] improve operator diagnostics for failed scheduling and task dispatch outcomes (Target: Q4 2026)
+- [x] tighten deterministic behavior under high schedule churn and concurrent execution scenarios (Target: Q4 2026) — evidence: tests/maintenance/test_maintenance_churn_hardening_focused.cpp (MTN-17..MTN-20); src/maintenance/database_maintenance_orchestrator.cpp in-flight guard + churn rate-limit
+- [x] expand stress coverage for persistence/reload and handler mismatch paths (Target: Q4 2026) — evidence: tests/maintenance/test_maintenance_stress_focused.cpp (MTN-21..MTN-28); src/maintenance/maintenance_schedule_store.cpp PersistenceCorrupt path
+- [x] improve operator diagnostics for failed scheduling and task dispatch outcomes (Target: Q4 2026) — evidence: tests/maintenance/test_maintenance_diagnostics_focused.cpp (MTN-29..MTN-32); include/maintenance/maintenance_health_report.h DispatchOutcome ring buffer
 
 ### Mid-term (6-12 months)
-- [ ] re-baseline p95/p99 envelopes for maintenance scheduling and dispatch operations (Target: Q1 2027)
-- [ ] broaden benchmark depth for distributed and orchestrator-adjacent maintenance scenarios (Target: Q1 2027)
-- [ ] harden long-running reliability under sustained maintenance workload pressure (Target: Q1 2027)
+- [x] re-baseline p95/p99 envelopes for maintenance scheduling and dispatch operations (Target: Q1 2027) — evidence: benchmarks/maintenance/bench_maintenance_release_gates.cpp (GATE-MTN-05..GATE-MTN-07)
+- [x] broaden benchmark depth for distributed and orchestrator-adjacent maintenance scenarios (Target: Q1 2027) — evidence: benchmarks/maintenance/bench_maintenance_distributed_gates.cpp (GATE-MTN-DIST-01..GATE-MTN-DIST-02); benchmarks/maintenance/release_gate_manifest_mtn.json
+- [x] harden long-running reliability under sustained maintenance workload pressure (Target: Q1 2027) — evidence: tests/maintenance/test_maintenance_endurance_focused.cpp (MTN-ENDURANCE-01)
 
 ## Implementation Phases
 
@@ -33,16 +33,16 @@ Production maintenance runtime exists for schedule orchestration, execution coor
 - [x] define explicit error taxonomy for schedule, persistence, and handler execution classes (Target: Q3 2026) — evidence: include/maintenance/maintenance_api_contract.h
 
 ### Phase 2: Core Implementation
-- [ ] complete hardening for orchestrator and schedule-store internals (Target: Q4 2026)
-- [ ] align registry and execution behavior to bounded runtime contracts (Target: Q4 2026)
+- [x] complete hardening for orchestrator and schedule-store internals (Target: Q4 2026) — evidence: src/maintenance/database_maintenance_orchestrator.cpp; src/maintenance/maintenance_schedule_store.cpp; tests/maintenance/test_maintenance_hardening_phase23_focused.cpp (MTN-10, MTN-11, MTN-14, MTN-16)
+- [x] align registry and execution behavior to bounded runtime contracts (Target: Q4 2026) — evidence: tests/maintenance/test_maintenance_hardening_phase23_focused.cpp (MTN-09, MTN-12)
 
 ### Phase 3: Error Handling and Edge Cases
-- [ ] standardize fail-safe behavior for missing handlers and invalid persisted schedules (Target: Q4 2026)
-- [ ] unify diagnostics across scheduling/persistence/execution incidents (Target: Q4 2026)
+- [x] standardize fail-safe behavior for missing handlers and invalid persisted schedules (Target: Q4 2026) — evidence: src/maintenance/database_maintenance_orchestrator.cpp executeTask() handler-missing SKIPPED path; tests/maintenance/test_maintenance_hardening_phase23_focused.cpp (MTN-15, MTN-16)
+- [x] unify diagnostics across scheduling/persistence/execution incidents (Target: Q4 2026) — evidence: tests/maintenance/test_maintenance_hardening_phase23_focused.cpp (MTN-13); src/maintenance/database_maintenance_orchestrator.cpp executeSchedule() structured error_message paths
 
 ### Phase 4: Tests
-- [x] expand focused regressions for schedule churn and dispatch edge scenarios (Target: Q4 2026) — evidence: tests/maintenance/test_maintenance_contract_hardening_focused.cpp
-- [x] extend deterministic stress fixtures for maintenance orchestration operations (Target: Q4 2026) — evidence: tests/maintenance/test_maintenance_contract_hardening_focused.cpp
+- [x] expand focused regressions for schedule churn and dispatch edge scenarios (Target: Q4 2026) — evidence: tests/maintenance/test_maintenance_contract_hardening_focused.cpp (MTN-01..MTN-08); tests/maintenance/test_maintenance_hardening_phase23_focused.cpp (MTN-09..MTN-16)
+- [x] extend deterministic stress fixtures for maintenance orchestration operations (Target: Q4 2026) — evidence: tests/maintenance/test_maintenance_contract_hardening_focused.cpp; tests/maintenance/test_maintenance_hardening_phase23_focused.cpp
 
 ### Phase 5: Performance and Hardening
 - [x] lock benchmark-backed release gates for maintenance hot paths (Target: Q4 2026) — evidence: benchmarks/maintenance/bench_maintenance_release_gates.cpp
@@ -57,7 +57,7 @@ Production maintenance runtime exists for schedule orchestration, execution coor
 - [x] core maintenance surfaces documented and source-verified
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
-- [ ] remaining hardening tasks closed for schedule/persistence/execution edge paths
+- [x] Phase 2/3 hardening tasks closed for schedule/persistence/execution edge paths — evidence: tests/maintenance/test_maintenance_hardening_phase23_focused.cpp (MTN-09..MTN-16)
 - [x] release benchmark stabilization complete
 
 ## Known Issues and Limitations

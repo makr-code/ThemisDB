@@ -1,15 +1,5 @@
-/**
- * @file maintenance_schedule_store.cpp
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
- * @version 0.0.13
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 96/100
- * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
- */
-
 #include "maintenance/maintenance_schedule_store.h"
+#include "maintenance/maintenance_api_contract.h"
 
 #include <spdlog/spdlog.h>
 #include <nlohmann/json.hpp>
@@ -98,9 +88,9 @@ Result<void> MaintenanceScheduleStore::loadAll(
                 tmp[entry.id] = std::move(entry);
                 ++loaded;
             } catch (const nlohmann::json::exception& ex) {
-                spdlog::warn("MaintenanceScheduleStore::loadAll: skipping corrupt "
-                             "schedule entry at key '{}' – JSON parse error: {}",
-                             std::string(key), ex.what());
+                spdlog::error("MaintenanceScheduleStore::loadAll: corrupt "
+                              "schedule entry at key '{}' – JSON parse error: {}",
+                              std::string(key), ex.what());
                 ++skipped;
             }
             return true; // continue scanning
@@ -110,13 +100,24 @@ Result<void> MaintenanceScheduleStore::loadAll(
         return scan_result;
     }
 
+    // If any entry was corrupt / unparseable, return PersistenceCorrupt so
+    // callers can surface this rather than silently loading a partial set.
+    if (skipped > 0) {
+        spdlog::error("MaintenanceScheduleStore::loadAll: {} corrupt entry(ies) found; "
+                      "returning PersistenceCorrupt (loaded {} good entry(ies))",
+                      skipped, loaded);
+        return tl::unexpected(Error(
+            errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+            "MaintenanceScheduleStore::loadAll: PersistenceCorrupt — " +
+            std::to_string(skipped) + " corrupt entry(ies) detected"));
+    }
+
     // Merge loaded entries into the caller's map.
     for (auto& [id, entry] : tmp) {
         schedules[id] = std::move(entry);
     }
 
-    spdlog::info("MaintenanceScheduleStore::loadAll: loaded {} schedule(s), "
-                 "skipped {} corrupt entry(ies)", loaded, skipped);
+    spdlog::info("MaintenanceScheduleStore::loadAll: loaded {} schedule(s)", loaded);
     return OkVoid();
 }
 

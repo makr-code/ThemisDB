@@ -90,6 +90,9 @@ enum class MaintenanceError : int32_t {
     kInvalidSchedule       = 8105, ///< Schedule descriptor fails structural checks.
     kOrchestratorDegraded  = 8106, ///< Orchestrator health check failed.
     kInternalError         = 8107, ///< Unclassified internal error.
+    kSkippedConcurrent     = 8108, ///< Schedule already in-flight; this invocation was skipped.
+    kPersistenceCorrupt    = 8109, ///< Persisted data is corrupt or truncated; cannot be loaded.
+    kChurnLimitExceeded    = 8110, ///< max_schedule_changes_per_interval policy triggered.
 };
 
 // ============================================================================
@@ -134,6 +137,19 @@ struct MaintenanceScheduleDescriptor {
 
     /// Maximum execution time budget before kExecutionTimeout is raised.
     std::chrono::seconds timeout{0};
+
+    /**
+     * @brief Maximum number of schedule changes (create/update/patch/delete)
+     *        permitted per interval window.  0 means disabled (no limit).
+     *
+     * When > 0 the orchestrator tracks mutations per schedule per rolling
+     * interval.  Excess mutations are rejected with
+     * MaintenanceError::kChurnLimitExceeded.
+     *
+     * @note The interval duration is controlled by
+     *       DatabaseMaintenanceOrchestrator::kChurnIntervalMs (default 60 s).
+     */
+    uint32_t      max_schedule_changes_per_interval{0};
 };
 
 /**
@@ -160,7 +176,8 @@ struct MaintenanceHealthSnapshot {
 [[nodiscard]] inline constexpr bool isMaintenanceFailClosed(MaintenanceError e) noexcept {
     return e == MaintenanceError::kOrchestratorDegraded
         || e == MaintenanceError::kInternalError
-        || e == MaintenanceError::kPersistenceFailed;
+        || e == MaintenanceError::kPersistenceFailed
+        || e == MaintenanceError::kPersistenceCorrupt;
 }
 
 } // namespace maintenance
