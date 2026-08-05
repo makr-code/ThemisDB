@@ -246,22 +246,55 @@ endif()
 if(spdlog_FOUND)
     message(STATUS "spdlog found")
 else()
-    message(FATAL_ERROR 
-        "spdlog not found. Install via:\n"
-        "  - vcpkg: vcpkg install spdlog\n"
-        "  - Debian/Ubuntu: sudo apt-get install libspdlog-dev\n"
-        "  - Fedora/RHEL: sudo dnf install spdlog-devel\n"
-        "  - macOS: brew install spdlog"
-    )
+    if(THEMIS_ALLOW_MISSING_ROCKSDB)
+        message(WARNING
+            "spdlog not found. Continuing configure because THEMIS_ALLOW_MISSING_ROCKSDB=ON, "
+            "but spdlog-dependent targets will still require spdlog before building."
+        )
+        if(NOT TARGET spdlog::spdlog)
+            add_library(spdlog::spdlog INTERFACE IMPORTED)
+        endif()
+    else()
+        message(FATAL_ERROR 
+            "spdlog not found. Install via:\n"
+            "  - vcpkg: vcpkg install spdlog\n"
+            "  - Debian/Ubuntu: sudo apt-get install libspdlog-dev\n"
+            "  - Fedora/RHEL: sudo dnf install spdlog-devel\n"
+            "  - macOS: brew install spdlog"
+        )
+    endif()
 endif()
 
 # Disable spdlog compile-time format string checks for better compatibility with runtime format strings
-if(NOT MSVC)
+if(spdlog_FOUND AND NOT MSVC)
     add_compile_definitions(SPDLOG_USE_SPDLOG_FMT_EXT=0)
 endif()
 
-find_package(nlohmann_json REQUIRED CONFIG)
-message(STATUS "nlohmann_json found")
+find_package(nlohmann_json CONFIG QUIET)
+if(NOT nlohmann_json_FOUND)
+    find_package(nlohmann_json MODULE QUIET)
+endif()
+if(nlohmann_json_FOUND)
+    message(STATUS "nlohmann_json found")
+else()
+    if(THEMIS_ALLOW_MISSING_ROCKSDB)
+        message(WARNING
+            "nlohmann_json not found. Continuing configure because THEMIS_ALLOW_MISSING_ROCKSDB=ON, "
+            "but nlohmann_json-dependent targets will still require nlohmann_json before building."
+        )
+        if(NOT TARGET nlohmann_json::nlohmann_json)
+            add_library(nlohmann_json::nlohmann_json INTERFACE IMPORTED)
+        endif()
+    else()
+        message(FATAL_ERROR 
+            "nlohmann_json not found. Install via:\n"
+            "  - vcpkg: vcpkg install nlohmann-json\n"
+            "  - Debian/Ubuntu: sudo apt-get install nlohmann-json3-dev\n"
+            "  - Fedora/RHEL: sudo dnf install nlohmann-json-devel\n"
+            "  - macOS: brew install nlohmann-json"
+        )
+    endif()
+endif()
 
 # Boost: Try CONFIG first, fall back to MODULE if not found
 find_package(Boost 1.70 CONFIG COMPONENTS system filesystem QUIET)
@@ -648,7 +681,12 @@ if(THEMIS_ENABLE_MIMALLOC)
         message(STATUS "mimalloc found - enabling high-performance memory allocation")
         add_compile_definitions(THEMIS_HAS_MIMALLOC=1)
     else()
-        message(FATAL_ERROR "THEMIS_ENABLE_MIMALLOC=ON but mimalloc not found")
+        if(THEMIS_ALLOW_MISSING_ROCKSDB)
+            message(WARNING "mimalloc not found - disabling high-performance memory allocation")
+            set(THEMIS_ENABLE_MIMALLOC OFF CACHE BOOL "Enable mimalloc" FORCE)
+        else()
+            message(FATAL_ERROR "THEMIS_ENABLE_MIMALLOC=ON but mimalloc not found")
+        endif()
     endif()
 endif()
 
