@@ -12,6 +12,7 @@
 #include "utils/logger.h"
 #include <algorithm>
 #include <cmath>
+#include <sstream>
 
 namespace themis {
 namespace query {

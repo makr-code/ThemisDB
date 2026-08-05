@@ -552,7 +552,77 @@ else()
     message(STATUS "Query Optimizer Regression tests not found at ${CMAKE_CURRENT_LIST_DIR}/test_query_optimizer_regression.cpp")
 endif()
 
-# AUTOGEN PREFIX BLOCK: query
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_geospatial_optimizer.cpp")
+    message(STATUS "Adding Query: Geospatial Optimizer Phase 6C tests (GEO_OPT_01-40)")
+
+    add_executable(test_geospatial_optimizer_focused
+        test_geospatial_optimizer.cpp
+    )
+
+    target_include_directories(test_geospatial_optimizer_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_geospatial_optimizer_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_geospatial_optimizer_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    themis_register_module_focused_test(
+        MODULE query
+        NAME GeospatialOptimizerTests
+        TARGET test_geospatial_optimizer_focused
+        TIER unit
+        TIMEOUT 120
+        LABELS geospatial optimizer phase6c
+    )
+
+    message(STATUS "  Geospatial Optimizer: cost model, hints, index selection, query rewrite (GEO_OPT_01-40)")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_geospatial_phase2_integration.cpp")
+    message(STATUS "Adding Query: Geospatial Phase 2 Integration tests (INT_GEO_01-10)")
+
+    add_executable(test_geospatial_phase2_integration_focused
+        test_geospatial_phase2_integration.cpp
+    )
+
+    target_include_directories(test_geospatial_phase2_integration_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_geospatial_phase2_integration_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_geospatial_phase2_integration_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    themis_register_module_focused_test(
+        MODULE query
+        NAME GeospatialPhase2IntegrationTests
+        TARGET test_geospatial_phase2_integration_focused
+        TIER unit
+        TIMEOUT 120
+        LABELS geospatial integration phase6c
+    )
+
+    message(STATUS "  Geospatial Phase 2 Integration: end-to-end spatial query optimization (INT_GEO_01-10)")
+endif()
+
+
 file(GLOB QUERY_AUTOGEN_PREFIX_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_query_*.cpp"
 )
