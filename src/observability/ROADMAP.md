@@ -81,10 +81,27 @@ Production observability runtime exists across metrics, tracing, profiling, aler
 - [x] remaining metrics-collector hardening tasks closed for malformed telemetry and exporter health edge paths
 - [x] release benchmark stabilization complete for the metrics collector bounded-ingest slice
 
+## Hardening Blocks (Phase 6+ Continuation)
+
+### Block A — Alerting/Profiling/RCA Hardening
+- [x] Components hardened: AlertingEngine, Alertmanager, DistributedFlameGraph, RootCauseAnalyzer, ContinuousProfiler
+- [x] Delivered: test_observability_block_a_focused.cpp with 6+ focused tests (OBA-01..OBA-06)
+- [x] Completed: 2026-08-05
+
+### Block B — Metrics/Tracing/Analysis Hardening (🟡 IN PROGRESS)
+- [~] Components targeted: MetricsCollector, MetricsAggregator, OpenTelemetryTracer, QueryProfiler, ProvisionStore, SloReporter
+- [~] Phase 1: Contracts locked for all 6 components
+- [~] Phase 2: Hardening patches applied (~465 LOC changes)
+- [~] Phase 3: Edge-case handling (malformed input, concurrent load, recovery, clock skew)
+- [~] Phase 4: Test suite test_observability_block_b_focused.cpp with 20+ focused tests (OBB-01..OBB-20)
+- [~] Phase 5: Performance gates bench_observability_block_b_gates.cpp with 6 gates (OBB-GATE-01..06)
+- [~] Phase 6: Documentation sync and acceptance sign-off
+- Target completion: 2026-08-12
+
 ## Known Issues and Limitations
 
 - runtime behavior depends on enabled components, backend integration, and telemetry volume.
-- selected non-metrics observability edge scenarios need continued hardening.
+- selected non-metrics observability edge scenarios need continued hardening (Block B in progress).
 - benchmark breadth should continue expanding for distributed and mixed workloads.
 
 ## Breaking Changes
