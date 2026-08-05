@@ -17,14 +17,14 @@ Production maintenance runtime exists for schedule orchestration, execution coor
 ## Planned Features
 
 ### Short-term (3-6 months)
-- [ ] tighten deterministic behavior under high schedule churn and concurrent execution scenarios (Target: Q4 2026)
-- [ ] expand stress coverage for persistence/reload and handler mismatch paths (Target: Q4 2026)
-- [ ] improve operator diagnostics for failed scheduling and task dispatch outcomes (Target: Q4 2026)
+- [x] tighten deterministic behavior under high schedule churn and concurrent execution scenarios (Target: Q4 2026) — evidence: tests/maintenance/test_maintenance_churn_hardening_focused.cpp (MTN-17..MTN-20); src/maintenance/database_maintenance_orchestrator.cpp in-flight guard + churn rate-limit
+- [x] expand stress coverage for persistence/reload and handler mismatch paths (Target: Q4 2026) — evidence: tests/maintenance/test_maintenance_stress_focused.cpp (MTN-21..MTN-28); src/maintenance/maintenance_schedule_store.cpp PersistenceCorrupt path
+- [x] improve operator diagnostics for failed scheduling and task dispatch outcomes (Target: Q4 2026) — evidence: tests/maintenance/test_maintenance_diagnostics_focused.cpp (MTN-29..MTN-32); include/maintenance/maintenance_health_report.h DispatchOutcome ring buffer
 
 ### Mid-term (6-12 months)
-- [ ] re-baseline p95/p99 envelopes for maintenance scheduling and dispatch operations (Target: Q1 2027)
-- [ ] broaden benchmark depth for distributed and orchestrator-adjacent maintenance scenarios (Target: Q1 2027)
-- [ ] harden long-running reliability under sustained maintenance workload pressure (Target: Q1 2027)
+- [x] re-baseline p95/p99 envelopes for maintenance scheduling and dispatch operations (Target: Q1 2027) — evidence: benchmarks/maintenance/bench_maintenance_release_gates.cpp (GATE-MTN-05..GATE-MTN-07)
+- [x] broaden benchmark depth for distributed and orchestrator-adjacent maintenance scenarios (Target: Q1 2027) — evidence: benchmarks/maintenance/bench_maintenance_distributed_gates.cpp (GATE-MTN-DIST-01..GATE-MTN-DIST-02); benchmarks/maintenance/release_gate_manifest_mtn.json
+- [x] harden long-running reliability under sustained maintenance workload pressure (Target: Q1 2027) — evidence: tests/maintenance/test_maintenance_endurance_focused.cpp (MTN-ENDURANCE-01)
 
 ## Implementation Phases
 

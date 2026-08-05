@@ -20,12 +20,15 @@
 
 #include <string>
 #include <vector>
+#include <unordered_map>
+#include <unordered_set>
 #include <map>
 #include <memory>
 #include <mutex>
 #include <shared_mutex>
 #include <atomic>
 #include <functional>
+#include <deque>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -416,6 +419,13 @@ private:
 
     void validateEntry(const MaintenanceScheduleEntry& entry) const;
 
+    /// Record a DispatchOutcome into the ring buffer (thread-safe).
+    void recordDispatchOutcome(DispatchOutcome outcome);
+
+    /// Check and enforce churn rate limit for a schedule.
+    /// Returns true if the change is permitted; false if the limit is exceeded.
+    bool checkChurnLimit(const std::string& schedule_id, uint32_t max_changes_per_interval);
+
     // ---- Members ----------------------------------------------------------
     TaskScheduler*                           scheduler_;
     std::shared_ptr<IndexMaintenanceManager> index_maintenance_;
@@ -426,27 +436,47 @@ private:
 
     // Persisted schedules
     mutable std::shared_mutex                                schedules_mutex_;
-    std::map<std::string, MaintenanceScheduleEntry>          schedules_;
+    std::unordered_map<std::string, MaintenanceScheduleEntry> schedules_;
 
     // In-flight and recently completed jobs
     mutable std::shared_mutex                                jobs_mutex_;
-    std::map<std::string, OrchestratorJob>                   jobs_;
+    std::unordered_map<std::string, OrchestratorJob>         jobs_;
     static constexpr int64_t kJobRetentionMs = 24LL * 60 * 60 * 1000; // 24 h
 
     // Module health probes
     mutable std::mutex                                       probes_mutex_;
-    std::map<std::string, HealthProbe>                       health_probes_;
+    std::unordered_map<std::string, HealthProbe>             health_probes_;
 
     // Registered task handlers (keyed by MaintenanceTaskType cast to int)
     mutable std::shared_mutex                                        handlers_mutex_;
-    std::map<int, std::shared_ptr<IMaintenanceTaskHandler>>         task_handlers_;
+    std::unordered_map<int, std::shared_ptr<IMaintenanceTaskHandler>> task_handlers_;
 
     // Optional distributed lock (nullptr → no distributed coordination)
     mutable std::mutex                                              dist_lock_mutex_;
     std::shared_ptr<IDistributedLock>                               dist_lock_;
+
     // Per-tenant maintenance configuration overrides
     mutable std::shared_mutex                                     tenant_configs_mutex_;
-    std::map<std::string, TenantMaintenanceConfig>           tenant_configs_;
+    std::unordered_map<std::string, TenantMaintenanceConfig>      tenant_configs_;
+
+    // ---- Phase 2: in-flight schedule guard --------------------------------
+    /// Schedules currently executing; protects against concurrent re-entry.
+    mutable std::mutex                                              in_flight_mutex_;
+    std::unordered_set<std::string>                                 in_flight_schedules_;
+
+    // ---- Phase 2: churn rate-limit tracking --------------------------------
+    /// Rolling interval in ms for max_schedule_changes_per_interval enforcement.
+    static constexpr int64_t kChurnIntervalMs = 60'000LL; // 60 seconds
+    /// Protects churn_counts_.
+    mutable std::mutex                                              churn_mutex_;
+    /// Per-schedule change count and interval start: {count, interval_start_ms}
+    std::unordered_map<std::string, std::pair<uint32_t, int64_t>>  churn_counts_;
+
+    // ---- Phase 4: DispatchOutcome ring buffer ------------------------------
+    static constexpr int kDefaultRingBufferCapacity = 256;
+    mutable std::mutex                   ring_buffer_mutex_;
+    std::deque<DispatchOutcome>          dispatch_ring_buffer_;
+    int                                  ring_buffer_capacity_{kDefaultRingBufferCapacity};
 
     std::atomic<bool>                                        running_{false};
     mutable std::atomic<uint64_t>                            id_counter_{0};

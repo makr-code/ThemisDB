@@ -174,6 +174,37 @@ struct MaintenanceScheduleEntry {
      */
     int64_t lock_ttl_ms = 0;
 
+    // ---- Churn / rate-limit policy ---------------------------------------
+
+    /**
+     * @brief Maximum permitted mutations (create/update/patch/delete) per
+     *        rolling interval (DatabaseMaintenanceOrchestrator::kChurnIntervalMs,
+     *        default 60 s).  0 = disabled (no rate limit applied).
+     *
+     * ### Semantics
+     * When > 0 the orchestrator counts each CRUD write for this schedule
+     * within the current interval window.  The (N+1)th mutation within the
+     * same window is rejected with MaintenanceError::kChurnLimitExceeded and
+     * a structured error message containing the schedule_id and the current
+     * count.
+     *
+     * ### Max schedule age concept
+     * Schedules may carry an implicit age derived from `created_at_ms`.
+     * Future tooling will surface schedules older than a configurable TTL
+     * as candidates for review or auto-expiry (TTL-policy placeholder — see
+     * FUTURE_ENHANCEMENTS.md).  The `max_schedule_changes_per_interval` field
+     * participates in that governance by slowing accidental churn on aged
+     * schedules.
+     *
+     * ### Auto-expire behaviour note
+     * Auto-expiry (removing schedules that have not run within a TTL window)
+     * is a planned feature.  The presence of this field does not imply
+     * auto-expiry is currently active.  When auto-expiry is introduced it
+     * will be gated on a separate `auto_expire_ttl_ms` field (TTL-policy
+     * placeholder, currently unset / 0 = disabled).
+     */
+    uint32_t max_schedule_changes_per_interval = 0;
+
     // ---- Audit -----------------------------------------------------------
     int64_t created_at_ms  = 0; ///< Unix ms, set on create
     int64_t updated_at_ms  = 0; ///< Unix ms, updated on every CRUD write
@@ -208,6 +239,7 @@ struct MaintenanceScheduleEntry {
         j["window_end_hour"]   = window_end_hour;
         j["halt_on_task_failure"] = halt_on_task_failure;
         j["lock_ttl_ms"]          = lock_ttl_ms;
+        j["max_schedule_changes_per_interval"] = max_schedule_changes_per_interval;
         j["created_at_ms"]     = created_at_ms;
         j["updated_at_ms"]     = updated_at_ms;
         j["created_by"]        = created_by;
@@ -243,6 +275,9 @@ struct MaintenanceScheduleEntry {
         if (j.contains("window_end_hour"))     e.window_end_hour     = j["window_end_hour"].get<int>();
         if (j.contains("halt_on_task_failure"))e.halt_on_task_failure= j["halt_on_task_failure"].get<bool>();
         if (j.contains("lock_ttl_ms"))         e.lock_ttl_ms         = j["lock_ttl_ms"].get<int64_t>();
+        if (j.contains("max_schedule_changes_per_interval"))
+            e.max_schedule_changes_per_interval =
+                j["max_schedule_changes_per_interval"].get<uint32_t>();
         if (j.contains("created_by"))          e.created_by          = j["created_by"].get<std::string>();
         if (j.contains("updated_by"))          e.updated_by          = j["updated_by"].get<std::string>();
         // Audit and runtime state: restore from persisted payload so that
@@ -281,6 +316,9 @@ struct MaintenanceScheduleEntry {
         if (patch.contains("window_end_hour"))      window_end_hour      = patch["window_end_hour"].get<int>();
         if (patch.contains("halt_on_task_failure")) halt_on_task_failure = patch["halt_on_task_failure"].get<bool>();
         if (patch.contains("lock_ttl_ms"))          lock_ttl_ms          = patch["lock_ttl_ms"].get<int64_t>();
+        if (patch.contains("max_schedule_changes_per_interval"))
+            max_schedule_changes_per_interval =
+                patch["max_schedule_changes_per_interval"].get<uint32_t>();
     }
 };
 

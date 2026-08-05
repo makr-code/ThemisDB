@@ -1,0 +1,140 @@
+{
+  "schema_version": "1.0",
+  "module": "maintenance",
+  "description": "Maintenance module Phase 1-6 hardening release-gate manifest.",
+  "effective_date": "2026-08-05",
+  "owners": ["platform-maintenance@themisdb"],
+
+  "baseline_freeze": {
+    "compiler": "clang-17",
+    "compiler_flags": "-O3 -march=native -DNDEBUG",
+    "preset": "linux-release",
+    "hardware_profile": "ci-runner-standard",
+    "os_image": "ubuntu-22.04"
+  },
+
+  "seed": 42,
+  "warmup_iterations": 500,
+  "repetitions": 5,
+  "min_sample_size": 30,
+
+  "hard_gates": [
+    {
+      "id": "GATE-MTN-01",
+      "benchmark": "mtn/BM_MTN01_ErrorEnumCast",
+      "benchmark_file": "benchmarks/maintenance/bench_maintenance_release_gates.cpp",
+      "metric": "latency_p99_ns",
+      "threshold": 5,
+      "unit": "ns",
+      "direction": "lower_is_better",
+      "severity": "blocking",
+      "status": "PASS",
+      "description": "Error enum cast p99 must not exceed 5 ns.",
+      "rationale": "Error-path hot loop overhead baseline."
+    },
+    {
+      "id": "GATE-MTN-02",
+      "benchmark": "mtn/BM_MTN02_SwitchDispatch",
+      "benchmark_file": "benchmarks/maintenance/bench_maintenance_release_gates.cpp",
+      "metric": "latency_p99_ns",
+      "threshold": 10,
+      "unit": "ns",
+      "direction": "lower_is_better",
+      "severity": "blocking",
+      "status": "PASS",
+      "description": "Switch dispatch p99 must not exceed 10 ns.",
+      "rationale": "Validates O(1) jump-table compilation."
+    },
+    {
+      "id": "GATE-MTN-03",
+      "benchmark": "mtn/BM_MTN03_StructAlloc",
+      "benchmark_file": "benchmarks/maintenance/bench_maintenance_release_gates.cpp",
+      "metric": "latency_p99_ns",
+      "threshold": 500,
+      "unit": "ns",
+      "direction": "lower_is_better",
+      "severity": "blocking",
+      "status": "PASS",
+      "description": "ScheduleDescriptor struct allocation p99 must not exceed 500 ns.",
+      "rationale": "Schedule-churn path allocation gate."
+    },
+    {
+      "id": "GATE-MTN-04",
+      "benchmark": "mtn/BM_MTN04_BatchCast",
+      "benchmark_file": "benchmarks/maintenance/bench_maintenance_release_gates.cpp",
+      "metric": "latency_p99_us",
+      "threshold": 5,
+      "unit": "us",
+      "direction": "lower_is_better",
+      "severity": "blocking",
+      "status": "PASS",
+      "description": "Batch error cast (1000 iterations) p99 must not exceed 5 µs.",
+      "rationale": "High-churn schedule-validation hot loop amortised cost."
+    },
+    {
+      "id": "GATE-MTN-05",
+      "benchmark": "mtn/BM_MTN05_InFlightGuard",
+      "benchmark_file": "benchmarks/maintenance/bench_maintenance_release_gates.cpp",
+      "metric": "latency_p99_us",
+      "threshold": 50,
+      "unit": "us",
+      "direction": "lower_is_better",
+      "severity": "blocking",
+      "status": "PASS",
+      "description": "Concurrent-scheduling-guard check (in-flight lookup + insert) p99 must not exceed 50 µs.",
+      "rationale": "Phase 2 churn guard must not add observable latency to the hot path."
+    },
+    {
+      "id": "GATE-MTN-06",
+      "benchmark": "mtn/BM_MTN06_PersistReloadRoundTrip",
+      "benchmark_file": "benchmarks/maintenance/bench_maintenance_release_gates.cpp",
+      "metric": "latency_p99_ms",
+      "threshold": 2,
+      "unit": "ms",
+      "direction": "lower_is_better",
+      "severity": "blocking",
+      "status": "PASS",
+      "description": "Persist+reload round-trip for 10 schedules p99 must not exceed 2 ms.",
+      "rationale": "Phase 3 persistence path must not degrade restart latency."
+    },
+    {
+      "id": "GATE-MTN-07",
+      "benchmark": "mtn/BM_MTN07_RingBufferWrite",
+      "benchmark_file": "benchmarks/maintenance/bench_maintenance_release_gates.cpp",
+      "metric": "latency_p99_ns",
+      "threshold": 200,
+      "unit": "ns",
+      "direction": "lower_is_better",
+      "severity": "blocking",
+      "status": "PASS",
+      "description": "DispatchOutcome ring-buffer write p99 must not exceed 200 ns.",
+      "rationale": "Phase 4 diagnostics ring buffer must not degrade task execution hot path."
+    },
+    {
+      "id": "GATE-MTN-DIST-01",
+      "benchmark": "mtn/BM_MTN_DIST01_LeaderGatedDispatch",
+      "benchmark_file": "benchmarks/maintenance/bench_maintenance_distributed_gates.cpp",
+      "metric": "latency_p99_us",
+      "threshold": 500,
+      "unit": "us",
+      "direction": "lower_is_better",
+      "severity": "blocking",
+      "status": "PASS",
+      "description": "Leader-gated schedule dispatch under a mock distributed lock p99 must not exceed 500 µs.",
+      "rationale": "Distributed locking overhead must not cause unacceptable scheduling tail latency."
+    },
+    {
+      "id": "GATE-MTN-DIST-02",
+      "benchmark": "mtn/BM_MTN_DIST02_ScheduleListing",
+      "benchmark_file": "benchmarks/maintenance/bench_maintenance_distributed_gates.cpp",
+      "metric": "latency_p99_ms",
+      "threshold": 5,
+      "unit": "ms",
+      "direction": "lower_is_better",
+      "severity": "blocking",
+      "status": "PASS",
+      "description": "Schedule listing with 1000 entries p99 must not exceed 5 ms.",
+      "rationale": "listSchedules() must remain responsive under maximum expected schedule count."
+    }
+  ]
+}

@@ -1,14 +1,3 @@
-/**
- * @file maintenance_health_report.h
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
- * @version 0.0.13
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 100/100
- * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
- */
-
 #pragma once
 
 #include <string>
@@ -66,6 +55,61 @@ struct ModuleHealthSignal {
 };
 
 // ---------------------------------------------------------------------------
+// DispatchOutcome — per-dispatch diagnostic record (Phase 4)
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Categorises the outcome of a single schedule/task dispatch attempt.
+ */
+enum class DispatchOutcomeType {
+    SUCCESS,             ///< Task dispatched and completed successfully
+    SKIPPED_NO_HANDLER,  ///< No IMaintenanceTaskHandler registered for this task type
+    SKIPPED_CONCURRENT,  ///< Schedule was already in-flight; this invocation was skipped
+    FAILED_PERSISTENCE,  ///< Persistence layer error prevented execution
+    FAILED_DISPATCH,     ///< Task handler returned a failure
+};
+
+inline std::string dispatchOutcomeTypeToString(DispatchOutcomeType t) {
+    switch (t) {
+        case DispatchOutcomeType::SUCCESS:            return "success";
+        case DispatchOutcomeType::SKIPPED_NO_HANDLER: return "skipped_no_handler";
+        case DispatchOutcomeType::SKIPPED_CONCURRENT: return "skipped_concurrent";
+        case DispatchOutcomeType::FAILED_PERSISTENCE: return "failed_persistence";
+        case DispatchOutcomeType::FAILED_DISPATCH:    return "failed_dispatch";
+        default:                                      return "unknown";
+    }
+}
+
+/**
+ * @brief Lightweight record emitted for every dispatch attempt.
+ *
+ * Stored in a ring buffer inside DatabaseMaintenanceOrchestrator and
+ * surfaced via MaintenanceHealthReport::recent_dispatch_outcomes.
+ */
+struct DispatchOutcome {
+    /// @brief Schedule identifier that triggered this dispatch.
+    std::string schedule_id;
+    /// @brief String representation of the task type.
+    std::string task_type;
+    /// @brief Outcome classification.
+    DispatchOutcomeType outcome = DispatchOutcomeType::SUCCESS;
+    /// @brief Wall-clock latency in microseconds (≥ 0).
+    int64_t latency_us = 0;
+    /// @brief Human-readable error or diagnostic message (may be empty on SUCCESS).
+    std::string error_message;
+
+    nlohmann::json toJson() const {
+        nlohmann::json j;
+        j["schedule_id"]   = schedule_id;
+        j["task_type"]     = task_type;
+        j["outcome"]       = dispatchOutcomeTypeToString(outcome);
+        j["latency_us"]    = latency_us;
+        j["error_message"] = error_message;
+        return j;
+    }
+};
+
+// ---------------------------------------------------------------------------
 // Aggregate health report
 // ---------------------------------------------------------------------------
 
@@ -86,6 +130,12 @@ struct MaintenanceHealthReport {
     int  failed_jobs_24h   = 0; ///< Failed jobs in the last 24 hours
     int  success_jobs_24h  = 0; ///< Successful jobs in the last 24 hours
 
+    /// @brief Ring-buffer snapshot of recent dispatch outcomes (Phase 4).
+    std::vector<DispatchOutcome> recent_dispatch_outcomes;
+
+    /// @brief Configured ring buffer capacity (default 256).
+    int dispatch_outcome_ring_buffer_capacity = 256;
+
     nlohmann::json toJson() const {
         nlohmann::json j;
         j["overall_status"]   = moduleHealthStatusToString(overall_status);
@@ -95,9 +145,13 @@ struct MaintenanceHealthReport {
         j["enabled_schedules"]= enabled_schedules;
         j["failed_jobs_24h"]  = failed_jobs_24h;
         j["success_jobs_24h"] = success_jobs_24h;
+        j["dispatch_outcome_ring_buffer_capacity"] = dispatch_outcome_ring_buffer_capacity;
         nlohmann::json signals = nlohmann::json::array();
         for (auto& s : module_signals) signals.push_back(s.toJson());
         j["module_signals"] = signals;
+        nlohmann::json outcomes = nlohmann::json::array();
+        for (auto& o : recent_dispatch_outcomes) outcomes.push_back(o.toJson());
+        j["recent_dispatch_outcomes"] = outcomes;
         return j;
     }
 };

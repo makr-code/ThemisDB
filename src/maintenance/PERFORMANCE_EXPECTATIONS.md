@@ -42,10 +42,26 @@
   - benchmarks/bench_distributed_coordinator.cpp
   - benchmarks/bench_index_rebuild.cpp
   - benchmarks/bench_tpcc.cpp
+  - benchmarks/maintenance/bench_maintenance_release_gates.cpp
+  - benchmarks/maintenance/bench_maintenance_distributed_gates.cpp
 - Verified mapping surfaces:
   - scheduler/orchestrator hot paths and distributed maintenance coordination
   - maintenance-adjacent index rebuild operations
   - transactional proxy pressure for maintenance windows
+  - concurrent-scheduling-guard (in-flight lookup + insert) — Phase 2
+  - persistence/reload round-trip — Phase 3
+  - DispatchOutcome ring-buffer write — Phase 4
+  - distributed lock acquisition and schedule listing — Phase 5
 - Result:
   - Referenced benchmark cases exist in current benchmark sources.
   - Release gates remain tied to reproducible benchmark runs and baseline comparisons.
+
+## Phase 1-6 Hardening Gates (added 2026-08-05)
+
+| Gate ID | Expectation | Measurement | Benchmark File |
+|---|---|---|---|
+| GATE-MTN-05 | In-flight guard check p99 ≤ 50 µs | latency_p99_us | benchmarks/maintenance/bench_maintenance_release_gates.cpp |
+| GATE-MTN-06 | Persist+reload (10 schedules) p99 ≤ 2 ms | latency_p99_ms | benchmarks/maintenance/bench_maintenance_release_gates.cpp |
+| GATE-MTN-07 | Ring-buffer write p99 ≤ 200 ns | latency_p99_ns | benchmarks/maintenance/bench_maintenance_release_gates.cpp |
+| GATE-MTN-DIST-01 | Leader-gated dispatch p99 ≤ 500 µs | latency_p99_us | benchmarks/maintenance/bench_maintenance_distributed_gates.cpp |
+| GATE-MTN-DIST-02 | Schedule listing (1000 entries) p99 ≤ 5 ms | latency_p99_ms | benchmarks/maintenance/bench_maintenance_distributed_gates.cpp |
