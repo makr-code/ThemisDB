@@ -155,8 +155,8 @@ private:
 
     std::chrono::hours max_stats_age_{kDefaultMaxStatsAge};
 
-    mutable std::mutex          results_mutex_;
-    std::vector<ConsistencyIssue> last_results_;
+    mutable std::mutex                    results_mutex_;
+    mutable std::vector<ConsistencyIssue> last_results_;
 
     std::chrono::seconds bg_interval_{0};
     std::thread          bg_thread_;
