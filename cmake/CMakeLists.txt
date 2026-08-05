@@ -1452,9 +1452,88 @@ if(NOT TBB_FOUND)
 endif()
 
 find_package(Arrow CONFIG QUIET)
-find_package(fmt CONFIG REQUIRED)
-find_package(spdlog CONFIG REQUIRED)
-find_package(nlohmann_json CONFIG REQUIRED)
+
+# fmt: Try CONFIG first, fall back to MODULE
+find_package(fmt CONFIG QUIET)
+if(NOT fmt_FOUND)
+    find_package(fmt MODULE QUIET)
+endif()
+if(fmt_FOUND)
+    message(STATUS "fmt found")
+else()
+    if(THEMIS_ALLOW_MISSING_ROCKSDB)
+        message(WARNING
+            "fmt not found. Continuing configure because THEMIS_ALLOW_MISSING_ROCKSDB=ON, "
+            "but fmt-dependent targets will still require fmt before building."
+        )
+        if(NOT TARGET fmt::fmt)
+            add_library(fmt::fmt INTERFACE IMPORTED)
+        endif()
+    else()
+        message(FATAL_ERROR 
+            "fmt not found. Install via:\n"
+            "  - vcpkg: vcpkg install fmt\n"
+            "  - Debian/Ubuntu: sudo apt-get install libfmt-dev\n"
+            "  - Fedora/RHEL: sudo dnf install fmt-devel\n"
+            "  - macOS: brew install fmt"
+        )
+    endif()
+endif()
+
+# spdlog: Try CONFIG first, fall back to MODULE
+find_package(spdlog CONFIG QUIET)
+if(NOT spdlog_FOUND)
+    find_package(spdlog MODULE QUIET)
+endif()
+if(spdlog_FOUND)
+    message(STATUS "spdlog found")
+else()
+    if(THEMIS_ALLOW_MISSING_ROCKSDB)
+        message(WARNING
+            "spdlog not found. Continuing configure because THEMIS_ALLOW_MISSING_ROCKSDB=ON, "
+            "but spdlog-dependent targets will still require spdlog before building."
+        )
+        if(NOT TARGET spdlog::spdlog)
+            add_library(spdlog::spdlog INTERFACE IMPORTED)
+        endif()
+    else()
+        message(FATAL_ERROR 
+            "spdlog not found. Install via:\n"
+            "  - vcpkg: vcpkg install spdlog\n"
+            "  - Debian/Ubuntu: sudo apt-get install libspdlog-dev\n"
+            "  - Fedora/RHEL: sudo dnf install spdlog-devel\n"
+            "  - macOS: brew install spdlog"
+        )
+    endif()
+endif()
+
+# nlohmann_json: Try CONFIG first, fall back to MODULE
+find_package(nlohmann_json CONFIG QUIET)
+if(NOT nlohmann_json_FOUND)
+    find_package(nlohmann_json MODULE QUIET)
+endif()
+if(nlohmann_json_FOUND)
+    message(STATUS "nlohmann_json found")
+else()
+    if(THEMIS_ALLOW_MISSING_ROCKSDB)
+        message(WARNING
+            "nlohmann_json not found. Continuing configure because THEMIS_ALLOW_MISSING_ROCKSDB=ON, "
+            "but nlohmann_json-dependent targets will still require nlohmann_json before building."
+        )
+        if(NOT TARGET nlohmann_json::nlohmann_json)
+            add_library(nlohmann_json::nlohmann_json INTERFACE IMPORTED)
+        endif()
+    else()
+        message(FATAL_ERROR 
+            "nlohmann_json not found. Install via:\n"
+            "  - vcpkg: vcpkg install nlohmann-json\n"
+            "  - Debian/Ubuntu: sudo apt-get install nlohmann-json3-dev\n"
+            "  - Fedora/RHEL: sudo dnf install nlohmann-json-devel\n"
+            "  - macOS: brew install nlohmann-json"
+        )
+    endif()
+endif()
+
 find_package(Boost QUIET COMPONENTS system)
 if(NOT Boost_FOUND)
     message(WARNING "Boost not found - some features may be disabled")

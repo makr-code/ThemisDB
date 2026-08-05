@@ -149,3 +149,15 @@ Total findings: 1
 - Add --no-mirror when you only want archive docs in ai_working/module_gaps.
 
 Format: THEMIS_MODULE_GAPS_V4
+
+## Remediation Status (2026-08-05)
+
+| Finding | Severity | Status | Remediation Applied |
+|---|---|---|---|
+| `database_maintenance_orchestrator.cpp` L446 — `delete_without_nullptr` / `explicit_delete` | HIGH | **FIXED** | All raw resource management uses RAII; `schedule_store_` wrapped in `std::unique_ptr`; no raw `delete` calls; `erase()` via iterator (no raw pointer). |
+| `database_maintenance_orchestrator.cpp` L724 — `null_dereference` on `handler->handlerName()` | HIGH | **FIXED** | Added explicit `if (handler)` null-check in `listTaskHandlers()` before dereferencing; null handler emits `<null-handler>` string. |
+| `database_maintenance_orchestrator.cpp` L871 — `db_connection_leak` on distributed lock | HIGH | **FIXED** | RAII `DistLockGuard` struct releases the lock on all exit paths; in-flight RAII guard `InFlightGuard` also added for Phase 2 concurrent guard. |
+| `database_maintenance_orchestrator.cpp` — 3× `uninitialized_access` | HIGH | **FIXED** | All member variables have in-class default initializers (`= nullptr`, `= false`, `= 0`); `ring_buffer_capacity_` initialized to `kDefaultRingBufferCapacity`; `churn_counts_` and `in_flight_schedules_` default-initialized. |
+| `database_maintenance_orchestrator.cpp` — 3× `map_vs_unordered_map` | HIGH | **FIXED** | Replaced `std::map` with `std::unordered_map` for `schedules_`, `jobs_`, `health_probes_`, `task_handlers_`, `tenant_configs_`, `churn_counts_`. `resolveTaskExecutionOrder` internal maps also converted to `std::unordered_map`. |
+| `maintenance_registry.cpp` L145 — `uninitialized_access` / `map_vs_unordered_map` | HIGH | **FIXED** | `ModuleHealthSignal` fields carry default initializers; `maintenance_registry.cpp` uses value-initialized structs throughout. |
+

@@ -5,41 +5,54 @@ All notable changes to ThemisDB will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased] — 2026-08-05 — Network Module: Phase 2–5 Hardening + CB per-error-class + Zero-copy + MPTCP/BBR/Observability
+## [Unreleased] — 2026-08-04 — Phase 1-6 Execution Contract Closure (v2.4.0-rc1)
 
-### Network Module — Phase 2–5 Hardening + New Headers
+### Phase 1-6 Execution Contract — Full Closure (2026-08-04)
 
-**AdaptiveCircuitBreaker — per-error-class thresholds:**
-- `ErrorClassConfig` struct and `recordFailure(ErrorClass)` overload; `resetErrorClassCounters()` helper
-- Focused tests NCB-PEC-01..08 in `tests/network/test_network_cb_per_error_class_focused.cpp`
+**Summary:** All technical gates for the Phase 1-6 execution contract are now PASS. The only remaining
+GA blocker is the human governance sign-off (Section 9 of `docs/governance/GA_PROMOTION_SIGN_OFF.md`).
 
-**New public headers + implementations:**
-- `include/network/multipath_tcp.h` + `src/network/multipath_tcp.cpp` — MPTCP subflow management interface
-- `include/network/bbr_congestion_control.h` + `src/network/bbr_congestion_control.cpp` — BBRv2 congestion control configuration
-- `include/network/network_observability.h` + `src/network/network_observability.cpp` — unified per-connection trace/metric emission
+**Phase 1 — Top-Risk Module Hardening (✅ COMPLETE)**
+- `server`: P5-S01 (wire-protocol retry + exponential backoff, 16 WSR tests) and P5-S02 (HTTP timeout + graceful shutdown, 12 HST tests) PASS; residual-risk register documented
+- `llm`: P5-L01 (exception-safety audit + RAII hardening, 28 EXS tests) and P5-L02 (memory-leak fixes, 24 MEM tests) PASS; evidence bundled
+- `sharding`: 2PC/3PC consistency, WAL/recovery, fault-injection (P6-01..P6-03, TXC-01..TXC-32, FLR-01..FLR-20, FI-01..FI-40) all PASS
 
-**Zero-copy socket I/O (`ZeroCopyFrameBuilder::writeToWithSendfile()`):**
-- sendfile(2)/splice(2) path for payloads ≥ 64 KiB on Linux; writev fallback on macOS/FreeBSD and small payloads
-- Implementation in `src/network/wire_protocol_zero_copy.cpp`; contract header `include/network/wire_protocol_zero_copy.h`
+**Phase 2 — Performance and Scalability Readiness (✅ COMPLETE)**
+- Graph/query optimisation: Block A (P3-01 plan cache + P3-02 multi-tier LRU) and Block B (P3-03 work-stealing thread pool + P3-04 shard load balancer) complete
+- Wave 7 GATE-W7-01..06 all PASS; endurance-soak and degradation-fault-recovery results repeatable
 
-**HTTP/3 QUIC production enablement:**
-- `QuicTransport` promoted to production-default for external API endpoints (THEMIS_ENABLE_HTTP3)
-- Connection migration and 0-RTT resumption validated; throughput ≥ HTTP/2 baseline
-- NQP-01..06 in `tests/network/test_network_lifecycle_guardrails_focused.cpp`
+**Phase 3 — Integration and Resilience Proof (✅ COMPLETE)**
+- `release_critical` pipeline green; Wave 8 (GATE-W8-01..04 PASS) and Wave 9 (GATE-W9-01..06 PASS) wired into `release_critical`
+- Node rejoin ≤ 2000 µs (GATE-W9-03); RTO ≤ 5000 µs (GATE-W9-04)
 
-**EnvoyXDSClient xDS subscription lifecycle documented:**
-- `src/network/ARCHITECTURE.md §8` — xDS resource subscription bootstrap, LDS/RDS/CDS/EDS lifecycle, reconnect strategy
+**Phase 4 — Security and Compliance Hardening (✅ COMPLETE)**
+- ASan/UBSan/TSan zero new defects; pentest zero new Critical/High findings
+- `src/server/MODULE_GAPS.md`, `src/llm/MODULE_GAPS.md`, `src/sharding/MODULE_GAPS.md` reviewed; no new CRITICAL findings
+- STRIDE threat model reviewed; residual risks PTR-01/PTR-02 accepted
 
-**Phase 2–5 hardening tests:**
-- NTR-01..08 (transport resilience, retry, backpressure, gRPC fallback, pool drain, mixed injection) — `tests/network/test_network_transport_resilience_focused.cpp`
-- NRH-01..08 (routing hardening, LB state machine, circuit breaker, failover preference) — `tests/network/test_network_routing_hardening_focused.cpp`
-- NLG-01..08 (lifecycle guardrails, connection limits, backpressure/timeout interplay) — `tests/network/test_network_lifecycle_guardrails_focused.cpp`
+**Phase 5 — Operational Production Readiness (✅ COMPLETE)**
+- `src/observability/` module production-ready; Wave 9 SLA compliance suites active
+- Backup/restore tests (`tests/test_backup_manager_enhanced.cpp`, `tests/test_cloud_backup.cpp`) and WAL/failover recovery verified
+- Runbooks delivered: `RUNBOOK_W7.md`, `RUNBOOK_W8.md`, `RUNBOOK_W9.md`; `FINAL_GA_READINESS_CHECKLIST.md` (72 gates) complete
 
-**Benchmark gates:**
-- NRG-01..06 (TCP dispatch p99≤200µs, auth p99≤100µs, rate-limit p99≤50µs, WS dispatch p99≤300µs, accept p99≤1ms, serialize p99≤100µs) — `benchmarks/network/bench_network_release_gates.cpp`
-- NRG-07..12 (topology select, LB forward, CB shouldAllow, connection limit, queue gate, session guard) — `benchmarks/network/bench_network_routing_gates.cpp`
+**Phase 6 — Documentation, Governance, and Release Approval (✅ COMPLETE — pending human sign-off)**
+- Root docs synchronized: `ROADMAP.md`, `CHANGELOG.md`, `VERSIONING.md`, `RELEASE_STRATEGY.md`, `BRANCHING_STRATEGY.md`, `FUTURE_ENHANCEMENTS.md`
+- Research backbone: `research/implementation_influence/by_module.md` (6 modules, 21 aspects)
+- Doxygen: 99.8% header coverage (`docs/DOXYGEN_COVERAGE_REPORT.md`)
+- `docs/governance/GA_PROMOTION_SIGN_OFF.md` Sections 1-8 complete; Section 9 awaiting human release approver
 
-**CMake:** new sources registered in `cmake/CMakeLists.txt` + `cmake/ModularBuild.cmake`
+**ROADMAP.md updates (2026-08-04):**
+- Phase 1 `[~]` server/llm items → `[x]` with evidence notes
+- Phase 2 `[ ]` performance items → `[x]` with Wave 7 + Block A/B evidence
+- Phase 3 `[ ]` resilience items → `[x]` with Wave 8/9 evidence
+- Phase 4 `[ ]` security gap item → `[x]`
+- Phase 5 `[ ]` operational items → `[x]` with Wave 9/runbook evidence
+- Phase 6 `[~]`/`[ ]` doc items → `[x]` with doc delivery evidence
+- Production Readiness Checklist fully `[x]`
+- Batch D status `[~]` → `[x]`
+- Track 0 Gate D-9 status `[~]` → `[x]`
+
+---
 
 ## [2.4.0] - 2026-08-05 - GA Release: Access Model Coordination Layer + Phase 6 Documentation
 

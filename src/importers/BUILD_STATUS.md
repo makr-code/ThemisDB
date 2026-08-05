@@ -11,10 +11,11 @@ This document provides build and test evidence for the importers module, address
 ## Build Infrastructure
 
 ### CMake Configuration
-- **Preset:** community-release-allow-missing-rocksdb (Linux fallback)
-- **Status:** ✓ Configuration successful (verified 2026-08-02)
+- **Preset:** community-release-allow-missing-rocksdb (Linux fallback for RocksDB diagnostics)
+- **Status:** ✓ Configuration successful (verified 2026-08-05)
 - **CMake Version:** 3.20+ (verified 3.31.6)
 - **Generator:** Ninja
+- **NOTE:** This preset now uses Debug mode with THEMIS_ALLOW_MISSING_ROCKSDB=ON for diagnostics. For production Release builds, use community-release preset and ensure all dependencies are available.
 
 ### Dependencies Verified
 - **Build Tools:** Ninja 1.13.2, GCC 13.3.0
@@ -30,11 +31,12 @@ This document provides build and test evidence for the importers module, address
   - zstd - ✓ Found
 
 ### Build Configuration Flags
-- `CMAKE_BUILD_TYPE=Release`
+- `CMAKE_BUILD_TYPE=Debug` (diagnostic preset with THEMIS_ALLOW_MISSING_ROCKSDB=ON)
 - `THEMIS_EDITION=COMMUNITY`
 - `THEMIS_BUILD_TESTS=ON` (default enabled)
-- `THEMIS_ALLOW_MISSING_ROCKSDB=ON` (graceful fallback)
+- `THEMIS_ALLOW_MISSING_ROCKSDB=ON` (graceful fallback for RocksDB diagnostics; requires Debug mode)
 - `THEMIS_ENABLE_MIMALLOC=OFF` (system fallback)
+- **NOTE:** Release builds (community-release) enforce strict dependency checking and do not allow THEMIS_ALLOW_MISSING_ROCKSDB=ON
 
 ## Test Infrastructure
 
@@ -188,10 +190,12 @@ themis_add_standard_benchmark(bench_importers_release_gates bench_importers_rele
 ## Known Gaps and Next Steps
 
 ### Build/Test Gaps (Issue #5650 Evidence)
-- **Status:** Evidence infrastructure verified; cargo/executables ready for build once all optional dependencies installed
-- **RocksDB:** Optional for importers module (graceful fallback with THEMIS_ALLOW_MISSING_ROCKSDB=ON)
+- **Status:** Evidence infrastructure verified; cargo/executables ready for build once all dependencies installed
+- **RocksDB:** Optional for importers module (diagnostics available via community-debug-allow-missing-rocksdb preset; production builds require RocksDB)
+- **Other Dependencies:** fmt, spdlog, nlohmann_json are REQUIRED (no exceptions) - enforced in Release builds
 - **Full Build:** Requires vcpkg checkout or complete system package suite
 - **CI Integration:** Scheduled after verification
+- **Release Mode:** Production Release builds enforce strict dependency checking via THEMIS_RELEASE_BUILD=ON
 
 ### Q4 2026 Planned
 - Phase 2: Complete hardening for connector import internals
