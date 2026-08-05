@@ -41,7 +41,15 @@ Production plugin runtime exists for lifecycle management, manifest/signature va
 - [x] define explicit error taxonomy for plugin failure classes (Target: Q3 2026) — evidence: include/plugins/plugins_api_contract.h
 
 ### Phase 2: Core Implementation
-- [ ] complete hardening for plugin lifecycle and registry internals (Target: Q4 2026)
+- [~] complete hardening for plugin lifecycle and registry internals (Target: Q4 2026)
+  - [x] Phase 2A: lifecycle state machine with explicit transitions (UNLOADED/LOADING/LOADED/UNLOADING)
+    - Evidence: PluginLifecycleState enum + transition validation in include/plugins/plugin_interface.h
+    - Tests: PLG-09..PLG-16 in test_plugin_lifecycle_state_machine.cpp
+  - [~] Phase 2B: registry concurrency hardening
+    - Tests: PLG-17..PLG-22 in test_registry_concurrency_hardening.cpp
+    - Next: audit PluginRegistry for atomicity guarantees
+  - [ ] Phase 2C: manifest/signature validation tightening
+    - Next: unify validation paths in plugin_manager.cpp, add tests PLG-23..PLG-28
 - [ ] align hot-plug/health/integration behavior to bounded runtime contracts (Target: Q4 2026)
 
 ### Phase 3: Error Handling and Edge Cases

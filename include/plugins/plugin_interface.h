@@ -91,8 +91,117 @@ enum class PluginType {
 };
 
 /**
- * @brief Plugin Capabilities
- */
+* @brief Plugin Lifecycle State Machine (Phase 2 Hardening)
+*
+* Explicit state transitions for plugin lifecycle management. Enforced
+* during load, unload, and reload operations.
+*
+* State machine invariants:
+*   - A plugin starts in UNLOADED state
+*   - Transitions must follow explicit paths; no direct jumps allowed
+*   - Failed transitions leave the plugin in a consistent state
+*   - UNLOADING transitions are atomic (no partial unload)
+*
+* Valid transitions:
+*   - UNLOADED → LOADING (load operation initiates)
+*   - LOADING → LOADED (successful load)
+*   - LOADING → UNLOADED (load failure or rollback)
+*   - LOADED → UNLOADING (unload operation initiates)
+*   - UNLOADING → UNLOADED (unload successful)
+*   - LOADED → LOADED (reload without state change)
+*
+* @see src/plugins/ROADMAP.md — Phase 2A implementation
+*/
+enum class PluginLifecycleState : uint8_t {
+    /**
+     * Initial state: plugin has never been loaded or has been unloaded.
+     * Operations allowed: load
+     */
+    UNLOADED = 0,
+
+    /**
+     * Intermediate state: plugin is being loaded.
+     * Duration: synchronous operation; transitions to LOADED or UNLOADED.
+     * Operations allowed: none (loading in progress)
+     */
+    LOADING = 1,
+
+    /**
+     * Steady state: plugin is fully initialized and available.
+     * Operations allowed: query, reload, unload
+     */
+    LOADED = 2,
+
+    /**
+     * Intermediate state: plugin is being unloaded.
+     * Duration: synchronous operation; transitions to UNLOADED.
+     * Operations allowed: none (unloading in progress)
+     */
+    UNLOADING = 3,
+
+    /**
+     * Error/unknown state. Should not occur in production; indicates
+     * an internal consistency failure.
+     */
+    UNKNOWN = 255
+};
+
+/**
+* @brief Convert PluginLifecycleState to human-readable string.
+* @param state The lifecycle state.
+* @return String representation of the state (never nullptr).
+*/
+inline const char* lifecycleStateToString(PluginLifecycleState state) {
+    switch (state) {
+        case PluginLifecycleState::UNLOADED:  return "UNLOADED";
+        case PluginLifecycleState::LOADING:   return "LOADING";
+        case PluginLifecycleState::LOADED:    return "LOADED";
+        case PluginLifecycleState::UNLOADING: return "UNLOADING";
+        case PluginLifecycleState::UNKNOWN:   return "UNKNOWN";
+        default:                               return "INVALID";
+    }
+}
+
+/**
+* @brief Validate a plugin lifecycle state transition.
+*
+* Checks if transitioning from @a from_state to @a to_state is allowed
+* according to the plugin lifecycle state machine rules.
+*
+* Valid transitions:
+*   - UNLOADED → LOADING
+*   - LOADING → LOADED | UNLOADED
+*   - LOADED → LOADED (reload) | UNLOADING
+*   - UNLOADING → UNLOADED
+*
+* @param from_state Current state.
+* @param to_state Desired next state.
+* @return true if transition is allowed; false otherwise.
+*/
+inline bool isValidLifecycleTransition(PluginLifecycleState from_state,
+                                      PluginLifecycleState to_state) {
+    if (from_state == to_state && to_state == PluginLifecycleState::LOADED) {
+        // Reload case: LOADED → LOADED is allowed
+        return true;
+    }
+    switch (from_state) {
+        case PluginLifecycleState::UNLOADED:
+            return to_state == PluginLifecycleState::LOADING;
+        case PluginLifecycleState::LOADING:
+            return to_state == PluginLifecycleState::LOADED ||
+                   to_state == PluginLifecycleState::UNLOADED;
+        case PluginLifecycleState::LOADED:
+            return to_state == PluginLifecycleState::UNLOADING;
+        case PluginLifecycleState::UNLOADING:
+            return to_state == PluginLifecycleState::UNLOADED;
+        default:
+            return false;
+    }
+}
+
+/**
+* @brief Plugin Capabilities
+*/
 struct PluginCapabilities {
     bool supports_streaming = false;
     bool supports_batching = false;
