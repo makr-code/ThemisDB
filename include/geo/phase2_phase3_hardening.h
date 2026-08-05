@@ -21,7 +21,9 @@
 
 #pragma once
 
+#include <atomic>
 #include <chrono>
+#include <cstdint>
 #include <vector>
 #include <array>
 #include <string>
@@ -52,22 +54,44 @@ class BackendDispatchTimeoutGuard {
 public:
     /**
      * @brief Construct a timeout guard with a deadline.
-     * @param timeout_micros Maximum microseconds to wait before falling back
+     * @param timeout_micros Maximum microseconds to wait before falling back.
      */
     explicit BackendDispatchTimeoutGuard(
-        std::chrono::microseconds timeout_micros) noexcept;
+        std::chrono::microseconds timeout_micros) noexcept
+        : deadline_(std::chrono::high_resolution_clock::now() + timeout_micros),
+          timeout_us_(timeout_micros.count()),
+          expired_cached_(false),
+          checked_(false) {}
 
     /**
      * @brief Check if the timeout has been exceeded.
-     * @return true if the deadline has passed; cached after first call
+     * @return true if the deadline has passed; cached after first call.
      */
-    [[nodiscard]] bool expired() const noexcept;
+    [[nodiscard]] bool expired() const noexcept {
+        if (checked_.load(std::memory_order_acquire)) {
+            return expired_cached_.load(std::memory_order_relaxed);
+        }
+        const auto now = std::chrono::high_resolution_clock::now();
+        const bool is_expired = (now >= deadline_);
+        if (!checked_.exchange(true, std::memory_order_acq_rel)) {
+            expired_cached_.store(is_expired, std::memory_order_relaxed);
+        }
+        return is_expired;
+    }
 
     /**
      * @brief Get the timeout budget in microseconds.
-     * @return timeout value passed at construction
+     * @return timeout value passed at construction.
      */
-    [[nodiscard]] std::int64_t timeoutMicros() const noexcept;
+    [[nodiscard]] std::int64_t timeoutMicros() const noexcept {
+        return timeout_us_;
+    }
+
+private:
+    std::chrono::high_resolution_clock::time_point deadline_;
+    std::int64_t                                    timeout_us_;
+    mutable std::atomic<bool>                       expired_cached_{false};
+    mutable std::atomic<bool>                       checked_{false};
 };
 
 // ============================================================================

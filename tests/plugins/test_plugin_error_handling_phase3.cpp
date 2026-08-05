@@ -15,11 +15,15 @@
 #include "plugins/plugin_manager.h"
 #include "plugins/plugin_interface.h"
 
+#include <fstream>
+#include <mutex>
+#include <string>
 #include <thread>
 #include <atomic>
 #include <chrono>
 #include <memory>
 #include <vector>
+#include <cstdio>
 
 namespace themis {
 namespace plugins {
@@ -109,9 +113,9 @@ TEST_F(PluginErrorHandlingPhase3, PLG30_SignatureVerificationTimeout) {
     std::string error_details;
     bool result = manager_.verifyManifestSignatureWithTimeout(test_manifest, 1, error_details);
     
-    // Verify: Either succeeds (if no .sig file) or gracefully handles timeout
-    // The important thing is no crash or hang
-    EXPECT_TRUE(!result || !error_details.empty() || result);
+    // Verify: Either succeeds (no .sig file) or reports a non-empty error detail
+    // A timeout or missing signature must leave an observable error_details message
+    EXPECT_TRUE(!result || !error_details.empty());
     
     // Cleanup
     std::remove(test_manifest.c_str());
@@ -223,9 +227,8 @@ TEST_F(PluginErrorHandlingPhase3, PLG35_ResourceLeakHandling) {
     
     auto unload_result = manager_.unloadPlugin(leaky_plugin);
     
-    // Verify: Should return appropriate error or success
-    // (may fail if plugin not loaded, which is expected)
-    EXPECT_TRUE(!unload_result.is_ok() || unload_result.is_ok());
+    // Verify: Plugin not loaded means unload returns an error (not ok)
+    EXPECT_FALSE(unload_result.is_ok());
 }
 
 // ============================================================================

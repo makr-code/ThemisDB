@@ -343,9 +343,8 @@ public:
  * Must be called once at module initialization, before any geo operations.
  */
 void initializePhase2Phase3Hardening() noexcept {
-    // Initialize static circuit breaker instance
-    static GpuBackendCircuitBreaker& cb = *new GpuBackendCircuitBreaker();
-    (void)cb;  // Suppress unused variable warning
+    // Initialize the shared circuit breaker instance (same as getGpuCircuitBreaker).
+    (void)getGpuCircuitBreaker();
 
     // Initialize diagnostic logger (uses spdlog global logger)
     spdlog::info("Geo module Phase 2/3 hardening initialized: "

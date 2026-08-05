@@ -52,72 +52,8 @@ namespace geo {
 // § 1  Backend Dispatch Hardening (Phase 2)
 // ============================================================================
 
-/**
- * @brief Timeout guard for GPU backend operations.
- *
- * Ensures all GPU dispatch operations complete within a bounded time envelope.
- * If a GPU operation exceeds the timeout, the dispatcher silently falls back
- * to the CPU path and records the incident for diagnostic purposes.
- *
- * Contract per geo_api_contract.h §2:
- *   - Backend selection latency must not exceed kBackendSelectionBudget (100µs)
- *   - GPU fallback must be silent (no error logged to user)
- *   - Result consistency must be preserved (CPU and GPU produce equivalent results)
- *
- * Invariants:
- *   - timeout_micros > 0 (enforced at construction)
- *   - expired() always returns the same value after first call
- *   - thread-safe for read-only access (expired() is const)
- */
-class BackendDispatchTimeoutGuard {
-public:
-    /**
-     * @brief Construct a timeout guard with a deadline.
-     * @param timeout_micros Maximum microseconds to wait before falling back
-     */
-    explicit BackendDispatchTimeoutGuard(
-        std::chrono::microseconds timeout_micros) noexcept
-        : deadline_(std::chrono::high_resolution_clock::now() + timeout_micros),
-          timeout_us_(timeout_micros.count()),
-          expired_cached_(false),
-          checked_(false) {
-    }
-
-    /**
-     * @brief Check if the timeout has been exceeded.
-     * @return true if the deadline has passed; cached after first call
-     */
-    [[nodiscard]] bool expired() const noexcept {
-        // Double-checked locking pattern (read before write to minimize contention)
-        if (checked_.load(std::memory_order_acquire)) {
-            return expired_cached_.load(std::memory_order_relaxed);
-        }
-
-        const auto now = std::chrono::high_resolution_clock::now();
-        const bool is_expired = (now >= deadline_);
-
-        // Cache result on first check
-        if (!checked_.exchange(true, std::memory_order_acq_rel)) {
-            expired_cached_.store(is_expired, std::memory_order_relaxed);
-        }
-
-        return is_expired;
-    }
-
-    /**
-     * @brief Get the timeout budget in microseconds.
-     * @return timeout value passed at construction
-     */
-    [[nodiscard]] std::int64_t timeoutMicros() const noexcept {
-        return timeout_us_;
-    }
-
-private:
-    std::chrono::high_resolution_clock::time_point deadline_;
-    std::int64_t                                    timeout_us_;
-    mutable std::atomic<bool>                       expired_cached_{false};
-    mutable std::atomic<bool>                       checked_{false};
-};
+// BackendDispatchTimeoutGuard is fully defined in include/geo/phase2_phase3_hardening.h.
+// No duplicate definition in this translation unit.
 
 // ============================================================================
 // § 2  Backend Dispatch Result Consistency (Phase 2)

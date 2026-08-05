@@ -26,6 +26,11 @@ void GPUBackendDispatchDiagnostics::emitDiagnostic(
     int device_id,
     const std::string& detail) noexcept {
     
+    // SUCCESS is not an error condition; nothing to log or emit.
+    if (error_code == GPUDispatchErrorCode::SUCCESS) {
+        return;
+    }
+
     try {
         // Structured error log
         auto logger = spdlog::get("gpu");

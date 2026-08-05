@@ -40,8 +40,8 @@ namespace security {
 // Construction
 // ============================================================================
 
-AiSnapshotCleanupJob::AiSnapshotCleanupJob(const Config& cfg)
-    : config_(cfg) {}
+AiSnapshotCleanupJob::AiSnapshotCleanupJob(Config cfg)
+    : config_(std::move(cfg)) {}
 
 // ============================================================================
 // listSnapshots

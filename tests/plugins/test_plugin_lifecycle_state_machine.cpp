@@ -5,7 +5,7 @@
  * @file test_plugin_lifecycle_state_machine.cpp
  * @brief Phase 2A focused tests for plugin lifecycle state machine.
  *
- * Test IDs: PLG-09 through PLG-14
+ * Test IDs: PLG-09 through PLG-16
  * Validates explicit state transitions and transition contract enforcement.
  *
  * @see include/plugins/plugin_interface.h (PluginLifecycleState enum)
