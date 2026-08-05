@@ -48,7 +48,7 @@
 namespace themis {
 namespace auth {
 
-#ifdef THEMIS_HAS_LDAP
+#ifdef _WIN32
 // ===========================================================================
 // LDAP injection-prevention helpers (file-internal)
 // ===========================================================================

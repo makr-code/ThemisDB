@@ -325,7 +325,6 @@ public:
 #ifndef THEMIS_HAS_LDAP
     /// Inject an LDAP bind implementation for the non-libldap stub path.
     /// Pass empty fn to restore fail-closed stub default.
-    static void setLdapBindFn(LdapBindFn fn);
 #endif // !THEMIS_HAS_LDAP
 };
 
