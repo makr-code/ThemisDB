@@ -427,7 +427,7 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 > Full plan: `ai_working/NEXT_PHASE_30_60_90_BACKLOG.md`. Tracks below are the canonical execution order.
 
 **Track 0 — GA Promotion Gate** (🔴 Prerequisite — human action)
-- [x] All 9 technical gates PASS; Gate D-9 (human governance sign-off `docs/governance/GA_PROMOTION_SIGN_OFF.md §9`) is the only remaining blocker
+- [x] All 9 technical gates PASS; Gate D-11 (human governance sign-off `docs/governance/GA_PROMOTION_SIGN_OFF.md §9`) is the only remaining blocker
 - [ ] Gate D-8 final: confirm CHANGELOG `[Unreleased]` → `[2.4.0]` and VERSIONING updated (Target: on sign-off)
 - [ ] `develop → community` merge and GA tag creation (Target: on human approval)
 - [~] Build-reproducibility blockers tracked as DEF-01 (confirmed deferred, not blocking GA)

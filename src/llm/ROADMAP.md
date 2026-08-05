@@ -73,9 +73,9 @@ The module provides production-grade LLM runtime surfaces across async inference
   - [x] P5-L01 EXS tests (28 exception-safety tests) and P5-L02 MEM tests (24 memory-leak tests) PASS (`tests/llm/test_llm_phase5_hardening.cpp`)
   - [x] Residual-risk items documented in `docs/governance/GA_PROMOTION_SIGN_OFF.md`
   - [x] Evidence linked into root gate board and `FINAL_GA_READINESS_CHECKLIST.md`
-  - [ ] Attach residual-risk register for exception-safety/memory/recovery paths (Target: Q3 2026)
-  - [ ] Reconfirm focused + release-critical regression proof on current `develop` baseline (Target: Q3 2026)
-  - [ ] Link ownership/failure-mode sign-off evidence into root gate board docs (Target: Q3 2026)
+  - [x] Attach residual-risk register for exception-safety/memory/recovery paths (Target: Q3 2026)
+  - [x] Reconfirm focused + release-critical regression proof on current `develop` baseline (Target: Q3 2026)
+  - [x] Link ownership/failure-mode sign-off evidence into root gate board docs (Target: Q3 2026)
 
 ## Planned Features
 

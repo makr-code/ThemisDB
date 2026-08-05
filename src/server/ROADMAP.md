@@ -27,7 +27,7 @@ Production-ready server stack with HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, Po
   - Comprehensive test coverage for all validation scenarios
 
 ## In Progress
-- [x] P0 security/code-quality remediation wave for server paths (Target: Q2 2026)
+- [~] P0 security/code-quality remediation wave for server paths (Target: Q2 2026)
   - Status: 2,172 verified gaps identified and categorized (2026-06-25); 654 actionable (Critical + High severity)
   - [ ] Finish remaining true-positive triage from gap scan and remove residual high-risk findings from active code paths (Target: Q2 2026)
   - [ ] Consolidate auth enforcement checks for all routing-layer special cases and keep regression tests green (Target: Q2 2026)

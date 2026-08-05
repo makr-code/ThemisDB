@@ -11,7 +11,7 @@
  *   - Phase 2: schedule-entry serialization round-trips, frequency/cron mapping,
  *     task-type string dispatch, job-state string dispatch, default field constraints.
  *   - Phase 3: fail-safe field defaults, DAG dependency serialization round-trips,
- *     diagnostics structure (non-empty error messages on defined failure paths).
+ *     halt-on-failure flag persistence.
  *
  * No file I/O, no network, no real orchestrator instantiation — deterministic only.
  *
