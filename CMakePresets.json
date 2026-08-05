@@ -260,6 +260,158 @@
         "THEMIS_BUILD_BENCHMARKS": "ON",
         "THEMIS_BUILD_TESTS": "ON"
       }
+    },
+    {
+      "name": "enterprise-release-windows",
+      "displayName": "Enterprise Release (Windows) (vcpkg required)",
+      "description": "Production release build for Enterprise edition on Windows. Requires gRPC and distributed tracing. Requires: Windows 10/11, MSVC 2022+, Ninja, vcpkg. See SETUP.md for setup instructions.",
+      "inherits": "windows-base",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      },
+      "binaryDir": "${sourceDir}/build-enterprise-windows-release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "THEMIS_EDITION": "ENTERPRISE",
+        "THEMIS_ENABLE_GRPC": "ON",
+        "THEMIS_ENABLE_TRACING": "ON"
+      }
+    },
+    {
+      "name": "enterprise-debug-windows",
+      "displayName": "Enterprise Debug (Windows) (vcpkg required)",
+      "description": "Development debug build for Enterprise edition on Windows with benchmarks. Requires: Windows 10/11, MSVC 2022+, Ninja, vcpkg. See SETUP.md for setup instructions.",
+      "inherits": "windows-base",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      },
+      "binaryDir": "${sourceDir}/build-enterprise-windows-debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "THEMIS_EDITION": "ENTERPRISE",
+        "THEMIS_BUILD_BENCHMARKS": "ON",
+        "THEMIS_BUILD_TESTS": "ON",
+        "THEMIS_ENABLE_GRPC": "ON",
+        "THEMIS_ENABLE_TRACING": "ON"
+      }
+    },
+    {
+      "name": "enterprise-release-linux",
+      "displayName": "Enterprise Release (Linux) (vcpkg required)",
+      "description": "Production release build for Enterprise edition on Linux. Requires gRPC and distributed tracing. Requires: Linux, GCC 11+, Ninja, vcpkg. See SETUP.md for setup instructions.",
+      "inherits": "linux-base",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      },
+      "binaryDir": "${sourceDir}/build-enterprise-linux-release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "THEMIS_EDITION": "ENTERPRISE",
+        "THEMIS_ENABLE_GRPC": "ON",
+        "THEMIS_ENABLE_TRACING": "ON"
+      }
+    },
+    {
+      "name": "enterprise-debug-linux",
+      "displayName": "Enterprise Debug (Linux) (vcpkg required)",
+      "description": "Development debug build for Enterprise edition on Linux with benchmarks. Requires: Linux, GCC 11+, Ninja, vcpkg. See SETUP.md for setup instructions.",
+      "inherits": "linux-base",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      },
+      "binaryDir": "${sourceDir}/build-enterprise-linux-debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "THEMIS_EDITION": "ENTERPRISE",
+        "THEMIS_BUILD_BENCHMARKS": "ON",
+        "THEMIS_BUILD_TESTS": "ON",
+        "THEMIS_ENABLE_GRPC": "ON",
+        "THEMIS_ENABLE_TRACING": "ON"
+      }
+    },
+    {
+      "name": "military-release-windows",
+      "displayName": "Military Release (Windows) (vcpkg required)",
+      "description": "Production release build for Military edition on Windows. Hardened for government/classified deployments. Requires gRPC. LLM disabled. Requires: Windows 10/11, MSVC 2022+, Ninja, vcpkg. See SETUP.md for setup instructions.",
+      "inherits": "windows-base",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      },
+      "binaryDir": "${sourceDir}/build-military-windows-release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "THEMIS_EDITION": "MILITARY",
+        "THEMIS_ENABLE_GRPC": "ON",
+        "THEMIS_ENABLE_LLM": "OFF"
+      }
+    },
+    {
+      "name": "military-debug-windows",
+      "displayName": "Military Debug (Windows) (vcpkg required)",
+      "description": "Development debug build for Military edition on Windows with benchmarks. Hardened for government/classified deployments. Requires: Windows 10/11, MSVC 2022+, Ninja, vcpkg. See SETUP.md for setup instructions.",
+      "inherits": "windows-base",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      },
+      "binaryDir": "${sourceDir}/build-military-windows-debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "THEMIS_EDITION": "MILITARY",
+        "THEMIS_BUILD_BENCHMARKS": "ON",
+        "THEMIS_BUILD_TESTS": "ON",
+        "THEMIS_ENABLE_GRPC": "ON",
+        "THEMIS_ENABLE_LLM": "OFF"
+      }
+    },
+    {
+      "name": "military-release-linux",
+      "displayName": "Military Release (Linux) (vcpkg required)",
+      "description": "Production release build for Military edition on Linux. Hardened for government/classified deployments. Requires gRPC. LLM disabled. Requires: Linux, GCC 11+, Ninja, vcpkg. See SETUP.md for setup instructions.",
+      "inherits": "linux-base",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      },
+      "binaryDir": "${sourceDir}/build-military-linux-release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "THEMIS_EDITION": "MILITARY",
+        "THEMIS_ENABLE_GRPC": "ON",
+        "THEMIS_ENABLE_LLM": "OFF"
+      }
+    },
+    {
+      "name": "military-debug-linux",
+      "displayName": "Military Debug (Linux) (vcpkg required)",
+      "description": "Development debug build for Military edition on Linux with benchmarks. Hardened for government/classified deployments. Requires: Linux, GCC 11+, Ninja, vcpkg. See SETUP.md for setup instructions.",
+      "inherits": "linux-base",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      },
+      "binaryDir": "${sourceDir}/build-military-linux-debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "THEMIS_EDITION": "MILITARY",
+        "THEMIS_BUILD_BENCHMARKS": "ON",
+        "THEMIS_BUILD_TESTS": "ON",
+        "THEMIS_ENABLE_GRPC": "ON",
+        "THEMIS_ENABLE_LLM": "OFF"
+      }
     }
   ],
   "buildPresets": [
@@ -313,6 +465,46 @@
       "name": "linux-ubsan",
       "configurePreset": "linux-ubsan",
       "jobs": 16
+    },
+    {
+      "name": "enterprise-release-windows",
+      "configurePreset": "enterprise-release-windows",
+      "jobs": 16
+    },
+    {
+      "name": "enterprise-debug-windows",
+      "configurePreset": "enterprise-debug-windows",
+      "jobs": 4
+    },
+    {
+      "name": "enterprise-release-linux",
+      "configurePreset": "enterprise-release-linux",
+      "jobs": 16
+    },
+    {
+      "name": "enterprise-debug-linux",
+      "configurePreset": "enterprise-debug-linux",
+      "jobs": 4
+    },
+    {
+      "name": "military-release-windows",
+      "configurePreset": "military-release-windows",
+      "jobs": 16
+    },
+    {
+      "name": "military-debug-windows",
+      "configurePreset": "military-debug-windows",
+      "jobs": 4
+    },
+    {
+      "name": "military-release-linux",
+      "configurePreset": "military-release-linux",
+      "jobs": 16
+    },
+    {
+      "name": "military-debug-linux",
+      "configurePreset": "military-debug-linux",
+      "jobs": 4
     }
   ],
   "testPresets": [
@@ -359,6 +551,38 @@
       "output": {
         "outputOnFailure": true
       }
+    },
+    {
+      "name": "enterprise-release-windows",
+      "configurePreset": "enterprise-release-windows"
+    },
+    {
+      "name": "enterprise-debug-windows",
+      "configurePreset": "enterprise-debug-windows"
+    },
+    {
+      "name": "enterprise-release-linux",
+      "configurePreset": "enterprise-release-linux"
+    },
+    {
+      "name": "enterprise-debug-linux",
+      "configurePreset": "enterprise-debug-linux"
+    },
+    {
+      "name": "military-release-windows",
+      "configurePreset": "military-release-windows"
+    },
+    {
+      "name": "military-debug-windows",
+      "configurePreset": "military-debug-windows"
+    },
+    {
+      "name": "military-release-linux",
+      "configurePreset": "military-release-linux"
+    },
+    {
+      "name": "military-debug-linux",
+      "configurePreset": "military-debug-linux"
     }
   ],
   "workflowPresets": [
@@ -427,6 +651,142 @@
         {
           "type": "test",
           "name": "community-release"
+        }
+      ]
+    },
+    {
+      "name": "enterprise-release-windows",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "enterprise-release-windows"
+        },
+        {
+          "type": "build",
+          "name": "enterprise-release-windows"
+        },
+        {
+          "type": "test",
+          "name": "enterprise-release-windows"
+        }
+      ]
+    },
+    {
+      "name": "enterprise-debug-windows",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "enterprise-debug-windows"
+        },
+        {
+          "type": "build",
+          "name": "enterprise-debug-windows"
+        },
+        {
+          "type": "test",
+          "name": "enterprise-debug-windows"
+        }
+      ]
+    },
+    {
+      "name": "enterprise-release-linux",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "enterprise-release-linux"
+        },
+        {
+          "type": "build",
+          "name": "enterprise-release-linux"
+        },
+        {
+          "type": "test",
+          "name": "enterprise-release-linux"
+        }
+      ]
+    },
+    {
+      "name": "enterprise-debug-linux",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "enterprise-debug-linux"
+        },
+        {
+          "type": "build",
+          "name": "enterprise-debug-linux"
+        },
+        {
+          "type": "test",
+          "name": "enterprise-debug-linux"
+        }
+      ]
+    },
+    {
+      "name": "military-release-windows",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "military-release-windows"
+        },
+        {
+          "type": "build",
+          "name": "military-release-windows"
+        },
+        {
+          "type": "test",
+          "name": "military-release-windows"
+        }
+      ]
+    },
+    {
+      "name": "military-debug-windows",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "military-debug-windows"
+        },
+        {
+          "type": "build",
+          "name": "military-debug-windows"
+        },
+        {
+          "type": "test",
+          "name": "military-debug-windows"
+        }
+      ]
+    },
+    {
+      "name": "military-release-linux",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "military-release-linux"
+        },
+        {
+          "type": "build",
+          "name": "military-release-linux"
+        },
+        {
+          "type": "test",
+          "name": "military-release-linux"
+        }
+      ]
+    },
+    {
+      "name": "military-debug-linux",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "military-debug-linux"
+        },
+        {
+          "type": "build",
+          "name": "military-debug-linux"
+        },
+        {
+          "type": "test",
+          "name": "military-debug-linux"
         }
       ]
     }
