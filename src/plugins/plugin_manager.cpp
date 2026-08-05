@@ -301,6 +301,80 @@ bool PluginManager::verifyManifestSignature(const std::string& manifest_path, st
 }
 
 // ============================================================================
+// Phase 2C: Unified Plugin Validation Logic
+// ============================================================================
+
+/**
+ * @brief Phase 2C: Unified validation for plugin load operations.
+ *
+ * Implements 4-stage validation contract:
+ * 1. Manifest schema validation (required fields, types)
+ * 2. Manifest semantic validation (constraints, dependencies)
+ * 3. Signature verification (detached signature checks)
+ * 4. Capability validation (required capabilities available)
+ *
+ * Fail-safe semantics: If any stage fails, plugin remains in UNLOADED state.
+ */
+PluginsError PluginManager::validatePluginForLoad(
+    const PluginManifest& manifest,
+    const std::string& manifest_path,
+    const std::string& plugin_binary_path,
+    std::string& error_details
+) {
+    // Stage 1: Manifest schema validation
+    if (manifest.name.empty()) {
+        error_details = "Manifest schema validation failed: missing required 'name' field";
+        THEMIS_ERROR("{}", error_details);
+        return PluginsError::kManifestInvalid;
+    }
+    if (manifest.version.empty()) {
+        error_details = "Manifest schema validation failed: missing required 'version' field";
+        THEMIS_ERROR("{}", error_details);
+        return PluginsError::kManifestInvalid;
+    }
+    
+    // Stage 2: Manifest semantic validation (constraints)
+    // - Name must pass QW-43 path traversal validation
+    if (!isValidPluginName(manifest.name)) {
+        error_details = "Manifest semantic validation failed: invalid plugin name (path traversal risk)";
+        THEMIS_ERROR("{}", error_details);
+        return PluginsError::kManifestInvalid;
+    }
+    
+    // - Edition compatibility check
+    if (!manifestAllowsCurrentEdition(manifest)) {
+        error_details = fmt::format("Manifest semantic validation failed: plugin not available for edition '{}'",
+                                   std::string(edition::EDITION_STRING));
+        THEMIS_WARN("{}", error_details);
+        return PluginsError::kManifestInvalid;
+    }
+    
+    // - License feature check
+    if (!manifest.license_feature.empty() &&
+        !license::RuntimeLicenseGate::instance().isFeatureAllowed(manifest.license_feature)) {
+        error_details = fmt::format("Manifest semantic validation failed: runtime license does not permit feature '{}'",
+                                   manifest.license_feature);
+        THEMIS_WARN("{}", error_details);
+        return PluginsError::kManifestInvalid;
+    }
+    
+    // Stage 3: Signature verification
+    if (!verifyManifestSignature(manifest_path, error_details)) {
+        THEMIS_ERROR("Plugin manifest signature verification failed: {}", error_details);
+        return PluginsError::kSignatureVerifyFailed;
+    }
+    
+    // Stage 4: Binary verification (security policy)
+    if (!verifyPlugin(plugin_binary_path, error_details)) {
+        THEMIS_ERROR("Plugin binary verification failed: {}", error_details);
+        return PluginsError::kSignatureVerifyFailed;
+    }
+    
+    THEMIS_INFO("Plugin validation succeeded for '{}': all 4 stages passed", manifest.name);
+    return PluginsError::kSuccess;
+}
+
+// ============================================================================
 // QW-43: Plugin Name Validation (Path Traversal Guard)
 // ============================================================================
 

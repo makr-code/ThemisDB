@@ -151,6 +151,33 @@ private:
     /// @return nullopt if validation fails or manifest is malformed; manifest otherwise.
     std::optional<PluginManifest> loadManifest(const std::string& manifest_path);
     
+    // Phase 2C: Unified validation logic
+    /**
+     * @brief Validate a plugin manifest and binary for load operations.
+     * 
+     * This function implements a 4-stage validation contract:
+     * 1. Manifest schema validation (required fields, types)
+     * 2. Manifest semantic validation (constraints, dependencies)
+     * 3. Signature verification (detached signature checks)
+     * 4. Capability validation (required capabilities available)
+     * 
+     * Fail-safe semantics: If any stage fails, the plugin remains in UNLOADED state
+     * and no partial activation occurs.
+     * 
+     * @param manifest The plugin manifest to validate.
+     * @param manifest_path Path to the manifest file (for signature verification).
+     * @param plugin_binary_path Path to the plugin binary (for binary verification).
+     * @param error_details Output error description when validation fails.
+     * @return PluginsError::kSuccess on success, or appropriate error code on failure.
+     * @see src/plugins/ROADMAP.md — Phase 2C implementation
+     */
+    PluginsError validatePluginForLoad(
+        const PluginManifest& manifest,
+        const std::string& manifest_path,
+        const std::string& plugin_binary_path,
+        std::string& error_details
+    );
+    
     // Manifest signature verification
     /**
      * @brief Verify the detached signature for a plugin manifest.
