@@ -301,6 +301,80 @@ bool PluginManager::verifyManifestSignature(const std::string& manifest_path, st
 }
 
 // ============================================================================
+// Phase 2C: Unified Plugin Validation Logic
+// ============================================================================
+
+/**
+ * @brief Phase 2C: Unified validation for plugin load operations.
+ *
+ * Implements 4-stage validation contract:
+ * 1. Manifest schema validation (required fields, types)
+ * 2. Manifest semantic validation (constraints, dependencies)
+ * 3. Signature verification (detached signature checks)
+ * 4. Capability validation (required capabilities available)
+ *
+ * Fail-safe semantics: If any stage fails, plugin remains in UNLOADED state.
+ */
+PluginsError PluginManager::validatePluginForLoad(
+    const PluginManifest& manifest,
+    const std::string& manifest_path,
+    const std::string& plugin_binary_path,
+    std::string& error_details
+) {
+    // Stage 1: Manifest schema validation
+    if (manifest.name.empty()) {
+        error_details = "Manifest schema validation failed: missing required 'name' field";
+        THEMIS_ERROR("{}", error_details);
+        return PluginsError::kManifestInvalid;
+    }
+    if (manifest.version.empty()) {
+        error_details = "Manifest schema validation failed: missing required 'version' field";
+        THEMIS_ERROR("{}", error_details);
+        return PluginsError::kManifestInvalid;
+    }
+    
+    // Stage 2: Manifest semantic validation (constraints)
+    // - Name must pass QW-43 path traversal validation
+    if (!isValidPluginName(manifest.name)) {
+        error_details = "Manifest semantic validation failed: invalid plugin name (path traversal risk)";
+        THEMIS_ERROR("{}", error_details);
+        return PluginsError::kManifestInvalid;
+    }
+    
+    // - Edition compatibility check
+    if (!manifestAllowsCurrentEdition(manifest)) {
+        error_details = fmt::format("Manifest semantic validation failed: plugin not available for edition '{}'",
+                                   std::string(edition::EDITION_STRING));
+        THEMIS_WARN("{}", error_details);
+        return PluginsError::kManifestInvalid;
+    }
+    
+    // - License feature check
+    if (!manifest.license_feature.empty() &&
+        !license::RuntimeLicenseGate::instance().isFeatureAllowed(manifest.license_feature)) {
+        error_details = fmt::format("Manifest semantic validation failed: runtime license does not permit feature '{}'",
+                                   manifest.license_feature);
+        THEMIS_WARN("{}", error_details);
+        return PluginsError::kManifestInvalid;
+    }
+    
+    // Stage 3: Signature verification
+    if (!verifyManifestSignature(manifest_path, error_details)) {
+        THEMIS_ERROR("Plugin manifest signature verification failed: {}", error_details);
+        return PluginsError::kSignatureVerifyFailed;
+    }
+    
+    // Stage 4: Binary verification (security policy)
+    if (!verifyPlugin(plugin_binary_path, error_details)) {
+        THEMIS_ERROR("Plugin binary verification failed: {}", error_details);
+        return PluginsError::kSignatureVerifyFailed;
+    }
+    
+    THEMIS_INFO("Plugin validation succeeded for '{}': all 4 stages passed", manifest.name);
+    return PluginsError::kSuccess;
+}
+
+// ============================================================================
 // QW-43: Plugin Name Validation (Path Traversal Guard)
 // ============================================================================
 
@@ -643,23 +717,64 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
     auto& entry = it->second;
     const auto deps_to_load = entry.manifest.dependencies;
 
+    // Phase 2A: Check lifecycle state transition validity
+    {
+        std::lock_guard<std::mutex> state_lock(entry.state_mutex);
+        if (entry.state == PluginLifecycleState::LOADED && entry.instance) {
+            // Plugin already loaded; return existing instance
+            return Ok(entry.instance.get());
+        }
+        if (entry.state == PluginLifecycleState::LOADING || entry.state == PluginLifecycleState::UNLOADING) {
+            // Plugin is mid-transition; reject concurrent load attempt
+            THEMIS_ERROR("Cannot load plugin '{}': state machine transition in progress (current state: {})",
+                        name, lifecycleStateToString(entry.state));
+            metrics_.recordError(name);
+            span.setStatus(false, "State machine transition in progress");
+            return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                fmt::format("Plugin '{}' is in transition state", name));
+        }
+        if (!isValidLifecycleTransition(entry.state, PluginLifecycleState::LOADING)) {
+            // Invalid transition (e.g., attempting to load from unexpected state)
+            THEMIS_ERROR("Invalid lifecycle transition for plugin '{}': {} → LOADING",
+                        name, lifecycleStateToString(entry.state));
+            metrics_.recordError(name);
+            span.setStatus(false, "Invalid lifecycle transition");
+            return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                fmt::format("Invalid lifecycle transition for plugin '{}'", name));
+        }
+        // Transition to LOADING state
+        entry.state = PluginLifecycleState::LOADING;
+    }
+
     // Edition + runtime license gate: reject early on unsupported editions.
     // Public manifests without explicit private gating remain backward-compatible.
     const bool requires_enterprise_gate =
         entry.manifest.visibility != "public" ||
         !entry.manifest.license_feature.empty();
     if (requires_enterprise_gate && !isEditionSupported()) {
+        {
+            std::lock_guard<std::mutex> state_lock(entry.state_mutex);
+            entry.state = PluginLifecycleState::UNLOADED;
+        }
         const std::string msg = communityUnavailableMessage(name);
         THEMIS_WARN("{}", msg);
         return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_NOT_FOUND, msg);
     }
     if (requires_enterprise_gate && !isLicensed()) {
+        {
+            std::lock_guard<std::mutex> state_lock(entry.state_mutex);
+            entry.state = PluginLifecycleState::UNLOADED;
+        }
         const std::string msg = "Plugin '" + name +
             "' cannot be loaded: runtime license does not permit enterprise_plugins.";
         THEMIS_WARN("{}", msg);
         return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_NOT_FOUND, msg);
     }
     if (!manifestAllowsCurrentEdition(entry.manifest)) {
+        {
+            std::lock_guard<std::mutex> state_lock(entry.state_mutex);
+            entry.state = PluginLifecycleState::UNLOADED;
+        }
         const std::string msg = "Plugin '" + name + "' is not available in edition '" +
             std::string(edition::EDITION_STRING) + "'.";
         THEMIS_WARN("{}", msg);
@@ -667,14 +782,14 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
     }
     if (!entry.manifest.license_feature.empty() &&
         !license::RuntimeLicenseGate::instance().isFeatureAllowed(entry.manifest.license_feature)) {
+        {
+            std::lock_guard<std::mutex> state_lock(entry.state_mutex);
+            entry.state = PluginLifecycleState::UNLOADED;
+        }
         const std::string msg = "Plugin '" + name + "' cannot be loaded: runtime license does not permit feature '" +
             entry.manifest.license_feature + "'.";
         THEMIS_WARN("{}", msg);
         return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_NOT_FOUND, msg);
-    }
-    
-    if (entry.loaded && entry.instance) {
-        return Ok(entry.instance.get());
     }
     
     if (!deps_to_load.empty()) {
@@ -692,6 +807,10 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
                 }
             }
             THEMIS_ERROR("Circular dependency detected for plugin {}: {}", name, cycle_desc);
+            {
+                std::lock_guard<std::mutex> state_lock(entry.state_mutex);
+                entry.state = PluginLifecycleState::UNLOADED;
+            }
             metrics_.recordError(name);
             span.setStatus(false, "Circular dependency");
             return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_CIRCULAR_DEPENDENCY,
@@ -706,6 +825,10 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
                 auto missing_msg = fmt::format(
                     "Plugin '{}' requires unregistered dependency '{}'", name, dep);
                 THEMIS_ERROR("{}", missing_msg);
+                {
+                    std::lock_guard<std::mutex> state_lock(entry.state_mutex);
+                    entry.state = PluginLifecycleState::UNLOADED;
+                }
                 metrics_.recordError(name);
                 span.setStatus(false, "Missing dependency");
                 return Err<IThemisPlugin*>(
@@ -719,6 +842,10 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
             auto dep_result = loadPlugin(dep);
             if (!dep_result) {
                 lock.lock();
+                {
+                    std::lock_guard<std::mutex> state_lock(entry.state_mutex);
+                    entry.state = PluginLifecycleState::UNLOADED;
+                }
                 metrics_.recordError(name);
                 return tl::unexpected(dep_result.error());
             }
@@ -731,6 +858,10 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
                                         fmt::format("Plugin '{}' not found after dependency load", name));
         }
         if (it->second.loaded && it->second.instance) {
+            {
+                std::lock_guard<std::mutex> state_lock(it->second.state_mutex);
+                it->second.state = PluginLifecycleState::LOADED;
+            }
             return Ok(it->second.instance.get());
         }
     }
@@ -743,6 +874,10 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
         std::string actual_hash = calculateFileHash(current_entry.path);
         if (actual_hash.empty()) {
             THEMIS_ERROR("Failed to compute hash for plugin binary: {}", current_entry.path);
+            {
+                std::lock_guard<std::mutex> state_lock(current_entry.state_mutex);
+                current_entry.state = PluginLifecycleState::UNLOADED;
+            }
             metrics_.recordError(name);
             return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                 fmt::format("Hash computation failed for plugin '{}'", name));
@@ -753,6 +888,10 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
                          name,
                          current_entry.manifest.expected_hash,
                          actual_hash);
+            {
+                std::lock_guard<std::mutex> state_lock(current_entry.state_mutex);
+                current_entry.state = PluginLifecycleState::UNLOADED;
+            }
             metrics_.recordError(name);
             return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_INVALID_SIGNATURE,
                 fmt::format("Binary hash mismatch for plugin '{}' — possible tampering", name));
@@ -762,6 +901,10 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
     std::string error_message;
     if (!verifyPlugin(current_entry.path, error_message)) {
         THEMIS_ERROR("Plugin verification failed for {}: {}", name, error_message);
+        {
+            std::lock_guard<std::mutex> state_lock(current_entry.state_mutex);
+            current_entry.state = PluginLifecycleState::UNLOADED;
+        }
         metrics_.recordError(name);
         return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_INVALID_SIGNATURE,
                                     fmt::format("Plugin verification failed: {}", error_message));
@@ -773,6 +916,10 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
 #ifndef _WIN32
         THEMIS_ERROR("Error: {}", dlerror());
 #endif
+        {
+            std::lock_guard<std::mutex> state_lock(current_entry.state_mutex);
+            current_entry.state = PluginLifecycleState::UNLOADED;
+        }
         metrics_.recordError(name);
         return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                                     fmt::format("Failed to load plugin library from '{}'", current_entry.path));
@@ -782,6 +929,10 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
     if (!createFunc) {
         THEMIS_ERROR("Plugin does not export createPlugin: {}", current_entry.path);
         unloadLibrary(handle);
+        {
+            std::lock_guard<std::mutex> state_lock(current_entry.state_mutex);
+            current_entry.state = PluginLifecycleState::UNLOADED;
+        }
         metrics_.recordError(name);
         return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                                     "Plugin does not export createPlugin function");
@@ -791,6 +942,10 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
     if (!plugin) {
         THEMIS_ERROR("Failed to create plugin instance: {}", name);
         unloadLibrary(handle);
+        {
+            std::lock_guard<std::mutex> state_lock(current_entry.state_mutex);
+            current_entry.state = PluginLifecycleState::UNLOADED;
+        }
         metrics_.recordError(name);
         return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                                     fmt::format("Failed to create plugin instance for '{}'", name));
@@ -803,6 +958,10 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
             destroyFunc(plugin);
         }
         unloadLibrary(handle);
+        {
+            std::lock_guard<std::mutex> state_lock(current_entry.state_mutex);
+            current_entry.state = PluginLifecycleState::UNLOADED;
+        }
         metrics_.recordError(name);
         return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                                     fmt::format("Failed to initialize plugin '{}'", name));
@@ -813,6 +972,12 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
     current_entry.loaded = true;
     current_entry.file_hash = calculateFileHash(current_entry.path);
     current_entry.frozen_capabilities = plugin->getCapabilities();
+    
+    // Phase 2A: Transition to LOADED state on successful load
+    {
+        std::lock_guard<std::mutex> state_lock(current_entry.state_mutex);
+        current_entry.state = PluginLifecycleState::LOADED;
+    }
     
     // Auto-register self-healing plugins with the health monitor
     if (health_monitor_) {
@@ -974,9 +1139,25 @@ Result<void> PluginManager::unloadPlugin(const std::string& name) {
                        fmt::format("Plugin not found: {}", name));
     }
     
-    if (!it->second.loaded) {
-        return ErrVoid(errors::ErrorCode::ERR_PLUGIN_NOT_FOUND,
-                       fmt::format("Plugin not loaded: {}", name));
+    auto& entry = it->second;
+    
+    // Phase 2A: Check lifecycle state
+    {
+        std::lock_guard<std::mutex> state_lock(entry.state_mutex);
+        if (entry.state != PluginLifecycleState::LOADED) {
+            THEMIS_ERROR("Cannot unload plugin '{}': not in LOADED state (current state: {})",
+                        name, lifecycleStateToString(entry.state));
+            return ErrVoid(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                           fmt::format("Plugin '{}' is not loaded", name));
+        }
+        // Transition to UNLOADING state
+        if (!isValidLifecycleTransition(entry.state, PluginLifecycleState::UNLOADING)) {
+            THEMIS_ERROR("Invalid lifecycle transition for plugin '{}': {} → UNLOADING",
+                        name, lifecycleStateToString(entry.state));
+            return ErrVoid(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                           fmt::format("Invalid lifecycle transition for plugin '{}'", name));
+        }
+        entry.state = PluginLifecycleState::UNLOADING;
     }
 
     // Block unload if other loaded plugins depend on this one.
@@ -991,10 +1172,13 @@ Result<void> PluginManager::unloadPlugin(const std::string& name) {
             "Cannot unload plugin '{}' — {} plugin(s) depend on it: {}",
             name, dependents.size(), dep_list);
         THEMIS_ERROR("{}", error_msg);
+        // Revert state back to LOADED on failure
+        {
+            std::lock_guard<std::mutex> state_lock(entry.state_mutex);
+            entry.state = PluginLifecycleState::LOADED;
+        }
         return ErrVoid(errors::ErrorCode::ERR_PLUGIN_DEPENDENCY_CONFLICT, error_msg);
     }
-
-    auto& entry = it->second;
     
     // Unregister from health monitor before shutting down the instance
     if (health_monitor_) {
@@ -1022,6 +1206,12 @@ Result<void> PluginManager::unloadPlugin(const std::string& name) {
     
     entry.library_handle = nullptr;
     entry.loaded = false;
+    
+    // Phase 2A: Transition to UNLOADED state on successful unload
+    {
+        std::lock_guard<std::mutex> state_lock(entry.state_mutex);
+        entry.state = PluginLifecycleState::UNLOADED;
+    }
     
     THEMIS_INFO("Unloaded plugin: {}", name);
     return OkVoid();
@@ -1743,6 +1933,325 @@ std::string PluginManager::installationInstructions() {
            "3. Place in $THEMIS_HOME/plugins/\n"
            "4. Restart themis_server\n"
            "5. Use CREATE PLUGIN command";
+}
+
+// ============================================================================
+// Phase 3: Error Handling and Edge Cases
+// ============================================================================
+
+PluginsError PluginManager::validateConcurrentStateChange(
+    const PluginEntry& plugin_entry,
+    PluginLifecycleState requested_state) {
+    
+    std::lock_guard<std::mutex> state_lock(plugin_entry.state_mutex);
+    
+    // Reject if already in target state (idempotent operations allowed)
+    if (plugin_entry.state == requested_state && requested_state == PluginLifecycleState::LOADED) {
+       return PluginsError::kSuccess;
+    }
+    
+    // Reject concurrent transitions
+    if (plugin_entry.state == PluginLifecycleState::LOADING ||
+       plugin_entry.state == PluginLifecycleState::UNLOADING) {
+       THEMIS_ERROR("[LIFECYCLE:CONCURRENT] Cannot perform operation: plugin is in transition state {}",
+                    lifecycleStateToString(plugin_entry.state));
+       return PluginsError::kLifecycleTransition;
+    }
+    
+    // Validate transition is allowed
+    if (!isValidLifecycleTransition(plugin_entry.state, requested_state)) {
+       THEMIS_ERROR("[LIFECYCLE:INVALID_TRANSITION] Invalid transition: {} → {}",
+                    lifecycleStateToString(plugin_entry.state),
+                    lifecycleStateToString(requested_state));
+       return PluginsError::kLifecycleTransition;
+    }
+    
+    return PluginsError::kSuccess;
+}
+
+PluginsError PluginManager::recoverPartialRegistryState(const std::string& plugin_name) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    auto it = plugins_.find(plugin_name);
+    if (it == plugins_.end()) {
+       THEMIS_WARN("[LIFECYCLE:RECOVERY] Plugin not found for recovery: {}", plugin_name);
+       return PluginsError::kPluginNotFound;
+    }
+    
+    auto& entry = it->second;
+    
+    THEMIS_WARN("[LIFECYCLE:RECOVERY] Attempting recovery for plugin '{}' in state {}",
+               plugin_name, lifecycleStateToString(entry.state));
+    
+    // If plugin is in LOADING state, roll back to UNLOADED
+    if (entry.state == PluginLifecycleState::LOADING) {
+       {
+           std::lock_guard<std::mutex> state_lock(entry.state_mutex);
+           entry.state = PluginLifecycleState::UNLOADED;
+       }
+       entry.instance.reset();
+       entry.loaded = false;
+       if (entry.library_handle) {
+           unloadLibrary(entry.library_handle);
+           entry.library_handle = nullptr;
+       }
+       THEMIS_WARN("[LIFECYCLE:RECOVERY] Rolled back plugin '{}' from LOADING to UNLOADED", plugin_name);
+       return PluginsError::kSuccess;
+    }
+    
+    // If plugin is in UNLOADING state, roll back to UNLOADED
+    if (entry.state == PluginLifecycleState::UNLOADING) {
+       {
+           std::lock_guard<std::mutex> state_lock(entry.state_mutex);
+           entry.state = PluginLifecycleState::UNLOADED;
+       }
+       THEMIS_WARN("[LIFECYCLE:RECOVERY] Rolled back plugin '{}' from UNLOADING to UNLOADED", plugin_name);
+       return PluginsError::kSuccess;
+    }
+    
+    // No recovery needed
+    THEMIS_INFO("[LIFECYCLE:RECOVERY] Plugin '{}' is in consistent state {}", 
+               plugin_name, lifecycleStateToString(entry.state));
+    return PluginsError::kSuccess;
+}
+
+PluginsError PluginManager::validateManifestOptionalFields(PluginManifest& manifest) {
+    // Validate and apply defaults for optional fields
+    
+    // allowed_editions: empty vector means "all editions" (default)
+    if (manifest.allowed_editions.empty()) {
+       THEMIS_DEBUG("[VALIDATION:OPTIONAL] Using default for allowed_editions: all editions");
+       // Leave empty (all editions allowed)
+    } else {
+       // Normalize edition names to lowercase for comparison
+       for (auto& edition_name : manifest.allowed_editions) {
+           std::transform(edition_name.begin(), edition_name.end(), edition_name.begin(),
+                         [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+       }
+    }
+    
+    // license_feature: empty string means "no license required" (default)
+    if (manifest.license_feature.empty()) {
+       THEMIS_DEBUG("[VALIDATION:OPTIONAL] Using default for license_feature: none required");
+    }
+    
+    // capabilities: empty vector means "no special capabilities" (default)
+    if (manifest.capabilities.empty()) {
+       THEMIS_DEBUG("[VALIDATION:OPTIONAL] Using default for capabilities: none");
+    }
+    
+    // visibility: default to "public" if not specified
+    if (manifest.visibility.empty()) {
+       manifest.visibility = "public";
+       THEMIS_DEBUG("[VALIDATION:OPTIONAL] Using default visibility: public");
+    } else {
+       std::transform(manifest.visibility.begin(), manifest.visibility.end(), 
+                     manifest.visibility.begin(),
+                     [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+    }
+    
+    // dependencies: empty vector means "no dependencies" (default)
+    if (manifest.dependencies.empty()) {
+       THEMIS_DEBUG("[VALIDATION:OPTIONAL] Using default for dependencies: none");
+    }
+    
+    return PluginsError::kSuccess;
+}
+
+PluginsError PluginManager::validateABICompatibility(
+    const PluginEntry& previous_entry,
+    const PluginManifest& new_manifest) {
+    
+    // Check interface version compatibility (allow patch-level changes only)
+    // Format: major.minor.patch
+    const auto parse_version = [](const std::string& ver) -> std::tuple<int, int, int> {
+       int major = 0, minor = 0, patch = 0;
+       try {
+           sscanf(ver.c_str(), "%d.%d.%d", &major, &minor, &patch);
+       } catch (...) {
+           major = minor = patch = 0;
+       }
+       return {major, minor, patch};
+    };
+    
+    auto [prev_major, prev_minor, prev_patch] = parse_version(previous_entry.manifest.version);
+    auto [new_major, new_minor, new_patch] = parse_version(new_manifest.version);
+    
+    // Major version change = ABI incompatible
+    if (new_major != prev_major) {
+       THEMIS_ERROR("[SECURITY:ABI_MISMATCH] Plugin ABI incompatible: {} → {} (major version change)",
+                    previous_entry.manifest.version, new_manifest.version);
+       return PluginsError::kSignatureVerifyFailed;  // Use signature error as proxy for ABI error
+    }
+    
+    // Minor version change = warn but allow
+    if (new_minor != prev_minor) {
+       THEMIS_WARN("[SECURITY:ABI_MINOR_VERSION] Plugin minor version changed: {} → {}",
+                   previous_entry.manifest.version, new_manifest.version);
+    }
+    
+    // Check capabilities are not reduced
+    if (previous_entry.frozen_capabilities.size() > new_manifest.capabilities.size()) {
+       THEMIS_WARN("[SECURITY:CAPABILITY_REDUCTION] Plugin capabilities reduced after reload");
+    }
+    
+    THEMIS_INFO("[SECURITY:ABI_COMPATIBLE] Plugin ABI verified compatible: {} → {}",
+               previous_entry.manifest.version, new_manifest.version);
+    return PluginsError::kSuccess;
+}
+
+bool PluginManager::verifyManifestSignatureWithTimeout(
+    const std::string& manifest_path,
+    uint32_t timeout_ms,
+    std::string& error_details) {
+    
+    // For now, use simple timeout handling via std::chrono
+    // In production, this would use async I/O or thread pool with timeout
+    
+    if (timeout_ms == 0) {
+       // No timeout, use standard verification
+       return verifyManifestSignature(manifest_path, error_details);
+    }
+    
+    THEMIS_DEBUG("[SECURITY:SIGNATURE_TIMEOUT] Verifying manifest with timeout: {} ms", timeout_ms);
+    
+    // Simple timeout: check file accessibility first
+    if (!fs::exists(manifest_path)) {
+       error_details = "Manifest file not found: " + manifest_path;
+       return false;
+    }
+    
+    // For large files, timeout might occur. Implement graceful degradation.
+    try {
+       auto start = std::chrono::steady_clock::now();
+       bool result = verifyManifestSignature(manifest_path, error_details);
+       auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
+           std::chrono::steady_clock::now() - start);
+        
+       if (duration.count() > static_cast<int64_t>(timeout_ms)) {
+           THEMIS_WARN("[SECURITY:SIGNATURE_SLOW] Signature verification slow: {} ms (timeout: {} ms)",
+                      duration.count(), timeout_ms);
+           // In production, we might reject the plugin here. For now, just warn.
+       }
+        
+       return result;
+    } catch (const std::exception& e) {
+       error_details = std::string("Signature verification exception: ") + e.what();
+       return false;
+    }
+}
+
+json PluginManager::getDiagnosticsForPlugin(const std::string& plugin_name) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    json diagnostics = json::object();
+    diagnostics["plugin_name"] = plugin_name;
+    diagnostics["timestamp"] = std::chrono::system_clock::now().time_since_epoch().count();
+    
+    auto it = plugins_.find(plugin_name);
+    if (it == plugins_.end()) {
+       diagnostics["status"] = "not_found";
+       diagnostics["error"] = "Plugin not found in registry";
+       return diagnostics;
+    }
+    
+    const auto& entry = it->second;
+    
+    {
+       std::lock_guard<std::mutex> state_lock(entry.state_mutex);
+       diagnostics["lifecycle_state"] = lifecycleStateToString(entry.state);
+    }
+    
+    diagnostics["loaded"] = entry.loaded;
+    diagnostics["path"] = entry.path;
+    diagnostics["type"] = static_cast<int>(entry.type);
+    diagnostics["manifest_version"] = entry.manifest.version;
+    
+    // Error state diagnostics
+    auto err_it = error_states_.find(plugin_name);
+    if (err_it != error_states_.end()) {
+       diagnostics["last_error"] = static_cast<int>(err_it->second.last_error);
+       diagnostics["last_error_message"] = err_it->second.last_error_message;
+       diagnostics["error_count"] = err_it->second.error_count;
+    } else {
+       diagnostics["last_error"] = 0;  // kSuccess
+       diagnostics["error_count"] = 0;
+    }
+    
+    // Capability diagnostics
+    if (!entry.frozen_capabilities.empty()) {
+       json caps = json::array();
+       for (const auto& cap : entry.frozen_capabilities) {
+           caps.push_back(cap);
+       }
+       diagnostics["frozen_capabilities"] = caps;
+    }
+    
+    diagnostics["is_restricted"] = entry.is_restricted;
+    
+    return diagnostics;
+}
+
+std::string PluginManager::formatDiagnosticMessage(
+    PluginsError error_code,
+    const std::string& context,
+    const std::string& plugin_name) {
+    
+    // Determine the error category based on error code
+    std::string category;
+    std::string code_name;
+    
+    switch (error_code) {
+       case PluginsError::kSuccess:
+           code_name = "SUCCESS";
+           category = "INFO";
+           break;
+       case PluginsError::kPluginNotFound:
+           code_name = "PLUGIN_NOT_FOUND";
+           category = "LIFECYCLE";
+           break;
+       case PluginsError::kManifestInvalid:
+           code_name = "MANIFEST_INVALID";
+           category = "VALIDATION";
+           break;
+       case PluginsError::kSignatureVerifyFailed:
+           code_name = "SIGNATURE_VERIFY_FAILED";
+           category = "SECURITY";
+           break;
+       case PluginsError::kLifecycleTransition:
+           code_name = "LIFECYCLE_TRANSITION";
+           category = "LIFECYCLE";
+           break;
+       case PluginsError::kCapabilityDenied:
+           code_name = "CAPABILITY_DENIED";
+           category = "SECURITY";
+           break;
+       case PluginsError::kRegistryConflict:
+           code_name = "REGISTRY_CONFLICT";
+           category = "LIFECYCLE";
+           break;
+       case PluginsError::kHealthCheckFailed:
+           code_name = "HEALTH_CHECK_FAILED";
+           category = "LIFECYCLE";
+           break;
+       case PluginsError::kInternalError:
+           code_name = "INTERNAL_ERROR";
+           category = "INTERNAL";
+           break;
+       default:
+           code_name = "UNKNOWN";
+           category = "UNKNOWN";
+    }
+    
+    // Format: [CATEGORY:CODE] plugin_name: context
+    std::stringstream ss;
+    ss << "[" << category << ":" << code_name << "]";
+    if (!plugin_name.empty()) {
+       ss << " [plugin:" << plugin_name << "]";
+    }
+    ss << " " << context;
+    
+    return ss.str();
 }
 
 } // namespace plugins

@@ -23,9 +23,19 @@
  */
 
 #include "themis/gpu/load_balancer.h"
+#include "themis/gpu/gpu_backend_dispatch_contract.h"
+#include "themis/gpu/gpu_backend_dispatch_diagnostics.h"
+#include <spdlog/spdlog.h>
+#include <chrono>
 
 namespace themis {
 namespace gpu {
+
+// Helper: Measure selectDevice operation time against bounded runtime contract
+static inline uint64_t getCurrentTimeUS() {
+    return std::chrono::duration_cast<std::chrono::microseconds>(
+        std::chrono::high_resolution_clock::now().time_since_epoch()).count();
+}
 
 // ============================================================================
 // Construction
@@ -189,6 +199,8 @@ GPULoadBalancer::DeviceEntry *GPULoadBalancer::selectTopologyAware(uint64_t requ
 // ============================================================================
 
 const DeviceInfo *GPULoadBalancer::selectDevice(uint64_t required_vram_bytes) {
+    uint64_t start_time = getCurrentTimeUS();
+    
     std::lock_guard<std::mutex> lock(mutex_);
     DeviceEntry *entry = nullptr;
     switch (strategy_) {
@@ -205,6 +217,37 @@ const DeviceInfo *GPULoadBalancer::selectDevice(uint64_t required_vram_bytes) {
             entry = selectTopologyAware(required_vram_bytes);
             break;
     }
+    
+    // Phase 2/3 Hardening: Fail-closed diagnostic emission
+    if (!entry) {
+        GPUBackendDispatchDiagnostics::emitDiagnostic(
+            GPUDispatchErrorCode::BACKEND_NO_DEVICE_AVAILABLE,
+            -1,  // No specific device
+            "selectDevice: No eligible device found (strategy=" + 
+            std::string(strategy_ == Strategy::ROUND_ROBIN ? "ROUND_ROBIN" :
+                       strategy_ == Strategy::LEAST_LOADED ? "LEAST_LOADED" :
+                       strategy_ == Strategy::FIRST_HEALTHY ? "FIRST_HEALTHY" :
+                       "TOPOLOGY_AWARE") + 
+            ", required_vram=" + std::to_string(required_vram_bytes) + 
+            ", total_devices=" + std::to_string(devices_.size()) + ")");
+    }
+    
+    // Verify bounded runtime contract
+    uint64_t elapsed_us = getCurrentTimeUS() - start_time;
+    if (elapsed_us > GPUBackendDispatchContract::MAX_SELECT_DEVICE_LATENCY_US) {
+        auto logger = spdlog::get("gpu");
+        if (!logger) {
+            logger = spdlog::get("default");
+        }
+        if (logger) {
+            logger->warn(
+                "selectDevice exceeded SLA: elapsed={}µs threshold={}µs devices={}",
+                elapsed_us,
+                GPUBackendDispatchContract::MAX_SELECT_DEVICE_LATENCY_US,
+                devices_.size());
+        }
+    }
+    
     return entry ? &entry->info : nullptr;
 }
 

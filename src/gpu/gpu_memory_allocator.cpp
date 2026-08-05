@@ -6,12 +6,16 @@
  */
 
 #include "gpu/gpu_memory_allocator.h"
+#include "themis/gpu/gpu_backend_dispatch_contract.h"
+#include "themis/gpu/gpu_backend_dispatch_diagnostics.h"
 #include <cuda_runtime.h>
 #include <algorithm>
 #include <utility>
 #include <cstring>
 #include <stdexcept>
 #include <sstream>
+#include <spdlog/spdlog.h>
+#include <chrono>
 
 namespace themis {
 namespace gpu {
@@ -98,12 +102,34 @@ GPUMemoryAllocator& GPUMemoryAllocator::operator=(GPUMemoryAllocator&& other) no
 }
 
 MemoryAllocation GPUMemoryAllocator::allocate(size_t size) {
+    uint64_t start_time = std::chrono::duration_cast<std::chrono::microseconds>(
+        std::chrono::high_resolution_clock::now().time_since_epoch()).count();
+    
+    // Phase 2/3 Hardening: Fail-closed early validation
     if (is_moved_from_) {
+        GPUBackendDispatchDiagnostics::emitDiagnostic(
+            GPUDispatchErrorCode::ALLOC_INVALID_PARAMS,
+            config_.device_id,
+            "Cannot allocate from moved-from allocator");
         throw std::logic_error("Cannot allocate from moved-from allocator");
     }
 
     if (size == 0) {
+        GPUBackendDispatchDiagnostics::emitDiagnostic(
+            GPUDispatchErrorCode::ALLOC_INVALID_PARAMS,
+            config_.device_id,
+            "Allocation size must be > 0");
         throw std::invalid_argument("Allocation size must be > 0");
+    }
+
+    // Phase 2/3 Hardening: Check against configured maximum allocation size
+    if (size > config_.max_alloc_size) {
+        GPUBackendDispatchDiagnostics::emitDiagnostic(
+            GPUDispatchErrorCode::ALLOC_SIZE_EXCEEDS_LIMIT,
+            config_.device_id,
+            "Requested size=" + std::to_string(size) + 
+            " exceeds max_alloc_size=" + std::to_string(config_.max_alloc_size));
+        throw std::invalid_argument("Allocation size exceeds limit");
     }
 
     void* device_ptr = nullptr;
@@ -113,6 +139,10 @@ MemoryAllocation GPUMemoryAllocator::allocate(size_t size) {
         // Allocate device memory
         cudaError_t err = cudaMalloc(&device_ptr, size);
         if (err != cudaSuccess) {
+            GPUBackendDispatchDiagnostics::emitDiagnostic(
+                GPUDispatchErrorCode::ALLOC_DEVICE_FAILURE,
+                config_.device_id,
+                "cudaMalloc failed: " + std::string(cudaGetErrorString(err)));
             throw std::runtime_error("Device allocation failed: " + std::string(cudaGetErrorString(err)));
         }
 
@@ -120,6 +150,10 @@ MemoryAllocation GPUMemoryAllocator::allocate(size_t size) {
         err = cudaMallocHost(&host_ptr, size);
         if (err != cudaSuccess) {
             cudaFree(device_ptr);
+            GPUBackendDispatchDiagnostics::emitDiagnostic(
+                GPUDispatchErrorCode::ALLOC_DEVICE_FAILURE,
+                config_.device_id,
+                "cudaMallocHost failed: " + std::string(cudaGetErrorString(err)));
             throw std::runtime_error("Host allocation failed: " + std::string(cudaGetErrorString(err)));
         }
 
@@ -132,6 +166,24 @@ MemoryAllocation GPUMemoryAllocator::allocate(size_t size) {
         alloc.allocation_id = next_alloc_id_++;
 
         allocations_.push_back(alloc);
+        
+        // Verify bounded runtime contract
+        uint64_t elapsed_us = std::chrono::duration_cast<std::chrono::microseconds>(
+            std::chrono::high_resolution_clock::now().time_since_epoch()).count() - start_time;
+        if (elapsed_us > GPUBackendDispatchContract::MAX_ALLOCATE_LATENCY_US) {
+            auto logger = spdlog::get("gpu");
+            if (!logger) {
+                logger = spdlog::get("default");
+            }
+            if (logger) {
+                logger->warn(
+                    "allocate exceeded SLA: elapsed={}µs threshold={}µs size={}",
+                    elapsed_us,
+                    GPUBackendDispatchContract::MAX_ALLOCATE_LATENCY_US,
+                    size);
+            }
+        }
+        
         return alloc;
 
     } catch (...) {
