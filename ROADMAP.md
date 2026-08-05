@@ -443,7 +443,7 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 - [ ] Sharding 3.2: automatic rebalancing + cross-datacenter latency-aware routing + global secondary indexes (Target: Q3–Q4 2026)
 - [ ] Graph 3.3: cross-shard graph query execution + distributed Betweenness Centrality (Target: Q4 2026)
 - [ ] Storage 3.4: tiered hot/warm/cold with automatic data migration + cloud-native S3/GCS/Azure hardening (Target: Q4 2026)
-- [ ] Network 3.5: HTTP/3 QUIC production enablement + zero-copy socket I/O (Target: Q4 2026)
+- [x] Network 3.5: HTTP/3 QUIC production enablement + zero-copy socket I/O (Target: Q4 2026) — NQP-01..06 in tests/network/test_network_lifecycle_guardrails_focused.cpp; ZeroCopyFrameBuilder::writeToWithSendfile() in src/network/wire_protocol_zero_copy.cpp
 - Gate: deterministic under-load benchmark + `release_critical` CI green on `develop`
 
 **Track 3 — Observability & Operational Excellence** (🟡 P3, Q4 2026 — Phase 4)
@@ -1628,8 +1628,8 @@ Focus: Hyperscale distributed operations, multi-region support, and advanced con
 - [I] Cloud-native blob backend improvements (S3/GCS/Azure) (Target: Q4 2026)
 
 #### 3.5 Network — Protocol Hardening
-- [I] HTTP/3 QUIC production enablement (Target: Q3 2026)
-- [I] Zero-copy socket I/O for high-throughput workloads (Target: Q4 2026)
+- [x] HTTP/3 QUIC production enablement (Target: Q3 2026) — NQP-01..06 in tests/network/test_network_lifecycle_guardrails_focused.cpp; QuicTransport production-ready (THEMIS_ENABLE_HTTP3)
+- [x] Zero-copy socket I/O for high-throughput workloads (Target: Q4 2026) — ZeroCopyFrameBuilder::writeToWithSendfile() (sendfile/splice on Linux, writev fallback) in src/network/wire_protocol_zero_copy.cpp
 
 ---
 

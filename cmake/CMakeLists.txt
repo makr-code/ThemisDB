@@ -2809,6 +2809,9 @@ set(THEMIS_CORE_SOURCES
     ../src/network/qos_manager.cpp
     ../src/network/udp_fast_path.cpp
     ../src/network/wire_retry_policy.cpp
+    ../src/network/multipath_tcp.cpp
+    ../src/network/bbr_congestion_control.cpp
+    ../src/network/network_observability.cpp
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/network/wire_protocol_server_ws.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/network/quic_transport.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/network/quic_server.cpp>

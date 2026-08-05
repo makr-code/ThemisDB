@@ -22,9 +22,11 @@
 
 #include <atomic>
 #include <chrono>
+#include <cstdint>
 #include <functional>
 #include <mutex>
 #include <string>
+#include <unordered_map>
 
 namespace themis {
 namespace network {
@@ -74,47 +76,91 @@ enum class CircuitState {
  */
 class AdaptiveCircuitBreaker {
 public:
-    /**
-     * @brief Construction-time configuration.
-     */
-    struct Config {
-        /// Consecutive failures in CLOSED state that trip the circuit.
-        size_t failure_threshold = 10;
-
-        /// Consecutive successes in HALF_OPEN state that close the circuit.
-        size_t success_threshold = 5;
-
-        /// How long to keep the circuit OPEN before entering HALF_OPEN.
-        std::chrono::seconds open_timeout{60};
-
-        /// Maximum time in HALF_OPEN before falling back to OPEN.
-        std::chrono::seconds half_open_timeout{30};
-
-        /// Enable dynamic adjustment of @c failure_threshold at runtime.
-        bool enable_adaptive_threshold = true;
+        /**
+         * @brief Error class identifier for per-class threshold configuration.
+         *
+         * Use string-typed error class labels (e.g., "timeout", "connection",
+         * "auth") to apply independent failure thresholds per error category.
+         * The empty string is treated as the global/default class.
+         */
+        using ErrorClass = std::string;
 
         /**
-         * @brief Fraction by which the threshold is adjusted on adaptation.
+         * @brief Per-error-class threshold override.
          *
-         * When the circuit trips repeatedly (indicating the threshold is too
-         * generous), @c failure_threshold is decreased by this fraction.
-         * When the circuit stays closed for a long time it is increased.
-         * Range: (0, 1).  Default: 0.10 (10 %).
+         * When an error class has an entry here its failures are counted
+         * separately against @c threshold.  A class whose consecutive failure
+         * count reaches its threshold immediately trips the circuit even if the
+         * global counter has not yet reached @c failure_threshold.
          */
-        double adaptive_factor = 0.1;
-    };
+        struct ErrorClassConfig {
+            /// Consecutive failures of this class that trip the circuit.
+            size_t threshold = 5;
+
+            /// Fraction of the per-class threshold used for adaptive reduction.
+            /// Inherits the parent Config::adaptive_factor when 0.
+            double adaptive_factor = 0.0;
+        };
+
+        /**
+         * @brief Construction-time configuration.
+         */
+        struct Config {
+            /// Consecutive failures in CLOSED state that trip the circuit.
+            size_t failure_threshold = 10;
+
+            /// Consecutive successes in HALF_OPEN state that close the circuit.
+            size_t success_threshold = 5;
+
+            /// How long to keep the circuit OPEN before entering HALF_OPEN.
+            std::chrono::seconds open_timeout{60};
+
+            /// Maximum time in HALF_OPEN before falling back to OPEN.
+            std::chrono::seconds half_open_timeout{30};
+
+            /// Enable dynamic adjustment of @c failure_threshold at runtime.
+            bool enable_adaptive_threshold = true;
+
+            /**
+             * @brief Fraction by which the threshold is adjusted on adaptation.
+             *
+             * When the circuit trips repeatedly (indicating the threshold is too
+             * generous), @c failure_threshold is decreased by this fraction.
+             * When the circuit stays closed for a long time it is increased.
+             * Range: (0, 1).  Default: 0.10 (10 %).
+             */
+            double adaptive_factor = 0.1;
+
+            /**
+             * @brief Per-error-class threshold overrides.
+             *
+             * Errors reported via @c recordFailure(error_class) that match a key
+             * here are tracked separately.  If any class reaches its own
+             * threshold, the circuit trips independently of the global counter.
+             *
+             * Example:
+             * @code
+             * cfg.error_class_configs["timeout"]    = {3};
+             * cfg.error_class_configs["connection"] = {5};
+             * @endcode
+             */
+            std::unordered_map<ErrorClass, ErrorClassConfig> error_class_configs;
+        };
 
     /**
      * @brief Snapshot of circuit breaker statistics.
      */
     struct Stats {
         CircuitState state = CircuitState::CLOSED;
-        uint64_t total_calls     = 0;
+        uint64_t total_calls      = 0;
         uint64_t successful_calls = 0;
-        uint64_t failed_calls    = 0;
-        uint64_t rejected_calls  = 0; ///< Requests fast-failed when OPEN
+        uint64_t failed_calls     = 0;
+        uint64_t rejected_calls   = 0; ///< Requests fast-failed when OPEN
         size_t   current_failure_threshold = 0;
         std::chrono::steady_clock::time_point last_state_change;
+
+        /// Per-error-class failure counters (consecutive, since last reset/close).
+        std::unordered_map<ErrorClass, uint64_t> error_class_failures;
     };
 
     /**
@@ -169,6 +215,22 @@ public:
      * In HALF_OPEN: immediately re-opens the circuit.
      */
     void recordFailure();
+
+    /**
+     * @brief Notify that the last request failed with a specific error class.
+     *
+     * If the error class has a configured override in
+     * @c Config::error_class_configs, its consecutive-failure counter is
+     * incremented separately.  When that counter reaches the class threshold
+     * the circuit trips immediately, regardless of the global counter.
+     *
+     * Falls through to the global @c recordFailure() accounting as well.
+     *
+     * @param error_class  String label for the error category (e.g., "timeout",
+     *                     "connection", "auth").  Unknown classes are tracked
+     *                     globally only (no per-class threshold applied).
+     */
+    void recordFailure(const ErrorClass& error_class);
 
     /**
      * @brief Return the current circuit state (lock-free read).
@@ -226,6 +288,13 @@ private:
     size_t  consecutive_failures_{0}; ///< Failure streak in CLOSED state
     size_t  half_open_successes_{0};  ///< Success streak in HALF_OPEN state
 
+    /// Per-error-class consecutive failure counters (protected by mutex_).
+    std::unordered_map<ErrorClass, size_t> error_class_consecutive_failures_;
+
+    /// Per-error-class effective thresholds (initialised from config, may
+    /// be reduced by adaptive logic independently of the global threshold).
+    std::unordered_map<ErrorClass, size_t> error_class_effective_thresholds_;
+
     std::chrono::steady_clock::time_point open_timestamp_;
     std::chrono::steady_clock::time_point last_state_change_{
         std::chrono::steady_clock::now()};
@@ -248,6 +317,24 @@ private:
      * a flapping downstream service trips the breaker faster next time.
      */
     void adaptThresholdOnTrip();
+
+    /**
+     * @brief Record a per-error-class failure and return true if the class
+     *        threshold was reached (circuit should be tripped).
+     *
+     * Called under @c mutex_ while in CLOSED state.
+     *
+     * @param error_class  Error class label.
+     * @return true if the per-class threshold was reached.
+     */
+    bool recordErrorClassFailure(const ErrorClass& error_class);
+
+    /**
+     * @brief Reset all per-error-class consecutive failure counters.
+     *
+     * Called under @c mutex_ on circuit close or reset.
+     */
+    void resetErrorClassCounters();
 };
 
 } // namespace network

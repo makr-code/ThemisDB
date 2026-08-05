@@ -20,7 +20,7 @@ Tracks public network API contract stability, planned header additions, and brea
 
 ## Current Status
 
-All 25 production network headers are present. `AdaptiveCircuitBreaker`, `QUICServer`, `IoUringBatcher`, and `GeoTopologyRouter` are production-ready. `KernelBypass` (DPDK/RDMA) is present but conditionally compiled (`THEMIS_ENABLE_KERNEL_BYPASS`). `EnvoyXDSClient` is in active use. `WireProtocolZeroCopy` is stable.
+All 28 production network headers are present (25 original + 3 new: `multipath_tcp.h`, `bbr_congestion_control.h`, `network_observability.h`). `AdaptiveCircuitBreaker` now supports per-error-class thresholds (NCB-PEC-01..08). `WireProtocolZeroCopy` has `writeToWithSendfile()` for large payload paths. `EnvoyXDSClient` xDS lifecycle is documented in `src/network/ARCHITECTURE.md §8`.
 
 ---
 
@@ -46,16 +46,16 @@ All 25 production network headers are present. `AdaptiveCircuitBreaker`, `QUICSe
 
 ## In Progress
 
-- [ ] Extend `AdaptiveCircuitBreaker` with per-error-class thresholds (Target: 2026-Q3)
-- [ ] Document `EnvoyXDSClient` xDS resource subscription lifecycle in ARCHITECTURE (Target: 2026-Q3)
+- [x] Extend `AdaptiveCircuitBreaker` with per-error-class thresholds (Target: 2026-Q3) — NCB-PEC-01..08 in tests/network/test_network_cb_per_error_class_focused.cpp
+- [x] Document `EnvoyXDSClient` xDS resource subscription lifecycle in ARCHITECTURE (Target: 2026-Q3)
 
 ---
 
 ## Planned
 
-- [ ] `multipath_tcp.h` — MPTCP subflow management interface (Target: 2026-Q3)
-- [ ] `bbr_congestion_control.h` — BBRv2 congestion control configuration (Target: 2026-Q4)
-- [ ] `network_observability.h` — unified per-connection trace/metric emission (Target: 2026-Q4)
+- [x] `multipath_tcp.h` — MPTCP subflow management interface (Target: 2026-Q3) — include/network/multipath_tcp.h + src/network/multipath_tcp.cpp
+- [x] `bbr_congestion_control.h` — BBRv2 congestion control configuration (Target: 2026-Q4) — include/network/bbr_congestion_control.h + src/network/bbr_congestion_control.cpp
+- [x] `network_observability.h` — unified per-connection trace/metric emission (Target: 2026-Q4) — include/network/network_observability.h + src/network/network_observability.cpp
 - [ ] Stabilize `kernel_bypass.h` as unconditional when DPDK is vendored (Target: 2027-Q1)
 
 ---
