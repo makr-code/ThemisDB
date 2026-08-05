@@ -58,6 +58,12 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/llm/llm_deployment_plugin.cpp
         )
     endif()
+    if(_stem STREQUAL "test_subagent_orchestration")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/subagent_factory_impl.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/subagent_coordinator_impl.cpp
+        )
+    endif()
     if((_stem STREQUAL "test_llm_vision_encoder" OR _stem STREQUAL "test_llm_vision_integration") AND NOT TARGET themis_llm)
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/llm/vision_config.cpp
@@ -265,3 +271,9 @@ foreach(_src IN LISTS LLM_AUTOGEN_PREFIX_TEST_SOURCES)
         LABELS llm autogen
     )
 endforeach()
+# Subagent Orchestration test-specific configuration
+# This ensures subagent factory and coordinator implementations are compiled
+# into the test target.
+if(NOT CMAKE_CURRENT_LIST_DIR STREQUAL "")
+    # Configure custom test sources after main loop (in case of late additions)
+endif()
