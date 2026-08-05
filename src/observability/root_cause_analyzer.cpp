@@ -132,6 +132,7 @@ json RootCauseReport::toJSON() const {
     }
     return json{
         {"primary_cause", primary_cause},
+        {"primary_reason_code", primary_reason_code},
         {"confidence", confidence},
         {"contributing_factors", contributing_factors},
         {"remediation_steps", remediation_steps},
@@ -144,6 +145,9 @@ std::string RootCauseReport::toReport() const {
     oss << "=== Root Cause Analysis Report ===\n\n";
     oss << "Primary Cause : " << primary_cause
         << " (" << static_cast<int>(confidence * 100) << "% confidence)\n\n";
+    if (!primary_reason_code.empty()) {
+        oss << "Reason Code  : " << primary_reason_code << "\n\n";
+    }
 
     if (!contributing_factors.empty()) {
         oss << "Contributing Factors:\n";
@@ -277,6 +281,7 @@ public:
         if (issue.category == IssueCategory::STORAGE_AMPLIFICATION
                 || (write_amp_delta > kWriteAmpDeltaTrigger)) {
             report.primary_cause = "High compaction rate";
+            report.primary_reason_code = "storage_compaction_pressure";
             report.confidence    = kStorageBaseConf
                                  + std::min(kStorageMaxBoost,
                                             write_amp_delta / kStorageBoostScale);
@@ -288,6 +293,7 @@ public:
         } else if (issue.category == IssueCategory::CACHE_EFFICIENCY
                    || (cache_delta < kCacheDeltaTrigger)) {
             report.primary_cause = "Cache thrashing";
+            report.primary_reason_code = "cache_thrash";
             report.confidence    = kCacheBaseConf
                                  + std::min(kCacheMaxBoost,
                                             std::abs(cache_delta) / kCacheBoostScale);
@@ -299,6 +305,7 @@ public:
         } else if (compaction_delta > kFlushDeltaThreshold
                    || flush_delta > kFlushDeltaThreshold) {
             report.primary_cause = "Elevated flush / compaction pressure";
+            report.primary_reason_code = "flush_compaction_pressure";
             report.confidence    = kFlushBaseConf;
             report.remediation_steps = {
                 "Reduce write batch size",
@@ -308,6 +315,7 @@ public:
         } else {
             // Generic fallback
             report.primary_cause = "Unknown performance degradation";
+            report.primary_reason_code = "unknown_performance_degradation";
             report.confidence    = kFallbackConf;
             report.remediation_steps = {
                 "Review recent configuration changes",
@@ -358,6 +366,8 @@ RootCauseReport RootCauseAnalyzer::analyzeIssue(const PerformanceIssue& issue,
                                                  const SystemSnapshot& before,
                                                  const SystemSnapshot& after) {
     RootCauseReport report;
+    report.primary_cause = "Insufficient observability evidence";
+    report.primary_reason_code = "insufficient_evidence";
 
     // Compute per-metric deltas
     std::map<std::string, double> deltas;
@@ -424,6 +434,10 @@ RootCauseReport RootCauseAnalyzer::analyzeIssue(const PerformanceIssue& issue,
     // Apply heuristic rules to determine primary cause
     impl_->applyRules(issue, deltas, report);
 
+    if (report.contributing_factors.empty()) {
+        report.contributing_factors.push_back("No metric exceeded the configured significance threshold");
+    }
+
     return report;
 }
 
@@ -446,6 +460,9 @@ std::vector<CorrelatedMetric> RootCauseAnalyzer::findCorrelations(
         std::vector<double> target_copy = target_vals;
         std::vector<double> other_vals = extractValues(kv.second);
         alignVectors(target_copy, other_vals);
+        if (target_copy.size() < 2 || other_vals.size() < 2) {
+            continue;
+        }
 
         const double r = pearsonCorrelation(target_copy, other_vals);
         if (std::abs(r) >= impl_->config.correlation_threshold) {
@@ -528,4 +545,3 @@ CausalGraph RootCauseAnalyzer::buildCausalGraph(
 
 } // namespace observability
 } // namespace themis
-

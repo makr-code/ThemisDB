@@ -47,6 +47,7 @@
 #include <benchmark/benchmark.h>
 
 #include "observability/observability_api_contract.h"
+#include "observability/metrics_collector.h"
 
 #include <algorithm>
 #include <atomic>
@@ -257,6 +258,32 @@ static void BM_ORG03_TraceSpanCreate(benchmark::State& state) {
     state.SetLabel("GATE-ORG-03: p99 <= 10 us");
 }
 BENCHMARK(BM_ORG03_TraceSpanCreate)
+    ->Repetitions(kRepetitions)
+    ->ReportAggregatesOnly(true);
+
+// ===========================================================================
+// ORG-03B — Invalid telemetry reject path (bounded fail-closed path)
+// ===========================================================================
+
+/**
+ * @brief ORG-03B: invalid label-set rejection remains bounded under contract.
+ */
+static void BM_ORG03B_InvalidTelemetryReject(benchmark::State& state) {
+    auto& collector = themis::observability::MetricsCollector::getInstance();
+    collector.reset();
+
+    std::map<std::string, std::string> invalid_labels;
+    for (std::size_t i = 0; i < kMaxMetricLabels + 1; ++i) {
+        invalid_labels.emplace("label_" + std::to_string(i), "value");
+    }
+
+    for (auto _ : state) {
+        collector.addCounter("bench_invalid_metric_total", 1, invalid_labels);
+    }
+
+    state.SetLabel("bounded invalid telemetry rejection");
+}
+BENCHMARK(BM_ORG03B_InvalidTelemetryReject)
     ->Repetitions(kRepetitions)
     ->ReportAggregatesOnly(true);
 

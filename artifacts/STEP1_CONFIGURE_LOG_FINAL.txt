@@ -1,0 +1,26 @@
+CMake Error at CMakeLists.txt:91 (message):
+  CMAKE_TOOLCHAIN_FILE points to a missing file:
+
+    /home/runner/work/ThemisDB/ThemisDB/vcpkg/scripts/buildsystems/vcpkg.cmake
+
+  
+
+  Fix options:
+
+    1) Bootstrap dependencies: powershell -ExecutionPolicy Bypass -File scripts/setup-third-party.ps1
+    2) Reconfigure with -DTHEMIS_AUTO_BOOTSTRAP_DEPS=ON
+    3) Set CMAKE_TOOLCHAIN_FILE to a valid vcpkg toolchain path
+
+Preset CMake variables:
+
+  CMAKE_EXPORT_COMPILE_COMMANDS="ON"
+  CMAKE_SUPPRESS_DEVELOPER_WARNINGS="ON"
+  THEMIS_ALLOW_MISSING_ROCKSDB="ON"
+  THEMIS_BUILD_BENCHMARKS="OFF"
+  THEMIS_BUILD_TESTS="ON"
+  THEMIS_COMPILER_CACHE_PROGRAM="sccache"
+  THEMIS_EDITION="COMMUNITY"
+  THEMIS_ENABLE_COMPILER_CACHE="ON"
+
+
+-- Configuring incomplete, errors occurred!

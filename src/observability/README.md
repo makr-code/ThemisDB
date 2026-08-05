@@ -50,6 +50,13 @@ Out of scope:
 - behavior depends on enabled observability components and runtime configuration.
 - unsupported integration paths degrade deterministically with explicit outcomes.
 - profiling/tracing/metrics behavior remains bounded by module-local controls.
+- metrics collector input now fail-closes malformed label sets and emits explicit rejection
+  diagnostics instead of creating unbounded or invalid series.
+- tracing propagation is verified against real `OpenTelemetryTracer` behavior for
+  upstream `traceparent`, outbound baggage injection, and exception-to-span
+  failure diagnostics.
+- exporter incidents are surfaced through failure/recovery counters plus
+  `exporter_health_status{exporter=...}` for operator-facing status checks.
 
 ## Sourcecode Verification (Module: observability/readme)
 

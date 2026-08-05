@@ -3,7 +3,7 @@
 
 /**
  * @file test_observability_contract_hardening_focused.cpp
- * @brief Phase 4 — Observability contract hardening focused tests (OCH-01..OCH-16).
+ * @brief Phase 4 — Observability contract hardening focused tests (OCH-01..OCH-20).
  *
  * Tests are fully self-contained: no network I/O, no filesystem I/O.
  * All external interactions are mocked inline.  The canonical PRNG seed is
@@ -35,12 +35,20 @@
  *   OCH-15  Late update after window close surfaces SLO_WINDOW_INVALID
  *   OCH-16  Export failure surfaces EXPORTER_UNAVAILABLE and does not crash
  *
+ * ### OCH-17..20 — Real tracing/export diagnostics
+ *   OCH-17  startSpanFromHeaders propagates upstream traceparent into a real span
+ *   OCH-18  injectContext propagates baggage and active trace context
+ *   OCH-19  recordException marks the real span as failed with exception details
+ *   OCH-20  exporter incident diagnostics remain explicit and queryable
+ *
  * @see include/observability/observability_api_contract.h
  * @see src/observability/ROADMAP.md — Phase 4 item
  */
 
 #include <gtest/gtest.h>
 
+#include "observability/metrics_collector.h"
+#include "observability/opentelemetry_tracer.h"
 #include "observability/observability_api_contract.h"
 
 #include <algorithm>
@@ -463,4 +471,111 @@ TEST(ObservabilityContractHardeningOCH16, ExportFailureGraceful) {
         << "Export failure must surface EXPORTER_UNAVAILABLE";
     // Verify no crash / exception (test itself completing is the proof)
     EXPECT_NE(rc, ObservabilityErrorCode::OK);
+}
+
+// ===========================================================================
+// OCH-17 — Real tracer propagates upstream traceparent into the completed span
+// ===========================================================================
+
+TEST(ObservabilityContractHardeningOCH17, RealTracerPropagatesTraceparent) {
+    OTelConfig cfg;
+    cfg.sample_rate = 1.0;
+    cfg.max_retained_spans = 8;
+    cfg.publish_metrics = false;
+    OpenTelemetryTracer tracer(cfg);
+
+    const std::map<std::string, std::string> headers{
+        {"traceparent", "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01"}};
+
+    auto span = tracer.startSpanFromHeaders("http.request", headers);
+    ASSERT_NE(span, nullptr);
+    ASSERT_TRUE(span->isValid());
+    span->end();
+
+    const auto spans = tracer.completedSpans();
+    ASSERT_EQ(spans.size(), 1u);
+    EXPECT_EQ(spans[0].trace_id, "4bf92f3577b34da6a3ce929d0e0e4736");
+    EXPECT_EQ(spans[0].parent_span_id, "00f067aa0ba902b7");
+}
+
+// ===========================================================================
+// OCH-18 — Active trace context and baggage are injected together
+// ===========================================================================
+
+TEST(ObservabilityContractHardeningOCH18, InjectContextCarriesTraceparentAndBaggage) {
+    OpenTelemetryTracer::clearBaggage();
+
+    OTelConfig cfg;
+    cfg.sample_rate = 1.0;
+    cfg.max_retained_spans = 8;
+    cfg.publish_metrics = false;
+    OpenTelemetryTracer tracer(cfg);
+
+    OpenTelemetryTracer::setBaggageItem("tenant-id", "acme");
+    auto span = tracer.startSpan("outbound.request");
+    ASSERT_NE(span, nullptr);
+    ASSERT_TRUE(span->isValid());
+
+    std::map<std::string, std::string> headers;
+    tracer.injectContext(headers);
+
+    ASSERT_NE(headers.find("traceparent"), headers.end());
+    ASSERT_NE(headers.find("baggage"), headers.end());
+    EXPECT_EQ(headers.at("traceparent").size(), 55u);
+    EXPECT_NE(headers.at("baggage").find("tenant-id=acme"), std::string::npos);
+
+    span->end();
+    OpenTelemetryTracer::clearBaggage();
+}
+
+// ===========================================================================
+// OCH-19 — Exceptions on real spans become explicit failure diagnostics
+// ===========================================================================
+
+TEST(ObservabilityContractHardeningOCH19, RecordExceptionMarksSpanFailed) {
+    OTelConfig cfg;
+    cfg.sample_rate = 1.0;
+    cfg.max_retained_spans = 8;
+    cfg.publish_metrics = false;
+    OpenTelemetryTracer tracer(cfg);
+
+    auto span = tracer.startSpan("db.query");
+    ASSERT_NE(span, nullptr);
+    ASSERT_TRUE(span->isValid());
+
+    const std::runtime_error ex("collector unavailable");
+    tracer.recordException(*span, ex);
+    span->end();
+
+    const auto spans = tracer.completedSpans();
+    ASSERT_EQ(spans.size(), 1u);
+    EXPECT_FALSE(spans[0].ok);
+    EXPECT_EQ(spans[0].status_description, "collector unavailable");
+    EXPECT_EQ(spans[0].attributes.at("exception.message"), "collector unavailable");
+    EXPECT_EQ(spans[0].attributes.at("error.message"), "collector unavailable");
+    EXPECT_FALSE(spans[0].attributes.at("exception.type").empty());
+}
+
+// ===========================================================================
+// OCH-20 — Exporter incident diagnostics are explicit and queryable
+// ===========================================================================
+
+TEST(ObservabilityContractHardeningOCH20, ExporterIncidentDiagnosticsRemainExplicit) {
+    auto& mc = MetricsCollector::getInstance();
+    mc.reset();
+
+    mc.recordExporterFailure("otlp");
+    mc.recordExporterFailure("otlp");
+    mc.recordExporterRecovery("otlp");
+
+    const auto stats = mc.getExporterIncidentStats("otlp");
+    EXPECT_EQ(stats.failures, 2);
+    EXPECT_EQ(stats.recoveries, 1);
+    EXPECT_EQ(stats.malformed_rejections, 0);
+
+    const std::string metrics = mc.getPrometheusMetrics();
+    EXPECT_NE(metrics.find("exporter_failures_total"), std::string::npos);
+    EXPECT_NE(metrics.find("exporter_recoveries_total"), std::string::npos);
+    EXPECT_NE(metrics.find("exporter_health_status"), std::string::npos);
+    EXPECT_NE(metrics.find("exporter=\"otlp\""), std::string::npos);
 }

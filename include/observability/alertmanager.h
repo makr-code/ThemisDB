@@ -26,6 +26,7 @@
 #include <chrono>
 #include <memory>
 #include <mutex>
+#include <optional>
 #include "utils/expected.h"
 
 // Forward declaration to avoid header bloat
@@ -165,12 +166,17 @@ public:
 protected:
     AlertmanagerConfig config_;
     std::vector<Alert> active_alerts_;
+    mutable std::mutex active_alerts_mutex_;
     
     // Helper: Convert severity to string
     static std::string severityToString(AlertSeverity severity);
     
     // Helper: Convert status to string
     static std::string statusToString(AlertStatus status);
+
+    [[nodiscard]] std::optional<Alert> findActiveAlertById(const std::string& alert_id) const;
+    void upsertActiveAlert(const Alert& alert);
+    [[nodiscard]] bool removeActiveAlertById(const std::string& alert_id, Alert* removed = nullptr);
 };
 
 /**
@@ -350,4 +356,3 @@ private:
 
 } // namespace observability
 } // namespace themis
-

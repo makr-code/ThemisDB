@@ -48,6 +48,7 @@
 namespace themis {
 namespace auth {
 
+#ifdef _WIN32
 // ===========================================================================
 // LDAP injection-prevention helpers (file-internal)
 // ===========================================================================
@@ -759,8 +760,6 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
         } catch (...) {
             return LDAPAuthResult::Failed("LdapBindFn threw an exception");
         }
-    if (auto bind_fn = getLdapBindFn(); bind_fn) {
-        return bind_fn(username, dn, password);
     }
 
     AuthAuditLogger audit(audit_logger_);

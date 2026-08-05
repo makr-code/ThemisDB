@@ -37,18 +37,25 @@ Production observability runtime exists across metrics, tracing, profiling, aler
     SPAN_DEPTH_EXCEEDED, INTERNAL_ERROR
 
 ### Phase 2: Core Implementation
-- [ ] complete hardening for observability orchestration internals (Target: Q4 2026)
-- [ ] align metrics/trace/profile/alert behavior to bounded runtime contracts (Target: Q4 2026)
+- [x] complete hardening for metrics collector bounded-ingest internals (Delivered: Q3 2026)
+  - `MetricsCollector` now rejects malformed label sets fail-closed using the Phase-1 contract
+    limits (`kMaxMetricLabels`, `kMaxLabelKeyBytes`, `kMaxLabelValueBytes`).
+  - Rejected input surfaces `malformed_telemetry_rejections_total{metric=...,reason=...}`.
+- [x] align metrics/exporter behavior to bounded runtime contracts for the metrics collector slice (Delivered: Q3 2026)
+  - Exporter failure and recovery now update explicit health state via
+    `exporter_health_status{exporter=...}` and preserve incident counters.
 
 ### Phase 3: Error Handling and Edge Cases
-- [ ] standardize fail-safe behavior for export/backend unavailability and malformed telemetry (Target: Q4 2026)
-- [ ] unify diagnostics across metrics/tracing/profiling/alert incidents (Target: Q4 2026)
+- [x] standardize fail-safe behavior for metrics-export/backend unavailability and malformed telemetry (Delivered: Q3 2026)
+  - Failure path remains non-silent through `exporter_failures_total` and bounded rejection diagnostics.
+- [x] unify diagnostics across metrics/export incidents in the metrics collector slice (Delivered: Q3 2026)
+  - `getExporterIncidentStats()` provides a single query surface for exporter failure/recovery counters.
 
 ### Phase 4: Tests
 - [x] expand focused regressions for high-contention and distributed observability scenarios (Delivered: Q3 2026)
 - [x] extend deterministic stress fixtures for telemetry-heavy operational workloads (Delivered: Q3 2026)
   - Test file: `tests/observability/test_observability_contract_hardening_focused.cpp`
-  - Test cases: OCH-01..OCH-16 (counter/gauge/histogram, tracing, logging, SLO/export)
+  - Test cases: OCH-01..OCH-20 (counter/gauge/histogram, real tracing propagation, logging, SLO/export diagnostics)
   - kObservabilityContractSeed = 42; all tests self-contained, no external I/O
 
 ### Phase 5: Performance and Hardening
@@ -58,6 +65,7 @@ Production observability runtime exists across metrics, tracing, profiling, aler
   - Gates: ORG-01..ORG-06 (counter ≥10M/s, histogram ≤100ns, span ≤10µs, log ≤5µs,
     SLO ≤100µs, scrape ≤5ms)
   - kObservabilityCanonicalSeed = 42; Repetitions(5)
+  - Additional bounded-edge path benchmark: `BM_ORG03B_InvalidTelemetryReject`
 
 ### Phase 6: Documentation and Acceptance
 - [x] core observability module docs aligned to source-verifiable behavior
@@ -70,13 +78,30 @@ Production observability runtime exists across metrics, tracing, profiling, aler
 - [x] core observability surfaces documented and source-verified
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
-- [ ] remaining hardening tasks closed for observability edge paths
-- [ ] release benchmark stabilization complete
+- [x] remaining metrics-collector hardening tasks closed for malformed telemetry and exporter health edge paths
+- [x] release benchmark stabilization complete for the metrics collector bounded-ingest slice
+
+## Hardening Blocks (Phase 6+ Continuation)
+
+### Block A — Alerting/Profiling/RCA Hardening
+- [x] Components hardened: AlertingEngine, Alertmanager, DistributedFlameGraph, RootCauseAnalyzer, ContinuousProfiler
+- [x] Delivered: test_observability_block_a_focused.cpp with 6+ focused tests (OBA-01..OBA-06)
+- [x] Completed: 2026-08-05
+
+### Block B — Metrics/Tracing/Analysis Hardening (🟡 IN PROGRESS)
+- [~] Components targeted: MetricsCollector, MetricsAggregator, OpenTelemetryTracer, QueryProfiler, ProvisionStore, SloReporter
+- [~] Phase 1: Contracts locked for all 6 components
+- [~] Phase 2: Hardening patches applied (~465 LOC changes)
+- [~] Phase 3: Edge-case handling (malformed input, concurrent load, recovery, clock skew)
+- [~] Phase 4: Test suite test_observability_block_b_focused.cpp with 20+ focused tests (OBB-01..OBB-20)
+- [~] Phase 5: Performance gates bench_observability_block_b_gates.cpp with 6 gates (OBB-GATE-01..06)
+- [~] Phase 6: Documentation sync and acceptance sign-off
+- Target completion: 2026-08-12
 
 ## Known Issues and Limitations
 
 - runtime behavior depends on enabled components, backend integration, and telemetry volume.
-- selected high-contention observability edge scenarios need continued hardening.
+- selected non-metrics observability edge scenarios need continued hardening (Block B in progress).
 - benchmark breadth should continue expanding for distributed and mixed workloads.
 
 ## Breaking Changes

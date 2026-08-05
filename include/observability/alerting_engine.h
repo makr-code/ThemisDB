@@ -344,8 +344,8 @@ private:
     mutable std::mutex channels_mutex_;
     std::vector<std::shared_ptr<INotificationChannel>> channels_;
 
-    // Dispatch a single alert to all registered channels, logging any failures.
-    void dispatchToChannels(const Alert& alert);
+    // Dispatch a single alert to all registered channels, collecting failures.
+    [[nodiscard]] Result<void> dispatchToChannels(const Alert& alert);
 };
 
 } // namespace observability

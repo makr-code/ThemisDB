@@ -1426,10 +1426,10 @@ endif()
 
 # Fallback: locate system RocksDB if vcpkg didn't provide it
 if(NOT TARGET RocksDB::rocksdb AND NOT TARGET RocksDB::rocksdb-shared)
-    find_library(ROCKSDB_LIB rocksdb)
+    find_library(ROCKSDB_LIB NAMES rocksdb)
     find_path(ROCKSDB_INCLUDE_DIR rocksdb/db.h)
     if(ROCKSDB_LIB AND ROCKSDB_INCLUDE_DIR)
-        add_library(RocksDB::rocksdb UNKNOWN IMPORTED)
+        add_library(RocksDB::rocksdb SHARED IMPORTED)
         set_target_properties(RocksDB::rocksdb PROPERTIES
             IMPORTED_LOCATION "${ROCKSDB_LIB}"
             INTERFACE_INCLUDE_DIRECTORIES "${ROCKSDB_INCLUDE_DIR}")

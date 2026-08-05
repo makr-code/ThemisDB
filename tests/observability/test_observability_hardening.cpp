@@ -62,14 +62,14 @@ TEST(TraceContextTest, EmptyContext) {
 }
 
 TEST(TraceContextTest, NonEmptyContext) {
-    TraceContext ctx{"abc123", "req-456"};
+    TraceContext ctx{"abc123", "", "req-456"};
     EXPECT_FALSE(ctx.empty());
     EXPECT_EQ("abc123", ctx.trace_id);
     EXPECT_EQ("req-456", ctx.request_id);
 }
 
 TEST(TraceContextTest, PartialContext) {
-    TraceContext ctx{"only-trace", ""};
+    TraceContext ctx{"only-trace", "", ""};
     EXPECT_FALSE(ctx.empty());
 }
 
@@ -85,7 +85,7 @@ TEST(NoOpLoggerStructuredTest, LogStructuredDoesNotThrow) {
 
 TEST(NoOpLoggerStructuredTest, LogWithContextDoesNotThrow) {
     NoOpLogger logger;
-    TraceContext ctx{"trace-001", "req-001"};
+    TraceContext ctx{"trace-001", "", "req-001"};
     EXPECT_NO_THROW(logger.logWithContext(ILogger::Level::WARN, "ctx-msg", ctx,
                                            {{"component", "storage"}}));
 }
@@ -152,7 +152,7 @@ TEST_F(SpdlogAdapterJsonTest, TokenFieldIsRedacted) {
 }
 
 TEST_F(SpdlogAdapterJsonTest, LogWithContextInjectsTraceAndRequestId) {
-    TraceContext ctx{"trace-deadbeef", "req-cafebabe"};
+    TraceContext ctx{"trace-deadbeef", "", "req-cafebabe"};
     adapter_->logWithContext(ILogger::Level::ERROR, "ctx-error", ctx,
                               {{"shard", "shard-3"}});
     const std::string msg = stream_->str();
@@ -238,6 +238,17 @@ TEST_F(CardinalityTest, SeriesBeyondLimitAreDropped) {
     EXPECT_GE(mc.getDroppedSeriesCount(), 2);
 }
 
+TEST_F(CardinalityTest, CardinalityOverflowEmitsDiagnosticMetric) {
+    MetricsCollector::getInstance().setCardinalityLimit(1);
+    auto& mc = MetricsCollector::getInstance();
+    mc.recordCacheHit("A");
+    mc.recordCacheHit("B"); // dropped and diagnosed
+
+    const std::string metrics = mc.getPrometheusMetrics();
+    EXPECT_NE(std::string::npos, metrics.find("metric_cardinality_exceeded_total"));
+    EXPECT_NE(std::string::npos, metrics.find("metric=\"cache_hits_total\""));
+}
+
 TEST_F(CardinalityTest, ExistingSeriesAlwaysAllowed) {
     MetricsCollector::getInstance().setCardinalityLimit(1);
     auto& mc = MetricsCollector::getInstance();
@@ -304,3 +315,85 @@ TEST_F(ExporterHealthTest, DifferentExporterNamesProduceSeparateSeries) {
     EXPECT_NE(std::string::npos, metrics.find("pushgateway"));
 }
 
+TEST_F(ExporterHealthTest, ExporterHealthGaugeTracksFailureAndRecovery) {
+    auto& mc = MetricsCollector::getInstance();
+    mc.recordExporterFailure("otlp");
+    mc.recordExporterRecovery("otlp");
+
+    const std::string metrics = mc.getPrometheusMetrics();
+    EXPECT_NE(std::string::npos, metrics.find("exporter_health_status"));
+    EXPECT_NE(std::string::npos, metrics.find("exporter=\"otlp\""));
+    EXPECT_NE(std::string::npos, metrics.find(" 1.00"));
+}
+
+TEST_F(ExporterHealthTest, ExporterIncidentStatsExposeFailureAndRecoveryCounts) {
+    auto& mc = MetricsCollector::getInstance();
+    mc.recordExporterFailure("prometheus");
+    mc.recordExporterFailure("prometheus");
+    mc.recordExporterRecovery("prometheus");
+
+    const auto stats = mc.getExporterIncidentStats("prometheus");
+    EXPECT_EQ(2, stats.failures);
+    EXPECT_EQ(1, stats.recoveries);
+    EXPECT_EQ(0, stats.malformed_rejections);
+}
+
+TEST_F(ExporterHealthTest, ExporterIncidentStatsDoNotFoldMetricScopedMalformedTelemetry) {
+    auto& mc = MetricsCollector::getInstance();
+    const std::string oversized_value(kMaxLabelValueBytes + 1, 'x');
+
+    mc.recordExporterFailure("otlp");
+    mc.setGauge("invalid_gauge", 42.0, {{"key", oversized_value}});
+
+    const auto stats = mc.getExporterIncidentStats("otlp");
+    EXPECT_EQ(1, stats.failures);
+    EXPECT_EQ(0, stats.recoveries);
+    EXPECT_EQ(0, stats.malformed_rejections);
+
+    const std::string metrics = mc.getPrometheusMetrics();
+    EXPECT_NE(std::string::npos, metrics.find("malformed_telemetry_rejections_total"));
+    EXPECT_NE(std::string::npos, metrics.find("metric=\"invalid_gauge\""));
+}
+
+TEST_F(ExporterHealthTest, InvalidLabelCountIsRejectedWithDiagnosticMetric) {
+    auto& mc = MetricsCollector::getInstance();
+    std::map<std::string, std::string> labels;
+    for (std::size_t i = 0; i < kMaxMetricLabels + 1; ++i) {
+        labels.emplace("label_" + std::to_string(i), "value");
+    }
+
+    mc.addCounter("invalid_metric_total", 1, labels);
+
+    const std::string metrics = mc.getPrometheusMetrics();
+    EXPECT_NE(std::string::npos, metrics.find("malformed_telemetry_rejections_total"));
+    EXPECT_NE(std::string::npos, metrics.find("metric=\"invalid_metric_total\""));
+    EXPECT_NE(std::string::npos, metrics.find("reason=\"label_count_exceeded\""));
+    EXPECT_EQ(std::string::npos, metrics.find("invalid_metric_total{"));
+}
+
+TEST_F(ExporterHealthTest, OversizedMetricNameDiagnosticIsTruncatedSafely) {
+    auto& mc = MetricsCollector::getInstance();
+    const std::string oversized_metric(kMaxLabelValueBytes + 8, 'm');
+    const std::string oversized_value(kMaxLabelValueBytes + 1, 'x');
+
+    mc.setGauge(oversized_metric, 42.0, {{"key", oversized_value}});
+
+    const std::string metrics = mc.getPrometheusMetrics();
+    EXPECT_NE(std::string::npos, metrics.find("malformed_telemetry_rejections_total"));
+    EXPECT_EQ(std::string::npos, metrics.find(oversized_metric + "\""));
+    EXPECT_NE(std::string::npos,
+              metrics.find(std::string("metric=\"") + oversized_metric.substr(0, kMaxLabelValueBytes) + "\""));
+}
+
+TEST_F(ExporterHealthTest, InvalidLabelValueIsRejectedWithDiagnosticMetric) {
+    auto& mc = MetricsCollector::getInstance();
+    const std::string oversized_value(kMaxLabelValueBytes + 1, 'x');
+
+    mc.setGauge("invalid_gauge", 42.0, {{"key", oversized_value}});
+
+    const std::string metrics = mc.getPrometheusMetrics();
+    EXPECT_NE(std::string::npos, metrics.find("malformed_telemetry_rejections_total"));
+    EXPECT_NE(std::string::npos, metrics.find("metric=\"invalid_gauge\""));
+    EXPECT_NE(std::string::npos, metrics.find("reason=\"label_value_too_long\""));
+    EXPECT_EQ(std::string::npos, metrics.find("invalid_gauge{"));
+}

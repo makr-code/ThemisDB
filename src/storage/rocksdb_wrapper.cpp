@@ -23,6 +23,8 @@
 #include "utils/logger.h"
 #include "utils/expected.h"
 #include "performance/prefetch_hints.h"
+
+#ifdef THEMIS_ROCKSDB_AVAILABLE
 #include <rocksdb/db.h>
 #include <rocksdb/utilities/transaction_db.h>
 #include <rocksdb/utilities/transaction.h>
@@ -48,6 +50,11 @@
 #  define THEMIS_HAS_ROCKSDB_BACKUP 1
 #else
 #  define THEMIS_HAS_ROCKSDB_BACKUP 0
+#endif
+#else
+// Stub definitions when RocksDB is not available
+#include <filesystem>
+#define THEMIS_HAS_ROCKSDB_BACKUP 0
 #endif
 
 // Feature guards for older distro RocksDB packages.
@@ -77,6 +84,8 @@
 #include <chrono>   // For milliseconds (race condition fix #3)
 #include <future>   // std::async / std::future (blob streaming, PERF-D5)
 #include <sstream>  // std::ostringstream (blob chunk key formatting)
+
+#ifdef THEMIS_ROCKSDB_AVAILABLE
 
 namespace themis {
 
@@ -2879,6 +2888,8 @@ std::string_view RocksDBWrapper::SafeIterator::value() const {
     auto s = iterator_->value();
     return std::string_view(s.data(), s.size());
 }
+
+#endif // THEMIS_ROCKSDB_AVAILABLE
 
 } // namespace themis
 

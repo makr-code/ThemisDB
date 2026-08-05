@@ -60,7 +60,8 @@ public:
         std::uint64_t max_total_gb   = 100;                        ///< Max total size in GiB
     };
 
-    explicit AiSnapshotCleanupJob(Config cfg = {});
+    explicit AiSnapshotCleanupJob(Config cfg);
+    AiSnapshotCleanupJob();
 
     /**
      * @brief Run cleanup: remove expired and oversized snapshots.

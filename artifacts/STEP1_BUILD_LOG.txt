@@ -1,0 +1,36 @@
+[1/1472] Building C object _deps/llama_cpp-build/ggml/src/CMakeFiles/ggml-base.dir/ggml-alloc.c.o
+[2/1472] Building CXX object _deps/llama_cpp-build/ggml/src/CMakeFiles/ggml-base.dir/ggml-threading.cpp.o
+[3/1472] Building CXX object _deps/llama_cpp-build/ggml/src/CMakeFiles/ggml-base.dir/ggml.cpp.o
+[4/1472] Building C object _deps/llama_cpp-build/ggml/src/CMakeFiles/ggml-base.dir/ggml.c.o
+[5/1472] Building CXX object _deps/llama_cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/hbm.cpp.o
+[6/1472] Building CXX object _deps/llama_cpp-build/ggml/src/CMakeFiles/ggml-base.dir/ggml-backend.cpp.o
+[7/1472] Building C object _deps/llama_cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/ggml-cpu.c.o
+[8/1472] Building CXX object _deps/llama_cpp-build/ggml/src/CMakeFiles/ggml-base.dir/ggml-opt.cpp.o
+[9/1472] Building C object _deps/llama_cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/quants.c.o
+[10/1472] Building C object _deps/llama_cpp-build/ggml/src/CMakeFiles/ggml-base.dir/ggml-quants.c.o
+[11/1472] Building CXX object _deps/llama_cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/ggml-cpu.cpp.o
+[12/1472] Building CXX object _deps/llama_cpp-build/ggml/src/CMakeFiles/ggml-base.dir/gguf.cpp.o
+[13/1472] Building CXX object _deps/llama_cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/traits.cpp.o
+[14/1472] Building CXX object _deps/llama_cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/amx/amx.cpp.o
+[15/1472] Building CXX object _deps/llama_cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/repack.cpp.o
+[16/1472] Building CXX object _deps/llama_cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/amx/mmq.cpp.o
+[17/1472] Building CXX object _deps/llama_cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/binary-ops.cpp.o
+[18/1472] Building CXX object _deps/llama_cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/vec.cpp.o
+[19/1472] Building C object _deps/llama_cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/arch/x86/quants.c.o
+[20/1472] Building CXX object _deps/llama_cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/unary-ops.cpp.o
+[21/1472] Building CXX object cmake/CMakeFiles/themis_base.dir/__/src/utils/serialization.cpp.o
+[22/1472] Building CXX object cmake/CMakeFiles/themis_base.dir/__/src/utils/tracing.cpp.o
+FAILED: [code=1] cmake/CMakeFiles/themis_base.dir/__/src/utils/tracing.cpp.o 
+/usr/bin/c++ -DFMT_SHARED -DMI_SHARED_LIB=1 -DMI_SHARED_LIB_EXPORT=0 -DSPDLOG_COMPILED_LIB -DSPDLOG_FMT_EXTERNAL -DSPDLOG_SHARED_LIB -DSPDLOG_USE_SPDLOG_FMT_EXT=0 -DTHEMIS_BASE_ENABLED -DTHEMIS_BASE_EXPORTS -DTHEMIS_BUILD_HOST=\"runnervmvrwv9\" -DTHEMIS_BUILD_USER=\"runner\" -DTHEMIS_COMMUNITY_EDITION -DTHEMIS_EDITION_COMMUNITY -DTHEMIS_EDITION_STRING=\"COMMUNITY\" -DTHEMIS_ENABLE_IO_URING -DTHEMIS_ENABLE_IO_URING=1 -DTHEMIS_ENABLE_LLM=1 -DTHEMIS_ENABLE_MIMALLOC -DTHEMIS_GIT_BRANCH=\"copilot/makr-code-themisdb-5657-development-status\" -DTHEMIS_GIT_COMMIT=\"41d862d29cb5b55653ca6d69a1d54be13baf2846\" -DTHEMIS_GIT_COMMIT_DATE="\"2026-08-05 08:37:03 +0000\"" -DTHEMIS_GIT_DIRTY=1 -DTHEMIS_GPU_MAX_VRAM_GB=8 -DTHEMIS_HAS_AVX2=1 -DTHEMIS_HAS_CURL=1 -DTHEMIS_HAS_MIMALLOC=1 -DTHEMIS_LICENSE_BUILD_ID=\"community-default\" -DTHEMIS_LICENSE_BUILD_TIMESTAMP="\"2026-08-05 08:37:58 UTC\"" -DTHEMIS_LICENSE_CONTACT_EMAIL=\"community@themisdb.com\" -DTHEMIS_LICENSE_EDITION=\"COMMUNITY\" -DTHEMIS_LICENSE_EXPIRY_DATE=\"9999-12-31\" -DTHEMIS_LICENSE_ISSUED_DATE=\"2026-01-01\" -DTHEMIS_LICENSE_KEY=\"THEMIS-COMMUNITY-OPENSOURCE\" -DTHEMIS_LICENSE_MAX_CORES=-1 -DTHEMIS_LICENSE_MAX_NODES=5 -DTHEMIS_LICENSE_MAX_STORAGE_TB=-1 -DTHEMIS_LICENSE_ORG_ID=\"COMMUNITY\" -DTHEMIS_LICENSE_ORG_NAME="\"ThemisDB Community\"" -DTHEMIS_LICENSE_SIGNATURE=\"\" -DTHEMIS_LLAMA_CPP_EXPECTED_COMMIT=\"b7974\" -DTHEMIS_PLUGIN_BLOB_AZURE_ENABLED -DTHEMIS_PLUGIN_BLOB_S3_ENABLED -DTHEMIS_PLUGIN_GEO_ENABLED -DTHEMIS_PLUGIN_HUGGINGFACE_ENABLED -DTHEMIS_PLUGIN_IMAGE_ANALYSIS_ONNX_ENABLED -DTHEMIS_PLUGIN_IMPORTER_KAFKA_ENABLED -DTHEMIS_PLUGIN_IMPORTER_MONGODB_ENABLED -DTHEMIS_PLUGIN_IMPORTER_MYSQL_ENABLED -DTHEMIS_PLUGIN_IMPORTER_POSTGRES_ENABLED -DTHEMIS_PLUGIN_IMPORTER_S3_ENABLED -DTHEMIS_PLUGIN_IMPORTER_SQLITE_ENABLED -DTHEMIS_PLUGIN_RPC_GRPC_ENABLED -DTHEMIS_PLUGIN_SYSTEM_ENABLED -DTHEMIS_PLUGIN_TIMESERIES_ENABLED -DTHEMIS_SERVER_PROFILE_DEFAULT=\"standard\" -DTHEMIS_SHARDING_MAX_NODES=5 -DTHEMIS_USE_HUGE_PAGES -DTHEMIS_USE_HUGE_PAGES=1 -DTHEMIS_USE_LIRS_CACHE -DTHEMIS_USE_RCU_INDEX -DTHEMIS_VERSION=\"2.4.0\" -DTHEMIS_VERSION_STRING=\"2.4.0-rc1\" -Dthemis_base_EXPORTS -I/home/runner/work/ThemisDB/ThemisDB/build-community-release-allow-missing-rocksdb/include -I/home/runner/work/ThemisDB/ThemisDB/include -I/home/runner/work/ThemisDB/ThemisDB/src -O3 -DNDEBUG -std=c++20 -flto=auto -fno-fat-lto-objects -fPIC -Wall -Wextra -Wpedantic -Wno-unused-parameter -Wno-deprecated-declarations -Wsign-compare -fno-omit-frame-pointer -O3 -ffast-math -funroll-loops -mavx2 -mfma -fstack-protector-strong -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3 -fstack-clash-protection -march=native -MD -MT cmake/CMakeFiles/themis_base.dir/__/src/utils/tracing.cpp.o -MF cmake/CMakeFiles/themis_base.dir/__/src/utils/tracing.cpp.o.d -o cmake/CMakeFiles/themis_base.dir/__/src/utils/tracing.cpp.o -c /home/runner/work/ThemisDB/ThemisDB/src/utils/tracing.cpp
+/home/runner/work/ThemisDB/ThemisDB/src/utils/tracing.cpp:47:10: fatal error: boost/asio.hpp: No such file or directory
+   47 | #include <boost/asio.hpp>
+      |          ^~~~~~~~~~~~~~~~
+compilation terminated.
+[23/1472] Building CXX object _deps/llama_cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/llamafile/sgemm.cpp.o
+[24/1472] Building CXX object _deps/llama_cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/arch/x86/repack.cpp.o
+[25/1472] Building CXX object _deps/llama_cpp-build/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/ops.cpp.o
+[26/1472] Building CXX object cmake/CMakeFiles/themis_base.dir/__/src/utils/zstd_codec.cpp.o
+[27/1472] Building CXX object cmake/CMakeFiles/themis_base.dir/__/src/utils/logger.cpp.o
+[28/1472] Building CXX object cmake/CMakeFiles/themis_base.dir/__/src/utils/cursor.cpp.o
+[29/1472] Linking CXX shared library bin/libggml-base.so.0.9.5
+ninja: build stopped: subcommand failed.
