@@ -21,6 +21,11 @@ Production plugin runtime exists for lifecycle management, manifest/signature va
 - [~] diagnostics consistency for validation/security/integration incidents (Target: Q3 2026)
   - Evidence: test_plugin_security_pe_cert_extraction.cpp, test_plugin_security_crl_ocsp.cpp
   - Status: diagnostic tests in place; consistency audit pending
+- [~] Phase 2 implementation hardening (Target: Q4 2026)
+  - Phase 2A: ✅ Lifecycle state machine complete (PluginLifecycleState enum + tests PLG-09..PLG-16)
+  - Phase 2B: ✅ Test infrastructure complete (registry concurrency tests PLG-17..PLG-22)
+  - Phase 2C: ✅ Test infrastructure complete (validation contract tests PLG-23..PLG-28)
+  - Evidence: ai_working/PHASE_2_IMPLEMENTATION_GUIDE.md (integration roadmap)
 
 ## Planned Features
 
