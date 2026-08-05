@@ -1,0 +1,528 @@
+Preset CMake variables:
+
+  CMAKE_EXPORT_COMPILE_COMMANDS="ON"
+  CMAKE_SUPPRESS_DEVELOPER_WARNINGS="ON"
+  THEMIS_ALLOW_MISSING_ROCKSDB="ON"
+  THEMIS_BUILD_BENCHMARKS="OFF"
+  THEMIS_BUILD_TESTS="ON"
+  THEMIS_COMPILER_CACHE_PROGRAM="sccache"
+  THEMIS_EDITION="COMMUNITY"
+  THEMIS_ENABLE_COMPILER_CACHE="ON"
+
+-- Auto-bootstrap: cloning vcpkg into /home/runner/work/ThemisDB/ThemisDB/vcpkg
+-- Auto-bootstrap: using toolchain /home/runner/work/ThemisDB/ThemisDB/vcpkg/scripts/buildsystems/vcpkg.cmake
+-- Auto-bootstrap: initializing submodules: ffmpeg;llama.cpp;whisper.cpp;stable-diffusion.cpp
+CMake Warning at CMakeLists.txt:128 (message):
+  Failed to initialize submodules
+  (ffmpeg;llama.cpp;whisper.cpp;stable-diffusion.cpp): error: pathspec
+  'llama.cpp' did not match any file(s) known to git
+
+
+
+  You can run manually: git submodule update --init --recursive ffmpeg
+  llama.cpp whisper.cpp stable-diffusion.cpp
+
+
+-- ThemisDB 2.4.0 (2.4.0-rc1)
+--   Release: -O3 enabled (set THEMIS_DISABLE_O3=ON to use -O2)
+--   Release: -ffast-math enabled (set THEMIS_DISABLE_FAST_MATH=ON for strict IEEE 754)
+--   Linker:  Full RELRO (-z relro -z now -z noexecstack)
+-- Security Hardening (GCC/Clang): -fstack-protector-strong -D_FORTIFY_SOURCE=3 -fPIE/-pie -fstack-clash-protection  [Release]
+-- IPO/LTO enabled via CMAKE_INTERPROCEDURAL_OPTIMIZATION
+-- C++ Standard: C++20
+-- Build Type: Release
+-- Compiler: GNU 13.3.0
+-- Compiler cache: no launcher found (tried: sccache;sccache;ccache)
+CMake Warning at cmake/deprecated_checks.cmake:18 (message):
+  Deprecated CMake command 'add_definitions()' found in:
+  /home/runner/work/ThemisDB/ThemisDB/CMakeLists.txt
+
+    Recommend: replace with target_compile_definitions(<target> PUBLIC|PRIVATE) for modern scoping.
+Call Stack (most recent call first):
+  CMakeLists.txt:167 (include)
+
+
+CMake Warning at cmake/deprecated_checks.cmake:18 (message):
+  Deprecated CMake command 'add_definitions()' found in:
+  /home/runner/work/ThemisDB/ThemisDB/cmake/deprecated_checks.cmake
+
+    Recommend: replace with target_compile_definitions(<target> PUBLIC|PRIVATE) for modern scoping.
+Call Stack (most recent call first):
+  CMakeLists.txt:167 (include)
+
+
+CMake Warning at cmake/deprecated_checks.cmake:18 (message):
+  Deprecated CMake command 'add_definitions()' found in:
+  /home/runner/work/ThemisDB/ThemisDB/vcpkg/ports/angle/cmake-buildsystem/CMakeLists.txt
+
+
+    Recommend: replace with target_compile_definitions(<target> PUBLIC|PRIVATE) for modern scoping.
+Call Stack (most recent call first):
+  CMakeLists.txt:167 (include)
+
+
+CMake Warning at cmake/deprecated_checks.cmake:18 (message):
+  Deprecated CMake command 'add_definitions()' found in:
+  /home/runner/work/ThemisDB/ThemisDB/vcpkg/ports/aubio/CMakeLists.txt
+
+    Recommend: replace with target_compile_definitions(<target> PUBLIC|PRIVATE) for modern scoping.
+Call Stack (most recent call first):
+  CMakeLists.txt:167 (include)
+
+
+CMake Warning at cmake/deprecated_checks.cmake:18 (message):
+  Deprecated CMake command 'add_definitions()' found in:
+  /home/runner/work/ThemisDB/ThemisDB/vcpkg/ports/berkeleydb/CMakeLists.txt
+
+    Recommend: replace with target_compile_definitions(<target> PUBLIC|PRIVATE) for modern scoping.
+Call Stack (most recent call first):
+  CMakeLists.txt:167 (include)
+
+
+CMake Warning at cmake/deprecated_checks.cmake:18 (message):
+  Deprecated CMake command 'add_definitions()' found in:
+  /home/runner/work/ThemisDB/ThemisDB/vcpkg/ports/breakpad/CMakeLists.txt
+
+    Recommend: replace with target_compile_definitions(<target> PUBLIC|PRIVATE) for modern scoping.
+Call Stack (most recent call first):
+  CMakeLists.txt:167 (include)
+
+
+CMake Warning at cmake/deprecated_checks.cmake:18 (message):
+  Deprecated CMake command 'add_definitions()' found in:
+  /home/runner/work/ThemisDB/ThemisDB/vcpkg/ports/bzip2/CMakeLists.txt
+
+    Recommend: replace with target_compile_definitions(<target> PUBLIC|PRIVATE) for modern scoping.
+Call Stack (most recent call first):
+  CMakeLists.txt:167 (include)
+
+
+CMake Warning at cmake/deprecated_checks.cmake:18 (message):
+  Deprecated CMake command 'add_definitions()' found in:
+  /home/runner/work/ThemisDB/ThemisDB/vcpkg/ports/cgicc/CMakeLists.txt
+
+    Recommend: replace with target_compile_definitions(<target> PUBLIC|PRIVATE) for modern scoping.
+Call Stack (most recent call first):
+  CMakeLists.txt:167 (include)
+
+
+CMake Warning at cmake/deprecated_checks.cmake:18 (message):
+  Deprecated CMake command 'add_definitions()' found in:
+  /home/runner/work/ThemisDB/ThemisDB/vcpkg/ports/cppunit/CMakeLists.txt
+
+    Recommend: replace with target_compile_definitions(<target> PUBLIC|PRIVATE) for modern scoping.
+Call Stack (most recent call first):
+  CMakeLists.txt:167 (include)
+
+
+CMake Warning at cmake/deprecated_checks.cmake:18 (message):
+  Deprecated CMake command 'add_definitions()' found in:
+  /home/runner/work/ThemisDB/ThemisDB/vcpkg/ports/ctemplate/CMakeLists.txt
+
+    Recommend: replace with target_compile_definitions(<target> PUBLIC|PRIVATE) for modern scoping.
+Call Stack (most recent call first):
+  CMakeLists.txt:167 (include)
+
+
+CMake Warning at cmake/deprecated_checks.cmake:18 (message):
+  Deprecated CMake command 'add_definitions()' found in:
+  /home/runner/work/ThemisDB/ThemisDB/vcpkg/ports/freeimage/CMakeLists.txt
+
+    Recommend: replace with target_compile_definitions(<target> PUBLIC|PRIVATE) for modern scoping.
+Call Stack (most recent call first):
+  CMakeLists.txt:167 (include)
+
+
+CMake Warning at cmake/deprecated_checks.cmake:18 (message):
+  Deprecated CMake command 'add_definitions()' found in:
+  /home/runner/work/ThemisDB/ThemisDB/vcpkg/ports/geotrans/CMakeLists.txt
+
+    Recommend: replace with target_compile_definitions(<target> PUBLIC|PRIVATE) for modern scoping.
+Call Stack (most recent call first):
+  CMakeLists.txt:167 (include)
+
+
+CMake Warning at cmake/deprecated_checks.cmake:18 (message):
+  Deprecated CMake command 'add_definitions()' found in:
+  /home/runner/work/ThemisDB/ThemisDB/vcpkg/ports/giflib/CMakeLists.txt
+
+    Recommend: replace with target_compile_definitions(<target> PUBLIC|PRIVATE) for modern scoping.
+Call Stack (most recent call first):
+  CMakeLists.txt:167 (include)
+
+
+CMake Warning at cmake/deprecated_checks.cmake:18 (message):
+  Deprecated CMake command 'add_definitions()' found in:
+  /home/runner/work/ThemisDB/ThemisDB/vcpkg/ports/gts/CMakeLists.txt
+
+    Recommend: replace with target_compile_definitions(<target> PUBLIC|PRIVATE) for modern scoping.
+Call Stack (most recent call first):
+  CMakeLists.txt:167 (include)
+
+
+CMake Warning at cmake/deprecated_checks.cmake:18 (message):
+  Deprecated CMake command 'add_definitions()' found in:
+  /home/runner/work/ThemisDB/ThemisDB/vcpkg/ports/http-parser/CMakeLists.txt
+
+    Recommend: replace with target_compile_definitions(<target> PUBLIC|PRIVATE) for modern scoping.
+Call Stack (most recent call first):
+  CMakeLists.txt:167 (include)
+
+
+CMake Warning at cmake/deprecated_checks.cmake:18 (message):
+  Deprecated CMake command 'add_definitions()' found in:
+  /home/runner/work/ThemisDB/ThemisDB/vcpkg/ports/jxrlib/CMakeLists.txt
+
+    Recommend: replace with target_compile_definitions(<target> PUBLIC|PRIVATE) for modern scoping.
+Call Stack (most recent call first):
+  CMakeLists.txt:167 (include)
+
+
+CMake Warning at cmake/deprecated_checks.cmake:18 (message):
+  Deprecated CMake command 'add_definitions()' found in:
+  /home/runner/work/ThemisDB/ThemisDB/vcpkg/ports/libdatrie/CMakeLists.txt
+
+    Recommend: replace with target_compile_definitions(<target> PUBLIC|PRIVATE) for modern scoping.
+Call Stack (most recent call first):
+  CMakeLists.txt:167 (include)
+
+
+CMake Warning at cmake/deprecated_checks.cmake:18 (message):
+  Deprecated CMake command 'add_definitions()' found in:
+  /home/runner/work/ThemisDB/ThemisDB/vcpkg/ports/libgd/cmake-project-include.cmake
+
+
+    Recommend: replace with target_compile_definitions(<target> PUBLIC|PRIVATE) for modern scoping.
+Call Stack (most recent call first):
+  CMakeLists.txt:167 (include)
+
+
+CMake Warning at cmake/deprecated_checks.cmake:18 (message):
+  Deprecated CMake command 'add_definitions()' found in:
+  /home/runner/work/ThemisDB/ThemisDB/vcpkg/ports/liblinear/CMakeLists.txt
+
+    Recommend: replace with target_compile_definitions(<target> PUBLIC|PRIVATE) for modern scoping.
+Call Stack (most recent call first):
+  CMakeLists.txt:167 (include)
+
+
+CMake Warning at cmake/deprecated_checks.cmake:18 (message):
+  Deprecated CMake command 'add_definitions()' found in:
+  /home/runner/work/ThemisDB/ThemisDB/vcpkg/ports/libmspack/CMakeLists.txt
+
+    Recommend: replace with target_compile_definitions(<target> PUBLIC|PRIVATE) for modern scoping.
+Call Stack (most recent call first):
+  CMakeLists.txt:167 (include)
+
+
+CMake Warning at cmake/deprecated_checks.cmake:18 (message):
+  Deprecated CMake command 'add_definitions()' found in:
+  /home/runner/work/ThemisDB/ThemisDB/vcpkg/ports/libpopt/CMakeLists.txt
+
+    Recommend: replace with target_compile_definitions(<target> PUBLIC|PRIVATE) for modern scoping.
+Call Stack (most recent call first):
+  CMakeLists.txt:167 (include)
+
+
+CMake Warning at cmake/deprecated_checks.cmake:18 (message):
+  Deprecated CMake command 'add_definitions()' found in:
+  /home/runner/work/ThemisDB/ThemisDB/vcpkg/ports/librtmp/CMakeLists.txt
+
+    Recommend: replace with target_compile_definitions(<target> PUBLIC|PRIVATE) for modern scoping.
+Call Stack (most recent call first):
+  CMakeLists.txt:167 (include)
+
+
+CMake Warning at cmake/deprecated_checks.cmake:18 (message):
+  Deprecated CMake command 'add_definitions()' found in:
+  /home/runner/work/ThemisDB/ThemisDB/vcpkg/ports/libtheora/CMakeLists.txt
+
+    Recommend: replace with target_compile_definitions(<target> PUBLIC|PRIVATE) for modern scoping.
+Call Stack (most recent call first):
+  CMakeLists.txt:167 (include)
+
+
+CMake Warning at cmake/deprecated_checks.cmake:18 (message):
+  Deprecated CMake command 'add_definitions()' found in:
+  /home/runner/work/ThemisDB/ThemisDB/vcpkg/ports/libudis86/CMakeLists.txt
+
+    Recommend: replace with target_compile_definitions(<target> PUBLIC|PRIVATE) for modern scoping.
+Call Stack (most recent call first):
+  CMakeLists.txt:167 (include)
+
+
+CMake Warning at cmake/deprecated_checks.cmake:18 (message):
+  Deprecated CMake command 'add_definitions()' found in:
+  /home/runner/work/ThemisDB/ThemisDB/vcpkg/ports/live555/CMakeLists.txt
+
+    Recommend: replace with target_compile_definitions(<target> PUBLIC|PRIVATE) for modern scoping.
+Call Stack (most recent call first):
+  CMakeLists.txt:167 (include)
+
+
+CMake Warning at cmake/deprecated_checks.cmake:18 (message):
+  Deprecated CMake command 'add_definitions()' found in:
+  /home/runner/work/ThemisDB/ThemisDB/vcpkg/ports/luasocket/CMakeLists.txt
+
+    Recommend: replace with target_compile_definitions(<target> PUBLIC|PRIVATE) for modern scoping.
+Call Stack (most recent call first):
+  CMakeLists.txt:167 (include)
+
+
+CMake Warning at cmake/deprecated_checks.cmake:18 (message):
+  Deprecated CMake command 'add_definitions()' found in:
+  /home/runner/work/ThemisDB/ThemisDB/vcpkg/ports/nana/CMakeLists.txt
+
+    Recommend: replace with target_compile_definitions(<target> PUBLIC|PRIVATE) for modern scoping.
+Call Stack (most recent call first):
+  CMakeLists.txt:167 (include)
+
+
+CMake Warning at cmake/deprecated_checks.cmake:18 (message):
+  Deprecated CMake command 'add_definitions()' found in:
+  /home/runner/work/ThemisDB/ThemisDB/vcpkg/ports/sfsexp/CMakeLists.txt
+
+    Recommend: replace with target_compile_definitions(<target> PUBLIC|PRIVATE) for modern scoping.
+Call Stack (most recent call first):
+  CMakeLists.txt:167 (include)
+
+
+CMake Warning at cmake/deprecated_checks.cmake:18 (message):
+  Deprecated CMake command 'add_definitions()' found in:
+  /home/runner/work/ThemisDB/ThemisDB/vcpkg/ports/smpeg2/CMakeLists.txt
+
+    Recommend: replace with target_compile_definitions(<target> PUBLIC|PRIVATE) for modern scoping.
+Call Stack (most recent call first):
+  CMakeLists.txt:167 (include)
+
+
+CMake Warning at cmake/deprecated_checks.cmake:18 (message):
+  Deprecated CMake command 'add_definitions()' found in:
+  /home/runner/work/ThemisDB/ThemisDB/vcpkg/ports/speexdsp/CMakeLists.txt
+
+    Recommend: replace with target_compile_definitions(<target> PUBLIC|PRIVATE) for modern scoping.
+Call Stack (most recent call first):
+  CMakeLists.txt:167 (include)
+
+
+CMake Warning at cmake/deprecated_checks.cmake:18 (message):
+  Deprecated CMake command 'add_definitions()' found in:
+  /home/runner/work/ThemisDB/ThemisDB/vcpkg/ports/tre/CMakeLists.txt
+
+    Recommend: replace with target_compile_definitions(<target> PUBLIC|PRIVATE) for modern scoping.
+Call Stack (most recent call first):
+  CMakeLists.txt:167 (include)
+
+
+CMake Warning at cmake/deprecated_checks.cmake:18 (message):
+  Deprecated CMake command 'add_definitions()' found in:
+  /home/runner/work/ThemisDB/ThemisDB/vcpkg/ports/vamp-sdk/CMakeLists.txt
+
+    Recommend: replace with target_compile_definitions(<target> PUBLIC|PRIVATE) for modern scoping.
+Call Stack (most recent call first):
+  CMakeLists.txt:167 (include)
+
+
+CMake Warning at cmake/deprecated_checks.cmake:18 (message):
+  Deprecated CMake command 'add_definitions()' found in:
+  /home/runner/work/ThemisDB/ThemisDB/vcpkg/ports/vlfeat/CMakeLists.txt
+
+    Recommend: replace with target_compile_definitions(<target> PUBLIC|PRIVATE) for modern scoping.
+Call Stack (most recent call first):
+  CMakeLists.txt:167 (include)
+
+
+CMake Warning at cmake/deprecated_checks.cmake:18 (message):
+  Deprecated CMake command 'add_definitions()' found in:
+  /home/runner/work/ThemisDB/ThemisDB/vcpkg/ports/winpty/CMakeLists.txt
+
+    Recommend: replace with target_compile_definitions(<target> PUBLIC|PRIVATE) for modern scoping.
+Call Stack (most recent call first):
+  CMakeLists.txt:167 (include)
+
+
+CMake Warning at cmake/deprecated_checks.cmake:18 (message):
+  Deprecated CMake command 'add_definitions()' found in:
+  /home/runner/work/ThemisDB/ThemisDB/vcpkg/ports/xqilla/CMakeLists.txt
+
+    Recommend: replace with target_compile_definitions(<target> PUBLIC|PRIVATE) for modern scoping.
+Call Stack (most recent call first):
+  CMakeLists.txt:167 (include)
+
+
+CMake Warning at cmake/deprecated_checks.cmake:18 (message):
+  Deprecated CMake command 'add_definitions()' found in:
+  /home/runner/work/ThemisDB/ThemisDB/vcpkg/ports/zziplib/cmake-project-include.cmake
+
+
+    Recommend: replace with target_compile_definitions(<target> PUBLIC|PRIVATE) for modern scoping.
+Call Stack (most recent call first):
+  CMakeLists.txt:167 (include)
+
+
+CMake Warning at cmake/deprecated_checks.cmake:18 (message):
+  Deprecated CMake command 'add_definitions()' found in:
+  /home/runner/work/ThemisDB/ThemisDB/vcpkg/scripts/test_ports/vcpkg-ci-libigl/project/CMakeLists.txt
+
+
+    Recommend: replace with target_compile_definitions(<target> PUBLIC|PRIVATE) for modern scoping.
+Call Stack (most recent call first):
+  CMakeLists.txt:167 (include)
+
+
+CMake Warning at cmake/deprecated_checks.cmake:18 (message):
+  Deprecated CMake command 'add_definitions()' found in:
+  /home/runner/work/ThemisDB/ThemisDB/vcpkg/scripts/test_ports/vcpkg-ci-node-addon-api/project/CMakeLists.txt
+
+
+    Recommend: replace with target_compile_definitions(<target> PUBLIC|PRIVATE) for modern scoping.
+Call Stack (most recent call first):
+  CMakeLists.txt:167 (include)
+
+
+-- add_definitions() report written to: /home/runner/work/ThemisDB/ThemisDB/build-community-release-allow-missing-rocksdb/logs/add_definitions_report.txt
+-- ==========================================
+-- Platform Detection:
+--   Target Architecture: x86_64
+--   Target Platform: linux
+--   Target Triplet: x64-linux
+--   System: Linux 6.17.0-1020-azure
+--   Processor: x86_64
+-- ==========================================
+-- Cross-compile validation: skipped (native build)
+-- Applying architecture optimizations for x86_64...
+--   x86_64 optimization: AVX2 + FMA (native, flags set in CompilerOptions.cmake)
+-- Preloaded zstd::zstd target from pkg-config for RocksDB compatibility
+-- ==========================================
+-- Edition: COMMUNITY
+-- ==========================================
+-- Configuring COMMUNITY edition...
+--   Hardware limits: Up to 8 GB GPU VRAM, 5 nodes, 1 GB cache
+--   Features: Core + optional LLM/gRPC/GPU
+-- ==========================================
+-- Feature Configuration:
+-- ==========================================
+--   LLM: Enabled
+--     Content ingestion: Enabled
+--     Flash Attention v3: Enabled
+--       Paged KV-Cache: Enabled
+--   Network Protocols:
+--     gRPC: Enabled
+--     HTTP Server: Enabled
+--     GraphQL: Enabled
+--     ONNX Runtime: headers not found — runtime probe will select CPUExecutionProvider
+--   GPU Acceleration: Enabled
+--     Vulkan: Enabled
+--     GPU Vector Search: Enabled
+--   Security & Enterprise:
+--     RFC 3161 TSA (OpenSSL): Enabled
+--   Development Tools:
+--     Unit tests: Enabled
+--     mimalloc: Enabled
+--   Performance Optimizations:
+--     AVX2: ON
+--     Phase 1 (active by default):
+--       RCU Index:  ON  (disable: -DTHEMIS_DISABLE_RCU_INDEX=ON)
+--       LIRS Cache: ON  (disable: -DTHEMIS_DISABLE_LIRS_CACHE=ON)
+--       Huge Pages: ON  (runtime-graceful fallback; disable: -DTHEMIS_DISABLE_HUGE_PAGES=ON)
+--       io_uring:   ON  (runtime-graceful fallback; disable: -DTHEMIS_DISABLE_IO_URING=ON)
+--   Plugin Features:
+--     Geo Plugin Externalization:         ON
+--     TimeSeries Plugin Externalization:  ON
+--     Plugin System (core):              ON
+--     Ethics AI Plugin:                  OFF
+--     gRPC RPC Plugin:                   ON
+--     Image Analysis (ONNX CLIP):        ON
+--     User Storage Encrypted Plugin:     OFF
+--     Importer Plugins (postgres/mysql/sqlite/mongodb/kafka/s3): configured per flag
+--     Blob Storage Plugins (s3/azure):    configured per flag
+--     HuggingFace Ingestion Plugin:      ON
+--     Private Plugin Defaults:
+--       Private plugin discovery:         OFF
+--       Compliance-related defaults:      OFF
+--       Connector/blob defaults:          OFF
+--       Acceleration defaults:            OFF
+--       Regulated-intel defaults:         OFF
+-- ==========================================
+-- ==========================================
+-- Edition-Feature Matrix Validation
+-- ==========================================
+-- Validating features against COMMUNITY edition matrix:
+--   THEMIS_ENABLE_LLM: ALLOWED (ON)
+--   THEMIS_ENABLE_GPU: ALLOWED (ON)
+--   THEMIS_ENABLE_CUDA: ALLOWED (OFF)
+--   THEMIS_ENABLE_GRPC: ALLOWED (ON)
+--   THEMIS_ENABLE_TRACING: ALLOWED (OFF)
+--   THEMIS_ENABLE_HTTP2: ALLOWED (OFF)
+--   THEMIS_ENABLE_HTTP3: ALLOWED (OFF)
+--   THEMIS_ENABLE_WEBSOCKET: ALLOWED (OFF)
+--   THEMIS_ENABLE_MQTT: ALLOWED (OFF)
+--   THEMIS_ENABLE_POSTGRES_WIRE: ALLOWED (OFF)
+--   THEMIS_ENABLE_MCP: ALLOWED (OFF)
+--   THEMIS_ENABLE_SSE: ALLOWED (OFF)
+--   THEMIS_ENABLE_DISKANN: ALLOWED (OFF)
+--   THEMIS_ENABLE_DISTRIBUTED_TRAINING: ALLOWED (OFF)
+-- ==========================================
+-- Edition-Feature Matrix Validation: Complete
+-- ==========================================
+-- ==========================================
+-- vcpkg Configuration
+-- ==========================================
+-- Binary cache tier 1: Project-local
+--   Location: /home/runner/work/ThemisDB/ThemisDB/.vcpkg-cache
+-- Binary cache tier 2: User-level
+--   Location: /home/runner/.cache/vcpkg/archives
+-- Binary cache: Enabled (multi-tier local cache)
+--   Mode: Read-Write (all tiers)
+--   Strategy: Project-local → User-level → Fallback
+-- vcpkg root: /home/runner/work/ThemisDB/ThemisDB/vcpkg (local)
+-- CMAKE_TOOLCHAIN_FILE: /home/runner/work/ThemisDB/ThemisDB/vcpkg/scripts/buildsystems/vcpkg.cmake (matches vcpkg root)
+-- vcpkg feature: gpu (FAISS, OpenBLAS, LAPACK)
+-- vcpkg feature: llm
+-- vcpkg feature: rpc (gRPC, protobuf)
+-- Active vcpkg features: gpu;llm;rpc
+-- Validating dependency requirements...
+-- ==========================================
+-- vcpkg configuration complete
+-- ==========================================
+-- vcpkg root: /home/runner/work/ThemisDB/ThemisDB/vcpkg
+-- vcpkg package dirs: 
+-- OpenSSL found: 3.0.13
+-- Preseed ZLIB_LIBRARY= ZLIB_INCLUDE_DIR=/usr/include
+-- ZLIB found: 1.3
+-- zstd found - enabling Zstandard compression
+CMake Warning at cmake/Dependencies.cmake:184 (message):
+  RocksDB not found.  Continuing configure because
+  THEMIS_ALLOW_MISSING_ROCKSDB=ON.  Install via vcpkg (rocksdb) or system
+  package librocksdb-dev before building RocksDB-dependent targets.
+Call Stack (most recent call first):
+  CMakeLists.txt:203 (include)
+
+
+-- Could NOT find simdjson (missing: simdjson_DIR)
+CMake Warning at cmake/Dependencies.cmake:204 (message):
+  simdjson not found - some features may be disabled
+Call Stack (most recent call first):
+  CMakeLists.txt:203 (include)
+
+
+-- Could NOT find TBB (missing: TBB_DIR)
+CMake Warning at cmake/Dependencies.cmake:211 (message):
+  TBB not found - using fallback threading
+Call Stack (most recent call first):
+  CMakeLists.txt:203 (include)
+
+
+-- fmt found
+CMake Error at cmake/Dependencies.cmake:239 (message):
+  spdlog not found.  Install via:
+
+    - vcpkg: vcpkg install spdlog
+    - Debian/Ubuntu: sudo apt-get install libspdlog-dev
+    - Fedora/RHEL: sudo dnf install spdlog-devel
+    - macOS: brew install spdlog
+Call Stack (most recent call first):
+  CMakeLists.txt:203 (include)
+
+
+-- Configuring incomplete, errors occurred!
