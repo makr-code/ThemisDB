@@ -36,7 +36,12 @@
 #else
 #include <fcntl.h>
 #include <unistd.h>
+#  ifdef __linux__
+#    include <sys/sendfile.h>
+#  endif
 #endif
+
+#include <vector>
 
 namespace themis {
 namespace network {
@@ -121,6 +126,95 @@ ssize_t ZeroCopyFrameBuilder::writeTo(int fd) const noexcept {
 
     return ::writev(fd, iov, 2);
 #endif
+}
+
+ssize_t ZeroCopyFrameBuilder::writeToWithSendfile(int    socket_fd,
+                                                   int    payload_fd,
+                                                   off_t  payload_offset,
+                                                   size_t sendfile_threshold) const noexcept {
+#ifdef _WIN32
+    // Windows: no sendfile equivalent for socket+file — fall back to writev path.
+    (void)payload_fd; (void)payload_offset; (void)sendfile_threshold;
+    return writeTo(socket_fd);
+#else
+    // Use sendfile only for large, file-backed payloads.
+    const bool use_sendfile = (payload_fd >= 0)
+                               && (payload_size_ >= sendfile_threshold);
+
+    if (!use_sendfile) {
+        return writeTo(socket_fd);
+    }
+
+    // Step 1: write the 12-byte header.
+    ssize_t hdr_written = 0;
+    while (hdr_written < static_cast<ssize_t>(HEADER_SIZE)) {
+        const ssize_t n = ::write(socket_fd,
+                                  header_.data() + hdr_written,
+                                  HEADER_SIZE - static_cast<size_t>(hdr_written));
+        if (n < 0) {
+            if (errno == EINTR) continue;
+            return -1;
+        }
+        hdr_written += n;
+    }
+
+    // Step 2: zero-copy payload transfer via sendfile(2) (Linux / macOS / FreeBSD).
+#  if defined(__linux__)
+    // Linux sendfile: sendfile(out_fd, in_fd, offset, count)
+    // Falls back to writev if the source fd is not a regular file (EINVAL/ENOSYS).
+    off_t  off           = payload_offset;
+    size_t remaining     = payload_size_;
+    ssize_t sf_written   = 0;
+
+    while (remaining > 0) {
+        const ssize_t n = ::sendfile(socket_fd, payload_fd, &off, remaining);
+        if (n < 0) {
+            if (errno == EINTR) continue;
+            if (errno == EINVAL || errno == ENOSYS || errno == ENOTSUP) {
+                // sendfile not supported for this fd type (e.g., socket source).
+                // Fall back to copy-based writev for the remaining bytes.
+                // Re-read remaining bytes via pread and write.
+                std::vector<uint8_t> tmp(remaining);
+                const ssize_t rd = ::pread(payload_fd, tmp.data(), remaining,
+                                           payload_offset + static_cast<off_t>(sf_written));
+                if (rd <= 0) return sf_written > 0 ? hdr_written + sf_written : -1;
+                const ssize_t wn = ::write(socket_fd, tmp.data(), static_cast<size_t>(rd));
+                if (wn < 0) return sf_written > 0 ? hdr_written + sf_written : -1;
+                sf_written += wn;
+                break;
+            }
+            // Other errors are fatal.
+            return sf_written > 0 ? hdr_written + sf_written : -1;
+        }
+        sf_written += n;
+        remaining  -= static_cast<size_t>(n);
+    }
+
+    return hdr_written + sf_written;
+
+#  elif defined(__APPLE__) || defined(__FreeBSD__)
+    // macOS / FreeBSD sendfile: sendfile(in_fd, out_fd, offset, len, hdtr, written, flags)
+    off_t len        = static_cast<off_t>(payload_size_);
+    off_t off        = payload_offset;
+    off_t sf_written = 0;
+    int   rc         = 0;
+#    if defined(__APPLE__)
+    rc = ::sendfile(payload_fd, socket_fd, off, &len, nullptr, 0);
+    sf_written = len;
+#    else // FreeBSD
+    rc = ::sendfile(payload_fd, socket_fd, off, payload_size_, nullptr, &sf_written, 0);
+#    endif
+    if (rc < 0 && errno != EAGAIN && errno != EINTR) {
+        return sf_written > 0 ? hdr_written + sf_written : -1;
+    }
+    return hdr_written + sf_written;
+
+#  else
+    // Platform does not support sendfile: fall back to pread + write.
+    (void)payload_offset;
+    return writeTo(socket_fd);
+#  endif
+#endif // !_WIN32
 }
 
 // =============================================================================

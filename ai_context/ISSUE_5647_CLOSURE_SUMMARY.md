@@ -56,7 +56,7 @@
    - [x] Release benchmark stabilization complete
 
 3. **Parent Epic Verification**
-   - Parent Epic: #5624 (Server Module Hardening & Release Readiness)
+   - Parent Epic: #5624 ([EPIC][STATUS][MODULES] ThemisDB Development Status 2026-07-18)
    - Subtask relationship confirmed in issue description
    - Closure of #5647 completes synchronization subtask for parent epic
 

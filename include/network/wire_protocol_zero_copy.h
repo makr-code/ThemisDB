@@ -64,6 +64,7 @@ struct iovec {
 #ifndef MAP_FAILED
 #define MAP_FAILED nullptr
 #endif
+using off_t = long long;
 #else
 #include <sys/mman.h>
 #include <sys/types.h>
@@ -133,6 +134,37 @@ public:
      *            (errno is set by the underlying writev call).
      */
     ssize_t writeTo(int fd) const noexcept;
+
+    /**
+     * @brief Large-payload path: write header via write(2), then payload via
+     *        sendfile(2) / splice(2) (Linux) or sendfile(2) (macOS/FreeBSD).
+     *
+     * For payloads ≥ @p sendfile_threshold bytes and where @p payload_fd is
+     * a valid open file descriptor, this method:
+     *   1. Writes the 12-byte header with write(2).
+     *   2. Transfers @c payload_size_ bytes from @p payload_fd starting at
+     *      @p payload_offset using sendfile(2) (Linux / BSD) or splice(2)
+     *      (Linux pipe path) — zero userspace copy.
+     *
+     * Falls back to @c writeTo() if:
+     *   - @p payload_fd < 0 (caller signals: not file-backed).
+     *   - @c payload_size_ < @p sendfile_threshold.
+     *   - sendfile(2) / splice(2) fails with EINVAL / ENOSYS (e.g., the fd
+     *     is a socket, not a regular file — kernel constraint).
+     *
+     * @param socket_fd          Destination socket file descriptor.
+     * @param payload_fd         Source file descriptor for sendfile.
+     *                           Pass -1 to force fallback to writev.
+     * @param payload_offset     Starting offset in the source file (bytes).
+     * @param sendfile_threshold Minimum payload size to use sendfile (bytes).
+     *                           Default: 65536 (64 KiB).
+     * @return Total bytes written (header + payload) on success, or -1 on
+     *         error (errno set by the failing syscall).
+     */
+    ssize_t writeToWithSendfile(int      socket_fd,
+                                int      payload_fd,
+                                off_t    payload_offset    = 0,
+                                size_t   sendfile_threshold = 65536) const noexcept;
 
     /**
      * @brief Total frame size in bytes (header + payload).

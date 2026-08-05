@@ -175,9 +175,13 @@ void StatisticsCollector::stopRefresh() noexcept {
 
 void StatisticsCollector::refreshLoop_() {
     while (!stop_refresh_.load()) {
-        std::unique_lock<std::mutex> lk(refresh_mutex_);
-        refresh_cv_.wait_for(lk, refresh_interval_,
-                             [this] { return stop_refresh_.load(); });
+        {
+            std::unique_lock<std::mutex> lk(refresh_mutex_);
+            refresh_cv_.wait_for(lk, refresh_interval_,
+                                 [this] { return stop_refresh_.load(); });
+        }
+        // refresh_mutex_ released before acquiring cache_mutex_ to prevent
+        // circular lock ordering between refresh_mutex_ and cache_mutex_.
 
         if (stop_refresh_.load()) break;
 
