@@ -5,6 +5,42 @@ All notable changes to ThemisDB will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-08-05 — Network Module: Phase 2–5 Hardening + CB per-error-class + Zero-copy + MPTCP/BBR/Observability
+
+### Network Module — Phase 2–5 Hardening + New Headers
+
+**AdaptiveCircuitBreaker — per-error-class thresholds:**
+- `ErrorClassConfig` struct and `recordFailure(ErrorClass)` overload; `resetErrorClassCounters()` helper
+- Focused tests NCB-PEC-01..08 in `tests/network/test_network_cb_per_error_class_focused.cpp`
+
+**New public headers + implementations:**
+- `include/network/multipath_tcp.h` + `src/network/multipath_tcp.cpp` — MPTCP subflow management interface
+- `include/network/bbr_congestion_control.h` + `src/network/bbr_congestion_control.cpp` — BBRv2 congestion control configuration
+- `include/network/network_observability.h` + `src/network/network_observability.cpp` — unified per-connection trace/metric emission
+
+**Zero-copy socket I/O (`ZeroCopyFrameBuilder::writeToWithSendfile()`):**
+- sendfile(2)/splice(2) path for payloads ≥ 64 KiB on Linux; writev fallback on macOS/FreeBSD and small payloads
+- Implementation in `src/network/wire_protocol_zero_copy.cpp`; contract header `include/network/wire_protocol_zero_copy.h`
+
+**HTTP/3 QUIC production enablement:**
+- `QuicTransport` promoted to production-default for external API endpoints (THEMIS_ENABLE_HTTP3)
+- Connection migration and 0-RTT resumption validated; throughput ≥ HTTP/2 baseline
+- NQP-01..06 in `tests/network/test_network_lifecycle_guardrails_focused.cpp`
+
+**EnvoyXDSClient xDS subscription lifecycle documented:**
+- `src/network/ARCHITECTURE.md §8` — xDS resource subscription bootstrap, LDS/RDS/CDS/EDS lifecycle, reconnect strategy
+
+**Phase 2–5 hardening tests:**
+- NTR-01..08 (transport resilience, retry, backpressure, gRPC fallback, pool drain, mixed injection) — `tests/network/test_network_transport_resilience_focused.cpp`
+- NRH-01..08 (routing hardening, LB state machine, circuit breaker, failover preference) — `tests/network/test_network_routing_hardening_focused.cpp`
+- NLG-01..08 (lifecycle guardrails, connection limits, backpressure/timeout interplay) — `tests/network/test_network_lifecycle_guardrails_focused.cpp`
+
+**Benchmark gates:**
+- NRG-01..06 (TCP dispatch p99≤200µs, auth p99≤100µs, rate-limit p99≤50µs, WS dispatch p99≤300µs, accept p99≤1ms, serialize p99≤100µs) — `benchmarks/network/bench_network_release_gates.cpp`
+- NRG-07..12 (topology select, LB forward, CB shouldAllow, connection limit, queue gate, session guard) — `benchmarks/network/bench_network_routing_gates.cpp`
+
+**CMake:** new sources registered in `cmake/CMakeLists.txt` + `cmake/ModularBuild.cmake`
+
 ## [Unreleased] — 2026-08-03 — Access Model Coordination Layer + Phase 6 Documentation (v2.4.0-rc1)
 
 ### Access Model — Unified Coordination Layer (Runtime C++ Feature Work)
