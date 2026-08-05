@@ -104,15 +104,14 @@ TEST_F(PromptEngineeringFocusedTest, PE_FT_002_PromptManagerContextInjection) {
   auto created = mgr.createTemplate(tmpl);
   
   auto ctx = MakeContextMap();
-  auto injected = mgr.injectContext(created.id, ctx);
+  auto injected = mgr.getPromptWithContext(created.id, ctx);
   
   ASSERT_TRUE(injected.has_value());
-  EXPECT_NE(injected->find("{query}"), std::string::npos);
-  EXPECT_NE(injected->find("{context}"), std::string::npos);
-  
-  // Verify placeholders were NOT replaced (would require LLM integration)
-  EXPECT_NE(injected->find("{query}"), std::string::npos);
-  EXPECT_NE(injected->find("{context}"), std::string::npos);
+  // Placeholders should have been replaced by the provided context values
+  EXPECT_EQ(injected->find("{query}"), std::string::npos);
+  EXPECT_EQ(injected->find("{context}"), std::string::npos);
+  EXPECT_NE(injected->find("What is ThemisDB?"), std::string::npos);
+  EXPECT_NE(injected->find("ThemisDB is a hybrid database"), std::string::npos);
 }
 
 // ============================================================================
@@ -222,11 +221,14 @@ TEST_F(PromptEngineeringFocusedTest, PE_FT_010_ErrorHandlingInvalidContextInject
   auto tmpl = MakeValidTemplate(10);
   auto created = mgr.createTemplate(tmpl);
 
-  std::unordered_map<std::string, std::string> invalid_ctx;
-  // Missing required placeholders
-  auto result = mgr.injectContext(created.id, invalid_ctx);
-  // Should handle gracefully (either return empty/error or return original)
-  // Behavior depends on implementation contract
+  std::unordered_map<std::string, std::string> empty_ctx;
+  // Missing context values: implementation should handle gracefully
+  auto result = mgr.getPromptWithContext(created.id, empty_ctx);
+  // Either returns nullopt or returns original template with unresolved placeholders
+  if (result.has_value()) {
+    // If a result is returned, it must not crash and must be non-empty
+    EXPECT_FALSE(result->empty());
+  }
 }
 
 // ============================================================================
@@ -234,15 +236,16 @@ TEST_F(PromptEngineeringFocusedTest, PE_FT_010_ErrorHandlingInvalidContextInject
 // ============================================================================
 
 TEST_F(PromptEngineeringFocusedTest, PE_FT_011_ConcurrentTemplateAccessSanity) {
+  constexpr int kThreadCount = 4;
+  std::vector<std::string> template_ids(kThreadCount);
   std::vector<std::thread> threads;
-  std::vector<std::string> template_ids;
-  
-  // Create templates in parallel
-  for (int i = 0; i < 4; ++i) {
+
+  // Create templates in parallel; each thread writes to its own pre-allocated slot
+  for (int i = 0; i < kThreadCount; ++i) {
     threads.emplace_back([this, i, &template_ids]() {
-      auto tmpl = MakeValidTemplate(i);
+      auto tmpl = MakeValidTemplate(i + 100);
       auto created = mgr.createTemplate(tmpl);
-      template_ids.push_back(created.id);
+      template_ids[i] = created.id;  // Each thread writes to a distinct index — no data race
     });
   }
 
@@ -250,7 +253,7 @@ TEST_F(PromptEngineeringFocusedTest, PE_FT_011_ConcurrentTemplateAccessSanity) {
     t.join();
   }
 
-  EXPECT_EQ(template_ids.size(), 4u);
+  EXPECT_EQ(static_cast<int>(template_ids.size()), kThreadCount);
   for (const auto& id : template_ids) {
     EXPECT_FALSE(id.empty());
   }
@@ -266,9 +269,11 @@ TEST_F(PromptEngineeringFocusedTest, PE_FT_012_InjectionValidationEdgeCase) {
   auto created = mgr.createTemplate(tmpl);
 
   auto ctx = MakeContextMap();
-  auto result = mgr.injectContext(created.id, ctx);
-  // Should handle edge case gracefully
-  EXPECT_TRUE(result.has_value() || result.has_value() == false); // Pass on either outcome
+  auto result = mgr.getPromptWithContext(created.id, ctx);
+  // Should handle edge case gracefully (empty {} is not a valid placeholder)
+  if (result.has_value()) {
+    EXPECT_FALSE(result->empty());
+  }
 }
 
 // ============================================================================

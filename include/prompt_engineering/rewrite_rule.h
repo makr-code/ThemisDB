@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include "rewrite_engine.h"
+#include "prompt_engineering/rewrite_engine.h"
 #include <string>
 #include <vector>
 #include <memory>

@@ -60,13 +60,13 @@ enum class RewriteRuleType : uint8_t {
  */
 struct RewriteTrace {
     std::string rule_id;                ///< Identifier of the rule that matched
-    RewritePhase phase;                 ///< Phase in which rule was applied
-    uint32_t match_count;               ///< Number of matches found by this rule
-    uint64_t text_offset;               ///< Byte offset where first match occurred
+    RewritePhase phase{RewritePhase::PHASE_1_INPUT_NORMALIZATION}; ///< Phase in which rule was applied
+    uint32_t match_count{0};            ///< Number of matches found by this rule
+    uint64_t text_offset{0};            ///< Byte offset where first match occurred
     std::string matched_text;           ///< Original matched text (up to 1024 bytes)
     std::string replacement_text;       ///< Replacement text (up to 1024 bytes)
-    uint64_t rule_latency_micros;       ///< Latency of rule execution in microseconds
-    bool transformation_applied;        ///< Whether transformation was actually applied
+    uint64_t rule_latency_micros{0};    ///< Latency of rule execution in microseconds
+    bool transformation_applied{false}; ///< Whether transformation was actually applied
     std::string safety_notes;           ///< Any safety or audit notes from rule execution
 };
 

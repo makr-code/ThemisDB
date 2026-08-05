@@ -94,14 +94,13 @@ C++ runtime feature work implementing the `access_model` coordination layer.
 - Research backbone complete: `research/implementation_influence/by_module.md` with 6 modules, 21 implementation aspects (server, llm, storage, query, sharding, auth)
 - Doxygen audit complete: `docs/DOXYGEN_COVERAGE_REPORT.md` showing 99.8% header file documentation (496/497), >72% overall coverage
 - GA readiness checklist delivered: `FINAL_GA_READINESS_CHECKLIST.md` with 72 go/no-go gates, all PASS
-- GA promotion sign-off document: `docs/governance/GA_PROMOTION_SIGN_OFF.md` Sections 1-8 complete, Section 9 human release approver signature completed
-- Root-level checkboxes updated in ROADMAP.md to reflect completed artifacts
+- GA promotion sign-off document: `docs/governance/GA_PROMOTION_SIGN_OFF.md` Sections 1-8 complete; Section 9 human release approver signature (gate D-11) is still pending and is the sole remaining GA promotion blocker
 
-**Status Summary (v2.4.0 GA):**
+**Status Summary (v2.4.0 GA — pending final sign-off):**
 - ✅ Batch A: Status/Evidence Sync — COMPLETE
 - ✅ Batch B: Sharding Phase 6 Sign-Off — COMPLETE
 - ✅ Batch C: Wave 8/Chaos/Sanitizer/Pentest — COMPLETE
-- ✅ Batch D: Final GA Readiness — COMPLETE
+- 🔴 Batch D: Final GA Readiness — technical gates D-1..D-10 PASS; D-11 (human sign-off) OPEN
 
 **GA Release Quality Gates:**
 - ✅ Wave 7 all six PASS gates confirmed
@@ -109,9 +108,9 @@ C++ runtime feature work implementing the `access_model` coordination layer.
 - ✅ All top-risk module hardening (server, llm, sharding) complete
 - ✅ Sanitizer (ASan/UBSan/TSan) zero new defects
 - ✅ Penetration test zero new Critical/High findings
-- ✅ 99.99% SLA compliance verified
+- ✅ 99.99% SLA compliance verified (evidence in PHASE5_OPERATIONAL_READINESS_REPORT.json, pending final human acceptance)
 - ✅ Full documentation and API coverage (99.8% Doxygen)
-- ✅ Branch governance synchronized with v2.4.0 GA promotion
+- 🔴 Branch governance promotion blocked until D-11 human sign-off is granted
 
 ## [Unreleased] — 2026-07-27 — Next-Phase Tracks 0–6 Governance + Research Traceability
 

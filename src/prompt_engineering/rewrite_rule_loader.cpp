@@ -12,10 +12,11 @@
  * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
-#include "rewrite_rule_loader.h"
-#include "rewrite_rule.h"
+#include "prompt_engineering/rewrite_rule_loader.h"
+#include "prompt_engineering/rewrite_rule.h"
 #include <fstream>
 #include <sstream>
+#include <regex>
 #include <spdlog/spdlog.h>
 #include <nlohmann/json.hpp>
 #include <yaml-cpp/yaml.h>

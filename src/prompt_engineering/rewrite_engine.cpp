@@ -16,8 +16,9 @@
  * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
-#include "rewrite_engine.h"
-#include "rewrite_rule.h"
+#include "prompt_engineering/rewrite_engine.h"
+#include "prompt_engineering/rewrite_rule.h"
+#include "prompt_engineering/rewrite_rule_loader.h"
 #include <algorithm>
 #include <chrono>
 #include <spdlog/spdlog.h>
@@ -110,9 +111,32 @@ public:
     bool load_rules_from_yaml(const std::string& yaml_path) override {
         auto logger = spdlog::get("prompt_engineering") ?: spdlog::stderr_color_mt("prompt_engineering");
 
-        // This will be implemented in phase 2 via RewriteRuleLoader
-        logger->warn("YAML rule loading not yet implemented: {}", yaml_path);
-        return false;
+        RewriteRuleLoader loader;
+        std::vector<std::shared_ptr<IRewriteRule>> new_rules;
+
+        if (!loader.load_rules_from_yaml(yaml_path, new_rules)) {
+            logger->error("Failed to load YAML rules from {}: {}", yaml_path, loader.last_error());
+            return false;
+        }
+
+        std::unique_lock lock(rule_lock_);
+        for (auto& rule : new_rules) {
+            bool duplicate = false;
+            for (const auto& existing : rules_) {
+                if (existing->rule_id() == rule->rule_id()) {
+                    logger->warn("Skipping duplicate rule {} from YAML", rule->rule_id());
+                    duplicate = true;
+                    break;
+                }
+            }
+            if (!duplicate) {
+                rules_.push_back(rule);
+                stats_.total_rules_registered++;
+            }
+        }
+
+        logger->info("Loaded {} YAML rules from {}", new_rules.size(), yaml_path);
+        return true;
     }
 
     RewriteResult rewrite(RewriteDocument& doc, const RewriteContext& ctx) override {

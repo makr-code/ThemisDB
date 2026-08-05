@@ -14,7 +14,7 @@
  * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
-#include "rewrite_rule.h"
+#include "prompt_engineering/rewrite_rule.h"
 #include <spdlog/spdlog.h>
 #include <chrono>
 

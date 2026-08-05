@@ -17,7 +17,8 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include "rewrite_engine.h"
+#include <nlohmann/json.hpp>
+#include "prompt_engineering/rewrite_engine.h"
 
 namespace themis {
 namespace prompt_engineering {
@@ -85,8 +86,3 @@ private:
 
 } // namespace prompt_engineering
 } // namespace themis
-
-// Forward declarations for YAML support
-namespace nlohmann {
-// Template specializations for JSON serialization would go here if needed
-}

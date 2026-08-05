@@ -300,7 +300,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 - [x] **Batch C — Wave 8 + Chaos + Sanitizer/Pentest** (Target: 2026-09)
   - [x] Wave 8 (`w8a/w8b/w8c`) and chaos/SLA/security (`w9a/w9b/w9c`) suites are wired into the `release_critical` workflow target build.
   - [x] Sanitizer + penetration-test evidence bundle finalized: `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md` (ASan/UBSan/TSan — 0 new defects) and `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md` (0 new Critical/High findings; PTR-01/PTR-02 residual risks accepted).
-- [x] **Batch D — Final GA Readiness** (Target: 2026-10, ✅ COMPLETE 2026-08-04)
+- [~] **Batch D — Final GA Readiness** (Target: 2026-10, technical gates D-1..D-10 PASS 2026-08-04; D-11 human sign-off OPEN)
   - [x] Operations/SLA/chaos runbook-linked test suites are now part of the release-critical execution chain.
   - [x] Final governance sign-off document created at `docs/governance/GA_PROMOTION_SIGN_OFF.md`; Sections 1-8 complete; Section 9 (human sign-off) is the only remaining GA blocker.
 - [~] **BLOCK 1 — P2-D06: Tests & Benchmarks für SSM-Runtime** (Target: 2026-07)
