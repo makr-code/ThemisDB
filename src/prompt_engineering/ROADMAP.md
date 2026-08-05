@@ -31,18 +31,20 @@ Production-capable prompt engineering runtime exists for template lifecycle oper
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [ ] freeze template/versioning/optimization contracts for current major line (Target: Q3 2026)
-- [ ] define explicit error taxonomy for prompt engineering failure classes (Target: Q3 2026)
-- [ ] define `RewriteEngine` interfaces (`RewriteDocument`, `RewriteContext`, `RewriteResult`, `RewriteTrace`, `IRewriteRule`) and phase boundaries (Target: Q4 2026)
+- [x] freeze template/versioning/optimization contracts for current major line (Target: Q3 2026) — See PHASE_1_CONTRACT.md
+- [x] define explicit error taxonomy for prompt engineering failure classes (Target: Q3 2026) — See ERROR_TAXONOMY_REFERENCE.md and prompt_engineering_errors.h (52 error codes)
+- [x] define `RewriteEngine` interfaces (`RewriteDocument`, `RewriteContext`, `RewriteResult`, `RewriteTrace`, `IRewriteRule`) and phase boundaries (Target: Q4 2026) — See rewrite_engine.h
 
 ### Phase 2: Core Implementation
 - [ ] complete hardening for manager/version control and validator internals (Target: Q4 2026)
 - [ ] align optimization/evaluation behavior to bounded runtime contracts (Target: Q4 2026)
-- [ ] implement deterministic ordered rule execution, rule registration, and YAML-backed low-risk rewrite loading (Target: Q4 2026)
+- [ ] implement deterministic ordered rule execution, rule registration, and YAML-backed low-risk rewrite loading (Target: Q4 2026) — RewriteEngine implementation
+- [ ] implement `RewriteEngine` executor with deterministic rule evaluation and phase isolation (Target: Q4 2026)
+- [ ] implement YAML configuration schema for input normalization rules (Target: Q4 2026)
 
 ### Phase 3: Error Handling and Edge Cases
 - [ ] standardize fail-safe behavior for invalid templates, injection mismatches, and version faults (Target: Q4 2026)
-- [ ] unify diagnostics across manager/version/optimizer/evaluator incidents (Target: Q4 2026)
+- [ ] unify diagnostics across manager/version/optimizer/evaluator incidents using `PromptEngineeringErrorContext` (Target: Q4 2026)
 - [ ] enforce rewrite step bounds, phase isolation, malformed-rule rejection, and terminal policy behavior (Target: Q4 2026)
 
 ### Phase 4: Tests
@@ -56,7 +58,7 @@ Production-capable prompt engineering runtime exists for template lifecycle oper
 - [ ] benchmark rewrite latency/trace overhead and harden regex/rule execution against adversarial expansion or loop behavior (Target: Q1 2027)
 
 ### Phase 6: Documentation and Acceptance
-- [x] core prompt_engineering docs aligned to source-verifiable behavior
+- [~] core prompt_engineering docs aligned to source-verifiable behavior (Target: Q3-Q4 2026) — In progress with Phase 1 deliverables
 - [x] roadmap/future planning separated from historical changelog entries
 - [x] focused test infrastructure (PE-FT-001..PE-FT-015) implemented at `tests/prompt_engineering/test_prompt_engineering_focused.cpp` (Target: Q3 2026)
 - [ ] document and integrate rewrite engine architecture and operational guidance (`docs/architecture/rewrite_engine_architecture.md`) (Target: Q4 2026)
@@ -64,12 +66,13 @@ Production-capable prompt engineering runtime exists for template lifecycle oper
 ## Production Readiness Checklist
 
 - [x] core prompt engineering surfaces documented and source-verified
-- [x] module-level security and failure behavior documented
+- [x] module-level security and failure behavior documented (Phase 1: error taxonomy in prompt_engineering_errors.h and ERROR_TAXONOMY_REFERENCE.md)
 - [x] benchmark mapping documented in performance expectations
 - [x] focused test infrastructure (PE-FT-001..PE-FT-015) implemented for core surfaces
-- [ ] remaining hardening tasks closed for template/versioning/quality edge paths
-- [ ] release benchmark stabilization complete
-- [ ] rewrite engine deterministic rule execution, bounded behavior, and audit trace support validated in production-like test profiles
+- [ ] remaining hardening tasks closed for template/versioning/quality edge paths (Phase 3 + Phase 4 work)
+- [ ] release benchmark stabilization complete (Phase 5 work)
+- [ ] rewrite engine deterministic rule execution, bounded behavior, and audit trace support validated in production-like test profiles (Phase 2–5 work)
+- [ ] backward compatibility guarantee documented and reviewed (Phase 1: PHASE_1_CONTRACT.md)
 
 ## Known Issues and Limitations
 
