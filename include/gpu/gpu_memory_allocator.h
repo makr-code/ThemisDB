@@ -66,6 +66,7 @@ public:
         bool enable_defrags = true;    ///< Enable memory defragmentation
         uint32_t device_id = 0;        ///< Target GPU device
         bool enable_caching = true;    ///< Cache freed allocations for reuse
+        size_t max_alloc_size = 1UL << 30;  ///< Max per-allocation size (default: 1 GB)
     };
 
     /**
