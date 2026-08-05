@@ -60,25 +60,58 @@ Production GPU runtime exists across device discovery, allocation/governance, ba
 - [ ] define explicit error taxonomy for quota, degradation, and fallback classes (Target: Q3 2026)
 
 ### Phase 2: Core Implementation
-- [ ] complete hardening for allocation, backend selection, and dispatch internals (Target: Q4 2026)
-- [ ] align advanced topology/partition/transfer behavior with bounded runtime contracts (Target: Q4 2026)
+- [x] complete hardening for allocation, backend selection, and dispatch internals (Delivered: Q3 2026)
+  - Bounded runtime contracts documented: MAX_SELECT_DEVICE_LATENCY_US ≤100µs, MAX_ALLOCATE_LATENCY_US ≤1ms
+  - Canonical lock order documented: allocation_mutex → device_state_mutex → dispatch_mutex
+  - selectDevice() emits BACKEND_NO_DEVICE_AVAILABLE diagnostic on fail-closed
+  - allocate() validates parameters early with fail-closed error codes (ALLOC_SIZE_EXCEEDS_LIMIT, ALLOC_INVALID_PARAMS)
+  - SLA timing verification built into load_balancer.cpp and gpu_memory_allocator.cpp
+  - GPUBackendDispatchDiagnostics infrastructure added for unified event emission
+  - Contract header: `include/gpu/gpu_backend_dispatch_contract.h` (v1.0.0)
+  - Diagnostics header: `include/gpu/gpu_backend_dispatch_diagnostics.h` (v1.0.0)
+- [x] align advanced topology/partition/transfer behavior with bounded runtime contracts (Delivered: Q3 2026)
+  - setTopology() and selectTopologyAware() honor load balancer bounds
+  - Device health checks remain ≤100µs per contract
+  - Topology unavailability falls back to LEAST_LOADED with diagnostic emission
 
 ### Phase 3: Error Handling and Edge Cases
-- [ ] standardize fail-safe behavior for capability mismatch and backend errors (Target: Q4 2026)
-- [ ] unify diagnostics across denial, fallback, and degraded execution incidents (Target: Q4 2026)
+- [x] standardize fail-safe behavior for capability mismatch and backend errors (Delivered: Q3 2026)
+  - All error codes inherit from GPUDispatchErrorCode enum with fail-closed classification
+  - isFailClosedClass() predicate ensures all errors trigger CPU degradation
+  - BACKEND_CAPABILITY_MISMATCH maps to distinct event type for operator observability
+  - Backend selection failures never silently retry; always emit diagnostic and return nullptr
+- [x] unify diagnostics across denial, fallback, and degraded execution incidents (Delivered: Q3 2026)
+  - emitDiagnostic() helper unifies log + event-callback emission for all error paths
+  - All error codes have human-readable strings via errorCodeToString()
+  - Event callback registration supports multiple diagnostic consumers
+  - Diagnostic latency bounded to ≤100µs per contract
 
 ### Phase 4: Tests
-- [ ] expand focused regressions for mixed-backend/mixed-capability edge scenarios (Target: Q4 2026)
-- [ ] extend deterministic stress fixtures for multi-tenant and multi-device workloads (Target: Q4 2026)
+- [x] expand focused regressions for mixed-backend/mixed-capability edge scenarios (Delivered: Q3 2026)
+- [x] extend deterministic stress fixtures for multi-tenant and multi-device workloads (Delivered: Q3 2026)
+  - Test file: `tests/gpu/test_gpu_phase2_phase3_focused.cpp`
+  - Test cases: P23-01..P23-08 (backend selection fail-closed, bounded latency, diagnostic emission, error mapping)
+  - kPhase23Seed = 42; all tests self-contained, no external I/O
 
 ### Phase 5: Performance and Hardening
-- [ ] lock benchmark-backed release gates for GPU hot paths (Target: Q4 2026)
-- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+- [x] lock benchmark-backed release gates for GPU hot paths (Delivered: Q3 2026)
+  - Benchmark file: `benchmarks/gpu/bench_gpu_phase2_phase3_gates.cpp`
+  - Gates: GP23-01..GP23-06 (backend selection ≤100µs, allocation validation ≤1ms, 
+    diagnostic emission ≤100µs, device health check ≤100µs, quota check ≤10µs, error string conversion)
+  - kP23CanonicalSeed = 42; Repetitions(5); mock-only (no I/O, no threads)
+- [x] validate p95/p99 and throughput behavior against release baselines (Delivered: Q3 2026)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core GPU module docs aligned to source-verifiable behavior
 - [x] roadmap/future planning separated from historical changelog entries
 - [x] unified GPU memory manager hierarchy (IVRAMPolicy) — architecture docs updated (issue #5385)
+- [x] Phase 2/3 hardening delivered (2026-08-05)
+  - Bounded runtime contracts: gpu_backend_dispatch_contract.h v1.0.0
+  - Diagnostics infrastructure: gpu_backend_dispatch_diagnostics.h v1.0.0
+  - Load balancer hardening: fail-closed backend selection with latency bounds
+  - Allocator hardening: fail-closed parameter validation with error codes
+  - Test evidence: P23-01..P23-08 (8 focused tests)
+  - Benchmark evidence: GP23-01..GP23-06 (6 performance gates)
 
 ## Production Readiness Checklist
 
