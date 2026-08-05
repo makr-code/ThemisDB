@@ -48,6 +48,34 @@ endif()
 set(CMAKE_FIND_PACKAGE_PREFER_CONFIG ON)
 
 # ============================================================================
+# RELEASE BUILD MODE DETECTION AND VALIDATION
+# ============================================================================
+
+# Automatically detect release mode based on CMAKE_BUILD_TYPE
+if(CMAKE_BUILD_TYPE MATCHES "^(Release|RelWithDebInfo|MinSizeRel)$")
+    set(_themis_default_release_build ON)
+else()
+    set(_themis_default_release_build OFF)
+endif()
+
+option(THEMIS_RELEASE_BUILD
+    "Enforce strict dependency checking for production/release builds. Automatically ON for Release/RelWithDebInfo/MinSizeRel builds."
+    ${_themis_default_release_build}
+)
+
+# Validate incompatible flag combinations for release builds
+if(THEMIS_RELEASE_BUILD AND THEMIS_ALLOW_MISSING_ROCKSDB)
+    message(FATAL_ERROR
+        "INVALID CONFIGURATION: THEMIS_RELEASE_BUILD=ON and THEMIS_ALLOW_MISSING_ROCKSDB=ON are mutually exclusive. "
+        "Release builds cannot tolerate missing dependencies. Use THEMIS_ALLOW_MISSING_ROCKSDB=ON only in diagnostic/development builds with CMAKE_BUILD_TYPE=Debug."
+    )
+endif()
+
+if(THEMIS_RELEASE_BUILD)
+    message(STATUS "RELEASE BUILD MODE: Enforcing strict dependency checking. All required dependencies must be available.")
+endif()
+
+# ============================================================================
 # REQUIRED DEPENDENCIES (core functionality)
 # ============================================================================
 
@@ -219,23 +247,14 @@ endif()
 if(fmt_FOUND)
     message(STATUS "fmt found")
 else()
-    if(THEMIS_ALLOW_MISSING_ROCKSDB)
-        message(WARNING
-            "fmt not found. Continuing configure because THEMIS_ALLOW_MISSING_ROCKSDB=ON, "
-            "but fmt-dependent targets will still require fmt before building."
-        )
-        if(NOT TARGET fmt::fmt)
-            add_library(fmt::fmt INTERFACE IMPORTED)
-        endif()
-    else()
-        message(FATAL_ERROR 
-            "fmt not found. Install via:\n"
-            "  - vcpkg: vcpkg install fmt\n"
-            "  - Debian/Ubuntu: sudo apt-get install libfmt-dev\n"
-            "  - Fedora/RHEL: sudo dnf install fmt-devel\n"
-            "  - macOS: brew install fmt"
-        )
-    endif()
+    # fmt is a CRITICAL dependency - ALWAYS fail if not found
+    message(FATAL_ERROR 
+        "fmt library not found. This is a critical dependency and cannot be skipped. Install via:\n"
+        "  - vcpkg: vcpkg install fmt\n"
+        "  - Debian/Ubuntu: sudo apt-get install libfmt-dev\n"
+        "  - Fedora/RHEL: sudo dnf install fmt-devel\n"
+        "  - macOS: brew install fmt"
+    )
 endif()
 
 # spdlog: Try CONFIG first (vcpkg), fall back to MODULE (system packages)
@@ -246,23 +265,14 @@ endif()
 if(spdlog_FOUND)
     message(STATUS "spdlog found")
 else()
-    if(THEMIS_ALLOW_MISSING_ROCKSDB)
-        message(WARNING
-            "spdlog not found. Continuing configure because THEMIS_ALLOW_MISSING_ROCKSDB=ON, "
-            "but spdlog-dependent targets will still require spdlog before building."
-        )
-        if(NOT TARGET spdlog::spdlog)
-            add_library(spdlog::spdlog INTERFACE IMPORTED)
-        endif()
-    else()
-        message(FATAL_ERROR 
-            "spdlog not found. Install via:\n"
-            "  - vcpkg: vcpkg install spdlog\n"
-            "  - Debian/Ubuntu: sudo apt-get install libspdlog-dev\n"
-            "  - Fedora/RHEL: sudo dnf install spdlog-devel\n"
-            "  - macOS: brew install spdlog"
-        )
-    endif()
+    # spdlog is a CRITICAL dependency - ALWAYS fail if not found
+    message(FATAL_ERROR 
+        "spdlog library not found. This is a critical dependency and cannot be skipped. Install via:\n"
+        "  - vcpkg: vcpkg install spdlog\n"
+        "  - Debian/Ubuntu: sudo apt-get install libspdlog-dev\n"
+        "  - Fedora/RHEL: sudo dnf install spdlog-devel\n"
+        "  - macOS: brew install spdlog"
+    )
 endif()
 
 # Disable spdlog compile-time format string checks for better compatibility with runtime format strings
@@ -277,23 +287,14 @@ endif()
 if(nlohmann_json_FOUND)
     message(STATUS "nlohmann_json found")
 else()
-    if(THEMIS_ALLOW_MISSING_ROCKSDB)
-        message(WARNING
-            "nlohmann_json not found. Continuing configure because THEMIS_ALLOW_MISSING_ROCKSDB=ON, "
-            "but nlohmann_json-dependent targets will still require nlohmann_json before building."
-        )
-        if(NOT TARGET nlohmann_json::nlohmann_json)
-            add_library(nlohmann_json::nlohmann_json INTERFACE IMPORTED)
-        endif()
-    else()
-        message(FATAL_ERROR 
-            "nlohmann_json not found. Install via:\n"
-            "  - vcpkg: vcpkg install nlohmann-json\n"
-            "  - Debian/Ubuntu: sudo apt-get install nlohmann-json3-dev\n"
-            "  - Fedora/RHEL: sudo dnf install nlohmann-json-devel\n"
-            "  - macOS: brew install nlohmann-json"
-        )
-    endif()
+    # nlohmann_json is a CRITICAL dependency - ALWAYS fail if not found
+    message(FATAL_ERROR 
+        "nlohmann_json library not found. This is a critical dependency and cannot be skipped. Install via:\n"
+        "  - vcpkg: vcpkg install nlohmann-json\n"
+        "  - Debian/Ubuntu: sudo apt-get install nlohmann-json3-dev\n"
+        "  - Fedora/RHEL: sudo dnf install nlohmann-json-devel\n"
+        "  - macOS: brew install nlohmann-json"
+    )
 endif()
 
 # Boost: Try CONFIG first, fall back to MODULE if not found
@@ -681,12 +682,8 @@ if(THEMIS_ENABLE_MIMALLOC)
         message(STATUS "mimalloc found - enabling high-performance memory allocation")
         add_compile_definitions(THEMIS_HAS_MIMALLOC=1)
     else()
-        if(THEMIS_ALLOW_MISSING_ROCKSDB)
-            message(WARNING "mimalloc not found - disabling high-performance memory allocation")
-            set(THEMIS_ENABLE_MIMALLOC OFF CACHE BOOL "Enable mimalloc" FORCE)
-        else()
-            message(FATAL_ERROR "THEMIS_ENABLE_MIMALLOC=ON but mimalloc not found")
-        endif()
+        # If explicitly enabled, it should always be available
+        message(FATAL_ERROR "THEMIS_ENABLE_MIMALLOC=ON but mimalloc not found. Install via: vcpkg install mimalloc OR apt install libmimalloc-dev")
     endif()
 endif()
 
