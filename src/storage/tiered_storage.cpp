@@ -53,6 +53,7 @@ void AccessTracker::recordRead(const std::string& key) {
     auto it = entries_.find(key);
     if (it != entries_.end()) {
         it->second.last_read_at = std::chrono::system_clock::now();
+        it->second.read_count++;
     }
 }
 

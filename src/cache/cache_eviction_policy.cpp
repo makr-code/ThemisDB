@@ -650,7 +650,7 @@ double WeightedTieredLRUEvictionPolicy::score_locked(const EntryState& state,
     const double frequency_basis =
         state.decayed_frequency > 0.0 ? state.decayed_frequency : static_cast<double>(state.access_count);
     const double max_frequency_basis =
-        std::max<double>(1.0, static_cast<double>(config_.hot_access_threshold));
+        std::max<double>(1.0, static_cast<double>(config_.l1_promotion_threshold));
     const auto frequency_score =
         std::min(1.0, std::log1p(frequency_basis) / std::log1p(max_frequency_basis));
 

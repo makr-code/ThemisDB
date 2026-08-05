@@ -112,6 +112,7 @@ public:
         std::chrono::system_clock::time_point last_read_at;
         StorageTierLevel tier{StorageTierLevel::HOT};
         uint64_t value_size{0};  ///< Byte length of the stored value (set on put)
+        uint64_t read_count{0};  ///< Number of times this entry has been read
     };
 
     /// Record a write (creates or resets the entry).

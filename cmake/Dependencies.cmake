@@ -109,92 +109,84 @@ option(THEMIS_ALLOW_MISSING_ROCKSDB
 )
 find_package(RocksDB CONFIG QUIET)
 if(RocksDB_FOUND)
-    message(STATUS "RocksDB found")
+   message(STATUS "RocksDB found via CONFIG")
+   # CHECK if the CONFIG version is static and override it with the dynamic library if available
+   find_library(_ROCKSDB_DYNAMIC NAMES librocksdb.so rocksdb.so)
+   if(_ROCKSDB_DYNAMIC)
+       message(STATUS "RocksDB CONFIG found, checking for dynamic library: ${_ROCKSDB_DYNAMIC}")
+       # Modify the existing target to use the dynamic library instead
+       if(TARGET RocksDB::rocksdb)
+           # Update the target to point to the shared library
+           set_target_properties(RocksDB::rocksdb PROPERTIES
+               IMPORTED_LOCATION "${_ROCKSDB_DYNAMIC}"
+               IMPORTED_NO_SONAME_RELEASE FALSE
+           )
+           message(STATUS "Updated RocksDB to use dynamic library: ${_ROCKSDB_DYNAMIC}")
+       endif()
+   endif()
 else()
-    # vcpkg often provides 'unofficial-rocksdb' with target 'unofficial::rocksdb'
-    find_package(unofficial-rocksdb CONFIG QUIET)
-    if(unofficial-rocksdb_FOUND)
-        add_library(RocksDB::rocksdb ALIAS unofficial::rocksdb)
-        message(STATUS "RocksDB found via vcpkg (unofficial)")
-    else()
-        # Try pkg-config as fallback (covers system-installed librocksdb-dev)
-        find_package(PkgConfig QUIET)
-        if(PkgConfig_FOUND)
-            pkg_check_modules(RocksDB_PC QUIET rocksdb)
-        endif()
-        if(RocksDB_PC_FOUND)
-            add_library(RocksDB::rocksdb INTERFACE IMPORTED)
-            set_target_properties(RocksDB::rocksdb PROPERTIES
-                INTERFACE_INCLUDE_DIRECTORIES "${RocksDB_PC_INCLUDE_DIRS}"
-                INTERFACE_LINK_LIBRARIES     "${RocksDB_PC_LIBRARIES}"
-                INTERFACE_LINK_DIRECTORIES   "${RocksDB_PC_LIBRARY_DIRS}"
-            )
+   # vcpkg often provides 'unofficial-rocksdb' with target 'unofficial::rocksdb'
+   find_package(unofficial-rocksdb CONFIG QUIET)
+   if(unofficial-rocksdb_FOUND)
+       add_library(RocksDB::rocksdb ALIAS unofficial::rocksdb)
+       message(STATUS "RocksDB found via vcpkg (unofficial)")
+   else()
+       # Try pkg-config as fallback (covers system-installed librocksdb-dev)
+       find_package(PkgConfig QUIET)
+       if(PkgConfig_FOUND)
+           pkg_check_modules(RocksDB_PC QUIET rocksdb)
+       endif()
+       if(RocksDB_PC_FOUND)
+           # Check if dynamic library exists
+           find_library(_ROCKSDB_DYNAMIC NAMES librocksdb.so rocksdb.so PATHS ${RocksDB_PC_LIBRARY_DIRS} NO_DEFAULT_PATH)
             
-            # Detect if RocksDB is static (from system packages) and needs PIC handling
-            # Try to find if librocksdb.a (static) or librocksdb.so (dynamic) exists
-            find_library(_ROCKSDB_STATIC NAMES librocksdb.a rocksdb.a PATHS ${RocksDB_PC_LIBRARY_DIRS} NO_DEFAULT_PATH)
-            find_library(_ROCKSDB_DYNAMIC NAMES librocksdb.so rocksdb.so PATHS ${RocksDB_PC_LIBRARY_DIRS} NO_DEFAULT_PATH)
-            
-            if(_ROCKSDB_DYNAMIC)
-                # Dynamic library available - use it to avoid PIC issues
-                message(STATUS "RocksDB found as dynamic library: ${_ROCKSDB_DYNAMIC}")
-                # No additional flags needed for dynamic linking
-            elseif(_ROCKSDB_STATIC)
-                # Static library detected - apply PIC compatibility workarounds
-                message(STATUS "RocksDB found as static library: ${_ROCKSDB_STATIC}")
-                message(STATUS "Applying PIC compatibility flags for static RocksDB linking")
-                
-                # The static RocksDB from system packages is not PIC-compatible.
-                # We use linker flags to work around TPOFF32 relocation errors:
-                # - Wl,--allow-shlib-undefined: Allow undefined TLS symbols in shared libs
-                # - Wl,--relax: Enable linker relaxation to handle TLS relocations
-                # - Wl,--as-needed: Remove unused link dependencies
-                
-                if(UNIX AND NOT APPLE)
-                    # Apply comprehensive workaround flags
-                    set(_rocksdb_workaround_flags
-                        "SHELL:-Wl,--allow-shlib-undefined"
-                        "SHELL:-Wl,--relax"
-                        "SHELL:-Wl,--as-needed"
-                    )
-                    
-                    get_target_property(_existing_link_opts RocksDB::rocksdb INTERFACE_LINK_OPTIONS)
-                    if(_existing_link_opts)
-                        list(APPEND _existing_link_opts ${_rocksdb_workaround_flags})
-                    else()
-                        set(_existing_link_opts ${_rocksdb_workaround_flags})
-                    endif()
-                    set_target_properties(RocksDB::rocksdb PROPERTIES
-                        INTERFACE_LINK_OPTIONS "${_existing_link_opts}"
-                    )
-                endif()
-            else()
-                message(STATUS "RocksDB library type detection inconclusive; applying conservative workaround")
-                if(UNIX AND NOT APPLE)
-                    set_target_properties(RocksDB::rocksdb PROPERTIES
-                        INTERFACE_LINK_OPTIONS "SHELL:-Wl,--allow-shlib-undefined;SHELL:-Wl,--relax;SHELL:-Wl,--as-needed"
-                    )
-                endif()
-            endif()
-            
-            set(RocksDB_FOUND TRUE)
-            message(STATUS "RocksDB found via pkg-config: ${RocksDB_PC_VERSION}")
-        else()
-            if(THEMIS_ALLOW_MISSING_ROCKSDB)
-                message(WARNING
-                    "RocksDB not found. Continuing configure because THEMIS_ALLOW_MISSING_ROCKSDB=ON. "
-                    "Install via vcpkg (rocksdb) or system package librocksdb-dev before building "
-                    "RocksDB-dependent targets."
-                )
-                if(NOT TARGET RocksDB::rocksdb)
-                    add_library(RocksDB::rocksdb INTERFACE IMPORTED)
-                endif()
-                set(RocksDB_FOUND FALSE)
-            else()
-                message(FATAL_ERROR "RocksDB not found. Install via vcpkg (rocksdb) or system package librocksdb-dev.")
-            endif()
-        endif()
-    endif()
+           if(_ROCKSDB_DYNAMIC)
+               # Use dynamic library explicitly
+               message(STATUS "RocksDB found as dynamic library: ${_ROCKSDB_DYNAMIC}")
+               add_library(RocksDB::rocksdb SHARED IMPORTED)
+               set_target_properties(RocksDB::rocksdb PROPERTIES
+                   IMPORTED_LOCATION "${_ROCKSDB_DYNAMIC}"
+                   INTERFACE_INCLUDE_DIRECTORIES "${RocksDB_PC_INCLUDE_DIRS}"
+               )
+           else()
+               # Try to find it manually if pkg-config didn't find the dynamic version
+               find_library(_ROCKSDB_FALLBACK NAMES librocksdb.so rocksdb.so)
+               if(_ROCKSDB_FALLBACK)
+                   message(STATUS "RocksDB found at: ${_ROCKSDB_FALLBACK}")
+                   add_library(RocksDB::rocksdb SHARED IMPORTED)
+                   set_target_properties(RocksDB::rocksdb PROPERTIES
+                       IMPORTED_LOCATION "${_ROCKSDB_FALLBACK}"
+                       INTERFACE_INCLUDE_DIRECTORIES "${RocksDB_PC_INCLUDE_DIRS}"
+                   )
+               else()
+                   # Fall back to interface library with pkg-config (for static linking if shared not available)
+                   message(STATUS "RocksDB found via pkg-config: ${RocksDB_PC_LIBRARIES}")
+                   add_library(RocksDB::rocksdb INTERFACE IMPORTED)
+                   set_target_properties(RocksDB::rocksdb PROPERTIES
+                       INTERFACE_INCLUDE_DIRECTORIES "${RocksDB_PC_INCLUDE_DIRS}"
+                       INTERFACE_LINK_LIBRARIES     "${RocksDB_PC_LIBRARIES}"
+                       INTERFACE_LINK_DIRECTORIES   "${RocksDB_PC_LIBRARY_DIRS}"
+                   )
+               endif()
+           endif()
+           set(RocksDB_FOUND TRUE)
+           message(STATUS "RocksDB found via pkg-config: ${RocksDB_PC_VERSION}")
+       else()
+           if(THEMIS_ALLOW_MISSING_ROCKSDB)
+               message(WARNING
+                   "RocksDB not found. Continuing configure because THEMIS_ALLOW_MISSING_ROCKSDB=ON. "
+                   "Install via vcpkg (rocksdb) or system package librocksdb-dev before building "
+                   "RocksDB-dependent targets."
+               )
+               if(NOT TARGET RocksDB::rocksdb)
+                   add_library(RocksDB::rocksdb INTERFACE IMPORTED)
+               endif()
+               set(RocksDB_FOUND FALSE)
+           else()
+               message(FATAL_ERROR "RocksDB not found. Install via vcpkg (rocksdb) or system package librocksdb-dev.")
+           endif()
+       endif()
+   endif()
 endif()
 
 find_package(simdjson CONFIG)

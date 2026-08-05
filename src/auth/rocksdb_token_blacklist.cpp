@@ -111,7 +111,9 @@ RocksDBTokenBlacklist::RocksDBTokenBlacklist(const Config &config) : config_(con
     }
 
     std::vector<rocksdb::ColumnFamilyHandle *> cf_handles;
-    rocksdb::Status s = rocksdb::DB::Open(rocksdb::DBOptions{opts}, config_.db_path, cf_descs, &cf_handles, &db_);
+    rocksdb::DB* db_raw_ptr = nullptr;
+    rocksdb::Status s = rocksdb::DB::Open(rocksdb::DBOptions{opts}, config_.db_path, cf_descs, &cf_handles, &db_raw_ptr);
+    db_ = std::unique_ptr<rocksdb::DB>(db_raw_ptr);
     if (!s.ok()) {
         throw std::runtime_error("RocksDBTokenBlacklist: failed to open DB at '" + config_.db_path
                                  + "': " + s.ToString());

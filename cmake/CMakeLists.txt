@@ -1426,15 +1426,16 @@ endif()
 
 # Fallback: locate system RocksDB if vcpkg didn't provide it
 if(NOT TARGET RocksDB::rocksdb AND NOT TARGET RocksDB::rocksdb-shared)
-    find_library(ROCKSDB_LIB rocksdb)
+    # Explicitly use the shared library rocksdb.so
+    set(ROCKSDB_LIB "/usr/lib/x86_64-linux-gnu/librocksdb.so")
     find_path(ROCKSDB_INCLUDE_DIR rocksdb/db.h)
     if(ROCKSDB_LIB AND ROCKSDB_INCLUDE_DIR)
-        add_library(RocksDB::rocksdb UNKNOWN IMPORTED)
+        add_library(RocksDB::rocksdb SHARED IMPORTED)
         set_target_properties(RocksDB::rocksdb PROPERTIES
             IMPORTED_LOCATION "${ROCKSDB_LIB}"
             INTERFACE_INCLUDE_DIRECTORIES "${ROCKSDB_INCLUDE_DIR}")
         set(THEMIS_ROCKSDB_TARGET "RocksDB::rocksdb")
-        message(STATUS "Using system RocksDB library at ${ROCKSDB_LIB} and include ${ROCKSDB_INCLUDE_DIR}")
+        message(STATUS "Using system RocksDB shared library at ${ROCKSDB_LIB} and include ${ROCKSDB_INCLUDE_DIR}")
     else()
         message(FATAL_ERROR "RocksDB not found. Install via vcpkg or system package (librocksdb-dev).")
     endif()
