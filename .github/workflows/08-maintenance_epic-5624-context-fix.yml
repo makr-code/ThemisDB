@@ -1,0 +1,118 @@
+name: EPIC 5624 — Add EPIC Context to Module Status Issues
+
+# One-shot workflow to prepend a structured ## EPIC Context section to every
+# open module-status issue (#5625–#5684) that belongs to EPIC #5624 but lacks
+# the explicit governance header.
+#
+# Trigger: manual workflow_dispatch only.
+# After all issues are updated this workflow can be deleted or disabled.
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Dry-run mode (true = only log, do not patch issues)"
+        required: false
+        default: "false"
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  add-epic-context:
+    name: Add EPIC Context to Module Status Issues
+    runs-on: ubuntu-latest
+    steps:
+      - name: Patch issues with EPIC Context section
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const dryRun = "${{ github.event.inputs.dry_run }}" === "true";
+
+            // Issues #5625–#5684 are the canonical module-status tracker issues
+            // for EPIC #5624.  We update only the ones that are still open and
+            // that do not yet contain the ## EPIC Context governance header.
+            const ISSUE_START = 5625;
+            const ISSUE_END   = 5684;
+
+            const EPIC_CONTEXT_HEADER = `## EPIC Context
+
+- **Parent Epic**: #5624 — [EPIC][STATUS][MODULES] ThemisDB Development Status 2026-07-18
+- **Flow type**:
+  - [x] Feature branch → EPIC branch
+  - [ ] EPIC branch → develop
+- **EPIC Branch Target**: PR #5754 (copilot/themisdb-development-status-2026-07-18)
+
+`;
+
+            const owner = context.repo.owner;
+            const repo  = context.repo.repo;
+
+            let updated = 0;
+            let skipped = 0;
+            let alreadyHas = 0;
+            let closed = 0;
+
+            for (let num = ISSUE_START; num <= ISSUE_END; num++) {
+              let issue;
+              try {
+                const { data } = await github.rest.issues.get({
+                  owner, repo, issue_number: num,
+                });
+                issue = data;
+              } catch (err) {
+                if (err.status === 404) {
+                  console.log(`#${num}: not found — skipping`);
+                  skipped++;
+                  continue;
+                }
+                throw err;
+              }
+
+              if (issue.state !== "open") {
+                console.log(`#${num}: closed — skipping`);
+                closed++;
+                continue;
+              }
+
+              const body = issue.body || "";
+
+              if (body.includes("## EPIC Context")) {
+                console.log(`#${num}: already has EPIC Context — skipping`);
+                alreadyHas++;
+                continue;
+              }
+
+              const newBody = EPIC_CONTEXT_HEADER + body;
+
+              if (dryRun) {
+                console.log(`[DRY RUN] Would update #${num}: ${issue.title}`);
+                updated++;
+                continue;
+              }
+
+              await github.rest.issues.update({
+                owner, repo,
+                issue_number: num,
+                body: newBody,
+              });
+
+              console.log(`✓ Updated #${num}: ${issue.title}`);
+              updated++;
+            }
+
+            const mode = dryRun ? "DRY RUN" : "LIVE";
+            const summary = [
+              `## EPIC 5624 Context Fix — ${mode} Summary`,
+              "",
+              `| Result | Count |`,
+              `|--------|-------|`,
+              `| Updated | ${updated} |`,
+              `| Already had EPIC Context | ${alreadyHas} |`,
+              `| Closed (skipped) | ${closed} |`,
+              `| Not found (skipped) | ${skipped} |`,
+            ].join("\n");
+
+            console.log(summary);
+            await core.summary.addRaw(summary).write();
