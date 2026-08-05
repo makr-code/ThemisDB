@@ -512,6 +512,46 @@ else()
     message(STATUS "Phase 4 Block 1 hardening tests not found at ${CMAKE_CURRENT_LIST_DIR}/test_phase4_query_hardening.cpp")
 endif()
 
+# Query Module Phase 2: Optimizer and Planning Hardening — Regression Test Suite
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_query_optimizer_regression.cpp")
+    message(STATUS "Adding Query Module Phase 2: Optimizer Regression tests (33 deterministic cases)")
+
+    add_executable(test_query_optimizer_regression_focused
+        test_query_optimizer_regression.cpp
+        ${THEMIS_ROOT_DIR}/src/query/optimizer_cost_model_enhancements.cpp
+    )
+
+    target_include_directories(test_query_optimizer_regression_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_query_optimizer_regression_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+        OpenSSL::Crypto
+    )
+
+    target_compile_definitions(test_query_optimizer_regression_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    themis_register_module_focused_test(
+        MODULE query
+        NAME QueryOptimizerRegressionTests
+        TARGET test_query_optimizer_regression_focused
+        TIER unit
+        TIMEOUT 120
+        LABELS phase2 optimizer regression histogram correlation estimate validation performance-gates
+    )
+
+    message(STATUS "  QueryOptimizer Regression: cardinality estimation (RC1-10), cost model (CM1-8), plan cache (PC1-8), estimate validation (EV1-4), performance gates (PG1-2), stress tests (STRESS1)")
+else()
+    message(STATUS "Query Optimizer Regression tests not found at ${CMAKE_CURRENT_LIST_DIR}/test_query_optimizer_regression.cpp")
+endif()
+
 # AUTOGEN PREFIX BLOCK: query
 file(GLOB QUERY_AUTOGEN_PREFIX_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_query_*.cpp"
