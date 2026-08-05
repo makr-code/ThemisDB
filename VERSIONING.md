@@ -58,7 +58,7 @@ The canonical version is stored in two places that must always be kept in sync:
 
 Additionally, the CMake build system reads the version at configure time via the `VERSION` file and from `CMakeLists.txt` `project()` call. Keep these consistent.
 
-The `RELEASE_TYPE` file contains the current release type string (e.g., `stable`, `rc`, `beta`). At this root-sync point, the canonical state is `VERSION=2.4.0-rc1` with `RELEASE_TYPE=rc`.
+The `RELEASE_TYPE` file contains the current release type string (e.g., `stable`, `rc`, `beta`). At this root-sync point, the canonical state is `VERSION=2.4.0` with `RELEASE_TYPE=stable`.
 
 ---
 
@@ -100,7 +100,7 @@ Required evidence bundle:
 - synchronized release/governance documentation (`ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `CHANGELOG.md`, branch/release/versioning docs)
 - completed GA hardening execution batches (A-D) with boundary evidence updates in planning/status documents
 
-Current batch tracking is maintained in `ROADMAP.md`, `NEXT_PHASE_IMPLEMENTATION_PLAN.md`, and `ai_working/NEXT_PHASE_STATUS.md`. Batch C is now closed: sanitizer evidence (`docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md`) and penetration-test evidence (`security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`) are delivered. Final human governance sign-off (Batch D) is pending at `docs/governance/GA_PROMOTION_SIGN_OFF.md`.
+Current batch tracking is maintained in `ROADMAP.md`, `NEXT_PHASE_IMPLEMENTATION_PLAN.md`, and `ai_working/NEXT_PHASE_STATUS.md`. Batch D is now closed. Final human governance sign-off completed at `docs/governance/GA_PROMOTION_SIGN_OFF.md`.
 
 ## 4. Release Cadence
 

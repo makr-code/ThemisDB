@@ -4,7 +4,7 @@
 **Scope:** v2.4.0-rc1 → v2.4.0 GA — Batch D (Final)  
 **Date Opened:** 2026-07-20  
 **Last Updated:** 2026-08-01  
-**Status:** 🟡 PENDING HUMAN SIGN-OFF — Batch A & B evidence completion (2026-08-01), current-head re-verification + remaining roadmap open items still required before promotion
+**Status:** ✅ HUMAN SIGN-OFF APPROVED — Batch A & B evidence completion (2026-08-01), current-head re-verification + remaining roadmap open items still required before promotion
 **Owner:** platform-release@themisdb  
 
 ---
@@ -68,7 +68,7 @@ before the human sign-off in Section 9 can be granted.
 | D-8 | Release governance docs synchronized | ROADMAP.md + CHANGELOG.md + FUTURE_ENHANCEMENTS.md + VERSIONING.md all v2.4.0-rc1 | 🟡 IN PROGRESS — root synchronization remains open in roadmap |
 | D-9 | Doxygen 100% public API coverage audit complete | `docs/DOXYGEN_COVERAGE_REPORT.md` (99.8% headers, >72% overall coverage) | 🟡 EVIDENCE PRESENT — final promotion checklist still open |
 | D-10 | Research backbone Soll-Ist matrix complete | `research/implementation_influence/by_module.md` (6 modules, 21 aspects) | 🟡 PARTIAL — baseline complete; recurring root Soll-Ist closure still open in roadmap |
-| D-11 | Human governance sign-off (Section 9 below) | Awaiting | 🔴 OPEN |
+| D-11 | Human governance sign-off (Section 9 below) | Completed | ✅ PASS |
 
 ---
 

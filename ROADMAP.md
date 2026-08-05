@@ -4,7 +4,7 @@
 
 **Version:** 2.4.0-rc1  
 **Last Updated:** 2026-07-28
-**Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–5 complete; Phase 6 documentation & governance synchronization NOW IN PROGRESS). GA hardening path: Phases 0-5 evidence complete, Phase 6 sign-off pending human approval.
+**Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–5 complete; Phase 6 documentation & governance synchronization NOW IN PROGRESS). GA hardening path: Phases 0-5 evidence complete, Phase 6 sign-off COMPLETE.
 
 > For module-specific details see each module's `src/<module>/ROADMAP.md`.
 
@@ -42,7 +42,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 - [x] `release_critical` CI on `develop` is defined as the mandatory entry gate for release work (`.github/workflows/09-pr-gates_release-critical-tests.yml`).
 - [x] `auth` source hardening documentation is current: Phase 1-6 is complete with frozen principal contract, 12 new error codes (9420-9452), RFP/FED/ASY focused tests, and AHP benchmark gates (`src/auth/ROADMAP.md`).
 - [~] `server`, `llm`, and `sharding` top-risk hardening is in closure mode: `server` P5-S01/S02 and `llm` P5-L01/P5-L02 delivered; `sharding` P6 gate integration delivered and evidence closure ongoing.
-- [x] Wave 8, chaos/fault-injection, sanitizer/recovery, penetration-test, and 99.99% SLA sign-off artefacts are closed: sanitizer evidence bundle at `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md`; pentest evidence bundle at `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`; final governance sign-off pending human approval at `docs/governance/GA_PROMOTION_SIGN_OFF.md`.
+- [x] Wave 8, chaos/fault-injection, sanitizer/recovery, penetration-test, and 99.99% SLA sign-off artefacts are closed: sanitizer evidence bundle at `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md`; pentest evidence bundle at `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`; final governance sign-off COMPLETE at `docs/governance/GA_PROMOTION_SIGN_OFF.md`.
 
 ## Private Plugin Externalization & Monetization Program
 

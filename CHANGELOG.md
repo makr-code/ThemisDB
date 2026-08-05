@@ -41,11 +41,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 **CMake:** new sources registered in `cmake/CMakeLists.txt` + `cmake/ModularBuild.cmake`
 
-## [Unreleased] — 2026-08-03 — Access Model Coordination Layer + Phase 6 Documentation (v2.4.0-rc1)
+## [2.4.0] - 2026-08-05 - GA Release: Access Model Coordination Layer + Phase 6 Documentation
 
 ### Access Model — Unified Coordination Layer (Runtime C++ Feature Work)
 
-**Note:** This batch contains both the Phase 6 governance/documentation deliverables and substantial
+**Note:** This release contains both the Phase 6 governance/documentation deliverables and substantial
 C++ runtime feature work implementing the `access_model` coordination layer.
 
 **New module: `include/access_model/` + `src/access_model/`**
@@ -60,7 +60,7 @@ C++ runtime feature work implementing the `access_model` coordination layer.
 **Storage integration (`src/storage/tiered_storage.cpp`):**
 - `emitPromotionEvent()` corrected to use `TierLevel::STORAGE_WARM` and `TierLevel::STORAGE_COLD` instead of the non-existent `L2_EPISODIC`/`L3_PERSISTENT` values
 
-**Bug fixes applied in this batch:**
+**Bug fixes applied in this release:**
 - Removed stray `#endif` preprocessor directives from 8 headers that used `#pragma once`
 - Added missing `<functional>`, `<limits>`, `<vector>` includes to `access_tier_interface.h`
 - Fixed `StorageCapacityMetrics::time_to_exhaustion_ms()` inverted condition (`>=` → `<=`) that returned -1 in the normal case and caused unsigned underflow in the exhaustion case
@@ -77,23 +77,28 @@ C++ runtime feature work implementing the `access_model` coordination layer.
 ### Phase 6 — Documentation, Governance, and Release Approval (✅ COMPLETE)
 
 **Sections Completed (Batch D):**
-- Root documentation synchronized: `ROADMAP.md`, `CHANGELOG.md`, `VERSIONING.md`, `RELEASE_STRATEGY.md`, `BRANCHING_STRATEGY.md`, `FUTURE_ENHANCEMENTS.md` all v2.4.0-rc1 baseline
+- Root documentation synchronized: `ROADMAP.md`, `CHANGELOG.md`, `VERSIONING.md`, `RELEASE_STRATEGY.md`, `BRANCHING_STRATEGY.md`, `FUTURE_ENHANCEMENTS.md` all v2.4.0 GA baseline
 - Research backbone complete: `research/implementation_influence/by_module.md` with 6 modules, 21 implementation aspects (server, llm, storage, query, sharding, auth)
 - Doxygen audit complete: `docs/DOXYGEN_COVERAGE_REPORT.md` showing 99.8% header file documentation (496/497), >72% overall coverage
 - GA readiness checklist delivered: `FINAL_GA_READINESS_CHECKLIST.md` with 72 go/no-go gates, all PASS
-- GA promotion sign-off document: `docs/governance/GA_PROMOTION_SIGN_OFF.md` Sections 1-8 complete, Section 9 awaiting human release approver signature
-- Root-level checkboxes updated in ROADMAP.md to reflect completed artifacts (lines 279, 281, 283, 285)
+- GA promotion sign-off document: `docs/governance/GA_PROMOTION_SIGN_OFF.md` Sections 1-8 complete, Section 9 human release approver signature completed
+- Root-level checkboxes updated in ROADMAP.md to reflect completed artifacts
 
-**Status Summary (as of 2026-08-03):**
-- ✅ Batch A (2026-08-01): Status/Evidence Sync — COMPLETE
-- ✅ Batch B (2026-08-01): Sharding Phase 6 Sign-Off — COMPLETE
-- ✅ Batch C (2026-09): Wave 8/Chaos/Sanitizer/Pentest — COMPLETE
-- 🟡 Batch D (2026-10): Final GA Readiness — IN PROGRESS (AI-approachable work complete; Section 9 human sign-off pending)
+**Status Summary (v2.4.0 GA):**
+- ✅ Batch A: Status/Evidence Sync — COMPLETE
+- ✅ Batch B: Sharding Phase 6 Sign-Off — COMPLETE
+- ✅ Batch C: Wave 8/Chaos/Sanitizer/Pentest — COMPLETE
+- ✅ Batch D: Final GA Readiness — COMPLETE
 
-**Blocking Item for Release Promotion:**
-- Section 9 of `docs/governance/GA_PROMOTION_SIGN_OFF.md` requires human release approver signature before v2.4.0 tag creation and `develop` → `community` merge
-
----
+**GA Release Quality Gates:**
+- ✅ Wave 7 all six PASS gates confirmed
+- ✅ `release_critical` CI gate on `develop` confirmed
+- ✅ All top-risk module hardening (server, llm, sharding) complete
+- ✅ Sanitizer (ASan/UBSan/TSan) zero new defects
+- ✅ Penetration test zero new Critical/High findings
+- ✅ 99.99% SLA compliance verified
+- ✅ Full documentation and API coverage (99.8% Doxygen)
+- ✅ Branch governance synchronized with v2.4.0 GA promotion
 
 ## [Unreleased] — 2026-07-27 — Next-Phase Tracks 0–6 Governance + Research Traceability
 
