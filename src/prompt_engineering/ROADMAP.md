@@ -1,7 +1,7 @@
 # Prompt Engineering Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-08-05 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
@@ -58,6 +58,7 @@ Production-capable prompt engineering runtime exists for template lifecycle oper
 ### Phase 6: Documentation and Acceptance
 - [x] core prompt_engineering docs aligned to source-verifiable behavior
 - [x] roadmap/future planning separated from historical changelog entries
+- [x] focused test infrastructure (PE-FT-001..PE-FT-015) implemented at `tests/prompt_engineering/test_prompt_engineering_focused.cpp` (Target: Q3 2026)
 - [ ] document and integrate rewrite engine architecture and operational guidance (`docs/architecture/rewrite_engine_architecture.md`) (Target: Q4 2026)
 
 ## Production Readiness Checklist
@@ -65,6 +66,7 @@ Production-capable prompt engineering runtime exists for template lifecycle oper
 - [x] core prompt engineering surfaces documented and source-verified
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
+- [x] focused test infrastructure (PE-FT-001..PE-FT-015) implemented for core surfaces
 - [ ] remaining hardening tasks closed for template/versioning/quality edge paths
 - [ ] release benchmark stabilization complete
 - [ ] rewrite engine deterministic rule execution, bounded behavior, and audit trace support validated in production-like test profiles
@@ -79,3 +81,52 @@ Production-capable prompt engineering runtime exists for template lifecycle oper
 ## Breaking Changes
 
 No breaking prompt engineering contract planned. Any contract-breaking change requires migration notes and changelog entry before merge.
+
+## Module Evidence and Validation (Q3 2026 Snapshot)
+
+### Focused Test Infrastructure (PE-FT-001..PE-FT-015)
+
+Implemented focused test suite at `tests/prompt_engineering/test_prompt_engineering_focused.cpp`:
+
+| Test ID | Area | Coverage | Status |
+|---------|------|----------|--------|
+| PE-FT-001 | PromptManager template lifecycle | create/get/list operations | ✅ PASS |
+| PE-FT-002 | Context injection | context map substitution | ✅ PASS |
+| PE-FT-003 | Template validation | valid/invalid template checks | ✅ PASS |
+| PE-FT-004 | PromptVersionControl | commit/history operations | ✅ PASS |
+| PE-FT-005 | FeedbackCollector | feedback recording and stats | ✅ PASS |
+| PE-FT-006 | PromptOptimizer | basic optimization loop | ✅ PASS |
+| PE-FT-007 | PromptEvaluator | structural evaluation | ✅ PASS |
+| PE-FT-008 | PromptEngineeringMetrics | metrics recording | ✅ PASS |
+| PE-FT-009 | Error handling | missing template edge case | ✅ PASS |
+| PE-FT-010 | Error handling | invalid context injection edge case | ✅ PASS |
+| PE-FT-011 | Concurrency | basic concurrent template access | ✅ PASS |
+| PE-FT-012 | Injection validation | empty placeholder edge case | ✅ PASS |
+| PE-FT-013 | Version control | commit history consistency | ✅ PASS |
+| PE-FT-014 | Optimizer diagnostics | diagnostic output validation | ✅ PASS |
+| PE-FT-015 | Evaluator consistency | multiple evaluation consistency | ✅ PASS |
+
+### Benchmark Evidence (Existing)
+
+- `benchmarks/prompt_engineering/bench_prompt_engineering.cpp` provides performance validation
+- Covers 13 benchmark targets for template operations, context injection, version control, feedback, optimization, and evaluation
+- Performance targets documented and tracked (e.g., createTemplate < 10 µs, getTemplate < 1 µs)
+
+### Build Targets
+
+- **Build** (Preset: `community-release-allow-missing-rocksdb`)
+  - `module_prompt_engineering_test_prompt_engineering_focused_focused` - focused test executable
+  - `bench_prompt_engineering` - benchmark executable
+  
+- **Test Registry**
+  - Focused tests registered with: `themis_register_module_focused_test(MODULE prompt_engineering TIER unit TIMEOUT 120)`
+  - CTest labels: `prompt_engineering` for filtering and aggregation
+
+### Validation Summary
+
+- ✅ Roadmap priorities (8 Q3/Q4/Q1 2027 items) synced with ROADMAP.md
+- ✅ Future enhancements scope aligned with FUTURE_ENHANCEMENTS.md
+- ✅ Core API surfaces tested (template, versioning, feedback, optimization, evaluation, metrics)
+- ✅ Error handling and edge cases covered (15 focused test cases)
+- ✅ Concurrency sanity check included
+- ✅ Benchmark infrastructure exists and measurable against documented targets
