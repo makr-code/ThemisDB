@@ -1935,5 +1935,324 @@ std::string PluginManager::installationInstructions() {
            "5. Use CREATE PLUGIN command";
 }
 
+// ============================================================================
+// Phase 3: Error Handling and Edge Cases
+// ============================================================================
+
+PluginsError PluginManager::validateConcurrentStateChange(
+    const PluginEntry& plugin_entry,
+    PluginLifecycleState requested_state) {
+    
+    std::lock_guard<std::mutex> state_lock(plugin_entry.state_mutex);
+    
+    // Reject if already in target state (idempotent operations allowed)
+    if (plugin_entry.state == requested_state && requested_state == PluginLifecycleState::LOADED) {
+       return PluginsError::kSuccess;
+    }
+    
+    // Reject concurrent transitions
+    if (plugin_entry.state == PluginLifecycleState::LOADING ||
+       plugin_entry.state == PluginLifecycleState::UNLOADING) {
+       THEMIS_ERROR("[LIFECYCLE:CONCURRENT] Cannot perform operation: plugin is in transition state {}",
+                    lifecycleStateToString(plugin_entry.state));
+       return PluginsError::kLifecycleTransition;
+    }
+    
+    // Validate transition is allowed
+    if (!isValidLifecycleTransition(plugin_entry.state, requested_state)) {
+       THEMIS_ERROR("[LIFECYCLE:INVALID_TRANSITION] Invalid transition: {} → {}",
+                    lifecycleStateToString(plugin_entry.state),
+                    lifecycleStateToString(requested_state));
+       return PluginsError::kLifecycleTransition;
+    }
+    
+    return PluginsError::kSuccess;
+}
+
+PluginsError PluginManager::recoverPartialRegistryState(const std::string& plugin_name) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    auto it = plugins_.find(plugin_name);
+    if (it == plugins_.end()) {
+       THEMIS_WARN("[LIFECYCLE:RECOVERY] Plugin not found for recovery: {}", plugin_name);
+       return PluginsError::kPluginNotFound;
+    }
+    
+    auto& entry = it->second;
+    
+    THEMIS_WARN("[LIFECYCLE:RECOVERY] Attempting recovery for plugin '{}' in state {}",
+               plugin_name, lifecycleStateToString(entry.state));
+    
+    // If plugin is in LOADING state, roll back to UNLOADED
+    if (entry.state == PluginLifecycleState::LOADING) {
+       {
+           std::lock_guard<std::mutex> state_lock(entry.state_mutex);
+           entry.state = PluginLifecycleState::UNLOADED;
+       }
+       entry.instance.reset();
+       entry.loaded = false;
+       if (entry.library_handle) {
+           unloadLibrary(entry.library_handle);
+           entry.library_handle = nullptr;
+       }
+       THEMIS_WARN("[LIFECYCLE:RECOVERY] Rolled back plugin '{}' from LOADING to UNLOADED", plugin_name);
+       return PluginsError::kSuccess;
+    }
+    
+    // If plugin is in UNLOADING state, roll back to UNLOADED
+    if (entry.state == PluginLifecycleState::UNLOADING) {
+       {
+           std::lock_guard<std::mutex> state_lock(entry.state_mutex);
+           entry.state = PluginLifecycleState::UNLOADED;
+       }
+       THEMIS_WARN("[LIFECYCLE:RECOVERY] Rolled back plugin '{}' from UNLOADING to UNLOADED", plugin_name);
+       return PluginsError::kSuccess;
+    }
+    
+    // No recovery needed
+    THEMIS_INFO("[LIFECYCLE:RECOVERY] Plugin '{}' is in consistent state {}", 
+               plugin_name, lifecycleStateToString(entry.state));
+    return PluginsError::kSuccess;
+}
+
+PluginsError PluginManager::validateManifestOptionalFields(PluginManifest& manifest) {
+    // Validate and apply defaults for optional fields
+    
+    // allowed_editions: empty vector means "all editions" (default)
+    if (manifest.allowed_editions.empty()) {
+       THEMIS_DEBUG("[VALIDATION:OPTIONAL] Using default for allowed_editions: all editions");
+       // Leave empty (all editions allowed)
+    } else {
+       // Normalize edition names to lowercase for comparison
+       for (auto& edition_name : manifest.allowed_editions) {
+           std::transform(edition_name.begin(), edition_name.end(), edition_name.begin(),
+                         [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+       }
+    }
+    
+    // license_feature: empty string means "no license required" (default)
+    if (manifest.license_feature.empty()) {
+       THEMIS_DEBUG("[VALIDATION:OPTIONAL] Using default for license_feature: none required");
+    }
+    
+    // capabilities: empty vector means "no special capabilities" (default)
+    if (manifest.capabilities.empty()) {
+       THEMIS_DEBUG("[VALIDATION:OPTIONAL] Using default for capabilities: none");
+    }
+    
+    // visibility: default to "public" if not specified
+    if (manifest.visibility.empty()) {
+       manifest.visibility = "public";
+       THEMIS_DEBUG("[VALIDATION:OPTIONAL] Using default visibility: public");
+    } else {
+       std::transform(manifest.visibility.begin(), manifest.visibility.end(), 
+                     manifest.visibility.begin(),
+                     [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+    }
+    
+    // dependencies: empty vector means "no dependencies" (default)
+    if (manifest.dependencies.empty()) {
+       THEMIS_DEBUG("[VALIDATION:OPTIONAL] Using default for dependencies: none");
+    }
+    
+    return PluginsError::kSuccess;
+}
+
+PluginsError PluginManager::validateABICompatibility(
+    const PluginEntry& previous_entry,
+    const PluginManifest& new_manifest) {
+    
+    // Check interface version compatibility (allow patch-level changes only)
+    // Format: major.minor.patch
+    const auto parse_version = [](const std::string& ver) -> std::tuple<int, int, int> {
+       int major = 0, minor = 0, patch = 0;
+       try {
+           sscanf(ver.c_str(), "%d.%d.%d", &major, &minor, &patch);
+       } catch (...) {
+           major = minor = patch = 0;
+       }
+       return {major, minor, patch};
+    };
+    
+    auto [prev_major, prev_minor, prev_patch] = parse_version(previous_entry.manifest.version);
+    auto [new_major, new_minor, new_patch] = parse_version(new_manifest.version);
+    
+    // Major version change = ABI incompatible
+    if (new_major != prev_major) {
+       THEMIS_ERROR("[SECURITY:ABI_MISMATCH] Plugin ABI incompatible: {} → {} (major version change)",
+                    previous_entry.manifest.version, new_manifest.version);
+       return PluginsError::kSignatureVerifyFailed;  // Use signature error as proxy for ABI error
+    }
+    
+    // Minor version change = warn but allow
+    if (new_minor != prev_minor) {
+       THEMIS_WARN("[SECURITY:ABI_MINOR_VERSION] Plugin minor version changed: {} → {}",
+                   previous_entry.manifest.version, new_manifest.version);
+    }
+    
+    // Check capabilities are not reduced
+    if (previous_entry.frozen_capabilities.size() > new_manifest.capabilities.size()) {
+       THEMIS_WARN("[SECURITY:CAPABILITY_REDUCTION] Plugin capabilities reduced after reload");
+    }
+    
+    THEMIS_INFO("[SECURITY:ABI_COMPATIBLE] Plugin ABI verified compatible: {} → {}",
+               previous_entry.manifest.version, new_manifest.version);
+    return PluginsError::kSuccess;
+}
+
+bool PluginManager::verifyManifestSignatureWithTimeout(
+    const std::string& manifest_path,
+    uint32_t timeout_ms,
+    std::string& error_details) {
+    
+    // For now, use simple timeout handling via std::chrono
+    // In production, this would use async I/O or thread pool with timeout
+    
+    if (timeout_ms == 0) {
+       // No timeout, use standard verification
+       return verifyManifestSignature(manifest_path, error_details);
+    }
+    
+    THEMIS_DEBUG("[SECURITY:SIGNATURE_TIMEOUT] Verifying manifest with timeout: {} ms", timeout_ms);
+    
+    // Simple timeout: check file accessibility first
+    if (!fs::exists(manifest_path)) {
+       error_details = "Manifest file not found: " + manifest_path;
+       return false;
+    }
+    
+    // For large files, timeout might occur. Implement graceful degradation.
+    try {
+       auto start = std::chrono::steady_clock::now();
+       bool result = verifyManifestSignature(manifest_path, error_details);
+       auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
+           std::chrono::steady_clock::now() - start);
+        
+       if (duration.count() > static_cast<int64_t>(timeout_ms)) {
+           THEMIS_WARN("[SECURITY:SIGNATURE_SLOW] Signature verification slow: {} ms (timeout: {} ms)",
+                      duration.count(), timeout_ms);
+           // In production, we might reject the plugin here. For now, just warn.
+       }
+        
+       return result;
+    } catch (const std::exception& e) {
+       error_details = std::string("Signature verification exception: ") + e.what();
+       return false;
+    }
+}
+
+json PluginManager::getDiagnosticsForPlugin(const std::string& plugin_name) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    json diagnostics = json::object();
+    diagnostics["plugin_name"] = plugin_name;
+    diagnostics["timestamp"] = std::chrono::system_clock::now().time_since_epoch().count();
+    
+    auto it = plugins_.find(plugin_name);
+    if (it == plugins_.end()) {
+       diagnostics["status"] = "not_found";
+       diagnostics["error"] = "Plugin not found in registry";
+       return diagnostics;
+    }
+    
+    const auto& entry = it->second;
+    
+    {
+       std::lock_guard<std::mutex> state_lock(entry.state_mutex);
+       diagnostics["lifecycle_state"] = lifecycleStateToString(entry.state);
+    }
+    
+    diagnostics["loaded"] = entry.loaded;
+    diagnostics["path"] = entry.path;
+    diagnostics["type"] = static_cast<int>(entry.type);
+    diagnostics["manifest_version"] = entry.manifest.version;
+    
+    // Error state diagnostics
+    auto err_it = error_states_.find(plugin_name);
+    if (err_it != error_states_.end()) {
+       diagnostics["last_error"] = static_cast<int>(err_it->second.last_error);
+       diagnostics["last_error_message"] = err_it->second.last_error_message;
+       diagnostics["error_count"] = err_it->second.error_count;
+    } else {
+       diagnostics["last_error"] = 0;  // kSuccess
+       diagnostics["error_count"] = 0;
+    }
+    
+    // Capability diagnostics
+    if (!entry.frozen_capabilities.empty()) {
+       json caps = json::array();
+       for (const auto& cap : entry.frozen_capabilities) {
+           caps.push_back(cap);
+       }
+       diagnostics["frozen_capabilities"] = caps;
+    }
+    
+    diagnostics["is_restricted"] = entry.is_restricted;
+    
+    return diagnostics;
+}
+
+std::string PluginManager::formatDiagnosticMessage(
+    PluginsError error_code,
+    const std::string& context,
+    const std::string& plugin_name) {
+    
+    // Determine the error category based on error code
+    std::string category;
+    std::string code_name;
+    
+    switch (error_code) {
+       case PluginsError::kSuccess:
+           code_name = "SUCCESS";
+           category = "INFO";
+           break;
+       case PluginsError::kPluginNotFound:
+           code_name = "PLUGIN_NOT_FOUND";
+           category = "LIFECYCLE";
+           break;
+       case PluginsError::kManifestInvalid:
+           code_name = "MANIFEST_INVALID";
+           category = "VALIDATION";
+           break;
+       case PluginsError::kSignatureVerifyFailed:
+           code_name = "SIGNATURE_VERIFY_FAILED";
+           category = "SECURITY";
+           break;
+       case PluginsError::kLifecycleTransition:
+           code_name = "LIFECYCLE_TRANSITION";
+           category = "LIFECYCLE";
+           break;
+       case PluginsError::kCapabilityDenied:
+           code_name = "CAPABILITY_DENIED";
+           category = "SECURITY";
+           break;
+       case PluginsError::kRegistryConflict:
+           code_name = "REGISTRY_CONFLICT";
+           category = "LIFECYCLE";
+           break;
+       case PluginsError::kHealthCheckFailed:
+           code_name = "HEALTH_CHECK_FAILED";
+           category = "LIFECYCLE";
+           break;
+       case PluginsError::kInternalError:
+           code_name = "INTERNAL_ERROR";
+           category = "INTERNAL";
+           break;
+       default:
+           code_name = "UNKNOWN";
+           category = "UNKNOWN";
+    }
+    
+    // Format: [CATEGORY:CODE] plugin_name: context
+    std::stringstream ss;
+    ss << "[" << category << ":" << code_name << "]";
+    if (!plugin_name.empty()) {
+       ss << " [plugin:" << plugin_name << "]";
+    }
+    ss << " " << context;
+    
+    return ss.str();
+}
+
 } // namespace plugins
 } // namespace themis

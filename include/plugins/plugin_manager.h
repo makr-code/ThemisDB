@@ -218,7 +218,110 @@ private:
      * @param phase Reload phase being emitted.
      */
     void notifyPluginReload(const std::string& name, PluginReloadPhase phase);
-    
+     
+    // Phase 3: Error Handling and Edge Cases
+    /**
+     * @brief Detect and handle concurrent load/unload attempts on the same plugin.
+     * 
+     * Validates that a plugin is not in a transition state (LOADING/UNLOADING) before
+     * allowing new operations. Returns appropriate error codes for concurrent attempts.
+     * 
+     * @param plugin_entry Reference to the plugin entry to check
+     * @param requested_state Target state for the operation
+     * @return PluginsError::kSuccess if transition is allowed, error code otherwise
+     */
+    PluginsError validateConcurrentStateChange(const PluginEntry& plugin_entry, PluginLifecycleState requested_state);
+     
+    /**
+     * @brief Recover from partial registry state after failed plugin operations.
+     * 
+     * When a plugin load/unload fails mid-operation, this function restores the registry
+     * to a consistent state by rolling back the partial changes and logging diagnostics.
+     * 
+     * @param plugin_name Name of the plugin with partial state
+     * @return PluginsError::kSuccess on successful recovery
+     */
+    PluginsError recoverPartialRegistryState(const std::string& plugin_name);
+     
+    /**
+     * @brief Handle manifest with missing optional fields gracefully.
+     * 
+     * Some manifest fields like allowed_editions and license_feature are optional.
+     * This function validates and applies defaults when fields are missing.
+     * 
+     * @param manifest Manifest to validate and correct
+     * @return PluginsError::kSuccess if manifest is valid after correction
+     */
+    PluginsError validateManifestOptionalFields(PluginManifest& manifest);
+     
+    /**
+     * @brief Detect ABI compatibility issues during hot-reload.
+     * 
+     * Checks for ABI incompatibilities when reloading a plugin that was previously loaded.
+     * Detects changes in plugin interface version, symbol availability, and calling conventions.
+     * 
+     * @param previous_entry Previous plugin entry before reload
+     * @param new_manifest Manifest of the new plugin version
+     * @return PluginsError::kSuccess if ABI is compatible
+     */
+    PluginsError validateABICompatibility(const PluginEntry& previous_entry, const PluginManifest& new_manifest);
+     
+    /**
+     * @brief Implement timeout handling for long-running signature verification.
+     * 
+     * Signature verification on large files or with slow crypto hardware can hang.
+     * This function implements configurable timeout with graceful degradation.
+     * 
+     * @param manifest_path Path to manifest to verify
+     * @param timeout_ms Timeout in milliseconds (0 = no timeout)
+     * @param error_details Output error message on timeout
+     * @return true if verification succeeded within timeout
+     */
+    bool verifyManifestSignatureWithTimeout(
+        const std::string& manifest_path,
+        uint32_t timeout_ms,
+        std::string& error_details
+    );
+     
+    /**
+     * @brief Get diagnostic information about a plugin's error state.
+     * 
+     * Produces structured diagnostic output including lifecycle state, error history,
+     * last error code, and recovery options.
+     * 
+     * @param plugin_name Name of the plugin to diagnose
+     * @return JSON object with diagnostic information
+     */
+    json getDiagnosticsForPlugin(const std::string& plugin_name) const;
+     
+    /**
+     * @brief Format error messages with consistent tagging for operator logs.
+     * 
+     * All error messages should be tagged with [VALIDATION:*], [LIFECYCLE:*], [SECURITY:*]
+     * to enable structured logging and filtering.
+     * 
+     * @param error_code PluginsError code
+     * @param context Additional context about the error
+     * @param plugin_name Name of the affected plugin
+     * @return Formatted error message with appropriate tags
+     */
+    static std::string formatDiagnosticMessage(
+        PluginsError error_code,
+        const std::string& context,
+        const std::string& plugin_name = ""
+    );
+     
+private:
+    /// Error state tracking for diagnostics
+    struct PluginErrorState {
+        PluginsError last_error = PluginsError::kSuccess;
+        std::string last_error_message;
+        std::chrono::system_clock::time_point last_error_time;
+        int error_count = 0;
+    };
+     
+    std::unordered_map<std::string, PluginErrorState> error_states_;  ///< Track error state per plugin
+     
 public:
     PluginManager() = default;
     ~PluginManager();

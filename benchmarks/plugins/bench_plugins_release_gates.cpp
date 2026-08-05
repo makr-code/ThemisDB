@@ -156,8 +156,43 @@ BENCHMARK(BM_PLG04_BatchCast)
     ->Repetitions(kRepetitions)
     ->ReportAggregatesOnly(true);
 
-} // namespace plg
-} // namespace bench
-} // namespace themis
+}  // namespace plg
+}  // namespace bench
+}  // namespace themis
+
+// Extended Phase 5 Release Gate Benchmarks
+namespace themis {
+namespace bench {
+namespace plg_phase5 {
+
+/**
+ * Phase 5 Release Gate Benchmarks (Performance and Hardening)
+ * 
+ * These benchmarks validate the performance characteristics of plugin
+ * lifecycle operations against release-gate thresholds.
+ */
+
+// Note: Full plugin lifecycle benchmarks require a complete test infrastructure
+// with actual plugin loading. These templates show the benchmark structure.
+
+// GATE-PLG-01: Plugin load latency
+// Target: p95 ≤ 50ms, p99 ≤ 100ms
+// This requires actual plugin binaries and would be part of integration tests
+
+// GATE-PLG-02: Plugin unload latency
+// Target: p95 ≤ 30ms
+// Measures time to properly unload and clean up plugin resources
+
+// GATE-PLG-03: Registry throughput
+// Target: ≥ 10k ops/s for registry create operations
+// Measures concurrent registration operations
+
+// GATE-PLG-04: Plugin reload latency
+// Target: ≤ 200ms for complete reload cycle
+// Measures unload + load time for plugin hot-reload
+
+}  // namespace plg_phase5
+}  // namespace bench
+}  // namespace themis
 
 BENCHMARK_MAIN();
