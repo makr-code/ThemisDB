@@ -19,6 +19,7 @@
  */
 
 #include "performance/ligra.h"
+#include "performance/phase2_feature_flags.h"
 #include <algorithm>
 #include <queue>
 #include <limits>
@@ -26,8 +27,27 @@
 namespace themis {
 namespace performance {
 
+// Hardware validation for Ligra
+static bool is_ligra_hardware_supported() {
+    return Phase2FeatureFlags::instance().ligra_hardware_supported();
+}
+
 LigraProcessor::LigraProcessor(size_t num_vertices, size_t num_threads)
     : num_vertices_(num_vertices) {
+    
+    // Validate hardware support
+    if (!is_ligra_hardware_supported()) {
+        throw std::runtime_error(
+            "Ligra: Hardware does not support multi-threaded graph processing (requires 4+ cores). "
+            "Use single-threaded graph algorithms instead."
+        );
+    }
+    
+    // Validate vertex count
+    if (num_vertices == 0) {
+        throw std::runtime_error("Ligra: num_vertices must be positive");
+    }
+    
     if (num_threads == 0) {
         num_threads_ = std::thread::hardware_concurrency();
         if (num_threads_ == 0) {
@@ -35,6 +55,11 @@ LigraProcessor::LigraProcessor(size_t num_vertices, size_t num_threads)
         }
     } else {
         num_threads_ = num_threads;
+    }
+    
+    // Clamp threads to [1, hardware_concurrency]
+    if (num_threads_ > std::thread::hardware_concurrency() && std::thread::hardware_concurrency() > 0) {
+        num_threads_ = std::thread::hardware_concurrency();
     }
 }
 
