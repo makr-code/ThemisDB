@@ -286,7 +286,10 @@ Result<void> DefaultAlertmanager::sendAlert(const Alert& alert) {
     // Maintain local active-alerts list.
     if (alert.status == AlertStatus::FIRING) {
         upsertActiveAlert(alert);
-        THEMIS_DEBUG("Alert added to active alerts (total: {})", active_alerts_.size());
+        {
+            std::lock_guard<std::mutex> lock(active_alerts_mutex_);
+            THEMIS_DEBUG("Alert added to active alerts (total: {})", active_alerts_.size());
+        }
     }
     
     if (!config_.enabled) {

@@ -371,6 +371,20 @@ TEST_F(ExporterHealthTest, InvalidLabelCountIsRejectedWithDiagnosticMetric) {
     EXPECT_EQ(std::string::npos, metrics.find("invalid_metric_total{"));
 }
 
+TEST_F(ExporterHealthTest, OversizedMetricNameDiagnosticIsTruncatedSafely) {
+    auto& mc = MetricsCollector::getInstance();
+    const std::string oversized_metric(kMaxLabelValueBytes + 8, 'm');
+    const std::string oversized_value(kMaxLabelValueBytes + 1, 'x');
+
+    mc.setGauge(oversized_metric, 42.0, {{"key", oversized_value}});
+
+    const std::string metrics = mc.getPrometheusMetrics();
+    EXPECT_NE(std::string::npos, metrics.find("malformed_telemetry_rejections_total"));
+    EXPECT_EQ(std::string::npos, metrics.find(oversized_metric + "\""));
+    EXPECT_NE(std::string::npos,
+              metrics.find(std::string("metric=\"") + oversized_metric.substr(0, kMaxLabelValueBytes) + "\""));
+}
+
 TEST_F(ExporterHealthTest, InvalidLabelValueIsRejectedWithDiagnosticMetric) {
     auto& mc = MetricsCollector::getInstance();
     const std::string oversized_value(kMaxLabelValueBytes + 1, 'x');

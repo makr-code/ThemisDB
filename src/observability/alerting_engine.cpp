@@ -505,8 +505,6 @@ Result<void> AlertingEngine::resolveAlert(const std::string& alert_id) {
 
 Result<void> AlertingEngine::silenceAlert(const std::string& alert_id,
                                           int duration_minutes) {
-    auto it = std::find_if(active_alerts_.begin(), active_alerts_.end(),
-                           [&](const Alert& a) { return a.alert_id == alert_id; });
     if (auto active = findActiveAlertById(alert_id); active.has_value()) {
         active->status = AlertStatus::SILENCED;
         upsertActiveAlert(*active);

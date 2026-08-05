@@ -30,6 +30,17 @@
 namespace themis {
 namespace observability {
 
+namespace {
+
+std::string sanitizeDiagnosticLabelValue(const std::string& value) {
+    if (value.size() <= kMaxLabelValueBytes) {
+        return value;
+    }
+    return value.substr(0, kMaxLabelValueBytes);
+}
+
+} // namespace
+
 // Singleton instance
 MetricsCollector& MetricsCollector::getInstance() {
     static MetricsCollector instance;
@@ -300,8 +311,12 @@ void MetricsCollector::recordExporterRecovery(const std::string& exporter_name) 
 
 void MetricsCollector::recordMalformedTelemetry(const std::string& metric_name,
                                                 const std::string& reason) {
+    const std::map<std::string, std::string> diagnostic_labels{
+        {"metric", sanitizeDiagnosticLabelValue(metric_name)},
+        {"reason", sanitizeDiagnosticLabelValue(reason)},
+    };
     incrementCounter("malformed_telemetry_rejections_total",
-                     {{"metric", metric_name}, {"reason", reason}});
+                     diagnostic_labels);
 }
 
 MetricsCollector::ExporterIncidentStats MetricsCollector::getExporterIncidentStats(
