@@ -28,6 +28,7 @@
 #include <numeric>
 #include <sstream>
 #include <iomanip>
+#include <stdexcept>
 
 namespace themis {
 namespace performance {
@@ -46,6 +47,24 @@ LLMBatchTuner::LLMBatchTuner(Config config)
           std::clamp(config.initial_batch_size,
                      config.min_batch_size,
                      config.max_batch_size)) {
+    
+    // Validate config parameters
+    if (config_.min_batch_size == 0 || config_.max_batch_size == 0) {
+        throw std::runtime_error("LLMBatchTuner: min_batch_size and max_batch_size must be positive");
+    }
+    if (config_.min_batch_size > config_.max_batch_size) {
+        throw std::runtime_error("LLMBatchTuner: min_batch_size must be <= max_batch_size");
+    }
+    if (config_.window_size == 0) {
+        throw std::runtime_error("LLMBatchTuner: window_size must be positive");
+    }
+    if (config_.ema_alpha < 0.0 || config_.ema_alpha > 1.0) {
+        throw std::runtime_error("LLMBatchTuner: ema_alpha must be in [0, 1]");
+    }
+    if (config_.step_up == 0 || config_.step_down == 0) {
+        throw std::runtime_error("LLMBatchTuner: step_up and step_down must be positive");
+    }
+    
     records_.reserve(config_.window_size * 4);
 }
 
@@ -65,7 +84,7 @@ void LLMBatchTuner::recordBatch(size_t batch_size,
                                  size_t total_tokens,
                                  double latency_ms) noexcept {
     if (batch_size == 0 || total_tokens == 0 || latency_ms <= 0.0) {
-        return;
+        return;  // Ignore invalid measurements
     }
 
     BatchRecord rec;
@@ -83,6 +102,11 @@ void LLMBatchTuner::recordBatch(size_t batch_size,
 
 void LLMBatchTuner::pushRecord(BatchRecord record) noexcept {
     std::lock_guard<std::mutex> lock(mutex_);
+
+    // Validate record: throughput must be non-negative
+    if (record.tokens_per_s < 0.0) {
+        return;  // Ignore invalid throughput
+    }
 
     // Update exponential moving average throughput
     if (ema_throughput_ == 0.0) {
@@ -302,6 +326,7 @@ void LLMBatchTuner::BatchGuard::end() noexcept {
 
     tuner_->pushRecord(rec);
 }
+
 
 } // namespace phase3
 } // namespace performance

@@ -19,6 +19,7 @@
  */
 
 #include "performance/rabitq.h"
+#include "performance/phase2_feature_flags.h"
 #include <algorithm>
 #include <cmath>
 #include <limits>
@@ -30,19 +31,51 @@
 namespace themis {
 namespace performance {
 
-RaBitQEncoder::RaBitQEncoder(size_t dimension) 
-    : dimension_(dimension), 
-      mean_(dimension, 0.0f),
-      scale_(dimension, 1.0f),
-      thresholds_(dimension) {
+// Hardware validation for RaBitQ
+static bool is_rabitq_hardware_supported() {
+    return Phase2FeatureFlags::instance().rabitq_hardware_supported();
+}
+
+/// Validate dimension and hardware before any allocation; returns dimension on success.
+static size_t validate_rabitq_dimension(size_t dimension) {
+    if (dimension == 0) {
+        throw std::runtime_error("RaBitQ: dimension must be positive");
+    }
+    if (dimension > (1ULL << 20)) {  // 1M dimensions max
+        throw std::runtime_error("RaBitQ: dimension exceeds maximum (1M)");
+    }
+    if (!is_rabitq_hardware_supported()) {
+        throw std::runtime_error(
+            "RaBitQ: Hardware does not support SIMD operations (SSE2/AVX2/NEON) required for quantization. "
+            "Use standard floating-point vectors instead."
+        );
+    }
+    return dimension;
+}
+
+RaBitQEncoder::RaBitQEncoder(size_t dimension)
+    : dimension_(validate_rabitq_dimension(dimension)),
+      mean_(dimension_, 0.0f),
+      scale_(dimension_, 1.0f),
+      thresholds_(dimension_) {
+
     // Initialize default thresholds for 2-bit quantization
-    for (size_t i = 0; i < dimension; i++) {
+    for (size_t i = 0; i < dimension_; i++) {
         thresholds_[i] = {-1.0f, 0.0f, 1.0f}; // 4 bins: <-1, [-1,0), [0,1), >=1
     }
 }
 
 void RaBitQEncoder::train(const std::vector<std::vector<float>>& training_data) {
     if (training_data.empty()) return;
+    
+    // Validate training data consistency
+    for (const auto& vec : training_data) {
+        if (vec.size() != dimension_) {
+            throw std::runtime_error(
+                "RaBitQ: Training data vector dimension mismatch"
+            );
+        }
+    }
     
     // Compute per-dimension statistics
     for (size_t d = 0; d < dimension_; d++) {
@@ -70,6 +103,14 @@ void RaBitQEncoder::train(const std::vector<std::vector<float>>& training_data) 
 }
 
 RaBitQVector RaBitQEncoder::encode(const std::vector<float>& vec) const {
+    // Validate input dimension
+    if (vec.size() != dimension_) {
+        throw std::runtime_error(
+            "RaBitQ: Vector dimension mismatch (expected " + std::to_string(dimension_) + 
+            ", got " + std::to_string(vec.size()) + ")"
+        );
+    }
+    
     RaBitQVector result(vec.size());
     
     for (size_t i = 0; i < vec.size(); i++) {

@@ -19,15 +19,38 @@
  */
 
 #include "performance/wisckey.h"
+#include "performance/phase2_feature_flags.h"
 #include <stdexcept>
 #include <cstring>
 #include <cstdio>
+#include <limits>
 
 namespace themis {
 namespace performance {
 
+// ============================================================================
+// Hardware Capability Detection & Validation
+// ============================================================================
+
+bool is_wisckey_hardware_supported() {
+    return Phase2FeatureFlags::instance().wisckey_hardware_supported();
+}
+
+// ============================================================================
+// ValueLog Implementation
+// ============================================================================
+
 ValueLog::ValueLog(const std::string& log_path) 
     : log_path_(log_path), current_offset_(0) {
+    
+    // Fail-closed: if hardware doesn't support SSD operations, reject
+    if (!is_wisckey_hardware_supported()) {
+        throw std::runtime_error(
+            "WiscKey: Hardware does not support SSD/NVMe operations required for value log. "
+            "Use in-memory storage or inline values instead."
+        );
+    }
+    
     // Open existing file or create new one
     std::ifstream test(log_path_, std::ios::binary);
     bool file_exists = test.good();
@@ -67,6 +90,18 @@ ValueLog::~ValueLog() {
 }
 
 ValueAddress ValueLog::append(const std::string& value) {
+    // Validate input: non-empty value required
+    if (value.empty()) {
+        throw std::runtime_error("WiscKey: Cannot append empty value to log");
+    }
+    
+    // Bound check: prevent values that cannot be represented in uint32 ValueAddress::size.
+    // The maximum safe value is UINT32_MAX (4GiB - 1); exactly 4GiB would truncate to 0.
+    constexpr uint64_t MAX_SINGLE_VALUE = static_cast<uint64_t>(std::numeric_limits<uint32_t>::max());
+    if (value.size() > MAX_SINGLE_VALUE) {
+        throw std::runtime_error("WiscKey: Value size exceeds maximum (UINT32_MAX bytes)");
+    }
+    
     std::unique_lock<std::shared_mutex> lock(rw_mutex_);  // Exclusive lock for writes
     
     ValueAddress addr;
@@ -88,6 +123,14 @@ ValueAddress ValueLog::append(const std::string& value) {
 }
 
 std::optional<std::string> ValueLog::read(const ValueAddress& addr) {
+    // Validate address bounds
+    if (addr.size == 0 || addr.size > (1ULL << 32)) {
+        return std::nullopt;
+    }
+    if (addr.offset + addr.size > current_offset_.load(std::memory_order_relaxed)) {
+        return std::nullopt;  // Address out of bounds
+    }
+    
     // Exclusive lock required: std::fstream is not thread-safe for concurrent seekg/read
     // Concurrent calls to seekg() would corrupt the file position state
     std::unique_lock<std::shared_mutex> lock(rw_mutex_);
@@ -115,6 +158,16 @@ void ValueLog::compact(std::vector<ValueAddress>& live_addresses) {
     
     if (live_addresses.empty()) {
         return;
+    }
+    
+    // Validate all addresses before starting compaction
+    for (const auto& addr : live_addresses) {
+        if (addr.size == 0 || addr.size > (1ULL << 32)) {
+            throw std::runtime_error("WiscKey: Invalid address during compaction");
+        }
+        if (addr.offset + addr.size > current_offset_.load(std::memory_order_relaxed)) {
+            throw std::runtime_error("WiscKey: Address out of bounds during compaction");
+        }
     }
     
     // std::fstream does not expose per-operation timeouts. Compaction runs
@@ -182,11 +235,31 @@ void ValueLog::compact(std::vector<ValueAddress>& live_addresses) {
     current_offset_.store(new_offset, std::memory_order_relaxed);
 }
 
+// ============================================================================
+// WiscKeyStorage Implementation
+// ============================================================================
+
 WiscKeyStorage::WiscKeyStorage(const std::string& value_log_path) {
+    // Validate that hardware supports WiscKey
+    if (!is_wisckey_hardware_supported()) {
+        throw std::runtime_error(
+            "WiscKey: Hardware does not support required SSD/NVMe operations. "
+            "Feature unavailable on this platform."
+        );
+    }
+    
     value_log_ = std::make_unique<ValueLog>(value_log_path);
 }
 
 std::string WiscKeyStorage::put(const std::string& key, const std::string& value) {
+    // Validate inputs
+    if (key.empty()) {
+        throw std::runtime_error("WiscKey: Empty key is not allowed");
+    }
+    if (value.empty()) {
+        throw std::runtime_error("WiscKey: Empty value is not allowed");
+    }
+    
     static_cast<void>(key);
     if (value.size() >= VALUE_SEPARATION_THRESHOLD) {
         // Store value in separate log
@@ -204,6 +277,9 @@ std::optional<std::string> WiscKeyStorage::get(const std::string& key, const std
     static_cast<void>(key);
     if (is_separated(encoded_value)) {
         // Value is in value log
+        if (encoded_value.size() != ValueAddress::ENCODED_SIZE) {
+            return std::nullopt;  // Malformed encoded value
+        }
         ValueAddress addr = ValueAddress::decode(encoded_value);
         return value_log_->read(addr);
     } else {

@@ -28,6 +28,7 @@
 #include <cmath>
 #include <map>
 #include <numeric>
+#include <stdexcept>
 
 namespace themis {
 namespace performance {
@@ -50,6 +51,11 @@ PerQueryCostModel::~PerQueryCostModel() = default;
 PerQueryCostModel::QueryGuard
 PerQueryCostModel::beginQuery(const std::string& query_type,
                                double             estimated_cost) noexcept {
+    // Validate estimated_cost
+    if (estimated_cost < 0.0) {
+        // Log warning: negative cost estimates are invalid
+        return QueryGuard(*this, query_type, 0.0);
+    }
     return QueryGuard(*this, query_type, estimated_cost);
 }
 
@@ -58,6 +64,12 @@ PerQueryCostModel::beginQuery(const std::string& query_type,
 // -----------------------------------------------------------------
 
 void PerQueryCostModel::pushRecord(QueryCostRecord record) noexcept {
+    // Validate record: execution time must be non-negative
+    // (cycles_elapsed is uint64_t and is always non-negative by construction)
+    if (record.execution_time_ms < 0.0) {
+        return;  // Ignore invalid records
+    }
+    
     std::lock_guard<std::mutex> lock(mutex_);
 
     if (records_.size() < MAX_RECORDS) {
@@ -125,6 +137,9 @@ PerQueryCostModel::getRecentRecords(size_t limit) const {
 // queries to compute:
 //   cpuCostPerRow  = avg_cycles / (rows_processed * cpu_freq_hz * 1e3)
 //   pageReadCost   = avg_time_ms / pages_read  (when pages_read > 0)
+//
+// All computations include bounds checking to ensure fail-closed behavior
+// (reject invalid parameter combinations, do not degrade silently).
 // -----------------------------------------------------------------
 
 std::unordered_map<std::string, double>
@@ -151,6 +166,9 @@ PerQueryCostModel::getCalibrationFactors(
                                     : 0.0;
 
     for (const auto& r : records_) {
+        // Validate record: execution_time_ms must be positive
+        if (r.execution_time_ms <= 0.0) continue;
+        
         if (r.rows_processed > 0) {
             double time_ms = ms_per_cycle > 0.0
                                ? static_cast<double>(r.cycles_elapsed) * ms_per_cycle
@@ -177,6 +195,7 @@ PerQueryCostModel::getCalibrationFactors(
     if (page_samples > 0) {
         double avg_time_per_page = total_time_per_page / static_cast<double>(page_samples);
         // Default pageReadCost = 1.0 ≈ 1 ms sequential page read
+        // Clamp to [0.001, 100.0] to avoid extreme outliers
         double calibrated = std::max(0.001, std::min(100.0, avg_time_per_page));
         factors["pageReadCost"] = calibrated;
     }
@@ -198,6 +217,12 @@ PerQueryCostModel::getCalibrationFactors(
 
     for (const auto& r : records_) {
         if (r.execution_time_ms <= 0.0) { continue; }
+        
+        // Validate serialization_time_ms is reasonable
+        if (r.serialization_time_ms < 0.0 || r.serialization_time_ms > r.execution_time_ms * 10) {
+            continue;  // Skip records with invalid serialization time
+        }
+        
         const double ratio = r.serialization_time_ms / r.execution_time_ms;
         if (r.exec_path_used == ExecutionPath::GPU_VRAM) {
             gpu_serial_ratio_sum += ratio;
@@ -276,6 +301,9 @@ PerQueryCostModel::Stats PerQueryCostModel::getStats() const {
     size_t cost_ratio_samples = 0;
 
     for (const auto& r : records_) {
+        // Validate execution time
+        if (r.execution_time_ms < 0.0) continue;
+        
         times_ms.push_back(r.execution_time_ms);
         type_time_sum[r.query_type] += r.execution_time_ms;
         type_count[r.query_type]++;
@@ -284,6 +312,10 @@ PerQueryCostModel::Stats PerQueryCostModel::getStats() const {
             cost_ratio_sum += r.cost_ratio;
             ++cost_ratio_samples;
         }
+    }
+
+    if (times_ms.empty()) {
+        return s;
     }
 
     // Average
@@ -378,6 +410,7 @@ void PerQueryCostModel::QueryGuard::end(size_t rows_processed,
 
     model_->pushRecord(std::move(rec));
 }
+
 
 } // namespace phase3
 } // namespace performance

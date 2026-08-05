@@ -60,6 +60,13 @@ function(themis_register_private_plugins plugins_root)
         endif()
     endif()
 
+    # llm_wiki plugin — enterprise aggregrate repo
+    if(WITH_PRIVATE_LLM_WIKI)
+        _themis_add_optional_private_plugin_dir("Private plugin: LLM Wiki"
+            "${plugins_root}/themisdb_llm_wiki"
+            "${CMAKE_CURRENT_BINARY_DIR}/private_llm_wiki")
+    endif()
+
     if(WITH_PRIVATE_REGINTEL)
         _themis_add_optional_private_plugin_dir("Private regulated-intelligence plugins"
             "${plugins_root}/private/regintel"

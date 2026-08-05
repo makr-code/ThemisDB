@@ -19,6 +19,7 @@
 
 #pragma once
 
+#include "plugins/plugins_api_contract.h"
 #include "plugins/plugin_interface.h"
 #include "plugins/plugin_metrics.h"
 #include "plugins/plugin_dependency_resolver.h"  // Dependency resolution
@@ -112,6 +113,41 @@ private:
 
         /// Mutex protecting state transitions for thread-safe lifecycle management
         mutable std::mutex state_mutex;
+
+        PluginEntry() = default;
+        PluginEntry(PluginEntry&& other) noexcept
+            : name(std::move(other.name))
+            , type(other.type)
+            , path(std::move(other.path))
+            , manifest(std::move(other.manifest))
+            , library_handle(other.library_handle)
+            , instance(std::move(other.instance))
+            , loaded(other.loaded)
+            , file_hash(std::move(other.file_hash))
+            , frozen_capabilities(other.frozen_capabilities)
+            , is_restricted(other.is_restricted)
+            , state(other.state)
+            // state_mutex is default-constructed; each entry owns its own mutex
+        {}
+        PluginEntry& operator=(PluginEntry&& other) noexcept {
+            if (this != &other) {
+                name             = std::move(other.name);
+                type             = other.type;
+                path             = std::move(other.path);
+                manifest         = std::move(other.manifest);
+                library_handle   = other.library_handle;
+                instance         = std::move(other.instance);
+                loaded           = other.loaded;
+                file_hash        = std::move(other.file_hash);
+                frozen_capabilities = other.frozen_capabilities;
+                is_restricted    = other.is_restricted;
+                state            = other.state;
+                // state_mutex is not moved; each entry owns its own mutex
+            }
+            return *this;
+        }
+        PluginEntry(const PluginEntry&) = delete;
+        PluginEntry& operator=(const PluginEntry&) = delete;
     };
     
     std::unordered_map<std::string, PluginEntry> plugins_;  // name -> entry

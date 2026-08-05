@@ -2035,9 +2035,10 @@ PluginsError PluginManager::validateManifestOptionalFields(PluginManifest& manif
        THEMIS_DEBUG("[VALIDATION:OPTIONAL] Using default for license_feature: none required");
     }
     
-    // capabilities: empty vector means "no special capabilities" (default)
-    if (manifest.capabilities.empty()) {
-       THEMIS_DEBUG("[VALIDATION:OPTIONAL] Using default for capabilities: none");
+    // capabilities: PluginCapabilities is a struct with bool fields; always valid
+    {
+        (void)manifest.capabilities;  // no optional field normalization needed
+        THEMIS_DEBUG("[VALIDATION:OPTIONAL] capabilities struct present (default: all false)");
     }
     
     // visibility: default to "public" if not specified
@@ -2179,12 +2180,14 @@ json PluginManager::getDiagnosticsForPlugin(const std::string& plugin_name) cons
     }
     
     // Capability diagnostics
-    if (!entry.frozen_capabilities.empty()) {
-       json caps = json::array();
-       for (const auto& cap : entry.frozen_capabilities) {
-           caps.push_back(cap);
-       }
-       diagnostics["frozen_capabilities"] = caps;
+    {
+        json caps = json::object();
+        caps["supports_streaming"]    = entry.frozen_capabilities.supports_streaming;
+        caps["supports_batching"]     = entry.frozen_capabilities.supports_batching;
+        caps["supports_transactions"] = entry.frozen_capabilities.supports_transactions;
+        caps["thread_safe"]           = entry.frozen_capabilities.thread_safe;
+        caps["gpu_accelerated"]       = entry.frozen_capabilities.gpu_accelerated;
+        diagnostics["frozen_capabilities"] = caps;
     }
     
     diagnostics["is_restricted"] = entry.is_restricted;
