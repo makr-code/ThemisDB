@@ -18,7 +18,7 @@ Plugin manifests (`plugin.json`) define metadata, visibility rules, edition gati
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `plugin_id` | string | Yes | Unique plugin identifier (kebab-case, e.g., `themisdb_ethic_ai`) |
+| `plugin_id` | string | Yes | Unique plugin identifier (snake_case, e.g., `themisdb_ethic_ai`) |
 | `name` | string | Yes | Human-readable plugin name |
 | `version` | string | Yes | Semantic version (e.g., `1.0.0`, `1.0.0-beta`) |
 | `description` | string | Yes | Plugin purpose and capabilities |
@@ -104,7 +104,7 @@ Each plugin declares a `license_feature` (e.g., `ethics_ai`, `enterprise_storage
 
 ### Build-Time Validation
 
-- Manifest `plugin_id` must match directory name (kebab-case)
+- Manifest `plugin_id` must match directory name (snake_case)
 - `allowed_editions` must be non-empty and valid edition names
 - `license_feature` must follow naming convention: `[a-z_]+`
 - `compatible_core_abi` must match runtime core ABI

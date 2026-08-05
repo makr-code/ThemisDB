@@ -11,17 +11,16 @@ Complete Phase 1–6 delivery with contract frozen, error taxonomy defined, focu
 
 ## In Progress
 
-(All Q4 2026 items completed; next priorities under Planned Features)
-
-## Planned Features
-
-### Short-term (3-6 months, Q4 2026)
-See "In Progress" section above for current Q4 2026 priorities
-
-### Mid-term (6-12 months, Q1 2027)
+### Q1 2027 priorities
 - [ ] re-baseline p95/p99 envelopes for core performance module operations (Target: Q1 2027)
 - [ ] broaden benchmark depth for mixed and distributed performance scenarios (Target: Q1 2027)
 - [ ] harden long-running reliability under sustained adaptive workload shifts (Target: Q1 2027)
+
+## Planned Features
+
+### Mid-term (6-12 months, Q2 2027+)
+- [ ] distributed performance tracing integration (Target: Q2 2027)
+- [ ] adaptive memory-pool resizing under NUMA topology awareness (Target: Q2 2027)
 
 ## Completed Highlights (Q4 2026)
 
@@ -38,9 +37,10 @@ See "In Progress" section above for current Q4 2026 priorities
 
 ## Completed Highlights (Q3 2026)
 
-
-
-## Implementation Phases
+- [x] API contract freeze: PerfError taxonomy, CacheStats, PoolAcquireResult, CostEstimate frozen v1.0
+  - evidence: `include/performance/performance_api_contract.h` §Error Taxonomy
+- [x] error taxonomy definition: 7 standardized error codes (PERF_COMPILE_TIMEOUT..PERF_STATS_UNAVAILABLE)
+  - evidence: `include/performance/performance_api_contract.h`## Implementation Phases
 
 ### Phase 1: Design / API Contract
 - [x] freeze measurement/optimization/memory-hardware contracts for active major line (Target: Q3 2026)

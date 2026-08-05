@@ -23,6 +23,7 @@
 #include <stdexcept>
 #include <cstring>
 #include <cstdio>
+#include <limits>
 
 namespace themis {
 namespace performance {
@@ -94,10 +95,11 @@ ValueAddress ValueLog::append(const std::string& value) {
         throw std::runtime_error("WiscKey: Cannot append empty value to log");
     }
     
-    // Bound check: prevent extremely large values that could overflow offset
-    constexpr uint64_t MAX_SINGLE_VALUE = 1ULL << 32;  // 4GB max per value
+    // Bound check: prevent values that cannot be represented in uint32 ValueAddress::size.
+    // The maximum safe value is UINT32_MAX (4GiB - 1); exactly 4GiB would truncate to 0.
+    constexpr uint64_t MAX_SINGLE_VALUE = static_cast<uint64_t>(std::numeric_limits<uint32_t>::max());
     if (value.size() > MAX_SINGLE_VALUE) {
-        throw std::runtime_error("WiscKey: Value size exceeds maximum (4GB)");
+        throw std::runtime_error("WiscKey: Value size exceeds maximum (UINT32_MAX bytes)");
     }
     
     std::unique_lock<std::shared_mutex> lock(rw_mutex_);  // Exclusive lock for writes

@@ -133,7 +133,7 @@ SCENARIO("Community edition rejects private plugins") {
 
 ### GitHub Actions Workflow
 
-**Community Lane (`.github/workflows/community-release.yml`)**
+**Community Lane (`.github/workflows/cmake-multi-platform.yml`)**
 
 - ✅ `WITH_PRIVATE_PLUGINS=OFF` by default
 - ✅ Submodules checked out with `--filter=blob:none` (excludes private repos)
@@ -142,7 +142,7 @@ SCENARIO("Community edition rejects private plugins") {
 - ✅ Test step runs full regression suite
 - ✅ Release artefact generated contains ONLY public plugins
 
-**Enterprise Lane (`.github/workflows/enterprise-release.yml`)**
+**Enterprise Lane (`.github/workflows/packaging-release.yml`)**
 
 - ✅ `WITH_PRIVATE_PLUGINS=ON` by default
 - ✅ All submodules checked out (requires credentials for private repos)
@@ -270,5 +270,5 @@ endif()
 - `cmake/features/PrivatePluginFeatures.cmake` — Feature flags
 - `cmake/PrivatePlugins.cmake` — Private plugin discovery
 - `docs/plugins/PLUGIN_MANIFEST_GOVERNANCE.md` — Manifest schema
-- `.github/workflows/community-release.yml` — Community build workflow
-- `.github/workflows/enterprise-release.yml` — Enterprise build workflow
+- `.github/workflows/cmake-multi-platform.yml` — Community build workflow
+- `.github/workflows/packaging-release.yml` — Enterprise/release packaging workflow

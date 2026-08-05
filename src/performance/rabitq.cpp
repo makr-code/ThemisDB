@@ -36,30 +36,31 @@ static bool is_rabitq_hardware_supported() {
     return Phase2FeatureFlags::instance().rabitq_hardware_supported();
 }
 
-RaBitQEncoder::RaBitQEncoder(size_t dimension) 
-    : dimension_(dimension), 
-      mean_(dimension, 0.0f),
-      scale_(dimension, 1.0f),
-      thresholds_(dimension) {
-    
-    // Validate hardware support for SIMD quantization
-    if (!is_rabitq_hardware_supported()) {
-        throw std::runtime_error(
-            "RaBitQ: Hardware does not support SIMD operations (SSE2/AVX2/NEON) required for quantization. "
-            "Use standard floating-point vectors instead."
-        );
-    }
-    
-    // Validate dimension
+/// Validate dimension and hardware before any allocation; returns dimension on success.
+static size_t validate_rabitq_dimension(size_t dimension) {
     if (dimension == 0) {
         throw std::runtime_error("RaBitQ: dimension must be positive");
     }
     if (dimension > (1ULL << 20)) {  // 1M dimensions max
         throw std::runtime_error("RaBitQ: dimension exceeds maximum (1M)");
     }
-    
+    if (!is_rabitq_hardware_supported()) {
+        throw std::runtime_error(
+            "RaBitQ: Hardware does not support SIMD operations (SSE2/AVX2/NEON) required for quantization. "
+            "Use standard floating-point vectors instead."
+        );
+    }
+    return dimension;
+}
+
+RaBitQEncoder::RaBitQEncoder(size_t dimension)
+    : dimension_(validate_rabitq_dimension(dimension)),
+      mean_(dimension_, 0.0f),
+      scale_(dimension_, 1.0f),
+      thresholds_(dimension_) {
+
     // Initialize default thresholds for 2-bit quantization
-    for (size_t i = 0; i < dimension; i++) {
+    for (size_t i = 0; i < dimension_; i++) {
         thresholds_[i] = {-1.0f, 0.0f, 1.0f}; // 4 bins: <-1, [-1,0), [0,1), >=1
     }
 }

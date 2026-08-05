@@ -64,7 +64,7 @@ public:
 
     // WiscKey: Key/Value Separation for LSM Trees (FAST'16)
     // Expected gain: +40-60% write throughput for values >1KB
-    // Prerequisite: SSD/NVMe storage (detects gracefully, falls back to inline)
+    // Prerequisite: SSD/NVMe storage (fail-closed: throws if has_ssd is false)
     bool wisckey_enabled() const { return wisckey_enabled_.load(std::memory_order_relaxed); }
     void set_wisckey_enabled(bool enabled) { wisckey_enabled_.store(enabled, std::memory_order_relaxed); }
     bool wisckey_hardware_supported() const { return capabilities_.has_ssd; }
