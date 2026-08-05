@@ -643,23 +643,64 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
     auto& entry = it->second;
     const auto deps_to_load = entry.manifest.dependencies;
 
+    // Phase 2A: Check lifecycle state transition validity
+    {
+        std::lock_guard<std::mutex> state_lock(entry.state_mutex);
+        if (entry.state == PluginLifecycleState::LOADED && entry.instance) {
+            // Plugin already loaded; return existing instance
+            return Ok(entry.instance.get());
+        }
+        if (entry.state == PluginLifecycleState::LOADING || entry.state == PluginLifecycleState::UNLOADING) {
+            // Plugin is mid-transition; reject concurrent load attempt
+            THEMIS_ERROR("Cannot load plugin '{}': state machine transition in progress (current state: {})",
+                        name, lifecycleStateToString(entry.state));
+            metrics_.recordError(name);
+            span.setStatus(false, "State machine transition in progress");
+            return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                fmt::format("Plugin '{}' is in transition state", name));
+        }
+        if (!isValidLifecycleTransition(entry.state, PluginLifecycleState::LOADING)) {
+            // Invalid transition (e.g., attempting to load from unexpected state)
+            THEMIS_ERROR("Invalid lifecycle transition for plugin '{}': {} → LOADING",
+                        name, lifecycleStateToString(entry.state));
+            metrics_.recordError(name);
+            span.setStatus(false, "Invalid lifecycle transition");
+            return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                fmt::format("Invalid lifecycle transition for plugin '{}'", name));
+        }
+        // Transition to LOADING state
+        entry.state = PluginLifecycleState::LOADING;
+    }
+
     // Edition + runtime license gate: reject early on unsupported editions.
     // Public manifests without explicit private gating remain backward-compatible.
     const bool requires_enterprise_gate =
         entry.manifest.visibility != "public" ||
         !entry.manifest.license_feature.empty();
     if (requires_enterprise_gate && !isEditionSupported()) {
+        {
+            std::lock_guard<std::mutex> state_lock(entry.state_mutex);
+            entry.state = PluginLifecycleState::UNLOADED;
+        }
         const std::string msg = communityUnavailableMessage(name);
         THEMIS_WARN("{}", msg);
         return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_NOT_FOUND, msg);
     }
     if (requires_enterprise_gate && !isLicensed()) {
+        {
+            std::lock_guard<std::mutex> state_lock(entry.state_mutex);
+            entry.state = PluginLifecycleState::UNLOADED;
+        }
         const std::string msg = "Plugin '" + name +
             "' cannot be loaded: runtime license does not permit enterprise_plugins.";
         THEMIS_WARN("{}", msg);
         return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_NOT_FOUND, msg);
     }
     if (!manifestAllowsCurrentEdition(entry.manifest)) {
+        {
+            std::lock_guard<std::mutex> state_lock(entry.state_mutex);
+            entry.state = PluginLifecycleState::UNLOADED;
+        }
         const std::string msg = "Plugin '" + name + "' is not available in edition '" +
             std::string(edition::EDITION_STRING) + "'.";
         THEMIS_WARN("{}", msg);
@@ -667,14 +708,14 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
     }
     if (!entry.manifest.license_feature.empty() &&
         !license::RuntimeLicenseGate::instance().isFeatureAllowed(entry.manifest.license_feature)) {
+        {
+            std::lock_guard<std::mutex> state_lock(entry.state_mutex);
+            entry.state = PluginLifecycleState::UNLOADED;
+        }
         const std::string msg = "Plugin '" + name + "' cannot be loaded: runtime license does not permit feature '" +
             entry.manifest.license_feature + "'.";
         THEMIS_WARN("{}", msg);
         return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_NOT_FOUND, msg);
-    }
-    
-    if (entry.loaded && entry.instance) {
-        return Ok(entry.instance.get());
     }
     
     if (!deps_to_load.empty()) {
@@ -692,6 +733,10 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
                 }
             }
             THEMIS_ERROR("Circular dependency detected for plugin {}: {}", name, cycle_desc);
+            {
+                std::lock_guard<std::mutex> state_lock(entry.state_mutex);
+                entry.state = PluginLifecycleState::UNLOADED;
+            }
             metrics_.recordError(name);
             span.setStatus(false, "Circular dependency");
             return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_CIRCULAR_DEPENDENCY,
@@ -706,6 +751,10 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
                 auto missing_msg = fmt::format(
                     "Plugin '{}' requires unregistered dependency '{}'", name, dep);
                 THEMIS_ERROR("{}", missing_msg);
+                {
+                    std::lock_guard<std::mutex> state_lock(entry.state_mutex);
+                    entry.state = PluginLifecycleState::UNLOADED;
+                }
                 metrics_.recordError(name);
                 span.setStatus(false, "Missing dependency");
                 return Err<IThemisPlugin*>(
@@ -719,6 +768,10 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
             auto dep_result = loadPlugin(dep);
             if (!dep_result) {
                 lock.lock();
+                {
+                    std::lock_guard<std::mutex> state_lock(entry.state_mutex);
+                    entry.state = PluginLifecycleState::UNLOADED;
+                }
                 metrics_.recordError(name);
                 return tl::unexpected(dep_result.error());
             }
@@ -731,6 +784,10 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
                                         fmt::format("Plugin '{}' not found after dependency load", name));
         }
         if (it->second.loaded && it->second.instance) {
+            {
+                std::lock_guard<std::mutex> state_lock(it->second.state_mutex);
+                it->second.state = PluginLifecycleState::LOADED;
+            }
             return Ok(it->second.instance.get());
         }
     }
@@ -743,6 +800,10 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
         std::string actual_hash = calculateFileHash(current_entry.path);
         if (actual_hash.empty()) {
             THEMIS_ERROR("Failed to compute hash for plugin binary: {}", current_entry.path);
+            {
+                std::lock_guard<std::mutex> state_lock(current_entry.state_mutex);
+                current_entry.state = PluginLifecycleState::UNLOADED;
+            }
             metrics_.recordError(name);
             return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                 fmt::format("Hash computation failed for plugin '{}'", name));
@@ -753,6 +814,10 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
                          name,
                          current_entry.manifest.expected_hash,
                          actual_hash);
+            {
+                std::lock_guard<std::mutex> state_lock(current_entry.state_mutex);
+                current_entry.state = PluginLifecycleState::UNLOADED;
+            }
             metrics_.recordError(name);
             return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_INVALID_SIGNATURE,
                 fmt::format("Binary hash mismatch for plugin '{}' — possible tampering", name));
@@ -762,6 +827,10 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
     std::string error_message;
     if (!verifyPlugin(current_entry.path, error_message)) {
         THEMIS_ERROR("Plugin verification failed for {}: {}", name, error_message);
+        {
+            std::lock_guard<std::mutex> state_lock(current_entry.state_mutex);
+            current_entry.state = PluginLifecycleState::UNLOADED;
+        }
         metrics_.recordError(name);
         return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_INVALID_SIGNATURE,
                                     fmt::format("Plugin verification failed: {}", error_message));
@@ -773,6 +842,10 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
 #ifndef _WIN32
         THEMIS_ERROR("Error: {}", dlerror());
 #endif
+        {
+            std::lock_guard<std::mutex> state_lock(current_entry.state_mutex);
+            current_entry.state = PluginLifecycleState::UNLOADED;
+        }
         metrics_.recordError(name);
         return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                                     fmt::format("Failed to load plugin library from '{}'", current_entry.path));
@@ -782,6 +855,10 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
     if (!createFunc) {
         THEMIS_ERROR("Plugin does not export createPlugin: {}", current_entry.path);
         unloadLibrary(handle);
+        {
+            std::lock_guard<std::mutex> state_lock(current_entry.state_mutex);
+            current_entry.state = PluginLifecycleState::UNLOADED;
+        }
         metrics_.recordError(name);
         return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                                     "Plugin does not export createPlugin function");
@@ -791,6 +868,10 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
     if (!plugin) {
         THEMIS_ERROR("Failed to create plugin instance: {}", name);
         unloadLibrary(handle);
+        {
+            std::lock_guard<std::mutex> state_lock(current_entry.state_mutex);
+            current_entry.state = PluginLifecycleState::UNLOADED;
+        }
         metrics_.recordError(name);
         return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                                     fmt::format("Failed to create plugin instance for '{}'", name));
@@ -803,6 +884,10 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
             destroyFunc(plugin);
         }
         unloadLibrary(handle);
+        {
+            std::lock_guard<std::mutex> state_lock(current_entry.state_mutex);
+            current_entry.state = PluginLifecycleState::UNLOADED;
+        }
         metrics_.recordError(name);
         return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
                                     fmt::format("Failed to initialize plugin '{}'", name));
@@ -813,6 +898,12 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
     current_entry.loaded = true;
     current_entry.file_hash = calculateFileHash(current_entry.path);
     current_entry.frozen_capabilities = plugin->getCapabilities();
+    
+    // Phase 2A: Transition to LOADED state on successful load
+    {
+        std::lock_guard<std::mutex> state_lock(current_entry.state_mutex);
+        current_entry.state = PluginLifecycleState::LOADED;
+    }
     
     // Auto-register self-healing plugins with the health monitor
     if (health_monitor_) {
@@ -974,9 +1065,25 @@ Result<void> PluginManager::unloadPlugin(const std::string& name) {
                        fmt::format("Plugin not found: {}", name));
     }
     
-    if (!it->second.loaded) {
-        return ErrVoid(errors::ErrorCode::ERR_PLUGIN_NOT_FOUND,
-                       fmt::format("Plugin not loaded: {}", name));
+    auto& entry = it->second;
+    
+    // Phase 2A: Check lifecycle state
+    {
+        std::lock_guard<std::mutex> state_lock(entry.state_mutex);
+        if (entry.state != PluginLifecycleState::LOADED) {
+            THEMIS_ERROR("Cannot unload plugin '{}': not in LOADED state (current state: {})",
+                        name, lifecycleStateToString(entry.state));
+            return ErrVoid(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                           fmt::format("Plugin '{}' is not loaded", name));
+        }
+        // Transition to UNLOADING state
+        if (!isValidLifecycleTransition(entry.state, PluginLifecycleState::UNLOADING)) {
+            THEMIS_ERROR("Invalid lifecycle transition for plugin '{}': {} → UNLOADING",
+                        name, lifecycleStateToString(entry.state));
+            return ErrVoid(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                           fmt::format("Invalid lifecycle transition for plugin '{}'", name));
+        }
+        entry.state = PluginLifecycleState::UNLOADING;
     }
 
     // Block unload if other loaded plugins depend on this one.
@@ -991,10 +1098,13 @@ Result<void> PluginManager::unloadPlugin(const std::string& name) {
             "Cannot unload plugin '{}' — {} plugin(s) depend on it: {}",
             name, dependents.size(), dep_list);
         THEMIS_ERROR("{}", error_msg);
+        // Revert state back to LOADED on failure
+        {
+            std::lock_guard<std::mutex> state_lock(entry.state_mutex);
+            entry.state = PluginLifecycleState::LOADED;
+        }
         return ErrVoid(errors::ErrorCode::ERR_PLUGIN_DEPENDENCY_CONFLICT, error_msg);
     }
-
-    auto& entry = it->second;
     
     // Unregister from health monitor before shutting down the instance
     if (health_monitor_) {
@@ -1022,6 +1132,12 @@ Result<void> PluginManager::unloadPlugin(const std::string& name) {
     
     entry.library_handle = nullptr;
     entry.loaded = false;
+    
+    // Phase 2A: Transition to UNLOADED state on successful unload
+    {
+        std::lock_guard<std::mutex> state_lock(entry.state_mutex);
+        entry.state = PluginLifecycleState::UNLOADED;
+    }
     
     THEMIS_INFO("Unloaded plugin: {}", name);
     return OkVoid();

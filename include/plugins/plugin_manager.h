@@ -105,6 +105,13 @@ private:
         /// Set to true when checkCapabilityEscalation() detects a superset violation.
         /// A restricted plugin remains loaded but is flagged for operator review.
         bool is_restricted = false;
+
+        /// Phase 2A: Lifecycle state tracking for plugin instance
+        /// Enforces state machine transitions during load/unload/reload operations
+        PluginLifecycleState state = PluginLifecycleState::UNLOADED;
+
+        /// Mutex protecting state transitions for thread-safe lifecycle management
+        mutable std::mutex state_mutex;
     };
     
     std::unordered_map<std::string, PluginEntry> plugins_;  // name -> entry
