@@ -2113,6 +2113,11 @@ set(THEMIS_CORE_SOURCES
     ../src/graph/graph_query_cache.cpp
     ../src/graph/adjacency_list.cpp
     ../src/query/optimizer_cost_model.cpp
+    ../src/query/optimizer_cost_model_enhancements.cpp
+    ../src/query/geospatial_cost_model.cpp
+    ../src/query/geospatial_optimizer_hints.cpp
+    ../src/query/geospatial_index_selector.cpp
+    ../src/query/geospatial_query_rewrite.cpp
     ../src/query/aql_parser.cpp
     ../src/query/aql_parser_json.cpp
     ../src/query/aql_translator.cpp
@@ -2151,6 +2156,9 @@ set(THEMIS_CORE_SOURCES
     ../src/query/query_cache_manager.cpp
     ../src/query/query_canceller.cpp
     ../src/query/query_federation.cpp
+    ../src/query/query_federation_timeout.cpp
+    ../src/query/query_federation_memory.cpp
+    ../src/query/federation_resilience.cpp
     ../src/query/plan_cache.cpp
     ../src/query/query_executor.cpp
     ../src/query/query_compiler.cpp
