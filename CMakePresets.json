@@ -172,6 +172,18 @@
       }
     },
     {
+      "name": "community-debug",
+      "displayName": "Configure: Community Debug (system packages, no vcpkg)",
+      "description": "Development debug build with system packages. Includes benchmarks for development/profiling. Requires: Linux/macOS, GCC/Clang, Ninja, system development packages. See SETUP.md for system package installation guide.",
+      "inherits": "base",
+      "binaryDir": "${sourceDir}/build-community-debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "THEMIS_EDITION": "COMMUNITY",
+        "THEMIS_BUILD_BENCHMARKS": "ON"
+      }
+    },
+    {
       "name": "linux-asan",
       "displayName": "Linux x64: ASan Debug (vcpkg required)",
       "description": "Debug build with AddressSanitizer enabled. Requires: Linux, GCC 8+, Ninja, vcpkg. SEC-CC-4 companion preset.",
@@ -259,6 +271,40 @@
         "THEMIS_EDITION": "HYPERSCALER",
         "THEMIS_BUILD_BENCHMARKS": "ON",
         "THEMIS_BUILD_TESTS": "ON"
+      }
+    },
+    {
+      "name": "hyperscaler-release-windows",
+      "displayName": "Hyperscaler Release (Windows) (vcpkg required)",
+      "description": "Production release build for Hyperscaler edition on Windows with benchmarks. Optimized for large-scale cloud deployments. Requires: Windows 10/11, MSVC 2022+, Ninja, vcpkg. See SETUP.md for setup instructions.",
+      "inherits": "windows-base",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      },
+      "binaryDir": "${sourceDir}/build-hyperscaler-windows-release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "THEMIS_EDITION": "HYPERSCALER",
+        "THEMIS_BUILD_BENCHMARKS": "ON"
+      }
+    },
+    {
+      "name": "hyperscaler-release-linux",
+      "displayName": "Hyperscaler Release (Linux) (vcpkg required)",
+      "description": "Production release build for Hyperscaler edition on Linux with benchmarks. Optimized for large-scale cloud deployments. Requires: Linux, GCC 11+, Ninja, vcpkg. See SETUP.md for setup instructions.",
+      "inherits": "linux-base",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      },
+      "binaryDir": "${sourceDir}/build-hyperscaler-linux-release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "THEMIS_EDITION": "HYPERSCALER",
+        "THEMIS_BUILD_BENCHMARKS": "ON"
       }
     },
     {
@@ -427,6 +473,21 @@
       "jobs": 16
     },
     {
+      "name": "community-debug",
+      "configurePreset": "community-debug",
+      "jobs": 8
+    },
+    {
+      "name": "hyperscaler-release-windows",
+      "configurePreset": "hyperscaler-release-windows",
+      "jobs": 16
+    },
+    {
+      "name": "hyperscaler-release-linux",
+      "configurePreset": "hyperscaler-release-linux",
+      "jobs": 16
+    },
+    {
       "name": "linux-release",
       "configurePreset": "linux-release"
     },
@@ -511,6 +572,18 @@
     {
       "name": "hyperscaler-debug-windows",
       "configurePreset": "hyperscaler-debug-windows"
+    },
+    {
+      "name": "community-debug",
+      "configurePreset": "community-debug"
+    },
+    {
+      "name": "hyperscaler-release-windows",
+      "configurePreset": "hyperscaler-release-windows"
+    },
+    {
+      "name": "hyperscaler-release-linux",
+      "configurePreset": "hyperscaler-release-linux"
     },
     {
       "name": "linux-release",
@@ -613,6 +686,57 @@
         {
           "type": "test",
           "name": "hyperscaler-debug-windows"
+        }
+      ]
+    },
+    {
+      "name": "community-debug",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "community-debug"
+        },
+        {
+          "type": "build",
+          "name": "community-debug"
+        },
+        {
+          "type": "test",
+          "name": "community-debug"
+        }
+      ]
+    },
+    {
+      "name": "hyperscaler-release-windows",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "hyperscaler-release-windows"
+        },
+        {
+          "type": "build",
+          "name": "hyperscaler-release-windows"
+        },
+        {
+          "type": "test",
+          "name": "hyperscaler-release-windows"
+        }
+      ]
+    },
+    {
+      "name": "hyperscaler-release-linux",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "hyperscaler-release-linux"
+        },
+        {
+          "type": "build",
+          "name": "hyperscaler-release-linux"
+        },
+        {
+          "type": "test",
+          "name": "hyperscaler-release-linux"
         }
       ]
     },
