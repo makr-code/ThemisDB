@@ -165,6 +165,9 @@ struct RootCauseReport {
     /// Short description of the most likely root cause.
     std::string primary_cause;
 
+    /// Stable machine-readable reason code describing the primary cause class.
+    std::string primary_reason_code;
+
     /// Confidence in the primary cause, in [0, 1].
     double confidence{0.0};
 

@@ -45,6 +45,8 @@ struct NodeProfile {
     std::string node_id;
     /// Optional human-readable hostname for display purposes.
     std::string host;
+    /// Monotonic version for last-write-wins conflict resolution per node.
+    uint64_t version{0};
     /// The profile snapshot contributed by this node.
     ProfileSnapshot snapshot;
 };
@@ -67,6 +69,8 @@ struct MergedFlameGraph {
     std::map<std::string, uint64_t> stacks;
     /// Node IDs whose profiles contributed to this merge.
     std::vector<std::string> node_ids;
+    /// Node versions captured in the merged output for deterministic provenance.
+    std::map<std::string, uint64_t> node_versions;
     /// Timestamp at which the merge was performed.
     std::chrono::system_clock::time_point generated_at;
 
@@ -100,6 +104,9 @@ struct DistributedFlameGraphConfig {
      * useful when nodes have different sampling rates or uptime.
      */
     bool normalize_per_node = false;
+
+    /// Maximum number of merged hotspots to expose in diff() output.
+    size_t max_diff_hotspots = 20;
 };
 
 /**
@@ -226,4 +233,3 @@ private:
 
 } // namespace observability
 } // namespace themis
-

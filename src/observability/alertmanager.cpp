@@ -83,21 +83,28 @@ Result<void> Alertmanager::initialize(const AlertmanagerConfig& config) {
 }
 
 Result<void> Alertmanager::sendAlert([[maybe_unused]] const Alert& alert) {
-    // Base-class no-op: subclasses provide the concrete transport.
-    return {};
+    return tl::unexpected(Error{
+        errors::ErrorCode::ERR_UTIL_UNSUPPORTED_OPERATION,
+        "Alertmanager::sendAlert requires a concrete backend implementation"
+    });
 }
 
 Result<void> Alertmanager::resolveAlert([[maybe_unused]] const std::string& alert_id) {
-    // Base-class no-op: subclasses provide the concrete transport.
-    return {};
+    return tl::unexpected(Error{
+        errors::ErrorCode::ERR_UTIL_UNSUPPORTED_OPERATION,
+        "Alertmanager::resolveAlert requires a concrete backend implementation"
+    });
 }
 
 Result<void> Alertmanager::silenceAlert([[maybe_unused]] const std::string& alert_id, [[maybe_unused]] int duration_minutes) {
-    // Base-class no-op: subclasses provide the concrete transport.
-    return {};
+    return tl::unexpected(Error{
+        errors::ErrorCode::ERR_UTIL_UNSUPPORTED_OPERATION,
+        "Alertmanager::silenceAlert requires a concrete backend implementation"
+    });
 }
 
 std::vector<Alert> Alertmanager::getActiveAlerts() {
+    std::lock_guard<std::mutex> lock(active_alerts_mutex_);
     return active_alerts_;
 }
 
@@ -110,6 +117,41 @@ Result<void> Alertmanager::testConnection() {
     }
     // Base-class no-op: subclasses provide the concrete health-check.
     return {};
+}
+
+std::optional<Alert> Alertmanager::findActiveAlertById(const std::string& alert_id) const {
+    std::lock_guard<std::mutex> lock(active_alerts_mutex_);
+    auto it = std::find_if(active_alerts_.begin(), active_alerts_.end(),
+                           [&](const Alert& alert) { return alert.alert_id == alert_id; });
+    if (it == active_alerts_.end()) {
+        return std::nullopt;
+    }
+    return *it;
+}
+
+void Alertmanager::upsertActiveAlert(const Alert& alert) {
+    std::lock_guard<std::mutex> lock(active_alerts_mutex_);
+    auto it = std::find_if(active_alerts_.begin(), active_alerts_.end(),
+                           [&](const Alert& existing) { return existing.alert_id == alert.alert_id; });
+    if (it == active_alerts_.end()) {
+        active_alerts_.push_back(alert);
+    } else {
+        *it = alert;
+    }
+}
+
+bool Alertmanager::removeActiveAlertById(const std::string& alert_id, Alert* removed) {
+    std::lock_guard<std::mutex> lock(active_alerts_mutex_);
+    auto it = std::find_if(active_alerts_.begin(), active_alerts_.end(),
+                           [&](const Alert& alert) { return alert.alert_id == alert_id; });
+    if (it == active_alerts_.end()) {
+        return false;
+    }
+    if (removed != nullptr) {
+        *removed = *it;
+    }
+    active_alerts_.erase(it);
+    return true;
 }
 
 std::string Alertmanager::severityToString(AlertSeverity severity) {
@@ -243,7 +285,7 @@ Result<void> DefaultAlertmanager::sendAlert(const Alert& alert) {
     
     // Maintain local active-alerts list.
     if (alert.status == AlertStatus::FIRING) {
-        active_alerts_.push_back(alert);
+        upsertActiveAlert(alert);
         THEMIS_DEBUG("Alert added to active alerts (total: {})", active_alerts_.size());
     }
     
@@ -289,15 +331,10 @@ Result<void> DefaultAlertmanager::sendAlert(const Alert& alert) {
 Result<void> DefaultAlertmanager::resolveAlert(const std::string& alert_id) {
     THEMIS_INFO("Resolving alert: {}", alert_id);
     
-    auto it = std::find_if(active_alerts_.begin(), active_alerts_.end(),
-                           [&alert_id](const Alert& a) { return a.alert_id == alert_id; });
-    
     Alert resolved_alert;
-    if (it != active_alerts_.end()) {
-        it->status     = AlertStatus::RESOLVED;
-        it->resolved_at = std::chrono::system_clock::now();
-        resolved_alert  = *it;
-        active_alerts_.erase(it);
+    if (removeActiveAlertById(alert_id, &resolved_alert)) {
+        resolved_alert.status = AlertStatus::RESOLVED;
+        resolved_alert.resolved_at = std::chrono::system_clock::now();
         THEMIS_INFO("Alert {} resolved (removed from active alerts)", alert_id);
     } else {
         THEMIS_WARN("Alert {} not found in local active alerts", alert_id);
@@ -340,10 +377,9 @@ Result<void> DefaultAlertmanager::silenceAlert(const std::string& alert_id,
                                                int duration_minutes) {
     THEMIS_INFO("Silencing alert {} for {} minutes", alert_id, duration_minutes);
     
-    auto it = std::find_if(active_alerts_.begin(), active_alerts_.end(),
-                           [&alert_id](const Alert& a) { return a.alert_id == alert_id; });
-    if (it != active_alerts_.end()) {
-        it->status = AlertStatus::SILENCED;
+    if (auto alert = findActiveAlertById(alert_id); alert.has_value()) {
+        alert->status = AlertStatus::SILENCED;
+        upsertActiveAlert(*alert);
         THEMIS_INFO("Alert {} silenced in local store", alert_id);
     } else {
         THEMIS_WARN("Alert {} not found in local active alerts", alert_id);
@@ -382,8 +418,9 @@ Result<void> DefaultAlertmanager::silenceAlert(const std::string& alert_id,
 }
 
 std::vector<Alert> DefaultAlertmanager::getActiveAlerts() {
-    THEMIS_DEBUG("Getting active alerts (count: {})", active_alerts_.size());
-    return active_alerts_;
+    const auto alerts = Alertmanager::getActiveAlerts();
+    THEMIS_DEBUG("Getting active alerts (count: {})", alerts.size());
+    return alerts;
 }
 
 Result<void> DefaultAlertmanager::testConnection() {
@@ -684,4 +721,3 @@ size_t AlertRuleManager::ruleCount() const {
 
 } // namespace observability
 } // namespace themis
-

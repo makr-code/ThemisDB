@@ -38,7 +38,7 @@ namespace observability {
 namespace {
 
 /** Parse pprof folded-stacks text into a {stack → count} map. */
-static std::map<std::string, uint64_t> parseFolded(const std::string& text) {
+[[nodiscard]] std::map<std::string, uint64_t> parseFolded(const std::string& text) {
     std::map<std::string, uint64_t> result;
     std::istringstream stream(text);
     std::string line;
@@ -58,6 +58,13 @@ static std::map<std::string, uint64_t> parseFolded(const std::string& text) {
     return result;
 }
 
+[[nodiscard]] std::vector<std::string> sortedUniqueIds(const std::vector<std::string>& ids) {
+    auto copy = ids;
+    std::sort(copy.begin(), copy.end());
+    copy.erase(std::unique(copy.begin(), copy.end()), copy.end());
+    return copy;
+}
+
 } // anonymous namespace
 
 // ---------------------------------------------------------------------------
@@ -65,14 +72,11 @@ static std::map<std::string, uint64_t> parseFolded(const std::string& text) {
 // ---------------------------------------------------------------------------
 
 std::string MergedFlameGraph::toFoldedText() const {
-    std::string out;
+    std::ostringstream out;
     for (const auto& [stack, count] : stacks) {
-        out += stack;
-        out += ' ';
-        out += std::to_string(count);
-        out += '\n';
+        out << stack << ' ' << count << '\n';
     }
-    return out;
+    return out.str();
 }
 
 json MergedFlameGraph::toJSON() const {
@@ -89,6 +93,7 @@ json MergedFlameGraph::toJSON() const {
     return json{
         {"generated_at_ms", ts_ms},
         {"node_ids", node_ids},
+        {"node_versions", node_versions},
         {"node_count", node_ids.size()},
         {"stack_count", stacks.size()},
         {"folded_text", toFoldedText()},
@@ -106,32 +111,38 @@ public:
 
     void addNodeProfile(const NodeProfile& profile) {
         std::lock_guard<std::mutex> lk(mutex_);
+        auto it = profiles_.find(profile.node_id);
+        if (it != profiles_.end() && profile.version < it->second.version) {
+            return;
+        }
+
+        const bool is_new = (it == profiles_.end());
         profiles_[profile.node_id] = profile;
-        // Enforce max_nodes: evict the oldest entry (by insertion order)
-        // when the limit is exceeded.
-        while (config_.max_nodes > 0 && profiles_.size() > config_.max_nodes) {
-            profiles_.erase(profiles_.begin());
+        if (is_new) {
+            insertion_order_.push_back(profile.node_id);
+        }
+
+        while (config_.max_nodes > 0 && profiles_.size() > config_.max_nodes && !insertion_order_.empty()) {
+            const auto evict_id = insertion_order_.front();
+            insertion_order_.erase(insertion_order_.begin());
+            profiles_.erase(evict_id);
         }
     }
 
     void clearProfiles() {
         std::lock_guard<std::mutex> lk(mutex_);
         profiles_.clear();
+        insertion_order_.clear();
     }
 
     MergedFlameGraph merge() const {
-        std::lock_guard<std::mutex> lk(mutex_);
-        std::vector<std::string> ids;
-        ids.reserve(profiles_.size());
-        for (const auto& [id, _] : profiles_) {
-            ids.push_back(id);
-        }
-        return mergeProfiles(ids);
+        const auto snapshot = snapshotProfiles();
+        return mergeProfiles(snapshot, collectIds(snapshot));
     }
 
     MergedFlameGraph mergeFiltered(const std::vector<std::string>& node_ids) const {
-        std::lock_guard<std::mutex> lk(mutex_);
-        return mergeProfiles(node_ids);
+        const auto snapshot = snapshotProfiles();
+        return mergeProfiles(snapshot, sortedUniqueIds(node_ids));
     }
 
     ProfileDiff diff(const MergedFlameGraph& baseline,
@@ -182,8 +193,9 @@ public:
         }
 
         // Cap list sizes for usability
-        auto trim = [](std::vector<std::string>& v) {
-            if (v.size() > 20) v.resize(20);
+        const auto limit = config_.max_diff_hotspots;
+        auto trim = [limit](std::vector<std::string>& v) {
+            if (v.size() > limit) v.resize(limit);
         };
         trim(result.new_hotspots);
         trim(result.removed_hotspots);
@@ -199,6 +211,7 @@ public:
         for (const auto& [id, _] : profiles_) {
             ids.push_back(id);
         }
+        std::sort(ids.begin(), ids.end());
         return ids;
     }
 
@@ -213,21 +226,35 @@ public:
     }
 
 private:
-    /**
-     * Merge a specific list of node IDs.
-     * Caller MUST hold mutex_.
-     */
-    MergedFlameGraph mergeProfiles(const std::vector<std::string>& ids) const {
+    [[nodiscard]] std::map<std::string, NodeProfile> snapshotProfiles() const {
+        std::lock_guard<std::mutex> lk(mutex_);
+        return profiles_;
+    }
+
+    [[nodiscard]] static std::vector<std::string> collectIds(
+            const std::map<std::string, NodeProfile>& snapshot) {
+        std::vector<std::string> ids;
+        ids.reserve(snapshot.size());
+        for (const auto& [id, _] : snapshot) {
+            ids.push_back(id);
+        }
+        return ids;
+    }
+
+    [[nodiscard]] MergedFlameGraph mergeProfiles(
+            const std::map<std::string, NodeProfile>& snapshot,
+            const std::vector<std::string>& ids) const {
         MergedFlameGraph result;
         result.generated_at = std::chrono::system_clock::now();
 
-        for (const auto& id : ids) {
-            auto it = profiles_.find(id);
-            if (it == profiles_.end()) continue;
+        for (const auto& id : sortedUniqueIds(ids)) {
+            auto it = snapshot.find(id);
+            if (it == snapshot.end()) continue;
             const NodeProfile& np = it->second;
             if (np.snapshot.type != ProfileType::CPU) continue;
 
             result.node_ids.push_back(id);
+            result.node_versions[id] = np.version;
             const std::string text = np.snapshot.dataAsString();
             auto stacks = parseFolded(text);
 
@@ -262,8 +289,8 @@ private:
 
     mutable std::mutex mutex_;
     DistributedFlameGraphConfig config_;
-    // Ordered map so eviction of oldest entry on overflow is deterministic.
     std::map<std::string, NodeProfile> profiles_;
+    std::vector<std::string> insertion_order_;
 };
 
 // ---------------------------------------------------------------------------
@@ -311,4 +338,3 @@ DistributedFlameGraphConfig DistributedFlameGraph::getConfig() const {
 
 } // namespace observability
 } // namespace themis
-

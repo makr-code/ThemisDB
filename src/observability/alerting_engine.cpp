@@ -419,75 +419,87 @@ int AlertingEngine::evaluateAndNotify(const std::map<std::string, double>& metri
 
 // --- Alertmanager overrides --------------------------------------------------
 
-void AlertingEngine::dispatchToChannels(const Alert& alert) {
+Result<void> AlertingEngine::dispatchToChannels(const Alert& alert) {
     std::vector<std::shared_ptr<INotificationChannel>> snapshot;
     {
         std::lock_guard<std::mutex> lock(channels_mutex_);
         snapshot = channels_;
     }
 
+    std::vector<std::string> failures;
     for (const auto& ch : snapshot) {
         auto res = ch->send(alert);
         if (!res.has_value()) {
+            failures.push_back(ch->channelType() + ": " + res.error().message());
             THEMIS_WARN("AlertingEngine: channel '{}' failed to send alert '{}': {}",
                         ch->channelType(), alert.alert_name, res.error().message());
         }
     }
+
+    if (!failures.empty()) {
+        std::ostringstream oss;
+        for (size_t i = 0; i < failures.size(); ++i) {
+            if (i != 0) {
+                oss << "; ";
+            }
+            oss << failures[i];
+        }
+        return tl::unexpected(Error{
+            errors::ErrorCode::ERR_NET_CONNECTION_REFUSED,
+            "AlertingEngine::dispatchToChannels partial failure: " + oss.str()
+        });
+    }
+    return {};
 }
 
 Result<void> AlertingEngine::sendAlert(const Alert& alert) {
-    // Track in-process active alert list (inherited from Alertmanager).
-    {
-        // Update or insert the alert in the active_alerts_ list.
-        auto it = std::find_if(active_alerts_.begin(), active_alerts_.end(),
-                               [&](const Alert& a) {
-                                   return a.alert_id == alert.alert_id;
-                               });
-        if (it == active_alerts_.end()) {
-            active_alerts_.push_back(alert);
-        } else {
-            *it = alert;
-        }
-    }
+    upsertActiveAlert(alert);
 
-    // Dispatch to all registered notification channels.
-    dispatchToChannels(alert);
+    auto channel_result = dispatchToChannels(alert);
 
-    // Forward to backend Alertmanager if one is configured.
+    Result<void> backend_result;
     if (backend_) {
-        auto res = backend_->sendAlert(alert);
-        if (!res.has_value()) {
+        backend_result = backend_->sendAlert(alert);
+        if (!backend_result.has_value()) {
             THEMIS_WARN("AlertingEngine: backend sendAlert failed for '{}': {}",
-                        alert.alert_name, res.error().message());
+                        alert.alert_name, backend_result.error().message());
         }
     }
 
+    if (!channel_result.has_value()) {
+        return channel_result;
+    }
+    if (backend_ && !backend_result.has_value()) {
+        return backend_result;
+    }
     return {};
 }
 
 Result<void> AlertingEngine::resolveAlert(const std::string& alert_id) {
-    // Locate the alert in our in-process list and mark it RESOLVED.
-    auto it = std::find_if(active_alerts_.begin(), active_alerts_.end(),
-                           [&](const Alert& a) { return a.alert_id == alert_id; });
-    if (it != active_alerts_.end()) {
-        it->status      = AlertStatus::RESOLVED;
-        it->resolved_at = std::chrono::system_clock::now();
-
-        // Notify channels about the resolution.
-        dispatchToChannels(*it);
-
-        // Remove from active list after notifying.
-        active_alerts_.erase(it);
+    auto active = findActiveAlertById(alert_id);
+    Result<void> channel_result;
+    if (active.has_value()) {
+        active->status = AlertStatus::RESOLVED;
+        active->resolved_at = std::chrono::system_clock::now();
+        channel_result = dispatchToChannels(*active);
+        removeActiveAlertById(alert_id);
     }
 
+    Result<void> backend_result;
     if (backend_) {
-        auto res = backend_->resolveAlert(alert_id);
-        if (!res.has_value()) {
+        backend_result = backend_->resolveAlert(alert_id);
+        if (!backend_result.has_value()) {
             THEMIS_WARN("AlertingEngine: backend resolveAlert failed for '{}': {}",
-                        alert_id, res.error().message());
+                        alert_id, backend_result.error().message());
         }
     }
 
+    if (active.has_value() && !channel_result.has_value()) {
+        return channel_result;
+    }
+    if (backend_ && !backend_result.has_value()) {
+        return backend_result;
+    }
     return {};
 }
 
@@ -495,8 +507,9 @@ Result<void> AlertingEngine::silenceAlert(const std::string& alert_id,
                                           int duration_minutes) {
     auto it = std::find_if(active_alerts_.begin(), active_alerts_.end(),
                            [&](const Alert& a) { return a.alert_id == alert_id; });
-    if (it != active_alerts_.end()) {
-        it->status = AlertStatus::SILENCED;
+    if (auto active = findActiveAlertById(alert_id); active.has_value()) {
+        active->status = AlertStatus::SILENCED;
+        upsertActiveAlert(*active);
     }
 
     if (backend_) {
