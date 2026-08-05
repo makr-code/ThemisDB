@@ -1,0 +1,282 @@
+{
+  "phase": 3,
+  "title": "Integration & Resilience Proof — ThemisDB v2.4.0-rc1 GA Closure",
+  "entry_criteria": {
+    "phase_2_complete": true,
+    "performance_rollback_evidence": true,
+    "status": "ENTRY_CRITERIA_MET"
+  },
+  "exit_criteria": {
+    "release_critical_green": "🟡 EVIDENCE_PRESENT_PENDING_REVALIDATION",
+    "wave5_6_retention_evidence": "✅ COMPLETE",
+    "wave8_chaos_evidence": "✅ COMPLETE",
+    "status": "BLOCKED_ON_REVALIDATION"
+  },
+  "lanes": {
+    "release_critical_stability": {
+      "status": "GREEN_GATE_EXISTS",
+      "description": "CI gate defined in .github/workflows/09-pr-gates_release-critical-tests.yml",
+      "core_pipeline_tests": 6,
+      "core_pipeline_targets": [
+        "query_execution_pipeline_test",
+        "ingestion_pipeline_test",
+        "rag_ai_pipeline_test",
+        "transaction_replication_pipeline_test",
+        "security_pipeline_test",
+        "application_profile_pipeline_test"
+      ],
+      "test_count": 30,
+      "labels": "release_critical",
+      "last_validated": "2026-08-05",
+      "gate_status": "DEFINED_AND_WIRED",
+      "gate_file": ".github/workflows/09-pr-gates_release-critical-tests.yml",
+      "ctest_timeout_seconds": 300,
+      "flake_check_repeats": "until-fail:5",
+      "artifacts_retained": 30,
+      "action_item": "Re-run release-critical CI suite on current develop HEAD and verify all tests PASS"
+    },
+    "wave5_retention": {
+      "status": "COMPLETE_AND_WIRED",
+      "description": "Wave 5 (Data Layer) regression suite retained and labeled release_critical",
+      "test_count": 2,
+      "test_files": [
+        "w5a_e2e_critical_journeys_test.cpp",
+        "w5b_failure_injection_recovery_test.cpp"
+      ],
+      "evidence_file": "tests/integration/WAVE5_TEST_COVERAGE.md",
+      "labels": "wave5;release_critical;e2e;recovery",
+      "last_verified": "2026-07-16",
+      "test_case_count": 16,
+      "coverage_matrix": {
+        "w5a": "8 e2e critical journey cases",
+        "w5b": "8 failure injection recovery cases"
+      },
+      "governance_file": "tests/integration/WAVE5_TEST_GOVERNANCE.md",
+      "action_item": "Verify Wave5 tests run to completion under current develop baseline"
+    },
+    "wave6_retention": {
+      "status": "COMPLETE_AND_WIRED",
+      "description": "Wave 6 (Critical Journey) regression suite retained and labeled release_candidate/release_critical",
+      "test_count": 3,
+      "test_files": [
+        "w6a_critical_journey_hardening_test.cpp",
+        "w6b_stress_soak_stability_test.cpp",
+        "w6c_failure_injection_recovery_test.cpp"
+      ],
+      "evidence_file": "tests/integration/WAVE6_TEST_COVERAGE.md",
+      "runbook_file": "benchmarks/docs/WAVE6_RELEASE_CANDIDATE_RUNBOOK.md",
+      "labels": "wave6;release_candidate;stress_soak;failure_injection",
+      "last_verified": "2026-07-16",
+      "test_case_count": 24,
+      "coverage_matrix": {
+        "w6a": "8 release-candidate critical journey hardening cases (RCJ-01..08)",
+        "w6b": "8 stress/soak/stability validation cases (SSS-01..08)",
+        "w6c": "8 failure injection recovery proof cases (FIR-01..08)"
+      },
+      "action_item": "Verify Wave6 tests run to completion under current develop baseline"
+    },
+    "wave8_chaos": {
+      "status": "COMPLETE_AND_WIRED",
+      "description": "Wave 8 (Endurance/Degradation) and Wave 9 (Chaos/SLA/Security) suites integrated into release_critical",
+      "wave8_count": 6,
+      "wave9_count": 3,
+      "total_chaos_test_count": 9,
+      "test_files_wave8": [
+        "w8a_incident_regression_shielding_test.cpp",
+        "w8a_release_critical_signoff_test.cpp",
+        "w8b_contract_compatibility_reliability_test.cpp",
+        "w8b_endurance_soak_test.cpp",
+        "w8c_degradation_fault_recovery_test.cpp",
+        "w8c_determinism_flake_ci_signal_test.cpp"
+      ],
+      "test_files_wave9": [
+        "w9a_security_hardening_audit_test.cpp",
+        "w9b_sla_compliance_uptime_test.cpp",
+        "w9c_chaos_fault_tolerance_test.cpp"
+      ],
+      "wave8_evidence_file": "benchmarks/wave8/WAVE8_BENCHMARK_COVERAGE.md",
+      "wave8_runbook": "benchmarks/wave8/RUNBOOK_W8.md",
+      "wave8_release_gate": "benchmarks/wave8/release_gate_manifest_w8.json",
+      "wave9_evidence_file": "benchmarks/wave9/WAVE9_BENCHMARK_COVERAGE.md",
+      "wave9_runbook": "benchmarks/wave9/RUNBOOK_W9.md",
+      "labels": "wave8;wave9;release_critical;incident_regression;determinism;chaos_fault_tolerance;sla_compliance",
+      "scenarios": {
+        "incident_regression_shielding": "w8a — Regression protection from incident patterns",
+        "contract_compatibility_reliability": "w8b — Contract compat and reliability under load",
+        "determinism_flake_burndown": "w8c — Determinism and CI flake signal detection",
+        "security_hardening_audit": "w9a — Security hardening audit",
+        "sla_compliance_uptime": "w9b — 99.99% SLA / RTO measurement compliance",
+        "chaos_fault_tolerance": "w9c — Chaos engineering and fault tolerance"
+      },
+      "gate_thresholds": {
+        "GATE_W8_01": "Incident regression: zero new regression patterns",
+        "GATE_W8_02": "Contract compatibility: zero new contract violations",
+        "GATE_W8_03": "Determinism: zero flake-inducing non-determinism",
+        "GATE_W8_04": "Degradation recovery: cluster rejoin <= 2000 µs",
+        "GATE_W9_01": "Security hardening: zero new critical findings",
+        "GATE_W9_02": "Auth overhead: p99 <= 150 µs",
+        "GATE_W9_03": "Chaos recovery: cluster rejoin <= 2000 µs",
+        "GATE_W9_04": "SLA RTO: <= 5000 µs",
+        "GATE_W9_05": "Fault tolerance: all critical paths recover",
+        "GATE_W9_06": "Operations readiness: runbook evidence complete"
+      },
+      "action_item": "Re-run Wave8/Wave9 benchmarks and verify gate thresholds on current develop HEAD"
+    }
+  },
+  "security_evidence": {
+    "sanitizer_bundle": {
+      "file": "docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md",
+      "status": "✅ COMPLETE",
+      "sanitizers": ["AddressSanitizer (ASan)", "UndefinedBehaviorSanitizer (UBSan)", "ThreadSanitizer (TSan)"],
+      "findings_summary": "Zero new defects across all sanitizers",
+      "gate_status": "PASS",
+      "last_verified": "2026-08-01"
+    },
+    "pentest_bundle": {
+      "file": "security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md",
+      "status": "✅ COMPLETE",
+      "findings_summary": "Zero new Critical/High findings",
+      "residual_risks_documented": ["PTR-01", "PTR-02"],
+      "residual_risks_accepted": true,
+      "gate_status": "PASS",
+      "last_verified": "2026-08-01"
+    }
+  },
+  "governance_evidence": {
+    "promotion_checklist": "docs/governance/GA_PROMOTION_SIGN_OFF.md",
+    "batch_a_status": "✅ COMPLETE (2026-08-01)",
+    "batch_b_status": "✅ COMPLETE (2026-08-01)",
+    "batch_c_status": "✅ COMPLETE (2026-08-01)",
+    "batch_d_status": "🟡 EVIDENCE_PRESENT_PENDING_HUMAN_APPROVAL",
+    "sharding_p6_evidence": [
+      "docs/sharding/SHARDING_P6_SIGN_OFF.md",
+      "docs/sharding/SHARDING_P6_CROSS_MODULE_RECOVERY_VERIFICATION.md",
+      "docs/governance/SHARDING_P6_RESIDUAL_RISK_ACCEPTANCE.md"
+    ]
+  },
+  "blockers": [
+    {
+      "id": "PHASE3-BLOCK-01",
+      "severity": "HIGH",
+      "category": "VERIFICATION_PENDING",
+      "description": "Current develop HEAD must re-run full release_critical CI suite",
+      "impact": "Phase 3 exit criteria cannot be confirmed without current CI validation",
+      "owner": "platform-release@themisdb",
+      "evidence_location": "GitHub Actions run logs",
+      "resolution": "Execute: ctest --preset community-release -L release_critical --repeat until-fail:5 on current develop"
+    },
+    {
+      "id": "PHASE3-BLOCK-02",
+      "severity": "HIGH",
+      "category": "HUMAN_SIGN_OFF_PENDING",
+      "description": "Section 9 of GA_PROMOTION_SIGN_OFF.md requires human release approver sign-off",
+      "impact": "Promotion to community branch remains blocked",
+      "owner": "release-approver",
+      "evidence_location": "docs/governance/GA_PROMOTION_SIGN_OFF.md §9",
+      "resolution": "Human review and approval of promotion checklist (lines 78-94) in GA_PROMOTION_SIGN_OFF.md"
+    },
+    {
+      "id": "PHASE3-BLOCK-03",
+      "severity": "MEDIUM",
+      "category": "ROADMAP_CLOSURE",
+      "description": "Open Phase 2/3/5/6 roadmap tasks must be closed with fresh evidence",
+      "impact": "Batch D (Final GA Readiness) gates D-5 through D-10 show evidence-present but pending revalidation",
+      "owner": "feature-leads",
+      "evidence_location": "ROADMAP.md line 302-321",
+      "resolution": "Close open ROADMAP.md items per gate closure matrix in GA_PROMOTION_SIGN_OFF.md §2.4"
+    }
+  ],
+  "test_registration_summary": {
+    "release_critical_label_count": 17,
+    "total_integration_tests": 19,
+    "breakdown": {
+      "core_pipeline": 6,
+      "wave2": 2,
+      "wave3": 2,
+      "wave5": 2,
+      "wave6": 3,
+      "wave7": 3,
+      "wave8": 6,
+      "wave9": 3
+    },
+    "cmakelists_file": "tests/integration/CMakeLists.txt",
+    "ctest_label_mapping": {
+      "release_critical": 17,
+      "wave5": 2,
+      "wave6": 3,
+      "wave8": 6,
+      "wave9": 3
+    }
+  },
+  "next_steps": [
+    {
+      "sequence": 1,
+      "action": "Execute CI validation on develop HEAD",
+      "task": "Run full release_critical CI suite: ctest --preset community-release -L release_critical --repeat until-fail:5",
+      "owner": "platform-release@themisdb",
+      "estimated_duration_minutes": 60,
+      "success_criteria": "All 30+ tests PASS with zero flakes",
+      "blocker_clearance": "PHASE3-BLOCK-01"
+    },
+    {
+      "sequence": 2,
+      "action": "Validate Wave5/6 regression evidence on current baseline",
+      "task": "Verify w5a, w5b, w6a, w6b, w6c pass under current develop; capture execution logs",
+      "owner": "qa-lead",
+      "estimated_duration_minutes": 45,
+      "success_criteria": "All Wave5/6 tests PASS; test output logged to tests/integration/wave56_validation_run.log",
+      "output_file": "tests/integration/WAVE56_CURRENT_VALIDATION.md"
+    },
+    {
+      "sequence": 3,
+      "action": "Validate Wave8/9 chaos gate thresholds on current baseline",
+      "task": "Re-run benchmarks/wave8 and benchmarks/wave9; verify GATE_W8_01..04 and GATE_W9_01..06 PASS",
+      "owner": "performance-lead",
+      "estimated_duration_minutes": 120,
+      "success_criteria": "All wave8/wave9 gates PASS; gate results captured in release_gate_manifest_w8.json and release_gate_manifest_w9.json",
+      "output_file": "benchmarks/wave8/release_gate_manifest_w8_validated_2026_08_05.json"
+    },
+    {
+      "sequence": 4,
+      "action": "Close ROADMAP.md Phase 2/3/5/6 open items",
+      "task": "Mark closed roadmap checkboxes in Phase 2/3/5/6 sections with completion evidence links",
+      "owner": "feature-leads + platform-release@themisdb",
+      "estimated_duration_minutes": 30,
+      "success_criteria": "All Phase 2/3/5/6 checkboxes marked [x]; evidence links present",
+      "reference": "ROADMAP.md lines 289-328, NEXT_PHASE_IMPLEMENTATION_PLAN.md §Current Open Scope"
+    },
+    {
+      "sequence": 5,
+      "action": "Human review and approval of GA_PROMOTION_SIGN_OFF.md",
+      "task": "Release approver reviews §1-8, completes §9 (human sign-off checklist), marks D-11 as [x]",
+      "owner": "release-approver",
+      "estimated_duration_minutes": 60,
+      "success_criteria": "Section 9 completed; all 14 checkboxes in promotion checklist marked [x]; approval timestamp recorded",
+      "blocker_clearance": "PHASE3-BLOCK-02"
+    },
+    {
+      "sequence": 6,
+      "action": "Final consolidation and Phase 3 closure report",
+      "task": "Update NEXT_PHASE_IMPLEMENTATION_PLAN.md to mark Phase 3 COMPLETE; create PHASE3_CLOSURE_REPORT.md with all validation evidence links",
+      "owner": "platform-release@themisdb",
+      "estimated_duration_minutes": 30,
+      "success_criteria": "Phase 3 marked COMPLETE in NEXT_PHASE_IMPLEMENTATION_PLAN.md; PHASE3_CLOSURE_REPORT.md created with evidence matrix"
+    }
+  ],
+  "success_metrics": {
+    "release_critical_gate_status": "Target: GREEN on develop HEAD",
+    "wave5_retention_validation": "Target: All 2 suites PASS with zero regressions",
+    "wave6_retention_validation": "Target: All 3 suites PASS with zero regressions",
+    "wave8_gate_validation": "Target: GATE_W8_01..04 all PASS",
+    "wave9_gate_validation": "Target: GATE_W9_01..06 all PASS",
+    "sanitizer_evidence": "Target: Zero new defects (ASan/UBSan/TSan)",
+    "pentest_evidence": "Target: Zero new Critical/High findings",
+    "roadmap_closure": "Target: All Phase 2/3/5/6 checkboxes marked [x]",
+    "human_sign_off": "Target: GA_PROMOTION_SIGN_OFF.md §9 completed and approved"
+  },
+  "status": "IN_PROGRESS_AWAITING_REVALIDATION",
+  "phase_3_completion_date_target": "2026-08-10",
+  "last_updated": "2026-08-05T08:59:07.271Z",
+  "report_prepared_by": "phase-3-coordinator",
+  "coordination_mode": "PARALLELIZABLE_LANES"
+}
