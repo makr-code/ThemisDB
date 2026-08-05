@@ -8,7 +8,7 @@
  *
  *   MCH-EX01  CatalogExporter with HTTP 500 returns success=false with non-empty error
  *   MCH-EX02  CatalogExporter with HTTP 200 returns success=true
- *   MCH-EX03  CatalogExporter::publishSchema() with empty table list returns entity_count==0
+ *   MCH-EX03  CatalogExporter::publishSchema() with empty table list returns entities_published==0
  *   MCH-EX04  DataHub type with HTTP 200 returns success=true
  *
  * All tests inject a fake HTTP function via setHttpPostForTesting() — no real
@@ -74,7 +74,11 @@ TEST(CatalogExporterFailurePathsTest, MCHEX01_Http500ReturnsFailure) {
     exporter.setHttpPostForTesting(
         [](const std::string& /*url*/,
            const std::string& /*body*/,
-           const std::string& /*auth*/) -> int { return 500; }
+           const std::string& /*auth*/,
+           std::string&       response_body) -> int {
+            response_body = "internal error";
+            return 500;
+        }
     );
 
     const auto result = exporter.publishSchema(makeOneTableList());
@@ -92,7 +96,11 @@ TEST(CatalogExporterFailurePathsTest, MCHEX02_Http200ReturnsSuccess) {
     exporter.setHttpPostForTesting(
         [](const std::string& /*url*/,
            const std::string& /*body*/,
-           const std::string& /*auth*/) -> int { return 200; }
+           const std::string& /*auth*/,
+           std::string&       response_body) -> int {
+            response_body = R"({"mutatedEntities":{"CREATE":[{"guid":"1"},{"guid":"2"},{"guid":"3"}]}})";
+            return 200;
+        }
     );
 
     const auto result = exporter.publishSchema(makeOneTableList());
@@ -101,20 +109,24 @@ TEST(CatalogExporterFailurePathsTest, MCHEX02_Http200ReturnsSuccess) {
 }
 
 // ---------------------------------------------------------------------------
-// MCH-EX03: Empty table list → entity_count == 0, success=true
+// MCH-EX03: Empty table list → entities_published == 0, success=true
 // ---------------------------------------------------------------------------
 TEST(CatalogExporterFailurePathsTest, MCHEX03_EmptyTableListReturnsZeroEntities) {
     CatalogExporter exporter(makeAtlasConfig());
     exporter.setHttpPostForTesting(
         [](const std::string& /*url*/,
            const std::string& /*body*/,
-           const std::string& /*auth*/) -> int { return 200; }
+           const std::string& /*auth*/,
+           std::string&       response_body) -> int {
+            response_body = "{}";
+            return 200;
+        }
     );
 
     const auto result = exporter.publishSchema({});
 
     EXPECT_TRUE(result.success);
-    EXPECT_EQ(result.entity_count, 0);
+    EXPECT_EQ(result.entities_published, 0);
 }
 
 // ---------------------------------------------------------------------------
@@ -125,7 +137,11 @@ TEST(CatalogExporterFailurePathsTest, MCHEX04_DataHubHttp200ReturnsSuccess) {
     exporter.setHttpPostForTesting(
         [](const std::string& /*url*/,
            const std::string& /*body*/,
-           const std::string& /*auth*/) -> int { return 200; }
+           const std::string& /*auth*/,
+           std::string&       response_body) -> int {
+            response_body = "{}";
+            return 200;
+        }
     );
 
     const auto result = exporter.publishSchema(makeOneTableList());

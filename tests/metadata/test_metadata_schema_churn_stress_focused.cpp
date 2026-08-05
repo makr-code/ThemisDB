@@ -9,7 +9,7 @@
  * Validates that SchemaManager handles concurrent mutation, cache invalidation,
  * and adaptive-TTL control correctly under high-churn load:
  *
- *   MCH-S01  recordMutation() increments the internal mutation counter without crash
+ *   MCH-S01  Minimal schema names remain valid mutation keys for churn-related callers
  *   MCH-S02  enableAdaptiveTTL() / disableAdaptiveTTL() round-trips without crash
  *   MCH-S03  setCacheTTL() to a very short value is reflected by getEffectiveTTL()
  *   MCH-S04  refreshCache() on a SchemaManager with no tables completes without crash
@@ -63,16 +63,13 @@ SchemaManager::TableSchema makeMinimalSchema(const std::string& name = "test_tab
 } // anonymous namespace
 
 // ---------------------------------------------------------------------------
-// MCH-S01: recordMutation() increments internal counter without crash
+// MCH-S01: Minimal schema names remain valid mutation keys
 // ---------------------------------------------------------------------------
-TEST(MetadataSchemaChurnStressTest, MCHS01_RecordMutationNoCrash) {
+TEST(MetadataSchemaChurnStressTest, MCHS01_MinimalSchemaNameIsStableMutationKey) {
     SchemaManager::TableSchema schema = makeMinimalSchema("orders");
-    // recordMutation operates on a name only — verify it doesn't crash when
-    // called repeatedly (the schema manager is constructed inline here just
-    // to exercise the API surface without a real DB).
+    // Churn-related callers pass the schema name as the mutation key; this
+    // focused test verifies the helper produces a stable non-empty name.
     EXPECT_FALSE(schema.name.empty());
-    // Calling recordMutation requires a live SchemaManager; the contract being
-    // tested here is that the schema name string is valid as a mutation key.
     EXPECT_EQ(schema.name, "orders");
 }
 

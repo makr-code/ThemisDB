@@ -12,7 +12,7 @@
  *   MCH-L01  VersionResult<T>::failure() carries correct error code and message
  *   MCH-L02  VersionResult<T>::ok flag is false when constructed via failure()
  *   MCH-L03  VersionErrorCode values are distinct (TABLE_NOT_FOUND != VERSION_NOT_FOUND)
- *   MCH-L04  VersionResult<bool> success path sets ok=true and value=true
+ *   MCH-L04  VersionResult<uint64_t>::success() sets ok=true and preserves value
  *
  * All tests are self-contained header-only; no RocksDB, no network I/O.
  * Canonical PRNG seed: kLockContractSeed = 42 (declared; not required here).
@@ -75,13 +75,10 @@ TEST(SchemaVersionManagerLockContractTest, MCHL03_ErrorCodesAreDistinct) {
 }
 
 // ---------------------------------------------------------------------------
-// MCH-L04: VersionResult success path has ok=true and correct value
+// MCH-L04: VersionResult::success() has ok=true and correct value
 // ---------------------------------------------------------------------------
 TEST(SchemaVersionManagerLockContractTest, MCHL04_SuccessResultOkIsTrue) {
-    VersionResult<uint64_t> result;
-    result.ok    = true;
-    result.value = 42u;
-    result.error = VersionErrorCode::OK;
+    const auto result = VersionResult<uint64_t>::success(42u);
 
     EXPECT_TRUE(result.ok);
     EXPECT_EQ(result.value, 42u);
