@@ -34,6 +34,9 @@
  */
 
 #include "process/bpmn_serializer.h"
+#include "process/serializer_hardening.h"
+#include "process/process_diagnostics.h"
+#include "process/process_common.h"
 #include "utils/logger.h"
 
 #include <algorithm>
@@ -349,12 +352,40 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
         return result;
     }
 
+    // Phase 3: Unified malformed input detection
+    auto validation = SerializerInputValidator::validateInput(bpmn_xml, "BPMN 2.0");
+    if (!validation.ok) {
+        result.ok = false;
+        result.message = validation.error_message;
+        auto incident = ProcessDiagnostics::createMalformedInputIncident(
+            ProcError::kDeserialiserFailed,
+            "bpmn_import",
+            validation.error_message
+        );
+        SPDLOG_WARN("[bpmn_serializer] {}", incident.toFormattedMessage());
+        return result;
+    }
+
     // Security guard: reject oversized documents before any parsing work.
     if (bpmn_xml.size() > kMaxBpmnXmlBytes) {
         result.ok      = false;
         result.message = "BPMN XML exceeds maximum allowed size (10 MiB)";
+        auto incident = ProcessDiagnostics::createResourceIncident(
+            ProcError::kExecutionTimeout,
+            "bpmn_import",
+            "BPMN XML size (" + std::to_string(bpmn_xml.size()) + 
+            " bytes) exceeds limit (" + std::to_string(kMaxBpmnXmlBytes) + " bytes)"
+        );
+        SPDLOG_WARN("[bpmn_serializer] {}", incident.toFormattedMessage());
         return result;
     }
+
+    // Phase 3: Resource limit enforcement using ParserStateTracker
+    ParserStateTracker parser_tracker(
+        kMaxModelNestingDepth,
+        kMaxModelElements,
+        kMaxOperationTimeoutMs
+    );
 
     // Known flow-node local names.
     static const std::unordered_set<std::string> kFlowNodeTags = {
