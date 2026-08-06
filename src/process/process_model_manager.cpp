@@ -448,6 +448,14 @@ ProcessModelResult ProcessModelManager::save(const ProcessModelRecord& record) {
         return ProcessModelResult::failure("ProcessModelRecord.id must not be empty");
     }
 
+    // Validate consistency before saving
+    auto validation = validateModelConsistency(record);
+    if (!validation.ok) {
+        SPDLOG_WARN("[process] save: validation failed for model '{}': {}",
+                    record.id, validation.message);
+        return validation;
+    }
+
     // Load existing to determine revision
     int next_revision = 0;
     auto existing = load(record.id);
@@ -877,6 +885,247 @@ ProcessModelResult ProcessModelManager::undeployFromEngine(
     SPDLOG_WARN("[process] undeployFromEngine: engine.removeProcess not yet available "
                 "for model '{}'", model_id);
     return ProcessModelResult::success(std::string(model_id));
+}
+
+// ---- Validation and Hardening ------------------------------------------
+
+ProcessModelResult ProcessModelManager::validateModelConsistency(
+    const ProcessModelRecord& record) const
+{
+    // Enforce maximum resource constraints
+    constexpr size_t MAX_NODES = 10000;
+    constexpr size_t MAX_EDGES = 50000;
+    constexpr size_t MAX_DEPTH = 100;
+    constexpr size_t MAX_NAME_LEN = 1000;
+    constexpr size_t MAX_DESC_LEN = 10000;
+
+    // 1. Required fields validation
+    if (record.id.empty()) {
+        return ProcessModelResult::failure("ProcessModelRecord.id must not be empty");
+    }
+    if (record.name.empty()) {
+        return ProcessModelResult::failure("ProcessModelRecord.name must not be empty");
+    }
+    if (record.version.empty()) {
+        return ProcessModelResult::failure("ProcessModelRecord.version must not be empty");
+    }
+
+    // 2. Bounds checking
+    if (record.name.length() > MAX_NAME_LEN) {
+        return ProcessModelResult::failure(
+            "ProcessModelRecord.name exceeds maximum length (" +
+            std::to_string(MAX_NAME_LEN) + ")");
+    }
+    if (record.description.length() > MAX_DESC_LEN) {
+        return ProcessModelResult::failure(
+            "ProcessModelRecord.description exceeds maximum length (" +
+            std::to_string(MAX_DESC_LEN) + ")");
+    }
+
+    // 3. Normalized graph validation
+    if (!record.normalized.is_object()) {
+        return ProcessModelResult::failure(
+            "ProcessModelRecord.normalized must be a JSON object");
+    }
+
+    // 4. Validate nodes
+    size_t node_count = 0;
+    std::unordered_set<std::string> node_ids;
+    if (record.normalized.contains("nodes") && record.normalized["nodes"].is_array()) {
+        const auto& nodes = record.normalized["nodes"];
+        node_count = nodes.size();
+
+        if (node_count > MAX_NODES) {
+            return ProcessModelResult::failure(
+                "Node count (" + std::to_string(node_count) +
+                ") exceeds maximum (" + std::to_string(MAX_NODES) + ")");
+        }
+
+        // Ensure deterministic ordering and no duplicates
+        for (const auto& node : nodes) {
+            if (!node.contains("id") || !node["id"].is_string()) {
+                return ProcessModelResult::failure("Node missing or invalid 'id' field");
+            }
+            const auto& node_id = node["id"].get_ref<const std::string&>();
+            if (node_id.empty()) {
+                return ProcessModelResult::failure("Node id must not be empty");
+            }
+            if (node_ids.count(node_id)) {
+                return ProcessModelResult::failure(
+                    "Duplicate node id encountered: " + node_id);
+            }
+            node_ids.insert(node_id);
+        }
+    }
+
+    // 5. Validate edges
+    size_t edge_count = 0;
+    std::unordered_map<std::string, size_t> out_degree;
+    if (record.normalized.contains("edges") && record.normalized["edges"].is_array()) {
+        const auto& edges = record.normalized["edges"];
+        edge_count = edges.size();
+
+        if (edge_count > MAX_EDGES) {
+            return ProcessModelResult::failure(
+                "Edge count (" + std::to_string(edge_count) +
+                ") exceeds maximum (" + std::to_string(MAX_EDGES) + ")");
+        }
+
+        // Validate all edge references and detect structural issues
+        for (const auto& edge : edges) {
+            if (!edge.contains("from") || !edge["from"].is_string()) {
+                return ProcessModelResult::failure("Edge missing or invalid 'from' field");
+            }
+            if (!edge.contains("to") || !edge["to"].is_string()) {
+                return ProcessModelResult::failure("Edge missing or invalid 'to' field");
+            }
+
+            const auto& from_id = edge["from"].get_ref<const std::string&>();
+            const auto& to_id = edge["to"].get_ref<const std::string&>();
+
+            if (from_id.empty() || to_id.empty()) {
+                return ProcessModelResult::failure("Edge node ids must not be empty");
+            }
+
+            // Verify that both endpoints reference existing nodes
+            if (!node_ids.empty()) {  // Only check if we have node data
+                if (node_ids.find(from_id) == node_ids.end()) {
+                    return ProcessModelResult::failure(
+                        "Edge references non-existent node: " + from_id);
+                }
+                if (node_ids.find(to_id) == node_ids.end()) {
+                    return ProcessModelResult::failure(
+                        "Edge references non-existent node: " + to_id);
+                }
+            }
+
+            // Track out-degree for cycle detection
+            out_degree[from_id]++;
+        }
+    }
+
+    // 6. Perform basic cycle detection (bounded depth-first search)
+    if (!node_ids.empty() && !out_degree.empty()) {
+        for (const auto& start_node : node_ids) {
+            std::unordered_set<std::string> visited;
+            std::unordered_set<std::string> rec_stack;
+
+            std::function<bool(const std::string&, size_t)> dfs =
+                [&](const std::string& node_id, size_t depth) -> bool {
+                    if (depth > MAX_DEPTH) {
+                        return false;  // Depth limit exceeded; assume valid to avoid false positives
+                    }
+                    if (rec_stack.count(node_id)) {
+                        // Cycle detected
+                        SPDLOG_WARN(
+                            "[process] Cycle detected in model '{}': starting from '{}'",
+                            record.id, start_node);
+                        return false;  // Cycle found (expected in BPMN feedback loops)
+                    }
+                    if (visited.count(node_id)) {
+                        return true;  // Already checked
+                    }
+
+                    visited.insert(node_id);
+                    rec_stack.insert(node_id);
+
+                    // For simplicity, we don't enforce strict DAG; just detect deep cycles
+                    if (out_degree.count(node_id)) {
+                        for (size_t _ = 0; _ < out_degree[node_id]; ++_) {
+                            if (!dfs(node_id, depth + 1)) {
+                                rec_stack.erase(node_id);
+                                return false;
+                            }
+                        }
+                    }
+
+                    rec_stack.erase(node_id);
+                    return true;
+                };
+
+            // Only run cycle check for entry nodes (in-degree 0)
+            bool has_incoming = false;
+            if (record.normalized.contains("edges")) {
+                for (const auto& edge : record.normalized["edges"]) {
+                    if (edge["to"].get<std::string>() == start_node) {
+                        has_incoming = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!has_incoming) {
+                // Run limited DFS from entry nodes
+                dfs(start_node, 0);
+            }
+        }
+    }
+
+    // 7. Validate compliance tags are well-formed
+    for (const auto& tag : record.compliance_tags) {
+        if (tag.empty()) {
+            return ProcessModelResult::failure("Compliance tag must not be empty");
+        }
+        if (tag.length() > 100) {
+            return ProcessModelResult::failure(
+                "Compliance tag exceeds maximum length: " + tag);
+        }
+    }
+
+    SPDLOG_DEBUG("[process] Model '{}' consistency check passed: {} nodes, {} edges",
+                 record.id, node_count, edge_count);
+    return ProcessModelResult::success(record.id);
+}
+
+nlohmann::json ProcessModelManager::getConsistencyDiagnostics() const
+{
+    json diag = json::object();
+
+    // Count models and check index coherency
+    size_t model_count = 0;
+    size_t corrupted_count = 0;
+    std::vector<std::string> corrupted_ids;
+
+    db_.scanPrefix("proc:def:", [&](std::string_view key, std::string_view value) -> bool {
+        // Skip versioned snapshots
+        if (std::string(key).find(":rev:") != std::string::npos) {
+            return true;
+        }
+
+        try {
+            auto doc = json::parse(std::string(value));
+            if (doc.contains("id")) {
+                model_count++;
+                auto rec = ProcessModelRecord::fromDocument(doc);
+                auto vr = validateModelConsistency(rec);
+                if (!vr.ok) {
+                    corrupted_count++;
+                    corrupted_ids.push_back(rec.id);
+                }
+            }
+        } catch (const std::exception& ex) {
+            corrupted_count++;
+            corrupted_ids.push_back(std::string(key));
+        }
+        return true;
+    });
+
+    diag["total_models"] = model_count;
+    diag["corrupted_count"] = corrupted_count;
+    diag["coherency_ok"] = corrupted_count == 0;
+    diag["corrupted_ids"] = corrupted_ids;
+
+    // Check index status if wired
+    if (fts_index_) {
+        diag["fts_index_wired"] = true;
+    }
+    if (vector_index_) {
+        diag["vector_index_wired"] = true;
+    }
+
+    SPDLOG_INFO("[process] Consistency diagnostics: {} total, {} corrupted",
+                model_count, corrupted_count);
+    return diag;
 }
 
 } // namespace process

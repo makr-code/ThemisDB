@@ -20,6 +20,7 @@
 #pragma once
 
 #include "index/process_graph.h"
+#include "process/process_common.h"
 #include <nlohmann/json.hpp>
 #include <string>
 #include <string_view>
@@ -51,6 +52,19 @@ namespace process {
  *
  * The XML output conforms to the BPMN 2.0 schema at
  * http://www.omg.org/spec/BPMN/20100524/MODEL (ISO/IEC 19510:2013).
+ *
+ * ## Error Handling (Phase 3)
+ *
+ * All import errors are explicit and actionable:
+ * - Empty input → EMPTY_INPUT
+ * - Oversized input (>10 MiB) → INPUT_TOO_LARGE
+ * - Malformed XML → MALFORMED_INPUT
+ * - Missing required elements → MISSING_REQUIRED_ELEMENT
+ * - Unsupported BPMN constructs → UNSUPPORTED_ELEMENT
+ * - Broken element references → BROKEN_REFERENCE
+ * - File I/O errors → FILE_READ_ERROR
+ *
+ * No silent failures or missing error codes.
  */
 class BpmnSerializer {
 public:
@@ -58,30 +72,68 @@ public:
     // Import
     // -------------------------------------------------------------------------
 
+    /**
+     * @brief Result of a BPMN import operation.
+     *
+     * When @c ok is false:
+     * - @c error_code is set to a ProcessErrorCode indicating the failure category.
+     * - @c message contains an actionable diagnostic message for operator triage.
+     * - All other fields are empty/default.
+     *
+     * When @c ok is true:
+     * - @c error_code is ignored (not checked by callers).
+     * - @c nodes and @c edges contain the parsed process graph.
+     */
     struct ImportResult {
         bool ok{false};
+        ProcessErrorCode error_code{ProcessErrorCode::INTERNAL_ERROR};
         std::string message;
         std::string process_id;     ///< Extracted from the BPMN <process id=…>
         std::string process_name;
         std::vector<ProcessNodeInfo> nodes;
         std::vector<ProcessEdgeInfo> edges;
+        
+        /**
+         * @brief Create a successful import result.
+         */
+        static ImportResult success(
+            std::string_view pid,
+            std::string_view pname,
+            std::vector<ProcessNodeInfo> n,
+            std::vector<ProcessEdgeInfo> e
+        );
+        
+        /**
+         * @brief Create a failure result with error code and diagnostic message.
+         */
+        static ImportResult failure(
+            ProcessErrorCode code,
+            std::string_view context,
+            std::string_view detail = ""
+        );
     };
 
     /**
      * @brief Parse a BPMN 2.0 XML string into ProcessNodeInfo / ProcessEdgeInfo
      *        objects that can be registered with ProcessGraphManager.
      *
-     * The parser is lenient: unknown elements are silently skipped so that
-     * BPMN files produced by different tools (Camunda, Flowable, Signavio,
-     * VCC-VPB) are handled without errors.
+     * All errors are explicit. There are no silent skipped elements or missing
+     * error codes. If unsupported elements are encountered, UNSUPPORTED_ELEMENT
+     * is returned with a diagnostic message listing the element name and line number.
      *
      * @param bpmn_xml  Full BPMN 2.0 XML document.
-     * @return ImportResult with nodes and edges on success.
+     * @return ImportResult with error_code set on failure.
      */
     static ImportResult importXml(std::string_view bpmn_xml);
 
     /**
      * @brief Import a BPMN 2.0 XML file from disk.
+     *
+     * Errors include FILE_READ_ERROR if file cannot be opened, plus all
+     * errors from importXml() for the file content.
+     *
+     * @param file_path Path to BPMN XML file.
+     * @return ImportResult with error_code set on failure.
      */
     static ImportResult importFile(std::string_view file_path);
 
@@ -97,6 +149,8 @@ public:
      * @param nodes         Ordered list of process nodes.
      * @param edges         List of connecting edges.
      * @return Well-formed BPMN 2.0 XML string.
+     *
+     * @throws std::bad_alloc if memory allocation fails.
      */
     static std::string exportXml(
         std::string_view                          process_id,
@@ -109,8 +163,36 @@ public:
      * @brief Export from an intermediate normalised JSON graph.
      *
      * Accepts the `normalized` JSON field of a ProcessModelRecord.
+     *
+     * @param normalized_graph JSON structure with "nodes" and "edges" arrays.
+     * @return Well-formed BPMN 2.0 XML string.
+     *
+     * @throws std::invalid_argument if normalized_graph is malformed.
+     * @throws std::bad_alloc if memory allocation fails.
      */
     static std::string exportFromJson(const nlohmann::json& normalized_graph);
+
+    // -------------------------------------------------------------------------
+    // Validation and Hardening
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Validate BPMN structure and bounds before processing.
+     *
+     * Checks:
+     * - Node and edge counts within limits
+     * - All referenced nodes exist
+     * - Deterministic element ordering
+     * - No malformed attributes
+     *
+     * @param nodes The nodes to validate
+     * @param edges The edges to validate
+     * @return Error message if invalid; empty string if valid
+     */
+    [[nodiscard]] static std::string validateStructure(
+        const std::vector<ProcessNodeInfo>& nodes,
+        const std::vector<ProcessEdgeInfo>& edges
+    );
 
 private:
     // XML helpers
