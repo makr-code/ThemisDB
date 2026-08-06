@@ -127,6 +127,20 @@ ProcessGraphRag::buildKnowledgeGraph(std::string_view model_id) const {
     auto opt = models_.load(std::string(model_id));
     if (!opt.has_value()) {
         SPDLOG_WARN("[process_graph_rag] buildKnowledgeGraph: model '{}' not found", model_id);
+        
+        // Create diagnostic incident for retrieval failure
+        DiagnosticContext ctx_diag;
+        ctx_diag.recordResourceMetric("model_id_length", model_id.length());
+        ctx_diag.setRemediationSuggestion(
+            "Process model '" + std::string(model_id) + "' not found in storage. "
+            "Verify model ID exists and has been imported."
+        );
+        auto incident = ProcessDiagnostics::createRetrievalIncident(
+            ProcError::kRetrievalFailed,
+            model_id,
+            "Process model not found: " + std::string(model_id)
+        );
+        
         return kg;
     }
 
@@ -199,6 +213,20 @@ ProcessGraphRag::buildInstanceKnowledgeGraph(std::string_view        instance_id
     auto [status, inst] = engine_.getProcessInstance(instance_id);
     if (!status.ok) {
         SPDLOG_WARN("[process_graph_rag] buildInstanceKG: instance '{}' not found", instance_id);
+        
+        // Create diagnostic incident for retrieval failure
+        DiagnosticContext ctx_diag;
+        ctx_diag.recordResourceMetric("instance_id_length", instance_id.length());
+        ctx_diag.setRemediationSuggestion(
+            "Process instance '" + std::string(instance_id) + "' not found in storage. "
+            "Verify instance ID exists and has been committed."
+        );
+        auto incident = ProcessDiagnostics::createRetrievalIncident(
+            ProcError::kRetrievalFailed,
+            instance_id,
+            "Process instance not found: " + std::string(instance_id)
+        );
+        
         return {};
     }
 
@@ -483,6 +511,21 @@ ProcessRagContext ProcessGraphRag::retrieve(std::string_view        instance_id,
     auto [status, inst] = engine_.getProcessInstance(instance_id);
     if (!status.ok) {
         SPDLOG_WARN("[process_graph_rag] retrieve: instance '{}' not found", instance_id);
+        
+        // Create diagnostic incident for retrieval failure
+        DiagnosticContext ctx_diag;
+        ctx_diag.recordResourceMetric("instance_id_length", instance_id.size());
+        ctx_diag.recordResourceMetric("query_length", query.length());
+        ctx_diag.setRemediationSuggestion(
+            "Requested process instance '" + std::string(instance_id) + "' not found in storage. "
+            "Verify instance ID exists and has been committed to the database."
+        );
+        auto incident = ProcessDiagnostics::createRetrievalIncident(
+            ProcError::kRetrievalFailed,
+            instance_id,
+            "Process instance not found: " + std::string(instance_id)
+        );
+        
         ctx.llm_prompt = "(Instanz nicht gefunden)";
         return ctx;
     }
@@ -867,6 +910,21 @@ ProcessGraphRag::findSimilarCases(std::string_view instance_id,
     if (!status.ok) {
         SPDLOG_WARN("[process_graph_rag] findSimilarCases: reference instance '{}' not found",
                     instance_id);
+        
+        // Create diagnostic incident for retrieval failure
+        DiagnosticContext ctx_diag;
+        ctx_diag.recordResourceMetric("instance_id_length", instance_id.length());
+        ctx_diag.recordResourceMetric("k", k);
+        ctx_diag.setRemediationSuggestion(
+            "Reference process instance '" + std::string(instance_id) + "' not found in storage. "
+            "Cannot find similar cases without a valid reference instance."
+        );
+        auto incident = ProcessDiagnostics::createRetrievalIncident(
+            ProcError::kRetrievalFailed,
+            instance_id,
+            "Reference instance not found for similarity search: " + std::string(instance_id)
+        );
+        
         return {};
     }
 
