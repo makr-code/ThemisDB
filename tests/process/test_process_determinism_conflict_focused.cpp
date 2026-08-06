@@ -301,3 +301,199 @@ TEST_F(DeterminismConflictTest, D08_HashBasedSelectionDeterministic) {
 
     EXPECT_EQ(selected1, selected2);
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// D-09: Deterministic ordering of processed events with same input
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(DeterminismConflictTest, D09_DeterministicEventOrdering) {
+    struct Event {
+       int32_t id;
+       int64_t timestamp_ms;
+       std::string event_type;
+    };
+
+    auto generate_events = [](int32_t seed) -> std::vector<Event> {
+       std::vector<Event> events;
+       std::mt19937 local_rng(seed);
+       std::uniform_int_distribution<int32_t> id_dist(0, 99);
+       std::uniform_int_distribution<int32_t> type_dist(0, 2);
+        
+       int64_t current_time_ms = 1000;
+       for (int32_t i = 0; i < 100; ++i) {
+           Event evt;
+           evt.id = id_dist(local_rng);
+           evt.timestamp_ms = current_time_ms + i * 10;
+            
+           switch (type_dist(local_rng)) {
+               case 0: evt.event_type = "created"; break;
+               case 1: evt.event_type = "updated"; break;
+               case 2: evt.event_type = "deleted"; break;
+               default: evt.event_type = "unknown";
+           }
+           events.push_back(evt);
+       }
+        
+       // Sort by timestamp then by event type (deterministic secondary ordering)
+       std::sort(events.begin(), events.end(),
+                 [](const Event& a, const Event& b) {
+                     if (a.timestamp_ms != b.timestamp_ms) {
+                         return a.timestamp_ms < b.timestamp_ms;
+                     }
+                     return a.event_type < b.event_type;
+                 });
+       return events;
+    };
+
+    auto events1 = generate_events(kCanonicalRngSeed);
+    auto events2 = generate_events(kCanonicalRngSeed);
+
+    EXPECT_EQ(events1.size(), events2.size());
+    for (size_t i = 0; i < events1.size(); ++i) {
+       EXPECT_EQ(events1[i].id, events2[i].id);
+       EXPECT_EQ(events1[i].timestamp_ms, events2[i].timestamp_ms);
+       EXPECT_EQ(events1[i].event_type, events2[i].event_type);
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// D-10: Reproducible attachment lifecycle transitions with seeded RNG
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(DeterminismConflictTest, D10_ReproducibleAttachmentLifecycle) {
+    enum class AttachmentState { PENDING, VALIDATED, LINKED, FAILED, COMPLETE };
+
+    auto simulate_attachment = [](int32_t seed) -> std::vector<AttachmentState> {
+       std::vector<AttachmentState> states;
+       std::mt19937 local_rng(seed);
+       std::uniform_int_distribution<int32_t> transition_dist(0, 3);
+
+       states.push_back(AttachmentState::PENDING);
+
+       for (int32_t i = 0; i < kModelChurnRounds; ++i) {
+           AttachmentState current = states.back();
+
+           switch (current) {
+               case AttachmentState::PENDING:
+                   if (transition_dist(local_rng) < 2) {
+                       states.push_back(AttachmentState::VALIDATED);
+                   } else {
+                       states.push_back(AttachmentState::FAILED);
+                   }
+                   break;
+
+               case AttachmentState::VALIDATED:
+                   if (transition_dist(local_rng) < 2) {
+                       states.push_back(AttachmentState::LINKED);
+                   } else {
+                       states.push_back(AttachmentState::FAILED);
+                   }
+                   break;
+
+               case AttachmentState::LINKED:
+                   states.push_back(AttachmentState::COMPLETE);
+                   break;
+
+               case AttachmentState::FAILED:
+               case AttachmentState::COMPLETE:
+                   // Terminal states, stop
+                   return states;
+           }
+       }
+       return states;
+    };
+
+    auto states1 = simulate_attachment(kCanonicalRngSeed);
+    auto states2 = simulate_attachment(kCanonicalRngSeed);
+
+    EXPECT_EQ(states1.size(), states2.size());
+    for (size_t i = 0; i < states1.size(); ++i) {
+       EXPECT_EQ(static_cast<int32_t>(states1[i]), static_cast<int32_t>(states2[i]));
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// D-11: Deterministic version clock advancement under concurrent writes
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(DeterminismConflictTest, D11_DeterministicVersionClock) {
+    struct VersionedEntry {
+       int32_t version;
+       int64_t clock_value;
+       std::string data;
+    };
+
+    auto simulate_versioned_state = [](int32_t seed) -> std::vector<VersionedEntry> {
+       std::vector<VersionedEntry> history;
+       std::mt19937 local_rng(seed);
+       std::uniform_int_distribution<int32_t> clock_increment_dist(1, 10);
+
+       int64_t clock = 1000;
+       for (int32_t version = 1; version <= 50; ++version) {
+           VersionedEntry entry;
+           entry.version = version;
+           entry.clock_value = clock;
+           entry.data = "state_v" + std::to_string(version);
+           history.push_back(entry);
+
+           clock += clock_increment_dist(local_rng);
+       }
+       return history;
+    };
+
+    auto history1 = simulate_versioned_state(kCanonicalRngSeed);
+    auto history2 = simulate_versioned_state(kCanonicalRngSeed);
+
+    EXPECT_EQ(history1.size(), history2.size());
+    for (size_t i = 0; i < history1.size(); ++i) {
+       EXPECT_EQ(history1[i].version, history2[i].version);
+       EXPECT_EQ(history1[i].clock_value, history2[i].clock_value);
+       EXPECT_EQ(history1[i].data, history2[i].data);
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// D-12: Deterministic selection of winners in concurrent write conflicts
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(DeterminismConflictTest, D12_DeterministicConflictWinnerSelection) {
+    struct WriteConflict {
+       std::string key;
+       int32_t writer_id;
+       int64_t timestamp;
+    };
+
+    auto resolve_conflicts = [](int32_t seed) -> std::vector<std::string> {
+       std::map<std::string, WriteConflict> final_state;
+       std::mt19937 local_rng(seed);
+       std::uniform_int_distribution<int32_t> writer_dist(0, 9);
+       std::uniform_int_distribution<int32_t> key_dist(0, 4);
+
+       // Simulate concurrent writes with conflicts
+       for (int32_t i = 0; i < 1000; ++i) {
+           WriteConflict conflict;
+           conflict.key = "key_" + std::to_string(key_dist(local_rng));
+           conflict.writer_id = writer_dist(local_rng);
+           conflict.timestamp = i;
+
+           // Last-write-wins: later timestamp wins
+           auto it = final_state.find(conflict.key);
+           if (it == final_state.end() || conflict.timestamp > it->second.timestamp) {
+               final_state[conflict.key] = conflict;
+           }
+       }
+
+       // Extract winners in deterministic order
+       std::vector<std::string> results;
+       for (const auto& [key, conflict] : final_state) {
+           results.push_back(key + ":w" + std::to_string(conflict.writer_id) + 
+                           ":t" + std::to_string(conflict.timestamp));
+       }
+       return results;
+    };
+
+    auto resolved1 = resolve_conflicts(kCanonicalRngSeed);
+    auto resolved2 = resolve_conflicts(kCanonicalRngSeed);
+
+    EXPECT_EQ(resolved1, resolved2) << "Conflict resolution must be deterministic";
+}

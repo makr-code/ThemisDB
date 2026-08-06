@@ -34,6 +34,7 @@
 #include <atomic>
 #include <cstdint>
 #include <map>
+#include "process/process_diagnostics.h"
 #include <nlohmann/json.hpp>
 #include <optional>
 #include <set>
@@ -333,6 +334,54 @@ public:
      * @return true if the target exists or is a valid system ID, false otherwise.
      */
     [[nodiscard]] bool isLinkTargetValid(std::string_view target_id) const;
+
+    // ── Stale Link Detection & Cleanup (Phase 3) ──────────────────────────────
+
+    /**
+     * @brief Detect if a link has a missing target (stale link detection).
+     *
+     * Performs read-time validation to check if the target of a link still exists.
+     * This is a lazy detection mechanism that does not require automatic cleanup.
+     *
+     * @param link_id ID of the link to check.
+     * @return DiagnosticRecord with MISSING_TARGET_INCIDENT if target is missing,
+     *         or with incident_type LINKING_INCIDENT (not missing) on success.
+     */
+    [[nodiscard]] DiagnosticRecord detectStaleLinkAtReadTime(
+        std::string_view link_id
+    ) const;
+
+    /**
+     * @brief Find all links that reference a deleted or missing target.
+     *
+     * Scans all links to identify stale references. This is an expensive operation
+     * and should be run offline or as part of maintenance procedures.
+     *
+     * @return Vector of link IDs that have stale targets.
+     */
+    [[nodiscard]] std::vector<std::string> findStaleLinkReferences() const;
+
+    /**
+     * @brief Manually remove stale links (orphaned references).
+     *
+     * Removes links that no longer have valid targets. This is a manual operation
+     * requiring operator intervention to prevent accidental data loss.
+     *
+     * @param link_ids List of link IDs to remove.
+     * @return Pair of (count_removed, error_message). error_message is empty on success.
+     */
+    std::pair<int32_t, std::string> cleanupOrphanedLinks(
+        const std::vector<std::string>& link_ids
+    );
+
+    /**
+     * @brief Verify the integrity of all links in the database.
+     *
+     * Checks that all links reference valid targets and reports any consistency issues.
+     *
+     * @return Pair of (total_links_checked, count_with_issues).
+     */
+    [[nodiscard]] std::pair<int32_t, int32_t> verifyLinkIntegrity() const;
 
 private:
     RocksDBWrapper& db_;

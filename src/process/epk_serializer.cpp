@@ -31,6 +31,9 @@
  */
 
 #include "process/epk_serializer.h"
+#include "process/serializer_hardening.h"
+#include "process/process_diagnostics.h"
+#include "process/process_common.h"
 #include "utils/logger.h"
 
 #include <algorithm>
@@ -96,6 +99,33 @@ EpkSerializer::ImportResult EpkSerializer::importText(
     ImportResult result;
     result.process_id   = process_id.empty()   ? "epk_process" : std::string(process_id);
     result.process_name = process_name.empty() ? "EPK Process" : std::string(process_name);
+
+    // Phase 3: Validate input before parsing
+    constexpr size_t kMaxEpkTextBytes = 10u * 1024u * 1024u;
+    if (epk_text.empty()) {
+        result.ok      = false;
+        result.message = "Empty EPK text";
+        auto incident = ProcessDiagnostics::createMalformedInputIncident(
+            ProcError::kDeserialiserFailed,
+            process_id,
+            "Input is empty"
+        );
+        SPDLOG_WARN("[epk_serializer] {}", incident.toFormattedMessage());
+        return result;
+    }
+
+    if (epk_text.size() > kMaxEpkTextBytes) {
+        result.ok      = false;
+        result.message = "EPK text exceeds maximum allowed size (10 MiB)";
+        auto incident = ProcessDiagnostics::createResourceIncident(
+            ProcError::kResourceLimitExceeded,
+            process_id,
+            "Input size " + std::to_string(epk_text.size()) + " exceeds limit " + 
+            std::to_string(kMaxEpkTextBytes)
+        );
+        SPDLOG_WARN("[epk_serializer] {}", incident.toFormattedMessage());
+        return result;
+    }
 
     std::istringstream ss{std::string(epk_text)};
     std::string line;
@@ -192,6 +222,32 @@ EpkSerializer::ImportResult EpkSerializer::importText(
 
 EpkSerializer::ImportResult EpkSerializer::importJson(const json& epk_json) {
     ImportResult result;
+
+    // Phase 3: Validate JSON input
+    if (epk_json.is_null() || epk_json.empty()) {
+        result.ok      = false;
+        result.message = "Empty or null JSON input";
+        auto incident = ProcessDiagnostics::createMalformedInputIncident(
+            ProcError::kDeserialiserFailed,
+            "<epk_json>",
+            "JSON input is empty or null"
+        );
+        SPDLOG_WARN("[epk_serializer] {}", incident.toFormattedMessage());
+        return result;
+    }
+
+    // Validate JSON is array or object
+    if (!epk_json.is_array() && !epk_json.is_object()) {
+        result.ok      = false;
+        result.message = "EPK JSON must be an array or object";
+        auto incident = ProcessDiagnostics::createMalformedInputIncident(
+            ProcError::kDeserialiserFailed,
+            "<epk_json>",
+            "JSON is neither array nor object"
+        );
+        SPDLOG_WARN("[epk_serializer] {}", incident.toFormattedMessage());
+        return result;
+    }
 
     if (epk_json.contains("process_id")) {
         result.process_id = epk_json.value("process_id", "epk_process");
