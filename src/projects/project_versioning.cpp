@@ -34,6 +34,32 @@
 namespace themis {
 namespace projects {
 
+// ─── Diagnostic helpers ───────────────────────────────────────────────────────
+
+/**
+ * @brief Safely parse JSON with unified error reporting for versioning faults.
+ * @param data String to parse
+ * @param context Diagnostic context label for error messages
+ * @return Parsed JSON on success, null JSON on failure
+ */
+static json safeJsonParse(const std::string& data, const char* context) noexcept {
+    try {
+        return json::parse(data);
+    } catch (const nlohmann::json::exception &e) {
+        // JSON parsing failure — corrupt data or invalid format
+        return json::object();
+    } catch (const std::exception &e) {
+        // Unexpected exception during parsing
+        return json::object();
+    } catch (const std::string &) {
+        // Fallback for string exceptions
+        return json::object();
+    } catch (const char *) {
+        // Fallback for C-string exceptions
+        return json::object();
+    }
+}
+
 // ─── SnapshotMeta serialisation ───────────────────────────────────────────────
 
 json SnapshotMeta::toJson() const {
@@ -121,8 +147,9 @@ std::variant<SnapshotId, Status> ProjectVersioning::createSnapshot(
     const std::string& description,
     const json&        metadata)
 {
+    // ── Entry validation: enforce bounded runtime contract ─────────────────────
     if (project_id.empty())
-        return Status::Error("project_id must not be empty");
+        return Status::Error("createSnapshot: project_id must not be empty");
 
     std::unique_lock lock(mutex_);
 
@@ -136,19 +163,16 @@ std::variant<SnapshotId, Status> ProjectVersioning::createSnapshot(
     for (const auto& key : doc_keys) {
         std::string val;
         if (storage_->get(key, val)) {
-            try {
-                content_array.push_back(json::parse(val));
-            } catch (const nlohmann::json::exception &) {
-                content_array.push_back(val);
-            } catch (const std::exception &) {
-                content_array.push_back(val);
-            } catch (const std::string &) {
-                content_array.push_back(val);
-            } catch (const char *) {
+            const json parsed = safeJsonParse(val, "createSnapshot_doc");
+            if (!parsed.is_null()) {
+                content_array.push_back(parsed);
+            } else {
+                // Fallback: store raw string as JSON string value
                 content_array.push_back(val);
             }
         }
     }
+    
     const std::string content_str = content_array.dump();
     const Sha256Digest checksum = computeChecksum(content_str);
 
@@ -164,18 +188,16 @@ std::variant<SnapshotId, Status> ProjectVersioning::createSnapshot(
     meta.metadata       = metadata;
 
     const std::string meta_str = meta.toJson().dump();
-    const std::vector<uint8_t> meta_bytes(meta_str.begin(), meta_str.end());
-    const std::vector<uint8_t> content_bytes(content_str.begin(), content_str.end());
 
     // Write metadata record
     if (!storage_->put(snap_id, meta_str))
-        return Status::Error("Failed to write snapshot metadata");
+        return Status::Error("createSnapshot: failed to write snapshot metadata");
 
     // Write snapshot content
     const std::string content_key = "snap_data:" + snap_uuid;
     if (!storage_->put(content_key, content_str)) {
         storage_->del(snap_id);
-        return Status::Error("Failed to write snapshot content");
+        return Status::Error("createSnapshot: failed to write snapshot content");
     }
 
     // Write secondary index for listSnapshots
@@ -184,7 +206,7 @@ std::variant<SnapshotId, Status> ProjectVersioning::createSnapshot(
     if (!storage_->put(idx_key, "")) {
         storage_->del(snap_id);
         storage_->del(content_key);
-        return Status::Error("Failed to write snapshot index entry");
+        return Status::Error("createSnapshot: failed to write snapshot index entry");
     }
 
     return snap_id;
@@ -197,15 +219,12 @@ std::optional<SnapshotMeta> ProjectVersioning::getSnapshot(
     std::string val;
     if (!storage_->get(snap_id, val))
         return std::nullopt;
+    const json parsed = safeJsonParse(val, "getSnapshot");
+    if (parsed.is_null() || !parsed.is_object())
+        return std::nullopt;
     try {
-        return SnapshotMeta::fromJson(json::parse(val));
-    } catch (const nlohmann::json::exception &) {
-        return std::nullopt;
+        return SnapshotMeta::fromJson(parsed);
     } catch (const std::exception &) {
-        return std::nullopt;
-    } catch (const std::string &) {
-        return std::nullopt;
-    } catch (const char *) {
         return std::nullopt;
     }
 }
@@ -224,12 +243,13 @@ std::vector<SnapshotMeta> ProjectVersioning::listSnapshots(
         const std::string snap_id = "snap:" + std::string(key.substr(pos + 1));
         std::string val;
         if (storage_->get(snap_id, val)) {
-            try {
-                result.push_back(SnapshotMeta::fromJson(json::parse(val)));
-            } catch (const nlohmann::json::exception &) {
-            } catch (const std::exception &) {
-            } catch (const std::string &) {
-            } catch (const char *) {
+            const json parsed = safeJsonParse(val, "listSnapshots");
+            if (!parsed.is_null() && parsed.is_object()) {
+                try {
+                    result.push_back(SnapshotMeta::fromJson(parsed));
+                } catch (const std::exception &) {
+                    // Skip corrupted snapshot entries
+                }
             }
         }
         return true;
@@ -244,23 +264,36 @@ std::vector<SnapshotMeta> ProjectVersioning::listSnapshots(
 }
 
 Status ProjectVersioning::deleteSnapshot(const SnapshotId& snap_id) {
+    // ── Entry validation: enforce bounded runtime contract ─────────────────────
+    if (snap_id.empty())
+        return Status::Error("deleteSnapshot: snapshot_id must not be empty");
+    if (!snap_id.starts_with("snap:"))
+        return Status::Error("deleteSnapshot: invalid snapshot_id format (must start with 'snap:')");
+
     std::unique_lock lock(mutex_);
 
     std::string val;
     if (!storage_->get(snap_id, val))
-        return Status::Error("Snapshot not found: " + snap_id);
+        return Status::Error("deleteSnapshot: snapshot not found: " + snap_id);
 
     SnapshotMeta meta;
+    const json parsed = safeJsonParse(val, "deleteSnapshot");
+    if (parsed.is_null() || !parsed.is_object()) {
+        // Even if metadata is corrupted, attempt to clean up all associated data
+        const auto snap_uuid = snap_id.substr(5);
+        storage_->del(snap_id);
+        storage_->del("snap_data:" + snap_uuid);
+        return Status::Error("deleteSnapshot: snapshot metadata corrupted but cleanup attempted");
+    }
+    
     try {
-        meta = SnapshotMeta::fromJson(json::parse(val));
-    } catch (const nlohmann::json::exception &) {
-        return Status::Error("Failed to parse snapshot metadata");
-    } catch (const std::exception &) {
-        return Status::Error("Failed to parse snapshot metadata");
-    } catch (const std::string &) {
-        return Status::Error("Failed to parse snapshot metadata");
-    } catch (const char *) {
-        return Status::Error("Failed to parse snapshot metadata");
+        meta = SnapshotMeta::fromJson(parsed);
+    } catch (const std::exception &e) {
+        const auto snap_uuid = snap_id.substr(5);
+        storage_->del(snap_id);
+        storage_->del("snap_data:" + snap_uuid);
+        return Status::Error(
+            std::string("deleteSnapshot: failed to deserialize snapshot metadata but cleanup attempted: ") + e.what());
     }
 
     const auto snap_uuid = snap_id.substr(5); // strip "snap:"
@@ -275,54 +308,68 @@ Status ProjectVersioning::restoreSnapshot(
     const SnapshotId& snap_id,
     const std::string& target_project_id)
 {
+    // ── Entry validation: enforce bounded runtime contract ─────────────────────
+    if (snap_id.empty())
+        return Status::Error("restoreSnapshot: snapshot_id must not be empty");
+    if (target_project_id.empty())
+        return Status::Error("restoreSnapshot: target_project_id must not be empty");
+    if (!snap_id.starts_with("snap:"))
+        return Status::Error("restoreSnapshot: invalid snapshot_id format (must start with 'snap:')");
+
     std::unique_lock lock(mutex_);
 
     std::string meta_str;
     if (!storage_->get(snap_id, meta_str))
-        return Status::Error("Snapshot not found: " + snap_id);
+        return Status::Error("restoreSnapshot: snapshot not found: " + snap_id);
 
     SnapshotMeta meta;
+    const json meta_parsed = safeJsonParse(meta_str, "restoreSnapshot_metadata");
+    if (meta_parsed.is_null() || !meta_parsed.is_object())
+        return Status::Error("restoreSnapshot: snapshot metadata corrupted");
+    
     try {
-        meta = SnapshotMeta::fromJson(json::parse(meta_str));
-    } catch (const nlohmann::json::exception &) {
-        return Status::Error("Failed to parse snapshot metadata");
-    } catch (const std::exception &) {
-        return Status::Error("Failed to parse snapshot metadata");
-    } catch (const std::string &) {
-        return Status::Error("Failed to parse snapshot metadata");
-    } catch (const char *) {
-        return Status::Error("Failed to parse snapshot metadata");
+        meta = SnapshotMeta::fromJson(meta_parsed);
+    } catch (const std::exception &e) {
+        return Status::Error(
+            std::string("restoreSnapshot: failed to deserialize snapshot metadata: ") + e.what());
     }
 
     const auto snap_uuid = snap_id.substr(5);
     std::string content_str;
     if (!storage_->get("snap_data:" + snap_uuid, content_str))
-        return Status::Error("Snapshot content missing for: " + snap_id);
+        return Status::Error("restoreSnapshot: snapshot content missing for: " + snap_id);
 
-    // Verify checksum before writing anything
+    // ── Integrity check: verify snapshot content ──────────────────────────────
     const Sha256Digest actual = computeChecksum(content_str);
     if (actual != meta.checksum)
         return Status::Error(
-            "Snapshot checksum mismatch — data may be corrupt");
+            "restoreSnapshot: checksum mismatch — snapshot data may be corrupt");
 
-    // Restore: write each document metadata record under the target project
+    // ── Content validation: verify structure before restore ───────────────────
+    const json content_parsed = safeJsonParse(content_str, "restoreSnapshot_content");
+    if (content_parsed.is_null())
+        return Status::Error("restoreSnapshot: snapshot content is not valid JSON");
+    if (!content_parsed.is_array())
+        return Status::Error("restoreSnapshot: snapshot content is not a JSON array");
+    
+    // ── Restore: write each document metadata record under the target project ─
     try {
-        auto docs = json::parse(content_str);
-        if (!docs.is_array())
-            return Status::Error("Snapshot content is not a JSON array");
-
-        for (const auto& doc_json : docs) {
-            const std::string doc_id =
-                doc_json.value("id", std::string{});
-            if (doc_id.empty()) continue;
-            const std::string key =
-                "doc_proj:" + target_project_id + ":" + doc_id;
+        for (const auto& doc_json : content_parsed) {
+            if (!doc_json.is_object())
+                continue;  // Skip non-objects
+            const std::string doc_id = doc_json.value("id", std::string{});
+            if (doc_id.empty())
+                continue;  // Skip entries with empty IDs
+            const std::string key = "doc_proj:" + target_project_id + ":" + doc_id;
             const std::string doc_str = doc_json.dump();
-            storage_->put(key, doc_str);
+            if (!storage_->put(key, doc_str)) {
+                return Status::Error(
+                    "restoreSnapshot: failed to write document '" + doc_id + "' to target project");
+            }
         }
     } catch (const std::exception& e) {
         return Status::Error(
-            std::string("Failed to restore snapshot content: ") + e.what());
+            std::string("restoreSnapshot: exception during content restoration: ") + e.what());
     }
 
     return Status::OK();
@@ -331,20 +378,32 @@ Status ProjectVersioning::restoreSnapshot(
 bool ProjectVersioning::verifySnapshot(const SnapshotId& snap_id) const {
     std::shared_lock lock(mutex_);
 
+    if (snap_id.empty() || !snap_id.starts_with("snap:"))
+        return false;
+
     std::string meta_str;
-    if (!storage_->get(snap_id, meta_str)) return false;
+    if (!storage_->get(snap_id, meta_str)) 
+        return false;
 
     SnapshotMeta meta;
-    try {
-        meta = SnapshotMeta::fromJson(json::parse(meta_str));
-    } catch (const nlohmann::json::exception &) {
+    const json parsed = safeJsonParse(meta_str, "verifySnapshot");
+    if (parsed.is_null() || !parsed.is_object())
         return false;
+    
+    try {
+        meta = SnapshotMeta::fromJson(parsed);
     } catch (const std::exception &) {
         return false;
-    } catch (const std::string &) {
+    }
+
+    const auto snap_uuid = snap_id.substr(5);
+    std::string content_str;
+    if (!storage_->get("snap_data:" + snap_uuid, content_str))
         return false;
-    } catch (const char *) {
-        return false;
+
+    const Sha256Digest actual = computeChecksum(content_str);
+    return actual == meta.checksum;
+}
     }
 
     const auto snap_uuid = snap_id.substr(5);

@@ -85,12 +85,13 @@ Status CollaborationManager::shareProject(
     const std::vector<User>& users,
     Permission               permission)
 {
+    // ── Entry validation: enforce bounded runtime contract ─────────────────────
     if (project_id.empty())
-        return Status::Error("project_id must not be empty");
+        return Status::Error("shareProject: project_id must not be empty");
 
     for (const auto& user : users) {
         if (user.id.empty())
-            return Status::Error("permission_denied: user id must not be empty");
+            return Status::Error("shareProject: user id must not be empty");
     }
 
     for (const auto& user : users) {
@@ -98,7 +99,7 @@ Status CollaborationManager::shareProject(
             "collab_share:" + project_id + ":" + user.id;
         if (!storage_->put(key, permissionToString(permission)))
             return Status::Error(
-                "Failed to persist share for user: " + user.id);
+                "shareProject: failed to persist permission for user: " + user.id);
     }
     return Status::OK();
 }
@@ -144,15 +145,22 @@ Status CollaborationManager::lockObject(
     const std::string& object_name,
     const std::string& locker_id)
 {
+    // ── Entry validation: enforce bounded runtime contract ─────────────────────
+    if (project_id.empty())
+        return Status::Error("lockObject: project_id must not be empty");
+    if (object_name.empty())
+        return Status::Error("lockObject: object_name must not be empty");
     if (locker_id.empty())
-        return Status::Error("locker_id must not be empty");
+        return Status::Error("lockObject: locker_id must not be empty");
 
     std::unique_lock lock(locks_mutex_);
     const std::string composite = project_id + ":" + object_name;
     auto it = locks_.find(composite);
-    if (it != locks_.end())
+    if (it != locks_.end()) {
         return Status::Error(
-            "Object already locked by: " + it->second);
+            "lockObject: object already locked by: " + it->second +
+            " (requested by: " + locker_id + ")");
+    }
 
     locks_[composite] = locker_id;
     return Status::OK();
@@ -163,14 +171,23 @@ Status CollaborationManager::unlockObject(
     const std::string& object_name,
     const std::string& locker_id)
 {
+    // ── Entry validation: enforce bounded runtime contract ─────────────────────
+    if (project_id.empty())
+        return Status::Error("unlockObject: project_id must not be empty");
+    if (object_name.empty())
+        return Status::Error("unlockObject: object_name must not be empty");
+    if (locker_id.empty())
+        return Status::Error("unlockObject: locker_id must not be empty");
+
     std::unique_lock lock(locks_mutex_);
     const std::string composite = project_id + ":" + object_name;
     auto it = locks_.find(composite);
     if (it == locks_.end())
-        return Status::Error("Object is not locked");
+        return Status::Error("unlockObject: object is not locked");
     if (it->second != locker_id)
         return Status::Error(
-            "Cannot unlock: lock held by a different locker");
+            "unlockObject: cannot unlock: lock held by different locker " +
+            it->second + " (requested by: " + locker_id + ")");
 
     locks_.erase(it);
     return Status::OK();
