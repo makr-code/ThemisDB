@@ -28,6 +28,8 @@
 #include <string>
 #include <string_view>
 #include <vector>
+#include <shared_mutex>
+#include <atomic>
 
 namespace themis {
 class RocksDBWrapper;
@@ -422,6 +424,47 @@ private:
     std::shared_ptr<InvertedIndex> fts_index_;
     std::shared_ptr<VectorIndexManager> vector_index_;
 
+    // Phase 2: Concurrency guards and determinism tracking
+    mutable std::shared_mutex model_state_lock_;  ///< RWLock for model CRUD operations
+    mutable std::shared_mutex linking_lock_;      ///< RWLock for linking state consistency
+    std::atomic<uint64_t> operation_counter_{0};  ///< Track operation sequence for determinism
+
+    /**
+     * @brief Transaction context for multi-step operations requiring atomicity.
+     * Used to detect conflicts and roll back on high-churn scenarios.
+     */
+    struct TransactionContext {
+        uint64_t txn_id;
+        std::string model_id;
+        int64_t start_time_ms;
+        int revision_at_start;
+        std::vector<std::string> modified_keys;
+        bool is_active{true};
+    };
+
+    /**
+     * @brief Guard for maintaining transaction semantics during concurrent operations.
+     * Implements RAII-style automatic rollback on destruction if marked failed.
+     */
+    class TransactionGuard {
+    public:
+        TransactionGuard(ProcessModelManager& mgr, const TransactionContext& ctx)
+            : manager_(mgr), context_(ctx), failed_(false) {}
+        ~TransactionGuard();
+        
+        void markFailed() { failed_ = true; }
+        const TransactionContext& getContext() const { return context_; }
+        
+        // Prevent copying
+        TransactionGuard(const TransactionGuard&) = delete;
+        TransactionGuard& operator=(const TransactionGuard&) = delete;
+        
+    private:
+        ProcessModelManager& manager_;
+        TransactionContext context_;
+        bool failed_;
+    };
+
     // Helpers
     std::string makeKey_(std::string_view model_id) const;
     std::string makeVersionedKey_(std::string_view model_id, int revision) const;
@@ -432,6 +475,28 @@ private:
         const std::vector<ProcessEdgeInfo>&  edges,
         const ProcessModelRecord&            meta
     );
+
+    // Phase 2: Determinism and churn detection helpers
+    /**
+     * @brief Detect if another operation modified the model during our transaction.
+     * @param model_id The model being tracked.
+     * @param expected_revision The revision we expect.
+     * @return true if conflict detected.
+     */
+    bool detectConflict_(std::string_view model_id, int expected_revision) const;
+
+    /**
+     * @brief Rollback modifications to a model in case of conflict.
+     * @param txn Transaction context describing what was modified.
+     */
+    void rollbackTransaction_(const TransactionContext& txn);
+
+    /**
+     * @brief Create a new transaction context for a multi-step operation.
+     * @param model_id The model being modified.
+     * @return TransactionContext with unique ID and timestamp.
+     */
+    TransactionContext createTransaction_(std::string_view model_id);
 };
 
 // ---------------------------------------------------------------------------

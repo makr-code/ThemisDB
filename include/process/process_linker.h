@@ -37,6 +37,9 @@
 #include <string_view>
 #include <utility>
 #include <vector>
+#include <shared_mutex>
+#include <atomic>
+#include <cstdint>
 
 namespace themis {
 namespace process {
@@ -298,6 +301,49 @@ public:
 private:
     RocksDBWrapper& db_;
 
+    // Phase 2: Concurrency guards and conflict detection
+    mutable std::shared_mutex link_state_lock_;  ///< RWLock protecting link consistency
+    std::atomic<uint64_t> link_operation_counter_{0};  ///< Sequence counter for determinism
+
+    /**
+     * @brief Conflict descriptor for detecting concurrent modifications.
+     * Tracks which links/attachments were modified during a multi-step operation.
+     */
+    struct ConflictRecord {
+        uint64_t operation_id;
+        std::string affected_key;
+        int64_t timestamp_ms;
+        uint64_t version;
+    };
+
+    /**
+     * @brief RAII guard for link operations requiring rollback on conflict.
+     * Automatically rolls back modifications if marked failed.
+     */
+    class LinkOperationGuard {
+    public:
+        LinkOperationGuard(ProcessLinker& linker, std::string_view operation_name)
+            : linker_(linker), operation_name_(operation_name),
+              operation_id_(linker.link_operation_counter_++),
+              failed_(false) {}
+        ~LinkOperationGuard();
+        
+        void recordModification(std::string_view key);
+        void markFailed() { failed_ = true; }
+        uint64_t getOperationId() const { return operation_id_; }
+        
+        // Prevent copying
+        LinkOperationGuard(const LinkOperationGuard&) = delete;
+        LinkOperationGuard& operator=(const LinkOperationGuard&) = delete;
+        
+    private:
+        ProcessLinker& linker_;
+        std::string operation_name_;
+        uint64_t operation_id_;
+        std::vector<ConflictRecord> modifications_;
+        bool failed_;
+    };
+
     std::string makeAttachKey_(std::string_view instance_id,
                                std::string_view object_id) const;
     /// Reverse-lookup key for findInstancesWithObject():
@@ -311,6 +357,21 @@ private:
     std::string makeReqDocKey_(std::string_view model_id,
                                std::string_view node_id,
                                std::string_view doc_type) const;
+
+    // Phase 2: Determinism and conflict detection helpers
+    /**
+     * @brief Check if a link operation conflicts with concurrent modifications.
+     * @param key The key being accessed.
+     * @param expected_version Expected version if known.
+     * @return true if conflict detected.
+     */
+    bool detectLinkingConflict_(std::string_view key, std::optional<uint64_t> expected_version = std::nullopt) const;
+
+    /**
+     * @brief Rollback a link operation that encountered a conflict.
+     * @param operation_id ID of the operation to roll back.
+     */
+    void rollbackLinkOperation_(uint64_t operation_id);
 };
 
 } // namespace process

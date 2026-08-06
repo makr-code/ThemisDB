@@ -31,6 +31,14 @@ std::string_view toString(DiagnosticIncidentType t) {
             return "LINKING_INCIDENT";
         case DiagnosticIncidentType::RESOURCE_INCIDENT:
             return "RESOURCE_INCIDENT";
+        case DiagnosticIncidentType::CONCURRENCY_INCIDENT:
+            return "CONCURRENCY_INCIDENT";
+        case DiagnosticIncidentType::CYCLE_INCIDENT:
+            return "CYCLE_INCIDENT";
+        case DiagnosticIncidentType::MALFORMED_INPUT_INCIDENT:
+            return "MALFORMED_INPUT_INCIDENT";
+        case DiagnosticIncidentType::MISSING_TARGET_INCIDENT:
+            return "MISSING_TARGET_INCIDENT";
     }
     return "UNKNOWN_INCIDENT";
 }
@@ -158,6 +166,62 @@ DiagnosticRecord ProcessDiagnostics::createResourceIncident(
         DiagnosticIncidentType::RESOURCE_INCIDENT,
         error,
         "process_resource_limit",
+        input_id,
+        message
+    );
+}
+
+DiagnosticRecord ProcessDiagnostics::createConcurrencyIncident(
+    ProcError error,
+    std::string_view input_id,
+    std::string_view message
+) {
+    return DiagnosticRecord(
+        DiagnosticIncidentType::CONCURRENCY_INCIDENT,
+        error,
+        "concurrent_update_conflict",
+        input_id,
+        message
+    );
+}
+
+DiagnosticRecord ProcessDiagnostics::createCycleIncident(
+    ProcError error,
+    std::string_view input_id,
+    std::string_view message
+) {
+    return DiagnosticRecord(
+        DiagnosticIncidentType::CYCLE_INCIDENT,
+        error,
+        "cyclic_dependency_detected",
+        input_id,
+        message
+    );
+}
+
+DiagnosticRecord ProcessDiagnostics::createMalformedInputIncident(
+    ProcError error,
+    std::string_view input_id,
+    std::string_view message
+) {
+    return DiagnosticRecord(
+        DiagnosticIncidentType::MALFORMED_INPUT_INCIDENT,
+        error,
+        "parse_malformed_input",
+        input_id,
+        message
+    );
+}
+
+DiagnosticRecord ProcessDiagnostics::createMissingTargetIncident(
+    ProcError error,
+    std::string_view input_id,
+    std::string_view message
+) {
+    return DiagnosticRecord(
+        DiagnosticIncidentType::MISSING_TARGET_INCIDENT,
+        error,
+        "resolve_missing_target",
         input_id,
         message
     );

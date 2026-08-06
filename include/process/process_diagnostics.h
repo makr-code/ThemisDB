@@ -54,6 +54,14 @@ enum class DiagnosticIncidentType : int32_t {
     LINKING_INCIDENT = 3603,
     /// Parser resource limit exceeded (depth, element count, timeout)
     RESOURCE_INCIDENT = 3604,
+    /// High-churn or concurrent update conflict
+    CONCURRENCY_INCIDENT = 3605,
+    /// Cyclic dependency or circular reference detected
+    CYCLE_INCIDENT = 3606,
+    /// Malformed input (truncated, invalid structure, bad encoding)
+    MALFORMED_INPUT_INCIDENT = 3607,
+    /// Missing or invalid target in cross-reference
+    MISSING_TARGET_INCIDENT = 3608,
 };
 
 /**
@@ -216,6 +224,58 @@ public:
      * "Reduce nesting or split model into separate definitions."
      */
     static DiagnosticRecord createResourceIncident(
+        ProcError error,
+        std::string_view input_id,
+        std::string_view message
+    );
+
+    /**
+     * @brief Create a concurrency incident diagnostic.
+     * @param error ProcError code (typically kInvalidTransition).
+     * @param input_id Input identifier (model ID, instance ID).
+     * @param message Actionable message describing the concurrent update conflict.
+     * @return DiagnosticRecord with CONCURRENCY_INCIDENT classification.
+     */
+    static DiagnosticRecord createConcurrencyIncident(
+        ProcError error,
+        std::string_view input_id,
+        std::string_view message
+    );
+
+    /**
+     * @brief Create a cyclic dependency incident diagnostic.
+     * @param error ProcError code (typically kInvalidTransition).
+     * @param input_id Input identifier (link ID, path).
+     * @param message Actionable message describing the cycle.
+     * @return DiagnosticRecord with CYCLE_INCIDENT classification.
+     */
+    static DiagnosticRecord createCycleIncident(
+        ProcError error,
+        std::string_view input_id,
+        std::string_view message
+    );
+
+    /**
+     * @brief Create a malformed input incident diagnostic.
+     * @param error ProcError code (typically kDeserialiserFailed).
+     * @param input_id Input identifier (filename, model ID).
+     * @param message Actionable message describing the malformation.
+     * @return DiagnosticRecord with MALFORMED_INPUT_INCIDENT classification.
+     */
+    static DiagnosticRecord createMalformedInputIncident(
+        ProcError error,
+        std::string_view input_id,
+        std::string_view message
+    );
+
+    /**
+     * @brief Create a missing target incident diagnostic.
+     * @param error ProcError code (typically kInvalidTransition).
+     * @param input_id Input identifier (link ID, reference).
+     * @param message Actionable message describing the missing target.
+     * @return DiagnosticRecord with MISSING_TARGET_INCIDENT classification.
+     */
+    static DiagnosticRecord createMissingTargetIncident(
         ProcError error,
         std::string_view input_id,
         std::string_view message
