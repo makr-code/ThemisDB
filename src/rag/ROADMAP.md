@@ -74,7 +74,7 @@ Production-grade RAG runtime with retrieval fusion, context assembly, evaluation
 ### Phase 5: Performance and Hardening
 - [~] Lock benchmark-backed release gates for retrieval, evaluation, and end-to-end RAG latency (Target: Q4 2026)
   - **Existing Benchmarks**: `benchmarks/` directory with RAG-specific performance tests
-  - **Evidence**: `test_rag_ttft_benchmark.cpp` (Time To First Token benchmarking)
+  - **Evidence**: `tests/performance/test_rag_ttft_benchmark.cpp` (Time To First Token benchmarking)
   - **Status**: Benchmark infrastructure in place; release gates pending formal validation
 - [~] Validate sustained-load behavior for cache, context assembly, and evaluator paths (Target: Q4 2026)
   - **Test Coverage**: `test_rag_error_handling_edge_cases_focused.cpp` E1-E4 (resource exhaustion tests)
@@ -98,7 +98,7 @@ Production-grade RAG runtime with retrieval fusion, context assembly, evaluation
   - **Test Files**: tests/rag/test_rag_prompt_injection.cpp
 - [~] Performance expectations validated through mapped release-profile benchmarks
   - **Status**: Infrastructure in place; requires formal release-profile mapping
-  - **Benchmark Files**: benchmarks/performance/test_rag_ttft_benchmark.cpp
+  - **Benchmark Files**: tests/performance/test_rag_ttft_benchmark.cpp
   - **Gap**: Explicit release-gate thresholds pending performance baseline validation
 - [~] Failure handling validated for timeout, cancellation, and degraded backend modes
   - **Status**: Comprehensive edge-case tests created (test_rag_error_handling_edge_cases_focused.cpp)

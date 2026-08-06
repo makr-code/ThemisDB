@@ -249,7 +249,7 @@ Group E – Response Reservation Across All Paths (5 tests)
 **Current Status:**
 ```
 🔄 Benchmark Infrastructure Exists
-   - benchmarks/performance/test_rag_ttft_benchmark.cpp
+   - tests/performance/test_rag_ttft_benchmark.cpp
    - Supports Time-To-First-Token measurement
    - Hardware constraints documentation available
 
@@ -325,7 +325,7 @@ Group E – Response Reservation Across All Paths (5 tests)
 | Adaptive Retrieval | src/rag/adaptive_retrieval.cpp | 🟢 PROD | 90/100 | test_rag_adaptive_retrieval.cpp | ✅ |
 | Multi-Step RAG | src/rag/multi_step_rag.cpp | 🟢 PROD | 88/100 | test_multi_step_rag.cpp | ✅ |
 | Prompt Injection | src/rag/prompt_injection_detector.cpp | 🟢 PROD | 92/100 | test_rag_prompt_injection.cpp | ✅ |
-| Performance Baseline | benchmarks/performance/test_rag_ttft_benchmark.cpp | 🔄 | - | Infrastructure exists | 🔄 |
+| Performance Baseline | tests/performance/test_rag_ttft_benchmark.cpp | 🔄 | - | Infrastructure exists | 🔄 |
 
 ---
 

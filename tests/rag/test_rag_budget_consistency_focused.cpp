@@ -78,13 +78,11 @@ TEST(RagBudgetConsistencyFocusedTests, A2_TokenCountingIsConsistent) {
 
     const auto ctx = asm_.assemble(chunks, "System prompt", "What is this?");
 
-    // tokens_remaining_for_response should be max(min_response_tokens, 20% of window)
-    EXPECT_GT(ctx.tokens_remaining_for_response, 0u);
-    EXPECT_LE(ctx.tokens_remaining_for_response, cfg.min_response_tokens + 50u);
-
-    // tokens_used should be less than available context budget
     const auto budget =
         ContextWindowBudget::compute(cfg.model_context_tokens, "System prompt", "What is this?", cfg.min_response_tokens);
+    EXPECT_EQ(ctx.tokens_remaining_for_response,
+              budget.responseBudgetAfterContext(ctx.tokens_used));
+    EXPECT_GE(ctx.tokens_remaining_for_response, budget.reserved_response_tokens);
     EXPECT_LE(ctx.tokens_used, budget.available_context_tokens);
 }
 
@@ -101,10 +99,11 @@ TEST(RagBudgetConsistencyFocusedTests, A3_ResponseReservationMaintained) {
 
     const auto ctx = asm_.assemble(chunks, "", "q");
 
-    // Response reservation should always be present
-    EXPECT_GT(ctx.tokens_remaining_for_response, 0u);
-    // Should never exceed min_response_tokens by much
-    EXPECT_LE(ctx.tokens_remaining_for_response, cfg.min_response_tokens + 100u);
+    const auto budget =
+        ContextWindowBudget::compute(cfg.model_context_tokens, "", "q", cfg.min_response_tokens);
+    EXPECT_EQ(ctx.tokens_remaining_for_response,
+              budget.responseBudgetAfterContext(ctx.tokens_used));
+    EXPECT_GE(ctx.tokens_remaining_for_response, budget.reserved_response_tokens);
 }
 
 TEST(RagBudgetConsistencyFocusedTests, A4_BudgetExhaustedSignalCorrect) {
@@ -238,7 +237,7 @@ TEST(RagBudgetConsistencyFocusedTests, D1_TruncationMarkerAppliedConsistently) {
     // If truncated, the marker should be in the result
     if (ctx.was_truncated && !ctx.chunks_used.empty()) {
         const auto& truncated_chunk = ctx.chunks_used[0];
-        EXPECT_THAT(truncated_chunk.content, ::testing::HasSubstr("[TRUNCATED]"));
+        EXPECT_NE(truncated_chunk.content.find("[TRUNCATED]"), std::string::npos);
     }
 }
 

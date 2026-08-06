@@ -86,7 +86,7 @@ Forward-looking enhancements for retrieval quality, context reliability, evaluat
 
 ### In Progress / Planned
 - [ ] Benchmark regression gates for retrieval, judge, and end-to-end workflows
-  - Infrastructure: `benchmarks/performance/test_rag_ttft_benchmark.cpp`
+  - Infrastructure: `tests/performance/test_rag_ttft_benchmark.cpp`
   - Gap: Release-profile threshold mapping and validation
 
 ## Performance Targets

@@ -15,67 +15,56 @@
  */
 
 #include <gtest/gtest.h>
-#include "rag/rag_ingestion_bridge.h"
 
+#include "ingestion/ingestion_sinks.h"
+#include "rag/rag_ingestion_bridge.h"
+#include "toolbox/ingestion_toolbox.h"
+
+#include <algorithm>
 #include <memory>
 #include <string>
+#include <vector>
 
+using namespace themis;
+using namespace themis::ingestion;
 using namespace themis::rag;
+using namespace themis::toolbox;
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Mock writer stubs for testing
-// ─────────────────────────────────────────────────────────────────────────────
+namespace {
 
-class MockVectorWriter : public ingestion::IVectorWriter {
-public:
-    size_t write_count = 0;
-    bool fail_on_write = false;
-    std::string last_error;
+constexpr std::size_t kMaxDocumentChars = 5u * 1024u * 1024u;
+constexpr std::size_t kMaxCollectionChars = 256u;
+constexpr std::size_t kMaxFilenameChars = 512u;
+constexpr std::size_t kMaxChunkSnippetChars = 128u * 1024u;
+constexpr std::size_t kMaxMetadataValueChars = 16u * 1024u;
 
-    bool write(const ingestion::VectorChunk&) override {
-        if (fail_on_write) {
-            last_error = "Mock write failure";
-            return false;
-        }
-        write_count++;
-        return true;
+std::shared_ptr<IngestionToolbox> makeToolbox()
+{
+    return IngestionToolbox::createDefault();
+}
+
+std::vector<std::string> sortedChunkIds(const InMemoryVectorWriter& writer)
+{
+    std::vector<std::string> chunk_ids;
+    chunk_ids.reserve(writer.records().size());
+    for (const auto& [chunk_id, record] : writer.records()) {
+        static_cast<void>(record);
+        chunk_ids.push_back(chunk_id);
     }
-};
+    std::sort(chunk_ids.begin(), chunk_ids.end());
+    return chunk_ids;
+}
 
-class MockGraphWriter : public ingestion::IGraphWriter {
-public:
-    size_t write_count = 0;
-    bool fail_on_write = false;
-    std::string last_error;
-
-    bool write(const ingestion::GraphNode&) override {
-        if (fail_on_write) {
-            last_error = "Mock graph write failure";
-            return false;
-        }
-        write_count++;
-        return true;
-    }
-
-    bool writeEdge(const ingestion::GraphEdge&) override {
-        if (fail_on_write) {
-            last_error = "Mock edge write failure";
-            return false;
-        }
-        write_count++;
-        return true;
-    }
-};
+} // namespace
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Group A – Fail-closed on malformed input
 // ─────────────────────────────────────────────────────────────────────────────
 
 TEST(RagIngestionBridgeHardeningFocusedTests, A1_RejectedIfNullToolbox) {
-    auto vector_writer = std::make_shared<MockVectorWriter>();
-    auto graph_writer = std::make_shared<MockGraphWriter>();
+    auto vector_writer = std::make_shared<InMemoryVectorWriter>();
+    auto graph_writer = std::make_shared<InMemoryGraphWriter>();
 
-    // Passing nullptr toolbox should throw or fail gracefully
     EXPECT_THROW(
         {
             RAGIngestionBridge bridge(nullptr, vector_writer, graph_writer);
@@ -84,29 +73,47 @@ TEST(RagIngestionBridgeHardeningFocusedTests, A1_RejectedIfNullToolbox) {
 }
 
 TEST(RagIngestionBridgeHardeningFocusedTests, A2_EmptyDocumentHandledSafely) {
-    // Create a minimal mock toolbox (in real usage, this is a full IngestionToolbox)
-    auto mock_toolbox = std::make_shared<
-        testing::StrictMock<::testing::MockFunction<
-            std::vector<ingestion::BaseEntity>(const std::string&)>>>();
-    auto vector_writer = std::make_shared<MockVectorWriter>();
+    auto vector_writer = std::make_shared<InMemoryVectorWriter>();
+    auto graph_writer = std::make_shared<InMemoryGraphWriter>();
+    RAGIngestionBridge bridge(makeToolbox(), vector_writer, graph_writer);
 
-    // NOTE: In a real integration test, we'd need a real IngestionToolbox.
-    // This test validates the contract that empty documents are rejected.
+    const auto result = bridge.indexDocument("", "test-coll");
+
+    EXPECT_FALSE(result.ok);
+    EXPECT_EQ(result.error, "empty input");
+    EXPECT_TRUE(result.doc_id.empty());
+    EXPECT_EQ(result.vector_count, 0u);
+    EXPECT_EQ(result.entity_count, 0u);
+    EXPECT_EQ(vector_writer->vectorCount(), 0u);
+    EXPECT_EQ(graph_writer->nodeCount(), 0u);
+    EXPECT_EQ(graph_writer->edgeCount(), 0u);
 }
 
 TEST(RagIngestionBridgeHardeningFocusedTests, A3_ExcessivelyLargeDocumentRejected) {
-    // Documents larger than kMaxDocumentChars should be rejected or truncated
-    // This ensures fail-closed behavior when input sizes are extreme.
+    auto vector_writer = std::make_shared<InMemoryVectorWriter>();
+    RAGIngestionBridge bridge(makeToolbox(), vector_writer);
 
-    // NOTE: Real test would require full IngestionToolbox integration.
-    // This test documents the requirement: 5 MiB limit on document size.
+    const auto result =
+        bridge.indexDocument(std::string(kMaxDocumentChars + 1u, 'x'), "oversized-coll");
+
+    EXPECT_FALSE(result.ok);
+    EXPECT_EQ(result.error, "input too large");
+    EXPECT_TRUE(result.doc_id.empty());
+    EXPECT_EQ(vector_writer->vectorCount(), 0u);
 }
 
-TEST(RagIngestionBridgeHardeningFocusedTests, A4_InvalidCollectionNameHandledFail_Closed) {
-    // Collection names longer than kMaxCollectionChars should be rejected
-    // This validates fail-closed handling of invalid metadata.
+TEST(RagIngestionBridgeHardeningFocusedTests, A4_InvalidCollectionNameHandledFailClosed) {
+    RAGIngestionBridge bridge(makeToolbox());
 
-    // NOTE: Real test would require full IngestionToolbox integration.
+    const auto too_long =
+        bridge.indexDocument("valid text", std::string(kMaxCollectionChars + 1u, 'c'));
+    EXPECT_FALSE(too_long.ok);
+    EXPECT_EQ(too_long.error, "invalid collection");
+
+    const auto with_control =
+        bridge.indexDocument("valid text", std::string("bad\001collection", 14));
+    EXPECT_FALSE(with_control.ok);
+    EXPECT_EQ(with_control.error, "invalid collection");
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -114,27 +121,56 @@ TEST(RagIngestionBridgeHardeningFocusedTests, A4_InvalidCollectionNameHandledFai
 // ─────────────────────────────────────────────────────────────────────────────
 
 TEST(RagIngestionBridgeHardeningFocusedTests, B1_MissingSourceDocIDHandledGracefully) {
-    // When document ID or source is missing, should default to safe value
-    // not crash or produce undefined behavior.
+    auto vector_writer = std::make_shared<InMemoryVectorWriter>();
+    RAGIngestionBridge bridge(makeToolbox(), vector_writer);
 
-    // Example of expected IndexResult when source is missing:
-    // IndexResult {
-    //   ok = true,
-    //   doc_id = "generated_id_or_empty",
-    //   error = "" or empty
-    // }
+    const auto result = bridge.indexDocument("Canonical retrieval body", "canonical-coll");
+
+    ASSERT_TRUE(result.ok);
+    ASSERT_GT(vector_writer->vectorCount(), 0u);
+    for (const auto& [chunk_id, record] : vector_writer->records()) {
+        static_cast<void>(chunk_id);
+        ASSERT_TRUE(record.metadata.contains("source"));
+        ASSERT_TRUE(record.metadata.contains("content"));
+        ASSERT_TRUE(record.metadata.contains("text"));
+        ASSERT_TRUE(record.metadata.contains("body"));
+        EXPECT_FALSE(record.metadata.at("source").empty());
+        EXPECT_FALSE(record.metadata.at("content").empty());
+        EXPECT_EQ(record.metadata.at("text"), record.metadata.at("content"));
+        EXPECT_EQ(record.metadata.at("body"), record.metadata.at("content"));
+    }
 }
 
 TEST(RagIngestionBridgeHardeningFocusedTests, B2_NullMetadataValuesBoundedSafely) {
-    // Null or empty metadata values should be bounded to safe defaults
-    // (empty string, not uninitialized memory).
+    RAGIngestionBridge bridge(makeToolbox());
+
+    std::vector<judge::RetrievedDocument> docs(1);
+    docs[0].id = "doc-safe";
+    docs[0].content = "Canonical content for hydration";
+    docs[0].metadata["source"] = "   \t";
+    docs[0].metadata["content"] = " \n\r ";
+
+    const auto enriched = bridge.enrichRetrievedDocuments(docs);
+
+    EXPECT_LE(enriched, docs.size());
+    ASSERT_TRUE(docs[0].metadata.contains("source"));
+    ASSERT_TRUE(docs[0].metadata.contains("content"));
+    EXPECT_EQ(docs[0].metadata.at("source"), "doc-safe");
+    EXPECT_EQ(docs[0].metadata.at("content"), "Canonical content for hydration");
 }
 
 TEST(RagIngestionBridgeHardeningFocusedTests, B3_ControlCharactersInMetadataDetected) {
-    // Metadata with control characters should either be:
-    // 1. Sanitized, or
-    // 2. Rejected with clear error
-    // (based on ingestion bridge policy)
+    RAGIngestionBridge bridge(makeToolbox());
+
+    const auto invalid_mime =
+        bridge.indexDocument("valid text", "valid-coll", std::string("text/\001plain", 11));
+    EXPECT_FALSE(invalid_mime.ok);
+    EXPECT_EQ(invalid_mime.error, "invalid mime");
+
+    const auto invalid_filename =
+        bridge.indexDocument("valid text", "valid-coll", "text/plain", std::string("bad\001name.txt", 12));
+    EXPECT_FALSE(invalid_filename.ok);
+    EXPECT_EQ(invalid_filename.error, "invalid filename");
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -142,20 +178,42 @@ TEST(RagIngestionBridgeHardeningFocusedTests, B3_ControlCharactersInMetadataDete
 // ─────────────────────────────────────────────────────────────────────────────
 
 TEST(RagIngestionBridgeHardeningFocusedTests, C1_EmptyRetrievalResultsHandledCorrectly) {
-    // If retrieval returns no chunks, RAG pipeline should:
-    // 1. Not crash
-    // 2. Signal the empty state to caller
-    // 3. Not attempt to assemble context from null/empty chunks
+    RAGIngestionBridge bridge(makeToolbox());
+    std::vector<judge::RetrievedDocument> docs;
+
+    const auto enriched = bridge.enrichRetrievedDocuments(docs);
+
+    EXPECT_EQ(enriched, 0u);
+    EXPECT_TRUE(docs.empty());
 }
 
 TEST(RagIngestionBridgeHardeningFocusedTests, C2_MissingChunkContentNotCrashing) {
-    // A chunk with empty or missing content should not crash
-    // the context assembly or evaluation pipeline.
+    RAGIngestionBridge bridge(makeToolbox());
+    std::vector<judge::RetrievedDocument> docs(1);
+    docs[0].id = "doc-empty";
+    docs[0].content = " \n\t ";
+
+    const auto enriched = bridge.enrichRetrievedDocuments(docs);
+
+    EXPECT_EQ(enriched, 0u);
+    EXPECT_TRUE(docs[0].metadata.empty());
 }
 
 TEST(RagIngestionBridgeHardeningFocusedTests, C3_AllChunksTruncatedStillUsable) {
-    // If all chunks are truncated to zero content due to budget constraints,
-    // the result should be valid (empty context is OK, crash is not).
+    auto vector_writer = std::make_shared<InMemoryVectorWriter>();
+    RAGIngestionBridge bridge(makeToolbox(), vector_writer);
+
+    const std::string text(200'000u, 'x');
+    const auto result = bridge.indexDocument(text, "bounded-coll");
+
+    ASSERT_TRUE(result.ok);
+    ASSERT_GT(vector_writer->vectorCount(), 0u);
+    for (const auto& [chunk_id, record] : vector_writer->records()) {
+        static_cast<void>(chunk_id);
+        EXPECT_LE(record.text_snippet.size(), kMaxChunkSnippetChars);
+        ASSERT_TRUE(record.metadata.contains("content"));
+        EXPECT_LE(record.metadata.at("content").size(), kMaxMetadataValueChars);
+    }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -163,68 +221,131 @@ TEST(RagIngestionBridgeHardeningFocusedTests, C3_AllChunksTruncatedStillUsable) 
 // ─────────────────────────────────────────────────────────────────────────────
 
 TEST(RagIngestionBridgeHardeningFocusedTests, D1_SameInputProducesDeterministicID) {
-    // Given the same document content and metadata, the generated doc_id
-    // should be the same (deterministic hash or counter).
+    RAGIngestionBridge bridge(makeToolbox());
+    const std::string text = "Deterministic input for document hashing";
+
+    const auto first = bridge.indexDocument(text, "deterministic-coll");
+    const auto second = bridge.indexDocument(text, "deterministic-coll");
+
+    ASSERT_TRUE(first.ok);
+    ASSERT_TRUE(second.ok);
+    EXPECT_EQ(first.doc_id, second.doc_id);
+    EXPECT_EQ(first.collection, second.collection);
 }
 
 TEST(RagIngestionBridgeHardeningFocusedTests, D2_EntityExtractionDeterministic) {
-    // Entity extraction from the same text should produce the same results
-    // across multiple calls (no randomness, consistent NLP output).
+    RAGIngestionBridge bridge(makeToolbox());
+    const std::string text = "Alice from Example Corp visited Berlin on Tuesday.";
+
+    const auto first = bridge.extractEntitiesForContext(text);
+    const auto second = bridge.extractEntitiesForContext(text);
+
+    EXPECT_EQ(first.size(), second.size());
+    EXPECT_EQ(RAGIngestionBridge::buildEntityContext(first),
+              RAGIngestionBridge::buildEntityContext(second));
 }
 
 TEST(RagIngestionBridgeHardeningFocusedTests, D3_VectorChunkOrderingDeterministic) {
-    // If document is split into chunks, chunk ordering should be deterministic
-    // (not random or dependent on system state).
+    auto first_writer = std::make_shared<InMemoryVectorWriter>();
+    auto second_writer = std::make_shared<InMemoryVectorWriter>();
+    RAGIngestionBridge first_bridge(makeToolbox(), first_writer);
+    RAGIngestionBridge second_bridge(makeToolbox(), second_writer);
+
+    const std::string text =
+        "Stable chunk ordering matters for repeatable retrieval hydration checks.";
+
+    const auto first = first_bridge.indexDocument(text, "order-coll");
+    const auto second = second_bridge.indexDocument(text, "order-coll");
+
+    ASSERT_TRUE(first.ok);
+    ASSERT_TRUE(second.ok);
+    EXPECT_EQ(first.doc_id, second.doc_id);
+    EXPECT_EQ(sortedChunkIds(*first_writer), sortedChunkIds(*second_writer));
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Group E – Error recovery and diagnostics
 // ─────────────────────────────────────────────────────────────────────────────
 
-TEST(RagIngestionBridgeHardeningFocusedTests, E1_WriteFailureReturnedAsError) {
-    // If vector_writer->write() fails, IndexResult.ok should be false
-    // and error message should describe the failure.
+TEST(RagIngestionBridgeHardeningFocusedTests, E1_InvalidMimeReturnedAsError) {
+    RAGIngestionBridge bridge(makeToolbox());
+
+    const auto result = bridge.indexDocument("valid text", "diag-coll", "");
+
+    EXPECT_FALSE(result.ok);
+    EXPECT_EQ(result.error, "invalid mime");
 }
 
-TEST(RagIngestionBridgeHardeningFocusedTests, E2_PartialIndexingNotSilenced) {
-    // If 10 chunks are generated but only 8 write successfully,
-    // the error should be returned (not silently ignored).
+TEST(RagIngestionBridgeHardeningFocusedTests, E2_InvalidFilenameReturnedAsError) {
+    RAGIngestionBridge bridge(makeToolbox());
+
+    const auto result = bridge.indexDocument(
+        "valid text",
+        "diag-coll",
+        "text/plain",
+        std::string(kMaxFilenameChars + 1u, 'f'));
+
+    EXPECT_FALSE(result.ok);
+    EXPECT_EQ(result.error, "invalid filename");
 }
 
-TEST(RagIngestionBridgeHardeningFocusedTests, E3_GraphWriterFailureLogged) {
-    // If graph_writer is provided but fails, failure should be logged
-    // and returned in IndexResult (fail-closed, not fail-open).
+TEST(RagIngestionBridgeHardeningFocusedTests, E3_RejectedInputDoesNotWritePartialState) {
+    auto vector_writer = std::make_shared<InMemoryVectorWriter>();
+    auto graph_writer = std::make_shared<InMemoryGraphWriter>();
+    RAGIngestionBridge bridge(makeToolbox(), vector_writer, graph_writer);
+
+    const auto result = bridge.indexDocument("valid text", " \t ");
+
+    EXPECT_FALSE(result.ok);
+    EXPECT_EQ(result.error, "invalid collection");
+    EXPECT_EQ(vector_writer->vectorCount(), 0u);
+    EXPECT_EQ(graph_writer->nodeCount(), 0u);
+    EXPECT_EQ(graph_writer->edgeCount(), 0u);
 }
 
-TEST(RagIngestionBridgeHardeningFocusedTests, E4_RecoveryPath_OptionalGraphWriter) {
-    // If graph_writer is nullptr, indexing should still succeed
-    // (graph enrichment is optional, fallback to vector-only is OK).
+TEST(RagIngestionBridgeHardeningFocusedTests, E4_RecoveryPathOptionalGraphWriter) {
+    auto vector_writer = std::make_shared<InMemoryVectorWriter>();
+    RAGIngestionBridge bridge(makeToolbox(), vector_writer, nullptr);
+
+    const auto result = bridge.indexDocument("Vector-only indexing remains supported.", "vector-only");
+
+    ASSERT_TRUE(result.ok);
+    EXPECT_GT(vector_writer->vectorCount(), 0u);
+    EXPECT_EQ(result.vector_count, vector_writer->vectorCount());
 }
 
 TEST(RagIngestionBridgeHardeningFocusedTests, E5_ErrorMessageNotEmpty) {
-    // When IndexResult.ok == false, error field must be non-empty
-    // and human-readable for diagnostics.
+    RAGIngestionBridge bridge(makeToolbox());
+
+    const auto result = bridge.indexDocument("");
+
+    EXPECT_FALSE(result.ok);
+    EXPECT_FALSE(result.error.empty());
+    EXPECT_NE(result.error.find("empty"), std::string::npos);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Integration placeholders (require full IngestionToolbox)
+// Integration coverage
 // ─────────────────────────────────────────────────────────────────────────────
 
 class RagIngestionBridgeIntegrationTests : public ::testing::Test {
 protected:
-    // Placeholder for integration tests that require real IngestionToolbox.
-    // These would be enabled when full toolbox is available in test environment.
-
-    void SetUp() override {
-        // Setup real toolbox, writers, etc.
-    }
-
-    void TearDown() override {
-        // Cleanup resources
-    }
+    std::shared_ptr<IngestionToolbox> toolbox = makeToolbox();
+    std::shared_ptr<InMemoryVectorWriter> vector_writer =
+        std::make_shared<InMemoryVectorWriter>();
+    std::shared_ptr<InMemoryGraphWriter> graph_writer =
+        std::make_shared<InMemoryGraphWriter>();
 };
 
-// Real integration tests would go here, e.g.:
-// TEST_F(RagIngestionBridgeIntegrationTests, IntegrationA_FullIndexingWorkflow)
-// TEST_F(RagIngestionBridgeIntegrationTests, IntegrationB_EntityExtractionAccuracy)
-// TEST_F(RagIngestionBridgeIntegrationTests, IntegrationC_VectorStorageIntegration)
+TEST_F(RagIngestionBridgeIntegrationTests, IntegrationA_FullIndexingWorkflow) {
+    RAGIngestionBridge bridge(toolbox, vector_writer, graph_writer);
+
+    const auto result = bridge.indexDocument(
+        "ACME signed a supply agreement with Berlin Logistics GmbH.",
+        "integration-coll");
+
+    ASSERT_TRUE(result.ok);
+    EXPECT_FALSE(result.doc_id.empty());
+    EXPECT_EQ(result.collection, "integration-coll");
+    EXPECT_GT(vector_writer->vectorCount(), 0u);
+}

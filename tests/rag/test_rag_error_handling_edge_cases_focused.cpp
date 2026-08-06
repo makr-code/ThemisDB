@@ -239,8 +239,13 @@ TEST(RagErrorHandlingEdgeCasesFocusedTests, C2_AllChunksFailedReturnsEmptyContex
 
     const auto ctx = asm_.assemble(chunks, "", "q");
 
-    // Should return valid (possibly empty) context, not crash
-    EXPECT_TRUE(true);  // Just validates no crash
+    const auto budget =
+        ContextWindowBudget::compute(cfg.model_context_tokens, "", "q", cfg.min_response_tokens);
+    EXPECT_LE(ctx.chunks_used.size(), chunks.size());
+    EXPECT_LE(ctx.tokens_used, budget.available_context_tokens);
+    EXPECT_EQ(ctx.tokens_remaining_for_response,
+              budget.responseBudgetAfterContext(ctx.tokens_used));
+    EXPECT_GE(ctx.tokens_remaining_for_response, budget.reserved_response_tokens);
 }
 
 TEST(RagErrorHandlingEdgeCasesFocusedTests, C3_RetrievalTimeoutSimulationRecovery) {
@@ -258,9 +263,13 @@ TEST(RagErrorHandlingEdgeCasesFocusedTests, C3_RetrievalTimeoutSimulationRecover
         makeChunk("normal chunk"),
     };
 
-    // Assembly should complete quickly (no infinite loops)
     const auto ctx = asm_.assemble(chunks, "", "q");
-    EXPECT_TRUE(true);  // If we reach here, no hang occurred
+    const auto budget =
+        ContextWindowBudget::compute(cfg.model_context_tokens, "", "q", cfg.min_response_tokens);
+    EXPECT_LE(ctx.tokens_used, budget.available_context_tokens);
+    EXPECT_EQ(ctx.tokens_remaining_for_response,
+              budget.responseBudgetAfterContext(ctx.tokens_used));
+    EXPECT_GE(ctx.tokens_remaining_for_response, budget.reserved_response_tokens);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -299,11 +308,11 @@ TEST(RagErrorHandlingEdgeCasesFocusedTests, D2_DegradedModeSignalingViaEmptyCont
     RAGContextAssembler asm_{cfg};
 
     const auto ctx = asm_.assemble({}, "System", "query");
-
-    if (ctx.chunks_used.empty()) {
-        // Caller recognizes empty context as potential degraded mode
-        EXPECT_TRUE(true);  // Degraded mode handling OK
-    }
+    const auto budget =
+        ContextWindowBudget::compute(cfg.model_context_tokens, "System", "query", cfg.min_response_tokens);
+    EXPECT_TRUE(ctx.chunks_used.empty());
+    EXPECT_EQ(ctx.tokens_used, 0u);
+    EXPECT_EQ(ctx.tokens_remaining_for_response, budget.reserved_response_tokens);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -367,8 +376,9 @@ TEST(RagErrorHandlingEdgeCasesFocusedTests, E3_RepeatedAssemblyCallsStable) {
         EXPECT_GE(ctx.tokens_remaining_for_response, cfg.min_response_tokens);
     }
 
-    // Should not leak memory or crash after repeated calls
-    EXPECT_TRUE(true);
+    const auto final_ctx = asm_.assemble(chunks, "", "q");
+    EXPECT_LE(final_ctx.tokens_used, cfg.model_context_tokens);
+    EXPECT_GE(final_ctx.tokens_remaining_for_response, cfg.min_response_tokens);
 }
 
 TEST(RagErrorHandlingEdgeCasesFocusedTests, E4_ConfigurationChangeNotLeakingState) {
@@ -393,6 +403,10 @@ TEST(RagErrorHandlingEdgeCasesFocusedTests, E4_ConfigurationChangeNotLeakingStat
 
     const auto result2 = asm_.assemble(chunks, "", "q");
 
-    // Config should be applied; no state leakage
-    EXPECT_LE(result2.tokens_remaining_for_response, cfg2.min_response_tokens + 100u);
+    const auto budget2 =
+        ContextWindowBudget::compute(cfg2.model_context_tokens, "", "q", cfg2.min_response_tokens);
+    EXPECT_LT(result2.tokens_remaining_for_response, result1.tokens_remaining_for_response);
+    EXPECT_EQ(result2.tokens_remaining_for_response,
+              budget2.responseBudgetAfterContext(result2.tokens_used));
+    EXPECT_GE(result2.tokens_remaining_for_response, budget2.reserved_response_tokens);
 }
