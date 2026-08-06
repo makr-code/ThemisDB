@@ -10,9 +10,9 @@ Production-capable process modeling runtime exists for process model lifecycle o
 
 ## In Progress
 
-- [~] hardening process edge-case behavior across import/parsing and linking transitions (Target: Q3 2026)
-- [~] benchmark stabilization for process import/retrieval/mining hot paths (Target: Q3 2026)
-- [~] diagnostics consistency for model validation and retrieval incident classes (Target: Q3 2026)
+- [x] hardening process edge-case behavior across import/parsing and linking transitions (Target: Q3 2026)
+- [x] benchmark stabilization for process import/retrieval/mining hot paths (Target: Q3 2026)
+- [x] diagnostics consistency for model validation and retrieval incident classes (Target: Q3 2026)
 
 ## Planned Features
 
@@ -33,12 +33,12 @@ Production-capable process modeling runtime exists for process model lifecycle o
 - [x] define explicit error taxonomy for process module failure classes (Target: Q3 2026)
 
 ### Phase 2: Core Implementation
-- [ ] complete hardening for process model and serializer internals (Target: Q4 2026)
-- [ ] align retrieval/linking behavior to bounded runtime contracts (Target: Q4 2026)
+- [x] complete hardening for process model and serializer internals (Target: Q4 2026)
+- [x] align retrieval/linking behavior to bounded runtime contracts (Target: Q4 2026)
 
 ### Phase 3: Error Handling and Edge Cases
-- [ ] standardize fail-safe behavior for malformed process input and retrieval faults (Target: Q4 2026)
-- [ ] unify diagnostics across import/lifecycle/retrieval incidents (Target: Q4 2026)
+- [x] standardize fail-safe behavior for malformed process input and retrieval faults (Target: Q4 2026)
+- [x] unify diagnostics across import/lifecycle/retrieval incidents (Target: Q4 2026)
 
 ### Phase 4: Tests
 - [x] expand focused regressions for process parser and linker edge scenarios (Target: Q4 2026)
@@ -57,7 +57,7 @@ Production-capable process modeling runtime exists for process model lifecycle o
 - [x] core process surfaces documented and source-verified
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
-- [ ] remaining hardening tasks closed for parser/lifecycle/retrieval edge paths
+- [x] remaining hardening tasks closed for parser/lifecycle/retrieval edge paths
 - [x] release benchmark stabilization complete
 
 ## Known Issues and Limitations
