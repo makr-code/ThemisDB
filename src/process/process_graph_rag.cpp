@@ -36,8 +36,10 @@
 #include <algorithm>
 #include <chrono>
 #include <cmath>
+#include <map>
 #include <numeric>
 #include <queue>
+#include <set>
 #include <sstream>
 #include <unordered_map>
 #include <unordered_set>
@@ -67,8 +69,8 @@ float cosineSimilarity(const std::vector<float>& a, const std::vector<float>& b)
 }
 
 /// Jaccard similarity between two sets of strings.
-float jaccardSimilarity(const std::unordered_set<std::string>& a,
-                        const std::unordered_set<std::string>& b) {
+float jaccardSimilarity(const std::set<std::string>& a,
+                        const std::set<std::string>& b) {
     if (a.empty() && b.empty()) return 1.f;
     size_t intersection = 0;
     for (const auto& s : a) {
@@ -287,7 +289,8 @@ json ProcessGraphRag::extractSubgraph(std::string_view                model_id,
     }
 
     // Build adjacency map: node_id → list of (neighbor_id, edge_json)
-    std::unordered_map<std::string, std::vector<std::pair<std::string, json>>> adj;
+    // Use std::map for deterministic iteration order
+    std::map<std::string, std::vector<std::pair<std::string, json>>> adj;
     for (const auto& e : norm["edges"]) {
         std::string from = e.value("from", "");
         std::string to   = e.value("to", "");
@@ -298,8 +301,8 @@ json ProcessGraphRag::extractSubgraph(std::string_view                model_id,
     }
 
     // BFS from seed nodes
-    std::unordered_set<std::string> visited_nodes;
-    std::unordered_set<std::string> visited_edges;
+    std::set<std::string> visited_nodes;
+    std::set<std::string> visited_edges;
     std::queue<std::pair<std::string, int>> bfs_queue;
 
     for (const auto& seed : seed_node_ids) {
@@ -365,8 +368,7 @@ std::vector<std::pair<std::string, float>> ProcessGraphRag::computePpr(
     const int N = static_cast<int>(node_ids.size());
     if (N == 0) return {};
 
-    std::unordered_map<std::string, int> node_index;
-    node_index.reserve(N);
+    std::map<std::string, int> node_index;
     for (int i = 0; i < N; ++i) node_index[node_ids[i]] = i;
 
     // Build column-stochastic transition matrix stored as sparse out-degree lists
@@ -375,19 +377,25 @@ std::vector<std::pair<std::string, float>> ProcessGraphRag::computePpr(
     for (const auto& e : normalized_graph["edges"]) {
         std::string from = e.value("from", "");
         std::string to   = e.value("to", "");
+        // Extract values immediately to avoid holding iterators
         auto fi = node_index.find(from);
         auto ti = node_index.find(to);
         if (fi == node_index.end() || ti == node_index.end()) continue;
-        out_neighbors[fi->second].push_back(ti->second);
+        int from_idx = fi->second;
+        int to_idx   = ti->second;
+        out_neighbors[from_idx].push_back(to_idx);
         // For undirected context propagation also add reverse edge
-        out_neighbors[ti->second].push_back(fi->second);
+        out_neighbors[to_idx].push_back(from_idx);
     }
 
     // Build personalisation vector: uniform over seeds
     std::vector<float> personal(N, 0.f);
     for (const auto& seed : seed_node_ids) {
         auto it = node_index.find(seed);
-        if (it != node_index.end()) personal[it->second] += 1.f;
+        if (it != node_index.end()) {
+            int seed_idx = it->second;
+            personal[seed_idx] += 1.f;
+        }
     }
     float psum = 0.f;
     for (float v : personal) psum += v;
@@ -524,7 +532,7 @@ ProcessRagContext ProcessGraphRag::retrieve(std::string_view        instance_id,
             auto ranked = computePpr(model_opt->normalized, ctx.active_nodes, ppr_cfg);
 
             // Build subgraph from top-k nodes
-            std::unordered_set<std::string> top_set;
+            std::set<std::string> top_set;
             for (const auto& [nid, score] : ranked) {
                 top_set.insert(nid);
                 ctx.node_scores[nid] = score;
@@ -675,7 +683,7 @@ json ProcessGraphRag::summarizeVerwaltungsvorgang(std::string_view instance_id) 
     summary["current_tasks"] = current_tasks;
 
     // Progress: count of unique visited nodes relative to model total
-    std::unordered_set<std::string> all_visited;
+    std::set<std::string> all_visited;
     for (const auto& tok : inst.tokens) {
         for (const auto& vn : tok.visited_nodes) all_visited.insert(vn);
     }
@@ -889,7 +897,7 @@ ProcessGraphRag::findSimilarCases(std::string_view instance_id,
     }
 
     // Build reference variable key set for Jaccard fallback
-    std::unordered_set<std::string> ref_var_keys;
+    std::set<std::string> ref_var_keys;
     if (ref_inst.variables.is_object()) {
         for (auto& [var_key, v] : ref_inst.variables.items()) {
             ref_var_keys.insert(var_key);
@@ -956,7 +964,7 @@ ProcessGraphRag::findSimilarCases(std::string_view instance_id,
                     return true;
                 }
 
-                std::unordered_set<std::string> other_var_keys;
+                std::set<std::string> other_var_keys;
                 if (doc.contains("variables") && doc["variables"].is_object()) {
                     for (auto& [vk, vv] : doc["variables"].items()) {
                         other_var_keys.insert(vk);
