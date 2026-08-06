@@ -115,13 +115,35 @@ All phases completed 2026-08-06. See detailed breakdown below.
 - Retrieval query: <100 ms (P95)
 - No regression >10% vs release baseline
 
-**Benchmark Gates:**
-- CP (Concurrency Performance), DP (Determinism Performance)
-- GO (Graph Operations), PP (Parser Performance)
-- LP (Linking Performance), RP (Retrieval Performance)
-- BE (Benchmark Envelope)
+**Benchmark Gates (42 total):**
+- CP (Concurrency Performance): 6 gates - model CRUD, import/export, linking, retrieval
+- DP (Determinism Performance): 6 gates - conflict resolution, LWW overhead, rollback, version clocks
+- GO (Graph Operations): 6 gates - link traversal, graph construction, cycle detection, community detection
+- PP (Parser Performance): 8 gates - BPMN/CMMN/EPK parsing, resource limits, interop
+- LP (Linking Performance): 6 gates - linking latency, cyclic dependency detection, validation, stale links
+- RP (Retrieval Performance): 8 gates - model retrieval, context assembly, queries, RAG
+- BE (Benchmark Envelope): 9 gates - baseline comparison, regression budget, high-churn, memory/lock/GC
 
-**Status:** ✓ COMPLETE
+**Implementation Details:**
+- Google Benchmark framework with deterministic seeding (kCanonicalRngSeed=42)
+- Steady clock timing (std::chrono::high_resolution_clock)
+- p95/p99 percentile measurements (not just mean)
+- High-churn scenario coverage (>500 concurrent operations)
+- Release baseline tracking with 10% regression budget
+- CSV/JSON output for trend analysis
+
+**New Gates Added (Aug 2026):**
+- DP-05: Deterministic Output Verification - ensures identical output across runs
+- DP-06: Version Clock Operations - measures logical clock overhead
+- GO-02: Link Traversal Latency (1k links) - p95 ≤ 50ms
+- GO-03: Graph Construction (100 models) - p95 ≤ 100ms
+- GO-04: Cycle Detection (1k nodes) - p95 ≤ 75ms
+- GO-05: Community Detection (500 nodes) - p95 ≤ 150ms
+- GO-06: Complex Graph p95 Latency (5k nodes) - p95 ≤ 100ms
+- LP-05: Stale Link Detection (5k links) - p99 ≤ 150ms
+- LP-06: Batch Link Operations (1k batch) - p99 ≤ 200ms
+
+**Status:** ✓ COMPLETE (2026-08-06)
 
 ### Phase 6: Documentation & Acceptance ✓ COMPLETE
 **Objective:** Finalize API documentation and acceptance criteria for module closure.

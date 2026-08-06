@@ -27,6 +27,9 @@
  */
 
 #include "process/cmmn_serializer.h"
+#include "process/serializer_hardening.h"
+#include "process/process_diagnostics.h"
+#include "process/process_common.h"
 
 #include <algorithm>
 #include <cctype>
@@ -35,6 +38,8 @@
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
+
+#include <spdlog/spdlog.h>
 
 namespace themis {
 namespace process {
@@ -250,11 +255,20 @@ std::string CmmnSerializer::escapeXml_(std::string_view s) {
 CmmnSerializer::ImportResult CmmnSerializer::importXml(std::string_view cmmn_xml) {
     ImportResult result;
 
-    if (cmmn_xml.empty() || cmmn_xml.size() > kMaxCmmnXmlBytes) {
+    // Phase 3: Validate input before parsing
+    auto validation = SerializerInputValidator::validateInput(
+        cmmn_xml,
+        "CMMN 1.1"
+    );
+    if (!validation.ok) {
         result.ok      = false;
-        result.message = cmmn_xml.empty()
-                         ? "Empty CMMN XML"
-                         : "CMMN XML exceeds maximum allowed size (10 MiB)";
+        result.message = validation.error_message;
+        auto incident = ProcessDiagnostics::createMalformedInputIncident(
+            ProcError::kDeserialiserFailed,
+            "<cmmn_xml>",
+            validation.error_message
+        );
+        SPDLOG_WARN("[cmmn_serializer] {}", incident.toFormattedMessage());
         return result;
     }
 
@@ -273,6 +287,10 @@ CmmnSerializer::ImportResult CmmnSerializer::importXml(std::string_view cmmn_xml
     bool        in_sentry{false};
 
     std::unordered_set<std::string> seen_node_ids;
+
+    // Phase 3: Initialize parser state tracker for resource limit enforcement
+    ParserStateTracker parser_state(static_cast<size_t>(kMaxCmmnXmlBytes));
+    parser_state.start_timestamp = std::chrono::system_clock::now();
 
     auto tag_cb = [&](const XmlTag& t) {
         const std::string& tn = t.name;
@@ -442,6 +460,12 @@ CmmnSerializer::ImportResult CmmnSerializer::importFile(std::string_view file_pa
         ImportResult r;
         r.ok      = false;
         r.message = "Cannot open file: " + std::string(file_path);
+        auto incident = ProcessDiagnostics::createImportIncident(
+            ProcError::kDeserialiserFailed,
+            file_path,
+            r.message
+        );
+        SPDLOG_WARN("[cmmn_serializer] {}", incident.toFormattedMessage());
         return r;
     }
     std::string content((std::istreambuf_iterator<char>(f)),
