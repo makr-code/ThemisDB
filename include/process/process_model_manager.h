@@ -183,6 +183,23 @@ struct ProcessModelResult {
  */
 class ProcessModelManager {
 public:
+    /**
+     * @brief Construct a ProcessModelManager with a RocksDB backend.
+     *
+     * @param db Reference to a RocksDBWrapper instance that will be used for all model storage
+     *           and retrieval operations. The ProcessModelManager does not own this reference;
+     *           the caller is responsible for keeping the RocksDBWrapper alive for the entire
+     *           lifetime of this manager instance.
+     *
+     * @note Thread-safe: Multiple ProcessModelManager instances can be created with the same
+     *       RocksDB backend, and their operations will properly synchronize via RocksDB's
+     *       internal locking mechanisms.
+     *
+     * @note The constructor does not perform any I/O; initialization is lazy (performed
+     *       when the first import/retrieval operation is called).
+     *
+     * @see ~ProcessModelManager() for cleanup semantics
+     */
     explicit ProcessModelManager(::themis::RocksDBWrapper& db);
     ~ProcessModelManager();
 

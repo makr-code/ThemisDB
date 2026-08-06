@@ -95,6 +95,45 @@ This document defines measurable performance expectations for release gating and
 **Regression Budget:** ≤10% vs release baseline  
 **Determinism:** Same model → same serialized output (deterministic) every time
 
+## Benchmark Gate Naming & Mapping
+
+This document uses two complementary naming schemes for benchmark gates to support both functional organization and operational categorization.
+
+### Naming Scheme Reference
+
+**Primary Scheme (Performance Targets Sections 1-5):**
+- Format: `PRCP-<subsystem>-<variant>`
+  - `PRCP-1A, PRCP-1B, ..., PRCP-1G` = Parser Performance gates
+  - `PRCP-2A, PRCP-2B, ..., `PRCP-2G` = Linking Performance gates
+  - `PRCP-3A, PRCP-3B, ..., PRCP-3G` = Retrieval Performance gates
+  - `PRCP-4A, PRCP-4B, ..., PRCP-4E` = High-Churn Scenario gates
+
+**Secondary Scheme (Benchmark Gate Mapping & Enforcement):**
+- Format: `<Category>-<ID>`
+  - `CP-001 to CP-007` = Core Parser gates (maps to PRCP-1 subsystem)
+  - `DP-001 to DP-005` = Determinism gates (maps to PRCP-2 subsystem)
+  - `GO-001 to GO-004` = Graph Operations gates (new subsystem)
+  - `PP-001 to PP-003` = Parser validation gates (new subsystem)
+  - `LP-001 to LP-006` = Link Performance gates (maps to PRCP-2 subsystem)
+  - `RP-001 to RP-005` = Retrieval Performance gates (maps to PRCP-3 subsystem)
+  - `BE-001 to BE-007` = Benchmark Envelope gates (cross-cutting)
+  - `HC-001 to HC-005` = High-Churn Scenario gates (maps to PRCP-4 subsystem)
+
+### PRCP → Categorical Gate Mapping
+
+| PRCP Gates | → | Categorical Gates | Count |
+|------------|---|-------------------|-------|
+| PRCP-1 (Parser) | → | CP-001..007 | 7 |
+| PRCP-2 (Linking) | → | DP-001..005, LP-001..006 | 11 |
+| PRCP-3 (Retrieval) | → | RP-001..005 | 5 |
+| PRCP-4 (High-Churn) | → | HC-001..005 | 5 |
+| (Graph Ops) | → | GO-001..004 | 4 |
+| (Parser Validation) | → | PP-001..003 | 3 |
+| (Envelope Metrics) | → | BE-001..007 | 7 |
+| **Total** | | **42 gates** | **42** |
+
+**Usage Note:** For operational monitoring and release automation, use the categorical scheme (CP/DP/GO/LP/RP/BE/HC). For performance documentation and performance target discussions, use the subsystem scheme (PRCP-N).
+
 ## Benchmark Gate Mapping
 
 ### Core Benchmark Targets (42 gates)
