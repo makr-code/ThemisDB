@@ -423,6 +423,24 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
     std::unordered_map<std::string, ProcessNodeInfo::DsgvoAnnotation> dsgvo_map;
 
     auto tag_cb = [&](const XmlTag& t) {
+        // Phase 3: Check timeout before processing tag
+        if (parser_tracker.hasTimedOut()) {
+            SPDLOG_WARN("[bpmn_serializer] Timeout during BPMN parsing at tag: {}", t.name);
+            return;  // Stop processing
+        }
+
+        // Helper lambda for resource limit checks before adding edges
+        auto checkAndAddEdge = [&](const ProcessEdgeInfo& edge) {
+            if (!edge.from_node.empty() && !edge.to_node.empty()) {
+                if (!parser_tracker.recordElement()) {
+                    SPDLOG_WARN("[bpmn_serializer] Element limit exceeded while adding edge '{}'", edge.edge_id);
+                    return false;  // Couldn't add
+                }
+                result.edges.push_back(edge);
+            }
+            return true;
+        };
+
         const std::string& tn = t.name;
 
         // ── Closing tags ──────────────────────────────────────────────────
@@ -437,8 +455,7 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
                     edge.condition_expression = unescapeXml(cond_text);
                 else if (!sf_name.empty())
                     edge.condition_expression = sf_name;
-                if (!edge.from_node.empty() && !edge.to_node.empty())
-                    result.edges.push_back(std::move(edge));
+                checkAndAddEdge(edge);
                 in_seq_flow  = false;
                 in_cond_expr = false;
                 cond_text.clear();
@@ -450,6 +467,13 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
             // ── BPMN-S closing tags ───────────────────────────────────────
             if (tn == "extensionElements") { in_extension_elements = false; return; }
             if (!current_flow_node_id.empty() && kFlowNodeTags.count(tn)) {
+                // Phase 3: Exit scope for subProcess closing tags
+                if (tn == "subProcess") {
+                    if (!parser_tracker.exitScope()) {
+                        SPDLOG_WARN("[bpmn_serializer] Scope underflow when closing subProcess '{}'", 
+                                   current_flow_node_id);
+                    }
+                }
                 current_flow_node_id.clear();
                 return;
             }
@@ -543,8 +567,7 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
                 edge.edge_type = ProcessEdgeType::SEQUENCE_FLOW;
                 std::string cond = get("name");
                 if (!cond.empty()) edge.condition_expression = cond;
-                if (!edge.from_node.empty() && !edge.to_node.empty())
-                    result.edges.push_back(std::move(edge));
+                checkAndAddEdge(edge);
             } else {
                 in_seq_flow = true;
                 sf_id  = get("id");
@@ -567,8 +590,7 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
             edge.from_node = get("sourceRef");
             edge.to_node   = get("targetRef");
             edge.edge_type = ProcessEdgeType::MESSAGE_FLOW;
-            if (!edge.from_node.empty() && !edge.to_node.empty())
-                result.edges.push_back(std::move(edge));
+            checkAndAddEdge(edge);
             return;
         }
 
@@ -586,8 +608,7 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
             edge.edge_type = (tn == "association")
                              ? ProcessEdgeType::ASSOCIATION
                              : ProcessEdgeType::DATA_ASSOCIATION;
-            if (!edge.from_node.empty() && !edge.to_node.empty())
-                result.edges.push_back(std::move(edge));
+            checkAndAddEdge(edge);
             return;
         }
 
@@ -626,9 +647,53 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
 
             result.nodes.push_back(std::move(node));
 
+            // Phase 3: Resource limit enforcement
+            if (!parser_tracker.recordElement()) {
+                result.ok = false;
+                result.message = "Maximum element count (" + std::to_string(parser_tracker.getElementCount()) + 
+                                ") exceeded during BPMN import";
+                auto incident = ProcessDiagnostics::createResourceIncident(
+                    ProcError::kExecutionTimeout,
+                    "bpmn_import",
+                    parser_tracker.getDiagnosticMessage()
+                );
+                SPDLOG_WARN("[bpmn_serializer] {}", incident.toFormattedMessage());
+                return result;
+            }
+
+            // Check for timeout
+            if (parser_tracker.hasTimedOut()) {
+                result.ok = false;
+                result.message = "BPMN import operation exceeded timeout (" + 
+                                std::to_string(parser_tracker.getElapsedMs()) + "ms)";
+                auto incident = ProcessDiagnostics::createResourceIncident(
+                    ProcError::kExecutionTimeout,
+                    "bpmn_import",
+                    parser_tracker.getDiagnosticMessage()
+                );
+                SPDLOG_WARN("[bpmn_serializer] {}", incident.toFormattedMessage());
+                return result;
+            }
+
             // Track non-self-closing flow nodes so extensionElements children can
             // be associated with this node (e.g. BPMN-S SecurityAnnotation).
-            if (!t.self_closing) current_flow_node_id = nid;
+            if (!t.self_closing) {
+                current_flow_node_id = nid;
+                // Phase 3: Track nesting depth for subProcess
+                if (tn == "subProcess") {
+                    if (!parser_tracker.enterScope()) {
+                        result.ok = false;
+                        result.message = "Maximum nesting depth exceeded in BPMN sub-processes";
+                        auto incident = ProcessDiagnostics::createResourceIncident(
+                            ProcError::kExecutionTimeout,
+                            "bpmn_import",
+                            parser_tracker.getDiagnosticMessage()
+                        );
+                        SPDLOG_WARN("[bpmn_serializer] {}", incident.toFormattedMessage());
+                        return result;
+                    }
+                }
+            }
         }
     };
 
@@ -705,6 +770,12 @@ BpmnSerializer::ImportResult BpmnSerializer::importFile(std::string_view file_pa
         ImportResult r;
         r.ok      = false;
         r.message = "Cannot open file: " + std::string(file_path);
+        auto incident = ProcessDiagnostics::createImportIncident(
+            ProcError::kDeserialiserFailed,
+            file_path,
+            r.message
+        );
+        SPDLOG_WARN("[bpmn_serializer] {}", incident.toFormattedMessage());
         return r;
     }
     std::string content((std::istreambuf_iterator<char>(f)),
