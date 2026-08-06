@@ -1,18 +1,18 @@
 /**
  * @file distributed_hybrid_search.h
  * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
- * @version 0.0.13
+ * @version 2.1.0
  * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 86/100
- * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * @note Status: Production Ready
+ * @note Score: 95/100
+ * @note Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready - v2.1.0 Contract Freeze (Phase 1)
  * @note This block is auto-generated and will be overwritten.
  */
 
 /*
- * ThemisDB | File: distributed_hybrid_search.h | Version: 0.0.13
+ * ThemisDB | File: distributed_hybrid_search.h | Version: 2.1.0 (Phase 1: Contract Freeze)
  * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */
@@ -20,6 +20,7 @@
 #pragma once
 
 #include "search/hybrid_search.h"
+#include "search/search_error_codes.h"
 #include "sharding/remote_executor.h"
 #include "sharding/urn_resolver.h"
 #include "sharding/shard_topology.h"

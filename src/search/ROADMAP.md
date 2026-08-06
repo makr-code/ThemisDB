@@ -6,52 +6,95 @@
 
 ## Current Status
 
-Production-capable search runtime exists for hybrid lexical/vector retrieval, distributed shard merge, ranking utilities, and result analytics/stream behavior.
+Production-capable search runtime with Phase 1 (Design/API Contract Freeze) complete as of 2026-08-06.
+
+### Phase 1 Completion Summary (2026-08-06)
+- [x] Frozen retrieval/fusion/distributed contracts (HybridSearch v2.0.0, DistributedHybridSearch v2.1.0, SearchResultStream v2.0.0)
+- [x] Defined explicit error taxonomy via search_error_codes.h (32 error codes across 5 categories)
+- [x] Documented contract invariants in ARCHITECTURE.md
+- [x] Fixed CRITICAL gaps: exception_in_destructor (hybrid_search.cpp), no_timeout (search_result_stream.cpp with 30s default)
+- [x] Contract boundaries documented for core components (retrieval, fusion, distributed, utility, analytics)
 
 ## In Progress
 
-- [~] hardening distributed merge edge behavior under shard failures and overlap variance (Target: Q3 2026)
-- [~] improving diagnostics consistency across fusion/rerank utility stages (Target: Q3 2026)
-- [~] stabilizing benchmark-backed release guardrails for hybrid/distributed hot paths (Target: Q3 2026)
+- [~] Phase 2: Core Implementation Hardening (Q4 2026)
+  - Distributed merge edge-case resilience enhancement
+  - Bounded resource limit enforcement across fusion/utility paths
+  - Cross-component resilience testing for partial backend failures
 
 ## Planned Features
 
-### Short-term (3-6 months)
-- [ ] tighten deterministic behavior under sustained high-concurrency hybrid queries (Target: Q4 2026)
-- [ ] expand stress coverage for shard merge failure and k-limit edge paths (Target: Q4 2026)
-- [ ] improve operator-facing diagnostics for search degradation triage (Target: Q4 2026)
+### Short-term (Q4 2026)
+- [ ] Phase 2: Core Implementation Hardening
+  - [ ] Enhanced distributed_hybrid_search shard-failure handling
+  - [ ] Bounded resource limits enforced across all fusion/expansion/reranking paths
+  - [ ] Cross-component resilience tests for partial backend failures
+  - Target: Q4 2026
 
-### Mid-term (6-12 months)
-- [ ] re-baseline p95/p99 envelopes for hybrid and distributed merge paths (Target: Q1 2027)
-- [ ] broaden benchmark depth for advanced multimodal and reranking workflows (Target: Q1 2027)
-- [ ] harden long-run reliability under sustained search traffic pressure (Target: Q1 2027)
-- [~] Wave B B1: Self-RAG retrieval-controller integration for retrieval quality loops (Target: Q1–Q2 2027) — core impl + IEE callback integration + ALCE benchmark done
+- [ ] Phase 3: Error Handling and Edge Cases
+  - [ ] Standardize fail-safe behavior for shard failures, merge limits, rerank faults
+  - [ ] Unify diagnostics across retrieval/fusion/utility incident classes
+  - Target: Q4 2026
+
+- [ ] Phase 4: Test Expansion
+  - [ ] test_search_distributed_merge_stress.cpp with 8+ deterministic stress cases
+  - [ ] test_search_edge_cases_*.cpp files covering all 14 components
+  - Target: Q4 2026
+
+### Mid-term (Q1 2027)
+- [ ] Phase 5: Performance Gatekeeping
+  - [ ] Benchmark suite completion (SRCP-1, SRCP-2, SRCP-3 + advanced scenarios)
+  - [ ] Release gate execution with regression ≤10% baseline
+  - [ ] Benchmark documentation in benchmarks/search/README.md
+  - Target: Q1 2027
+
+- [ ] Phase 6: Documentation & Acceptance
+  - [ ] Doxygen file headers across all 14 components with maturity metadata
+  - [ ] PRODUCTION_REQUIREMENTS.md
+  - [ ] FINAL_ACCEPTANCE_CHECKLIST.md
+  - Target: Q1 2027
 
 ## Implementation Phases
 
-### Phase 1: Design / API Contract
-- [ ] freeze retrieval/fusion/distributed contracts for current major line (Target: Q3 2026)
-- [ ] define explicit error taxonomy for search failure classes (Target: Q3 2026)
+### Phase 1: Design / API Contract Freeze (COMPLETE 2026-08-06)
+- [x] freeze retrieval/fusion/distributed contracts for current major line
+- [x] define explicit error taxonomy for search failure classes
+- [x] document contract boundaries for all 14 search components
+- **Deliverables:** HybridSearch v2.0.0, DistributedHybridSearch v2.1.0, SearchResultStream v2.0.0, search_error_codes.h v1.0.0
+- **Status:** COMPLETE
 
-### Phase 2: Core Implementation
-- [ ] complete hardening for hybrid/distributed merge internals (Target: Q4 2026)
-- [ ] align utility-layer behavior to bounded runtime contracts (Target: Q4 2026)
+### Phase 2: Core Implementation Hardening (Q4 2026)
+- [ ] complete hardening for hybrid/distributed merge internals
+- [ ] align utility-layer behavior to bounded runtime contracts
+- **Deliverables:** Enhanced distributed_hybrid_search with explicit shard-failure handling; bounded resource limits enforced across all fusion/expansion/reranking paths; cross-component resilience tests
+- **Status:** IN PROGRESS
 
-### Phase 3: Error Handling and Edge Cases
-- [ ] standardize fail-safe behavior for shard failures, merge limits, and rerank faults (Target: Q4 2026)
-- [ ] unify diagnostics across retrieval/fusion/utility incident classes (Target: Q4 2026)
+### Phase 3: Error Handling and Edge Cases (Q4 2026)
+- [ ] standardize fail-safe behavior for shard failures, merge limits, and rerank faults
+- [ ] unify diagnostics across retrieval/fusion/utility incident classes
+- **Deliverables:** SearchStats with degradation flags (shards_failed, partial_result, rerank_fallback); edge case tests P3-01..P3-08; conformance tests for all 14 components
+- **Status:** PENDING
 
-### Phase 4: Tests
-- [ ] expand focused regressions for overlap, shard-failure, and candidate-limit scenarios (Target: Q4 2026)
-- [ ] extend deterministic stress fixtures for hybrid/distributed workloads (Target: Q4 2026)
+### Phase 4: Test Expansion (Q4 2026)
+- [ ] expand focused regressions for overlap, shard-failure, and candidate-limit scenarios
+- [ ] extend deterministic stress fixtures for hybrid/distributed workloads
+- **Deliverables:** test_search_distributed_merge_stress.cpp; test_search_edge_cases_*.cpp files; CTest labels for categorization
+- **Status:** PENDING
 
-### Phase 5: Performance and Hardening
-- [ ] lock benchmark-backed release gates for search hot paths (Target: Q4 2026)
-- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+### Phase 5: Performance Gatekeeping (Q4 2026, Q1 2027)
+- [ ] lock benchmark-backed release gates for search hot paths
+- [ ] validate p95/p99 and throughput behavior against release baselines
+- **Deliverables:** SRCP-1, SRCP-2, SRCP-3 gates + advanced multimodal/learning-to-rank benchmarks; regression ≤10% baseline; benchmark documentation
+- **Status:** PENDING
 
-### Phase 6: Documentation and Acceptance
+### Phase 6: Documentation and Acceptance (Q1 2027)
+- [ ] Doxygen file headers across all 14 components with maturity metadata
+- [ ] Comprehensive PRODUCTION_REQUIREMENTS.md
+- [ ] Module FINAL_ACCEPTANCE_CHECKLIST.md
+- [ ] Documentation governance sync
 - [x] core search module docs aligned to source-verifiable behavior
 - [x] roadmap/future planning separated from historical changelog entries
+- **Status:** PENDING
 
 ## Production Readiness Checklist
 
