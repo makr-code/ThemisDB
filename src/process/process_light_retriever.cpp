@@ -161,6 +161,45 @@ LightRetrievalResult ProcessLightRetriever::retrieve(
     };
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Phase 2: Stress Scenario Hardening Implementation
+// ─────────────────────────────────────────────────────────────────────────────
+
+void ProcessLightRetriever::setResourceLimits(const ResourceLimits& limits) {
+    resource_limits_ = limits;
+}
+
+bool ProcessLightRetriever::isWithinTimeoutBudget(int64_t start_time_ms) const {
+    auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()
+    ).count();
+    
+    return (now_ms - start_time_ms) < resource_limits_.max_retrieval_time_ms;
+}
+
+bool ProcessLightRetriever::isWithinSizeBudget(size_t current_size_bytes) const {
+    return current_size_bytes < resource_limits_.max_context_bytes;
+}
+
+bool ProcessLightRetriever::isWithinDepthBudget(size_t current_depth) const {
+    return current_depth <= resource_limits_.max_traversal_depth;
+}
+
+LightRetrievalResult ProcessLightRetriever::createDegradedResult(
+    std::string_view reason) const
+{
+    return LightRetrievalResult{
+        RetrievalMode::LOCAL,
+        "(retrieval interrupted due to resource constraints)",
+        {},
+        "",
+        0,  // retrieval_time_ms
+        0,  // context_size_bytes
+        true,  // degraded
+        std::string(reason)  // resource_exhaustion_reason
+    };
+}
+
 } // namespace process
 } // namespace themis
 
