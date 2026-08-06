@@ -1,17 +1,17 @@
 # Projects Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-08-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
 
-Production-capable project-domain runtime exists for lifecycle transitions, snapshot/version behavior, structural diff/merge, template-based initialization, and bounded collaboration metrics/audit surfaces.
+Production-capable project-domain runtime with hardened lifecycle transitions, immutable project snapshots, structural diff/merge behavior, template-based initialization, and bounded collaboration metrics/audit surfaces. Phase 2 and Phase 3 hardening complete with unified error diagnostics and fail-safe guards across lifecycle/versioning/collaboration paths (as of 2026-08-06).
 
 ## In Progress
 
-- [~] hardening edge-case behavior for snapshot restore and conflict-heavy merge scenarios (Target: Q3 2026)
-- [~] collaboration lock contention and permission diagnostic consistency improvements (Target: Q3 2026)
+- [x] hardening edge-case behavior for snapshot restore and conflict-heavy merge scenarios (Target: Q3 2026)
+- [x] collaboration lock contention and permission diagnostic consistency improvements (Target: Q3 2026)
 - [~] benchmark coverage expansion for module-native collaboration/template paths (Target: Q3 2026)
 
 ## Planned Features
@@ -33,12 +33,12 @@ Production-capable project-domain runtime exists for lifecycle transitions, snap
 - [x] define explicit error taxonomy for project-domain failure classes (Target: Q3 2026)
 
 ### Phase 2: Core Implementation
-- [ ] complete hardening for lifecycle/versioning internals and restore guards (Target: Q4 2026)
-- [ ] align diff/template/collaboration behavior to bounded runtime contracts (Target: Q4 2026)
+- [x] complete hardening for lifecycle/versioning internals and restore guards (Target: Q4 2026)
+- [x] align diff/template/collaboration behavior to bounded runtime contracts (Target: Q4 2026)
 
 ### Phase 3: Error Handling and Edge Cases
-- [ ] standardize fail-safe behavior for invalid transitions, snapshot faults, and lock contention (Target: Q4 2026)
-- [ ] unify diagnostics across lifecycle/versioning/collaboration incident classes (Target: Q4 2026)
+- [x] standardize fail-safe behavior for invalid transitions, snapshot faults, and lock contention (Target: Q4 2026)
+- [x] unify diagnostics across lifecycle/versioning/collaboration incident classes (Target: Q4 2026)
 
 ### Phase 4: Tests
 - [x] expand focused regressions for conflict-heavy merge and collaboration contention paths (Target: Q4 2026)
@@ -57,7 +57,7 @@ Production-capable project-domain runtime exists for lifecycle transitions, snap
 - [x] core project-domain surfaces documented and source-verified
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
-- [ ] remaining hardening tasks closed for lifecycle/snapshot/collaboration edge paths
+- [x] remaining hardening tasks closed for lifecycle/snapshot/collaboration edge paths
 - [x] release benchmark stabilization complete
 
 ## Known Issues and Limitations

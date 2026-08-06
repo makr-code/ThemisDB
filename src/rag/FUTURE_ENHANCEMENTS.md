@@ -1,6 +1,6 @@
 # RAG Module - Future Enhancements
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-08-06 | Test Coverage Expanded Q3 2026 -->
 <!-- Links: README.md · ROADMAP.md · ARCHITECTURE.md -->
 
 ## Scope
@@ -70,10 +70,24 @@ Forward-looking enhancements for retrieval quality, context reliability, evaluat
 
 ## Test Strategy
 
-- focused regression suites for ingestion bridge and context assembly behavior
-- budget/selection determinism tests across adaptive and multi-step paths
-- safety/adversarial regression matrix for prompt and retrieved context payloads
-- benchmark regression gates for retrieval, judge, and end-to-end workflows
+### Implemented (Q3 2026)
+- ✅ Focused regression suites for ingestion bridge and context assembly behavior
+  - Test file: `tests/rag/test_rag_ingestion_bridge_hardening_focused.cpp`
+  - Coverage: Groups A-E (19 tests) for fail-closed behavior, metadata handling, deterministic hydration
+- ✅ Budget/selection determinism tests across adaptive and multi-step paths
+  - Test file: `tests/rag/test_rag_budget_consistency_focused.cpp`
+  - Coverage: Groups A-E (20 tests) for budget determinism, propagation, multi-step consistency
+- ✅ Error handling and edge-case regression matrix
+  - Test file: `tests/rag/test_rag_error_handling_edge_cases_focused.cpp`
+  - Coverage: Groups A-E (23 tests) for malformed context, invalid budgets, partial failures, resource exhaustion
+- ✅ Safety/adversarial regression matrix for prompt and retrieved context payloads
+  - Existing coverage: `tests/rag/test_rag_prompt_injection.cpp`
+  - Extended with edge-case adversarial scenarios
+
+### In Progress / Planned
+- [ ] Benchmark regression gates for retrieval, judge, and end-to-end workflows
+  - Infrastructure: `tests/performance/test_rag_ttft_benchmark.cpp`
+  - Gap: Release-profile threshold mapping and validation
 
 ## Performance Targets
 
@@ -104,14 +118,24 @@ Forward-looking enhancements for retrieval quality, context reliability, evaluat
 ### Risk 1: retrieval divergence under mixed backend conditions
 **Severity:** High
 **Signal:** unstable ranking/output behavior under equivalent inputs.
-**Mitigation:** deterministic ordering rules and cross-path regression packs.
+**Mitigation Status:** 🟢 High confidence
+- Deterministic ordering rules implemented in context_assembler
+- Cross-path regression packs created: test_rag_budget_consistency_focused.cpp (Group C)
+- Same-budget determinism tests: test_rag_budget_consistency_focused.cpp (Group A1-A4)
 
 ### Risk 2: context budget drift across orchestration variants
 **Severity:** Medium
 **Signal:** inconsistent truncation/selection outcomes across paths.
-**Mitigation:** shared budget utilities and contract tests.
+**Mitigation Status:** 🟡 In progress
+- Shared budget utilities in place (ContextWindowBudget contract)
+- Contract tests created: test_rag_budget_consistency_focused.cpp (20 tests)
+- Multi-step consistency tests: test_rag_budget_consistency_focused.cpp (Group C1-C2)
+- Gap: Integration testing across all orchestration variants pending
 
 ### Risk 3: safety detection quality drift
 **Severity:** Medium
 **Signal:** increased false-negative or false-positive rates.
-**Mitigation:** calibration and scenario-based adversarial regressions.
+**Mitigation Status:** 🟡 Ongoing
+- Calibration infrastructure in place
+- Adversarial regression scenarios: test_rag_prompt_injection.cpp
+- Additional edge-case coverage: test_rag_error_handling_edge_cases_focused.cpp (malformed context tests)
