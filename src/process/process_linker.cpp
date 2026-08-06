@@ -483,7 +483,7 @@ std::vector<std::string> ProcessLinker::getMissingDocuments(
 
     // Collect already-attached doc types for this instance+node
     auto node_atts = getNodeAttachments(instance_id, node_id);
-    std::unordered_set<std::string> present_types;
+    std::set<std::string> present_types;
     for (const auto& att : node_atts) {
         // The attached_by convention: metadata["doc_type"] carries the type
         if (att.metadata.contains("doc_type") && att.metadata["doc_type"].is_string()) {
@@ -524,7 +524,7 @@ bool ProcessLinker::wouldCreateCycle(
 
     // Use DFS to check if there is a path from target → source
     // If yes, adding source → target would create a cycle
-    std::unordered_set<std::string> visited;
+    std::set<std::string> visited;
     return hasCyclePath_(source_id, target_id, visited, 0, max_depth);
 }
 
@@ -557,7 +557,7 @@ bool ProcessLinker::isLinkTargetValid(std::string_view target_id) const {
 bool ProcessLinker::hasCyclePath_(
     std::string_view source,
     std::string_view target,
-    std::set<std::string>std::unordered_set<std::string>& visited, visited,
+    std::set<std::string>& visited,
     int32_t depth,
     int32_t max_depth
 ) const {

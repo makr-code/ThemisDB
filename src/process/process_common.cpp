@@ -8,7 +8,7 @@
  */
 
 #include "process/process_common.h"
-#include <unordered_map>
+#include <map>
 #include <sstream>
 
 namespace themis::process {
@@ -18,7 +18,7 @@ namespace themis::process {
 // ─────────────────────────────────────────────────────────────────────────────
 
 std::string errorCodeToString(ProcessErrorCode code) noexcept {
-    static const std::unordered_map<int32_t, std::string> code_map = {
+    static const std::map<int32_t, std::string> code_map = {
         // Import/Deserialization
         {7600, "EMPTY_INPUT"},
         {7601, "INPUT_TOO_LARGE"},

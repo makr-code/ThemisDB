@@ -36,6 +36,7 @@
 #include "rag/knowledge_graph_retriever.h"
 #include "storage/rocksdb_wrapper.h"
 #include <functional>
+#include <map>
 #include <mutex>
 #include <nlohmann/json.hpp>
 #include <optional>

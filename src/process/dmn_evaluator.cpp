@@ -32,6 +32,7 @@
 
 #include <algorithm>
 #include <cctype>
+#include <map>
 #include <optional>
 #include <sstream>
 #include <stdexcept>
@@ -291,7 +292,7 @@ bool DmnEvaluator::loadFromXml(std::string_view dmn_xml) {
     std::string cur_tag;
     std::string attr_name;
     std::string attr_val;
-    std::unordered_map<std::string, std::string> attrs;
+    std::map<std::string, std::string> attrs;
     bool in_decision_table = false;
 
     // Active rule being built

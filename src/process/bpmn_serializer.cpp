@@ -39,10 +39,10 @@
 #include <algorithm>
 #include <cctype>
 #include <fstream>
+#include <map>
+#include <set>
 #include <sstream>
 #include <stdexcept>
-#include <unordered_map>
-#include <unordered_set>
 
 namespace themis {
 namespace process {
@@ -92,7 +92,7 @@ std::string_view stripNs(std::string_view name) {
 /// Parsed representation of a single XML element tag.
 struct XmlTag {
     std::string name;       ///< Local element name (namespace stripped).
-    std::unordered_map<std::string, std::string> attrs; ///< Attribute map.
+    std::map<std::string, std::string> attrs; ///< Attribute map.
     bool self_closing{false};
     bool is_close{false};   ///< True for </tag>.
 };
@@ -100,7 +100,7 @@ struct XmlTag {
 /// Parse attributes from the raw text between the tag name and '>' / '/>'
 /// (no regex; handles single- and double-quoted values).
 void parseAttrs(std::string_view src,
-                std::unordered_map<std::string, std::string>& out)
+                std::map<std::string, std::string>& out)
 {
     size_t i = 0;
     const size_t n = src.size();
@@ -392,7 +392,7 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
     }
 
     // Known flow-node local names.
-    static const std::unordered_set<std::string> kFlowNodeTags = {
+    static const std::set<std::string> kFlowNodeTags = {
         "startEvent", "endEvent",
         "intermediateCatchEvent", "intermediateThrowEvent",
         "boundaryEvent",
@@ -413,18 +413,18 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
     // ── BPMNDI state ──────────────────────────────────────────────────────
     // Track BPMNShape elements: bpmnElement → {x, y, width, height}
     struct BpmnBounds { float x{0}, y{0}, width{0}, height{0}; };
-    std::unordered_map<std::string, BpmnBounds> shape_bounds;
+    std::map<std::string, BpmnBounds> shape_bounds;
     bool in_bpmndi{false};         ///< Inside BPMNDiagram element
     bool in_shape{false};          ///< Inside BPMNShape element
     std::string shape_elem_ref;    ///< bpmnElement attr of current BPMNShape
 
     // Deduplication guard (duplicate IDs can appear in sub-process copies).
-    std::unordered_set<std::string> seen_node_ids;
+    std::set<std::string> seen_node_ids;
 
     // ── BPMN-S state ──────────────────────────────────────────────────────
     std::string current_flow_node_id;   ///< Non-self-closing flow node being parsed
     bool        in_extension_elements{false};
-    std::unordered_map<std::string, ProcessNodeInfo::DsgvoAnnotation> dsgvo_map;
+    std::map<std::string, ProcessNodeInfo::DsgvoAnnotation> dsgvo_map;
 
     auto tag_cb = [&](const XmlTag& t) {
         const std::string& tn = t.name;
@@ -897,7 +897,7 @@ std::string BpmnSerializer::validateStructure(
     }
 
     // 3. Build set of node IDs for validation
-    std::unordered_set<std::string> node_ids;
+    std::set<std::string> node_ids;
     for (const auto& node : nodes) {
         if (node.node_id.empty()) {
             return "Node with empty id encountered";

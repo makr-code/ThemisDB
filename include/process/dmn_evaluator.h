@@ -38,6 +38,7 @@
 
 #pragma once
 
+#include <map>
 #include <nlohmann/json.hpp>
 #include <optional>
 #include <string>

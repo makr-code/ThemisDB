@@ -109,7 +109,7 @@ struct XmlTag {
 };
 
 void parseAttrs(std::string_view src,
-                std::map<std::string, std::string>std::unordered_map<std::string, std::string>& out) out)
+                std::map<std::string, std::string>& out)
 {
     size_t i = 0;
     const size_t n = src.size();
@@ -460,7 +460,7 @@ AmlParseResult parseAml(std::string_view xml, size_t max_bytes)
 /// Convert a parsed ArisModel + ObjDef registry into an ImportResult.
 EpkArisXmlImporter::ImportResult buildImportResult(
     const ArisModel& model,
-    const std::map<std::string, ObjDefInfo>const std::unordered_map<std::string, ObjDefInfo>& obj_defs) obj_defs)
+    const std::map<std::string, ObjDefInfo>& obj_defs)
 {
     EpkArisXmlImporter::ImportResult res;
     res.ok          = true;

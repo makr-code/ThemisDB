@@ -206,7 +206,7 @@ json OcelExporter::buildEvents_(const ProcessInstance& inst) const {
 // ─────────────────────────────────────────────────────────────────────────────
 
 /*static*/ json OcelExporter::deriveObjectTypes_(const json& objects) {
-    std::unordered_set<std::string> seen;
+    std::set<std::string> seen;
     json types = json::array();
     for (const auto& obj : objects) {
         std::string t = obj.value("type", "");
@@ -222,7 +222,7 @@ json OcelExporter::buildEvents_(const ProcessInstance& inst) const {
 // ─────────────────────────────────────────────────────────────────────────────
 
 /*static*/ json OcelExporter::deriveEventTypes_(const json& events) {
-    std::unordered_set<std::string> seen;
+    std::set<std::string> seen;
     json types = json::array();
     for (const auto& evt : events) {
         std::string t = evt.value("type", "");
