@@ -34,7 +34,9 @@
 #include <algorithm>
 #include <cmath>
 #include <iomanip>
+#include <map>
 #include <numeric>
+#include <set>
 #include <sstream>
 #include <unordered_map>
 #include <unordered_set>
@@ -52,10 +54,10 @@ namespace {
 
 struct Graph {
     std::vector<std::string> node_ids;
-    std::unordered_map<std::string, int> node_index;  // node_id → index
-    std::vector<std::unordered_map<int, float>> adj;  // adjacency list (weighted)
-    std::vector<float> degree;                        // weighted degree per node
-    float total_weight{0.f};                          // 2m = sum of all edge weights
+    std::map<std::string, int> node_index;  // node_id → index (deterministic order)
+    std::vector<std::map<int, float>> adj;  // adjacency list (weighted, deterministic)
+    std::vector<float> degree;              // weighted degree per node
+    float total_weight{0.f};                // 2m = sum of all edge weights
 };
 
 Graph buildGraph(const json& normalized) {
@@ -106,7 +108,7 @@ Graph buildGraph(const json& normalized) {
 /// Simplified: ΔQ = (k_u_in / m) − (Σ(tot) * k_u / (2m)^2) * resolution
 float modularityGain(
     int u,
-    const std::unordered_set<int>& community_nodes,
+    const std::set<int>& community_nodes,
     const Graph& g,
     float resolution)
 {
@@ -127,7 +129,7 @@ float modularityGain(
 /// Sum of edge weights from node u into the given community.
 float communityAttachment(
     int u,
-    const std::unordered_set<int>& community_nodes,
+    const std::set<int>& community_nodes,
     const Graph& g)
 {
     float weight = 0.f;
@@ -154,7 +156,7 @@ bool louvainPhase(
         const int current_comm = assignment[u];
 
         // Collect all neighbouring communities
-        std::unordered_map<int, std::unordered_set<int>> comm_nodes;
+        std::map<int, std::set<int>> comm_nodes;
         for (int i = 0; i < n; ++i) {
             comm_nodes[assignment[i]].insert(i);
         }
@@ -164,7 +166,7 @@ bool louvainPhase(
         const float current_attachment = communityAttachment(u, comm_nodes[current_comm], g);
 
         // Evaluate each neighbouring community
-        std::unordered_set<int> visited_comms;
+        std::set<int> visited_comms;
         for (const auto& [v, _] : g.adj[u]) {
             const int nc = assignment[v];
             if (!visited_comms.insert(nc).second) continue;
