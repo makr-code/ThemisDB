@@ -5,7 +5,7 @@
  * @file test_rpc_grpc_contract_hardening_focused.cpp
  * @brief Phase 4 focused contract-hardening tests for the rpc_grpc module.
  *
- * Test IDs: RPC-01 through RPC-08
+ * Test IDs: RPC-01 through RPC-16
  * No file I/O, no network, deterministic only.
  *
  * @see include/rpc_grpc/rpc_grpc_api_contract.h
@@ -202,23 +202,42 @@ TEST(RpcGrpcContractHardening, RPC09_ErrorCodeSerialization) {
 
 TEST(RpcGrpcContractHardening, RPC10_StateTransitionInvariants) {
     // Valid forward transitions:
-    // Stopped(0) → Starting(1) → Active(2) → Stopping(3) → Stopped(0)
-
-    const int32_t valid_transitions[] = {
-        0, 1, // Stopped → Starting
-        1, 2, // Starting → Active
-        2, 3, // Active → Stopping
-        3, 0, // Stopping → Stopped
+    // Stopped -> Starting -> Active -> Stopping -> Stopped
+    const auto allows_transition = [](RpcServerState from, RpcServerState to) {
+        switch (from) {
+            case RpcServerState::Stopped:  return to == RpcServerState::Starting;
+            case RpcServerState::Starting: return to == RpcServerState::Active;
+            case RpcServerState::Active:   return to == RpcServerState::Stopping;
+            case RpcServerState::Stopping: return to == RpcServerState::Stopped;
+        }
+        return false;
     };
 
-    for (size_t i = 0; i < 8; i += 2) {
-        int32_t from = valid_transitions[i];
-        int32_t to   = valid_transitions[i + 1];
-        // Validate state range
-        EXPECT_GE(from, 0);
-        EXPECT_LE(from, 3);
-        EXPECT_GE(to, 0);
-        EXPECT_LE(to, 3);
+    const RpcServerState states[] = {
+        RpcServerState::Stopped,
+        RpcServerState::Starting,
+        RpcServerState::Active,
+        RpcServerState::Stopping
+    };
+
+    EXPECT_TRUE(allows_transition(RpcServerState::Stopped, RpcServerState::Starting));
+    EXPECT_TRUE(allows_transition(RpcServerState::Starting, RpcServerState::Active));
+    EXPECT_TRUE(allows_transition(RpcServerState::Active, RpcServerState::Stopping));
+    EXPECT_TRUE(allows_transition(RpcServerState::Stopping, RpcServerState::Stopped));
+
+    for (auto from : states) {
+        for (auto to : states) {
+            const bool is_forward_cycle =
+                (from == RpcServerState::Stopped  && to == RpcServerState::Starting) ||
+                (from == RpcServerState::Starting && to == RpcServerState::Active) ||
+                (from == RpcServerState::Active   && to == RpcServerState::Stopping) ||
+                (from == RpcServerState::Stopping && to == RpcServerState::Stopped);
+            if (!is_forward_cycle) {
+                EXPECT_FALSE(allows_transition(from, to))
+                    << "invalid transition accepted from "
+                    << static_cast<int32_t>(from) << " to " << static_cast<int32_t>(to);
+            }
+        }
     }
 }
 

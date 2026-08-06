@@ -185,6 +185,7 @@ static void BM_RPC05_ConcurrentDispatch(benchmark::State& state) {
     state.SetLabel("GATE-RPC-05: p99 <= 100 us per 10k iterations");
 }
 BENCHMARK(BM_RPC05_ConcurrentDispatch)
+    ->Threads(8)
     ->Repetitions(kRepetitions)
     ->ReportAggregatesOnly(true);
 

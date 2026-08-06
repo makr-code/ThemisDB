@@ -73,7 +73,7 @@ Frozen Contract:
 ```
 Focused Tests:
 ├─ File: tests/rpc_grpc/test_rpc_grpc_contract_hardening_focused.cpp
-├─ Test Cases: RPC-01 through RPC-08 (8 tests) ✅
+├─ Test Cases: RPC-01 through RPC-16 (16 tests) ✅
 ├─ Coverage:
 │  ├─ RPC-01: Error code uniqueness
 │  ├─ RPC-02: Error code range [8300, 8399]
@@ -95,12 +95,16 @@ Focused Tests:
 ```
 Release Gates:
 ├─ File: benchmarks/rpc_grpc/bench_rpc_grpc_release_gates.cpp
-├─ Benchmark Cases: GATE-RPC-01 through GATE-RPC-04 (4 gates) ✅
+├─ Benchmark Cases: GATE-RPC-01 through GATE-RPC-08 (8 gates) ✅
 ├─ Coverage:
 │  ├─ GATE-RPC-01: Error enum cast throughput (p99 ≤ 5 ns)
 │  ├─ GATE-RPC-02: Switch dispatch throughput (p99 ≤ 10 ns)
 │  ├─ GATE-RPC-03: RpcServiceDescriptor struct allocation (p99 ≤ 500 ns)
-│  └─ GATE-RPC-04: Batch error cast × 1000 (p99 ≤ 5 µs/batch)
+│  ├─ GATE-RPC-04: Batch error cast × 1000 (p99 ≤ 5 µs/batch)
+│  ├─ GATE-RPC-05: Concurrent dispatch (8 threads, p99 ≤ 100 µs/10k)
+│  ├─ GATE-RPC-06: State construction (p99 ≤ 50 µs/1k)
+│  ├─ GATE-RPC-07: Bulk descriptor ops (p99 ≤ 500 µs/500 desc)
+│  └─ GATE-RPC-08: Fail-closed throughput (p99 ≤ 1 ms/100k)
 ├─ Benchmark Properties:
 │  ├─ Deterministic: Yes (kCanonicalSeed = 42)
 │  ├─ Repetitions: 5 (variance estimation)
@@ -142,7 +146,7 @@ After (2026-08-06):
 ├─ [x] improving diagnostics consistency for lifecycle/registration fault classes
 │  └─ Evidence: rpc_grpc_api_contract.h (8-code taxonomy), tests RPC-01..04
 └─ [x] stabilizing benchmark-backed release guardrails for WAL-apply gRPC path
-   └─ Evidence: bench_rpc_grpc_release_gates.cpp (GATE-RPC-01..04 with p99 thresholds)
+   └─ Evidence: bench_rpc_grpc_release_gates.cpp (GATE-RPC-01..08 with p99 thresholds)
 ```
 
 ### 4. Acceptance Criteria Validation ✅
@@ -150,7 +154,7 @@ After (2026-08-06):
 | Criterion | Status | Evidence |
 |-----------|--------|----------|
 | All module acceptance criteria updated and traceable | ✅ | ROADMAP.md Phase 1-6 complete with links; Production Readiness Checklist aligned |
-| Evidence updated (build/tests) or explicit justified gap | ✅ | Tests (RPC-01..08) and benchmarks (GATE-RPC-01..04) present; implementation maturity documented |
+| Evidence updated (build/tests) or explicit justified gap | ✅ | Tests (RPC-01..16) and benchmarks (GATE-RPC-01..08) present; implementation maturity documented |
 | Parent epic task entry checked | ✅ | Epic #5624 continues with Phase 2-3 hardening (Target: Q4 2026) |
 | Status labels updated before close | ✅ | ROADMAP.md In-Progress items marked [x]; validation dates updated across all docs |
 | Close reason documented | ✅ | Q3 2026 development status validation complete; in-progress items delivered; Phase 2-3 hardening continues in Q4 |
@@ -162,8 +166,8 @@ After (2026-08-06):
 ### Strengths ✅
 1. **API Contract Frozen** - v1.0.0 contract stable for v1.x major line
 2. **Comprehensive Error Taxonomy** - 8 distinct error codes in reserved range [8300, 8399]
-3. **Complete Test Coverage** - RPC-01..08 tests cover contract invariants
-4. **Release-Gated Benchmarks** - GATE-RPC-01..04 with explicit p99 thresholds
+3. **Complete Test Coverage** - RPC-01..16 tests cover contract invariants and edge cases
+4. **Release-Gated Benchmarks** - GATE-RPC-01..08 with explicit p99 thresholds
 5. **Production-Ready Implementation** - grpc_plugin.h/cpp scored 94/85 out of 100
 6. **TLS Reload Support** - v0.2.0 extensions with credential reload on running server
 7. **Health/Observability** - v0.3.0 methods for service health and observability hooks
@@ -189,7 +193,7 @@ After (2026-08-06):
 
 **Reasoning**:
 1. ✅ All Q3 2026 priorities (3 in-progress items) validated and marked complete
-2. ✅ Evidence inventory comprehensive: 8 focused tests + 4 release benchmarks + frozen API contract
+2. ✅ Evidence inventory comprehensive: 16 focused tests + 8 release benchmarks + frozen API contract
 3. ✅ Documentation synchronized across ROADMAP, FUTURE_ENHANCEMENTS, README, ARCHITECTURE
 4. ✅ Validation dates updated to 2026-08-06 across all module docs
 5. ✅ Parent epic #5624 continues with Phase 2-3 hardening (Q4 2026 targets)
