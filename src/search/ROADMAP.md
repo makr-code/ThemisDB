@@ -1,7 +1,7 @@
 # Search Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-08-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
@@ -104,3 +104,34 @@ Production-capable search runtime exists for hybrid lexical/vector retrieval, di
 ## Breaking Changes
 
 No breaking search contract planned. Any contract-breaking change requires migration notes and changelog entry before merge.
+
+## Evidence and Verification
+
+### Build Infrastructure
+- Build target: module_search_* targets registered in tests/search/CMakeLists.txt
+- Test framework: GTest with module_search_<test_stem>_focused naming convention
+- Compilation model: source files required: hybrid_search.cpp, distributed_hybrid_search.cpp, faceted_search.cpp, query_expander.cpp (per tests/search/CMakeLists.txt:18-23)
+- Build status: Verified 2026-08-06 — search module test infrastructure is correctly registered with themis_register_module_focused_test() and TIMEOUT 120s
+
+### Test Evidence
+- Focused test suite: tests/search/test_search_analytics.cpp, test_search_future_interfaces.cpp, test_search_highlighter.cpp
+- Test labels: search module tests registered with LABELS search for ctest filtering
+- Test tier: unit tier (per tests/search/CMakeLists.txt:40)
+- Evidence gap: Full build/test run evidence pending RocksDB and fmt dependency resolution (documented 2026-08-06)
+
+### Audit and Documentation Evidence
+- AUDIT.md: Module source verification completed; core search surfaces present and documented
+- Verified compliance: Source-verifiable behavior claims (pass), Structured forward planning (pass), Historical tracking (pass), Core module docs synchronized (pass)
+- Open audit findings: Three medium/low-severity items tracked (SEA-AUD-01, SEA-AUD-02, SEA-AUD-03) — distributed merge hardening, fusion diagnostics, benchmark depth
+
+### Production Readiness Status
+- [x] core search surfaces documented and source-verified (verified per AUDIT.md)
+- [x] module-level security and failure behavior documented (per SECURITY.md)
+- [x] benchmark mapping documented in performance expectations (per PERFORMANCE_EXPECTATIONS.md)
+- [ ] remaining hardening tasks closed for distributed merge/utility edge paths (in progress per roadmap priorities)
+- [ ] release benchmark stabilization complete (Q3 2026 target, in progress)
+
+### Evidence Justification
+- Full build/test run: Currently blocked by transitive dependency (librocksdb-dev); module structure and test registration verified as conformant to module testing policy (2026-08-06)
+- Test coverage depth: Audit report indicates focused test presence with unit tier classification; integration and wave-level coverage tracked separately in top-level test integration suite
+- Benchmark evidence: Performance expectations documented and benchmarks defined; release gate execution evidence pending Q3 2026 stabilization completion
