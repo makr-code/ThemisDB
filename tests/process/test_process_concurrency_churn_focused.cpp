@@ -397,3 +397,173 @@ TEST_F(ConcurrencyChurnTest, C08_HighContentionLinkOperations) {
     EXPECT_EQ(all_links.size(), kNumThreads * kIterationsPerThread);
     EXPECT_EQ(all_attachments.size(), kNumThreads * kIterationsPerThread);
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// C-09: Concurrent read-modify-write operations without data races
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(ConcurrencyChurnTest, C09_ConcurrentReadModifyWrite) {
+    struct Counter {
+        int64_t value;
+    };
+
+    Counter shared{0};
+    std::mutex counter_mutex;
+    std::atomic<int64_t> successful_updates{0};
+    std::barrier<std::function<void()>> sync_point(kNumThreads, []{});
+
+    auto increment_and_check = [&shared, &counter_mutex, &successful_updates, &sync_point]() {
+        sync_point.arrive_and_wait();
+        
+        for (int32_t i = 0; i < kIterationsPerThread; ++i) {
+            std::lock_guard<std::mutex> lock(counter_mutex);
+            int64_t old_value = shared.value;
+            shared.value = old_value + 1;
+            successful_updates.fetch_add(1, std::memory_order_release);
+            
+            // Verify no skipped increments
+            EXPECT_EQ(shared.value, old_value + 1);
+        }
+    };
+
+    std::vector<std::thread> threads;
+    for (int32_t i = 0; i < kNumThreads; ++i) {
+        threads.emplace_back(increment_and_check);
+    }
+
+    for (auto& t : threads) {
+        t.join();
+    }
+
+    int64_t expected_updates = static_cast<int64_t>(kNumThreads) * kIterationsPerThread;
+    EXPECT_EQ(successful_updates.load(std::memory_order_acquire), expected_updates);
+    EXPECT_EQ(shared.value, expected_updates) << "Final counter value should equal total updates";
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// C-10: Multiple threads modifying shared state with try-lock pattern
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(ConcurrencyChurnTest, C10_TryLockWithFallback) {
+    std::map<std::string, int64_t> shared_map;
+    std::mutex map_mutex;
+    std::atomic<int64_t> successful_acquisitions{0};
+    std::atomic<int64_t> failed_acquisitions{0};
+    std::barrier<std::function<void()>> sync_point(kNumThreads, []{});
+
+    auto try_update_map = [&shared_map, &map_mutex, &successful_acquisitions, 
+                           &failed_acquisitions, &sync_point](int32_t thread_id) {
+        sync_point.arrive_and_wait();
+        
+        for (int32_t i = 0; i < kIterationsPerThread; ++i) {
+            std::string key = "key_" + std::to_string(i % 10);
+            
+            // Try to acquire lock with a small timeout
+            std::unique_lock<std::mutex> lock(map_mutex, std::defer_lock);
+            if (lock.try_lock_for(std::chrono::microseconds(10))) {
+                shared_map[key]++;
+                successful_acquisitions.fetch_add(1, std::memory_order_release);
+            } else {
+                failed_acquisitions.fetch_add(1, std::memory_order_release);
+            }
+        }
+    };
+
+    std::vector<std::thread> threads;
+    for (int32_t i = 0; i < kNumThreads; ++i) {
+        threads.emplace_back(try_update_map, i);
+    }
+
+    for (auto& t : threads) {
+        t.join();
+    }
+
+    int64_t total_attempts = successful_acquisitions.load(std::memory_order_acquire) +
+                            failed_acquisitions.load(std::memory_order_acquire);
+    int64_t expected_attempts = static_cast<int64_t>(kNumThreads) * kIterationsPerThread;
+    EXPECT_EQ(total_attempts, expected_attempts) << "All attempts should be accounted for";
+    EXPECT_GT(successful_acquisitions.load(std::memory_order_acquire), 0) 
+        << "At least some lock acquisitions should succeed";
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// C-11: Deadlock prevention with ordered lock acquisition
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(ConcurrencyChurnTest, C11_OrderedLockAcquisitionDeadlockPrevention) {
+    std::mutex lock_a, lock_b;
+    std::atomic<int64_t> operations_completed{0};
+    std::barrier<std::function<void()>> sync_point(kNumThreads, []{});
+
+    auto ordered_operation = [&lock_a, &lock_b, &operations_completed, &sync_point](int32_t thread_id) {
+        sync_point.arrive_and_wait();
+        
+        for (int32_t i = 0; i < kIterationsPerThread; ++i) {
+            // Always acquire locks in the same order to prevent deadlock
+            std::lock(lock_a, lock_b);  // std::lock prevents deadlock with ordered acquisition
+            {
+                std::lock_guard<std::mutex> lock_a_guard(lock_a, std::adopt_lock);
+                std::lock_guard<std::mutex> lock_b_guard(lock_b, std::adopt_lock);
+                
+                // Perform some operation
+                operations_completed.fetch_add(1, std::memory_order_release);
+            }
+        }
+    };
+
+    std::vector<std::thread> threads;
+    for (int32_t i = 0; i < kNumThreads; ++i) {
+        threads.emplace_back(ordered_operation, i);
+    }
+
+    for (auto& t : threads) {
+        t.join();
+    }
+
+    int64_t expected_ops = static_cast<int64_t>(kNumThreads) * kIterationsPerThread;
+    EXPECT_EQ(operations_completed.load(std::memory_order_acquire), expected_ops)
+        << "All operations should complete without deadlock";
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// C-12: Rapid acquire/release cycles under high contention stress
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(ConcurrencyChurnTest, C12_HighContentionLockCycles) {
+    std::vector<int64_t> counters(8, 0);  // One counter per potential contention point
+    std::vector<std::mutex> counter_locks(8);
+    std::atomic<int64_t> total_cycles{0};
+    std::barrier<std::function<void()>> sync_point(kNumThreads, []{});
+
+    auto rapid_cycle = [&counters, &counter_locks, &total_cycles, &sync_point](int32_t thread_id) {
+        sync_point.arrive_and_wait();
+        
+        for (int32_t i = 0; i < kIterationsPerThread; ++i) {
+            // Round-robin through all counters to maximize contention
+            for (size_t idx = 0; idx < counters.size(); ++idx) {
+                std::lock_guard<std::mutex> lock(counter_locks[idx]);
+                counters[idx]++;
+                total_cycles.fetch_add(1, std::memory_order_release);
+            }
+        }
+    };
+
+    std::vector<std::thread> threads;
+    for (int32_t i = 0; i < kNumThreads; ++i) {
+        threads.emplace_back(rapid_cycle, i);
+    }
+
+    for (auto& t : threads) {
+        t.join();
+    }
+
+    int64_t expected_cycles = static_cast<int64_t>(kNumThreads) * kIterationsPerThread * counters.size();
+    EXPECT_EQ(total_cycles.load(std::memory_order_acquire), expected_cycles);
+    
+    // Verify each counter has the correct final value
+    for (size_t idx = 0; idx < counters.size(); ++idx) {
+        int64_t expected_count = static_cast<int64_t>(kNumThreads) * kIterationsPerThread;
+        EXPECT_EQ(counters[idx], expected_count) 
+            << "Counter " << idx << " should have correct increment count";
+    }
+}
