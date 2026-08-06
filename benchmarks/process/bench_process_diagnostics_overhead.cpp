@@ -406,6 +406,329 @@ BENCHMARK(BM_GO01_ClassificationOverhead)
     ->ReportAggregatesOnly(true)
     ->UseRealTime();
 
+// ============================================================================
+// GO-02: Link Traversal Latency
+// ============================================================================
+
+struct GraphLink {
+    std::string source;
+    std::string target;
+    int weight{1};
+};
+
+static void BM_GO02_LinkTraversalLatency(benchmark::State& state) {
+    const int num_links = 1000;
+    std::vector<GraphLink> links;
+    
+    std::mt19937_64 rng(kCanonicalRngSeed);
+    std::uniform_int_distribution<> node_dist(0, 99);
+    
+    for (int i = 0; i < num_links; ++i) {
+        GraphLink link;
+        link.source = "node_" + std::to_string(node_dist(rng));
+        link.target = "node_" + std::to_string(node_dist(rng));
+        link.weight = 1 + (i % 10);
+        links.push_back(link);
+    }
+
+    std::vector<double> latencies;
+    for (auto _ : state) {
+        for (const auto& link : links) {
+            auto start = std::chrono::high_resolution_clock::now();
+            
+            // Simulate link traversal
+            std::string path = link.source + "->" + link.target;
+            benchmark::DoNotOptimize(path);
+            
+            auto end = std::chrono::high_resolution_clock::now();
+            auto duration_ms = 
+                std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+            latencies.push_back(static_cast<double>(duration_ms));
+        }
+    }
+
+    if (!latencies.empty()) {
+        std::sort(latencies.begin(), latencies.end());
+        size_t p95_idx = std::min(size_t(latencies.size() * 95 / 100), latencies.size() - 1);
+        double p95 = latencies[p95_idx];
+        state.counters["p95_ms"] = benchmark::Counter(p95, benchmark::Counter::kAvgIterations);
+    }
+
+    state.SetItemsProcessed(static_cast<int64_t>(latencies.size()));
+}
+
+BENCHMARK(BM_GO02_LinkTraversalLatency)
+    ->Iterations(5)
+    ->ReportAggregatesOnly(true)
+    ->UseRealTime();
+
+// ============================================================================
+// GO-03: Graph Construction Time
+// ============================================================================
+
+static void BM_GO03_GraphConstructionTime(benchmark::State& state) {
+    const int num_models = 100;
+    
+    std::vector<double> construction_times;
+    for (auto _ : state) {
+        state.PauseTiming();
+        std::vector<GraphLink> graph_edges;
+        state.ResumeTiming();
+
+        auto start = std::chrono::high_resolution_clock::now();
+
+        // Build graph with edges between models
+        for (int i = 0; i < num_models; ++i) {
+            for (int j = i + 1; j < num_models; ++j) {
+                GraphLink edge;
+                edge.source = "model_" + std::to_string(i);
+                edge.target = "model_" + std::to_string(j);
+                edge.weight = (i + j) % 5 + 1;
+                graph_edges.push_back(edge);
+            }
+        }
+
+        auto end = std::chrono::high_resolution_clock::now();
+        auto duration_ms = 
+            std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+        construction_times.push_back(static_cast<double>(duration_ms));
+        
+        benchmark::DoNotOptimize(graph_edges);
+    }
+
+    if (!construction_times.empty()) {
+        std::sort(construction_times.begin(), construction_times.end());
+        size_t p95_idx = std::min(size_t(construction_times.size() * 95 / 100), 
+                                  construction_times.size() - 1);
+        double p95 = construction_times[p95_idx];
+        state.counters["p95_ms"] = 
+            benchmark::Counter(p95, benchmark::Counter::kAvgIterations);
+    }
+
+    state.SetItemsProcessed(num_models * num_models / 2 * static_cast<int64_t>(state.iterations()));
+}
+
+BENCHMARK(BM_GO03_GraphConstructionTime)
+    ->Iterations(5)
+    ->ReportAggregatesOnly(true)
+    ->UseRealTime();
+
+// ============================================================================
+// GO-04: Cycle Detection Performance
+// ============================================================================
+
+static void BM_GO04_CycleDetectionPerformance(benchmark::State& state) {
+    const int num_nodes = 1000;
+    std::vector<std::vector<int>> adjacency_list(num_nodes);
+    
+    std::mt19937_64 rng(kCanonicalRngSeed);
+    std::uniform_int_distribution<> edge_dist(0, num_nodes - 1);
+    
+    // Create some edges
+    for (int i = 0; i < num_nodes / 2; ++i) {
+        int from = edge_dist(rng);
+        int to = edge_dist(rng);
+        if (from != to) {
+            adjacency_list[from].push_back(to);
+        }
+    }
+
+    std::vector<double> detection_times;
+    for (auto _ : state) {
+        auto start = std::chrono::high_resolution_clock::now();
+
+        // Detect cycles using DFS
+        std::vector<int> color(num_nodes, 0);  // 0=white, 1=gray, 2=black
+        bool has_cycle = false;
+
+        std::function<bool(int)> hasCycleDFS = [&](int u) -> bool {
+            color[u] = 1;
+            for (int v : adjacency_list[u]) {
+                if (color[v] == 1) {
+                    return true;
+                }
+                if (color[v] == 0 && hasCycleDFS(v)) {
+                    return true;
+                }
+            }
+            color[u] = 2;
+            return false;
+        };
+
+        for (int i = 0; i < num_nodes; ++i) {
+            if (color[i] == 0 && hasCycleDFS(i)) {
+                has_cycle = true;
+                break;
+            }
+        }
+
+        auto end = std::chrono::high_resolution_clock::now();
+        auto duration_ms = 
+            std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+        detection_times.push_back(static_cast<double>(duration_ms));
+        
+        benchmark::DoNotOptimize(has_cycle);
+    }
+
+    if (!detection_times.empty()) {
+        std::sort(detection_times.begin(), detection_times.end());
+        size_t p95_idx = std::min(size_t(detection_times.size() * 95 / 100), 
+                                  detection_times.size() - 1);
+        double p95 = detection_times[p95_idx];
+        state.counters["p95_ms"] = 
+            benchmark::Counter(p95, benchmark::Counter::kAvgIterations);
+    }
+
+    state.SetItemsProcessed(static_cast<int64_t>(detection_times.size()) * num_nodes);
+}
+
+BENCHMARK(BM_GO04_CycleDetectionPerformance)
+    ->Iterations(5)
+    ->ReportAggregatesOnly(true)
+    ->UseRealTime();
+
+// ============================================================================
+// GO-05: Community Detection
+// ============================================================================
+
+static void BM_GO05_CommunityDetection(benchmark::State& state) {
+    const int num_nodes = 500;
+    std::vector<std::vector<int>> adjacency_list(num_nodes);
+    
+    std::mt19937_64 rng(kCanonicalRngSeed);
+    std::uniform_int_distribution<> edge_dist(0, num_nodes - 1);
+    
+    // Create a simple graph with some community structure
+    for (int i = 0; i < num_nodes; ++i) {
+        // Add edges within community (nodes with similar IDs)
+        for (int j = 0; j < 5; ++j) {
+            int target = (i + (j % 10) + 1) % num_nodes;
+            if (i != target) {
+                adjacency_list[i].push_back(target);
+            }
+        }
+    }
+
+    std::vector<double> detection_times;
+    for (auto _ : state) {
+        auto start = std::chrono::high_resolution_clock::now();
+
+        // Simple community detection using connected components
+        std::vector<int> component(num_nodes, -1);
+        int num_components = 0;
+
+        for (int i = 0; i < num_nodes; ++i) {
+            if (component[i] == -1) {
+                // BFS to mark component
+                std::queue<int> q;
+                q.push(i);
+                component[i] = num_components;
+
+                while (!q.empty()) {
+                    int u = q.front();
+                    q.pop();
+
+                    for (int v : adjacency_list[u]) {
+                        if (component[v] == -1) {
+                            component[v] = num_components;
+                            q.push(v);
+                        }
+                    }
+                }
+                num_components++;
+            }
+        }
+
+        auto end = std::chrono::high_resolution_clock::now();
+        auto duration_ms = 
+            std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+        detection_times.push_back(static_cast<double>(duration_ms));
+        
+        benchmark::DoNotOptimize(num_components);
+    }
+
+    if (!detection_times.empty()) {
+        std::sort(detection_times.begin(), detection_times.end());
+        size_t p95_idx = std::min(size_t(detection_times.size() * 95 / 100), 
+                                  detection_times.size() - 1);
+        double p95 = detection_times[p95_idx];
+        state.counters["p95_ms"] = 
+            benchmark::Counter(p95, benchmark::Counter::kAvgIterations);
+    }
+
+    state.SetItemsProcessed(static_cast<int64_t>(detection_times.size()) * num_nodes);
+}
+
+BENCHMARK(BM_GO05_CommunityDetection)
+    ->Iterations(5)
+    ->ReportAggregatesOnly(true)
+    ->UseRealTime();
+
+// ============================================================================
+// GO-06: Complex Graph p95 Latency
+// ============================================================================
+
+static void BM_GO06_ComplexGraphP95Latency(benchmark::State& state) {
+    const int num_nodes = 5000;
+    std::vector<std::vector<int>> adjacency_list(num_nodes);
+    
+    std::mt19937_64 rng(kCanonicalRngSeed);
+    std::uniform_int_distribution<> edge_dist(0, num_nodes - 1);
+    
+    // Create a more complex graph with higher connectivity
+    for (int i = 0; i < num_nodes; ++i) {
+        int num_edges = 3 + (i % 5);
+        for (int j = 0; j < num_edges; ++j) {
+            int target = edge_dist(rng);
+            if (i != target) {
+                adjacency_list[i].push_back(target);
+            }
+        }
+    }
+
+    std::vector<double> operation_times;
+    for (auto _ : state) {
+        auto start = std::chrono::high_resolution_clock::now();
+
+        // Perform various operations on the complex graph
+        // 1. Count total edges
+        int total_edges = 0;
+        for (const auto& neighbors : adjacency_list) {
+            total_edges += neighbors.size();
+        }
+
+        // 2. Find node with most connections
+        int max_degree = 0;
+        for (const auto& neighbors : adjacency_list) {
+            max_degree = std::max(max_degree, static_cast<int>(neighbors.size()));
+        }
+
+        auto end = std::chrono::high_resolution_clock::now();
+        auto duration_ms = 
+            std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+        operation_times.push_back(static_cast<double>(duration_ms));
+        
+        benchmark::DoNotOptimize(total_edges);
+        benchmark::DoNotOptimize(max_degree);
+    }
+
+    if (!operation_times.empty()) {
+        std::sort(operation_times.begin(), operation_times.end());
+        size_t p95_idx = std::min(size_t(operation_times.size() * 95 / 100), 
+                                  operation_times.size() - 1);
+        double p95 = operation_times[p95_idx];
+        state.counters["p95_ms"] = 
+            benchmark::Counter(p95, benchmark::Counter::kAvgIterations);
+    }
+
+    state.SetItemsProcessed(static_cast<int64_t>(operation_times.size()) * num_nodes);
+}
+
+BENCHMARK(BM_GO06_ComplexGraphP95Latency)
+    ->Iterations(3)
+    ->ReportAggregatesOnly(true)
+    ->UseRealTime();
+
 }  // namespace themis::process::benchmark
 
 BENCHMARK_MAIN();
