@@ -35,6 +35,11 @@
  * | PROC_SERIALISE_FAILED       | Serialisation error (schema violation)       |
  * | PROC_DESERIALISE_FAILED     | Malformed input during deserialisation       |
  * | PROC_EXECUTION_TIMEOUT      | Workflow execution exceeded deadline         |
+ * | PROC_MAX_DEPTH_EXCEEDED      | Max nesting depth exceeded in model          |
+ * | PROC_MAX_ELEMENTS_EXCEEDED   | Max element count exceeded in model          |
+ * | PROC_MAX_CONTEXT_EXCEEDED    | Max retrieval context size exceeded          |
+ * | PROC_VALIDATION_FAILED       | Model validation failed                      |
+ * | PROC_LINKING_FAILED          | Process linking operation failed             |
  *
  * @section threading Threading Guarantees
  * - `BpmnSerializer` / `CmmnSerializer` are stateless; fully thread-safe.
@@ -55,6 +60,11 @@ enum class ProcError : int32_t {
     kSerialiserFailed    = 7602,
     kDeserialiserFailed  = 7603,
     kExecutionTimeout    = 7604,
+    kMaxDepthExceeded    = 7605,  ///< Max nesting depth exceeded
+    kMaxElementsExceeded = 7606,  ///< Max elements in model exceeded
+    kMaxContextSizeExceeded = 7607, ///< Max retrieval context size exceeded
+    kValidationFailed    = 7608,  ///< Model validation failed
+    kLinkingFailed       = 7609,  ///< Process linking operation failed
 };
 
 } // namespace themis::process

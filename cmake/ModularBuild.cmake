@@ -688,6 +688,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/process/llm_process_descriptor.cpp
     ../src/process/vcc_vpb_importer.cpp
     ../src/process/process_linker.cpp
+    ../src/process/process_diagnostics.cpp
     ../src/process/process_graph_rag.cpp
     ../src/process/cmmn_serializer.cpp
     ../src/process/fim_importer.cpp

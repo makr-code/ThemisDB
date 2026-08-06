@@ -35,6 +35,11 @@
 #include <optional>
 #include <string>
 #include <string_view>
+#include <atomic>
+#include <cstdint>
+#include <shared_mutex>
+#include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
@@ -131,6 +136,32 @@ struct ProcessLink {
  * - Attachments  : @c proc:attach:<instance_id>:<object_id>
  * - Links        : @c proc:link:<source_id>:<target_id>:<link_type_str>
  * - Required docs: @c proc:req_doc:<model_id>:<node_id>:<doc_type>
+ *
+ * @section runtime_bounds Runtime Boundaries and Guarantees
+ *
+ * ### Deterministic Behavior
+ * - All linking operations are thread-safe and deterministic.
+ * - No transactional guarantees across multiple operations; callers must
+ *   implement their own consistency protocols if needed.
+ * - State transitions follow a linear append model: operations are idempotent
+ *   (reapplying the same link does not change the result).
+ *
+ * ### Bounded Retrieval
+ * - All retrieval operations (getAttachments, getLinks, etc.) complete within
+ *   the configured timeout window (see kMaxOperationTimeoutMs in process_common.h).
+ * - Maximum retrieval depth for linked hierarchies is bounded by
+ *   kMaxRetrievalDepth (typically 50).
+ * - Accumulated context size during traversal is bounded by
+ *   kMaxRetrievalContextBytes (typically 1 MiB).
+ *
+ * ### Error Handling
+ * - All operations return explicit success/failure indicators (std::pair<bool, string>).
+ * - No silent failures; all error conditions are logged and signaled.
+ * - Link validation occurs before state commitment (fail-safe).
+ *
+ * @section threading Threading Guarantees
+ * ProcessLinker is thread-safe. Multiple threads may call any method concurrently
+ * provided the underlying RocksDBWrapper is thread-safe (which it is).
  */
 class ProcessLinker {
 public:
@@ -269,8 +300,106 @@ public:
         std::string_view model_id
     ) const;
 
+    // ── Cyclic dependency and integrity checks (Phase 3) ─────────────────────
+
+    /**
+     * @brief Detect if creating a link would introduce a cycle.
+     *
+     * Uses depth-first search to check if there is already a path from
+     * @p target_id back to @p source_id. If so, adding the link would
+     * create a cycle.
+     *
+     * @param source_id The process entity creating the link (source).
+     * @param target_id The process entity being linked to (target).
+     * @param max_depth Maximum depth to search (prevents infinite traversal).
+     *                  If 0, uses kMaxRetrievalDepth.
+     * @return true if a cycle would be created, false if link is safe.
+     */
+    [[nodiscard]] bool wouldCreateCycle(
+        std::string_view source_id,
+        std::string_view target_id,
+        int32_t max_depth = 0
+    ) const;
+
+    /**
+     * @brief Validate that a link target actually exists.
+     *
+     * Checks if the target entity is stored in the database or is a recognized
+     * system identifier. This prevents dangling references.
+     *
+     * @param target_id The target entity to validate.
+     * @return true if the target exists or is a valid system ID, false otherwise.
+     */
+    [[nodiscard]] bool isLinkTargetValid(std::string_view target_id) const;
+
 private:
     RocksDBWrapper& db_;
+
+    // Phase 2: Concurrency guards and conflict detection
+    mutable std::shared_mutex link_state_lock_;  ///< RWLock protecting link consistency
+    std::atomic<uint64_t> link_operation_counter_{0};  ///< Sequence counter for determinism
+    /**
+     * @brief Conflict descriptor for detecting concurrent modifications.
+     * Tracks which links/attachments were modified during a multi-step operation.
+     */
+    struct ConflictRecord {
+        uint64_t operation_id;
+        std::string affected_key;
+        int64_t timestamp_ms;
+        uint64_t version;
+        bool existed_before{false};
+        std::string previous_value;
+    };
+
+    std::unordered_map<uint64_t, std::vector<ConflictRecord>> rollback_records_;
+
+    // Phase 3: Cycle detection helpers
+    /**
+     * @brief DFS-based cycle detection: check if there is a path from @p target
+     * back to @p source in the link graph.
+     *
+     * @param source The source entity in the proposed link.
+     * @param target The target entity in the proposed link.
+     * @param visited Set of entities already visited in this traversal.
+     * @param depth Current traversal depth.
+     * @param max_depth Maximum depth before giving up (safety limit).
+     * @return true if a path exists from target → source.
+     */
+    [[nodiscard]] bool hasCyclePath_(
+        std::string_view source,
+        std::string_view target,
+        std::unordered_set<std::string>& visited,
+        int32_t depth,
+        int32_t max_depth
+    ) const;
+
+    /**
+     * @brief RAII guard for link operations requiring rollback on conflict.
+     * Automatically rolls back modifications if marked failed.
+     */
+    class LinkOperationGuard {
+    public:
+        LinkOperationGuard(ProcessLinker& linker, std::string_view operation_name)
+            : linker_(linker), operation_name_(operation_name),
+              operation_id_(linker.link_operation_counter_++),
+              failed_(false) {}
+        ~LinkOperationGuard();
+        
+        void recordModification(std::string_view key);
+        void markFailed() { failed_ = true; }
+        uint64_t getOperationId() const { return operation_id_; }
+        
+        // Prevent copying
+        LinkOperationGuard(const LinkOperationGuard&) = delete;
+        LinkOperationGuard& operator=(const LinkOperationGuard&) = delete;
+        
+    private:
+        ProcessLinker& linker_;
+        std::string operation_name_;
+        uint64_t operation_id_;
+        std::vector<ConflictRecord> modifications_;
+        bool failed_;
+    };
 
     std::string makeAttachKey_(std::string_view instance_id,
                                std::string_view object_id) const;
@@ -285,8 +414,22 @@ private:
     std::string makeReqDocKey_(std::string_view model_id,
                                std::string_view node_id,
                                std::string_view doc_type) const;
+
+    // Phase 2: Determinism and conflict detection helpers
+    /**
+     * @brief Check if a link operation conflicts with concurrent modifications.
+     * @param key The key being accessed.
+     * @param expected_version Expected version if known.
+     * @return true if conflict detected.
+     */
+    bool detectLinkingConflict_(std::string_view key, std::optional<uint64_t> expected_version = std::nullopt) const;
+
+    /**
+     * @brief Rollback a link operation that encountered a conflict.
+     * @param operation_id ID of the operation to roll back.
+     */
+    void rollbackLinkOperation_(uint64_t operation_id);
 };
 
 } // namespace process
 } // namespace themis
-

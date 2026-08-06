@@ -34,6 +34,9 @@
 #include <string>
 #include <string_view>
 #include <vector>
+#include <optional>
+#include <cstdint>
+#include <cstddef>
 
 namespace themis {
 namespace process {
@@ -61,12 +64,25 @@ enum class RetrievalMode {
 
 /**
  * @brief Result produced by @c ProcessLightRetriever::retrieve().
+ *
+ * @section resource_tracking Resource Tracking
+ * The result includes metrics about resource consumption during retrieval:
+ * - @c retrieval_time_ms: Time spent in retrieval operations.
+ * - @c context_size_bytes: Actual size of the assembled context.
+ * - @c resource_exhaustion_reason: If set, indicates graceful degradation occurred.
+ *   Examples: "max_context_size_exceeded", "retrieval_timeout", "no_results_found".
  */
 struct LightRetrievalResult {
     RetrievalMode used_mode;                      ///< Effective mode used
     std::string llm_context;                      ///< Assembled context for LLM
     std::vector<std::string> community_ids_used;  ///< Community IDs (GLOBAL mode)
     std::string instance_id_used;                 ///< Instance ID (LOCAL mode)
+
+    // Phase 2: Resource tracking and stress scenario support
+    int64_t retrieval_time_ms{0};                 ///< Milliseconds spent in retrieve()
+    size_t context_size_bytes{0};                 ///< Actual byte size of llm_context
+    bool degraded{false};                         ///< true if graceful degradation occurred
+    std::optional<std::string> resource_exhaustion_reason;  ///< Why degradation occurred
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -91,10 +107,37 @@ struct LightRetrievalResult {
  * All operations are read-only; thread safety is inherited from the underlying
  * @c ProcessGraphRag and @c ProcessCommunityDetector instances.
  *
+ * @section phase2_stress_hardening Phase 2: Stress Scenario Hardening
+ * ProcessLightRetriever now gracefully handles resource constraints:
+ *
+ * - **Bounded Retrieval Depth**: Maximum traversal depth is enforced; if exceeded,
+ *   retrieval returns partial context with @c degraded=true.
+ * - **Context Size Limits**: If accumulated context exceeds @c kMaxContextBytes,
+ *   retrieval gracefully truncates and signals @c resource_exhaustion_reason.
+ * - **Timeout Enforcement**: If retrieval exceeds @c kMaxRetrievalTimeMs,
+ *   returns best-effort partial result.
+ * - **Element Count Limits**: Parser respects maximum element count;
+ *   excess elements trigger graceful degradation.
+ *
  * @see ProcessCommunityDetector, ProcessGraphRag
  */
 class ProcessLightRetriever {
 public:
+    /**
+     * @brief Resource limits for stress scenario handling.
+     *
+     * These are configurable per-retriever instance via setResourceLimits().
+     */
+    struct ResourceLimits {
+        /// Maximum context size in bytes before truncation (default: 1 MiB)
+        size_t max_context_bytes{1024 * 1024};
+        /// Maximum retrieval timeout in milliseconds (default: 5000 ms)
+        int64_t max_retrieval_time_ms{5000};
+        /// Maximum graph traversal depth (default: 50)
+        size_t max_traversal_depth{50};
+        /// Maximum number of results before graceful degradation (default: 1000)
+        size_t max_result_elements{1000};
+    };
     /**
      * @param db                  RocksDB instance used to resolve instance→model_id.
      * @param graph_rag           Existing GraphRAG engine (LOCAL retrieval).
@@ -105,6 +148,20 @@ public:
         ProcessGraphRag&          graph_rag,
         ProcessCommunityDetector& community_detector
     );
+
+    /**
+     * @brief Set custom resource limits for stress scenario handling.
+     * @param limits The resource limits to enforce.
+     */
+    void setResourceLimits(const ResourceLimits& limits);
+
+    /**
+     * @brief Get the current resource limits.
+     * @return The active ResourceLimits.
+     */
+    [[nodiscard]] const ResourceLimits& getResourceLimits() const {
+        return resource_limits_;
+    }
 
     /**
      * @brief Retrieve LLM context for @p query using the selected mode.
@@ -132,9 +189,41 @@ private:
      */
     [[nodiscard]] RetrievalMode classifyQuery(std::string_view query) const;
 
+    // Phase 2: Stress scenario helpers
+    /**
+     * @brief Check if current time is within the configured timeout window.
+     * @param start_time_ms The time retrieval started.
+     * @return true if within timeout; false if exceeded.
+     */
+    [[nodiscard]] bool isWithinTimeoutBudget(int64_t start_time_ms) const;
+
+    /**
+     * @brief Check if accumulated context size is within limits.
+     * @param current_size_bytes Current accumulated size.
+     * @return true if within limits; false if exceeded.
+     */
+    [[nodiscard]] bool isWithinSizeBudget(size_t current_size_bytes) const;
+
+    /**
+     * @brief Check if traversal depth is within limits.
+     * @param current_depth The current traversal depth.
+     * @return true if within limits; false if exceeded.
+     */
+    [[nodiscard]] bool isWithinDepthBudget(size_t current_depth) const;
+
+    /**
+     * @brief Gracefully degrade retrieval result when resources are exhausted.
+     * @param reason Description of why degradation occurred.
+     * @return LightRetrievalResult marked as degraded with partial context.
+     */
+    [[nodiscard]] LightRetrievalResult createDegradedResult(std::string_view reason) const;
+
     ProcessGraphRag&          graph_rag_;
     ProcessCommunityDetector& community_detector_;
     RocksDBWrapper&           db_;
+
+    // Phase 2: Resource limit configuration
+    ResourceLimits resource_limits_;
 };
 
 } // namespace process
