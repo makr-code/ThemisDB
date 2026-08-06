@@ -446,7 +446,7 @@ TEST_F(ConcurrencyChurnTest, C09_ConcurrentReadModifyWrite) {
 
 TEST_F(ConcurrencyChurnTest, C10_TryLockWithFallback) {
     std::map<std::string, int64_t> shared_map;
-    std::mutex map_mutex;
+    std::timed_mutex map_mutex;
     std::atomic<int64_t> successful_acquisitions{0};
     std::atomic<int64_t> failed_acquisitions{0};
     std::barrier<std::function<void()>> sync_point(kNumThreads, []{});
@@ -459,7 +459,7 @@ TEST_F(ConcurrencyChurnTest, C10_TryLockWithFallback) {
             std::string key = "key_" + std::to_string(i % 10);
             
             // Try to acquire lock with a small timeout
-            std::unique_lock<std::mutex> lock(map_mutex, std::defer_lock);
+            std::unique_lock<std::timed_mutex> lock(map_mutex, std::defer_lock);
             if (lock.try_lock_for(std::chrono::microseconds(10))) {
                 shared_map[key]++;
                 successful_acquisitions.fetch_add(1, std::memory_order_release);

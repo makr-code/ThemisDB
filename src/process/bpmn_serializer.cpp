@@ -658,7 +658,7 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
                     parser_tracker.getDiagnosticMessage()
                 );
                 SPDLOG_WARN("[bpmn_serializer] {}", incident.toFormattedMessage());
-                return result;
+                return;
             }
 
             // Check for timeout
@@ -672,7 +672,7 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
                     parser_tracker.getDiagnosticMessage()
                 );
                 SPDLOG_WARN("[bpmn_serializer] {}", incident.toFormattedMessage());
-                return result;
+                return;
             }
 
             // Track non-self-closing flow nodes so extensionElements children can
@@ -690,7 +690,7 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
                             parser_tracker.getDiagnosticMessage()
                         );
                         SPDLOG_WARN("[bpmn_serializer] {}", incident.toFormattedMessage());
-                        return result;
+                        return;
                     }
                 }
             }

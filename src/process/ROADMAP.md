@@ -99,7 +99,7 @@ All phases completed 2026-08-06. See detailed breakdown below.
 **Objective:** Lock benchmark-backed release gates and validate p95/p99 behavior.
 
 **Deliverables:**
-- [x] 49 benchmark gates (CP/DP/GO/PP/LP/RP/BE gate codes) - exceeds target of 42
+- [x] 42 benchmark gates (CP/DP/GO/PP/LP/RP/BE gate codes)
 - [x] Release baseline comparisons
 - [x] p95/p99 envelope validation
 - [x] High-churn scenario benchmarks
@@ -111,7 +111,7 @@ All phases completed 2026-08-06. See detailed breakdown below.
 - Retrieval query: <100 ms (P95)
 - No regression >10% vs release baseline
 
-**Benchmark Gates (49 total, exceeds 42 target):**
+**Benchmark Gates (42 total):**
 - CP (Concurrency Performance): 6 gates - model CRUD, import/export, linking, retrieval
 - DP (Determinism Performance): 6 gates - conflict resolution, LWW overhead, rollback, version clocks
 - GO (Graph Operations): 6 gates - link traversal, graph construction, cycle detection, community detection

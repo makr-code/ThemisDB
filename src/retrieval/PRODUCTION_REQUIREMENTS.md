@@ -1,4 +1,4 @@
-> **Status:** 2026-07-18 – with current Retrieval code (LoRA artifacts Phase 3 complete, Hybrid rollout Phase A ready).
+> **Status:** 2026-07-18 – with current Retrieval code (LoRA artifacts Phase 1-7 complete, Hybrid rollout Phase A ready).
 
 # ThemisDB Retrieval Module - Production Requirements
 

@@ -157,7 +157,7 @@ All public APIs in `include/process/` have complete Doxygen documentation follow
   - kSuccess (0)
   - kValidationFailed (100) – @brief: Input validation failed
   - kSerializationFailed (101) – @brief: XML/JSON serialization failed
-  - kDeserializationFailed (102) – @brief: XML/JSON deserialization failed
+  - kDeserialiserFailed (7603) – @brief: XML/JSON deserialization failed
   - kLinkingFailed (200) – @brief: Linking operation failed
   - kRetrievalFailed (300) – @brief: Retrieval operation failed
   - (... additional error codes documented)

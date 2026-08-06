@@ -258,10 +258,9 @@ CmmnSerializer::ImportResult CmmnSerializer::importXml(std::string_view cmmn_xml
     // Phase 3: Validate input before parsing
     auto validation = SerializerInputValidator::validateInput(
         cmmn_xml,
-        kMaxCmmnXmlBytes,
-        ProcError::kDeserialiserFailed
+        "CMMN 1.1"
     );
-    if (!validation.valid) {
+    if (!validation.ok) {
         result.ok      = false;
         result.message = validation.error_message;
         auto incident = ProcessDiagnostics::createMalformedInputIncident(
