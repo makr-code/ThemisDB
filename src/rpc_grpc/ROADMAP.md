@@ -1,7 +1,7 @@
 # RPC gRPC Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-08-06 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
@@ -10,9 +10,9 @@ Production-capable gRPC RPC plugin runtime exists for server lifecycle operation
 
 ## In Progress
 
-- [~] hardening credential reload and runtime service transition edge behavior (Target: Q3 2026)
-- [~] improving diagnostics consistency for lifecycle/registration fault classes (Target: Q3 2026)
-- [~] stabilizing benchmark-backed release guardrails for WAL-apply gRPC path (Target: Q3 2026)
+- [x] hardening credential reload and runtime service transition edge behavior (Target: Q3 2026) — evidence: grpc_plugin.h:73-75 (reloadTls), tests RPC-05..RPC-07, benchmarks GATE-RPC-03
+- [x] improving diagnostics consistency for lifecycle/registration fault classes (Target: Q3 2026) — evidence: include/rpc_grpc/rpc_grpc_api_contract.h (error taxonomy), tests RPC-01..RPC-04
+- [x] stabilizing benchmark-backed release guardrails for WAL-apply gRPC path (Target: Q3 2026) — evidence: benchmarks/rpc_grpc/bench_rpc_grpc_release_gates.cpp (GATE-RPC-01..04 with p99 thresholds)
 
 ## Planned Features
 
