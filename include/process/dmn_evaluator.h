@@ -38,6 +38,7 @@
 
 #pragma once
 
+#include <map>
 #include <nlohmann/json.hpp>
 #include <optional>
 #include <string>
@@ -196,7 +197,7 @@ public:
     ) const;
 
 private:
-    std::unordered_map<std::string, DecisionTable> tables_;
+    std::map<std::string, DecisionTable> tables_;
 
     /// Evaluate a rule row against the input context.
     [[nodiscard]] static bool matchRule_(

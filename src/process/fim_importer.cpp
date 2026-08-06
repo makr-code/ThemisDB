@@ -35,6 +35,7 @@
 
 #include <algorithm>
 #include <cctype>
+#include <map>
 #include <nlohmann/json.hpp>
 #include <sstream>
 #include <stdexcept>
@@ -84,13 +85,13 @@ static std::string unescapeXml(std::string_view s) {
 /// Parsed representation of a single XML element tag.
 struct XmlTag {
     std::string name;
-    std::unordered_map<std::string, std::string> attrs;
+    std::map<std::string, std::string> attrs;
     bool self_closing{false};
     bool is_close{false};
 };
 
 static void parseAttrs(std::string_view src,
-                       std::unordered_map<std::string, std::string>& out)
+                       std::map<std::string, std::string>& out)
 {
     size_t i = 0;
     const size_t n = src.size();

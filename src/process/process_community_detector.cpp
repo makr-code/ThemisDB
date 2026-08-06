@@ -34,7 +34,9 @@
 #include <algorithm>
 #include <cmath>
 #include <iomanip>
+#include <map>
 #include <numeric>
+#include <set>
 #include <sstream>
 #include <unordered_map>
 #include <unordered_set>
@@ -52,10 +54,10 @@ namespace {
 
 struct Graph {
     std::vector<std::string> node_ids;
-    std::unordered_map<std::string, int> node_index;  // node_id → index
-    std::vector<std::unordered_map<int, float>> adj;  // adjacency list (weighted)
-    std::vector<float> degree;                        // weighted degree per node
-    float total_weight{0.f};                          // 2m = sum of all edge weights
+    std::map<std::string, int> node_index;  // node_id → index (deterministic order)
+    std::vector<std::map<int, float>> adj;  // adjacency list (weighted, deterministic)
+    std::vector<float> degree;              // weighted degree per node
+    float total_weight{0.f};                // 2m = sum of all edge weights
 };
 
 Graph buildGraph(const json& normalized) {
@@ -106,7 +108,7 @@ Graph buildGraph(const json& normalized) {
 /// Simplified: ΔQ = (k_u_in / m) − (Σ(tot) * k_u / (2m)^2) * resolution
 float modularityGain(
     int u,
-    const std::unordered_set<int>& community_nodes,
+    const std::set<int>& community_nodes,
     const Graph& g,
     float resolution)
 {
@@ -127,7 +129,7 @@ float modularityGain(
 /// Sum of edge weights from node u into the given community.
 float communityAttachment(
     int u,
-    const std::unordered_set<int>& community_nodes,
+    const std::set<int>& community_nodes,
     const Graph& g)
 {
     float weight = 0.f;
@@ -154,7 +156,7 @@ bool louvainPhase(
         const int current_comm = assignment[u];
 
         // Collect all neighbouring communities
-        std::unordered_map<int, std::unordered_set<int>> comm_nodes;
+        std::map<int, std::set<int>> comm_nodes;
         for (int i = 0; i < n; ++i) {
             comm_nodes[assignment[i]].insert(i);
         }
@@ -164,7 +166,7 @@ bool louvainPhase(
         const float current_attachment = communityAttachment(u, comm_nodes[current_comm], g);
 
         // Evaluate each neighbouring community
-        std::unordered_set<int> visited_comms;
+        std::set<int> visited_comms;
         for (const auto& [v, _] : g.adj[u]) {
             const int nc = assignment[v];
             if (!visited_comms.insert(nc).second) continue;
@@ -219,7 +221,7 @@ std::vector<ProcessCommunity> ProcessCommunityDetector::detect(
     if (n == 0) return {};
 
     // Build a lookup: node_id → node name/description for report generation
-    std::unordered_map<std::string, std::string> node_names;
+    std::map<std::string, std::string> node_names;
     for (const auto& node_json : normalized["nodes"]) {
         const std::string id = node_json.value("id", "");
         const std::string nm = node_json.value("name",
@@ -240,7 +242,7 @@ std::vector<ProcessCommunity> ProcessCommunityDetector::detect(
     // Phase 2: build super-graph and repeat (one level of coarsening)
     if (n > 1) {
         // Map old community labels to [0..num_comms)
-        std::unordered_map<int, int> label_remap;
+        std::map<int, int> label_remap;
         int comm_count = 0;
         for (int label : assignment) {
             if (label_remap.find(label) == label_remap.end()) {
@@ -283,7 +285,7 @@ std::vector<ProcessCommunity> ProcessCommunityDetector::detect(
     }
 
     // Collect communities
-    std::unordered_map<int, std::vector<int>> comm_map;
+    std::map<int, std::vector<int>> comm_map;
     for (int u = 0; u < n; ++u) {
         comm_map[assignment[u]].push_back(u);
     }
@@ -305,7 +307,7 @@ std::vector<ProcessCommunity> ProcessCommunityDetector::detect(
         // Compute local modularity contribution
         float sum_in = 0.f;
         float sum_tot = 0.f;
-        std::unordered_set<int> member_set(members.begin(), members.end());
+        std::set<int> member_set(members.begin(), members.end());
         for (int u : members) {
             sum_tot += g.degree[u];
             for (int v : members) {

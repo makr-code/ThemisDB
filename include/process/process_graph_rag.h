@@ -36,6 +36,7 @@
 #include "rag/knowledge_graph_retriever.h"
 #include "storage/rocksdb_wrapper.h"
 #include <functional>
+#include <map>
 #include <mutex>
 #include <nlohmann/json.hpp>
 #include <optional>
@@ -130,7 +131,7 @@ struct ProcessRagContext {
     std::string llm_prompt;
 
     // Relevance scores (node_id → score) ─────────────────────────────────
-    std::unordered_map<std::string, float> node_scores;
+    std::map<std::string, float> node_scores;
     float overall_relevance{0.f};
 };
 
@@ -426,7 +427,7 @@ private:
         SlaAlertCallback callback;
     };
     mutable std::mutex sla_rules_mutex_;
-    std::unordered_map<std::string, SlaRuleEntry> sla_rules_;
+    std::map<std::string, SlaRuleEntry> sla_rules_;
 
     /// Fire an SLA alert to the registered callback (if any) for @p instance_id.
     /// Exceptions from the callback are caught and logged.

@@ -42,6 +42,8 @@
 
 #include <algorithm>
 #include <chrono>
+#include <map>
+#include <set>
 #include <sstream>
 #include <stdexcept>
 
@@ -930,7 +932,7 @@ ProcessModelResult ProcessModelManager::validateModelConsistency(
 
     // 4. Validate nodes
     size_t node_count = 0;
-    std::unordered_set<std::string> node_ids;
+    std::set<std::string> node_ids;
     if (record.normalized.contains("nodes") && record.normalized["nodes"].is_array()) {
         const auto& nodes = record.normalized["nodes"];
         node_count = nodes.size();
@@ -960,7 +962,7 @@ ProcessModelResult ProcessModelManager::validateModelConsistency(
 
     // 5. Validate edges
     size_t edge_count = 0;
-    std::unordered_map<std::string, std::vector<std::string>> adjacency;
+    std::map<std::string, std::vector<std::string>> adjacency;
     if (record.normalized.contains("edges") && record.normalized["edges"].is_array()) {
         const auto& edges = record.normalized["edges"];
         edge_count = edges.size();
@@ -1007,8 +1009,8 @@ ProcessModelResult ProcessModelManager::validateModelConsistency(
     // 6. Perform basic cycle detection (bounded depth-first search)
     if (!node_ids.empty() && !adjacency.empty()) {
         for (const auto& start_node : node_ids) {
-            std::unordered_set<std::string> visited;
-            std::unordered_set<std::string> rec_stack;
+            std::set<std::string> visited;
+            std::set<std::string> rec_stack;
 
             std::function<bool(const std::string&, size_t)> dfs =
                 [&](const std::string& node_id, size_t depth) -> bool {

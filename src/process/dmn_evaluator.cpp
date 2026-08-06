@@ -32,6 +32,7 @@
 
 #include <algorithm>
 #include <cctype>
+#include <map>
 #include <optional>
 #include <sstream>
 #include <stdexcept>
@@ -262,20 +263,24 @@ bool DmnEvaluator::loadFromXml(std::string_view dmn_xml) {
     if (dmn_xml.empty()) return false;
 
     // Security guard: 10 MiB
-    if (dmn_xml.size() > 10 * 1024 * 1024) {
+    // Use explicit unsigned multiplication to avoid overflow warnings
+    constexpr size_t MAX_DMN_SIZE = 10UL * 1024UL * 1024UL;  // 10 MiB
+    if (dmn_xml.size() > MAX_DMN_SIZE) {
         SPDLOG_ERROR("[DmnEvaluator] DMN XML exceeds 10 MiB size limit");
         return false;
     }
 
     // Helper: strip namespace prefix
+    // Thread-safe: pure function, no captures, no shared state access
     auto stripNs = [](std::string_view tag) -> std::string_view {
-        const auto col = tag.find(':');
-        return col == std::string_view::npos ? tag : tag.substr(col + 1);
+       const auto col = tag.find(':');
+       return col == std::string_view::npos ? tag : tag.substr(col + 1);
     };
 
+    // Thread-safe: pure function, no captures, no shared state access
     auto toLower = [](std::string s) {
-        for (char& c : s) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
-        return s;
+       for (char& c : s) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+       return s;
     };
 
     // State-machine tokenizer (reuses BpmnSerializer approach)
@@ -287,7 +292,7 @@ bool DmnEvaluator::loadFromXml(std::string_view dmn_xml) {
     std::string cur_tag;
     std::string attr_name;
     std::string attr_val;
-    std::unordered_map<std::string, std::string> attrs;
+    std::map<std::string, std::string> attrs;
     bool in_decision_table = false;
 
     // Active rule being built

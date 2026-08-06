@@ -34,6 +34,8 @@
 #include <ctime>
 #include <iomanip>
 #include <limits>
+#include <map>
+#include <set>
 #include <sstream>
 #include <unordered_map>
 #include <unordered_set>
@@ -157,7 +159,7 @@ json OcelExporter::buildEvents_(const ProcessInstance& inst) const {
                       });
 
     // Try to load the process model for node names
-    std::unordered_map<std::string, std::string> node_names;
+    std::map<std::string, std::string> node_names;
     auto model_opt = models_.load(inst.process_definition_id);
     if (model_opt.has_value() &&
         model_opt->normalized.contains("nodes")) {
@@ -204,7 +206,7 @@ json OcelExporter::buildEvents_(const ProcessInstance& inst) const {
 // ─────────────────────────────────────────────────────────────────────────────
 
 /*static*/ json OcelExporter::deriveObjectTypes_(const json& objects) {
-    std::unordered_set<std::string> seen;
+    std::set<std::string> seen;
     json types = json::array();
     for (const auto& obj : objects) {
         std::string t = obj.value("type", "");
@@ -220,7 +222,7 @@ json OcelExporter::buildEvents_(const ProcessInstance& inst) const {
 // ─────────────────────────────────────────────────────────────────────────────
 
 /*static*/ json OcelExporter::deriveEventTypes_(const json& events) {
-    std::unordered_set<std::string> seen;
+    std::set<std::string> seen;
     json types = json::array();
     for (const auto& evt : events) {
         std::string t = evt.value("type", "");

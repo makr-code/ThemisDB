@@ -32,7 +32,8 @@
 #include "utils/logger.h"
 
 #include <algorithm>
-#include <unordered_set>
+#include <map>
+#include <set>
 
 namespace themis {
 namespace process {
@@ -58,7 +59,7 @@ json ObjectCentricTracer::buildOcelLog(std::string_view instance_id) const {
     const auto attachments = linker_.getAttachments(instance_id);
 
     // Collect distinct object types (collections)
-    std::unordered_set<std::string> object_types_set;
+    std::set<std::string> object_types_set;
     for (const auto& att : attachments) {
         object_types_set.insert(att.object_collection);
     }
@@ -132,7 +133,7 @@ json ObjectCentricTracer::computeDfmg(
     }
 
     // Collect node IDs
-    std::unordered_set<std::string> node_set;
+    std::set<std::string> node_set;
     for (const auto& n : normalized["nodes"]) {
         const std::string id = n.value("id", "");
         if (!id.empty()) node_set.insert(id);
@@ -142,7 +143,7 @@ json ObjectCentricTracer::computeDfmg(
     // An arc is counted for each edge whose label / metadata references object_type,
     // or (when object_type is non-empty) for all edges as a baseline DFMG approach.
     // O(n) over edges — meets the performance target.
-    std::unordered_map<std::string, std::unordered_map<std::string, int>> freq;
+    std::map<std::string, std::map<std::string, int>> freq;
     const std::string obj_type_str(object_type);
 
     for (const auto& e : normalized["edges"]) {
@@ -212,8 +213,8 @@ ObjectCentricTracer::analyze(std::string_view model_id) const
     if (!normalized.contains("edges")) return result;
 
     // in_degree_by_type[node][obj_type]  and  out_degree_by_type[node][obj_type]
-    std::unordered_map<std::string, std::unordered_map<std::string, int>> in_deg;
-    std::unordered_map<std::string, std::unordered_map<std::string, int>> out_deg;
+    std::map<std::string, std::map<std::string, int>> in_deg;
+    std::map<std::string, std::map<std::string, int>> out_deg;
 
     for (const auto& e : normalized["edges"]) {
         const std::string from = e.value("from", e.value("source", ""));
@@ -232,8 +233,8 @@ ObjectCentricTracer::analyze(std::string_view model_id) const
         in_deg[to][obj_type]++;
     }
 
-    std::unordered_set<std::string> conv_set;
-    std::unordered_set<std::string> div_set;
+    std::set<std::string> conv_set;
+    std::set<std::string> div_set;
 
     for (const auto& [node, type_map] : in_deg) {
         for (const auto& [type, cnt] : type_map) {

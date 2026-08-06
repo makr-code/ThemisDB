@@ -31,14 +31,16 @@
 #pragma once
 
 #include "storage/rocksdb_wrapper.h"
+#include <atomic>
+#include <cstdint>
+#include <map>
 #include "process/process_diagnostics.h"
 #include <nlohmann/json.hpp>
 #include <optional>
+#include <set>
+#include <shared_mutex>
 #include <string>
 #include <string_view>
-#include <atomic>
-#include <cstdint>
-#include <shared_mutex>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -400,7 +402,7 @@ private:
         std::string previous_value;
     };
 
-    std::unordered_map<uint64_t, std::vector<ConflictRecord>> rollback_records_;
+    std::map<uint64_t, std::vector<ConflictRecord>> rollback_records_;
 
     // Phase 3: Cycle detection helpers
     /**
@@ -417,7 +419,7 @@ private:
     [[nodiscard]] bool hasCyclePath_(
         std::string_view source,
         std::string_view target,
-        std::unordered_set<std::string>& visited,
+        std::set<std::string>& visited,
         int32_t depth,
         int32_t max_depth
     ) const;
