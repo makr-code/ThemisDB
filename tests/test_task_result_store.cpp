@@ -83,7 +83,8 @@ protected:
 // ============================================================================
 
 TEST_F(TaskResultStoreTest, StoreAndRetrieve_SingleResult) {
-    store_->store(makeResult("task1", 1000));
+    auto err = store_->store(makeResult("task1", 1000));
+    EXPECT_EQ(err, SchedulerError::kSuccess);
     auto results = store_->getResults("task1");
     ASSERT_EQ(results.size(), 1u);
     EXPECT_EQ(results[0].task_id, "task1");
@@ -97,7 +98,8 @@ TEST_F(TaskResultStoreTest, GetResults_EmptyTask_ReturnsEmpty) {
 
 TEST_F(TaskResultStoreTest, StoreMultiple_ReturnsAll) {
     for (int i = 1; i <= 3; ++i) {
-        store_->store(makeResult("task_m", static_cast<int64_t>(i) * 1000));
+        auto err = store_->store(makeResult("task_m", static_cast<int64_t>(i) * 1000));
+        EXPECT_EQ(err, SchedulerError::kSuccess);
     }
     auto results = store_->getResults("task_m");
     EXPECT_EQ(results.size(), 3u);
@@ -105,7 +107,8 @@ TEST_F(TaskResultStoreTest, StoreMultiple_ReturnsAll) {
 
 TEST_F(TaskResultStoreTest, GetResults_WithLimit) {
     for (int i = 1; i <= 4; ++i) {
-        store_->store(makeResult("task_lim", static_cast<int64_t>(i) * 1000));
+        auto err = store_->store(makeResult("task_lim", static_cast<int64_t>(i) * 1000));
+        EXPECT_EQ(err, SchedulerError::kSuccess);
     }
     auto results = store_->getResults("task_lim", 2);
     EXPECT_EQ(results.size(), 2u);
@@ -121,9 +124,12 @@ TEST_F(TaskResultStoreTest, GetLatestResult_NoResults_ReturnsNullopt) {
 }
 
 TEST_F(TaskResultStoreTest, GetLatestResult_ReturnsNewest) {
-    store_->store(makeResult("task_lat", 1000));
-    store_->store(makeResult("task_lat", 3000));
-    store_->store(makeResult("task_lat", 2000));
+    auto err1 = store_->store(makeResult("task_lat", 1000));
+    auto err2 = store_->store(makeResult("task_lat", 3000));
+    auto err3 = store_->store(makeResult("task_lat", 2000));
+    EXPECT_EQ(err1, SchedulerError::kSuccess);
+    EXPECT_EQ(err2, SchedulerError::kSuccess);
+    EXPECT_EQ(err3, SchedulerError::kSuccess);
     auto latest = store_->getLatestResult("task_lat");
     ASSERT_TRUE(latest.has_value());
     // The newest timestamp should be returned
@@ -137,7 +143,8 @@ TEST_F(TaskResultStoreTest, GetLatestResult_ReturnsNewest) {
 TEST_F(TaskResultStoreTest, MaxPerTask_OldestPruned) {
     // max_per_task = 5; store 7 results
     for (int i = 1; i <= 7; ++i) {
-        store_->store(makeResult("task_cap", static_cast<int64_t>(i) * 1000));
+        auto err = store_->store(makeResult("task_cap", static_cast<int64_t>(i) * 1000));
+        EXPECT_EQ(err, SchedulerError::kSuccess);
     }
     auto results = store_->getResults("task_cap");
     // Should retain at most 5
@@ -149,9 +156,12 @@ TEST_F(TaskResultStoreTest, MaxPerTask_OldestPruned) {
 // ============================================================================
 
 TEST_F(TaskResultStoreTest, MultipleTasksIsolated) {
-    store_->store(makeResult("taskA", 1000));
-    store_->store(makeResult("taskB", 2000));
-    store_->store(makeResult("taskA", 3000));
+    auto err1 = store_->store(makeResult("taskA", 1000));
+    auto err2 = store_->store(makeResult("taskB", 2000));
+    auto err3 = store_->store(makeResult("taskA", 3000));
+    EXPECT_EQ(err1, SchedulerError::kSuccess);
+    EXPECT_EQ(err2, SchedulerError::kSuccess);
+    EXPECT_EQ(err3, SchedulerError::kSuccess);
 
     auto resA = store_->getResults("taskA");
     auto resB = store_->getResults("taskB");
@@ -167,7 +177,8 @@ TEST_F(TaskResultStoreTest, MultipleTasksIsolated) {
 // ============================================================================
 
 TEST_F(TaskResultStoreTest, FailureResult_StoredAndRetrieved) {
-    store_->store(makeResult("task_fail", 5000, /*success=*/false));
+    auto err = store_->store(makeResult("task_fail", 5000, /*success=*/false));
+    EXPECT_EQ(err, SchedulerError::kSuccess);
     auto results = store_->getResults("task_fail");
     ASSERT_EQ(results.size(), 1u);
     EXPECT_FALSE(results[0].success);
@@ -214,4 +225,35 @@ TEST(TaskExecutionResultSerializationTest, JsonRoundTrip_Failure) {
 
     EXPECT_EQ(parsed.success, false);
     EXPECT_EQ(parsed.error,   "timeout");
+}
+
+// ============================================================================
+// Retention Limit Enforcement (PRODUCTION FIX)
+// ============================================================================
+
+TEST_F(TaskResultStoreTest, RetentionLimit_EnforcedBeforeWrite) {
+    // Create a store with a small limit (3 results per task)
+    auto store_small = std::make_unique<TaskResultStore>(*storage_, /*max_per_task=*/3);
+    
+    // Store 3 results successfully
+    auto err1 = store_small->store(makeResult("task_limit", 1000));
+    auto err2 = store_small->store(makeResult("task_limit", 2000));
+    auto err3 = store_small->store(makeResult("task_limit", 3000));
+    
+    EXPECT_EQ(err1, SchedulerError::kSuccess);
+    EXPECT_EQ(err2, SchedulerError::kSuccess);
+    EXPECT_EQ(err3, SchedulerError::kSuccess);
+    
+    // 4th store should be rejected with kRetentionLimitExceeded
+    auto err_limit = store_small->store(makeResult("task_limit", 4000));
+    EXPECT_EQ(err_limit, SchedulerError::kRetentionLimitExceeded);
+    
+    // Verify only 3 results are stored (the rejected one was not added)
+    auto results = store_small->getResults("task_limit");
+    EXPECT_EQ(results.size(), 3u);
+}
+
+TEST_F(TaskResultStoreTest, RetentionLimit_StorageError) {
+    // This test would verify storage failures return kInternalError
+    // (would require mocking RocksDBWrapper)
 }

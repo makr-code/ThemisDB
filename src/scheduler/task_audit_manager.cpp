@@ -24,6 +24,10 @@
 #include <algorithm>
 #include <unordered_set>
 #include <stdexcept>
+#include <openssl/hmac.h>
+#include <openssl/sha.h>
+#include <iomanip>
+#include <sstream>
 
 namespace themis {
 namespace scheduler {
@@ -691,7 +695,215 @@ void TaskAuditManager::importAnomalyStatistics(const nlohmann::json& data) {
     }
 }
 
+// GAP 1 FIX: Immutable audit log enforcement with HMAC
+std::string TaskAuditManager::generateAuditEntryHMAC(const TaskAuditEvent& event) const {
+    if (!config_.enable_audit_hmac) {
+        return "";
+    }
+    
+    // Serialize event data for HMAC calculation
+    // Use deterministic JSON encoding (sorted keys)
+    nlohmann::json j = event.toJson(false);  // Don't mask for HMAC calculation
+    std::string data = j.dump();
+    
+    // Calculate HMAC-SHA256
+    unsigned char hash[EVP_MAX_MD_SIZE];
+    unsigned int hash_len = 0;
+    
+    HMAC(EVP_sha256(),
+         config_.audit_hmac_key.data(), config_.audit_hmac_key.size(),
+         reinterpret_cast<unsigned char*>(const_cast<char*>(data.data())), data.size(),
+         hash, &hash_len);
+    
+    // Convert to hex string
+    std::stringstream ss;
+    for (unsigned int i = 0; i < hash_len; i++) {
+        ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
+    }
+    
+    return ss.str();
+}
+
+bool TaskAuditManager::verifyAuditEntryIntegrity(const TaskAuditEvent& event, 
+                                                 const std::string& stored_hmac) const {
+    if (!config_.enable_audit_hmac || stored_hmac.empty()) {
+        return true;  // HMAC verification disabled or not stored
+    }
+    
+    std::string calculated_hmac = generateAuditEntryHMAC(event);
+    
+    if (calculated_hmac != stored_hmac) {
+        THEMIS_ERROR("TaskAuditManager: HMAC verification failed for event {} "
+                    "(stored={}, calculated={})",
+                    event.uuid, stored_hmac.substr(0, 16) + "...",
+                    calculated_hmac.substr(0, 16) + "...");
+        return false;
+    }
+    
+    return true;
+}
+
+// GAP 2 FIX: Retention policy enforcement
+size_t TaskAuditManager::enforceRetentionPolicy() {
+    std::unique_lock<std::shared_mutex> lock(mutex_);
+    
+    if (config_.audit_retention_days.count() <= 0) {
+        return 0;  // No retention policy configured
+    }
+    
+    auto cutoff_time = std::chrono::system_clock::now() - config_.audit_retention_days;
+    size_t removed_count = 0;
+    
+    try {
+        std::vector<std::string> lines_to_keep;
+        
+        // Read all audit log entries
+        {
+            std::ifstream ifs(config_.audit_log_path);
+            if (!ifs.is_open()) {
+                return 0;
+            }
+            
+            std::string line;
+            while (std::getline(ifs, line)) {
+                if (line.empty()) continue;
+                
+                try {
+                    auto j = nlohmann::json::parse(line);
+                    
+                    if (j.contains("timestamp")) {
+                        auto ts_ms = j["timestamp"].get<int64_t>();
+                        auto event_time = std::chrono::system_clock::time_point(
+                            std::chrono::milliseconds(ts_ms));
+                        
+                        // Keep entries newer than cutoff
+                        if (event_time >= cutoff_time) {
+                            lines_to_keep.push_back(line);
+                        } else {
+                            removed_count++;
+                            
+                            // Archive old entries if enabled
+                            if (config_.enable_archival) {
+                                try {
+                                    std::ofstream archive_ofs(config_.archive_path, std::ios::app);
+                                    if (archive_ofs.is_open()) {
+                                        archive_ofs << line << "\n";
+                                    }
+                                } catch (...) {
+                                    THEMIS_WARN("Failed to archive entry to {}", config_.archive_path);
+                                }
+                            }
+                        }
+                    } else {
+                        lines_to_keep.push_back(line);
+                    }
+                } catch (...) {
+                    // Keep malformed entries (don't delete)
+                    lines_to_keep.push_back(line);
+                }
+            }
+        }
+        
+        // Rewrite audit log with only retained entries
+        {
+            std::ofstream ofs(config_.audit_log_path, std::ios::trunc);
+            for (const auto& line : lines_to_keep) {
+                ofs << line << "\n";
+            }
+        }
+        
+        THEMIS_INFO("TaskAuditManager: retention policy enforced (removed={}, kept={})",
+                   removed_count, lines_to_keep.size());
+        
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("TaskAuditManager: failed to enforce retention policy: {}", e.what());
+    }
+    
+    return removed_count;
+}
+
+// GAP 3 FIX: Corruption detection and recovery
+size_t TaskAuditManager::detectAndRecoverCorruption() {
+    std::unique_lock<std::shared_mutex> lock(mutex_);
+    
+    size_t corruption_count = 0;
+    std::vector<std::string> valid_lines;
+    
+    try {
+        std::ifstream ifs(config_.audit_log_path);
+        if (!ifs.is_open()) {
+            return 0;
+        }
+        
+        std::string line;
+        size_t line_num = 0;
+        
+        while (std::getline(ifs, line)) {
+            line_num++;
+            
+            if (line.empty()) continue;
+            
+            try {
+                auto j = nlohmann::json::parse(line);
+                
+                // Basic structural validation
+                if (!j.contains("uuid") || !j.contains("timestamp") || !j.contains("task_id")) {
+                    THEMIS_WARN("TaskAuditManager: malformed audit entry detected at line {} "
+                               "(missing required fields)", line_num);
+                    corruption_count++;
+                    
+                    if (!config_.enable_corruption_recovery) {
+                        valid_lines.push_back(line);  // Keep as-is if recovery disabled
+                    }
+                    continue;
+                }
+                
+                // Validate timestamp format
+                if (!j["timestamp"].is_number()) {
+                    THEMIS_WARN("TaskAuditManager: corrupted timestamp at line {} (not a number)",
+                               line_num);
+                    corruption_count++;
+                    
+                    if (!config_.enable_corruption_recovery) {
+                        valid_lines.push_back(line);
+                    }
+                    continue;
+                }
+                
+                // Entry is valid, keep it
+                valid_lines.push_back(line);
+                
+            } catch (const std::exception& e) {
+                corruption_count++;
+                THEMIS_WARN("TaskAuditManager: JSON parsing failed at line {} ({})",
+                           line_num, e.what());
+                
+                if (!config_.enable_corruption_recovery) {
+                    // Keep the line as-is
+                    valid_lines.push_back(line);
+                }
+                // else: skip corrupted entries when recovery is enabled
+            }
+        }
+        
+        // Rewrite audit log with recovered entries
+        if (corruption_count > 0 && config_.enable_corruption_recovery) {
+            std::ofstream ofs(config_.audit_log_path, std::ios::trunc);
+            for (const auto& valid_line : valid_lines) {
+                ofs << valid_line << "\n";
+            }
+            
+            THEMIS_INFO("TaskAuditManager: corruption recovery completed "
+                       "(corruption_count={}, recovered={})",
+                       corruption_count, valid_lines.size());
+        }
+        
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("TaskAuditManager: failed to detect/recover corruption: {}", e.what());
+    }
+    
+    return corruption_count;
+}
+
 } // namespace scheduler
 } // namespace themis
-
-

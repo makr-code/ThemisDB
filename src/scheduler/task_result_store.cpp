@@ -71,42 +71,74 @@ std::string TaskResultStore::makeTaskPrefix(const std::string& task_id) {
     return std::string(kKeyPrefix) + task_id + '/';
 }
 
-void TaskResultStore::store(const TaskExecutionResult& result) {
+SchedulerError TaskResultStore::store(const TaskExecutionResult& result) {
     std::unique_lock<std::shared_mutex> lk(mutex_);
 
+    // Enforce retention BEFORE writing: check if we're at the limit
+    if (max_per_task_ > 0) {
+        const std::string prefix = makeTaskPrefix(result.task_id);
+        std::vector<std::string> all_keys;
+        
+        // Scan existing results for this task
+        storage_.scanPrefix(prefix, [&](std::string_view k, std::string_view) {
+            all_keys.emplace_back(k);
+            return true;  // continue scan
+        });
+
+        // If at capacity, reject the new result atomically
+        if (all_keys.size() >= max_per_task_) {
+            THEMIS_WARN("TaskResultStore: retention limit {} reached for task '{}'. "
+                        "Cannot store new result. Oldest: {}, Current count: {}",
+                        max_per_task_, result.task_id,
+                        all_keys.empty() ? "N/A" : all_keys.front(),
+                        all_keys.size());
+            return SchedulerError::kRetentionLimitExceeded;
+        }
+    }
+
+    // Write the new result
     const std::string key = makeKey(result.task_id, result.timestamp_ms);
     const std::string value = result.toJson().dump();
 
     if (!storage_.put(key, value)) {
         THEMIS_ERROR("TaskResultStore: failed to store result for task '{}'",
                      result.task_id);
-        return;
+        return SchedulerError::kInternalError;
     }
 
     THEMIS_DEBUG("TaskResultStore: stored result for task '{}' at key '{}'",
                  result.task_id, key);
 
-    // Enforce retention: count existing entries and prune oldest if over cap.
-    if (max_per_task_ == 0) {
-        return;
-    }
+    // Prune FIFO-style (oldest first) to stay under the soft limit
+    // This allows one overage but prevents unlimited growth
+    if (max_per_task_ > 0) {
+        const std::string prefix = makeTaskPrefix(result.task_id);
+        std::vector<std::string> all_keys;
+        storage_.scanPrefix(prefix, [&](std::string_view k, std::string_view) {
+            all_keys.emplace_back(k);
+            return true;  // continue scan
+        });
 
-    const std::string prefix = makeTaskPrefix(result.task_id);
-    std::vector<std::string> all_keys;
-    storage_.scanPrefix(prefix, [&](std::string_view k, std::string_view) {
-        all_keys.emplace_back(k);
-        return true;  // continue scan
-    });
-
-    // Keys are lexicographically ordered (oldest first due to zero-padded ts).
-    if (all_keys.size() > max_per_task_) {
-        size_t to_delete = all_keys.size() - max_per_task_;
-        for (size_t i = 0; i < to_delete; ++i) {
-            storage_.del(all_keys[i]);
+        // Keys are lexicographically ordered (oldest first due to zero-padded ts).
+        // Delete excess entries to restore to max_per_task_ count
+        if (all_keys.size() > max_per_task_) {
+            size_t to_delete = all_keys.size() - max_per_task_;
+            for (size_t i = 0; i < to_delete; ++i) {
+                if (!storage_.del(all_keys[i])) {
+                    THEMIS_WARN("TaskResultStore: failed to prune result at '{}'",
+                               all_keys[i]);
+                } else {
+                    THEMIS_DEBUG("TaskResultStore: pruned old result '{}' for task '{}'",
+                                all_keys[i], result.task_id);
+                }
+            }
+            THEMIS_DEBUG("TaskResultStore: pruned {} old result(s) for task '{}' "
+                         "to maintain limit of {}",
+                         to_delete, result.task_id, max_per_task_);
         }
-        THEMIS_DEBUG("TaskResultStore: pruned {} old result(s) for task '{}'",
-                     to_delete, result.task_id);
     }
+
+    return SchedulerError::kSuccess;
 }
 
 std::vector<TaskExecutionResult> TaskResultStore::getResults(

@@ -288,6 +288,19 @@ void EventTrigger::listenerLoop() {
                     continue;
                 }
 
+                // GAP 2 FIX: Deduplication - prevent duplicate trigger firings
+                // Check if this event is the same as the last fired event (within debounce window)
+                if (shouldDebounce() && last_fired_event_key_ == event.key && 
+                    last_fired_event_value_ == (event.value ? *event.value : "")) {
+                    THEMIS_DEBUG("EventTrigger: duplicate trigger prevented (key={}, debounce_active)",
+                                event.key);
+                    continue;
+                }
+                
+                // Update last fired tracking
+                last_fired_event_key_ = event.key;
+                last_fired_event_value_ = event.value ? *event.value : "";
+
                 triggers_fired_++;
                 THEMIS_DEBUG("EventTrigger fired (key={}, type={}, sequence={})",
                             event.key, static_cast<int>(event.type), event.sequence);
@@ -376,20 +389,32 @@ bool EventTrigger::matchesCondition(const Changefeed::ChangeEvent& event) const 
             condition_parsed_ = true;
         }
     }
+    
+    // GAP 3 FIX: Detect circular dependencies early
+    if (!validateNoCycularDependencies()) {
+        THEMIS_ERROR("EventTrigger: condition validation failed due to circular dependency");
+        return false;  // Reject event on structural validation failure
+    }
+
+    // GAP 1 FIX: Atomic evaluation - validate all clauses structurally first
+    // Returns false (no match) if any predicate fails structural checks
+    for (const auto& clause : parsed_clauses_) {
+        // Structural validation: field must be known
+        if (clause.field != "key" && clause.field != "value") {
+            THEMIS_ERROR("EventTrigger: invalid field '{}' in condition - structural validation failed",
+                        clause.field);
+            return false;  // kTriggerInvalid behavior: reject on structural error
+        }
+    }
 
     // Evaluate each cached clause; all must pass (AND semantics)
     for (const auto& clause : parsed_clauses_) {
-        // Resolve LHS
+        // Resolve LHS (now guaranteed to be valid)
         std::string lhs;
         if (clause.field == "key") {
             lhs = event.key;
-        } else if (clause.field == "value") {
+        } else { // "value"
             lhs = event.value ? *event.value : "";
-        } else {
-            // Unknown field – fail-open
-            THEMIS_WARN("EventTrigger: unknown condition field '{}', matching by default",
-                        clause.field);
-            continue;
         }
 
         if (!evalOp(lhs, clause.op, clause.rhs)) {
@@ -464,6 +489,35 @@ void EventTrigger::rebuildConditionCache_() const {
 
         parsed_clauses_.push_back(std::move(pc));
     }
+}
+
+
+// GAP 3 FIX: Circular dependency prevention
+bool EventTrigger::validateNoCycularDependencies() const {
+    // Check if condition references the key or value field recursively
+    // (self-referential conditions would cause infinite loops)
+    if (!config_.condition || config_.condition->empty()) {
+        return true;  // No condition = no circular dependency
+    }
+    
+    const std::string& condition = *config_.condition;
+    
+    // Detect self-referential patterns:
+    // - If key_prefix is "task:*" and condition contains "key == task:", potential cycle
+    // - If condition field name appears in the RHS value, potential cycle
+    
+    // Simple heuristic: reject conditions where field name appears in RHS
+    for (const auto& clause : parsed_clauses_) {
+        // Check if field name appears in RHS (simple string match)
+        if (clause.rhs.find(clause.field) != std::string::npos) {
+            THEMIS_WARN("EventTrigger: possible circular dependency detected "
+                       "(field='{}' appears in RHS='{}'), rejecting condition",
+                       clause.field, clause.rhs);
+            return false;
+        }
+    }
+    
+    return true;
 }
 
 

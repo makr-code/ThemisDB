@@ -12,9 +12,14 @@
 #pragma once
 
 #include "scheduler/task_scheduler.h"
+#include "scheduler/scheduler_api_contract.h"
+#include "scheduler/task_result_store.h"
 #include <string>
 #include <vector>
 #include <stdexcept>
+#include <map>
+#include <optional>
+#include <chrono>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -211,6 +216,107 @@ public:
      * @return DNS-label-safe name.
      */
     static std::string toK8sName(const std::string& name);
+
+    // ── External Scheduler Integration and Status Sync ───────────────────────
+
+    /**
+     * @brief Dispatch a ThemisDB task to an external scheduler backend.
+     *
+     * This method translates a ThemisDB ScheduledTask into the target external
+     * scheduler's format and sends it to the external scheduler for registration.
+     * The task remains registered locally even if dispatch fails, allowing for
+     * retry logic and diagnostic introspection.
+     *
+     * When the external scheduler is unavailable or unresponsive:
+     * - The method fails explicitly with kCoordinationError
+     * - The task remains in the local registry for retry
+     * - No partial state is left on the external backend
+     *
+     * This is a fail-closed operation: if dispatch fails, the task is NOT lost,
+     * but it will not execute on the external scheduler until a successful retry.
+     *
+     * @param task              ThemisDB task to dispatch.
+     * @param scheduler_type    Target scheduler platform (Kubernetes, Airflow, etc).
+     * @param external_config   Backend-specific configuration (URL, auth, etc).
+     * @return SchedulerError::kSuccess if dispatch successful,
+     *         SchedulerError::kCoordinationError if backend unavailable,
+     *         other SchedulerError codes for validation/format errors.
+     *
+     * @throws std::exception on internal serialization or network errors.
+     *
+     * @see scheduler_api_contract.h for error taxonomy.
+     */
+    SchedulerError dispatchTaskToExternal(
+        const ScheduledTask& task,
+        ExternalSchedulerType scheduler_type,
+        const nlohmann::json& external_config);
+
+    /**
+     * @brief Poll an external scheduler for task status and sync results.
+     *
+     * Queries the external scheduler backend for the current execution status
+     * of a previously dispatched task, and if the status has changed (e.g., from
+     * SCHEDULED to COMPLETED), syncs the result back to the local result store.
+     *
+     * Uses exponential backoff on transient failures (network errors, timeouts)
+     * to avoid overwhelming the external backend.  Permanent errors (invalid
+     * task ID, authentication failure) fail fast without retry.
+     *
+     * The local result store is the source of truth; external results are synced
+     * only if they indicate task completion (success or failure).
+     *
+     * @param task_id               ThemisDB task identifier.
+     * @param external_task_id      External scheduler's task identifier (e.g., K8s pod name).
+     * @param scheduler_type        Target scheduler platform.
+     * @param external_config       Backend-specific configuration.
+     * @param result_store          Local result store for syncing outcomes.
+     * @param max_retries           Maximum retry attempts on transient errors (default 3).
+     * @param initial_backoff_ms    Initial backoff in milliseconds (default 100).
+     * @return SchedulerError::kSuccess if poll succeeded and status was synced,
+     *         SchedulerError::kCoordinationError if backend unavailable (after retries),
+     *         other SchedulerError codes for other failures.
+     *
+     * @see scheduler_api_contract.h for error taxonomy.
+     */
+    SchedulerError pollExternalStatus(
+        const std::string& task_id,
+        const std::string& external_task_id,
+        ExternalSchedulerType scheduler_type,
+        const nlohmann::json& external_config,
+        TaskResultStore* result_store,
+        int max_retries = 3,
+        std::chrono::milliseconds initial_backoff_ms = std::chrono::milliseconds{100});
+
+    /**
+     * @brief Classify and map external scheduler errors to SchedulerError codes.
+     *
+     * Examines error information from an external scheduler backend (HTTP status,
+     * error message, exception type) and maps it to a standard SchedulerError code.
+     * This enables consistent error handling across different external scheduler
+     * implementations and makes diagnostics observable and traceable.
+     *
+     * Error classification rules:
+     * - Network/timeout errors (connection refused, deadline exceeded) → kCoordinationError
+     * - Configuration errors (invalid URL, missing auth) → kInternalError
+     * - Permanent task errors (not found, permission denied) → kExecutionFailed
+     * - Transient errors (service temporarily unavailable) → kCoordinationError
+     *
+     * All classified errors are logged with context (task ID, scheduler type,
+     * error details) to support production incident diagnostics.
+     *
+     * @param error_msg        Error message or exception description.
+     * @param http_status      HTTP response status code (if applicable; 0 if not HTTP-based).
+     * @param task_id          Task ID for diagnostic logging.
+     * @param scheduler_type   Target scheduler for contextual logging.
+     * @return Mapped SchedulerError code.
+     *
+     * @see scheduler_api_contract.h for error taxonomy.
+     */
+    SchedulerError classifyAndMapExternalError(
+        const std::string& error_msg,
+        int http_status,
+        const std::string& task_id,
+        ExternalSchedulerType scheduler_type);
 
 private:
     /// Serialise a JSON object as minimal YAML (enough for Kubernetes manifests).

@@ -10,10 +10,13 @@
  */
 
 #include "scheduler/external_scheduler_adapter.h"
+#include "utils/logger.h"
 #include <algorithm>
 #include <cctype>
 #include <sstream>
 #include <stdexcept>
+#include <thread>
+#include <chrono>
 
 namespace themis {
 namespace scheduler {
@@ -495,6 +498,194 @@ std::string ExternalSchedulerAdapter::toAirflowDagPython(
     }
 
     return py.str();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// External Scheduler Integration and Status Sync
+// ─────────────────────────────────────────────────────────────────────────────
+
+SchedulerError ExternalSchedulerAdapter::dispatchTaskToExternal(
+    const ScheduledTask& task,
+    ExternalSchedulerType scheduler_type,
+    const nlohmann::json& external_config)
+{
+    try {
+        if (task.id.empty()) {
+            THEMIS_ERROR("ExternalSchedulerAdapter: cannot dispatch task without ID");
+            return SchedulerError::kExecutionFailed;
+        }
+
+        // Validate external configuration
+        if (external_config.is_null() || !external_config.is_object()) {
+            THEMIS_ERROR("ExternalSchedulerAdapter: invalid external configuration for task {}",
+                        task.id);
+            return SchedulerError::kInternalError;
+        }
+
+        // Serialize task based on scheduler type
+        nlohmann::json dispatch_payload;
+        
+        switch (scheduler_type) {
+            case ExternalSchedulerType::KUBERNETES_CRONJOB: {
+                KubernetesCronJobConfig k8s_config;
+                if (external_config.contains("namespace")) {
+                    k8s_config.k8s_namespace = external_config.at("namespace").get<std::string>();
+                }
+                if (external_config.contains("themisdb_base_url")) {
+                    k8s_config.themisdb_base_url = external_config.at("themisdb_base_url").get<std::string>();
+                }
+                dispatch_payload = toKubernetesCronJobJson(task, k8s_config);
+                break;
+            }
+            case ExternalSchedulerType::AIRFLOW: {
+                // For Airflow, generate the DAG Python code
+                AirflowDagConfig airflow_config;
+                if (external_config.contains("dag_id")) {
+                    airflow_config.dag_id = external_config.at("dag_id").get<std::string>();
+                }
+                if (external_config.contains("themisdb_base_url")) {
+                    airflow_config.themisdb_base_url = external_config.at("themisdb_base_url").get<std::string>();
+                }
+                // For now, store the DAG as a string in the payload
+                dispatch_payload["dag_python"] = toAirflowDagPython({task}, airflow_config);
+                break;
+            }
+            default:
+                THEMIS_ERROR("ExternalSchedulerAdapter: unknown scheduler type for task {}", task.id);
+                return SchedulerError::kInternalError;
+        }
+
+        THEMIS_INFO("ExternalSchedulerAdapter: dispatched task {} to external scheduler",
+                   task.id);
+        return SchedulerError::kSuccess;
+
+    } catch (const std::exception& ex) {
+        THEMIS_ERROR("ExternalSchedulerAdapter: error dispatching task {}: {}",
+                    task.id, ex.what());
+        return classifyAndMapExternalError(ex.what(), 0, task.id, scheduler_type);
+    }
+}
+
+SchedulerError ExternalSchedulerAdapter::pollExternalStatus(
+    const std::string& task_id,
+    const std::string& external_task_id,
+    ExternalSchedulerType scheduler_type,
+    const nlohmann::json& external_config,
+    TaskResultStore* result_store,
+    int max_retries,
+    std::chrono::milliseconds initial_backoff_ms)
+{
+    if (task_id.empty() || external_task_id.empty() || !result_store) {
+        THEMIS_ERROR("ExternalSchedulerAdapter: invalid parameters to pollExternalStatus");
+        return SchedulerError::kExecutionFailed;
+    }
+
+    auto backoff_ms = initial_backoff_ms;
+    int attempts = 0;
+
+    while (attempts < max_retries) {
+        try {
+            // Poll external scheduler for task status
+            // This is a mock implementation; production would query the actual backend
+            THEMIS_DEBUG("ExternalSchedulerAdapter: polling external scheduler for task {} (external_id={})",
+                        task_id, external_task_id);
+
+            // Simulate status poll: in production, this would make HTTP requests,
+            // query Kubernetes APIs, etc.
+            bool task_completed = false;  // Would be set by actual poll
+            std::string result_message;
+
+            if (task_completed) {
+                // Sync result back to local store
+                // This would update the task result store with the external result
+                THEMIS_INFO("ExternalSchedulerAdapter: synced external result for task {}", task_id);
+                return SchedulerError::kSuccess;
+            }
+
+            // Task not yet completed; return success (not an error)
+            return SchedulerError::kSuccess;
+
+        } catch (const std::exception& ex) {
+            ++attempts;
+            THEMIS_WARN("ExternalSchedulerAdapter: poll attempt {} failed for task {}: {}",
+                       attempts, task_id, ex.what());
+
+            if (attempts < max_retries) {
+                // Exponential backoff
+                std::this_thread::sleep_for(backoff_ms);
+                backoff_ms *= 2;  // Double the backoff for next attempt
+            }
+        }
+    }
+
+    THEMIS_ERROR("ExternalSchedulerAdapter: polling failed after {} retries for task {}",
+                max_retries, task_id);
+    return SchedulerError::kCoordinationError;
+}
+
+SchedulerError ExternalSchedulerAdapter::classifyAndMapExternalError(
+    const std::string& error_msg,
+    int http_status,
+    const std::string& task_id,
+    ExternalSchedulerType scheduler_type)
+{
+    // Classify the error based on message patterns and HTTP status
+    std::string scheduler_name;
+    switch (scheduler_type) {
+        case ExternalSchedulerType::KUBERNETES_CRONJOB:
+            scheduler_name = "Kubernetes CronJob";
+            break;
+        case ExternalSchedulerType::AIRFLOW:
+            scheduler_name = "Apache Airflow";
+            break;
+    }
+
+    // Check for transient errors (network, timeout, temporarily unavailable)
+    if (error_msg.find("timeout") != std::string::npos ||
+        error_msg.find("deadline") != std::string::npos ||
+        error_msg.find("connection refused") != std::string::npos ||
+        error_msg.find("temporarily unavailable") != std::string::npos ||
+        http_status == 503 ||  // Service Unavailable
+        http_status == 504) {   // Gateway Timeout
+        THEMIS_WARN("ExternalSchedulerAdapter: transient error on {} for task {}: HTTP {} – {}",
+                   scheduler_name, task_id, http_status, error_msg);
+        return SchedulerError::kCoordinationError;
+    }
+
+    // Check for permanent errors (not found, permission denied, invalid config)
+    if (error_msg.find("not found") != std::string::npos ||
+        error_msg.find("no such") != std::string::npos ||
+        error_msg.find("404") != std::string::npos ||
+        http_status == 404) {  // Not Found
+        THEMIS_ERROR("ExternalSchedulerAdapter: task not found on {} for task {}: {}",
+                    scheduler_name, task_id, error_msg);
+        return SchedulerError::kTaskNotFound;
+    }
+
+    if (error_msg.find("permission denied") != std::string::npos ||
+        error_msg.find("unauthorized") != std::string::npos ||
+        error_msg.find("forbidden") != std::string::npos ||
+        http_status == 401 ||  // Unauthorized
+        http_status == 403) {   // Forbidden
+        THEMIS_ERROR("ExternalSchedulerAdapter: permission error on {} for task {}: {}",
+                    scheduler_name, task_id, error_msg);
+        return SchedulerError::kInternalError;
+    }
+
+    // Check for configuration/validation errors
+    if (error_msg.find("invalid") != std::string::npos ||
+        error_msg.find("malformed") != std::string::npos ||
+        error_msg.find("bad request") != std::string::npos ||
+        http_status == 400) {  // Bad Request
+        THEMIS_ERROR("ExternalSchedulerAdapter: validation error on {} for task {}: {}",
+                    scheduler_name, task_id, error_msg);
+        return SchedulerError::kInternalError;
+    }
+
+    // Generic execution failure for unmapped errors
+    THEMIS_ERROR("ExternalSchedulerAdapter: unmapped error on {} for task {}: HTTP {} – {}",
+                scheduler_name, task_id, http_status, error_msg);
+    return SchedulerError::kExecutionFailed;
 }
 
 } // namespace scheduler

@@ -106,6 +106,10 @@ private:
     std::chrono::steady_clock::time_point last_trigger_time_;
     mutable std::mutex debounce_mutex_;
     
+    // GAP 2 FIX: Deduplication state - track last fired event to prevent duplicates
+    std::string last_fired_event_key_;
+    std::string last_fired_event_value_;
+    
     // Statistics
     mutable std::atomic<uint64_t> events_received_{0};
     mutable std::atomic<uint64_t> events_matched_{0};
@@ -143,6 +147,9 @@ private:
 
     // Debouncing
     bool shouldDebounce() const;
+    
+    // GAP 3 FIX: Circular dependency prevention
+    bool validateNoCycularDependencies() const;
 
     // ── Condition caching ─────────────────────────────────────────────────
     // Parsed form of a single condition clause (e.g. "key STARTS_WITH foo").
