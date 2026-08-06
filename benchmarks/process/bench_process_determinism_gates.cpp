@@ -18,6 +18,7 @@
 #include <algorithm>
 #include <memory>
 #include <queue>
+#include <string>
 
 namespace themis::process::benchmark {
 
@@ -454,6 +455,112 @@ static void BM_DP04_TransactionSerialization(benchmark::State& state) {
 }
 
 BENCHMARK(BM_DP04_TransactionSerialization)
+    ->Iterations(10)
+    ->ReportAggregatesOnly(true)
+    ->UseRealTime();
+
+// ============================================================================
+// DP-05: Deterministic Output Verification
+// ============================================================================
+
+static void BM_DP05_DeterministicOutputVerification(benchmark::State& state) {
+    const int num_models = 100;
+    std::mt19937_64 rng(kCanonicalRngSeed);
+    std::uniform_int_distribution<> content_dist(0, 9999);
+
+    std::vector<std::string> model_contents;
+    for (int i = 0; i < num_models; ++i) {
+        std::string content = "model_" + std::to_string(i) + "_content_" + 
+                             std::to_string(content_dist(rng));
+        model_contents.push_back(content);
+    }
+
+    for (auto _ : state) {
+        state.PauseTiming();
+        std::string first_output;
+        state.ResumeTiming();
+
+        // First pass: generate output deterministically
+        for (const auto& content : model_contents) {
+            auto hash = std::hash<std::string>{}(content);
+            first_output += std::to_string(hash) + ",";
+        }
+
+        state.PauseTiming();
+        std::string second_output;
+        state.ResumeTiming();
+
+        // Second pass: verify output is identical
+        for (const auto& content : model_contents) {
+            auto hash = std::hash<std::string>{}(content);
+            second_output += std::to_string(hash) + ",";
+        }
+
+        // Verify outputs match
+        benchmark::DoNotOptimize(first_output == second_output);
+    }
+
+    state.SetItemsProcessed(num_models * 2 * static_cast<int64_t>(state.iterations()));
+}
+
+BENCHMARK(BM_DP05_DeterministicOutputVerification)
+    ->Iterations(10)
+    ->ReportAggregatesOnly(true)
+    ->UseRealTime();
+
+// ============================================================================
+// DP-06: Version Clock Operations
+// ============================================================================
+
+struct VersionClock {
+    uint64_t logical_clock{0};
+    int64_t wall_clock_ms{0};
+    std::string node_id;
+
+    void increment() {
+        logical_clock++;
+        wall_clock_ms = std::chrono::system_clock::now().time_since_epoch().count() / 1000000;
+    }
+
+    bool isAfter(const VersionClock& other) const {
+        if (logical_clock != other.logical_clock) {
+            return logical_clock > other.logical_clock;
+        }
+        return wall_clock_ms > other.wall_clock_ms;
+    }
+};
+
+static void BM_DP06_VersionClockOperations(benchmark::State& state) {
+    const int num_clocks = 1000;
+    std::vector<VersionClock> clocks;
+    
+    for (int i = 0; i < num_clocks; ++i) {
+        VersionClock vc;
+        vc.node_id = "node_" + std::to_string(i);
+        vc.logical_clock = i;
+        clocks.push_back(vc);
+    }
+
+    for (auto _ : state) {
+        state.PauseTiming();
+        auto test_clock = clocks[0];
+        state.ResumeTiming();
+
+        // Perform clock comparisons
+        for (const auto& clock : clocks) {
+            benchmark::DoNotOptimize(test_clock.isAfter(clock));
+        }
+
+        // Perform clock increments
+        for (auto& clock : clocks) {
+            clock.increment();
+        }
+    }
+
+    state.SetItemsProcessed(num_clocks * 2 * static_cast<int64_t>(state.iterations()));
+}
+
+BENCHMARK(BM_DP06_VersionClockOperations)
     ->Iterations(10)
     ->ReportAggregatesOnly(true)
     ->UseRealTime();

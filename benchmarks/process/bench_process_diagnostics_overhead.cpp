@@ -16,6 +16,8 @@
 #include <algorithm>
 #include <memory>
 #include <unordered_map>
+#include <queue>
+#include <functional>
 
 namespace themis::process::benchmark {
 

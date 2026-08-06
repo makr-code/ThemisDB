@@ -2,13 +2,15 @@
  * ThemisDB | File: bench_process_linker_gates.cpp | Version: 1.0.0
  * Phase 5: Process Module Performance & Hardening
  *
- * Linker Performance Gates (LP):
+ * Linking Performance Gates (LP):
  * | Gate ID | Metric                              | Target       |
  * |---------|-------------------------------------|--------------|
  * | LP-01   | Linking Latency (100 pairs)         | p99 ≤ 20ms   |
  * | LP-02   | Cyclic Dependency Detection (1k)    | p99 ≤ 50ms   |
  * | LP-03   | Link Validation (1k links)          | p99 ≤ 25ms   |
  * | LP-04   | Graph Traversal (10k nodes)         | p99 ≤ 100ms  |
+ * | LP-05   | Stale Link Detection (5k links)     | p99 ≤ 150ms  |
+ * | LP-06   | Batch Link Operations (1k batch)    | p99 ≤ 200ms  |
  */
 
 #include <benchmark/benchmark.h>
@@ -453,6 +455,138 @@ static void BM_LP04_GraphTraversal(benchmark::State& state) {
 
 BENCHMARK(BM_LP04_GraphTraversal)
     ->Iterations(3)
+    ->ReportAggregatesOnly(true)
+    ->UseRealTime();
+
+// ============================================================================
+// LP-05: Stale Link Detection
+// ============================================================================
+
+struct LinkRecord {
+    std::string id;
+    std::string source_model_id;
+    std::string target_model_id;
+    int64_t created_ms{0};
+    int64_t last_verified_ms{0};
+    bool is_stale{false};
+};
+
+static void BM_LP05_StaleLinkDetection(benchmark::State& state) {
+    const int num_links = 5000;
+    const int64_t stale_threshold_ms = 3600000;  // 1 hour
+    
+    std::vector<LinkRecord> links;
+    int64_t current_time_ms = 
+        std::chrono::system_clock::now().time_since_epoch().count() / 1000000;
+    
+    std::mt19937_64 rng(kCanonicalRngSeed);
+    std::uniform_int_distribution<> model_dist(1, 100);
+    std::uniform_int_distribution<int64_t> time_dist(-7200000, 0);  // -2h to now
+    
+    for (int i = 0; i < num_links; ++i) {
+        LinkRecord link;
+        link.id = "link_" + std::to_string(i);
+        link.source_model_id = "model_" + std::to_string(model_dist(rng));
+        link.target_model_id = "model_" + std::to_string(model_dist(rng));
+        link.created_ms = current_time_ms + time_dist(rng);
+        link.last_verified_ms = link.created_ms + time_dist(rng) / 2;
+        links.push_back(link);
+    }
+
+    std::vector<double> detection_times;
+    for (auto _ : state) {
+        auto start = std::chrono::high_resolution_clock::now();
+
+        // Detect stale links
+        int stale_count = 0;
+        for (auto& link : links) {
+            int64_t age_ms = current_time_ms - link.last_verified_ms;
+            if (age_ms > stale_threshold_ms) {
+                link.is_stale = true;
+                stale_count++;
+            }
+        }
+
+        auto end = std::chrono::high_resolution_clock::now();
+        auto duration_ms = 
+            std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+        detection_times.push_back(static_cast<double>(duration_ms));
+        
+        benchmark::DoNotOptimize(stale_count);
+    }
+
+    if (!detection_times.empty()) {
+        std::sort(detection_times.begin(), detection_times.end());
+        double p99 = detection_times[std::min(size_t(99), detection_times.size() - 1)];
+        state.counters["p99_ms"] = benchmark::Counter(p99, benchmark::Counter::kAvgIterations);
+    }
+
+    state.SetItemsProcessed(num_links * static_cast<int64_t>(state.iterations()));
+}
+
+BENCHMARK(BM_LP05_StaleLinkDetection)
+    ->Iterations(10)
+    ->ReportAggregatesOnly(true)
+    ->UseRealTime();
+
+// ============================================================================
+// LP-06: Batch Link Operations
+// ============================================================================
+
+static void BM_LP06_BatchLinkOperations(benchmark::State& state) {
+    const int batch_size = 1000;
+    
+    std::vector<double> batch_times;
+    for (auto _ : state) {
+        state.PauseTiming();
+        std::vector<LinkRecord> batch_links;
+        state.ResumeTiming();
+
+        auto start = std::chrono::high_resolution_clock::now();
+
+        // Perform batch link operations
+        int64_t current_time_ms = 
+            std::chrono::system_clock::now().time_since_epoch().count() / 1000000;
+        
+        for (int i = 0; i < batch_size; ++i) {
+            LinkRecord link;
+            link.id = "batch_link_" + std::to_string(i);
+            link.source_model_id = "model_" + std::to_string(i % 100);
+            link.target_model_id = "model_" + std::to_string((i + 1) % 100);
+            link.created_ms = current_time_ms;
+            link.last_verified_ms = current_time_ms;
+            link.is_stale = false;
+            batch_links.push_back(link);
+        }
+
+        // Validate all links
+        int valid_count = 0;
+        for (const auto& link : batch_links) {
+            if (!link.source_model_id.empty() && !link.target_model_id.empty()) {
+                valid_count++;
+            }
+        }
+
+        auto end = std::chrono::high_resolution_clock::now();
+        auto duration_ms = 
+            std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+        batch_times.push_back(static_cast<double>(duration_ms));
+        
+        benchmark::DoNotOptimize(valid_count);
+        benchmark::DoNotOptimize(batch_links);
+    }
+
+    if (!batch_times.empty()) {
+        std::sort(batch_times.begin(), batch_times.end());
+        double p99 = batch_times[std::min(size_t(99), batch_times.size() - 1)];
+        state.counters["p99_ms"] = benchmark::Counter(p99, benchmark::Counter::kAvgIterations);
+    }
+
+    state.SetItemsProcessed(batch_size * static_cast<int64_t>(state.iterations()));
+}
+
+BENCHMARK(BM_LP06_BatchLinkOperations)
+    ->Iterations(10)
     ->ReportAggregatesOnly(true)
     ->UseRealTime();
 
