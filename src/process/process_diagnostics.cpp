@@ -227,4 +227,173 @@ DiagnosticRecord ProcessDiagnostics::createMissingTargetIncident(
     );
 }
 
+DiagnosticRecord ProcessDiagnostics::createConcurrencyIncident(
+    ProcError error,
+    std::string_view input_id,
+    std::string_view message
+) {
+    return DiagnosticRecord(
+        DiagnosticIncidentType::CONCURRENCY_INCIDENT,
+        error,
+        "concurrent_modification",
+        input_id,
+        message
+    );
+}
+
+DiagnosticRecord ProcessDiagnostics::createCycleIncident(
+    ProcError error,
+    std::string_view input_id,
+    std::string_view message
+) {
+    return DiagnosticRecord(
+        DiagnosticIncidentType::CYCLE_INCIDENT,
+        error,
+        "detect_cycle",
+        input_id,
+        message
+    );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DiagnosticContext Implementation
+// ─────────────────────────────────────────────────────────────────────────────
+
+void DiagnosticContext::recordResourceMetric(std::string_view metric_name, int64_t value) {
+    resource_metrics_[std::string(metric_name)] = value;
+}
+
+void DiagnosticContext::recordLimitExceeded(
+    std::string_view limit_name,
+    int64_t limit_value,
+    int64_t actual_value)
+{
+    limit_records_.push_back({
+        std::string(limit_name),
+        {limit_value, actual_value}
+    });
+}
+
+void DiagnosticContext::setRemediationSuggestion(std::string_view suggestion) {
+    remediation_suggestion_ = std::string(suggestion);
+}
+
+void DiagnosticContext::recordConflictingOperation(
+    uint64_t operation_id,
+    std::string_view conflicting_key)
+{
+    conflicts_.push_back({operation_id, std::string(conflicting_key)});
+}
+
+nlohmann::json DiagnosticContext::toJson() const {
+    nlohmann::json ctx = nlohmann::json::object();
+    
+    // Resource metrics
+    if (!resource_metrics_.empty()) {
+        nlohmann::json metrics = nlohmann::json::object();
+        for (const auto& [name, value] : resource_metrics_) {
+            metrics[name] = value;
+        }
+        ctx["resource_metrics"] = metrics;
+    }
+    
+    // Limit records
+    if (!limit_records_.empty()) {
+        nlohmann::json limits = nlohmann::json::array();
+        for (const auto& [name, values] : limit_records_) {
+            nlohmann::json record = nlohmann::json::object();
+            record["limit_name"] = name;
+            record["configured_limit"] = values.first;
+            record["actual_value"] = values.second;
+            limits.push_back(record);
+        }
+        ctx["limits_exceeded"] = limits;
+    }
+    
+    // Conflicts
+    if (!conflicts_.empty()) {
+        nlohmann::json conflict_list = nlohmann::json::array();
+        for (const auto& [op_id, key] : conflicts_) {
+            nlohmann::json conflict = nlohmann::json::object();
+            conflict["operation_id"] = op_id;
+            conflict["conflicting_key"] = key;
+            conflict_list.push_back(conflict);
+        }
+        ctx["conflicts"] = conflict_list;
+    }
+    
+    // Remediation
+    if (!remediation_suggestion_.empty()) {
+        ctx["remediation"] = remediation_suggestion_;
+    }
+    
+    return ctx;
+}
+
+std::string DiagnosticContext::getRemediationSummary() const {
+    std::ostringstream oss;
+    
+    if (!remediation_suggestion_.empty()) {
+        oss << "SUGGESTED ACTION: " << remediation_suggestion_ << "\n";
+    }
+    
+    if (!limit_records_.empty()) {
+        oss << "LIMITS EXCEEDED:\n";
+        for (const auto& [name, values] : limit_records_) {
+            oss << "  - " << name << ": limit=" << values.first
+                << ", actual=" << values.second << "\n";
+        }
+    }
+    
+    if (!resource_metrics_.empty()) {
+        oss << "RESOURCE SNAPSHOT:\n";
+        for (const auto& [name, value] : resource_metrics_) {
+            oss << "  - " << name << "=" << value << "\n";
+        }
+    }
+    
+    return oss.str();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DiagnosticMetricsCollector Implementation
+// ─────────────────────────────────────────────────────────────────────────────
+
+void DiagnosticMetricsCollector::recordIncident(DiagnosticIncidentType incident_type) {
+    std::unique_lock<std::shared_mutex> lock(metrics_lock_);
+    incident_counts_[incident_type]++;
+}
+
+uint64_t DiagnosticMetricsCollector::getIncidentCount(DiagnosticIncidentType incident_type) const {
+    std::shared_lock<std::shared_mutex> lock(metrics_lock_);
+    auto it = incident_counts_.find(incident_type);
+    return (it != incident_counts_.end()) ? it->second : 0;
+}
+
+uint64_t DiagnosticMetricsCollector::getTotalIncidentCount() const {
+    std::shared_lock<std::shared_mutex> lock(metrics_lock_);
+    uint64_t total = 0;
+    for (const auto& [type, count] : incident_counts_) {
+        total += count;
+    }
+    return total;
+}
+
+void DiagnosticMetricsCollector::reset() {
+    std::unique_lock<std::shared_mutex> lock(metrics_lock_);
+    incident_counts_.clear();
+}
+
+nlohmann::json DiagnosticMetricsCollector::toJson() const {
+    std::shared_lock<std::shared_mutex> lock(metrics_lock_);
+    nlohmann::json metrics = nlohmann::json::object();
+    
+    for (const auto& [type, count] : incident_counts_) {
+        std::string type_name = std::string(toString(type));
+        metrics[type_name] = count;
+    }
+    
+    return metrics;
+}
+
 } // namespace themis::process

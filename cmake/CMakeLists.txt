@@ -3031,6 +3031,7 @@ set(THEMIS_CORE_SOURCES
     ../src/process/process_model_manager.cpp
     ../src/process/bpmn_serializer.cpp
     ../src/process/epk_serializer.cpp
+    ../src/process/epk_aris_xml_importer.cpp
     ../src/process/llm_process_descriptor.cpp
     ../src/process/vcc_vpb_importer.cpp
     ../src/process/process_linker.cpp
@@ -3040,6 +3041,11 @@ set(THEMIS_CORE_SOURCES
     ../src/process/object_centric_tracer.cpp
     ../src/process/fim_importer.cpp
     ../src/process/cmmn_serializer.cpp
+    ../src/process/dmn_evaluator.cpp
+    ../src/process/process_diagnostics.cpp
+    ../src/process/serializer_hardening.cpp
+    ../src/process/process_agentic_rag.cpp
+    ../src/process/ocel_exporter.cpp
 
     # OLAP Analytics
     ../src/analytics/olap.cpp

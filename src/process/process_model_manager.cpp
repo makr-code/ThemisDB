@@ -879,6 +879,97 @@ ProcessModelResult ProcessModelManager::undeployFromEngine(
     return ProcessModelResult::success(std::string(model_id));
 }
 
+// ---------------------------------------------------------------------------
+// Phase 2: Concurrency and Determinism Implementation
+// ---------------------------------------------------------------------------
+
+ProcessModelManager::TransactionGuard::~TransactionGuard() {
+    if (failed_) {
+        manager_.rollbackTransaction_(context_);
+    }
+}
+
+bool ProcessModelManager::detectConflict_(std::string_view model_id, int expected_revision) const {
+    std::shared_lock<std::shared_mutex> lock(model_state_lock_);
+    
+    // Attempt to read current revision from database
+    std::string key = makeKey_(model_id);
+    std::string doc_str = db_.get(key);
+    
+    if (doc_str.empty()) {
+        // Model doesn't exist (or was deleted), conflict detected
+        return true;
+    }
+    
+    try {
+        auto doc = json::parse(doc_str);
+        int current_revision = doc.value("revision", 0);
+        // Conflict if current revision differs from expected
+        return current_revision != expected_revision;
+    } catch (const std::exception& e) {
+        SPDLOG_WARN("[process] detectConflict_: Failed to parse model '{}': {}",
+                    model_id, e.what());
+        return true;  // Assume conflict on parse error
+    }
+}
+
+void ProcessModelManager::rollbackTransaction_(const TransactionContext& txn) {
+    std::unique_lock<std::shared_mutex> lock(model_state_lock_);
+    
+    // Roll back all modifications recorded in the transaction
+    for (const auto& key : txn.modified_keys) {
+        // Re-read the previous version if available
+        std::string versioned_key = makeVersionedKey_(txn.model_id, txn.revision_at_start);
+        std::string prev_value = db_.get(versioned_key);
+        
+        if (!prev_value.empty()) {
+            // Restore previous value
+            db_.put(key, prev_value);
+            SPDLOG_INFO("[process] Rolled back modification to key: {}", key);
+        } else {
+            // Delete the key if no previous version exists
+            db_.delete(key);
+            SPDLOG_INFO("[process] Deleted key during rollback: {}", key);
+        }
+    }
+    
+    SPDLOG_WARN("[process] Transaction {} rolled back for model '{}' due to conflict",
+                txn.txn_id, txn.model_id);
+}
+
+ProcessModelManager::TransactionContext ProcessModelManager::createTransaction_(
+    std::string_view model_id)
+{
+    std::shared_lock<std::shared_mutex> lock(model_state_lock_);
+    
+    uint64_t txn_id = operation_counter_++;
+    std::string key = makeKey_(model_id);
+    std::string doc_str = db_.get(key);
+    int revision = 0;
+    
+    if (!doc_str.empty()) {
+        try {
+            auto doc = json::parse(doc_str);
+            revision = doc.value("revision", 0);
+        } catch (...) {
+            // Use default revision
+        }
+    }
+    
+    int64_t now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()
+    ).count();
+    
+    return TransactionContext{
+        txn_id,
+        std::string(model_id),
+        now_ms,
+        revision,
+        {},  // modified_keys
+        true // is_active
+    };
+}
+
 } // namespace process
 } // namespace themis
 

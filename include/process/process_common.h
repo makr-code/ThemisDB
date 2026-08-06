@@ -89,4 +89,69 @@ constexpr int32_t kMaxRetrievalDepth = 50;
  */
 constexpr int64_t kMaxOperationTimeoutMs = 30000;  // 30 seconds
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Validation Helpers (Phase 3)
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief Validates that input size does not exceed the maximum model input size.
+ *
+ * @param input_size Size of the input in bytes.
+ * @return true if the input size is within limits.
+ */
+inline bool isInputSizeValid(size_t input_size) {
+    return input_size <= kMaxModelInputBytes;
+}
+
+/**
+ * @brief Validates that nesting depth is within the safe limit.
+ *
+ * @param depth Current nesting depth.
+ * @return true if depth is within limits.
+ */
+inline bool isNestingDepthValid(int32_t depth) {
+    return depth <= kMaxModelNestingDepth;
+}
+
+/**
+ * @brief Validates that element count is within the safe limit.
+ *
+ * @param element_count Number of elements in the model.
+ * @return true if element count is within limits.
+ */
+inline bool isElementCountValid(int32_t element_count) {
+    return element_count <= kMaxModelElements;
+}
+
+/**
+ * @brief Validates that context size does not exceed retrieval limits.
+ *
+ * @param context_size Current context size in bytes.
+ * @return true if context size is within limits.
+ */
+inline bool isContextSizeValid(size_t context_size) {
+    return context_size <= kMaxRetrievalContextBytes;
+}
+
+/**
+ * @brief Validates that traversal depth is within the safe retrieval limit.
+ *
+ * @param depth Current traversal depth.
+ * @return true if depth is within limits.
+ */
+inline bool isRetrievalDepthValid(int32_t depth) {
+    return depth <= kMaxRetrievalDepth;
+}
+
+/**
+ * @brief Check if an operation has exceeded the timeout window.
+ *
+ * @param start_time_ms Time when the operation started (from nowMs()).
+ * @return true if the operation has exceeded the timeout.
+ */
+inline bool hasOperationTimedOut(int64_t start_time_ms) {
+    int64_t elapsed = nowMs() - start_time_ms;
+    return elapsed >= kMaxOperationTimeoutMs;
+}
+
 } // namespace themis::process

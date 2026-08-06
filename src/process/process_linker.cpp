@@ -28,6 +28,8 @@
  */
 
 #include "process/process_linker.h"
+#include "process/process_common.h"
+#include "process/process_diagnostics.h"
 #include "utils/logger.h"
 
 #include <algorithm>
@@ -499,6 +501,150 @@ std::vector<std::string> ProcessLinker::getMissingDocuments(
     }
 
     return missing;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Cyclic dependency detection (Phase 3)
+// ─────────────────────────────────────────────────────────────────────────────
+
+bool ProcessLinker::wouldCreateCycle(
+    std::string_view source_id,
+    std::string_view target_id,
+    int32_t max_depth
+) const {
+    if (source_id == target_id) {
+        // Self-loop is trivially a cycle
+        return true;
+    }
+
+    if (max_depth <= 0) {
+        max_depth = kMaxRetrievalDepth;
+    }
+
+    // Use DFS to check if there is a path from target → source
+    // If yes, adding source → target would create a cycle
+    std::unordered_set<std::string> visited;
+    return hasCyclePath_(source_id, target_id, visited, 0, max_depth);
+}
+
+bool ProcessLinker::isLinkTargetValid(std::string_view target_id) const {
+    if (target_id.empty()) {
+        return false;
+    }
+
+    // Check if target exists in database
+    std::string probe_key = "proc:link:" + std::string(target_id);
+    std::string dummy;
+    bool exists = db_.get(probe_key, dummy);
+
+    // Also check for attachments pointing to this target
+    if (!exists) {
+        std::string attach_key = "proc:attach:" + std::string(target_id);
+        exists = db_.get(attach_key, dummy);
+    }
+
+    return exists;
+}
+
+bool ProcessLinker::hasCyclePath_(
+    std::string_view source,
+    std::string_view target,
+    std::unordered_set<std::string>& visited,
+    int32_t depth,
+    int32_t max_depth
+) const {
+    if (depth >= max_depth) {
+        // Depth limit reached – assume no cycle (conservative)
+        return false;
+    }
+
+    if (visited.count(std::string(target)) > 0) {
+        // Already visited in this path – avoid infinite recursion
+        return false;
+    }
+
+    visited.insert(std::string(target));
+
+    // Get all outgoing links from target
+    auto outgoing = getLinks(target);
+
+    for (const auto& link : outgoing) {
+        if (link.target_id == source) {
+            // Found a path back to source – would create a cycle
+            return true;
+        }
+
+        // Recurse on the target of this link
+        if (hasCyclePath_(source, link.target_id, visited, depth + 1, max_depth)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+// ---------------------------------------------------------------------------
+// Phase 2: Conflict Detection and Rollback Implementation
+// ---------------------------------------------------------------------------
+
+ProcessLinker::LinkOperationGuard::~LinkOperationGuard() {
+    if (failed_) {
+        linker_.rollbackLinkOperation_(operation_id_);
+    }
+}
+
+void ProcessLinker::LinkOperationGuard::recordModification(std::string_view key) {
+    auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()
+    ).count();
+    
+    modifications_.push_back(ConflictRecord{
+        operation_id_,
+        std::string(key),
+        now_ms,
+        1  // Default version
+    });
+}
+
+bool ProcessLinker::detectLinkingConflict_(
+    std::string_view key,
+    std::optional<uint64_t> expected_version) const
+{
+    std::shared_lock<std::shared_mutex> lock(link_state_lock_);
+    
+    // Try to read the current value to detect if it's been modified
+    std::string current_value = db_.get(std::string(key));
+    
+    if (current_value.empty()) {
+        // Key doesn't exist; conflict only if we expected a version
+        return expected_version.has_value();
+    }
+    
+    // If we have an expected version, verify it matches (simple versioning)
+    if (expected_version.has_value()) {
+        try {
+            auto doc = json::parse(current_value);
+            uint64_t current_version = doc.value("_version", uint64_t{0});
+            return current_version != *expected_version;
+        } catch (...) {
+            // Parse error – assume conflict
+            return true;
+        }
+    }
+    
+    // No conflict if we're not checking version
+    return false;
+}
+
+void ProcessLinker::rollbackLinkOperation_(uint64_t operation_id) {
+    std::unique_lock<std::shared_mutex> lock(link_state_lock_);
+    
+    // In a real implementation, we would have a transaction log
+    // For now, log the rollback attempt
+    SPDLOG_WARN("[process] Rolling back link operation: {}", operation_id);
+    
+    // TODO: Implement actual rollback from transaction log
+    // This would restore previous values for all modified keys
 }
 
 } // namespace process

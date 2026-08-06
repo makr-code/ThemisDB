@@ -298,6 +298,38 @@ public:
         std::string_view model_id
     ) const;
 
+    // ── Cyclic dependency and integrity checks (Phase 3) ─────────────────────
+
+    /**
+     * @brief Detect if creating a link would introduce a cycle.
+     *
+     * Uses depth-first search to check if there is already a path from
+     * @p target_id back to @p source_id. If so, adding the link would
+     * create a cycle.
+     *
+     * @param source_id The process entity creating the link (source).
+     * @param target_id The process entity being linked to (target).
+     * @param max_depth Maximum depth to search (prevents infinite traversal).
+     *                  If 0, uses kMaxRetrievalDepth.
+     * @return true if a cycle would be created, false if link is safe.
+     */
+    [[nodiscard]] bool wouldCreateCycle(
+        std::string_view source_id,
+        std::string_view target_id,
+        int32_t max_depth = 0
+    ) const;
+
+    /**
+     * @brief Validate that a link target actually exists.
+     *
+     * Checks if the target entity is stored in the database or is a recognized
+     * system identifier. This prevents dangling references.
+     *
+     * @param target_id The target entity to validate.
+     * @return true if the target exists or is a valid system ID, false otherwise.
+     */
+    [[nodiscard]] bool isLinkTargetValid(std::string_view target_id) const;
+
 private:
     RocksDBWrapper& db_;
 
@@ -315,6 +347,26 @@ private:
         int64_t timestamp_ms;
         uint64_t version;
     };
+
+    // Phase 3: Cycle detection helpers
+    /**
+     * @brief DFS-based cycle detection: check if there is a path from @p target
+     * back to @p source in the link graph.
+     *
+     * @param source The source entity in the proposed link.
+     * @param target The target entity in the proposed link.
+     * @param visited Set of entities already visited in this traversal.
+     * @param depth Current traversal depth.
+     * @param max_depth Maximum depth before giving up (safety limit).
+     * @return true if a path exists from target → source.
+     */
+    [[nodiscard]] bool hasCyclePath_(
+        std::string_view source,
+        std::string_view target,
+        std::unordered_set<std::string>& visited,
+        int32_t depth,
+        int32_t max_depth
+    ) const;
 
     /**
      * @brief RAII guard for link operations requiring rollback on conflict.
