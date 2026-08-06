@@ -124,6 +124,7 @@ public:
      * @brief Diagnostic information returned alongside search results.
      *
      * Callers should check partial_result to detect degraded-mode responses.
+     * Phase 2: Enhanced degradation flags for explicit backend health visibility.
      */
     struct SearchStats {
         bool bm25_ok = false;       ///< BM25 search ran without error
@@ -131,6 +132,11 @@ public:
         bool partial_result = false;///< True when one source failed but the other succeeded
         size_t bm25_count = 0;      ///< Raw BM25 candidate count before fusion
         size_t vector_count = 0;    ///< Raw vector candidate count before fusion
+        
+        // Phase 2: Degradation visibility flags
+        uint32_t primary_error_code = 0x0000;  ///< Error code from search_error_codes.h (0x0000 = SUCCESS)
+        bool fusion_failed = false;      ///< Fusion/normalization failed
+        bool rerank_fallback = false;    ///< LLM reranker fallback applied
     };
 
     explicit HybridSearch(

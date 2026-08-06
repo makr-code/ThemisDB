@@ -20,17 +20,23 @@ The search module composes lexical retrieval, vector retrieval, hybrid result fu
 - Exception Safety: search() is unconditionally noexcept; catches all backend exceptions internally
 - Thread Safety: Single instance NOT thread-safe; callers must synchronize or use per-thread instances
 - **Error Taxonomy:** Retrieval errors (0x0000-0x0FFF), Fusion errors (0x1000-0x1FFF)
+- **Phase 2 Enhancements:** SearchStats degradation flags (primary_error_code, fusion_failed, rerank_fallback)
 
-### v2.1.0 — DistributedHybridSearch API (Frozen)
-**Status:** FROZEN | Released 2026-08-06
-- Cross-shard merge and distributed hybrid behavior
+### v2.2.0 — DistributedHybridSearch API (Phase 2 Enhanced)
+**Status:** FROZEN | Released 2026-08-06 | Phase 2 Hardening Complete
+- Cross-shard merge and distributed hybrid behavior with Phase 2 enhancements
 - RRF-based global rank fusion across shards
 - Fault-tolerant shard query with graceful degradation
-- Per-shard result composition with explicit SearchStats
+- Per-shard result composition with explicit SearchStats including degradation flags
 - Configurable skip_failed_shards behavior
 - **Error Taxonomy:** Distributed merge errors (0x2000-0x2FFF)
 - Explicit partial_result flag when at least one shard failed
+- **Phase 2 Degradation Flags:**
+  - merge_underflow: True when result count < k due to insufficient candidates
+  - high_overlap_variance: True when high-cardinality overlap detected (>50% of shards)
+  - failed_shard_reasons: Vector tracking reason for each failed shard ("timeout", "HTTP 500", etc.)
 - **Guarantees:** Results from surviving shards remain consistent; failed shards produce empty/degraded results without data corruption
+- **mergeShardResults() Enhancement:** Now detects and tracks merge underflow and overlap variance through SearchStats output parameter
 
 ### v2.0.0 — SearchResultStream API (Frozen)
 **Status:** FROZEN | Released 2026-08-06

@@ -6,7 +6,9 @@
 
 ## Current Status
 
-Production-capable search runtime with Phase 1 (Design/API Contract Freeze) complete as of 2026-08-06.
+Production-capable search runtime with:
+- Phase 1 (Design/API Contract Freeze) ✅ COMPLETE as of 2026-08-06
+- Phase 2 (Core Implementation Hardening) ✅ COMPLETE as of 2026-08-06
 
 ### Phase 1 Completion Summary (2026-08-06)
 - [x] Frozen retrieval/fusion/distributed contracts (HybridSearch v2.0.0, DistributedHybridSearch v2.1.0, SearchResultStream v2.0.0)
@@ -15,30 +17,38 @@ Production-capable search runtime with Phase 1 (Design/API Contract Freeze) comp
 - [x] Fixed CRITICAL gaps: exception_in_destructor (hybrid_search.cpp), no_timeout (search_result_stream.cpp with 30s default)
 - [x] Contract boundaries documented for core components (retrieval, fusion, distributed, utility, analytics)
 
+### Phase 2 Completion Summary (2026-08-06)
+- [x] Enhanced distributed_hybrid_search.cpp with explicit shard-failure handling
+  - [x] Shard failure reason tracking in SearchStats::failed_shard_reasons
+  - [x] Merge underflow detection (merge_underflow flag)
+  - [x] High-overlap variance detection (high_overlap_variance flag)
+- [x] Extended SearchStats structures across HybridSearch and DistributedHybridSearch
+  - [x] Added primary_error_code field (via search_error_codes.h)
+  - [x] Added degradation flags: fusion_failed, rerank_fallback
+  - [x] Added failed_shard_reasons tracking vector
+- [x] Phase 2 focused tests (P2-01..P2-08): test_search_distributed_merge_phase2.cpp
+- [x] Phase 2 degradation tests (P2H-01..P2H-04): test_search_hybrid_degradation_phase2.cpp
+- [x] Updated CMakeLists.txt with distributed_hybrid_search.cpp target sources
+
 ## In Progress
 
-- [~] Phase 2: Core Implementation Hardening (Q4 2026)
-  - Distributed merge edge-case resilience enhancement
-  - Bounded resource limit enforcement across fusion/utility paths
-  - Cross-component resilience testing for partial backend failures
+- [~] Phase 3: Error Handling and Edge Cases (Q4 2026)
+  - Standardize fail-safe behavior across all search paths
+  - Unify diagnostics for retrieval/fusion/utility failures
+  - Edge case tests P3-01..P3-08
 
 ## Planned Features
 
 ### Short-term (Q4 2026)
-- [ ] Phase 2: Core Implementation Hardening
-  - [ ] Enhanced distributed_hybrid_search shard-failure handling
-  - [ ] Bounded resource limits enforced across all fusion/expansion/reranking paths
-  - [ ] Cross-component resilience tests for partial backend failures
-  - Target: Q4 2026
-
 - [ ] Phase 3: Error Handling and Edge Cases
   - [ ] Standardize fail-safe behavior for shard failures, merge limits, rerank faults
   - [ ] Unify diagnostics across retrieval/fusion/utility incident classes
+  - [ ] Edge case tests for empty results, timeouts, k-limit underflow, LLM failures
   - Target: Q4 2026
 
 - [ ] Phase 4: Test Expansion
-  - [ ] test_search_distributed_merge_stress.cpp with 8+ deterministic stress cases
   - [ ] test_search_edge_cases_*.cpp files covering all 14 components
+  - [ ] Extend deterministic stress fixtures for hybrid/distributed workloads
   - Target: Q4 2026
 
 ### Mid-term (Q1 2027)
