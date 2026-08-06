@@ -532,16 +532,23 @@ bool ProcessLinker::isLinkTargetValid(std::string_view target_id) const {
         return false;
     }
 
-    // Check if target exists in database
-    std::string probe_key = "proc:link:" + std::string(target_id);
-    std::string dummy;
-    bool exists = db_.get(probe_key, dummy);
+    bool exists = false;
+    const std::string target = std::string(target_id);
+    const std::string link_prefix = "proc:link:" + target + ":";
+    db_.scanPrefix(link_prefix, [&](std::string_view /*key*/, std::string_view /*value*/) -> bool {
+        exists = true;
+        return false;
+    });
 
-    // Also check for attachments pointing to this target
-    if (!exists) {
-        std::string attach_key = "proc:attach:" + std::string(target_id);
-        exists = db_.get(attach_key, dummy);
+    if (exists) {
+        return true;
     }
+
+    const std::string attach_prefix = "proc:attach:" + target + ":";
+    db_.scanPrefix(attach_prefix, [&](std::string_view /*key*/, std::string_view /*value*/) -> bool {
+        exists = true;
+        return false;
+    });
 
     return exists;
 }
@@ -554,8 +561,8 @@ bool ProcessLinker::hasCyclePath_(
     int32_t max_depth
 ) const {
     if (depth >= max_depth) {
-        // Depth limit reached – assume no cycle (conservative)
-        return false;
+        // Depth limit reached – fail closed so deep cycles are not admitted.
+        return true;
     }
 
     if (visited.count(std::string(target)) > 0) {
@@ -590,20 +597,34 @@ bool ProcessLinker::hasCyclePath_(
 ProcessLinker::LinkOperationGuard::~LinkOperationGuard() {
     if (failed_) {
         linker_.rollbackLinkOperation_(operation_id_);
+        return;
     }
+
+    std::unique_lock<std::shared_mutex> lock(linker_.link_state_lock_);
+    linker_.rollback_records_.erase(operation_id_);
 }
 
 void ProcessLinker::LinkOperationGuard::recordModification(std::string_view key) {
     auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()
     ).count();
-    
-    modifications_.push_back(ConflictRecord{
+
+    std::string prior_value;
+    const bool existed_before = linker_.db_.get(key, prior_value);
+
+    ConflictRecord record{
         operation_id_,
         std::string(key),
         now_ms,
-        1  // Default version
-    });
+        1,
+        existed_before,
+        existed_before ? std::move(prior_value) : std::string{}
+    };
+
+    modifications_.push_back(record);
+
+    std::unique_lock<std::shared_mutex> lock(linker_.link_state_lock_);
+    linker_.rollback_records_[operation_id_].push_back(std::move(record));
 }
 
 bool ProcessLinker::detectLinkingConflict_(
@@ -613,13 +634,12 @@ bool ProcessLinker::detectLinkingConflict_(
     std::shared_lock<std::shared_mutex> lock(link_state_lock_);
     
     // Try to read the current value to detect if it's been modified
-    std::string current_value = db_.get(std::string(key));
-    
-    if (current_value.empty()) {
+    std::string current_value;
+    if (!db_.get(key, current_value)) {
         // Key doesn't exist; conflict only if we expected a version
         return expected_version.has_value();
     }
-    
+
     // If we have an expected version, verify it matches (simple versioning)
     if (expected_version.has_value()) {
         try {
@@ -638,13 +658,30 @@ bool ProcessLinker::detectLinkingConflict_(
 
 void ProcessLinker::rollbackLinkOperation_(uint64_t operation_id) {
     std::unique_lock<std::shared_mutex> lock(link_state_lock_);
-    
-    // In a real implementation, we would have a transaction log
-    // For now, log the rollback attempt
-    SPDLOG_WARN("[process] Rolling back link operation: {}", operation_id);
-    
-    // TODO: Implement actual rollback from transaction log
-    // This would restore previous values for all modified keys
+
+    auto it = rollback_records_.find(operation_id);
+    if (it == rollback_records_.end()) {
+        SPDLOG_WARN("[process] rollback requested for unknown link operation {}", operation_id);
+        return;
+    }
+
+    for (auto record_it = it->second.rbegin(); record_it != it->second.rend(); ++record_it) {
+        const auto& record = *record_it;
+        bool restored = false;
+        if (record.existed_before) {
+            restored = db_.put(record.affected_key, record.previous_value);
+        } else {
+            restored = db_.del(record.affected_key);
+        }
+
+        if (!restored) {
+            SPDLOG_WARN("[process] failed to roll back key '{}' for link operation {}",
+                        record.affected_key, operation_id);
+        }
+    }
+
+    rollback_records_.erase(it);
+    SPDLOG_WARN("[process] Rolled back link operation: {}", operation_id);
 }
 
 } // namespace process

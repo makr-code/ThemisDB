@@ -12,6 +12,7 @@
 #include <algorithm>
 #include <chrono>
 #include <sstream>
+#include <unordered_set>
 
 namespace themis::process {
 

@@ -69,6 +69,7 @@
 
 #include <cstdint>
 #include <optional>
+#include <sstream>
 #include <string>
 #include <string_view>
 
@@ -366,5 +367,212 @@ public:
 private:
     ExtendedProcessDiagnostics() = delete;
 };
+
+inline std::string_view toString(IncidentContext c) {
+    switch (c) {
+        case IncidentContext::CHURN_DETECTION:
+            return "CHURN_DETECTION";
+        case IncidentContext::RESOURCE_EXHAUSTION:
+            return "RESOURCE_EXHAUSTION";
+        case IncidentContext::CONFLICT_DETECTED:
+            return "CONFLICT_DETECTED";
+        case IncidentContext::VALIDATION_FAILURE:
+            return "VALIDATION_FAILURE";
+        case IncidentContext::TIMEOUT_EXCEEDED:
+            return "TIMEOUT_EXCEEDED";
+    }
+    return "UNKNOWN_CONTEXT";
+}
+
+inline std::string TraceContext::format() const {
+    if (!isPresent()) {
+        return {};
+    }
+
+    std::ostringstream oss;
+    oss << "[";
+    bool emitted = false;
+    if (trace_id.has_value()) {
+        oss << "trace_id=" << *trace_id;
+        emitted = true;
+    }
+    if (span_id.has_value()) {
+        if (emitted) {
+            oss << ", ";
+        }
+        oss << "span_id=" << *span_id;
+    }
+    oss << "]";
+    return oss.str();
+}
+
+inline std::string ConflictAnalysis::format() const {
+    std::ostringstream oss;
+    bool emitted = false;
+
+    if (conflict_count.has_value()) {
+        oss << "conflicts=" << *conflict_count;
+        emitted = true;
+    }
+    if (retry_count.has_value()) {
+        if (emitted) {
+            oss << ", ";
+        }
+        oss << "retries=" << *retry_count;
+        emitted = true;
+    }
+    if (conflicting_version.has_value()) {
+        if (emitted) {
+            oss << ", ";
+        }
+        oss << "version=" << *conflicting_version;
+    }
+
+    return oss.str();
+}
+
+inline ExtendedDiagnosticRecord::ExtendedDiagnosticRecord(
+    DiagnosticIncidentType incident_type,
+    ProcError error_code,
+    std::string_view operation,
+    std::string_view input_identifier,
+    std::string_view actionable_message,
+    const TraceContext& trace_context_,
+    std::optional<IncidentContext> incident_context_,
+    std::optional<int32_t> churn_metric_,
+    const ConflictAnalysis& conflict_analysis_
+)
+    : DiagnosticRecord(incident_type, error_code, operation, input_identifier, actionable_message),
+      incident_context(incident_context_),
+      trace_context(trace_context_),
+      churn_metric(churn_metric_),
+      conflict_analysis(conflict_analysis_)
+{
+}
+
+inline std::string ExtendedDiagnosticRecord::toFormattedMessage() const {
+    std::ostringstream oss;
+    oss << DiagnosticRecord::toFormattedMessage();
+
+    if (incident_context.has_value()) {
+        oss << "\n  Context: " << toString(*incident_context);
+    }
+    if (churn_metric.has_value()) {
+        oss << " [churn=" << *churn_metric << " ops/sec]";
+    }
+    if (trace_context.isPresent()) {
+        oss << "\n  Trace: " << trace_context.format();
+    }
+
+    const std::string conflict_summary = conflict_analysis.format();
+    if (!conflict_summary.empty()) {
+        oss << "\n  Conflicts: " << conflict_summary;
+    }
+
+    return oss.str();
+}
+
+inline ExtendedDiagnosticRecord ExtendedProcessDiagnostics::createChurnIncident(
+    ProcError error,
+    std::string_view input_id,
+    std::string_view message,
+    int32_t concurrent_ops,
+    std::optional<std::string_view> trace_id
+) {
+    TraceContext trace_context;
+    if (trace_id.has_value()) {
+        trace_context.trace_id = std::string(*trace_id);
+    }
+
+    return ExtendedDiagnosticRecord(
+        DiagnosticIncidentType::CONCURRENCY_INCIDENT,
+        error,
+        "detect_process_churn",
+        input_id,
+        message,
+        trace_context,
+        IncidentContext::CHURN_DETECTION,
+        concurrent_ops
+    );
+}
+
+inline ExtendedDiagnosticRecord ExtendedProcessDiagnostics::createConflictIncident(
+    ProcError error,
+    std::string_view input_id,
+    std::string_view message,
+    int32_t conflict_count,
+    int32_t retry_count,
+    std::optional<std::string_view> trace_id
+) {
+    TraceContext trace_context;
+    if (trace_id.has_value()) {
+        trace_context.trace_id = std::string(*trace_id);
+    }
+
+    ConflictAnalysis conflict_analysis;
+    conflict_analysis.conflict_count = conflict_count;
+    conflict_analysis.retry_count = retry_count;
+
+    return ExtendedDiagnosticRecord(
+        DiagnosticIncidentType::CONCURRENCY_INCIDENT,
+        error,
+        "resolve_process_conflict",
+        input_id,
+        message,
+        trace_context,
+        IncidentContext::CONFLICT_DETECTED,
+        std::nullopt,
+        conflict_analysis
+    );
+}
+
+inline ExtendedDiagnosticRecord ExtendedProcessDiagnostics::createTracedIncident(
+    const DiagnosticRecord& base_incident,
+    std::string_view trace_id,
+    std::string_view span_id
+) {
+    TraceContext trace_context;
+    trace_context.trace_id = std::string(trace_id);
+    trace_context.span_id = std::string(span_id);
+
+    return ExtendedDiagnosticRecord(
+        base_incident.incident_type,
+        base_incident.error_code,
+        base_incident.operation,
+        base_incident.input_identifier,
+        base_incident.actionable_message,
+        trace_context
+    );
+}
+
+inline ExtendedDiagnosticRecord ExtendedProcessDiagnostics::createResourceExhaustionIncident(
+    ProcError error,
+    std::string_view input_id,
+    std::string_view message,
+    std::string_view resource_type,
+    std::optional<std::string_view> trace_id
+) {
+    TraceContext trace_context;
+    if (trace_id.has_value()) {
+        trace_context.trace_id = std::string(*trace_id);
+    }
+
+    std::string detailed_message(message);
+    if (!resource_type.empty()) {
+        detailed_message += " [resource=";
+        detailed_message += resource_type;
+        detailed_message += "]";
+    }
+
+    return ExtendedDiagnosticRecord(
+        DiagnosticIncidentType::RESOURCE_INCIDENT,
+        error,
+        "handle_resource_exhaustion",
+        input_id,
+        detailed_message,
+        trace_context,
+        IncidentContext::RESOURCE_EXHAUSTION
+    );
+}
 
 } // namespace themis::process

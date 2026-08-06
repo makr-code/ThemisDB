@@ -16,6 +16,7 @@
 #include "process/process_diagnostics.h"
 #include <optional>
 #include <string_view>
+#include <utility>
 #include <vector>
 
 namespace themis::process {
@@ -65,7 +66,7 @@ public:
      * @param format_name Human-readable format name (e.g., "BPMN 2.0", "EPK").
      * @return Validation result with error details if validation fails.
      */
-    static [[nodiscard]] SerializerValidationResult validateInput(
+    [[nodiscard]] static SerializerValidationResult validateInput(
         std::string_view input,
         std::string_view format_name = "Process Model"
     );
@@ -77,7 +78,7 @@ public:
      * @return true if the XML appears to be truncated (missing closing tags),
      *         false if structure appears complete.
      */
-    static [[nodiscard]] bool isXmlTruncated(std::string_view xml);
+    [[nodiscard]] static bool isXmlTruncated(std::string_view xml);
 
     /**
      * @brief Validate that a string is well-formed UTF-8.
@@ -85,7 +86,7 @@ public:
      * @param s The string to check.
      * @return true if the string is valid UTF-8, false otherwise.
      */
-    static [[nodiscard]] bool isValidUtf8(std::string_view s);
+    [[nodiscard]] static bool isValidUtf8(std::string_view s);
 
     /**
      * @brief Extract format version from a BPMN/CMMN/DMN document header.
@@ -93,7 +94,7 @@ public:
      * @param xml The XML document.
      * @return Version string (e.g., "2.0"), or empty if not found.
      */
-    static [[nodiscard]] std::string extractXmlVersion(std::string_view xml);
+    [[nodiscard]] static std::string extractXmlVersion(std::string_view xml);
 
     /**
      * @brief Count opening and closing XML tags to detect truncation.
@@ -101,12 +102,12 @@ public:
      * @param xml The XML input.
      * @return Tuple of (opening_count, closing_count).
      */
-    static [[nodiscard]] std::pair<int32_t, int32_t> countXmlTags(std::string_view xml);
+    [[nodiscard]] static std::pair<int32_t, int32_t> countXmlTags(std::string_view xml);
 
 private:
     // Private implementation helpers
-    static [[nodiscard]] bool isAsciiControlChar(unsigned char c);
-    static [[nodiscard]] bool isValidUtf8Sequence(
+    [[nodiscard]] static bool isAsciiControlChar(unsigned char c);
+    [[nodiscard]] static bool isValidUtf8Sequence(
         const unsigned char* data,
         size_t remaining_bytes,
         size_t& sequence_length
@@ -215,7 +216,7 @@ public:
      * @param elements List of BPMN element descriptions.
      * @return Validation result.
      */
-    static [[nodiscard]] SerializerValidationResult validateBpmnConstraints(
+    [[nodiscard]] static SerializerValidationResult validateBpmnConstraints(
         const std::vector<std::string>& element_ids
     );
 };
@@ -233,7 +234,7 @@ public:
      * @param edges List of edge source→target pairs.
      * @return Validation result.
      */
-    static [[nodiscard]] SerializerValidationResult validateEpkConstraints(
+    [[nodiscard]] static SerializerValidationResult validateEpkConstraints(
         const std::vector<std::string>& nodes,
         const std::vector<std::pair<std::string, std::string>>& edges
     );
@@ -251,7 +252,7 @@ public:
      * @param item_ids List of case plan item IDs.
      * @return Validation result.
      */
-    static [[nodiscard]] SerializerValidationResult validateCmmnConstraints(
+    [[nodiscard]] static SerializerValidationResult validateCmmnConstraints(
         std::string_view case_id,
         const std::vector<std::string>& item_ids
     );
@@ -270,7 +271,7 @@ public:
      * @param rule_count Number of decision rules.
      * @return Validation result.
      */
-    static [[nodiscard]] SerializerValidationResult validateDmnConstraints(
+    [[nodiscard]] static SerializerValidationResult validateDmnConstraints(
         std::string_view decision_id,
         int32_t rule_count
     );

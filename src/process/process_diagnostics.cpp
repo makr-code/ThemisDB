@@ -10,7 +10,9 @@
 #include "process/process_diagnostics.h"
 
 #include <chrono>
+#include <ctime>
 #include <iomanip>
+#include <mutex>
 #include <sstream>
 
 namespace themis::process {
@@ -81,11 +83,11 @@ std::string DiagnosticRecord::toFormattedMessage() const {
     oss << "(error=" << static_cast<int32_t>(error_code);
     oss << ", ts=";
 
-    // ISO8601 format: YYYY-MM-DDTHH:MM:SSZ
+    // ISO8601 format: YYYY-MM-DDTHH:MM:SS.mmmZ
     char timestamp_buf[32];
     if (tm_info) {
-        std::strftime(timestamp_buf, sizeof(timestamp_buf), "%Y-%m-%dT%H:%M:%SZ", tm_info);
-        oss << timestamp_buf;
+        std::strftime(timestamp_buf, sizeof(timestamp_buf), "%Y-%m-%dT%H:%M:%S", tm_info);
+        oss << timestamp_buf << "." << std::setw(3) << std::setfill('0') << ms_part << "Z";
     } else {
         oss << "INVALID";
     }
@@ -222,34 +224,6 @@ DiagnosticRecord ProcessDiagnostics::createMissingTargetIncident(
         DiagnosticIncidentType::MISSING_TARGET_INCIDENT,
         error,
         "resolve_missing_target",
-        input_id,
-        message
-    );
-}
-
-DiagnosticRecord ProcessDiagnostics::createConcurrencyIncident(
-    ProcError error,
-    std::string_view input_id,
-    std::string_view message
-) {
-    return DiagnosticRecord(
-        DiagnosticIncidentType::CONCURRENCY_INCIDENT,
-        error,
-        "concurrent_modification",
-        input_id,
-        message
-    );
-}
-
-DiagnosticRecord ProcessDiagnostics::createCycleIncident(
-    ProcError error,
-    std::string_view input_id,
-    std::string_view message
-) {
-    return DiagnosticRecord(
-        DiagnosticIncidentType::CYCLE_INCIDENT,
-        error,
-        "detect_cycle",
         input_id,
         message
     );

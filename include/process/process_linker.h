@@ -35,11 +35,13 @@
 #include <optional>
 #include <string>
 #include <string_view>
-#include <utility>
-#include <vector>
-#include <shared_mutex>
 #include <atomic>
 #include <cstdint>
+#include <shared_mutex>
+#include <unordered_map>
+#include <unordered_set>
+#include <utility>
+#include <vector>
 
 namespace themis {
 namespace process {
@@ -336,7 +338,6 @@ private:
     // Phase 2: Concurrency guards and conflict detection
     mutable std::shared_mutex link_state_lock_;  ///< RWLock protecting link consistency
     std::atomic<uint64_t> link_operation_counter_{0};  ///< Sequence counter for determinism
-
     /**
      * @brief Conflict descriptor for detecting concurrent modifications.
      * Tracks which links/attachments were modified during a multi-step operation.
@@ -346,7 +347,11 @@ private:
         std::string affected_key;
         int64_t timestamp_ms;
         uint64_t version;
+        bool existed_before{false};
+        std::string previous_value;
     };
+
+    std::unordered_map<uint64_t, std::vector<ConflictRecord>> rollback_records_;
 
     // Phase 3: Cycle detection helpers
     /**
@@ -428,4 +433,3 @@ private:
 
 } // namespace process
 } // namespace themis
-

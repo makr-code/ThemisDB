@@ -37,11 +37,11 @@
 #include <cstdint>
 #include <string>
 #include <string_view>
-#include <map>
-#include <vector>
-#include <utility>
-#include <shared_mutex>
 #include <nlohmann/json.hpp>
+#include <map>
+#include <shared_mutex>
+#include <utility>
+#include <vector>
 
 namespace themis::process {
 
@@ -66,14 +66,6 @@ enum class DiagnosticIncidentType : int32_t {
     /// Malformed input detected (invalid schema, syntax error)
     MALFORMED_INPUT_INCIDENT = 3607,
     /// Referenced target not found (missing link target, model, etc.)
-    MISSING_TARGET_INCIDENT = 3608,
-    /// High-churn or concurrent update conflict
-    CONCURRENCY_INCIDENT = 3605,
-    /// Cyclic dependency or circular reference detected
-    CYCLE_INCIDENT = 3606,
-    /// Malformed input (truncated, invalid structure, bad encoding)
-    MALFORMED_INPUT_INCIDENT = 3607,
-    /// Missing or invalid target in cross-reference
     MISSING_TARGET_INCIDENT = 3608,
 };
 
@@ -138,7 +130,9 @@ public:
      * Message: Invalid gateway type: COMPLEX_AND not supported in v2.0
      * @endcode
      */
-    std::string toFormattedMessage() const;
+    virtual ~DiagnosticRecord() = default;
+
+    virtual std::string toFormattedMessage() const;
 
     /**
      * @brief Get the actionable message (operator-facing).

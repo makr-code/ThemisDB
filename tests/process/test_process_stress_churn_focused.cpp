@@ -11,7 +11,10 @@
 #include <atomic>
 #include <chrono>
 #include <cstdint>
+#include <map>
+#include <mutex>
 #include <random>
+#include <set>
 #include <string>
 #include <thread>
 #include <vector>
@@ -71,13 +74,16 @@ TEST_F(StressChurnTest, S01_HighVolumeLinkCreationSustained) {
     }
 
     auto elapsed = std::chrono::high_resolution_clock::now() - start;
-    int64_t elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count();
+    int64_t elapsed_us = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
+    if (elapsed_us <= 0) {
+        elapsed_us = 1;
+    }
 
     EXPECT_EQ(links.size(), kStressRounds);
-    EXPECT_GT(elapsed_ms, 0);
+    EXPECT_GT(elapsed_us, 0);
 
     // Throughput should be reasonable (> 1000 ops/sec)
-    double ops_per_sec = (static_cast<double>(kStressRounds) / elapsed_ms) * 1000.0;
+    double ops_per_sec = (static_cast<double>(kStressRounds) / elapsed_us) * 1000000.0;
     EXPECT_GT(ops_per_sec, 100.0) << "Throughput too low: " << ops_per_sec << " ops/sec";
 }
 

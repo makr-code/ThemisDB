@@ -894,13 +894,12 @@ bool ProcessModelManager::detectConflict_(std::string_view model_id, int expecte
     
     // Attempt to read current revision from database
     std::string key = makeKey_(model_id);
-    std::string doc_str = db_.get(key);
-    
-    if (doc_str.empty()) {
+    std::string doc_str;
+    if (!db_.get(key, doc_str)) {
         // Model doesn't exist (or was deleted), conflict detected
         return true;
     }
-    
+
     try {
         auto doc = json::parse(doc_str);
         int current_revision = doc.value("revision", 0);
@@ -915,21 +914,24 @@ bool ProcessModelManager::detectConflict_(std::string_view model_id, int expecte
 
 void ProcessModelManager::rollbackTransaction_(const TransactionContext& txn) {
     std::unique_lock<std::shared_mutex> lock(model_state_lock_);
-    
-    // Roll back all modifications recorded in the transaction
+    const std::string primary_key = makeKey_(txn.model_id);
+    const std::string versioned_key = makeVersionedKey_(txn.model_id, txn.revision_at_start);
+    std::string prev_value;
+    const bool has_prev_value = db_.get(versioned_key, prev_value);
+
     for (const auto& key : txn.modified_keys) {
-        // Re-read the previous version if available
-        std::string versioned_key = makeVersionedKey_(txn.model_id, txn.revision_at_start);
-        std::string prev_value = db_.get(versioned_key);
-        
-        if (!prev_value.empty()) {
-            // Restore previous value
-            db_.put(key, prev_value);
-            SPDLOG_INFO("[process] Rolled back modification to key: {}", key);
+        if (key != primary_key) {
+            SPDLOG_WARN("[process] rollbackTransaction_: skipping unsupported key '{}' in txn {}",
+                        key, txn.txn_id);
+            continue;
+        }
+
+        if (has_prev_value) {
+            db_.put(primary_key, prev_value);
+            SPDLOG_INFO("[process] Rolled back model key: {}", primary_key);
         } else {
-            // Delete the key if no previous version exists
-            db_.delete(key);
-            SPDLOG_INFO("[process] Deleted key during rollback: {}", key);
+            db_.del(primary_key);
+            SPDLOG_INFO("[process] Deleted model key during rollback: {}", primary_key);
         }
     }
     
@@ -944,10 +946,10 @@ ProcessModelManager::TransactionContext ProcessModelManager::createTransaction_(
     
     uint64_t txn_id = operation_counter_++;
     std::string key = makeKey_(model_id);
-    std::string doc_str = db_.get(key);
+    std::string doc_str;
     int revision = 0;
-    
-    if (!doc_str.empty()) {
+
+    if (db_.get(key, doc_str)) {
         try {
             auto doc = json::parse(doc_str);
             revision = doc.value("revision", 0);
@@ -965,11 +967,10 @@ ProcessModelManager::TransactionContext ProcessModelManager::createTransaction_(
         std::string(model_id),
         now_ms,
         revision,
-        {},  // modified_keys
+        {key},  // modified_keys
         true // is_active
     };
 }
 
 } // namespace process
 } // namespace themis
-

@@ -10,8 +10,11 @@
 
 #include <algorithm>
 #include <cstdint>
+#include <functional>
+#include <map>
 #include <memory>
 #include <random>
+#include <string>
 #include <vector>
 
 using namespace themis::process;

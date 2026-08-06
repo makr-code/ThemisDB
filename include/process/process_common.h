@@ -23,6 +23,7 @@
 #pragma once
 
 #include <chrono>
+#include <cstddef>
 #include <cstdint>
 
 namespace themis::process {
