@@ -305,6 +305,44 @@ bool PluginManager::verifyManifestSignature(const std::string& manifest_path, st
 // ============================================================================
 
 /**
+ * @brief QW-43 Plugin Name Validation
+ *
+ * Path traversal defense: validates plugin names against injection attacks.
+ * Implements fail-closed semantics for security.
+ *
+ * @param name Plugin name from manifest
+ * @return true if valid, false if rejected (fail-closed)
+ */
+static bool isValidPluginName(const std::string& name) {
+    // Guard 1: Name must be non-empty and reasonable length
+    if (name.empty() || name.length() > 256) {
+        return false;
+    }
+    
+    // Guard 2: No path traversal patterns
+    if (name.find('/') != std::string::npos ||
+        name.find('\\') != std::string::npos ||
+        name.find("..") != std::string::npos) {
+        return false;
+    }
+    
+    // Guard 3: No absolute paths (Windows drive letters or Unix roots)
+    if (name.find(':') != std::string::npos ||  // Windows C:, Unix absolute on Windows
+        name.find('.') == 0) {                   // Unix hidden files / relative paths
+        return false;
+    }
+    
+    // Guard 4: Only alphanumeric, underscore, hyphen allowed
+    for (unsigned char c : name) {
+        if (!std::isalnum(c) && c != '_' && c != '-') {
+            return false;  // Fail-closed: reject on any invalid character
+        }
+    }
+    
+    return true;
+}
+
+/**
  * @brief Phase 2C: Unified validation for plugin load operations.
  *
  * Implements 4-stage validation contract:
@@ -369,55 +407,9 @@ PluginsError PluginManager::validatePluginForLoad(
         THEMIS_ERROR("Plugin binary verification failed: {}", error_details);
         return PluginsError::kSignatureVerifyFailed;
     }
-    
+     
     THEMIS_INFO("Plugin validation succeeded for '{}': all 4 stages passed", manifest.name);
     return PluginsError::kSuccess;
-}
-
-// ============================================================================
-// QW-43: Plugin Name Validation (Path Traversal Guard)
-// ============================================================================
-
-/**
- * @brief Validate plugin name against path traversal attacks (fail-closed).
- * 
- * Rejects names containing:
- * - Directory separators: / \ ..
- * - Absolute path indicators: C:\ /etc/ etc.
- * - Special shell/control characters
- * 
- * Whitelist: alphanumeric (a-z, A-Z, 0-9), underscore (_), hyphen (-)
- * 
- * @param name Plugin name from manifest
- * @return true if valid, false if rejected (fail-closed)
- */
-static bool isValidPluginName(const std::string& name) {
-    // Guard 1: Name must be non-empty and reasonable length
-    if (name.empty() || name.length() > 256) {
-        return false;
-    }
-    
-    // Guard 2: No path traversal patterns
-    if (name.find('/') != std::string::npos ||
-        name.find('\\') != std::string::npos ||
-        name.find("..") != std::string::npos) {
-        return false;
-    }
-    
-    // Guard 3: No absolute paths (Windows drive letters or Unix roots)
-    if (name.find(':') != std::string::npos ||  // Windows C:, Unix absolute on Windows
-        name.find('.') == 0) {                   // Unix hidden files / relative paths
-        return false;
-    }
-    
-    // Guard 4: Only alphanumeric, underscore, hyphen allowed
-    for (unsigned char c : name) {
-        if (!std::isalnum(c) && c != '_' && c != '-') {
-            return false;  // Fail-closed: reject on any invalid character
-        }
-    }
-    
-    return true;
 }
 
 // ============================================================================
@@ -2092,7 +2084,20 @@ PluginsError PluginManager::validateABICompatibility(
     }
     
     // Check capabilities are not reduced
-    if (previous_entry.frozen_capabilities.size() > new_manifest.capabilities.size()) {
+    auto count_capabilities = [](const PluginCapabilities& caps) -> int {
+        int count = 0;
+        if (caps.supports_streaming) count++;
+        if (caps.supports_batching) count++;
+        if (caps.supports_transactions) count++;
+        if (caps.thread_safe) count++;
+        if (caps.gpu_accelerated) count++;
+        if (caps.provides_vram_policy) count++;
+        if (caps.provides_shard_policy) count++;
+        return count;
+    };
+     
+    if (count_capabilities(previous_entry.frozen_capabilities) > 
+        count_capabilities(new_manifest.capabilities)) {
        THEMIS_WARN("[SECURITY:CAPABILITY_REDUCTION] Plugin capabilities reduced after reload");
     }
     
