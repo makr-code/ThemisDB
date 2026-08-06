@@ -73,16 +73,26 @@ bool GRPCServer::initialize(const RPCServerConfig& config) {
 }
 
 bool GRPCServer::start() {
+    // Phase 3: Hardened lifecycle and fail-safe semantics
     if (running_) {
-        std::cerr << "gRPC server is already running" << std::endl;
+        std::cerr << "[RPC-E8300] Server start rejected: already running" << std::endl;
         return false;
     }
 
     try {
         grpc::ServerBuilder builder;
 
-        // Configure credentials (TLS or insecure)
-        auto credentials = configureCredentials();
+        // Configure credentials (TLS or insecure) — fail-closed on errors
+        std::shared_ptr<grpc::ServerCredentials> credentials;
+        try {
+            credentials = configureCredentials();
+        } catch (const std::exception& e) {
+            std::cerr << "[RPC-E8302] Server start failed: credentials configuration error — "
+                      << e.what() << std::endl;
+            admin_address_.clear();
+            return false;
+        }
+
         builder.AddListeningPort(server_address_, credentials);
 
         // ---- v0.2.0: keepalive tuning ----------------------------------------
@@ -109,8 +119,8 @@ bool GRPCServer::start() {
                 && admin_port > 0 && admin_port < 65536) {
                 admin_address_ = config_.host + ":" + std::to_string(admin_port);
                 // GAP-016: Log warning for insecure admin port binding (CWE-295).
-                std::cerr << "[SECURITY] GRPCServer: admin port " << admin_port
-                          << " bound with insecure credentials (GAP-016/CWE-295)."
+                std::cerr << "[RPC-W/GAP-016] GRPCServer: admin port " << admin_port
+                          << " bound with insecure credentials (CWE-295)."
                           << std::endl;
                 builder.AddListeningPort(admin_address_,
                                          grpc::InsecureServerCredentials());
@@ -120,7 +130,15 @@ bool GRPCServer::start() {
         }
 
         // Register all services
+        if (services_.empty()) {
+            std::cerr << "[RPC-W] Server start with no registered services" << std::endl;
+        }
         for (auto* service : services_) {
+            if (!service) {
+                std::cerr << "[RPC-E8301] Server start rejected: null service pointer" << std::endl;
+                admin_address_.clear();
+                return false;
+            }
             builder.RegisterService(service);
         }
         // gRPC requires at least one completion queue or a registered sync service.
@@ -151,58 +169,84 @@ bool GRPCServer::start() {
             }
             return true;
         } else {
-            std::cerr << "Failed to start gRPC server" << std::endl;
+            std::cerr << "[RPC-E8306] Server start failed: BuildAndStart() returned nullptr" << std::endl;
             admin_address_.clear();
             return false;
         }
     } catch (const std::exception& e) {
-        std::cerr << "Exception starting gRPC server: " << e.what() << std::endl;
+        std::cerr << "[RPC-E8306] Server start failed: unexpected exception — "
+                  << e.what() << std::endl;
         admin_address_.clear();
         return false;
     }
 }
 
 void GRPCServer::stop() {
-    if (server_ && running_) {
-        std::cout << "Shutting down gRPC server..." << std::endl;
-        // v0.3.0: mark global health as NOT_SERVING
-        setServiceHealth("", false);
+    // Phase 3: Deterministic shutdown with explicit diagnostics
+    if (!server_ || !running_) {
+        std::cerr << "[RPC-W] Server stop called but not running" << std::endl;
+        return;
+    }
+
+    try {
+        std::cout << "[RPC-I] Shutting down gRPC server..." << std::endl;
+        
+        // Mark all services as NOT_SERVING (graceful degradation)
+        {
+            std::lock_guard<std::mutex> lock(health_mutex_);
+            for (auto& kv : health_states_) {
+                kv.second = false;
+            }
+        }
+
+        // Shutdown server (blocks until all in-flight RPCs complete or timeout)
         server_->Shutdown();
+
+        // Drain idle completion queue if present
         if (idle_cq_) {
             idle_cq_->Shutdown();
             void* tag = nullptr;
             bool ok = false;
-            while (idle_cq_->Next(&tag, &ok)) {}
+            while (idle_cq_->Next(&tag, &ok)) {
+                // Drain all remaining messages
+            }
             idle_cq_.reset();
         }
+
         running_ = false;
-        std::cout << "gRPC server stopped" << std::endl;
-    }
-}
+        std::cout << "[RPC-I] gRPC server stopped successfully" << std::endl;
 
-bool GRPCServer::isRunning() const {
-    return running_;
-}
-
-RPCServerStats GRPCServer::getStats() const {
-    std::lock_guard<std::mutex> lock(stats_mutex_);
-    RPCServerStats result = stats_;
-    if (running_) {
-        auto elapsed = std::chrono::steady_clock::now() - start_time_;
-        result.uptime_seconds = static_cast<uint64_t>(
-            std::chrono::duration_cast<std::chrono::seconds>(elapsed).count());
+    } catch (const std::exception& e) {
+        std::cerr << "[RPC-E8306] Server stop failed: " << e.what() << std::endl;
+        running_ = false;
     }
-    return result;
 }
 
 void GRPCServer::registerService(void* service_impl) {
+    // Phase 3: Bounded registration with explicit error handling
     if (!service_impl) {
-        std::cerr << "Cannot register null service" << std::endl;
+        std::cerr << "[RPC-E8301] Service registration failed: null service pointer" << std::endl;
         return;
     }
+
+    if (running_) {
+        std::cerr << "[RPC-E8300] Service registration rejected: server already running "
+                  << "(register services before start())" << std::endl;
+        return;
+    }
+
+    // Idempotent check: verify same service not registered twice
     auto* service = static_cast<grpc::Service*>(service_impl);
+    for (auto* existing : services_) {
+        if (existing == service) {
+            std::cerr << "[RPC-W] Service registration: service already registered (idempotent)"
+                      << std::endl;
+            return;
+        }
+    }
+
     services_.push_back(service);
-    std::cout << "Registered gRPC service" << std::endl;
+    std::cout << "[RPC-I] Service registered (count=" << services_.size() << ")" << std::endl;
 }
 
 std::string GRPCServer::getAddress() const {
@@ -215,29 +259,73 @@ void GRPCServer::resetStats() {
 }
 
 // ============================================================================
-// v0.2.0 — TLS Hot-Reload
+// v0.2.0 — TLS Hot-Reload (Phase 3: Fail-Safe, Deterministic Hardening)
 // ============================================================================
 
 bool GRPCServer::reloadTls(const std::string& cert_path,
                              const std::string& key_path,
                              const std::string& ca_path)
 {
-    if (!running_) return false;
-    if (!config_.tls_enabled) return false;
+    // Phase 3: Standardized fail-safe behavior
+    // ---- Precondition checks (fail-closed) ----
+    if (!running_) {
+        std::cerr << "[RPC-E8300] TLS reload rejected: server not running" << std::endl;
+        return false;
+    }
+    if (!config_.tls_enabled) {
+        std::cerr << "[RPC-E8302] TLS reload rejected: TLS not enabled in config" << std::endl;
+        return false;
+    }
+    if (cert_path.empty() || key_path.empty() || ca_path.empty()) {
+        std::cerr << "[RPC-E8302] TLS reload rejected: empty certificate paths" << std::endl;
+        return false;
+    }
 
+    // ---- Atomic validation (old credentials remain active if any step fails) ----
     try {
-        std::string cert = loadFile(cert_path);
-        std::string key  = loadFile(key_path);
-        std::string ca   = loadFile(ca_path);
+        // Step 1: Load all files (fail-closed: no partial state)
+        std::string cert, key, ca;
+        try {
+            cert = loadFile(cert_path);
+            key  = loadFile(key_path);
+            ca   = loadFile(ca_path);
+        } catch (const std::exception& e) {
+            std::cerr << "[RPC-E8302] TLS reload failed: file load error — "
+                      << e.what() << " (old credentials retained)" << std::endl;
+            return false;
+        }
 
-        auto new_creds = buildSslCredentials(cert, key, ca, config_.auth_required);
+        // Step 2: Validate certificate contents (fail-closed)
+        if (cert.empty() || key.empty()) {
+            std::cerr << "[RPC-E8302] TLS reload failed: certificate or key is empty "
+                      << "(old credentials retained)" << std::endl;
+            return false;
+        }
 
-        std::lock_guard<std::mutex> lock(tls_mutex_);
-        credentials_ = std::move(new_creds);
-        std::cout << "TLS certificates reloaded successfully" << std::endl;
+        // Step 3: Build new credentials (isolated operation)
+        std::shared_ptr<grpc::ServerCredentials> new_creds;
+        try {
+            new_creds = buildSslCredentials(cert, key, ca, config_.auth_required);
+        } catch (const std::exception& e) {
+            std::cerr << "[RPC-E8302] TLS reload failed: credential build error — "
+                      << e.what() << " (old credentials retained)" << std::endl;
+            return false;
+        }
+
+        // Step 4: Atomic swap (only on success, old credentials remain if lock fails)
+        {
+            std::lock_guard<std::mutex> lock(tls_mutex_);
+            credentials_ = std::move(new_creds);
+        }
+
+        std::cerr << "[RPC-I] TLS certificates reloaded successfully (cert_path="
+                  << cert_path << ")" << std::endl;
         return true;
+
     } catch (const std::exception& e) {
-        std::cerr << "TLS reload failed (old credentials retained): " << e.what() << std::endl;
+        // Catch-all: unexpected exception (fail-closed)
+        std::cerr << "[RPC-E8306] TLS reload failed: unexpected error — "
+                  << e.what() << " (old credentials retained)" << std::endl;
         return false;
     }
 }
@@ -418,30 +506,46 @@ std::string GRPCServer::loadFile(const std::string& path) {
 
 std::shared_ptr<grpc::ServerCredentials>
 GRPCServer::configureCredentials() {
+    // Phase 3: Fail-closed credential configuration with explicit validation
     if (!config_.tls_enabled) {
-        // GAP-016: Log a security warning when falling back to insecure credentials
-        // (CWE-295). Using std::cerr instead of a proper log sink misses SIEM routing.
-        // Replace std::cout with std::cerr + structured warning so the message is
-        // visible at default log levels.
-        std::cerr << "[SECURITY] GRPCServer: TLS is disabled — using insecure gRPC "
+        std::cerr << "[RPC-W/GAP-016] GRPCServer: TLS is disabled — using insecure gRPC "
                      "credentials. All gRPC traffic is unencrypted. "
-                     "Enable TLS in production (GAP-016/CWE-295)." << std::endl;
+                     "Enable TLS in production (CWE-295)." << std::endl;
         return grpc::InsecureServerCredentials();
     }
 
     try {
-        std::string cert = loadFile(config_.tls_cert_path);
-        std::string key  = loadFile(config_.tls_key_path);
-        std::string ca   = loadFile(config_.tls_ca_cert_path);
+        // Validate paths exist and are readable (fail-closed)
+        if (config_.tls_cert_path.empty() || config_.tls_key_path.empty() || 
+            config_.tls_ca_cert_path.empty()) {
+            throw std::runtime_error("TLS configuration incomplete: empty certificate paths");
+        }
+
+        std::string cert, key, ca;
+        try {
+            cert = loadFile(config_.tls_cert_path);
+            key  = loadFile(config_.tls_key_path);
+            ca   = loadFile(config_.tls_ca_cert_path);
+        } catch (const std::exception& e) {
+            throw std::runtime_error(std::string("Failed to load TLS files: ") + e.what());
+        }
+
+        if (cert.empty() || key.empty()) {
+            throw std::runtime_error("TLS certificate or key is empty");
+        }
+
         auto creds = buildSslCredentials(cert, key, ca, config_.auth_required);
         {
             std::lock_guard<std::mutex> lock(tls_mutex_);
             credentials_ = creds;
         }
         return creds;
+
     } catch (const std::exception& e) {
-        std::cerr << "CRITICAL: Failed to configure TLS: " << e.what() << std::endl;
-        std::cerr << "Server will NOT start with insecure credentials for security" << std::endl;
+        std::cerr << "[RPC-E8302] CRITICAL: Failed to configure TLS: " << e.what() 
+                  << std::endl;
+        std::cerr << "[RPC-E8302] Server will NOT start with insecure credentials for security"
+                  << std::endl;
         throw std::runtime_error("TLS configuration failed - aborting for security");
     }
 }
@@ -452,26 +556,36 @@ GRPCServer::buildSslCredentials(const std::string& cert_pem,
                                   const std::string& ca_pem,
                                   bool require_client_cert)
 {
-    grpc::SslServerCredentialsOptions ssl_opts;
-
-    if (require_client_cert) {
-        ssl_opts.client_certificate_request =
-            GRPC_SSL_REQUEST_AND_REQUIRE_CLIENT_CERTIFICATE_AND_VERIFY;
-        std::cout << "gRPC server configured for mutual TLS (mTLS)" << std::endl;
-    } else {
-        ssl_opts.client_certificate_request =
-            GRPC_SSL_DONT_REQUEST_CLIENT_CERTIFICATE;
-        std::cout << "gRPC server configured for server-side TLS only" << std::endl;
+    // Phase 3: Explicit validation before building credentials
+    if (cert_pem.empty() || key_pem.empty()) {
+        throw std::runtime_error("Certificate or key PEM is empty");
     }
 
-    ssl_opts.pem_root_certs = ca_pem;
+    try {
+        grpc::SslServerCredentialsOptions ssl_opts;
 
-    grpc::SslServerCredentialsOptions::PemKeyCertPair pair;
-    pair.private_key = key_pem;
-    pair.cert_chain  = cert_pem;
-    ssl_opts.pem_key_cert_pairs.push_back(pair);
+        if (require_client_cert) {
+            ssl_opts.client_certificate_request =
+                GRPC_SSL_REQUEST_AND_REQUIRE_CLIENT_CERTIFICATE_AND_VERIFY;
+            std::cout << "[RPC-I] gRPC server configured for mutual TLS (mTLS)" << std::endl;
+        } else {
+            ssl_opts.client_certificate_request =
+                GRPC_SSL_DONT_REQUEST_CLIENT_CERTIFICATE;
+            std::cout << "[RPC-I] gRPC server configured for server-side TLS only" << std::endl;
+        }
 
-    return grpc::SslServerCredentials(ssl_opts);
+        ssl_opts.pem_root_certs = ca_pem;
+
+        grpc::SslServerCredentialsOptions::PemKeyCertPair pair;
+        pair.private_key = key_pem;
+        pair.cert_chain  = cert_pem;
+        ssl_opts.pem_key_cert_pairs.push_back(pair);
+
+        return grpc::SslServerCredentials(ssl_opts);
+
+    } catch (const std::exception& e) {
+        throw std::runtime_error(std::string("Failed to build SSL credentials: ") + e.what());
+    }
 }
 
 const char* GRPCPlugin::getName() const {
