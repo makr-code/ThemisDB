@@ -373,6 +373,38 @@ public:
     ) const;
 
     // -------------------------------------------------------------------------
+    // Validation and Hardening
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Validate process model consistency and integrity.
+     *
+     * Checks:
+     * - Required fields are non-empty (id, name, version)
+     * - All referenced nodes in edges exist
+     * - No dangling references
+     * - Best-effort bounded cycle diagnostics (warnings only, non-fatal)
+     * - Resource limits respected (max nodes/edges/depth)
+     *
+     * @param record The record to validate
+     * @return ProcessModelResult with detailed validation errors on failure
+     */
+    ProcessModelResult validateModelConsistency(const ProcessModelRecord& record) const;
+
+    /**
+     * @brief Get internal state consistency checks for debugging.
+     *
+     * Returns diagnostic information about:
+     * - Total models loaded
+     * - Index coherency status (FTS/Vector)
+     * - Orphaned or corrupted records
+     * - Revision chain integrity
+     *
+     * @return JSON diagnostic object
+     */
+    [[nodiscard]] nlohmann::json getConsistencyDiagnostics() const;
+
+    // -------------------------------------------------------------------------
     // Optional integrations
     // -------------------------------------------------------------------------
 

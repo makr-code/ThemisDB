@@ -337,23 +337,58 @@ BPMNNodeType BpmnSerializer::xmlTagToNodeType_(std::string_view tag) {
 }
 
 // ---------------------------------------------------------------------------
+// BpmnSerializer::ImportResult helper methods (Phase 3)
+// ---------------------------------------------------------------------------
+
+BpmnSerializer::ImportResult BpmnSerializer::ImportResult::success(
+    std::string_view pid,
+    std::string_view pname,
+    std::vector<ProcessNodeInfo> n,
+    std::vector<ProcessEdgeInfo> e
+) {
+    ImportResult r;
+    r.ok = true;
+    r.error_code = ProcessErrorCode::INTERNAL_ERROR; // not checked when ok=true
+    r.message = "OK";
+    r.process_id = std::string(pid);
+    r.process_name = std::string(pname);
+    r.nodes = std::move(n);
+    r.edges = std::move(e);
+    return r;
+}
+
+BpmnSerializer::ImportResult BpmnSerializer::ImportResult::failure(
+    ProcessErrorCode code,
+    std::string_view context,
+    std::string_view detail
+) {
+    ImportResult r;
+    r.ok = false;
+    r.error_code = code;
+    r.message = formatDiagnostic(code, context, detail);
+    return r;
+}
+
+// ---------------------------------------------------------------------------
 // BpmnSerializer::importXml
 // ---------------------------------------------------------------------------
 
 BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml) {
-    ImportResult result;
-
     if (bpmn_xml.empty()) {
-        result.ok      = false;
-        result.message = "No BPMN flow elements found in XML";
-        return result;
+        return ImportResult::failure(
+            ProcessErrorCode::EMPTY_INPUT,
+            "import BPMN from XML",
+            "input is empty"
+        );
     }
 
     // Security guard: reject oversized documents before any parsing work.
     if (bpmn_xml.size() > kMaxBpmnXmlBytes) {
-        result.ok      = false;
-        result.message = "BPMN XML exceeds maximum allowed size (10 MiB)";
-        return result;
+        return ImportResult::failure(
+            ProcessErrorCode::INPUT_TOO_LARGE,
+            "import BPMN from XML",
+            "XML exceeds 10 MiB size limit"
+        );
     }
 
     // Known flow-node local names.
@@ -624,9 +659,11 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
     };
 
     if (!tokenizeXml(bpmn_xml, tag_cb, text_cb)) {
-        result.ok      = false;
-        result.message = "BPMN XML exceeds maximum allowed size (10 MiB)";
-        return result;
+        return ImportResult::failure(
+            ProcessErrorCode::MALFORMED_INPUT,
+            "import BPMN from XML",
+            "XML tokenization failed (invalid syntax or structure)"
+        );
     }
 
     // Apply BPMNDI graphical layout hints (x/y/width/height) to nodes.
@@ -654,14 +691,30 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
     }
 
     if (result.nodes.empty() && result.edges.empty()) {
-        result.ok      = false;
-        result.message = "No BPMN flow elements found in XML";
-        return result;
+        return ImportResult::failure(
+            ProcessErrorCode::EMPTY_INPUT,
+            "import BPMN from XML",
+            "no process nodes or edges found"
+        );
     }
 
-    result.ok      = true;
-    result.message = "OK";
-    return result;
+    // Validate structure before returning success
+    std::string validation_error = validateStructure(result.nodes, result.edges);
+    if (!validation_error.empty()) {
+        return ImportResult::failure(
+            ProcessErrorCode::SEMANTIC_VIOLATION,
+            "import BPMN from XML",
+            validation_error
+        );
+    }
+
+    // Return success with populated nodes, edges, and metadata
+    return ImportResult::success(
+        result.process_id,
+        result.process_name,
+        std::move(result.nodes),
+        std::move(result.edges)
+    );
 }
 
 // ---------------------------------------------------------------------------
@@ -671,10 +724,11 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
 BpmnSerializer::ImportResult BpmnSerializer::importFile(std::string_view file_path) {
     std::ifstream f{std::string(file_path)};
     if (!f.is_open()) {
-        ImportResult r;
-        r.ok      = false;
-        r.message = "Cannot open file: " + std::string(file_path);
-        return r;
+        return ImportResult::failure(
+            ProcessErrorCode::FILE_READ_ERROR,
+            "import BPMN from file",
+            std::string(file_path)
+        );
     }
     std::string content((std::istreambuf_iterator<char>(f)),
                          std::istreambuf_iterator<char>());
@@ -816,6 +870,77 @@ std::string BpmnSerializer::exportFromJson(const json& g) {
     }
 
     return exportXml(pid, name, nodes, edges);
+}
+
+// ---------------------------------------------------------------------------
+// BpmnSerializer::validateStructure
+// ---------------------------------------------------------------------------
+
+std::string BpmnSerializer::validateStructure(
+    const std::vector<ProcessNodeInfo>& nodes,
+    const std::vector<ProcessEdgeInfo>& edges)
+{
+    // Resource constraints
+    constexpr size_t MAX_NODES = 10000;
+    constexpr size_t MAX_EDGES = 50000;
+
+    // 1. Check node count bounds
+    if (nodes.size() > MAX_NODES) {
+        return "Node count (" + std::to_string(nodes.size()) +
+               ") exceeds maximum (" + std::to_string(MAX_NODES) + ")";
+    }
+
+    // 2. Check edge count bounds
+    if (edges.size() > MAX_EDGES) {
+        return "Edge count (" + std::to_string(edges.size()) +
+               ") exceeds maximum (" + std::to_string(MAX_EDGES) + ")";
+    }
+
+    // 3. Build set of node IDs for validation
+    std::unordered_set<std::string> node_ids;
+    for (const auto& node : nodes) {
+        if (node.node_id.empty()) {
+            return "Node with empty id encountered";
+        }
+        if (node_ids.count(node.node_id)) {
+            return "Duplicate node id: " + node.node_id;
+        }
+        node_ids.insert(node.node_id);
+    }
+
+    // 4. Validate all edges reference existing nodes
+    for (const auto& edge : edges) {
+        if (edge.from_node.empty() || edge.to_node.empty()) {
+            return "Edge with empty from or to node encountered";
+        }
+        if (node_ids.find(edge.from_node) == node_ids.end()) {
+            return "Edge references non-existent source node: " + edge.from_node;
+        }
+        if (node_ids.find(edge.to_node) == node_ids.end()) {
+            return "Edge references non-existent target node: " + edge.to_node;
+        }
+    }
+
+    // 5. Check for self-loops (allowed but unusual)
+    size_t self_loop_count = 0;
+    for (const auto& edge : edges) {
+        if (edge.from_node == edge.to_node) {
+            self_loop_count++;
+        }
+    }
+    if (self_loop_count > nodes.size() / 10) {
+        // More than 10% self-loops is suspicious, but not necessarily invalid
+        SPDLOG_WARN("[bpmn] High self-loop ratio: {}/{}", self_loop_count, edges.size());
+    }
+
+    // 6. Validate node names are reasonable length
+    for (const auto& node : nodes) {
+        if (node.name.length() > 1000) {
+            return "Node name exceeds maximum length: " + node.node_id;
+        }
+    }
+
+    return "";  // Validation passed
 }
 
 } // namespace process

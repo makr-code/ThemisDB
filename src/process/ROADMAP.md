@@ -10,6 +10,10 @@ Production-capable process modeling runtime with hardened edge-case behavior, un
 
 **Milestone:** All Phase 1-6 deliverables complete (High-Churn Hardening Initiative). Module ready for production deployment with explicit concurrency, determinism, and diagnostics contracts.
 
+- [x] hardening process edge-case behavior across import/parsing and linking transitions (Target: Q3 2026)
+- [x] benchmark stabilization for process import/retrieval/mining hot paths (Target: Q3 2026)
+- [x] diagnostics consistency for model validation and retrieval incident classes (Target: Q3 2026)
+
 ## Completed Initiatives
 
 ### High-Churn Hardening Initiative (Phases 1-6) - COMPLETE ✓
@@ -217,4 +221,3 @@ For detailed design rationale and specifications, see:
 - **Performance Scaling** – Lock-free structures for high-contention, async I/O hardening
 
 **Target Delivery:** Q1 2027 (6 phases, 6 months)
-

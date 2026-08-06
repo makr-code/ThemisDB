@@ -111,6 +111,12 @@ Status ProjectLifecycle::applyTransition(
     const std::string& actor,
     const std::string& reason)
 {
+    // ── Entry validation: enforce bounded runtime contract ─────────────────────
+    if (project_id.empty())
+        return Status::Error("applyTransition: project_id must not be empty");
+    if (actor.empty())
+        return Status::Error("applyTransition: actor must not be empty");
+
     // Read current state (already held under unique_lock by callers)
     std::string state_str;
     std::optional<ProjectState> current;
@@ -118,11 +124,11 @@ Status ProjectLifecycle::applyTransition(
         current = projectStateFromString(state_str);
 
     if (!current.has_value())
-        return Status::Error("Project lifecycle not found: " + project_id);
+        return Status::Error("applyTransition: project lifecycle not found: " + project_id);
 
     if (!isValidTransition(*current, to_state)) {
         return Status::Error(
-            std::string("Invalid transition from ") +
+            std::string("applyTransition: invalid transition from ") +
             projectStateToString(*current) + " to " +
             projectStateToString(to_state));
     }
@@ -150,7 +156,7 @@ Status ProjectLifecycle::applyTransition(
     // Write new state
     if (!storage_->put("lifecycle:" + project_id,
                         projectStateToString(to_state)))
-        return Status::Error("Failed to persist lifecycle state");
+        return Status::Error("applyTransition: failed to persist lifecycle state");
 
     // Append audit entry
     if (!storage_->put(log_key, transition.toJson().dump())) {
