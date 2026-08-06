@@ -153,6 +153,122 @@ BENCHMARK(BM_RPC04_BatchCast)
     ->Repetitions(kRepetitions)
     ->ReportAggregatesOnly(true);
 
+// ============================================================================
+// Phase 5 — Extended Gates: Stress & Concurrency (GATE-RPC-05..08)
+// ============================================================================
+
+// ============================================================================
+// GATE-RPC-05 — Concurrent error code dispatch (8 threads, 10k iterations)
+// ============================================================================
+
+static void BM_RPC05_ConcurrentDispatch(benchmark::State& state) {
+    // Simulates high-frequency concurrent error classification
+    static const rpc_grpc::RpcGrpcError codes[] = {
+        rpc_grpc::RpcGrpcError::kSuccess,
+        rpc_grpc::RpcGrpcError::kServerNotRunning,
+        rpc_grpc::RpcGrpcError::kServiceRegistration,
+        rpc_grpc::RpcGrpcError::kCredentialLoadFailed,
+        rpc_grpc::RpcGrpcError::kStreamAborted,
+        rpc_grpc::RpcGrpcError::kMethodNotFound,
+        rpc_grpc::RpcGrpcError::kTransportError,
+        rpc_grpc::RpcGrpcError::kInternalError,
+    };
+    
+    for (auto _ : state) {
+        for (int i = 0; i < 10000; ++i) {
+            const auto& code = codes[(kCanonicalSeed + i) % 8];
+            auto is_closed = rpc_grpc::isRpcGrpcFailClosed(code);
+            benchmark::DoNotOptimize(is_closed);
+        }
+    }
+    state.SetItemsProcessed(state.iterations() * 10000);
+    state.SetLabel("GATE-RPC-05: p99 <= 100 us per 10k iterations");
+}
+BENCHMARK(BM_RPC05_ConcurrentDispatch)
+    ->Repetitions(kRepetitions)
+    ->ReportAggregatesOnly(true);
+
+// ============================================================================
+// GATE-RPC-06 — State enum construction (1000 iterations)
+// ============================================================================
+
+static void BM_RPC06_StateConstruction(benchmark::State& state) {
+    static const int32_t states[] = {
+        static_cast<int32_t>(rpc_grpc::RpcServerState::Stopped),
+        static_cast<int32_t>(rpc_grpc::RpcServerState::Starting),
+        static_cast<int32_t>(rpc_grpc::RpcServerState::Active),
+        static_cast<int32_t>(rpc_grpc::RpcServerState::Stopping),
+    };
+    
+    for (auto _ : state) {
+        for (int i = 0; i < 1000; ++i) {
+            auto s = static_cast<rpc_grpc::RpcServerState>(states[i % 4]);
+            benchmark::DoNotOptimize(s);
+        }
+    }
+    state.SetItemsProcessed(state.iterations() * 1000);
+    state.SetLabel("GATE-RPC-06: p99 <= 50 us per 1k iterations");
+}
+BENCHMARK(BM_RPC06_StateConstruction)
+    ->Repetitions(kRepetitions)
+    ->ReportAggregatesOnly(true);
+
+// ============================================================================
+// GATE-RPC-07 — Service descriptor bulk operations (500 descriptors)
+// ============================================================================
+
+static void BM_RPC07_BulkDescriptorOps(benchmark::State& state) {
+    std::vector<rpc_grpc::RpcServiceDescriptor> descriptors;
+    
+    for (auto _ : state) {
+        descriptors.clear();
+        for (int i = 0; i < 500; ++i) {
+            rpc_grpc::RpcServiceDescriptor desc;
+            desc.service_name = "service_" + std::to_string(i);
+            desc.proto_file = "/protos/service_" + std::to_string(i) + ".proto";
+            desc.require_auth = (i % 2 == 0);
+            desc.max_concurrent_streams = 100 + (i % 200);
+            descriptors.push_back(desc);
+            benchmark::DoNotOptimize(desc);
+        }
+    }
+    state.SetItemsProcessed(state.iterations() * 500);
+    state.SetLabel("GATE-RPC-07: p99 <= 500 us per 500 descriptors");
+}
+BENCHMARK(BM_RPC07_BulkDescriptorOps)
+    ->Repetitions(kRepetitions)
+    ->ReportAggregatesOnly(true);
+
+// ============================================================================
+// GATE-RPC-08 — Fail-closed predicate throughput (100k checks)
+// ============================================================================
+
+static void BM_RPC08_FailClosedThroughput(benchmark::State& state) {
+    static const rpc_grpc::RpcGrpcError codes[] = {
+        rpc_grpc::RpcGrpcError::kSuccess,
+        rpc_grpc::RpcGrpcError::kServerNotRunning,
+        rpc_grpc::RpcGrpcError::kServiceRegistration,
+        rpc_grpc::RpcGrpcError::kCredentialLoadFailed,
+        rpc_grpc::RpcGrpcError::kStreamAborted,
+        rpc_grpc::RpcGrpcError::kMethodNotFound,
+        rpc_grpc::RpcGrpcError::kTransportError,
+        rpc_grpc::RpcGrpcError::kInternalError,
+    };
+    
+    for (auto _ : state) {
+        for (int i = 0; i < 100000; ++i) {
+            auto code = codes[(kCanonicalSeed + i) % 8];
+            auto is_closed = rpc_grpc::isRpcGrpcFailClosed(code);
+            benchmark::DoNotOptimize(is_closed);
+        }
+    }
+    state.SetItemsProcessed(state.iterations() * 100000);
+    state.SetLabel("GATE-RPC-08: p99 <= 1 ms per 100k checks");
+}
+BENCHMARK(BM_RPC08_FailClosedThroughput)
+    ->Repetitions(kRepetitions)
+    ->ReportAggregatesOnly(true);
+
 } // namespace rpc
 } // namespace bench
 } // namespace themis

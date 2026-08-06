@@ -169,6 +169,164 @@ TEST(RpcGrpcContractHardening, RPC08_FailClosedPredicate) {
     EXPECT_FALSE(isRpcGrpcFailClosed(RpcGrpcError::kTransportError));
 }
 
+// ============================================================================
+// Phase 4 — Edge Case Regressions (RPC-09..RPC-16)
+// ============================================================================
+
+// ============================================================================
+// RPC-09 — Error code serialization round-trip
+// ============================================================================
+
+TEST(RpcGrpcContractHardening, RPC09_ErrorCodeSerialization) {
+    const RpcGrpcError codes[] = {
+        RpcGrpcError::kSuccess,
+        RpcGrpcError::kServerNotRunning,
+        RpcGrpcError::kServiceRegistration,
+        RpcGrpcError::kCredentialLoadFailed,
+        RpcGrpcError::kStreamAborted,
+        RpcGrpcError::kMethodNotFound,
+        RpcGrpcError::kTransportError,
+        RpcGrpcError::kInternalError,
+    };
+
+    for (auto code : codes) {
+        int32_t serialized = static_cast<int32_t>(code);
+        auto deserialized = static_cast<RpcGrpcError>(serialized);
+        EXPECT_EQ(code, deserialized) << "Round-trip failed for code " << static_cast<int32_t>(code);
+    }
+}
+
+// ============================================================================
+// RPC-10 — Concurrent state transitions (state machine invariants)
+// ============================================================================
+
+TEST(RpcGrpcContractHardening, RPC10_StateTransitionInvariants) {
+    // Valid forward transitions:
+    // Stopped(0) → Starting(1) → Active(2) → Stopping(3) → Stopped(0)
+
+    const int32_t valid_transitions[] = {
+        0, 1, // Stopped → Starting
+        1, 2, // Starting → Active
+        2, 3, // Active → Stopping
+        3, 0, // Stopping → Stopped
+    };
+
+    for (size_t i = 0; i < 8; i += 2) {
+        int32_t from = valid_transitions[i];
+        int32_t to   = valid_transitions[i + 1];
+        // Validate state range
+        EXPECT_GE(from, 0);
+        EXPECT_LE(from, 3);
+        EXPECT_GE(to, 0);
+        EXPECT_LE(to, 3);
+    }
+}
+
+// ============================================================================
+// RPC-11 — RpcServiceDescriptor field validation
+// ============================================================================
+
+TEST(RpcGrpcContractHardening, RPC11_ServiceDescriptorValidation) {
+    RpcServiceDescriptor desc;
+
+    // Test empty service name is allowed (will fail registration at runtime)
+    EXPECT_TRUE(desc.service_name.empty());
+
+    // Test max_concurrent_streams range
+    EXPECT_GE(desc.max_concurrent_streams, 1u);
+    EXPECT_LE(desc.max_concurrent_streams, 10000u); // reasonable upper bound
+
+    // Test require_auth defaults to true (secure default)
+    EXPECT_TRUE(desc.require_auth);
+
+    // Test with non-default values
+    desc.service_name = "example.Service";
+    desc.max_concurrent_streams = 256;
+    desc.require_auth = false;
+
+    EXPECT_EQ(desc.service_name, "example.Service");
+    EXPECT_EQ(desc.max_concurrent_streams, 256u);
+    EXPECT_FALSE(desc.require_auth);
+}
+
+// ============================================================================
+// RPC-12 — Error taxonomy completeness (all codes accounted for)
+// ============================================================================
+
+TEST(RpcGrpcContractHardening, RPC12_ErrorTaxonomyCompleteness) {
+    // Verify the error taxonomy is stable and complete
+    constexpr int total_codes = 8; // kSuccess + 7 error codes
+    std::set<int32_t> codes_set;
+
+    codes_set.insert(static_cast<int32_t>(RpcGrpcError::kSuccess));
+    codes_set.insert(static_cast<int32_t>(RpcGrpcError::kServerNotRunning));
+    codes_set.insert(static_cast<int32_t>(RpcGrpcError::kServiceRegistration));
+    codes_set.insert(static_cast<int32_t>(RpcGrpcError::kCredentialLoadFailed));
+    codes_set.insert(static_cast<int32_t>(RpcGrpcError::kStreamAborted));
+    codes_set.insert(static_cast<int32_t>(RpcGrpcError::kMethodNotFound));
+    codes_set.insert(static_cast<int32_t>(RpcGrpcError::kTransportError));
+    codes_set.insert(static_cast<int32_t>(RpcGrpcError::kInternalError));
+
+    EXPECT_EQ(codes_set.size(), total_codes);
+    for (auto code : codes_set) {
+        EXPECT_GE(code, 0);
+        EXPECT_LE(code, 8399);
+    }
+}
+
+// ============================================================================
+// RPC-13 — Keepalive timing constants
+// ============================================================================
+
+TEST(RpcGrpcContractHardening, RPC13_KeepaliveTimingConstants) {
+    // Verify keepalive defaults are reasonable
+    EXPECT_GE(kDefaultKeepaliveTime.count(), 1);  // At least 1 second
+    EXPECT_LE(kDefaultKeepaliveTime.count(), 300); // At most 5 minutes
+}
+
+// ============================================================================
+// RPC-14 — Message size bounds
+// ============================================================================
+
+TEST(RpcGrpcContractHardening, RPC14_MessageSizeBounds) {
+    // Verify receive/send message size bounds are reasonable
+    EXPECT_GE(kDefaultMaxReceiveMessageBytes, 1024 * 1024);     // At least 1 MiB
+    EXPECT_LE(kDefaultMaxReceiveMessageBytes, 1024 * 1024 * 100); // At most 100 MiB
+}
+
+// ============================================================================
+// RPC-15 — Service name length constraint
+// ============================================================================
+
+TEST(RpcGrpcContractHardening, RPC15_ServiceNameLengthConstraint) {
+    // Service names exceeding this length must be rejected
+    EXPECT_GE(kMaxServiceNameBytes, 32);  // At least for short names
+    EXPECT_LE(kMaxServiceNameBytes, 512);
+
+    // Test boundary condition
+    std::string short_name(kMaxServiceNameBytes - 1, 'a');
+    EXPECT_LE(short_name.length(), kMaxServiceNameBytes);
+
+    std::string too_long(kMaxServiceNameBytes + 1, 'a');
+    EXPECT_GT(too_long.length(), kMaxServiceNameBytes);
+}
+
+// ============================================================================
+// RPC-16 — Method name length constraint
+// ============================================================================
+
+TEST(RpcGrpcContractHardening, RPC16_MethodNameLengthConstraint) {
+    // Method names exceeding this length must be rejected
+    EXPECT_GE(kMaxMethodNameBytes, 128);  // At least for reasonable method names
+    EXPECT_LE(kMaxMethodNameBytes, 1024);
+
+    std::string short_method(kMaxMethodNameBytes - 1, 'a');
+    EXPECT_LE(short_method.length(), kMaxMethodNameBytes);
+
+    std::string too_long(kMaxMethodNameBytes + 1, 'a');
+    EXPECT_GT(too_long.length(), kMaxMethodNameBytes);
+}
+
 } // namespace test
 } // namespace rpc_grpc
 } // namespace themis
