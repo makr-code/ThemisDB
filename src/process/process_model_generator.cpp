@@ -30,6 +30,8 @@
 #include <stdexcept>
 #include "utils/logger.h"
 
+#include <map>
+#include <set>
 #include <sstream>
 #include <unordered_map>
 #include <unordered_set>
@@ -227,10 +229,10 @@ std::string ProcessModelGenerator::buildGenerationPrompt_(
 
     bool has_start = false;
     bool has_end   = false;
-    std::unordered_set<std::string> all_node_ids;
-    std::unordered_map<std::string, std::string> node_types; // id → type
-    std::unordered_map<std::string, int>         out_degree;
-    std::unordered_map<std::string, int>         in_degree;
+    std::set<std::string> all_node_ids;
+    std::map<std::string, std::string> node_types; // id → type (deterministic)
+    std::map<std::string, int>         out_degree;
+    std::map<std::string, int>         in_degree;
 
     for (const auto& n : normalized_graph["nodes"]) {
         std::string nid   = n.value("id", "");

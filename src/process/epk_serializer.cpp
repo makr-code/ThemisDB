@@ -34,7 +34,9 @@
 #include "utils/logger.h"
 
 #include <algorithm>
+#include <map>
 #include <queue>
+#include <set>
 #include <sstream>
 #include <stdexcept>
 #include <regex>
@@ -238,25 +240,25 @@ std::string EpkSerializer::exportText(
     out << "# EPK: " << process_name << "\n\n";
 
     // Build adjacency for ordered traversal
-    std::unordered_map<std::string, std::vector<std::string>> adj;
+    std::map<std::string, std::vector<std::string>> adj;
     for (const auto& e : edges) {
         adj[e.from_node].push_back(e.to_node);
     }
 
     // Build id→node map
-    std::unordered_map<std::string, const ProcessNodeInfo*> node_map;
+    std::map<std::string, const ProcessNodeInfo*> node_map;
     for (const auto& n : nodes) {
         node_map[n.node_id] = &n;
     }
 
     // Find start nodes (no incoming edges)
-    std::unordered_set<std::string> has_incoming;
+    std::set<std::string> has_incoming;
     for (const auto& e : edges) {
         has_incoming.insert(e.to_node);
     }
 
     // Emit nodes in BFS order
-    std::unordered_set<std::string> visited;
+    std::set<std::string> visited;
     std::queue<std::string> q;
     for (const auto& n : nodes) {
         if (has_incoming.find(n.node_id) == has_incoming.end()) {

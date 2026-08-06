@@ -35,6 +35,7 @@
 
 #include <algorithm>
 #include <cctype>
+#include <map>
 #include <nlohmann/json.hpp>
 #include <sstream>
 #include <stdexcept>

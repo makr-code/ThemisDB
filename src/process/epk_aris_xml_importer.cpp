@@ -35,6 +35,7 @@
 
 #include <algorithm>
 #include <cctype>
+#include <map>
 #include <sstream>
 #include <unordered_map>
 
@@ -102,13 +103,13 @@ std::string_view stripNs(std::string_view name) {
 
 struct XmlTag {
     std::string name;
-    std::unordered_map<std::string, std::string> attrs;
+    std::map<std::string, std::string> attrs;
     bool self_closing{false};
     bool is_close{false};
 };
 
 void parseAttrs(std::string_view src,
-                std::unordered_map<std::string, std::string>& out)
+                std::map<std::string, std::string>std::unordered_map<std::string, std::string>& out) out)
 {
     size_t i = 0;
     const size_t n = src.size();
@@ -266,9 +267,9 @@ struct ArisModel {
     std::string model_name;
 
     // ObjOcc.ID → ObjDef.ID mapping (occurrence in the model)
-    std::unordered_map<std::string, std::string> occ_to_def;
+    std::map<std::string, std::string> occ_to_def;
     // ObjOcc.ID → SymbolNum
-    std::unordered_map<std::string, int> occ_sym;
+    std::map<std::string, int> occ_sym;
 
     // CxnOcc: (from_occ_id, to_occ_id, cxn_def_id)
     struct CxnOcc {
@@ -289,7 +290,7 @@ struct ObjDefInfo {
 /// Parse all AML models + ObjDef/CxnDef from an XML string.
 struct AmlParseResult {
     std::vector<ArisModel> models;
-    std::unordered_map<std::string, ObjDefInfo> obj_defs; // ObjDef.ID → info
+    std::map<std::string, ObjDefInfo> obj_defs; // ObjDef.ID → info
     bool ok{true};
     std::string message;
 };
@@ -459,7 +460,7 @@ AmlParseResult parseAml(std::string_view xml, size_t max_bytes)
 /// Convert a parsed ArisModel + ObjDef registry into an ImportResult.
 EpkArisXmlImporter::ImportResult buildImportResult(
     const ArisModel& model,
-    const std::unordered_map<std::string, ObjDefInfo>& obj_defs)
+    const std::map<std::string, ObjDefInfo>const std::unordered_map<std::string, ObjDefInfo>& obj_defs) obj_defs)
 {
     EpkArisXmlImporter::ImportResult res;
     res.ok          = true;

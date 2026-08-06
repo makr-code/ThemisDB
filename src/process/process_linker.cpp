@@ -34,6 +34,7 @@
 
 #include <algorithm>
 #include <chrono>
+#include <set>
 #include <sstream>
 #include <stdexcept>
 #include <unordered_set>
@@ -556,7 +557,7 @@ bool ProcessLinker::isLinkTargetValid(std::string_view target_id) const {
 bool ProcessLinker::hasCyclePath_(
     std::string_view source,
     std::string_view target,
-    std::unordered_set<std::string>& visited,
+    std::set<std::string>std::unordered_set<std::string>& visited, visited,
     int32_t depth,
     int32_t max_depth
 ) const {
