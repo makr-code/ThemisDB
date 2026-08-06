@@ -221,7 +221,7 @@ std::vector<ProcessCommunity> ProcessCommunityDetector::detect(
     if (n == 0) return {};
 
     // Build a lookup: node_id → node name/description for report generation
-    std::unordered_map<std::string, std::string> node_names;
+    std::map<std::string, std::string> node_names;
     for (const auto& node_json : normalized["nodes"]) {
         const std::string id = node_json.value("id", "");
         const std::string nm = node_json.value("name",
@@ -242,7 +242,7 @@ std::vector<ProcessCommunity> ProcessCommunityDetector::detect(
     // Phase 2: build super-graph and repeat (one level of coarsening)
     if (n > 1) {
         // Map old community labels to [0..num_comms)
-        std::unordered_map<int, int> label_remap;
+        std::map<int, int> label_remap;
         int comm_count = 0;
         for (int label : assignment) {
             if (label_remap.find(label) == label_remap.end()) {
@@ -285,7 +285,7 @@ std::vector<ProcessCommunity> ProcessCommunityDetector::detect(
     }
 
     // Collect communities
-    std::unordered_map<int, std::vector<int>> comm_map;
+    std::map<int, std::vector<int>> comm_map;
     for (int u = 0; u < n; ++u) {
         comm_map[assignment[u]].push_back(u);
     }
@@ -307,7 +307,7 @@ std::vector<ProcessCommunity> ProcessCommunityDetector::detect(
         // Compute local modularity contribution
         float sum_in = 0.f;
         float sum_tot = 0.f;
-        std::unordered_set<int> member_set(members.begin(), members.end());
+        std::set<int> member_set(members.begin(), members.end());
         for (int u : members) {
             sum_tot += g.degree[u];
             for (int v : members) {
