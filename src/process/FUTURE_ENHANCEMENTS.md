@@ -66,26 +66,33 @@
 - [x] High-churn stress tests
 - **Deliverables:** `tests/process/test_process_concurrency_churn_focused.cpp`, `test_process_determinism_conflict_focused.cpp`, etc.
 
-## Remaining Backlog (To be designed in future cycles)
+## Remaining Backlog (To be designed and implemented Q1 2027)
 
-### Short-term (6-9 months, Q3 2027)
-- [ ] Incremental model evolution tracking with audit trails
-- [ ] Temporal query support for model history
-- [ ] Delta encoding for efficient model versioning
-- [ ] Replay mechanism for model state recovery
+### Q4 2026 Design Phase — COMPLETE ✓
 
-### Mid-term (9-12 months, Q4 2027)
-- [ ] Re-baseline p95/p99 envelopes for extended workflows
-- [ ] Broaden benchmark depth for advanced process mining scenarios
-- [ ] Harden long-running reliability under sustained workload pressure
-- [ ] Lock-free data structures for ultra-high-contention scenarios
+Federated Process Evolution Initiative design contracts completed (2026-08-06):
 
-### Long-term (12+ months, Q1 2028+)
-- [ ] Distributed consensus for process federation across shards
-- [ ] Multi-model conflict resolution with application-level callbacks
-- [ ] OpenTelemetry integration with correlation IDs and distributed tracing
-- [ ] Async I/O hardening for cloud-native deployments
-- [ ] Advanced diagnostics with machine learning-based anomaly detection
+**Design Contracts (5 headers, 2,543 lines):**
+- `include/process/federated_consensus_contract.h` (525 lines) – Raft/Paxos/Gossip, leader election, split-brain recovery
+- `include/process/conflict_resolution_plugin.h` (428 lines) – Plugin API, LWW fallback, 3-way merge
+- `include/process/model_history_contract.h` (493 lines) – Temporal queries, delta encoding, audit trails
+- `include/process/federated_span_contract.h` (556 lines) – OpenTelemetry, W3C Trace Context, span factories
+- `include/process/lock_free_linker_contract.h` (541 lines) – Lock-free hash table, epoch reclamation, ABA mitigation
+
+**Design Highlights:**
+- Consensus: Raft (leader-based), Paxos (quorum), Gossip (leaderless) with ≤5% single-shard overhead
+- Conflict Resolution: Plugin callback <10ms, deterministic LWW tiebreaker (shard_id), 3-way merge
+- Audit Trails: Immutable append-only log, ≥30% delta compression, <100ms P95 temporal queries
+- Tracing: W3C Trace Context, <2% overhead, 100% cross-shard correlation ID propagation
+- Lock-Free: ≥10,000 ops/sec, P99 <1ms, wait-free link creation, epoch-based memory reclamation
+
+### Short-term (Q1 2027, 26 weeks)
+- [~] Phase 1: Federated consensus implementation (Raft leader election, log replication)
+- [~] Phase 2: Conflict resolution + multi-shard model sync
+- [~] Phase 3: Audit trails, temporal queries, point-in-time recovery
+- [~] Phase 4: OpenTelemetry integration, span factories, correlation ID propagation
+- [~] Phase 5: Lock-free linker hardening, epoch-based reclamation, performance gates
+- [~] Phase 6: Documentation, acceptance criteria, operator runbooks
 
 ## Design Constraints
 

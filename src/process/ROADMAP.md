@@ -201,23 +201,61 @@ For detailed design rationale and specifications, see:
 
 **v3.0 Plan:** May incorporate nested transactions, distributed consensus, or application-level conflict callbacks if needed.
 
-## Next Cycle: Federated Process Evolution Initiative (Planned Q1 2027)
+## Next Cycle: Federated Process Evolution Initiative (Q1 2027)
 
-### Proposed Phases (To be designed and executed)
+### Q4 2026 Design Phase — COMPLETE ✓
 
-1. **Phase 1: Design & API Contract** – Federated consensus, application callbacks, incremental tracking
-2. **Phase 2: Core Implementation** – Cross-shard consistency, async conflict handling
-3. **Phase 3: Error Handling** – Federation fault scenarios, recovery procedures
-4. **Phase 4: Tests** – Multi-node conflict resolution, network partition handling
-5. **Phase 5: Performance & Benchmarking** – Federation overhead budgets, consistency envelopes
-6. **Phase 6: Documentation & Acceptance** – Federated contracts, acceptance criteria
+Design contracts finalized (2026-08-06):
+- [x] `include/process/federated_consensus_contract.h` – Raft/Paxos/Gossip consensus types, leader election, replication protocol, split-brain recovery
+- [x] `include/process/conflict_resolution_plugin.h` – Plugin API, resolution strategies, deterministic LWW fallback, 3-way merge
+- [x] `include/process/model_history_contract.h` – Temporal queries, delta encoding, point-in-time recovery, immutable audit trails
+- [x] `include/process/federated_span_contract.h` – OpenTelemetry integration, W3C Trace Context, correlation IDs, span factories
+- [x] `include/process/lock_free_linker_contract.h` – Lock-free hash table, epoch-based reclamation, ABA mitigation, batch queue
+
+**Design Principles:**
+- Consensus overhead ≤5% single-shard baseline; opt-in federated APIs
+- Conflict resolution callback <10ms timeout; deterministic LWW fallback (shard_id → version clock tiebreaker)
+- Audit trail immutable (append-only); delta encoding ≥30% compression; temporal queries <100ms P95
+- Tracing overhead <2%, correlation ID on 100% cross-shard RPC calls, batch + async export
+- Lock-free linker ≥10,000 ops/sec P99 <1ms; wait-free link creation; epoch-based memory reclamation
+
+**Design Metrics:**
+- Total: 2,543 lines, 87.4 KB of frozen design contracts
+- Files: 5 headers (consensus, conflict resolution, history, tracing, lock-free)
+- Coverage: All 5 federated evolution features with comprehensive Doxygen documentation
+
+### Q1 2027 Implementation Phases (26 weeks)
+
+1. **Phase 1: Federated Consensus Design & Contract** (Weeks 1-4)
+   - Deliverables: Consensus API contract, process replication protocol, federation RPC interface, test fixtures
+   - Acceptance: Raft/Paxos/Gossip support verified; ≤5% overhead on single-shard; split-brain detection <30s
+
+2. **Phase 2: Federated Core & Multi-Model Resolution** (Weeks 5-9)
+   - Deliverables: Raft leader election, log replication, conflict resolution plugin system, 3-way merge engine
+   - Acceptance: Quorum commit verified; plugin timeout enforcement; merge validation
+
+3. **Phase 3: Evolution & Audit Trails** (Weeks 10-14)
+   - Deliverables: Model history API, temporal query engine, audit log, delta encoding, recovery validation
+   - Acceptance: Temporal queries <100ms P95; audit overhead <20%; deltas ≥30% compression
+
+4. **Phase 4: OpenTelemetry & Tracing** (Weeks 15-19)
+   - Deliverables: Federated span contract, correlation ID propagation, tracer integration, metric attachment
+   - Acceptance: Trace overhead <2%; correlation ID 100% coverage; exporter non-blocking
+
+5. **Phase 5: Lock-Free Hardening & Performance** (Weeks 20-23)
+   - Deliverables: Lock-free linker, batch queue, memory reclamation, benchmarks
+   - Acceptance: ≥10,000 ops/sec, P99 <1ms, first-try CAS >99%
+
+6. **Phase 6: Documentation & Acceptance** (Weeks 24-26)
+   - Deliverables: Updated ROADMAP, acceptance checklist, operator runbooks, performance envelope
+   - Acceptance: All acceptance criteria verified; production deployment path documented
 
 ### Candidate Features
 
-- **Distributed Consensus** – Cross-shard conflict resolution for federated deployments
+- **Distributed Consensus** – Cross-shard conflict resolution for federated deployments (RAFT/PAXOS/GOSSIP)
 - **Multi-Model Conflicts** – Application-level callbacks for complex conflict strategies beyond LWW
 - **Incremental Evolution** – Audit trails, delta tracking, temporal queries on model history
-- **Advanced Diagnostics** – OpenTelemetry integration, correlation IDs, distributed traces
-- **Performance Scaling** – Lock-free structures for high-contention, async I/O hardening
+- **Advanced Diagnostics** – OpenTelemetry integration, correlation IDs, distributed traces (W3C standard)
+- **Performance Scaling** – Lock-free structures for high-contention, epoch-based memory reclamation
 
-**Target Delivery:** Q1 2027 (6 phases, 6 months)
+**Target Delivery:** Q1 2027 (26 weeks, 6 phases)
