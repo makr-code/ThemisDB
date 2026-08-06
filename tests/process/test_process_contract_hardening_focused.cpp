@@ -12,10 +12,13 @@
 #include "storage/rocksdb_wrapper.h"
 
 #include <algorithm>
+#include <chrono>
 #include <cstdint>
-#include <vector>
+#include <filesystem>
 #include <memory>
 #include <nlohmann/json.hpp>
+#include <string>
+#include <vector>
 
 using namespace themis::process;
 using json = nlohmann::json;
@@ -94,8 +97,11 @@ TEST(ProcessContractTest, PRC08_ExecutionTimeoutCode) {
 class ProcessModelHardeningTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        // Create a temporary database for testing
-        temp_db_path_ = "/tmp/themis_test_proc_" + std::to_string(getpid()) + ".db";
+        const auto nonce = std::chrono::steady_clock::now().time_since_epoch().count();
+        temp_db_path_ = (
+            std::filesystem::temp_directory_path() /
+            ("themis_test_proc_" + std::to_string(nonce) + ".db")
+        ).string();
         db_ = std::make_unique<themis::RocksDBWrapper>(temp_db_path_);
         manager_ = std::make_unique<ProcessModelManager>(*db_);
     }
@@ -103,6 +109,7 @@ protected:
     void TearDown() override {
         manager_.reset();
         db_.reset();
+        std::filesystem::remove_all(temp_db_path_);
     }
 
     std::unique_ptr<themis::RocksDBWrapper> db_;
@@ -330,7 +337,9 @@ TEST(BpmnSerializerHardeningTest, PRC35_ValidateValidStructure) {
     
     std::vector<ProcessNodeInfo> nodes = {node1, node2};
     std::vector<ProcessEdgeInfo> edges = {edge};
-    
+
+    std::string error = BpmnSerializer::validateStructure(nodes, edges);
+    EXPECT_TRUE(error.empty()) << error;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -528,4 +537,3 @@ TEST(ProcessDiagnosticsTest, P3_DiagnosticsAreActionable) {
         EXPECT_THAT(diag, ::testing::HasSubstr("]"));
     }
 }
-

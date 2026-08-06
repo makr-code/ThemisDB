@@ -96,13 +96,21 @@ TEST_F(ProjectsPhase4Test, PRH04_SnapshotRestoreDetectsCorruption) {
     auto create_result = pv.createSnapshot("proj-1", "snapshot");
     ASSERT_TRUE(std::holds_alternative<SnapshotId>(create_result));
     const auto snap_id = std::get<SnapshotId>(create_result);
-    
-    // Manually corrupt the snapshot content by modifying storage
-    // (This would require direct storage manipulation; for now we validate the path exists)
-    
-    // Verify that corrupted snapshots would be caught
+
+    // Corrupt snapshot payload without updating metadata checksum.
+    const std::string snap_uuid = snap_id.substr(5);
+    const std::string data_key = "snap_data:" + snap_uuid;
+    std::string original_payload;
+    ASSERT_TRUE(storage_->get(data_key, original_payload));
+    ASSERT_TRUE(storage_->put(data_key, original_payload + "corrupt"));
+
     bool is_intact = pv.verifySnapshot(snap_id);
-    EXPECT_TRUE(is_intact) << "Valid snapshot should verify correctly";
+    EXPECT_FALSE(is_intact) << "Corrupted snapshot must fail integrity check";
+
+    auto restore_status = pv.restoreSnapshot(snap_id, "proj-restore");
+    EXPECT_FALSE(restore_status.ok);
+    EXPECT_NE(restore_status.message.find("checksum mismatch"), std::string::npos)
+        << "Restore should reject corrupted snapshot content";
 }
 
 // ──────────────────────────────────────────────────────────────────────────────
@@ -175,9 +183,11 @@ TEST_F(ProjectsPhase4Test, PRH08_ErrorMessageConsistency) {
     ProjectVersioning pv(storage_);
     CollaborationManager cm(storage_);
     
-    // Lifecycle error message should have function prefix
-    auto lc_err = pl.initProject("", "actor");
-    EXPECT_NE(lc_err.message.find("initProject:"), std::string::npos)
+    ASSERT_TRUE(pl.initProject("proj-1", "owner").ok);
+
+    // Lifecycle transition validation should have function prefix
+    auto lc_err = pl.applyTransition("proj-1", ProjectState::ACTIVE, "");
+    EXPECT_NE(lc_err.message.find("applyTransition:"), std::string::npos)
         << "Lifecycle errors should include function name";
     
     // Version error message should have function prefix

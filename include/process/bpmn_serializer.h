@@ -59,10 +59,8 @@ namespace process {
  * - Empty input → EMPTY_INPUT
  * - Oversized input (>10 MiB) → INPUT_TOO_LARGE
  * - Malformed XML → MALFORMED_INPUT
- * - Missing required elements → MISSING_REQUIRED_ELEMENT
- * - Unsupported BPMN constructs → UNSUPPORTED_ELEMENT
- * - Broken element references → BROKEN_REFERENCE
- * - File I/O errors → FILE_READ_ERROR
+ * - Structural/semantic graph violations → SEMANTIC_VIOLATION
+ * - File I/O errors (importFile only) → FILE_READ_ERROR
  *
  * No silent failures or missing error codes.
  */
@@ -117,9 +115,9 @@ public:
      * @brief Parse a BPMN 2.0 XML string into ProcessNodeInfo / ProcessEdgeInfo
      *        objects that can be registered with ProcessGraphManager.
      *
-     * All errors are explicit. There are no silent skipped elements or missing
-     * error codes. If unsupported elements are encountered, UNSUPPORTED_ELEMENT
-     * is returned with a diagnostic message listing the element name and line number.
+     * All errors are explicit. There are no silent failures.
+     * importXml() returns EMPTY_INPUT, INPUT_TOO_LARGE, MALFORMED_INPUT, or
+     * SEMANTIC_VIOLATION depending on the failure mode.
      *
      * @param bpmn_xml  Full BPMN 2.0 XML document.
      * @return ImportResult with error_code set on failure.
@@ -203,4 +201,3 @@ private:
 
 } // namespace process
 } // namespace themis
-

@@ -43,20 +43,21 @@ namespace projects {
  * @return Parsed JSON on success, null JSON on failure
  */
 static json safeJsonParse(const std::string& data, const char* context) noexcept {
+    (void)context;
     try {
         return json::parse(data);
-    } catch (const nlohmann::json::exception &e) {
+    } catch (const nlohmann::json::exception &) {
         // JSON parsing failure — corrupt data or invalid format
-        return json::object();
-    } catch (const std::exception &e) {
+        return json();
+    } catch (const std::exception &) {
         // Unexpected exception during parsing
-        return json::object();
+        return json();
     } catch (const std::string &) {
         // Fallback for string exceptions
-        return json::object();
+        return json();
     } catch (const char *) {
         // Fallback for C-string exceptions
-        return json::object();
+        return json();
     }
 }
 
@@ -403,14 +404,6 @@ bool ProjectVersioning::verifySnapshot(const SnapshotId& snap_id) const {
 
     const Sha256Digest actual = computeChecksum(content_str);
     return actual == meta.checksum;
-}
-    }
-
-    const auto snap_uuid = snap_id.substr(5);
-    std::string content_str;
-    if (!storage_->get("snap_data:" + snap_uuid, content_str)) return false;
-
-    return computeChecksum(content_str) == meta.checksum;
 }
 
 } // namespace projects

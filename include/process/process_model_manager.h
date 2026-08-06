@@ -380,8 +380,8 @@ public:
      * Checks:
      * - Required fields are non-empty (id, name, version)
      * - All referenced nodes in edges exist
-     * - No dangling references or cycles in forbidden contexts
-     * - Deterministic processing order (nodes sorted by ID)
+     * - No dangling references
+     * - Best-effort bounded cycle diagnostics (warnings only, non-fatal)
      * - Resource limits respected (max nodes/edges/depth)
      *
      * @param record The record to validate

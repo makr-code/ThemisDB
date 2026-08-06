@@ -960,7 +960,7 @@ ProcessModelResult ProcessModelManager::validateModelConsistency(
 
     // 5. Validate edges
     size_t edge_count = 0;
-    std::unordered_map<std::string, size_t> out_degree;
+    std::unordered_map<std::string, std::vector<std::string>> adjacency;
     if (record.normalized.contains("edges") && record.normalized["edges"].is_array()) {
         const auto& edges = record.normalized["edges"];
         edge_count = edges.size();
@@ -999,13 +999,13 @@ ProcessModelResult ProcessModelManager::validateModelConsistency(
                 }
             }
 
-            // Track out-degree for cycle detection
-            out_degree[from_id]++;
+            // Track adjacency for best-effort cycle diagnostics
+            adjacency[from_id].push_back(to_id);
         }
     }
 
     // 6. Perform basic cycle detection (bounded depth-first search)
-    if (!node_ids.empty() && !out_degree.empty()) {
+    if (!node_ids.empty() && !adjacency.empty()) {
         for (const auto& start_node : node_ids) {
             std::unordered_set<std::string> visited;
             std::unordered_set<std::string> rec_stack;
@@ -1030,9 +1030,10 @@ ProcessModelResult ProcessModelManager::validateModelConsistency(
                     rec_stack.insert(node_id);
 
                     // For simplicity, we don't enforce strict DAG; just detect deep cycles
-                    if (out_degree.count(node_id)) {
-                        for (size_t _ = 0; _ < out_degree[node_id]; ++_) {
-                            if (!dfs(node_id, depth + 1)) {
+                    const auto it = adjacency.find(node_id);
+                    if (it != adjacency.end()) {
+                        for (const auto& next_id : it->second) {
+                            if (!dfs(next_id, depth + 1)) {
                                 rec_stack.erase(node_id);
                                 return false;
                             }
@@ -1130,4 +1131,3 @@ nlohmann::json ProcessModelManager::getConsistencyDiagnostics() const
 
 } // namespace process
 } // namespace themis
-
