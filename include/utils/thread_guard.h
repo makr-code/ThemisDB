@@ -15,6 +15,7 @@
 #include <memory>
 #include <mutex>
 #include <thread>
+#include <utility>
 #include <condition_variable>
 
 // Optional: spdlog for logging (compile with -DTHEMIS_HAS_SPDLOG if available)

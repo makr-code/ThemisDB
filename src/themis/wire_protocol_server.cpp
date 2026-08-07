@@ -519,7 +519,7 @@ void WireProtocolSession::async_read_payload(const WireFrameHeader& header) {
                     static_cast<std::ptrdiff_t>(header.payload_length));
 
             // ✓ SECURITY FIX #1: Added bounds checking
-if (with_checksum) {
+            if (with_checksum) {
                 // Bounds check before reading CRC
                 const std::size_t required_size = header.payload_length + CHECKSUM_SIZE;
                 if (read_buffer_.size() < required_size) {

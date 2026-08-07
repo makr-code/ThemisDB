@@ -14,6 +14,7 @@
 #include <atomic>
 #include <cstddef>
 #include <memory>
+#include <utility>
 
 namespace themis::utils::testing {
 

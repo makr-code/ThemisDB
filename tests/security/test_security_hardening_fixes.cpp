@@ -17,8 +17,25 @@
 #include <gtest/gtest.h>
 #include "themis/license_info.h"
 #include "themis/network/wire_protocol_server.hpp"
+#include <fstream>
+#include <iterator>
+#include <string>
 #include <vector>
 #include <cstring>
+
+// Derive source root from __FILE__ (this file is at <srcroot>/tests/security/...)
+namespace {
+    // Walk up two directory levels from this source file to reach the project root.
+    std::string get_source_root() {
+        std::string path = __FILE__;
+        // Strip "/tests/security/test_security_hardening_fixes.cpp"
+        auto pos = path.rfind("/tests/");
+        if (pos != std::string::npos) {
+            return path.substr(0, pos);
+        }
+        return ".";
+    }
+} // namespace
 
 namespace themis::security::tests {
 
@@ -248,7 +265,8 @@ protected:
  */
 TEST_F(LegacyPathGovernanceTest, WireProtocolLegacyPathMarked) {
     // Read the source file and verify governance marker
-    std::ifstream file("/home/runner/work/ThemisDB/ThemisDB/src/themis/wire_protocol_server.cpp");
+    std::ifstream file(get_source_root() + "/src/themis/wire_protocol_server.cpp");
+    ASSERT_TRUE(file.is_open()) << "Could not open wire_protocol_server.cpp from source root: " << get_source_root();
     std::string content((std::istreambuf_iterator<char>(file)),
                         std::istreambuf_iterator<char>());
     
@@ -268,7 +286,8 @@ TEST_F(LegacyPathGovernanceTest, WireProtocolLegacyPathMarked) {
  */
 TEST_F(LegacyPathGovernanceTest, LicenseInfoLegacyPathMarked) {
     // Read the source file and verify governance marker
-    std::ifstream file("/home/runner/work/ThemisDB/ThemisDB/src/themis/license_info.cpp");
+    std::ifstream file(get_source_root() + "/src/themis/license_info.cpp");
+    ASSERT_TRUE(file.is_open()) << "Could not open license_info.cpp from source root: " << get_source_root();
     std::string content((std::istreambuf_iterator<char>(file)),
                         std::istreambuf_iterator<char>());
     
@@ -283,4 +302,3 @@ TEST_F(LegacyPathGovernanceTest, LicenseInfoLegacyPathMarked) {
 
 } // namespace themis::security::tests
 
-#endif // #ifdef __has_include(<gtest/gtest.h>)

@@ -12,7 +12,11 @@
 #include "utils/thread_guard.h"
 
 #include <cassert>
+#include <condition_variable>
 #include <iostream>
+#include <mutex>
+#include <stdexcept>
+#include <system_error>
 
 // Conditional logging based on spdlog availability
 #ifdef THEMIS_HAS_SPDLOG
@@ -71,20 +75,42 @@ bool ThreadGuard::join_with_timeout() noexcept {
     }
 
     try {
-        // C++20 doesn't have std::thread::try_join_for(), so we use a custom approach:
-        // 1. Create a flag that the thread can set on completion
-        // 2. Join with a loop that checks the timeout
-        //
-        // For now, we use a best-effort approach:
-        // - If the thread is expected to finish quickly, we join normally
-        // - We assume well-designed threads cooperate with shutdown flags
-        //
-        // FUTURE: Implement interruptible_thread with proper timeout support
-        // See: https://github.com/chriskohlhoff/asio for inspiration
+        // Implement timeout-aware join using a helper thread that monitors completion.
+        // The thread's native handle is not portable, so we use a condition variable
+        // and a detached monitor thread to implement the timeout semantics.
+        // Shared state is heap-allocated to avoid dangling references on timeout.
+        struct State {
+            std::atomic<bool> finished{false};
+            std::mutex cv_mutex;
+            std::condition_variable cv;
+        };
+        auto state = std::make_shared<State>();
 
-        thread_.join();
-        joined_ = true;
-        return true;
+        // Move the thread into a monitor wrapper so we can join it and signal completion.
+        std::thread monitor(
+            [worker = std::move(thread_), state]() mutable {
+                worker.join();
+                {
+                    std::lock_guard<std::mutex> lk(state->cv_mutex);
+                    state->finished = true;
+                }
+                state->cv.notify_one();
+            }
+        );
+        monitor.detach();
+
+        // Wait for up to timeout_ for the worker to finish.
+        std::unique_lock<std::mutex> lk(state->cv_mutex);
+        bool completed = state->cv.wait_for(lk, timeout_, [&state] { return state->finished.load(); });
+
+        if (completed) {
+            joined_ = true;
+            return true;
+        }
+
+        // Timeout: the worker thread is still running; it was detached above and will
+        // continue in the background.  The destructor warning is appropriate here.
+        return false;
     } catch (const std::system_error& e) {
         LOG_ERROR("ThreadGuard::join_with_timeout: system error: {}", e.what());
         return false;
