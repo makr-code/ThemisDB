@@ -23,6 +23,8 @@
 #pragma once
 
 #include "training/auto_labeler.h"
+#include "training/training_error_codes.h"
+#include "training/training_exceptions.h"
 
 #include <string>
 #include <vector>

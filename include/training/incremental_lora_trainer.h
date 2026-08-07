@@ -20,6 +20,8 @@
 #pragma once
 
 #include "training/adapter_serving.h"
+#include "training/training_error_codes.h"
+#include "training/training_exceptions.h"
 #include "distributed_knowledge/lora_federation_coordinator.h"
 
 #include <string>

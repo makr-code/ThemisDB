@@ -12,6 +12,8 @@
 #pragma once
 
 #include <string>
+#include "training/training_error_codes.h"
+#include "training/training_exceptions.h"
 
 namespace themis {
 namespace training {

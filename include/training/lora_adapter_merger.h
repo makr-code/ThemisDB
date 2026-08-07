@@ -12,6 +12,8 @@
 #pragma once
 
 #include "training/lora_adapter.h"
+#include "training/training_error_codes.h"
+#include "training/training_exceptions.h"
 
 #include <cstddef>
 #include <string>

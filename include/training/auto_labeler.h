@@ -23,6 +23,8 @@
 #include <vector>
 #include <memory>
 #include <functional>
+#include "training/training_error_codes.h"
+#include "training/training_exceptions.h"
 
 namespace themis {
 

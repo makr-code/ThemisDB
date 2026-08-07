@@ -28,6 +28,9 @@
 #include "training/lora_data_selection.h"
 #include "training/provenance_tracker.h"
 #include "training/lora_checkpoint_manager.h"
+#include "training/training_error_codes.h"
+#include "training/training_exceptions.h"
+#include "training/training_error_diagnostics.h"
 
 #include <string>
 #include <vector>

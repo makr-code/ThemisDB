@@ -301,29 +301,6 @@ public:
         return oss.str();
     }
 
-private:
-    // -------------------------------------------------------------------------
-    void loadManifest() {
-        std::ifstream f(manifestPath());
-        if (!f.is_open()) return; // first run — no manifest yet
-        std::ostringstream oss;
-        oss << f.rdbuf();
-        entries_ = parseManifest(oss.str());
-    }
-
-    // -------------------------------------------------------------------------
-    void persistManifest() const {
-        std::string path = manifestPath();
-        std::ofstream f(path, std::ios::trunc);
-        if (!f.is_open()) {
-            // Non-fatal: checkpoint was already saved; manifest write failure is logged only
-            return;
-        }
-        for (const auto& e : entries_) {
-            f << serializeEntry(e);
-        }
-    }
-
     // Phase 2: Clean up partial/corrupted checkpoints
     size_t cleanupPartialCheckpoints() {
         size_t removed = 0;
@@ -376,6 +353,29 @@ private:
         
         if (diagnostics) *diagnostics = diag.str();
         return valid_count;
+    }
+
+private:
+    // -------------------------------------------------------------------------
+    void loadManifest() {
+        std::ifstream f(manifestPath());
+        if (!f.is_open()) return; // first run — no manifest yet
+        std::ostringstream oss;
+        oss << f.rdbuf();
+        entries_ = parseManifest(oss.str());
+    }
+
+    // -------------------------------------------------------------------------
+    void persistManifest() const {
+        std::string path = manifestPath();
+        std::ofstream f(path, std::ios::trunc);
+        if (!f.is_open()) {
+            // Non-fatal: checkpoint was already saved; manifest write failure is logged only
+            return;
+        }
+        for (const auto& e : entries_) {
+            f << serializeEntry(e);
+        }
     }
 
     // -------------------------------------------------------------------------
@@ -466,3 +466,6 @@ size_t LoRACheckpointManager::cleanupPartialCheckpoints() {
 size_t LoRACheckpointManager::auditCheckpoints(std::string* diagnostics) {
     return impl_->auditCheckpoints(diagnostics);
 }
+
+} // namespace training
+} // namespace themis

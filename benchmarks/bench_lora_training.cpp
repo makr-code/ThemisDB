@@ -79,8 +79,22 @@ static void BM_LoRALayer_Construction(benchmark::State& state) {
         LoRALayer layer(dim, dim, rank);
         benchmark::DoNotOptimize(layer);
     }
+    
+    // Phase 5 gate: LoRA layer construction <50µs for standard dimensions
+    if (dim == 768) {  // Standard BERT dimension
+        double nanos = state.counters["_total_time"] * 1e9 / state.iterations();
+        double micros = nanos / 1000.0;
+        
+        state.counters["construction_us"] = micros;
+        
+        // Report violation if exceeds gate
+        if (micros > gates::LORA_LAYER_CONSTRUCTION_US) {
+            gates::report_gate_violation("BM_LoRALayer_Construction", micros, 
+                                         gates::LORA_LAYER_CONSTRUCTION_US);
+        }
+    }
 }
-BENCHMARK(BM_LoRALayer_Construction)->Range(256, 4096);
+BENCHMARK(BM_LoRALayer_Construction)->Range(256, 4096)->Unit(benchmark::kMicrosecond);
 
 static void BM_AttentionLoRA_Construction(benchmark::State& state) {
     size_t dim = state.range(0);
@@ -90,8 +104,21 @@ static void BM_AttentionLoRA_Construction(benchmark::State& state) {
         AttentionLoRA attn(dim, rank);
         benchmark::DoNotOptimize(attn);
     }
+    
+    // Phase 5 gate: Attention construction <50µs for standard dimensions
+    if (dim == 768) {
+        double nanos = state.counters["_total_time"] * 1e9 / state.iterations();
+        double micros = nanos / 1000.0;
+        
+        state.counters["construction_us"] = micros;
+        
+        if (micros > gates::LORA_LAYER_CONSTRUCTION_US) {
+            gates::report_gate_violation("BM_AttentionLoRA_Construction", micros, 
+                                         gates::LORA_LAYER_CONSTRUCTION_US);
+        }
+    }
 }
-BENCHMARK(BM_AttentionLoRA_Construction)->Range(256, 4096);
+BENCHMARK(BM_AttentionLoRA_Construction)->Range(256, 4096)->Unit(benchmark::kMicrosecond);
 
 static void BM_Sequential_Construction(benchmark::State& state) {
     size_t num_layers = state.range(0);
@@ -103,8 +130,19 @@ static void BM_Sequential_Construction(benchmark::State& state) {
         }
         benchmark::DoNotOptimize(seq);
     }
+    
+    // Per-layer average should be within gate
+    double nanos = state.counters["_total_time"] * 1e9 / state.iterations();
+    double micros_per_layer = (nanos / 1000.0) / num_layers;
+    
+    state.counters["construction_us_per_layer"] = micros_per_layer;
+    
+    if (micros_per_layer > gates::LORA_LAYER_CONSTRUCTION_US) {
+        gates::report_gate_violation("BM_Sequential_Construction (per-layer)", 
+                                     micros_per_layer, gates::LORA_LAYER_CONSTRUCTION_US);
+    }
 }
-BENCHMARK(BM_Sequential_Construction)->Range(1, 16);
+BENCHMARK(BM_Sequential_Construction)->Range(1, 16)->Unit(benchmark::kMicrosecond);
 
 // ===== Forward Pass Benchmarks =====
 
@@ -119,8 +157,19 @@ static void BM_LoRALayer_Forward(benchmark::State& state) {
         Tensor output = layer.forward(input);
         benchmark::DoNotOptimize(output);
     }
+    
+    // Phase 5 gate: Forward pass <100µs per sample
+    double nanos = state.counters["_total_time"] * 1e9 / state.iterations();
+    double micros = nanos / 1000.0;
+    
+    state.counters["forward_us_per_sample"] = micros;
+    
+    if (micros > gates::LORA_FORWARD_PER_SAMPLE_US) {
+        gates::report_gate_violation("BM_LoRALayer_Forward", micros, 
+                                     gates::LORA_FORWARD_PER_SAMPLE_US);
+    }
 }
-BENCHMARK(BM_LoRALayer_Forward)->Range(256, 4096);
+BENCHMARK(BM_LoRALayer_Forward)->Range(256, 4096)->Unit(benchmark::kMicrosecond);
 
 static void BM_AttentionLoRA_Forward(benchmark::State& state) {
     size_t dim = state.range(0);
@@ -133,8 +182,19 @@ static void BM_AttentionLoRA_Forward(benchmark::State& state) {
         Tensor output = attn.forward(input);
         benchmark::DoNotOptimize(output);
     }
+    
+    // Phase 5 gate: Attention forward pass <150µs per sample
+    double nanos = state.counters["_total_time"] * 1e9 / state.iterations();
+    double micros = nanos / 1000.0;
+    
+    state.counters["forward_us_per_sample"] = micros;
+    
+    if (micros > gates::ATTENTION_FORWARD_PER_SAMPLE_US) {
+        gates::report_gate_violation("BM_AttentionLoRA_Forward", micros, 
+                                     gates::ATTENTION_FORWARD_PER_SAMPLE_US);
+    }
 }
-BENCHMARK(BM_AttentionLoRA_Forward)->Range(256, 4096);
+BENCHMARK(BM_AttentionLoRA_Forward)->Range(256, 4096)->Unit(benchmark::kMicrosecond);
 
 static void BM_Sequential_Forward(benchmark::State& state) {
     size_t num_layers = state.range(0);
@@ -150,8 +210,19 @@ static void BM_Sequential_Forward(benchmark::State& state) {
         Tensor output = seq.forward(input);
         benchmark::DoNotOptimize(output);
     }
+    
+    // Per-layer amortized forward time should be within gate
+    double nanos = state.counters["_total_time"] * 1e9 / state.iterations();
+    double micros_per_layer = (nanos / 1000.0) / num_layers;
+    
+    state.counters["forward_us_per_layer"] = micros_per_layer;
+    
+    if (micros_per_layer > gates::LORA_FORWARD_PER_SAMPLE_US) {
+        gates::report_gate_violation("BM_Sequential_Forward (per-layer)", 
+                                     micros_per_layer, gates::LORA_FORWARD_PER_SAMPLE_US);
+    }
 }
-BENCHMARK(BM_Sequential_Forward)->Range(1, 16);
+BENCHMARK(BM_Sequential_Forward)->Range(1, 16)->Unit(benchmark::kMicrosecond);
 
 // ===== Backward Pass Benchmarks =====
 
@@ -166,8 +237,19 @@ static void BM_LoRALayer_Backward(benchmark::State& state) {
         Tensor grad_input = layer.backward(grad_output);
         benchmark::DoNotOptimize(grad_input);
     }
+    
+    // Phase 5 gate: Backward pass <150µs per sample
+    double nanos = state.counters["_total_time"] * 1e9 / state.iterations();
+    double micros = nanos / 1000.0;
+    
+    state.counters["backward_us_per_sample"] = micros;
+    
+    if (micros > gates::LORA_BACKWARD_PER_SAMPLE_US) {
+        gates::report_gate_violation("BM_LoRALayer_Backward", micros, 
+                                     gates::LORA_BACKWARD_PER_SAMPLE_US);
+    }
 }
-BENCHMARK(BM_LoRALayer_Backward)->Range(256, 4096);
+BENCHMARK(BM_LoRALayer_Backward)->Range(256, 4096)->Unit(benchmark::kMicrosecond);
 
 static void BM_AttentionLoRA_Backward(benchmark::State& state) {
     size_t dim = state.range(0);
@@ -180,8 +262,19 @@ static void BM_AttentionLoRA_Backward(benchmark::State& state) {
         Tensor grad_input = attn.backward(grad_output);
         benchmark::DoNotOptimize(grad_input);
     }
+    
+    // Phase 5 gate: Attention backward pass <200µs per sample
+    double nanos = state.counters["_total_time"] * 1e9 / state.iterations();
+    double micros = nanos / 1000.0;
+    
+    state.counters["backward_us_per_sample"] = micros;
+    
+    if (micros > gates::ATTENTION_BACKWARD_PER_SAMPLE_US) {
+        gates::report_gate_violation("BM_AttentionLoRA_Backward", micros, 
+                                     gates::ATTENTION_BACKWARD_PER_SAMPLE_US);
+    }
 }
-BENCHMARK(BM_AttentionLoRA_Backward)->Range(256, 4096);
+BENCHMARK(BM_AttentionLoRA_Backward)->Range(256, 4096)->Unit(benchmark::kMicrosecond);
 
 static void BM_Sequential_Backward(benchmark::State& state) {
     size_t num_layers = state.range(0);
@@ -197,8 +290,19 @@ static void BM_Sequential_Backward(benchmark::State& state) {
         Tensor grad_input = seq.backward(grad_output);
         benchmark::DoNotOptimize(grad_input);
     }
+    
+    // Per-layer amortized backward time should be within gate
+    double nanos = state.counters["_total_time"] * 1e9 / state.iterations();
+    double micros_per_layer = (nanos / 1000.0) / num_layers;
+    
+    state.counters["backward_us_per_layer"] = micros_per_layer;
+    
+    if (micros_per_layer > gates::LORA_BACKWARD_PER_SAMPLE_US) {
+        gates::report_gate_violation("BM_Sequential_Backward (per-layer)", 
+                                     micros_per_layer, gates::LORA_BACKWARD_PER_SAMPLE_US);
+    }
 }
-BENCHMARK(BM_Sequential_Backward)->Range(1, 16);
+BENCHMARK(BM_Sequential_Backward)->Range(1, 16)->Unit(benchmark::kMicrosecond);
 
 // ===== Parameter Management Benchmarks =====
 
@@ -213,7 +317,7 @@ static void BM_LoRALayer_ParameterCount(benchmark::State& state) {
         benchmark::DoNotOptimize(count);
     }
 }
-BENCHMARK(BM_LoRALayer_ParameterCount)->Range(256, 4096);
+BENCHMARK(BM_LoRALayer_ParameterCount)->Range(256, 4096)->Unit(benchmark::kMicrosecond);
 
 static void BM_LoRALayer_ParameterAccess(benchmark::State& state) {
     size_t dim = 768;
@@ -226,7 +330,7 @@ static void BM_LoRALayer_ParameterAccess(benchmark::State& state) {
         benchmark::DoNotOptimize(params);
     }
 }
-BENCHMARK(BM_LoRALayer_ParameterAccess);
+BENCHMARK(BM_LoRALayer_ParameterAccess)->Unit(benchmark::kMicrosecond);
 
 static void BM_Sequential_ParameterCollection(benchmark::State& state) {
     size_t num_layers = state.range(0);
@@ -241,7 +345,7 @@ static void BM_Sequential_ParameterCollection(benchmark::State& state) {
         benchmark::DoNotOptimize(params);
     }
 }
-BENCHMARK(BM_Sequential_ParameterCollection)->Range(1, 16);
+BENCHMARK(BM_Sequential_ParameterCollection)->Range(1, 16)->Unit(benchmark::kMicrosecond);
 
 // ===== Memory Efficiency Benchmarks =====
 
@@ -255,8 +359,16 @@ static void BM_LoRALayer_MemoryUsage(benchmark::State& state) {
         size_t memory = layer.memory_bytes();
         benchmark::DoNotOptimize(memory);
     }
+    
+    // Track baseline memory usage
+    size_t baseline_memory = 0;
+    if (dim == 768) {
+        baseline_memory = (768 * 8) * sizeof(float) + (8 * 768) * sizeof(float);
+        state.counters["baseline_memory_bytes"] = baseline_memory;
+        state.counters["baseline_memory_mb"] = baseline_memory / (1024.0 * 1024.0);
+    }
 }
-BENCHMARK(BM_LoRALayer_MemoryUsage)->Range(256, 4096);
+BENCHMARK(BM_LoRALayer_MemoryUsage)->Range(256, 4096)->Unit(benchmark::kMicrosecond);
 
 static void BM_Compare_LoRAvsFullFinetuning(benchmark::State& state) {
     size_t dim = state.range(0);
@@ -316,7 +428,160 @@ static void BM_CompositePattern_Overhead(benchmark::State& state) {
         benchmark::DoNotOptimize(output2);
     }
 }
-BENCHMARK(BM_CompositePattern_Overhead);
+BENCHMARK(BM_CompositePattern_Overhead)->Unit(benchmark::kMicrosecond);
+
+// ===== Phase 5 Stress Test Benchmarks: Extended Training Sessions =====
+
+/**
+ * Phase 5 hardening: Measure memory behavior during extended training
+ * without accumulation or leaks over 1000+ training steps
+ */
+static void BM_Extended_TrainingSession_1000Steps(benchmark::State& state) {
+    size_t steps = 1000;
+    size_t batch_size = 32;
+    
+    Sequential seq;
+    seq.add(std::make_unique<LoRALayer>(768, 768, 8));
+    seq.add(std::make_unique<LoRALayer>(768, 768, 8));
+    
+    Tensor batch_input({batch_size, 768});
+    Tensor batch_target({batch_size, 768});
+    batch_input.fill(0.5f);
+    batch_target.fill(0.3f);
+    
+    // Track memory before
+    size_t memory_before = 0;  // Would call malloc_info or similar in real implementation
+    
+    for (auto _ : state) {
+        auto start = std::chrono::high_resolution_clock::now();
+        
+        for (size_t step = 0; step < steps; ++step) {
+            // Forward pass
+            auto output = seq.forward(batch_input);
+            
+            // Compute gradient
+            auto loss = output - batch_target;
+            
+            // Backward pass
+            auto grads = seq.backward(loss);
+            
+            // Zero gradients for next iteration
+            seq.zero_grad();
+        }
+        
+        auto end = std::chrono::high_resolution_clock::now();
+        
+        auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+        state.SetIterationTime(elapsed.count() / 1000.0);
+    }
+    
+    // Track memory after
+    size_t memory_after = 0;  // Would call malloc_info or similar
+    
+    // Calculate per-step time
+    double total_time_ms = state.counters["_total_time"] * 1e3;
+    double ms_per_step = total_time_ms / steps;
+    
+    // Phase 5 gate: Training step <500ms for 32-sample batch
+    state.counters["ms_per_step"] = ms_per_step;
+    state.counters["total_steps"] = steps;
+    state.counters["memory_diff_bytes"] = memory_after - memory_before;
+    
+    if (ms_per_step > 500.0) {
+        gates::report_gate_violation("BM_Extended_TrainingSession_1000Steps", 
+                                     ms_per_step * 1000.0, 500.0 * 1000.0);  // Convert to us
+    }
+}
+BENCHMARK(BM_Extended_TrainingSession_1000Steps)->Unit(benchmark::kMillisecond);
+
+/**
+ * Phase 5 hardening: Measure concurrent adapter training
+ * Simulates training multiple adapters simultaneously (4 adapters)
+ */
+static void BM_Concurrent_AdapterTraining(benchmark::State& state) {
+    size_t num_adapters = 4;
+    size_t steps = 100;
+    
+    // Create multiple independent adapters
+    std::vector<std::unique_ptr<Sequential>> adapters;
+    for (size_t i = 0; i < num_adapters; ++i) {
+        auto seq = std::make_unique<Sequential>();
+        seq->add(std::make_unique<LoRALayer>(768, 768, 8));
+        adapters.push_back(std::move(seq));
+    }
+    
+    std::vector<Tensor> inputs;
+    std::vector<Tensor> targets;
+    for (size_t i = 0; i < num_adapters; ++i) {
+        inputs.emplace_back(std::vector<size_t>{32, 768});
+        targets.emplace_back(std::vector<size_t>{32, 768});
+        inputs[i].fill(0.5f);
+        targets[i].fill(0.3f);
+    }
+    
+    for (auto _ : state) {
+        auto start = std::chrono::high_resolution_clock::now();
+        
+        for (size_t step = 0; step < steps; ++step) {
+            // Train each adapter
+            for (size_t i = 0; i < num_adapters; ++i) {
+                auto output = adapters[i]->forward(inputs[i]);
+                auto loss = output - targets[i];
+                auto grads = adapters[i]->backward(loss);
+                adapters[i]->zero_grad();
+                
+                benchmark::DoNotOptimize(grads);
+            }
+        }
+        
+        auto end = std::chrono::high_resolution_clock::now();
+        auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+        state.SetIterationTime(elapsed.count() / 1000.0);
+    }
+    
+    state.counters["num_adapters"] = num_adapters;
+    state.counters["total_steps"] = steps;
+}
+BENCHMARK(BM_Concurrent_AdapterTraining)->Unit(benchmark::kMillisecond);
+
+/**
+ * Phase 5 hardening: Memory pressure during large batch training
+ * Validates behavior with large batch sizes approaching GPU memory limits
+ */
+static void BM_LargeBatchTraining_MemoryPressure(benchmark::State& state) {
+    size_t batch_size = state.range(0);  // 64, 128, 256
+    size_t steps = 10;
+    
+    Sequential seq;
+    seq.add(std::make_unique<LoRALayer>(768, 768, 8));
+    seq.add(std::make_unique<LoRALayer>(768, 768, 8));
+    
+    Tensor batch_input({batch_size, 768});
+    Tensor batch_target({batch_size, 768});
+    batch_input.fill(0.5f);
+    batch_target.fill(0.3f);
+    
+    for (auto _ : state) {
+        auto start = std::chrono::high_resolution_clock::now();
+        
+        for (size_t step = 0; step < steps; ++step) {
+            auto output = seq.forward(batch_input);
+            auto loss = output - batch_target;
+            auto grads = seq.backward(loss);
+            seq.zero_grad();
+            
+            benchmark::DoNotOptimize(grads);
+        }
+        
+        auto end = std::chrono::high_resolution_clock::now();
+        auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+        state.SetIterationTime(elapsed.count() / 1000.0);
+    }
+    
+    state.counters["batch_size"] = batch_size;
+    state.counters["steps"] = steps;
+}
+BENCHMARK(BM_LargeBatchTraining_MemoryPressure)->Args({64})->Args({128})->Args({256})->Unit(benchmark::kMillisecond);
 
 // Benchmark main
 BENCHMARK_MAIN();

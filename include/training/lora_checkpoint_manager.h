@@ -28,6 +28,8 @@
 #include <optional>
 #include <cstddef>
 #include <ctime>
+#include "training/training_error_codes.h"
+#include "training/training_exceptions.h"
 
 namespace themis {
 namespace training {
@@ -82,18 +84,59 @@ struct CheckpointManagerConfig {
  * Checkpoint metadata (epoch, step, loss, sha256, base_model_hash) is stored in
  * `checkpoint_manifest.json` inside `checkpoint_dir`.
  *
+ * ## Phase 3: Error Handling and Edge Cases
+ *
+ * All public methods throw CheckpointException with structured error codes and
+ * diagnostics for production troubleshooting:
+ *
+ * - **Constructor**: throws CheckpointException if checkpoint_dir is empty
+ *   or invalid (code: CHECKPOINT_DIR_INVALID)
+ *
+ * - **save()**: throws CheckpointException on:
+ *   - File read failure (CHECKPOINT_READ_FAILED)
+ *   - Disk full (CHECKPOINT_DISK_SPACE_EXHAUSTED)
+ *   - File write failure (CHECKPOINT_WRITE_FAILED)
+ *   - Rename/move failure (CHECKPOINT_RENAME_FAILED)
+ *   - I/O timeout (CHECKPOINT_IO_TIMEOUT)
+ *
+ * - **resume()**: returns std::nullopt if no valid checkpoint found;
+ *   logs recovered checkpoint path on success or auto-rollback
+ *
+ * - **resumeWithDiagnostics()**: includes detailed recovery information
+ *   including which checkpoints were attempted and why they failed
+ *
+ * - **validate()**: returns false if file missing or SHA-256 mismatch
+ *
+ * - **cleanupPartialCheckpoints()**: logs which files were removed
+ *
+ * - **auditCheckpoints()**: reports validity status for each entry
+ *   and returns count of valid checkpoints
+ *
+ * Edge cases handled:
+ * - Empty checkpoint directory: gracefully handled (resume returns nullopt)
+ * - Corrupted manifest: malformed entries silently dropped, valid entries retained
+ * - Partially-written checkpoints: detected by size check, cleaned up
+ * - Disk full during save: detected early, error thrown with recoverable=true
+ * - SHA-256 validation timeout: error thrown with code CHECKPOINT_VALIDATION_TIMEOUT
+ * - All checkpoints corrupted: auto-rollback exhausted, explicit error with recovery options
+ *
  * Example usage:
  * @code
  * CheckpointManagerConfig cfg;
  * cfg.checkpoint_dir   = "/var/lib/themis/checkpoints/legal_v1";
  * cfg.max_checkpoints  = 3;
  *
- * LoRACheckpointManager mgr(cfg);
- * mgr.save("weights.bin", {.epoch=1, .step=500, .loss=0.42, .adapter_version="legal_v1.1"});
+ * try {
+ *     LoRACheckpointManager mgr(cfg);  // throws if dir invalid
+ *     mgr.save("weights.bin", {.epoch=1, .step=500, .loss=0.42, .adapter_version="legal_v1.1"});
  *
- * auto entry = mgr.resume();
- * if (entry) {
- *     // load entry->checkpoint_path
+ *     auto entry = mgr.resume();  // nullopt if no valid checkpoint
+ *     if (entry) {
+ *         // load entry->checkpoint_path
+ *     }
+ * } catch (const CheckpointException& e) {
+ *     // Handle checkpoint failure with error code and diagnostics
+ *     log_error << e.diagnostic_message();
  * }
  * @endcode
  */
@@ -102,7 +145,8 @@ public:
     /**
      * @brief Construct the checkpoint manager.
      * @param config Configuration for directory, window size, and validation.
-     * @throws std::invalid_argument if checkpoint_dir is empty.
+     * @throws CheckpointException if checkpoint_dir is empty or path is unsafe
+     *         (error code: CHECKPOINT_DIR_INVALID or CHECKPOINT_PATH_UNSAFE)
      */
     explicit LoRACheckpointManager(const CheckpointManagerConfig& config);
 
