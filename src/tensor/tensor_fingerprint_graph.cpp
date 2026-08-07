@@ -10,6 +10,7 @@
  */
 
 #include "tensor/tensor_fingerprint_graph.h"
+#include "tensor/tensor_error_handling.h"
 
 #include <algorithm>
 #include <cassert>
@@ -264,7 +265,14 @@ TensorFingerprintGraph::findSimilar(const std::string& query_key,
             candidates.emplace_back(key, entry);
         }
     }
-    if (!std::isfinite(query_self_ip) || query_self_ip <= 0.0) return {};
+    if (!std::isfinite(query_self_ip) || query_self_ip <= 0.0) {
+        // CRITICAL-1: Emit diagnostic before silent return
+        emitFingerprintDiagnostic(
+            "TENSOR-9510",
+            "Invalid query self inner product (NaN/Inf/≤0)",
+            query_key);
+        return {};
+    }
 
     const auto exact_similarity_fn = getExactSimilarityFn();
 
@@ -277,9 +285,19 @@ TensorFingerprintGraph::findSimilar(const std::string& query_key,
             try {
                 score = static_cast<double>(exact_similarity_fn(query_key, key));
             } catch (...) {
+                // CRITICAL-1: Emit diagnostic for exception in similarity computation
+                emitFingerprintDiagnostic(
+                    "TENSOR-9511",
+                    "Exception in exact similarity computation",
+                    key);
                 continue;
             }
             if (!std::isfinite(score)) {
+                // CRITICAL-1: Emit diagnostic for invalid score
+                emitFingerprintDiagnostic(
+                    "TENSOR-9512",
+                    "Computed similarity score is NaN/Inf",
+                    key);
                 continue;
             }
             score = std::clamp(score, -1.0, 1.0);
@@ -296,7 +314,14 @@ TensorFingerprintGraph::findSimilar(const std::string& query_key,
         std::shared_lock lock(mutex_);
         for (const auto& [key, entry] : candidates) {
             const auto it_train = trains_.find(key);
-            if (it_train == trains_.end()) continue;
+            if (it_train == trains_.end()) {
+                // CRITICAL-1: Emit diagnostic when referenced train not found
+                emitFingerprintDiagnostic(
+                    "TENSOR-9513",
+                    "Referenced tensor train entry not found",
+                    key);
+                continue;
+            }
             const auto& other_train = it_train->second;
 
             double other_self_ip = 0.0;
@@ -309,6 +334,11 @@ TensorFingerprintGraph::findSimilar(const std::string& query_key,
             }
 
             if (!std::isfinite(other_self_ip) || other_self_ip <= 0.0) {
+                // CRITICAL-1: Emit diagnostic for invalid other self inner product
+                emitFingerprintDiagnostic(
+                    "TENSOR-9510",
+                    "Invalid other self inner product (NaN/Inf/≤0)",
+                    key);
                 continue;
             }
 
@@ -316,6 +346,11 @@ TensorFingerprintGraph::findSimilar(const std::string& query_key,
                 storage::TensorTrainDecomposer::innerProduct(query_train, other_train);
             const double denom = std::sqrt(query_self_ip * other_self_ip);
             if (!std::isfinite(cross_ip) || !std::isfinite(denom) || denom <= 0.0) {
+                // CRITICAL-1: Emit diagnostic for invalid cross product or denominator
+                emitFingerprintDiagnostic(
+                    "TENSOR-9514",
+                    "Cross inner-product computation failed (NaN/Inf/denom≤0)",
+                    key);
                 continue;
             }
 

@@ -463,5 +463,49 @@ private:
     mutable std::mutex metrics_mutex_;
 };
 
+// ============================================================================
+// Diagnostic Emission Helpers — Phase 2 A2 Remediation
+// ============================================================================
+
+/**
+ * @brief Emit a diagnostic event for tensor module operations.
+ * 
+ * Thread-safe helper for emitting structured diagnostic events during
+ * error handling and recovery. Used to ensure all error paths produce
+ * diagnostic telemetry for MTTR reduction.
+ * 
+ * @param error_code Semantic error code (e.g., "TENSOR-9510", "TENSOR-9520")
+ * @param error_message Human-readable error message
+ * @param context Optional context key-value pairs (module, adapter_id, etc.)
+ */
+void emitTensorDiagnostic(
+    const std::string& error_code,
+    const std::string& error_message,
+    const std::map<std::string, std::string>& context = {}) noexcept;
+
+/**
+ * @brief Convenience wrapper for fingerprint graph diagnostics.
+ * 
+ * @param error_code TENSOR-specific error code
+ * @param detail Error detail (e.g., operation, reason, value)
+ * @param adapter_key Optional adapter identifier
+ */
+void emitFingerprintDiagnostic(
+    const std::string& error_code,
+    const std::string& detail,
+    const std::string& adapter_key = "") noexcept;
+
+/**
+ * @brief Convenience wrapper for index manager diagnostics.
+ * 
+ * @param error_code TENSOR-specific error code
+ * @param detail Error detail
+ * @param index_key Optional index identifier
+ */
+void emitIndexDiagnostic(
+    const std::string& error_code,
+    const std::string& detail,
+    const std::string& index_key = "") noexcept;
+
 } // namespace tensor
 } // namespace themis

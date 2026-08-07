@@ -275,6 +275,52 @@ enum class ErrorCode {
     ERR_WORKFLOW_QUARANTINED          = 9618,  ///< File quarantined after step failure with on_failure=quarantine
     ERR_WORKFLOW_PLUGIN_LOAD_FAILED   = 9619,  ///< Dynamic step plugin (.so/.dll) could not be loaded
 
+    // -------------------------------------------------------------------------
+    // Tensor module errors (ERR_TENSOR_*) — 9510–9599 [Phase 2 A2 Remediation]
+    // -------------------------------------------------------------------------
+    // Graph Errors (9510-9509): Fingerprint graph, dependency resolution
+    ERR_TENSOR_GRAPH_INVALID_SELF_IP          = 9510,  ///< Fingerprint self-inner-product invalid (NaN/Inf/≤0)
+    ERR_TENSOR_GRAPH_EXCEPTION_IN_SIMILARITY  = 9511,  ///< Exception thrown during similarity computation
+    ERR_TENSOR_GRAPH_INVALID_SCORE            = 9512,  ///< Computed similarity score is NaN/Inf
+    ERR_TENSOR_GRAPH_OTHER_TRAIN_NOT_FOUND    = 9513,  ///< Referenced tensor train entry not found
+    ERR_TENSOR_GRAPH_INVALID_CROSS_IP         = 9514,  ///< Cross inner-product computation failed
+
+    // Index Errors (9520-9529): Index construction, lookup, routing
+    ERR_TENSOR_INDEX_CONSTRUCTION_FAILED      = 9520,  ///< Graph construction failed (TensorIndex creation)
+    ERR_TENSOR_INDEX_LOOKUP_FAILED            = 9521,  ///< Index lookup failed (record not found)
+    ERR_TENSOR_INDEX_ROUTING_FAILED           = 9522,  ///< Adapter routing decision failed
+    ERR_TENSOR_INDEX_INVALID_DIMENSION        = 9523,  ///< Incompatible or invalid tensor dimension
+    ERR_TENSOR_INDEX_CAPACITY_EXCEEDED        = 9524,  ///< Index capacity limit exceeded
+
+    // Adapter Errors (9530-9539): Adapter verification, communication
+    ERR_TENSOR_ADAPTER_VERIFICATION_FAILED    = 9530,  ///< Adapter verification failed
+    ERR_TENSOR_ADAPTER_NOT_FOUND              = 9531,  ///< Referenced adapter not found
+    ERR_TENSOR_ADAPTER_COMMUNICATION_ERROR    = 9532,  ///< Communication with adapter failed
+    ERR_TENSOR_ADAPTER_INVALID_RESPONSE       = 9533,  ///< Adapter returned invalid response
+
+    // Fingerprint Errors (9540-9549): Fingerprint computation, validation
+    ERR_TENSOR_FINGERPRINT_COMPUTATION_FAILED = 9540,  ///< Fingerprint computation failed
+    ERR_TENSOR_FINGERPRINT_VERIFICATION_FAILED= 9541,  ///< Fingerprint verification failed
+    ERR_TENSOR_FINGERPRINT_COLLISION_DETECTED = 9542,  ///< Fingerprint collision detected (unexpected duplicates)
+
+    // Routing Errors (9550-9559): Route selection, fallback
+    ERR_TENSOR_ROUTING_DECISION_FAILED        = 9550,  ///< Route selection algorithm failed
+    ERR_TENSOR_ROUTING_NO_VIABLE_ROUTE        = 9551,  ///< No viable routing target available
+    ERR_TENSOR_ROUTING_FALLBACK_EXHAUSTED     = 9552,  ///< Fallback routing options exhausted
+
+    // Recovery Errors (9560-9569): Recovery, persistence
+    ERR_TENSOR_RECOVERY_FAILED                = 9560,  ///< Tensor recovery operation failed
+    ERR_TENSOR_PERSISTENCE_FAILED             = 9561,  ///< Failed to persist tensor state
+    ERR_TENSOR_ROCKSDB_OPERATION_FAILED       = 9562,  ///< RocksDB operation (put/get/delete) failed
+
+    // Concurrency & Threading (9570-9579): Concurrency issues
+    ERR_TENSOR_CONCURRENT_MODIFICATION        = 9570,  ///< Concurrent modification detected
+    ERR_TENSOR_LOCK_ACQUISITION_FAILED        = 9571,  ///< Failed to acquire lock (timeout/contention)
+
+    // Core Bridge (9580-9589): Core bridge operations
+    ERR_TENSOR_CORE_BRIDGE_WRITE_FAILED       = 9580,  ///< Core bridge write operation failed
+    ERR_TENSOR_CORE_BRIDGE_READ_FAILED        = 9581,  ///< Core bridge read operation failed
+
     // Unknown
     ERR_UNKNOWN = 9999
 };
