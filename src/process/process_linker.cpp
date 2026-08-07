@@ -734,8 +734,11 @@ DiagnosticRecord ProcessLinker::detectStaleLinkAtReadTime(
                 found = true;
                 return false;  // Stop scanning
             }
-        } catch (...) {
-            // Parse error – skip
+        } catch (const std::exception& e) {
+            // Log the corruption and continue scanning other links.
+            // Callers that need structured diagnostics for corrupted documents
+            // should invoke findStaleLinkReferences() which emits per-link records.
+            SPDLOG_WARN("[process_linker] detectStaleLinkAtReadTime: JSON parse error while scanning links: {}", e.what());
         }
         return true;
     });
@@ -822,8 +825,19 @@ std::pair<int32_t, std::string> ProcessLinker::cleanupOrphanedLinks(
                     found = true;
                     return false;  // Stop scanning
                 }
-            } catch (...) {
-                // Parse error – skip
+            } catch (const std::exception& e) {
+                // Log and create diagnostic for corrupted link document
+                SPDLOG_WARN("[process_linker] cleanupOrphanedLinks: JSON parse error while scanning: {}", e.what());
+                DiagnosticContext ctx;
+                ctx.recordResourceMetric("target_link_id", link_id.size());
+                ctx.setRemediationSuggestion("A stored link document could not be parsed as JSON during cleanup. "
+                                            "This indicates data corruption. Check database integrity.");
+                auto incident = ProcessDiagnostics::createLinkingIncident(
+                    ProcError::kLinkingStateInvalid,
+                    link_id,
+                    "Corrupted link document during cleanup scan: " + std::string(e.what())
+                );
+                // Continue scanning other links despite this error
             }
             return true;
         });

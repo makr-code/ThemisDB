@@ -1,8 +1,8 @@
 # Temporal Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
+<!-- Status: current | validated: 2026-08-06 | validation_doc: TEMPORAL_MODULE_STATUS_VALIDATION.md -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · TEMPORAL_MODULE_STATUS_VALIDATION.md -->
 
 ## Current Status
 

@@ -168,6 +168,23 @@ struct ProcessLink {
  */
 class ProcessLinker {
 public:
+    /**
+     * @brief Construct a ProcessLinker with a RocksDB backend.
+     *
+     * @param db Reference to a RocksDBWrapper instance that will be used for all link storage
+     *           and retrieval operations. The ProcessLinker does not own this reference;
+     *           the caller is responsible for keeping the RocksDBWrapper alive for the entire
+     *           lifetime of this linker instance.
+     *
+     * @note Thread-safe: Multiple ProcessLinker instances can be created with the same
+     *       RocksDB backend. Link operations are protected with per-link fine-grained locking
+     *       to maximize concurrency while ensuring consistency.
+     *
+     * @note The constructor does not perform any I/O; initialization is lazy.
+     *
+     * @see attachObject() for how to create and manage links
+     * @see detectStaleLinkAtReadTime() for stale link detection
+     */
     explicit ProcessLinker(RocksDBWrapper& db);
 
     // ── Attach data objects to process instances ──────────────────────────
