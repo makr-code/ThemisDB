@@ -43,9 +43,6 @@ namespace security {
 AiSnapshotCleanupJob::AiSnapshotCleanupJob(Config cfg)
     : config_(std::move(cfg)) {}
 
-AiSnapshotCleanupJob::AiSnapshotCleanupJob()
-    : config_() {}
-
 // ============================================================================
 // listSnapshots
 // ============================================================================

@@ -5,6 +5,53 @@ All notable changes to ThemisDB will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-08-07 — Security Module Phase 2+3 Hardening (v2.5.0-rc1)
+
+### Security Module — Phase 2+3 Hardening for Q4 2026 Release (2026-08-07)
+
+**Summary:** Phase 2 (Cryptography & Key Management) and Phase 3 (Policy & Data-Protection) implementation blocks complete.
+Comprehensive test suites and benchmark-backed performance gates prepared for Q4 2026 release gate validation.
+
+**Phase 2 — Cryptography & Key Management Hardening**
+- Key-lifecycle validation tests (K-LIFE-01..K-LIFE-04): create/rotate/revoke/recover operations with state machine validation
+  - File: `tests/security/test_security_phase2_crypto_hardening_focused.cpp`
+  - Coverage: 4 lifecycle tests + concurrent key operations integration
+- Cryptographic error-path enforcement tests (K-ERR-01..K-ERR-04): fail-closed behavior, no silent fallbacks
+  - Coverage: encryption failures, decryption corruption, key-provider timeouts, HSM failover
+- Key-provider resilience tests (K-PROV-01..K-PROV-04): Vault, HSM, PKI failover and recovery scenarios
+  - Coverage: valid tokens, expired tokens, slot unavailability, certificate rotation atomicity
+- Phase 2 release-gate benchmarks (K-ROT-01..K-ROT-04)
+  - File: `benchmarks/security/bench_security_phase2_crypto_gates.cpp`
+  - Gates: key retrieval (p99 ≤ 1µs), key rotation (p99 ≤ 5ms), concurrent overhead (≤10%), failover (≤50ms)
+
+**Phase 3 — Policy & Data-Protection Hardening**
+- RLS (Row-Level Security) regression tests (P-RLS-01..P-RLS-04): single/cascading/mixed/null constraints
+  - File: `tests/security/test_security_phase3_policy_hardening_focused.cpp`
+  - Coverage: user filtering, multi-tenant hierarchies, static/dynamic predicates, NULL handling
+- Policy-merge and precedence tests (P-MRG-01..P-MRG-04): RBAC deny wins, most-restrictive-match, ABAC conflicts, misconfiguration
+  - Coverage: explicit deny precedence, multiple rule evaluation, deterministic ordering
+- Deny-by-default semantics tests (P-DENY-01..P-DENY-04): empty policies, ambiguous rules, timeouts, concurrent updates
+  - Coverage: fail-closed on no match, strict timeout enforcement, snapshot consistency
+- Query result masking tests (P-MASK-01..P-MASK-02): PII redaction for non-privileged callers, audit trails
+  - Coverage: email/phone/SSN masking, audit event logging
+- Phase 3 release-gate benchmarks (P-MRG-01..P-MRG-05)
+  - File: `benchmarks/security/bench_security_phase3_policy_gates.cpp`
+  - Gates: single rule (p99 ≤ 1µs), complex rules (p99 ≤ 100µs), deny-by-default (p99 ≤ 50µs), RLS (p99 ≤ 1ms), masking (≤5%, p99 ≤ 2ms)
+
+**ROADMAP.md updates (2026-08-07):**
+- Phase 2 implementation section: added test/benchmark tracking with delivery dates
+- Phase 3 implementation section: added test/benchmark tracking with delivery dates
+- In Progress: split Phase 2/3 hardening with sub-item tracking (K-LIFE, K-ERR, K-PROV, K-ROT, P-RLS, P-MRG, P-DENY, P-MASK gates)
+- Production Readiness: added Phase 2/3 test/benchmark tracking with `[~]` in-progress status
+
+**Blocker remediation (2026-08-07):**
+- Fixed: `include/security/ai_snapshot_cleanup.h:63` — duplicate constructor (default parameter consolidation)
+- Verified: braces_imbalance gaps are Gap Scanner false positives; files have correct brace balance
+- Verified: missing_dtor warnings on deleter functors are expected (no explicit destructor needed)
+- Verified: "todo_as_productionlogic" gaps are Gap Summary headers in file documentation, not real TODOs
+
+---
+
 ## [Unreleased] — 2026-08-04 — Phase 1-6 Execution Contract Closure (v2.4.0-rc1)
 
 ### Phase 1-6 Execution Contract — Full Closure (2026-08-04)

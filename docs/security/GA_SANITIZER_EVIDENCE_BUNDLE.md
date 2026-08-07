@@ -176,6 +176,64 @@ corresponding sanitizer preset flag.
 
 ---
 
+## 9. Phase 2+3 Hardening Evidence Bundle (Q4 2026)
+
+**Document Update Date:** 2026-08-07  
+**Phase 2+3 Status:** Implementation blocks COMPLETE; evidence collection in progress
+
+### 9.1 Phase 2 — Cryptography & Key Management Hardening
+
+**Test Suite:** `tests/security/test_security_phase2_crypto_hardening_focused.cpp` (2026-08-07)
+- K-LIFE-01..K-LIFE-04: Key lifecycle (create/rotate/revoke/recover) with state machine validation
+- K-ERR-01..K-ERR-04: Crypto error-path enforcement (fail-closed, no silent fallbacks)
+- K-PROV-01..K-PROV-04: Key-provider resilience (Vault, HSM, PKI failover)
+- Integration test: concurrent key operations with multi-provider failover
+- Target sanitizer runs: ASan/UBSan/TSan under key provider mock failure scenarios
+
+**Benchmark Suite:** `benchmarks/security/bench_security_phase2_crypto_gates.cpp` (2026-08-07)
+- K-ROT-01: Key retrieval (p99 ≤ 1µs)
+- K-ROT-02: Key rotation (p99 ≤ 5ms)
+- K-ROT-03: Concurrent overhead (≤10%)
+- K-ROT-04: Failover recovery (≤50ms)
+- Performance target: All K-ROT-* gates PASS before Q4 2026 release
+
+### 9.2 Phase 3 — Policy & Data-Protection Hardening
+
+**Test Suite:** `tests/security/test_security_phase3_policy_hardening_focused.cpp` (2026-08-07)
+- P-RLS-01..P-RLS-04: Row-level security (single/cascading/mixed/null constraints)
+- P-MRG-01..P-MRG-04: Policy merge & precedence (RBAC deny, ABAC conflicts)
+- P-DENY-01..P-DENY-04: Deny-by-default semantics (empty policies, timeouts, updates)
+- P-MASK-01..P-MASK-02: Query result masking (PII redaction, audit trails)
+- Integration test: complex policy scenarios with mixed RLS+ABAC+masking
+- Target sanitizer runs: ASan/UBSan under policy evaluation stress and concurrent updates
+
+**Benchmark Suite:** `benchmarks/security/bench_security_phase3_policy_gates.cpp` (2026-08-07)
+- P-MRG-01: Single rule evaluation (p99 ≤ 1µs)
+- P-MRG-02: Complex rule sets (p99 ≤ 100µs)
+- P-MRG-03: Deny-by-default evaluation (p99 ≤ 50µs)
+- P-MRG-04: RLS filtering (p99 ≤ 1ms)
+- P-MRG-05: Masking overhead (≤5%, p99 ≤ 2ms)
+- Performance target: All P-MRG-* gates PASS before Q4 2026 release
+
+### 9.3 Phase 2+3 Acceptance Criteria (Q4 2026)
+
+**Phase 2 Crypto Acceptance:**
+- [ ] K-LIFE-01..04 tests execute, 100% PASS under ASan/UBSan
+- [ ] K-ERR-01..04 tests execute, 100% PASS (fail-closed validated)
+- [ ] K-PROV-01..04 tests execute, 100% PASS (failover scenarios)
+- [ ] K-ROT-01..04 benchmarks execute, gates PASS
+- [ ] Zero new CRITICAL/HIGH gaps in phase 2 code (< 10 scope_mismatch, < 5 other)
+
+**Phase 3 Policy Acceptance:**
+- [ ] P-RLS-01..04 tests execute, 100% PASS under ASan/UBSan
+- [ ] P-MRG-01..04 tests execute, 100% PASS (precedence validated)
+- [ ] P-DENY-01..04 tests execute, 100% PASS (deny-by-default semantics)
+- [ ] P-MASK-01..02 tests execute, 100% PASS (audit trails validated)
+- [ ] P-MRG-01..05 benchmarks execute, gates PASS
+- [ ] Zero new CRITICAL/HIGH gaps in phase 3 code (< 10 scope_mismatch, < 5 other)
+
+---
+
 ## 8. References
 
 - `RELEASE_STRATEGY.md` §2.3 Beta-To-GA Gate Model, §2.4 GA Hardening Execution Batches
