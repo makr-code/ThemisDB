@@ -50,15 +50,15 @@ Production adapter runtime (v0.0.47, 96/100 maturity score) exists for the curre
 - [ ] extend deterministic fixture coverage for engine-injection permutations (Target: Q4 2026)
 
 ### Phase 5: Performance and Hardening
-- [ ] lock benchmark-backed release gates for adapter compatibility hot paths (Target: Q4 2026)
-- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+- [~] lock benchmark-backed release gates for adapter compatibility hot paths (Target: Q4 2026) — Benchmark suite structure in development (2026-08-07)
+- [~] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026) — Benchmark framework established; execution pending (2026-08-07)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core chimera module docs aligned to source-verifiable behavior (completed 2026-07-18)
 - [x] roadmap/future planning separated from historical changelog entries (completed 2026-07-18)
 - [x] build system corrected and test infrastructure validated (completed 2026-07-27)
-- [x] module acceptance criteria documented and traceable
-- [x] Doxygen metadata: v0.0.47, 96/100 maturity score, production-ready classification
+- [x] module acceptance criteria documented and traceable (completed 2026-08-07)
+- [x] Doxygen metadata: v0.0.47, 96/100 maturity score, production-ready classification (completed 2026-08-07)
 
 ## Production Readiness Checklist
 
@@ -67,7 +67,7 @@ Production adapter runtime (v0.0.47, 96/100 maturity score) exists for the curre
 - [x] benchmark mapping documented in performance expectations (completed 2026-07-18)
 - [x] build system validated and test infrastructure corrected (completed 2026-07-27)
 - [~] remaining hardening tasks in progress for dispatch parity and edge cases (target Q4 2026)
-- [~] release benchmark stabilization in progress (target Q4 2026)
+- [~] release benchmark stabilization in progress (target Q4 2026, framework ready 2026-08-07)
 - [x] focused test suite available: 2200+ LOC across 3 test files (test_themisdb_adapter.cpp, test_chimera_streaming.cpp, test_chimera_prepared_statements.cpp)
 
 ## Known Issues and Limitations

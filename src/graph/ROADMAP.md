@@ -49,7 +49,7 @@ Production graph runtime exists across query planning, constraint-aware traversa
 
 - [~] **Phase 2-6 Tasks** (Target: Q3-Q4 2026)
   - [~] hardening GPU/distributed traversal parity and fallback determinism in mixed-capability environments (Target: Q4 2026)
-  - [~] benchmark stabilization for optimizer, traversal, and tensor-fingerprint graph hot paths (Target: Q4 2026)
+  - [~] benchmark stabilization for optimizer, traversal, and tensor-fingerprint graph hot paths (Target: Q4 2026) — Benchmark framework structure in development (2026-08-07)
   - [~] diagnostics consistency for constraint denial, fallback, and reasoning conflict incidents (Target: Q4 2026)
   - [~] hybrid retrieval rollout Phase A entry: error path and thread-safety hardening (Target: Q3-Q4 2026)
 

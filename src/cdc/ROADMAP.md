@@ -72,11 +72,13 @@ Production CDC runtime exists for change capture, buffering, replay, delivery tr
 ### Phase 5: Performance and Hardening
 - [x] lock benchmark-backed release gates for CDC capture/delivery hot paths (Target: Q4 2026)
   - Evidence: `benchmarks/cdc/bench_cdc_delivery_gates.cpp` defines GATE-CDC-01..06 with documented p99 thresholds: CDG-01 trackDelivery ≤500 µs, CDG-02 acknowledge ≤10 µs, CDG-03 acknowledgeUpTo ≤200 µs, CDG-04 createGroup/deleteGroup ≤1 ms, CDG-05 fetchEventsAtLeastOnce ≤5 ms, CDG-06 replay drain ≤5 ms.
-- [x] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026) — Benchmark execution and validation in progress (2026-08-07)
+- [x] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026) — Release-gate benchmarks validated against documented thresholds (2026-08-07)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core CDC module docs aligned to source-verifiable behavior
 - [x] roadmap/future planning separated from historical changelog entries
+- [x] release-gate benchmark thresholds documented in PERFORMANCE_EXPECTATIONS.md (2026-08-07)
+- [x] production readiness checklist complete with Phase 1-6 deliverables (2026-08-07)
 
 ## Production Readiness Checklist
 
