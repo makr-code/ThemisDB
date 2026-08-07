@@ -146,7 +146,7 @@ public:
     );
     
     /// @brief Destructor ensures no-throw guarantee.
-    ~HybridSearch() noexcept = default;
+    ~HybridSearch() noexcept;
     
     HybridSearch(const HybridSearch&) = delete;
     HybridSearch& operator=(const HybridSearch&) = delete;
