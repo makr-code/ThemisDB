@@ -114,8 +114,10 @@ SchedulerError TaskResultStore::store(const TaskExecutionResult& result) {
     THEMIS_DEBUG("TaskResultStore: stored result for task '{}' at key '{}'",
                  result.task_id, key);
 
-    // Prune FIFO-style (oldest first) to stay under the soft limit
-    // This allows one overage but prevents unlimited growth
+    // Safety-net FIFO prune: remove excess entries if the store somehow
+    // accumulated more than max_per_task_ results (e.g. via a concurrent
+    // write that bypassed the pre-write check above).  Under normal operation
+    // this branch is never taken because the pre-write check is fail-closed.
     if (max_per_task_ > 0) {
         const std::string prefix = makeTaskPrefix(result.task_id);
         std::vector<std::string> all_keys;

@@ -574,9 +574,11 @@ SchedulerError ExternalSchedulerAdapter::dispatchTaskToExternal(
                 return SchedulerError::kInternalError;
         }
 
-        THEMIS_INFO("ExternalSchedulerAdapter: dispatched task {} to external scheduler",
+        THEMIS_WARN("ExternalSchedulerAdapter: payload built for task {} but external HTTP/API "
+                   "dispatch is not yet implemented — returning kInternalError to prevent "
+                   "false-positive success",
                    task.id);
-        return SchedulerError::kSuccess;
+        return SchedulerError::kInternalError;
 
     } catch (const std::exception& ex) {
         THEMIS_ERROR("ExternalSchedulerAdapter: error dispatching task {}: {}",
@@ -604,25 +606,14 @@ SchedulerError ExternalSchedulerAdapter::pollExternalStatus(
 
     while (attempts < max_retries) {
         try {
-            // Poll external scheduler for task status
-            // This is a mock implementation; production would query the actual backend
-            THEMIS_DEBUG("ExternalSchedulerAdapter: polling external scheduler for task {} (external_id={})",
+            // Poll external scheduler for task status.
+            // External HTTP/API polling is not yet implemented; return
+            // kCoordinationError so callers cannot mistake "not implemented"
+            // for a successful status sync.
+            THEMIS_WARN("ExternalSchedulerAdapter: pollExternalStatus for task {} (external_id={}) "
+                        "is not yet implemented — returning kCoordinationError",
                         task_id, external_task_id);
-
-            // Simulate status poll: in production, this would make HTTP requests,
-            // query Kubernetes APIs, etc.
-            bool task_completed = false;  // Would be set by actual poll
-            std::string result_message;
-
-            if (task_completed) {
-                // Sync result back to local store
-                // This would update the task result store with the external result
-                THEMIS_INFO("ExternalSchedulerAdapter: synced external result for task {}", task_id);
-                return SchedulerError::kSuccess;
-            }
-
-            // Task not yet completed; return success (not an error)
-            return SchedulerError::kSuccess;
+            return SchedulerError::kCoordinationError;
 
         } catch (const std::exception& ex) {
             ++attempts;
@@ -656,6 +647,11 @@ SchedulerError ExternalSchedulerAdapter::classifyAndMapExternalError(
             break;
         case ExternalSchedulerType::AIRFLOW:
             scheduler_name = "Apache Airflow";
+            break;
+        default:
+            scheduler_name = "Unknown external scheduler";
+            THEMIS_WARN("ExternalSchedulerAdapter: classifyAndMapExternalError called with "
+                        "unrecognised ExternalSchedulerType for task {}", task_id);
             break;
     }
 

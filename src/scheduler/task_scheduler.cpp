@@ -626,9 +626,11 @@ std::string TaskScheduler::registerTask(const ScheduledTask& task) {
     if (existing_it != tasks_.end()) {
         const auto& existing_task = existing_it->second;
         
-        // Compare critical fields for byte-identical check
+        // Compare critical fields for byte-identical check.
+        // Use the resolved `id` (which includes auto-generated IDs) rather than
+        // `sanitized_task.id`, which is empty when the ID was auto-generated.
         bool identical = (
-            existing_task->id == sanitized_task.id &&
+            existing_task->id == id &&
             existing_task->name == sanitized_task.name &&
             existing_task->description == sanitized_task.description &&
             existing_task->type == sanitized_task.type &&

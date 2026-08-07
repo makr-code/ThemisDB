@@ -721,7 +721,7 @@ std::string TaskAuditManager::generateAuditEntryHMAC(const TaskAuditEvent& event
     
     HMAC(EVP_sha256(),
          config_.audit_hmac_key.data(), config_.audit_hmac_key.size(),
-         reinterpret_cast<unsigned char*>(const_cast<char*>(data.data())), data.size(),
+         reinterpret_cast<const unsigned char*>(data.data()), data.size(),
          hash, &hash_len);
     
     // Convert to hex string

@@ -432,7 +432,7 @@ bool EventTrigger::matchesCondition(const Changefeed::ChangeEvent& event) const 
     }
     
     // GAP 3 FIX: Detect circular dependencies early
-    if (!validateNoCycularDependencies()) {
+    if (!validateNoCircularDependencies()) {
         THEMIS_ERROR("EventTrigger: condition validation failed due to circular dependency");
         return false;  // Reject event on structural validation failure
     }
@@ -532,32 +532,17 @@ void EventTrigger::rebuildConditionCache_() const {
     }
 }
 
-
 // GAP 3 FIX: Circular dependency prevention
-bool EventTrigger::validateNoCycularDependencies() const {
-    // Check if condition references the key or value field recursively
-    // (self-referential conditions would cause infinite loops)
+bool EventTrigger::validateNoCircularDependencies() const {
+    // The current non-recursive condition evaluator has no circular-dependency
+    // risk at runtime.  The former heuristic (checking whether a clause's field
+    // name appeared as a substring of its RHS) produced false positives for any
+    // value that happened to contain "key" or "value" (e.g. rhs="monkey").
+    // A structural check here is reserved for future recursive evaluation; for
+    // now we simply validate that a condition exists when expected.
     if (!config_.condition || config_.condition->empty()) {
-        return true;  // No condition = no circular dependency
+        return true;  // No condition — nothing to check
     }
-    
-    const std::string& condition = *config_.condition;
-    
-    // Detect self-referential patterns:
-    // - If key_prefix is "task:*" and condition contains "key == task:", potential cycle
-    // - If condition field name appears in the RHS value, potential cycle
-    
-    // Simple heuristic: reject conditions where field name appears in RHS
-    for (const auto& clause : parsed_clauses_) {
-        // Check if field name appears in RHS (simple string match)
-        if (clause.rhs.find(clause.field) != std::string::npos) {
-            THEMIS_WARN("EventTrigger: possible circular dependency detected "
-                       "(field='{}' appears in RHS='{}'), rejecting condition",
-                       clause.field, clause.rhs);
-            return false;
-        }
-    }
-    
     return true;
 }
 

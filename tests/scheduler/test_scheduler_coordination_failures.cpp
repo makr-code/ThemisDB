@@ -31,6 +31,10 @@ static constexpr uint32_t kTestSeed = 42;
 // Test fixture for coordination failure tests
 class SchedulerCoordinationFailureTest : public ::testing::Test {
 protected:
+    void SetUp() override {
+        GTEST_SKIP() << "SCF tests are placeholders pending mocked coordinator + TaskScheduler "
+                        "harness; skipped to avoid false-green CI";
+    }
     static constexpr int kMaxRetries = 3;
     static constexpr int kTimeoutMs = 1000;
 };

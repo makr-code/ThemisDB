@@ -163,7 +163,7 @@ private:
     bool shouldDebounce() const;
     
     // GAP 3 FIX: Circular dependency prevention
-    bool validateNoCycularDependencies() const;
+    bool validateNoCircularDependencies() const;
 
     // ── Condition caching ─────────────────────────────────────────────────
     // Parsed form of a single condition clause (e.g. "key STARTS_WITH foo").

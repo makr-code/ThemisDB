@@ -47,8 +47,8 @@ struct TaskAuditConfig {
     bool enable_export_api = true;
     
     // GAP 1 FIX: Immutable audit log enforcement
-    bool enable_audit_hmac = true;              // Enable HMAC for tamper detection
-    std::string audit_hmac_key = "default-hmac-key";  // Should be configured securely
+    bool enable_audit_hmac = false;             // Enable HMAC for tamper detection; requires audit_hmac_key to be set
+    std::string audit_hmac_key;                 // Must be set to a secure random value per deployment; no default
     
     // GAP 2 FIX: Retention policy enforcement
     std::chrono::days audit_retention_days{90}; // Retain audit logs for 90 days

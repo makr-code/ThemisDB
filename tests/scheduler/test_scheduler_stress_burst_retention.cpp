@@ -32,6 +32,10 @@ static constexpr uint32_t kTestSeed = 42;
 // Test fixture for stress and retention tests
 class SchedulerStressRetentionTest : public ::testing::Test {
 protected:
+    void SetUp() override {
+        GTEST_SKIP() << "SSB tests are placeholders pending real TaskScheduler/TaskResultStore "
+                        "mock harness; skipped to avoid false-green CI";
+    }
     // Configurable stress parameters
     static constexpr int kBurstSize = 100;
     static constexpr int kMaxRetentionResults = 1000;

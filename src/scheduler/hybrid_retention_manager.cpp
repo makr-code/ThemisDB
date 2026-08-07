@@ -680,15 +680,15 @@ void HybridRetentionManager::updateStats(int stage, bool success, const nlohmann
     
     // PRODUCTION FIX: Validate error codes from result
     // If the result contains an error_code field, use that; otherwise infer from success flag
-    int32_t error_code = SchedulerError::kSuccess;
+    int32_t error_code = static_cast<int32_t>(SchedulerError::kSuccess);
     if (result.contains("error_code")) {
         error_code = result["error_code"].get<int32_t>();
     } else if (!success) {
-        error_code = SchedulerError::kInternalError;
+        error_code = static_cast<int32_t>(SchedulerError::kInternalError);
     }
     
     // Log any error codes for observability
-    if (error_code != SchedulerError::kSuccess) {
+    if (error_code != static_cast<int32_t>(SchedulerError::kSuccess)) {
         THEMIS_WARN("HybridRetentionManager: Stage {} execution returned error code: {} ({})",
                     stage, error_code, result.contains("message") ? result["message"].get<std::string>() : "unknown");
     }

@@ -29,8 +29,12 @@ namespace scheduler {
 
 TaskAnomalyDetector::TaskAnomalyDetector(const AnomalyDetectorConfig& config)
     : config_(config) {
-    // GAP 2 FIX: Start background thread for async callback delivery
-    start();
+    // GAP 2 FIX: Only start the background callback thread when a callback is
+    // registered; creating an always-on thread with no functional benefit wastes
+    // resources and complicates shutdown coordination.
+    if (config_.on_anomaly_detected) {
+        start();
+    }
 }
 
 TaskAnomalyDetector::~TaskAnomalyDetector() {

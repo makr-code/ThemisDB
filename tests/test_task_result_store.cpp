@@ -254,6 +254,6 @@ TEST_F(TaskResultStoreTest, RetentionLimit_EnforcedBeforeWrite) {
 }
 
 TEST_F(TaskResultStoreTest, RetentionLimit_StorageError) {
-    // This test would verify storage failures return kInternalError
-    // (would require mocking RocksDBWrapper)
+    GTEST_SKIP() << "Requires RocksDBWrapper failure-injection mock; "
+                    "skipped until mock harness is available";
 }
