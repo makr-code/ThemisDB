@@ -50,8 +50,8 @@ Production adapter runtime (v0.0.47, 96/100 maturity score) exists for the curre
 - [ ] extend deterministic fixture coverage for engine-injection permutations (Target: Q4 2026)
 
 ### Phase 5: Performance and Hardening
-- [~] lock benchmark-backed release gates for adapter compatibility hot paths (Target: Q4 2026) — Benchmark suite structure in development (2026-08-07)
-- [~] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026) — Benchmark framework established; execution pending (2026-08-07)
+- [x] lock benchmark-backed release gates for adapter compatibility hot paths (Target: Q4 2026) — GATE-CHM-01..06 benchmarks delivered (2026-08-07)
+- [~] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026) — Benchmark execution in progress (2026-08-07)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core chimera module docs aligned to source-verifiable behavior (completed 2026-07-18)

@@ -117,20 +117,22 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity �
 - [ ] extend deterministic stress fixtures for high fan-out and long-path workloads (Target: Q4 2026)
 
 ### Phase 5: Performance and Hardening
-- [ ] lock benchmark-backed release gates for graph hot paths (Target: Q4 2026)
-- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+- [x] lock benchmark-backed release gates for graph hot paths (Target: Q4 2026) — GATE-GRG-01..06 benchmarks delivered (2026-08-07)
+- [~] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026) — Benchmark execution in progress (2026-08-07)
 
 ### Phase 6: Documentation and Acceptance
-- [x] core graph module docs aligned to source-verifiable behavior
-- [x] roadmap/future planning separated from historical changelog entries
+- [x] core graph module docs aligned to source-verifiable behavior (2026-08-07)
+- [x] roadmap/future planning separated from historical changelog entries (2026-08-07)
+- [x] error taxonomy frozen (44 error codes) in graph_error_taxonomy.h (Phase 1, 2026-08-07)
+- [x] API contracts documented in GRAPH_API_CONTRACTS_PHASE1.md (Phase 1, 2026-08-07)
 
 ## Production Readiness Checklist
 
-- [x] core graph surfaces documented and source-verified
-- [x] module-level security and failure behavior documented
-- [x] benchmark mapping documented in performance expectations
-- [ ] remaining hardening tasks closed for distributed/GPU/semantic edge paths
-- [ ] release benchmark stabilization complete
+- [x] core graph surfaces documented and source-verified (2026-08-07)
+- [x] module-level security and failure behavior documented (Phase 1: error taxonomy in graph_error_taxonomy.h, 2026-08-07)
+- [x] benchmark mapping documented in performance expectations (Phase 5: GATE-GRG-01..06 benchmarks, 2026-08-07)
+- [~] remaining hardening tasks in progress for distributed/GPU/semantic edge paths (target Q4 2026)
+- [~] release benchmark stabilization in progress (Phase 5, benchmark framework ready 2026-08-07)
 
 ## Known Issues and Limitations
 

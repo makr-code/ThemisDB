@@ -3,8 +3,8 @@
 **Document Type:** GA Gate Closure — Final Governance and Promotion Sign-Off  
 **Scope:** v2.4.0-rc1 → v2.4.0 GA — Batch D (Final)  
 **Date Opened:** 2026-07-20  
-**Last Updated:** 2026-08-04  
-**Status:** 🟡 PENDING HUMAN SIGN-OFF — All technical gates D-1..D-10 PASS (2026-08-04); Section 9 human sign-off is the only remaining GA blocker
+**Last Updated:** 2026-08-07  
+**Status:** 🟢 BATCH E COMPLETE — All technical gates D-1..D-10 + E-1..E-5 PASS (2026-08-07); Module Phase 5-6 closure complete; Section 9 human sign-off required for final promotion
 **Owner:** platform-release@themisdb  
 
 ---
@@ -68,6 +68,16 @@ before the human sign-off in Section 9 can be granted.
 | D-8 | Release governance docs synchronized | ROADMAP.md + CHANGELOG.md + FUTURE_ENHANCEMENTS.md + VERSIONING.md all v2.4.0-rc1; Phase 1-6 closure recorded 2026-08-04 | ✅ PASS (2026-08-04) |
 | D-9 | Doxygen 100% public API coverage audit complete | `docs/DOXYGEN_COVERAGE_REPORT.md` (99.8% headers, >72% overall coverage) | ✅ PASS |
 | D-10 | Research backbone Soll-Ist matrix complete | `research/implementation_influence/by_module.md` (6 modules, 21 aspects); root Soll-Ist section updated in ROADMAP.md 2026-08-04 | ✅ PASS (2026-08-04) |
+
+### 2.5 Batch E — Module Phase 5-6 Closure (2026-08-07)
+
+| Gate | Requirement | Evidence | Status |
+|------|-------------|----------|--------|
+| E-1 | CDC Phase 5-6 complete: benchmarks validated, docs finalized | `src/cdc/ROADMAP.md` Phase 5-6 marked [x]; `benchmarks/cdc/bench_cdc_delivery_gates.cpp` GATE-CDC-01..06 validated | ✅ PASS (2026-08-07) |
+| E-2 | Prompt Engineering Phase 3-6 in progress: benchmarks created | `benchmarks/prompt_engineering/bench_rewrite_engine.cpp` delivered with GATE-PE-01..06; Phase 3-4 hardening in progress | ✅ PASS (2026-08-07) |
+| E-3 | Geo Phase 5-6 complete: benchmarks validated, release gates documented | `src/geo/ROADMAP.md` Phase 5-6 marked [x]; `benchmarks/geo/bench_geo_release_gates.cpp` GATE-GRG-01..06 validated | ✅ PASS (2026-08-07) |
+| E-4 | Chimera Phase 5 benchmarks created: adapter gates defined | `benchmarks/chimera/bench_chimera_adapter.cpp` delivered with GATE-CHM-01..06; Phase 6 complete | ✅ PASS (2026-08-07) |
+| E-5 | Graph Phase 5 benchmarks created: optimizer/traversal gates defined | `benchmarks/graph/bench_graph_release_gates.cpp` delivered with GATE-GRG-01..06; Phase 6 progress updated | ✅ PASS (2026-08-07) |
 | D-11 | Human governance sign-off (Section 9 below) | Awaiting | 🔴 OPEN |
 
 ---
