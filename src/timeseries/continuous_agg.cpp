@@ -102,11 +102,11 @@ AggShardResult DistributedAggregateCoordinator::refreshAggregate(
 
         if (local_store_) {
             auto pts = local_store_->query(qopt);
-            if (pts.has_value() && !pts->empty()) {
+            if (pts && !pts.value().empty()) {
                 result.valid = true;
                 result.min = std::numeric_limits<double>::max();
                 result.max = std::numeric_limits<double>::lowest();
-                for (const auto& p : *pts) {
+                for (const auto& p : pts.value()) {
                     result.sum   += p.value;
                     result.count += 1;
                     if (p.value < result.min) result.min = p.value;
@@ -134,11 +134,11 @@ int64_t ContinuousAggWatermarkStore::getWatermark(const std::string& agg_id) con
     if (!store_) return 0;
     std::string key = std::string(WM_KEY_PREFIX) + agg_id;
     auto result = store_->getSystemMeta(key);
-    if (!result.has_value() || !result->has_value()) {
+    if (!result || !result.value().has_value()) {
         return 0;
     }
     try {
-        return std::stoll(**result);
+        return std::stoll(result.value().value());
     } catch (...) {
         return 0;
     }
@@ -187,10 +187,10 @@ void ContinuousAggregateManager::refresh(const AggConfig& cfg, int64_t from_ms, 
         qopt.limit = 1000000; // big window cap
 
         auto result = store_->query(qopt);
-        if (!result.has_value() || result->empty()) {
+        if (!result || result.value().empty()) {
             continue;
         }
-        const auto& points = *result;
+        const auto& points = result.value();
 
         // Compute aggregates
         double minv = points[0].value;
@@ -237,7 +237,7 @@ size_t ContinuousAggregateManager::refreshIncremental(const AggConfig& cfg,
         first.limit = 1;
 
         auto first_point = store_->query(first);
-        if (!first_point.has_value() || first_point->empty()) {
+        if (!first_point || first_point.value().empty()) {
             // No source data to aggregate in this interval; advance watermark so
             // repeated refreshes do not rescan empty history.
             wm_store.setWatermark(agg_id, to_ms);
