@@ -43,10 +43,19 @@ DistributedTaskCoordinator::DistributedTaskCoordinator(
       coordination_failures_(0),
       last_heartbeat_ms_(0)
 {
+    // Phase 3: Structured validation error logging
     if (!scheduler_) {
+        THEMIS_ERROR(
+            "[DistributedTaskCoordinator::DistributedTaskCoordinator] "
+            "code={} msg='scheduler cannot be null' context={{}}",
+            static_cast<int>(SchedulerError::kInternalError));
         throw std::invalid_argument("DistributedTaskCoordinator: scheduler cannot be null");
     }
     if (!coordinator_) {
+        THEMIS_ERROR(
+            "[DistributedTaskCoordinator::DistributedTaskCoordinator] "
+            "code={} msg='coordinator cannot be null' context={{}}",
+            static_cast<int>(SchedulerError::kInternalError));
         throw std::invalid_argument("DistributedTaskCoordinator: coordinator cannot be null");
     }
 }
@@ -66,10 +75,19 @@ DistributedTaskCoordinator::DistributedTaskCoordinator(
       coordination_failures_(0),
       last_heartbeat_ms_(0)
 {
+    // Phase 3: Structured validation error logging
     if (!scheduler_) {
+        THEMIS_ERROR(
+            "[DistributedTaskCoordinator::DistributedTaskCoordinator] "
+            "code={} msg='scheduler cannot be null' context={{}}",
+            static_cast<int>(SchedulerError::kInternalError));
         throw std::invalid_argument("DistributedTaskCoordinator: scheduler cannot be null");
     }
     if (!coordinator_) {
+        THEMIS_ERROR(
+            "[DistributedTaskCoordinator::DistributedTaskCoordinator] "
+            "code={} msg='coordinator cannot be null' context={{}}",
+            static_cast<int>(SchedulerError::kInternalError));
         throw std::invalid_argument("DistributedTaskCoordinator: coordinator cannot be null");
     }
 
@@ -162,6 +180,7 @@ void DistributedTaskCoordinator::activateScheduler() {
     // Register all locally stored tasks with the scheduler.
     size_t task_count = 0;
     {
+        // Level 1: Acquire registry lock (safe to acquire after all higher-level locks released)
         std::lock_guard<std::mutex> lock(registry_mutex_);
         task_count = task_registry_.size();
         for (const auto& [id, task] : task_registry_) {
@@ -220,6 +239,7 @@ std::string DistributedTaskCoordinator::registerTask(const ScheduledTask& task) 
     const std::string task_id = stored.id;
 
     {
+        // Level 1: Acquire registry lock
         std::lock_guard<std::mutex> lock(registry_mutex_);
         task_registry_[task_id] = stored;
     }
@@ -317,6 +337,7 @@ std::shared_ptr<ScheduledTask> DistributedTaskCoordinator::getTask(
 // ── Statistics ────────────────────────────────────────────────────────────────
 
 DistributedTaskCoordinator::Stats DistributedTaskCoordinator::getStats() const {
+    // Level 1: Acquire registry lock for task count
     std::lock_guard<std::mutex> lock(registry_mutex_);
     Stats s;
     s.registered_tasks    = task_registry_.size();
@@ -341,6 +362,7 @@ void DistributedTaskCoordinator::onLeaderElected(const std::string& leader_id) {
     const bool i_am_leader  = (leader_id == my_id);
 
     {
+        // Level 2: Acquire leadership lock (can be acquired after no lower locks)
         std::lock_guard<std::mutex> lock(leadership_mutex_);
         current_leader_ = leader_id;
     }
@@ -350,6 +372,7 @@ void DistributedTaskCoordinator::onLeaderElected(const std::string& leader_id) {
                     my_id);
         leadership_acquired_.fetch_add(1);
         if (config_.auto_manage_scheduler) {
+            // activateScheduler() will acquire registry_mutex_ (Level 1)
             activateScheduler();
         }
     } else {
@@ -358,6 +381,7 @@ void DistributedTaskCoordinator::onLeaderElected(const std::string& leader_id) {
                         leader_id);
             leadership_lost_.fetch_add(1);
             if (config_.auto_manage_scheduler) {
+                // deactivateScheduler() will acquire registry_mutex_ (Level 1)
                 deactivateScheduler();
             }
         }
@@ -494,7 +518,12 @@ void DistributedTaskCoordinator::heartbeatMonitorThread(
 SchedulerError DistributedTaskCoordinator::handleSplitBrainDetection()
 {
     if (!running_.load()) {
-        THEMIS_WARN("DistributedTaskCoordinator: split-brain check requested but coordinator not running");
+        THEMIS_WARN(
+            "[DistributedTaskCoordinator::handleSplitBrainDetection] "
+            "code={} msg='split-brain check requested but coordinator not running' "
+            "context={{running={}, coordinator_active=false}}",
+            static_cast<int>(SchedulerError::kCoordinationError),
+            running_.load());
         return SchedulerError::kCoordinationError;
     }
 
@@ -509,8 +538,14 @@ SchedulerError DistributedTaskCoordinator::handleSplitBrainDetection()
             // If we have a stored leader ID and it differs from the current leader,
             // this may indicate a leadership change or split-brain condition.
             if (!current_leader_.empty() && current_leader_.value_or("") != current_leader_.value_or("")) {
-                THEMIS_WARN("DistributedTaskCoordinator: split-brain detected – leader changed from {} to {}",
-                           current_leader_, current_leader.value_or("unknown"));
+                THEMIS_WARN(
+                    "[DistributedTaskCoordinator::handleSplitBrainDetection] "
+                    "code={} msg='split-brain detected' "
+                    "context={{node_id='{}', previous_leader='{}', current_leader='{}', "
+                    "scheduler_active={}}}",
+                    static_cast<int>(SchedulerError::kCoordinationError),
+                    my_id, current_leader_, current_leader.value_or("unknown"),
+                    scheduler_active_.load());
                 
                 // Fail-closed: deactivate scheduler if this node is a leader
                 if (scheduler_active_.load()) {
@@ -532,7 +567,12 @@ SchedulerError DistributedTaskCoordinator::handleSplitBrainDetection()
                     current_leader.value_or("unknown"));
         return SchedulerError::kSuccess;
     } catch (const std::exception& ex) {
-        THEMIS_ERROR("DistributedTaskCoordinator: error during split-brain detection: {}", ex.what());
+        THEMIS_ERROR(
+            "[DistributedTaskCoordinator::handleSplitBrainDetection] "
+            "code={} msg='error during split-brain detection' exception='{}' "
+            "context={{coordinator_available=true}}",
+            static_cast<int>(SchedulerError::kCoordinationError),
+            ex.what());
         coordination_failures_.fetch_add(1);
         return SchedulerError::kCoordinationError;
     }

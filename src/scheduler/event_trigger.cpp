@@ -117,15 +117,28 @@ EventTrigger::EventTrigger(Changefeed* changefeed,
 {
     
     if (!changefeed_) {
+        THEMIS_ERROR(
+            "[EventTrigger::EventTrigger] "
+            "code={} msg='changefeed cannot be null' context={{}}",
+            static_cast<int>(SchedulerError::kInternalError));
         throw std::invalid_argument("EventTrigger: changefeed cannot be null");
     }
     
     if (!config_.isValid()) {
+        THEMIS_ERROR(
+            "[EventTrigger::EventTrigger] "
+            "code={} msg='invalid config' context={{validation_error='{}'}}",
+            static_cast<int>(SchedulerError::kTriggerInvalid),
+            config_.getValidationError());
         throw std::invalid_argument("EventTrigger: invalid config - " + 
                                    config_.getValidationError());
     }
     
     if (!callback_) {
+        THEMIS_ERROR(
+            "[EventTrigger::EventTrigger] "
+            "code={} msg='callback cannot be null' context={{}}",
+            static_cast<int>(SchedulerError::kInternalError));
         throw std::invalid_argument("EventTrigger: callback cannot be null");
     }
 }
@@ -139,6 +152,7 @@ EventTrigger::~EventTrigger() noexcept {
 }
 
 void EventTrigger::start() {
+    // Level 0: Acquire global state lock (highest priority)
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (running_.load()) {
@@ -157,6 +171,7 @@ void EventTrigger::start() {
 
 void EventTrigger::stop() {
     {
+        // Level 0: Acquire global state lock
         std::lock_guard<std::mutex> lock(mutex_);
         if (!running_.load()) {
             return;
@@ -179,13 +194,16 @@ void EventTrigger::updateConfig(const CDCTriggerConfig& config) {
                                    config.getValidationError());
     }
 
+    // Lock hierarchy: Level 0 (mutex_) before Level 2 (condition_cache_mutex_)
     {
+        // Level 0: Acquire global state lock
         std::lock_guard<std::mutex> lock(mutex_);
         config_ = config;
     }
 
     // Invalidate cached parsed condition so it is rebuilt on next event
     {
+        // Level 2: Acquire condition cache lock (safe to acquire after Level 0 is released)
         std::lock_guard<std::mutex> clock(condition_cache_mutex_);
         condition_parsed_ = false;
         parsed_clauses_.clear();
@@ -205,6 +223,7 @@ EventTrigger::Stats EventTrigger::getStats() const {
     stats.triggers_fired = triggers_fired_.load();
     stats.callback_failures = callback_failures_.load();
     {
+        // Level 3: Acquire circuit breaker lock (safe to acquire last)
         std::lock_guard<std::mutex> lock(cb_mutex_);
         stats.circuit_open = cb_open_;
     }
@@ -213,11 +232,13 @@ EventTrigger::Stats EventTrigger::getStats() const {
 }
 
 void EventTrigger::setCircuitBreakerConfig(const CircuitBreakerConfig& config) {
+    // Level 3: Acquire circuit breaker lock (can be acquired standalone)
     std::lock_guard<std::mutex> lock(cb_mutex_);
     cb_config_ = config;
 }
 
 bool EventTrigger::circuitAllows() {
+    // Level 3: Acquire circuit breaker lock (can be acquired standalone)
     std::lock_guard<std::mutex> lock(cb_mutex_);
     if (!cb_open_) {
         return true;
@@ -232,6 +253,7 @@ bool EventTrigger::circuitAllows() {
 }
 
 void EventTrigger::circuitRecordSuccess() {
+    // Level 3: Acquire circuit breaker lock (can be acquired standalone)
     std::lock_guard<std::mutex> lock(cb_mutex_);
     if (cb_open_) {
         THEMIS_INFO("EventTrigger circuit breaker: closing (callback recovered)");
@@ -241,6 +263,7 @@ void EventTrigger::circuitRecordSuccess() {
 }
 
 void EventTrigger::circuitRecordFailure() {
+    // Level 3: Acquire circuit breaker lock (can be acquired standalone)
     std::lock_guard<std::mutex> lock(cb_mutex_);
     ++cb_consecutive_failures_;
     callback_failures_++;
@@ -544,6 +567,7 @@ bool EventTrigger::shouldDebounce() const {
         return false;
     }
     
+    // Level 1: Acquire debounce timing lock (can be acquired standalone)
     std::lock_guard<std::mutex> lock(debounce_mutex_);
     auto now = std::chrono::steady_clock::now();
     auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -556,7 +580,12 @@ bool EventTrigger::shouldDebounce() const {
 
 EventTriggerManager::EventTriggerManager(Changefeed* changefeed)
     : changefeed_(changefeed) {
+    // Phase 3: Structured validation error logging
     if (!changefeed_) {
+        THEMIS_ERROR(
+            "[EventTriggerManager::EventTriggerManager] "
+            "code={} msg='changefeed cannot be null' context={{}}",
+            static_cast<int>(SchedulerError::kInternalError));
         throw std::invalid_argument("EventTriggerManager: changefeed cannot be null");
     }
 }

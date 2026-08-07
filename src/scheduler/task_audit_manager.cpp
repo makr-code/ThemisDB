@@ -556,6 +556,11 @@ size_t TaskAuditManager::exportAuditEvents(const AuditQueryParams& params,
     try {
         std::ofstream ofs(output_path);
         if (!ofs.is_open()) {
+            THEMIS_ERROR(
+                "[TaskAuditManager::exportAuditEvents] "
+                "code={} msg='cannot open output file' context={{output_path='{}', errno={}}}",
+                static_cast<int>(SchedulerError::kInternalError),
+                output_path, errno);
             throw std::runtime_error("Cannot open output file: " + output_path);
         }
         

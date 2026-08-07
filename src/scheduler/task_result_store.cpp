@@ -74,7 +74,7 @@ std::string TaskResultStore::makeTaskPrefix(const std::string& task_id) {
 SchedulerError TaskResultStore::store(const TaskExecutionResult& result) {
     std::unique_lock<std::shared_mutex> lk(mutex_);
 
-    // Enforce retention BEFORE writing: check if we're at the limit
+    // Phase 3: Fail-closed retention enforcement - check BEFORE writing
     if (max_per_task_ > 0) {
         const std::string prefix = makeTaskPrefix(result.task_id);
         std::vector<std::string> all_keys;
@@ -85,13 +85,15 @@ SchedulerError TaskResultStore::store(const TaskExecutionResult& result) {
             return true;  // continue scan
         });
 
-        // If at capacity, reject the new result atomically
+        // If at capacity, reject the new result atomically (fail-closed)
         if (all_keys.size() >= max_per_task_) {
-            THEMIS_WARN("TaskResultStore: retention limit {} reached for task '{}'. "
-                        "Cannot store new result. Oldest: {}, Current count: {}",
-                        max_per_task_, result.task_id,
-                        all_keys.empty() ? "N/A" : all_keys.front(),
-                        all_keys.size());
+            THEMIS_WARN(
+                "[TaskResultStore::store] "
+                "code={} msg='retention limit reached; failing closed' "
+                "context={{task_id='{}', retention_limit={}, current_count={}, oldest_key='{}'}}",
+                static_cast<int>(SchedulerError::kRetentionLimitExceeded),
+                result.task_id, max_per_task_, all_keys.size(),
+                all_keys.empty() ? "N/A" : all_keys.front());
             return SchedulerError::kRetentionLimitExceeded;
         }
     }
@@ -101,8 +103,11 @@ SchedulerError TaskResultStore::store(const TaskExecutionResult& result) {
     const std::string value = result.toJson().dump();
 
     if (!storage_.put(key, value)) {
-        THEMIS_ERROR("TaskResultStore: failed to store result for task '{}'",
-                     result.task_id);
+        THEMIS_ERROR(
+            "[TaskResultStore::store] "
+            "code={} msg='failed to store result' context={{task_id='{}', timestamp_ms={}}}",
+            static_cast<int>(SchedulerError::kInternalError),
+            result.task_id, result.timestamp_ms);
         return SchedulerError::kInternalError;
     }
 

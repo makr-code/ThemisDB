@@ -207,10 +207,19 @@ nlohmann::json ExternalSchedulerAdapter::toKubernetesCronJobJson(
         const KubernetesCronJobConfig& config) const {
 
     if (task.id.empty()) {
+        THEMIS_ERROR(
+            "[ExternalSchedulerAdapter::toKubernetesCronJobJson] "
+            "code={} msg='task.id must not be empty' context={{}}",
+            static_cast<int>(SchedulerError::kInternalError));
         throw std::invalid_argument(
             "ExternalSchedulerAdapter: task.id must not be empty");
     }
     if (config.themisdb_base_url.empty()) {
+        THEMIS_ERROR(
+            "[ExternalSchedulerAdapter::toKubernetesCronJobJson] "
+            "code={} msg='themisdb_base_url must not be empty' context={{task_id='{}'}}",
+            static_cast<int>(SchedulerError::kInternalError),
+            task.id);
         throw std::invalid_argument(
             "ExternalSchedulerAdapter: KubernetesCronJobConfig::themisdb_base_url "
             "must not be empty");
@@ -320,6 +329,11 @@ ScheduledTask ExternalSchedulerAdapter::fromKubernetesCronJobJson(
 
     auto require = [&](const nlohmann::json& obj, const std::string& key) -> const nlohmann::json& {
         if (!obj.contains(key)) {
+            THEMIS_ERROR(
+                "[ExternalSchedulerAdapter::fromKubernetesCronJobJson] "
+                "code={} msg='missing field in manifest' context={{missing_field='{}'}}",
+                static_cast<int>(SchedulerError::kInternalError),
+                key);
             throw std::invalid_argument(
                 "ExternalSchedulerAdapter: missing field '" + key + "' in CronJob manifest");
         }
@@ -373,7 +387,12 @@ std::string ExternalSchedulerAdapter::toAirflowDagPython(
         const std::vector<ScheduledTask>& tasks,
         const AirflowDagConfig& config) const {
 
+    // Phase 3: Structured validation error logging
     if (tasks.empty()) {
+        THEMIS_ERROR(
+            "[ExternalSchedulerAdapter::toAirflowDagPython] "
+            "code={} msg='tasks list must not be empty for Airflow DAG export' context={{}}",
+            static_cast<int>(SchedulerError::kInternalError));
         throw std::invalid_argument(
             "ExternalSchedulerAdapter: tasks list must not be empty for Airflow DAG export");
     }
