@@ -24,6 +24,7 @@
 #include <sstream>
 #include <chrono>
 #include <ctime>
+#include <vector>
 
 namespace themis {
 namespace training {
