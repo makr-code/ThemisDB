@@ -52,7 +52,7 @@ protected:
 
     void TearDown() override {
         // Reset diagnostics for clean state
-        collector_->resetMetrics();
+        collector_->clearBuffer();
     }
 
     /**
@@ -61,10 +61,15 @@ protected:
      * @return Number of matching diagnostic events
      */
     size_t countDiagnosticsWithCode(const std::string& error_code) {
-        // This is a simplified check; in real implementation,
-        // we'd query the collector for events with this error_code in context_data
-        auto metrics = collector_->getMetrics();
-        return 0;  // Placeholder: real implementation would search event buffer
+        const auto events = collector_->getAllEvents();
+        size_t count = 0;
+        for (const auto& event : events) {
+            const auto it = event.context_data.find("error_code");
+            if (it != event.context_data.end() && it->second == error_code) {
+                ++count;
+            }
+        }
+        return count;
     }
 
     FieldDiagnosticsCollector* collector_;

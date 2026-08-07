@@ -504,8 +504,8 @@ static void emitUnifiedDiagnostic(
             evt.context_data[key] = value;
         }
         
-        // Emit event (PII masking handled by collector)
-        collector.emitDiagnosticEvent(evt);
+        // Emit event via collector masking path to avoid leaking PII from context.
+        collector.emitWithPIIMasking(evt);
     } catch (...) {
         // Silently ignore emission failures to avoid cascading errors
         // In production, these should be logged to stderr or a fallback handler

@@ -376,8 +376,8 @@ TensorIndexManager::ggmlCorePtrs(const std::string& tenant_id,
     if (!ptrs.empty()) {
         std::lock_guard<std::mutex> lock(legacy_bridge_mutex_);
         
-        // LRU eviction policy: when cache exceeds 90% of max size, drop oldest entries
-        // until back under 50% capacity (FIFO + timestamp-based for simplicity)
+        // Capacity guard for legacy bridge cache: when usage exceeds 90%,
+        // evict arbitrary entries from the unordered_map until back to 50%.
         const size_t threshold_evict = (kMaxLegacyCacheSize * 9) / 10;
         if (legacy_bridge_cache_.size() >= threshold_evict) {
             // Evict 50% of entries to restore breathing room

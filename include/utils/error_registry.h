@@ -278,7 +278,7 @@ enum class ErrorCode {
     // -------------------------------------------------------------------------
     // Tensor module errors (ERR_TENSOR_*) — 9510–9599 [Phase 2 A2 Remediation]
     // -------------------------------------------------------------------------
-    // Graph Errors (9510-9509): Fingerprint graph, dependency resolution
+    // Graph Errors (9510-9514): Fingerprint graph, dependency resolution
     ERR_TENSOR_GRAPH_INVALID_SELF_IP          = 9510,  ///< Fingerprint self-inner-product invalid (NaN/Inf/≤0)
     ERR_TENSOR_GRAPH_EXCEPTION_IN_SIMILARITY  = 9511,  ///< Exception thrown during similarity computation
     ERR_TENSOR_GRAPH_INVALID_SCORE            = 9512,  ///< Computed similarity score is NaN/Inf

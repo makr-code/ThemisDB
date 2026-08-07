@@ -165,6 +165,7 @@ static void BM_TDM_StoreOverwrite(benchmark::State& state) {
     const auto tensor_count = static_cast<std::size_t>(state.range(0));
     
     for (auto _ : state) {
+        state.PauseTiming();
         auto engine = makeEngine();
         auto mgr = makeDedupManager(engine);
         
