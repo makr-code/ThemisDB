@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 """
 ThemisDB Phase 5 Process Module Benchmark Suite Simulator
-Executes 42 benchmark gates across 7 categories without requiring full C++ compilation.
+Executes 46 benchmark gates across 7 categories without requiring full C++ compilation.
 
 Gate Categories:
 - CP (Concurrency Performance): 6 gates
-- DP (Determinism Performance): 6 gates  
+- DP (Determinism Performance): 6 gates
 - GO (Diagnostics Overhead): 6 gates
 - PP (Parser Performance): 8 gates
 - LP (Linker Performance): 6 gates
 - RP (Retriever Performance): 8 gates
-- BE (Benchmark Envelope): 6+ gates
+- BE (Benchmark Envelope): 6 gates
 """
 
 import json
@@ -22,6 +22,7 @@ from datetime import datetime
 from typing import Dict, List, Tuple, Any
 from dataclasses import dataclass, asdict
 from enum import Enum
+import os
 import sys
 
 # ============================================================================
@@ -183,6 +184,8 @@ class ConcurrencyPerformanceGates:
         
         for gate_id, name, mean_ms, target_ops in gates:
             latencies = gen.generate_latencies(mean_ms)
+            measured_throughput = target_ops * 0.98  # 98% of target
+            target = PERFORMANCE_TARGETS.get(gate_id, {}).get('ops_per_sec', target_ops)
             result = BenchmarkResult(
                 gate_id=gate_id,
                 category='CP',
@@ -191,8 +194,8 @@ class ConcurrencyPerformanceGates:
                 p50_ms=gen.percentile(latencies, 50),
                 p95_ms=gen.percentile(latencies, 95),
                 p99_ms=gen.percentile(latencies, 99),
-                throughput=target_ops * 0.98,  # 98% of target
-                target_met=True,
+                throughput=measured_throughput,
+                target_met=measured_throughput >= target,
                 baseline_mean_ms=mean_ms
             )
             results.append(result)
@@ -533,9 +536,12 @@ class BenchmarkReportGenerator:
         
         for result in results:
             if result.p99_ms > 0:
-                envelope_status = "✓" if result.p99_ms * 1.1 < result.p99_ms * (1 + REGRESSION_BUDGET.get(result.category, 0.5)) else "⚠"
+                budget = REGRESSION_BUDGET.get(result.category, 0.5)
+                baseline_p99 = result.baseline_mean_ms * 2.0  # approximate baseline P99 from mean
+                envelope_limit = baseline_p99 * (1 + budget)
+                envelope_status = "✓" if result.p99_ms <= envelope_limit else "⚠"
                 print(f"{result.gate_id:<10} | P95: {result.p95_ms:>8.2f}ms | P99: {result.p99_ms:>8.2f}ms | "
-                      f"Envelope: {envelope_status}")
+                      f"Envelope: {envelope_status} (limit {envelope_limit:.2f}ms)")
         
         print("="*120)
         print("REGRESSION ANALYSIS")
@@ -558,7 +564,7 @@ def main():
     """Execute all benchmark gates and generate report"""
     
     print("Starting Phase 5 Process Module Benchmark Suite...")
-    print("Executing 42 benchmark gates across 7 categories")
+    print("Executing 46 benchmark gates across 7 categories")
     
     all_results = []
     
@@ -596,7 +602,10 @@ def main():
         'results': [asdict(r) for r in all_results]
     }
     
-    output_file = '/home/runner/work/ThemisDB/ThemisDB/phase5_benchmark_results.json'
+    output_file = os.environ.get(
+        'BENCHMARK_RESULTS_PATH',
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), 'phase5_benchmark_results.json')
+    )
     with open(output_file, 'w') as f:
         json.dump(results_json, f, indent=2)
     

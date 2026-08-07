@@ -2083,23 +2083,23 @@ PluginsError PluginManager::validateABICompatibility(
                    previous_entry.manifest.version, new_manifest.version);
     }
     
-    // Check capabilities are not reduced
-    auto count_capabilities = [](const PluginCapabilities& caps) -> int {
-        int count = 0;
-        if (caps.supports_streaming) count++;
-        if (caps.supports_batching) count++;
-        if (caps.supports_transactions) count++;
-        if (caps.thread_safe) count++;
-        if (caps.gpu_accelerated) count++;
-        if (caps.provides_vram_policy) count++;
-        if (caps.provides_shard_policy) count++;
-        return count;
+    // Check capabilities are not reduced (field-wise implication: every capability that was
+    // true in the frozen snapshot must still be true in the new manifest).
+    const PluginCapabilities& prev_caps = previous_entry.frozen_capabilities;
+    const PluginCapabilities& new_caps  = new_manifest.capabilities;
+
+    auto check_cap = [&](bool prev, bool curr, const char* name) {
+        if (prev && !curr) {
+            THEMIS_WARN("[SECURITY:CAPABILITY_REDUCTION] Plugin capability '{}' was removed after reload", name);
+        }
     };
-     
-    if (count_capabilities(previous_entry.frozen_capabilities) > 
-        count_capabilities(new_manifest.capabilities)) {
-       THEMIS_WARN("[SECURITY:CAPABILITY_REDUCTION] Plugin capabilities reduced after reload");
-    }
+    check_cap(prev_caps.supports_streaming,    new_caps.supports_streaming,    "supports_streaming");
+    check_cap(prev_caps.supports_batching,     new_caps.supports_batching,     "supports_batching");
+    check_cap(prev_caps.supports_transactions, new_caps.supports_transactions, "supports_transactions");
+    check_cap(prev_caps.thread_safe,           new_caps.thread_safe,           "thread_safe");
+    check_cap(prev_caps.gpu_accelerated,       new_caps.gpu_accelerated,       "gpu_accelerated");
+    check_cap(prev_caps.provides_vram_policy,  new_caps.provides_vram_policy,  "provides_vram_policy");
+    check_cap(prev_caps.provides_shard_policy, new_caps.provides_shard_policy, "provides_shard_policy");
     
     THEMIS_INFO("[SECURITY:ABI_COMPATIBLE] Plugin ABI verified compatible: {} → {}",
                previous_entry.manifest.version, new_manifest.version);

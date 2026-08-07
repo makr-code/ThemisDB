@@ -126,21 +126,8 @@ ProcessGraphRag::buildKnowledgeGraph(std::string_view model_id) const {
 
     auto opt = models_.load(std::string(model_id));
     if (!opt.has_value()) {
-        SPDLOG_WARN("[process_graph_rag] buildKnowledgeGraph: model '{}' not found", model_id);
-        
-        // Create diagnostic incident for retrieval failure
-        DiagnosticContext ctx_diag;
-        ctx_diag.recordResourceMetric("model_id_length", model_id.length());
-        ctx_diag.setRemediationSuggestion(
-            "Process model '" + std::string(model_id) + "' not found in storage. "
-            "Verify model ID exists and has been imported."
-        );
-        auto incident = ProcessDiagnostics::createRetrievalIncident(
-            ProcError::kRetrievalFailed,
-            model_id,
-            "Process model not found: " + std::string(model_id)
-        );
-        
+        SPDLOG_WARN("[process_graph_rag] buildKnowledgeGraph: model '{}' not found — "
+                    "verify model ID exists and has been imported", model_id);
         return kg;
     }
 
