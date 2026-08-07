@@ -48,7 +48,6 @@
 namespace themis {
 namespace auth {
 
-#ifdef _WIN32
 // ===========================================================================
 // LDAP injection-prevention helpers (file-internal)
 // ===========================================================================
@@ -774,4 +773,3 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
 
 } // namespace auth
 } // namespace themis
-

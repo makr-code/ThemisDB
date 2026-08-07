@@ -154,3 +154,145 @@ BENCHMARK(BM_TDM_JournalReplayThroughput)
     ->Arg(5000)
     ->Unit(benchmark::kMillisecond);
 
+// ─────────────────────────────────────────────────────────────────────────────
+// BM_TDM_StoreOverwriteVsInsert
+//
+// Compares store() performance on overwriting existing keys vs inserting new
+// keys. Target: overwrite overhead <= 5% vs insert (FUTURE_ENHANCEMENTS.md).
+// ─────────────────────────────────────────────────────────────────────────────
+
+static void BM_TDM_StoreOverwrite(benchmark::State& state) {
+    const auto tensor_count = static_cast<std::size_t>(state.range(0));
+    
+    for (auto _ : state) {
+        state.PauseTiming();
+        auto engine = makeEngine();
+        auto mgr = makeDedupManager(engine);
+        
+        // Pre-populate with base tensors
+        std::vector<std::string> tensor_ids;
+        for (std::size_t i = 0; i < tensor_count; ++i) {
+            std::string id = "tensor_" + std::to_string(i);
+            tensor_ids.push_back(id);
+            auto data = randVec(16, 1000 + static_cast<unsigned>(i));
+            mgr->store(id, data, {16, 1}, "tenant", "collection", "field");
+        }
+        
+        // Benchmark: overwrite existing tensors (same IDs, different data)
+        state.ResumeTiming();
+        for (std::size_t i = 0; i < tensor_count; ++i) {
+            auto data = randVec(16, 2000 + static_cast<unsigned>(i));
+            mgr->store(tensor_ids[i], data, {16, 1}, "tenant", "collection", "field");
+        }
+        state.PauseTiming();
+        
+        benchmark::DoNotOptimize(mgr->getStats().total_bytes_stored);
+    }
+    
+    state.SetLabel("tensors=" + std::to_string(tensor_count));
+    state.SetItemsProcessed(
+        static_cast<int64_t>(state.iterations()) *
+        static_cast<int64_t>(tensor_count));
+}
+
+static void BM_TDM_StoreInsert(benchmark::State& state) {
+    const auto tensor_count = static_cast<std::size_t>(state.range(0));
+    
+    for (auto _ : state) {
+        auto engine = makeEngine();
+        auto mgr = makeDedupManager(engine);
+        
+        // Benchmark: insert new tensors (fresh IDs each iteration)
+        for (std::size_t i = 0; i < tensor_count; ++i) {
+            auto data = randVec(16, 3000 + static_cast<unsigned>(i));
+            mgr->store("new_tensor_" + std::to_string(i), data, {16, 1}, "tenant", "collection", "field");
+        }
+        
+        benchmark::DoNotOptimize(mgr->getStats().total_bytes_stored);
+    }
+    
+    state.SetLabel("tensors=" + std::to_string(tensor_count));
+    state.SetItemsProcessed(
+        static_cast<int64_t>(state.iterations()) *
+        static_cast<int64_t>(tensor_count));
+}
+
+BENCHMARK(BM_TDM_StoreOverwrite)
+    ->Arg(100)
+    ->Arg(1000)
+    ->Unit(benchmark::kMillisecond)
+    ->Repetitions(3);
+
+BENCHMARK(BM_TDM_StoreInsert)
+    ->Arg(100)
+    ->Arg(1000)
+    ->Unit(benchmark::kMillisecond)
+    ->Repetitions(3);
+
+// ─────────────────────────────────────────────────────────────────────────────
+// BM_TDM_MixedReadHeavyWorkload
+//
+// Measures sustained throughput for mixed workload: 90% queries/retrieval,
+// 10% store/update operations. Target: >= 2,000 ops/sec without unbounded
+// memory growth (FUTURE_ENHANCEMENTS.md).
+// ─────────────────────────────────────────────────────────────────────────────
+
+static void BM_TDM_MixedReadHeavyWorkload(benchmark::State& state) {
+    const auto total_ops = static_cast<std::size_t>(state.range(0));
+    const std::size_t query_ops = (total_ops * 90) / 100;
+    const std::size_t update_ops = (total_ops * 10) / 100;
+    
+    auto engine = makeEngine();
+    auto mgr = makeDedupManager(engine);
+    
+    // Pre-populate with base tensors
+    for (std::size_t i = 0; i < 100; ++i) {
+        auto data = randVec(16, 5000 + static_cast<unsigned>(i));
+        mgr->store("base_" + std::to_string(i), data, {16, 1}, "tenant", "collection", "field");
+    }
+    
+    std::mt19937 rng(42);
+    std::uniform_int_distribution<std::size_t> base_dist(0, 99);
+    std::size_t tensor_counter = 100;
+    
+    // Initial memory snapshot
+    auto initial_stats = mgr->getStats();
+    
+    for (auto _ : state) {
+        // 90% reads
+        for (std::size_t i = 0; i < query_ops; ++i) {
+            std::size_t idx = base_dist(rng);
+            auto rec = mgr->getRecord("base_" + std::to_string(idx));
+            benchmark::DoNotOptimize(rec);
+        }
+        
+        // 10% writes (new tensors)
+        for (std::size_t i = 0; i < update_ops; ++i) {
+            auto data = randVec(16, 6000 + static_cast<unsigned>(tensor_counter));
+            mgr->store("dynamic_" + std::to_string(tensor_counter++), data, 
+                      {16, 1}, "tenant", "collection", "field");
+        }
+    }
+    
+    // Track memory growth (informational)
+    auto final_stats = mgr->getStats();
+    state.counters["ops_per_sec"] = benchmark::Counter(
+        static_cast<double>(state.iterations()) * static_cast<double>(total_ops),
+        benchmark::Counter::kIsRate);
+    state.counters["total_bytes_stored"] = 
+        static_cast<double>(final_stats.total_bytes_stored);
+    
+    state.SetLabel("ops=" + std::to_string(total_ops));
+    state.SetItemsProcessed(
+        static_cast<int64_t>(state.iterations()) *
+        static_cast<int64_t>(total_ops));
+}
+
+BENCHMARK(BM_TDM_MixedReadHeavyWorkload)
+    ->Arg(1000)
+    ->Arg(10000)
+    ->Unit(benchmark::kMillisecond)
+    ->Repetitions(3)
+    ->UseRealTime();
+
+BENCHMARK_MAIN();
