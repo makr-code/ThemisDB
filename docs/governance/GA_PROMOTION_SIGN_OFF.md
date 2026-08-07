@@ -160,6 +160,32 @@ If a post-tag regression is discovered within the controlled promotion window:
 
 ---
 
+## 8.1 Phase 2+3 Security Hardening (Q4 2026 Release Target)
+
+**Scope:** Security Module Phase 2+3 hardening for v2.5.0-rc1  
+**Date Initiated:** 2026-08-07  
+**Target Release:** Q4 2026 (v2.5.0)
+
+### Phase 2+3 Gate Framework
+
+| Phase | Focus | Deliverables | Evidence | Status |
+|-------|-------|-----------------|----------|--------|
+| Phase 2 | Cryptography & Key Management | K-LIFE-01..K-LIFE-04, K-ERR-01..K-ERR-04, K-PROV-01..K-PROV-04, K-ROT-01..K-ROT-04 benchmarks | `tests/security/test_security_phase2_crypto_hardening_focused.cpp`, `benchmarks/security/bench_security_phase2_crypto_gates.cpp` | ✅ DELIVERED (2026-08-07) |
+| Phase 3 | Policy & Data-Protection | P-RLS-01..P-RLS-04, P-MRG-01..P-MRG-04, P-DENY-01..P-DENY-04, P-MASK-01..P-MASK-02, P-MRG-01..P-MRG-05 benchmarks | `tests/security/test_security_phase3_policy_hardening_focused.cpp`, `benchmarks/security/bench_security_phase3_policy_gates.cpp` | ✅ DELIVERED (2026-08-07) |
+
+### Phase 2+3 Acceptance Criteria (v2.5.0 GA Promotion)
+
+- [ ] Phase 2 crypto tests (K-LIFE, K-ERR, K-PROV) execute 100% PASS under ASan/UBSan/TSan
+- [ ] Phase 2 benchmarks (K-ROT-01..K-ROT-04) execute, gates PASS
+- [ ] Phase 3 policy tests (P-RLS, P-MRG, P-DENY, P-MASK) execute 100% PASS under ASan/UBSan
+- [ ] Phase 3 benchmarks (P-MRG-01..P-MRG-05) execute, gates PASS
+- [ ] Phase 2+3 evidence consolidated in `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md` §9
+- [ ] Phase 2+3 code gap remediation: CRITICAL < 10, HIGH < 5 per file
+- [ ] Phase 2+3 documentation: ROADMAP.md, CHANGELOG.md, PRODUCTION_REQUIREMENTS.md updated
+- [ ] Human sign-off: Security Module Phase 2+3 hardening sign-off in v2.5.0 promotion document
+
+---
+
 ## 8. References
 
 - `RELEASE_STRATEGY.md` §2.3 Beta-To-GA Gate Model, §2.4 GA Hardening Execution Batches
