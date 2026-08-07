@@ -1,7 +1,7 @@
 # Training Module - Future Enhancements
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
+<!-- Status: current | validated: 2026-05-31 | issue #5678 verification: 2026-08-07 ✓ -->
+<!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md · TRAINING_PHASE_ACCEPTANCE_CHECKLIST.md -->
 
 ## Scope
 
