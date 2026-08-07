@@ -238,6 +238,9 @@ private:
 
     mutable std::mutex legacy_bridge_mutex_;
     mutable std::unordered_map<std::string, std::shared_ptr<TensorMmapBridge>> legacy_bridge_cache_;
+    
+    // Concurrent workload hardening (Block A1)
+    mutable std::atomic<size_t> pending_operations_{0};  ///< Track in-flight index creation operations
 };
 
 } // namespace tensor

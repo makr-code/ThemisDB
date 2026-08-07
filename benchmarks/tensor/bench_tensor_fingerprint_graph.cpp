@@ -185,7 +185,7 @@ BENCHMARK(BM_TFG_Insert_SingleNode)
 // BM_TFG_FindSimilar
 //
 // Measures findSimilar() latency against a pre-populated graph.
-// Target: ≤ 50 ms for 100 K nodes (Phase 4, Q2 2027).
+// Target: p95 ≤ 80 ms, p99 ≤ 140 ms for 10k nodes (Q3 2026).
 // ─────────────────────────────────────────────────────────────────────────────
 
 static void BM_TFG_FindSimilar(benchmark::State& state)
@@ -215,7 +215,9 @@ BENCHMARK(BM_TFG_FindSimilar)
     ->Args({10000, 10})
     ->Args({50000, 10})
     ->Unit(benchmark::kMillisecond)
-    ->MinTime(0.5);
+    ->MinTime(0.5)
+    ->Repetitions(5)
+    ->UseRealTime();
 
 // ─────────────────────────────────────────────────────────────────────────────
 // BM_TFG_Neighbours
@@ -248,7 +250,8 @@ BENCHMARK(BM_TFG_Neighbours)
     ->Arg(1000)
     ->Arg(10000)
     ->Unit(benchmark::kMicrosecond)
-    ->MinTime(0.3);
+    ->MinTime(0.3)
+    ->Repetitions(5);
 
 // ─────────────────────────────────────────────────────────────────────────────
 // BM_TFG_ConcurrentReads
