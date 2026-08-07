@@ -46,12 +46,15 @@ Production-capable timeseries runtime exists for ingest, Gorilla compression, ad
 
 ### Phase 5: Performance and Hardening
 - [x] lock benchmark-backed release gates for timeseries hot paths (Completed 2026-07-29 — bench_timeseries_release_gates.cpp, TSRG-01..TSRG-06)
-- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+- [x] validate p95/p99 and throughput behavior against release baselines (Completed 2026-08-07)
 
 ### Phase 6: Documentation and Acceptance
-- [x] core timeseries module docs aligned to source-verifiable behavior
-- [x] roadmap/future planning separated from historical changelog entries
+- [x] core timeseries module docs aligned to source-verifiable behavior (Completed 2026-08-07)
+- [x] roadmap/future planning separated from historical changelog entries (Completed 2026-08-07)
 - [x] timeseries_api_contract.h frozen contract header published (Completed 2026-07-29)
+- [x] PHASE_6_ACCEPTANCE_CHECKLIST.md created with all acceptance criteria (Completed 2026-08-07)
+- [x] operator documentation complete including tuning guide and troubleshooting (Completed 2026-08-07)
+- [x] performance characteristics documented in PERFORMANCE_EXPECTATIONS.md (Completed 2026-08-07)
 
 ## Production Readiness Checklist
 

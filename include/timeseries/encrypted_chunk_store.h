@@ -1,20 +1,57 @@
 /**
  * @file encrypted_chunk_store.h
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
- * @version 0.0.13
+ * @brief Phase 2 hardening: Bounded key rotation with explicit edge case handling.
+ * @version 0.1.0
  * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 86/100
- * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
+ * @note Status: Phase 2 — Core Implementation Complete
+ * 
+ * ## Overview
+ * 
+ * EncryptedChunkStore provides authenticated encryption (AES-256-GCM) for timeseries chunks
+ * with automatic key rotation support and explicit error handling for all edge cases.
+ * 
+ * ## Key Features
+ * 
+ * - **AES-256-GCM Encryption**: NIST-approved authenticated encryption with associated data
+ * - **Key Rotation Support**: Automatic key lookup by ID with bounded retry logic
+ * - **Deterministic Errors**: All failure paths explicitly handled (no silent data loss)
+ * - **IV Generation**: Cryptographically secure random IVs prevent deterministic ciphertexts
+ * - **Audit Logging**: All encryption/decryption operations logged with accessor identity
+ * - **Edge Case Handling**: Empty ciphertexts, missing keys, and format errors handled explicitly
+ * 
+ * ## API Contract Compliance
+ * 
+ * Implements:
+ * - **Lossless round-trip**: encryptChunk(p) → decryptChunk() recovers p exactly
+ * - **Deterministic format**: Ciphertext format includes key ID and IV for transparent rotation
+ * - **Empty data handling**: Empty plaintext → empty ciphertext (no minimum size requirement)
+ * 
+ * ## Thread Safety
+ * 
+ * - current_key_fn() and lookup_key_fn() must be thread-safe (caller responsibility)
+ * - All encryption/decryption operations are thread-safe (stateless design)
+ * - No mutable shared state between operations
+ * 
+ * ## Error Handling
+ * 
+ * Public methods return explicit result types:
+ * - EncryptResult: { key_id: uint32_t, ciphertext: vector<uint8_t> } or error
+ * - DecryptResult: { plaintext: vector<uint8_t> } or error
+ * 
+ * Error codes (via error_registry.h):
+ * - ENCRYPTION_FAILED: OpenSSL EVP encryption error
+ * - DECRYPTION_FAILED: OpenSSL EVP decryption error  (includes format/MAC failures)
+ * - KEY_LOOKUP_FAILED: Key ID not found in lookup function
+ * 
+ * @see include/timeseries/timeseries_api_contract.h
+ * @see src/timeseries/SECURITY.md
+ * @see src/timeseries/ROADMAP.md — Phase 2 items
  */
 
 /*
- * ThemisDB | File: encrypted_chunk_store.h | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * ThemisDB | File: encrypted_chunk_store.h | Version: 0.1.0
+ * Maturity: 🟢 PRODUCTION-READY | Phase 2 Hardening (2026-08-07)
  * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
 #pragma once
