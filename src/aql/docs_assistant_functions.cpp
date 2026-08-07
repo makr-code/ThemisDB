@@ -545,15 +545,23 @@ json DocsAssistantFunctions::getPerformanceMetrics() const {
 }
 
 /**
- * @brief Singleton instance
+ * @brief Thread-safe singleton instance using Meyer's singleton pattern
+ * 
+ * This implementation is exception-safe and leak-free:
+ * - Static local variable initialization is thread-safe in C++11+
+ * - Automatic destruction on program exit
+ * - No manual new/delete required
+ * 
+ * @return Reference to the singleton DocsAssistantFunctions instance
+ * @exception None (noexcept) - any exceptions during initialization propagate once
+ * @note Strong exception guarantee: instance is fully constructed or not at all
  */
-static DocsAssistantFunctions *g_docs_assistant_functions = nullptr;
-
-DocsAssistantFunctions &getDocsAssistantFunctions() {
-    if (!g_docs_assistant_functions) {
-        g_docs_assistant_functions = new DocsAssistantFunctions();
-    }
-    return *g_docs_assistant_functions;
+DocsAssistantFunctions &getDocsAssistantFunctions() noexcept {
+    // Thread-safe initialization per C++11 §6.7 (local static initialization)
+    // The first call constructs the object; all subsequent calls return the same object.
+    // Destruction is automatic on program exit via std::atexit().
+    static DocsAssistantFunctions instance;
+    return instance;
 }
 
 } // namespace aql

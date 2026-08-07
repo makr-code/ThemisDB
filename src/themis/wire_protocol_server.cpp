@@ -27,8 +27,16 @@
 // "wire_protocol_server.cpp – move wire protocol implementation from
 // src/server/"). Classes live in namespace themis::wire and are compiled into
 // themis_core alongside the existing src/network/wire_protocol_server.cpp
+// 
+// ✓ SECURITY FIX #6: Legacy Path Governance Marker
+// Legacy Compatibility Path: v1.7.0 Wire Protocol Migration
+// Purpose: Dual-namespace support during v1.7.0 consolidation
+// Activation: When both themis::network and themis::wire namespaces are in use
+// Behavior Delta: Same implementation compiled into both namespaces
+// Approver: @makr-code (PR #3696)
+// Removal Target: v1.8.0 – Once all callers migrated to themis::wire namespace
+// 
 // (themis::network namespace) for backward compatibility during the v1.7.0
-// migration window.
 
 #include "themis/network/wire_protocol_server.hpp"
 #include "network/wire_bootstrap_validation.h"
@@ -510,8 +518,15 @@ void WireProtocolSession::async_read_payload(const WireFrameHeader& header) {
                 read_buffer_.begin() +
                     static_cast<std::ptrdiff_t>(header.payload_length));
 
-            if (with_checksum && bytes_read >= CHECKSUM_SIZE) {
-                uint32_t recv_crc_be;
+            // ✓ SECURITY FIX #1: Added bounds checking
+if (with_checksum) {
+                // Bounds check before reading CRC
+                const std::size_t required_size = header.payload_length + CHECKSUM_SIZE;
+                if (read_buffer_.size() < required_size) {
+                    send_error(0x04, "Incomplete message with checksum");
+                    return;
+                }
+                uint32_t recv_crc_be = 0;  // ✓ SECURITY FIX #1: Initialize before memcpy
                 std::memcpy(&recv_crc_be,
                             read_buffer_.data() + header.payload_length,
                             CHECKSUM_SIZE);
