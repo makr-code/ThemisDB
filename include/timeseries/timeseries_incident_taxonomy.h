@@ -321,18 +321,31 @@ struct IncidentTimestamp {
 
 /**
  * @brief Optional context attached to an incident for diagnostics.
+ *
+ * @warning **Lifetime contract**: All `std::string_view` fields are non-owning.
+ *   Callers MUST ensure the underlying string storage outlives the incident and any
+ *   handler invocation that may persist it (e.g., into a log buffer or metrics system).
+ *   Passing a temporary `std::string` or a local char array whose lifetime ends before
+ *   the handler returns will result in undefined behaviour.
+ *   If the incident may outlive the emitting stack frame, store the strings in a
+ *   stable buffer (e.g., a `static constexpr` literal or a heap-allocated string) and
+ *   construct `IncidentContext` from that stable storage.
  */
 struct IncidentContext {
     /// Series name or identifier (if applicable).
+    /// Must remain valid for the full duration of any handler that consumes this incident.
     std::string_view series_id;
 
     /// Human-readable recovery hint (e.g., "increase buffer_capacity" or "check encryption keys").
+    /// Must remain valid for the full duration of any handler that consumes this incident.
     std::string_view recovery_hint;
 
     /// Caller-provided tag for tracing.
+    /// Must remain valid for the full duration of any handler that consumes this incident.
     std::string_view caller_tag;
 
     /// Additional structured data (e.g., metric names, retry count).
+    /// Must remain valid for the full duration of any handler that consumes this incident.
     std::string_view extra_info;
 };
 
@@ -425,6 +438,18 @@ struct Incident {
         return inc;
     }
 
+    /// Constructs a CRITICAL query incident.
+    [[nodiscard]] static Incident criticalQuery(QueryIncidentCode code,
+                                                IncidentContext ctx = {}) noexcept {
+        Incident inc;
+        inc.incident_class = Class::QUERY;
+        inc.severity = IncidentSeverity::CRITICAL;
+        inc.code.query_code = code;
+        inc.when = IncidentTimestamp::now();
+        inc.context = ctx;
+        return inc;
+    }
+
     /// Constructs an ERROR query incident.
     [[nodiscard]] static Incident errorQuery(QueryIncidentCode code,
                                              IncidentContext ctx = {}) noexcept {
@@ -492,6 +517,30 @@ struct Incident {
         inc.incident_class = Class::LIFECYCLE;
         inc.severity = IncidentSeverity::WARN;
         inc.code.lifecycle_code = code;
+        inc.when = IncidentTimestamp::now();
+        inc.context = ctx;
+        return inc;
+    }
+
+    /// Constructs an INFO lifecycle incident.
+    [[nodiscard]] static Incident infoLifecycle(LifecycleIncidentCode code,
+                                                IncidentContext ctx = {}) noexcept {
+        Incident inc;
+        inc.incident_class = Class::LIFECYCLE;
+        inc.severity = IncidentSeverity::INFO;
+        inc.code.lifecycle_code = code;
+        inc.when = IncidentTimestamp::now();
+        inc.context = ctx;
+        return inc;
+    }
+
+    /// Constructs a CRITICAL integration incident.
+    [[nodiscard]] static Incident criticalIntegration(IntegrationIncidentCode code,
+                                                      IncidentContext ctx = {}) noexcept {
+        Incident inc;
+        inc.incident_class = Class::INTEGRATION;
+        inc.severity = IncidentSeverity::CRITICAL;
+        inc.code.integration_code = code;
         inc.when = IncidentTimestamp::now();
         inc.context = ctx;
         return inc;
