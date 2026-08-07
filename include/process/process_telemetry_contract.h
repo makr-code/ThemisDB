@@ -1,6 +1,6 @@
 /**
- * @file process_incremental_evolution.h
- * @brief Audit trail and incremental evolution API for temporal model tracking.
+ * @file process_telemetry_contract.h
+ * @brief Process telemetry contract for audit trail, temporal reconstruction, and diagnostics.
  *
  * Defines interfaces for immutable audit trails, delta encoding, temporal snapshots,
  * and point-in-time model recovery in federated Process Module deployments.
@@ -42,8 +42,8 @@
  * @see ROADMAP_FEDERATION.md – Phase 1-6 implementation plan
  */
 
-#ifndef THEMISDB_INCLUDE_PROCESS_PROCESS_INCREMENTAL_EVOLUTION_H
-#define THEMISDB_INCLUDE_PROCESS_PROCESS_INCREMENTAL_EVOLUTION_H
+#ifndef THEMISDB_INCLUDE_PROCESS_PROCESS_TELEMETRY_CONTRACT_H
+#define THEMISDB_INCLUDE_PROCESS_PROCESS_TELEMETRY_CONTRACT_H
 
 #include <string>
 #include <cstdint>
@@ -327,4 +327,4 @@ class ProcessAuditLogger {
 
 }  // namespace themisdb::process
 
-#endif  // THEMISDB_INCLUDE_PROCESS_PROCESS_INCREMENTAL_EVOLUTION_H
+#endif  // THEMISDB_INCLUDE_PROCESS_PROCESS_TELEMETRY_CONTRACT_H

@@ -46,37 +46,11 @@
 #include <sstream>
 #include <stdexcept>
 #include <cstring>
+#include <map>
+#include <mutex>
 
 namespace themis {
 namespace process {
-
-// ============================================================================
-// SNAPSHOT MANAGEMENT
-// ============================================================================
-
-/**
- * @brief In-memory snapshot of replicated state machine.
- * @internal
- */
-struct Snapshot {
-  /// Snapshot index (highest committed log index included)
-  uint64_t snapshot_index = 0;
-
-  /// Snapshot term (term of highest included entry)
-  uint64_t snapshot_term = 0;
-
-  /// Serialized state machine state (blob)
-  std::string state_blob;
-
-  /// CRC32 checksum for integrity
-  uint32_t checksum = 0;
-
-  /// Timestamp when snapshot was created (UTC epoch ms)
-  uint64_t created_at_ms = 0;
-
-  /// Time to create snapshot (milliseconds)
-  uint64_t duration_ms = 0;
-};
 
 // ============================================================================
 // FEDERATION REPLICA MANAGER
@@ -253,7 +227,7 @@ class FederationReplicaManagerImpl {
   std::map<uint64_t, std::string> applied_checksums_;  // Per-entry checksums
 
   // Snapshot state
-  std::unique_ptr<Snapshot> current_snapshot_;
+  std::shared_ptr<Snapshot> current_snapshot_;
   uint64_t snapshot_index_;
   uint64_t snapshot_term_;
 
@@ -261,7 +235,7 @@ class FederationReplicaManagerImpl {
   mutable std::mutex metrics_mutex_;
   uint64_t entries_applied_ = 0;
   uint64_t snapshots_taken_ = 0;
-  uint64_t divergences_detected_ = 0;
+  mutable uint64_t divergences_detected_ = 0;
 };
 
 // ============================================================================

@@ -54,12 +54,12 @@
 ### 2. ROADMAP.md Update ✓ COMPLETE
 
 - [x] Current Status section: "Production-grade security stack with transport/auth/access-control, encryption/key-management, auditing, and threat-detection components in active use"
-- [x] In Progress section: Security hardening wave (Q3 2026) with 2 sub-items:
-  - [x] Compiler/linker security hardening flags (SEC-CC-4) — COMPLETE
-  - [x] CMake presets for ASAN/UBSAN sanitizer builds — COMPLETE
-  - [x] CI sanitizer jobs in cmake-multi-platform.yml — COMPLETE
-  - [ ] Complete remaining verification for high-assurance crypto/runtime configurations (Q3 2026) — IN PROGRESS
-  - [ ] Tighten failure-path behavior and observability (Q3 2026) — IN PROGRESS
+- [x] In Progress section: Security hardening wave Phase 2+3 (Q4 2026) with delivered test/benchmark gates:
+  - [x] Phase 2 tests delivered: K-LIFE-01..04, K-ERR-01..04, K-PROV-01..04 (2026-08-07)
+  - [x] Phase 2 benchmarks delivered: K-ROT-01..04 (2026-08-07)
+  - [x] Phase 3 tests delivered: P-RLS-01..04, P-MRG-01..04, P-DENY-01..04, P-MASK-01..02 (2026-08-07)
+  - [x] Phase 3 benchmarks delivered: P-MRG-01..05 (2026-08-07)
+  - [ ] Production validation: Vault/HSM integration, real query workload edge cases (Q4 2026) — IN PROGRESS
 - [x] Planned Features section with Short-term (Q4 2026) and Mid-term (Q1 2027) initiatives
 - [x] Implementation Phases section with all 5 phases documented:
   - [x] Phase 1: Access and Identity Hardening (4 items, all complete)

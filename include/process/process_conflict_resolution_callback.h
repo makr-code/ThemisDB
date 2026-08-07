@@ -39,7 +39,7 @@
  * ## Usage Pattern
  *
  * @code
- * class MyProcessConflictResolver : public ProcessConflictResolver {
+ * class MyProcessConflictResolver : public ProcessConflictResolverCallback {
  *   std::string Resolve(const ConflictMetadata& metadata) override {
  *     // Custom logic: choose based on business rules
  *     if (metadata.v1_timestamp > metadata.v2_timestamp) return metadata.v1_id;
@@ -63,7 +63,7 @@
 #include <chrono>
 #include <memory>
 
-namespace themisdb::process {
+namespace themis::process {
 
 // ============================================================================
 // CONFLICT METADATA
@@ -142,7 +142,7 @@ enum class ConflictResolutionStrategy : std::uint8_t {
  * Applications implement this interface to provide domain-specific conflict
  * resolution logic beyond LWW.
  */
-class ProcessConflictResolver {
+class ProcessConflictResolverCallback {
  public:
   /**
    * @brief Resolve conflict between two model versions.
@@ -161,9 +161,9 @@ class ProcessConflictResolver {
    * @brief Optional: Get resolver name for logging/diagnostics.
    * @return Resolver name (e.g., "MyApplicationResolver")
    */
-  virtual std::string GetName() const { return "ProcessConflictResolver"; }
+  virtual std::string GetName() const { return "ProcessConflictResolverCallback"; }
 
-  virtual ~ProcessConflictResolver() = default;
+  virtual ~ProcessConflictResolverCallback() = default;
 };
 
 // ============================================================================
@@ -186,7 +186,7 @@ class ConflictResolverManager {
    * @note Only one resolver active at a time; new registration replaces old
    */
   virtual void RegisterResolver(
-      std::shared_ptr<ProcessConflictResolver> resolver) = 0;
+      std::shared_ptr<ProcessConflictResolverCallback> resolver) = 0;
 
   /**
    * @brief Resolve conflict using registered resolver or LWW fallback.
@@ -258,7 +258,7 @@ struct ConflictResolutionResult {
  *
  * Selects version with later timestamp; tie-breaking by node ID (lexicographic).
  */
-class LastWriteWinsResolver : public ProcessConflictResolver {
+class LastWriteWinsResolver : public ProcessConflictResolverCallback {
  public:
   std::string Resolve(const ConflictMetadata& metadata) override;
   std::string GetName() const override { return "LastWriteWins"; }
@@ -269,7 +269,7 @@ class LastWriteWinsResolver : public ProcessConflictResolver {
  *
  * Selects version with earlier timestamp; tie-breaking by node ID (lexicographic).
  */
-class FirstWriteWinsResolver : public ProcessConflictResolver {
+class FirstWriteWinsResolver : public ProcessConflictResolverCallback {
  public:
   std::string Resolve(const ConflictMetadata& metadata) override;
   std::string GetName() const override { return "FirstWriteWins"; }
@@ -319,6 +319,6 @@ class FirstWriteWinsResolver : public ProcessConflictResolver {
  * | Total conflict resolution | 5-25ms | 20-100ms | ≤50ms |
  */
 
-}  // namespace themisdb::process
+}  // namespace themis::process
 
 #endif  // THEMISDB_INCLUDE_PROCESS_PROCESS_CONFLICT_RESOLUTION_CALLBACK_H

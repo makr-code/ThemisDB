@@ -3046,6 +3046,8 @@ set(THEMIS_CORE_SOURCES
     ../src/process/serializer_hardening.cpp
     ../src/process/process_agentic_rag.cpp
     ../src/process/ocel_exporter.cpp
+    ../src/process/federation_replica_manager.cpp
+    ../src/process/process_conflict_resolver.cpp
 
     # OLAP Analytics
     ../src/analytics/olap.cpp

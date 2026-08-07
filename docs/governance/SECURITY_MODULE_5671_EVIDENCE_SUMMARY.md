@@ -26,9 +26,9 @@ The security module has completed Phase 1-5 of its hardening initiative with com
 - [x] Phase 5: Documentation and Release Readiness (3 items) — Target: Q3 2026
 
 **In Progress / Planned:**
-- [~] Security hardening wave completion — Target: Q3 2026
-- [ ] Phase 2: Key Management Hardening (2 items) — Target: Q4 2026
-- [ ] Phase 3: Policy and Data-Protection Hardening (2 items) — Target: Q4 2026
+- [~] Security hardening wave Phase 2+3 — Target: Q4 2026
+- [~] Phase 2: Key Management Hardening — tests/benchmarks delivered; production integration validation pending (Target: Q4 2026)
+- [~] Phase 3: Policy and Data-Protection Hardening — tests/benchmarks delivered; production workload validation pending (Target: Q4 2026)
 - [ ] Phase 2-5 expansion items — Target: Q1 2027
 
 ### ✓ Future Enhancements Validation
@@ -217,8 +217,8 @@ All module acceptance criteria have been verified and documented. The module is 
 ## Remaining Work
 
 Items documented in ROADMAP/FUTURE_ENHANCEMENTS for future cycles:
-- [ ] Complete remaining verification for high-assurance crypto/runtime configurations (Q3 2026)
-- [ ] Tighten failure-path behavior and observability (Q3 2026)
+- [ ] Phase 2 production validation: Vault/HSM integration and failover verification (Q4 2026)
+- [ ] Phase 3 production validation: real-query workload coverage and policy-merge edge cases (Q4 2026)
 - [ ] Phase 2 expansion: Key management hardening (Q4 2026)
 - [ ] Phase 3 expansion: Policy and data-protection hardening (Q4 2026)
 - [ ] Phase 2-5 expansion items: Crypto-provider hardening and detection/response coverage (Q1 2027)

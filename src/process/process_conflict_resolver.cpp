@@ -94,8 +94,9 @@ class LastWriteWinsStrategy : public ConflictResolutionStrategy {
       return metadata.v2_id;
     }
     // Tie-break by node ID (lexicographic)
-    return (metadata.v1_sender_id < metadata.v2_sender_id) ? metadata.v1_id
-                                                            : metadata.v2_id;
+    return (metadata.v1_sender_node_id < metadata.v2_sender_node_id)
+               ? metadata.v1_id
+               : metadata.v2_id;
   }
 };
 
@@ -115,8 +116,9 @@ class FirstWriteWinsStrategy : public ConflictResolutionStrategy {
       return metadata.v2_id;
     }
     // Tie-break by node ID (lexicographic)
-    return (metadata.v1_sender_id < metadata.v2_sender_id) ? metadata.v1_id
-                                                            : metadata.v2_id;
+    return (metadata.v1_sender_node_id < metadata.v2_sender_node_id)
+               ? metadata.v1_id
+               : metadata.v2_id;
   }
 };
 
@@ -128,7 +130,7 @@ class FirstWriteWinsStrategy : public ConflictResolutionStrategy {
 class ApplicationCustomStrategy : public ConflictResolutionStrategy {
  public:
   explicit ApplicationCustomStrategy(
-      std::shared_ptr<ProcessConflictResolver> callback)
+      std::shared_ptr<ProcessConflictResolverCallback> callback)
       : callback_(callback), fallback_(std::make_unique<LastWriteWinsStrategy>()) {}
 
   std::string ResolveConflict(const ConflictMetadata& metadata) override {
@@ -159,7 +161,7 @@ class ApplicationCustomStrategy : public ConflictResolutionStrategy {
   }
 
  private:
-  std::shared_ptr<ProcessConflictResolver> callback_;
+  std::shared_ptr<ProcessConflictResolverCallback> callback_;
   std::unique_ptr<ConflictResolutionStrategy> fallback_;
 };
 
@@ -233,7 +235,7 @@ class ProcessConflictResolverImpl {
    * @param resolver Callback implementing ProcessConflictResolver interface
    * @thread_safe Acquires resolver_mutex_
    */
-  void RegisterResolver(std::shared_ptr<ProcessConflictResolver> resolver);
+  void RegisterResolver(std::shared_ptr<ProcessConflictResolverCallback> resolver);
 
   /**
    * @brief Detect conflicts in a batch of model versions.
@@ -265,7 +267,7 @@ class ProcessConflictResolverImpl {
    */
   static std::unique_ptr<ConflictResolutionStrategy> CreateStrategy(
       const std::string& strategy_name,
-      std::shared_ptr<ProcessConflictResolver> callback) {
+      std::shared_ptr<ProcessConflictResolverCallback> callback) {
     if (strategy_name == "LWW") {
       return std::make_unique<LastWriteWinsStrategy>();
     } else if (strategy_name == "FWW") {
@@ -294,7 +296,7 @@ class ProcessConflictResolverImpl {
 
   mutable std::mutex resolver_mutex_;
   std::unique_ptr<ConflictResolutionStrategy> strategy_;
-  std::shared_ptr<ProcessConflictResolver> callback_;
+  std::shared_ptr<ProcessConflictResolverCallback> callback_;
 
   mutable std::mutex conflict_history_mutex_;
   std::map<std::string, ConflictInfo> conflict_history_;  // model_id → latest conflict
@@ -320,11 +322,13 @@ std::string ProcessConflictResolverImpl::ResolveConflict(
   ConflictMetadata metadata;
   metadata.model_id = model_id;
   metadata.v1_id = v1_id;
-  metadata.v1_timestamp = v1_timestamp;
-  metadata.v1_sender_id = v1_sender;
+  metadata.v1_timestamp =
+      std::chrono::system_clock::time_point{std::chrono::milliseconds(v1_timestamp)};
+  metadata.v1_sender_node_id = v1_sender;
   metadata.v2_id = v2_id;
-  metadata.v2_timestamp = v2_timestamp;
-  metadata.v2_sender_id = v2_sender;
+  metadata.v2_timestamp =
+      std::chrono::system_clock::time_point{std::chrono::milliseconds(v2_timestamp)};
+  metadata.v2_sender_node_id = v2_sender;
 
   conflicts_detected_++;
 
@@ -348,7 +352,7 @@ std::string ProcessConflictResolverImpl::ResolveConflict(
 }
 
 void ProcessConflictResolverImpl::RegisterResolver(
-    std::shared_ptr<ProcessConflictResolver> resolver) {
+    std::shared_ptr<ProcessConflictResolverCallback> resolver) {
   std::lock_guard<std::mutex> lock(resolver_mutex_);
   callback_ = resolver;
   strategy_ = CreateStrategy("custom", resolver);
@@ -418,7 +422,7 @@ std::string ProcessConflictResolver::ResolveConflict(
 }
 
 void ProcessConflictResolver::RegisterResolver(
-    std::shared_ptr<ProcessConflictResolver> resolver) {
+    std::shared_ptr<ProcessConflictResolverCallback> resolver) {
   impl_->RegisterResolver(resolver);
 }
 

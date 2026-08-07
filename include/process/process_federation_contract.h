@@ -2,7 +2,7 @@
  * @file process_federation_contract.h
  * @brief Federated concurrency and replication contract for distributed Process Module deployments.
  *
- * Defines API contracts for federated consensus, quorum-based voting, Byzantine fault tolerance,
+ * Defines API contracts for federated consensus, quorum-based voting, crash fault tolerance,
  * and replication consistency guarantees in multi-node Process Module deployments.
  *
  * @version 2.1.0
@@ -17,7 +17,7 @@
  * ## Consensus Model
  *
  * - **Algorithm:** Raft-inspired quorum-based voting (configurable quorum size)
- * - **Fault Tolerance:** Byzantine fault tolerant for F failures where N > 3F (e.g., 5 nodes tolerate 1, 7 tolerate 2)
+ * - **Fault Tolerance:** Crash fault tolerant under majority quorum where N >= 2F + 1
  * - **Message Ordering:** Total ordering via logical clocks on all replicas
  * - **Determinism:** Consensus outcome deterministic given same failure pattern and messages
  *
@@ -58,9 +58,9 @@
  * - Consensus timeout → return error; application may retry with exponential backoff
  * - Node failure → automatic leader re-election (if quorum available)
  *
- * ### Byzantine Tolerance
- * - Tolerate up to F faulty nodes where F < N/3
- * - Faulty node can send conflicting messages, but cannot violate safety invariants
+ * ### Crash Fault Tolerance
+ * - Tolerate up to F crash faults where F < N/2 and quorum remains available
+ * - Faulty/partitioned nodes cannot commit writes without quorum
  * - Majority must agree on log entries before commit
  *
  * ## Usage Pattern
@@ -98,8 +98,7 @@
  * - ML-based anomaly detection deferred to Q2 2027
  *
  * @see process_conflict_resolution_callback.h – Conflict resolution strategies
- * @see process_incremental_evolution.h – Audit trail and temporal queries
- * @see process_telemetry_contract.h – Distributed tracing integration
+ * @see process_telemetry_contract.h – Audit trail, temporal queries, and telemetry integration
  * @see ROADMAP_FEDERATION.md – Phase 1-6 implementation plan
  */
 
@@ -127,7 +126,7 @@ struct ProcessFederationConfig {
   /// Node ID (unique identifier for this replica)
   std::string node_id;
 
-  /// Quorum size (must satisfy N > 3F for Byzantine tolerance)
+  /// Quorum size (must satisfy N >= 2F + 1 for crash fault tolerance)
   std::uint32_t quorum_size = 3;
 
   /// List of peer node addresses (e.g., "node-2:5000", "node-3:5000")
@@ -181,17 +180,17 @@ enum class ConsensusPhase : std::uint8_t {
 };
 
 /**
- * @brief Byzantine fault tolerance constraints.
+ * @brief Crash fault tolerance constraints for quorum systems.
  *
- * For N total nodes, maximum tolerable failures: F < N/3
- * - 3 nodes: F < 1 (tolerate 0 failures)
- * - 5 nodes: F < 1.67 (tolerate 1 failure)
- * - 7 nodes: F < 2.33 (tolerate 2 failures)
+ * For N total nodes, maximum tolerable crash faults: F < N/2
+ * - 3 nodes: tolerate 1 crash fault
+ * - 5 nodes: tolerate 2 crash faults
+ * - 7 nodes: tolerate 3 crash faults
  */
-struct ByzantineFaultToleranceGates {
+struct CrashFaultToleranceGates {
   static constexpr std::uint32_t kMinNodeCount = 3;     ///< Minimum for consensus
   static constexpr std::uint32_t kRecommendedNodeCount = 5;  ///< Recommended for single-DC
-  static constexpr float kFaultToleranceRatio = 1.0f / 3.0f;  ///< F < N/3
+  static constexpr float kFaultToleranceRatio = 1.0f / 2.0f;  ///< F < N/2
 };
 
 // ============================================================================
@@ -382,9 +381,9 @@ class FederationConsensusManager {
  *    - Log replication with strong consistency on majority
  *    - Automatic re-election if leader fails
  *
- * 2. **Byzantine Fault Tolerance:** F < N/3 constraint
- *    - Up to F faulty nodes can be tolerated in N-node cluster
- *    - Faulty nodes cannot violate safety invariants
+ * 2. **Crash Fault Tolerance:** Majority quorum (N >= 2F + 1)
+ *    - Up to F crash faults can be tolerated in N-node cluster
+ *    - Partitioned nodes cannot violate safety invariants without quorum
  *    - Consensus outcome determined by quorum agreement
  *
  * 3. **Message Ordering:** Total order delivery

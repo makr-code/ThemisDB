@@ -76,15 +76,17 @@ class FPDetectionIntegration:
         self.engine.export_analysis(analyses, output_file)
         
         # Generate summary report
-        summary = self._generate_summary(data, analyses, stats, output_file)
+        summary = self._generate_summary(
+            data, analyses, stats, output_file, input_file)
         
         logger.info(f"FP detection complete. Summary:")
         self._print_summary(summary)
         
         return summary
     
-    def _generate_summary(self, original_data: Dict, analyses: List[GapAnalysis], 
-                         stats: Dict[str, Any], output_file: str) -> Dict[str, Any]:
+    def _generate_summary(self, original_data: Dict, analyses: List[GapAnalysis],
+                         stats: Dict[str, Any], output_file: str,
+                         input_file: str) -> Dict[str, Any]:
         """Generate detailed summary report"""
         
         # Count by classification
@@ -120,7 +122,7 @@ class FPDetectionIntegration:
         
         summary = {
             'status': 'complete',
-            'input_file': original_data.get('timestamp', 'unknown'),
+            'input_file': input_file,
             'output_file': output_file,
             'total_gaps_analyzed': stats['total_gaps'],
             'false_positives_identified': stats['gaps_filtered'],
