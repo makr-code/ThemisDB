@@ -9,7 +9,13 @@
 
 ## Overview
 
-ThemisDB is organized into three architectural tiers (T0–T5 security/trust model) plus an optional private plugin layer. This document clarifies the division and intended build-time behavior.
+ThemisDB is organized into a **T0–T5 security/trust model** with clear module tiers:
+- **T0 Core** (5 modules): Minimal bootstrap layer (base, core, plugins, themis, utils)
+- **T1–T4 Integrated** (62 modules): Complete database functionality built statically by default
+- **T5 Public Plugins** (13+ plugins): Optional runtime-loadable extensions
+- **T5 Private Plugins** (4 Wave-1 repos): Enterprise-exclusive externalized implementations
+
+This document clarifies the division between these tiers and the intended build-time/runtime behavior for different editions (Minimal, Community, Enterprise, Hyperscaler, Military).
 
 **Key Principle:** Integrated modules are built statically and linked into the core engine by default. Plugins are optionally dynamically loaded at runtime. Private plugins are externalized to separate repositories and optional based on edition and license features.
 

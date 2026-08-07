@@ -5,9 +5,9 @@
 **Primary:** src/<module>/ROADMAP.md, include/<module>/*.h  
 **Bezug:** AI-Context für schnelle Modul-/Namespace-Navigation
 
-## Quick Reference: 62 Modules × Namespaces × Tier Classification
+## Quick Reference: 62 Integrated Modules × Namespaces × Tier Classification
 
-**See also:** [ARCHITECTURE_CLASSIFICATION.md](./ARCHITECTURE_CLASSIFICATION.md) for comprehensive tier definitions (T0–T5 model).
+**See also:** [ARCHITECTURE_CLASSIFICATION.md](./ARCHITECTURE_CLASSIFICATION.md) for comprehensive tier definitions (T0–T5 model including 5 core T0 modules).
 
 | Module | Namespace | Tier | Task | Docs | Plugin Version |
 |--------|-----------|------|------|------|----------------|
