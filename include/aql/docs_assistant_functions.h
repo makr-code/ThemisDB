@@ -286,7 +286,7 @@ private:
  * This ensures we only have one instance of the documentation
  * database loaded in memory across all AQL queries.
  */
-DocsAssistantFunctions& getDocsAssistantFunctions();
+DocsAssistantFunctions& getDocsAssistantFunctions() noexcept;
 
 } // namespace aql
 } // namespace themis

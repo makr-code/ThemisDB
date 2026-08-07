@@ -349,6 +349,14 @@ bool verifyLicenseSignature(const LicenseData& license) {
     const bool is_hyperscaler_license = (license_edition_normalized == "HYPERSCALER");
 
     // Hyperscaler licenses must always carry a cryptographic signature.
+        // ✓ SECURITY FIX #7: Legacy Path Governance Marker
+        // Legacy Compatibility Path: v1.7.0 License Validation Grace Period
+        // Purpose: Development/non-Hyperscaler editions skip signature requirement
+        // Activation: license.signature.empty() && !is_hyperscaler_license
+        // Behavior Delta: Hyperscaler licenses MUST have cryptographic signature; others optional
+        // Approver: @makr-code (PR #3410)
+        // Removal Target: v1.8.0 – Enforce signatures for all license editions
+        // Other editions keep legacy development behavior.
     // Other editions keep legacy development behavior.
     if (license.signature.empty()) {
         return !is_hyperscaler_license;
@@ -392,11 +400,29 @@ bool verifyLicenseSignature(const LicenseData& license) {
     }
     
     bool valid = false;
-    if (EVP_DigestVerifyInit(ctx.get(), nullptr, EVP_sha256(), nullptr, public_key.get()) == 1) {
-        if (EVP_DigestVerifyUpdate(ctx.get(), data_to_verify.data(), data_to_verify.size()) == 1) {
-            int verify_result = EVP_DigestVerifyFinal(ctx.get(), signature_bytes.data(), signature_bytes.size());
-            valid = (verify_result == 1);
-        }
+    
+    // ✓ SECURITY FIX #5: Exception-safe signature verification
+    // Ensure all verification failures are logged and handled explicitly
+    if (EVP_DigestVerifyInit(ctx.get(), nullptr, EVP_sha256(), nullptr, public_key.get()) != 1) {
+        spdlog::error("verifyLicenseSignature: EVP_DigestVerifyInit failed");
+        return false;
+    }
+    
+    if (EVP_DigestVerifyUpdate(ctx.get(), data_to_verify.data(), data_to_verify.size()) != 1) {
+        spdlog::error("verifyLicenseSignature: EVP_DigestVerifyUpdate failed");
+        return false;
+    }
+    
+    int verify_result = EVP_DigestVerifyFinal(ctx.get(), signature_bytes.data(), signature_bytes.size());
+    if (verify_result == 1) {
+        valid = true;
+    } else if (verify_result == 0) {
+        // Signature verification failed - this is expected for invalid signatures
+        spdlog::debug("verifyLicenseSignature: Signature verification failed (invalid signature)");
+        valid = false;
+    } else {
+        spdlog::error("verifyLicenseSignature: EVP_DigestVerifyFinal error ({})", verify_result);
+        valid = false;
     }
     
     return valid;

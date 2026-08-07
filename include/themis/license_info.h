@@ -56,9 +56,9 @@ struct LicenseData {
     std::string expiry_date;      // ISO 8601 format: YYYY-MM-DD
     
     // License limits
-    int max_nodes;
-    int max_cores;
-    int max_storage_tb;
+    int max_nodes       = -1;     // ✓ SECURITY FIX #2: Initialized
+    int max_cores       = -1;     // ✓ SECURITY FIX #3: Initialized
+    int max_storage_tb  = -1;     // ✓ SECURITY FIX #4: Initialized
     
     // Build information
     std::string build_id;
