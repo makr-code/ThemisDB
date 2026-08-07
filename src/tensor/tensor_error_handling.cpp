@@ -9,6 +9,7 @@
 #include <chrono>
 #include <iomanip>
 #include <iostream>
+#include <map>
 #include <sstream>
 
 namespace themis {
@@ -465,10 +466,20 @@ std::string ResilienceMonitor::getHealthStatus() const noexcept {
 }
 
 // ============================================================================
-// Diagnostic Emission Implementations — Phase 2 A2 Remediation
+// Diagnostic Emission Implementations — Phase 3 Task 3.2 Unified Incidents
 // ============================================================================
 
-void emitTensorDiagnostic(
+/**
+ * @brief Internal helper to emit unified incident diagnostics.
+ * 
+ * All Phase 3 error paths (tensor_fingerprint_graph.cpp, tensor_index_manager.cpp,
+ * tensor_core_bridge.cpp, tensor_ingestion_bridge.cpp) call through here to ensure
+ * consistent incident categorization and diagnostic telemetry.
+ * 
+ * @see Phase 3 Task 3.2 Acceptance Criteria: "All error paths use unified emission"
+ */
+static void emitUnifiedDiagnostic(
+    TensorIncidentClass incident_class,
     const std::string& error_code,
     const std::string& error_message,
     const std::map<std::string, std::string>& context) noexcept {
@@ -486,6 +497,7 @@ void emitTensorDiagnostic(
         evt.severity_level = themis::observability::DiagnosticSeverity::ERROR;
         evt.deployment_environment = "production";
         evt.context_data["error_code"] = error_code;
+        evt.context_data["incident_class"] = incidentClassToString(incident_class);
         
         // Add context if provided
         for (const auto& [key, value] : context) {
@@ -498,6 +510,15 @@ void emitTensorDiagnostic(
         // Silently ignore emission failures to avoid cascading errors
         // In production, these should be logged to stderr or a fallback handler
     }
+}
+
+void emitTensorDiagnostic(
+    TensorIncidentClass incident_class,
+    const std::string& error_code,
+    const std::string& error_message,
+    const std::map<std::string, std::string>& context) noexcept {
+    
+    emitUnifiedDiagnostic(incident_class, error_code, error_message, context);
 }
 
 void emitFingerprintDiagnostic(
@@ -513,7 +534,8 @@ void emitFingerprintDiagnostic(
         context["adapter_key"] = adapter_key;
     }
     
-    emitTensorDiagnostic(error_code, "Fingerprint graph error: " + detail, context);
+    emitTensorDiagnostic(TensorIncidentClass::FINGERPRINT, error_code, 
+                         "Fingerprint graph error: " + detail, context);
 }
 
 void emitIndexDiagnostic(
@@ -529,7 +551,42 @@ void emitIndexDiagnostic(
         context["index_key"] = index_key;
     }
     
-    emitTensorDiagnostic(error_code, "Index manager error: " + detail, context);
+    emitTensorDiagnostic(TensorIncidentClass::INDEX, error_code, 
+                         "Index manager error: " + detail, context);
+}
+
+void emitBridgeDiagnostic(
+    const std::string& error_code,
+    const std::string& detail,
+    const std::string& bridge_id) noexcept {
+    
+    std::map<std::string, std::string> context;
+    context["component"] = "bridge_layer";
+    context["detail"] = detail;
+    
+    if (!bridge_id.empty()) {
+        context["bridge_id"] = bridge_id;
+    }
+    
+    emitTensorDiagnostic(TensorIncidentClass::BRIDGE, error_code, 
+                         "Bridge layer error: " + detail, context);
+}
+
+void emitDedupDiagnostic(
+    const std::string& error_code,
+    const std::string& detail,
+    const std::string& dedup_id) noexcept {
+    
+    std::map<std::string, std::string> context;
+    context["component"] = "deduplication";
+    context["detail"] = detail;
+    
+    if (!dedup_id.empty()) {
+        context["dedup_id"] = dedup_id;
+    }
+    
+    emitTensorDiagnostic(TensorIncidentClass::DEDUP, error_code, 
+                         "Deduplication error: " + detail, context);
 }
 
 } // namespace tensor

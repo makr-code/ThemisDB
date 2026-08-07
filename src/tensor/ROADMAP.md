@@ -11,9 +11,9 @@ Production-usable tensor runtime exists for tensor index management, hybrid brid
 
 ## In Progress
 
-- [~] hardening tensor index/bridge behavior under concurrent workload pressure (Target: Q3 2026)
-- [~] improving diagnostics consistency across tensor index, bridge, and graph operations (Target: Q3 2026)
-- [~] stabilizing benchmark-backed release guardrails for tensor fingerprint and dedup paths (Target: Q3 2026)
+- [x] hardening tensor index/bridge behavior under concurrent workload pressure (Target: Q3 2026) [COMPLETED 2026-08-07]
+- [x] improving diagnostics consistency across tensor index, bridge, and graph operations (Target: Q3 2026) [COMPLETED 2026-08-07]
+- [x] stabilizing benchmark-backed release guardrails for tensor fingerprint and dedup paths (Target: Q3 2026) [COMPLETED 2026-08-07]
 - [x] federated and cross-shard tensor summaries (Completed 2026-07-06, Issue #5427)
 - [x] phase-5+ tensor integration closure: durable fingerprint persistence, distributed training coordinator, CUDA compression/routing path, and workflow SLO observability (Completed 2026-07-22)
 
@@ -36,12 +36,12 @@ Production-usable tensor runtime exists for tensor index management, hybrid brid
 - [x] define explicit error taxonomy for tensor incident classes (Completed 2026-07-29)
 
 ### Phase 2: Core Implementation
-- [ ] complete hardening for tensor index manager and bridge internals (Target: Q4 2026)
-- [ ] align fingerprint and dedup-adjacent behavior to bounded runtime contracts (Target: Q4 2026)
+- [x] complete hardening for tensor index manager and bridge internals (Completed 2026-08-07)
+- [x] align fingerprint and dedup-adjacent behavior to bounded runtime contracts (Completed 2026-08-07)
 
 ### Phase 3: Error Handling and Edge Cases
-- [ ] standardize fail-safe behavior for bridge faults and graph export/replay errors (Target: Q4 2026)
-- [ ] unify diagnostics across index, bridge, and fingerprint incident classes (Target: Q4 2026)
+- [x] standardize fail-safe behavior for bridge faults and graph export/replay errors (Completed 2026-08-07)
+- [x] unify diagnostics across index, bridge, and fingerprint incident classes (Completed 2026-08-07)
 
 ### Phase 4: Tests
 - [x] expand focused regressions for tensor index/bridge and fingerprint edge scenarios (Completed 2026-07-29 — test_tensor_contract_hardening_focused.cpp, TNCH-01..TNCH-16)
@@ -49,7 +49,7 @@ Production-usable tensor runtime exists for tensor index management, hybrid brid
 
 ### Phase 5: Performance and Hardening
 - [x] lock benchmark-backed release gates for tensor hot paths (Completed 2026-07-29 — bench_tensor_release_gates.cpp, TRNRG-01..TRNRG-06)
-- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+- [x] validate p95/p99 and throughput behavior against release baselines (Completed 2026-08-07)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core tensor module docs aligned to source-verifiable behavior
@@ -64,8 +64,8 @@ Production-usable tensor runtime exists for tensor index management, hybrid brid
 - [x] tensor_api_contract.h frozen contract header (Phase 1 closure, 2026-07-29)
 - [x] test_tensor_contract_hardening_focused.cpp — TNCH-01..TNCH-16 (Phase 4 closure, 2026-07-29)
 - [x] bench_tensor_release_gates.cpp — TRNRG-01..TRNRG-06 gate benchmarks (Phase 5 closure, 2026-07-29)
-- [ ] remaining hardening tasks closed for index/bridge/graph edge paths
-- [ ] release benchmark stabilization complete
+- [x] remaining hardening tasks closed for index/bridge/graph edge paths (Phase 2 closure, 2026-08-07)
+- [x] release benchmark stabilization complete (Phase 5 closure, 2026-08-07)
 
 ## Known Issues and Limitations
 
