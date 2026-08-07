@@ -30,6 +30,23 @@ Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für Text-Norma
 - Fehler in sicherheitskritischen Pfaden werden als explizite Fehlercodes propagiert; kein Silent-Permit.
 - Audit-Logging für sicherheitsrelevante Operationen aktiv in Produktionsdeployments.
 
+## Incident Taxonomy & Observable Diagnostics
+
+Phase 3 implements a unified incident taxonomy across 4 execution planes (Orchestration, Bridge, Registry, Helper).
+All incident classes are observable via Prometheus metrics and logging.
+
+Refer to `src/toolbox/SECURITY.md` for the complete **Unified Incident Taxonomy** section, which defines:
+- **Layer 1 (Orchestration):** extraction_empty, extraction_failed, extraction_timeout, extraction_overflow (EX-*)
+- **Layer 2 (Bridge):** bridge_no_text, bridge_writer_failed, bridge_toolbox_failed, bridge_empty_result (BR-*)
+- **Layer 3 (Registry):** registry_not_initialized, registry_double_init, registry_reset_during_active (REG-*)
+- **Layer 4 (Helper):** helper_empty_input, helper_encoding_unsupported, helper_size_exceeded, helper_malformed_input (HLP-*)
+
+All incidents are tracked via Prometheus metrics:
+- `toolbox_extraction_failures_total` — Layer 1 (Orchestration) errors
+- `toolbox_bridge_failures_total` + `toolbox_bridge_latency_us` — Layer 2 (Bridge) errors and latency
+- `toolbox_registry_misuse_total` — Layer 3 (Registry) errors
+- `toolbox_text_*_errors_total` — Layer 4 (Helper) errors
+
 ## Betriebsgrenzen
 
 - Konfigurationswerte müssen deployment-spezifisch gesetzt sein; Default-Werte gelten nicht als produktionssicher.

@@ -22,6 +22,7 @@
 #include "utils/logger.h"
 
 #include <atomic>
+#include <chrono>
 #include <mutex>
 #include <sstream>
 #include <stdexcept>

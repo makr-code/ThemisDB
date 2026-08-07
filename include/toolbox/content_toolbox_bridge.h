@@ -237,9 +237,25 @@ public:
      */
     uint64_t vectorWriteFailuresTotal() const noexcept;
 
+    /**
+     * @brief Export all bridge metrics in Prometheus text format.
+     *
+     * Returns empty string if no operations have been recorded yet.
+     * Includes failure counters and latency histogram buckets.
+     */
+    std::string getMetricsText() const;
+
 private:
     class Impl;
     std::unique_ptr<Impl> impl_;
+
+    /**
+     * @brief Record operation latency for metrics histogram.
+     *
+     * Used internally by ingest() and enrichExisting() to populate latency buckets.
+     * @param latency_ms Operation latency in milliseconds
+     */
+    void recordLatency(uint64_t latency_ms) noexcept;
 };
 
 } // namespace toolbox

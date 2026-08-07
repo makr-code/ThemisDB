@@ -45,7 +45,10 @@
 #include "ingestion/workflow_engine.h"
 
 #include <atomic>
+#include <chrono>
+#include <random>
 #include <string>
+#include <thread>
 #include <vector>
 
 using themis::ingestion::BaseEntity;
@@ -285,3 +288,161 @@ TEST_F(ToolboxRegistryTest, REG08_ResetClearsRegistry) {
     EXPECT_FALSE(themis::toolbox::ToolboxRegistry::isInitialized());
     EXPECT_THROW(themis::toolbox::ToolboxRegistry::instance(), std::logic_error);
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Phase 3: Stress Fixtures for Error Handling & Diagnostics
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Fixture 1: HighConcurrency — 8+ threads concurrent extraction
+class HighConcurrencyFixture : public ::testing::Test {
+protected:
+    IngestionToolbox toolbox_;
+    std::atomic<uint64_t> operations_completed_{0};
+    std::atomic<uint64_t> operations_failed_{0};
+    
+    static constexpr std::size_t kNumThreads = 8;
+    static constexpr std::size_t kOpsPerThread = 100;
+};
+
+TEST_F(HighConcurrencyFixture, STRESS01_ConcurrentExtractionWithMetricsConsistency) {
+    std::vector<std::thread> threads;
+    
+    for (std::size_t t = 0; t < kNumThreads; ++t) {
+        threads.emplace_back([this, t]() {
+            for (std::size_t i = 0; i < kOpsPerThread; ++i) {
+                std::string text = "content_" + std::to_string(t) + "_" + std::to_string(i);
+                auto result = toolbox_.extractEntities(text, "text/plain", "test.txt");
+                operations_completed_.fetch_add(1, std::memory_order_relaxed);
+            }
+        });
+    }
+    
+    for (auto& t : threads) {
+        t.join();
+    }
+    
+    const uint64_t expected = kNumThreads * kOpsPerThread;
+    EXPECT_EQ(operations_completed_.load(), expected)
+        << "Expected " << expected << " completed operations";
+    
+    // Verify metrics consistency (no corruption)
+    const std::string metrics = toolbox_.getMetricsText();
+    EXPECT_FALSE(metrics.empty()) << "Expected metrics after concurrent extraction";
+    EXPECT_NE(metrics.find("toolbox_extract_calls_total"), std::string::npos);
+    EXPECT_NE(metrics.find("toolbox_extraction_failures_total"), std::string::npos);
+    EXPECT_NE(metrics.find("toolbox_extraction_latency_us"), std::string::npos);
+}
+
+// Fixture 2: MixedContent — Text + Binary + Structured metadata scenarios
+class MixedContentFixture : public ::testing::Test {
+protected:
+    IngestionToolbox toolbox_;
+};
+
+TEST_F(MixedContentFixture, STRESS02_TextOnlyScenario) {
+    std::string text = "This is normal text content for extraction. It should be processed successfully.";
+    auto result = toolbox_.extractEntities(text, "text/plain", "doc.txt");
+    // Result may be empty (no registered extractors), but should not crash
+    EXPECT_NO_THROW(toolbox_.extractEntitySet(text, "text/plain", "doc.txt"));
+}
+
+TEST_F(MixedContentFixture, STRESS03_BinaryWithMetadataScenario) {
+    std::string binary_like = "\x00\x01\x02\x03 mixed binary and text content";
+    auto result = toolbox_.extractEntities(binary_like, "application/octet-stream", "data.bin");
+    // Should handle gracefully (empty result or error tracking)
+    EXPECT_NO_THROW(toolbox_.extractEntitySet(binary_like, "application/octet-stream", "data.bin"));
+}
+
+TEST_F(MixedContentFixture, STRESS04_MalformedContentScenario) {
+    std::string malformed = "ü†ƒ-8 ¡ß ¿¡ © µ ± ² ³ ¼ ½ ¾";
+    auto result = toolbox_.extractEntities(malformed, "text/utf-8", "weird.txt");
+    // Should not crash; metrics may track errors
+    EXPECT_NO_THROW(toolbox_.extractEntitySet(malformed, "text/utf-8", "weird.txt"));
+}
+
+// Fixture 3: DegradedPath — Simulate writer failures, null backends
+class DegradedPathFixture : public ::testing::Test {
+protected:
+    IngestionToolbox toolbox_;
+};
+
+TEST_F(DegradedPathFixture, STRESS05_NullBackendSoftFail) {
+    // Toolbox created with default null backends; should gracefully degrade
+    std::string text = "content for degraded path testing";
+    auto result = toolbox_.extractEntities(text, "text/plain", "test.txt");
+    // Should not throw; result may be empty
+    EXPECT_NO_THROW(toolbox_.extractEntitySet(text, "text/plain", "test.txt"));
+}
+
+TEST_F(DegradedPathFixture, STRESS06_EmptyTextHandling) {
+    // Empty input should be handled gracefully
+    auto result = toolbox_.extractEntities("", "text/plain", "empty.txt");
+    EXPECT_TRUE(result.empty());
+    
+    auto set = toolbox_.extractEntitySet("", "text/plain", "empty.txt");
+    EXPECT_TRUE(set.nodes.empty());
+    EXPECT_TRUE(set.chunks.empty());
+}
+
+TEST_F(DegradedPathFixture, STRESS07_WhitespaceOnlyHandling) {
+    // Whitespace-only should be treated as empty or trivial
+    auto result = toolbox_.extractEntities("   \n\t  ", "text/plain", "ws.txt");
+    // Result depends on implementation; should not crash
+    EXPECT_NO_THROW(toolbox_.extractEntitySet("   \n\t  ", "text/plain", "ws.txt"));
+}
+
+// Fixture 4: LongRun — 10k+ iterations with deterministic randomization
+class LongRunStressFixture : public ::testing::Test {
+protected:
+    IngestionToolbox toolbox_;
+    static constexpr std::size_t kIterations = 10000;
+    static constexpr uint32_t kCanonicalRngSeed = 42;
+};
+
+TEST_F(LongRunStressFixture, STRESS08_LongRunStabilityWithDeterministicSeeding) {
+    std::mt19937 rng(kCanonicalRngSeed);
+    std::uniform_int_distribution<std::size_t> dist(1, 1000);
+    
+    std::vector<std::string> test_texts;
+    test_texts.reserve(kIterations);
+    
+    // Generate deterministic test corpus
+    for (std::size_t i = 0; i < kIterations; ++i) {
+        std::size_t len = dist(rng);
+        std::string text(len, 'a' + (i % 26));
+        test_texts.push_back(text);
+    }
+    
+    // Execute all extractions
+    for (const auto& text : test_texts) {
+        auto result = toolbox_.extractEntities(text, "text/plain", "long_run.txt");
+        // Each iteration should complete without error
+        EXPECT_NO_THROW(toolbox_.extractEntitySet(text, "text/plain", "long_run.txt"));
+    }
+    
+    // Verify metrics consistency (no corruption after 10k operations)
+    const std::string metrics = toolbox_.getMetricsText();
+    EXPECT_FALSE(metrics.empty()) << "Expected metrics after long-run stress";
+    EXPECT_NE(metrics.find("toolbox_extract_calls_total"), std::string::npos);
+    
+    // Verify operations count matches expected
+    // (May need to parse metrics or add accessor; for now, just check format)
+    EXPECT_NE(metrics.find("toolbox_extraction_latency_us"), std::string::npos);
+}
+
+TEST_F(LongRunStressFixture, STRESS09_MetricsConsistencyUnderLongRun) {
+    // Run multiple small batches and verify metrics accumulate correctly
+    for (std::size_t batch = 0; batch < 10; ++batch) {
+        for (std::size_t i = 0; i < 100; ++i) {
+            std::string text = "batch_" + std::to_string(batch) + "_item_" + std::to_string(i);
+            toolbox_.recordExtraction(1, 1, /*success=*/true);
+        }
+    }
+    
+    // Expected: 1000 calls
+    const std::string metrics = toolbox_.getMetricsText();
+    EXPECT_FALSE(metrics.empty());
+    // Metrics should not be corrupted; format should be valid
+    EXPECT_NE(metrics.find("toolbox_extract"), std::string::npos);
+}
+

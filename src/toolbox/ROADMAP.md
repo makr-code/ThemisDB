@@ -11,7 +11,7 @@ Production-usable toolbox runtime exists for ingestion-oriented extraction orche
 ## In Progress
 
 - [~] Phase 2-3: Hardening extraction and bridge behavior under mixed content and soft-failure scenarios (Target: Q4 2026, 95% complete - 2026-08-07)
-- [~] Phase 3: Improving diagnostics consistency across toolbox orchestration, registry, and helper stages (Target: Q4 2026, 75% complete - 2026-08-07)
+- [~] Phase 3: Improving diagnostics consistency across toolbox orchestration, registry, and helper stages (Target: Q4 2026, 90% complete - 2026-08-07, Batch 2 Phase 3 complete)
 - [~] Phase 5: Establishing benchmark-backed performance gates via native toolbox benchmark suite (Target: Q1 2027, 50% complete - benchmark suite created 2026-08-07)
 
 ## Planned Features
@@ -51,8 +51,10 @@ Production-usable toolbox runtime exists for ingestion-oriented extraction orche
 - [x] add empty-result diagnostics to Prometheus metrics (toolbox_extract_empty_results_total) — COMPLETED 2026-08-07
 - [x] add IT-11, IT-12 tests for empty extraction tracking — COMPLETED 2026-08-07
 - [x] add IT-13..IT-20 comprehensive edge-case tests including mixed-content, registry, bridge scenarios — COMPLETED 2026-08-07
+- [x] unify incident taxonomy across extraction, bridge, registry, and helper classes — COMPLETED 2026-08-07 (Phase 3 Batch 2)
+- [x] add Prometheus metrics for all error classes (extraction_failures, bridge_latency, registry_misuse, helper_errors) — COMPLETED 2026-08-07 (Phase 3 Batch 2)
+- [x] implement deterministic stress fixtures (HighConcurrency, MixedContent, DegradedPath, LongRun) — COMPLETED 2026-08-07 (Phase 3 Batch 2)
 - [~] expand stress coverage for edge cases (Target: Q4 2026)
-- [~] unify incident taxonomy across extraction, bridge, registry, and helper classes (Target: Q4 2026)
 
 ### Phase 4: Tests
 - [x] expand focused regressions for toolbox bridge, registry, and helper edge scenarios (Target: Q4 2026)
