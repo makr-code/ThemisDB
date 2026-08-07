@@ -219,10 +219,13 @@ void IngestionToolbox::recordExtraction(std::size_t entity_count,
                                          uint64_t    latency_ms,
                                          bool        success) noexcept
 {
-    ++impl_->extract_calls_total_;
-    if (!success) ++impl_->extract_errors_total_;
-    impl_->extract_entities_total_ += static_cast<uint64_t>(entity_count);
-    impl_->extract_latency_ms_total_ += latency_ms;
+    impl_->extract_calls_total_.fetch_add(1, std::memory_order_relaxed);
+    if (!success) {
+        impl_->extract_errors_total_.fetch_add(1, std::memory_order_relaxed);
+    }
+    impl_->extract_entities_total_.fetch_add(
+        static_cast<uint64_t>(entity_count), std::memory_order_relaxed);
+    impl_->extract_latency_ms_total_.fetch_add(latency_ms, std::memory_order_relaxed);
 }
 
 std::string IngestionToolbox::getMetricsText() const {

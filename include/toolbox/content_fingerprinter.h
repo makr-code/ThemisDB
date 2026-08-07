@@ -10,6 +10,7 @@
  */
 
 #include <cstddef>
+#include <cstdint>
 #include <string>
 #include <string_view>
 
@@ -36,6 +37,9 @@ struct ContentFingerprint {
     /// Estimated token count using the default 4 chars-per-token heuristic.
     /// Consistent with `DocumentSplitter`'s token estimation.
     std::size_t token_estimate = 0;
+    
+    /// Latency of fingerprinting operation in microseconds (for observability).
+    std::uint64_t latency_us = 0;
 
     /// @return `true` when @c sha256_hex is non-empty (i.e. input was
     ///         non-empty and fingerprinting succeeded).

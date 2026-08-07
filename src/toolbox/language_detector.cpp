@@ -33,6 +33,9 @@ namespace {
 /// Split @p text on whitespace and return lower-cased tokens.
 std::vector<std::string> tokenize(std::string_view text) {
     std::vector<std::string> tokens;
+    // Pre-allocate estimated capacity to reduce push_back overhead
+    tokens.reserve(32);
+    
     std::string buf(text);
     std::istringstream iss(buf);
     std::string word;

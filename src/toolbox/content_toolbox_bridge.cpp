@@ -137,6 +137,14 @@ ContentToolboxBridge::BridgeResult ContentToolboxBridge::ingest(
         std::lock_guard<std::mutex> lk(impl_->mutex_);
         toolbox_ptr = impl_->toolbox_;
     }
+    
+    // Validate toolbox is available before enrichment
+    if (!toolbox_ptr) {
+        out.ok = false;
+        out.diagnostic = "toolbox_unavailable";
+        return out;
+    }
+    
     ingestion::BaseEntitySet entity_set =
         toolbox_ptr->extractEntitySet(extracted_text, mime_type, filename);
     out.entities = entity_set.nodes;
@@ -215,6 +223,14 @@ ContentToolboxBridge::BridgeResult ContentToolboxBridge::enrichExisting(
         std::lock_guard<std::mutex> lk(impl_->mutex_);
         toolbox_ptr2 = impl_->toolbox_;
     }
+    
+    // Validate toolbox is available before enrichment
+    if (!toolbox_ptr2) {
+        out.ok = false;
+        out.diagnostic = "toolbox_unavailable";
+        return out;
+    }
+    
     ingestion::BaseEntitySet entity_set =
         toolbox_ptr2->extractEntitySet(extracted_text, mime_type, filename_hint);
     out.entities = entity_set.nodes;

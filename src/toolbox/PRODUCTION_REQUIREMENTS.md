@@ -2,6 +2,9 @@
 
 # ThemisDB Toolbox Module - Production Requirements
 
+<!-- Status: current | validated: 2026-06-01 | re-verified: 2026-08-07 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · PERFORMANCE_EXPECTATIONS.md · SECURITY.md -->
+
 ## Zweck und Geltungsbereich
 
 Dieses Dokument ist der **kanonische Referenzpunkt für produktive Mindestanforderungen** des Toolbox-Moduls.
