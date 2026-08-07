@@ -14,6 +14,7 @@
 #include "tensor/tensor_index.h"
 #include "tensor/tensor_mmap_bridge.h"
 #include "storage/tensor_router.h"
+#include <atomic>
 #include <memory>
 #include <mutex>
 #include <optional>

@@ -377,7 +377,7 @@ std::future<LDAPAuthResult> LDAPAuthenticator::authenticateAsync(
 // Platform-specific bind implementation
 // ===========================================================================
 
-#if defined(THEMIS_HAS_LDAP) && defined(_WIN32)
+#elif defined(THEMIS_HAS_LDAP) && defined(_WIN32)
 // ---------------------------------------------------------------------------
 // Windows WinLDAP implementation
 // ---------------------------------------------------------------------------
