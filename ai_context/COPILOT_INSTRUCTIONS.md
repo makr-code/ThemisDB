@@ -1,16 +1,16 @@
 # Copilot Instructions (Repository-wide)
 
-Datum: 2026-08-03
-Status: Active
-Bezug: Repository-weite AI-/Copilot-Arbeitsregeln fuer Dokumentation, Governance und Release-Sync
-Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, .github/copilot-instructions.md, BRANCHING_STRATEGY.md, RELEASE_STRATEGY.md
+Datum: 2026-08-07  
+Status: Active  
+Bezug: Repository-weite AI-/Copilot-Arbeitsregeln fuer Dokumentation, Governance und Release-Sync; Module-Klassifizierung (T0–T5) aktualisiert  
+Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, .github/copilot-instructions.md, BRANCHING_STRATEGY.md, RELEASE_STRATEGY.md, ARCHITECTURE_CLASSIFICATION.md
 
-## AI Context Knowledge Base (NEW in 2026-08-03)
+## AI Context Knowledge Base (NEW in 2026-08-07)
 
 Before starting any implementation task, consult these curated references:
 
-- **[MODULES_AND_NAMESPACES.md](./MODULES_AND_NAMESPACES.md)** — 62 modules × namespace mapping, SOC boundaries, consumer relationships
-- **[AI_CONTEXT_NAMESPACE_INDEX.md](./AI_CONTEXT_NAMESPACE_INDEX.md)** — Alphabetical namespace directory; public API headers per namespace
+- **[ARCHITECTURE_CLASSIFICATION.md](./ARCHITECTURE_CLASSIFICATION.md)** — Module tier classification (T0–T5), core/integrated/plugin division, Wave-1 private externalization strategy
+- **[MODULES_AND_NAMESPACES.md](./MODULES_AND_NAMESPACES.md)** — 62 modules × namespace mapping, SOC boundaries, tier assignment, plugin versions
 - **[MEMORY_MANAGEMENT_POLICY.md](./memory_management_policy.md)** — 5 core RAII rules + ownership model (compressed, production-ready)
 - **[OOP_AND_SOC_PRINCIPLES.md](./OOP_AND_SOC_PRINCIPLES.md)** — Interfaces, templates/concepts, adapters, const-correctness, module boundaries
 - **[FUNCTION_CLASSIFICATION.md](./FUNCTION_CLASSIFICATION.md)** — API levels, task types, performance criticality (P0/P1/P2), error patterns
