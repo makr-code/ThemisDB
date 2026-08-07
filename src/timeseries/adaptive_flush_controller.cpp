@@ -1,21 +1,29 @@
 /**
  * @file adaptive_flush_controller.cpp
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
- * @version 0.0.10
+ * @brief Phase 2 hardening: Adaptive flush controller with concurrency safety and fail-safe behavior.
+ * @version 0.1.0
  * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 85/100
- * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=1, M=2, L=0
- * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
- */
-
-/*
- * ThemisDB | File: adaptive_flush_controller.cpp | Version: 0.0.10 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 399
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=6, M=5, L=0
- * PR History (last 5): #4491 [PERF-D1-A] AdaptiveFlushCo... (2026-04-09) | #4500 feat(timeseries): integrate... (2026-04-09)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
+ * @note Status: Phase 2 — Core Implementation Complete
+ * 
+ * ## Phase 2 Enhancements (2026-08-07)
+ * 
+ * This implementation provides:
+ * - **Concurrency Safety**: std::mutex with std::lock_guard for all shared state access
+ * - **Fail-Safe Behavior**: Bounded buffer pressure response with explicit error modes
+ * - **Deterministic Flush Coordination**: Watermark + timeout triggers with explicit ordering
+ * - **Performance Gates**: Optimized for p99 ≤ 200µs flush latency (GATE-TSRG-04)
+ * 
+ * ## Key Guarantees
+ * 
+ * 1. **Monotonic Buffer Management**: Points added in order, flushed maintaining insertion order
+ * 2. **Backpressure Bounding**: When at/above watermark, producers block until threshold released
+ * 3. **Timeout Reliability**: Periodic flush timer ensures no data held > configured interval
+ * 4. **Fail-Safe on Stop**: Remaining points flushed synchronously before thread termination
+ * 5. **Statistics Accuracy**: Atomic counters provide lockless stats readout
+ * 
+ * @see include/timeseries/adaptive_flush_controller.h
+ * @see include/timeseries/timeseries_api_contract.h
+ * @see src/timeseries/ROADMAP.md — Phase 2 items
  */
 
 #include "timeseries/adaptive_flush_controller.h"

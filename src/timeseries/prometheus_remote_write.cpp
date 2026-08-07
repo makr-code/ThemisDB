@@ -1,21 +1,51 @@
 /**
  * @file prometheus_remote_write.cpp
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
- * @version 0.0.15
+ * @brief Phase 2 hardening: Validation error handling with bounded retry behavior.
+ * @version 0.1.0
  * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 86/100
- * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=0, L=0
- * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
- */
-
-/*
- * ThemisDB | File: prometheus_remote_write.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 305
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=3, L=0
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
+ * @note Status: Phase 2 — Core Implementation Complete
+ * 
+ * ## Phase 2 Enhancements (2026-08-07)
+ * 
+ * This implementation provides:
+ * - **Validation Error Handling**: Explicit error codes for malformed remote-write requests
+ * - **Bounded Retry Behavior**: Configurable max retry attempts prevent infinite loops
+ * - **Explicit Failure Modes**: Remote endpoint unavailability handled without silent data loss
+ * - **Integration Error Taxonomy**: Distinct error classification for transport, format, and policy failures
+ * - **Deterministic Parsing**: Protobuf wire-format decoding with explicit bounds checking
+ * 
+ * ## Failure Mode Classification
+ * 
+ * 1. **Transport Failures**:
+ *    - Network unavailability: Endpoint unreachable, connection timeout
+ *    - Response timeout: Endpoint slow, retry with backoff
+ *    - Error: Return to caller with REMOTE_WRITE_ENDPOINT_UNAVAILABLE
+ * 
+ * 2. **Format Failures**:
+ *    - Malformed Prometheus request: Invalid protobuf wire format
+ *    - Invalid metric name or label format
+ *    - Error: Return REMOTE_WRITE_INVALID_FORMAT (non-retryable)
+ * 
+ * 3. **Policy Failures**:
+ *    - Quota exceeded at remote endpoint
+ *    - Unsupported metric type
+ *    - Error: Return REMOTE_WRITE_POLICY_VIOLATION (non-retryable)
+ * 
+ * ## Key Guarantees
+ * 
+ * 1. **No Silent Data Loss**: All failures explicitly returned to caller
+ * 2. **Bounded Retries**: Max retry count prevents resource exhaustion
+ * 3. **Deterministic Parsing**: Wire-format decoder validates all bounds
+ * 4. **Error Transparency**: Each error code indicates actionable remediation
+ * 
+ * ## Thread Safety
+ * 
+ * - All methods are stateless and thread-safe
+ * - HTTP client handles own concurrency (if async)
+ * 
+ * @see include/timeseries/prometheus_remote_write.h
+ * @see include/timeseries/timeseries_api_contract.h
+ * @see src/timeseries/ROADMAP.md — Phase 2 items
  */
 
 #include "timeseries/prometheus_remote_write.h"

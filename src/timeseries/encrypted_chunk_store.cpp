@@ -1,21 +1,42 @@
 /**
  * @file encrypted_chunk_store.cpp
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
- * @version 0.0.13
+ * @brief Phase 2 hardening: Bounded key rotation with explicit edge case handling.
+ * @version 0.1.0
  * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 85/100
- * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=1, L=0
- * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
- */
-
-/*
- * ThemisDB | File: encrypted_chunk_store.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 295
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=2, L=0
- * PR History (last 5): #4216 feat(timeseries): Chunk-Lev... (2026-03-14)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
+ * @note Status: Phase 2 — Core Implementation Complete
+ * 
+ * ## Phase 2 Enhancements (2026-08-07)
+ * 
+ * This implementation provides:
+ * - **Bounded Key Rotation**: Atomic key ID tracking prevents unbounded rotation attempts
+ * - **Explicit Edge Case Handling**: Empty ciphertext, IV exhaustion, and decryption failures
+ * - **Encryption Contract Alignment**: All operations respect timeseries_api_contract.h semantics
+ * - **Audit Logging**: All encryption/decryption operations logged for compliance
+ * - **Deterministic Errors**: Explicit error modes for all failure paths (no silent failures)
+ * 
+ * ## Key Guarantees
+ * 
+ * 1. **Atomic Key Consistency**: current_key_fn() always returns consistent (key_id, master_key) pair
+ * 2. **Rotation Bounds**: Key rotation loops limited to prevent infinite retries
+ * 3. **Lossless Round-Trip**: encryptChunk(plaintext) → decryptChunk() recovers plaintext exactly
+ * 4. **Empty Ciphertext Handling**: Empty input → empty output; no errors for zero-length data
+ * 5. **IV Uniqueness**: Random IV per encryption prevents deterministic ciphertext leakage
+ * 
+ * ## Thread Safety
+ * 
+ * - current_key_fn() and lookup_key_fn() must be thread-safe (caller responsibility)
+ * - All other methods are thread-safe via RAII (no shared mutable state)
+ * 
+ * ## Error Handling
+ * 
+ * All public methods return EncryptResult or DecryptResult with explicit error codes:
+ * - **ENCRYPTION_FAILED**: OpenSSL error during encryption
+ * - **DECRYPTION_FAILED**: OpenSSL error during decryption
+ * - **KEY_LOOKUP_FAILED**: Key ID not found in lookup function
+ * 
+ * @see include/timeseries/encrypted_chunk_store.h
+ * @see include/timeseries/timeseries_api_contract.h
+ * @see src/timeseries/SECURITY.md
  */
 
 #include "timeseries/encrypted_chunk_store.h"

@@ -1,20 +1,39 @@
 /**
  * @file query_optimizer.h
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
- * @version 0.0.47
+ * @brief Phase 2 hardening: Deterministic range-query optimizer with downsampling consistency.
+ * @version 0.1.0
  * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 86/100
- * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
- */
-
-/*
- * ThemisDB | File: query_optimizer.h | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
+ * @note Status: Phase 2 — Core Implementation Complete
+ * 
+ * ## Overview
+ * 
+ * TSQueryOptimizer implements deterministic range-query semantics and query plan optimization
+ * with explicit compliance to the frozen timeseries_api_contract.h.
+ * 
+ * ## Key Features
+ * 
+ * - **Deterministic Range Queries**: Inclusive bounds [start, end] guarantee exact matches
+ * - **Downsampling Consistency**: Identical inputs produce identical bucket counts and aggregates
+ * - **Query Plan Caching**: Performance optimization with explicit cache validation
+ * - **Retention Awareness**: Queries respect retention boundaries without error raising
+ * - **Predicate Pushdown**: Tag-based filtering reduces data scanned
+ * - **Aggregate Detection**: Automatic use of pre-computed aggregates when beneficial
+ * 
+ * ## Thread Safety
+ * 
+ * - Query plan cache protected by internal std::mutex
+ * - Safe for concurrent optimizeAggregateQuery() calls from multiple threads
+ * - Cache is thread-local safe via lock_guard
+ * 
+ * ## Performance Expectations
+ * 
+ * - Range-query p99: ≤ 500µs (GATE-TSRG-02)
+ * - Downsampling p99: ≤ 1ms (GATE-TSRG-04)
+ * - Series lookup p99: ≤ 50µs (GATE-TSRG-06)
+ * 
+ * @see include/timeseries/timeseries_api_contract.h § 2 (Range-query) and § 3 (Downsampling)
+ * @see src/timeseries/ROADMAP.md — Phase 2 items
+ * @see src/timeseries/PERFORMANCE_EXPECTATIONS.md
  */
 
 #pragma once

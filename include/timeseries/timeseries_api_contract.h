@@ -145,8 +145,20 @@ inline constexpr std::int64_t kMinDownsamplingResolutionNs = 1'000LL;
  * @brief Canonical timeseries error codes.
  *
  * Codes in range [400, 499] are timeseries-specific.
+ * Codes in range [400, 419] are Phase 1-2 error codes.
+ * Codes in range [410, 445] are Phase 3 error codes (new in Phase 3).
+ *
+ * Phase 3 adds incident-specific codes for:
+ *   - Ingest path: BUFFER_PRESSURE, BUFFER_OVERFLOW, FLUSH_TIMEOUT, etc.
+ *   - Query path: RANGE_INVALID, RETENTION_BOUNDARY_CROSSED, QUERY_TIMEOUT, etc.
+ *   - Lifecycle path: RETENTION_POLICY_VIOLATION, DELETION_FAILED, ENCRYPTION_ROTATION_FAILURE, etc.
+ *   - Integration path: REMOTE_WRITE_FAILURE, REMOTE_WRITE_VALIDATION_ERROR, etc.
+ *
+ * @see include/timeseries/timeseries_incident_taxonomy.h — Phase 3 incident taxonomy
  */
 enum class TimeseriesErrorCode : int {
+    // ── Phase 1-2: Base error codes ──
+    
     /// New point timestamp is not greater than the current series tail timestamp.
     TIMESTAMP_OUT_OF_ORDER        = 400,
 
@@ -165,6 +177,53 @@ enum class TimeseriesErrorCode : int {
     /// Requested series operation would exceed the per-series or global quota.
     QUOTA_EXCEEDED                = 405,
 
+    // ── Phase 3: Ingest incident codes ──
+
+    /// Buffer capacity reached; backpressure applied to writer.
+    BUFFER_PRESSURE               = 411,
+
+    /// Write queue is overflowing despite backpressure.
+    BUFFER_OVERFLOW               = 412,
+
+    /// Flush operation failed to complete within timeout.
+    FLUSH_TIMEOUT                 = 413,
+
+    // ── Phase 3: Query incident codes ──
+
+    /// Query range is invalid (e.g., start > end).
+    RANGE_INVALID                 = 421,
+
+    /// Query execution exceeded timeout.
+    QUERY_TIMEOUT                 = 423,
+
+    /// Data outside retention boundary may be missing.
+    RETENTION_BOUNDARY_CROSSED    = 422,
+
+    // ── Phase 3: Lifecycle incident codes ──
+
+    /// Retention policy violation detected.
+    RETENTION_POLICY_VIOLATION    = 431,
+
+    /// Disk error during safe deletion.
+    DELETION_FAILED               = 432,
+
+    /// Key rotation failed; encryption state invalid.
+    ENCRYPTION_ROTATION_FAILURE   = 433,
+
+    /// Encryption key not found for decryption.
+    ENCRYPTION_KEY_NOT_FOUND      = 434,
+
+    /// Encryption state validation failed.
+    ENCRYPTION_STATE_INVALID      = 435,
+
+    // ── Phase 3: Integration incident codes ──
+
+    /// Remote write validation failed.
+    REMOTE_WRITE_VALIDATION_ERROR = 443,
+
+    /// Retry limit exceeded for remote-write operation.
+    REMOTE_WRITE_RETRIES_EXHAUSTED = 444,
+
     /// Unclassified timeseries internal error.
     INTERNAL_ERROR                = 499,
 };
@@ -176,6 +235,9 @@ enum class TimeseriesErrorCode : int {
     return code == TimeseriesErrorCode::TIMESTAMP_OUT_OF_ORDER
         || code == TimeseriesErrorCode::COMPRESSION_FAILED
         || code == TimeseriesErrorCode::DOWNSAMPLING_RESOLUTION_INVALID
+        || code == TimeseriesErrorCode::RANGE_INVALID
+        || code == TimeseriesErrorCode::ENCRYPTION_KEY_NOT_FOUND
+        || code == TimeseriesErrorCode::ENCRYPTION_STATE_INVALID
         || code == TimeseriesErrorCode::INTERNAL_ERROR;
 }
 
@@ -186,7 +248,32 @@ enum class TimeseriesErrorCode : int {
  */
 [[nodiscard]] inline constexpr bool isLifecycleError(TimeseriesErrorCode code) noexcept {
     return code == TimeseriesErrorCode::SERIES_NOT_FOUND
-        || code == TimeseriesErrorCode::RETENTION_EXPIRED;
+        || code == TimeseriesErrorCode::RETENTION_EXPIRED
+        || code == TimeseriesErrorCode::RETENTION_BOUNDARY_CROSSED;
+}
+
+/**
+ * @brief Returns true when the error code indicates backpressure that writer should handle.
+ *
+ * Backpressure errors indicate buffer/queue congestion. Writers should
+ * implement exponential backoff or rate limiting.
+ */
+[[nodiscard]] inline constexpr bool isBackpressureError(TimeseriesErrorCode code) noexcept {
+    return code == TimeseriesErrorCode::BUFFER_PRESSURE
+        || code == TimeseriesErrorCode::BUFFER_OVERFLOW;
+}
+
+/**
+ * @brief Returns true when the error code is potentially retryable.
+ *
+ * Transient errors include buffer congestion, timeouts, and remote errors.
+ */
+[[nodiscard]] inline constexpr bool isTransientError(TimeseriesErrorCode code) noexcept {
+    return code == TimeseriesErrorCode::BUFFER_PRESSURE
+        || code == TimeseriesErrorCode::BUFFER_OVERFLOW
+        || code == TimeseriesErrorCode::FLUSH_TIMEOUT
+        || code == TimeseriesErrorCode::QUERY_TIMEOUT
+        || code == TimeseriesErrorCode::REMOTE_WRITE_RETRIES_EXHAUSTED;
 }
 
 // ============================================================================
