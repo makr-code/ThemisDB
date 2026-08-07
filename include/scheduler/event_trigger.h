@@ -44,6 +44,19 @@ struct CDCTriggerConfig {
  * 
  * This class listens to Changefeed events and determines when to trigger
  * tasks based on configured filters and debouncing rules.
+ * 
+ * ### Thread safety
+ * All public methods are thread-safe through the lock ordering hierarchy.
+ * 
+ * ### Lock ordering (deadlock prevention)
+ * MUST acquire locks in this strict order (never reverse):
+ *   Level 0: mutex_ (global state - acquired first)
+ *   Level 1: debounce_mutex_ (debounce-specific state)
+ *   Level 2: condition_cache_mutex_ (condition parsing cache)
+ *   Level 3: cb_mutex_ (circuit breaker state - acquired last)
+ * 
+ * Any method acquiring multiple locks MUST follow this hierarchy.
+ * Acquiring in reverse order can cause deadlock.
  */
 class EventTrigger {
 public:
@@ -51,9 +64,10 @@ public:
     
     /**
      * @brief Construct an event trigger
-     * @param changefeed Changefeed instance to listen to (not owned)
+     * @param changefeed Changefeed instance to listen to (not owned, must remain valid)
      * @param config Trigger configuration
      * @param callback Function to call when event matches
+     * @throws std::invalid_argument if changefeed or callback is null, or config is invalid
      */
     EventTrigger(Changefeed* changefeed,
                  const CDCTriggerConfig& config,

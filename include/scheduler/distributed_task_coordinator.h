@@ -37,7 +37,16 @@ namespace themis {
  * tasks at any given time.
  *
  * ### Thread safety
- * All public methods are thread-safe.
+ * All public methods are thread-safe through the lock ordering hierarchy.
+ *
+ * ### Lock ordering (deadlock prevention)
+ * MUST acquire locks in this strict order (never reverse):
+ *   Level 0: heartbeat_mutex_ (health monitoring - acquired first)
+ *   Level 1: registry_mutex_ (task registry)
+ *   Level 2: leadership_mutex_ (leadership state - acquired last)
+ * 
+ * Any method acquiring multiple locks MUST follow this hierarchy.
+ * Acquiring in reverse order can cause deadlock.
  *
  * ### Ownership model
  * The coordinator holds **non-owning raw pointers** to both the TaskScheduler

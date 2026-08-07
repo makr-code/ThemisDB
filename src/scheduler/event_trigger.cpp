@@ -100,7 +100,21 @@ EventTrigger::EventTrigger(Changefeed* changefeed,
     : changefeed_(changefeed),
       config_(config),
       callback_(std::move(callback)),
-      last_trigger_time_(std::chrono::steady_clock::now()) {
+      running_(false),
+      last_trigger_time_(std::chrono::steady_clock::now()),
+      last_sequence_(0),
+      events_received_(0),
+      events_matched_(0),
+      events_debounced_(0),
+      triggers_fired_(0),
+      callback_failures_(0),
+      cb_config_{},
+      cb_consecutive_failures_(0),
+      cb_open_(false),
+      cb_open_since_(std::chrono::steady_clock::now()),
+      last_trigger_time_sys_(std::chrono::system_clock::now()),
+      condition_parsed_(false)
+{
     
     if (!changefeed_) {
         throw std::invalid_argument("EventTrigger: changefeed cannot be null");
