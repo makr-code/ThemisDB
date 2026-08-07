@@ -45,6 +45,11 @@ public:
         , extract_entities_total_(0)
         , extract_latency_ms_total_(0)
         , extract_empty_results_(0)
+        , extract_failures_total_(0)
+        , extract_latency_us_bucket_0_100_(0)     ///< 0-100 microseconds
+        , extract_latency_us_bucket_100_1000_(0)  ///< 100-1000 microseconds
+        , extract_latency_us_bucket_1000_10000_(0) ///< 1-10 milliseconds
+        , extract_latency_us_bucket_10000_plus_(0) ///< 10+ milliseconds
     {}
 
     std::shared_ptr<ingestion::WorkflowEngine>         workflow_engine_;
@@ -57,6 +62,13 @@ public:
     std::atomic<uint64_t> extract_entities_total_;
     std::atomic<uint64_t> extract_latency_ms_total_;
     std::atomic<uint64_t> extract_empty_results_;  ///< Tracks calls with no entities extracted
+
+    // Phase 3: Extended metrics for error handling and diagnostics
+    std::atomic<uint64_t> extract_failures_total_;      ///< Total extraction failures (counter)
+    std::atomic<uint64_t> extract_latency_us_bucket_0_100_;    ///< Histogram bucket: 0-100 us
+    std::atomic<uint64_t> extract_latency_us_bucket_100_1000_; ///< Histogram bucket: 100-1000 us
+    std::atomic<uint64_t> extract_latency_us_bucket_1000_10000_;///< Histogram bucket: 1-10 ms
+    std::atomic<uint64_t> extract_latency_us_bucket_10000_plus_; ///< Histogram bucket: 10+ ms
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -224,6 +236,7 @@ void IngestionToolbox::recordExtraction(std::size_t entity_count,
     impl_->extract_calls_total_.fetch_add(1, std::memory_order_relaxed);
     if (!success) {
         impl_->extract_errors_total_.fetch_add(1, std::memory_order_relaxed);
+        impl_->extract_failures_total_.fetch_add(1, std::memory_order_relaxed);
     }
     if (entity_count == 0) {
         impl_->extract_empty_results_.fetch_add(1, std::memory_order_relaxed);
@@ -231,6 +244,18 @@ void IngestionToolbox::recordExtraction(std::size_t entity_count,
     impl_->extract_entities_total_.fetch_add(
         static_cast<uint64_t>(entity_count), std::memory_order_relaxed);
     impl_->extract_latency_ms_total_.fetch_add(latency_ms, std::memory_order_relaxed);
+
+    // Phase 3: Populate latency histogram buckets (converting ms to us)
+    const uint64_t latency_us = latency_ms * 1000;
+    if (latency_us < 100) {
+        impl_->extract_latency_us_bucket_0_100_.fetch_add(1, std::memory_order_relaxed);
+    } else if (latency_us < 1000) {
+        impl_->extract_latency_us_bucket_100_1000_.fetch_add(1, std::memory_order_relaxed);
+    } else if (latency_us < 10000) {
+        impl_->extract_latency_us_bucket_1000_10000_.fetch_add(1, std::memory_order_relaxed);
+    } else {
+        impl_->extract_latency_us_bucket_10000_plus_.fetch_add(1, std::memory_order_relaxed);
+    }
 }
 
 std::string IngestionToolbox::getMetricsText() const {
@@ -241,6 +266,11 @@ std::string IngestionToolbox::getMetricsText() const {
     const uint64_t empty_results  = impl_->extract_empty_results_.load();
     const uint64_t entities       = impl_->extract_entities_total_.load();
     const uint64_t latency        = impl_->extract_latency_ms_total_.load();
+    const uint64_t failures       = impl_->extract_failures_total_.load();
+    const uint64_t bucket_0_100   = impl_->extract_latency_us_bucket_0_100_.load();
+    const uint64_t bucket_100_1000 = impl_->extract_latency_us_bucket_100_1000_.load();
+    const uint64_t bucket_1000_10000 = impl_->extract_latency_us_bucket_1000_10000_.load();
+    const uint64_t bucket_10000_plus = impl_->extract_latency_us_bucket_10000_plus_.load();
 
     std::ostringstream out;
 
@@ -263,6 +293,23 @@ std::string IngestionToolbox::getMetricsText() const {
     out << "# HELP toolbox_extract_latency_ms_total Cumulative latency (ms) for all extractions.\n";
     out << "# TYPE toolbox_extract_latency_ms_total counter\n";
     out << "toolbox_extract_latency_ms_total " << latency << "\n";
+
+    // Phase 3: Export new metrics
+    out << "# HELP toolbox_extraction_failures_total Total extraction failures.\n";
+    out << "# TYPE toolbox_extraction_failures_total counter\n";
+    out << "toolbox_extraction_failures_total " << failures << "\n";
+
+    out << "# HELP toolbox_extraction_latency_us Histogram of extraction latency in microseconds.\n";
+    out << "# TYPE toolbox_extraction_latency_us histogram\n";
+    out << "toolbox_extraction_latency_us_bucket{le=\"100\"} " << bucket_0_100 << "\n";
+    out << "toolbox_extraction_latency_us_bucket{le=\"1000\"} " 
+        << (bucket_0_100 + bucket_100_1000) << "\n";
+    out << "toolbox_extraction_latency_us_bucket{le=\"10000\"} " 
+        << (bucket_0_100 + bucket_100_1000 + bucket_1000_10000) << "\n";
+    out << "toolbox_extraction_latency_us_bucket{le=\"+Inf\"} " 
+        << (bucket_0_100 + bucket_100_1000 + bucket_1000_10000 + bucket_10000_plus) << "\n";
+    out << "toolbox_extraction_latency_us_count " << calls << "\n";
+    out << "toolbox_extraction_latency_us_sum " << (latency * 1000) << "\n";
 
     return out.str();
 }

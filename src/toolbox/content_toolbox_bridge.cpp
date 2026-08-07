@@ -46,6 +46,11 @@ public:
         , bridge_failures_total_(0)
         , graph_write_failures_total_(0)
         , vector_write_failures_total_(0)
+        , bridge_latency_us_bucket_0_100_(0)     ///< 0-100 microseconds
+        , bridge_latency_us_bucket_100_1000_(0)  ///< 100-1000 microseconds
+        , bridge_latency_us_bucket_1000_10000_(0) ///< 1-10 milliseconds
+        , bridge_latency_us_bucket_10000_plus_(0) ///< 10+ milliseconds
+        , bridge_operations_total_(0)             ///< Total ingest/enrichExisting operations
     {}
 
     std::shared_ptr<IngestionToolbox>         toolbox_;
@@ -58,6 +63,13 @@ public:
     std::atomic<uint64_t> bridge_failures_total_;        ///< Total ingest/enrichment failures
     std::atomic<uint64_t> graph_write_failures_total_;   ///< Graph writer failures
     std::atomic<uint64_t> vector_write_failures_total_;  ///< Vector writer failures
+
+    // Phase 3: Extended metrics for diagnostics
+    std::atomic<uint64_t> bridge_latency_us_bucket_0_100_;    ///< Histogram bucket: 0-100 us
+    std::atomic<uint64_t> bridge_latency_us_bucket_100_1000_; ///< Histogram bucket: 100-1000 us
+    std::atomic<uint64_t> bridge_latency_us_bucket_1000_10000_;///< Histogram bucket: 1-10 ms
+    std::atomic<uint64_t> bridge_latency_us_bucket_10000_plus_; ///< Histogram bucket: 10+ ms
+    std::atomic<uint64_t> bridge_operations_total_;      ///< Total operations (calls to ingest/enrichExisting)
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -105,6 +117,26 @@ ContentToolboxBridge::ContentToolboxBridge(ContentToolboxBridge&&) noexcept = de
 ContentToolboxBridge& ContentToolboxBridge::operator=(ContentToolboxBridge&&) noexcept = default;
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Helper: Record bridge operation latency
+// ─────────────────────────────────────────────────────────────────────────────
+
+void ContentToolboxBridge::recordLatency(uint64_t latency_ms) noexcept {
+    impl_->bridge_operations_total_.fetch_add(1, std::memory_order_relaxed);
+    
+    // Convert milliseconds to microseconds for histogram
+    const uint64_t latency_us = latency_ms * 1000;
+    if (latency_us < 100) {
+        impl_->bridge_latency_us_bucket_0_100_.fetch_add(1, std::memory_order_relaxed);
+    } else if (latency_us < 1000) {
+        impl_->bridge_latency_us_bucket_100_1000_.fetch_add(1, std::memory_order_relaxed);
+    } else if (latency_us < 10000) {
+        impl_->bridge_latency_us_bucket_1000_10000_.fetch_add(1, std::memory_order_relaxed);
+    } else {
+        impl_->bridge_latency_us_bucket_10000_plus_.fetch_add(1, std::memory_order_relaxed);
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // ingest()
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -115,6 +147,7 @@ ContentToolboxBridge::BridgeResult ContentToolboxBridge::ingest(
     [[maybe_unused]] const std::string& collection,
     const std::string& user_context)
 {
+    auto t0 = std::chrono::steady_clock::now();
     BridgeResult out;
 
     // Phase 2.3: Early validation for empty input
@@ -215,6 +248,13 @@ ContentToolboxBridge::BridgeResult ContentToolboxBridge::ingest(
 
     out.sinks_written = sinks_written;
     out.ok = true;
+    
+    // Phase 3: Record operation latency
+    auto t1 = std::chrono::steady_clock::now();
+    const uint64_t latency_ms = static_cast<uint64_t>(
+        std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count());
+    recordLatency(latency_ms);
+    
     return out;
 }
 
@@ -352,6 +392,46 @@ uint64_t ContentToolboxBridge::graphWriteFailuresTotal() const noexcept {
 
 uint64_t ContentToolboxBridge::vectorWriteFailuresTotal() const noexcept {
     return impl_->vector_write_failures_total_.load();
+}
+
+std::string ContentToolboxBridge::getMetricsText() const {
+    const uint64_t ops = impl_->bridge_operations_total_.load();
+    if (ops == 0) return "";
+
+    const uint64_t failures = impl_->bridge_failures_total_.load();
+    const uint64_t graph_failures = impl_->graph_write_failures_total_.load();
+    const uint64_t vector_failures = impl_->vector_write_failures_total_.load();
+    const uint64_t bucket_0_100 = impl_->bridge_latency_us_bucket_0_100_.load();
+    const uint64_t bucket_100_1000 = impl_->bridge_latency_us_bucket_100_1000_.load();
+    const uint64_t bucket_1000_10000 = impl_->bridge_latency_us_bucket_1000_10000_.load();
+    const uint64_t bucket_10000_plus = impl_->bridge_latency_us_bucket_10000_plus_.load();
+
+    std::ostringstream out;
+
+    out << "# HELP toolbox_bridge_failures_total Total bridge operation failures.\n";
+    out << "# TYPE toolbox_bridge_failures_total counter\n";
+    out << "toolbox_bridge_failures_total " << failures << "\n";
+
+    out << "# HELP toolbox_bridge_graph_write_failures_total Graph writer failures.\n";
+    out << "# TYPE toolbox_bridge_graph_write_failures_total counter\n";
+    out << "toolbox_bridge_graph_write_failures_total " << graph_failures << "\n";
+
+    out << "# HELP toolbox_bridge_vector_write_failures_total Vector writer failures.\n";
+    out << "# TYPE toolbox_bridge_vector_write_failures_total counter\n";
+    out << "toolbox_bridge_vector_write_failures_total " << vector_failures << "\n";
+
+    out << "# HELP toolbox_bridge_latency_us Histogram of bridge operation latency in microseconds.\n";
+    out << "# TYPE toolbox_bridge_latency_us histogram\n";
+    out << "toolbox_bridge_latency_us_bucket{le=\"100\"} " << bucket_0_100 << "\n";
+    out << "toolbox_bridge_latency_us_bucket{le=\"1000\"} " 
+        << (bucket_0_100 + bucket_100_1000) << "\n";
+    out << "toolbox_bridge_latency_us_bucket{le=\"10000\"} " 
+        << (bucket_0_100 + bucket_100_1000 + bucket_1000_10000) << "\n";
+    out << "toolbox_bridge_latency_us_bucket{le=\"+Inf\"} " 
+        << (bucket_0_100 + bucket_100_1000 + bucket_1000_10000 + bucket_10000_plus) << "\n";
+    out << "toolbox_bridge_latency_us_count " << ops << "\n";
+
+    return out.str();
 }
 
 } // namespace toolbox
