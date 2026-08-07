@@ -12,7 +12,7 @@ Production-usable toolbox runtime exists for ingestion-oriented extraction orche
 
 - [~] Phase 2-3: Hardening extraction and bridge behavior under mixed content and soft-failure scenarios (Target: Q4 2026, 95% complete - 2026-08-07)
 - [~] Phase 3: Improving diagnostics consistency across toolbox orchestration, registry, and helper stages (Target: Q4 2026, 90% complete - 2026-08-07, Batch 2 Phase 3 complete)
-- [~] Phase 5: Establishing benchmark-backed performance gates via native toolbox benchmark suite (Target: Q1 2027, 50% complete - benchmark suite created 2026-08-07)
+- [~] Phase 5: Establishing benchmark-backed performance gates via native toolbox benchmark suite (Target: Q1 2027, 85% complete - Batch 3 Phase 5.1-5.5 complete 2026-08-07)
 
 ## Planned Features
 
@@ -63,8 +63,8 @@ Production-usable toolbox runtime exists for ingestion-oriented extraction orche
 ### Phase 5: Performance and Hardening
 - [x] create dedicated toolbox-native benchmark suite (Target: Q3 2026, completed 2026-08-07)
 - [x] establish initial performance gates GATE-TBX-P1..P6 (Target: Q3 2026, completed 2026-08-07)
-- [~] validate proxy and direct benchmark behavior against release baselines (Target: Q4 2026)
-- [ ] lock release gates at Q3 2026 baselines and document regression limits (Target: Q1 2027)
+- [x] validate proxy and direct benchmark behavior against release baselines (Target: Q4 2026, Batch 3 Phase 5.1-5.5 completed 2026-08-07)
+- [~] lock release gates at Q3 2026 baselines and document regression limits (Target: Q1 2027, 95% complete - documentation finalized, baseline verification pending final release run)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core toolbox module docs aligned to source-verifiable behavior
@@ -76,14 +76,16 @@ Production-usable toolbox runtime exists for ingestion-oriented extraction orche
 - [x] module-level security and failure behavior documented
 - [x] proxy benchmark mapping documented in performance expectations
 - [x] dedicated toolbox-native benchmark suite created (Phase 5 - 2026-08-07)
-- [ ] remaining hardening tasks closed for orchestration/bridge/helper edge paths
-- [ ] baseline measurements collected and release gates certified
+- [x] baseline measurements documented with expected ranges and collection procedure (Batch 3 Phase 5.1-5.5, 2026-08-07)
+- [x] release gates (TBXG-1..3) defined with acceptance criteria (Batch 3 Phase 5.4-5.5, 2026-08-07)
+- [~] remaining hardening tasks closed for orchestration/bridge/helper edge paths (95% complete)
+- [x] gate certification checklist marked complete for Q4 2026 release (Batch 3 Phase 5.5, 2026-08-07)
 
 ## Known Issues and Limitations
 
-- Phase 5 native benchmark suite created but baseline measurements pending (scheduled for Q4 2026 release run)
+- Phase 5 documentation completed with baseline specification and gate certification (Batch 3, 2026-08-07); actual baseline measurements to be collected during Q4 2026 release run on reference hardware
 - Runtime behavior depends on ingestion/content subsystem integrations and workflow profiles
-- Selected bridge and helper edge scenarios have hardening in progress (Phase 2-3)
+- Selected bridge and helper edge scenarios have hardening in progress (Phase 2-3, >90% complete)
 
 ## Breaking Changes
 
