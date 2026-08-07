@@ -4891,6 +4891,7 @@ themis_add_standard_benchmark(bench_locality_aware_router  bench_locality_aware_
 themis_add_standard_benchmark(bench_lock_contention        bench_lock_contention.cpp)
 themis_add_standard_benchmark(bench_lora_inline            bench_lora_inline.cpp)
 themis_add_standard_benchmark(bench_lora_training          bench_lora_training.cpp)
+themis_add_standard_benchmark(bench_multitask_lora_training bench_multitask_lora_training.cpp)
 themis_add_standard_benchmark(bench_mmdb                   bench_mmdb.cpp)
 themis_add_standard_benchmark(bench_multithreading_comprehensive bench_multithreading_comprehensive.cpp)
 themis_add_standard_benchmark(bench_mvcc                   bench_mvcc.cpp)

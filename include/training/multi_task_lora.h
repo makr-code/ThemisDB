@@ -264,11 +264,26 @@ public:
      */
     MTLTrainResult benchmarkThreeTaskTransfer(size_t num_samples = 100);
 
+    /**
+     * @brief Run ablation study comparing shared vs separate-adapter training.
+     *
+     * Compares two adapter configurations:
+     *  - Shared base with per-task heads (current implementation)
+     *  - Separate per-task adapters (baseline)
+     *
+     * @param samples Training samples for evaluation.
+     * @return Pair of (shared_result, separate_result) for comparison.
+     */
+    std::pair<MTLTrainResult, MTLTrainResult> runAblationStudy(
+       const std::vector<MTLSample>& samples);
+
     // ------------------------------------------------------------------
     // Configuration
     // ------------------------------------------------------------------
 
     const MultiTaskLoRAConfig& config() const noexcept { return cfg_; }
+
+private:
     class Impl;
     std::unique_ptr<Impl> impl_;
     MultiTaskLoRAConfig   cfg_;
