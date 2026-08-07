@@ -141,7 +141,7 @@ ContentToolboxBridge::BridgeResult ContentToolboxBridge::ingest(
     // Validate toolbox is available before enrichment
     if (!toolbox_ptr) {
         out.ok = false;
-        out.diagnostic = "toolbox_unavailable";
+        out.error = "toolbox not initialized; cannot enrich extracted content";
         return out;
     }
     
@@ -227,7 +227,7 @@ ContentToolboxBridge::BridgeResult ContentToolboxBridge::enrichExisting(
     // Validate toolbox is available before enrichment
     if (!toolbox_ptr2) {
         out.ok = false;
-        out.diagnostic = "toolbox_unavailable";
+        out.error = "toolbox not initialized; cannot enrich existing content";
         return out;
     }
     

@@ -130,6 +130,32 @@ TEST(IngestionToolbox, IT10_ExtractEntitiesTextNoCrash) {
     SUCCEED();
 }
 
+TEST(IngestionToolbox, IT11_MetricsTrackEmptyExtractions) {
+    auto tb = IngestionToolbox::createDefault();
+    
+    // Extract with empty result (null backend returns empty)
+    auto result1 = tb->extractEntitySet("");
+    EXPECT_TRUE(result1.nodes.empty() && result1.chunks.empty());
+    
+    // Metrics should reflect the call
+    std::string metrics = tb->getMetricsText();
+    EXPECT_TRUE(metrics.find("toolbox_extract_calls_total") != std::string::npos);
+    EXPECT_TRUE(metrics.find("toolbox_extract_empty_results_total") != std::string::npos);
+}
+
+TEST(IngestionToolbox, IT12_ExtractEntitySetWithEmptyText) {
+    auto tb = IngestionToolbox::createDefault();
+    auto result = tb->extractEntitySet("", "text/plain", "file.txt");
+    
+    // Empty text should produce empty entity set
+    EXPECT_TRUE(result.nodes.empty());
+    EXPECT_TRUE(result.chunks.empty());
+    
+    // Verify metrics track this as empty result
+    std::string metrics = tb->getMetricsText();
+    EXPECT_FALSE(metrics.empty());
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // AQLIngestionBridge tests (AB-*)
 // ─────────────────────────────────────────────────────────────────────────────

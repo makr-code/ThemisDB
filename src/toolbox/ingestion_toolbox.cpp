@@ -44,6 +44,7 @@ public:
         , extract_errors_total_(0)
         , extract_entities_total_(0)
         , extract_latency_ms_total_(0)
+        , extract_empty_results_(0)
     {}
 
     std::shared_ptr<ingestion::WorkflowEngine>         workflow_engine_;
@@ -55,6 +56,7 @@ public:
     std::atomic<uint64_t> extract_errors_total_;
     std::atomic<uint64_t> extract_entities_total_;
     std::atomic<uint64_t> extract_latency_ms_total_;
+    std::atomic<uint64_t> extract_empty_results_;  ///< Tracks calls with no entities extracted
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -223,6 +225,9 @@ void IngestionToolbox::recordExtraction(std::size_t entity_count,
     if (!success) {
         impl_->extract_errors_total_.fetch_add(1, std::memory_order_relaxed);
     }
+    if (entity_count == 0) {
+        impl_->extract_empty_results_.fetch_add(1, std::memory_order_relaxed);
+    }
     impl_->extract_entities_total_.fetch_add(
         static_cast<uint64_t>(entity_count), std::memory_order_relaxed);
     impl_->extract_latency_ms_total_.fetch_add(latency_ms, std::memory_order_relaxed);
@@ -232,9 +237,10 @@ std::string IngestionToolbox::getMetricsText() const {
     const uint64_t calls = impl_->extract_calls_total_.load();
     if (calls == 0) return "";
 
-    const uint64_t errors   = impl_->extract_errors_total_.load();
-    const uint64_t entities = impl_->extract_entities_total_.load();
-    const uint64_t latency  = impl_->extract_latency_ms_total_.load();
+    const uint64_t errors         = impl_->extract_errors_total_.load();
+    const uint64_t empty_results  = impl_->extract_empty_results_.load();
+    const uint64_t entities       = impl_->extract_entities_total_.load();
+    const uint64_t latency        = impl_->extract_latency_ms_total_.load();
 
     std::ostringstream out;
 
@@ -242,15 +248,19 @@ std::string IngestionToolbox::getMetricsText() const {
     out << "# TYPE toolbox_extract_calls_total counter\n";
     out << "toolbox_extract_calls_total " << calls << "\n";
 
-    out << "# HELP toolbox_extract_errors_total Failed extraction calls.\n";
+    out << "# HELP toolbox_extract_errors_total Total extraction errors.\n";
     out << "# TYPE toolbox_extract_errors_total counter\n";
     out << "toolbox_extract_errors_total " << errors << "\n";
+
+    out << "# HELP toolbox_extract_empty_results_total Extractions with zero entities.\n";
+    out << "# TYPE toolbox_extract_empty_results_total counter\n";
+    out << "toolbox_extract_empty_results_total " << empty_results << "\n";
 
     out << "# HELP toolbox_extract_entities_total Cumulative number of entities / chunks extracted.\n";
     out << "# TYPE toolbox_extract_entities_total counter\n";
     out << "toolbox_extract_entities_total " << entities << "\n";
 
-    out << "# HELP toolbox_extract_latency_ms_total Cumulative extraction wall-clock latency in milliseconds.\n";
+    out << "# HELP toolbox_extract_latency_ms_total Cumulative latency (ms) for all extractions.\n";
     out << "# TYPE toolbox_extract_latency_ms_total counter\n";
     out << "toolbox_extract_latency_ms_total " << latency << "\n";
 
