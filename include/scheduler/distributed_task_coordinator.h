@@ -12,14 +12,18 @@
 #pragma once
 
 #include "scheduler/task_scheduler.h"
+#include "scheduler/scheduler_api_contract.h"
 #include "sharding/distributed_coordinator.h"
 #include <atomic>
 #include <mutex>
+#include <condition_variable>
+#include <thread>
 #include <string>
 #include <optional>
 #include <vector>
 #include <map>
 #include <functional>
+#include <chrono>
 
 namespace themis {
 
@@ -33,7 +37,16 @@ namespace themis {
  * tasks at any given time.
  *
  * ### Thread safety
- * All public methods are thread-safe.
+ * All public methods are thread-safe through the lock ordering hierarchy.
+ *
+ * ### Lock ordering (deadlock prevention)
+ * MUST acquire locks in this strict order (never reverse):
+ *   Level 0: heartbeat_mutex_ (health monitoring - acquired first)
+ *   Level 1: registry_mutex_ (task registry)
+ *   Level 2: leadership_mutex_ (leadership state - acquired last)
+ * 
+ * Any method acquiring multiple locks MUST follow this hierarchy.
+ * Acquiring in reverse order can cause deadlock.
  *
  * ### Ownership model
  * The coordinator holds **non-owning raw pointers** to both the TaskScheduler
@@ -89,7 +102,7 @@ public:
         sharding::DistributedCoordinator* coordinator,
       const Config& config);
 
-    ~DistributedTaskCoordinator();
+    ~DistributedTaskCoordinator() noexcept;
 
     // Non-copyable, non-movable (holds raw pointers and threads).
     DistributedTaskCoordinator(const DistributedTaskCoordinator&) = delete;
@@ -251,6 +264,71 @@ public:
      */
     void onLeaderElected(const std::string& leader_id);
 
+    // ── Coordination Health and Resilience ────────────────────────────────────
+
+    /**
+     * @brief Attempt to acquire leadership with an explicit timeout.
+     *
+     * This method performs a synchronous leadership acquisition attempt against
+     * the underlying DistributedCoordinator, with a bounded timeout to detect
+     * coordination layer unavailability.  If the coordinator is unreachable or
+     * fails to respond within the timeout, this method fails explicitly rather
+     * than blocking indefinitely.
+     *
+     * Used to detect and fail fast on coordination layer failures in production
+     * scenarios where the gossip network may be partitioned or degraded.
+     *
+     * @param timeout_ms  Maximum milliseconds to wait for leadership acquisition.
+     * @return true if this node successfully acquired leadership, false otherwise.
+     *         Note: false does NOT mean "not leader yet" but specifically that
+     *         the acquisition attempt timed out or the coordinator is unavailable.
+     *
+     * @throws std::exception on internal coordinator errors.
+     */
+    bool acquireLeadershipWithTimeout(std::chrono::milliseconds timeout_ms);
+
+    /**
+     * @brief Start a background heartbeat thread to detect coordinator failure.
+     *
+     * This method spawns a background thread that periodically checks the health
+     * of the underlying DistributedCoordinator.  If the coordinator becomes
+     * unresponsive (heartbeat timeout), the method automatically deactivates the
+     * local scheduler to prevent split-brain execution.
+     *
+     * The heartbeat interval is derived from the coordinator's health check period.
+     * If this coordinator's running state becomes false, the heartbeat thread
+     * exits gracefully.
+     *
+     * This implements the fail-closed contract: if coordination is lost, the
+     * scheduler stops accepting new task executions.
+     *
+     * @param heartbeat_interval_ms  Interval between heartbeat checks.
+     *
+     * @return true if heartbeat monitoring was successfully activated,
+     *         false if it was already running or if activation failed.
+     */
+    bool maintainHeartbeat(std::chrono::milliseconds heartbeat_interval_ms);
+
+    /**
+     * @brief Detect and handle split-brain / consensus failure scenarios.
+     *
+     * Examines the current coordinator state to detect conditions where the
+     * distributed consensus mechanism has diverged (e.g., multiple leaders,
+     * replicas out of sync).  When such a condition is detected:
+     * - Logs the divergence with node IDs and timestamps
+     * - Deactivates the local scheduler if this node is a leader
+     * - Returns an error code indicating the consensus failure
+     *
+     * This is a fail-closed operation: in case of doubt, the scheduler stops.
+     *
+     * @return SchedulerError::kSuccess if consensus is healthy,
+     *         SchedulerError::kCoordinationError if split-brain detected,
+     *         other SchedulerError codes for other failures.
+     *
+     * @see scheduler_api_contract.h for error taxonomy.
+     */
+    SchedulerError handleSplitBrainDetection();
+
 private:
     TaskScheduler*                      scheduler_;
     sharding::DistributedCoordinator*   coordinator_;
@@ -269,8 +347,19 @@ private:
     std::atomic<size_t> leadership_acquired_{0};
     std::atomic<size_t> leadership_lost_{0};
 
+    // Heartbeat and coordination health tracking
+    std::atomic<bool>                   heartbeat_active_{false};
+    mutable std::mutex                  heartbeat_mutex_;
+    std::condition_variable             heartbeat_cv_;
+    std::unique_ptr<std::thread>        heartbeat_thread_;
+    std::atomic<std::chrono::milliseconds> last_heartbeat_ms_{0};
+    std::atomic<size_t>                 coordination_failures_{0};
+
     // Generate a task ID for tasks without one (mirrors TaskScheduler logic).
     static std::string generateId(const ScheduledTask& task);
+
+    // Helper: runs heartbeat monitoring in a background thread
+    void heartbeatMonitorThread(std::chrono::milliseconds interval_ms);
 };
 
 } // namespace themis

@@ -2389,7 +2389,7 @@ endif()
 # acknowledgeEvents, concurrent fan-out
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_cdc_pipeline.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cdc/bench_cdc_pipeline.cpp")
     message(STATUS "Adding CDC Pipeline benchmarks")
 
     add_executable(bench_cdc_pipeline
@@ -2427,7 +2427,7 @@ endif()
 # CDG-01..06 / GATE-CDC-01..06
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_cdc_delivery_gates.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cdc/bench_cdc_delivery_gates.cpp")
     message(STATUS "Adding CDC Delivery Gates benchmarks")
 
     add_executable(bench_cdc_delivery_gates

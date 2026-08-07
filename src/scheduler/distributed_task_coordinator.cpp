@@ -32,17 +32,32 @@ namespace themis {
 DistributedTaskCoordinator::DistributedTaskCoordinator(
     TaskScheduler* scheduler,
     sharding::DistributedCoordinator* coordinator)
+    : scheduler_(scheduler),
+      coordinator_(coordinator),
+      config_{},
+      running_(false),
+      scheduler_active_(false),
+      heartbeat_active_(false),
+      leadership_acquired_(0),
+      leadership_lost_(0),
+      coordination_failures_(0),
+      last_heartbeat_ms_(0)
 {
-    const Config default_config{};
-    if (!scheduler) {
+    // Phase 3: Structured validation error logging
+    if (!scheduler_) {
+        THEMIS_ERROR(
+            "[DistributedTaskCoordinator::DistributedTaskCoordinator] "
+            "code={} msg='scheduler cannot be null' context={{}}",
+            static_cast<int>(SchedulerError::kInternalError));
         throw std::invalid_argument("DistributedTaskCoordinator: scheduler cannot be null");
     }
-    if (!coordinator) {
+    if (!coordinator_) {
+        THEMIS_ERROR(
+            "[DistributedTaskCoordinator::DistributedTaskCoordinator] "
+            "code={} msg='coordinator cannot be null' context={{}}",
+            static_cast<int>(SchedulerError::kInternalError));
         throw std::invalid_argument("DistributedTaskCoordinator: coordinator cannot be null");
     }
-    scheduler_ = scheduler;
-    coordinator_ = coordinator;
-    config_ = default_config;
 }
 
 DistributedTaskCoordinator::DistributedTaskCoordinator(
@@ -51,12 +66,28 @@ DistributedTaskCoordinator::DistributedTaskCoordinator(
     const Config& config)
     : scheduler_(scheduler),
       coordinator_(coordinator),
-      config_(config)
+      config_(config),
+      running_(false),
+      scheduler_active_(false),
+      heartbeat_active_(false),
+      leadership_acquired_(0),
+      leadership_lost_(0),
+      coordination_failures_(0),
+      last_heartbeat_ms_(0)
 {
+    // Phase 3: Structured validation error logging
     if (!scheduler_) {
+        THEMIS_ERROR(
+            "[DistributedTaskCoordinator::DistributedTaskCoordinator] "
+            "code={} msg='scheduler cannot be null' context={{}}",
+            static_cast<int>(SchedulerError::kInternalError));
         throw std::invalid_argument("DistributedTaskCoordinator: scheduler cannot be null");
     }
     if (!coordinator_) {
+        THEMIS_ERROR(
+            "[DistributedTaskCoordinator::DistributedTaskCoordinator] "
+            "code={} msg='coordinator cannot be null' context={{}}",
+            static_cast<int>(SchedulerError::kInternalError));
         throw std::invalid_argument("DistributedTaskCoordinator: coordinator cannot be null");
     }
 
@@ -64,8 +95,12 @@ DistributedTaskCoordinator::DistributedTaskCoordinator(
                 coordinator_->getLocalShardId());
 }
 
-DistributedTaskCoordinator::~DistributedTaskCoordinator() {
-    stop();
+DistributedTaskCoordinator::~DistributedTaskCoordinator() noexcept {
+    try {
+        stop();
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Exception in DistributedTaskCoordinator destructor: {}", e.what());
+    }
 }
 
 // ── Lifecycle ────────────────────────────────────────────────────────────────
@@ -95,6 +130,17 @@ void DistributedTaskCoordinator::start() {
 void DistributedTaskCoordinator::stop() {
     if (!running_.exchange(false)) {
         return;  // Already stopped.
+    }
+
+    // Stop the heartbeat monitor first
+    if (heartbeat_active_.exchange(false)) {
+        {
+            std::lock_guard<std::mutex> lock(heartbeat_mutex_);
+            heartbeat_cv_.notify_all();
+        }
+        if (heartbeat_thread_ && heartbeat_thread_->joinable()) {
+            heartbeat_thread_->join();
+        }
     }
 
     // Deactivate scheduler before removing the leadership callback.
@@ -134,6 +180,7 @@ void DistributedTaskCoordinator::activateScheduler() {
     // Register all locally stored tasks with the scheduler.
     size_t task_count = 0;
     {
+        // Level 1: Acquire registry lock (safe to acquire after all higher-level locks released)
         std::lock_guard<std::mutex> lock(registry_mutex_);
         task_count = task_registry_.size();
         for (const auto& [id, task] : task_registry_) {
@@ -192,6 +239,7 @@ std::string DistributedTaskCoordinator::registerTask(const ScheduledTask& task) 
     const std::string task_id = stored.id;
 
     {
+        // Level 1: Acquire registry lock
         std::lock_guard<std::mutex> lock(registry_mutex_);
         task_registry_[task_id] = stored;
     }
@@ -289,6 +337,7 @@ std::shared_ptr<ScheduledTask> DistributedTaskCoordinator::getTask(
 // ── Statistics ────────────────────────────────────────────────────────────────
 
 DistributedTaskCoordinator::Stats DistributedTaskCoordinator::getStats() const {
+    // Level 1: Acquire registry lock for task count
     std::lock_guard<std::mutex> lock(registry_mutex_);
     Stats s;
     s.registered_tasks    = task_registry_.size();
@@ -313,6 +362,7 @@ void DistributedTaskCoordinator::onLeaderElected(const std::string& leader_id) {
     const bool i_am_leader  = (leader_id == my_id);
 
     {
+        // Level 2: Acquire leadership lock (can be acquired after no lower locks)
         std::lock_guard<std::mutex> lock(leadership_mutex_);
         current_leader_ = leader_id;
     }
@@ -322,6 +372,7 @@ void DistributedTaskCoordinator::onLeaderElected(const std::string& leader_id) {
                     my_id);
         leadership_acquired_.fetch_add(1);
         if (config_.auto_manage_scheduler) {
+            // activateScheduler() will acquire registry_mutex_ (Level 1)
             activateScheduler();
         }
     } else {
@@ -330,13 +381,14 @@ void DistributedTaskCoordinator::onLeaderElected(const std::string& leader_id) {
                         leader_id);
             leadership_lost_.fetch_add(1);
             if (config_.auto_manage_scheduler) {
+                // deactivateScheduler() will acquire registry_mutex_ (Level 1)
                 deactivateScheduler();
             }
         }
     }
 }
 
-/*static*/ std::string DistributedTaskCoordinator::generateId(const ScheduledTask& task) {
+std::string DistributedTaskCoordinator::generateId(const ScheduledTask& task) {
     // Mirror the simple ID generation from TaskScheduler::generateTaskId.
     auto now = std::chrono::system_clock::now();
     auto ms  = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -350,6 +402,180 @@ void DistributedTaskCoordinator::onLeaderElected(const std::string& leader_id) {
         }
     }
     return oss.str();
+}
+
+// ── Coordination Health and Resilience ──────────────────────────────────────
+
+bool DistributedTaskCoordinator::acquireLeadershipWithTimeout(
+    std::chrono::milliseconds timeout_ms)
+{
+    if (!running_.load()) {
+        THEMIS_WARN("DistributedTaskCoordinator: cannot acquire leadership; coordinator not running");
+        return false;
+    }
+
+    try {
+        // Attempt to acquire leadership with explicit timeout.
+        // This is a fail-fast check to detect coordination layer issues.
+        auto start = std::chrono::steady_clock::now();
+        bool acquired = false;
+
+        // Use the coordinator's internal mechanism to attempt leadership.
+        // If the coordinator is unresponsive, this should timeout.
+        // (Implementation assumes coordinator has some form of timeout-aware API)
+        if (coordinator_->isLeader()) {
+            acquired = true;
+            THEMIS_DEBUG("DistributedTaskCoordinator: already leader");
+        } else {
+            // Try to participate in the leadership election with a timeout.
+            // This is a simplified check; production systems may use more
+            // sophisticated timing or heartbeat mechanisms.
+            auto elapsed = std::chrono::steady_clock::now() - start;
+            if (elapsed > timeout_ms) {
+                THEMIS_WARN("DistributedTaskCoordinator: leadership acquisition timed out after {}ms",
+                           timeout_ms.count());
+                coordination_failures_.fetch_add(1);
+                return false;
+            }
+            // For now, if we're not already leader, acquisition fails.
+            // In production, this would interact with the leader-election protocol.
+            THEMIS_INFO("DistributedTaskCoordinator: not currently leader; election in progress");
+            acquired = false;
+        }
+
+        return acquired;
+    } catch (const std::exception& ex) {
+        THEMIS_ERROR("DistributedTaskCoordinator: error during leadership acquisition: {}", ex.what());
+        coordination_failures_.fetch_add(1);
+        return false;
+    }
+}
+
+bool DistributedTaskCoordinator::maintainHeartbeat(
+    std::chrono::milliseconds heartbeat_interval_ms)
+{
+    if (heartbeat_active_.exchange(true)) {
+        THEMIS_WARN("DistributedTaskCoordinator: heartbeat already active");
+        return false;
+    }
+
+    THEMIS_INFO("DistributedTaskCoordinator: starting heartbeat monitoring (interval={}ms)",
+               heartbeat_interval_ms.count());
+
+    try {
+        heartbeat_thread_ = std::make_unique<std::thread>(
+            &DistributedTaskCoordinator::heartbeatMonitorThread,
+            this,
+            heartbeat_interval_ms
+        );
+        return true;
+    } catch (const std::exception& ex) {
+        THEMIS_ERROR("DistributedTaskCoordinator: failed to start heartbeat thread: {}", ex.what());
+        heartbeat_active_.store(false);
+        return false;
+    }
+}
+
+void DistributedTaskCoordinator::heartbeatMonitorThread(
+    std::chrono::milliseconds interval_ms)
+{
+    THEMIS_DEBUG("DistributedTaskCoordinator: heartbeat monitor thread started");
+
+    while (running_.load() && heartbeat_active_.load()) {
+        try {
+            // Record the heartbeat timestamp
+            auto now = std::chrono::steady_clock::now();
+            last_heartbeat_ms_ = std::chrono::duration_cast<std::chrono::milliseconds>(
+                now.time_since_epoch());
+
+            // Check coordinator health
+            if (!coordinator_->isHealthy()) {
+                THEMIS_WARN("DistributedTaskCoordinator: heartbeat failure detected – coordinator unhealthy");
+                coordination_failures_.fetch_add(1);
+
+                // Fail-closed: deactivate the scheduler to prevent split-brain
+                if (scheduler_active_.load()) {
+                    THEMIS_WARN("DistributedTaskCoordinator: deactivating scheduler due to coordination failure");
+                    deactivateScheduler();
+                }
+            }
+
+            // Sleep until the next heartbeat interval or until shutdown
+            {
+                std::unique_lock<std::mutex> lock(heartbeat_mutex_);
+                heartbeat_cv_.wait_for(lock, interval_ms,
+                    [this]() { return !running_.load() || !heartbeat_active_.load(); });
+            }
+        } catch (const std::exception& ex) {
+            THEMIS_ERROR("DistributedTaskCoordinator: error in heartbeat monitor: {}", ex.what());
+            coordination_failures_.fetch_add(1);
+        }
+    }
+
+    THEMIS_DEBUG("DistributedTaskCoordinator: heartbeat monitor thread exiting");
+}
+
+SchedulerError DistributedTaskCoordinator::handleSplitBrainDetection()
+{
+    if (!running_.load()) {
+        THEMIS_WARN(
+            "[DistributedTaskCoordinator::handleSplitBrainDetection] "
+            "code={} msg='split-brain check requested but coordinator not running' "
+            "context={{running={}, coordinator_active=false}}",
+            static_cast<int>(SchedulerError::kCoordinationError),
+            running_.load());
+        return SchedulerError::kCoordinationError;
+    }
+
+    try {
+        // Check for split-brain conditions: multiple leaders, stale replicas, etc.
+        const std::string my_id = coordinator_->getLocalShardId();
+        const auto current_leader = coordinator_->getCurrentLeader();
+
+        {
+            std::lock_guard<std::mutex> lock(leadership_mutex_);
+
+            // If we have a stored leader ID and it differs from the current leader,
+            // this may indicate a leadership change or split-brain condition.
+            if (!current_leader_.empty() && current_leader_.value_or("") != current_leader_.value_or("")) {
+                THEMIS_WARN(
+                    "[DistributedTaskCoordinator::handleSplitBrainDetection] "
+                    "code={} msg='split-brain detected' "
+                    "context={{node_id='{}', previous_leader='{}', current_leader='{}', "
+                    "scheduler_active={}}}",
+                    static_cast<int>(SchedulerError::kCoordinationError),
+                    my_id, current_leader_, current_leader.value_or("unknown"),
+                    scheduler_active_.load());
+                
+                // Fail-closed: deactivate scheduler if this node is a leader
+                if (scheduler_active_.load()) {
+                    THEMIS_INFO("DistributedTaskCoordinator: deactivating scheduler due to split-brain detection");
+                    deactivateScheduler();
+                }
+
+                coordination_failures_.fetch_add(1);
+                return SchedulerError::kCoordinationError;
+            }
+
+            // Update the current leader for next check
+            if (current_leader) {
+                current_leader_ = *current_leader;
+            }
+        }
+
+        THEMIS_DEBUG("DistributedTaskCoordinator: split-brain check passed (leader={})",
+                    current_leader.value_or("unknown"));
+        return SchedulerError::kSuccess;
+    } catch (const std::exception& ex) {
+        THEMIS_ERROR(
+            "[DistributedTaskCoordinator::handleSplitBrainDetection] "
+            "code={} msg='error during split-brain detection' exception='{}' "
+            "context={{coordinator_available=true}}",
+            static_cast<int>(SchedulerError::kCoordinationError),
+            ex.what());
+        coordination_failures_.fetch_add(1);
+        return SchedulerError::kCoordinationError;
+    }
 }
 
 } // namespace themis

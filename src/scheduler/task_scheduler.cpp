@@ -617,6 +617,61 @@ std::string TaskScheduler::registerTask(const ScheduledTask& task) {
         id = generateTaskId(sanitized_task);
     }
     
+    // ========================================================================
+    // HARDENING: Enforce idempotent registration (Phase 2-3 contract)
+    // ========================================================================
+    // If a task with this ID already exists, verify byte-identical registration.
+    // If descriptors differ, reject the registration with kTaskAlreadyExists error.
+    auto existing_it = tasks_.find(id);
+    if (existing_it != tasks_.end()) {
+        const auto& existing_task = existing_it->second;
+        
+        // Compare critical fields for byte-identical check.
+        // Use the resolved `id` (which includes auto-generated IDs) rather than
+        // `sanitized_task.id`, which is empty when the ID was auto-generated.
+        bool identical = (
+            existing_task->id == id &&
+            existing_task->name == sanitized_task.name &&
+            existing_task->description == sanitized_task.description &&
+            existing_task->type == sanitized_task.type &&
+            existing_task->aql_query == sanitized_task.aql_query &&
+            existing_task->function_name == sanitized_task.function_name &&
+            existing_task->parameters == sanitized_task.parameters &&
+            existing_task->trigger_type == sanitized_task.trigger_type &&
+            existing_task->interval == sanitized_task.interval &&
+            existing_task->cron_expression == sanitized_task.cron_expression &&
+            existing_task->timeout == sanitized_task.timeout &&
+            existing_task->max_retries == sanitized_task.max_retries &&
+            existing_task->allow_concurrent == sanitized_task.allow_concurrent
+        );
+        
+        if (!identical) {
+            // Conflicting re-registration — fail with kTaskAlreadyExists
+            THEMIS_WARN("Rejected re-registration of task {} with conflicting descriptor", id);
+            
+            if (audit_manager_) {
+                scheduler::TaskAuditEvent event;
+                event.uuid = scheduler::generateUUID();
+                event.timestamp = std::chrono::system_clock::now();
+                event.task_id = id;
+                event.task_name = sanitized_task.name;
+                event.event_type = scheduler::TaskEventType::TASK_REGISTRATION_REJECTED;
+                event.success = false;
+                event.error_message = "Conflicting task descriptor for existing task ID";
+                setDefaultAuditContext(event);
+                audit_manager_->logAuditEvent(event);
+            }
+            
+            throw std::runtime_error(
+                "Task registration conflict: task '" + id + "' already exists with "
+                "a different descriptor. Cannot re-register with conflicting configuration.");
+        } else {
+            // Idempotent: identical re-registration is allowed
+            THEMIS_DEBUG("Idempotent re-registration of task {} accepted", id);
+            return id;
+        }
+    }
+    
     auto task_ptr = std::make_shared<ScheduledTask>(sanitized_task);
     task_ptr->id = id;
     
@@ -823,6 +878,28 @@ nlohmann::json TaskScheduler::executeTaskNow(const std::string& task_id) {
         }
         task = it->second;
     }
+    
+    // ========================================================================
+    // HARDENING: Execution Serialization (Phase 3 contract)
+    // ========================================================================
+    // Acquire per-task execution lock to serialize concurrent runs of the same task.
+    // This ensures that only one instance of each task runs at a time.
+    std::mutex& task_exec_lock = getTaskExecutionLock(task_id);
+    std::lock_guard<std::mutex> exec_lock(task_exec_lock);
+    
+    // ========================================================================
+    // HARDENING: Fail-Closed Coordination Check (Phase 3 contract)
+    // ========================================================================
+    // If coordination layer is unavailable (future: distributed task coordination),
+    // fail-closed by not dispatching the task execution.
+    // For now, this is a structural placeholder for coordination availability check.
+    // When distributed_task_coordinator_ is added, uncomment:
+    //   if (!coordinator_ || !coordinator_->isHealthy()) {
+    //       THEMIS_ERROR("Coordination layer unavailable; failing closed for task {}",
+    //                    task_id);
+    //       span.setAttribute("coordination_error", true);
+    //       return nlohmann::json{{"error", "Coordination layer unavailable"}};
+    //   }
     
     // Audit log manual task execution trigger
     if (config_.enable_audit_logging && audit_logger_) {
@@ -1750,6 +1827,15 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
     auto span = Tracer::startSpan("TaskScheduler.executeTask");
     span.setAttribute("task_id", task->id);
     span.setAttribute("task_name", task->name);
+    
+    // ========================================================================
+    // HARDENING: Execution Serialization (Phase 3 contract)
+    // ========================================================================
+    // Acquire per-task execution lock to serialize concurrent runs of the same task.
+    // This ensures that the same task cannot run concurrently across scheduler loops
+    // or manual execution paths.
+    std::mutex& task_exec_lock = getTaskExecutionLock(task->id);
+    std::lock_guard<std::mutex> exec_lock(task_exec_lock);
     
     auto start = std::chrono::steady_clock::now();
     const int64_t exec_timestamp_ms = getCurrentTimeMs();  // captured for result store
@@ -2994,6 +3080,21 @@ void TaskScheduler::adjustConcurrencyLimit(size_t pending_count) noexcept {
         // Pending > 0 but below scale_up_queue_depth – stay at current limit
         idle_ticks_.store(0);
     }
+}
+
+// ===== Task Execution Serialization (Phase 3 Hardening) =====
+
+std::mutex& TaskScheduler::getTaskExecutionLock(const std::string& task_id) {
+    std::lock_guard<std::mutex> lock(task_locks_mutex_);
+    
+    auto it = task_execution_locks_.find(task_id);
+    if (it == task_execution_locks_.end()) {
+        // Lazily create a new mutex for this task
+        task_execution_locks_[task_id] = std::make_unique<std::mutex>();
+        it = task_execution_locks_.find(task_id);
+    }
+    
+    return *it->second;
 }
 
 } // namespace themis

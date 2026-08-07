@@ -29,6 +29,80 @@ namespace scheduler {
 
 TaskAnomalyDetector::TaskAnomalyDetector(const AnomalyDetectorConfig& config)
     : config_(config) {
+    // GAP 2 FIX: Only start the background callback thread when a callback is
+    // registered; creating an always-on thread with no functional benefit wastes
+    // resources and complicates shutdown coordination.
+    if (config_.on_anomaly_detected) {
+        start();
+    }
+}
+
+TaskAnomalyDetector::~TaskAnomalyDetector() {
+    stop();
+}
+
+// GAP 2 FIX: Lifecycle management for background callback thread
+void TaskAnomalyDetector::start() {
+    std::lock_guard<std::mutex> lock(queue_mutex_);
+    if (running_.load()) {
+        return;
+    }
+    
+    running_.store(true);
+    callback_thread_ = std::thread(&TaskAnomalyDetector::anomalyCallbackWorker, this);
+    THEMIS_INFO("TaskAnomalyDetector: background callback thread started");
+}
+
+void TaskAnomalyDetector::stop() {
+    {
+        std::lock_guard<std::mutex> lock(queue_mutex_);
+        if (!running_.load()) {
+            return;
+        }
+        running_.store(false);
+    }
+    
+    queue_cv_.notify_all();
+    
+    if (callback_thread_.joinable()) {
+        callback_thread_.join();
+    }
+    
+    THEMIS_INFO("TaskAnomalyDetector: background callback thread stopped");
+}
+
+// Background worker thread for async anomaly callbacks
+void TaskAnomalyDetector::anomalyCallbackWorker() {
+    THEMIS_DEBUG("TaskAnomalyDetector callback worker started");
+    
+    while (running_.load()) {
+        std::unique_lock<std::mutex> lock(queue_mutex_);
+        
+        // Wait for anomalies to be queued (with timeout to check running_ flag)
+        queue_cv_.wait_for(lock, std::chrono::milliseconds(500),
+                          [this] { return !anomaly_queue_.empty() || !running_.load(); });
+        
+        while (!anomaly_queue_.empty()) {
+            auto [task_id, metrics] = std::move(anomaly_queue_.front());
+            anomaly_queue_.pop();
+            
+            // Release lock before invoking callback (to prevent deadlock)
+            lock.unlock();
+            
+            // Invoke callback outside of lock
+            if (config_.on_anomaly_detected) {
+                try {
+                    config_.on_anomaly_detected(task_id, metrics);
+                } catch (const std::exception& e) {
+                    THEMIS_ERROR("TaskAnomalyDetector: anomaly callback failed: {}", e.what());
+                }
+            }
+            
+            lock.lock();
+        }
+    }
+    
+    THEMIS_DEBUG("TaskAnomalyDetector callback worker stopped");
 }
 
 AnomalyMetrics TaskAnomalyDetector::recordExecution(const TaskAuditEvent& event) {
@@ -101,6 +175,13 @@ AnomalyMetrics TaskAnomalyDetector::recordExecution(const TaskAuditEvent& event)
                 metrics.description += anomalies[i];
             }
         }
+    }
+    
+    // GAP 2 FIX: Queue anomaly for async callback delivery (non-blocking)
+    if (metrics.is_anomalous && config_.on_anomaly_detected) {
+        std::lock_guard<std::mutex> queue_lock(queue_mutex_);
+        anomaly_queue_.push({task_id, metrics});
+        queue_cv_.notify_one();
     }
     
     return metrics;
@@ -326,6 +407,142 @@ bool TaskAnomalyDetector::hasBaseline(const std::string& task_id) const {
     }
     
     return it->second.total_executions >= config_.min_samples;
+}
+
+// GAP 1 FIX: On-demand anomaly detection
+AnomalyMetrics TaskAnomalyDetector::checkAnomaly(const std::string& task_id) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    AnomalyMetrics metrics;
+    
+    // Check if we have enough baseline data
+    if (!hasBaseline(task_id)) {
+        metrics.description = "Insufficient baseline data";
+        return metrics;
+    }
+    
+    auto it = task_stats_.find(task_id);
+    if (it == task_stats_.end()) {
+        metrics.description = "Task not found";
+        return metrics;
+    }
+    
+    // Get current timestamp for anomaly checks
+    auto now = std::chrono::system_clock::now();
+    
+    // Detect anomalies across different dimensions
+    if (config_.enable_frequency_detection) {
+        metrics.frequency_score = detectFrequencyAnomaly(task_id, now);
+    }
+    
+    if (config_.enable_pattern_detection) {
+        metrics.pattern_score = detectPatternAnomaly(task_id, now);
+    }
+    
+    if (config_.enable_resource_detection) {
+        // Use current resource baseline as a reference
+        TaskResourceUsage ref_usage;
+        ref_usage.cpu_time_ms = it->second.mean_cpu_time_ms;
+        ref_usage.memory_bytes = static_cast<uint64_t>(it->second.mean_memory_bytes);
+        metrics.resource_score = detectResourceAnomaly(task_id, ref_usage);
+    }
+    
+    if (config_.enable_failure_rate_detection) {
+        // Use current failure status as reference
+        bool current_success = it->second.failure_rate < 0.5;  // Heuristic threshold
+        metrics.failure_rate_score = detectFailureRateAnomaly(task_id, current_success);
+    }
+    
+    // Calculate overall anomaly score (weighted average)
+    metrics.overall_score = (
+        metrics.frequency_score * 0.25 +
+        metrics.pattern_score * 0.25 +
+        metrics.resource_score * 0.25 +
+        metrics.failure_rate_score * 0.25
+    );
+    
+    // Determine if this is anomalous
+    metrics.is_anomalous = metrics.overall_score > config_.overall_threshold;
+    
+    // Build description
+    if (metrics.is_anomalous) {
+        std::vector<std::string> anomalies;
+        
+        if (metrics.frequency_score > config_.frequency_threshold) {
+            anomalies.push_back("frequency deviation");
+        }
+        if (metrics.pattern_score > config_.pattern_threshold) {
+            anomalies.push_back("pattern deviation");
+        }
+        if (metrics.resource_score > config_.resource_threshold) {
+            anomalies.push_back("resource usage spike");
+        }
+        if (metrics.failure_rate_score > config_.failure_rate_threshold) {
+            anomalies.push_back("elevated failure rate");
+        }
+        
+        if (!anomalies.empty()) {
+            metrics.description = "Detected: ";
+            for (size_t i = 0; i < anomalies.size(); i++) {
+                if (i > 0) metrics.description += ", ";
+                metrics.description += anomalies[i];
+            }
+        }
+    }
+    
+    return metrics;
+}
+
+// GAP 3 FIX: Explicit baseline recalibration
+void TaskAnomalyDetector::recalibrateBaseline(const std::string& task_id) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    auto it = task_stats_.find(task_id);
+    if (it == task_stats_.end()) {
+        THEMIS_WARN("TaskAnomalyDetector: recalibration requested for unknown task '{}'", task_id);
+        return;
+    }
+    
+    auto& stats = it->second;
+    
+    // Reset time-based baseline calculations while preserving raw history
+    stats.first_execution = stats.last_execution;
+    
+    // Clear old data outside the current baseline window
+    cleanupOldData(stats);
+    
+    // Recalculate baseline statistics from remaining data
+    if (!stats.execution_durations.empty()) {
+        stats.mean_execution_time_ms = calculateMean(stats.execution_durations);
+        stats.stddev_execution_time_ms = calculateStdDev(stats.execution_durations,
+                                                        stats.mean_execution_time_ms);
+        stats.min_execution_time_ms = *std::min_element(stats.execution_durations.begin(),
+                                                       stats.execution_durations.end());
+        stats.max_execution_time_ms = *std::max_element(stats.execution_durations.begin(),
+                                                       stats.execution_durations.end());
+    }
+    
+    if (!stats.cpu_usage.empty()) {
+        stats.mean_cpu_time_ms = calculateMean(stats.cpu_usage);
+        stats.stddev_cpu_time_ms = calculateStdDev(stats.cpu_usage, stats.mean_cpu_time_ms);
+    }
+    
+    if (!stats.memory_usage.empty()) {
+        stats.mean_memory_bytes = calculateMean(stats.memory_usage);
+        stats.stddev_memory_bytes = calculateStdDev(stats.memory_usage, stats.mean_memory_bytes);
+    }
+    
+    // Recalculate execution frequency
+    if (stats.execution_times.size() >= 2) {
+        auto duration = stats.last_execution - stats.first_execution;
+        auto hours = std::chrono::duration_cast<std::chrono::hours>(duration).count();
+        if (hours > 0) {
+            stats.executions_per_hour = static_cast<double>(stats.total_executions) / hours;
+        }
+    }
+    
+    THEMIS_INFO("TaskAnomalyDetector: baseline recalibrated for task '{}' (executions={})",
+               task_id, stats.total_executions);
 }
 
 std::optional<TaskStatistics> TaskAnomalyDetector::getTaskStatistics(const std::string& task_id) const {

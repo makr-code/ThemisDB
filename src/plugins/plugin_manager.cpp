@@ -68,6 +68,48 @@ bool manifestAllowsCurrentEdition(const PluginManifest& manifest) {
                        });
 }
 
+/**
+ * @brief Validates plugin name against QW-43 path traversal attack patterns.
+ * 
+ * Rejects names containing:
+ * - Directory separators: / \ ..
+ * - Absolute path indicators: C:\ /etc/ etc.
+ * - Special shell/control characters
+ * 
+ * Whitelist: alphanumeric (a-z, A-Z, 0-9), underscore (_), hyphen (-)
+ * 
+ * @param name Plugin name from manifest
+ * @return true if valid, false if rejected (fail-closed)
+ */
+inline bool isValidPluginName(const std::string& name) {
+    // Guard 1: Name must be non-empty and reasonable length
+    if (name.empty() || name.length() > 256) {
+        return false;
+    }
+     
+    // Guard 2: No path traversal patterns
+    if (name.find('/') != std::string::npos ||
+        name.find('\\') != std::string::npos ||
+        name.find("..") != std::string::npos) {
+        return false;
+    }
+     
+    // Guard 3: No absolute paths (Windows drive letters or Unix roots)
+    if (name.find(':') != std::string::npos ||  // Windows C:, Unix absolute on Windows
+        name.find('.') == 0) {                   // Unix hidden files / relative paths
+        return false;
+    }
+     
+    // Guard 4: Only alphanumeric, underscore, hyphen allowed
+    for (unsigned char c : name) {
+        if (!std::isalnum(c) && c != '_' && c != '-') {
+            return false;  // Fail-closed: reject on any invalid character
+        }
+    }
+     
+    return true;
+}
+
 }  // namespace
 
 // ============================================================================
@@ -415,6 +457,7 @@ PluginsError PluginManager::validatePluginForLoad(
 // ============================================================================
 // Manifest Loading
 // ============================================================================
+
 
 std::optional<PluginManifest> PluginManager::loadManifest(const std::string& manifest_path) {
     if (!fs::exists(manifest_path)) {
@@ -2083,6 +2126,11 @@ PluginsError PluginManager::validateABICompatibility(
                    previous_entry.manifest.version, new_manifest.version);
     }
     
+    // Check capabilities are not reduced
+    // TODO(makr-code): Fix capability comparison - PluginCapabilities is a struct with bool fields, not a container
+    // if (previous_entry.frozen_capabilities.size() > new_manifest.capabilities.size()) {
+    //    THEMIS_WARN("[SECURITY:CAPABILITY_REDUCTION] Plugin capabilities reduced after reload");
+    // }
     // Check capabilities are not reduced (field-wise implication: every capability that was
     // true in the frozen snapshot must still be true in the new manifest).
     const PluginCapabilities& prev_caps = previous_entry.frozen_capabilities;

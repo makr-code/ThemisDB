@@ -46,6 +46,18 @@ struct TaskAuditConfig {
     size_t max_query_results = 1000;           // Maximum results per query
     bool enable_export_api = true;
     
+    // GAP 1 FIX: Immutable audit log enforcement
+    bool enable_audit_hmac = false;             // Enable HMAC for tamper detection; requires audit_hmac_key to be set
+    std::string audit_hmac_key;                 // Must be set to a secure random value per deployment; no default
+    
+    // GAP 2 FIX: Retention policy enforcement
+    std::chrono::days audit_retention_days{90}; // Retain audit logs for 90 days
+    bool enable_archival = true;                // Archive old entries instead of delete
+    std::string archive_path = "data/logs/audit_archive";
+    
+    // GAP 3 FIX: Corruption recovery
+    bool enable_corruption_recovery = true;    // Auto-repair corrupted entries
+    
     // Callbacks (optional)
     std::function<void(const TaskAuditEvent&)> on_audit_event;
     std::function<void(const TaskSecurityEvent&)> on_security_event;
@@ -216,6 +228,37 @@ public:
      * @param data Previously exported statistics JSON
      */
     void importAnomalyStatistics(const nlohmann::json& data);
+    
+    /**
+     * GAP 1 FIX: Immutable audit log enforcement with HMAC
+     * @brief Generate HMAC for an audit entry (tamper detection)
+     * @param event Audit event
+     * @return HMAC-256 hex string
+     */
+    std::string generateAuditEntryHMAC(const TaskAuditEvent& event) const;
+    
+    /**
+     * GAP 1 FIX: Verify integrity of audit entry
+     * @param event Audit event
+     * @param stored_hmac Previously stored HMAC
+     * @return true if entry has not been tampered with
+     */
+    bool verifyAuditEntryIntegrity(const TaskAuditEvent& event, const std::string& stored_hmac) const;
+    
+    /**
+     * GAP 2 FIX: Retention policy enforcement
+     * @brief Enforce audit log retention policies
+     * @note Deletes entries older than configured retention period
+     * @return Number of entries archived/deleted
+     */
+    size_t enforceRetentionPolicy();
+    
+    /**
+     * GAP 3 FIX: Corruption detection and recovery
+     * @brief Scan audit log for corruption and attempt recovery
+     * @return Number of corrupted entries detected
+     */
+    size_t detectAndRecoverCorruption();
 
 private:
     std::shared_ptr<utils::AuditLogger> audit_logger_;

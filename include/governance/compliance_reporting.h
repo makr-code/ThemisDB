@@ -404,6 +404,12 @@ public:
     /// Export report in specified format
     std::string exportReport(const nlohmann::json& report, ReportFormat format) const;
     
+    /// Generate HTML header for reports
+    [[nodiscard]] std::string generateHTMLHeader(const std::string& title) const;
+    
+    /// Generate HTML footer for reports
+    [[nodiscard]] std::string generateHTMLFooter() const;
+    
 private:
     /// Atomic state tracking (Phase 2B enhancement)
     mutable std::atomic<ReporterState> state_{ReporterState::DRAFT};

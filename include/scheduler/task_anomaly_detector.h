@@ -15,9 +15,13 @@
 #include <string>
 #include <map>
 #include <deque>
+#include <queue>
+#include <thread>
 #include <mutex>
+#include <condition_variable>
 #include <chrono>
 #include <memory>
+#include <functional>
 
 namespace themis {
 namespace scheduler {
@@ -56,6 +60,9 @@ struct AnomalyDetectorConfig {
     bool enable_pattern_detection = true;
     bool enable_resource_detection = true;
     bool enable_failure_rate_detection = true;
+    
+    // GAP 2 FIX: Callback for async anomaly notifications
+    std::function<void(const std::string& task_id, const AnomalyMetrics&)> on_anomaly_detected;
 };
 
 /**
@@ -112,6 +119,12 @@ class TaskAnomalyDetector {
 public:
     explicit TaskAnomalyDetector(const AnomalyDetectorConfig& config = AnomalyDetectorConfig());
     
+    ~TaskAnomalyDetector();
+    
+    // Lifecycle (GAP 2 FIX: background thread management)
+    void start();
+    void stop();
+    
     /**
      * @brief Record a task execution event
      * @param event Audit event to process
@@ -151,6 +164,22 @@ public:
     bool hasBaseline(const std::string& task_id) const;
     
     /**
+     * GAP 1 FIX: On-demand anomaly detection for external invocation
+     * @brief Check anomaly status without recording an execution
+     * @param task_id Task identifier
+     * @return Anomaly metrics (advisory, non-blocking)
+     */
+    AnomalyMetrics checkAnomaly(const std::string& task_id) const;
+    
+    /**
+     * GAP 3 FIX: Explicit baseline recalibration
+     * @brief Recalibrate baseline for a task (reset time-window data)
+     * @param task_id Task identifier
+     * @note Preserves existing statistics but resets time-based calculations
+     */
+    void recalibrateBaseline(const std::string& task_id);
+    
+    /**
      * @brief Get current configuration
      */
     AnomalyDetectorConfig getConfig() const;
@@ -176,6 +205,16 @@ private:
     
     // Per-task statistics
     std::map<std::string, TaskStatistics> task_stats_;
+    
+    // GAP 2 FIX: Background thread for async anomaly callback delivery
+    std::thread callback_thread_;
+    std::atomic<bool> running_{false};
+    std::queue<std::pair<std::string, AnomalyMetrics>> anomaly_queue_;
+    std::mutex queue_mutex_;
+    std::condition_variable queue_cv_;
+    
+    // Background callback processor
+    void anomalyCallbackWorker();
     
     // Anomaly detection methods
     double detectFrequencyAnomaly(const std::string& task_id, 
