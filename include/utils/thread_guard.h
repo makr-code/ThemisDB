@@ -16,7 +16,11 @@
 #include <mutex>
 #include <thread>
 #include <condition_variable>
+
+// Optional: spdlog for logging (compile with -DTHEMIS_HAS_SPDLOG if available)
+#ifdef THEMIS_HAS_SPDLOG
 #include <spdlog/spdlog.h>
+#endif
 
 namespace themis::utils {
 
@@ -31,7 +35,7 @@ namespace themis::utils {
  *
  * Usage:
  * ```cpp
- * std::thread worker = std::thread([]() { /* work */ });
+ * std::thread worker = std::thread([]() { });  // work in lambda
  * ThreadGuard guard(std::move(worker), std::chrono::seconds(30));
  * // Thread automatically joins with 30-second timeout on guard destruction
  * ```
@@ -131,7 +135,7 @@ private:
  * Usage:
  * ```cpp
  * auto guard = make_thread_guard(
- *     []() { /* background work */ },
+ *     []() { },  // background work
  *     std::chrono::seconds(60)
  * );
  * ```

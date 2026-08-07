@@ -12,7 +12,17 @@
 #include "utils/thread_guard.h"
 
 #include <cassert>
+#include <iostream>
+
+// Conditional logging based on spdlog availability
+#ifdef THEMIS_HAS_SPDLOG
 #include <spdlog/spdlog.h>
+#define LOG_WARN(msg, ...) spdlog::warn(msg, ##__VA_ARGS__)
+#define LOG_ERROR(msg, ...) spdlog::error(msg, ##__VA_ARGS__)
+#else
+#define LOG_WARN(msg, ...) std::cerr << "[WARN] " << msg << std::endl
+#define LOG_ERROR(msg, ...) std::cerr << "[ERROR] " << msg << std::endl
+#endif
 
 namespace themis::utils {
 
@@ -35,7 +45,7 @@ ThreadGuard::~ThreadGuard() noexcept {
             // Attempt join with timeout
             if (!join_with_timeout()) {
                 // Log timeout warning but don't throw
-                spdlog::warn(
+                LOG_WARN(
                     "ThreadGuard destructor: thread join timed out after {}ms; "
                     "thread left in indeterminate state (design threads for cooperative shutdown)",
                     timeout_.count()
@@ -44,10 +54,10 @@ ThreadGuard::~ThreadGuard() noexcept {
         }
     } catch (const std::exception& e) {
         // Destructor must not throw - log and suppress
-        spdlog::error("ThreadGuard destructor: unexpected exception during join: {}", e.what());
+        LOG_ERROR("ThreadGuard destructor: unexpected exception during join: {}", e.what());
     } catch (...) {
         // Catch-all for unknown exceptions - should never happen but defensive coding
-        spdlog::error("ThreadGuard destructor: unknown exception during join");
+        LOG_ERROR("ThreadGuard destructor: unknown exception during join");
     }
 }
 
@@ -76,10 +86,10 @@ bool ThreadGuard::join_with_timeout() noexcept {
         joined_ = true;
         return true;
     } catch (const std::system_error& e) {
-        spdlog::error("ThreadGuard::join_with_timeout: system error: {}", e.what());
+        LOG_ERROR("ThreadGuard::join_with_timeout: system error: {}", e.what());
         return false;
     } catch (const std::exception& e) {
-        spdlog::error("ThreadGuard::join_with_timeout: unexpected exception: {}", e.what());
+        LOG_ERROR("ThreadGuard::join_with_timeout: unexpected exception: {}", e.what());
         return false;
     }
 }
