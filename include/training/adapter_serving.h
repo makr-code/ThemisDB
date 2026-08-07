@@ -99,5 +99,41 @@ struct DeployResult {
     }
 };
 
+// ============================================================================
+// Phase 2: Deployment Validation (determinism and readiness checks)
+// ============================================================================
+
+/**
+ * @brief Validate an adapter before deployment to serving infrastructure.
+ *
+ * Phase 2 hardening: performs comprehensive deployment readiness checks
+ * including version string validation, state consistency, and
+ * pre-deployment health assessment.
+ *
+ * @param adapter_version Version identifier (must be non-empty, valid format)
+ * @param checkpoint_path Path to the checkpoint file (must exist and be readable)
+ * @param expected_sha256 Expected SHA-256 of checkpoint (if empty, skipped)
+ * @return Empty string if valid; otherwise error message describing the issue
+ */
+std::string validateDeploymentReadiness(
+    const std::string& adapter_version,
+    const std::string& checkpoint_path,
+    const std::string& expected_sha256 = "");
+
+/**
+ * @brief Generate deterministic deployment fingerprint for an adapter.
+ *
+ * Creates a stable identifier based on version, checkpoint hash, and
+ * deployment timestamp. Used to ensure repeatable deployment decisions
+ * and audit trail consistency.
+ *
+ * @param adapter_version Version identifier
+ * @param checkpoint_sha256 SHA-256 of the checkpoint file
+ * @return Deterministic fingerprint string (hex-encoded)
+ */
+std::string computeDeploymentFingerprint(
+    const std::string& adapter_version,
+    const std::string& checkpoint_sha256);
+
 } // namespace training
 } // namespace themis

@@ -51,6 +51,9 @@ struct CheckpointManifestEntry {
 
 /**
  * @brief Configuration for the LoRA checkpoint manager.
+ *
+ * Phase 2 hardening: Added timeout support for I/O operations, explicit recovery
+ * configuration, and diagnostics control.
  */
 struct CheckpointManagerConfig {
     std::string checkpoint_dir;              ///< Directory to store checkpoints
@@ -58,6 +61,11 @@ struct CheckpointManagerConfig {
     bool        validate_on_load    = true;  ///< Validate SHA-256 on resume()
     bool        auto_rollback       = true;  ///< Fall back to previous on corruption
     std::string manifest_filename   = "checkpoint_manifest.json";
+    
+    // Phase 2: timeout and recovery hardening
+    int         io_timeout_ms       = 300000; ///< Timeout for I/O ops (SHA-256, file copy)
+    bool        cleanup_partial     = true;   ///< Remove partial/corrupted checkpoints
+    size_t      min_checkpoint_size = 1024;   ///< Minimum valid checkpoint size (bytes)
 
     CheckpointManagerConfig() = default;
 };
@@ -135,6 +143,20 @@ public:
     std::optional<CheckpointManifestEntry> resume() const;
 
     /**
+     * @brief Phase 2: Recover a checkpoint with detailed diagnostics.
+     *
+     * Attempts to recover a checkpoint from the manifest, returning full
+     * diagnostic information about the recovery process (which checkpoints were
+     * attempted, why they failed, etc.). This is useful for understanding
+     * checkpoint corruption or rollback behavior.
+     *
+     * @param[out] diagnostics Optional string to receive detailed recovery info
+     * @return Latest valid manifest entry, or std::nullopt if recovery fails
+     */
+    std::optional<CheckpointManifestEntry> resumeWithDiagnostics(
+        std::string* diagnostics = nullptr) const;
+
+    /**
      * @brief Return all manifest entries, newest first.
      */
     std::vector<CheckpointManifestEntry> listCheckpoints() const;
@@ -174,6 +196,28 @@ public:
      * @return Contents of `calibration_manifest.json`, or empty string if not present.
      */
     std::string loadCalibrationJson() const;
+
+    /**
+     * @brief Phase 2: Clean up partial/corrupted checkpoints in the directory.
+     *
+     * Removes checkpoint files that are not in the manifest, or checkpoint files
+     * that fail validation and are marked for cleanup in the config.
+     * This helps recover disk space and maintain a clean checkpoint directory.
+     *
+     * @return Number of files cleaned up
+     */
+    size_t cleanupPartialCheckpoints();
+
+    /**
+     * @brief Phase 2: Verify all checkpoints in the manifest and report status.
+     *
+     * Performs a full audit of the checkpoint directory: validates each entry,
+     * reports which are valid/corrupt, and optionally removes corrupt entries.
+     *
+     * @param[out] diagnostics Optional string to receive audit results
+     * @return Number of valid checkpoints found
+     */
+    size_t auditCheckpoints(std::string* diagnostics = nullptr);
 
 private:
     class Impl;

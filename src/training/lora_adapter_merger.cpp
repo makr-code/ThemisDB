@@ -387,6 +387,71 @@ MergeResult LoRAAdapterMerger::mergeTIESAll(
     return result;
 }
 
+// ============================================================================
+// Phase 2: Validation and edge case handling
+// ============================================================================
+
+std::string LoRAAdapterMerger::validateMergeInputs(
+    const std::vector<AdapterDescriptor>& adapters) const {
+    
+    // Check: at least one adapter
+    if (adapters.empty()) {
+        return "Cannot merge zero adapters";
+    }
+    
+    // Check: all adapters are non-null
+    for (size_t i = 0; i < adapters.size(); ++i) {
+        if (!adapters[i].adapter) {
+            return "Adapter at index " + std::to_string(i) + " is null";
+        }
+    }
+    
+    // Check: all weights are positive
+    for (size_t i = 0; i < adapters.size(); ++i) {
+        if (adapters[i].weight <= 0.0f) {
+            return "Adapter " + std::to_string(i) + " has non-positive weight " +
+                   std::to_string(adapters[i].weight);
+        }
+    }
+    
+    // Check: all adapters have at least one layer
+    for (size_t i = 0; i < adapters.size(); ++i) {
+        const auto* adapter = adapters[i].adapter;
+        if (!adapter || adapter->layerCount() == 0) {
+            return "Adapter at index " + std::to_string(i) + " is empty (no layers)";
+        }
+    }
+    
+    return ""; // Valid
+}
+
+bool LoRAAdapterMerger::validateMergeResult(const MergeResult& result) const {
+    // Check: result should have layers if it claims success
+    if (result.success && result.layers.empty()) {
+        return false;
+    }
+    
+    // Check: each layer result that claims success should have valid matrices
+    for (const auto& layer : result.layers) {
+        if (!layer.success) continue;
+        
+        // Basic sanity: matrices should not be empty
+        if (layer.A.empty() || layer.B.empty()) {
+            return false;
+        }
+        
+        // Check for NaN/Inf values
+        for (float val : layer.A) {
+            if (!std::isfinite(val)) return false;
+        }
+        for (float val : layer.B) {
+            if (!std::isfinite(val)) return false;
+        }
+    }
+    
+    return true;
+}
+
 } // namespace training
 } // namespace themis
 

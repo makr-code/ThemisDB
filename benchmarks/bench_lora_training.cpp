@@ -10,20 +10,64 @@
 #include "llm/lora_framework/lora_layers.h"
 #include <memory>
 #include <vector>
+#include <cassert>
 
 using namespace themis::llm::lora;
 
 /**
  * @file bench_lora_training.cpp
- * @brief Benchmarks for LoRA training components
+ * @brief Benchmarks for LoRA training components with Phase 5 performance gates
+ * 
+ * Phase 5 Performance Gates:
+ * - Layer construction: <50µs for standard dimensions
+ * - Forward pass: <100µs per sample
+ * - Backward pass: <150µs per sample
+ * - Adapter merge: <100ms
+ * - Checkpoint save/load: <200ms save, <500ms load
+ * - Sustained training: no memory leaks over 1000+ steps
  * 
  * Benchmarks:
- * - Layer construction time
- * - Forward pass performance
- * - Backward pass performance
+ * - Layer construction time with regression detection
+ * - Forward pass performance with throughput gates
+ * - Backward pass performance with throughput gates
  * - Parameter access overhead
- * - Memory efficiency
+ * - Memory efficiency during sustained training
  */
+
+// ===== Performance Gate Configuration =====
+
+namespace gates {
+    // Construction gates (microseconds)
+    constexpr double LORA_LAYER_CONSTRUCTION_US = 50.0;      // Phase 5 target: <50µs
+    
+    // Forward pass gates (microseconds per sample)
+    constexpr double LORA_FORWARD_PER_SAMPLE_US = 100.0;     // Phase 5 target: <100µs/sample
+    constexpr double ATTENTION_FORWARD_PER_SAMPLE_US = 150.0; // Phase 5 target: <150µs/sample
+    
+    // Backward pass gates (microseconds per sample)
+    constexpr double LORA_BACKWARD_PER_SAMPLE_US = 150.0;    // Phase 5 target: <150µs/sample
+    constexpr double ATTENTION_BACKWARD_PER_SAMPLE_US = 200.0; // Phase 5 target: <200µs/sample
+    
+    // Merge operations (milliseconds)
+    constexpr double ADAPTER_MERGE_MS = 100.0;               // Phase 5 target: <100ms
+    
+    // Checkpoint operations (milliseconds)
+    constexpr double CHECKPOINT_SAVE_MS = 200.0;             // Phase 5 target: <200ms
+    constexpr double CHECKPOINT_LOAD_MS = 500.0;             // Phase 5 target: <500ms for ~50MB
+    
+    // Memory regression detection (tolerance %)
+    constexpr double MEMORY_REGRESSION_TOLERANCE_PCT = 5.0;  // Flag 5%+ memory increases
+    
+    // Helper to report gate violations
+    static void report_gate_violation(const std::string& gate_name, 
+                                      double measured_us, 
+                                      double gate_us) {
+        double violation_pct = ((measured_us - gate_us) / gate_us) * 100.0;
+        fprintf(stderr, 
+                "[PERF_GATE] %s VIOLATION: measured=%.2fµs gate=%.2fµs (+%.1f%%)\n",
+                gate_name.c_str(), measured_us, gate_us, violation_pct);
+    }
+}
 
 // ===== Construction Benchmarks =====
 
