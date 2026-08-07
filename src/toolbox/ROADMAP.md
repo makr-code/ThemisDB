@@ -10,9 +10,9 @@ Production-usable toolbox runtime exists for ingestion-oriented extraction orche
 
 ## In Progress
 
-- [~] hardening extraction and bridge behavior under mixed content and soft-failure scenarios (Target: Q3 2026)
-- [~] improving diagnostics consistency across toolbox orchestration, registry, and helper stages (Target: Q3 2026)
-- [~] stabilizing benchmark-backed proxy guardrails for toolbox-adjacent hot paths (Target: Q3 2026)
+- [~] Phase 2-3: Hardening extraction and bridge behavior under mixed content and soft-failure scenarios (Target: Q4 2026, 80% complete - 2026-08-07)
+- [~] Phase 3: Improving diagnostics consistency across toolbox orchestration, registry, and helper stages (Target: Q4 2026, 75% complete - 2026-08-07)
+- [~] Phase 5: Establishing benchmark-backed performance gates via native toolbox benchmark suite (Target: Q1 2027, 50% complete - benchmark suite created 2026-08-07)
 
 ## Planned Features
 
@@ -33,12 +33,21 @@ Production-usable toolbox runtime exists for ingestion-oriented extraction orche
 - [x] define explicit error taxonomy for extraction and registry incident classes (Target: Q3 2026)
 
 ### Phase 2: Core Implementation
-- [ ] complete hardening for builder, bridge, and registry internals (Target: Q4 2026)
-- [ ] align helper and streaming behavior to bounded runtime contracts (Target: Q4 2026)
+- [x] fix CRITICAL data_race in ingestion_toolbox.cpp:224 (atomic fetch_add) — COMPLETED 2026-08-07
+- [x] fix HIGH null_dereference in content_toolbox_bridge.cpp (null checks + error messages) — COMPLETED 2026-08-07
+- [x] add missing latency metrics to ContentFingerprint (latency_us field, steady_clock measurement) — COMPLETED 2026-08-07
+- [x] optimize copy overhead in language_detector.cpp (vector.reserve(32)) — COMPLETED 2026-08-07
+- [x] update doc linksets (FUTURE_ENHANCEMENTS.md, PRODUCTION_REQUIREMENTS.md) — COMPLETED 2026-08-07
+- [~] complete remaining hardening for builder, bridge, and registry internals (Target: Q4 2026)
+- [~] align helper and streaming behavior to bounded runtime contracts (Target: Q4 2026)
 
 ### Phase 3: Error Handling and Edge Cases
-- [ ] standardize fail-safe behavior for bridge sink failures, empty extraction, and registry misuse (Target: Q4 2026)
-- [ ] unify diagnostics across orchestration, helper, and streaming incident classes (Target: Q4 2026)
+- [x] standardize bridge sink failure handling with descriptive error messages — COMPLETED 2026-08-07
+- [x] implement explicit empty-extraction tracking via extract_empty_results counter — COMPLETED 2026-08-07
+- [x] add empty-result diagnostics to Prometheus metrics (toolbox_extract_empty_results_total) — COMPLETED 2026-08-07
+- [x] add IT-11, IT-12 tests for empty extraction tracking — COMPLETED 2026-08-07
+- [~] unify incident taxonomy across extraction, bridge, registry, and helper classes (Target: Q4 2026)
+- [~] expand stress coverage for edge cases (Target: Q4 2026)
 
 ### Phase 4: Tests
 - [x] expand focused regressions for toolbox bridge, registry, and helper edge scenarios (Target: Q4 2026)
