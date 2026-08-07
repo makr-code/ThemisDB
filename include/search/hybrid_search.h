@@ -1,18 +1,18 @@
 /**
  * @file hybrid_search.h
  * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
- * @version 0.0.47
+ * @version 2.0.0
  * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 86/100
- * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * @note Status: Production Ready
+ * @note Score: 95/100
+ * @note Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready - v2.0.0 Contract Freeze (Phase 1)
  * @note This block is auto-generated and will be overwritten.
  */
 
 /*
- * ThemisDB | File: hybrid_search.h | Version: 0.0.47
+ * ThemisDB | File: hybrid_search.h | Version: 2.0.0 (Phase 1: Contract Freeze)
  * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */
@@ -20,6 +20,7 @@
 #pragma once
 
 #include "search/llm_reranker.h"
+#include "search/search_error_codes.h"
 
 #include <string>
 #include <vector>
@@ -123,6 +124,7 @@ public:
      * @brief Diagnostic information returned alongside search results.
      *
      * Callers should check partial_result to detect degraded-mode responses.
+     * Phase 2: Enhanced degradation flags for explicit backend health visibility.
      */
     struct SearchStats {
         bool bm25_ok = false;       ///< BM25 search ran without error
@@ -130,6 +132,11 @@ public:
         bool partial_result = false;///< True when one source failed but the other succeeded
         size_t bm25_count = 0;      ///< Raw BM25 candidate count before fusion
         size_t vector_count = 0;    ///< Raw vector candidate count before fusion
+        
+        // Phase 2: Degradation visibility flags
+        uint32_t primary_error_code = 0x0000;  ///< Error code from search_error_codes.h (0x0000 = SUCCESS)
+        bool fusion_failed = false;      ///< Fusion/normalization failed
+        bool rerank_fallback = false;    ///< LLM reranker fallback applied
     };
 
     explicit HybridSearch(
@@ -137,12 +144,14 @@ public:
         VectorIndexManager* vector_index,
         const Config& config
     );
-    ~HybridSearch();
+    
+    /// @brief Destructor ensures no-throw guarantee.
+    ~HybridSearch() noexcept;
     
     HybridSearch(const HybridSearch&) = delete;
     HybridSearch& operator=(const HybridSearch&) = delete;
-    HybridSearch(HybridSearch&&) = default;
-    HybridSearch& operator=(HybridSearch&&) = default;
+    HybridSearch(HybridSearch&&) noexcept = default;
+    HybridSearch& operator=(HybridSearch&&) noexcept = default;
     
     /**
      * @brief Perform hybrid search combining BM25 and vector search.

@@ -94,7 +94,7 @@ HybridSearch::HybridSearch(
                 static_cast<int>(config_.vector_metric));
 }
 
-HybridSearch::~HybridSearch() = default;
+HybridSearch::~HybridSearch() noexcept = default;
 
 // ============================================================================
 // Reranker attachment

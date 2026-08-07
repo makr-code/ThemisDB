@@ -347,6 +347,44 @@ bool PluginManager::verifyManifestSignature(const std::string& manifest_path, st
 // ============================================================================
 
 /**
+ * @brief QW-43 Plugin Name Validation
+ *
+ * Path traversal defense: validates plugin names against injection attacks.
+ * Implements fail-closed semantics for security.
+ *
+ * @param name Plugin name from manifest
+ * @return true if valid, false if rejected (fail-closed)
+ */
+static bool isValidPluginName(const std::string& name) {
+    // Guard 1: Name must be non-empty and reasonable length
+    if (name.empty() || name.length() > 256) {
+        return false;
+    }
+    
+    // Guard 2: No path traversal patterns
+    if (name.find('/') != std::string::npos ||
+        name.find('\\') != std::string::npos ||
+        name.find("..") != std::string::npos) {
+        return false;
+    }
+    
+    // Guard 3: No absolute paths (Windows drive letters or Unix roots)
+    if (name.find(':') != std::string::npos ||  // Windows C:, Unix absolute on Windows
+        name.find('.') == 0) {                   // Unix hidden files / relative paths
+        return false;
+    }
+    
+    // Guard 4: Only alphanumeric, underscore, hyphen allowed
+    for (unsigned char c : name) {
+        if (!std::isalnum(c) && c != '_' && c != '-') {
+            return false;  // Fail-closed: reject on any invalid character
+        }
+    }
+    
+    return true;
+}
+
+/**
  * @brief Phase 2C: Unified validation for plugin load operations.
  *
  * Implements 4-stage validation contract:
@@ -411,7 +449,7 @@ PluginsError PluginManager::validatePluginForLoad(
         THEMIS_ERROR("Plugin binary verification failed: {}", error_details);
         return PluginsError::kSignatureVerifyFailed;
     }
-    
+     
     THEMIS_INFO("Plugin validation succeeded for '{}': all 4 stages passed", manifest.name);
     return PluginsError::kSuccess;
 }
@@ -2093,6 +2131,23 @@ PluginsError PluginManager::validateABICompatibility(
     // if (previous_entry.frozen_capabilities.size() > new_manifest.capabilities.size()) {
     //    THEMIS_WARN("[SECURITY:CAPABILITY_REDUCTION] Plugin capabilities reduced after reload");
     // }
+    // Check capabilities are not reduced (field-wise implication: every capability that was
+    // true in the frozen snapshot must still be true in the new manifest).
+    const PluginCapabilities& prev_caps = previous_entry.frozen_capabilities;
+    const PluginCapabilities& new_caps  = new_manifest.capabilities;
+
+    auto check_cap = [&](bool prev, bool curr, const char* name) {
+        if (prev && !curr) {
+            THEMIS_WARN("[SECURITY:CAPABILITY_REDUCTION] Plugin capability '{}' was removed after reload", name);
+        }
+    };
+    check_cap(prev_caps.supports_streaming,    new_caps.supports_streaming,    "supports_streaming");
+    check_cap(prev_caps.supports_batching,     new_caps.supports_batching,     "supports_batching");
+    check_cap(prev_caps.supports_transactions, new_caps.supports_transactions, "supports_transactions");
+    check_cap(prev_caps.thread_safe,           new_caps.thread_safe,           "thread_safe");
+    check_cap(prev_caps.gpu_accelerated,       new_caps.gpu_accelerated,       "gpu_accelerated");
+    check_cap(prev_caps.provides_vram_policy,  new_caps.provides_vram_policy,  "provides_vram_policy");
+    check_cap(prev_caps.provides_shard_policy, new_caps.provides_shard_policy, "provides_shard_policy");
     
     THEMIS_INFO("[SECURITY:ABI_COMPATIBLE] Plugin ABI verified compatible: {} → {}",
                previous_entry.manifest.version, new_manifest.version);

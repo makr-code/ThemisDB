@@ -31,6 +31,7 @@
 
 #include "process/process_linker.h"
 #include "process/process_model_manager.h"
+#include <map>
 #include <nlohmann/json.hpp>
 #include <string>
 #include <string_view>
@@ -53,7 +54,7 @@ struct OcelEvent {
     std::string event_id;                                           ///< "attach:<inst>:<obj>"
     std::string activity;                                           ///< toString(link_type)
     int64_t     timestamp_ms{0};                                    ///< attached_at_ms
-    std::unordered_map<std::string, std::vector<std::string>> object_refs; ///< {type→[ids]}
+    std::map<std::string, std::vector<std::string>> object_refs; ///< {type→[ids]}
     nlohmann::json attributes;                                      ///< Additional fields
 };
 

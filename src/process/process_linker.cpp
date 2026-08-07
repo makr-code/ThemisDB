@@ -34,6 +34,7 @@
 
 #include <algorithm>
 #include <chrono>
+#include <set>
 #include <sstream>
 #include <stdexcept>
 #include <unordered_set>
@@ -358,6 +359,28 @@ std::pair<bool, std::string> ProcessLinker::linkProcesses(
         return {false, "source_id and target_id must not be empty"};
     }
 
+    // Phase 3: Validate link target exists (stale link detection)
+    if (!isLinkTargetValid(target_id)) {
+        auto incident = ProcessDiagnostics::createMissingTargetIncident(
+            ProcError::kInvalidTransition,
+            target_id,
+            "Cannot create link: target does not exist"
+        );
+        SPDLOG_WARN("[process_linker] {}", incident.toFormattedMessage());
+        return {false, "target does not exist (stale reference protection)"};
+    }
+
+    // Phase 3: Detect cyclic dependencies
+    if (wouldCreateCycle(source_id, target_id)) {
+        auto incident = ProcessDiagnostics::createCycleIncident(
+            ProcError::kInvalidTransition,
+            source_id,
+            "Creating link would introduce a cycle: " + std::string(source_id) + " → " + std::string(target_id)
+        );
+        SPDLOG_WARN("[process_linker] {}", incident.toFormattedMessage());
+        return {false, "would create a cycle"};
+    }
+
     ProcessLink lnk;
     lnk.link_id = "link:" + std::string(source_id) + ":" +
                   std::string(target_id) + ":" + std::string(toString(link_type));
@@ -482,7 +505,7 @@ std::vector<std::string> ProcessLinker::getMissingDocuments(
 
     // Collect already-attached doc types for this instance+node
     auto node_atts = getNodeAttachments(instance_id, node_id);
-    std::unordered_set<std::string> present_types;
+    std::set<std::string> present_types;
     for (const auto& att : node_atts) {
         // The attached_by convention: metadata["doc_type"] carries the type
         if (att.metadata.contains("doc_type") && att.metadata["doc_type"].is_string()) {
@@ -523,7 +546,7 @@ bool ProcessLinker::wouldCreateCycle(
 
     // Use DFS to check if there is a path from target → source
     // If yes, adding source → target would create a cycle
-    std::unordered_set<std::string> visited;
+    std::set<std::string> visited;
     return hasCyclePath_(source_id, target_id, visited, 0, max_depth);
 }
 
@@ -556,7 +579,7 @@ bool ProcessLinker::isLinkTargetValid(std::string_view target_id) const {
 bool ProcessLinker::hasCyclePath_(
     std::string_view source,
     std::string_view target,
-    std::unordered_set<std::string>& visited,
+    std::set<std::string>& visited,
     int32_t depth,
     int32_t max_depth
 ) const {
@@ -682,6 +705,190 @@ void ProcessLinker::rollbackLinkOperation_(uint64_t operation_id) {
 
     rollback_records_.erase(it);
     SPDLOG_WARN("[process] Rolled back link operation: {}", operation_id);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Stale Link Detection & Cleanup (Phase 3)
+// ─────────────────────────────────────────────────────────────────────────────
+
+DiagnosticRecord ProcessLinker::detectStaleLinkAtReadTime(
+    std::string_view link_id
+) const {
+    // Parse link_id format: "link:<source>:<target>:<type>"
+    std::string link_str(link_id);
+    
+    // Retrieve the link document from database
+    std::string link_key = "proc:link:";  // Will be constructed from parsed data
+    std::string link_doc_str;
+    
+    // Scan for the link with this ID (expensive, but link_id should be stored as well)
+    bool found = false;
+    ProcessLink found_link;
+    
+    db_.scanPrefix("proc:link:", [&](std::string_view /*key*/, std::string_view value) -> bool {
+        try {
+            auto doc = json::parse(value);
+            std::string stored_id = doc.value("link_id", "");
+            if (stored_id == link_str) {
+                found_link = ProcessLink::fromDocument(doc);
+                found = true;
+                return false;  // Stop scanning
+            }
+        } catch (const std::exception& e) {
+            // Log the corruption and continue scanning other links.
+            // Callers that need structured diagnostics for corrupted documents
+            // should invoke findStaleLinkReferences() which emits per-link records.
+            SPDLOG_WARN("[process_linker] detectStaleLinkAtReadTime: JSON parse error while scanning links: {}", e.what());
+        }
+        return true;
+    });
+    
+    if (!found) {
+        return ProcessDiagnostics::createMissingTargetIncident(
+            ProcError::kInvalidTransition,
+            link_id,
+            "Link not found in database"
+        );
+    }
+    
+    // Now check if the target exists
+    if (!isLinkTargetValid(found_link.target_id)) {
+        DiagnosticContext ctx;
+        ctx.recordResourceMetric("source_id", 0);
+        ctx.recordResourceMetric("target_id", 0);
+        ctx.setRemediationSuggestion(
+            "Target '" + found_link.target_id + "' does not exist. "
+            "Link is stale and should be removed via cleanupOrphanedLinks()."
+        );
+        
+        auto incident = ProcessDiagnostics::createMissingTargetIncident(
+            ProcError::kInvalidTransition,
+            link_id,
+            "Link target '" + found_link.target_id + "' is missing (stale reference)"
+        );
+        return incident;
+    }
+    
+    // Link is valid
+    return DiagnosticRecord(
+        DiagnosticIncidentType::LINKING_INCIDENT,
+        ProcError::kSuccess,
+        "verify_link_valid",
+        link_id,
+        "Link target is valid"
+    );
+}
+
+std::vector<std::string> ProcessLinker::findStaleLinkReferences() const {
+    std::vector<std::string> stale_links;
+    
+    db_.scanPrefix("proc:link:", [&](std::string_view /*key*/, std::string_view value) -> bool {
+        try {
+            auto doc = json::parse(value);
+            auto link = ProcessLink::fromDocument(doc);
+            
+            // Check if target exists
+            if (!isLinkTargetValid(link.target_id)) {
+                stale_links.push_back(link.link_id);
+                SPDLOG_WARN("[process_linker] Found stale link: {} → {} (target missing)",
+                           link.source_id, link.target_id);
+            }
+        } catch (const std::exception& ex) {
+            SPDLOG_WARN("[process_linker] Error parsing link document: {}", ex.what());
+        }
+        return true;
+    });
+    
+    return stale_links;
+}
+
+std::pair<int32_t, std::string> ProcessLinker::cleanupOrphanedLinks(
+    const std::vector<std::string>& link_ids
+) {
+    int32_t count_removed = 0;
+    
+    for (const auto& link_id : link_ids) {
+        // Parse link_id and construct the key to delete
+        // link_id format: "link:<source>:<target>:<type>"
+        
+        // Find the link first to get its components
+        bool found = false;
+        std::string link_key_to_delete;
+        
+        db_.scanPrefix("proc:link:", [&](std::string_view key, std::string_view value) -> bool {
+            try {
+                auto doc = json::parse(value);
+                std::string stored_id = doc.value("link_id", "");
+                if (stored_id == link_id) {
+                    auto link = ProcessLink::fromDocument(doc);
+                    link_key_to_delete = makeLinkKey_(link.source_id, link.target_id, link.link_type);
+                    found = true;
+                    return false;  // Stop scanning
+                }
+            } catch (const std::exception& e) {
+                // Log and create diagnostic for corrupted link document
+                SPDLOG_WARN("[process_linker] cleanupOrphanedLinks: JSON parse error while scanning: {}", e.what());
+                DiagnosticContext ctx;
+                ctx.recordResourceMetric("target_link_id", link_id.size());
+                ctx.setRemediationSuggestion("A stored link document could not be parsed as JSON during cleanup. "
+                                            "This indicates data corruption. Check database integrity.");
+                auto incident = ProcessDiagnostics::createLinkingIncident(
+                    ProcError::kLinkingStateInvalid,
+                    link_id,
+                    "Corrupted link document during cleanup scan: " + std::string(e.what())
+                );
+                // Continue scanning other links despite this error
+            }
+            return true;
+        });
+        
+        if (found) {
+            if (db_.del(link_key_to_delete)) {
+                count_removed++;
+                SPDLOG_INFO("[process_linker] Removed orphaned link: {}", link_id);
+            } else {
+                SPDLOG_WARN("[process_linker] Failed to remove orphaned link: {}", link_id);
+            }
+        } else {
+            SPDLOG_WARN("[process_linker] Link not found for cleanup: {}", link_id);
+        }
+    }
+    
+    std::string error_msg = (count_removed == static_cast<int32_t>(link_ids.size())) 
+        ? "" 
+        : "Some links could not be removed";
+    
+    return {count_removed, error_msg};
+}
+
+std::pair<int32_t, int32_t> ProcessLinker::verifyLinkIntegrity() const {
+    int32_t total_links = 0;
+    int32_t links_with_issues = 0;
+    
+    db_.scanPrefix("proc:link:", [&](std::string_view /*key*/, std::string_view value) -> bool {
+        try {
+            auto doc = json::parse(value);
+            auto link = ProcessLink::fromDocument(doc);
+            
+            total_links++;
+            
+            // Check if both source and target exist
+            if (!isLinkTargetValid(link.source_id) || !isLinkTargetValid(link.target_id)) {
+                links_with_issues++;
+                SPDLOG_WARN("[process_linker] Link integrity issue detected: {} (source valid: {}, target valid: {})",
+                           link.link_id, isLinkTargetValid(link.source_id), isLinkTargetValid(link.target_id));
+            }
+        } catch (const std::exception& ex) {
+            links_with_issues++;
+            SPDLOG_WARN("[process_linker] Error parsing link for integrity check: {}", ex.what());
+        }
+        return true;
+    });
+    
+    SPDLOG_INFO("[process_linker] Link integrity verification: {} total links, {} with issues",
+               total_links, links_with_issues);
+    
+    return {total_links, links_with_issues};
 }
 
 } // namespace process

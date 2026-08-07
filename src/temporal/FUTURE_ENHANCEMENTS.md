@@ -1,7 +1,7 @@
 # Temporal Module - Future Enhancements
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
+<!-- Status: current | validated: 2026-08-06 | validation_doc: TEMPORAL_MODULE_STATUS_VALIDATION.md -->
+<!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md · TEMPORAL_MODULE_STATUS_VALIDATION.md -->
 
 ## Scope
 

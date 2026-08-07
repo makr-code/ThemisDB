@@ -1,11 +1,29 @@
 # ThemisDB Timeseries Module
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+<!-- Status: current | validated: 2026-08-07 -->
+<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · PHASE_6_ACCEPTANCE_CHECKLIST.md · OPERATOR_GUIDE.md -->
 
 ## Module Purpose
 
 The timeseries module provides ingestion, storage, compression, retention, aggregation, and query behavior for high-frequency time-series workloads in ThemisDB.
+
+## Production Status
+
+✅ **PRODUCTION-READY** (Phase 1–6 complete, 2026-08-07)
+- Core API contract frozen (Phase 1)
+- Comprehensive implementation (Phase 2–3)
+- Contract test suite complete: TSCH-01..16 (Phase 4)
+- Release gates locked: TSRG-01..06 (Phase 5)
+- Documentation and acceptance complete (Phase 6)
+
+## Quick Links for Operators and Developers
+
+- **Operators:** See [OPERATOR_GUIDE.md](OPERATOR_GUIDE.md) for deployment, tuning, monitoring, and incident response
+- **Performance:** See [PERFORMANCE_BASELINE.md](PERFORMANCE_BASELINE.md) for release gate baselines and regression detection
+- **Production Requirements:** See [PRODUCTION_REQUIREMENTS.md](PRODUCTION_REQUIREMENTS.md) for mandatory constraints
+- **Phase 6 Acceptance:** See [PHASE_6_ACCEPTANCE_CHECKLIST.md](PHASE_6_ACCEPTANCE_CHECKLIST.md) for completion evidence
+- **Architecture:** See [ARCHITECTURE.md](ARCHITECTURE.md) for design overview
+- **Roadmap:** See [ROADMAP.md](ROADMAP.md) for delivery phases and status
 
 ## Relevant Interfaces
 

@@ -1,12 +1,41 @@
 /**
  * @file adaptive_flush_controller.h
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
- * @version 0.0.10
+ * @brief Phase 2 hardening: Concurrency-safe adaptive flush controller with fail-safe guarantees.
+ * @version 0.1.0
  * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 94/100
- * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
+ * @note Status: Phase 2 — Core Implementation Complete
+ * 
+ * ## Overview
+ * 
+ * AdaptiveFlushController implements a buffered, asynchronous timeseries write path with:
+ * - **RAII-based lifecycle**: Explicit start()/stop() with deterministic resource cleanup
+ * - **Fail-safe buffering**: Non-blocking add()/addBatch() with explicit backpressure signals
+ * - **Concurrency safety**: std::mutex + std::lock_guard for all shared state
+ * - **Deterministic flush coordination**: Watermark + periodic timeout triggers
+ * - **High-performance statistics**: Atomic counters enable lockless telemetry
+ * 
+ * ## Error Handling
+ * 
+ * All public methods return Result<T> with explicit error codes:
+ * - **ERR_API_INVALID_REQUEST**: Validation failure (empty metric/entity)
+ * - **ERR_API_RESOURCE_EXHAUSTED**: Backpressure timeout or controller stopped
+ * 
+ * ## Thread Safety
+ * 
+ * Safe for concurrent calls from multiple producers:
+ * - add() and addBatch() can be called concurrently from different threads
+ * - flush() is safe to call from any thread while running or stopped
+ * - getStats() provides lockless snapshot via atomic counters
+ * 
+ * ## Performance Expectations
+ * 
+ * - p99 flush latency: ≤ 200µs (GATE-TSRG-04)
+ * - Backpressure response: < 1ms
+ * - Stats readout: Lock-free via atomics
+ * 
+ * @see include/timeseries/timeseries_api_contract.h
+ * @see src/timeseries/ROADMAP.md
+ * @see src/timeseries/PERFORMANCE_EXPECTATIONS.md
  */
 
 #pragma once

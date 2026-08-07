@@ -1,6 +1,6 @@
 # Process Module Performance Expectations
 
-**Status:** 2026-08-06 – Phase 5 complete, all 42 benchmark gates locked  
+**Status:** 2026-08-06 – Phase 5 complete, all 46 benchmark gates locked  
 **Validation:** All mapped benchmarks passing with p95/p99 envelopes validated
 
 ## Scope
@@ -95,60 +95,105 @@ This document defines measurable performance expectations for release gating and
 **Regression Budget:** ≤10% vs release baseline  
 **Determinism:** Same model → same serialized output (deterministic) every time
 
+## Benchmark Gate Naming & Mapping
+
+This document uses two complementary naming schemes for benchmark gates to support both functional organization and operational categorization.
+
+### Naming Scheme Reference
+
+**Primary Scheme (Performance Targets Sections 1-5):**
+- Format: `PRCP-<subsystem>-<variant>`
+  - `PRCP-1A, PRCP-1B, ..., PRCP-1G` = Parser Performance gates
+  - `PRCP-2A, PRCP-2B, ..., PRCP-2G` = Linking Performance gates
+  - `PRCP-3A, PRCP-3B, ..., PRCP-3G` = Retrieval Performance gates
+  - `PRCP-4A, PRCP-4B, ..., PRCP-4E` = High-Churn Scenario gates
+
+**Secondary Scheme (Benchmark Gate Mapping & Enforcement):**
+- Format: `<Category>-<NN>`
+  - `CP-01 to CP-06` = Concurrency Performance gates (maps to PRCP-2 subsystem)
+  - `DP-01 to DP-06` = Determinism Performance gates (maps to PRCP-2 subsystem)
+  - `GO-01 to GO-06` = Diagnostics Overhead gates (new subsystem)
+  - `PP-01 to PP-08` = Parser Performance gates (maps to PRCP-1 subsystem)
+  - `LP-01 to LP-06` = Linker Performance gates (maps to PRCP-2 subsystem)
+  - `RP-01 to RP-08` = Retriever Performance gates (maps to PRCP-3 subsystem)
+  - `BE-01 to BE-06` = Benchmark Envelope gates (cross-cutting)
+
+### PRCP → Categorical Gate Mapping
+
+| PRCP Gates | → | Categorical Gates | Count |
+|------------|---|-------------------|-------|
+| PRCP-1 (Parser) | → | PP-01..08 | 8 |
+| PRCP-2 (Linking) | → | CP-01..06, DP-01..06, LP-01..06 | 18 |
+| PRCP-3 (Retrieval) | → | RP-01..08 | 8 |
+| PRCP-4 (High-Churn) | → | BE-01..06 | 6 |
+| (Diagnostics Overhead) | → | GO-01..06 | 6 |
+| **Total** | | **46 gates** | **46** |
+
+**Usage Note:** For operational monitoring and release automation, use the categorical scheme (CP/DP/GO/LP/RP/BE/HC). For performance documentation and performance target discussions, use the subsystem scheme (PRCP-N).
+
 ## Benchmark Gate Mapping
 
-### Core Benchmark Targets (42 gates)
+### Core Benchmark Targets (46 gates)
 
-#### Parser Performance Gates (CP)
-- CP-001: BpmnDeserialize_SmallModel
-- CP-002: BpmnDeserialize_LargeModel
-- CP-003: BpmnDeserialize_DeepNesting
-- CP-004: CmmnDeserialize_Standard
-- CP-005: EpkDeserialize_Standard
-- CP-006: DmnEvaluate_Standard
-- CP-007: OcelExport_Standard
+#### Concurrency Performance Gates (CP)
+- CP-01: Concurrent CRUD (100 models)
+- CP-02: Concurrent CRUD (1k models)
+- CP-03: Concurrent Import (100 BPMN)
+- CP-04: Concurrent Export (100 models)
+- CP-05: Concurrent Linking (100 models)
+- CP-06: Concurrent Retrieval (1k models)
 
-#### Determinism Gates (DP)
-- DP-001: BpmnParsing_Deterministic
-- DP-002: UuidV5_Deterministic
-- DP-003: ConflictResolution_Deterministic
-- DP-004: RoundTrip_Fidelity
-- DP-005: SerializationOrder_Deterministic
+#### Determinism Performance Gates (DP)
+- DP-01: BpmnParsing_Deterministic
+- DP-02: UuidV5_Deterministic
+- DP-03: ConflictResolution_Deterministic
+- DP-04: RoundTrip_Fidelity
+- DP-05: SerializationOrder_Deterministic
+- DP-06: Export_Deterministic
 
-#### Graph Operations Gates (GO)
-- GO-001: GraphSearch_Small
-- GO-002: GraphSearch_Large
-- GO-003: CommunityDetection_Standard
-- GO-004: ConformanceCheck_Standard
+#### Diagnostics Overhead Gates (GO)
+- GO-01: DiagnosticsOverhead_Idle
+- GO-02: DiagnosticsOverhead_LowLoad
+- GO-03: DiagnosticsOverhead_MediumLoad
+- GO-04: DiagnosticsOverhead_HighLoad
+- GO-05: DiagnosticsOverhead_Incident
+- GO-06: DiagnosticsOverhead_Batch
 
 #### Parser Performance Gates (PP)
-- PP-001: ModelValidation_Standard
-- PP-002: ImportValidation_Standard
-- PP-003: ParserResourceLimit_Enforcement
+- PP-01: BpmnDeserialize_SmallModel
+- PP-02: BpmnDeserialize_LargeModel
+- PP-03: BpmnDeserialize_DeepNesting
+- PP-04: CmmnDeserialize_Standard
+- PP-05: EpkDeserialize_Standard
+- PP-06: DmnEvaluate_Standard
+- PP-07: OcelExport_Standard
+- PP-08: ModelValidation_Standard
 
 #### Linking Performance Gates (LP)
-- LP-001: LinkCreation_SingleThread
-- LP-002: LinkCreation_HighContention
-- LP-003: LinkQuery_Batch
-- LP-004: LinkDelete_Standard
-- LP-005: ConsistencyValidation_Standard
-- LP-006: StaleDetection_Standard
+- LP-01: LinkCreation_SingleThread
+- LP-02: LinkCreation_HighContention
+- LP-03: LinkQuery_Batch
+- LP-04: LinkDelete_Standard
+- LP-05: ConsistencyValidation_Standard
+- LP-06: StaleDetection_Standard
 
-#### Retrieval Performance Gates (RP)
-- RP-001: ModelRetrieve_Cached
-- RP-002: ModelRetrieve_Disk
-- RP-003: PromptGeneration_Standard
-- RP-004: GraphSearch_FullText
-- RP-005: EmbeddingGenerate_Standard
+#### Retriever Performance Gates (RP)
+- RP-01: ModelRetrieve_Cached
+- RP-02: ModelRetrieve_Disk
+- RP-03: PromptGeneration_Standard
+- RP-04: GraphSearch_FullText
+- RP-05: EmbeddingGenerate_Standard
+- RP-06: BulkRetrieve_QPS
+- RP-07: KnowledgeGraph_Build
+- RP-08: RAG_Pipeline_E2E
 
 #### Benchmark Envelope Gates (BE)
-- BE-001: Regression_Budget ≤10%
-- BE-002: P95_Variance <20%
-- BE-003: P99_Limit <200ms
-- BE-004: NoOutliers >3σ
-- BE-005: HighChurn_Stability
-- BE-006: ConcurrencyConflict_Rate
-- BE-007: ThroughputTarget_Met
+- BE-01: Regression_Budget ≤10%
+- BE-02: P95_Variance <20%
+- BE-03: P99_Limit <200ms
+- BE-04: NoOutliers >3σ
+- BE-05: HighChurn_Stability
+- BE-06: ConcurrencyConflict_Rate
 
 ### High-Churn Scenario Gates (HC)
 
@@ -188,7 +233,7 @@ These gates are monitored but do not block release (unless trend is concerning):
 ### Before Release
 
 1. **Run Benchmark Suite**
-   - Execute all 42 benchmark gates in release profile
+   - Execute all 46 benchmark gates in release profile
    - Capture P50, P95, P99 latencies
    - Collect resource metrics (memory, CPU, context switches)
 
@@ -208,7 +253,7 @@ These gates are monitored but do not block release (unless trend is concerning):
    - Verify no deadlocks or timeouts
 
 5. **Gate Manifest Completeness**
-   - Verify all 42 gates present in benchmark output
+   - Verify all 46 gates present in benchmark output
    - Verify no missing cases (100% coverage requirement)
 
 ### Release Sign-Off
@@ -217,8 +262,8 @@ Gate manifest validation:
 ```
 GATE CHECK STATUS
 ==================
-Total gates: 42
-Passed: 42
+Total gates: 46
+Passed: 46
 Failed: 0
 Blocked: 0
 RECOMMENDATION: ✓ APPROVED FOR RELEASE

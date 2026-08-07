@@ -27,14 +27,19 @@
  */
 
 #include "process/cmmn_serializer.h"
+#include "process/serializer_hardening.h"
+#include "process/process_diagnostics.h"
+#include "process/process_common.h"
 
 #include <algorithm>
 #include <cctype>
 #include <fstream>
+#include <map>
+#include <set>
 #include <sstream>
 #include <string>
-#include <unordered_map>
-#include <unordered_set>
+
+#include <spdlog/spdlog.h>
 
 namespace themis {
 namespace process {
@@ -78,13 +83,13 @@ static std::string unescapeXml(std::string_view s) {
 
 struct XmlTag {
     std::string name;
-    std::unordered_map<std::string, std::string> attrs;
+    std::map<std::string, std::string> attrs;
     bool self_closing{false};
     bool is_close{false};
 };
 
 static void parseAttrs(std::string_view src,
-                       std::unordered_map<std::string, std::string>& out)
+                       std::map<std::string, std::string>& out)
 {
     size_t i = 0;
     const size_t n = src.size();
@@ -216,7 +221,7 @@ bool tokenizeCmmnXml(std::string_view xml, TagCb tag_cb, TextCb text_cb) {
 }
 
 /// CMMN plan-item element names that map to ProcessNodeInfo nodes.
-static const std::unordered_set<std::string> kCmmnTaskTags = {
+static const std::set<std::string> kCmmnTaskTags = {
     "humanTask", "processTask", "caseTask",
     "stage", "casePlanModel", "milestone",
 };
@@ -250,11 +255,20 @@ std::string CmmnSerializer::escapeXml_(std::string_view s) {
 CmmnSerializer::ImportResult CmmnSerializer::importXml(std::string_view cmmn_xml) {
     ImportResult result;
 
-    if (cmmn_xml.empty() || cmmn_xml.size() > kMaxCmmnXmlBytes) {
+    // Phase 3: Validate input before parsing
+    auto validation = SerializerInputValidator::validateInput(
+        cmmn_xml,
+        "CMMN 1.1"
+    );
+    if (!validation.ok) {
         result.ok      = false;
-        result.message = cmmn_xml.empty()
-                         ? "Empty CMMN XML"
-                         : "CMMN XML exceeds maximum allowed size (10 MiB)";
+        result.message = validation.error_message;
+        auto incident = ProcessDiagnostics::createMalformedInputIncident(
+            ProcError::kDeserialiserFailed,
+            "<cmmn_xml>",
+            validation.error_message
+        );
+        SPDLOG_WARN("[cmmn_serializer] {}", incident.toFormattedMessage());
         return result;
     }
 
@@ -265,14 +279,18 @@ CmmnSerializer::ImportResult CmmnSerializer::importXml(std::string_view cmmn_xml
 
     // Sentry tracking:
     //   sentry_id → sourceRef (from <onPart sourceRef="…">)
-    std::unordered_map<std::string, std::string> sentry_sources;
+    std::map<std::string, std::string> sentry_sources;
     //   sentry_id → target plan-item id (from entryCriterion/exitCriterion)
-    std::unordered_map<std::string, std::string> sentry_targets;
+    std::map<std::string, std::string> sentry_targets;
 
     std::string current_sentry_id;
     bool        in_sentry{false};
 
-    std::unordered_set<std::string> seen_node_ids;
+    std::set<std::string> seen_node_ids;
+
+    // Phase 3: Initialize parser state tracker for resource limit enforcement
+    ParserStateTracker parser_state(static_cast<size_t>(kMaxCmmnXmlBytes));
+    parser_state.start_timestamp = std::chrono::system_clock::now();
 
     auto tag_cb = [&](const XmlTag& t) {
         const std::string& tn = t.name;
@@ -442,6 +460,12 @@ CmmnSerializer::ImportResult CmmnSerializer::importFile(std::string_view file_pa
         ImportResult r;
         r.ok      = false;
         r.message = "Cannot open file: " + std::string(file_path);
+        auto incident = ProcessDiagnostics::createImportIncident(
+            ProcError::kDeserialiserFailed,
+            file_path,
+            r.message
+        );
+        SPDLOG_WARN("[cmmn_serializer] {}", incident.toFormattedMessage());
         return r;
     }
     std::string content((std::istreambuf_iterator<char>(f)),

@@ -84,18 +84,24 @@ All phases completed 2026-08-06. See detailed breakdown below.
 **Objective:** Expand focused regressions for process edge scenarios and deterministic stress testing.
 
 **Deliverables:**
-- [x] 72 test cases covering C/D/G/P/L/R/S scenarios
+- [x] 72 test cases covering C/D/G/P/L/R/S scenarios (76 total with comprehensive coverage)
 - [x] Deterministic fixtures for high-churn operations
-- [x] Parser/linker edge-case coverage
-- [x] Retrieval and mining stress tests
+- [x] Parser/linker edge-case coverage (P-01..P-16, L-01..L-08)
+- [x] Retriever edge-case tests (R-01..R-16): empty results, large context, timeouts, concurrent queries
+- [x] Stress scenarios 1-12 (S-01..S-08 + S-09..S-12 retriever stress tests)
 - [x] Conflict resolution and LWW behavior validation
 
 **Test Coverage:**
-- Parser hardening (malformed models, resource limits, deep nesting)
-- Linker consistency (orphaned links, stale references, cycles)
-- Determinism validation (same input → same output)
-- Concurrency validation (conflict resolution, no deadlocks)
-- Retrieval resilience (high-churn scenarios, snapshot consistency)
+- Parser hardening (P-01..P-16: malformed models, resource limits, deep nesting)
+- Linker consistency (L-01..L-08: orphaned links, stale references, cycles)
+- Determinism validation (D-01..D-08: same input → same output)
+- Concurrency validation (C-01..C-08: conflict resolution, no deadlocks)
+- Retriever edge-cases (R-01..R-16: empty graphs, large context, timeouts, concurrent queries, graceful degradation)
+- Stress scenarios (S-01..S-12: parser churn, linker churn, retriever scenarios, query churn)
+
+**Recent Additions (2026-08-06):**
+- `test_process_retriever_edge_focused.cpp`: 16 edge-case tests for retriever resource limits and error paths
+- `test_process_stress_churn_focused.cpp`: Added S-09..S-12 stress tests (empty graph query, large context, timeout, concurrent churn)
 
 **Status:** ✓ COMPLETE
 
@@ -115,13 +121,35 @@ All phases completed 2026-08-06. See detailed breakdown below.
 - Retrieval query: <100 ms (P95)
 - No regression >10% vs release baseline
 
-**Benchmark Gates:**
-- CP (Concurrency Performance), DP (Determinism Performance)
-- GO (Graph Operations), PP (Parser Performance)
-- LP (Linking Performance), RP (Retrieval Performance)
-- BE (Benchmark Envelope)
+**Benchmark Gates (42 total):**
+- CP (Concurrency Performance): 6 gates - model CRUD, import/export, linking, retrieval
+- DP (Determinism Performance): 6 gates - conflict resolution, LWW overhead, rollback, version clocks
+- GO (Graph Operations): 6 gates - link traversal, graph construction, cycle detection, community detection
+- PP (Parser Performance): 8 gates - BPMN/CMMN/EPK parsing, resource limits, interop
+- LP (Linking Performance): 6 gates - linking latency, cyclic dependency detection, validation, stale links
+- RP (Retrieval Performance): 8 gates - model retrieval, context assembly, queries, RAG
+- BE (Benchmark Envelope): 9 gates - baseline comparison, regression budget, high-churn, memory/lock/GC
 
-**Status:** ✓ COMPLETE
+**Implementation Details:**
+- Google Benchmark framework with deterministic seeding (kCanonicalRngSeed=42)
+- Steady clock timing (std::chrono::high_resolution_clock)
+- p95/p99 percentile measurements (not just mean)
+- High-churn scenario coverage (>500 concurrent operations)
+- Release baseline tracking with 10% regression budget
+- CSV/JSON output for trend analysis
+
+**New Gates Added (Aug 2026):**
+- DP-05: Deterministic Output Verification - ensures identical output across runs
+- DP-06: Version Clock Operations - measures logical clock overhead
+- GO-02: Link Traversal Latency (1k links) - p95 ≤ 50ms
+- GO-03: Graph Construction (100 models) - p95 ≤ 100ms
+- GO-04: Cycle Detection (1k nodes) - p95 ≤ 75ms
+- GO-05: Community Detection (500 nodes) - p95 ≤ 150ms
+- GO-06: Complex Graph p95 Latency (5k nodes) - p95 ≤ 100ms
+- LP-05: Stale Link Detection (5k links) - p99 ≤ 150ms
+- LP-06: Batch Link Operations (1k batch) - p99 ≤ 200ms
+
+**Status:** ✓ COMPLETE (2026-08-06)
 
 ### Phase 6: Documentation & Acceptance ✓ COMPLETE
 **Objective:** Finalize API documentation and acceptance criteria for module closure.

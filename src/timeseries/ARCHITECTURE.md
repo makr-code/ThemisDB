@@ -1,7 +1,7 @@
 # Architecture - Timeseries Module
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+<!-- Status: current | validated: 2026-08-07 -->
+<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · PHASE_6_ACCEPTANCE_CHECKLIST.md · PERFORMANCE_BASELINE.md · OPERATOR_GUIDE.md -->
 
 ## Overview
 

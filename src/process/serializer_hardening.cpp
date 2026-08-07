@@ -11,8 +11,8 @@
 
 #include <algorithm>
 #include <chrono>
+#include <set>
 #include <sstream>
-#include <unordered_set>
 
 namespace themis::process {
 
@@ -301,7 +301,7 @@ SerializerValidationResult BpmnValidator::validateBpmnConstraints(
     }
 
     // Check for duplicate IDs
-    std::unordered_set<std::string> seen;
+    std::set<std::string> seen;
     for (const auto& id : element_ids) {
         if (id.empty()) {
             return SerializerValidationResult::failure(
@@ -330,7 +330,7 @@ SerializerValidationResult EpkValidator::validateEpkConstraints(
     }
 
     // Build node set for edge validation
-    std::unordered_set<std::string> node_set(nodes.begin(), nodes.end());
+    std::set<std::string> node_set(nodes.begin(), nodes.end());
 
     // Check for duplicate node IDs
     if (node_set.size() != nodes.size()) {
@@ -373,7 +373,7 @@ SerializerValidationResult CmmnValidator::validateCmmnConstraints(
     }
 
     // Check for duplicate item IDs
-    std::unordered_set<std::string> seen;
+    std::set<std::string> seen;
     for (const auto& id : item_ids) {
         if (id.empty()) {
             return SerializerValidationResult::failure(

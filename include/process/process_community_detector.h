@@ -81,6 +81,24 @@ struct ProcessCommunity {
  */
 class ProcessCommunityDetector {
 public:
+    /**
+     * @brief Construct a ProcessCommunityDetector with a RocksDB backend.
+     *
+     * @param db Reference to a RocksDBWrapper instance that will be used for storing and
+     *           retrieving detected community data. The ProcessCommunityDetector does not own
+     *           this reference; the caller is responsible for keeping the RocksDBWrapper
+     *           alive for the entire lifetime of this detector instance.
+     *
+     * @note Thread-safe: Multiple ProcessCommunityDetector instances can be created with the
+     *       same RocksDB backend, and their operations will properly synchronize via RocksDB's
+     *       internal locking mechanisms.
+     *
+     * @note The constructor does not perform any I/O; community detection is triggered
+     *       lazily when detect() is called.
+     *
+     * @see detect() to run community detection on a process model
+     * @see generateReport() to create human-readable community descriptions
+     */
     explicit ProcessCommunityDetector(RocksDBWrapper& db);
 
     /**

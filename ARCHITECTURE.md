@@ -15,7 +15,7 @@ ThemisDB is a high-performance, multi-model database system that integrates rela
 
 ## Main Directory Structure
 
-### `/src/` - Implementation (66 tracked modules)
+### `/src/` - Implementation (62 integrated modules)
 
 | Directory | Purpose | Key Classes |
 |-----------|---------|-------------|
@@ -371,6 +371,30 @@ Lifecycle management for LLM prompts and domain-specific fine-tuning adapters:
 - Adapter version management: deploy, rollback, traffic splitting
 - Confidence gating for human review of low-confidence training samples
 - Pimpl pattern for ABI stability across all components
+
+---
+
+---
+
+## Module Classification (Core, Integrated Modules, Plugins)
+
+For a comprehensive classification of all 62 modules and their architectural tier assignment, see:
+
+**Primary:** [`ai_context/ARCHITECTURE_CLASSIFICATION.md`](ai_context/ARCHITECTURE_CLASSIFICATION.md)  
+**Companion:** [`ai_context/MODULES_AND_NAMESPACES.md`](ai_context/MODULES_AND_NAMESPACES.md) (with tier, namespace, and plugin version columns)  
+**Plugin Guide:** [`plugins/ARCHITECTURE.md`](plugins/ARCHITECTURE.md) (T5 public/private plugin architecture)
+
+**Quick Reference:**
+- **T0 Core** (5 modules): base, core, plugins, themis, utils
+- **T1–T2 Engine** (7 modules): aql, cache, execution, index, metadata, query, storage
+- **T3–T4 Infrastructure** (50 modules): all other `src/` modules
+- **T5 Plugins** (14 public + 4 Wave-1 private): public plugins in `plugins/`, private submodules in `plugins/private/`
+
+Key insights:
+- Some modules have both integrated (`src/`) and plugin versions for gradual externalization
+- Wave-1 private plugins (ethics_ai, user_storage_encrypted, importers, llm_wiki) are enterprise-exclusive
+- Public plugins are optional runtime extensions; core integrated modules are always built
+- Integrated fallback ensures Community/Minimal editions don't require runtime plugin loading
 
 ---
 

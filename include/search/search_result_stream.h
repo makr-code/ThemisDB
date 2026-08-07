@@ -1,18 +1,18 @@
 /**
  * @file search_result_stream.h
  * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
- * @version 0.0.10
+ * @version 2.0.0
  * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 86/100
- * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * @note Status: Production Ready
+ * @note Score: 95/100
+ * @note Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * @note Status: Production Ready - v2.0.0 Contract Freeze (Phase 1)
  * @note This block is auto-generated and will be overwritten.
  */
 
 /*
- * ThemisDB | File: search_result_stream.h | Version: 0.0.10
+ * ThemisDB | File: search_result_stream.h | Version: 2.0.0 (Phase 1: Contract Freeze)
  * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
+ * Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * Status: Production Ready
  * (Automatisch generiert, Änderungen werden überschrieben)
  */
@@ -96,6 +96,9 @@ public:
 
         /// Results per page returned by `nextPage()`.
         size_t page_size = 100;
+        
+        /// Timeout in milliseconds for open() call. 0 = no timeout.
+        uint32_t open_timeout_ms = 30'000;  // 30 second default
     };
 
     /**

@@ -1,4 +1,4 @@
-> **Status:** 2026-06-01 – mit aktuellem Timeseries-Code (`compression_selector.cpp`) abgeglichen.
+> **Status:** 2026-08-07 – mit aktuellen Timeseries-Dokumenten (`PERFORMANCE_BASELINE.md`, `PHASE_6_ACCEPTANCE_CHECKLIST.md`, `OPERATOR_GUIDE.md`) verlinkt.
 
 # ThemisDB Timeseries Module - Production Requirements
 
@@ -13,6 +13,9 @@ Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für Compressio
 - **`src/timeseries/README.md`:** Funktionsübersicht, Architekturkontext, API- und Nutzungsbeispiele.
 - **`src/timeseries/ROADMAP.md`:** Lieferphasen, offene/abgeschlossene Features, Readiness-Planung.
 - **`src/timeseries/FUTURE_ENHANCEMENTS.md`:** mittelfristige/langfristige Erweiterungen und Forschungsfelder.
+- **`src/timeseries/PERFORMANCE_BASELINE.md`:** Release gate baselines, Regression detection, Performance characteristics.
+- **`src/timeseries/PHASE_6_ACCEPTANCE_CHECKLIST.md`:** Phase 1–6 completion evidence, acceptance criteria, sign-off.
+- **`src/timeseries/OPERATOR_GUIDE.md`:** Deployment, configuration, tuning, monitoring, incident response.
 
 ## Verbindliche Produktionsanforderungen
 

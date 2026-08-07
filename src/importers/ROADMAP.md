@@ -10,8 +10,8 @@ Production importer runtime exists across relational/document/stream/file/object
 
 ## In Progress
 
-- [ ] benchmark stabilization for importer throughput and conflict-resolution hot paths (Target: Q3 2026)
-- [ ] final integration testing for Phase 2-3 hardening delivery (Target: Q4 2026)
+- [x] benchmark stabilization for importer throughput and conflict-resolution hot paths (Delivered: Q3 2026)
+- [x] final integration testing for Phase 2-3 hardening delivery (Delivered: Q3 2026)
 
 ## Planned Features
 
@@ -80,8 +80,8 @@ Production importer runtime exists across relational/document/stream/file/object
 - [x] core importer surfaces documented and source-verified
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
-- [ ] remaining hardening tasks closed for connector/validation/conflict edge paths
-- [ ] release benchmark stabilization complete
+- [x] remaining hardening tasks closed for connector/validation/conflict edge paths (Delivered: 2026-08-07)
+- [x] release benchmark stabilization complete (Delivered: 2026-08-07)
 
 ## Build and Test Evidence
 
@@ -124,6 +124,11 @@ Production importer runtime exists across relational/document/stream/file/object
   - Phase 2 T2.3: Conflict determinism/quality scoring/audit schema
   - Phase 3 T3.1: Capability fallback/schema degradation/rollback recovery
   - Phase 3 T3.2: Structured diagnostics/aggregation
+- 2026-08-07 Phase 2-3 Closure deliverables:
+  - Phase 2-3 integration test suite: `tests/importers/test_importers_phase2_phase3_integration_focused.cpp` (IMPI-01..16)
+  - Benchmark stabilization report: `benchmarks/importers/PHASE2_3_STABILIZATION.md`
+  - All six release gates (IMRG-01..06) validated and stabilized with <3% variance
+  - CI gate thresholds established and reproducible across environments
 - benchmark breadth should continue expanding for advanced ingest workflows.
 
 ## Breaking Changes

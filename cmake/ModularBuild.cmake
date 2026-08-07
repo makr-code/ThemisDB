@@ -695,6 +695,8 @@ set(THEMIS_QUERY_SOURCES
     ../src/process/object_centric_tracer.cpp
     ../src/process/process_community_detector.cpp
     ../src/process/process_light_retriever.cpp
+    ../src/process/federation_replica_manager.cpp
+    ../src/process/process_conflict_resolver.cpp
     ../src/analytics/jit_aggregation.cpp
     ../src/analytics/anomaly_detection.cpp
     ../src/analytics/forecasting.cpp
