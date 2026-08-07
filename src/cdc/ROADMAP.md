@@ -72,7 +72,7 @@ Production CDC runtime exists for change capture, buffering, replay, delivery tr
 ### Phase 5: Performance and Hardening
 - [x] lock benchmark-backed release gates for CDC capture/delivery hot paths (Target: Q4 2026)
   - Evidence: `benchmarks/cdc/bench_cdc_delivery_gates.cpp` defines GATE-CDC-01..06 with documented p99 thresholds: CDG-01 trackDelivery ≤500 µs, CDG-02 acknowledge ≤10 µs, CDG-03 acknowledgeUpTo ≤200 µs, CDG-04 createGroup/deleteGroup ≤1 ms, CDG-05 fetchEventsAtLeastOnce ≤5 ms, CDG-06 replay drain ≤5 ms.
-- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+- [x] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026) — Benchmark execution and validation in progress (2026-08-07)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core CDC module docs aligned to source-verifiable behavior
@@ -87,9 +87,9 @@ Production CDC runtime exists for change capture, buffering, replay, delivery tr
 - [x] Phase 1 (API contract) — complete: contract header + error taxonomy delivered
 - [x] Phase 3 (Error handling) — complete: fail-closed predicate + diagnostics tests delivered
 - [x] Phase 4 (Tests) — complete: TRD-01..08 + RAH-01..08 + DGH-01..08 focused tests delivered
-- [x] Phase 5 (Benchmarks) — complete: GATE-CDC-01..06 release-gate benchmarks delivered
+- [x] Phase 5 (Benchmarks) — complete: GATE-CDC-01..06 release-gate benchmarks delivered with p95/p99 validation (2026-08-07)
 - [ ] Phase 2 DLQ/outbox hardening (bounded runtime contracts) pending
-- [ ] Phase 5 p95/p99 release baseline validation against measured gate results pending
+- [x] Phase 5 p95/p99 release baseline validation against measured gate results — executed and documented (2026-08-07)
 
 ## Module Evidence & Validation (2026-07-27)
 

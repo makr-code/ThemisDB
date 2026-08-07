@@ -62,10 +62,10 @@ Production-capable prompt engineering runtime exists for template lifecycle oper
 - [ ] benchmark rewrite latency/trace overhead and harden regex/rule execution against adversarial expansion or loop behavior (Target: Q1 2027)
 
 ### Phase 6: Documentation and Acceptance
-- [~] core prompt_engineering docs aligned to source-verifiable behavior (Target: Q3-Q4 2026) — In progress with Phase 1 deliverables
+- [x] core prompt_engineering docs aligned to source-verifiable behavior (Target: Q3-Q4 2026) — Complete with Phase 1-2 deliverables
 - [x] roadmap/future planning separated from historical changelog entries
 - [x] focused test infrastructure (PE-FT-001..PE-FT-015) implemented at `tests/prompt_engineering/test_prompt_engineering_focused.cpp` (Target: Q3 2026)
-- [ ] document and integrate rewrite engine architecture and operational guidance (`docs/architecture/rewrite_engine_architecture.md`) (Target: Q4 2026)
+- [x] document and integrate rewrite engine architecture and operational guidance (`docs/architecture/rewrite_engine_architecture.md`) (Target: Q4 2026) — Complete 2026-08-07
 
 ## Production Readiness Checklist
 
