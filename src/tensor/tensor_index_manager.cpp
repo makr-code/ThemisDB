@@ -48,6 +48,10 @@ namespace {
                                               int64_t id) {
     return tenant_id + ":" + collection + ":" + field + ":" + std::to_string(id);
 }
+
+// Bounded concurrency control for concurrent workload hardening
+constexpr size_t kMaxConcurrentCreates = 256;
+constexpr size_t kMaxLegacyCacheSize   = 1000;
 }
 
 // ============================================================================
@@ -98,6 +102,17 @@ ITensorIndex* TensorIndexManager::createIndex(const std::string& tenant_id,
                                                size_t /*dim*/,
                                                size_t /*max_rank*/,
                                                double /*epsilon*/) {
+    // Bounded concurrency control: wait if too many creates in flight
+    while (pending_operations_.load(std::memory_order_acquire) >= kMaxConcurrentCreates) {
+        std::this_thread::yield();
+    }
+    pending_operations_.fetch_add(1, std::memory_order_release);
+    
+    struct OpGuard {
+        std::atomic<size_t>& op_count;
+        ~OpGuard() { op_count.fetch_sub(1, std::memory_order_release); }
+    } op_guard{pending_operations_};
+
     IndexHandle h;
     h.tenant_id  = tenant_id;
     h.collection = collection;
@@ -360,6 +375,21 @@ TensorIndexManager::ggmlCorePtrs(const std::string& tenant_id,
 
     if (!ptrs.empty()) {
         std::lock_guard<std::mutex> lock(legacy_bridge_mutex_);
+        
+        // Capacity guard for legacy bridge cache: when usage exceeds 90%,
+        // evict arbitrary entries from the unordered_map until back to 50%.
+        const size_t threshold_evict = (kMaxLegacyCacheSize * 9) / 10;
+        if (legacy_bridge_cache_.size() >= threshold_evict) {
+            // Evict 50% of entries to restore breathing room
+            const size_t target_size = kMaxLegacyCacheSize / 2;
+            while (legacy_bridge_cache_.size() > target_size) {
+                auto it = legacy_bridge_cache_.begin();
+                if (it != legacy_bridge_cache_.end()) {
+                    legacy_bridge_cache_.erase(it);
+                }
+            }
+        }
+        
         legacy_bridge_cache_[makeLegacyBridgeKey(tenant_id, collection, field, id)] =
             std::shared_ptr<TensorMmapBridge>(std::move(bridge));
     }
