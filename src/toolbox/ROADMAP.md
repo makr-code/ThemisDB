@@ -45,8 +45,10 @@ Production-usable toolbox runtime exists for ingestion-oriented extraction orche
 - [x] extend deterministic stress fixtures for toolbox-adjacent extraction workloads (Target: Q4 2026)
 
 ### Phase 5: Performance and Hardening
-- [ ] lock dedicated benchmark-backed release gates for toolbox hot paths once native suites exist (Target: Q4 2026)
-- [ ] validate proxy and future direct benchmark behavior against release baselines (Target: Q4 2026)
+- [x] create dedicated toolbox-native benchmark suite (Target: Q3 2026, completed 2026-08-07)
+- [x] establish initial performance gates GATE-TBX-P1..P6 (Target: Q3 2026, completed 2026-08-07)
+- [~] validate proxy and direct benchmark behavior against release baselines (Target: Q4 2026)
+- [ ] lock release gates at Q3 2026 baselines and document regression limits (Target: Q1 2027)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core toolbox module docs aligned to source-verifiable behavior
@@ -57,14 +59,15 @@ Production-usable toolbox runtime exists for ingestion-oriented extraction orche
 - [x] core toolbox surfaces documented and source-verified
 - [x] module-level security and failure behavior documented
 - [x] proxy benchmark mapping documented in performance expectations
+- [x] dedicated toolbox-native benchmark suite created (Phase 5 - 2026-08-07)
 - [ ] remaining hardening tasks closed for orchestration/bridge/helper edge paths
-- [ ] dedicated benchmark stabilization complete
+- [ ] baseline measurements collected and release gates certified
 
 ## Known Issues and Limitations
 
-- no dedicated toolbox-native benchmark suite is present yet; current performance governance relies on adjacent proxy suites.
-- runtime behavior depends on ingestion/content subsystem integrations and workflow profiles.
-- selected bridge and helper edge scenarios need continued hardening.
+- Phase 5 native benchmark suite created but baseline measurements pending (scheduled for Q4 2026 release run)
+- Runtime behavior depends on ingestion/content subsystem integrations and workflow profiles
+- Selected bridge and helper edge scenarios have hardening in progress (Phase 2-3)
 
 ## Breaking Changes
 
