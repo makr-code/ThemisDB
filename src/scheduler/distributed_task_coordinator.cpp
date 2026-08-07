@@ -64,8 +64,12 @@ DistributedTaskCoordinator::DistributedTaskCoordinator(
                 coordinator_->getLocalShardId());
 }
 
-DistributedTaskCoordinator::~DistributedTaskCoordinator() {
-    stop();
+DistributedTaskCoordinator::~DistributedTaskCoordinator() noexcept {
+    try {
+        stop();
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Exception in DistributedTaskCoordinator destructor: {}", e.what());
+    }
 }
 
 // ── Lifecycle ────────────────────────────────────────────────────────────────

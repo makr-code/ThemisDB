@@ -146,12 +146,16 @@ void TaskAuditManager::writeToSecurityLog(const TaskSecurityEvent& event) {
     
     // Also log to main audit logger as security event
     if (audit_logger_) {
-        audit_logger_->logSecurityEvent(
-            utils::SecurityEventType::CUSTOM_EVENT,
-            event.user_id,
-            event.task_id,
-            event.toJson()
-        );
+        try {
+            audit_logger_->logSecurityEvent(
+                utils::SecurityEventType::CUSTOM_EVENT,
+                event.user_id,
+                event.task_id,
+                event.toJson()
+            );
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("Failed to log security event to audit logger: {}", e.what());
+        }
     }
 }
 

@@ -93,7 +93,7 @@ public:
         sharding::DistributedCoordinator* coordinator,
       const Config& config);
 
-    ~DistributedTaskCoordinator();
+    ~DistributedTaskCoordinator() noexcept;
 
     // Non-copyable, non-movable (holds raw pointers and threads).
     DistributedTaskCoordinator(const DistributedTaskCoordinator&) = delete;

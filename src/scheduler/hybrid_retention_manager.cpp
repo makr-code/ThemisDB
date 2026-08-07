@@ -54,8 +54,12 @@ HybridRetentionManager::HybridRetentionManager(
     THEMIS_INFO("HybridRetentionManager initialized with 3-stage strategy");
 }
 
-HybridRetentionManager::~HybridRetentionManager() {
-    stop();
+HybridRetentionManager::~HybridRetentionManager() noexcept {
+    try {
+        stop();
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Exception in HybridRetentionManager destructor: {}", e.what());
+    }
 }
 
 // ===== Lifecycle =====

@@ -116,8 +116,12 @@ EventTrigger::EventTrigger(Changefeed* changefeed,
     }
 }
 
-EventTrigger::~EventTrigger() {
-    stop();
+EventTrigger::~EventTrigger() noexcept {
+    try {
+        stop();
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Exception in EventTrigger destructor: {}", e.what());
+    }
 }
 
 void EventTrigger::start() {
@@ -543,8 +547,12 @@ EventTriggerManager::EventTriggerManager(Changefeed* changefeed)
     }
 }
 
-EventTriggerManager::~EventTriggerManager() {
-    stopAll();
+EventTriggerManager::~EventTriggerManager() noexcept {
+    try {
+        stopAll();
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Exception in EventTriggerManager destructor: {}", e.what());
+    }
 }
 
 bool EventTriggerManager::registerTrigger(const std::string& id,

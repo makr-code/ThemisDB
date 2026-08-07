@@ -59,7 +59,7 @@ public:
                  const CDCTriggerConfig& config,
                  TriggerCallback callback);
     
-    ~EventTrigger();
+    ~EventTrigger() noexcept;
     
     // Lifecycle
     void start();
@@ -178,7 +178,7 @@ private:
 class EventTriggerManager {
 public:
     explicit EventTriggerManager(Changefeed* changefeed);
-    ~EventTriggerManager();
+    ~EventTriggerManager() noexcept;
     
     /**
      * @brief Register a new event trigger
