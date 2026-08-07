@@ -1,0 +1,292 @@
+{
+  "comment": "False Positive Detection Engine — Configuration",
+  "version": "1.0",
+  "description": "Configure FP detection thresholds, detectors, and approved patterns",
+
+  "global_settings": {
+    "context_window_lines": 15,
+    "confidence_threshold_critical": 0.85,
+    "confidence_threshold_high": 0.70,
+    "confidence_threshold_medium": 0.50,
+    "min_confidence_report": 0.50,
+    "enabled": true
+  },
+
+  "detectors": {
+    "test_code_filter": {
+      "enabled": true,
+      "priority": 1,
+      "description": "Filter gaps in test, example, and documentation code",
+      "test_file_patterns": [
+        "test_",
+        "_test.cpp",
+        "_test.hpp",
+        "/tests/",
+        "/examples/",
+        "/demo/"
+      ],
+      "skip_patterns": [
+        "**/third_party/**",
+        "**/external/**",
+        "**/vendor/**"
+      ],
+      "confidence_adjustment": -1.0,
+      "classification": "TEST_MOCK",
+      "verified_severity": "INFO"
+    },
+
+    "placeholder_detector": {
+      "enabled": true,
+      "priority": 2,
+      "description": "Detect intentional placeholders (TODO, FIXME, STUB)",
+      "markers": [
+        "TODO",
+        "FIXME",
+        "STUB",
+        "TEMPORARY",
+        "XXX",
+        "HACK"
+      ],
+      "confidence_adjustment": -0.50,
+      "classification": "PLACEHOLDER",
+      "verified_severity": "MEDIUM"
+    },
+
+    "guarded_stub_detector": {
+      "enabled": true,
+      "priority": 3,
+      "description": "Detect guarded stubs with defensive patterns",
+      "guard_patterns": [
+        "\\bif\\s*\\(",
+        "guard\\s*\\(",
+        "DCHECK",
+        "CHECK",
+        "assert",
+        "VERIFY",
+        "\\bunlikely\\s*\\("
+      ],
+      "confidence_adjustment": -0.35,
+      "classification": "GUARDED_STUB",
+      "verified_severity": "HIGH"
+    },
+
+    "memory_safety_filter": {
+      "enabled": true,
+      "priority": 4,
+      "description": "Filter false positives in memory safety scanning",
+      "activation_patterns": [
+        "unzeroed",
+        "memory_leak",
+        "allocation"
+      ],
+      "crypto_keywords": [
+        "encrypt",
+        "decrypt",
+        "secret",
+        "key",
+        "password",
+        "cipher",
+        "hash",
+        "crypto"
+      ],
+      "false_positive_patterns": [
+        "vector.*response",
+        "buffer.*http",
+        "malloc.*body",
+        "new.*response",
+        "vector.*data",
+        "string.*buffer"
+      ],
+      "safe_patterns": [
+        "std::make_unique",
+        "std::make_shared",
+        "unique_lock",
+        "scoped_lock",
+        "memset.*0",
+        "secure_zero",
+        "OPENSSL_cleanse"
+      ],
+      "confidence_adjustments": {
+        "in_crypto_block": 0.15,
+        "generic_buffer": -0.30,
+        "safe_pattern": -0.25,
+        "explicitly_zeroed": -0.30
+      }
+    },
+
+    "audit_logging_filter": {
+      "enabled": true,
+      "priority": 5,
+      "description": "Filter false positives in audit logging requirements",
+      "activation_patterns": [
+        "audit",
+        "logging",
+        "log_event"
+      ],
+      "security_operations": [
+        "authenticate",
+        "authorize",
+        "encrypt",
+        "decrypt",
+        "sign",
+        "verify",
+        "key_derive",
+        "key_generate"
+      ],
+      "safe_functions": [
+        "init",
+        "cleanup",
+        "destructor",
+        "helper",
+        "util",
+        "format",
+        "parse",
+        "validate_input",
+        "get_config"
+      ],
+      "logging_markers": [
+        "LOG\\(",
+        "logger\\.",
+        "slog\\.",
+        "audit_log",
+        "security_log",
+        "AUDIT",
+        "SECURITY_LOG"
+      ],
+      "confidence_adjustments": {
+        "utility_function": -0.35,
+        "logging_present": -0.40,
+        "internal_function": -0.25,
+        "security_operation": 0.20
+      }
+    },
+
+    "encryption_context_filter": {
+      "enabled": true,
+      "priority": 6,
+      "description": "Filter false positives in encryption requirements",
+      "activation_patterns": [
+        "encrypt",
+        "classified",
+        "secret",
+        "confidential"
+      ],
+      "encryption_evidence": [
+        "\\.encrypt\\(",
+        "Cipher\\(",
+        "EVP_",
+        "AES_",
+        "DES_",
+        "sodium_crypto",
+        "libsodium",
+        "openssl",
+        "boringssl",
+        "mbedtls"
+      ],
+      "protected_storage_patterns": [
+        "encrypted_db",
+        "secure_storage",
+        "CryptFS",
+        "dm-crypt",
+        "ecryptfs",
+        "EncryptedFileStore"
+      ],
+      "plaintext_indicators": [
+        "=\\s*\"[^\"]*\"",
+        "file.*write",
+        "db.*insert",
+        "plaintext.*=",
+        "raw.*data"
+      ],
+      "confidence_adjustments": {
+        "encrypted_in_context": -0.35,
+        "protected_storage": -0.30,
+        "no_plaintext_evidence": -0.40
+      }
+    }
+  },
+
+  "approved_patterns": {
+    "comment": "Whitelisted safe patterns that should not be flagged",
+    "crypto_libraries": [
+      "libsodium",
+      "OpenSSL",
+      "BoringSSL",
+      "mbedTLS",
+      "sodium_",
+      "EVP_",
+      "AES_",
+      "DES_"
+    ],
+    "safe_memory_patterns": [
+      "std::make_unique",
+      "std::make_shared",
+      "std::unique_ptr",
+      "std::shared_ptr",
+      "std::lock_guard",
+      "std::unique_lock",
+      "std::scoped_lock"
+    ],
+    "safe_string_patterns": [
+      "std::string_view",
+      "std::span",
+      "gsl::span"
+    ],
+    "safe_container_patterns": [
+      "std::vector",
+      "std::array",
+      "std::map",
+      "std::unordered_map",
+      "std::set"
+    ],
+    "prepared_statement_patterns": [
+      "prepared_statement",
+      "parameterized_query",
+      "bind_parameter"
+    ],
+    "html_escaping_patterns": [
+      "html_escape",
+      "url_encode",
+      "entity_encode"
+    ]
+  },
+
+  "severity_mapping": {
+    "comment": "Map classifications to verified severity",
+    "real_gap": {
+      "base_severity": "original",
+      "confidence_based_adjustments": true,
+      "rules": [
+        {
+          "if_confidence_below": 0.50,
+          "then_severity": "MEDIUM"
+        },
+        {
+          "if_confidence_below": 0.70,
+          "then_severity": "HIGH"
+        }
+      ]
+    },
+    "guarded_stub": "HIGH",
+    "test_mock": "INFO",
+    "false_positive": "IGNORE",
+    "placeholder": "MEDIUM"
+  },
+
+  "reporting": {
+    "output_formats": ["json", "csv", "markdown"],
+    "include_evidence": true,
+    "group_by": ["classification", "file", "detector"],
+    "top_fp_sources_limit": 10,
+    "generate_recommendations": true
+  },
+
+  "performance": {
+    "max_context_window": 25,
+    "batch_size": 100,
+    "parallel_processing": true,
+    "max_workers": 4,
+    "cache_results": true,
+    "timeout_seconds": 300
+  }
+}
