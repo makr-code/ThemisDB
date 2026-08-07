@@ -294,3 +294,4 @@ BENCHMARK(BM_TDM_MixedReadHeavyWorkload)
     ->Repetitions(3)
     ->UseRealTime();
 
+BENCHMARK_MAIN();
