@@ -59,12 +59,12 @@ These modules are always compiled and linked statically. They provide foundation
 
 ### Integrated Modules (T1–T4) — Database Functionality
 
-These 57 modules provide complete database functionality and are built statically by default. Some (geo, timeseries) can optionally be externalized as public plugins with fallback to integrated source.
+These 62 modules provide complete database functionality and are built statically by default. Some (geo, timeseries) can optionally be externalized as public plugins with fallback to integrated source.
 
 **T1–T2: Core Engine** (7 modules)
-- aql, query, execution, storage, index, cache, metadata
+- aql, cache, execution, index, metadata, query, storage
 
-**T3–T4: Infrastructure & Governance** (50 modules)
+**T3–T4: Infrastructure & Governance** (55 modules)
 - acceleration, access_model, ai, analytics, api, auth, cdc, chaos, chimera, config, content, distributed_knowledge, distributed_tensor, document, ethics_ai, evaluation, exporters, failover, geo, governance, gpu, graph, importers, ingestion, llama_cpp, llm, llm_wiki, maintenance, network, observability, onnx_clip, performance, process, projects, prompt_engineering, rag, replication, retrieval, rpc_grpc, scheduler, scraper, search, security, server, sharding, stable_diffusion, temporal, tensor, timeseries, toolbox, training, transaction, updates, user_storage_encrypted, voice, whisper
 
 **Wave-1 Candidates for Externalization (Private Plugins):**
@@ -103,49 +103,66 @@ These modules are built as optional, dynamically loadable shared libraries. The 
 
 ---
 
-## Private Plugins (Wave-1 Externalized)
+## Externalized Plugins (Wave-1 & Later)
 
-Private plugins are maintained in separate repositories and included as optional commit-pinned submodules under `plugins/private/` or referenced repository names. They are only available in Enterprise, Hyperscaler, and Military editions.
+Both private and certain public plugins are maintained in separate repositories and included as optional commit-pinned submodules. They are referenced in `.gitmodules` and loaded conditionally based on edition and build flags.
 
-**Submodule Mapping (`.gitmodules`):**
+### Private Plugins (Wave-1 Externalized)
 
-| Repository | Submodule Path | Purpose | Wave |
-|------------|----------------|---------|------|
-| `makr-code/themisdb_ethic_ai` | `plugins/themisdb_ethic_ai/` | Private ethics_ai plugin implementation | Wave 1 |
-| `makr-code/themisdb_storage` | `plugins/themisdb_storage/` | Aggregate: user_storage_encrypted, azure_blob_storage, s3_blob_storage | Wave 1 |
-| `makr-code/themisdb_importer` | `plugins/themisdb_importer/` | Aggregate: mysql_importer, mongo_importer, kafka_importer, s3_importer | Wave 1 |
-| `makr-code/themisdb_llm_wiki` | `plugins/themisdb_llm_wiki/` | Private LLM Wiki plugin implementation | Wave 1 |
-| *(gpu-impact-analysis)* | *(planned)* | Private GPU impact analysis (deferred to Wave 2+) | Wave 2+ |
+These are only available in Enterprise, Hyperscaler, and Military editions.
 
-**Private Plugin Strategy:**
+| Repository | Submodule Path | Purpose | Edition | Wave |
+|------------|----------------|---------|---------|------|
+| `makr-code/themisdb_ethic_ai` | `plugins/themisdb_ethic_ai/` | Private ethics_ai plugin implementation (optimized) | Enterprise+ | Wave 1 |
+| `makr-code/themisdb_storage` | `plugins/themisdb_storage/` | Aggregate: user_storage_encrypted, azure_blob_storage, s3_blob_storage (optimized) | Enterprise+ | Wave 1 |
+| `makr-code/themisdb_importer` | `plugins/themisdb_importer/` | Aggregate: mysql_importer, mongo_importer, kafka_importer, s3_importer (optimized) | Enterprise+ | Wave 1 |
+| `makr-code/themisdb_llm_wiki` | `plugins/themisdb_llm_wiki/` | Private LLM Wiki plugin implementation (optimized) | Enterprise+ | Wave 1 |
+| *(gpu-impact-analysis)* | *(planned)* | Private GPU impact analysis (deferred) | Enterprise+ | Wave 2+ |
+
+### Public Plugins (Externalized for Better Versioning)
+
+These are available in all editions via external repository management.
+
+| Repository | Submodule Path | Purpose | Edition | Wave |
+|------------|----------------|---------|---------|------|
+| `makr-code/themisdb_plugin_signer` | `plugins/themisdb_plugin_signer/` | Plugin manifest signing/verification tool | Enterprise+ | Wave 1 |
+| `makr-code/themisdb_geo` | `plugins/themisdb_geo/` | Public optional geospatial plugin (externalized from geo module) | Community+ | Wave 1 |
+| `makr-code/themisdb_timeseries` | `plugins/themisdb_timeseries/` | Public optional timeseries plugin (externalized from timeseries module) | Community+ | Wave 1 |
+
+**Plugin Strategy:**
 - Private plugins use the same public SDK interface defined in `include/plugins/`
-- CMake honors `WITH_PRIVATE_*` toggles (defaults to `OFF` for Community/Minimal)
+- CMake honors `WITH_PRIVATE_*` toggles (defaults to `OFF` for Community/Minimal editions)
 - Private manifests declare `visibility: private`, `allowed_editions: [enterprise, hyperscaler, military]`
-- Integrated sources provide CAI/LLM reference implementations for public lanes
-- Private repos are commit-pinned and updated via `.gitmodules` edits + submodule commands
+- Integrated sources (in `src/`) provide reference implementations for all editions
+- Externalized plugins are commit-pinned via `.gitmodules` and updated with submodule commands
+- Edition-specific builds selectively include/exclude private plugins at configuration time
 
 ---
 
 ## Module Duplication: Integrated vs. Plugin Versions
 
-Some modules have both integrated (in `src/`) and plugin (in `plugins/`) implementations:
+Some modules have both integrated (in `src/`) and plugin (in `plugins/` or externalized) implementations, enabling flexible deployment models:
 
 | Module | Integrated Source | Public Plugin | Private Plugin | Usage Model |
 |--------|-------------------|---------------|----------------|-------------|
 | **ethics_ai** | `src/ethics_ai/` | `plugins/ethics_ai/` (ref impl) | `plugins/themisdb_ethic_ai/` | Integrated by default; private optimized version in Enterprise+ |
+| **geo** | `src/geo/` | `plugins/themisdb_geo/` (externalized) | *(none)* | Integrated by default; public externalized for independent versioning (Community+) |
 | **user_storage_encrypted** | `src/user_storage_encrypted/` | `plugins/user_storage_encrypted/` (ref impl) | `plugins/themisdb_storage/` | Integrated by default; private optimized in Enterprise+ |
 | **importers** | `src/importers/` | `plugins/importers/` (PostgreSQL ref) | `plugins/themisdb_importer/` | Integrated by default; private MySQL/Mongo/Kafka/S3 in Enterprise+ |
 | **exporters** | `src/exporters/` | `plugins/exporters/` (Parquet/Arrow/CSV/JSON) | *(none)* | Integrated by default; also available as runtime plugin |
 | **llama_cpp** | `src/llama_cpp/` | `plugins/llama_cpp/` (ref binding) | *(optimized)* | Integrated by default; better versioning as plugin |
+| **llm_wiki** | `src/llm_wiki/` | *(none)* | `plugins/themisdb_llm_wiki/` | Integrated by default; private optimized in Enterprise+ |
 | **scraper** | `src/scraper/` | `plugins/scraper/` (ref impl) | `plugins/themisdb_*` (future) | Integrated by default; plugin isolation for security |
 | **stable_diffusion** | `src/stable_diffusion/` | `plugins/stable_diffusion/` (ref impl) | `plugins/themisdb_*` (future) | Integrated by default; plugin isolation for safety |
+| **timeseries** | `src/timeseries/` | `plugins/themisdb_timeseries/` (externalized) | *(none)* | Integrated by default; public externalized for independent versioning (Community+) |
 | **whisper** | `src/whisper/` | `plugins/whisper/` (ref impl) | `plugins/themisdb_*` (future) | Integrated by default; plugin isolation for versioning |
 
 **Rationale for Duplication:**
 1. **Reference Implementations**: Public plugins in `plugins/` serve as reference implementations for the public SDK
 2. **Integrated Fallback**: Core `src/` versions ensure Community/Minimal can function without runtime plugins
 3. **Private Optimization**: Private repos in Wave 1 provide Enterprise-exclusive optimizations or features
-4. **Runtime Flexibility**: Users can choose to load optimized private versions at runtime instead of static linking
+4. **Public Externalization**: Some modules (geo, timeseries) are externalized for independent versioning while maintaining integrated fallbacks
+5. **Runtime Flexibility**: Users can choose to load optimized or externalized plugin versions at runtime instead of static linking
 
 ---
 

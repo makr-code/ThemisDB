@@ -15,7 +15,7 @@ ThemisDB is a high-performance, multi-model database system that integrates rela
 
 ## Main Directory Structure
 
-### `/src/` - Implementation (66 tracked modules)
+### `/src/` - Implementation (62 integrated modules)
 
 | Directory | Purpose | Key Classes |
 |-----------|---------|-------------|
