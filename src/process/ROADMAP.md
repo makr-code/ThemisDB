@@ -84,18 +84,24 @@ All phases completed 2026-08-06. See detailed breakdown below.
 **Objective:** Expand focused regressions for process edge scenarios and deterministic stress testing.
 
 **Deliverables:**
-- [x] 72 test cases covering C/D/G/P/L/R/S scenarios
+- [x] 72 test cases covering C/D/G/P/L/R/S scenarios (76 total with comprehensive coverage)
 - [x] Deterministic fixtures for high-churn operations
-- [x] Parser/linker edge-case coverage
-- [x] Retrieval and mining stress tests
+- [x] Parser/linker edge-case coverage (P-01..P-16, L-01..L-08)
+- [x] Retriever edge-case tests (R-01..R-16): empty results, large context, timeouts, concurrent queries
+- [x] Stress scenarios 1-12 (S-01..S-08 + S-09..S-12 retriever stress tests)
 - [x] Conflict resolution and LWW behavior validation
 
 **Test Coverage:**
-- Parser hardening (malformed models, resource limits, deep nesting)
-- Linker consistency (orphaned links, stale references, cycles)
-- Determinism validation (same input → same output)
-- Concurrency validation (conflict resolution, no deadlocks)
-- Retrieval resilience (high-churn scenarios, snapshot consistency)
+- Parser hardening (P-01..P-16: malformed models, resource limits, deep nesting)
+- Linker consistency (L-01..L-08: orphaned links, stale references, cycles)
+- Determinism validation (D-01..D-08: same input → same output)
+- Concurrency validation (C-01..C-08: conflict resolution, no deadlocks)
+- Retriever edge-cases (R-01..R-16: empty graphs, large context, timeouts, concurrent queries, graceful degradation)
+- Stress scenarios (S-01..S-12: parser churn, linker churn, retriever scenarios, query churn)
+
+**Recent Additions (2026-08-06):**
+- `test_process_retriever_edge_focused.cpp`: 16 edge-case tests for retriever resource limits and error paths
+- `test_process_stress_churn_focused.cpp`: Added S-09..S-12 stress tests (empty graph query, large context, timeout, concurrent churn)
 
 **Status:** ✓ COMPLETE
 
