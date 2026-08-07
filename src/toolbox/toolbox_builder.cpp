@@ -149,8 +149,18 @@ std::shared_ptr<IngestionToolbox> ToolboxBuilder::build() {
     }
     impl_->built = true;
 
+    // ── Phase 2.1: Validate profile paths early (fail-fast for invalid input)
+    for (const auto& path : impl_->profile_paths) {
+        if (path.empty()) {
+            throw std::invalid_argument("ToolboxBuilder::build(): empty profile path found in paths list");
+        }
+    }
+
     // ── 1. Create toolbox (uses createDefault() which registers NER + LLM steps)
     auto toolbox = IngestionToolbox::createDefault();
+    if (!toolbox) {
+        throw std::logic_error("ToolboxBuilder::build(): failed to create default IngestionToolbox");
+    }
 
     // ── 2. Inject custom WorkflowEngine if provided
     if (impl_->engine) {
@@ -269,19 +279,42 @@ ToolboxBuilder::BuiltToolbox ToolboxBuilder::buildWithBridges() {
             "ToolboxBuilder::buildWithBridges() called after build() or buildWithBridges()");
     }
 
+    // Phase 2.2: Validate bridge requirements before construction
+    // Soft-fail behavior: missing optional writers are acceptable
+    // Required: toolbox must be created by build()
+    
     auto toolbox = this->build();  // delegates to the existing build() path
+
+    if (!toolbox) {
+        throw std::logic_error(
+            "ToolboxBuilder::buildWithBridges(): build() returned null toolbox");
+    }
 
     BuiltToolbox out;
     out.toolbox = toolbox;
 
+    // Phase 2.3: Wire bridges from optional sinks
+    // graph_writer and vector_writer are optional; soft-fail if missing
     if (impl_->graph_writer) {
-        out.aql_bridge = std::make_shared<aql::AQLIngestionBridge>(
-            toolbox, impl_->graph_writer);
+        try {
+            out.aql_bridge = std::make_shared<aql::AQLIngestionBridge>(
+                toolbox, impl_->graph_writer);
+        } catch (const std::exception& e) {
+            THEMIS_WARN("ToolboxBuilder::buildWithBridges(): AQLIngestionBridge construction failed: {}",
+                        e.what());
+            // Soft fail: continue without AQL bridge
+        }
     }
 
     if (impl_->vector_writer || impl_->graph_writer) {
-        out.rag_bridge = std::make_shared<rag::RAGIngestionBridge>(
-            toolbox, impl_->vector_writer, impl_->graph_writer);
+        try {
+            out.rag_bridge = std::make_shared<rag::RAGIngestionBridge>(
+                toolbox, impl_->vector_writer, impl_->graph_writer);
+        } catch (const std::exception& e) {
+            THEMIS_WARN("ToolboxBuilder::buildWithBridges(): RAGIngestionBridge construction failed: {}",
+                        e.what());
+            // Soft fail: continue without RAG bridge
+        }
     }
 
     return out;

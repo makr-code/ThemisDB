@@ -21,6 +21,7 @@
 #include "toolbox/content_toolbox_bridge.h"
 #include "utils/logger.h"
 
+#include <atomic>
 #include <mutex>
 #include <sstream>
 #include <stdexcept>
@@ -42,6 +43,9 @@ public:
         , content_manager_(std::move(content_manager))
         , graph_writer_(std::move(graph_writer))
         , vector_writer_(std::move(vector_writer))
+        , bridge_failures_total_(0)
+        , graph_write_failures_total_(0)
+        , vector_write_failures_total_(0)
     {}
 
     std::shared_ptr<IngestionToolbox>         toolbox_;
@@ -49,6 +53,11 @@ public:
     std::shared_ptr<ingestion::IGraphWriter>  graph_writer_;
     std::shared_ptr<ingestion::IVectorWriter> vector_writer_;
     mutable std::mutex                        mutex_;
+
+    // Phase 2.4: Prometheus metrics for bridge failures
+    std::atomic<uint64_t> bridge_failures_total_;        ///< Total ingest/enrichment failures
+    std::atomic<uint64_t> graph_write_failures_total_;   ///< Graph writer failures
+    std::atomic<uint64_t> vector_write_failures_total_;  ///< Vector writer failures
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -61,12 +70,28 @@ ContentToolboxBridge::ContentToolboxBridge(
     std::shared_ptr<ingestion::IGraphWriter>  graph_writer,
     std::shared_ptr<ingestion::IVectorWriter> vector_writer)
 {
+    // Phase 2.1: Comprehensive null-check with descriptive errors
     if (!toolbox) {
-        throw std::invalid_argument("ContentToolboxBridge: toolbox must not be null");
+        throw std::invalid_argument(
+            "ContentToolboxBridge: toolbox must not be null; "
+            "construct IngestionToolbox via ToolboxBuilder.build() or IngestionToolbox::createDefault()");
     }
     if (!content_manager) {
-        throw std::invalid_argument("ContentToolboxBridge: content_manager must not be null");
+        throw std::invalid_argument(
+            "ContentToolboxBridge: content_manager must not be null; "
+            "ensure content::ContentManager has been initialized before bridge construction");
     }
+    
+    // Phase 2.2: Log optional writer status
+    if (!graph_writer) {
+        THEMIS_DEBUG("ContentToolboxBridge: no graph_writer provided; "
+                     "NER entities will not be persisted to graph store");
+    }
+    if (!vector_writer) {
+        THEMIS_DEBUG("ContentToolboxBridge: no vector_writer provided; "
+                     "embedding vectors will not be persisted to vector store");
+    }
+    
     impl_ = std::make_unique<Impl>(
         std::move(toolbox),
         std::move(content_manager),
@@ -92,6 +117,14 @@ ContentToolboxBridge::BridgeResult ContentToolboxBridge::ingest(
 {
     BridgeResult out;
 
+    // Phase 2.3: Early validation for empty input
+    if (data.empty()) {
+        out.ok = false;
+        out.error = "ingest: data span is empty; cannot ingest zero-byte content";
+        impl_->bridge_failures_total_.fetch_add(1);
+        return out;
+    }
+
     // ── Step 1: ContentManager ingest (security, dedup, storage, embeddings)
     std::string blob(reinterpret_cast<const char*>(data.data()), data.size());
 
@@ -104,6 +137,8 @@ ContentToolboxBridge::BridgeResult ContentToolboxBridge::ingest(
 
     if (!cm_result.success) {
         out.error = "ContentManager::ingestRawBlob failed: " + cm_result.error_message;
+        impl_->bridge_failures_total_.fetch_add(1);
+        THEMIS_WARN("ContentToolboxBridge::ingest: ContentManager failed: {}", out.error);
         return out;
     }
 
@@ -138,10 +173,13 @@ ContentToolboxBridge::BridgeResult ContentToolboxBridge::ingest(
         toolbox_ptr = impl_->toolbox_;
     }
     
-    // Validate toolbox is available before enrichment
+    // Phase 2.5: Validate toolbox is available before enrichment
     if (!toolbox_ptr) {
         out.ok = false;
         out.error = "toolbox not initialized; cannot enrich extracted content";
+        impl_->bridge_failures_total_.fetch_add(1);
+        THEMIS_ERROR("ContentToolboxBridge::ingest: toolbox null check failed for content_id '{}'",
+                     out.content_id);
         return out;
     }
     
@@ -155,6 +193,7 @@ ContentToolboxBridge::BridgeResult ContentToolboxBridge::ingest(
     if (impl_->graph_writer_ && !entity_set.nodes.empty()) {
         auto res = impl_->graph_writer_->writeEntities(entity_set.nodes);
         if (!res) {
+            impl_->graph_write_failures_total_.fetch_add(1);
             THEMIS_WARN("ContentToolboxBridge: graph_writer failed for '{}': {}",
                         out.content_id, res.error().message());
         } else {
@@ -166,6 +205,7 @@ ContentToolboxBridge::BridgeResult ContentToolboxBridge::ingest(
     if (impl_->vector_writer_ && !out.vectors.empty()) {
         auto res = impl_->vector_writer_->writeVectors(out.vectors);
         if (!res) {
+            impl_->vector_write_failures_total_.fetch_add(1);
             THEMIS_WARN("ContentToolboxBridge: vector_writer failed for '{}': {}",
                         out.content_id, res.error().message());
         } else {
@@ -189,6 +229,15 @@ ContentToolboxBridge::BridgeResult ContentToolboxBridge::enrichExisting(
     BridgeResult out;
     out.content_id = content_id;
 
+    // Phase 2.6: Validate input before processing
+    if (content_id.empty()) {
+        out.ok = false;
+        out.error = "enrichExisting: content_id must not be empty";
+        impl_->bridge_failures_total_.fetch_add(1);
+        THEMIS_WARN("ContentToolboxBridge::enrichExisting: empty content_id provided");
+        return out;
+    }
+
     // Retrieve metadata to get MIME type and filename hint
     std::string mime_type;
     std::string filename_hint;
@@ -199,7 +248,9 @@ ContentToolboxBridge::BridgeResult ContentToolboxBridge::enrichExisting(
 
         auto meta = impl_->content_manager_->getContentMeta(content_id);
         if (!meta) {
-            out.error = "enrichExisting: content_id '" + content_id + "' not found";
+            out.error = "enrichExisting: content_id '" + content_id + "' not found in ContentManager";
+            impl_->bridge_failures_total_.fetch_add(1);
+            THEMIS_WARN("ContentToolboxBridge::enrichExisting: content '{}' not found", content_id);
             return out;
         }
         mime_type     = meta->mime_type;
@@ -224,10 +275,13 @@ ContentToolboxBridge::BridgeResult ContentToolboxBridge::enrichExisting(
         toolbox_ptr2 = impl_->toolbox_;
     }
     
-    // Validate toolbox is available before enrichment
+    // Phase 2.7: Validate toolbox is available before enrichment
     if (!toolbox_ptr2) {
         out.ok = false;
-        out.error = "toolbox not initialized; cannot enrich existing content";
+        out.error = "toolbox not initialized; cannot enrich existing content for '" + content_id + "'";
+        impl_->bridge_failures_total_.fetch_add(1);
+        THEMIS_ERROR("ContentToolboxBridge::enrichExisting: toolbox null check failed for content_id '{}'",
+                     content_id);
         return out;
     }
     
@@ -240,8 +294,9 @@ ContentToolboxBridge::BridgeResult ContentToolboxBridge::enrichExisting(
     if (impl_->graph_writer_ && !entity_set.nodes.empty()) {
         auto res = impl_->graph_writer_->writeEntities(entity_set.nodes);
         if (!res) {
-            THEMIS_WARN("ContentToolboxBridge::enrichExisting: graph_writer failed: {}",
-                        res.error().message());
+            impl_->graph_write_failures_total_.fetch_add(1);
+            THEMIS_WARN("ContentToolboxBridge::enrichExisting: graph_writer failed for '{}': {}",
+                        content_id, res.error().message());
         } else {
             sinks_written = true;
         }
@@ -250,8 +305,9 @@ ContentToolboxBridge::BridgeResult ContentToolboxBridge::enrichExisting(
     if (impl_->vector_writer_ && !out.vectors.empty()) {
         auto res = impl_->vector_writer_->writeVectors(out.vectors);
         if (!res) {
-            THEMIS_WARN("ContentToolboxBridge::enrichExisting: vector_writer failed: {}",
-                        res.error().message());
+            impl_->vector_write_failures_total_.fetch_add(1);
+            THEMIS_WARN("ContentToolboxBridge::enrichExisting: vector_writer failed for '{}': {}",
+                        content_id, res.error().message());
         } else {
             sinks_written = true;
         }
@@ -280,6 +336,22 @@ std::shared_ptr<ingestion::IGraphWriter> ContentToolboxBridge::graphWriter() con
 
 std::shared_ptr<ingestion::IVectorWriter> ContentToolboxBridge::vectorWriter() const {
     return impl_->vector_writer_;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Prometheus metrics
+// ─────────────────────────────────────────────────────────────────────────────
+
+uint64_t ContentToolboxBridge::failuresTotal() const noexcept {
+    return impl_->bridge_failures_total_.load();
+}
+
+uint64_t ContentToolboxBridge::graphWriteFailuresTotal() const noexcept {
+    return impl_->graph_write_failures_total_.load();
+}
+
+uint64_t ContentToolboxBridge::vectorWriteFailuresTotal() const noexcept {
+    return impl_->vector_write_failures_total_.load();
 }
 
 } // namespace toolbox

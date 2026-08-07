@@ -205,6 +205,38 @@ public:
     std::shared_ptr<ingestion::IGraphWriter> graphWriter()    const;
     std::shared_ptr<ingestion::IVectorWriter> vectorWriter()  const;
 
+    // ─────────────────────────────────────────────────────────────────────────
+    // Prometheus metrics (Phase 2.4)
+    // ─────────────────────────────────────────────────────────────────────────
+
+    /**
+     * @brief Return cumulative count of bridge ingest/enrichment failures.
+     *
+     * Used for Prometheus metric `bridge_failures_total`.
+     * Incremented on ContentManager failures, null checks, or other
+     * bridge-level errors. Does not count individual sink write failures
+     * (those are tracked separately).
+     */
+    uint64_t failuresTotal() const noexcept;
+
+    /**
+     * @brief Return cumulative count of graph writer failures.
+     *
+     * Used for Prometheus metric `bridge_graph_write_failures_total`.
+     * Incremented when an entity write to the graph sink fails, but the
+     * bridge continues processing (soft-fail behavior).
+     */
+    uint64_t graphWriteFailuresTotal() const noexcept;
+
+    /**
+     * @brief Return cumulative count of vector writer failures.
+     *
+     * Used for Prometheus metric `bridge_vector_write_failures_total`.
+     * Incremented when a vector record write to the vector sink fails, but the
+     * bridge continues processing (soft-fail behavior).
+     */
+    uint64_t vectorWriteFailuresTotal() const noexcept;
+
 private:
     class Impl;
     std::unique_ptr<Impl> impl_;

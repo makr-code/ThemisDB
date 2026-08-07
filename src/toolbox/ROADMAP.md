@@ -10,7 +10,7 @@ Production-usable toolbox runtime exists for ingestion-oriented extraction orche
 
 ## In Progress
 
-- [~] Phase 2-3: Hardening extraction and bridge behavior under mixed content and soft-failure scenarios (Target: Q4 2026, 80% complete - 2026-08-07)
+- [~] Phase 2-3: Hardening extraction and bridge behavior under mixed content and soft-failure scenarios (Target: Q4 2026, 95% complete - 2026-08-07)
 - [~] Phase 3: Improving diagnostics consistency across toolbox orchestration, registry, and helper stages (Target: Q4 2026, 75% complete - 2026-08-07)
 - [~] Phase 5: Establishing benchmark-backed performance gates via native toolbox benchmark suite (Target: Q1 2027, 50% complete - benchmark suite created 2026-08-07)
 
@@ -38,7 +38,11 @@ Production-usable toolbox runtime exists for ingestion-oriented extraction orche
 - [x] add missing latency metrics to ContentFingerprint (latency_us field, steady_clock measurement) — COMPLETED 2026-08-07
 - [x] optimize copy overhead in language_detector.cpp (vector.reserve(32)) — COMPLETED 2026-08-07
 - [x] update doc linksets (FUTURE_ENHANCEMENTS.md, PRODUCTION_REQUIREMENTS.md) — COMPLETED 2026-08-07
-- [~] complete remaining hardening for builder, bridge, and registry internals (Target: Q4 2026)
+- [x] complete builder fail-fast validation for null/invalid dependencies (Target: Q4 2026) — COMPLETED 2026-08-07
+- [x] add comprehensive null checks and error messages to content_toolbox_bridge (Target: Q4 2026) — COMPLETED 2026-08-07
+- [x] implement Prometheus metrics for bridge failures (bridge_failures_total, graph/vector_write_failures_total) — COMPLETED 2026-08-07
+- [x] verify registry initialization/reset semantics are explicit (Target: Q4 2026) — COMPLETED 2026-08-07
+- [x] add IT-13..IT-20 comprehensive edge-case tests (Target: Q4 2026) — COMPLETED 2026-08-07
 - [~] align helper and streaming behavior to bounded runtime contracts (Target: Q4 2026)
 
 ### Phase 3: Error Handling and Edge Cases
@@ -46,8 +50,9 @@ Production-usable toolbox runtime exists for ingestion-oriented extraction orche
 - [x] implement explicit empty-extraction tracking via extract_empty_results counter — COMPLETED 2026-08-07
 - [x] add empty-result diagnostics to Prometheus metrics (toolbox_extract_empty_results_total) — COMPLETED 2026-08-07
 - [x] add IT-11, IT-12 tests for empty extraction tracking — COMPLETED 2026-08-07
-- [~] unify incident taxonomy across extraction, bridge, registry, and helper classes (Target: Q4 2026)
+- [x] add IT-13..IT-20 comprehensive edge-case tests including mixed-content, registry, bridge scenarios — COMPLETED 2026-08-07
 - [~] expand stress coverage for edge cases (Target: Q4 2026)
+- [~] unify incident taxonomy across extraction, bridge, registry, and helper classes (Target: Q4 2026)
 
 ### Phase 4: Tests
 - [x] expand focused regressions for toolbox bridge, registry, and helper edge scenarios (Target: Q4 2026)
