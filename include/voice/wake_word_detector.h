@@ -50,6 +50,12 @@ struct WakeWordConfig {
     int   cooldown_ms        = 1000;   ///< Minimum ms between successive detections
     int   sample_rate        = 16000;  ///< Expected PCM sample rate (Hz)
     float vad_min_energy     = 0.005f; ///< Minimum RMS energy for VAD gate
+    
+    // Phase 3: Confidence thresholds and safe defaults
+    float confidence_threshold = 0.6f; ///< Minimum confidence to accept detection
+    bool  reject_low_confidence = true;///< Reject detections below threshold
+    bool  use_timeout_protection = true; ///< Enforce timeout with safe defaults
+    int64_t detection_timeout_ms = 5000; ///< Max time for detection (5 seconds)
 };
 
 // ---------------------------------------------------------------------------
@@ -155,6 +161,21 @@ public:
 
     /** @brief Return runtime statistics (detections, false positives, …). */
     json getStatistics() const;
+    
+    // Phase 3: Confidence Thresholds and Safe Defaults
+    
+    /// @brief Check if confidence meets threshold (Phase 3)
+    /// @param confidence Confidence score [0, 1]
+    /// @return true if confidence >= threshold; false otherwise
+    bool meetsConfidenceThreshold(float confidence) const noexcept;
+    
+    /// @brief Detect timeout during wake-word processing (Phase 3)
+    /// @return true if detector is experiencing timeout/delays
+    bool isTimeoutDetected() const noexcept;
+    
+    /// @brief Get safe default result when detection times out (Phase 3)
+    /// @return WakeWordDetectionResult with detected=false (safe default)
+    WakeWordDetectionResult getTimeoutDefault() const noexcept;
 
 private:
     // Internals
@@ -175,9 +196,15 @@ private:
     // Statistics
     uint64_t total_chunks_processed_ = 0;
     uint64_t total_detections_       = 0;
+    uint64_t low_confidence_rejects_ = 0;  // Phase 3: confidence threshold rejections
+    uint64_t timeout_fallbacks_      = 0;  // Phase 3: timeout fallback count
 
     // Optional callback
     DetectionCallback detection_callback_;
+    
+    // Phase 3: Timeout tracking
+    int64_t last_processing_start_ms_ = 0;
+    bool timeout_detected_ = false;
 
     // Helpers
     float computeRMS(const std::vector<float>& samples) const;

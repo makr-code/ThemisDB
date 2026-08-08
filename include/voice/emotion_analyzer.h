@@ -146,6 +146,12 @@ struct EmotionConfig {
     bool  track_sentiment      = true; ///< Compute sentiment score
     bool  track_stress         = true; ///< Compute stress level
     bool  track_engagement     = true; ///< Compute engagement score
+    
+    // Phase 3: Edge case handling with safe defaults
+    bool  skip_on_unavailable  = true;  ///< Skip emotion step if analyzer unavailable
+    float fallback_confidence  = 0.0f;  ///< Default confidence when skipping
+    bool  use_timeout_protection = true; ///< Enforce timeout with safe defaults
+    int64_t timeout_ms = 5000;          ///< Max time for emotion analysis (5 seconds)
 };
 
 // ---------------------------------------------------------------------------
@@ -239,6 +245,20 @@ public:
 
     /** @brief Return a copy of the current default configuration. */
     EmotionConfig get_config() const;
+    
+    // Phase 3: Edge Case Handling
+    
+    /// @brief Check if analyzer is available (Phase 3)
+    /// @return true if ready to analyze; false if unavailable (skip with safe default)
+    bool isAvailable() const noexcept;
+    
+    /// @brief Analyze with timeout protection (Phase 3)
+    /// @param audio_data Raw PCM bytes
+    /// @param config Analysis configuration
+    /// @return EmotionAnalysis if successful; default neutral emotion on timeout
+    std::optional<EmotionAnalysis> analyzeWithTimeout(
+        const std::vector<uint8_t>& audio_data,
+        const EmotionConfig& config = {}) const;
 
     // -----------------------------------------------------------------------
     // Statistics
@@ -250,6 +270,8 @@ public:
 private:
     EmotionConfig config_;
     mutable uint64_t total_analyses_ = 0;
+    mutable uint64_t timeout_fallbacks_ = 0;  // Phase 3: timeout count
+    mutable bool is_available_ = true;        // Phase 3: availability flag
 
     // PCM helpers
     std::vector<float> pcmToFloat(const std::vector<uint8_t>& raw) const;

@@ -31,11 +31,50 @@
 namespace themis {
 namespace voice {
 
+// ============================================================================
+// TASK 2.6: Telephony Integration
+// ============================================================================
+// Error codes [6900-6999]:
+// - 6900: Buffer overflow (streaming; reused)
+// - 6901: Stream state transition invalid (streaming; reused)
+// - 6902: Chunk ordering violation (streaming; reused)
+// - 6910: Telephony input validation failed (injection detection)
+// - 6911: Call session lifecycle error
+// - 6912: Anti-spoofing check failed (telephony-specific)
+// - 6913: Call routing error
+// ============================================================================
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Internal helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
 namespace {
+
+// TASK 2.6: Injection detection patterns (SQL, command injection)
+bool detectInjectionAttack(const std::string& input) {
+    // Simple heuristic checks for common injection patterns
+    static const std::vector<std::string> dangerous_patterns = {
+        "'; DROP TABLE",
+        "'; DELETE FROM",
+        "UNION SELECT",
+        "exec(",
+        "eval(",
+        "system(",
+        "../",
+        "..\\",
+        "`",
+        "$(",
+        "$((",
+        "${",
+    };
+    
+    for (const auto& pattern : dangerous_patterns) {
+        if (input.find(pattern) != std::string::npos) {
+            return true;
+        }
+    }
+    return false;
+}
 
 int64_t telephonyNowMs() {
     return std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -290,25 +329,47 @@ CallState SipCallSession::state() const noexcept {
 }
 
 CallTranscript SipCallSession::receiveRtpPacket(const std::vector<uint8_t>& rtp_packet) {
+    // TASK 2.6: Telephony input validation and injection detection
     CallTranscript empty;
     if (!impl_ || impl_->state != CallState::ACTIVE) return empty;
 
-    // Enforce max session duration
+    // TASK 2.6: Enforce max session duration
     int64_t elapsed_s = (telephonyNowMs() - impl_->started_at_ms) / 1000;
     if (static_cast<uint32_t>(elapsed_s) > impl_->config.max_duration_s) {
-        THEMIS_WARN("SipCallSession: max duration exceeded, ending call_id={}",
+        THEMIS_WARN("SipCallSession: max duration exceeded, ending call_id={} (error 6911)",
                     impl_->call_id);
         end();
         return empty;
     }
 
+    // TASK 2.6: RTP packet validation (error code 6910)
+    if (rtp_packet.size() < 12) {
+        THEMIS_WARN("SipCallSession: RTP packet too small ({} bytes), rejecting (error 6910)", 
+                    rtp_packet.size());
+        return empty;
+    }
+    
+    if (rtp_packet.size() > 65536) {
+        THEMIS_WARN("SipCallSession: RTP packet too large ({} bytes), rejecting (error 6910)",
+                    rtp_packet.size());
+        return empty;
+    }
+
     auto payload = stripRtpHeader(rtp_packet);
-    if (payload.empty()) return empty;
+    if (payload.empty()) {
+        return empty;  // Malformed RTP; logged by stripRtpHeader
+    }
+
+    // TASK 2.6: Audio buffer size limits (anti-DoS)
+    if (impl_->pcm_buffer.size() + payload.size() > 10 * 1024 * 1024) {  // 10 MB limit
+        THEMIS_WARN("SipCallSession: audio buffer would exceed limit, rejecting packet (error 6910)");
+        return empty;  // Fail-closed
+    }
 
     impl_->bytes_received     += rtp_packet.size();
     impl_->rtp_packets_received++;
 
-    // Decode to PCM based on codec
+    // TASK 2.6: Decode to PCM based on codec
     std::vector<int16_t> pcm;
     pcm.reserve(payload.size());
     switch (impl_->config.codec) {

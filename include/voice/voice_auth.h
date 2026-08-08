@@ -1,12 +1,51 @@
 /**
  * @file voice_auth.h
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
- * @version 0.0.15
+ * @brief Voice Biometric Authentication — Frozen API Contract for Phase 1.
+ *
+ * @version v1.0 frozen as of 2026-08-08
+ *
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 100/100
- * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
+ * @note Status: Design/API Contract Frozen (Phase 1)
+ *
+ * ## Authentication Workflow (Frozen State Machine)
+ *
+ * ```
+ * [Enrollment] → [Voice Profile] → [Authentication]
+ *   (3+ samples)      (stored)      (liveness + 1:1 verification)
+ *                                          ↓
+ *                                    [Authenticated or Rejected]
+ * ```
+ *
+ * ## Access Control Matrix (Frozen)
+ *
+ * | Action | Caller | Precondition | Postcondition |
+ * |--------|--------|--------------|---------------|
+ * | Enroll | User/Admin | User ID provided, 3+ audio samples ≥ 3s | Profile ID created, stored |
+ * | Verify | User | Profile exists, live audio probe | Match score computed |
+ * | Identify | Application | Candidate profiles provided | Top N matches ranked |
+ * | Authenticate | User | User ID + audio | Liveness + verification passed |
+ * | Delete | User/Admin | Profile exists, User ID match | Profile removed, irreversible |
+ *
+ * ## Error Codes (Voice Module — Auth/Security)
+ * - 7000: Authentication failed
+ * - 7001: Insufficient enrollment samples
+ * - 7002: Liveness check failed (replay/synthesis detected)
+ * - 7003: Verification failed (speaker mismatch)
+ * - 7004: Profile not found
+ * - 7005: Privilege escalation attempt (unauthorized user)
+ * - 7006: Audio quality too low
+ * - 7007-7099: Reserved for auth-related errors
+ *
+ * ## Thread Safety
+ * VoiceBiometricAuthenticator is thread-safe (internal mutex).
+ * All public methods acquire mutex for duration of call.
+ */
+
+/*
+ * ThemisDB | File: voice_auth.h | Version: v1.0 FROZEN
+ * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
+ * Status: Design/API Contract Frozen (Phase 1)
  */
 
 #pragma once
