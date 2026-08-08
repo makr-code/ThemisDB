@@ -25,15 +25,41 @@ Production-usable updates runtime exists for state-machine orchestration, releas
 
 ## Planned Features
 
-### Short-term (3-6 months)
-- [ ] tighten deterministic behavior for migration, canary, and blue-green edge scenarios (Target: Q4 2026)
-- [ ] expand stress coverage for cluster and tenant update scheduling workloads (Target: Q4 2026)
-- [ ] improve operator-facing diagnostics for patch and rollback incidents (Target: Q4 2026)
+### Q4 2026 Execution Block (Phases 4-6)
+- [~] **Phase 4:** Deterministic edge-case handling (Target: Sept 1-21, 2026)
+  - [ ] Edge-case handler module (`updates_edge_case_handler.h/cpp`)
+  - [ ] Focused test suite (`test_updates_determinism_edge_cases_focused.cpp`)
+  - [ ] 15-20 edge scenarios covered with error codes [7400-7499]
+  - [ ] Agent: `themisdb-implementer` (updates-q4-edges)
 
-### Mid-term (6-12 months)
-- [ ] re-baseline p95/p99 envelopes for update pipeline transition and patch-sensitive paths (Target: Q1 2027)
-- [ ] broaden benchmark depth for coordinated update and migration workload diversity (Target: Q1 2027)
-- [ ] harden long-run reliability under sustained update orchestration pressure (Target: Q1 2027)
+- [~] **Phase 5:** Cluster stress coverage (Target: Sept 1-21, 2026)
+  - [ ] Cluster scheduling stress test (`test_updates_cluster_scheduling_stress_focused.cpp`)
+  - [ ] Cluster stress benchmarks (`bench_updates_cluster_stress_q4.cpp`)
+  - [ ] Stress coverage documentation (`STRESS_COVERAGE_Q4.md`)
+  - [ ] Throughput ≥2,000 ops/sec validated; Memory <5% growth
+  - [ ] Agent: `general-purpose` (updates-q4-stress)
+
+- [ ] **Phase 6:** Operator diagnostics (Target: Oct 1-14, 2026)
+  - [ ] Operator diagnostics module (`updates_operator_diagnostics.h/cpp`)
+  - [ ] Operator runbook (`RUNBOOK_UPDATES_Q4.md`)
+  - [ ] Diagnostic test suite (`test_updates_operator_diagnostics_focused.cpp`)
+  - [ ] 8+ failure scenarios covered with recovery procedures
+  - [ ] Agent: `general-purpose` (updates-q4-diagnostics)
+
+### Q1 2027 Execution Block (Phases 7-8)
+- [ ] **Phase 7:** Performance baselines re-establishment (Target: Nov 1-21, 2026)
+  - [ ] Hotspot profiling (5-8 critical paths)
+  - [ ] Performance envelopes report (`PERFORMANCE_ENVELOPES_Q1_2027.md`)
+  - [ ] Baseline benchmarks (`bench_updates_performance_baselines_q1_2027.cpp`)
+  - [ ] 20+ SLA gates recommended; P95/P99 stable (<2% variance)
+  - [ ] Agent: `research` (updates-q1-baselines)
+
+- [ ] **Phase 8:** Long-run reliability hardening (Target: Nov 22 - Jan 31, 2027)
+  - [ ] Long-run reliability test (`test_updates_long_run_reliability_q1_2027.cpp`)
+  - [ ] 48h+ stability benchmark (`bench_updates_48h_stability_q1_2027.cpp`)
+  - [ ] Long-run reliability report (`LONG_RUN_RELIABILITY_Q1_2027.md`)
+  - [ ] 48h+ runs without memory leaks; Memory growth <1% per 24h
+  - [ ] Agent: `general-purpose` (updates-q1-long-run)
 
 ## Implementation Phases
 
