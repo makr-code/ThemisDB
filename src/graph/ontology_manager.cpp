@@ -445,26 +445,42 @@ std::unordered_set<std::string> OntologyManager::allowedEdgeTypes(std::string_vi
 
 bool OntologyManager::isEdgeTypeAllowed(std::string_view sourceClass, std::string_view targetClass,
                                         std::string_view edgeType) const {
-    // Unknown classes → unconstrained (graceful degradation)
+    // Contract from header:
+    // Returns true if:
+    //  1. Either sourceClass or targetClass is unknown (graceful degradation), OR
+    //  2. edgeType is explicitly allowed for the class pair by ontology axioms, OR
+    //  3. Axioms exist for the class pair and edgeType is unknown globally (schema-evolution fallback).
+    // Returns false if:
+    //  1. Both classes are known AND there are no axioms for this pair (strict mode), OR
+    //  2. edgeType is known in the ontology but not allowed for this class pair.
+
+    // Condition 1: Unknown classes → unconstrained (graceful degradation)
     if (!hasConcept(sourceClass) || !hasConcept(targetClass)) {
         return true;
     }
+
     auto allowed = allowedEdgeTypes(sourceClass, targetClass);
-    if (allowed.empty()) {
-        return false; // strict mode: no axioms for this pair means deny
-    }
+
+    // Condition 2: edgeType is explicitly allowed for the class pair
     if (allowed.count(std::string(edgeType)) > 0) {
         return true;
     }
 
+    // Check if edgeType is known in the ontology
     const auto is_known_edge_type = std::any_of(
         axioms_.begin(), axioms_.end(),
         [edgeType](const Axiom& axiom) { return axiom.edge_type == edgeType; });
 
-    // Graceful fallback for schema evolution: allow unknown edge types when
-    // class-pair axioms exist, but keep strict rejection for known-but-disallowed
-    // edge types.
-    return !is_known_edge_type;
+    // Condition 3: Axioms exist for the class pair and edgeType is unknown globally
+    //              (schema-evolution fallback)
+    if (!allowed.empty() && !is_known_edge_type) {
+        return true;
+    }
+
+    // Return false for strict mode:
+    // - Both classes are known AND there are no axioms for this pair, OR
+    // - edgeType is known but not allowed for this class pair
+    return false;
 }
 
 // ── Serialisation ────────────────────────────────────────────────────────────
