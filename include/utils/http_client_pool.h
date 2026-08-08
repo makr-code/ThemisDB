@@ -245,7 +245,9 @@ private:
     
     Config config_;
     std::vector<std::unique_ptr<LockStripe>> stripes_;
+#ifdef HAVE_BOOST_BEAST
     std::shared_ptr<net::io_context> io_context_;
+#endif
     std::vector<std::thread> io_threads_;
     std::atomic<size_t> total_connections_{0};
     std::atomic<size_t> requests_served_{0};
@@ -257,6 +259,7 @@ private:
     mutable std::atomic<size_t> round_robin_{0};
 };
 
+#ifdef HAVE_BOOST_BEAST
 /**
  * @brief Concrete HTTP client implementation using Boost.Beast
  */
@@ -288,6 +291,7 @@ private:
     std::shared_ptr<net::io_context> ioc_;
     ssl::context ssl_ctx_;
 };
+#endif // HAVE_BOOST_BEAST
 
 } // namespace utils
 } // namespace themis
