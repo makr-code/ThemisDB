@@ -1,0 +1,9 @@
+Gate ID,Benchmark,Mean (µs),Median (µs),P95 (µs),P99 (µs),Throughput (ops/s),Target,Pass
+BE-01,BM_PrivacyScan_UTF8Validation,0.00,0.00,0.00,0.00,244738130,overhead < 5% (mean < 52.5µs/elem with baseline ~50µs),PASS
+BE-02,BM_PrivacyScan_P95Latency,0.02,0.02,0.02,0.02,48178840,p95 < 100µs/element,PASS
+BE-03,BM_Compression_ZstdEncode,0.18,0.18,0.18,0.18,5628095,throughput > 500MB/s (mean < 2µs for 1KB),PASS
+BE-04,BM_Compression_ZstdDecode,0.08,0.08,0.08,0.08,13130252,throughput > 1000MB/s (mean < 1µs for 1KB),PASS
+BE-05,BM_RateLimiter_AcquireToken,0.00,0.00,0.00,0.00,1063829787,p95 < 10µs,PASS
+BE-06,BM_ThreadPool_Enqueue,0.00,0.00,0.00,0.00,533617930,p95 < 5µs,PASS
+BE-07,BM_Crypto_HKDFDerivation,0.04,0.04,0.04,0.04,25000000,mean < 100µs,PASS
+BE-08,BM_Crypto_KeyRotation,0.10,0.10,0.10,0.10,10000000,mean < 200µs,PASS
