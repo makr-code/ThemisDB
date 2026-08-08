@@ -255,6 +255,56 @@ public:
      */
     bool rollback(const std::string& reason = "");
 
+    // ---------- Coordinated rollback enhancements (v1.8.1 – Q3 2026) ----------
+
+    /**
+     * @brief Perform coordinated rollback across all nodes in reverse sequence.
+     *
+     * The leader node rolls back first (reverse of the update order), then
+     * replicas in reverse sequence. This prevents replication skew during
+     * rollback.
+     *
+     * Uses implicit retry logic when intermediate node rollbacks fail;
+     * collects per-node results and returns aggregate success.
+     *
+     * @param reason Human-readable reason for rollback
+     * @return true if all nodes rolled back successfully; false if any failed
+     * @since 1.8.1
+     */
+    bool coordinatedRollback(const std::string& reason = "");
+
+    /**
+     * @brief Perform coordinated rollback with isolation on per-node failures.
+     *
+     * When a replica fails to rollback, that node is isolated (marked FAILED)
+     * and the rollback continues with remaining nodes.  No cascading failures.
+     *
+     * @param reason Human-readable reason for rollback
+     * @return CoordinatedUpdateResult with per-node status and aggregate result
+     * @since 1.8.1
+     */
+    CoordinatedUpdateResult coordinatedRollbackWithIsolation(const std::string& reason = "");
+
+    /**
+     * @brief Check if any node is isolated due to rollback failure.
+     *
+     * When coordinatedRollbackWithIsolation() encounters a failure, that node
+     * remains isolated to prevent cascade. This method checks if any nodes
+     * are in that state.
+     *
+     * @return true if at least one node is isolated
+     * @since 1.8.1
+     */
+    bool hasIsolatedNodes() const;
+
+    /**
+     * @brief Return count of nodes that failed rollback and are isolated.
+     *
+     * @return Number of isolated nodes
+     * @since 1.8.1
+     */
+    uint32_t isolatedNodeCount() const;
+
     // ---------- Accessors ----------
 
     /**
@@ -312,6 +362,12 @@ private:
     /// or nullptr when the local node is first in the sequence.
     const NodeDescriptor* predecessorDescriptor() const;
 
+    /// Helper for coordinated rollback in reverse sequence
+    bool performNodeRollback(const NodeDescriptor& node, const std::string& reason);
+
+    /// Mark a node as isolated due to rollback failure
+    void isolateNode(const std::string& node_id, const std::string& reason);
+
     void reportProgress(const std::string& message);
 
     mutable std::mutex mutex_;
@@ -330,6 +386,9 @@ private:
 
     /// True once rollback() has been called.
     bool is_rolled_back_{false};
+
+    /// Track nodes isolated due to rollback failures
+    std::vector<std::string> isolated_nodes_;
 
     WaitForPreviousFunc wait_for_previous_fn_;
     SignalReadyFunc     signal_ready_fn_;

@@ -489,6 +489,93 @@ void UpdateStateMachine::clearCheckpoints() {
     LOG_INFO("UpdateStateMachine: all checkpoints cleared");
 }
 
+// ============================================================================
+// Partial and coordinated rollback enhancements (v1.8.1 – Q3 2026)
+// ============================================================================
+
+void UpdateStateMachine::setRollbackCallback(RollbackCallback callback) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    rollback_callback_ = std::move(callback);
+}
+
+bool UpdateStateMachine::rollbackToLatestCheckpoint() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    if (checkpoints_.empty()) {
+        LOG_ERROR("UpdateStateMachine: no checkpoints available for rollback");
+        return false;
+    }
+    
+    // Rollback to the latest (last) checkpoint
+    const auto& latest = checkpoints_.back();
+    return rollbackToCheckpoint(latest.id);
+}
+
+bool UpdateStateMachine::rollbackToCheckpointWithFallback(
+    CheckpointId checkpoint_id,
+    RollbackFallbackStrategy fallback_strategy) {
+    
+    std::lock_guard<std::mutex> lock(mutex_);
+    current_fallback_strategy_ = fallback_strategy;
+    
+    // Attempt rollback using existing rollbackToCheckpoint
+    bool success = rollbackToCheckpoint(checkpoint_id);
+    
+    if (!success) {
+        if (fallback_strategy == RollbackFallbackStrategy::DEFER) {
+            // Queue for later retry
+            deferred_rollbacks_.push_back(checkpoint_id);
+            LOG_WARN("UpdateStateMachine: deferring rollback for checkpoint {} (id={})",
+                     checkpoint_id, fallback_strategy);
+            return false;
+        } else if (fallback_strategy == RollbackFallbackStrategy::PARTIAL_CONTINUE) {
+            // Log but allow continuation
+            LOG_WARN("UpdateStateMachine: continuing despite rollback failure for checkpoint {}", 
+                     checkpoint_id);
+            return true;  // Optimistic: allow caller to continue
+        } else {
+            // IMMEDIATE_ABORT - already handled
+            LOG_ERROR("UpdateStateMachine: rollback aborted for checkpoint {}", checkpoint_id);
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+size_t UpdateStateMachine::checkpointCount() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return checkpoints_.size();
+}
+
+bool UpdateStateMachine::hasPendingRollback() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return !deferred_rollbacks_.empty();
+}
+
+void UpdateStateMachine::emitRollbackDiagnostic(CheckpointId checkpoint_id,
+                                               bool success,
+                                               const std::string& reason) {
+    if (success) {
+        LOG_WARN("UpdateStateMachine: rollback_checkpoint[id={}, success=true]",
+                checkpoint_id);
+    } else {
+        LOG_ERROR("UpdateStateMachine: rollback_checkpoint[id={}, success=false, reason={}]",
+                 checkpoint_id, reason);
+    }
+    
+    // Invoke registered callback if set
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (rollback_callback_) {
+        try {
+            rollback_callback_(checkpoint_id, success, 
+                             success ? "" : reason);
+        } catch (const std::exception& e) {
+            LOG_ERROR("UpdateStateMachine: rollback callback threw: {}", e.what());
+        }
+    }
+}
+
 } // namespace updates
 } // namespace themis
 

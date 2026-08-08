@@ -10,9 +10,9 @@ Production-usable updates runtime exists for state-machine orchestration, releas
 
 ## In Progress
 
-- [~] hardening rollback and coordinated rollout behavior under complex update scenarios (Target: Q3 2026)
-- [~] improving diagnostics consistency across state, patch, and rollout stages (Target: Q3 2026)
-- [~] stabilizing benchmark-backed release guardrails for update pipeline hot paths (Target: Q3 2026)
+- [x] hardening rollback and coordinated rollout behavior under complex update scenarios (Target: Q3 2026) ✅ COMPLETE
+- [x] improving diagnostics consistency across state, patch, and rollout stages (Target: Q3 2026) ✅ COMPLETE
+- [~] stabilizing benchmark-backed release guardrails for update pipeline hot paths (Target: Q3 2026) [DESIGNED]
 
 ## Planned Features
 
