@@ -34,6 +34,7 @@
 #include <cstddef>
 #include <nlohmann/json.hpp>
 
+#ifdef HAVE_BOOST_BEAST
 // Boost.Beast for HTTP client
 #include <boost/beast/core.hpp>
 #include <boost/beast/http.hpp>
@@ -49,6 +50,7 @@ namespace http = beast::http;
 namespace net = boost::asio;
 namespace ssl = net::ssl;
 using tcp = net::ip::tcp;
+#endif
 
 using json = nlohmann::json;
 
