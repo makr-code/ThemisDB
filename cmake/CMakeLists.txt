@@ -336,10 +336,13 @@ endif()
 
 # Office document support (DOCX/XLSX/PPTX)
 # Find libzip (needed for both Office and Archive processing)
-find_package(libzip CONFIG)
-if(NOT libzip_FOUND)
-    find_package(libzip)
-endif()
+# Skip libzip to avoid broken CONFIG targets
+# find_package(libzip CONFIG)
+# Commented out due to broken system libzip CMake config
+# if(NOT libzip_FOUND)
+#     find_package(libzip)
+# endif()
+set(libzip_FOUND OFF)
 
 if(libzip_FOUND)
     message(STATUS "libzip found - Archive processing available")
