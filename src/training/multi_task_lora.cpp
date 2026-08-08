@@ -13,7 +13,6 @@
 
 #include <algorithm>
 #include <cmath>
-#include <limits>
 #include <numeric>
 #include <random>
 #include <stdexcept>
@@ -221,9 +220,7 @@ public:
             m.num_samples /= epochs_run;
         }
         double total_improvement = 0.0;
-        size_t stable_epoch = 0;
-        double min_loss_derivative = std::numeric_limits<double>::max();
-         
+
         for (auto& m : per_task) {
             if (m.num_samples > 0) {
                 m.train_loss /= static_cast<double>(m.num_samples * epochs_run);
@@ -248,8 +245,10 @@ public:
         result.avg_improvement  = (n_tasks > 0)
             ? total_improvement / static_cast<double>(n_tasks) : 0.0;
          
-        // Wave B Acceptance Gates (Phase 5) — compute metrics
-        result.acceptance_gates.avg_perf_gain = result.avg_improvement;
+        // Wave B Acceptance Gates (Phase 5) — compute metrics.
+        // avg_perf_gain is expressed as a percentage (consistent with
+        // validateAcceptanceGates(), which also multiplies by 100).
+        result.acceptance_gates.avg_perf_gain = result.avg_improvement * 100.0;
         result.acceptance_gates.convergence_stable = (final_joint_loss < 0.5);  // Heuristic
         result.acceptance_gates.convergence_epochs = cfg_.epochs > 5 ? cfg_.epochs / 5 : 1;
          
@@ -459,20 +458,15 @@ public:
         // First result: shared-base (current implementation)
         MTLTrainResult shared_result = train(samples);
         
-        // Second result: simulate separate-adapter baseline
-        // For this, we would create a separate trainer without shared base,
-        // but for now we return a mock comparison.
-        // In production, this would instantiate a separate trainer with
-        // shared_rank = 0 and per-task-only heads.
-        MTLTrainResult separate_result;
-        separate_result.success = true;
-        separate_result.joint_loss = shared_result.joint_loss * 1.15;  // Simulate 15% worse
-        separate_result.epochs_run = cfg_.epochs;
-        separate_result.per_task = shared_result.per_task;
-        for (auto& m : separate_result.per_task) {
-            m.train_loss *= 1.15;  // Slightly worse loss without sharing
+        // Second result: separate-adapter baseline — re-train with shared_rank = 0
+        // so each task uses only its own per-task head with no shared base.
+        MultiTaskLoRAConfig separate_cfg = cfg_;
+        separate_cfg.shared_rank = 0;
+        MultiTaskLoRATrainer separate_trainer(separate_cfg);
+        for (const auto& t : tasks_) {
+            separate_trainer.addTask(t);
         }
-        separate_result.avg_improvement = shared_result.avg_improvement * 0.85;
+        MTLTrainResult separate_result = separate_trainer.train(samples);
         
         return {shared_result, separate_result};
     }

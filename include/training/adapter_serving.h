@@ -125,9 +125,9 @@ std::string validateDeploymentReadiness(
 /**
  * @brief Generate deterministic deployment fingerprint for an adapter.
  *
- * Creates a stable identifier based on version, checkpoint hash, and
- * deployment timestamp. Used to ensure repeatable deployment decisions
- * and audit trail consistency.
+ * Creates a stable identifier based on the adapter version and checkpoint
+ * hash. Used to ensure repeatable deployment decisions and audit trail
+ * consistency.
  *
  * @param adapter_version Version identifier
  * @param checkpoint_sha256 SHA-256 of the checkpoint file

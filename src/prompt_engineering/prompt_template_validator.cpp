@@ -176,20 +176,24 @@ TemplateValidationResult
 PromptTemplateValidator::detectInjectionPatterns(const std::string& content) const {
     TemplateValidationResult result;
     
+    // SQL injection patterns are low-severity in prompt templates (warnings only)
     if (hasSQLInjectionPattern(content)) {
         result.warnings.push_back("SQL injection pattern detected in template content");
     }
     
+    // Command injection is high-severity: can lead to shell execution
     if (hasCommandInjectionPattern(content)) {
-        result.warnings.push_back("Command injection pattern detected in template content");
+        result.errors.push_back("High-severity: command injection pattern detected in template content");
     }
     
+    // Path traversal is low-severity in prompt context (warning only)
     if (hasPathTraversalPattern(content)) {
         result.warnings.push_back("Path traversal pattern detected in template content");
     }
     
+    // Template injection is high-severity: can manipulate prompt structure
     if (hasTemplateInjectionPattern(content)) {
-        result.warnings.push_back("Template injection pattern detected in template content");
+        result.errors.push_back("High-severity: template injection pattern detected in template content");
     }
     
     result.valid = result.errors.empty();

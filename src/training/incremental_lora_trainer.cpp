@@ -1834,9 +1834,10 @@ double IncrementalLoRATrainer::getLocalWeight(const std::string& layer_name) con
 // =========================================================================
 
 std::string IncrementalLoRATrainer::validateTrainingState() const {
-    // Check: trainer should not be in training state for new training request
-    // In production, this would check impl_->training_in_progress_ or similar
-    return ""; // Valid for now
+    if (impl_->training_active_.load()) {
+        return "Training is already in progress; concurrent training is not supported";
+    }
+    return ""; // Valid state
 }
 
 std::string IncrementalLoRATrainer::getTrainingDiagnostics() const {
@@ -1855,13 +1856,17 @@ std::string IncrementalLoRATrainer::getTrainingDiagnostics() const {
 }
 
 std::string IncrementalLoRATrainer::getRecoveryStatus() const {
-    // In production, would check impl_->last_checkpoint_path_ and timing
+    if (impl_->checkpointing_enabled_ && impl_->metrics_.total_steps > 0) {
+        std::ostringstream oss;
+        oss << "Checkpointing enabled (every " << impl_->checkpoint_steps_ << " steps); "
+            << impl_->metrics_.total_steps << " steps recorded — checkpoint available for resume";
+        return oss.str();
+    }
     return ""; // No interruption detected
 }
 
 void IncrementalLoRATrainer::enableIntermediateCheckpointing(bool enabled, size_t save_interval) {
-    // Enable intermediate checkpoint saves during long training runs
-    // In production, would set impl_->enable_intermediate_checkpoints_ and save_interval
+    impl_->setCheckpointing(enabled, save_interval);
 }
 
 } // namespace training

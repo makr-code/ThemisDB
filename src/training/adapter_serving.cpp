@@ -77,8 +77,13 @@ std::string validateDeploymentReadiness(
     
     // Check minimum file size (at least 1KB)
     f.seekg(0, std::ios::end);
-    size_t file_size = f.tellg();
+    std::streamoff file_size_raw = f.tellg();
     f.close();
+    
+    if (file_size_raw < 0) {
+        return "Failed to determine checkpoint file size";
+    }
+    size_t file_size = static_cast<size_t>(file_size_raw);
     
     if (file_size < 1024) {
         return "Checkpoint file too small (" + std::to_string(file_size) + 
@@ -105,11 +110,11 @@ std::string computeDeploymentFingerprint(
     const std::string& adapter_version,
     const std::string& checkpoint_sha256) {
     
-    // Combine version and checkpoint hash for deterministic fingerprint
+    // Combine version and checkpoint hash for deterministic fingerprint.
+    // Uses a FNV-1a-style 64-bit hash for a fast, non-cryptographic fingerprint.
+    // Callers requiring cryptographic guarantees should use utils::calculateSHA256
+    // directly on the checkpoint file.
     std::string combined = adapter_version + "::" + checkpoint_sha256;
-    
-    // Use SHA-256 to derive a stable fingerprint
-    // In production, would use actual SHA-256; for now, use simple hash
     uint64_t hash = 0;
     const uint64_t kPrime = 1099511628211ull;
     const uint64_t kOffset = 1469598103934665603ull;
