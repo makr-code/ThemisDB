@@ -481,3 +481,113 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_transaction_error_path_determinism_pha
 else()
     message(STATUS "Phase 1 Error Path Determinism tests not found at ${CMAKE_CURRENT_LIST_DIR}/test_transaction_error_path_determinism_phase1.cpp")
 endif()
+
+# ===== PHASE 2 HARDENING TESTS (Q4 2026) =====
+
+# Phase 2: Distributed Coordination Hardening
+# AC-4, AC-5, AC-6: 2PC/3PC protocol, timeout/retry, in-doubt recovery
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_transaction_distributed_phase2.cpp")
+    message(STATUS "Adding Phase 2: Distributed Coordination Hardening tests")
+
+    add_executable(test_transaction_distributed_phase2_focused
+        test_transaction_distributed_phase2.cpp
+    )
+
+    target_link_libraries(test_transaction_distributed_phase2_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_transaction_distributed_phase2_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    themis_register_module_test(
+        MODULE transaction
+        NAME TransactionDistributedPhase2Tests
+        TARGET test_transaction_distributed_phase2_focused
+        TIER unit
+        KIND focused
+        TIMEOUT 120
+        LABELS transaction phase-2 distributed-coordination 2pc 3pc timeout-retry in-doubt-recovery
+    )
+
+    message(STATUS "  Phase 2: Distributed Coordination: 2PC/3PC protocol, timeout/retry, in-doubt recovery")
+else()
+    message(STATUS "Phase 2 Distributed Coordination tests not found at ${CMAKE_CURRENT_LIST_DIR}/test_transaction_distributed_phase2.cpp")
+endif()
+
+# Phase 2: SAGA Orchestration and Compensation Reliability
+# AC-8, AC-9, AC-10: Compensation idempotency, SAGA failure handling, retry storms
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_transaction_saga_compensation_phase2.cpp")
+    message(STATUS "Adding Phase 2: SAGA Orchestration and Compensation Reliability tests")
+
+    add_executable(test_transaction_saga_compensation_phase2_focused
+        test_transaction_saga_compensation_phase2.cpp
+    )
+
+    target_link_libraries(test_transaction_saga_compensation_phase2_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_transaction_saga_compensation_phase2_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    themis_register_module_test(
+        MODULE transaction
+        NAME TransactionSAGACompensationPhase2Tests
+        TARGET test_transaction_saga_compensation_phase2_focused
+        TIER unit
+        KIND focused
+        TIMEOUT 120
+        LABELS transaction phase-2 saga-orchestration compensation idempotency failure-handling
+    )
+
+    message(STATUS "  Phase 2: SAGA/Compensation: idempotency, orchestration, retry storms, recovery")
+else()
+    message(STATUS "Phase 2 SAGA Compensation tests not found at ${CMAKE_CURRENT_LIST_DIR}/test_transaction_saga_compensation_phase2.cpp")
+endif()
+
+# ===== PHASE 3 HARDENING TESTS (Q4 2026 - Q1 2027) =====
+
+# Phase 3: Fault Injection and Extended Reliability
+# AC-11, AC-12, AC-13: Fault injection, chaos engineering, cascading failure recovery
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_transaction_fault_injection_phase3.cpp")
+    message(STATUS "Adding Phase 3: Fault Injection and Extended Reliability tests")
+
+    add_executable(test_transaction_fault_injection_phase3_focused
+        test_transaction_fault_injection_phase3.cpp
+    )
+
+    target_link_libraries(test_transaction_fault_injection_phase3_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_transaction_fault_injection_phase3_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    themis_register_module_test(
+        MODULE transaction
+        NAME TransactionFaultInjectionPhase3Tests
+        TARGET test_transaction_fault_injection_phase3_focused
+        TIER unit
+        KIND focused
+        TIMEOUT 120
+        LABELS transaction phase-3 fault-injection chaos-engineering cascading-failures
+    )
+
+    message(STATUS "  Phase 3: Fault Injection: cross-shard, chaos, cascading recovery")
+else()
+    message(STATUS "Phase 3 Fault Injection tests not found at ${CMAKE_CURRENT_LIST_DIR}/test_transaction_fault_injection_phase3.cpp")
+endif()
