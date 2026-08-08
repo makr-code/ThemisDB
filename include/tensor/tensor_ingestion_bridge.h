@@ -132,12 +132,15 @@ public:
 private:
     storage::TensorTrainDecomposer decomposer_;
 
-    double      default_epsilon_    = 0.01;
-    std::size_t default_max_rank_   = 0;
-    double      default_min_kappa_  = 1.3;
+    std::atomic<double>     default_epsilon_{0.01};
+    std::atomic<std::size_t> default_max_rank_{0};
+    std::atomic<double>     default_min_kappa_{1.3};
 
     mutable std::atomic<long long> decompose_count_{0};
     mutable std::atomic<long long> kappa_skip_count_{0};
+    
+    // Concurrent workload hardening (Block A1)
+    mutable std::atomic<size_t> pending_decompositions_{0};  ///< Track in-flight decomposition operations
 
     /// Infer a balanced 2D mode-shape for a vector of length `n`.
     /// Returns {rows, cols} such that rows * cols == n and |rows - cols|

@@ -149,7 +149,7 @@ public:
         const HybridRetentionConfig& config = HybridRetentionConfig{}
     );
     
-    ~HybridRetentionManager();
+    ~HybridRetentionManager() noexcept;
     
     // Lifecycle
     void start();

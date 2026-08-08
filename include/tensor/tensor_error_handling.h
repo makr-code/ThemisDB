@@ -12,6 +12,7 @@
 #include "tensor/tensor_routing_strategy.h"
 
 #include <functional>
+#include <map>
 #include <memory>
 #include <mutex>
 #include <string>
@@ -462,6 +463,140 @@ private:
     ResilienceMetrics metrics_;
     mutable std::mutex metrics_mutex_;
 };
+
+// ============================================================================
+// Unified Incident Taxonomy — Phase 3 Task 3.2 Diagnostics
+// ============================================================================
+
+/**
+ * @brief Unified incident classification for all tensor module failures.
+ * 
+ * Provides a consistent taxonomy for categorizing all tensor-related incidents
+ * across the index manager, bridge layer, fingerprint graph, and deduplication
+ * system for standardized diagnostics and monitoring.
+ * 
+ * @see Phase 3 Task 3.2 Acceptance Criteria
+ */
+enum class TensorIncidentClass {
+    /// Index manager resource constraints, concurrency limits, or routing failures
+    INDEX = 0,
+    
+    /// Bridge-layer faults: core, ingestion, mmap, or backend injection errors
+    BRIDGE = 1,
+    
+    /// Fingerprint graph concurrent access patterns or consistency errors
+    FINGERPRINT = 2,
+    
+    /// Deduplication detection memory bounds or latency violations
+    DEDUP = 3,
+    
+    /// Export/replay operations or error recovery paths
+    EXPORT_REPLAY = 4,
+    
+    /// Generic tensor operation errors not categorized above
+    GENERIC = 5
+};
+
+/**
+ * @brief Convert incident class to human-readable string for logging.
+ * 
+ * @param incident_class The incident class to convert
+ * @return String representation (e.g., "BRIDGE", "FINGERPRINT")
+ */
+inline const char* incidentClassToString(TensorIncidentClass incident_class) noexcept {
+    switch (incident_class) {
+        case TensorIncidentClass::INDEX:           return "INDEX";
+        case TensorIncidentClass::BRIDGE:          return "BRIDGE";
+        case TensorIncidentClass::FINGERPRINT:     return "FINGERPRINT";
+        case TensorIncidentClass::DEDUP:           return "DEDUP";
+        case TensorIncidentClass::EXPORT_REPLAY:   return "EXPORT_REPLAY";
+        case TensorIncidentClass::GENERIC:         return "GENERIC";
+        default:                                    return "UNKNOWN";
+    }
+}
+
+// ============================================================================
+// Diagnostic Emission Helpers — Phase 3 Task 3.2 Unification
+// ============================================================================
+
+/**
+ * @brief Emit a diagnostic event for tensor module operations (unified interface).
+ * 
+ * Thread-safe helper for emitting structured diagnostic events during
+ * error handling and recovery. Used to ensure all error paths produce
+ * diagnostic telemetry for MTTR reduction.
+ * 
+ * This unified function is called by all phase 3 error handling paths
+ * (TNCH-01..TNCH-16 contract hardening tests).
+ * 
+ * @param incident_class Classification from TensorIncidentClass enum
+ * @param error_code Semantic error code (e.g., "TENSOR-9510", "TENSOR-9520")
+ * @param error_message Human-readable error message
+ * @param context Optional context key-value pairs (module, adapter_id, etc.)
+ * 
+ * @see Phase 3 Task 3.2: "All 8+ error paths in tensor_fingerprint_graph.cpp + 4+ paths in tensor_index_manager.cpp use unified emission"
+ */
+void emitTensorDiagnostic(
+    TensorIncidentClass incident_class,
+    const std::string& error_code,
+    const std::string& error_message,
+    const std::map<std::string, std::string>& context = {}) noexcept;
+
+/**
+ * @brief Convenience wrapper for fingerprint graph diagnostics (unified).
+ * 
+ * Automatically categorizes incident as FINGERPRINT class.
+ * 
+ * @param error_code TENSOR-specific error code
+ * @param detail Error detail (e.g., operation, reason, value)
+ * @param adapter_key Optional adapter identifier
+ */
+void emitFingerprintDiagnostic(
+    const std::string& error_code,
+    const std::string& detail,
+    const std::string& adapter_key = "") noexcept;
+
+/**
+ * @brief Convenience wrapper for index manager diagnostics (unified).
+ * 
+ * Automatically categorizes incident as INDEX class.
+ * 
+ * @param error_code TENSOR-specific error code
+ * @param detail Error detail
+ * @param index_key Optional index identifier
+ */
+void emitIndexDiagnostic(
+    const std::string& error_code,
+    const std::string& detail,
+    const std::string& index_key = "") noexcept;
+
+/**
+ * @brief Convenience wrapper for bridge-layer diagnostics (unified).
+ * 
+ * Automatically categorizes incident as BRIDGE class.
+ * 
+ * @param error_code TENSOR-specific error code
+ * @param detail Error detail (e.g., backend, serialization error)
+ * @param bridge_id Optional bridge identifier
+ */
+void emitBridgeDiagnostic(
+    const std::string& error_code,
+    const std::string& detail,
+    const std::string& bridge_id = "") noexcept;
+
+/**
+ * @brief Convenience wrapper for deduplication diagnostics (unified).
+ * 
+ * Automatically categorizes incident as DEDUP class.
+ * 
+ * @param error_code TENSOR-specific error code
+ * @param detail Error detail (e.g., memory bound, latency violation)
+ * @param dedup_id Optional deduplication component identifier
+ */
+void emitDedupDiagnostic(
+    const std::string& error_code,
+    const std::string& detail,
+    const std::string& dedup_id = "") noexcept;
 
 } // namespace tensor
 } // namespace themis

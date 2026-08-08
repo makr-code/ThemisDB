@@ -18,6 +18,7 @@
 #include <shared_mutex>
 #include <cstdint>
 #include <nlohmann/json.hpp>
+#include "scheduler/scheduler_api_contract.h"
 
 namespace themis {
 
@@ -68,12 +69,18 @@ public:
     /**
      * @brief Append an execution result for a task.
      *
-     * Stores the result and, if the number of stored results for this task
-     * exceeds `max_per_task`, deletes the oldest entries.
+     * Enforces retention limits BEFORE writing the new result.
+     * If the store is at capacity (max_per_task entries), returns kRetentionLimitExceeded
+     * without storing the result.
+     *
+     * On success, stores the result and performs FIFO pruning to maintain the
+     * retention limit (oldest entries deleted first).
      *
      * @param result  Execution record to persist.
+     * @return kSuccess on successful storage, kRetentionLimitExceeded if at capacity,
+     *         kInternalError on storage failure.
      */
-    void store(const TaskExecutionResult& result);
+    SchedulerError store(const TaskExecutionResult& result);
 
     /**
      * @brief Retrieve the most-recent execution results for a task.

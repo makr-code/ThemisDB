@@ -715,6 +715,11 @@ private:
     mutable std::mutex running_mutex_;
     std::atomic<size_t> active_task_threads_{0};
     
+    // Per-task execution serialization locks (Phase 3 hardening)
+    // Prevents concurrent execution of the same task. Lazily initialized.
+    mutable std::map<std::string, std::unique_ptr<std::mutex>> task_execution_locks_;
+    mutable std::mutex task_locks_mutex_;  ///< Protects task_execution_locks_ map itself
+    
     // Statistics
     std::atomic<size_t> total_executions_{0};
     std::atomic<size_t> failed_executions_{0};
@@ -774,6 +779,10 @@ private:
 
     // Dynamic scaling helper (Issue #2269)
     void adjustConcurrencyLimit(size_t pending_count) noexcept;
+    
+    // Task execution serialization (Phase 3 hardening)
+    // Returns the per-task execution lock, creating it lazily if needed.
+    std::mutex& getTaskExecutionLock(const std::string& task_id);
 };
 
 } // namespace themis

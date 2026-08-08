@@ -19,8 +19,11 @@
  */
 
 #include "toolbox/toolbox_registry.h"
+#include "utils/logger.h"
 
+#include <atomic>
 #include <mutex>
+#include <sstream>
 #include <stdexcept>
 
 namespace themis {
@@ -35,6 +38,9 @@ namespace {
 std::mutex                         g_mutex;
 std::shared_ptr<IngestionToolbox>  g_instance;
 
+// Phase 3: Registry misuse tracking for metrics
+std::atomic<uint64_t> g_registry_misuse_total(0);  ///< not_initialized + double_init + reset_during_active
+
 } // namespace
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -47,12 +53,19 @@ void ToolboxRegistry::initialize(std::shared_ptr<IngestionToolbox> toolbox) {
             "ToolboxRegistry::initialize: toolbox must not be null");
     }
     std::lock_guard<std::mutex> lk(g_mutex);
+    if (g_instance) {
+        // Phase 3: Track double-init as registry misuse
+        g_registry_misuse_total.fetch_add(1, std::memory_order_relaxed);
+        THEMIS_WARN("ToolboxRegistry::initialize: called when already initialized; overwriting");
+    }
     g_instance = std::move(toolbox);
 }
 
 std::shared_ptr<IngestionToolbox> ToolboxRegistry::instance() {
     std::lock_guard<std::mutex> lk(g_mutex);
     if (!g_instance) {
+        // Phase 3: Track not-initialized as registry misuse
+        g_registry_misuse_total.fetch_add(1, std::memory_order_relaxed);
         throw std::logic_error(
             "ToolboxRegistry::instance: registry not initialised — "
             "call ToolboxRegistry::initialize() at server startup");
@@ -99,7 +112,20 @@ ingestion::BaseEntitySet extractEntitySet(
 }
 
 std::string getMetricsText() {
-    return ToolboxRegistry::instance()->getMetricsText();
+    std::string base = ToolboxRegistry::instance()->getMetricsText();
+    
+    // Phase 3: Append registry-level metrics
+    const uint64_t misuse = g_registry_misuse_total.load(std::memory_order_relaxed);
+    if (misuse > 0) {
+        std::ostringstream out;
+        out << base;
+        out << "# HELP toolbox_registry_misuse_total Total registry misuse events (not_initialized, double_init, etc).\n";
+        out << "# TYPE toolbox_registry_misuse_total counter\n";
+        out << "toolbox_registry_misuse_total " << misuse << "\n";
+        return out.str();
+    }
+    
+    return base;
 }
 
 } // namespace toolbox

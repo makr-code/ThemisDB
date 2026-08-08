@@ -205,9 +205,57 @@ public:
     std::shared_ptr<ingestion::IGraphWriter> graphWriter()    const;
     std::shared_ptr<ingestion::IVectorWriter> vectorWriter()  const;
 
+    // ─────────────────────────────────────────────────────────────────────────
+    // Prometheus metrics (Phase 2.4)
+    // ─────────────────────────────────────────────────────────────────────────
+
+    /**
+     * @brief Return cumulative count of bridge ingest/enrichment failures.
+     *
+     * Used for Prometheus metric `toolbox_bridge_failures_total`.
+     * Incremented on ContentManager failures, null checks, or other
+     * bridge-level errors. Does not count individual sink write failures
+     * (those are tracked separately).
+     */
+    uint64_t failuresTotal() const noexcept;
+
+    /**
+     * @brief Return cumulative count of graph writer failures.
+     *
+     * Used for Prometheus metric `toolbox_bridge_graph_write_failures_total`.
+     * Incremented when an entity write to the graph sink fails, but the
+     * bridge continues processing (soft-fail behavior).
+     */
+    uint64_t graphWriteFailuresTotal() const noexcept;
+
+    /**
+     * @brief Return cumulative count of vector writer failures.
+     *
+     * Used for Prometheus metric `toolbox_bridge_vector_write_failures_total`.
+     * Incremented when a vector record write to the vector sink fails, but the
+     * bridge continues processing (soft-fail behavior).
+     */
+    uint64_t vectorWriteFailuresTotal() const noexcept;
+
+    /**
+     * @brief Export all bridge metrics in Prometheus text format.
+     *
+     * Returns empty string if no operations have been recorded yet.
+     * Includes failure counters and latency histogram buckets.
+     */
+    std::string getMetricsText() const;
+
 private:
     class Impl;
     std::unique_ptr<Impl> impl_;
+
+    /**
+     * @brief Record operation latency for metrics histogram.
+     *
+     * Used internally by ingest() and enrichExisting() to populate latency buckets.
+     * @param latency_ms Operation latency in milliseconds
+     */
+    void recordLatency(uint64_t latency_ms) noexcept;
 };
 
 } // namespace toolbox

@@ -56,31 +56,34 @@ Production-capable prompt engineering runtime exists for template lifecycle oper
 - [x] enforce rewrite step bounds, phase isolation, malformed-rule rejection, and terminal policy behavior (Target: Q4 2026)
 
 ### Phase 4: Tests
-- [ ] expand focused regressions for invalid template and concurrent mutation scenarios (Target: Q4 2026)
-- [ ] extend deterministic stress fixtures for optimization/evaluation workloads (Target: Q4 2026)
-- [ ] add unit/integration coverage for rewrite rule ordering, trace generation, normalization idempotence, and NL→AQL preprocessing flows (Target: Q4 2026)
+- [~] expand focused regressions for invalid template and concurrent mutation scenarios (Target: Q4 2026) — Focused test suite PE-FT-001..PE-FT-015 established; edge case coverage expansion in progress (2026-08-07)
+- [~] extend deterministic stress fixtures for optimization/evaluation workloads (Target: Q4 2026) — Synthetic workload generators implemented; stress test harness ready (2026-08-07)
+- [~] add unit/integration coverage for rewrite rule ordering, trace generation, normalization idempotence, and NL→AQL preprocessing flows (Target: Q4 2026) — Rewrite rule test cases drafted; NL→AQL preprocessing validation pending (2026-08-07)
 
 ### Phase 5: Performance and Hardening
-- [ ] lock benchmark-backed release gates for prompt engineering hot paths (Target: Q4 2026)
-- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
-- [ ] benchmark rewrite latency/trace overhead and harden regex/rule execution against adversarial expansion or loop behavior (Target: Q1 2027)
+- [x] lock benchmark-backed release gates for prompt engineering hot paths (Target: Q4 2026) — Complete: bench_prompt_engineering.cpp (PromptManager/VersionControl/Optimizer/Evaluator gates) + bench_rewrite_engine.cpp (PEG-01..06 RewriteEngine gates) delivered (2026-08-07)
+- [~] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026) — Benchmark suite ready for execution; p95/p99 validation in progress (2026-08-07)
+- [~] benchmark rewrite latency/trace overhead and harden regex/rule execution against adversarial expansion or loop behavior (Target: Q4 2026) — PEG-04..06 (rule loading, trace gen, step limits) implemented; adversarial testing in progress (2026-08-07)
 
 ### Phase 6: Documentation and Acceptance
-- [~] core prompt_engineering docs aligned to source-verifiable behavior (Target: Q3-Q4 2026) — In progress with Phase 1 deliverables
+- [x] core prompt_engineering docs aligned to source-verifiable behavior (Target: Q3-Q4 2026) — Complete with Phase 1-2 deliverables
 - [x] roadmap/future planning separated from historical changelog entries
 - [x] focused test infrastructure (PE-FT-001..PE-FT-015) implemented at `tests/prompt_engineering/test_prompt_engineering_focused.cpp` (Target: Q3 2026)
-- [ ] document and integrate rewrite engine architecture and operational guidance (`docs/architecture/rewrite_engine_architecture.md`) (Target: Q4 2026)
+- [x] document and integrate rewrite engine architecture and operational guidance (`docs/architecture/rewrite_engine_architecture.md`) (Target: Q4 2026) — Complete 2026-08-07
+- [x] benchmark gates documented: GATE-PE-01..06 (PEG-01..06) in `benchmarks/prompt_engineering/bench_rewrite_engine.cpp` (Target: Q4 2026) — Delivered 2026-08-07
+- [~] acceptance checklist sign-off ready for final human review (Target: Q4 2026)
 
 ## Production Readiness Checklist
 
 - [x] core prompt engineering surfaces documented and source-verified
 - [x] module-level security and failure behavior documented (Phase 1: error taxonomy in prompt_engineering_errors.h and ERROR_TAXONOMY_REFERENCE.md)
-- [x] benchmark mapping documented in performance expectations
+- [x] benchmark mapping documented in performance expectations (Phase 5: bench_prompt_engineering.cpp + bench_rewrite_engine.cpp with GATE-PE-01..06)
 - [x] focused test infrastructure (PE-FT-001..PE-FT-015) implemented for core surfaces
-- [ ] remaining hardening tasks closed for template/versioning/quality edge paths (Phase 3 + Phase 4 work)
-- [ ] release benchmark stabilization complete (Phase 5 work)
-- [ ] rewrite engine deterministic rule execution, bounded behavior, and audit trace support validated in production-like test profiles (Phase 2–5 work)
-- [ ] backward compatibility guarantee documented and reviewed (Phase 1: PHASE_1_CONTRACT.md)
+- [~] remaining hardening tasks in progress for template/versioning/quality edge paths (Phase 3 + Phase 4 work, target completion 2026-08-15)
+- [~] release benchmark stabilization in progress (Phase 5 work, target completion 2026-08-15)
+- [~] rewrite engine deterministic rule execution, bounded behavior, and audit trace support validated in production-like test profiles (Phase 2–5 work, target completion 2026-08-15)
+- [x] backward compatibility guarantee documented and reviewed (Phase 1: PHASE_1_CONTRACT.md)
+- [x] RewriteEngine benchmarks with 6 release gates (GATE-PE-01..06) documented and registered (2026-08-07)
 
 ## Known Issues and Limitations
 

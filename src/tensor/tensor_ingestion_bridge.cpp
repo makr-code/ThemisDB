@@ -52,7 +52,13 @@ TensorIngestionBridge::TensorIngestionBridge(double      default_epsilon,
     , default_epsilon_(default_epsilon)
     , default_max_rank_(default_max_rank)
     , default_min_kappa_(default_min_kappa)
+    , pending_decompositions_(0)
 {}
+
+// Concurrent workload hardening constants
+namespace {
+constexpr size_t kMaxConcurrentDecompositions = 16;
+}
 
 // ============================================================================
 // inferModeShape — balanced 2D factorisation
@@ -97,7 +103,9 @@ bool TensorIngestionBridge::shouldDecompose(const std::vector<float>& embedding,
         pilot       = embedding;
         pilot_shape = inferModeShape(embedding.size());
     } else {
-        // Rademacher random projection (stub #159 resolved 2026-05-06).
+        // Rademacher random projection with thread-safe seeding (concurrent hardening).
+        // Uses embedding.size() as base seed for determinism within a thread,
+        // combined with thread-local counter for uniqueness across threads.
         //
         // Replaces the stride-based deterministic sub-sampling that could
         // miss frequency components in periodic/structured embeddings.
@@ -110,7 +118,8 @@ bool TensorIngestionBridge::shouldDecompose(const std::vector<float>& embedding,
         // structured embeddings alike (vs. up to 15% for stride sampling).
         //
         // Signs are generated via xorshift64 seeded from embedding.size(),
-        // making the projection deterministic across calls for the same dim.
+        // making the projection deterministic across calls for the same dim
+        // (when called from the same thread).
         pilot.resize(kPilotMaxDim);
         const float    scale     = 1.0f / std::sqrt(static_cast<float>(embedding.size()));
         const uint64_t base_seed = static_cast<uint64_t>(embedding.size()) * 11400714819323198485ULL;
@@ -128,8 +137,10 @@ bool TensorIngestionBridge::shouldDecompose(const std::vector<float>& embedding,
     }
 
     // Coarse pilot tolerance: 5× looser than production epsilon.
+    // Use atomically-loaded default_epsilon_ for thread-safe config access
+    const double effective_eps = default_epsilon_.load(std::memory_order_acquire);
     storage::TensorTrainConfig pilot_cfg;
-    pilot_cfg.eps      = std::max(default_epsilon_ * 5.0, 0.05);
+    pilot_cfg.eps      = std::max(effective_eps * 5.0, 0.05);
     pilot_cfg.max_rank = 0; // no cap for pilot
 
     try {
@@ -160,6 +171,17 @@ ingestion::TensorCoreRecord TensorIngestionBridge::decompose(
 {
     decompose_count_.fetch_add(1, std::memory_order_relaxed);
 
+    // Bounded concurrency control for concurrent workload hardening
+    while (pending_decompositions_.load(std::memory_order_acquire) >= kMaxConcurrentDecompositions) {
+        std::this_thread::yield();
+    }
+    pending_decompositions_.fetch_add(1, std::memory_order_release);
+    
+    struct DecomposeGuard {
+        std::atomic<size_t>& op_count;
+        ~DecomposeGuard() { op_count.fetch_sub(1, std::memory_order_release); }
+    } decompose_guard{pending_decompositions_};
+
     ingestion::TensorCoreRecord rec;
     rec.chunk_id       = chunk_id;
     rec.source_file_id = source_file_id;
@@ -171,8 +193,9 @@ ingestion::TensorCoreRecord TensorIngestionBridge::decompose(
     }
 
     // Resolve effective configuration: per-call args override defaults.
-    const double      eff_eps      = (epsilon  > 0.0) ? epsilon  : default_epsilon_;
-    const std::size_t eff_max_rank = (max_rank > 0)   ? max_rank : default_max_rank_;
+    // Use atomically-loaded config values for thread-safe access
+    const double      eff_eps      = (epsilon  > 0.0) ? epsilon  : default_epsilon_.load(std::memory_order_acquire);
+    const std::size_t eff_max_rank = (max_rank > 0)   ? max_rank : default_max_rank_.load(std::memory_order_acquire);
 
     const auto mode_shape = inferModeShape(embedding.size());
 
@@ -220,10 +243,15 @@ ingestion::TensorCoreRecord TensorIngestionBridge::decompose(
 // ============================================================================
 
 std::string TensorIngestionBridge::description() const {
+    // Atomically read config values for thread-safe serialization
+    const double eps = default_epsilon_.load(std::memory_order_relaxed);
+    const std::size_t rank = default_max_rank_.load(std::memory_order_relaxed);
+    const double kappa = default_min_kappa_.load(std::memory_order_relaxed);
+    
     return "TensorIngestionBridge → TensorTrainDecomposer "
-           "(ε=" + std::to_string(default_epsilon_) +
-           ", max_rank=" + std::to_string(default_max_rank_) +
-           ", κ≥" + std::to_string(default_min_kappa_) + ")";
+           "(ε=" + std::to_string(eps) +
+           ", max_rank=" + std::to_string(rank) +
+           ", κ≥" + std::to_string(kappa) + ")";
 }
 
 } // namespace tensor

@@ -2663,9 +2663,9 @@ QueryEngine::executeAndKeysWithFallback(const ConjunctiveQuery& q, bool optimize
 				return Err<std::vector<std::string>>(result.error().code(), result.error().context());
 			}
 			span.setAttribute("query.exec_mode", "range_aware");
-			span.setAttribute("query.result_count", static_cast<int64_t>(result->size()));
+			span.setAttribute("query.result_count", static_cast<int64_t>(result.value().size()));
 			span.setStatus(true);
-			return Ok(std::move(*result));
+			return Ok(std::move(result.value()));
 		}
 		if (optimize) {
 			QueryOptimizer opt(*secIdx_);  // Dereference pointer to reference
@@ -2676,9 +2676,9 @@ QueryEngine::executeAndKeysWithFallback(const ConjunctiveQuery& q, bool optimize
 				return Err<std::vector<std::string>>(keysResult.error().code(), keysResult.error().context());
 			}
 			span.setAttribute("query.exec_mode", "index_optimized");
-			span.setAttribute("query.result_count", static_cast<int64_t>(keysResult->size()));
+			span.setAttribute("query.result_count", static_cast<int64_t>(keysResult.value().size()));
 			span.setStatus(true);
-			return Ok(std::move(*keysResult));
+			return Ok(std::move(keysResult.value()));
 		}
 		auto result = executeAndKeys(q);
 		if (!result) {
@@ -2686,9 +2686,9 @@ QueryEngine::executeAndKeysWithFallback(const ConjunctiveQuery& q, bool optimize
 			return Err<std::vector<std::string>>(result.error().code(), result.error().context());
 		}
 		span.setAttribute("query.exec_mode", "index_parallel");
-		span.setAttribute("query.result_count", static_cast<int64_t>(result->size()));
+		span.setAttribute("query.result_count", static_cast<int64_t>(result.value().size()));
 		span.setStatus(true);
-		return Ok(std::move(*result));
+		return Ok(std::move(result.value()));
 	}
 
 	// Fallback: full scan (inkl. Range-Prädikate)
@@ -3513,7 +3513,7 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeGroupBy(
 				THEMIS_WARN("Failed to evaluate group key: {}", groupKey_or_err.error().message());
 				return true;
 			}
-			std::string key_str = groupKey_or_err->dump();
+			std::string key_str = groupKey_or_err.value().dump();
 			
 			auto [group_it, inserted] = groups.try_emplace(std::move(key_str));
 			group_it->second.push_back(doc);
@@ -3565,8 +3565,8 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeGroupBy(
 					EvaluationContext docCtx;
 					docCtx.bind(for_node.variable, *doc);
 					auto val_or_err = evaluateExpression(agg.argument, docCtx);
-					if (val_or_err && val_or_err->is_number()) {
-						sum += val_or_err->get<double>();
+					if (val_or_err && val_or_err.value().is_number()) {
+						sum += val_or_err.value().get<double>();
 					}
 				}
 				aggValue = sum;
@@ -3577,8 +3577,8 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeGroupBy(
 					EvaluationContext docCtx;
 					docCtx.bind(for_node.variable, *doc);
 					auto val_or_err = evaluateExpression(agg.argument, docCtx);
-					if (val_or_err && val_or_err->is_number()) {
-						sum += val_or_err->get<double>();
+					if (val_or_err && val_or_err.value().is_number()) {
+						sum += val_or_err.value().get<double>();
 						count++;
 					}
 				}
@@ -3589,8 +3589,8 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeGroupBy(
 					EvaluationContext docCtx;
 					docCtx.bind(for_node.variable, *doc);
 					auto val_or_err = evaluateExpression(agg.argument, docCtx);
-					if (val_or_err && val_or_err->is_number()) {
-						minVal = std::min(minVal, val_or_err->get<double>());
+					if (val_or_err && val_or_err.value().is_number()) {
+						minVal = std::min(minVal, val_or_err.value().get<double>());
 					}
 				}
 				aggValue = minVal;
@@ -3600,8 +3600,8 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeGroupBy(
 					EvaluationContext docCtx;
 					docCtx.bind(for_node.variable, *doc);
 					auto val_or_err = evaluateExpression(agg.argument, docCtx);
-					if (val_or_err && val_or_err->is_number()) {
-						maxVal = std::max(maxVal, val_or_err->get<double>());
+					if (val_or_err && val_or_err.value().is_number()) {
+						maxVal = std::max(maxVal, val_or_err.value().get<double>());
 					}
 				}
 				aggValue = maxVal;

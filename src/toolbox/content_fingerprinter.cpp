@@ -22,6 +22,7 @@
 
 #include <openssl/sha.h>
 
+#include <chrono>
 #include <iomanip>
 #include <sstream>
 
@@ -52,6 +53,8 @@ constexpr double kCharsPerToken = 4.0;
 // ─────────────────────────────────────────────────────────────────────────────
 
 ContentFingerprint ContentFingerprinter::compute(std::string_view text) const {
+    auto t0 = std::chrono::steady_clock::now();
+    
     ContentFingerprint fp;
     fp.byte_len      = text.size();
     fp.token_estimate = (text.empty())
@@ -63,12 +66,19 @@ ContentFingerprint ContentFingerprinter::compute(std::string_view text) const {
             reinterpret_cast<const unsigned char*>(text.data()),
             text.size());
     }
+    
+    auto t1 = std::chrono::steady_clock::now();
+    fp.latency_us = static_cast<uint64_t>(
+        std::chrono::duration_cast<std::chrono::microseconds>(t1 - t0).count());
+    
     return fp;
 }
 
 ContentFingerprint ContentFingerprinter::compute(
     const unsigned char* data, std::size_t len) const
 {
+    auto t0 = std::chrono::steady_clock::now();
+    
     ContentFingerprint fp;
     fp.byte_len      = len;
     fp.token_estimate = (len == 0)
@@ -78,6 +88,11 @@ ContentFingerprint ContentFingerprinter::compute(
     if (len > 0) {
         fp.sha256_hex = sha256Hex(data, len);
     }
+    
+    auto t1 = std::chrono::steady_clock::now();
+    fp.latency_us = static_cast<uint64_t>(
+        std::chrono::duration_cast<std::chrono::microseconds>(t1 - t0).count());
+    
     return fp;
 }
 

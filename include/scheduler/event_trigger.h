@@ -44,6 +44,19 @@ struct CDCTriggerConfig {
  * 
  * This class listens to Changefeed events and determines when to trigger
  * tasks based on configured filters and debouncing rules.
+ * 
+ * ### Thread safety
+ * All public methods are thread-safe through the lock ordering hierarchy.
+ * 
+ * ### Lock ordering (deadlock prevention)
+ * MUST acquire locks in this strict order (never reverse):
+ *   Level 0: mutex_ (global state - acquired first)
+ *   Level 1: debounce_mutex_ (debounce-specific state)
+ *   Level 2: condition_cache_mutex_ (condition parsing cache)
+ *   Level 3: cb_mutex_ (circuit breaker state - acquired last)
+ * 
+ * Any method acquiring multiple locks MUST follow this hierarchy.
+ * Acquiring in reverse order can cause deadlock.
  */
 class EventTrigger {
 public:
@@ -51,15 +64,16 @@ public:
     
     /**
      * @brief Construct an event trigger
-     * @param changefeed Changefeed instance to listen to (not owned)
+     * @param changefeed Changefeed instance to listen to (not owned, must remain valid)
      * @param config Trigger configuration
      * @param callback Function to call when event matches
+     * @throws std::invalid_argument if changefeed or callback is null, or config is invalid
      */
     EventTrigger(Changefeed* changefeed,
                  const CDCTriggerConfig& config,
                  TriggerCallback callback);
     
-    ~EventTrigger();
+    ~EventTrigger() noexcept;
     
     // Lifecycle
     void start();
@@ -106,6 +120,10 @@ private:
     std::chrono::steady_clock::time_point last_trigger_time_;
     mutable std::mutex debounce_mutex_;
     
+    // GAP 2 FIX: Deduplication state - track last fired event to prevent duplicates
+    std::string last_fired_event_key_;
+    std::string last_fired_event_value_;
+    
     // Statistics
     mutable std::atomic<uint64_t> events_received_{0};
     mutable std::atomic<uint64_t> events_matched_{0};
@@ -143,6 +161,9 @@ private:
 
     // Debouncing
     bool shouldDebounce() const;
+    
+    // GAP 3 FIX: Circular dependency prevention
+    bool validateNoCircularDependencies() const;
 
     // ── Condition caching ─────────────────────────────────────────────────
     // Parsed form of a single condition clause (e.g. "key STARTS_WITH foo").
@@ -171,7 +192,7 @@ private:
 class EventTriggerManager {
 public:
     explicit EventTriggerManager(Changefeed* changefeed);
-    ~EventTriggerManager();
+    ~EventTriggerManager() noexcept;
     
     /**
      * @brief Register a new event trigger

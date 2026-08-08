@@ -56,7 +56,7 @@ Issue #5646 remains open with partial closure coverage: roadmap/future synchroni
 
 ### Phase 5: Performance and Hardening
 - [x] Lock benchmark-backed release gates for geo hot paths: GRG-01..GRG-06 in benchmarks/geo/bench_geo_release_gates.cpp (point-in-polygon 1k p99≤5ms, bbox query 10k p99≤1ms, GeoJSON parse p99≤500µs, Haversine p99≤10µs, spatial join p99≤50ms, backend selection p99≤50µs) (Target: Q4 2026)
-- [~] Validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+- [x] Validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026) — Release-gate benchmarks validated and documented (2026-08-07)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core geo module docs aligned to source-verifiable behavior
@@ -78,7 +78,7 @@ Issue #5646 remains open with partial closure coverage: roadmap/future synchroni
 - [x] Release-gate benchmarks: benchmarks/geo/bench_geo_release_gates.cpp (Phase 5, GRG-01..GRG-06)
 - [x] Benchmark CMakeLists registered: benchmarks/geo/CMakeLists.txt
 - [x] remaining hardening tasks closed for fallback/validation/advanced-query edge paths (Phase 1–3 complete: GPU RAII, performance fixes, geo_policy, temporal R-Tree optimization, RFC 7946 annotations)
-- [~] release benchmark stabilization complete
+- [x] release benchmark stabilization complete (Phase 5, 2026-08-07)
 
 ## Evidence Summary (Issue #5646 Sync — 2026-07-29)
 

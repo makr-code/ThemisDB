@@ -946,8 +946,8 @@ PolicyManager::PolicyResult PolicyManager::activateRuleWithValidation(
     rule_it->second.lifecycle.last_modified_by = user_id;
     
     // Log audit event
-    version_history_.addVersion(rule_it->second, user_id, 
-                                 "Policy rule activated");
+    version_history_.recordVersion(rule_id, rule_it->second, user_id, 
+                                     "Policy rule activated");
     
     result.error = PolicyError::kSuccess;
     result.rule_version = rule_it->second.version;
@@ -975,8 +975,8 @@ std::string PolicyManager::deprecateRule(
             .count();
     rule_it->second.lifecycle.last_modified_by = user_id;
     
-    version_history_.addVersion(rule_it->second, user_id, 
-                                 "Policy rule deprecated");
+    version_history_.recordVersion(rule_id, rule_it->second, user_id, 
+                                     "Policy rule deprecated");
     
     return rule_it->second.version;
 }
@@ -1002,8 +1002,8 @@ std::string PolicyManager::retireRule(
             .count();
     rule_it->second.lifecycle.last_modified_by = user_id;
     
-    version_history_.addVersion(rule_it->second, user_id, 
-                                 "Policy rule retired");
+    version_history_.recordVersion(rule_id, rule_it->second, user_id, 
+                                     "Policy rule retired");
     
     return rule_it->second.version;
 }
