@@ -27,14 +27,24 @@
 
 namespace themis { namespace observability {
 
-struct TraceContext {
+/**
+ * @brief OTLP-specific trace context for metric exemplars.
+ *
+ * This struct carries trace information for OpenTelemetry metric exemplars.
+ * It includes trace_id, span_id, and W3C trace flags, but NOT request_id.
+ * For logging contexts that need request_id, use core::concerns::TraceContext instead.
+ *
+ * @note This struct is named OTLPTraceContext to avoid naming collision with
+ *       core::concerns::TraceContext, which has a different field set.
+ */
+struct OTLPTraceContext {
     std::string trace_id;
     std::string span_id;
     uint8_t trace_flags = 1;
 };
 
 struct MetricExemplar {
-    TraceContext trace_context;
+    OTLPTraceContext trace_context;
     std::map<std::string, std::string> filtered_attributes;
     double value;
     std::chrono::system_clock::time_point time_unix_nano;
@@ -64,8 +74,8 @@ public:
 class IExemplarSampler {
 public:
     virtual ~IExemplarSampler() = default;
-    virtual bool shouldSample(const TraceContext& ctx) const = 0;
-    virtual void recordMeasurement(double value, const TraceContext& ctx,
+    virtual bool shouldSample(const OTLPTraceContext& ctx) const = 0;
+    virtual void recordMeasurement(double value, const OTLPTraceContext& ctx,
                                    const std::map<std::string, std::string>& attrs) = 0;
 };
 
