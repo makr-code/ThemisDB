@@ -39,6 +39,7 @@ add_library(themis_user_storage_encrypted SHARED
     gocryptfs_backend.cpp
     key_rotation_scheduler.cpp
     key_derivation_service.cpp
+    diagnostic_events.cpp
 )
 
 target_include_directories(themis_user_storage_encrypted

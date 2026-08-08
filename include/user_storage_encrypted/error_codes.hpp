@@ -13,6 +13,8 @@
 #include <string>
 #include <vector>
 #include <cstdint>
+#include <functional>
+#include <chrono>
 
 namespace themis {
 namespace plugins {
@@ -172,6 +174,10 @@ struct DiagnosticEvent {
  * for metrics collection, external observability systems, etc.
  */
 using DiagnosticEventHandler = std::function<void(const DiagnosticEvent&)>;
+
+// Forward declarations for diagnostic event API
+void registerDiagnosticEventHandler(DiagnosticEventHandler handler);
+void emitDiagnosticEvent(DiagnosticEvent event);
 
 } // namespace user_storage
 } // namespace plugins

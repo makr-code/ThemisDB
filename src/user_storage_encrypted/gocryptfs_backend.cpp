@@ -21,6 +21,8 @@
 #include "gocryptfs_backend.hpp"
 #include "timed_file_operation.hpp"
 #include "pipe_guard.hpp"
+#include "error_codes.hpp"
+#include "command_timeout_manager.hpp"
 #include <cstdlib>
 #include <cstdio>
 #include <array>
@@ -38,6 +40,7 @@
 #include <regex>
 #include <random>
 #include <chrono>
+#include <spdlog/spdlog.h>
 
 namespace themis {
 namespace plugins {
@@ -236,6 +239,14 @@ Result<void> GocryptfsBackend::checkAvailability() {
     // Check if gocryptfs is available in PATH
     auto result = executeCommandSafe({"which", "gocryptfs"});
     if (result.isError()) {
+        DiagnosticEvent event;
+        event.type = DiagnosticEvent::Type::ERROR_DETECTED;
+        event.component = "gocryptfs_backend";
+        event.error_code = ErrorCode::BACKEND_NOT_AVAILABLE;
+        event.message = "gocryptfs binary not found in PATH";
+        event.remediation = "Install gocryptfs: apt-get install gocryptfs (Ubuntu/Debian) or brew install gocryptfs (macOS)";
+        emitDiagnosticEvent(event);
+        
         return Result<void>::error(
             "gocryptfs not found in PATH. Please install: apt-get install gocryptfs"
         );
@@ -245,9 +256,46 @@ Result<void> GocryptfsBackend::checkAvailability() {
 #ifdef __linux__
     struct stat st;
     if (stat("/dev/fuse", &st) != 0) {
+        DiagnosticEvent event;
+        event.type = DiagnosticEvent::Type::ERROR_DETECTED;
+        event.component = "gocryptfs_backend";
+        event.error_code = ErrorCode::FUSE_NOT_AVAILABLE;
+        event.message = "/dev/fuse not found or not accessible";
+        event.system_errno_val = errno;
+        event.remediation = "Load FUSE kernel module: sudo modprobe fuse";
+        emitDiagnosticEvent(event);
+        
         return Result<void>::error(
             "FUSE not available. Please load fuse kernel module or install fuse"
         );
+    }
+    
+    // Verify FUSE module is loaded
+    std::ifstream modules("/proc/modules");
+    if (modules.is_open()) {
+        std::string line;
+        bool fuse_found = false;
+        while (std::getline(modules, line)) {
+            if (line.find("fuse ") == 0) {
+                fuse_found = true;
+                break;
+            }
+        }
+        if (!fuse_found) {
+            auto logger = spdlog::get("user_storage_encrypted");
+            if (logger) {
+                logger->warn("FUSE module not in /proc/modules, but /dev/fuse exists. FUSE may be built-in.");
+            }
+        }
+    }
+#elif defined(__APPLE__)
+    // On macOS, check for macFUSE or osxfuse
+    auto osxfuse_check = executeCommandSafe({"pkgutil", "--pkg-info", "com.github.osxfuse.pkg.core"});
+    if (osxfuse_check.isError()) {
+        auto logger = spdlog::get("user_storage_encrypted");
+        if (logger) {
+            logger->warn("macFUSE/osxfuse not detected. Install via: https://osxfuse.github.io/");
+        }
     }
 #endif
     

@@ -25,6 +25,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - themis-network
 
   # ThemisDB with user storage encryption
   themisdb:
@@ -74,6 +76,8 @@ services:
       retries: 3
       start_period: 40s
     restart: unless-stopped
+    networks:
+      - themis-network
 
   # Initialize Vault keys (run once)
   vault-init:
@@ -86,53 +90,98 @@ services:
       - VAULT_ADDR=http://vault:8200
       - VAULT_TOKEN=dev-token-12345
     volumes:
-      - ./scripts:/scripts:ro
+      - ./scripts:/scripts
+      - ./secrets:/secrets
     command: >
       sh -c "
+        set -e
+        
         echo 'Waiting for Vault to be ready...'
-        sleep 5
+        max_attempts=30
+        attempt=0
+        while [ \$attempt -lt \$max_attempts ]; do
+          if vault status 2>/dev/null | grep -q 'Sealed.*false'; then
+            echo 'Vault is ready!'
+            break
+          fi
+          attempt=\$$((attempt + 1))
+          echo \"Attempt \$attempt/\$max_attempts: Waiting for Vault...\"
+          sleep 1
+        done
+        
+        if [ \$attempt -eq \$max_attempts ]; then
+          echo 'ERROR: Vault failed to become ready after 30 seconds'
+          exit 1
+        fi
         
         echo 'Enabling KV secrets engine...'
-        vault secrets enable -path=themis kv-v2 || true
+        vault secrets enable -path=themis kv-v2 || echo 'KV v2 secrets engine already enabled'
         
-        echo 'Creating encryption keys...'
-        vault kv put themis/keys/user_storage_vs_nfd \
+        echo 'Creating encryption keys for security levels...'
+        
+        # OFFEN tier (Standard encryption)
+        vault kv put themis/keys/offen \
           key=$$(openssl rand -base64 32) \
           algorithm=AES-256-GCM \
-          version=1
+          tier=OFFEN \
+          version=1 || echo 'OFFEN key already exists'
         
-        vault kv put themis/keys/user_storage_geheim \
+        # VERTRAUT tier (Trusted encryption)
+        vault kv put themis/keys/vertraut \
           key=$$(openssl rand -base64 32) \
           algorithm=AES-256-GCM \
-          version=1
+          tier=VERTRAUT \
+          version=1 || echo 'VERTRAUT key already exists'
         
-        vault kv put themis/keys/user_storage_streng_geheim \
+        # VERTRAULICH tier (Confidential encryption)
+        vault kv put themis/keys/vertraulich \
           key=$$(openssl rand -base64 32) \
           algorithm=AES-256-GCM \
-          version=1
+          tier=VERTRAULICH \
+          version=1 || echo 'VERTRAULICH key already exists'
+        
+        # STRENG_GEHEIM tier (Highly confidential encryption)
+        vault kv put themis/keys/streng_geheim \
+          key=$$(openssl rand -base64 32) \
+          algorithm=AES-256-GCM \
+          tier=STRENG_GEHEIM \
+          version=1 || echo 'STRENG_GEHEIM key already exists'
         
         echo 'Creating Vault policy for ThemisDB...'
-        vault policy write themisdb - <<EOF
+        vault policy write themisdb - <<'POLICY'
         path \"themis/data/keys/*\" {
           capabilities = [\"read\", \"list\"]
         }
         path \"themis/metadata/keys/*\" {
           capabilities = [\"read\", \"list\"]
         }
-        EOF
+        POLICY
         
         echo 'Creating token for ThemisDB...'
-        vault token create -policy=themisdb -format=json | jq -r '.auth.client_token' > /scripts/vault_token
+        VAULT_TOKEN_OUTPUT=\$$(vault token create -policy=themisdb -format=json)
+        TOKEN=\$$(echo \"\$VAULT_TOKEN_OUTPUT\" | jq -r '.auth.client_token')
+        echo \"\$TOKEN\" > /secrets/vault_token
+        
+        echo 'Verifying token...'
+        export VAULT_TOKEN=\$TOKEN
+        vault token lookup
         
         echo 'Vault initialization complete!'
+        echo 'Token saved to /secrets/vault_token'
       "
     restart: "no"
+    networks:
+      - themis-network
 
 volumes:
   vault-data:
     driver: local
   vault-logs:
     driver: local
+
+networks:
+  themis-network:
+    driver: bridge
 
 # Example usage:
 # 1. Start services:
