@@ -396,55 +396,141 @@ LanguageDetectionResult AudioPreprocessingPipeline::detectLanguage(
 PreprocessingResult AudioPreprocessingPipeline::process(
     const std::vector<uint8_t>& raw_audio, int source_sample_rate)
 {
+    // TASK 2.2: Audio preprocessing and validation
+    // Error codes [6700-6799]:
+    // - 6700: Input size validation failed (> 512KB)
+    // - 6701: Codec validation failed
+    // - 6702: Preprocessing pipeline error
+    
     auto t0 = std::chrono::steady_clock::now();
 
     PreprocessingResult res;
+    res.success = false;
+
+    // TASK 2.2: Bounded chunk handling — reject frames > 512KB immediately
+    // Error code 6700: Input size validation failed
+    static constexpr size_t kMaxAudioFrameSizeBytes = 512 * 1024;  // 512 KB
+    if (raw_audio.size() > kMaxAudioFrameSizeBytes) {
+        res.error_message = "Audio frame exceeds maximum size (512KB) - error 6700";
+        spdlog::error("AudioPreprocessingPipeline::process: input size {} bytes exceeds limit (error 6700)",
+                      raw_audio.size());
+        return res;  // Fail-closed: reject oversized frames
+    }
+
+    // TASK 2.2: Handle empty input gracefully
     if (raw_audio.empty()) {
         res.success = true;
         res.error_message = "empty input";
         return res;
     }
 
+    // TASK 2.2: Validate sample rate (supported range: 8kHz - 48kHz)
+    if (source_sample_rate < 8000 || source_sample_rate > 48000) {
+        res.error_message = "Sample rate out of supported range (8000-48000 Hz) - error 6701";
+        spdlog::error("AudioPreprocessingPipeline::process: invalid sample rate {} Hz (error 6701)",
+                      source_sample_rate);
+        return res;  // Fail-closed
+    }
+
+    // TASK 2.2: Convert raw bytes to audio frame
     AudioFrame frame;
-    frame.samples = convertRawToFloat(raw_audio);
+    try {
+        frame.samples = convertRawToFloat(raw_audio);
+    } catch (const std::exception& e) {
+        res.error_message = std::string("Audio conversion failed - error 6702: ") + e.what();
+        spdlog::error("AudioPreprocessingPipeline::process: conversion failed (error 6702): {}", e.what());
+        return res;  // Fail-closed
+    }
+
+    if (frame.samples.empty()) {
+        res.error_message = "Conversion resulted in empty samples - error 6702";
+        spdlog::error("AudioPreprocessingPipeline::process: empty samples after conversion (error 6702)");
+        return res;
+    }
+
     frame.sample_rate = source_sample_rate;
     frame.channels = 1;
 
+    // TASK 2.2: Process through pipeline (with graceful fallback for optional models)
     res = processFrame(frame);
 
     auto t1 = std::chrono::steady_clock::now();
     res.processing_time_ms =
         std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count();
+    
     return res;
 }
 
 PreprocessingResult AudioPreprocessingPipeline::processFrame(const AudioFrame& frame) {
+    // TASK 2.2: Preprocessing chain with graceful fallback
+    // Chain: normalize → resample → enhance (RNNoise) → filter (noise reduction)
+    // Graceful degradation: if optional model unavailable, skip it and continue
+    
     auto t0 = std::chrono::steady_clock::now();
 
     PreprocessingResult res;
     AudioFrame current = frame;
 
-    // Apply pipeline stages
+    // TASK 2.2: Preprocessing chain stages (order matters for signal integrity)
+    
+    // Stage 1: Deep-learning noise suppression (RNNoise if available)
     if (opts_.enable_rnnoise_suppression) {
-        current = applyRNNoiseSuppression(current, opts_.rnnoise_vad_threshold);
-        res.rnnoise_vad_probability = noise_suppressor_.lastVadProbability();
-    }
-    if (opts_.enable_noise_reduction) {
-        current = applyNoiseReduction(current, opts_.noise_reduction_strength);
-    }
-    if (opts_.enable_echo_cancellation) {
-        // No reference frame here; echo cancellation is a no-op without reference
-    }
-    if (opts_.enable_vad) {
-        res.voice_activity_ratio = detectVoiceActivity(current);
-    }
-    if (opts_.enable_normalization) {
-        current = normalize(current, opts_.target_rms);
-    }
-    if (current.sample_rate != opts_.target_sample_rate) {
-        current = resample(current, opts_.target_sample_rate);
+        try {
+            current = applyRNNoiseSuppression(current, opts_.rnnoise_vad_threshold);
+            res.rnnoise_vad_probability = noise_suppressor_.lastVadProbability();
+        } catch (const std::exception& e) {
+            // Graceful fallback: RNNoise model unavailable
+            spdlog::debug("AudioPreprocessingPipeline::processFrame: RNNoise suppression failed (fallback): {}",
+                         e.what());
+            res.rnnoise_vad_probability = 0.0f;  // Safe fallback
+        }
     }
 
+    // Stage 2: Spectral-gate noise reduction (always available)
+    if (opts_.enable_noise_reduction) {
+        try {
+            current = applyNoiseReduction(current, opts_.noise_reduction_strength);
+        } catch (const std::exception& e) {
+            spdlog::debug("AudioPreprocessingPipeline::processFrame: noise reduction failed: {}", e.what());
+        }
+    }
+
+    // Stage 3: Echo cancellation (requires reference frame; no-op here)
+    if (opts_.enable_echo_cancellation) {
+        // No reference frame; echo cancellation would require dual-channel input
+        // This stage is a no-op in streaming context
+    }
+
+    // Stage 4: Voice Activity Detection (VAD)
+    if (opts_.enable_vad) {
+        try {
+            res.voice_activity_ratio = detectVoiceActivity(current);
+        } catch (const std::exception& e) {
+            spdlog::debug("AudioPreprocessingPipeline::processFrame: VAD failed: {}", e.what());
+            res.voice_activity_ratio = 1.0f;  // Safe fallback: assume all voice
+        }
+    }
+
+    // Stage 5: Audio normalization (critical for downstream processing)
+    if (opts_.enable_normalization) {
+        try {
+            current = normalize(current, opts_.target_rms);
+        } catch (const std::exception& e) {
+            spdlog::debug("AudioPreprocessingPipeline::processFrame: normalization failed: {}", e.what());
+        }
+    }
+
+    // Stage 6: Sample rate conversion (critical for compatibility)
+    if (current.sample_rate != opts_.target_sample_rate) {
+        try {
+            current = resample(current, opts_.target_sample_rate);
+        } catch (const std::exception& e) {
+            spdlog::error("AudioPreprocessingPipeline::processFrame: resampling failed: {}", e.what());
+            // Don't fail; return with original sample rate
+        }
+    }
+
+    // TASK 2.2: Compute diagnostics
     res.detected_noise_level = computeNoiseFloor(frame.samples);
     res.processed_audio = current;
     res.success = true;
@@ -456,11 +542,14 @@ PreprocessingResult AudioPreprocessingPipeline::processFrame(const AudioFrame& f
     ++frames_processed_;
     total_processing_time_ms_ += static_cast<uint64_t>(res.processing_time_ms);
 
+    // TASK 2.2: Logging for all validation failures (non-sensitive)
     res.diagnostics["frames_processed"] = frames_processed_;
     res.diagnostics["voice_activity_ratio"] = res.voice_activity_ratio;
     res.diagnostics["noise_level"] = res.detected_noise_level;
     res.diagnostics["rnnoise_enabled"] = NoiseSuppressor::isRNNoiseEnabled();
     res.diagnostics["rnnoise_vad_probability"] = res.rnnoise_vad_probability;
+    res.diagnostics["sample_rate_original"] = frame.sample_rate;
+    res.diagnostics["sample_rate_output"] = current.sample_rate;
 
     return res;
 }

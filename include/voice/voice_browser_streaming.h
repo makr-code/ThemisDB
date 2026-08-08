@@ -180,6 +180,46 @@ public:
      * Forces the STT engine to finalise the current hypothesis.
      */
     void endOfUtterance();
+    
+    // Phase 3: Streaming Resilience
+    
+    /**
+     * @brief Send a heartbeat/keep-alive ping (Phase 3).
+     * 
+     * Detects mid-stream connection loss via TCP keep-alive.
+     * @return true if connection is alive; false if connection lost
+     */
+    bool sendHeartbeat() noexcept;
+    
+    /**
+     * @brief Automatically reconnect with exponential backoff (Phase 3).
+     * 
+     * @param max_retries Maximum reconnection attempts (default 5)
+     * @return true if reconnected successfully; false if gave up
+     */
+    bool reconnectWithBackoff(int max_retries = 5) noexcept;
+    
+    /**
+     * @brief Resend unacknowledged chunks (Phase 3).
+     * 
+     * @param last_acked_sequence_num Sequence number of last acknowledged chunk
+     * @return Number of chunks resent
+     */
+    size_t retryUnacknowledgedChunks(uint32_t last_acked_sequence_num) noexcept;
+    
+    /**
+     * @brief Detect lost chunks via sequence gaps (Phase 3).
+     * 
+     * @return true if sequence gap detected; false if all chunks accounted for
+     */
+    bool detectSequenceGap() const noexcept;
+    
+    /**
+     * @brief Pause/resume streaming if buffer critical (Phase 3).
+     * 
+     * @return true if paused due to buffer pressure; false if streaming normally
+     */
+    bool rebalanceBufferPressure() noexcept;
 
     // ── Callbacks ─────────────────────────────────────────────────────────────
 

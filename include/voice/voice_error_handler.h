@@ -195,6 +195,34 @@ public:
     static FallbackResult sessionFallback(const std::string& session_id);
 };
 
+// Error context for Phase 3 diagnostics and audit
+struct ErrorContext {
+    VoiceErrorCode error_code = VoiceErrorCode::NONE;
+    int64_t timestamp_ms = 0;
+    std::string cause;                  // e.g., "LLM timeout after 30s"
+    std::string recovery_action;        // e.g., "please try again"
+    std::string user_id;
+    std::string session_id;
+    std::string action;                 // e.g., "STT processing"
+    std::string auth_token_masked;      // e.g., "token_****..."
+    json audit_context;
+    
+    // Serialize to JSON for logging (no sensitive data)
+    json toJson() const {
+        return json{
+            {"error_code", errorCodeToString(error_code)},
+            {"timestamp_ms", timestamp_ms},
+            {"cause", cause},
+            {"recovery_action", recovery_action},
+            {"user_id", user_id},
+            {"session_id", session_id},
+            {"action", action},
+            {"auth_token_masked", auth_token_masked},
+            {"audit_context", audit_context}
+        };
+    }
+};
+
 // VoiceErrorHandler: Phase 8 production component
 class VoiceErrorHandler {
 public:
@@ -209,6 +237,12 @@ public:
     VoiceRetryHandler& getRetryHandler();
 
     json handleError(VoiceErrorCode code, const std::string& context, const std::string& details = "");
+    
+    // Phase 3: Error context with diagnostics
+    json createErrorContext(const ErrorContext& ctx);
+    
+    // Phase 3: Log error with sanitized context (no credentials)
+    void logErrorWithContext(const ErrorContext& ctx);
 
     bool isSystemHealthy() const;
     json getHealthStatus() const;

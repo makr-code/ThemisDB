@@ -20,6 +20,26 @@
 
 namespace themis { namespace voice {
 
+// ============================================================================
+// TASK 2.1: Session Lifecycle Hardening
+// ============================================================================
+// Error codes for session management (Phase 1 contract):
+// - 6600: Session creation failed
+// - 6601: Session not found
+// - 6602: Session timeout/expiration
+// - 6603: Session state transition invalid
+// - 6604: Resource limit exceeded (max concurrent sessions)
+// - 6605: User ID validation failed
+// ============================================================================
+
+// Session lifecycle state machine enforces bounded transitions:
+//   [CREATE] → [ACTIVE] → [IDLE] → [EXPIRED] → [TERMINATED]
+//
+// Timeout enforcement:
+// - idle_timeout_ms: 5 minutes (default)
+// - max_session_duration_ms: 1 hour (default)
+// - Session expires if either timeout is exceeded (fail-closed)
+
 // ---- Free functions ----
 
 std::string sessionStateToString(SessionState state) {
@@ -69,12 +89,24 @@ size_t InMemorySessionBackend::count() const {
 
 // ---- VoiceSessionManager ----
 
+// Session resource limits (bounded)
+static constexpr size_t  kMaxConcurrentSessions = 1000;       // Max concurrent sessions
+static constexpr int64_t kMaxTranscriptSizeBytes = 50 * 1024 * 1024;  // 50 MB per session
+
 VoiceSessionManager::VoiceSessionManager(
     const SessionTimeoutConfig& timeout_config,
     std::unique_ptr<ISessionPersistenceBackend> backend)
     : timeout_config_(timeout_config)
     , backend_(backend ? std::move(backend) : std::make_unique<InMemorySessionBackend>())
-{}
+{
+    // TASK 2.1: Session resource limits enforced on construction
+    if (timeout_config_.idle_timeout_ms <= 0) {
+        timeout_config_.idle_timeout_ms = 5 * 60 * 1000;  // 5 minute default
+    }
+    if (timeout_config_.max_session_duration_ms <= 0) {
+        timeout_config_.max_session_duration_ms = 60 * 60 * 1000;  // 1 hour default
+    }
+}
 
 int64_t VoiceSessionManager::nowMs() const {
     return std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -114,12 +146,25 @@ std::string VoiceSessionManager::generateSessionId() {
 VoiceSessionData VoiceSessionManager::createSession(
     const std::string& user_id, const std::string& device_id)
 {
-    // Fail-closed: reject empty user_id
+    // TASK 2.1: Fail-closed — reject empty user_id
+    // Error code 6605: User ID validation failed
     if (user_id.empty()) {
-        spdlog::error("VoiceSessionManager::createSession: user_id is empty");
+        spdlog::error("VoiceSessionManager::createSession: user_id is empty (error 6605)");
         return VoiceSessionData{};  // Return empty session (fail-closed)
     }
 
+    // TASK 2.1: Bounded resource check — enforce max concurrent sessions
+    // Error code 6604: Resource limit exceeded
+    {
+        std::lock_guard<std::mutex> lock(manager_mutex_);
+        if (active_cache_.size() >= kMaxConcurrentSessions) {
+            spdlog::error("VoiceSessionManager::createSession: max concurrent sessions ({}) exceeded (error 6604)",
+                         kMaxConcurrentSessions);
+            return VoiceSessionData{};  // Fail-closed: reject over-limit session
+        }
+    }
+
+    // TASK 2.1: Create session with timeout tracking using chrono
     VoiceSessionData session;
     session.session_id = generateSessionId();
     session.user_id = user_id;
@@ -131,37 +176,67 @@ VoiceSessionData VoiceSessionManager::createSession(
     session.last_activity_ms = now;
     session.expires_at_ms = now + timeout_config_.max_session_duration_ms;
 
+    // TASK 2.1: Initialize conversation history with transcript size limit tracking
+    session.conversation_history.reserve(100);  // Pre-allocate for efficiency
+
     {
         std::lock_guard<std::mutex> lock(manager_mutex_);
         active_cache_[session.session_id] = session;
     }
-    const bool saved = backend_->save(session);
-    static_cast<void>(saved);
+
+    // TASK 2.1: Persist session (non-blocking; logging on error)
+    if (!backend_->save(session)) {
+        spdlog::warn("VoiceSessionManager::createSession: backend persistence failed for session {}",
+                     session.session_id);
+        // Continue anyway — in-memory cache is primary; backend is advisory
+    }
+
+    spdlog::debug("VoiceSessionManager::createSession: created session {} for user {}",
+                  session.session_id, user_id);
     return session;
 }
 
 std::optional<VoiceSessionData> VoiceSessionManager::getSession(const std::string& session_id) {
+    // TASK 2.1: Session state verification guard before access
+    // Error code 6601: Session not found
+    // Error code 6602: Session timeout/expiration
+    
+    if (session_id.empty()) {
+        spdlog::debug("VoiceSessionManager::getSession: empty session_id (error 6601)");
+        return std::nullopt;
+    }
+
     std::lock_guard<std::mutex> lock(manager_mutex_);
     auto it = active_cache_.find(session_id);
+    
     if (it != active_cache_.end()) {
+        // TASK 2.1: Check session expiration before returning
         if (isExpired(it->second)) {
             it->second.state = SessionState::EXPIRED;
             const bool saved = backend_->save(it->second);
             static_cast<void>(saved);
-            return std::nullopt;
+            spdlog::debug("VoiceSessionManager::getSession: session {} expired (error 6602)", session_id);
+            return std::nullopt;  // Fail-closed: expired sessions not returned
         }
         return it->second;
     }
 
-    // Try persistent backend
+    // TASK 2.1: Try persistent backend for cache miss
     auto loaded = backend_->load(session_id);
-    if (!loaded) return std::nullopt;
+    if (!loaded) {
+        spdlog::debug("VoiceSessionManager::getSession: session {} not found (error 6601)", session_id);
+        return std::nullopt;
+    }
+    
+    // TASK 2.1: Verify loaded session is not expired before returning
     if (isExpired(*loaded)) {
         loaded->state = SessionState::EXPIRED;
         const bool saved = backend_->save(*loaded);
         static_cast<void>(saved);
-        return std::nullopt;
+        spdlog::debug("VoiceSessionManager::getSession: loaded session {} is expired (error 6602)", session_id);
+        return std::nullopt;  // Fail-closed
     }
+    
     active_cache_[session_id] = *loaded;
     return loaded;
 }
@@ -192,28 +267,59 @@ bool VoiceSessionManager::addConversationTurn(
     const std::string& user_msg,
     const std::string& assistant_msg)
 {
-    // Fail-closed: reject empty user_msg
+    // TASK 2.1: Fail-closed — reject empty user_msg
+    // Error code 6603: Session state transition invalid (used for invariant violations)
     if (user_msg.empty()) {
-        spdlog::error("VoiceSessionManager::addConversationTurn: user_msg is empty");
-        return false;
+        spdlog::error("VoiceSessionManager::addConversationTurn: user_msg is empty (error 6603)");
+        return false;  // Fail-closed: prevent silent history corruption
     }
 
-    // Fail-closed: reject empty assistant_msg
+    // TASK 2.1: Fail-closed — reject empty assistant_msg
     if (assistant_msg.empty()) {
-        spdlog::error("VoiceSessionManager::addConversationTurn: assistant_msg is empty");
+        spdlog::error("VoiceSessionManager::addConversationTurn: assistant_msg is empty (error 6603)");
         return false;
     }
 
     std::lock_guard<std::mutex> lock(manager_mutex_);
     auto it = active_cache_.find(session_id);
-    if (it == active_cache_.end()) return false;
+    if (it == active_cache_.end()) {
+        spdlog::debug("VoiceSessionManager::addConversationTurn: session {} not found", session_id);
+        return false;
+    }
 
+    // TASK 2.1: Verify session is not expired before modification
+    if (isExpired(it->second)) {
+        spdlog::warn("VoiceSessionManager::addConversationTurn: session {} is expired, rejecting turn", session_id);
+        return false;
+    }
+
+    // TASK 2.1: Bounded transcript size enforcement
+    // Calculate approximate size before adding (each turn ~= user_msg + assistant_msg)
+    size_t turn_size = user_msg.size() + assistant_msg.size() + 20;  // +20 for markers
+    size_t current_transcript_size = 0;
+    for (const auto& line : it->second.conversation_history) {
+        current_transcript_size += line.size();
+    }
+
+    if (current_transcript_size + turn_size > kMaxTranscriptSizeBytes) {
+        spdlog::warn("VoiceSessionManager::addConversationTurn: transcript size limit ({} bytes) exceeded for session {}",
+                     kMaxTranscriptSizeBytes, session_id);
+        return false;  // Fail-closed: reject when transcript too large
+    }
+
+    // TASK 2.1: Add conversation turn and update metadata
     it->second.conversation_history.push_back("User: " + user_msg);
     it->second.conversation_history.push_back("Assistant: " + assistant_msg);
     it->second.total_turns++;
     it->second.last_activity_ms = nowMs();
-    const bool saved = backend_->save(it->second);
-    static_cast<void>(saved);
+
+    // TASK 2.1: Persist session state
+    if (!backend_->save(it->second)) {
+        spdlog::warn("VoiceSessionManager::addConversationTurn: backend save failed for session {}", session_id);
+    }
+
+    spdlog::debug("VoiceSessionManager::addConversationTurn: added turn {} to session {}",
+                  it->second.total_turns, session_id);
     return true;
 }
 
