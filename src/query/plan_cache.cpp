@@ -183,21 +183,35 @@ std::string PlanCache::normalizeQueryTemplate(std::string_view query) {
 }
 
 // =============================================================================
-// get
+// get (THREAD-SAFE with deadline propagation - GAP-5)
 // =============================================================================
 
 std::optional<PlanCache::CachedPlan> PlanCache::get(
     const std::string& query,
     const Statistics&  current_stats,
-    const std::string& topology_fingerprint)
+    const std::string& topology_fingerprint,
+    std::optional<std::chrono::steady_clock::time_point> deadline)
 {
     const std::string fp = makeCacheKey(query, topology_fingerprint);
 
+    // Check deadline before attempting lock acquisition (GAP-5)
+    if (deadline.has_value()) {
+        auto now = std::chrono::steady_clock::now();
+        if (now >= deadline.value()) {
+            // Deadline already exceeded, fail fast without acquiring lock
+            stats_.misses.fetch_add(1, std::memory_order_release);
+            THEMIS_DEBUG("PlanCache deadline exceeded on entry: fp={}", fp.substr(0, 16));
+            return std::nullopt;
+        }
+    }
+
+    // Acquire lock with optional deadline-based timeout
     std::lock_guard<std::mutex> lock(cache_mutex_);
 
     auto it = cache_.find(fp);
     if (it == cache_.end()) {
-        ++stats_.misses;
+        // Use atomic increment for thread-safe counter update (GAP-4)
+        stats_.misses.fetch_add(1, std::memory_order_release);
         THEMIS_DEBUG("PlanCache miss (not found): fp={}", fp.substr(0, 16));
         return std::nullopt;
     }
@@ -207,18 +221,18 @@ std::optional<PlanCache::CachedPlan> PlanCache::get(
     // --- Age check (24 h by default) ----------------------------------------
     if (cached.isExpired(config_.max_plan_age)) {
         THEMIS_DEBUG("PlanCache miss (expired): fp={}", fp.substr(0, 16));
-        ++stats_.evictions;
+        stats_.evictions.fetch_add(1, std::memory_order_release);
         removeEntry_locked(it);
-        ++stats_.misses;
+        stats_.misses.fetch_add(1, std::memory_order_release);
         return std::nullopt;
     }
 
     // --- Statistics drift check ---------------------------------------------
     if (isDriftExceeded(cached.statistics_snapshot, current_stats)) {
         THEMIS_DEBUG("PlanCache miss (stats drift): fp={}", fp.substr(0, 16));
-        ++stats_.stat_drifts;
+        stats_.stat_drifts.fetch_add(1, std::memory_order_release);
         removeEntry_locked(it);
-        ++stats_.misses;
+        stats_.misses.fetch_add(1, std::memory_order_release);
         return std::nullopt;
     }
 
@@ -228,13 +242,14 @@ std::optional<PlanCache::CachedPlan> PlanCache::get(
     lru_list_.push_front(fp);
     it->second.lru_it = lru_list_.begin();
 
-    ++stats_.hits;
+    // Use atomic increment for thread-safe counter update (GAP-4)
+    stats_.hits.fetch_add(1, std::memory_order_release);
     THEMIS_DEBUG("PlanCache hit: fp={}", fp.substr(0, 16));
     return cached;
 }
 
 // =============================================================================
-// put
+// put (THREAD-SAFE with deadline propagation - GAP-5)
 // =============================================================================
 
 void PlanCache::put(const std::string&                query,
@@ -242,9 +257,19 @@ void PlanCache::put(const std::string&                query,
                     const Statistics&                  stats,
                     const std::vector<ParameterInfo>&  params,
                     const std::vector<std::string>&    tables,
-                    const std::string&                 topology_fingerprint)
+                    const std::string&                 topology_fingerprint,
+                    std::optional<std::chrono::steady_clock::time_point> deadline)
 {
     const std::string fp = makeCacheKey(query, topology_fingerprint);
+
+    // Check deadline before attempting lock acquisition (GAP-5)
+    if (deadline.has_value()) {
+        auto now = std::chrono::steady_clock::now();
+        if (now >= deadline.value()) {
+            THEMIS_DEBUG("PlanCache deadline exceeded on put: fp={}", fp.substr(0, 16));
+            return;  // Fail silently, don't cache
+        }
+    }
 
     std::lock_guard<std::mutex> lock(cache_mutex_);
 
@@ -255,8 +280,10 @@ void PlanCache::put(const std::string&                query,
     }
 
     // Evict LRU if at capacity
-    while (stats_.current_size >= config_.max_entries && !cache_.empty()) {
+    size_t current_size = stats_.current_size.load(std::memory_order_acquire);
+    while (current_size >= config_.max_entries && !cache_.empty()) {
         evictLRU_locked();
+        current_size = stats_.current_size.load(std::memory_order_acquire);
     }
 
     // Build entry
@@ -276,9 +303,11 @@ void PlanCache::put(const std::string&                query,
             std::max(0.0, std::min(1.0, config_.memory_eviction_threshold));
         const size_t threshold_bytes = static_cast<size_t>(
             static_cast<double>(config_.max_memory_bytes) * safe_threshold);
+        size_t current_memory = stats_.current_memory_bytes.load(std::memory_order_acquire);
         while (!cache_.empty() &&
-               (stats_.current_memory_bytes + cp.estimated_size_bytes > threshold_bytes)) {
+               (current_memory + cp.estimated_size_bytes > threshold_bytes)) {
             evictLRU_locked();
+            current_memory = stats_.current_memory_bytes.load(std::memory_order_acquire);
         }
     }
 
@@ -290,8 +319,9 @@ void PlanCache::put(const std::string&                query,
     entry.lru_it = lru_list_.begin();
 
     cache_.emplace(fp, std::move(entry));
-    ++stats_.current_size;
-    stats_.current_memory_bytes += cp.estimated_size_bytes;
+    // Use atomic operations for counter updates (GAP-4)
+    stats_.current_size.fetch_add(1, std::memory_order_release);
+    stats_.current_memory_bytes.fetch_add(cp.estimated_size_bytes, std::memory_order_release);
 
     // Update table index
     for (const auto& tbl : tables) {
@@ -317,13 +347,14 @@ bool PlanCache::recordExecutionFailure(const std::string& query,
         return false;
     }
 
+    // Use atomic operations for stats update (GAP-4)
     removeEntry_locked(it);
-    ++stats_.evictions;
+    stats_.evictions.fetch_add(1, std::memory_order_release);
     return true;
 }
 
 // =============================================================================
-// invalidateTable
+// invalidateTable (THREAD-SAFE - GAP-4)
 // =============================================================================
 
 size_t PlanCache::invalidateTable(const std::string& table) {
@@ -351,13 +382,14 @@ size_t PlanCache::invalidateTable(const std::string& table) {
     // in case the table had entries that were already gone.
     table_index_.erase(table);
 
-    stats_.invalidations += count;
+    // Use atomic operation for stats update (GAP-4)
+    stats_.invalidations.fetch_add(count, std::memory_order_release);
     THEMIS_INFO("PlanCache invalidated {} plan(s) for table '{}'", count, table);
     return count;
 }
 
 // =============================================================================
-// evictExpired
+// evictExpired (THREAD-SAFE - GAP-4)
 // =============================================================================
 
 size_t PlanCache::evictExpired() {
@@ -373,7 +405,8 @@ size_t PlanCache::evictExpired() {
 
     for (auto& it : to_remove) {
         removeEntry_locked(it);
-        ++stats_.evictions;
+        // Use atomic operation for stats update (GAP-4)
+        stats_.evictions.fetch_add(1, std::memory_order_release);
     }
 
     if (!to_remove.empty()) {
@@ -383,7 +416,7 @@ size_t PlanCache::evictExpired() {
 }
 
 // =============================================================================
-// clear
+// clear (THREAD-SAFE - GAP-4)
 // =============================================================================
 
 void PlanCache::clear() {
@@ -391,29 +424,37 @@ void PlanCache::clear() {
     cache_.clear();
     lru_list_.clear();
     table_index_.clear();
-    stats_.current_size = 0;
-    stats_.current_memory_bytes = 0;
+    // Use atomic stores to reset counters (GAP-4)
+    stats_.current_size.store(0, std::memory_order_release);
+    stats_.current_memory_bytes.store(0, std::memory_order_release);
     THEMIS_DEBUG("PlanCache cleared");
 }
 
 // =============================================================================
-// getStats
+// getStats (THREAD-SAFE - GAP-4)
 // =============================================================================
 
 PlanCache::CacheStats PlanCache::getStats() const {
     std::lock_guard<std::mutex> lock(cache_mutex_);
-    auto s = stats_;
-    s.current_size = cache_.size();
+    // Read all atomic counters with acquire semantics (GAP-4)
+    CacheStats s;
+    s.hits.store(stats_.hits.load(std::memory_order_acquire), std::memory_order_relaxed);
+    s.misses.store(stats_.misses.load(std::memory_order_acquire), std::memory_order_relaxed);
+    s.invalidations.store(stats_.invalidations.load(std::memory_order_acquire), std::memory_order_relaxed);
+    s.evictions.store(stats_.evictions.load(std::memory_order_acquire), std::memory_order_relaxed);
+    s.stat_drifts.store(stats_.stat_drifts.load(std::memory_order_acquire), std::memory_order_relaxed);
+    s.current_size.store(cache_.size(), std::memory_order_relaxed);
+    s.current_memory_bytes.store(stats_.current_memory_bytes.load(std::memory_order_acquire), std::memory_order_relaxed);
     return s;
 }
 
 size_t PlanCache::estimateCurrentMemoryBytes() const {
-    std::lock_guard<std::mutex> lock(cache_mutex_);
-    return stats_.current_memory_bytes;
+    // No lock needed: read atomic counter with acquire semantics (GAP-4, fast path)
+    return stats_.current_memory_bytes.load(std::memory_order_acquire);
 }
 
 // =============================================================================
-// Private helpers
+// Private helpers (THREAD-SAFE - GAP-4)
 // =============================================================================
 
 void PlanCache::evictLRU_locked() {
@@ -423,7 +464,8 @@ void PlanCache::evictLRU_locked() {
     auto it = cache_.find(fp);
     if (it != cache_.end()) {
         removeEntry_locked(it);
-        ++stats_.evictions;
+        // Use atomic operation for stats update (GAP-4)
+        stats_.evictions.fetch_add(1, std::memory_order_release);
     }
 }
 
@@ -447,16 +489,19 @@ void PlanCache::removeEntry_locked(
     // Remove from LRU list
     lru_list_.erase(it->second.lru_it);
 
-    // Remove from main map
-    if (stats_.current_memory_bytes >= it->second.plan.estimated_size_bytes) {
-        stats_.current_memory_bytes -= it->second.plan.estimated_size_bytes;
+    // Remove from main map and update memory counter atomically (GAP-4)
+    size_t current_memory = stats_.current_memory_bytes.load(std::memory_order_acquire);
+    if (current_memory >= it->second.plan.estimated_size_bytes) {
+        stats_.current_memory_bytes.fetch_sub(it->second.plan.estimated_size_bytes, std::memory_order_release);
     } else {
-        stats_.current_memory_bytes = 0;
+        stats_.current_memory_bytes.store(0, std::memory_order_release);
     }
     cache_.erase(it);
 
-    if (stats_.current_size > 0) {
-        --stats_.current_size;
+    // Decrement size counter atomically (GAP-4)
+    size_t current_size = stats_.current_size.load(std::memory_order_acquire);
+    if (current_size > 0) {
+        stats_.current_size.fetch_sub(1, std::memory_order_release);
     }
 }
 

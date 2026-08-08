@@ -25,6 +25,7 @@
 #include <utility>
 #include <map>
 #include <memory>
+#include <mutex>
 
 #include "query/query_engine.h"
 #include "query/adaptive_optimizer.h"
@@ -292,17 +293,46 @@ private:
     StatisticsCollector* stats_collector_ = nullptr;
     observability::MetricsCollector* metrics_collector_ = nullptr;
 
+    // ========================================================================
+    // THREAD-SAFETY: Per-Query Cost Model (GAP-1)
+    // ========================================================================
+    // Protects access to per_query_cost_model_ shared_ptr.
+    // All attach/detach and execute methods must hold this lock when reading.
+    // Ordering: This lock is held SECOND after advisor_cost_model_mutex_.
+    mutable std::mutex per_query_cost_model_mutex_;
+
     // Per-query cost model (Phase 3, Issue #2419)
+    // THREAD-SAFE: Protected by per_query_cost_model_mutex_
     mutable std::shared_ptr<performance::phase3::PerQueryCostModel> per_query_cost_model_;
+
+    // ========================================================================
+    // THREAD-SAFETY: Cost Model Constants (GAP-2)
+    // ========================================================================
+    // Protects access to advisor_cost_model_ member state.
+    // All reads in chooseOrderForAndQuery() and writes via setAdvisorCostConstants()
+    // must hold this lock.
+    // Ordering: This lock is held FIRST. Never acquire per_query_cost_model_mutex_
+    //           while holding this lock.
+    mutable std::mutex advisor_cost_model_mutex_;
 
     // Cost model instance shared across chooseOrderForAndQuery() calls so that
     // calibrated constants (via setAdvisorCostConstants / PerQueryCostModel::calibrate)
     // are preserved between calls instead of being discarded with a local instance.
+    // THREAD-SAFE: Protected by advisor_cost_model_mutex_
     OptimizerCostModel advisor_cost_model_;
+
+    // ========================================================================
+    // THREAD-SAFETY: Adaptive Optimization Initialization (GAP-3)
+    // ========================================================================
+    // Protects initialization of adaptive_stats_ and adaptive_selector_.
+    // Used with std::call_once() for double-checked initialization.
+    mutable std::once_flag adaptive_init_flag_;
+    mutable std::mutex adaptive_init_mutex_;
 
     // Adaptive query optimization components
     // Use the full implementations from adaptive_optimizer.h
     // (No using needed - both AdaptiveQueryStats and AdaptivePlanSelector are in themis::query namespace)
+    // THREAD-SAFE: Initialized once via call_once, then read-only
     
     class DistributedQueryCostModel {
     public:

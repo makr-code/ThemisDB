@@ -34,7 +34,7 @@ namespace themis {
 namespace query {
 
 /**
- * @brief Query Plan Cache — v1.7.0
+ * @brief Query Plan Cache — v1.7.0 (Thread-Safe Enhanced)
  *
  * Caches optimized query plans so that repeated executions of the same
  * parameterized query can skip the parse + optimize phases.
@@ -47,6 +47,13 @@ namespace query {
  *  - Periodic refresh  (stale plans older than 24 h are evicted lazily)
  *
  * Thread Safety: all public methods are thread-safe.
+ *
+ * THREAD-SAFETY DETAILS:
+ *  - Shared state (cache_, lru_list_, table_index_) protected by cache_mutex_
+ *  - Statistics counters (GAP-4) use std::atomic<> for lock-free updates
+ *  - No wait loops or unbounded operations while holding cache_mutex_
+ *  - get() and put() operations respect deadline propagation via optional timeout (GAP-5)
+ *  - Lock ordering: cache_mutex_ is lowest level; never acquire other locks while holding it
  *
  * Invalidation Strategy:
  *  - Schema change   : invalidateTable(table) drops every plan that touches
@@ -140,19 +147,24 @@ public:
 
     /**
      * @brief Cache hit/miss statistics for monitoring.
+     * 
+     * THREAD-SAFETY (GAP-4): All fields use std::atomic<> for lock-free updates.
+     * This avoids blocking during high-frequency counter updates.
      */
     struct CacheStats {
-        uint64_t hits          = 0;
-        uint64_t misses        = 0;
-        uint64_t invalidations = 0;  ///< entries removed by table invalidation
-        uint64_t evictions     = 0;  ///< entries removed by age or capacity
-        uint64_t stat_drifts   = 0;  ///< entries rejected due to statistics drift
-        size_t   current_size  = 0;
-        size_t   current_memory_bytes = 0;
+        std::atomic<uint64_t> hits          {0};
+        std::atomic<uint64_t> misses        {0};
+        std::atomic<uint64_t> invalidations {0};  ///< entries removed by table invalidation
+        std::atomic<uint64_t> evictions     {0};  ///< entries removed by age or capacity
+        std::atomic<uint64_t> stat_drifts   {0};  ///< entries rejected due to statistics drift
+        std::atomic<size_t>   current_size  {0};
+        std::atomic<size_t>   current_memory_bytes {0};
 
         double hitRate() const {
-            uint64_t total = hits + misses;
-            return total > 0 ? static_cast<double>(hits) / total : 0.0;
+            uint64_t h = hits.load(std::memory_order_acquire);
+            uint64_t m = misses.load(std::memory_order_acquire);
+            uint64_t total = h + m;
+            return total > 0 ? static_cast<double>(h) / total : 0.0;
         }
     };
 
@@ -186,12 +198,18 @@ public:
      * @param current_stats Current table cardinalities for drift check.
      * @param topology_fingerprint Optional shard/topology discriminator for
      *        distributed plans. Empty means topology-agnostic.
-     * @return Optional CachedPlan; nullopt on miss or staleness.
+     * @param deadline     Optional deadline (std::chrono::steady_clock).
+     *        If set and exceeded before lock acquisition, returns nullopt immediately.
+     *        Prevents cascading timeouts in federated query contexts (GAP-5).
+     * @return Optional CachedPlan; nullopt on miss, staleness, or deadline exceeded.
+     *
+     * THREAD-SAFE: Acquires cache_mutex_ with optional timeout for deadline support.
      */
     std::optional<CachedPlan> get(
         const std::string& query,
         const Statistics&  current_stats = Statistics{},
-        const std::string& topology_fingerprint = {});
+        const std::string& topology_fingerprint = {},
+        std::optional<std::chrono::steady_clock::time_point> deadline = std::nullopt);
 
     /**
      * @brief Store an optimized plan in the cache.
@@ -203,15 +221,20 @@ public:
      * @param stats      Statistics snapshot at plan-creation time.
      * @param params     Bind-parameter metadata (optional).
      * @param tables     Tables referenced by the plan (for schema invalidation).
-    * @param topology_fingerprint Optional topology discriminator for
-    *        distributed plans that should not be reused across layouts.
-    */
+     * @param topology_fingerprint Optional topology discriminator for
+     *        distributed plans that should not be reused across layouts.
+     * @param deadline   Optional deadline (std::chrono::steady_clock).
+     *        If set and exceeded, returns immediately without caching (GAP-5).
+     *
+     * THREAD-SAFE: Acquires cache_mutex_ with optional timeout for deadline support.
+     */
     void put(const std::string&             query,
              const QueryOptimizer::Plan&    plan,
              const Statistics&              stats,
              const std::vector<ParameterInfo>& params = {},
              const std::vector<std::string>&   tables = {},
-             const std::string& topology_fingerprint = {});
+             const std::string& topology_fingerprint = {},
+             std::optional<std::chrono::steady_clock::time_point> deadline = std::nullopt);
 
     /**
     * @brief Mark execution of the cached plan as failed.
