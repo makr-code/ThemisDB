@@ -336,10 +336,13 @@ endif()
 
 # Office document support (DOCX/XLSX/PPTX)
 # Find libzip (needed for both Office and Archive processing)
-find_package(libzip CONFIG)
-if(NOT libzip_FOUND)
-    find_package(libzip)
-endif()
+# Skip libzip to avoid broken CONFIG targets
+# find_package(libzip CONFIG)
+# Commented out due to broken system libzip CMake config
+# if(NOT libzip_FOUND)
+#     find_package(libzip)
+# endif()
+set(libzip_FOUND OFF)
 
 if(libzip_FOUND)
     message(STATUS "libzip found - Archive processing available")
@@ -2568,7 +2571,7 @@ set(THEMIS_CORE_SOURCES
     ../src/utils/normalizer.cpp
     ../src/utils/simd_distance.cpp
     ../src/utils/update_checker.cpp
-    ../src/utils/http_client_pool.cpp
+    $<$<BOOL:${BOOST_FOUND}>:../src/utils/http_client_pool.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/utils/grpc_channel_pool.cpp>
     ../src/utils/thread_pool_manager.cpp
     ../src/themis/build_info.cpp

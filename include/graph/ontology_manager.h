@@ -230,18 +230,22 @@ public:
      * Returns `true` if:
      * - Either @p sourceClass or @p targetClass is unknown (graceful degradation), OR
      * - @p edgeType is explicitly allowed for the class pair by ontology axioms, OR
-     * - Axioms exist for the class pair and @p edgeType is unknown globally
-     *   (schema-evolution fallback).
+     * - @p edgeType is unknown globally (schema-evolution fallback: permits new edge types
+     *   to be added without modifying the ontology schema).
      *
      * Returns `false` if:
-     * - Both classes are known AND there are no axioms for this pair (strict mode).
      * - @p edgeType is known in the ontology but not allowed for this class pair.
+     *
+     * Rationale: The schema-evolution fallback (permitting unknown edge types) allows
+     * new edge types to be introduced at runtime without requiring ontology updates.
+     * Only edge types that exist in the ontology schema are subject to class-pair
+     * restrictions. Unknown edge types are assumed safe for all class pairs.
      *
      * @see allowedEdgeTypes() to retrieve the exact set of axiom-defined edge types.
      */
-    [[nodiscard]] bool isEdgeTypeAllowed(std::string_view sourceClass,
-                                         std::string_view targetClass,
-                                         std::string_view edgeType) const;
+     [[nodiscard]] bool isEdgeTypeAllowed(std::string_view sourceClass,
+                                          std::string_view targetClass,
+                                          std::string_view edgeType) const;
 
     // ── Serialisation ───────────────────────────────────────────────────────
 
