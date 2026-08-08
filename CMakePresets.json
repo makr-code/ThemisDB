@@ -58,6 +58,9 @@
         "VCPKG_TARGET_TRIPLET": "x64-linux",
         "THEMIS_ENABLE_GPU": "ON",
         "THEMIS_ENABLE_HTTP_SERVER": "ON"
+      },
+      "environment": {
+        "CMAKE_BUILD_PARALLEL_LEVEL": "8"
       }
     },
     {
@@ -143,7 +146,8 @@
       "binaryDir": "${sourceDir}/build-community-debug-allow-missing-rocksdb",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
-        "THEMIS_ALLOW_MISSING_ROCKSDB": "ON"
+        "THEMIS_ALLOW_MISSING_ROCKSDB": "ON",
+        "THEMIS_EDITION": "COMMUNITY"
       }
     },
     {
@@ -235,7 +239,8 @@
         "CMAKE_BUILD_TYPE": "Release",
         "THEMIS_BUILD_BENCHMARKS": "ON",
         "THEMIS_ENABLE_GPU": "OFF",
-        "THEMIS_ENABLE_LLM": "OFF"
+        "THEMIS_ENABLE_LLM": "OFF",
+        "THEMIS_EDITION": "COMMUNITY"
       }
     },
     {
@@ -568,37 +573,101 @@
   "testPresets": [
     {
       "name": "windows-release",
-      "configurePreset": "windows-release"
+      "configurePreset": "windows-release",
+      "filter": {
+        "include": {
+          "label": "module:.*"
+        },
+        "exclude": {
+          "label": "(manual|disabled)"
+        }
+      }
     },
     {
       "name": "hyperscaler-debug-windows",
-      "configurePreset": "hyperscaler-debug-windows"
+      "configurePreset": "hyperscaler-debug-windows",
+      "filter": {
+        "include": {
+          "label": "module:.*"
+        },
+        "exclude": {
+          "label": "(manual|disabled)"
+        }
+      }
     },
     {
       "name": "community-debug",
-      "configurePreset": "community-debug"
+      "configurePreset": "community-debug",
+      "filter": {
+        "include": {
+          "label": "module:.*"
+        },
+        "exclude": {
+          "label": "(manual|disabled)"
+        }
+      }
     },
     {
       "name": "hyperscaler-release-windows",
-      "configurePreset": "hyperscaler-release-windows"
+      "configurePreset": "hyperscaler-release-windows",
+      "filter": {
+        "include": {
+          "label": "module:.*"
+        },
+        "exclude": {
+          "label": "(manual|disabled)"
+        }
+      }
     },
     {
       "name": "hyperscaler-release-linux",
-      "configurePreset": "hyperscaler-release-linux"
+      "configurePreset": "hyperscaler-release-linux",
+      "filter": {
+        "include": {
+          "label": "module:.*"
+        },
+        "exclude": {
+          "label": "(manual|disabled)"
+        }
+      }
     },
     {
       "name": "linux-release",
-      "configurePreset": "linux-release"
+      "configurePreset": "linux-release",
+      "filter": {
+        "include": {
+          "label": "module:.*"
+        },
+        "exclude": {
+          "label": "(manual|disabled)"
+        }
+      }
     },
     {
       "name": "community-release",
-      "configurePreset": "community-release"
+      "configurePreset": "community-release",
+      "filter": {
+        "include": {
+          "label": "module:.*"
+        },
+        "exclude": {
+          "label": "(manual|disabled)"
+        }
+      }
     },
     {
       "name": "community-asan",
       "configurePreset": "community-asan",
       "output": {
         "outputOnFailure": true
+      },
+      "filter": {
+        "include": {
+          "label": "module:.*"
+        },
+        "exclude": {
+          "label": "(manual|disabled|slow)"
+        }
       }
     },
     {
@@ -606,6 +675,14 @@
       "configurePreset": "community-ubsan",
       "output": {
         "outputOnFailure": true
+      },
+      "filter": {
+        "include": {
+          "label": "module:.*"
+        },
+        "exclude": {
+          "label": "(manual|disabled|slow)"
+        }
       }
     },
     {
@@ -613,6 +690,14 @@
       "configurePreset": "linux-asan",
       "output": {
         "outputOnFailure": true
+      },
+      "filter": {
+        "include": {
+          "label": "module:.*"
+        },
+        "exclude": {
+          "label": "(manual|disabled|slow)"
+        }
       }
     },
     {
@@ -620,39 +705,111 @@
       "configurePreset": "linux-ubsan",
       "output": {
         "outputOnFailure": true
+      },
+      "filter": {
+        "include": {
+          "label": "module:.*"
+        },
+        "exclude": {
+          "label": "(manual|disabled|slow)"
+        }
       }
     },
     {
       "name": "enterprise-release-windows",
-      "configurePreset": "enterprise-release-windows"
+      "configurePreset": "enterprise-release-windows",
+      "filter": {
+        "include": {
+          "label": "module:.*"
+        },
+        "exclude": {
+          "label": "(manual|disabled)"
+        }
+      }
     },
     {
       "name": "enterprise-debug-windows",
-      "configurePreset": "enterprise-debug-windows"
+      "configurePreset": "enterprise-debug-windows",
+      "filter": {
+        "include": {
+          "label": "module:.*"
+        },
+        "exclude": {
+          "label": "(manual|disabled)"
+        }
+      }
     },
     {
       "name": "enterprise-release-linux",
-      "configurePreset": "enterprise-release-linux"
+      "configurePreset": "enterprise-release-linux",
+      "filter": {
+        "include": {
+          "label": "module:.*"
+        },
+        "exclude": {
+          "label": "(manual|disabled)"
+        }
+      }
     },
     {
       "name": "enterprise-debug-linux",
-      "configurePreset": "enterprise-debug-linux"
+      "configurePreset": "enterprise-debug-linux",
+      "filter": {
+        "include": {
+          "label": "module:.*"
+        },
+        "exclude": {
+          "label": "(manual|disabled)"
+        }
+      }
     },
     {
       "name": "military-release-windows",
-      "configurePreset": "military-release-windows"
+      "configurePreset": "military-release-windows",
+      "filter": {
+        "include": {
+          "label": "module:.*"
+        },
+        "exclude": {
+          "label": "(manual|disabled)"
+        }
+      }
     },
     {
       "name": "military-debug-windows",
-      "configurePreset": "military-debug-windows"
+      "configurePreset": "military-debug-windows",
+      "filter": {
+        "include": {
+          "label": "module:.*"
+        },
+        "exclude": {
+          "label": "(manual|disabled)"
+        }
+      }
     },
     {
       "name": "military-release-linux",
-      "configurePreset": "military-release-linux"
+      "configurePreset": "military-release-linux",
+      "filter": {
+        "include": {
+          "label": "module:.*"
+        },
+        "exclude": {
+          "label": "(manual|disabled)"
+        }
+      }
     },
     {
       "name": "military-debug-linux",
-      "configurePreset": "military-debug-linux"
+      "configurePreset": "military-debug-linux",
+      "filter": {
+        "include": {
+          "label": "module:.*"
+        },
+        "exclude": {
+          "label": "(manual|disabled)"
+        }
+      }
     }
   ],
   "workflowPresets": [
