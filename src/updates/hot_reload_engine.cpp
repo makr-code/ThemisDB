@@ -71,7 +71,14 @@ HotReloadEngine::DownloadResult HotReloadEngine::downloadRelease(const std::stri
     reportProgress(0, "Fetching manifest for version " + version);
     
     // Get manifest from database first
-    auto manifest = manifest_db_->getManifest(version);
+    // CRITICAL: data_race fix - manifest_db_ is accessed by multiple methods
+    std::shared_ptr<ManifestDatabase> manifest_db;
+    {
+        std::lock_guard<std::mutex> lock(manifest_db_mutex_);
+        manifest_db = manifest_db_;
+    }
+    
+    auto manifest = manifest_db->getManifest(version);
     if (!manifest) {
         result.error_message = "Manifest not found for version: " + version;
         LOG_ERROR("{}", result.error_message);
@@ -82,7 +89,7 @@ HotReloadEngine::DownloadResult HotReloadEngine::downloadRelease(const std::stri
     
     // Verify manifest
     reportProgress(10, "Verifying manifest");
-    if (config_.verify_signatures && !manifest_db_->verifyManifest(*manifest)) {
+    if (config_.verify_signatures && !manifest_db->verifyManifest(*manifest)) {
         result.error_message = "Manifest verification failed";
         LOG_ERROR("{}", result.error_message);
         return result;
@@ -105,7 +112,7 @@ HotReloadEngine::DownloadResult HotReloadEngine::downloadRelease(const std::stri
         std::string dest_path = version_dir + "/" + file.path;
         
         // Check cache first
-        auto cached_path = manifest_db_->getCachedDownload(version, file.path);
+        auto cached_path = manifest_db->getCachedDownload(version, file.path);
         if (cached_path && fs::exists(*cached_path)) {
             // Verify cached file
             if (verifyDownloadedFile(file, *cached_path)) {
@@ -132,7 +139,7 @@ HotReloadEngine::DownloadResult HotReloadEngine::downloadRelease(const std::stri
         }
         
         // Cache download
-        manifest_db_->cacheDownload(version, file.path, dest_path);
+        manifest_db->cacheDownload(version, file.path, dest_path);
     }
     
     reportProgress(100, "Download complete");
