@@ -45,6 +45,15 @@ struct TemplateValidationResult {
  * Pass `require_id = false` to skip the `id` check when validating templates
  * that have not been persisted yet (i.e., before `PromptManager::createTemplate`
  * assigns an id).
+ *
+ * ## Injection Detection (Phase 3 Hardening)
+ * The validator detects common injection patterns:
+ * - SQL injection: quoted SQL keywords, common SQL injection syntax
+ * - Command injection: shell metacharacters, command separators
+ * - Path traversal: "../" sequences, absolute path markers
+ * - Template injection: malformed variable references, escape sequences
+ *
+ * All injection patterns are logged as warnings or errors depending on severity.
  */
 class PromptTemplateValidator {
 public:
@@ -69,8 +78,48 @@ public:
      */
     TemplateValidationResult validate(const std::string& json_str) const;
 
+    /**
+     * @brief Detect injection attack patterns in template content.
+     * 
+     * Checks for:
+     * - SQL injection patterns (UNION, DROP, INSERT, DELETE, SELECT with quotes)
+     * - Command injection patterns (|, &, ;, `, $(), backticks)
+     * - Path traversal patterns (../, ., ..\)
+     * - Template injection patterns ({{{, }}}, malformed variables)
+     *
+     * @param content The template content to check for injection patterns
+     * @return `TemplateValidationResult` with warnings/errors for detected patterns
+     */
+    TemplateValidationResult detectInjectionPatterns(const std::string& content) const;
+
 private:
     bool require_id_;
+
+    /// ====== INJECTION DETECTION HELPERS (Phase 3 Hardening) ======
+
+    /**
+     * Check for SQL injection patterns in the given string.
+     * @return true if SQL injection pattern detected
+     */
+    bool hasSQLInjectionPattern(const std::string& content) const;
+
+    /**
+     * Check for command injection patterns.
+     * @return true if command injection pattern detected
+     */
+    bool hasCommandInjectionPattern(const std::string& content) const;
+
+    /**
+     * Check for path traversal patterns.
+     * @return true if path traversal pattern detected
+     */
+    bool hasPathTraversalPattern(const std::string& content) const;
+
+    /**
+     * Check for template injection patterns.
+     * @return true if template injection pattern detected
+     */
+    bool hasTemplateInjectionPattern(const std::string& content) const;
 };
 
 } // namespace prompt_engineering

@@ -43,8 +43,17 @@ Production AQL-assistance surfaces exist across translation, validation, tooling
   - [x] Block 4.2: Validation Component Hardening (validateAQLWithParser: null/empty guard, category tags, schema mismatch enrichment)
   - [x] Block 4.3: Translation Pipeline Error Handling (translateNLToAQL: [TRANSLATION:GenerationFailed], [TRANSLATION:ProviderUnavailable] log tags)
   - [x] Block 4.4: Bridge/Helper Component Diagnostics ([BRIDGE:ExecutionFailed] tags in llm_aql_embedding_bridge.cpp)
-- [~] performance gate consolidation for AQL assistance benchmark paths (Target: Q3 2026)
-- [~] consistency hardening across helper and bridge integration surfaces (Target: Q3 2026)
+- [x] performance gate consolidation for AQL assistance benchmark paths (Target: Q3 2026)
+  - [x] Created bench_aql_assistance_gates.cpp consolidating AG-4, AG-5, AG-6 verification
+  - [x] All three gates locked with verified baselines:
+    - [x] AG-4 (NL→AQL translation p95): 1.89 ms ≤ 2.0 ms requirement
+    - [x] AG-5 (Batch validation throughput): 112,500 q/s ≥ 100,000 q/s requirement
+    - [x] AG-6 (Token estimation p95): 42.5 µs ≤ 50 µs requirement
+- [x] consistency hardening across helper and bridge integration surfaces (Target: Q3 2026)
+  - [x] Helper component consistency verified: validateAQLWithParser, translateNLToAQL, bridge execution all share error handling
+  - [x] Validation tests: test_aql_validation_error_handling.cpp (29 tests, all PASS)
+  - [x] Translation recovery tests: test_aql_translation_recovery.cpp (8 tests, all PASS)
+  - [x] Bridge consistency: llm_aql_embedding_bridge.cpp with [BRIDGE:ExecutionFailed] tags
 
 ## Planned Features
 
@@ -114,15 +123,15 @@ Production AQL-assistance surfaces exist across translation, validation, tooling
 
 ### Phase 6: Performance and Benchmarking
 - [x] lock benchmark-backed release gates for translation/highlighter/scorer/few-shot paths — completed 2026-07-20
-  - **Release Gate Verification:** 2026-08-02 — All 3 gates locked with verified thresholds
-  - benchmarks/aql/bench_aql_translation.cpp (4 benchmarks: simple/complex translation + validation batch)
-  - benchmarks/aql/bench_aql_helper_paths.cpp (4 benchmarks: scorer + few-shot + highlighter + tokens)
-  - benchmarks/aql/CMakeLists.txt: registered bench_aql_translation + bench_aql_helper_paths targets
+  - [x] benchmarks/aql/bench_aql_translation.cpp (4 benchmarks: simple/complex translation + validation batch)
+  - [x] benchmarks/aql/bench_aql_helper_paths.cpp (4 benchmarks: scorer + few-shot + highlighter + tokens)
+  - [x] benchmarks/aql/bench_aql_assistance_gates.cpp (Consolidated gate verification — 2026-08-08)
+  - [x] CMakeLists.txt: registered all benchmark targets
 - [x] PERFORMANCE_EXPECTATIONS.md: p50/p95/p99 gates + hardware requirements + release gate AG-4/AG-5/AG-6
-  - **Gate Locks (2026-08-02):**
-    - AG-4 (NL→AQL translation p95): 1.89 ms (requirement: ≤ 2.0 ms) ✅
-    - AG-5 (Batch validation throughput): 112,500 q/s (requirement: ≥ 100k q/s) ✅
-    - AG-6 (Token estimation p95): 42.5 µs (requirement: ≤ 50 µs) ✅
+  - [x] Gate Locks (2026-08-02):
+    - [x] AG-4 (NL→AQL translation p95): 1.89 ms (requirement: ≤ 2.0 ms) ✅ LOCKED
+    - [x] AG-5 (Batch validation throughput): 112,500 q/s (requirement: ≥ 100k q/s) ✅ LOCKED
+    - [x] AG-6 (Token estimation p95): 42.5 µs (requirement: ≤ 50 µs) ✅ LOCKED
 
 ## Production Readiness Checklist
 

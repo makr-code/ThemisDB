@@ -12,6 +12,8 @@
 #pragma once
 
 #include "training/lora_adapter.h"
+#include "training/training_error_codes.h"
+#include "training/training_exceptions.h"
 
 #include <cstddef>
 #include <string>
@@ -162,6 +164,38 @@ public:
     MergeResult mergeTIESAll(const std::vector<const LoRAAdapter*>& adapters,
                              size_t                                  output_rank,
                              float                                   trim_threshold = 0.2f) const;
+
+    // -------------------------------------------------------------------------
+    // Phase 2: Validation and edge case handling
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Validate merge inputs before performing a merge operation.
+     *
+     * Checks that:
+     * - All adapters are non-null
+     * - All adapter descriptors reference valid layers
+     * - No dimension mismatches exist
+     * - Adapter is not empty (has at least one layer)
+     * - Weights are normalized and positive
+     *
+     * @param adapters       Collection of adapter descriptors to validate
+     * @return Empty string if valid; otherwise an error message describing the problem
+     */
+    std::string validateMergeInputs(const std::vector<AdapterDescriptor>& adapters) const;
+
+    /**
+     * @brief Phase 2: Validate that a merge result is acceptable.
+     *
+     * Checks that:
+     * - Result matrices have correct dimensions
+     * - Result matrices contain finite values (no NaN/Inf)
+     * - Result is marked successful if all layers passed
+     *
+     * @param result The merge result to validate
+     * @return true if the result is valid and can be deployed
+     */
+    bool validateMergeResult(const MergeResult& result) const;
 };
 
 } // namespace training

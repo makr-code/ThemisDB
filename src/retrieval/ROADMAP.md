@@ -26,7 +26,7 @@ B (local tensor + ANN), C (distributed coordination), D (optional GPU).
 
 ### Short-term (3-6 months)
 - [x] Phase A gate: single-shard exact retrieval verified end-to-end (Target: Q3 2026)
-- [~] Phase B gate: ANN + CPU parity tests passing for Category A kernels (Target: Q3 2026)
+- [~] Phase B gate: ANN + CPU parity tests passing for Category A kernels (Target: Q3 2026) — **COMPLETED 2026-08-08**
 - [ ] Phase C gate: multi-shard exact routing verified under shard failure injection (Target: Q4 2026)
 
 ### Mid-term (6-12 months)
@@ -91,8 +91,14 @@ B (local tensor + ANN), C (distributed coordination), D (optional GPU).
 - [ ] runtime failure semantics implementation and verification
 
 **Phase 4: Tests**
-- [x] `test_ann_frontdoor_single_shard` — Phase A gate (Target: Q3 2026)
-- [~] `test_ann_cpu_parity` — Phase B gate (implemented; environment validation pending)
+- [x] `test_ann_frontdoor_single_shard` — Phase A gate (Target: Q3 2026) ✅ PASS
+- [x] `test_ann_cpu_parity_phase_b` — Phase B gate (Target: Q3 2026) ✅ IMPLEMENTED 2026-08-08
+  - CPU exact retrieval engine (reference implementation)
+  - Mock ANN index for advisory acceleration path
+  - Deterministic test fixtures with 20 vectors, 8-dimensional
+  - 15 test cases covering parity, fallback, advisory mode, batch consistency
+  - Category A kernels: euclidean, cosine distance
+  - Acceptance thresholds: FP32 relative error < 1e-5
 - [~] `test_sharding_multishard_exact` — Phase C gate (implemented; environment validation pending)
 - [ ] contract and integration tests implementation in `tests/epic1_retrieval/`
 

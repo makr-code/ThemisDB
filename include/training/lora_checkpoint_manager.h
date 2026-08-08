@@ -28,6 +28,8 @@
 #include <optional>
 #include <cstddef>
 #include <ctime>
+#include "training/training_error_codes.h"
+#include "training/training_exceptions.h"
 
 namespace themis {
 namespace training {
@@ -51,6 +53,9 @@ struct CheckpointManifestEntry {
 
 /**
  * @brief Configuration for the LoRA checkpoint manager.
+ *
+ * Phase 2 hardening: Added timeout support for I/O operations, explicit recovery
+ * configuration, and diagnostics control.
  */
 struct CheckpointManagerConfig {
     std::string checkpoint_dir;              ///< Directory to store checkpoints
@@ -58,6 +63,11 @@ struct CheckpointManagerConfig {
     bool        validate_on_load    = true;  ///< Validate SHA-256 on resume()
     bool        auto_rollback       = true;  ///< Fall back to previous on corruption
     std::string manifest_filename   = "checkpoint_manifest.json";
+    
+    // Phase 2: timeout and recovery hardening
+    int         io_timeout_ms       = 300000; ///< Timeout for I/O ops (SHA-256, file copy)
+    bool        cleanup_partial     = true;   ///< Remove partial/corrupted checkpoints
+    size_t      min_checkpoint_size = 1024;   ///< Minimum valid checkpoint size (bytes)
 
     CheckpointManagerConfig() = default;
 };
@@ -74,18 +84,59 @@ struct CheckpointManagerConfig {
  * Checkpoint metadata (epoch, step, loss, sha256, base_model_hash) is stored in
  * `checkpoint_manifest.json` inside `checkpoint_dir`.
  *
+ * ## Phase 3: Error Handling and Edge Cases
+ *
+ * All public methods throw CheckpointException with structured error codes and
+ * diagnostics for production troubleshooting:
+ *
+ * - **Constructor**: throws CheckpointException if checkpoint_dir is empty
+ *   or invalid (code: CHECKPOINT_DIR_INVALID)
+ *
+ * - **save()**: throws CheckpointException on:
+ *   - File read failure (CHECKPOINT_READ_FAILED)
+ *   - Disk full (CHECKPOINT_DISK_SPACE_EXHAUSTED)
+ *   - File write failure (CHECKPOINT_WRITE_FAILED)
+ *   - Rename/move failure (CHECKPOINT_RENAME_FAILED)
+ *   - I/O timeout (CHECKPOINT_IO_TIMEOUT)
+ *
+ * - **resume()**: returns std::nullopt if no valid checkpoint found;
+ *   logs recovered checkpoint path on success or auto-rollback
+ *
+ * - **resumeWithDiagnostics()**: includes detailed recovery information
+ *   including which checkpoints were attempted and why they failed
+ *
+ * - **validate()**: returns false if file missing or SHA-256 mismatch
+ *
+ * - **cleanupPartialCheckpoints()**: logs which files were removed
+ *
+ * - **auditCheckpoints()**: reports validity status for each entry
+ *   and returns count of valid checkpoints
+ *
+ * Edge cases handled:
+ * - Empty checkpoint directory: gracefully handled (resume returns nullopt)
+ * - Corrupted manifest: malformed entries silently dropped, valid entries retained
+ * - Partially-written checkpoints: detected by size check, cleaned up
+ * - Disk full during save: detected early, error thrown with recoverable=true
+ * - SHA-256 validation timeout: error thrown with code CHECKPOINT_VALIDATION_TIMEOUT
+ * - All checkpoints corrupted: auto-rollback exhausted, explicit error with recovery options
+ *
  * Example usage:
  * @code
  * CheckpointManagerConfig cfg;
  * cfg.checkpoint_dir   = "/var/lib/themis/checkpoints/legal_v1";
  * cfg.max_checkpoints  = 3;
  *
- * LoRACheckpointManager mgr(cfg);
- * mgr.save("weights.bin", {.epoch=1, .step=500, .loss=0.42, .adapter_version="legal_v1.1"});
+ * try {
+ *     LoRACheckpointManager mgr(cfg);  // throws if dir invalid
+ *     mgr.save("weights.bin", {.epoch=1, .step=500, .loss=0.42, .adapter_version="legal_v1.1"});
  *
- * auto entry = mgr.resume();
- * if (entry) {
- *     // load entry->checkpoint_path
+ *     auto entry = mgr.resume();  // nullopt if no valid checkpoint
+ *     if (entry) {
+ *         // load entry->checkpoint_path
+ *     }
+ * } catch (const CheckpointException& e) {
+ *     // Handle checkpoint failure with error code and diagnostics
+ *     log_error << e.diagnostic_message();
  * }
  * @endcode
  */
@@ -94,7 +145,8 @@ public:
     /**
      * @brief Construct the checkpoint manager.
      * @param config Configuration for directory, window size, and validation.
-     * @throws std::invalid_argument if checkpoint_dir is empty.
+     * @throws CheckpointException if checkpoint_dir is empty or path is unsafe
+     *         (error code: CHECKPOINT_DIR_INVALID or CHECKPOINT_PATH_UNSAFE)
      */
     explicit LoRACheckpointManager(const CheckpointManagerConfig& config);
 
@@ -133,6 +185,20 @@ public:
      * @return Latest valid manifest entry, or std::nullopt.
      */
     std::optional<CheckpointManifestEntry> resume() const;
+
+    /**
+     * @brief Phase 2: Recover a checkpoint with detailed diagnostics.
+     *
+     * Attempts to recover a checkpoint from the manifest, returning full
+     * diagnostic information about the recovery process (which checkpoints were
+     * attempted, why they failed, etc.). This is useful for understanding
+     * checkpoint corruption or rollback behavior.
+     *
+     * @param[out] diagnostics Optional string to receive detailed recovery info
+     * @return Latest valid manifest entry, or std::nullopt if recovery fails
+     */
+    std::optional<CheckpointManifestEntry> resumeWithDiagnostics(
+        std::string* diagnostics = nullptr) const;
 
     /**
      * @brief Return all manifest entries, newest first.
@@ -174,6 +240,28 @@ public:
      * @return Contents of `calibration_manifest.json`, or empty string if not present.
      */
     std::string loadCalibrationJson() const;
+
+    /**
+     * @brief Phase 2: Clean up partial/corrupted checkpoints in the directory.
+     *
+     * Removes checkpoint files that are not in the manifest, or checkpoint files
+     * that fail validation and are marked for cleanup in the config.
+     * This helps recover disk space and maintain a clean checkpoint directory.
+     *
+     * @return Number of files cleaned up
+     */
+    size_t cleanupPartialCheckpoints();
+
+    /**
+     * @brief Phase 2: Verify all checkpoints in the manifest and report status.
+     *
+     * Performs a full audit of the checkpoint directory: validates each entry,
+     * reports which are valid/corrupt, and optionally removes corrupt entries.
+     *
+     * @param[out] diagnostics Optional string to receive audit results
+     * @return Number of valid checkpoints found
+     */
+    size_t auditCheckpoints(std::string* diagnostics = nullptr);
 
 private:
     class Impl;

@@ -56,8 +56,10 @@
 #include <algorithm>
 #include <chrono>
 #include <cmath>
+#include <condition_variable>
 #include <future>
 #include <limits>
+#include <queue>
 #include <spdlog/spdlog.h>
 #include <sstream>
 #include <stdexcept>
@@ -760,7 +762,7 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
     std::vector<ShardEntry> active;
     {
         std::lock_guard<std::mutex> lock(mutex_);
-        for (const auto &e : shards_) {
+        for (auto &e : shards_) {
             if (!e.executor || !e.cached_healthy || !e.cached_healthy->load(std::memory_order_relaxed)) {
                 continue;
             }
@@ -772,6 +774,17 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
                              e.shard_id, query.tenant_id, e.allowed_tenant_id);
                 continue;
             }
+
+            // SAFETY CONTROL: Check circuit breaker state and skip OPEN shards
+            if (config_.enable_circuit_breaker) {
+                CircuitBreakerState cb_state = updateCircuitBreakerState(const_cast<ShardEntry&>(e));
+                if (cb_state == CircuitBreakerState::OPEN) {
+                    spdlog::warn("DistributedAnalyticsSharding: shard '{}' skipped (circuit breaker OPEN)",
+                                 e.shard_id);
+                    continue;  // Skip OPEN shards - fail-closed
+                }
+            }
+
             active.push_back(e);
         }
     }
@@ -854,29 +867,55 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
             futures.push_back(std::move(f));
         }
 
-        for (size_t i = 0; i < futures.size(); ++i) {
+    for (size_t i = 0; i < futures.size(); ++i) {
             auto &f                 = futures[i];
             const auto active_index = batch_begin + i;
+            auto& entry             = active[active_index];
 
             // Per-shard timeout: use wait_for so we never block forever.
             if (has_timeout) {
                 const auto status = f.wait_for(per_shard_timeout);
                 if (status == std::future_status::timeout) {
                     ShardExecutionInfo info;
-                    info.shard_id = active[active_index].shard_id;
+                    info.shard_id = entry.shard_id;
                     info.success  = false;
                     info.error    = "timeout (" + std::to_string(config_.shard_timeout_ms) + " ms)";
-                    spdlog::warn("DistributedAnalyticsSharding: shard '{}' timed out", active[active_index].shard_id);
+
+                    // SAFETY CONTROL: Log timeout as a failure for circuit breaker
+                    if (config_.enable_circuit_breaker) {
+                        onShardFailure(entry, info.error);
+                        std::lock_guard<std::mutex> lock(*entry.circuit_breaker_mutex);
+                        info.circuit_state = entry.circuit_breaker_info->state;
+                        info.circuit_consecutive_failures = entry.circuit_breaker_info->consecutive_failures;
+                    }
+
+                    spdlog::warn("DistributedAnalyticsSharding: shard '{}' timed out", entry.shard_id);
                     result.shard_info.push_back(std::move(info));
                     continue;
                 }
             }
 
             auto [partial, info] = f.get();
+
+            // SAFETY CONTROL: Update circuit breaker state based on result
+            if (info.success) {
+                onShardSuccess(entry);
+            } else {
+                onShardFailure(entry, info.error);
+            }
+
+            // Capture circuit breaker state in result
+            if (config_.enable_circuit_breaker) {
+                std::lock_guard<std::mutex> lock(*entry.circuit_breaker_mutex);
+                info.circuit_state = entry.circuit_breaker_info->state;
+                info.circuit_consecutive_failures = entry.circuit_breaker_info->consecutive_failures;
+            }
+
             result.shard_info.push_back(info);
             if (info.success) {
                 ++result.successful_shards;
                 partials.push_back(std::move(partial));
+
             } else if (!config_.allow_partial_results) {
                 // At least one shard failed and partial results are not allowed
                 spdlog::error("DistributedAnalyticsSharding: shard {} failed and "
@@ -921,6 +960,154 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
 
 OLAPResult DistributedAnalyticsSharding::execute(const OLAPQuery &query) {
     return executeDistributed(query).merged;
+}
+
+// ============================================================================
+// Circuit Breaker Safety Control Helpers (Phase 2.2)
+// ============================================================================
+
+void DistributedAnalyticsSharding::onShardSuccess(ShardEntry& entry) {
+    if (!config_.enable_circuit_breaker) return;
+
+    std::lock_guard<std::mutex> lock(*entry.circuit_breaker_mutex);
+    auto& cb_info = *entry.circuit_breaker_info;
+
+    if (cb_info.state == CircuitBreakerState::HALF_OPEN) {
+        // Successfully recovered
+        cb_info.state = CircuitBreakerState::CLOSED;
+        cb_info.consecutive_failures = 0;
+        cb_info.recovery_attempts = 0;
+        cb_info.state_changes++;
+        spdlog::info(
+            "DistributedAnalyticsSharding: shard '{}' circuit breaker HALF_OPEN → CLOSED "
+            "(recovered after {} attempts)",
+            entry.shard_id, cb_info.recovery_attempts);
+    } else if (cb_info.state == CircuitBreakerState::CLOSED) {
+        // Normal operation - reset failure counter
+        cb_info.consecutive_failures = 0;
+    }
+}
+
+bool DistributedAnalyticsSharding::onShardFailure(ShardEntry& entry, const std::string& error_msg) {
+    if (!config_.enable_circuit_breaker) return true;
+
+    std::lock_guard<std::mutex> lock(*entry.circuit_breaker_mutex);
+    auto& cb_info = *entry.circuit_breaker_info;
+
+    cb_info.consecutive_failures++;
+    cb_info.last_error = error_msg;
+
+    if (cb_info.state == CircuitBreakerState::CLOSED &&
+        cb_info.consecutive_failures >= config_.circuit_breaker_failure_threshold) {
+        // Too many failures - open the circuit
+        cb_info.state = CircuitBreakerState::OPEN;
+        cb_info.opened_at = std::chrono::steady_clock::now();
+        cb_info.next_recovery_at = cb_info.opened_at +
+            std::chrono::milliseconds(config_.circuit_breaker_recovery_delay_ms);
+        cb_info.state_changes++;
+        spdlog::warn(
+            "DistributedAnalyticsSharding: shard '{}' circuit breaker CLOSED → OPEN "
+            "(after {} consecutive failures: {})",
+            entry.shard_id, cb_info.consecutive_failures, error_msg);
+        return false;  // Shard is now unavailable
+    }
+
+    if (cb_info.state == CircuitBreakerState::HALF_OPEN) {
+        // Recovery attempt failed
+        cb_info.recovery_attempts++;
+        if (cb_info.recovery_attempts >= config_.circuit_breaker_recovery_attempts) {
+            // Back to OPEN with exponential backoff
+            cb_info.state = CircuitBreakerState::OPEN;
+            uint32_t backoff_ms = std::min(
+                config_.circuit_breaker_recovery_delay_ms * (1U << cb_info.recovery_attempts),
+                config_.circuit_breaker_max_recovery_delay_ms);
+            cb_info.next_recovery_at = std::chrono::steady_clock::now() +
+                std::chrono::milliseconds(backoff_ms);
+            cb_info.state_changes++;
+            spdlog::warn(
+                "DistributedAnalyticsSharding: shard '{}' circuit breaker HALF_OPEN → OPEN "
+                "(recovery failed after {} attempts, backoff {}ms)",
+                entry.shard_id, cb_info.recovery_attempts, backoff_ms);
+            return false;
+        }
+        // Still HALF_OPEN, continue recovery attempts
+    }
+
+    return cb_info.state != CircuitBreakerState::OPEN;
+}
+
+CircuitBreakerState DistributedAnalyticsSharding::updateCircuitBreakerState(ShardEntry& entry) {
+    if (!config_.enable_circuit_breaker) return CircuitBreakerState::CLOSED;
+
+    std::lock_guard<std::mutex> lock(*entry.circuit_breaker_mutex);
+    auto& cb_info = *entry.circuit_breaker_info;
+
+    if (cb_info.state == CircuitBreakerState::OPEN) {
+        const auto now = std::chrono::steady_clock::now();
+        if (now >= cb_info.next_recovery_at) {
+            // Time to try recovery
+            cb_info.state = CircuitBreakerState::HALF_OPEN;
+            cb_info.recovery_attempts = 0;
+            cb_info.state_changes++;
+            spdlog::info(
+                "DistributedAnalyticsSharding: shard '{}' circuit breaker OPEN → HALF_OPEN "
+                "(attempting recovery)",
+                entry.shard_id);
+        }
+    }
+
+    return cb_info.state;
+}
+
+bool DistributedAnalyticsSharding::tryEnqueueRequest(
+        ShardEntry& entry, std::function<void()> task) {
+    if (config_.max_queued_requests_per_shard == 0) {
+        // Unbounded queue - always enqueue
+        {
+            std::lock_guard<std::mutex> lock(*entry.queue_mutex);
+            entry.request_queue->push(std::move(task));
+        }
+        entry.queue_cv->notify_one();
+        return true;
+    }
+
+    const auto timeout_duration = std::chrono::milliseconds(config_.queue_enqueue_timeout_ms);
+    std::unique_lock<std::mutex> lock(*entry.queue_mutex);
+
+    // Wait for space in queue
+    const bool enqueued = entry.queue_cv->wait_for(
+        lock, timeout_duration,
+        [this, &entry]() {
+            return entry.request_queue->size() < config_.max_queued_requests_per_shard;
+        });
+
+    if (!enqueued) {
+        spdlog::warn(
+            "DistributedAnalyticsSharding: shard '{}' queue full (max={}), request dropped",
+            entry.shard_id, config_.max_queued_requests_per_shard);
+        return false;
+    }
+
+    entry.request_queue->push(std::move(task));
+    entry.queue_cv->notify_one();
+    return true;
+}
+
+void DistributedAnalyticsSharding::processQueuedRequests(ShardEntry& entry) {
+    std::function<void()> next_task;
+    {
+        std::lock_guard<std::mutex> lock(*entry.queue_mutex);
+        if (!entry.request_queue->empty()) {
+            next_task = std::move(entry.request_queue->front());
+            entry.request_queue->pop();
+            entry.queue_cv->notify_one();  // Notify waiting enqueuers
+        }
+    }
+
+    if (next_task) {
+        next_task();
+        processQueuedRequests(entry);  // Process next queued task
+    }
 }
 
 } // namespace analytics
