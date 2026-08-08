@@ -30,12 +30,11 @@ namespace themis { namespace observability {
 /**
  * @brief OTLP-specific trace context for metric exemplars.
  *
- * This struct carries trace information for OpenTelemetry metric exemplars.
- * It includes trace_id, span_id, and W3C trace flags, but NOT request_id.
- * For logging contexts that need request_id, use core::concerns::TraceContext instead.
+ * This struct represents trace context information for OpenTelemetry Protocol (OTLP)
+ * metric exemplars. It should not be confused with core::concerns::TraceContext,
+ * which is used for log correlation and includes a request_id field.
  *
- * @note This struct is named OTLPTraceContext to avoid naming collision with
- *       core::concerns::TraceContext, which has a different field set.
+ * @see core::concerns::TraceContext for log/request correlation
  */
 struct OTLPTraceContext {
     std::string trace_id;
