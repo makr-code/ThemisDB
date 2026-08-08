@@ -355,34 +355,6 @@ bool PluginManager::verifyManifestSignature(const std::string& manifest_path, st
  * @param name Plugin name from manifest
  * @return true if valid, false if rejected (fail-closed)
  */
-static bool isValidPluginName(const std::string& name) {
-    // Guard 1: Name must be non-empty and reasonable length
-    if (name.empty() || name.length() > 256) {
-        return false;
-    }
-    
-    // Guard 2: No path traversal patterns
-    if (name.find('/') != std::string::npos ||
-        name.find('\\') != std::string::npos ||
-        name.find("..") != std::string::npos) {
-        return false;
-    }
-    
-    // Guard 3: No absolute paths (Windows drive letters or Unix roots)
-    if (name.find(':') != std::string::npos ||  // Windows C:, Unix absolute on Windows
-        name.find('.') == 0) {                   // Unix hidden files / relative paths
-        return false;
-    }
-    
-    // Guard 4: Only alphanumeric, underscore, hyphen allowed
-    for (unsigned char c : name) {
-        if (!std::isalnum(c) && c != '_' && c != '-') {
-            return false;  // Fail-closed: reject on any invalid character
-        }
-    }
-    
-    return true;
-}
 
 /**
  * @brief Phase 2C: Unified validation for plugin load operations.

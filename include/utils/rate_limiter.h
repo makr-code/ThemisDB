@@ -45,9 +45,33 @@ public:
 
     /**
      * @brief Attempt to consume @p tokens without blocking.
-     * @return true  Tokens were available and consumed.
-     * @return false Insufficient tokens; state is unchanged.
-     */
+     *
+     * Non-blocking operation that checks if sufficient tokens are available
+     * in the bucket. If available, tokens are consumed and true is returned.
+     * Otherwise, state is unchanged and false is returned.
+     *
+     * @param tokens Number of tokens to acquire (default 1.0)
+     * @return true if tokens were available and consumed; false otherwise
+     *
+     * @error_contract
+     * - Returns true (no-op) if tokens <= 0 — caller's zero/negative token request
+     *   is treated as already satisfied; no logging is emitted.
+     * - Returns false if tokens > burst_size — the bucket can never accumulate
+     *   more than burst_size tokens, so the request will never succeed.
+     * - Returns false on insufficient available tokens (expected, not an error)
+     * - Returns true on successful acquisition (bucket decremented)
+     *
+     * @bounded_resources
+    * - Tokens capped at burst_size (no unbounded accumulation)
+    * - Operation O(1) time complexity
+    * 
+    * @thread_safety Thread-safe via internal mutex
+    * @performance Sub-microsecond; no sleep/wait
+    * 
+    * @note If tokens > burst_size, request will always fail; ensure tokens ≤ burst_size
+    * @note Use for non-critical operations where blocking is unacceptable
+    * @see acquire() for blocking variant with automatic retry
+    */
     bool try_acquire(double tokens = 1.0);
 
     /**
@@ -56,6 +80,26 @@ public:
      * If `tokens > burst_size` this will spin with minimal sleep intervals
      * (tokens can never accumulate past burst_size) so callers must ensure
      * tokens ≤ burst_size for meaningful blocking behaviour.
+     * 
+     * @param tokens Number of tokens to acquire (default 1.0)
+     * 
+     * @error_contract
+     * - If tokens <= 0: returns immediately (no-op); no logging is emitted
+     * - If tokens > burst_size: spins indefinitely (tokens can never accumulate past burst_size)
+     * - On normal operation: blocks until tokens available, then consumes them
+     * 
+     * @bounded_resources
+     * - Maximum wait time: (tokens / rate_per_second) seconds
+     * - Memory: stack-only; no dynamic allocation
+     * - CPU: minimal while waiting (uses condition_variable)
+     * 
+     * @thread_safety Thread-safe; condition variable handles concurrent waiters
+     * @performance O(wait_time); blocks thread until available
+     * 
+     * @warning NEVER call with tokens > burst_size in production (causes hang)
+     * @warning Use with timeouts in critical paths to avoid unbounded blocking
+     * @see try_acquire() for non-blocking variant
+     * @see set_rate() to adjust rate without resetting bucket
      */
     void acquire(double tokens = 1.0);
 

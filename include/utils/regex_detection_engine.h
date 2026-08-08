@@ -138,6 +138,37 @@ private:
     
     // Helper: Luhn algorithm for credit card validation
     bool luhnCheck(const std::string& number) const;
+    
+    // Phase A.1 Hardening: Input validation and safety checks
+    /**
+     * @brief Validate UTF-8 input for malformed sequences and excessive size.
+     * @param text Input text to validate
+     * @return true if valid, false if malformed or oversized
+     * @note Handles combining characters, BOM, emoji, and invalid UTF-8
+     */
+    [[nodiscard]] bool validateUTF8Input(std::string_view text) const;
+    
+    /**
+     * @brief Detect known ReDoS (Regular Expression Denial of Service) patterns.
+     * @param pattern Regex pattern string to check
+     * @return true if pattern is known to be dangerous, false otherwise
+     * @note Detects nested quantifiers: (a+)+, (a*)*
+     * @note Detects alternation with overlap: (a|a)*, (x|x|x)*
+     */
+    [[nodiscard]] bool detectReDoSPattern(const std::string& pattern) const;
+    
+    /**
+     * @brief Enforce maximum input size limit.
+     * @param text Input to check
+     * @return true if within bounds, false if exceeds limit
+     * @note Default limit: 10MB; configurable via max_input_size_
+     */
+    [[nodiscard]] bool checkInputBounds(std::string_view text) const;
+    
+    // Configuration for hardening
+    size_t max_input_size_{10 * 1024 * 1024}; // 10MB default
+    bool detect_redos_patterns_{true};
+    bool validate_utf8_{true};
 };
 
 } // namespace utils

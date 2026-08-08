@@ -1,21 +1,47 @@
 /**
  * @file hkdf_helper.cpp
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief HKDF implementation details and memory management.
  * @version 0.0.47
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 85/100
- * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=5, L=0
- * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
- */
-
-/*
- * ThemisDB | File: hkdf_helper.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 134
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=10, L=0
- * PR History (last 5): #4216 feat(timeseries): Chunk-Lev... (2026-03-14)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
+ * @note Last Updated: 2026-08-08
+ * @note Source: Level 1 - Implementation Details
+ * @note SOT Domain: crypto-key-management
+ * 
+ * ## Implementation Notes
+ * 
+ * **Memory Safety:**
+ * - All key material is stored in std::vector (heap allocated)
+ * - OPENSSL_cleanse() is NOT used here (only in cache/storage layers)
+ * - Callers responsible for cleanup via OPENSSL_cleanse() or volatile_free()
+ * - No automatic wiping on destruction to allow key passing between layers
+ * 
+ * **OpenSSL Compatibility:**
+ * - Compile-time detection of OpenSSL 3.0+ vs 1.1.1
+ * - OPENSSL_VERSION_NUMBER >= 0x30000000L indicates 3.0+
+ * - OpenSSL 3.0 uses EVP_KDF API (modern, thread-safe)
+ * - OpenSSL 1.1.1 uses EVP_PKEY_CTX API (legacy fallback)
+ * - Both paths produce identical RFC 5869 output
+ * 
+ * **RFC 5869 Compliance:**
+ * - HKDF-Extract: PRK = HMAC-SHA256(salt, IKM)
+ * - HKDF-Expand: OKM = PRF(PRK, info || 0x01)
+ * - Output limit: 255 * hash_length = 255 * 32 = 8160 bytes for SHA256
+ * 
+ * **Timing Considerations:**
+ * - SHA256 hash is not constant-time (leaks key length via timing)
+ * - Caller responsible for constant-time comparisons if needed
+ * - HKDF itself has no length-based side channels beyond output length
+ * 
+ * **Error Handling:**
+ * - EVP_KDF_fetch() can fail on OpenSSL 3.0+ if HKDF provider missing
+ * - EVP_PKEY_CTX_new() can fail on resource exhaustion
+ * - EVP_KDF_derive() can fail if params invalid or buffer too small
+ * - All failures throw std::runtime_error with descriptive message
+ * 
+ * @warning This file contains sensitive key derivation code.
+ *          Do not modify without security review.
+ * @note Security audit: [LINK TO AUDIT FINDINGS]
  */
 
 #include "utils/hkdf_helper.h"

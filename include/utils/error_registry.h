@@ -169,7 +169,72 @@ enum class ErrorCode {
 
     // Time Series Errors (7100-7199)
     ERR_TIMESERIES_LATE_ARRIVAL = 7100,  // Data point outside the late-arrival window
-    
+     
+    // ── Phase 2 Utils Module Errors (7300-7399) ────────────────────────────────
+    // Observability Plane Errors (7300-7309)
+    ERR_AUDIT_BUFFER_OVERFLOW = 7300,       ///< Audit buffer overflow during write
+    ERR_AUDIT_LOG_WRITE_FAILED = 7301,      ///< Failed to write audit event to storage
+    ERR_AUDIT_SERIALIZATION_FAILED = 7302,  ///< Audit event serialization failed
+    ERR_AUDIT_SERVICE_UNREACHABLE = 7303,   ///< External audit service unreachable
+    ERR_AUDIT_FORMAT_INVALID = 7304,        ///< Audit event format validation failed
+    ERR_AUDIT_PERMISSION_DENIED = 7305,     ///< Permission denied for audit operation
+    ERR_AUDIT_DISK_FULL = 7306,             ///< Audit storage disk full
+    ERR_AUDIT_ROTATION_FAILED = 7307,       ///< Audit log rotation operation failed
+    ERR_AUDIT_SERVICE_DEGRADED = 7308,      ///< Audit service running in degraded mode
+    ERR_AUDIT_CLEANUP_FAILED = 7309,        ///< Audit log cleanup operation failed
+     
+    // Privacy & Detection Errors (7310-7329)
+    ERR_PII_DETECTION_FAILED = 7310,        ///< PII detection operation failed (general)
+    ERR_PII_ENGINE_INIT_FAILED = 7311,      ///< PII detection engine initialization failed
+    ERR_PII_DETECTION_TIMEOUT = 7312,       ///< PII detection exceeded timeout
+    ERR_PII_UNICODE_HANDLING_ERROR = 7313,  ///< Unicode handling error in PII detector
+    ERR_PII_MALFORMED_INPUT = 7314,         ///< Malformed input to PII detector
+    ERR_PII_REGEX_COMPILE_FAILED = 7315,    ///< Regex compilation failed in PII engine
+    ERR_PII_NER_ENGINE_ERROR = 7316,        ///< NER detection engine error
+    ERR_PII_RESOURCE_EXHAUSTED = 7317,      ///< PII detection resource exhausted
+    ERR_PII_POLICY_NOT_FOUND = 7318,        ///< PII detection policy not found
+    ERR_PII_PSEUDONYMIZATION_FAILED = 7319, ///< PII pseudonymization operation failed
+     
+    // Key Management Errors (7330-7339)
+    ERR_HKDF_DERIVATION_FAILED = 7330,      ///< HKDF key derivation failed
+    ERR_HKDF_INVALID_PARAMS = 7331,         ///< Invalid parameters to HKDF derivation
+    ERR_HKDF_CACHE_MISS = 7332,             ///< HKDF cache miss
+    ERR_HKDF_CACHE_EXPIRED = 7333,          ///< HKDF cache entry expired (TTL exceeded)
+    ERR_PKI_CERT_LOAD_FAILED = 7334,        ///< PKI certificate loading failed
+    ERR_PKI_KEY_LOAD_FAILED = 7335,         ///< PKI private key loading failed
+    ERR_PKI_SERVICE_UNAVAILABLE = 7336,     ///< PKI service unavailable
+    ERR_PKI_VALIDATION_FAILED = 7337,       ///< PKI validation operation failed
+    ERR_KEY_DERIVATION_TIMEOUT = 7338,      ///< Key derivation exceeded timeout
+    ERR_KEY_CACHE_REFRESH_FAILED = 7339,    ///< Key cache refresh operation failed
+     
+    // Compression/Encoding Errors (7340-7349)
+    ERR_COMPRESSION_GENERAL_FAILED = 7340,  ///< Compression operation failed (general)
+    ERR_COMPRESSION_BUFFER_OVERFLOW = 7341, ///< Compression output buffer overflow
+    ERR_DECOMPRESSION_FAILED = 7342,        ///< Decompression operation failed
+    ERR_COMPRESSION_FORMAT_INVALID = 7343,  ///< Invalid or unrecognized compression format
+    ERR_COMPRESSION_RESOURCE_EXHAUSTED = 7344, ///< Compression resource exhausted
+    ERR_COMPRESSION_TIMEOUT = 7345,         ///< Compression operation exceeded timeout
+    ERR_SERIALIZATION_FAILED = 7346,        ///< Serialization operation failed
+    ERR_SERIALIZATION_BUFFER_OVERFLOW = 7347, ///< Serialization output buffer overflow
+    ERR_CODEC_INIT_FAILED = 7348,           ///< Codec initialization failed
+    ERR_CODEC_NOT_AVAILABLE = 7349,         ///< Requested codec not available
+     
+    // Runtime Service Errors (7350-7369)
+    ERR_THREADPOOL_OVERFLOW = 7350,         ///< Thread pool work queue overflowed
+    ERR_THREADPOOL_TASK_REJECTED = 7351,    ///< Thread pool rejected task (overloaded)
+    ERR_THREADPOOL_TIMEOUT = 7352,          ///< Thread pool operation exceeded timeout
+    ERR_RATE_LIMIT_EXCEEDED = 7353,         ///< Rate limit was exceeded
+    ERR_RATE_LIMITER_ERROR = 7354,          ///< Rate limiter internal error
+    ERR_CONNECTION_POOL_EXHAUSTED = 7355,   ///< Connection pool exhausted
+    ERR_CONNECTION_POOL_TIMEOUT = 7356,     ///< Connection pool operation exceeded timeout
+    ERR_QUEUE_DEPTH_EXCEEDED = 7357,        ///< Queue depth limit exceeded
+    ERR_RESOURCE_EXHAUSTION = 7358,         ///< General resource exhaustion
+    ERR_CONCURRENCY_CONFLICT = 7359,        ///< Concurrency conflict detected
+    ERR_GRPC_POOL_ERROR = 7360,             ///< gRPC channel pool error
+    ERR_GRPC_ROUTING_FAILED = 7361,         ///< gRPC routing/selection failed
+    ERR_TRACING_DEGRADED = 7362,            ///< Tracing system running degraded
+    ERR_SAGA_EVENT_LOSS = 7363,             ///< Saga event loss detected
+     
     // Crypto Errors (8000-8099)
     ERR_CRYPTO_ENCRYPTION_FAILED = 8000,
     ERR_CRYPTO_DECRYPTION_FAILED = 8001,
