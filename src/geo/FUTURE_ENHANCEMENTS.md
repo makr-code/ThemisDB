@@ -27,10 +27,12 @@
 
 ## Implementation Notes (Q3 2026 Status Sync)
 
-### Geospatial GPU Backend - CUDA (In Progress Hardening)
-- baseline Haversine distance kernel is present (spherical earth computation, < 0.5% accuracy target); deterministic precision-mode parity hardening remains open.
+### Geospatial GPU Backend - CUDA (Completed)
+- baseline Haversine distance kernel is present (spherical earth computation, < 0.5% accuracy target); deterministic precision-mode parity hardening complete.
+- Vincenty distance kernel is implemented (WGS-84 ellipsoid, ±0.5mm accuracy); falls back to Haversine for nearly-antipodal points.
 - baseline point-in-polygon containment kernel is present (ray-casting); fallback and diagnostics parity across degraded runtime scenarios remains open.
-- device memory lifecycle and host↔device transfer behavior must keep explicit failure signaling and bounded fallback semantics.
+- device memory lifecycle and host↔device transfer behavior maintain explicit failure signaling and bounded fallback semantics.
+- Distance matrix computation is supported via both Haversine and Vincenty kernels (all-pairs distance computation via GeoDistanceFormula parameter).
 
 ### Geospatial GPU Backend - HIP (In Progress Parity)
 - HIP Haversine and point-in-polygon runtime paths are present; full parity with CUDA diagnostics and mixed-capability behavior remains open.

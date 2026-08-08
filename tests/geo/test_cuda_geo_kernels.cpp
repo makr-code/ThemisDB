@@ -186,4 +186,19 @@ TEST(CudaGeoKernelDispatch, WithCudaTable_DistanceReturnsNotDispatchedWithoutDev
     EXPECT_FALSE(res.dispatched);
 }
 
+TEST(CudaGeoKernelDispatch, WithCudaTable_VincentyDistanceReturnsNotDispatchedWithoutDevice) {
+    CUDAGeoBackend backend;
+    if (backend.isAvailable()) {
+        GTEST_SKIP() << "capability:no_cuda_device_path_exercisable=false;reason=cuda_device_present";
+    }
+
+    GeoKernelDispatch d = backend.populateGeoDispatch();
+    GpuKernelDispatcher dispatcher(d);
+
+    const double lat1 = 0.0, lon1 = 0.0, lat2 = 1.0, lon2 = 1.0;
+    auto res = dispatcher.dispatchDistance(&lat1, &lon1, &lat2, &lon2, 1,
+                                            GeoDistanceFormula::VINCENTY);
+    EXPECT_FALSE(res.dispatched);
+}
+
 #endif // THEMIS_GEO_CUDA && THEMIS_ENABLE_CUDA

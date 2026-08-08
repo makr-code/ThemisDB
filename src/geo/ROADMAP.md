@@ -16,10 +16,11 @@ Issue #5646 remains open with partial closure coverage: roadmap/future synchroni
 - [x] GPU memory safety hardening: RAII wrappers for CUDA/HIP device memory, goto-pattern removal (Phase 1, 2026-07-29)
 - [x] Performance hot-path fixes: GeoJSON serialization O(n²) → ostringstream, reserve() for R-Tree/GH arrays (Phase 2, 2026-07-29)
 - [x] API completion: geo_policy.h + geo_policy.cpp, RFC 7946 Doxygen annotations, inline R-Tree for temporal queries (Phase 3, 2026-07-29)
-- [~] hardening backend fallback parity for degraded and mixed-capability runtime paths (Target: Q3 2026)
-- [~] benchmark stabilization for geo CPU/GPU, indexing, and join hot paths (Target: Q3 2026)
-- [~] diagnostics consistency improvements for validation and backend-switch incidents (Target: Q3 2026)
-- [~] GPU geospatial backend CUDA: Haversine distance and point-in-polygon kernels (Target: Q3 2026)
+- [x] hardening backend fallback parity for degraded and mixed-capability runtime paths (Target: Q3 2026)
+- [x] benchmark stabilization for geo CPU/GPU, indexing, and join hot paths (Target: Q3 2026)
+- [x] diagnostics consistency improvements for validation and backend-switch incidents (Target: Q3 2026)
+- [x] GPU geospatial backend CUDA: Haversine distance and point-in-polygon kernels (Target: Q3 2026)
+- [x] GPU geospatial backend CUDA: Vincenty distance and distance matrix kernels (Target: Q3 2026) (2026-08-08)
 - [~] GPU geospatial backend HIP: AMD ROCm feature-parity implementation (Target: Q3 2026)
 
 ## Planned Features
