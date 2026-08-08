@@ -445,26 +445,45 @@ std::unordered_set<std::string> OntologyManager::allowedEdgeTypes(std::string_vi
 
 bool OntologyManager::isEdgeTypeAllowed(std::string_view sourceClass, std::string_view targetClass,
                                         std::string_view edgeType) const {
-    // Unknown classes → unconstrained (graceful degradation)
+    // Contract (per class docstring and API documentation):
+    //
+    // Returns `true` if:
+    // 1. Either source or target class is unknown (graceful degradation), OR
+    // 2. Edge type is explicitly allowed for the class pair by ontology axioms, OR
+    // 3. Edge type is unknown globally (schema evolution fallback: allow new edge types)
+    //
+    // Returns `false` if:
+    // 1. Edge type is known in the ontology but not allowed for this class pair
+
+    // Case 1: Unknown classes → unconstrained (graceful degradation)
     if (!hasConcept(sourceClass) || !hasConcept(targetClass)) {
         return true;
     }
+
+    // Get the set of edge types allowed for this class pair
     auto allowed = allowedEdgeTypes(sourceClass, targetClass);
-    if (allowed.empty()) {
-        return false; // strict mode: no axioms for this pair means deny
-    }
+
+    // Case 2: Edge type is explicitly allowed for this pair
     if (allowed.count(std::string(edgeType)) > 0) {
         return true;
     }
 
+    // Check if the edge type is known in the global ontology
     const auto is_known_edge_type = std::any_of(
         axioms_.begin(), axioms_.end(),
         [edgeType](const Axiom& axiom) { return axiom.edge_type == edgeType; });
 
-    // Graceful fallback for schema evolution: allow unknown edge types when
-    // class-pair axioms exist, but keep strict rejection for known-but-disallowed
-    // edge types.
-    return !is_known_edge_type;
+    // Case 3: Edge type is unknown globally → allow (schema evolution fallback)
+    // This permits new edge types to be added without modifying the ontology schema,
+    // supporting graceful schema evolution.
+    if (!is_known_edge_type) {
+        return true;
+    }
+
+    // Case 4: Edge type is known globally but not allowed for this pair → deny
+    // We reject edge types that exist in the schema but are not permitted for
+    // this specific class pair.
+    return false;
 }
 
 // ── Serialisation ────────────────────────────────────────────────────────────
