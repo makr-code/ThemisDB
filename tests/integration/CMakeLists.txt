@@ -508,6 +508,27 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_cross_functional_voice_observability
     )
 endif()
 
+# ============================================================================
+# Phase 5: Voice Module Endurance and Stress Testing
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/voice/test_voice_endurance_stress.cpp")
+    add_integration_test(
+        test_voice_endurance_stress
+        voice/test_voice_endurance_stress.cpp
+    )
+    target_link_libraries(test_voice_endurance_stress PRIVATE
+        GTest::gtest
+        GTest::gtest_main
+        Threads::Threads
+    )
+    set_tests_properties(test_voice_endurance_stress PROPERTIES
+        LABELS "integration;voice;endurance;stress;phase5"
+        TIMEOUT 600
+    )
+    message(STATUS "  Voice Phase 5.6: Endurance and stress testing (multi-session load, resource growth, memory leaks)")
+endif()
+
 if(THEMIS_ENABLE_PROCESS_MINING_TESTS AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_process_mining_e2e.cpp")
     add_integration_test(
         test_process_mining_e2e_focused

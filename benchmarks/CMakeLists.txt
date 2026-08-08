@@ -3963,6 +3963,175 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_voice_wake_word_batch.cpp")
 endif()
 
 # ============================================================================
+# Phase 5: Voice Module Performance Benchmarks and SLA Gates
+# ============================================================================
+
+# Task 5.1: STT/TTS Latency Benchmarks
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/voice/bench_voice_stt_tts_latency.cpp")
+    message(STATUS "Adding Voice STT/TTS Latency benchmarks (Phase 5 Task 5.1)")
+
+    add_executable(bench_voice_stt_tts_latency
+        voice/bench_voice_stt_tts_latency.cpp
+    )
+
+    target_include_directories(bench_voice_stt_tts_latency PRIVATE
+        ${CMAKE_SOURCE_DIR}/benchmarks/voice
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(bench_voice_stt_tts_latency PRIVATE
+        benchmark::benchmark
+        benchmark::benchmark_main
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_voice_stt_tts_latency PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    themis_apply_benchmark_release_flags(bench_voice_stt_tts_latency)
+
+    install(TARGETS bench_voice_stt_tts_latency
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Voice Phase 5.1: STT latency (100ms, 5s, 60s, noisy audio), TTS latency (short, medium, long, rapid-fire)")
+endif()
+
+# Task 5.2: Streaming Throughput Benchmarks
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/voice/bench_voice_streaming_throughput.cpp")
+    message(STATUS "Adding Voice Streaming Throughput benchmarks (Phase 5 Task 5.2)")
+
+    add_executable(bench_voice_streaming_throughput
+        voice/bench_voice_streaming_throughput.cpp
+    )
+
+    target_include_directories(bench_voice_streaming_throughput PRIVATE
+        ${CMAKE_SOURCE_DIR}/benchmarks/voice
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(bench_voice_streaming_throughput PRIVATE
+        benchmark::benchmark
+        benchmark::benchmark_main
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_voice_streaming_throughput PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    themis_apply_benchmark_release_flags(bench_voice_streaming_throughput)
+
+    install(TARGETS bench_voice_streaming_throughput
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Voice Phase 5.2: Streaming throughput, latency, buffer overhead, multi-stream, rebalancing, recovery")
+endif()
+
+# Task 5.3: Session Lifecycle Benchmarks
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/voice/bench_voice_session_lifecycle.cpp")
+    message(STATUS "Adding Voice Session Lifecycle benchmarks (Phase 5 Task 5.3)")
+
+    add_executable(bench_voice_session_lifecycle
+        voice/bench_voice_session_lifecycle.cpp
+    )
+
+    target_include_directories(bench_voice_session_lifecycle PRIVATE
+        ${CMAKE_SOURCE_DIR}/benchmarks/voice
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(bench_voice_session_lifecycle PRIVATE
+        benchmark::benchmark
+        benchmark::benchmark_main
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_voice_session_lifecycle PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    themis_apply_benchmark_release_flags(bench_voice_session_lifecycle)
+
+    install(TARGETS bench_voice_session_lifecycle
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Voice Phase 5.3: Session lifecycle (create, delete, scaling 100/1000), memory, cleanup")
+endif()
+
+# Task 5.4: Audio Preprocessing Benchmarks
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/voice/bench_voice_audio_preprocessing.cpp")
+    message(STATUS "Adding Voice Audio Preprocessing benchmarks (Phase 5 Task 5.4)")
+
+    add_executable(bench_voice_audio_preprocessing
+        voice/bench_voice_audio_preprocessing.cpp
+    )
+
+    target_include_directories(bench_voice_audio_preprocessing PRIVATE
+        ${CMAKE_SOURCE_DIR}/benchmarks/voice
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(bench_voice_audio_preprocessing PRIVATE
+        benchmark::benchmark
+        benchmark::benchmark_main
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_voice_audio_preprocessing PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    themis_apply_benchmark_release_flags(bench_voice_audio_preprocessing)
+
+    install(TARGETS bench_voice_audio_preprocessing
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Voice Phase 5.4: Audio preprocessing (validate, preprocess chain, wake-word, intent, emotion)")
+endif()
+
+# Task 5.5: Assistant Latency Benchmarks
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/voice/bench_voice_assistant_latency.cpp")
+    message(STATUS "Adding Voice Assistant Latency benchmarks (Phase 5 Task 5.5)")
+
+    add_executable(bench_voice_assistant_latency
+        voice/bench_voice_assistant_latency.cpp
+    )
+
+    target_include_directories(bench_voice_assistant_latency PRIVATE
+        ${CMAKE_SOURCE_DIR}/benchmarks/voice
+        ${CMAKE_SOURCE_DIR}/include
+    )
+
+    target_link_libraries(bench_voice_assistant_latency PRIVATE
+        benchmark::benchmark
+        benchmark::benchmark_main
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_voice_assistant_latency PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    themis_apply_benchmark_release_flags(bench_voice_assistant_latency)
+
+    install(TARGETS bench_voice_assistant_latency
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Voice Phase 5.5: Assistant latency (LLM, TTS, E2E, command parse/response)")
+endif()
+
+# ============================================================================
 # llama.cpp Inference Benchmarks
 # Validates: LlamaCppPlugin stub/real latency, batch throughput, concurrency
 # ============================================================================
