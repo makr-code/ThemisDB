@@ -499,34 +499,37 @@ void UpdateStateMachine::setRollbackCallback(RollbackCallback callback) {
 }
 
 bool UpdateStateMachine::rollbackToLatestCheckpoint() {
-    std::lock_guard<std::mutex> lock(mutex_);
-    
-    if (checkpoints_.empty()) {
-        LOG_ERROR("UpdateStateMachine: no checkpoints available for rollback");
-        return false;
+    CheckpointId latest_id;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (checkpoints_.empty()) {
+            LOG_ERROR("UpdateStateMachine: no checkpoints available for rollback");
+            return false;
+        }
+        latest_id = checkpoints_.back().id;
     }
-    
-    // Rollback to the latest (last) checkpoint
-    const auto& latest = checkpoints_.back();
-    return rollbackToCheckpoint(latest.id);
+    return rollbackToCheckpoint(latest_id);
 }
 
 bool UpdateStateMachine::rollbackToCheckpointWithFallback(
     CheckpointId checkpoint_id,
     RollbackFallbackStrategy fallback_strategy) {
     
-    std::lock_guard<std::mutex> lock(mutex_);
-    current_fallback_strategy_ = fallback_strategy;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        current_fallback_strategy_ = fallback_strategy;
+    }
     
-    // Attempt rollback using existing rollbackToCheckpoint
+    // Attempt rollback without holding the lock (rollbackToCheckpoint takes it internally)
     bool success = rollbackToCheckpoint(checkpoint_id);
     
     if (!success) {
+        std::lock_guard<std::mutex> lock(mutex_);
         if (fallback_strategy == RollbackFallbackStrategy::DEFER) {
             // Queue for later retry
             deferred_rollbacks_.push_back(checkpoint_id);
-            LOG_WARN("UpdateStateMachine: deferring rollback for checkpoint {} (id={})",
-                     checkpoint_id, fallback_strategy);
+            LOG_WARN("UpdateStateMachine: deferring rollback for checkpoint {}",
+                     checkpoint_id);
             return false;
         } else if (fallback_strategy == RollbackFallbackStrategy::PARTIAL_CONTINUE) {
             // Log but allow continuation

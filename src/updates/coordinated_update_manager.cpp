@@ -414,11 +414,11 @@ bool CoordinatedUpdateManager::performNodeRollback(const NodeDescriptor& node,
         return success;
     }
     
-    // For remote nodes, would be coordinated via callbacks in real scenario
-    // For now, just log and assume success for testing
-    LOG_WARN("CoordinatedUpdateManager: remote rollback for node {} (mocked for now)",
-            node.node_id);
-    return true;
+    // For remote nodes, a real remote rollback callback/RPC must be provided.
+    // Failing closed here prevents incorrect cluster state on unimplemented paths.
+    LOG_ERROR("CoordinatedUpdateManager: remote rollback for node {} not implemented; failing closed (reason: {})",
+              node.node_id, reason);
+    return false;
 }
 
 void CoordinatedUpdateManager::isolateNode(const std::string& node_id,

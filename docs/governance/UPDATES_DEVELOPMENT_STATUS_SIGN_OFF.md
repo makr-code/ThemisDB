@@ -5,9 +5,11 @@
 **Issue Reference:** makr-code/ThemisDB#5680  
 **Parent Epic:** makr-code/ThemisDB#5624 (area:updates)  
 **Date Opened:** 2026-07-18  
-**Last Updated:** 2026-08-07  
+**Last Updated:** 2026-08-08  
 **Status:** ✅ VALIDATED & SYNCHRONIZED  
 **Owner:** @copilot (AI validation and sync)
+
+> **Scope Note (updated 2026-08-08):** This PR includes both governance documentation and runtime C++ changes (rollback hardening, diagnostics consistency, benchmark guardrails, operator-facing diagnostics, tests). The PR description has been updated to reflect this combined scope.
 
 ---
 
@@ -25,15 +27,17 @@ This document consolidates the development status synchronization for the update
 
 ### 2.1 Roadmap Priorities — Validation ✅ PASS
 
-#### In Progress (Q3 2026)
+#### Completed (Q3 2026) — Updated
 
-| Priority | Issue Extract | ROADMAP.md Source | Match |
+| Priority | Issue Extract | ROADMAP.md Current State | Match |
 |----------|---|---|---|
-| Rollback hardening | [~] hardening rollback and coordinated rollout behavior under complex update scenarios (Target: Q3 2026) | Line 13: [~] hardening rollback and coordinated rollout behavior under complex update scenarios (Target: Q3 2026) | ✅ |
-| Diagnostics consistency | [~] improving diagnostics consistency across state, patch, and rollout stages (Target: Q3 2026) | Line 14: [~] improving diagnostics consistency across state, patch, and rollout stages (Target: Q3 2026) | ✅ |
-| Benchmark guardrails | [~] stabilizing benchmark-backed release guardrails for update pipeline hot paths (Target: Q3 2026) | Line 15: [~] stabilizing benchmark-backed release guardrails for update pipeline hot paths (Target: Q3 2026) | ✅ |
+| Rollback hardening | [~] hardening rollback and coordinated rollout behavior under complex update scenarios (Target: Q3 2026) | [x] hardening rollback and coordinated rollout behavior under complex update scenarios (Target: Q3 2026) ✅ COMPLETE | ✅ (now complete) |
+| Diagnostics consistency | [~] improving diagnostics consistency across state, patch, and rollout stages (Target: Q3 2026) | [x] improving diagnostics consistency across state, patch, and rollout stages (Target: Q3 2026) ✅ COMPLETE | ✅ (now complete) |
+| Benchmark guardrails | [~] stabilizing benchmark-backed release guardrails for update pipeline hot paths (Target: Q3 2026) | [x] stabilizing benchmark-backed release guardrails for update pipeline hot paths (Target: Q3 2026) ✅ COMPLETE | ✅ (now complete) |
 
-**Status:** ✅ EXACT MATCH
+> **Note (updated 2026-08-08):** These items were `[~]` in-progress at the time of initial sign-off extraction but are now `[x]` complete in ROADMAP.md as of this PR. The sign-off matrix has been corrected to reflect the current ROADMAP state. The closure criteria remain valid.
+
+**Status:** ✅ MATCH (items now complete)
 
 #### Planned Features (Q4 2026)
 

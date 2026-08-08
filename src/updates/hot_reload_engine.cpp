@@ -78,6 +78,12 @@ HotReloadEngine::DownloadResult HotReloadEngine::downloadRelease(const std::stri
         manifest_db = manifest_db_;
     }
     
+    if (!manifest_db) {
+        result.error_message = "Manifest database is not available";
+        LOG_ERROR("{}", result.error_message);
+        return result;
+    }
+    
     auto manifest = manifest_db->getManifest(version);
     if (!manifest) {
         result.error_message = "Manifest not found for version: " + version;

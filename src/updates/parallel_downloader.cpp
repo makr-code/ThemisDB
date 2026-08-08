@@ -621,13 +621,6 @@ std::vector<DownloadResult> ParallelDownloader::downloadAll(
     }
     cv.notify_all();  // wake workers that might be waiting
 
-    // CRITICAL: Thread timeout handling (thread_join_no_timeout fix)
-    // Calculate per-task timeout based on configured transfer timeout
-    const auto worker_timeout = std::chrono::seconds(static_cast<long>(
-        transfer_timeout_s_ * std::max(size_t(1), n / std::max(size_t(1), concurrency_))
-    ));
-    const auto deadline = std::chrono::steady_clock::now() + worker_timeout;
-    
     std::vector<std::thread> threads;
     threads.reserve(workers);
     for (size_t w = 0; w < workers; ++w) {
@@ -636,22 +629,11 @@ std::vector<DownloadResult> ParallelDownloader::downloadAll(
     // Also notify after threads are launched (in case they start before notify_all)
     cv.notify_all();
 
-    // Join threads with timeout awareness
+    // Join all threads; rely on stop flags set above for timely exit
     for (auto& t : threads) {
-        const auto remaining = deadline - std::chrono::steady_clock::now();
-        if (remaining.count() <= 0) {
-            LOG_WARN("ParallelDownloader: timeout waiting for worker threads; some may still be running");
-            break;  // Timeout exceeded; remaining threads will be detached and terminated
+        if (t.joinable()) {
+            t.join();
         }
-        
-        // C++20 has thread::join() with timeout, but for C++17 we use a workaround:
-        // We allow the thread to complete within the remaining timeout window.
-        // If the thread doesn't complete, we log a warning and continue.
-        // Note: In production, consider using async tasks with wait_for for better timeout control.
-        
-        // For now, perform the join without timeout and rely on the overall batch timeout
-        // TODO: Upgrade to C++20 jthread or use async with wait_for for proper timeout
-        t.join();
     }
 
     // Aggregate stats

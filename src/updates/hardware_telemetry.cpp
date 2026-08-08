@@ -553,37 +553,9 @@ void HardwareTelemetryReporter::stopBackgroundReporting() {
     if (!running_.load(std::memory_order_acquire)) { return; }
     stop_requested_.store(true, std::memory_order_release);
     
-    // CRITICAL: Thread timeout handling (thread_join_no_timeout fix)
-    // Wait for thread to complete with a timeout
-    // The background thread should exit within send_interval_seconds when stop is requested
+    // The background thread exits promptly once stop_requested_ is set.
     if (bg_thread_.joinable()) {
-        // For C++17, we cannot use thread::join_for(), so we use a detach-based fallback
-        // with a reasonable timeout. In production, consider upgrading to C++20 jthread.
-        // The thread is designed to exit promptly when stop_requested_ is set.
-        const auto start = std::chrono::steady_clock::now();
-        const auto timeout = std::chrono::seconds(static_cast<long>(config_.send_interval_seconds + 10));
-        
-        // Check periodically if thread has exited
-        bool joined = false;
-        while (std::chrono::steady_clock::now() - start < timeout) {
-            // Small sleep to avoid busy waiting
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
-            
-            // Try to join with no-wait (would need C++20 native support for proper timeout)
-            // For now, we assume the thread will exit promptly based on stop_requested_ flag
-            // If it doesn't exit within timeout, log a warning and continue
-            if (!bg_thread_.joinable()) {
-                joined = true;
-                break;
-            }
-        }
-        
-        if (!joined) {
-            LOG_WARN("Telemetry: background thread did not exit within timeout; detaching");
-            bg_thread_.detach();
-        } else {
-            bg_thread_.join();
-        }
+        bg_thread_.join();
     }
     running_.store(false, std::memory_order_release);
     LOG_INFO("Telemetry: background reporting stopped");
