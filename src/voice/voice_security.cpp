@@ -14,6 +14,7 @@
 #include <chrono>
 #include <algorithm>
 #include <sstream>
+#include <spdlog/spdlog.h>
 
 namespace themis { namespace voice {
 
@@ -284,6 +285,144 @@ json VoiceSecurityManager::getSecurityStats() const {
     stats["total_audit_events"]= audit_log_.size();
     stats["auto_delete_scheduled"] = auto_delete_schedule_.size();
     return stats;
+}
+
+// ============================================================================
+// Phase 3: Rate Limiting and Security Denial Audit Trail
+// ============================================================================
+
+int64_t VoiceSecurityManager::nowMs() const {
+    return std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+}
+
+void VoiceSecurityManager::cleanupExpiredLockouts() {
+    if (!config_.enable_rate_limiting) return;
+    
+    int64_t now = nowMs();
+    std::vector<std::string> expired_users;
+    
+    for (const auto& [user_id, lockout_time] : lockout_until_ms_) {
+        if (now >= lockout_time) {
+            expired_users.push_back(user_id);
+        }
+    }
+    
+    for (const auto& user_id : expired_users) {
+        lockout_until_ms_.erase(user_id);
+        failure_counts_[user_id] = 0;
+    }
+}
+
+bool VoiceSecurityManager::recordAuthFailure(const std::string& user_id) {
+    if (!config_.enable_rate_limiting) return true;
+    
+    std::lock_guard<std::mutex> lock(mutex_);
+    cleanupExpiredLockouts();
+    
+    // Check if user is already locked out
+    auto lockout_it = lockout_until_ms_.find(user_id);
+    if (lockout_it != lockout_until_ms_.end()) {
+        int64_t now = nowMs();
+        if (now < lockout_it->second) {
+            // Still locked out
+            return false;
+        }
+    }
+    
+    int64_t now = nowMs();
+    auto last_failure_it = last_failure_times_.find(user_id);
+    
+    // Check if failure window has expired
+    if (last_failure_it != last_failure_times_.end()) {
+        if (now - last_failure_it->second > config_.rate_limiter.failure_window_ms) {
+            // Window expired, reset counter
+            failure_counts_[user_id] = 0;
+        }
+    }
+    
+    // Increment failure count
+    failure_counts_[user_id]++;
+    last_failure_times_[user_id] = now;
+    
+    // Check if threshold exceeded
+    if (failure_counts_[user_id] >= config_.rate_limiter.max_failures) {
+        // Lockout user
+        lockout_until_ms_[user_id] = now + config_.rate_limiter.lockout_duration_ms;
+        spdlog::warn("User {} locked out due to {} auth failures", 
+            user_id, failure_counts_[user_id]);
+        return false;
+    }
+    
+    return true;
+}
+
+bool VoiceSecurityManager::isRateLimited(const std::string& user_id) const {
+    if (!config_.enable_rate_limiting) return false;
+    
+    std::lock_guard<std::mutex> lock(mutex_);
+    auto it = lockout_until_ms_.find(user_id);
+    if (it == lockout_until_ms_.end()) return false;
+    
+    int64_t now = nowMs();
+    return now < it->second;
+}
+
+void VoiceSecurityManager::resetRateLimiter(const std::string& user_id) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    failure_counts_.erase(user_id);
+    last_failure_times_.erase(user_id);
+    lockout_until_ms_.erase(user_id);
+}
+
+void VoiceSecurityManager::logSecurityDenial(const SecurityDenialEntry& entry) {
+    if (!config_.enable_audit_logging) return;
+    
+    std::lock_guard<std::mutex> lock(mutex_);
+    denial_trail_.push_back(entry);
+}
+
+std::vector<SecurityDenialEntry> VoiceSecurityManager::getSecurityDenials(
+    const std::string& user_id, size_t limit) const
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+    std::vector<SecurityDenialEntry> result;
+    
+    size_t count = 0;
+    for (auto it = denial_trail_.rbegin(); it != denial_trail_.rend() && count < limit; ++it) {
+        if (it->user_id == user_id || user_id.empty()) {
+            result.push_back(*it);
+            ++count;
+        }
+    }
+    
+    return result;
+}
+
+bool VoiceSecurityManager::denyOperationWithAudit(
+    const std::string& user_id,
+    const std::string& session_id,
+    const std::string& action,
+    const std::string& resource,
+    const std::string& reason)
+{
+    // Phase 3.5: Deny operation with full audit context (always returns false)
+    SecurityDenialEntry entry;
+    entry.timestamp_ms = nowMs();
+    entry.user_id = user_id;
+    entry.session_id = session_id;
+    entry.action = action;
+    entry.resource = resource;
+    entry.denial_reason = reason;
+    entry.denial_code = "SECURITY_VIOLATION";
+    
+    logSecurityDenial(entry);
+    
+    // Log to spdlog for observability
+    spdlog::warn("Security denial: user={}, action={}, resource={}, reason={}", 
+        user_id, action, resource, reason);
+    
+    return false;  // Always deny
 }
 
 }} // namespace themis::voice

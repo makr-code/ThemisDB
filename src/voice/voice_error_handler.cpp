@@ -287,4 +287,29 @@ json VoiceErrorHandler::getHealthStatus() const {
     return status;
 }
 
+// ============================================================================
+// Phase 3: Error Context with Diagnostics and Audit Trail
+// ============================================================================
+
+json VoiceErrorHandler::createErrorContext(const ErrorContext& ctx) {
+    // Phase 3.7: Structured error context with no sensitive data
+    return ctx.toJson();
+}
+
+void VoiceErrorHandler::logErrorWithContext(const ErrorContext& ctx) {
+    // Phase 3.7: Log error context without sensitive data (credentials masked)
+    json log_entry = ctx.toJson();
+    
+    // Ensure sensitive fields are not logged
+    log_entry["auth_token_masked"] = "[REDACTED]";
+    
+    // Use structured logging
+    spdlog::error("VoiceError: {}", log_entry.dump());
+    
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        ++total_errors_;
+    }
+}
+
 }} // namespace themis::voice

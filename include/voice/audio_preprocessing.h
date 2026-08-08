@@ -275,49 +275,88 @@ struct LanguageDetectionResult {
     std::vector<std::pair<std::string, float>> alternatives;
 };
 
-// ---------------------------------------------------------------------------
-// NoiseSuppressor: RNNoise-backed deep-learning noise suppression.
-//
-// When the library is built with THEMIS_ENABLE_RNNOISE the implementation
-// drives the real rnnoise C API (rnnoise_create / rnnoise_process_frame /
-// rnnoise_destroy).  Without the flag a spectral-gate fallback is used so
-// the rest of the pipeline compiles and runs without the external library.
-//
-// Usage:
-//   NoiseSuppressor ns;
-//   AudioFrame clean = ns.suppress(noisy_frame);
-//   float p = ns.lastVadProbability();   // mean VAD from last suppress() call
-// ---------------------------------------------------------------------------
+// ============================================================================
+// NoiseSuppressor (RNNoise-backed — Frozen Feature)
+// ============================================================================
+
+/// @class NoiseSuppressor
+/// @brief Deep-learning noise suppression via RNNoise or fallback.
+///
+/// When compiled with THEMIS_ENABLE_RNNOISE, drives the real rnnoise C library.
+/// Without the flag, a spectral-gate fallback provides basic suppression.
+///
+/// **Usage:**
+/// ```cpp
+/// NoiseSuppressor ns;
+/// AudioFrame clean = ns.suppress(noisy_frame, vad_threshold);
+/// float vad_prob = ns.lastVadProbability();  // mean VAD from last call
+/// ```
+///
+/// **Thread Safety:** NOT thread-safe. Each stream should have its own instance.
+/// Move-only to enforce single ownership and prevent use-after-move bugs.
+///
+/// **Implementation Note:**
+/// When enable_rnnoise_suppression is true in PreprocessingOptions,
+/// AudioPreprocessingPipeline automatically instantiates NoiseSuppressor
+/// and calls suppress() on each frame.
 class NoiseSuppressor {
 public:
+    /// @brief Callback function type for frame-by-frame processing (testing).
+    /// Receives mutable sample buffer and VAD threshold; returns mean VAD probability.
     using ProcessFramesFn = std::function<float(std::vector<float>&, float)>;
 
+    /// @brief Construct a new noise suppressor instance.
     NoiseSuppressor();
     ~NoiseSuppressor();
 
     // Non-copyable (RNNoise state is a unique resource)
     NoiseSuppressor(const NoiseSuppressor&) = delete;
     NoiseSuppressor& operator=(const NoiseSuppressor&) = delete;
+
+    // Move-only to enforce single ownership
     NoiseSuppressor(NoiseSuppressor&&) noexcept;
     NoiseSuppressor& operator=(NoiseSuppressor&&) noexcept;
 
-    // Process a full audio frame through the noise suppressor.
-    // Input/output: mono float samples, any sample rate (resampled internally
-    // to 48 kHz as required by RNNoise, then resampled back).
-    // vad_threshold: frames whose RNNoise VAD probability is below this value
-    //                are attenuated (set to silence) to gate residual noise.
+    /// @brief Process a full audio frame through noise suppression.
+    ///
+    /// @param frame Input AudioFrame (mono preferred; multi-channel downmixed internally).
+    /// @param vad_threshold VAD probability gate [0.0, 1.0].
+    ///   Frames below this threshold are attenuated to silence.
+    ///   Default: 0.5f (50% confidence = voice).
+    ///
+    /// @pre frame.channels should be 1 (mono)
+    /// @post Output frame resampled back to input sample rate
+    /// @post last_vad_prob_ updated with mean VAD probability
+    /// @post frames_processed_ counter incremented
+    ///
+    /// @return Processed AudioFrame with noise attenuated via RNNoise or fallback.
+    /// @error 6705 Processing pipeline error (internal RNNoise failure)
     AudioFrame suppress(const AudioFrame& frame, float vad_threshold = 0.5f);
 
-    // Mean VAD probability reported by RNNoise for the last suppress() call.
-    // Range [0, 1].  Returns 0 if no frame has been processed yet.
+    /// @brief Mean VAD probability from last suppress() call.
+    ///
+    /// Reflects how confident RNNoise is that the frame contains voice.
+    /// Use alongside voice_activity_ratio for robust voice detection.
+    ///
+    /// @return Range [0.0, 1.0]. Returns 0 if no frame processed yet.
     float lastVadProbability() const { return last_vad_prob_; }
 
-    // Returns true when the real RNNoise library is linked in.
+    /// @brief Check if real RNNoise library is linked.
+    ///
+    /// @return true when compiled with THEMIS_ENABLE_RNNOISE and library available;
+    ///         false when fallback spectral gate is active.
+    /// @note Useful for logging/debugging which suppression backend is active.
     static bool isRNNoiseEnabled();
 
+    /// @brief Inject custom frame processor (testing only).
+    ///
+    /// @param fn Callable(samples, vad_threshold) → mean VAD probability.
+    /// @note Reserved for unit tests; production code uses the default implementation.
     static void setProcessFramesFn(ProcessFramesFn fn);
 
-    // Diagnostic counters
+    /// @brief Get diagnostic frame counter.
+    /// @return Number of frames processed so far (monotonically increasing).
+    /// @note Never decrements; useful for monitoring suppressor health.
     uint64_t framesProcessed() const { return frames_processed_; }
 
 private:
@@ -333,61 +372,231 @@ private:
                                 float vad_threshold);
 };
 
-// AudioPreprocessingPipeline: Phase 1 production component
+// ============================================================================
+// AudioPreprocessingPipeline (Main API — Frozen)
+// ============================================================================
+
+/// @class AudioPreprocessingPipeline
+/// @brief Audio preprocessing chain orchestrator (frozen Phase 1 API).
+///
+/// Chains together resampling, noise suppression, echo cancellation, VAD,
+/// and normalization in a fixed order (see file header for chain diagram).
+///
+/// **Thread Safety:** NOT thread-safe. Each stream should have its own instance.
+/// Use one instance per streaming session.
+///
+/// **Example:**
+/// ```cpp
+/// PreprocessingOptions opts;
+/// opts.enable_rnnoise_suppression = true;
+/// opts.enable_vad = true;
+/// AudioPreprocessingPipeline pipeline(opts);
+///
+/// std::vector<uint8_t> raw_audio = ...; // incoming WebSocket frame
+/// auto result = pipeline.process(raw_audio, 16000);
+/// if (result.success) {
+///   float vad_ratio = result.voice_activity_ratio;
+///   audio_model.transcribe(result.processed_audio);
+/// } else {
+///   spdlog::error("Preprocessing failed: {}", result.error_message);
+/// }
+/// ```
+///
+/// **Error Handling:** All methods use fail-closed semantics:
+/// - process() returns success=false and error_message on any pipeline error
+/// - Methods return sensible defaults or empty results on failure
+/// - No exceptions are thrown
 class AudioPreprocessingPipeline {
 public:
+    /// @brief Construct with preprocessing options (frozen).
+    ///
+    /// @param opts Configuration (defaults to sensible safe values).
+    ///   All options are applied to subsequent process() calls.
     explicit AudioPreprocessingPipeline(const PreprocessingOptions& opts = {});
     ~AudioPreprocessingPipeline() = default;
 
-    // Core preprocessing
+    /// @brief Process raw audio bytes (e.g., from WebSocket frame).
+    ///
+    /// Decodes, resamples, and applies preprocessing chain to raw audio.
+    ///
+    /// @param raw_audio Encoded audio bytes (PCM16, OPUS, WEBM_OPUS, etc.).
+    /// @param source_sample_rate Sample rate of raw_audio in Hz (default 16 kHz).
+    ///
+    /// @pre raw_audio.size() must be > 512 and <= kMaxAudioFrameSizeBytes
+    /// @pre source_sample_rate must be in [kMinSampleRateHz, kMaxSampleRateHz]
+    /// @post Preprocessed audio in result.processed_audio on success
+    ///
+    /// @return PreprocessingResult with processed_audio (or diagnostics on error).
+    /// @error 6700 Audio frame too small
+    /// @error 6701 Audio frame too large
+    /// @error 6703 Invalid sample rate
+    /// @error 6704 Malformed audio data (e.g., corrupt PCM)
+    /// @error 6705 Preprocessing pipeline error
     PreprocessingResult process(const std::vector<uint8_t>& raw_audio, int source_sample_rate = 16000);
+
+    /// @brief Process an already-decoded AudioFrame.
+    ///
+    /// Applies preprocessing chain directly to decoded AudioFrame
+    /// (skips codec decoding step).
+    ///
+    /// @param frame AudioFrame after decoding from transport format.
+    ///
+    /// @return PreprocessingResult with processed_audio on success.
+    /// @error 6705 Preprocessing pipeline error
     PreprocessingResult processFrame(const AudioFrame& frame);
 
-    // Noise reduction
+    /// @brief Apply noise reduction to a frame (standalone).
+    ///
+    /// Can be called directly or invoked automatically by processFrame()
+    /// when enable_noise_reduction=true in PreprocessingOptions.
+    ///
+    /// @param frame Input AudioFrame.
+    /// @param strength Reduction strength [0.0, 1.0]. Default 0.7f.
+    ///   Higher = more aggressive (may distort speech).
+    ///
+    /// @return AudioFrame with noise suppressed via spectral gate.
+    /// @note Not affected by enable_rnnoise_suppression setting.
     AudioFrame applyNoiseReduction(const AudioFrame& frame, float strength = 0.7f);
 
-    // Deep-learning noise suppression via RNNoise (or spectral-gate fallback).
-    // When enable_rnnoise_suppression is set in the options this is called
-    // automatically by processFrame().  It can also be invoked directly.
+    /// @brief Apply RNNoise-based noise suppression (standalone).
+    ///
+    /// Can be called directly or invoked automatically by processFrame()
+    /// when enable_rnnoise_suppression=true.
+    ///
+    /// @param frame Input AudioFrame (mono preferred).
+    /// @param vad_threshold VAD gate [0.0, 1.0]. Default 0.5f.
+    ///
+    /// @return AudioFrame with RNNoise suppression applied.
+    /// @note Falls back to spectral gate if THEMIS_ENABLE_RNNOISE not set.
+    /// @note Internally resamples to 48 kHz, processes, then back to original rate.
     AudioFrame applyRNNoiseSuppression(const AudioFrame& frame,
                                         float vad_threshold = 0.5f);
 
-    // Echo cancellation
+    /// @brief Apply echo cancellation (standalone).
+    ///
+    /// Removes/attenuates echo from microphone signal using speaker reference.
+    /// NOT automatically invoked by processFrame().
+    ///
+    /// @param input Microphone audio frame (near-end).
+    /// @param reference Speaker/reference audio frame (far-end).
+    ///
+    /// @return AudioFrame with echo attenuated.
+    /// @pre input and reference sample rates must match
+    /// @note Caller is responsible for feeding reference signal
+    ///       (typically from VoIP receive stream).
     AudioFrame applyEchoCancellation(const AudioFrame& input, const AudioFrame& reference);
 
-    // Voice activity detection (returns fraction of active voice)
+    /// @brief Compute voice activity ratio (fraction of speech).
+    ///
+    /// Analyzes energy levels to estimate fraction of audio containing speech.
+    /// Uses simple energy thresholding; true speech/silence detection is future work.
+    ///
+    /// @param frame AudioFrame to analyze.
+    ///
+    /// @return Ratio [0.0, 1.0]. 0 = pure silence; 1 = pure voice.
+    /// @note Part of automatic preprocessing chain when enable_vad=true.
     float detectVoiceActivity(const AudioFrame& frame);
 
-    // Audio normalization
+    /// @brief Normalize audio to target RMS energy.
+    ///
+    /// Scales sample values to achieve desired RMS level (prevents clipping,
+    /// normalizes dynamic range).
+    ///
+    /// @param frame Input AudioFrame.
+    /// @param target_rms Target RMS [0.01, 0.5]. Default 0.1f (10% full scale).
+    ///
+    /// @return Normalized AudioFrame.
+    /// @note Part of automatic preprocessing chain when enable_normalization=true.
     AudioFrame normalize(const AudioFrame& frame, float target_rms = 0.1f);
 
-    // Sample rate conversion
+    /// @brief Resample audio to target sample rate.
+    ///
+    /// Uses linear interpolation for resampling (simple but sufficient for speech).
+    ///
+    /// @param frame Input AudioFrame.
+    /// @param target_sample_rate Target Hz (frozen nominal: 16000).
+    ///
+    /// @return Resampled AudioFrame.
+    /// @error 6703 Invalid target sample rate
+    /// @note Part of automatic preprocessing chain (initial step).
     AudioFrame resample(const AudioFrame& frame, int target_sample_rate);
 
-    // Confidence scoring based on audio quality
+    /// @brief Score transcription confidence from audio quality.
+    ///
+    /// Estimates STT confidence by analyzing preprocessed audio quality
+    /// (SNR, spectral stability, etc.). Should be called on processed_audio
+    /// for best accuracy.
+    ///
+    /// @param frame AudioFrame to analyze.
+    ///
+    /// @return ConfidenceScore combining acoustic and language model scores.
+    /// @note Intended for post-processing result (not real-time feedback).
     ConfidenceScore scoreConfidence(const AudioFrame& frame);
 
-    // Language detection from audio features
+    /// @brief Detect language from audio features.
+    ///
+    /// Analyzes spectral and prosodic features to identify language.
+    /// Not guaranteed to be accurate; consider using STT model's language detection.
+    ///
+    /// @param frame AudioFrame to analyze.
+    /// @param hint Hint language code (e.g., "en", "fr", "auto" for no hint).
+    ///
+    /// @return LanguageDetectionResult with detected language and alternatives.
     LanguageDetectionResult detectLanguage(const AudioFrame& frame, const std::string& hint = "auto");
     
-    // Phase 3: Exhaustive input validation (fail-closed)
+    /// @brief Validate audio payload (Phase 3 exhaustive validation).
+    ///
+    /// @param raw_audio Raw audio bytes.
+    /// @param declared_sample_rate Claimed sample rate.
+    /// @param declared_channels Claimed channel count.
+    /// @param declared_bits_per_sample Claimed bits per sample.
+    ///
+    /// @return AudioValidationResult with details of validation outcome.
     AudioValidationResult validateAudioPayload(const std::vector<uint8_t>& raw_audio, 
                                                int declared_sample_rate,
                                                int declared_channels,
                                                int declared_bits_per_sample);
     
-    // Phase 3: Codec validation (whitelist-based)
+    /// @brief Check if codec is supported (whitelist-based).
+    ///
+    /// @param codec AudioCodec to check.
+    /// @return true if codec is in the frozen supported list; false otherwise.
     bool isCodecSupported(AudioCodec codec) const;
+
+    /// @brief Detect codec from audio header (heuristic).
+    ///
+    /// @param raw_audio Raw audio bytes.
+    /// @return Detected AudioCodec, or UNKNOWN if detection failed.
     AudioCodec detectCodecFromHeader(const std::vector<uint8_t>& raw_audio) const;
-    
-    // Phase 3: Frame header validation (detect malformed/truncated data)
+    /// @brief Validate frame header (detect malformed/truncated data).
+    ///
+    /// Checks for consistency in audio frame header fields (sample rate, channels, etc.).
+    ///
+    /// @param raw_audio Raw audio bytes to inspect.
+    /// @return true if frame header appears valid; false if malformed/truncated.
+    /// @error 6704 Malformed audio data
     bool validateFrameHeader(const std::vector<uint8_t>& raw_audio) const;
     
-    // Phase 3: Overflow detection (fuzzing-aware)
+    /// @brief Detect overflow attempts (fuzzing-aware).
+    ///
+    /// Checks for suspicious patterns that might indicate buffer overflow attempts
+    /// or malicious fuzzing payloads.
+    ///
+    /// @param raw_audio Raw audio bytes.
+    /// @return true if potential overflow/injection detected; false if benign.
+    /// @error 6704 Malformed audio data
     bool detectOverflowAttempt(const std::vector<uint8_t>& raw_audio) const;
 
-    // Statistics
+    /// @brief Get pipeline statistics (JSON).
+    ///
+    /// Returns aggregate statistics: frames processed, total time, error counts, etc.
+    /// Useful for monitoring and performance tuning.
+    ///
+    /// @return JSON object with diagnostic statistics.
     json getStatistics() const;
+
+    /// @brief Reset statistics counters.
+    /// Clears all diagnostic counters (useful before starting a new session).
     void resetStatistics();
 
 private:
@@ -396,12 +605,13 @@ private:
     uint64_t frames_processed_ = 0;
     uint64_t total_processing_time_ms_ = 0;
     
-    // Phase 3: Validation statistics
+    // Phase 3: Validation statistics (for monitoring)
     uint64_t validation_errors_ = 0;
     uint64_t malformed_frames_ = 0;
     uint64_t truncation_attempts_ = 0;
     uint64_t overflow_attempts_ = 0;
 
+    // Internal helpers (private implementation)
     float computeRMS(const std::vector<float>& samples) const;
     float computeNoiseFloor(const std::vector<float>& samples) const;
     std::vector<float> applyHighPassFilter(const std::vector<float>& samples, float cutoff_hz, int sample_rate) const;

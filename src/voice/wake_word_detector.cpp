@@ -366,6 +366,27 @@ int64_t WakeWordDetector::nowMs() const {
         system_clock::now().time_since_epoch()).count();
 }
 
+// ============================================================================
+// Phase 3: Confidence Thresholds and Safe Defaults
+// ============================================================================
+
+bool WakeWordDetector::meetsConfidenceThreshold(float confidence) const noexcept {
+    return confidence >= config_.confidence_threshold;
+}
+
+bool WakeWordDetector::isTimeoutDetected() const noexcept {
+    return timeout_detected_;
+}
+
+WakeWordDetectionResult WakeWordDetector::getTimeoutDefault() const noexcept {
+    // Phase 3.6: Safe default when detection times out
+    WakeWordDetectionResult result;
+    result.detected = false;  // Fail-closed: no detection
+    result.confidence = 0.0f;
+    result.detection_timestamp_ms = nowMs();
+    return result;
+}
+
 } // namespace voice
 } // namespace themis
 

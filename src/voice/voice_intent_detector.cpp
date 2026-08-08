@@ -14,6 +14,7 @@
 #include <sstream>
 #include <cctype>
 #include <regex>
+#include <chrono>
 
 namespace themis { namespace voice {
 
@@ -337,7 +338,33 @@ json VoiceIntentDetector::getStatistics() const {
     stats["high_confidence_ratio"] = detections_total_ > 0
         ? static_cast<double>(high_confidence_) / detections_total_
         : 0.0;
+    stats["timeout_fallbacks"] = timeout_fallbacks_;  // Phase 3
     return stats;
+}
+
+// ============================================================================
+// Phase 3: Confidence and Safe Defaults
+// ============================================================================
+
+bool VoiceIntentDetector::isConfidenceTooLow(float confidence) const noexcept {
+    return confidence < config_.min_confidence_threshold;
+}
+
+IntentResult VoiceIntentDetector::getTimeoutDefault() const noexcept {
+    // Phase 3.6: Safe default when detection times out
+    IntentResult result;
+    result.intent = IntentCategory::UNKNOWN;
+    result.confidence = 0.0f;
+    return result;
+}
+
+bool VoiceIntentDetector::isTimeoutDetected() const noexcept {
+    return timeout_detected_;
+}
+
+int64_t VoiceIntentDetector::nowMs() const {
+    return std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
 }
 
 }} // namespace themis::voice

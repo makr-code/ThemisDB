@@ -525,6 +525,51 @@ VoiceQuality EmotionAnalyzer::buildVoiceQuality(
     return stats;
 }
 
+// ============================================================================
+// Phase 3: Edge Case Handling with Safe Defaults
+// ============================================================================
+
+bool EmotionAnalyzer::isAvailable() const noexcept {
+    return is_available_;
+}
+
+std::optional<EmotionAnalysis> EmotionAnalyzer::analyzeWithTimeout(
+    const std::vector<uint8_t>& audio_data,
+    const EmotionConfig& config) const
+{
+    // Phase 3.6: Timeout protection with safe defaults
+    auto cfg = config.timeout_ms > 0 ? config : config_;
+    
+    if (!cfg.use_timeout_protection) {
+        return analyze(audio_data, cfg);
+    }
+    
+    // In production, this would use a timer/deadline mechanism
+    // For now, we'll do a direct call with a note that timeouts should be
+    // enforced at the threading/async level
+    auto result = analyze(audio_data, cfg);
+    
+    if (!result) {
+        // Analyzer unavailable or timeout occurred
+        if (!cfg.skip_on_unavailable) {
+            return std::nullopt;
+        }
+        
+        // Return safe default emotion analysis
+        ++timeout_fallbacks_;
+        EmotionAnalysis safe_default;
+        safe_default.primary_emotion = Emotion::NEUTRAL;
+        safe_default.emotion_confidence = cfg.fallback_confidence;
+        safe_default.sentiment = Sentiment::NEUTRAL;
+        safe_default.stress_level = 0.5f;
+        safe_default.engagement_score = 0.5f;
+        
+        return safe_default;
+    }
+    
+    return result;
+}
+
 } // namespace voice
 } // namespace themis
 

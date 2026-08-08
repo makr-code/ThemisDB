@@ -436,4 +436,116 @@ SessionState VoiceSessionManager::getSessionState(const std::string& session_id)
     return it->second.state;
 }
 
+// ============================================================================
+// Phase 3: Session State Guard Violations
+// ============================================================================
+
+bool VoiceSessionManager::validateStateTransition(
+    const std::string& session_id, SessionState new_state)
+{
+    std::lock_guard<std::mutex> lock(manager_mutex_);
+    auto it = active_cache_.find(session_id);
+    if (it == active_cache_.end()) return false;
+    
+    const SessionState current = it->second.state;
+    
+    // Frozen state machine (from header)
+    // ACTIVE ──idle_timeout──> IDLE
+    // ACTIVE ──max_duration──> EXPIRED
+    // ACTIVE ──terminate()───> TERMINATED
+    // IDLE ───touchSession──> ACTIVE
+    // IDLE ────cleanup──────> TERMINATED
+    // EXPIRED ──cleanup─────> TERMINATED
+    
+    bool valid = false;
+    
+    if (current == SessionState::ACTIVE) {
+        valid = (new_state == SessionState::ACTIVE ||
+                new_state == SessionState::IDLE ||
+                new_state == SessionState::EXPIRED ||
+                new_state == SessionState::TERMINATED);
+    } else if (current == SessionState::IDLE) {
+        valid = (new_state == SessionState::IDLE ||
+                new_state == SessionState::ACTIVE ||
+                new_state == SessionState::TERMINATED);
+    } else if (current == SessionState::EXPIRED) {
+        valid = (new_state == SessionState::EXPIRED ||
+                new_state == SessionState::TERMINATED);
+    } else if (current == SessionState::TERMINATED) {
+        // No transitions FROM TERMINATED (fail-closed)
+        valid = false;
+    }
+    
+    if (!valid) {
+        spdlog::warn("Invalid session state transition: {} -> {}", 
+            sessionStateToString(current), sessionStateToString(new_state));
+    }
+    
+    return valid;
+}
+
+bool VoiceSessionManager::isDoubleCloseAttempt(const std::string& session_id) {
+    std::lock_guard<std::mutex> lock(manager_mutex_);
+    auto it = active_cache_.find(session_id);
+    if (it == active_cache_.end()) {
+        // Session not found (already cleaned up) = double-close
+        return true;
+    }
+    
+    // Check if already in TERMINATED state
+    if (it->second.state == SessionState::TERMINATED) {
+        spdlog::warn("Double-close attempt on session: {}", session_id);
+        return true;
+    }
+    
+    return false;
+}
+
+bool VoiceSessionManager::isUseAfterFreeAttempt(const std::string& session_id) {
+    std::lock_guard<std::mutex> lock(manager_mutex_);
+    auto it = active_cache_.find(session_id);
+    
+    if (it == active_cache_.end()) {
+        // Try persistent backend
+        auto loaded = backend_->load(session_id);
+        if (!loaded) {
+            return true; // Session never existed or was deleted
+        }
+        if (isExpired(*loaded)) {
+            spdlog::warn("Use-after-free attempt on expired session: {}", session_id);
+            return true;
+        }
+        return false;
+    }
+    
+    // Check if session has expired
+    if (isExpired(it->second)) {
+        spdlog::warn("Use-after-free attempt on expired session: {}", session_id);
+        return true;
+    }
+    
+    return false;
+}
+
+bool VoiceSessionManager::sessionIdExists(const std::string& session_id) {
+    if (session_id.empty()) return false;
+    
+    std::lock_guard<std::mutex> lock(manager_mutex_);
+    auto it = active_cache_.find(session_id);
+    if (it != active_cache_.end()) return true;
+    
+    // Check backend
+    auto loaded = backend_->load(session_id);
+    return loaded.has_value();
+}
+
+int64_t VoiceSessionManager::getStateChangeTimestamp(const std::string& session_id) {
+    std::lock_guard<std::mutex> lock(manager_mutex_);
+    auto it = state_change_timestamps_.find(session_id);
+    if (it != state_change_timestamps_.end()) {
+        return it->second;
+    }
+    return 0;
+}
+
 }} // namespace themis::voice

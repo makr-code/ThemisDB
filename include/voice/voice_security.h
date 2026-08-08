@@ -1,23 +1,74 @@
 /**
  * @file voice_security.h
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
- * @version 0.0.42
+ * @brief Voice Security & Privacy — Frozen API Contract for Phase 1.
+ *
+ * @version v1.0 frozen as of 2026-08-08
+ *
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 85/100
- * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
+ * @note Status: Design/API Contract Frozen (Phase 1)
+ *
+ * ## Security Guarantees (Frozen)
+ *
+ * **PII Detection & Redaction (Frozen Types):**
+ * - PHONE_NUMBER: Pattern-based detection + masking
+ * - EMAIL_ADDRESS: RFC 5322 patterns + masking
+ * - CREDIT_CARD: Luhn validation + masking
+ * - SSN: 9-digit patterns + masking
+ * - IP_ADDRESS: IPv4/IPv6 + masking
+ * - PERSON_NAME: NER-based detection
+ * - MEDICAL_INFO: Regex patterns
+ * - CUSTOM: User-defined patterns
+ *
+ * **Consent Tracking (Frozen Consent Types):**
+ * - recording_consent: May record audio
+ * - transcription_consent: May transcribe
+ * - data_retention_consent: May retain beyond session
+ * - analytics_consent: May use for analytics/training
+ *
+ * **Audit Logging Contract (Frozen Event Types):**
+ * Every access, modification, or deletion is logged with:
+ * - event_type: (e.g., "session_created", "transcription_generated")
+ * - user_id: Actor performing action
+ * - action: (create, read, update, delete)
+ * - resource: (session_id, profile_id, recording_id)
+ * - success: true/false
+ * - timestamp_ms: Wall-clock milliseconds
+ *
+ * **Data Deletion (GDPR/CCPA) — Frozen Semantics:**
+ * deleteUserData() triggers:
+ * 1. Recording files deleted
+ * 2. Transcripts redacted/deleted
+ * 3. Sessions terminated
+ * 4. Analytics records cleared (optional)
+ * Deletion is irreversible.
+ *
+ * ## Error Codes (Voice Module — Security)
+ * - 7010: PII detection/redaction error
+ * - 7011: Consent record not found
+ * - 7012: Consent revoked
+ * - 7013: Audit logging failed
+ * - 7014: Data deletion failed
+ * - 7015: Privacy policy violation
+ * - 7016-7099: Reserved for privacy-related errors
+ *
+ * ## Thread Safety
+ * VoiceSecurityManager is thread-safe (internal mutex).
+ * Consent records and audit logs are protected.
  */
 
 /*
- * ThemisDB | File: voice_security.h | Version: 0.0.42
+ * ThemisDB | File: voice_security.h | Version: v1.0 FROZEN
  * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
+ * Status: Design/API Contract Frozen (Phase 1)
  */
 
 // Security, privacy, and compliance for Phase 7 production readiness
+// ============================================================================
+// PHASE 1 CONTRACT FREEZE: This file documents immutable security & privacy
+// contracts including PII detection, consent management, audit logging, and
+// GDPR/CCPA-compliant data deletion.
+// ============================================================================
 #pragma once
 #include <string>
 #include <vector>

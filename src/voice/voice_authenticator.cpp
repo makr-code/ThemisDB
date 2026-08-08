@@ -21,6 +21,16 @@
 namespace themis {
 namespace voice {
 
+// ============================================================================
+// TASK 2.7: Authentication and Session Guards
+// ============================================================================
+// Error codes [7000-7099]:
+// - 7000: Authentication failed (auth guard enforcement)
+// - 7001: Session ownership check failed (privilege escalation)
+// - 7002: Privilege escalation detected
+// - 7003: Auth token invalid or expired
+// ============================================================================
+
 // ---------------------------------------------------------------------------
 // Constructor
 // ---------------------------------------------------------------------------

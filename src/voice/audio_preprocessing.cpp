@@ -569,5 +569,196 @@ void AudioPreprocessingPipeline::resetStatistics() {
     total_processing_time_ms_ = 0;
 }
 
+// ============================================================================
+// Phase 3: Input Validation Hardening
+// ============================================================================
+
+AudioValidationResult AudioPreprocessingPipeline::validateAudioPayload(
+    const std::vector<uint8_t>& raw_audio,
+    int declared_sample_rate,
+    int declared_channels,
+    int declared_bits_per_sample)
+{
+    AudioValidationResult result;
+    result.detected_sample_rate = declared_sample_rate;
+    result.detected_channels = declared_channels;
+    result.detected_bits_per_sample = declared_bits_per_sample;
+    
+    // Phase 3.1: Size validation (fail-closed)
+    if (raw_audio.empty() || raw_audio.size() < MIN_AUDIO_SIZE_BYTES) {
+        result.valid = false;
+        result.error_message = "Audio payload too small (min: " + 
+            std::to_string(MIN_AUDIO_SIZE_BYTES) + " bytes)";
+        ++validation_errors_;
+        return result;
+    }
+    
+    if (raw_audio.size() > MAX_AUDIO_SIZE_BYTES) {
+        result.valid = false;
+        result.error_message = "Audio payload too large (max: " + 
+            std::to_string(MAX_AUDIO_SIZE_BYTES) + " bytes)";
+        ++overflow_attempts_;
+        result.is_overflow_attempt = true;
+        return result;
+    }
+    
+    // Phase 3.2: Sample rate validation (fail-closed)
+    if (declared_sample_rate < MIN_SAMPLE_RATE || declared_sample_rate > MAX_SAMPLE_RATE) {
+        result.valid = false;
+        result.error_message = "Unsupported sample rate: " + std::to_string(declared_sample_rate) +
+            " Hz (supported: " + std::to_string(MIN_SAMPLE_RATE) + "-" + 
+            std::to_string(MAX_SAMPLE_RATE) + " Hz)";
+        ++validation_errors_;
+        return result;
+    }
+    
+    // Phase 3.2: Channel validation (fail-closed)
+    if (declared_channels < MIN_CHANNELS || declared_channels > MAX_CHANNELS) {
+        result.valid = false;
+        result.error_message = "Unsupported channel count: " + std::to_string(declared_channels);
+        ++validation_errors_;
+        return result;
+    }
+    
+    // Phase 3.2: Bits per sample validation (fail-closed)
+    if (declared_bits_per_sample < MIN_BITS_PER_SAMPLE || 
+        declared_bits_per_sample > MAX_BITS_PER_SAMPLE) {
+        result.valid = false;
+        result.error_message = "Unsupported bits per sample: " + 
+            std::to_string(declared_bits_per_sample);
+        ++validation_errors_;
+        return result;
+    }
+    
+    // Phase 3.3: Detect codec from header
+    result.detected_codec = detectCodecFromHeader(raw_audio);
+    
+    // Phase 3.3: Codec validation (whitelist-based)
+    if (!isCodecSupported(result.detected_codec)) {
+        result.valid = false;
+        result.error_message = "Unsupported or unrecognized audio codec";
+        ++validation_errors_;
+        return result;
+    }
+    
+    // Phase 3: Frame header validation (fuzzing-aware)
+    if (!validateFrameHeader(raw_audio)) {
+        result.valid = false;
+        result.error_message = "Malformed audio frame header";
+        result.is_malformed_frame_header = true;
+        ++malformed_frames_;
+        return result;
+    }
+    
+    // Phase 3: Overflow detection (fuzzing-aware)
+    if (detectOverflowAttempt(raw_audio)) {
+        result.valid = false;
+        result.error_message = "Potential buffer overflow detected in payload";
+        result.is_overflow_attempt = true;
+        ++overflow_attempts_;
+        return result;
+    }
+    
+    // All validations passed
+    result.valid = true;
+    result.error_message = "";
+    return result;
+}
+
+bool AudioPreprocessingPipeline::isCodecSupported(AudioCodec codec) const {
+    switch (codec) {
+        case AudioCodec::PCM16:
+        case AudioCodec::PCM32:
+        case AudioCodec::OPUS:
+        case AudioCodec::AAC:
+        case AudioCodec::FLAC:
+            return true;
+        case AudioCodec::UNKNOWN:
+        default:
+            return false;
+    }
+}
+
+AudioCodec AudioPreprocessingPipeline::detectCodecFromHeader(
+    const std::vector<uint8_t>& raw_audio) const
+{
+    if (raw_audio.size() < 4) return AudioCodec::UNKNOWN;
+    
+    // Check for OPUS header (0xFF, 0x4F)
+    if (raw_audio[0] == 0xFF && raw_audio[1] == 0x4F) {
+        return AudioCodec::OPUS;
+    }
+    
+    // Check for FLAC header ('fLaC' = 0x66 0x4C 0x61 0x43)
+    if (raw_audio.size() >= 4 && raw_audio[0] == 0x66 && raw_audio[1] == 0x4C && 
+        raw_audio[2] == 0x61 && raw_audio[3] == 0x43) {
+        return AudioCodec::FLAC;
+    }
+    
+    // Check for AAC header (0xFF 0xF1 or 0xFF 0xF9)
+    if (raw_audio[0] == 0xFF && (raw_audio[1] == 0xF1 || raw_audio[1] == 0xF9)) {
+        return AudioCodec::AAC;
+    }
+    
+    // Default to PCM16 for raw PCM data
+    return AudioCodec::PCM16;
+}
+
+bool AudioPreprocessingPipeline::validateFrameHeader(
+    const std::vector<uint8_t>& raw_audio) const
+{
+    // Minimum frame size: check for truncation
+    if (raw_audio.size() < 4) {
+        return false;
+    }
+    
+    // Check for valid RIFF header for WAV
+    if (raw_audio.size() >= 12) {
+        if (raw_audio[0] == 'R' && raw_audio[1] == 'I' && 
+            raw_audio[2] == 'F' && raw_audio[3] == 'F') {
+            // Valid RIFF header, check size field matches payload
+            uint32_t size = *reinterpret_cast<const uint32_t*>(raw_audio.data() + 4);
+            if (size > raw_audio.size()) {
+                return false; // Truncated
+            }
+        }
+    }
+    
+    // Frame is not obviously malformed
+    return true;
+}
+
+bool AudioPreprocessingPipeline::detectOverflowAttempt(
+    const std::vector<uint8_t>& raw_audio) const
+{
+    // Detect suspicious patterns that might indicate buffer overflow attempt
+    
+    // Pattern 1: All bytes same (likely fuzz-generated)
+    if (raw_audio.size() > 10) {
+        bool all_same = true;
+        uint8_t first = raw_audio[0];
+        for (size_t i = 1; i < std::min(raw_audio.size(), size_t(100)); ++i) {
+            if (raw_audio[i] != first) {
+                all_same = false;
+                break;
+            }
+        }
+        // If all bytes are identical for more than 10 bytes, suspicious
+        if (all_same && raw_audio.size() > 10) {
+            return true;
+        }
+    }
+    
+    // Pattern 2: Check for obvious integer overflow attempts in size fields
+    if (raw_audio.size() >= 8) {
+        uint32_t size_field = *reinterpret_cast<const uint32_t*>(raw_audio.data() + 4);
+        if (size_field > MAX_AUDIO_SIZE_BYTES) {
+            return true;
+        }
+    }
+    
+    return false;
+}
+
 }} // namespace themis::voice
 
