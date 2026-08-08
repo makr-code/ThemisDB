@@ -63,9 +63,11 @@
 #include <atomic>
 #include <chrono>
 #include <condition_variable>
+#include <functional>
 #include <future>
 #include <memory>
 #include <mutex>
+#include <queue>
 #include <string>
 #include <thread>
 #include <vector>
@@ -370,6 +372,50 @@ private:
         const std::vector<themis::analytics::Dimension>& dims,
         int64_t grouping_id);
 
+    /// ====== SAFETY CONTROL HELPERS (Phase 2.2) ======
+
+    /**
+     * Handle a successful shard execution: reset circuit breaker state to CLOSED.
+     * Called after a shard request completes successfully.
+     */
+    void onShardSuccess(ShardEntry& entry);
+
+    /**
+     * Handle a failed shard execution: increment failure count, possibly opening circuit.
+     * Called after a shard request fails.
+     *
+     * @param entry The shard entry.
+     * @param error_msg The error message for diagnostics.
+     * @return true if the shard is still usable (circuit not OPEN), false if circuit opened.
+     */
+    bool onShardFailure(ShardEntry& entry, const std::string& error_msg);
+
+    /**
+     * Check and update circuit breaker state based on recovery timing.
+     * Transitions OPEN → HALF_OPEN if recovery delay has elapsed.
+     *
+     * @param entry The shard entry.
+     * @return Current circuit breaker state after potential transition.
+     */
+    CircuitBreakerState updateCircuitBreakerState(ShardEntry& entry);
+
+    /**
+     * Attempt to enqueue a request for a shard with bounded queue enforcement.
+     * Returns true if enqueued, false if queue full and timeout exceeded.
+     *
+     * @param entry The shard entry.
+     * @param task The task to enqueue.
+     * @return true if successfully enqueued, false if queue full and timeout expired.
+     */
+    bool tryEnqueueRequest(ShardEntry& entry, std::function<void()> task);
+
+    /**
+     * Process queued requests for a shard after a request completes.
+     *
+     * @param entry The shard entry.
+     */
+    void processQueuedRequests(ShardEntry& entry);
+
     /** Start the background health-monitor thread (if interval > 0). */
     void startHealthMonitor();
 
@@ -393,6 +439,18 @@ private:
         /// Initialised to true (optimistic) when a shard is first added.
         std::shared_ptr<std::atomic<bool>> cached_healthy =
             std::make_shared<std::atomic<bool>>(true);
+
+        /// ====== SAFETY CONTROLS: Circuit Breaker State ======
+        /// Tracks shard-level fault tolerance state and recovery.
+        std::shared_ptr<std::mutex> circuit_breaker_mutex = std::make_shared<std::mutex>();
+        std::shared_ptr<CircuitBreakerInfo> circuit_breaker_info = std::make_shared<CircuitBreakerInfo>();
+        /// Bounded queue: pending requests waiting to be executed.
+        std::shared_ptr<std::queue<std::function<void()>>> request_queue = std::make_shared<std::queue<std::function<void()>>>();
+        /// Queue synchronization
+        std::shared_ptr<std::mutex> queue_mutex = std::make_shared<std::mutex>();
+        std::shared_ptr<std::condition_variable> queue_cv = std::make_shared<std::condition_variable>();
+        /// Current in-flight request count
+        std::shared_ptr<std::atomic<uint32_t>> in_flight_requests = std::make_shared<std::atomic<uint32_t>>(0);
     };
 
     std::vector<ShardEntry> shards_;
