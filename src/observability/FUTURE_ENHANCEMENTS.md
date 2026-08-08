@@ -1,6 +1,6 @@
 # Observability Module - Future Enhancements & Completed Features
 
-**Status:** 2026-08-08 – Phase 1-6 Complete; Block A/B closure delivered  
+**Status:** 2026-08-08 – Phase 1-6 Complete; Block B benchmark closure delivered and Block A focused-test coverage verified  
 **Document Version:** 2.0
 
 ## Scope
@@ -43,14 +43,14 @@
 
 ### Phase 5: Benchmark-Backed Release Gates
 - [x] Wave 3B gates (ORG-01..06): core metrics/tracing hot paths
-- [x] Block A gates (OBA-01..06): alerting/profiling/RCA components
+- [x] Block A thresholds (OBA-01..06): alerting/profiling/RCA components documented and focused-test covered
 - [x] Block B gates (OBB-GATE-01..06): extended metrics/tracing/analysis
-- [x] Total 18 release gates documented and verified PASS
+- [x] Total 12 registered benchmark gates verified PASS; 6 additional Block A thresholds documented for follow-up benchmark coverage
 
 ### Phase 6: Documentation & Acceptance (2026-08-08)
 - [x] API contracts fully documented (6 headers with Doxygen)
 - [x] PRODUCTION_REQUIREMENTS.md expanded (v2.0, comprehensive English)
-- [x] PERFORMANCE_EXPECTATIONS.md updated (18 gates, thresholds, validation)
+- [x] PERFORMANCE_EXPECTATIONS.md updated (12 registered gates + 6 documented Block A thresholds)
 - [x] FUTURE_ENHANCEMENTS.md updated (v2.0, completed/remaining split)
 - [x] README.md verified for consistency
 - [x] PHASE_6_ACCEPTANCE_CHECKLIST.md created with full closure evidence

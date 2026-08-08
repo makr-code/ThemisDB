@@ -31,7 +31,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_user_storage_encrypted_contract_hard
 endif()
 
 # Phase 2.1.1 I/O Timeout & Safety focused tests.
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_backend_io_timeout_focused.cpp")
+if(UNIX AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_backend_io_timeout_focused.cpp")
     set(_target "module_user_storage_encrypted_test_backend_io_timeout_focused")
     if(NOT TARGET ${_target})
         add_executable(${_target}
@@ -118,7 +118,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_phase2_error_codes_focused.cpp")
 endif()
 
 # Phase 4: E2E Vault Integration focused tests
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_user_storage_encrypted_e2e_vault_integration_focused.cpp")
+if(UNIX AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_user_storage_encrypted_e2e_vault_integration_focused.cpp")
     set(_target "module_user_storage_encrypted_test_e2e_vault_integration_focused")
     if(NOT TARGET ${_target})
         add_executable(${_target}

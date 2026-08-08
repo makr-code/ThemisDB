@@ -34,6 +34,7 @@
 #include "user_storage_encrypted/security_level.hpp"
 #include "user_storage_encrypted/user_storage_encrypted_api_contract.h"
 
+#include <atomic>
 #include <chrono>
 #include <condition_variable>
 #include <filesystem>
@@ -99,7 +100,7 @@ protected:
 // ============================================================================
 
 TEST_F(E2EIntegrationTest, E2E_01_LifecycleOFFEN) {
-    GTEST_SKIP_("Requires Docker Compose with Vault running at http://vault:8200");
+    GTEST_SKIP() << "Requires Docker Compose with Vault running at http://vault:8200";
     
     // Setup: Create encrypted container at test_container_offen
     std::string container_path = MakeTempContainer("test_container_offen");
@@ -128,7 +129,7 @@ TEST_F(E2EIntegrationTest, E2E_01_LifecycleOFFEN) {
 // ============================================================================
 
 TEST_F(E2EIntegrationTest, E2E_02_AllSecurityLevels) {
-    GTEST_SKIP_("Requires Docker Compose with Vault running at http://vault:8200");
+    GTEST_SKIP() << "Requires Docker Compose with Vault running at http://vault:8200";
     
     // Test lifecycle for each security tier
     const std::vector<std::string> tiers = {
@@ -154,7 +155,7 @@ TEST_F(E2EIntegrationTest, E2E_02_AllSecurityLevels) {
 // ============================================================================
 
 TEST_F(E2EIntegrationTest, E2E_03_KeyRotationConcurrentLoad) {
-    GTEST_SKIP_("Requires Docker Compose with Vault running at http://vault:8200");
+    GTEST_SKIP() << "Requires Docker Compose with Vault running at http://vault:8200";
     
     std::string container = MakeTempContainer("test_container_rotation");
     std::string mount_point = MakeTempMountPoint("test_mount_rotation");
@@ -218,7 +219,7 @@ TEST_F(E2EIntegrationTest, E2E_03_KeyRotationConcurrentLoad) {
 // ============================================================================
 
 TEST_F(E2EIntegrationTest, E2E_04_MountFailureRecovery) {
-    GTEST_SKIP_("Requires Docker Compose with Vault running at http://vault:8200");
+    GTEST_SKIP() << "Requires Docker Compose with Vault running at http://vault:8200";
     
     std::string container = MakeTempContainer("test_container_fuse_fail");
     std::string mount_point = MakeTempMountPoint("test_mount_fuse_fail");
@@ -239,7 +240,7 @@ TEST_F(E2EIntegrationTest, E2E_04_MountFailureRecovery) {
 // ============================================================================
 
 TEST_F(E2EIntegrationTest, E2E_05_InvalidContainerPath) {
-    GTEST_SKIP_("Requires Docker Compose with Vault running at http://vault:8200");
+    GTEST_SKIP() << "Requires Docker Compose with Vault running at http://vault:8200";
     
     // Test invalid paths
     const std::vector<std::string> invalid_paths = {
@@ -263,7 +264,7 @@ TEST_F(E2EIntegrationTest, E2E_05_InvalidContainerPath) {
 // ============================================================================
 
 TEST_F(E2EIntegrationTest, E2E_06_VaultTimeoutRecovery) {
-    GTEST_SKIP_("Requires Docker Compose with Vault running at http://vault:8200");
+    GTEST_SKIP() << "Requires Docker Compose with Vault running at http://vault:8200";
     
     std::string container = MakeTempContainer("test_container_vault_timeout");
     std::string mount_point = MakeTempMountPoint("test_mount_vault_timeout");
@@ -285,7 +286,7 @@ TEST_F(E2EIntegrationTest, E2E_06_VaultTimeoutRecovery) {
 // ============================================================================
 
 TEST_F(E2EIntegrationTest, E2E_07_StaleMountReconciliation) {
-    GTEST_SKIP_("Requires Docker Compose with Vault running at http://vault:8200");
+    GTEST_SKIP() << "Requires Docker Compose with Vault running at http://vault:8200";
     
     std::string container = MakeTempContainer("test_container_stale");
     std::string mount_point = MakeTempMountPoint("test_mount_stale");
@@ -306,7 +307,7 @@ TEST_F(E2EIntegrationTest, E2E_07_StaleMountReconciliation) {
 // ============================================================================
 
 TEST_F(E2EIntegrationTest, E2E_08_MultiTenantIsolation) {
-    GTEST_SKIP_("Requires Docker Compose with Vault running at http://vault:8200");
+    GTEST_SKIP() << "Requires Docker Compose with Vault running at http://vault:8200";
     
     // Create two separate encrypted containers
     std::string container1 = MakeTempContainer("tenant_1_container");

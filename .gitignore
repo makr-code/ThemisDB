@@ -222,6 +222,7 @@ docker/tmp/
 .env.*
 !.env.example
 !.env.sample
+secrets/
 
 # Local clone of optional LLM engine (excluded from VCS)
 # Kept locally for optional builds; never committed

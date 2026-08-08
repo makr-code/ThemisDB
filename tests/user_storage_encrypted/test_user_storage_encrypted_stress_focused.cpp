@@ -264,7 +264,7 @@ TEST_F(StressTest, STRESS_06_PermissionDenied) {
     std::string container = MakeTempContainer("permission_denied_container");
     
     // Create container with restricted permissions (mode 000)
-    fs::permissions(container, fs::perm_options::perm_mask, fs::perm_options::replace);
+    fs::permissions(container, fs::perms::none, fs::perm_options::replace);
     
     // Attempt operations
     // For non-root users, this should fail with permission error
@@ -275,7 +275,7 @@ TEST_F(StressTest, STRESS_06_PermissionDenied) {
     // - Error message is helpful
     
     // Restore permissions for cleanup
-    fs::permissions(container, fs::perm_options::all, fs::perm_options::add);
+    fs::permissions(container, fs::perms::owner_all, fs::perm_options::replace);
 }
 
 }  // namespace test

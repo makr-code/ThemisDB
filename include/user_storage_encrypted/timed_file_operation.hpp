@@ -158,6 +158,9 @@ public:
             // Retry on signal
             return read(buffer, count);
         }
+        if (n < 0) {
+            return {};
+        }
         return n;
     }
 
@@ -204,6 +207,9 @@ public:
         if (n < 0 && errno == EINTR) {
             // Retry on signal
             return write(buffer, count);
+        }
+        if (n < 0) {
+            return {};
         }
         return n;
     }

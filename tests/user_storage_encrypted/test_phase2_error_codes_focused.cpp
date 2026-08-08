@@ -259,12 +259,3 @@ TEST_F(ErrorCodesTest, ErrorCodeCategoriesAreCorrect) {
 } // namespace user_storage
 } // namespace plugins
 } // namespace themis
-
-// ============================================================================
-// Main Entry Point
-// ============================================================================
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

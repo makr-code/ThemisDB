@@ -90,7 +90,7 @@ services:
       - VAULT_ADDR=http://vault:8200
       - VAULT_TOKEN=dev-token-12345
     volumes:
-      - ./scripts:/scripts
+      - ./scripts:/scripts:ro
       - ./secrets:/secrets
     command: >
       sh -c "
@@ -104,7 +104,7 @@ services:
             echo 'Vault is ready!'
             break
           fi
-          attempt=\$$((attempt + 1))
+          attempt=$$((attempt + 1))
           echo \"Attempt \$attempt/\$max_attempts: Waiting for Vault...\"
           sleep 1
         done

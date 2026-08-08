@@ -150,8 +150,8 @@ struct DiagnosticEvent {
         ERROR_DETECTED,         ///< Error occurred
     };
     
-    Type type;                              ///< Event type
-    int64_t timestamp_ms;                   ///< Milliseconds since epoch
+    Type type = Type::ERROR_DETECTED;       ///< Event type
+    int64_t timestamp_ms = 0;               ///< Milliseconds since epoch (0 = set on emit)
     ErrorCode error_code = ErrorCode::SUCCESS;  ///< Error code (if applicable)
     std::string component;                  ///< Component name (e.g., "gocryptfs_backend")
     std::string message;                    ///< Human-readable message

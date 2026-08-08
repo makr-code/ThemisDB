@@ -181,7 +181,7 @@ Phase 1 focuses on hardening the user_storage_encrypted module by addressing all
 - [x] Address sanitizer reports zero leaks
 - [x] All tests pass with no flakiness
 - [x] PHASE_1_ACCEPTANCE_CHECKLIST.md fully signed off
-- [x] Code review + merge to main branch
+- [x] Code review + merge to develop branch
 
 ---
 
