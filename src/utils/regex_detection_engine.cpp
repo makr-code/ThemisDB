@@ -144,15 +144,18 @@ std::vector<PIIFinding> RegexDetectionEngine::detectInText(const std::string& te
         return {};
     }
     
-    // Phase A.1 Hardening: Input validation before processing
+    // Phase A.1 Hardening: Input validation before processing — fail-closed.
+    // Returning an empty vector would be interpreted as "no PII found" by
+    // downstream redaction policies, which would pass the original text through
+    // unchanged (fail-open). Instead, throw so callers cannot silently bypass masking.
     if (validate_utf8_ && !validateUTF8Input(text)) {
-        spdlog::warn("RegexDetectionEngine: Skipping text with invalid UTF-8 or excessive size");
-        return {}; // Return empty findings on invalid input
+        throw std::invalid_argument(
+            "RegexDetectionEngine: text contains invalid UTF-8; processing rejected");
     }
-    
+
     if (!checkInputBounds(text)) {
-        spdlog::warn("RegexDetectionEngine: Input exceeds size limit ({}MB max)", max_input_size_ / (1024*1024));
-        return {}; // Return empty findings if oversized
+        throw std::length_error(
+            "RegexDetectionEngine: text exceeds maximum input size; processing rejected");
     }
     
     std::vector<PIIFinding> findings;
@@ -586,46 +589,69 @@ bool RegexDetectionEngine::validateUTF8Input(std::string_view text) const {
         spdlog::debug("RegexDetectionEngine: Skipping UTF-8 BOM marker");
     }
     
-    // Validate UTF-8 byte sequences
+    // Validate UTF-8 byte sequences (RFC 3629 strict: rejects overlong encodings,
+    // surrogate halves U+D800–U+DFFF, and code points beyond U+10FFFF).
     while (pos < text.size()) {
         unsigned char byte = data[pos];
-        
+
         if (byte < 0x80) {
             // ASCII (0xxxxxxx)
             pos++;
         } else if ((byte & 0xE0) == 0xC0) {
-            // 2-byte sequence (110xxxxx)
-            if (pos + 1 >= text.size() || (data[pos+1] & 0xC0) != 0x80) {
+            // 2-byte sequence (110xxxxx 10xxxxxx)
+            // Reject overlong: leading byte must be >= 0xC2 (0xC0/0xC1 are overlong)
+            if (byte < 0xC2 || pos + 1 >= text.size() || (data[pos+1] & 0xC0) != 0x80) {
                 spdlog::warn("RegexDetectionEngine: Invalid UTF-8 sequence at position {}", pos);
                 return false;
             }
             pos += 2;
         } else if ((byte & 0xF0) == 0xE0) {
-            // 3-byte sequence (1110xxxx)
-            if (pos + 2 >= text.size() || 
-                (data[pos+1] & 0xC0) != 0x80 || 
+            // 3-byte sequence (1110xxxx 10xxxxxx 10xxxxxx)
+            if (pos + 2 >= text.size() ||
+                (data[pos+1] & 0xC0) != 0x80 ||
                 (data[pos+2] & 0xC0) != 0x80) {
                 spdlog::warn("RegexDetectionEngine: Invalid UTF-8 sequence at position {}", pos);
                 return false;
             }
+            // Reject overlong: if leading byte is 0xE0, second byte must be >= 0xA0
+            if (byte == 0xE0 && data[pos+1] < 0xA0) {
+                spdlog::warn("RegexDetectionEngine: Overlong UTF-8 3-byte sequence at position {}", pos);
+                return false;
+            }
+            // Reject surrogate halves (U+D800–U+DFFF): leading 0xED, second byte 0xA0–0xBF
+            if (byte == 0xED && data[pos+1] >= 0xA0) {
+                spdlog::warn("RegexDetectionEngine: Surrogate half in UTF-8 at position {}", pos);
+                return false;
+            }
             pos += 3;
         } else if ((byte & 0xF8) == 0xF0) {
-            // 4-byte sequence (11110xxx)
-            if (pos + 3 >= text.size() || 
-                (data[pos+1] & 0xC0) != 0x80 || 
+            // 4-byte sequence (11110xxx 10xxxxxx 10xxxxxx 10xxxxxx)
+            if (pos + 3 >= text.size() ||
+                (data[pos+1] & 0xC0) != 0x80 ||
                 (data[pos+2] & 0xC0) != 0x80 ||
                 (data[pos+3] & 0xC0) != 0x80) {
                 spdlog::warn("RegexDetectionEngine: Invalid UTF-8 sequence at position {}", pos);
                 return false;
             }
+            // Reject overlong: if leading byte is 0xF0, second byte must be >= 0x90
+            if (byte == 0xF0 && data[pos+1] < 0x90) {
+                spdlog::warn("RegexDetectionEngine: Overlong UTF-8 4-byte sequence at position {}", pos);
+                return false;
+            }
+            // Reject code points > U+10FFFF: leading 0xF4 with second byte > 0x8F,
+            // or leading bytes 0xF5–0xF7
+            if (byte > 0xF4 || (byte == 0xF4 && data[pos+1] > 0x8F)) {
+                spdlog::warn("RegexDetectionEngine: Code point > U+10FFFF at position {}", pos);
+                return false;
+            }
             pos += 4;
         } else {
-            // Invalid leading byte
+            // Invalid leading byte (includes 0xF8–0xFF)
             spdlog::warn("RegexDetectionEngine: Invalid UTF-8 leading byte at position {}", pos);
             return false;
         }
     }
-    
+
     return true; // All UTF-8 sequences valid
 }
 
@@ -672,7 +698,9 @@ bool RegexDetectionEngine::detectReDoSPattern(const std::string& pattern) const 
             paren_depth++;
             alt_count_in_group = 0;
         } else if (c == ')' && (i == 0 || pattern[i-1] != '\\')) {
-            paren_depth--;
+            if (paren_depth > 0) {
+                paren_depth--;
+            }
             alt_count_in_group = 0;
         } else if (c == '|' && paren_depth > 0 && (i == 0 || pattern[i-1] != '\\')) {
             alt_count_in_group++;

@@ -62,7 +62,7 @@ public:
 
     /// @brief Construct with custom configuration or defaults.
     /// @param cfg Configuration; defaults to Config{} if omitted.
-    explicit AiSnapshotCleanupJob(Config cfg);
+    explicit AiSnapshotCleanupJob(Config cfg = Config{});
 
     /**
      * @brief Run cleanup: remove expired and oversized snapshots.

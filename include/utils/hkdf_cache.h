@@ -8,7 +8,7 @@
  * @note Source: Level 0 - API Contract
  * @note SOT Domain: crypto-key-management
  * 
- * @mainpage HKDF Cache API
+ * @page hkdf_cache_api HKDF Cache API
  *
  * ## Purpose
  * The HKDFCache provides deterministic, reproducible key derivation using

@@ -289,6 +289,11 @@ file(GLOB UTILS_AUTOGEN_PREFIX_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_utils_*.cpp"
 )
 
+# Exclude files that are already registered as explicit focused targets
+list(REMOVE_ITEM UTILS_AUTOGEN_PREFIX_TEST_SOURCES
+    "${CMAKE_CURRENT_SOURCE_DIR}/test_utils_privacy_audit_hardening.cpp"
+)
+
 foreach(_src IN LISTS UTILS_AUTOGEN_PREFIX_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_utils_${_stem}_autofocused")

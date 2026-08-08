@@ -43,23 +43,25 @@ public:
      */
     RateLimiter(double rate_per_second, double burst_size);
 
-/**
-    * @brief Attempt to consume @p tokens without blocking.
-    * 
-    * Non-blocking operation that checks if sufficient tokens are available
-    * in the bucket. If available, tokens are consumed and true is returned.
-    * Otherwise, state is unchanged and false is returned.
-    * 
-    * @param tokens Number of tokens to acquire (default 1.0)
-    * @return true if tokens were available and consumed; false otherwise
-    * 
-    * @error_contract
-    * - Returns false if tokens < 0: logs ERR_RATE_LIMITER_ERROR with warning
-    * - Returns false if tokens > burst_size: operation fails (see @note below)
-    * - Returns false on insufficient available tokens (expected, not an error)
-    * - Returns true on successful acquisition (bucket decremented)
-    * 
-    * @bounded_resources
+    /**
+     * @brief Attempt to consume @p tokens without blocking.
+     *
+     * Non-blocking operation that checks if sufficient tokens are available
+     * in the bucket. If available, tokens are consumed and true is returned.
+     * Otherwise, state is unchanged and false is returned.
+     *
+     * @param tokens Number of tokens to acquire (default 1.0)
+     * @return true if tokens were available and consumed; false otherwise
+     *
+     * @error_contract
+     * - Returns true (no-op) if tokens <= 0 — caller's zero/negative token request
+     *   is treated as already satisfied; no logging is emitted.
+     * - Returns false if tokens > burst_size — the bucket can never accumulate
+     *   more than burst_size tokens, so the request will never succeed.
+     * - Returns false on insufficient available tokens (expected, not an error)
+     * - Returns true on successful acquisition (bucket decremented)
+     *
+     * @bounded_resources
     * - Tokens capped at burst_size (no unbounded accumulation)
     * - Operation O(1) time complexity
     * 
@@ -82,8 +84,8 @@ public:
      * @param tokens Number of tokens to acquire (default 1.0)
      * 
      * @error_contract
-     * - If tokens < 0: logs ERR_RATE_LIMITER_ERROR and returns immediately
-     * - If tokens > burst_size: spins indefinitely (logging periodic warnings)
+     * - If tokens <= 0: returns immediately (no-op); no logging is emitted
+     * - If tokens > burst_size: spins indefinitely (tokens can never accumulate past burst_size)
      * - On normal operation: blocks until tokens available, then consumes them
      * 
      * @bounded_resources

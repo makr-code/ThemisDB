@@ -8,7 +8,7 @@
  * @note Source: Level 0 - API Contract
  * @note SOT Domain: crypto-key-management
  * 
- * @mainpage HKDF Helper API
+ * @page hkdf_helper_api HKDF Helper API
  *
  * ## Purpose
  * HKDFHelper provides HKDF-SHA256 key derivation with OpenSSL 3.0+ and 1.1.1+

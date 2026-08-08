@@ -15,7 +15,8 @@
 #include <gtest/gtest.h>
 #include "utils/error_contracts.h"
 #include <spdlog/spdlog.h>
-#include <spdlog/sinks/memory_sink.h>
+#include <spdlog/sinks/ostream_sink.h>
+#include <sstream>
 
 namespace themis {
 namespace utils {
@@ -28,16 +29,23 @@ namespace test {
 class ErrorContextTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        // Set up memory sink for capturing logs
-        auto mem_sink = std::make_shared<spdlog::sinks::memory_sink_st>();
-        auto logger = std::make_shared<spdlog::logger>("test", mem_sink);
+        // Drop any pre-existing logger with this name to allow re-registration
+        spdlog::drop("test_error_context");
+        auto sink = std::make_shared<spdlog::sinks::ostream_sink_mt>(log_stream_);
+        auto logger = std::make_shared<spdlog::logger>("test_error_context", sink);
         spdlog::register_logger(logger);
     }
+
+    void TearDown() override {
+        spdlog::drop("test_error_context");
+    }
+
+    std::ostringstream log_stream_;
 };
 
 TEST_F(ErrorContextTest, ErrorContextToJSON) {
     ErrorContext ctx;
-    ctx.code = ErrorCode::AUDIT_BUFFER_OVERFLOW;
+    ctx.code = ErrorCode::AUDIT_QUEUE_FULL;
     ctx.category = ErrorCategory::AuditLog;
     ctx.severity = ErrorSeverity::Warning;
     ctx.message = "Audit queue full";
@@ -201,14 +209,18 @@ TEST_F(ErrorContextFactoryTest, MakeErrorContextCategorization) {
 class ErrorLoggingTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        auto mem_sink = std::make_shared<spdlog::sinks::memory_sink_st>();
-        mem_sink_ = mem_sink;
-        auto logger = std::make_shared<spdlog::logger>("utils_error_test", mem_sink);
+        spdlog::drop("utils_error_test");
+        auto sink = std::make_shared<spdlog::sinks::ostream_sink_mt>(log_stream_);
+        auto logger = std::make_shared<spdlog::logger>("utils_error_test", sink);
         logger->set_level(spdlog::level::debug);
         spdlog::register_logger(logger);
     }
-    
-    std::shared_ptr<spdlog::sinks::memory_sink_st> mem_sink_;
+
+    void TearDown() override {
+        spdlog::drop("utils_error_test");
+    }
+
+    std::ostringstream log_stream_;
 };
 
 TEST_F(ErrorLoggingTest, LogErrorWithContext) {
@@ -223,12 +235,13 @@ TEST_F(ErrorLoggingTest, LogErrorWithContext) {
     );
     
     logErrorWithContext(ctx, logger);
+    logger->flush();
     
-    const auto& records = mem_sink_->records();
-    EXPECT_GT(records.size(), 0);
+    const std::string log_output = log_stream_.str();
+    EXPECT_FALSE(log_output.empty());
     // Log should contain the component and error message
-    EXPECT_THAT(records.back().payload, testing::HasSubstr("PIIDetector"));
-    EXPECT_THAT(records.back().payload, testing::HasSubstr("Input validation"));
+    EXPECT_THAT(log_output, testing::HasSubstr("PIIDetector"));
+    EXPECT_THAT(log_output, testing::HasSubstr("Input validation"));
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

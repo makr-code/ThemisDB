@@ -9,7 +9,7 @@
  * @note SOT Domain: crypto-key-management
  * @note Related: RFC 5869 (HKDF), AES-GCM encryption
  * 
- * @mainpage LEK Manager API
+ * @page lek_manager_api LEK Manager API
  *
  * ## Purpose
  * The LEKManager implements key hierarchy and rotation for secure log encryption:
