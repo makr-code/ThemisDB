@@ -1,23 +1,165 @@
-name: Docker Image CI
+name: Docker Image CI/CD
 
 on:
   push:
     branches: [ "develop" ]
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+*'
   pull_request:
     branches: [ "develop" ]
+  release:
+    types: [published, created]
+  workflow_dispatch:
+    inputs:
+      push_to_registry:
+        description: "Push built images to Docker registry"
+        required: false
+        default: "false"
+        type: choice
+        options:
+          - "true"
+          - "false"
+      registry:
+        description: "Docker registry to push to"
+        required: false
+        default: "docker.io"
+        type: choice
+        options:
+          - "docker.io"
+          - "ghcr.io"
 
 permissions:
   contents: read
+  packages: write
 
 jobs:
-
-  build:
+  build-and-push:
+    name: "Build & Push Docker Image"
+    runs-on: ubuntu-latest
+    
     permissions:
       contents: read
-
-    runs-on: ubuntu-latest
-
+      packages: write
+    
+    outputs:
+      images: ${{ steps.image-info.outputs.images }}
+      digest: ${{ steps.build.outputs.digest }}
+    
     steps:
-    - uses: actions/checkout@v4
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+    - name: Checkout
+      uses: actions/checkout@v4
+    
+    - name: Determine version
+      id: version
+      run: |
+        if [[ "${{ github.ref }}" == refs/tags/v* ]]; then
+          VERSION="${{ github.ref }}" 
+          VERSION="${VERSION#refs/tags/}"
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+        elif [[ "${{ github.event_name }}" == "release" ]]; then
+          VERSION="${{ github.event.release.tag_name }}"
+          VERSION="${VERSION#v}"
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+        else
+          VERSION="$(cat VERSION)-$(date +%s)"
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+        fi
+        echo "Version detected: $VERSION"
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    
+    - name: Log in to Docker Hub
+      if: |
+        (github.event_name == 'push' && github.ref == 'refs/heads/develop') ||
+        (github.event_name == 'release') ||
+        (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true')
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    
+    - name: Log in to GitHub Container Registry
+      if: |
+        (github.event_name == 'release') ||
+        (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true' && github.event.inputs.registry == 'ghcr.io')
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Determine Docker tags
+      id: tags
+      run: |
+        VERSION="${{ steps.version.outputs.version }}"
+        TAGS=""
+        
+        # For released versions (tags/releases)
+        if [[ "${{ github.event_name }}" == "release" ]] || [[ "${{ github.ref }}" == refs/tags/v* ]]; then
+          # themisdb/themisdb:1.0.0
+          TAGS="themisdb/themisdb:${VERSION}"
+          
+          # Also tag minor version: themisdb/themisdb:1.0
+          MINOR_VERSION=$(echo ${VERSION} | cut -d. -f1-2)
+          TAGS="$TAGS,themisdb/themisdb:${MINOR_VERSION}"
+          
+          # Tag as latest if it's a stable release (no pre-release suffix)
+          if [[ ! "${VERSION}" =~ [-] ]]; then
+            TAGS="$TAGS,themisdb/themisdb:latest"
+          fi
+        
+        # For develop branch pushes - use commit SHA
+        elif [[ "${{ github.ref }}" == "refs/heads/develop" ]]; then
+          SHORT_SHA=$(echo ${{ github.sha }} | cut -c1-7)
+          TAGS="themisdb/themisdb:dev-${SHORT_SHA}"
+        
+        # For workflow_dispatch without release
+        else
+          TAGS="themisdb/themisdb:manual-${{ github.run_id }}"
+        fi
+        
+        echo "value=${TAGS}" >> $GITHUB_OUTPUT
+        echo "Tags to be pushed: ${TAGS}"
+    
+    - name: Build and push Docker image
+      id: build
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: ./docker/Dockerfile
+        push: |
+          ${{
+            (github.event_name == 'release') ||
+            (github.event_name == 'push' && github.ref == 'refs/heads/develop') ||
+            (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true')
+          }}
+        platforms: linux/amd64,linux/arm64
+        tags: ${{ steps.tags.outputs.value }}
+        build-args: |
+          THEMIS_EDITION=COMMUNITY
+          VERSION=${{ steps.version.outputs.version }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+        provenance: false
+    
+    - name: Capture image info
+      id: image-info
+      run: |
+        TAGS="${{ steps.tags.outputs.value }}"
+        echo "images=${TAGS}" >> $GITHUB_OUTPUT
+    
+    - name: Docker Hub image summary
+      if: github.event_name == 'release' || (github.event_name == 'push' && github.ref == 'refs/heads/develop')
+      run: |
+        echo "### 🐳 Docker Image Published" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "**Version:** ${{ steps.version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+        echo "**Tags:** ${{ steps.tags.outputs.value }}" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "**Pull commands:**" >> $GITHUB_STEP_SUMMARY
+        echo '```bash' >> $GITHUB_STEP_SUMMARY
+        for TAG in $(echo "${{ steps.tags.outputs.value }}" | tr ',' '\n'); do
+          echo "docker pull ${TAG}" >> $GITHUB_STEP_SUMMARY
+        done
+        echo '```' >> $GITHUB_STEP_SUMMARY

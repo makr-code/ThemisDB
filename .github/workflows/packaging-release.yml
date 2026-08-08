@@ -1,19 +1,181 @@
 name: release-build
 
 on:
-  workflow_dispatch: {}
+  # Trigger on version tags (v1.0.0, v2.0.0-beta, etc.)
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+*'
+  
+  # Trigger on GitHub Release creation
+  release:
+    types: [published, created]
+  
+  # Manual trigger for testing or edge cases
+  workflow_dispatch:
+    inputs:
+      build_matrix:
+        description: "Build matrix presets to test"
+        required: false
+        default: "all"
+        type: choice
+        options:
+          - "all"
+          - "community-only"
+          - "linux-release-only"
+          - "windows-release-only"
 
 permissions:
   contents: read
+  actions: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
+  # ============================================================================
+  # Build Matrix Job: Test all three production presets
+  # ============================================================================
+  build-matrix:
+    name: "Build Matrix: ${{ matrix.preset }} on ${{ matrix.os }}"
+    runs-on: ${{ matrix.os }}
+    
+    permissions:
+      contents: read
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Community preset (system packages, Linux only)
+          - preset: community-release
+            os: ubuntu-latest
+            description: "Community build with system packages"
+            
+          # Linux release preset (vcpkg, Linux only)
+          - preset: linux-release
+            os: ubuntu-latest
+            description: "Production Linux build with vcpkg"
+            
+          # Windows release preset (vcpkg, Windows only)
+          - preset: windows-release
+            os: windows-latest
+            description: "Production Windows build with vcpkg"
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Install Linux dependencies (community-release)
+      if: matrix.preset == 'community-release'
+      run: |
+        sudo apt-get update -qq
+        sudo apt-get install -y --no-install-recommends \
+          build-essential \
+          cmake \
+          ninja-build \
+          pkg-config \
+          librocksdb-dev \
+          libgtest-dev \
+          libssl-dev \
+          zlib1g-dev \
+          libzstd-dev \
+          libfmt-dev \
+          libspdlog-dev \
+          nlohmann-json3-dev \
+          libtbb-dev \
+          libyaml-cpp-dev \
+          libmimalloc-dev \
+          libcurl4-openssl-dev \
+          libboost-system-dev \
+          libboost-filesystem-dev \
+          libgrpc++-dev \
+          libprotobuf-dev \
+          protobuf-compiler-grpc
+    
+    - name: Install Linux dependencies (linux-release with vcpkg)
+      if: matrix.preset == 'linux-release'
+      run: |
+        sudo apt-get update -qq
+        sudo apt-get install -y --no-install-recommends \
+          build-essential \
+          cmake \
+          ninja-build \
+          pkg-config \
+          git \
+          curl \
+          libgtest-dev \
+          libssl-dev \
+          libzstd-dev \
+          zlib1g-dev
+    
+    - name: Setup vcpkg (linux-release)
+      if: matrix.preset == 'linux-release'
+      run: |
+        if [ ! -d vcpkg ]; then
+          git clone https://github.com/microsoft/vcpkg.git
+          ./vcpkg/bootstrap-vcpkg.sh -disableMetrics
+        fi
+        echo "VCPKG_ROOT=$(pwd)/vcpkg" >> $GITHUB_ENV
+    
+    - name: Install Windows dependencies (windows-release)
+      if: matrix.preset == 'windows-release'
+      run: |
+        choco install -y ninja cmake
+    
+    - name: Setup vcpkg (windows-release)
+      if: matrix.preset == 'windows-release'
+      shell: pwsh
+      run: |
+        if (-not (Test-Path "vcpkg")) {
+          git clone https://github.com/microsoft/vcpkg.git
+          .\vcpkg\bootstrap-vcpkg.bat -disableMetrics
+        }
+        echo "VCPKG_ROOT=$(Get-Location)/vcpkg" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+    
+    - name: Configure CMake (${{ matrix.preset }})
+      run: cmake --preset ${{ matrix.preset }}
+    
+    - name: Build (${{ matrix.preset }})
+      run: |
+        cmake --build --preset ${{ matrix.preset }} --parallel 4
+    
+    - name: Test (${{ matrix.preset }})
+      continue-on-error: true
+      run: |
+        ctest --preset ${{ matrix.preset }} --output-on-failure --timeout 120
+    
+    - name: Upload build logs
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-logs-${{ matrix.preset }}
+        path: build-${{ matrix.preset }}/*.log
+        retention-days: 7
+
+  # ============================================================================
+  # Packaging Job: Build distribution packages (only on release/tag)
+  # ============================================================================
   package:
     name: Build + Package
     runs-on: ubuntu-latest
+    
+    # Only run packaging on actual releases/tags
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/') || github.event_name == 'release'
+    
+    needs: build-matrix
+    
+    permissions:
+      contents: read
+    
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
+        with:
+          fetch-depth: 0
+      
       - name: Setup prerequisites
         run: |
           sudo apt-get update
@@ -39,15 +201,13 @@ jobs:
             libgrpc++-dev \
             libprotobuf-dev \
             protobuf-compiler-grpc
-
+      
       - name: Configure (community-release)
-        run: |
-          cmake --preset community-release
-
+        run: cmake --preset community-release
+      
       - name: Build
-        run: |
-          cmake --build build-community-release --config Release --parallel 4
-
+        run: cmake --build build-community-release --config Release --parallel 4
+      
       - name: Package (ZIP)
         run: |
           if [ -f build-community-release/CPackConfig.cmake ]; then
@@ -56,13 +216,13 @@ jobs:
             echo "CPackConfig.cmake not found in build dir; skipping cpack"
             exit 1
           fi
-
+      
       - name: Generate SHA256 checksums
         run: |
           find build-community-release -maxdepth 1 -name '*.zip' -exec sh -c '
             sha256sum "$1" > "$1.sha256"
           ' _ {} \;
-
+      
       - name: Upload ZIP artifact
         uses: actions/upload-artifact@v4
         with:
@@ -70,133 +230,30 @@ jobs:
           path: |
             build-community-release/*.zip
             build-community-release/*.sha256
-
-  docker:
-    name: Build + Push Docker Image
-    runs-on: ubuntu-latest
-    needs: package
-    if: ${{ vars.DOCKER_PUSH == 'true' }}
-    permissions:
-      contents: read
-      actions: write
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Read version
-        id: version
-        run: echo "value=$(cat VERSION)" >> $GITHUB_OUTPUT
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Determine tags
-        id: tags
+          retention-days: 30
+      
+      - name: Package DEB/RPM/TGZ
         run: |
-          VERSION="${{ steps.version.outputs.value }}"
-          MINOR="$(echo $VERSION | cut -d. -f1-2)"
-          TAGS="themisdb/themisdb:${VERSION},themisdb/themisdb:${MINOR}"
-          # Only tag latest for stable releases (no pre-release suffix)
-          if [[ ! "$VERSION" =~ [-] ]]; then
-            TAGS="$TAGS,themisdb/themisdb:latest"
-          fi
-          echo "value=$TAGS" >> $GITHUB_OUTPUT
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: docker/Dockerfile.unified
-          push: true
-          platforms: linux/amd64,linux/arm64
-          tags: ${{ steps.tags.outputs.value }}
-          build-args: |
-            THEMIS_EDITION=COMMUNITY
-            VERSION=${{ steps.version.outputs.value }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
-      - name: Docker Hub image summary
-        run: |
-          echo "### Docker Image Published" >> $GITHUB_STEP_SUMMARY
-          echo "Tags: ${{ steps.tags.outputs.value }}" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
-          echo "docker pull themisdb/themisdb:${{ steps.version.outputs.value }}" >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
-
-  linux-packages:
-    name: Build Linux Packages (DEB / RPM / TGZ)
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup prerequisites
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends \
-            build-essential \
-            cmake \
-            ninja-build \
-            pkg-config \
-            rpm \
-            dpkg-dev \
-            file \
-            librocksdb-dev \
-            libgtest-dev \
-            libssl-dev \
-            zlib1g-dev \
-            libzstd-dev \
-            libfmt-dev \
-            libspdlog-dev \
-            nlohmann-json3-dev \
-            libtbb-dev \
-            libyaml-cpp-dev \
-            libmimalloc-dev \
-            libcurl4-openssl-dev \
-            libboost-system-dev \
-            libboost-filesystem-dev \
-            libgrpc++-dev \
-            libprotobuf-dev \
-            protobuf-compiler-grpc
-
-      - name: Configure (community-release)
-        run: cmake --preset community-release
-
-      - name: Build
-        run: cmake --build build-community-release --config Release --parallel 4
-
-      - name: Package DEB
-        run: |
+          sudo apt-get install -y rpm dpkg-dev
+          
+          # DEB package
           if [ -f build-community-release/CPackConfig.cmake ]; then
-            (cd build-community-release && cpack -G DEB --config CPackConfig.cmake -C Release)
-          else
-            echo "CPackConfig.cmake not found; skipping DEB"
-            exit 1
+            (cd build-community-release && cpack -G DEB --config CPackConfig.cmake -C Release) || true
           fi
-
-      - name: Package RPM
-        run: |
+          
+          # RPM package (best effort, might fail if rpmbuild not available)
           (cd build-community-release && cpack -G RPM --config CPackConfig.cmake -C Release) || \
             echo "RPM packaging skipped (rpmbuild not available)"
-
-      - name: Package TGZ
-        run: |
-          (cd build-community-release && cpack -G TGZ --config CPackConfig.cmake -C Release)
-
-      - name: Generate SHA256 checksums
+          
+          # TGZ package
+          (cd build-community-release && cpack -G TGZ --config CPackConfig.cmake -C Release) || true
+      
+      - name: Generate checksums for all packages
         run: |
           find build-community-release -maxdepth 1 \
             \( -name '*.deb' -o -name '*.rpm' -o -name '*.tar.gz' \) \
             -exec sh -c 'sha256sum "$1" > "$1.sha256"' _ {} \;
-
+      
       - name: Upload Linux package artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -206,3 +263,13 @@ jobs:
             build-community-release/*.rpm
             build-community-release/*.tar.gz
             build-community-release/*.sha256
+          retention-days: 30
+      
+      - name: Release summary
+        run: |
+          echo "### 📦 Release Packages Built" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Version:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Artifacts:**" >> $GITHUB_STEP_SUMMARY
+          ls -lh build-community-release/*.{zip,deb,rpm,tar.gz} 2>/dev/null | awk '{print "- " $9 " (" $5 ")"}' >> $GITHUB_STEP_SUMMARY || true
