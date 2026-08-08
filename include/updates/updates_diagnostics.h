@@ -258,5 +258,174 @@ inline std::string errorCodeName(DiagnosticErrorCode code) {
     return "UNKNOWN_ERROR";
 }
 
+// ============================================================================
+// Unified Error Taxonomy (Phase 3 Standardization)
+// ============================================================================
+
+/**
+ * @brief Base class for unified error taxonomy
+ * 
+ * Defines the interface for standardized error reporting across:
+ *  - State transitions
+ *  - Patch application
+ *  - Migration operations
+ *  - Rollout coordination
+ */
+class UpdateIncident {
+public:
+    virtual ~UpdateIncident() = default;
+    
+    /// Get the primary error code
+    virtual DiagnosticErrorCode errorCode() const = 0;
+    
+    /// Get the root cause
+    virtual RootCauseClass rootCause() const = 0;
+    
+    /// Get the severity
+    virtual DiagnosticSeverity severity() const = 0;
+    
+    /// Get human-readable message
+    virtual std::string message() const = 0;
+    
+    /// Get operation context
+    virtual std::string operationContext() const = 0;
+    
+    /// Convert to structured JSON for logging
+    virtual json toJson() const = 0;
+};
+
+/**
+ * @brief State transition error - state machine contract violations
+ * 
+ * Covers invalid transitions, concurrent attempts, timeout, and state corruption.
+ */
+class StateTransitionError : public UpdateIncident {
+private:
+    DiagnosticErrorCode error_code_;
+    std::string operation_;
+    UpdateState from_state_;
+    UpdateState to_state_;
+    std::string reason_;
+    
+public:
+    StateTransitionError(
+        DiagnosticErrorCode code,
+        UpdateState from,
+        UpdateState to,
+        std::string reason
+    ) : error_code_(code), from_state_(from), to_state_(to), reason_(std::move(reason)) {}
+    
+    DiagnosticErrorCode errorCode() const override { return error_code_; }
+    RootCauseClass rootCause() const override { return RootCauseClass::STATE; }
+    DiagnosticSeverity severity() const override { return severityForErrorCode(error_code_); }
+    std::string message() const override { return reason_; }
+    std::string operationContext() const override { return "state_transition"; }
+    json toJson() const override;
+};
+
+/**
+ * @brief Patch application error - delta/patch processing failures
+ * 
+ * Covers checksum mismatches, incompatibilities, corruption, and timeouts.
+ */
+class PatchApplyError : public UpdateIncident {
+private:
+    DiagnosticErrorCode error_code_;
+    std::string patch_id_;
+    std::string base_version_;
+    std::string target_version_;
+    std::string reason_;
+    
+public:
+    PatchApplyError(
+        DiagnosticErrorCode code,
+        std::string patch_id,
+        std::string base_version,
+        std::string target_version,
+        std::string reason
+    ) : error_code_(code), patch_id_(std::move(patch_id)),
+        base_version_(std::move(base_version)), target_version_(std::move(target_version)),
+        reason_(std::move(reason)) {}
+    
+    DiagnosticErrorCode errorCode() const override { return error_code_; }
+    RootCauseClass rootCause() const override { return rootCauseForErrorCode(error_code_); }
+    DiagnosticSeverity severity() const override { return severityForErrorCode(error_code_); }
+    std::string message() const override { return reason_; }
+    std::string operationContext() const override { return "patch_apply"; }
+    json toJson() const override;
+};
+
+/**
+ * @brief Migration error - schema migration and transformation failures
+ * 
+ * Covers partial migrations, timeouts, transaction isolation, and fallbacks.
+ */
+class MigrationError : public UpdateIncident {
+private:
+    DiagnosticErrorCode error_code_;
+    std::string table_name_;
+    std::string operation_;
+    std::string reason_;
+    bool fallback_applied_;
+    
+public:
+    MigrationError(
+        DiagnosticErrorCode code,
+        std::string table_name,
+        std::string operation,
+        std::string reason,
+        bool fallback_applied = false
+    ) : error_code_(code), table_name_(std::move(table_name)),
+        operation_(std::move(operation)), reason_(std::move(reason)),
+        fallback_applied_(fallback_applied) {}
+    
+    DiagnosticErrorCode errorCode() const override { return error_code_; }
+    RootCauseClass rootCause() const override { return rootCauseForErrorCode(error_code_); }
+    DiagnosticSeverity severity() const override { return severityForErrorCode(error_code_); }
+    std::string message() const override { return reason_; }
+    std::string operationContext() const override { return "migration"; }
+    json toJson() const override;
+    
+    bool fallbackApplied() const { return fallback_applied_; }
+};
+
+/**
+ * @brief Rollout error - coordinated deployment and rollback failures
+ * 
+ * Covers quorum loss, network partitions, cascade detection, and multi-node failures.
+ */
+class RolloutError : public UpdateIncident {
+private:
+    DiagnosticErrorCode error_code_;
+    std::string update_id_;
+    std::vector<std::string> failed_nodes_;
+    std::string reason_;
+    int healthy_node_count_;
+    int total_node_count_;
+    
+public:
+    RolloutError(
+        DiagnosticErrorCode code,
+        std::string update_id,
+        std::vector<std::string> failed_nodes,
+        std::string reason,
+        int healthy_node_count,
+        int total_node_count
+    ) : error_code_(code), update_id_(std::move(update_id)),
+        failed_nodes_(std::move(failed_nodes)), reason_(std::move(reason)),
+        healthy_node_count_(healthy_node_count), total_node_count_(total_node_count) {}
+    
+    DiagnosticErrorCode errorCode() const override { return error_code_; }
+    RootCauseClass rootCause() const override { return rootCauseForErrorCode(error_code_); }
+    DiagnosticSeverity severity() const override { return severityForErrorCode(error_code_); }
+    std::string message() const override { return reason_; }
+    std::string operationContext() const override { return "rollout"; }
+    json toJson() const override;
+    
+    const std::vector<std::string>& failedNodes() const { return failed_nodes_; }
+    int healthyNodeCount() const { return healthy_node_count_; }
+    int totalNodeCount() const { return total_node_count_; }
+};
+
 } // namespace updates
 } // namespace themis
