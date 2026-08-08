@@ -26,6 +26,7 @@
 #include <string>
 #include <vector>
 #include <optional>
+#include <mutex>
 
 namespace themis {
 namespace updates {
@@ -165,6 +166,9 @@ public:
 private:
     std::shared_ptr<RocksDBWrapper> storage_;
     std::shared_ptr<acceleration::PluginSecurityVerifier> verifier_;
+    
+    // Thread synchronization for column family handle access (CRITICAL: data_race fix)
+    mutable std::mutex cf_mutex_;
     
     // Column family handles
     rocksdb::ColumnFamilyHandle* cf_manifests_ = nullptr;
