@@ -1,0 +1,426 @@
+# Consolidated Release Build Workflow
+# This workflow orchestrates the release build process across multiple platforms
+# and editions, coordinating packaging, publishing, and tagging tasks.
+
+name: Release Build
+
+on:
+  # Trigger on version tags (v1.0.0, v2.0.0-beta, etc.)
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+*'
+      - 'enterprise-v[0-9]+.[0-9]+.[0-9]+*'
+      - 'hyperscaler-v[0-9]+.[0-9]+.[0-9]+*'
+  
+  # Trigger on GitHub Release creation
+  release:
+    types: [published, created]
+  
+  # Manual trigger for testing or edge cases
+  workflow_dispatch:
+    inputs:
+      build_matrix:
+        description: "Build matrix presets to test"
+        required: false
+        default: "all"
+        type: choice
+        options:
+          - "all"
+          - "community-only"
+          - "linux-release-only"
+          - "windows-release-only"
+      edition:
+        description: "Edition to publish (for dispatch)"
+        required: false
+        default: "community"
+        type: choice
+        options:
+          - "minimal"
+          - "community"
+          - "enterprise"
+          - "hyperscaler"
+      tag_name:
+        description: "Tag for image version (for dispatch)"
+        required: false
+        type: string
+
+permissions:
+  contents: read
+  packages: write
+  actions: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  # ============================================================================
+  # Build Matrix Job: Test all three production presets
+  # ============================================================================
+  build-matrix:
+    name: "Build Matrix: ${{ matrix.preset }} on ${{ matrix.os }}"
+    runs-on: ${{ matrix.os }}
+    
+    permissions:
+      contents: read
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Community preset (system packages, Linux only)
+          - preset: community-release
+            os: ubuntu-latest
+            description: "Community build with system packages"
+            
+          # Linux release preset (vcpkg, Linux only)
+          - preset: linux-release
+            os: ubuntu-latest
+            description: "Production Linux build with vcpkg"
+            
+          # Windows release preset (vcpkg, Windows only)
+          - preset: windows-release
+            os: windows-latest
+            description: "Production Windows build with vcpkg"
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Install Linux dependencies (community-release)
+      if: matrix.preset == 'community-release'
+      run: |
+        sudo apt-get update -qq
+        sudo apt-get install -y --no-install-recommends \
+          build-essential \
+          cmake \
+          ninja-build \
+          pkg-config \
+          librocksdb-dev \
+          libgtest-dev \
+          libssl-dev \
+          zlib1g-dev \
+          libzstd-dev \
+          libfmt-dev \
+          libspdlog-dev \
+          nlohmann-json3-dev \
+          libtbb-dev \
+          libyaml-cpp-dev \
+          libmimalloc-dev \
+          libcurl4-openssl-dev \
+          libboost-system-dev \
+          libboost-filesystem-dev \
+          libgrpc++-dev \
+          libprotobuf-dev \
+          protobuf-compiler-grpc
+    
+    - name: Install Linux dependencies (linux-release with vcpkg)
+      if: matrix.preset == 'linux-release'
+      run: |
+        sudo apt-get update -qq
+        sudo apt-get install -y --no-install-recommends \
+          build-essential \
+          cmake \
+          ninja-build \
+          pkg-config \
+          git \
+          curl \
+          libgtest-dev \
+          libssl-dev \
+          libzstd-dev \
+          zlib1g-dev
+    
+    - name: Setup vcpkg (linux-release)
+      if: matrix.preset == 'linux-release'
+      run: |
+        if [ ! -d vcpkg ]; then
+          git clone https://github.com/microsoft/vcpkg.git
+          ./vcpkg/bootstrap-vcpkg.sh -disableMetrics
+        fi
+        echo "VCPKG_ROOT=$(pwd)/vcpkg" >> $GITHUB_ENV
+    
+    - name: Install Windows dependencies (windows-release)
+      if: matrix.preset == 'windows-release'
+      run: |
+        choco install -y ninja cmake
+    
+    - name: Setup vcpkg (windows-release)
+      if: matrix.preset == 'windows-release'
+      shell: pwsh
+      run: |
+        if (-not (Test-Path "vcpkg")) {
+          git clone https://github.com/microsoft/vcpkg.git
+          .\vcpkg\bootstrap-vcpkg.bat -disableMetrics
+        }
+        echo "VCPKG_ROOT=$(Get-Location)/vcpkg" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+    
+    - name: Configure CMake (${{ matrix.preset }})
+      run: cmake --preset ${{ matrix.preset }}
+    
+    - name: Build (${{ matrix.preset }})
+      run: |
+        cmake --build --preset ${{ matrix.preset }} --parallel 4
+    
+    - name: Test (${{ matrix.preset }})
+      continue-on-error: true
+      run: |
+        ctest --preset ${{ matrix.preset }} --output-on-failure --timeout 120
+    
+    - name: Upload build logs
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-logs-${{ matrix.preset }}
+        path: build-${{ matrix.preset }}/*.log
+        retention-days: 7
+
+  # ============================================================================
+  # Packaging Job: Build distribution packages (only on release/tag)
+  # ============================================================================
+  package:
+    name: Build + Package
+    runs-on: ubuntu-latest
+    
+    # Only run packaging on actual releases/tags
+    if: ${{ (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')) || github.event_name == 'release' }}
+    
+    needs: build-matrix
+    
+    permissions:
+      contents: read
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Setup prerequisites
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential \
+            cmake \
+            ninja-build \
+            pkg-config \
+            librocksdb-dev \
+            libgtest-dev \
+            libssl-dev \
+            zlib1g-dev \
+            libzstd-dev \
+            libfmt-dev \
+            libspdlog-dev \
+            nlohmann-json3-dev \
+            libtbb-dev \
+            libyaml-cpp-dev \
+            libmimalloc-dev \
+            libcurl4-openssl-dev \
+            libboost-system-dev \
+            libboost-filesystem-dev \
+            libgrpc++-dev \
+            libprotobuf-dev \
+            protobuf-compiler-grpc
+      
+      - name: Configure (community-release)
+        run: cmake --preset community-release
+      
+      - name: Build
+        run: cmake --build build-community-release --config Release --parallel 4
+      
+      - name: Package (ZIP)
+        run: |
+          if [ -f build-community-release/CPackConfig.cmake ]; then
+            (cd build-community-release && cpack -G ZIP --config CPackConfig.cmake -C Release)
+          else
+            echo "CPackConfig.cmake not found in build dir; skipping cpack"
+            exit 1
+          fi
+      
+      - name: Generate SHA256 checksums
+        run: |
+          find build-community-release -maxdepth 1 -name '*.zip' -exec sh -c '
+            sha256sum "$1" > "$1.sha256"
+          ' _ {} \;
+      
+      - name: Upload ZIP artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: themisdb-community-zip
+          path: |
+            build-community-release/*.zip
+            build-community-release/*.sha256
+          retention-days: 30
+      
+      - name: Package DEB/RPM/TGZ
+        run: |
+          sudo apt-get install -y rpm dpkg-dev
+          
+          # DEB package
+          if [ -f build-community-release/CPackConfig.cmake ]; then
+            (cd build-community-release && cpack -G DEB --config CPackConfig.cmake -C Release) || true
+          fi
+          
+          # RPM package (best effort, might fail if rpmbuild not available)
+          (cd build-community-release && cpack -G RPM --config CPackConfig.cmake -C Release) || \
+            echo "RPM packaging skipped (rpmbuild not available)"
+          
+          # TGZ package
+          (cd build-community-release && cpack -G TGZ --config CPackConfig.cmake -C Release) || true
+      
+      - name: Generate checksums for all packages
+        run: |
+          find build-community-release -maxdepth 1 \
+            \( -name '*.deb' -o -name '*.rpm' -o -name '*.tar.gz' \) \
+            -exec sh -c 'sha256sum "$1" > "$1.sha256"' _ {} \;
+      
+      - name: Upload Linux package artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: themisdb-community-linux-packages
+          path: |
+            build-community-release/*.deb
+            build-community-release/*.rpm
+            build-community-release/*.tar.gz
+            build-community-release/*.sha256
+          retention-days: 30
+      
+      - name: Release summary
+        run: |
+          echo "### 📦 Release Packages Built" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Version:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Artifacts:**" >> $GITHUB_STEP_SUMMARY
+          ls -lh build-community-release/*.{zip,deb,rpm,tar.gz} 2>/dev/null | awk '{print "- " $9 " (" $5 ")"}' >> $GITHUB_STEP_SUMMARY || true
+
+  # ============================================================================
+  # Publish Community Edition (on release)
+  # ============================================================================
+  publish-community:
+    name: Publish Community Edition
+    runs-on: ubuntu-latest
+    
+    if: ${{ (github.event_name == 'release' && startsWith(github.event.release.tag_name, 'v')) || (github.event_name == 'workflow_dispatch' && startsWith(github.event.inputs.tag_name, 'v')) }}
+    
+    environment: community-prod
+    
+    permissions:
+      contents: read
+      packages: write
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      
+      - name: Compute image metadata
+        id: meta
+        run: |
+          version="${{ github.event.release.tag_name }}"
+          if [ -z "$version" ]; then
+            version="${{ github.event.inputs.tag_name }}"
+          fi
+          image="ghcr.io/${{ github.repository_owner }}/themisdb-community"
+          echo "image=${image}" >> "$GITHUB_OUTPUT"
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
+      
+      - name: Build and push community image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          target: runtime
+          push: true
+          platforms: linux/amd64,linux/arm64
+          build-args: |
+            THEMIS_EDITION=COMMUNITY
+          tags: |
+            ${{ steps.meta.outputs.image }}:${{ steps.meta.outputs.version }}
+            ${{ steps.meta.outputs.image }}:latest
+
+  # ============================================================================
+  # Publish Private Editions (enterprise, hyperscaler)
+  # ============================================================================
+  publish-private:
+    name: Publish ${{ matrix.edition | upper }} Edition
+    runs-on: ubuntu-latest
+    
+    if: ${{ github.event_name == 'push' && (startsWith(github.ref_name, 'enterprise-v') || startsWith(github.ref_name, 'hyperscaler-v')) }}
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - edition: enterprise
+            tag_prefix: enterprise-v
+            cmake_edition: ENTERPRISE
+            environment: enterprise-prod
+          - edition: hyperscaler
+            tag_prefix: hyperscaler-v
+            cmake_edition: HYPERSCALER
+            environment: hyperscaler-prod
+    
+    environment: ${{ matrix.environment }}
+    
+    permissions:
+      contents: read
+      packages: write
+    
+    steps:
+      - name: Resolve tag
+        if: ${{ (github.event_name == 'push' && startsWith(github.ref_name, matrix.tag_prefix)) || (github.event_name == 'workflow_dispatch' && github.event.inputs.edition == matrix.edition) }}
+        id: tag
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "name=${{ github.event.inputs.tag_name }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "name=${GITHUB_REF_NAME}" >> "$GITHUB_OUTPUT"
+          fi
+      
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.tag.outputs.name }}
+      
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      
+      - name: Compute image metadata
+        id: meta
+        run: |
+          version="${{ steps.tag.outputs.name }}"
+          image="ghcr.io/${{ github.repository_owner }}/themisdb-${{ matrix.edition }}"
+          echo "image=${image}" >> "$GITHUB_OUTPUT"
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
+      
+      - name: Build and push private image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          target: runtime
+          push: true
+          platforms: linux/amd64,linux/arm64
+          build-args: |
+            THEMIS_EDITION=${{ matrix.cmake_edition }}
+          tags: |
+            ${{ steps.meta.outputs.image }}:${{ steps.meta.outputs.version }}
+            ${{ steps.meta.outputs.image }}:latest
