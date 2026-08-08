@@ -10,7 +10,7 @@ Production-capable prompt engineering runtime exists for template lifecycle oper
 
 ## In Progress
 
-- [~] hardening adversarial/edge-case template and injection validation behavior (Target: Q3 2026)
+- [x] hardening adversarial/edge-case template and injection validation behavior (Target: Q3 2026) — **COMPLETED 2026-08-08**
 - [~] improving optimization/evaluation diagnostics consistency across failure classes (Target: Q3 2026)
 - [~] stabilizing benchmark-backed release guardrails for prompt engineering hot paths (Target: Q3 2026)
 
@@ -47,9 +47,13 @@ Production-capable prompt engineering runtime exists for template lifecycle oper
 - [x] implement YAML configuration schema for input normalization rules (Target: Q4 2026) — regex and dictionary rules with schema validation
 
 ### Phase 3: Error Handling and Edge Cases
-- [ ] standardize fail-safe behavior for invalid templates, injection mismatches, and version faults (Target: Q4 2026)
-- [ ] unify diagnostics across manager/version/optimizer/evaluator incidents using `PromptEngineeringErrorContext` (Target: Q4 2026)
-- [ ] enforce rewrite step bounds, phase isolation, malformed-rule rejection, and terminal policy behavior (Target: Q4 2026)
+- [x] standardize fail-safe behavior for invalid templates, injection mismatches, and version faults (Target: Q4 2026) — **COMPLETED 2026-08-08**
+  - `PromptTemplateValidator` extended with injection detection methods
+  - SQL, command, path traversal, and template injection patterns detected
+  - Adversarial test cases: 40+ test scenarios covering evasion attempts and edge cases
+  - Integration: `validate()` automatically checks template content for injection patterns
+- [x] unify diagnostics across manager/version/optimizer/evaluator incidents using `PromptEngineeringErrorContext` (Target: Q4 2026)
+- [x] enforce rewrite step bounds, phase isolation, malformed-rule rejection, and terminal policy behavior (Target: Q4 2026)
 
 ### Phase 4: Tests
 - [ ] expand focused regressions for invalid template and concurrent mutation scenarios (Target: Q4 2026)
