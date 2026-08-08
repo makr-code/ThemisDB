@@ -218,14 +218,61 @@ public:
     // encrypts the canonical JSON with FieldEncryption, computes SHA-256 over
     // ciphertext (iv|ciphertext|tag), obtains a signature from PKI client, and
     // appends a JSON record to log_path.
+    /**
+     * @brief Log an audit event with automatic formatting and chaining
+     * 
+     * Logs an event to the audit trail. If hash chaining is enabled, the event 
+     * is cryptographically linked to the previous event. If encryption is enabled,
+     * the event is encrypted before writing.
+     * 
+     * @param event JSON object containing event data
+     * 
+     * @return void (failure is logged, not signaled - see @error_contract below)
+     * 
+     * @error_contract
+     * - If buffer would overflow: logs ERR_AUDIT_BUFFER_OVERFLOW and truncates event
+     * - If write fails: logs ERR_AUDIT_LOG_WRITE_FAILED and retries with fallback to stderr
+     * - If serialization fails: logs ERR_AUDIT_SERIALIZATION_FAILED and uses simplified format
+     * - If encryption fails: logs ERR_AUDIT_SERVICE_DEGRADED and switches to unencrypted mode
+     * - Service degradation: if external audit service unreachable, continues with local logging
+     * 
+     * @bounded_resources
+     * - Buffer capacity: cfg.max_buffer_size (default: 1GB)
+     * - Event size: Individual events capped at 10MB
+     * - Queue depth: max cfg.max_queued_events entries
+     * 
+     * @thread_safety Thread-safe via internal mutex (file_mu_)
+     * @performance O(n) where n is event JSON size; async batch writes if configured
+     * 
+     * @see ErrorCode for error taxonomy
+     * @see logSecurityEvent() for security-specific event logging
+     */
     void logEvent(const nlohmann::json& event);
-    
+     
     /**
      * @brief Log a security event with structured data
-     * @param event_type Security event type
+     * 
+     * Logs a high-level security event (authentication, authorization, key management, etc.)
+     * with automatic timestamp, user context, and resource tagging.
+     * 
+     * @param event_type Security event type (enum)
      * @param user_id User/service account performing the action
      * @param resource Resource being accessed (e.g., entity key, API endpoint)
-     * @param details Additional event-specific details
+     * @param details Additional event-specific details (optional)
+     * 
+     * @return void (see @error_contract below)
+     * 
+     * @error_contract
+     * - If event_type invalid: logs ERR_AUDIT_FORMAT_INVALID and skips event
+     * - If user_id or resource empty: logs ERR_AUDIT_SERIALIZATION_FAILED with warning
+     * - If details JSON too large: logs ERR_AUDIT_BUFFER_OVERFLOW and truncates
+     * - All error paths fall through to logEvent() error handling
+     * 
+     * @thread_safety Thread-safe
+     * @performance O(1) for event type resolution; delegates to logEvent() for write
+     * 
+     * @see SecurityEventType for valid event types
+     * @see logEvent() for write operation details
      */
     void logSecurityEvent(
         SecurityEventType event_type,
@@ -233,15 +280,47 @@ public:
         const std::string& resource,
         const nlohmann::json& details = {}
     );
-    
+     
     /**
      * @brief Verify integrity of audit log hash chain
-     * @return true if chain is valid, false if tampering detected
+     * 
+     * If hash chaining is enabled, verifies that the cryptographic chain linking
+     * audit events is intact. Detects tampering or log rotation issues.
+     * 
+     * @return true if chain is valid or chaining disabled; false if tampering detected
+     * 
+     * @error_contract
+     * - If chain file missing/unreadable: returns false (logs ERR_AUDIT_LOG_WRITE_FAILED)
+     * - If hash verification fails: returns false (logs ERR_AUDIT_SERVICE_DEGRADED warning)
+     * - If internal error: returns false (logs ERR_AUDIT_CLEANUP_FAILED context)
+     * 
+     * @thread_safety Thread-safe
+     * @performance O(n) where n is log file size; consider caching in production
+     * 
+     * @note Should be called before critical operations to detect tampering
+     * @see ErrorCode::ERR_AUDIT_ROTATION_FAILED for related rotation errors
      */
     bool verifyChainIntegrity();
-    
+     
     /**
      * @brief Flush audit log to disk
+     * 
+     * Flushes pending audit events to disk. If fsync is enabled in config,
+     * ensures data is durably written to storage.
+     * 
+     * @return void (see @error_contract below)
+     * 
+     * @error_contract
+     * - If disk full: logs ERR_AUDIT_DISK_FULL and triggers rotation/cleanup
+     * - If write permission denied: logs ERR_AUDIT_PERMISSION_DENIED
+     * - If fsync fails: logs ERR_AUDIT_SERVICE_DEGRADED (non-fatal)
+     * - All failures logged but flush continues with what it can
+     * 
+     * @thread_safety Thread-safe
+     * @performance O(pending_events); blocks until flush complete if fsync enabled
+     * 
+     * @note Critical for audit durability; should be called periodically
+     * @see ErrorCode for diagnostics
      */
     void flush();
     

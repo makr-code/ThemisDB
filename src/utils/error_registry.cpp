@@ -1154,7 +1154,772 @@ void ErrorRegistry::registerDefaultErrors() {
         {"/docs/compression.md"},
         {"compression", "format", "invalid", "corrupted"}
     });
-    
+     
+    // ── Phase 2 Utils Module Errors (7300-7399) ────────────────────────────────
+    // Observability Plane - Audit Logger Errors
+    registerError({
+        ErrorCode::ERR_AUDIT_BUFFER_OVERFLOW,
+        "Audit",
+        "Critical",
+        "Audit buffer overflow: {} bytes required, {} bytes available",
+        "Audit buffer capacity exceeded while writing event.",
+        "1. Increase audit buffer size in configuration\n"
+        "2. Reduce audit event frequency\n"
+        "3. Enable audit event batching\n"
+        "4. Consider implementing event filtering",
+        {"/docs/audit/configuration.md", "/docs/audit/troubleshooting.md"},
+        {"audit", "buffer", "overflow", "capacity"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_AUDIT_LOG_WRITE_FAILED,
+        "Audit",
+        "Error",
+        "Failed to write audit event: {}",
+        "Failed to persist audit event to storage.",
+        "1. Check disk space availability\n"
+        "2. Verify audit log file permissions\n"
+        "3. Check for I/O errors\n"
+        "4. Ensure storage backend is responsive",
+        {"/docs/audit/configuration.md"},
+        {"audit", "write", "failed", "storage"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_AUDIT_SERIALIZATION_FAILED,
+        "Audit",
+        "Error",
+        "Failed to serialize audit event: {}",
+        "Audit event serialization to storage format failed.",
+        "1. Verify all audit event fields are valid\n"
+        "2. Check event data does not contain invalid characters\n"
+        "3. Ensure audit schema is up to date\n"
+        "4. Review audit configuration",
+        {"/docs/audit/schema.md"},
+        {"audit", "serialization", "failed", "format"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_AUDIT_SERVICE_UNREACHABLE,
+        "Audit",
+        "Error",
+        "External audit service unreachable: {}",
+        "Cannot connect to external audit service (e.g., syslog, external service).",
+        "1. Verify external service is running\n"
+        "2. Check network connectivity\n"
+        "3. Verify service endpoint configuration\n"
+        "4. Check firewall rules\n"
+        "5. Audit will degrade to local logging",
+        {"/docs/audit/external-services.md"},
+        {"audit", "service", "unreachable", "external"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_AUDIT_FORMAT_INVALID,
+        "Audit",
+        "Error",
+        "Invalid audit event format: {}",
+        "Audit event format validation failed.",
+        "1. Verify audit event structure matches schema\n"
+        "2. Check required fields are present\n"
+        "3. Validate field data types\n"
+        "4. Review audit configuration for format requirements",
+        {"/docs/audit/schema.md"},
+        {"audit", "format", "invalid", "validation"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_AUDIT_PERMISSION_DENIED,
+        "Audit",
+        "Error",
+        "Permission denied for audit operation: {}",
+        "Insufficient permissions to perform audit operation.",
+        "1. Check process user permissions\n"
+        "2. Verify file/directory ownership\n"
+        "3. Check SELinux/AppArmor policies\n"
+        "4. Ensure audit service is running with appropriate privileges",
+        {"/docs/audit/deployment.md", "/docs/security.md"},
+        {"audit", "permission", "denied"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_AUDIT_DISK_FULL,
+        "Audit",
+        "Critical",
+        "Audit storage disk full: {} bytes required, {} bytes available",
+        "Insufficient disk space to continue audit logging.",
+        "1. Free up disk space immediately\n"
+        "2. Archive old audit logs\n"
+        "3. Increase storage capacity\n"
+        "4. Configure retention policies\n"
+        "5. Consider enabling log rotation",
+        {"/docs/audit/retention.md", "/docs/maintenance.md"},
+        {"audit", "disk", "full", "storage", "capacity"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_AUDIT_ROTATION_FAILED,
+        "Audit",
+        "Error",
+        "Audit log rotation failed: {}",
+        "Failed to rotate audit log file.",
+        "1. Check audit log file permissions\n"
+        "2. Verify disk space for new log file\n"
+        "3. Check for file locks\n"
+        "4. Retry rotation manually if needed",
+        {"/docs/audit/log-management.md"},
+        {"audit", "rotation", "failed"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_AUDIT_SERVICE_DEGRADED,
+        "Audit",
+        "Warning",
+        "Audit service running in degraded mode: {}",
+        "Audit service is operating with reduced functionality.",
+        "1. Check system resource availability (CPU, memory)\n"
+        "2. Review audit event throughput\n"
+        "3. Verify storage backend responsiveness\n"
+        "4. Consider enabling sampling or filtering",
+        {"/docs/audit/troubleshooting.md"},
+        {"audit", "degraded", "performance"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_AUDIT_CLEANUP_FAILED,
+        "Audit",
+        "Error",
+        "Audit log cleanup failed: {}",
+        "Failed to cleanup old audit log files.",
+        "1. Check file permissions for log directory\n"
+        "2. Verify disk space for temporary cleanup operations\n"
+        "3. Check for file locks or processes holding references\n"
+        "4. Review retention configuration",
+        {"/docs/audit/retention.md", "/docs/maintenance.md"},
+        {"audit", "cleanup", "failed", "retention"}
+    });
+     
+    // Privacy & Detection Errors
+    registerError({
+        ErrorCode::ERR_PII_DETECTION_FAILED,
+        "Privacy",
+        "Error",
+        "PII detection operation failed: {}",
+        "General failure in PII detection processing.",
+        "1. Check input data validity\n"
+        "2. Verify detection engine is initialized\n"
+        "3. Review detection configuration\n"
+        "4. Check system resource availability",
+        {"/docs/privacy/pii-detection.md"},
+        {"pii", "detection", "failed"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_PII_ENGINE_INIT_FAILED,
+        "Privacy",
+        "Error",
+        "PII detection engine initialization failed: {}",
+        "Failed to initialize PII detection engine.",
+        "1. Verify engine configuration is valid\n"
+        "2. Check for missing pattern files or models\n"
+        "3. Ensure sufficient memory is available\n"
+        "4. Review engine logs for specific errors",
+        {"/docs/privacy/pii-detection.md", "/docs/deployment.md"},
+        {"pii", "engine", "initialization", "failed"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_PII_DETECTION_TIMEOUT,
+        "Privacy",
+        "Error",
+        "PII detection exceeded timeout: {} seconds",
+        "PII detection operation did not complete within timeout.",
+        "1. Increase detection timeout in configuration\n"
+        "2. Reduce input data size\n"
+        "3. Consider using sampling for large datasets\n"
+        "4. Review detection performance characteristics",
+        {"/docs/privacy/pii-detection.md", "/docs/configuration.md"},
+        {"pii", "detection", "timeout"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_PII_UNICODE_HANDLING_ERROR,
+        "Privacy",
+        "Error",
+        "Unicode handling error in PII detector: {}",
+        "Failed to handle Unicode characters in input.",
+        "1. Verify input encoding is UTF-8\n"
+        "2. Check for invalid Unicode sequences\n"
+        "3. Consider normalizing input before detection\n"
+        "4. Review detector language configuration",
+        {"/docs/privacy/pii-detection.md"},
+        {"pii", "unicode", "encoding", "character"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_PII_MALFORMED_INPUT,
+        "Privacy",
+        "Error",
+        "Malformed input to PII detector: {}",
+        "Input data format is invalid or corrupted.",
+        "1. Validate input format before detection\n"
+        "2. Check for missing required fields\n"
+        "3. Verify data encoding\n"
+        "4. Review input validation configuration",
+        {"/docs/privacy/pii-detection.md"},
+        {"pii", "input", "malformed", "validation"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_PII_REGEX_COMPILE_FAILED,
+        "Privacy",
+        "Error",
+        "Regex compilation failed in PII engine: {}",
+        "Failed to compile regex pattern for PII detection.",
+        "1. Verify regex patterns are valid\n"
+        "2. Check pattern configuration\n"
+        "3. Review regex syntax for errors\n"
+        "4. Consider using simpler patterns if applicable",
+        {"/docs/privacy/pii-detection.md"},
+        {"pii", "regex", "compilation", "pattern"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_PII_NER_ENGINE_ERROR,
+        "Privacy",
+        "Error",
+        "NER detection engine error: {}",
+        "Named Entity Recognition engine encountered an error.",
+        "1. Verify NER model is properly loaded\n"
+        "2. Check input format matches model expectations\n"
+        "3. Review NER engine configuration\n"
+        "4. Ensure sufficient memory is available",
+        {"/docs/privacy/ner-detection.md"},
+        {"pii", "ner", "engine", "error"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_PII_RESOURCE_EXHAUSTED,
+        "Privacy",
+        "Error",
+        "PII detection resource exhausted: {}",
+        "Insufficient system resources to complete PII detection.",
+        "1. Check available memory\n"
+        "2. Reduce detection scope or parallelism\n"
+        "3. Enable sampling for large datasets\n"
+        "4. Review resource limits in configuration",
+        {"/docs/privacy/pii-detection.md"},
+        {"pii", "resource", "exhausted", "memory"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_PII_POLICY_NOT_FOUND,
+        "Privacy",
+        "Error",
+        "PII detection policy not found: {}",
+        "Requested PII detection policy does not exist.",
+        "1. Verify policy name in configuration\n"
+        "2. Check policy is properly registered\n"
+        "3. Review available policies\n"
+        "4. Create missing policy if needed",
+        {"/docs/privacy/policies.md"},
+        {"pii", "policy", "not found"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_PII_PSEUDONYMIZATION_FAILED,
+        "Privacy",
+        "Error",
+        "PII pseudonymization operation failed: {}",
+        "Failed to pseudonymize detected PII.",
+        "1. Verify pseudonymization configuration\n"
+        "2. Check for invalid PII values\n"
+        "3. Ensure pseudonymization algorithm is available\n"
+        "4. Review pseudonymization logs",
+        {"/docs/privacy/pseudonymization.md"},
+        {"pii", "pseudonymization", "failed"}
+    });
+     
+    // Key Management Errors
+    registerError({
+        ErrorCode::ERR_HKDF_DERIVATION_FAILED,
+        "Crypto",
+        "Error",
+        "HKDF key derivation failed: {}",
+        "Failed to derive key using HKDF algorithm.",
+        "1. Verify input key material (IKM) is valid\n"
+        "2. Check derivation parameters\n"
+        "3. Ensure sufficient memory is available\n"
+        "4. Review HKDF configuration",
+        {"/docs/crypto/hkdf.md"},
+        {"crypto", "hkdf", "derivation", "failed"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_HKDF_INVALID_PARAMS,
+        "Crypto",
+        "Error",
+        "Invalid parameters to HKDF derivation: {}",
+        "HKDF derivation parameters are invalid.",
+        "1. Verify all required parameters are provided\n"
+        "2. Check parameter lengths meet requirements\n"
+        "3. Validate parameter values\n"
+        "4. Review HKDF specification",
+        {"/docs/crypto/hkdf.md"},
+        {"crypto", "hkdf", "parameters", "invalid"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_HKDF_CACHE_MISS,
+        "Crypto",
+        "Warning",
+        "HKDF cache miss for key: {}",
+        "Requested derived key not found in cache.",
+        "1. This is normal operation; derivation will be performed\n"
+        "2. Monitor cache hit rate\n"
+        "3. Consider adjusting cache size\n"
+        "4. Review cache configuration",
+        {"/docs/crypto/caching.md"},
+        {"crypto", "cache", "miss", "hkdf"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_HKDF_CACHE_EXPIRED,
+        "Crypto",
+        "Warning",
+        "HKDF cache entry expired: {}",
+        "Cached derived key exceeded TTL.",
+        "1. Cache entry has been evicted as expected\n"
+        "2. Derivation will be performed for new request\n"
+        "3. Review cache TTL configuration\n"
+        "4. Monitor cache performance",
+        {"/docs/crypto/caching.md"},
+        {"crypto", "cache", "expired", "ttl"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_PKI_CERT_LOAD_FAILED,
+        "Crypto",
+        "Error",
+        "PKI certificate loading failed: {}",
+        "Failed to load certificate from storage.",
+        "1. Verify certificate file path is correct\n"
+        "2. Check certificate file format (PEM/DER)\n"
+        "3. Ensure file is readable\n"
+        "4. Validate certificate structure",
+        {"/docs/crypto/pki.md", "/docs/deployment.md"},
+        {"crypto", "pki", "certificate", "load", "failed"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_PKI_KEY_LOAD_FAILED,
+        "Crypto",
+        "Error",
+        "PKI private key loading failed: {}",
+        "Failed to load private key from storage.",
+        "1. Verify key file path is correct\n"
+        "2. Check key file format (PEM/DER)\n"
+        "3. Ensure file is readable and not encrypted without password\n"
+        "4. Validate key structure",
+        {"/docs/crypto/pki.md", "/docs/deployment.md"},
+        {"crypto", "pki", "key", "load", "failed"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_PKI_SERVICE_UNAVAILABLE,
+        "Crypto",
+        "Error",
+        "PKI service unavailable: {}",
+        "Cannot connect to PKI service.",
+        "1. Verify PKI service is running\n"
+        "2. Check network connectivity to PKI service\n"
+        "3. Verify PKI service endpoint configuration\n"
+        "4. Check firewall rules\n"
+        "5. Consider implementing local key caching",
+        {"/docs/crypto/pki.md"},
+        {"crypto", "pki", "service", "unavailable"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_PKI_VALIDATION_FAILED,
+        "Crypto",
+        "Error",
+        "PKI validation operation failed: {}",
+        "PKI validation (e.g., signature verification) failed.",
+        "1. Verify the signed data matches signature\n"
+        "2. Check certificate is valid and not expired\n"
+        "3. Verify certificate chain of trust\n"
+        "4. Review validation parameters",
+        {"/docs/crypto/pki.md"},
+        {"crypto", "pki", "validation", "failed"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_KEY_DERIVATION_TIMEOUT,
+        "Crypto",
+        "Error",
+        "Key derivation exceeded timeout: {} seconds",
+        "Key derivation operation did not complete within timeout.",
+        "1. Increase derivation timeout in configuration\n"
+        "2. Check system resource availability\n"
+        "3. Consider using cached keys\n"
+        "4. Review derivation parameters complexity",
+        {"/docs/crypto/configuration.md"},
+        {"crypto", "derivation", "timeout"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_KEY_CACHE_REFRESH_FAILED,
+        "Crypto",
+        "Error",
+        "Key cache refresh operation failed: {}",
+        "Failed to refresh cached key material.",
+        "1. Verify key source is accessible\n"
+        "2. Check network connectivity for remote keys\n"
+        "3. Review refresh policy configuration\n"
+        "4. Ensure cache has sufficient space",
+        {"/docs/crypto/caching.md"},
+        {"crypto", "cache", "refresh", "failed"}
+    });
+     
+    // Compression/Encoding Errors
+    registerError({
+        ErrorCode::ERR_COMPRESSION_GENERAL_FAILED,
+        "Compression",
+        "Error",
+        "Compression operation failed: {}",
+        "General failure in compression operation.",
+        "1. Verify input data is not corrupted\n"
+        "2. Check compression algorithm is supported\n"
+        "3. Ensure sufficient memory is available\n"
+        "4. Try a different compression level",
+        {"/docs/compression.md"},
+        {"compression", "failed", "algorithm", "general"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_COMPRESSION_BUFFER_OVERFLOW,
+        "Compression",
+        "Error",
+        "Compression output buffer overflow: {} bytes required, {} bytes available",
+        "Output buffer is insufficient for compressed data.",
+        "1. Increase buffer size in configuration\n"
+        "2. Use dynamic buffer allocation\n"
+        "3. Reduce input data size\n"
+        "4. Check compression ratio estimates",
+        {"/docs/compression.md"},
+        {"compression", "buffer", "overflow", "size"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_DECOMPRESSION_FAILED,
+        "Compression",
+        "Error",
+        "Decompression operation failed: {}",
+        "Failed to decompress data.",
+        "1. Verify compressed data is not corrupted\n"
+        "2. Check decompression algorithm matches compression\n"
+        "3. Ensure sufficient memory for decompression\n"
+        "4. Verify data format is supported",
+        {"/docs/compression.md"},
+        {"compression", "decompression", "failed"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_COMPRESSION_FORMAT_INVALID,
+        "Compression",
+        "Error",
+        "Invalid compression format: {}",
+        "Compressed data format is not recognized.",
+        "1. Verify data was compressed with supported algorithm\n"
+        "2. Check for data corruption during transfer\n"
+        "3. Ensure format version is compatible\n"
+        "4. Re-compress data if source is available",
+        {"/docs/compression.md"},
+        {"compression", "format", "invalid"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_COMPRESSION_RESOURCE_EXHAUSTED,
+        "Compression",
+        "Error",
+        "Compression resource exhausted: {}",
+        "Insufficient system resources for compression.",
+        "1. Check available memory\n"
+        "2. Reduce input data size\n"
+        "3. Use lower compression level\n"
+        "4. Review compression configuration",
+        {"/docs/compression.md"},
+        {"compression", "resource", "exhausted", "memory"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_COMPRESSION_TIMEOUT,
+        "Compression",
+        "Error",
+        "Compression operation exceeded timeout: {} seconds",
+        "Compression operation did not complete within timeout.",
+        "1. Increase compression timeout\n"
+        "2. Reduce input data size\n"
+        "3. Use faster compression algorithm\n"
+        "4. Check system performance",
+        {"/docs/compression.md"},
+        {"compression", "timeout"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_SERIALIZATION_FAILED,
+        "Serialization",
+        "Error",
+        "Serialization operation failed: {}",
+        "Failed to serialize data to storage format.",
+        "1. Verify object is in valid state for serialization\n"
+        "2. Check serialization format specification\n"
+        "3. Ensure all required fields are set\n"
+        "4. Review serialization configuration",
+        {"/docs/serialization.md"},
+        {"serialization", "failed", "format"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_SERIALIZATION_BUFFER_OVERFLOW,
+        "Serialization",
+        "Error",
+        "Serialization output buffer overflow: {} bytes required, {} bytes available",
+        "Output buffer is insufficient for serialized data.",
+        "1. Increase buffer size\n"
+        "2. Use dynamic buffer allocation\n"
+        "3. Reduce object size or complexity\n"
+        "4. Review serialization format",
+        {"/docs/serialization.md"},
+        {"serialization", "buffer", "overflow", "size"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_CODEC_INIT_FAILED,
+        "Encoding",
+        "Error",
+        "Codec initialization failed: {}",
+        "Failed to initialize encoder/decoder.",
+        "1. Verify codec configuration is valid\n"
+        "2. Check codec library is properly installed\n"
+        "3. Ensure required parameters are provided\n"
+        "4. Review codec initialization logs",
+        {"/docs/encoding/codecs.md"},
+        {"codec", "initialization", "failed"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_CODEC_NOT_AVAILABLE,
+        "Encoding",
+        "Error",
+        "Requested codec not available: {}",
+        "Specified codec is not supported or not compiled in.",
+        "1. Check supported codecs in documentation\n"
+        "2. Verify codec library version\n"
+        "3. Ensure codec is compiled into build\n"
+        "4. Consider using alternative codec",
+        {"/docs/encoding/codecs.md"},
+        {"codec", "not available", "supported"}
+    });
+     
+    // Runtime Service Errors
+    registerError({
+        ErrorCode::ERR_THREADPOOL_OVERFLOW,
+        "Runtime",
+        "Error",
+        "Thread pool work queue overflowed: {} items queued, max {} allowed",
+        "Thread pool work queue capacity exceeded.",
+        "1. Increase thread pool queue depth\n"
+        "2. Increase number of threads\n"
+        "3. Reduce task submission rate\n"
+        "4. Implement backpressure handling",
+        {"/docs/runtime/thread-pool.md"},
+        {"threadpool", "overflow", "queue", "capacity"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_THREADPOOL_TASK_REJECTED,
+        "Runtime",
+        "Error",
+        "Thread pool rejected task: {} (overloaded)",
+        "Thread pool cannot accept new tasks due to overload.",
+        "1. Wait and retry the task\n"
+        "2. Implement exponential backoff\n"
+        "3. Reduce concurrent task submissions\n"
+        "4. Consider splitting into smaller tasks",
+        {"/docs/runtime/thread-pool.md"},
+        {"threadpool", "task", "rejected", "overload"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_THREADPOOL_TIMEOUT,
+        "Runtime",
+        "Error",
+        "Thread pool operation exceeded timeout: {} seconds",
+        "Thread pool task did not complete within timeout.",
+        "1. Increase operation timeout\n"
+        "2. Check if system is heavily loaded\n"
+        "3. Review task implementation for performance\n"
+        "4. Consider using async/await pattern",
+        {"/docs/runtime/thread-pool.md"},
+        {"threadpool", "timeout"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_RATE_LIMIT_EXCEEDED,
+        "Runtime",
+        "Error",
+        "Rate limit exceeded: {} requests in {} seconds (limit: {} requests/sec)",
+        "Operation rate exceeds configured limit.",
+        "1. Reduce operation rate\n"
+        "2. Implement request batching\n"
+        "3. Use adaptive rate limiting\n"
+        "4. Review rate limit configuration",
+        {"/docs/runtime/rate-limiting.md"},
+        {"rate", "limit", "exceeded"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_RATE_LIMITER_ERROR,
+        "Runtime",
+        "Error",
+        "Rate limiter internal error: {}",
+        "Rate limiter encountered an internal error.",
+        "1. Check rate limiter configuration\n"
+        "2. Verify time source is synchronized\n"
+        "3. Check for system resource issues\n"
+        "4. Review rate limiter logs",
+        {"/docs/runtime/rate-limiting.md"},
+        {"rate", "limiter", "error", "internal"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_CONNECTION_POOL_EXHAUSTED,
+        "Runtime",
+        "Error",
+        "Connection pool exhausted: {} connections in use, max {} allowed",
+        "Connection pool capacity exceeded.",
+        "1. Increase connection pool size\n"
+        "2. Reduce connection hold time\n"
+        "3. Implement connection recycling\n"
+        "4. Check for connection leaks",
+        {"/docs/runtime/connection-pool.md"},
+        {"pool", "connection", "exhausted", "capacity"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_CONNECTION_POOL_TIMEOUT,
+        "Runtime",
+        "Error",
+        "Connection pool operation exceeded timeout: {} seconds",
+        "Could not acquire connection from pool within timeout.",
+        "1. Increase connection pool timeout\n"
+        "2. Increase connection pool size\n"
+        "3. Reduce connection acquisition rate\n"
+        "4. Check for connection pool bottlenecks",
+        {"/docs/runtime/connection-pool.md"},
+        {"pool", "connection", "timeout"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_QUEUE_DEPTH_EXCEEDED,
+        "Runtime",
+        "Error",
+        "Queue depth limit exceeded: {} items, max {} allowed",
+        "Queue capacity exceeded.",
+        "1. Increase queue depth limit\n"
+        "2. Implement queue overflow handling\n"
+        "3. Increase consumer throughput\n"
+        "4. Implement backpressure",
+        {"/docs/runtime/queuing.md"},
+        {"queue", "depth", "exceeded", "capacity"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_RESOURCE_EXHAUSTION,
+        "Runtime",
+        "Critical",
+        "Resource exhaustion: {}",
+        "System has exhausted critical resources.",
+        "1. Free up system resources\n"
+        "2. Identify resource leak\n"
+        "3. Increase resource limits\n"
+        "4. Check system resource usage",
+        {"/docs/runtime/resources.md"},
+        {"resource", "exhausted", "critical"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_CONCURRENCY_CONFLICT,
+        "Runtime",
+        "Error",
+        "Concurrency conflict detected: {}",
+        "Concurrent access conflict occurred.",
+        "1. Review concurrent access patterns\n"
+        "2. Implement appropriate locking\n"
+        "3. Check for race conditions\n"
+        "4. Review thread safety guarantees",
+        {"/docs/runtime/concurrency.md"},
+        {"concurrency", "conflict", "race"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_GRPC_POOL_ERROR,
+        "Runtime",
+        "Error",
+        "gRPC channel pool error: {}",
+        "gRPC channel pool encountered an error.",
+        "1. Check gRPC service is running\n"
+        "2. Verify network connectivity\n"
+        "3. Check gRPC configuration\n"
+        "4. Review gRPC logs",
+        {"/docs/runtime/grpc.md"},
+        {"grpc", "pool", "channel", "error"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_GRPC_ROUTING_FAILED,
+        "Runtime",
+        "Error",
+        "gRPC routing/selection failed: {}",
+        "Failed to route gRPC request to appropriate target.",
+        "1. Verify target services are available\n"
+        "2. Check routing configuration\n"
+        "3. Review load balancing policy\n"
+        "4. Check service discovery",
+        {"/docs/runtime/grpc.md"},
+        {"grpc", "routing", "failed", "selection"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_TRACING_DEGRADED,
+        "Observability",
+        "Warning",
+        "Tracing system running degraded: {}",
+        "Tracing system is operating with reduced functionality.",
+        "1. Check tracing backend availability\n"
+        "2. Review tracing configuration\n"
+        "3. Check system resource availability\n"
+        "4. Consider enabling sampling",
+        {"/docs/observability/tracing.md"},
+        {"tracing", "degraded", "performance"}
+    });
+     
+    registerError({
+        ErrorCode::ERR_SAGA_EVENT_LOSS,
+        "Observability",
+        "Warning",
+        "Saga event loss detected: {} events lost",
+        "One or more saga events were lost.",
+        "1. Review saga event buffering configuration\n"
+        "2. Check event store availability\n"
+        "3. Verify event persistence\n"
+        "4. Monitor event loss rate",
+        {"/docs/observability/sagas.md"},
+        {"saga", "event", "loss", "buffer"}
+    });
+     
     // Crypto Errors
     registerError({
         ErrorCode::ERR_CRYPTO_ENCRYPTION_FAILED,

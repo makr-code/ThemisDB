@@ -185,9 +185,9 @@ public:
      * @see purge_by_ikm_hash() for selective cache invalidation
      * 
      * @example
-     * @code
+     * @code{.cpp}
      * HKDFCache cache;
-     * std::vector<uint8_t> master_key = /* ... */;
+     * std::vector<uint8_t> master_key = ...;
      * auto session_key = cache.derive_cached(master_key, salt, "auth.session", 32);
      * // Use session_key...
      * OPENSSL_cleanse(session_key.data(), session_key.size());
@@ -270,9 +270,9 @@ public:
      * @note Performance: O(n) in worst case; consider calling during maintenance window
      * 
      * Usage Scenario:
-     * @code
+     * @code{.cpp}
      * // Master key rotation workflow
-     * std::vector<uint8_t> old_master = /* ... */;
+     * std::vector<uint8_t> old_master = ...;
      * std::string old_master_hash = sha256_hex(old_master);
      * cache.purge_by_ikm_hash(old_master_hash);
      * 

@@ -87,11 +87,58 @@ public:
     
     explicit ThreadPool(const Config& config);
     ~ThreadPool();
-    
-    // Submit task to pool
+     
+    /**
+     * @brief Submit a task to the thread pool for execution
+     * 
+     * Submits a task to the work queue. The task will be executed by an available
+     * worker thread based on priority. If queue is full, returns false after timeout.
+     * 
+     * @param task Shared pointer to task to execute
+     * @param timeout Maximum time to wait for queue space (default 5 seconds)
+     * @return true if task accepted, false if queue full or timeout exceeded
+     * 
+     * @error_contract
+     * - Returns false if queue_depth >= config.max_queue_depth (logs ERR_THREADPOOL_OVERFLOW)
+     * - Returns false if timeout waiting for queue space (logs ERR_THREADPOOL_TIMEOUT)
+     * - If task is null: returns false (logs ERR_THREADPOOL_TASK_REJECTED)
+     * - If pool not running: returns false (logs warning, suggests retry)
+     * 
+     * @bounded_resources
+     * - Queue depth capped at config.max_queue_depth (default: 100,000 tasks)
+     * - Task wait time bounded by timeout parameter
+     * - Memory: each queued task ~200 bytes overhead
+     * 
+     * @thread_safety Thread-safe for concurrent submit() calls
+     * @performance O(log n) insertion into priority queue where n = queue depth
+     * 
+     * @note On queue full: implementing exponential backoff is recommended
+     * @note On timeout: consider increasing pool size or reducing task submission rate
+     * @see Task::Priority for task priority levels
+     * @see Statistics getStatistics() to monitor queue depth
+     */
     bool submit(std::shared_ptr<Task> task, std::chrono::milliseconds timeout = std::chrono::seconds(5));
-    
-    // Wait for all tasks to complete
+     
+    /**
+     * @brief Wait for all submitted tasks to complete
+     * 
+     * Blocks until all previously submitted tasks have finished execution
+     * or timeout is exceeded.
+     * 
+     * @param timeout Maximum time to wait (default 30 seconds)
+     * @return true if all tasks completed; false if timeout exceeded
+     * 
+     * @error_contract
+     * - Returns false if timeout exceeded (logs ERR_THREADPOOL_TIMEOUT)
+     * - If pool not running: returns false with warning
+     * - Task execution exceptions: logged but waitAll() returns true (tasks finished)
+     * 
+     * @thread_safety Blocking call; thread-safe for concurrent waitAll() calls
+     * @performance O(n) polling where n = number of active tasks
+     * 
+     * @note Use sparingly in production; consider async patterns instead
+     * @note Set timeout appropriately for your task workload
+     */
     bool waitAll(std::chrono::milliseconds timeout = std::chrono::seconds(30));
     
     // Get pool statistics

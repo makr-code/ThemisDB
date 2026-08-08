@@ -28,6 +28,7 @@
 #include <stdexcept>
 #include "utils/openssl_deleter.h"
 #include <nlohmann/json.hpp>
+#include <spdlog/spdlog.h>
 #include <sstream>
 #include <iomanip>
 #include <ctime>

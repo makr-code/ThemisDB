@@ -33,12 +33,34 @@ Production-usable shared utility behavior exists for observability, privacy proc
 - [x] define explicit error taxonomy for audit, privacy, and runtime utility failure classes (Target: Q3 2026)
 
 ### Phase 2: Core Implementation
-- [ ] complete remaining hardening for shared utility hotspots with broad module fan-out (Target: Q4 2026)
-- [ ] align degradation paths to predictable, module-safe contracts (Target: Q4 2026)
+- [~] complete remaining hardening for shared utility hotspots with broad module fan-out (Target: Q4 2026)
+  - [x] 2.1: Error taxonomy definition (64 codes, 7300-7363) - COMPLETE
+  - [x] 2.2: Error registry implementation (audit, privacy, key, compression, runtime) - COMPLETE  
+  - [~] 2.3: Observability plane hardening (audit_logger, logger, tracing, saga_logger) - IN PROGRESS
+  - [ ] 2.4: Privacy & Key plane hardening (pii, hkdf, pki) - QUEUED
+  - [ ] 2.5: Compression & Runtime plane hardening (codecs, thread_pool, rate_limiter) - QUEUED
+  - [ ] 2.6: Documentation and acceptance gates - QUEUED
+- [~] align degradation paths to predictable, module-safe contracts (Target: Q4 2026)
+  - [~] 2.7: Explicit error codes for all hotspots (7300-7363) - IN PROGRESS
+  - [ ] 2.8: Graceful degradation for external service failures - QUEUED
+  - [ ] 2.9: Bounded resource checks for all high-fan-out helpers - QUEUED
+  - [ ] 2.10: Doxygen error contracts for public APIs - IN PROGRESS
 
 ### Phase 3: Error Handling and Edge Cases
-- [ ] standardize fail-safe behavior across privacy, crypto, compression, and observability helpers (Target: Q4 2026)
+- [~] standardize fail-safe behavior across privacy, crypto, compression, and observability helpers (Target: Q4 2026)
+  - [x] 3.1: Unified error contract framework (error_contracts.h/cpp) - COMPLETE
+  - [x] 3.2: Error code taxonomy (9000-9099, 90 codes across 9 subsystems) - COMPLETE
+  - [x] 3.3: Incident categorization for operators (15 categories) - COMPLETE
+  - [x] 3.4: ErrorContext and diagnostic logging helpers - COMPLETE
+  - [ ] 3.5: Apply error contracts to observability components (audit_logger, logger, tracing, saga_logger)
+  - [ ] 3.6: Apply error contracts to privacy components (pii_detector, detection engines)
+  - [ ] 3.7: Apply error contracts to crypto components (hkdf_helper, hkdf_cache, pki_client)
+  - [ ] 3.8: Apply error contracts to compression components (zstd_codec, lz4_codec, serialization)
+  - [ ] 3.9: Apply error contracts to runtime services (thread_pool_manager, rate_limiter, connection pools)
 - [ ] unify diagnostics and incident categorization for shared-helper failures (Target: Q4 2026)
+  - [x] 3.10: Incident categorizer with 15 operator-visible categories - COMPLETE
+  - [x] 3.11: Structured logging with ErrorContext - COMPLETE
+  - [ ] 3.12: Update component implementations to use new diagnostics
 
 ### Phase 4: Tests
 - [x] expand focused regressions for benchmark-mapped utility hotspots and edge scenarios (Target: Q4 2026)

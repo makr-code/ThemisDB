@@ -106,9 +106,9 @@ public:
      * @see HKDFCache for cached key derivation (better performance)
      * 
      * @example
-     * @code
+     * @code{.cpp}
      * // Derive session key from master key
-     * std::vector<uint8_t> master_key = /* ... */;
+     * std::vector<uint8_t> master_key = ...;
      * std::vector<uint8_t> salt = generateRandomBytes(32);
      * std::string info = "auth.session.v1";
      * 
