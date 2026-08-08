@@ -26,12 +26,24 @@ foreach(_src IN LISTS UPDATES_PREFIX_TEST_SOURCES)
     )
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
-    themis_register_module_focused_test(
-        MODULE updates
-        NAME ${_ctest}
-        TARGET ${_target}
-        TIER unit
-        TIMEOUT 120
-        LABELS updates
-    )
+    # Operator diagnostics tests have shorter timeout (Phase 6)
+    if(_stem MATCHES "operator_diagnostics")
+        themis_register_module_focused_test(
+            MODULE updates
+            NAME ${_ctest}
+            TARGET ${_target}
+            TIER unit
+            TIMEOUT 60
+            LABELS "updates;operator_diagnostics"
+        )
+    else()
+        themis_register_module_focused_test(
+            MODULE updates
+            NAME ${_ctest}
+            TARGET ${_target}
+            TIER unit
+            TIMEOUT 120
+            LABELS updates
+        )
+    endif()
 endforeach()
