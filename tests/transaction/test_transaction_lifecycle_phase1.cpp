@@ -48,7 +48,6 @@ protected:
             std::filesystem::remove_all(test_db_path_);
         }
 
-        // Configure RocksDB
         RocksDBWrapper::Config config;
         config.db_path = test_db_path_;
         config.memtable_size_mb = 64;
@@ -59,12 +58,10 @@ protected:
         db_ = std::make_unique<RocksDBWrapper>(config);
         ASSERT_TRUE(db_->open()) << "Failed to open test database";
 
-        // Create index managers
         secondary_index_ = std::make_unique<SecondaryIndexManager>(*db_);
         graph_index_ = std::make_unique<GraphIndexManager>(*db_);
         vector_index_ = std::make_unique<VectorIndexManager>(*db_);
 
-        // Create transaction manager
         tx_manager_ = std::make_unique<TransactionManager>(
             *db_, *secondary_index_, *graph_index_, *vector_index_
         );
@@ -101,6 +98,7 @@ TEST_F(TransactionLifecyclePhase1Test, LifecycleStateTransitions_BeginToCommit) 
     auto txn_id = tx_manager_->beginTransaction();
     ASSERT_GT(txn_id, 0) << "Failed to begin transaction";
 
+    // Verify the transaction is active (retrievable) before commit
     auto txn = tx_manager_->getTransaction(txn_id);
     ASSERT_NE(txn, nullptr) << "Transaction not found after begin";
     EXPECT_FALSE(txn->isFinished()) << "Transaction should not be finished after begin";
@@ -109,10 +107,10 @@ TEST_F(TransactionLifecyclePhase1Test, LifecycleStateTransitions_BeginToCommit) 
     auto status = tx_manager_->commitTransaction(txn_id);
     EXPECT_TRUE(status.ok) << "Commit should succeed: " << status.message;
 
-    // Then: Transaction should be finished
-    txn = tx_manager_->getTransaction(txn_id);
-    ASSERT_NE(txn, nullptr) << "Transaction should still be retrievable after commit";
-    EXPECT_TRUE(txn->isFinished()) << "Transaction should be finished after commit";
+    // Then: Transaction is removed from the active map; getTransaction() returns nullptr
+    auto txn_after = tx_manager_->getTransaction(txn_id);
+    EXPECT_EQ(txn_after, nullptr)
+        << "Transaction should no longer be in the active map after commit";
 }
 
 /// AC-2: Begin/Prepare/Commit/Abort state machine correctness - Rollback path
@@ -121,17 +119,19 @@ TEST_F(TransactionLifecyclePhase1Test, LifecycleStateTransitions_BeginToAbort) {
     auto txn_id = tx_manager_->beginTransaction();
     ASSERT_GT(txn_id, 0) << "Failed to begin transaction";
 
+    // Verify active before rollback
     auto txn = tx_manager_->getTransaction(txn_id);
     ASSERT_NE(txn, nullptr) << "Transaction not found";
     EXPECT_FALSE(txn->isFinished()) << "Transaction should not be finished after begin";
 
-    // When: Rollback the transaction
-    auto status = tx_manager_->rollbackTransaction(txn_id);
-    EXPECT_TRUE(status.ok) << "Rollback should succeed: " << status.message;
+    // When: Rollback the transaction (returns bool)
+    bool rolled_back = tx_manager_->rollbackTransaction(txn_id);
+    EXPECT_TRUE(rolled_back) << "Rollback should succeed";
 
-    // Then: Transaction should be finished
-    txn = tx_manager_->getTransaction(txn_id);
-    EXPECT_TRUE(txn->isFinished()) << "Transaction should be finished after rollback";
+    // Then: Transaction is removed from the active map
+    auto txn_after = tx_manager_->getTransaction(txn_id);
+    EXPECT_EQ(txn_after, nullptr)
+        << "Transaction should no longer be in the active map after rollback";
 }
 
 /// AC-2: Invalid state transitions must be detected and rejected
@@ -143,11 +143,11 @@ TEST_F(TransactionLifecyclePhase1Test, LifecycleStateTransitions_DoubleCommitPre
     auto status1 = tx_manager_->commitTransaction(txn_id);
     EXPECT_TRUE(status1.ok) << "First commit should succeed";
 
-    // When: Try to commit again
+    // When: Try to commit again (transaction no longer in active map)
     auto status2 = tx_manager_->commitTransaction(txn_id);
 
-    // Then: Second commit should fail (transaction already finished)
-    EXPECT_FALSE(status2.ok) << "Second commit should fail (transaction already finished)";
+    // Then: Second commit should fail
+    EXPECT_FALSE(status2.ok) << "Second commit should fail (transaction already completed)";
 }
 
 /// AC-2: Invalid state transitions - double rollback prevention
@@ -156,14 +156,14 @@ TEST_F(TransactionLifecyclePhase1Test, LifecycleStateTransitions_DoubleRollbackP
     auto txn_id = tx_manager_->beginTransaction();
     ASSERT_GT(txn_id, 0);
 
-    auto status1 = tx_manager_->rollbackTransaction(txn_id);
-    EXPECT_TRUE(status1.ok) << "First rollback should succeed";
+    bool rolled_back1 = tx_manager_->rollbackTransaction(txn_id);
+    EXPECT_TRUE(rolled_back1) << "First rollback should succeed";
 
     // When: Try to rollback again
-    auto status2 = tx_manager_->rollbackTransaction(txn_id);
+    bool rolled_back2 = tx_manager_->rollbackTransaction(txn_id);
 
-    // Then: Second rollback should fail
-    EXPECT_FALSE(status2.ok) << "Second rollback should fail (transaction already finished)";
+    // Then: Second rollback should fail (not in active map)
+    EXPECT_FALSE(rolled_back2) << "Second rollback should fail (transaction already completed)";
 }
 
 /// AC-2: Invalid state transitions - commit after rollback prevention
@@ -172,13 +172,13 @@ TEST_F(TransactionLifecyclePhase1Test, LifecycleStateTransitions_CommitAfterRoll
     auto txn_id = tx_manager_->beginTransaction();
     ASSERT_GT(txn_id, 0);
 
-    auto status1 = tx_manager_->rollbackTransaction(txn_id);
-    EXPECT_TRUE(status1.ok) << "Rollback should succeed";
+    bool rolled_back = tx_manager_->rollbackTransaction(txn_id);
+    EXPECT_TRUE(rolled_back) << "Rollback should succeed";
 
-    // When: Try to commit after rollback
+    // When: Try to commit after rollback (transaction not in active map)
     auto status2 = tx_manager_->commitTransaction(txn_id);
 
-    // Then: Commit should fail (transaction already finished)
+    // Then: Commit should fail
     EXPECT_FALSE(status2.ok) << "Commit should fail after rollback";
 }
 
@@ -192,7 +192,6 @@ TEST_F(TransactionLifecyclePhase1Test, LifecycleInvariants_ConcurrentTransaction
     std::mutex errors_mutex;
     std::vector<std::string> errors;
 
-    // Spawn threads to create/commit transactions
     for (int i = 0; i < num_threads; ++i) {
         threads.emplace_back([this, &success_count, &failure_count, &errors_mutex, &errors] {
             for (int j = 0; j < txns_per_thread; ++j) {
@@ -205,18 +204,21 @@ TEST_F(TransactionLifecyclePhase1Test, LifecycleInvariants_ConcurrentTransaction
                         continue;
                     }
 
-                    // Decide to commit or rollback
                     bool commit = (j % 2 == 0);
-                    auto status = commit ?
-                        tx_manager_->commitTransaction(txn_id) :
-                        tx_manager_->rollbackTransaction(txn_id);
+                    bool ok;
+                    if (commit) {
+                        auto status = tx_manager_->commitTransaction(txn_id);
+                        ok = status.ok;
+                    } else {
+                        ok = tx_manager_->rollbackTransaction(txn_id);
+                    }
 
-                    if (status.ok) {
+                    if (ok) {
                         ++success_count;
                     } else {
                         ++failure_count;
                         std::lock_guard<std::mutex> lock(errors_mutex);
-                        errors.push_back("Commit/rollback failed: " + status.message);
+                        errors.push_back("Commit/rollback failed");
                     }
                 } catch (const std::exception& e) {
                     ++failure_count;
@@ -227,20 +229,16 @@ TEST_F(TransactionLifecyclePhase1Test, LifecycleInvariants_ConcurrentTransaction
         });
     }
 
-    // Wait for all threads
     for (auto& thread : threads) {
         thread.join();
     }
 
-    // Verify results
-    EXPECT_EQ(success_count, num_threads * txns_per_thread) 
+    EXPECT_EQ(success_count, num_threads * txns_per_thread)
         << "All transactions should succeed";
     EXPECT_EQ(failure_count, 0) << "No failures expected";
-    
-    if (!errors.empty()) {
-        for (const auto& error : errors) {
-            FAIL() << error;
-        }
+
+    for (const auto& error : errors) {
+        FAIL() << error;
     }
 }
 
@@ -248,63 +246,37 @@ TEST_F(TransactionLifecyclePhase1Test, LifecycleInvariants_ConcurrentTransaction
 
 /// AC-3: Isolation level behavior - READ_COMMITTED basic test
 TEST_F(TransactionLifecyclePhase1Test, IsolationLevel_ReadCommitted_BasicBehavior) {
-    // Given: Transaction with READ_COMMITTED isolation
-    TransactionManager::TxnOptions options;
-    options.isolation_level = IsolationLevel::READ_COMMITTED;
-
-    auto txn_id = tx_manager_->beginTransaction(options);
+    auto txn_id = tx_manager_->beginTransaction(IsolationLevel::READ_COMMITTED);
     ASSERT_GT(txn_id, 0) << "Failed to begin transaction with READ_COMMITTED";
 
     auto txn = tx_manager_->getTransaction(txn_id);
     ASSERT_NE(txn, nullptr);
-
-    // When: Retrieve isolation level
-    auto isolation = txn->getIsolationLevel();
-
-    // Then: Should be READ_COMMITTED
-    EXPECT_EQ(isolation, IsolationLevel::READ_COMMITTED);
+    EXPECT_EQ(txn->getIsolationLevel(), IsolationLevel::READ_COMMITTED);
 
     tx_manager_->commitTransaction(txn_id);
 }
 
 /// AC-3: Isolation level behavior - SNAPSHOT (MVCC) basic test
 TEST_F(TransactionLifecyclePhase1Test, IsolationLevel_Snapshot_MVCCBehavior) {
-    // Given: Transaction with SNAPSHOT isolation
-    TransactionManager::TxnOptions options;
-    options.isolation_level = IsolationLevel::SNAPSHOT;
-
-    auto txn_id = tx_manager_->beginTransaction(options);
-    ASSERT_GT(txn_id, 0) << "Failed to begin transaction with SNAPSHOT";
+    // IsolationLevel::Snapshot == IsolationLevel::REPEATABLE_READ == 3
+    auto txn_id = tx_manager_->beginTransaction(IsolationLevel::Snapshot);
+    ASSERT_GT(txn_id, 0) << "Failed to begin transaction with Snapshot";
 
     auto txn = tx_manager_->getTransaction(txn_id);
     ASSERT_NE(txn, nullptr);
-
-    // When: Retrieve isolation level
-    auto isolation = txn->getIsolationLevel();
-
-    // Then: Should be SNAPSHOT
-    EXPECT_EQ(isolation, IsolationLevel::SNAPSHOT);
+    EXPECT_EQ(txn->getIsolationLevel(), IsolationLevel::Snapshot);
 
     tx_manager_->commitTransaction(txn_id);
 }
 
 /// AC-3: Isolation level behavior - SERIALIZABLE SSI basic test
 TEST_F(TransactionLifecyclePhase1Test, IsolationLevel_Serializable_SSIBehavior) {
-    // Given: Transaction with SERIALIZABLE isolation
-    TransactionManager::TxnOptions options;
-    options.isolation_level = IsolationLevel::SERIALIZABLE;
-
-    auto txn_id = tx_manager_->beginTransaction(options);
+    auto txn_id = tx_manager_->beginTransaction(IsolationLevel::SERIALIZABLE);
     ASSERT_GT(txn_id, 0) << "Failed to begin transaction with SERIALIZABLE";
 
     auto txn = tx_manager_->getTransaction(txn_id);
     ASSERT_NE(txn, nullptr);
-
-    // When: Retrieve isolation level
-    auto isolation = txn->getIsolationLevel();
-
-    // Then: Should be SERIALIZABLE
-    EXPECT_EQ(isolation, IsolationLevel::SERIALIZABLE);
+    EXPECT_EQ(txn->getIsolationLevel(), IsolationLevel::SERIALIZABLE);
 
     tx_manager_->commitTransaction(txn_id);
 }
@@ -317,22 +289,19 @@ TEST_F(TransactionLifecyclePhase1Test, IsolationLevel_MixedConcurrentLevels) {
     std::atomic<int> serializable_count(0);
     std::atomic<int> failure_count(0);
 
-    // Spawn threads with different isolation levels
     for (int i = 0; i < 9; ++i) {
-        threads.emplace_back([this, i, &read_committed_count, &snapshot_count, 
+        threads.emplace_back([this, i, &read_committed_count, &snapshot_count,
                               &serializable_count, &failure_count] {
-            TransactionManager::TxnOptions options;
-            
-            // Vary isolation level per thread
+            IsolationLevel level;
             if (i % 3 == 0) {
-                options.isolation_level = IsolationLevel::READ_COMMITTED;
+                level = IsolationLevel::READ_COMMITTED;
             } else if (i % 3 == 1) {
-                options.isolation_level = IsolationLevel::SNAPSHOT;
+                level = IsolationLevel::Snapshot;
             } else {
-                options.isolation_level = IsolationLevel::SERIALIZABLE;
+                level = IsolationLevel::SERIALIZABLE;
             }
 
-            auto txn_id = tx_manager_->beginTransaction(options);
+            auto txn_id = tx_manager_->beginTransaction(level);
             if (txn_id <= 0) {
                 ++failure_count;
                 return;
@@ -347,7 +316,7 @@ TEST_F(TransactionLifecyclePhase1Test, IsolationLevel_MixedConcurrentLevels) {
             auto isolation = txn->getIsolationLevel();
             if (isolation == IsolationLevel::READ_COMMITTED) {
                 ++read_committed_count;
-            } else if (isolation == IsolationLevel::SNAPSHOT) {
+            } else if (isolation == IsolationLevel::Snapshot) {
                 ++snapshot_count;
             } else if (isolation == IsolationLevel::SERIALIZABLE) {
                 ++serializable_count;
@@ -360,12 +329,10 @@ TEST_F(TransactionLifecyclePhase1Test, IsolationLevel_MixedConcurrentLevels) {
         });
     }
 
-    // Wait for completion
     for (auto& thread : threads) {
         thread.join();
     }
 
-    // Verify results
     EXPECT_EQ(read_committed_count, 3) << "Expected 3 READ_COMMITTED transactions";
     EXPECT_EQ(snapshot_count, 3) << "Expected 3 SNAPSHOT transactions";
     EXPECT_EQ(serializable_count, 3) << "Expected 3 SERIALIZABLE transactions";
@@ -376,25 +343,33 @@ TEST_F(TransactionLifecyclePhase1Test, IsolationLevel_MixedConcurrentLevels) {
 
 /// AC-2: Error path determinism - Timeout behavior
 TEST_F(TransactionLifecyclePhase1Test, ErrorPathDeterminism_TimeoutBehavior) {
-    // Given: A transaction with short timeout
-    TransactionManager::TxnOptions options;
-    options.timeout_ms = 100;
-
-    auto txn_id = tx_manager_->beginTransaction(options);
+    // Begin a transaction and set a short per-transaction timeout
+    auto txn_id = tx_manager_->beginTransaction();
     ASSERT_GT(txn_id, 0);
 
-    auto txn = tx_manager_->getTransaction(txn_id);
-    ASSERT_NE(txn, nullptr);
+    {
+        auto txn = tx_manager_->getTransaction(txn_id);
+        ASSERT_NE(txn, nullptr);
+        txn->setTimeout(std::chrono::milliseconds(100));
+    }
 
-    // When: Wait for timeout to occur
+    // Wait for the timeout to expire
     std::this_thread::sleep_for(std::chrono::milliseconds(150));
 
-    // Then: Transaction should eventually be marked as timed out or rollback should succeed
-    // (Exact behavior depends on timeout handling implementation)
-    auto status = tx_manager_->rollbackTransaction(txn_id);
-    // Transaction may already be rolled back, so either status is OK or it indicates already finished
-    // The key is that the behavior is deterministic
-    EXPECT_TRUE(status.ok || !status.ok) << "Status should be deterministic";
+    // The timeout sweeper may already have rolled back the transaction.
+    // Attempting another rollback on a timed-out (already-completed) transaction
+    // must return false (not crash or block).
+    bool second_rollback = tx_manager_->rollbackTransaction(txn_id);
+    // Either still active (rollback succeeds) or already swept (rollback returns false).
+    // Both outcomes are valid; the important invariant is determinism (no UB, no exception).
+    (void)second_rollback;
+
+    // The transaction must not be in the active map regardless of which path took it.
+    // (After either timeout sweep or explicit rollback it is in completed.)
+    // We only verify the manager is still healthy by starting a new transaction.
+    auto new_txn_id = tx_manager_->beginTransaction();
+    EXPECT_GT(new_txn_id, 0) << "Manager should still accept new transactions after a timeout";
+    tx_manager_->rollbackTransaction(new_txn_id);
 }
 
 /// AC-2: Error path determinism - Large number of state transitions
@@ -410,18 +385,20 @@ TEST_F(TransactionLifecyclePhase1Test, ErrorPathDeterminism_LargeStateTransition
             continue;
         }
 
-        auto status = (i % 2 == 0) ?
-            tx_manager_->commitTransaction(txn_id) :
-            tx_manager_->rollbackTransaction(txn_id);
+        bool ok;
+        if (i % 2 == 0) {
+            ok = tx_manager_->commitTransaction(txn_id).ok;
+        } else {
+            ok = tx_manager_->rollbackTransaction(txn_id);
+        }
 
-        if (status.ok) {
+        if (ok) {
             ++success_count;
         } else {
             ++failure_count;
         }
     }
 
-    // Verify deterministic behavior
     EXPECT_EQ(success_count + failure_count, num_iterations) << "All operations accounted for";
     EXPECT_EQ(success_count, num_iterations) << "All operations should succeed under normal conditions";
 }
@@ -464,13 +441,12 @@ TEST_F(TransactionLifecyclePhase1Test, StressTest_HighTransactionCreationRate) {
     auto end_time = std::chrono::steady_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
 
-    // Verify results
-    EXPECT_EQ(total_txn_count, num_threads * txns_per_thread) << "All transactions created";
+    EXPECT_EQ(total_txn_count, static_cast<uint64_t>(num_threads * txns_per_thread))
+        << "All transactions created";
     EXPECT_EQ(error_count, 0) << "No errors under high creation rate";
 
-    // Log performance for tuning
-    std::cout << "High transaction creation rate test completed in " 
-              << duration.count() << " ms for " 
+    std::cout << "High transaction creation rate test completed in "
+              << duration.count() << " ms for "
               << total_txn_count << " transactions" << std::endl;
 }
 
@@ -478,8 +454,8 @@ TEST_F(TransactionLifecyclePhase1Test, StressTest_HighTransactionCreationRate) {
 /*
  * AC-1: ACID Lifecycle Isolation Enforcement
  * ✓ BeginTransaction creates valid transaction state
- * ✓ CommitTransaction finalizes transaction
- * ✓ RollbackTransaction reverts transaction
+ * ✓ CommitTransaction finalizes transaction (moves out of active map)
+ * ✓ RollbackTransaction reverts transaction (moves out of active map)
  * ✓ Concurrent transactions maintain isolation
  *
  * AC-2: Begin/Prepare/Commit/Abort State Machine
@@ -490,7 +466,7 @@ TEST_F(TransactionLifecyclePhase1Test, StressTest_HighTransactionCreationRate) {
  *
  * AC-3: Isolation Level Behavior
  * ✓ READ_COMMITTED isolation level correctly set and retrieved
- * ✓ SNAPSHOT isolation level correctly set and retrieved
+ * ✓ Snapshot isolation level correctly set and retrieved
  * ✓ SERIALIZABLE isolation level correctly set and retrieved
  * ✓ Mixed isolation levels in concurrent transactions work correctly
  */
