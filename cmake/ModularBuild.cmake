@@ -921,14 +921,17 @@ set(THEMIS_SECURITY_SOURCES
     ../src/search/query_expander.cpp
     ../src/search/fuzzy_matcher.cpp
     ../src/search/faceted_search.cpp
+    ../src/search/federated_search.cpp
     ../src/search/search_analytics.cpp
     ../src/search/autocomplete.cpp
+    ../src/search/conversational_search.cpp
     ../src/search/learning_to_rank.cpp
     ../src/search/multi_modal_search.cpp
     ../src/search/personalized_ranker.cpp
     ../src/search/multi_field_search.cpp
     ../src/search/neural_sparse_retrieval.cpp
     ../src/search/search_highlighter.cpp
+    ../src/search/search_result_stream.cpp
     ../src/search/cross_lingual_search.cpp
     ../src/search/negative_keyword_filter.cpp
 )
