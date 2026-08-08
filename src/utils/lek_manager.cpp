@@ -1,21 +1,70 @@
 /**
  * @file lek_manager.cpp
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief LEK Manager implementation with key rotation and lifecycle management.
  * @version 0.0.47
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 85/100
- * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=2, L=0
- * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
- */
-
-/*
- * ThemisDB | File: lek_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 400
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=7, M=4, L=0
- * PR History (last 5): #4263 PKIClient v1.8.0 + PII Stre... (2026-03-15) | #4216 feat(timeseries): Chunk-Lev... (2026-03-14) | #3295 [utils] LEK rotation automa... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
+ * @note Last Updated: 2026-08-08
+ * @note Source: Level 1 - Implementation Details
+ * @note SOT Domain: crypto-key-management
+ * 
+ * ## Implementation Architecture
+ * 
+ * **Key Hierarchy:**
+ * ```
+ * PKI Certificate
+ *   ↓ (HKDF-SHA256 derivation)
+ * KEK (Key Encryption Key)
+ *   ↓ (AES-GCM encryption)
+ * LEK (Log Encryption Key, per date)
+ *   ├─ Stored: lek:encrypted:<YYYY-MM-DD> = AES-GCM(KEK, LEK)
+ *   ├─ Cached: lek_<YYYY-MM-DD> (unencrypted in memory)
+ *   └─ Revoked: lek_revoked:<YYYY-MM-DD> (presence indicates revocation)
+ * ```
+ * 
+ * **Thread Safety Model:**
+ * - Constructor: Thread-unsafe (call once during startup)
+ * - getCurrentLEK(): Protected by mu_ (acquisition per call)
+ * - getLEKForDate(): Protected by mu_ (reader lock possible future optimization)
+ * - rotate(): Protected by mu_ and rotation_cv_
+ * - revokeKey(): Protected by revocation_mu_ (separate from LEK cache)
+ * - autoRotationLoop(): Runs in dedicated background thread
+ * 
+ * **Memory Management:**
+ * - LEK cache in-memory: NOT wiped on eviction (cache is transient)
+ * - LEK storage: Encrypted with KEK before RocksDB write
+ * - LEK on rotation: Old key NOT explicitly wiped (garbage collected)
+ * - Recommendation: Use setAuditLogger() to track key lifecycle
+ * 
+ * **Background Rotation Worker:**
+ * - Wakes every check_interval seconds
+ * - Checks if date has changed (crosses midnight UTC)
+ * - Calls getCurrentLEK() to ensure today's key exists
+ * - Revokes keys older than max_age_days
+ * - Emits KEY_ROTATED audit events if AuditLogger attached
+ * 
+ * **Error Recovery:**
+ * - LEK generation failures: Exception thrown (fail-fast)
+ * - Database failures: Exception thrown (caller must handle)
+ * - PKI failures: Exception thrown (requires admin intervention)
+ * - Rotation worker: Continues on errors (logs to spdlog)
+ * 
+ * **Compliance & Audit:**
+ * - RFC 5869 HKDF for KEK derivation
+ * - NIST SP 800-38D AES-GCM for LEK encryption
+ * - Date-based versioning for multi-key support
+ * - Optional audit trail via AuditLogger integration
+ * 
+ * **Known Limitations:**
+ * - LEK rotation happens at UTC midnight (no timezone awareness)
+ * - Key revocation is permanent (cannot unrevoke)
+ * - Migration requires both old and new keys present
+ * 
+ * @warning This file contains sensitive key management code.
+ *          Do not modify without security review.
+ * @note Security audit: [LINK TO AUDIT FINDINGS]
+ * @see RFC 5869 for HKDF details
+ * @see NIST SP 800-38D for AES-GCM details
  */
 
 #include "utils/lek_manager.h"
