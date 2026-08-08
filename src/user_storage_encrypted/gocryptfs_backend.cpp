@@ -19,6 +19,8 @@
  */
 
 #include "gocryptfs_backend.hpp"
+#include "timed_file_operation.hpp"
+#include "pipe_guard.hpp"
 #include <cstdlib>
 #include <cstdio>
 #include <array>
@@ -250,15 +252,26 @@ Result<void> GocryptfsBackend::deliverKeyViaStdin(
     ssize_t     total = static_cast<ssize_t>(hex_key.size());
     ssize_t     written = 0;
 
+    // Use timed I/O operations to prevent indefinite blocking on pipe
+    TimedFileOperation timed_io(write_fd, std::chrono::seconds(5));
+
     while (written < total) {
-        ssize_t n = write(write_fd, ptr + written, static_cast<size_t>(total - written));
-        if (n < 0) {
+        auto n = timed_io.write(ptr + written, static_cast<size_t>(total - written));
+        if (!n.has_value()) {
+            // Timeout or I/O error
+            secureZero(hex_key.data(), hex_key.size());
+            if (errno == EAGAIN) {
+                return Result<void>::error("Timeout: write to key stdin pipe blocked");
+            }
+            return Result<void>::error("Failed to write key to stdin pipe");
+        }
+        if (n.value() < 0) {
             if (errno == EINTR) continue;
             // Securely clear before returning error.
             secureZero(hex_key.data(), hex_key.size());
             return Result<void>::error("Failed to write key to stdin pipe");
         }
-        written += n;
+        written += n.value();
     }
 
     // Securely clear key material from the stack buffer.
@@ -281,37 +294,33 @@ Result<std::string> GocryptfsBackend::executeCommandWithStdin(
     }
 
     // stdout pipe: parent reads child output.
-    int stdout_pipe[2];
-    if (pipe(stdout_pipe) != 0) {
+    auto stdout_pipe = PipeGuard::create();
+    if (!stdout_pipe.isValid()) {
         return Result<std::string>::error("Failed to create stdout pipe");
     }
 
     // stdin pipe: parent writes key to child's stdin.
-    int stdin_pipe[2];
-    if (pipe(stdin_pipe) != 0) {
-        close(stdout_pipe[0]);
-        close(stdout_pipe[1]);
+    auto stdin_pipe = PipeGuard::create();
+    if (!stdin_pipe.isValid()) {
         return Result<std::string>::error("Failed to create stdin pipe");
     }
 
     pid_t pid = fork();
     if (pid == -1) {
-        close(stdout_pipe[0]); close(stdout_pipe[1]);
-        close(stdin_pipe[0]);  close(stdin_pipe[1]);
         return Result<std::string>::error("Failed to fork process");
     }
 
     if (pid == 0) {
         // Child: wire up stdin and stdout/stderr, then exec.
-        close(stdin_pipe[1]);   // close write end of stdin pipe in child
-        close(stdout_pipe[0]);  // close read end of stdout pipe in child
+        stdin_pipe.closeWrite();   // close write end of stdin pipe in child
+        stdout_pipe.closeRead();   // close read end of stdout pipe in child
 
-        if (dup2(stdin_pipe[0], STDIN_FILENO) == -1)  { _exit(127); }
-        if (dup2(stdout_pipe[1], STDOUT_FILENO) == -1) { _exit(127); }
-        if (dup2(stdout_pipe[1], STDERR_FILENO) == -1) { _exit(127); }
+        if (dup2(stdin_pipe.readFd(), STDIN_FILENO) == -1)  { _exit(127); }
+        if (dup2(stdout_pipe.writeFd(), STDOUT_FILENO) == -1) { _exit(127); }
+        if (dup2(stdout_pipe.writeFd(), STDERR_FILENO) == -1) { _exit(127); }
 
-        close(stdin_pipe[0]);
-        close(stdout_pipe[1]);
+        stdin_pipe.closeRead();
+        stdout_pipe.closeWrite();
 
         std::vector<char*> c_args;
         c_args.reserve(args.size() + 1);
@@ -325,26 +334,41 @@ Result<std::string> GocryptfsBackend::executeCommandWithStdin(
     }
 
     // Parent: close child-only ends.
-    close(stdin_pipe[0]);   // read end belongs to child
-    close(stdout_pipe[1]);  // write end belongs to child
+    stdin_pipe.closeRead();   // read end belongs to child
+    stdout_pipe.closeWrite();  // write end belongs to child
 
     // Deliver key via stdin pipe BEFORE reading stdout to prevent deadlock.
     // A hex-encoded 32-byte key is 64 bytes — well within the pipe buffer.
-    auto deliver_result = deliverKeyViaStdin(stdin_pipe[1], key_material);
-    close(stdin_pipe[1]);  // Signal EOF so gocryptfs sees end-of-passphrase.
+    auto deliver_result = deliverKeyViaStdin(stdin_pipe.writeFd(), key_material);
+    stdin_pipe.closeWrite();  // Signal EOF so gocryptfs sees end-of-passphrase.
     if (deliver_result.isError()) {
         waitpid(pid, nullptr, 0);
         return Result<std::string>::error(deliver_result.error());
     }
 
-    // Read child output.
+    // Read child output with timeout.
     std::string output;
     char buffer[1024];
-    ssize_t bytes_read;
-    while ((bytes_read = read(stdout_pipe[0], buffer, sizeof(buffer))) > 0) {
-        output.append(buffer, bytes_read);
+    TimedFileOperation read_io(stdout_pipe.readFd(), std::chrono::seconds(10));
+    
+    while (true) {
+        auto bytes_read = read_io.read(buffer, sizeof(buffer));
+        if (!bytes_read.has_value()) {
+            if (errno == EAGAIN) {
+                // Timeout on read
+                waitpid(pid, nullptr, 0);
+                return Result<std::string>::error("Timeout: reading from child process");
+            }
+            // Error
+            break;
+        }
+        if (bytes_read.value() <= 0) {
+            break;  // EOF
+        }
+        output.append(buffer, bytes_read.value());
     }
-    close(stdout_pipe[0]);
+    
+    stdout_pipe.closeRead();
 
     int status = 0;
     waitpid(pid, &status, 0);
@@ -450,37 +474,33 @@ Result<std::string> GocryptfsBackend::executeCommandWithStdin(
     }
 
     // stdout pipe: parent reads child output.
-    int stdout_pipe[2];
-    if (pipe(stdout_pipe) != 0) {
+    auto stdout_pipe = PipeGuard::create();
+    if (!stdout_pipe.isValid()) {
         return Result<std::string>::error("Failed to create stdout pipe");
     }
 
     // stdin pipe: parent writes data to child's stdin.
-    int stdin_pipe[2];
-    if (pipe(stdin_pipe) != 0) {
-        close(stdout_pipe[0]);
-        close(stdout_pipe[1]);
+    auto stdin_pipe = PipeGuard::create();
+    if (!stdin_pipe.isValid()) {
         return Result<std::string>::error("Failed to create stdin pipe");
     }
 
     pid_t pid = fork();
     if (pid == -1) {
-        close(stdout_pipe[0]); close(stdout_pipe[1]);
-        close(stdin_pipe[0]);  close(stdin_pipe[1]);
         return Result<std::string>::error("Failed to fork process");
     }
 
     if (pid == 0) {
         // Child: wire up stdin and stdout/stderr, then exec.
-        close(stdin_pipe[1]);
-        close(stdout_pipe[0]);
+        stdin_pipe.closeWrite();
+        stdout_pipe.closeRead();
 
-        if (dup2(stdin_pipe[0], STDIN_FILENO) == -1)  { _exit(127); }
-        if (dup2(stdout_pipe[1], STDOUT_FILENO) == -1) { _exit(127); }
-        if (dup2(stdout_pipe[1], STDERR_FILENO) == -1) { _exit(127); }
+        if (dup2(stdin_pipe.readFd(), STDIN_FILENO) == -1)  { _exit(127); }
+        if (dup2(stdout_pipe.writeFd(), STDOUT_FILENO) == -1) { _exit(127); }
+        if (dup2(stdout_pipe.writeFd(), STDERR_FILENO) == -1) { _exit(127); }
 
-        close(stdin_pipe[0]);
-        close(stdout_pipe[1]);
+        stdin_pipe.closeRead();
+        stdout_pipe.closeWrite();
 
         std::vector<char*> c_args;
         c_args.reserve(args.size() + 1);
@@ -494,34 +514,63 @@ Result<std::string> GocryptfsBackend::executeCommandWithStdin(
     }
 
     // Parent: close child-only ends.
-    close(stdin_pipe[0]);
-    close(stdout_pipe[1]);
+    stdin_pipe.closeRead();
+    stdout_pipe.closeWrite();
 
-    // Write stdin_data to child's stdin.
+    // Write stdin_data to child's stdin with timeout.
     const char* ptr = stdin_data.c_str();
     size_t remaining = stdin_data.size();
+    TimedFileOperation write_io(stdin_pipe.writeFd(), std::chrono::seconds(5));
+    
     while (remaining > 0) {
-        ssize_t written = write(stdin_pipe[1], ptr, remaining);
-        if (written < 0) {
-            if (errno == EINTR) continue;
-            close(stdin_pipe[1]);
-            close(stdout_pipe[0]);
+        auto written = write_io.write(ptr, remaining);
+        if (!written.has_value()) {
+            if (errno == EAGAIN) {
+                stdin_pipe.closeWrite();
+                stdout_pipe.closeRead();
+                waitpid(pid, nullptr, 0);
+                return Result<std::string>::error("Timeout: write to stdin pipe blocked");
+            }
+            stdin_pipe.closeWrite();
+            stdout_pipe.closeRead();
             waitpid(pid, nullptr, 0);
             return Result<std::string>::error("Failed to write to stdin pipe");
         }
-        ptr += written;
-        remaining -= static_cast<size_t>(written);
+        if (written.value() < 0) {
+            if (errno == EINTR) continue;
+            stdin_pipe.closeWrite();
+            stdout_pipe.closeRead();
+            waitpid(pid, nullptr, 0);
+            return Result<std::string>::error("Failed to write to stdin pipe");
+        }
+        ptr += written.value();
+        remaining -= static_cast<size_t>(written.value());
     }
-    close(stdin_pipe[1]);  // Signal EOF to child.
+    stdin_pipe.closeWrite();  // Signal EOF to child.
 
-    // Read child output.
+    // Read child output with timeout.
     std::string output;
     char buffer[1024];
-    ssize_t bytes_read;
-    while ((bytes_read = read(stdout_pipe[0], buffer, sizeof(buffer))) > 0) {
-        output.append(buffer, bytes_read);
+    TimedFileOperation read_io(stdout_pipe.readFd(), std::chrono::seconds(10));
+    
+    while (true) {
+        auto bytes_read = read_io.read(buffer, sizeof(buffer));
+        if (!bytes_read.has_value()) {
+            if (errno == EAGAIN) {
+                // Timeout on read
+                stdout_pipe.closeRead();
+                waitpid(pid, nullptr, 0);
+                return Result<std::string>::error("Timeout: reading from child process");
+            }
+            // Error
+            break;
+        }
+        if (bytes_read.value() <= 0) {
+            break;  // EOF
+        }
+        output.append(buffer, bytes_read.value());
     }
-    close(stdout_pipe[0]);
+    stdout_pipe.closeRead();
 
     int status = 0;
     waitpid(pid, &status, 0);
@@ -564,26 +613,24 @@ Result<std::string> GocryptfsBackend::executeCommandSafe(
     }
     
     // Use fork/exec for safe execution without shell
-    int pipe_fd[2];
-    if (pipe(pipe_fd) != 0) {
+    auto pipe = PipeGuard::create();
+    if (!pipe.isValid()) {
         return Result<std::string>::error("Failed to create pipe");
     }
     
     pid_t pid = fork();
     if (pid == -1) {
-        close(pipe_fd[0]);
-        close(pipe_fd[1]);
         return Result<std::string>::error("Failed to fork process");
     }
     
     if (pid == 0) {
         // Child process
-        close(pipe_fd[0]); // Close read end
+        pipe.closeRead(); // Close read end
         
         // Redirect stdout and stderr to pipe
-        dup2(pipe_fd[1], STDOUT_FILENO);
-        dup2(pipe_fd[1], STDERR_FILENO);
-        close(pipe_fd[1]);
+        dup2(pipe.writeFd(), STDOUT_FILENO);
+        dup2(pipe.writeFd(), STDERR_FILENO);
+        pipe.closeWrite();
         
         // Prepare arguments for execvp
         std::vector<char*> c_args;
@@ -600,16 +647,31 @@ Result<std::string> GocryptfsBackend::executeCommandSafe(
     }
     
     // Parent process
-    close(pipe_fd[1]); // Close write end
+    pipe.closeWrite(); // Close write end
     
-    // Read output
+    // Read output with timeout
     std::string output;
     char buffer[1024];
-    ssize_t bytes_read;
-    while ((bytes_read = read(pipe_fd[0], buffer, sizeof(buffer))) > 0) {
-        output.append(buffer, bytes_read);
+    TimedFileOperation read_io(pipe.readFd(), std::chrono::seconds(10));
+    
+    while (true) {
+        auto bytes_read = read_io.read(buffer, sizeof(buffer));
+        if (!bytes_read.has_value()) {
+            if (errno == EAGAIN) {
+                // Timeout on read
+                pipe.closeRead();
+                waitpid(pid, nullptr, 0);
+                return Result<std::string>::error("Timeout: reading command output");
+            }
+            // Error
+            break;
+        }
+        if (bytes_read.value() <= 0) {
+            break;  // EOF
+        }
+        output.append(buffer, bytes_read.value());
     }
-    close(pipe_fd[0]);
+    pipe.closeRead();
     
     // Wait for child to finish
     int status;
