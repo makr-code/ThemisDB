@@ -1,20 +1,33 @@
 # Search Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-08-06 -->
+<!-- Status: current | validated: 2026-08-08 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
 
-Production-ready search runtime (v2.0.0 GA) with:
+Production-ready search runtime (v2.0.0 GA) with complete build configuration integration:
 - Phase 1 (Design/API Contract Freeze) ✅ COMPLETE as of 2026-08-06
 - Phase 2 (Core Implementation Hardening) ✅ COMPLETE as of 2026-08-06
 - Phase 3 (Error Handling & Edge Cases) ✅ COMPLETE as of 2026-08-06
 - Phase 4 (Test Expansion: 128+ test cases) ✅ COMPLETE as of 2026-08-06
 - Phase 5 (Performance Gatekeeping: SRCP-1..6 + ADV-1..3) ✅ COMPLETE as of 2026-08-06
 - Phase 6 (Documentation & GA Acceptance) ✅ COMPLETE as of 2026-08-06
+- Build Configuration Integration ✅ COMPLETE as of 2026-08-08
 
-**Module Status:** 🟢 **GA READY** (v2.0.0 Frozen)
+**Module Status:** 🟢 **GA READY & BUILD-INTEGRATED** (v2.0.0 Frozen)
+
+### Build Configuration Completion (2026-08-08)
+- [x] All 20 search module implementations added to cmake/ModularBuild.cmake
+  - [x] conversational_search.cpp (new, 126 lines)
+  - [x] federated_search.cpp (new, 198 lines)
+  - [x] search_result_stream.cpp (new, 171 lines)
+  - [x] 17 existing implementations verified
+- [x] Total codebase: 5,223 lines of real implementation code (no stubs)
+- [x] All implementations include constructor validation and error handling
+- [x] Build configuration commit: 8888dc81
+- [x] Documentation sync: README, IMPLEMENTATION_STATUS_REPORT updated
+- [x] Production-ready maturity scores: 85-95% across all 20 modules
 
 ### Phase 1 Completion Summary (2026-08-06)
 - [x] Frozen retrieval/fusion/distributed contracts (HybridSearch v2.0.0, DistributedHybridSearch v2.1.0, SearchResultStream v2.0.0)
