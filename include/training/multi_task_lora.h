@@ -84,6 +84,23 @@ struct TaskMetrics {
 };
 
 /**
+ * @brief Wave B Acceptance Gate Metrics for Multi-Task LoRA
+ * 
+ * Tracks performance gates required for Wave B (Q1-Q2 2027):
+ *  - avg_perf_gain: Average task performance gain vs single-task baseline (target: ≥ +8%)
+ *  - training_time_overhead: Training time increase vs single-task (target: ≤ 15%)
+ *  - task_routing_latency_ms: Average task routing latency (target: ≤ 10ms)
+ *  - convergence_stable: Whether training converged stably across epochs
+ */
+struct AcceptanceGateMetrics {
+    double avg_perf_gain         = 0.0;   ///< Avg performance gain ≥ +8% (Wave B gate)
+    double training_time_overhead = 0.0;  ///< Training time overhead ≤ 15% (Wave B gate)
+    double task_routing_latency_ms = 0.0; ///< Task routing latency ≤ 10ms (Wave B gate)
+    bool   convergence_stable    = false; ///< Convergence validated across epochs
+    size_t convergence_epochs    = 0;     ///< Epochs to reach stable loss
+};
+
+/**
  * @brief Aggregated training result for a Multi-Task LoRA run.
  */
 struct MTLTrainResult {
@@ -93,6 +110,8 @@ struct MTLTrainResult {
     std::vector<TaskMetrics>  per_task;
     /// Improvement over single-task baseline (positive = better).
     double                    avg_improvement = 0.0;
+    /// Wave B Acceptance gate metrics (Phase 5)
+    AcceptanceGateMetrics     acceptance_gates;
 };
 
 // ============================================================================
@@ -212,6 +231,51 @@ public:
      *         Returns empty vector if not trained or unknown task.
      */
     std::vector<float> exportTaskWeights(const std::string& task_id) const;
+
+    // ------------------------------------------------------------------
+    // Wave B Acceptance Gates (Phase 5)
+    // ------------------------------------------------------------------
+
+    /**
+     * @brief Validate acceptance gates for Wave B deployment.
+     *
+     * Runs acceptance gate validation:
+     *  - Average task performance gain ≥ +8% vs single-task baseline
+     *  - Training-time increase ≤ 15% across benchmarked task sets
+     *  - Task routing latency ≤ 10ms
+     *  - Convergence stability across configured task-weight schedules
+     *
+     * @return AcceptanceGateMetrics with measured values and validation status.
+     * @throws std::runtime_error if model has not been trained.
+     */
+    AcceptanceGateMetrics validateAcceptanceGates() const;
+
+    /**
+     * @brief Run a three-task transfer evaluation benchmark for Wave B.
+     *
+     * Implements the Wave B benchmark harness:
+     *  - Create three synthetic tasks (semantic similarity task, sentiment, QA)
+     *  - Measure baseline single-task performance
+     *  - Measure multi-task performance with shared base
+     *  - Calculate task interference and gating effectiveness
+     *
+     * @param num_samples Number of samples per task for evaluation.
+     * @return MTLTrainResult with comprehensive metrics and gates.
+     */
+    MTLTrainResult benchmarkThreeTaskTransfer(size_t num_samples = 100);
+
+    /**
+     * @brief Run ablation study comparing shared vs separate-adapter training.
+     *
+     * Compares two adapter configurations:
+     *  - Shared base with per-task heads (current implementation)
+     *  - Separate per-task adapters (baseline)
+     *
+     * @param samples Training samples for evaluation.
+     * @return Pair of (shared_result, separate_result) for comparison.
+     */
+    std::pair<MTLTrainResult, MTLTrainResult> runAblationStudy(
+       const std::vector<MTLSample>& samples);
 
     // ------------------------------------------------------------------
     // Configuration

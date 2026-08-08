@@ -19,11 +19,14 @@
 
 #pragma once
 
+
 #include <string>
 #include <vector>
 #include <memory>
 #include <functional>
 #include <unordered_map>
+#include "training/training_error_codes.h"
+#include "training/training_exceptions.h"
 
 namespace themis {
 

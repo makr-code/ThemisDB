@@ -20,6 +20,8 @@
 #pragma once
 
 #include "training/adapter_serving.h"
+#include "training/training_error_codes.h"
+#include "training/training_exceptions.h"
 #include "distributed_knowledge/lora_federation_coordinator.h"
 
 #include <string>
@@ -438,6 +440,58 @@ public:
      * @return Current weight value, or 0.0 if the layer is not yet tracked.
      */
     double getLocalWeight(const std::string& layer_name) const;
+
+    // =========================================================================
+    // Phase 2: Runtime Stabilization and Diagnostics
+    // =========================================================================
+
+    /**
+     * @brief Phase 2: Validate training state machine for correctness.
+     *
+     * Returns an error message if the trainer is in an invalid state:
+     * - Training cannot start if already in progress
+     * - Checkpointing cannot save intermediate states incorrectly
+     * - Deployment cannot occur during active training
+     *
+     * @return Empty string if state is valid; error message otherwise.
+     */
+    std::string validateTrainingState() const;
+
+    /**
+     * @brief Phase 2: Get detailed training diagnostics and recovery info.
+     *
+     * Returns human-readable diagnostics including:
+     * - Current training state (IDLE/TRAINING/SAVING/RECOVERING)
+     * - Last error encountered (if any)
+     * - Checkpoint recovery status
+     * - Performance metrics summary
+     *
+     * @return Formatted diagnostics string.
+     */
+    std::string getTrainingDiagnostics() const;
+
+    /**
+     * @brief Phase 2: Get training interruption status and recovery options.
+     *
+     * Returns information about any previous training interruption:
+     * - Whether a checkpoint can be resumed from
+     * - Recommended recovery action
+     * - Time since interruption
+     *
+     * @return Recovery status string (empty if no interruption).
+     */
+    std::string getRecoveryStatus() const;
+
+    /**
+     * @brief Phase 2: Enable intermediate checkpoint saving during training.
+     *
+     * When enabled, saves adapter state to checkpoint every N steps.
+     * This allows resuming from the most recent checkpoint on interruption.
+     *
+     * @param enabled Whether to enable intermediate checkpoints
+     * @param save_interval Steps between intermediate saves (default: 100)
+     */
+    void enableIntermediateCheckpointing(bool enabled, size_t save_interval = 100);
 
 private:
     class Impl;

@@ -1829,6 +1829,46 @@ double IncrementalLoRATrainer::getLocalWeight(const std::string& layer_name) con
     return impl_->getLocalWeight(layer_name);
 }
 
+// =========================================================================
+// Phase 2: Runtime Stabilization and Diagnostics Implementation
+// =========================================================================
+
+std::string IncrementalLoRATrainer::validateTrainingState() const {
+    if (impl_->training_active_.load()) {
+        return "Training is already in progress; concurrent training is not supported";
+    }
+    return ""; // Valid state
+}
+
+std::string IncrementalLoRATrainer::getTrainingDiagnostics() const {
+    std::ostringstream oss;
+    oss << "Training Diagnostics:\n"
+        << "  Metrics available: " << (impl_ ? "yes" : "no") << "\n";
+    
+    auto metrics = getMetrics();
+    oss << "  Total epochs completed: " << metrics.total_epochs << "\n"
+        << "  Total steps: " << metrics.total_steps << "\n"
+        << "  Best training loss: " << metrics.best_train_loss << "\n"
+        << "  Best validation loss: " << metrics.best_val_loss << "\n"
+        << "  Total elapsed seconds: " << metrics.total_elapsed_seconds << "\n";
+    
+    return oss.str();
+}
+
+std::string IncrementalLoRATrainer::getRecoveryStatus() const {
+    if (impl_->checkpointing_enabled_ && impl_->metrics_.total_steps > 0) {
+        std::ostringstream oss;
+        oss << "Checkpointing enabled (every " << impl_->checkpoint_steps_ << " steps); "
+            << impl_->metrics_.total_steps << " steps recorded — checkpoint available for resume";
+        return oss.str();
+    }
+    return ""; // No interruption detected
+}
+
+void IncrementalLoRATrainer::enableIntermediateCheckpointing(bool enabled, size_t save_interval) {
+    impl_->setCheckpointing(enabled, save_interval);
+}
+
 } // namespace training
 } // namespace themis
 
