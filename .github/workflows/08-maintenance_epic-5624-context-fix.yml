@@ -36,13 +36,15 @@ jobs:
             const ISSUE_START = 5625;
             const ISSUE_END   = 5684;
 
-            const EPIC_CONTEXT_HEADER = "## EPIC Context\n\n" +
-              "- **Parent Epic**: #5624 — [EPIC][STATUS][MODULES] ThemisDB Development Status 2026-07-18\n" +
-              "- **Flow type**:\n" +
-              "  - [x] Feature branch → EPIC branch\n" +
-              "  - [ ] EPIC branch → develop\n" +
-              "- **EPIC Branch Target**: PR #5754 (copilot/themisdb-development-status-2026-07-18)\n" +
-              "\n";
+            const EPIC_CONTEXT_HEADER = `## EPIC Context
+            
+            - **Parent Epic**: #5624 — [EPIC][STATUS][MODULES] ThemisDB Development Status 2026-07-18
+            - **Flow type**:
+              - [x] Feature branch → EPIC branch
+              - [ ] EPIC branch → develop
+            - **EPIC Branch Target**: PR #5754 (copilot/themisdb-development-status-2026-07-18)
+            
+            `;
 
             const owner = context.repo.owner;
             const repo  = context.repo.repo;
