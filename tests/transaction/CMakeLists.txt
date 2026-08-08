@@ -371,3 +371,113 @@ foreach(_src IN LISTS TRANSACTION_AUTOGEN_PREFIX_TEST_SOURCES)
         LABELS transaction autogen
     )
 endforeach()
+
+# ===== PHASE 1 HARDENING TESTS (Q3-Q4 2026) =====
+
+# Phase 1: Lifecycle and Isolation Safety Hardening
+# AC-1..3: Lifecycle invariants, state machine, isolation levels
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_transaction_lifecycle_phase1.cpp")
+    message(STATUS "Adding Phase 1: Lifecycle and Isolation Safety Hardening tests")
+
+    add_executable(test_transaction_lifecycle_phase1_focused
+        test_transaction_lifecycle_phase1.cpp
+    )
+
+    target_link_libraries(test_transaction_lifecycle_phase1_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_transaction_lifecycle_phase1_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    themis_register_module_test(
+        MODULE transaction
+        NAME TransactionLifecyclePhase1Tests
+        TARGET test_transaction_lifecycle_phase1_focused
+        TIER unit
+        KIND focused
+        TIMEOUT 120
+        LABELS transaction phase-1 lifecycle isolation-safety
+    )
+
+    message(STATUS "  Phase 1: Lifecycle Invariants: begin/prepare/commit/abort, state machine, isolation levels")
+else()
+    message(STATUS "Phase 1 Lifecycle tests not found at ${CMAKE_CURRENT_LIST_DIR}/test_transaction_lifecycle_phase1.cpp")
+endif()
+
+# Phase 1: Isolation Contention Hardening
+# AC-3, AC-7: Isolation edge cases, lock contention, timeout determinism
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_transaction_isolation_contention_phase1.cpp")
+    message(STATUS "Adding Phase 1: Isolation Contention Hardening tests")
+
+    add_executable(test_transaction_isolation_contention_phase1_focused
+        test_transaction_isolation_contention_phase1.cpp
+    )
+
+    target_link_libraries(test_transaction_isolation_contention_phase1_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_transaction_isolation_contention_phase1_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    themis_register_module_test(
+        MODULE transaction
+        NAME TransactionIsolationContentionPhase1Tests
+        TARGET test_transaction_isolation_contention_phase1_focused
+        TIER unit
+        KIND focused
+        TIMEOUT 120
+        LABELS transaction phase-1 isolation-contention lock-management timeout
+    )
+
+    message(STATUS "  Phase 1: Isolation Contention: dirty-read prevention, phantom-read prevention, lock contention")
+else()
+    message(STATUS "Phase 1 Isolation Contention tests not found at ${CMAKE_CURRENT_LIST_DIR}/test_transaction_isolation_contention_phase1.cpp")
+endif()
+
+# Phase 1: Error Path Determinism
+# AC-2, AC-7: Timeout handling, rollback determinism, error propagation
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_transaction_error_path_determinism_phase1.cpp")
+    message(STATUS "Adding Phase 1: Error Path Determinism tests")
+
+    add_executable(test_transaction_error_path_determinism_phase1_focused
+        test_transaction_error_path_determinism_phase1.cpp
+    )
+
+    target_link_libraries(test_transaction_error_path_determinism_phase1_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        RocksDB::rocksdb
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_transaction_error_path_determinism_phase1_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    themis_register_module_test(
+        MODULE transaction
+        NAME TransactionErrorPathDeterminismPhase1Tests
+        TARGET test_transaction_error_path_determinism_phase1_focused
+        TIER unit
+        KIND focused
+        TIMEOUT 120
+        LABELS transaction phase-1 error-handling rollback-determinism timeout-semantics
+    )
+
+    message(STATUS "  Phase 1: Error Path Determinism: timeout handling, rollback determinism, error recovery")
+else()
+    message(STATUS "Phase 1 Error Path Determinism tests not found at ${CMAKE_CURRENT_LIST_DIR}/test_transaction_error_path_determinism_phase1.cpp")
+endif()
