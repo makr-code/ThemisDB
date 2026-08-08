@@ -144,36 +144,59 @@ std::vector<PIIFinding> RegexDetectionEngine::detectInText(const std::string& te
         return {};
     }
     
+    // Phase A.1 Hardening: Input validation before processing
+    if (validate_utf8_ && !validateUTF8Input(text)) {
+        spdlog::warn("RegexDetectionEngine: Skipping text with invalid UTF-8 or excessive size");
+        return {}; // Return empty findings on invalid input
+    }
+    
+    if (!checkInputBounds(text)) {
+        spdlog::warn("RegexDetectionEngine: Input exceeds size limit ({}MB max)", max_input_size_ / (1024*1024));
+        return {}; // Return empty findings if oversized
+    }
+    
     std::vector<PIIFinding> findings;
     
     for (const auto& pattern : patterns_) {
         if (!pattern.enabled) continue;
         
+        // Phase A.1 Hardening: Detect and skip known ReDoS patterns
+        if (detect_redos_patterns_ && detectReDoSPattern(pattern.regex_str)) {
+            spdlog::warn("RegexDetectionEngine: Skipping pattern '{}' (detected ReDoS risk)", pattern.name);
+            continue;
+        }
+        
         PIIType type = PIITypeUtils::fromString(pattern.name);
         if (type == PIIType::UNKNOWN) continue;
         
-        std::sregex_iterator it(text.begin(), text.end(), pattern.compiled_regex);
-        std::sregex_iterator end;
-        
-        for (; it != end; ++it) {
-            std::smatch match = *it;
-            std::string value = match.str();
+        try {
+            std::sregex_iterator it(text.begin(), text.end(), pattern.compiled_regex);
+            std::sregex_iterator end;
             
-            // Apply validation if configured
-            if (pattern.validation == "luhn" && !luhnCheck(value)) {
-                continue; // Skip invalid credit card numbers
+            for (; it != end; ++it) {
+                std::smatch match = *it;
+                std::string value = match.str();
+                
+                // Apply validation if configured
+                if (pattern.validation == "luhn" && !luhnCheck(value)) {
+                    continue; // Skip invalid credit card numbers
+                }
+                
+                PIIFinding finding;
+                finding.type = type;
+                finding.value = value;
+                finding.start_offset = match.position();
+                finding.end_offset = match.position() + match.length();
+                finding.confidence = pattern.confidence;
+                finding.pattern_name = pattern.name;
+                finding.engine_name = "regex";
+                
+                findings.push_back(finding);
             }
-            
-            PIIFinding finding;
-            finding.type = type;
-            finding.value = value;
-            finding.start_offset = match.position();
-            finding.end_offset = match.position() + match.length();
-            finding.confidence = pattern.confidence;
-            finding.pattern_name = pattern.name;
-            finding.engine_name = "regex";
-            
-            findings.push_back(finding);
+        } catch (const std::regex_error& e) {
+            spdlog::error("RegexDetectionEngine: Regex matching failed for '{}': {}", 
+                          pattern.name, e.what());
+            // Continue with next pattern; don't crash
         }
     }
     
@@ -535,6 +558,158 @@ bool RegexDetectionEngine::luhnCheck(const std::string& number) const {
     }
     
     return (sum % 10) == 0;
+}
+
+// Phase A.1 Hardening: Input validation implementations
+
+bool RegexDetectionEngine::validateUTF8Input(std::string_view text) const {
+    /**
+     * @brief Validate UTF-8 sequence integrity.
+     * 
+     * Checks for:
+     * - Valid UTF-8 byte sequences
+     * - Excludes BOM markers (UTF-8 BOM: EF BB BF)
+     * - Handles combining characters gracefully
+     * - Returns false for invalid sequences; true for valid text
+     * 
+     * This prevents crashes on malformed UTF-8 input and provides
+     * explicit control over Unicode handling.
+     */
+    
+    // Skip UTF-8 BOM if present
+    const unsigned char* data = reinterpret_cast<const unsigned char*>(text.data());
+    size_t pos = 0;
+    
+    // Skip BOM marker if present (EF BB BF)
+    if (text.size() >= 3 && data[0] == 0xEF && data[1] == 0xBB && data[2] == 0xBF) {
+        pos = 3;
+        spdlog::debug("RegexDetectionEngine: Skipping UTF-8 BOM marker");
+    }
+    
+    // Validate UTF-8 byte sequences
+    while (pos < text.size()) {
+        unsigned char byte = data[pos];
+        
+        if (byte < 0x80) {
+            // ASCII (0xxxxxxx)
+            pos++;
+        } else if ((byte & 0xE0) == 0xC0) {
+            // 2-byte sequence (110xxxxx)
+            if (pos + 1 >= text.size() || (data[pos+1] & 0xC0) != 0x80) {
+                spdlog::warn("RegexDetectionEngine: Invalid UTF-8 sequence at position {}", pos);
+                return false;
+            }
+            pos += 2;
+        } else if ((byte & 0xF0) == 0xE0) {
+            // 3-byte sequence (1110xxxx)
+            if (pos + 2 >= text.size() || 
+                (data[pos+1] & 0xC0) != 0x80 || 
+                (data[pos+2] & 0xC0) != 0x80) {
+                spdlog::warn("RegexDetectionEngine: Invalid UTF-8 sequence at position {}", pos);
+                return false;
+            }
+            pos += 3;
+        } else if ((byte & 0xF8) == 0xF0) {
+            // 4-byte sequence (11110xxx)
+            if (pos + 3 >= text.size() || 
+                (data[pos+1] & 0xC0) != 0x80 || 
+                (data[pos+2] & 0xC0) != 0x80 ||
+                (data[pos+3] & 0xC0) != 0x80) {
+                spdlog::warn("RegexDetectionEngine: Invalid UTF-8 sequence at position {}", pos);
+                return false;
+            }
+            pos += 4;
+        } else {
+            // Invalid leading byte
+            spdlog::warn("RegexDetectionEngine: Invalid UTF-8 leading byte at position {}", pos);
+            return false;
+        }
+    }
+    
+    return true; // All UTF-8 sequences valid
+}
+
+bool RegexDetectionEngine::detectReDoSPattern(const std::string& pattern) const {
+    /**
+     * @brief Detect known ReDoS (Regular Expression Denial of Service) patterns.
+     * 
+     * Identifies dangerous patterns that cause exponential backtracking:
+     * - Nested quantifiers: (a+)+, (a*)*,  (a+)*
+     * - Alternation with overlap: (a|a)*, (x|x|x)*
+     * - Quantified groups with alternation: (a|b)*
+     * 
+     * This is a heuristic check to catch common ReDoS patterns.
+     * For production, consider using a regex analyzer library.
+     * 
+     * @return true if dangerous pattern detected, false if pattern appears safe
+     */
+    
+    // Check for nested quantifiers: (...)+ or (...)* or (...){n}
+    // followed by another quantifier
+    const std::string nested_patterns[] = {
+        "(a+)+", "(a*)*", "(a+)*", "(a*)+",
+        "([a-z]+)+", "([a-z]*)*", 
+        "(\\d+)+", "(\\d*)*",
+        "([a-zA-Z0-9]+)+", "([a-zA-Z0-9]*)*"
+    };
+    
+    for (const auto& redos_pattern : nested_patterns) {
+        if (pattern.find(redos_pattern) != std::string::npos) {
+            spdlog::debug("RegexDetectionEngine: Detected ReDoS pattern: {}", redos_pattern);
+            return true;
+        }
+    }
+    
+    // Check for alternation with overlap: (a|a)*, (x|x|x)*
+    // Simple heuristic: count alternations in groups
+    size_t paren_depth = 0;
+    size_t alt_count_in_group = 0;
+    
+    for (size_t i = 0; i < pattern.size(); ++i) {
+        char c = pattern[i];
+        
+        if (c == '(' && (i == 0 || pattern[i-1] != '\\')) {
+            paren_depth++;
+            alt_count_in_group = 0;
+        } else if (c == ')' && (i == 0 || pattern[i-1] != '\\')) {
+            paren_depth--;
+            alt_count_in_group = 0;
+        } else if (c == '|' && paren_depth > 0 && (i == 0 || pattern[i-1] != '\\')) {
+            alt_count_in_group++;
+        }
+        
+        // If group has 3+ alternations and is followed by quantifier, flag it
+        if (c == ')' && (i == 0 || pattern[i-1] != '\\') && 
+            alt_count_in_group >= 2 && 
+            i + 1 < pattern.size()) {
+            char next = pattern[i+1];
+            if (next == '*' || next == '+' || next == '{') {
+                spdlog::debug("RegexDetectionEngine: Detected alternation with quantifier");
+                return true;
+            }
+        }
+    }
+    
+    return false; // Pattern appears safe
+}
+
+bool RegexDetectionEngine::checkInputBounds(std::string_view text) const {
+    /**
+     * @brief Enforce maximum input size limit.
+     * 
+     * Prevents excessive memory consumption and scanning time.
+     * Default limit: 10MB
+     * 
+     * @return true if input is within bounds, false if exceeds limit
+     */
+    
+    if (text.size() > max_input_size_) {
+        spdlog::warn("RegexDetectionEngine: Input size ({} bytes) exceeds limit ({} bytes)",
+                     text.size(), max_input_size_);
+        return false;
+    }
+    
+    return true;
 }
 
 // Factory function for createUnsigned

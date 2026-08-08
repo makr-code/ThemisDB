@@ -251,6 +251,39 @@ else()
     message(STATUS "UtilsFutureInterfaces focused tests not found at ${CMAKE_CURRENT_LIST_DIR}/../test_utils_future_interfaces.cpp")
 endif()
 
+# Privacy and Audit Hardening Focused Tests (Phase A.1)
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_utils_privacy_audit_hardening.cpp")
+    message(STATUS "Adding Privacy and Audit Hardening focused tests")
+
+    add_executable(module_utils_test_privacy_audit_hardening_focused
+        test_utils_privacy_audit_hardening.cpp
+    )
+
+    target_link_libraries(module_utils_test_privacy_audit_hardening_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(module_utils_test_privacy_audit_hardening_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    themis_register_module_test(
+        MODULE utils
+        NAME PrivacyAuditHardeningFocusedTests
+        TARGET module_utils_test_privacy_audit_hardening_focused
+        TIER unit
+        KIND focused
+        TIMEOUT 60
+        LABELS privacy audit hardening pii pseudonymizer unicode rate-limiting
+    )
+
+    message(STATUS "  PrivacyAuditHardening: PH-01 Unicode, PH-02 Multibyte, PH-03 BufferOverflow, PH-04 RateLimiting, PH-05 Pseudonymization, PH-06 ConcurrentWrites, PH-07 TimeoutCancellation, PH-08 RegexBacktracking")
+else()
+    message(STATUS "Privacy and Audit Hardening focused tests not found at ${CMAKE_CURRENT_LIST_DIR}/test_utils_privacy_audit_hardening.cpp")
+endif()
+
 # AUTOGEN PREFIX BLOCK: utils
 file(GLOB UTILS_AUTOGEN_PREFIX_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_utils_*.cpp"
