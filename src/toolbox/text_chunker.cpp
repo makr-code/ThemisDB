@@ -21,8 +21,19 @@
 #include "toolbox/text_chunker.h"
 #include "rag/document_splitter.h"
 
+#include <atomic>
+#include <sstream>
+
 namespace themis {
 namespace toolbox {
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Phase 3: Helper metrics tracking
+// ─────────────────────────────────────────────────────────────────────────────
+
+namespace {
+std::atomic<uint64_t> g_text_chunker_errors_total(0);  ///< Helper error counter
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // TextChunker
@@ -85,6 +96,21 @@ std::vector<std::string> chunkText(
     cfg.strategy   = rag::SplitStrategy::Sentence;
     TextChunker chunker(cfg);
     return chunker.chunkTexts(text);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Phase 3: Metrics export for helper diagnostics
+// ─────────────────────────────────────────────────────────────────────────────
+
+std::string getTextChunkerMetrics() {
+    const uint64_t errors = g_text_chunker_errors_total.load(std::memory_order_relaxed);
+    if (errors == 0) return "";
+    
+    std::ostringstream out;
+    out << "# HELP toolbox_text_chunker_errors_total Text chunker helper errors.\n";
+    out << "# TYPE toolbox_text_chunker_errors_total counter\n";
+    out << "toolbox_text_chunker_errors_total " << errors << "\n";
+    return out.str();
 }
 
 } // namespace toolbox
