@@ -365,15 +365,19 @@ TenantUpdateScheduler::getNextMaintenanceWindow(const std::string& tenant_id) co
 
         // Build the candidate time_point: midnight of (now + offset days)
         // plus start_min minutes.
+        // CRITICAL: multiplication_overflow fix - use int64_t for intermediate calculations
+        const int64_t hour_seconds = static_cast<int64_t>(utc_tm.tm_hour) * 3600;
+        const int64_t min_seconds = static_cast<int64_t>(utc_tm.tm_min) * 60;
+        const int64_t sec_seconds = static_cast<int64_t>(utc_tm.tm_sec);
+        const int64_t day_offset_seconds = static_cast<int64_t>(offset) * 24 * 3600;
+        const int64_t start_min_seconds = static_cast<int64_t>(start_min) * 60;
+        
         const std::time_t midnight_t =
-            now_t
-            - static_cast<std::time_t>(utc_tm.tm_hour * 3600
-                                       + utc_tm.tm_min  * 60
-                                       + utc_tm.tm_sec);  // normalize to UTC midnight
+            now_t - static_cast<std::time_t>(hour_seconds + min_seconds + sec_seconds);
         const std::time_t candidate_t =
             midnight_t
-            + static_cast<std::time_t>(offset * 24 * 3600)  // advance days
-            + static_cast<std::time_t>(start_min * 60);      // add start time
+            + static_cast<std::time_t>(day_offset_seconds)  // advance days
+            + static_cast<std::time_t>(start_min_seconds);   // add start time
 
         const auto candidate_tp =
             std::chrono::system_clock::from_time_t(candidate_t);

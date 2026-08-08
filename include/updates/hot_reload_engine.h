@@ -23,6 +23,7 @@
 #include "updates/update_history_logger.h"
 #include "utils/update_checker.h"
 #include <memory>
+#include <mutex>
 #include <string>
 #include <vector>
 #include <functional>
@@ -206,6 +207,9 @@ private:
     std::shared_ptr<utils::UpdateChecker> update_checker_;
     Config config_;
     std::function<void(int, const std::string&)> progress_callback_;
+    
+    // CRITICAL: Thread synchronization for manifest_db_ (data_race fix)
+    mutable std::mutex manifest_db_mutex_;
 
 protected:
     /// Protected (not private) so that test subclasses can access and invoke

@@ -15,6 +15,7 @@
 #include <chrono>
 #include <functional>
 #include <memory>
+#include <mutex>
 #include <optional>
 #include <string>
 #include <thread>
@@ -375,7 +376,11 @@ private:
 
     TelemetryConfig                              config_;
     std::shared_ptr<IHardwareInfoProvider>       hw_provider_;
+    
+    // CRITICAL: Thread synchronization for perf_provider_ (data_race fix)
+    mutable std::mutex                           perf_provider_mutex_;
     std::shared_ptr<IPerformanceMetricsProvider> perf_provider_;
+    
     TelemetryHttpSendFunc                        http_sender_;
     std::string                                  instance_id_;
 

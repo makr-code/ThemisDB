@@ -440,6 +440,7 @@ HardwareTelemetryReporter::~HardwareTelemetryReporter() {
 
 void HardwareTelemetryReporter::setPerformanceProvider(
         std::shared_ptr<IPerformanceMetricsProvider> provider) {
+    std::lock_guard<std::mutex> lock(perf_provider_mutex_);
     perf_provider_ = std::move(provider);
 }
 
@@ -466,27 +467,35 @@ HardwareSnapshot HardwareTelemetryReporter::collect() const {
         snap.build_verified = bv.verified;
     }
 
-    if (config_.include_performance && perf_provider_) {
-        PerformanceSnapshot raw = perf_provider_->collect();
+    if (config_.include_performance) {
+        std::shared_ptr<IPerformanceMetricsProvider> provider;
+        {
+            std::lock_guard<std::mutex> lock(perf_provider_mutex_);
+            provider = perf_provider_;
+        }
+        
+        if (provider) {
+            PerformanceSnapshot raw = provider->collect();
 
-        // Apply bucketing to protect against workload fingerprinting.
-        PerformanceSnapshot bucketed;
-        bucketed.avg_query_latency_us      = raw.avg_query_latency_us;
-        bucketed.p99_query_latency_us      = raw.p99_query_latency_us;
-        bucketed.queries_per_second_bucket =
-            floorPow2(raw.queries_per_second_bucket);
-        bucketed.cache_hit_rate_pct        = raw.cache_hit_rate_pct;
-        bucketed.process_rss_mb_bucket     =
-            static_cast<uint32_t>(floorBucket<uint32_t>(
-                raw.process_rss_mb_bucket, 64u));
-        bucketed.uptime_seconds            = raw.uptime_seconds;
-        bucketed.active_connections_bucket =
-            floorPow2(raw.active_connections_bucket);
-        bucketed.db_size_mb_bucket         =
-            static_cast<uint32_t>(floorBucket<uint32_t>(
-                raw.db_size_mb_bucket, 512u));
+            // Apply bucketing to protect against workload fingerprinting.
+            PerformanceSnapshot bucketed;
+            bucketed.avg_query_latency_us      = raw.avg_query_latency_us;
+            bucketed.p99_query_latency_us      = raw.p99_query_latency_us;
+            bucketed.queries_per_second_bucket =
+                floorPow2(raw.queries_per_second_bucket);
+            bucketed.cache_hit_rate_pct        = raw.cache_hit_rate_pct;
+            bucketed.process_rss_mb_bucket     =
+                static_cast<uint32_t>(floorBucket<uint32_t>(
+                    raw.process_rss_mb_bucket, 64u));
+            bucketed.uptime_seconds            = raw.uptime_seconds;
+            bucketed.active_connections_bucket =
+                floorPow2(raw.active_connections_bucket);
+            bucketed.db_size_mb_bucket         =
+                static_cast<uint32_t>(floorBucket<uint32_t>(
+                    raw.db_size_mb_bucket, 512u));
 
-        snap.performance = bucketed;
+            snap.performance = bucketed;
+        }
     }
 
     return snap;
@@ -543,6 +552,8 @@ void HardwareTelemetryReporter::startBackgroundReporting() {
 void HardwareTelemetryReporter::stopBackgroundReporting() {
     if (!running_.load(std::memory_order_acquire)) { return; }
     stop_requested_.store(true, std::memory_order_release);
+    
+    // The background thread exits promptly once stop_requested_ is set.
     if (bg_thread_.joinable()) {
         bg_thread_.join();
     }

@@ -395,5 +395,130 @@ void CoordinatedUpdateManager::setProgressCallback(ProgressCallback fn) {
     progress_cb_ = std::move(fn);
 }
 
+// ---------------------------------------------------------------------------
+// Coordinated rollback enhancements (v1.8.1 – Q3 2026)
+// ---------------------------------------------------------------------------
+
+bool CoordinatedUpdateManager::performNodeRollback(const NodeDescriptor& node,
+                                                   const std::string& reason) {
+    // This node is local; rollback from engine
+    if (node.node_id == config_.local_node_id) {
+        bool success = rollback(reason);
+        if (success) {
+            LOG_INFO("CoordinatedUpdateManager: node {} rolled back successfully",
+                    node.node_id);
+        } else {
+            LOG_ERROR("CoordinatedUpdateManager: node {} rollback failed",
+                     node.node_id);
+        }
+        return success;
+    }
+    
+    // For remote nodes, a real remote rollback callback/RPC must be provided.
+    // Failing closed here prevents incorrect cluster state on unimplemented paths.
+    LOG_ERROR("CoordinatedUpdateManager: remote rollback for node {} not implemented; failing closed (reason: {})",
+              node.node_id, reason);
+    return false;
+}
+
+void CoordinatedUpdateManager::isolateNode(const std::string& node_id,
+                                           const std::string& reason) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    // Mark the node as failed in node_statuses_
+    for (auto& status : node_statuses_) {
+        if (status.node_id == node_id) {
+            status.state = NodeUpdateState::FAILED;
+            status.error_message = reason;
+            break;
+        }
+    }
+    
+    // Track isolation
+    auto it = std::find(isolated_nodes_.begin(), isolated_nodes_.end(), node_id);
+    if (it == isolated_nodes_.end()) {
+        isolated_nodes_.push_back(node_id);
+        LOG_WARN("CoordinatedUpdateManager: node {} isolated due to: {}",
+                node_id, reason);
+    }
+}
+
+bool CoordinatedUpdateManager::coordinatedRollback(const std::string& reason) {
+    LOG_INFO("CoordinatedUpdateManager: starting coordinated rollback (reason={})",
+            reason);
+    
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        
+        // Rollback in reverse sequence: leader first, then replicas
+        // This prevents replication skew
+        for (auto it = sorted_nodes_.rbegin(); it != sorted_nodes_.rend(); ++it) {
+            if (!performNodeRollback(*it, reason)) {
+                LOG_ERROR("CoordinatedUpdateManager: rollback failed for node {}",
+                         it->node_id);
+                return false;
+            }
+        }
+    }
+    
+    reportProgress("Coordinated rollback completed");
+    return true;
+}
+
+CoordinatedUpdateResult CoordinatedUpdateManager::coordinatedRollbackWithIsolation(
+    const std::string& reason) {
+    
+    LOG_INFO("CoordinatedUpdateManager: starting coordinated rollback with isolation "
+            "(reason={})", reason);
+    
+    CoordinatedUpdateResult result;
+    result.success = true;
+    result.error_message = "";
+    
+    std::vector<NodeDescriptor> nodes_to_rollback;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        // Rollback in reverse sequence
+        nodes_to_rollback = sorted_nodes_;
+        std::reverse(nodes_to_rollback.begin(), nodes_to_rollback.end());
+    }
+    
+    uint32_t rolled_back = 0;
+    uint32_t isolated = 0;
+    
+    for (const auto& node : nodes_to_rollback) {
+        if (!performNodeRollback(node, reason)) {
+            // Isolation: mark as failed but continue with others
+            isolateNode(node.node_id, "rollback failed: " + reason);
+            ++isolated;
+            result.success = false;  // At least one failed, but continue
+            LOG_WARN("CoordinatedUpdateManager: node {} isolated, continuing rollback",
+                    node.node_id);
+        } else {
+            ++rolled_back;
+        }
+    }
+    
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        result.node_statuses = node_statuses_;
+        result.nodes_rolled_back = rolled_back;
+        result.nodes_failed = isolated;
+    }
+    
+    reportProgress("Coordinated rollback with isolation completed");
+    return result;
+}
+
+bool CoordinatedUpdateManager::hasIsolatedNodes() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return !isolated_nodes_.empty();
+}
+
+uint32_t CoordinatedUpdateManager::isolatedNodeCount() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return static_cast<uint32_t>(isolated_nodes_.size());
+}
+
 } // namespace updates
 } // namespace themis

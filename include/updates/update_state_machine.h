@@ -73,6 +73,31 @@ struct UpdateTransactionEntry {
 using CheckpointId = uint64_t;
 
 /**
+ * @brief Strategy for handling rollback failures in coordinated scenarios
+ * @since 1.8.1 (Q3 2026)
+ */
+enum class RollbackFallbackStrategy {
+    IMMEDIATE_ABORT,    ///< Stop on first rollback failure (fail-fast)
+    PARTIAL_CONTINUE,   ///< Continue rolling back other nodes despite local failure
+    DEFER               ///< Queue failed rollback for later retry
+};
+
+/**
+ * @brief Callback for handling rollback completion or failure
+ * 
+ * Invoked after rollbackToCheckpoint() completes (success or failure).
+ * Allows callers to implement custom recovery logic.
+ * 
+ * @param checkpoint_id The checkpoint that was rolled back to
+ * @param success true if rollback succeeded, false otherwise
+ * @param error_msg Error description (empty if success)
+ * @since 1.8.1 (Q3 2026)
+ */
+using RollbackCallback = std::function<void(CheckpointId checkpoint_id, 
+                                            bool success, 
+                                            const std::string& error_msg)>;
+
+/**
  * @brief Snapshot of the state machine captured by createCheckpoint().
  *
  * Stored in-memory; checkpoints survive for the lifetime of the
@@ -238,6 +263,89 @@ public:
      */
     void clearCheckpoints();
 
+    // -------------------------------------------------------------------------
+    // Partial and coordinated rollback enhancements (v1.8.1 – Q3 2026)
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Register a callback that fires when rollback completes
+     *
+     * When set, rollbackToCheckpoint() and rollbackToLatestCheckpoint() 
+     * invoke this callback with the result.  Allows callers to implement
+     * custom recovery strategies.
+     *
+     * @param callback The callback to invoke on rollback completion
+     * @since 1.8.1
+     */
+    void setRollbackCallback(RollbackCallback callback);
+
+    /**
+     * @brief Perform partial rollback to the latest checkpoint
+     *
+     * This is the primary entry point for coordinated rollback scenarios.
+     * If no checkpoints exist, logs ERROR and returns false.
+     *
+     * Emits diagnostic WARN or ERROR depending on success.
+     *
+     * @return true if rollback succeeded; false if no checkpoints or rollback failed
+     * @since 1.8.1
+     */
+    bool rollbackToLatestCheckpoint();
+
+    /**
+     * @brief Perform rollback with a fallback strategy for failure handling
+     *
+     * When rollback to @p checkpoint_id fails, applies the @p fallback_strategy:
+     *  - IMMEDIATE_ABORT: returns false immediately (fail-fast)
+     *  - PARTIAL_CONTINUE: attempts recovery and returns true (optimistic)
+     *  - DEFER: queues the rollback for retry and returns false
+     *
+     * The decision enables coordinated managers to handle per-node rollback
+     * failures without cascading the failure across the cluster.
+     *
+     * @param checkpoint_id Target checkpoint
+     * @param fallback_strategy Strategy to apply on failure
+     * @return true if rollback succeeded or was deferred with PARTIAL_CONTINUE
+     * @since 1.8.1
+     */
+    bool rollbackToCheckpointWithFallback(
+        CheckpointId checkpoint_id,
+        RollbackFallbackStrategy fallback_strategy = RollbackFallbackStrategy::IMMEDIATE_ABORT
+    );
+
+    /**
+     * @brief Get the count of stored checkpoints
+     * @return Number of in-memory checkpoints
+     * @since 1.8.1
+     */
+    size_t checkpointCount() const;
+
+    /**
+     * @brief Check if any deferred rollbacks are pending
+     *
+     * When using DEFER fallback strategy, failed rollbacks are queued.
+     * Callers can poll this to trigger retry logic.
+     *
+     * @return true if there are pending rollback retries
+     * @since 1.8.1
+     */
+    bool hasPendingRollback() const;
+
+    /**
+     * @brief Emit diagnostic message on rollback attempt
+     *
+     * Called internally when a rollback is attempted. Logs at ERROR level
+     * if rollback fails, WARN if it succeeds but with degradation.
+     *
+     * @param checkpoint_id The checkpoint being rolled back to
+     * @param success true if rollback succeeded
+     * @param reason Human-readable reason for the rollback
+     * @since 1.8.1
+     */
+    void emitRollbackDiagnostic(CheckpointId checkpoint_id, 
+                                bool success, 
+                                const std::string& reason);
+
 private:
     bool isValidTransition(UpdateState from, UpdateState to) const;
     void appendLogEntry(const UpdateTransactionEntry& entry);
@@ -253,6 +361,11 @@ private:
     std::vector<Checkpoint> checkpoints_;
     uint64_t next_checkpoint_id_{1};
     UpdateHistoryLogger* history_logger_{nullptr};
+    
+    // Rollback enhancement members (v1.8.1 – Q3 2026)
+    RollbackCallback rollback_callback_;
+    std::vector<CheckpointId> deferred_rollbacks_;
+    RollbackFallbackStrategy current_fallback_strategy_{RollbackFallbackStrategy::IMMEDIATE_ABORT};
 };
 
 } // namespace updates

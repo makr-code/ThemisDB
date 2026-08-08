@@ -60,6 +60,7 @@ void ManifestDatabase::initializeColumnFamilies() {
     auto cf_cache = storage_->getOrCreateColumnFamily("download_cache");
     
     if (cf_manifests && cf_files && cf_signatures && cf_cache) {
+        std::lock_guard<std::mutex> lock(cf_mutex_);
         cf_manifests_ = *cf_manifests;
         cf_files_ = *cf_files;
         cf_signatures_ = *cf_signatures;
@@ -73,6 +74,7 @@ void ManifestDatabase::initializeColumnFamilies() {
         if (!cf_cache) LOG_ERROR("  - download_cache: {}", cf_cache.error().message());
         
         // Fall back to default CF
+        std::lock_guard<std::mutex> lock(cf_mutex_);
         cf_manifests_ = nullptr;
         cf_files_ = nullptr;
         cf_signatures_ = nullptr;
@@ -85,6 +87,7 @@ bool ManifestDatabase::storeManifest(const ReleaseManifest& manifest) {
         std::string key = manifest.version;
         std::string value = manifest.toJson().dump();
         
+        std::lock_guard<std::mutex> lock(cf_mutex_);
         rocksdb::Status status = storage_->getRawDB()->Put(
             rocksdb::WriteOptions(),
             cf_manifests_ ? cf_manifests_ : storage_->getRawDB()->DefaultColumnFamily(),
@@ -115,18 +118,21 @@ bool ManifestDatabase::storeManifest(const ReleaseManifest& manifest) {
 std::optional<ReleaseManifest> ManifestDatabase::getManifest(const std::string& version) {
     try {
         std::string value;
-        rocksdb::Status status = storage_->getRawDB()->Get(
-            rocksdb::ReadOptions(),
-            cf_manifests_ ? cf_manifests_ : storage_->getRawDB()->DefaultColumnFamily(),
-            version,
-            &value
-        );
-        
-        if (!status.ok()) {
-            if (!status.IsNotFound()) {
-                LOG_ERROR("Failed to get manifest {}: {}", version, status.ToString());
+        {
+            std::lock_guard<std::mutex> lock(cf_mutex_);
+            rocksdb::Status status = storage_->getRawDB()->Get(
+                rocksdb::ReadOptions(),
+                cf_manifests_ ? cf_manifests_ : storage_->getRawDB()->DefaultColumnFamily(),
+                version,
+                &value
+            );
+            
+            if (!status.ok()) {
+                if (!status.IsNotFound()) {
+                    LOG_ERROR("Failed to get manifest {}: {}", version, status.ToString());
+                }
+                return std::nullopt;
             }
-            return std::nullopt;
         }
         
         auto j = json::parse(value);
@@ -151,6 +157,7 @@ std::vector<std::string> ManifestDatabase::listVersions() const {
     std::vector<std::string> versions;
     
     try {
+        std::lock_guard<std::mutex> lock(cf_mutex_);
         // Wrap in unique_ptr so iterator is freed on all paths (Phase 8.4 RAII).
         auto it = std::unique_ptr<rocksdb::Iterator>(storage_->getRawDB()->NewIterator(
             rocksdb::ReadOptions(),
@@ -334,15 +341,18 @@ std::optional<ReleaseFile> ManifestDatabase::getFile(
         std::string key = path + ":" + version;
         std::string value;
         
-        rocksdb::Status status = storage_->getRawDB()->Get(
-            rocksdb::ReadOptions(),
-            cf_files_ ? cf_files_ : storage_->getRawDB()->DefaultColumnFamily(),
-            key,
-            &value
-        );
-        
-        if (!status.ok()) {
-            return std::nullopt;
+        {
+            std::lock_guard<std::mutex> lock(cf_mutex_);
+            rocksdb::Status status = storage_->getRawDB()->Get(
+                rocksdb::ReadOptions(),
+                cf_files_ ? cf_files_ : storage_->getRawDB()->DefaultColumnFamily(),
+                key,
+                &value
+            );
+            
+            if (!status.ok()) {
+                return std::nullopt;
+            }
         }
         
         auto j = json::parse(value);
@@ -358,6 +368,7 @@ bool ManifestDatabase::storeFile(const ReleaseFile& file, const std::string& ver
         std::string key = file.path + ":" + version;
         std::string value = file.toJson().dump();
         
+        std::lock_guard<std::mutex> lock(cf_mutex_);
         rocksdb::Status status = storage_->getRawDB()->Put(
             rocksdb::WriteOptions(),
             cf_files_ ? cf_files_ : storage_->getRawDB()->DefaultColumnFamily(),
@@ -385,6 +396,7 @@ void ManifestDatabase::cacheSignatureVerification(
         
         std::string value = j.dump();
         
+        std::lock_guard<std::mutex> lock(cf_mutex_);
         storage_->getRawDB()->Put(
             rocksdb::WriteOptions(),
             cf_signatures_ ? cf_signatures_ : storage_->getRawDB()->DefaultColumnFamily(),
@@ -399,15 +411,18 @@ void ManifestDatabase::cacheSignatureVerification(
 std::optional<bool> ManifestDatabase::getCachedSignatureVerification(const std::string& hash) {
     try {
         std::string value;
-        rocksdb::Status status = storage_->getRawDB()->Get(
-            rocksdb::ReadOptions(),
-            cf_signatures_ ? cf_signatures_ : storage_->getRawDB()->DefaultColumnFamily(),
-            hash,
-            &value
-        );
-        
-        if (!status.ok()) {
-            return std::nullopt;
+        {
+            std::lock_guard<std::mutex> lock(cf_mutex_);
+            rocksdb::Status status = storage_->getRawDB()->Get(
+                rocksdb::ReadOptions(),
+                cf_signatures_ ? cf_signatures_ : storage_->getRawDB()->DefaultColumnFamily(),
+                hash,
+                &value
+            );
+            
+            if (!status.ok()) {
+                return std::nullopt;
+            }
         }
         
         auto j = json::parse(value);
@@ -425,6 +440,7 @@ void ManifestDatabase::cacheDownload(
     try {
         std::string key = version + ":" + filename;
         
+        std::lock_guard<std::mutex> lock(cf_mutex_);
         storage_->getRawDB()->Put(
             rocksdb::WriteOptions(),
             cf_cache_ ? cf_cache_ : storage_->getRawDB()->DefaultColumnFamily(),
@@ -444,15 +460,18 @@ std::optional<std::string> ManifestDatabase::getCachedDownload(
         std::string key = version + ":" + filename;
         std::string value;
         
-        rocksdb::Status status = storage_->getRawDB()->Get(
-            rocksdb::ReadOptions(),
-            cf_cache_ ? cf_cache_ : storage_->getRawDB()->DefaultColumnFamily(),
-            key,
-            &value
-        );
-        
-        if (!status.ok()) {
-            return std::nullopt;
+        {
+            std::lock_guard<std::mutex> lock(cf_mutex_);
+            rocksdb::Status status = storage_->getRawDB()->Get(
+                rocksdb::ReadOptions(),
+                cf_cache_ ? cf_cache_ : storage_->getRawDB()->DefaultColumnFamily(),
+                key,
+                &value
+            );
+            
+            if (!status.ok()) {
+                return std::nullopt;
+            }
         }
         
         return value;
@@ -471,6 +490,7 @@ bool ManifestDatabase::deleteManifest(const std::string& version) {
             return false;
         }
 
+        std::lock_guard<std::mutex> lock(cf_mutex_);
         auto* manifests_cf = cf_manifests_ ? cf_manifests_
                                            : storage_->getRawDB()->DefaultColumnFamily();
         auto* files_cf = cf_files_ ? cf_files_
