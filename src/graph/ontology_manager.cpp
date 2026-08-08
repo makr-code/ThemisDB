@@ -445,44 +445,41 @@ std::unordered_set<std::string> OntologyManager::allowedEdgeTypes(std::string_vi
 
 bool OntologyManager::isEdgeTypeAllowed(std::string_view sourceClass, std::string_view targetClass,
                                         std::string_view edgeType) const {
-    // Contract (per class docstring and API documentation):
-    //
-    // Returns `true` if:
-    // 1. Either source or target class is unknown (graceful degradation), OR
-    // 2. Edge type is explicitly allowed for the class pair by ontology axioms, OR
-    // 3. Edge type is unknown globally (schema evolution fallback: allow new edge types)
-    //
-    // Returns `false` if:
-    // 1. Edge type is known in the ontology but not allowed for this class pair
+    // Contract from header:
+    // Returns true if:
+    //  1. Either sourceClass or targetClass is unknown (graceful degradation), OR
+    //  2. edgeType is explicitly allowed for the class pair by ontology axioms, OR
+    //  3. Axioms exist for the class pair and edgeType is unknown globally (schema-evolution fallback).
+    // Returns false if:
+    //  1. Both classes are known AND there are no axioms for this pair (strict mode), OR
+    //  2. edgeType is known in the ontology but not allowed for this class pair.
 
-    // Case 1: Unknown classes → unconstrained (graceful degradation)
+    // Condition 1: Unknown classes → unconstrained (graceful degradation)
     if (!hasConcept(sourceClass) || !hasConcept(targetClass)) {
         return true;
     }
 
-    // Get the set of edge types allowed for this class pair
     auto allowed = allowedEdgeTypes(sourceClass, targetClass);
 
-    // Case 2: Edge type is explicitly allowed for this pair
+    // Condition 2: edgeType is explicitly allowed for the class pair
     if (allowed.count(std::string(edgeType)) > 0) {
         return true;
     }
 
-    // Check if the edge type is known in the global ontology
+    // Check if edgeType is known in the ontology
     const auto is_known_edge_type = std::any_of(
         axioms_.begin(), axioms_.end(),
         [edgeType](const Axiom& axiom) { return axiom.edge_type == edgeType; });
 
-    // Case 3: Edge type is unknown globally → allow (schema evolution fallback)
-    // This permits new edge types to be added without modifying the ontology schema,
-    // supporting graceful schema evolution.
-    if (!is_known_edge_type) {
+    // Condition 3: Axioms exist for the class pair and edgeType is unknown globally
+    //              (schema-evolution fallback)
+    if (!allowed.empty() && !is_known_edge_type) {
         return true;
     }
 
-    // Case 4: Edge type is known globally but not allowed for this pair → deny
-    // We reject edge types that exist in the schema but are not permitted for
-    // this specific class pair.
+    // Return false for strict mode:
+    // - Both classes are known AND there are no axioms for this pair, OR
+    // - edgeType is known but not allowed for this class pair
     return false;
 }
 
