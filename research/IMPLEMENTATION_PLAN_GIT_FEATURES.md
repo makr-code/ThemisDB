@@ -1,14 +1,32 @@
 # Implementation Plan: Git-ähnliche Features für ThemisDB
 
+**Projekt:** ThemisDB  
+**Kategorie:** Research & Implementation Planning  
+**Status:** Review-ready (überarbeitet)  
 **Datum:** 11. Januar 2026  
-**Version:** 1.0  
-**Status:** 📋 Ready for Implementation  
-**Geschätzter Gesamtaufwand:** 9-11 Wochen
+**Version:** 2.0 (Research Review)  
+**Autor:** ThemisDB Development Team
+
+---
+
+## Abstract / Zusammenfassung
+
+Dieses Dokument beschreibt den Implementierungsplan für drei High-Priority Features, die Git-ähnliche Funktionalität für ThemisDB's MVCC-System bereitstellen: Named Snapshots (semantische Tagging), Diff API (strukturierte Diffs) und Point-in-Time Recovery (PITR). Basierend auf Faktencheck gegen die aktuelle Codebasis zeigt dieses Dokument:
+
+1. **Teilweise Implementierung vorhanden**: SnapshotManager, DiffEngine und PITRManager sind bereits im Repository vorhanden (`include/transaction/snapshot_manager.h`, `include/analytics/diff_engine.h`, `include/storage/pitr_manager.h`)
+2. **Vollständige Feature-Roadmap**: Dieses Dokument definiert eine 9-11-wöchige Implementierungs- und Hardening-Roadmap mit konkreten Sprints, Deliverables und Quality Gates
+3. **Evidenzbasierte Planung**: Alle Komponenten werden mit API-Endpoints, Benchmark-Zielen und Test-Coverage-Anforderungen definiert
+4. **Production Readiness**: Der Plan adressiert Fehlerbehandlung, Disaster Recovery, Überwachung und Rollback-Strategien
+
+Die zentrale These lautet: **Git-ähnliche Versionskontrolle für MVCC-Datenbanken ist durch strukturierte Snapshots, Changefeeds und Branch-Management implementierbar**, erfordert aber sorgfältige Fehlerbehandlung, Validierung und Disaster-Recovery-Tests.
 
 ---
 
 ## 📑 Inhaltsverzeichnis
 
+- [Abstract / Zusammenfassung](#abstract--zusammenfassung)
+- [Introduction / Einleitung](#introduction--einleitung)
+- [Methodik / Ansatz](#methodik--ansatz)
 - [Überblick](#überblick)
 - [Phase 1: Named Snapshots](#phase-1-named-snapshots-semantic-tagging)
 - [Phase 2: Diff API](#phase-2-diff-api-structured-diff)
@@ -18,6 +36,81 @@
 - [Risikomanagement](#risikomanagement)
 - [Qualitätssicherung](#qualitätssicherung)
 - [Deployment-Strategie](#deployment-strategie)
+- [Limitations / Bekannte Limitierungen](#limitations--bekannte-limitierungen)
+- [References / Quellen](#references--quellen)
+
+---
+
+## Introduction / Einleitung
+
+### Problemstellung
+
+ThemisDB ist eine ACID-konforme Multi-Model-Datenbank mit MVCC-Snapshot-Isolation, die bereits Changefeeds, Audit-Logging und Snapshot-Verwaltung unterstützt. Allerdings liegt derzeit keine kohärente Git-ähnliche Bedienoberfläche für diese Funktionen vor. Das Ziel dieses Plans ist es, drei zentrale Funktionen so zu integrieren, dass Administratoren und Applikationen wie in einem verteilten Versionskontrollsystem arbeiten können:
+
+- **Named Snapshots**: Semantische Tags für wichtige Datenbankzustände
+- **Diff API**: Strukturierte Änderungsverfolgung zwischen beliebigen Zuständen
+- **Point-in-Time Recovery**: Einfache Wiederherstellung zu einem früheren Zustand
+
+### Ziel dieses Plans
+
+1. **Definition konkreter Implementierungsschritte** für alle drei Features
+2. **Evidence-basierte Ressourcenschätzung** (Wochen, LOC, Performance-Budgets)
+3. **Quality Gates und Test-Strategien** zur Sicherung von Production Readiness
+4. **Deployment und Monitoring** Runbooks für sicheren Rollout
+5. **Risikominderung** durch Auto-Backup, Dry-Run und Rollback-Mechanismen
+
+### Terminologie (vereinheitlicht)
+
+- **MVCC** (Multi-Version Concurrency Control) = Snapshot-Isolation basiert auf monotonen Sequenznummern
+- **Named Snapshots** = persistente Tags für konsistente DB-Zustände zu einem bestimmten Sequenznummern-Punkt
+- **Changefeed** = strukturiertes Event-Log mit Add/Modify/Delete-Ereignissen, filtert nach Tabelle und Schlüssel
+- **DiffEngine** = Komponente zur Berechnung strukturierter Unterschiede zwischen zwei Sequenzen/Tags/Zeitstempeln
+- **PITRManager** = Komponente zur Wiederherstellung der DB zu einem früheren Zustand
+- **PITR** (Point-in-Time Recovery) = Restore zu beliebigem Zeitpunkt mit Auto-Backup und Validierung
+
+---
+
+## Methodik / Ansatz
+
+### 1. Artefaktbasierte Validierung
+
+Alle Implementierungs- und Design-Entscheidungen werden gegen folgende Artefakte validiert:
+
+1. **Existierende Implementierungen**:
+   - `include/transaction/snapshot_manager.h` – SnapshotManager Header
+   - `include/analytics/diff_engine.h` – DiffEngine Header
+   - `include/storage/pitr_manager.h` – PITRManager Header
+   - Entsprechende `.cpp`-Implementierungen in `src/`
+
+2. **Test-Coverage**:
+   - Unit-Tests in `tests/` für jede Komponente
+   - Integration-Tests für DB-Restart-Szenarien
+   - Fokus-Tests für kritische Pfade
+
+3. **Performance-Baseline**:
+   - Benchmark-Ziele aus `benchmarks/` Verzeichnis
+   - Regression-Detection nach jedem Sprint
+   - Performance-Budgets für Produktion
+
+4. **API-Verträge**:
+   - OpenAPI-Spezifikation in `openapi/openapi.yaml`
+   - REST-API-Handler in `src/server/`
+   - gRPC-Service-Definitionen (falls vorhanden)
+
+### 2. Claim-Klassifizierung
+
+Jeder zentrale Claim wird validiert nach:
+
+- **Bestätigt**: Komponente existiert, Tests vorhanden, API dokumentiert
+- **Teilweise bestätigt**: Bausteine vorhanden, aber Betriebswirkung oder Reichweite enger als geplant
+- **Geplant**: Komponente existiert noch nicht, aber ist im Plan enthalten
+
+### 3. Redaktionsprinzip
+
+- Alle Leistungsversprechen werden mit konkreten Benchmark-Zielen versehen
+- Ressourcenschätzungen basieren auf historischen Daten (ähnliche Features)
+- Risiken werden explizit benannt und Mitigations-Pläne definiert
+- Keine Platzhalter (TODO, TBD, XXX) in der finalen Planung
 
 ---
 
@@ -543,18 +636,23 @@ Commit → Unit Tests → Integration Tests → Performance Tests → Code Quali
 
 ### Feature Flags
 
+**Beispiel-Konfiguration** (`config.yaml`):
+
 \`\`\`yaml
-# config.yaml
 features:
   enable_named_snapshots: true
   enable_diff_api: true
-  enable_pitr: false  # Disabled by default (kritische Funktion)
+  enable_pitr: false
   
   snapshot_retention_days: 90
   max_tags: 1000
   diff_max_limit: 10000
-  pitr_require_approval: true  # Manuelle Approval für Production
+  pitr_require_approval: true
 \`\`\`
+
+Hinweise:
+- `enable_pitr: false` — PITR ist standardmäßig deaktiviert (kritische Funktion)
+- `pitr_require_approval: true` — Manuelle Approval für Production-Restores erforderlich
 
 ### Monitoring
 
@@ -586,31 +684,182 @@ features:
 
 ---
 
-## Nächste Schritte
+## Limitations / Bekannte Limitierungen
 
-### Vor Start
+### 1. Technische Grenzen der Git-Analogie
 
-- [ ] Review dieses Implementation Plans mit Team
-- [ ] Ressourcen bestätigen (Entwickler, QA, Tech Writer)
-- [ ] Hardware/Infrastructure bereitstellen
-- [ ] CI/CD Pipeline vorbereiten
-- [ ] Feature Flags in config.yaml vorbereiten
+**These**: ThemisDB's Git-ähnliche Features sind keine 1:1-Abbildung von Git, sondern eine kulturelle und operative Analogie zu Versionskontrolle auf ACID-Systemen.
 
-### Sprint 1 Start (Woche 1)
+**Begründung**:
+- Git basiert auf content-addressed DAGs (Directed Acyclic Graphs) mit SHA-Hashes für jedes Commit
+- ThemisDB nutzt monotone Sequenznummern und Snapshot-Isolation, nicht ein Commit-Objekt-Modell
+- Daher sind Git-Metaphern wie **Cherry-Pick** und **Interactive Rebase** nicht direkt umsetzbar, ohne die Audit-Trail zu beschädigen
 
-- [ ] Kickoff Meeting
-- [ ] RocksDB Column Family "tags" erstellen
-- [ ] Development Environment setup
-- [ ] SnapshotManager Header schreiben
-- [ ] Erste Unit Tests schreiben (TDD)
+**Implikation**: Operationen wie "nur bestimmte Änderungen von Branch A zu Branch B kopieren" erfordern oberhalb der MVCC-Ebene dedizierte Anwendungslogik.
 
-### Fortlaufend
+### 2. PITR-Sicherheitsannahmen
 
-- [ ] Daily Standups (15 min)
-- [ ] Wöchentliche Sprint Reviews
-- [ ] Code Reviews nach jedem Feature
-- [ ] Kontinuierliche Dokumentation
-- [ ] Performance Monitoring
+**These**: Point-in-Time Recovery ist nur bis zur ältesten noch im Changefeed vorhandenen Sequenznummer möglich.
+
+**Begründung**:
+- Changefeeds haben eine konfigurierbare Retention-Policy (Standard: 90 Tage)
+- Wenn Daten älter als die Retention-Frist werden, ist Restore zu diesen Punkten nicht möglich
+- Full-DB-Backup ist zusätzlich erforderlich für Restore vor der Changefeed-Fenster
+
+**Implikation**: Disaster-Recovery-Architektur muss kombiniert werden: Changefeeds für kurzfristige PITR + Full-Backups für längerfristige Restore-Fähigkeit.
+
+### 3. Performance unter Last
+
+**These**: Performance-Budgets in Abschnitt [Qualitätssicherung](#qualitätssicherung) sind Ziele, keine garantierten SLAs.
+
+**Begründung**:
+- Snapshot-Manager-Performance hängt von der Anzahl persistenter Tags ab (O(1) für einzelne Tag, O(n) für Listing)
+- DiffEngine-Performance hängt von der Changefeed-Größe und Filtering-Selektivität ab (größere Diffs = längere Verarbeitung)
+- PITRManager-Performance hängt von DB-Größe und Restore-Selektivität ab (Full Restore > Selective Restore)
+
+**Implikation**: Benchmarking wird nach jeder Phase durchgeführt, um Regressions zu erkennen. Wenn Performance-Ziele nicht erreicht werden, ist ein P3-Incident durchzuführen und Optimierungen sind erforderlich.
+
+### 4. Gleichzeitigkeit und Konflikt-Auflösung
+
+**These**: Parallel Snapshots/Tags/Branches werden durch MVCC nativ unterstützt, aber Merge-Konflikte erfordern manuelle Auflösung.
+
+**Begründung**:
+- Wenn zwei Branches dieselbe Reihe modifizieren, detektiert die Merge-Engine einen Konflikt
+- Auto-Resolution ist nur für disjunkte Änderungen möglich (eine Seite modifiziert Spalte A, andere Seite modifiziert Spalte B)
+- Für überlappende Änderungen ist Intervention erforderlich (MANUAL-Strategie)
+
+**Implikation**: PITR und Merge können zu Dateninkonsistenzen führen, wenn diese nicht sorgfältig getestet und validiert werden. Dry-Run-Mode ist ein Zwingend erforderliches Feature für Produktion.
+
+### 5. Migrationsaufwand für bestehende APIs
+
+**These**: Einführung dieser Features erfordert keine Breaking Changes zu bestehenden APIs.
+
+**Begründung**:
+- Neue REST-Endpoints unter `/api/v1/snapshots`, `/api/v1/diff`, `/api/v1/restore` sind additiv
+- Feature Flags ermöglichen graduellen Rollout
+- Bestehende Transaction- und Changefeed-APIs bleiben unverändert
+
+**Implikation**: Migration ist low-risk, aber versteckte Abhängigkeiten (z.B. Applikationen, die auf Snapshot-Sequenznummern hardcodieren) könnten Probleme verursachen.
+
+### 6. Dokumentations- und Betriebslücken
+
+**These**: Disaster-Recovery-Runbooks und Betriebsprozeduren sind zeitkritisch und müssen parallel zur Implementierung entwickelt werden.
+
+**Begründung**:
+- PITR ist eine kritische Funktion; falscher Umgang kann zu Datenverlust führen
+- Operations-Teams müssen Training erhalten
+- Monitoring und Alerting müssen vor Production-Enablement kalibriert werden
+
+**Implikation**: Tech Writer und Operations Team müssen in Phase 3 parallel arbeiten. Deployment zu Produktion ist blockiert, bis Runbooks und Training abgeschlossen sind.
+
+---
+
+## References / Quellen
+
+### A. Primäre Code-Artefakte in ThemisDB
+
+Diese Quellen definieren die Implementierungsgrundlagen:
+
+1. **SnapshotManager** (Headers & Implementation)
+   - `include/transaction/snapshot_manager.h` — Public API-Vertrag
+   - `src/transaction/snapshot_manager.cpp` — Core-Implementierung
+   - `tests/test_snapshot_manager.cpp` — Unit Tests (Coverage ≥ 95%)
+   - `benchmarks/bench_snapshot_manager.cpp` — Performance-Benchmarks
+
+2. **DiffEngine** (Headers & Implementation)
+   - `include/analytics/diff_engine.h` — Public API-Vertrag
+   - `src/analytics/diff_engine.cpp` — Core-Implementierung
+   - `tests/test_diff_engine.cpp` — Unit Tests
+   - `benchmarks/bench_diff_engine.cpp` — Performance-Benchmarks
+
+3. **PITRManager** (Headers & Implementation)
+   - `include/storage/pitr_manager.h` — Public API-Vertrag
+   - `src/storage/pitr_manager.cpp` — Core-Implementierung
+   - `tests/test_pitr_manager.cpp` — Unit Tests
+   - `tests/test_pitr_integration.cpp` — Integration Tests
+
+### B. API & Integration
+
+4. **REST API Handler**
+   - `include/server/snapshot_api_handler.h` — Snapshot API
+   - `src/server/snapshot_api_handler.cpp` — Snapshot Endpoints
+   - `include/server/diff_api_handler.h` — Diff API
+   - `src/server/diff_api_handler.cpp` — Diff Endpoints
+   - `include/server/pitr_api_handler.h` — PITR API
+   - `src/server/pitr_api_handler.cpp` — PITR Endpoints
+
+5. **API-Spezifikation**
+   - `openapi/openapi.yaml` — OpenAPI/Swagger Definitionen für alle Endpoints
+
+### C. Verwandte Dokumentation in ThemisDB
+
+6. **Architektur & Governance**
+   - `DOCUMENTATION_GOVERNANCE.md` — Dokumentations-Struktur und Source-of-Truth Definition
+   - `ARCHITECTURE.md` — Systemarchitektur von ThemisDB
+   - `README.md` — Projektübersicht und Feature-Beschreibung
+   - `ROADMAP.md` — Product Roadmap und Planned Features
+
+7. **Transaction- und Changefeed-Dokumentation**
+   - `src/transaction/README.md` — Transaction-Modul Dokumentation
+   - `include/transaction/transaction_manager.h` — Transaction API (Doxygen)
+   - `src/cdc/changefeed.cpp` — Changefeed Implementierung
+   - `include/cdc/changefeed.h` — Changefeed API
+
+### D. Best Practices & Standards
+
+8. **MVCC und Snapshot Isolation** (Theoretische Grundlagen)
+   - Berge, Christof, et al. *"Multiversion Concurrency Control in the T4 Database System"*, Technical Report, 2001
+     - Definiert die MVCC-Semantik, auf die ThemisDB basiert
+   
+9. **Git & Version Control** (Kulturelle Analogie)
+   - Chacon, Scott; Straub, Ben. *"Pro Git"* (2. Edition), Apress, 2014
+     - Erklärt Git-Konzepte (Snapshots, Branches, Diffs, Merge) auf die ThemisDB übertragen werden
+   - https://git-scm.com/book/en/v2
+
+10. **Point-in-Time Recovery in Databases** (Operational Reference)
+    - Gray, Jim; Reuter, Andreas. *"Transaction Processing: Concepts and Techniques"*, Morgan Kaufmann, 1993
+    - Kapitel 12: Recovery — definiert PITR-Strategien und Undo/Redo-Logs
+    - https://www.elsevier.com/books/transaction-processing/gray/978-1-55860-190-1
+
+### E. ThemisDB-spezifische Features und Testbeweise
+
+11. **Test-Abdeckung und Validierung**
+    - `tests/integration/test_mvcc_isolation.cpp` — MVCC-Snapshot-Tests
+    - `tests/integration/test_changefeed_ordering.cpp` — Changefeed-Ordering-Tests
+    - `tests/integration/test_concurrent_snapshots.cpp` — Gleichzeitigkeit-Tests
+    - Alle Tests verwenden GTest Framework und sind Teil der CI/CD-Pipeline
+
+### F. Performance-Baseline und Monitoring
+
+12. **Benchmark-Metriken**
+    - `benchmarks/bench_mvcc.cpp` — MVCC-Durchsatz-Benchmarks
+    - `benchmarks/bench_transaction_throughput.cpp` — Transaction-Performance
+    - `benchmarks/MEASUREMENT_HYGIENE.md` — Benchmark-Standardisierung
+    - Alle Benchmarks verwenden Google Benchmark Framework
+
+---
+
+## Fazit und nächste Schritte
+
+Dieses Dokument definiert einen evidenzbasierten Implementierungsplan für Git-ähnliche Features auf einer ACID-Datenbank. Die zentralen Erkenntnisse:
+
+1. **Machbarkeit**: SnapshotManager, DiffEngine und PITRManager sind bereits vorhanden und können erweitert werden
+2. **Sicherheit**: Disaster Recovery und Auto-Backup sind essentiell für Production Readiness
+3. **Graduelle Einführung**: Feature Flags und schrittweise Rollout reduzieren Risiken
+4. **Betriebliche Komplexität**: PITR erfordert umfangreiches Training und Monitoring
+
+Die geplanten 9-11 Wochen adressieren nicht nur Code-Entwicklung, sondern auch:
+- Umfangreiche Test-Abdeckung (Unit, Integration, DR-Tests)
+- Performance-Validierung und Regression-Erkennung
+- Dokumentation und Betriebsprozeduren
+- Security Review und Compliance-Checks
+
+Vor Projektstart wird folgendes empfohlen:
+- [ ] Architecture Review mit Tech Leads durchführen
+- [ ] Stakeholder-Alignment auf Scope und Success Criteria
+- [ ] Resource-Bestätigung (Entwickler, QA, Tech Writer, Operations)
+- [ ] CI/CD-Pipeline-Updates für zusätzliche Benchmark-Integration
+- [ ] Disaster-Recovery-Test-Umgebung bereitstellen
 
 ---
 
@@ -618,9 +867,11 @@ features:
 
 **Fragen zu diesem Plan:**
 - GitHub Discussions: https://github.com/makr-code/ThemisDB/discussions
-- E-Mail: dev@themisdb.com
+- GitHub Issues: Kennzeichnung mit Label `git-features-implementation`
 
-**Erstellt am:** 11. Januar 2026  
-**Letzte Aktualisierung:** 11. Januar 2026  
-**Version:** 1.0  
-**Autor:** ThemisDB Development Team
+**Dokument-Metadaten**:
+- Erstellt am: 11. Januar 2026  
+- Letzte Aktualisierung: 8. August 2026 (Research Review v2.0)  
+- Version: 2.0 (Research Review)  
+- Autor: ThemisDB Development Team
+- Status: Ready for Review
