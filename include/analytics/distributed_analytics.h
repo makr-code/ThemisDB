@@ -183,16 +183,75 @@ public:
         /// Interval between background health-monitor sweeps.
         /// Default: 5 s.  Set to zero to disable the background monitor.
         std::chrono::milliseconds health_check_interval{5000};
+
+        /// ====== SAFETY CONTROLS (Phase 2.2 Hardening) ======
+
+        /// Enable circuit breaker pattern for failed shards.
+        bool enable_circuit_breaker = true;
+
+        /// Consecutive failure threshold before opening circuit breaker.
+        /// Default: 3 failures in a row.
+        uint32_t circuit_breaker_failure_threshold = 3;
+
+        /// Initial delay (ms) before attempting recovery from OPEN state.
+        /// Default: 1000 ms. Increases exponentially with backoff.
+        uint32_t circuit_breaker_recovery_delay_ms = 1000;
+
+        /// Maximum delay (ms) for recovery backoff to prevent infinite waits.
+        /// Default: 30000 ms (30 seconds).
+        uint32_t circuit_breaker_max_recovery_delay_ms = 30000;
+
+        /// Maximum number of HALF_OPEN recovery attempts before returning to OPEN.
+        /// Default: 2 attempts.
+        uint32_t circuit_breaker_recovery_attempts = 2;
+
+        /// Bounded queue: maximum number of queued requests per shard.
+        /// 0 means unbounded. Default: 100 requests per shard.
+        uint32_t max_queued_requests_per_shard = 100;
+
+        /// Timeout (ms) for enqueuing a request when the queue is full.
+        /// 0 means non-blocking (drop if full). Default: 100 ms.
+        uint32_t queue_enqueue_timeout_ms = 100;
+    };
+
+    /**
+     * Circuit breaker states for shard-level fault tolerance.
+     *
+     * CLOSED: Normal operation. Requests are processed.
+     * OPEN: Shard has failed too many times. Requests are rejected immediately.
+     * HALF_OPEN: Attempting to recover. Limited requests are sent to probe shard health.
+     */
+    enum class CircuitBreakerState : uint8_t {
+        CLOSED = 0,    ///< Normal operation, requests processed.
+        OPEN = 1,      ///< Too many failures, requests rejected.
+        HALF_OPEN = 2  ///< Attempting recovery, limited requests sent.
+    };
+
+    /**
+     * Per-shard circuit breaker state and diagnostics.
+     * Tracks consecutive failures, recovery attempts, and state transitions.
+     */
+    struct CircuitBreakerInfo {
+        CircuitBreakerState state = CircuitBreakerState::CLOSED;
+        uint32_t consecutive_failures = 0;
+        uint32_t recovery_attempts = 0;
+        std::chrono::steady_clock::time_point opened_at;
+        std::chrono::steady_clock::time_point next_recovery_at;
+        uint64_t state_changes = 0;
+        std::string last_error;
     };
 
     /**
      * Per-shard execution information attached to the merged result.
+     * Includes circuit breaker state for diagnostics.
      */
     struct ShardExecutionInfo {
         std::string shard_id;
         bool success = false;
         std::string error;
         double execution_time_ms = 0.0;
+        CircuitBreakerState circuit_state = CircuitBreakerState::CLOSED;
+        uint32_t circuit_consecutive_failures = 0;
     };
 
     /**
