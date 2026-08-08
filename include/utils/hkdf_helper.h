@@ -1,20 +1,45 @@
 /**
  * @file hkdf_helper.h
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief HKDF (HMAC-based Key Derivation Function) helper for OpenSSL integration.
  * @version 0.0.47
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 86/100
- * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
- */
-
-/*
- * ThemisDB | File: hkdf_helper.h | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
+ * @note Last Updated: 2026-08-08
+ * @note Source: Level 0 - API Contract
+ * @note SOT Domain: crypto-key-management
+ * 
+ * @mainpage HKDF Helper API
+ *
+ * ## Purpose
+ * HKDFHelper provides HKDF-SHA256 key derivation with OpenSSL 3.0+ and 1.1.1+
+ * compatibility. It implements RFC 5869 (HKDF specification) for deterministic
+ * key derivation from input key material.
+ *
+ * ## Key Derivation Process (Per RFC 5869)
+ * ```
+ * PRK = HMAC-Hash(salt, IKM)           // Extract: compress IKM
+ * OKM = HKDF-Expand(PRK, info, L)      // Expand: stretch to desired length
+ * ```
+ *
+ * ## Security Properties
+ * - **Deterministic**: Same (ikm, salt, info, length) always produces same output
+ * - **Pseudo-Random**: Output is indistinguishable from random to attackers
+ * - **Non-Invertible**: Cannot recover IKM from output
+ * - **Domain Separation**: Different info strings produce different keys
+ *
+ * ## Thread Safety
+ * - All methods are thread-safe (no static mutable state)
+ * - Each derivation is independent
+ * - Suitable for multi-threaded key generation
+ *
+ * ## OpenSSL Compatibility
+ * - OpenSSL 3.0+: Uses EVP_KDF API (modern, preferred)
+ * - OpenSSL 1.1.1+: Uses EVP_PKEY_CTX API (legacy fallback)
+ * - Automatic version detection at compile time
+ *
+ * @see HKDFCache for cached key derivation
+ * @see LEKManager for daily key rotation using HKDF
+ * @see RFC 5869 for HKDF specification details
  */
 
 #pragma once
