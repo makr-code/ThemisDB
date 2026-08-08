@@ -14,7 +14,7 @@
  * | GATE-TBX-P3 | Text normalization latency   | p95 ≤ 10ms   | text_processing |
  * | GATE-TBX-P4 | Language detection latency   | p95 ≤ 15ms   | language_detect |
  * | GATE-TBX-P5 | Content fingerprinting       | ≥ 1M ops/s   | fingerprinting  |
- * | GATE-TBX-P6 | Bridge enrichment latency    | p95 ≤ 100ms  | bridge_enrich   |
+ * | GATE-TBX-P6 | Bridge enrichment latency    | p95 ≤ 100ms  | pending (dedicated bridge benchmark target) |
  *
  * ## Test Data
  * - kShortText: ~100 chars (legal clause)
@@ -87,6 +87,10 @@ static void BM_ExtractEntities_Throughput(benchmark::State& state) {
         auto entities = toolbox->extractEntities(text, "text/plain", "clause.txt");
         benchmark::DoNotOptimize(entities);
     }
+    state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
+    state.counters["ops_per_sec"] =
+        benchmark::Counter(static_cast<double>(state.iterations()),
+                           benchmark::Counter::kIsRate);
 }
 BENCHMARK(BM_ExtractEntities_Throughput)
     ->Iterations(100)
@@ -175,6 +179,10 @@ static void BM_ContentFingerprinting_Throughput(benchmark::State& state) {
         benchmark::DoNotOptimize(fp.sha256_hex);
         benchmark::DoNotOptimize(fp.latency_us);
     }
+    state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
+    state.counters["ops_per_sec"] =
+        benchmark::Counter(static_cast<double>(state.iterations()),
+                           benchmark::Counter::kIsRate);
 }
 BENCHMARK(BM_ContentFingerprinting_Throughput)
     ->Iterations(1000)
@@ -183,25 +191,21 @@ BENCHMARK(BM_ContentFingerprinting_Throughput)
     ->Unit(benchmark::kMicrosecond);
 
 // ─────────────────────────────────────────────────────────────────────────────
-// P6: Bridge enrichment latency (GATE-TBX-P6)
-// Placeholder for future content_toolbox_bridge benchmarks
+// P6 (pending): bridge enrichment latency must be measured in a dedicated
+// ContentToolboxBridge benchmark target with ContentManager wiring.
+// The benchmark below is a toolbox-only proxy and is excluded from gate enforcement.
 // ─────────────────────────────────────────────────────────────────────────────
 
-static void BM_BridgeEnrichment_Placeholder(benchmark::State& state) {
-    // This benchmark demonstrates the gate but uses a simplified version.
-    // Full bridge benchmarking requires content::ContentManager + ingestion sinks.
+static void BM_BridgeProxy_EntitySetLatency(benchmark::State& state) {
     auto toolbox = IngestionToolbox::createDefault();
     const std::string text = MakeMediumText(1);  // ~1KB
 
     for (auto _ : state) {
-        auto t0 = std::chrono::steady_clock::now();
         auto entity_set = toolbox->extractEntitySet(text, "text/plain", "document.txt");
-        auto t1 = std::chrono::steady_clock::now();
-        
         benchmark::DoNotOptimize(entity_set);
     }
 }
-BENCHMARK(BM_BridgeEnrichment_Placeholder)
+BENCHMARK(BM_BridgeProxy_EntitySetLatency)
     ->Iterations(50)
     ->Repetitions(5)
     ->ReportAggregatesOnly(true)

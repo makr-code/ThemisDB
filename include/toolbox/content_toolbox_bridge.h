@@ -212,7 +212,7 @@ public:
     /**
      * @brief Return cumulative count of bridge ingest/enrichment failures.
      *
-     * Used for Prometheus metric `bridge_failures_total`.
+     * Used for Prometheus metric `toolbox_bridge_failures_total`.
      * Incremented on ContentManager failures, null checks, or other
      * bridge-level errors. Does not count individual sink write failures
      * (those are tracked separately).
@@ -222,7 +222,7 @@ public:
     /**
      * @brief Return cumulative count of graph writer failures.
      *
-     * Used for Prometheus metric `bridge_graph_write_failures_total`.
+     * Used for Prometheus metric `toolbox_bridge_graph_write_failures_total`.
      * Incremented when an entity write to the graph sink fails, but the
      * bridge continues processing (soft-fail behavior).
      */
@@ -231,7 +231,7 @@ public:
     /**
      * @brief Return cumulative count of vector writer failures.
      *
-     * Used for Prometheus metric `bridge_vector_write_failures_total`.
+     * Used for Prometheus metric `toolbox_bridge_vector_write_failures_total`.
      * Incremented when a vector record write to the vector sink fails, but the
      * bridge continues processing (soft-fail behavior).
      */

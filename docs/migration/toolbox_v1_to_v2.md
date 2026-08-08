@@ -61,20 +61,20 @@ auto toolbox = IngestionToolbox::create();  // Registry initialized internally
 **New Behavior (v2.0):**
 ```cpp
 // Explicit registry initialization required
-ToolboxRegistry::instance().initialize(config);  // Must call before use
-auto toolbox = IngestionToolbox::create();  // Registry already initialized
+ToolboxRegistry::initialize(IngestionToolbox::createDefault());  // Must call before use
+auto toolbox = IngestionToolbox::createDefault();  // Registry already initialized
 ```
 
 **Mitigation:**
-- Call `ToolboxRegistry::instance().initialize(config)` at application startup, BEFORE first toolbox operation
+- Call `ToolboxRegistry::initialize(...)` at application startup, BEFORE first toolbox operation
 - ✅ **Recommended Initialization Pattern:**
   ```cpp
   // In main() or application startup
-  auto config = LoadToolboxConfig("/etc/themisdb/toolbox.yaml");
-  ToolboxRegistry::instance().initialize(config);
+  auto toolbox = IngestionToolbox::createDefault();
+  ToolboxRegistry::initialize(toolbox);
   
   // Later, in request handlers or worker threads
-  auto toolbox = IngestionToolbox::create();  // Safe to use
+  auto request_toolbox = ToolboxRegistry::instance();  // Safe to use
   ```
 
 **Rationale:** Explicit initialization enforces fail-closed semantics; application startup fails immediately if registry configuration invalid.

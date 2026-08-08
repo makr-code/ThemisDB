@@ -83,7 +83,7 @@ ctest --preset linux-release -R test_toolbox_ingestion -VV
 - `GATE-TBX-P6: BridgeEnrichment_Latency` - p95 ≤ 100ms
 
 **Key Test Cases (Stress Fixtures):**
-- `HighConcurrencyFixture` - 8+ threads, 10K+ concurrent operations
+- `HighConcurrencyFixture` - 8 threads × 100 ops/thread (800 total operations)
 - `MixedContentFixture` - varied text, binary, empty content
 - `DegradedPathFixture` - soft-fail behavior under error conditions
 - `LongRunFixture` - sustained operations over time
@@ -245,7 +245,7 @@ std::string MakeMediumText(size_t size_bytes = 1024) {
 
 ### Test Fixtures
 
-- **HighConcurrencyFixture:** 8+ concurrent threads, 10K+ operations
+- **HighConcurrencyFixture:** 8 concurrent threads, 800 operations total
 - **MixedContentFixture:** UTF-8, binary, empty, malformed inputs
 - **DegradedPathFixture:** Soft-fail error conditions
 - **LongRunFixture:** 100K+ sustained operations

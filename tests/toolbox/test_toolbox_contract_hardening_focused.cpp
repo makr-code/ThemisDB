@@ -209,16 +209,8 @@ TEST_F(ToolboxContractTest, IT16_BridgeNullOptionalWriters) {
  *  - No crashes in soft-fail paths
  */
 TEST_F(ToolboxContractTest, IT17_BridgeEmptyExtractionHandling) {
-    // This test verifies the conceptual behavior
-    // Actual implementation requires ContentManager setup
-    // For now, we verify the error contract exists
-    
-    // Empty content should be handled gracefully
-    // and not cause null dereferences or crashes
-    
-    // This is validated through comprehensive test coverage
-    // in integration tests
-    EXPECT_TRUE(true);  // Placeholder for integration test
+    GTEST_SKIP() << "Requires ContentManager + ContentToolboxBridge wiring not available "
+                    "in this focused unit target; covered by integration tests.";
 }
 
 /**
@@ -233,14 +225,14 @@ TEST_F(ToolboxContractTest, IT17_BridgeEmptyExtractionHandling) {
  *  - No buffer overflows or underflows
  */
 TEST_F(ToolboxContractTest, IT18_StreamingBoundaryConditions) {
-    // Boundary conditions are validated through stress tests
-    // and contract verification in integration suite
-    
-    // Empty extraction should be handled
     auto toolbox = themis::toolbox::IngestionToolbox::createDefault();
-    
-    auto result = toolbox->extractEntities("");
-    EXPECT_TRUE(result.empty() || result.size() > 0);  // Valid edge case
+    ASSERT_NE(toolbox, nullptr);
+
+    EXPECT_NO_THROW({
+        [[maybe_unused]] auto result = toolbox->extractEntities("");
+        [[maybe_unused]] auto entity_set =
+            toolbox->extractEntitySet("", "text/plain", "boundary.txt");
+    });
 }
 
 /**
@@ -255,16 +247,12 @@ TEST_F(ToolboxContractTest, IT18_StreamingBoundaryConditions) {
  *  - Pipeline continues for available steps
  */
 TEST_F(ToolboxContractTest, IT19_CompositeRoutingFallback) {
-    // Composite routing is handled by the workflow engine
-    // Fallback behavior is tested through integration tests
-    
     auto toolbox = themis::toolbox::IngestionToolbox::createDefault();
-    EXPECT_NE(toolbox, nullptr);
-    
-    // Default toolbox has null backends but should not crash
-    auto result = toolbox->extractEntities("test text");
-    // Empty result is acceptable with null backend
-    EXPECT_TRUE(true);
+    ASSERT_NE(toolbox, nullptr);
+
+    EXPECT_NO_THROW({
+        [[maybe_unused]] auto result = toolbox->extractEntities("test text");
+    });
 }
 
 /**
@@ -281,15 +269,13 @@ TEST_F(ToolboxContractTest, IT19_CompositeRoutingFallback) {
  */
 TEST_F(ToolboxContractTest, IT20_EmptyInputEdgeCases) {
     auto toolbox = themis::toolbox::IngestionToolbox::createDefault();
-    
-    // Empty string input
-    auto result1 = toolbox->extractEntities("");
-    EXPECT_TRUE(true);  // Should not crash
-    
-    // Empty result is acceptable for empty input
-    // Metrics should reflect this
-    
-    // Verify no crashes on empty extraction
-    auto entities = toolbox->extractEntities("");
-    EXPECT_TRUE(entities.empty() || !entities.empty());  // Valid state
+    ASSERT_NE(toolbox, nullptr);
+
+    EXPECT_NO_THROW({
+        auto entities = toolbox->extractEntities("");
+        auto entity_set = toolbox->extractEntitySet("", "text/plain", "empty.txt");
+        EXPECT_TRUE(entities.empty());
+        EXPECT_TRUE(entity_set.nodes.empty());
+        EXPECT_TRUE(entity_set.chunks.empty());
+    });
 }

@@ -310,9 +310,13 @@ TEST_F(HighConcurrencyFixture, STRESS01_ConcurrentExtractionWithMetricsConsisten
     for (std::size_t t = 0; t < kNumThreads; ++t) {
         threads.emplace_back([this, t]() {
             for (std::size_t i = 0; i < kOpsPerThread; ++i) {
-                std::string text = "content_" + std::to_string(t) + "_" + std::to_string(i);
-                auto result = toolbox_.extractEntities(text, "text/plain", "test.txt");
-                operations_completed_.fetch_add(1, std::memory_order_relaxed);
+                try {
+                    std::string text = "content_" + std::to_string(t) + "_" + std::to_string(i);
+                    [[maybe_unused]] auto result = toolbox_.extractEntities(text, "text/plain", "test.txt");
+                    operations_completed_.fetch_add(1, std::memory_order_relaxed);
+                } catch (...) {
+                    operations_failed_.fetch_add(1, std::memory_order_relaxed);
+                }
             }
         });
     }
@@ -322,8 +326,12 @@ TEST_F(HighConcurrencyFixture, STRESS01_ConcurrentExtractionWithMetricsConsisten
     }
     
     const uint64_t expected = kNumThreads * kOpsPerThread;
+    const uint64_t failed = operations_failed_.load();
+    EXPECT_EQ(failed, 0u) << "Expected no failed operations";
     EXPECT_EQ(operations_completed_.load(), expected)
         << "Expected " << expected << " completed operations";
+    EXPECT_EQ(operations_completed_.load() + failed, expected)
+        << "Total operations (completed + failed) must match expected";
     
     // Verify metrics consistency (no corruption)
     const std::string metrics = toolbox_.getMetricsText();
@@ -445,4 +453,3 @@ TEST_F(LongRunStressFixture, STRESS09_MetricsConsistencyUnderLongRun) {
     // Metrics should not be corrupted; format should be valid
     EXPECT_NE(metrics.find("toolbox_extract"), std::string::npos);
 }
-

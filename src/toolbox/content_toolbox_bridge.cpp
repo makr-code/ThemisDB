@@ -51,6 +51,7 @@ public:
         , bridge_latency_us_bucket_100_1000_(0)  ///< 100-1000 microseconds
         , bridge_latency_us_bucket_1000_10000_(0) ///< 1-10 milliseconds
         , bridge_latency_us_bucket_10000_plus_(0) ///< 10+ milliseconds
+        , bridge_latency_us_sum_(0)               ///< Histogram sum in microseconds
         , bridge_operations_total_(0)             ///< Total ingest/enrichExisting operations
     {}
 
@@ -70,6 +71,7 @@ public:
     std::atomic<uint64_t> bridge_latency_us_bucket_100_1000_; ///< Histogram bucket: 100-1000 us
     std::atomic<uint64_t> bridge_latency_us_bucket_1000_10000_;///< Histogram bucket: 1-10 ms
     std::atomic<uint64_t> bridge_latency_us_bucket_10000_plus_; ///< Histogram bucket: 10+ ms
+    std::atomic<uint64_t> bridge_latency_us_sum_;             ///< Histogram sum in microseconds
     std::atomic<uint64_t> bridge_operations_total_;      ///< Total operations (calls to ingest/enrichExisting)
 };
 
@@ -126,6 +128,7 @@ void ContentToolboxBridge::recordLatency(uint64_t latency_ms) noexcept {
     
     // Convert milliseconds to microseconds for histogram
     const uint64_t latency_us = latency_ms * 1000;
+    impl_->bridge_latency_us_sum_.fetch_add(latency_us, std::memory_order_relaxed);
     if (latency_us < 100) {
         impl_->bridge_latency_us_bucket_0_100_.fetch_add(1, std::memory_order_relaxed);
     } else if (latency_us < 1000) {
@@ -406,6 +409,7 @@ std::string ContentToolboxBridge::getMetricsText() const {
     const uint64_t bucket_100_1000 = impl_->bridge_latency_us_bucket_100_1000_.load();
     const uint64_t bucket_1000_10000 = impl_->bridge_latency_us_bucket_1000_10000_.load();
     const uint64_t bucket_10000_plus = impl_->bridge_latency_us_bucket_10000_plus_.load();
+    const uint64_t latency_sum_us = impl_->bridge_latency_us_sum_.load();
 
     std::ostringstream out;
 
@@ -430,6 +434,7 @@ std::string ContentToolboxBridge::getMetricsText() const {
         << (bucket_0_100 + bucket_100_1000 + bucket_1000_10000) << "\n";
     out << "toolbox_bridge_latency_us_bucket{le=\"+Inf\"} " 
         << (bucket_0_100 + bucket_100_1000 + bucket_1000_10000 + bucket_10000_plus) << "\n";
+    out << "toolbox_bridge_latency_us_sum " << latency_sum_us << "\n";
     out << "toolbox_bridge_latency_us_count " << ops << "\n";
 
     return out.str();
