@@ -50,6 +50,17 @@ Comprehensive test suites and benchmark-backed performance gates prepared for Q4
 - Verified: missing_dtor warnings on deleter functors are expected (no explicit destructor needed)
 - Verified: "todo_as_productionlogic" gaps are Gap Summary headers in file documentation, not real TODOs
 
+### Graph Module — Contract Clarification (2026-08-08)
+
+**Fix: Unknown edge type contract in `OntologyManager::isEdgeTypeAllowed()` (issue #5689, #5649)**
+- **Problem**: Test `EntityTypeConstraintTests::ETC09_UnknownEdgeTypes` expected unknown edge types to be allowed on all class pairs (schema evolution fallback), but implementation was rejecting them when no axioms existed for the pair.
+- **Resolution**: Clarified and simplified contract to explicitly allow unknown edge types globally (schema-evolution fallback), supporting runtime introduction of new edge types without ontology schema updates.
+- **Changes**:
+  - `include/graph/ontology_manager.h`: Updated API documentation with explicit schema-evolution contract rationale
+  - `src/graph/ontology_manager.cpp`: Refactored `isEdgeTypeAllowed()` with four-case decision logic (unknown classes → allow, explicit axiom → allow, unknown edge type globally → allow, known edge type not allowed for pair → deny)
+- **Testing**: ETC09 test now passes; backward compatibility verified with SC-03, SC-04, SC-07-SC-09 constraint scenarios
+- **Impact**: No breaking changes; reinforces schema-evolution capability per API contract (Phase 1 freeze, 2026-08-01)
+
 ---
 
 ## [Unreleased] — 2026-08-04 — Phase 1-6 Execution Contract Closure (v2.4.0-rc1)
