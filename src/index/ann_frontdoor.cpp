@@ -504,6 +504,38 @@ AnnFrontdoorResult AnnFrontdoor::search(const float*          query_vector,
 
     emitRouteMetric(result);
 
+    // ─── ANN result validation — Phase B gate (Target: Q3 2026) ─────────────
+    // Cardinality check: candidates must not exceed the requested top-k.
+    // A backend returning more than k results is a contract violation; truncate
+    // defensively and log a warning so the issue is visible in production.
+    if (k > 0 && result.candidates.size() > static_cast<std::size_t>(k)) {
+        spdlog::warn("[AnnFrontdoor] cardinality violation: backend returned {} candidates "
+                     "but top_k={} was requested; truncating (correlation_id={})",
+                     result.candidates.size(), k, result.correlation_id);
+        result.candidates.resize(static_cast<std::size_t>(k));
+    }
+
+    // Range check: distance values must be non-negative (NaN / negative distances
+    // indicate backend bugs or uninitialised memory).  Remove invalid entries
+    // and log a warning so the caller's tensor layer sees a clean candidate list.
+    {
+        const std::size_t before_range_filter = result.candidates.size();
+        result.candidates.erase(
+            std::remove_if(result.candidates.begin(), result.candidates.end(),
+                           [](const AnnSearchResult& r) {
+                               // NaN check: NaN != NaN; negative distance also invalid.
+                               return !(r.distance >= 0.0f);
+                           }),
+            result.candidates.end());
+        const std::size_t removed = before_range_filter - result.candidates.size();
+        if (removed > 0) {
+            spdlog::warn("[AnnFrontdoor] range check: removed {} candidate(s) with "
+                         "invalid distance (NaN or negative) (correlation_id={})",
+                         removed, result.correlation_id);
+        }
+    }
+    // ─────────────────────────────────────────────────────────────────────────
+
     return result;
 }
 

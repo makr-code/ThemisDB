@@ -34,7 +34,7 @@ registered as first-class `AnnScopeKind` values with hot/cold routing and observ
 ### Hybrid Retrieval Rollout Gates (issue #5468)
 - [ ] Phase B gate: fix 60% of buffer lifecycle RAII gaps (7,712 total → ~4,600 target) (Target: Q3 2026)
 - [ ] Phase B gate: ThreadSanitizer clean for Vec KNN insert pipeline (Target: Q3 2026)
-- [ ] Phase B gate: ANN result validation — output cardinality + range check before tensor layer (Target: Q3 2026)
+- [x] Phase B gate: ANN result validation — output cardinality + range check before tensor layer (2026-08-09: truncation + NaN/negative distance filter added to AnnFrontdoor::search())
 - [~] Phase B ctest gate: `test_ann_cpu_parity` for distance and TopK kernels (implemented; environment validation pending) (Target: Q3 2026)
 - [~] Phase B benchmark gate: `bench_ann_distance_cpu_vs_flat` (implemented; environment validation pending) (Target: Q3 2026)
 
