@@ -3,7 +3,7 @@
 # Whisper Plugin Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Roadmap-Status: current | validated: 2026-04-12 | Primary: src/whisper/ -->
+<!-- Roadmap-Status: current | validated: 2026-08-09 | Primary: src/whisper/ -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
@@ -124,4 +124,3 @@ _Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNC
 
 - `parseWav` – Parsed WAV-Header und extrahiert Audio-Rohdaten
   > **Aktion:** Für jedes Symbol entscheiden: (1) Verdrahten, (2) Testen oder (3) als CANDIDATE_FOR_REMOVAL einplanen.
-
