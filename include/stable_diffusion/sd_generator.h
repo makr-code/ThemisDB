@@ -22,8 +22,10 @@
 #include "plugins/image_generation_interface.h"
 #include "stable_diffusion/sd_config.h"
 #include <chrono>
+#include <cmath>
 #include <cstdint>
 #include <cstdlib>
+#include <filesystem>
 #include <memory>
 #include <stdexcept>
 #include <string>
@@ -44,6 +46,26 @@ public:
 
     virtual bool initialize(const SDConfig& cfg) = 0;
     virtual bool isInitialized() const = 0;
+
+    /**
+     * @brief Optionally apply a LoRA adapter for subsequent generation calls.
+     *
+     * Default implementation is a no-op that succeeds for generators that do
+     * not support LoRA updates.
+     *
+     * @param lora_path Path to LoRA adapter (empty means clear LoRA state).
+     * @param scale     Adapter scale factor.
+     * @param error_out Detailed error text on failure.
+     * @return true on success, false on validation/application failure.
+     */
+    virtual bool applyLoRA(const std::string& lora_path,
+                           float scale,
+                           std::string& error_out) {
+        (void)lora_path;
+        (void)scale;
+        error_out.clear();
+        return true;
+    }
 
     /**
      * @brief Generate raw RGB pixel data for a given prompt.
@@ -164,10 +186,21 @@ public:
     }
     bool isInitialized() const override { return initialized_; }
 
+    void setApplyLoraResult(bool succeed, std::string error_message = {}) {
+        apply_lora_should_succeed_ = succeed;
+        apply_lora_error_message_ = std::move(error_message);
+    }
+
     std::vector<uint8_t> generate(const std::string&,
-                                  const SDGenerationConfig&,
+                                  const SDGenerationConfig& cfg,
                                   int& out_w, int& out_h,
                                   uint64_t& out_seed) override {
+        last_control_width_ = cfg.control_width;
+        last_control_height_ = cfg.control_height;
+        last_control_strength_ = cfg.control_strength;
+        last_control_model_path_ = cfg.control_model_path;
+        last_lora_adapter_path_ = cfg.lora_adapter_path;
+        last_lora_scale_ = cfg.lora_scale;
         out_w    = next_w_;
         out_h    = next_h_;
         out_seed = next_seed_;
@@ -185,11 +218,34 @@ public:
         return generate(prompt, cfg, out_w, out_h, out_seed);
     }
 
+    bool applyLoRA(const std::string& lora_path,
+                   float scale,
+                   std::string& error_out) override {
+        last_applied_lora_path_ = lora_path;
+        last_applied_lora_scale_ = scale;
+        if (!apply_lora_should_succeed_) {
+            error_out = apply_lora_error_message_.empty()
+                ? "in-memory LoRA application failed"
+                : apply_lora_error_message_;
+            return false;
+        }
+        error_out.clear();
+        return true;
+    }
+
     // Test inspection helpers
     bool   img2imgCalled()          const { return img2img_called_; }
     float  lastImg2ImgStrength()    const { return last_img2img_strength_; }
     int    lastImg2ImgInputWidth()  const { return last_img2img_input_w_; }
     int    lastImg2ImgInputHeight() const { return last_img2img_input_h_; }
+    int    lastControlWidth()       const { return last_control_width_; }
+    int    lastControlHeight()      const { return last_control_height_; }
+    float  lastControlStrength()    const { return last_control_strength_; }
+    const std::string& lastControlModelPath() const { return last_control_model_path_; }
+    const std::string& lastLoraAdapterPath() const { return last_lora_adapter_path_; }
+    float  lastLoraScale() const { return last_lora_scale_; }
+    const std::string& lastAppliedLoraPath() const { return last_applied_lora_path_; }
+    float  lastAppliedLoraScale() const { return last_applied_lora_scale_; }
 
     std::string getModelId() const override { return model_id_; }
 
@@ -204,6 +260,16 @@ private:
     float last_img2img_strength_    = 0.0f;
     int   last_img2img_input_w_     = 0;
     int   last_img2img_input_h_     = 0;
+    int   last_control_width_       = 0;
+    int   last_control_height_      = 0;
+    float last_control_strength_    = 0.0f;
+    std::string last_control_model_path_;
+    std::string last_lora_adapter_path_;
+    float last_lora_scale_ = 1.0f;
+    bool apply_lora_should_succeed_ = true;
+    std::string apply_lora_error_message_;
+    std::string last_applied_lora_path_;
+    float last_applied_lora_scale_ = 1.0f;
 };
 
 // ---------------------------------------------------------------------------
@@ -232,37 +298,47 @@ public:
     }
 
     bool initialize(const SDConfig& cfg) override {
-        if (ctx_) {
-            free_sd_ctx(ctx_);
-            ctx_ = nullptr;
-        }
         model_id_ = cfg.model_path;
         config_   = cfg;
-
-        ctx_ = new_sd_ctx(
-            cfg.model_path.c_str(),
-            /*vae_path=*/"",
-            /*taesd_path=*/"",
-            /*control_net_path=*/"",
-            /*lora_model_dir=*/"",
-            /*embed_dir=*/"",
-            /*stacked_id_embed_dir=*/"",
-            /*vae_decode_only=*/true,
-            /*vae_tiling=*/false,
-            /*free_params_immediately=*/false,
-            /*n_threads=*/-1,
-            /*wtype=*/SD_TYPE_F32,
-            /*rng_type=*/STD_DEFAULT_RNG,
-            /*s=*/DEFAULT,
-            /*keep_clip_on_cpu=*/false,
-            /*keep_control_net_cpu=*/false,
-            /*keep_vae_on_cpu=*/false
-        );
-        initialized_ = (ctx_ != nullptr);
-        return initialized_;
+        active_control_model_path_.clear();
+        active_lora_path_.clear();
+        active_lora_scale_ = 1.0f;
+        return recreateContext(/*control_model_path=*/"", /*lora_path=*/"", /*lora_scale=*/1.0f, nullptr);
     }
 
     bool isInitialized() const override { return initialized_; }
+
+    bool applyLoRA(const std::string& lora_path,
+                   float scale,
+                   std::string& error_out) override {
+        error_out.clear();
+        if (!initialized_ || !ctx_) {
+            error_out = "SDCppGenerator: not initialized";
+            return false;
+        }
+        if (lora_path.empty()) {
+            if (!recreateContext(active_control_model_path_, "", 1.0f, &error_out)) {
+                return false;
+            }
+            active_lora_path_.clear();
+            active_lora_scale_ = 1.0f;
+            return true;
+        }
+        if (!std::filesystem::exists(lora_path) || !std::filesystem::is_regular_file(lora_path)) {
+            error_out = "SDCppGenerator: LoRA adapter file not found";
+            return false;
+        }
+        if (!std::isfinite(scale) || scale <= 0.0f) {
+            error_out = "SDCppGenerator: invalid LoRA scale";
+            return false;
+        }
+        if (!recreateContext(active_control_model_path_, lora_path, scale, &error_out)) {
+            return false;
+        }
+        active_lora_path_ = lora_path;
+        active_lora_scale_ = scale;
+        return true;
+    }
 
     std::vector<uint8_t> generate(const std::string& prompt,
                                    const SDGenerationConfig& cfg,
@@ -270,12 +346,50 @@ public:
                                    uint64_t& out_seed) override {
         if (!ctx_)
             throw std::runtime_error("SDCppGenerator: not initialized");
+        if (cfg.width <= 0 || cfg.height <= 0) {
+            throw std::runtime_error("SDCppGenerator: invalid generation dimensions");
+        }
+        if (!cfg.control_image_rgb.empty()) {
+            if (cfg.control_width <= 0 || cfg.control_height <= 0) {
+                throw std::runtime_error("SDCppGenerator: invalid control image dimensions");
+            }
+            const size_t expected = static_cast<size_t>(cfg.control_width)
+                                  * static_cast<size_t>(cfg.control_height) * 3u;
+            if (cfg.control_image_rgb.size() < expected) {
+                throw std::runtime_error("SDCppGenerator: control image buffer too small");
+            }
+        }
+
+        if (cfg.control_model_path != active_control_model_path_) {
+            std::string context_error;
+            if (!recreateContext(cfg.control_model_path,
+                                 active_lora_path_,
+                                 active_lora_scale_,
+                                 &context_error)) {
+                throw std::runtime_error("SDCppGenerator: " + context_error);
+            }
+            active_control_model_path_ = cfg.control_model_path;
+        }
 
         const int64_t actual_seed = (cfg.seed < 0)
             ? static_cast<int64_t>(
                   std::chrono::steady_clock::now().time_since_epoch().count()
                   & 0x7FFFFFFF)
             : cfg.seed;
+
+        std::vector<uint8_t> control_copy;
+        sd_image_t control_img{};
+        sd_image_t* control_ptr = nullptr;
+        if (!cfg.control_image_rgb.empty()) {
+            control_copy = cfg.control_image_rgb;
+            control_img = sd_image_t{
+                static_cast<uint32_t>(cfg.control_width),
+                static_cast<uint32_t>(cfg.control_height),
+                3u,
+                control_copy.data()
+            };
+            control_ptr = &control_img;
+        }
 
         sd_image_t* images = txt2img(
             ctx_,
@@ -289,8 +403,8 @@ public:
             cfg.steps,
             actual_seed,
             /*batch_count=*/1,
-            /*control_cond=*/nullptr,
-            /*control_strength=*/0.9f,
+            /*control_cond=*/control_ptr,
+            /*control_strength=*/cfg.control_strength,
             /*style_strength=*/20.0f,
             /*normalize_input=*/false,
             /*input_id_images_path=*/""
@@ -318,6 +432,35 @@ public:
                                           uint64_t& out_seed) override {
         if (!ctx_)
             throw std::runtime_error("SDCppGenerator: not initialized");
+        if (cfg.input_width <= 0 || cfg.input_height <= 0 || cfg.input_image_rgb.empty()) {
+            throw std::runtime_error("SDCppGenerator: invalid img2img input image");
+        }
+        const size_t expected_input = static_cast<size_t>(cfg.input_width)
+                                    * static_cast<size_t>(cfg.input_height) * 3u;
+        if (cfg.input_image_rgb.size() < expected_input) {
+            throw std::runtime_error("SDCppGenerator: img2img input buffer too small");
+        }
+        if (!cfg.control_image_rgb.empty()) {
+            if (cfg.control_width <= 0 || cfg.control_height <= 0) {
+                throw std::runtime_error("SDCppGenerator: invalid control image dimensions");
+            }
+            const size_t expected_control = static_cast<size_t>(cfg.control_width)
+                                          * static_cast<size_t>(cfg.control_height) * 3u;
+            if (cfg.control_image_rgb.size() < expected_control) {
+                throw std::runtime_error("SDCppGenerator: control image buffer too small");
+            }
+        }
+
+        if (cfg.control_model_path != active_control_model_path_) {
+            std::string context_error;
+            if (!recreateContext(cfg.control_model_path,
+                                 active_lora_path_,
+                                 active_lora_scale_,
+                                 &context_error)) {
+                throw std::runtime_error("SDCppGenerator: " + context_error);
+            }
+            active_control_model_path_ = cfg.control_model_path;
+        }
 
         const int64_t actual_seed = (cfg.seed < 0)
             ? static_cast<int64_t>(
@@ -337,6 +480,23 @@ public:
 
         const int out_width  = (cfg.width  > 0) ? cfg.width  : cfg.input_width;
         const int out_height = (cfg.height > 0) ? cfg.height : cfg.input_height;
+        if (out_width <= 0 || out_height <= 0) {
+            throw std::runtime_error("SDCppGenerator: invalid output dimensions");
+        }
+
+        std::vector<uint8_t> control_copy;
+        sd_image_t control_img{};
+        sd_image_t* control_ptr = nullptr;
+        if (!cfg.control_image_rgb.empty()) {
+            control_copy = cfg.control_image_rgb;
+            control_img = sd_image_t{
+                static_cast<uint32_t>(cfg.control_width),
+                static_cast<uint32_t>(cfg.control_height),
+                3u,
+                control_copy.data()
+            };
+            control_ptr = &control_img;
+        }
 
         sd_image_t* images = img2img(
             ctx_,
@@ -352,8 +512,8 @@ public:
             cfg.strength,
             actual_seed,
             /*batch_count=*/1,
-            /*control_cond=*/nullptr,
-            /*control_strength=*/0.9f,
+            /*control_cond=*/control_ptr,
+            /*control_strength=*/cfg.control_strength,
             /*style_strength=*/20.0f,
             /*normalize_input=*/false,
             /*input_id_images_path=*/""
@@ -378,6 +538,59 @@ public:
     std::string getModelId() const override { return model_id_; }
 
 private:
+    bool recreateContext(const std::string& control_model_path,
+                         const std::string& lora_path,
+                         float lora_scale,
+                         std::string* error_out) {
+        if (!control_model_path.empty()
+                && (!std::filesystem::exists(control_model_path)
+                    || !std::filesystem::is_regular_file(control_model_path))) {
+            if (error_out) *error_out = "ControlNet model path not found";
+            return false;
+        }
+        if (!lora_path.empty()
+                && (!std::filesystem::exists(lora_path)
+                    || !std::filesystem::is_regular_file(lora_path))) {
+            if (error_out) *error_out = "LoRA adapter path not found";
+            return false;
+        }
+        if (!std::isfinite(lora_scale) || lora_scale <= 0.0f) {
+            if (error_out) *error_out = "invalid LoRA scale";
+            return false;
+        }
+
+        sd_ctx_t* new_ctx = new_sd_ctx(
+            config_.model_path.c_str(),
+            /*vae_path=*/"",
+            /*taesd_path=*/"",
+            /*control_net_path=*/control_model_path.c_str(),
+            /*lora_model_dir=*/lora_path.c_str(),
+            /*embed_dir=*/"",
+            /*stacked_id_embed_dir=*/"",
+            /*vae_decode_only=*/true,
+            /*vae_tiling=*/false,
+            /*free_params_immediately=*/false,
+            /*n_threads=*/-1,
+            /*wtype=*/SD_TYPE_F32,
+            /*rng_type=*/STD_DEFAULT_RNG,
+            /*s=*/DEFAULT,
+            /*keep_clip_on_cpu=*/false,
+            /*keep_control_net_cpu=*/false,
+            /*keep_vae_on_cpu=*/false
+        );
+        if (!new_ctx) {
+            if (error_out) *error_out = "new_sd_ctx failed";
+            return false;
+        }
+
+        if (ctx_) {
+            free_sd_ctx(ctx_);
+        }
+        ctx_ = new_ctx;
+        initialized_ = true;
+        return true;
+    }
+
     static sample_method_t samplerFromString(const std::string& s) {
         if (s == "euler")       return EULER;
         if (s == "euler_a")     return EULER_A;
@@ -394,6 +607,9 @@ private:
     bool        initialized_ = false;
     std::string model_id_;
     SDConfig    config_;
+    std::string active_control_model_path_;
+    std::string active_lora_path_;
+    float       active_lora_scale_ = 1.0f;
 };
 #endif  // THEMIS_ENABLE_STABLE_DIFFUSION
 

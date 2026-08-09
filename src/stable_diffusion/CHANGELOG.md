@@ -1,6 +1,6 @@
 > ⚠️ **Historisches Changelog** – Einträge beschreiben den Stand zum Zeitpunkt der Erstellung.
 
-<!-- Status: current | validated: 2026-04-16 -->
+<!-- Status: current | validated: 2026-08-09 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Changelog — Stable Diffusion Plugin
@@ -10,9 +10,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
-- ControlNet support for image conditioning
-- LoRA adapter support for diffusion models
-- Perceptual hash (`pHash`) metadata for output deduplication
+- ControlNet request fields and validation in generate/img2img paths
+- LoRA request application (`applyLoRA`) with validation/error propagation
+- Perceptual hash (`perceptual_hash`) metadata on successful outputs (non-fatal fallback)
+- `model_sha256` initialization gate for model integrity verification
+- Dimension guards (`<=8192`, overflow-safe checks) for generation and control/img2img buffers
+- Focused test coverage expanded to 62 tests in `SDPluginFocusedTests`
 - SDCppGenerator parallel-call thread-safety audit
 
 ## [2.2.0] — 2026-04-12

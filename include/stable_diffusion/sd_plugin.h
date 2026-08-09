@@ -107,8 +107,18 @@ private:
     // Internal helper: run generate without locking (caller holds generate_mutex_)
     GeneratedImage generateLocked(const std::string& prompt,
                                    const SDGenerationConfig& cfg);
+    GeneratedImage generateImg2ImgLocked(const std::string& prompt,
+                                         const Img2ImgConfig& cfg);
+    static bool validateGenerationDimensions(int width, int height, std::string& error_out);
+    static bool validateRgbBufferShape(const std::vector<uint8_t>& rgb,
+                                       int width,
+                                       int height,
+                                       std::string& error_out);
+    static std::string normalizeLowerHex(const std::string& hex);
 
     static std::string sha256Hex(const std::string& input);
+    static std::optional<std::string> computePerceptualHash(const std::vector<uint8_t>& rgb,
+                                                            int width, int height) noexcept;
     static std::vector<uint8_t> encodeMinimalPng(const std::vector<uint8_t>& rgb,
                                                   int width, int height);
 };

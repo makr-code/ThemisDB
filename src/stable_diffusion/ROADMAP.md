@@ -3,18 +3,15 @@
 # Stable Diffusion Plugin Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Roadmap-Status: current | validated: 2026-04-07 | Primary: src/stable_diffusion/ -->
+<!-- Roadmap-Status: current | validated: 2026-08-09 | Primary: src/stable_diffusion/ -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
 
-v2.2.0 — Real PNG encoder with IDAT chunk, `SDCppGenerator` implementation
-(stable-diffusion.cpp backend, guarded by `THEMIS_ENABLE_STABLE_DIFFUSION`),
-and `SDStubGenerator::generateImg2Img` stub pass-through added. Batch generation,
-img2img interface, thread-safe plugin, and negative-prompt content policy enforcement
-all complete. Core pipeline operational. Content-policy sanitizer functional.
-Stub mode fully functional. stable-diffusion.cpp integration compiled when
-`THEMIS_ENABLE_STABLE_DIFFUSION=ON`.
+Core pipeline is operational in stub mode and optional real-backend mode.
+ControlNet request fields, LoRA request handling, perceptual hash metadata,
+model SHA-256 integrity validation, and request dimension guards are implemented
+in `SDPlugin` and covered by focused tests.
 
 ## Completed ✅
 
@@ -33,7 +30,12 @@ Stub mode fully functional. stable-diffusion.cpp integration compiled when
 - [x] `SDCppGenerator` — real stable-diffusion.cpp wrapper (`THEMIS_ENABLE_STABLE_DIFFUSION` guard)
 - [x] Thread-safety: `generate_mutex_` serialises all generate paths
 - [x] `negative_prompt` content-policy enforcement (SECURITY.md gap SD-NP-01 resolved)
-- [x] 51 unit tests (`SDPluginFocusedTests`, groups A–Q)
+- [x] ControlNet request fields (`control_image_rgb`, `control_model_path`, `control_strength`)
+- [x] LoRA request application (`applyLoRA`) with per-request scale validation
+- [x] Perceptual hash metadata (`GeneratedImage::perceptual_hash`) with non-fatal fallback
+- [x] Model SHA-256 verification gate in `initialize()` (`model_sha256`)
+- [x] Dimension guards (`<=8192`, overflow-safe, positive dimensions)
+- [x] 62 unit tests (`SDPluginFocusedTests`, groups A–Q)
 - [x] Plugin manifest + CMake registration
 - [x] **`SDCppGenerator`** — wraps `stable-diffusion.cpp` C API under `THEMIS_ENABLE_STABLE_DIFFUSION` guard (Issue: #4590) (2026-04-12)
 - [x] **Real PNG IDAT encoder** — `encodeMinimalPng()` produces valid IDAT block via stored-deflate + CRC32 + Adler32 (Issue: #4590) (2026-04-12)
@@ -47,9 +49,9 @@ Stub mode fully functional. stable-diffusion.cpp integration compiled when
 
 ## Planned Features
 
-- [ ] ControlNet image conditioning (Target: Q4 2026)
-- [ ] LoRA adapters for diffusion models (Target: Q4 2026)
-- [ ] Perceptual hash (`pHash`) of output for deduplication (Target: Q4 2026)
+- [~] Benchmark gate: stable_diffusion benchmark target added; baseline publication pending (Target: Q3 2026)
+- [ ] End-to-end real-model gate (`THEMIS_ENABLE_STABLE_DIFFUSION=ON`) in CI (Target: Q3 2026)
+- [ ] Dedicated parallel-call audit for `SDCppGenerator` backend semantics (Target: Q4 2026)
 
 ## Implementation Phases
 
@@ -67,14 +69,16 @@ Stub mode fully functional. stable-diffusion.cpp integration compiled when
 - [x] Generator exception isolation
 
 ### Phase 4 — Tests ✅
-- [x] 45 unit tests across groups A–O (v2.1.0)
-- [x] 6 additional tests groups P–Q (v2.2.0): PNG encoder validation, SDStubGenerator img2img
+- [x] Focused coverage expanded to 62 tests across groups A–Q
+- [x] Added coverage for model SHA-256 gate, dimension guards, ControlNet+LoRA request flow, pHash behavior
 
-### Phase 5 — Performance / Hardening ✅
+### Phase 5 — Performance / Hardening
 - [x] Thread-safe generate/generateBatch/generateImg2Img (v2.1.0)
 - [x] `negative_prompt` content-policy enforcement (v2.1.0)
 - [x] Real PNG encoder — stored-deflate zlib with CRC-32 and Adler-32 (v2.2.0)
-- [ ] Benchmark: time-to-PNG for 512×512 stub vs. real model
+- [x] Dimension guard enforcement for generation/img2img/control image paths
+- [x] Model SHA-256 verification gate at initialization
+- [~] Benchmark: time-to-PNG target added (`bench_stable_diffusion_release_gates`); real-model baseline pending
 - [ ] Thread-safety audit for SDCppGenerator (parallel calls)
 
 ### Phase 6 — Documentation & Acceptance ✅
@@ -82,7 +86,7 @@ Stub mode fully functional. stable-diffusion.cpp integration compiled when
 
 ## Production Readiness Checklist
 
-- [x] Unit tests present (51 tests)
+- [x] Unit tests present (62 tests)
 - [x] Stub mode for CI without model file
 - [x] Injection constructor for test doubles
 - [x] Content-policy sanitizer before every generate call
@@ -128,4 +132,3 @@ _Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNC
 
 - `samplerFromString` – Parst Sampler-Namen (euler, ddim, …) zu Enum; Header-only Helper
   > **Aktion:** Für jedes Symbol entscheiden: (1) Verdrahten, (2) Testen oder (3) als CANDIDATE_FOR_REMOVAL einplanen.
-

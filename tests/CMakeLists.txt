@@ -24218,12 +24218,13 @@ else()
 endif()
 
 # ── Stable Diffusion Plugin Tests ─────────────────────────────────────────────
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/tests/test_sd_plugin.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/tests/test_sd_plugin.cpp" AND OpenSSL_FOUND)
     add_executable(test_sd_plugin
         "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/tests/test_sd_plugin.cpp"
         "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/sd_config.cpp"
         "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/sd_prompt_sanitizer.cpp"
         "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/sd_plugin.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/utils/checksum_utils.cpp"
     )
     target_include_directories(test_sd_plugin PRIVATE
         "${CMAKE_CURRENT_SOURCE_DIR}/../include"
@@ -24232,6 +24233,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/tests/test_sd_plu
         GTest::gtest
         GTest::gtest_main
         nlohmann_json::nlohmann_json
+        OpenSSL::Crypto
     )
     target_compile_features(test_sd_plugin PRIVATE cxx_std_17)
     target_compile_definitions(test_sd_plugin PRIVATE THEMIS_PLUGIN_EXPORTS)
@@ -24240,7 +24242,9 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/tests/test_sd_plu
         LABELS "plugins;stable_diffusion;image_generation;v2.2.0"
         TIMEOUT 60
     )
-    message(STATUS "  SDPlugin: 51 tests (A-Q)")
+    message(STATUS "  SDPlugin: 62 tests (A-Q)")
+elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/tests/test_sd_plugin.cpp")
+    message(STATUS "  SDPlugin tests skipped - OpenSSL dependency missing")
 else()
     message(STATUS "  SDPlugin tests not found - skipped")
 endif()

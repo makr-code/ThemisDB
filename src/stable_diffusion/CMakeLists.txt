@@ -17,6 +17,7 @@ set(SD_PLUGIN_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/sd_config.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/sd_prompt_sanitizer.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/sd_plugin.cpp
+    ${THEMIS_ROOT_DIR}/src/utils/checksum_utils.cpp
 )
 
 add_library(stable_diffusion_plugin STATIC ${SD_PLUGIN_SOURCES})
@@ -26,6 +27,9 @@ target_include_directories(stable_diffusion_plugin PUBLIC
 )
 
 target_compile_features(stable_diffusion_plugin PUBLIC cxx_std_17)
+
+find_package(OpenSSL REQUIRED)
+target_link_libraries(stable_diffusion_plugin PUBLIC OpenSSL::Crypto)
 
 # ── Optional: stable-diffusion.cpp ──────────────────────────────────────────
 option(THEMIS_ENABLE_STABLE_DIFFUSION "Enable stable-diffusion.cpp for real generation" OFF)

@@ -23,6 +23,7 @@
 #include <string>
 #include <vector>
 #include <cstdint>
+#include <optional>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -46,6 +47,7 @@ struct GeneratedImage {
     uint64_t    seed_used = 0;
     int64_t     generation_timestamp = 0;   // Unix epoch milliseconds; mandatory
     std::string prompt_hash;                // SHA-256 hex of the sanitised prompt
+    std::optional<std::string> perceptual_hash; // Optional deterministic perceptual hash metadata
     bool        success = true;
     std::string error_message;
 };
@@ -61,6 +63,13 @@ struct SDGenerationConfig {
     std::string sampler = "euler_a";
     int64_t seed = -1;               // -1 = random
     std::string negative_prompt;
+    std::vector<uint8_t> control_image_rgb; // Optional ControlNet conditioning image (RGB)
+    int control_width = 0;           // Control image width; must match control_image_rgb
+    int control_height = 0;          // Control image height; must match control_image_rgb
+    std::string control_model_path;  // Optional ControlNet model path for this request
+    float control_strength = 0.9f;   // ControlNet conditioning strength [0.0, 1.0]
+    std::string lora_adapter_path;   // Optional LoRA adapter path for this request
+    float lora_scale = 1.0f;         // LoRA scale multiplier
 };
 
 /**

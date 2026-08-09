@@ -14,7 +14,9 @@
 #include "stable_diffusion/sd_prompt_sanitizer.h"
 #include "stable_diffusion/sd_generator.h"
 #include "stable_diffusion/sd_plugin.h"
+#include "utils/checksum_utils.h"
 #include <nlohmann/json.hpp>
+#include <filesystem>
 #include <fstream>
 #include <stdexcept>
 
@@ -39,6 +41,14 @@ public:
 private:
     bool initialized_ = false;
     std::string model_id_;
+};
+
+class LoRAFailingGenerator : public InMemorySDGenerator {
+public:
+    bool applyLoRA(const std::string&, float, std::string& error_out) override {
+        error_out = "lora apply failed";
+        return false;
+    }
 };
 
 // ── Group A – SDConfig::fromJson ──────────────────────────────────────────────
@@ -98,6 +108,15 @@ TEST(SDPluginFocusedTests, B2_ToJsonContainsAllKeys) {
 TEST(SDPluginFocusedTests, B3_CfgScaleRoundTrip) {
     SDConfig cfg; cfg.cfg_scale = 12.5f;
     EXPECT_FLOAT_EQ(SDConfig::fromJson(cfg.toJson()).cfg_scale, 12.5f);
+}
+
+TEST(SDPluginFocusedTests, B4_ToJsonRoundTripNewFields) {
+    SDConfig cfg;
+    cfg.model_path = "/model.gguf";
+    cfg.model_sha256 = "ABCDEF";
+    const SDConfig r = SDConfig::fromJson(cfg.toJson());
+    EXPECT_EQ(r.model_path, "/model.gguf");
+    EXPECT_EQ(r.model_sha256, "ABCDEF");
 }
 
 // ── Group C – SDPromptSanitizer::isAllowed ────────────────────────────────────
@@ -194,7 +213,7 @@ TEST(SDPluginFocusedTests, F3_IsPromptAllowedDelegates) {
 
 TEST(SDPluginFocusedTests, G1_GenerationTimestampPositive) {
     auto g = std::make_unique<InMemorySDGenerator>();
-    g->setNextPixels({}, 1, 1);
+    g->setNextPixels({0, 0, 0}, 1, 1);
     SDPlugin p(std::move(g), SDPromptSanitizer{});
     p.initialize("", {});
     EXPECT_GT(p.generate("test", {}).generation_timestamp, 0);
@@ -258,7 +277,7 @@ TEST(SDPluginFocusedTests, I2_StatisticsPluginName) {
 
 TEST(SDPluginFocusedTests, I3_GenerationCountIncrements) {
     auto g = std::make_unique<InMemorySDGenerator>();
-    g->setNextPixels({}, 1, 1);
+    g->setNextPixels({0, 0, 0}, 1, 1);
     SDPlugin p(std::move(g), SDPromptSanitizer{});
     p.initialize("", {});
     p.generate("a", {}); p.generate("b", {});
@@ -289,6 +308,41 @@ TEST(SDPluginFocusedTests, J3_DoubleInitIsSafe) {
     EXPECT_TRUE(p.isInitialized());
 }
 
+TEST(SDPluginFocusedTests, J4_InitializeFailsOnModelShaMismatch) {
+    const std::filesystem::path p = std::filesystem::temp_directory_path() / "sd_plugin_sha_mismatch.bin";
+    {
+        std::ofstream ofs(p, std::ios::binary);
+        ofs << "themis-sd-test";
+    }
+    SDPlugin plugin(std::make_unique<InMemorySDGenerator>(), SDPromptSanitizer{});
+    const bool ok = plugin.initialize(
+        p.string(),
+        json{{"model_sha256", "deadbeef"}}
+    );
+    EXPECT_FALSE(ok);
+    std::error_code ec;
+    std::filesystem::remove(p, ec);
+}
+
+TEST(SDPluginFocusedTests, J5_InitializeSucceedsOnModelShaMatch) {
+    const std::filesystem::path p = std::filesystem::temp_directory_path() / "sd_plugin_sha_match.bin";
+    {
+        std::ofstream ofs(p, std::ios::binary);
+        ofs << "themis-sd-test-match";
+    }
+    const std::string digest = themis::utils::calculateSHA256(p.string());
+    ASSERT_FALSE(digest.empty());
+
+    SDPlugin plugin(std::make_unique<InMemorySDGenerator>(), SDPromptSanitizer{});
+    const bool ok = plugin.initialize(
+        p.string(),
+        json{{"model_sha256", digest}}
+    );
+    EXPECT_TRUE(ok);
+    std::error_code ec;
+    std::filesystem::remove(p, ec);
+}
+
 // ── Group K – negative_prompt content-policy enforcement ─────────────────────
 
 TEST(SDPluginFocusedTests, K1_BlockedNegativePromptReturnsError) {
@@ -312,7 +366,7 @@ TEST(SDPluginFocusedTests, K2_BlockedNegativePromptIncrementsBlockedCount) {
 
 TEST(SDPluginFocusedTests, K3_EmptyNegativePromptDoesNotBlock) {
     auto g = std::make_unique<InMemorySDGenerator>();
-    g->setNextPixels({0}, 1, 1);
+    g->setNextPixels({0, 0, 0}, 1, 1);
     SDPlugin p(std::move(g), SDPromptSanitizer({"nsfw"}));
     p.initialize("", {});
     SDGenerationConfig cfg;
@@ -321,11 +375,22 @@ TEST(SDPluginFocusedTests, K3_EmptyNegativePromptDoesNotBlock) {
     EXPECT_TRUE(img.success);
 }
 
+TEST(SDPluginFocusedTests, K4_DimensionGuardRejectsInvalidSize) {
+    SDPlugin p(std::make_unique<InMemorySDGenerator>(), SDPromptSanitizer{});
+    p.initialize("", {});
+    SDGenerationConfig cfg;
+    cfg.width = 0;
+    cfg.height = 256;
+    const auto img = p.generate("safe prompt", cfg);
+    EXPECT_FALSE(img.success);
+    EXPECT_NE(img.error_message.find("dimensions"), std::string::npos);
+}
+
 // ── Group L – generateBatch ───────────────────────────────────────────────────
 
 TEST(SDPluginFocusedTests, L1_BatchReturnsOneResultPerPrompt) {
     auto g = std::make_unique<InMemorySDGenerator>();
-    g->setNextPixels({0}, 1, 1);
+    g->setNextPixels({0, 0, 0}, 1, 1);
     SDPlugin p(std::move(g), SDPromptSanitizer{});
     p.initialize("", {});
     const auto results = p.generateBatch({"cat", "dog", "bird"}, SDGenerationConfig{});
@@ -337,7 +402,7 @@ TEST(SDPluginFocusedTests, L1_BatchReturnsOneResultPerPrompt) {
 
 TEST(SDPluginFocusedTests, L2_BatchBlockedPromptDoesNotBlockOthers) {
     auto g = std::make_unique<InMemorySDGenerator>();
-    g->setNextPixels({0}, 1, 1);
+    g->setNextPixels({0, 0, 0}, 1, 1);
     SDPlugin p(std::move(g), SDPromptSanitizer({"blocked"}));
     p.initialize("", {});
     const auto results = p.generateBatch({"safe prompt", "blocked content", "also safe"},
@@ -413,6 +478,7 @@ TEST(SDPluginFocusedTests, N2_Img2ImgStrengthRecorded) {
     p.initialize("", {});
     Img2ImgConfig cfg;
     cfg.input_width = 2; cfg.input_height = 3;
+    cfg.input_image_rgb = std::vector<uint8_t>(2 * 3 * 3, 8u);
     cfg.strength = 0.45f;
     p.generateImg2Img("test", cfg);
     EXPECT_FLOAT_EQ(raw_gen->lastImg2ImgStrength(), 0.45f);
@@ -425,9 +491,139 @@ TEST(SDPluginFocusedTests, N3_Img2ImgInputDimensionsRecorded) {
     p.initialize("", {});
     Img2ImgConfig cfg;
     cfg.input_width = 128; cfg.input_height = 64;
+    cfg.input_image_rgb = std::vector<uint8_t>(128 * 64 * 3, 1u);
     p.generateImg2Img("test", cfg);
     EXPECT_EQ(raw_gen->lastImg2ImgInputWidth(),  128);
     EXPECT_EQ(raw_gen->lastImg2ImgInputHeight(),  64);
+}
+
+TEST(SDPluginFocusedTests, N4_ControlNetAndLoRAFieldsPassedToGenerator) {
+    auto* raw_gen = new InMemorySDGenerator();
+    raw_gen->setNextPixels(std::vector<uint8_t>(8 * 8 * 3, 77u), 8, 8);
+    SDPlugin p(std::unique_ptr<ISDGenerator>(raw_gen), SDPromptSanitizer{});
+    p.initialize("", {});
+    SDGenerationConfig cfg;
+    cfg.width = 8;
+    cfg.height = 8;
+    cfg.control_image_rgb = std::vector<uint8_t>(8 * 8 * 3, 11u);
+    cfg.control_width = 8;
+    cfg.control_height = 8;
+    cfg.control_strength = 0.4f;
+    cfg.control_model_path = "/tmp/controlnet.safetensors";
+    cfg.lora_adapter_path = "/tmp/adapter.safetensors";
+    cfg.lora_scale = 0.8f;
+
+    const auto img = p.generate("safe", cfg);
+    EXPECT_TRUE(img.success);
+    EXPECT_EQ(raw_gen->lastControlWidth(), 8);
+    EXPECT_EQ(raw_gen->lastControlHeight(), 8);
+    EXPECT_FLOAT_EQ(raw_gen->lastControlStrength(), 0.4f);
+    EXPECT_EQ(raw_gen->lastControlModelPath(), "/tmp/controlnet.safetensors");
+    EXPECT_EQ(raw_gen->lastLoraAdapterPath(), "/tmp/adapter.safetensors");
+    EXPECT_FLOAT_EQ(raw_gen->lastLoraScale(), 0.8f);
+    EXPECT_EQ(raw_gen->lastAppliedLoraPath(), "/tmp/adapter.safetensors");
+    EXPECT_FLOAT_EQ(raw_gen->lastAppliedLoraScale(), 0.8f);
+}
+
+TEST(SDPluginFocusedTests, N5_LoRAApplyFailureReturnsError) {
+    auto g = std::make_unique<LoRAFailingGenerator>();
+    g->setNextPixels(std::vector<uint8_t>(8 * 8 * 3, 3u), 8, 8);
+    SDPlugin p(std::move(g), SDPromptSanitizer{});
+    p.initialize("", {});
+    SDGenerationConfig cfg;
+    cfg.width = 8;
+    cfg.height = 8;
+    cfg.lora_adapter_path = "/tmp/missing.safetensors";
+    cfg.lora_scale = 1.0f;
+    const auto img = p.generate("safe", cfg);
+    EXPECT_FALSE(img.success);
+    EXPECT_EQ(img.error_message, "lora apply failed");
+}
+
+TEST(SDPluginFocusedTests, N6_ControlNetAndLoRAFieldsPassedToImg2Img) {
+    auto* raw_gen = new InMemorySDGenerator();
+    raw_gen->setNextPixels(std::vector<uint8_t>(8 * 8 * 3, 12u), 8, 8);
+    SDPlugin p(std::unique_ptr<ISDGenerator>(raw_gen), SDPromptSanitizer{});
+    p.initialize("", {});
+    Img2ImgConfig cfg;
+    cfg.width = 8;
+    cfg.height = 8;
+    cfg.input_width = 8;
+    cfg.input_height = 8;
+    cfg.input_image_rgb = std::vector<uint8_t>(8 * 8 * 3, 1u);
+    cfg.control_image_rgb = std::vector<uint8_t>(8 * 8 * 3, 2u);
+    cfg.control_width = 8;
+    cfg.control_height = 8;
+    cfg.control_strength = 0.25f;
+    cfg.control_model_path = "/tmp/control-2.safetensors";
+    cfg.lora_adapter_path = "/tmp/lora-2.safetensors";
+    cfg.lora_scale = 1.2f;
+    const auto img = p.generateImg2Img("safe", cfg);
+    EXPECT_TRUE(img.success);
+    EXPECT_EQ(raw_gen->lastControlWidth(), 8);
+    EXPECT_EQ(raw_gen->lastControlHeight(), 8);
+    EXPECT_FLOAT_EQ(raw_gen->lastControlStrength(), 0.25f);
+    EXPECT_EQ(raw_gen->lastControlModelPath(), "/tmp/control-2.safetensors");
+    EXPECT_EQ(raw_gen->lastLoraAdapterPath(), "/tmp/lora-2.safetensors");
+    EXPECT_FLOAT_EQ(raw_gen->lastLoraScale(), 1.2f);
+}
+
+TEST(SDPluginFocusedTests, N7_EmptyLoraPathClearsPreviousStateOnGenerate) {
+    auto* raw_gen = new InMemorySDGenerator();
+    raw_gen->setNextPixels(std::vector<uint8_t>(8 * 8 * 3, 7u), 8, 8);
+    SDPlugin p(std::unique_ptr<ISDGenerator>(raw_gen), SDPromptSanitizer{});
+    p.initialize("", {});
+
+    SDGenerationConfig first_cfg;
+    first_cfg.width = 8;
+    first_cfg.height = 8;
+    first_cfg.lora_adapter_path = "/tmp/lora-first.safetensors";
+    first_cfg.lora_scale = 1.1f;
+    const auto first_img = p.generate("first", first_cfg);
+    ASSERT_TRUE(first_img.success);
+    EXPECT_EQ(raw_gen->lastAppliedLoraPath(), "/tmp/lora-first.safetensors");
+    EXPECT_FLOAT_EQ(raw_gen->lastAppliedLoraScale(), 1.1f);
+
+    SDGenerationConfig second_cfg;
+    second_cfg.width = 8;
+    second_cfg.height = 8;
+    second_cfg.lora_adapter_path.clear();
+    const auto second_img = p.generate("second", second_cfg);
+    ASSERT_TRUE(second_img.success);
+    EXPECT_TRUE(raw_gen->lastAppliedLoraPath().empty());
+    EXPECT_FLOAT_EQ(raw_gen->lastAppliedLoraScale(), 1.0f);
+}
+
+TEST(SDPluginFocusedTests, N8_EmptyLoraPathClearsPreviousStateOnImg2Img) {
+    auto* raw_gen = new InMemorySDGenerator();
+    raw_gen->setNextPixels(std::vector<uint8_t>(8 * 8 * 3, 9u), 8, 8);
+    SDPlugin p(std::unique_ptr<ISDGenerator>(raw_gen), SDPromptSanitizer{});
+    p.initialize("", {});
+
+    Img2ImgConfig first_cfg;
+    first_cfg.width = 8;
+    first_cfg.height = 8;
+    first_cfg.input_width = 8;
+    first_cfg.input_height = 8;
+    first_cfg.input_image_rgb = std::vector<uint8_t>(8 * 8 * 3, 1u);
+    first_cfg.lora_adapter_path = "/tmp/lora-img2img.safetensors";
+    first_cfg.lora_scale = 1.3f;
+    const auto first_img = p.generateImg2Img("first", first_cfg);
+    ASSERT_TRUE(first_img.success);
+    EXPECT_EQ(raw_gen->lastAppliedLoraPath(), "/tmp/lora-img2img.safetensors");
+    EXPECT_FLOAT_EQ(raw_gen->lastAppliedLoraScale(), 1.3f);
+
+    Img2ImgConfig second_cfg;
+    second_cfg.width = 8;
+    second_cfg.height = 8;
+    second_cfg.input_width = 8;
+    second_cfg.input_height = 8;
+    second_cfg.input_image_rgb = std::vector<uint8_t>(8 * 8 * 3, 1u);
+    second_cfg.lora_adapter_path.clear();
+    const auto second_img = p.generateImg2Img("second", second_cfg);
+    ASSERT_TRUE(second_img.success);
+    EXPECT_TRUE(raw_gen->lastAppliedLoraPath().empty());
+    EXPECT_FLOAT_EQ(raw_gen->lastAppliedLoraScale(), 1.0f);
 }
 
 // ── Group O – IImageGenerationBackend / Img2ImgConfig ────────────────────────
@@ -450,7 +646,7 @@ TEST(SDPluginFocusedTests, O2_Img2ImgConfigInheritsSdGenerationConfig) {
 
 TEST(SDPluginFocusedTests, O3_GenerateBatchCountsGenerations) {
     auto g = std::make_unique<InMemorySDGenerator>();
-    g->setNextPixels({0}, 1, 1);
+    g->setNextPixels({0, 0, 0}, 1, 1);
     SDPlugin p(std::move(g), SDPromptSanitizer{});
     p.initialize("", {});
     p.generateBatch({"a", "b", "c"}, SDGenerationConfig{});
@@ -588,6 +784,37 @@ TEST(SDPluginFocusedTests, P3_PngIhdrDimensionsMatchRequest) {
     EXPECT_EQ(h, 7);
 }
 
+TEST(SDPluginFocusedTests, P4_PerceptualHashDeterministic) {
+    auto g = std::make_unique<InMemorySDGenerator>();
+    std::vector<uint8_t> px(8 * 8 * 3, 42u);
+    g->setNextPixels(px, 8, 8);
+    SDPlugin p(std::move(g), SDPromptSanitizer{});
+    p.initialize("", {});
+    SDGenerationConfig cfg;
+    cfg.width = 8;
+    cfg.height = 8;
+    const auto img1 = p.generate("same prompt", cfg);
+    const auto img2 = p.generate("same prompt", cfg);
+    ASSERT_TRUE(img1.success);
+    ASSERT_TRUE(img2.success);
+    ASSERT_TRUE(img1.perceptual_hash.has_value());
+    ASSERT_TRUE(img2.perceptual_hash.has_value());
+    EXPECT_EQ(*img1.perceptual_hash, *img2.perceptual_hash);
+}
+
+TEST(SDPluginFocusedTests, P5_PerceptualHashNonFatalWhenUnavailable) {
+    auto g = std::make_unique<InMemorySDGenerator>();
+    g->setNextPixels({255, 0, 0}, 1, 1);
+    SDPlugin p(std::move(g), SDPromptSanitizer{});
+    p.initialize("", {});
+    SDGenerationConfig cfg;
+    cfg.width = 1;
+    cfg.height = 1;
+    const auto img = p.generate("tiny", cfg);
+    EXPECT_TRUE(img.success);
+    EXPECT_FALSE(img.perceptual_hash.has_value());
+}
+
 // ── Group Q – SDStubGenerator::generateImg2Img ────────────────────────────────
 
 TEST(SDPluginFocusedTests, Q1_StubImg2ImgUsesInputDimensions) {
@@ -635,4 +862,3 @@ TEST(SDPluginFocusedTests, Q3_StubImg2ImgFallsBackWhenInputEmpty) {
     EXPECT_EQ(out_h, 8);
     EXPECT_EQ(result.size(), static_cast<size_t>(8 * 8 * 3));
 }
-
