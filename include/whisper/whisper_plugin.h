@@ -80,8 +80,18 @@ public:
     audio::LanguageDetectionResult detectLanguage(const std::vector<float>& pcm_samples,
                                                   float sample_rate) override;
 
+    /**
+     * @brief Transcribe and optionally attach speaker diarisation segments.
+     *
+     * Uses the transcriber's optional diarize() capability and always applies
+     * plugin-side provenance fields on the returned result.
+     */
+    DiarisationResult transcribeWithDiarisation(const std::vector<float>& pcm_samples,
+                                                float sample_rate,
+                                                const DiarisationConfig& cfg);
+
     std::string getModelId() const override;
-    std::string getPluginVersion() const override { return "2.0.0"; }
+    std::string getPluginVersion() const override { return "2.3.0"; }
     nlohmann::json getStatistics() const override;
 
     static void setStubTranscriberFactoryFn(StubTranscriberFactoryFn fn);
@@ -110,8 +120,10 @@ private:
     std::atomic<uint64_t> error_count_{0};
     std::string model_path_;
     WhisperConfig cfg_;                         ///< config snapshot from initialize()
+    std::string last_error_message_;
     mutable std::mutex transcriber_mutex_;      ///< serializes transcriber calls
     mutable std::mutex vad_mutex_;              ///< guards vad_ and vad_cfg_ for thread-safe swap
+    mutable std::mutex error_mutex_;            ///< guards last_error_message_
 };
 
 } // namespace whisper

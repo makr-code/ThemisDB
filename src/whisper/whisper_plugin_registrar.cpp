@@ -23,7 +23,7 @@ WhisperPluginAdapter::WhisperPluginAdapter(
 
 plugins::PluginCapabilities WhisperPluginAdapter::getCapabilities() const {
     plugins::PluginCapabilities caps;
-    caps.supports_streaming    = false;
+    caps.supports_streaming    = true;
     caps.supports_batching     = false;
     caps.supports_transactions = false;
     caps.thread_safe           = true;
@@ -114,4 +114,3 @@ void WhisperPluginRegistrar::disableHotPlug(plugins::PluginManager& manager) {
 
 } // namespace whisper
 } // namespace themis
-

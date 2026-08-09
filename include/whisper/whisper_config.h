@@ -21,6 +21,7 @@ using json = nlohmann::json;
  */
 struct WhisperConfig {
     std::string model_path;
+    std::string model_sha256; // optional expected SHA-256 of model file (lowercase hex)
     std::string language = "auto";   // "auto" = detect, or BCP-47 code
     int  n_threads = 4;
     bool translate = false;          // translate to English if true

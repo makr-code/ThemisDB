@@ -32,7 +32,7 @@ speaker diarisation (future), integration with the RAG pipeline (handled by `rag
 
 ## Current Delivery Status
 
-**Maturity:** 🟢 Production-ready (v2.1.0 implementation state) — Core pipeline operational in
+**Maturity:** 🟢 Production-ready (v2.3.0 implementation state) — Core pipeline operational in
 stub mode and with optional `whisper.cpp`. Thread-safe `transcribe()` / `detectLanguage()` and
 multi-format decoding (`WAV` + `FFmpeg` reader chain) are implemented.
 
@@ -101,7 +101,7 @@ runtime dependency is available.
 
 | Suite | Count | Labels |
 |---|---|---|
-| `WhisperPluginFocusedTests` | 55 | `plugins;whisper;audio;v2.2.0` |
+| `WhisperPluginFocusedTests` | 69 | `plugins;whisper;audio;v2.3.0` |
 | `WhisperPluginRegistrarTests` | 12 | `plugins;whisper;registrar` |
 
 ```bash
@@ -124,7 +124,7 @@ Every `TranscriptionResult` carries mandatory provenance:
 | Field | Value |
 |---|---|
 | `ingestion_source_type` | `"WHISPER"` |
-| `plugin_version` | `"2.0.0"` |
+| `plugin_version` | `"2.3.0"` |
 | `generation_timestamp` | Unix epoch milliseconds |
 
 ## Troubleshooting

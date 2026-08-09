@@ -8,7 +8,7 @@
 **Module Path:** `include/whisper/`
 **Implementation Overview:** [`../../src/whisper/README.md`](../../src/whisper/README.md)
 **Namespace:** `themis::whisper`
-**Status:** 🟢 Production-Ready (implementation state v2.1.0; runtime `plugin_version` = `"2.0.0"`)
+**Status:** 🟢 Production-Ready (implementation state v2.3.0; runtime `plugin_version` = `"2.3.0"`)
 
 The `whisper` module provides audio transcription and language-detection capabilities
 for ThemisDB via [whisper.cpp](https://github.com/ggerganov/whisper.cpp). The design is
@@ -181,7 +181,7 @@ Adapts `WhisperPlugin` for use with the unified `plugins::PluginManager`.
 | `shutdown()` | Resets the inner plugin to its default stub state. |
 | `getInstance()` | Returns a raw pointer to the underlying `WhisperPlugin` (cast to `WhisperPlugin*`). |
 | `getType()` | Returns `PluginType::AUDIO_PROCESSING`. |
-| `getName()` / `getVersion()` | `"whisper"` / `"2.0.0"`. |
+| `getName()` / `getVersion()` | `"whisper"` / `"2.3.0"`. |
 
 **`WhisperPluginRegistrar`** (all methods are static):
 
@@ -245,7 +245,7 @@ vad_cfg.frame_ms         = 20.0f; // analysis frame length
 | Field | Value |
 |---|---|
 | `ingestion_source_type` | `"WHISPER"` |
-| `plugin_version` | `"2.0.0"` |
+| `plugin_version` | `"2.3.0"` |
 | `generation_timestamp` | Unix epoch milliseconds |
 
 **Limits:**

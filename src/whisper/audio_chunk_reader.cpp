@@ -13,6 +13,8 @@
 #include <algorithm>
 #include <cstdio>
 #include <array>
+#include <sstream>
+#include <memory>
 
 #ifdef _WIN32
 #  define THEMIS_POPEN  _popen
@@ -210,20 +212,18 @@ std::string FfmpegAudioChunkReader::shellEscape(const std::string& path) {
     if (path.find('\0') != std::string::npos) {
         throw std::runtime_error("FfmpegAudioChunkReader: path contains NUL byte");
     }
-    // Wrap in single quotes; escape any embedded single quotes as '\''
-    // Pre-reserve worst-case capacity to avoid O(n²) reallocations.
-    std::string result;
-    result.reserve(path.size() + 2 + 4 * std::count(path.begin(), path.end(), '\''));
-    result += '\'';
+    // Wrap in single quotes; escape any embedded single quotes as '\''.
+    std::ostringstream escaped;
+    escaped << '\'';
     for (char c : path) {
         if (c == '\'') {
-            result += "'\\''";
+            escaped << "'\\''";
         } else {
-            result += c;
+            escaped << c;
         }
     }
-    result += '\'';
-    return result;
+    escaped << '\'';
+    return escaped.str();
 }
 
 std::vector<float> FfmpegAudioChunkReader::readFile(const std::string& path,
@@ -232,14 +232,18 @@ std::vector<float> FfmpegAudioChunkReader::readFile(const std::string& path,
 
     // Probe ffmpeg availability first with a quick version check
     {
-        FILE* probe = THEMIS_POPEN("ffmpeg -version 2>/dev/null", "r");
+        auto probeCloser = [](FILE* f) -> int {
+            return f ? THEMIS_PCLOSE(f) : 0;
+        };
+        std::unique_ptr<FILE, int(*)(FILE*)> probe(
+            THEMIS_POPEN("ffmpeg -version 2>/dev/null", "r"),
+            probeCloser);
         if (!probe) {
             throw std::runtime_error("FfmpegAudioChunkReader: ffmpeg not available");
         }
         // Read a byte to confirm it actually opened
         char buf[4];
-        bool ok = (std::fread(buf, 1, 1, probe) == 1);
-        THEMIS_PCLOSE(probe);
+        bool ok = (std::fread(buf, 1, 1, probe.get()) == 1);
         if (!ok) {
             throw std::runtime_error("FfmpegAudioChunkReader: ffmpeg not available");
         }
@@ -251,8 +255,20 @@ std::vector<float> FfmpegAudioChunkReader::readFile(const std::string& path,
         "ffmpeg -loglevel quiet -i " + escaped +
         " -f f32le -ar 16000 -ac 1 pipe:1 2>/dev/null";
 
-    FILE* fp = THEMIS_POPEN(cmd.c_str(), "r");
-    if (!fp) {
+    struct PipeCloser {
+        int* close_rc = nullptr;
+        void operator()(FILE* f) const {
+            if (f && close_rc) {
+                *close_rc = THEMIS_PCLOSE(f);
+            }
+        }
+    };
+
+    int close_rc = 0;
+    std::unique_ptr<FILE, PipeCloser> pipe(
+        THEMIS_POPEN(cmd.c_str(), "r"),
+        PipeCloser{&close_rc});
+    if (!pipe) {
         throw std::runtime_error(
             "FfmpegAudioChunkReader: failed to launch ffmpeg for '" + path + "'");
     }
@@ -260,12 +276,11 @@ std::vector<float> FfmpegAudioChunkReader::readFile(const std::string& path,
     std::vector<float> samples;
     size_t total_bytes = 0;
     std::array<char, 65536> buf;
-    while (!std::feof(fp)) {
-        const size_t n = std::fread(buf.data(), 1, buf.size(), fp);
+    while (!std::feof(pipe.get())) {
+        const size_t n = std::fread(buf.data(), 1, buf.size(), pipe.get());
         if (n == 0) break;
         total_bytes += n;
         if (total_bytes > kMaxOutputBytes) {
-            THEMIS_PCLOSE(fp);
             throw std::runtime_error(
                 "FfmpegAudioChunkReader: output exceeds maximum size limit");
         }
@@ -276,11 +291,11 @@ std::vector<float> FfmpegAudioChunkReader::readFile(const std::string& path,
         // If n is not a multiple of 4 (very rare at EOF), leftover bytes are dropped
     }
 
-    const int rc = THEMIS_PCLOSE(fp);
-    if (rc != 0 && samples.empty()) {
+    pipe.reset();
+    if (close_rc != 0 && samples.empty()) {
         throw std::runtime_error(
             "FfmpegAudioChunkReader: ffmpeg failed to decode '" + path +
-            "' (exit code " + std::to_string(rc) + ")");
+            "' (exit code " + std::to_string(close_rc) + ")");
     }
 
     out_sample_rate = 16000.0f;
@@ -322,4 +337,3 @@ std::vector<float> CompositeAudioChunkReader::readFile(const std::string& path,
 
 } // namespace whisper
 } // namespace themis
-

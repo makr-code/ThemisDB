@@ -106,7 +106,8 @@ jobs:
           libboost-filesystem-dev \
           libgrpc++-dev \
           libprotobuf-dev \
-          protobuf-compiler-grpc
+          protobuf-compiler-grpc \
+          libpugixml-dev
 
     - name: Install Windows build prerequisites
       if: runner.os == 'Windows'
@@ -216,7 +217,8 @@ jobs:
           libboost-filesystem-dev \
           libgrpc++-dev \
           libprotobuf-dev \
-          protobuf-compiler-grpc
+          protobuf-compiler-grpc \
+          libpugixml-dev
 
     - name: Configure (ASan)
       run: cmake --preset community-asan -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc
@@ -265,7 +267,8 @@ jobs:
           libboost-filesystem-dev \
           libgrpc++-dev \
           libprotobuf-dev \
-          protobuf-compiler-grpc
+          protobuf-compiler-grpc \
+          libpugixml-dev
 
     - name: Configure (UBSan)
       run: cmake --preset community-ubsan -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc

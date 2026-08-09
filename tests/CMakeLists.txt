@@ -24255,10 +24255,10 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/whisper/tests/test_whisper_plugin.
     target_compile_definitions(test_whisper_plugin PRIVATE THEMIS_PLUGIN_EXPORTS)
     add_test(NAME WhisperPluginFocusedTests COMMAND test_whisper_plugin)
     set_tests_properties(WhisperPluginFocusedTests PROPERTIES
-        LABELS "plugins;whisper;audio;v2.2.0"
+        LABELS "plugins;whisper;audio;v2.3.0"
         TIMEOUT 60
     )
-    message(STATUS "  WhisperPlugin: 55 tests (A-Q)")
+    message(STATUS "  WhisperPlugin: 68 tests (A-U)")
 else()
     message(STATUS "  WhisperPlugin tests not found - skipped")
 endif()

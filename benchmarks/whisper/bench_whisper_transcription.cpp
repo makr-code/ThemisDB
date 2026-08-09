@@ -245,3 +245,25 @@ static void BM_Transcribe_BufferSize(benchmark::State& state) {
 BENCHMARK(BM_Transcribe_BufferSize)
     ->Arg(100)->Arg(500)->Arg(1000)->Arg(5000)->Arg(30000)
     ->Unit(benchmark::kMillisecond);
+
+#if defined(THEMIS_ENABLE_WHISPER) && defined(THEMIS_BENCH_WHISPER_MODEL_PATH)
+static void BM_WhisperRealModel_1min(benchmark::State& state) {
+    WhisperPlugin plugin;
+    nlohmann::json cfg;
+    cfg["language"] = "auto";
+    cfg["n_threads"] = 4;
+    const bool init_ok = plugin.initialize(resolveWhisperModelPath(), cfg);
+    if (!init_ok) {
+        state.SkipWithError("Whisper real-model benchmark skipped: initialization failed");
+        return;
+    }
+
+    auto pcm = makePCM(60000);
+    for (auto _ : state) {
+        auto result = plugin.transcribe(pcm, 16000.0f);
+        benchmark::DoNotOptimize(result.text);
+    }
+    state.SetLabel("real model validation gate: transcribe() 60 s @ 16 kHz");
+}
+BENCHMARK(BM_WhisperRealModel_1min)->Unit(benchmark::kMillisecond);
+#endif

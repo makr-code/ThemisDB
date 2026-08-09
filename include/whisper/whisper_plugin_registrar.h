@@ -57,7 +57,7 @@ public:
 
     // ── IThemisPlugin ───────────────────────────────────────────────────────
     const char* getName()    const override { return "whisper"; }
-    const char* getVersion() const override { return "2.0.0"; }
+    const char* getVersion() const override { return "2.3.0"; }
 
     plugins::PluginType getType() const override {
         return plugins::PluginType::AUDIO_PROCESSING;
