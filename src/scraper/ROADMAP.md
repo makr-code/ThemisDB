@@ -8,7 +8,7 @@
 
 Production-capable scraper runtime exists for source seeding, fetch/render, result extraction, quality evaluation, and provenance-aware metadata write behavior.
 
-## In Progress
+## Completed (Q3 2026)
 
 - [x] hardening fetch/parse/evaluate edge behavior under noisy source content (Target: Q3 2026) — evidence: include/scraper/scraper_diagnostics.h, include/scraper/scraper_burst_controller.h
 - [x] improving diagnostics consistency across crawl and write-path fault classes (Target: Q3 2026) — evidence: include/scraper/scraper_diagnostics.h
@@ -17,13 +17,13 @@ Production-capable scraper runtime exists for source seeding, fetch/render, resu
 ## Planned Features
 
 ### Short-term (3-6 months)
-- [~] tighten deterministic behavior under sustained multi-source crawling bursts (Target: Q4 2026) — evidence: include/scraper/scraper_burst_controller.h
-- [~] expand stress coverage for JS-render and API pagination edge scenarios (Target: Q4 2026) — evidence: include/scraper/scraper_render_contract.h
-- [~] improve operator-facing diagnostics for scrape-run incident triage (Target: Q4 2026) — evidence: include/scraper/scraper_run_summary.h (pending)
+- [x] tighten deterministic behavior under sustained multi-source crawling bursts (Target: Q4 2026) — evidence: include/scraper/scraper_burst_controller.h, tests/scraper/test_scraper_burst_hardening_focused.cpp (SCR-17..20)
+- [x] expand stress coverage for JS-render and API pagination edge scenarios (Target: Q4 2026) — evidence: include/scraper/scraper_render_contract.h, tests/scraper/test_scraper_render_pagination_focused.cpp (SCR-21..24)
+- [x] improve operator-facing diagnostics for scrape-run incident triage (Target: Q4 2026) — evidence: include/scraper/scraper_run_summary.h, tests/scraper/test_scraper_run_summary_focused.cpp (SCR-25..28)
 
 ### Mid-term (6-12 months)
-- [ ] re-baseline p95/p99 envelopes for extraction and write-sensitive paths (Target: Q1 2027)
-- [ ] broaden benchmark depth for scraper-native pipeline scenarios (Target: Q1 2027)
+- [x] re-baseline p95/p99 envelopes for extraction and write-sensitive paths (Target: Q1 2027) — evidence: benchmarks/scraper/bench_scraper_release_gates.cpp (GATE-SCR-05..06)
+- [x] broaden benchmark depth for scraper-native pipeline scenarios (Target: Q1 2027) — evidence: benchmarks/scraper/bench_scraper_pipeline_depth.cpp (PIPE-01..04)
 - [ ] harden long-run reliability under sustained scraping ingestion pressure (Target: Q1 2027)
 
 ## Implementation Phases
