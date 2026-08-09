@@ -107,13 +107,13 @@ Until every checkbox below is marked `[x]`, promotion remains blocked (`NO-GO`):
 
 ## 4. Known Deferred Items (Not Blocking GA)
 
-The following items have been explicitly deferred from the v1.9.0 GA scope with approval:
+The following items have been explicitly deferred from the v2.4.0 GA scope with approval:
 
 | ID | Item | Deferral Rationale | Target |
 |----|------|-------------------|--------|
-| DEF-01 | Build reproducibility on `community-release` (RocksDB system-package path) + `linux-release` (Ninja + vcpkg) | Blocked by system-package availability and vcpkg toolchain requirements; CI uses vcpkg path; SETUP.md troubleshooting added (2026-08-01) | v1.9.1 patch |
+| DEF-01 | Build reproducibility on `community-release` (RocksDB system-package path) + `linux-release` (Ninja + vcpkg) | Blocked by system-package availability and vcpkg toolchain requirements; CI uses vcpkg path; SETUP.md troubleshooting added (2026-08-01) | v2.4.1 patch |
 | DEF-02 | Graph/query optimisation backlog (plan-cache, cost-model, pool) | Behind measurable Wave-7 regression gate; safe to defer | v2.0.0 |
-| DEF-03 | WAL/failover sharding boundary evidence attachment | ✅ COMPLETED (2026-08-01): `SHARDING_P6_CROSS_MODULE_RECOVERY_VERIFICATION.md` + risk acceptance doc + CMake dependency fixes | v1.9.0 GA |
+| DEF-03 | WAL/failover sharding boundary evidence attachment | ✅ COMPLETED (2026-08-01): `SHARDING_P6_CROSS_MODULE_RECOVERY_VERIFICATION.md` + risk acceptance doc + CMake dependency fixes | v2.4.0 GA |
 | DEF-04 | Gossip-port firewall documentation (PTR-02) | Infra-layer responsibility; documented in deployment runbook | Operator runbook |
 
 ---
@@ -139,10 +139,10 @@ Per `BRANCHING_STRATEGY.md`:
 
 If a post-tag regression is discovered within the controlled promotion window:
 
-1. Revert the `community` merge commit (do **not** delete the `v1.9.0` tag; create `v1.9.0-revoked` annotation).
+1. Revert the `community` merge commit (do **not** delete the `v2.4.0` tag; create `v2.4.0-revoked` annotation).
 2. Open a severity-P0 incident on `develop` referencing the failing gate.
 3. Re-run the full `release_critical` suite to confirm the regression scope.
-4. Fix on `develop`, re-confirm all gates, and re-open this sign-off document as `v1.9.0-patch`.
+4. Fix on `develop`, re-confirm all gates, and re-open this sign-off document as `v2.4.0-patch`.
 
 ---
 
@@ -175,6 +175,7 @@ If a post-tag regression is discovered within the controlled promotion window:
 **Scope:** Security Module Phase 2+3 hardening for v2.5.0-rc1  
 **Date Initiated:** 2026-08-07  
 **Target Release:** Q4 2026 (v2.5.0)
+**Note:** This section is forward-looking for v2.5.0 and non-blocking for v2.4.0 GA promotion.
 
 ### Phase 2+3 Gate Framework
 
@@ -233,5 +234,5 @@ APPROVED:  [ ] YES — proceed with develop → community merge and v2.4.0 tag
 
 ---
 
-_Document last updated: 2026-08-01 by Phase 6 + Batch A/B completion (build reproducibility + boundary evidence)._  
+_Document last updated: 2026-08-07 by Batch E closure synchronization and GA blocker reaffirmation._  
 _Human sign-off in Section 9 is required before any promotion action._

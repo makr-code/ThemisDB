@@ -98,6 +98,24 @@ LlamaCppPluginRegistrar::defaultReloadCallback() {
     };
 }
 
+// ── initFromServerConfig ──────────────────────────────────────────────────────
+
+bool LlamaCppPluginRegistrar::initFromServerConfig(const json& server_config) {
+    if (!server_config.contains("llm")) {
+        return true; // no LLM section — stub / CI mode, no plugin needed
+    }
+    const auto& llm_cfg = server_config["llm"];
+    if (!llm_cfg.contains("model_path")) {
+        return true; // no model_path key — stub mode OK
+    }
+    const std::string model_path = llm_cfg.value("model_path", "");
+    if (model_path.empty()) {
+        return true; // empty path — stub mode OK
+    }
+    auto& mgr = themis::llm::LLMPluginManager::instance();
+    return registerWithLLMManager(mgr, "llama_cpp", llm_cfg);
+}
+
 } // namespace llamacpp
 } // namespace themis
 

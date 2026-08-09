@@ -10,8 +10,48 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
-- Integration with real llama.cpp via the existing `LlamaWrapper`
-- Real embedding model support (currently returns fixed 384-dim zero vector)
+- True parallel `generateBatch()` when real llama.cpp multi-sequence batching is available
+- SHA-256 model digest (replace FNV-64 placeholder with OpenSSL `EVP_DigestFinal`)
+
+## [2.4.0] — 2026-08-09
+
+### Added
+- **`std::atomic<uint64_t>` counters**: `inference_count_`, `error_count_`, `stream_retry_count_`
+  are now lock-free atomics; `getPerformanceStats()` exposes all three including `stream_retry_count`.
+- **Stream-callback retry**: `generate()` wraps every `stream_callback` invocation in
+  `invokeStreamCallback()` with up to 3 transient-exception retries; `std::bad_alloc` is
+  non-retryable; `stream_retry_count_` tracks retries for observability.
+- **Join-hardening review**: removed the unused `joinWithTimeout` helper after review
+  because its detached monitor thread lifetime was unsafe; the module keeps no owned
+  join sites and the original `thread_join_no_timeout` findings remain triaged as false positives.
+- **`importLoRA` security hardening**: GGUF magic-bytes validation (`0x47 0x47 0x55 0x46`)
+  and 2 GB size bound enforced before any delegation to `LlamaWrapper`; fail-closed.
+- **`loadModel` integrity gate**: opt-in FNV-64 digest check via `"verify_model_digest": true`
+  + `"expected_model_digest"` config keys; fails closed on mismatch. Upgrade path to SHA-256
+  documented in header.
+- **`setPolicyFn(PolicyFn)`**: pluggable inference policy hook; `generate()` and `generateRAG()`
+  gate on the functor result before dispatching inference; denial returns `success=false` with
+  the caller-supplied reason.
+- **`LlamaCppPluginRegistrar::initFromServerConfig(server_config)`**: server-startup integration
+  point; reads `config["llm"]["model_path"]` and delegates to `registerWithLLMManager()`.
+- **`defaultReloadCallback()` fix**: now calls `plugin.loadModel(path, config)` when
+  `model_path` is present; returns `true` (stub mode) for empty path.
+- **generateRAG() data-race fix**: shared state (`model_loaded_`, `context_length_`) is
+  snapshotted under `mutex_` at entry; subsequent work is lock-free.
+- **LLCPG-1..4 release gate benchmarks**: TTFT stub baseline, 100-doc batch-embedding
+  throughput, LoRA-load P99, and regression-baseline snapshot (all with `UseRealTime()`).
+- **21 new tests** — Groups U (concurrency ×4), V (security ×6), W (registrar integration ×8),
+  X (retry/join ×3).
+
+### Fixed
+- `generateRAG()`: CRITICAL data-race on `model_loaded_` / `context_length_` reads outside mutex.
+- `defaultReloadCallback()`: previously contained a stub comment that prevented real model reload.
+- `getPerformanceStats()`: now uses explicit `.load()` for all atomic reads.
+
+### Security
+- `importLoRA`: GGUF magic + 2 GB size-bound prevent heap-exhaustion and deserialization attacks.
+- `loadModel`: opt-in model-file digest gate prevents tampered GGUF models from being loaded.
+- `setPolicyFn`: inference can be gated by an external governance policy without modifying the plugin.
 
 ## [2.3.0] — 2026-06-10
 

@@ -62,19 +62,29 @@ for dynamic loading via the plugin system. It provides the full `ILLMPlugin` con
 
 ```
 LlamaCppPlugin::generate(request)
-  ├─ lock mutex_
+  ├─ lock mutex_  (snapshot model_loaded_, policy_fn_)
+  ├─ if (policy_fn_ && !policy_fn_(request, reason))
+  │     → error response { success=false, "denied by policy: reason" } + ++error_count_
   ├─ if (!model_loaded_) → error response + ++error_count_
   ├─ ++inference_count_
-  ├─ stub: response.text = "[stub:" + prompt[:40] + "]"
-  └─ return response { success=true }
+  ├─ if (cancellation_token && *token == true) → { success=false, "Request cancelled" }
+  ├─ THEMIS_LLM_ENABLED + wrapper_: delegate to LlamaWrapper::generate()
+  │     stream_callback invoked via invokeStreamCallback(token) [retry ≤3, bad_alloc non-retryable]
+  ├─ stub path: response.text = "[stub:" + prompt[:40] + "]"
+  └─ return response { success=true/false }
 ```
 
 ### 4.2 generateRAG(request, context_docs)
 
 ```
-LlamaCppPlugin::generateRAG(request, context_docs)
-  ├─ augmented.prompt = join(context_docs, "\n") + "\n" + request.prompt
-  └─ delegate to generate(augmented)
+LlamaCppPlugin::generateRAG(rag_context, request)
+  ├─ lock mutex_  (snapshot model_loaded_, context_length_)
+  ├─ early-out: if (!snap_model_loaded) → error + ++error_count_
+  ├─ release lock
+  ├─ RAGContextAssembler: chunk + rank + truncate (uses snap_context_length)
+  ├─ read rag_mode from request.metadata (caller-owned, lock-free)
+  └─ delegate to generate(augmented_request)
+        [policy gate fires inside generate()]
 ```
 
 ### 4.3 LoRA Lifecycle

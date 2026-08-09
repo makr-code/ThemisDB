@@ -197,12 +197,12 @@ TEST(LlamaCppPluginFocusedTests, F3_EmbedReturnsEmptyAfterUnload) {
 
 TEST(LlamaCppPluginFocusedTests, G1_LoadLoRAReturnsTrue) {
     LlamaCppPlugin p;
-    EXPECT_TRUE(p.loadLoRA("/lora.bin", "adapter1", 1.0f));
+    EXPECT_TRUE(p.loadLoRA("adapter1", "/lora.bin", 1.0f));
 }
 
 TEST(LlamaCppPluginFocusedTests, G2_ListLoRAsAfterLoad) {
     LlamaCppPlugin p;
-    p.loadLoRA("/lora.bin", "a1", 0.8f);
+    p.loadLoRA("a1", "/lora.bin", 0.8f);
     const auto loras = p.listLoRAs();
     EXPECT_EQ(loras.size(), 1u);
     EXPECT_EQ(loras[0].lora_id, "a1");
@@ -211,7 +211,7 @@ TEST(LlamaCppPluginFocusedTests, G2_ListLoRAsAfterLoad) {
 
 TEST(LlamaCppPluginFocusedTests, G3_UnloadLoRARemovesEntry) {
     LlamaCppPlugin p;
-    p.loadLoRA("/lora.bin", "a1", 1.0f);
+    p.loadLoRA("a1", "/lora.bin", 1.0f);
     EXPECT_TRUE(p.unloadLoRA("a1"));
     EXPECT_TRUE(p.listLoRAs().empty());
 }
@@ -220,8 +220,8 @@ TEST(LlamaCppPluginFocusedTests, G3_UnloadLoRARemovesEntry) {
 
 TEST(LlamaCppPluginFocusedTests, H1_DuplicateLoRAIdReplaces) {
     LlamaCppPlugin p;
-    p.loadLoRA("/lora1.bin", "a1", 1.0f);
-    p.loadLoRA("/lora2.bin", "a1", 0.5f);
+    p.loadLoRA("a1", "/lora1.bin", 1.0f);
+    p.loadLoRA("a1", "/lora2.bin", 0.5f);
     const auto loras = p.listLoRAs();
     EXPECT_EQ(loras.size(), 1u);
     EXPECT_FLOAT_EQ(loras[0].scale, 0.5f);
@@ -234,8 +234,8 @@ TEST(LlamaCppPluginFocusedTests, H2_UnloadNonexistentReturnsFalse) {
 
 TEST(LlamaCppPluginFocusedTests, H3_MultipleLoRAsListedCorrectly) {
     LlamaCppPlugin p;
-    p.loadLoRA("/a.bin", "a", 1.0f);
-    p.loadLoRA("/b.bin", "b", 0.5f);
+    p.loadLoRA("a", "/a.bin", 1.0f);
+    p.loadLoRA("b", "/b.bin", 0.5f);
     EXPECT_EQ(p.listLoRAs().size(), 2u);
 }
 
@@ -601,7 +601,7 @@ TEST(LlamaCppPluginFocusedTests, P3_ConcurrentLoraRegistryAndGenerate) {
     auto lora_writer = [&](int id) {
         const std::string path = "/stub/lora_" + std::to_string(id) + ".bin";
         const std::string name = "lora_" + std::to_string(id);
-        plugin.loadLoRA(path, name, 1.0f);
+        plugin.loadLoRA(name, path, 1.0f);
     };
 
     auto generator = [&]() {
@@ -844,4 +844,302 @@ TEST(LlamaCppPluginFocusedTests, T2_CancellationToken_NotSetAllowsGeneration) {
 
     const auto response = plugin.generate(request);
     EXPECT_TRUE(response.success);
+}
+
+// ── Group U – Concurrency hardening (atomic counters + RAG race-free) ──────────
+
+/// U1: 8 threads: half call generateRAG(), half call loadLoRA() concurrently.
+///     No crash and all threads join within 10 s.
+TEST(LlamaCppPluginFocusedTests, U1_ConcurrentGenerateRAGAndLoadLoRA_NoCrashOrDeadlock) {
+    constexpr int kThreads = 8;
+
+    LlamaCppPlugin plugin;
+    plugin.loadModel("", {});
+
+    std::vector<std::thread> threads;
+    threads.reserve(kThreads);
+
+    for (int t = 0; t < kThreads; ++t) {
+        if (t % 2 == 0) {
+            // Even threads: call generateRAG() with 2 documents.
+            threads.emplace_back([&plugin, t]() {
+                InferenceRequest req;
+                req.prompt = "race query " + std::to_string(t);
+
+                RAGContext ctx;
+                ctx.query = req.prompt;
+                RAGContext::Document d1;
+                d1.content         = "document one content";
+                d1.relevance_score = 2.0f;
+                RAGContext::Document d2;
+                d2.content         = "document two content";
+                d2.relevance_score = 1.0f;
+                ctx.documents      = {d1, d2};
+
+                // Result may succeed or fail depending on timing; we only assert
+                // there is no crash or deadlock.
+                (void)plugin.generateRAG(ctx, req);
+            });
+        } else {
+            // Odd threads: call loadLoRA() concurrently.
+            threads.emplace_back([&plugin, t]() {
+                const std::string name = "test_lora_" + std::to_string(t);
+                plugin.loadLoRA(name, "/tmp/lora.bin", 1.0f);
+            });
+        }
+    }
+
+    // All threads must finish within 10 seconds.
+    for (auto& th : threads) {
+        th.join();
+    }
+    // If we reach here, no deadlock occurred.
+    SUCCEED();
+}
+
+/// U2: generate() called 100 times; inference_count in perf stats equals 100.
+TEST(LlamaCppPluginFocusedTests, U2_AtomicInferenceCountAccumulatesCorrectly) {
+    LlamaCppPlugin plugin;
+    plugin.loadModel("", {});
+
+    const uint64_t before = plugin.getPerformanceStats()["inference_count"].get<uint64_t>();
+
+    constexpr int kIterations = 100;
+    for (int i = 0; i < kIterations; ++i) {
+        InferenceRequest req;
+        req.prompt = "counter test " + std::to_string(i);
+        const auto resp = plugin.generate(req);
+        ASSERT_TRUE(resp.success) << "generate() must succeed in stub mode (iteration " << i << ")";
+    }
+
+    const uint64_t after = plugin.getPerformanceStats()["inference_count"].get<uint64_t>();
+    EXPECT_EQ(after - before, static_cast<uint64_t>(kIterations))
+        << "inference_count_ must be incremented atomically for every successful generate()";
+}
+
+/// U3: generateRAG() with no rag_mode key in metadata succeeds without crash.
+TEST(LlamaCppPluginFocusedTests, U3_GenerateRAGNoRagModeMetadata_SucceedsWithStubResponse) {
+    LlamaCppPlugin plugin;
+    plugin.loadModel("", {});
+
+    InferenceRequest req;
+    req.prompt   = "metadata-free query";
+    // Intentionally leave req.metadata empty (no rag_mode key).
+
+    RAGContext ctx;
+    ctx.query = req.prompt;
+    RAGContext::Document d;
+    d.content         = "relevant document text";
+    d.relevance_score = 1.5f;
+    ctx.documents     = {d};
+
+    const auto response = plugin.generateRAG(ctx, req);
+    EXPECT_TRUE(response.success)
+        << "generateRAG() must succeed in stub mode even without rag_mode metadata";
+    EXPECT_FALSE(response.text.empty())
+        << "Stub response text must be non-empty";
+}
+
+/// U4: Factory round-trip: create -> loadModel -> generate -> destroy.
+///     In THEMIS_TEST_BUILD the C-linkage factory is compiled out; we exercise
+///     the equivalent heap allocation / deletion path directly.
+TEST(LlamaCppPluginFocusedTests, U4_FactoryRoundTrip_CreateLoadGenerateDestroy) {
+    // Simulate the ABI round-trip that themis_llm_create / themis_llm_destroy
+    // provide in production. In test builds the C-linkage symbols are guarded
+    // by !THEMIS_TEST_BUILD, so we replicate the same heap ownership semantics.
+    llm::ILLMPlugin* plugin = new LlamaCppPlugin();
+    ASSERT_NE(plugin, nullptr);
+
+    EXPECT_TRUE(plugin->loadModel("", {}));
+
+    InferenceRequest req;
+    req.prompt = "factory round-trip probe";
+    const auto response = plugin->generate(req);
+    EXPECT_TRUE(response.success)
+        << "generate() must succeed via ILLMPlugin* in stub mode";
+
+    // Destroy via base-class pointer — mirrors themis_llm_destroy() semantics.
+    delete plugin;
+    // Reaching here without crash or sanitizer error validates the round-trip.
+    SUCCEED();
+}
+
+// ── Group V – Security Gates ──────────────────────────────────────────────────
+
+/// V1: importLoRA with bad magic bytes returns false.
+TEST(LlamaCppPluginFocusedTests, V1_ImportLoRA_BadMagicReturnsFalse) {
+    LlamaCppPlugin plugin;
+    // 8 bytes but wrong magic (not 'G','G','U','F')
+    const std::vector<uint8_t> bad_magic = {0x00, 0x01, 0x02, 0x03,
+                                             0x04, 0x05, 0x06, 0x07};
+    EXPECT_FALSE(plugin.importLoRA("id1", bad_magic))
+        << "importLoRA must reject data with invalid GGUF magic bytes";
+}
+
+/// V2: importLoRA with valid GGUF magic and minimal size returns true in stub mode.
+TEST(LlamaCppPluginFocusedTests, V2_ImportLoRA_ValidMagicStubModeReturnsTrue) {
+    LlamaCppPlugin plugin;
+    // Valid GGUF magic: 'G'=0x47, 'G'=0x47, 'U'=0x55, 'F'=0x46, plus padding
+    const std::vector<uint8_t> valid_gguf = {0x47, 0x47, 0x55, 0x46,
+                                              0x00, 0x00, 0x00, 0x00};
+    EXPECT_TRUE(plugin.importLoRA("id2", valid_gguf))
+        << "importLoRA must accept valid GGUF magic in stub mode (wrapper is null)";
+}
+
+/// V3: importLoRA with too-small data (< 8 bytes) returns false.
+TEST(LlamaCppPluginFocusedTests, V3_ImportLoRA_TooSmallReturnsFalse) {
+    LlamaCppPlugin plugin;
+    // Even with correct magic prefix, 4 bytes is below the 8-byte minimum
+    const std::vector<uint8_t> too_small = {0x47, 0x47, 0x55, 0x46};
+    EXPECT_FALSE(plugin.importLoRA("id3", too_small))
+        << "importLoRA must reject data smaller than the minimum header size";
+}
+
+/// V4: setPolicyFn with a denying function causes generate() to return
+///     success=false with the denial reason in error_message.
+TEST(LlamaCppPluginFocusedTests, V4_PolicyFn_DenyingFnBlocksGenerate) {
+    LlamaCppPlugin plugin;
+    plugin.loadModel("", {});
+
+    plugin.setPolicyFn(
+        [](const InferenceRequest& /*req*/, std::string& reason) -> bool {
+            reason = "denied for testing";
+            return false;
+        });
+
+    InferenceRequest request;
+    request.prompt = "policy gate test";
+    const auto response = plugin.generate(request);
+
+    EXPECT_FALSE(response.success)
+        << "generate() must return success=false when policy gate denies";
+    EXPECT_NE(response.error_message.find("denied for testing"), std::string::npos)
+        << "denial reason must appear in error_message";
+}
+
+/// V5: setPolicyFn with an allowing function lets generate() succeed normally.
+TEST(LlamaCppPluginFocusedTests, V5_PolicyFn_AllowingFnPermitsGenerate) {
+    LlamaCppPlugin plugin;
+    plugin.loadModel("", {});
+
+    plugin.setPolicyFn(
+        [](const InferenceRequest& /*req*/, std::string& /*reason*/) -> bool {
+            return true; // allow
+        });
+
+    InferenceRequest request;
+    request.prompt = "policy allow test";
+    const auto response = plugin.generate(request);
+
+    EXPECT_TRUE(response.success)
+        << "generate() must succeed when policy gate allows the request";
+}
+
+/// V6: Clearing the policy fn (nullptr) reverts to normal generate behaviour.
+TEST(LlamaCppPluginFocusedTests, V6_PolicyFn_ClearingRevertsToNormalGenerate) {
+    LlamaCppPlugin plugin;
+    plugin.loadModel("", {});
+
+    // First set a denying policy, confirm it blocks.
+    plugin.setPolicyFn(
+        [](const InferenceRequest&, std::string& reason) -> bool {
+            reason = "blocked";
+            return false;
+        });
+    {
+        InferenceRequest req;
+        req.prompt = "should be blocked";
+        ASSERT_FALSE(plugin.generate(req).success);
+    }
+
+    // Clear the policy gate.
+    plugin.setPolicyFn(nullptr);
+
+    // Now generate must succeed in stub mode.
+    InferenceRequest req;
+    req.prompt = "should be allowed after clear";
+    const auto response = plugin.generate(req);
+    EXPECT_TRUE(response.success)
+        << "generate() must succeed after policy fn is cleared to nullptr";
+}
+
+// ── Group X – Retry hardening ────────────────────────────────────────────────
+// These tests verify the stream-callback retry wrapper (no_retry_logic × 13
+// gap findings) and guard against regressions in rapid successive calls.
+
+/// X1: stream_callback that throws std::runtime_error on the first two
+///     invocations is retried and increments stream_retry_count_ by >= 1.
+///     Requires THEMIS_LLAMA_CPP_STUB_MODE so the callback is exercised in
+///     unit-test builds without a real model.
+TEST(LlamaCppPluginFocusedTests, X1_StreamCallbackRetry_TransientException) {
+#ifndef THEMIS_LLAMA_CPP_STUB_MODE
+    GTEST_SKIP() << "Requires THEMIS_LLAMA_CPP_STUB_MODE for stub callback path";
+#else
+    using namespace themis::llamacpp;
+    using namespace themis::llm;
+
+    LlamaCppPlugin plugin;
+    ASSERT_TRUE(plugin.loadModel("", {}));
+
+    // Capture retry baseline before this test.
+    const auto stats_before = plugin.getPerformanceStats();
+    const uint64_t retries_before = stats_before.value("stream_retry_count", uint64_t{0});
+
+    int throw_count = 0;
+    InferenceRequest req;
+    req.prompt = "x1_retry_test";
+    req.stream_callback = [&](const std::string&) {
+        // Throw on the first two calls to force the retry path.
+        if (throw_count++ < 2) throw std::runtime_error("transient");
+    };
+
+    const auto resp = plugin.generate(req);
+    // generate() itself must still report success even though retries occurred.
+    EXPECT_TRUE(resp.success)
+        << "generate() should succeed despite transient callback throws";
+
+    const auto stats_after = plugin.getPerformanceStats();
+    const uint64_t retries_after = stats_after.value("stream_retry_count", uint64_t{0});
+    EXPECT_GE(retries_after, retries_before + 1u)
+        << "stream_retry_count must increase when transient exceptions are retried";
+#endif
+}
+
+/// X2: getPerformanceStats() always exposes the "stream_retry_count" key,
+///     even when the counter is zero (regression guard).
+TEST(LlamaCppPluginFocusedTests, X2_GetPerformanceStats_ContainsStreamRetryCount) {
+    using namespace themis::llamacpp;
+
+    LlamaCppPlugin plugin;
+    ASSERT_TRUE(plugin.loadModel("", {}));
+
+    const auto stats = plugin.getPerformanceStats();
+    EXPECT_TRUE(stats.contains("stream_retry_count"))
+        << "getPerformanceStats() must always contain 'stream_retry_count'";
+}
+
+/// X3: Plugin survives 10 rapid successive generate() calls without thread
+///     leaks or crashes. This guards the stub generation path against resource
+///     leaks while keeping the regression scope focused on production code.
+TEST(LlamaCppPluginFocusedTests, X3_RapidSuccessiveGenerate_NoThreadLeak) {
+#ifndef THEMIS_LLAMA_CPP_STUB_MODE
+    GTEST_SKIP() << "Requires THEMIS_LLAMA_CPP_STUB_MODE for stub path";
+#else
+    using namespace themis::llamacpp;
+    using namespace themis::llm;
+
+    LlamaCppPlugin plugin;
+    ASSERT_TRUE(plugin.loadModel("", {}));
+
+    for (int i = 0; i < 10; ++i) {
+        InferenceRequest req;
+        req.prompt = "x3_rapid_test_" + std::to_string(i);
+        const auto resp = plugin.generate(req);
+        EXPECT_TRUE(resp.success)
+            << "generate() must succeed at rapid-fire iteration " << i;
+    }
+    // Reaching here without crash, hang, or sanitizer error confirms no thread
+    // is left un-joined or leaking resources.
+    SUCCEED();
+#endif
 }

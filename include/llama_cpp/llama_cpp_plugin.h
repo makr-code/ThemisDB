@@ -71,9 +71,12 @@ public:
     std::optional<llm::ModelInfo> getModelInfo() const override;
     bool isModelLoaded() const override { return model_loaded_; }
 
-    bool loadLoRA(const std::string& lora_path, const std::string& lora_id,
+    /// @copydoc llm::ILLMPlugin::loadLoRA
+    bool loadLoRA(const std::string& lora_id, const std::string& lora_path,
                   float scale) override;
+    /// @copydoc llm::ILLMPlugin::unloadLoRA
     bool unloadLoRA(const std::string& lora_id) override;
+    /// @copydoc llm::ILLMPlugin::listLoRAs
     std::vector<llm::LoRAInfo> listLoRAs() const override;
 
     llm::InferenceResponse generate(const llm::InferenceRequest& request) override;
@@ -142,6 +145,26 @@ public:
     void setGenerateFn(GenerateFn fn);
 
     /**
+     * @brief Set an optional inference policy gate.
+     *
+     * When set, generate() and generateRAG() invoke this function before
+     * dispatching to the inference backend.  The gate receives the request and
+     * an output parameter for a human-readable denial reason.  Returning
+     * @c false causes the call to return success=false with the denial reason
+     * as error_message.  Returning @c true allows inference to proceed.
+     *
+     * This is the recommended integration point for governance policy engines
+     * (e.g. PolicyEngine::checkInferencePermission()) without introducing a
+     * compile-time dependency on the governance library.
+     *
+     * Thread-safe: stored under mutex_.
+     *
+     * @param fn  Callable matching PolicyFn; nullptr disables the gate (default).
+     */
+    using PolicyFn = std::function<bool(const llm::InferenceRequest&, std::string& denial_reason)>;
+    void setPolicyFn(PolicyFn fn);
+
+    /**
      * @brief Streaming generation convenience wrapper.
      *
      * Calls generate() with the given request, injecting @p token_callback into
@@ -180,8 +203,10 @@ private:
     size_t      context_length_ = 4096; ///< Model context window (tokens); set by loadModel()
     mutable std::mutex mutex_;
 
-    uint64_t inference_count_   = 0;
-    uint64_t error_count_       = 0;
+    std::atomic<uint64_t> inference_count_{0};
+    std::atomic<uint64_t> error_count_{0};
+    /// Streaming retry counter — incremented by Sub-Agent D retry logic.
+    std::atomic<uint64_t> stream_retry_count_{0};
 
     struct LoRAEntry {
         std::string id;
@@ -193,6 +218,14 @@ private:
 /// Injected embedding backend (Stub #200 injection API).
     EmbedFn embed_fn_;
     GenerateFn generate_fn_;
+    /// Optional inference policy gate (nullptr = no check).
+    PolicyFn policy_fn_;
+
+    /// @brief Compute a hex digest of the file at @p path.
+    /// Uses FNV-64 as a CI-safe placeholder; swap for SHA-256 (OpenSSL EVP)
+    /// in production deployments where libcrypto is available.
+    /// Returns empty string on I/O error.
+    static std::string computeFileDigest(const std::string& path);
 
 #ifdef THEMIS_LLM_ENABLED
     /// Real llama.cpp inference backend, created when a non-empty model path is
