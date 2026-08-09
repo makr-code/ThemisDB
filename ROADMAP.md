@@ -3,8 +3,8 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 **Version:** 2.4.0-rc1  
-**Last Updated:** 2026-08-04
-**Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–6 complete; Phase 1–6 execution contract evidence closure COMPLETE). GA hardening path: Phases 0-6 technical evidence complete, Phase 6 human governance sign-off (D-11) is the only remaining GA blocker.
+**Last Updated:** 2026-08-09
+**Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–6 complete; Phase 1–6 execution contract evidence closure COMPLETE). GA hardening path: Phases 0-6 technical evidence complete, Phase 6 human governance sign-off (D-11) is the only remaining GA blocker at `docs/governance/GA_PROMOTION_SIGN_OFF.md` §9.
 
 > For module-specific details see each module's `src/<module>/ROADMAP.md`.
 

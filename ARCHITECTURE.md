@@ -35,8 +35,8 @@ ThemisDB is a high-performance, multi-model database system that integrates rela
 | **distributed_knowledge/** | Federation flows: adapter capability gossip, federated LoRA gradient aggregation, cross-shard RAG merge, cross-shard RLAIF feedback sync; zero raw-data egress | AdapterCapabilityAnnouncement, LoRAFederationCoordinator, FederatedRAGMerger, CrossShardFeedbackSync |
 | **ethics_ai/** | Ethical discourse engine, 5-dimension decision scoring, RAG context retrieval | EthicsEvaluator, EthicalDiscourseEngine, RAGContextEngine |
 | **exporters/** | Data export in various formats | JsonlLlmExporter |
-| **failover/** | Automatic failover orchestration and disaster recovery plan execution | AutoFailoverManager, DisasterRecoveryOrchestrator |
-| **geo/** | Geospatial query processing and indexing | SpatialBackend, GpuBackend |
+| **failover/** | Automatic failover orchestration and disaster recovery plan execution. ✅ **Phase 2-3 complete (2026-07-29):** real canTransition() state machine, preventSplitBrain() fail-closed, DR executePlan concurrency guard, batch stats, emitDiagnostic() helper, diagnostics framework. Tests: P23-01..08. Benchmarks: FP23-01..06 gates (latency ≤200µs). | AutoFailoverManager, DisasterRecoveryOrchestrator |
+| **geo/** | Geospatial query processing and indexing. ✅ **Phase 1-6 hardening in progress:** GIS query optimization, CUDA distance kernels, containment checks, spatial filtering with GPU acceleration. | SpatialBackend, GpuBackend |
 | **governance/** | Policy engine, compliance, versioning | PolicyEngine, ComplianceReporter |
 | **graph/** | Query planning, traversal (parallel/distributed/GPU), constraints, semantic reasoning, tensor-fingerprint utilities. ✅ **L0 VERIFIED: 0 gaps (all 9 findings reclassified as defensive patterns; production-ready)**. | GraphQueryOptimizer, PathConstraints, DistributedGraph, KnowledgeGraphReasoner |
 | **gpu/** | GPU-specific memory and acceleration | GpuMemoryManager |
@@ -52,7 +52,7 @@ ThemisDB is a high-performance, multi-model database system that integrates rela
 | **onnx_clip/** | ONNX CLIP plugin for image analysis with multi-backend (CPU/CUDA/DirectML/TensorRT) | ONNXClipPlugin, IImageAnalysisBackend |
 | **performance/** | Advanced data structures (RCU, LIRS, lock-free buffers, lock-free histograms) | PerformanceOptimizations, LockFreeHistogram, LirsCache |
 | **plugins/** | Plugin system, hot-plugging, RPC interfaces | PluginManager, PluginRegistry |
-| **process/** | BPMN 2.0, EPK, VCC-VPB process model management; LLM descriptors; Graph-RAG for Verwaltungsvorgänge | ProcessModelManager, BpmnSerializer, EpkSerializer, ProcessLinker, ProcessGraphRag |
+| **process/** | BPMN 2.0, EPK, VCC-VPB process model management; LLM descriptors; Graph-RAG for Verwaltungsvorgänge. ✅ **Phase 1-6 complete (2026-08-06):** 101 files, 33,106+ LOC, 87 acceptance criteria, 42 benchmark gates, 72+ test cases. Production-ready. | ProcessModelManager, BpmnSerializer, EpkSerializer, ProcessLinker, ProcessGraphRag |
 | **projects/** | Project management layer: lifecycle state machine, snapshot versioning, structural diff/merge, template instantiation, collaboration session management | ProjectLifecycle, ProjectVersioning, ProjectDiff, ProjectMerge, ProjectTemplate, CollaborationManager |
 | **prompt_engineering/** | Prompt template lifecycle, version control, A/B testing, self-optimization, injection detection | PromptManager, PromptOptimizer, SelfImprovementOrchestrator, PromptInjectionDetector |
 | **query/** | AQL parser, optimizer, execution engine | QueryEngine, AqlParser, QueryOptimizer |
@@ -72,7 +72,7 @@ ThemisDB is a high-performance, multi-model database system that integrates rela
 | **toolbox/** | System-wide integration layer bridging ingestion pipeline with content storage; process-global IngestionToolbox registry for all modules | IngestionToolbox, ToolboxBuilder, ContentToolboxBridge, ToolboxRegistry |
 | **training/** | Domain-specific LLM fine-tuning, LoRA adapter management, knowledge graph enrichment | LegalAutoLabeler, IncrementalLoRATrainer, KnowledgeGraphEnricher |
 | **transaction/** | ACID transactions, SAGA pattern, branching | TransactionManager, SagaManager |
-| **updates/** | Hot reload, manifest management, version control | HotReloadEngine, ReleaseManifest |
+| **updates/** | Hot reload, manifest management, version control. ✅ **Phase 1-6 hardening in progress:** error codes [7400-7499], DiagnosticEmitter listener pattern, ErrorContext JSON serialization, rollback with checkpoints, coordinated updates (reverse-sequence, leader-last). Tests: 118 focused tests, 32 test refs. | HotReloadEngine, ReleaseManifest |
 | **user_storage_encrypted/** | Encrypted per-user storage via GocryptFS with Argon2id KDF and key rotation | GocryptfsBackend, KeyRotationScheduler |
 | **utils/** | Logging, PII detection, compression, UUID v7, streaming ZSTD | Logger, PiiDetector, Serialization, generate_uuid_v7, zstd_compress_stream |
 | **voice/** | Voice assistant integration | VoiceAssistant |
