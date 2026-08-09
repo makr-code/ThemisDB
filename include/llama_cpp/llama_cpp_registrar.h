@@ -128,9 +128,43 @@ public:
      * @brief Default hot-plug reload callback.
      *
      * Calls loadModel(config["model_path"], config) when "model_path" is
-     * present; otherwise returns false.
+     * present; otherwise returns false (or true in stub mode).
      */
     static ReloadCallback defaultReloadCallback();
+
+    // ── Server-startup integration ───────────────────────────────────────
+
+    /**
+     * @brief Initialize the LLM plugin subsystem from server configuration.
+     *
+     * Called during server startup. Reads the LLM configuration block from
+     * @p server_config, and if a model path is configured, registers a
+     * LlamaCppPlugin with the global LLMPluginManager singleton under the
+     * name @c "llama_cpp".
+     *
+     * This method is a no-op (returns @c true) when:
+     *  - @p server_config contains no @c "llm" key, or
+     *  - the @c "llm" object has no @c "model_path" key, or
+     *  - @c model_path is an empty string.
+     *
+     * In those cases the server starts in stub / CI mode without any model
+     * loaded. When a non-empty @c model_path is present the plugin is
+     * created, @c loadModel() is called, and the plugin is registered with
+     * @c LLMPluginManager::instance().
+     *
+     * @param server_config  Full server configuration JSON object.
+     *                       Expected key path: @c config["llm"]["model_path"]
+     * @return @c true if registration succeeded or no plugin was needed;
+     *         @c false if plugin creation or model loading failed.
+     *
+     * @code
+     *   json cfg = load_server_config("config.json");
+     *   if (!LlamaCppPluginRegistrar::initFromServerConfig(cfg)) {
+     *       LOG_ERROR("LlamaCpp plugin failed to initialise");
+     *   }
+     * @endcode
+     */
+    static bool initFromServerConfig(const json& server_config);
 
 private:
     LlamaCppPluginRegistrar() = delete;

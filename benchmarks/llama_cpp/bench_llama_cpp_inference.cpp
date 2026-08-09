@@ -670,3 +670,107 @@ static void BM_LlamaCpp_RealModel_GPUEvidence(benchmark::State& state) {
     plugin.unloadModel();
 }
 BENCHMARK(BM_LlamaCpp_RealModel_GPUEvidence)->Unit(benchmark::kMillisecond);
+
+// ═══════════════════════════════════════════════════════════════════════════
+// LLCPG Gate Benchmarks — Release validation gates (v2.3.0)
+// ═══════════════════════════════════════════════════════════════════════════
+
+// LLCPG-1: Time to First Token (stub path baseline)
+// Stub gate: ≤ 5 ms per call (plugin overhead only, no model)
+// Production gate: ≤ 1100 ms P95 on A10G with real GGUF model
+static void LLCPG1_TTFT_Stub_Baseline(benchmark::State& state) {
+    LlamaCppPlugin plugin;
+    plugin.loadModel("", nlohmann::json::object());
+
+    InferenceRequest req;
+    req.prompt = "What is the capital of France? Please provide a detailed answer.";
+    req.max_tokens = 50;
+
+    for (auto _ : state) {
+        auto result = plugin.generate(req);
+        benchmark::DoNotOptimize(result);
+    }
+    state.SetItemsProcessed(state.iterations());
+    state.counters["GATE_stub_max_ms"] = 5.0;
+    state.counters["GATE_prod_p95_ms"] = 1100.0;
+}
+BENCHMARK(LLCPG1_TTFT_Stub_Baseline)
+    ->Unit(benchmark::kMillisecond)
+    ->UseRealTime()
+    ->Iterations(20);
+
+// LLCPG-2: Batch Embedding Throughput (100-document stub baseline)
+// Production gate: ≥ 8500 tok/s
+static void LLCPG2_BatchEmbedding_Stub(benchmark::State& state) {
+    LlamaCppPlugin plugin;
+    plugin.loadModel("", nlohmann::json::object());
+
+    constexpr int kDocsPerBatch = 100;
+    // ~50 tokens per doc; typical embedding input size
+    const std::string doc_text =
+        "This is a sample document for embedding throughput measurement. "
+        "It contains approximately fifty tokens of representative text.";
+    const std::vector<std::string> docs(kDocsPerBatch, doc_text);
+
+    for (auto _ : state) {
+        for (const auto& doc : docs) {
+            auto vec = plugin.embed(doc);
+            benchmark::DoNotOptimize(vec);
+        }
+    }
+    state.SetItemsProcessed(static_cast<int64_t>(kDocsPerBatch) * state.iterations());
+    state.counters["docs_per_batch"] = kDocsPerBatch;
+    state.counters["GATE_prod_min_tok_s"] = 8500.0;
+}
+BENCHMARK(LLCPG2_BatchEmbedding_Stub)
+    ->Unit(benchmark::kMillisecond)
+    ->UseRealTime()
+    ->Iterations(10);
+
+// LLCPG-3: LoRA Registry Load/Unload P99 Latency
+// Gate: ≤ 75 ms P99 (metadata load, no real adapter file needed)
+static void LLCPG3_LoRALoad_P99(benchmark::State& state) {
+    LlamaCppPlugin plugin;
+    plugin.loadModel("", nlohmann::json::object());
+
+    int64_t iteration = 0;
+    for (auto _ : state) {
+        const std::string id = "bench_lora_" + std::to_string(++iteration);
+        // loadLoRA signature: (lora_path, lora_id, scale)
+        bool ok = plugin.loadLoRA("/tmp/nonexistent_lora.bin", id, 1.0f);
+        benchmark::DoNotOptimize(ok);
+        bool unloaded = plugin.unloadLoRA(id);
+        benchmark::DoNotOptimize(unloaded);
+    }
+    state.SetItemsProcessed(state.iterations());
+    state.counters["GATE_p99_max_ms"] = 75.0;
+}
+BENCHMARK(LLCPG3_LoRALoad_P99)
+    ->Unit(benchmark::kMicrosecond)
+    ->UseRealTime()
+    ->Iterations(100);
+
+// LLCPG-4: Regression Baseline Snapshot
+// Records throughput baseline for regression gating.
+// Gate: ≤ 8 % throughput regression vs. this baseline run.
+// Compare using: benchmark compare tool or manual ops/s check.
+static void LLCPG4_RegressionBaseline(benchmark::State& state) {
+    LlamaCppPlugin plugin;
+    plugin.loadModel("", nlohmann::json::object());
+
+    InferenceRequest req;
+    req.prompt = "regression baseline";
+    req.max_tokens = 10;
+
+    for (auto _ : state) {
+        auto result = plugin.generate(req);
+        benchmark::DoNotOptimize(result);
+    }
+    state.SetItemsProcessed(state.iterations());
+    state.counters["GATE_regression_pct_max"] = 8.0;
+    state.counters["baseline_mode_stub"] = 1.0;
+}
+BENCHMARK(LLCPG4_RegressionBaseline)
+    ->Unit(benchmark::kMicrosecond)
+    ->UseRealTime()
+    ->MinTime(1.0);
