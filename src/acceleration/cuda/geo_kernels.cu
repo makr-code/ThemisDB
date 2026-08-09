@@ -26,6 +26,12 @@ namespace cuda {
 __constant__ double kEarthRadiusKm = 6371.0;
 __constant__ double kPi            = 3.141592653589793238462643383279502884;
 
+// WGS-84 ellipsoid constants (for Vincenty)
+__constant__ double kWgsA          = 6378137.0;           // semi-major axis (m)
+__constant__ double kWgsF          = 1.0 / 298.257223563; // flattening
+__constant__ double kWgsB          = 6356752.314245;      // semi-minor axis (m)
+__constant__ double kVincentyTol   = 1e-12;
+
 // =============================================================================
 // Haversine distance kernel
 // =============================================================================
@@ -69,6 +75,127 @@ __global__ void haversineDistanceKernel(
                      sin(dlon / 2.0) * sin(dlon / 2.0);
 
     out[i] = static_cast<float>(kEarthRadiusKm * 2.0 * atan2(sqrt(a), sqrt(1.0 - a)));
+}
+
+// =============================================================================
+// Vincenty distance kernel (WGS-84 ellipsoid)
+// =============================================================================
+
+/**
+ * Compute per-pair Vincenty geodesic distances in kilometres.
+ * Uses the WGS-84 ellipsoid for a more accurate geodesic model than Haversine;
+ * output precision remains bounded by float kilometre storage.
+ *
+ * Thread layout: one thread per (point-pair) index.
+ * Grid:  ceil(count / 256) blocks
+ * Block: 256 threads
+ *
+ * For nearly-antipodal points where the iterative formula does not converge
+ * within kMaxIterations, falls back to Haversine.
+ *
+ * @param lats1    Input latitudes  set 1  [count]
+ * @param lons1    Input longitudes set 1  [count]
+ * @param lats2    Input latitudes  set 2  [count]
+ * @param lons2    Input longitudes set 2  [count]
+ * @param out      Output distances in km  [count]
+ * @param count    Number of point pairs
+ */
+__global__ void vincentyDistanceKernel(
+    const double* lats1,
+    const double* lons1,
+    const double* lats2,
+    const double* lons2,
+    float*        out,
+    int           count
+) {
+    const int i = blockIdx.x * blockDim.x + threadIdx.x;
+    if (i >= count) return;
+
+    // Degrees → radians
+    const double phi1 = lats1[i] * kPi / 180.0;
+    const double phi2 = lats2[i] * kPi / 180.0;
+    const double L    = (lons2[i] - lons1[i]) * kPi / 180.0;
+
+    const double U1    = atan((1.0 - kWgsF) * tan(phi1));
+    const double U2    = atan((1.0 - kWgsF) * tan(phi2));
+    const double sinU1 = sin(U1), cosU1 = cos(U1);
+    const double sinU2 = sin(U2), cosU2 = cos(U2);
+
+    // Degenerate case: one or both endpoints at a geographic pole
+    if (cosU1 < kVincentyTol && cosU2 < kVincentyTol) {
+        if (sinU1 * sinU2 > 0.0) {
+            out[i] = 0.0f; // same pole
+        } else {
+            // Opposite poles: half the WGS-84 meridional circumference (m → km)
+            out[i] = 20003931.459f / 1000.0f;
+        }
+        return;
+    }
+
+    double lambda   = L;
+    double sinSigma = 0.0, cosSigma = 0.0, sigma = 0.0;
+    double sinAlpha = 0.0, cos2Alpha = 0.0, cos2SigmaM = 0.0;
+    bool converged = false;
+    const int kMaxIterations = 200;
+
+    for (int iter = 0; iter < kMaxIterations; ++iter) {
+        const double sinLambda = sin(lambda);
+        const double cosLambda = cos(lambda);
+
+        const double a1 = cosU2 * sinLambda;
+        const double a2 = cosU1 * sinU2 - sinU1 * cosU2 * cosLambda;
+        sinSigma        = sqrt(a1 * a1 + a2 * a2);
+
+        if (sinSigma < kVincentyTol) {
+            out[i] = 0.0f; // coincident points
+            return;
+        }
+
+        cosSigma   = sinU1 * sinU2 + cosU1 * cosU2 * cosLambda;
+        sigma      = atan2(sinSigma, cosSigma);
+        sinAlpha   = cosU1 * cosU2 * sinLambda / sinSigma;
+        cos2Alpha  = 1.0 - sinAlpha * sinAlpha;
+        cos2SigmaM = (cos2Alpha > kVincentyTol) ? cosSigma - 2.0 * sinU1 * sinU2 / cos2Alpha : 0.0;
+
+        const double C           = kWgsF / 16.0 * cos2Alpha * (4.0 + kWgsF * (4.0 - 3.0 * cos2Alpha));
+        const double lambda_prev = lambda;
+        lambda = L + (1.0 - C) * kWgsF * sinAlpha
+                     * (sigma + C * sinSigma * (cos2SigmaM + C * cosSigma * (-1.0 + 2.0 * cos2SigmaM * cos2SigmaM)));
+
+        if (fabs(lambda - lambda_prev) <= kVincentyTol) {
+            converged = true;
+            break;
+        }
+    }
+
+    if (!converged) {
+        // Nearly-antipodal case: fall back to Haversine
+        const double lat1 = lats1[i] * kPi / 180.0;
+        const double lon1 = lons1[i] * kPi / 180.0;
+        const double lat2 = lats2[i] * kPi / 180.0;
+        const double lon2 = lons2[i] * kPi / 180.0;
+
+        const double dlat = lat2 - lat1;
+        const double dlon = lon2 - lon1;
+
+        const double a = sin(dlat / 2.0) * sin(dlat / 2.0) +
+                         cos(lat1) * cos(lat2) *
+                         sin(dlon / 2.0) * sin(dlon / 2.0);
+
+        out[i] = static_cast<float>(kEarthRadiusKm * 2.0 * atan2(sqrt(a), sqrt(1.0 - a)));
+        return;
+    }
+
+    const double u2     = cos2Alpha * (kWgsA * kWgsA - kWgsB * kWgsB) / (kWgsB * kWgsB);
+    const double kA     = 1.0 + u2 / 16384.0 * (4096.0 + u2 * (-768.0 + u2 * (320.0 - 175.0 * u2)));
+    const double kB     = u2 / 1024.0 * (256.0 + u2 * (-128.0 + u2 * (74.0 - 47.0 * u2)));
+    const double dSigma = kB * sinSigma
+                          * (cos2SigmaM
+                             + kB / 4.0
+                                   * (cosSigma * (-1.0 + 2.0 * cos2SigmaM * cos2SigmaM)
+                                      - kB / 6.0 * cos2SigmaM * (-3.0 + 4.0 * sinSigma * sinSigma)
+                                            * (-3.0 + 4.0 * cos2SigmaM * cos2SigmaM)));
+    out[i] = static_cast<float>((kWgsB * kA * (sigma - dSigma)) / 1000.0);  // metres → km
 }
 
 // =============================================================================
@@ -136,8 +263,13 @@ static int g_cuda_geo_block_size = 256;
 extern "C" {
 
 /**
- * Launch the Haversine batch-distance kernel.
+ * Launch the geospatial distance kernel (Haversine or Vincenty).
  * Matches the GeoDistanceFn typedef in kernel_invocation.h.
+ *
+ * Selects the appropriate kernel based on the formula parameter:
+ *  - HAVERSINE: spherical Earth model (fast, ±0.5% accuracy)
+ *  - VINCENTY:  WGS-84 ellipsoid model (slower, more accurate model; output
+ *               precision remains bounded by float kilometre storage)
  *
  * @return 0 on success, non-zero CUDA error code on failure.
  */
@@ -148,7 +280,7 @@ int launchGeoDistanceKernel(
     const double*                          d_lons2,
     float*                                 d_distances,
     int                                    count,
-    themis::acceleration::GeoDistanceFormula /*formula*/,  // Haversine only in this impl
+    themis::acceleration::GeoDistanceFormula formula,
     void*                                  opaque_stream
 ) {
     if (count <= 0) return 0;
@@ -159,12 +291,20 @@ int launchGeoDistanceKernel(
 
     const cudaStream_t stream = static_cast<cudaStream_t>(opaque_stream);
 
-    haversineDistanceKernel<<<gridDim, blockDim, 0, stream>>>(
-        d_lats1, d_lons1, d_lats2, d_lons2, d_distances, count);
+    // Dispatch to appropriate kernel based on formula
+    if (formula == themis::acceleration::GeoDistanceFormula::VINCENTY) {
+        vincentyDistanceKernel<<<gridDim, blockDim, 0, stream>>>(
+            d_lats1, d_lons1, d_lats2, d_lons2, d_distances, count);
+    } else {
+        // Default to Haversine for HAVERSINE or unknown formulas
+        haversineDistanceKernel<<<gridDim, blockDim, 0, stream>>>(
+            d_lats1, d_lons1, d_lats2, d_lons2, d_distances, count);
+    }
 
     const cudaError_t err = cudaGetLastError();
     return static_cast<int>(err);
 }
+
 
 /**
  * Launch the point-in-polygon kernel.
