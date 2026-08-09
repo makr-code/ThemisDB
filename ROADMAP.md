@@ -68,10 +68,11 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 #### Phase 2 — Core Implementation
 - [~] Introduce `WITH_PRIVATE_*` grouping/plugin flags and centralized private-plugin loading helpers with no-hard-fail `EXISTS(...)` handling (Target: Q3 2026)
 - [x] Wave-1 private repositories provisioned and submodule paths finalized (2026-07):
-  - `makr-code/themisdb_ethic_ai` → `plugins/themisdb_ethic_ai/` (ethics_ai plugin root)
-  - `makr-code/themisdb_storage` → `plugins/themisdb_storage/` (aggregate: `user_storage_encrypted/`, `azure_blob_storage/`, `s3_blob_storage/`)
-  - `makr-code/themisdb_importer` → `plugins/themisdb_importer/` (aggregate: `mysql_importer/`, `mongo_importer/`, `kafka_importer/`, `s3_importer/`)
-  - `makr-code/themisdb_llm_wiki` → `plugins/themisdb_llm_wiki/` (LLM Wiki tool)
+  - `makr-code/themisdb_ethic_ai` → `plugins/private/themisdb_ethic_ai/` (ethics_ai plugin root)
+  - `makr-code/themisdb_storage` → `plugins/private/themisdb_storage/` (aggregate: user_storage_encrypted/, azure_blob_storage/, s3_blob_storage/)
+  - `makr-code/themisdb_importer` → `plugins/private/themisdb_importer/` (aggregate: mysql_importer/, mongo_importer/, kafka_importer/, s3_importer/)
+  - `makr-code/themisdb_llm_wiki` → `plugins/private/themisdb_llm_wiki/` (LLM Wiki tool)
+  - **Documentation:** See ai_context/INDEX_MODULE_STATUS_2026_08_09.md §Private Plugin Submodule Status for Wave-1 current status
   - `gpu-impact-analysis` remains explicitly out of Wave 1
 - [~] Core source registration for private connector candidates is split behind optional source checks so missing public files no longer hard-break Community checkouts (Target: Q3 2026)
 - [ ] Move Wave-1 private modules to commit-pinned submodules — repositories provisioned, commit pins pending after initial content push (Target: Q3 2026)
