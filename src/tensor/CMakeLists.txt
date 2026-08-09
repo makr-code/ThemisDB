@@ -109,3 +109,8 @@ if(DEFINED THEMIS_ENABLE_EXPORTS AND THEMIS_ENABLE_EXPORTS)
 endif()
 
 message(STATUS "Tensor module: themis_tensor library configured (23 sources, C++17)")
+
+# ── Optional: MAP_SHARED zero-copy path (always available on POSIX — no extra lib) ──
+# buildFromFd() uses mmap(MAP_SHARED) which is part of POSIX; no extra CMake
+# find_package is required.  The THEMIS_HAS_MMAP define is set by the platform
+# guard already present in tensor_mmap_bridge.cpp.
