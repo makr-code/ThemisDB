@@ -55,6 +55,11 @@ struct GgmlTensorBridgeConfig {
     /// If true, copies are made for quantised cores before handing to ggml.
     /// Required for NF4 when ggml does not natively support NF4 TT-cores.
     bool copy_quantised_cores = true;
+
+    /// Root directory containing per-tenant RocksDB SST files.
+    /// Used by the io_uring prefetch path when THEMIS_HAS_IO_URING is defined.
+    /// Example: "/var/lib/themisdb/rocksdb"
+    std::string sst_root_dir = "";
 };
 
 // ============================================================================

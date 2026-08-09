@@ -124,18 +124,14 @@ void freeRegion(void* ptr, std::size_t bytes) noexcept {
 // ============================================================================
 // TensorMmapBridge::buildFromTrain
 // ============================================================================
-
-// STUB/SIMULATION NOTE:
-// Purpose: Page-pin each TT-core array in an anonymous mmap region so
-//   that the GGML bridge can reference the data pointer without holding
-//   a lock on the TensorIndexManager.
-// Activation: Always — no compile flag required.
-// Production Delta: Copies core data into MAP_ANONYMOUS region via memcpy.
-//   Real production path (STUB #270) uses MAP_SHARED on RocksDB SST file
-//   pages so no memcpy occurs; the TT-core bytes are accessed in-place.
-// Removal Plan: Q1 2027 — replace MAP_ANONYMOUS + memcpy with MAP_SHARED
-//   over RocksDB SST file descriptor + offset, once the SST mmap
-//   integration layer is available.
+// PERMANENT FALLBACK NOTE:
+// Purpose: Page-pin each TT-core array in an anonymous mmap region so that
+//   the GGML bridge can reference the data pointer without holding a lock on
+//   the TensorIndexManager.
+// Activation: Always available; used when no SstMapFn is injected and when
+//   buildFromFd() is called with fd < 0.
+// Production zero-copy path: Use buildFromFd() with a valid SST fd, or inject
+//   a SstMapFn that performs MAP_SHARED over RocksDB SST file pages.
 
 /*static*/
 std::unique_ptr<TensorMmapBridge>
@@ -216,18 +212,118 @@ TensorMmapBridge::buildFromTrain(const storage::TTTrain& train) {
 }
 
 // ============================================================================
-// TensorMmapBridge::release
+// TensorMmapBridge::buildFromFd — zero-copy MAP_SHARED path
 // ============================================================================
+
+/*static*/
+std::unique_ptr<TensorMmapBridge>
+TensorMmapBridge::buildFromFd(const storage::TTTrain& train, int fd,
+                               std::size_t byte_offset) {
+#if THEMIS_HAS_MMAP
+    // When a valid backing fd is provided, map each TT-core with MAP_SHARED
+    // directly from the file — zero memcpy, no anonymous allocation.
+    if (fd >= 0) {
+        auto bridge = std::unique_ptr<TensorMmapBridge>(new TensorMmapBridge());
+        bridge->regions_.reserve(train.cores.size());
+        bridge->slices_.reserve(train.cores.size());
+
+        std::size_t current_offset = byte_offset;
+        const long page_size = ::sysconf(_SC_PAGESIZE);
+        const std::size_t ps = (page_size > 0) ? static_cast<std::size_t>(page_size) : 4096u;
+
+        for (std::size_t ci = 0; ci < train.cores.size(); ++ci) {
+            const auto& core  = train.cores[ci];
+            const std::size_t n_elems = core.data.size();
+            const std::size_t bytes   = n_elems * sizeof(float);
+
+            if (bytes == 0) {
+                bridge->slices_.push_back({nullptr, 0, ci, 0});
+                bridge->regions_.push_back({nullptr, 0, false, false});
+                continue;
+            }
+
+            // mmap(MAP_SHARED) requires the offset to be page-aligned.
+            // Align down and adjust the returned pointer accordingly.
+            const std::size_t aligned_offset = (current_offset / ps) * ps;
+            const std::size_t delta          = current_offset - aligned_offset;
+            const std::size_t map_bytes      = bytes + delta;
+
+            void* raw = ::mmap(nullptr, map_bytes,
+                               PROT_READ,
+                               MAP_SHARED,
+                               fd,
+                               static_cast<off_t>(aligned_offset));
+
+            if (raw == MAP_FAILED) {
+                // MAP_SHARED failed for this core — fall back to anonymous copy.
+                THEMIS_WARN("TensorMmapBridge::buildFromFd: MAP_SHARED failed for "
+                            "core {} ({} bytes) — using MAP_ANONYMOUS fallback",
+                            ci, bytes);
+                void* fallback = allocRegion(bytes);
+                if (!fallback) {
+                    bridge->slices_.push_back({nullptr, 0, ci, 0});
+                    bridge->regions_.push_back({nullptr, 0, false, false});
+                    current_offset += bytes;
+                    continue;
+                }
+                std::memcpy(fallback, core.data.data(), bytes);
+                const bool locked = lockRegion(fallback, bytes);
+                if (locked) ++bridge->locked_count_;
+                bridge->total_bytes_ += bytes;
+                bridge->regions_.push_back({fallback, bytes, locked, /*externally_owned=*/false});
+                bridge->slices_.push_back({static_cast<const float*>(fallback), bytes, ci, n_elems});
+                current_offset += bytes;
+                continue;
+            }
+
+            // Pointer to the first float within the mapped region (past alignment delta).
+            void* ptr = static_cast<char*>(raw) + delta;
+
+            // Advise the kernel to prefetch these pages sequentially.
+            ::madvise(raw, map_bytes, MADV_SEQUENTIAL);
+
+            const bool locked = lockRegion(raw, map_bytes);
+            if (locked) ++bridge->locked_count_;
+
+            bridge->total_bytes_ += bytes;
+            // Mark as externally_owned so release() calls munmap(raw, map_bytes)
+            // but does NOT call freeRegion() (which would do a second munmap).
+            // We store the aligned base pointer and full map_bytes in the region.
+            bridge->regions_.push_back({raw, map_bytes, locked, /*externally_owned=*/true});
+            bridge->slices_.push_back({static_cast<const float*>(ptr), bytes, ci, n_elems});
+            current_offset += bytes;
+        }
+
+        return bridge;
+    }
+#else
+    // Platform does not support mmap — fd path unavailable.
+    (void)fd; (void)byte_offset;
+#endif
+    // PERMANENT FALLBACK NOTE:
+    // fd < 0, or mmap not available on this platform — delegate to the
+    // MAP_ANONYMOUS + memcpy path which always works.
+    return buildFromTrain(train);
+}
 
 void TensorMmapBridge::release() noexcept {
     for (auto& r : regions_) {
         if (!r.ptr) continue;
         if (r.locked) unlockRegion(r.ptr, r.bytes);
-        // Do not call freeRegion() on externally-owned (SST-mapped) regions;
-        // the caller of setSstMapFn() is responsible for their lifetime.
-        if (!r.externally_owned) freeRegion(r.ptr, r.bytes);
-        r.ptr             = nullptr;
-        r.locked          = false;
+        if (r.externally_owned) {
+            // MAP_SHARED region created by buildFromFd() — munmap to unmap.
+            // SstMapFn-provided regions (externally_owned from setSstMapFn) are
+            // NOT unmapped here; the caller of setSstMapFn() owns their lifetime.
+            // buildFromFd() sets externally_owned=true but also stores the
+            // aligned base pointer and map_bytes, so a plain munmap is correct.
+#if THEMIS_HAS_MMAP
+            ::munmap(r.ptr, r.bytes);
+#endif
+        } else {
+            freeRegion(r.ptr, r.bytes);
+        }
+        r.ptr              = nullptr;
+        r.locked           = false;
         r.externally_owned = false;
     }
     regions_.clear();

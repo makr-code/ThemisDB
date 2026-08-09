@@ -30,6 +30,13 @@
 
 #include "utils/string_utils.h"
 
+// Full YAML spec compliance via yaml-cpp (optional).
+// Enable with -DTHEMIS_HAS_YAML_CPP=ON and link yaml-cpp.
+// Default: OFF — the inline Horn-clause parser is used as permanent fallback.
+#ifdef THEMIS_HAS_YAML_CPP
+#  include <yaml-cpp/yaml.h>
+#endif
+
 namespace themisdb {
 namespace analytics {
 
@@ -218,12 +225,11 @@ void KnowledgeBase::clearRules() {
 
 // ──────────────────────────────────────────────────────────────────────────────
 // YAML Rule Loader
-// STUB/SIMULATION NOTE:
-// Purpose:      Simple inline YAML parser for Horn clause rule format.
-// Activation:   Always (no yaml-cpp dep required).
-// Production Delta: Handles only the specific format from FUTURE_ENHANCEMENTS.md.
-//   Complex YAML (anchors, aliases, multi-line values) not supported.
-// Removal Plan: Q2 2027 — wire yaml-cpp for full spec compliance.
+// PERMANENT FALLBACK NOTE:
+// The inline parser handles only the specific ThemisDB Horn-clause YAML format.
+// Complex YAML (anchors, aliases, multi-line scalar values) is not supported.
+// When THEMIS_HAS_YAML_CPP is defined, yaml-cpp is used for full spec compliance
+// and the inline parser is not called.
 // ──────────────────────────────────────────────────────────────────────────────
 
 static TriplePattern parseTriplePattern(const std::string &line) {
@@ -261,7 +267,7 @@ static TriplePattern parseTriplePattern(const std::string &line) {
 }
 
 int KnowledgeBase::loadRulesFromYaml(const std::string &path) {
-    // STUB #272 bridge: delegate to injected full-featured parser when set.
+    // Delegate to injected full-featured parser when set.
     YamlParserFn fn_copy;
     {
         std::lock_guard<std::mutex> lk(yamlParserFnMutex());
@@ -271,8 +277,80 @@ int KnowledgeBase::loadRulesFromYaml(const std::string &path) {
         return fn_copy(path, *this);
     }
 
-    // Built-in line-parser fallback (STUB #272: handles only the specific
-    // Horn-clause format from FUTURE_ENHANCEMENTS.md).
+#ifdef THEMIS_HAS_YAML_CPP
+    // ── Full YAML spec compliance via yaml-cpp (THEMIS_HAS_YAML_CPP=ON) ─────
+    // Parses the ThemisDB Horn-clause YAML format with full support for
+    // anchors, aliases, multi-line scalars, and complex nested structures.
+    try {
+        YAML::Node root = YAML::LoadFile(path);
+        if (!root["rules"] || !root["rules"].IsSequence()) {
+            return 0;
+        }
+
+        int loaded = 0;
+        for (const auto& rule_node : root["rules"]) {
+            HornClause hc;
+
+            if (rule_node["id"]) {
+                hc.id = rule_node["id"].as<std::string>("");
+            }
+            if (hc.id.empty()) continue;
+
+            if (rule_node["priority"]) {
+                hc.priority = rule_node["priority"].as<int>(0);
+            }
+            if (rule_node["description"]) {
+                hc.description = rule_node["description"].as<std::string>("");
+            }
+            if (rule_node["ml_confidence_threshold"]) {
+                hc.ml_confidence_threshold =
+                    rule_node["ml_confidence_threshold"].as<double>(0.0);
+            }
+
+            auto parseTripleSeq = [](const YAML::Node& seq) {
+                std::vector<TriplePattern> triples;
+                if (!seq || !seq.IsSequence()) return triples;
+                for (const auto& item : seq) {
+                    TriplePattern tp;
+                    if (item.IsSequence() && item.size() >= 3) {
+                        tp.subject   = item[0].as<std::string>("");
+                        tp.predicate = item[1].as<std::string>("");
+                        tp.object    = item[2].as<std::string>("");
+                    } else if (item.IsMap()) {
+                        tp.subject   = item["subject"]   ? item["subject"].as<std::string>("") : "";
+                        tp.predicate = item["predicate"] ? item["predicate"].as<std::string>("") : "";
+                        tp.object    = item["object"]    ? item["object"].as<std::string>("") : "";
+                    }
+                    if (!tp.subject.empty() || !tp.predicate.empty()) {
+                        triples.push_back(std::move(tp));
+                    }
+                }
+                return triples;
+            };
+
+            if (rule_node["conditions"]) {
+                hc.conditions = parseTripleSeq(rule_node["conditions"]);
+            }
+            if (rule_node["consequents"]) {
+                hc.consequents = parseTripleSeq(rule_node["consequents"]);
+            }
+
+            addRule(std::move(hc));
+            ++loaded;
+        }
+        return loaded;
+    } catch (const YAML::Exception& e) {
+        // yaml-cpp parse error — fall through to inline fallback below.
+        (void)e;
+    }
+    // ── End yaml-cpp path ──────────────────────────────────────────────────
+#endif // THEMIS_HAS_YAML_CPP
+
+    // PERMANENT FALLBACK NOTE:
+    // Built-in line-parser for the specific ThemisDB Horn-clause YAML format.
+    // Handles only the subset used by FUTURE_ENHANCEMENTS.md.  Complex YAML
+    // (anchors, aliases, multi-line scalars) is not supported here.
+    // Enable THEMIS_HAS_YAML_CPP=ON to use the yaml-cpp path above.
     std::ifstream file(path);
     if (!file.is_open()) {
         return -1;

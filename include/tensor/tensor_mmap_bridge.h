@@ -127,16 +127,46 @@ private:
     TensorMmapBridge() = default;
 
     /**
-     * @brief Build a bridge from a TTTrain.
+     * @brief Build a bridge from a TTTrain using MAP_ANONYMOUS + memcpy.
      *
-     * // STUB/SIMULATION NOTE:
-     * // Purpose: Page-pin each TT-core in an anonymous mmap region.
-     * // Activation: Always (STUB #176).
-     * // Production Delta: memcpy from in-memory data instead of MAP_SHARED.
-     * // Removal Plan: Q1 2027 — map SST file pages directly.
+     * Page-pins each TT-core array in an anonymous mmap region so that the
+     * GGML bridge can reference data pointers without holding the index lock.
+     * When an SST-map function is injected via setSstMapFn(), the zero-copy
+     * MAP_SHARED path is used for any core for which the function returns a
+     * non-null pointer.
+     *
+     * PERMANENT FALLBACK NOTE:
+     * This is the always-available fallback path.  For zero-copy MAP_SHARED
+     * over real SST file pages, inject a SstMapFn via setSstMapFn() or use
+     * buildFromFd() when a backing file descriptor is available.
      */
     [[nodiscard]] static std::unique_ptr<TensorMmapBridge>
     buildFromTrain(const storage::TTTrain& train);
+
+    /**
+     * @brief Build a bridge using MAP_SHARED on a backing file descriptor.
+     *
+     * When @p fd is a valid open file descriptor (≥ 0) and the platform
+     * supports mmap(MAP_SHARED), each TT-core region is mapped directly from
+     * the file at the given @p byte_offset without any memcpy.  This is the
+     * production zero-copy path for SST-resident TT-trains.
+     *
+     * Ownership: the caller retains ownership of @p fd; the bridge does not
+     * close it.  Regions mapped with MAP_SHARED are tracked as
+     * `externally_owned = true` (the destructor calls munmap but NOT close).
+     *
+     * PERMANENT FALLBACK NOTE:
+     * When @p fd < 0, or when the platform does not support mmap(MAP_SHARED),
+     * the call transparently falls back to buildFromTrain(train) (MAP_ANONYMOUS
+     * + memcpy).
+     *
+     * @param train        Decomposed TT-train whose float data populates the map.
+     * @param fd           Open read-only file descriptor for the backing SST file.
+     *                     Pass -1 to always use the MAP_ANONYMOUS fallback.
+     * @param byte_offset  Byte offset inside @p fd where the TT data starts.
+     */
+    [[nodiscard]] static std::unique_ptr<TensorMmapBridge>
+    buildFromFd(const storage::TTTrain& train, int fd, std::size_t byte_offset = 0);
 
 public:
     // ─── Bridge injection API (STUB #270) ────────────────────────────────────

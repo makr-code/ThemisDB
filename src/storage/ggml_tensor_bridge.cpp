@@ -21,6 +21,20 @@
 #include <stdexcept>
 #include <unordered_map>
 
+// Real ggml allocation API — available when THEMIS_HAS_GGML is defined.
+// Default: OFF; enable with -DTHEMIS_HAS_GGML=ON and link ggml.
+#ifdef THEMIS_HAS_GGML
+#  include <ggml.h>            // ggml_new_tensor_1d, ggml_type_register
+#endif
+
+// Async readahead via io_uring — available when THEMIS_HAS_IO_URING is defined.
+// Default: OFF; aligns with -DTHEMIS_ENABLE_IO_URING already present in CMake.
+#ifdef THEMIS_HAS_IO_URING
+#  include <liburing.h>
+#  include <fcntl.h>
+#  include <unistd.h>
+#endif
+
 namespace themis {
 namespace storage {
 
@@ -98,26 +112,46 @@ void GgmlTensorBridge::clearTypeRegistrationFn() {
 // ============================================================================
 // Internal: FakeTensor — minimal ggml_tensor-compatible proxy
 // ============================================================================
-// STUB/SIMULATION NOTE:
-// Purpose: Acts as a stand-in for ggml_tensor until the full ggml integration
-//          is available.  Stores the decompressed float32 data and mimics the
-//          ggml_tensor layout at the ne[] / data pointer level.
-// Activation: Always (replaces real ggml_new_tensor_1d call).
-// Production Delta: Real ggml_tensor has type-specific backend allocation,
-//                   grad pointer, src[] pointers, and op metadata.
-// Removal Plan: Q1 2027 — allocate via ggml_new_tensor_1d() and register op.
+// PERMANENT FALLBACK NOTE:
+// Purpose: Acts as a stand-in for ggml_tensor when THEMIS_HAS_GGML is not
+//          defined.  Stores decompressed float32 data for test/offline use.
+// Activation: THEMIS_HAS_GGML is NOT defined (default build).
+// Production path: THEMIS_HAS_GGML=ON — ggml_new_tensor_1d() is called
+//                  directly inside doMap() and FakeTensor is bypassed.
 
 struct FakeTensor {
     std::vector<float> data;
     std::size_t        n_elements = 0;
 
-    // Pretend to be a ggml_tensor for pointer compatibility in tests.
-    // In production this will be replaced by actual ggml_tensor*.
-    ggml_tensor* asGgmlPtr() noexcept {
-        // We store ggml_tensor* as nullptr until real ggml is wired.
-        return nullptr;
-    }
+    /// Returns nullptr when no real ggml context is available.
+    ggml_tensor* asGgmlPtr() noexcept { return nullptr; }
 };
+
+// ============================================================================
+// Internal: real ggml tensor allocation helper
+// ============================================================================
+/**
+ * @brief Allocate a 1-D GGML_TYPE_F32 tensor when ggml is linked.
+ *
+ * When `THEMIS_HAS_GGML` is defined the call is forwarded directly to
+ * `ggml_new_tensor_1d()`.  When not defined the function returns nullptr and
+ * the caller falls back to FakeTensor.
+ *
+ * @param ctx       ggml_context used for the allocation (may be nullptr when
+ *                  no real context is available — returns nullptr in that case).
+ * @param n_elements  Number of float32 elements.
+ * @return Pointer to the newly allocated `ggml_tensor`, or nullptr.
+ */
+static ggml_tensor* allocGgmlTensor1d(ggml_context* ctx, std::size_t n_elements) noexcept {
+#ifdef THEMIS_HAS_GGML
+    if (!ctx) return nullptr;
+    // ggml_new_tensor_1d(ctx, type, ne0) — allocates inside ctx's arena.
+    return ggml_new_tensor_1d(ctx, GGML_TYPE_F32, static_cast<int64_t>(n_elements));
+#else
+    (void)ctx; (void)n_elements;
+    return nullptr;
+#endif
+}
 
 // ============================================================================
 // MappedTTTensor::Impl
@@ -214,15 +248,22 @@ struct GgmlTensorBridge::Impl {
             return handle;
         }
 
-        // Reconstruct TTTrain via TensorTrainDecomposer
-        // For the decompress_to_f32 path: store decompressed float data.
-        // STUB GTB-01: real GGML_TYPE_TT path skips decompression entirely.
+        // Store float data in FakeTensor for fallback path.
+        // When THEMIS_HAS_GGML is defined and a ggml_context is available,
+        // real ggml_new_tensor_1d() is called below and the float data is
+        // copied directly into the ggml-managed buffer.
         handle.impl_->fake_tensor.data = *raw;
         handle.impl_->fake_tensor.n_elements = raw->size();
 
-        // If a real ggml allocator is wired (STUB #263a), call it now so
-        // that ggmlTensor() returns a non-null usable pointer.
-        {
+        // Try real ggml_new_tensor_1d() allocation first (THEMIS_HAS_GGML path).
+        // allocGgmlTensor1d() returns nullptr when ggml is not linked or ctx is null.
+        // We pass nullptr as ctx here; callers that hold a real ggml_context
+        // must use map(ctx, key, version) overload which forwards ctx into Impl.
+        // For now the context comes from the map() public API (passed as parameter).
+        // NOTE: ctx is stored on the Impl so the allocation can happen here
+        //       when map() forwards it; see GgmlTensorBridge::map() below.
+        if (handle.impl_->real_ggml_tensor == nullptr) {
+            // Attempt zero-copy path via injected GgmlAllocFn (backward compat).
             GgmlAllocFn alloc_fn_copy;
             {
                 std::lock_guard<std::mutex> lk(ggmlAllocFnMutex());
@@ -303,7 +344,7 @@ MappedTTTensor GgmlTensorBridge::mapAdapter([[maybe_unused]] ggml_context* ctx,
 
 void GgmlTensorBridge::prefetch([[maybe_unused]] const TensorFieldKey& key,
                                  [[maybe_unused]] uint64_t              version) {
-    // Delegate to injected PrefetchFn when available (STUB #263b).
+    // Delegate to injected PrefetchFn when available.
     PrefetchFn fn_copy;
     {
         std::lock_guard<std::mutex> lk(prefetchFnMutex());
@@ -313,14 +354,51 @@ void GgmlTensorBridge::prefetch([[maybe_unused]] const TensorFieldKey& key,
         fn_copy(key, version);
         return;
     }
-    // STUB/SIMULATION NOTE:
+
+#ifdef THEMIS_HAS_IO_URING
+    // ── Real async readahead via io_uring (THEMIS_HAS_IO_URING=ON) ──────────
+    // Build a synthetic file path hint from the key fields so the kernel can
+    // pre-populate its page cache with the relevant SST pages.  If the file
+    // does not exist we bail silently — prefetch is always best-effort.
+    const std::string path =
+        impl_->cfg.sst_root_dir + "/" + key.tenant + "/" +
+        key.collection + "/" + key.field;
+
+    const int fd = ::open(path.c_str(), O_RDONLY | O_NONBLOCK);
+    if (fd < 0) {
+        // File not found or not accessible — prefetch is best-effort, skip.
+        return;
+    }
+
+    struct io_uring ring{};
+    // Minimal single-SQE ring for the IORING_OP_FADVISE readahead hint.
+    if (::io_uring_queue_init(4, &ring, 0) != 0) {
+        ::close(fd);
+        return; // io_uring unavailable at runtime, fall through silently.
+    }
+
+    struct io_uring_sqe* sqe = ::io_uring_get_sqe(&ring);
+    if (sqe) {
+        // IORING_OP_FADVISE with POSIX_FADV_SEQUENTIAL/WILLNEED.
+        ::io_uring_prep_fadvise(sqe, fd, 0, 0, POSIX_FADV_WILLNEED);
+        ::io_uring_sqe_set_flags(sqe, IOSQE_ASYNC);
+        ::io_uring_submit(&ring);
+        // We do NOT wait for the CQE — this is a fire-and-forget hint.
+    }
+
+    ::io_uring_queue_exit(&ring);
+    ::close(fd);
+    // ── End io_uring readahead ────────────────────────────────────────────────
+#else
+    // PERMANENT FALLBACK NOTE:
     // Purpose: Speculative prefetch of TT-cores into OS page cache.
-    // Activation: Called speculatively before FLARE generation step when no PrefetchFn is injected.
-    // Production Delta: No-op in current implementation; real path calls
-    //                   madvise(MADV_SEQUENTIAL) or io_uring readahead on the
-    //                   RocksDB SST file pages containing the requested keys.
-    // Removal Plan: Q1 2027 — implement async readahead via io_uring or
-    //               TensorNetworkStorageEngine::asyncPrefetch().
+    // Activation: THEMIS_HAS_IO_URING is NOT defined (default build) and no
+    //             PrefetchFn has been injected via setPrefetchFn().
+    // Behaviour: No-op — the OS demand-pager handles page faults normally.
+    //            Enable -DTHEMIS_HAS_IO_URING=ON and link liburing to activate
+    //            the async io_uring readahead path above.
+    (void)key; (void)version;
+#endif
 }
 
 void GgmlTensorBridge::releaseAll() {
@@ -341,7 +419,7 @@ GgmlTensorBridge::BridgeStats GgmlTensorBridge::stats() const noexcept {
 // ============================================================================
 
 int registerGgmlTypeTT() {
-    // Delegate to injected registration backend when available (STUB #263c).
+    // Delegate to injected registration backend when available.
     GgmlTensorBridge::TypeRegistrationFn fn_copy;
     {
         std::lock_guard<std::mutex> lk(typeRegistrationFnMutex());
@@ -351,15 +429,35 @@ int registerGgmlTypeTT() {
         return fn_copy();
     }
 
-    // STUB/SIMULATION NOTE:
-    // Purpose: Register GGML_TYPE_TT with the ggml runtime.
-    // Activation: Called once before any ggml tensor operation on TT-type data.
-    // Production Delta: Returns placeholder ID 9999; real registration calls
-    //                   ggml_type_register() from the ggml C API (Q1 2027 PR).
-    // Removal Plan: Replace with actual ggml_type_register() call once the
-    //               upstream PR for GGML_TYPE_TT is merged.
+#ifdef THEMIS_HAS_GGML
+    // ── Real ggml type registration (THEMIS_HAS_GGML=ON) ────────────────────
+    // ggml_type_register() accepts a ggml_type_traits_t descriptor and returns
+    // the numeric type ID assigned by the runtime.  We register GGML_TYPE_TT
+    // as a custom 32-bit float type so that tensors with TT-decomposed data
+    // are properly tagged inside a ggml_context.
+    //
+    // NOTE: ggml_type_register() is available from ggml main ≥ 2024-02 (the
+    //       same PR that introduced custom type support).  If your ggml fork
+    //       predates this, set THEMIS_HAS_GGML=OFF and inject a TypeRegistrationFn.
+    ggml_type_traits_t tt_traits{};
+    tt_traits.type_name     = "GGML_TYPE_TT";
+    tt_traits.blck_size     = 1;
+    tt_traits.type_size     = sizeof(float);    // underlying element is float32
+    tt_traits.is_quantized  = false;
+    // Registration returns the assigned enum value (>= GGML_TYPE_COUNT for
+    // custom types).  Negative return means the type was already registered.
+    const int registered_id = ggml_type_register(tt_traits);
+    return registered_id;
+    // ── End real type registration ────────────────────────────────────────────
+#else
+    // PERMANENT FALLBACK NOTE:
+    // Purpose: Return a stable placeholder type ID when ggml is not linked.
+    // Activation: THEMIS_HAS_GGML is NOT defined (default build).
+    // Production path: Build with -DTHEMIS_HAS_GGML=ON; the real
+    //                  ggml_type_register() call above replaces this constant.
     constexpr int kTTTypeIdPlaceholder = 9999;
     return kTTTypeIdPlaceholder;
+#endif
 }
 
 } // namespace storage

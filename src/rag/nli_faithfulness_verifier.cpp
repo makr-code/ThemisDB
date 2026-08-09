@@ -20,6 +20,13 @@
 #include <chrono>
 #include <iomanip>
 
+// Real ONNX Runtime NLI inference — available when THEMIS_HAS_NLI is defined.
+// Enable with -DTHEMIS_HAS_NLI=ON and link onnxruntime.
+// Default: OFF — the heuristic fallback is used.
+#ifdef THEMIS_HAS_NLI
+#  include <onnxruntime_cxx_api.h>
+#endif
+
 // Regex patterns compiled once at program startup to avoid per-call overhead.
 // Positive-complement phrases that begin with a negation word but express
 // addition or intensification rather than logical contradiction.

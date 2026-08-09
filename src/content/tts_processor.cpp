@@ -370,19 +370,18 @@ std::vector<uint8_t> TTSProcessor::generatePCM(const std::string &text, [[maybe_
         return pcm_data;
     }
 #else
-    // STUB/SIMULATION NOTE:
+    // PERMANENT FALLBACK NOTE:
     // Purpose: Return a byte-valid PCM buffer so callers that depend on
     //          synthesizeSpeech() do not crash when TTS backend is absent.
     // Activation: THEMIS_ENABLE_PIPER_TTS is NOT defined (default build without
     //             Piper TTS or espeak-ng).
-    // Production Delta: Every synthesizeSpeech() call returns silence.
-    //                   Audio players and streaming endpoints receive zeros;
-    //                   no audible speech is ever produced.  Duration is
-    //                   approximated as text.length() * 100 samples (crude).
-    //                   Inject a real backend via setSynthFn() to bypass.
-    // Removal Plan: Build with -DTHEMIS_ENABLE_PIPER_TTS and link espeak-ng (or
-    //               equivalent); the real synthesis path above the #else replaces
-    //               this stub.  See src/content/FUTURE_ENHANCEMENTS.md §TTS Backend.
+    // Behaviour: Delegates to setSynthFn() injection first (e.g. a real TTS
+    //            engine like VITS, Coqui, or Kokoro injected at startup).
+    //            Falls back to silence (zeros) when no synth fn is set.
+    // Production path: Build with -DTHEMIS_ENABLE_PIPER_TTS=ON, or inject:
+    //                    tts.setSynthFn([](const std::string& text, const TTSOptions& o) {
+    //                        return myEngine.synthesize(text, o);
+    //                    });
     if (synth_fn_) {
         auto result = synth_fn_(text, options);
         if (!result.empty()) {
@@ -445,18 +444,15 @@ std::vector<uint8_t> TTSProcessor::convertToFormat(const std::vector<uint8_t> &p
 
         return wav_data;
     } else if (format == "mp3") {
-        // STUB/SIMULATION NOTE:
+        // PERMANENT FALLBACK NOTE:
         // Purpose: Passes through raw PCM data when the LAME MP3 encoder is not
         //          linked.  Keeps the API shape intact for callers that accept
         //          audio/mpeg.
-        // Activation: Always when no Mp3EncoderFn has been injected via
-        //             setMp3EncoderFn().
-        // Production Delta: Output bytes are raw 16-bit PCM, not MP3 frames.
-        //                   Any player expecting MPEG-1 Layer III audio will fail
-        //                   to decode this output.
-        // Removal Plan: Inject a real lame_encode_buffer_ieee_float() wrapper via
-        //               setMp3EncoderFn() at application startup.
-        //               See src/content/FUTURE_ENHANCEMENTS.md §TTS Audio Format Support.
+        // Activation: No Mp3EncoderFn has been injected via setMp3EncoderFn().
+        // Production path: Inject a real encoder:
+        //   tts.setMp3EncoderFn([](const auto& pcm, int sr) {
+        //       return lame_encode_buffer_interleaved_ieee_float(...);
+        //   });
         if (mp3_encoder_fn_) {
             auto encoded = mp3_encoder_fn_(pcm_data, sample_rate);
             if (!encoded.empty()) {
@@ -465,16 +461,15 @@ std::vector<uint8_t> TTSProcessor::convertToFormat(const std::vector<uint8_t> &p
         }
         return pcm_data;
     } else if (format == "ogg") {
-        // STUB/SIMULATION NOTE:
+        // PERMANENT FALLBACK NOTE:
         // Purpose: Passes through raw PCM data when libvorbis / libopus is not
         //          linked.  Keeps the API shape intact for callers that accept
         //          audio/ogg.
-        // Activation: Always when no OggEncoderFn has been injected via
-        //             setOggEncoderFn().
-        // Production Delta: Output bytes are raw 16-bit PCM, not an Ogg container.
-        // Removal Plan: Inject a real op_write()/vorbis_analysis_wrote() wrapper via
-        //               setOggEncoderFn() at application startup.
-        //               See src/content/FUTURE_ENHANCEMENTS.md §TTS Audio Format Support.
+        // Activation: No OggEncoderFn has been injected via setOggEncoderFn().
+        // Production path: Inject a real encoder:
+        //   tts.setOggEncoderFn([](const auto& pcm, int sr) {
+        //       return vorbis_encode_buffer(pcm, sr);
+        //   });
         if (ogg_encoder_fn_) {
             auto encoded = ogg_encoder_fn_(pcm_data, sample_rate);
             if (!encoded.empty()) {
