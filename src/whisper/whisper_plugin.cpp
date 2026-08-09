@@ -194,67 +194,67 @@ audio::LanguageDetectionResult WhisperPlugin::detectLanguage(
         std::lock_guard<std::mutex> lock(transcriber_mutex_);
         result = transcriber_->detectLanguage(pcm, sample_rate);
     }
-
-    DiarisationResult WhisperPlugin::transcribeWithDiarisation(
-            const std::vector<float>& pcm_samples,
-            float sample_rate,
-            const DiarisationConfig& cfg) {
-        DiarisationResult result;
-        result.plugin_version = getPluginVersion();
-        result.model_id = getModelId();
-        result.ingestion_source_type = "WHISPER";
-        result.generation_timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(
-            std::chrono::system_clock::now().time_since_epoch()).count();
-
-        if (!initialized_.load(std::memory_order_acquire)) {
-            error_count_.fetch_add(1, std::memory_order_relaxed);
-            result.success = false;
-            std::string last_error;
-            {
-                std::lock_guard<std::mutex> lk(error_mutex_);
-                last_error = last_error_message_;
-            }
-            result.error_message = last_error.empty()
-                ? "WhisperPlugin not initialized"
-                : "WhisperPlugin not initialized: " + last_error;
-            return result;
-        }
-
-        try {
-            DiarisationConfig effective_cfg = cfg;
-            if (effective_cfg.min_speakers < 1) {
-                effective_cfg.min_speakers = 1;
-            }
-            if (effective_cfg.max_speakers < effective_cfg.min_speakers) {
-                effective_cfg.max_speakers = effective_cfg.min_speakers;
-            }
-            std::lock_guard<std::mutex> lock(transcriber_mutex_);
-            result = transcriber_->diarize(pcm_samples, sample_rate, effective_cfg);
-            result.plugin_version = getPluginVersion();
-            result.model_id = getModelId();
-            result.ingestion_source_type = "WHISPER";
-            if (result.generation_timestamp == 0) {
-                result.generation_timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(
-                    std::chrono::system_clock::now().time_since_epoch()).count();
-            }
-            return result;
-        } catch (const std::exception& ex) {
-            {
-                std::lock_guard<std::mutex> lk(error_mutex_);
-                last_error_message_ = ex.what();
-            }
-            error_count_.fetch_add(1, std::memory_order_relaxed);
-            result.success = false;
-            result.error_message = ex.what();
-            return result;
-        }
-    }
     // Apply language-confidence threshold: return "unknown" when below threshold.
     if (cfg_.language_confidence_threshold > 0.0f &&
         result.confidence < cfg_.language_confidence_threshold) {
         return {"unknown", result.confidence};
     }
     return result;
+}
+
+DiarisationResult WhisperPlugin::transcribeWithDiarisation(
+        const std::vector<float>& pcm_samples,
+        float sample_rate,
+        const DiarisationConfig& cfg) {
+    DiarisationResult result;
+    result.plugin_version = getPluginVersion();
+    result.model_id = getModelId();
+    result.ingestion_source_type = "WHISPER";
+    result.generation_timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+
+    if (!initialized_.load(std::memory_order_acquire)) {
+        error_count_.fetch_add(1, std::memory_order_relaxed);
+        result.success = false;
+        std::string last_error;
+        {
+            std::lock_guard<std::mutex> lk(error_mutex_);
+            last_error = last_error_message_;
+        }
+        result.error_message = last_error.empty()
+            ? "WhisperPlugin not initialized"
+            : "WhisperPlugin not initialized: " + last_error;
+        return result;
+    }
+
+    try {
+        DiarisationConfig effective_cfg = cfg;
+        if (effective_cfg.min_speakers < 1) {
+            effective_cfg.min_speakers = 1;
+        }
+        if (effective_cfg.max_speakers < effective_cfg.min_speakers) {
+            effective_cfg.max_speakers = effective_cfg.min_speakers;
+        }
+        std::lock_guard<std::mutex> lock(transcriber_mutex_);
+        result = transcriber_->diarize(pcm_samples, sample_rate, effective_cfg);
+        result.plugin_version = getPluginVersion();
+        result.model_id = getModelId();
+        result.ingestion_source_type = "WHISPER";
+        if (result.generation_timestamp == 0) {
+            result.generation_timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::system_clock::now().time_since_epoch()).count();
+        }
+        return result;
+    } catch (const std::exception& ex) {
+        {
+            std::lock_guard<std::mutex> lk(error_mutex_);
+            last_error_message_ = ex.what();
+        }
+        error_count_.fetch_add(1, std::memory_order_relaxed);
+        result.success = false;
+        result.error_message = ex.what();
+        return result;
+    }
 }
 
 // ── transcribeStream ─────────────────────────────────────────────────────────
