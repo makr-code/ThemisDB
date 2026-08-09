@@ -25,6 +25,7 @@
 #include <map>
 #include <chrono>
 #include <memory>
+#include <mutex>
 #include <optional>
 
 namespace themis {
@@ -583,6 +584,171 @@ MetaVerdictThreshold(double score) noexcept {
     if (score > 0.40) return MetaVerdict::ConvergenceVerdict::CONTESTED;
     return MetaVerdict::ConvergenceVerdict::DISSENT;
 }
+
+// ============================================================================
+// EU AI Act Art. 13/22 Audit Infrastructure (Target: Q4 2026)
+// ============================================================================
+
+/**
+ * @brief Error codes for audit-log operations.
+ *
+ * Distinct from EthicsErrorCode to allow precise pattern matching on
+ * audit-specific failure modes (EU AI Act Art. 13 immutability contract).
+ *
+ * @since LDM-6 (Target: Q4 2026)
+ */
+enum class AuditError : int {
+    OK                  = 0, ///< No error.
+    IMMUTABLE_VIOLATION = 1, ///< Attempt to modify or delete an already-emitted entry.
+    INDEX_OUT_OF_RANGE  = 2, ///< Provided index exceeds log size.
+};
+
+/**
+ * @brief Structured audit-log entry per discourse round (EU AI Act Art. 13).
+ *
+ * Emitted atomically by DiscourseOrchestrator after each Ebene-1/3 run.
+ * Once appended to EthicsAuditLog, entries MUST NOT be modified (immutability
+ * contract required by Art. 13).
+ *
+ * JSON schema:
+ * @code
+ * {
+ *   "round_id": "<str>",
+ *   "timestamp_utc": "<ISO-8601>",
+ *   "dilemma_hash": "<hex-str>",
+ *   "participating_schools": ["<school_id>", ...],
+ *   "verdict": "<str>",
+ *   "convergence_score": 0.0,
+ *   "norm_citations": ["<norm_ref>", ...]
+ * }
+ * @endcode
+ *
+ * @since LDM-6 (Target: Q4 2026)
+ */
+struct RoundAuditEntry {
+    /// Unique round identifier (monotonically increasing, e.g. "round-001").
+    std::string round_id;
+    /// ISO-8601 UTC timestamp at emission (e.g. "2026-08-09T17:31:17Z").
+    std::string timestamp_utc;
+    /// FNV-1a or SHA-256 hex hash of the dilemma text for cross-reference.
+    std::string dilemma_hash;
+    /// ALL N schools that participated, including those that voted ABSTAIN.
+    std::vector<std::string> participating_schools;
+    /// Dominant verdict as string (e.g. "PROHIBIT", "PERMIT", "ABSTAIN").
+    std::string verdict;
+    /// Convergence score in [0.0, 1.0].
+    double convergence_score{0.0};
+    /// Applicable norm citations (e.g. "GG Art. 1", "EU AI Act Art. 22").
+    std::vector<std::string> norm_citations;
+    /// Chronological index within the log (0-based, set by EthicsAuditLog::append).
+    uint32_t round_index{0};
+};
+
+/**
+ * @brief Append-only, thread-safe audit log for discourse rounds.
+ *
+ * Implements the EU AI Act Art. 13 immutability requirement: entries may only
+ * be appended, never modified or erased after emission. Any attempt to overwrite
+ * or erase an entry returns AuditError::IMMUTABLE_VIOLATION.
+ *
+ * ### Usage
+ * @code
+ * EthicsAuditLog log;
+ * RoundAuditEntry e;
+ * e.round_id = "round-001";
+ * e.verdict  = "PROHIBIT";
+ * log.append(std::move(e));
+ *
+ * auto snapshot = log.exportAuditLog();  // chronological copy
+ * @endcode
+ *
+ * @since LDM-6 (Target: Q4 2026)
+ */
+class EthicsAuditLog {
+public:
+    EthicsAuditLog() = default;
+
+    // Non-copyable; movable.
+    EthicsAuditLog(const EthicsAuditLog&)            = delete;
+    EthicsAuditLog& operator=(const EthicsAuditLog&) = delete;
+    EthicsAuditLog(EthicsAuditLog&&)                 = default;
+    EthicsAuditLog& operator=(EthicsAuditLog&&)      = default;
+
+    /**
+     * @brief Append a new immutable audit entry.
+     *
+     * Sets `entry.round_index` to the current size before insertion.
+     * Thread-safe.
+     *
+     * @param entry  Entry to append (moved into the log).
+     * @return Zero-based index of the newly appended entry.
+     */
+    size_t append(RoundAuditEntry entry) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        entry.round_index = static_cast<uint32_t>(entries_.size());
+        entries_.push_back(std::move(entry));
+        return entries_.size() - 1u;
+    }
+
+    /**
+     * @brief Attempt to overwrite an existing entry.
+     *
+     * Always returns AuditError::IMMUTABLE_VIOLATION — the log is append-only.
+     * This method exists solely to provide an explicit, testable rejection path
+     * for the EU AI Act Art. 13 immutability contract.
+     *
+     * @param index        Ignored (any value).
+     * @param replacement  Ignored.
+     * @return AuditError::IMMUTABLE_VIOLATION unconditionally.
+     */
+    [[nodiscard]] AuditError tryOverwrite(
+        [[maybe_unused]] size_t index,
+        [[maybe_unused]] const RoundAuditEntry& replacement) const noexcept {
+        return AuditError::IMMUTABLE_VIOLATION;
+    }
+
+    /**
+     * @brief Attempt to erase an existing entry.
+     *
+     * Always returns AuditError::IMMUTABLE_VIOLATION — the log is append-only.
+     *
+     * @param index  Ignored (any value).
+     * @return AuditError::IMMUTABLE_VIOLATION unconditionally.
+     */
+    [[nodiscard]] AuditError tryErase(
+        [[maybe_unused]] size_t index) const noexcept {
+        return AuditError::IMMUTABLE_VIOLATION;
+    }
+
+    /**
+     * @brief Export all entries in chronological order (by round_index).
+     *
+     * Returns a value-copy snapshot; callers may not modify the log through
+     * the returned vector.  Thread-safe.
+     *
+     * @return Copy of all audit entries in insertion order.
+     */
+    [[nodiscard]] std::vector<RoundAuditEntry> exportAuditLog() const {
+        std::lock_guard<std::mutex> lock(mutex_);
+        return entries_;
+    }
+
+    /// @return Number of entries in the log.
+    [[nodiscard]] size_t size() const noexcept {
+        std::lock_guard<std::mutex> lock(mutex_);
+        return entries_.size();
+    }
+
+    /// @return True when no entries have been appended yet.
+    [[nodiscard]] bool empty() const noexcept {
+        std::lock_guard<std::mutex> lock(mutex_);
+        return entries_.empty();
+    }
+
+private:
+    mutable std::mutex          mutex_;
+    std::vector<RoundAuditEntry> entries_;
+};
 
 } // namespace ethics
 } // namespace plugins

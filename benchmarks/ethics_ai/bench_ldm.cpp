@@ -11,13 +11,14 @@
  */
 
 // ============================================================================
-// Hard Gates: ethics_ai LDM Release Gates (GATE-EAL-01..06)
+// Hard Gates: ethics_ai LDM Release Gates (GATE-EAL-01..06, GATE-EUAI-AUDIT-01)
 // GATE-EAL-01: BM_LDM_PlanGeneration < 5 ms
 // GATE-EAL-02: BM_LDM_Ebene1_22Schools P95 ≤ 200 ms
 // GATE-EAL-03: BM_LDM_Ebene1_TimeoutFailsafe ≤ 10 ms overhead
 // GATE-EAL-04: BM_LDM_MetaVerdictAssembly ≤ 50 ms
 // GATE-EAL-05: BM_LDM_MirrorSchool_Parallel4 ≤ 200 ms total
 // GATE-EAL-06: BM_LDM_EndToEnd_LAYERED_FAST P95 ≤ 1.2 s
+// GATE-EUAI-AUDIT-01: BM_LDM_AuditLog_Append/1000 ≤5% overhead vs no-audit baseline
 // ============================================================================
 
 #include <benchmark/benchmark.h>
@@ -332,6 +333,92 @@ BENCHMARK(BM_LDM_EndToEnd_LAYERED_FAST)
     ->Unit(benchmark::kMillisecond)
     ->UseRealTime()
     ->Iterations(20);
+
+// ============================================================================
+// BM_LDM_AuditLog_Append — GATE-EUAI-AUDIT-01
+// Art. 13 audit export overhead ≤5% regression vs no-audit baseline.
+// Measures per-entry append latency for EthicsAuditLog (append-only).
+// CPU-bound (pure in-memory) → default CpuTime() timing.
+// ============================================================================
+
+static void BM_LDM_AuditLog_Append(benchmark::State& state) {
+    using namespace themis::plugins::ethics;
+
+    const int kEntriesPerIter = static_cast<int>(state.range(0));
+
+    // Pre-build a template entry to avoid string allocation overhead inside
+    // the measurement loop.
+    RoundAuditEntry tmpl;
+    tmpl.timestamp_utc         = "2026-08-09T17:00:00Z";
+    tmpl.dilemma_hash          = "benchmarkdilemma0123456789abcdef";
+    tmpl.participating_schools = {
+        "kant", "rawls", "utilitarianism", "islamische_ethik",
+        "konfuzianismus", "buddhistische_ethik"
+    };
+    tmpl.verdict           = "PROHIBIT";
+    tmpl.convergence_score = 0.85;
+    tmpl.norm_citations    = {"GG Art. 1", "EU AI Act Art. 22"};
+
+    for (auto _ : state) {
+        EthicsAuditLog log;
+        for (int i = 0; i < kEntriesPerIter; ++i) {
+            RoundAuditEntry e = tmpl;
+            e.round_id = "round-" + std::to_string(i);
+            benchmark::DoNotOptimize(log.append(std::move(e)));
+        }
+        // Export snapshot (models Art. 13 audit export path)
+        auto snapshot = log.exportAuditLog();
+        benchmark::DoNotOptimize(snapshot);
+    }
+    state.SetItemsProcessed(
+        static_cast<int64_t>(state.iterations()) *
+        static_cast<int64_t>(kEntriesPerIter));
+}
+
+// 100 entries per iteration — representative of a batch decision session.
+BENCHMARK(BM_LDM_AuditLog_Append)
+    ->Arg(100)
+    ->Unit(benchmark::kMicrosecond);
+
+// ============================================================================
+// BM_LDM_AuditLog_ExportOnly — GATE-EUAI-AUDIT-01 (export-only path)
+// Measures exportAuditLog() latency on a pre-populated log (1K entries).
+// Gate: export overhead ≤5% regression vs no-export BM_LDM_EndToEnd_LAYERED_FAST.
+// CPU-bound → default CpuTime() timing.
+// ============================================================================
+
+static void BM_LDM_AuditLog_ExportOnly(benchmark::State& state) {
+    using namespace themis::plugins::ethics;
+
+    const int kLogSize = static_cast<int>(state.range(0));
+
+    // Pre-populate log outside measurement loop
+    EthicsAuditLog log;
+    for (int i = 0; i < kLogSize; ++i) {
+        RoundAuditEntry e;
+        e.round_id              = "r" + std::to_string(i);
+        e.timestamp_utc         = "2026-08-09T17:00:00Z";
+        e.dilemma_hash          = "hash" + std::to_string(i);
+        e.participating_schools = {"kant", "rawls", "utilitarianism"};
+        e.verdict               = (i % 2 == 0) ? "PROHIBIT" : "PERMIT";
+        e.convergence_score     = 0.7;
+        e.norm_citations        = {"EU AI Act Art. 13"};
+        log.append(std::move(e));
+    }
+
+    for (auto _ : state) {
+        auto snapshot = log.exportAuditLog();
+        benchmark::DoNotOptimize(snapshot);
+    }
+    state.SetItemsProcessed(
+        static_cast<int64_t>(state.iterations()) *
+        static_cast<int64_t>(kLogSize));
+}
+
+// 1 000-entry log — Art. 13 compliance target: ≤5% overhead at 1K decisions/s
+BENCHMARK(BM_LDM_AuditLog_ExportOnly)
+    ->Arg(1000)
+    ->Unit(benchmark::kMicrosecond);
 
 // ============================================================================
 
