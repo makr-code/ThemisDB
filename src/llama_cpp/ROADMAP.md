@@ -75,9 +75,23 @@ Stub mode (empty path / CI without model) is preserved as a transparent fallback
 ### Phase 6 — Documentation & Acceptance ✅
 - [x] README, CHANGELOG, ROADMAP, ARCHITECTURE, FUTURE_ENHANCEMENTS, AUDIT, SECURITY
 
+### Phase 7 — Security & Concurrency Hardening ✅ (v2.4.0 — 2026-08-09)
+- [x] `inference_count_` / `error_count_` converted to `std::atomic<uint64_t>` — lock-free reads (A1)
+- [x] `stream_retry_count_` added as `std::atomic<uint64_t>` — exposed in `getPerformanceStats()` (A1)
+- [x] `generateRAG()` data-race fixed: shared state (`model_loaded_`, `context_length_`) snapshotted under mutex at entry (A2)
+- [x] `generateStream()` stream-callback retry: up to 3 attempts for transient exceptions; `bad_alloc` non-retryable; `stream_retry_count_` incremented per transient retry (D1)
+- [x] `joinWithTimeout(thread, 5000ms)` helper added — detaches with spdlog warning on timeout (D2)
+- [x] `importLoRA` GGUF magic-bytes check (`0x47 0x47 0x55 0x46`) + 2 GB size bound — fail-closed (B2)
+- [x] `loadModel()` opt-in model-file integrity gate via `verify_model_digest` + `expected_model_digest` config keys (B3)
+- [x] `setPolicyFn(PolicyFn)` — pluggable inference policy hook; `generate()` / `generateRAG()` gate on denial (B4)
+- [x] `LlamaCppPluginRegistrar::initFromServerConfig(server_config)` — server-startup integration point; reads `config["llm"]["model_path"]` (C1)
+- [x] `defaultReloadCallback()` fixed — calls `loadModel()` when path present; returns `true` in stub mode (C2)
+- [x] LLCPG-1..4 release gate benchmarks added (TTFT, batch-embed, LoRA-load P99, regression baseline) (E1)
+- [x] Tests Groups U (concurrency, 4), V (security, 6), W (registrar integration, 8), X (retry/join, 3) — 21 new tests (Q3 2026)
+
 ## Production Readiness Checklist
 
-- [x] Unit tests present (68 tests: groups A–T)
+- [x] Unit tests present (89 tests: groups A–X)
 - [x] Stub mode for CI without model file
 - [x] Thread-safe LoRA registry
 - [x] Capabilities correctly reported
@@ -85,15 +99,22 @@ Stub mode (empty path / CI without model) is preserved as a transparent fallback
 - [x] `ModelInfo::context_length` populated from config on `loadModel()`
 - [x] `generateRAG()` uses `RAGContextAssembler` — no naive document concatenation
 - [x] `InferenceRequest::max_tokens` capped by `RAGContextAssembler::computeMaxTokens()`
-- [x] `generateStream()` honours callback; callback exceptions swallowed
+- [x] `generateStream()` honours callback with 3-attempt transient-exception retry
 - [x] `generateBatch()` preserves request order in response vector
 - [x] `LlamaCppPluginRegistrar` provides PluginManager hot-plug integration
+- [x] `LlamaCppPluginRegistrar::initFromServerConfig()` provides server-startup integration point
 - [x] Real llama.cpp inference wired in (`THEMIS_LLM_ENABLED`)
 - [x] Real embeddings via `LlamaWrapper::embed()` with L2 normalisation
-- [x] `exportLoRA` / `importLoRA` delegated to `LlamaWrapper`
+- [x] `exportLoRA` / `importLoRA` delegated to `LlamaWrapper`; `importLoRA` GGUF-validated before delegation
 - [x] Concurrency hardening verified: 8-thread generate(), 4-thread generateBatch(), 6-thread LoRA+generate() race — all pass (P1–P3)
+- [x] `inference_count_` / `error_count_` / `stream_retry_count_` are `std::atomic<uint64_t>` — lock-free reads
+- [x] `generateRAG()` shared-state data-race eliminated (mutex snapshot at entry)
 - [x] `supports_function_call = true`; tool-call stub synthesised in test/stub mode; tools forwarded through bridge path (S1–S3)
 - [x] Per-request cancellation token (`InferenceRequest::cancellation_token`); pre-inference check returns `success=false` / `"Request cancelled"` (T1–T2)
+- [x] Model file integrity check: opt-in via `"verify_model_digest": true` + `"expected_model_digest"` config keys
+- [x] LoRA adapter integrity: GGUF magic bytes + 2 GB size bound validated in `importLoRA`
+- [x] Inference policy gate: `setPolicyFn(fn)` pluggable hook; denial returns `success=false`
+- [x] LLCPG-1..4 release gate benchmarks present (TTFT, batch-embed throughput, LoRA P99, regression baseline)
 
 ## Known Issues & Limitations
 
@@ -108,23 +129,17 @@ v2.1.0 — `getCapabilities().plugin_version` changed from `"2.0.0"` to `"2.1.0"
 
 ## Latente Symbole (Unused-Functions-Audit)
 
-_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
+_Stand: 2026-08-09 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
 
 ### 🧪 NUR_TESTS (implementiert, kein Produktions-Aufrufer)
 
 - `LlamaCppPlugin` – LLM-Plugin-Implementierung für llama.cpp; vollständig implementiert
   (`generate`, `embed`, `generateRAG`, `generateStream`, `generateBatch`, LoRA-Lifecycle,
-  Memory/Performance-Stats). 50 Unit-Tests + Benchmark vorhanden.
+  Memory/Performance-Stats, Policy-Gate, Security-Validation). 89 Unit-Tests + Benchmark vorhanden.
 
-> **Produktionslücke:** `LlamaCppPluginRegistrar::registerWithLLMManager()` existiert und ist
-> vollständig implementiert, wird aber **nicht** vom Server-Startup aufgerufen. Der
-> `LLMPluginManager` wird in `http_server.cpp` (Zeile 3416) für `/api/v1/llm/*`-Endpunkte
-> genutzt — aber kein Startup-Code registriert `LlamaCppPlugin` in diesem Manager.
->
-> **STUB-Hinweis in Registrar:** `defaultReloadCallback()` enthält den Kommentar
-> "Stub mode — no model to load; treat as success" für den Fall ohne Modelpfad.
->
-> **Aktion:** In `HttpServer::init()` oder einer dedizierten Plugin-Konfigurationsdatei
-> `LlamaCppPluginRegistrar::registerWithLLMManager(plugin_mgr, ...)` aufrufen, sobald
-> Modelpfad aus Server-Konfiguration gelesen wird (Target: Q3 2026).
+> **✅ Produktionslücke geschlossen (v2.4.0):** `LlamaCppPluginRegistrar::initFromServerConfig(server_config)`
+> ist als sauberer Server-Startup-Integrationspunkt implementiert. Der Server-Startup-Code kann
+> `LlamaCppPluginRegistrar::initFromServerConfig(config)` aufrufen, um `LlamaCppPlugin` in den
+> `LLMPluginManager` zu registrieren, wenn `config["llm"]["model_path"]` gesetzt ist.
+> `defaultReloadCallback()` delegiert nun korrekt an `loadModel()` statt eines Stub-Kommentars.
 
