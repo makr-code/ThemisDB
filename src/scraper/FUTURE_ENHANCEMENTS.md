@@ -27,10 +27,10 @@
 
 ## Implementation Notes
 
-- tighten parity between fetch policy decisions and extraction readiness.
-- standardize diagnostics for crawler/evaluator/writer incident classes.
-- expand resilience tests for prolonged multi-source ingest traffic.
-- broaden benchmark depth for dedicated scraper pipeline paths.
+- [x] tighten parity between fetch policy decisions and extraction readiness — evidence: include/scraper/scraper_render_contract.h, include/scraper/scraper_burst_controller.h
+- [x] standardize diagnostics for crawler/evaluator/writer incident classes — evidence: include/scraper/scraper_diagnostics.h
+- [~] expand resilience tests for prolonged multi-source ingest traffic — evidence: tests/scraper/test_scraper_burst_hardening_focused.cpp (SCR-17..20)
+- [~] broaden benchmark depth for dedicated scraper pipeline paths — evidence: benchmarks/scraper/bench_scraper_pipeline_depth.cpp (pending)
 
 ## Test Strategy
 

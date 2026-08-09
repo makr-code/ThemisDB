@@ -10,16 +10,16 @@ Production-capable scraper runtime exists for source seeding, fetch/render, resu
 
 ## In Progress
 
-- [~] hardening fetch/parse/evaluate edge behavior under noisy source content (Target: Q3 2026)
-- [~] improving diagnostics consistency across crawl and write-path fault classes (Target: Q3 2026)
-- [~] stabilizing benchmark-backed release guardrails for extraction-oriented scraper paths (Target: Q3 2026)
+- [x] hardening fetch/parse/evaluate edge behavior under noisy source content (Target: Q3 2026) — evidence: include/scraper/scraper_diagnostics.h, include/scraper/scraper_burst_controller.h
+- [x] improving diagnostics consistency across crawl and write-path fault classes (Target: Q3 2026) — evidence: include/scraper/scraper_diagnostics.h
+- [x] stabilizing benchmark-backed release guardrails for extraction-oriented scraper paths (Target: Q3 2026) — evidence: benchmarks/scraper/bench_scraper_release_gates.cpp
 
 ## Planned Features
 
 ### Short-term (3-6 months)
-- [ ] tighten deterministic behavior under sustained multi-source crawling bursts (Target: Q4 2026)
-- [ ] expand stress coverage for JS-render and API pagination edge scenarios (Target: Q4 2026)
-- [ ] improve operator-facing diagnostics for scrape-run incident triage (Target: Q4 2026)
+- [~] tighten deterministic behavior under sustained multi-source crawling bursts (Target: Q4 2026) — evidence: include/scraper/scraper_burst_controller.h
+- [~] expand stress coverage for JS-render and API pagination edge scenarios (Target: Q4 2026) — evidence: include/scraper/scraper_render_contract.h
+- [~] improve operator-facing diagnostics for scrape-run incident triage (Target: Q4 2026) — evidence: include/scraper/scraper_run_summary.h (pending)
 
 ### Mid-term (6-12 months)
 - [ ] re-baseline p95/p99 envelopes for extraction and write-sensitive paths (Target: Q1 2027)
