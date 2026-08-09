@@ -34,7 +34,9 @@
 #include <cstddef>
 #include <nlohmann/json.hpp>
 
-#ifdef HAVE_BOOST_BEAST
+#if defined(HAVE_BOOST_BEAST) || \
+    (defined(__has_include) && __has_include(<boost/beast/core.hpp>) && \
+     __has_include(<boost/asio/ip/tcp.hpp>) && __has_include(<boost/asio/ssl/stream.hpp>))
 // Boost.Beast for HTTP client
 #include <boost/beast/core.hpp>
 #include <boost/beast/http.hpp>

@@ -58,6 +58,7 @@ foreach(_src IN LISTS TENSOR_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/tensor/compression_strategy.cpp
         )
     endif()
+    set(_focused_timeout 120)
     if("${_stem}" STREQUAL "test_tensor_stress_suite_focused")
         # Stress testing suite for TensorFingerprintGraph concurrent patterns (Block B2)
         target_sources(${_target} PRIVATE
@@ -66,7 +67,7 @@ foreach(_src IN LISTS TENSOR_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/tensor/tensor_error_handling.cpp
         )
         # Long-running tests: allow extended timeout
-        set_tests_properties(${_ctest} PROPERTIES TIMEOUT 300)
+        set(_focused_timeout 300)
     endif()
     if("${_stem}" STREQUAL "test_persistent_tensor_fingerprint_graph")
         target_sources(${_target} PRIVATE
@@ -91,7 +92,7 @@ foreach(_src IN LISTS TENSOR_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/tensor/tensor_error_handling.cpp
         )
         # Extended timeout for comprehensive edge case coverage
-        set_tests_properties(${_ctest} PROPERTIES TIMEOUT 180)
+        set(_focused_timeout 180)
     endif()
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
@@ -153,7 +154,7 @@ foreach(_src IN LISTS TENSOR_MODULE_TEST_SOURCES)
         NAME ${_ctest}
         TARGET ${_target}
         TIER unit
-        TIMEOUT 120
+        TIMEOUT ${_focused_timeout}
         LABELS tensor
     )
 endforeach()
