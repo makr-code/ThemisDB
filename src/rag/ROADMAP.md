@@ -16,7 +16,53 @@ Production-grade RAG runtime with retrieval fusion, context assembly, evaluation
 
 ## Planned Features
 
-### Short-term (3-6 months)
+### Q4 2026 — Advanced Retrieval + LLM-Judge + Evaluation
+
+#### WikiIndexStore Phase B (gate: `THEMIS_WIKI_PHASE_B`)
+- [ ] BM25+ scorer (Robertson & Zaragoza 2009, δ=0.5, k1=1.5, b=0.75) in `WikiIndexStore::query()`; replaces TF-IDF Phase A scorer. (Target: Q4 2026)
+- [ ] HNSW index (M=16, ef_construction=200) for dense embeddings alongside BM25+. (Target: Q4 2026)
+- [ ] RRF fusion (k=60) combining BM25+ and HNSW scores; `WikiIndexStore::query()` returns fused ranked list. (Target: Q4 2026)
+- [ ] Perf gate: ≥2× query throughput vs Phase A at 50K chunks; p95 < 100ms. Gate: `WIKI-PHASE-B-PERF-01` in `benchmarks/`. (Target: Q4 2026)
+- [ ] Automatic Phase A→B index migration with progress log; atomic rollback path on failure. (Target: Q4 2026)
+
+#### Persistent Embedding Cache
+- [ ] RocksDB column family `"embedding_cache"` in `WikiIndexStore`; key = `sha256(doc_id + content)` (32-byte binary); value = raw float32 embedding vector. (Target: Q4 2026)
+- [ ] Cache-miss path: call embedding model, store result; ≥99% hit rate on re-ingest (measured in test). (Target: Q4 2026)
+- [ ] LRU eviction at configurable `embedding_cache_max_bytes` limit; eviction logged as INFO. (Target: Q4 2026)
+
+#### LLM-Judge Integration
+- [ ] Replace mock-mode in `src/rag/llm_judge_integration.cpp` with real `ILLMBackend` adapter calls under gate `THEMIS_ENABLE_LLM_JUDGE`. (Target: Q4 2026)
+  - **STUB/SIMULATION NOTE (current state):**
+    ```
+    // STUB/SIMULATION NOTE:
+    // Purpose: mock LLM judge returns fixed score 0.85 for dev/test use
+    // Activation: always active (THEMIS_ENABLE_LLM_JUDGE not yet wired)
+    // Production Delta: fixed score 0.85 vs real LLM quality judgment
+    // Removal Plan: Replace with real ILLMBackend adapter in Q4 2026
+    ```
+  - When gate off or LLM unavailable → `LLMJudgeResult{score: -1, reason: "llm_unavailable"}`; never silent mock. (Target: Q4 2026)
+- [ ] Recall@k / MRR / p95-Reporting in `ILLMWikiPlugin::stats()`: `EvaluationStats::recall_at_k` (k=1,3,5,10), `mrr`, `p95_query_latency_ms`. (Target: Q4 2026)
+- [ ] Recall@k ≥ 0.8 at k=10 as gate criterion for LWP-01..08 acceptance tests. (Target: Q4 2026)
+
+#### FTS Enhancement
+- [ ] Phrase queries (`"hello world"` → positional adjacency check); proximity queries (`NEAR(term1, term2, distance=5)`). (Target: Q4 2026)
+- [ ] ≤100ms p95 on 100K documents; benchmark gate `RAG-FTS-PERF-01`. (Target: Q4 2026)
+- [ ] BM25+ Positional Scorer complete (lower-bound term frequency δ=0.5, Robertson & Zaragoza 2009). (Target: Q4 2026)
+
+#### TensorRagCostModel
+- [ ] 5-phase cost model: C_RAG = C_embed + C_retrieve + C_rerank + C_assemble + C_generate; `TENSOR_RAG` WorkloadType in `TensorWorkloadClassifier`. (Target: Q4 2026)
+- [ ] TTFT comparison table: llama.cpp baseline 150-400ms vs cached 40-90ms. (Target: Q4 2026)
+- [ ] Integrate with `TensorRagCostModel::estimate(query, config) → CostEstimate`. (Target: Q4 2026)
+
+#### Per-Query Retrieval Guardrails
+- [ ] `RetrievalGuardrail::checkFederatedCost(query, plan)` returns `GuardrailDecision{allow, deny_reason, estimated_cost_ms}`; deny reason surfaced in `SearchStats`. (Target: Q4 2026)
+- [ ] SLO-validated benchmarks confirm ≤5% throughput regression vs no-guardrail baseline. (Target: Q4 2026)
+
+#### Observability Dashboards
+- [ ] Per-layer handoff quality metrics: ANN Recall@10, Tensor routing accuracy, Graph provenance precision, LLM ROUGE-L; emitted as Prometheus gauges. (Target: Q4 2026)
+- [ ] Anomaly detection: z-score ≥3 over rolling 5-min window triggers alert with root-cause hint (`low_recall`, `high_latency`, `guardrail_deny_rate`). (Target: Q4 2026)
+
+### Short-term (3-6 months, beyond Q4 2026)
 - [ ] Expand deterministic regressions for retrieval/evaluation edge cases under mixed backend conditions (Target: Q4 2026)
 - [ ] Strengthen diagnostics for quality-gate deny decisions and retrieval fallback causes (Target: Q4 2026)
 - [ ] Harden safety and sanitization behavior against evolving prompt-injection patterns (Target: Q4 2026)
@@ -120,6 +166,60 @@ Production-grade RAG runtime with retrieval fusion, context assembly, evaluation
 - A subset of distributed and topology-sensitive scenarios remains under ongoing hardening.
 - Release-profile performance gate thresholds pending formal baseline validation (Phase 5).
 - Optional dependency fallback standardization in progress (Phase 3).
+
+---
+
+## Q4 2026 — Advanced Retrieval & WikiIndexStore Phase B Plan
+
+> All items below are hard acceptance gates for the Q4 2026 (~83%) milestone.
+> Format: §2.2 — every task is a checkbox with measurable acceptance criteria.
+
+### WikiIndexStore Phase B — RocksDB-Native Backend
+
+- [ ] **[Wiki Phase B — BM25+ + HNSW + RRF]** Implement `WikiIndexStore` Phase B backend with RocksDB-native BM25+ scoring column family, HNSW approximate nearest-neighbor index, and RRF (Reciprocal Rank Fusion) result merger; gate behind CMake option `THEMIS_WIKI_PHASE_B` (Target: Q4 2026)
+- [ ] **[Auto-migration Phase A → B]** Implement transparent migration: on first startup with `THEMIS_WIKI_PHASE_B=ON`, detect Phase A store and re-index without data loss; migration MUST be idempotent (Target: Q4 2026)
+- [ ] **[Phase B performance gate]** Acceptance: ≥2× query throughput vs Phase A at 50K chunks corpus; p95 query latency <100ms at peak load (Target: Q4 2026)
+- [ ] **[Phase B integration tests]** Deliver ≥5 integration tests in `tests/rag/test_wiki_index_store_phase_b.cpp` covering: BM25+ scoring, HNSW recall, RRF fusion, migration path, and concurrent-read correctness (Target: Q4 2026)
+
+### Persistent Embedding Cache
+
+- [ ] **[RocksDB embedding cache column family]** Implement `embedding_cache` RocksDB column family in `WikiIndexStore`; key = `(doc_id + sha256(content_bytes))`; value = serialized embedding vector (Target: Q4 2026)
+- [ ] **[LRU eviction policy]** Implement LRU eviction with configurable capacity cap via `WikiIndexConfig.embedding_cache_max_bytes`; eviction MUST be deterministic under memory pressure (Target: Q4 2026)
+- [ ] **[Cache hit-rate gate]** ≥99% hit rate on full re-ingest of identical corpus (same `doc_id` + same content hash); validate in integration test (Target: Q4 2026)
+
+### ingestWikipediaDump() ABI Wiring
+
+- [ ] Wire `ingestWikipediaDump()` through `ILLMWikiPlugin` ABI with sub-feature check `"llm_wiki_wikipedia"` (Target: Q4 2026)
+- [ ] Return `Status::PermissionDenied` with structured error message in Community and Minimal editions; log single-line warning at startup (Target: Q4 2026)
+- [ ] Covered by `LWP-WIKI-01` (basic ingest+query round-trip) and `LWP-WIKI-02` (edition-gate enforcement) (Target: Q4 2026)
+
+### FTS Enhancement
+
+- [ ] **[Phrase and proximity query operators]** Implement phrase query (`"exact phrase"`) and proximity query (`NEAR/k`) in FTS layer on top of BM25+ positional scorer (Target: Q4 2026)
+- [ ] **[FTS performance gate]** ≤100ms query time on 100K-doc corpus at p95; validate in `benchmarks/rag/bench_fts_phase_b.cpp` (Target: Q4 2026)
+
+### TensorRagCostModel
+
+- [ ] Implement `TensorRagCostModel` with 5-phase cost model: (1) embedding, (2) ANN retrieval, (3) tensor re-ranking, (4) context assembly, (5) LLM generation; expose as `WorkloadType::TENSOR_RAG` (Target: Q4 2026)
+- [ ] Integrate `TensorRagCostModel` with `QueryOptimizer` cost estimation path; validate cost estimates within ±20% of measured latencies on golden queries (Target: Q4 2026)
+
+### LWP Tests Phase 4
+
+- [ ] Deliver `LWP-01..LWP-08` — ingest + query round-trip with hash provider; acceptance gate: `Recall@k ≥ 0.8` (Target: Q4 2026)
+- [ ] Deliver `LWP-09..LWP-16` — workspace lifecycle, log entries, page creation, orphan detection (Target: Q4 2026)
+- [ ] Deliver `LWP-17..LWP-20` — guardrail coverage (sudo, base64-decode, eval, exec patterns) (Target: Q4 2026)
+- [ ] Deliver `LWP-GATE-01` — performance gate: end-to-end ingest+query pipeline p95 <200ms at 10K chunks (Target: Q4 2026)
+- [ ] All LWP tests MUST pass on `enterprise-release` CMake preset (Target: Q4 2026)
+
+### Evaluation Framework — LLM-Judge & Metrics
+
+- [ ] **[LLM-Judge real-mode]** Replace mock dispatch in `llm_judge_integration.cpp` with real LLM call when `THEMIS_ENABLE_LLM_JUDGE=ON`; return `Status::Unavailable` with structured diagnostic when LLM endpoint unreachable (Target: Q4 2026)
+- [ ] **[Recall@k / MRR / p95 in stats()]** Implement `Recall@k`, `MRR`, and `p95` latency in `ILLMWikiPlugin::stats()`; values MUST be populated after ≥1 query call (Target: Q4 2026)
+- [ ] **[Recall@k gate]** `Recall@k ≥ 0.8` is a hard gate criterion for `LWP-01..LWP-08` pass/fail decision (Target: Q4 2026)
+- [ ] **[Observability dashboards]** Add Prometheus metrics for ANN/Tensor/Graph/LLM handoff quality per layer; Grafana dashboard panels with anomaly detection and root-cause hints (Target: Q4 2026)
+- [ ] **[Per-query retrieval guardrails]** Implement federated cost/pruning limits in `LayeredRetrievalOrchestrator`; validate SLO benchmarks in `benchmarks/search/` after changes (Target: Q4 2026)
+
+---
 
 ## Wave B (Q1–Q2 2027) Tracking — B1 Self-RAG
 
