@@ -32,6 +32,7 @@ check (SHA-256) are all implemented.
 - [x] Prometheus metrics: `clip_embeddings_total`, `clip_text_embeddings_total`, `clip_batch_embeddings_total` (Target: Q3 2026) ✅
 - [x] ONNX model integrity check (SHA-256 hash on load via OpenSSL EVP; skipped gracefully without OpenSSL) (Target: Q1 2027) ✅
 - [x] Unit tests: CPU backend, model load, embedding shape, `healthCheck()` (Target: Q3 2026) — `tests/test_onnx_clip_plugin.cpp` (26 tests, `ONNXClipPluginTest`); registered in `tests/CMakeLists.txt` under `THEMIS_PLUGIN_IMAGE_ANALYSIS_ONNX` guard
+- [x] Contract-hardening focused tests (Target: Q3 2026) — `tests/test_onnx_clip_plugin_contract_hardening_focused.cpp` (16 tests, `OnnxClipContractHardeningTest`); covers OCP-01..16 interface/backend/embedding/batch contracts; registered as `test_onnx_clip_plugin_contract_hardening_focused` target in `tests/CMakeLists.txt`
 
 ---
 
@@ -66,9 +67,11 @@ check (SHA-256) are all implemented.
 - [x] Session Run exception → caught; error result returned
 - [x] Empty text input → `EmbeddingResult{ok=false}`
 
-### Phase 4: Tests [~]
+### Phase 4: Tests ✅
 - [x] Unit tests for CPU backend and embedding shape (26 tests covering image embedding, text embedding, batch splitting, ViT-L/14 768-dim, Prometheus counters, integrity check)
+- [x] Contract-hardening focused tests (16 tests: OCP-01..16 covering interface contract, backend selection, embedding generation, batch processing)
 - [ ] Integration tests with real ONNX models (Target: Q3 2026)
+
 
 ### Phase 5: Performance / Hardening ✅ (partial)
 - [ ] Perf benchmark (Target: Q3 2026)
@@ -93,7 +96,7 @@ check (SHA-256) are all implemented.
 | Text encoder | ✅ | `generateTextEmbedding()` with BPE tokenization |
 | Prometheus metrics | ✅ | `clip_embeddings_total`, `clip_text_embeddings_total`, `clip_batch_embeddings_total` |
 | Model integrity check | ✅ | SHA-256 via OpenSSL EVP; graceful skip without OpenSSL |
-| Unit/integration tests | ⚠️ | 26 unit tests; integration tests still pending |
+| Unit/integration tests | ✅ | 26 unit tests + 16 contract-hardening focused tests (OCP-01..16); integration tests still pending (Q3 2026 target) |
 | Performance benchmarks | ❌ | Planned Q3 2026 |
 
 ---

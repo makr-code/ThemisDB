@@ -20159,6 +20159,7 @@ if(THEMIS_PLUGIN_IMAGE_ANALYSIS_ONNX AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/onn
             themis_core
             nlohmann_json::nlohmann_json
             Threads::Threads
+            onnxruntime::onnxruntime
         )
 
         target_compile_definitions(test_onnx_clip_plugin_contract_hardening_focused PRIVATE
