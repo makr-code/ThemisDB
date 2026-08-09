@@ -2416,7 +2416,13 @@ set(THEMIS_CORE_SOURCES
     ../src/cache/cache_eviction_policy.cpp
     ../src/cache/eviction_listener.cpp
     ../src/cache/eviction.cpp
-    
+
+    # Access Model module — cache↔storage tier coordination
+    ../src/access_model/access_coordinator.cpp
+    ../src/access_model/age_based_policy.cpp
+    ../src/access_model/access_metrics.cpp
+    ../src/access_model/promotion_demotion.cpp
+
     # Ingestion module – unified data intake layer (filesystem, REST, HuggingFace,
     # Kafka, S3/GCS/Azure, JDBC, web-crawler, CDC, distributed coordinator)
     ../src/ingestion/ingestion_manager.cpp
