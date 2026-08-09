@@ -5,9 +5,9 @@
 
 # ThemisDB ONNX CLIP Plugin
 
-**Version:** 1.0.0
+**Version:** 0.3.0 (v0.2.0 hardening release)
 **Status:** 🟢 Production-Ready
-**Last Updated:** 2026-05-13
+**Last Updated:** 2026-08-09
 **Module Path:** `src/onnx_clip/`
 **Namespace:** `themis::plugins::image`
 
@@ -57,6 +57,7 @@ paths. Open follow-up work remains in benchmarking and real-model integration.
   - `generateEmbedding(image_data, metadata)`
   - `generateEmbeddingBatch(images)`
   - `generateTextEmbedding(text)`
+  - `reloadModel(config)` **(v0.3.0)** — Dynamic model reloading
   - `healthCheck()`, `warmup()`, `getStatistics()`
   - `setModelHashFn(fn)` for non-OpenSSL integrity-check injection
 
@@ -71,6 +72,17 @@ paths. Open follow-up work remains in benchmarking and real-model integration.
 | `max_batch_size` | integer | `16` on CPU, `64` otherwise | Maximum sub-batch size processed per `generateEmbeddingBatch()` chunk |
 | `model.path` | string | empty | Optional model file path used for integrity checks |
 | `model.expected_sha256` | string | empty | Enables hash verification when paired with `model.path`; mismatch causes `initialize()` to fail |
+| `enable_mmap_loading` | boolean | false | **(v0.3.0)** Enable memory-mapped model loading (Linux/Windows); reduces peak memory for large models |
+
+### v0.3.0 New APIs
+
+| Method | Signature | Effect |
+|--------|-----------|--------|
+| `reloadModel()` | `bool reloadModel(const PluginConfig& new_config)` | **(v0.3.0)** Dynamically reload model without server restart; no in-flight request interruption; automatic rollback on failure |
+
+**Memory-mapped loading:** When `enable_mmap_loading=true`, model file is memory-mapped (Linux mmap + Windows MapViewOfFile) to reduce peak memory usage. Gracefully falls back to traditional loading on unsupported platforms.
+
+**Hot-swap (dynamic reload):** Call `reloadModel(new_config)` to switch models at runtime. In-flight requests complete normally, drain completes within 30 seconds, old model retained until new one validates.
 
 ### Build/runtime gates
 

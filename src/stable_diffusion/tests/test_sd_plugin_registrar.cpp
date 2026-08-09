@@ -73,7 +73,7 @@ TEST(SDPluginRegistrarTests, C1_AdapterNameAndVersion) {
     auto adapter = SDPluginRegistrar::createAdapter({});
     ASSERT_NE(adapter, nullptr);
     EXPECT_STREQ(adapter->getName(), "stable_diffusion");
-    EXPECT_STREQ(adapter->getVersion(), "2.2.0");
+    EXPECT_STREQ(adapter->getVersion(), "2.3.0");
 }
 
 TEST(SDPluginRegistrarTests, C2_AdapterCapabilitiesBatchingAndThreadSafe) {

@@ -23,6 +23,8 @@
 #include <vector>
 #include <random>
 
+#include "utils/retry_contract.h"
+
 namespace themis::query {
 
 /**
@@ -64,6 +66,11 @@ public:
         std::chrono::milliseconds elapsed;
         int attempt_number = 0;
         std::string details;
+        themis::utils::RetryExhaustionReason exhaustion_reason =
+            themis::utils::RetryExhaustionReason::NONE;
+        themis::utils::RetryTimeoutSource timeout_source =
+            themis::utils::RetryTimeoutSource::NONE;
+        std::string correlation_id;
     };
 
     /**
@@ -319,6 +326,14 @@ public:
      * @return RetryStats if available
      */
     [[nodiscard]] std::optional<TimeoutPolicy::RetryStats> getShardStats(
+        const std::string& shard_id) const;
+
+    /**
+     * @brief Build canonical retry metadata for a shard attempt stream.
+     * @param shard_id Shard identifier
+     * @return Canonical retry metadata envelope for diagnostics/automation
+     */
+    [[nodiscard]] themis::utils::RetryMetadata getRetryMetadata(
         const std::string& shard_id) const;
 
 private:

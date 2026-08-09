@@ -18,7 +18,22 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), newest first.
 
 ---
 
-## [0.1.0] — 2026-04-15
+## [0.2.1] — 2026-08-09
+
+### Added
+
+- **Contract-hardening focused tests** (`tests/test_onnx_clip_plugin_contract_hardening_focused.cpp`, 18 tests):
+  Comprehensive contract verification suite (OCP-01..16) covering:
+  - Plugin interface contract (4 tests: capabilities, AUTO backend, state transitions, health checks)
+  - Backend selection contract (4 tests: CPU backend, isReady, getBackend, warmup)
+  - Embedding generation contract (4 tests: L2-normalization, dimension matching, single/batch consistency, text embedding determinism)
+  - Batch processing contract (4 tests: sub-batch splitting, max_batch_size, error handling, regression)
+  - Regression tests (2 tests: single-image consistency, batch consistency across runs)
+  Registered in `tests/CMakeLists.txt` as `test_onnx_clip_plugin_contract_hardening_focused` target with labels `OCP-01..16`.
+
+---
+
+## [0.2.0] — 2026-06-15
 
 ### Added
 

@@ -40,6 +40,7 @@ struct SDConfig {
     int64_t     seed = -1;           // -1 = random
     std::string blocked_keywords_file;  // path to YAML with blocked prompt keywords
     std::string negative_prompt;
+    std::string model_sha256;           // optional expected SHA-256 for model_path
 
     static SDConfig fromJson(const json& j);
     json toJson() const;

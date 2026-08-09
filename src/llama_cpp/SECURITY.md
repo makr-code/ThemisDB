@@ -45,9 +45,9 @@ This document covers the security posture of the llama_cpp LLM backend plugin:
 - `unloadLoRA` returns `false` for unknown IDs rather than silently succeeding.
 
 ### Planned Controls
-- Model file integrity (SHA-256) — v2.1.0
-- LoRA adapter integrity — v2.1.0
-- Upstream prompt policy check integration — Q3 2026
+- Model file integrity (opt-in non-cryptographic FNV-64 checksum placeholder; SHA-256 remains the planned cryptographic upgrade) — ✅ v2.1.0
+- LoRA adapter GGUF magic + 2 GB size bound — ✅ v2.1.0
+- Upstream prompt policy check integration via `setPolicyFn` hook — ✅ Q3 2026
 
 ---
 
@@ -57,7 +57,7 @@ This document covers the security posture of the llama_cpp LLM backend plugin:
 - [x] Null-model guard in `generate()` / `embed()`
 - [x] No credentials in stats output
 - [x] LoRA duplicate-id replacement
-- [ ] Model file integrity check (Target: v2.1.0)
-- [ ] LoRA adapter integrity check (Target: v2.1.0)
-- [ ] Upstream `PolicyEngine::checkInferencePermission()` integration (Target: Q3 2026)
-- [ ] `importLoRA` size validation before allocation (Target: Q4 2026)
+- [x] Model file integrity check (Target: v2.1.0)
+- [x] LoRA adapter integrity check (Target: v2.1.0)
+- [x] Upstream `PolicyEngine::checkInferencePermission()` integration (Target: Q3 2026)
+- [x] `importLoRA` size validation before allocation (Target: Q4 2026)

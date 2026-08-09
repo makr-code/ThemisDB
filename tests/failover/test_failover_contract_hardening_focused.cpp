@@ -446,3 +446,17 @@ TEST(FailoverContractHardeningFCH16, HeartbeatMissedCounterIncrement) {
         << "HEARTBEAT_MISSED timeout must be ≤ 3 s per contract";
     EXPECT_EQ(static_cast<int>(FailoverErrorCode::HEARTBEAT_MISSED), 5);
 }
+
+TEST(FailoverContractHardeningRetryContract, RetryEscalationAndTimeoutSourceMapping) {
+    EXPECT_TRUE(isRetryEscalationCode(FailoverErrorCode::ELECTION_TIMEOUT));
+    EXPECT_TRUE(isRetryEscalationCode(FailoverErrorCode::STATE_SYNC_TIMEOUT));
+    EXPECT_TRUE(isRetryEscalationCode(FailoverErrorCode::NODE_REJOIN_FAILED));
+    EXPECT_FALSE(isRetryEscalationCode(FailoverErrorCode::SPLIT_BRAIN_DETECTED));
+
+    EXPECT_EQ(toRetryTimeoutSource(FailoverErrorCode::ELECTION_TIMEOUT),
+              themis::utils::RetryTimeoutSource::OVERALL);
+    EXPECT_EQ(toRetryTimeoutSource(FailoverErrorCode::STATE_SYNC_TIMEOUT),
+              themis::utils::RetryTimeoutSource::OVERALL);
+    EXPECT_EQ(toRetryTimeoutSource(FailoverErrorCode::QUORUM_UNAVAILABLE),
+              themis::utils::RetryTimeoutSource::QUORUM);
+}

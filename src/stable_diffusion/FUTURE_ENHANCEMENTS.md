@@ -1,6 +1,6 @@
 > **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
 
-<!-- Status: current | validated: 2026-04-07 -->
+<!-- Status: current | validated: 2026-08-09 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Future Enhancements — Stable Diffusion Plugin
@@ -31,61 +31,46 @@ Planned enhancements beyond v2.0.0. Core implementation in `src/stable_diffusion
 
 | Interface | Consumer | Notes |
 |-----------|----------|-------|
-| `ISDGenerator::applyLoRA(lora_path, scale)` | LoRA hot-loading | Optional API addition for runtime adapter switching |
-| `SDGenerationConfig::controlnet_*` fields | ControlNet path | Backward-compatible additive config expansion |
-| `GeneratedImage::perceptual_hash` | Dedup/Audit | Optional output metadata for duplicate detection |
+| `ISDGenerator::applyLoRA(lora_path, scale)` | LoRA hot-loading | Implemented; request-time validation required |
+| `SDGenerationConfig::control_*` fields | ControlNet path | Implemented; control-image shape/strength validation required |
+| `GeneratedImage::perceptual_hash` | Dedup/Audit | Implemented; non-fatal if unavailable |
+
+---
+
+## Delivered Since Initial Baseline
+
+- ControlNet request fields and validation are implemented in `SDGenerationConfig`/`Img2ImgConfig`
+  and enforced in `SDPlugin`.
+- LoRA hot-loading request path (`applyLoRA`) is implemented and validated.
+- Optional `GeneratedImage::perceptual_hash` metadata is implemented with non-fatal fallback.
+- Model integrity check (`model_sha256`) is implemented during `initialize()`.
+- Dimension guards are implemented for request and output validation.
 
 ---
 
 ## Planned Features
 
-### 1. ControlNet Support (Target: Q4 2026)
-
-**Problem:** No image conditioning available.
-
-**Solution:** Extend `SDGenerationConfig` with `controlnet_image` (byte buffer) and
-`controlnet_model_path`. `SDCppGenerator::generate()` passes these to
-`stable_diffusion_generate_with_control()`.
-
-**Inputs:** Reference image (RGB bytes), conditioning strength `[0.0, 1.0]`.
-**Errors:** ControlNet model not found → fall back to text-to-image without conditioning;
-caller is warned via `GeneratedImage::error_message` (non-fatal).
-**Tests:** 3 unit tests with `InMemorySDGenerator` extended to accept ControlNet params.
-
----
-
-### 2. LoRA Adapter Hot-Loading (Target: Q4 2026)
-
-**Problem:** Runtime LoRA switching is not available in `ISDGenerator`.
-
-**Solution:** Add optional `applyLoRA(lora_path, scale)` API for `SDCppGenerator`, with
-no-op default in non-model generators.
-
-**Errors:** Missing LoRA file → return failure with actionable error text.
-**Tests:** Unit tests with mocked generator + integration test behind `THEMIS_ENABLE_STABLE_DIFFUSION`.
-
----
-
-### 3. Perceptual Hash for Output Deduplication (Target: Q4 2026)
-
-**Problem:** `prompt_hash` fingerprints text input only; identical outputs are not detectable.
-
-**Solution:** Add optional `pHash` metadata for generated images to support deduplication and audits.
-
-**Errors:** Hashing failure must not fail generation; return empty `pHash` plus warning in logs.
-**Tests:** Deterministic pHash fixture tests over known image vectors.
-
----
-
-### 4. Performance/Hardening Follow-ups (Target: Q1 2027)
+### 1. Performance/Hardening Follow-ups (Target: Q3–Q4 2026)
 
 **Problem:** Roadmap Phase 5 contains open hardening items.
 
-**Solution:** Add benchmark and concurrency-audit deliverables:
-- benchmark: time-to-PNG for 512×512 (stub vs real model)
-- thread-safety audit for parallel `SDCppGenerator` usage
+**Solution:** Keep benchmark and concurrency-audit deliverables:
+- benchmark target added: `bench_stable_diffusion_release_gates` for time-to-PNG (stub + in-memory proxy); publish real-model baseline next
+- thread-safety audit target added in `SDPluginRealBackendE2ETests`; publish CI/runtime evidence next
 
 **Tests:** Benchmark harness entry + stress tests gated for SD backend availability.
+
+---
+
+### 2. Real-backend E2E Automation (Target: Q3 2026)
+
+**Problem:** Focused unit tests validate logic, but no dedicated stable_diffusion E2E gate
+exists for real model execution in CI.
+
+**Solution:** Maintain opt-in E2E target that runs with `THEMIS_ENABLE_STABLE_DIFFUSION=ON`,
+a test model path, and SHA-256 verification enabled.
+
+**Tests:** one text2img and one img2img E2E case asserting valid PNG output and metadata.
 
 ---
 
@@ -93,7 +78,6 @@ no-op default in non-model generators.
 
 - Any new image decoder path must validate dimensions before allocation to prevent
   integer-overflow-based heap attacks.
-- Model integrity verification (SHA-256 policy) remains required before production use
-  in high-assurance deployments.
+- Model integrity verification (SHA-256 policy) is enforced when `model_sha256` is provided.
 - Any future batch override in `SDCppGenerator` must preserve per-prompt
   `SDPromptSanitizer::isAllowed()` checks.

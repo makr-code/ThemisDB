@@ -53,6 +53,8 @@
 #include <cstdint>
 #include <string>
 
+#include "utils/retry_contract.h"
+
 namespace themis {
 namespace ingestion {
 
@@ -167,6 +169,37 @@ enum class IngestionErrorCode : int {
 [[nodiscard]] inline constexpr bool isPermanentRejection(IngestionErrorCode code) noexcept {
     return code == IngestionErrorCode::INGESTION_SCHEMA_INVALID
         || code == IngestionErrorCode::INGESTION_DUPLICATE_KEY;
+}
+
+/**
+ * @brief Map ingestion failures to canonical timeout-source taxonomy.
+ */
+[[nodiscard]] inline constexpr themis::utils::RetryTimeoutSource toRetryTimeoutSource(
+    IngestionErrorCode code) noexcept {
+    if (code == IngestionErrorCode::INGESTION_TIMEOUT) {
+        return themis::utils::RetryTimeoutSource::PER_ATTEMPT;
+    }
+    if (code == IngestionErrorCode::INGESTION_BACKEND_UNAVAILABLE) {
+        return themis::utils::RetryTimeoutSource::BACKEND;
+    }
+    return themis::utils::RetryTimeoutSource::NONE;
+}
+
+/**
+ * @brief Map ingestion outcomes to canonical retry-exhaustion reasons.
+ */
+[[nodiscard]] inline constexpr themis::utils::RetryExhaustionReason
+toRetryExhaustionReason(IngestionErrorCode code, bool retries_exhausted) noexcept {
+    if (isPermanentRejection(code)) {
+        return themis::utils::RetryExhaustionReason::NON_RETRYABLE;
+    }
+    if (retries_exhausted && isBackOffCode(code)) {
+        return themis::utils::RetryExhaustionReason::MAX_ATTEMPTS_REACHED;
+    }
+    if (code == IngestionErrorCode::INGESTION_TIMEOUT) {
+        return themis::utils::RetryExhaustionReason::TIME_BUDGET_EXCEEDED;
+    }
+    return themis::utils::RetryExhaustionReason::NONE;
 }
 
 // ============================================================================

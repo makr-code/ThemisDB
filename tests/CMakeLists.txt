@@ -20138,6 +20138,52 @@ if(THEMIS_PLUGIN_IMAGE_ANALYSIS_ONNX AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/onn
     )
 
     message(STATUS "  ONNXClipPlugin: initialize, embedding, batch embedding, health, statistics")
+
+    # ONNX CLIP Plugin Contract Hardening Focused Tests (OCP-01..16)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_onnx_clip_plugin_contract_hardening_focused.cpp")
+        message(STATUS "Adding ONNX CLIP Plugin contract-hardening focused tests")
+
+        add_executable(test_onnx_clip_plugin_contract_hardening_focused
+            test_onnx_clip_plugin_contract_hardening_focused.cpp
+            ${THEMIS_ROOT_DIR}/src/onnx_clip/onnx_clip_plugin.cpp
+        )
+
+        target_include_directories(test_onnx_clip_plugin_contract_hardening_focused PRIVATE
+            ${THEMIS_ROOT_DIR}/include
+            ${THEMIS_ROOT_DIR}/src
+            ${THEMIS_ROOT_DIR}/src/onnx_clip
+        )
+
+        target_link_libraries(test_onnx_clip_plugin_contract_hardening_focused PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            nlohmann_json::nlohmann_json
+            Threads::Threads
+        )
+
+        if(TARGET onnxruntime::onnxruntime)
+            target_link_libraries(test_onnx_clip_plugin_contract_hardening_focused PRIVATE
+                onnxruntime::onnxruntime
+            )
+        endif()
+
+        target_compile_definitions(test_onnx_clip_plugin_contract_hardening_focused PRIVATE
+            THEMIS_TEST_BUILD=1
+            THEMIS_IMAGE_PLUGIN_DISABLE_EXPORT=1
+        )
+
+        add_test(NAME OnnxClipPluginContractTests COMMAND test_onnx_clip_plugin_contract_hardening_focused)
+
+        set_tests_properties(OnnxClipPluginContractTests PROPERTIES
+            LABELS "image-analysis;onnx;clip;batch;plugin;contract;focused;OCP-01;OCP-02;OCP-03;OCP-04;OCP-05;OCP-06;OCP-07;OCP-08;OCP-09;OCP-10;OCP-11;OCP-12;OCP-13;OCP-14;OCP-15;OCP-16"
+            TIMEOUT 120
+        )
+
+        message(STATUS "  ONNXClipPluginContractHardening: OCP-01..04 (interface), OCP-05..08 (backend), OCP-09..12 (embedding), OCP-13..16 (batch)")
+    else()
+        message(STATUS "ONNX CLIP Plugin contract-hardening focused tests not found")
+    endif()
+
 elseif(NOT THEMIS_PLUGIN_IMAGE_ANALYSIS_ONNX)
     message(STATUS "ONNX CLIP Plugin tests skipped (THEMIS_PLUGIN_IMAGE_ANALYSIS_ONNX disabled)")
 else()
@@ -24218,12 +24264,13 @@ else()
 endif()
 
 # ── Stable Diffusion Plugin Tests ─────────────────────────────────────────────
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/tests/test_sd_plugin.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/tests/test_sd_plugin.cpp" AND OpenSSL_FOUND)
     add_executable(test_sd_plugin
         "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/tests/test_sd_plugin.cpp"
         "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/sd_config.cpp"
         "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/sd_prompt_sanitizer.cpp"
         "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/sd_plugin.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/utils/checksum_utils.cpp"
     )
     target_include_directories(test_sd_plugin PRIVATE
         "${CMAKE_CURRENT_SOURCE_DIR}/../include"
@@ -24232,17 +24279,104 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/tests/test_sd_plu
         GTest::gtest
         GTest::gtest_main
         nlohmann_json::nlohmann_json
+        OpenSSL::Crypto
     )
     target_compile_features(test_sd_plugin PRIVATE cxx_std_17)
     target_compile_definitions(test_sd_plugin PRIVATE THEMIS_PLUGIN_EXPORTS)
     add_test(NAME SDPluginFocusedTests COMMAND test_sd_plugin)
     set_tests_properties(SDPluginFocusedTests PROPERTIES
-        LABELS "plugins;stable_diffusion;image_generation;v2.2.0"
+        LABELS "plugins;stable_diffusion;image_generation;v2.3.0"
         TIMEOUT 60
     )
-    message(STATUS "  SDPlugin: 51 tests (A-Q)")
+    message(STATUS "  SDPlugin: 62 tests (A-Q)")
+elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/tests/test_sd_plugin.cpp")
+    message(STATUS "  SDPlugin tests skipped - OpenSSL dependency missing")
 else()
     message(STATUS "  SDPlugin tests not found - skipped")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/tests/test_sd_plugin_registrar.cpp" AND OpenSSL_FOUND)
+    add_executable(test_sd_plugin_registrar
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/tests/test_sd_plugin_registrar.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/sd_plugin_registrar.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/sd_plugin.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/sd_config.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/sd_prompt_sanitizer.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/utils/checksum_utils.cpp"
+    )
+    target_include_directories(test_sd_plugin_registrar PRIVATE
+        "${CMAKE_CURRENT_SOURCE_DIR}/../include"
+    )
+    target_link_libraries(test_sd_plugin_registrar PRIVATE
+        GTest::gtest
+        GTest::gtest_main
+        nlohmann_json::nlohmann_json
+        OpenSSL::Crypto
+        themis_base
+        Threads::Threads
+    )
+    target_compile_features(test_sd_plugin_registrar PRIVATE cxx_std_17)
+    target_compile_definitions(test_sd_plugin_registrar PRIVATE THEMIS_PLUGIN_EXPORTS)
+    add_test(NAME SDPluginRegistrarTests COMMAND test_sd_plugin_registrar)
+    set_tests_properties(SDPluginRegistrarTests PROPERTIES
+        LABELS "plugins;stable_diffusion;image_generation;registrar;v2.3.0"
+        TIMEOUT 60
+    )
+    message(STATUS "  SDPluginRegistrar: 12 tests (A-D)")
+elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/tests/test_sd_plugin_registrar.cpp")
+    message(STATUS "  SDPluginRegistrar tests skipped - OpenSSL dependency missing")
+endif()
+
+if(THEMIS_ENABLE_STABLE_DIFFUSION
+        AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/tests/test_sd_plugin_real_backend_e2e.cpp"
+        AND OpenSSL_FOUND)
+    if(NOT STABLE_DIFFUSION_ROOT)
+        set(STABLE_DIFFUSION_ROOT "${THEMIS_ROOT_DIR}/stable-diffusion.cpp")
+    endif()
+    find_library(THEMIS_SD_E2E_LIB
+        NAMES stable-diffusion stable_diffusion
+        PATHS
+            ${STABLE_DIFFUSION_ROOT}/build
+            ${STABLE_DIFFUSION_ROOT}/build/src
+            ${STABLE_DIFFUSION_ROOT}/build/lib
+            ${THEMIS_ROOT_DIR}/external/stable-diffusion.cpp/build
+            /usr/local/lib
+            /usr/lib
+    )
+    if(NOT THEMIS_SD_E2E_LIB)
+        message(STATUS "  SDPlugin real-backend E2E skipped - stable-diffusion library not found")
+    else()
+    add_executable(test_sd_plugin_real_backend_e2e
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/tests/test_sd_plugin_real_backend_e2e.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/sd_plugin.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/sd_config.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/sd_prompt_sanitizer.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/utils/checksum_utils.cpp"
+    )
+    target_include_directories(test_sd_plugin_real_backend_e2e PRIVATE
+        "${CMAKE_CURRENT_SOURCE_DIR}/../include"
+    )
+    target_link_libraries(test_sd_plugin_real_backend_e2e PRIVATE
+        GTest::gtest
+        GTest::gtest_main
+        nlohmann_json::nlohmann_json
+        OpenSSL::Crypto
+        ${THEMIS_SD_E2E_LIB}
+    )
+    target_compile_features(test_sd_plugin_real_backend_e2e PRIVATE cxx_std_17)
+    target_compile_definitions(test_sd_plugin_real_backend_e2e PRIVATE
+        THEMIS_PLUGIN_EXPORTS
+        THEMIS_ENABLE_STABLE_DIFFUSION=1
+    )
+    add_test(NAME SDPluginRealBackendE2ETests COMMAND test_sd_plugin_real_backend_e2e)
+    set_tests_properties(SDPluginRealBackendE2ETests PROPERTIES
+        LABELS "plugins;stable_diffusion;image_generation;e2e;real_backend;v2.3.0"
+        TIMEOUT 300
+    )
+    message(STATUS "  SDPlugin real-backend E2E: enabled (opt-in runtime via env)")
+    endif()
+elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/tests/test_sd_plugin_real_backend_e2e.cpp")
+    message(STATUS "  SDPlugin real-backend E2E not enabled (set THEMIS_ENABLE_STABLE_DIFFUSION=ON)")
 endif()
 
 # ── llama_cpp Plugin Tests ────────────────────────────────────────────────────

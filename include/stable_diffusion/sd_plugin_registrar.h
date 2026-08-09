@@ -65,7 +65,7 @@ public:
 
     // ── IThemisPlugin ───────────────────────────────────────────────────────
     const char* getName()    const override { return "stable_diffusion"; }
-    const char* getVersion() const override { return "2.2.0"; }
+    const char* getVersion() const override { return "2.3.0"; }
 
     plugins::PluginType getType() const override {
         return plugins::PluginType::IMAGE_GENERATION;
@@ -178,7 +178,9 @@ public:
      * @brief Default hot-plug reload callback.
      *
      * Calls SDPlugin::initialize(config["model_path"], config) when
-     * "model_path" is present; otherwise returns false.
+     * "model_path" is present and non-empty. Missing or empty paths are
+     * treated as a successful stub-mode no-op so hot-plug reload can keep the
+     * plugin unloaded without failing the caller.
      */
     static ReloadCallback defaultReloadCallback();
 

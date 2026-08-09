@@ -2,11 +2,11 @@
 
 # Stable Diffusion Plugin — Architecture Guide
 
-<!-- Status: current | validated: 2026-04-07 | Primary: src/stable_diffusion/ -->
+<!-- Status: current | validated: 2026-08-09 | Primary: src/stable_diffusion/ -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 **Version:** 1.0
-**Last Updated:** 2026-04-07
+**Last Updated:** 2026-08-09
 **Module Path:** `src/stable_diffusion/`
 
 ---
@@ -76,8 +76,11 @@ SDPlugin::generate(prompt, cfg)
   ├─ SDPromptSanitizer::isAllowed(prompt)   → if blocked: return error result
   ├─ SDPromptSanitizer::sanitize(prompt)    → sanitised_prompt
   ├─ compute prompt_hash = FNV-1a(sanitised_prompt)
+  ├─ validate dimensions / control inputs / LoRA scale
+  ├─ optional applyLoRA(cfg.lora_adapter_path, cfg.lora_scale)
   ├─ ISDGenerator::generate(sanitised, cfg) → rgb_bytes, width, height, seed_used
   ├─ encodeMinimalPng(rgb, width, height)   → png_data
+  ├─ computePerceptualHash(rgb, width, height) → optional perceptual_hash
   ├─ apply provenance stamps
   └─ return GeneratedImage { success=true, png_data, prompt_hash, ... }
 ```
@@ -106,6 +109,7 @@ SDPlugin::generate(prompt, cfg)
 | `seed` | `-1` | `-1` = random |
 | `blocked_keywords_file` | `""` | path to keyword blocklist |
 | `negative_prompt` | `""` | negative conditioning |
+| `model_sha256` | `""` | optional expected digest for model file integrity gate |
 
 ---
 
@@ -130,10 +134,17 @@ v2.2.0 includes a real PNG encoder that writes IHDR + IDAT + IEND using stored-d
 `SDPlugin` serialises `generate()`, `generateBatch()`, and `generateImg2Img()` with
 `generate_mutex_`. A dedicated parallel-call audit for `SDCppGenerator` is still pending.
 
+## 9. Request Validation Gates
+
+- positive dimensions only, max dimension `8192`
+- overflow-safe RGB shape validation (`width * height * 3`)
+- ControlNet image shape validation and `control_strength ∈ [0,1]`
+- LoRA scale validation (`>0`, finite)
+
 ---
 
-## 9. Testing Strategy
+## 10. Testing Strategy
 
 | Type | Files | Count |
 |---|---|---|
-| Unit (stub mode + core backend paths) | `src/stable_diffusion/tests/test_sd_plugin.cpp` | 51 |
+| Unit (stub mode + core backend paths) | `src/stable_diffusion/tests/test_sd_plugin.cpp` | 62 |

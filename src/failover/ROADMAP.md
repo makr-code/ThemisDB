@@ -13,6 +13,7 @@ Production failover runtime exists across automatic failover orchestration, disa
 - [x] hardening dependency-degraded and multi-step recovery edge behavior (Delivered: Q3 2026)
 - [x] benchmark stabilization for recovery lifecycle hot paths (Delivered: Q3 2026)
 - [x] diagnostics consistency improvements for failover queue pressure and DR failures (Delivered: Q3 2026)
+- [x] canonical retry escalation contract helpers added (`isRetryEscalationCode`, `toRetryTimeoutSource`) in `failover_api_contract.h` with focused test coverage in `test_failover_contract_hardening_focused.cpp` (Delivered: 2026-08-09)
 
 ## Planned Features
 

@@ -367,3 +367,17 @@ TEST(IngestionContractHardeningINCH16, StrongAckDurabilityLevels) {
     EXPECT_TRUE(isStrongAck(DurabilityLevel::FsyncLocal))
         << "FsyncLocal is a strong-ack level";
 }
+
+TEST(IngestionContractHardeningRetryContract, CanonicalRetryMappings) {
+    EXPECT_EQ(toRetryTimeoutSource(IngestionErrorCode::INGESTION_TIMEOUT),
+              themis::utils::RetryTimeoutSource::PER_ATTEMPT);
+    EXPECT_EQ(toRetryTimeoutSource(IngestionErrorCode::INGESTION_BACKEND_UNAVAILABLE),
+              themis::utils::RetryTimeoutSource::BACKEND);
+    EXPECT_EQ(toRetryTimeoutSource(IngestionErrorCode::INGESTION_SCHEMA_INVALID),
+              themis::utils::RetryTimeoutSource::NONE);
+
+    EXPECT_EQ(toRetryExhaustionReason(IngestionErrorCode::INGESTION_SCHEMA_INVALID, false),
+              themis::utils::RetryExhaustionReason::NON_RETRYABLE);
+    EXPECT_EQ(toRetryExhaustionReason(IngestionErrorCode::INGESTION_TIMEOUT, true),
+              themis::utils::RetryExhaustionReason::MAX_ATTEMPTS_REACHED);
+}

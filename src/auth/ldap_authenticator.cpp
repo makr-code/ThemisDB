@@ -750,11 +750,7 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
                                               const std::string& dn,
                                               const std::string& password)
 {
-    LDAPAuthenticator::LdapBindFn fn;
-    {
-        std::lock_guard<std::mutex> lk(s_ldap_bind_mutex_);
-        fn = s_ldap_bind_fn_;
-    }
+    auto fn = getLdapBindFn();
     if (fn) {
         try {
             return fn(username, dn, password);
@@ -771,9 +767,7 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
     return LDAPAuthResult::Failed(msg);
 }
 
-#endif  // _WIN32
-
-#endif  // THEMIS_HAS_LDAP
+#endif  // defined(THEMIS_HAS_LDAP) && defined(_WIN32)
 
 } // namespace auth
 } // namespace themis

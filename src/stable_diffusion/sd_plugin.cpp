@@ -19,12 +19,18 @@
  */
 
 #include "stable_diffusion/sd_plugin.h"
+#if defined(THEMIS_SD_ENABLE_SHA256)
+#include "utils/checksum_utils.h"
+#endif
 #include <stdexcept>
 #include <algorithm>
 #include <array>
+#include <cctype>
 #include <chrono>
+#include <cmath>
 #include <cstring>
 #include <iomanip>
+#include <limits>
 #include <sstream>
 
 namespace themis {
@@ -38,11 +44,13 @@ SDPlugin::SDPlugin()
 #else
     : generator_(std::make_unique<SDStubGenerator>())
 #endif
-    , sanitizer_() {}
+    , base_sanitizer_()
+    , sanitizer_(base_sanitizer_) {}
 
 SDPlugin::SDPlugin(std::unique_ptr<ISDGenerator> generator, SDPromptSanitizer sanitizer)
     : generator_(std::move(generator))
-    , sanitizer_(std::move(sanitizer)) {}
+    , base_sanitizer_(std::move(sanitizer))
+    , sanitizer_(base_sanitizer_) {}
 
 // ── initialize ────────────────────────────────────────────────────────────────
 
@@ -50,6 +58,7 @@ bool SDPlugin::initialize(const std::string& model_path, const nlohmann::json& c
     model_path_ = model_path;
     SDConfig cfg = SDConfig::fromJson(config);
     cfg.model_path = model_path;
+    sanitizer_ = base_sanitizer_;
 
     // Load content-policy keywords if configured
     if (!cfg.blocked_keywords_file.empty()) {
@@ -58,6 +67,25 @@ bool SDPlugin::initialize(const std::string& model_path, const nlohmann::json& c
         } catch (...) {
             // Non-fatal – proceed with empty sanitizer
         }
+    }
+
+    if (!cfg.model_sha256.empty() && !cfg.model_path.empty()) {
+#if defined(THEMIS_SD_ENABLE_SHA256)
+        const std::string expected = normalizeLowerHex(cfg.model_sha256);
+        const std::string actual = themis::utils::calculateSHA256(cfg.model_path);
+        if (actual.empty()) {
+            initialized_ = false;
+            return false;
+        }
+        if (actual != expected) {
+            initialized_ = false;
+            return false;
+        }
+#else
+        // SHA-256 gate disabled at build time (THEMIS_SD_ENABLE_SHA256 not set).
+        // model_sha256 in config is ignored; build with THEMIS_SD_ENABLE_SHA256=ON to enforce it.
+        (void)cfg.model_sha256;
+#endif
     }
 
     initialized_ = generator_->initialize(cfg);
@@ -70,7 +98,53 @@ bool SDPlugin::isPromptAllowed(const std::string& prompt) const {
     return sanitizer_.isAllowed(prompt);
 }
 
-// ── sha256Hex (simple FNV-based hex, used only as prompt fingerprint) ─────────
+bool SDPlugin::validateGenerationDimensions(int width, int height, std::string& error_out) {
+    constexpr int kMaxDimension = 8192;
+    if (width <= 0 || height <= 0) {
+        error_out = "invalid image dimensions";
+        return false;
+    }
+    if (width > kMaxDimension || height > kMaxDimension) {
+        error_out = "image dimensions exceed limit";
+        return false;
+    }
+    const auto total_pixels = static_cast<uint64_t>(width) * static_cast<uint64_t>(height);
+    if (total_pixels > static_cast<uint64_t>(std::numeric_limits<size_t>::max() / 3u)) {
+        error_out = "image dimensions overflow";
+        return false;
+    }
+    error_out.clear();
+    return true;
+}
+
+bool SDPlugin::validateRgbBufferShape(const std::vector<uint8_t>& rgb,
+                                      int width,
+                                      int height,
+                                      std::string& error_out) {
+    if (!validateGenerationDimensions(width, height, error_out)) {
+        return false;
+    }
+    const size_t expected = static_cast<size_t>(width) * static_cast<size_t>(height) * 3u;
+    if (rgb.size() < expected) {
+        error_out = "generator returned undersized RGB buffer";
+        return false;
+    }
+    error_out.clear();
+    return true;
+}
+
+std::string SDPlugin::normalizeLowerHex(const std::string& hex) {
+    std::string out;
+    out.reserve(hex.size());
+    for (unsigned char c : hex) {
+        if (!std::isspace(c)) {
+            out.push_back(static_cast<char>(std::tolower(c)));
+        }
+    }
+    return out;
+}
+
+// ── sha256Hex (FNV-based hex fingerprint; name kept for API compatibility) ─────
 
 std::string SDPlugin::sha256Hex(const std::string& input) {
     // FNV-1a 64-bit – not cryptographic but sufficient as a stable prompt fingerprint
@@ -84,10 +158,61 @@ std::string SDPlugin::sha256Hex(const std::string& input) {
     return oss.str();
 }
 
+std::optional<std::string> SDPlugin::computePerceptualHash(const std::vector<uint8_t>& rgb,
+                                                           int width,
+                                                           int height) noexcept {
+    if (width <= 0 || height <= 0) {
+        return std::nullopt;
+    }
+    if (width < 8 || height < 8) {
+        return std::nullopt;
+    }
+    const size_t expected = static_cast<size_t>(width) * static_cast<size_t>(height) * 3u;
+    if (rgb.size() < expected) {
+        return std::nullopt;
+    }
+
+    std::array<uint8_t, 64> luma{};
+    uint64_t sum = 0;
+    for (int by = 0; by < 8; ++by) {
+        const int sy = (by * height) / 8;
+        for (int bx = 0; bx < 8; ++bx) {
+            const int sx = (bx * width) / 8;
+            const size_t idx = (static_cast<size_t>(sy) * static_cast<size_t>(width)
+                              + static_cast<size_t>(sx)) * 3u;
+            if (idx + 2u >= rgb.size()) {
+                return std::nullopt;
+            }
+            const uint16_t y = static_cast<uint16_t>((static_cast<uint16_t>(rgb[idx]) * 30u
+                               + static_cast<uint16_t>(rgb[idx + 1u]) * 59u
+                               + static_cast<uint16_t>(rgb[idx + 2u]) * 11u) / 100u);
+            const size_t pos = static_cast<size_t>(by) * 8u + static_cast<size_t>(bx);
+            luma[pos] = static_cast<uint8_t>(y);
+            sum += y;
+        }
+    }
+
+    const uint8_t avg = static_cast<uint8_t>(sum / 64u);
+    uint64_t bits = 0u;
+    for (size_t i = 0; i < luma.size(); ++i) {
+        if (luma[i] >= avg) {
+            bits |= (1ULL << i);
+        }
+    }
+
+    std::ostringstream oss;
+    oss << std::hex << std::setfill('0') << std::setw(16) << bits;
+    return oss.str();
+}
+
 // ── encodeMinimalPng ──────────────────────────────────────────────────────────
 
 std::vector<uint8_t> SDPlugin::encodeMinimalPng(const std::vector<uint8_t>& rgb,
                                                   int width, int height) {
+    std::string dim_error;
+    if (!validateGenerationDimensions(width, height, dim_error)) {
+        throw std::runtime_error("encodeMinimalPng: " + dim_error);
+    }
     // ── CRC-32 (ISO 3309) ─────────────────────────────────────────────────────
     static const auto kCrcTable = []() {
         std::array<uint32_t, 256> t{};
@@ -256,10 +381,62 @@ GeneratedImage SDPlugin::generateLocked(const std::string& prompt,
     const std::string sanitized = sanitizer_.sanitize(prompt);
     img.prompt_hash = sha256Hex(sanitized);
 
+    std::string dim_error;
+    if (!validateGenerationDimensions(cfg.width, cfg.height, dim_error)) {
+        ++error_count_;
+        img.success = false;
+        img.error_message = dim_error;
+        return img;
+    }
+    if (!cfg.control_image_rgb.empty()) {
+        std::string control_error;
+        if (!validateRgbBufferShape(cfg.control_image_rgb,
+                                    cfg.control_width,
+                                    cfg.control_height,
+                                    control_error)) {
+            ++error_count_;
+            img.success = false;
+            img.error_message = "invalid control image: " + control_error;
+            return img;
+        }
+    }
+    if (!std::isfinite(cfg.control_strength) || cfg.control_strength < 0.0f || cfg.control_strength > 1.0f) {
+        ++error_count_;
+        img.success = false;
+        img.error_message = "invalid control strength";
+        return img;
+    }
+    if (!cfg.lora_adapter_path.empty() && (!std::isfinite(cfg.lora_scale) || cfg.lora_scale <= 0.0f)) {
+        ++error_count_;
+        img.success = false;
+        img.error_message = "invalid LoRA scale";
+        return img;
+    }
+
     try {
+        {
+            std::string lora_error;
+            const float lora_scale = cfg.lora_adapter_path.empty() ? 1.0f : cfg.lora_scale;
+            if (!generator_->applyLoRA(cfg.lora_adapter_path, lora_scale, lora_error)) {
+                ++error_count_;
+                img.success = false;
+                img.error_message = lora_error.empty()
+                    ? "failed to apply LoRA adapter"
+                    : lora_error;
+                return img;
+            }
+        }
+
         int      w = 0, h = 0;
         uint64_t seed_used = 0;
         const auto rgb = generator_->generate(sanitized, cfg, w, h, seed_used);
+        std::string rgb_error;
+        if (!validateRgbBufferShape(rgb, w, h, rgb_error)) {
+            ++error_count_;
+            img.success = false;
+            img.error_message = rgb_error;
+            return img;
+        }
 
         img.png_data   = encodeMinimalPng(rgb, w, h);
         img.width      = w;
@@ -269,6 +446,7 @@ GeneratedImage SDPlugin::generateLocked(const std::string& prompt,
         img.model_id   = getModelId();
         img.generation_timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::system_clock::now().time_since_epoch()).count();
+        img.perceptual_hash = computePerceptualHash(rgb, w, h);
         img.success = true;
         ++generation_count_;
     } catch (const std::exception& ex) {
@@ -307,7 +485,11 @@ std::vector<GeneratedImage> SDPlugin::generateBatch(
 GeneratedImage SDPlugin::generateImg2Img(const std::string& prompt,
                                           const Img2ImgConfig& cfg) {
     std::lock_guard<std::mutex> lock(generate_mutex_);
+    return generateImg2ImgLocked(prompt, cfg);
+}
 
+GeneratedImage SDPlugin::generateImg2ImgLocked(const std::string& prompt,
+                                               const Img2ImgConfig& cfg) {
     GeneratedImage img;
     img.plugin_version = getPluginVersion();
 
@@ -339,10 +521,74 @@ GeneratedImage SDPlugin::generateImg2Img(const std::string& prompt,
     const std::string sanitized = sanitizer_.sanitize(prompt);
     img.prompt_hash = sha256Hex(sanitized);
 
+    std::string input_error;
+    if (!validateRgbBufferShape(cfg.input_image_rgb,
+                                cfg.input_width,
+                                cfg.input_height,
+                                input_error)) {
+        ++error_count_;
+        img.success = false;
+        img.error_message = "invalid img2img input: " + input_error;
+        return img;
+    }
+    const int target_w = (cfg.width > 0) ? cfg.width : cfg.input_width;
+    const int target_h = (cfg.height > 0) ? cfg.height : cfg.input_height;
+    std::string dim_error;
+    if (!validateGenerationDimensions(target_w, target_h, dim_error)) {
+        ++error_count_;
+        img.success = false;
+        img.error_message = dim_error;
+        return img;
+    }
+    if (!cfg.control_image_rgb.empty()) {
+        std::string control_error;
+        if (!validateRgbBufferShape(cfg.control_image_rgb,
+                                    cfg.control_width,
+                                    cfg.control_height,
+                                    control_error)) {
+            ++error_count_;
+            img.success = false;
+            img.error_message = "invalid control image: " + control_error;
+            return img;
+        }
+    }
+    if (!std::isfinite(cfg.control_strength) || cfg.control_strength < 0.0f || cfg.control_strength > 1.0f) {
+        ++error_count_;
+        img.success = false;
+        img.error_message = "invalid control strength";
+        return img;
+    }
+    if (!cfg.lora_adapter_path.empty() && (!std::isfinite(cfg.lora_scale) || cfg.lora_scale <= 0.0f)) {
+        ++error_count_;
+        img.success = false;
+        img.error_message = "invalid LoRA scale";
+        return img;
+    }
+
     try {
+        {
+            std::string lora_error;
+            const float lora_scale = cfg.lora_adapter_path.empty() ? 1.0f : cfg.lora_scale;
+            if (!generator_->applyLoRA(cfg.lora_adapter_path, lora_scale, lora_error)) {
+                ++error_count_;
+                img.success = false;
+                img.error_message = lora_error.empty()
+                    ? "failed to apply LoRA adapter"
+                    : lora_error;
+                return img;
+            }
+        }
+
         int      w = 0, h = 0;
         uint64_t seed_used = 0;
         const auto rgb = generator_->generateImg2Img(sanitized, cfg, w, h, seed_used);
+        std::string rgb_error;
+        if (!validateRgbBufferShape(rgb, w, h, rgb_error)) {
+            ++error_count_;
+            img.success = false;
+            img.error_message = rgb_error;
+            return img;
+        }
 
         img.png_data   = encodeMinimalPng(rgb, w, h);
         img.width      = w;
@@ -352,6 +598,7 @@ GeneratedImage SDPlugin::generateImg2Img(const std::string& prompt,
         img.model_id   = getModelId();
         img.generation_timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::system_clock::now().time_since_epoch()).count();
+        img.perceptual_hash = computePerceptualHash(rgb, w, h);
         img.success = true;
         ++generation_count_;
     } catch (const std::exception& ex) {
@@ -397,4 +644,3 @@ void themis_imggen_destroy(themis::imggen::IImageGenerationBackend* p) {
     delete p;
 }
 #endif
-

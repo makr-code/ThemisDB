@@ -41,6 +41,8 @@
 
 #include <benchmark/benchmark.h>
 #include "scraper/scraper_api_contract.h"
+#include "scraper/scraper_burst_controller.h"
+#include "scraper/scraper_run_summary.h"
 
 #include <cstdint>
 #include <string>
@@ -152,6 +154,43 @@ static void BM_SCR04_BatchCast(benchmark::State& state) {
     state.SetLabel("GATE-SCR-04: p99 <= 5 us per batch");
 }
 BENCHMARK(BM_SCR04_BatchCast)
+    ->Repetitions(kRepetitions)
+    ->ReportAggregatesOnly(true);
+
+// ============================================================================
+// GATE-SCR-05 — BurstCrawlController::tryAcquire() latency
+// ============================================================================
+
+// GATE-SCR-05 — BurstCrawlController::tryAcquire() p99 ≤ 100 ns
+static void BM_SCR05_BurstAcquire(benchmark::State& state) {
+    // Use high capacity + high refill so bucket never empties during bench
+    scraper::BurstCrawlController ctrl(1000000, 1000000.0);
+    for (auto _ : state) {
+        bool ok = ctrl.tryAcquire();
+        benchmark::DoNotOptimize(ok);
+    }
+    state.SetLabel("GATE-SCR-05: p99 <= 100 ns");
+}
+BENCHMARK(BM_SCR05_BurstAcquire)
+    ->Repetitions(kRepetitions)
+    ->ReportAggregatesOnly(true);
+
+// ============================================================================
+// GATE-SCR-06 — ScraperRunSummaryCollector::summary() latency
+// ============================================================================
+
+// GATE-SCR-06 — ScraperRunSummaryCollector::summary() p99 ≤ 1 µs
+static void BM_SCR06_SummaryRead(benchmark::State& state) {
+    scraper::ScraperRunSummaryCollector collector;
+    collector.setRunStats(100, 5000);
+    collector.recordSuccess(3);
+    for (auto _ : state) {
+        auto s = collector.summary();
+        benchmark::DoNotOptimize(s);
+    }
+    state.SetLabel("GATE-SCR-06: p99 <= 1 us");
+}
+BENCHMARK(BM_SCR06_SummaryRead)
     ->Repetitions(kRepetitions)
     ->ReportAggregatesOnly(true);
 

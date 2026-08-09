@@ -7,7 +7,7 @@ cmake_minimum_required(VERSION 3.20)
 # PNG frames, allowing all unit-tests to run without a model file.
 # ============================================================================
 
-project(stable_diffusion_plugin VERSION 2.0.0 LANGUAGES CXX)
+project(stable_diffusion_plugin VERSION 2.3.0 LANGUAGES CXX)
 
 if(NOT THEMIS_ROOT_DIR)
     get_filename_component(THEMIS_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../.." ABSOLUTE)
@@ -17,6 +17,8 @@ set(SD_PLUGIN_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/sd_config.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/sd_prompt_sanitizer.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/sd_plugin.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/sd_plugin_registrar.cpp
+    ${THEMIS_ROOT_DIR}/src/utils/checksum_utils.cpp
 )
 
 add_library(stable_diffusion_plugin STATIC ${SD_PLUGIN_SOURCES})
@@ -26,6 +28,20 @@ target_include_directories(stable_diffusion_plugin PUBLIC
 )
 
 target_compile_features(stable_diffusion_plugin PUBLIC cxx_std_17)
+
+option(THEMIS_SD_ENABLE_SHA256 "Enable model SHA-256 integrity gate (requires OpenSSL)" ON)
+if(THEMIS_SD_ENABLE_SHA256)
+    find_package(OpenSSL QUIET)
+    if(OpenSSL_FOUND OR OPENSSL_FOUND)
+        target_link_libraries(stable_diffusion_plugin PRIVATE OpenSSL::Crypto)
+        target_compile_definitions(stable_diffusion_plugin PRIVATE THEMIS_SD_ENABLE_SHA256=1)
+        message(STATUS "  stable_diffusion_plugin: OpenSSL found – SHA-256 model integrity gate enabled")
+    else()
+        message(WARNING "  stable_diffusion_plugin: THEMIS_SD_ENABLE_SHA256=ON but OpenSSL not found – SHA-256 gate disabled")
+    endif()
+else()
+    message(STATUS "  stable_diffusion_plugin: SHA-256 model integrity gate disabled (THEMIS_SD_ENABLE_SHA256=OFF)")
+endif()
 
 # ── Optional: stable-diffusion.cpp ──────────────────────────────────────────
 option(THEMIS_ENABLE_STABLE_DIFFUSION "Enable stable-diffusion.cpp for real generation" OFF)

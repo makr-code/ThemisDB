@@ -58,7 +58,7 @@ The canonical version is stored in two places that must always be kept in sync:
 
 Additionally, the CMake build system reads the version at configure time via the `VERSION` file and from `CMakeLists.txt` `project()` call. Keep these consistent.
 
-The `RELEASE_TYPE` file contains the current release type string (e.g., `stable`, `rc`, `beta`). At this root-sync point, the canonical state is `VERSION=2.4.0` with `RELEASE_TYPE=stable`.
+The `RELEASE_TYPE` file contains the current release type string (e.g., `stable`, `rc`, `beta`). For GA governance claims, `VERSION`/`RELEASE_TYPE` must be interpreted together with the active promotion evidence state; until Section 9 sign-off in `docs/governance/GA_PROMOTION_SIGN_OFF.md`, v2.4.0 GA promotion remains pending.
 
 ---
 

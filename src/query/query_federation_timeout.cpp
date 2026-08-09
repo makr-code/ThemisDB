@@ -133,12 +133,16 @@ void TimeoutPolicy::recordTimeoutEvent(const TimeoutEvent& event) {
     }
 
     spdlog::debug(
-        "Timeout event: type={}, shard={}, elapsed={}ms, attempt={}, details={}",
+        "Timeout event: type={}, shard={}, elapsed={}ms, attempt={}, details={}, "
+        "exhaustion_reason={}, timeout_source={}, correlation_id={}",
         type_str,
         event.shard_id,
         event.elapsed.count(),
         event.attempt_number,
-        event.details);
+        event.details,
+        static_cast<int>(event.exhaustion_reason),
+        static_cast<int>(event.timeout_source),
+        event.correlation_id);
 }
 
 void TimeoutPolicy::recordRetryStats(
@@ -301,6 +305,41 @@ std::optional<TimeoutPolicy::RetryStats> QueryTimeoutContext::getShardStats(
         return it->second;
     }
     return std::nullopt;
+}
+
+themis::utils::RetryMetadata QueryTimeoutContext::getRetryMetadata(
+    const std::string& shard_id) const {
+    themis::utils::RetryMetadata metadata;
+    metadata.retry_budget = static_cast<std::uint32_t>(std::max(policy_.getMaxRetries(), 0));
+
+    auto it = shard_stats_.find(shard_id);
+    if (it == shard_stats_.end()) {
+        metadata.retriable = true;
+        return metadata;
+    }
+
+    const auto& stats = it->second;
+    // Derive attempt_index from total_attempts rather than attempt_latencies size to
+    // avoid passing -1 into shouldRetry() when latencies vector is empty.
+    const int attempt_index = static_cast<int>(
+        stats.total_attempts > 0 ? stats.total_attempts - 1 : 0);
+    metadata.retry_count = stats.total_attempts > 0
+        ? static_cast<std::uint32_t>(stats.total_attempts - 1)
+        : 0;
+    metadata.retriable = policy_.shouldRetry(stats.total_elapsed, attempt_index);
+
+    if (!metadata.retriable) {
+        if (attempt_index >= policy_.getMaxRetries()) {
+            metadata.exhaustion_reason =
+                themis::utils::RetryExhaustionReason::MAX_ATTEMPTS_REACHED;
+        } else if (stats.total_elapsed >= policy_.getPerShardTimeout()) {
+            metadata.exhaustion_reason =
+                themis::utils::RetryExhaustionReason::TIME_BUDGET_EXCEEDED;
+            metadata.timeout_source = themis::utils::RetryTimeoutSource::SHARD;
+        }
+    }
+
+    return metadata;
 }
 
 } // namespace themis::query

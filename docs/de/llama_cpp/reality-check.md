@@ -36,3 +36,17 @@
 - `src/llama_cpp/ARCHITECTURE.md`: Capability-Tabelle und RAG-Datenfluss aktualisieren.
 - `src/llama_cpp/AUDIT.md`: Findings auf aktuellen Funktionsumfang (50 Tests, Streaming vorhanden) anpassen.
 - `src/llama_cpp/FUTURE_ENHANCEMENTS.md`: Makro-Namen und bereits gelieferte Features bereinigen.
+
+## Update — v2.4.0 (2026-08-09)
+
+Alle Abweichungen aus dem Reality-Check vom 2026-04-16 wurden behoben. Die Primary-Quellen reflektieren nun den Implementierungsstand:
+
+| Bereich | Lösung |
+|---|---|
+| Versions-/Reifestand | ROADMAP, AUDIT, CHANGELOG auf v2.4.0 aktualisiert; 89 Tests (Gruppen A–X) |
+| Capabilities | ARCHITECTURE.md-Flussdiagramme aktualisiert; alle `supports_*`-Flags korrekt |
+| RAG-Fluss | ARCHITECTURE.md zeigt jetzt Mutex-Snapshot-Pattern und RAGContextAssembler |
+| Audit-Status | AUDIT.md: 0 offene Security-Issues, 0 offene Functional-Issues |
+| Security | Alle 4 SECURITY.md-Checkboxen auf `[x]`; GGUF-Magic, Digest-Gate, Policy-Hook |
+| Concurrency | CRITICAL `data_race`-Findings behoben; Atomic-Counter; Retry-Logik |
+| Server-Integration | `initFromServerConfig()` als sauberer Startup-Integrationspunkt hinzugefügt |
