@@ -23,9 +23,8 @@ For rapid builds and testing:
 ```bash
 # Configure (Linux)
 cmake --preset community-release \
-  -Dthemis_build_tests=ON \
-  -Dthemis_enable_cuda=OFF \
-  -Dthemis_allow_missing_rocksdb=ON
+  -DTHEMIS_BUILD_TESTS=ON \
+  -DTHEMIS_ENABLE_CUDA=OFF
 
 # Build just the stress test target
 cmake --build --preset community-release \
@@ -34,7 +33,7 @@ cmake --build --preset community-release \
 
 # Run all stress tests
 ctest --preset community-release \
-  -R "module_tensor_test_tensor_stress_suite_focused" \
+  -R "^test_tensor_stress_suite_focused_tensor_FocusedTests$" \
   --output-on-failure \
   -V
 ```
@@ -71,8 +70,8 @@ Required:
 - ZLIB 1.3+
 
 Optional (for full build):
-- RocksDB (can build without via -Dthemis_allow_missing_rocksdb=ON)
-- CUDA (disable with -Dthemis_enable_cuda=OFF)
+- RocksDB (or use the `community-release-allow-missing-rocksdb` configure preset for diagnostic builds)
+- CUDA (disable with `-DTHEMIS_ENABLE_CUDA=OFF`)
 - TensorRT, TBB (not needed for stress tests)
 
 ### Installation (Ubuntu/Debian)
@@ -107,27 +106,27 @@ git checkout feature/tensor-q4-determinism  # or your feature branch
 ```bash
 # Community Release (default, system packages)
 cmake --preset community-release \
-  -Dthemis_build_tests=ON \
-  -Dthemis_enable_cuda=OFF
+  -DTHEMIS_BUILD_TESTS=ON \
+  -DTHEMIS_ENABLE_CUDA=OFF
 ```
 
 #### Windows
 
 ```bash
 # Windows Release with vcpkg
-cmake --preset hyperscaler-release-linux \
-  -Dthemis_build_tests=ON \
-  -Dthemis_enable_cuda=OFF
+cmake --preset windows-release \
+  -DTHEMIS_BUILD_TESTS=ON \
+  -DTHEMIS_ENABLE_CUDA=OFF
 ```
 
 #### macOS
 
 ```bash
 # Requires Homebrew: brew install gcc cmake gtest fmt spdlog openssl zlib
-cmake -B build_mac \
+cmake -S . -B build_mac \
   -DCMAKE_BUILD_TYPE=Release \
-  -Dthemis_build_tests=ON \
-  -Dthemis_enable_cuda=OFF
+  -DTHEMIS_BUILD_TESTS=ON \
+  -DTHEMIS_ENABLE_CUDA=OFF
 ```
 
 ### Step 3: Build Stress Test Target
@@ -138,11 +137,6 @@ cmake --build --preset community-release \
   --target module_tensor_test_tensor_stress_suite_focused \
   --parallel 8
 
-# Or build all tensor tests
-cmake --build --preset community-release \
-  --target module_tensor_* \
-  --parallel 8
-
 # Or full build (if needed)
 cmake --build --preset community-release --parallel 16
 ```
@@ -151,7 +145,7 @@ cmake --build --preset community-release --parallel 16
 
 Successful build produces:
 ```
-bin_out_module_tensor_tests/
+build-community-release/bin_out_module_tensor_tests/
   ├── module_tensor_test_tensor_stress_suite_focused
   └── [other tensor test binaries]
 ```
@@ -165,7 +159,7 @@ bin_out_module_tensor_tests/
 ```bash
 # Run all stress tests via ctest
 ctest --preset community-release \
-  -R "test_tensor_stress_suite_focused" \
+  -R "^test_tensor_stress_suite_focused_tensor_FocusedTests$" \
   --output-on-failure \
   -V
 ```
@@ -174,32 +168,27 @@ ctest --preset community-release \
 
 ```bash
 # Run only throughput tests (TSTRESS-01..03)
-ctest --preset community-release \
-  -R "TSTRESS0[123]" \
-  --output-on-failure
+./build-community-release/bin_out_module_tensor_tests/module_tensor_test_tensor_stress_suite_focused \
+  --gtest_filter="*TSTRESS01*:*TSTRESS02*:*TSTRESS03*"
 
 # Run only memory stability tests (TSTRESS-04..06)
-ctest --preset community-release \
-  -R "TSTRESS0[456]" \
-  --output-on-failure
+./build-community-release/bin_out_module_tensor_tests/module_tensor_test_tensor_stress_suite_focused \
+  --gtest_filter="*TSTRESS04*:*TSTRESS05*:*TSTRESS06*"
 
 # Run only chaos injection tests (TSTRESS-13..15)
-ctest --preset community-release \
-  -R "TSTRESS1[345]" \
-  --output-on-failure
+./build-community-release/bin_out_module_tensor_tests/module_tensor_test_tensor_stress_suite_focused \
+  --gtest_filter="*TSTRESS13*:*TSTRESS14*:*TSTRESS15*"
 
 # Skip long-running tests (TSTRESS-18)
-ctest --preset community-release \
-  -R "test_tensor_stress_suite_focused" \
-  -E "SustainedLoad" \
-  --output-on-failure
+./build-community-release/bin_out_module_tensor_tests/module_tensor_test_tensor_stress_suite_focused \
+  --gtest_filter="*:-*TSTRESS18*"
 ```
 
 ### Direct Execution (for debugging)
 
 ```bash
 # Find the test binary
-TEST_BIN=./bin_out_module_tensor_tests/module_tensor_test_tensor_stress_suite_focused
+TEST_BIN=./build-community-release/bin_out_module_tensor_tests/module_tensor_test_tensor_stress_suite_focused
 
 # Run with gtest filters
 ${TEST_BIN} --gtest_filter="*TSTRESS01*"
@@ -214,20 +203,17 @@ ${TEST_BIN} --gtest_filter="*TSTRESS*" --gtest_repeat=3
 
 ```bash
 # Run fast throughput + latency tests only
-ctest --preset community-release \
-  -R "TSTRESS(01|02|07|10)" \
-  --output-on-failure
+./build-community-release/bin_out_module_tensor_tests/module_tensor_test_tensor_stress_suite_focused \
+  --gtest_filter="*TSTRESS01*:*TSTRESS02*:*TSTRESS07*:*TSTRESS10*"
 ```
 
 #### Comprehensive (~5 minutes)
 
 ```bash
 # Run all stress tests except SustainedLoad
-ctest --preset community-release \
-  -R "test_tensor_stress_suite_focused" \
-  -E "SustainedLoad" \
-  --output-on-failure \
-  -V
+./build-community-release/bin_out_module_tensor_tests/module_tensor_test_tensor_stress_suite_focused \
+  --gtest_filter="*:-*TSTRESS18*" \
+  --gtest_repeat=1
 ```
 
 #### Full Validation (~10 minutes)
@@ -235,7 +221,7 @@ ctest --preset community-release \
 ```bash
 # Run all stress tests including SustainedLoad
 ctest --preset community-release \
-  -R "test_tensor_stress_suite_focused" \
+  -R "^test_tensor_stress_suite_focused_tensor_FocusedTests$" \
   --output-on-failure \
   -V
 ```
@@ -292,7 +278,7 @@ P99 < 1s (StoreHeavy)
 Save results to file:
 ```bash
 ctest --preset community-release \
-  -R "test_tensor_stress_suite_focused" \
+  -R "^test_tensor_stress_suite_focused_tensor_FocusedTests$" \
   --output-on-failure \
   > stress_test_results.txt 2>&1
 
@@ -327,7 +313,7 @@ sudo apt-get install libgtest-dev
 ```bash
 # Verify include directories in CMakeLists.txt
 cmake --preset community-release \
-  -Dthemis_build_tests=ON \
+  -DTHEMIS_BUILD_TESTS=ON \
   -DCMAKE_VERBOSE_MAKEFILE=ON  # Show build details
 ```
 
@@ -366,7 +352,7 @@ ctest --preset community-release \
 **Diagnosis**:
 ```bash
 # Run test in isolation
-./bin_out_module_tensor_tests/module_tensor_test_tensor_stress_suite_focused \
+./build-community-release/bin_out_module_tensor_tests/module_tensor_test_tensor_stress_suite_focused \
   --gtest_filter="*TSTRESS01*" \
   --gtest_repeat=5
 
@@ -445,8 +431,8 @@ jobs:
       - name: Configure CMake
         run: |
           cmake --preset community-release \
-            -Dthemis_build_tests=ON \
-            -Dthemis_enable_cuda=OFF
+            -DTHEMIS_BUILD_TESTS=ON \
+            -DTHEMIS_ENABLE_CUDA=OFF
       
       - name: Build stress test target
         run: |
@@ -457,9 +443,9 @@ jobs:
       - name: Run stress tests
         run: |
           ctest --preset community-release \
-            -R "test_tensor_stress_suite_focused" \
+            -R "^test_tensor_stress_suite_focused_tensor_FocusedTests$" \
             --output-on-failure \
-            -V
+            -V 2>&1 | tee stress_test_results.txt
       
       - name: Upload results
         if: always()
@@ -467,7 +453,7 @@ jobs:
         with:
           name: stress-test-results
           path: |
-            build_community-release/Testing/Temporary/LastTest.log
+            build-community-release/Testing/Temporary/LastTest.log
             stress_test_results.txt
 ```
 
@@ -480,8 +466,7 @@ Create `.git/hooks/pre-push` script:
 echo "Running tensor stress tests..."
 
 ctest --preset community-release \
-  -R "test_tensor_stress_suite_focused" \
-  -E "SustainedLoad" \
+  -R "^test_tensor_stress_suite_focused_tensor_FocusedTests$" \
   --output-on-failure
 
 if [ $? -ne 0 ]; then
@@ -504,7 +489,7 @@ chmod +x .git/hooks/pre-push
 ```bash
 # Run once to establish baseline
 ctest --preset community-release \
-  -R "test_tensor_stress_suite_focused" \
+  -R "^test_tensor_stress_suite_focused_tensor_FocusedTests$" \
   --output-on-failure \
   -V \
   > baseline_results.txt 2>&1
@@ -518,7 +503,7 @@ grep -E "Throughput|Latency|ops/sec|ms" baseline_results.txt > baseline_metrics.
 ```bash
 # Run and compare to baseline
 ctest --preset community-release \
-  -R "test_tensor_stress_suite_focused" \
+  -R "^test_tensor_stress_suite_focused_tensor_FocusedTests$" \
   --output-on-failure \
   -V \
   > current_results.txt 2>&1
