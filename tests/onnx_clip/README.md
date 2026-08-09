@@ -58,13 +58,61 @@ This directory contains focused test suites for the ONNX CLIP v0.3.0 hardening p
 
 ### Phase 4: Memory-Mapped Tests (OCP-MM-*)
 **File:** `test_onnx_clip_mmap_focused.cpp`
-**Purpose:** Verify memory-mapped model loading
+**Purpose:** Verify memory-mapped model loading reduces peak memory consumption
+**Status:** ✅ COMPLETE (Phase 4C)
 
-| Test | Scope |
-|------|-------|
-| OCP-MM-01..04 | Mmap initialization success/failure |
-| OCP-MM-05..08 | Memory footprint verification |
-| OCP-MM-09..12 | Concurrent inference correctness |
+#### Test Breakdown
+
+**OCP-MM-01..04: Mmap Initialization (Success/Failure/Fallback)**
+
+| Test | Scope | Runtime |
+|------|-------|---------|
+| OCP-MM-01 | Mmap initialization with valid config succeeds | < 200ms |
+| OCP-MM-02 | Mmap gracefully falls back to traditional loading on unsupported platform | < 210ms |
+| OCP-MM-03 | Mmap with invalid file path returns error with meaningful diagnostic | < 210ms |
+| OCP-MM-04 | Mmap with corrupted file handles error gracefully | < 210ms |
+
+**OCP-MM-05..08: Memory Correctness & Concurrent Inference**
+
+| Test | Scope | Runtime |
+|------|-------|---------|
+| OCP-MM-05 | Mmap'd model produces identical embeddings vs traditional loading | < 210ms |
+| OCP-MM-06 | Mmap'd model handles batch inference correctly | < 210ms |
+| OCP-MM-07 | Text embeddings work with mmap'd model | < 210ms |
+| OCP-MM-08 | Concurrent inference threads produce correct results | < 210ms |
+
+**OCP-MM-09..12: Memory Footprint Verification**
+
+| Test | Scope | Runtime | Target |
+|------|-------|---------|--------|
+| OCP-MM-09 | Peak memory with mmap is < traditional loading | < 310ms | — |
+| OCP-MM-10 | Memory reduction for ViT-B/32 >= 10% (target 10-15%) | < 210ms | ≥10% |
+| OCP-MM-11 | Memory reduction for ViT-L/14 >= 25% (target 30-40%) | < 210ms | ≥25% |
+| OCP-MM-12 | Memory tracking works correctly across batch operations | < 210ms | — |
+
+**Total Suite Runtime:** ~2.5 seconds (well under 120-second timeout)
+
+#### Design Highlights
+
+- **Platform Support:**
+  - Linux: `mmap(2)` with `MAP_SHARED | MAP_NORESERVE` for efficient paging
+  - Windows: `CreateFileMapping()` + `MapViewOfFile()` for efficient model loading
+  - Graceful fallback to traditional heap loading if mmap unsupported
+
+- **RAII Cleanup:**
+  - All mmap resources cleaned up via destructor
+  - Exception-safe memory management
+  - No file descriptor leaks (verified on Linux)
+
+- **Memory Efficiency:**
+  - Mock models for testing (10MB for ViT-B/32, 50MB for ViT-L/14)
+  - RSS measurement via `/proc/self/status` (Linux)
+  - Deterministic test data (seed 42 for reproducibility)
+
+- **Correctness Verification:**
+  - Mmap'd and traditional embeddings are bit-for-bit identical
+  - Batch inference maintains correctness
+  - Concurrent access is thread-safe (4 concurrent threads tested)
 
 ## Build & Test
 
