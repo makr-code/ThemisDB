@@ -30,8 +30,8 @@ Production-usable training runtime exists for labeling, enrichment, LoRA/AdaLoRA
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [ ] freeze training, checkpoint, and adapter lifecycle contracts for current major line (Target: Q3 2026)
-- [ ] define explicit error taxonomy for labeling, checkpoint, and serving incidents (Target: Q3 2026)
+- [x] freeze training, checkpoint, and adapter lifecycle contracts for current major line (2026-08-09: TRAINING_CONTRACT.md created; lifecycle states, adapter invariants, checkpoint atomicity frozen)
+- [x] define explicit error taxonomy for labeling, checkpoint, and serving incidents (2026-08-09: TRAINING_CONTRACT.md §4 references frozen TrainingErrorCode; summary table for 3 incident classes)
 
 ### Phase 2: Core Implementation
 - [ ] complete hardening for trainer, checkpoint, and merge internals (Target: Q4 2026)
