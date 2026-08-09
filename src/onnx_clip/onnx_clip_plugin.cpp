@@ -49,38 +49,6 @@ namespace plugins {
 namespace image {
 
 // ---------------------------------------------------------------------------
-// RAII Request Tracking Guard (Phase 3B)
-// ---------------------------------------------------------------------------
-/// Increments in_flight_requests on construction, decrements on destruction.
-/// Ensures atomicity even in presence of exceptions.
-/// Notifies cv_drain_complete when counter reaches zero.
-class RequestGuard {
-public:
-    RequestGuard(std::atomic<int>& counter, std::condition_variable& cv)
-        : counter_(counter), cv_(cv) {
-        counter_.fetch_add(1, std::memory_order_acquire);
-    }
-    
-    ~RequestGuard() {
-        int prev = counter_.fetch_sub(1, std::memory_order_release);
-        // If this is the last request, notify waiting threads
-        if (prev == 1) {
-            cv_.notify_all();
-        }
-    }
-    
-    // Non-copyable, non-movable
-    RequestGuard(const RequestGuard&) = delete;
-    RequestGuard& operator=(const RequestGuard&) = delete;
-    RequestGuard(RequestGuard&&) = delete;
-    RequestGuard& operator=(RequestGuard&&) = delete;
-
-private:
-    std::atomic<int>& counter_;
-    std::condition_variable& cv_;
-};
-
-// ---------------------------------------------------------------------------
 // STUB #94 — ModelHashFn static bridge (non-OpenSSL SHA-256 injection)
 // ---------------------------------------------------------------------------
 namespace {
@@ -259,7 +227,7 @@ struct ONNXClipPlugin::Impl {
      * @brief Load ONNX model via memory mapping (read-only).
      * 
      * Attempts to load the model file into memory via OS-specific mechanisms:
-     * - Linux: mmap(2) with MAP_SHARED | MAP_NORESERVE for efficient paging
+     * - Linux/POSIX: mmap(2) with MAP_SHARED; MAP_NORESERVE added when available
      * - Windows: CreateFileMapping() + MapViewOfFile()
      * 
      * @param model_path Path to ONNX model file
@@ -292,12 +260,17 @@ struct ONNXClipPlugin::Impl {
             return false;  // Cannot open file
         }
         
-        // 4. Perform mmap with MAP_SHARED | MAP_NORESERVE for memory efficiency
+        // 4. Perform mmap with MAP_SHARED for read-only model loading.
+        // MAP_NORESERVE avoids swap reservation on platforms that support it.
+        int mmap_flags = MAP_SHARED;
+#ifdef MAP_NORESERVE
+        mmap_flags |= MAP_NORESERVE;
+#endif
         mmap_ptr_ = ::mmap(
             nullptr,                           // addr: let OS choose
             static_cast<size_t>(file_size),   // length
             PROT_READ,                         // read-only
-            MAP_SHARED | MAP_NORESERVE,       // shared + no swap reservation
+            mmap_flags,                        // platform-appropriate flags
             mmap_fd_,                          // file descriptor
             0                                  // offset
         );
@@ -516,8 +489,40 @@ struct ONNXClipPlugin::Impl {
     }
 };
 
+// ---------------------------------------------------------------------------
+// RAII Request Tracking Guard (Phase 3B)
+// ---------------------------------------------------------------------------
+/// Holds a shared_ptr to the Impl whose counter it manages, ensuring the Impl
+/// stays alive for the entire duration of the request even if reloadModel()
+/// swaps impl_ on another thread.
+/// Must be defined after ONNXClipPlugin::Impl is complete (member field access).
+class RequestGuard {
+public:
+    explicit RequestGuard(std::shared_ptr<ONNXClipPlugin::Impl> impl)
+        : impl_(std::move(impl)) {
+        impl_->in_flight_requests_.fetch_add(1, std::memory_order_acquire);
+    }
+
+    ~RequestGuard() {
+        int prev = impl_->in_flight_requests_.fetch_sub(1, std::memory_order_release);
+        // If this is the last in-flight request, notify waiting threads.
+        if (prev == 1) {
+            impl_->cv_drain_complete.notify_all();
+        }
+    }
+
+    // Non-copyable, non-movable
+    RequestGuard(const RequestGuard&) = delete;
+    RequestGuard& operator=(const RequestGuard&) = delete;
+    RequestGuard(RequestGuard&&) = delete;
+    RequestGuard& operator=(RequestGuard&&) = delete;
+
+private:
+    std::shared_ptr<ONNXClipPlugin::Impl> impl_;
+};
+
 ONNXClipPlugin::ONNXClipPlugin()
-    : impl_(std::make_unique<Impl>()) {
+    : impl_(std::make_shared<Impl>()) {
 }
 
 ONNXClipPlugin::~ONNXClipPlugin() = default;
@@ -660,32 +665,38 @@ EmbeddingResult ONNXClipPlugin::generateEmbedding(
     const ImageMetadata* metadata) {
     auto t0 = std::chrono::steady_clock::now();
 
-    // Phase 3B: Track in-flight request for hot-swap model reloading
-    RequestGuard req_guard(impl_->in_flight_requests_, impl_->cv_drain_complete);
+    // Phase 3B: Snapshot impl_ under impl_swap_mtx_ to extend its lifetime across
+    // potential concurrent reloadModel() hot-swaps, preventing use-after-free.
+    std::shared_ptr<Impl> snap;
+    {
+        std::lock_guard<std::mutex> pg(impl_swap_mtx_);
+        snap = impl_;
+    }
+    RequestGuard req_guard(snap);
 
-    std::lock_guard<std::mutex> lock(impl_->mutex);
-    if (!impl_->ready) {
+    std::lock_guard<std::mutex> lock(snap->mutex);
+    if (!snap->ready) {
         EmbeddingResult result;
         result.success = false;
         result.error_message = "ONNXClipPlugin not initialized";
-        impl_->total_errors++;
+        snap->total_errors++;
         return result;
     }
 
-    EmbeddingResult result = impl_->computeEmbedding(image_data, metadata,
-                                                     impl_->model_name,
-                                                     impl_->embedding_dim);
+    EmbeddingResult result = snap->computeEmbedding(image_data, metadata,
+                                                     snap->model_name,
+                                                     snap->embedding_dim);
 
     auto t1 = std::chrono::steady_clock::now();
     const auto dt_ms = std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count();
     result.inference_time_ms = dt_ms;
 
-    impl_->total_images++;
-    impl_->total_inferences++;
-    impl_->total_latency_ms += static_cast<double>(dt_ms);
-    impl_->clip_embeddings_total++;
+    snap->total_images++;
+    snap->total_inferences++;
+    snap->total_latency_ms += static_cast<double>(dt_ms);
+    snap->clip_embeddings_total++;
     if (!result.success) {
-        impl_->total_errors++;
+        snap->total_errors++;
     }
 
     return result;
@@ -695,32 +706,37 @@ std::vector<EmbeddingResult> ONNXClipPlugin::generateEmbeddingBatch(
     const std::vector<std::vector<uint8_t>>& images) {
     auto t0 = std::chrono::steady_clock::now();
 
-    // Phase 3B: Track in-flight request for hot-swap model reloading
-    RequestGuard req_guard(impl_->in_flight_requests_, impl_->cv_drain_complete);
+    // Phase 3B: Snapshot impl_ under impl_swap_mtx_ to extend its lifetime.
+    std::shared_ptr<Impl> snap;
+    {
+        std::lock_guard<std::mutex> pg(impl_swap_mtx_);
+        snap = impl_;
+    }
+    RequestGuard req_guard(snap);
 
-    std::lock_guard<std::mutex> lock(impl_->mutex);
+    std::lock_guard<std::mutex> lock(snap->mutex);
     std::vector<EmbeddingResult> results;
     results.reserve(images.size());
 
-    if (!impl_->ready) {
+    if (!snap->ready) {
         for (size_t i = 0; i < images.size(); ++i) {
             EmbeddingResult result;
             result.success = false;
             result.error_message = "ONNXClipPlugin not initialized";
             results.push_back(std::move(result));
         }
-        impl_->total_errors += static_cast<uint64_t>(images.size());
+        snap->total_errors += static_cast<uint64_t>(images.size());
         return results;
     }
 
     // Process in sub-batches of max_batch_size to bound memory usage.
-    const size_t batch_limit = static_cast<size_t>(impl_->max_batch_size);
+    const size_t batch_limit = static_cast<size_t>(snap->max_batch_size);
     for (size_t start = 0; start < images.size(); start += batch_limit) {
         const size_t end = std::min(start + batch_limit, images.size());
         for (size_t i = start; i < end; ++i) {
-            results.push_back(impl_->computeEmbedding(images[i], nullptr,
-                                                      impl_->model_name,
-                                                      impl_->embedding_dim));
+            results.push_back(snap->computeEmbedding(images[i], nullptr,
+                                                      snap->model_name,
+                                                      snap->embedding_dim));
         }
     }
 
@@ -730,15 +746,15 @@ std::vector<EmbeddingResult> ONNXClipPlugin::generateEmbeddingBatch(
     for (auto& r : results) {
         r.inference_time_ms = dt_ms;
         if (!r.success) {
-            impl_->total_errors++;
+            snap->total_errors++;
         }
     }
 
-    impl_->total_batches++;
-    impl_->total_images += static_cast<uint64_t>(images.size());
-    impl_->total_inferences += static_cast<uint64_t>(images.size());
-    impl_->total_latency_ms += static_cast<double>(dt_ms);
-    impl_->clip_batch_embeddings_total += static_cast<uint64_t>(images.size());
+    snap->total_batches++;
+    snap->total_images += static_cast<uint64_t>(images.size());
+    snap->total_inferences += static_cast<uint64_t>(images.size());
+    snap->total_latency_ms += static_cast<double>(dt_ms);
+    snap->clip_batch_embeddings_total += static_cast<uint64_t>(images.size());
 
     return results;
 }
@@ -751,32 +767,37 @@ bool ONNXClipPlugin::healthCheck() const {
 EmbeddingResult ONNXClipPlugin::generateTextEmbedding(const std::string& text) {
     auto t0 = std::chrono::steady_clock::now();
 
-    // Phase 3B: Track in-flight request for hot-swap model reloading
-    RequestGuard req_guard(impl_->in_flight_requests_, impl_->cv_drain_complete);
+    // Phase 3B: Snapshot impl_ under impl_swap_mtx_ to extend its lifetime.
+    std::shared_ptr<Impl> snap;
+    {
+        std::lock_guard<std::mutex> pg(impl_swap_mtx_);
+        snap = impl_;
+    }
+    RequestGuard req_guard(snap);
 
-    std::lock_guard<std::mutex> lock(impl_->mutex);
-    if (!impl_->ready) {
+    std::lock_guard<std::mutex> lock(snap->mutex);
+    if (!snap->ready) {
         EmbeddingResult result;
         result.success = false;
         result.error_message = "ONNXClipPlugin not initialized";
-        impl_->total_errors++;
+        snap->total_errors++;
         return result;
     }
 
-    EmbeddingResult result = impl_->computeTextEmbedding(text,
-                                                         impl_->model_name,
-                                                         impl_->embedding_dim);
+    EmbeddingResult result = snap->computeTextEmbedding(text,
+                                                         snap->model_name,
+                                                         snap->embedding_dim);
 
     auto t1 = std::chrono::steady_clock::now();
     const auto dt_ms = std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count();
     result.inference_time_ms = dt_ms;
 
-    impl_->total_text_inferences++;
-    impl_->total_inferences++;
-    impl_->total_latency_ms += static_cast<double>(dt_ms);
-    impl_->clip_text_embeddings_total++;
+    snap->total_text_inferences++;
+    snap->total_inferences++;
+    snap->total_latency_ms += static_cast<double>(dt_ms);
+    snap->clip_text_embeddings_total++;
     if (!result.success) {
-        impl_->total_errors++;
+        snap->total_errors++;
     }
 
     return result;
@@ -826,64 +847,56 @@ void ONNXClipPlugin::warmup() {
 bool ONNXClipPlugin::reloadModel(const PluginConfig& new_config) {
     // Phase 3B: Hot-Swap Model Reloading
     // ====================================
-    // Thread-safe implementation allowing dynamic model reloading without server restart.
-    // In-flight requests are tracked and complete before model swap (30-second timeout).
-    
-    std::unique_lock<std::mutex> lock(impl_->mutex);
-    
-    // Step 1: Verify currently initialized
-    if (!impl_->ready) {
-        return false;
-    }
-    
-    // Step 2: Create new Impl with new config
-    // This preserves old impl_ until initialization succeeds
-    auto new_impl = std::make_unique<Impl>();
-    
-    // Step 3: Apply new configuration
+    // Uses impl_swap_mtx_ to gate pointer-level access rather than impl_->mutex,
+    // preventing the use-after-free that would occur if impl_->mutex were held
+    // across the Impl pointer swap/destroy.
+    //
+    // Locking order: impl_swap_mtx_ (short critical sections only),
+    //                then per-Impl mutex (for config copy and drain-wait).
+    // Request functions take impl_swap_mtx_ briefly to snapshot, then impl->mutex.
+    // This order is consistent; no deadlock is possible.
+
+    // Step 1: Build new Impl configuration (no lock held – potentially expensive)
+    auto new_impl = std::make_shared<Impl>();
+
     new_impl->model_name = new_config.get<std::string>("model.name", "clip-vit-base-patch32");
     new_impl->embedding_dim = new_config.get<int>("model.embedding_dim", 512);
     if (new_impl->embedding_dim <= 0) {
         new_impl->embedding_dim = 512;
     }
-    
-    // Determine backend
-    BackendType backend = impl_->backend;  // default to current backend
+
+    // Determine backend: "auto" and "cpu" both resolve to CPU (consistent with initialize()).
     const std::string backend_str = new_config.get<std::string>("backend", "auto");
-    if (backend_str == "cuda") {
-        backend = BackendType::CUDA;
-    } else if (backend_str == "directml") {
-        backend = BackendType::DIRECTML;
-    } else if (backend_str == "tensorrt") {
-        backend = BackendType::TENSORRT;
-    } else if (backend_str == "opencl") {
-        backend = BackendType::OPENCL;
-    } else if (backend_str == "vulkan") {
-        backend = BackendType::VULKAN;
-    } else if (backend_str == "openvino") {
-        backend = BackendType::OPENVINO;
-    } else if (backend_str == "metal") {
-        backend = BackendType::METAL;
-    } else if (backend_str == "rocm") {
-        backend = BackendType::ROCM;
-    }
-    
-    if (backend == BackendType::AUTO) {
+    if (backend_str == "auto" || backend_str == "cpu") {
         new_impl->backend = BackendType::CPU;
+    } else if (backend_str == "cuda") {
+        new_impl->backend = BackendType::CUDA;
+    } else if (backend_str == "directml") {
+        new_impl->backend = BackendType::DIRECTML;
+    } else if (backend_str == "tensorrt") {
+        new_impl->backend = BackendType::TENSORRT;
+    } else if (backend_str == "opencl") {
+        new_impl->backend = BackendType::OPENCL;
+    } else if (backend_str == "vulkan") {
+        new_impl->backend = BackendType::VULKAN;
+    } else if (backend_str == "openvino") {
+        new_impl->backend = BackendType::OPENVINO;
+    } else if (backend_str == "metal") {
+        new_impl->backend = BackendType::METAL;
+    } else if (backend_str == "rocm") {
+        new_impl->backend = BackendType::ROCM;
     } else {
-        new_impl->backend = backend;
+        new_impl->backend = BackendType::CPU;  // unknown string: safe default
     }
-    
-    // Batch size configuration
+
     const int cpu_default = (new_impl->backend == BackendType::CPU) ? 16 : 64;
     const int cfg_max = new_config.get<int>("max_batch_size", cpu_default);
     new_impl->max_batch_size = std::max(1, cfg_max);
-    
-    // Step 4: Verify model integrity with new config
-    // (using same logic as initialize())
+
+    // Step 2: Verify model integrity (no lock held)
     const std::string model_path = new_config.get<std::string>("model.path", "");
     const std::string expected_sha256 = new_config.get<std::string>("model.expected_sha256", "");
-    
+
     if (!expected_sha256.empty() && !model_path.empty()) {
 #ifdef THEMIS_HAS_OPENSSL
         const std::string actual_sha256 = sha256HexOfFile(model_path);
@@ -909,37 +922,56 @@ bool ONNXClipPlugin::reloadModel(const PluginConfig& new_config) {
         }
 #endif // THEMIS_HAS_OPENSSL
     }
-    
-    // Step 5: Mark new impl as ready
+
     new_impl->ready = true;
-    
-    // Step 6: Wait for in-flight requests to drain (30-second timeout)
-    // Condition: in_flight_requests_ == 0
-    // This ensures all current embedding/text requests complete before swap.
+
+    // Step 3: Atomically swap impl_ and preserve cumulative statistics.
+    // Hold impl_swap_mtx_ for the entire critical section (pointer swap + stat copy).
+    // Also hold old_impl->mutex to read stats consistently.
+    std::shared_ptr<Impl> old_impl;
+    {
+        std::lock_guard<std::mutex> pg(impl_swap_mtx_);
+
+        if (!impl_ || !impl_->ready) {
+            return false;
+        }
+        old_impl = impl_;
+
+        // Copy cumulative counters so statistics survive the reload.
+        {
+            std::lock_guard<std::mutex> ol(old_impl->mutex);
+            new_impl->total_inferences          = old_impl->total_inferences;
+            new_impl->total_batches             = old_impl->total_batches;
+            new_impl->total_images              = old_impl->total_images;
+            new_impl->total_text_inferences     = old_impl->total_text_inferences;
+            new_impl->total_errors              = old_impl->total_errors;
+            new_impl->total_latency_ms          = old_impl->total_latency_ms;
+            new_impl->clip_embeddings_total     = old_impl->clip_embeddings_total;
+            new_impl->clip_text_embeddings_total      = old_impl->clip_text_embeddings_total;
+            new_impl->clip_batch_embeddings_total     = old_impl->clip_batch_embeddings_total;
+        }
+
+        impl_ = new_impl;  // Publish new Impl; new requests will snap it.
+    }
+
+    // Step 4: Wait for any in-flight requests still using old_impl to complete.
+    // We must NOT hold impl_swap_mtx_ here so request functions can proceed.
     const auto drain_timeout = std::chrono::seconds(30);
     const auto deadline = std::chrono::steady_clock::now() + drain_timeout;
-    
-    bool drain_success = impl_->cv_drain_complete.wait_until(
-        lock,
+
+    std::unique_lock<std::mutex> ol(old_impl->mutex);
+    bool drain_success = old_impl->cv_drain_complete.wait_until(
+        ol,
         deadline,
-        [this]() { return impl_->in_flight_requests_.load(std::memory_order_acquire) == 0; }
+        [&old_impl]() {
+            return old_impl->in_flight_requests_.load(std::memory_order_acquire) == 0;
+        }
     );
-    
-    if (!drain_success) {
-        // Timeout: could not drain in-flight requests within 30 seconds
-        // Old impl remains active, new impl is discarded
-        return false;
-    }
-    
-    // Step 7: Atomic swap: replace old impl with new impl
-    // Old impl is destroyed here; resources are released automatically
-    impl_ = std::move(new_impl);
-    
-    // Step 8: Signal condition variable in case reloadModel is called again
-    impl_->cv_drain_complete.notify_all();
-    
-    // Lock is automatically released here when unique_lock goes out of scope
-    return true;
+
+    // Regardless of timeout, new_impl is already live. If drain timed out,
+    // old_impl is still valid (shared_ptr) and will be released naturally when
+    // all remaining in-flight RequestGuards destruct.
+    return drain_success;
 }
 
 } // namespace image

@@ -126,7 +126,9 @@ public:
 private:
     // Implementation details
     struct Impl;
-    std::unique_ptr<Impl> impl_;
+    /// Guards pointer-level swap of impl_ during hot-swap reloads.
+    mutable std::mutex impl_swap_mtx_;
+    std::shared_ptr<Impl> impl_;
 };
 
 } // namespace image

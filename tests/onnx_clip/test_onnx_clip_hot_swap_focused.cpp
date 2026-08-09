@@ -185,8 +185,14 @@ TEST_F(OnnxClipHotSwapTest, OCP_HS_05_InFlightCounterTracking) {
     // After request completes, plugin should still be usable
     EXPECT_TRUE(plugin_->isReady());
     
-    // Verify request was processed
-    EXPECT_TRUE(result.success || !result.success);  // Either way, request was attempted
+    // Verify request was processed: on failure the error message must be non-empty
+    if (!result.success) {
+        EXPECT_FALSE(result.error_message.empty()) << "Failed requests must carry an error message";
+    } else {
+        EXPECT_EQ(static_cast<int>(result.embedding.size()),
+                  kDefaultEmbeddingDim)
+            << "Successful embedding must match configured dimension";
+    }
 }
 
 /// OCP-HS-06: Reload waits for in-flight requests to complete
@@ -196,12 +202,11 @@ TEST_F(OnnxClipHotSwapTest, OCP_HS_06_RequestDraining) {
     }
     
     std::atomic<int> completed_requests{0};
-    std::atomic<bool> start_reload{false};
     std::vector<std::thread> threads;
     
     // Spawn workers that will generate embeddings
     for (int i = 0; i < 2; ++i) {
-        threads.emplace_back([this, &completed_requests, &start_reload]() {
+        threads.emplace_back([this, &completed_requests]() {
             auto test_img = generateTestImage();
             for (int j = 0; j < 5; ++j) {
                 if (!plugin_->isReady()) break;

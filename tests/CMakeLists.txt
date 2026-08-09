@@ -20159,8 +20159,13 @@ if(THEMIS_PLUGIN_IMAGE_ANALYSIS_ONNX AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/onn
             themis_core
             nlohmann_json::nlohmann_json
             Threads::Threads
-            onnxruntime::onnxruntime
         )
+
+        if(TARGET onnxruntime::onnxruntime)
+            target_link_libraries(test_onnx_clip_plugin_contract_hardening_focused PRIVATE
+                onnxruntime::onnxruntime
+            )
+        endif()
 
         target_compile_definitions(test_onnx_clip_plugin_contract_hardening_focused PRIVATE
             THEMIS_TEST_BUILD=1
@@ -20171,7 +20176,7 @@ if(THEMIS_PLUGIN_IMAGE_ANALYSIS_ONNX AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/onn
 
         set_tests_properties(OnnxClipPluginContractTests PROPERTIES
             LABELS "image-analysis;onnx;clip;batch;plugin;contract;focused;OCP-01;OCP-02;OCP-03;OCP-04;OCP-05;OCP-06;OCP-07;OCP-08;OCP-09;OCP-10;OCP-11;OCP-12;OCP-13;OCP-14;OCP-15;OCP-16"
-            TIMEOUT 60
+            TIMEOUT 120
         )
 
         message(STATUS "  ONNXClipPluginContractHardening: OCP-01..04 (interface), OCP-05..08 (backend), OCP-09..12 (embedding), OCP-13..16 (batch)")

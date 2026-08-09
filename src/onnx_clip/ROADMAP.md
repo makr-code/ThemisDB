@@ -115,7 +115,7 @@ check (SHA-256) are all implemented.
 | Text encoder | ✅ | `generateTextEmbedding()` with BPE tokenization |
 | Prometheus metrics | ✅ | `clip_embeddings_total`, `clip_text_embeddings_total`, `clip_batch_embeddings_total` |
 | Model integrity check | ✅ | SHA-256 via OpenSSL EVP; graceful skip without OpenSSL |
-| Unit/integration tests | ✅ | 26 unit tests + 16 contract-hardening focused tests (OCP-01..16); integration tests still pending (Q3 2026 target) |
+| Unit/integration tests | ⚠️ | 26 unit tests + 16 contract-hardening focused tests (OCP-01..16); integration tests still pending (Q3 2026 target) |
 | Performance benchmarks | ❌ | Planned Q3 2026 |
 
 ---
