@@ -26,6 +26,7 @@
 #include "scraper/scraper_js_renderer.h"
 #include "scraper/scraper_api_client.h"
 #include "scraper/gov_source_catalog.h"
+#include "scraper/scraper_burst_controller.h"
 
 #include <string>
 #include <vector>
@@ -92,6 +93,7 @@ struct ScraperRunStats {
     int  docs_discarded     = 0;  ///< Documents rejected by the LLM/heuristic evaluator
     int  docs_written       = 0;  ///< Documents successfully persisted to the DB
     int  write_errors       = 0;  ///< Persistence failures (run continues despite errors)
+    int  urls_skipped       = 0;  ///< URLs skipped due to burst-limiter exhaustion
     long elapsed_ms         = 0;  ///< Total wall-clock duration of the scrape() call
 };
 
@@ -210,6 +212,8 @@ public:
     using HttpFn = std::function<std::string(const std::string& url,
                                               const std::string& user_agent)>;
     void setHttpFetch(HttpFn fn);
+    /// Inject a burst-rate controller; null disables rate limiting (default).
+    void setBurstController(std::shared_ptr<BurstCrawlController> bc);
 
 private:
     // --- State ---
@@ -227,6 +231,7 @@ private:
     std::shared_ptr<IScraperApiClient>      api_client_;
     HttpFn                                  http_fn_;
     GovSourceCatalog                        gov_catalog_;
+    std::shared_ptr<BurstCrawlController>   burst_controller_; ///< Optional burst limiter.
 
     // --- Internal methods ---
 

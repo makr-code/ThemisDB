@@ -70,6 +70,7 @@ void ScraperPlugin::setSearchEngine(std::shared_ptr<IScraperSearchEngine> s) { s
 void ScraperPlugin::setJsRenderer(std::shared_ptr<IScraperJSRenderer> r)     { js_renderer_   = std::move(r); }
 void ScraperPlugin::setApiClient(std::shared_ptr<IScraperApiClient> c)       { api_client_    = std::move(c); }
 void ScraperPlugin::setHttpFetch(HttpFn fn)                                   { http_fn_       = std::move(fn); }
+void ScraperPlugin::setBurstController(std::shared_ptr<BurstCrawlController> bc) { burst_controller_ = std::move(bc); }
 
 // ============================================================================
 // initialize()
@@ -530,6 +531,12 @@ ScraperRunStats ScraperPlugin::scrape() {
     UrlPolicy policy(config_);
 
     for (const auto& [seed_url, gov_id] : seeds) {
+        // Burst-rate guard: skip this seed when the token bucket is exhausted.
+        if (burst_controller_ && !burst_controller_->tryAcquire()) {
+            ++stats_.urls_skipped;
+            continue;
+        }
+
         const GovDataSource* gov_src = gov_id.empty()
                                      ? nullptr
                                      : gov_catalog_.findById(gov_id);

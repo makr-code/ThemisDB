@@ -50,3 +50,29 @@ The scraper module composes seed-source expansion, multi-mode fetch/render, craw
   - seed/fetch + parse/evaluation + persistence/provenance plane split
   - explicit failure boundaries for fetch/parse/evaluate/write paths
   - module-local ownership of scraper ingestion behavior
+
+## Diagnostics Layer
+
+The diagnostics layer was introduced in Q3 2026 to provide unified, non-silent fault reporting across all scraper pipeline stages.
+
+### Components
+
+| Component | File | Responsibility |
+|---|---|---|
+| ScraperDiagnosticEvent | include/scraper/scraper_diagnostics.h | Structured per-fault event with mandatory message, source URL, timestamp |
+| IScraperDiagnosticSink | include/scraper/scraper_diagnostics.h | Thread-safe emit interface for operator sinks |
+| ListeningScraperDiagnosticSink | include/scraper/scraper_diagnostics.h | Recording sink with listener callbacks for tests and metrics |
+| faultClassOf() / defaultSeverityOf() | include/scraper/scraper_diagnostics.h | Error-to-fault-class routing helpers |
+| BurstCrawlController | include/scraper/scraper_burst_controller.h | Token-bucket burst limiter for multi-source crawl bursts |
+| ScraperRunSummary / ScraperRunSummaryCollector | include/scraper/scraper_run_summary.h | Operator-facing aggregate triage view of a completed scrape run |
+
+### Fault Classes
+
+All scraper errors are routed to a `ScraperFaultClass` via `faultClassOf()`:
+- `kFetchPath` — HTTP fetch / DNS / TLS failures
+- `kRenderPath` — JS renderer timeout / crash
+- `kParsePath` — HTML/DOM parse errors
+- `kEvaluatorPath` — LLM evaluator failures
+- `kWritePath` — Metadata / relational / graph / vector write failures
+- `kCrawlControl` — Pagination limits, burst throttle, source catalog issues
+- `kInternal` — Unclassified errors
