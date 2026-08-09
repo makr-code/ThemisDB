@@ -51,14 +51,17 @@ Evidence artifacts:
 - [docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md](docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md)
 - [security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md](security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md)
 
-## Documentation Sync (2026-07-27)
+## Documentation Sync (2026-08-09)
 
 - Root-level markdown documentation was refreshed against current `src/` module docs and root governance files.
 - Current source-backed release-readiness highlights:
-  - auth module Phase 1-6 hardening is complete (`src/auth/ROADMAP.md`): principal-contract freeze, 12 new auth error codes, RFP/FED/ASY focused tests, and AHP benchmark gates.
+  - **15 production-candidate modules** verified: analytics, graph, index, llm, network, observability, prompt_engineering, query, rag, replication, server, sharding, temporal, training, transaction.
+  - Process module Phase 1-6 complete and production-ready (2026-08-06): 101 files, 33,106+ LOC, 87 acceptance criteria passed.
+  - Auth module Phase 1-6 hardening complete (`src/auth/ROADMAP.md`): principal-contract freeze, 12 new error codes, RFP/FED/ASY focused tests, and AHP benchmark gates.
+  - Failover module Phase 2-3 complete: state machine, split-brain prevention, DR orchestration with diagnostics.
   - Wave 5 and Wave 6 hardening remain the retained regression baseline for release-critical journeys.
   - Wave 7 PASS evidence and sharding Phase 6 sign-off remain linked into the active GA hardening path.
-  - Batch C sanitizer / pentest evidence is closed; Batch D human governance sign-off is still pending.
+  - Batch C sanitizer / pentest evidence is closed; Batch D human governance sign-off is still pending at `docs/governance/GA_PROMOTION_SIGN_OFF.md` §9.
 - Broken historical root evidence references were replaced with current source-verifiable artefacts.
 
 ### Scanner Baseline Update (2026-06-11)
@@ -80,7 +83,7 @@ Evidence artifacts:
 
 ThemisDB is a **high-performance multi-model database engine in active development** that aims to combine relational, graph, vector, document, geospatial, and time-series storage in a single system with native AI/LLM integration.
 
-**Current Status (2026-07-27, source-evidence based):** 66 modules are tracked in `src`; 15 are `PRODUCTION_CANDIDATE`, 46 are `HARDENING`, 2 are `EXPERIMENTAL`, and 3 are `THIN/PLACEHOLDER`. See [ROADMAP.md](ROADMAP.md) for detailed per-module status.
+**Current Status (2026-08-09, source-evidence based):** 66 modules are tracked in `src`; 15 are `PRODUCTION_CANDIDATE`, 46 are `HARDENING`, 2 are `EXPERIMENTAL`, and 3 are `THIN/PLACEHOLDER`. See [ROADMAP.md](ROADMAP.md) for detailed per-module status.
 
 **Key capabilities at a glance:**
 
