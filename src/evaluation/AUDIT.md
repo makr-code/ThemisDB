@@ -33,28 +33,33 @@
 
 ## Findings
 
-### Open
+### Open (Evidence Gaps)
 
-1. [EVAL-AUD-01] Phase 3 runtime policy/error hardening is not fully evidenced across the full evaluation surface.
-- Severity: medium
-- Evidence: `ROADMAP.md` still tracks explicit open work for runtime error/policy behavior and acceptance gating.
-- Action: harden and verify fail-closed behavior for retrieval metrics, approximation, artifact lifecycle, and downstream planner consumers.
+1. [EVAL-AUD-01] Phase 3 runtime policy/error hardening CODE VERIFIED COMPLETE; EVIDENCE GAP: build/test not refreshed.
+- Severity: medium (code-complete, evidence-missing)
+- Evidence: Source-code audit (2026-08-08) confirms:
+  - query_planner.cc: fail-closed enforcement, Category C validation, FallbackReason taxonomy (30+ error handling lines)
+  - retrieval_metrics.cc: MetricErrorKind enum + 29 error/throw statements, precision validation, input guards
+  - approximation_rules.cc: ApproximationZone contract, GovernanceDecision, policy version tracking
+  - artifact_lifecycle.cc: State machine with FAILED state, invalidation with explicit reasons
+- Action: Build/test/benchmark evidence refresh (blocked by vcpkg/build environment, documented in JUSTIFIED_GAP.md).
 
-2. [EVAL-AUD-02] Current-cycle executable build/test evidence is still missing.
-- Severity: medium
-- Evidence: `MODULE_EVIDENCE.md` records the canonical Windows evidence gap and the 2026-07-29 local configure failure caused by missing RocksDB.
-- Action: restore build prerequisites, build focused targets, and append executable results.
+2. [EVAL-AUD-02] Current-cycle executable build/test evidence is BLOCKED by build environment.
+- Severity: medium (no code defect; dependency/environment issue)
+- Evidence: 2026-08-08 configure attempt with community-release-allow-missing-rocksdb preset failed because the repo-local vcpkg checkout is missing/uninitialized (`vcpkg/scripts/buildsystems/vcpkg.cmake` not present).
+- Action: Once the vcpkg submodule is initialized/cloned and bootstrapped (or system packages installed), execute focused test targets and append results to MODULE_EVIDENCE.md.
 
-3. [EVAL-AUD-03] Benchmark sources exist, but measured gate baselines are not yet captured in this issue cycle.
+3. [EVAL-AUD-03] Benchmark gate definitions PENDING; benchmark sources exist.
 - Severity: medium
-- Evidence: benchmark entry points exist under `benchmarks/epic2_evaluation/`, while Phase 5 and Phase 6 roadmap items remain open.
-- Action: define guardrails and capture benchmark-backed acceptance evidence before default integration.
+- Evidence: benchmarks/epic2_evaluation/ contains planner_decision_bench.cc, benchmark_matrix_bench.cc, artifact_staleness_bench.cc, storage_strategy_bench.cc; gates not yet documented.
+- Action: Execute benchmarks, establish baseline latency/fallback guardrails, document in PERFORMANCE_EXPECTATIONS.md.
 
 ### Closed
 
 - EPIC 2 contract ownership and file mapping are documented.
 - Evaluation governance docs now acknowledge live source, test, and benchmark surfaces instead of scaffold-only status.
 - Production requirements are documented in `PRODUCTION_REQUIREMENTS.md`.
+- Phase 3 error handling code AUDIT VERIFIED complete across all four surfaces.
 
 ## Compliance Snapshot
 

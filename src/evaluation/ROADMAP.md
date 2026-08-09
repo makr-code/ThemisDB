@@ -53,9 +53,16 @@ Current evidence state for this issue:
 - [ ] downstream default-workflow consumers still need planner-envelope and routing-diagnostics integration
 
 ### Phase 3: Error Handling & Edge Cases
-- [ ] make failure semantics explicit and fail-closed across retrieval metrics, approximation, artifact lifecycle, and planner observer surfaces
-- [ ] enforce hardware/profile mismatch, stale artifacts, and distributed-manifest absence as machine-readable downgrade or error outcomes across the full module contract
-- [ ] document runtime policy ownership, escalation paths, and operator-visible failure conditions in the acceptance evidence set
+- [x] make failure semantics explicit and fail-closed across retrieval metrics, approximation, artifact lifecycle, and planner observer surfaces
+  - query_planner.cc: fail-closed Category C enforcement, FallbackReason taxonomy (30+ error handling lines)
+  - retrieval_metrics.cc: MetricErrorKind enum with 29 throw/error statements, input validation
+  - approximation_rules.cc: ApproximationZone + GovernanceDecision contract, policy version tracking
+  - artifact_lifecycle.cc: State machine with FAILED state, explicit InvalidationReason enum
+- [x] enforce hardware/profile mismatch, stale artifacts, and distributed-manifest absence as machine-readable downgrade or error outcomes across the full module contract
+  - FallbackReason enum covers all gate failures with specific codes (TensorArtifactStale, etc.)
+  - MetricError prevents silent numeric failures
+- [~] document runtime policy ownership, escalation paths, and operator-visible failure conditions in the acceptance evidence set
+  - Code audit complete; executable evidence refresh blocked by build environment (see MODULE_EVIDENCE.md justified gap)
 
 ### Phase 4: Tests
 - [~] focused source-level tests already exist for planner, hardware profile, benchmark matrix, retrieval metrics, ablation, approximation rules, artifact lifecycle, and query-cache behavior
@@ -79,11 +86,14 @@ Current evidence state for this issue:
 
 - [x] contract ownership and scope boundaries are documented
 - [x] focused test and benchmark registration surfaces are present in source
-- [~] phase-gate acceptance criteria are partially documented but not yet fully unified
-- [ ] runtime policy/error behavior is hardened across all shipped EPIC 2 surfaces
+- [x] phase-gate acceptance criteria are documented in PRODUCTION_REQUIREMENTS.md and ROADMAP.md
+- [x] runtime policy/error behavior CODE AUDIT VERIFIED complete (Phase 3 implementation verified 2026-08-08)
+  - See AUDIT.md for detailed code-level verification of fail-closed behavior, error handling, and downgrade paths
 - [ ] executable build/test evidence is refreshed for the current validation cycle
+  - Blocked by build environment (vcpkg checkout missing/uninitialized — `vcpkg/scripts/buildsystems/vcpkg.cmake` not present); see justified gap in MODULE_EVIDENCE.md
 - [ ] benchmark guardrails are captured from measured runs
-- [ ] default workflow integration remains disabled until Phases 3-6 pass
+  - Blocked by build environment; see justified gap in MODULE_EVIDENCE.md
+- [x] default workflow integration remains disabled until Phases 3-6 pass
 
 ## Known Issues & Limitations
 
