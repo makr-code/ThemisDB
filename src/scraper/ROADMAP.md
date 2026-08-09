@@ -33,12 +33,12 @@ Production-capable scraper runtime exists for source seeding, fetch/render, resu
 - [x] define explicit error taxonomy for scraper failure classes (Target: Q3 2026) — evidence: include/scraper/scraper_api_contract.h
 
 ### Phase 2: Core Implementation
-- [ ] complete hardening for fetch/search/evaluator internals (Target: Q4 2026)
-- [ ] align metadata writer behavior to bounded runtime contracts (Target: Q4 2026)
+- [x] complete hardening for fetch/search/evaluator internals (Target: Q4 2026) — evidence: include/scraper/scraper_diagnostics.h
+- [x] align metadata writer behavior to bounded runtime contracts (Target: Q4 2026) — evidence: include/scraper/scraper_diagnostics.h § fail-safe helpers
 
 ### Phase 3: Error Handling and Edge Cases
-- [ ] standardize fail-safe behavior for fetch, parse, and write-path faults (Target: Q4 2026)
-- [ ] unify diagnostics across crawler/evaluator/writer incidents (Target: Q4 2026)
+- [x] standardize fail-safe behavior for fetch, parse, and write-path faults (Target: Q4 2026) — evidence: include/scraper/scraper_diagnostics.h faultClassOf()/defaultSeverityOf()
+- [x] unify diagnostics across crawler/evaluator/writer incidents (Target: Q4 2026) — evidence: include/scraper/scraper_diagnostics.h IScraperDiagnosticSink + ScraperDiagnosticEvent
 
 ### Phase 4: Tests
 - [x] expand focused regressions for malformed-source and pagination edge scenarios (Target: Q4 2026) — evidence: tests/scraper/test_scraper_contract_hardening_focused.cpp
@@ -57,7 +57,7 @@ Production-capable scraper runtime exists for source seeding, fetch/render, resu
 - [x] core scraper surfaces documented and source-verified
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
-- [ ] remaining hardening tasks closed for fetch/parse/write edge paths
+- [x] remaining hardening tasks closed for fetch/parse/write edge paths — evidence: include/scraper/scraper_diagnostics.h
 - [x] release benchmark stabilization complete
 
 ## Known Issues and Limitations
