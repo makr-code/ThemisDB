@@ -46,7 +46,7 @@ struct GeneratedImage {
     std::string sampler;
     uint64_t    seed_used = 0;
     int64_t     generation_timestamp = 0;   // Unix epoch milliseconds; mandatory
-    std::string prompt_hash;                // SHA-256 hex of the sanitised prompt
+    std::string prompt_hash;                // FNV-1a 64-bit hex fingerprint of the sanitised prompt
     std::optional<std::string> perceptual_hash; // Optional deterministic perceptual hash metadata
     bool        success = true;
     std::string error_message;

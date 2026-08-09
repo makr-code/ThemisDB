@@ -15,9 +15,9 @@
 |--------|--------|
 | Source files audited | 4 (`sd_config.cpp`, `sd_prompt_sanitizer.cpp`, `sd_plugin.cpp`, `sd_plugin_registrar.cpp`) |
 | Test targets | 2 (`SDPluginFocusedTests`, `SDPluginRegistrarTests`) |
-| Test count | 63 (51 `SDPluginFocusedTests` + 12 `SDPluginRegistrarTests`) |
+| Test count | 76 (62 `SDPluginFocusedTests` + 12 `SDPluginRegistrarTests` + 2 `SDPluginRealBackendE2ETests` opt-in) |
 | Open security issues | 0 |
-| Open functional issues | 1 (no model file integrity check) |
+| Open functional issues | 0 (model SHA-256 gate implemented) |
 | Build system registration | ✅ `tests/CMakeLists.txt` + `plugins/CMakeLists.txt` |
 | Documentation completeness | ✅ All 7 docs present |
 
@@ -25,7 +25,7 @@
 
 Registered in:
 - `src/stable_diffusion/CMakeLists.txt` — `stable_diffusion_plugin` static library
-- `tests/CMakeLists.txt` — `SDPluginFocusedTests` test target (45 tests)
+- `tests/CMakeLists.txt` — `SDPluginFocusedTests` and `SDPluginRegistrarTests` test targets (+ opt-in real-backend E2E target)
 - `plugins/CMakeLists.txt` — `THEMIS_PLUGIN_STABLE_DIFFUSION` option
 
 Dependencies: `nlohmann_json` (required), `stable-diffusion.cpp` (optional, `THEMIS_ENABLE_STABLE_DIFFUSION=ON`).
@@ -58,5 +58,4 @@ Dependencies: `nlohmann_json` (required), `stable-diffusion.cpp` (optional, `THE
 | SD-01 | Stub PNG encoder omits IDAT — pixel data not encoded | Medium | Resolved v2.2.0 |
 | SD-02 | `SDCppGenerator` not yet implemented — no real inference | Medium | Resolved v2.2.0 |
 | SD-03 | `generateImg2Img` stub ignores input image | Low | Resolved v2.2.0 (input-image pass-through) |
-| SD-04 | No model file integrity check (SHA-256 before model load) | Low | Open |
-
+| SD-04 | No model file integrity check (SHA-256 before model load) | Low | Resolved |

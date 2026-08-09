@@ -57,4 +57,4 @@ This document covers the security posture of the Stable Diffusion image generati
 - [x] Maximum dimension enforcement in plugin (`<=8192`, overflow-safe)
 - [ ] Rate limiting (caller / API layer responsibility)
 - [x] Thread-safety guard: `generate_mutex_` serializes all generate paths (v2.1.0 ✅)
-- [ ] Thread-safety audit for parallel `SDCppGenerator` calls (Target: Q1 2027)
+- [~] Thread-safety audit for parallel `SDCppGenerator` calls (opt-in real-backend test target added; CI evidence pending)

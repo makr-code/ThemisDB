@@ -24249,6 +24249,90 @@ else()
     message(STATUS "  SDPlugin tests not found - skipped")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/tests/test_sd_plugin_registrar.cpp" AND OpenSSL_FOUND)
+    add_executable(test_sd_plugin_registrar
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/tests/test_sd_plugin_registrar.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/sd_plugin_registrar.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/sd_plugin.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/sd_config.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/sd_prompt_sanitizer.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/utils/checksum_utils.cpp"
+    )
+    target_include_directories(test_sd_plugin_registrar PRIVATE
+        "${CMAKE_CURRENT_SOURCE_DIR}/../include"
+    )
+    target_link_libraries(test_sd_plugin_registrar PRIVATE
+        GTest::gtest
+        GTest::gtest_main
+        nlohmann_json::nlohmann_json
+        OpenSSL::Crypto
+        themis_base
+        Threads::Threads
+    )
+    target_compile_features(test_sd_plugin_registrar PRIVATE cxx_std_17)
+    target_compile_definitions(test_sd_plugin_registrar PRIVATE THEMIS_PLUGIN_EXPORTS)
+    add_test(NAME SDPluginRegistrarTests COMMAND test_sd_plugin_registrar)
+    set_tests_properties(SDPluginRegistrarTests PROPERTIES
+        LABELS "plugins;stable_diffusion;image_generation;registrar;v2.2.0"
+        TIMEOUT 60
+    )
+    message(STATUS "  SDPluginRegistrar: 12 tests (A-D)")
+elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/tests/test_sd_plugin_registrar.cpp")
+    message(STATUS "  SDPluginRegistrar tests skipped - OpenSSL dependency missing")
+endif()
+
+if(THEMIS_ENABLE_STABLE_DIFFUSION
+        AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/tests/test_sd_plugin_real_backend_e2e.cpp"
+        AND OpenSSL_FOUND)
+    if(NOT STABLE_DIFFUSION_ROOT)
+        set(STABLE_DIFFUSION_ROOT "${THEMIS_ROOT_DIR}/stable-diffusion.cpp")
+    endif()
+    find_library(THEMIS_SD_E2E_LIB
+        NAMES stable-diffusion stable_diffusion
+        PATHS
+            ${STABLE_DIFFUSION_ROOT}/build
+            ${STABLE_DIFFUSION_ROOT}/build/src
+            ${STABLE_DIFFUSION_ROOT}/build/lib
+            ${THEMIS_ROOT_DIR}/external/stable-diffusion.cpp/build
+            /usr/local/lib
+            /usr/lib
+    )
+    if(NOT THEMIS_SD_E2E_LIB)
+        message(STATUS "  SDPlugin real-backend E2E skipped - stable-diffusion library not found")
+    else()
+    add_executable(test_sd_plugin_real_backend_e2e
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/tests/test_sd_plugin_real_backend_e2e.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/sd_plugin.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/sd_config.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/sd_prompt_sanitizer.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/utils/checksum_utils.cpp"
+    )
+    target_include_directories(test_sd_plugin_real_backend_e2e PRIVATE
+        "${CMAKE_CURRENT_SOURCE_DIR}/../include"
+    )
+    target_link_libraries(test_sd_plugin_real_backend_e2e PRIVATE
+        GTest::gtest
+        GTest::gtest_main
+        nlohmann_json::nlohmann_json
+        OpenSSL::Crypto
+        ${THEMIS_SD_E2E_LIB}
+    )
+    target_compile_features(test_sd_plugin_real_backend_e2e PRIVATE cxx_std_17)
+    target_compile_definitions(test_sd_plugin_real_backend_e2e PRIVATE
+        THEMIS_PLUGIN_EXPORTS
+        THEMIS_ENABLE_STABLE_DIFFUSION=1
+    )
+    add_test(NAME SDPluginRealBackendE2ETests COMMAND test_sd_plugin_real_backend_e2e)
+    set_tests_properties(SDPluginRealBackendE2ETests PROPERTIES
+        LABELS "plugins;stable_diffusion;image_generation;e2e;real_backend;v2.2.0"
+        TIMEOUT 300
+    )
+    message(STATUS "  SDPlugin real-backend E2E: enabled (opt-in runtime via env)")
+    endif()
+elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/tests/test_sd_plugin_real_backend_e2e.cpp")
+    message(STATUS "  SDPlugin real-backend E2E not enabled (set THEMIS_ENABLE_STABLE_DIFFUSION=ON)")
+endif()
+
 # ── llama_cpp Plugin Tests ────────────────────────────────────────────────────
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/llama_cpp/tests/test_llama_cpp_plugin.cpp")
     add_executable(test_llama_cpp_plugin

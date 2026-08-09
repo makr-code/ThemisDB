@@ -7,7 +7,7 @@ cmake_minimum_required(VERSION 3.20)
 # PNG frames, allowing all unit-tests to run without a model file.
 # ============================================================================
 
-project(stable_diffusion_plugin VERSION 2.0.0 LANGUAGES CXX)
+project(stable_diffusion_plugin VERSION 2.2.0 LANGUAGES CXX)
 
 if(NOT THEMIS_ROOT_DIR)
     get_filename_component(THEMIS_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../.." ABSOLUTE)
@@ -17,6 +17,7 @@ set(SD_PLUGIN_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/sd_config.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/sd_prompt_sanitizer.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/sd_plugin.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/sd_plugin_registrar.cpp
     ${THEMIS_ROOT_DIR}/src/utils/checksum_utils.cpp
 )
 

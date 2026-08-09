@@ -54,6 +54,7 @@ bool SDPlugin::initialize(const std::string& model_path, const nlohmann::json& c
     model_path_ = model_path;
     SDConfig cfg = SDConfig::fromJson(config);
     cfg.model_path = model_path;
+    sanitizer_ = SDPromptSanitizer{};
 
     // Load content-policy keywords if configured
     if (!cfg.blocked_keywords_file.empty()) {
@@ -133,7 +134,7 @@ std::string SDPlugin::normalizeLowerHex(const std::string& hex) {
     return out;
 }
 
-// ── sha256Hex (simple FNV-based hex, used only as prompt fingerprint) ─────────
+// ── sha256Hex (FNV-based hex fingerprint; name kept for API compatibility) ─────
 
 std::string SDPlugin::sha256Hex(const std::string& input) {
     // FNV-1a 64-bit – not cryptographic but sufficient as a stable prompt fingerprint

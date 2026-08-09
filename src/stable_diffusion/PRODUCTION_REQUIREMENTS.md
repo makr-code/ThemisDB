@@ -49,7 +49,7 @@ Related Milestone: DOC-WEEKLY-2026-W32
   - Required release criterion: publish baseline (latency + memory) for stub and real backend.
   - Current state: benchmark target exists (`bench_stable_diffusion_release_gates`); real-backend baseline publication remains open.
 
-- [ ] **E2E gate**
+- [~] **E2E gate**
   - Real-backend E2E must run with `THEMIS_ENABLE_STABLE_DIFFUSION=ON` and a verified model file.
   - Required checks: initialization success with matching SHA-256, one text2img and one img2img path returning valid PNG.
-  - Current state: blocked (no dedicated stable_diffusion E2E test target in repo test suite).
+  - Current state: dedicated target `SDPluginRealBackendE2ETests` is present (opt-in via `THEMIS_SD_E2E_MODEL_PATH`); CI wiring and evidence publication remain open.

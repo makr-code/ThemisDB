@@ -27,6 +27,7 @@
 #include <cstdlib>
 #include <filesystem>
 #include <memory>
+#include <mutex>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -291,6 +292,7 @@ private:
 class SDCppGenerator : public ISDGenerator {
 public:
     ~SDCppGenerator() override {
+        std::lock_guard<std::mutex> lock(api_mutex_);
         if (ctx_) {
             free_sd_ctx(ctx_);
             ctx_ = nullptr;
@@ -298,6 +300,7 @@ public:
     }
 
     bool initialize(const SDConfig& cfg) override {
+        std::lock_guard<std::mutex> lock(api_mutex_);
         model_id_ = cfg.model_path;
         config_   = cfg;
         active_control_model_path_.clear();
@@ -311,6 +314,7 @@ public:
     bool applyLoRA(const std::string& lora_path,
                    float scale,
                    std::string& error_out) override {
+        std::lock_guard<std::mutex> lock(api_mutex_);
         error_out.clear();
         if (!initialized_ || !ctx_) {
             error_out = "SDCppGenerator: not initialized";
@@ -344,6 +348,7 @@ public:
                                    const SDGenerationConfig& cfg,
                                    int& out_w, int& out_h,
                                    uint64_t& out_seed) override {
+        std::lock_guard<std::mutex> lock(api_mutex_);
         if (!ctx_)
             throw std::runtime_error("SDCppGenerator: not initialized");
         if (cfg.width <= 0 || cfg.height <= 0) {
@@ -430,6 +435,7 @@ public:
                                           const Img2ImgConfig& cfg,
                                           int& out_w, int& out_h,
                                           uint64_t& out_seed) override {
+        std::lock_guard<std::mutex> lock(api_mutex_);
         if (!ctx_)
             throw std::runtime_error("SDCppGenerator: not initialized");
         if (cfg.input_width <= 0 || cfg.input_height <= 0 || cfg.input_image_rgb.empty()) {
@@ -603,6 +609,7 @@ private:
         return EULER_A;  // default
     }
 
+    mutable std::mutex api_mutex_;
     sd_ctx_t*   ctx_         = nullptr;
     bool        initialized_ = false;
     std::string model_id_;

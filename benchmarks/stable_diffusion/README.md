@@ -13,3 +13,4 @@ Release-gate benchmark suite for `src/stable_diffusion`.
 
 - Measure 512x512 request latency on stub and in-memory proxy backends.
 - Validate multi-threaded request-path stability under benchmark threads.
+- Publish and maintain release baseline in `benchmarks/stable_diffusion/BASELINE.md`.

@@ -56,7 +56,7 @@ Planned enhancements beyond v2.0.0. Core implementation in `src/stable_diffusion
 
 **Solution:** Keep benchmark and concurrency-audit deliverables:
 - benchmark target added: `bench_stable_diffusion_release_gates` for time-to-PNG (stub + in-memory proxy); publish real-model baseline next
-- thread-safety audit for parallel `SDCppGenerator` usage
+- thread-safety audit target added in `SDPluginRealBackendE2ETests`; publish CI/runtime evidence next
 
 **Tests:** Benchmark harness entry + stress tests gated for SD backend availability.
 
@@ -67,7 +67,7 @@ Planned enhancements beyond v2.0.0. Core implementation in `src/stable_diffusion
 **Problem:** Focused unit tests validate logic, but no dedicated stable_diffusion E2E gate
 exists for real model execution in CI.
 
-**Solution:** Add opt-in E2E target that runs with `THEMIS_ENABLE_STABLE_DIFFUSION=ON`,
+**Solution:** Maintain opt-in E2E target that runs with `THEMIS_ENABLE_STABLE_DIFFUSION=ON`,
 a test model path, and SHA-256 verification enabled.
 
 **Tests:** one text2img and one img2img E2E case asserting valid PNG output and metadata.

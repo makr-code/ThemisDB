@@ -39,8 +39,8 @@ namespace imggen {
  *
  * All generated images receive mandatory provenance fields:
  *  - generation_timestamp (Unix epoch ms)
- *  - prompt_hash          (SHA-256 hex of the sanitised prompt)
- *  - plugin_version       "2.1.0"
+ *  - prompt_hash          (FNV-1a 64-bit hex of the sanitised prompt)
+ *  - plugin_version       "2.2.0"
  *
  * Thread safety: generate(), generateBatch(), and generateImg2Img() are
  * serialised by an internal mutex.  Statistics counters are updated atomically
@@ -91,7 +91,7 @@ public:
     bool isPromptAllowed(const std::string& prompt) const override;
 
     std::string getModelId() const override;
-    std::string getPluginVersion() const override { return "2.1.0"; }
+    std::string getPluginVersion() const override { return "2.2.0"; }
     nlohmann::json getStatistics() const override;
 
 private:

@@ -50,8 +50,8 @@ in `SDPlugin` and covered by focused tests.
 ## Planned Features
 
 - [~] Benchmark gate: stable_diffusion benchmark target added; baseline publication pending (Target: Q3 2026)
-- [ ] End-to-end real-model gate (`THEMIS_ENABLE_STABLE_DIFFUSION=ON`) in CI (Target: Q3 2026)
-- [ ] Dedicated parallel-call audit for `SDCppGenerator` backend semantics (Target: Q4 2026)
+- [~] End-to-end real-model gate (`THEMIS_ENABLE_STABLE_DIFFUSION=ON`) in CI (Target: Q3 2026)
+- [~] Dedicated parallel-call audit for `SDCppGenerator` backend semantics (Target: Q4 2026)
 
 ## Implementation Phases
 
@@ -79,7 +79,7 @@ in `SDPlugin` and covered by focused tests.
 - [x] Dimension guard enforcement for generation/img2img/control image paths
 - [x] Model SHA-256 verification gate at initialization
 - [~] Benchmark: time-to-PNG target added (`bench_stable_diffusion_release_gates`); real-model baseline pending
-- [ ] Thread-safety audit for SDCppGenerator (parallel calls)
+- [~] Thread-safety audit for SDCppGenerator (parallel calls) — opt-in real-backend audit target added
 
 ### Phase 6 — Documentation & Acceptance ✅
 - [x] README, CHANGELOG, ROADMAP, ARCHITECTURE, FUTURE_ENHANCEMENTS, AUDIT, SECURITY
@@ -97,8 +97,8 @@ in `SDPlugin` and covered by focused tests.
 - [x] Img2img interface with stub pass-through
 - [x] Real PNG encoder (IDAT chunk, CRC-32, Adler-32 — no external deps)
 - [x] `SDCppGenerator` — real stable-diffusion.cpp integration (compiled when `THEMIS_ENABLE_STABLE_DIFFUSION=ON`)
-- [ ] End-to-end integration test with a real GGUF model file
-- [ ] `SDCppGenerator` thread-safety audit for parallel calls
+- [~] End-to-end integration test with a real GGUF model file — opt-in target present
+- [~] `SDCppGenerator` thread-safety audit for parallel calls — opt-in target present
 
 ### Phase 7 — PluginManager Hot-Plug Integration ✅ (v2.3.0)
 - [x] `SDPluginAdapter : IThemisPlugin` — wraps `SDPlugin`, implements `initialize(config_json)`, `shutdown()`, `getType()`, `getCapabilities()`, `getInstance()`; `PluginType::IMAGE_GENERATION`

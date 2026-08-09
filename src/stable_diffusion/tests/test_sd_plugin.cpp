@@ -222,7 +222,7 @@ TEST(SDPluginFocusedTests, G1_GenerationTimestampPositive) {
 TEST(SDPluginFocusedTests, G2_PluginVersionIs2_1_0) {
     SDPlugin p(std::make_unique<InMemorySDGenerator>(), SDPromptSanitizer{});
     p.initialize("", {});
-    EXPECT_EQ(p.generate("test", {}).plugin_version, "2.1.0");
+    EXPECT_EQ(p.generate("test", {}).plugin_version, "2.2.0");
 }
 
 TEST(SDPluginFocusedTests, G3_PromptHashNotEmpty) {

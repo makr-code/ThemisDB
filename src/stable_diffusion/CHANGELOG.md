@@ -10,6 +10,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- Added `SDPluginRegistrarTests` wiring in `tests/CMakeLists.txt` and restored registrar gate coverage in CTest.
+- Added opt-in real-backend E2E suite `SDPluginRealBackendE2ETests` (`text2img`, `img2img`, SHA-256 init gate, parallel generate audit).
+- Added internal serialization for `SDCppGenerator` API calls to harden concurrent request paths.
+- Added stable_diffusion benchmark baseline artifact scaffold at `benchmarks/stable_diffusion/BASELINE.md`.
+- Aligned plugin manifest capability metadata with runtime behavior (`supports_batching=true`, `thread_safe=true`).
+- Aligned module/library version metadata to `2.2.0` and refreshed related docs.
 - ControlNet request fields and validation in generate/img2img paths
 - LoRA request application (`applyLoRA`) with validation/error propagation
 - Perceptual hash (`perceptual_hash`) metadata on successful outputs (non-fatal fallback)
