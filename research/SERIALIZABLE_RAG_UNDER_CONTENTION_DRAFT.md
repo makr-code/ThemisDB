@@ -1,10 +1,12 @@
 # Serializable RAG Under Contention: Isolation-Aware Retrieval in Hybrid DBMS
 
-**Status**: Draft  
-**Version**: 0.2  
-**Last Updated**: 2026-04-27  
+**Status**: Research Protocol (Pre-Experimental)  
+**Version**: 0.3  
+**Last Updated**: 2026-08-09  
 **Target Venue**: VLDB 2027 / SIGMOD 2027  
 **Companion to**: `THEMISDB_SYSTEM_PAPER_ARXIV_2026.md` §VII.D (W5 experiment)
+
+**Experimental State**: This document defines the **pre-registered experimental protocol** for Wave 5 (W5) of the ThemisDB benchmark suite. The protocol design, hypotheses, and statistical analysis plan are finalized and ready for empirical execution. Data tables (§VI) remain empty and will be populated upon completion of the three-phase W5 experiment.
 
 ---
 
@@ -13,19 +15,26 @@
 Retrieval-Augmented Generation (RAG) deployed over mutable corpora faces a correctness
 hazard that embedding-quality research routinely ignores: *when is retrieved context
 consistent*? Under concurrent transactional writes, the answer depends on the isolation
-level in force at retrieval time. We present the first systematic isolation × faithfulness
-study for database-native RAG in ThemisDB, a single-engine multi-model database that
-exposes MVCC snapshot isolation, Repeatable Read (RR), and Serializable (SSI/2PL) as
-first-class RAG retrieval parameters. We define a three-phase measurement protocol
-(W5: Mixed ACID+RAG) that sweeps four write-mix intensities × three isolation levels × 30
-repetitions (360 cells), measuring G-Eval faithfulness scores and P99 end-to-end latency
-jointly. Our primary hypothesis H1 — that RR produces statistically higher faithfulness
-than READ COMMITTED at 50% write mix (p < 0.05, Welch's t-test, Bonferroni-adjusted) —
-is grounded in MVCC visibility semantics and is supported by the implementation evidence
-map. We pre-register expected faithfulness deltas (+0.03–+0.08 G-Eval units for RR vs.
-RC at 50% write mix) and latency overheads (+15–40% P99 for SR vs. RC), and we provide a
-policy-routing table that maps service goals to isolation levels. Empirical execution is
-pending a dedicated experiment window; all instrumentation is in place in the repository.
+level in force at retrieval time. This paper defines the **W5 Mixed ACID+RAG pre-registered
+experimental protocol** for database-native RAG in ThemisDB, a single-engine multi-model
+database that exposes MVCC snapshot isolation, Repeatable Read (RR), and Serializable (SSI/2PL)
+as first-class RAG retrieval parameters. We present:
+
+1. A **three-phase measurement protocol** (360 experimental cells: 4 write-mix intensities ×
+   3 isolation levels × 30 repetitions) that measures G-Eval faithfulness scores and P99
+   end-to-end latency jointly.
+2. A **failure mode taxonomy** (dirty-read risk, cross-backend snapshot skew, phantom insertion,
+   serialization abort) grounded in MVCC visibility semantics.
+3. **Pre-registered hypotheses and expected ranges** (H1–H4) with statistical analysis plan
+   (two-way ANOVA, Bonferroni-corrected pairwise contrasts, power analysis).
+4. A **policy-routing table** that maps service goals to isolation levels.
+
+The core hypothesis (H1) — that RR produces statistically higher faithfulness than
+READ COMMITTED at 50% write mix — is grounded in MVCC implementation evidence and
+supported by isolation-aware RAG component architecture. **Empirical execution is pending
+a dedicated experiment window in Q3/Q4 2026; all instrumentation and reproducibility
+commands are in place.** This pre-registration guards against post-hoc analysis bias and
+enables rapid publication upon experiment completion.
 
 ---
 
@@ -212,55 +221,71 @@ mix; expected SR >> RR ≈ RC.
 
 ## V. Implementation Evidence
 
-| ID | File | Scope | Claim |
-|----|------|-------|-------|
-| E1 | `include/transaction/transaction_manager.h` | TransactionManager, isolation enum | RC/RR/SR isolation levels implemented (§III.A) |
-| E2 | `tests/test_transaction_ssi.cpp` | SSI full suite | Serializable predicate tracking tested |
-| E3 | `tests/test_ssi_predicate_locking.cpp` | Predicate lock acquisition | SR anomaly prevention tested |
-| E4 | `benchmarks/bench_transaction_throughput.cpp` | Abort rate + throughput | Phase 2 baseline infrastructure |
-| E5 | `src/rag/rag_judge.cpp` | RAGJudge::evaluate() | Five-evaluator quality pipeline |
-| E6 | `src/rag/geval_evaluator.cpp` | computeExpectedScore() | G-Eval faithfulness (50-sample) |
-| E7 | `src/rag/hybrid_retriever.cpp` | HybridRetriever::retrieve() | BM25+HNSW+RRF under snapshot |
-| E8 | `include/rag/ontology_aware_retriever.h` | OntologyAwareRetriever | Ontology-constrained retrieval path (v2.1.0) |
-| E9 | `benchmarks/docs/BENCHMARKS_EXECUTIVE_SUMMARY.md` | v1.8.2 baselines | Core query P99 9.67 ms anchor |
-| E10 | `tests/test_rag_judge.cpp` | RAGJudge unit tests | Quality measurement correctness |
+All claims in this paper are grounded in ThemisDB codebase artefacts. Table E1–E10 below
+maps each major claim to source files (verified as of 2026-08-09).
+
+| ID | File Path | Scope | Claim | Status |
+|----|------|-------|-------|---|
+| E1 | `include/transaction/isolation_level.h` | IsolationLevel enum | RC/RR/SR isolation levels implemented per ANSI SQL | ✓ |
+| E2 | `tests/test_transaction_ssi.cpp` | SSI full test suite | Serializable predicate tracking tested | ✓ |
+| E3 | `tests/test_ssi_predicate_locking.cpp` | Predicate lock tests | SR anomaly prevention tested | ✓ |
+| E4 | `benchmarks/transaction/bench_transaction_throughput.cpp` | Abort rate + throughput | Phase 2 baseline infrastructure | ✓ |
+| E5 | `src/rag/rag_judge.cpp` | RAGJudge::evaluate() | Five-evaluator quality pipeline | ✓ |
+| E6 | `src/rag/geval_evaluator.cpp` | GEvalEvaluator method | G-Eval faithfulness scoring | ✓ |
+| E7 | `src/rag/hybrid_retriever.cpp` | HybridRetriever::retrieve() | BM25+HNSW+RRF under snapshot | ✓ |
+| E8 | `include/rag/ontology_aware_retriever.h` | OntologyAwareRetriever | Ontology-constrained retrieval | ✓ |
+| E9 | `benchmarks/docs/BENCHMARKS_EXECUTIVE_SUMMARY.md` | v1.8.2 baselines | Core query P99 latency anchor | ✓ |
+| E10 | `tests/rag/test_rag_judge.cpp` | RAGJudge unit tests | Quality measurement correctness | ✓ |
 
 ---
 
-## VI. Results Schema (Pre-defined)
+## VI. Results Schema (To Be Populated Upon Experiment Completion)
+
+All tables and figures in this section are **templates** that define the expected structure
+and statistical metadata. Upon completion of the three-phase W5 experiment (targeted for
+Q3/Q4 2026), empirical measurements will fill these templates, and a revised v1.0 of this
+document will replace all `[DATA PENDING]` entries with actual results.
 
 ### Table W5-1: Faithfulness × Write-Mix × Isolation
 
 | Write Mix | Isolation | Mean Faithfulness | SD | 95% CI | N |
 |---|---|---|---|---|---|
-| 0% | RC | *pending* | *pending* | *pending* | 30 |
-| 0% | RR | *pending* | *pending* | *pending* | 30 |
-| 0% | SR | *pending* | *pending* | *pending* | 30 |
-| 10% | RC | *pending* | *pending* | *pending* | 30 |
-| 10% | RR | *pending* | *pending* | *pending* | 30 |
-| 10% | SR | *pending* | *pending* | *pending* | 30 |
-| 25% | RC | *pending* | *pending* | *pending* | 30 |
-| 25% | RR | *pending* | *pending* | *pending* | 30 |
-| 25% | SR | *pending* | *pending* | *pending* | 30 |
-| 50% | RC | *pending* | *pending* | *pending* | 30 |
-| 50% | RR | *pending* | *pending* | *pending* | 30 |
-| 50% | SR | *pending* | *pending* | *pending* | 30 |
+| 0% | RC | [DATA PENDING] | [DATA PENDING] | [DATA PENDING] | 30 |
+| 0% | RR | [DATA PENDING] | [DATA PENDING] | [DATA PENDING] | 30 |
+| 0% | SR | [DATA PENDING] | [DATA PENDING] | [DATA PENDING] | 30 |
+| 10% | RC | [DATA PENDING] | [DATA PENDING] | [DATA PENDING] | 30 |
+| 10% | RR | [DATA PENDING] | [DATA PENDING] | [DATA PENDING] | 30 |
+| 10% | SR | [DATA PENDING] | [DATA PENDING] | [DATA PENDING] | 30 |
+| 25% | RC | [DATA PENDING] | [DATA PENDING] | [DATA PENDING] | 30 |
+| 25% | RR | [DATA PENDING] | [DATA PENDING] | [DATA PENDING] | 30 |
+| 25% | SR | [DATA PENDING] | [DATA PENDING] | [DATA PENDING] | 30 |
+| 50% | RC | [DATA PENDING] | [DATA PENDING] | [DATA PENDING] | 30 |
+| 50% | RR | [DATA PENDING] | [DATA PENDING] | [DATA PENDING] | 30 |
+| 50% | SR | [DATA PENDING] | [DATA PENDING] | [DATA PENDING] | 30 |
+
+**Interpretation**: Expected pattern (H1): Mean faithfulness RR ≥ RC at all write-mix levels,
+with maximum delta at 50% write mix (+0.03–+0.08 G-Eval units). SD expected ≈ 0.04–0.06
+(G-Eval tokens, calibrated via Phase 1).
 
 ### Table W5-2: Latency × Write-Mix × Isolation
 
 | Write Mix | Isolation | P50 (ms) | P95 (ms) | P99 (ms) | Abort Rate (%) |
 |---|---|---|---|---|---|
-| 0% | RC | *pending* | *pending* | *pending* | *pending* |
-| 50% | RC | *pending* | *pending* | *pending* | *pending* |
-| 50% | RR | *pending* | *pending* | *pending* | *pending* |
-| 50% | SR | *pending* | *pending* | *pending* | *pending* |
+| 0% | RC | [DATA PENDING] | [DATA PENDING] | [DATA PENDING] | [DATA PENDING] |
+| 50% | RC | [DATA PENDING] | [DATA PENDING] | [DATA PENDING] | [DATA PENDING] |
+| 50% | RR | [DATA PENDING] | [DATA PENDING] | [DATA PENDING] | [DATA PENDING] |
+| 50% | SR | [DATA PENDING] | [DATA PENDING] | [DATA PENDING] | [DATA PENDING] |
 
-### Figure W5-1: Faithfulness × Latency Trade-off Surface
+**Interpretation**: Expected pattern (H2): P99 latency overhead SR ≥ RR at 50% write mix.
+Abort rate expected: RC ≈ RR << SR at high contention (50% write mix). Abort rate for SR
+predicted 8–18% at 50% write mix based on Phase 2 SSI contention baseline.
+
+### Figure W5-1: Faithfulness × Latency Trade-off Surface (To Be Generated)
 
 The schematic Figure 2 in the flagship paper (`THEMISDB_SYSTEM_PAPER_ARXIV_2026.md §VII.E`)
-will be filled with empirical W5 data upon completion. Each cell in Tables W5-1/W5-2
-maps to one operating point; error bars = 1 SD. The Pareto frontier connects the
-(RC, low-WM) and (SR, high-WM) operating points.
+will be populated with empirical W5 data upon completion. Each cell in Tables W5-1/W5-2
+maps to one operating point; error bars will represent 1 SD. The Pareto frontier will
+connect the (RC, low-WM) and (SR, high-WM) operating points.
 
 ---
 
@@ -345,27 +370,109 @@ python scripts/analyze_w5.py artifacts/w5/
 
 ---
 
-## X. Limitations, Risk, Ethics
+## X. Limitations, Threats to Validity, and Mitigation Strategies
 
-- **Adversarial writes**: malicious write patterns could be crafted to maximally degrade
-  RC faithfulness. ThemisDB's RLAIFGuardrailPlugin and audit logging provide a detection
-  surface but not prevention.
-- **Judge model dependency**: G-Eval scores vary with judge model quality; the calibration
-  pipeline reduces but cannot eliminate this dependence.
-- **Regulatory scope**: constitutional principles are scoped to German administrative law;
-  SR policy recommendations may not transfer to other regulatory domains without re-tuning.
+### A. Internal Validity Threats
+
+**Write Injection Realism**: The W5 experiment uses synthetic TPC-C transactions against
+overlapping document keys. Real-world update patterns may exhibit different locality or
+semantic clustering.
+
+- **Mitigation**: Phase 3 protocol includes explicit overlap-fraction parameter (0.4,
+  configurable). Post-hoc analysis will measure correlation between overlap and faithfulness
+  delta. Planned Phase 3 extension: trace-based write patterns from production ThemisDB logs
+  (where available, with anonymisation).
+
+**Snapshot Isolation Model Completeness**: The MVCC model assumes RocksDB-level SI semantics.
+Platform-specific GC or memory-coherency effects are not modeled.
+
+- **Mitigation**: All measurements use steady-state (discard first 10 s per Phase 3).
+  Abort rate and latency tail analysis (P99, P999) will detect GC-correlated spikes. If
+  observed, post-hoc sub-analysis per GC cycle is possible.
+
+### B. Construct Validity Threats
+
+**G-Eval Judge Model Dependency**: G-Eval scores vary with judge model quality, temperature,
+and prompt phrasing. Constitutional principles are scoped to German administrative law and
+may not transfer to other domains without re-tuning.
+
+- **Mitigation**: CalibrationManager applies temperature scaling, Platt scaling, and
+  isotonic regression (ECE reduction). Phase 1 establishes judge stability baseline (expected
+  δ < 0.02 G-Eval units across 3 isolation levels at 0% write mix). Human spot-checks are
+  planned for the top-10 faithfulness outlier pairs per cell (≈120 pairs total). If
+  judge-model drift is detected (Phase 1 δ > 0.02), abort experiment and retrain.
+
+**Faithfulness Metric Scope**: G-Eval measures token-level faithfulness; other quality
+dimensions (relevance, coherence, completeness) are measured separately and may trade off
+differently under isolation.
+
+- **Mitigation**: Secondary analysis includes relevance (cosine similarity), coherence
+  (structural readability via RubricEvaluator), and completeness (coverage of entity types).
+  Each metric is analyzed independently; interaction effects are documented.
+
+### C. External Validity Threats
+
+**Corpus Specificity**: Results are specific to NaturalQuestions dense retrieval set (500 QA
+pairs, 10k background documents). Generalisation to other corpora requires additional runs.
+
+- **Mitigation**: Documented clearly in Limitations §X.C. Future work protocol: repeat W5 on
+  at least one additional corpus (e.g., MS MARCO or Jeopardy!) and report whether
+  isolation × faithfulness relationships replicate.
+
+**Scale and Throughput**: W5 uses a single-machine deployment at 50% peak write throughput.
+Distributed deployments or higher contention may exhibit different abort patterns.
+
+- **Mitigation**: Phase 3 protocol explicitly targets steady-state contention (10%, 25%, 50%
+  of peak W1 throughput). Higher contention workloads are listed as future work. If 50%
+  write mix produces SR abort rates >25% (plan for <18%), results are flagged as "high
+  contention regime – generalisation limited".
+
+### D. Ethical Considerations
+
+**Adversarial Writes**: Malicious write patterns could be crafted to maximally degrade
+RC faithfulness. ThemisDB's audit logging and RLAIFGuardrailPlugin provide detection
+surface but not prevention.
+
+- **Mitigation**: All W5 write injection uses deterministic, documented TPC-C patterns.
+  Real-world deployments should enable audit logging and anomaly detection. Security
+  implications are noted in Appendix C (placeholder for full threat model, deferred to
+  security review workstream).
+
+**Regulatory Scope**: Constitutional principles are scoped to German administrative law
+(BVerfGE case law, data protection principles). SR policy recommendations may not transfer
+to other regulatory domains without re-tuning.
+
+- **Mitigation**: Clear scope statement in all policy recommendations. Institutions in other
+  jurisdictions should validate isolation policies against their regulatory requirements
+  (e.g., HIPAA, GDPR, SOC 2) independently.
 
 ---
 
 ## XI. Conclusion
 
-This paper defines the measurement methodology and pre-registers the hypotheses for
-ThemisDB's W5 isolation × faithfulness experiment. The core claim — that MVCC isolation
-policy is a first-class RAG quality parameter — is grounded in the failure mode taxonomy
-(§III.C) and supported by implementation evidence (§V). Pre-registered expected ranges
-and a policy-routing table provide actionable guidance pending empirical confirmation.
-Upon completion of the W5 experiment, the result tables and Figure W5-1 will be filled
-in and this paper will be upgraded to v0.3 (or v1.0 if submitted to VLDB/SIGMOD).
+This paper presents the **pre-registered experimental protocol and hypothesis framework**
+for ThemisDB's W5 (Mixed ACID+RAG) benchmark wave. The core contribution is not empirical
+results (which are pending execution), but rather:
+
+1. **Formalised Failure Mode Taxonomy** (§III.C): We map MVCC isolation semantics to
+   concrete RAG quality hazards (dirty-read risk, cross-backend snapshot skew, phantom
+   insertion, serialization abort).
+
+2. **Reproducible Experimental Design** (§IV): A fully specified three-phase protocol
+   with pre-registered hypotheses (H1–H4), statistical analysis plan, and power analysis.
+   This guards against post-hoc analysis bias and enables rapid publication upon completion.
+
+3. **Implementation Evidence** (§V): All major claims are traceable to ThemisDB codebase
+   artefacts (E1–E10), verified as of 2026-08-09.
+
+4. **Operational Guidance** (§VII): A policy-routing table that maps service goals
+   (quality floor, latency SLO) to isolation level recommendations, prior to empirical
+   confirmation.
+
+**Next Steps**: Upon completion of the three-phase W5 experiment (targeted Q3/Q4 2026),
+this document will be upgraded to v1.0 with empirical results filling Tables W5-1/W5-2
+and Figure W5-1. A revised manuscript will be submitted to VLDB 2027 or SIGMOD 2027
+for peer review.
 
 ---
 
