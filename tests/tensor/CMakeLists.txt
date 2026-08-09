@@ -80,6 +80,19 @@ foreach(_src IN LISTS TENSOR_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/tensor/tensor_workflow_observability.cpp
         )
     endif()
+    if("${_stem}" STREQUAL "test_tensor_bridge_edge_cases_focused")
+        # Stream B Block 1 - Deterministic Edge Scenario Handling
+        # Comprehensive test suite for edge case handler (TEDGE-01..30)
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/tensor/tensor_edge_case_handler.cpp
+            ${THEMIS_ROOT_DIR}/src/tensor/adapter_repository.cpp
+            ${THEMIS_ROOT_DIR}/src/tensor/tensor_fingerprint_graph.cpp
+            ${THEMIS_ROOT_DIR}/src/tensor/tensor_ingestion_bridge.cpp
+            ${THEMIS_ROOT_DIR}/src/tensor/tensor_error_handling.cpp
+        )
+        # Extended timeout for comprehensive edge case coverage
+        set_tests_properties(${_ctest} PROPERTIES TIMEOUT 180)
+    endif()
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
