@@ -1,11 +1,11 @@
 > ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
 
-<!-- Status: current | validated: 2026-04-19 -->
+<!-- Status: current | validated: 2026-08-09 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Stable Diffusion Plugin
 
-**Last Audit:** 2026-04-19
+**Last Audit:** 2026-08-09
 **Auditor:** Copilot
 **Status:** ✅ Pass
 
@@ -14,12 +14,23 @@
 | Metric | Result |
 |--------|--------|
 | Source files audited | 4 (`sd_config.cpp`, `sd_prompt_sanitizer.cpp`, `sd_plugin.cpp`, `sd_plugin_registrar.cpp`) |
-| Test targets | 2 (`SDPluginFocusedTests`, `SDPluginRegistrarTests`) |
+| Test targets | 3 (`SDPluginFocusedTests`, `SDPluginRegistrarTests`, `SDPluginRealBackendE2ETests` opt-in) |
 | Test count | 76 (62 `SDPluginFocusedTests` + 12 `SDPluginRegistrarTests` + 2 `SDPluginRealBackendE2ETests` opt-in) |
 | Open security issues | 0 |
 | Open functional issues | 0 (model SHA-256 gate implemented) |
 | Build system registration | ✅ `tests/CMakeLists.txt` + `plugins/CMakeLists.txt` |
 | Documentation completeness | ✅ All 7 docs present |
+
+## Latest Validation Evidence (2026-08-09)
+
+- Configure: `cmake --preset community-release-allow-missing-rocksdb -DCMAKE_TOOLCHAIN_FILE= -DTHEMIS_AUTO_BOOTSTRAP_DEPS=ON -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=ON -DTHEMIS_ENABLE_GPU=OFF`
+- Build: `cmake --build build-community-debug-allow-missing-rocksdb --target test_sd_plugin test_sd_plugin_registrar --parallel 4`
+- Run:
+  - `./build-community-debug-allow-missing-rocksdb/bin_out/test_sd_plugin` → **62/62 passed**
+  - `./build-community-debug-allow-missing-rocksdb/bin_out/test_sd_plugin_registrar` → **12/12 passed**
+- Benchmark build attempt:
+  - `cmake --build build-community-debug-allow-missing-rocksdb --target bench_stable_diffusion_release_gates --parallel 4`
+  - **Blocked outside this module** by missing `rocksdb/db.h` in `src/storage/backup_manager.cpp` and an existing compile error in `src/storage/rocksdb_wrapper.cpp`.
 
 ## Build System
 

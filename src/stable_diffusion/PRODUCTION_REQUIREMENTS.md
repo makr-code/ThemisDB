@@ -43,11 +43,15 @@ Related Milestone: DOC-WEEKLY-2026-W32
 - [x] **Focused test gate**
   - `SDPluginFocusedTests` must pass (62 tests in `test_sd_plugin.cpp`).
   - `SDPluginRegistrarTests` must pass (12 tests in `test_sd_plugin_registrar.cpp`).
+  - Latest local evidence (2026-08-09): both suites pass on `community-release-allow-missing-rocksdb`
+    with `THEMIS_AUTO_BOOTSTRAP_DEPS=ON`.
 
 - [~] **Benchmark gate**
   - A stable_diffusion benchmark target must exist under `/home/runner/work/ThemisDB/ThemisDB/benchmarks/stable_diffusion/`.
   - Required release criterion: publish baseline (latency + memory) for stub and real backend.
-  - Current state: benchmark target exists (`bench_stable_diffusion_release_gates`); real-backend baseline publication remains open.
+  - Current state: benchmark target exists (`bench_stable_diffusion_release_gates`); baseline publication remains open and
+    the local build is currently blocked outside this module by missing `rocksdb/db.h` in
+    `src/storage/backup_manager.cpp` plus an existing compile error in `src/storage/rocksdb_wrapper.cpp`.
 
 - [~] **E2E gate**
   - Real-backend E2E must run with `THEMIS_ENABLE_STABLE_DIFFUSION=ON` and a verified model file.
