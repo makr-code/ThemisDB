@@ -1,13 +1,3 @@
-# Research Report: Self-Healing Plugin Architecture & AI-Based Plugin Generation
-
-**Research Period:** February–August 2026
-**Version:** 2.0.0 (Peer-Reviewed & Enhanced)
-**Status:** Production-Ready Research
-**Last Updated:** August 9, 2026
-**Document Maturity:** 95/100 (Complete, Validated, Cross-Referenced)
-
----
-
 ## Abstract
 
 Self-healing plugin architectures represent a critical capability for modern database systems to achieve autonomous failure recovery and zero-downtime operations. This research report investigates design patterns, implementation strategies, and security considerations for integrating self-healing capabilities into ThemisDB, a production-grade multi-model database system supporting dynamic plugin loading.
@@ -26,7 +16,61 @@ Self-healing plugin architectures represent a critical capability for modern dat
 
 ---
 
-## 1.2 Methodology (Technischer Überblick)
+## 1. Introduction & Context
+
+### 1.1 Motivation
+ThemisDB verfügt bereits über eine ausgereifte Plugin-Architektur mit:
+- Dynamisches Laden/Entladen von Plugins
+- Hot-Reload-Unterstützung
+- Multi-Level Security Verification (Hash, Embedded Signatures, Platform Signatures, Certificate Chains)
+- Plugin-Metriken und Monitoring
+- Dependency Resolution
+Die nächste Evolution ist die **Selbstheilung** und **AI-basierte Plugin-Generierung**, um:
+1. Automatisch Plugin-Fehler zu erkennen und zu beheben
+2. Plugins dynamisch aus natürlicher Sprache zu generieren
+3. Multi-Plugin-Orchestrierung zu optimieren
+4. Zero-Downtime bei Plugin-Updates zu erreichen
+### 1.2 Forschungsfragen
+1. Wie sehen Entwurfsmuster für selbstheilende Plugins in C++ aus?
+2. Wie kann ein Framework gebaut werden, das Plugins dynamisch aus Prompts/LLMs erzeugt und testet?
+3. Welche Security-Strategien sind nötig für Self-Upgrade und Plugin-Generierung?
+4. Wie lassen sich mehrere Plugins orchestrieren und Kollaboration realisieren?
+---
+## 1.2 Methodologie & Forschungsansatz
+### Forschungsmethode
+Diese Forschungsarbeit folgt einem **qualitativ-designorientierten Ansatz** mit folgenden Komponenten:
+**a) Literaturanalyse & State-of-the-Art Review**
+- Durchsicht von Plugin-Architektur-Patterns in etablierten Systemen (VSCode, Grafana, Kubernetes, WordPress, Elasticsearch, HashiCorp Vault)
+- Analyse von Self-Healing-Mustern in verteilten Systemen (Netflix Hystrix Circuit Breaker, Microsoft Azure Service Fabric, Kubernetes)
+- Review von AI Code Generation Technologien (OpenAI Codex, GitHub Copilot, Meta Code Llama, StarCoder)
+- Sicherheits-Standards (OWASP, CWE Top 25, NIST Cybersecurity Framework)
+**b) Architektur-Analyse basierend auf ThemisDB Codebase**
+- Untersuchung der bestehenden Plugin-Architektur in `plugins/ARCHITECTURE.md` und `include/plugins/plugin_interface.h`
+- Validierung gegen aktuelle Plugin-Implementierungen (blob_storage, ethics_ai, user_storage_encrypted, llm_wiki)
+- Überprüfung von Error Handling und Diagnostics (Fehler-Codes [7400-7499], DiagnosticEmitter mit Listener-Pattern)
+- Analyse der bestehenden Recovery und Rollback-Mechanismen
+**c) Design & Proof-of-Concept Implementierung**
+- Entwicklung von vier Kernkomponenten: Recovery-Strategien, AI-Plugin-Generierung, Orchestrierung, Security
+- Implementierung von zwei Proof-of-Concepts: Self-Healing Azure Blob Storage Plugin, AI-Generated CSV Exporter
+- Validierung durch Code-Reviews und Kompatibilitäts-Checks gegen ThemisDB SDK
+### Validierungs- und Abgrenzungsscope
+| Aspekt | Validiert | Einschränkungen |
+|--------|-----------|-----------------|
+| **Self-Healing Design** | Architekturmuster, Interfaces, C++ Code-Beispiele | Keine echten Laufzeit-Messungen |
+| **AI-Plugin-Generierung** | Framework-Architektur, Sandbox-Design, Security-Modell | Keine vollständige Produktions-Implementierung |
+| **Orchestrierung** | Message-Bus-Patterns, Dependency-Graphen | Keine verteilten Szenarien mit echter Netzwerk-Latenz |
+| **Security** | Best Practices, Mitigations-Strategien | Kein Penetration-Test durchgeführt |
+### Annahmen und Constraints
+1. **ThemisDB Versioning:** Die Analyse basiert auf Version 2.4.x (August 2026) und dem Develop-Branch
+2. **Zielplattformen:** Linux und Windows; macOS teilweise betrachtet
+3. **Sprachscope:** C++ API-Design; AI-Code-Generierung für C++ Plugins
+4. **Scope-Grenzen:** 
+   - Keine Behandlung von Static/Compiled-only Plugins (CUDA, LLaMA.cpp sind explizit ausgeschlossen aus Wave-1)
+   - Fokus auf optional loadable shared plugins, nicht auf kern-integrierte Funktionalität
+   - Private Plugin-Ökosystem (makr-code/themisdb_* Repos) werden als External-Deps behandelt
+---
+
+## 2. Methodology & Research Approach (Technical Overview)
 
 ### 2.1 Research Approach
 
@@ -81,61 +125,7 @@ No hypothetical or speculative implementations are presented as production artif
 ---
 
 
-## 1. Introduction
-
-### 1.1 Motivation
-ThemisDB verfügt bereits über eine ausgereifte Plugin-Architektur mit:
-- Dynamisches Laden/Entladen von Plugins
-- Hot-Reload-Unterstützung
-- Multi-Level Security Verification (Hash, Embedded Signatures, Platform Signatures, Certificate Chains)
-- Plugin-Metriken und Monitoring
-- Dependency Resolution
-Die nächste Evolution ist die **Selbstheilung** und **AI-basierte Plugin-Generierung**, um:
-1. Automatisch Plugin-Fehler zu erkennen und zu beheben
-2. Plugins dynamisch aus natürlicher Sprache zu generieren
-3. Multi-Plugin-Orchestrierung zu optimieren
-4. Zero-Downtime bei Plugin-Updates zu erreichen
-### 1.2 Forschungsfragen
-1. Wie sehen Entwurfsmuster für selbstheilende Plugins in C++ aus?
-2. Wie kann ein Framework gebaut werden, das Plugins dynamisch aus Prompts/LLMs erzeugt und testet?
-3. Welche Security-Strategien sind nötig für Self-Upgrade und Plugin-Generierung?
-4. Wie lassen sich mehrere Plugins orchestrieren und Kollaboration realisieren?
----
-## 1.3 Methodologie & Forschungsansatz
-### Forschungsmethode
-Diese Forschungsarbeit folgt einem **qualitativ-designorientierten Ansatz** mit folgenden Komponenten:
-**a) Literaturanalyse & State-of-the-Art Review**
-- Durchsicht von Plugin-Architektur-Patterns in etablierten Systemen (VSCode, Grafana, Kubernetes, WordPress, Elasticsearch, HashiCorp Vault)
-- Analyse von Self-Healing-Mustern in verteilten Systemen (Netflix Hystrix Circuit Breaker, Microsoft Azure Service Fabric, Kubernetes)
-- Review von AI Code Generation Technologien (OpenAI Codex, GitHub Copilot, Meta Code Llama, StarCoder)
-- Sicherheits-Standards (OWASP, CWE Top 25, NIST Cybersecurity Framework)
-**b) Architektur-Analyse basierend auf ThemisDB Codebase**
-- Untersuchung der bestehenden Plugin-Architektur in `plugins/ARCHITECTURE.md` und `include/plugins/plugin_interface.h`
-- Validierung gegen aktuelle Plugin-Implementierungen (blob_storage, ethics_ai, user_storage_encrypted, llm_wiki)
-- Überprüfung von Error Handling und Diagnostics (Fehler-Codes [7400-7499], DiagnosticEmitter mit Listener-Pattern)
-- Analyse der bestehenden Recovery und Rollback-Mechanismen
-**c) Design & Proof-of-Concept Implementierung**
-- Entwicklung von vier Kernkomponenten: Recovery-Strategien, AI-Plugin-Generierung, Orchestrierung, Security
-- Implementierung von zwei Proof-of-Concepts: Self-Healing Azure Blob Storage Plugin, AI-Generated CSV Exporter
-- Validierung durch Code-Reviews und Kompatibilitäts-Checks gegen ThemisDB SDK
-### Validierungs- und Abgrenzungsscope
-| Aspekt | Validiert | Einschränkungen |
-|--------|-----------|-----------------|
-| **Self-Healing Design** | Architekturmuster, Interfaces, C++ Code-Beispiele | Keine echten Laufzeit-Messungen |
-| **AI-Plugin-Generierung** | Framework-Architektur, Sandbox-Design, Security-Modell | Keine vollständige Produktions-Implementierung |
-| **Orchestrierung** | Message-Bus-Patterns, Dependency-Graphen | Keine verteilten Szenarien mit echter Netzwerk-Latenz |
-| **Security** | Best Practices, Mitigations-Strategien | Kein Penetration-Test durchgeführt |
-### Annahmen und Constraints
-1. **ThemisDB Versioning:** Die Analyse basiert auf Version 2.4.x (August 2026) und dem Develop-Branch
-2. **Zielplattformen:** Linux und Windows; macOS teilweise betrachtet
-3. **Sprachscope:** C++ API-Design; AI-Code-Generierung für C++ Plugins
-4. **Scope-Grenzen:** 
-   - Keine Behandlung von Static/Compiled-only Plugins (CUDA, LLaMA.cpp sind explizit ausgeschlossen aus Wave-1)
-   - Fokus auf optional loadable shared plugins, nicht auf kern-integrierte Funktionalität
-   - Private Plugin-Ökosystem (makr-code/themisdb_* Repos) werden als External-Deps behandelt
----
-
-## 2. Self-Healing Design Patterns
+## 3. Self-Healing Design Patterns
 
 ### 2.1 Self-Repair Interface
 Das Self-Repair Interface erweitert das bestehende `IThemisPlugin` Interface:
@@ -399,7 +389,7 @@ public:
 ```
 ---
 
-## 3. AI-Based Plugin Generation
+## 4. AI-Based Plugin Generation
 
 ### 3.1 Framework-Architektur
 ```
@@ -698,7 +688,7 @@ THEMIS_PLUGIN_IMPL(themis::plugins::exporters::CSVExporterPlugin)
 }
 ```
 ---
-## 4. Security-Strategien
+## 5. Security-Strategien
 ### 4.1 Multi-Level Security Model
 ThemisDB verwendet bereits ein mehrstufiges Sicherheitsmodell. Für Self-Upgrade und AI-generierte Plugins erweitern wir dieses:
 **Level 1: Code Generation Security**
@@ -818,7 +808,7 @@ public:
 } // namespace themis
 ```
 ---
-## 5. Multi-Plugin Orchestrierung & Kollaboration
+## 6. Multi-Plugin Orchestrierung & Kollaboration
 ### 5.1 Plugin Orchestration Service
 ```cpp
 namespace themis {
@@ -960,7 +950,7 @@ public:
 };
 ```
 ---
-## 6. Risiken und Mitigation
+## 7. Risiken und Mitigation
 ### 6.1 Risiken bei Self-Healing
 | Risiko | Beschreibung | Mitigation |
 |--------|--------------|------------|
@@ -986,7 +976,7 @@ public:
 | **Split-Brain** | Plugins haben inkonsistente State-Views | Consensus algorithms, state synchronization |
 | **Security Boundaries** | Plugin A kann unautorisierten Zugriff auf Plugin B | Capability-based security, access control |
 ---
-## 7. Best Practices
+## 8. Best Practices
 ### 7.1 Self-Healing Best Practices
 1. **Graceful Degradation**: Plugins sollten in degraded mode weiterlaufen können
 2. **Observable Recovery**: Alle Recovery-Aktionen loggen
@@ -1006,7 +996,7 @@ public:
 4. **Backward Compatibility**: APIs nicht brechen
 5. **Circuit Breakers**: Fehler isolieren
 ---
-## 8. Vergleich mit existierenden Plugin-Ökosystemen
+## 9. Vergleich mit existierenden Plugin-Ökosystemen
 ### 8.1 Visual Studio Code Extensions
 **Architecture:**
 - Extension Host Process (separate process)
@@ -1089,7 +1079,7 @@ public:
 - ✅ Distributed plugin deployment (für sharded setup)
 - ✅ Sandbox security model
 ---
-## 9. Proof of Concept Implementation
+## 10. Proof of Concept Implementation
 ### 9.1 Self-Healing Plugin Example (Vollständig)
 Siehe Abschnitt 2.4 für vollständiges Implementierungsbeispiel des Self-Healing Azure Blob Storage Plugins.
 **Key Features:**
@@ -1130,7 +1120,7 @@ Generated plugin: ./generated/redis_cache_backend
 Ready to deploy: themis_blob_redis.so
 ```
 ---
-## 10. Evaluation & Experiments (Evaluierung & Experimente)
+## 11. Evaluation & Experiments (Evaluierung & Experimente)
 ### 10.1 Validierung durch Proof-of-Concept
 Die vier Kernkomponenten des Frameworks wurden durch zwei implementierte Proof-of-Concepts validiert:
 #### POC 1: Self-Healing Azure Blob Storage Plugin (Abschnitt 2.4)
@@ -1195,7 +1185,7 @@ Basierend auf ThemisDB Failover und Process Module Hardening (bestehende Benchma
 | Message Bus Publish | < 50µs | RPC Plugin Overhead (design estimate) | In-process pub/sub |
 **Hinweis:** Echte Messungen erfordern Code-Integration und Benchmark-Runs auf Standard-Hardware.
 ---
-## 11. Implementierungs-Roadmap
+## 12. Implementierungs-Roadmap
 ### Phase 1: Self-Healing Foundation (Q2 2026)
 - [ ] Implement `ISelfHealingPlugin` interface
 - [ ] Implement `PluginHealthMonitor` service
@@ -1235,7 +1225,7 @@ Basierend auf ThemisDB Failover und Process Module Hardening (bestehende Benchma
 - [ ] Documentation & tutorials
 - [ ] Community plugin marketplace
 ---
-## 12. Limitationen & Known Issues (Einschränkungen)
+## 13. Limitationen & Known Issues (Einschränkungen)
 ### 12.1 Design-Level Einschränkungen
 Diese Forschungsarbeit hat explizite Scope-Grenzen, die bei der Produktions-Implementierung adressiert werden müssen:
 | Limitierung | Beschreibung | Mitigations-Plan |
@@ -1271,7 +1261,7 @@ Diese Limitationen führen zu Fragen für Follow-up Forschung:
 4. Wie können regulatorische Compliance-Anforderungen in Plugin-Orchestrierung integriert werden?
 5. Welche operationalen Metriken sind kritisch für Production Monitoring von Self-Healing Plugins?
 ---
-## 13. Referenzen
+## 14. Referenzen
 ### 13.1 Related Issues/PRs in ThemisDB
 - Plugin System Architecture: `plugins/ARCHITECTURE.md`
 - Plugin Development Guide: `plugins/README.md`  
@@ -1358,7 +1348,7 @@ Diese Limitationen führen zu Fragen für Follow-up Forschung:
 | Error Codes & Diagnostics | `include/auth/`, `src/updates/` (Error codes [7400-7499]) | DiagnosticEmitter with listener pattern |
 | Private Plugin Strategy | `plugins/private/`, Wave-1 submodules | themisdb_ethic_ai, themisdb_storage, themisdb_importer, themisdb_llm_wiki |
 ---
-## 14. Fazit & Schlussfolgerungen
+## 15. Fazit & Schlussfolgerungen
 ### 14.1 Zusammenfassung der Ergebnisse
 Dieser Forschungsbericht zeigt, dass **selbstheilende Plugin-Architekturen** und **AI-basierte Plugin-Generierung** machbar und sinnvoll für ThemisDB sind:
 1. **Self-Healing** kann durch hierarchische Recovery-Strategien, Health-Monitoring und Checkpoint/Rollback-Systeme realisiert werden
