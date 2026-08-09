@@ -2072,6 +2072,17 @@ function(themis_build_modular)
         DEPENDENCIES ${_themis_storage_deps}
     )
 
+    if(THEMIS_HAS_ROCKSDB_TENSOR)
+        target_compile_definitions(themis_storage PUBLIC THEMIS_HAS_ROCKSDB_TENSOR)
+    endif()
+
+    if(THEMIS_HAS_IO_URING AND THEMIS_IO_URING_LIB)
+        target_link_libraries(themis_storage PRIVATE ${THEMIS_IO_URING_LIB})
+        if(THEMIS_IO_URING_INCLUDE)
+            target_include_directories(themis_storage PRIVATE ${THEMIS_IO_URING_INCLUDE})
+        endif()
+    endif()
+
     if(THEMIS_ENABLE_VULKAN)
         target_compile_definitions(themis_storage PUBLIC THEMIS_ENABLE_VULKAN)
     endif()
@@ -2175,9 +2186,6 @@ function(themis_build_modular)
     if(THEMIS_HAS_HIREDIS)
         target_compile_definitions(themis_security PUBLIC THEMIS_HAS_HIREDIS)
     endif()
-    if(THEMIS_HAS_ROCKSDB_TENSOR)
-        target_compile_definitions(themis_security PUBLIC THEMIS_HAS_ROCKSDB_TENSOR)
-    endif()
 
     # These two translation units include different governance headers that both
     # declare a class named ComplianceReporter. In Unity mode they can end up in
@@ -2261,9 +2269,6 @@ function(themis_build_modular)
     if(THEMIS_HAS_HIREDIS)
         target_compile_definitions(themis_query PUBLIC THEMIS_HAS_HIREDIS)
         message(STATUS "Wave-2: THEMIS_HAS_HIREDIS enabled (direct Redis SET/GET/DEL/EXPIRE)")
-    endif()
-    if(THEMIS_HAS_ROCKSDB_TENSOR)
-        target_compile_definitions(themis_query PUBLIC THEMIS_HAS_ROCKSDB_TENSOR)
     endif()
     if(MSVC)
         # Keep XML parser TUs separate: both files define helper types in

@@ -3740,6 +3740,13 @@ target_include_directories(themis_core
         ${CMAKE_BINARY_DIR}/proto_generated
 )
 
+if(THEMIS_HAS_IO_URING AND THEMIS_IO_URING_LIB)
+    target_link_libraries(themis_core PRIVATE ${THEMIS_IO_URING_LIB})
+    if(THEMIS_IO_URING_INCLUDE)
+        target_include_directories(themis_core PRIVATE ${THEMIS_IO_URING_INCLUDE})
+    endif()
+endif()
+
 # Define compile definitions for static builds (THEMIS_BASE_EXPORTS)
 # to ensure THEMIS_BASE_API macros resolve to dllexport/empty, not dllimport
 if(NOT THEMIS_CORE_SHARED)
