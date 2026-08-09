@@ -736,8 +736,8 @@ static void LLCPG3_LoRALoad_P99(benchmark::State& state) {
     int64_t iteration = 0;
     for (auto _ : state) {
         const std::string id = "bench_lora_" + std::to_string(++iteration);
-        // loadLoRA signature: (lora_path, lora_id, scale)
-        bool ok = plugin.loadLoRA("/tmp/nonexistent_lora.bin", id, 1.0f);
+        // loadLoRA signature: (lora_id, lora_path, scale)
+        bool ok = plugin.loadLoRA(id, "/tmp/nonexistent_lora.bin", 1.0f);
         benchmark::DoNotOptimize(ok);
         bool unloaded = plugin.unloadLoRA(id);
         benchmark::DoNotOptimize(unloaded);

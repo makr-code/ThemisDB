@@ -197,12 +197,12 @@ TEST(LlamaCppPluginFocusedTests, F3_EmbedReturnsEmptyAfterUnload) {
 
 TEST(LlamaCppPluginFocusedTests, G1_LoadLoRAReturnsTrue) {
     LlamaCppPlugin p;
-    EXPECT_TRUE(p.loadLoRA("/lora.bin", "adapter1", 1.0f));
+    EXPECT_TRUE(p.loadLoRA("adapter1", "/lora.bin", 1.0f));
 }
 
 TEST(LlamaCppPluginFocusedTests, G2_ListLoRAsAfterLoad) {
     LlamaCppPlugin p;
-    p.loadLoRA("/lora.bin", "a1", 0.8f);
+    p.loadLoRA("a1", "/lora.bin", 0.8f);
     const auto loras = p.listLoRAs();
     EXPECT_EQ(loras.size(), 1u);
     EXPECT_EQ(loras[0].lora_id, "a1");
@@ -211,7 +211,7 @@ TEST(LlamaCppPluginFocusedTests, G2_ListLoRAsAfterLoad) {
 
 TEST(LlamaCppPluginFocusedTests, G3_UnloadLoRARemovesEntry) {
     LlamaCppPlugin p;
-    p.loadLoRA("/lora.bin", "a1", 1.0f);
+    p.loadLoRA("a1", "/lora.bin", 1.0f);
     EXPECT_TRUE(p.unloadLoRA("a1"));
     EXPECT_TRUE(p.listLoRAs().empty());
 }
@@ -220,8 +220,8 @@ TEST(LlamaCppPluginFocusedTests, G3_UnloadLoRARemovesEntry) {
 
 TEST(LlamaCppPluginFocusedTests, H1_DuplicateLoRAIdReplaces) {
     LlamaCppPlugin p;
-    p.loadLoRA("/lora1.bin", "a1", 1.0f);
-    p.loadLoRA("/lora2.bin", "a1", 0.5f);
+    p.loadLoRA("a1", "/lora1.bin", 1.0f);
+    p.loadLoRA("a1", "/lora2.bin", 0.5f);
     const auto loras = p.listLoRAs();
     EXPECT_EQ(loras.size(), 1u);
     EXPECT_FLOAT_EQ(loras[0].scale, 0.5f);
@@ -234,8 +234,8 @@ TEST(LlamaCppPluginFocusedTests, H2_UnloadNonexistentReturnsFalse) {
 
 TEST(LlamaCppPluginFocusedTests, H3_MultipleLoRAsListedCorrectly) {
     LlamaCppPlugin p;
-    p.loadLoRA("/a.bin", "a", 1.0f);
-    p.loadLoRA("/b.bin", "b", 0.5f);
+    p.loadLoRA("a", "/a.bin", 1.0f);
+    p.loadLoRA("b", "/b.bin", 0.5f);
     EXPECT_EQ(p.listLoRAs().size(), 2u);
 }
 
@@ -601,7 +601,7 @@ TEST(LlamaCppPluginFocusedTests, P3_ConcurrentLoraRegistryAndGenerate) {
     auto lora_writer = [&](int id) {
         const std::string path = "/stub/lora_" + std::to_string(id) + ".bin";
         const std::string name = "lora_" + std::to_string(id);
-        plugin.loadLoRA(path, name, 1.0f);
+        plugin.loadLoRA(name, path, 1.0f);
     };
 
     auto generator = [&]() {
@@ -1063,10 +1063,9 @@ TEST(LlamaCppPluginFocusedTests, V6_PolicyFn_ClearingRevertsToNormalGenerate) {
         << "generate() must succeed after policy fn is cleared to nullptr";
 }
 
-// ── Group X – Retry & Join hardening ─────────────────────────────────────────
+// ── Group X – Retry hardening ────────────────────────────────────────────────
 // These tests verify the stream-callback retry wrapper (no_retry_logic × 13
-// gap findings) and the joinWithTimeout utility (thread_join_no_timeout × 3
-// gap findings).
+// gap findings) and guard against regressions in rapid successive calls.
 
 /// X1: stream_callback that throws std::runtime_error on the first two
 ///     invocations is retried and increments stream_retry_count_ by >= 1.
@@ -1120,10 +1119,8 @@ TEST(LlamaCppPluginFocusedTests, X2_GetPerformanceStats_ContainsStreamRetryCount
 }
 
 /// X3: Plugin survives 10 rapid successive generate() calls without thread
-///     leaks or crashes.  This indirectly validates the joinWithTimeout utility
-///     (thread_join_no_timeout × 3 gap findings were false-positives — no bare
-///     join() calls exist in this plugin; joinWithTimeout is provided as a
-///     governed utility for any future join sites).
+///     leaks or crashes. This guards the stub generation path against resource
+///     leaks while keeping the regression scope focused on production code.
 TEST(LlamaCppPluginFocusedTests, X3_RapidSuccessiveGenerate_NoThreadLeak) {
 #ifndef THEMIS_LLAMA_CPP_STUB_MODE
     GTEST_SKIP() << "Requires THEMIS_LLAMA_CPP_STUB_MODE for stub path";

@@ -80,7 +80,7 @@ Stub mode (empty path / CI without model) is preserved as a transparent fallback
 - [x] `stream_retry_count_` added as `std::atomic<uint64_t>` — exposed in `getPerformanceStats()` (A1)
 - [x] `generateRAG()` data-race fixed: shared state (`model_loaded_`, `context_length_`) snapshotted under mutex at entry (A2)
 - [x] `generateStream()` stream-callback retry: up to 3 attempts for transient exceptions; `bad_alloc` non-retryable; `stream_retry_count_` incremented per transient retry (D1)
-- [x] `joinWithTimeout(thread, 5000ms)` helper added — detaches with spdlog warning on timeout (D2)
+- [x] `thread_join_no_timeout` findings triaged as false positives; no helper retained because the module has no owned join sites (D2)
 - [x] `importLoRA` GGUF magic-bytes check (`0x47 0x47 0x55 0x46`) + 2 GB size bound — fail-closed (B2)
 - [x] `loadModel()` opt-in model-file integrity gate via `verify_model_digest` + `expected_model_digest` config keys (B3)
 - [x] `setPolicyFn(PolicyFn)` — pluggable inference policy hook; `generate()` / `generateRAG()` gate on denial (B4)
@@ -142,4 +142,3 @@ _Stand: 2026-08-09 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNC
 > `LlamaCppPluginRegistrar::initFromServerConfig(config)` aufrufen, um `LlamaCppPlugin` in den
 > `LLMPluginManager` zu registrieren, wenn `config["llm"]["model_path"]` gesetzt ist.
 > `defaultReloadCallback()` delegiert nun korrekt an `loadModel()` statt eines Stub-Kommentars.
-

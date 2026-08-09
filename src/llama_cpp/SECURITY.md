@@ -45,7 +45,7 @@ This document covers the security posture of the llama_cpp LLM backend plugin:
 - `unloadLoRA` returns `false` for unknown IDs rather than silently succeeding.
 
 ### Planned Controls
-- Model file integrity (FNV-64 opt-in gate, upgradeable to SHA-256) — ✅ v2.1.0
+- Model file integrity (opt-in non-cryptographic FNV-64 checksum placeholder; SHA-256 remains the planned cryptographic upgrade) — ✅ v2.1.0
 - LoRA adapter GGUF magic + 2 GB size bound — ✅ v2.1.0
 - Upstream prompt policy check integration via `setPolicyFn` hook — ✅ Q3 2026
 

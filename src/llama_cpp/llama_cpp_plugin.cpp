@@ -24,12 +24,10 @@
 #include "rag/rag_context_assembler.h"
 #include <algorithm>
 #include <atomic>
-#include <chrono>
 #include <exception>
 #include <fstream>
 #include <iomanip>
 #include <sstream>
-#include <thread>
 
 #ifndef THEMIS_NO_SPDLOG
 #include <spdlog/spdlog.h>
@@ -50,43 +48,6 @@ namespace llamacpp {
 namespace {
 constexpr size_t kDefaultDraftFallbackVocabSize = 32000u;
 constexpr size_t kMaxDraftFallbackVocabSize = 65536u;
-
-/// @brief Join @p t with a deadline.  If the thread does not finish within
-///        @p timeout_ms milliseconds the monitor thread is detached and a
-///        warning is emitted; the original thread is left in a detached state
-///        so the process can continue without blocking indefinitely.
-/// @return true if the thread completed before the deadline; false on timeout.
-///
-/// @note Gap scanner reported 3× thread_join_no_timeout CRITICAL findings.
-///       Audit of llama_cpp_plugin.cpp and llama_cpp_plugin_validation_gates.cpp
-///       found zero bare join() calls in these files; the findings are therefore
-///       false-positives from the scanner.  This helper is provided as a
-///       governed utility so any future join sites can use it immediately.
-bool joinWithTimeout(std::thread& t, int timeout_ms = 5000) {
-    if (!t.joinable()) return true;
-    std::atomic<bool> finished{false};
-    // Monitor thread performs the actual join so we can observe it from outside.
-    std::thread monitor([&t, &finished]() {
-        if (t.joinable()) t.join();
-        finished.store(true, std::memory_order_release);
-    });
-    const auto deadline = std::chrono::steady_clock::now() +
-                          std::chrono::milliseconds(timeout_ms);
-    while (!finished.load(std::memory_order_acquire)) {
-        if (std::chrono::steady_clock::now() >= deadline) {
-            monitor.detach();
-#ifndef THEMIS_NO_SPDLOG
-            spdlog::warn(
-                "LlamaCppPlugin: thread join timed out after {}ms, detaching",
-                timeout_ms);
-#endif
-            return false;
-        }
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
-    }
-    if (monitor.joinable()) monitor.join();
-    return true;
-}
 } // namespace
 
 LlamaCppPlugin::LlamaCppPlugin() = default;
@@ -205,8 +166,8 @@ std::string LlamaCppPlugin::getModelId() const {
 
 // ── LoRA management ───────────────────────────────────────────────────────────
 
-bool LlamaCppPlugin::loadLoRA(const std::string& lora_path,
-                               const std::string& lora_id, float scale) {
+bool LlamaCppPlugin::loadLoRA(const std::string& lora_id,
+                               const std::string& lora_path, float scale) {
     std::lock_guard<std::mutex> lock(mutex_);
     // Remove existing entry with same id
     loras_.erase(std::remove_if(loras_.begin(), loras_.end(),
@@ -929,4 +890,3 @@ void themis_llm_destroy(themis::llm::ILLMPlugin* p) {
     delete p;
 }
 #endif
-

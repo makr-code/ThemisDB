@@ -71,9 +71,12 @@ public:
     std::optional<llm::ModelInfo> getModelInfo() const override;
     bool isModelLoaded() const override { return model_loaded_; }
 
-    bool loadLoRA(const std::string& lora_path, const std::string& lora_id,
+    /// @copydoc llm::ILLMPlugin::loadLoRA
+    bool loadLoRA(const std::string& lora_id, const std::string& lora_path,
                   float scale) override;
+    /// @copydoc llm::ILLMPlugin::unloadLoRA
     bool unloadLoRA(const std::string& lora_id) override;
+    /// @copydoc llm::ILLMPlugin::listLoRAs
     std::vector<llm::LoRAInfo> listLoRAs() const override;
 
     llm::InferenceResponse generate(const llm::InferenceRequest& request) override;

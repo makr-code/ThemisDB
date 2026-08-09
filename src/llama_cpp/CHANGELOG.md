@@ -21,8 +21,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - **Stream-callback retry**: `generate()` wraps every `stream_callback` invocation in
   `invokeStreamCallback()` with up to 3 transient-exception retries; `std::bad_alloc` is
   non-retryable; `stream_retry_count_` tracks retries for observability.
-- **`joinWithTimeout(thread, 5000ms)`**: anonymous-namespace helper that detaches and logs
-  a `spdlog::warn` if a monitored thread does not complete within the deadline.
+- **Join-hardening review**: removed the unused `joinWithTimeout` helper after review
+  because its detached monitor thread lifetime was unsafe; the module keeps no owned
+  join sites and the original `thread_join_no_timeout` findings remain triaged as false positives.
 - **`importLoRA` security hardening**: GGUF magic-bytes validation (`0x47 0x47 0x55 0x46`)
   and 2 GB size bound enforced before any delegation to `LlamaWrapper`; fail-closed.
 - **`loadModel` integrity gate**: opt-in FNV-64 digest check via `"verify_model_digest": true`
