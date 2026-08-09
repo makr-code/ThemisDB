@@ -55,6 +55,7 @@
 
 #include "transaction/recoverable_two_phase_coordinator.h"
 #include "sharding/wal_manager.h"
+#include "utils/retry_contract.h"
 #include <atomic>
 #include <chrono>
 #include <condition_variable>
@@ -199,12 +200,29 @@ struct DistributedTransaction {
 struct DistributedTxnStatus {
     bool        ok      = true;
     std::string message;
+    std::uint32_t retry_count = 0;
+    themis::utils::RetryExhaustionReason exhaustion_reason =
+        themis::utils::RetryExhaustionReason::NONE;
+    themis::utils::RetryTimeoutSource timeout_source =
+        themis::utils::RetryTimeoutSource::NONE;
+    std::string correlation_id;
 
     static DistributedTxnStatus OK() { return {}; }
-    static DistributedTxnStatus Error(std::string msg) {
+    static DistributedTxnStatus Error(
+        std::string msg,
+        std::uint32_t retry_count = 0,
+        themis::utils::RetryExhaustionReason exhaustion_reason =
+            themis::utils::RetryExhaustionReason::NONE,
+        themis::utils::RetryTimeoutSource timeout_source =
+            themis::utils::RetryTimeoutSource::NONE,
+        std::string correlation_id = {}) {
         DistributedTxnStatus s;
         s.ok      = false;
         s.message = std::move(msg);
+        s.retry_count = retry_count;
+        s.exhaustion_reason = exhaustion_reason;
+        s.timeout_source = timeout_source;
+        s.correlation_id = std::move(correlation_id);
         return s;
     }
 };

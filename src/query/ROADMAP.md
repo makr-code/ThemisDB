@@ -18,6 +18,7 @@ Production-ready multi-model query stack with parser, optimizer, execution, fede
 - [~] Query hardening wave for safety, resilience, and predictable performance (Target: Q3 2026)
   - [ ] Complete remaining performance/regression benchmark gates for vectorized and federated paths (Target: Q3 2026)
   - [ ] Continue reliability hardening for cancellation, limits, and distributed query failure behavior (Target: Q3 2026)
+  - [x] Canonical retry metadata envelope integrated into federation timeout paths (`retry_count`, exhaustion reason, timeout source, correlation id) with focused coverage in `test_query_federation_hardness.cpp` (Delivered: 2026-08-09)
 - [~] approved next implementation block: support Graph Phase 3 with query-planner and optimizer hardening before follow-on scheduling/load-balancing work (Target: Q3 2026)
 - [~] **AQL LLM Integration Consolidation** — Phase 1-4 (2026-06-18 → ongoing)
   - Formalize dependency contract between src/query/ (Query Engine) and src/aql/ (LLM Integration)

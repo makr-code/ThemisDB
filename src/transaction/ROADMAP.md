@@ -15,6 +15,7 @@ Production-grade transaction stack with ACID lifecycle management, MVCC integrat
   - [~] Tighten timeout and rollback determinism under sustained contention and mixed workloads (Target: Q3 2026)
     - [x] Phase 1: Timeout determinism tests with contention loads (10 tests)
     - [ ] Phase 2: Distributed coordinator timeout/retry hardening (pending Q4)
+  - [x] Distributed transaction status contract now carries canonical retry metadata (`retry_count`, exhaustion reason, timeout source, correlation id) with focused checks in `test_transaction_distributed_phase2.cpp` (Delivered: 2026-08-09)
 
 ## Planned Features
 

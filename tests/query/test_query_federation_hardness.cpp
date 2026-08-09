@@ -123,6 +123,8 @@ TEST_F(TimeoutPolicyTest, TimeoutEventRecording) {
     const auto& recorded = policy.getTimeoutEvents()[0];
     EXPECT_EQ(recorded.shard_id, "shard1");
     EXPECT_EQ(recorded.elapsed.count(), 5000);
+    EXPECT_EQ(recorded.exhaustion_reason, themis::utils::RetryExhaustionReason::NONE);
+    EXPECT_EQ(recorded.timeout_source, themis::utils::RetryTimeoutSource::NONE);
 }
 
 TEST_F(TimeoutPolicyTest, RetryStatsRecording) {
@@ -190,6 +192,13 @@ TEST_F(QueryTimeoutContextTest, RetryTracking) {
     EXPECT_EQ(stats->successful_attempt, 2);
     EXPECT_EQ(stats->total_attempts, 3);
     EXPECT_EQ(stats->failure_reasons.size(), 2);
+
+    auto metadata = context->getRetryMetadata("shard1");
+    EXPECT_EQ(metadata.retry_count, 2u);
+    EXPECT_EQ(metadata.retry_budget, 2u);
+    EXPECT_FALSE(metadata.retriable);
+    EXPECT_EQ(metadata.exhaustion_reason,
+              themis::utils::RetryExhaustionReason::MAX_ATTEMPTS_REACHED);
 }
 
 TEST_F(QueryTimeoutContextTest, RemainingTimeCalculation) {
@@ -488,6 +497,12 @@ TEST_F(FederationFaultInjectionTest, FED_02_RetryExhaustion) {
             EXPECT_TRUE(ctx.shouldRetry("shard_failing"));
         }
     }
+
+    auto metadata = ctx.getRetryMetadata("shard_failing");
+    EXPECT_EQ(metadata.retry_count, 3u);
+    EXPECT_FALSE(metadata.retriable);
+    EXPECT_EQ(metadata.exhaustion_reason,
+              themis::utils::RetryExhaustionReason::MAX_ATTEMPTS_REACHED);
 }
 
 // FED-03: Overall Query Timeout
