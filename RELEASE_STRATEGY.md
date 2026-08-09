@@ -88,7 +88,7 @@ For the current release-candidate hardening path, execution is tracked in four m
 
 Batch boundaries are not advisory: each batch requires updated evidence references in `ROADMAP.md`, `NEXT_PHASE_IMPLEMENTATION_PLAN.md`, and `ai_working/NEXT_PHASE_STATUS.md` before the next batch starts.
 
-Current tracked state: Batch A complete; Batch B complete (sharding P6 gate wired, WAL/failover boundary evidence in progress); Batch C closed — sanitizer evidence (`docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md`: ASan/UBSan/TSan 0 new defects) and pentest evidence (`security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`: 0 new Critical/High, PTR-01/PTR-02 accepted) delivered; Batch D in progress — final human governance sign-off pending at `docs/governance/GA_PROMOTION_SIGN_OFF.md`.
+Current tracked state: Batch A complete; Batch B complete (including sharding WAL/failover boundary evidence closure); Batch C closed — sanitizer evidence (`docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md`: ASan/UBSan/TSan 0 new defects) and pentest evidence (`security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`: 0 new Critical/High, PTR-01/PTR-02 accepted) delivered; Batch D technical gates complete, with final human governance sign-off pending at `docs/governance/GA_PROMOTION_SIGN_OFF.md` Section 9 (D-11).
 
 ## 3. Tags
 
