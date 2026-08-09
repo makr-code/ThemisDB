@@ -196,7 +196,7 @@ struct CacheStats {
  *  - Shared state (cache_, lru_list_, table_index_) protected by cache_mutex_
  *  - Statistics counters (GAP-4) use std::atomic<> for lock-free updates
  *  - No wait loops or unbounded operations while holding cache_mutex_
- *  - get() and put() operations respect deadline propagation via optional timeout (GAP-5)
+ *  - get() and put() operations respect deadline propagation via pre-lock fail-fast checks (GAP-5)
  *  - Lock ordering: cache_mutex_ is lowest level; never acquire other locks while holding it
  */
 ```
@@ -580,12 +580,12 @@ cmake --build build --target test_query_optimizer_thread_safety
 # Expected: All 9 tests PASS
 ```
 
-### Run with ThreadSanitizer
+### Run with AddressSanitizer
 ```bash
 cmake --preset community-asan
 cmake --build build --target test_query_optimizer_thread_safety
 # Run test
-# Expected: No data race reports from ThreadSanitizer
+# Expected: No memory-safety reports from AddressSanitizer
 ```
 
 ---
@@ -607,4 +607,3 @@ cmake --build build --target test_query_optimizer_thread_safety
 **Report Author:** Query Module Hardening Agent  
 **Review Status:** Self-verified  
 **Test Coverage:** 9 concurrent scenarios, up to 16 threads, 3200+ operations
-

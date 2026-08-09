@@ -86,9 +86,9 @@ protected:
 TEST_F(QueryOptimizerThreadSafetyTest, ConcurrentCounterUpdates_HighContention_CountersAccurate) {
     const int num_threads = 10;
     const int ops_per_thread = 100;
-    const int total_queries = num_threads * ops_per_thread;
+    std::atomic<uint64_t> get_operations{0};
 
-    auto test_thread = [this, ops_per_thread](int thread_id) {
+    auto test_thread = [this, ops_per_thread, &get_operations](int thread_id) {
         for (int i = 0; i < ops_per_thread; ++i) {
             // Generate unique query to avoid cache hits
             std::string query = "SELECT * FROM table WHERE id = " + 
@@ -98,6 +98,7 @@ TEST_F(QueryOptimizerThreadSafetyTest, ConcurrentCounterUpdates_HighContention_C
             if ((thread_id + i) % 2 == 0) {
                 cache_->put(query, makeTestPlan(), makeTestStats("table", 1000));
             } else {
+                get_operations.fetch_add(1, std::memory_order_relaxed);
                 cache_->get(query, makeTestStats("table", 1000));
             }
         }
@@ -116,12 +117,13 @@ TEST_F(QueryOptimizerThreadSafetyTest, ConcurrentCounterUpdates_HighContention_C
     auto stats = cache_->getStats();
     uint64_t total_ops = stats.hits.load(std::memory_order_acquire) + 
                          stats.misses.load(std::memory_order_acquire);
+    const uint64_t expected_get_ops = get_operations.load(std::memory_order_acquire);
     
-    // All operations should be counted (some as hits, some as misses)
-    EXPECT_EQ(total_ops, total_queries);
+    // Only get() operations contribute to hit/miss counters.
+    EXPECT_EQ(total_ops, expected_get_ops);
     
-    // Since we're generating unique queries, all should be misses initially
-    EXPECT_EQ(stats.misses.load(std::memory_order_acquire), total_queries);
+    // Since get() queries are unique and never pre-populated, all should miss.
+    EXPECT_EQ(stats.misses.load(std::memory_order_acquire), expected_get_ops);
     EXPECT_EQ(stats.hits.load(std::memory_order_acquire), 0);
 }
 
@@ -351,7 +353,6 @@ TEST_F(QueryOptimizerThreadSafetyTest, ConcurrentCacheOperations_Stress_NoDeadlo
     auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count();
     EXPECT_LT(ms, 30000) << "Stress test should complete in < 30s";
     
-    THEMIS_INFO("Stress test: {} ops in {}ms", operations_completed, ms);
 }
 
 /**

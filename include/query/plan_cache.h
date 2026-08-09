@@ -52,7 +52,7 @@ namespace query {
  *  - Shared state (cache_, lru_list_, table_index_) protected by cache_mutex_
  *  - Statistics counters (GAP-4) use std::atomic<> for lock-free updates
  *  - No wait loops or unbounded operations while holding cache_mutex_
- *  - get() and put() operations respect deadline propagation via optional timeout (GAP-5)
+ *  - get() and put() operations respect deadline propagation via pre-lock fail-fast checks (GAP-5)
  *  - Lock ordering: cache_mutex_ is lowest level; never acquire other locks while holding it
  *
  * Invalidation Strategy:
@@ -160,6 +160,35 @@ public:
         std::atomic<size_t>   current_size  {0};
         std::atomic<size_t>   current_memory_bytes {0};
 
+        CacheStats() = default;
+
+        CacheStats(const CacheStats& other) noexcept {
+            hits.store(other.hits.load(std::memory_order_acquire), std::memory_order_relaxed);
+            misses.store(other.misses.load(std::memory_order_acquire), std::memory_order_relaxed);
+            invalidations.store(other.invalidations.load(std::memory_order_acquire), std::memory_order_relaxed);
+            evictions.store(other.evictions.load(std::memory_order_acquire), std::memory_order_relaxed);
+            stat_drifts.store(other.stat_drifts.load(std::memory_order_acquire), std::memory_order_relaxed);
+            current_size.store(other.current_size.load(std::memory_order_acquire), std::memory_order_relaxed);
+            current_memory_bytes.store(other.current_memory_bytes.load(std::memory_order_acquire), std::memory_order_relaxed);
+        }
+
+        CacheStats& operator=(const CacheStats& other) noexcept {
+            if (this == &other) {
+                return *this;
+            }
+            hits.store(other.hits.load(std::memory_order_acquire), std::memory_order_relaxed);
+            misses.store(other.misses.load(std::memory_order_acquire), std::memory_order_relaxed);
+            invalidations.store(other.invalidations.load(std::memory_order_acquire), std::memory_order_relaxed);
+            evictions.store(other.evictions.load(std::memory_order_acquire), std::memory_order_relaxed);
+            stat_drifts.store(other.stat_drifts.load(std::memory_order_acquire), std::memory_order_relaxed);
+            current_size.store(other.current_size.load(std::memory_order_acquire), std::memory_order_relaxed);
+            current_memory_bytes.store(other.current_memory_bytes.load(std::memory_order_acquire), std::memory_order_relaxed);
+            return *this;
+        }
+
+        CacheStats(CacheStats&& other) noexcept : CacheStats(other) {}
+        CacheStats& operator=(CacheStats&& other) noexcept { return *this = other; }
+
         double hitRate() const {
             uint64_t h = hits.load(std::memory_order_acquire);
             uint64_t m = misses.load(std::memory_order_acquire);
@@ -203,7 +232,8 @@ public:
      *        Prevents cascading timeouts in federated query contexts (GAP-5).
      * @return Optional CachedPlan; nullopt on miss, staleness, or deadline exceeded.
      *
-     * THREAD-SAFE: Acquires cache_mutex_ with optional timeout for deadline support.
+     * THREAD-SAFE: Acquires cache_mutex_. Deadline support is fail-fast via
+     *              pre-lock deadline check (no timed mutex wait).
      */
     std::optional<CachedPlan> get(
         const std::string& query,
@@ -226,7 +256,8 @@ public:
      * @param deadline   Optional deadline (std::chrono::steady_clock).
      *        If set and exceeded, returns immediately without caching (GAP-5).
      *
-     * THREAD-SAFE: Acquires cache_mutex_ with optional timeout for deadline support.
+     * THREAD-SAFE: Acquires cache_mutex_. Deadline support is fail-fast via
+     *              pre-lock deadline check (no timed mutex wait).
      */
     void put(const std::string&             query,
              const QueryOptimizer::Plan&    plan,

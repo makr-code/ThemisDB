@@ -350,7 +350,7 @@ void QueryOptimizer::setAdvisorCostConstants(
     advisor_cost_model_.setConstants(c);
 }
 
-const OptimizerCostModel::CostConstants&
+OptimizerCostModel::CostConstants
 QueryOptimizer::advisorCostConstants() const {
     std::lock_guard<std::mutex> lock(advisor_cost_model_mutex_);
     return advisor_cost_model_.getConstants();

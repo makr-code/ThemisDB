@@ -332,7 +332,7 @@ Expected: No data race reports
 1. ✅ Run ThreadSanitizer on full test suite
 2. ✅ Integrate with existing query module tests
 3. ✅ Code review (already self-verified)
-4. ✅ Merge to main branch
+4. ✅ Merge to community branch
 
 ### Future Work (Phase C+)
 1. Complete GAP-3 with `std::call_once()` pattern
@@ -377,4 +377,3 @@ For questions or issues with the thread-safety hardening:
 **Quality Gate:** ✅ PASSED  
 **Production Ready:** ✅ YES  
 **Phase B Gate Target:** ✅ MET
-

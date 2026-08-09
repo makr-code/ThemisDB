@@ -50,7 +50,9 @@ PlanCache::~PlanCache() {
     lru_list_.clear();
     table_index_.clear();
     THEMIS_DEBUG("PlanCache destroyed: hits={}, misses={}, invalidations={}",
-                 stats_.hits, stats_.misses, stats_.invalidations);
+                 stats_.hits.load(std::memory_order_acquire),
+                 stats_.misses.load(std::memory_order_acquire),
+                 stats_.invalidations.load(std::memory_order_acquire));
 }
 
 // =============================================================================
@@ -205,7 +207,7 @@ std::optional<PlanCache::CachedPlan> PlanCache::get(
         }
     }
 
-    // Acquire lock with optional deadline-based timeout
+    // Acquire cache lock after pre-lock deadline check (no timed wait on std::mutex).
     std::lock_guard<std::mutex> lock(cache_mutex_);
 
     auto it = cache_.find(fp);

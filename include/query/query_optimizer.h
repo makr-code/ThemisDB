@@ -83,15 +83,19 @@ public:
      * @brief Replace the cost constants used by the serialization-strategy advisor.
      *
      * Allows external calibration (e.g. via PerQueryCostModel::calibrate) to flow
-     * into subsequent chooseOrderForAndQuery() calls.  Thread-safe only with
-     * external serialization of calls to this method and chooseOrderForAndQuery().
+     * into subsequent chooseOrderForAndQuery() calls.
+     *
+     * Thread-safety: acquires advisor_cost_model_mutex_.
      */
     void setAdvisorCostConstants(const OptimizerCostModel::CostConstants& c);
 
     /**
-     * @brief Return a read-only reference to the advisor's current cost constants.
+     * @brief Return a snapshot copy of the advisor's current cost constants.
+     *
+     * Thread-safety: acquires advisor_cost_model_mutex_ and returns by value so
+     * callers never observe mutable shared state after lock release.
      */
-    const OptimizerCostModel::CostConstants& advisorCostConstants() const;
+    OptimizerCostModel::CostConstants advisorCostConstants() const;
     
     // NLP-enhanced query optimization (PR #317 Phase 1)
     // Combines traditional cost-based optimization with NLP-based semantic analysis
@@ -311,8 +315,8 @@ private:
     // Protects access to advisor_cost_model_ member state.
     // All reads in chooseOrderForAndQuery() and writes via setAdvisorCostConstants()
     // must hold this lock.
-    // Ordering: This lock is held FIRST. Never acquire per_query_cost_model_mutex_
-    //           while holding this lock.
+    // Ordering: This lock is held FIRST. If both locks are needed, acquire this
+    //           lock before per_query_cost_model_mutex_.
     mutable std::mutex advisor_cost_model_mutex_;
 
     // Cost model instance shared across chooseOrderForAndQuery() calls so that
@@ -400,5 +404,4 @@ private:
 
 } // namespace query
 } // namespace themis
-
 
