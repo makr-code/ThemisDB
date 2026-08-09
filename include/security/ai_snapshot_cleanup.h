@@ -60,9 +60,12 @@ public:
         std::uint64_t max_total_gb   = 100;                        ///< Max total size in GiB
     };
 
-    /// @brief Construct with custom configuration or defaults.
-    /// @param cfg Configuration; defaults to Config{} if omitted.
-    explicit AiSnapshotCleanupJob(Config cfg = Config{});
+    /// @brief Construct with default configuration values.
+    AiSnapshotCleanupJob();
+
+    /// @brief Construct with explicit configuration values.
+    /// @param cfg Configuration to use for cleanup operations.
+    explicit AiSnapshotCleanupJob(Config cfg);
 
     /**
      * @brief Run cleanup: remove expired and oversized snapshots.
