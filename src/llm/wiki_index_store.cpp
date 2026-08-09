@@ -28,6 +28,7 @@
 
 #include <algorithm>
 #include <fstream>
+#include <optional>
 #include <regex>
 #include <sstream>
 #include <stdexcept>
@@ -86,6 +87,7 @@ WikiIndexStore::WikiIndexStore(SecondaryIndexManager& sim,
     , llm_(llm)
     , config_(std::move(config))
     , llm_ptr_(&llm)
+    , emb_cache_table_(config_.table_name + "_emb_cache")
 {
     // Initialise HybridRetriever with configured RRF parameters
     rag::HybridRetrieverConfig rrf_cfg;
@@ -123,6 +125,18 @@ WikiIndexStore::WikiIndexStore(SecondaryIndexManager& sim,
     ready_.store(true, std::memory_order_release);
     spdlog::debug("[WikiIndexStore] initialised table={} dim={}",
                   config_.table_name, config_.embedding_dim);
+
+    // Load persisted embedding cache from RocksDB (must run after ready_ is set)
+    if (config_.enable_persistent_cache) {
+        // Create an index on chunk_id field to support per-entry lookup.
+        // The emb_cache table stores chunk_id both as PK and as an indexed field
+        // so scanEntitiesEqual() can locate entries by chunk_id.
+        auto idx_s = sim_.createIndex(emb_cache_table_, "chunk_id");
+        if (!idx_s.ok) {
+            spdlog::debug("[WikiIndexStore] emb_cache createIndex(chunk_id): {}", idx_s.message);
+        }
+        loadPersistentEmbedCache();
+    }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -132,13 +146,23 @@ WikiIndexStore::WikiIndexStore(SecondaryIndexManager& sim,
 void WikiIndexStore::writeChunk(WikiChunk chunk) {
     std::unique_lock lock(mutex_);
 
+    // Auto-probe embedding dimensionality on first write
+    if (config_.auto_probe_dim) {
+        probeEmbeddingDim();
+    }
+
     // Compute embedding if missing
     if (chunk.embedding.empty()) {
         if (auto it = embed_cache_.find(chunk.chunk_id); it != embed_cache_.end()) {
             chunk.embedding = it->second;
+        } else if (auto persisted = fetchPersistedEmbedding(chunk.chunk_id);
+                   persisted.has_value()) {
+            chunk.embedding = std::move(*persisted);
+            embed_cache_[chunk.chunk_id] = chunk.embedding;
         } else {
             chunk.embedding = llm_.embed(chunk.text);
             embed_cache_[chunk.chunk_id] = chunk.embedding;
+            persistEmbedding(chunk.chunk_id, chunk.embedding);
         }
     }
 
@@ -164,7 +188,12 @@ void WikiIndexStore::writeChunk(WikiChunk chunk) {
 void WikiIndexStore::writeBatch(std::vector<WikiChunk> chunks) {
     std::unique_lock lock(mutex_);
 
-    constexpr int kBatchSize = 32;
+    // Auto-probe embedding dimensionality on first write
+    if (config_.auto_probe_dim) {
+        probeEmbeddingDim();
+    }
+
+    const int effective_batch_size = std::max(1, config_.batch_size);
 
     // Collect indices of chunks that still need embeddings
     std::vector<std::size_t> need_embed;
@@ -172,15 +201,21 @@ void WikiIndexStore::writeBatch(std::vector<WikiChunk> chunks) {
         if (chunks[i].embedding.empty()) {
             if (auto it = embed_cache_.find(chunks[i].chunk_id); it != embed_cache_.end()) {
                 chunks[i].embedding = it->second;
+            } else if (auto persisted = fetchPersistedEmbedding(chunks[i].chunk_id);
+                       persisted.has_value()) {
+                chunks[i].embedding = std::move(*persisted);
+                embed_cache_[chunks[i].chunk_id] = chunks[i].embedding;
             } else {
                 need_embed.push_back(i);
             }
         }
     }
 
-    // Embed in batches of kBatchSize
-    for (std::size_t b = 0; b < need_embed.size(); b += kBatchSize) {
-        std::size_t end = std::min(b + kBatchSize, need_embed.size());
+    // Embed in configurable batches
+    for (std::size_t b = 0; b < need_embed.size();
+         b += static_cast<std::size_t>(effective_batch_size)) {
+        std::size_t end = std::min(b + static_cast<std::size_t>(effective_batch_size),
+                                   need_embed.size());
         std::vector<std::string> texts;
         texts.reserve(end - b);
         for (std::size_t k = b; k < end; ++k) {
@@ -193,6 +228,7 @@ void WikiIndexStore::writeBatch(std::vector<WikiChunk> chunks) {
             if (k - b < vecs.size()) {
                 chunks[ci].embedding = vecs[k - b];
                 embed_cache_[chunks[ci].chunk_id] = chunks[ci].embedding;
+                persistEmbedding(chunks[ci].chunk_id, chunks[ci].embedding);
             }
         }
     }
@@ -340,6 +376,132 @@ bool WikiIndexStore::isReady() const noexcept {
 
 themis::BaseEntity WikiIndexStore::toEntity(const WikiChunk& chunk) {
     return chunkToEntity(chunk);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// WikiIndexStore — Phase 3 helpers: persistent cache, auto-probe dim
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief Persist a single embedding to RocksDB under the emb_cache table.
+ *
+ * Stores the embedding as a `BaseEntity` with primary key `chunk_id`, a
+ * float-vector field `"embedding"`, and a string field `"chunk_id"` used as
+ * the lookup key in `fetchPersistedEmbedding`.  Call sites must hold the
+ * write lock.
+ *
+ * No-op when `config_.enable_persistent_cache` is `false`.
+ *
+ * @param chunk_id  Stable chunk identifier (used as primary key and lookup field).
+ * @param embedding Dense embedding vector to persist.
+ */
+void WikiIndexStore::persistEmbedding(const std::string&        chunk_id,
+                                      const std::vector<float>& embedding) {
+    if (!config_.enable_persistent_cache) {
+        return;
+    }
+    themis::BaseEntity e;
+    e.setPrimaryKey(chunk_id);
+    e.setField("chunk_id", chunk_id);   // indexed field for scanEntitiesEqual lookup
+    e.setField("embedding", embedding);
+    auto s = sim_.put(emb_cache_table_, e);
+    if (!s.ok) {
+        spdlog::warn("[WikiIndexStore] persistEmbedding: {}", s.message);
+    }
+}
+
+/**
+ * @brief Attempt to load a single embedding from RocksDB by chunk_id.
+ *
+ * Performs an indexed lookup using `SecondaryIndexManager::scanEntitiesEqual`
+ * on the `"chunk_id"` field of the emb_cache table.  Returns the embedding
+ * from the first matching entry, or `std::nullopt` if not found.
+ *
+ * Returns `std::nullopt` immediately when `config_.enable_persistent_cache`
+ * is `false`.
+ *
+ * @param chunk_id  Chunk identifier to look up.
+ * @return          The embedding vector, or `std::nullopt`.
+ */
+std::optional<std::vector<float>> WikiIndexStore::fetchPersistedEmbedding(
+    const std::string& chunk_id) const
+{
+    if (!config_.enable_persistent_cache || chunk_id.empty()) {
+        return std::nullopt;
+    }
+    auto [status, entities] = sim_.scanEntitiesEqual(emb_cache_table_, "chunk_id", chunk_id);
+    if (!status.ok || entities.empty()) {
+        return std::nullopt;
+    }
+    auto maybe_vec = entities[0].getFieldAsVector("embedding");
+    if (!maybe_vec.has_value() || maybe_vec->empty()) {
+        return std::nullopt;
+    }
+    return maybe_vec;
+}
+
+/**
+ * @brief Load previously persisted embeddings from RocksDB into embed_cache_.
+ *
+ * Called once during construction when `config_.enable_persistent_cache` is
+ * `true`.
+ *
+ * @note Since `SecondaryIndexManager` does not expose a full-table scan,
+ *       this function logs a debug note that embeddings are fetched lazily
+ *       (on demand in `writeChunk` / `writeBatch`) instead of eagerly.
+ *       The in-memory `embed_cache_` is therefore empty after construction;
+ *       individual entries are fetched from RocksDB on first access.
+ */
+void WikiIndexStore::loadPersistentEmbedCache() {
+    spdlog::debug("[WikiIndexStore] loadPersistentEmbedCache: persistent cache enabled; "
+                  "embeddings will be fetched lazily from '{}' on cache miss",
+                  emb_cache_table_);
+}
+
+/**
+ * @brief Probe the LLM to determine the actual embedding dimensionality.
+ *
+ * Embeds a short, deterministic sentinel string (`"__dim_probe__"`) and uses
+ * the returned vector size as the authoritative `embedding_dim`.  If the
+ * probed dimension differs from `config_.embedding_dim`, the vector index is
+ * re-initialised with the correct size.
+ *
+ * This method is idempotent: subsequent calls are no-ops once `dim_probed_`
+ * is set.  Call sites must hold the write lock.
+ */
+void WikiIndexStore::probeEmbeddingDim() {
+    // Double-checked pattern inside the held write lock.
+    if (dim_probed_.load(std::memory_order_acquire)) {
+        return;
+    }
+
+    static constexpr const char* kProbeSentinel = "__dim_probe__";
+    auto probe_vec = llm_.embed(kProbeSentinel);
+    if (probe_vec.empty()) {
+        spdlog::warn("[WikiIndexStore] probeEmbeddingDim: embed() returned empty vector; "
+                     "keeping configured dim={}", config_.embedding_dim);
+        dim_probed_.store(true, std::memory_order_release);
+        return;
+    }
+
+    const int probed_dim = static_cast<int>(probe_vec.size());
+    if (probed_dim != config_.embedding_dim) {
+        spdlog::info("[WikiIndexStore] probeEmbeddingDim: dim {} → {} (re-initialising vector index)",
+                     config_.embedding_dim, probed_dim);
+        config_.embedding_dim = probed_dim;
+
+        if (config_.enable_vector) {
+            auto s = vim_.init(config_.table_name,
+                               config_.embedding_dim,
+                               VectorIndexManager::Metric::COSINE);
+            if (!s.ok) {
+                spdlog::warn("[WikiIndexStore] probeEmbeddingDim: vim_.init: {}", s.message);
+            }
+        }
+    }
+
+    dim_probed_.store(true, std::memory_order_release);
+    spdlog::debug("[WikiIndexStore] probeEmbeddingDim: effective dim={}", config_.embedding_dim);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

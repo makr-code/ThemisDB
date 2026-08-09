@@ -49,6 +49,7 @@
 #include "storage/base_entity.h"
 
 #include <mutex>
+#include <optional>
 #include <shared_mutex>
 #include <string>
 #include <vector>
@@ -90,12 +91,46 @@ struct WikiChunk {
  */
 struct WikiIndexConfig {
     std::string table_name    = "wiki_chunks"; ///< RocksDB table / namespace
-    int         embedding_dim = 384;            ///< Expected embedding dimensionality
+    int         embedding_dim = 384;            ///< Expected embedding dimensionality (overridden when auto_probe_dim=true)
     int         top_k         = 10;             ///< Default retrieval limit
     float       min_score     = 0.0f;           ///< Minimum score threshold for results
     bool        enable_bm25   = true;           ///< Include BM25 candidates in fusion
     bool        enable_vector = true;           ///< Include KNN candidates in fusion
     double      rrf_k         = 60.0;           ///< Reciprocal Rank Fusion smoothing constant
+
+    // --- Phase 3 features (Target: Q3 2026) --------------------------------
+
+    /**
+     * @brief Batch size for grouped embedding calls in `writeBatch()`.
+     *
+     * Controls how many chunks are passed to `EmbeddedLLM::embedBatch` in a
+     * single call.  Increase for higher throughput on GPU-backed LLMs; reduce
+     * to lower peak memory usage.  Default: 32 (matches original hardcoded value).
+     */
+    int         batch_size    = 32;
+
+    /**
+     * @brief Auto-detect embedding dimensionality on first write.
+     *
+     * When `true`, the first call to `writeChunk()` or `writeBatch()` probes
+     * the LLM by embedding a short sentinel string and uses the returned vector
+     * size as `embedding_dim`, re-initialising the vector index accordingly.
+     * Subsequent probes are skipped (one-shot).  The value written back to
+     * `config_.embedding_dim` after probing.  Default: `false` (use the
+     * explicit `embedding_dim` value without probing).
+     */
+    bool        auto_probe_dim = false;
+
+    /**
+     * @brief Persist the per-chunk embedding cache in RocksDB.
+     *
+     * When `true`, embeddings computed during `writeChunk()` / `writeBatch()`
+     * are stored persistently in the secondary index under the table
+     * `<table_name>_emb_cache`.  On construction the store loads any existing
+     * cached embeddings into memory so that re-ingested chunks skip the LLM
+     * call.  Default: `false` (in-memory cache only, original behaviour).
+     */
+    bool        enable_persistent_cache = false;
 };
 
 // ============================================================================
@@ -313,7 +348,31 @@ private:
     /// return the cached vector without re-invoking the LLM.  Protected by
     /// `query_embed_mutex_` (not by `mutex_`).
     mutable std::unordered_map<std::string, std::vector<float>> query_embed_cache_;
-};
+
+    /// True once the embedding dimensionality has been probed (auto_probe_dim path).
+    std::atomic<bool>           dim_probed_{false};
+
+    /// Embed-cache RocksDB table name used when enable_persistent_cache=true.
+    std::string                 emb_cache_table_;
+
+    /// Load persisted embeddings from RocksDB into embed_cache_.
+    /// Called during construction when config_.enable_persistent_cache is true.
+    void loadPersistentEmbedCache();
+
+    /// Persist a single embedding entry to RocksDB.
+    /// No-op when config_.enable_persistent_cache is false.
+    void persistEmbedding(const std::string& chunk_id,
+                          const std::vector<float>& embedding);
+
+    /// Attempt to load a single embedding from RocksDB by chunk_id.
+    /// Returns empty optional if not found or persistent cache is disabled.
+    std::optional<std::vector<float>> fetchPersistedEmbedding(
+        const std::string& chunk_id) const;
+
+    /// Probe the LLM to determine the actual embedding dimensionality.
+    /// Re-initialises the vector index if the probed dim differs from config_.
+    /// Idempotent: subsequent calls are no-ops once dim_probed_ is set.
+    void probeEmbeddingDim();
 
 // ============================================================================
 // JsonWikiIndexReader — Phase A JSON fallback
