@@ -697,3 +697,264 @@ TEST_F(OnnxClipGoldenEmbeddingsTest, OCP_IT_08_HealthCheckAndStatistics) {
     EXPECT_FALSE(plugin.healthCheck())
         << "OCP-IT-08: Health check must fail after shutdown";
 }
+
+// ============================================================================
+// OCP-IT-09..10 — Batch vs Sequential Equivalence
+// ============================================================================
+
+/**
+ * @brief OCP-IT-09: Batch-of-4 vs 4 sequential calls produce identical embeddings
+ * 
+ * Verifies that generating 4 images in a single batch call produces results
+ * identical to generating the same 4 images sequentially with individual calls.
+ * This ensures batch processing does not introduce numerical differences or
+ * affect the deterministic behavior.
+ * 
+ * Acceptance Criteria:
+ *   - Batch-of-4 results match sequential results (L2 distance < 1e-6)
+ *   - All 4 embeddings have correct dimension
+ *   - All 4 embeddings are L2-normalized
+ *   - success flag is true for all results
+ */
+TEST_F(OnnxClipGoldenEmbeddingsTest, OCP_IT_09_BatchOf4VsSequentialEquivalence) {
+    ONNXClipPlugin plugin;
+    auto config = makeViTB32Config();
+    ASSERT_TRUE(plugin.initialize(config, BackendType::CPU))
+        << "OCP-IT-09: Plugin initialization must succeed";
+
+    // Test batch of 4
+    std::vector<uint32_t> seeds = {
+        kClipGoldenSeed,
+        kClipGoldenSeed + 1,
+        kClipGoldenSeed + 2,
+        kClipGoldenSeed + 3
+    };
+
+    ASSERT_TRUE(compareBatchVsSequential(plugin, seeds))
+        << "OCP-IT-09: Batch-of-4 must produce identical results to sequential calls";
+
+    // Verify all results have correct properties
+    std::vector<std::vector<uint8_t>> images;
+    for (uint32_t seed : seeds) {
+        images.push_back(makeImageBytes(kDefaultImageSize, seed));
+    }
+    auto batchResults = plugin.generateEmbeddingBatch(images);
+
+    ASSERT_EQ(4u, batchResults.size())
+        << "OCP-IT-09: Batch must return exactly 4 results";
+
+    for (size_t i = 0; i < batchResults.size(); ++i) {
+        ASSERT_TRUE(batchResults[i].success)
+            << "OCP-IT-09: Batch result " << i << " must have success=true";
+
+        EXPECT_EQ(kExpectedDimensionViTB32, batchResults[i].dimension)
+            << "OCP-IT-09: Batch result " << i << " must have correct dimension";
+
+        EXPECT_TRUE(isL2Normalized(batchResults[i].embedding))
+            << "OCP-IT-09: Batch result " << i << " must be L2-normalized";
+    }
+}
+
+/**
+ * @brief OCP-IT-10: Batch-of-16 vs 16 sequential calls produce identical embeddings
+ * 
+ * Verifies that generating 16 images in a single batch call produces results
+ * identical to generating the same 16 images sequentially with individual calls.
+ * This tests batch processing correctness at a larger scale.
+ * 
+ * Acceptance Criteria:
+ *   - Batch-of-16 results match sequential results (L2 distance < 1e-6)
+ *   - All 16 embeddings have correct dimension
+ *   - All 16 embeddings are L2-normalized
+ *   - success flag is true for all results
+ */
+TEST_F(OnnxClipGoldenEmbeddingsTest, OCP_IT_10_BatchOf16VsSequentialEquivalence) {
+    ONNXClipPlugin plugin;
+    auto config = makeViTB32Config();
+    ASSERT_TRUE(plugin.initialize(config, BackendType::CPU))
+        << "OCP-IT-10: Plugin initialization must succeed";
+
+    // Test batch of 16
+    std::vector<uint32_t> seeds;
+    for (int i = 0; i < 16; ++i) {
+        seeds.push_back(kClipGoldenSeed + i);
+    }
+
+    ASSERT_TRUE(compareBatchVsSequential(plugin, seeds))
+        << "OCP-IT-10: Batch-of-16 must produce identical results to sequential calls";
+
+    // Verify all results have correct properties
+    std::vector<std::vector<uint8_t>> images;
+    for (uint32_t seed : seeds) {
+        images.push_back(makeImageBytes(kDefaultImageSize, seed));
+    }
+    auto batchResults = plugin.generateEmbeddingBatch(images);
+
+    ASSERT_EQ(16u, batchResults.size())
+        << "OCP-IT-10: Batch must return exactly 16 results";
+
+    for (size_t i = 0; i < batchResults.size(); ++i) {
+        ASSERT_TRUE(batchResults[i].success)
+            << "OCP-IT-10: Batch result " << i << " must have success=true";
+
+        EXPECT_EQ(kExpectedDimensionViTB32, batchResults[i].dimension)
+            << "OCP-IT-10: Batch result " << i << " must have correct dimension";
+
+        EXPECT_TRUE(isL2Normalized(batchResults[i].embedding))
+            << "OCP-IT-10: Batch result " << i << " must be L2-normalized";
+    }
+}
+
+// ============================================================================
+// OCP-IT-11 — Cross-Run Reproducibility
+// ============================================================================
+
+/**
+ * @brief OCP-IT-11: Cross-run reproducibility with independent plugin instances
+ * 
+ * Verifies that the same embedding can be generated consistently across
+ * multiple independent plugin instances. This tests that the deterministic
+ * behavior is not dependent on plugin state persistence.
+ * 
+ * Acceptance Criteria:
+ *   - Create 3 independent plugin instances
+ *   - All 3 generate identical embeddings for the same input (L2 distance < 1e-6)
+ *   - All pairwise comparisons (1-2, 2-3, 1-3) show L2 < 1e-6
+ *   - Batch results are also identical across instances
+ */
+TEST_F(OnnxClipGoldenEmbeddingsTest, OCP_IT_11_CrossRunReproducibilityIndependentInstances) {
+    // Test image
+    auto imageBytes = makeImageBytes(kDefaultImageSize, kClipGoldenSeed);
+    auto batchImages = std::vector<std::vector<uint8_t>>{
+        makeImageBytes(kDefaultImageSize, kClipGoldenSeed),
+        makeImageBytes(kDefaultImageSize, kClipGoldenSeed + 1)
+    };
+
+    std::vector<std::vector<float>> embeddings1, embeddings2, embeddings3;
+    std::vector<std::vector<float>> batchEmbeddings1, batchEmbeddings2, batchEmbeddings3;
+
+    // Instance 1
+    {
+        ONNXClipPlugin plugin;
+        auto config = makeViTB32Config();
+        ASSERT_TRUE(plugin.initialize(config, BackendType::CPU))
+            << "OCP-IT-11: Instance 1 initialization must succeed";
+
+        auto result = plugin.generateEmbedding(imageBytes);
+        ASSERT_TRUE(result.success);
+        embeddings1.push_back(result.embedding);
+
+        auto batchResults = plugin.generateEmbeddingBatch(batchImages);
+        for (const auto& r : batchResults) {
+            ASSERT_TRUE(r.success);
+            batchEmbeddings1.push_back(r.embedding);
+        }
+    }
+
+    // Instance 2
+    {
+        ONNXClipPlugin plugin;
+        auto config = makeViTB32Config();
+        ASSERT_TRUE(plugin.initialize(config, BackendType::CPU))
+            << "OCP-IT-11: Instance 2 initialization must succeed";
+
+        auto result = plugin.generateEmbedding(imageBytes);
+        ASSERT_TRUE(result.success);
+        embeddings2.push_back(result.embedding);
+
+        auto batchResults = plugin.generateEmbeddingBatch(batchImages);
+        for (const auto& r : batchResults) {
+            ASSERT_TRUE(r.success);
+            batchEmbeddings2.push_back(r.embedding);
+        }
+    }
+
+    // Instance 3
+    {
+        ONNXClipPlugin plugin;
+        auto config = makeViTB32Config();
+        ASSERT_TRUE(plugin.initialize(config, BackendType::CPU))
+            << "OCP-IT-11: Instance 3 initialization must succeed";
+
+        auto result = plugin.generateEmbedding(imageBytes);
+        ASSERT_TRUE(result.success);
+        embeddings3.push_back(result.embedding);
+
+        auto batchResults = plugin.generateEmbeddingBatch(batchImages);
+        for (const auto& r : batchResults) {
+            ASSERT_TRUE(r.success);
+            batchEmbeddings3.push_back(r.embedding);
+        }
+    }
+
+    // Verify all single-call results are identical
+    ASSERT_EQ(embeddings1.size(), embeddings2.size());
+    ASSERT_EQ(embeddings2.size(), embeddings3.size());
+
+    double dist12 = computeL2Distance(embeddings1[0], embeddings2[0]);
+    double dist23 = computeL2Distance(embeddings2[0], embeddings3[0]);
+    double dist13 = computeL2Distance(embeddings1[0], embeddings3[0]);
+
+    EXPECT_LT(dist12, kReproducibilityTolerance)
+        << "OCP-IT-11: Instance 1 vs Instance 2 L2 distance " << dist12
+        << " must be < " << kReproducibilityTolerance;
+
+    EXPECT_LT(dist23, kReproducibilityTolerance)
+        << "OCP-IT-11: Instance 2 vs Instance 3 L2 distance " << dist23
+        << " must be < " << kReproducibilityTolerance;
+
+    EXPECT_LT(dist13, kReproducibilityTolerance)
+        << "OCP-IT-11: Instance 1 vs Instance 3 L2 distance " << dist13
+        << " must be < " << kReproducibilityTolerance;
+
+    // Verify batch results are also identical across instances
+    ASSERT_EQ(batchEmbeddings1.size(), batchEmbeddings2.size());
+    ASSERT_EQ(batchEmbeddings2.size(), batchEmbeddings3.size());
+
+    for (size_t i = 0; i < batchEmbeddings1.size(); ++i) {
+        double batchDist12 = computeL2Distance(batchEmbeddings1[i], batchEmbeddings2[i]);
+        double batchDist23 = computeL2Distance(batchEmbeddings2[i], batchEmbeddings3[i]);
+
+        EXPECT_LT(batchDist12, kReproducibilityTolerance)
+            << "OCP-IT-11: Batch result " << i << " - Instance 1 vs 2 L2 distance " << batchDist12
+            << " must be < " << kReproducibilityTolerance;
+
+        EXPECT_LT(batchDist23, kReproducibilityTolerance)
+            << "OCP-IT-11: Batch result " << i << " - Instance 2 vs 3 L2 distance " << batchDist23
+            << " must be < " << kReproducibilityTolerance;
+    }
+}
+
+// ============================================================================
+// OCP-IT-12 — Concurrent Inference Safety
+// ============================================================================
+
+/**
+ * @brief OCP-IT-12: Concurrent inference safety with 4 threads
+ * 
+ * Verifies that concurrent inference operations on the same plugin instance
+ * do not introduce race conditions, data corruption, or segmentation faults.
+ * Each thread generates embeddings independently, and all results must be
+ * valid and properly normalized.
+ * 
+ * Acceptance Criteria:
+ *   - 4 concurrent threads all complete without errors
+ *   - All generated embeddings are valid (success=true)
+ *   - All embeddings are L2-normalized
+ *   - No race conditions detected
+ *   - No segmentation faults or undefined behavior
+ */
+TEST_F(OnnxClipGoldenEmbeddingsTest, OCP_IT_12_ConcurrentInferenceSafety) {
+    ONNXClipPlugin plugin;
+    auto config = makeViTB32Config();
+    ASSERT_TRUE(plugin.initialize(config, BackendType::CPU))
+        << "OCP-IT-12: Plugin initialization must succeed";
+
+    // Verify concurrent inference with 4 threads, 2 images per thread
+    ASSERT_TRUE(verifyConcurrentInference(plugin, 4, 2))
+        << "OCP-IT-12: Concurrent inference must complete without errors";
+
+    // Verify health check still passes after concurrent operations
+    EXPECT_TRUE(plugin.healthCheck())
+        << "OCP-IT-12: Health check must still pass after concurrent operations";
+}
