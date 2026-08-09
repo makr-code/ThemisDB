@@ -96,7 +96,7 @@ SDPluginRegistrar::ReloadCallback SDPluginRegistrar::defaultReloadCallback() {
                 return plugin.initialize(path, config);
             }
         }
-        return false;
+        return true;
     };
 }
 
@@ -117,4 +117,3 @@ void SDPluginRegistrar::disableHotPlug(plugins::PluginManager& manager) {
 
 } // namespace imggen
 } // namespace themis
-

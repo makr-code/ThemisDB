@@ -42,11 +42,13 @@ SDPlugin::SDPlugin()
 #else
     : generator_(std::make_unique<SDStubGenerator>())
 #endif
-    , sanitizer_() {}
+    , base_sanitizer_()
+    , sanitizer_(base_sanitizer_) {}
 
 SDPlugin::SDPlugin(std::unique_ptr<ISDGenerator> generator, SDPromptSanitizer sanitizer)
     : generator_(std::move(generator))
-    , sanitizer_(std::move(sanitizer)) {}
+    , base_sanitizer_(std::move(sanitizer))
+    , sanitizer_(base_sanitizer_) {}
 
 // ── initialize ────────────────────────────────────────────────────────────────
 
@@ -54,7 +56,7 @@ bool SDPlugin::initialize(const std::string& model_path, const nlohmann::json& c
     model_path_ = model_path;
     SDConfig cfg = SDConfig::fromJson(config);
     cfg.model_path = model_path;
-    sanitizer_ = SDPromptSanitizer{};
+    sanitizer_ = base_sanitizer_;
 
     // Load content-policy keywords if configured
     if (!cfg.blocked_keywords_file.empty()) {

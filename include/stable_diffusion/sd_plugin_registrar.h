@@ -178,7 +178,9 @@ public:
      * @brief Default hot-plug reload callback.
      *
      * Calls SDPlugin::initialize(config["model_path"], config) when
-     * "model_path" is present; otherwise returns false.
+     * "model_path" is present and non-empty. Missing or empty paths are
+     * treated as a successful stub-mode no-op so hot-plug reload can keep the
+     * plugin unloaded without failing the caller.
      */
     static ReloadCallback defaultReloadCallback();
 
