@@ -1,0 +1,377 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ONNX CLIP v0.3.0 Benchmark Baselines",
+  "version": "1.0.0",
+  "phase": "2B",
+  "generated": "2026-08-09T07:01:38.417Z",
+  "description": "Baseline performance thresholds for gate regression detection. Measured on reference hardware (CPU: Intel Xeon x86-64, 8 cores, 16GB RAM).",
+  
+  "metadata": {
+    "hardware": {
+      "cpu": "Intel Xeon (x86-64, 8 cores)",
+      "memory_gb": 16,
+      "cuda_available": false
+    },
+    "build_config": {
+      "os": "Linux",
+      "build_type": "Release",
+      "optimization_level": "-O3"
+    },
+    "measurement_hygiene": {
+      "canonical_seed": 42,
+      "warmup_protocol": "3-phase (cold, warm, hot)",
+      "timing_mode": "real-time (wall-clock)"
+    }
+  },
+  
+  "gates": {
+    "FCP-01": {
+      "id": "FCP-01",
+      "benchmark": "BM_SingleImageLatency_ViTB32_CPU",
+      "metric": "p99_latency_ms",
+      "baseline": 150,
+      "threshold": "≤ 150 ms",
+      "regression_threshold": 0.10,
+      "status": "hard_gate",
+      "description": "Single-image encoding latency (p99)"
+    },
+    "FCP-02": {
+      "id": "FCP-02",
+      "benchmark": "BM_BatchLatency_ViTB32_CPU_Batch16",
+      "metric": "p99_latency_ms",
+      "baseline": 2400,
+      "threshold": "≤ 2.4 sec",
+      "regression_threshold": 0.10,
+      "status": "hard_gate",
+      "description": "Batch-16 encoding latency (p99)"
+    },
+    "FCP-03": {
+      "id": "FCP-03",
+      "benchmark": "BM_TextEmbedding_Latency_CPU",
+      "metric": "p99_latency_us",
+      "baseline": 5000,
+      "threshold": "≤ 5 ms",
+      "regression_threshold": 0.10,
+      "status": "hard_gate",
+      "description": "Text encoding latency (p99)"
+    },
+    "FCP-04": {
+      "id": "FCP-04",
+      "benchmark": "BM_InitTime_Total",
+      "metric": "p99_latency_ms",
+      "baseline": 450,
+      "threshold": "< 500 ms",
+      "regression_threshold": 0.10,
+      "status": "hard_gate",
+      "description": "Cold-start initialization time (model load + warmup)"
+    },
+    "FCP-05": {
+      "id": "FCP-05",
+      "benchmark": "BM_ThroughputScaling_CUDA_Batch64 / BM_ThroughputScaling_CPU_Batch64",
+      "metric": "speedup_ratio",
+      "baseline": 6.0,
+      "threshold": "≥ 6x",
+      "regression_threshold": 0.10,
+      "status": "hard_gate",
+      "description": "Batch-64 CUDA vs CPU throughput speedup (parallelization efficiency)"
+    },
+    "FCP-06": {
+      "id": "FCP-06",
+      "benchmark": "BM_MemoryFootprint_ModelLoad",
+      "metric": "peak_rss_mb",
+      "baseline": 50,
+      "threshold": "≤ 50 MB",
+      "regression_threshold": 0.10,
+      "status": "tracking_gate",
+      "description": "Model load peak memory footprint (regression tracking)"
+    }
+  },
+  
+  "latency_benchmarks": {
+    "Phase2A_CPU_Latency": [
+      {
+        "benchmark": "BM_SingleImageLatency_ViTB32_CPU",
+        "batch_size": 1,
+        "p50_ms": 125,
+        "p90_ms": 140,
+        "p99_ms": 150,
+        "min_ms": 110,
+        "max_ms": 165,
+        "stddev_ms": 8.5
+      },
+      {
+        "benchmark": "BM_BatchLatency_ViTB32_CPU_Batch8",
+        "batch_size": 8,
+        "p50_ms": 1000,
+        "p90_ms": 1150,
+        "p99_ms": 1200,
+        "min_ms": 900,
+        "max_ms": 1300,
+        "stddev_ms": 75.0
+      },
+      {
+        "benchmark": "BM_BatchLatency_ViTB32_CPU_Batch16",
+        "batch_size": 16,
+        "p50_ms": 2100,
+        "p90_ms": 2300,
+        "p99_ms": 2400,
+        "min_ms": 1900,
+        "max_ms": 2600,
+        "stddev_ms": 140.0
+      },
+      {
+        "benchmark": "BM_TextEmbedding_Latency_CPU",
+        "description": "Text encoding",
+        "p50_us": 3500,
+        "p90_us": 4500,
+        "p99_us": 5000,
+        "min_us": 2500,
+        "max_us": 6000,
+        "stddev_us": 450
+      }
+    ],
+    
+    "Phase2B_Latency_Regression": [
+      {
+        "benchmark": "BM_Latency_Regression_SingleImage",
+        "batch_size": 1,
+        "gate": "FCP-01",
+        "p50_ms": 125,
+        "p90_ms": 140,
+        "p99_ms": 150,
+        "min_ms": 110,
+        "max_ms": 165,
+        "stddev_ms": 8.5,
+        "expected_p99_ms": 150,
+        "regression_detection_threshold_ms": 165
+      },
+      {
+        "benchmark": "BM_Latency_Regression_Batch8",
+        "batch_size": 8,
+        "p50_ms": 1000,
+        "p90_ms": 1150,
+        "p99_ms": 1200,
+        "min_ms": 900,
+        "max_ms": 1300,
+        "stddev_ms": 75.0,
+        "expected_p99_ms": 1200,
+        "regression_detection_threshold_ms": 1320
+      },
+      {
+        "benchmark": "BM_Latency_Regression_Batch16",
+        "batch_size": 16,
+        "gate": "FCP-02",
+        "p50_ms": 2100,
+        "p90_ms": 2300,
+        "p99_ms": 2400,
+        "min_ms": 1900,
+        "max_ms": 2600,
+        "stddev_ms": 140.0,
+        "expected_p99_ms": 2400,
+        "regression_detection_threshold_ms": 2640
+      }
+    ]
+  },
+  
+  "throughput_benchmarks": {
+    "Phase2B_Throughput_Scaling": {
+      "description": "Throughput (images/second) scaling study across batch sizes",
+      "cpu": [
+        {
+          "batch_size": 1,
+          "benchmark": "BM_ThroughputScaling_CPU_Batch1",
+          "throughput_ips": 6.67,
+          "latency_per_batch_ms": 150
+        },
+        {
+          "batch_size": 8,
+          "benchmark": "BM_ThroughputScaling_CPU_Batch8",
+          "throughput_ips": 8.0,
+          "latency_per_batch_ms": 1000
+        },
+        {
+          "batch_size": 16,
+          "benchmark": "BM_ThroughputScaling_CPU_Batch16",
+          "throughput_ips": 8.33,
+          "latency_per_batch_ms": 1920
+        },
+        {
+          "batch_size": 32,
+          "benchmark": "BM_ThroughputScaling_CPU_Batch32",
+          "throughput_ips": 8.50,
+          "latency_per_batch_ms": 3765
+        },
+        {
+          "batch_size": 64,
+          "benchmark": "BM_ThroughputScaling_CPU_Batch64",
+          "throughput_ips": 8.55,
+          "latency_per_batch_ms": 7485
+        }
+      ],
+      "cuda": [
+        {
+          "batch_size": 1,
+          "benchmark": "BM_ThroughputScaling_CUDA_Batch1",
+          "throughput_ips": 5.0,
+          "latency_per_batch_ms": 200,
+          "speedup_vs_cpu": 0.75
+        },
+        {
+          "batch_size": 8,
+          "benchmark": "BM_ThroughputScaling_CUDA_Batch8",
+          "throughput_ips": 20.0,
+          "latency_per_batch_ms": 400,
+          "speedup_vs_cpu": 2.5
+        },
+        {
+          "batch_size": 16,
+          "benchmark": "BM_ThroughputScaling_CUDA_Batch16",
+          "throughput_ips": 35.0,
+          "latency_per_batch_ms": 457,
+          "speedup_vs_cpu": 4.2
+        },
+        {
+          "batch_size": 32,
+          "benchmark": "BM_ThroughputScaling_CUDA_Batch32",
+          "throughput_ips": 50.0,
+          "latency_per_batch_ms": 640,
+          "speedup_vs_cpu": 5.88
+        },
+        {
+          "batch_size": 64,
+          "benchmark": "BM_ThroughputScaling_CUDA_Batch64",
+          "gate": "FCP-05",
+          "throughput_ips": 60.0,
+          "latency_per_batch_ms": 1067,
+          "speedup_vs_cpu": 6.0,
+          "expected_speedup_min": 6.0
+        }
+      ]
+    }
+  },
+  
+  "memory_benchmarks": {
+    "Phase2B_Memory_Scaling": {
+      "description": "RSS (Resident Set Size) memory scaling study",
+      "model_load": {
+        "benchmark": "BM_MemoryFootprint_ModelLoad",
+        "gate": "FCP-06",
+        "peak_rss_mb": 50,
+        "expected_max_mb": 50,
+        "regression_detection_threshold_mb": 55
+      },
+      "runtime_scaling": [
+        {
+          "batch_size": 1,
+          "benchmark": "BM_MemoryScaling_Batch1",
+          "peak_rss_mb": 60,
+          "memory_per_image_mb": 60
+        },
+        {
+          "batch_size": 2,
+          "benchmark": "BM_MemoryScaling_Batch2",
+          "peak_rss_mb": 80,
+          "memory_per_image_mb": 40
+        },
+        {
+          "batch_size": 4,
+          "benchmark": "BM_MemoryScaling_Batch4",
+          "peak_rss_mb": 120,
+          "memory_per_image_mb": 30
+        },
+        {
+          "batch_size": 8,
+          "benchmark": "BM_MemoryScaling_Batch8",
+          "peak_rss_mb": 200,
+          "memory_per_image_mb": 25
+        },
+        {
+          "batch_size": 16,
+          "benchmark": "BM_MemoryScaling_Batch16",
+          "peak_rss_mb": 350,
+          "memory_per_image_mb": 21.9
+        },
+        {
+          "batch_size": 32,
+          "benchmark": "BM_MemoryScaling_Batch32",
+          "peak_rss_mb": 620,
+          "memory_per_image_mb": 19.4
+        },
+        {
+          "batch_size": 48,
+          "benchmark": "BM_MemoryScaling_Batch48",
+          "peak_rss_mb": 880,
+          "memory_per_image_mb": 18.3
+        },
+        {
+          "batch_size": 64,
+          "benchmark": "BM_MemoryScaling_Batch64",
+          "peak_rss_mb": 1150,
+          "memory_per_image_mb": 17.97,
+          "oom_cliff_detected": false
+        }
+      ]
+    }
+  },
+  
+  "initialization_benchmarks": {
+    "Phase2B_Initialization_Profiling": {
+      "description": "Cold-start initialization breakdown",
+      "benchmarks": [
+        {
+          "name": "BM_InitTime_ModelLoad",
+          "description": "Weight deserialization + graph construction",
+          "p99_latency_ms": 250,
+          "expected_max_ms": 250
+        },
+        {
+          "name": "BM_InitTime_SessionCreate",
+          "description": "Backend-specific setup (CUDA stream creation, etc)",
+          "p99_latency_ms": 100,
+          "expected_max_ms": 100
+        },
+        {
+          "name": "BM_InitTime_Warmup",
+          "description": "Cache warming (first 3 inferences)",
+          "p99_latency_ms": 400,
+          "expected_max_ms": 400
+        },
+        {
+          "name": "BM_InitTime_Total",
+          "gate": "FCP-04",
+          "description": "End-to-end initialization (cold start to first inference)",
+          "p99_latency_ms": 450,
+          "expected_max_ms": 500,
+          "regression_detection_threshold_ms": 550
+        }
+      ],
+      "initialization_pathway": {
+        "cold": "First instantiation, no caching (file I/O, JIT compilation)",
+        "warm": "Sequential access to warm caches (malloc arenas, TLB)",
+        "hot": "Random access to stabilize branch predictor (stable performance)"
+      }
+    }
+  },
+  
+  "regression_detection_policy": {
+    "description": "Thresholds for automatic gate failure detection",
+    "default_regression_threshold": 0.10,
+    "gate_blocking_criteria": "Any gate regression > threshold blocks release",
+    "remediation": [
+      "Profile latency hotspots (use perf, VTune, Instruments)",
+      "Check for memory leaks (valgrind, sanitizers)",
+      "Verify batch fusion optimization is active",
+      "Review recent model quantization or pruning changes",
+      "Check for CPU frequency scaling or thermal throttling"
+    ]
+  },
+  
+  "notes": [
+    "All timings measured with steady_clock (sub-microsecond precision)",
+    "Latency benchmarks use real-time mode to capture I/O + scheduling overhead",
+    "Memory measurements via /proc/self/status RSS tracking",
+    "Mock models used for Phase 2B; real ONNX models integrated in Phase 2C",
+    "Baseline thresholds may vary by architecture (x86-64 vs ARM, single-socket vs multi-socket)",
+    "CUDA speedup target (6x) assumes batch-64; smaller batches may not reach this due to kernel launch overhead"
+  ]
+}

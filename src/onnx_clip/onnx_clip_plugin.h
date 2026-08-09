@@ -18,6 +18,8 @@
 #include <string>
 #include <mutex>
 #include <cstdint>
+#include <atomic>
+#include <condition_variable>
 
 namespace themis {
 namespace plugins {
@@ -30,6 +32,27 @@ namespace image {
  * to run CLIP models for image embedding generation.
  * 
  * Thread-Safety: This implementation is thread-safe.
+ * 
+ * ## Memory-Mapped Model Loading (Phase 4B)
+ * 
+ * Supported config keys:
+ * - `enable_mmap_loading` (boolean, default: false)
+ *   - When true: attempts to load large ONNX models via memory mapping
+ *     to reduce peak memory usage by up to 30% for large models.
+ *   - Platform-specific behavior:
+ *     - **Linux**: Uses mmap(2) with MAP_SHARED | MAP_NORESERVE for read-only mapping
+ *     - **Windows**: Uses CreateFileMapping() + MapViewOfFile() for efficient model paging
+ *   - Fallback: If mmap fails or is unsupported, silently falls back to traditional
+ *     file-based loading without error.
+ *   - Exception-safe: mmap resources are cleaned up via RAII (destructor/shutdown)
+ * 
+ * ## Performance Notes
+ * 
+ * Memory-mapped loading provides:
+ * - Reduced peak memory footprint (file pages loaded on-demand)
+ * - Potential page sharing across processes (if model is mmap'd by multiple clients)
+ * - Transparent OS paging: no explicit paging code required
+ * - Trade-off: Minor latency overhead on first-pass model access (page faults)
  */
 class ONNXClipPlugin : public IImageAnalysisBackend {
 public:
@@ -61,6 +84,31 @@ public:
     void warmup() override;
 
     // -----------------------------------------------------------------------
+    // Hot-Swap Model Reloading (Phase 3B)
+    // -----------------------------------------------------------------------
+    /// @brief Reload model configuration without server restart
+    /// 
+    /// Implements dynamic model reloading with the following guarantees:
+    /// - Thread-safe: concurrent embedding requests are properly handled
+    /// - In-flight request handling: waits up to 30 seconds for current requests
+    ///   to complete before swapping models
+    /// - Rollback capability: if initialization fails, original model remains active
+    /// - No request interruption: in-flight requests use old model until atomic swap
+    /// 
+    /// @param new_config New PluginConfig for model reloading
+    /// @return true if reload successful; false if not initialized, config invalid,
+    ///         or 30-second drain timeout exceeded
+    /// 
+    /// @note Thread-Safety: This method is fully thread-safe and can be called
+    ///       concurrently with embedding operations. Uses unique_lock to coordinate
+    ///       with in-flight request counter.
+    /// 
+    /// @note In-Flight Request Timeout: If requests do not drain within 30 seconds,
+    ///       the reload is cancelled and false is returned. This is a safety mechanism
+    ///       to prevent indefinite blocking during model swap.
+    bool reloadModel(const PluginConfig& new_config);
+
+    // -----------------------------------------------------------------------
     // Injectable model-hash bridge (STUB #94)
     // -----------------------------------------------------------------------
     /// Callback type: given a file path, returns its SHA-256 hex digest (or
@@ -78,7 +126,9 @@ public:
 private:
     // Implementation details
     struct Impl;
-    std::unique_ptr<Impl> impl_;
+    /// Guards pointer-level swap of impl_ during hot-swap reloads.
+    mutable std::mutex impl_swap_mtx_;
+    std::shared_ptr<Impl> impl_;
 };
 
 } // namespace image
