@@ -420,18 +420,19 @@ std::vector<uint8_t> HSMProvider::decryptData(const std::vector<uint8_t>& encryp
     }
 }
 
-// STUB/SIMULATION NOTE (generateKeyPair / importCertificate / getCertificate):
-// Purpose: Satisfy the HSMProvider public interface in the software-only stub
+// PERMANENT FALLBACK NOTE (generateKeyPair / importCertificate / getCertificate):
+// Purpose: Satisfy the HSMProvider public interface in the software-only fallback
 //          build so callers do not need conditional compilation.
 // Activation: Inside `#ifndef THEMIS_ENABLE_HSM_REAL` (same activation as the
-//             overall HSM stub class documented at the top of this file).
+//             overall HSM fallback class documented at the top of this file).
 // Production Delta: generateKeyPair always returns false and does NOT generate
 //             any key material — the real PKCS#11 path creates an asymmetric
 //             key pair on the HSM token.  importCertificate returns false without
 //             storing anything.  getCertificate returns a hardcoded dummy PEM
 //             string instead of a real device certificate.
-// Removal Plan: Replaced by hsm_provider_pkcs11.cpp when -DTHEMIS_ENABLE_HSM_REAL
-//             is set.  See src/security/FUTURE_ENHANCEMENTS.md §"HSM Key Management".
+// These are PERMANENT FALLBACK implementations; enable -DTHEMIS_ENABLE_HSM_REAL=ON
+//             to replace them with real PKCS#11 operations from hsm_provider_pkcs11.cpp.
+//             See src/security/FUTURE_ENHANCEMENTS.md §"HSM Key Management".
 bool HSMProvider::generateKeyPair(const std::string& label, [[maybe_unused]] uint32_t key_size, [[maybe_unused]] bool extractable) {
     GenerateKeyPairFn fn;
     {

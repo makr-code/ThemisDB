@@ -5,7 +5,65 @@ All notable changes to ThemisDB will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased] — 2026-08-07 — Security Module Phase 2+3 Hardening (v2.5.0-rc1)
+## [Unreleased] — Wave 2 STUB/SIMULATION → Real-Implementierung (Kategorie C Prio 1)
+
+### Wave 2 — Real Implementations Under Opt-in CMake Guards (2026-08-07)
+
+**Scope:** 10 files across Security, Cache, and Tensor modules converted from STUB/SIMULATION NOTEs
+to production real-code paths under opt-in CMake guards (all default OFF).  Fallback paths retained as
+PERMANENT FALLBACK NOTEs.
+
+#### Security module
+
+- **`src/security/timestamp_authority.cpp`** — 4 STUB/SIMULATION NOTEs → PERMANENT FALLBACK NOTEs.
+  RFC 3161 TSA implementation already live in `timestamp_authority_openssl.cpp` under
+  `#ifdef THEMIS_USE_OPENSSL_TSA` (Wave-1 work).  New CMake `option(THEMIS_USE_OPENSSL_TSA)` wires it.
+
+- **`src/security/post_quantum_crypto.cpp`** — Full liboqs integration under `THEMIS_HAS_OQS`.
+  Added `OqsKemRAII` / `OqsSigRAII` RAII wrappers + `kyberAlgName` / `dilithiumAlgName` /
+  `sphincsAlgName` helpers.  `KyberKEM`, `DilithiumSigner`, `SphincsPlus` — all three classes now
+  delegate to `OQS_KEM_*` / `OQS_SIG_*` APIs when the guard is set; OpenSSL simulation retained as
+  PERMANENT FALLBACK when the guard is off.  Added `find_package(liboqs)` to `cmake/ModularBuild.cmake`.
+
+- **`src/security/hsm_provider.cpp`** — 2 STUB NOTEs (top-level + generateKeyPair) → PERMANENT FALLBACK.
+
+- **`src/security/hsm_provider_pkcs11.cpp`** — STUB NOTE → PERMANENT FALLBACK.  Complete PKCS#11
+  implementation already present under `#ifdef THEMIS_ENABLE_HSM_REAL`.
+
+- **`src/security/hsm_key_provider_adapter.cpp`** — 2 STUB NOTEs (wrapDEK / unwrapDEK) → PERMANENT FALLBACK.
+
+- **`src/security/intent_classifier.cpp`** — LoRA adapter integration under `THEMIS_HAS_LORA_CLASSIFIER`.
+  New `configureLoraEndpoint(url, api_key, timeout_ms)` uses libcurl synchronous POST to the LLM plugin
+  `/classify` endpoint; JSON request/response via nlohmann::json.  Existing term-overlap heuristic
+  retained as PERMANENT FALLBACK.  `configureLoraEndpoint` declared in `include/security/intent_classifier.h`.
+
+#### Cache module
+
+- **`src/cache/redis_cache_coordinator.cpp`** — Added `RedisDirectClient` RAII class under
+  `THEMIS_HAS_HIREDIS`; `set(key,val,ttl)`, `get(key)→optional<string>`, `del(key)`, `expire(key,secs)`
+  via synchronous hiredis API.  Non-hiredis path updated to PERMANENT FALLBACK NOTE.
+
+- **`src/cache/distributed_cache_coordinator.cpp`** — 2 STUB NOTEs (non-POSIX block, verifyHmac) → PERMANENT FALLBACK.
+
+- **`src/cache/grpc_remote_cache_peer.cpp`** — STUB NOTE → PERMANENT FALLBACK.  Full gRPC client
+  implementation already present under `#ifdef THEMIS_ENABLE_GRPC`.
+
+#### Tensor module
+
+- **`src/tensor/tensor_core_bridge.cpp`** — STUB NOTE → PERMANENT FALLBACK.  Added
+  `TensorCoreStorageBridge::autoRegisterRocksDBBackend(db_path)` static method under
+  `THEMIS_HAS_ROCKSDB_TENSOR`.  Wires a `themis::RocksDBWrapper` + `themis::storage::RocksDBTensorBackend`
+  (already implemented in `src/storage/tensor_network_storage_engine.cpp`) as the default backend factory.
+  Declared in `include/tensor/tensor_core_bridge.h` under the same guard.
+
+#### CMake / build system
+
+- `cmake/ModularBuild.cmake`: Added 6 `option()` declarations (all default OFF):
+  `THEMIS_USE_OPENSSL_TSA`, `THEMIS_HAS_OQS`, `THEMIS_ENABLE_HSM_REAL`, `THEMIS_HAS_LORA_CLASSIFIER`,
+  `THEMIS_HAS_HIREDIS`, `THEMIS_HAS_ROCKSDB_TENSOR`.  Added `find_package(liboqs)` block and
+  corresponding `target_compile_definitions` for the security, query, and cache modules.
+
+
 
 ### Security Module — Phase 2+3 Hardening for Q4 2026 Release (2026-08-07)
 

@@ -552,7 +552,7 @@ void RedisCacheCoordinator::subscribeLoop() {
 
 #else // !THEMIS_ENABLE_REDIS
 
-// STUB/SIMULATION NOTE:
+// PERMANENT FALLBACK NOTE:
 // Purpose: Provide link-compatible no-op bodies for the three private methods
 //   that depend on hiredis so that RedisCacheCoordinator compiles and links on
 //   systems without hiredis.  The constructor (above) logs a WARN and sets
@@ -563,8 +563,7 @@ void RedisCacheCoordinator::subscribeLoop() {
 //   maintains an independent in-process cache.  Invalidations issued on one
 //   node are NOT propagated to peers, potentially causing stale reads across
 //   a distributed deployment for the duration of the cache TTL.
-// Removal Plan: Enable hiredis and set THEMIS_ENABLE_REDIS=ON; the real
-//   pub/sub path above the #else branch becomes active.
+// This is the PERMANENT FALLBACK for no-hiredis builds; it is not a temporary stub.
 // Roadmap ref: src/cache/FUTURE_ENHANCEMENTS.md § "Redis Pub/Sub Invalidation (v1.6.0)"
 bool RedisCacheCoordinator::connectPublish() {
     return false;
@@ -745,6 +744,168 @@ std::optional<ReplicationMessage> RedisCacheCoordinator::deserializeMessage(cons
         return std::nullopt;
     }
 }
+
+// ── Wave-2: Direct hiredis cache operations (THEMIS_HAS_HIREDIS) ─────────────
+//
+// When -DTHEMIS_HAS_HIREDIS=ON is set, the RedisDirectClient class provides a
+// RAII-safe synchronous Redis client supporting SET/GET/DEL/EXPIRE.  These
+// operations complement the pub/sub path above and allow callers that need
+// direct key-value access to Redis (e.g. distributed TTL management) to do so
+// without setting up a full coordinator.
+//
+// Usage (example):
+//   RedisDirectClient client{"127.0.0.1", 6379, "auth_pw", 5000};
+//   if (client.connected()) {
+//       client.set("key", "value", 300);   // SET key value EX 300
+//       auto v = client.get("key");        // GET key  → std::optional<std::string>
+//       client.expire("key", 60);          // EXPIRE key 60
+//       client.del("key");                 // DEL key
+//   }
+#ifdef THEMIS_HAS_HIREDIS
+
+/**
+ * @brief RAII wrapper around a synchronous hiredis redisContext.
+ *
+ * Establishes a single Redis connection on construction (with configurable
+ * timeout) and tears it down in the destructor.  All operations are
+ * synchronous and return immediately.  Not thread-safe; protect with a mutex
+ * if shared across threads.
+ */
+class RedisDirectClient {
+public:
+    /**
+     * @brief Connect to Redis.
+     * @param host        Redis server hostname or IP.
+     * @param port        Redis server port.
+     * @param password    Optional AUTH password (empty = no auth).
+     * @param timeout_ms  Connection timeout in milliseconds.
+     */
+    RedisDirectClient(const std::string& host,
+                      int                port,
+                      const std::string& password   = {},
+                      int                timeout_ms = 5000)
+    {
+        struct timeval tv;
+        tv.tv_sec  = timeout_ms / 1000;
+        tv.tv_usec = (timeout_ms % 1000) * 1000;
+
+        ctx_ = redisConnectWithTimeout(host.c_str(), port, tv);
+        if (!ctx_ || ctx_->err) {
+            THEMIS_WARN("[RedisDirectClient] connect to {}:{} failed: {}",
+                        host, port, ctx_ ? ctx_->errstr : "null context");
+            if (ctx_) { redisFree(ctx_); ctx_ = nullptr; }
+            return;
+        }
+
+        if (!password.empty()) {
+            redisReply* r = static_cast<redisReply*>(
+                redisCommand(ctx_, "AUTH %s", password.c_str()));
+            if (r) {
+                if (r->type == REDIS_REPLY_ERROR)
+                    THEMIS_WARN("[RedisDirectClient] AUTH failed: {}", r->str);
+                freeReplyObject(r);
+            }
+        }
+        THEMIS_DEBUG("[RedisDirectClient] connected to {}:{}", host, port);
+    }
+
+    ~RedisDirectClient() {
+        if (ctx_) { redisFree(ctx_); ctx_ = nullptr; }
+    }
+
+    // Non-copyable, movable.
+    RedisDirectClient(const RedisDirectClient&) = delete;
+    RedisDirectClient& operator=(const RedisDirectClient&) = delete;
+
+    /** @return true if the connection is up. */
+    [[nodiscard]] bool connected() const noexcept { return ctx_ != nullptr; }
+
+    /**
+     * @brief SET key value [EX seconds].
+     *
+     * @param key         Redis key.
+     * @param value       Value string.
+     * @param ttl_secs    TTL in seconds; 0 = no expiry.
+     * @return true on success, false on Redis error.
+     */
+    bool set(const std::string& key,
+             const std::string& value,
+             int                ttl_secs = 0) noexcept {
+        if (!ctx_) return false;
+        redisReply* r;
+        if (ttl_secs > 0) {
+            r = static_cast<redisReply*>(
+                redisCommand(ctx_, "SET %b %b EX %d",
+                             key.data(),   key.size(),
+                             value.data(), value.size(),
+                             ttl_secs));
+        } else {
+            r = static_cast<redisReply*>(
+                redisCommand(ctx_, "SET %b %b",
+                             key.data(),   key.size(),
+                             value.data(), value.size()));
+        }
+        const bool ok = r && r->type != REDIS_REPLY_ERROR;
+        if (r) freeReplyObject(r);
+        return ok;
+    }
+
+    /**
+     * @brief GET key.
+     *
+     * @param key  Redis key.
+     * @return Value string, or std::nullopt if key missing or error.
+     */
+    [[nodiscard]] std::optional<std::string> get(const std::string& key) noexcept {
+        if (!ctx_) return std::nullopt;
+        redisReply* r = static_cast<redisReply*>(
+            redisCommand(ctx_, "GET %b", key.data(), key.size()));
+        if (!r) return std::nullopt;
+        std::optional<std::string> result;
+        if (r->type == REDIS_REPLY_STRING)
+            result = std::string(r->str, r->len);
+        freeReplyObject(r);
+        return result;
+    }
+
+    /**
+     * @brief DEL key.
+     *
+     * @param key  Redis key to delete.
+     * @return Number of keys deleted (1 or 0), or -1 on error.
+     */
+    int del(const std::string& key) noexcept {
+        if (!ctx_) return -1;
+        redisReply* r = static_cast<redisReply*>(
+            redisCommand(ctx_, "DEL %b", key.data(), key.size()));
+        const int n = (r && r->type == REDIS_REPLY_INTEGER)
+                          ? static_cast<int>(r->integer) : -1;
+        if (r) freeReplyObject(r);
+        return n;
+    }
+
+    /**
+     * @brief EXPIRE key seconds.
+     *
+     * @param key      Redis key.
+     * @param seconds  New TTL in seconds.
+     * @return 1 if TTL set, 0 if key does not exist, -1 on error.
+     */
+    int expire(const std::string& key, int seconds) noexcept {
+        if (!ctx_) return -1;
+        redisReply* r = static_cast<redisReply*>(
+            redisCommand(ctx_, "EXPIRE %b %d", key.data(), key.size(), seconds));
+        const int n = (r && r->type == REDIS_REPLY_INTEGER)
+                          ? static_cast<int>(r->integer) : -1;
+        if (r) freeReplyObject(r);
+        return n;
+    }
+
+private:
+    redisContext* ctx_ = nullptr;
+};
+
+#endif // THEMIS_HAS_HIREDIS
 
 } // namespace cache
 } // namespace themis

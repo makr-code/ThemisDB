@@ -1296,6 +1296,15 @@ themis::security::SphincsPlus::KeyPair themis::security::SphincsPlus::generateKe
 #endif
 }
 
+/**
+ * @brief Sign a message with a SPHINCS+ secret key.
+ *
+ * @param message     Message bytes.
+ * @param secret_key  SPHINCS+ secret key.
+ * @return Signature bytes (real SPHINCS+ or Ed25519 simulation).
+ * @throws std::invalid_argument on wrong key size.
+ * @throws std::runtime_error on OQS/OpenSSL failure.
+ */
 std::vector<uint8_t> themis::security::SphincsPlus::sign(const std::vector<uint8_t>& message,
                                                          const std::vector<uint8_t>& secret_key) {
     themis::security::SphincsPlus::SignFn fn;
@@ -1315,7 +1324,20 @@ std::vector<uint8_t> themis::security::SphincsPlus::sign(const std::vector<uint8
     if (secret_key.size() != secretKeySize()) {
         throw std::invalid_argument("SphincsPlus::sign: unexpected secret key size");
     }
-    
+
+#ifdef THEMIS_HAS_OQS
+    OqsSigRAII s(sphincsAlgName(variant_));
+    if (!s.sig) throw std::runtime_error("SphincsPlus::sign: OQS_SIG_new failed");
+    std::vector<uint8_t> sig_buf(s.sig->length_signature);
+    size_t sig_len = 0;
+    if (OQS_SIG_sign(s.sig, sig_buf.data(), &sig_len,
+                     message.data(), message.size(), secret_key.data()) != OQS_SUCCESS)
+        throw std::runtime_error("SphincsPlus::sign: OQS_SIG_sign failed");
+    sig_buf.resize(sig_len);
+    THEMIS_DEBUG("SphincsPlus::sign (liboqs): msg={}B sig={}B", message.size(), sig_len);
+    return sig_buf;
+#else
+    // PERMANENT FALLBACK: Ed25519 simulation
     EVP_PKEY_ptr pkey(EVP_PKEY_new_raw_private_key(
         EVP_PKEY_ED25519, nullptr, secret_key.data(), secret_key.size()),
         &EVP_PKEY_free);
@@ -1339,8 +1361,17 @@ std::vector<uint8_t> themis::security::SphincsPlus::sign(const std::vector<uint8
     sig.resize(sig_len);
     return sig;
     // RAII wrappers (ctx, pkey) automatically clean up on scope exit
+#endif
 }
 
+/**
+ * @brief Verify a SPHINCS+ signature.
+ *
+ * @param message     Original message bytes.
+ * @param signature   Signature to verify.
+ * @param public_key  Signer's SPHINCS+ public key.
+ * @return true if valid, false otherwise.
+ */
 bool themis::security::SphincsPlus::verify(const std::vector<uint8_t>& message,
                                            const std::vector<uint8_t>& signature,
                                            const std::vector<uint8_t>& public_key) {
@@ -1360,6 +1391,16 @@ bool themis::security::SphincsPlus::verify(const std::vector<uint8_t>& message,
 
     if (public_key.size() != publicKeySize()) return false;
 
+#ifdef THEMIS_HAS_OQS
+    OqsSigRAII s(sphincsAlgName(variant_));
+    if (!s.sig) return false;
+    bool ok = (OQS_SIG_verify(s.sig, message.data(), message.size(),
+                               signature.data(), signature.size(),
+                               public_key.data()) == OQS_SUCCESS);
+    THEMIS_DEBUG("SphincsPlus::verify (liboqs): ok={}", ok);
+    return ok;
+#else
+    // PERMANENT FALLBACK: Ed25519 simulation
     EVP_PKEY_ptr pkey(
         EVP_PKEY_new_raw_public_key(EVP_PKEY_ED25519, nullptr, public_key.data(), public_key.size()),
         &EVP_PKEY_free);
@@ -1375,6 +1416,7 @@ bool themis::security::SphincsPlus::verify(const std::vector<uint8_t>& message,
     }
     // RAII wrappers (ctx, pkey) automatically clean up on scope exit
     return ok;
+#endif
 }
 
 // ── SphincsPlus bridge setters ────────────────────────────────────────────────
