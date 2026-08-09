@@ -180,7 +180,7 @@ QueryOptimizer::Plan QueryOptimizer::chooseOrderForAndQuery(const ConjunctiveQue
 		}
 	}
 
-	// ---- Serialization strategy advice ----
+	// ---- Serialization strategy advice (Thread-Safe — GAP-2) ----
 	{
 		const size_t estimated_rows = table_stats_ptr
 		    ? table_stats_ptr->row_count
@@ -193,8 +193,12 @@ QueryOptimizer::Plan QueryOptimizer::chooseOrderForAndQuery(const ConjunctiveQue
 		    : 256u;
 		const auto   gpu       = probeGpu();
 		const auto   workload  = inferWorkloadType(q);
-		plan.serialization_advice = advisor_cost_model_.adviseSerializationStrategy(
-		    estimated_rows, avg_bytes, gpu.available, gpu.free_bytes, workload);
+		// THREAD-SAFE: Acquire read lock when accessing advisor_cost_model_
+		{
+			std::lock_guard<std::mutex> lock(advisor_cost_model_mutex_);
+			plan.serialization_advice = advisor_cost_model_.adviseSerializationStrategy(
+			    estimated_rows, avg_bytes, gpu.available, gpu.free_bytes, workload);
+		}
 	}
 
 	return plan;
@@ -323,26 +327,32 @@ QueryOptimizer::executeOptimizedCount(QueryEngine& engine, const ConjunctiveQuer
 }
 
 // ---------------- Per-Query Cost Model Integration (Phase 3, Issue #2419) ----------------
+// THREAD-SAFETY (GAP-1): All access to per_query_cost_model_ must hold per_query_cost_model_mutex_
 
 void QueryOptimizer::attachPerQueryCostModel(
     std::shared_ptr<performance::phase3::PerQueryCostModel> cost_model) {
+    std::lock_guard<std::mutex> lock(per_query_cost_model_mutex_);
     per_query_cost_model_ = std::move(cost_model);
 }
 
 std::shared_ptr<performance::phase3::PerQueryCostModel>
 QueryOptimizer::perQueryCostModel() const {
+    std::lock_guard<std::mutex> lock(per_query_cost_model_mutex_);
     return per_query_cost_model_;
 }
 
-// ---------------- Serialization Advisor tuning ----------------
+// ---------------- Serialization Advisor tuning (THREAD-SAFE - GAP-2) ----------------
+// THREAD-SAFETY (GAP-2): All access to advisor_cost_model_ must hold advisor_cost_model_mutex_
 
 void QueryOptimizer::setAdvisorCostConstants(
     const OptimizerCostModel::CostConstants& c) {
+    std::lock_guard<std::mutex> lock(advisor_cost_model_mutex_);
     advisor_cost_model_.setConstants(c);
 }
 
-const OptimizerCostModel::CostConstants&
+OptimizerCostModel::CostConstants
 QueryOptimizer::advisorCostConstants() const {
+    std::lock_guard<std::mutex> lock(advisor_cost_model_mutex_);
     return advisor_cost_model_.getConstants();
 }
 
@@ -351,8 +361,15 @@ QueryOptimizer::executeOptimizedKeysWithCost(QueryEngine& engine,
                                               const ConjunctiveQuery& q,
                                               const Plan& plan,
                                               double estimated_cost) const {
-    if (per_query_cost_model_) {
-        auto guard = per_query_cost_model_->beginQuery("index_scan", estimated_cost);
+    // THREAD-SAFE (GAP-1): Acquire lock when reading per_query_cost_model_
+    std::shared_ptr<performance::phase3::PerQueryCostModel> cost_model;
+    {
+        std::lock_guard<std::mutex> lock(per_query_cost_model_mutex_);
+        cost_model = per_query_cost_model_;
+    }
+
+    if (cost_model) {
+        auto guard = cost_model->beginQuery("index_scan", estimated_cost);
         auto result = engine.executeAndKeysSequential(q.table, plan.orderedPredicates);
         if (!result.has_value()) {
             guard.end(0, 0);
@@ -373,8 +390,15 @@ QueryOptimizer::executeOptimizedEntitiesWithCost(QueryEngine& engine,
                                                   const ConjunctiveQuery& q,
                                                   const Plan& plan,
                                                   double estimated_cost) const {
-    if (per_query_cost_model_) {
-        auto guard = per_query_cost_model_->beginQuery("table_scan", estimated_cost);
+    // THREAD-SAFE (GAP-1): Acquire lock when reading per_query_cost_model_
+    std::shared_ptr<performance::phase3::PerQueryCostModel> cost_model;
+    {
+        std::lock_guard<std::mutex> lock(per_query_cost_model_mutex_);
+        cost_model = per_query_cost_model_;
+    }
+
+    if (cost_model) {
+        auto guard = cost_model->beginQuery("table_scan", estimated_cost);
         auto result = engine.executeAndEntitiesSequential(q.table, plan.orderedPredicates);
         if (!result.has_value()) {
             guard.end(0, 0);
