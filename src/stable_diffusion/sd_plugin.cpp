@@ -19,7 +19,9 @@
  */
 
 #include "stable_diffusion/sd_plugin.h"
+#if defined(THEMIS_SD_ENABLE_SHA256)
 #include "utils/checksum_utils.h"
+#endif
 #include <stdexcept>
 #include <algorithm>
 #include <array>
@@ -68,6 +70,7 @@ bool SDPlugin::initialize(const std::string& model_path, const nlohmann::json& c
     }
 
     if (!cfg.model_sha256.empty() && !cfg.model_path.empty()) {
+#if defined(THEMIS_SD_ENABLE_SHA256)
         const std::string expected = normalizeLowerHex(cfg.model_sha256);
         const std::string actual = themis::utils::calculateSHA256(cfg.model_path);
         if (actual.empty()) {
@@ -78,6 +81,11 @@ bool SDPlugin::initialize(const std::string& model_path, const nlohmann::json& c
             initialized_ = false;
             return false;
         }
+#else
+        // SHA-256 gate disabled at build time (THEMIS_SD_ENABLE_SHA256 not set).
+        // model_sha256 in config is ignored; build with THEMIS_SD_ENABLE_SHA256=ON to enforce it.
+        (void)cfg.model_sha256;
+#endif
     }
 
     initialized_ = generator_->initialize(cfg);

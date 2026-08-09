@@ -319,7 +319,10 @@ themis::utils::RetryMetadata QueryTimeoutContext::getRetryMetadata(
     }
 
     const auto& stats = it->second;
-    const int attempt_index = static_cast<int>(stats.attempt_latencies.size()) - 1;
+    // Derive attempt_index from total_attempts rather than attempt_latencies size to
+    // avoid passing -1 into shouldRetry() when latencies vector is empty.
+    const int attempt_index = static_cast<int>(
+        stats.total_attempts > 0 ? stats.total_attempts - 1 : 0);
     metadata.retry_count = stats.total_attempts > 0
         ? static_cast<std::uint32_t>(stats.total_attempts - 1)
         : 0;

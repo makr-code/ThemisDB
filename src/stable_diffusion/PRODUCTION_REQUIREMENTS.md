@@ -3,10 +3,10 @@ Last Updated: 2026-08-09
 Source Level: level1
 SOT Domain: module-behavior
 Canonical Sources:
-- /home/runner/work/ThemisDB/ThemisDB/src/stable_diffusion/sd_plugin.cpp
-- /home/runner/work/ThemisDB/ThemisDB/include/stable_diffusion/sd_generator.h
-- /home/runner/work/ThemisDB/ThemisDB/include/plugins/image_generation_interface.h
-- /home/runner/work/ThemisDB/ThemisDB/src/stable_diffusion/tests/test_sd_plugin.cpp
+- src/stable_diffusion/sd_plugin.cpp
+- include/stable_diffusion/sd_generator.h
+- include/plugins/image_generation_interface.h
+- src/stable_diffusion/tests/test_sd_plugin.cpp
 Related Milestone: DOC-WEEKLY-2026-W32
 -->
 
@@ -47,7 +47,7 @@ Related Milestone: DOC-WEEKLY-2026-W32
     with `THEMIS_AUTO_BOOTSTRAP_DEPS=ON`.
 
 - [~] **Benchmark gate**
-  - A stable_diffusion benchmark target must exist under `/home/runner/work/ThemisDB/ThemisDB/benchmarks/stable_diffusion/`.
+  - A stable_diffusion benchmark target must exist under `benchmarks/stable_diffusion/`.
   - Required release criterion: publish baseline (latency + memory) for stub and real backend.
   - Current state: benchmark target exists (`bench_stable_diffusion_release_gates`); baseline publication remains open and
     the local build is currently blocked outside this module by missing `rocksdb/db.h` in

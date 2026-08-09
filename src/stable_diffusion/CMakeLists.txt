@@ -29,8 +29,19 @@ target_include_directories(stable_diffusion_plugin PUBLIC
 
 target_compile_features(stable_diffusion_plugin PUBLIC cxx_std_17)
 
-find_package(OpenSSL REQUIRED)
-target_link_libraries(stable_diffusion_plugin PUBLIC OpenSSL::Crypto)
+option(THEMIS_SD_ENABLE_SHA256 "Enable model SHA-256 integrity gate (requires OpenSSL)" ON)
+if(THEMIS_SD_ENABLE_SHA256)
+    find_package(OpenSSL QUIET)
+    if(OpenSSL_FOUND OR OPENSSL_FOUND)
+        target_link_libraries(stable_diffusion_plugin PRIVATE OpenSSL::Crypto)
+        target_compile_definitions(stable_diffusion_plugin PRIVATE THEMIS_SD_ENABLE_SHA256=1)
+        message(STATUS "  stable_diffusion_plugin: OpenSSL found – SHA-256 model integrity gate enabled")
+    else()
+        message(WARNING "  stable_diffusion_plugin: THEMIS_SD_ENABLE_SHA256=ON but OpenSSL not found – SHA-256 gate disabled")
+    endif()
+else()
+    message(STATUS "  stable_diffusion_plugin: SHA-256 model integrity gate disabled (THEMIS_SD_ENABLE_SHA256=OFF)")
+endif()
 
 # ── Optional: stable-diffusion.cpp ──────────────────────────────────────────
 option(THEMIS_ENABLE_STABLE_DIFFUSION "Enable stable-diffusion.cpp for real generation" OFF)

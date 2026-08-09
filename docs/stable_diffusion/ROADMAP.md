@@ -14,4 +14,4 @@ This file is a level4 publication mirror and is **not** canonical.
 - [x] Dimension guards implemented (`<=8192`, overflow-safe).
 - [x] Focused suite present: `SDPluginFocusedTests` (62 tests).
 - [~] Benchmark gate in progress (`bench_stable_diffusion_release_gates` added; baseline publication pending).
-- [ ] Real-model E2E gate pending (no dedicated stable_diffusion E2E target yet).
+- [~] Real-model E2E gate in progress: `SDPluginRealBackendE2ETests` target added (opt-in via `THEMIS_SD_E2E_MODEL_PATH`); CI wiring and evidence publication remain open.

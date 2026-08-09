@@ -301,12 +301,29 @@ public:
 
     bool initialize(const SDConfig& cfg) override {
         std::lock_guard<std::mutex> lock(api_mutex_);
+        // Mark uninitialized and release the old context up-front so that a
+        // failed recreateContext() never leaves initialized_ == true with a
+        // mismatched config_/model_id_.
+        initialized_ = false;
+        if (ctx_) {
+            free_sd_ctx(ctx_);
+            ctx_ = nullptr;
+        }
+        // Save previous config for rollback on failure.
+        std::string saved_model_id = model_id_;
+        SDConfig    saved_cfg      = config_;
         model_id_ = cfg.model_path;
         config_   = cfg;
         active_control_model_path_.clear();
         active_lora_path_.clear();
         active_lora_scale_ = 1.0f;
-        return recreateContext(/*control_model_path=*/"", /*lora_path=*/"", /*lora_scale=*/1.0f, nullptr);
+        if (!recreateContext(/*control_model_path=*/"", /*lora_path=*/"", /*lora_scale=*/1.0f, nullptr)) {
+            // Restore previous config on failure so the object stays consistent.
+            model_id_ = std::move(saved_model_id);
+            config_   = std::move(saved_cfg);
+            return false;
+        }
+        return true;
     }
 
     bool isInitialized() const override { return initialized_; }
@@ -321,11 +338,19 @@ public:
             return false;
         }
         if (lora_path.empty()) {
+            // No-op if LoRA is already cleared – avoid unnecessary context recreation.
+            if (active_lora_path_.empty()) {
+                return true;
+            }
             if (!recreateContext(active_control_model_path_, "", 1.0f, &error_out)) {
                 return false;
             }
             active_lora_path_.clear();
             active_lora_scale_ = 1.0f;
+            return true;
+        }
+        if (lora_path == active_lora_path_ && scale == active_lora_scale_) {
+            // No-op if the same LoRA at the same scale is already active.
             return true;
         }
         if (!std::filesystem::exists(lora_path) || !std::filesystem::is_regular_file(lora_path)) {
