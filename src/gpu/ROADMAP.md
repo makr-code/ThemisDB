@@ -56,8 +56,8 @@ Production GPU runtime exists across device discovery, allocation/governance, ba
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [ ] freeze resource/backend/acceleration/operations contracts for active major line (Target: Q3 2026)
-- [ ] define explicit error taxonomy for quota, degradation, and fallback classes (Target: Q3 2026)
+- [x] freeze resource/backend/acceleration/operations contracts for active major line (2026-08-09: GPU_CONTRACT.md created; allocation bounds, device selection, RAII, kernel SLA, diagnostics frozen)
+- [x] define explicit error taxonomy for quota, degradation, and fallback classes (2026-08-09: GPU_CONTRACT.md §6 references frozen GPUDispatchErrorCode in gpu_backend_dispatch_contract.h)
 
 ### Phase 2: Core Implementation
 - [x] complete hardening for allocation, backend selection, and dispatch internals (Delivered: Q3 2026)
