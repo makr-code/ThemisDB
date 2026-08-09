@@ -249,16 +249,16 @@ Performance and scalability optimization with measurable, gated performance impr
 ## Planned Features
 
 ### Hybrid Retrieval Rollout Gates (issue #5468)
-- [ ] Phase A gate: fix 50% of return-value check gaps (340 → 170) in optimizer (Target: Q3 2026)
-- [ ] Phase A gate: fix 50% of exception-handling gaps (180 → 90) in optimizer (Target: Q3 2026)
-- [ ] Phase A ctest gate: `test_query_planner_fallback` with degraded-mode injection (Target: Q3 2026)
-- [ ] Phase B gate: fix thread-safety gaps in parallel plan optimization (140 → 56) (Target: Q3 2026)
-- [ ] Phase B gate: hybrid planner (ANN + graph) enabled with single-shard scope (Target: Q3 2026)
-- [ ] Phase B gate: `query_planner_fallback_total` Prometheus metric wired (Target: Q3 2026)
+- [~] Phase A gate: fix 50% of return-value check gaps (340 → 170) in optimizer (Target: Q3 2026)
+- [~] Phase A gate: fix 50% of exception-handling gaps (180 → 90) in optimizer (Target: Q3 2026)
+- [x] Phase A ctest gate: `test_query_planner_fallback` with degraded-mode injection (tests/query/test_query_planner_fallback.cpp: degraded mode + query_planner_fallback_total check present)
+- [~] Phase B gate: fix thread-safety gaps in parallel plan optimization (140 → 56) (Target: Q3 2026)
+- [~] Phase B gate: hybrid planner (ANN + graph) enabled with single-shard scope (Target: Q3 2026)
+- [x] Phase B gate: `query_planner_fallback_total` Prometheus metric wired (src/query/query_optimizer.cpp:177)
 - [ ] Phase C gate: parallel optimization enabled after thread-safety gate passed (Target: Q3 2026+)
 
 ### Short-term (3-6 months)
-- [ ] **AQL Mutations** — INSERT/UPDATE/REPLACE/REMOVE/UPSERT for data manipulation (Target: v2.0.0-beta Q3 2026)
+- [x] **AQL Mutations** — INSERT/UPDATE/REPLACE/REMOVE/UPSERT for data manipulation (UPSERT/INSERT/UPDATE/REMOVE/REPLACE nodes already in include/query/aql_parser.h; DML in parse loop)
 - [ ] Harden optimizer decision quality under skewed statistics and changing workloads (Target: Q4 2026)
 - [ ] Expand federated query failure handling with deterministic partial-result policies (Target: Q4 2026)
 - [ ] Strengthen query resource-limit enforcement diagnostics and operator-facing observability (Target: Q4 2026)

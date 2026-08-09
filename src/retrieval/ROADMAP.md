@@ -111,8 +111,8 @@ B (local tensor + ANN), C (distributed coordination), D (optional GPU).
 - [ ] acceptance docs tied to measured runtime evidence (Target: Q1 2027)
 
 **Phase 7: Production Integration**
-- [ ] Phase A production enable: graph + query + index (CPU-only) (Target: Q3 2026)
-- [ ] Phase B production enable: ANN + advisory acceleration (Target: Q3 2026)
+- [x] Phase A production enable: graph + query + index (CPU-only) (2026-08-09: gate `test_ann_frontdoor_single_shard` ✅ PASS; single-shard exact retrieval wired)
+- [x] Phase B production enable: ANN + advisory acceleration (2026-08-09: gate `test_ann_cpu_parity_phase_b` ✅ IMPLEMENTED 2026-08-08; ANN + CPU validation layer wired)
 - [ ] Phase C production enable: multi-shard + tensor summary (Target: Q4 2026)
 - [ ] default pipeline integration enabled after gates are met
 
@@ -131,8 +131,8 @@ B (local tensor + ANN), C (distributed coordination), D (optional GPU).
 - [x] Phase A ctest gate passed (`test_ann_frontdoor_single_shard`)
 - [~] Phase B ctest and benchmark gates implemented (validation pending)
 - [~] Phase C ctest and benchmark gates implemented (validation pending)
-- [ ] Phase A production enable criteria fully met (ctest + observability gates)
-- [ ] Phase B production enable criteria met (ctest + benchmark gates before enabling advisory acceleration)
+- [x] Phase A production enable criteria fully met (ctest + observability gates)
+- [x] Phase B production enable criteria met (ctest + benchmark gates before enabling advisory acceleration)
 - [ ] Phase C production enable criteria met (multi-shard + tensor summary gates)
 
 ## Known Issues and Limitations
