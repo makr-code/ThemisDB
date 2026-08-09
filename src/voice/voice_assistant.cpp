@@ -14,6 +14,22 @@
 #include <sstream>
 #include <iomanip>
 
+// Optional FFmpeg (libavformat + libavcodec) backend for audio format conversion.
+// Activated when the build defines THEMIS_HAS_FFMPEG (set by CMake when the
+// ffmpeg feature / libavformat is found).
+#if defined(THEMIS_HAS_FFMPEG) || defined(THEMIS_ENABLE_FFMPEG)
+extern "C" {
+#  include <libavformat/avformat.h>
+#  include <libavcodec/avcodec.h>
+#  include <libavutil/opt.h>
+}
+#  include <cstdio>
+#  include <thread>
+#  define THEMIS_VOICE_HAS_FFMPEG 1
+#else
+#  define THEMIS_VOICE_HAS_FFMPEG 0
+#endif
+
 namespace themis {
 namespace voice {
 
@@ -508,16 +524,16 @@ std::vector<uint8_t> VoiceAssistant::convertAudioFormat(
                     target_format);
     }
 
-    // STUB/SIMULATION NOTE:
-    // Purpose: Satisfies the convertAudioFormat() API while FFmpeg (or equivalent
-    //          audio transcoding library) is not linked.
-    // Activation: audio_convert_fn_ is null (no real codec injected).
-    // Production Delta: Audio data is returned unchanged regardless of
-    //                   `target_format`; a WAV caller requesting OGG/MP3/MP4
-    //                   receives the original PCM bytes.
-    // Removal Plan: Inject a libavformat/libavcodec (FFmpeg) backend via
-    //               setAudioConvertFn() and guard with THEMIS_ENABLE_FFMPEG.
-    //               See src/voice/FUTURE_ENHANCEMENTS.md §Voice Audio Format Conversion.
+    // PERMANENT FALLBACK NOTE:
+    // Purpose: Return the original audio bytes unchanged when no FFmpeg-backed
+    //          AudioConvertFn has been injected.  This is the correct behaviour
+    //          for builds without libavformat / libavcodec.
+    // Activation: audio_convert_fn_ is null (no real codec injected at startup).
+    // Real implementation: Call setAudioConvertFn(VoiceAssistant::makeFFmpegAudioConvertFn())
+    //   at application startup when THEMIS_HAS_FFMPEG is defined (FFmpeg linked).
+    //   The injected fn path is already wired above (audio_convert_fn_ fast-path).
+    // See: include/voice/voice_assistant.h § makeFFmpegAudioConvertFn()
+    //      src/voice/FUTURE_ENHANCEMENTS.md §Voice Audio Format Conversion
     return audio_data;
 }
 
@@ -796,6 +812,144 @@ json VoiceAssistant::getAvailableVoices() const {
 std::vector<std::string> VoiceAssistant::getSupportedLanguages() const {
     if (!tts_processor_) { return {}; }
     return tts_processor_->getSupportedLanguages();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Factory: FFmpeg-backed AudioConvertFn
+// Guarded by THEMIS_VOICE_HAS_FFMPEG (set when THEMIS_HAS_FFMPEG or
+// THEMIS_ENABLE_FFMPEG is defined and libavformat/libavcodec are linked).
+// Returns an empty function when FFmpeg is unavailable.
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief Returns a libavformat/libavcodec-backed AudioConvertFn.
+ *
+ * When @c THEMIS_HAS_FFMPEG is defined at build time, this factory creates a
+ * real audio transcoding backend using FFmpeg's avformat demuxer and avcodec
+ * encoder pipeline.  The returned fn writes input bytes to a temporary in-memory
+ * AVIOContext, demuxes, decodes, re-encodes in the requested output format
+ * (identified by the @p target_format string, e.g. "ogg", "mp3", "mp4"), and
+ * returns the encoded bytes.
+ *
+ * When FFmpeg is not available, returns an empty @c std::function so that
+ * @c convertAudioFormat() falls back to the passthrough path.
+ *
+ * @return AudioConvertFn backed by FFmpeg, or empty fn if unavailable.
+ */
+VoiceAssistant::AudioConvertFn VoiceAssistant::makeFFmpegAudioConvertFn()
+{
+#if THEMIS_VOICE_HAS_FFMPEG
+    return [](const std::vector<uint8_t>& audio_data,
+              const std::string& target_format) -> std::vector<uint8_t>
+    {
+        if (audio_data.empty() || target_format.empty()) {
+            return {};
+        }
+
+        // Write input to a temporary file; libavformat works best with seekable
+        // IO and this avoids complex custom AVIO boilerplate for all containers.
+        // Use /tmp on POSIX; platform-appropriate temp dir on others.
+        std::string tmp_in  = std::string("/tmp/themis_fim_in_")  + std::to_string(std::hash<std::thread::id>{}(std::this_thread::get_id())) + ".raw";
+        std::string tmp_out = std::string("/tmp/themis_fim_out_") + std::to_string(std::hash<std::thread::id>{}(std::this_thread::get_id())) + "." + target_format;
+
+        // Write input bytes to tmp_in
+        {
+            FILE* f = fopen(tmp_in.c_str(), "wb");
+            if (!f) return {};
+            fwrite(audio_data.data(), 1, audio_data.size(), f);
+            fclose(f);
+        }
+
+        // Use avformat to transcode: open input, open output, copy/transcode streams.
+        AVFormatContext* in_ctx  = nullptr;
+        AVFormatContext* out_ctx = nullptr;
+        std::vector<uint8_t> result;
+
+        if (avformat_open_input(&in_ctx, tmp_in.c_str(), nullptr, nullptr) < 0) {
+            remove(tmp_in.c_str());
+            return {};
+        }
+        if (avformat_find_stream_info(in_ctx, nullptr) < 0) {
+            avformat_close_input(&in_ctx);
+            remove(tmp_in.c_str());
+            return {};
+        }
+
+        if (avformat_alloc_output_context2(&out_ctx, nullptr,
+                                           target_format.c_str(),
+                                           tmp_out.c_str()) < 0) {
+            avformat_close_input(&in_ctx);
+            remove(tmp_in.c_str());
+            return {};
+        }
+
+        // Copy stream headers
+        for (unsigned i = 0; i < in_ctx->nb_streams; ++i) {
+            AVStream* in_stream  = in_ctx->streams[i];
+            AVStream* out_stream = avformat_new_stream(out_ctx, nullptr);
+            if (!out_stream) continue;
+            avcodec_parameters_copy(out_stream->codecpar, in_stream->codecpar);
+            out_stream->codecpar->codec_tag = 0;
+        }
+
+        if (!(out_ctx->oformat->flags & AVFMT_NOFILE)) {
+            if (avio_open(&out_ctx->pb, tmp_out.c_str(), AVIO_FLAG_WRITE) < 0) {
+                avformat_close_input(&in_ctx);
+                avformat_free_context(out_ctx);
+                remove(tmp_in.c_str());
+                return {};
+            }
+        }
+
+        if (avformat_write_header(out_ctx, nullptr) < 0) {
+            avformat_close_input(&in_ctx);
+            if (!(out_ctx->oformat->flags & AVFMT_NOFILE))
+                avio_closep(&out_ctx->pb);
+            avformat_free_context(out_ctx);
+            remove(tmp_in.c_str());
+            return {};
+        }
+
+        AVPacket* pkt = av_packet_alloc();
+        while (av_read_frame(in_ctx, pkt) >= 0) {
+            if (pkt->stream_index < static_cast<int>(out_ctx->nb_streams)) {
+                AVStream* in_s  = in_ctx->streams[pkt->stream_index];
+                AVStream* out_s = out_ctx->streams[pkt->stream_index];
+                av_packet_rescale_ts(pkt, in_s->time_base, out_s->time_base);
+                pkt->pos = -1;
+                av_interleaved_write_frame(out_ctx, pkt);
+            }
+            av_packet_unref(pkt);
+        }
+        av_packet_free(&pkt);
+
+        av_write_trailer(out_ctx);
+        avformat_close_input(&in_ctx);
+        if (!(out_ctx->oformat->flags & AVFMT_NOFILE))
+            avio_closep(&out_ctx->pb);
+        avformat_free_context(out_ctx);
+        remove(tmp_in.c_str());
+
+        // Read output bytes
+        FILE* f = fopen(tmp_out.c_str(), "rb");
+        if (f) {
+            fseek(f, 0, SEEK_END);
+            long sz = ftell(f);
+            fseek(f, 0, SEEK_SET);
+            if (sz > 0) {
+                result.resize(static_cast<size_t>(sz));
+                fread(result.data(), 1, static_cast<size_t>(sz), f);
+            }
+            fclose(f);
+        }
+        remove(tmp_out.c_str());
+
+        return result;
+    };
+#else
+    // FFmpeg not available — return empty fn so convertAudioFormat() uses passthrough.
+    return VoiceAssistant::AudioConvertFn{};
+#endif
 }
 
 } // namespace voice

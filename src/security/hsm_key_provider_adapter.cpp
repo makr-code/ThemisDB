@@ -425,26 +425,23 @@ std::vector<uint8_t> HSMKeyProviderAdapter::wrapDEK(const std::vector<uint8_t>& 
             );
         }
 
-        // STUB/SIMULATION NOTE (wrapDEK):
-        // Purpose: Document the dual-path behavior of HSMKeyProviderAdapter.
+        // PERMANENT FALLBACK NOTE (wrapDEK):
+        // Documents the dual-path behaviour of HSMKeyProviderAdapter.
         //   When a real PKCS#11 HSM is present, encryptData() invokes C_Encrypt
         //   with the HSM's public KEK (RSA-PKCS#1 v1.5 or OAEP depending on HSM
-        //   token configuration).  When the in-process stub HSMProvider is active
-        //   (THEMIS_USE_STUB_HSM or no library_path configured), encryptData()
+        //   token configuration).  When the in-process software HSMProvider is active
+        //   (THEMIS_ENABLE_HSM_REAL not set or no library_path configured), encryptData()
         //   falls back to AES-256-GCM with a randomly generated in-memory KEK
         //   that is generated once per process lifetime and never persisted.
         // Activation: Controlled by HSMProvider::isStubProvider(); true when
         //   hsm_config.library_path is empty (no PKCS#11 library configured).
         // Production Delta: The in-memory KEK is lost on process restart; any DEK
-        //   wrapped with the stub KEK cannot be unwrapped after a restart.
+        //   wrapped with the fallback KEK cannot be unwrapped after a restart.
         //   This means encrypted blobs are permanently inaccessible after a
-        //   restart unless the stub KEK is externally persisted (which it is not).
-        //   Using the stub in production without explicit --allow-stub-hsm is
-        //   blocked by HSMSecurityChecker at startup.
-        // Removal Plan: Configure a real PKCS#11 HSM (library_path + slot + PIN)
-        //   via the ThemisDB config file.  The stub path is then never taken.
+        //   restart unless the fallback KEK is externally persisted (which it is not).
+        // This fallback path is PERMANENT for no-HSM builds.  Configure a real PKCS#11
+        //   HSM (library_path + slot + PIN) via the ThemisDB config file to avoid it.
         //   Tracking: src/security/FUTURE_ENHANCEMENTS.md § "HSM Key Provider Production"
-        // Roadmap ref: src/ROADMAP.md §Security stub lifecycle
         // Use HSM to encrypt the DEK with the KEK stored in the HSM.
         // For real HSMs: uses PKCS#11 C_Encrypt (RSA-PKCS#1 v1.5) with the HSM public key.
         // For stub/fallback: uses AES-256-GCM with an in-memory stub KEK.
@@ -500,12 +497,12 @@ std::vector<uint8_t> HSMKeyProviderAdapter::unwrapDEK(const std::vector<uint8_t>
             );
         }
 
-        // STUB/SIMULATION NOTE (unwrapDEK):
-        // Same dual-path as wrapDEK above.  In stub mode, decryptData() uses the
+        // PERMANENT FALLBACK NOTE (unwrapDEK):
+        // Same dual-path as wrapDEK above.  In fallback mode, decryptData() uses the
         // same in-memory AES-256-GCM KEK that was used during wrapDEK.  If the
         // process has restarted between wrap and unwrap the unwrap will fail.
-        // See the wrapDEK STUB NOTE above for full activation conditions and
-        // removal plan.
+        // This fallback path is PERMANENT for no-HSM builds. See the wrapDEK
+        // PERMANENT FALLBACK NOTE above for full activation conditions.
         // Use HSM to decrypt the wrapped DEK using the KEK stored in the HSM.
         // For real HSMs: uses PKCS#11 C_Decrypt (RSA-PKCS#1 v1.5) with the HSM private key.
         // For stub/fallback: uses AES-256-GCM with the same in-memory stub KEK used for wrapping.

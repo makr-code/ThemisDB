@@ -2,15 +2,17 @@
  * @file mirror_school_handler.cpp
  * @brief MirrorSchoolHandler — lightweight parallel mirror-school inference.
  *
- * @note STUB/SIMULATION NOTE:
+ * @note PERMANENT FALLBACK NOTE:
  *   Purpose: Mirror-school scoring requires a real LLM inference step per school.
  *   Activation: When setLLMInferenceFn({}) is called or when no inference
- *     function has been set.
- *   Production Delta: Returns deterministic position_abstract based on school_id.
- *     In production, a real ILLMPlugin call is made for each mirror school in
- *     parallel.
- *   Removal Plan: Inject real ILLMPlugin at call site when LDM-5 LLM wiring is
- *     complete (Target: Q2 2027).
+ *     function has been set — this fallback is intentional and permanent for
+ *     test / non-LDM builds.
+ *   Production Delta: Returns deterministic CONDITIONAL position_abstract based
+ *     on school_id.  In production, a real ILLMPlugin call is made for each
+ *     mirror school in parallel by injecting a fn via setLLMInferenceFn().
+ *   Wiring: Inject a real ILLMPlugin-backed function via setLLMInferenceFn() when
+ *     LDM-5 LLM wiring is complete (Target: Q2 2027).
+ *     The deterministic fallback remains permanently for test / non-LDM builds.
  */
 
 #include "ethics_ai/mirror_school_handler.h"

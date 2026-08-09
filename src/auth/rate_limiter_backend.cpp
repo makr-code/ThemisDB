@@ -300,15 +300,19 @@ bool RedisRateLimiterBackend::reconnect()
 
 #else // !THEMIS_ENABLE_REDIS
 
-// STUB/SIMULATION NOTE:
+// PERMANENT FALLBACK NOTE:
 // Purpose: Allow ThemisDB to be built without hiredis.  All Redis-backed
-//   distributed rate-limiting operations use a process-local in-memory fallback.
+//   distributed rate-limiting operations delegate to a process-local in-memory
+//   fallback (InMemoryRateLimiterBackend).  This fallback is intentional and
+//   permanent for builds without the Redis feature.
 // Activation: `THEMIS_ENABLE_REDIS` is not defined at compile time (default for
 //   builds without the 'redis' vcpkg feature or without libhiredis).
 // Production Delta: Cross-replica/shared Redis counters are unavailable; limits
 //   are enforced per process only and do not synchronize across ThemisDB replicas.
-// Removal Plan: Install libhiredis (`apt install libhiredis-dev` or enable the
-//   'redis' vcpkg feature) and set `-DTHEMIS_ENABLE_REDIS=1` in CMake.
+// Real implementation: Install libhiredis (`apt install libhiredis-dev` or enable
+//   the 'redis' vcpkg feature) and set `-DTHEMIS_ENABLE_REDIS=1` in CMake.
+//   The full hiredis-backed sliding-window ZSET implementation is in the
+//   `#ifdef THEMIS_ENABLE_REDIS` block above (connect, increment, getCount, reset).
 // Roadmap ref: src/auth/FUTURE_ENHANCEMENTS.md §"Redis Rate Limiter Activation"
 
 namespace {

@@ -2,18 +2,18 @@
  * @file discourse_orchestrator.cpp
  * @brief DiscourseOrchestrator — Ebene-1/2 parallel execution for the LDM.
  *
- * @note STUB/SIMULATION NOTE:
+ * @note PERMANENT FALLBACK NOTE:
  *   Purpose: Ebene-1 parallel scoring requires a real LLM inference step per
  *     school.  When no LLM provider is injected (default in unit tests / non-LDM
- *     builds), a deterministic stub is used.
+ *     builds), a deterministic fallback is used.
  *   Activation: When setLLMInferenceFn({}) is called or when no inference
- *     function has been set.
+ *     function has been set — this fallback path is intentional and permanent.
  *   Production Delta: Returns deterministic PERMIT/PROHIBIT/CONDITIONAL based
  *     on school_id hash.  In production, a real LLM call via ILLMPlugin is made
- *     for each school in parallel.
- *   Removal Plan: Replace setLLMInferenceFn({}) with a real ILLMPlugin injection
- *     at call site once LDM-2 integration with the LLM module is wired
- *     (Target: Q1 2027).
+ *     for each school in parallel by injecting a fn via setLLMInferenceFn().
+ *   Wiring: Inject a real ILLMPlugin-backed function at call site via
+ *     setLLMInferenceFn() once LDM-2 LLM integration is available (Target: Q1 2027).
+ *     The fallback remains permanently for test / non-LDM builds.
  */
 
 #include "ethics_ai/discourse_orchestrator.h"

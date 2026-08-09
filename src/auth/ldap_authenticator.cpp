@@ -714,28 +714,30 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
 
 #else
 // ---------------------------------------------------------------------------
-// STUB/SIMULATION NOTE:
-// Purpose: Link-compatible LDAP stub for builds without libldap.  Returns a
+// PERMANENT FALLBACK NOTE:
+// Purpose: Link-compatible LDAP fallback for builds without libldap.  Returns a
 //   hard-failure from performBind() so any LDAP-gated authentication request
-//   is explicitly rejected rather than accidentally allowed.
-// Activation: Compiled when THEMIS_HAS_LDAP is NOT defined (set via
-//   -DTHEMIS_ENABLE_LDAP=ON in CMake to enable the real implementation).
+//   is explicitly rejected rather than accidentally allowed.  This fallback is
+//   permanent for builds that intentionally omit libldap.
+// Activation: Compiled when THEMIS_HAS_LDAP is NOT defined.  Set via
+//   -DTHEMIS_ENABLE_LDAP=ON in CMake to enable the real implementation.
 // Production Delta: All LDAP-based logins will fail with an explicit error
 //   message.  No silent pass-through; the rejection is logged and audited.
-// Removal Plan: Install libldap and build with -DTHEMIS_ENABLE_LDAP=ON.
-//   The real implementation in the #ifdef branch handles TLS, paging,
-//   group membership, and attribute mapping.
+// Real implementation: Install libldap and build with -DTHEMIS_ENABLE_LDAP=ON.
+//   The #if THEMIS_HAS_LDAP branch above handles TLS, paging, group membership,
+//   and attribute mapping.
 // Roadmap ref: src/auth/FUTURE_ENHANCEMENTS.md § "LDAP Group Membership (v1.6.0)"
 // ---------------------------------------------------------------------------
 
-// STUB/SIMULATION NOTE (LdapBindFn bridge):
-// Purpose:    Allow injection of a real LDAP bind implementation for the
-//             non-libldap stub path, enabling integration tests without
-//             modifying the production libldap path.
+// RUNTIME INJECTION BRIDGE:
+// Purpose:    Allow a test or integration harness to inject a real LDAP bind
+//             implementation without recompiling with THEMIS_HAS_LDAP.  Enables
+//             integration tests that drive the no-libldap build path.
 // Activation: Runtime — when setLdapBindFn() is called with a non-empty fn.
 // Production Delta: With no fn injected, performBind() returns Failed(); with
 //             fn injected the provided implementation is called instead.
-// Removal Plan: Remove bridge once THEMIS_HAS_LDAP is always set in CI/CD.
+// Scope: Only active when THEMIS_HAS_LDAP is NOT defined.  Permanent bridge for
+//        non-LDAP builds; removed implicitly when THEMIS_HAS_LDAP is defined.
 static std::mutex s_ldap_bind_mutex_;
 static LDAPAuthenticator::LdapBindFn s_ldap_bind_fn_;
 

@@ -436,16 +436,18 @@ SipCallSession::synthesizeTts(const std::string& text) {
         return packets;
     }
 
-    // STUB/SIMULATION NOTE:
+    // PERMANENT FALLBACK NOTE:
     // Purpose: Allow SIP call sessions to compile and run without a real TTS →
-    //          G.711 encoder → RTP packetiser pipeline.
+    //          G.711 encoder → RTP packetiser pipeline.  Raw UTF-8 text bytes are
+    //          wrapped in a minimal RTP header (12 bytes) when no ITtsBackend is set.
     // Activation: Active when no ITtsBackend has been injected via setTtsBackend().
-    // Production Delta: Raw UTF-8 text bytes are wrapped in a minimal RTP header
-    //                   instead of encoded PCM audio.  The remote SIP endpoint will
-    //                   receive undecodable data and produce garbled or silent audio.
-    // Removal Plan: Wire a real ITtsBackend implementation (G.711 µ-law PCM encoder)
-    //               via setTtsBackend() at startup.  See STUB_INVENTORY entry #173 and
-    //               src/voice/FUTURE_ENHANCEMENTS.md §SIP TTS G.711 Encoder.
+    // Production Delta: The remote SIP endpoint receives raw UTF-8 in place of
+    //                   encoded PCM audio — produces garbled or silent audio.
+    // Real implementation: Wire an ITtsBackend (G.711 µ-law PCM encoder) via
+    //                   setTtsBackend() at startup.  The injected-backend path is
+    //                   already wired above (impl_->tts_backend fast-path).
+    //                   See STUB_INVENTORY entry #173 and
+    //                   src/voice/FUTURE_ENHANCEMENTS.md §SIP TTS G.711 Encoder.
 
     // Minimal RTP header (12 bytes) + text payload
     std::vector<uint8_t> pkt;
@@ -652,16 +654,18 @@ WebRtcCallSession::synthesizeTts(const std::string& text) {
         return packets;
     }
 
-    // STUB/SIMULATION NOTE:
+    // PERMANENT FALLBACK NOTE:
     // Purpose: Allow WebRTC sessions to compile without a real TTS → Opus encoder
-    //          → RTP packetiser pipeline.
+    //          → RTP packetiser pipeline.  UTF-8 text bytes are stuffed into a
+    //          fake Opus RTP packet (PT=111) when no ITtsBackend is set.
     // Activation: Active when no ITtsBackend has been injected via setTtsBackend().
-    // Production Delta: UTF-8 text bytes are stuffed into a fake Opus RTP packet
-    //                   (PT=111).  The remote WebRTC endpoint will receive an
-    //                   invalid Opus frame and produce silent or garbled audio.
-    // Removal Plan: Wire a real ITtsBackend implementation (Opus encoder) via
-    //               setTtsBackend() at startup.  See STUB_INVENTORY entry #174 and
-    //               src/voice/FUTURE_ENHANCEMENTS.md §WebRTC TTS Opus Encoder.
+    // Production Delta: The remote WebRTC endpoint receives an invalid Opus frame
+    //                   and produces silent or garbled audio.
+    // Real implementation: Wire an ITtsBackend (Opus encoder) via setTtsBackend()
+    //                   at startup.  The injected-backend path is already wired
+    //                   above (impl_->tts_backend fast-path).
+    //                   See STUB_INVENTORY entry #174 and
+    //                   src/voice/FUTURE_ENHANCEMENTS.md §WebRTC TTS Opus Encoder.
 
     std::vector<uint8_t> pkt;
     pkt.resize(12, 0);

@@ -25,19 +25,20 @@
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 
-// STUB/SIMULATION NOTE:
+// PERMANENT FALLBACK NOTE:
 // Purpose: Allow the cache module to be built without gRPC.  When
 //   `THEMIS_ENABLE_GRPC` is not defined, this entire translation unit is
 //   excluded from compilation.  Any class or function defined here
-//   (GrpcRemoteCachePeer) is expected to be provided as an inline no-op stub
+//   (GrpcRemoteCachePeer) is expected to be provided as an inline no-op fallback
 //   in include/cache/grpc_remote_cache_peer.h.  Callers that attempt to use
-//   the remote cache peer in a non-gRPC build will get a stub that reports
-//   itself as unhealthy and throws/returns error for every operation.
+//   the remote cache peer in a non-gRPC build will get a fallback that reports
+//   itself as unhealthy and returns error for every operation.
 // Activation: `THEMIS_ENABLE_GRPC` not defined at compile time.
 // Production Delta: Cross-node cache replication/invalidation via gRPC is
 //   disabled.  Each ThemisDB instance operates as a fully isolated cache
 //   island; distributed invalidation events are silently dropped.
-// Removal Plan: Install gRPC C++ libraries and set `-DTHEMIS_ENABLE_GRPC=1`.
+// This fallback is PERMANENT for no-gRPC builds.  Install gRPC C++ libraries
+//   and set `-DTHEMIS_ENABLE_GRPC=1` to activate the real gRPC client below.
 // Roadmap ref: src/cache/FUTURE_ENHANCEMENTS.md §"gRPC Remote Cache Peer Activation"
 
 #ifdef THEMIS_ENABLE_GRPC

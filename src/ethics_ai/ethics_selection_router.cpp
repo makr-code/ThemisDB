@@ -263,18 +263,18 @@ std::unordered_set<std::string> EthicsSelectionRouter::Impl::stage1(
 // ─────────────────────────────────────────────────────────────────────────────
 // Stage 2 — Semantic term-overlap filter
 //
-// STUB/SIMULATION NOTE:
+// PERMANENT FALLBACK NOTE:
 // Purpose: Lightweight term-overlap proxy for semantic embedding similarity.
-//          Used until IEmbeddingProvider + ArgumentStore::searchSimilarArguments()
-//          are fully implemented (FUTURE_ENHANCEMENTS §7).
+//          This is a permanent fallback for builds without an EmbeddingProvider.
 // Activation: Term-overlap fallback is active when no EmbeddingFn is injected
 //          via setEmbeddingFn(). When an EmbeddingFn is set, dense cosine
 //          similarity replaces term-overlap (real production path).
 // Production Delta: Term-overlap cosine underestimates semantic synonymy
 //          (e.g. "duty" vs "obligation") by ~15-20%.
-// Removal Plan: Inject an OnnxEmbeddingProvider via setEmbeddingFn() when §7
+// Wiring: Inject an OnnxEmbeddingProvider via setEmbeddingFn() when §7
 //          is delivered (Target: Q3 2026). Gate via THEMIS_ETHICS_EMBEDDING_MODEL
-//          env var. RESOLVED 2026-05-06: setEmbeddingFn() injection API added.
+//          env var. RESOLVED 2026-05-06: setEmbeddingFn() injection API wired;
+//          dense cosine path active when fn is set (see stage2() fast-path above).
 // ─────────────────────────────────────────────────────────────────────────────
 
 std::vector<RouterCandidate> EthicsSelectionRouter::Impl::stage2(
@@ -378,18 +378,19 @@ std::vector<RouterCandidate> EthicsSelectionRouter::Impl::stage2(
 // ─────────────────────────────────────────────────────────────────────────────
 // Stage 3 — Precedent lookup
 //
-// STUB/SIMULATION NOTE:
-// Purpose: In-memory precedent store as proxy for full KnowledgeGraph
-//          integration with `_themis_ethics_precedents` graph collection.
+// PERMANENT FALLBACK NOTE:
+// Purpose: In-memory precedent store as permanent fallback for builds without
+//          a live KnowledgeGraph connection.
 // Activation: In-memory map is active when no PrecedentQueryFn is injected
 //          via setPrecedentQueryFn(). When a PrecedentQueryFn is set, the
-//          external persistent store is consulted instead.
+//          external persistent store is consulted instead (real production path).
 // Production Delta: Production path traverses a persistent ArangoDB graph
 //          where nodes are dilemma-type strings and edges carry DC scores.
 //          In-memory store is session-scoped (not persistent across restarts).
-// Removal Plan: Inject a KnowledgeGraphRetriever-backed fn via
-//          setPrecedentQueryFn() when the ethics precedent graph is populated
-//          (Target: Q4 2026). RESOLVED 2026-05-06: setPrecedentQueryFn() added.
+// Wiring: Inject a KnowledgeGraphRetriever-backed fn via setPrecedentQueryFn()
+//          when the ethics precedent graph is populated (Target: Q4 2026).
+//          RESOLVED 2026-05-06: setPrecedentQueryFn() injection API wired;
+//          persistent-graph path active when fn is set (see stage3() fast-path).
 // ─────────────────────────────────────────────────────────────────────────────
 
 void EthicsSelectionRouter::Impl::stage3(

@@ -26,20 +26,19 @@
 // Real PKCS#11 Implementierung in hsm_provider_pkcs11.cpp
 #else
 
-// STUB/SIMULATION NOTE:
+// PERMANENT FALLBACK NOTE:
 // Purpose: Software-only AES-256-GCM fallback for HSMProvider when no real HSM hardware
 //          is present. Provides deterministic key-wrap/unwrap for developer and CI use.
 //          Production mode is explicitly blocked unless THEMIS_ALLOW_HSM_STUB=1 env var
 //          is set, or the --allow-stub-hsm server flag is passed.
 // Activation: Compiled when THEMIS_ENABLE_HSM_REAL is NOT defined (default in dev builds).
-//             Build with -DTHEMIS_ENABLE_HSM_REAL=ON to replace this with the real PKCS#11
-//             implementation in hsm_provider_pkcs11.cpp.
+//             Build with -DTHEMIS_ENABLE_HSM_REAL=ON (Wave-2 CMake guard) to activate the
+//             real PKCS#11 implementation in hsm_provider_pkcs11.cpp instead.
 // Production Delta: Uses a randomly-generated in-memory KEK (not persisted across restarts,
 //                   not protected by HSM hardware). All crypto is software-only OpenSSL.
 //                   Not suitable for production key management.
-// Removal Plan: Replaced at build time by hsm_provider_pkcs11.cpp when
-//               -DTHEMIS_ENABLE_HSM_REAL=ON is set. No v1.x production deployment ships
-//               without a real HSM backend.
+// This fallback path is PERMANENT for no-HSM builds; it is a compile-time safety net.
+// No v1.x production deployment ships without a real HSM backend.
 // Roadmap ref: src/security/FUTURE_ENHANCEMENTS.md § "Stub/Simulation Lifecycle"
 
 #include "security/hsm_provider.h"

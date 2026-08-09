@@ -51,6 +51,14 @@
 #include <openssl/core_names.h>
 #include <openssl/params.h>
 
+// ── liboqs real post-quantum backend (Wave-2: THEMIS_HAS_OQS guard) ──────────
+// When -DTHEMIS_HAS_OQS=ON is set in CMake and the liboqs package is found,
+// OQS_KEM_* / OQS_SIG_* APIs replace the X25519/Ed25519 simulation below.
+// The simulation remains compiled as PERMANENT FALLBACK when OQS is absent.
+#ifdef THEMIS_HAS_OQS
+#  include <oqs/oqs.h>
+#endif
+
 #include <stdexcept>
 #include <cstring>
 #include <array>
@@ -232,6 +240,34 @@ static std::vector<uint8_t> aes256gcm_decrypt(
 
 // ─── X25519 helpers (KyberKEM simulation) ────────────────────────────────
 
+#ifdef THEMIS_HAS_OQS
+// ── liboqs KyberKEM helpers ────────────────────────────────────────────────
+namespace {
+
+/// @brief Select the liboqs algorithm name for a given Kyber security level.
+/// @param level  SecurityLevel enum value (KYBER_512, KYBER_768, KYBER_1024).
+/// @return Null-terminated algorithm name string for OQS_KEM_new().
+static const char* kyberAlgName(KyberKEM::SecurityLevel level) noexcept {
+    switch (level) {
+        case KyberKEM::SecurityLevel::KYBER_512:  return OQS_KEM_alg_kyber_512;
+        case KyberKEM::SecurityLevel::KYBER_768:  return OQS_KEM_alg_kyber_768;
+        case KyberKEM::SecurityLevel::KYBER_1024: return OQS_KEM_alg_kyber_1024;
+        default:                                   return OQS_KEM_alg_kyber_1024;
+    }
+}
+
+/// @brief RAII wrapper around OQS_KEM.
+struct OqsKemRAII {
+    OQS_KEM* kem;
+    explicit OqsKemRAII(const char* alg) : kem(OQS_KEM_new(alg)) {}
+    ~OqsKemRAII() { if (kem) OQS_KEM_free(kem); }
+    OqsKemRAII(const OqsKemRAII&) = delete;
+    OqsKemRAII& operator=(const OqsKemRAII&) = delete;
+};
+
+} // anonymous namespace
+#endif // THEMIS_HAS_OQS
+
 /**
  * @brief Generate a fresh X25519 key pair.
  *
@@ -394,25 +430,78 @@ struct KyberKEM::Impl {
 KyberKEM::KyberKEM(SecurityLevel level)
     : level_(level), impl_(std::make_unique<Impl>())
 {
+#ifdef THEMIS_HAS_OQS
+    THEMIS_INFO("KyberKEM: initialized (liboqs backend, level={})", static_cast<int>(level_));
+#else
     THEMIS_INFO("KyberKEM: initialized (KYBER_SIM, level={})",
                 static_cast<int>(level_));
+#endif
 }
 
 KyberKEM::~KyberKEM() = default;
 KyberKEM::KyberKEM(KyberKEM&&) noexcept = default;
 KyberKEM& KyberKEM::operator=(KyberKEM&&) noexcept = default;
 
-size_t KyberKEM::publicKeySize() const noexcept  { return 32; }
-size_t KyberKEM::secretKeySize() const noexcept  { return 32; }
-size_t KyberKEM::ciphertextSize() const noexcept { return 32; }
+size_t KyberKEM::publicKeySize() const noexcept {
+#ifdef THEMIS_HAS_OQS
+    OqsKemRAII k(kyberAlgName(level_));
+    return k.kem ? k.kem->length_public_key : 0;
+#else
+    return 32; // PERMANENT FALLBACK: X25519 simulation size
+#endif
+}
+size_t KyberKEM::secretKeySize() const noexcept {
+#ifdef THEMIS_HAS_OQS
+    OqsKemRAII k(kyberAlgName(level_));
+    return k.kem ? k.kem->length_secret_key : 0;
+#else
+    return 32; // PERMANENT FALLBACK: X25519 simulation size
+#endif
+}
+size_t KyberKEM::ciphertextSize() const noexcept {
+#ifdef THEMIS_HAS_OQS
+    OqsKemRAII k(kyberAlgName(level_));
+    return k.kem ? k.kem->length_ciphertext : 0;
+#else
+    return 32; // PERMANENT FALLBACK: X25519 simulation size (ephemeral public key)
+#endif
+}
 
+/**
+ * @brief Generate a Kyber key pair.
+ *
+ * @return KeyPair with public_key and secret_key populated.
+ * @throws std::runtime_error on OQS/OpenSSL failure.
+ */
 KyberKEM::KeyPair KyberKEM::generateKeyPair() {
+#ifdef THEMIS_HAS_OQS
+    OqsKemRAII k(kyberAlgName(level_));
+    if (!k.kem) throw std::runtime_error("KyberKEM::generateKeyPair: OQS_KEM_new failed");
+    KeyPair kp;
+    kp.public_key.resize(k.kem->length_public_key);
+    kp.secret_key.resize(k.kem->length_secret_key);
+    if (OQS_KEM_keypair(k.kem, kp.public_key.data(), kp.secret_key.data()) != OQS_SUCCESS)
+        throw std::runtime_error("KyberKEM::generateKeyPair: OQS_KEM_keypair failed");
+    THEMIS_DEBUG("KyberKEM::generateKeyPair (liboqs): pub={}B sec={}B",
+                 kp.public_key.size(), kp.secret_key.size());
+    return kp;
+#else
+    // PERMANENT FALLBACK: X25519 simulation (no liboqs)
     auto [pub, priv] = x25519_keygen();
     THEMIS_DEBUG("KyberKEM::generateKeyPair: pub_len={}, priv_len={}",
                  pub.size(), priv.size());
     return {std::move(pub), std::move(priv)};
+#endif
 }
 
+/**
+ * @brief Encapsulate a shared secret for a Kyber public key.
+ *
+ * @param public_key  Recipient's Kyber public key bytes.
+ * @return EncapsulationResult with ciphertext and shared_secret.
+ * @throws std::invalid_argument on wrong key size.
+ * @throws std::runtime_error on OQS/OpenSSL failure.
+ */
 KyberKEM::EncapsulationResult
 KyberKEM::encapsulate(const std::vector<uint8_t>& public_key) {
     if (public_key.size() != publicKeySize()) {
@@ -422,6 +511,20 @@ KyberKEM::encapsulate(const std::vector<uint8_t>& public_key) {
             std::to_string(publicKeySize()) + ")");
     }
 
+#ifdef THEMIS_HAS_OQS
+    OqsKemRAII k(kyberAlgName(level_));
+    if (!k.kem) throw std::runtime_error("KyberKEM::encapsulate: OQS_KEM_new failed");
+    EncapsulationResult res;
+    res.ciphertext.resize(k.kem->length_ciphertext);
+    res.shared_secret.resize(k.kem->length_shared_secret);
+    if (OQS_KEM_encaps(k.kem, res.ciphertext.data(), res.shared_secret.data(), public_key.data())
+            != OQS_SUCCESS)
+        throw std::runtime_error("KyberKEM::encapsulate: OQS_KEM_encaps failed");
+    THEMIS_DEBUG("KyberKEM::encapsulate (liboqs): ct={}B ss={}B",
+                 res.ciphertext.size(), res.shared_secret.size());
+    return res;
+#else
+    // PERMANENT FALLBACK: X25519 simulation
     // Generate ephemeral sender key pair
     auto [eph_pub, eph_priv] = x25519_keygen();
 
@@ -429,7 +532,6 @@ KyberKEM::encapsulate(const std::vector<uint8_t>& public_key) {
     auto dh_secret = x25519_ecdh(eph_priv, public_key);
 
     // HKDF to derive the 32-byte shared secret
-    // info = "KYBER_SIM_SHARED_SECRET" for domain separation
     const std::string info_str = "KYBER_SIM_SHARED_SECRET";
     std::vector<uint8_t> info(info_str.begin(), info_str.end());
     auto shared_secret = hkdf_sha256(dh_secret, {}, info, 32);
@@ -439,8 +541,18 @@ KyberKEM::encapsulate(const std::vector<uint8_t>& public_key) {
 
     // The "ciphertext" in the simulation is the ephemeral public key
     return {std::move(eph_pub), std::move(shared_secret)};
+#endif
 }
 
+/**
+ * @brief Decapsulate a Kyber ciphertext to recover the shared secret.
+ *
+ * @param ciphertext  Ciphertext produced by encapsulate().
+ * @param secret_key  Recipient's Kyber secret key.
+ * @return Shared secret bytes.
+ * @throws std::invalid_argument on wrong input sizes.
+ * @throws std::runtime_error on OQS/OpenSSL failure.
+ */
 std::vector<uint8_t>
 KyberKEM::decapsulate(const std::vector<uint8_t>& ciphertext,
                        const std::vector<uint8_t>& secret_key) {
@@ -455,7 +567,17 @@ KyberKEM::decapsulate(const std::vector<uint8_t>& ciphertext,
             std::to_string(secret_key.size()));
     }
 
-    // ECDH between recipient private and ephemeral public (=ciphertext)
+#ifdef THEMIS_HAS_OQS
+    OqsKemRAII k(kyberAlgName(level_));
+    if (!k.kem) throw std::runtime_error("KyberKEM::decapsulate: OQS_KEM_new failed");
+    std::vector<uint8_t> shared_secret(k.kem->length_shared_secret);
+    if (OQS_KEM_decaps(k.kem, shared_secret.data(), ciphertext.data(), secret_key.data())
+            != OQS_SUCCESS)
+        throw std::runtime_error("KyberKEM::decapsulate: OQS_KEM_decaps failed");
+    THEMIS_DEBUG("KyberKEM::decapsulate (liboqs): ss={}B", shared_secret.size());
+    return shared_secret;
+#else
+    // PERMANENT FALLBACK: X25519 simulation
     auto dh_secret = x25519_ecdh(secret_key, ciphertext);
 
     const std::string info_str = "KYBER_SIM_SHARED_SECRET";
@@ -465,11 +587,39 @@ KyberKEM::decapsulate(const std::vector<uint8_t>& ciphertext,
     THEMIS_DEBUG("KyberKEM::decapsulate: shared_secret_len={}",
                  shared_secret.size());
     return shared_secret;
+#endif
 }
 
 // ============================================================================
 // DilithiumSigner
 // ============================================================================
+
+#ifdef THEMIS_HAS_OQS
+namespace {
+
+/// @brief Select the liboqs algorithm name for a given Dilithium security level.
+/// @param level  SecurityLevel enum value (DILITHIUM_2/3/5).
+/// @return Null-terminated algorithm name string for OQS_SIG_new().
+static const char* dilithiumAlgName(DilithiumSigner::SecurityLevel level) noexcept {
+    switch (level) {
+        case DilithiumSigner::SecurityLevel::DILITHIUM_2: return OQS_SIG_alg_dilithium_2;
+        case DilithiumSigner::SecurityLevel::DILITHIUM_3: return OQS_SIG_alg_dilithium_3;
+        case DilithiumSigner::SecurityLevel::DILITHIUM_5: return OQS_SIG_alg_dilithium_5;
+        default:                                           return OQS_SIG_alg_dilithium_3;
+    }
+}
+
+/// @brief RAII wrapper around OQS_SIG.
+struct OqsSigRAII {
+    OQS_SIG* sig;
+    explicit OqsSigRAII(const char* alg) : sig(OQS_SIG_new(alg)) {}
+    ~OqsSigRAII() { if (sig) OQS_SIG_free(sig); }
+    OqsSigRAII(const OqsSigRAII&) = delete;
+    OqsSigRAII& operator=(const OqsSigRAII&) = delete;
+};
+
+} // anonymous namespace
+#endif // THEMIS_HAS_OQS
 
 struct DilithiumSigner::Impl {
     // Reserved for liboqs state.
@@ -478,24 +628,74 @@ struct DilithiumSigner::Impl {
 DilithiumSigner::DilithiumSigner(SecurityLevel level)
     : level_(level), impl_(std::make_unique<Impl>())
 {
+#ifdef THEMIS_HAS_OQS
+    THEMIS_INFO("DilithiumSigner: initialized (liboqs backend, level={})", static_cast<int>(level_));
+#else
     THEMIS_INFO("DilithiumSigner: initialized (DILITHIUM_SIM, level={})",
                 static_cast<int>(level_));
+#endif
 }
 
 DilithiumSigner::~DilithiumSigner() = default;
 DilithiumSigner::DilithiumSigner(DilithiumSigner&&) noexcept = default;
 DilithiumSigner& DilithiumSigner::operator=(DilithiumSigner&&) noexcept = default;
 
+/**
+ * @brief Generate a Dilithium key pair.
+ *
+ * @return KeyPair with public_key and secret_key populated.
+ * @throws std::runtime_error on OQS/OpenSSL failure.
+ */
 DilithiumSigner::KeyPair DilithiumSigner::generateKeyPair() {
+#ifdef THEMIS_HAS_OQS
+    OqsSigRAII s(dilithiumAlgName(level_));
+    if (!s.sig) throw std::runtime_error("DilithiumSigner::generateKeyPair: OQS_SIG_new failed");
+    KeyPair kp;
+    kp.public_key.resize(s.sig->length_public_key);
+    kp.secret_key.resize(s.sig->length_secret_key);
+    if (OQS_SIG_keypair(s.sig, kp.public_key.data(), kp.secret_key.data()) != OQS_SUCCESS)
+        throw std::runtime_error("DilithiumSigner::generateKeyPair: OQS_SIG_keypair failed");
+    THEMIS_DEBUG("DilithiumSigner::generateKeyPair (liboqs): pub={}B sec={}B",
+                 kp.public_key.size(), kp.secret_key.size());
+    return kp;
+#else
+    // PERMANENT FALLBACK: Ed25519 simulation
     auto [pub, priv] = ed25519_keygen();
     THEMIS_DEBUG("DilithiumSigner::generateKeyPair: pub_len={}, priv_len={}",
                  pub.size(), priv.size());
     return {std::move(pub), std::move(priv)};
+#endif
 }
 
+/**
+ * @brief Sign a message with a Dilithium secret key.
+ *
+ * @param message     Message bytes to sign.
+ * @param secret_key  Dilithium secret key.
+ * @return Signature bytes.
+ * @throws std::invalid_argument on wrong key size (fallback path).
+ * @throws std::runtime_error on OQS/OpenSSL failure.
+ */
 std::vector<uint8_t>
 DilithiumSigner::sign(const std::vector<uint8_t>& message,
                        const std::vector<uint8_t>& secret_key) {
+#ifdef THEMIS_HAS_OQS
+    OqsSigRAII s(dilithiumAlgName(level_));
+    if (!s.sig) throw std::runtime_error("DilithiumSigner::sign: OQS_SIG_new failed");
+    if (secret_key.size() != s.sig->length_secret_key)
+        throw std::invalid_argument(
+            "DilithiumSigner::sign: unexpected secret key size " +
+            std::to_string(secret_key.size()));
+    std::vector<uint8_t> sig_buf(s.sig->length_signature);
+    size_t sig_len = 0;
+    if (OQS_SIG_sign(s.sig, sig_buf.data(), &sig_len,
+                     message.data(), message.size(), secret_key.data()) != OQS_SUCCESS)
+        throw std::runtime_error("DilithiumSigner::sign: OQS_SIG_sign failed");
+    sig_buf.resize(sig_len);
+    THEMIS_DEBUG("DilithiumSigner::sign (liboqs): msg={}B sig={}B", message.size(), sig_len);
+    return sig_buf;
+#else
+    // PERMANENT FALLBACK: Ed25519 simulation
     if (secret_key.size() != 32) {
         throw std::invalid_argument(
             "DilithiumSigner::sign: unexpected secret key size " +
@@ -505,15 +705,35 @@ DilithiumSigner::sign(const std::vector<uint8_t>& message,
     THEMIS_DEBUG("DilithiumSigner::sign: msg_len={}, sig_len={}",
                  message.size(), sig.size());
     return sig;
+#endif
 }
 
+/**
+ * @brief Verify a Dilithium signature.
+ *
+ * @param message     Original message bytes.
+ * @param signature   Signature to verify.
+ * @param public_key  Signer's Dilithium public key.
+ * @return true if valid, false otherwise.
+ */
 bool DilithiumSigner::verify(const std::vector<uint8_t>& message,
                                const std::vector<uint8_t>& signature,
                                const std::vector<uint8_t>& public_key) {
+#ifdef THEMIS_HAS_OQS
+    OqsSigRAII s(dilithiumAlgName(level_));
+    if (!s.sig || public_key.size() != s.sig->length_public_key) return false;
+    bool ok = (OQS_SIG_verify(s.sig, message.data(), message.size(),
+                               signature.data(), signature.size(),
+                               public_key.data()) == OQS_SUCCESS);
+    THEMIS_DEBUG("DilithiumSigner::verify (liboqs): ok={}", ok);
+    return ok;
+#else
+    // PERMANENT FALLBACK: Ed25519 simulation
     if (public_key.size() != 32) return false;
     bool ok = ed25519_verify(message, signature, public_key);
     THEMIS_DEBUG("DilithiumSigner::verify: ok={}", ok);
     return ok;
+#endif
 }
 
 // ============================================================================
@@ -933,18 +1153,18 @@ HybridEncryption::decryptHybrid(const EncryptedBlob& blob)
 // SPHINCS+ implementation — Phase 7.1
 // ============================================================================
 //
-// STUB/SIMULATION NOTE:
+// PERMANENT FALLBACK NOTE (Ed25519 simulation when THEMIS_HAS_OQS is not set):
 // Purpose:    Provide an API-stable SPHINCS+ interface before liboqs is
 //             integrated. The signing/verification is performed with OpenSSL
-//             Ed25519 (same primitive as the Dilithium sim) so that all
+//             Ed25519 (same primitive as the Dilithium fallback) so that all
 //             callers compile and test against a correct interface.
-// Activation: Always active until liboqs is added to vcpkg.json.
+// Activation: Always active when THEMIS_HAS_OQS is NOT defined.
+//             Build with -DTHEMIS_HAS_OQS=ON (Wave-2 CMake guard) to activate
+//             the real SPHINCS+-SHA2-256s/256f implementation via liboqs.
 // Production Delta: Real SPHINCS+-SHA2-256s/256f from liboqs will produce
 //             hash-tree-based signatures (~8 KB / ~50 KB) rather than the
 //             64-byte Ed25519 signatures emitted here.  Key sizes also differ.
-// Removal Plan: Replace this block with #include <oqs/sig.h> and wire
-//             OQS_SIG_alg_sphincs_sha2_256s once liboqs is a vcpkg dep.
-// Roadmap ref: src/security/FUTURE_ENHANCEMENTS.md § "Stub/Simulation Lifecycle"
+// This Ed25519 simulation is a PERMANENT FALLBACK for no-liboqs builds.
 
 namespace themis {
 namespace security {
@@ -953,16 +1173,17 @@ struct themis::security::SphincsPlus::Impl {
     // Simulation: re-use Ed25519 via EVP_PKEY
 };
 
-// STUB/SIMULATION NOTE:
+// PERMANENT FALLBACK NOTE (SphincsPlus injectable bridge):
 // Purpose:    Allow injection of a real liboqs-backed SphincsPlus implementation
 //             at runtime (for integration tests or phased production rollout),
-//             bypassing the Ed25519 simulation without changing the public API.
+//             bypassing the Ed25519 fallback simulation without changing the public API.
 // Activation: Runtime — when setGenerateKeyPairFn / setSignFn / setVerifyFn is
 //             called with a non-empty function object before the first use.
-// Production Delta: With no fn injected the Ed25519 simulation is used; with a fn
-//             injected the real OQS_SIG_alg_sphincs_sha2_256{s,f} path runs instead.
-// Removal Plan: Remove bridge slots once liboqs is permanently compiled in via vcpkg
-//             and the simulation block is deleted.
+// Production Delta: With no fn injected and THEMIS_HAS_OQS not set, the Ed25519
+//             simulation is used; with a fn injected OR with THEMIS_HAS_OQS set,
+//             the real OQS_SIG_alg_sphincs_sha2_256{s,f} path runs instead.
+// This bridge is PERMANENT — it remains even when liboqs is compiled in, to allow
+// runtime injection of alternative implementations for testing.
 static std::mutex s_sphincs_fn_mutex_;
 static themis::security::SphincsPlus::GenerateKeyPairFn s_generate_key_pair_fn_;
 static themis::security::SphincsPlus::SignFn            s_sign_fn_;
@@ -976,26 +1197,58 @@ themis::security::SphincsPlus::~SphincsPlus() = default;
 themis::security::SphincsPlus::SphincsPlus(SphincsPlus&&) noexcept = default;
 themis::security::SphincsPlus& themis::security::SphincsPlus::operator=(SphincsPlus&&) noexcept = default;
 
+#ifdef THEMIS_HAS_OQS
+namespace {
+/// @brief Select liboqs SPHINCS+ algorithm by variant.
+static const char* sphincsAlgName(themis::security::SphincsPlus::Variant v) noexcept {
+    // SHA2-256s is the recommended conservative parameter set.
+    return (v == themis::security::SphincsPlus::Variant::SHAKE_256f)
+               ? OQS_SIG_alg_sphincs_shake_256f
+               : OQS_SIG_alg_sphincs_sha2_256s;
+}
+} // anonymous namespace
+#endif // THEMIS_HAS_OQS
+
 size_t SphincsPlus::publicKeySize() const noexcept {
-    // Simulation: Ed25519 public key (32 bytes)
-    // Real SPHINCS+-SHA2-256s: 32 bytes  (actual liboqs value)
+#ifdef THEMIS_HAS_OQS
+    OqsSigRAII s(sphincsAlgName(variant_));
+    return s.sig ? s.sig->length_public_key : 0;
+#else
+    // PERMANENT FALLBACK: Ed25519 public key (32 bytes)
     return 32;
+#endif
 }
 
 size_t SphincsPlus::secretKeySize() const noexcept {
-    // Simulation: Ed25519 secret key (64 bytes in OpenSSL representation)
-    // Real SPHINCS+-SHA2-256s: 64 bytes
+#ifdef THEMIS_HAS_OQS
+    OqsSigRAII s(sphincsAlgName(variant_));
+    return s.sig ? s.sig->length_secret_key : 0;
+#else
+    // PERMANENT FALLBACK: Ed25519 secret key (64 bytes in OpenSSL representation)
     return 64;
+#endif
 }
 
 size_t SphincsPlus::signatureSize() const noexcept {
-    // Real values (for documentation):
-    //   SPHINCS+-SHA2-256s: 29 792 bytes
-    //   SPHINCS+-SHA2-256f: 49 856 bytes
-    // Simulation returns Ed25519 signature size (64 bytes).
+#ifdef THEMIS_HAS_OQS
+    OqsSigRAII s(sphincsAlgName(variant_));
+    return s.sig ? s.sig->length_signature : 0;
+#else
+    // PERMANENT FALLBACK: Ed25519 signature (64 bytes).
+    // Real SPHINCS+-SHA2-256s: 29 792 bytes; SPHINCS+-SHA2-256f: 49 856 bytes.
     return 64;
+#endif
 }
 
+/**
+ * @brief Generate a SPHINCS+ key pair.
+ *
+ * When THEMIS_HAS_OQS is defined, uses liboqs OQS_SIG_keypair().
+ * Otherwise falls back to Ed25519 simulation (PERMANENT FALLBACK).
+ *
+ * @return KeyPair with public_key and secret_key.
+ * @throws std::runtime_error on OQS/OpenSSL failure.
+ */
 themis::security::SphincsPlus::KeyPair themis::security::SphincsPlus::generateKeyPair() {
     themis::security::SphincsPlus::GenerateKeyPairFn fn;
     {
@@ -1006,6 +1259,19 @@ themis::security::SphincsPlus::KeyPair themis::security::SphincsPlus::generateKe
         return fn();
     }
 
+#ifdef THEMIS_HAS_OQS
+    OqsSigRAII s(sphincsAlgName(variant_));
+    if (!s.sig) throw std::runtime_error("SphincsPlus::generateKeyPair: OQS_SIG_new failed");
+    KeyPair kp;
+    kp.public_key.resize(s.sig->length_public_key);
+    kp.secret_key.resize(s.sig->length_secret_key);
+    if (OQS_SIG_keypair(s.sig, kp.public_key.data(), kp.secret_key.data()) != OQS_SUCCESS)
+        throw std::runtime_error("SphincsPlus::generateKeyPair: OQS_SIG_keypair failed");
+    THEMIS_DEBUG("SphincsPlus::generateKeyPair (liboqs variant={}) pub={}B sec={}B",
+                 static_cast<int>(variant_), kp.public_key.size(), kp.secret_key.size());
+    return kp;
+#else
+    // PERMANENT FALLBACK: Ed25519 simulation
     EVP_PKEY_CTX_ptr pctx(EVP_PKEY_CTX_new_id(EVP_PKEY_ED25519, nullptr), &EVP_PKEY_CTX_free);
     if (!pctx) throw std::runtime_error("SphincsPlus::generateKeyPair: EVP_PKEY_CTX_new_id failed");
     if (EVP_PKEY_keygen_init(pctx.get()) <= 0)
@@ -1027,6 +1293,7 @@ themis::security::SphincsPlus::KeyPair themis::security::SphincsPlus::generateKe
     THEMIS_DEBUG("SphincsPlus::generateKeyPair (SPHINCSPLUS_SIM variant={}) pub={}B sec={}B",
                  static_cast<int>(variant_), pub_len, sec_len);
     return kp;
+#endif
 }
 
 std::vector<uint8_t> themis::security::SphincsPlus::sign(const std::vector<uint8_t>& message,
