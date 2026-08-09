@@ -3,7 +3,7 @@
 
 # stable_diffusion Module Headers
 
-<!-- Status: current | validated: 2026-05-13 | Primary: include/stable_diffusion/ | Secondary: docs/de/stable_diffusion/ -->
+<!-- Status: current | validated: 2026-08-09 | Primary: include/stable_diffusion/ | Secondary: docs/de/stable_diffusion/ -->
 <!-- Links: ../../src/stable_diffusion/README.md · ../../src/stable_diffusion/ROADMAP.md · ../../src/stable_diffusion/FUTURE_ENHANCEMENTS.md -->
 
 Public headers for Stable Diffusion image-generation plugin integration.
@@ -31,7 +31,7 @@ Public headers for Stable Diffusion image-generation plugin integration.
 - `generateImg2Img(prompt, cfg)` — image-to-image denoising; stub/in-memory generators fall back to text-to-image
 - `isPromptAllowed(prompt) const` — content-policy pre-check without generating
 - `getModelId() const` — active model path or `"stub"`
-- `getPluginVersion() const` — returns `"2.1.0"`
+- `getPluginVersion() const` — returns `"2.3.0"`
 - `getStatistics() const` — JSON: `generation_count`, `blocked_count`, `error_count`, `model_path`
 
 ### `ISDGenerator` / concrete generators (`sd_generator.h`)
@@ -79,6 +79,7 @@ Public headers for Stable Diffusion image-generation plugin integration.
 | `seed` | integer | `-1` | Fixed seed; `-1` = random |
 | `blocked_keywords_file` | string | `""` | Path to plain-text keyword blocklist (one per line) |
 | `negative_prompt` | string | `""` | Negative conditioning text; screened by `SDPromptSanitizer` |
+| `model_sha256` | string | `""` | Optional expected SHA-256 digest for fail-closed model integrity verification |
 
 ## Runtime Behavior, Errors, and Limits
 
@@ -97,10 +98,10 @@ Public headers for Stable Diffusion image-generation plugin integration.
 - **Thread safety**: `generate()`, `generateBatch()`, and `generateImg2Img()` are
   serialized by an internal `std::mutex`. `initialize()` and `shutdown()` are not
   concurrently safe with each other or with generate paths.
-- **`SDCppGenerator` parallel-call safety** depends on `stable-diffusion.cpp`'s own
-  thread model; a dedicated audit is still pending (see ROADMAP.md Phase 5). Until that
-  audit is complete, externally serialize all concurrent calls to the same `SDPlugin`
-  instance when `SDCppGenerator` is active.
+- **`SDCppGenerator` parallel calls** are serialized within the generator instance and
+  validated by an opt-in real-backend concurrency audit test target
+  (`SDPluginRealBackendE2ETests`); external deployment policy may still choose stricter
+  process-level serialization depending on GPU runtime constraints.
 - **Provenance stamps** (`plugin_version`, `generation_timestamp`, `prompt_hash`) are
   always set by `SDPlugin` on every result path regardless of generator implementation.
 - **`prompt_hash`** uses FNV-1a 64-bit (not cryptographic; the algorithm is fixed across
@@ -205,8 +206,9 @@ target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
 - [`../../src/stable_diffusion/README.md`](../../src/stable_diffusion/README.md) — implementation overview and quick start
 - [`../../src/stable_diffusion/ARCHITECTURE.md`](../../src/stable_diffusion/ARCHITECTURE.md) — component diagram and data-flow
 - [`../../src/stable_diffusion/ROADMAP.md`](../../src/stable_diffusion/ROADMAP.md) — delivery status and planned features
-- [`../../src/stable_diffusion/FUTURE_ENHANCEMENTS.md`](../../src/stable_diffusion/FUTURE_ENHANCEMENTS.md) — planned enhancements (ControlNet, LoRA, pHash)
+- [`../../src/stable_diffusion/FUTURE_ENHANCEMENTS.md`](../../src/stable_diffusion/FUTURE_ENHANCEMENTS.md) — remaining hardening and E2E follow-ups
 - [`../../src/stable_diffusion/SECURITY.md`](../../src/stable_diffusion/SECURITY.md) — module security notes
+- [`../../src/stable_diffusion/PRODUCTION_REQUIREMENTS.md`](../../src/stable_diffusion/PRODUCTION_REQUIREMENTS.md) — production gates and release criteria
 - [`../../src/stable_diffusion/PERFORMANCE_EXPECTATIONS.md`](../../src/stable_diffusion/PERFORMANCE_EXPECTATIONS.md) — benchmark expectations
 - [`../../docs/en/stable_diffusion/index.md`](../../docs/en/stable_diffusion/index.md) — English secondary overview
 - [`../../docs/de/stable_diffusion/index.md`](../../docs/de/stable_diffusion/index.md) — Deutsche Sekundärübersicht

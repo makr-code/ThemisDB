@@ -26,7 +26,7 @@ For runtime composition and implementation internals see:
 
 | Header | Public Type | Purpose |
 |--------|------------|---------|
-| `sd_generator.h` | `SDGenerator` | Stable Diffusion image generation engine |
+| `sd_generator.h` | `ISDGenerator`, `SDStubGenerator`, `InMemorySDGenerator`, `SDCppGenerator` | Stable Diffusion generation backends |
 | `sd_config.h` | `SDConfig` | Stable Diffusion configuration |
 | `sd_prompt_sanitizer.h` | `SDPromptSanitizer` | Prompt safety and sanitisation for SD |
 | `sd_plugin.h` | `SDPlugin` | SD plugin contract |
@@ -36,7 +36,7 @@ For runtime composition and implementation internals see:
 
 ## 3. Namespace Layout
 
-All public types reside in the `themis::stable_diffusion` namespace (or a sub-namespace).
+All public types reside in the `themis::imggen` namespace.
 
 ---
 

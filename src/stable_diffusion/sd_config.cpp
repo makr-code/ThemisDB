@@ -34,6 +34,7 @@ SDConfig SDConfig::fromJson(const json& j) {
     if (j.contains("seed"))                  cfg.seed                  = j["seed"].get<int64_t>();
     if (j.contains("blocked_keywords_file")) cfg.blocked_keywords_file = j["blocked_keywords_file"].get<std::string>();
     if (j.contains("negative_prompt"))       cfg.negative_prompt       = j["negative_prompt"].get<std::string>();
+    if (j.contains("model_sha256"))          cfg.model_sha256          = j["model_sha256"].get<std::string>();
     if (cfg.width  < 1) cfg.width  = 512;
     if (cfg.height < 1) cfg.height = 512;
     if (cfg.steps  < 1) cfg.steps  = 1;
@@ -50,10 +51,10 @@ json SDConfig::toJson() const {
         {"sampler",               sampler},
         {"seed",                  seed},
         {"blocked_keywords_file", blocked_keywords_file},
-        {"negative_prompt",       negative_prompt}
+        {"negative_prompt",       negative_prompt},
+        {"model_sha256",          model_sha256}
     };
 }
 
 } // namespace imggen
 } // namespace themis
-

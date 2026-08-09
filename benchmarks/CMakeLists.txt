@@ -5231,6 +5231,10 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugins/CMakeLists.txt")
     add_subdirectory(plugins)
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/stable_diffusion/CMakeLists.txt")
+    add_subdirectory(stable_diffusion)
+endif()
+
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rpc_grpc/CMakeLists.txt")
     add_subdirectory(rpc_grpc)
 endif()

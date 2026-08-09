@@ -58,6 +58,8 @@
 #include <cstdint>
 #include <string>
 
+#include "utils/retry_contract.h"
+
 namespace themis {
 namespace failover {
 
@@ -193,6 +195,30 @@ enum class FailoverErrorCode : int {
     return code == FailoverErrorCode::SPLIT_BRAIN_DETECTED
         || code == FailoverErrorCode::QUORUM_UNAVAILABLE
         || code == FailoverErrorCode::INTERNAL_ERROR;
+}
+
+/**
+ * @brief Returns true for failover errors that indicate retry escalation paths.
+ */
+[[nodiscard]] inline constexpr bool isRetryEscalationCode(FailoverErrorCode code) noexcept {
+    return code == FailoverErrorCode::ELECTION_TIMEOUT
+        || code == FailoverErrorCode::STATE_SYNC_TIMEOUT
+        || code == FailoverErrorCode::NODE_REJOIN_FAILED;
+}
+
+/**
+ * @brief Map failover errors to canonical timeout-source taxonomy.
+ */
+[[nodiscard]] inline constexpr themis::utils::RetryTimeoutSource toRetryTimeoutSource(
+    FailoverErrorCode code) noexcept {
+    if (code == FailoverErrorCode::ELECTION_TIMEOUT
+        || code == FailoverErrorCode::STATE_SYNC_TIMEOUT) {
+        return themis::utils::RetryTimeoutSource::OVERALL;
+    }
+    if (code == FailoverErrorCode::QUORUM_UNAVAILABLE) {
+        return themis::utils::RetryTimeoutSource::QUORUM;
+    }
+    return themis::utils::RetryTimeoutSource::NONE;
 }
 
 // ============================================================================

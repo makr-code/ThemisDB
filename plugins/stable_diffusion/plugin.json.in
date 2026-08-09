@@ -7,9 +7,9 @@
   "license": "MIT",
   "capabilities": {
     "supports_streaming": false,
-    "supports_batching": false,
+    "supports_batching": true,
     "supports_transactions": false,
-    "thread_safe": false,
+    "thread_safe": true,
     "gpu_accelerated": false
   },
   "dependencies": {

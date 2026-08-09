@@ -39,8 +39,8 @@ namespace imggen {
  *
  * All generated images receive mandatory provenance fields:
  *  - generation_timestamp (Unix epoch ms)
- *  - prompt_hash          (SHA-256 hex of the sanitised prompt)
- *  - plugin_version       "2.1.0"
+ *  - prompt_hash          (FNV-1a 64-bit hex of the sanitised prompt)
+ *  - plugin_version       "2.3.0"
  *
  * Thread safety: generate(), generateBatch(), and generateImg2Img() are
  * serialised by an internal mutex.  Statistics counters are updated atomically
@@ -51,12 +51,30 @@ public:
     /** Default constructor – uses SDStubGenerator (no model required). */
     SDPlugin();
 
-    /** Injection constructor for tests. */
+    /**
+     * @brief Construct the plugin with an injected generator and baseline sanitizer.
+     *
+     * The provided sanitizer remains the fallback policy across repeated
+     * initialize() calls unless a non-empty `blocked_keywords_file` is supplied
+     * in the runtime config.
+     */
     SDPlugin(std::unique_ptr<ISDGenerator> generator, SDPromptSanitizer sanitizer);
 
     ~SDPlugin() override = default;
 
     // ── IImageGenerationBackend ────────────────────────────────────────────
+    /**
+     * @brief Initialize the plugin for stub or real-backend generation.
+     *
+     * @param model_path Optional backend model path. Empty paths keep the
+     *        plugin in stub mode when the active generator supports it.
+     * @param config Runtime configuration. When `blocked_keywords_file` is
+     *        present and non-empty, it overrides the constructor-provided
+     *        sanitizer for this initialization cycle; otherwise the baseline
+     *        sanitizer is restored.
+     * @return true when the active generator initializes successfully;
+     *         false on integrity-check failure or generator init failure.
+     */
     bool initialize(const std::string& model_path,
                     const nlohmann::json& config) override;
 
@@ -91,12 +109,13 @@ public:
     bool isPromptAllowed(const std::string& prompt) const override;
 
     std::string getModelId() const override;
-    std::string getPluginVersion() const override { return "2.1.0"; }
+    std::string getPluginVersion() const override { return "2.3.0"; }
     nlohmann::json getStatistics() const override;
 
 private:
     mutable std::mutex            generate_mutex_;
     std::unique_ptr<ISDGenerator> generator_;
+    SDPromptSanitizer             base_sanitizer_;
     SDPromptSanitizer             sanitizer_;
     bool     initialized_ = false;
     uint64_t generation_count_ = 0;
@@ -107,8 +126,18 @@ private:
     // Internal helper: run generate without locking (caller holds generate_mutex_)
     GeneratedImage generateLocked(const std::string& prompt,
                                    const SDGenerationConfig& cfg);
+    GeneratedImage generateImg2ImgLocked(const std::string& prompt,
+                                         const Img2ImgConfig& cfg);
+    static bool validateGenerationDimensions(int width, int height, std::string& error_out);
+    static bool validateRgbBufferShape(const std::vector<uint8_t>& rgb,
+                                       int width,
+                                       int height,
+                                       std::string& error_out);
+    static std::string normalizeLowerHex(const std::string& hex);
 
     static std::string sha256Hex(const std::string& input);
+    static std::optional<std::string> computePerceptualHash(const std::vector<uint8_t>& rgb,
+                                                            int width, int height) noexcept;
     static std::vector<uint8_t> encodeMinimalPng(const std::vector<uint8_t>& rgb,
                                                   int width, int height);
 };

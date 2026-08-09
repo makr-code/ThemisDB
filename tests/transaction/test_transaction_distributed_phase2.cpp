@@ -473,3 +473,19 @@ TEST_F(TransactionDistributedPhase2Test, StressTest_HighContentionWithAbortingPa
         << "All operations should complete";
     GTEST_LOG_(INFO) << "High-contention stress: " << completed << " operations completed";
 }
+
+TEST(TransactionDistributedPhase2Contract, DistributedTxnStatusCarriesCanonicalRetryMetadata) {
+    auto status = DistributedTxnStatus::Error(
+        "prepare timed out",
+        2,
+        themis::utils::RetryExhaustionReason::MAX_ATTEMPTS_REACHED,
+        themis::utils::RetryTimeoutSource::OVERALL,
+        "txn-retry-001");
+
+    EXPECT_FALSE(status.ok);
+    EXPECT_EQ(status.retry_count, 2u);
+    EXPECT_EQ(status.exhaustion_reason,
+              themis::utils::RetryExhaustionReason::MAX_ATTEMPTS_REACHED);
+    EXPECT_EQ(status.timeout_source, themis::utils::RetryTimeoutSource::OVERALL);
+    EXPECT_EQ(status.correlation_id, "txn-retry-001");
+}

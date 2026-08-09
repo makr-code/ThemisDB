@@ -1,7 +1,7 @@
 > **Build (Linux):** `cmake --preset linux-release && cmake --build --preset linux-release`<br>
 > **Build (Windows):** `cmake --preset windows-release && cmake --build --preset windows-release`
 
-<!-- Status: current | validated: 2026-05-13 | Primary: src/stable_diffusion/ -->
+<!-- Status: current | validated: 2026-08-09 | Primary: src/stable_diffusion/ -->
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # Stable Diffusion Image Generation Plugin
@@ -24,9 +24,8 @@ before reaching the generator. Blocked prompts return a `GeneratedImage` with
 **In scope:** Text-to-image generation, prompt sanitization, content-policy keyword filtering,
 PNG output encoding, provenance stamp injection, per-generation statistics.
 
-**Out of scope:** Video/animation generation (future), ControlNet / LoRA for diffusion models
-(future), image upscaling (external), integration with the document storage pipeline
-(handled by `document` module).
+**Out of scope:** Video/animation generation, image upscaling (external),
+integration with the document storage pipeline (handled by `document` module).
 
 ## Relevant Interfaces
 
@@ -38,7 +37,7 @@ PNG output encoding, provenance stamp injection, per-generation statistics.
 
 ## Current Delivery Status
 
-**Maturity:** 🟡 Beta (v2.2.0) — Core pipeline operational in stub mode and with optional
+**Maturity:** 🟡 Beta (v2.3.0) — Core pipeline operational in stub mode and with optional
 real inference when `THEMIS_ENABLE_STABLE_DIFFUSION=ON` and a model file is present.
 
 ## Quick Start
@@ -95,10 +94,14 @@ cmake -B build -DTHEMIS_ENABLE_STABLE_DIFFUSION=ON
 
 | Suite | Count | Labels |
 |---|---|---|
-| `SDPluginFocusedTests` | 51 | `plugins;stable_diffusion;image_generation;v2.2.0` |
+| `SDPluginFocusedTests` | 62 | `plugins;stable_diffusion;image_generation;v2.3.0` |
+| `SDPluginRegistrarTests` | 12 | `plugins;stable_diffusion;image_generation;registrar;v2.3.0` |
+| `SDPluginRealBackendE2ETests` | 2 | `plugins;stable_diffusion;image_generation;e2e;real_backend;v2.3.0` (opt-in) |
 
 ```bash
-ctest -R SDPluginFocusedTests --output-on-failure
+ctest -R "SDPlugin(Focused|Registrar)Tests" --output-on-failure
+# real-backend opt-in:
+# THEMIS_SD_E2E_MODEL_PATH=/path/to/model.gguf ctest -R SDPluginRealBackendE2ETests --output-on-failure
 ```
 
 ## Dependencies
@@ -114,9 +117,10 @@ Every `GeneratedImage` carries:
 
 | Field | Value |
 |---|---|
-| `plugin_version` | `"2.0.0"` |
+| `plugin_version` | `"2.3.0"` |
 | `generation_timestamp` | Unix epoch milliseconds |
 | `prompt_hash` | FNV-1a 64-bit hex of sanitised prompt |
+| `perceptual_hash` | optional 64-bit perceptual hash (non-fatal if unavailable) |
 | `model_id` | model path or `"stub"` |
 
 ## Installation
@@ -133,8 +137,9 @@ See [`../../include/stable_diffusion/README.md`](../../include/stable_diffusion/
 - [`../../include/stable_diffusion/README.md`](../../include/stable_diffusion/README.md) — public API reference (headers, config, usage, troubleshooting)
 - [`ARCHITECTURE.md`](./ARCHITECTURE.md) — component diagram and data-flow
 - [`ROADMAP.md`](./ROADMAP.md) — delivery status and planned features
-- [`FUTURE_ENHANCEMENTS.md`](./FUTURE_ENHANCEMENTS.md) — planned enhancements (ControlNet, LoRA, pHash)
+- [`FUTURE_ENHANCEMENTS.md`](./FUTURE_ENHANCEMENTS.md) — remaining hardening and E2E follow-ups
 - [`SECURITY.md`](./SECURITY.md) — module security notes
+- [`PRODUCTION_REQUIREMENTS.md`](./PRODUCTION_REQUIREMENTS.md) — production gates and release criteria
 - [`PERFORMANCE_EXPECTATIONS.md`](./PERFORMANCE_EXPECTATIONS.md) — benchmark expectations
 - [`../../docs/en/stable_diffusion/index.md`](../../docs/en/stable_diffusion/index.md) — English secondary overview
 - [`../../docs/de/stable_diffusion/index.md`](../../docs/de/stable_diffusion/index.md) — Deutsche Sekundärübersicht
