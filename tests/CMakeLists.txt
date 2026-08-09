@@ -20179,6 +20179,46 @@ if(THEMIS_PLUGIN_IMAGE_ANALYSIS_ONNX AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/onn
         message(STATUS "ONNX CLIP Plugin contract-hardening focused tests not found")
     endif()
 
+    # ONNX CLIP Golden Embeddings Integration Tests (OCP-IT-01..08)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp")
+        message(STATUS "Adding ONNX CLIP golden embeddings integration tests (Phase 1A)")
+
+        add_executable(test_onnx_clip_golden_embeddings_focused
+            onnx_clip/test_onnx_clip_golden_embeddings_focused.cpp
+            ${THEMIS_ROOT_DIR}/src/onnx_clip/onnx_clip_plugin.cpp
+        )
+
+        target_include_directories(test_onnx_clip_golden_embeddings_focused PRIVATE
+            ${THEMIS_ROOT_DIR}/include
+            ${THEMIS_ROOT_DIR}/src
+            ${THEMIS_ROOT_DIR}/src/onnx_clip
+        )
+
+        target_link_libraries(test_onnx_clip_golden_embeddings_focused PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            nlohmann_json::nlohmann_json
+            Threads::Threads
+            onnxruntime::onnxruntime
+        )
+
+        target_compile_definitions(test_onnx_clip_golden_embeddings_focused PRIVATE
+            THEMIS_TEST_BUILD=1
+            THEMIS_IMAGE_PLUGIN_DISABLE_EXPORT=1
+        )
+
+        add_test(NAME OnnxClipGoldenEmbeddingsTests COMMAND test_onnx_clip_golden_embeddings_focused)
+
+        set_tests_properties(OnnxClipGoldenEmbeddingsTests PROPERTIES
+            LABELS "image-analysis;onnx;clip;golden;embeddings;integration;deterministic;OCP-IT-01;OCP-IT-02;OCP-IT-03;OCP-IT-04;OCP-IT-05;OCP-IT-06;OCP-IT-07;OCP-IT-08"
+            TIMEOUT 120
+        )
+
+        message(STATUS "  ONNXClipGoldenEmbeddings: OCP-IT-01..02 (init), OCP-IT-03..04 (generation), OCP-IT-05..06 (quality), OCP-IT-07..08 (reproducibility)")
+    else()
+        message(STATUS "ONNX CLIP golden embeddings integration tests not found")
+    endif()
+
 elseif(NOT THEMIS_PLUGIN_IMAGE_ANALYSIS_ONNX)
     message(STATUS "ONNX CLIP Plugin tests skipped (THEMIS_PLUGIN_IMAGE_ANALYSIS_ONNX disabled)")
 else()

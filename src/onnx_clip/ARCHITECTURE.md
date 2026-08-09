@@ -161,9 +161,107 @@ BackendType::AUTO:
 
 ---
 
-## 9. Known Limitations
+## 9. v0.3.0 Enhancements (In Progress)
 
+### 9.1 Dynamic Model Hot-Swap (Phase 3)
+
+**New Method:** `bool reloadModel(const PluginConfig& new_config)`
+
+**State Machine:**
+```
+[Ready] ─── reloadModel() ──→ [Loading] ──→ [Validation] ──→ [Activation]
+   ↑                                                              ↓
+   └──────────────────────────────────────────────────────────[Ready]
+   
+   On failure: [Loading] → [Error] → (restore old) → [Ready with old]
+```
+
+**Key Features:**
+- In-flight requests complete with old model before swap
+- 30-second timeout for graceful drain of pending requests
+- Atomic swap: old model destroyed only after new one ready
+- Exception-safe: RAII guards for in-flight counter
+- Automatic rollback on new model load failure
+
+**Concurrency Model:**
+```cpp
+impl_->in_flight_requests_++;  // Track concurrent calls
+// ... perform inference ...
+impl_->in_flight_requests_--;  // RAII guard ensures decrement
+```
+
+**Configuration:**
+```json
+{
+  "model": {
+    "name": "clip-vit-large-patch14",
+    "path": "/models/clip-vit-l-14.onnx"
+  }
+}
+```
+
+---
+
+### 9.2 Memory-Mapped Model Loading (Phase 4)
+
+**New Config Key:** `enable_mmap_loading` (boolean, default: `false`)
+
+**Implementation Strategy:**
+```
+Traditional Load:                Memory-Mapped Load:
+File → Read into heap (copy)     File → mmap() view → ONNX Session
+ ↓                                ↓
+Peak memory: full model size     Peak memory: metadata only
+ ↓                                ↓
+Runtime: models are in RAM       Runtime: lazy page faults
+                                           (but still in RAM once used)
+```
+
+**Platform Support:**
+- **Linux:** `mmap(fd, MAP_SHARED | MAP_NORESERVE)` for read-only access
+- **Windows:** `CreateFileMapping()` + `MapViewOfFile(PAGE_READONLY)`
+- **macOS:** BSD `mmap()` variant
+- **Fallback:** Traditional heap loading on unsupported platforms
+
+**Memory Savings (Estimated):**
+- ViT-B/32 (83 MB): ~10-15% reduction (small overhead)
+- ViT-L/14 (768 MB): ~30-40% reduction (large model, heap fragmentation saved)
+
+**Lifecycle:**
+```cpp
+// In ONNXClipPlugin::Impl
+void* mmap_ptr_{nullptr};      // Mapped region pointer
+size_t mmap_size_{0};          // Mapped size
+int mmap_fd_{-1};              // Linux file descriptor
+HANDLE mmap_file_handle_;      // Windows handle
+
+~Impl() {
+    // Unmap and close file handles
+    if (mmap_ptr_) munmap(mmap_ptr_, mmap_size_);  // Linux
+    // or UnmapViewOfFile(mmap_ptr_);  // Windows
+}
+```
+
+**Configuration:**
+```json
+{
+  "model": {
+    "enable_mmap_loading": true,
+    "path": "/models/clip-vit-large-patch14.onnx"
+  }
+}
+```
+
+---
+
+## 10. Known Limitations & Future Work
+
+### Current (v0.2.0)
 - `generateEmbeddingBatch()` is implemented as sequential single calls; native
-  batched ONNX session execution is planned for v0.1.0.
-- Text-side CLIP embeddings (`text_encoder` model) are not yet implemented.
+  batched ONNX session execution is planned for Phase 5 (post-Q1 2027).
 - DirectML backend requires Windows; on Linux `BackendType::DirectML` falls back to CPU.
+
+### Planned (v0.3.0)
+- Dynamic model hot-swap (Phase 3): Reload models without server restart
+- Memory-mapped model loading (Phase 4): Reduce peak memory for large models
+- Native batched inference (Phase 5, optional): True batched ONNX session calls
