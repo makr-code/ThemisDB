@@ -80,7 +80,14 @@ enum class ErrorCode {
     UNSUPPORTED = 10,
     TRANSACTION_ABORTED = 11,
     CONSTRAINT_VIOLATION = 12,
-    DEADLOCK = 13
+    DEADLOCK = 13,
+    /// Adapter dispatch failed: query/command could not be forwarded to the
+    /// backend engine.  Non-retryable unless the underlying cause is transient.
+    DISPATCH_FAILED = 14,
+    /// Capability mismatch: the adapter does not support a feature required by
+    /// the caller (e.g., vector search on a relational-only backend).
+    /// Non-retryable; the caller must reconfigure or select a different adapter.
+    CAPABILITY_MISMATCH = 15
 };
 
 // Minimal capability enum for shim mode is defined below when the external
