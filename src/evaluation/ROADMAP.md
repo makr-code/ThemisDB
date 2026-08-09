@@ -90,7 +90,7 @@ Current evidence state for this issue:
 - [x] runtime policy/error behavior CODE AUDIT VERIFIED complete (Phase 3 implementation verified 2026-08-08)
   - See AUDIT.md for detailed code-level verification of fail-closed behavior, error handling, and downgrade paths
 - [ ] executable build/test evidence is refreshed for the current validation cycle
-  - Blocked by build environment (vcpkg toolchain not bootstrapped); see justified gap in MODULE_EVIDENCE.md
+  - Blocked by build environment (vcpkg checkout missing/uninitialized — `vcpkg/scripts/buildsystems/vcpkg.cmake` not present); see justified gap in MODULE_EVIDENCE.md
 - [ ] benchmark guardrails are captured from measured runs
   - Blocked by build environment; see justified gap in MODULE_EVIDENCE.md
 - [x] default workflow integration remains disabled until Phases 3-6 pass

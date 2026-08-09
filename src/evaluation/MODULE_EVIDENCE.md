@@ -97,7 +97,7 @@ registration section for the targets that are presently declared in CMake.
 - [x] Roadmap/future/audit/security/performance docs refreshed for issue #5643
 - [x] Source/test/benchmark registration paths verified in source
 - [x] Phase 3 code audit VERIFIED COMPLETE (query_planner.cc, retrieval_metrics.cc, approximation_rules.cc, artifact_lifecycle.cc all implement fail-closed error handling)
-- [~] Fresh executable build/test evidence remains blocked by build environment (vcpkg not bootstrapped)
+- [~] Fresh executable build/test evidence remains blocked by build environment (vcpkg checkout missing/uninitialized)
   - **See JUSTIFIED_GAP.md for detailed code audit results and path to closure**
 - [ ] New executable run evidence for focused module targets captured for this cycle
   - BLOCKED: Build environment prerequisites not met (vcpkg toolchain or system GTest/Google Benchmark)
@@ -105,8 +105,8 @@ registration section for the targets that are presently declared in CMake.
 
 ## Current Environment Status (2026-08-08)
 
-- Configure attempt: ❌ FAILED (vcpkg toolchain not bootstrapped)
-- Required for success: vcpkg bootstrap OR system packages (libgtest-dev, google-benchmark-dev)
+- Configure attempt: ❌ FAILED (repo-local vcpkg checkout missing/uninitialized — `vcpkg/scripts/buildsystems/vcpkg.cmake` not present)
+- Required for success: initialize/clone vcpkg submodule and bootstrap, OR install system packages (libgtest-dev, google-benchmark-dev)
 - Code readiness: ✅ VERIFIED complete for Phase 3
 - Production impact: NO CODE DEFECTS; environment-only blocker
 - [ ] Benchmark-backed guardrail evidence captured for this cycle

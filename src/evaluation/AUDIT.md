@@ -46,8 +46,8 @@
 
 2. [EVAL-AUD-02] Current-cycle executable build/test evidence is BLOCKED by build environment.
 - Severity: medium (no code defect; dependency/environment issue)
-- Evidence: 2026-08-08 configure attempt with community-release-allow-missing-rocksdb preset failed at vcpkg toolchain not bootstrapped.
-- Action: Once vcpkg is bootstrapped or system packages installed, execute focused test targets and append results to MODULE_EVIDENCE.md.
+- Evidence: 2026-08-08 configure attempt with community-release-allow-missing-rocksdb preset failed because the repo-local vcpkg checkout is missing/uninitialized (`vcpkg/scripts/buildsystems/vcpkg.cmake` not present).
+- Action: Once the vcpkg submodule is initialized/cloned and bootstrapped (or system packages installed), execute focused test targets and append results to MODULE_EVIDENCE.md.
 
 3. [EVAL-AUD-03] Benchmark gate definitions PENDING; benchmark sources exist.
 - Severity: medium
@@ -59,7 +59,7 @@
 - EPIC 2 contract ownership and file mapping are documented.
 - Evaluation governance docs now acknowledge live source, test, and benchmark surfaces instead of scaffold-only status.
 - Production requirements are documented in `PRODUCTION_REQUIREMENTS.md`.
-- Phase 3 error handling code AUDIT VERIFIED complete across all five surfaces.
+- Phase 3 error handling code AUDIT VERIFIED complete across all four surfaces.
 
 ## Compliance Snapshot
 

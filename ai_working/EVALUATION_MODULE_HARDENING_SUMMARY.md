@@ -59,7 +59,7 @@ Performed comprehensive source-code audit of all EPIC 2 evaluation surfaces to v
 
 Analyzed build environment blocker and created `JUSTIFIED_GAP.md` (6.6K):
 
-**Root Cause:** vcpkg toolchain not bootstrapped; system packages not installed
+**Root Cause:** The repo-local vcpkg checkout is missing/uninitialized (`vcpkg/scripts/buildsystems/vcpkg.cmake` does not exist); system packages not installed
 
 **Impact:** Cannot generate executable evidence (tests, benchmarks) for current cycle
 
@@ -240,7 +240,7 @@ The problem statement said "Audit unterschätzt" (audit underestimated). This wa
 2. ✅ Reference JUSTIFIED_GAP.md and PHASE_4_6_ACCEPTANCE_CHECKLIST.md in issue #5643
 
 ### Short-term (When Build Environment Available)
-1. Set up build environment (vcpkg bootstrap or install system packages)
+1. Set up build environment (initialize/clone vcpkg submodule and bootstrap, or install system packages)
 2. Execute Phase 4 tests using criteria in PHASE_4_6_ACCEPTANCE_CHECKLIST.md
 3. Execute Phase 5 benchmarks and establish guardrails
 4. Update ROADMAP.md, AUDIT.md, MODULE_EVIDENCE.md with results

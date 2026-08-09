@@ -8,7 +8,7 @@
 
 Phase 3 code audit is **COMPLETE** and **VERIFIED** (2026-08-08). Runtime error handling, fail-closed behavior, and policy enforcement are fully implemented across all EPIC 2 evaluation surfaces.
 
-However, **executable evidence** (build, test, benchmark runs) cannot be generated in the current environment due to a **build environment blocker** (vcpkg toolchain not bootstrapped).
+However, **executable evidence** (build, test, benchmark runs) cannot be generated in the current environment due to a **build environment blocker** (vcpkg checkout missing/uninitialized).
 
 This document justifies why the evidence gap is not a code defect and provides the path to closure.
 
@@ -71,7 +71,7 @@ CMake Error at CMakeLists.txt:91 (message):
     /home/runner/work/ThemisDB/ThemisDB/vcpkg/scripts/buildsystems/vcpkg.cmake
 ```
 
-**vcpkg is not bootstrapped** and system packages (GTest, Google Benchmark) are not installed on the current environment.
+**The repo-local vcpkg checkout is missing/uninitialized** (the `vcpkg/scripts/buildsystems/vcpkg.cmake` file does not exist because the `vcpkg` submodule has not been initialized or cloned). System packages (GTest, Google Benchmark) are also not installed on the current environment.
 
 ### Impact
 
@@ -104,7 +104,7 @@ cd vcpkg && .\bootstrap-vcpkg.bat  # Windows
 cmake --preset linux-release   # or windows-release, etc.
 ```
 
-Once vcpkg is bootstrapped and packages installed:
+Once vcpkg is initialized and packages installed:
 ```bash
 cmake --build build-gcc-linux-release --target module_epic2_evaluation_*_focused
 ctest --preset linux-release -R "epic2_evaluation" -V
@@ -141,7 +141,7 @@ Once the environment is set up and evidence is generated:
 6. [ ] `ablation_framework_test` — PASS
 7. [ ] `test_query_planner_cache` — PASS (P3-01..P3-28 focused tests)
 8. [ ] `planner_decision_bench` — baseline latency ≤ guardrail (TBD after run)
-9. [ ] `benchmark_matrix_bench` — baseline throughput ≤ guardrail (TBD after run)
+9. [ ] `benchmark_matrix_bench` — baseline throughput ≥ guardrail (TBD after run)
 10. [ ] Benchmark evidence appended to MODULE_EVIDENCE.md with measured gates
 
 Once all 10 criteria are satisfied:
@@ -159,4 +159,4 @@ Once all 10 criteria are satisfied:
 
 ---
 
-**Next Step:** Once CI environment is available or vcpkg is bootstrapped, re-run configure and execute focused test/benchmark targets to generate executable evidence.
+**Next Step:** Once CI environment is available or the vcpkg checkout is initialized and bootstrapped, re-run configure and execute focused test/benchmark targets to generate executable evidence.

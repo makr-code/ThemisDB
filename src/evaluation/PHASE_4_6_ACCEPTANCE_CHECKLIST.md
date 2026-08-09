@@ -162,11 +162,13 @@ Execute all benchmark targets and capture measured baselines. Benchmarks should 
   - [ ] Baseline captured (e.g., "HNSW: 50K ops/s, DiskANN: 25K ops/s")
   - [ ] Evidence: full benchmark output captured with timestamp
 
-#### Benchmark Target: planner_decision_bench (artifact staleness variant)
+#### Benchmark Target: artifact_staleness_bench
 
 - **Source:** `benchmarks/epic2_evaluation/artifact_staleness_bench.cc`
 - **Description:** Artifact staleness detection latency measurement
+- **Note:** `artifact_staleness_bench` is not yet wired as a CMake target in `benchmarks/epic2_evaluation/CMakeLists.txt`. Before this benchmark can be built and executed, it must be registered (e.g., added to `EPIC2_EVALUATION_PLANNED_BENCHMARKS` or given an explicit `add_executable` block similar to `planner_decision_bench`).
 - **Acceptance:**
+  - [ ] CMake target registered in `benchmarks/epic2_evaluation/CMakeLists.txt`
   - [ ] Benchmark builds without errors
   - [ ] Measurement: staleness detection time (e.g., "age check, residual check, delta lag check")
   - [ ] Baseline captured
