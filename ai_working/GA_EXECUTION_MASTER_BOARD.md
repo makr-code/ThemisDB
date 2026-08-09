@@ -19,7 +19,7 @@ Execute the complete "Full Open Implementation" roadmap for ThemisDB v2.4.0-rc1 
 |-------|------|--------|--------|-----------|-------|
 | **0** | Release Baseline | 2026-07 | ✅ COMPLETE | Wave 7 PASS | Infrastructure |
 | **1** | Top-Risk Module Hardening | 2026-08 | 🟡 ACTIVE | No new CRITICAL | Server/LLM teams |
-| **2** | Performance & Scalability | 2026-09 | 🔵 PLANNED | Wave-7 non-regression | Graph team |
+| **2** | Performance & Scalability | 2026-09 | 🟡 ACTIVE | Wave-7 non-regression | Graph team |
 | **3** | Integration & Resilience | 2026-09 | 🔵 PLANNED | release_critical green | Integration team |
 | **4** | Security & Compliance | 2026-10 | 🔵 PLANNED | No new CRITICAL findings | Security team |
 | **5** | Operational Production Readiness | 2026-10 | 🔵 PLANNED | 99.99% SLA validated | Operations/SRE |
@@ -93,14 +93,16 @@ Execute the complete "Full Open Implementation" roadmap for ThemisDB v2.4.0-rc1 
 
 ## 🔄 Upcoming Phases (Planned)
 
-### Phase 2 — Performance & Scalability Readiness (2026-09)
+### Phase 2 — Performance & Scalability Readiness (2026-09) 🟡 ACTIVE
+
+**Target:** 2026-09-30 | **Hard Gate:** Wave-7 non-regression (no regression > 5% on any metric) + all 5 components PASS
 
 | Component | Target | Status | Owner |
 |-----------|--------|--------|-------|
 | P3-01: Query optimizer | 2026-09-10 | 🔵 PLANNED | Graph team |
 | P3-02: Cache efficiency | 2026-09-10 | 🔵 PLANNED | Graph team |
-| P3-03: Resource pooling | 2026-09-17 | 🔵 PLANNED | Graph team |
-| P3-04: Load balancing | 2026-09-24 | 🔵 PLANNED | Graph team |
+| P3-03: Resource pooling | 2026-09-17 | 🔵 PLANNED | Platform team |
+| P3-04: Load balancing | 2026-09-24 | 🔵 PLANNED | Sharding team |
 | P3-05: Wave-7 re-verification | 2026-09-30 | 🔵 PLANNED | Performance team |
 | Phase 2 exit gate | 2026-09-30 | 🔵 PLANNED | Orchestrator |
 
