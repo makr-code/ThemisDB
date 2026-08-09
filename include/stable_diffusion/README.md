@@ -31,7 +31,7 @@ Public headers for Stable Diffusion image-generation plugin integration.
 - `generateImg2Img(prompt, cfg)` — image-to-image denoising; stub/in-memory generators fall back to text-to-image
 - `isPromptAllowed(prompt) const` — content-policy pre-check without generating
 - `getModelId() const` — active model path or `"stub"`
-- `getPluginVersion() const` — returns `"2.2.0"`
+- `getPluginVersion() const` — returns `"2.3.0"`
 - `getStatistics() const` — JSON: `generation_count`, `blocked_count`, `error_count`, `model_path`
 
 ### `ISDGenerator` / concrete generators (`sd_generator.h`)

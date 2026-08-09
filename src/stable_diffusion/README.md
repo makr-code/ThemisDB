@@ -37,7 +37,7 @@ integration with the document storage pipeline (handled by `document` module).
 
 ## Current Delivery Status
 
-**Maturity:** 🟡 Beta (v2.2.0) — Core pipeline operational in stub mode and with optional
+**Maturity:** 🟡 Beta (v2.3.0) — Core pipeline operational in stub mode and with optional
 real inference when `THEMIS_ENABLE_STABLE_DIFFUSION=ON` and a model file is present.
 
 ## Quick Start
@@ -94,9 +94,9 @@ cmake -B build -DTHEMIS_ENABLE_STABLE_DIFFUSION=ON
 
 | Suite | Count | Labels |
 |---|---|---|
-| `SDPluginFocusedTests` | 62 | `plugins;stable_diffusion;image_generation;v2.2.0` |
-| `SDPluginRegistrarTests` | 12 | `plugins;stable_diffusion;image_generation;registrar;v2.2.0` |
-| `SDPluginRealBackendE2ETests` | 2 | `plugins;stable_diffusion;image_generation;e2e;real_backend;v2.2.0` (opt-in) |
+| `SDPluginFocusedTests` | 62 | `plugins;stable_diffusion;image_generation;v2.3.0` |
+| `SDPluginRegistrarTests` | 12 | `plugins;stable_diffusion;image_generation;registrar;v2.3.0` |
+| `SDPluginRealBackendE2ETests` | 2 | `plugins;stable_diffusion;image_generation;e2e;real_backend;v2.3.0` (opt-in) |
 
 ```bash
 ctest -R "SDPlugin(Focused|Registrar)Tests" --output-on-failure
@@ -117,7 +117,7 @@ Every `GeneratedImage` carries:
 
 | Field | Value |
 |---|---|
-| `plugin_version` | `"2.2.0"` |
+| `plugin_version` | `"2.3.0"` |
 | `generation_timestamp` | Unix epoch milliseconds |
 | `prompt_hash` | FNV-1a 64-bit hex of sanitised prompt |
 | `perceptual_hash` | optional 64-bit perceptual hash (non-fatal if unavailable) |

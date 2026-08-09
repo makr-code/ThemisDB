@@ -24239,7 +24239,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/tests/test_sd_plu
     target_compile_definitions(test_sd_plugin PRIVATE THEMIS_PLUGIN_EXPORTS)
     add_test(NAME SDPluginFocusedTests COMMAND test_sd_plugin)
     set_tests_properties(SDPluginFocusedTests PROPERTIES
-        LABELS "plugins;stable_diffusion;image_generation;v2.2.0"
+        LABELS "plugins;stable_diffusion;image_generation;v2.3.0"
         TIMEOUT 60
     )
     message(STATUS "  SDPlugin: 62 tests (A-Q)")
@@ -24273,7 +24273,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/tests/test_sd_plu
     target_compile_definitions(test_sd_plugin_registrar PRIVATE THEMIS_PLUGIN_EXPORTS)
     add_test(NAME SDPluginRegistrarTests COMMAND test_sd_plugin_registrar)
     set_tests_properties(SDPluginRegistrarTests PROPERTIES
-        LABELS "plugins;stable_diffusion;image_generation;registrar;v2.2.0"
+        LABELS "plugins;stable_diffusion;image_generation;registrar;v2.3.0"
         TIMEOUT 60
     )
     message(STATUS "  SDPluginRegistrar: 12 tests (A-D)")
@@ -24324,7 +24324,7 @@ if(THEMIS_ENABLE_STABLE_DIFFUSION
     )
     add_test(NAME SDPluginRealBackendE2ETests COMMAND test_sd_plugin_real_backend_e2e)
     set_tests_properties(SDPluginRealBackendE2ETests PROPERTIES
-        LABELS "plugins;stable_diffusion;image_generation;e2e;real_backend;v2.2.0"
+        LABELS "plugins;stable_diffusion;image_generation;e2e;real_backend;v2.3.0"
         TIMEOUT 300
     )
     message(STATUS "  SDPlugin real-backend E2E: enabled (opt-in runtime via env)")

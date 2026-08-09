@@ -65,7 +65,7 @@ public:
 
     // ── IThemisPlugin ───────────────────────────────────────────────────────
     const char* getName()    const override { return "stable_diffusion"; }
-    const char* getVersion() const override { return "2.2.0"; }
+    const char* getVersion() const override { return "2.3.0"; }
 
     plugins::PluginType getType() const override {
         return plugins::PluginType::IMAGE_GENERATION;

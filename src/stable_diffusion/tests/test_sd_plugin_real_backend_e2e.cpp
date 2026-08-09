@@ -63,7 +63,7 @@ TEST(SDPluginRealBackendE2ETests, E2E_Text2ImgAndImg2Img_WithModelSha256Gate) {
     ASSERT_GT(t2i.height, 0);
     ASSERT_TRUE(hasPngSignature(t2i.png_data));
     ASSERT_FALSE(t2i.prompt_hash.empty());
-    ASSERT_EQ(t2i.plugin_version, "2.2.0");
+    ASSERT_EQ(t2i.plugin_version, "2.3.0");
 
     Img2ImgConfig i2i_cfg;
     i2i_cfg.input_width = 64;
