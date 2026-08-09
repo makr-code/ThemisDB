@@ -78,8 +78,10 @@ foreach(_src IN LISTS ONNX_CLIP_TEST_SOURCES)
     
     # Register as CTest with focused timeout (120 seconds per Wave 1 standard)
     themis_register_module_focused_test(
+        MODULE onnx_clip
+        NAME ${_ctest}
         TARGET ${_target}
-        CTEST ${_ctest}
+        TIER unit
         TIMEOUT 120
     )
     
