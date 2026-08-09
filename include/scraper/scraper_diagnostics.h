@@ -166,9 +166,11 @@ public:
     using Listener = std::function<void(const ScraperDiagnosticEvent&)>;
 
     /**
-     * @brief Register a listener called synchronously on each emit.
+     * @brief Register a listener called for each emitted event.
      *
-     * Listeners are called while the internal mutex is held; keep them short.
+     * Listeners are called outside the internal mutex, so they may safely
+     * call back into the sink (e.g., @c snapshot(), @c size()).  Keep them
+     * short to minimise emit latency.
      */
     void addListener(Listener fn) {
         std::lock_guard<std::mutex> lk(mu_);
@@ -176,9 +178,16 @@ public:
     }
 
     void emit(const ScraperDiagnosticEvent& event) noexcept override {
-        std::lock_guard<std::mutex> lk(mu_);
-        events_.push_back(event);
-        for (const auto& fn : listeners_) {
+        // Snapshot the listener list under the lock, then release before
+        // invoking callbacks to prevent deadlock if a listener re-enters
+        // the sink (e.g., calls snapshot(), size(), or addListener()).
+        std::vector<Listener> local_listeners;
+        {
+            std::lock_guard<std::mutex> lk(mu_);
+            events_.push_back(event);
+            local_listeners = listeners_;
+        }
+        for (const auto& fn : local_listeners) {
             try { fn(event); } catch (...) {}
         }
     }
@@ -195,7 +204,7 @@ public:
         return events_.size();
     }
 
-    /// Clear all recorded events and listeners.
+    /// Clear all recorded events (registered listeners are preserved).
     void clear() {
         std::lock_guard<std::mutex> lk(mu_);
         events_.clear();

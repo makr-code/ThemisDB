@@ -140,17 +140,24 @@ private:
         if (elapsed_sec <= 0.0) return;
 
         const double tokens_to_add = elapsed_sec * refill_rate_per_sec_;
+        const uint32_t added = static_cast<uint32_t>(tokens_to_add);
+
+        // Only advance last_refill_ when at least one whole token is earned so
+        // that sub-token elapsed time is preserved for the next call.
+        if (added == 0) return;
         last_refill_ = now;
 
-        const uint32_t current = current_tokens_.load(std::memory_order_relaxed);
-        const uint32_t added   = static_cast<uint32_t>(tokens_to_add);
-        // Saturating add capped at max_tokens_.
-        const uint32_t updated =
-            (added >= max_tokens_ - current)
-            ? max_tokens_
-            : current + added;
-
-        current_tokens_.store(updated, std::memory_order_release);
+        // CAS loop: add tokens without clobbering concurrent decrements from
+        // tryAcquire().  Saturates at max_tokens_ to prevent over-filling.
+        uint32_t current = current_tokens_.load(std::memory_order_acquire);
+        uint32_t updated;
+        do {
+            updated = (added >= max_tokens_ - current) ? max_tokens_
+                                                       : current + added;
+        } while (!current_tokens_.compare_exchange_weak(
+            current, updated,
+            std::memory_order_acq_rel,
+            std::memory_order_acquire));
     }
 
     // -------------------------------------------------------------------------

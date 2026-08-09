@@ -56,9 +56,12 @@ namespace scraper {
 // ============================================================================
 
 /**
- * @brief Immutable value snapshot of a single scraper-run's outcome counters.
+ * @brief Plain value snapshot of a single scraper-run's outcome counters.
  *
  * Populated by @ref ScraperRunSummaryCollector after the run completes.
+ * All fields are public for direct aggregate construction; callers should
+ * treat an instance as a read-only snapshot once it is returned from
+ * @c ScraperRunSummaryCollector::summary().
  * Suitable for structured logging, metrics export, and operator triage.
  */
 struct ScraperRunSummary {

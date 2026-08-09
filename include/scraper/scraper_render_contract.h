@@ -119,8 +119,7 @@ inline bool containsIgnoreCase(const std::string& haystack,
  *                   Defaults to `kDefaultRenderTimeout.count()` (30 000).
  * @return           A `JsRenderContractResult` with html cleared on any failure.
  *
- * @note This function never throws or allocates; it is safe to call from any
- *       pipeline stage including signal-adjacent shutdown paths.
+ * @note This function is `noexcept` and safe to call from any pipeline stage.
  */
 [[nodiscard]] inline JsRenderContractResult enforceRenderTimeout(
     const JsRenderResult& raw,
