@@ -212,6 +212,8 @@ public:
     using HttpFn = std::function<std::string(const std::string& url,
                                               const std::string& user_agent)>;
     void setHttpFetch(HttpFn fn);
+    /// Inject a burst-rate controller; null disables rate limiting (default).
+    void setBurstController(std::shared_ptr<BurstCrawlController> bc);
 
 private:
     // --- State ---
@@ -229,6 +231,7 @@ private:
     std::shared_ptr<IScraperApiClient>      api_client_;
     HttpFn                                  http_fn_;
     GovSourceCatalog                        gov_catalog_;
+    std::shared_ptr<BurstCrawlController>   burst_controller_; ///< Optional burst limiter.
 
     // --- Internal methods ---
 
