@@ -39,6 +39,8 @@
 #include <string>
 #include <algorithm>
 #include <cstdint>
+#include <thread>
+#include <mutex>
 
 using namespace themis::plugins::image;
 
@@ -180,6 +182,145 @@ protected:
         settings["model"]["variant"] = "ViT-L/14";
         settings["model"]["embedding_dim"] = kExpectedDimensionViTL14;
         return PluginConfig(settings);
+    }
+
+    /**
+     * @brief Compare batch embedding generation with sequential generation
+     * 
+     * Helper method for OCP-IT-09 and OCP-IT-10. Verifies that generating
+     * N images in a batch produces identical results to generating them
+     * sequentially with N separate calls.
+     * 
+     * @param plugin The ONNX CLIP plugin instance (must be initialized)
+     * @param imageSeeds Vector of seeds for generating test images
+     * @param tolerance L2 distance tolerance for comparison (default: 1e-6)
+     * @return true if all batch results match sequential results, false otherwise
+     */
+    bool compareBatchVsSequential(
+        ONNXClipPlugin& plugin,
+        const std::vector<uint32_t>& imageSeeds,
+        double tolerance = kReproducibilityTolerance
+    ) const {
+        // Generate batch results
+        std::vector<std::vector<uint8_t>> images;
+        for (uint32_t seed : imageSeeds) {
+            images.push_back(makeImageBytes(kDefaultImageSize, seed));
+        }
+        auto batchResults = plugin.generateEmbeddingBatch(images);
+
+        // Generate sequential results
+        std::vector<EmbeddingResult> sequentialResults;
+        for (uint32_t seed : imageSeeds) {
+            auto imageBytes = makeImageBytes(kDefaultImageSize, seed);
+            sequentialResults.push_back(plugin.generateEmbedding(imageBytes));
+        }
+
+        // Compare results
+        if (batchResults.size() != sequentialResults.size()) {
+            return false;
+        }
+
+        for (size_t i = 0; i < batchResults.size(); ++i) {
+            // Check success status
+            if (batchResults[i].success != sequentialResults[i].success) {
+                return false;
+            }
+
+            // Check dimensions match
+            if (batchResults[i].embedding.size() != sequentialResults[i].embedding.size()) {
+                return false;
+            }
+
+            // Check L2 distance is within tolerance
+            double distance = computeL2Distance(
+                batchResults[i].embedding,
+                sequentialResults[i].embedding
+            );
+            if (distance >= tolerance) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * @brief Verify concurrent inference safety
+     * 
+     * Helper method for OCP-IT-12. Spawns N concurrent threads, each
+     * generating embeddings, and verifies that all operations complete
+     * without race conditions or data corruption.
+     * 
+     * @param plugin The ONNX CLIP plugin instance (must be initialized)
+     * @param threadCount Number of concurrent threads to spawn
+     * @param imagesPerThread Number of images each thread should process
+     * @return true if all threads completed successfully with correct results, false otherwise
+     */
+    bool verifyConcurrentInference(
+        ONNXClipPlugin& plugin,
+        int threadCount = 4,
+        int imagesPerThread = 2
+    ) const {
+        struct ThreadResult {
+            std::vector<EmbeddingResult> embeddings;
+            bool success = false;
+            std::string error;
+        };
+
+        std::vector<ThreadResult> results(threadCount);
+        std::vector<std::thread> threads;
+        std::mutex resultsMutex;
+
+        // Lambda to run concurrent inference
+        auto workerThread = [&, this](int threadId) {
+            ThreadResult& result = results[threadId];
+            try {
+                for (int i = 0; i < imagesPerThread; ++i) {
+                    uint32_t seed = kClipGoldenSeed + (threadId * 100) + i;
+                    auto imageBytes = makeImageBytes(kDefaultImageSize, seed);
+                    auto embedding = plugin.generateEmbedding(imageBytes);
+                    
+                    // Validate result
+                    if (!embedding.success || embedding.embedding.empty()) {
+                        result.error = "Failed to generate embedding";
+                        return;
+                    }
+
+                    // Validate normalization
+                    if (!isL2Normalized(embedding.embedding)) {
+                        result.error = "Embedding not properly normalized";
+                        return;
+                    }
+
+                    result.embeddings.push_back(embedding);
+                }
+                result.success = true;
+            } catch (const std::exception& e) {
+                result.error = std::string("Exception: ") + e.what();
+            }
+        };
+
+        // Spawn threads
+        for (int i = 0; i < threadCount; ++i) {
+            threads.emplace_back(workerThread, i);
+        }
+
+        // Wait for all threads
+        for (auto& t : threads) {
+            t.join();
+        }
+
+        // Verify all threads succeeded
+        for (int i = 0; i < threadCount; ++i) {
+            if (!results[i].success) {
+                return false;
+            }
+            if (results[i].embeddings.size() != static_cast<size_t>(imagesPerThread)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 };
 

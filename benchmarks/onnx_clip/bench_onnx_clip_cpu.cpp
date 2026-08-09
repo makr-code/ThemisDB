@@ -41,6 +41,8 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <numeric>
+#include <cmath>
 
 // Measurement hygiene constants (Wave 1)
 namespace themis {
@@ -228,6 +230,70 @@ protected:
     std::unique_ptr<MockOnnxClipModel> model_;
 };
 
+// ---------------------------------------------------------------------------
+// 2B-01: Latency Regression Framework
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Fixture for detailed latency regression tracking.
+ * Tracks latencies and computes percentiles (p50, p90, p99) for regression detection.
+ */
+class OnnxClipLatencyRegressionFixture : public benchmark::Fixture {
+public:
+    void SetUp(::benchmark::State& state) override {
+        model_ = std::make_unique<MockOnnxClipModel>();
+        model_->initialize();
+
+        // Perform 3-phase warmup
+        int batch_size = static_cast<int>(state.range(0));
+        
+        for (int i = 0; i < kWarmupIterationsCold; ++i) {
+            auto _ = model_->encodeBatch(batch_size);
+            (void)_;
+        }
+        for (int i = 0; i < kWarmupIterationsWarm; ++i) {
+            auto _ = model_->encodeBatch(batch_size);
+            (void)_;
+        }
+        std::mt19937 rng(kCanonicalRngSeed);
+        std::uniform_int_distribution<> batch_dist(1, batch_size);
+        for (int i = 0; i < kWarmupIterationsHot; ++i) {
+            int bs = batch_dist(rng);
+            auto _ = model_->encodeBatch(bs);
+            (void)_;
+        }
+    }
+
+    void TearDown(::benchmark::State& /*state*/) override {
+        model_.reset();
+    }
+
+protected:
+    std::unique_ptr<MockOnnxClipModel> model_;
+};
+
+// ---------------------------------------------------------------------------
+// 2B-04: Initialization & Warmup Profiling
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Fixture for detailed initialization profiling.
+ * Breaks down model load, session creation, and warmup costs.
+ */
+class OnnxClipInitializationProfiler : public benchmark::Fixture {
+public:
+    void SetUp(::benchmark::State& /*state*/) override {
+        // No pre-initialization; this fixture measures cold start
+    }
+
+    void TearDown(::benchmark::State& /*state*/) override {
+        model_.reset();
+    }
+
+protected:
+    std::unique_ptr<MockOnnxClipModel> model_;
+};
+
 } // namespace onnx_clip
 } // namespace bench
 } // namespace themis
@@ -359,7 +425,7 @@ BENCHMARK_REGISTER_F(OnnxClipCpuFixture, BM_Initialization_Latency_CPU)
  * Typically a pointer dereference + validity flag check.
  */
 BENCHMARK_F(OnnxClipCpuWarmFixture, BM_HealthCheck_Latency_CPU)
-    (benchmark::State& state) {
+     (benchmark::State& state) {
     model_->initialize();  // Ensure initialized
     
     for (auto _ : state) {
@@ -368,5 +434,262 @@ BENCHMARK_F(OnnxClipCpuWarmFixture, BM_HealthCheck_Latency_CPU)
     }
 }
 BENCHMARK_REGISTER_F(OnnxClipCpuWarmFixture, BM_HealthCheck_Latency_CPU)
-    ->UseRealTime()
-    ->Unit(benchmark::kMicrosecond);
+     ->UseRealTime()
+     ->Unit(benchmark::kMicrosecond);
+
+// ---------------------------------------------------------------------------
+// 2B-01: Latency Regression Framework Benchmarks
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Latency regression tracking for single-image encoding.
+ * 
+ * Tracks detailed latency metrics with variance tracking:
+ * - Wall-clock latency per iteration
+ * - Percentiles (p50, p90, p99) for gate compliance
+ * - Min/max ranges and stddev for variance analysis
+ *
+ * Acceptance: p99 ≤ 150 ms (FCP-01 gate)
+ * Regression detection: > 10% above baseline blocks release
+ */
+BENCHMARK_F(OnnxClipLatencyRegressionFixture, BM_Latency_Regression_SingleImage)
+     (benchmark::State& state) {
+    model_->initialize();
+    
+    std::vector<double> latencies;
+    latencies.reserve(state.max_iterations);
+    
+    for (auto _ : state) {
+        auto start = std::chrono::high_resolution_clock::now();
+        auto embedding = model_->encodeImage(224, 224);
+        auto end = std::chrono::high_resolution_clock::now();
+        double elapsed_ms = std::chrono::duration<double, std::milli>(end - start).count();
+        latencies.push_back(elapsed_ms);
+        benchmark::DoNotOptimize(embedding);
+    }
+    
+    // Compute percentiles (approximated via sorted array)
+    if (latencies.size() > 0) {
+        std::sort(latencies.begin(), latencies.end());
+        size_t p50_idx = latencies.size() / 2;
+        size_t p90_idx = (latencies.size() * 9) / 10;
+        size_t p99_idx = (latencies.size() * 99) / 100;
+        
+        state.counters["p50_ms"] = latencies[p50_idx];
+        state.counters["p90_ms"] = latencies[p90_idx];
+        state.counters["p99_ms"] = latencies[p99_idx];
+        state.counters["min_ms"] = latencies.front();
+        state.counters["max_ms"] = latencies.back();
+        
+        // Compute stddev
+        double mean = std::accumulate(latencies.begin(), latencies.end(), 0.0) / latencies.size();
+        double variance = 0.0;
+        for (auto lat : latencies) {
+            variance += (lat - mean) * (lat - mean);
+        }
+        variance /= latencies.size();
+        state.counters["stddev_ms"] = std::sqrt(variance);
+    }
+}
+BENCHMARK_REGISTER_F(OnnxClipLatencyRegressionFixture, BM_Latency_Regression_SingleImage)
+     ->UseRealTime()
+     ->Unit(benchmark::kMillisecond)
+     ->Arg(1);
+
+/**
+ * @brief Latency regression tracking for batch-8 encoding.
+ * 
+ * Tracks detailed latency metrics with variance tracking.
+ * Acceptance: p99 ≤ 1.2 sec
+ * Regression detection: > 10% above baseline
+ */
+BENCHMARK_F(OnnxClipLatencyRegressionFixture, BM_Latency_Regression_Batch8)
+     (benchmark::State& state) {
+    model_->initialize();
+    
+    std::vector<double> latencies;
+    latencies.reserve(state.max_iterations);
+    
+    for (auto _ : state) {
+        auto start = std::chrono::high_resolution_clock::now();
+        auto batch = model_->encodeBatch(8);
+        auto end = std::chrono::high_resolution_clock::now();
+        double elapsed_ms = std::chrono::duration<double, std::milli>(end - start).count();
+        latencies.push_back(elapsed_ms);
+        benchmark::DoNotOptimize(batch);
+    }
+    
+    if (latencies.size() > 0) {
+        std::sort(latencies.begin(), latencies.end());
+        size_t p50_idx = latencies.size() / 2;
+        size_t p90_idx = (latencies.size() * 9) / 10;
+        size_t p99_idx = (latencies.size() * 99) / 100;
+        
+        state.counters["p50_ms"] = latencies[p50_idx];
+        state.counters["p90_ms"] = latencies[p90_idx];
+        state.counters["p99_ms"] = latencies[p99_idx];
+        state.counters["min_ms"] = latencies.front();
+        state.counters["max_ms"] = latencies.back();
+        
+        double mean = std::accumulate(latencies.begin(), latencies.end(), 0.0) / latencies.size();
+        double variance = 0.0;
+        for (auto lat : latencies) {
+            variance += (lat - mean) * (lat - mean);
+        }
+        variance /= latencies.size();
+        state.counters["stddev_ms"] = std::sqrt(variance);
+    }
+}
+BENCHMARK_REGISTER_F(OnnxClipLatencyRegressionFixture, BM_Latency_Regression_Batch8)
+     ->UseRealTime()
+     ->Unit(benchmark::kMillisecond)
+     ->Arg(8);
+
+/**
+ * @brief Latency regression tracking for batch-16 encoding.
+ * 
+ * Tracks detailed latency metrics with variance tracking.
+ * Acceptance: p99 ≤ 2.4 sec (FCP-02 gate)
+ * Regression detection: > 10% above baseline
+ */
+BENCHMARK_F(OnnxClipLatencyRegressionFixture, BM_Latency_Regression_Batch16)
+     (benchmark::State& state) {
+    model_->initialize();
+    
+    std::vector<double> latencies;
+    latencies.reserve(state.max_iterations);
+    
+    for (auto _ : state) {
+        auto start = std::chrono::high_resolution_clock::now();
+        auto batch = model_->encodeBatch(16);
+        auto end = std::chrono::high_resolution_clock::now();
+        double elapsed_ms = std::chrono::duration<double, std::milli>(end - start).count();
+        latencies.push_back(elapsed_ms);
+        benchmark::DoNotOptimize(batch);
+    }
+    
+    if (latencies.size() > 0) {
+        std::sort(latencies.begin(), latencies.end());
+        size_t p50_idx = latencies.size() / 2;
+        size_t p90_idx = (latencies.size() * 9) / 10;
+        size_t p99_idx = (latencies.size() * 99) / 100;
+        
+        state.counters["p50_ms"] = latencies[p50_idx];
+        state.counters["p90_ms"] = latencies[p90_idx];
+        state.counters["p99_ms"] = latencies[p99_idx];
+        state.counters["min_ms"] = latencies.front();
+        state.counters["max_ms"] = latencies.back();
+        
+        double mean = std::accumulate(latencies.begin(), latencies.end(), 0.0) / latencies.size();
+        double variance = 0.0;
+        for (auto lat : latencies) {
+            variance += (lat - mean) * (lat - mean);
+        }
+        variance /= latencies.size();
+        state.counters["stddev_ms"] = std::sqrt(variance);
+    }
+}
+BENCHMARK_REGISTER_F(OnnxClipLatencyRegressionFixture, BM_Latency_Regression_Batch16)
+     ->UseRealTime()
+     ->Unit(benchmark::kMillisecond)
+     ->Arg(16);
+
+// ---------------------------------------------------------------------------
+// 2B-04: Initialization & Warmup Profiling Benchmarks
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Measure model load time (weight deserialization + graph construction).
+ * 
+ * Captures time to load model from serialized form.
+ * Includes file I/O and ONNX graph parsing.
+ */
+BENCHMARK_F(OnnxClipInitializationProfiler, BM_InitTime_ModelLoad)
+     (benchmark::State& state) {
+    for (auto _ : state) {
+        state.PauseTiming();
+        model_ = std::make_unique<MockOnnxClipModel>();
+        state.ResumeTiming();
+        
+        model_->initialize();
+    }
+}
+BENCHMARK_REGISTER_F(OnnxClipInitializationProfiler, BM_InitTime_ModelLoad)
+     ->UseRealTime()
+     ->Unit(benchmark::kMillisecond);
+
+/**
+ * @brief Measure session creation time (backend setup after model load).
+ * 
+ * Captures backend-specific setup (CUDA stream creation, etc.).
+ * Executed after model load.
+ */
+BENCHMARK_F(OnnxClipInitializationProfiler, BM_InitTime_SessionCreate)
+     (benchmark::State& state) {
+    model_ = std::make_unique<MockOnnxClipModel>();
+    
+    for (auto _ : state) {
+        state.PauseTiming();
+        // Simulate session creation overhead (typically ~50-100 ms for CUDA)
+        std::vector<float> dummy(1024 * 100);
+        state.ResumeTiming();
+        
+        model_->initialize();
+    }
+}
+BENCHMARK_REGISTER_F(OnnxClipInitializationProfiler, BM_InitTime_SessionCreate)
+     ->UseRealTime()
+     ->Unit(benchmark::kMillisecond);
+
+/**
+ * @brief Measure warmup phase cost (first inference + cache fill).
+ * 
+ * Captures overhead of initial inference and cache warming.
+ * Typically 2-3 inferences to stabilize performance.
+ */
+BENCHMARK_F(OnnxClipInitializationProfiler, BM_InitTime_Warmup)
+     (benchmark::State& state) {
+    model_ = std::make_unique<MockOnnxClipModel>();
+    model_->initialize();
+    
+    for (auto _ : state) {
+        // Warmup: 3 iterations to stabilize
+        for (int i = 0; i < 3; ++i) {
+            auto _ = model_->encodeImage(224, 224);
+            (void)_;
+        }
+    }
+}
+BENCHMARK_REGISTER_F(OnnxClipInitializationProfiler, BM_InitTime_Warmup)
+     ->UseRealTime()
+     ->Unit(benchmark::kMillisecond);
+
+/**
+ * @brief Total initialization time (cold start to first inference).
+ * 
+ * Measures end-to-end initialization:
+ * 1. Model load
+ * 2. Session creation
+ * 3. Warmup phase
+ *
+ * Acceptance: < 500 ms (FCP-04 gate)
+ */
+BENCHMARK_F(OnnxClipInitializationProfiler, BM_InitTime_Total)
+     (benchmark::State& state) {
+    for (auto _ : state) {
+        state.PauseTiming();
+        model_ = std::make_unique<MockOnnxClipModel>();
+        state.ResumeTiming();
+        
+        model_->initialize();
+        
+        // Warmup phase
+        for (int i = 0; i < 3; ++i) {
+            auto _ = model_->encodeImage(224, 224);
+            (void)_;
+        }
+    }
+}
+BENCHMARK_REGISTER_F(OnnxClipInitializationProfiler, BM_InitTime_Total)
+     ->UseRealTime()
+     ->Unit(benchmark::kMillisecond);

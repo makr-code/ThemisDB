@@ -274,6 +274,56 @@ protected:
     std::unique_ptr<MockOnnxClipBackendModel> model_;
 };
 
+// ---------------------------------------------------------------------------
+// 2B-02: Throughput Scaling Analysis Fixture
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Fixture for throughput scaling study across batch sizes.
+ * Measures images/second for batch sizes 1, 8, 16, 32, 64.
+ */
+class OnnxClipThroughputScalingFixture : public benchmark::Fixture {
+public:
+    void SetUp(::benchmark::State& state) override {
+        model_ = std::make_unique<MockOnnxClipBackendModel>();
+        
+        int batch_size = static_cast<int>(state.range(0));
+        
+        // Minimal warmup for scaling study
+        double _;
+        model_->encodeBatch(MockOnnxClipBackendModel::Backend::kCPU, batch_size, _);
+    }
+
+    void TearDown(::benchmark::State& /*state*/) override {
+        model_.reset();
+    }
+
+protected:
+    std::unique_ptr<MockOnnxClipBackendModel> model_;
+};
+
+// ---------------------------------------------------------------------------
+// 2B-03: Memory Scaling Analysis Fixture
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Fixture for memory scaling study across batch sizes.
+ * Measures RSS and peak memory for batch sizes 1-64.
+ */
+class OnnxClipMemoryScalingFixture : public benchmark::Fixture {
+public:
+    void SetUp(::benchmark::State& /*state*/) override {
+        model_ = std::make_unique<MockOnnxClipBackendModel>();
+    }
+
+    void TearDown(::benchmark::State& /*state*/) override {
+        model_.reset();
+    }
+
+protected:
+    std::unique_ptr<MockOnnxClipBackendModel> model_;
+};
+
 } // namespace onnx_clip
 } // namespace bench
 } // namespace themis
@@ -285,6 +335,8 @@ protected:
 using themis::bench::onnx_clip::OnnxClipBackendThroughputFixture;
 using themis::bench::onnx_clip::OnnxClipMemoryFixture;
 using themis::bench::onnx_clip::OnnxClipBatchSplittingFixture;
+using themis::bench::onnx_clip::OnnxClipThroughputScalingFixture;
+using themis::bench::onnx_clip::OnnxClipMemoryScalingFixture;
 using themis::bench::onnx_clip::MockOnnxClipBackendModel;
 
 /**
@@ -422,3 +474,396 @@ BENCHMARK_REGISTER_F(OnnxClipBatchSplittingFixture, BM_BatchSplitting_Performanc
     ->UseRealTime()
     ->Unit(benchmark::kMillisecond)
     ->Arg(2)->Arg(4)->Arg(8)->Arg(16);
+
+// ---------------------------------------------------------------------------
+// 2B-02: Throughput Scaling Analysis Benchmarks
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief CPU throughput scaling benchmark (batch size 1).
+ * 
+ * Measures images/second for batch-1 on CPU.
+ * Baseline for scaling analysis.
+ */
+BENCHMARK_F(OnnxClipThroughputScalingFixture, BM_ThroughputScaling_CPU_Batch1)
+    (benchmark::State& state) {
+    for (auto _ : state) {
+        double elapsed_sec;
+        int throughput = model_->encodeBatch(
+            MockOnnxClipBackendModel::Backend::kCPU,
+            1,
+            elapsed_sec
+        );
+        state.SetItemsProcessed(1);
+        state.counters["throughput_ips"] = throughput;
+        benchmark::DoNotOptimize(throughput);
+    }
+}
+BENCHMARK_REGISTER_F(OnnxClipThroughputScalingFixture, BM_ThroughputScaling_CPU_Batch1)
+    ->UseRealTime()
+    ->Unit(benchmark::kMillisecond)
+    ->Arg(1);
+
+/**
+ * @brief CPU throughput scaling benchmark (batch size 8).
+ * 
+ * Measures images/second for batch-8 on CPU.
+ * Expected to show ~4-6x speedup vs batch-1 due to vectorization.
+ */
+BENCHMARK_F(OnnxClipThroughputScalingFixture, BM_ThroughputScaling_CPU_Batch8)
+    (benchmark::State& state) {
+    for (auto _ : state) {
+        double elapsed_sec;
+        int throughput = model_->encodeBatch(
+            MockOnnxClipBackendModel::Backend::kCPU,
+            8,
+            elapsed_sec
+        );
+        state.SetItemsProcessed(8);
+        state.counters["throughput_ips"] = throughput;
+        benchmark::DoNotOptimize(throughput);
+    }
+}
+BENCHMARK_REGISTER_F(OnnxClipThroughputScalingFixture, BM_ThroughputScaling_CPU_Batch8)
+    ->UseRealTime()
+    ->Unit(benchmark::kMillisecond)
+    ->Arg(8);
+
+/**
+ * @brief CPU throughput scaling benchmark (batch size 16).
+ * 
+ * Measures images/second for batch-16 on CPU.
+ * Expected to show further speedup from cache utilization.
+ */
+BENCHMARK_F(OnnxClipThroughputScalingFixture, BM_ThroughputScaling_CPU_Batch16)
+    (benchmark::State& state) {
+    for (auto _ : state) {
+        double elapsed_sec;
+        int throughput = model_->encodeBatch(
+            MockOnnxClipBackendModel::Backend::kCPU,
+            16,
+            elapsed_sec
+        );
+        state.SetItemsProcessed(16);
+        state.counters["throughput_ips"] = throughput;
+        benchmark::DoNotOptimize(throughput);
+    }
+}
+BENCHMARK_REGISTER_F(OnnxClipThroughputScalingFixture, BM_ThroughputScaling_CPU_Batch16)
+    ->UseRealTime()
+    ->Unit(benchmark::kMillisecond)
+    ->Arg(16);
+
+/**
+ * @brief CPU throughput scaling benchmark (batch size 32).
+ * 
+ * Measures images/second for batch-32 on CPU.
+ * Approaching memory bandwidth saturation threshold.
+ */
+BENCHMARK_F(OnnxClipThroughputScalingFixture, BM_ThroughputScaling_CPU_Batch32)
+    (benchmark::State& state) {
+    for (auto _ : state) {
+        double elapsed_sec;
+        int throughput = model_->encodeBatch(
+            MockOnnxClipBackendModel::Backend::kCPU,
+            32,
+            elapsed_sec
+        );
+        state.SetItemsProcessed(32);
+        state.counters["throughput_ips"] = throughput;
+        benchmark::DoNotOptimize(throughput);
+    }
+}
+BENCHMARK_REGISTER_F(OnnxClipThroughputScalingFixture, BM_ThroughputScaling_CPU_Batch32)
+    ->UseRealTime()
+    ->Unit(benchmark::kMillisecond)
+    ->Arg(32);
+
+/**
+ * @brief CPU throughput scaling benchmark (batch size 64).
+ * 
+ * Measures images/second for batch-64 on CPU.
+ * Reference point for CUDA speedup calculation (FCP-05 gate).
+ */
+BENCHMARK_F(OnnxClipThroughputScalingFixture, BM_ThroughputScaling_CPU_Batch64)
+    (benchmark::State& state) {
+    for (auto _ : state) {
+        double elapsed_sec;
+        int throughput = model_->encodeBatch(
+            MockOnnxClipBackendModel::Backend::kCPU,
+            64,
+            elapsed_sec
+        );
+        state.SetItemsProcessed(64);
+        state.counters["throughput_ips"] = throughput;
+        benchmark::DoNotOptimize(throughput);
+    }
+}
+BENCHMARK_REGISTER_F(OnnxClipThroughputScalingFixture, BM_ThroughputScaling_CPU_Batch64)
+    ->UseRealTime()
+    ->Unit(benchmark::kMillisecond)
+    ->Arg(64);
+
+/**
+ * @brief CUDA throughput scaling benchmark (batch size 1).
+ * 
+ * Measures images/second for batch-1 on CUDA.
+ * Expected lower than CPU for small batches due to kernel launch overhead.
+ */
+BENCHMARK_F(OnnxClipThroughputScalingFixture, BM_ThroughputScaling_CUDA_Batch1)
+    (benchmark::State& state) {
+    for (auto _ : state) {
+        double elapsed_sec;
+        int throughput = model_->encodeBatch(
+            MockOnnxClipBackendModel::Backend::kCUDA,
+            1,
+            elapsed_sec
+        );
+        state.SetItemsProcessed(1);
+        state.counters["throughput_ips"] = throughput;
+        benchmark::DoNotOptimize(throughput);
+    }
+}
+BENCHMARK_REGISTER_F(OnnxClipThroughputScalingFixture, BM_ThroughputScaling_CUDA_Batch1)
+    ->UseRealTime()
+    ->Unit(benchmark::kMillisecond)
+    ->Arg(1);
+
+/**
+ * @brief CUDA throughput scaling benchmark (batch size 8).
+ * 
+ * Measures images/second for batch-8 on CUDA.
+ * Expected to show significant speedup vs CPU (~2-3x).
+ */
+BENCHMARK_F(OnnxClipThroughputScalingFixture, BM_ThroughputScaling_CUDA_Batch8)
+    (benchmark::State& state) {
+    for (auto _ : state) {
+        double elapsed_sec;
+        int throughput = model_->encodeBatch(
+            MockOnnxClipBackendModel::Backend::kCUDA,
+            8,
+            elapsed_sec
+        );
+        state.SetItemsProcessed(8);
+        state.counters["throughput_ips"] = throughput;
+        benchmark::DoNotOptimize(throughput);
+    }
+}
+BENCHMARK_REGISTER_F(OnnxClipThroughputScalingFixture, BM_ThroughputScaling_CUDA_Batch8)
+    ->UseRealTime()
+    ->Unit(benchmark::kMillisecond)
+    ->Arg(8);
+
+/**
+ * @brief CUDA throughput scaling benchmark (batch size 16).
+ * 
+ * Measures images/second for batch-16 on CUDA.
+ * Expected ~4x speedup vs CPU.
+ */
+BENCHMARK_F(OnnxClipThroughputScalingFixture, BM_ThroughputScaling_CUDA_Batch16)
+    (benchmark::State& state) {
+    for (auto _ : state) {
+        double elapsed_sec;
+        int throughput = model_->encodeBatch(
+            MockOnnxClipBackendModel::Backend::kCUDA,
+            16,
+            elapsed_sec
+        );
+        state.SetItemsProcessed(16);
+        state.counters["throughput_ips"] = throughput;
+        benchmark::DoNotOptimize(throughput);
+    }
+}
+BENCHMARK_REGISTER_F(OnnxClipThroughputScalingFixture, BM_ThroughputScaling_CUDA_Batch16)
+    ->UseRealTime()
+    ->Unit(benchmark::kMillisecond)
+    ->Arg(16);
+
+/**
+ * @brief CUDA throughput scaling benchmark (batch size 32).
+ * 
+ * Measures images/second for batch-32 on CUDA.
+ * Expected ~5x speedup vs CPU (approaching asymptotic speedup).
+ */
+BENCHMARK_F(OnnxClipThroughputScalingFixture, BM_ThroughputScaling_CUDA_Batch32)
+    (benchmark::State& state) {
+    for (auto _ : state) {
+        double elapsed_sec;
+        int throughput = model_->encodeBatch(
+            MockOnnxClipBackendModel::Backend::kCUDA,
+            32,
+            elapsed_sec
+        );
+        state.SetItemsProcessed(32);
+        state.counters["throughput_ips"] = throughput;
+        benchmark::DoNotOptimize(throughput);
+    }
+}
+BENCHMARK_REGISTER_F(OnnxClipThroughputScalingFixture, BM_ThroughputScaling_CUDA_Batch32)
+    ->UseRealTime()
+    ->Unit(benchmark::kMillisecond)
+    ->Arg(32);
+
+/**
+ * @brief CUDA throughput scaling benchmark (batch size 64).
+ * 
+ * Measures images/second for batch-64 on CUDA.
+ * Expected ~6x speedup vs CPU (FCP-05 gate verification).
+ */
+BENCHMARK_F(OnnxClipThroughputScalingFixture, BM_ThroughputScaling_CUDA_Batch64)
+    (benchmark::State& state) {
+    for (auto _ : state) {
+        double elapsed_sec;
+        int throughput = model_->encodeBatch(
+            MockOnnxClipBackendModel::Backend::kCUDA,
+            64,
+            elapsed_sec
+        );
+        state.SetItemsProcessed(64);
+        state.counters["throughput_ips"] = throughput;
+        benchmark::DoNotOptimize(throughput);
+    }
+}
+BENCHMARK_REGISTER_F(OnnxClipThroughputScalingFixture, BM_ThroughputScaling_CUDA_Batch64)
+    ->UseRealTime()
+    ->Unit(benchmark::kMillisecond)
+    ->Arg(64);
+
+// ---------------------------------------------------------------------------
+// 2B-03: Memory Scaling & OOM Detection Benchmarks
+// ---------------------------------------------------------------------------
+
+/**
+ * @brief Memory scaling benchmark (batch size 1).
+ * 
+ * Measures RSS and peak memory for batch-1 inference.
+ * Baseline for memory-per-image ratio calculation.
+ */
+BENCHMARK_F(OnnxClipMemoryScalingFixture, BM_MemoryScaling_Batch1)
+    (benchmark::State& state) {
+    for (auto _ : state) {
+        uint64_t peak_rss = model_->measureRuntimeMemory(1);
+        state.counters["peak_rss_mb"] = peak_rss / (1024.0 * 1024.0);
+        state.counters["batch_size"] = 1;
+        benchmark::DoNotOptimize(peak_rss);
+    }
+}
+BENCHMARK_REGISTER_F(OnnxClipMemoryScalingFixture, BM_MemoryScaling_Batch1)
+    ->UseRealTime()
+    ->Unit(benchmark::kMillisecond);
+
+/**
+ * @brief Memory scaling benchmark (batch size 2).
+ */
+BENCHMARK_F(OnnxClipMemoryScalingFixture, BM_MemoryScaling_Batch2)
+    (benchmark::State& state) {
+    for (auto _ : state) {
+        uint64_t peak_rss = model_->measureRuntimeMemory(2);
+        state.counters["peak_rss_mb"] = peak_rss / (1024.0 * 1024.0);
+        state.counters["batch_size"] = 2;
+        benchmark::DoNotOptimize(peak_rss);
+    }
+}
+BENCHMARK_REGISTER_F(OnnxClipMemoryScalingFixture, BM_MemoryScaling_Batch2)
+    ->UseRealTime()
+    ->Unit(benchmark::kMillisecond);
+
+/**
+ * @brief Memory scaling benchmark (batch size 4).
+ */
+BENCHMARK_F(OnnxClipMemoryScalingFixture, BM_MemoryScaling_Batch4)
+    (benchmark::State& state) {
+    for (auto _ : state) {
+        uint64_t peak_rss = model_->measureRuntimeMemory(4);
+        state.counters["peak_rss_mb"] = peak_rss / (1024.0 * 1024.0);
+        state.counters["batch_size"] = 4;
+        benchmark::DoNotOptimize(peak_rss);
+    }
+}
+BENCHMARK_REGISTER_F(OnnxClipMemoryScalingFixture, BM_MemoryScaling_Batch4)
+    ->UseRealTime()
+    ->Unit(benchmark::kMillisecond);
+
+/**
+ * @brief Memory scaling benchmark (batch size 8).
+ */
+BENCHMARK_F(OnnxClipMemoryScalingFixture, BM_MemoryScaling_Batch8)
+    (benchmark::State& state) {
+    for (auto _ : state) {
+        uint64_t peak_rss = model_->measureRuntimeMemory(8);
+        state.counters["peak_rss_mb"] = peak_rss / (1024.0 * 1024.0);
+        state.counters["batch_size"] = 8;
+        benchmark::DoNotOptimize(peak_rss);
+    }
+}
+BENCHMARK_REGISTER_F(OnnxClipMemoryScalingFixture, BM_MemoryScaling_Batch8)
+    ->UseRealTime()
+    ->Unit(benchmark::kMillisecond);
+
+/**
+ * @brief Memory scaling benchmark (batch size 16).
+ */
+BENCHMARK_F(OnnxClipMemoryScalingFixture, BM_MemoryScaling_Batch16)
+    (benchmark::State& state) {
+    for (auto _ : state) {
+        uint64_t peak_rss = model_->measureRuntimeMemory(16);
+        state.counters["peak_rss_mb"] = peak_rss / (1024.0 * 1024.0);
+        state.counters["batch_size"] = 16;
+        benchmark::DoNotOptimize(peak_rss);
+    }
+}
+BENCHMARK_REGISTER_F(OnnxClipMemoryScalingFixture, BM_MemoryScaling_Batch16)
+    ->UseRealTime()
+    ->Unit(benchmark::kMillisecond);
+
+/**
+ * @brief Memory scaling benchmark (batch size 32).
+ */
+BENCHMARK_F(OnnxClipMemoryScalingFixture, BM_MemoryScaling_Batch32)
+    (benchmark::State& state) {
+    for (auto _ : state) {
+        uint64_t peak_rss = model_->measureRuntimeMemory(32);
+        state.counters["peak_rss_mb"] = peak_rss / (1024.0 * 1024.0);
+        state.counters["batch_size"] = 32;
+        benchmark::DoNotOptimize(peak_rss);
+    }
+}
+BENCHMARK_REGISTER_F(OnnxClipMemoryScalingFixture, BM_MemoryScaling_Batch32)
+    ->UseRealTime()
+    ->Unit(benchmark::kMillisecond);
+
+/**
+ * @brief Memory scaling benchmark (batch size 48).
+ * 
+ * Intermediate point to capture scaling curve accurately.
+ */
+BENCHMARK_F(OnnxClipMemoryScalingFixture, BM_MemoryScaling_Batch48)
+    (benchmark::State& state) {
+    for (auto _ : state) {
+        uint64_t peak_rss = model_->measureRuntimeMemory(48);
+        state.counters["peak_rss_mb"] = peak_rss / (1024.0 * 1024.0);
+        state.counters["batch_size"] = 48;
+        benchmark::DoNotOptimize(peak_rss);
+    }
+}
+BENCHMARK_REGISTER_F(OnnxClipMemoryScalingFixture, BM_MemoryScaling_Batch48)
+    ->UseRealTime()
+    ->Unit(benchmark::kMillisecond);
+
+/**
+ * @brief Memory scaling benchmark (batch size 64).
+ * 
+ * Maximum batch size for analysis. Identifies OOM cliff and peak memory.
+ */
+BENCHMARK_F(OnnxClipMemoryScalingFixture, BM_MemoryScaling_Batch64)
+    (benchmark::State& state) {
+    for (auto _ : state) {
+        uint64_t peak_rss = model_->measureRuntimeMemory(64);
+        state.counters["peak_rss_mb"] = peak_rss / (1024.0 * 1024.0);
+        state.counters["batch_size"] = 64;
+        benchmark::DoNotOptimize(peak_rss);
+    }
+}
+BENCHMARK_REGISTER_F(OnnxClipMemoryScalingFixture, BM_MemoryScaling_Batch64)
+    ->UseRealTime()
+    ->Unit(benchmark::kMillisecond);
