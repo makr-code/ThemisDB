@@ -8,7 +8,7 @@
 
 ## Current Status
 
-v2.1.0 — Thread-safe. MP3/OGG input via FFmpeg adapter. Benchmarks wired.
+v2.3.0 — Thread-safe. MP3/OGG input via FFmpeg adapter. Streaming, VAD and optional speaker diarisation available.
 
 ## Completed ✅
 
@@ -37,7 +37,7 @@ v2.1.0 — Thread-safe. MP3/OGG input via FFmpeg adapter. Benchmarks wired.
 
 - [x] Streaming token output during transcription (Target: Q3 2026)
 - [x] VAD pre-filter to skip silent segments (Target: Q3 2026)
-- [ ] Speaker diarisation — multi-speaker attribution (Target: Q4 2026)
+- [x] Speaker diarisation — multi-speaker attribution (Target: Q4 2026)
 - [x] Language-detection confidence threshold config (Target: Q3 2026)
 
 ## Implementation Phases
@@ -78,9 +78,15 @@ v2.1.0 — Thread-safe. MP3/OGG input via FFmpeg adapter. Benchmarks wired.
 ### Phase 6 — Documentation & Acceptance ✅
 - [x] README, CHANGELOG, ROADMAP, ARCHITECTURE, FUTURE_ENHANCEMENTS, AUDIT, SECURITY
 
+### Phase 7 — Speaker Diarisation ✅ (v2.3.0)
+- [x] `DiarisationResult` + `DiarisationConfig` added to `IWhisperTranscriber` (optional default implementation)
+- [x] `WhisperPlugin::transcribeWithDiarisation()` orchestrates diarisation and applies provenance stamps
+- [x] Stub + in-memory transcriber diarisation fixtures for deterministic testing
+- [x] DSR-01..05 test coverage for fixture flow, config handling, fallback behavior, clamp, and provenance
+
 ## Production Readiness Checklist
 
-- [x] Unit tests present (44 tests)
+- [x] Unit tests present (69 tests)
 - [x] Stub mode for CI without model file
 - [x] Injection constructor for test doubles
 - [x] Provenance stamps on every result
@@ -89,10 +95,11 @@ v2.1.0 — Thread-safe. MP3/OGG input via FFmpeg adapter. Benchmarks wired.
 - [x] PluginManager hot-plug integration (`WhisperPluginAdapter` / `WhisperPluginRegistrar`)
 - [x] `transcribeStream()` — incremental token callback with exception safety (v2.2.0)
 - [x] `EnergyThresholdVad` + `IVoiceActivityDetector` strategy injected via `setVoiceActivityDetector()` (v2.2.0)
-- [x] 55 unit tests (groups A–Q, including WST-01..05 + VAD-01..06)
-- [ ] Real whisper.cpp integration validated end-to-end (requires model file)
+- [x] 69 unit tests (groups A–U, including DSR-01..05 + SEC-01 guard tests)
+- [~] Real whisper.cpp integration validated end-to-end (requires model file in CI env)
+- [x] SHA-256 model integrity validation path implemented (`WhisperConfig.model_sha256`)
 
-### Phase 7 — PluginManager Hot-Plug Integration ✅ (v2.1.0)
+### Phase 8 — PluginManager Hot-Plug Integration ✅ (v2.1.0)
 - [x] `WhisperPluginAdapter : IThemisPlugin` — wraps `WhisperPlugin`, implements `initialize(config_json)`, `shutdown()`, `getType()`, `getCapabilities()`, `getInstance()`; `PluginType::AUDIO_PROCESSING`
 - [x] `WhisperPluginRegistrar` — `createPlugin()`, `createAdapter()`, `defaultReloadCallback()`, `enableHotPlug()`, `disableHotPlug()`
 - [x] 12 unit tests (`WhisperPluginRegistrarTests`, groups A–D) in `src/whisper/tests/test_whisper_plugin_registrar.cpp`
@@ -100,7 +107,7 @@ v2.1.0 — Thread-safe. MP3/OGG input via FFmpeg adapter. Benchmarks wired.
 ## Known Issues & Limitations
 
 - `WhisperCppTranscriber` is compiled but not exercised in CI without a model file.
-- Speaker diarisation is not implemented.
+- Real-model diarisation quality still depends on external diarisation model/runtime availability.
 - `FfmpegAudioChunkReader` requires `ffmpeg` on PATH; degrades gracefully when absent.
 
 ## Breaking Changes

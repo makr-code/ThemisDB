@@ -10,9 +10,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
-- Streaming token output during transcription
-- Speaker diarisation (multi-speaker attribution)
-- VAD (voice activity detection) pre-filter
+- (reserved)
+
+## [2.3.0] — 2026-08-09
+
+### Added
+- Optional speaker diarisation API (`DiarisationConfig`, `DiarisationResult`) on `IWhisperTranscriber`
+- `WhisperPlugin::transcribeWithDiarisation()` orchestration with provenance stamping
+- DSR-01..05 diarisation-focused tests
+- SHA-256 model integrity gate (`WhisperConfig.model_sha256`) with initialization-time validation
+- Real-model benchmark gate `BM_WhisperRealModel_1min` (enabled with `THEMIS_BENCH_WHISPER_MODEL_PATH`)
+
+### Changed
+- Plugin/runtime version updated to `2.3.0`
+- Thread-stress tests now use timed join helpers for bounded completion
+- FFmpeg subprocess paths use stronger RAII cleanup on all exception paths
 
 ## [2.1.0] — 2026-04-12
 

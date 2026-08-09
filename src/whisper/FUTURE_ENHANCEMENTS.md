@@ -55,12 +55,15 @@ callback after each word/segment token.
 
 ---
 
-### 2. Speaker Diarisation (Target: Q4 2026)
+### 2. [~] Speaker Diarisation (In Progress, Target: Q4 2026)
 
 **Problem:** Transcripts from multi-speaker recordings are not attributed to individual speakers.
 
-**Solution:** Add optional `diarize(chunk, cfg) -> DiarisationResult` to `IWhisperTranscriber`.
-`WhisperCppTranscriber` integrates with a speaker-embedding model (e.g., pyannote-onnx).
+**Status update (v2.3.0):** Optional `diarize(pcm, sample_rate, cfg) -> DiarisationResult` is available in
+`IWhisperTranscriber` and orchestrated by `WhisperPlugin::transcribeWithDiarisation()`.
+
+**Next step:** `WhisperCppTranscriber` quality path integration with a dedicated speaker-embedding model
+(e.g., pyannote-onnx) for improved multi-speaker attribution.
 
 **Inputs:** `AudioChunk`, `DiarisationConfig { min_speakers, max_speakers }`.
 **Outputs:** `DiarisationResult { segments: [{speaker_id, start_ms, end_ms, text}] }`.

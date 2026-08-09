@@ -37,6 +37,25 @@ static std::string writeTmpFile(const std::string& name,
     return path;
 }
 
+static bool joinThreadWithTimeout(std::thread& th,
+                                  std::atomic<bool>& done_flag,
+                                  std::chrono::milliseconds timeout = std::chrono::seconds(5)) {
+    if (!th.joinable()) {
+        return true;
+    }
+    const auto deadline = std::chrono::steady_clock::now() + timeout;
+    while (!done_flag.load(std::memory_order_acquire) &&
+           std::chrono::steady_clock::now() < deadline) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    }
+    if (!done_flag.load(std::memory_order_acquire)) {
+        th.detach();
+        return false;
+    }
+    th.join();
+    return true;
+}
+
 // Minimal RIFF/WAV (16-bit PCM mono 16kHz, 4 zero samples)
 static std::vector<uint8_t> minimalWav() {
     const uint32_t num_samples  = 4;
@@ -300,7 +319,7 @@ TEST(WhisperPluginFocusedTests, G2_PluginVersionAlways2_0_0) {
     t->setNextResult({});
     WhisperPlugin p(std::move(t), std::make_unique<PresetReader>());
     p.initialize("", {});
-    EXPECT_EQ(p.transcribe({}, 16000.f).plugin_version, "2.0.0");
+    EXPECT_EQ(p.transcribe({}, 16000.f).plugin_version, "2.3.0");
 }
 
 TEST(WhisperPluginFocusedTests, G3_GenerationTimestampPositive) {
@@ -334,7 +353,7 @@ TEST(WhisperPluginFocusedTests, H2_StatisticsPluginName) {
 TEST(WhisperPluginFocusedTests, H3_StatisticsVersionIs2_0_0) {
     WhisperPlugin p(std::make_unique<InMemoryWhisperTranscriber>(),
                     std::make_unique<PresetReader>());
-    EXPECT_EQ(p.getStatistics()["plugin_version"].get<std::string>(), "2.0.0");
+    EXPECT_EQ(p.getStatistics()["plugin_version"].get<std::string>(), "2.3.0");
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -409,19 +428,23 @@ TEST(WhisperPluginFocusedTests, K1_ConcurrentTranscribeDoesNotCrash) {
     constexpr int kThreads = 8;
     constexpr int kCalls   = 20;
     std::vector<std::thread> threads;
+    std::vector<std::atomic<bool>> done_flags(static_cast<std::size_t>(kThreads));
     threads.reserve(kThreads);
     for (int i = 0; i < kThreads; ++i) {
-        threads.emplace_back([&p]() {
+        done_flags[static_cast<std::size_t>(i)].store(false, std::memory_order_release);
+    }
+    for (int i = 0; i < kThreads; ++i) {
+        threads.emplace_back([&p, &done_flags, i]() {
             const std::vector<float> pcm(160, 0.0f);
             for (int j = 0; j < kCalls; ++j) {
                 auto res = p.transcribe(pcm, 16000.f);
             }
+            done_flags[static_cast<std::size_t>(i)].store(true, std::memory_order_release);
         });
     }
-    for (auto& th : threads) {
-        if (th.joinable()) {
-            th.join();
-        }
+    for (int i = 0; i < kThreads; ++i) {
+        EXPECT_TRUE(joinThreadWithTimeout(threads[static_cast<std::size_t>(i)],
+                                          done_flags[static_cast<std::size_t>(i)]));
     }
 
     const uint64_t count = p.getStatistics()["transcription_count"].get<uint64_t>();
@@ -437,19 +460,23 @@ TEST(WhisperPluginFocusedTests, K2_AtomicCountersUnderConcurrentErrors) {
     constexpr int kThreads = 4;
     constexpr int kCalls   = 25;
     std::vector<std::thread> threads;
+    std::vector<std::atomic<bool>> done_flags(static_cast<std::size_t>(kThreads));
     threads.reserve(kThreads);
     for (int i = 0; i < kThreads; ++i) {
-        threads.emplace_back([&p]() {
+        done_flags[static_cast<std::size_t>(i)].store(false, std::memory_order_release);
+    }
+    for (int i = 0; i < kThreads; ++i) {
+        threads.emplace_back([&p, &done_flags, i]() {
             for (int j = 0; j < kCalls; ++j) {
                 auto res = p.transcribe({0.f}, 16000.f);
                 EXPECT_FALSE(res.success);
             }
+            done_flags[static_cast<std::size_t>(i)].store(true, std::memory_order_release);
         });
     }
-    for (auto& th : threads) {
-        if (th.joinable()) {
-            th.join();
-        }
+    for (int i = 0; i < kThreads; ++i) {
+        EXPECT_TRUE(joinThreadWithTimeout(threads[static_cast<std::size_t>(i)],
+                                          done_flags[static_cast<std::size_t>(i)]));
     }
 
     EXPECT_EQ(p.getStatistics()["error_count"].get<uint64_t>(),
@@ -465,19 +492,23 @@ TEST(WhisperPluginFocusedTests, K3_ConcurrentDetectLanguageDoesNotCrash) {
 
     constexpr int kThreads = 6;
     std::vector<std::thread> threads;
+    std::vector<std::atomic<bool>> done_flags(static_cast<std::size_t>(kThreads));
     threads.reserve(kThreads);
     for (int i = 0; i < kThreads; ++i) {
-        threads.emplace_back([&p]() {
+        done_flags[static_cast<std::size_t>(i)].store(false, std::memory_order_release);
+    }
+    for (int i = 0; i < kThreads; ++i) {
+        threads.emplace_back([&p, &done_flags, i]() {
             for (int j = 0; j < 10; ++j) {
                 auto res = p.detectLanguage({0.f, 0.f}, 16000.f);
                 EXPECT_FALSE(res.language.empty());
             }
+            done_flags[static_cast<std::size_t>(i)].store(true, std::memory_order_release);
         });
     }
-    for (auto& th : threads) {
-        if (th.joinable()) {
-            th.join();
-        }
+    for (int i = 0; i < kThreads; ++i) {
+        EXPECT_TRUE(joinThreadWithTimeout(threads[static_cast<std::size_t>(i)],
+                                          done_flags[static_cast<std::size_t>(i)]));
     }
 }
 
@@ -715,7 +746,7 @@ TEST(WhisperPluginFocusedTests, O4_StreamUninitGuard) {
     WhisperPlugin p;  // not initialized
     const auto result = p.transcribeStream({0.f}, 16000.f, nullptr);
     EXPECT_FALSE(result.success);
-    EXPECT_EQ(result.plugin_version, "2.0.0");
+    EXPECT_EQ(result.plugin_version, "2.3.0");
     EXPECT_EQ(result.ingestion_source_type, "WHISPER");
 }
 
@@ -733,7 +764,7 @@ TEST(WhisperPluginFocusedTests, O5_StreamProvenanceAlwaysSet) {
 
     const auto result = p.transcribeStream({0.f}, 16000.f, nullptr);
     EXPECT_EQ(result.ingestion_source_type, "WHISPER");
-    EXPECT_EQ(result.plugin_version, "2.0.0");
+    EXPECT_EQ(result.plugin_version, "2.3.0");
     EXPECT_NE(result.generation_timestamp, 0);
 }
 
@@ -876,6 +907,8 @@ TEST(WhisperPluginFocusedTests, R1_ConcurrentVadSetAndTranscribeStream) {
 
     std::vector<float> speech(320, 0.5f);
     std::atomic<int> errors{0};
+    std::atomic<bool> setter_done{false};
+    std::atomic<bool> caller_done{false};
 
     // Thread A: repeatedly set and clear the VAD
     std::thread setter([&]() {
@@ -885,6 +918,7 @@ TEST(WhisperPluginFocusedTests, R1_ConcurrentVadSetAndTranscribeStream) {
             p.setVoiceActivityDetector(std::make_unique<EnergyThresholdVad>(), cfg);
             p.setVoiceActivityDetector(nullptr);
         }
+        setter_done.store(true, std::memory_order_release);
     });
 
     // Thread B: repeatedly call transcribeStream while VAD changes
@@ -897,14 +931,11 @@ TEST(WhisperPluginFocusedTests, R1_ConcurrentVadSetAndTranscribeStream) {
                 ++errors;
             }
         }
+        caller_done.store(true, std::memory_order_release);
     });
 
-    if (setter.joinable()) {
-        setter.join();
-    }
-    if (caller.joinable()) {
-        caller.join();
-    }
+    EXPECT_TRUE(joinThreadWithTimeout(setter, setter_done));
+    EXPECT_TRUE(joinThreadWithTimeout(caller, caller_done));
     EXPECT_EQ(errors.load(), 0);
 }
 
@@ -1010,3 +1041,132 @@ TEST(WhisperPluginFocusedTests, S3_ParseWavAcceptsMaxValidChannelCount) {
     EXPECT_NO_THROW(reader.readFile(path, sr));
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Group T – Speaker diarisation
+// ─────────────────────────────────────────────────────────────────────────────
+
+namespace {
+class CaptureDiarizeTranscriber : public InMemoryWhisperTranscriber {
+public:
+    DiarisationResult diarize(const std::vector<float>& pcm,
+                              float sample_rate,
+                              const DiarisationConfig& cfg) override {
+        (void)pcm;
+        (void)sample_rate;
+        last_cfg_ = cfg;
+        return InMemoryWhisperTranscriber::diarize(pcm, sample_rate, cfg);
+    }
+
+    DiarisationConfig last_cfg_;
+};
+} // namespace
+
+TEST(WhisperPluginFocusedTests, T1_DiarisationFixtureResultFromTranscriber) {
+    auto t = std::make_unique<InMemoryWhisperTranscriber>();
+    DiarisationResult fixture;
+    fixture.segments.push_back({"speaker_1", 0, 1200, "hello"});
+    t->setNextDiarisationResult(fixture);
+
+    WhisperPlugin p(std::move(t), std::make_unique<PresetReader>());
+    ASSERT_TRUE(p.initialize("stub-model", {}));
+
+    const auto res = p.transcribeWithDiarisation({0.1f, 0.2f}, 16000.f, {});
+    ASSERT_TRUE(res.success);
+    ASSERT_EQ(res.segments.size(), 1u);
+    EXPECT_EQ(res.segments[0].speaker_id, "speaker_1");
+}
+
+TEST(WhisperPluginFocusedTests, T2_DiarisationEmptyConfigIsAccepted) {
+    auto t = std::make_unique<InMemoryWhisperTranscriber>();
+    WhisperPlugin p(std::move(t), std::make_unique<PresetReader>());
+    ASSERT_TRUE(p.initialize("stub-model", {}));
+
+    const auto res = p.transcribeWithDiarisation({0.1f}, 16000.f, {});
+    EXPECT_TRUE(res.success);
+}
+
+TEST(WhisperPluginFocusedTests, T3_DiarisationMissingModelFallbackKeepsTranscriptionWorking) {
+    auto t = std::make_unique<InMemoryWhisperTranscriber>();
+    TranscriptionResult tr;
+    tr.success = true;
+    tr.text = "fallback";
+    t->setNextResult(tr);
+
+    DiarisationResult diar;
+    diar.success = false;
+    diar.error_message = "feature disabled: missing diarisation model";
+    t->setNextDiarisationResult(diar);
+
+    WhisperPlugin p(std::move(t), std::make_unique<PresetReader>());
+    ASSERT_TRUE(p.initialize("stub-model", {}));
+
+    const auto dr = p.transcribeWithDiarisation({0.1f}, 16000.f, {});
+    EXPECT_FALSE(dr.success);
+    EXPECT_FALSE(dr.error_message.empty());
+
+    const auto tr_out = p.transcribe({0.1f}, 16000.f);
+    EXPECT_TRUE(tr_out.success);
+}
+
+TEST(WhisperPluginFocusedTests, T4_DiarisationSpeakerCountClamp) {
+    auto t = std::make_unique<CaptureDiarizeTranscriber>();
+    auto* raw = t.get();
+    WhisperPlugin p(std::move(t), std::make_unique<PresetReader>());
+    ASSERT_TRUE(p.initialize("stub-model", {}));
+
+    DiarisationConfig cfg;
+    cfg.min_speakers = 0;
+    cfg.max_speakers = 0;
+    const auto res = p.transcribeWithDiarisation({0.1f}, 16000.f, cfg);
+    EXPECT_TRUE(res.success);
+    EXPECT_EQ(raw->last_cfg_.min_speakers, 1);
+    EXPECT_EQ(raw->last_cfg_.max_speakers, 1);
+}
+
+TEST(WhisperPluginFocusedTests, T5_DiarisationResultHasProvenanceStamp) {
+    auto t = std::make_unique<InMemoryWhisperTranscriber>();
+    DiarisationResult fixture;
+    fixture.segments.push_back({"speaker_0", 0, 100, "segment"});
+    t->setNextDiarisationResult(fixture);
+
+    WhisperPlugin p(std::move(t), std::make_unique<PresetReader>());
+    ASSERT_TRUE(p.initialize("stub-model", {}));
+    const auto res = p.transcribeWithDiarisation({0.1f}, 16000.f, {});
+
+    EXPECT_EQ(res.ingestion_source_type, "WHISPER");
+    EXPECT_EQ(res.plugin_version, "2.3.0");
+    EXPECT_FALSE(res.model_id.empty());
+    EXPECT_GT(res.generation_timestamp, 0);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Group U – Model integrity (SHA-256)
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST(WhisperPluginFocusedTests, U1_ModelSha256RoundTripInConfig) {
+    WhisperConfig cfg;
+    cfg.model_path = "/tmp/model.bin";
+    cfg.model_sha256 = "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad";
+    const auto restored = WhisperConfig::fromJson(cfg.toJson());
+    EXPECT_EQ(restored.model_sha256, cfg.model_sha256);
+}
+
+TEST(WhisperPluginFocusedTests, U2_EmptyModelSha256AcceptedInStubMode) {
+    WhisperStubTranscriber t;
+    WhisperConfig cfg;
+    cfg.model_path = "stub-model";
+    cfg.model_sha256.clear();
+    EXPECT_TRUE(t.initialize(cfg));
+}
+
+#ifdef THEMIS_ENABLE_WHISPER
+TEST(WhisperPluginFocusedTests, U3_ModelSha256MismatchFailsInitialize) {
+    const std::string path = writeTmpFile("whisper_model_digest_probe.bin", {'a', 'b', 'c'});
+    WhisperCppTranscriber t;
+    WhisperConfig cfg;
+    cfg.model_path = path;
+    cfg.model_sha256 = "0000000000000000000000000000000000000000000000000000000000000000";
+    EXPECT_FALSE(t.initialize(cfg));
+    EXPECT_NE(t.getLastError().find("SHA-256 mismatch"), std::string::npos);
+}
+#endif

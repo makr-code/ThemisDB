@@ -20,7 +20,7 @@ This document covers the security posture of the Whisper audio transcription plu
 |--------|--------------|------------|
 | Path traversal via audio file path | Attacker supplies `../../etc/passwd` as audio path | `WavAudioChunkReader` opens only regular files; path is not further interpreted; callers should normalise paths before passing |
 | Malformed WAV file causing buffer overflow | Crafted WAV with oversized chunk size headers | Parser validates all chunk sizes against the remaining file size; no heap allocation proportional to untrusted header values |
-| Model file tampering | Whisper model replaced with a crafted binary | Planned: SHA-256 digest check before model load (Target: Q3 2026); currently the plugin trusts the model path supplied in config |
+| Model file tampering | Whisper model replaced with a crafted binary | SHA-256 digest check before model load via `WhisperConfig.model_sha256`; mismatch aborts initialization |
 | Transcript exfiltration via log sink | Transcription text written to log files | Transcript text is never passed to any log sink; only metadata (model_id, duration_ms, success flag) is logged |
 | Denial of service via large audio file | Attacker submits a multi-hour WAV file | `WavAudioChunkReader` reads the file into memory; callers should enforce a maximum file size limit before calling `transcribe()` |
 | Inference resource exhaustion | Flood of `transcribe()` calls consuming all CPU/GPU | Rate limiting must be applied at the API layer; `WhisperPlugin` itself has no rate limiter in v2.0.0 |
@@ -34,9 +34,9 @@ This document covers the security posture of the Whisper audio transcription plu
 - PCM format chunk validated: only 16-bit integer and 32-bit float samples accepted.
 - File size is checked against the declared data-chunk length before allocation.
 
-### Model Integrity (Planned)
-- SHA-256 digest verification of the model file against a trusted manifest is planned for Q3 2026,
-  consistent with the LoRA adapter integrity policy in the LLM module.
+### Model Integrity
+- SHA-256 digest verification of the model file is supported through `WhisperConfig.model_sha256`.
+- Initialization fails when the computed digest does not match the expected value.
 
 ### Provenance
 - Every `TranscriptionResult` carries `ingestion_source_type="WHISPER"` and `plugin_version`,
@@ -49,7 +49,7 @@ This document covers the security posture of the Whisper audio transcription plu
 - [x] Magic-byte / format validation in WAV parser
 - [x] No transcript text in log output
 - [x] Exception isolation: transcriber exceptions caught, not propagated to caller
-- [ ] Model file integrity check (Target: Q3 2026)
+- [x] Model file integrity check (SHA-256 gate in `WhisperCppTranscriber::initialize()`)
 - [ ] Maximum audio file size enforcement (caller responsibility; to be documented in API layer)
 - [ ] Rate limiting (caller / API layer responsibility)
 - [x] Thread-safety audit

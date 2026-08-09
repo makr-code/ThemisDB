@@ -20,9 +20,33 @@
 #include <mutex>
 #include <istream>
 #include <ostream>
+#include <cstdint>
+#include <chrono>
 
 namespace themis {
 namespace whisper {
+
+struct DiarisationSegment {
+    std::string speaker_id;
+    int64_t     start_ms = 0;
+    int64_t     end_ms   = 0;
+    std::string text;
+};
+
+struct DiarisationConfig {
+    int min_speakers = 1;
+    int max_speakers = 8;
+};
+
+struct DiarisationResult {
+    std::vector<DiarisationSegment> segments;
+    std::string model_id;
+    std::string plugin_version;
+    std::string ingestion_source_type = "WHISPER";
+    int64_t     generation_timestamp = 0;
+    bool        success = true;
+    std::string error_message;
+};
 
 /**
  * @brief Interface for the core transcription engine.
@@ -78,6 +102,25 @@ public:
      */
     [[nodiscard]] virtual audio::LanguageDetectionResult detectLanguage(const std::vector<float>& pcm,
                                                           float sample_rate) = 0;
+
+    /**
+     * @brief Optional speaker diarisation API.
+     *
+     * Default implementation returns an empty successful result so existing
+     * implementations remain source-compatible.
+     */
+    [[nodiscard]] virtual DiarisationResult diarize(const std::vector<float>& /*pcm*/,
+                                                    float /*sample_rate*/,
+                                                    const DiarisationConfig& /*cfg*/) {
+        return {};
+    }
+
+    /**
+     * @brief Return the most recent initialization or runtime error.
+     *
+     * Implementations should return an empty string when no error is available.
+     */
+    [[nodiscard]] virtual std::string getLastError() const { return {}; }
 
     /**
      * @brief Transcribe with incremental token streaming.
@@ -194,6 +237,10 @@ public:
                                              float sample_rate) override;
     audio::LanguageDetectionResult detectLanguage(const std::vector<float>& pcm,
                                                   float sample_rate) override;
+    DiarisationResult diarize(const std::vector<float>& pcm,
+                              float sample_rate,
+                              const DiarisationConfig& cfg) override;
+    std::string getLastError() const override { return last_error_; }
     std::string getModelId() const override { return model_id_; }
     std::vector<char> serialize() const override {
         std::vector<char> state;
@@ -237,6 +284,7 @@ public:
 private:
     bool        initialized_ = false;
     std::string model_id_;
+    std::string last_error_;
     struct WhisperContextDeleter {
         void operator()(void* ctx) const noexcept {
             if (ctx) whisper_free(static_cast<whisper_context*>(ctx));
@@ -288,7 +336,7 @@ public:
         if (fn_copy) {
             auto result = fn_copy(pcm, sample_rate);
             result.model_id            = model_id_;
-            result.plugin_version      = "2.0.0";
+            result.plugin_version      = "2.3.0";
             result.ingestion_source_type = "WHISPER";
             return result;
         }
@@ -297,12 +345,29 @@ public:
         r.language = "unknown";
         r.confidence = 0.0f;
         r.model_id = model_id_;
-        r.plugin_version = "2.0.0";
+        r.plugin_version = "2.3.0";
         r.ingestion_source_type = "WHISPER";
         return r;
     }
     audio::LanguageDetectionResult detectLanguage(const std::vector<float>&, float) override {
         return {"unknown", 0.0f};
+    }
+    DiarisationResult diarize(const std::vector<float>&,
+                              float sample_rate,
+                              const DiarisationConfig&) override {
+        (void)sample_rate;
+        DiarisationResult result = next_diarisation_;
+        if (result.generation_timestamp == 0) {
+            result.generation_timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::system_clock::now().time_since_epoch()).count();
+        }
+        result.ingestion_source_type = "WHISPER";
+        result.plugin_version = "2.3.0";
+        result.model_id = model_id_;
+        return result;
+    }
+    void setNextDiarisationResult(DiarisationResult r) {
+        next_diarisation_ = std::move(r);
     }
     std::string getModelId() const override { return model_id_; }
     std::vector<char> serialize() const override {
@@ -349,6 +414,7 @@ private:
     std::string model_id_ = "stub";
     TranscribeFn        transcribe_fn_;
     std::mutex          transcribe_fn_mutex_;
+    DiarisationResult   next_diarisation_;
 };
 
 // ---------------------------------------------------------------------------
@@ -389,6 +455,23 @@ public:
     }
     audio::LanguageDetectionResult detectLanguage(const std::vector<float>&, float) override {
         return next_lang_;
+    }
+    DiarisationResult diarize(const std::vector<float>&,
+                              float sample_rate,
+                              const DiarisationConfig&) override {
+        (void)sample_rate;
+        auto r = next_diarisation_;
+        r.ingestion_source_type = "WHISPER";
+        r.model_id = model_id_;
+        r.plugin_version = "2.3.0";
+        if (r.generation_timestamp == 0) {
+            r.generation_timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::system_clock::now().time_since_epoch()).count();
+        }
+        return r;
+    }
+    void setNextDiarisationResult(DiarisationResult r) {
+        next_diarisation_ = std::move(r);
     }
 
     audio::TranscriptionResult transcribeStream(
@@ -453,6 +536,7 @@ private:
     audio::TranscriptionResult     next_result_;
     audio::LanguageDetectionResult next_lang_;
     std::vector<audio::TranscriptionToken> stream_tokens_;
+    DiarisationResult next_diarisation_;
 };
 
 } // namespace whisper

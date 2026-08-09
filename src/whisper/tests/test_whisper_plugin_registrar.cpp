@@ -73,7 +73,7 @@ TEST(WhisperPluginRegistrarTests, C1_AdapterNameAndVersion) {
     auto adapter = WhisperPluginRegistrar::createAdapter({});
     ASSERT_NE(adapter, nullptr);
     EXPECT_STREQ(adapter->getName(), "whisper");
-    EXPECT_STREQ(adapter->getVersion(), "2.0.0");
+    EXPECT_STREQ(adapter->getVersion(), "2.3.0");
 }
 
 TEST(WhisperPluginRegistrarTests, C2_AdapterCapabilitiesThreadSafe) {
@@ -81,7 +81,7 @@ TEST(WhisperPluginRegistrarTests, C2_AdapterCapabilitiesThreadSafe) {
     ASSERT_NE(adapter, nullptr);
     const auto caps = adapter->getCapabilities();
     EXPECT_TRUE(caps.thread_safe);
-    EXPECT_FALSE(caps.supports_streaming);
+    EXPECT_TRUE(caps.supports_streaming);
     EXPECT_FALSE(caps.supports_batching);
 }
 

@@ -5,8 +5,9 @@
   "description": "Audio transcription plugin backed by whisper.cpp. Supports WAV input, automatic language detection, and stub mode for CI without a model file.",
   "author": "ThemisDB Team",
   "license": "MIT",
+  "allowed_editions": ["community", "enterprise", "hyperscaler", "military"],
   "capabilities": {
-    "supports_streaming": false,
+    "supports_streaming": true,
     "supports_batching": false,
     "supports_transactions": false,
     "thread_safe": true,

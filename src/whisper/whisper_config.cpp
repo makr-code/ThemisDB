@@ -15,6 +15,7 @@ namespace whisper {
 WhisperConfig WhisperConfig::fromJson(const json& j) {
     WhisperConfig cfg;
     if (j.contains("model_path"))       cfg.model_path       = j["model_path"].get<std::string>();
+    if (j.contains("model_sha256"))     cfg.model_sha256     = j["model_sha256"].get<std::string>();
     if (j.contains("language"))         cfg.language         = j["language"].get<std::string>();
     if (j.contains("n_threads"))        cfg.n_threads        = j["n_threads"].get<int>();
     if (j.contains("translate"))        cfg.translate        = j["translate"].get<bool>();
@@ -32,6 +33,7 @@ WhisperConfig WhisperConfig::fromJson(const json& j) {
 json WhisperConfig::toJson() const {
     return {
         {"model_path",        model_path},
+        {"model_sha256",      model_sha256},
         {"language",          language},
         {"n_threads",         n_threads},
         {"translate",         translate},
@@ -44,4 +46,3 @@ json WhisperConfig::toJson() const {
 
 } // namespace whisper
 } // namespace themis
-
