@@ -86,6 +86,14 @@ enum class TokenType {
     FROM,            // DELETE FROM collection
     WHERE,           // … WHERE condition
     
+    // Phase 6: FTS / SEARCH clause keywords (Target: Q3–Q4 2026)
+    SEARCH,          // SEARCH — start of a full-text search clause
+    PHRASE,          // PHRASE(field, "text") FTS predicate function
+    NEAR,            // NEAR[n] proximity operator
+    STARTS_WITH,     // STARTS_WITH(field, "prefix") FTS predicate function
+    BOOST,           // BOOST n.n — per-clause relevance multiplier
+    ANALYZER,        // ANALYZER "name" — text analyzer selection
+
     // Operators
     EQ, NEQ, LT, LTE, GT, GTE,
     PLUS, MINUS, STAR, SLASH, MODULO,
@@ -311,7 +319,15 @@ private:
         if (lower == "values")  return Token(TokenType::VALUES,  value, line, col);
         if (lower == "from")    return Token(TokenType::FROM,    value, line, col);
         if (lower == "where")   return Token(TokenType::WHERE,   value, line, col);
-        
+
+        // Phase 6: FTS / SEARCH clause keywords
+        if (lower == "search")      return Token(TokenType::SEARCH,      value, line, col);
+        if (lower == "phrase")      return Token(TokenType::PHRASE,       value, line, col);
+        if (lower == "near")        return Token(TokenType::NEAR,         value, line, col);
+        if (lower == "starts_with") return Token(TokenType::STARTS_WITH,  value, line, col);
+        if (lower == "boost")       return Token(TokenType::BOOST,        value, line, col);
+        if (lower == "analyzer")    return Token(TokenType::ANALYZER,     value, line, col);
+
         return Token(TokenType::IDENTIFIER, value, line, col);
     }
     
@@ -517,6 +533,11 @@ private:
             query->collect = parseCollectClause();
         }
 
+        // SEARCH clause (optional, Phase 6 FTS)
+        if (match(TokenType::SEARCH)) {
+            query->search_clause = parseSearchClause();
+        }
+
         auto parseShortestPathClause = [&]() {
             if (query->traversal && match(TokenType::SHORTEST_PATH)) {
                 advance();
@@ -549,7 +570,213 @@ private:
         
         return query;
     }
-    
+
+    /**
+     * @brief Parse a SEARCH clause: SEARCH [predicates] [IN field] [ANALYZER name] [BOOST n]
+     *
+     * Grammar (simplified):
+     * @code
+     * search_clause ::= SEARCH predicate_list [IN IDENTIFIER] [ANALYZER STRING] [BOOST NUMBER]
+     * predicate_list ::= predicate { (AND | ',') predicate }
+     * predicate      ::= PHRASE '(' field ',' STRING [',' STRING] ')'
+     *                  | STARTS_WITH '(' field ',' STRING [',' STRING] ')'
+     *                  | NEAR '[' NUMBER ']' '(' field ',' STRING ')'
+     *                  | field '==' STRING        (implicit TERM predicate)
+     *                  | STRING                   (bare term, field from IN clause)
+     * @endcode
+     *
+     * @return Shared pointer to the parsed `SearchClauseNode`.
+     * @throws std::runtime_error on syntax errors.
+     *
+     * @since Phase 6 FTS (Target: Q3 2026)
+     */
+    std::shared_ptr<SearchClauseNode> parseSearchClause() {
+        expect(TokenType::SEARCH, "Expected SEARCH keyword");
+
+        auto node = std::make_shared<SearchClauseNode>();
+
+        // Helper: parse a single FTS predicate
+        auto parsePredicate = [&]() -> FtsPredicateNode {
+            FtsPredicateNode pred;
+
+            if (match(TokenType::PHRASE)) {
+                // PHRASE(field, "term" [, "analyzer"])
+                pred.pred_type = FtsPredType::PHRASE;
+                advance(); // consume PHRASE
+                expect(TokenType::LPAREN, "Expected '(' after PHRASE");
+                if (!match(TokenType::IDENTIFIER)) {
+                    throw std::runtime_error("PHRASE: expected field expression");
+                }
+                pred.field = current().value;
+                advance();
+                expect(TokenType::COMMA, "PHRASE: expected ',' after field");
+                if (!match(TokenType::STRING)) {
+                    throw std::runtime_error("PHRASE: expected string term");
+                }
+                pred.term = current().value;
+                advance();
+                if (match(TokenType::COMMA)) {
+                    advance();
+                    if (match(TokenType::STRING)) {
+                        pred.analyzer = current().value;
+                        advance();
+                    }
+                }
+                expect(TokenType::RPAREN, "PHRASE: expected closing ')'");
+
+            } else if (match(TokenType::STARTS_WITH)) {
+                // STARTS_WITH(field, "prefix" [, "analyzer"])
+                pred.pred_type = FtsPredType::PREFIX;
+                advance(); // consume STARTS_WITH
+                expect(TokenType::LPAREN, "Expected '(' after STARTS_WITH");
+                if (!match(TokenType::IDENTIFIER)) {
+                    throw std::runtime_error("STARTS_WITH: expected field expression");
+                }
+                pred.field = current().value;
+                advance();
+                expect(TokenType::COMMA, "STARTS_WITH: expected ',' after field");
+                if (!match(TokenType::STRING)) {
+                    throw std::runtime_error("STARTS_WITH: expected string prefix");
+                }
+                pred.term = current().value;
+                advance();
+                if (match(TokenType::COMMA)) {
+                    advance();
+                    if (match(TokenType::STRING)) {
+                        pred.analyzer = current().value;
+                        advance();
+                    }
+                }
+                expect(TokenType::RPAREN, "STARTS_WITH: expected closing ')'");
+
+            } else if (match(TokenType::NEAR)) {
+                // NEAR[n](field, "term")
+                pred.pred_type = FtsPredType::PROXIMITY;
+                advance(); // consume NEAR
+                // Optional [n] distance specifier
+                if (match(TokenType::LBRACKET)) {
+                    advance();
+                    if (match(TokenType::INTEGER) || match(TokenType::FLOAT)) {
+                        try {
+                            pred.proximity_distance = static_cast<uint32_t>(
+                                std::stoul(current().value));
+                        } catch (...) {
+                            pred.proximity_distance = 0;
+                        }
+                        advance();
+                    }
+                    expect(TokenType::RBRACKET, "NEAR: expected ']' after distance");
+                }
+                expect(TokenType::LPAREN, "Expected '(' after NEAR[n]");
+                if (!match(TokenType::IDENTIFIER)) {
+                    throw std::runtime_error("NEAR: expected field expression");
+                }
+                pred.field = current().value;
+                advance();
+                expect(TokenType::COMMA, "NEAR: expected ',' after field");
+                if (!match(TokenType::STRING)) {
+                    throw std::runtime_error("NEAR: expected string term");
+                }
+                pred.term = current().value;
+                advance();
+                expect(TokenType::RPAREN, "NEAR: expected closing ')'");
+
+            } else if (match(TokenType::STRING)) {
+                // Bare string term — uses IN field or caller provides field later
+                pred.pred_type = FtsPredType::TERM;
+                pred.term = current().value;
+                advance();
+
+            } else if (match(TokenType::IDENTIFIER)) {
+                // field == "term" implicit TERM predicate
+                pred.pred_type = FtsPredType::TERM;
+                pred.field = current().value;
+                advance();
+                if (match(TokenType::EQ)) {
+                    advance();
+                    if (!match(TokenType::STRING)) {
+                        throw std::runtime_error("SEARCH: expected string literal after '=='");
+                    }
+                    pred.term = current().value;
+                    advance();
+                }
+            } else {
+                throw std::runtime_error("SEARCH: unexpected token in predicate list");
+            }
+
+            // Optional per-predicate BOOST modifier
+            if (match(TokenType::BOOST)) {
+                advance();
+                if (!match(TokenType::INTEGER) && !match(TokenType::FLOAT)) {
+                    throw std::runtime_error("SEARCH BOOST: expected numeric value");
+                }
+                try {
+                    pred.boost = std::stod(current().value);
+                } catch (...) {
+                    pred.boost = 1.0;
+                }
+                advance();
+            }
+
+            // Optional per-predicate ANALYZER modifier
+            if (match(TokenType::ANALYZER)) {
+                advance();
+                if (!match(TokenType::STRING)) {
+                    throw std::runtime_error("SEARCH ANALYZER: expected string name");
+                }
+                pred.analyzer = current().value;
+                advance();
+            }
+
+            return pred;
+        };
+
+        // Parse predicate list (comma- or AND-separated)
+        node->predicates.push_back(parsePredicate());
+
+        while (match(TokenType::COMMA) ||
+               (match(TokenType::IDENTIFIER) && current().value == "AND")) {
+            advance(); // consume ',' or AND
+            node->predicates.push_back(parsePredicate());
+        }
+
+        // Optional: IN <field> clause
+        if (match(TokenType::IN)) {
+            advance();
+            if (!match(TokenType::IDENTIFIER)) {
+                throw std::runtime_error("SEARCH IN: expected field name");
+            }
+            node->in_field = current().value;
+            advance();
+        }
+
+        // Optional: top-level ANALYZER "name"
+        if (match(TokenType::ANALYZER)) {
+            advance();
+            if (!match(TokenType::STRING)) {
+                throw std::runtime_error("SEARCH ANALYZER: expected string name");
+            }
+            node->default_analyzer = current().value;
+            advance();
+        }
+
+        // Optional: top-level BOOST n
+        if (match(TokenType::BOOST)) {
+            advance();
+            if (!match(TokenType::INTEGER) && !match(TokenType::FLOAT)) {
+                throw std::runtime_error("SEARCH BOOST: expected numeric value");
+            }
+            try {
+                node->top_boost = std::stod(current().value);
+            } catch (...) {
+                node->top_boost = 1.0;
+            }
+            advance();
+        }
+
+        return node;
+    }
+
     ForNode parseForClause() {
         expect(TokenType::FOR, "Expected FOR");
         
