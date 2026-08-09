@@ -27,7 +27,7 @@
  * backed implementation.  When the macro is absent the translation unit is
  * intentionally empty; the no-op stub is defined inline in the header.
  *
- * STUB/SIMULATION NOTE:
+ * PERMANENT HARDWARE FALLBACK NOTE (librdkafka not available):
  * Purpose: Allow ThemisDB to be built without librdkafka.  All
  *   KafkaCdcProducer methods are defined inline as no-ops in
  *   include/cdc/kafka_cdc_producer.h when `THEMIS_ENABLE_KAFKA` is not set.
@@ -40,9 +40,8 @@
  *   via injected callbacks in tests/dev builds (see STUB #98 bridge APIs).
  *   Downstream consumers will not receive real-time change feeds unless a
  *   real Kafka backend is enabled.
- * Removal Plan: Install librdkafka (e.g., `apt install librdkafka-dev`) and
- *   set `-DTHEMIS_ENABLE_KAFKA=1` in CMake.  The full implementation in this
- *   .cpp file will then be compiled and the inline header stubs skipped.
+ * Hardware requirement: librdkafka (`apt install librdkafka-dev`) +
+ *   `-DTHEMIS_ENABLE_KAFKA=1` in CMake.
  * Roadmap ref: src/cdc/FUTURE_ENHANCEMENTS.md §"Kafka CDC Producer Activation"
  *
  * Copyright (c) 2025 ThemisDB Project

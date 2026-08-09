@@ -902,7 +902,7 @@ public:
 
 #else // !THEMIS_ENABLE_VULKAN
 
-// STUB/SIMULATION NOTE:
+// PERMANENT HARDWARE FALLBACK NOTE (Vulkan SDK not available):
 // Purpose: Provide empty Pimpl placeholder so VulkanVectorBackend compiles and
 //   links on systems without the Vulkan SDK.  All public methods on the backend
 //   return false/empty so callers can detect unavailability.
@@ -910,8 +910,7 @@ public:
 //   non-Vulkan hosts).  Enable via -DTHEMIS_ENABLE_VULKAN=ON + Vulkan SDK.
 // Production Delta: Vulkan-accelerated vector operations unavailable; the
 //   acceleration dispatcher falls back to the CPU backend.
-// Removal Plan: Install the Vulkan SDK and build with THEMIS_ENABLE_VULKAN=ON.
-//   The full Vulkan implementation lives in graphics_backends_vulkan.cpp.
+// Hardware requirement: Vulkan SDK (vulkan-sdk, MoltenVK on macOS).
 // Roadmap ref: src/acceleration/FUTURE_ENHANCEMENTS.md § "Vulkan Vector Backend"
 class VulkanVectorBackend::VulkanVectorBackendImpl {
     // Empty placeholder when Vulkan is not compiled in
@@ -920,8 +919,8 @@ class VulkanVectorBackend::VulkanVectorBackendImpl {
 #endif // THEMIS_ENABLE_VULKAN
 
 // ============================================================================
-// DirectXVectorBackend — stub implementation for non-DirectX builds
-// STUB/SIMULATION NOTE:
+// DirectXVectorBackend — permanent hardware fallback for non-DirectX builds
+// PERMANENT HARDWARE FALLBACK NOTE (DirectX 12 SDK not available):
 // Purpose: Provide empty Pimpl + link-compatible method bodies so the
 //   DirectXVectorBackend class compiles on Linux/macOS/non-DX12 Windows.
 // Activation: Compiled when _WIN32 is not defined, or THEMIS_ENABLE_DIRECTX
@@ -929,8 +928,7 @@ class VulkanVectorBackend::VulkanVectorBackendImpl {
 //   (compiled when _WIN32 && THEMIS_ENABLE_DIRECTX).
 // Production Delta: isAvailable() returns false; getCapabilities() returns {}.
 //   All vector operations fall back to CPU or Vulkan backend.
-// Removal Plan: Windows-only — enable by building with
-//   -DTHEMIS_ENABLE_DIRECTX=ON on a Windows host with DirectX 12 SDK.
+// Hardware requirement: Windows host + DirectX 12 SDK + -DTHEMIS_ENABLE_DIRECTX=ON.
 // Roadmap ref: src/acceleration/FUTURE_ENHANCEMENTS.md § "DirectX Vector Backend"
 // ============================================================================
 
@@ -2426,7 +2424,7 @@ public:
         cpuFallback_  = false;
     }
 #else
-    // STUB/SIMULATION NOTE:
+    // PERMANENT HARDWARE FALLBACK NOTE (OpenGL/EGL not available):
     // Purpose: Provide stub data-member declarations so the class body compiles
     //          when THEMIS_ENABLE_OPENGL is not defined, without requiring
     //          callers to be guarded by the same preprocessor flag.
@@ -2435,9 +2433,8 @@ public:
     //          are empty; glMajor_/glMinor_ are 0.  All GPU-accelerated rendering
     //          paths (L2 norm, cosine similarity via shader) are skipped; the
     //          CPU fallback path is used unconditionally.
-    // Removal Plan: Build with -DTHEMIS_ENABLE_OPENGL=ON; the real member
-    //          definitions above the `#else` replace this stub block.  See
-    //          src/acceleration/FUTURE_ENHANCEMENTS.md §OpenGL Backend.
+    // Hardware requirement: OpenGL 4.x or ES 3.x driver + -DTHEMIS_ENABLE_OPENGL=ON.
+    //          See src/acceleration/FUTURE_ENHANCEMENTS.md §OpenGL Backend.
     // Stub members so the class compiles without THEMIS_ENABLE_OPENGL
     bool gpuAvailable_ = false;
     bool cpuFallback_  = false;

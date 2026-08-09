@@ -310,7 +310,7 @@ void ConfigMetricsExporter::updateMetricsCollector() {
     };
 
 #ifdef THEMIS_TEST_BUILD
-    // STUB/SIMULATION NOTE:
+    // PERMANENT FALLBACK NOTE (ConfigMetricsExporter test build):
     // Purpose: Allow focused/unit test binaries to compile `ConfigMetricsExporter`
     //   without linking `observability::MetricsCollector` or the full Prometheus
     //   client library.  When `THEMIS_TEST_BUILD` is defined, this function
@@ -321,10 +321,8 @@ void ConfigMetricsExporter::updateMetricsCollector() {
     // Production Delta: `syncFromPathResolver()` does not update any gauge in the
     //   server-wide scrape endpoint.  The Prometheus `/metrics` page will not
     //   reflect config-path resolution counters (cache hits, legacy fallbacks,
-    //   resolution misses) while this stub is active.
-    // Removal Plan: Do not define `THEMIS_TEST_BUILD` in production CMake targets.
-    //   All production builds must link `MetricsCollector` and the Prometheus client.
-    // Roadmap ref: src/config/FUTURE_ENHANCEMENTS.md §"Config Metrics Exporter Test Build Stub"
+    //   resolution misses) while this flag is active.
+    // Note: Production CMake targets must NOT define `THEMIS_TEST_BUILD`.
 
     // When built with THEMIS_TEST_BUILD (used by focused/unit test binaries),
     // the MetricsCollector and its dependencies are typically not linked. This

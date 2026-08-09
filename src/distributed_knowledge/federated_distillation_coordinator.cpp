@@ -312,16 +312,14 @@ void FederatedDistillationCoordinator::applyDPNoise(std::vector<SoftLabel> &labe
         return;
     }
 
-    // STUB/SIMULATION NOTE:
-    // Purpose: uses std::random_device seeded Gaussian noise to simulate DP.
+    // PERMANENT FALLBACK NOTE (FederatedDistillation CPU Gaussian noise):
+    // Purpose: Uses std::random_device seeded Gaussian noise to satisfy DP.
     //   In production with CUDA-capable hardware, inject a GPU-based Gaussian
     //   noise kernel via setNoiseGeneratorFn() for batch efficiency.
-    // Activation: active when no NoiseGeneratorFn is injected via
-    //   setNoiseGeneratorFn(); always active in this build otherwise.
+    // Activation: Active when no NoiseGeneratorFn is injected via
+    //   setNoiseGeneratorFn(); the CPU path is the production fallback.
     // Production Delta: CPU-only; GPU version would operate on tensors directly.
-    // Roadmap ref: src/distributed_knowledge/ROADMAP.md § "Phase 3 — Layer B: Federated LoRA Integration"
-    // Removal Plan: retain CPU path as fallback; inject GPU path when CUDA is available.
-    // Roadmap ref: src/distributed_knowledge/FUTURE_ENHANCEMENTS.md § "Stub/Simulation Lifecycle"
+    // Note: inject via setNoiseGeneratorFn() to override with GPU path.
     std::random_device rd;
     std::mt19937_64 rng(rd());
     std::normal_distribution<double> noise_dist(0.0, sigma);

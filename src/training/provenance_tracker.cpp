@@ -270,7 +270,7 @@ public:
             }
         }
 
-        // STUB/SIMULATION NOTE:
+        // PERMANENT FALLBACK NOTE (ProvenanceTracker in-process lineage store):
         // Purpose: Build a lineage tree entirely from the in-process
         //   `store_` map when no AQL traversal result is available (offline
         //   mode, disconnected from the graph DB, or empty AQL result set).
@@ -283,12 +283,9 @@ public:
         //   cross-restart lineage is not captured.  Graph relationships between
         //   samples (sibling nodes, model checkpoints) are approximated as
         //   flat parent–child pairs rather than a true provenance DAG.
-        // Removal Plan: Call setQueryEngine() to wire a live QueryEngine
-        //   before first use; the in-process fallback is then only reached
-        //   when AQL traversal returns no results (e.g. empty graph).
+        // Note: Call setQueryEngine() to wire a live QueryEngine; the in-process
+        //   fallback is then only reached when AQL traversal returns no results.
         //   RESOLVED 2026-05-06: setQueryEngine() injection API added.
-        //   Tracking: src/training/FUTURE_ENHANCEMENTS.md §"Provenance Graph Integration"
-        // Roadmap ref: src/ROADMAP.md §Stub Lifecycle
         // In-process fallback: build a stub tree from the in-process store.
         // Used in offline / test mode and as a fallback when the AQL traversal
         // returns an empty result set.

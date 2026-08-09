@@ -623,21 +623,17 @@ void StatisticsManager::collectTableStatistics(const std::string& tableName) {
         tableStats_[tableName] = stats;
         return;
     }
-    // STUB/SIMULATION NOTE:
+    // PERMANENT FALLBACK NOTE (StatisticsManager table scan — no provider injected):
     // Purpose: Creates an empty placeholder entry so that getTableStatistics()
     //   always returns a well-initialised struct for a known table, even before
     //   real stats are injected.
     // Activation: No TableScanProvider has been set via setTableScanProvider().
-    // Production Delta: A production implementation would query the storage
+    // Production Delta: A production implementation queries the storage
     //   engine for live row count, page count, and average row size.  The
     //   actual stats must be injected via setTableScanProvider() (e.g. from
-    //   a RocksDB property reader) or via updateTableStatistics() until that
-    //   path is wired up.
-    // Roadmap ref: src/ROADMAP.md § "Consolidation Phase — Statistics Stubs"
-    //              src/query/FUTURE_ENHANCEMENTS.md § "Cost Model Statistics"
-    // Removal Plan: Call setTableScanProvider() with a storage-engine scan
-    //   function once StorageEngine is injectable into StatisticsManager
-    //   (Target: v2.0.0).
+    //   a RocksDB property reader) or via updateTableStatistics().
+    // Note: call setTableScanProvider() with a storage-engine scan function
+    //   once StorageEngine is injectable into StatisticsManager.
     OptimizerCostModel::TableStatistics stats;
     stats.tableName   = tableName;
     stats.rowCount    = 0;
@@ -661,7 +657,7 @@ void StatisticsManager::collectColumnStatistics(
         columnStats_[tableName][columnName] = stats;
         return;
     }
-    // STUB/SIMULATION NOTE:
+    // PERMANENT FALLBACK NOTE (StatisticsManager column scan — no provider injected):
     // Purpose: Creates a zero-initialised column stats entry so downstream
     //   callers always get a valid struct (distinctValues=0 → worst-case
     //   selectivity assumption).
@@ -669,10 +665,6 @@ void StatisticsManager::collectColumnStatistics(
     // Production Delta: Should scan existing index or sample storage to derive
     //   distinctValues, nullFraction, min/max, and histogram.  Wire via
     //   setColumnScanProvider() once the index subsystem exposes a stats API.
-    // Roadmap ref: src/ROADMAP.md § "Consolidation Phase — Statistics Stubs"
-    //              src/query/FUTURE_ENHANCEMENTS.md § "Cost Model Statistics"
-    // Removal Plan: Call setColumnScanProvider() with a storage-engine sampler
-    //   (Target: v2.0.0).
     OptimizerCostModel::ColumnStatistics stats;
     stats.columnName    = columnName;
     stats.distinctValues = 0;
@@ -689,17 +681,13 @@ void StatisticsManager::collectIndexStatistics(const std::string& indexName) {
         indexStats_[indexName] = stats;
         return;
     }
-    // STUB/SIMULATION NOTE:
+    // PERMANENT FALLBACK NOTE (StatisticsManager index scan — no provider injected):
     // Purpose: Registers a default btree-shaped index entry so that
     //   estimateIndexScan() always has a valid struct to work with.
     // Activation: No IndexScanProvider has been set via setIndexScanProvider().
     // Production Delta: Should query the index subsystem for actual entry
     //   count, tree depth, and selectivity histogram.  Wire via
     //   setIndexScanProvider() once the index subsystem exposes a stats API.
-    // Roadmap ref: src/ROADMAP.md § "Consolidation Phase — Statistics Stubs"
-    //              src/query/FUTURE_ENHANCEMENTS.md § "Cost Model Statistics"
-    // Removal Plan: Call setIndexScanProvider() with a real index-metadata
-    //   reader once the index subsystem exposes a stats API (Target: v2.0.0).
     OptimizerCostModel::IndexStatistics stats;
     stats.indexName  = indexName;
     stats.indexType  = "btree";

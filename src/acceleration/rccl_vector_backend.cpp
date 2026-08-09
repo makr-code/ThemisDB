@@ -583,7 +583,7 @@ bool RCCLVectorBackend::checkXGMISupport(const std::vector<int>& deviceIds) {
 
 #else // THEMIS_ENABLE_RCCL
 
-// STUB/SIMULATION NOTE:
+// PERMANENT HARDWARE FALLBACK NOTE (ROCm/RCCL not available):
 // Purpose: Satisfy the linker and allow ThemisDB to be built and run without
 //   RCCL (ROCm Collective Communications Library — AMD counterpart to NCCL).
 //   All multi-GPU collective operations return false, isRCCLAvailable() returns
@@ -593,8 +593,7 @@ bool RCCLVectorBackend::checkXGMISupport(const std::vector<int>& deviceIds) {
 // Production Delta: All AMD multi-GPU collective operations are unavailable.
 //   Distributed ANN search (mergeTopK across ROCm GPUs) is completely disabled.
 //   Multi-GPU training gradient synchronisation via RCCL is unavailable.
-// Removal Plan: Install ROCm + RCCL and set `-DTHEMIS_ENABLE_RCCL=1` in CMake.
-//   The full RCCL implementation block (above `#else`) will then be compiled.
+// Hardware requirement: ROCm stack + RCCL library + -DTHEMIS_ENABLE_RCCL=1.
 // Roadmap ref: src/acceleration/FUTURE_ENHANCEMENTS.md §"NCCL/RCCL Activation"
 // Stub implementation when RCCL is not available
 // Define empty Impl class to satisfy unique_ptr

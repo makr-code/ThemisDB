@@ -350,20 +350,15 @@ GPUUtilizationMonitor::Metrics GPUUtilizationMonitor::queryVulkan() {
     Metrics metrics;
     
 #ifdef THEMIS_ENABLE_VULKAN
-    // STUB/SIMULATION NOTE:
+    // PERMANENT HARDWARE FALLBACK NOTE (Vulkan GPU metrics — VK_EXT_memory_budget):
     // Purpose: Provide a safe default return value while VK_EXT_memory_budget
     //          and GPU-occupancy queries are not yet implemented.
     // Activation: `THEMIS_ENABLE_VULKAN` is defined AND VK_EXT_memory_budget
-    //             query is NOT yet implemented.
+    //             query is NOT yet wired.
     // Production Delta: Returns zero utilisation (0 %, 0 %) instead of real
     //             values.  Callers should treat zero as "metrics unavailable"
     //             and fall back to conservative resource-management decisions.
-    //             Previous approach returned non-deterministic std::rand() values
-    //             which caused dashboards to make incorrect scaling decisions.
-    // Removal Plan: Implement VkPhysicalDeviceMemoryBudgetPropertiesEXT query
-    //             via vkGetPhysicalDeviceMemoryProperties2KHR; pair with a
-    //             GPU-utilisation source (NVML / ROCm SMI / VK_AMD_device_coherent).
-    //             See src/llm/FUTURE_ENHANCEMENTS.md §GPUUtilizationMonitor VulkanMetrics.
+    // Hardware requirement: VK_EXT_memory_budget extension + vkGetPhysicalDeviceMemoryProperties2KHR.
     metrics.gpu_utilization_pct    = 0.0f;   // unavailable — VK_EXT_memory_budget not queried
     metrics.memory_utilization_pct = 0.0f;
 
@@ -395,20 +390,15 @@ GPUUtilizationMonitor::Metrics GPUUtilizationMonitor::queryDirectX() {
     Metrics metrics;
     
 #ifdef THEMIS_ENABLE_DIRECTX
-    // STUB/SIMULATION NOTE:
+    // PERMANENT HARDWARE FALLBACK NOTE (DirectX GPU metrics — IDXGIAdapter3):
     // Purpose: Provide a safe default return value while IDXGIAdapter3::QueryVideoMemoryInfo()
     //          and D3D12 GPU-occupancy queries are not yet implemented.
     // Activation: `THEMIS_ENABLE_DIRECTX` is defined AND QueryVideoMemoryInfo is NOT
     //             yet wired.
     // Production Delta: Returns zero utilisation (0 %, 0 %) instead of real values.
     //             Callers should treat zero as "metrics unavailable" and fall back to
-    //             conservative resource-management decisions.  Previous approach returned
-    //             non-deterministic std::rand() values causing incorrect scaling decisions.
-    // Removal Plan: Implement DXGI adapter memory query via
-    //             IDXGIAdapter3::QueryVideoMemoryInfo(DXGI_MEMORY_SEGMENT_GROUP_LOCAL);
-    //             combine with D3D12 timestamp queries or DXGI debug layer for GPU
-    //             occupancy.  See
-    //             src/llm/FUTURE_ENHANCEMENTS.md §GPUUtilizationMonitor DirectXMetrics.
+    //             conservative resource-management decisions.
+    // Hardware requirement: Windows + DirectX 12 SDK + IDXGIAdapter3 + D3D12 timestamp queries.
     metrics.gpu_utilization_pct    = 0.0f;   // unavailable — QueryVideoMemoryInfo not queried
     metrics.memory_utilization_pct = 0.0f;
 

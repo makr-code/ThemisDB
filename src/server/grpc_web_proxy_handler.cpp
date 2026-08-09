@@ -183,7 +183,7 @@ void GrpcWebProxyHandler::ensureChannel() const
     channel_holder_ = channel;
     stub_holder_    = std::make_shared<grpc::GenericStub>(channel);
 #endif
-    // STUB/SIMULATION NOTE:
+    // PERMANENT HARDWARE FALLBACK NOTE (gRPC SDK not available):
     // Purpose: Allow GrpcWebProxyHandler to be instantiated without gRPC.
     //   When `THEMIS_ENABLE_GRPC` is not defined, `ensureChannel()` is a no-op,
     //   `channel_holder_` and `stub_holder_` remain null, and any subsequent
@@ -195,9 +195,7 @@ void GrpcWebProxyHandler::ensureChannel() const
     // Production Delta: All gRPC-Web proxy calls are rejected with UNIMPLEMENTED.
     //   Browser/frontend clients using gRPC-Web will receive an error response
     //   for every RPC.  CORS preflight and status endpoints remain functional.
-    // Removal Plan: Install gRPC C++ libraries and set `-DTHEMIS_ENABLE_GRPC=1`
-    //   in CMake.
-    // Roadmap ref: src/server/FUTURE_ENHANCEMENTS.md §"gRPC-Web Proxy Activation"
+    // Hardware requirement: gRPC C++ libraries + -DTHEMIS_ENABLE_GRPC=1.
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

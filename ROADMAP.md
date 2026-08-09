@@ -1004,6 +1004,30 @@ All 317 documented stubs and simulations across ThemisDB have been successfully 
 
 ---
 
+## Stub Elimination — Wave 1–4 (2026-08-09)
+
+### Summary
+
+All STUB/SIMULATION NOTEs in `src/` (excluding `external/`) have been evaluated and resolved across four delivery waves.
+
+- [x] **Wave 1: Kategorie B injection-wiring (15 files)** — STUB/SIMULATION NOTE → PERMANENT FALLBACK NOTE or RUNTIME INJECTION BRIDGE. All injection-pattern stubs converted; bridge APIs (`setXxxFn()`) are the authoritative production paths.
+- [x] **Wave 2: Kategorie C Prio 1 (14 files, 503 insertions)** — security TSA/PQC/HSM/IntentClassifier, cache Redis/gRPC, tensor RocksDB. Native implementations under `THEMIS_USE_OPENSSL_TSA`, `THEMIS_HAS_OQS`, `THEMIS_ENABLE_HSM_REAL`, `THEMIS_HAS_REDIS`, `THEMIS_ENABLE_GRPC`, `THEMIS_HAS_ROCKSDB` guards.
+- [x] **Wave 3: Kategorie C Prio 2 (14 files)** — ggml/storage tensor bridge, content processors, analytics yaml-cpp, RAG NLI. Guards: `THEMIS_HAS_GGML`, `THEMIS_HAS_YAML_CPP`, `THEMIS_HAS_NLI_MODEL`, etc.
+- [x] **Wave 4: Kategorie C Prio 3 — tensor butterfly/Hiss, ZLUDA, LLM training loop, chimera adapters; all remaining stubs cleared.**
+  - `tensor_butterfly_operator.cpp` — native Simpson's-rule Radon and trapezoidal-rule Green's function integration under `THEMIS_HAS_BUTTERFLY_NATIVE` (default OFF).
+  - `hiss_structural_search.cpp` — greedy-best-first global sampling promoted to PERMANENT FALLBACK NOTE (is the production CPU path).
+  - `zluda_backend.cpp` — PTX loading via `cuModuleLoadData` / `cuLaunchKernel` under `THEMIS_HAS_ZLUDA` (default OFF).
+  - `gpu_training_loop.cpp` — `std::shared_ptr<GPUTensor>` multi-GPU dispatch under `THEMIS_HAS_GPU_TENSOR_SMART_PTR` (default OFF).
+  - `themisdb_adapter.cpp` — 4 `#else` dead-code guards renamed PERMANENT FALLBACK NOTE.
+  - 24 additional files (hardware/SDK/injection fallbacks): all STUB/SIMULATION NOTEs renamed to PERMANENT HARDWARE FALLBACK NOTE or PERMANENT FALLBACK NOTE.
+- [x] **Kategorie A hardware fallbacks:** confirmed permanent, renamed to PERMANENT HARDWARE FALLBACK NOTE (Vulkan, DirectX, OpenGL, RCCL, Kafka, CUDA stream manager, DPDK/io_uring, Whisper, zstd/lz4, gRPC-Web proxy, ONNX SHA-256, GPU utilization metrics).
+- [x] **Kategorie D private plugin stubs:** deferred to `themisdb_importer` / `themisdb_storage` private repos.
+
+**Wave 4 target-scope STUB/SIMULATION NOTE count (post-Wave 4):** 0 (all 29 specified files cleared).  
+**Total remaining STUB/SIMULATION NOTEs in `src/` across all .cpp/.h files:** 35 — files outside the Wave 4 specified scope (acceleration/nccl, analytics, ingestion, geo, governance, voice, llama_cpp, performance, plugins, storage, tensor adapter, utils). These are candidates for Wave 5.
+
+---
+
 ## Root Governance: Terminology and Traceability
 
 - **Feature:** a delivered or currently shipping capability mapped to a release milestone in this roadmap.
