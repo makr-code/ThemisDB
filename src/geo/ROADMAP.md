@@ -20,7 +20,7 @@ Issue #5646 remains open with partial closure coverage: roadmap/future synchroni
 - [x] benchmark stabilization for geo CPU/GPU, indexing, and join hot paths (Target: Q3 2026)
 - [x] diagnostics consistency improvements for validation and backend-switch incidents (Target: Q3 2026)
 - [x] GPU geospatial backend CUDA: Haversine distance and point-in-polygon kernels (Target: Q3 2026)
-- [x] GPU geospatial backend CUDA: Vincenty distance and distance matrix kernels (Target: Q3 2026) (2026-08-08)
+- [x] GPU geospatial backend CUDA: Vincenty distance path for batched per-pair kernel dispatch (Target: Q3 2026) (2026-08-08)
 - [~] GPU geospatial backend HIP: AMD ROCm feature-parity implementation (Target: Q3 2026)
 
 ## Planned Features

@@ -83,7 +83,8 @@ __global__ void haversineDistanceKernel(
 
 /**
  * Compute per-pair Vincenty geodesic distances in kilometres.
- * Uses the WGS-84 ellipsoid for higher accuracy than Haversine (±0.5mm vs ±0.5%).
+ * Uses the WGS-84 ellipsoid for a more accurate geodesic model than Haversine;
+ * output precision remains bounded by float kilometre storage.
  *
  * Thread layout: one thread per (point-pair) index.
  * Grid:  ceil(count / 256) blocks
@@ -267,7 +268,8 @@ extern "C" {
  *
  * Selects the appropriate kernel based on the formula parameter:
  *  - HAVERSINE: spherical Earth model (fast, ±0.5% accuracy)
- *  - VINCENTY:  WGS-84 ellipsoid model (slower, ±0.5mm accuracy)
+ *  - VINCENTY:  WGS-84 ellipsoid model (slower, more accurate model; output
+ *               precision remains bounded by float kilometre storage)
  *
  * @return 0 on success, non-zero CUDA error code on failure.
  */
