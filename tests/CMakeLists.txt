@@ -10723,8 +10723,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/parallel/test_parallel_scan.cpp")
     target_link_libraries(test_parallel_scan PRIVATE
         ${TEST_LIBS}
         themis_core
-        TBB::tbb
-        RocksDB::rocksdb
+        $<$<BOOL:${TBB_FOUND}>:TBB::tbb>
+        $<$<TARGET_EXISTS:RocksDB::rocksdb>:RocksDB::rocksdb>
         Threads::Threads
     )
 
@@ -25375,7 +25375,7 @@ if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/incremental/test_in
         ${TEST_LIBS}
         themis_core
         nlohmann_json::nlohmann_json
-        yaml-cpp::yaml-cpp
+        $<$<BOOL:${yaml-cpp_FOUND}>:yaml-cpp::yaml-cpp>
         spdlog::spdlog
         Threads::Threads
     )
