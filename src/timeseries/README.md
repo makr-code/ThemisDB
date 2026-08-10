@@ -1,7 +1,11 @@
 # ThemisDB Timeseries Module
 
-<!-- Status: current | validated: 2026-08-07 -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · PHASE_6_ACCEPTANCE_CHECKLIST.md · OPERATOR_GUIDE.md -->
+**Status:** PRODUCTION_CANDIDATE  
+**Phase:** 6 (Documentation & Acceptance) — ✅ COMPLETE  
+**Last Updated:** 2026-08-10  
+**Owner:** Time-Series Data Team
+
+---
 
 ## Module Purpose
 

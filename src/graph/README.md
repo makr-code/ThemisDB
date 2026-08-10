@@ -1,7 +1,11 @@
 # ThemisDB Graph Module
 
-<!-- Status: current | validated: 2026-06-25 -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · MODULE_GAPS.md -->
+**Status:** PRODUCTION_CANDIDATE  
+**Phase:** 5-6 (Performance & Documentation) — IN PROGRESS  
+**Last Updated:** 2026-08-10  
+**Owner:** Graph Query Team
+
+---
 
 ## ✅ L0 Verification Complete (2026-06-25)
 

@@ -1,11 +1,15 @@
 # ThemisDB CDC Module
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+**Status:** PRODUCTION_CANDIDATE  
+**Phase:** 6 (Documentation & Acceptance) — ✅ COMPLETE  
+**Last Updated:** 2026-08-10  
+**Owner:** Replication & CDC Team
+
+---
 
 ## Module Purpose
 
-The cdc module provides change data capture runtime surfaces for ThemisDB, including changefeed recording, stream delivery, replay, transport integration, and operational administration for change-event pipelines.
+The CDC module provides change data capture runtime surfaces for ThemisDB, including changefeed recording, stream delivery, replay, transport integration, and operational administration for change-event pipelines. Phase 1-6 complete with all release gates validated.
 
 ## Relevant Interfaces
 
