@@ -140,6 +140,14 @@ WikiIndexStore::WikiIndexStore(SecondaryIndexManager& sim,
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// setAuditLogger — Phase D: optional compliance audit hook
+// ─────────────────────────────────────────────────────────────────────────────
+
+void WikiIndexStore::setAuditLogger(StorageAuditLogger& logger) noexcept {
+    audit_logger_ = &logger;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // IWikiIndexWriter — writeChunk
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -179,6 +187,11 @@ void WikiIndexStore::writeChunk(WikiChunk chunk) {
             spdlog::warn("[WikiIndexStore] vim_.addEntity: {}", s2.message);
         }
     }
+
+    // Phase D: audit trail
+    if (audit_logger_) {
+        audit_logger_->logPut(chunk.doc_id, "chunks=1");
+    }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -193,9 +206,14 @@ void WikiIndexStore::writeBatch(std::vector<WikiChunk> chunks) {
         probeEmbeddingDim();
     }
 
+    if (chunks.empty()) {
+        return;
+    }
+
     const int effective_batch_size = std::max(1, config_.batch_size);
 
-    // Collect indices of chunks that still need embeddings
+    // ── Embedding phase ──────────────────────────────────────────────────────
+    // Collect indices of chunks that still need embeddings (cache-miss path).
     std::vector<std::size_t> need_embed;
     for (std::size_t i = 0; i < chunks.size(); ++i) {
         if (chunks[i].embedding.empty()) {
@@ -211,7 +229,7 @@ void WikiIndexStore::writeBatch(std::vector<WikiChunk> chunks) {
         }
     }
 
-    // Embed in configurable batches
+    // Embed in configurable batches via EmbeddedLLM::embedBatch
     for (std::size_t b = 0; b < need_embed.size();
          b += static_cast<std::size_t>(effective_batch_size)) {
         std::size_t end = std::min(b + static_cast<std::size_t>(effective_batch_size),
@@ -233,19 +251,36 @@ void WikiIndexStore::writeBatch(std::vector<WikiChunk> chunks) {
         }
     }
 
-    // Write all chunks
+    // ── Phase F: atomic secondary-index write via putBatch ───────────────────
+    // Build entity list and commit in one RocksDB WriteBatch (O(1) write ops).
+    std::vector<themis::BaseEntity> entities;
+    entities.reserve(chunks.size());
     for (const auto& chunk : chunks) {
-        themis::BaseEntity entity = chunkToEntity(chunk);
+        entities.push_back(chunkToEntity(chunk));
+    }
 
-        auto s1 = sim_.put(config_.table_name, entity);
-        if (!s1.ok) {
-            throw std::runtime_error("[WikiIndexStore] writeBatch sim_.put: " + s1.message);
+    auto s1 = sim_.putBatch(config_.table_name, entities);
+    if (!s1.ok) {
+        throw std::runtime_error("[WikiIndexStore] writeBatch putBatch: " + s1.message);
+    }
+
+    // ── Phase F: atomic vector-index write via addBatch ──────────────────────
+    if (config_.enable_vector) {
+        // addBatch only processes entities that carry an "embedding" field.
+        auto s2 = vim_.addBatch(entities);
+        if (!s2.ok) {
+            spdlog::warn("[WikiIndexStore] writeBatch addBatch: {}", s2.message);
         }
-        if (config_.enable_vector && !chunk.embedding.empty()) {
-            auto s2 = vim_.addEntity(entity);
-            if (!s2.ok) {
-                spdlog::warn("[WikiIndexStore] writeBatch vim_.addEntity: {}", s2.message);
-            }
+    }
+
+    // ── Phase D: audit trail — one PUT entry per unique doc_id in the batch ──
+    if (audit_logger_) {
+        std::unordered_map<std::string, int> doc_counts;
+        for (const auto& chunk : chunks) {
+            doc_counts[chunk.doc_id]++;
+        }
+        for (const auto& [doc_id, count] : doc_counts) {
+            audit_logger_->logPut(doc_id, "chunks=" + std::to_string(count));
         }
     }
 }

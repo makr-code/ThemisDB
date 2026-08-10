@@ -38,6 +38,10 @@
 namespace themis {
 namespace llm_wiki {
 
+// Import Status from the plugin interface namespace so it resolves within
+// this namespace without full qualification.
+using ::themis::plugins::llm_wiki::Status;
+
 // ============================================================================
 // Edition enumeration
 // ============================================================================

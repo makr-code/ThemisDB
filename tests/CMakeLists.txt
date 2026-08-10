@@ -28543,3 +28543,52 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_phase4_security_hardening.cpp")
 
     message(STATUS "  Phase 4 Security: SEC-IV-01..15 (input validation), SEC-TLS-01..10 (transport), SEC-MEM-01..15 (memory), SEC-RACE-01..10 (concurrency), SEC-ERR-01..05 (error path)")
 endif()
+
+# ============================================================================
+# LLM-Wiki × RocksDB Cross-Dependency Integration Tests (WCD-01..16)
+# Covers Phase A (WorkspaceStateManager RocksDB backend), Phase B (persistent
+# embedding cache default), Phase D (StorageAuditLogger injection), Phase F
+# (writeBatch atomic via putBatch/addBatch).
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/llm/test_wiki_crossdep_focused.cpp")
+    message(STATUS "Adding LLM-Wiki × RocksDB cross-dependency integration tests (WCD-01..16)")
+
+    add_executable(test_wiki_crossdep_focused
+        llm/test_wiki_crossdep_focused.cpp
+        ${THEMIS_ROOT_DIR}/src/llm_wiki/workspace_state_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/llm_wiki/edition_gate.cpp
+        ${THEMIS_ROOT_DIR}/src/storage/rocksdb_wrapper.cpp
+        ${THEMIS_ROOT_DIR}/src/storage/nvme_manager.cpp
+        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+    )
+
+    target_include_directories(test_wiki_crossdep_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+        ${THEMIS_ROOT_DIR}/tests
+    )
+
+    target_link_libraries(test_wiki_crossdep_focused PRIVATE
+        GTest::gtest
+        GTest::gtest_main
+        Threads::Threads
+        $<TARGET_NAME_IF_EXISTS:RocksDB::rocksdb>
+        fmt::fmt
+    )
+
+    target_compile_definitions(test_wiki_crossdep_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_EDITION_ENTERPRISE=1
+    )
+
+    themis_register_module_focused_test(
+        MODULE llm_wiki
+        TARGET test_wiki_crossdep_focused
+        NAME WikiCrossDep
+        LABELS "llm_wiki;rocksdb;cross_dependency;release_critical"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  WCD-01..04 (Phase B cache), WCD-05..08 (Phase F writeBatch), WCD-09..12 (Phase D audit), WCD-13..16 (Phase A RocksDB backend)")
+endif()

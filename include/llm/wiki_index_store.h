@@ -47,7 +47,9 @@
 #include "llm/embedded_llm.h"
 #include "rag/hybrid_retriever.h"
 #include "storage/base_entity.h"
+#include "storage/storage_audit_logger.h"
 
+#include <functional>
 #include <mutex>
 #include <optional>
 #include <shared_mutex>
@@ -128,9 +130,15 @@ struct WikiIndexConfig {
      * are stored persistently in the secondary index under the table
      * `<table_name>_emb_cache`.  On construction the store loads any existing
      * cached embeddings into memory so that re-ingested chunks skip the LLM
-     * call.  Default: `false` (in-memory cache only, original behaviour).
+     * call.  After a restart the cache is rehydrated lazily from RocksDB on
+     * first access so that re-ingested chunks do not trigger a redundant LLM
+     * call.
+     *
+     * Default: `true` (enterprise-edition default; saves LLM cost on restart).
+     * Set to `false` only when RocksDB storage is constrained or for isolated
+     * test environments that do not require cross-restart embedding reuse.
      */
-    bool        enable_persistent_cache = false;
+    bool        enable_persistent_cache = true;
 };
 
 // ============================================================================
@@ -247,6 +255,21 @@ public:
                    EmbeddedLLM&           llm,
                    WikiIndexConfig        config = {});
 
+    /**
+     * @brief Attach an optional audit logger for compliance tracing.
+     *
+     * When set, every `writeChunk()` and `writeBatch()` call emits a `PUT`
+     * audit entry with the document identifier and chunk count.  The logger
+     * must outlive this `WikiIndexStore` instance.  Calling this method is
+     * optional; if not called, audit logging is silently skipped.
+     *
+     * Thread-safe: may be called before or after construction, but must not
+     * be called concurrently with active write operations.
+     *
+     * @param logger  Non-owning reference to an initialised `StorageAuditLogger`.
+     */
+    void setAuditLogger(StorageAuditLogger& logger) noexcept;
+
     // ─── IWikiIndexWriter ───────────────────────────────────────────────────
 
     /**
@@ -264,11 +287,14 @@ public:
     void writeChunk(WikiChunk chunk) override;
 
     /**
-     * @brief Batch-ingest chunks with grouped embedding.
+     * @brief Batch-ingest chunks using `SecondaryIndexManager::putBatch()` and
+     *        `VectorIndexManager::addBatch()` for atomic RocksDB WriteBatch writes.
      *
-     * Chunks without embeddings are collected, embedded in groups of 32 via
-     * `EmbeddedLLM::embedBatch`, then all chunks are written in a single
-     * pass.
+     * Chunks without embeddings are collected, embedded in groups of
+     * `config.batch_size` via `EmbeddedLLM::embedBatch`, then all secondary-index
+     * entries are committed atomically via `putBatch()` and all vector entries via
+     * `addBatch()`.  This replaces the previous per-chunk loop, reducing the number
+     * of RocksDB write operations from O(n) to O(1) per batch.
      *
      * @param chunks  Chunks to ingest. Embeddings are filled in-place.
      * @throws std::runtime_error on index write failure.
@@ -318,6 +344,13 @@ private:
     WikiIndexConfig             config_;    ///< Operational configuration
     rag::HybridRetriever        retriever_; ///< RRF fusion engine
     std::atomic<bool>           ready_{false}; ///< Initialization flag
+
+    /// Optional audit logger for compliance tracing of ingest operations.
+    ///
+    /// When non-null, `writeChunk()` emits `PUT doc_id "chunks=1"` and
+    /// `writeBatch()` emits `PUT doc_id "chunks=N"` (one entry per unique doc_id
+    /// in the batch).  Set via `setAuditLogger()`; never owned.
+    StorageAuditLogger*         audit_logger_{nullptr};
 
     /// Guards write/read on the chunk embedding cache (exclusive for writes,
     /// shared for reads during `writeChunk`/`writeBatch`; writes are already
@@ -373,6 +406,7 @@ private:
     /// Re-initialises the vector index if the probed dim differs from config_.
     /// Idempotent: subsequent calls are no-ops once dim_probed_ is set.
     void probeEmbeddingDim();
+};
 
 // ============================================================================
 // JsonWikiIndexReader — Phase A JSON fallback

@@ -83,6 +83,15 @@ The module provides production-grade LLM runtime surfaces across async inference
   - [x] **Phase D**: Comprehensive hardening tests SO-01..SO-48 (`tests/llm/test_subagent_orchestration_focused.cpp`)
   - [x] **Phase E**: Operational deployment guide + ROADMAP updates — `docs/operations/llm/SUBAGENT_DEPLOYMENT.md` (502 lines) delivered; `src/llm/SUBAGENT_ARCHITECTURE.md` delivered (Target: Q3 2026, ✅ COMPLETE 2026-08-10)
 
+- [x] **YAML/JSON/BPMN-based LLM Orchestration + Task Decomposition** (Issue #5847, delivered Q3 2026)
+  - [x] `include/llm/workflow_definition.h` — WorkflowDefinition, WorkflowStep, WorkflowLoader
+    (YAML, JSON, BPMN-lite XML load; toJson/fromJson round-trip; validate())
+  - [x] `include/llm/task_decomposer.h` — TaskDecomposer with configurable DecompositionStrategy
+    (ChainOfThought, DirectJson, FewShot); converts TaskDecompositionResult → WorkflowDefinition
+  - [x] `src/llm/task_decomposer.cpp` — production implementation; inline YAML→JSON converter;
+    BPMN-lite XML `<serviceTask>` / `<sequenceFlow>` parser; retry logic; topological sort
+  - [x] `tests/llm/test_llm_workflow_orchestration_focused.cpp` — WO-01..WO-25 focused tests
+
 ## Planned Features
 
 - [ ] End-to-end distributed draft/verify optimization in speculative decoding paths (Target: Q4 2026)
