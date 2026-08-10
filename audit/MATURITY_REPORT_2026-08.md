@@ -1,11 +1,16 @@
 # ThemisDB — Maturity Report 2026-08
 
-**Erstellt:** 2026-08-09  
-**Version:** v2.4.0-rc1  
+**Erstellt:** 2026-08-10  
+**Version:** `2.4.0` (Repo-Metadaten) / `v2.4.0-rc1` (Audit-Evidence-Snapshot)  
 **Branch:** `develop`  
 **Scope:** 67 produktive Source-Module in `src/` + Wave 1–9 Benchmarks + Security & Compliance + Governance  
 **Methodik:** Automatisierter Source-Scan (D1–D3) + Compliance-Dokumenten-Audit (D4) + Roadmap-Checkbox-Analyse (D5) + Operational-Evidence-Review (D6)  
-**Basis:** `audit/IMPLEMENTATION_AUDIT_2026-08-08.md` (Delta-Analyse)
+**Basis:** `audit/IMPLEMENTATION_AUDIT_CORRECTED_2026-08-08.md`, `audit/IMPLEMENTATION_AUDIT_2026-08-08.md`, `ROADMAP.md` (Stand 2026-08-09)
+
+> **Wichtige Sync-Notiz (2026-08-10):**
+> - Das korrigierte Audit `IMPLEMENTATION_AUDIT_CORRECTED_2026-08-08.md` ist die maßgebliche Quelle bei Abweichungen für `evaluation`, `execution`, CUDA-Geokernel und den `ai_snapshot_cleanup.h`-Compile-Befund.
+> - `src/execution/ROADMAP.md` existiert inzwischen; der frühere reine Governance-Gap ist damit geschlossen.
+> - `src/evaluation/AUDIT.md`, `tests/epic2_evaluation/` und `benchmarks/epic2_evaluation/` belegen produktive Source-, Test- und Benchmark-Surfaces; offen bleibt dort primär die aktuelle ausführbare Evidenz im vorhandenen Build-Setup.
 
 ---
 
@@ -33,7 +38,7 @@
 | Rang | Risiko | Modul | Schwere | Status |
 |------|--------|-------|---------|--------|
 | 🔴 1 | Hybrid-Retrieval Thread-Safety (Issue #5468) | `query`, `gpu`, `sharding` | Hoch | In Härtung Q3 |
-| 🔴 2 | Compile-Fehler `ai_snapshot_cleanup.h:63` | `geo`, `security` | Mittel-Hoch | Ungeklärt |
+| 🔴 2 | Compile-Follow-up `ai_snapshot_cleanup.h:63` | `geo`, `security` | Mittel-Hoch | Root cause lokalisiert, Re-Validierung offen |
 | 🟡 3 | 8 Module mit 0 automatisierten Tests | Mehrere | Mittel | Governance-Risiko |
 | 🟡 4 | EU AI Act 65 % — Model Cards fehlen | `llm`, `rag`, `ethics_ai` | Mittel | Q4 2026 |
 | 🟡 5 | BSI C5 2026 — 5 Nachweislücken offen | Compliance | Mittel | Maßnahmen laufend |
@@ -385,18 +390,17 @@ Basis: `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md` — keine neuen Suppressi
 | # | Lücke | Betroffene Module | Schwere | Maßnahme |
 |---|-------|-------------------|---------|----------|
 | GOV-01 | Kein `AUDIT.md` vorhanden | `access_model`, `execution`, `llm_wiki` | 🟡 Mittel | AUDIT.md anlegen, vor GA |
-| GOV-02 | Kein `ROADMAP.md` vorhanden | `execution` | 🟡 Mittel | ROADMAP.md anlegen |
-| GOV-03 | Private Plugin Commit-Pins ausstehend | `ethic_ai`, `storage`, `importer`, `llm_wiki` | 🟡 Mittel | Nach Repo-Setup |
-| GOV-04 | `execution`-Modul Status unklar (`[!]`) | `execution` | 🟡 Mittel | Archivieren oder implementieren |
+| GOV-02 | Private Plugin Commit-Pins ausstehend | `ethic_ai`, `storage`, `importer`, `llm_wiki` | 🟡 Mittel | Nach Repo-Setup |
+| GOV-03 | `execution`-Modul braucht aktuelle ausführbare Test-/Benchmark-Evidenz im Monatsreport | `execution` | 🟡 Mittel | Nächsten Evidence-Refresh einpflegen |
 
 ### 6.4 Private Plugin Wave-1 Status
 
 | Plugin | Repo | Submodul-Pfad | ROADMAP | Interface | Status |
 |--------|------|---------------|---------|-----------|--------|
 | `ethic_ai` | `makr-code/themisdb_ethic_ai` | `plugins/themisdb_ethic_ai` | ✅ | 🟡 Partial | ⏳ Commit-Pin offen |
-| `themisdb_storage` | `makr-code/themisdb_storage` | TBD | 🟡 | 🟡 | ⏳ Setup ausstehend |
-| `themisdb_importer` | `makr-code/themisdb_importer` | TBD | 🟡 | 🟡 | ⏳ Setup ausstehend |
-| `themisdb_llm_wiki` | `makr-code/llm_wiki` | `plugins/private/themisdb_llm_wiki` | ✅ | ✅ Phase A+B | 🟢 Interface fertig, Pin offen |
+| `themisdb_storage` | `makr-code/themisdb_storage` | `plugins/themisdb_storage` | 🟡 | 🟡 | ⏳ Setup ausstehend |
+| `themisdb_importer` | `makr-code/themisdb_importer` | `plugins/themisdb_importer` | 🟡 | 🟡 | ⏳ Setup ausstehend |
+| `themisdb_llm_wiki` | `makr-code/themisdb_llm_wiki` | `plugins/themisdb_llm_wiki` | ✅ | ✅ Phase A+B | 🟢 Interface fertig, Pin offen |
 
 ### 6.5 GA-Promotion-Gate-Matrix
 
@@ -471,7 +475,7 @@ Basis: `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md` — keine neuen Suppressi
 | # | Maßnahme | Modul | Aufwand | Impact |
 |---|----------|-------|---------|--------|
 | P0-01 | Compile-Fehler `ai_snapshot_cleanup.h:63` beheben | `security`, `geo` | 2–4 h | Geo-CI freischalten |
-| P0-02 | `execution`-Modul-Status klären: archivieren oder ROADMAP.md anlegen | `execution` | 4–6 h | Governance |
+| P0-02 | Monatsreport-Evidenz für `execution` und `evaluation` gegen aktuelle Build-/Test-Läufe nachziehen | `execution`, `evaluation` | 4–6 h | Governance / Nachweis |
 
 ### P1 — Q3 2026 Härtungswelle
 
@@ -558,7 +562,8 @@ Fokus-Cluster für Q3/Q4 2026:
 
 | Dokument | Zweck |
 |----------|-------|
-| `audit/IMPLEMENTATION_AUDIT_2026-08-08.md` | Basis-Soll-Ist (D1) |
+| `audit/IMPLEMENTATION_AUDIT_CORRECTED_2026-08-08.md` | Korrigierte D1-Basis für Evaluation/Execution/CUDA/Compile-Facts |
+| `audit/IMPLEMENTATION_AUDIT_2026-08-08.md` | Historische Delta-Analyse |
 | `audit/BSI_C5_2026_THEMISDB_AUDIT.md` | Security-Baseline (D4) |
 | `benchmarks/wave{7,8,9}/release_gate_manifest_*.json` | Perf-Gates (D3) |
 | `benchmarks/wave{7,8,9}/RUNBOOK_W*.md` | Operational SOP (D6) |
@@ -574,6 +579,6 @@ Fokus-Cluster für Q3/Q4 2026:
 
 ---
 
-*Report generiert: 2026-08-09*  
+*Report generiert / synchronisiert: 2026-08-10*  
 *Methodik: Automatisierter Source-Scan + Dokumenten-Audit + Compliance-Review*  
 *Nächstes Review: Nach GA-Promotion oder Q4 2026 (was früher eintritt)*
