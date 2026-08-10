@@ -2,10 +2,11 @@
 
 This directory contains research papers, draft manuscripts, architectural analyses, and design documents for ThemisDB development.
 
-## Canonical Structure & Status (2026-05)
+## Canonical Structure & Status (2026-08)
 
 | Cluster | Canonical Location | Scope | Canonical? |
 |---|---|---|---|
+| Manuscripts | [`research/manuscripts/`](manuscripts/README.md) | ThemisDB-authored publication drafts and portfolio clustering | ✅ |
 | Papers | [`research/papers/`](papers/README.md) | Curated scientific sources with module/version status | ✅ |
 | Drafts / WIP | `research/*_DRAFT.md` (top-level legacy) | Working manuscripts and exploration notes | ⚠️ Working state |
 | Experiments | [`research/experiments/`](experiments/README.md) | Reproducible validation runs and benchmark protocols | ✅ |
@@ -31,6 +32,7 @@ This directory contains research papers, draft manuscripts, architectural analys
 
 - [`research/implementation_influence/by_module.md`](implementation_influence/by_module.md) (source-to-module mapping)
 - [`research/implementation_influence/by_version.md`](implementation_influence/by_version.md) (source-to-release mapping)
+- [`research/manuscripts/README.md`](manuscripts/README.md) (canonical manuscript portfolio and migration matrix)
 - [`src/rag/README.md`](../src/rag/README.md), [`src/prompt_engineering/README.md`](../src/prompt_engineering/README.md), [`src/search/README.md`](../src/search/README.md) (module-level implementation context)
 
 ### Review & Documentation Audit Trace
@@ -67,6 +69,30 @@ pdflatex -interaction=nonstopmode boltzmann_flare_rag_monitoring.tex \
 ```
 
 ## Contents
+
+### Manuscript Portfolio (2026-08-10)
+- [`manuscripts/README.md`](manuscripts/README.md)
+  — canonical ThemisDB manuscript portfolio structure, lifecycle labels, migration matrix,
+  and high-priority next-paper list.
+- Cluster indexes:
+  - [`manuscripts/flagship/README.md`](manuscripts/flagship/README.md)
+  - [`manuscripts/systems/README.md`](manuscripts/systems/README.md)
+  - [`manuscripts/retrieval_rag/README.md`](manuscripts/retrieval_rag/README.md)
+  - [`manuscripts/llm_runtime_training/README.md`](manuscripts/llm_runtime_training/README.md)
+  - [`manuscripts/distributed_consistency_resilience/README.md`](manuscripts/distributed_consistency_resilience/README.md)
+  - [`manuscripts/geo_temporal_streaming/README.md`](manuscripts/geo_temporal_streaming/README.md)
+  - [`manuscripts/security_governance_ethics/README.md`](manuscripts/security_governance_ethics/README.md)
+  - [`manuscripts/verticals/README.md`](manuscripts/verticals/README.md)
+
+### High-Priority New Manuscript Seeds (2026-08-10)
+- [`manuscripts/distributed_consistency_resilience/FAILOVER_SPLIT_BRAIN_DISASTER_RECOVERY_PAPER_DRAFT.md`](manuscripts/distributed_consistency_resilience/FAILOVER_SPLIT_BRAIN_DISASTER_RECOVERY_PAPER_DRAFT.md)
+  — failover state machine, fail-closed split-brain prevention, and DR execution semantics.
+- [`manuscripts/distributed_consistency_resilience/UNIFIED_RECOVERY_SEMANTICS_AI_WORKLOADS_PAPER_DRAFT.md`](manuscripts/distributed_consistency_resilience/UNIFIED_RECOVERY_SEMANTICS_AI_WORKLOADS_PAPER_DRAFT.md)
+  — cross-module recovery contract spanning sharding, replication, failover, and AI workloads.
+- [`manuscripts/systems/CROSS_MODAL_CARDINALITY_COST_MODELS_PAPER_DRAFT.md`](manuscripts/systems/CROSS_MODAL_CARDINALITY_COST_MODELS_PAPER_DRAFT.md)
+  — cross-modal selectivity and cost-model research line for AQL/graph/vector/geo.
+- [`manuscripts/systems/DB_NATIVE_OBSERVABILITY_RAG_AI_INFERENCE_PAPER_DRAFT.md`](manuscripts/systems/DB_NATIVE_OBSERVABILITY_RAG_AI_INFERENCE_PAPER_DRAFT.md)
+  — observability for RAG and AI inference pipelines, linked to the Boltzmann monitoring draft.
 
 ### Boltzmann Observability for RAG (2026-06, ACTIVE_DRAFT v0.1)
 - [`boltzmann_flare_rag_monitoring.tex`](boltzmann_flare_rag_monitoring.tex)
@@ -139,12 +165,16 @@ pdflatex -interaction=nonstopmode boltzmann_flare_rag_monitoring.tex \
 ### Research Tooling & Method Notes
 - [ARXIV_QUERY_STRATEGY_TOP4_2026-04-19.md](ARXIV_QUERY_STRATEGY_TOP4_2026-04-19.md) — Pre-search strategy and query protocol for four prioritized paper drafts
 - [ARXIV_PAPER_TEMPLATE.md](ARXIV_PAPER_TEMPLATE.md) — Canonical paper template (derived from RAID paper structure) for future arXiv-ready drafts
+- [`templates/MANUSCRIPT_TEMPLATE.md`](templates/MANUSCRIPT_TEMPLATE.md) — portfolio-level template for ThemisDB-authored manuscripts
+- [`templates/EXPERIMENT_TEMPLATE.md`](templates/EXPERIMENT_TEMPLATE.md) — companion experiment protocol template
+- [`templates/ARTIFACT_CHECKLIST.md`](templates/ARTIFACT_CHECKLIST.md) — minimum evidence checklist before promoting a manuscript
 
 ## Guidelines for Contributors
 
 1. **Naming Convention**: Use descriptive, topic-focused filenames (e.g., `TOPIC_ARCHITECTURE_ANALYSIS.md`).
 2. **Structure**: Begin with abstract, include implementation evidence from repo, add measured benchmarks where applicable.
 	- Use [ARXIV_PAPER_TEMPLATE.md](ARXIV_PAPER_TEMPLATE.md) as the default structure for all new papers.
+	- Use [`manuscripts/README.md`](manuscripts/README.md) to decide the target cluster for ThemisDB-authored manuscripts.
 3. **Evidence Anchors**: Reference actual code files, test cases, and benchmark harnesses with line numbers.
 4. **Versioning**: Track paper version/status in frontmatter or first section.
 5. **Commit Early**: Papers must be committed to git to persist across sessions. Do not rely on working-tree-only edits.
@@ -167,7 +197,7 @@ Papers should include version and status information:
 
 ---
 
-*Last Updated: 2026-04-20 (THEMIS_IT_IS_OKAY_TO_FAIL v0.7: Section XI + Bibliography added)*
+*Last Updated: 2026-08-10 (manuscript portfolio structure, templates, and high-priority manuscript seeds added)*
 
 ---
 
@@ -176,11 +206,13 @@ Papers should include version and status information:
 | Directory | Purpose |
 |-----------|---------|
 | [`papers/`](papers/README.md) | External scientific papers influencing ThemisDB algorithms |
+| [`manuscripts/`](manuscripts/README.md) | Canonical portfolio for ThemisDB-authored manuscripts and publication drafts |
 | [`best_practices/`](best_practices/README.md) | Engineering patterns from open-source & industry |
 | [`architecture_decisions/`](architecture_decisions/README.md) | ADR-style records of design choices |
 | [`implementation_influence/`](implementation_influence/README.md) | Cross-reference: source → module → version |
 | [`stand_der_technik/`](stand_der_technik/README.md) | Quarterly state-of-the-art landscape reviews |
 | [`experiments/`](experiments/README.md) | Experimental results and benchmarks |
+| [`templates/`](templates/) | Templates and evidence checklists for ThemisDB-authored manuscripts |
 | [`schema/`](schema/README.md) | Schema examples and YAML references |
 
 📖 New contributor? Start with [RESEARCH_GUIDE.md](RESEARCH_GUIDE.md).
