@@ -729,23 +729,6 @@ LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
 // Roadmap ref: src/auth/FUTURE_ENHANCEMENTS.md § "LDAP Group Membership (v1.6.0)"
 // ---------------------------------------------------------------------------
 
-// RUNTIME INJECTION BRIDGE:
-// Purpose:    Allow a test or integration harness to inject a real LDAP bind
-//             implementation without recompiling with THEMIS_HAS_LDAP.  Enables
-//             integration tests that drive the no-libldap build path.
-// Activation: Runtime — when setLdapBindFn() is called with a non-empty fn.
-// Production Delta: With no fn injected, performBind() returns Failed(); with
-//             fn injected the provided implementation is called instead.
-// Scope: Only active when THEMIS_HAS_LDAP is NOT defined.  Permanent bridge for
-//        non-LDAP builds; removed implicitly when THEMIS_HAS_LDAP is defined.
-static std::mutex s_ldap_bind_mutex_;
-static LDAPAuthenticator::LdapBindFn s_ldap_bind_fn_;
-
-void LDAPAuthenticator::setLdapBindFn(LDAPAuthenticator::LdapBindFn fn) {
-    std::lock_guard<std::mutex> lk(s_ldap_bind_mutex_);
-    s_ldap_bind_fn_ = std::move(fn);
-}
-
 LDAPAuthResult LDAPAuthenticator::performBind(const std::string& username,
                                               const std::string& dn,
                                               const std::string& password)
