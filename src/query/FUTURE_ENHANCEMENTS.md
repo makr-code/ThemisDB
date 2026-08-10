@@ -46,38 +46,6 @@
 - Expand deterministic regression coverage for rewrite, adaptive, and runtime re-optimization paths.
 - Tighten JIT/interpreter equivalence and fallback telemetry.
 
-### Block A — Buffer / Cache Telemetry And Profiling
-**Priority:** High
-**Target:** Q3 2026
-
-- Use `BufferPool::Statistics` as the canonical telemetry surface for query-side cache profiling.
-- Track and gate hit rate, miss rate, retained free buffers, release evictions, and pressure during scan/range workloads.
-- Restrict cache-aware layout or prefetch changes to measured query paths with before/after latency evidence.
-
-### Block B — Thread-Pool Consolidation
-**Priority:** High
-**Target:** Q3 2026
-
-- Use `WorkStealingThreadPool` as the canonical query-adjacent execution pool unless a stronger module-local justification exists.
-- Track submission volume, rejection/backpressure, queue high-watermark, queue pressure, and scale-up events.
-- Expand convergence work from telemetry hardening to adoption across query, federation, and nearby runtime paths.
-
-### Block C — Connection-Pool Rebalancing
-**Priority:** High
-**Target:** Q3 2026
-
-- Use `WireProtocolConnectionPool` rebalance telemetry for shard/federation hotspot analysis.
-- Require deterministic rebalance behavior with cooldown/tolerance guardrails to avoid resize thrash.
-- Add uneven-load, failover, and recovery proofs before counting connection-pool rebalancing as production-ready.
-
-### Block D — Cross-Feature Regression Matrix
-**Priority:** High
-**Target:** Q4 2026
-
-- Start with parser/planner-level cross-feature matrices, then expand into executor/federation/runtime coverage.
-- Required matrix lanes: AQL + Geo, AQL + FTS, query + federation, query + limits, query + continuous query, query + retry/timeout/fault injection.
-- Grow the matrix toward the roadmap target of 1,000+ tests with explicit zero-v1.x-regression proof.
-
 ### Federation Hardening
 **Priority:** Medium
 **Target:** Q4 2026
@@ -99,21 +67,16 @@
 - Federation and cross-cluster fault-injection matrix with bounded-memory assertions.
 - Performance regressions for vectorized execution, optimizer latency, and JIT hot paths.
 - Equivalence tests comparing optimized/JIT outputs with interpreter baseline.
-- Resource-pooling regressions must cover hit-rate telemetry, queue pressure, adaptive scale behavior, and rebalance control surfaces.
-- Cross-feature query regressions must keep a lightweight parser/planner bootstrap suite green while broader executor/federation coverage scales out.
 
 ## Performance Targets
 - Maintain stable planner and execution latency envelopes under representative workloads.
 - Keep vectorized/federated regressions inside release budget thresholds.
 - Keep optimization overhead bounded under high query concurrency.
-- Hold query-side buffer telemetry to evidence-backed tuning only; no layout/prefetch changes without baseline comparison.
-- Keep thread-pool queue pressure and connection-pool rebalance adjustments observable enough to explain Wave-7 throughput claims.
 
 ## Security / Reliability
 - Fail closed on invalid critical query state and unsafe execution preconditions.
 - Preserve deterministic cancellation/timeout behavior.
 - Prevent unbounded growth in long-running and distributed execution paths.
-- Require rebalance cooldown/tolerance guardrails so adaptive pool behavior stays predictable under degraded or noisy peers.
 
 ## Risk Backlog
 

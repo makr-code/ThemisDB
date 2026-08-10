@@ -17,12 +17,9 @@ Production-capable timeseries runtime exists for ingest, Gorilla compression, ad
 ## Planned Features
 
 ### Short-term (3-6 months)
-- [x] tighten deterministic behavior for remote-write and encrypted chunk edge scenarios (Target: Q4 2026) ✅ COMPLETE 2026-08-10
-  - `include/timeseries/ts_edge_case_handler.h` + `src/timeseries/ts_edge_case_handler.cpp` — TsEdgeCaseHandler with remote-write URL validation, timeout handling, AES key validation/rotation isolation, buffer-pressure flush detection
-- [x] expand stress coverage for mixed ingest/query/downsampling workloads (Target: Q4 2026) ✅ COMPLETE 2026-08-10
-  - `tests/timeseries/test_timeseries_q4_hardening_focused.cpp` — 20 focused tests TEH-01..TEH-20 covering remote-write validation, timeout, encryption key validation, key rotation, buffer pressure, operator diagnostics
-- [x] improve operator-facing diagnostics for retention and flush incidents (Target: Q4 2026) ✅ COMPLETE 2026-08-10
-  - `include/timeseries/ts_operator_diagnostics.h` + `src/timeseries/ts_operator_diagnostics.cpp` — TsOperatorDiagnostics ring-buffer registry with severity-filtered queries and operator summary export
+- [ ] tighten deterministic behavior for remote-write and encrypted chunk edge scenarios (Target: Q4 2026)
+- [ ] expand stress coverage for mixed ingest/query/downsampling workloads (Target: Q4 2026)
+- [ ] improve operator-facing diagnostics for retention and flush incidents (Target: Q4 2026)
 
 ### Mid-term (6-12 months)
 - [ ] re-baseline p95/p99 envelopes for ingest, range-query, and flush-sensitive paths (Target: Q1 2027)
@@ -36,12 +33,12 @@ Production-capable timeseries runtime exists for ingest, Gorilla compression, ad
 - [x] define explicit error taxonomy for flush, query, and retention incidents (Completed 2026-07-29)
 
 ### Phase 2: Core Implementation
-- [x] complete hardening for TSStore, flush controller, and query internals (Target: Q4 2026) ✅ COMPLETE 2026-08-10
-- [x] align encrypted chunk and remote-write behavior to bounded runtime contracts (Target: Q4 2026) ✅ COMPLETE 2026-08-10
+- [ ] complete hardening for TSStore, flush controller, and query internals (Target: Q4 2026)
+- [ ] align encrypted chunk and remote-write behavior to bounded runtime contracts (Target: Q4 2026)
 
 ### Phase 3: Error Handling and Edge Cases
-- [x] standardize fail-safe behavior for buffer pressure, retention faults, and remote-write validation errors (Target: Q4 2026) ✅ COMPLETE 2026-08-10
-- [x] unify diagnostics across ingest, lifecycle, and integration incident classes (Target: Q4 2026) ✅ COMPLETE 2026-08-10
+- [ ] standardize fail-safe behavior for buffer pressure, retention faults, and remote-write validation errors (Target: Q4 2026)
+- [ ] unify diagnostics across ingest, lifecycle, and integration incident classes (Target: Q4 2026)
 
 ### Phase 4: Tests
 - [x] expand focused regressions for adaptive flush, range-query, and encryption edge scenarios (Completed 2026-07-29 — test_timeseries_contract_hardening_focused.cpp, TSCH-01..TSCH-16)
@@ -67,7 +64,7 @@ Production-capable timeseries runtime exists for ingest, Gorilla compression, ad
 - [x] timeseries_api_contract.h frozen contract header (Phase 1 closure, 2026-07-29)
 - [x] test_timeseries_contract_hardening_focused.cpp — TSCH-01..TSCH-16 (Phase 4 closure, 2026-07-29)
 - [x] bench_timeseries_release_gates.cpp — TSRG-01..TSRG-06 gate benchmarks (Phase 5 closure, 2026-07-29)
-- [x] remaining hardening tasks closed for ingest/flush/lifecycle edge paths ✅ COMPLETE 2026-08-10
+- [ ] remaining hardening tasks closed for ingest/flush/lifecycle edge paths
 - [ ] release benchmark stabilization complete
 
 ## Known Issues and Limitations

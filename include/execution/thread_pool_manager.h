@@ -92,13 +92,8 @@ public:
     struct Statistics {
         std::size_t active_threads  = 0;
         std::size_t queued_items    = 0;
-        std::uint64_t submitted     = 0;
-        std::uint64_t rejected      = 0;
         std::uint64_t completed     = 0;
         std::uint64_t failed        = 0;
-        std::size_t queue_high_watermark = 0;
-        std::uint64_t scale_up_events = 0;
-        double queue_pressure      = 0.0;
         double   p50_latency_us     = 0.0;
         double   p99_latency_us     = 0.0;
     };
@@ -194,7 +189,6 @@ private:
 
     void workerLoop(std::size_t thread_idx);
     bool tryGetWork(std::size_t own_idx, WorkItem& out);
-    void spawnWorkerIfNeeded(std::size_t observed_queue_depth);
 
     Config  cfg_;
 
@@ -213,12 +207,8 @@ private:
     std::atomic<bool>        shutdown_{false};
     std::atomic<std::size_t> active_threads_{0};
     std::atomic<std::size_t> queued_count_{0};
-    std::atomic<uint64_t>    submitted_{0};
-    std::atomic<uint64_t>    rejected_{0};
     std::atomic<uint64_t>    completed_{0};
     std::atomic<uint64_t>    failed_{0};
-    std::atomic<std::size_t> queue_high_watermark_{0};
-    std::atomic<uint64_t>    scale_up_events_{0};
 
     // Latency histogram (microseconds).
     mutable std::mutex       latency_mutex_;

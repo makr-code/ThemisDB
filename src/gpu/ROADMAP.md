@@ -36,13 +36,12 @@ Production GPU runtime exists across device discovery, allocation/governance, ba
 - [ ] Phase D gate: fix 85% of unchecked CUDA calls (340 → ≤ 51) (Target: Q4 2026)
 - [ ] Phase D gate: resource exhaustion injection test suite (Target: Q4 2026)
 - [ ] Phase D gate: all GPU failures degrade to CPU cleanly (Target: Q4 2026)
-- [~] Phase D gate: CPU/GPU break-even benchmark results reviewed (Target: 2027)
-  - CPU baseline targets now exist in `benchmarks/gpu/bench_gpu_cpu_breakeven_category_a.cpp` and `benchmarks/gpu/bench_gpu_cpu_breakeven_category_b.cpp`; final GPU speedup review remains gated on 2027 hardware availability.
+- [ ] Phase D gate: CPU/GPU break-even benchmark results reviewed (Target: 2027)
 - [ ] Phase D ctest gate: `test_gpu_error_handling` (Target: Q4 2026)
 - [ ] Phase D ctest gate: `test_gpu_resource_exhaustion` (Target: Q4 2026)
 - [ ] Phase D ctest gate: `test_gpu_fallback_all_paths` (Target: Q4 2026)
-- [~] Phase D benchmark gate: `bench_gpu_cpu_breakeven_category_a` (Target: 2027)
-- [~] Phase D benchmark gate: `bench_gpu_cpu_breakeven_category_b` (Target: 2027)
+- [ ] Phase D benchmark gate: `bench_gpu_cpu_breakeven_category_a` (Target: 2027)
+- [ ] Phase D benchmark gate: `bench_gpu_cpu_breakeven_category_b` (Target: 2027)
 
 ### Short-term (3-6 months)
 - [ ] tighten deterministic behavior for multi-device dispatch under heterogeneous hardware states (Target: Q4 2026)

@@ -54,7 +54,7 @@ Planned enhancements to the **public header contract** in `include/storage/` —
 ### Medium-Term (Q4 2026)
 
 - `incremental_snapshot_manager.h` — lightweight incremental snapshot decoupled from full PITR, targeting sub-second snapshot latency for the tensor mid-layer.
-- Extend `federated_blob_router.h` — the first production cut now covers synchronous primary/replica placement; follow-up work adds policy-driven routing, asynchronous replication, and deeper failover telemetry.
+- `federated_blob_router.h` — region-aware blob routing for geo-distributed deployments; builds on `blob_storage_backend.h` backend abstraction.
 - Deprecate direct `RocksDBWrapper` usage outside `src/storage/`; expose only `IStorageEngine` at the public header level.
 
 ### Long-Term

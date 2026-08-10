@@ -1,6 +1,6 @@
 # EPIC 3 distributed tensor benchmarks
 
-<!-- Status: current | phase-5 benchmark package implemented, measurement evidence pending | validated: 2026-08-10 -->
+<!-- Status: current | phase-5 benchmark suite implemented | validated: 2026-07-13 -->
 
 ## Implemented benchmark files
 
@@ -8,18 +8,6 @@
 - `integrity_verification_bench.cc`
 - `recovery_rebuild_bench.cc`
 - `distributed_retrieval_bench.cc`
-- `bench_tensor_partial_refit.cc`
-- `bench_tensor_summary_first.cc`
-- `bench_tensor_cpu_gpu_breakeven.cc`
-- `infrastructure_bench.cc`
-
-## Benchmark-package status
-
-- Phase B benchmark source is present for partial-refit/rebuild decision baselines.
-- Phase C benchmark source is present for summary-first routing and exact-on-demand fetch.
-- Phase D CPU/GPU break-even work is **CPU-baseline-ready** via `bench_tensor_cpu_gpu_breakeven.cc`.
-- GPU pass/fail evidence is still pending real accelerator-backed result bundles.
-- Phase 5 gate outcomes remain pending until the aggregated result bundle is compared against `release_gate_manifest_epic3.json`.
 
 ## Deterministic benchmark assets
 
@@ -45,20 +33,11 @@
 
 ## Installation
 
-This directory now contributes Google Benchmark targets when
+This directory now contributes focused Google Benchmark targets when
 `THEMIS_BUILD_BENCHMARKS=ON` and benchmark dependencies are available.
-
-Key target-to-profile mapping:
-
-- `bench_epic3_distributed_tensor_placement_strategy_bench` → `placement_throughput_balanced`
-- `bench_epic3_distributed_tensor_integrity_verification_bench` → `integrity_under_manifest_churn`
-- `bench_epic3_distributed_tensor_recovery_rebuild_bench` → `recovery_rebuild_degraded`
-- `bench_epic3_distributed_tensor_distributed_retrieval_bench` → `planner_latency_healthy`
-- `bench_epic3_distributed_tensor_infrastructure_bench` → `infrastructure_control_plane_stability`
-- `bench_epic3_distributed_tensor_bench_tensor_summary_first` → Phase C summary-first gate
-- `bench_epic3_distributed_tensor_bench_tensor_cpu_gpu_breakeven` → Phase D CPU/GPU baseline
 
 ## Usage
 
 Use this README together with the local `CMakeLists.txt` and EPIC 3 docs to
 extend measured baselines without introducing scaffold-only code paths.
+

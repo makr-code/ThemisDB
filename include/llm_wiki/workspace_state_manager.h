@@ -48,13 +48,6 @@
 #include <unordered_map>
 #include <vector>
 
-// Forward-declare RocksDBWrapper to keep the public header free of heavy
-// RocksDB includes. Users that enable the RocksDB backend must link against
-// the storage library but do not need to include rocksdb_wrapper.h themselves.
-namespace themis {
-class RocksDBWrapper;
-} // namespace themis
-
 namespace themis {
 namespace llm_wiki {
 
@@ -143,16 +136,6 @@ struct WorkspaceState {
  *  - Detect and recover from corruption
  *  - Maintain append-only transaction log for recovery
  *
- * ## Optional RocksDB backend (Phase A)
- *
- * When a `RocksDBWrapper` instance is supplied via `useRocksDB()`, the
- * state JSON is persisted as a single RocksDB key–value pair under the key
- * `"workspace_state:<workspace_root>"`.  The WAL provides durability and
- * atomic replace semantics, making the temp-rename and manual checksum
- * unnecessary.  Recovery is handled transparently by RocksDB itself.  The
- * JSON fallback (state.json + state.log) remains active when no RocksDB
- * instance is attached.
- *
  * Thread-safety: Methods are NOT thread-safe by default. Caller must
  * serialize access via external mutex if needed.
  */
@@ -170,33 +153,8 @@ public:
     WorkspaceStateManager& operator=(const WorkspaceStateManager&) = delete;
 
     /**
-     * @brief Attach an optional RocksDB backend for durable state persistence.
+     * @brief Load workspace state from disk.
      *
-     * When set, `save()` stores the serialized state JSON as a RocksDB
-     * key–value entry and `load()` reads it back, bypassing the JSON file +
-     * checksum mechanism.  The RocksDB WAL provides durability and
-     * crash-recovery without the temp-rename pattern.
-     *
-     * The key used in RocksDB is `"workspace_state:<workspace_root>"` so that
-     * multiple workspaces can share a single RocksDB instance without
-     * collisions.
-     *
-     * @param db  Non-owning pointer to an open `RocksDBWrapper` instance.
-     *            Must remain valid for the lifetime of this manager.
-     */
-    void useRocksDB(themis::RocksDBWrapper* db) noexcept;
-
-    /**
-     * @brief Returns true when a RocksDB backend has been attached.
-     * @return True if `useRocksDB()` was called with a non-null pointer.
-     */
-    [[nodiscard]] bool hasRocksDB() const noexcept;
-
-    /**
-     * @brief Load workspace state.
-     *
-     * When a RocksDB backend is attached, reads the state from RocksDB.
-     * Otherwise:
      * 1. Read state.json
      * 2. Validate SHA-256 checksum embedded in the file
      * 3. On checksum failure, attempt recovery from state.log
@@ -207,11 +165,8 @@ public:
     [[nodiscard]] WorkspaceStatus load(WorkspaceState& out_state) noexcept;
 
     /**
-     * @brief Save workspace state.
+     * @brief Save workspace state to disk atomically.
      *
-     * When a RocksDB backend is attached, stores the JSON-serialized state as
-     * a RocksDB `put` under the workspace-scoped key.  Otherwise performs an
-     * atomic write:
      * 1. Serialize state to JSON
      * 2. Compute SHA-256 checksum
      * 3. Write to temporary file
@@ -247,26 +202,9 @@ public:
     [[nodiscard]] WorkspaceStatus recoverFromLog(WorkspaceState& out_state) noexcept;
 
 private:
-    std::filesystem::path    workspace_root_;
-    std::filesystem::path    state_file_;
-    std::filesystem::path    log_file_;
-
-    /// Non-owning pointer to an optional RocksDB backend (Phase A).
-    /// Null by default → JSON file path is used.
-    themis::RocksDBWrapper*  rocksdb_{nullptr};
-
-    /// RocksDB key scoped to this workspace instance.
-    /// Computed lazily on first use by rocksdbKey().
-    mutable std::string      rocksdb_key_;
-
-    /// Return the RocksDB lookup key for this workspace instance.
-    [[nodiscard]] const std::string& rocksdbKey() const noexcept;
-
-    /// Load state JSON from RocksDB (requires rocksdb_ != nullptr).
-    [[nodiscard]] WorkspaceStatus loadFromRocksDB(WorkspaceState& out_state) noexcept;
-
-    /// Save state JSON to RocksDB (requires rocksdb_ != nullptr).
-    [[nodiscard]] WorkspaceStatus saveToRocksDB(const WorkspaceState& state) noexcept;
+    std::filesystem::path workspace_root_;
+    std::filesystem::path state_file_;
+    std::filesystem::path log_file_;
 };
 
 } // namespace llm_wiki

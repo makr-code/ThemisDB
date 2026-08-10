@@ -417,6 +417,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/storage/compressed_storage.cpp
     ../src/storage/zero_copy_blob_transfer.cpp
     ../src/storage/gguf_metadata.cpp
+    ../src/storage/blob_backend_gcs.cpp
     ../src/storage/compression_strategy.cpp
     ../src/storage/gpu_compression.cpp
     # Index maintenance moved to THEMIS_SECURITY_SOURCES (depends on vector index internals)
@@ -992,8 +993,6 @@ set(THEMIS_TRANSACTION_SOURCES
     ../src/replication/schema_cdc.cpp
     ../src/replication/multi_tier_replication.cpp
     ../src/replication/logical_replication.cpp
-    ../src/replication/geo_placement.cpp
-    ../src/replication/async_wal_shipper.cpp
     
 )
 

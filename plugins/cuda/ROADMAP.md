@@ -2,13 +2,13 @@
 
 ## Current Status
 
-**Status:** 🟡 Implemented plugin path, but environment validation pending (toolchain/dependency blockers in CI-like Linux environment)
+**Status:** 📋 Template / Example – production CUDA backend lives in `src/acceleration/`
 
 | Component | Location | Status |
 |-----------|----------|--------|
 | CUDA backend (built-in) | `src/acceleration/cuda_backend.cpp` | 🔧 Requires build flag |
 | CUDA kernels | `src/acceleration/cuda/vector_kernels.cu` | 🔧 Requires build flag |
-| External loadable plugin | `plugins/cuda/` (this directory) | ✅ Implemented (build/load path present) |
+| External plugin template | `plugins/cuda/` (this directory) | 📋 Template only |
 
 Build flag: `-DTHEMIS_ENABLE_CUDA=ON`
 
@@ -21,10 +21,10 @@ Build flag: `-DTHEMIS_ENABLE_CUDA=ON`
 
 ## Planned Features
 
-- [x] Standalone loadable CUDA plugin (`.so`/`.dll`) independent of the built-in backend (Q3 2026)
-- [x] FP16 / BF16 mixed-precision vector operations (Q3 2026)
-- [x] Multi-GPU support: device selection, peer-to-peer transfers (Q3 2026)
-- [x] Integration with RAPIDS cuVS / FAISS-GPU for ANN search (Q3 2026)
+- [ ] Standalone loadable CUDA plugin (`.so`/`.dll`) independent of the built-in backend (Target: Q3 2026)
+- [ ] FP16 / BF16 mixed-precision vector operations (Target: Q3 2026)
+- [ ] Multi-GPU support: device selection, peer-to-peer transfers (Target: Q4 2026)
+- [ ] Integration with RAPIDS cuVS / FAISS-GPU for ANN search (Target: Q4 2026)
 - [ ] Auto-tuning kernel parameters per GPU architecture (Target: 2027)
 - [ ] Unified hardware-acceleration interface (CUDA, Vulkan, HIP, Metal, OpenCL) (Target: 2027)
 
@@ -38,42 +38,44 @@ Build flag: `-DTHEMIS_ENABLE_CUDA=ON`
 
 ## Mid-term Goals (1–3 months)
 
-- [x] Add benchmark suite: throughput (vectors/sec) vs. CPU baseline.
-- [x] Implement mixed-precision (FP16 / BF16) vector operations.
-- [x] Add support for multi-GPU setups (device selection, peer-to-peer transfers).
+- [ ] Promote the built-in CUDA backend to a proper loadable plugin (`.so`/`.dll`) so it can be shipped independently.
+- [ ] Add benchmark suite: throughput (vectors/sec) vs. CPU baseline.
+- [ ] Implement mixed-precision (FP16 / BF16) vector operations.
+- [ ] Add support for multi-GPU setups (device selection, peer-to-peer transfers).
 
 ## Long-term Goals (3–12 months)
 
 - [ ] Unified hardware-acceleration plugin interface shared by CUDA, Vulkan, HIP, Metal, OpenCL backends.
 - [ ] Auto-tuning kernel parameters (block size, shared memory) per GPU architecture.
+- [ ] Integration with RAPIDS cuVS / FAISS-GPU for approximate nearest-neighbour search.
 - [ ] Formal performance targets: ≥ 8× speedup over CPU baseline on RTX-class GPUs.
 
 ## Milestones
 
 | Milestone | Target | Status |
 |-----------|--------|--------|
-| Standalone CUDA plugin DLL | Q3 2026 | ✅ Implemented |
-| FP16 support | Q3 2026 | ✅ Implemented |
-| Multi-GPU support | Q3 2026 | ✅ Implemented |
-| ANN integration (cuVS) | Q3 2026 | ✅ Implemented |
+| Standalone CUDA plugin DLL | TODO | 🔲 Planned |
+| FP16 support | TODO | 🔲 Planned |
+| Multi-GPU support | TODO | 🔲 Planned |
+| ANN integration (cuVS) | TODO | 🔲 Planned |
 
 ## Implementation Phases
 
 ### Phase 1 – Standalone Plugin DLL
-- [x] Extract built-in CUDA backend into a loadable `cuda_plugin.so`/`.dll`
-- [x] Define and implement `IComputeBackend` plugin entry-point (`CreateBackendPlugin`)
-- [x] CMake target for standalone plugin with correct RPATH / install rules
-- [x] Smoke test: load plugin via `PluginManager`, run a vector similarity query
+- [ ] Extract built-in CUDA backend into a loadable `cuda_plugin.so`/`.dll`
+- [ ] Define and implement `IComputeBackend` plugin entry-point (`plugin_create` / `plugin_destroy`)
+- [ ] CMake target for standalone plugin with correct RPATH / install rules
+- [ ] Smoke test: load plugin via `PluginManager`, run a vector similarity query
 
 ### Phase 2 – FP16 / Mixed-Precision Support
-- [x] Implement FP16 and BF16 variants of core vector kernels (`fp16_vector_kernels.cu`)
-- [x] Precision selection via plugin configuration (`FP32`, `FP16`, `BF16`)
+- [ ] Implement FP16 and BF16 variants of core vector kernels (`vector_kernels.cu`)
+- [ ] Precision selection via plugin configuration (`float`, `fp16`, `bf16`)
 - [ ] Benchmark: FP16 throughput vs FP32 baseline on RTX-class GPU
 
 ### Phase 3 – Multi-GPU & ANN Integration
-- [x] Device enumeration and selection API (`MultiGPUVectorBackend::Config::deviceIds`)
-- [x] Peer-to-peer transfers for sharded index across multiple GPUs
-- [x] cuVS / FAISS-GPU ANN integration: IVF-Flat and HNSW index types
+- [ ] Device enumeration and selection API (`--cuda-device=<id>`)
+- [ ] Peer-to-peer transfers for sharded index across multiple GPUs
+- [ ] cuVS / FAISS-GPU ANN integration: IVF-Flat and HNSW index types
 - [ ] Multi-GPU CI tests skipped gracefully when only one GPU is present
 
 ### Phase 4 – Auto-tuning & Formal Perf Targets
@@ -101,62 +103,18 @@ Build flag: `-DTHEMIS_ENABLE_CUDA=ON`
 | Item | Status |
 |------|--------|
 | `CMakeLists.txt.example` validated with CUDA 12.x | ❌ Pending |
-| Standalone loadable plugin DLL | ✅ Implemented (`plugins/cuda/CMakeLists.txt`, `cuda_plugin.cpp`) |
-| FP16 / BF16 support | ✅ Implemented (`include/acceleration/fp16_vector_kernels.h`, `src/acceleration/cuda/fp16_vector_kernels.cu`) |
-| Multi-GPU support | ✅ Implemented (wired via `MultiGPUVectorBackend`) |
-| ANN (cuVS / FAISS-GPU) integration | ✅ Implemented (wired via `FaissGPUVectorBackend`) |
+| Standalone loadable plugin DLL | ❌ Not implemented |
+| FP16 / BF16 support | ❌ Not implemented |
+| Multi-GPU support | ❌ Not implemented |
+| ANN (cuVS / FAISS-GPU) integration | ❌ Not implemented |
 | Benchmark results published | ❌ Pending |
 
 ## Known Issues & Limitations
 
-- Build retry in this environment is blocked before plugin targets by missing critical dependencies (`fmt`) and missing CUDA compiler/toolkit detection.
-- Template (`plugins/cuda/`) not yet validated against CUDA Toolkit 12.x in automated CI.
+- Template (`plugins/cuda/`) not yet validated against CUDA Toolkit 12.x
 - Multi-GPU paths are tested only on single-GPU CI runners; correctness unverified
-- Standalone plugin target exists, but successful end-to-end build validation depends on CUDA toolchain availability.
+- Standalone plugin DLL does not exist; production CUDA lives in the built-in backend only
 - No formal performance targets documented yet
-
----
-
-## Open Backlog Snapshot (33 real open items)
-
-### A) ROADMAP Open Items (15)
-
-1. Validate `CMakeLists.txt.example` and `cuda_plugin.cpp.example` with CUDA Toolkit 12.x.
-2. Document minimum driver/toolkit version requirements.
-3. Auto-tune kernel parameters per GPU architecture (Target: 2027).
-4. Deliver unified hardware-acceleration interface (CUDA/Vulkan/HIP/Metal/OpenCL) (Target: 2027).
-5. Add health-check / capability-query entry point to plugin interface.
-6. Benchmark FP16 throughput vs FP32 baseline on RTX-class GPU.
-7. Ensure multi-GPU CI tests skip gracefully on single-GPU runners.
-8. Publish benchmark results in `benchmarks/cuda/`.
-9. Meet formal target: ≥ 8× speedup over CPU baseline on RTX-class GPUs.
-10. Define whether external CUDA plugin DLLs replace or supplement built-in backend.
-11. Define default compiled CUDA architectures (`sm_xx` set).
-12. Validate `CMakeLists.txt.example` and `cuda_plugin.cpp.example` as part of short-term sprint execution.
-13. Complete minimum driver/toolkit documentation task in plugin docs.
-14. Finish Phase 4 auto-tuning task (block size/shared memory per architecture).
-15. Finalize open governance decision on external vs built-in CUDA plugin deployment model.
-
-### B) FUTURE_ENHANCEMENTS Open Items (18)
-
-16. Kernel registration ≤ 10 ms including CUDA context initialization.
-17. Enforce SHA-256 manifest entry for each external kernel.
-18. Enforce minimum compute capability declaration and rejection on incompatible devices.
-19. Enforce `max_device_bytes` manifest limit for persistent device memory.
-20. Keep CPU-side dispatch overhead ≤ 0.5 ms (excluding kernel runtime).
-21. Compile template plugin warning-free with `-Wall -Wextra -Werror` on GCC 13 and Clang 17.
-22. Add Tensor Core utilization for GEMM-heavy workloads.
-23. Add persistent-kernel mode for streaming workloads.
-24. Add CUDA Graph capture/replay path.
-25. Add stream-based pipeline for transfer/compute overlap.
-26. Add GPU-native IVF-Flat/HNSW ANN index paths.
-27. Add geospatial WGS84 distance/containment kernels.
-28. Add graph traversal kernels (BFS/DFS) for graph collections.
-29. Add NVIDIA Triton Inference Server integration.
-30. Provide container image with pre-built CUDA plugin.
-31. Add MIG (Multi-Instance GPU) support.
-32. Add GPU/CPU parity tests with deterministic FP tolerance ≤ 1e-6.
-33. Add property-based randomized kernel correctness tests.
 
 ---
 

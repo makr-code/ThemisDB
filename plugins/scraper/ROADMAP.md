@@ -41,17 +41,16 @@ v1.1.0 – Provenance flags on all record types; comprehensive 56-source `knowle
 - [x] `ScraperRecordBuilder::kPluginVersion` static semver constant
 - [x] 20 new unit tests (Groups I–L) covering provenance flags, catalog completeness, end-to-end propagation, and immutability
 
-## Completed (v1.2.0) ✅
+## Planned Features 📋
 
 ### Short-term (v1.2.0)
-- [x] SPARQL query support for EUR-Lex CELLAR endpoint (Target: Q3 2026) — evidence: include/scraper/scraper_api_client.h (SparqlQueryBuilder, SparqlApiClient), src/scraper/scraper_plugin.cpp (runSparqlLoop)
-- [x] Bundestag DIP API key management via environment variable `BUNDESTAG_API_KEY` (Target: Q3 2026) — evidence: src/scraper/gov_source_catalog.cpp (api_key_env), src/scraper/scraper_plugin.cpp (getenv)
-- [x] Robots.txt respect in `ScraperPlugin::fetchPage()` (Target: Q3 2026) — evidence: include/scraper/scraper_robots.h (RobotsTxtCache), src/scraper/scraper_robots.cpp, src/scraper/scraper_plugin.cpp
-- [x] Sitemap-driven crawl mode for `GovSearchStyle::SITEMAP` sources (Target: Q3 2026) — evidence: include/scraper/scraper_sitemap.h (SitemapCrawler), src/scraper/scraper_sitemap.cpp, src/scraper/scraper_plugin.cpp (runSitemapLoop)
-- [x] Embedding generation for `ScraperVectorRecord` (Target: Q3 2026) — evidence: include/scraper/scraper_plugin.h (setEmbeddingFn/EmbeddingFn), src/scraper/scraper_plugin.cpp
-- [x] 16 new focused tests (V12-01..V12-16) covering all v1.2.0 features — evidence: tests/scraper/test_scraper_v12_features_focused.cpp
-
-## Planned Features 📋
+- [ ] SPARQL query support for EUR-Lex CELLAR endpoint (Target: Q3 2026)
+  - Build SPARQL query from gap_context keywords
+  - Parse `results.bindings` JSON-LD response
+  - Map to `ApiResult` and feed into metadata writer
+- [ ] Bundestag DIP API key management via environment variable `BUNDESTAG_API_KEY` (Target: Q3 2026)
+- [ ] Robots.txt respect in `ScraperPlugin::fetchPage()` (Target: Q3 2026)
+- [ ] Sitemap-driven crawl mode for `GovSearchStyle::SITEMAP` sources (Target: Q3 2026)
 
 ### Medium-term (v1.3.0)
 - [ ] Parallel crawl with configurable concurrency limit (Target: Q4 2026)
@@ -59,6 +58,9 @@ v1.1.0 – Provenance flags on all record types; comprehensive 56-source `knowle
   - Per-domain rate limiting using token buckets
 - [ ] Incremental checkpointing – resume interrupted runs (Target: Q4 2026)
   - Store last-visited URL + page per source in persistent checkpoint store
+- [ ] Embedding generation for `ScraperVectorRecord` (Target: Q4 2026)
+  - Call `LLMPluginManager` for text embedding
+  - Write populated `embedding` vector to ANN index
 
 ### Long-term (v2.0.0)
 - [ ] Full DB write integration (replace `InMemoryScraperMetadataWriter`) (Target: Q1 2027)
@@ -98,25 +100,18 @@ v1.1.0 – Provenance flags on all record types; comprehensive 56-source `knowle
 - [x] `ScraperRecordBuilder::kPluginVersion` constant
 - [x] 20 new unit tests (Groups I–L)
 
-### Phase 6: v1.2.0 – SPARQL / robots.txt / Sitemap / Embeddings (Status: Completed ✅)
-- [x] `SparqlQueryBuilder` + `SparqlApiClient` for EUR-Lex CELLAR (include/scraper/scraper_api_client.h)
-- [x] `RobotsTxtCache` with parse/isAllowed/Allow-override (include/scraper/scraper_robots.h)
-- [x] `SitemapCrawler` with sitemap-index recursion (include/scraper/scraper_sitemap.h)
-- [x] `ScraperPlugin::setEmbeddingFn()` — embedding callback wired into all write paths
-- [x] `BUNDESTAG_API_KEY` env-var read and forwarded as ******
-- [x] 16 focused tests V12-01..V12-16
-
-### Phase 7: Performance & Hardening (Status: Planned)
+### Phase 6: Performance & Hardening (Status: Planned)
 - [ ] Parallel crawl
 - [ ] Checkpointing
+- [ ] SPARQL support
 
-### Phase 8: Full DB Integration (Status: Planned)
+### Phase 7: Full DB Integration (Status: Planned)
 - [ ] Real AQL / graph / vector writes
 
 ## Production Readiness Checklist
 
 - [x] No stub methods
-- [x] Unit tests ≥ 76 covering all components (v1.2.0: +16 V12-series)
+- [x] Unit tests ≥ 60 covering all components
 - [x] SSRF prevention in UrlPolicy
 - [x] LLM guard (THEMIS_ENABLE_LLM compile flag)
 - [x] Fallback when LLM unavailable
@@ -124,11 +119,6 @@ v1.1.0 – Provenance flags on all record types; comprehensive 56-source `knowle
 - [x] YAML config + gov catalog documentation
 - [x] Provenance fields on all record types (v1.1.0)
 - [x] Comprehensive 56-source knowledge catalog (v1.1.0)
-- [x] SPARQL query support for EUR-Lex CELLAR (v1.2.0)
-- [x] robots.txt enforcement (v1.2.0)
-- [x] Sitemap-driven crawl mode (v1.2.0)
-- [x] Embedding generation hook (v1.2.0)
-- [x] BUNDESTAG_API_KEY env-var management (v1.2.0)
 - [ ] Parallel crawl with rate limiting
 - [ ] Incremental checkpointing
 - [ ] Full DB write integration
@@ -140,4 +130,5 @@ v1.1.0 – Provenance flags on all record types; comprehensive 56-source `knowle
   implementing a `ThemisDBScraperMetadataWriter` backed by the AQL/graph/vector APIs.
 - JS renderer requires an external Node.js/Puppeteer script; no bundled script is included.
 - The Bundestag DIP API requires a free API key (env `BUNDESTAG_API_KEY`).
+- EUR-Lex SPARQL endpoint is catalogued but the SPARQL query builder is not yet implemented.
 - Parallel crawl is not yet implemented; all requests are sequential.

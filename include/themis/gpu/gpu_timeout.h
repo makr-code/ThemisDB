@@ -304,3 +304,5 @@ class KernelSLAGuard {
 
 }  // namespace gpu
 }  // namespace themis
+
+#endif  // THEMIS_GPU_TIMEOUT_H

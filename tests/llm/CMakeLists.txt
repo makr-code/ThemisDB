@@ -64,11 +64,6 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/llm/subagent_coordinator_impl.cpp
         )
     endif()
-    if(_stem STREQUAL "test_llm_workflow_orchestration_focused")
-        target_sources(${_target} PRIVATE
-            ${THEMIS_ROOT_DIR}/src/llm/task_decomposer.cpp
-        )
-    endif()
     if((_stem STREQUAL "test_llm_vision_encoder" OR _stem STREQUAL "test_llm_vision_integration") AND NOT TARGET themis_llm)
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/llm/vision_config.cpp
@@ -108,22 +103,6 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/llm/wiki_rag_source.cpp
         )
         # Link RocksDB explicitly when not pulled in through themis_llm.
-        if(NOT TARGET themis_llm)
-            target_link_libraries(${_target} PRIVATE rocksdb)
-        endif()
-    endif()
-    # Cross-dependency tests: Phase A/B/D/F (LLM-Wiki ↔ RocksDB integration).
-    if(_stem STREQUAL "test_wiki_crossdep_focused")
-        target_sources(${_target} PRIVATE
-            ${THEMIS_ROOT_DIR}/src/llm/wiki_index_store.cpp
-            ${THEMIS_ROOT_DIR}/src/llm/wiki_chunk_splitter.cpp
-            ${THEMIS_ROOT_DIR}/src/llm/wiki_rag_source.cpp
-            ${THEMIS_ROOT_DIR}/src/llm_wiki/workspace_state_manager.cpp
-            ${THEMIS_ROOT_DIR}/src/llm_wiki/edition_gate.cpp
-        )
-        target_include_directories(${_target} PRIVATE
-            ${THEMIS_ROOT_DIR}/src/llm_wiki
-        )
         if(NOT TARGET themis_llm)
             target_link_libraries(${_target} PRIVATE rocksdb)
         endif()

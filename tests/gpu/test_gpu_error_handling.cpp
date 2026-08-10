@@ -271,20 +271,6 @@ TEST_F(UniqueGPUPtrTest, MakeUniqueGPU_CreatesAllocation) {
   }
 }
 
-TEST_F(UniqueGPUPtrTest, SharedGpuPtr_CopyTracksReferenceCount) {
-  auto shared = make_shared_gpu<float>(0);
-  EXPECT_EQ(shared.use_count(), 0);
-
-  auto owned = make_shared_gpu<float>(4);
-  ASSERT_NE(owned.get(), nullptr);
-  EXPECT_EQ(owned.use_count(), 1);
-
-  auto copy = owned;
-  EXPECT_EQ(owned.get(), copy.get());
-  EXPECT_EQ(owned.use_count(), 2);
-  EXPECT_EQ(copy.use_count(), 2);
-}
-
 // ============================================================================
 // Test Suite: GPUErrorHandler Interface
 // ============================================================================

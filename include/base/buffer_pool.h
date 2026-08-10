@@ -157,38 +157,12 @@ public:
     /// @brief Statistics snapshot.
     struct Statistics {
         std::size_t total_allocations  = 0; ///< Total acquire() calls (all classes + OS).
-        std::size_t total_releases     = 0; ///< Total buffers returned through release().
         std::size_t slab_hits          = 0; ///< Allocations served from slab free-list.
         std::size_t slab_misses        = 0; ///< OS-level allocations (new slab block or fallback).
         std::size_t os_fallbacks       = 0; ///< Requests too large for any slab.
-        std::size_t release_evictions  = 0; ///< Releases discarded because a slab free-list was full.
         std::size_t current_live       = 0; ///< Handles currently outstanding.
-        std::size_t free_buffers       = 0; ///< Buffers currently resident in slab free-lists.
-        std::size_t configured_capacity = 0; ///< Max retained slab buffers across all classes.
         /// Per-class slab allocation counters (indices match kSlabSizes).
         std::array<std::size_t, 6> per_class_allocs = {};
-        /// Per-class free-list depth (indices match kSlabSizes).
-        std::array<std::size_t, 6> per_class_free = {};
-        /// Per-class release evictions caused by hitting max_per_class.
-        std::array<std::size_t, 6> per_class_evictions = {};
-
-        /// @brief Fraction of slab-served allocations that reused existing free-list entries.
-        [[nodiscard]] double hit_rate() const noexcept {
-            const auto total_slab = slab_hits + slab_misses;
-            if (total_slab == 0) {
-                return 0.0;
-            }
-            return static_cast<double>(slab_hits) / static_cast<double>(total_slab);
-        }
-
-        /// @brief Fraction of retained slab capacity currently occupied by live handles.
-        [[nodiscard]] double pressure() const noexcept {
-            const auto denominator = current_live + free_buffers;
-            if (denominator == 0) {
-                return 0.0;
-            }
-            return static_cast<double>(current_live) / static_cast<double>(denominator);
-        }
     };
 
     /**
@@ -273,7 +247,6 @@ private:
         std::size_t           block_size   = 0;
         std::size_t           alloc_count  = 0;  ///< Total served from this slab.
         std::size_t           miss_count   = 0;  ///< Times a new block was allocated.
-        std::size_t           evict_count  = 0;  ///< Releases dropped because free-list was full.
     };
 
     // Returns the slab index for a given request size, or kNone.
@@ -289,9 +262,7 @@ private:
 
     // Global counters (updated under slab locks or atomically).
     std::atomic<std::size_t> total_allocs_{0};
-    std::atomic<std::size_t> total_releases_{0};
     std::atomic<std::size_t> os_fallbacks_{0};
-    std::atomic<std::size_t> release_evictions_{0};
     std::atomic<std::size_t> live_handles_{0};
 };
 

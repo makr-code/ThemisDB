@@ -27,8 +27,6 @@
 #include "scraper/scraper_api_client.h"
 #include "scraper/gov_source_catalog.h"
 #include "scraper/scraper_burst_controller.h"
-#include "scraper/scraper_robots.h"
-#include "scraper/scraper_sitemap.h"
 
 #include <string>
 #include <vector>
@@ -216,23 +214,6 @@ public:
     void setHttpFetch(HttpFn fn);
     /// Inject a burst-rate controller; null disables rate limiting (default).
     void setBurstController(std::shared_ptr<BurstCrawlController> bc);
-    /// Inject a robots.txt cache; null disables robots.txt checks regardless of config.
-    void setRobotsTxtCache(std::shared_ptr<RobotsTxtCache> rc);
-    /// Inject a sitemap crawler used for SITEMAP-style gov sources.
-    void setSitemapCrawler(std::shared_ptr<SitemapCrawler> sc);
-    /**
-     * @brief Inject a text-embedding function for populating ScraperVectorRecord.
-     *
-     * When set, each accepted document's `extracted_text` is passed to @p fn
-     * and the returned float vector is stored in `ScraperVectorRecord::embedding`.
-     * When null (default), `embedding` remains empty (populated externally later).
-     *
-     * @param fn  `(text) -> std::vector<float>` — must be thread-safe and
-     *            return a consistent-dimensional vector.  An empty return is
-     *            stored as-is (caller may retry later).
-     */
-    using EmbeddingFn = std::function<std::vector<float>(const std::string& text)>;
-    void setEmbeddingFn(EmbeddingFn fn);
 
 private:
     // --- State ---
@@ -251,9 +232,6 @@ private:
     HttpFn                                  http_fn_;
     GovSourceCatalog                        gov_catalog_;
     std::shared_ptr<BurstCrawlController>   burst_controller_; ///< Optional burst limiter.
-    std::shared_ptr<RobotsTxtCache>         robots_cache_;     ///< Optional robots.txt enforcement.
-    std::shared_ptr<SitemapCrawler>         sitemap_crawler_;  ///< Used for SITEMAP-style sources.
-    EmbeddingFn                             embedding_fn_;     ///< Optional text→embedding function.
 
     // --- Internal methods ---
 
@@ -286,16 +264,6 @@ private:
     void runApiLoop(const std::string& endpoint_url,
                     const std::string& source_name,
                     const std::string& gov_source_id);
-
-    /// Run the SPARQL crawl loop for one EUR-Lex CELLAR endpoint.
-    void runSparqlLoop(const std::string& endpoint_url,
-                       const std::string& source_name,
-                       const std::string& gov_source_id);
-
-    /// Run a sitemap-driven crawl for one SITEMAP-style source.
-    void runSitemapLoop(const std::string& sitemap_url,
-                        const std::string& source_name,
-                        const std::string& gov_source_id);
 
     /// Build an ApiEndpointConfig from a GovDataSource.
     static ApiEndpointConfig govSourceToApiConfig(const GovDataSource& src);

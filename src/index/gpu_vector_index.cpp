@@ -654,11 +654,7 @@ public:
         }
         #endif
         
-        if (!config.allowCPUFallback && activeBackend != Backend::CPU && activeBackend != Backend::AUTO) {
-            THEMIS_WARN("GPUVectorIndex::search: backend search failed and CPU fallback disabled");
-            return {};
-        }
-
+        // Use CPU implementation
         return searchCPU(query, k);
     }
     
@@ -740,7 +736,7 @@ public:
         );
         
         std::vector<SearchResult> results;
-        if (gpuResults.size() == 1 && !gpuResults[0].empty()) {
+        if (!gpuResults.empty() && !gpuResults[0].empty()) {
             results.reserve(gpuResults[0].size());
             for (const auto& [idx, dist] : gpuResults[0]) {
                 if (idx < vectorIds.size()) {
@@ -818,12 +814,7 @@ public:
             useL2
         );
         
-        if (gpuResults.size() != queries.size()) {
-            THEMIS_WARN("GPUVectorIndex::searchBatchGPU - backend returned {} batches for {} queries",
-                        gpuResults.size(), queries.size());
-            return {};
-        }
-
+        // Convert GPU results to SearchResult format
         std::vector<std::vector<SearchResult>> results;
         results.reserve(gpuResults.size());
         
@@ -890,7 +881,7 @@ public:
         );
 
         std::vector<SearchResult> results;
-        if (gpuResults.size() == 1 && !gpuResults[0].empty()) {
+        if (!gpuResults.empty() && !gpuResults[0].empty()) {
             results.reserve(gpuResults[0].size());
             for (const auto& [idx, dist] : gpuResults[0]) {
                 if (idx < vectorIds.size()) {
@@ -952,12 +943,7 @@ public:
             toHIPMetric(config.metric)
         );
 
-        if (gpuResults.size() != queries.size()) {
-            THEMIS_WARN("GPUVectorIndex::searchBatchHIP - backend returned {} batches for {} queries",
-                        gpuResults.size(), queries.size());
-            return {};
-        }
-
+        // Convert GPU results to SearchResult format
         std::vector<std::vector<SearchResult>> results;
         results.reserve(gpuResults.size());
         for (const auto& queryResults : gpuResults) {
@@ -1669,3 +1655,4 @@ std::vector<GPUVectorIndex::Backend> GPUVectorIndex::getAvailableBackends() cons
 
 } // namespace index
 } // namespace themis
+

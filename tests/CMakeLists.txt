@@ -10723,8 +10723,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/parallel/test_parallel_scan.cpp")
     target_link_libraries(test_parallel_scan PRIVATE
         ${TEST_LIBS}
         themis_core
-        $<$<BOOL:${TBB_FOUND}>:TBB::tbb>
-        $<$<TARGET_EXISTS:RocksDB::rocksdb>:RocksDB::rocksdb>
+        TBB::tbb
+        RocksDB::rocksdb
         Threads::Threads
     )
 
@@ -20368,28 +20368,6 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/storage/test_storage_audit_logger.cpp")
     message(STATUS "  StorageAuditLogger: write, read, rotate, tamper detection")
 endif()
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/storage/test_federated_blob_router_focused.cpp")
-    message(STATUS "Adding Storage: FederatedBlobRouter focused tests")
-    add_executable(test_federated_blob_router_focused storage/test_federated_blob_router_focused.cpp)
-    target_include_directories(test_federated_blob_router_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
-    target_link_libraries(test_federated_blob_router_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
-    target_compile_definitions(test_federated_blob_router_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME FederatedBlobRouterFocusedTests COMMAND test_federated_blob_router_focused)
-    set_tests_properties(FederatedBlobRouterFocusedTests PROPERTIES LABELS "storage;blob;federated;focused;unit" TIMEOUT 60)
-    message(STATUS "  FederatedBlobRouter: replication, rollback, region failover")
-endif()
-
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/storage/test_blob_backend_cloud_integration_focused.cpp")
-    message(STATUS "Adding Storage: CloudBlobBackend focused tests")
-    add_executable(test_blob_backend_cloud_integration_focused storage/test_blob_backend_cloud_integration_focused.cpp)
-    target_include_directories(test_blob_backend_cloud_integration_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
-    target_link_libraries(test_blob_backend_cloud_integration_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
-    target_compile_definitions(test_blob_backend_cloud_integration_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME CloudBlobBackendFocusedTests COMMAND test_blob_backend_cloud_integration_focused)
-    set_tests_properties(CloudBlobBackendFocusedTests PROPERTIES LABELS "storage;blob;cloud;focused;unit;integration" TIMEOUT 120)
-    message(STATUS "  Cloud blob backends: presigned-url guards and env-gated emulator round-trips")
-endif()
-
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/wal/test_wal_storage.cpp")
     message(STATUS "Adding Storage: WALStorage focused tests")
     add_executable(test_wal_storage_focused wal/test_wal_storage.cpp)
@@ -25397,7 +25375,7 @@ if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/incremental/test_in
         ${TEST_LIBS}
         themis_core
         nlohmann_json::nlohmann_json
-        $<$<BOOL:${yaml-cpp_FOUND}>:yaml-cpp::yaml-cpp>
+        yaml-cpp::yaml-cpp
         spdlog::spdlog
         Threads::Threads
     )
@@ -28542,53 +28520,4 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_phase4_security_hardening.cpp")
     )
 
     message(STATUS "  Phase 4 Security: SEC-IV-01..15 (input validation), SEC-TLS-01..10 (transport), SEC-MEM-01..15 (memory), SEC-RACE-01..10 (concurrency), SEC-ERR-01..05 (error path)")
-endif()
-
-# ============================================================================
-# LLM-Wiki × RocksDB Cross-Dependency Integration Tests (WCD-01..16)
-# Covers Phase A (WorkspaceStateManager RocksDB backend), Phase B (persistent
-# embedding cache default), Phase D (StorageAuditLogger injection), Phase F
-# (writeBatch atomic via putBatch/addBatch).
-# ============================================================================
-
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/llm/test_wiki_crossdep_focused.cpp")
-    message(STATUS "Adding LLM-Wiki × RocksDB cross-dependency integration tests (WCD-01..16)")
-
-    add_executable(test_wiki_crossdep_focused
-        llm/test_wiki_crossdep_focused.cpp
-        ${THEMIS_ROOT_DIR}/src/llm_wiki/workspace_state_manager.cpp
-        ${THEMIS_ROOT_DIR}/src/llm_wiki/edition_gate.cpp
-        ${THEMIS_ROOT_DIR}/src/storage/rocksdb_wrapper.cpp
-        ${THEMIS_ROOT_DIR}/src/storage/nvme_manager.cpp
-        ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
-    )
-
-    target_include_directories(test_wiki_crossdep_focused PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-        ${THEMIS_ROOT_DIR}/src
-        ${THEMIS_ROOT_DIR}/tests
-    )
-
-    target_link_libraries(test_wiki_crossdep_focused PRIVATE
-        GTest::gtest
-        GTest::gtest_main
-        Threads::Threads
-        $<TARGET_NAME_IF_EXISTS:RocksDB::rocksdb>
-        fmt::fmt
-    )
-
-    target_compile_definitions(test_wiki_crossdep_focused PRIVATE
-        THEMIS_TEST_BUILD=1
-        THEMIS_EDITION_ENTERPRISE=1
-    )
-
-    themis_register_module_focused_test(
-        MODULE llm_wiki
-        TARGET test_wiki_crossdep_focused
-        NAME WikiCrossDep
-        LABELS "llm_wiki;rocksdb;cross_dependency;release_critical"
-        TIMEOUT 120
-    )
-
-    message(STATUS "  WCD-01..04 (Phase B cache), WCD-05..08 (Phase F writeBatch), WCD-09..12 (Phase D audit), WCD-13..16 (Phase A RocksDB backend)")
 endif()

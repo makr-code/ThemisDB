@@ -25,10 +25,7 @@
 #include <algorithm>
 #include <atomic>
 #include <chrono>
-#include <filesystem>
-#include <memory>
 #include <mutex>
-#include <random>
 #include <set>
 #include <stdexcept>
 #include <string>
@@ -103,17 +100,6 @@ static DistributedTxnManagerConfig makeDefaultConfig() {
     cfg.commit_timeout      = 2000ms;
     cfg.default_txn_timeout = 60s;
     return cfg;
-}
-
-static std::string makeUniqueWalDir(const std::string& suffix) {
-    std::mt19937_64 rng{
-        static_cast<std::mt19937_64::result_type>(
-            std::chrono::steady_clock::now().time_since_epoch().count())};
-    const auto nonce = rng();
-    std::filesystem::path wal_path =
-        std::filesystem::temp_directory_path() /
-        ("themis_txn_phase2_" + suffix + "_" + std::to_string(nonce));
-    return wal_path.string();
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -353,7 +339,7 @@ TEST_F(TransactionDistributedPhase2Test, InDoubtReconciliation_CommitCountTracke
  * @acceptance AC-6
  */
 TEST_F(TransactionDistributedPhase2Test, InDoubtReconciliation_WalReplay) {
-    const std::string wal_dir = makeUniqueWalDir("wal_replay");
+    const std::string wal_dir = "/tmp/phase2_wal_replay_test_dir";
 
     {
         DistributedTxnManagerConfig cfg = makeDefaultConfig();
@@ -375,64 +361,6 @@ TEST_F(TransactionDistributedPhase2Test, InDoubtReconciliation_WalReplay) {
             DistributedTransactionManager wal_mgr2("wal-coord-reload", cfg);
         }) << "Coordinator reload from WAL must not throw";
     }
-
-    std::filesystem::remove_all(wal_dir);
-}
-
-/**
- * @test InDoubtReconciliation_WalReplayChaosRecoveryUnderContention
- * @brief Simulates coordinator crash after PREPARE under concurrent load and validates WAL replay recovery.
- * @acceptance AC-6
- */
-TEST_F(TransactionDistributedPhase2Test, InDoubtReconciliation_WalReplayChaosRecoveryUnderContention) {
-    const std::string wal_dir = makeUniqueWalDir("chaos_recovery");
-    constexpr int kInDoubtTxns = 10;
-    std::atomic<int> prepared_count{0};
-
-    {
-        DistributedTxnManagerConfig cfg = makeDefaultConfig();
-        cfg.wal_directory = wal_dir;
-
-        auto wal_mgr = std::make_unique<DistributedTransactionManager>("chaos-coord", cfg);
-        std::vector<std::thread> workers;
-        workers.reserve(kInDoubtTxns);
-
-        for (int i = 0; i < kInDoubtTxns; ++i) {
-            workers.emplace_back([&wal_mgr, &prepared_count, i]() {
-                auto pa = std::make_unique<Phase2MockParticipant>();
-                auto pb = std::make_unique<Phase2MockParticipant>();
-                auto tid = wal_mgr->beginDistributed({
-                    makeParticipant("n1-" + std::to_string(i), pa.get()),
-                    makeParticipant("n2-" + std::to_string(i), pb.get())
-                });
-                auto ps = wal_mgr->prepareDistributed(tid);
-                if (ps.ok) {
-                    prepared_count.fetch_add(1);
-                }
-            });
-        }
-
-        for (auto& worker : workers) {
-            worker.join();
-        }
-    } // crash simulation via coordinator destruction before commit/abort
-
-    DistributedTxnManagerConfig recovery_cfg = makeDefaultConfig();
-    recovery_cfg.wal_directory = wal_dir;
-    DistributedTransactionManager recovered_mgr("chaos-coord-restart", recovery_cfg);
-
-    const auto start = std::chrono::steady_clock::now();
-    const size_t resolved = recovered_mgr.recoverInDoubtTransactions();
-    const auto elapsed_ms =
-        std::chrono::duration_cast<std::chrono::milliseconds>(
-            std::chrono::steady_clock::now() - start)
-            .count();
-
-    EXPECT_EQ(resolved, static_cast<size_t>(prepared_count.load()))
-        << "Recovery must resolve all in-doubt PREPARE-only transactions";
-    EXPECT_LE(elapsed_ms, 5000) << "WAL replay recovery must complete within deterministic bound";
-
-    std::filesystem::remove_all(wal_dir);
 }
 
 /**

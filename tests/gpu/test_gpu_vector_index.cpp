@@ -361,26 +361,6 @@ TEST_F(GPUVectorIndexTest, CUDABackendInitialization) {
     index.shutdown();
 }
 
-TEST_F(GPUVectorIndexTest, CUDABackendInitialization_DisabledFallbackFailsCleanly) {
-    GPUVectorIndex::Config config;
-    config.backend = GPUVectorIndex::Backend::CUDA;
-    config.allowCPUFallback = false;
-
-    GPUVectorIndex index(config);
-    bool initialized = index.initialize(dimension);
-
-    const auto available = index.getAvailableBackends();
-    const bool cudaAvailable = std::find(available.begin(), available.end(),
-                                         GPUVectorIndex::Backend::CUDA) != available.end();
-
-    if (cudaAvailable) {
-        EXPECT_TRUE(initialized);
-        EXPECT_EQ(index.getActiveBackend(), GPUVectorIndex::Backend::CUDA);
-    } else {
-        EXPECT_FALSE(initialized);
-    }
-}
-
 TEST_F(GPUVectorIndexTest, CUDASearch) {
     GPUVectorIndex::Config config;
     config.backend = GPUVectorIndex::Backend::CUDA;

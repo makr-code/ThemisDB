@@ -1,6 +1,6 @@
 # Distributed Tensor Module - Test Evidence Collection Guide
 
-**Last Updated**: 2026-08-10  
+**Last Updated**: 2026-07-28  
 **Issue**: makr-code/ThemisDB#5640  
 **Status**: Ready for CI evidence collection
 
@@ -140,14 +140,12 @@ Ensure tests exercise all EPIC 3 sub-issues:
 **Evidence Status**: READY FOR UNIT TEST COLLECTION, pending benchmark
 
 ### Phase C (Summary Coordination, Q4 2026)
-**Target**: Shard summary refresh, summary-first routing, exact-on-demand escalation
-- [x] Shard freshness timestamps and refresh logic (`shard_summary_coordinator.*`)
-- [x] Summary-first routing with escalation (`routeSummaryFirst`)
-- [x] Exact-on-demand fallback/fetch path (`fetchExact`)
-- [x] Phase C focused ctest gate: `test_tensor_shard_summary`
-- [x] Phase C benchmark source: `bench_tensor_summary_first`
+**Target**: Shard summary refresh, summary-first routing
+- [ ] ManifestStore extended for shard summaries
+- [ ] Summary routing strategy (pending implementation)
+- [ ] Exact-on-demand fallback (pending implementation)
 
-**Evidence Status**: READY FOR BUILD/RUN EVIDENCE COLLECTION
+**Evidence Status**: BLOCKING - Requires Phase C implementation & sharding module readiness
 
 ## Acceptance Criteria
 
@@ -163,12 +161,11 @@ The module is production-ready when:
    - ⏳ Planner latency p99 <= 750 µs (from FUTURE_ENHANCEMENTS)
    - ⏳ Placement throughput >= 25,000 ops/s
    - ⏳ Integrity verification success ratio >= 0.999
-   - ⏳ Control-plane availability ratio >= 0.99
 
 3. **Documentation Complete**
    - [x] ROADMAP.md updated with test evidence status
    - [x] Test Evidence & Acceptance section added
-   - [~] Acceptance documentation scaffold exists; measured runtime evidence still pending
+   - [ ] Acceptance documentation tied to measured runtime behavior
 
 4. **CI Integration Verified**
    - ⏳ Tests discoverable via `ctest -L epic3_distributed_tensor`
@@ -187,10 +184,10 @@ The module is production-ready when:
    - Capture CTest output with test results
    - Capture benchmark metrics
 
-3. **Update Phase 6 Evidence**
-   - Attach aggregated benchmark result bundle
-   - Link gate summary output from `report_variance_epic3.py`
-   - Update `PHASE_6_ACCEPTANCE_CHECKLIST.md` with measured evidence
+3. **Update Issue #5640**
+   - Close with evidence summary
+   - Link to CI run results
+   - Update ROADMAP with measured evidence
 
 ## Related Documents
 - `ROADMAP.md` - Roadmap and phase definitions

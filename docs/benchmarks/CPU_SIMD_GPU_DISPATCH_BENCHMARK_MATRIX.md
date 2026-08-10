@@ -491,7 +491,7 @@ Based on preliminary estimates; final classification requires hardware validatio
 
 | Gap ID | Description | Owner | Target |
 |---|---|---|---|
-| `GAP-1` | Actual hardware run to validate break-even thresholds against shipped CPU baselines | Acceleration team | 2027 |
+| `GAP-1` | Actual hardware run to validate break-even thresholds | Acceleration team | Q3 2026 |
 | `GAP-2` | Extend `bench_ann_cpu_gpu_dispatch.cpp` with quantised artifact and recall-quality scenarios | ANN team | Q3 2026 |
 | `GAP-3` | `bench_tensor_cpu_gpu_dispatch.cpp` implementation | Tensor team | Q3 2026 |
 | `GAP-4` | `bench_graph_cpu_gpu_dispatch.cpp` implementation | Graph team | Q3 2026 |

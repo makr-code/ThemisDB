@@ -63,10 +63,6 @@ Quarantaene, nicht einen inoffiziellen Reservepool fuer schnelle Reaktivierung.
   — Enger Storage-Performance-Check fuer Benchmarks und Performance-relevante C++-Aenderungen
 - `.github/workflows/08-quality_clang-tidy-analysis.yml`
   — Statische Analyse via clang-tidy (SARIF → GitHub Code Scanning) und clang-format-Stil-Pruefung; `workflow_dispatch`-only (Phase 4.1 TODO_KI_WORKFLOW_IMPROVEMENTS.md); erzeugt Artefakt `clang-tidy-results` + SARIF-Upload; optionaler Hard-Gate via `fail_on_warnings`/`fail_on_format_violations`
-- `.github/workflows/09-pr-gates_submodule-commit-pins.yml`
-  — Enger PR-Gate fuer Wave-1 private Plugin-Submodule: blockiert `.gitmodules`-Aenderungen ohne 40-Hex-SHA Commit-Pin fuer alle sieben Wave-1-Submodul-Pfade; Trigger begrenzt auf `.gitmodules` und eigene Workflow-Datei; Fehlermeldung mit Reparaturanleitung und Policy-Verweis (`docs/plugins/PLUGIN_ABI_POLICY.md`)
-- `.github/workflows/09-pr-gates_community-pipeline-policy.yml`
-  — Enger PR-Gate fuer Community/Minimal-Branches: scannt geaenderte CI/Build-Dateien auf verbotene private Credentials (Secret-Referenzen, hart kodierte Submodule-Tokens, `WITH_PRIVATE_PLUGINS=ON`) und prueft, dass kein Community-Workflow private Submodule auscheckt; Policy: `docs/plugins/COMMUNITY_BUILD_VALIDATION_GUIDE.md §No Private Content`
 
 ## Quarantaene: `.github/no_workflows/`
 Workflows in diesem Verzeichnis sind absichtlich deaktiviert. Eine Rueckverschiebung nach `.github/workflows/` ist nur zulaessig, wenn alle folgenden Punkte vorab dokumentiert sind:
@@ -97,6 +93,6 @@ pwsh -NoProfile -File ./scripts/test-github-actions-local.ps1 -Mode all
 ```
 
 ## Stand
-- Aktive Workflows im Verzeichnis `.github/workflows/`: 24
+- Aktive Workflows im Verzeichnis `.github/workflows/`: 22
 - Deaktivierte Workflows in `.github/no_workflows/`: 23
 - Strategie: Lean + harte Triggergrenzen + Quarantaene fuer uebertriggernde CI

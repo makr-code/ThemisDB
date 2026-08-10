@@ -23,7 +23,6 @@
  */
 
 #include "llm_wiki/workspace_state_manager.h"
-#include "storage/rocksdb_wrapper.h"
 
 #include <spdlog/spdlog.h>
 #include <nlohmann/json.hpp>
@@ -166,61 +165,10 @@ static WorkspaceStatus deserializeJsonToState(
 }
 
 // ============================================================================
-// Phase A: optional RocksDB backend
-// ============================================================================
-
-void WorkspaceStateManager::useRocksDB(themis::RocksDBWrapper* db) noexcept {
-    rocksdb_ = db;
-}
-
-bool WorkspaceStateManager::hasRocksDB() const noexcept {
-    return rocksdb_ != nullptr;
-}
-
-const std::string& WorkspaceStateManager::rocksdbKey() const noexcept {
-    if (rocksdb_key_.empty()) {
-        rocksdb_key_ = "workspace_state:" + workspace_root_.string();
-    }
-    return rocksdb_key_;
-}
-
-WorkspaceStatus WorkspaceStateManager::loadFromRocksDB(WorkspaceState& out_state) noexcept {
-    std::string raw;
-    if (!rocksdb_->get(rocksdbKey(), raw)) {
-        return WorkspaceStatus::Error("workspace_state key not found in RocksDB");
-    }
-    try {
-        json j = json::parse(raw);
-        return deserializeJsonToState(j, out_state);
-    } catch (const std::exception& e) {
-        return WorkspaceStatus::Error(std::string("RocksDB state parse error: ") + e.what());
-    }
-}
-
-WorkspaceStatus WorkspaceStateManager::saveToRocksDB(const WorkspaceState& state) noexcept {
-    try {
-        auto j = serializeStateToJson(state);
-        std::string raw = j.dump();
-        if (!rocksdb_->put(rocksdbKey(), raw)) {
-            return WorkspaceStatus::Error("RocksDB put failed for workspace_state key");
-        }
-        SPDLOG_DEBUG("Workspace state saved to RocksDB key='{}'", rocksdbKey());
-        return WorkspaceStatus::Ok();
-    } catch (const std::exception& e) {
-        return WorkspaceStatus::Error(std::string("RocksDB save error: ") + e.what());
-    }
-}
-
-// ============================================================================
 // Public API implementation
 // ============================================================================
 
 WorkspaceStatus WorkspaceStateManager::load(WorkspaceState& out_state) noexcept {
-    // Delegate to RocksDB backend when attached (Phase A).
-    if (rocksdb_) {
-        return loadFromRocksDB(out_state);
-    }
-
     try {
         // Check if state file exists
         if (!std::filesystem::exists(state_file_)) {
@@ -275,11 +223,6 @@ WorkspaceStatus WorkspaceStateManager::load(WorkspaceState& out_state) noexcept 
 }
 
 WorkspaceStatus WorkspaceStateManager::save(const WorkspaceState& state) noexcept {
-    // Delegate to RocksDB backend when attached (Phase A).
-    if (rocksdb_) {
-        return saveToRocksDB(state);
-    }
-
     try {
         // Ensure wiki directory exists
         auto wiki_dir = state_file_.parent_path();

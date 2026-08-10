@@ -23,8 +23,6 @@ set(SCRAPER_SOURCES
     scraper_api_client.cpp
     scraper_llm_evaluator.cpp
     scraper_metadata_writer.cpp
-    scraper_robots.cpp
-    scraper_sitemap.cpp
     scraper_plugin.cpp
 )
 

@@ -76,21 +76,12 @@ The module provides production-grade LLM runtime surfaces across async inference
   - [x] Attach residual-risk register for exception-safety/memory/recovery paths (Target: Q3 2026)
   - [x] Reconfirm focused + release-critical regression proof on current `develop` baseline (Target: Q3 2026)
   - [x] Link ownership/failure-mode sign-off evidence into root gate board docs (Target: Q3 2026)
-- [x] **Multi-Subagent LLM Orchestration** (Target: Q3 2026, Phases A–E, ✅ COMPLETE 2026-08-10)
+- [~] **Multi-Subagent LLM Orchestration** (Target: Q3 2026, Phases A–E)
   - [x] **Phase A**: SubagentConfig + SubagentFactory API contracts (`include/llm/subagent_config.h`, `include/llm/subagent_factory.h`) → non-breaking, opt-in
   - [x] **Phase B**: SubagentLifecycleManager with resource tracking (integrated in `src/llm/subagent_factory_impl.cpp`)
   - [x] **Phase C**: SubagentCoordinator with parallel fan-out + merge strategies (`include/llm/subagent_coordinator.h`, `src/llm/subagent_coordinator_impl.cpp`)
   - [x] **Phase D**: Comprehensive hardening tests SO-01..SO-48 (`tests/llm/test_subagent_orchestration_focused.cpp`)
-  - [x] **Phase E**: Operational deployment guide + ROADMAP updates — `docs/operations/llm/SUBAGENT_DEPLOYMENT.md` (502 lines) delivered; `src/llm/SUBAGENT_ARCHITECTURE.md` delivered (Target: Q3 2026, ✅ COMPLETE 2026-08-10)
-
-- [x] **YAML/JSON/BPMN-based LLM Orchestration + Task Decomposition** (Issue #5847, delivered Q3 2026)
-  - [x] `include/llm/workflow_definition.h` — WorkflowDefinition, WorkflowStep, WorkflowLoader
-    (YAML, JSON, BPMN-lite XML load; toJson/fromJson round-trip; validate())
-  - [x] `include/llm/task_decomposer.h` — TaskDecomposer with configurable DecompositionStrategy
-    (ChainOfThought, DirectJson, FewShot); converts TaskDecompositionResult → WorkflowDefinition
-  - [x] `src/llm/task_decomposer.cpp` — production implementation; inline YAML→JSON converter;
-    BPMN-lite XML `<serviceTask>` / `<sequenceFlow>` parser; retry logic; topological sort
-  - [x] `tests/llm/test_llm_workflow_orchestration_focused.cpp` — WO-01..WO-25 focused tests
+  - [~] **Phase E**: Operational deployment guide + ROADMAP updates (in progress)
 
 ## Planned Features
 

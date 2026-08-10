@@ -11,19 +11,13 @@
 
 #include "plugins/huggingface_ingestion_plugin.h"
 #include "content/content_manager.h"
-#include "observability/metrics_collector.h"
 #include "utils/logger.h"
 #include <filesystem>
 #include <fstream>
 #include <sstream>
-#include <iomanip>
 #include <thread>
-#include <future>
 #include <random>
 #include <stdexcept>
-#include <cstdlib>
-#include <numeric>
-#include <openssl/sha.h>
 
 namespace themis {
 namespace plugins {
@@ -53,18 +47,15 @@ json HuggingFaceIngestionPlugin::Config::toJson() const {
     j["split"] = split;
     j["streaming"] = streaming;
     j["chunk_size"] = chunk_size;
-    // auth_token intentionally excluded from serialisation to prevent token leaks
+    j["auth_token"] = auth_token;
     j["text_field"] = text_field;
     j["label_field"] = label_field;
     j["custom_fields"] = custom_fields;
     j["cache_dir"] = cache_dir;
     j["use_cache"] = use_cache;
-    j["checkpoint_file"] = checkpoint_file;
     j["max_requests_per_second"] = max_requests_per_second;
     j["max_retries"] = max_retries;
     j["retry_delay_ms"] = retry_delay_ms;
-    j["model_download_dir"] = model_download_dir;
-    j["enable_metrics"] = enable_metrics;
     return j;
 }
 
@@ -74,7 +65,7 @@ HuggingFaceIngestionPlugin::Config HuggingFaceIngestionPlugin::Config::fromJson(
     if (j.contains("split")) config.split = j["split"];
     if (j.contains("streaming")) config.streaming = j["streaming"];
     if (j.contains("chunk_size")) config.chunk_size = j["chunk_size"];
-    // auth_token is never stored in JSON; callers set it explicitly or via env var
+    if (j.contains("auth_token")) config.auth_token = j["auth_token"];
     if (j.contains("text_field")) config.text_field = j["text_field"];
     if (j.contains("label_field")) config.label_field = j["label_field"];
     if (j.contains("custom_fields")) {
@@ -82,14 +73,11 @@ HuggingFaceIngestionPlugin::Config HuggingFaceIngestionPlugin::Config::fromJson(
     }
     if (j.contains("cache_dir")) config.cache_dir = j["cache_dir"];
     if (j.contains("use_cache")) config.use_cache = j["use_cache"];
-    if (j.contains("checkpoint_file")) config.checkpoint_file = j["checkpoint_file"];
     if (j.contains("max_requests_per_second")) {
         config.max_requests_per_second = j["max_requests_per_second"];
     }
     if (j.contains("max_retries")) config.max_retries = j["max_retries"];
     if (j.contains("retry_delay_ms")) config.retry_delay_ms = j["retry_delay_ms"];
-    if (j.contains("model_download_dir")) config.model_download_dir = j["model_download_dir"];
-    if (j.contains("enable_metrics")) config.enable_metrics = j["enable_metrics"];
     return config;
 }
 
@@ -122,20 +110,6 @@ HuggingFaceIngestionPlugin::HuggingFaceIngestionPlugin(
 {
     if (!content_manager_) {
         throw std::invalid_argument("ContentManager cannot be null");
-    }
-    
-    // Feature 1 – Resolve API token: config takes precedence; fallback to env var.
-    // Tokens are never logged to prevent credential leaks.
-    resolved_token_ = config_.auth_token;
-    if (resolved_token_.empty()) {
-        const char* env_token = std::getenv("HUGGINGFACE_TOKEN");
-        if (env_token && env_token[0] != '\0') {
-            resolved_token_ = env_token;
-            THEMIS_INFO("HuggingFaceIngestionPlugin: using token from HUGGINGFACE_TOKEN env var");
-        }
-    }
-    if (!resolved_token_.empty()) {
-        THEMIS_INFO("HuggingFaceIngestionPlugin: authenticated requests enabled");
     }
     
     // Initialize CURL
@@ -297,10 +271,11 @@ std::string HuggingFaceIngestionPlugin::httpGet(const std::string& url) {
         curl_easy_setopt(curl_handle_, CURLOPT_FOLLOWLOCATION, 1L);
         curl_easy_setopt(curl_handle_, CURLOPT_TIMEOUT, 30L);
         
-        // Apply auth header (Feature 1) – uses resolved_token_ which may come from env var
+        // Add auth token if provided
         struct curl_slist* headers = nullptr;
-        headers = applyAuthHeader(headers);
-        if (headers) {
+        if (!config_.auth_token.empty()) {
+            std::string auth_header = "Authorization: Bearer " + config_.auth_token;
+            headers = curl_slist_append(headers, auth_header.c_str());
             curl_easy_setopt(curl_handle_, CURLOPT_HTTPHEADER, headers);
         }
         
@@ -527,28 +502,19 @@ void HuggingFaceIngestionPlugin::processHuggingFaceJob(
     if (dataset_name.empty()) {
         throw std::runtime_error("dataset_name not specified");
     }
-
-    BatchMetrics metrics;
     
     // Try to load from cache first
     std::vector<json> documents;
     bool from_cache = plugin->loadFromCache(dataset_name, split, documents);
-    if (from_cache) {
-        ++metrics.cache_hits;
-    } else {
-        ++metrics.cache_misses;
-    }
     
     if (!from_cache) {
-        // Feature 2 – Resume from checkpoint if available
-        auto ckpt = plugin->loadCheckpoint(dataset_name, split);
-        size_t offset = ckpt.next_offset;
+        // Fetch from HuggingFace API
+        size_t offset = 0;
         size_t batch_size = plugin->config_.chunk_size;
-
-        auto fetch_t0 = std::chrono::steady_clock::now();
+        
         while (true) {
             auto result = plugin->fetchBatch(dataset_name, split, offset, batch_size);
-            ++metrics.batches_fetched;
+            
             documents.insert(documents.end(), result.documents.begin(), result.documents.end());
             
             // Update progress
@@ -559,28 +525,20 @@ void HuggingFaceIngestionPlugin::processHuggingFaceJob(
             
             THEMIS_INFO("Fetched {} documents so far from {}/{}", 
                 documents.size(), dataset_name, split);
-
-            // Feature 2 – Persist checkpoint after each batch
-            CheckpointState ckpt_state;
-            ckpt_state.job_id       = job.job_id;
-            ckpt_state.dataset_name = dataset_name;
-            ckpt_state.split        = split;
-            ckpt_state.next_offset  = offset + result.documents.size();
-            ckpt_state.total_rows   = (job.total_items > 0)
-                                        ? static_cast<size_t>(job.total_items) : 0;
-            ckpt_state.updated_at   = std::chrono::duration_cast<std::chrono::milliseconds>(
-                std::chrono::system_clock::now().time_since_epoch()).count();
-            plugin->saveCheckpoint(ckpt_state);
             
-            if (!result.has_more) {
+            // Note: For production use, remove or make this limit configurable
+            // This 10k limit is for demonstration/testing to avoid excessive API usage
+            size_t max_docs_limit = plugin->config_.chunk_size * 10;  // ~10 batches
+            if (!result.has_more || documents.size() >= max_docs_limit) {
+                if (documents.size() >= max_docs_limit) {
+                    THEMIS_INFO("Reached document limit of {} (configurable in future versions)", 
+                        max_docs_limit);
+                }
                 break;
             }
             
             offset += result.documents.size();
         }
-        auto fetch_t1 = std::chrono::steady_clock::now();
-        metrics.total_fetch_ms = static_cast<double>(
-            std::chrono::duration_cast<std::chrono::milliseconds>(fetch_t1 - fetch_t0).count());
         
         // Save to cache
         plugin->saveToCache(dataset_name, split, documents);
@@ -598,7 +556,6 @@ void HuggingFaceIngestionPlugin::processHuggingFaceJob(
             if (!status.ok) {
                 THEMIS_WARN("Failed to import document {}: {}", i, status.message);
             } else {
-                ++metrics.rows_ingested;
                 // Extract content ID from status message
                 if (content_spec.contains("content") && 
                     content_spec["content"].contains("id")) {
@@ -613,17 +570,11 @@ void HuggingFaceIngestionPlugin::processHuggingFaceJob(
         job.processed_items = static_cast<int>(i + 1);
         job.progress = static_cast<float>(i + 1) / documents.size();
     }
-
-    // Feature 4 – Emit Prometheus metrics
-    plugin->emitBatchMetrics(metrics, dataset_name, split);
     
     job.result_metadata["total_documents"] = documents.size();
     job.result_metadata["dataset_name"] = dataset_name;
     job.result_metadata["split"] = split;
     job.result_metadata["from_cache"] = from_cache;
-
-    // Feature 2 – Clear checkpoint on successful completion
-    plugin->clearCheckpoint();
     
     THEMIS_INFO("HuggingFace job {} completed: {} documents ingested", 
         job.job_id, job.content_ids.size());
@@ -694,418 +645,6 @@ json HuggingFaceIngestionPlugin::documentToContentSpec(
     });
     
     return spec;
-}
-
-// ============================================================================
-// Feature 1 – Token Auth: applyAuthHeader
-// ============================================================================
-
-curl_slist* HuggingFaceIngestionPlugin::applyAuthHeader(curl_slist* headers) const {
-    if (resolved_token_.empty()) {
-        return headers;
-    }
-    // Build "Authorization: ******" without logging the token value.
-    std::string header = "Authorization: Bearer " + resolved_token_;
-    return curl_slist_append(headers, header.c_str());
-}
-
-// ============================================================================
-// Feature 2 – Checkpoint: CheckpointState serialisation + save/load/clear
-// ============================================================================
-
-json HuggingFaceIngestionPlugin::CheckpointState::toJson() const {
-    return {
-        {"job_id",       job_id},
-        {"dataset_name", dataset_name},
-        {"split",        split},
-        {"next_offset",  next_offset},
-        {"total_rows",   total_rows},
-        {"updated_at",   updated_at}
-    };
-}
-
-HuggingFaceIngestionPlugin::CheckpointState
-HuggingFaceIngestionPlugin::CheckpointState::fromJson(const json& j) {
-    CheckpointState s;
-    if (j.contains("job_id"))       s.job_id       = j["job_id"].get<std::string>();
-    if (j.contains("dataset_name")) s.dataset_name = j["dataset_name"].get<std::string>();
-    if (j.contains("split"))        s.split        = j["split"].get<std::string>();
-    if (j.contains("next_offset"))  s.next_offset  = j["next_offset"].get<size_t>();
-    if (j.contains("total_rows"))   s.total_rows   = j["total_rows"].get<size_t>();
-    if (j.contains("updated_at"))   s.updated_at   = j["updated_at"].get<int64_t>();
-    return s;
-}
-
-void HuggingFaceIngestionPlugin::saveCheckpoint(const CheckpointState& state) {
-    if (config_.checkpoint_file.empty()) {
-        return;
-    }
-    try {
-        std::ofstream out(config_.checkpoint_file, std::ios::trunc);
-        if (!out) {
-            THEMIS_WARN("Cannot write checkpoint file: {}", config_.checkpoint_file);
-            return;
-        }
-        out << state.toJson().dump(2);
-        THEMIS_DEBUG("Checkpoint saved: offset={} for {}/{}", 
-            state.next_offset, state.dataset_name, state.split);
-    } catch (const std::exception& e) {
-        THEMIS_WARN("Failed to save checkpoint: {}", e.what());
-    }
-}
-
-HuggingFaceIngestionPlugin::CheckpointState
-HuggingFaceIngestionPlugin::loadCheckpoint(const std::string& dataset_name,
-                                            const std::string& split) const {
-    CheckpointState empty;
-    if (config_.checkpoint_file.empty()) {
-        return empty;
-    }
-    try {
-        std::ifstream in(config_.checkpoint_file);
-        if (!in) {
-            return empty;  // No checkpoint file yet – start from beginning
-        }
-        json j = json::parse(in);
-        auto state = CheckpointState::fromJson(j);
-        // Only reuse if it matches the requested dataset/split
-        if (state.dataset_name == dataset_name && state.split == split) {
-            THEMIS_INFO("Resuming ingestion from offset {} for {}/{}", 
-                state.next_offset, dataset_name, split);
-            return state;
-        }
-    } catch (const std::exception& e) {
-        THEMIS_WARN("Cannot load checkpoint (starting fresh): {}", e.what());
-    }
-    return empty;
-}
-
-void HuggingFaceIngestionPlugin::clearCheckpoint() {
-    if (config_.checkpoint_file.empty()) {
-        return;
-    }
-    std::error_code ec;
-    std::filesystem::remove(config_.checkpoint_file, ec);
-    if (!ec) {
-        THEMIS_DEBUG("Checkpoint file cleared: {}", config_.checkpoint_file);
-    }
-}
-
-// ============================================================================
-// Feature 3 – Model Hub: ModelDownloadResult serialisation + downloadModelWeights
-// ============================================================================
-
-json HuggingFaceIngestionPlugin::ModelDownloadResult::toJson() const {
-    return {
-        {"repo_id",    repo_id},
-        {"filename",   filename},
-        {"local_path", local_path},
-        {"bytes",      bytes},
-        {"sha256",     sha256},
-        {"from_cache", from_cache}
-    };
-}
-
-std::string HuggingFaceIngestionPlugin::computeFileSha256(const std::string& path) {
-    std::ifstream f(path, std::ios::binary);
-    if (!f) {
-        throw std::runtime_error("Cannot open file for SHA-256: " + path);
-    }
-    SHA256_CTX ctx;
-    SHA256_Init(&ctx);
-    char buf[65536];
-    while (f.read(buf, sizeof(buf)) || f.gcount() > 0) {
-        SHA256_Update(&ctx, buf, static_cast<size_t>(f.gcount()));
-    }
-    unsigned char digest[SHA256_DIGEST_LENGTH];
-    SHA256_Final(digest, &ctx);
-
-    std::ostringstream hex;
-    hex << std::hex << std::setfill('0');
-    for (unsigned char b : digest) {
-        hex << std::setw(2) << static_cast<int>(b);
-    }
-    return hex.str();
-}
-
-std::string HuggingFaceIngestionPlugin::fetchModelFileSha256(
-    const std::string& repo_id,
-    const std::string& filename)
-{
-    // HuggingFace resolve endpoint returns file metadata including oid (SHA-256)
-    std::string url = "https://huggingface.co/" + repo_id + "/resolve/main/" + filename
-                    + "?download=false";
-    try {
-        // A HEAD request returns the X-Linked-Etag which is the SHA-256.
-        // We fall back to a metadata API call for simplicity.
-        std::string meta_url = "https://huggingface.co/api/models/" + repo_id
-                             + "/resolve/main/" + filename;
-        std::string resp = httpGet(meta_url);
-        auto j = json::parse(resp);
-        if (j.contains("oid")) {
-            return j["oid"].get<std::string>();
-        }
-    } catch (...) {
-        // SHA-256 verification is best-effort when the API doesn't provide it
-    }
-    return {};
-}
-
-HuggingFaceIngestionPlugin::ModelDownloadResult
-HuggingFaceIngestionPlugin::downloadModelWeights(
-    const std::string& repo_id,
-    const std::string& filename,
-    const std::string& output_dir)
-{
-    if (repo_id.empty() || filename.empty()) {
-        throw std::invalid_argument("repo_id and filename must not be empty");
-    }
-
-    std::filesystem::create_directories(output_dir);
-    std::string local_path = (std::filesystem::path(output_dir) / filename).string();
-
-    // Fetch expected SHA-256 from Hub metadata (best-effort)
-    std::string expected_sha256 = fetchModelFileSha256(repo_id, filename);
-
-    // Check local cache
-    if (std::filesystem::exists(local_path)) {
-        std::string actual = computeFileSha256(local_path);
-        if (expected_sha256.empty() || actual == expected_sha256) {
-            THEMIS_INFO("Model artifact served from cache: {}", local_path);
-            return ModelDownloadResult{
-                repo_id, filename, local_path,
-                static_cast<size_t>(std::filesystem::file_size(local_path)),
-                actual, /*from_cache=*/true
-            };
-        }
-        THEMIS_WARN("Cached model SHA-256 mismatch – re-downloading");
-    }
-
-    // Download the file
-    std::string download_url = "https://huggingface.co/" + repo_id
-                             + "/resolve/main/" + filename;
-    THEMIS_INFO("Downloading model artifact from: {}", download_url);
-
-    std::ofstream out_file(local_path, std::ios::binary | std::ios::trunc);
-    if (!out_file) {
-        throw std::runtime_error("Cannot create output file: " + local_path);
-    }
-
-    // Use a dedicated CURL handle for the potentially large download
-    CURL* dl_curl = curl_easy_init();
-    if (!dl_curl) {
-        throw std::runtime_error("Failed to initialise CURL for model download");
-    }
-    struct CurlGuard { CURL* h; ~CurlGuard() { curl_easy_cleanup(h); } } guard{dl_curl};
-
-    // Stream directly to file via write callback
-    auto file_write_cb = [](void* data, size_t size, size_t nmemb, void* userp) -> size_t {
-        auto* f = static_cast<std::ofstream*>(userp);
-        size_t total = size * nmemb;
-        f->write(static_cast<char*>(data), static_cast<std::streamsize>(total));
-        return f->good() ? total : 0;
-    };
-
-    curl_easy_setopt(dl_curl, CURLOPT_URL, download_url.c_str());
-    curl_easy_setopt(dl_curl, CURLOPT_WRITEFUNCTION,
-        static_cast<size_t(*)(void*, size_t, size_t, void*)>(file_write_cb));
-    curl_easy_setopt(dl_curl, CURLOPT_WRITEDATA, &out_file);
-    curl_easy_setopt(dl_curl, CURLOPT_FOLLOWLOCATION, 1L);
-    curl_easy_setopt(dl_curl, CURLOPT_TIMEOUT, 3600L);  // Allow up to 1 hour for large models
-
-    struct curl_slist* headers = nullptr;
-    headers = applyAuthHeader(headers);
-    if (headers) {
-        curl_easy_setopt(dl_curl, CURLOPT_HTTPHEADER, headers);
-    }
-
-    CURLcode res = curl_easy_perform(dl_curl);
-    if (headers) { curl_slist_free_all(headers); }
-    out_file.close();
-
-    if (res != CURLE_OK) {
-        std::filesystem::remove(local_path);
-        throw std::runtime_error(std::string("Model download failed: ") + curl_easy_strerror(res));
-    }
-
-    long http_code = 0;
-    curl_easy_getinfo(dl_curl, CURLINFO_RESPONSE_CODE, &http_code);
-    if (http_code != 200) {
-        std::filesystem::remove(local_path);
-        throw std::runtime_error("Model download HTTP error: " + std::to_string(http_code));
-    }
-
-    // Verify SHA-256 after download
-    std::string actual_sha256 = computeFileSha256(local_path);
-    if (!expected_sha256.empty() && actual_sha256 != expected_sha256) {
-        std::filesystem::remove(local_path);
-        throw std::runtime_error(
-            "SHA-256 mismatch after download – expected " + expected_sha256
-            + ", got " + actual_sha256);
-    }
-
-    size_t file_size = static_cast<size_t>(std::filesystem::file_size(local_path));
-    THEMIS_INFO("Model artifact downloaded ({} bytes, sha256={}): {}", 
-        file_size, actual_sha256, local_path);
-
-    return ModelDownloadResult{repo_id, filename, local_path, file_size, actual_sha256, false};
-}
-
-// ============================================================================
-// Feature 4 – Prometheus per-batch metrics
-// ============================================================================
-
-void HuggingFaceIngestionPlugin::emitBatchMetrics(
-    const BatchMetrics& m,
-    const std::string& dataset_name,
-    const std::string& split) const
-{
-    if (!config_.enable_metrics) {
-        return;
-    }
-
-    auto& collector = observability::MetricsCollector::getInstance();
-    using Labels = std::map<std::string, std::string>;
-    Labels labels{{"dataset", dataset_name}, {"split", split}};
-
-    // Counters
-    collector.addCounter("hf_ingestion_rows_total",
-        static_cast<int64_t>(m.rows_ingested), labels);
-    collector.addCounter("hf_ingestion_batches_total",
-        static_cast<int64_t>(m.batches_fetched), labels);
-    collector.addCounter("hf_ingestion_cache_hits_total",
-        static_cast<int64_t>(m.cache_hits), labels);
-    collector.addCounter("hf_ingestion_cache_misses_total",
-        static_cast<int64_t>(m.cache_misses), labels);
-
-    // Rows/sec gauge (avoid division by zero)
-    if (m.total_fetch_ms > 0.0) {
-        double rows_per_sec = m.rows_ingested / (m.total_fetch_ms / 1000.0);
-        collector.setGauge("hf_ingestion_rows_per_second", rows_per_sec, labels);
-    }
-
-    // Cache hit rate gauge
-    size_t total_cache = m.cache_hits + m.cache_misses;
-    if (total_cache > 0) {
-        double hit_rate = static_cast<double>(m.cache_hits) / total_cache;
-        collector.setGauge("hf_ingestion_cache_hit_rate", hit_rate, labels);
-    }
-
-    THEMIS_DEBUG("Metrics emitted: {} rows, {:.1f} ms, {}/{} cache hits",
-        m.rows_ingested, m.total_fetch_ms, m.cache_hits, total_cache);
-}
-
-// ============================================================================
-// Feature 5 – Multi-dataset parallel ingestion
-// ============================================================================
-
-std::vector<std::string> HuggingFaceIngestionPlugin::submitParallelDatasetJobs(
-    const std::vector<DatasetSpec>& datasets,
-    size_t concurrency)
-{
-    if (datasets.empty()) {
-        throw std::invalid_argument("datasets must not be empty");
-    }
-    if (!content_manager_) {
-        throw std::runtime_error("ContentManager not set");
-    }
-
-    // Clamp concurrency
-    const size_t hw = std::max(1u, std::thread::hardware_concurrency());
-    concurrency = std::max(size_t{1}, std::min(concurrency, hw));
-
-    // Sort by priority descending (higher priority first)
-    std::vector<size_t> order(datasets.size());
-    std::iota(order.begin(), order.end(), 0);
-    std::stable_sort(order.begin(), order.end(), [&](size_t a, size_t b) {
-        return datasets[a].priority > datasets[b].priority;
-    });
-
-    // Generate job IDs in original order
-    std::vector<std::string> job_ids(datasets.size());
-    for (size_t i = 0; i < datasets.size(); ++i) {
-        std::random_device rd;
-        std::mt19937_64 rng(rd());
-        std::ostringstream oss;
-        oss << "hf_par_" << std::hex << std::setw(16) << std::setfill('0') << rng();
-        job_ids[i] = oss.str();
-    }
-
-    // Launch thread pool
-    std::vector<std::future<void>> futures;
-    std::atomic<size_t> slot{0};
-
-    auto worker = [&]() {
-        while (true) {
-            size_t idx = slot.fetch_add(1, std::memory_order_relaxed);
-            if (idx >= order.size()) {
-                break;
-            }
-            size_t original_idx = order[idx];
-            const auto& spec = datasets[original_idx];
-            const auto& job_id = job_ids[original_idx];
-
-            THEMIS_INFO("Parallel ingestion starting: {} (job {})", 
-                spec.dataset_name, job_id);
-            try {
-                // Build merged config
-                Config merged = config_;
-                if (!spec.split.empty()) {
-                    merged.split = spec.split;
-                }
-
-                // Fetch all batches for this dataset
-                std::vector<json> documents;
-                size_t offset = 0;
-                BatchMetrics metrics;
-                bool from_cache = loadFromCache(spec.dataset_name, merged.split, documents);
-                if (from_cache) {
-                    ++metrics.cache_hits;
-                } else {
-                    ++metrics.cache_misses;
-                    auto t0 = std::chrono::steady_clock::now();
-                    while (true) {
-                        auto result = fetchBatch(
-                            spec.dataset_name, merged.split, offset, merged.chunk_size);
-                        ++metrics.batches_fetched;
-                        documents.insert(documents.end(),
-                            result.documents.begin(), result.documents.end());
-                        if (!result.has_more) { break; }
-                        offset += result.documents.size();
-                    }
-                    auto t1 = std::chrono::steady_clock::now();
-                    metrics.total_fetch_ms = static_cast<double>(
-                        std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count());
-                    saveToCache(spec.dataset_name, merged.split, documents);
-                }
-
-                // Ingest documents
-                for (size_t i = 0; i < documents.size(); ++i) {
-                    json content_spec = documentToContentSpec(
-                        documents[i], spec.dataset_name, i);
-                    auto status = content_manager_->importContent(content_spec, std::nullopt);
-                    if (status.ok) { ++metrics.rows_ingested; }
-                }
-
-                emitBatchMetrics(metrics, spec.dataset_name, merged.split);
-                THEMIS_INFO("Parallel ingestion done: {} ({} rows, job {})",
-                    spec.dataset_name, metrics.rows_ingested, job_id);
-            } catch (const std::exception& e) {
-                THEMIS_ERROR("Parallel ingestion failed for {} (job {}): {}",
-                    spec.dataset_name, job_id, e.what());
-            }
-        }
-    };
-
-    futures.reserve(concurrency);
-    for (size_t t = 0; t < concurrency; ++t) {
-        futures.push_back(std::async(std::launch::async, worker));
-    }
-    for (auto& f : futures) {
-        f.get();  // propagate exceptions from workers
-    }
-
-    return job_ids;
 }
 
 } // namespace plugins

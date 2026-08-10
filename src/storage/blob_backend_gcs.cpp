@@ -42,7 +42,6 @@ namespace storage {
 struct GCSBlobBackend::Impl {
     std::string bucket;
     std::string prefix;
-    SseConfig   sse_config;
     bool        available{false};
     mutable std::mutex mutex;
 
@@ -50,8 +49,8 @@ struct GCSBlobBackend::Impl {
     std::unique_ptr<gcs::Client> client;
 #endif
 
-    Impl(const std::string& bucket_, const std::string& prefix_, const SseConfig& sse)
-        : bucket(bucket_), prefix(prefix_), sse_config(sse)
+    Impl(const std::string& bucket_, const std::string& prefix_)
+        : bucket(bucket_), prefix(prefix_)
     {
 #ifdef THEMIS_ENABLE_GCS
         // Application Default Credentials – fail-closed if absent
@@ -77,10 +76,8 @@ struct GCSBlobBackend::Impl {
 // ─────────────────────────────────────────────────────────────────────────────
 // Construction
 // ─────────────────────────────────────────────────────────────────────────────
-GCSBlobBackend::GCSBlobBackend(const std::string& bucket,
-                               const std::string& prefix,
-                               const SseConfig&   sse_config)
-    : impl_(std::make_unique<Impl>(bucket, prefix, sse_config)) {}
+GCSBlobBackend::GCSBlobBackend(const std::string& bucket, const std::string& prefix)
+    : impl_(std::make_unique<Impl>(bucket, prefix)) {}
 
 GCSBlobBackend::~GCSBlobBackend() = default;
 
@@ -132,21 +129,7 @@ Result<BlobRef> GCSBlobBackend::put([[maybe_unused]] const std::string& blob_id,
 
 #ifdef THEMIS_ENABLE_GCS
     const std::string obj = objectName(blob_id);
-
-    // Apply CSEK if configured
-    gcs::ObjectWriteStream writer;
-    if (impl_->sse_config.algorithm == SseAlgorithm::GCS_CSEK &&
-        !impl_->sse_config.csek_base64.empty()) {
-        auto csek = gcs::EncryptionKey::FromBase64Key(impl_->sse_config.csek_base64);
-        if (!csek) {
-            return Err<BlobRef>(errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
-                                "GCS CSEK key is invalid: " + csek.status().message());
-        }
-        writer = impl_->client->WriteObject(impl_->bucket, obj, *csek);
-    } else {
-        writer = impl_->client->WriteObject(impl_->bucket, obj);
-    }
-
+    auto writer = impl_->client->WriteObject(impl_->bucket, obj);
     writer.write(reinterpret_cast<const char*>(data.data()),
                  static_cast<std::streamsize>(data.size()));
     writer.Close();
@@ -284,38 +267,6 @@ std::string GCSBlobBackend::name() const {
 
 bool GCSBlobBackend::isAvailable() const {
     return impl_->available;
-}
-
-Result<std::string> GCSBlobBackend::presignedUrl([[maybe_unused]] const BlobRef& ref,
-                                                  [[maybe_unused]] int64_t expiry_s) {
-    if (expiry_s <= 0 || expiry_s > 604800) {
-        return Err<std::string>(errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
-                                "GCS presigned URL expiry must be between 1 and 604800 seconds");
-    }
-    if (!impl_->available) {
-        return Err<std::string>(errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
-                                "GCS backend is not available (check ADC credentials)");
-    }
-
-#ifdef THEMIS_ENABLE_GCS
-    const std::string obj = objectName(ref.id);
-    auto signed_url = impl_->client->CreateV4SignedUrl(
-        "GET", impl_->bucket, obj,
-        gcs::SignedUrlDuration(std::chrono::seconds(expiry_s)));
-
-    if (!signed_url) {
-        THEMIS_ERROR("GCS V4 signed URL failed for {}: {}", obj, signed_url.status().message());
-        return Err<std::string>(errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
-                                "GCS presigned URL generation failed: " +
-                                    signed_url.status().message());
-    }
-
-    THEMIS_DEBUG("GCS presigned URL generated: id={}, expiry={}s", ref.id, expiry_s);
-    return Ok(*signed_url);
-#else
-    return Err<std::string>(errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
-                            "GCS support not compiled in");
-#endif
 }
 
 } // namespace storage

@@ -506,16 +506,24 @@ public:
     bool isDegraded() const;
 
 private:
+    // -------------------------------------------------------------------------
+    // Lock hierarchy (always acquire in this order to prevent deadlocks):
+    //   state_mutex_ (1) < audit_mutex_ (2) < metrics_mutex_ (3)
+    // When holding two mutexes simultaneously use std::scoped_lock to acquire
+    // both atomically.  Never acquire a lower-numbered mutex while holding a
+    // higher-numbered one.
+    // -------------------------------------------------------------------------
+
     // Consensus layers
     std::unique_ptr<ConsensusModule> storage_consensus_;  ///> Storage layer (Paxos/RAID-Paxos)
     std::unique_ptr<ConsensusModule> cache_consensus_;    ///> Cache layer (Raft)
     
-    // State tracking
+    // State tracking  (lock level 1)
     mutable std::mutex state_mutex_;
     std::map<std::string, CrossLayerVersionToken> version_tokens_;  ///> Key -> Version token
     std::map<std::string, CrossLayerConsistencyState> consistency_states_;
     
-    // Callbacks
+    // Callbacks (protected by state_mutex_)
     SyncCallback sync_callback_;
     ConflictResolver conflict_resolver_;
     ConsistencyCallback consistency_callback_;
@@ -523,13 +531,15 @@ private:
     // Background synchronization
     std::atomic<bool> running_;
     std::thread background_sync_thread_;
-    std::chrono::milliseconds background_sync_interval_{5000};  ///> 5 seconds default
+    /// Background sync interval stored as milliseconds count so it can be
+    /// read/written atomically without requiring a mutex.
+    std::atomic<uint64_t> background_sync_interval_ms_{5000};
     
-    // Grounding audit logs
+    // Grounding audit logs  (lock level 2)
     mutable std::mutex audit_mutex_;
     std::map<std::string, nlohmann::json> grounding_audit_logs_;
     
-    // Metrics
+    // Metrics  (lock level 3 — retained for future non-atomic metric fields)
     mutable std::mutex metrics_mutex_;
     std::atomic<uint64_t> total_operations_{0};
     std::atomic<uint64_t> successful_operations_{0};
@@ -548,9 +558,16 @@ private:
     void backgroundSyncThread();
     
     /**
-     * @brief Check and update consistency state for a key
+     * @brief Check and update consistency state for a key.
+     * @note Caller must NOT hold state_mutex_ — acquires it internally.
      */
     void updateConsistencyState(const std::string& key);
+
+    /**
+     * @brief Check and update consistency state for a key (lock-free variant).
+     * @note Caller MUST already hold state_mutex_.
+     */
+    void updateConsistencyStateLocked(const std::string& key);
     
     /**
      * @brief Default conflict resolver (storage wins)

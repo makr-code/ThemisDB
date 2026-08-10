@@ -4,54 +4,6 @@ All notable changes to this plugin will be documented in this file.
 
 ---
 
-## [1.2.0] – 2026-08-10
-
-### Added
-
-- **SPARQL support for EUR-Lex CELLAR** — `SparqlQueryBuilder` builds a
-  `SELECT ?uri ?title ?date` query from free-text keywords; `SparqlApiClient`
-  fetches and parses the `results.bindings` JSON response.
-  `ScraperPlugin::runSparqlLoop()` routes EUR-Lex CELLAR sources through
-  this path automatically.
-  (Sources: `include/scraper/scraper_api_client.h`,
-   `src/scraper/scraper_api_client.cpp`,
-   `src/scraper/scraper_plugin.cpp`)
-
-- **robots.txt enforcement** — `RobotsTxtCache` parses `robots.txt` content
-  (Disallow / Allow rules, wildcard agent `*`) and caches per-host results.
-  `ScraperPlugin::fetchPage()` checks `isAllowed()` before any HTTP call
-  when `crawl_options.respect_robots = true`.
-  (Sources: `include/scraper/scraper_robots.h`, `src/scraper/scraper_robots.cpp`)
-
-- **Sitemap-driven crawl mode** — `SitemapCrawler` parses sitemap XML
-  (`<loc>` entries) and handles sitemap-index files by recursing child
-  sitemaps.  `ScraperPlugin::runSitemapLoop()` is invoked for sources with
-  `GovSearchStyle::SITEMAP`.
-  (Sources: `include/scraper/scraper_sitemap.h`, `src/scraper/scraper_sitemap.cpp`)
-
-- **Embedding generation hook** — `ScraperPlugin::setEmbeddingFn()` accepts
-  a `std::function<std::vector<float>(const std::string&)>` callback.
-  When set, every `ScraperVectorRecord.embedding` field is populated by
-  calling the function on the extracted text.  Embedding failures are
-  non-fatal; the embedding field is left empty.
-
-- **`BUNDESTAG_API_KEY` env-var management** — `GovSourceCatalog` records
-  `api_key_env = "BUNDESTAG_API_KEY"` for the Bundestag DIP source.
-  `ScraperPlugin` reads this env var via `std::getenv` and forwards the key
-  as an `X-API-Key` header on DIP requests.
-
-- **16 new focused tests (V12-01..V12-16)** covering all v1.2.0 features
-  in `tests/scraper/test_scraper_v12_features_focused.cpp`:
-  - V12-01/02: `SparqlQueryBuilder` with/without keywords
-  - V12-03/04: `SparqlApiClient` bindings parse + network-error path
-  - V12-05/06/07/08: `RobotsTxtCache` rule parsing and Allow/Disallow logic
-  - V12-09: `ScraperPlugin::fetchPage` robots-blocked skip
-  - V12-10/11/12/13: `SitemapCrawler` loc extraction, index detection, standard + index fetches
-  - V12-14: SITEMAP source dispatches to `runSitemapLoop`
-  - V12-15/16: EmbeddingFn wired / null EmbeddingFn no-crash
-
----
-
 ## [1.1.0] – 2026-04-02
 
 ### Added

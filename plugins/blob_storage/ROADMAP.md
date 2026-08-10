@@ -6,22 +6,21 @@
 |---------|--------|
 | Azure Blob Storage | ✅ Production-ready |
 | Amazon S3 | ✅ Production-ready |
-| Google Cloud Storage (GCS) | ✅ Implemented; integration validation pending |
 
-Entry-points: `plugins/blob_storage/azure/` · `plugins/blob_storage/s3/` · `plugins/blob_storage/gcs/`
+Entry-points: `plugins/blob_storage/azure/` · `plugins/blob_storage/s3/`
 
 ---
 
 ## In Progress
 
-- [~] Integration tests for Azure, S3, and GCS backends running against local emulators (Azurite / MinIO / fake-gcs-server)
+- [~] Integration tests for Azure and S3 backends running against local emulators (Azurite / MinIO)
 - [~] Per-backend health-check endpoint via ThemisDB metrics API
 
 ## Planned Features
 
-- [x] **Google Cloud Storage (GCS)** backend (✅ Q3 2026)
-- [x] Server-side encryption configuration per backend (✅ Q3 2026)
-- [x] Presigned URL generation for direct client uploads/downloads (✅ Q3 2026)
+- [ ] **Google Cloud Storage (GCS)** backend (Target: Q3 2026)
+- [ ] Server-side encryption configuration per backend (Target: Q3 2026)
+- [ ] Presigned URL generation for direct client uploads/downloads (Target: Q3 2026)
 - [ ] Retry policy configuration (max retries, backoff strategy) (Target: Q3 2026)
 - [ ] Multi-region replication strategy across backends (Target: Q4 2026)
 - [ ] Lifecycle / tiering policies for cold data (Target: Q4 2026)
@@ -31,15 +30,15 @@ Entry-points: `plugins/blob_storage/azure/` · `plugins/blob_storage/s3/` · `pl
 
 ## Short-term Goals (next 1–2 sprints)
 
-- [~] Add env-gated integration tests for Azure, S3, and GCS backends running against local emulators (Azurite / MinIO / fake-gcs-server).
+- [ ] Add integration tests for Azure and S3 backends running against local emulators (Azurite / MinIO).
 - [ ] Expose per-backend health-check endpoint via ThemisDB metrics API.
-- [ ] Verify and document `plugin.json.sig` signature workflow for Azure, S3, and GCS manifests.
+- [ ] Verify and document `plugin.json.sig` signature workflow for both backends.
 
 ## Mid-term Goals (1–3 months)
 
-- [~] Harden the existing **Google Cloud Storage (GCS)** backend with emulator/nightly validation and build-governance parity.
-- [~] Harden server-side encryption coverage per backend (contract tests + emulator validation).
-- [~] Harden presigned URL generation for direct client uploads/downloads across all cloud backends.
+- [ ] Add **Google Cloud Storage (GCS)** backend.
+- [ ] Implement server-side encryption configuration per backend.
+- [ ] Support presigned URL generation for direct client uploads/downloads.
 - [ ] Introduce retry policy configuration (max retries, backoff strategy).
 
 ## Long-term Goals (3–12 months)
@@ -53,21 +52,21 @@ Entry-points: `plugins/blob_storage/azure/` · `plugins/blob_storage/s3/` · `pl
 
 | Milestone | Target | Status |
 |-----------|--------|--------|
-| GCS backend MVP | Q3 2026 | ✅ Complete |
-| Full encryption support | Q3 2026 | ✅ Complete |
+| GCS backend MVP | TODO | 🔲 Planned |
+| Full encryption support | TODO | 🔲 Planned |
 | Benchmark suite | TODO | 🔲 Planned |
 
 ## Implementation Phases
 
 ### Phase 1 – GCS Backend MVP
-- [x] Implement `GCSBlobBackend` using Google Cloud Storage C++ client library
-- [x] Add `plugin.json` and `plugin.json.sig` for the GCS backend
-- [x] Unit tests: upload, download, delete, list objects (GCS-01..08)
+- [ ] Implement `GCSBlobBackend` using Google Cloud Storage C++ client library
+- [ ] Add `plugin.json` and `plugin.json.sig` for the GCS backend
+- [ ] Unit tests: upload, download, delete, list objects
 
 ### Phase 2 – Encryption & Presigned URLs
-- [x] Server-side encryption configuration (SSE-S3, SSE-KMS, CSEK for GCS)
-- [x] Presigned URL generation with configurable expiry per backend (Azure, S3, GCS)
-- [~] Integration tests with local emulators (Azurite, MinIO, fake-gcs-server)
+- [ ] Server-side encryption configuration (SSE-S3, SSE-KMS, customer-managed keys)
+- [ ] Presigned URL generation with configurable expiry per backend
+- [ ] Integration tests with local emulators (Azurite, MinIO, fake-gcs-server)
 
 ### Phase 3 – Multi-Region & Tiering
 - [ ] Multi-region replication configuration and failover logic
@@ -100,17 +99,18 @@ Entry-points: `plugins/blob_storage/azure/` · `plugins/blob_storage/s3/` · `pl
 |------|--------|
 | Azure Blob Storage backend | ✅ Ready |
 | Amazon S3 backend | ✅ Ready |
-| GCS backend | ✅ Implemented; emulator/nightly validation pending |
-| Server-side encryption configuration | ✅ Implemented; emulator/nightly validation pending |
-| Presigned URL generation | ✅ Implemented; backend-specific hardening in progress |
+| GCS backend | ❌ Not implemented |
+| Server-side encryption configuration | ❌ Not implemented |
+| Presigned URL generation | ❌ Not implemented |
 | Retry policy documented and configurable | ❌ Not implemented |
-| Integration tests running in CI | ⚠️ Env-gated focused tests added; CI wiring pending |
+| Integration tests running in CI | ❌ Pending |
 | `plugin.json.sig` signing workflow documented | ❌ Pending |
 
 ## Known Issues & Limitations
 
-- Emulator-backed integration coverage is env-gated today; CI/nightly wiring is still pending
-- Multi-region routing/replication is not yet wired through a dedicated blob router
+- No integration tests running in CI yet (Azurite / MinIO emulators not wired up)
+- Presigned URL generation is not implemented for any backend
+- GCS backend is completely absent; any GCS writes currently unsupported
 - Retry/backoff parameters are not user-configurable at runtime
 
 ---

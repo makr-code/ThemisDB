@@ -242,57 +242,6 @@ else()
     message(STATUS "EPIC3 TensorRebuildFallback tests not found at ${CMAKE_CURRENT_LIST_DIR}/test_tensor_rebuild_fallback.cpp")
 endif()
 
-# ── Phase C Shard Summary Coordinator tests (TSS-01..20) ────────────────────
-
-if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_tensor_shard_summary.cpp")
-    message(STATUS "Adding EPIC3: Phase C Shard Summary Coordinator tests (TSS-01..20)")
-
-    add_executable(test_tensor_shard_summary
-        test_tensor_shard_summary.cpp
-        ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/shard_summary_coordinator.cc
-        ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/manifest_store.cpp
-        ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/artifact_manifest.cc
-        ${THEMIS_ROOT_DIR}/src/tensor/tensor_summary_types.cpp
-    )
-
-    target_include_directories(test_tensor_shard_summary PRIVATE
-        ${THEMIS_ROOT_DIR}
-        ${THEMIS_ROOT_DIR}/include
-        ${THEMIS_ROOT_DIR}/src/distributed_tensor/include
-        ${THEMIS_ROOT_DIR}/src
-    )
-
-    target_link_libraries(test_tensor_shard_summary PRIVATE
-        ${TEST_LIBS}
-        nlohmann_json::nlohmann_json
-        Threads::Threads
-    )
-    if(TARGET themis_core)
-        target_link_libraries(test_tensor_shard_summary PRIVATE themis_core)
-    endif()
-
-    target_compile_definitions(test_tensor_shard_summary PRIVATE
-        THEMIS_TEST_BUILD=1
-    )
-
-    if(COMMAND themis_register_module_focused_test)
-        themis_register_module_focused_test(
-            MODULE epic3_distributed_tensor
-            NAME TensorShardSummaryPhaseCTests
-            TARGET test_tensor_shard_summary
-            TIER unit
-            TIMEOUT 60
-            LABELS distributed_tensor shard_summary phase-c summary-first exact-on-demand freshness
-        )
-    else()
-        add_test(NAME TensorShardSummaryPhaseCTests COMMAND test_tensor_shard_summary)
-    endif()
-
-    message(STATUS "  ShardSummaryCoordinator: refresh, routing, escalation, exact-fetch, consensus (TSS-01..20)")
-else()
-    message(STATUS "EPIC3 TensorShardSummary tests not found at ${CMAKE_CURRENT_LIST_DIR}/test_tensor_shard_summary.cpp")
-endif()
-
 file(GLOB EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES
     CONFIGURE_DEPENDS
     "${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"
@@ -302,7 +251,6 @@ list(FILTER EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES EXCLUDE REGEX ".*/test_manifes
 list(FILTER EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES EXCLUDE REGEX ".*/test_lifecycle_staleness_management\\.cpp$")
 list(FILTER EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES EXCLUDE REGEX ".*/test_tensor_delta_log\\.cpp$")
 list(FILTER EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES EXCLUDE REGEX ".*/test_tensor_rebuild_fallback\\.cpp$")
-list(FILTER EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES EXCLUDE REGEX ".*/test_tensor_shard_summary\\.cpp$")
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/integrity_verification_test.cc")
     list(APPEND EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES

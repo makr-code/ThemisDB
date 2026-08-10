@@ -7,12 +7,12 @@
 
 ## Current Status
 Production-ready multi-model query stack with parser, optimizer, execution, federation, caching, and compatibility layers in active use.
-- Phase-2 delivery status re-synced with `/home/runner/work/ThemisDB/ThemisDB/ROADMAP.md` and `/home/runner/work/ThemisDB/ThemisDB/CHANGELOG.md`: plan-cache, cost-model, Wave-7 gates, and repeatable under-load evidence are already delivered; remaining work is now tracked only as Block A-D follow-on hardening.
 
-**Hybrid Retrieval Rollout Readiness**: 55% 🟡 (issue #5468).
+**Hybrid Retrieval Rollout Readiness**: 65% 🟢 (issue #5468).
 - Phase A (single-shard exact): ✅ Ready with error-path fixes (return-value checks, exception handling).
-- Phase B (hybrid planning): 🟡 Q3 2026 — thread-safety in parallel plan optimization required.
-- Phase C (parallel optimization): 🟡 Q3 2026+ after thread-safety fixes (140 gaps).
+- Phase B (thread-safety): ✅ COMPLETE 2026-08-08 — QueryOptimizer per_query_cost_model_mutex_, advisor_cost_model_mutex_, adaptive_init_flag_ added; PlanCache stats atomics + deadline propagation wired; 9 tests in test_query_optimizer_thread_safety.cpp.
+- Phase B (hybrid planner): 🟡 Q3 2026 — ANN + graph hybrid planner single-shard scope in progress.
+- Phase C (parallel optimization): 🟡 Q3 2026+ (thread-safety gate now passed).
 - Rollout risk detail: `ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md §7`
 
 ## In Progress
@@ -71,9 +71,7 @@ Production-ready multi-model query stack with parser, optimizer, execution, fede
     - [x] search_clause field added to Query struct (2026-08-09)
     - [ ] Executor backend wiring (FTS index lookup, scoring) (Target: Q4 2026)
     - [ ] Performance gate: ≤100ms on 100K documents (Target: Q4 2026)
-  - [~] Cross-feature integration tests (1000+ tests, zero v1.x regressions) (Target: Q4 2026)
-    - [x] Initial parser/planner bootstrap matrix for FTS + geospatial + join-shape + deadline-aware plan-cache coverage delivered in `tests/query/test_query_cross_feature_matrix.cpp` (Delivered: 2026-08-10)
-    - [ ] Expand to executor/federation/resource-limit scenarios with zero v1.x regressions (Target: Q4 2026)
+  - [ ] Cross-feature integration tests (1000+ tests, zero v1.x regressions) (Target: Q4 2026)
 
 ## Phase 2 — Performance & Scalability Readiness (Target: 2026-09-30)
 
@@ -138,53 +136,48 @@ Performance and scalability optimization with measurable, gated performance impr
   - Systematic bias detection with recommendations
   - **Delivery**: optimizer_cost_model_enhancements.cpp logging integration
 
-#### 3. Cache-Efficiency Improvements — Block A (Target: Q3 2026)
+#### 3. Cache-Efficiency Improvements (Target: Q3 2026)
 
 **Scope:** src/storage/buffer_pool/, src/query/ (cache-aware optimizations)
 
-- [~] Profile and optimize buffer-pool hit rate (Target: Q3 2026)
-  - [x] Expose buffer-pool hit-rate, release, free-buffer, and eviction telemetry in `include/base/buffer_pool.h` / `src/base/buffer_pool.cpp` with regression coverage in `tests/integration/test_resource_pooling.cpp` (Delivered: 2026-08-10)
-  - [ ] Measure: cache hit rate before/after optimization on scan and range baselines (Target: Q3 2026)
-  - [ ] Implement: cache-aware prefetching for sequential query access patterns (Target: Q3 2026)
-  - [ ] Optimize: eviction policy tuning only after baseline profiling identifies pressure hot spots (Target: Q3 2026)
+- [ ] Profile and optimize buffer-pool hit rate (Target: Q3 2026)
+  - Measure: cache hit rate before/after optimization
+  - Implement: cache-aware prefetching (sequential access patterns)
+  - Optimize: LRU eviction policy tuning
 
 - [ ] Implement cache-aware data layout (Target: Q3 2026)
-  - Scope: query scan/range paths only; no repository-wide storage relayout without measured benefit
   - Co-locate frequently-joined columns (reduce cache misses)
   - Minimize cache line waste (column grouping)
-  - Validate: latency improvement under representative scan workloads
+  - Validate: latency improvement under scan workloads
 
-- [~] Add cache-pressure telemetry (Target: Q3 2026)
-  - [x] Track: hit rate, miss rate, free buffers, retained-capacity pressure, and release evictions (Delivered: 2026-08-10)
-  - [ ] Implement: adaptive eviction or prefetch controls only after scan/range profiling confirms pressure regressions (Target: Q3 2026)
-  - [ ] Alert: high-pressure conditions from Wave-7 query baselines and release-critical evidence (Target: Q3 2026)
+- [ ] Add cache-pressure telemetry (Target: Q3 2026)
+  - Track: cache miss rate, eviction rate, pressure level
+  - Implement: adaptive eviction (age-based, frequency-based)
+  - Alert: high pressure conditions
 
 - [ ] Gate on performance (Target: Q3 2026)
   - Measure: p99 latency for range queries < 500µs (Wave 7)
   - Validate: no regression under scan workloads
   - Document: cache efficiency metrics in ROADMAP.md
 
-#### 4. Resource-Pooling & Load-Balancing — Blocks B/C (Target: Q3 2026)
+#### 4. Resource-Pooling & Load-Balancing (Target: Q3 2026)
 
 **Scope:** src/scheduler/, src/network/ (thread pools, connection pools)
 
-- [~] Consolidate thread-pool management (Target: Q3 2026)
-  - [x] Harden `WorkStealingThreadPool` as the canonical query-side pool with submission, rejection, queue-pressure, high-watermark, and scale-up telemetry (Delivered: 2026-08-10)
-  - [x] Add adaptive scale-up trigger tied to queued depth with regression coverage in `tests/integration/test_resource_pooling.cpp` (Delivered: 2026-08-10)
-  - [ ] Audit remaining module-specific pool usage and converge query-adjacent workloads on the canonical pool surface (Target: Q3 2026)
-  - [ ] Standardize: pool sizing, queue depths, overflow handling, and operational guidance across query/federation/sharding paths (Target: Q3 2026)
+- [ ] Consolidate thread-pool management (Target: Q3 2026)
+  - Audit: existing thread pools across modules
+  - Implement: centralized pool manager (if not present)
+  - Standardize: pool sizing, queue depths, overflow handling
 
-- [~] Implement adaptive pool sizing (Target: Q3 2026)
-  - [x] Measure: queue depth, accepted vs. rejected submissions, latency, and scale-up events (Delivered: 2026-08-10)
-  - [ ] Adjust: pool size based on workload pressure and verified query execution demand, not synthetic-only thresholds (Target: Q3 2026)
-  - [ ] Implement: gradual scale-down / anti-thrashing behavior with Wave-7 validation (Target: Q3 2026)
+- [ ] Implement adaptive pool sizing (Target: Q3 2026)
+  - Measure: queue depth, wait times, CPU utilization
+  - Adjust: pool size based on workload pressure
+  - Implement: gradual scaling (avoid thrashing)
 
-- [~] Add connection pool rebalancing (Target: Q3 2026)
-  - [x] Expose manual rebalance control plus target-count / utilization / rebalance-pass telemetry in `include/network/wire_protocol_connection_pool.h` / `src/network/wire_protocol_connection_pool.cpp` (Delivered: 2026-08-10)
-  - [x] Add rebalance tolerance/cooldown guardrails to reduce resize thrashing in adaptive passes (Delivered: 2026-08-10)
-  - [ ] Distribute: connections evenly across backend shards under query/federation load (Target: Q3 2026)
-  - [ ] Rebalance: deterministic behavior on shard failure/recovery with starvation proof (Target: Q3 2026)
-  - [ ] Validate: no starvation or hotspot over-allocation under uneven load (Target: Q3 2026)
+- [ ] Add connection pool rebalancing (Target: Q3 2026)
+  - Distribute: connections evenly across backend shards
+  - Rebalance: on shard failure/recovery
+  - Validate: no starvation under uneven load
 
 - [ ] Gate on throughput (Target: Q3 2026)
   - Measure: sustained throughput ≥ 80k ops/sec (Wave 7)
@@ -194,17 +187,17 @@ Performance and scalability optimization with measurable, gated performance impr
 ### Performance Regression Gates (Target: 2026-09)
 
 1. **Execute Wave-7 Full Suite:**
-   - [x] bench_w7a_release_critical_signoff (RCS-01..08) (Target: 2026-09 → PASS evidenced in `benchmarks/wave7/release_gate_manifest_w7.json`)
-   - [x] bench_w7b_endurance_soak (SOK-01..08) (Target: 2026-09 → PASS)
-   - [x] bench_w7c_degradation_fault_recovery (DFR-01..08) (Target: 2026-09 → PASS)
-   - [x] bench_w7d_guardrails_variance_operability (GVO-01..08) (Target: 2026-09 → PASS)
+   - [ ] bench_w7a_release_critical_signoff (RCS-01..08) (Target: 2026-09)
+   - [ ] bench_w7b_endurance_soak (SOK-01..08) (Target: 2026-09)
+   - [ ] bench_w7c_degradation_fault_recovery (DFR-01..08) (Target: 2026-09)
+   - [ ] bench_w7d_guardrails_variance_operability (GVO-01..08) (Target: 2026-09)
 
 2. **Validate Gate Status:** (Target: 2026-09)
-   - [x] GATE-W7-01: Read p99 ≤ 200µs ✓ (Target: 2026-09)
-   - [x] GATE-W7-02: Write ≥ 80k ops/s ✓ (Target: 2026-09)
-   - [x] GATE-W7-03: Range p99 ≤ 500µs ✓ (Target: 2026-09)
-   - [x] GATE-W7-04: Batch p99 ≤ 5ms ✓ (Target: 2026-09)
-   - [x] GATE-W7-05/06: Self-check counters ✓ (Target: 2026-09)
+   - [ ] GATE-W7-01: Read p99 ≤ 200µs ✓ (Target: 2026-09)
+   - [ ] GATE-W7-02: Write ≥ 80k ops/s ✓ (Target: 2026-09)
+   - [ ] GATE-W7-03: Range p99 ≤ 500µs ✓ (Target: 2026-09)
+   - [ ] GATE-W7-04: Batch p99 ≤ 5ms ✓ (Target: 2026-09)
+   - [ ] GATE-W7-05/06: Self-check counters ✓ (Target: 2026-09)
 
 3. **Baseline Variance Report:** (Target: 2026-09)
    - [ ] Use: benchmarks/wave7/report_variance_w7.py (Target: 2026-09)
@@ -214,37 +207,37 @@ Performance and scalability optimization with measurable, gated performance impr
 ### Repeatable Under-Load Results (Target: 2026-09)
 
 1. **Endurance Benchmark Suite:** (Target: 2026-09)
-   - [x] Duration: 8+ hour soak tests (Target: 2026-09 → evidenced by Wave-7 endurance suite)
-   - [x] Workload: Mix of read/write/range/batch operations (Target: 2026-09)
-   - [x] Load: Realistic production intensity (Target: 2026-09)
+   - [ ] Duration: 8+ hour soak tests (Target: 2026-09)
+   - [ ] Workload: Mix of read/write/range/batch operations (Target: 2026-09)
+   - [ ] Load: Realistic production intensity (Target: 2026-09)
 
 2. **Stability Measurements:** (Target: 2026-09)
-   - [x] Track: p95/p99 latency over time (Target: 2026-09)
-   - [x] Detect: performance drift or degradation (Target: 2026-09)
-   - [x] Alert: significant variance (>10% change) (Target: 2026-09)
+   - [ ] Track: p95/p99 latency over time (Target: 2026-09)
+   - [ ] Detect: performance drift or degradation (Target: 2026-09)
+   - [ ] Alert: significant variance (>10% change) (Target: 2026-09)
 
 3. **Archive Results:** (Target: 2026-09)
-   - [x] Save: benchmark data for release sign-off (Target: 2026-09)
-   - [x] Document: latency/throughput envelopes (Target: 2026-09)
-   - [x] Baseline: for regression detection (Target: 2026-09)
+   - [ ] Save: benchmark data for release sign-off (Target: 2026-09)
+   - [ ] Document: latency/throughput envelopes (Target: 2026-09)
+   - [ ] Baseline: for regression detection (Target: 2026-09)
 
 ### Phase 2 Exit Criteria
 
-- [x] Query plan-cache: ✓ implemented, 10%+ improvement gated (Target: 2026-09)
-- [x] Cost-model: ✓ cardinality estimation validated, joins optimized (Target: 2026-09)
-- [~] Cache-efficiency: telemetry bootstrapped; scan/range baselines and prefetch tuning remain open (Target: 2026-09)
-- [~] Resource pooling: telemetry and scale/rebalance control surfaces hardened; query/federation adoption and starvation proof remain open (Target: 2026-09)
-- [x] Wave 7 gates: ✓ all 6 PASS, no regressions (Target: 2026-09)
-- [~] 130+ new unit/integration tests created and passing; cross-feature executor/federation expansion remains open (Target: 2026-09)
-- [x] Performance envelopes documented and baselined (Target: 2026-09)
+- [ ] Query plan-cache: ✓ implemented, 10%+ improvement gated (Target: 2026-09)
+- [ ] Cost-model: ✓ cardinality estimation validated, joins optimized (Target: 2026-09)
+- [ ] Cache-efficiency: ✓ hit rate improved, prefetching added (Target: 2026-09)
+- [ ] Resource pooling: ✓ consolidated, adaptive sizing functional (Target: 2026-09)
+- [ ] Wave 7 gates: ✓ all 6 PASS, no regressions (Target: 2026-09)
+- [ ] 130+ new unit/integration tests created and passing (Target: 2026-09)
+- [ ] Performance envelopes documented and baselined (Target: 2026-09)
 
 ### Deliverables
 
-1. Query optimization implementations (plan-cache, cost-model) ✅ delivered; remaining query hardening grouped into Blocks A-D
-2. Pooling/cache telemetry hardening with measurable hit-rate / queue-pressure / rebalance statistics
-3. Wave-7 baseline validation report ✅ delivered
-4. Performance envelope documentation ✅ delivered
-5. Updated src/query/ROADMAP.md with delivery status and remaining hardening gates
+1. Query optimization implementations (plan-cache, cost-model, cache-efficiency, pooling)
+2. 130+ focused tests (CACHE-01..20, OPT-01..30, POOL-01..20, E2E-QUERY-01..40)
+3. Wave-7 baseline validation report
+4. Performance envelope documentation
+5. Updated src/query/ROADMAP.md with delivery status
 
 ### Notes
 
@@ -261,7 +254,7 @@ Performance and scalability optimization with measurable, gated performance impr
 - [~] Phase A gate: fix 50% of return-value check gaps (340 → 170) in optimizer (Target: Q3 2026)
 - [~] Phase A gate: fix 50% of exception-handling gaps (180 → 90) in optimizer (Target: Q3 2026)
 - [x] Phase A ctest gate: `test_query_planner_fallback` with degraded-mode injection (tests/query/test_query_planner_fallback.cpp: degraded mode + query_planner_fallback_total check present)
-- [~] Phase B gate: fix thread-safety gaps in parallel plan optimization (140 → 56) (Target: Q3 2026)
+- [x] Phase B gate: fix thread-safety gaps in parallel plan optimization (140 → 56) (COMPLETE 2026-08-08: QueryOptimizer per_query_cost_model_mutex_, advisor_cost_model_mutex_, adaptive_init_flag_ added; PlanCache stats atomics + deadline propagation wired; test_query_optimizer_thread_safety.cpp — 9 tests)
 - [~] Phase B gate: hybrid planner (ANN + graph) enabled with single-shard scope (Target: Q3 2026)
 - [x] Phase B gate: `query_planner_fallback_total` Prometheus metric wired (src/query/query_optimizer.cpp:177)
 - [ ] Phase C gate: parallel optimization enabled after thread-safety gate passed (Target: Q3 2026+)

@@ -58,10 +58,6 @@ TEST_F(WireProtocolConnectionPoolTest, BasicInitialization) {
     EXPECT_EQ(stats.acquire_timeouts, 0);
     EXPECT_EQ(stats.connections_created, 0);
     EXPECT_EQ(stats.connections_reused, 0);
-    EXPECT_EQ(stats.target_pool_count, 0u);
-    EXPECT_EQ(stats.rebalance_passes, 0u);
-    EXPECT_DOUBLE_EQ(stats.max_target_utilization, 0.0);
-    EXPECT_DOUBLE_EQ(stats.min_target_utilization, 0.0);
 }
 
 /**
@@ -348,7 +344,6 @@ TEST_F(WireProtocolConnectionPoolTest, StatisticsPersistence) {
     
     // Stats should accumulate
     EXPECT_GE(stats2.failed_connections, stats1.failed_connections);
-    EXPECT_GE(stats2.target_pool_count, stats1.target_pool_count);
 }
 
 /**
@@ -599,37 +594,6 @@ TEST_F(WireProtocolConnectionPoolTest, UtilizationZeroWhenEmpty) {
 TEST_F(WireProtocolConnectionPoolTest, PoolSizeAdaptationsInitiallyZero) {
     WireProtocolConnectionPool pool(config_);
     EXPECT_EQ(pool.getStats().pool_size_adaptations, 0u);
-}
-
-/**
- * @brief Valid targets that fail to connect still create a tracked target pool.
- */
-TEST_F(WireProtocolConnectionPoolTest, TargetPoolCountTracksValidTargets) {
-    WireProtocolConnectionPool pool(config_);
-
-    try {
-        auto conn = pool.acquireConnection("localhost:99999");
-        (void)conn;
-    } catch (const std::runtime_error&) {
-        // Expected: no server is listening.
-    }
-
-    const auto stats = pool.getStats();
-    EXPECT_EQ(stats.target_pool_count, 1u);
-}
-
-/**
- * @brief Manual rebalance passes are exposed through statistics.
- */
-TEST_F(WireProtocolConnectionPoolTest, ManualRebalancePassVisibleInStats) {
-    config_.enable_adaptive_sizing = true;
-    WireProtocolConnectionPool pool(config_);
-
-    pool.rebalancePools();
-    pool.rebalancePools();
-
-    const auto stats = pool.getStats();
-    EXPECT_GE(stats.rebalance_passes, 2u);
 }
 
 /**

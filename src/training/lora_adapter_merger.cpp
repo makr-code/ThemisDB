@@ -47,34 +47,6 @@ std::vector<float> computeDeltaW(const std::vector<float>& B,
     return dW;
 }
 
-std::string validateDescriptorForMerge(const AdapterDescriptor& desc,
-                                       size_t in_dim,
-                                       size_t out_dim) {
-    if (!desc.adapter) {
-        return "Null adapter pointer";
-    }
-    if (!std::isfinite(desc.weight)) {
-        return "Adapter weight must be finite";
-    }
-    if (desc.weight < 0.0f) {
-        return "Adapter weight must be non-negative";
-    }
-    if (!desc.adapter->hasLayer(desc.layer_name)) {
-        return "Layer '" + desc.layer_name + "' not found in adapter";
-    }
-    const LoRAWeightEntry& we = desc.adapter->getWeights(desc.layer_name);
-    if (we.in_dim != in_dim || we.out_dim != out_dim) {
-        return "Layer '" + desc.layer_name + "' dimension mismatch";
-    }
-    if (we.rank == 0) {
-        return "Layer '" + desc.layer_name + "' has zero rank";
-    }
-    if (we.B.size() != we.in_dim * we.rank || we.A.size() != we.rank * we.out_dim) {
-        return "Layer '" + desc.layer_name + "' has inconsistent weight matrix sizes";
-    }
-    return "";
-}
-
 // Power-iteration dominant singular-vector pair for a (rows × cols) matrix.
 // Returns (u, v, sigma) where u ∈ R^rows, v ∈ R^cols, sigma >= 0.
 // For the factorisation: B' = u * sqrt(sigma), A' = v' * sqrt(sigma)
@@ -183,32 +155,25 @@ MergeLayerResult LoRAAdapterMerger::mergeLinear(
 
     const float scaling = alpha / static_cast<float>(rank);
     std::vector<float> merged_dW(in_dim * out_dim, 0.0f);
-    float total_weight = 0.0f;
 
     for (const auto& desc : adapters) {
-        const std::string validation_error =
-            validateDescriptorForMerge(desc, in_dim, out_dim);
-        if (!validation_error.empty()) {
-            result.error_message = validation_error;
+        if (!desc.adapter) {
+            result.error_message = "Null adapter pointer";
             return result;
         }
-        if (desc.weight == 0.0f) {
-            continue;
+        if (!desc.adapter->hasLayer(desc.layer_name)) {
+            result.error_message = "Layer '" + desc.layer_name +
+                                   "' not found in adapter";
+            return result;
         }
         const LoRAWeightEntry& we = desc.adapter->getWeights(desc.layer_name);
+        const size_t r_i    = we.rank;
+        if (r_i == 0) continue;
+
         float sc_i = we.alpha / static_cast<float>(we.rank);
         auto dW_i = computeDeltaW(we.B, we.A, in_dim, out_dim, we.rank, sc_i);
         for (size_t k = 0; k < merged_dW.size(); ++k)
             merged_dW[k] += desc.weight * dW_i[k];
-        total_weight += desc.weight;
-    }
-
-    if (total_weight <= 0.0f) {
-        result.error_message = "Total adapter weight must be > 0";
-        return result;
-    }
-    for (float& value : merged_dW) {
-        value /= total_weight;
     }
 
     factoriseDeltaW(merged_dW, in_dim, out_dim, rank, scaling,
@@ -301,10 +266,12 @@ MergeLayerResult LoRAAdapterMerger::mergeTIES(
 
     for (size_t ai = 0; ai < adapters.size(); ++ai) {
         const auto& desc = adapters[ai];
-        const std::string validation_error =
-            validateDescriptorForMerge(desc, in_dim, out_dim);
-        if (!validation_error.empty()) {
-            result.error_message = validation_error;
+        if (!desc.adapter) {
+            result.error_message = "Null adapter pointer";
+            return result;
+        }
+        if (!desc.adapter->hasLayer(desc.layer_name)) {
+            result.error_message = "Layer '" + desc.layer_name + "' not found";
             return result;
         }
         const LoRAWeightEntry& we = desc.adapter->getWeights(desc.layer_name);
@@ -487,3 +454,4 @@ bool LoRAAdapterMerger::validateMergeResult(const MergeResult& result) const {
 
 } // namespace training
 } // namespace themis
+

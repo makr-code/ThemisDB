@@ -222,7 +222,7 @@ WireProtocolConnectionPool::WireProtocolConnectionPool(const Config& config)
             }
             pruneStaleConnections();
             if (config_.enable_adaptive_sizing) {
-                rebalancePools();
+                adaptPoolSize();
             }
         }
     });
@@ -643,14 +643,6 @@ void WireProtocolConnectionPool::pruneStaleConnections() {
     }
 }
 
-void WireProtocolConnectionPool::rebalancePools() {
-    rebalance_passes_.fetch_add(1, std::memory_order_relaxed);
-    if (!config_.enable_adaptive_sizing) {
-        return;
-    }
-    adaptPoolSize();
-}
-
 void WireProtocolConnectionPool::adaptPoolSize() {
     if (!config_.enable_adaptive_sizing || !config_.adaptive_strategy) return;
 
@@ -665,7 +657,6 @@ void WireProtocolConnectionPool::adaptPoolSize() {
         }
     }
 
-    const auto rebalance_started_at = std::chrono::steady_clock::now();
     for (const auto& target : targets) {
         auto pool = getOrCreateTargetPool(target);
 
@@ -673,14 +664,12 @@ void WireProtocolConnectionPool::adaptPoolSize() {
         size_t active_count;
         size_t available_count;
         std::chrono::seconds oldest_idle{0};
-        std::chrono::steady_clock::time_point last_adaptation_at{};
 
         {
             std::lock_guard<std::mutex> pool_lock(pool->mutex);
             active_count    = pool->active_count;
             available_count = pool->available.size();
             current_count   = active_count + available_count;
-            last_adaptation_at = pool->last_adaptation_at;
 
             if (!pool->available.empty()) {
                 auto now = std::chrono::steady_clock::now();
@@ -705,22 +694,6 @@ void WireProtocolConnectionPool::adaptPoolSize() {
         ideal = std::max(ideal, config_.min_connections_per_target);
         ideal = std::min(ideal, config_.max_connections_per_target);
 
-        const auto absolute_delta =
-            (ideal > current_count) ? (ideal - current_count) : (current_count - ideal);
-        const auto baseline = std::max<std::size_t>(current_count, std::size_t{1});
-        const auto relative_delta =
-            static_cast<double>(absolute_delta) / static_cast<double>(baseline);
-        if (absolute_delta == 0 || relative_delta < config_.rebalance_tolerance) {
-            rebalance_stable_skips_.fetch_add(1, std::memory_order_relaxed);
-            continue;
-        }
-
-        if (last_adaptation_at.time_since_epoch().count() != 0 &&
-            rebalance_started_at - last_adaptation_at < config_.adaptation_cooldown) {
-            rebalance_cooldown_skips_.fetch_add(1, std::memory_order_relaxed);
-            continue;
-        }
-
         // --- Scale up: pre-create a connection if the strategy recommends it ---
         if (ideal > current_count &&
             config_.adaptive_strategy->shouldCreateConnection(
@@ -738,7 +711,6 @@ void WireProtocolConnectionPool::adaptPoolSize() {
                     void* key = socket.get();
                     pool->all_connections[key] = conn;
                     pool->available.push(conn);
-                    pool->last_adaptation_at = std::chrono::steady_clock::now();
                 }
 
                 total_connections_.fetch_add(1, std::memory_order_relaxed);
@@ -766,7 +738,6 @@ void WireProtocolConnectionPool::adaptPoolSize() {
                     conn->socket->close(ec);
                 }
                 pool->all_connections.erase(conn->socket.get());
-                pool->last_adaptation_at = std::chrono::steady_clock::now();
                 total_connections_.fetch_sub(1, std::memory_order_relaxed);
                 pool_size_adaptations_.fetch_add(1, std::memory_order_relaxed);
             }
@@ -809,35 +780,16 @@ WireProtocolConnectionPool::Stats WireProtocolConnectionPool::getStats() const {
     stats.acquire_timeouts = acquire_timeouts_.load(std::memory_order_relaxed);
     stats.keepalive_checks_sent = keepalive_checks_.load(std::memory_order_relaxed);
     stats.pool_size_adaptations = pool_size_adaptations_.load(std::memory_order_relaxed);
-    stats.rebalance_passes = rebalance_passes_.load(std::memory_order_relaxed);
-    stats.rebalance_cooldown_skips =
-        rebalance_cooldown_skips_.load(std::memory_order_relaxed);
-    stats.rebalance_stable_skips =
-        rebalance_stable_skips_.load(std::memory_order_relaxed);
     
     std::lock_guard<std::mutex> lock(pools_mutex_);
-    stats.target_pool_count = target_pools_.size();
     
     size_t available = 0;
     size_t in_use = 0;
-    bool saw_non_empty_target = false;
-    stats.min_target_utilization = 1.0;
     
     for (const auto& [target, pool] : target_pools_) {
         std::lock_guard<std::mutex> pool_lock(pool->mutex);
         available += pool->available.size();
         in_use += pool->active_count;
-        const size_t target_total = pool->available.size() + pool->active_count;
-        if (target_total > 0) {
-            const auto target_utilization =
-                static_cast<double>(pool->active_count) /
-                static_cast<double>(target_total);
-            stats.max_target_utilization =
-                std::max(stats.max_target_utilization, target_utilization);
-            stats.min_target_utilization =
-                std::min(stats.min_target_utilization, target_utilization);
-            saw_non_empty_target = true;
-        }
     }
     
     stats.available_connections = available;
@@ -848,9 +800,6 @@ WireProtocolConnectionPool::Stats WireProtocolConnectionPool::getStats() const {
     stats.utilization = (total > 0)
         ? static_cast<double>(in_use) / static_cast<double>(total)
         : 0.0;
-    if (!saw_non_empty_target) {
-        stats.min_target_utilization = 0.0;
-    }
     
     return stats;
 }

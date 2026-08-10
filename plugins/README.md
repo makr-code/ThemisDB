@@ -5,7 +5,7 @@
 **Development Status:** The plugin system is under active development with different maturity levels for different plugin types.
 
 ### Production-Ready Plugin Types
-- ✅ **Blob Storage Plugins** (Azure Blob Storage, Amazon S3, Google Cloud Storage)
+- ✅ **Blob Storage Plugins** (Azure Blob Storage, Amazon S3)
 - ✅ **Image Analysis Plugins** (ONNX CLIP)
 - ✅ **RPC Plugins** (gRPC)
 - ✅ **Exporters** (JSONL LLM Exporter)

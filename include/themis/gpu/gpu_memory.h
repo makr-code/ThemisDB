@@ -258,7 +258,7 @@ class unique_gpu_ptr {
     if (old != nullptr) {
       // Call deleter: CHECKED_CUDA(cudaFree(old))
       // We log any error but do not throw (noexcept destructor)
-      #if defined(__CUDACC__) || defined(THEMIS_CUDA_ENABLED) || defined(THEMIS_ENABLE_CUDA)
+      #if defined(__CUDACC__) || defined(THEMIS_CUDA_ENABLED)
       cudaError_t err = cudaFree(old);
       if (err != cudaSuccess) {
         // Log but do not throw; destructor must be noexcept
@@ -269,7 +269,7 @@ class unique_gpu_ptr {
                       static_cast<int>(err));
         }
       }
-      #elif defined(THEMIS_HIP_ENABLED) || defined(__HIP__) || defined(THEMIS_ENABLE_HIP)
+      #elif defined(THEMIS_HIP_ENABLED) || defined(__HIP__)
       hipError_t err = hipFree(old);
       if (err != hipSuccess) {
         auto logger = GPUErrorHandler::GetLogger();
@@ -279,8 +279,6 @@ class unique_gpu_ptr {
                       static_cast<int>(err));
         }
       }
-      #else
-      std::free(old);
       #endif
     }
   }
@@ -331,7 +329,7 @@ inline unique_gpu_ptr<T> make_unique_gpu(size_t count) {
   void* ptr = nullptr;
   size_t bytes = count * sizeof(T);
 
-#if defined(__CUDACC__) || defined(THEMIS_CUDA_ENABLED) || defined(THEMIS_ENABLE_CUDA)
+#if defined(__CUDACC__) || defined(THEMIS_CUDA_ENABLED)
   // Allocate GPU memory via CUDA
   try {
     CHECKED_CUDA(cudaMalloc(&ptr, bytes));
@@ -339,7 +337,7 @@ inline unique_gpu_ptr<T> make_unique_gpu(size_t count) {
     // CHECKED_CUDA may throw; rethrow
     throw;
   }
-#elif defined(THEMIS_HIP_ENABLED) || defined(__HIP__) || defined(THEMIS_ENABLE_HIP)
+#elif defined(THEMIS_HIP_ENABLED) || defined(__HIP__)
   // Allocate GPU memory via HIP
   try {
     CHECKED_HIP(hipMalloc(&ptr, bytes));
@@ -398,15 +396,16 @@ class shared_gpu_ptr {
  private:
   struct ControlBlock {
     T* ptr;
+    std::atomic<int> refcount{1};
 
     explicit ControlBlock(T* p) : ptr(p) {}
 
     ~ControlBlock() {
       if (ptr != nullptr) {
-#if defined(__CUDACC__) || defined(THEMIS_CUDA_ENABLED) || defined(THEMIS_ENABLE_CUDA)
+#if defined(__CUDACC__) || defined(THEMIS_CUDA_ENABLED)
         cudaError_t err = cudaFree(ptr);
-        (void)err;
-#elif defined(THEMIS_HIP_ENABLED) || defined(__HIP__) || defined(THEMIS_ENABLE_HIP)
+        (void)err;  // suppress unused warning; we log but don't throw
+#elif defined(THEMIS_HIP_ENABLED) || defined(__HIP__)
         hipError_t err = hipFree(ptr);
         (void)err;
 #else
@@ -429,20 +428,37 @@ class shared_gpu_ptr {
   /// Construct from nullptr.
   shared_gpu_ptr(std::nullptr_t) noexcept : control_(nullptr) {}
 
-  /// Destructor: shared_ptr control block releases automatically.
-  ~shared_gpu_ptr() noexcept = default;
+  /// Destructor: decrements refcount; frees if zero.
+  ~shared_gpu_ptr() noexcept {
+    if (control_ && control_->refcount.fetch_sub(1, std::memory_order_acq_rel) == 1) {
+      // Last owner; delete control block (which frees GPU memory)
+      control_.reset();
+    }
+  }
 
   /// Copy constructor: increments refcount.
-  shared_gpu_ptr(const shared_gpu_ptr& other) noexcept = default;
+  shared_gpu_ptr(const shared_gpu_ptr& other) noexcept : control_(other.control_) {
+    if (control_) {
+      control_->refcount.fetch_add(1, std::memory_order_relaxed);
+    }
+  }
 
   /// Copy assignment.
-  shared_gpu_ptr& operator=(const shared_gpu_ptr& other) noexcept = default;
+  shared_gpu_ptr& operator=(const shared_gpu_ptr& other) noexcept {
+    if (this != &other) {
+      shared_gpu_ptr(other).swap(*this);
+    }
+    return *this;
+  }
 
   /// Move constructor.
-  shared_gpu_ptr(shared_gpu_ptr&& other) noexcept = default;
+  shared_gpu_ptr(shared_gpu_ptr&& other) noexcept : control_(std::move(other.control_)) {}
 
   /// Move assignment.
-  shared_gpu_ptr& operator=(shared_gpu_ptr&& other) noexcept = default;
+  shared_gpu_ptr& operator=(shared_gpu_ptr&& other) noexcept {
+    control_ = std::move(other.control_);
+    return *this;
+  }
 
   /// Get raw pointer.
   T* get() noexcept {
@@ -485,7 +501,7 @@ class shared_gpu_ptr {
 
   /// Get reference count.
   int use_count() const noexcept {
-    return control_ ? static_cast<int>(control_.use_count()) : 0;
+    return control_ ? control_->refcount.load(std::memory_order_acquire) : 0;
   }
 
   /// Swap.
@@ -494,7 +510,7 @@ class shared_gpu_ptr {
   }
 
  private:
-  std::shared_ptr<ControlBlock> control_;
+  std::unique_ptr<ControlBlock> control_;
 };
 
 /**
@@ -523,9 +539,9 @@ inline shared_gpu_ptr<T> make_shared_gpu(size_t count) {
   void* ptr = nullptr;
   size_t bytes = count * sizeof(T);
 
-#if defined(__CUDACC__) || defined(THEMIS_CUDA_ENABLED) || defined(THEMIS_ENABLE_CUDA)
+#if defined(__CUDACC__) || defined(THEMIS_CUDA_ENABLED)
   CHECKED_CUDA(cudaMalloc(&ptr, bytes));
-#elif defined(THEMIS_HIP_ENABLED) || defined(__HIP__) || defined(THEMIS_ENABLE_HIP)
+#elif defined(THEMIS_HIP_ENABLED) || defined(__HIP__)
   CHECKED_HIP(hipMalloc(&ptr, bytes));
 #else
   ptr = std::malloc(bytes);
@@ -539,3 +555,5 @@ inline shared_gpu_ptr<T> make_shared_gpu(size_t count) {
 
 }  // namespace gpu
 }  // namespace themis
+
+#endif  // THEMIS_GPU_MEMORY_H

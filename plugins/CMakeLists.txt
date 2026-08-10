@@ -71,13 +71,6 @@ if(THEMIS_PLUGIN_STABLE_DIFFUSION AND EXISTS "${THEMIS_ROOT_DIR}/src/stable_diff
     add_subdirectory("${THEMIS_ROOT_DIR}/src/stable_diffusion" "${CMAKE_CURRENT_BINARY_DIR}/stable_diffusion")
 endif()
 
-# CUDA Acceleration Plugin — standalone loadable .so
-option(THEMIS_PLUGIN_CUDA_ACCEL "Build the standalone CUDA acceleration plugin" ON)
-if(THEMIS_PLUGIN_CUDA_ACCEL AND THEMIS_ENABLE_CUDA AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cuda/CMakeLists.txt")
-    message(STATUS "  - CUDA Acceleration Plugin (standalone .so)")
-    add_subdirectory(cuda)
-endif()
-
 # llama_cpp Plugin – LLM backend plugin for dynamic loading
 option(THEMIS_PLUGIN_LLAMA_CPP "Build the llama_cpp LLM backend plugin" ON)
 if(THEMIS_PLUGIN_LLAMA_CPP AND EXISTS "${THEMIS_ROOT_DIR}/src/llama_cpp/CMakeLists.txt")

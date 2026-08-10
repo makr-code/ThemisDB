@@ -25,7 +25,6 @@
  */
 
 #include "storage/blob_storage_backend.h"
-#include "storage/blob_backend_azure.h"
 #include "utils/logger.h"
 #if defined(THEMIS_HAS_AZURE_STORAGE) && THEMIS_HAS_AZURE_STORAGE && __has_include(<azure/storage/blobs.hpp>)
 #include <azure/storage/blobs.hpp>
@@ -54,7 +53,6 @@ private:
     std::string connection_string_;
     std::string container_name_;
     std::string prefix_;
-    SseConfig   sse_config_;
     std::unique_ptr<Azure::Storage::Blobs::BlobContainerClient> container_client_;
     std::string init_error_;
     mutable std::mutex mutex_;
@@ -83,12 +81,10 @@ private:
 public:
     AzureBlobBackend(const std::string& connection_string, 
                      const std::string& container_name,
-                     const std::string& prefix = "",
-                     const SseConfig& sse_config = SseConfig{})
+                     const std::string& prefix = "")
         : connection_string_(connection_string),
           container_name_(container_name),
-          prefix_(prefix),
-          sse_config_(sse_config) {
+          prefix_(prefix) {
         
         try {
             // Create blob service client
@@ -141,15 +137,7 @@ public:
             Azure::Core::IO::MemoryBodyStream stream(data);
             Azure::Storage::Blobs::UploadBlockBlobOptions options;
             options.HttpHeaders.ContentType = "application/octet-stream";
-
-            // Apply SSE configuration
-            if (sse_config_.algorithm == SseAlgorithm::AZURE_CMK &&
-                !sse_config_.kms_key_id.empty()) {
-                // Customer-managed key: pass as CPK (customer-provided key URL)
-                options.CustomerProvidedKey = Azure::Storage::Blobs::Models::CustomerProvidedKey(
-                    sse_config_.kms_key_id);
-            }
-
+            
             auto response = blob_client.Upload(stream, options);
             
             // Create blob reference
@@ -314,85 +302,6 @@ public:
             THEMIS_WARN("AzureBlobBackend::isAvailable check failed: {}", e.what());
             return false;
         }
-    }
-
-    /**
-     * @brief Generate a Shared Access Signature (SAS) URL for the given blob.
-     *
-     * Parses AccountName and AccountKey from the connection string to build a
-     * read-only SAS token valid for @p expiry_s seconds.  The full blob URL
-     * with the SAS query string is returned.
-     *
-     * @note Requires azure-storage-blobs-cpp ≥ 12.0 with sas headers.
-     */
-    Result<std::string> presignedUrl(const BlobRef& ref, int64_t expiry_s) override {
-        if (expiry_s <= 0 || expiry_s > 604800) {
-            return Err<std::string>(
-                errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
-                "Azure presigned URL expiry must be between 1 and 604800 seconds");
-        }
-        if (!container_client_) {
-            return Err<std::string>(
-                errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
-                "Azure backend unavailable: " + (init_error_.empty()
-                    ? std::string("client not initialized") : init_error_));
-        }
-
-#if __has_include(<azure/storage/blobs/blob_sas_builder.hpp>)
-        try {
-            // Parse AccountName and AccountKey from the connection string.
-            // Expected format: "AccountName=<name>;AccountKey=<key>;..."
-            std::string account_name;
-            std::string account_key;
-            {
-                std::istringstream ss(connection_string_);
-                std::string token;
-                while (std::getline(ss, token, ';')) {
-                    if (token.substr(0, 12) == "AccountName=") {
-                        account_name = token.substr(12);
-                    } else if (token.substr(0, 11) == "AccountKey=") {
-                        account_key = token.substr(11);
-                    }
-                }
-            }
-            if (account_name.empty() || account_key.empty()) {
-                return Err<std::string>(
-                    errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
-                    "Azure presigned URL: cannot parse AccountName/AccountKey from connection string");
-            }
-
-            auto credential = std::make_shared<Azure::Storage::StorageSharedKeyCredential>(
-                account_name, account_key);
-
-            Azure::Storage::Sas::BlobSasBuilder sas_builder;
-            sas_builder.ExpiresOn    = Azure::DateTime::UtcNow() + std::chrono::seconds(expiry_s);
-            sas_builder.BlobContainerName = container_name_;
-            sas_builder.BlobName     = getBlobName(ref.id);
-            sas_builder.Resource     = Azure::Storage::Sas::BlobSasResource::Blob;
-            sas_builder.SetPermissions(Azure::Storage::Sas::BlobSasPermissions::Read);
-
-            auto sas_token = sas_builder.GenerateSasToken(*credential);
-            auto blob_client = container_client_->GetBlobClient(getBlobName(ref.id));
-            std::string url  = blob_client.GetUrl() + "?" + sas_token;
-            return Ok(url);
-
-        } catch (const std::exception& e) {
-            return Err<std::string>(
-                errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
-                std::string("Azure SAS generation failed: ") + e.what());
-        }
-#else
-        // SAS builder headers not available — return the plain blob URL as a
-        // best-effort fallback (no time-limited access control).
-        try {
-            auto blob_client = container_client_->GetBlobClient(getBlobName(ref.id));
-            return Ok(blob_client.GetUrl());
-        } catch (const std::exception& e) {
-            return Err<std::string>(
-                errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
-                std::string("Azure presignedUrl fallback failed: ") + e.what());
-        }
-#endif
     }
 };
 

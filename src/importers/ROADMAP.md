@@ -12,9 +12,6 @@ Production importer runtime exists across relational/document/stream/file/object
 
 - [x] benchmark stabilization for importer throughput and conflict-resolution hot paths (Delivered: Q3 2026)
 - [x] final integration testing for Phase 2-3 hardening delivery (Delivered: Q3 2026)
-- [x] Elasticsearch importer implementation (Delivered: Q3 2026)
-- [x] Redis importer implementation (Delivered: Q3 2026)
-- [x] Debezium CDC importer implementation (Delivered: Q3 2026)
 
 ## Planned Features
 
@@ -85,7 +82,6 @@ Production importer runtime exists across relational/document/stream/file/object
 - [x] benchmark mapping documented in performance expectations
 - [x] remaining hardening tasks closed for connector/validation/conflict edge paths (Delivered: 2026-08-07)
 - [x] release benchmark stabilization complete (Delivered: 2026-08-07)
-- [x] Elasticsearch, Redis, and Debezium CDC importers delivered with 24 focused tests (Delivered: Q3 2026)
 
 ## Build and Test Evidence
 

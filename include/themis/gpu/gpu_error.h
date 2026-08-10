@@ -81,7 +81,7 @@ inline constexpr cudaError_t cudaSuccess = 0;
 #else
 /// @brief Stub type for non-HIP builds so the GPUErrorHandler API compiles
 ///        without requiring hip_runtime.h.
-using hipError_t = long;
+using hipError_t = int;
 /// @brief Sentinel for "no HIP error" in stub builds.
 inline constexpr hipError_t hipSuccess = 0;
 #endif
@@ -471,3 +471,5 @@ class GPUErrorHandler {
 
 }  // namespace gpu
 }  // namespace themis
+
+#endif  // THEMIS_GPU_ERROR_H

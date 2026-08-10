@@ -34,15 +34,14 @@ class AzureBlobBackend : public IBlobStorageBackend {
 public:
     /**
      * @brief Construct an Azure Blob Storage backend.
-     * @param connection_string Azure Storage connection string.
+     * @param connection_string Azure Storage connection string (e.g. from portal or
+     *        environment variable AZURE_STORAGE_CONNECTION_STRING).
      * @param container_name    Name of the target container.
      * @param prefix            Optional object-name prefix (e.g. "blobs/").
-     * @param sse_config        Server-side encryption configuration (default: no SSE).
      */
     explicit AzureBlobBackend(const std::string& connection_string,
                                const std::string& container_name,
-                               const std::string& prefix = "",
-                               const SseConfig&   sse_config = SseConfig{});
+                               const std::string& prefix = "");
 
     ~AzureBlobBackend() override;
 
@@ -90,16 +89,6 @@ public:
      * connection string is invalid, or when the container cannot be reached.
      */
     [[nodiscard]] bool isAvailable() const override;
-
-    /**
-     * @brief Generate a presigned (SAS) URL for the given blob.
-     * @param ref      Blob reference previously returned by put().
-     * @param expiry_s URL validity in seconds (must be > 0 and ≤ 604800).
-     * @return SAS URL string, or an error if the SDK is unavailable or
-     *         SAS generation fails.
-     */
-    [[nodiscard]] Result<std::string> presignedUrl(const BlobRef& ref,
-                                                    int64_t expiry_s) override;
 
 private:
     struct Impl;

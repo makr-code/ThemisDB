@@ -55,27 +55,20 @@ bool GPUMemoryManager::TryAllocateUnderLock(uint64_t size_bytes, const std::stri
         }
     }
 
-    AllocationRecord record{size_bytes, tag, tenant_id};
-    decltype(&tenant_states_.begin()->second) tenant_state = nullptr;
-    if (!tenant_id.empty()) {
-        auto [it, inserted] = tenant_states_.try_emplace(tenant_id);
-        (void)inserted;
-        tenant_state = &it->second;
-    }
-
-    active_allocations_.push_back(record);
-
-    // Commit the allocation only after all throwing operations succeeded.
+    // Commit the allocation.
     gpu_memory_allocated_ = new_total;
     if (gpu_memory_allocated_ > peak_bytes_) {
         peak_bytes_ = gpu_memory_allocated_;
     }
     ++allocation_count_;
+    active_allocations_.push_back({size_bytes, tag, tenant_id});
 
-    if (tenant_state != nullptr) {
-        tenant_state->allocated_bytes += size_bytes;
-        if (tenant_state->allocated_bytes > tenant_state->peak_bytes) {
-            tenant_state->peak_bytes = tenant_state->allocated_bytes;
+    // Update tenant state.
+    if (!tenant_id.empty()) {
+        auto &ts = tenant_states_[tenant_id];
+        ts.allocated_bytes += size_bytes;
+        if (ts.allocated_bytes > ts.peak_bytes) {
+            ts.peak_bytes = ts.allocated_bytes;
         }
     }
 
@@ -210,33 +203,26 @@ bool GPUMemoryManager::ConsumeHint(uint64_t hint_id) {
             const uint64_t bytes     = it->bytes;
             const std::string tag    = it->tag;
             const std::string tenant = it->tenant_id;
-            AllocationRecord record{bytes, tag, tenant};
-            decltype(&tenant_states_.begin()->second) tenant_state = nullptr;
-            if (!tenant.empty()) {
-                auto [tenant_it, inserted] = tenant_states_.try_emplace(tenant);
-                (void)inserted;
-                tenant_state = &tenant_it->second;
-            }
-
-            active_allocations_.push_back(record);
-
-            // Remove from hints only after the allocation record is durable.
+            // Remove from hints.
             if (hint_reserved_bytes_ >= bytes) {
                 hint_reserved_bytes_ -= bytes;
             } else {
                 hint_reserved_bytes_ = 0;
             }
             active_hints_.erase(it);
-
+            // Commit as real allocation (no limit re-check needed — the hint
+            // already held this capacity).
             gpu_memory_allocated_ += bytes;
             if (gpu_memory_allocated_ > peak_bytes_) {
                 peak_bytes_ = gpu_memory_allocated_;
             }
             ++allocation_count_;
-            if (tenant_state != nullptr) {
-                tenant_state->allocated_bytes += bytes;
-                if (tenant_state->allocated_bytes > tenant_state->peak_bytes) {
-                    tenant_state->peak_bytes = tenant_state->allocated_bytes;
+            active_allocations_.push_back({bytes, tag, tenant});
+            if (!tenant.empty()) {
+                auto &ts = tenant_states_[tenant];
+                ts.allocated_bytes += bytes;
+                if (ts.allocated_bytes > ts.peak_bytes) {
+                    ts.peak_bytes = ts.allocated_bytes;
                 }
             }
             return true;

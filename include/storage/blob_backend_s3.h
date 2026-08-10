@@ -35,24 +35,13 @@ class S3BlobBackend : public IBlobStorageBackend {
 public:
     /**
      * @brief Construct an S3 Blob Storage backend.
-     * @param bucket        Name of the S3 bucket.
-     * @param region        AWS region (e.g. "us-east-1").
-     * @param prefix        Optional object-key prefix (e.g. "blobs/").
-     * @param sse_config    Server-side encryption configuration (default: no SSE).
-     * @param retry_policy  Retry and backoff configuration (default: 3 retries, exponential).
-     * @param endpoint_override Optional S3-compatible endpoint override for local
-     *        emulators such as MinIO. Accepts either `host:port` or a full
-     *        `http[s]://host:port` URL.
-     * @param force_path_style When true, use path-style addressing instead of
-     *        virtual-host style. Required by many local S3 emulators.
+     * @param bucket  Name of the S3 bucket.
+     * @param region  AWS region (e.g. "us-east-1").
+     * @param prefix  Optional object-key prefix (e.g. "blobs/").
      */
     explicit S3BlobBackend(const std::string& bucket,
                             const std::string& region,
-                            const std::string& prefix = "",
-                            const SseConfig&   sse_config = SseConfig{},
-                            const RetryPolicy& retry_policy = RetryPolicy{},
-                            const std::string& endpoint_override = "",
-                            bool               force_path_style = false);
+                            const std::string& prefix = "");
 
     ~S3BlobBackend() override;
 
@@ -100,16 +89,6 @@ public:
      * missing, or when the bucket cannot be reached.
      */
     [[nodiscard]] bool isAvailable() const override;
-
-    /**
-     * @brief Generate a presigned GET URL for the given blob.
-     * @param ref      Blob reference previously returned by put().
-     * @param expiry_s URL validity in seconds (must be > 0 and ≤ 604800).
-     * @return Presigned URL string, or an error if the SDK is unavailable or
-     *         signing fails.
-     */
-    [[nodiscard]] Result<std::string> presignedUrl(const BlobRef& ref,
-                                                    int64_t expiry_s) override;
 
 private:
     struct Impl;

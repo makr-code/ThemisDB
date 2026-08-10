@@ -139,7 +139,6 @@ void BufferPool::release(void* data, SlabClass slab) noexcept {
         return;
     }
 
-    total_releases_.fetch_add(1, std::memory_order_relaxed);
     live_handles_.fetch_sub(1, std::memory_order_relaxed);
 
     // Find slab index.
@@ -156,8 +155,6 @@ void BufferPool::release(void* data, SlabClass slab) noexcept {
         s.free_list.push_back(data);
     } else {
         // Free list full — discard excess to avoid unbounded growth.
-        ++s.evict_count;
-        release_evictions_.fetch_add(1, std::memory_order_relaxed);
         std::free(data);
     }
 }
@@ -169,20 +166,14 @@ void BufferPool::release(void* data, SlabClass slab) noexcept {
 BufferPool::Statistics BufferPool::statistics() const noexcept {
     Statistics st;
     st.total_allocations = total_allocs_.load(std::memory_order_relaxed);
-    st.total_releases    = total_releases_.load(std::memory_order_relaxed);
     st.os_fallbacks      = os_fallbacks_.load(std::memory_order_relaxed);
-    st.release_evictions = release_evictions_.load(std::memory_order_relaxed);
     st.current_live      = live_handles_.load(std::memory_order_relaxed);
-    st.configured_capacity = config_.max_per_class * kSlabSizes.size();
 
     for (std::size_t i = 0; i < slabs_.size(); ++i) {
         std::lock_guard<std::mutex> lk(slabs_[i].lock);
         st.per_class_allocs[i] = slabs_[i].alloc_count;
-        st.per_class_free[i]   = slabs_[i].free_list.size();
-        st.per_class_evictions[i] = slabs_[i].evict_count;
         st.slab_hits           += slabs_[i].alloc_count - slabs_[i].miss_count;
         st.slab_misses         += slabs_[i].miss_count;
-        st.free_buffers        += slabs_[i].free_list.size();
     }
     return st;
 }

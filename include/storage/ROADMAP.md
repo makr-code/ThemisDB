@@ -48,7 +48,6 @@ All production storage headers are present and `#pragma once` guarded. The MVCC,
 
 - [ ] Align `tensor_train_decomposer.h` and `hierarchical_tucker_decomposer.h` with production TT-decomposition benchmark results (Target: 2026-Q3)
 - [ ] Link `vector_index_backend.h` to updated `include/index/` ANN contract (Target: 2026-Q3)
-- [~] `federated_blob_router.h` — first production cut for multi-region blob routing landed; replica-policy expansion remains (Target: 2026-Q4)
 
 ---
 
@@ -56,6 +55,7 @@ All production storage headers are present and `#pragma once` guarded. The MVCC,
 
 - [ ] `storage_observability.h` — structured per-operation metrics interface for the storage engine (Target: 2026-Q3)
 - [ ] `incremental_snapshot_manager.h` — incremental snapshot protocol decoupled from full PITR (Target: 2026-Q4)
+- [ ] `federated_blob_router.h` — multi-region blob routing for geo-distributed deployments (Target: 2026-Q4)
 
 ---
 

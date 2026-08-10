@@ -28,7 +28,6 @@ Document a source whenever you:
 
 Use these clusters consistently:
 
-- `research/manuscripts/` → canonical ThemisDB-authored manuscript portfolio
 - `research/papers/` → canonical paper entries
 - `research/architecture_decisions/` → canonical ADR decisions
 - `research/experiments/` → canonical validation evidence
@@ -50,7 +49,6 @@ If a canonical successor exists, mark the old draft as `SUPERSEDED_DRAFT` in `re
 
 | Source Type | Where to document |
 |-------------|-------------------|
-| ThemisDB-authored manuscript / publication draft | `research/manuscripts/` |
 | Scientific paper (journal, conference, ArXiv) | `research/papers/` |
 | Best practice (open-source project, blog, standard) | `research/best_practices/` |
 | Architecture / design decision | `research/architecture_decisions/` |
@@ -61,10 +59,6 @@ If a canonical successor exists, mark the old draft as `SUPERSEDED_DRAFT` in `re
 Copy the appropriate template:
 
 ```bash
-# For a ThemisDB manuscript
-cp research/templates/MANUSCRIPT_TEMPLATE.md \
-   research/manuscripts/<cluster>/<paper_name>.md
-
 # For a paper
 cp research/papers/_template_paper.md \
    research/papers/<topic>_<year>.md
@@ -80,15 +74,7 @@ cp research/architecture_decisions/_template_decision.md \
 
 Fill in **all required fields**. Empty fields should be filled or removed — no placeholder text in committed files.
 
-### Step 3 — Register portfolio placement
-
-For ThemisDB-authored manuscripts:
-
-1. add or update the manuscript in `research/manuscripts/README.md`
-2. place it in the correct cluster (`flagship`, `systems`, `retrieval_rag`, `llm_runtime_training`, `distributed_consistency_resilience`, `geo_temporal_streaming`, `security_governance_ethics`, `verticals`)
-3. record overlap / successor / predecessor relations when the topic intersects an existing draft
-
-### Step 4 — Link it in the affected module README
+### Step 3 — Link it in the affected module README
 
 Add a row to the *Wissenschaftliche Grundlagen & Einflüsse* table in the relevant `src/<module>/README.md`:
 
@@ -104,12 +90,12 @@ Add a row to the *Wissenschaftliche Grundlagen & Einflüsse* table in the releva
 
 If the module README does not yet have this section, add it before the last section.
 
-### Step 5 — Update the master influence index
+### Step 4 — Update the master influence index
 
 Add a row to the influence matrix in  
 [`research/implementation_influence/README.md`](implementation_influence/README.md).
 
-### Step 6 — Use the correct commit message prefix
+### Step 5 — Use the correct commit message prefix
 
 ```
 ref(research): Add [Source Title] to [Module Name]
@@ -120,7 +106,7 @@ Example:
 ref(research): Add HNSW (2018) to src/index/
 ```
 
-### Step 7 — Mark draft status clearly
+### Step 6 — Mark draft status clearly
 
 When touching draft files, also update `research/README.md`:
 
@@ -135,7 +121,7 @@ When touching draft files, also update `research/README.md`:
 Before submitting a PR that contains algorithm/design work, confirm:
 
 - [ ] Does this PR base work on a scientific paper, best practice, or architecture decision?
-- [ ] If yes: Is the research file created in the correct canonical cluster (`research/manuscripts/`, `research/papers/`, `research/best_practices/`, `research/architecture_decisions/`)?
+- [ ] If yes: Is the research file created in `research/<type>/`?
 - [ ] Is the module README updated with the *Wissenschaftliche Grundlagen & Einflüsse* section?
 - [ ] Is `research/implementation_influence/README.md` updated?
 
@@ -209,24 +195,10 @@ research/
 ├── RESEARCH_GUIDE.md                      ← This file (contributor guide)
 ├── ALGORITHM_VALIDATION_PROCESS.md        ← 6-Schritte-Framework für Algorithmus-Validierung
 ├── PROMPTING_TEMPLATES.md                 ← Modul-spezifische + Cross-Module-Prompt-Templates
-├── manuscripts/
-│   ├── README.md                          ← Canonical portfolio for ThemisDB-authored manuscripts
-│   ├── flagship/
-│   ├── systems/
-│   ├── retrieval_rag/
-│   ├── llm_runtime_training/
-│   ├── distributed_consistency_resilience/
-│   ├── geo_temporal_streaming/
-│   ├── security_governance_ethics/
-│   └── verticals/
 ├── papers/
 │   ├── README.md                          ← Index of all papers
 │   ├── TEMPLATES.md                       ← Required fields & formatting
 │   └── _template_paper.md                 ← Copy-paste starter
-├── templates/
-│   ├── MANUSCRIPT_TEMPLATE.md             ← Default template for ThemisDB manuscripts
-│   ├── EXPERIMENT_TEMPLATE.md             ← Experiment protocol companion
-│   └── ARTIFACT_CHECKLIST.md              ← Submission-candidate evidence checklist
 ├── best_practices/
 │   ├── README.md
 │   ├── TEMPLATES.md

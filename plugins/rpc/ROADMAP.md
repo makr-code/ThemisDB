@@ -72,7 +72,7 @@ Entry-point: `plugins/rpc/grpc/CMakeLists.txt` (compatibility shim) · implement
 - [ ] Integration test: browser-compatible WebSocket client round-trip
 
 ### Phase 3 – Circuit Breaker & Retry
-- [x] Implement circuit breaker: half-open state, configurable failure threshold and recovery window
+- [ ] Implement circuit breaker: half-open state, configurable failure threshold and recovery window
 - [ ] Per-call retry policy with exponential backoff and jitter
 - [ ] Prometheus metrics: circuit state transitions, retry counts
 

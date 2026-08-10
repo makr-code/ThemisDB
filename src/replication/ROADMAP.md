@@ -33,19 +33,18 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity**
 
 #### 3.1 Replication
 
-- [x] **Geographic replica placement policies**: `GeoReplicaPlacementManager` in
-  `include/replication/geo_placement.h` + `src/replication/geo_placement.cpp`.
-  Accepts `PlacementConstraints` (preferred/forbidden/required DCs, min copies per DC,
-  zone affinity/anti-affinity, voter-only filter); `selectLeaderCandidate()` and
-  `selectFailoverCandidate()` respect all constraints; `validatePlacement()` checks topology
-  feasibility. Covered by GEO-01..GEO-08 focused tests and GATE-RMD-01..03 benchmarks.
-  (Completed: Q3 2026)
-- [x] **Async cross-region WAL shipping with configurable lag limits**: `AsyncWalShipper` in
-  `include/replication/async_wal_shipper.h` + `src/replication/async_wal_shipper.cpp`.
-  Configurable via `WalShippingConfig::max_lag_ms` (default 1 000 ms); lag alert callback fires
-  within 2× lag window; `replication_wal_lag_ms` Prometheus histogram wired; back-pressure via
-  `max_queue_depth`; injectable transport handler. Covered by WAL-01..WAL-08 focused tests and
-  GATE-RMD-04..05, GATE-RMD-08 benchmarks. (Completed: Q3 2026)
+- [ ] **Geographic replica placement policies**: extend `ReplicationManager` to accept placement
+  constraints (region/zone affinity, anti-affinity, minimum copies per DC); reflect constraint in
+  leader election and failover candidate selection (Target: Q3 2026)
+  - Inputs: placement policy DSL (JSON/YAML); DC topology map
+  - Acceptance: leader election respects placement constraints in 3-DC topology test; failover
+    selects candidate in the correct DC; deterministic benchmark confirms sub-50 ms election
+- [ ] **Async cross-region WAL shipping with configurable lag limits**: replicate WAL segments to
+  remote DCs asynchronously; operator-configurable lag limit (default 1 s); emit alert metric
+  when lag limit exceeded (Target: Q3 2026)
+  - Inputs: `replication.wal_shipping.max_lag_ms` config key; remote DC endpoint
+  - Acceptance: WAL ship throughput ≥ 80 MB/s on GbE link; lag alert fires within 2× lag window;
+    `replication_wal_lag_ms` Prometheus histogram wired
 
 ## Implementation Phases
 
@@ -86,10 +85,7 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity**
 - [x] replication_api_contract.h frozen contract header (Phase 1 closure, 2026-07-29)
 - [x] test_replication_contract_hardening_focused.cpp — RCH-01..RCH-16 (Phase 4 closure, 2026-07-29)
 - [x] bench_replication_release_gates.cpp — RRG-01..RRG-06 gate benchmarks (Phase 5 closure, 2026-07-29)
-- [x] remaining hardening tasks closed for failover/conflict/CDC edge paths
-- [x] Geographic replica placement policies — GeoReplicaPlacementManager (GEO-01..GEO-08)
-- [x] Async cross-region WAL shipping with lag limits — AsyncWalShipper (WAL-01..WAL-08)
-- [x] Multi-DC + Multi-Writer benchmarks (RMD-01..RMD-08, GATE-RMD-01..08)
+- [ ] remaining hardening tasks closed for failover/conflict/CDC edge paths
 - [ ] release benchmark stabilization complete
 
 ## Evidence Summary (Session: 2026-07-19)

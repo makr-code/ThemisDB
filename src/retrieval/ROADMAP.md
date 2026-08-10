@@ -32,8 +32,7 @@ B (local tensor + ANN), C (distributed coordination), D (optional GPU).
 ### Mid-term (6-12 months)
 - [ ] complete phase-6 acceptance documentation from measured behavior (Target: Q1 2027)
 - [ ] complete phase-7 integration into default build/test pipelines (Target: Q1 2027)
-- [~] Phase D gate: GPU break-even benchmark results reviewed and published (Target: 2027)
-  - CPU baselines are in place via `benchmarks/epic3_distributed_tensor/bench_tensor_cpu_gpu_breakeven.cc` and GPU Category A/B baseline targets; final published GPU speedup review remains gated on 2027 hardware availability.
+- [ ] Phase D gate: GPU break-even benchmark results reviewed and published (Target: 2027)
 
 ## Implementation Phases
 
@@ -100,12 +99,12 @@ B (local tensor + ANN), C (distributed coordination), D (optional GPU).
   - 15 test cases covering parity, fallback, advisory mode, batch consistency
   - Category A kernels: euclidean, cosine distance
   - Acceptance thresholds: FP32 relative error < 1e-5
-- [~] `test_sharding_multishard_exact` — Phase C gate (implemented; environment validation pending)
+- [~] `test_sharding_multishard_exact` — Phase C gate (explicitly registered as `ShardingMultiShardExactPhaseCGate`; full environment validation still blocked by current repo-wide build failures outside sharding)
 - [ ] contract and integration tests implementation in `tests/epic1_retrieval/`
 
 **Phase 5: Performance and Hardening**
 - [~] `bench_ann_distance_cpu_vs_flat` — Phase B benchmark gate (implemented; environment validation pending)
-- [~] `bench_multishard_exact` — Phase C benchmark gate (implemented; environment validation pending)
+- [~] `bench_multishard_exact` — Phase C benchmark gate (deterministic benchmark hygiene tightened; full environment validation still blocked by current repo-wide build failures outside sharding)
 - [~] benchmark suite implementation in `benchmarks/epic1_retrieval/` (initial gates added; full validation pending)
 
 **Phase 6: Documentation and Acceptance**

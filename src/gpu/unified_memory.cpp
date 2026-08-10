@@ -29,7 +29,6 @@
  */
 
 #include "themis/gpu/unified_memory.h"
-#include "themis/gpu/gpu_error.h"
 
 #include <algorithm>
 #include <cstdlib>
@@ -89,15 +88,11 @@ void *GPUUnifiedMemoryAllocator::allocate(size_t bytes, const std::string &tag, 
     void *ptr = nullptr;
 
 #ifdef THEMIS_ENABLE_CUDA
-    cudaError_t err = cudaMallocManaged(&ptr, bytes, cudaMemAttachGlobal);
-    if (err != cudaSuccess) {
-        GPUErrorHandler::Create()->logError(err, "GPUUnifiedMemoryAllocator::allocate cudaMallocManaged");
+    if (cudaMallocManaged(&ptr, bytes, cudaMemAttachGlobal) != cudaSuccess) {
         ptr = nullptr;
     }
 #elif defined(THEMIS_ENABLE_HIP)
-    hipError_t err = hipMallocManaged(&ptr, bytes, hipMemAttachGlobal);
-    if (err != hipSuccess) {
-        GPUErrorHandler::Create()->logError(err, "GPUUnifiedMemoryAllocator::allocate hipMallocManaged");
+    if (hipMallocManaged(&ptr, bytes, hipMemAttachGlobal) != hipSuccess) {
         ptr = nullptr;
     }
 #else
@@ -136,63 +131,47 @@ bool GPUUnifiedMemoryAllocator::free(void *ptr) {
         return false;
     }
 
-    AllocationRecord record;
-    size_t index = 0;
+    size_t bytes = 0;
+    std::string tenant_id;
 
     {
         std::lock_guard<std::mutex> lock(mutex_);
 
-        auto it = std::find_if(active_.begin(), active_.end(), [ptr](const AllocationRecord &r) { return r.ptr == ptr; });
+        auto it
+            = std::find_if(active_.begin(), active_.end(), [ptr](const AllocationRecord &r) { return r.ptr == ptr; });
         if (it == active_.end()) {
             return false;
         }
 
-        index = static_cast<size_t>(std::distance(active_.begin(), it));
-        record = *it;
-    }
+        bytes     = it->bytes;
+        tenant_id = it->tenant_id;
+
+        active_.erase(it);
+        ++total_frees_;
+        if (allocated_bytes_ >= static_cast<uint64_t>(bytes)) {
+            allocated_bytes_ -= static_cast<uint64_t>(bytes);
+        } else {
+            allocated_bytes_ = 0;
+        }
+        if (!tenant_id.empty()) {
+            auto tit = tenant_bytes_.find(tenant_id);
+            if (tit != tenant_bytes_.end()) {
+                if (tit->second >= static_cast<uint64_t>(bytes)) {
+                    tit->second -= static_cast<uint64_t>(bytes);
+                } else {
+                    tit->second = 0;
+                }
+            }
+        }
+    } // mutex released here — platform free runs without holding the lock
 
 #ifdef THEMIS_ENABLE_CUDA
-    cudaError_t err = cudaFree(ptr);
-    if (err != cudaSuccess) {
-        GPUErrorHandler::Create()->logError(err, "GPUUnifiedMemoryAllocator::free cudaFree");
-        return false;
-    }
+    cudaFree(ptr);
 #elif defined(THEMIS_ENABLE_HIP)
-    hipError_t err = hipFree(ptr);
-    if (err != hipSuccess) {
-        GPUErrorHandler::Create()->logError(err, "GPUUnifiedMemoryAllocator::free hipFree");
-        return false;
-    }
+    hipFree(ptr);
 #else
     std::free(ptr);
 #endif
-
-    std::lock_guard<std::mutex> lock(mutex_);
-    if (index >= active_.size() || active_[index].ptr != ptr) {
-        auto it = std::find_if(active_.begin(), active_.end(), [ptr](const AllocationRecord &r) { return r.ptr == ptr; });
-        if (it == active_.end()) {
-            return true;
-        }
-        active_.erase(it);
-    } else {
-        active_.erase(active_.begin() + static_cast<std::ptrdiff_t>(index));
-    }
-    ++total_frees_;
-    if (allocated_bytes_ >= static_cast<uint64_t>(record.bytes)) {
-        allocated_bytes_ -= static_cast<uint64_t>(record.bytes);
-    } else {
-        allocated_bytes_ = 0;
-    }
-    if (!record.tenant_id.empty()) {
-        auto tit = tenant_bytes_.find(record.tenant_id);
-        if (tit != tenant_bytes_.end()) {
-            if (tit->second >= static_cast<uint64_t>(record.bytes)) {
-                tit->second -= static_cast<uint64_t>(record.bytes);
-            } else {
-                tit->second = 0;
-            }
-        }
-    }
 
     return true;
 }
@@ -210,19 +189,9 @@ bool GPUUnifiedMemoryAllocator::prefetch(const void *ptr, size_t bytes, [[maybe_
     ++prefetch_calls_;
 
 #ifdef THEMIS_ENABLE_CUDA
-    cudaError_t err = cudaMemPrefetchAsync(ptr, bytes, device_id, nullptr);
-    if (err != cudaSuccess) {
-        GPUErrorHandler::Create()->logError(err, "GPUUnifiedMemoryAllocator::prefetch cudaMemPrefetchAsync");
-        return false;
-    }
-    return true;
+    return cudaMemPrefetchAsync(ptr, bytes, device_id, nullptr) == cudaSuccess;
 #elif defined(THEMIS_ENABLE_HIP)
-    hipError_t err = hipMemPrefetchAsync(ptr, bytes, device_id, nullptr);
-    if (err != hipSuccess) {
-        GPUErrorHandler::Create()->logError(err, "GPUUnifiedMemoryAllocator::prefetch hipMemPrefetchAsync");
-        return false;
-    }
-    return true;
+    return hipMemPrefetchAsync(ptr, bytes, device_id, nullptr) == hipSuccess;
 #else
     static_cast<void>(device_id);
     return true;
@@ -265,12 +234,7 @@ bool GPUUnifiedMemoryAllocator::advise(const void *ptr, size_t bytes, [[maybe_un
         default:
             return false;
     }
-    cudaError_t err = cudaMemAdvise(ptr, bytes, cuda_advice, device_id);
-    if (err != cudaSuccess) {
-        GPUErrorHandler::Create()->logError(err, "GPUUnifiedMemoryAllocator::advise cudaMemAdvise");
-        return false;
-    }
-    return true;
+    return cudaMemAdvise(ptr, bytes, cuda_advice, device_id) == cudaSuccess;
 #elif defined(THEMIS_ENABLE_HIP)
     hipMemoryAdvise hip_advice;
     switch (advice) {
@@ -295,12 +259,7 @@ bool GPUUnifiedMemoryAllocator::advise(const void *ptr, size_t bytes, [[maybe_un
         default:
             return false;
     }
-    hipError_t err = hipMemAdvise(ptr, bytes, hip_advice, device_id);
-    if (err != hipSuccess) {
-        GPUErrorHandler::Create()->logError(err, "GPUUnifiedMemoryAllocator::advise hipMemAdvise");
-        return false;
-    }
-    return true;
+    return hipMemAdvise(ptr, bytes, hip_advice, device_id) == hipSuccess;
 #else
     static_cast<void>(advice);
     static_cast<void>(device_id);

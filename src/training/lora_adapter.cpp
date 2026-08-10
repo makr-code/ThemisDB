@@ -159,7 +159,6 @@ public:
         std::vector<std::string> names;
         names.reserve(layers_.size());
         for (const auto& kv : layers_) names.push_back(kv.first);
-        std::sort(names.begin(), names.end());
         return names;
     }
 
@@ -336,10 +335,6 @@ public:
         std::vector<LoRAWeightEntry> entries;
         entries.reserve(layers_.size());
         for (const auto& kv : layers_) entries.push_back(kv.second);
-        std::sort(entries.begin(), entries.end(),
-                  [](const LoRAWeightEntry& lhs, const LoRAWeightEntry& rhs) {
-                      return lhs.layer_name < rhs.layer_name;
-                  });
         return entries;
     }
 
