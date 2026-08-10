@@ -41,10 +41,13 @@ namespace storage {
 class GCSBlobBackend : public IBlobStorageBackend {
 public:
     /**
-     * @param bucket   GCS bucket name
-     * @param prefix   Optional object-name prefix (e.g. "blobs/")
+     * @param bucket     GCS bucket name
+     * @param prefix     Optional object-name prefix (e.g. "blobs/")
+     * @param sse_config Server-side encryption configuration (default: no SSE).
      */
-    explicit GCSBlobBackend(const std::string& bucket, const std::string& prefix = "");
+    explicit GCSBlobBackend(const std::string& bucket,
+                             const std::string& prefix = "",
+                             const SseConfig&   sse_config = SseConfig{});
     ~GCSBlobBackend() override;
 
     Result<BlobRef>              put(const std::string& blob_id,
@@ -54,6 +57,16 @@ public:
     bool                         exists(const BlobRef& ref) override;
     std::string                  name() const override;
     bool                         isAvailable() const override;
+
+    /**
+     * @brief Generate a V4 signed URL for the given blob.
+     * @param ref      Blob reference previously returned by put().
+     * @param expiry_s URL validity in seconds (must be > 0 and ≤ 604800).
+     * @return Signed URL string, or an error if the SDK is unavailable or
+     *         signing fails.
+     */
+    [[nodiscard]] Result<std::string> presignedUrl(const BlobRef& ref,
+                                                    int64_t expiry_s) override;
 
 private:
     struct Impl;

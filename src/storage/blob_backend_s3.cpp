@@ -19,6 +19,7 @@
  */
 
 #include "storage/blob_storage_backend.h"
+#include "storage/blob_backend_s3.h"
 #include "utils/logger.h"
 #if defined(THEMIS_HAS_AWS_SDK) && THEMIS_HAS_AWS_SDK && __has_include(<aws/core/Aws.h>)
 #include <aws/core/Aws.h>
@@ -27,7 +28,9 @@
 #include <aws/s3/model/GetObjectRequest.h>
 #include <aws/s3/model/DeleteObjectRequest.h>
 #include <aws/s3/model/HeadObjectRequest.h>
+#include <aws/s3/model/GeneratePresignedUrlRequest.h>
 #include <aws/core/auth/AWSCredentialsProvider.h>
+#include <aws/core/http/HttpTypes.h>
 #include <openssl/sha.h>
 #include <iomanip>
 #include <sstream>
@@ -53,6 +56,7 @@ private:
     std::string bucket_;
     std::string region_;
     std::string prefix_;
+    SseConfig   sse_config_;
     std::unique_ptr<Aws::S3::S3Client> client_;
     mutable std::mutex mutex_;
     
@@ -95,8 +99,9 @@ private:
     }
 
 public:
-    S3BlobBackend(const std::string& bucket, const std::string& region, const std::string& prefix = "")
-        : bucket_(bucket), region_(region), prefix_(prefix) {
+    S3BlobBackend(const std::string& bucket, const std::string& region,
+                  const std::string& prefix = "", const SseConfig& sse_config = SseConfig{})
+        : bucket_(bucket), region_(region), prefix_(prefix), sse_config_(sse_config) {
         
         initializeSDK();
         
@@ -125,7 +130,17 @@ public:
         Aws::S3::Model::PutObjectRequest request;
         request.SetBucket(bucket_);
         request.SetKey(s3_key);
-        request.SetServerSideEncryption(Aws::S3::Model::ServerSideEncryption::AES256);
+
+        // Apply SSE configuration
+        if (sse_config_.algorithm == SseAlgorithm::AES256) {
+            request.SetServerSideEncryption(Aws::S3::Model::ServerSideEncryption::AES256);
+        } else if (sse_config_.algorithm == SseAlgorithm::AWS_KMS) {
+            request.SetServerSideEncryption(Aws::S3::Model::ServerSideEncryption::aws_kms);
+            if (!sse_config_.kms_key_id.empty()) {
+                request.SetSSEKMSKeyId(sse_config_.kms_key_id.c_str());
+            }
+        }
+        // SseAlgorithm::NONE — no SSE header applied
         
         // Create stream from data
         // prompt_injection scanner alert: this writes raw binary blob bytes to
@@ -282,6 +297,27 @@ public:
             THEMIS_WARN("S3BlobBackend::isAvailable check failed: {}", e.what());
             return false;
         }
+    }
+
+    /**
+     * @brief Generate a presigned GET URL for the given blob.
+     *
+     * Delegates to AWS SDK GeneratePresignedUrl.  The URL is valid for
+     * @p expiry_s seconds from the time of generation.
+     */
+    Result<std::string> presignedUrl(const BlobRef& ref, int64_t expiry_s) override {
+        Aws::S3::Model::GeneratePresignedUrlRequest req;
+        req.SetBucket(bucket_);
+        req.SetKey(getS3Key(ref.id));
+        req.SetMethod(Aws::Http::HttpMethod::HTTP_GET);
+        req.SetExpirationInSeconds(static_cast<uint64_t>(expiry_s));
+        auto url = client_->GeneratePresignedUrl(req);
+        if (url.empty()) {
+            return Err<std::string>(
+                errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+                "S3 presigned URL generation returned empty string");
+        }
+        return Ok(std::string(url.c_str()));
     }
 };
 

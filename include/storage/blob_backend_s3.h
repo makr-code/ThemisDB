@@ -35,13 +35,15 @@ class S3BlobBackend : public IBlobStorageBackend {
 public:
     /**
      * @brief Construct an S3 Blob Storage backend.
-     * @param bucket  Name of the S3 bucket.
-     * @param region  AWS region (e.g. "us-east-1").
-     * @param prefix  Optional object-key prefix (e.g. "blobs/").
+     * @param bucket     Name of the S3 bucket.
+     * @param region     AWS region (e.g. "us-east-1").
+     * @param prefix     Optional object-key prefix (e.g. "blobs/").
+     * @param sse_config Server-side encryption configuration (default: no SSE).
      */
     explicit S3BlobBackend(const std::string& bucket,
                             const std::string& region,
-                            const std::string& prefix = "");
+                            const std::string& prefix = "",
+                            const SseConfig&   sse_config = SseConfig{});
 
     ~S3BlobBackend() override;
 
@@ -89,6 +91,16 @@ public:
      * missing, or when the bucket cannot be reached.
      */
     [[nodiscard]] bool isAvailable() const override;
+
+    /**
+     * @brief Generate a presigned GET URL for the given blob.
+     * @param ref      Blob reference previously returned by put().
+     * @param expiry_s URL validity in seconds (must be > 0 and ≤ 604800).
+     * @return Presigned URL string, or an error if the SDK is unavailable or
+     *         signing fails.
+     */
+    [[nodiscard]] Result<std::string> presignedUrl(const BlobRef& ref,
+                                                    int64_t expiry_s) override;
 
 private:
     struct Impl;

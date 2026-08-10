@@ -1,0 +1,48 @@
+{
+  "name": "gcs_blob_storage",
+  "version": "1.0.0",
+  "type": "blob_storage",
+  "description": "Google Cloud Storage blob storage backend",
+  "author": "ThemisDB Team",
+  "license": "Proprietary",
+  "visibility": "private",
+  "allowed_editions": ["enterprise", "hyperscaler", "military"],
+  "license_feature": "private_connector_pack",
+  "min_themisdb_version": "2.4.0",
+  "compatible_core_abi": "plugin-abi-v2",
+  "binary": {
+    "windows": "themis_blob_gcs.dll",
+    "linux": "themis_blob_gcs.so",
+    "macos": "themis_blob_gcs.dylib"
+  },
+  "auto_load": false,
+  "load_priority": 20,
+  "dependencies": {
+    "google-cloud-cpp": ">=2.15.0",
+    "openssl": ">=1.1.1"
+  },
+  "capabilities": {
+    "server_side_encryption": true,
+    "versioning": true,
+    "lifecycle_management": true,
+    "multipart_upload": true
+  },
+  "configuration": {
+    "bucket": {
+      "type": "string",
+      "required": true,
+      "description": "GCS bucket name"
+    },
+    "prefix": {
+      "type": "string",
+      "required": false,
+      "default": "",
+      "description": "Object name prefix"
+    },
+    "project_id": {
+      "type": "string",
+      "required": false,
+      "description": "Google Cloud project ID (overrides ADC project)"
+    }
+  }
+}
