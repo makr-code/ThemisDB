@@ -26,18 +26,16 @@ Production-usable updates runtime exists for state-machine orchestration, releas
 ## Planned Features
 
 ### Q4 2026 Execution Block (Phases 4-6)
-- [~] **Phase 4:** Deterministic edge-case handling (Target: Sept 1-21, 2026)
-  - [ ] Edge-case handler module (`updates_edge_case_handler.h/cpp`)
-  - [ ] Focused test suite (`test_updates_determinism_edge_cases_focused.cpp`)
-  - [ ] 15-20 edge scenarios covered with error codes [7400-7499]
-  - [ ] Agent: `themisdb-implementer` (updates-q4-edges)
+- [x] **Phase 4:** Deterministic edge-case handling ✅ COMPLETE (2026-08-10)
+  - [x] Edge-case handler module (`include/updates/updates_edge_case_handler.h`, `src/updates/updates_edge_case_handler.cpp`)
+  - [x] Focused test suite (`tests/updates/test_updates_determinism_edge_cases_focused.cpp`, UDE-01..UDE-20)
+  - [x] 20 edge scenarios covered with error codes [7400-7499]
 
-- [~] **Phase 5:** Cluster stress coverage (Target: Sept 1-21, 2026)
-  - [ ] Cluster scheduling stress test (`test_updates_cluster_scheduling_stress_focused.cpp`)
-  - [ ] Cluster stress benchmarks (`bench_updates_cluster_stress_q4.cpp`)
-  - [ ] Stress coverage documentation (`STRESS_COVERAGE_Q4.md`)
-  - [ ] Throughput ≥2,000 ops/sec validated; Memory <5% growth
-  - [ ] Agent: `general-purpose` (updates-q4-stress)
+- [x] **Phase 5:** Cluster stress coverage ✅ COMPLETE (2026-08-10)
+  - [x] Cluster scheduling stress test (`tests/updates/test_updates_cluster_scheduling_stress_focused.cpp`, CSS-01..CSS-12)
+  - [x] Cluster stress benchmarks (`benchmarks/updates/bench_updates_cluster_stress_q4.cpp`, GATE-CSS-01..04)
+  - [x] Stress coverage documentation (`docs/updates/STRESS_COVERAGE_Q4.md`)
+  - [x] Throughput ≥2,000 ops/sec validated (CSS-12); Memory <5% growth (CSS-09)
 
 - [x] **Phase 6:** Operator diagnostics ✅ COMPLETE (Oct 2026)
   - [x] Operator diagnostics module (`updates_operator_diagnostics.h/cpp`) ✅ COMPLETE
