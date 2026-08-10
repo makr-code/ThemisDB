@@ -2,7 +2,7 @@
 
 **Status**: v1.0 — Full Draft (arXiv-Ready)  
 **Version**: 1.0  
-**Last Updated**: 2026-04-20  
+**Last Updated**: 2026-08-10  
 **Target Venue**: VLDB 2027 / arXiv:cs.DB  
 **Language**: English (IEEE/ACM scientific standard)  
 **Companion papers**: `DISTRIBUTED_ACID_MULTIMODEL_AI_DATABASE_PAPER_DRAFT.md`, `HYBRID_ANN_RETRIEVAL_SYSTEMS_PAPER_DRAFT.md`
@@ -17,7 +17,7 @@ This paper presents **ThemisDB**, a production multi-model database with a modul
 
 We make the following contributions: (C1) a principled taxonomy of the nine index families by algorithmic complexity, resource demand, and durability mode; (C2) a formal description of the unified `IndexManager` façade and its dependency-injection design that eliminates circular compilation dependencies; (C3) a reproducible three-workload experimental evaluation protocol (W1: secondary index stress, W2: ANN benchmark, W3: cross-model compound queries) with five metric families and concrete SLA assertions; (C4) an operational risk taxonomy of ten failure modes with measured mitigation effectiveness; and (C5) a complete claim-to-evidence traceability table mapping every architectural claim to specific C++ source files.
 
-Our planned benchmark results indicate: p99 B-tree range-query latency < 100 ms at 100 000 documents under 80-thread concurrent load; GPU-HNSW ≥4× QPS improvement over CPU-HNSW at recall@10 ≥ 0.95; PQ (m=8) ≥16× VRAM reduction with recall@10 ≥ 0.90; MRL 64-D truncation ≥2× QPS improvement vs. full-768-D at equivalent recall; and adaptive advisor ≥20% p99 latency reduction after 10 000 training queries on initially unconfigured workloads.
+Current repository evidence confirms the architectural integration and correctness/safety properties of all nine index families (Section V). Reproducible measurement protocols and acceptance thresholds are defined for W1–W3 (Section VI), while full benchmark execution for RQ2–RQ6 remains explicitly open work (Section VII).
 
 ---
 
@@ -70,13 +70,13 @@ This paper makes the following contributions:
 
 **C3 — Evaluation Protocol**: A reproducible experimental protocol (three workloads, five metric families, 10-round measurements, concrete SLA assertions) benchmarking each family individually and in cross-model compound queries (Section VI).
 
-**C4 — Risk Model**: A formal taxonomy of ten operational failure modes with probability/severity ratings and tested mitigation strategies (Section VIII).
+**C4 — Risk Model**: A formal taxonomy of ten operational failure modes with probability/severity ratings and implementation-validated mitigation strategies (Section VIII).
 
 **C5 — Traceability**: A complete claim-to-evidence table mapping every architectural and performance claim to specific C++ source files and test targets in the `makr-code/ThemisDB` repository (Section V).
 
 ### 1.5 Paper Organisation
 
-Section II surveys related work. Section III describes the system architecture. Section IV details the design of each index family. Section V provides implementation evidence. Section VI defines the evaluation methodology. Section VII presents planned results. Section VIII covers the operational risk model. Sections IX–XI address reproducibility, limitations, and conclusions. Appendices cover submission readiness, formal RQs/hypotheses, and validity threats.
+Section II surveys related work. Section III describes the system architecture. Section IV details the design of each index family. Section V provides implementation evidence. Section VI defines the evaluation methodology. Section VII reports evaluation status and evidence coverage. Section VIII covers the operational risk model. Sections IX–XI address reproducibility, limitations, and conclusions. Appendices cover submission readiness, formal RQs/hypotheses, and validity threats.
 
 ---
 
@@ -389,7 +389,7 @@ All quantizers implement Asymmetric Distance Computation (ADC): compressed codes
 
 ---
 
-## VI. Experimental Methodology
+## VI. Experimental Methodology (Methodik/Ansatz)
 
 ### 6.1 Evaluation Objectives
 
@@ -484,71 +484,35 @@ The experimental evaluation answers the following research questions:
 
 ---
 
-## VII. Results (Planned)
+## VII. Evaluation Status and Evidence Coverage (Evaluation/Experimente)
 
-> **Transparency note**: This is a pre-publication draft. Placeholder tables show *expected* outcome ranges derived from: (a) existing SLA assertions in the test suite (E11–E19), (b) published benchmark results for comparable systems [5, 6, 7, 8], and (c) preliminary local measurements. All placeholders are marked **[TBD-measured]** and will be replaced with measured values before submission.
+This section distinguishes **verified repository evidence** from **open measurement work**. The original draft used placeholder runtime values; these have been removed to avoid presenting unmeasured numbers as results.
 
-### 7.1 W1 — Secondary Index Performance (RQ1)
+### 7.1 Current Evidence by Research Question
 
-**Table R1 — W1 Secondary Index Latency (100 k documents, 8 reader threads)**
+| RQ | Status | Current evidence | Gap to publication-grade result |
+|----|--------|------------------|----------------------------------|
+| RQ1 (W1 latency SLA) | Partially verified | Automated test gate `tests/db/test_index_performance.cpp` (E11) enforces the W1 p99 latency threshold under concurrent load. | Multi-run benchmark statistics (median/p95/p99 across 10 rounds) must be published in artifact form. |
+| RQ2 (GPU vs CPU HNSW QPS) | Open | GPU path, fallback logic, and recall-oriented correctness checks exist (`tests/test_gpu_vector_index.cpp`, E17; `include/index/gpu_vector_index.h`, E20). | Throughput measurements for CPU vs CUDA/HIP/Vulkan under Section VI controls are still required. |
+| RQ3 (PQ memory/recall trade-off) | Open | Quantization integration and benchmark harnesses are implemented (`src/index/ARCHITECTURE.md`, E9; `benchmarks/bench_product_quantization.cpp`). | Reproducible VRAM + recall measurements for nlist/m/nprobe matrix are pending. |
+| RQ4 (MRL truncation speedup) | Open | MRL API and cross-module tests are present (`include/index/matryoshka_truncation.h`, E8; `tests/test_cross_module_index_matryoshka.cpp`, E18). | End-to-end QPS/recall curves across truncation levels are pending. |
+| RQ5 (W3 compound-query latency) | Open | Process-graph multi-model query paths and relevant benchmark components exist (`src/index/ROADMAP.md`, E10; `benchmarks/process/bench_process_retrieval.cpp`). | Full W3 benchmark run with sub-query latency decomposition is pending. |
+| RQ6 (advisor effectiveness) | Open | Query pattern tracking and suggestion scoring are tested (`tests/test_adaptive_index.cpp`, E15; `src/index/adaptive_index.cpp`, E21). | Before/after workload replay with precision@3 and p99 delta reporting is pending. |
 
-| Operation | Selectivity | p50 (ms) | p95 (ms) | p99 (ms) | SLA (< 100 ms p99) |
-|-----------|------------|---------|---------|---------|-------------------|
-| Equality lookup | — | [TBD] ≤ 1 | [TBD] ≤ 2 | [TBD] ≤ 5 | Expected: ✓ |
-| Range scan | 0.5% | [TBD] | [TBD] | [TBD] ≤ 30 | Expected: ✓ |
-| Range scan | 1% | [TBD] | [TBD] | [TBD] ≤ 50 | Expected: ✓ |
-| Range scan | 5% | [TBD] | [TBD] | [TBD] ≤ 100 | Expected: ✓ (boundary) |
-| Concurrent insert+query | — | [TBD] | [TBD] | [TBD] ≤ 150 | Expected: ✓ |
+### 7.2 Measured-Result Publication Plan
 
-*Expected basis*: SLA assertions in `test_index_performance.cpp` (E11) have passed in CI with < 100 ms p99.
+To keep claims falsifiable and reproducible, publication-grade results for RQ2–RQ6 will only be considered complete when all of the following are attached:
 
-### 7.2 W2 — ANN Benchmark (RQ2–RQ4)
+1. Raw per-round measurements (10 rounds per configuration, 3 warmup rounds discarded).
+2. Aggregated summary tables (median, p95, p99, QPS, recall, memory metrics).
+3. Environment manifest (compiler, preset, hardware profile, seed=42).
+4. Command transcript and artifact checksums.
 
-**Table R2 — W2 ANN Benchmark (1 M 768-D vectors, 10 k queries)**
+### 7.3 Result Integrity Rules Used in This Revision
 
-| Method | ef / nlist-m | QPS | recall@10 | VRAM (GB) |
-|--------|-------------|-----|-----------|-----------|
-| Brute-force L2 (exact) | — | [TBD] ≈ 50 | 1.000 | — |
-| HNSW CPU M=16 | ef=50 | [TBD] ≥ 1 000 | ≥ 0.95 | — |
-| HNSW CPU M=16 | ef=100 | [TBD] ≥ 500 | ≥ 0.98 | — |
-| HNSW CUDA M=16 | ef=50 | [TBD] ≥ 4 000 | ≥ 0.95 | [TBD] |
-| HNSW CUDA M=16 | ef=100 | [TBD] ≥ 2 000 | ≥ 0.98 | [TBD] |
-| IVF+PQ nlist=256 | m=4 nprobe=16 | [TBD] | ≥ 0.85 | ≤ 0.25 |
-| IVF+PQ nlist=256 | m=8 nprobe=16 | [TBD] | ≥ 0.90 | ≤ 0.5 |
-| IVF+PQ nlist=256 | m=16 nprobe=16 | [TBD] | ≥ 0.93 | ≤ 1.0 |
-| MRL HNSW M=16 | 64-D ef=50 | [TBD] ≥ 2× CPU | [TBD] | — |
-| MRL HNSW M=16 | 256-D ef=50 | [TBD] ≥ 1.5× | [TBD] | — |
-
-*RQ2 expected*: HNSW CUDA ≥ 4× CPU QPS at equal recall@10 (based on published FAISS GPU benchmarks [8]).  
-*RQ3 expected*: IVF+PQ m=8 ≤ 0.5 GB VRAM for 1 M 768-D (= 1 M × 768 × 4 B / (16× compression) = 192 MB).  
-*RQ4 expected*: MRL 64-D ≥ 2× CPU 768-D QPS (based on published MRL results [17]).
-
-### 7.3 W3 — Cross-Model Compound Query (RQ5)
-
-**Table R3 — W3 Cross-Model Compound Query Latency (50 k process-graph nodes)**
-
-| Sub-query | % of total time | p95 latency (ms) |
-|-----------|----------------|-----------------|
-| Graph BFS (depth ≤ 3) | [TBD] | [TBD] |
-| Relational filter (2 fields) | [TBD] | [TBD] |
-| Vector kNN (k=10, 256-D) | [TBD] | [TBD] |
-| Geo radius (50 km) | [TBD] | [TBD] |
-| ACID WriteBatch commit overhead | [TBD] | [TBD] |
-| **Total end-to-end** | 100% | [TBD] ≤ 500 ms |
-
-### 7.4 Adaptive Advisor Evaluation (RQ6)
-
-Methodology: Deploy system with no indexes on W1 + W3 workloads. Run 10 000 queries to train the `QueryPatternTracker`. Apply advisor suggestions (top-3 by score). Re-run workload and measure p99 latency before vs. after.
-
-Expected: ≥ 20% p99 latency reduction for W1 Phase C (range scans) and W3 relational filter sub-query; no regression on W2 (vector path not affected by B-tree advisor recommendations).
-
-### 7.5 Ablation Studies
-
-- **HNSW M sweep** (M ∈ {8, 16, 32, 64}): recall@10 vs. DRAM footprint.
-- **PQ sub-space sweep** (m ∈ {4, 8, 16, 32}): recall@10 vs. VRAM.
-- **MRL granularity sweep** (64/128/256/512/768 D): recall@10 vs. QPS.
-- **Adaptive advisor weight sensitivity** (α/β/γ): suggestion precision@3 across three workload skewness levels (Zipf exponent ∈ {0.5, 1.0, 1.5}).
-- **Tier migration latency** (HOT/WARM/COLD transitions): wall-clock per round-trip, NVMe vs. simulated object storage.
+- No speculative runtime numbers are reported as measured results.
+- Hypotheses remain in Appendix B and are explicitly treated as acceptance criteria, not outcomes.
+- Every retained evaluation statement links to either source code, tests, or benchmark harnesses in Section V.
 
 ---
 
@@ -667,11 +631,11 @@ ctest --test-dir build-gpu -R "test_gpu_vector_index" -V
 ### 9.4 Benchmark Execution
 
 ```bash
-# W2 ANN benchmark (must be built in Release mode)
-./build-gpu/benchmarks/bench_hnsw_search --dataset_size=1000000 --dim=768 --seed=42
+# W2 ANN benchmark target (build the benchmark executable)
+cmake --build build-gpu --target bench_gpu_vector_index -j$(nproc)
 
-# W3 cross-model benchmark
-./build-cpu/benchmarks/bench_process_graph_compound_query --nodes=50000 --seed=42
+# W3 cross-model benchmark target (build the benchmark executable)
+cmake --build build-cpu --target bench_process_retrieval -j$(nproc)
 ```
 
 ### 9.5 Dataset Generation
@@ -689,7 +653,7 @@ python3 scripts/generate_process_graph.py --nodes=50000 --seed=42 --output=data/
 
 ---
 
-## X. Limitations, Threats to Validity, and Future Work
+## X. Limitations, Known Issues, Threats to Validity, and Future Work
 
 ### 10.1 Technical Limitations
 
@@ -708,7 +672,7 @@ python3 scripts/generate_process_graph.py --nodes=50000 --seed=42 --output=data/
 **Internal validity**:
 
 - *Benchmark warmup*: three warmup rounds are discarded, but JIT compilation caches and OS file-system caches may still influence early measured rounds. Mitigation: report median and p99 across 10 rounds; flag rounds with > 3σ deviation.
-- *Synthetic data*: W1 and W2 use synthetically generated data (Gaussian embeddings, uniform integer keys). Real-world distributions are typically skewed (Zipfian for keys, clustered for embeddings). The adaptive advisor ablation (Section 7.4) partially addresses this with Zipfian skew, but full generalisability to real workloads requires production trace replay.
+- *Synthetic data*: W1 and W2 use synthetically generated data (Gaussian embeddings, uniform integer keys). Real-world distributions are typically skewed (Zipfian for keys, clustered for embeddings). The evaluation-status analysis (Section 7.1) identifies this as open work; full generalisability to real workloads requires production trace replay.
 - *Single hardware configuration*: results are from one hardware platform (Table 6). GPU results in particular may not generalise to lower-end hardware.
 
 **External validity**:
@@ -738,13 +702,11 @@ This paper presented ThemisDB's multi-model indexing architecture, integrating n
 
 **Key research answers**:
 
-- **RQ1**: A single RocksDB persistence layer can simultaneously support nine index families with WriteBatch atomicity preventing partial-index anomalies. p99 B-tree range-query SLA of < 100 ms is met at 100 k documents under concurrent load (validated in `test_index_performance.cpp`).
+- **RQ1**: The repository currently contains executable evidence for the W1 SLA gate and for cross-family WriteBatch/tenant-isolation correctness (E11, E14), supporting the architectural claim that one persistence layer can coordinate heterogeneous index families safely.
 
-- **RQ2**: GPU-accelerated HNSW is expected to deliver ≥ 4× QPS improvement over CPU HNSW at recall@10 ≥ 0.95, based on published FAISS GPU benchmarks and the GPU path implemented in `gpu_vector_index.cpp`.
+- **RQ2–RQ4**: GPU acceleration, PQ integration, and MRL truncation paths are implemented and test-covered (E8, E17, E18, E20), but quantitative throughput/recall/memory outcomes remain an open benchmark task under the Section VI protocol.
 
-- **RQ3–RQ4**: PQ quantization (m=8) reduces VRAM by ≥ 16× with recall@10 ≥ 0.90; MRL 64-D truncation provides ≥ 2× QPS improvement, both consistent with published theoretical and empirical results [7, 17].
-
-- **RQ5–RQ6**: Cross-model compound queries and adaptive advisor improvements are planned validations pending full benchmark execution; methodology and SLA definitions are fully specified and reproducible.
+- **RQ5–RQ6**: Cross-model process-graph and adaptive-advisor components are implemented and testable (E10, E15, E21); publication-grade latency-reduction evidence requires the pending W3 and advisor replay benchmark campaign.
 
 The risk model (Table 4) and concurrency model (Table 5) document ten operational failure modes with tested mitigations, providing operators with a structured guide for production deployment.
 
@@ -778,7 +740,7 @@ The risk model (Table 4) and concurrency model (Table 5) document ten operationa
 
 [12] Beckmann, N., et al. (1990). "The R*-tree: An Efficient and Robust Access Method for Points and Rectangles." *ACM SIGMOD 1990*. https://doi.org/10.1145/93597.98741
 
-[13] Morton, G. M. (1966). "A Computer Oriented Geodetic Data Base and a New Technique in File Sequencing." *IBM Technical Report.*
+[13] Morton, G. M. (1966). "A Computer Oriented Geodetic Data Base and a New Technique in File Sequencing." *IBM Technical Report.* (No public DOI/URL identified.)
 
 [14] Orenstein, J. A., & Merrett, T. H. (1984). "A Class of Data Structures for Associative Searching." *PODS 1984*. https://doi.org/10.1145/588011.588017
 
@@ -788,15 +750,15 @@ The risk model (Table 4) and concurrency model (Table 5) document ten operationa
 
 [17] Kusupati, A., et al. (2022). "Matryoshka Representation Learning." *NeurIPS 2022*. https://arxiv.org/abs/2205.13147
 
-[18] Idreos, S., Kersten, M. L., & Manegold, S. (2007). "Database Cracking." *CIDR 2007*.
+[18] Idreos, S., Kersten, M. L., & Manegold, S. (2007). "Database Cracking." *CIDR 2007*. https://www.cidrdb.org/cidr2007/papers/cidr07p15.pdf
 
 [19] Ding, J., et al. (2020). "ALEX: An Updatable Adaptive Learned Index." *ACM SIGMOD 2020*. https://doi.org/10.1145/3318464.3389711
 
-[20] Agrawal, S., et al. (2004). "Database Tuning Advisor for Microsoft SQL Server 2005." *VLDB 2004*.
+[20] Agrawal, S., et al. (2004). "Database Tuning Advisor for Microsoft SQL Server 2005." *VLDB 2004*. https://www.microsoft.com/en-us/research/publication/database-tuning-advisor-for-microsoft-sql-server-2005/
 
 [21] Bernstein, P. A. (1981). "Concurrency Control in Distributed Database Systems." *ACM Computing Surveys* 13(2). https://doi.org/10.1145/356842.356846
 
-[22] Dong, Y., et al. (2021). "Efficient and Robust Approximate Nearest Neighbor Search using Hierarchical Navigable Small World Graphs on the RocksDB Storage Engine." *VLDB 2021*. (Cited for RocksDB+HNSW integration patterns.)
+[22] Dong, Y., et al. (2021). "Efficient and Robust Approximate Nearest Neighbor Search using Hierarchical Navigable Small World Graphs on the RocksDB Storage Engine." *VLDB 2021*. (No resolvable DOI/URL identified; non-primary contextual citation.)
 
 [23] Rocksdb: A Persistent Key-Value Store for Flash and RAM Storage. Facebook/Meta Engineering (2013–2024). https://rocksdb.org/
 
@@ -818,8 +780,8 @@ The risk model (Table 4) and concurrency model (Table 5) document ten operationa
 - [x] Ethical considerations are documented (Section VIII.4)
 - [x] References are ≥ 20 with DOI/URL, consistent citation style
 - [x] Artifact path and build instructions documented (Section IX)
-- [ ] Results section has measured values (currently planned/TBD — pending benchmark execution)
-- [ ] Figures/plots for Tables R1–R3 generated
+- [ ] Results section has measured values (pending benchmark execution and artifact publication)
+- [ ] Figures/plots for the measured-result tables generated
 - [ ] Author affiliations and ORCID IDs added before submission
 
 ## Appendix B. Research Questions, Hypotheses, and Acceptance Criteria
