@@ -268,13 +268,14 @@ protected:
 
     static std::shared_ptr<graph::KnowledgeGraphReasoner> makeReasoner() {
         auto reasoner = std::make_shared<graph::KnowledgeGraphReasoner>();
-        reasoner->addRule({
+        const bool added = reasoner->addRule({
             "reports_to_transitive",
             {{"alice", "reports_to", "bob"}, {"bob", "reports_to", "carol"}},
             {{"alice", "indirectly_reports_to", "carol"}},
             "",
             0.0,
         });
+        EXPECT_TRUE(added);
         reasoner->addFact({"alice", "reports_to", "bob"});
         reasoner->addFact({"bob", "reports_to", "carol"});
         return reasoner;
