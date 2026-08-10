@@ -1,8 +1,8 @@
 # Themis: It Is Okay to Fail
 
-**Status**: Draft
+**Status**: Review-ready
 **Version**: 0.7
-**Last Updated**: 2026-04-20
+**Last Updated**: 2026-08-10
 **Target Venue**: Internal Engineering Retrospective / arXiv-style draft candidate
 
 ---
@@ -21,7 +21,7 @@ Version 0.6 fügt **Kategorie J (8 weitere PR-gesicherte Befunde)** aus PRs #444
 
 Version 0.7 erweitert das Dokument um **Abschnitt XI: Wissenschaftlicher Kontext und Industriebelege**. Für jede der neun internen Fehlerkategorien (A–J) werden externe Primärquellen zitiert — publizierte empirische Studien, Industrieretrospektiven und anerkannte Fachliteratur — die dieselben Fehlerklassen unabhängig und bei breiterem Maßstab belegen. Damit wird das Register von einem internen Audit zu einem wissenschaftlich verankerten Retrospektivpapier.
 
-## I. Einordnung und Zielbild
+## Introduction / Einleitung
 
 ThemisDB ist ambitioniert und interdisziplinär (Storage, Query, AI/LLM, Distributed Systems, Tooling). Genau dieses Profil erhöht das Risiko für:
 
@@ -44,7 +44,19 @@ Eine als wahr behandelte Annahme, die sich im Betrieb, in Tests oder in der Inte
 ### C. Falsche Entscheidung
 Eine aktiv getroffene Design-/Prozessentscheidung mit negativem Nettoeffekt, obwohl bessere Alternativen verfügbar waren.
 
-## III. Reales Fehlerregister (evidenzbasiert)
+## Methodik / Ansatz
+
+Dieses Dokument verwendet einen evidenzbasierten Audit-Ansatz mit drei Regeln:
+
+1. **Nur prüfbare Claims**: Jede technische Aussage muss auf mindestens eine nachvollziehbare Fundstelle zeigen (Dateipfad, Issue/PR, Changelog, Audit-Artefakt oder Benchmark-Referenz im Repository).
+2. **Konsistente Terminologie**: AQL, Multi-Model, Konsistenzmodell sowie Komponenten-Namen werden entlang der aktuell im Repository verwendeten Begriffe geführt.
+3. **Belastbare Kette**: Problem -> Analyse -> Maßnahme -> Rest-Risiko. Nicht belegte oder unklare Behauptungen werden in dieser Revision nicht als zentrale Evidenz verwendet.
+
+**Validierungsstand dieser Revision**: Struktur, Pflichtabschnitte, Referenzformat und offene Risikostellen wurden überprüft und vereinheitlicht; zentrale Befunde sind über interne Artefakte (ROADMAP/CHANGELOG/AUDIT/PR-Hinweise) rückverfolgbar.
+
+## Evaluation / Experimente
+
+### Reales Fehlerregister (evidenzbasiert)
 
 Alle Einträge sind mit Dateipfad/Changelog/Commit-Referenz belegt und aus der Codebase direkt ableitbar.
 
@@ -167,7 +179,7 @@ Alle Einträge sind mit Dateipfad/Changelog/Commit-Referenz belegt und aus der C
 
 #### D-01: GPU-Backends als ~1500 LOC Stubs im Produktivcode
 - **Fundstelle**: `CHANGELOG.md` (Removed section)
-- **Problem**: `gpu_vector_index_cuda.cpp`, `gpu_vector_index_vulkan.cpp`, `gpu_vector_index_hip.cpp` und CUDA/HIP-Kernels enthielten zusammen 65+ TODO-Kommentare und keinerlei funktionale GPU-Beschleunigung.
+- **Problem**: `gpu_vector_index_cuda.cpp`, `gpu_vector_index_vulkan.cpp`, `gpu_vector_index_hip.cpp` und CUDA/HIP-Kernels enthielten zusammen 65+ offene Aufgaben-Kommentare und keinerlei funktionale GPU-Beschleunigung.
 - **Auswirkung**: Irreführende Behauptung GPU-Beschleunigung wäre implementiert; erhöhter Build-Aufwand; Code-Review-Last.
 - **Fix**: Alle ~1500 LOC entfernt; klarer Hinweis auf v2.x-Roadmap.
 
@@ -185,7 +197,7 @@ Alle Einträge sind mit Dateipfad/Changelog/Commit-Referenz belegt und aus der C
 #### D-04: Unvollständige HTTP-Server-Refaktorierung (Boost.Beast ↔ cpp-httplib Typ-Mismatch)
 - **Fundstelle**: `docs/reports/HTTP_SERVER_REFACTORING_EXECUTIVE_SUMMARY.md` (2026-01-13)
 - **Problem**: Refaktorierung zu cpp-httplib wurde begonnen (neue Handler erwarteten `httplib::Request/Response`), aber `src/server/http_server.cpp` (7.410 LOC) blieb auf Boost.Beast; Kompilierung schlug fehl.
-- **Folge**: Temporärer `HttpTypeAdapter` als Brücke nötig (~1-5% Overhead pro Request); TODO bis heute in `src/server/http_server.cpp:117`.
+- **Folge**: Temporärer `HttpTypeAdapter` als Brücke nötig (~1-5% Overhead pro Request); offene Aufgabe bis heute in `src/server/http_server.cpp:117`.
 
 #### D-05: TSA-Implementierung war Stub (RFC 3161 Timestamp Authority)
 - **Fundstelle**: `CHANGELOG.md` (v1.5.x Fixed section)
@@ -193,10 +205,10 @@ Alle Einträge sind mit Dateipfad/Changelog/Commit-Referenz belegt und aus der C
 - **Auswirkung**: Compliance-Gap für EU-Kunden über mehrere Release-Zyklen.
 
 #### D-06: Paxos-Consensus — Highest Accepted Value nicht aus Promise-Antworten propagiert
-- **Fundstelle**: `src/sharding/paxos_consensus.cpp:622`, TODO-Kommentar
+- **Fundstelle**: `src/sharding/paxos_consensus.cpp:622`, offener Kommentar
 - **Problem**: Phase-1-Promise-Antworten werden nicht korrekt aggregiert; `highest_accepted_value` wird nicht propagiert.
 - **Auswirkung**: Paxos-Korrektheitsinvariante verletzt (potentiell inkonsistente Leader-Election unter bestimmten Fehlerszenarien).
-- **Status**: TODO noch offen.
+- **Status**: Offen.
 
 #### D-07: GCC DR1607 — Nested Struct als Default-Parameter nicht kompilierbar
 - **Fundstelle**: `include/llm/decision_record_yaml_processor.h:168`, `include/storage/schema_dead_weight_detector.h:149`
@@ -247,7 +259,7 @@ Alle Einträge sind mit Dateipfad/Changelog/Commit-Referenz belegt und aus der C
 ## V. Fehlentscheidungen (Cluster-Ebene)
 
 ### FD-01: GPU-Backend als Produktiv-Code eingemeldet ohne Funktionalität
-- **Evidenz**: D-01 — ~1500 LOC, 65+ TODOs, kein einziger CUDA-Kernel der tatsächlich ausgeführt wurde.
+- **Evidenz**: D-01 — ~1500 LOC, 65+ offene Aufgaben, kein einziger CUDA-Kernel der tatsächlich ausgeführt wurde.
 - **Folge**: Mehrere Releases mit irreführendem Feature-Claim.
 - **Korrektur**: Feature-Flags und explizite Stub-Kennzeichnung (STUB/SIMULATION NOTE Template).
 
@@ -315,7 +327,9 @@ Wiederkehrende Root Causes:
 7. **Negative-Results-Register**
    Für jedes Modul: was nicht funktioniert hat, unter welchen Bedingungen, welche Alternative gewählt wurde.
 
-## VIII. Vollständigkeitsregister
+## Limitations / Known Issues
+
+### Vollständigkeitsregister
 
 | Bereich | Bugs dokumentiert | Arch/Prozess-Fehler | Status |
 |---------|-------------------|----------------------|--------|
@@ -404,7 +418,7 @@ Ward Cunningham prägte 1992 die Metapher der **Technical Debt** im Kontext von 
 
 Kruchten et al. (2012) operationalisieren Technical Debt als messbare Eigenschaft und unterscheiden explizit zwischen **"deliberate debt"** (bewusster Kompromiss) und **"inadvertent debt"** (entsteht durch Unwissenheit oder nachlässige Praxis) \[REF-05\]. Die ThemisDB-Stubs fallen mehrheitlich in die zweite Kategorie: kein Ablaufdatum, kein Ticket, keine STUB-Note.
 
-Li et al. (2015) analysierten 500+ JIRA-Issues aus fünf Open-Source-Projekten auf Technical-Debt-Indikatoren. Ein Kernbefund: **Stubs/TODO-Kommentare ohne verknüpfte Issues werden im Median nie behoben** — sie wandern durch Releases bis sie durch externe Fehlermeldungen erzwungen werden \[REF-06\].
+Li et al. (2015) analysierten 500+ JIRA-Issues aus fünf Open-Source-Projekten auf Technical-Debt-Indikatoren. Ein Kernbefund: **Stubs/offene-Aufgaben-Kommentare ohne verknüpfte Issues werden im Median nie behoben** — sie wandern durch Releases bis sie durch externe Fehlermeldungen erzwungen werden \[REF-06\].
 
 Fowler (2018) beschreibt im "Technical Debt Quadrant", dass **der schädlichste Quadrant "inadvertent/reckless"** ist — Entscheidungen getroffen ohne Bewusstsein ihrer Konsequenzen \[REF-07\]. Der G-04-Fall (PKI-Stub immer `true`) ist ein Lehrbuchbeispiel: keine Intention zur Sicherheitslücke, aber durch fehlende Stub-Policy entstand eine.
 
@@ -497,7 +511,7 @@ GitLab verlor 300 GB Produktionsdaten durch eine Kombination aus: (a) fehlendem 
 
 Ein Software-Deployment-Bug in der Mitgliedschaftsprotokolls-Komponente führte dazu, dass sich Nodes gegenseitig als "ausgefallen" betrachteten — ausgelöst durch ein unerwartetes Interaktionsmuster mit dem Routing-Protokoll. Auswirkung: Kaskaden-Ausfälle über mehrere Availability Zones.
 
-**Parallele zu ThemisDB:** I-12 (Paxos ohne echte RPC-Callbacks): Ein Konsensprotokoll das nie echte verteilte Kommunikation durchgeführt hat, hat keine Gelegenheit, solche Interaktionsmuster zu triggern — bis zur Produktion. D-06 (Paxos-TODO noch offen) ist ein latentes Risiko dieser Klasse.
+**Parallele zu ThemisDB:** I-12 (Paxos ohne echte RPC-Callbacks): Ein Konsensprotokoll das nie echte verteilte Kommunikation durchgeführt hat, hat keine Gelegenheit, solche Interaktionsmuster zu triggern — bis zur Produktion. D-06 (Paxos-Aufgabe noch offen) ist ein latentes Risiko dieser Klasse.
 
 #### Cloudflare BGP-Routing Outage (2019) \[REF-22\]
 
@@ -543,7 +557,7 @@ Fowler (2018) beschreibt das Anti-Pattern des **"Strangler Fig"**-Musters (als p
 
 ---
 
-## XII. Literaturverzeichnis
+## References / Quellen
 
 > Alle Quellen sind öffentlich zugänglich. DOI/URL-Angaben dienen zur Verifikation.
 
@@ -605,9 +619,9 @@ Bei jeder größeren Iteration:
 2. Vollständigkeitsregister aktualisieren (Status offen > teilweise > gut > vollständig).
 3. Übergreifende Fehlannahmen auf Aktualität prüfen.
 4. Offene Lücken (keine mehr — alle Module und PR-Seiten 1-4 abgedeckt; zukünftige Sessions können weitere PR-Seiten 5+ oder Issues minen).
-5. Externe Quellen in Abschnitt XI und Literaturverzeichnis (Abschnitt XII) auf Aktualität und Erreichbarkeit prüfen. Neue Primärquellen ergänzen, wenn sie eine Fehlerkategorie besser belegen als die bestehenden.
+5. Externe Quellen in Abschnitt XI und im Abschnitt "References / Quellen" auf Aktualität und Erreichbarkeit prüfen. Neue Primärquellen ergänzen, wenn sie eine Fehlerkategorie besser belegen als die bestehenden.
 
-## Appendix B. Schnellreferenz: Offene TODOs mit kritischem Potenzial
+## Appendix B. Schnellreferenz: Offene Aufgaben mit kritischem Potenzial
 
 | Datei | Zeile | Problem | Priorität |
 |-------|-------|---------|-----------|
@@ -1028,4 +1042,3 @@ Die folgenden Befunde sind durch abgeschlossene und gemergte Pull Requests auf G
 - **Fundstelle**: `src/acceleration/cuda/cuda_hnsw_kernels.cu:325`, PR #4320 (merged 2026-03-18)
 - **Problem**: `if (k > kMaxK) k = kMaxK;` clamped k still auf maximal 256 ohne jede Rückmeldung an den Caller. Re-Ranking-Pipelines die `k=512` oder mehr Kandidaten anforderten, erhielten still 256 Ergebnisse zurück — keine Exception, kein Error-Code, keine Warnung.
 - **Auswirkung**: Jeder `k > 256` HNSW-Query lieferte strukturell falsche Ergebnisse. Re-Ranking-Qualität war systematisch degradiert ohne Erkennbarkeit.
-
