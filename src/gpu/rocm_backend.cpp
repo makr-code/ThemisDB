@@ -28,6 +28,7 @@
  */
 
 #include "themis/gpu/rocm_backend.h"
+#include "themis/gpu/gpu_error.h"
 
 #include <cstring>    // std::memset
 #include <stdexcept>
@@ -68,7 +69,9 @@ GPULauncher::BackendFn ROCmBackend::createBackendFn([[maybe_unused]] int device_
 #ifdef THEMIS_ENABLE_HIP
     return [device_index](const GPULauncher::WorkItem& item) -> bool {
         // Select the target device.
-        if (hipSetDevice(device_index) != hipSuccess) {
+        hipError_t set_device_err = hipSetDevice(device_index);
+        if (set_device_err != hipSuccess) {
+            GPUErrorHandler::Create()->logError(set_device_err, "ROCmBackend::createBackendFn hipSetDevice");
             // Device selection failed — fall through to CPU path.
             return true;
         }
@@ -80,7 +83,11 @@ GPULauncher::BackendFn ROCmBackend::createBackendFn([[maybe_unused]] int device_
         // signal successful dispatch.
         if (!item.args.empty()) {
             // Synchronize to ensure any previously submitted work completes.
-            hipDeviceSynchronize();
+            hipError_t sync_err = hipDeviceSynchronize();
+            if (sync_err != hipSuccess) {
+                GPUErrorHandler::Create()->logError(sync_err, "ROCmBackend::createBackendFn hipDeviceSynchronize");
+                return false;
+            }
         }
         return true;
     };
@@ -110,7 +117,9 @@ ROCmBackend::Result ROCmBackend::createStream(const std::string& name,
     handle.device_index = device_index;
 
 #ifdef THEMIS_ENABLE_HIP
-    if (hipSetDevice(device_index) != hipSuccess) {
+    hipError_t set_device_err = hipSetDevice(device_index);
+    if (set_device_err != hipSuccess) {
+        GPUErrorHandler::Create()->logError(set_device_err, "ROCmBackend::createStream hipSetDevice");
         // Device selection failed; record a virtual (non-hardware) stream so
         // that the rest of the stack can continue without hardware.
         streams_.emplace(name, handle);
@@ -118,7 +127,9 @@ ROCmBackend::Result ROCmBackend::createStream(const std::string& name,
         return {true, ""};
     }
     hipStream_t stream = nullptr;
-    if (hipStreamCreate(&stream) != hipSuccess) {
+    hipError_t create_err = hipStreamCreate(&stream);
+    if (create_err != hipSuccess) {
+        GPUErrorHandler::Create()->logError(create_err, "ROCmBackend::createStream hipStreamCreate");
         // Stream creation failed; preserve fallback behavior by registering
         // a virtual stream entry so callers still get a usable CPU path.
         streams_.emplace(name, handle);
@@ -143,7 +154,11 @@ ROCmBackend::Result ROCmBackend::destroyStream(const std::string& name) {
 #ifdef THEMIS_ENABLE_HIP
     if (it->second.native != 0) {
         auto* stream = reinterpret_cast<hipStream_t>(it->second.native);
-        hipStreamDestroy(stream);  // ignore return code; best-effort cleanup
+        hipError_t destroy_err = hipStreamDestroy(stream);
+        if (destroy_err != hipSuccess) {
+            GPUErrorHandler::Create()->logError(destroy_err, "ROCmBackend::destroyStream hipStreamDestroy");
+            return {false, "hipStreamDestroy failed for stream '" + name + "'"};
+        }
     }
 #endif
 
@@ -162,7 +177,9 @@ ROCmBackend::Result ROCmBackend::synchronizeStream(const std::string& name) {
 #ifdef THEMIS_ENABLE_HIP
     if (it->second.native != 0) {
         auto* stream = reinterpret_cast<hipStream_t>(it->second.native);
-        if (hipStreamSynchronize(stream) != hipSuccess) {
+        hipError_t sync_err = hipStreamSynchronize(stream);
+        if (sync_err != hipSuccess) {
+            GPUErrorHandler::Create()->logError(sync_err, "ROCmBackend::synchronizeStream hipStreamSynchronize");
             return {false, "hipStreamSynchronize failed for stream '" + name + "'"};
         }
     }
@@ -211,7 +228,11 @@ ROCmBackend::AllocationRecord ROCmBackend::allocate(size_t size_bytes,
 
 #ifdef THEMIS_ENABLE_HIP
     void* ptr = nullptr;
-    if (hipMalloc(&ptr, size_bytes) != hipSuccess || ptr == nullptr) {
+    hipError_t alloc_err = hipMalloc(&ptr, size_bytes);
+    if (alloc_err != hipSuccess || ptr == nullptr) {
+        if (alloc_err != hipSuccess) {
+            GPUErrorHandler::Create()->logError(alloc_err, "ROCmBackend::allocate hipMalloc");
+        }
         return rec;  // allocation failed; device_ptr stays 0
     }
     rec.device_ptr = reinterpret_cast<uintptr_t>(ptr);
@@ -233,7 +254,9 @@ ROCmBackend::Result ROCmBackend::deallocate(AllocationRecord& rec) {
 
 #ifdef THEMIS_ENABLE_HIP
     auto* ptr = reinterpret_cast<void*>(rec.device_ptr);
-    if (hipFree(ptr) != hipSuccess) {
+    hipError_t free_err = hipFree(ptr);
+    if (free_err != hipSuccess) {
+        GPUErrorHandler::Create()->logError(free_err, "ROCmBackend::deallocate hipFree");
         return {false, "hipFree failed for allocation '" + rec.tag + "'"};
     }
 #endif
@@ -269,7 +292,9 @@ ROCmBackend::Result ROCmBackend::zeroMemory(uintptr_t device_ptr,
 
 #ifdef THEMIS_ENABLE_HIP
     auto* ptr = reinterpret_cast<void*>(device_ptr);
-    if (hipMemset(ptr, 0, size_bytes) != hipSuccess) {
+    hipError_t memset_err = hipMemset(ptr, 0, size_bytes);
+    if (memset_err != hipSuccess) {
+        GPUErrorHandler::Create()->logError(memset_err, "ROCmBackend::zeroMemory hipMemset");
         return {false, "hipMemset failed"};
     }
 #else
