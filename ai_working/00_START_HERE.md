@@ -1,9 +1,9 @@
 # 🚀 Full Open Implementation — START HERE
 
 **Generated:** 2026-08-02  
-**Updated:** 2026-08-05  
-**Status:** ✅ Framework Complete, Phase 1-6 Implementation COMPLETE, Ready for Human Sign-Off  
-**Next Action:** Human release approver completes governance sign-off
+**Updated:** 2026-08-10  
+**Status:** ✅ Phase 0-6 Technical Complete; Awaiting D-11 Human Sign-Off  
+**Next Action:** Release Lead complete Section 9 in `docs/governance/GA_PROMOTION_SIGN_OFF.md` (~45 min)
 
 ---
 
@@ -248,3 +248,27 @@ Key root documents:
 
 *Last Updated: 2026-08-05*  
 *Status: ✅ TECHNICAL CLOSURE COMPLETE — Awaiting human governance sign-off*
+
+
+---
+
+## 📂 Q4 2026 Roadmap Documents (NEW — 2026-08-10)
+
+After GA promotion completes, these documents guide post-GA execution:
+
+| Document | Purpose | Owner |
+|----------|---------|-------|
+| **WAVE1_PRIVATE_PLUGIN_SUBMODULE_STATUS_2026_08_10.md** | Wave-1 plugin infrastructure status; .gitmodules verified; content push timeline (2026-08-19) | Engineering Lead |
+| **DEFERRED_ITEMS_EXECUTION_PLAN_2026_08_10.md** | DEF-01..04 execution plan with owners, timelines, and acceptance criteria | Program Manager |
+
+**Key Milestones:**
+- 2026-08-19: Post-GA content push to Wave-1 private repos (if sign-off complete)
+- 2026-08-26: DEF-02 RocksDB optional-build verification
+- 2026-09-15: Geo/TimeSeries/Chimera externalization (DEF-03) complete
+- 2026-10-15: liboqs vcpkg availability assessment (DEF-01)
+
+**See Also:** ROADMAP.md §Q4 2026 Milestone for full feature roadmap
+
+---
+
+*Last Updated: 2026-08-10 — Batch 1 execution complete*

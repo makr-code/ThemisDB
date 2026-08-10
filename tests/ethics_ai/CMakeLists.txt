@@ -55,6 +55,6 @@ foreach(_src IN LISTS ETHICS_AI_MODULE_TEST_SOURCES)
         TARGET ${_target}
         TIER unit
         TIMEOUT 120
-        LABELS ethics_ai
+        LABELS ethics_ai release_critical
     )
 endforeach()
