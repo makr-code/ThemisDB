@@ -1,0 +1,285 @@
+{
+  "schema_version": "1.0",
+  "description": "Maturity Evidence Registry - Links every GA gate and compliance checkpoint to its verification artifacts",
+  "generated": "2026-08-10T18:43:00Z",
+  "gates": {
+    "wave_7_performance": [
+      {
+        "gate_id": "GATE-W7-01",
+        "requirement": "Throughput baseline: YCSB at 50k ops/sec",
+        "artifact_path": "benchmarks/wave7/bench_ycsb_throughput.cpp",
+        "artifact_type": "benchmark_executable",
+        "content_type": "C++ benchmark",
+        "expected_freshness_days": 7,
+        "baseline_file": "benchmarks/wave7/GATE_BASELINE_W7-01.json",
+        "validation_rule": "file_exists AND file_modified_within(7_days) AND contains_gate_id",
+        "last_verified": "2026-08-04T14:30:00Z",
+        "status": "PASS",
+        "owner": "performance_lead"
+      },
+      {
+        "gate_id": "GATE-W7-02",
+        "requirement": "Latency p99 < 50 ms (query operations)",
+        "artifact_path": "benchmarks/wave7/bench_query_latency.cpp",
+        "artifact_type": "benchmark_executable",
+        "content_type": "C++ benchmark",
+        "expected_freshness_days": 7,
+        "baseline_file": "benchmarks/wave7/GATE_BASELINE_W7-02.json",
+        "validation_rule": "file_exists AND file_modified_within(7_days) AND contains_gate_id",
+        "last_verified": "2026-08-04T14:30:00Z",
+        "status": "PASS",
+        "owner": "performance_lead"
+      },
+      {
+        "gate_id": "GATE-W7-03",
+        "requirement": "Memory footprint: baseline index < 2GB for 1M tuples",
+        "artifact_path": "benchmarks/wave7/bench_memory_footprint.cpp",
+        "artifact_type": "benchmark_executable",
+        "content_type": "C++ benchmark",
+        "expected_freshness_days": 7,
+        "baseline_file": "benchmarks/wave7/GATE_BASELINE_W7-03.json",
+        "validation_rule": "file_exists AND file_modified_within(7_days) AND contains_gate_id",
+        "last_verified": "2026-08-04T14:30:00Z",
+        "status": "PASS",
+        "owner": "performance_lead"
+      },
+      {
+        "gate_id": "GATE-W7-04",
+        "requirement": "Concurrency: 100 concurrent connections stable",
+        "artifact_path": "benchmarks/wave7/bench_concurrency.cpp",
+        "artifact_type": "benchmark_executable",
+        "content_type": "C++ benchmark",
+        "expected_freshness_days": 7,
+        "baseline_file": "benchmarks/wave7/GATE_BASELINE_W7-04.json",
+        "validation_rule": "file_exists AND file_modified_within(7_days) AND contains_gate_id",
+        "last_verified": "2026-08-04T14:30:00Z",
+        "status": "PASS",
+        "owner": "performance_lead"
+      },
+      {
+        "gate_id": "GATE-W7-05",
+        "requirement": "Replication sync: cluster convergence < 1000 ms",
+        "artifact_path": "benchmarks/wave7/bench_replication_sync.cpp",
+        "artifact_type": "benchmark_executable",
+        "content_type": "C++ benchmark",
+        "expected_freshness_days": 7,
+        "baseline_file": "benchmarks/wave7/GATE_BASELINE_W7-05.json",
+        "validation_rule": "file_exists AND file_modified_within(7_days) AND contains_gate_id",
+        "last_verified": "2026-08-04T14:30:00Z",
+        "status": "PASS",
+        "owner": "performance_lead"
+      },
+      {
+        "gate_id": "GATE-W7-06",
+        "requirement": "Recovery: RTO ≤ 5000 µs (node restart)",
+        "artifact_path": "benchmarks/wave7/bench_recovery_rto.cpp",
+        "artifact_type": "benchmark_executable",
+        "content_type": "C++ benchmark",
+        "expected_freshness_days": 7,
+        "baseline_file": "benchmarks/wave7/GATE_BASELINE_W7-06.json",
+        "validation_rule": "file_exists AND file_modified_within(7_days) AND contains_gate_id",
+        "last_verified": "2026-08-04T14:30:00Z",
+        "status": "PASS",
+        "owner": "performance_lead"
+      }
+    ],
+    "wave_8_security": [
+      {
+        "gate_id": "GATE-W8-01",
+        "requirement": "ASan: zero new memory defects",
+        "artifact_path": "docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md",
+        "artifact_type": "markdown_report",
+        "content_type": "evidence_summary",
+        "expected_freshness_days": 30,
+        "section_marker": "## 4.1 AddressSanitizer",
+        "validation_rule": "file_exists AND file_modified_within(30_days) AND section_contains('PASS')",
+        "last_verified": "2026-08-07T10:15:00Z",
+        "status": "PASS",
+        "owner": "security_lead"
+      },
+      {
+        "gate_id": "GATE-W8-02",
+        "requirement": "UBSan: zero new undefined behavior defects",
+        "artifact_path": "docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md",
+        "artifact_type": "markdown_report",
+        "content_type": "evidence_summary",
+        "expected_freshness_days": 30,
+        "section_marker": "## 4.2 UndefinedBehaviorSanitizer",
+        "validation_rule": "file_exists AND file_modified_within(30_days) AND section_contains('PASS')",
+        "last_verified": "2026-08-07T10:15:00Z",
+        "status": "PASS",
+        "owner": "security_lead"
+      },
+      {
+        "gate_id": "GATE-W8-03",
+        "requirement": "TSan: zero new data race defects",
+        "artifact_path": "docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md",
+        "artifact_type": "markdown_report",
+        "content_type": "evidence_summary",
+        "expected_freshness_days": 30,
+        "section_marker": "## 4.3 ThreadSanitizer",
+        "validation_rule": "file_exists AND file_modified_within(30_days) AND section_contains('PASS')",
+        "last_verified": "2026-08-07T10:15:00Z",
+        "status": "PASS",
+        "owner": "security_lead"
+      },
+      {
+        "gate_id": "GATE-W8-04",
+        "requirement": "Pentest: zero new Critical/High findings",
+        "artifact_path": "security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md",
+        "artifact_type": "markdown_report",
+        "content_type": "evidence_summary",
+        "expected_freshness_days": 90,
+        "section_marker": "## 9 Findings Summary",
+        "validation_rule": "file_exists AND file_modified_within(90_days) AND section_contains('PASS')",
+        "last_verified": "2026-08-07T10:15:00Z",
+        "status": "PASS",
+        "owner": "security_lead"
+      }
+    ],
+    "wave_9_operational": [
+      {
+        "gate_id": "GATE-W9-01",
+        "requirement": "Chaos engineering: cluster survives 3x random node failures",
+        "artifact_path": "benchmarks/wave9/bench_chaos_fault_injection.cpp",
+        "artifact_type": "benchmark_executable",
+        "content_type": "C++ benchmark",
+        "expected_freshness_days": 14,
+        "baseline_file": "benchmarks/wave9/GATE_BASELINE_W9-01.json",
+        "validation_rule": "file_exists AND file_modified_within(14_days) AND contains_gate_id",
+        "last_verified": "2026-08-07T14:30:00Z",
+        "status": "PASS",
+        "owner": "operations_lead"
+      },
+      {
+        "gate_id": "GATE-W9-02",
+        "requirement": "Security overhead: auth p99 ≤ 150 µs",
+        "artifact_path": "benchmarks/wave9/WAVE9_BENCHMARK_COVERAGE.md",
+        "artifact_type": "markdown_report",
+        "content_type": "benchmark_results",
+        "expected_freshness_days": 14,
+        "validation_rule": "file_exists AND file_modified_within(14_days)",
+        "last_verified": "2026-08-07T14:30:00Z",
+        "status": "PASS",
+        "owner": "performance_lead"
+      },
+      {
+        "gate_id": "GATE-W9-03",
+        "requirement": "Cluster rejoin: recovery ≤ 2000 µs",
+        "artifact_path": "benchmarks/wave9/WAVE9_BENCHMARK_COVERAGE.md",
+        "artifact_type": "markdown_report",
+        "content_type": "benchmark_results",
+        "expected_freshness_days": 14,
+        "validation_rule": "file_exists AND file_modified_within(14_days)",
+        "last_verified": "2026-08-07T14:30:00Z",
+        "status": "PASS",
+        "owner": "operations_lead"
+      },
+      {
+        "gate_id": "GATE-W9-04",
+        "requirement": "99.99% SLA: RTO ≤ 5000 µs",
+        "artifact_path": "benchmarks/wave9/WAVE9_BENCHMARK_COVERAGE.md",
+        "artifact_type": "markdown_report",
+        "content_type": "benchmark_results",
+        "expected_freshness_days": 14,
+        "validation_rule": "file_exists AND file_modified_within(14_days)",
+        "last_verified": "2026-08-07T14:30:00Z",
+        "status": "PASS",
+        "owner": "operations_lead"
+      },
+      {
+        "gate_id": "GATE-W9-05",
+        "requirement": "SLA measurement compliance: automated tracking",
+        "artifact_path": "docs/operations/RUNBOOK_W9.md",
+        "artifact_type": "markdown_report",
+        "content_type": "runbook",
+        "expected_freshness_days": 30,
+        "validation_rule": "file_exists AND file_modified_within(30_days)",
+        "last_verified": "2026-08-04T14:30:00Z",
+        "status": "PASS",
+        "owner": "operations_lead"
+      },
+      {
+        "gate_id": "GATE-W9-06",
+        "requirement": "Operational readiness: incident runbooks tested",
+        "artifact_path": "docs/operations/RUNBOOK_W9.md",
+        "artifact_type": "markdown_report",
+        "content_type": "runbook",
+        "expected_freshness_days": 30,
+        "validation_rule": "file_exists AND file_modified_within(30_days)",
+        "last_verified": "2026-08-07T14:30:00Z",
+        "status": "PASS",
+        "owner": "operations_lead"
+      }
+    ],
+    "module_phases": [
+      {
+        "gate_type": "module_phase",
+        "module_name": "process",
+        "phase_number": 6,
+        "requirement": "Phase 6 complete: all 6 phases marked [x], acceptance criteria PASS",
+        "artifact_path": "src/process/ROADMAP.md",
+        "artifact_type": "roadmap_markdown",
+        "expected_freshness_days": 7,
+        "validation_rule": "file_exists AND contains('Phase 1.*\\[x\\]') AND contains('Phase 6.*\\[x\\]')",
+        "last_verified": "2026-08-06T12:00:00Z",
+        "status": "PASS",
+        "owner": "process_owner"
+      },
+      {
+        "gate_type": "module_phase",
+        "module_name": "auth",
+        "phase_number": 6,
+        "requirement": "Phase 6 complete: frozen v1.x contract, 12 new error codes, benchmarks PASS",
+        "artifact_path": "src/auth/ROADMAP.md",
+        "artifact_type": "roadmap_markdown",
+        "expected_freshness_days": 7,
+        "validation_rule": "file_exists AND contains('Phase 6.*\\[x\\]')",
+        "last_verified": "2026-07-27T12:00:00Z",
+        "status": "PASS",
+        "owner": "auth_owner"
+      }
+    ],
+    "compliance_gates": [
+      {
+        "gate_id": "COMP-EU-AI-01",
+        "requirement": "EU AI Act: Model Cards required for AI modules (llm, rag, ethics_ai, prompt_engineering)",
+        "artifact_path": "docs/governance/MATURITY_EVIDENCE_REGISTRY.md",
+        "artifact_type": "compliance_tracking",
+        "expected_freshness_days": 30,
+        "validation_rule": "count_ai_modules_with_model_cards >= 0.75 * total_ai_modules",
+        "last_verified": null,
+        "status": "PENDING",
+        "target_completion": "2026-10-31",
+        "owner": "compliance_lead"
+      },
+      {
+        "gate_id": "COMP-BSI-C5-01",
+        "requirement": "BSI C5 2026: 5 open compliance gaps remediated",
+        "artifact_path": "audit/BSI_C5_2026_THEMISDB_AUDIT.md",
+        "artifact_type": "compliance_audit",
+        "expected_freshness_days": 30,
+        "validation_rule": "gaps_resolved >= 5",
+        "last_verified": null,
+        "status": "PENDING",
+        "target_completion": "2026-12-15",
+        "owner": "compliance_lead"
+      }
+    ]
+  },
+  "validation_rules_schema": {
+    "file_exists": "Verify artifact file exists in repo",
+    "file_modified_within(N_days)": "File modification time <= N days ago",
+    "section_contains(text)": "Markdown section contains specific text pattern",
+    "contains_gate_id": "File contains gate ID marker",
+    "count_X_with_Y_>=_Z": "Count metrics validation for compliance gates"
+  },
+  "automation_config": {
+    "verification_interval": "daily",
+    "drift_threshold_days": 30,
+    "alert_on_drift": true,
+    "auto_issue_creation": true,
+    "issue_template": "[automation] maturity-drift-detected",
+    "auto_assign_to": "makr-code"
+  }
+}
