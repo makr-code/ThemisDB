@@ -164,9 +164,10 @@ This is a routine Wave 1 module development status synchronization per parent ep
 - [ ] Fix 85% of unchecked CUDA calls (340 → ≤51) (Target: Q4 2026)
 - [ ] Resource exhaustion injection test suite (Target: Q4 2026)
 - [ ] All GPU failures degrade to CPU cleanly (Target: Q4 2026)
-- [ ] CPU/GPU break-even benchmark results reviewed (Target: 2027)
+- [~] CPU/GPU break-even benchmark results reviewed (Target: 2027)
+  - CPU baseline benchmark targets now exist for Category A/B paths; final GPU speedup evidence remains blocked on 2027 hardware availability.
 - [ ] CTest gates: error_handling, resource_exhaustion, fallback_all_paths (Target: Q4 2026)
-- [ ] Benchmark gates: breakeven_category_a, breakeven_category_b (Target: 2027)
+- [~] Benchmark gates: breakeven_category_a, breakeven_category_b (Target: 2027)
 
 #### Short/Mid-term Hardening
 - [ ] Tighten deterministic behavior for multi-device dispatch (Target: Q4 2026)

@@ -32,7 +32,8 @@ B (local tensor + ANN), C (distributed coordination), D (optional GPU).
 ### Mid-term (6-12 months)
 - [ ] complete phase-6 acceptance documentation from measured behavior (Target: Q1 2027)
 - [ ] complete phase-7 integration into default build/test pipelines (Target: Q1 2027)
-- [ ] Phase D gate: GPU break-even benchmark results reviewed and published (Target: 2027)
+- [~] Phase D gate: GPU break-even benchmark results reviewed and published (Target: 2027)
+  - CPU baselines are in place via `benchmarks/epic3_distributed_tensor/bench_tensor_cpu_gpu_breakeven.cc` and GPU Category A/B baseline targets; final published GPU speedup review remains gated on 2027 hardware availability.
 
 ## Implementation Phases
 

@@ -193,7 +193,7 @@ Advisory artifacts (tensor summaries, ANN candidates) never replace graph-verifi
 
 | Component | Module | Status | Notes |
 |---|---|---|---|
-| CPU/GPU break-even validation | `gpu` + `acceleration` | 🔴 2027+ | Profile before enabling |
+| CPU/GPU break-even validation | `gpu` + `acceleration` | 🟡 2027+ | CPU baselines shipped; GPU hardware review still pending |
 | Bounded GPU refinement (Category A + B) | `gpu` | 🔴 2027+ | Only after break-even proven |
 | Full CUDA error handling hardening | `gpu` | 🔴 2027+ | 340 unchecked calls → ≤ 51 |
 | Resource exhaustion handling | `gpu` | 🔴 2027+ | RAII violations resolved |
@@ -206,7 +206,7 @@ Advisory artifacts (tensor summaries, ANN candidates) never replace graph-verifi
 - Graph Truth Layer stays CPU-first unconditionally
 
 **Validation gates**:
-- [ ] CPU/GPU break-even benchmarks published and reviewed
+- [~] CPU/GPU break-even benchmarks published and reviewed
 - [ ] All 340 unchecked CUDA calls addressed (AddressSanitizer + manual review)
 - [ ] GPU resource exhaustion paths tested with injection harness
 - [ ] HIP backend feature-parity test matrix passing
