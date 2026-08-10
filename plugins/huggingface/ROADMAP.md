@@ -23,14 +23,14 @@ Entry-point: `plugins/huggingface/plugin.json` · implementation: `src/plugins/h
 
 ## Planned Features
 
-- [ ] HuggingFace token authentication for private/gated datasets (Target: Q3 2026)
-- [ ] Resume / checkpoint: restart interrupted ingestions from last saved offset (Target: Q3 2026)
+- [x] HuggingFace token authentication for private/gated datasets (Target: Q3 2026)
+- [x] Resume / checkpoint: restart interrupted ingestions from last saved offset (Target: Q3 2026)
 - [ ] Dataset subsets (config parameter) and column selection (Target: Q3 2026)
-- [ ] Prometheus per-batch ingestion metrics (rows/sec, cache hit rate) (Target: Q3 2026)
-- [ ] HuggingFace Model Hub support – download and register model weights (Target: Q4 2026)
+- [x] Prometheus per-batch ingestion metrics (rows/sec, cache hit rate) (Target: Q3 2026)
+- [x] HuggingFace Model Hub support – download and register model weights (Target: Q4 2026)
 - [ ] Incremental sync – detect new dataset versions and ingest only diffs (Target: Q4 2026)
 - [ ] Auto-generate ThemisDB schema from HuggingFace dataset features description (Target: Q4 2026)
-- [ ] Multi-dataset parallel ingestion with priority queue (Target: 2027)
+- [x] Multi-dataset parallel ingestion with priority queue (Target: 2027)
 
 ---
 
@@ -65,19 +65,19 @@ Entry-point: `plugins/huggingface/plugin.json` · implementation: `src/plugins/h
 ## Implementation Phases
 
 ### Phase 1 – Private Dataset Auth & Resume / Checkpoint
-- [ ] Implement HuggingFace token authentication (Bearer header, token stored in ThemisDB secrets)
-- [ ] Persist ingestion offset to ThemisDB; resume from last saved shard + row on restart
+- [x] Implement HuggingFace token authentication (token from `HUGGINGFACE_TOKEN` env var; explicit `Config::auth_token` takes precedence; never logged)
+- [x] Persist ingestion offset to JSON checkpoint file (`Config::checkpoint_file`); resume from last saved offset on restart; cleared on success
 - [ ] Support `config` (subset) parameter and `columns` filter in `plugin.json`
-- [ ] Integration test: private dataset fetch with mock token server
+- [x] Tests: HF-TOKEN-01..05, HF-CKPT-01..05
 
 ### Phase 2 – Model Hub & Incremental Sync
-- [ ] Model Hub: download GGUF / safetensors artifacts and register in ThemisDB model registry
+- [x] Model Hub: download GGUF / safetensors / any artifact via `downloadModelWeights()`; SHA-256 verification; cache-hit avoids re-download
 - [ ] Incremental sync: compare local dataset commit hash against HuggingFace API; ingest diffs only
-- [ ] Prometheus metrics: rows/sec, cache hit rate, download progress
+- [x] Prometheus metrics: rows/sec, cache hit rate, batch counters via `MetricsCollector` (HF-PROM-01..05)
 
 ### Phase 3 – Auto-Schema & Multi-Dataset Parallel
 - [ ] Parse HuggingFace dataset `features` JSON and generate a ThemisDB collection schema automatically
-- [ ] Multi-dataset parallel ingestion with configurable concurrency and priority queue
+- [x] Multi-dataset parallel ingestion with configurable concurrency and priority queue via `submitParallelDatasetJobs()` (HF-PAR-01..05)
 - [ ] Rate-limiter stress test under concurrent workers
 - [ ] Documentation: all `plugin.json` fields, environment variables, error codes
 
@@ -105,17 +105,17 @@ Entry-point: `plugins/huggingface/plugin.json` · implementation: `src/plugins/h
 | Local file cache | ✅ Ready |
 | Rate limiting | ✅ Ready |
 | Retry / backoff | ✅ Ready |
-| Private / gated dataset authentication | ❌ Not implemented |
-| Resume / checkpoint on interrupted ingestion | ❌ Not implemented |
-| Model Hub support | ❌ Not implemented |
+| Private / gated dataset authentication | ✅ Implemented (env var + config; never logged) |
+| Resume / checkpoint on interrupted ingestion | ✅ Implemented (JSON checkpoint file) |
+| Model Hub support | ✅ Implemented (download + SHA-256 verify + cache) |
 | Rate-limiter tested under concurrent workers | ❌ Pending |
 | Exact implementation source file confirmed | ✅ Ready |
 
 ## Known Issues & Limitations
 
-- Private and gated datasets are not supported; requests return 401 with no recovery path
+- ~~Private and gated datasets are not supported~~ → fixed: token auth via `HUGGINGFACE_TOKEN` or `Config::auth_token`
 - Rate-limiter has not been tested under concurrent ingestion workers; correctness unverified
-- No resume/checkpoint: a crashed ingestion restarts from the beginning
+- ~~No resume/checkpoint~~ → fixed: JSON checkpoint file persisted after each batch; resumed on restart; deleted on success
 
 ---
 
