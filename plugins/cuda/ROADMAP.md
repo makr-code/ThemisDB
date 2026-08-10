@@ -21,10 +21,10 @@ Build flag: `-DTHEMIS_ENABLE_CUDA=ON`
 
 ## Planned Features
 
-- [ ] Standalone loadable CUDA plugin (`.so`/`.dll`) independent of the built-in backend (Target: Q3 2026)
-- [ ] FP16 / BF16 mixed-precision vector operations (Target: Q3 2026)
-- [ ] Multi-GPU support: device selection, peer-to-peer transfers (Target: Q4 2026)
-- [ ] Integration with RAPIDS cuVS / FAISS-GPU for ANN search (Target: Q4 2026)
+- [x] Standalone loadable CUDA plugin (`.so`/`.dll`) independent of the built-in backend (Q3 2026)
+- [x] FP16 / BF16 mixed-precision vector operations (Q3 2026)
+- [x] Multi-GPU support: device selection, peer-to-peer transfers (Q3 2026)
+- [x] Integration with RAPIDS cuVS / FAISS-GPU for ANN search (Q3 2026)
 - [ ] Auto-tuning kernel parameters per GPU architecture (Target: 2027)
 - [ ] Unified hardware-acceleration interface (CUDA, Vulkan, HIP, Metal, OpenCL) (Target: 2027)
 
@@ -39,9 +39,9 @@ Build flag: `-DTHEMIS_ENABLE_CUDA=ON`
 ## Mid-term Goals (1–3 months)
 
 - [ ] Promote the built-in CUDA backend to a proper loadable plugin (`.so`/`.dll`) so it can be shipped independently.
-- [ ] Add benchmark suite: throughput (vectors/sec) vs. CPU baseline.
-- [ ] Implement mixed-precision (FP16 / BF16) vector operations.
-- [ ] Add support for multi-GPU setups (device selection, peer-to-peer transfers).
+- [x] Add benchmark suite: throughput (vectors/sec) vs. CPU baseline.
+- [x] Implement mixed-precision (FP16 / BF16) vector operations.
+- [x] Add support for multi-GPU setups (device selection, peer-to-peer transfers).
 
 ## Long-term Goals (3–12 months)
 
@@ -54,28 +54,28 @@ Build flag: `-DTHEMIS_ENABLE_CUDA=ON`
 
 | Milestone | Target | Status |
 |-----------|--------|--------|
-| Standalone CUDA plugin DLL | TODO | 🔲 Planned |
-| FP16 support | TODO | 🔲 Planned |
-| Multi-GPU support | TODO | 🔲 Planned |
-| ANN integration (cuVS) | TODO | 🔲 Planned |
+| Standalone CUDA plugin DLL | Q3 2026 | ✅ Implemented |
+| FP16 support | Q3 2026 | ✅ Implemented |
+| Multi-GPU support | Q3 2026 | ✅ Implemented |
+| ANN integration (cuVS) | Q3 2026 | ✅ Implemented |
 
 ## Implementation Phases
 
 ### Phase 1 – Standalone Plugin DLL
-- [ ] Extract built-in CUDA backend into a loadable `cuda_plugin.so`/`.dll`
-- [ ] Define and implement `IComputeBackend` plugin entry-point (`plugin_create` / `plugin_destroy`)
-- [ ] CMake target for standalone plugin with correct RPATH / install rules
-- [ ] Smoke test: load plugin via `PluginManager`, run a vector similarity query
+- [x] Extract built-in CUDA backend into a loadable `cuda_plugin.so`/`.dll`
+- [x] Define and implement `IComputeBackend` plugin entry-point (`CreateBackendPlugin`)
+- [x] CMake target for standalone plugin with correct RPATH / install rules
+- [x] Smoke test: load plugin via `PluginManager`, run a vector similarity query
 
 ### Phase 2 – FP16 / Mixed-Precision Support
-- [ ] Implement FP16 and BF16 variants of core vector kernels (`vector_kernels.cu`)
-- [ ] Precision selection via plugin configuration (`float`, `fp16`, `bf16`)
+- [x] Implement FP16 and BF16 variants of core vector kernels (`fp16_vector_kernels.cu`)
+- [x] Precision selection via plugin configuration (`FP32`, `FP16`, `BF16`)
 - [ ] Benchmark: FP16 throughput vs FP32 baseline on RTX-class GPU
 
 ### Phase 3 – Multi-GPU & ANN Integration
-- [ ] Device enumeration and selection API (`--cuda-device=<id>`)
-- [ ] Peer-to-peer transfers for sharded index across multiple GPUs
-- [ ] cuVS / FAISS-GPU ANN integration: IVF-Flat and HNSW index types
+- [x] Device enumeration and selection API (`MultiGPUVectorBackend::Config::deviceIds`)
+- [x] Peer-to-peer transfers for sharded index across multiple GPUs
+- [x] cuVS / FAISS-GPU ANN integration: IVF-Flat and HNSW index types
 - [ ] Multi-GPU CI tests skipped gracefully when only one GPU is present
 
 ### Phase 4 – Auto-tuning & Formal Perf Targets
@@ -103,10 +103,10 @@ Build flag: `-DTHEMIS_ENABLE_CUDA=ON`
 | Item | Status |
 |------|--------|
 | `CMakeLists.txt.example` validated with CUDA 12.x | ❌ Pending |
-| Standalone loadable plugin DLL | ❌ Not implemented |
-| FP16 / BF16 support | ❌ Not implemented |
-| Multi-GPU support | ❌ Not implemented |
-| ANN (cuVS / FAISS-GPU) integration | ❌ Not implemented |
+| Standalone loadable plugin DLL | ✅ Implemented (`plugins/cuda/CMakeLists.txt`, `cuda_plugin.cpp`) |
+| FP16 / BF16 support | ✅ Implemented (`include/acceleration/fp16_vector_kernels.h`, `src/acceleration/cuda/fp16_vector_kernels.cu`) |
+| Multi-GPU support | ✅ Implemented (wired via `MultiGPUVectorBackend`) |
+| ANN (cuVS / FAISS-GPU) integration | ✅ Implemented (wired via `FaissGPUVectorBackend`) |
 | Benchmark results published | ❌ Pending |
 
 ## Known Issues & Limitations
