@@ -211,6 +211,118 @@ private:
     std::string last_query_;
 };
 
+// ============================================================================
+// SPARQL query builder
+// ============================================================================
+
+/**
+ * @brief Builds SPARQL SELECT queries for the EUR-Lex CELLAR endpoint.
+ *
+ * Produces a SPARQL query that filters legal works by keyword using
+ * a FILTER/CONTAINS clause on the work's dc:title.  Callers may override
+ * the language and result-count limit.
+ *
+ * ## Example output (keywords = {"Datenschutz"}, limit = 50)
+ * @code
+ * PREFIX cdm: <http://publications.europa.eu/ontology/cdm#>
+ * PREFIX dc: <http://purl.org/dc/elements/1.1/>
+ * SELECT ?work ?title ?date WHERE {
+ *   ?work a cdm:work .
+ *   ?work dc:title ?title .
+ *   OPTIONAL { ?work dc:date ?date . }
+ *   FILTER (LANG(?title) = "de")
+ *   FILTER (CONTAINS(LCASE(?title), "datenschutz"))
+ * } LIMIT 50
+ * @endcode
+ */
+struct SparqlQueryBuilder {
+    /// Language tag for FILTER (LANG(?title) = …).  Default: "de".
+    std::string language = "de";
+    /// Maximum result rows returned by the SPARQL endpoint.
+    int limit = 100;
+
+    /**
+     * @brief Build a SPARQL SELECT query string from a list of keywords.
+     *
+     * When @p keywords is empty the query returns the most recent @p limit
+     * works without keyword filtering.
+     *
+     * @param keywords  Case-insensitive keyword terms; ANDed via CONTAINS.
+     * @return SPARQL query string suitable for the EUR-Lex CELLAR endpoint.
+     */
+    [[nodiscard]] std::string build(const std::vector<std::string>& keywords) const;
+};
+
+// ============================================================================
+// SPARQL API client (EUR-Lex CELLAR)
+// ============================================================================
+
+/**
+ * @brief IScraperApiClient implementation for the EUR-Lex CELLAR SPARQL endpoint.
+ *
+ * Sends a SPARQL SELECT query as an HTTP POST with
+ *   Content-Type: application/sparql-query
+ *   Accept: application/sparql-results+json
+ * and maps the `results.bindings` array to ApiResult objects.
+ *
+ * ## ApiResult mapping
+ * | SPARQL binding | ApiResult field    |
+ * |----------------|--------------------|
+ * | ?work.value    | url                |
+ * | ?title.value   | title              |
+ * | ?date.value    | date               |
+ * | raw JSON page  | raw_json           |
+ * | ?title + ?date | extracted_text     |
+ *
+ * ## Injectable fetch function
+ * The HTTP POST function is injectable for testing; the production default
+ * uses `HttpScraperApiClient::curlFetch`.
+ */
+class SparqlApiClient : public IScraperApiClient {
+public:
+    explicit SparqlApiClient(HttpFetchFn fetch_fn = {});
+    ~SparqlApiClient() override = default;
+
+    SparqlApiClient(const SparqlApiClient&) = delete;
+    SparqlApiClient& operator=(const SparqlApiClient&) = delete;
+
+    /**
+     * @brief Execute a SPARQL query against the endpoint in @p cfg.url.
+     *
+     * @p cfg.body_template is used as the raw SPARQL query when non-empty;
+     * otherwise a query is auto-built from `cfg.search_param` keywords.
+     * The `query` parameter is split on whitespace to produce the keyword list.
+     *
+     * @param cfg    Endpoint config; `cfg.url` is the SPARQL endpoint URL.
+     * @param query  Space-separated keywords to filter on.
+     * @return       ApiResult list parsed from `results.bindings`.
+     */
+    std::vector<ApiResult> fetchAll(
+        const ApiEndpointConfig& cfg,
+        const std::string& query) override;
+
+    /**
+     * @brief Inject a mock fetch function for unit testing.
+     * @param fn  Function matching the HttpFetchFn signature.
+     */
+    void setFetchFn(HttpFetchFn fn) { fetch_fn_ = std::move(fn); }
+
+    /**
+     * @brief Inject a custom query builder (overrides default SparqlQueryBuilder).
+     * @param builder  Builder instance; ownership transferred.
+     */
+    void setQueryBuilder(SparqlQueryBuilder builder) { builder_ = std::move(builder); }
+
+private:
+    HttpFetchFn      fetch_fn_;
+    SparqlQueryBuilder builder_;
+
+    /// Parse `results.bindings` from a SPARQL JSON response.
+    static std::vector<ApiResult> parseBindings(
+        const std::string& json_text,
+        const std::string& endpoint_url);
+};
+
 } // namespace scraper
 } // namespace themis
 
