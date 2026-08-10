@@ -1,5 +1,9 @@
 # Database-Native LLM Serving Optimizations in ThemisDB: Paged KV Cache, Continuous Batching, and Speculative Decoding
 
+> **⚠️ SUPERSEDED_DRAFT** — This file has been migrated to the canonical portfolio location:
+> `research/manuscripts/llm_runtime_training/DB_NATIVE_LLM_SERVING_OPTIMIZATION_PAPER_DRAFT.md`
+> Do not edit this legacy copy. All future updates go to the canonical file.
+
 **Status**: Submission-Ready Draft
 **Version**: 1.0
 **Last Updated**: 2026-05-14

@@ -23,6 +23,7 @@
  */
 
 #include "themis/gpu/memory_pool.h"
+#include "themis/gpu/gpu_error.h"
 
 #include <algorithm>
 #include <stdexcept>
@@ -228,7 +229,9 @@ GPUMemoryPool::DefragResult GPUMemoryPool::defragment(float threshold) {
                 if (device_base_ptr_ != 0) {
                     auto *src = reinterpret_cast<void *>(device_base_ptr_ + s.offset);
                     auto *dst = reinterpret_cast<void *>(device_base_ptr_ + new_offset);
-                    if (cudaMemcpy(dst, src, slab_size_, cudaMemcpyDeviceToDevice) != cudaSuccess) {
+                    cudaError_t err = cudaMemcpy(dst, src, slab_size_, cudaMemcpyDeviceToDevice);
+                    if (err != cudaSuccess) {
+                        GPUErrorHandler::Create()->logError(err, "GPUMemoryPool::defragment cudaMemcpy");
                         ++result.data_move_errors;
                     }
                 }
@@ -237,7 +240,9 @@ GPUMemoryPool::DefragResult GPUMemoryPool::defragment(float threshold) {
                 if (device_base_ptr_ != 0) {
                     auto *src = reinterpret_cast<void *>(device_base_ptr_ + s.offset);
                     auto *dst = reinterpret_cast<void *>(device_base_ptr_ + new_offset);
-                    if (hipMemcpy(dst, src, slab_size_, hipMemcpyDeviceToDevice) != hipSuccess) {
+                    hipError_t err = hipMemcpy(dst, src, slab_size_, hipMemcpyDeviceToDevice);
+                    if (err != hipSuccess) {
+                        GPUErrorHandler::Create()->logError(err, "GPUMemoryPool::defragment hipMemcpy");
                         ++result.data_move_errors;
                     }
                 }

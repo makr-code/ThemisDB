@@ -1,5 +1,9 @@
 # Post-Quantum Cryptography Integration in HTAP Databases: CRYSTALS-Kyber/Dilithium with HSM and FIPS 140-3
 
+> **⚠️ SUPERSEDED_DRAFT** — This file has been migrated to the canonical portfolio location:
+> `research/manuscripts/security_governance_ethics/POST_QUANTUM_CRYPTOGRAPHY_HTAP_DATABASE_DRAFT.md`
+> Do not edit this legacy copy. All future updates go to the canonical file.
+
 **Status**: Review-Ready (Draft Phase Complete)
 **Version**: 0.2  
 **Last Updated**: 2026-08-09  

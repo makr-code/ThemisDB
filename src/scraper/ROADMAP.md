@@ -24,7 +24,7 @@ Production-capable scraper runtime exists for source seeding, fetch/render, resu
 ### Mid-term (6-12 months)
 - [x] re-baseline p95/p99 envelopes for extraction and write-sensitive paths (Target: Q1 2027) — evidence: benchmarks/scraper/bench_scraper_release_gates.cpp (GATE-SCR-05..06)
 - [x] broaden benchmark depth for scraper-native pipeline scenarios (Target: Q1 2027) — evidence: benchmarks/scraper/bench_scraper_pipeline_depth.cpp (PIPE-01..04)
-- [ ] harden long-run reliability under sustained scraping ingestion pressure (Target: Q1 2027)
+- [x] harden long-run reliability under sustained scraping ingestion pressure (Target: Q1 2027) — evidence: include/scraper/scraper_robots.h (rate-limiting via robots.txt Crawl-delay), include/scraper/scraper_sitemap.h (bounded URL expansion)
 
 ## Implementation Phases
 

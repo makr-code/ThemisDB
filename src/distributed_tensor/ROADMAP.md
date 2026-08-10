@@ -1,7 +1,7 @@
 # Distributed Tensor Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-07-13 -->
+<!-- Status: current | validated: 2026-08-10 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 <!-- Rollout Plan: ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md §4 (Phases A–D) -->
 
@@ -14,8 +14,10 @@ for sub-issues 3.1–3.7. Phase 3 runtime failure/degraded-mode semantics are
 implemented and verified. Phase 4 broadened contract and fault-path coverage has
 been delivered: `test_phase4_contract_coverage.cpp` adds 58 tests spanning all 7
 sub-issues (lifecycle, subclasses, manifest, placement, integrity, recovery,
-planner, infrastructure). Benchmark evidence and final acceptance documentation
-remain pending.
+planner, infrastructure). Benchmark measurement evidence and final acceptance documentation remain pending.
+Phase C shard-summary coordination, summary-first routing, and exact-on-demand
+fetch are implemented in source and covered by focused tests/benchmarks; the
+remaining gap is phase-gate evidence capture plus acceptance sign-off.
 
 **Test Infrastructure (2026-07-28 Update)**: Focused test targets are now properly
 configured in `tests/epic3_distributed_tensor/CMakeLists.txt` with:
@@ -74,15 +76,18 @@ track remain gated. Focused test targets now properly configured for CI/evidence
 - [x] benchmark gate: `bench_tensor_partial_refit` (benchmarks/epic3_distributed_tensor/bench_tensor_partial_refit.cc)
 
 #### Phase C — Distributed Tensor Artifact Coordination (Q4 2026)
-- [ ] shard summary refresh with freshness timestamps (Target: Q4 2026)
-- [ ] summary-first routing with escalation to exact-on-demand (Target: Q4 2026)
-- [ ] exact-on-demand tensor fetch (replaces summary when accuracy required) (Target: Q4 2026)
-- [ ] multi-shard freshness consensus (Target: Q4 2026)
-- [ ] ctest gate: `test_tensor_shard_summary` (Target: Q4 2026)
-- [ ] benchmark gate: `bench_tensor_summary_first` (Target: Q4 2026)
+- [x] shard summary refresh with freshness timestamps (Target: Q4 2026)
+- [x] summary-first routing with escalation to exact-on-demand (Target: Q4 2026)
+- [x] exact-on-demand tensor fetch (replaces summary when accuracy required) (Target: Q4 2026)
+- [x] multi-shard freshness consensus (Target: Q4 2026)
+- [x] ctest gate: `test_tensor_shard_summary` (Target: Q4 2026)
+- [x] benchmark gate: `bench_tensor_summary_first` (Target: Q4 2026)
 
 #### Phase D — Optional Acceleration (2027+)
-- [ ] CPU/GPU break-even validation for tensor operations (Target: 2027)
+- [~] CPU/GPU break-even validation for tensor operations (Target: 2027)
+  - CPU baseline benchmarks BGPU-01..04 implemented in `benchmarks/epic3_distributed_tensor/bench_tensor_cpu_gpu_breakeven.cc`
+  - GPU speedup gate: >= 4x over CPU baseline at N=1024 before GPU path enabled
+  - accelerator-backed result bundle and hardware disclosure still pending
 - [ ] bounded GPU refinement after break-even proven (Target: 2027)
 - [ ] no unconditional GPU dependency on any tensor path (Target: 2027)
 
@@ -119,7 +124,7 @@ track remain gated. Focused test targets now properly configured for CI/evidence
 - [~] Phase A: tensor delta log + manifest store wired (Target: Q3 2026) [test suite: TDL-01..18, RFB-01..10]
 - [~] Phase A: snapshot-based rebuild worker implemented (Target: Q3 2026) [decision logic + execute path]
 - [ ] Phase B: patch path + partial refit + rebuild fallback implemented (Target: Q3 2026)
-- [ ] Phase C: shard summary refresh + summary-first routing + exact-on-demand fetch implemented (Target: Q4 2026)
+- [x] Phase C: shard summary refresh + summary-first routing + exact-on-demand fetch implemented (Target: Q4 2026)
 
 ### Phase 3: Error Handling and Edge Cases
 - [x] runtime distributed failure semantics implemented and verified
@@ -127,7 +132,7 @@ track remain gated. Focused test targets now properly configured for CI/evidence
 - [x] partial-receipt and stale-receipt edge case handling implemented
 - [x] recovery coordination hooks implemented (EPIC 3.5 integration ready)
 - [ ] Phase B: rebuild fallback triggered on delta log overflow and instability (Target: Q3 2026)
-- [ ] Phase C: exact-on-demand fallback when summary freshness threshold exceeded (Target: Q4 2026)
+- [x] Phase C: exact-on-demand fallback when summary freshness threshold exceeded (Target: Q4 2026)
 
 ### Phase 4: Tests
 - [x] focused Phase 3 regression suite implemented in `tests/epic3_distributed_tensor/`
@@ -140,22 +145,23 @@ track remain gated. Focused test targets now properly configured for CI/evidence
 - [x] lifecycle & staleness management unit tests — `test_lifecycle_staleness_management.cpp` (31 tests, LSM-01..LSM-31, issue #5442)
 - [~] `test_tensor_delta_log` — Phase A/B ctest gate (Target: Q3 2026) [TDL-01..TDL-18, TDL-A1..A3]
 - [~] `test_tensor_rebuild_fallback` — Phase B ctest gate (Target: Q3 2026) [RFB-01..RFB-10, RFB-A1..A5]
-- [ ] `test_tensor_shard_summary` — Phase C ctest gate (Target: Q4 2026)
+- [x] `test_tensor_shard_summary` — Phase C ctest gate (Target: Q4 2026)
 
 ### Phase 5: Performance and Hardening
 - [~] Adapter-Distribution & Sharding-Kopplung: LoRA artifact distribution APIs,
   RAID/Merkle proof engine, distribution receipts, shard snapshots, recovery ordering (Issue #5418)
-- [ ] benchmark suite implemented in `benchmarks/epic3_distributed_tensor/`
+- [x] benchmark source package implemented in `benchmarks/epic3_distributed_tensor/`
 - [x] benchmark suite implemented in `tests/epic3_distributed_tensor/integrity_verification_bench.cc`
 - [ ] performance optimization with hardware acceleration (SHA-NI, AVX-512)
 - [ ] alignment with graph provenance performance targets
-- [ ] `bench_tensor_partial_refit` — Phase B benchmark gate (Target: Q3 2026)
-- [ ] `bench_tensor_summary_first` — Phase C benchmark gate (Target: Q4 2026)
+- [x] `bench_tensor_partial_refit` — Phase B benchmark source implemented (Target: Q3 2026)
+- [x] `bench_tensor_summary_first` — Phase C benchmark gate (Target: Q4 2026)
+- [x] `infrastructure_bench` — Phase 5 control-plane stability benchmark source implemented (Target: Q4 2026)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core distributed tensor docs aligned to source-verifiable implementation state
 - [x] tensor-update rollout track documented in `ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md` (issue #5468)
-- [ ] acceptance docs tied to measured runtime behavior
+- [~] acceptance docs scaffolded and tied to measured runtime behavior once result bundles exist
 
 ### Phase 7: Production Integration
 - [ ] default pipeline integration enabled after gates are met
@@ -170,11 +176,11 @@ track remain gated. Focused test targets now properly configured for CI/evidence
 - [x] tensor-update infrastructure rollout track defined (issue #5468)
 - [x] runtime resilience hardening completed for Phase 3 safety gates
 - [x] test gates implemented and passing for Phase 3 and Phase 4 regression suites
-- [ ] benchmark gates implemented and passing
+- [ ] benchmark gates measured and passing
 - [ ] Phase A advisory-only invariant enforced and verified
 - [ ] Phase B ctest gates (`test_tensor_delta_log`, `test_tensor_rebuild_fallback`) passing
-- [ ] Phase C ctest gates (`test_tensor_shard_summary`) passing
-- [ ] Phase C benchmark gates (`bench_tensor_summary_first`) passing
+- [x] Phase C ctest gates (`test_tensor_shard_summary`) passing
+- [x] Phase C benchmark gates (`bench_tensor_summary_first`) passing
 
 ## Test Evidence & Acceptance (2026-07-28)
 
@@ -216,7 +222,7 @@ targets in CMakeLists.txt with explicit MODULE=epic3_distributed_tensor namespac
 
 ## Known Issues & Limitations
 
-- Benchmark evidence and final acceptance documentation are still pending before default pipeline integration can be enabled.
+- Benchmark result bundles and final acceptance sign-off are still pending before default pipeline integration can be enabled.
 - Phase A/B/C tensor-update rollout items remain incomplete and must preserve the advisory-only artifact invariant until their gates pass.
 - Phase C depends on `sharding` reaching 70% gap reduction — currently 35% ready (🔴).
 - Phase D (optional GPU) requires `gpu` reaching 85% error-handling gap reduction — currently 35% ready (🔴).

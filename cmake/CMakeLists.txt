@@ -2500,6 +2500,8 @@ set(THEMIS_CORE_SOURCES
     ../src/replication/schema_cdc.cpp
     ../src/replication/multi_tier_replication.cpp
     ../src/replication/logical_replication.cpp
+    ../src/replication/geo_placement.cpp
+    ../src/replication/async_wal_shipper.cpp
     
     # Temporal versioning and query engine
     ../src/temporal/temporal_conflict_resolver.cpp

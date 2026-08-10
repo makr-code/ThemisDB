@@ -1,5 +1,9 @@
 # Database-Native Process Mining: Integrating OCEL 2.0, LightRAG, GDPR Compliance, and Louvain Community Detection
 
+> **⚠️ SUPERSEDED_DRAFT** — This file has been migrated to the canonical portfolio location:
+> `research/manuscripts/verticals/PROCESS_MINING_OCEL2_LIGHTRAG_GDPR_BPMN_DRAFT.md`
+> Do not edit this legacy copy. All future updates go to the canonical file.
+
 **Status**: Publication-Ready  
 **Version**: 1.0  
 **Last Updated**: 2026-08-09  

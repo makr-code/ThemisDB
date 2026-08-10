@@ -210,6 +210,10 @@ public:
         bool enable_warmup = true;                    ///< Pre-create min connections on startup
         /// Enable adaptive pool sizing driven by real-time utilization metrics.
         bool enable_adaptive_sizing = false;
+        /// Minimum time between scale actions on the same target.
+        std::chrono::seconds adaptation_cooldown{5};
+        /// Relative ideal-size delta required before a rebalance pass acts.
+        double rebalance_tolerance = 0.20;
         /// Custom sizing strategy (default: AdaptivePoolingStrategy with default config).
         /// Only consulted when enable_adaptive_sizing is true.
         std::shared_ptr<IPoolingStrategy> adaptive_strategy;
@@ -288,8 +292,20 @@ public:
         size_t keepalive_checks_sent = 0;
         /// Current utilization: active / (active + idle), averaged across all targets.
         double utilization = 0.0;
+        /// Number of target pools currently tracked.
+        size_t target_pool_count = 0;
+        /// Highest per-target utilization seen in the snapshot.
+        double max_target_utilization = 0.0;
+        /// Lowest per-target utilization among non-empty target pools.
+        double min_target_utilization = 0.0;
         /// Number of pool-size adaptations performed by the adaptive strategy.
         size_t pool_size_adaptations = 0;
+        /// Number of explicit or background rebalance passes executed.
+        size_t rebalance_passes = 0;
+        /// Rebalance opportunities skipped because the target was in cooldown.
+        size_t rebalance_cooldown_skips = 0;
+        /// Rebalance opportunities skipped because the pool was already near target size.
+        size_t rebalance_stable_skips = 0;
         
         /**
          * @brief Calculate connection reuse rate (0.0 - 1.0)
@@ -302,6 +318,14 @@ public:
     };
     
     Stats getStats() const;
+
+    /**
+     * @brief Run one immediate adaptive rebalance pass across all target pools.
+     *
+     * Safe to call concurrently with acquire/release operations. If adaptive
+     * sizing is disabled, the call is recorded as a no-op pass.
+     */
+    void rebalancePools();
     
     /**
      * @brief Warm up pool for target
@@ -349,6 +373,7 @@ private:
         std::queue<std::shared_ptr<PooledConnection>> available;
         std::unordered_map<void*, std::shared_ptr<PooledConnection>> all_connections;
         size_t active_count = 0;
+        std::chrono::steady_clock::time_point last_adaptation_at{};
     };
     
     /**
@@ -409,6 +434,9 @@ private:
     std::atomic<size_t> acquire_timeouts_{0};
     std::atomic<size_t> keepalive_checks_{0};
     std::atomic<size_t> pool_size_adaptations_{0};
+    std::atomic<size_t> rebalance_passes_{0};
+    std::atomic<size_t> rebalance_cooldown_skips_{0};
+    std::atomic<size_t> rebalance_stable_skips_{0};
 };
 
 } // namespace network
