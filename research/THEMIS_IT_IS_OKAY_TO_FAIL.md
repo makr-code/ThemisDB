@@ -36,12 +36,15 @@ Dieses Dokument etabliert daher ein gemeinsames Prinzip:
 ## II. Begriffsrahmen
 
 ### A. Fehlentwicklung
+
 Ein Verlauf, der systematisch von den eigentlichen Zielen (Robustheit, Nachvollziehbarkeit, Betriebsfähigkeit) wegführt.
 
 ### B. Fehlannahme
+
 Eine als wahr behandelte Annahme, die sich im Betrieb, in Tests oder in der Integrationsrealität als falsch herausstellt.
 
 ### C. Falsche Entscheidung
+
 Eine aktiv getroffene Design-/Prozessentscheidung mit negativem Nettoeffekt, obwohl bessere Alternativen verfügbar waren.
 
 ## Methodik / Ansatz
@@ -63,37 +66,44 @@ Alle Einträge sind mit Dateipfad/Changelog/Commit-Referenz belegt und aus der C
 ### Kategorie A: Concurrency-Bugs (Race Conditions, Deadlocks)
 
 #### A-01: RCU `readers_active()` gab immer `false` zurück
+
 - **Fundstelle**: `src/performance/ROADMAP.md`, Issue #4579, Fix 2026-04-12
 - **Problem**: `g_rcu_reader_count` wurde nie inkrementiert; `ReadLock`-Konstruktor/-Destruktor fehlten; `readers_active()` lieferte immer `false`.
 - **Auswirkung**: RCU-geschützte Pfade hatten keinen zuverlässigen Reader-Schutz.
 - **Fix**: `atomic<int64_t>` global; `ReadLock` ctor/dtor inkrementieren/dekrementieren.
 
 #### A-02: LIRS-Cache TOCTOU (Read-Modify-Write Race)
+
 - **Fundstelle**: `src/performance/ROADMAP.md`, Issue #4578, Fix 2026-04-12
 - **Problem**: `get()` nutzte `shared_lock`, erlaubte damit parallelen Read-Modify-Write auf Eviction-Metadaten.
 - **Fix**: Upgrade auf `unique_lock` in `get()`.
 
 #### A-03: CEPEngine-Deadlock durch Lock-unter-Callback
+
 - **Fundstelle**: `CHANGELOG.md`, PR #4291
 - **Problem**: Window-Lock wurde gehalten, während User-Callbacks aufgerufen wurden. Wenn Callbacks ihrerseits das Window akquirierten: Deadlock.
 - **Fix**: Lock vor Callback-Aufruf freigeben.
 
 #### A-04: StreamingWindow — Callbacks unter Mutex (Bug 3)
+
 - **Fundstelle**: `src/analytics/streaming_window.cpp`, Kommentare "BUG 3 FIX"
 - **Problem**: Dieselbe Lock-unter-Callback-Schwachstelle wie A-03, aber in fünf verschiedenen Window-Implementierungen (SlidingWindow, SessionWindow, TumblingWindow, StreamingWindowPipeline) unabhängig repliziert.
 - **Auswirkung**: Re-entrant-Deadlock unter Last; nicht durch Unit-Tests gefunden, da Callbacks im Testbetrieb keine Locks hielten.
 
 #### A-05: StreamingWindow — Out-of-Order Records regressierten `last_event` (Bug 2)
+
 - **Fundstelle**: `src/analytics/streaming_window.cpp:886`, Tests `tests/analytics/test_streaming_window.cpp:687`
 - **Problem**: `SessionWindow::ingest()` verwendete statt `std::max()` eine direkte Zuweisung; ein verspätetes Record mit kleinem Zeitstempel überschrieb `last_event` nach hinten.
 - **Auswirkung**: Session-Grenzen wurden falsch berechnet.
 
 #### A-06: BackendRegistry Data Race (Acceleration-Modul)
+
 - **Fundstelle**: `src/acceleration/FUTURE_ENHANCEMENTS.md`
 - **Problem**: `backends_` und `selectedVectorBackend_` waren geteilte mutable Felder ohne Schutz durch `shared_mutex`; parallele Lese-/Schreibzugriffe ergaben Undefined Behavior.
 - **Fix**: `std::shared_mutex registryMutex_` eingeführt.
 
 #### A-07: JWTValidator JWKS-Cache Data Race
+
 - **Fundstelle**: `src/auth/FUTURE_ENHANCEMENTS.md`
 - **Problem**: `jwks_cache_` und `jwks_cache_time_` (plain non-atomic member fields) wurden ohne Mutex aus mehreren Threads gleichzeitig beschrieben — Undefined Behavior unter C++11.
 - **Auswirkung**: Unter Last führte dies zu Thundering-Herd-Verhalten und potenziell korrumpierten Cache-Einträgen.
@@ -102,50 +112,61 @@ Alle Einträge sind mit Dateipfad/Changelog/Commit-Referenz belegt und aus der C
 ### Kategorie B: Logik- und Off-by-one-Bugs
 
 #### B-01: StatisticsCollector — Histogram-Bucket-Boundary Off-by-one
+
 - **Fundstelle**: `src/metadata/CHANGELOG.md`, `src/metadata/AUDIT.md` (META-002), fix in v1.5.1
 - **Problem**: Equi-Height-Histogramm berechnete Bucket-Grenzen für Integer-Spalten um eins verschoben.
 - **Auswirkung**: Query-Planner erhielt falsche Selektivitätsschätzungen; möglicherweise suboptimale Pläne.
 
 #### B-02: Query Engine — Window Function Frame Boundary Off-by-one
+
 - **Fundstelle**: `src/query/CHANGELOG.md`
 - **Problem**: `ROWS BETWEEN`-Semantik hatte eine um-eins-falsche Frame-Grenze.
 - **Auswirkung**: Window-Aggregationen lieferten falsche Ergebnisse.
 
 #### B-03: EthicsAI — Falsches Profilfeld (`profile.school` statt `profile.school_id`)
+
 - **Fundstelle**: `src/ethics_ai/CHANGELOG.md`
 - **Problem**: Falsches Feld beim Zugriff auf philosophisches Profil verwendet; Fehler nur durch expliziten Schema-Vergleich gefunden.
 
 #### B-04: PE-Zertifikat — Off-by-one in `DataDirectory[4]` Size
+
 - **Fundstelle**: `CHANGELOG.md`, PR #4292
 - **Problem**: Größenberechnung für die vierte DataDirectory-Eintragsstruktur war um eins zu klein.
 
 #### B-05: SecuritySignatureManager — Falscher Iterator End-Condition
+
 - **Fundstelle**: `CHANGELOG.md`, PR #4260
 - **Problem**: RocksDB-Iterator-Prefix-Scan endete einen Eintrag zu früh.
 - **Auswirkung**: Letzte signierte Entität wurde übersprungen.
 
 #### B-06: CRDT-Importer — Tombstone-Records fälschlicherweise gemerged
+
 - **Fundstelle**: `src/importers/CHANGELOG.md`, fix in v1.3.0
 - **Problem**: Beim Re-Import wurden gelöschte (tombstoned) Records nicht als gelöscht erkannt und in das lebende Dataset gemerged.
 
 #### B-07: StreamingWindow — DISTINCT_COUNT zählte feldlose Records
+
 - **Fundstelle**: `tests/analytics/test_streaming_window.cpp:737`
 - **Problem**: Records ohne das DISTINCT-Feld wurden trotzdem gezählt.
 
 #### B-08: StreamingWindow — Pipeline akzeptierte `ingest()`/`flush()` vor `build()`
+
 - **Fundstelle**: `tests/analytics/test_streaming_window.cpp:761`
 - **Problem**: Kein Guard für uninitialisierten Zustand; Aufrufe liefen ins Undefined Behavior.
 
 #### B-09: StreamingWindow — Watermark-Check war komplett fehlend (Bug 4)
+
 - **Fundstelle**: `src/analytics/streaming_window.cpp:818`
 - **Problem**: Verspätete Records wurden ohne jede Prüfung in SessionWindows aufgenommen.
 
 #### B-10: HybridSearch — Vektordistanzmetrik auf COSINE hardgecoded
+
 - **Fundstelle**: `CHANGELOG.md` (v1.4.0 Search Module)
 - **Problem**: DOT- und L2-Metriken waren nie korrekt angeschlossen; Konfigurationsparameter wurden ignoriert.
 - **Auswirkung**: Alle Vektor-Suchen liefen immer mit COSINE, auch wenn explizit DOT oder L2 konfiguriert war.
 
 #### B-11: DistributedQueryCostModel — `getShardRowCount()` hardgecoded auf 10.000
+
 - **Fundstelle**: `CHANGELOG.md` (v1.8.1-rc1 Search Module Hardening)
 - **Problem**: Kostenschätzung für Shard-Row-Count nutzte fest einkodierten Wert 10K statt dynamischer Schätzung.
 - **Auswirkung**: Suboptimale Shard-Routing-Entscheidungen bei ungleicher Datenverteilung.
@@ -153,99 +174,117 @@ Alle Einträge sind mit Dateipfad/Changelog/Commit-Referenz belegt und aus der C
 ### Kategorie C: Sicherheitslücken
 
 #### C-01: VRAM-Allocator — Restdaten des Vormodells nicht gelöscht
+
 - **Fundstelle**: `src/llm/CHANGELOG.md` v1.16.0
 - **Problem**: Beim Model-Swap wurden Residual-Aktivierungen des alten Modells nicht aus dem VRAM überschrieben.
 - **Auswirkung**: Mögliches Cross-Model-Datenleck (sicherheitskritisch bei Multi-Tenant-Setups).
 
 #### C-02: Sieben kritische Sicherheitslücken im RocksDB-Wrapper
+
 - **Fundstelle**: `CHANGELOG.md` v1.3.4
 - **Befunde**: Use-after-free in `BlockBasedTableOptions`; Null-Pointer bei Environment-Init; fehlende Null-Checks für `GetBaseDB()` an 7 Stellen; Transaction Resource Leaks; BackupEngine fehlende Exception-Safety.
 - **Auswirkung**: 100% Segfault-Risiko bei bestimmten Lastprofilen.
 
 #### C-03: GraphQL WebSocket CDC — Use-after-free nach Reset
+
 - **Fundstelle**: `src/api/CHANGELOG.md`
 - **Problem**: CDC-Lambda capturte `self`-Pointer; nach `reset()` war `self` bereits ungültig.
 - **Fix**: `std::shared_ptr<std::atomic<bool>> alive_` flag mit `memory_order_acquire` vor Dereferenzierung.
 
 #### C-04: LLM Request Deduplication — Stale Cache nach Model-Hot-Swap
+
 - **Fundstelle**: `src/llm/CHANGELOG.md` v1.16.0
 - **Problem**: Cache-Einträge wurden nach einem Hot-Swap nicht invalidiert; altes Modell lieferte gecachte Antworten für neues Modell.
 
 #### C-05: Grammar-Constrained Generation — Stack Overflow bei tief rekursiven Grammatiken
+
 - **Fundstelle**: `src/llm/CHANGELOG.md` v1.15.0
 - **Problem**: BNF-Grammatik-Parser war nicht rekursionstiefe-beschränkt; tief geschachtelte Grammatiken führten zu Stack Overflow.
 
 ### Kategorie D: Architektur- und Prozessfehler
 
 #### D-01: GPU-Backends als ~1500 LOC Stubs im Produktivcode
+
 - **Fundstelle**: `CHANGELOG.md` (Removed section)
 - **Problem**: `gpu_vector_index_cuda.cpp`, `gpu_vector_index_vulkan.cpp`, `gpu_vector_index_hip.cpp` und CUDA/HIP-Kernels enthielten zusammen 65+ offene Aufgaben-Kommentare und keinerlei funktionale GPU-Beschleunigung.
 - **Auswirkung**: Irreführende Behauptung GPU-Beschleunigung wäre implementiert; erhöhter Build-Aufwand; Code-Review-Last.
 - **Fix**: Alle ~1500 LOC entfernt; klarer Hinweis auf v2.x-Roadmap.
 
 #### D-02: KRITISCH — Server-Hang im RAID-Cluster-Mode
+
 - **Fundstelle**: `CHANGELOG.md` v1.3.4-hotfix (2026-01-04)
 - **Problem**: `AdaptiveIndexManager` koordinierte MVCC-Column-Families vor der Initialisierung des `ShardingManager`; im RAID-Betrieb hing der Server permanent bei "Adaptive Index Manager initialized".
 - **Auswirkung**: Kein RAID-Cluster-Start möglich.
 - **Fix**: Conditional Column Family Opening bei `THEMIS_ENABLE_SHARDING=true`.
 
 #### D-03: KRITISCH — Falsche Docker-Compose-Port-Mappings für alle RAID-Shards
+
 - **Fundstelle**: `CHANGELOG.md` v1.3.4-hotfix
 - **Problem**: Alle 9 RAID-Shard-Container mappten `808X:8080` statt `808X:8765`; der HTTP/REST-API-Port war nie nach außen erreichbar.
 - **Auswirkung**: RAID-Betrieb komplett nicht funktionsfähig ohne manuelles Override.
 
 #### D-04: Unvollständige HTTP-Server-Refaktorierung (Boost.Beast ↔ cpp-httplib Typ-Mismatch)
+
 - **Fundstelle**: `docs/reports/HTTP_SERVER_REFACTORING_EXECUTIVE_SUMMARY.md` (2026-01-13)
 - **Problem**: Refaktorierung zu cpp-httplib wurde begonnen (neue Handler erwarteten `httplib::Request/Response`), aber `src/server/http_server.cpp` (7.410 LOC) blieb auf Boost.Beast; Kompilierung schlug fehl.
 - **Folge**: Temporärer `HttpTypeAdapter` als Brücke nötig (~1-5% Overhead pro Request); offene Aufgabe bis heute in `src/server/http_server.cpp:117`.
 
 #### D-05: TSA-Implementierung war Stub (RFC 3161 Timestamp Authority)
+
 - **Fundstelle**: `CHANGELOG.md` (v1.5.x Fixed section)
 - **Problem**: Qualifizierte elektronische Zeitstempel (eIDAS-Pflicht) waren in v1.4.1 als OpenSSL-Stub gelistet; erst v1.5.x enthielt eine reale Implementierung.
 - **Auswirkung**: Compliance-Gap für EU-Kunden über mehrere Release-Zyklen.
 
 #### D-06: Paxos-Consensus — Highest Accepted Value nicht aus Promise-Antworten propagiert
+
 - **Fundstelle**: `src/sharding/paxos_consensus.cpp:622`, offener Kommentar
 - **Problem**: Phase-1-Promise-Antworten werden nicht korrekt aggregiert; `highest_accepted_value` wird nicht propagiert.
 - **Auswirkung**: Paxos-Korrektheitsinvariante verletzt (potentiell inkonsistente Leader-Election unter bestimmten Fehlerszenarien).
 - **Status**: Offen.
 
 #### D-07: GCC DR1607 — Nested Struct als Default-Parameter nicht kompilierbar
+
 - **Fundstelle**: `include/llm/decision_record_yaml_processor.h:168`, `include/storage/schema_dead_weight_detector.h:149`
 - **Problem**: Nested struct mit non-trivially-constructible default member initializers kann nicht als `= {}` Default-Parameter in umschließender Klasse verwendet werden (GCC non-conformance vs. Clang).
 - **Auswirkung**: Build-Fehler auf GCC; betraf zwei Klassen im LLM- und Storage-Modul.
 - **Fix**: Zwei Overloads (Default-Ctor + expliziter Config-Ctor).
 
 #### D-08: ReedSolomonCoder — fehlende Validierung `missing_indices <= parity_shards`
+
 - **Fundstelle**: `CHANGELOG.md` (v1.8.1-rc1 RAID-related fixes)
 - **Problem**: Kein Guard für den Fall, dass mehr Index-Lücken als Parity-Shards angegeben wurden; führte zu korrupten Rekonstruktionen.
 
 ### Kategorie E: Performance-Schulden und gemessene Lücken
 
 #### E-01: Secondary Index Insert weit unter Target (254K/s vs. 1M/s)
+
 - **Fundstelle**: `PERFORMANCE_EXPECTATIONS.md`
 - **Problem**: Benchmark-Messung (v1.8.x, Intel i9-10900K) zeigt 254.900 Ops/s gegenüber dem Zielwert von 1.000.000 Ops/s — ~75% unter Ziel.
 
 #### E-02: Query Engine Peak Throughput unter Target (796M/s vs. 900M/s)
+
 - **Fundstelle**: `PERFORMANCE_EXPECTATIONS.md`
 - **Problem**: ~12% unter Ziel auf Referenzhardware; Regression-Commit aus 2025-12-23 dokumentiert.
 
 #### E-03: GPU-Benchmark-Targets nur als Disabled-Stubs registriert
+
 - **Fundstelle**: `PERFORMANCE_EXPECTATIONS.md`
 - **Problem**: Viele GPU/CUDA/HIP-Benchmarks waren als `*_Disabled` registriert — echte Messungen nicht vorhanden; keine Baseline für Regressionen möglich.
 
 #### E-04: LLM-Benchmarks GPU-abhängig — numerische Werte ausstehend
+
 - **Fundstelle**: `PERFORMANCE_EXPECTATIONS.md`, `src/llm/ROADMAP.md`
 - **Problem**: L-1..L-8 Benchmark-Cases benötigen GGUF-Artefakte und GPU; ohne diese laufen alle Cases als Skip/Stub.
 
 #### E-05: Transaction Overhead Regression dokumentiert (v1.3.3-dev)
+
 - **Fundstelle**: `PERFORMANCE_EXPECTATIONS.md`, Benchmark-Session 2025-12-23
 - **Problem**: Transaction-Overhead-Regression explizit dokumentiert; Root-Cause-Analyse steht aus.
 
 ## IV. Übergreifende Fehlannahmen
 
 | ID | Fehlannahme | Beweis | Effekt | Korrektur |
-|----|-------------|--------|--------|-----------|
+| ---- | ------------- | -------- | -------- | ----------- |
 | FA-01 | "Stub-Implementierung = Implementierung" | D-01 (GPU), D-05 (TSA), E-03/E-04 (Benchmarks), G-02..G-06 (RAG/PKI/PE/HSM Stubs) | Falsche Reifesignale | Stub-Policy: max. 1 Release, dann Pflichtticket |
 | FA-02 | "Threadsafety ist offensichtlich" | A-01..A-07 (7 Bugs), F-04 (gRPC), F-13 (Graph), F-18 (Metadata), F-19 (PE), F-28 (Plugins) | Race Conditions, Deadlocks, UB | Explizites Thread-Safety-Review als Gate |
 | FA-03 | "Feature-Fortschritt = Produktreife" | D-02 (RAID-Hang), D-03 (Ports), C-02 (RocksDB), F-22 (Cache Leak) | Kritische Produktionsfehler | Stabilitätskriterien vor Feature-Merge |
@@ -259,31 +298,37 @@ Alle Einträge sind mit Dateipfad/Changelog/Commit-Referenz belegt und aus der C
 ## V. Fehlentscheidungen (Cluster-Ebene)
 
 ### FD-01: GPU-Backend als Produktiv-Code eingemeldet ohne Funktionalität
+
 - **Evidenz**: D-01 — ~1500 LOC, 65+ offene Aufgaben, kein einziger CUDA-Kernel der tatsächlich ausgeführt wurde.
 - **Folge**: Mehrere Releases mit irreführendem Feature-Claim.
 - **Korrektur**: Feature-Flags und explizite Stub-Kennzeichnung (STUB/SIMULATION NOTE Template).
 
 ### FD-02: Hotfix-Bedarf durch fehlende Integrationstests für RAID-Startup
+
 - **Evidenz**: D-02 (RAID-Hang), D-03 (Port-Mapping) — beide CRITICAL in v1.3.4-hotfix.
 - **Folge**: Produktions-Deployment-Blocker; Hotfix-Zyklus außerhalb regulärem Release-Prozess.
 - **Korrektur**: Cluster-Startup-Integrationstests als Pflicht-Gate vor jedem RAID-Release.
 
 ### FD-03: Concurrency-Design nachträglich repariert statt vorab definiert
+
 - **Evidenz**: A-01..A-07 (7 unabhängige Concurrency-Bugs in verschiedenen Modulen).
 - **Folge**: Latente Bugs über mehrere Release-Zyklen; erst durch explizite Audits gefunden.
 - **Korrektur**: Thread-Safety-Kontrakt als expliziter API-Kommentar; TSan-CI-Gate.
 
 ### FD-04: Refaktorierungen ohne vollständige Übergabepunkte gestartet
+
 - **Evidenz**: D-04 (HTTP Server-Refaktorierung halb-fertig).
 - **Folge**: Typ-Mismatch zwischen altem und neuem System; temporärer Adapter mit Laufzeit-Overhead.
 - **Korrektur**: Refaktorierungen enden mit 0 verbleibenden Bridge-Adaptern oder explizitem Migrations-Milestone.
 
 ### FD-06: Sicherheitskritische Stubs ohne Warnung in Produktion gelangt
+
 - **Evidenz**: I-02 (fake `DoNotOptimize(42.0)` Benchmark lieferte 796 M/s KPI), I-09 (CMake-Makro-Mismatch: alle GPU-Benchmarks immer Stubs), E-03/E-04 (GPU-Benchmarks disabled).
 - **Folge**: Management- und Roadmap-Entscheidungen basierten auf Zahlen ohne Bezug zur tatsächlichen Systemperformance.
 - **Korrektur**: CI-Gate: jeder Benchmark muss ≥1 tatsächliche Datenbankoperation ausführen (auditierbar via `--benchmark_list_tests` + Code-Review); Makro-Konsistenz als Linting-Regel.
 
 ### FD-08: Großflächige Concurrency-Schulden durch fehlendes Design-Review
+
 - **Evidenz**: I-23 (PR #4646, 141 Dateien, 19+ Klassen, 3 Fehlerklassen: Deadlocks, Blocking-I/O unter Lock, Exclusive-Mutex auf Read-Pfaden), A-01..A-07 (frühere Session).
 - **Folge**: Ein einziger PR musste 141 Dateien ändern, weil kein systemisches Concurrency-Gate existierte.
 - **Korrektur**: Thread-Safety-Kontrakt als expliziter API-Kommentar; TSan-CI-Gate; `shared_mutex`-Policy für `const`-Methoden auf shared State als Lint-Regel.
@@ -332,7 +377,7 @@ Wiederkehrende Root Causes:
 ### Vollständigkeitsregister
 
 | Bereich | Bugs dokumentiert | Arch/Prozess-Fehler | Status |
-|---------|-------------------|----------------------|--------|
+| --------- | ------------------- | ---------------------- | -------- |
 | Core/Storage | C-02 (RocksDB 7 CVEs), F-30 (const_cast UB), F-31 (Non-finite Jitter) | — | gut |
 | Query/Planner | B-02, B-11, F-16 (Bounds Check), F-17 (ALTER TABLE), F-18 (Race Condition) | — | gut |
 | Sharding/Distributed | D-02 (RAID-Hang), D-03 (Port-Mapping), D-06 (Paxos), D-08 (ReedSolomon) | FD-02 | gut |
@@ -395,6 +440,7 @@ Dieser Abschnitt verknüpft die internen Befunde (Kategorien A–J) mit externer
 **Externe Belege:**
 
 Lu et al. (2008) analysierten 105 reale Concurrency-Bugs aus vier bedeutenden Open-Source-Projekten (MySQL, Apache, Mozilla, OpenOffice) \[REF-01\]. Zentrale Befunde dieser Studie:
+
 - **97% der analysierten Bugs involvierten ≤4 Threads** — Komplexität war nicht die Ursache, sondern fehlende Designdisziplin.
 - **Atomicity-Violation-Bugs** (TOCTOU-Muster) machten den **größten Anteil** aus (etwa 66% der nicht-Deadlock-Bugs) — deckungsgleich mit ThemisDB A-02, J-03, I-05/I-06, J-07.
 - Deadlocks durch **Acquire-Wait-Kreis** (d.h. Lock-Order-Inversion) bildeten die zweithäufigste Klasse — deckungsgleich mit A-03, A-04, I-23 (task_scheduler/adaptive_query_cache), J-06.
@@ -451,6 +497,7 @@ Besonders relevant für F-01 / J-02 (GraphQL-Variable nie substituiert): Zeller 
 Das OWASP Top 10 (2021) listet **A02: Cryptographic Failures**, **A03: Injection** und **A05: Security Misconfiguration** als Spitzenreiter unter realen Webanwendungs-Sicherheitslücken \[REF-11\]. ThemisDB C-01/G-01 (VRAM nicht gecleart) ist ein A02-Muster; F-03 (AQL Injection) ein A03-Muster; G-04 (PKI-Stub always-true) ein A02/A05-Muster.
 
 Das CWE (Common Weakness Enumeration) Top 25 Most Dangerous Software Weaknesses (2023) \[REF-12\] enthält:
+
 - **CWE-787** (Out-of-Bounds Write) — relevant für C-02 (RocksDB-Wrapper Use-after-free)
 - **CWE-862** (Missing Authorization) — relevant für F-22 (Cross-Tenant-Cache-Leak)
 - **CWE-312** (Cleartext Storage of Sensitive Information) — exakt F-26 (API-Keys im Debug-Log)
@@ -469,6 +516,7 @@ Viega & McGraw (2002) dokumentieren in "Building Secure Software" das Muster der
 **Externe Belege:**
 
 Cook (1998) in "How Complex Systems Fail" formuliert 18 Prinzipien zu Ausfällen in komplexen Systemen, die seit ihrer Veröffentlichung in der Systemzuverlässigkeitsforschung kanonischen Status haben \[REF-14\]. Besonders relevant:
+
 - **Prinzip 4**: "Complex systems contain changing mixtures of failures latent within them." — D-02/D-03 waren von Beginn der RAID-Implementierung latent, aber erst im Produktionseinsatz sichtbar.
 - **Prinzip 14**: "Change introduces new forms of failure." — D-04 (HTTP-Server-Refaktorierung) ist ein Schulbuchbeispiel: Inkrementelle Migration mit aktivem Adapter als Dauerschuld.
 - **Prinzip 17**: "Human practitioners are the adaptors, last line of defense against failure." — I-10 (garbled merge) wurde erst durch manuellen Review erkannt, nicht durch CI.
@@ -544,7 +592,7 @@ Fowler (2018) beschreibt das Anti-Pattern des **"Strangler Fig"**-Musters (als p
 ### XI.9 Zusammenfassung: Externe Evidenz-Matrix
 
 | Fehlerkategorie | ThemisDB-Befunde | Externe Primärquelle | Industriebeleg |
-|-----------------|-----------------|----------------------|----------------|
+| ----------------- | ----------------- | ---------------------- | ---------------- |
 | Concurrency (Lock unter I/O, TOCTOU) | A-01..A-07, I-23, J-03..J-06 | Lu et al. 2008 \[REF-01\]; Serebryany 2009 \[REF-03\] | — |
 | Stubs als Produktivcode | D-01, G-02..G-06, I-02, I-09, I-12..I-15 | Cunningham 1992 \[REF-04\]; Kruchten 2012 \[REF-05\]; Li 2015 \[REF-06\] | — |
 | Off-by-One / Logikfehler | B-01..B-11, F-01, F-08, F-16 | McConnell 2004 \[REF-08\]; Myers 2011 \[REF-09\]; Zeller 2009 \[REF-10\] | — |
@@ -624,7 +672,7 @@ Bei jeder größeren Iteration:
 ## Appendix B. Schnellreferenz: Offene Aufgaben mit kritischem Potenzial
 
 | Datei | Zeile | Problem | Priorität |
-|-------|-------|---------|-----------|
+| ------- | ------- | --------- | ----------- |
 | `src/sharding/paxos_consensus.cpp` | 622 | Highest accepted value nicht aus Promise propagiert | HOCH |
 | `src/server/http_server.cpp` | 117 | Boost.Beast / cpp-httplib Bridge noch aktiv | MITTEL |
 | `src/server/http2_session.cpp` | 466 | Kein produktiver Buffer-Management-Pfad | MITTEL |
@@ -635,150 +683,183 @@ Bei jeder größeren Iteration:
 ### Kategorie F: Weitere Laufzeit- und Logikfehler (Module-Übergreifend)
 
 #### F-01: GraphQL — Variable References nie aufgelöst (`$variable` blieb immer literal String)
+
 - **Fundstelle**: `src/api/CHANGELOG.md` v2.0.0, `tests/test_graphql_variables.cpp`
 - **Problem**: `$variable`-Referenzen in Feldargumenten wurden als Klartext-Strings `"$id"` gespeichert und nie zur Laufzeit aufgelöst. Betraf alle GraphQL-Queries mit Variablen-Substitution.
 - **Auswirkung**: Alle variablengesteuerten GraphQL-Queries lieferten falsches Ergebnis ohne Fehlermeldung — stiller Korrektheits-Bug über multiple Releases.
 - **Fix**: Neuer `Value::Type::VariableRef`-Typ; `Executor::resolveValue()` löst vor Resolver-Aufruf auf.
 
 #### F-02: API — `BatchWrite::success` immer `true` bei Partial-Failures
+
 - **Fundstelle**: `src/api/CHANGELOG.md` v1.9.1
 - **Problem**: Wenn einzelne Upserts/Deletes in einem Batch fehlschlugen, gab `BatchWriteResponse::success` trotzdem `true` zurück.
 - **Auswirkung**: Aufrufer konnten Teil-Fehlschläge nicht erkennen; Dateninkonsistenz bei fehlertoleranten Clients.
 
 #### F-03: AQL Identifier Injection über `collection`-Parameter
+
 - **Fundstelle**: `src/api/CHANGELOG.md` v1.9.1
 - **Problem**: `HybridSearch` und `FullTextSearch` escapten nur einfache Anführungszeichen, schützten aber nicht vor Injection durch den Identifier selbst (z.B. `"col RETURN SLEEP(10) //"`).
 - **Auswirkung**: Sicherheitslücke: beliebige AQL-Injection möglich.
 
 #### F-04: gRPC Server — `start()` hielt `mutex_` über blockierenden Socket-Bind
+
 - **Fundstelle**: `src/api/CHANGELOG.md` v1.9.0
 - **Problem**: `GrpcApiServer::start()` hielt `mutex_` über den blockierenden `BuildAndStart()`-Aufruf. Gleichzeitige `stop()`/Accessor-Aufrufe deadlockten.
 - **Fix**: Lock vor Netzwerk-Operation freigeben, danach re-acquiren.
 
 #### F-05: Graph — L2-Distanz Overflow für hochwertige float32-Vektoren
+
 - **Fundstelle**: `src/index/CHANGELOG.md` v1.1.0
 - **Problem**: L2-Distanzberechnung ohne Overflow-Schutz; bei hochmagnitudigen float32-Vektoren Overflow zu `+inf`/NaN.
 - **Auswirkung**: Vektor-Suche lieferte falsche Rangfolge.
 
 #### F-06: HNSW — Graph-Konnektivität nach parallelen Inserts gebrochen
+
 - **Fundstelle**: `src/index/CHANGELOG.md` v1.5.0
 - **Problem**: Hochparallele Concurrent-Inserts hinterließen HNSW-Layer-Graphen mit fehlenden Kanten.
 - **Auswirkung**: ANN-Suche lieferte unvollständige Ergebnisse; erst durch gezielten Lasttest gefunden.
 
 #### F-07: PQ-Encoding — falsche Sub-Vektor-Zuweisung bei hoher Dimensionalität
+
 - **Fundstelle**: `src/index/CHANGELOG.md` v1.4.0
 - **Problem**: Product-Quantization-Codebook generierte bei hoher Eingabedimensionalität falsche Cluster-Zuweisungen.
 
 #### F-08: HNSW `ef_search` — lieferte weniger Ergebnisse als angefragt
+
 - **Fundstelle**: `src/index/CHANGELOG.md` v1.2.0
 - **Problem**: Bei kleinen Indizes lieferte `ef_search` weniger als die angeforderten `k` Ergebnisse ohne Fehlerindikation.
 
 #### F-09: R-tree — falsche MBR-Splits durch Z-Order-Kurve bei hoher Dimensionalität
+
 - **Fundstelle**: `src/index/CHANGELOG.md` v1.6.0
 - **Problem**: Z-Order (Morton) Curve berechnete bei hohen räumlichen Dimensionen fehlerhafte Minimum-Bounding-Rectangle-Splits.
 
 #### F-10: CUDA Stream Synchronisation Race bei parallelen Multi-Index Queries
+
 - **Fundstelle**: `src/index/CHANGELOG.md` v1.3.0
 - **Problem**: Parallele Queries auf mehrere Indizes synchronisierten CUDA-Streams nicht korrekt.
 - **Auswirkung**: Nicht-deterministisches Verhalten; potentiell falsche Ergebnisse unter Last.
 
 #### F-11: Vulkan Descriptor Set Leak beim Index-Rebuild
+
 - **Fundstelle**: `src/index/CHANGELOG.md` v1.3.0
 - **Problem**: Nach jedem Index-Rebuild wurden Vulkan Descriptor Sets nicht freigegeben.
 - **Auswirkung**: Speicher-Leak; Vulkan-API-Ressourcen-Erschöpfung über Zeit.
 
 #### F-12: Graph — falsche Shortest-Path-Ergebnisse bei negativen Kanten-Gewichten in BFS
+
 - **Fundstelle**: `src/graph/CHANGELOG.md` v1.1.0
 - **Problem**: BFS-Modus im Graph-Traversal-Engine lieferte falsche kürzeste Wege wenn negative Kantengewichte vorhanden; BFS ist grundsätzlich nicht für negative Gewichte definiert, aber kein Fehler wurde ausgelöst.
 
 #### F-13: Graph — Race Condition bei parallelen Traversierungen über gemeinsame Frontier
+
 - **Fundstelle**: `src/graph/CHANGELOG.md` v1.3.0
 - **Problem**: Parallele Traversierungen mit geteilten Frontier-Knoten hatten unsynchronisierten Lese-/Schreibzugriff.
 
 #### F-14: Graph — Edge Weight Overflow bei großen Graphen mit hochkardinalen Knoten
+
 - **Fundstelle**: `src/graph/CHANGELOG.md` v1.3.0
 - **Problem**: Kantengewichte akkumulierten Integer Overflow bei Traversierungen über hochkardinalitäts-Knoten.
 
 #### F-15: VF2 Graph Matching — Doppelte Kandidaten-Mappings auf symmetrischen Graphen
+
 - **Fundstelle**: `src/graph/CHANGELOG.md` v1.2.0
 - **Problem**: VF2-Algorithmus generierte doppelte isomorphe Mappings auf Graphen mit Symmetrie-Eigenschaften.
 
 #### F-16: Query Federation — Array-Zugriff ohne Bounds-Check (`tables[0]`, `tables[1]`)
+
 - **Fundstelle**: `src/query/CHANGELOG.md` v1.6.0
 - **Problem**: `QueryFederation::createExecutionPlan()` griff direkt auf `metadata.tables[0]` und `[1]` zu ohne zu prüfen ob `tables.size() >= 2`.
 - **Auswirkung**: Undefined Behavior / Absturz bei Federation-Queries über weniger als zwei Tabellen.
 
 #### F-17: Metadata — SchemaVersionManager generierte falsches `ALTER TABLE` bei Spalten-Reihenfolge-Änderung
+
 - **Fundstelle**: `src/metadata/CHANGELOG.md` v1.5.1
 - **Problem**: Diff-Script-Generator erkannte Spalten-Reihenfolge-Änderungen ohne Typ-Änderung nicht korrekt; generiertes SQL war semantisch falsch.
 
 #### F-18: Metadata — `DistributedMetadataCatalog` Race Condition bei gleichzeitiger Table-Discovery
+
 - **Fundstelle**: `src/metadata/CHANGELOG.md` v1.6.0
 - **Problem**: Zwei Koordinatoren, die gleichzeitig dieselbe neue Tabelle entdeckten, erzeugten inkonsistente Catalog-Einträge.
 
 #### F-19: Prompt Engineering — Template-Map ohne Thread-Safety bei Concurrent Read/Write
+
 - **Fundstelle**: `src/prompt_engineering/CHANGELOG.md` v1.3.0
 - **Problem**: Concurrent Read/Write auf Template-Map ohne Synchronisation; erst durch expliziten Test gefunden.
 - **Fix**: TBB `concurrent_hash_map`.
 
 #### F-20: Prompt Engineering — `PromptManager` CRUD nicht persistiert nach Prozess-Neustart
+
 - **Fundstelle**: `src/prompt_engineering/CHANGELOG.md` v1.2.0 (Fixed)
 - **Problem**: CRUD-Operationen auf Prompt-Templates galten nur im Prozess-Speicher; nach Neustart waren alle Änderungen weg.
 
 #### F-21: Scheduler — Audit-Logs hardgecoded `"system"` als Actor
+
 - **Fundstelle**: `src/scheduler/CHANGELOG.md`
 - **Problem**: Alle Audit-Log-Einträge (registerTask, updateTask, enableTask, disableTask, executeTaskNow) nutzten den Literal-String `"system"` als Actor statt des echten Aufrufer-Users.
 - **Auswirkung**: Audit-Trail nicht rekonstruierbar — wer welche Task-Änderung auslöste, war nicht nachvollziehbar.
 
 #### F-22: Cache — Cross-Tenant-Datenleck bei Tenant-ID-Mismatch
+
 - **Fundstelle**: `src/cache/CHANGELOG.md`
 - **Problem**: Cache-Reads lieferten bei Tenant-ID-Mismatch tatsächlich fremde Daten statt `nullopt`.
 - **Auswirkung**: Sicherheitskritisches Datenleck zwischen Tenants.
 
 #### F-23: Ingestion — CDC Connector leckte Replication Slot bei Reconnect
+
 - **Fundstelle**: `src/ingestion/CHANGELOG.md` v1.5.0, `src/ingestion/AUDIT.md` ING-001
 - **Problem**: PostgreSQL Logical Replication Slot wurde bei Verbindungsunterbrechung nicht geschlossen; nach Reconnect entstanden permanente Slot-Leaks.
 - **Auswirkung**: WAL-Akkumulation auf PostgreSQL-Seite; Disk-Full-Risiko.
 
 #### F-24: Ingestion — WebCrawler Infinite Redirect Loop bei selbst-referenzierendem `Location`-Header
+
 - **Fundstelle**: `src/ingestion/CHANGELOG.md` v1.5.0, `src/ingestion/AUDIT.md` ING-002
 - **Problem**: Kein Redirect-Loop-Schutz; bei einem `Location`-Header der auf sich selbst zeigte: unendliche Schleife.
 
 #### F-25: Ingestion — ObjectStorage Multipart Upload bei Pipeline-Abbruch unvollständig gelassen
+
 - **Fundstelle**: `src/ingestion/CHANGELOG.md` v1.5.0, `src/ingestion/AUDIT.md` ING-003
 - **Problem**: Kein Abort-Handler für Multipart-Uploads; abgebrochene Pipelines hinterließen unvollständige Uploads in S3/GCS/Azure.
 - **Auswirkung**: Kostenlücken (Speicherkosten für incomplete parts) und potentielle Datenverschmutzung.
 
 #### F-26: Ingestion — API-Keys erschienen im Debug-Log (Credential Leak)
+
 - **Fundstelle**: `src/ingestion/AUDIT.md` ING-004, fix in v1.2.0
 - **Problem**: Connector-Konfiguration inkl. API-Keys wurde ungefiltert in Debug-Log-Zeilen ausgegeben.
 - **Auswirkung**: Credentials in Log-Aggregatoren sichtbar.
 
 #### F-27: Importers — MySQL Importer Deadlock bei Bulk-Insert
+
 - **Fundstelle**: `src/importers/CHANGELOG.md` v1.4.0
 - **Problem**: High-Concurrency Bulk-Inserts über den MySQL-Importer erzeugten Deadlocks auf Server-Seite; kein Retry/Backoff implementiert.
 
 #### F-28: Plugins — Race Condition im Hot-Plug Monitor bei gleichzeitigem Load/Unload
+
 - **Fundstelle**: `src/plugins/CHANGELOG.md` v1.3.0
 - **Problem**: Gleichzeitige Load/Unload-Sequenzen im Hot-Plug Monitor hatten ungeschützten Zugriff auf Plugin-Registry.
 
 #### F-29: Plugins — Stale Capability Entries nach Plugin-Unload
+
 - **Fundstelle**: `src/plugins/CHANGELOG.md` v1.3.0
 - **Problem**: Nach Plugin-Unload blieben Capability-Einträge in der Registry stehen; Folgeanfragen an nicht mehr existierende Capabilities konnten abstürzen.
 
 #### F-30: Storage — `const_cast` Undefined Behavior in Audit-Code
+
 - **Fundstelle**: `src/storage/CHANGELOG.md`
 - **Problem**: Audit-Logik nutzte `const_cast` um `const`-qualifizierte Storage-Objekte zu modifizieren — Undefined Behavior unter C++11.
 
 #### F-31: Storage — Nicht-Finite Verzögerungswerte im `TransactionRetryManager`
+
 - **Fundstelle**: `src/storage/CHANGELOG.md`
 - **Problem**: Jitter-Werte wurden ohne Validierung auf NaN/Infinity akzeptiert; resultierende `sleep`-Aufrufe mit nicht-finiten Werten führten zu undefiniertem Verhalten.
 
 #### F-32: Acceleration — `HIPVectorBackend`/`ZLUDAVectorBackend` lieferten unvollständige Capabilities
+
 - **Fundstelle**: `src/acceleration/CHANGELOG.md`
 - **Problem**: `getCapabilities()` gab Objekte ohne `supportedPrecisions` und `supportedMetrics` zurück; Aufrufer, die diese Felder erwarteten, liefen in Assertion-Failures.
 
 #### F-33: Acceleration — `RTLD_LAZY` in `loadLibrary` erlaubte verdeckte Symbol-Fehler
+
 - **Fundstelle**: `src/acceleration/CHANGELOG.md`
 - **Problem**: `RTLD_LAZY` bedeutet, dass fehlende Symbole erst beim ersten Aufruf der Funktion entdeckt werden, nicht beim Laden. Fehlerhafte Backend-Libraries wurden scheinbar erfolgreich geladen.
 - **Fix**: `RTLD_NOW` für fail-fast Symbol-Binding.
@@ -786,206 +867,244 @@ Bei jeder größeren Iteration:
 ### Kategorie G: Sicherheit und Datenlecks (Weitere Befunde)
 
 #### G-01: Index — VRAM Nicht-Überschreiben bei Index-Eviction (Cross-Tenant-Datenleck)
+
 - **Fundstelle**: `src/index/CHANGELOG.md` v1.4.0
 - **Problem**: VRAM wurde nach Index-Eviction nicht gecleart; nachfolgende Index-Loads eines anderen Tenants konnten residuale Daten des vorherigen sehen.
 
 #### G-02: ProvenanceTracker — AQL-Queries als Template-Stubs (keine echte Engine-Verbindung)
+
 - **Fundstelle**: `CHANGELOG.md`, PR #4268
 - **Problem**: `ProvenanceTracker` nutzte AQL-Template-Strings statt einer echten `AQLEngine`-Verbindung; Provenance-Queries lieferten Dummy-Ergebnisse.
 - **Auswirkung**: Provenance-/Audit-Trail-Funktionalität war faktisch nicht funktionsfähig.
 
 #### G-03: RAG LLM-Integration — `LLMIntegration`/`LLMJudgeIntegration` waren Stubs
+
 - **Fundstelle**: `CHANGELOG.md`, PR #4277
 - **Problem**: RAG-Modul verwendete Stub-Implementierungen für LLM-Aufruf und LLM-Judge; alle RAG-Evaluierungen basierten auf gefakten Ergebnissen.
 
 #### G-04: PKIClient — Stub-Verifikation statt realer Zertifikatsprüfung
+
 - **Fundstelle**: `CHANGELOG.md`, PR #4263
 - **Problem**: `PKIClient` nutzte eine Fallback-Stub-Verifikation die immer `true` zurückgab; reale X.509-Kettenverifikation fehlte bis v1.8.0.
 - **Auswirkung**: PKI-Signaturen wurden nie wirklich geprüft.
 
 #### G-05: `SelfImprovementOrchestrator` — mit Stub-`PromptEvaluator` verbunden
+
 - **Fundstelle**: `src/prompt_engineering/CHANGELOG.md`
 - **Problem**: Der Self-Improvement-Orchestrator verwendete einen Stub als Evaluator; Verbesserungsvorschläge basierten auf gefakten Bewertungen.
 
 #### G-06: HSM-Provider — Stub-Modus ohne Startup-Warnung (akkzidenteller Prod-Einsatz möglich)
+
 - **Fundstelle**: `CHANGELOG.md` (v1.7.x HSM Stub Warning)
 - **Problem**: Bis v1.7.x startete der Server mit aktivem Stub-HSM-Provider ohne Warnung; produktive Deployments konnten versehentlich den nicht-sicheren Stub nutzen.
-
 
 ### Kategorie H: RPC / Observability
 
 #### H-01: Observability — `tracer.cpp` und `log_aggregator.cpp` komplett fehlend (OBS-MISSING-001)
+
 - **Fundstelle**: `src/observability/ROADMAP.md` Known Issues / OBS-MISSING-001, implementiert 2026-03-11
 - **Problem**: Zwei der zentralen Observability-Quelldateien (`tracer.cpp`, `log_aggregator.cpp`) existierten schlicht nicht. Alle Funktionen die W3C Trace Context Propagation oder strukturiertes Logging benötigten, hatten keine Implementierung.
 - **Auswirkung**: Distributed Tracing und strukturiertes Logging waren über mehrere Releases faktisch nicht vorhanden — trotz entsprechender Header-Deklarationen.
 
 #### H-02: Observability — `query_profiler.cpp`, `storage_profiler.cpp`, `performance_analyzer.cpp` fehlten in CMakeLists.txt
+
 - **Fundstelle**: `src/observability/ROADMAP.md` Known Issues, fix 2026-03-09
 - **Problem**: Drei Profiler-Quelldateien waren zwar implementiert, aber nicht in `cmake/CMakeLists.txt` registriert. `test_observability_profilers.cpp` konnte nicht gelinkt werden.
 - **Auswirkung**: Profiler-Tests konnten über mehrere Entwicklungszyklen nicht gebaut werden; Regressions-Gate faktisch nicht vorhanden.
 
 #### H-03: Observability — `MetricsCollector` nutzte exklusiven `std::mutex` auch für Lesepfade
+
 - **Fundstelle**: `src/observability/FUTURE_ENHANCEMENTS.md` Source Code Audit Findings (2026-03-12)
 - **Problem**: `metrics_collector.cpp` verwendete `std::lock_guard<std::mutex>` (exklusiv) für alle Operationen — auch für den Prometheus-Scrape-Pfad (`getPrometheusMetrics`, `getCardinalityLimit`). Gleichzeitige Scraper serialisierten sich.
 - **Auswirkung**: Prometheus-Scraping unter 16 gleichzeitigen Scrapern serialisiert; strukturell signifikanter Throughput-Verlust. Erst TSAN-Stress-Test `TSANStress_16ScrapersAnd8Writers` deckte das Muster auf.
 - **Fix**: Upgrade auf `std::shared_mutex`; Lesepfade auf `std::shared_lock`, Schreibpfade auf `std::unique_lock`.
 
 #### H-04: Observability — `/metrics`-Endpunkt ohne Authentication erreichbar
+
 - **Fundstelle**: `src/observability/FUTURE_ENHANCEMENTS.md`, `src/observability/AUDIT.md` OBS-OPEN-01
 - **Problem**: Der Prometheus-Scrape-Endpunkt `/metrics` (Prometheus text) hat keine Authentifizierung (kein Bearer Token, kein mTLS-Guard). Alle Prometheus-Metriken (inkl. interner Betriebsdaten) sind ohne Zugangsprüfung abrufbar.
 - **Auswirkung**: Datenleck interner Betriebsdaten an nicht-authentifizierte Clients. Offenes Security-Item OBS-OPEN-01, Target Q3 2026.
 - **Status**: Noch offen.
 
 #### H-05: Observability — Trace Spans können PII enthalten (keine Scan/Sanitization)
+
 - **Fundstelle**: `src/observability/AUDIT.md` OBS-OPEN-02, `src/observability/FUTURE_ENHANCEMENTS.md`
 - **Problem**: Trace-Span-Attribute werden ohne PII-Scan in OTLP-Exporter weitergesendet. Strukturierte Log-Einträge sollen keine Nutzerdaten enthalten — ob das überall eingehalten wird, ist nicht auditiert.
 - **Auswirkung**: PII-Leakage via Observability-Backend (Jaeger, Zipkin, OTLP) möglich.
 - **Status**: Noch offen (OBS-OPEN-02, Target Q3 2026).
 
 #### H-06: Observability — OTLP Exemplar-Verknüpfung nicht in Export-Pipeline integriert
+
 - **Fundstelle**: `src/observability/AUDIT.md` OBS-OPEN-05
 - **Problem**: `IExemplarReservoir`-Interface (`otlp_exemplar.h`) ist deklariert, aber nicht in die OTLP-Export-Pipeline eingebunden. Trace-zu-Metrik-Verknüpfung via Exemplars funktioniert nicht.
 
 #### H-07: RPC/gRPC — `setServiceHealth()` nicht mit gRPC Proto Health Service verdrahtet
+
 - **Fundstelle**: `src/rpc_grpc/ROADMAP.md` Known Issues & Limitations
 - **Problem**: `setServiceHealth()` verwaltet Health-State nur im Prozess-Speicher; kein Bezug zum gRPC-eigenen `grpc.health.v1.Health` Proto-Service. Externe Health Probe-Clients (Kubernetes `grpc_health_probe`) sehen nie den Zustand der internen Statusverwaltung.
 - **Auswirkung**: Kubernetes Liveness/Readiness Probes via gRPC Health Protocol können keinen korrekten Zustand liefern.
 
 #### H-08: RPC/gRPC — `recordRPC()` ist manueller Hook, kein automatischer Interceptor
+
 - **Fundstelle**: `src/rpc_grpc/ROADMAP.md` Known Issues & Limitations
 - **Problem**: Metriken werden nur für explizit mit `recordRPC()` instrumentierte RPC-Methoden erfasst. Alle anderen Server-seitigen RPCs (z.B. neue Services ohne explizite Instrumentierung) erzeugen keine Prometheus-Metriken.
 - **Auswirkung**: Metriken-Lücken bei nicht explizit instrumentierten RPCs; kein vollständiges Observability-Bild.
 
 #### H-09: RPC/gRPC — Ungültige Keepalive-Werte werden stillschweigend ignoriert
+
 - **Fundstelle**: `src/rpc_grpc/CHANGELOG.md` v0.2.0
 - **Problem**: Wenn `extra_config["keepalive_time_ms"]` oder `keepalive_timeout_ms` mit einem ungültigen Wert (z.B. Nicht-Zahl, negativer Wert) konfiguriert wird, wird der Fehler stillschweigend ignoriert und der Default-Wert verwendet. Kein Warn-Log, kein Fehler.
 - **Auswirkung**: Fehlerhafte Keepalive-Konfiguration ist für Operatoren nicht erkennbar; Production-Deployments laufen mit falschen Netzwerk-Timeouts ohne Hinweis.
 
 #### H-10: RPC/gRPC — `reloadTls()` aktualisiert nur gecachte Credentials, keine laufenden Sessions
+
 - **Fundstelle**: `src/rpc_grpc/ROADMAP.md` Known Issues & Limitations
 - **Problem**: Nach `reloadTls()` mit neuen Zertifikaten werden bestehende TLS-Sessions nicht neu ausgehandelt. Neue Verbindungen nutzen die aktualisierten Zertifikate; laufende Verbindungen bleiben auf den alten Credentials.
 - **Auswirkung**: Bei Zertifikatsrotation bleiben alle Langzeit-Verbindungen auf dem alten Zertifikat aktiv bis zur Session-Trennung. Bei kompromittierten Zertifikaten kein sofortiger Schutz.
 
 #### H-11: RPC/gRPC — Kein mTLS Round-Trip Integrationstest
+
 - **Fundstelle**: `src/rpc_grpc/AUDIT.md`, GRPC-OPEN-03 / CHANGELOG.md [Unreleased]
 - **Problem**: mTLS wird nur durch Unit-Tests auf Konfigurations-Level getestet. Ein echter mTLS Round-Trip (Client-Zertifikat + Server-Verifikation + Datenaustausch) ist nie im CI validiert worden.
 - **Auswirkung**: Produktionsfehler bei mTLS-Deployments könnten bis zum Deployment-Zeitpunkt unentdeckt bleiben.
-
 
 ### Kategorie I: PR-gesicherte Befunde (GitHub Closed PRs)
 
 Die folgenden Befunde sind durch abgeschlossene und gemergte Pull Requests auf GitHub belegt — die stärkste Form der Evidenz, da jeder Bug von einem Reviewer als real akzeptiert und behoben wurde.
 
 #### I-01: WAL-Sync Konfigurationsfehler — ~79x Write-Throughput Regression (PR #4596)
+
 - **Fundstelle**: `src/storage/rocksdb_wrapper.cpp`, PR #4596 (merged 2026-04-13)
 - **Problem**: `write_options_->sync = config_.enable_wal` verknüpfte zwei orthogonale Konzepte: ob der WAL *geschrieben* wird vs. ob jeder Write *fsynced* wird. Da `enable_wal=true` der Default ist, wurde jeder `put()`-Aufruf mit einem synchronen `fsync()` beendet — was den Throughput auf Disk-IOPS (~1.276 k/s) beschränkte.
 - **Auswirkung**: ~79x Throughput-Regression gegenüber dem WAL-on/sync-off Modus. Der Fehler war im Default-Pfad aktiv. Das KPI-Ziel von 100 k/s war strukturell unerreichbar.
 - **Fix**: `write_options_->sync = false`; explizites fsync nur über `force_sync_on_write`-Flag.
 
 #### I-02: Fake Benchmark `QueryEngineBench/SimpleEvaluation` (`DoNotOptimize(42.0)`) (PR #4595)
+
 - **Fundstelle**: `benchmarks/bench_core_performance.cpp`, PR #4595 (merged 2026-04-13)
 - **Problem**: Das Benchmark das die "796.4 M/s"-KPI-Kennzahl produzierte, war `DoNotOptimize(42.0)` — ein Loop-Overhead-Measurement, das keine einzige Datenbankoperation ausführte. Das KPI-Dashboard zeigte einen "Wert" der nichts über tatsächliche Query-Performance aussagte.
 - **Auswirkung**: Alle KPI-Berichte für Query Engine Throughput basierten auf einer sinnlosen Messung. Performance-Regressionen waren unsichtbar.
 
 #### I-03: QueryEngine — Doppelter RocksDB Round-Trip bei Primary-Key Queries (PR #4595)
+
 - **Fundstelle**: `src/query/query_engine.cpp`, PR #4595
 - **Problem**: `executeAndEntities()` führte für PK-Queries zuerst einen Existenz-Check via `executeAndKeys()` und danach einen separaten Blob-Fetch durch — 2+ RocksDB-Reads statt 1.
 - **Fix**: `pk_eq`-Fast-Path: single `db_->get()` ohne Secondary-Index-Scan.
 
 #### I-04: Rate Limiter — Unbeschränktes Wachstum der Bucket-Map (Memory Leak) (PR #4592)
+
 - **Fundstelle**: `include/api/rate_limiter.h`, PR #4592 (merged 2026-04-13)
 - **Problem**: `buckets_`-Map wuchs unbegrenzt — ein Eintrag pro eindeutigem Key, niemals entfernt. Bei vielen verschiedenen Clients (z.B. IP-basierten Rate-Limits) wuchs der Speicherbedarf kontinuierlich.
 - **Auswirkung**: Langlaufende Server verloren Speicher; Denial-of-Service durch Speichererschöpfung möglich.
 
 #### I-05: Rate Limiter — Verschachteltes Mutex-Locking als serialisierende Flaschenhals (PR #4592)
+
 - **Fundstelle**: `include/api/rate_limiter.h`, PR #4592
 - **Problem**: `OperationRateLimiter::allow()` hielt äußeres `std::mutex` während es `RateLimiter::allow()` aufrief, das seinerseits ein eigenes Mutex aquirierte. Alle Requests serialisierten sich durch diese Two-Mutex-Chain.
 
 #### I-06: Rate Limiter — Clock-Syscall innerhalb kritischer Section (PR #4592)
+
 - **Fundstelle**: `include/api/rate_limiter.h`, PR #4592
 - **Problem**: `Bucket::refill()` rief `steady_clock::now()` unter `mutex_` auf — unnötige Syscall-Latenz im Hot-Path.
 - **Fix**: Timestamp vor Lock-Acquisition berechnen.
 
 #### I-07: gRPC API — `BatchWrite`/`BatchRead` ohne Input-Size-Limit (DoS-Vektor) (PR #4591)
+
 - **Fundstelle**: `src/api/themisdb_grpc_service.cpp`, PR #4591 (merged 2026-04-13)
 - **Problem**: `BatchWrite` und `BatchRead` alloziierten pro Item ohne vorherige Größenprüfung. Beliebig große Batches (z.B. 1 Mio. Items) konnten Speicher erschöpfen.
 - **Auswirkung**: DoS-Vektor: Jeder nicht-authentifizierte Client konnte den Server über einen einzelnen Giant-Batch überwältigen.
 - **Fix**: Hard-Cap von 10.000 Items; Überschreitung → `RESOURCE_EXHAUSTED`.
 
 #### I-08: gRPC API Server — `stop()` hielt `mutex_` während 30-sekündigem blockierenden `Shutdown()` (PR #4591)
+
 - **Fundstelle**: `src/api/grpc_api_server.cpp`, PR #4591
 - **Problem**: `stop()` verwendete `lock_guard` und hielt `mutex_` für das vollständige 30-Sekunden-Drain-Fenster. Gleichzeitige Aufrufe zu `isRunning()` deadlockten.
 - **Anmerkung**: Verwandt mit CHANGELOG-Bug F-04, aber dieser PR zeigt die zweite Instanz desselben Musters in `stop()`.
 
 #### I-09: CMake Makro-Mismatch — GPU-Benchmarks immer als Stubs gebaut (`THEMIS_GPU_ENABLED` ≠ `THEMIS_ENABLE_GPU`) (PR #4664)
+
 - **Fundstelle**: `cmake/CMakeLists.txt` + `benchmarks/`, PR #4664 (merged 2026-04-15)
 - **Problem**: CMake definierte `THEMIS_GPU_ENABLED` als PUBLIC-Definition auf `themis_core`. Benchmark-Quelldateien prüften aber `#ifndef THEMIS_ENABLE_GPU` (unterschiedlicher Makro-Name). Resultat: alle 5+ GPU-Benchmark-Targets kompilierten immer als Disabled-Stubs, auch bei explizitem `-DTHEMIS_ENABLE_GPU=ON -DTHEMIS_ENABLE_CUDA=ON`.
 - **Auswirkung**: Keine einzige GPU-Benchmark-Messung war je real. Alle GPU-Performance-KPIs waren Phantome.
 
 #### I-10: `user_storage_encrypted` — Garbled Merge Artifacts, fehlende Closing Braces, `#include` mid-Function (PR #4661)
+
 - **Fundstelle**: `src/user_storage_encrypted/`, PR #4661 (merged 2026-04-15)
 - **Problem**: Mehrere defekte Merge-Artefakte in verschiedenen Quelldateien: abgeschnittene Funktionskörper mit fremdem Code vermengt, fehlende schließende Klammern, duplizierte Klassen- und Funktionsdefinitionen, `#include`-Direktiven mitten in Funktionskörpern injiziert, Typ-Mismatch in `rotateKey()` (`uint32_t` in `std::vector` zugewiesen).
 - **Auswirkung**: Modul konnte über mehrere Sessions nicht kompiliert werden; alle Tests nicht lauffähig.
 
 #### I-11: `OLAPEngine` unter `_WIN32` vollständig als No-Op-Stub (325 LOC) (PR #4626)
+
 - **Fundstelle**: `src/analytics/olap.cpp`, PR #4626 (merged 2026-04-13)
 - **Problem**: Die gesamte `OLAPEngine`-Klasse war in `#if defined(_WIN32) ... #endif` eingeschlossen — 325 Zeilen No-Ops. Audit ergab: keine einzige POSIX-spezifische API-Nutzung im Code; SIMD-Intrinsics waren bereits per-Instruktion gegattet. Der Klassen-Level-Guard war grundlos.
 - **Auswirkung**: Jeder Windows-Build hatte null OLAP-Funktionalität ohne Fehlermeldung.
 
 #### I-12: Paxos RPC — `PaxosPrepareCallback`/`PaxosAcceptCallback` fehlten; Nodes wurden autom. eingefügt (PR #4678)
+
 - **Fundstelle**: `src/sharding/paxos_consensus.cpp`, PR #4678 (merged 2026-04-15)
 - **Problem**: Prepare- und Accept-Phasen riefen keine echten RPC-Callbacks auf — stattdessen wurden alle Cluster-Nodes automatisch als "stimmen zu" eingetragen. Paxos lief effektiv im Single-Node-Mode ohne echten Konsens.
 - **Auswirkung**: Paxos-Korrektheitsinvariante verletzt; verteilter Konsens war faktisch nicht vorhanden.
 
 #### I-13: LoRA `batchInferenceMultiLoRA` — Mock-Response statt echtem llama.cpp-Dispatch (PR #4678)
+
 - **Fundstelle**: `src/llm/multi_lora_manager.cpp`, PR #4678
 - **Problem**: Funktion gab immer eine hartgekodierte Mock-Response zurück, anstatt an den echten llama.cpp Extern-C-Aufruf zu delegieren.
 - **Auswirkung**: Alle Multi-LoRA-Inference-Ergebnisse waren gefälscht.
 
 #### I-14: `fp32_to_fp16`/`fp16_to_fp32` — Placeholder statt IEEE 754 Bit-Manipulation (PR #4678)
+
 - **Fundstelle**: `src/llm/lora_framework/mixed_precision.cpp`, PR #4678
 - **Problem**: FP16-Konvertierungsfunktionen enthielten keine korrekte IEEE 754 Bit-Manipulation (Sign/Exponent/Mantissa, Round-to-Nearest, Subnormals, Inf/NaN). Stattdessen: Placeholder-Implementierung die falsche oder undefinierte Werte produzierte.
 - **Auswirkung**: Alle Mixed-Precision-Operationen in der LoRA-Pipeline lieferten numerisch falsche Ergebnisse.
 
 #### I-15: Vulkan VRAM Allocator — Kein einziger Vulkan-API-Aufruf (PR #4678)
+
 - **Fundstelle**: `src/llm/lora_framework/vram_allocator.cpp`, PR #4678
 - **Problem**: `vram_allocator.cpp` enthielt keinerlei Vulkan-API-Aufrufe (`vkCreateBuffer`, `vkAllocateMemory` etc.). Alle VRAM-Allokationen waren No-Ops.
 - **Auswirkung**: GPU-beschleunigtes LoRA-Training war faktisch nicht möglich; Metriken/Tests die "Vulkan VRAM" validierten, validierten nichts.
 
 #### I-16: `listUsers`/`listGroups` gaben immer Hard Error zurück (PR #4708)
+
 - **Fundstelle**: `plugins/user_storage_encrypted/`, PR #4708 (merged 2026-04-16)
 - **Problem**: Beide Funktionen gaben einen Fehler-Statuswert zurück, ohne das Dateisystem zu scannen.
 - **Auswirkung**: User- und Gruppen-Management im verschlüsselten Storage war funktionslos.
 
 #### I-17: VoiceAPI `handleSynthesize` — gab immer leeres Audio zurück (PR #4708)
+
 - **Fundstelle**: `src/server/voice_api_handler`, PR #4708
 - **Problem**: `handleSynthesize()` gab bedingungslos leeres Audio zurück, ohne die `tts_processor_`-Implementierung aufzurufen.
 
 #### I-18: VoiceAPI `handleGetVoices` — gab hartgekodierte 4-Item-Liste zurück (PR #4708)
+
 - **Fundstelle**: `src/server/voice_api_handler`, PR #4708
 - **Problem**: Statt echte verfügbare Stimmen vom TTS-Backend abzufragen, lieferte die Funktion immer exakt dieselben 4 hartgekodierte Einträge.
 
 #### I-19: VoiceAPI `handleDeleteSession` — war vollständiger No-Op (PR #4708)
+
 - **Fundstelle**: `src/server/voice_api_handler`, PR #4708
 - **Problem**: `handleDeleteSession()` führte keine Aktion aus; Session-Context wurde nicht gelöscht.
 - **Auswirkung**: Session-Leaks; Clients die eine Session explizit löschen wollten, sahen keine Wirkung.
 
 #### I-20: `ExtractChunks` gab immer leere Map zurück (PR #4708)
+
 - **Fundstelle**: `src/server/rpc/differential_update_engine`, PR #4708
 - **Problem**: `ExtractChunks` berechnete keine CDC-Chunk-Grenzen, sondern lieferte bedingungslos `{}`.
 - **Auswirkung**: Differentielle Updates waren faktisch nicht implementiert.
 
 #### I-21: `GPUClusterTopology::addLink()` setzte `has_nvlink = true` nie (PR #4485)
+
 - **Fundstelle**: `src/gpu/cluster_topology.cpp`, PR #4485 (merged 2026-04-09)
 - **Problem**: `addLink()` aktualisierte nur `bandwidth_matrix`, setzte aber `has_nvlink` nie auf `true`. Nur `detect()` (automatische Hardware-Detection) setzte das Flag. Folge: NVLink-aware Scheduling war durch manuelle Topology-Injektion nicht erreichbar.
 - **Auswirkung**: NVLink-Scheduling-Pfad war in CPU-only CI vollständig toter Code; NVLink-Optimierungen nie validierbarer.
 
 #### I-22: CDC `SequenceCounter::scanMaxSequence()` — O(N) Full Scan mit JSON-Parsing (PR #4496)
+
 - **Fundstelle**: `src/cdc/sequence_counter.cpp`, PR #4496 (merged 2026-04-09)
 - **Problem**: `scanMaxSequence()` scannte alle Changefeed-Keys und parsierte dabei jeden als JSON — O(N) bei N Events.
 - **Fix**: `SeekForPrev` auf letzten Changefeed-Key + Sequenz direkt aus dem Key-String extrahiert (O(log N)).
 
 #### I-23: Großflächige Deadlock-Muster und Blocking-I/O unter Locks in 19+ Klassen (PR #4646)
+
 - **Fundstelle**: `src/`, PR #4646 (merged 2026-04-14), 141 geänderte Dateien
 - **Problem**: Systematisches Concurrency-Audit entdeckte drei Fehlerklassen gleichzeitig:
   - **Deadlocks durch Lock-Order Inversions**: `task_scheduler.cpp` (verschachteltes `tasks_mutex_` → `running_mutex_`), `adaptive_query_cache.cpp` (verschachtelte L1+Eviction-Locks), `cross_shard_transaction.cpp` (retry sleep *innerhalb* Lock — hielt Lock während `sleep_for`)
@@ -993,10 +1112,10 @@ Die folgenden Befunde sind durch abgeschlossene und gemergte Pull Requests auf G
   - **Exclusive Mutex auf Read-Heavy-Pfaden**: 19 Klassen nutzten exklusiven `std::mutex` für `const`-Methoden; u.a. `RateLimiter`, `IndexManager`, `ReplicationManager`, `TaskScheduler`, `MetricsCollector`, `HybridLogicalClock`
 - **Auswirkung**: Latenz-Spikes, Deadlock-Potenzial, Throughput-Verlust auf Read-Pfaden bei 19 verschiedenen Klassen. Umfang des Problems (141 Dateien) zeigt, dass kein systemisches Concurrency-Review vor Merge stattgefunden hatte.
 
-
 ### Kategorie J: Weitere PR-gesicherte Befunde (Seiten 3-4, PRs ~4255–4476)
 
 #### J-01: Docker-Image SIGSEGV beim Start — RocksDB-Öffnung im statischen Initializer (PR #4444)
+
 - **Fundstelle**: `src/llm/llama_wrapper.h`, `src/llm/llm_response_cache.cpp`, PR #4444 (hotfix, merged 2026-04-04)
 - **Problem**: `LlamaWrapper::Config::enable_response_cache = true` als Default löste bei jeder `LlamaWrapper`-Konstruktion — auch in statischen Funktions-Registry-Initializern vor `main()` — ein vollständiges `TransactionDB::Open()` aus. Im Docker-Startprozess führte dies zu einem SIGSEGV in `rocksdb::ImmutableDBOptions::Dump` (Exit 139).
 - **Auswirkung**: Das offizielle Docker-Image `themisdb/themisdb:latest` und `1.8.1-rc1` crashten unmittelbar beim Start. Produktionsdeployments via Docker waren strukturell nicht möglich.
@@ -1005,32 +1124,38 @@ Die folgenden Befunde sind durch abgeschlossene und gemergte Pull Requests auf G
   - RocksDB-Kompressions-Codecs (`liblz4`, `libzstd`, `libsnappy`) fehlten im Docker Runtime Stage — stiller Fallback oder Crash
 
 #### J-02: GraphQL `$variable`-Referenzen wurden nie substituiert — immer Literal-String `"$id"` (PR #4453)
+
 - **Fundstelle**: `src/api/graphql.cpp`, PR #4453 (merged 2026-04-07)
 - **Problem**: `parseValue()` speicherte `$name`-Referenzen als `Value::string("$name")` statt als `VariableRef`. Alle GraphQL-Resolver empfingen immer den Literal-String `"$id"` statt des gebundenen Wertes. Variable-Substitution im GraphQL-Executor war strukturell komplett defekt.
 - **Auswirkung**: Jede parametrisierte GraphQL-Query lieferte falsche Ergebnisse. Die Funktion war unnutzbar.
 
 #### J-03: `ONNXServingBackend::infer()` — TOCTOU Session-Check + gesamte Inference unter globalem Lock (PR #4315)
+
 - **Fundstelle**: `src/analytics/ml_serving.cpp`, PR #4315 (merged 2026-03-18)
 - **Problem**: Double-Lock-Pattern: Session-Existenzprüfung unter Lock, Lock-Release, erneute Lock-Akquisition für `sessions.at()`. Zwischen beiden Locks konnte ein anderer Thread die Session evakuieren → unbehandelte Exception. Zusätzlich: der zweite `lock_guard` hielt `sessions_mutex_` für die gesamte ONNX `Run()`-Dauer (O(N) für k-NN), serialisierte alle Model-Inferenzen.
 - **Auswirkung**: Race Condition führt zu unbehandelten Exceptions; vollständige Serialisierung aller ONNX-Inferences unabhängig vom Zielmodell.
 
 #### J-04: `ModelServingEngine::predict()` — gesamte Inference unter Registry `shared_lock` (PR #4314)
+
 - **Fundstelle**: `src/analytics/model_serving.cpp`, PR #4314 (merged 2026-03-18)
 - **Problem**: `predict()` hielt `shared_lock(impl_->mu)` für die vollständige Inference-Dauer (O(depth) für Trees, O(k·N) für k-NN). Jeder wartende `registerModel()`/`unregisterModel()`-Writer wurde für die gesamte Inference-Dauer geblockt. Zusätzlich: `e.health_mu` wurde unter dem äußeren Registry-Lock genommen — implizite Lock-Order-Dependency. Concurrent `unregisterModel()` konnte zu Use-After-Free führen (`unique_ptr` → dangling reference).
 - **Auswirkung**: Writer-Starvation + potenzielle Use-After-Free bei gleichzeitiger `unregisterModel()`-Ausführung.
 
 #### J-05: `StreamingAnomalyDetector::process()` — O(N·T) Training unter globalem Lock (PR #4313)
+
 - **Fundstelle**: `src/analytics/anomaly_detection.cpp:1040`, PR #4313 (merged 2026-03-18)
 - **Problem**: `process()` hielt `mu_` für den gesamten Ablauf: Window-Copy, O(N·T) IsolationForest-/O(N²) LOF-Training und `predict()`. Alle Producer-Threads serialisierten sich für die vollständige Trainings-Dauer. Async-Retrain-Lambda captured `this` ohne Destruktor-Guard → Use-After-Free bei Objekt-Destruktion. `retrain_future_`-Überschreibung erzeugte Blocking-Destruktor-Race.
 - **Auswirkung**: Vollständige Serialisierung aller Producers bei jedem Retrain-Zyklus; Use-After-Free bei Destruktion während aktivem Retrain.
 
 #### J-06: `CEPEngine::timerLoop()` hielt `windows_mutex_` während user-supplied Callbacks (PR #4291)
+
 - **Fundstelle**: `src/analytics/cep_engine.cpp:1079-1084`, PR #4291 (merged 2026-03-16)
 - **Problem**: `WindowManager::timerLoop()` rief user-supplied `callback_()` unter gehaltenem `windows_mutex_` auf. User-Callbacks sind arbiträrer Code (I/O, DB-Writes, netzwerk). Während `windows_mutex_` gehalten wird, kann kein anderer Thread Events hinzufügen, Windows schließen oder Window-State lesen.
 - **Weiterer Bug**: `metricsLoop()` nutzte `sleep_for(config_.metrics_interval)` ohne `condition_variable` — `shutdown()` stall für bis zu einen vollständigen `metrics_interval`.
 - **Auswirkung**: Vollständige Event-Ingestion-Starvation während user Callbacks; potenzielle sekundenlange Shutdown-Verzögerung.
 
 #### J-07: `DiffEngine::computeDiff()` — Cache Stampede + O(N) Full Changefeed Scan mit `limit=0` (PR #4325)
+
 - **Fundstelle**: `src/analytics/diff_engine.cpp:175-220`, PR #4325 (merged 2026-03-19)
 - **Problem (1)**: Double-Check-Cache-Pattern ohne "inflight"-Schutz: zwei gleichzeitige Caller für dieselbe Range vermissten beide den Cache, führten beide den teuren Scan durch, schrieben beide das Ergebnis — klassischer Cache Stampede.
 - **Problem (2)**: `listEvents()` mit `limit=0` scannte den gesamten Changefeed unabhängig von der angeforderten Sequenz-Range. O(N) Post-Filter-Loop discardete Events außerhalb des Bereichs statt bounds-gesteuerter Abfrage.
@@ -1039,6 +1164,7 @@ Die folgenden Befunde sind durch abgeschlossene und gemergte Pull Requests auf G
 - **Auswirkung**: Bei konkurrenten Zugriffen auf denselben Diff-Range: N-fache Redundanz-Berechnung; O(N) Scan des gesamten Event-Logs für jede einzelne Anfrage.
 
 #### J-08: CUDA HNSW Kernel — silentes k-Clamping auf `kMaxK=256` ohne Caller-Notification (PR #4320)
+
 - **Fundstelle**: `src/acceleration/cuda/cuda_hnsw_kernels.cu:325`, PR #4320 (merged 2026-03-18)
 - **Problem**: `if (k > kMaxK) k = kMaxK;` clamped k still auf maximal 256 ohne jede Rückmeldung an den Caller. Re-Ranking-Pipelines die `k=512` oder mehr Kandidaten anforderten, erhielten still 256 Ergebnisse zurück — keine Exception, kein Error-Code, keine Warnung.
 - **Auswirkung**: Jeder `k > 256` HNSW-Query lieferte strukturell falsche Ergebnisse. Re-Ranking-Qualität war systematisch degradiert ohne Erkennbarkeit.
