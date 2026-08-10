@@ -8,10 +8,11 @@
 ## Current Status
 Production-ready multi-model query stack with parser, optimizer, execution, federation, caching, and compatibility layers in active use.
 
-**Hybrid Retrieval Rollout Readiness**: 55% 🟡 (issue #5468).
+**Hybrid Retrieval Rollout Readiness**: 65% 🟢 (issue #5468).
 - Phase A (single-shard exact): ✅ Ready with error-path fixes (return-value checks, exception handling).
-- Phase B (hybrid planning): 🟡 Q3 2026 — thread-safety in parallel plan optimization required.
-- Phase C (parallel optimization): 🟡 Q3 2026+ after thread-safety fixes (140 gaps).
+- Phase B (thread-safety): ✅ COMPLETE 2026-08-08 — QueryOptimizer per_query_cost_model_mutex_, advisor_cost_model_mutex_, adaptive_init_flag_ added; PlanCache stats atomics + deadline propagation wired; 9 tests in test_query_optimizer_thread_safety.cpp.
+- Phase B (hybrid planner): 🟡 Q3 2026 — ANN + graph hybrid planner single-shard scope in progress.
+- Phase C (parallel optimization): 🟡 Q3 2026+ (thread-safety gate now passed).
 - Rollout risk detail: `ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md §7`
 
 ## In Progress
@@ -253,7 +254,7 @@ Performance and scalability optimization with measurable, gated performance impr
 - [~] Phase A gate: fix 50% of return-value check gaps (340 → 170) in optimizer (Target: Q3 2026)
 - [~] Phase A gate: fix 50% of exception-handling gaps (180 → 90) in optimizer (Target: Q3 2026)
 - [x] Phase A ctest gate: `test_query_planner_fallback` with degraded-mode injection (tests/query/test_query_planner_fallback.cpp: degraded mode + query_planner_fallback_total check present)
-- [~] Phase B gate: fix thread-safety gaps in parallel plan optimization (140 → 56) (Target: Q3 2026)
+- [x] Phase B gate: fix thread-safety gaps in parallel plan optimization (140 → 56) (COMPLETE 2026-08-08: QueryOptimizer per_query_cost_model_mutex_, advisor_cost_model_mutex_, adaptive_init_flag_ added; PlanCache stats atomics + deadline propagation wired; test_query_optimizer_thread_safety.cpp — 9 tests)
 - [~] Phase B gate: hybrid planner (ANN + graph) enabled with single-shard scope (Target: Q3 2026)
 - [x] Phase B gate: `query_planner_fallback_total` Prometheus metric wired (src/query/query_optimizer.cpp:177)
 - [ ] Phase C gate: parallel optimization enabled after thread-safety gate passed (Target: Q3 2026+)

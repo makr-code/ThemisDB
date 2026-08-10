@@ -457,13 +457,13 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 - [ ] CUDA/CPU parity tests: `tests/gpu/test_gpu_query_accelerator_cuda_parity.cpp` — 5 operations × 3 sizes = 15 tests; gated `THEMIS_ENABLE_CUDA=ON`. (Target: Q3 2026)
 
 #### A-07 · index — `advanced_vector_index.cpp`
-- [ ] CUDA path: wire `cuVS`/`RAFT` approximate k-NN when `THEMIS_ENABLE_CUDA + THEMIS_ENABLE_CUVS`; build gate in CMakeLists.txt via `find_package(raft)`; fallback to CPU HNSW when gate off. (Target: Q3 2026)
+- [~] CUDA path: wire `cuVS`/`RAFT` approximate k-NN when `THEMIS_ENABLE_CUDA + THEMIS_ENABLE_CUVS`; build gate in CMakeLists.txt via `find_package(raft)`; fallback to CPU HNSW when gate off. (Target: Q3 2026)
 - [ ] `gpu_vector_index.cpp`: replace brute-force L2 distance with RAFT IVF-Flat; L2 consistency tests; gate `THEMIS_ENABLE_CUDA + cuvs ≥ 24.06`. (Target: Q3 2026)
 - [ ] HIP path: retain CPU HNSW fallback; add explicit `STUB/SIMULATION NOTE` per §8 template. (Target: Q3 2026)
 - [ ] Hardware-in-the-loop tests gated on `THEMIS_GEO_CUDA=ON`; CI skips gracefully when GPU absent. (Target: Q3 2026)
 
 #### B-01 · acceleration — `ai_hardware_dispatcher.cpp` + `vllm_resource_manager.cpp`
-- [ ] Vector similarity search: replace CPU HNSW fallback with GPU kernel dispatch when `THEMIS_ENABLE_CUDA`; L2/Cosine/IP kernels; ≥8× speedup vs CPU baseline on RTX-class GPU (measured in `bench_acceleration_cuda_gates.cpp`). (Target: Q3 2026)
+- [~] Vector similarity search: replace CPU HNSW fallback with GPU kernel dispatch when `THEMIS_ENABLE_CUDA`; L2/Cosine/IP kernels; ≥8× speedup vs CPU baseline on RTX-class GPU (measured in `bench_acceleration_cuda_gates.cpp`). (Target: Q3 2026)
 - [ ] Compile gate: `THEMIS_ENABLE_CUDA` — CPU path completely unmodified when gate off. (Target: Q3 2026)
 - [ ] Error handling: `cudaError_t` check after every kernel launch; on error → `GpuOperationFailed` → CPU fallback; never silent. (Target: Q3 2026)
 

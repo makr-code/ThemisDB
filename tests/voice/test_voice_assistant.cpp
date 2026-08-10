@@ -9,6 +9,8 @@
 #include <gtest/gtest.h>
 #include "voice/voice_auth.h"
 #include "voice/voice_assistant.h"
+#include <cmath>
+#include <limits>
 
 using namespace themis::voice;
 
@@ -34,6 +36,43 @@ std::vector<uint8_t> makePcmSine(int duration_ms,
         auto s = static_cast<int16_t>(val * 32767.0f);
         pcm.push_back(static_cast<uint8_t>(s & 0xFF));
         pcm.push_back(static_cast<uint8_t>((s >> 8) & 0xFF));
+    }
+    return pcm;
+}
+
+std::vector<uint8_t> makeClippedPcm(int duration_ms = 2000,
+                                    int sample_rate = 16000)
+{
+    const int num_samples = (sample_rate * duration_ms) / 1000;
+    std::vector<uint8_t> pcm;
+    pcm.reserve(static_cast<size_t>(num_samples) * 2);
+    for (int i = 0; i < num_samples; ++i) {
+        const int16_t s = (i % 2 == 0) ? std::numeric_limits<int16_t>::max()
+                                       : std::numeric_limits<int16_t>::min();
+        pcm.push_back(static_cast<uint8_t>(s & 0xFF));
+        pcm.push_back(static_cast<uint8_t>((s >> 8) & 0xFF));
+    }
+    return pcm;
+}
+
+std::vector<uint8_t> makeReplayLikePcm(int repeated_frames = 40,
+                                       int frame_samples = 320)
+{
+    std::vector<int16_t> frame(static_cast<size_t>(frame_samples));
+    for (int i = 0; i < frame_samples; ++i) {
+        const float val =
+            0.35f * std::sin(2.0f * 3.14159265f * 220.0f *
+                             static_cast<float>(i) / 16000.0f);
+        frame[static_cast<size_t>(i)] = static_cast<int16_t>(val * 32767.0f);
+    }
+
+    std::vector<uint8_t> pcm;
+    pcm.reserve(static_cast<size_t>(repeated_frames * frame_samples) * 2);
+    for (int r = 0; r < repeated_frames; ++r) {
+        for (int16_t s : frame) {
+            pcm.push_back(static_cast<uint8_t>(s & 0xFF));
+            pcm.push_back(static_cast<uint8_t>((s >> 8) & 0xFF));
+        }
     }
     return pcm;
 }
@@ -230,6 +269,22 @@ TEST(VoiceBiometricAuth, LivenessReturnsScoreInRange) {
     auto r = auth.detect_liveness(audio);
     EXPECT_GE(r.score, 0.0f);
     EXPECT_LE(r.score, 1.0f);
+}
+
+TEST(VoiceBiometricAuth, LivenessRejectsClippedAudio) {
+    VoiceBiometricAuthenticator auth;
+    auto audio = makeClippedPcm();
+    auto r = auth.detect_liveness(audio);
+    EXPECT_FALSE(r.is_live);
+    EXPECT_EQ(r.reason, "clipping_detected");
+}
+
+TEST(VoiceBiometricAuth, LivenessRejectsReplayLikeRepetition) {
+    VoiceBiometricAuthenticator auth;
+    auto audio = makeReplayLikePcm();
+    auto r = auth.detect_liveness(audio);
+    EXPECT_FALSE(r.is_live);
+    EXPECT_EQ(r.reason, "replay_like_repetition");
 }
 
 // ---------------------------------------------------------------------------

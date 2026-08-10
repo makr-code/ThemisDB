@@ -413,3 +413,76 @@ TEST(AiHardwareDispatcherFocusedTests, AH_31_LogCapabilities_NoThrow) {
     AiHardwareDispatcher::instance().initialize(/*force=*/true);
     EXPECT_NO_THROW(AiHardwareDispatcher::instance().logCapabilities());
 }
+
+TEST(AiHardwareDispatcherFocusedTests, AH_32_RunOnCuda_VectorSimilarity_L2) {
+    std::vector<float> queries = {1.0f, 0.0f};  // 1 query, dim=2
+    std::vector<float> vectors = {
+        1.0f, 0.0f,  // idx 0
+        0.0f, 1.0f,  // idx 1
+        2.0f, 0.0f   // idx 2
+    };
+
+    AiInferenceRequest req;
+    req.task_tag               = "vector_similarity_l2";
+    req.input_data             = queries.data();
+    req.input_elements         = queries.size();
+    req.similarity_corpus      = vectors.data();
+    req.similarity_num_queries = 1;
+    req.similarity_num_vectors = 3;
+    req.similarity_dim         = 2;
+    req.similarity_top_k       = 2;
+
+    auto res = AiHardwareDispatcher::instance().runOn(BackendType::CUDA, req);
+    ASSERT_TRUE(res.success);
+    ASSERT_EQ(res.topk_indices.size(), 2u);
+    ASSERT_EQ(res.topk_distances.size(), 2u);
+    EXPECT_EQ(res.topk_indices[0], 0u);
+    EXPECT_NEAR(res.topk_distances[0], 0.0f, 1e-6f);
+}
+
+TEST(AiHardwareDispatcherFocusedTests, AH_33_RunOnCuda_VectorSimilarity_Cosine) {
+    std::vector<float> queries = {1.0f, 0.0f};  // 1 query, dim=2
+    std::vector<float> vectors = {
+        1.0f, 0.0f,  // idx 0 cosine distance 0
+        0.0f, 1.0f,  // idx 1 cosine distance 1
+        0.5f, 0.0f   // idx 2 cosine distance 0
+    };
+
+    AiInferenceRequest req;
+    req.task_tag               = "vector_similarity_cosine";
+    req.input_data             = queries.data();
+    req.input_elements         = queries.size();
+    req.similarity_corpus      = vectors.data();
+    req.similarity_num_queries = 1;
+    req.similarity_num_vectors = 3;
+    req.similarity_dim         = 2;
+    req.similarity_top_k       = 1;
+
+    auto res = AiHardwareDispatcher::instance().runOn(BackendType::CUDA, req);
+    ASSERT_TRUE(res.success);
+    ASSERT_EQ(res.topk_indices.size(), 1u);
+    EXPECT_TRUE(res.topk_indices[0] == 0u || res.topk_indices[0] == 2u);
+    EXPECT_NEAR(res.topk_distances[0], 0.0f, 1e-5f);
+}
+
+TEST(AiHardwareDispatcherFocusedTests, AH_34_VectorSimilarity_InvalidShape_ReturnsError) {
+    std::vector<float> queries = {1.0f, 0.0f, 1.0f};  // invalid: expected 2 elements
+    std::vector<float> vectors = {
+        1.0f, 0.0f,  // idx 0
+        0.0f, 1.0f   // idx 1
+    };
+
+    AiInferenceRequest req;
+    req.task_tag               = "vector_similarity_l2";
+    req.input_data             = queries.data();
+    req.input_elements         = queries.size();
+    req.similarity_corpus      = vectors.data();
+    req.similarity_num_queries = 1;
+    req.similarity_num_vectors = 2;
+    req.similarity_dim         = 2;
+    req.similarity_top_k       = 1;
+
+    auto res = AiHardwareDispatcher::instance().runOn(BackendType::CUDA, req);
+    EXPECT_FALSE(res.success);
+    EXPECT_FALSE(res.error.empty());
+}

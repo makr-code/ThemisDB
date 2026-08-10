@@ -1111,6 +1111,8 @@ Every stub replacement **must** follow these six phases before marking `[x]`:
 **Priority:** 🟠 High | **Target:** v1.7.0 | **Issue:** #3863
 **Stub location:** `src/acceleration/ai_hardware_dispatcher.cpp` and `src/acceleration/vllm_resource_manager.cpp` — CUDA vector similarity path (`THEMIS_ENABLE_CUDA`) dispatches to CPU HNSW fallback.
 
+**2026-08-10 update:** CUDA ANN dispatch path for L2/Cosine/IP is now wired in `ai_hardware_dispatcher.cpp` and `vllm_resource_manager.cpp` with deterministic CPU fallback on GPU overload/error; perf-gate sign-off on RTX hardware remains open.
+
 **Affected files:**
 - `src/acceleration/ai_hardware_dispatcher.cpp`
 - `src/acceleration/graphics_backends.cpp`

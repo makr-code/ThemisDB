@@ -33,6 +33,8 @@
     #ifdef THEMIS_ENABLE_CUDA
         #include <faiss/gpu/GpuIndexIVFPQ.h>
         #include <faiss/gpu/GpuIndexIVFFlat.h>
+        #include <faiss/gpu/GpuIndexFlat.h>
+        #include <faiss/gpu/GpuCloner.h>
         #include <faiss/gpu/StandardGpuResources.h>
     #endif
     #include <faiss/index_io.h>
@@ -60,6 +62,33 @@
 #endif
 
 namespace themis {
+
+#if defined(THEMIS_HAS_FAISS) && defined(THEMIS_ENABLE_CUDA) && defined(THEMIS_ENABLE_CUVS)
+namespace {
+bool trySearchWithCudaCuvsGate(faiss::Index *cpu_index, int gpu_device, size_t num_queries, const float *queries, size_t k,
+                               std::vector<float> &distances, std::vector<int64_t> &ids, std::string &error) {
+    try {
+        faiss::gpu::StandardGpuResources gpu_resources;
+        faiss::gpu::GpuClonerOptions cloner_options;
+        cloner_options.useFloat16 = false;
+
+        std::unique_ptr<faiss::Index> gpu_index(
+            faiss::gpu::index_cpu_to_gpu(&gpu_resources, gpu_device, cpu_index, &cloner_options));
+        if (!gpu_index) {
+            error = "index_cpu_to_gpu returned null";
+            return false;
+        }
+
+        gpu_index->search(static_cast<faiss::idx_t>(num_queries), queries, static_cast<faiss::idx_t>(k), distances.data(),
+                          ids.data());
+        return true;
+    } catch (const std::exception &e) {
+        error = e.what();
+        return false;
+    }
+}
+} // namespace
+#endif
 
 AdvancedVectorIndex::AdvancedVectorIndex(size_t dimension, const Config& config)
     : dimension_(dimension), config_(config), index_(nullptr) {
@@ -348,10 +377,20 @@ AdvancedVectorIndex::SearchResult AdvancedVectorIndex::search([[maybe_unused]] c
     
     try {
         auto* idx = static_cast<faiss::Index*>(index_);
-        
         result.ids.resize(k);
         result.distances.resize(k);
-        
+
+#if defined(THEMIS_ENABLE_CUDA) && defined(THEMIS_ENABLE_CUVS)
+        if (config_.use_gpu) {
+            std::string gpu_error;
+            if (trySearchWithCudaCuvsGate(idx, config_.gpu_device, 1, query, k, result.distances, result.ids, gpu_error)) {
+                return result;
+            }
+            THEMIS_WARN("AdvancedVectorIndex CUDA/cuVS gate search failed (device={}): {} — falling back to CPU index search",
+                        config_.gpu_device, gpu_error);
+        }
+#endif
+
         idx->search(1, query, k, result.distances.data(), result.ids.data());
         
         return result;
@@ -399,8 +438,22 @@ std::vector<AdvancedVectorIndex::SearchResult> AdvancedVectorIndex::searchBatch(
         
         std::vector<int64_t> all_ids(num_queries * k);
         std::vector<float> all_distances(num_queries * k);
-        
+
+#if defined(THEMIS_ENABLE_CUDA) && defined(THEMIS_ENABLE_CUVS)
+        if (config_.use_gpu) {
+            std::string gpu_error;
+            if (!trySearchWithCudaCuvsGate(idx, config_.gpu_device, num_queries, queries, k, all_distances, all_ids,
+                                           gpu_error)) {
+                THEMIS_WARN("AdvancedVectorIndex CUDA/cuVS gate batch search failed (device={}): {} — falling back to CPU index search",
+                            config_.gpu_device, gpu_error);
+                idx->search(num_queries, queries, k, all_distances.data(), all_ids.data());
+            }
+        } else {
+            idx->search(num_queries, queries, k, all_distances.data(), all_ids.data());
+        }
+#else
         idx->search(num_queries, queries, k, all_distances.data(), all_ids.data());
+#endif
         
         // Split results
         for (size_t i = 0; i < num_queries; ++i) {
@@ -653,4 +706,3 @@ AdvancedVectorIndex::Config AdvancedVectorIndex::getWorkloadOptimizedConfig(
 }
 
 } // namespace themis
-

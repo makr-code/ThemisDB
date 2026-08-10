@@ -176,6 +176,44 @@ TEST(SipCallSession, ShortRtpPacketReturnsEmpty) {
     EXPECT_TRUE(ct.text.empty());
 }
 
+TEST(SipCallSession, InvalidRtpVersionRejected) {
+    auto session = SipCallSession::create(makeSipConfig());
+    session->start();
+    std::vector<uint8_t> payload(160, 0xFF);
+    auto pkt = makePcmuRtpPacket(payload);
+    pkt[0] = 0x40; // RTP version 1
+    auto ct = session->receiveRtpPacket(pkt);
+    EXPECT_TRUE(ct.text.empty());
+    EXPECT_EQ(session->rtpPacketsReceived(), 0u);
+}
+
+TEST(SipCallSession, EmptyRtpPayloadRejected) {
+    auto session = SipCallSession::create(makeSipConfig());
+    session->start();
+    std::vector<uint8_t> pkt(12, 0);
+    pkt[0] = 0x80;
+    pkt[1] = 0x00;
+    auto ct = session->receiveRtpPacket(pkt);
+    EXPECT_TRUE(ct.text.empty());
+    EXPECT_EQ(session->rtpPacketsReceived(), 0u);
+}
+
+TEST(SipCallSession, OddSizedLinearPayloadRejected) {
+    auto cfg = makeSipConfig();
+    cfg.codec = AudioCodec::G722;
+    auto session = SipCallSession::create(cfg);
+    session->start();
+    std::vector<uint8_t> pkt(12, 0);
+    pkt[0] = 0x80;
+    pkt[1] = 0x09;
+    pkt.push_back(0x01);
+    pkt.push_back(0x02);
+    pkt.push_back(0x03);
+    auto ct = session->receiveRtpPacket(pkt);
+    EXPECT_TRUE(ct.text.empty());
+    EXPECT_EQ(session->rtpPacketsReceived(), 0u);
+}
+
 TEST(SipCallSession, TranscriptCallbackFired) {
     auto session = SipCallSession::create(makeSipConfig());
     int cb_count = 0;
@@ -186,6 +224,13 @@ TEST(SipCallSession, TranscriptCallbackFired) {
     session->receiveRtpPacket(makePcmuRtpPacket(payload));
     session->receiveRtpPacket(makePcmuRtpPacket(payload));
     EXPECT_EQ(cb_count, 2);
+}
+
+TEST(SipCallSession, EmptyAudioFrameRejected) {
+    auto session = SipCallSession::create(makeSipConfig());
+    session->start();
+    auto ct = session->receiveAudioFrame({});
+    EXPECT_TRUE(ct.text.empty());
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -202,6 +247,16 @@ TEST(SipCallSession, DtmfCallbackFired) {
     session->injectDtmf(dtmf);
     ASSERT_EQ(events.size(), 1u);
     EXPECT_EQ(events[0].digit, '5');
+}
+
+TEST(SipCallSession, InvalidDtmfIgnored) {
+    auto session = SipCallSession::create(makeSipConfig());
+    session->start();
+    int cb_count = 0;
+    session->onDtmf([&](const DtmfEvent&) { ++cb_count; });
+
+    session->injectDtmf({'Z', 0, 0});
+    EXPECT_EQ(cb_count, 0);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

@@ -19,12 +19,14 @@
  */
 
 #include "acceleration/vllm_resource_manager.h"
+#include "acceleration/cpu_backend.h"
 
 #include <algorithm>
 #include <chrono>
 #include <functional>
 #include <future>
 #include <memory>
+#include <string>
 #include <thread>
 
 #include "utils/logger.h"
@@ -43,6 +45,7 @@
 #endif
 
 #ifdef THEMIS_ENABLE_CUDA
+#include "acceleration/cuda_backend.h"
 #include <cuda_runtime.h>
 #ifdef __linux__
 #include <nvml.h>
@@ -55,6 +58,76 @@ namespace acceleration {
 // CPU snapshot cache TTL: refresh interval between blocking two-snapshot reads.
 // Calls within this window reuse the last snapshot as the base, avoiding sleep.
 static constexpr std::chrono::milliseconds kCpuCacheTTL{200};
+
+namespace {
+
+VLLMResourceManager::SimilarityDispatchResult runSimilarityDispatch(const ANNKernelDispatch &dispatch, bool mark_gpu,
+                                                                    const float *queries, size_t num_queries, size_t dim,
+                                                                    const float *vectors, size_t num_vectors, size_t top_k,
+                                                                    DistanceMetric metric) {
+    VLLMResourceManager::SimilarityDispatchResult out;
+    out.used_gpu = mark_gpu;
+
+    if (queries == nullptr || vectors == nullptr) {
+        out.error = "queries and vectors pointers must be non-null";
+        return out;
+    }
+    if (num_queries == 0 || num_vectors == 0 || dim == 0 || top_k == 0) {
+        out.error = "num_queries, num_vectors, dim, and top_k must all be > 0";
+        return out;
+    }
+
+    ANNDistanceFn distance_launcher = dispatch.distanceLauncherFor(metric);
+    if (distance_launcher == nullptr || dispatch.launchTopK == nullptr) {
+        out.error = "ANN dispatch table missing required launcher(s)";
+        return out;
+    }
+
+    const size_t effective_k = std::min(top_k, num_vectors);
+    std::vector<float> distance_matrix(num_queries * num_vectors);
+    out.topk_indices.resize(num_queries * effective_k);
+    out.topk_distances.resize(num_queries * effective_k);
+
+    const int distance_rc = distance_launcher(queries, vectors, distance_matrix.data(), static_cast<int>(num_queries),
+                                              static_cast<int>(num_vectors), static_cast<int>(dim), nullptr);
+    if (distance_rc != 0) {
+        out.error = "distance kernel failed with code " + std::to_string(distance_rc);
+        return out;
+    }
+
+#ifdef THEMIS_ENABLE_CUDA
+    if (mark_gpu) {
+        const cudaError_t distance_cuda_error = cudaGetLastError();
+        if (distance_cuda_error != cudaSuccess) {
+            out.error = std::string("distance kernel cudaGetLastError: ") + cudaGetErrorString(distance_cuda_error);
+            return out;
+        }
+    }
+#endif
+
+    const int topk_rc = dispatch.launchTopK(distance_matrix.data(), out.topk_indices.data(), out.topk_distances.data(),
+                                            static_cast<int>(num_queries), static_cast<int>(num_vectors),
+                                            static_cast<int>(effective_k), nullptr);
+    if (topk_rc != 0) {
+        out.error = "top-k kernel failed with code " + std::to_string(topk_rc);
+        return out;
+    }
+
+#ifdef THEMIS_ENABLE_CUDA
+    if (mark_gpu) {
+        const cudaError_t topk_cuda_error = cudaGetLastError();
+        if (topk_cuda_error != cudaSuccess) {
+            out.error = std::string("top-k kernel cudaGetLastError: ") + cudaGetErrorString(topk_cuda_error);
+            return out;
+        }
+    }
+#endif
+
+    out.success = true;
+    return out;
+}
+
+} // namespace
 
 VLLMResourceManager::VLLMResourceManager(const Config &config) : config_(config) {}
 
@@ -114,6 +187,7 @@ bool VLLMResourceManager::canUseGPU() {
         if (!util.has_value()) {
             return false;
         }
+
         return util.value() < 80.0;
     }
     return false; // CUDA not enabled
@@ -185,6 +259,44 @@ bool VLLMResourceManager::canUseGPU() {
 
     return can_use;
 #endif
+}
+
+VLLMResourceManager::SimilarityDispatchResult VLLMResourceManager::dispatchVectorSimilarity(
+    const float *queries, size_t num_queries, size_t dim, const float *vectors, size_t num_vectors, size_t top_k,
+    DistanceMetric metric) {
+    if (!initialized_) {
+        SimilarityDispatchResult out;
+        out.error = "VLLMResourceManager not initialized";
+        return out;
+    }
+
+#ifdef THEMIS_ENABLE_CUDA
+    if (canUseGPU()) {
+        CUDAVectorBackend cuda_backend;
+        if (cuda_backend.initialize()) {
+            SimilarityDispatchResult gpu_result = runSimilarityDispatch(cuda_backend.populateANNDispatch(), true, queries,
+                                                                        num_queries, dim, vectors, num_vectors, top_k, metric);
+            if (gpu_result.success) {
+                return gpu_result;
+            }
+            THEMIS_WARN("VLLMResourceManager: CUDA vector similarity failed: {} — using CPU fallback", gpu_result.error);
+        } else {
+            THEMIS_WARN("VLLMResourceManager: CUDA backend init failed — using CPU fallback");
+        }
+    } else {
+        THEMIS_DEBUG("VLLMResourceManager: canUseGPU() blocked GPU dispatch — using CPU fallback");
+    }
+#endif
+
+    CPUVectorBackend cpu_backend;
+    (void)cpu_backend.initialize();
+    SimilarityDispatchResult cpu_result
+        = runSimilarityDispatch(cpu_backend.populateANNDispatch(), false, queries, num_queries, dim, vectors, num_vectors,
+                                top_k, metric);
+    if (!cpu_result.success) {
+        THEMIS_WARN("VLLMResourceManager: CPU fallback vector similarity failed: {}", cpu_result.error);
+    }
+    return cpu_result;
 }
 
 size_t VLLMResourceManager::getRecommendedThreadCount(const std::string &operation_type) const {

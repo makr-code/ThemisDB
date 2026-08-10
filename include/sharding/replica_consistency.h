@@ -209,6 +209,12 @@ public:
     const Statistics& getStatistics() const { return stats_; }
 
 private:
+    // -------------------------------------------------------------------------
+    // Lock hierarchy for ReplicaConsistencyManager:
+    //   mutex_ (1) — single mutex covers all shared state; no nested acquisition.
+    //   conflict_callback_ is protected by mutex_ on both read and write paths.
+    // -------------------------------------------------------------------------
+
     Config config_;
     
     mutable std::mutex mutex_;

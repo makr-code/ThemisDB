@@ -21,8 +21,11 @@
 #include "rag_context_engine.h"
 
 #include <algorithm>
+#include <array>
+#include <chrono>
 #include <cmath>
 #include <deque>
+#include <iomanip>
 #include <sstream>
 #include <unordered_set>
 
@@ -301,6 +304,49 @@ std::vector<float> RAGContextEngine::generateEmbedding(const std::string &text) 
     std::vector<float> emb(kDim, 0.0f);
     if (text.empty()) {
         return emb;
+    }
+
+    LegalGrounding RAGContextEngine::retrieveLegalGrounding(
+        const std::string& dilemma_description) const {
+        (void)dilemma_description;
+
+        LegalGrounding grounding;
+        grounding.grounding_available = legal_db_available_;
+        grounding.legal_db_unavailable = !legal_db_available_;
+        if (!legal_db_available_) {
+            return grounding;
+        }
+
+        const auto now = std::chrono::system_clock::now();
+        const auto now_time = std::chrono::system_clock::to_time_t(now);
+        std::tm utc_tm{};
+    #if defined(_WIN32)
+        gmtime_s(&utc_tm, &now_time);
+    #else
+        gmtime_r(&now_time, &utc_tm);
+    #endif
+        std::ostringstream ts;
+        ts << std::put_time(&utc_tm, "%Y-%m-%dT%H:%M:%SZ");
+        const std::string retrieved_at = ts.str();
+        grounding.retrieval_timestamp_utc = retrieved_at;
+
+        const std::array<std::pair<const char*, const char*>, 3> canonical_norms{{
+            {"gg-art-1", "GG Art. 1"},
+            {"dsgvo-art-5", "DSGVO Art. 5"},
+            {"eu-ai-act-art-22", "EU AI Act Art. 22"},
+        }};
+
+        grounding.citation_ids.reserve(canonical_norms.size());
+        grounding.norm_refs.reserve(canonical_norms.size());
+        for (const auto& [id, article] : canonical_norms) {
+            grounding.citation_ids.emplace_back(id);
+            grounding.norm_refs.emplace_back(article);
+        }
+        return grounding;
+    }
+
+    void RAGContextEngine::setLegalDbAvailable(bool available) noexcept {
+        legal_db_available_ = available;
     }
 
     for (unsigned char c : text) {

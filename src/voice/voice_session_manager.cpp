@@ -20,6 +20,30 @@
 
 namespace themis { namespace voice {
 
+namespace {
+
+bool isValidSessionTransition(SessionState current, SessionState next) {
+    switch (current) {
+        case SessionState::ACTIVE:
+            return next == SessionState::ACTIVE ||
+                   next == SessionState::IDLE ||
+                   next == SessionState::EXPIRED ||
+                   next == SessionState::TERMINATED;
+        case SessionState::IDLE:
+            return next == SessionState::IDLE ||
+                   next == SessionState::ACTIVE ||
+                   next == SessionState::TERMINATED;
+        case SessionState::EXPIRED:
+            return next == SessionState::EXPIRED ||
+                   next == SessionState::TERMINATED;
+        case SessionState::TERMINATED:
+            return false;
+    }
+    return false;
+}
+
+} // namespace
+
 // ============================================================================
 // TASK 2.1: Session Lifecycle Hardening
 // ============================================================================
@@ -182,6 +206,7 @@ VoiceSessionData VoiceSessionManager::createSession(
     {
         std::lock_guard<std::mutex> lock(manager_mutex_);
         active_cache_[session.session_id] = session;
+        state_change_timestamps_[session.session_id] = now;
     }
 
     // TASK 2.1: Persist session (non-blocking; logging on error)
@@ -215,6 +240,7 @@ std::optional<VoiceSessionData> VoiceSessionManager::getSession(const std::strin
             it->second.state = SessionState::EXPIRED;
             const bool saved = backend_->save(it->second);
             static_cast<void>(saved);
+            state_change_timestamps_[session_id] = nowMs();
             spdlog::debug("VoiceSessionManager::getSession: session {} expired (error 6602)", session_id);
             return std::nullopt;  // Fail-closed: expired sessions not returned
         }
@@ -233,6 +259,7 @@ std::optional<VoiceSessionData> VoiceSessionManager::getSession(const std::strin
         loaded->state = SessionState::EXPIRED;
         const bool saved = backend_->save(*loaded);
         static_cast<void>(saved);
+        state_change_timestamps_[session_id] = nowMs();
         spdlog::debug("VoiceSessionManager::getSession: loaded session {} is expired (error 6602)", session_id);
         return std::nullopt;  // Fail-closed
     }
@@ -247,6 +274,22 @@ bool VoiceSessionManager::updateSession(
     std::lock_guard<std::mutex> lock(manager_mutex_);
     auto it = active_cache_.find(session_id);
     if (it == active_cache_.end()) return false;
+    if (isExpired(it->second)) {
+        it->second.state = SessionState::EXPIRED;
+        state_change_timestamps_[session_id] = nowMs();
+        const bool saved = backend_->save(it->second);
+        static_cast<void>(saved);
+        return false;
+    }
+    if (it->second.state == SessionState::TERMINATED ||
+        it->second.state == SessionState::EXPIRED) {
+        return false;
+    }
+    if (it->second.state == SessionState::IDLE &&
+        isValidSessionTransition(it->second.state, SessionState::ACTIVE)) {
+        it->second.state = SessionState::ACTIVE;
+        state_change_timestamps_[session_id] = nowMs();
+    }
 
     // Merge context
     if (it->second.context.is_object() && context_update.is_object()) {
@@ -289,8 +332,23 @@ bool VoiceSessionManager::addConversationTurn(
 
     // TASK 2.1: Verify session is not expired before modification
     if (isExpired(it->second)) {
+        it->second.state = SessionState::EXPIRED;
+        state_change_timestamps_[session_id] = nowMs();
         spdlog::warn("VoiceSessionManager::addConversationTurn: session {} is expired, rejecting turn", session_id);
+        const bool saved = backend_->save(it->second);
+        static_cast<void>(saved);
         return false;
+    }
+    if (it->second.state != SessionState::ACTIVE &&
+        it->second.state != SessionState::IDLE) {
+        spdlog::warn("VoiceSessionManager::addConversationTurn: invalid state {} for session {}",
+                     sessionStateToString(it->second.state), session_id);
+        return false;
+    }
+    if (it->second.state == SessionState::IDLE &&
+        isValidSessionTransition(it->second.state, SessionState::ACTIVE)) {
+        it->second.state = SessionState::ACTIVE;
+        state_change_timestamps_[session_id] = nowMs();
     }
 
     // TASK 2.1: Bounded transcript size enforcement
@@ -327,6 +385,22 @@ bool VoiceSessionManager::touchSession(const std::string& session_id) {
     std::lock_guard<std::mutex> lock(manager_mutex_);
     auto it = active_cache_.find(session_id);
     if (it == active_cache_.end()) return false;
+    if (isExpired(it->second)) {
+        it->second.state = SessionState::EXPIRED;
+        state_change_timestamps_[session_id] = nowMs();
+        const bool saved = backend_->save(it->second);
+        static_cast<void>(saved);
+        return false;
+    }
+    if (it->second.state == SessionState::TERMINATED ||
+        it->second.state == SessionState::EXPIRED) {
+        return false;
+    }
+    if (it->second.state == SessionState::IDLE &&
+        isValidSessionTransition(it->second.state, SessionState::ACTIVE)) {
+        it->second.state = SessionState::ACTIVE;
+        state_change_timestamps_[session_id] = nowMs();
+    }
     it->second.last_activity_ms = nowMs();
     const bool saved = backend_->save(it->second);
     static_cast<void>(saved);
@@ -339,6 +413,22 @@ bool VoiceSessionManager::updatePreferredLanguage(
     std::lock_guard<std::mutex> lock(manager_mutex_);
     auto it = active_cache_.find(session_id);
     if (it == active_cache_.end()) return false;
+    if (isExpired(it->second)) {
+        it->second.state = SessionState::EXPIRED;
+        state_change_timestamps_[session_id] = nowMs();
+        const bool saved = backend_->save(it->second);
+        static_cast<void>(saved);
+        return false;
+    }
+    if (it->second.state == SessionState::TERMINATED ||
+        it->second.state == SessionState::EXPIRED) {
+        return false;
+    }
+    if (it->second.state == SessionState::IDLE &&
+        isValidSessionTransition(it->second.state, SessionState::ACTIVE)) {
+        it->second.state = SessionState::ACTIVE;
+        state_change_timestamps_[session_id] = nowMs();
+    }
     it->second.preferred_language = language_code;
     it->second.last_activity_ms = nowMs();
     const bool saved = backend_->save(it->second);
@@ -350,8 +440,12 @@ bool VoiceSessionManager::terminateSession(const std::string& session_id) {
     std::lock_guard<std::mutex> lock(manager_mutex_);
     auto it = active_cache_.find(session_id);
     if (it == active_cache_.end()) return false;
+    if (!isValidSessionTransition(it->second.state, SessionState::TERMINATED)) {
+        return false;
+    }
 
     it->second.state = SessionState::TERMINATED;
+    state_change_timestamps_[session_id] = nowMs();
     const bool saved = backend_->save(it->second);
     static_cast<void>(saved);
     active_cache_.erase(it);
@@ -364,6 +458,7 @@ size_t VoiceSessionManager::expireOldSessions() {
     for (auto& [id, session] : active_cache_) {
         if (isExpired(session)) {
             session.state = SessionState::EXPIRED;
+            state_change_timestamps_[id] = nowMs();
             const bool saved = backend_->save(session);
             static_cast<void>(saved);
             ++expired;
@@ -432,7 +527,7 @@ bool VoiceSessionManager::isSessionActive(const std::string& session_id) {
 SessionState VoiceSessionManager::getSessionState(const std::string& session_id) {
     std::lock_guard<std::mutex> lock(manager_mutex_);
     auto it = active_cache_.find(session_id);
-    if (it == active_cache_.end()) return SessionState::EXPIRED;
+    if (it == active_cache_.end()) return SessionState::TERMINATED;
     return it->second.state;
 }
 
@@ -457,24 +552,7 @@ bool VoiceSessionManager::validateStateTransition(
     // IDLE ────cleanup──────> TERMINATED
     // EXPIRED ──cleanup─────> TERMINATED
     
-    bool valid = false;
-    
-    if (current == SessionState::ACTIVE) {
-        valid = (new_state == SessionState::ACTIVE ||
-                new_state == SessionState::IDLE ||
-                new_state == SessionState::EXPIRED ||
-                new_state == SessionState::TERMINATED);
-    } else if (current == SessionState::IDLE) {
-        valid = (new_state == SessionState::IDLE ||
-                new_state == SessionState::ACTIVE ||
-                new_state == SessionState::TERMINATED);
-    } else if (current == SessionState::EXPIRED) {
-        valid = (new_state == SessionState::EXPIRED ||
-                new_state == SessionState::TERMINATED);
-    } else if (current == SessionState::TERMINATED) {
-        // No transitions FROM TERMINATED (fail-closed)
-        valid = false;
-    }
+    const bool valid = isValidSessionTransition(current, new_state);
     
     if (!valid) {
         spdlog::warn("Invalid session state transition: {} -> {}", 

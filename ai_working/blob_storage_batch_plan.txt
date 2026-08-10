@@ -1,0 +1,7 @@
+Blob storage remediation batch
+
+1. Sync blob storage plugin docs with implemented GCS/SSE/presigned support.
+2. Add GCS blob plugin governance flag and align build wiring.
+3. Add env-gated emulator integration tests for Azure, S3, and GCS.
+4. Add focused presigned-url contract tests plus a first-cut federated blob router.
+5. Validate focused targets, then run secret scan and CodeQL.

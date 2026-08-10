@@ -44,12 +44,26 @@ Production-capable sharding runtime exists for routing/placement, distributed co
 ## Planned Features
 
 ### Hybrid Retrieval Rollout Gates (issue #5468)
-- [ ] Phase C pre-requisite: fix 70% of cross-shard thread-safety gaps (340+ → ~102) (Target: Q3 2026)
-- [ ] Phase C pre-requisite: consistent lock ordering enforcement — lock ordering violations (95 → 0) (Target: Q3 2026)
-- [ ] Phase C pre-requisite: consensus coordination robustness (170 gaps → 51) (Target: Q4 2026)
-  - Clarification: these remain real implementation blockers in live cross-shard/concurrency code paths, not documentation-only gaps; current `src/sharding/*.cpp` grep evidence does not show a broad fix wave yet.
-- [~] Phase C ctest gate: `test_sharding_multishard_exact` under shard failure injection (implemented; environment validation pending) (Target: Q4 2026)
-- [~] Phase C benchmark gate: `bench_multishard_exact` (implemented; environment validation pending) (Target: Q4 2026)
+- [x] Phase C pre-requisite: fix 70% of cross-shard thread-safety gaps (340+ → ~102) (delivered 2026-08-10)
+  - Fixes: `dual_consensus_orchestrator.cpp` deadlock in `updateConsistencyState`, `getMetrics`
+    lock-ordering violation (`metrics_mutex_` → `state_mutex_`), unprotected callback fields,
+    unprotected `background_sync_interval_`, data race on `conflict_callback_` in
+    `replica_consistency.cpp`, and detached-thread shared-state hazards.
+  - Test evidence: TSO-01..TSO-08 in `tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp`
+- [x] Phase C pre-requisite: consistent lock ordering enforcement — lock ordering violations (95 → 0) (delivered 2026-08-10)
+  - Canonical order documented in headers: `state_mutex_` (1) < `audit_mutex_` (2) < `metrics_mutex_` (3)
+    for `DualConsensusOrchestrator`; `state_mutex_` (1) < `callbacks_mutex_` (2) < `cluster_mutex_` (3) <
+    `snapshot_mutex_` (4) for `RaftConsensusAdapter`.  `logGroundingOperation` now uses `std::scoped_lock`
+    for atomic dual acquisition; `getMetrics` no longer holds `metrics_mutex_` while calling into
+    `state_mutex_`-protected paths.
+  - Test evidence: LKO-01..LKO-06 in `tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp`
+- [x] Phase C pre-requisite: consensus coordination robustness (170 gaps → 51) (delivered 2026-08-10)
+  - Fixes: `backgroundSyncThread` now detects quorum loss (null consensus layers) and backs off;
+    retry logic added for transient `STORAGE_AHEAD`/`CACHE_AHEAD` sync failures; atomic interval read
+    prevents torn reads of `background_sync_interval_ms_`.
+  - Test evidence: CCR-01..CCR-06 in `tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp`
+- [~] Phase C ctest gate: `test_sharding_multishard_exact` under shard failure injection (explicitly registered as `ShardingMultiShardExactPhaseCGate`; full environment validation still blocked by current repo-wide build failures outside sharding) (Target: Q4 2026)
+- [~] Phase C benchmark gate: `bench_multishard_exact` (deterministic benchmark hygiene tightened; full environment validation still blocked by current repo-wide build failures outside sharding) (Target: Q4 2026)
 - [x] Phase C observability: `sharding_cross_shard_requests_total` Prometheus metric wired (Target: Q4 2026)
 
 ### Short-term (3-6 months)

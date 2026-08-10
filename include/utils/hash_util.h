@@ -51,7 +51,12 @@ inline constexpr uint64_t kFnv64Prime       = 1099511628211ULL;
 
 /** @overload Accepts `const uint8_t*`. */
 [[nodiscard]] constexpr uint32_t fnv1a32(const uint8_t* data, std::size_t len) noexcept {
-    return fnv1a32(reinterpret_cast<const char*>(data), len);
+    uint32_t h = kFnv32OffsetBasis;
+    for (std::size_t i = 0; i < len; ++i) {
+        h ^= static_cast<uint32_t>(data[i]);
+        h *= kFnv32Prime;
+    }
+    return h;
 }
 
 /** @overload Accepts `std::string_view`. */
@@ -84,7 +89,12 @@ inline constexpr uint64_t kFnv64Prime       = 1099511628211ULL;
 
 /** @overload Accepts `const uint8_t*`. */
 [[nodiscard]] constexpr uint64_t fnv1a64(const uint8_t* data, std::size_t len) noexcept {
-    return fnv1a64(reinterpret_cast<const char*>(data), len);
+    uint64_t h = kFnv64OffsetBasis;
+    for (std::size_t i = 0; i < len; ++i) {
+        h ^= static_cast<uint64_t>(data[i]);
+        h *= kFnv64Prime;
+    }
+    return h;
 }
 
 /** @overload Accepts `std::string_view`. */

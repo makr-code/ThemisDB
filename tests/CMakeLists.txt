@@ -22064,11 +22064,11 @@ endif()
 # Covers: getStats() OS-specific CPU utilisation + RAM monitoring,
 #         canUseGPU() NVML timeout safety, uninitialised guard.
 # ============================================================================
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/vllm/test_vllm_resource_stats.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_vllm_resource_stats.cpp")
     message(STATUS "Adding VLLMResourceManager stats focused tests")
 
     add_executable(test_vllm_resource_stats_focused
-        vllm/test_vllm_resource_stats.cpp
+        test_vllm_resource_stats.cpp
     )
 
     target_include_directories(test_vllm_resource_stats_focused PRIVATE
@@ -22096,7 +22096,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/vllm/test_vllm_resource_stats.cpp")
 
     message(STATUS "  VLLMResourceManager: cpu_utilization, ram_used_mb, canUseGPU timeout, uninitialised guard, multi-GPU mock-provider tests")
 else()
-    message(STATUS "VLLMResourceManager stats focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/vllm/test_vllm_resource_stats.cpp")
+    message(STATUS "VLLMResourceManager stats focused tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_vllm_resource_stats.cpp")
 endif()
 
 # ============================================================================
