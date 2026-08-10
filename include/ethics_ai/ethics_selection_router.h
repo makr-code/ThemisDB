@@ -165,6 +165,10 @@ struct RouterConfig {
     /// Load from `config/ethics_ai/router_config.yaml` (`school_bias` section)
     /// or supply programmatically.  Schools not listed default to 1.0.
     std::map<std::string, double> school_bias;
+
+    /// Output directory for mandatory ChainVisualizer artifacts (DOT + Mermaid)
+    /// emitted by decision/discourse runs. Empty disables file emission.
+    std::string chain_visualizer_output_path;
 };
 
 /**

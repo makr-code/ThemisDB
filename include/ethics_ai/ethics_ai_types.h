@@ -505,8 +505,37 @@ struct ClusterPosition {
 struct LegalGrounding {
     std::vector<std::string> citation_ids;   ///< Document reference IDs from Legal-DB.
     std::vector<std::string> norm_refs;      ///< e.g. {"GG Art. 1", "DSGVO Art. 5"}.
+    std::string retrieval_timestamp_utc;     ///< ISO-8601 retrieval timestamp from legal_db query.
     bool override_permitted{false};          ///< From dominant school's regulatory_constraints.
     bool grounding_available{false};         ///< false when Legal-DB is unavailable.
+    bool legal_db_unavailable{false};        ///< Explicit availability flag for compliance export.
+};
+
+/**
+ * @brief One legal citation entry used for Art. 22 explainability evidence.
+ */
+struct NormCitation {
+    std::string citation_id;         ///< Stable citation identifier (e.g. "eu-ai-act-art-22").
+    std::string article_ref;         ///< Human-readable article reference.
+    std::string citation_source;     ///< Source system identifier (e.g. "legal_db").
+    std::string retrieved_at_utc;    ///< ISO-8601 retrieval timestamp.
+};
+
+/**
+ * @brief Norm evidence bundle attached to each ethics decision.
+ */
+struct NormEvidence {
+    std::vector<NormCitation> citations; ///< Norm citations relevant for the decision.
+    bool legal_db_unavailable{false};    ///< True when legal_db could not be queried.
+};
+
+/**
+ * @brief Explicit per-school vote entry required for Art. 13 completeness exports.
+ */
+struct MetaVerdictSchoolVote {
+    std::string school_id;                                  ///< Participating school identifier.
+    DiscourseVerdict vote{DiscourseVerdict::ABSTAIN};      ///< Explicit vote (incl. ABSTAIN).
+    std::string reason;                                     ///< Reason (e.g. "unavailable").
 };
 
 /**
@@ -554,6 +583,12 @@ struct MetaVerdict {
     /// Mirror-school outputs, always populated when MirrorSchoolPolicy is active.
     /// Visible in audit trail regardless of convergence_score.
     std::vector<DiscourseRoundOutput> minority_dissent;
+
+    /// Explicit per-school votes including ABSTAIN entries and reasons.
+    std::vector<MetaVerdictSchoolVote> participating_school_votes;
+
+    /// Structured norm evidence used for Art. 22 explainability exports.
+    NormEvidence norm_evidence;
 
     LegalGrounding legal_grounding;  ///< Legal-DB citation, or flagged unavailable.
 
@@ -753,4 +788,3 @@ private:
 } // namespace ethics
 } // namespace plugins
 } // namespace themis
-

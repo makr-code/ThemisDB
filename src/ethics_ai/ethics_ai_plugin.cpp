@@ -123,6 +123,11 @@ public:
                 philosophy_loader_, argument_store_, rag_engine_
             );
             evaluator_ = std::make_shared<EthicsEvaluator>();
+
+            auto chain_out_it = config_.find("chain_visualizer_output_path");
+            if (chain_out_it != config_.end() && !chain_out_it->second.empty()) {
+                discourse_engine_->setChainVisualizerOutputPath(chain_out_it->second);
+            }
             
             // Initialize argument store
                 auto status = argument_store_->initialize(nullptr);

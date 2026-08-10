@@ -25,6 +25,7 @@
 #include <set>
 #include <string>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
 namespace themis {
@@ -125,12 +126,39 @@ MetaVerdict MetaVerdictBuilder::buildMetaVerdict(
     MetaVerdict mv;
     mv.discourse_mode   = mode;
     mv.legal_grounding  = legal_grounding;
+    mv.legal_grounding.legal_db_unavailable = !mv.legal_grounding.grounding_available;
     mv.minority_dissent = mirror_dissent;  // Always included for audit trail.
+
+    if (!mv.legal_grounding.grounding_available) {
+        mv.legal_grounding.citation_ids.clear();
+        mv.legal_grounding.norm_refs.clear();
+    }
 
     // --- participating_schools: ALL N schools (EU AI Act Art. 13) ---
     mv.participating_schools.reserve(ebene1_results.size());
+    mv.participating_school_votes.reserve(ebene1_results.size());
     for (const auto& o : ebene1_results) {
         mv.participating_schools.push_back(o.school_id);
+        MetaVerdictSchoolVote vote;
+        vote.school_id = o.school_id;
+        vote.vote      = o.ldm_verdict;
+        vote.reason    = (o.timed_out || o.ldm_verdict == DiscourseVerdict::ABSTAIN)
+                             ? "unavailable"
+                             : "available";
+        mv.participating_school_votes.push_back(std::move(vote));
+    }
+
+    mv.norm_evidence.legal_db_unavailable = mv.legal_grounding.legal_db_unavailable;
+    mv.norm_evidence.citations.reserve(mv.legal_grounding.norm_refs.size());
+    for (size_t i = 0; i < mv.legal_grounding.norm_refs.size(); ++i) {
+        NormCitation citation;
+        citation.citation_id = (i < mv.legal_grounding.citation_ids.size())
+                                   ? mv.legal_grounding.citation_ids[i]
+                                   : ("norm-ref-" + std::to_string(i));
+        citation.article_ref     = mv.legal_grounding.norm_refs[i];
+        citation.citation_source = "legal_db";
+        citation.retrieved_at_utc = mv.legal_grounding.retrieval_timestamp_utc;
+        mv.norm_evidence.citations.push_back(std::move(citation));
     }
 
     // --- Count non-ABSTAIN schools (N_active) ---
