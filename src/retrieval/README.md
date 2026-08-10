@@ -1,6 +1,6 @@
 # Retrieval Module Documentation
 
-<!-- Status: current | aligned with docs/IMPLEMENTATION_ROADMAP.md | validated: 2026-06-01 -->
+<!-- Status: PRODUCTION_CANDIDATE | Phase 1-3 complete | aligned with docs/IMPLEMENTATION_ROADMAP.md | validated: 2026-08-10 -->
 
 ## Purpose
 
