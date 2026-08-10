@@ -8,9 +8,17 @@ foreach(_src IN LISTS SEARCH_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_search_${_stem}_focused")
     set(_ctest "${_stem}_search_FocusedTests")
+    set(_extra_sources "")
 
     if(TARGET ${_target})
         continue()
+    endif()
+
+    if(_stem STREQUAL "test_layered_retrieval_integration_phase4")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/search/layered_retrieval_orchestrator.cpp
+            ${THEMIS_ROOT_DIR}/src/tensor/tensor_fingerprint_graph.cpp
+        )
     endif()
 
     add_executable(${_target} "${_src}")
@@ -21,6 +29,7 @@ foreach(_src IN LISTS SEARCH_MODULE_TEST_SOURCES)
         ${THEMIS_ROOT_DIR}/src/search/search_result_stream.cpp
         ${THEMIS_ROOT_DIR}/src/search/hybrid_search.cpp
         ${THEMIS_ROOT_DIR}/src/search/distributed_hybrid_search.cpp
+        ${_extra_sources}
     )
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
