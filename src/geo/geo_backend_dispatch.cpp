@@ -23,6 +23,8 @@
 #include <cuda_runtime.h>
 #endif
 
+#include "geo/gpu_kernel_dispatcher.h"
+
 namespace themis {
 namespace geo {
 
@@ -103,10 +105,43 @@ GeoBackendDispatcher::HaversineResult GeoBackendDispatcher::computeHaversineBatc
     
     // Attempt GPU dispatch if conditions met
     if (shouldUseCuda(points1.size()) && dispatch_table_) {
-        // GPU implementation would populate distances_km via GPU kernel
-        // For now, fall back to CPU (GPU kernel dispatch in progress)
-        // TODO: Integrate GpuKernelDispatcher for Haversine batch
-        result.cpu_fallback = true;
+        // Integrate GpuKernelDispatcher for Haversine batch
+        // Extract lat/lon coordinates from Point vectors for GPU dispatch
+        std::vector<double> lats1, lons1, lats2, lons2;
+        lats1.reserve(points1.size());
+        lons1.reserve(points1.size());
+        lats2.reserve(points2.size());
+        lons2.reserve(points2.size());
+        
+        for (const auto& p : points1) {
+            lats1.push_back(p.latitude);
+            lons1.push_back(p.longitude);
+        }
+        for (const auto& p : points2) {
+            lats2.push_back(p.latitude);
+            lons2.push_back(p.longitude);
+        }
+        
+        // Instantiate dispatcher and attempt GPU dispatch
+        GpuKernelDispatcher dispatcher(*dispatch_table_);
+        auto gpu_result = dispatcher.dispatchDistance(
+            lats1.data(), lons1.data(),
+            lats2.data(), lons2.data(),
+            static_cast<int>(points1.size()),
+            themis::acceleration::GeoDistanceFormula::HAVERSINE
+        );
+        
+        // On successful GPU dispatch, use results and skip CPU fallback
+        if (gpu_result.dispatched) {
+            result.distances_km = gpu_result.distances_km;
+            result.cpu_fallback = false;
+            result.error_code = gpu_result.error_code;
+            return result;
+        } else {
+            // GPU dispatch failed; fall back to CPU and record failure for circuit-breaker
+            result.cpu_fallback = true;
+            result.error_code = gpu_result.error_code;
+        }
     }
     
     // CPU fallback: Compute distances on host
@@ -139,10 +174,49 @@ GeoBackendDispatcher::PointInPolygonResult GeoBackendDispatcher::computePointInP
     
     // Attempt GPU dispatch if conditions met
     if (shouldUseCuda(num_test_points) && dispatch_table_) {
-        // GPU implementation via GpuKernelDispatcher
-        // TODO: Integrate GpuKernelDispatcher for point-in-polygon kernel
+        // Integrate GpuKernelDispatcher for point-in-polygon kernel
+        // Extract coordinates from test_points and polygons
+        std::vector<double> point_lats, point_lons;
+        point_lats.reserve(num_test_points);
+        point_lons.reserve(num_test_points);
+        
+        for (size_t i = 0; i < num_test_points && i < test_points.size(); ++i) {
+            point_lats.push_back(test_points[i].latitude);
+            point_lons.push_back(test_points[i].longitude);
+        }
+        
+        // Prepare polygon coordinates (interleaved [lat, lon] pairs)
         // Performance gate: GATE-A-06-02 ≤ 2ms for typical workload
-        result.cpu_fallback = true;
+        if (!polygons.empty() && !polygons[0].vertices.empty()) {
+            std::vector<double> poly_coords;
+            poly_coords.reserve(polygons[0].vertices.size() * 2);
+            
+            for (const auto& vertex : polygons[0].vertices) {
+                poly_coords.push_back(vertex.latitude);
+                poly_coords.push_back(vertex.longitude);
+            }
+            
+            // Instantiate dispatcher and attempt GPU dispatch
+            GpuKernelDispatcher dispatcher(*dispatch_table_);
+            auto gpu_result = dispatcher.dispatchContainment(
+                point_lats.data(), point_lons.data(),
+                static_cast<int>(num_test_points),
+                poly_coords.data(),
+                static_cast<int>(polygons[0].vertices.size())
+            );
+            
+            // On successful GPU dispatch, use results and skip CPU fallback
+            if (gpu_result.dispatched) {
+                result.containment_mask = gpu_result.mask;
+                result.cpu_fallback = false;
+                result.error_code = gpu_result.error_code;
+                return result;
+            } else {
+                // GPU dispatch failed; fall back to CPU and record failure
+                result.cpu_fallback = true;
+                result.error_code = gpu_result.error_code;
+            }
+        }
     }
     
     // CPU fallback: Compute containment on host
