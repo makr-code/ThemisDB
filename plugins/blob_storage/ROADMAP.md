@@ -18,9 +18,9 @@ Entry-points: `plugins/blob_storage/azure/` · `plugins/blob_storage/s3/`
 
 ## Planned Features
 
-- [ ] **Google Cloud Storage (GCS)** backend (Target: Q3 2026)
-- [ ] Server-side encryption configuration per backend (Target: Q3 2026)
-- [ ] Presigned URL generation for direct client uploads/downloads (Target: Q3 2026)
+- [x] **Google Cloud Storage (GCS)** backend (✅ Q3 2026)
+- [x] Server-side encryption configuration per backend (✅ Q3 2026)
+- [x] Presigned URL generation for direct client uploads/downloads (✅ Q3 2026)
 - [ ] Retry policy configuration (max retries, backoff strategy) (Target: Q3 2026)
 - [ ] Multi-region replication strategy across backends (Target: Q4 2026)
 - [ ] Lifecycle / tiering policies for cold data (Target: Q4 2026)
@@ -52,20 +52,20 @@ Entry-points: `plugins/blob_storage/azure/` · `plugins/blob_storage/s3/`
 
 | Milestone | Target | Status |
 |-----------|--------|--------|
-| GCS backend MVP | TODO | 🔲 Planned |
-| Full encryption support | TODO | 🔲 Planned |
+| GCS backend MVP | Q3 2026 | ✅ Complete |
+| Full encryption support | Q3 2026 | ✅ Complete |
 | Benchmark suite | TODO | 🔲 Planned |
 
 ## Implementation Phases
 
 ### Phase 1 – GCS Backend MVP
-- [ ] Implement `GCSBlobBackend` using Google Cloud Storage C++ client library
-- [ ] Add `plugin.json` and `plugin.json.sig` for the GCS backend
-- [ ] Unit tests: upload, download, delete, list objects
+- [x] Implement `GCSBlobBackend` using Google Cloud Storage C++ client library
+- [x] Add `plugin.json` and `plugin.json.sig` for the GCS backend
+- [x] Unit tests: upload, download, delete, list objects (GCS-01..08)
 
 ### Phase 2 – Encryption & Presigned URLs
-- [ ] Server-side encryption configuration (SSE-S3, SSE-KMS, customer-managed keys)
-- [ ] Presigned URL generation with configurable expiry per backend
+- [x] Server-side encryption configuration (SSE-S3, SSE-KMS, CSEK for GCS)
+- [x] Presigned URL generation with configurable expiry per backend (Azure, S3, GCS)
 - [ ] Integration tests with local emulators (Azurite, MinIO, fake-gcs-server)
 
 ### Phase 3 – Multi-Region & Tiering
