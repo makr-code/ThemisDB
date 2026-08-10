@@ -94,12 +94,58 @@ Every manuscript in this portfolio should state:
 
 ## High-Priority New Manuscripts (2026-08)
 
-1. `distributed_consistency_resilience/FAILOVER_SPLIT_BRAIN_DISASTER_RECOVERY_PAPER_DRAFT.md`
-2. `distributed_consistency_resilience/UNIFIED_RECOVERY_SEMANTICS_AI_WORKLOADS_PAPER_DRAFT.md`
-3. `systems/CROSS_MODAL_CARDINALITY_COST_MODELS_PAPER_DRAFT.md`
-4. `systems/DB_NATIVE_OBSERVABILITY_RAG_AI_INFERENCE_PAPER_DRAFT.md`
+1. ✅ `distributed_consistency_resilience/FAILOVER_SPLIT_BRAIN_DISASTER_RECOVERY_PAPER_DRAFT.md` — REVIEW_CANDIDATE
+2. ✅ `distributed_consistency_resilience/UNIFIED_RECOVERY_SEMANTICS_AI_WORKLOADS_PAPER_DRAFT.md` — REVIEW_CANDIDATE
+3. ✅ `systems/CROSS_MODAL_CARDINALITY_COST_MODELS_PAPER_DRAFT.md` — REVIEW_CANDIDATE
+4. ✅ `systems/DB_NATIVE_OBSERVABILITY_RAG_AI_INFERENCE_PAPER_DRAFT.md` — REVIEW_CANDIDATE
 
-## Migration Rules
+## Migrated Manuscripts (2026-08-10)
+
+| Original legacy file | Canonical path | Status |
+|---|---|---|
+| `research/DB_NATIVE_RAG_EVALUATION_PAPER_DRAFT.md` | `retrieval_rag/DB_NATIVE_RAG_EVALUATION_PAPER_DRAFT.md` | SUBMISSION_CANDIDATE |
+| `research/PROCESS_MINING_OCEL2_LIGHTRAG_GDPR_BPMN_DRAFT.md` | `verticals/PROCESS_MINING_OCEL2_LIGHTRAG_GDPR_BPMN_DRAFT.md` | SUBMISSION_CANDIDATE |
+| `research/DB_NATIVE_LLM_SERVING_OPTIMIZATION_PAPER_DRAFT.md` | `llm_runtime_training/DB_NATIVE_LLM_SERVING_OPTIMIZATION_PAPER_DRAFT.md` | SUBMISSION_CANDIDATE |
+| `research/ADALORA_TT_BRIDGE_ARXIV_DRAFT.md` | `llm_runtime_training/ADALORA_TT_BRIDGE_ARXIV_DRAFT.md` | SUBMISSION_CANDIDATE |
+| `research/BITEMPORAL_ENGINE_HLC_CONFLICT_RESOLUTION_PAPER_DRAFT.md` | `geo_temporal_streaming/BITEMPORAL_ENGINE_HLC_CONFLICT_RESOLUTION_PAPER_DRAFT.md` | ACTIVE_DRAFT |
+| `research/POST_QUANTUM_CRYPTOGRAPHY_HTAP_DATABASE_DRAFT.md` | `security_governance_ethics/POST_QUANTUM_CRYPTOGRAPHY_HTAP_DATABASE_DRAFT.md` | REVIEW_CANDIDATE |
+
+All legacy top-level files have been marked SUPERSEDED_DRAFT with canonical pointer.
+
+## New Manuscripts (Stufe 3, Q4 2026)
+
+1. ✅ `llm_runtime_training/LORA_WIKI_TRANSACTIONAL_KNOWLEDGE_INGESTION_PAPER_DRAFT.md` — ACTIVE_DRAFT
+2. ✅ `security_governance_ethics/ETHICS_AI_YAML_POLICY_ENFORCEMENT_PAPER_DRAFT.md` — ACTIVE_DRAFT
+3. ✅ `verticals/PROCESS_GRAPH_VECTOR_AI_HYBRID_PAPER_DRAFT.md` — ACTIVE_DRAFT
+
+## Experiment Protocols Created
+
+| Cluster | Protocol file |
+|---|---|
+| `distributed_consistency_resilience/` | `research/experiments/distributed_consistency_resilience/failover_split_brain_protocol.md` |
+| `systems/` | `research/experiments/systems/cross_modal_cost_model_protocol.md` |
+| `systems/` | `research/experiments/systems/observability_rag_ai_protocol.md` |
+| `llm_runtime_training/` | `research/experiments/llm_runtime_training/wiki_ingestion_protocol.md` |
+| `security_governance_ethics/` | `research/experiments/security_governance_ethics/ethics_ai_policy_protocol.md` |
+| `verticals/` | `research/experiments/verticals/process_graph_vector_hybrid_protocol.md` |
+
+## Submission Calendar
+
+| Manuscript | Cluster | Status | Submission window |
+|---|---|---|---|
+| `FAILOVER_SPLIT_BRAIN_DISASTER_RECOVERY_PAPER_DRAFT.md` | distributed_consistency_resilience/ | REVIEW_CANDIDATE | VLDB 2027 / ICDE 2027 (Q4 2026 DDL) |
+| `DB_NATIVE_RAG_EVALUATION_PAPER_DRAFT.md` | retrieval_rag/ | SUBMISSION_CANDIDATE | VLDB 2027 (Q4 2026 DDL) |
+| `PROCESS_MINING_OCEL2_LIGHTRAG_GDPR_BPMN_DRAFT.md` | verticals/ | SUBMISSION_CANDIDATE | BPM/ICPM 2026 (Q3 2026) |
+| `CROSS_MODAL_CARDINALITY_COST_MODELS_PAPER_DRAFT.md` | systems/ | REVIEW_CANDIDATE | SIGMOD/VLDB 2027 (Q4 2026) |
+| `DB_NATIVE_OBSERVABILITY_RAG_AI_INFERENCE_PAPER_DRAFT.md` | systems/ | REVIEW_CANDIDATE | EuroSys Workshop (Q4 2026) |
+| `UNIFIED_RECOVERY_SEMANTICS_AI_WORKLOADS_PAPER_DRAFT.md` | distributed_consistency_resilience/ | REVIEW_CANDIDATE | SIGMOD 2027 (Q1 2027) |
+| `ADALORA_TT_BRIDGE_ARXIV_DRAFT.md` | llm_runtime_training/ | SUBMISSION_CANDIDATE | arXiv Q3 2026 |
+| `DB_NATIVE_LLM_SERVING_OPTIMIZATION_PAPER_DRAFT.md` | llm_runtime_training/ | SUBMISSION_CANDIDATE | arXiv Q3/Q4 2026 |
+| `POST_QUANTUM_CRYPTOGRAPHY_HTAP_DATABASE_DRAFT.md` | security_governance_ethics/ | REVIEW_CANDIDATE | ACM CCS 2026 |
+| `LORA_WIKI_TRANSACTIONAL_KNOWLEDGE_INGESTION_PAPER_DRAFT.md` | llm_runtime_training/ | ACTIVE_DRAFT | VLDB 2027 (Q4 2026) |
+| `ETHICS_AI_YAML_POLICY_ENFORCEMENT_PAPER_DRAFT.md` | security_governance_ethics/ | ACTIVE_DRAFT | arXiv Q4 2026 |
+| `PROCESS_GRAPH_VECTOR_AI_HYBRID_PAPER_DRAFT.md` | verticals/ | ACTIVE_DRAFT | SIGMOD/BPM 2027 |
+| `BITEMPORAL_ENGINE_HLC_CONFLICT_RESOLUTION_PAPER_DRAFT.md` | geo_temporal_streaming/ | ACTIVE_DRAFT | VLDB/SIGMOD 2027 |
 
 - Do not move legacy drafts in bulk without updating all incoming links.
 - Prefer adding canonical portfolio indexes first, then migrate individual manuscripts cluster by cluster.

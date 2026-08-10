@@ -1,13 +1,11 @@
 # Bi-Temporal Database Engine with HLC-Based Conflict Resolution and Time-Travel Queries
 
-> **⚠️ SUPERSEDED_DRAFT** — This file has been migrated to the canonical portfolio location:
-> `research/manuscripts/geo_temporal_streaming/BITEMPORAL_ENGINE_HLC_CONFLICT_RESOLUTION_PAPER_DRAFT.md`
-> Do not edit this legacy copy. All future updates go to the canonical file.
-
-**Status**: Draft  
-**Version**: 0.1  
-**Last Updated**: 2026-05-04  
-**Target Venue**: VLDB 2026 / SIGMOD 2027  
+**Status**: ACTIVE_DRAFT  
+**Version**: 0.2  
+**Last Updated**: 2026-08-10  
+**Target Venue**: VLDB 2027 / SIGMOD 2027  
+**Portfolio Cluster**: `research/manuscripts/geo_temporal_streaming/`  
+**Predecessor**: `research/BITEMPORAL_ENGINE_HLC_CONFLICT_RESOLUTION_PAPER_DRAFT.md` (SUPERSEDED_DRAFT — canonical location now this file)
 **Authors**: ThemisDB Research Team
 
 ---

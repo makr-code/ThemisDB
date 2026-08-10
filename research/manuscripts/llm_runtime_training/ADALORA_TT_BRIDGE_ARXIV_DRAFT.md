@@ -1,13 +1,12 @@
 # From Adapters to Archives: A Tensor-Train Bridge for AdaLoRA in ThemisDB
 
-> **⚠️ SUPERSEDED_DRAFT** — This file has been migrated to the canonical portfolio location:
-> `research/manuscripts/llm_runtime_training/ADALORA_TT_BRIDGE_ARXIV_DRAFT.md`
-> Do not edit this legacy copy. All future updates go to the canonical file.
-
-**Status:** Review-ready draft
-**Last Updated:** 2026-07-27
-**Target Venue:** arXiv (cs.DB / cs.LG)
-**Repository Artifact:** `research/ADALORA_TT_BRIDGE_ARXIV_DRAFT.md`
+**Status**: SUBMISSION_CANDIDATE  
+**Version**: 1.0  
+**Last Updated**: 2026-08-10  
+**Target Venue**: arXiv (cs.DB / cs.LG) — Q3 2026  
+**Portfolio Cluster**: `research/manuscripts/llm_runtime_training/`  
+**Predecessor**: `research/ADALORA_TT_BRIDGE_ARXIV_DRAFT.md` (SUPERSEDED_DRAFT — canonical location now this file)  
+**Repository Artifact**: `research/ADALORA_TT_BRIDGE_ARXIV_DRAFT.md` (legacy)
 
 ---
 

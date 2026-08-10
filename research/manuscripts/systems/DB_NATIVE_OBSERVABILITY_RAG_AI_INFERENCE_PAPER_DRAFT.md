@@ -1,7 +1,7 @@
 # Database-Native Observability for RAG and AI Inference Pipelines
 
-**Status**: ACTIVE_DRAFT  
-**Version**: 0.1  
+**Status**: REVIEW_CANDIDATE  
+**Version**: 0.2  
 **Last Updated**: 2026-08-10  
 **Target Venue**: arXiv (cs.DB / cs.DC / cs.AI) / EuroSys Workshop
 
@@ -60,34 +60,40 @@ Conventional observability tells operators whether a service is slow or failing.
 ## VI. Experimental Methodology
 
 ### A. Setup
-- instrumented RAG and inference workloads
-- controlled fault, drift, and overload injection
-- trace and metric capture aligned by request/session IDs
+- instrumented RAG and inference workloads backed by `src/observability/` runtime surfaces
+- controlled fault, drift, and overload injection using existing chaos/failover harness patterns
+- trace and metric capture aligned by request/session IDs (consistent with existing correlation IDs in `src/rag/` and `src/llm/`)
+- experiment protocol: `research/experiments/systems/observability_rag_ai_protocol.md` (to be created)
 
 ### B. Workloads
-- W1: stable RAG baseline
-- W2: retrieval quality drift and prompt-injection filtering events
-- W3: inference overload and degraded serving path
+- W1: stable RAG baseline — establish entropy/concentration distribution at rest
+- W2: retrieval quality drift — inject embedding distribution shift; measure entropy rise and alert latency
+- W3: inference overload / degraded serving path — inject KV-cache pressure; measure p99 TTFT regression detection lag
+- W4: cross-pipeline failure correlation — simultaneous retrieval + inference degradation; measure alert recall across components
 
 ### C. Metrics
-- alert precision / recall
-- time-to-detect and time-to-explain
-- p95/p99 request latency
-- retrieval entropy / candidate concentration
-- correlation between observability signals and answer degradation
+- alert precision / recall for retrieval-entropy anomaly detection
+- time-to-detect (TTD) and time-to-explain (TTE) per anomaly class
+- p95/p99 request latency under observability overhead
+- retrieval entropy and candidate-score concentration distributions
+- correlation coefficient between observability signals and answer-quality metrics (G-Eval faithfulness)
 
 ## VII. Results
 
 ### A. Primary Results
-- conceptual observability layer and module surfaces already exist
-- integrated runtime evaluation is pending
+- observability runtime surfaces (`src/observability/README.md`) cover metrics, tracing, profiling, anomaly detection, and SLO reporting
+- Boltzmann/FLARE RAG monitoring concept provides a retrieval-score-distribution theory layer (`research/boltzmann_flare_rag_monitoring.tex`)
+- G-Eval and LLM-as-Judge integration provide answer-quality ground truth for correlation analysis (`src/rag/geval_evaluator.cpp`, `src/rag/rag_judge.cpp`)
+- integrated runtime evaluation package is pending
 
 ### B. Ablations / Sensitivity
-- conventional telemetry only vs telemetry + retrieval-aware signals
-- anomaly detector variants and alert thresholds
+- conventional system telemetry only vs. telemetry + retrieval-score-distribution signals: expected improvement in TTD for silent quality failures
+- anomaly detector variants: entropy threshold vs. sliding-window concentration change vs. score-percentile drift
+- alert threshold sensitivity: FP/FN tradeoff under varying retrieval-quality distributions
 
 ### C. Negative Results
 - no consolidated observability benchmark suite has been frozen yet
+- coupling between system-level telemetry and answer-quality metrics requires a validated labeling protocol not yet established
 
 ## VIII. Discussion
 
@@ -96,22 +102,25 @@ This paper can yield high scientific value because it links operator observabili
 ### Supported claims
 - observability runtime surfaces exist and are broad (`E1`, `E4`)
 - a RAG-aware monitoring theory line already exists (`E2`, `E3`)
+- answer-quality instrumentation via G-Eval and LLM-as-Judge provides ground truth for correlation studies
 
 ### Deferred claims
-- superiority of a specific anomaly detector
-- production-grade alert fidelity across all pipeline classes without new experiments
+- superiority of a specific anomaly detector over general-purpose threshold approaches
+- production-grade alert fidelity across all pipeline classes without dedicated benchmark experiments
 
 ## IX. Reproducibility & Artifact
 
-- runtime scope documented in `src/observability/README.md`
-- concept draft in `research/boltzmann_flare_rag_monitoring.tex`
-- next step: experiment protocol and artefact checklist completion
+- runtime scope: `src/observability/README.md`
+- theory concept: `research/boltzmann_flare_rag_monitoring.tex`
+- answer-quality ground truth: `src/rag/geval_evaluator.cpp`, `src/rag/rag_judge.cpp`, `src/rag/calibration_manager.cpp`
+- next step: freeze experiment protocol at `research/experiments/systems/observability_rag_ai_protocol.md`; create labeled drift and overload workload set
 
 ## X. Limitations, Risk, Ethics
 
 - observability signals can be misread as quality guarantees if thresholds are poorly calibrated
-- telemetry for AI workloads may expose sensitive prompt or context patterns if not sanitized
+- telemetry for AI workloads may expose sensitive prompt or context patterns if not sanitized before logging or export
+- entropy-based signals are distribution-dependent; training-data shifts unrelated to retrieval quality can trigger false positives
 
 ## XI. Conclusion
 
-ThemisDB already has the ingredients for a strong observability manuscript. The key next step is not another concept note, but a reproducible experiment and claim-traceability package.
+ThemisDB already has the ingredients for a strong observability manuscript: runtime surfaces, a retrieval-score-distribution theory layer, and answer-quality ground truth from G-Eval integration. The key next step is a reproducible experiment and claim-traceability package that turns these ingredients into a single falsifiable evaluation.

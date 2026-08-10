@@ -1,7 +1,7 @@
 # Cross-Modal Cardinality Estimation and Cost Models for AQL, Graph, Vector, and Geo Queries
 
-**Status**: ACTIVE_DRAFT  
-**Version**: 0.1  
+**Status**: REVIEW_CANDIDATE  
+**Version**: 0.2  
 **Last Updated**: 2026-08-10  
 **Target Venue**: SIGMOD 2027 / VLDB 2027 / ICDE 2027
 
@@ -78,6 +78,47 @@ Hybrid multi-model queries are easy to advertise but hard to optimize. A DBMS th
 ## VII. Results
 
 ### A. Primary Results
+- The query engine already exposes multi-modal operator families and cost-model hooks (`E1`, `E2`)
+- A planning-oriented manuscript line already exists and can be sharpened into an estimation paper (`E3`, `E4`)
+- Hybrid operator support verified in: `src/query/adaptive_optimizer.cpp`, `src/query/query_optimizer.cpp`, `src/query/runtime_reoptimizer.cpp`
+
+### B. Ablations / Sensitivity
+- compare estimator quality per modality (vector, geo, graph, temporal) in isolation
+- compare combined cross-modal plan selection vs. per-modality greedy approach
+- evaluate calibration sensitivity: how much does a wrong cardinality estimate degrade end-to-end latency?
+
+### C. Negative Results
+- no dedicated cross-modal benchmark matrix exists yet; plan-regret measurement requires one
+- cost model calibration for vector similarity under different HNSW ef-search parameters is not yet benchmarked as a selectivity signal
+
+## VIII. Discussion
+
+The strongest paper angle is the problem framing: normalization of incomparable selectivity signals across modalities is a distinct scientific gap not addressed by existing ANN, graph, or geo-optimizer literature in isolation.
+
+### Supported claims
+- ThemisDB exposes multi-modal hybrid operators and explicit optimizer hooks (`E1`, `E2`)
+- Hybrid planning literature exists and provides a companion framing (`E3`, `E4`)
+
+### Deferred claims
+- superiority of a specific unified estimator design
+- robust plan selection across all modality combinations without dedicated experiments
+
+## IX. Reproducibility & Artifact
+
+- Query module scope: `src/query/README.md`
+- Experiment plan: `research/experiments/systems/cross_modal_cost_model_protocol.md` (to be created)
+- Benchmark family: extend `benchmarks/bench_ycsb.cpp` and `benchmarks/bench_graph_traversal.cpp` with multi-modal mixed workloads
+- Artifact checklist: freeze workload definitions, estimator variants, and plan-quality comparator before submission
+
+## X. Limitations, Risk, Ethics
+
+- Optimizer outcomes depend on workload mix and calibration quality; results may not transfer to all hybrid query distributions
+- Relevance-aware cost signals risk hidden benchmark bias if datasets are not standardized and publicly available
+- Cross-modal estimates can degrade gracefully into single-modality estimates, providing a safe fallback
+
+## XI. Conclusion
+
+A dedicated cross-modal cardinality and cost-model manuscript is justified now. ThemisDB already exposes the right optimizer hooks and hybrid operator families. The missing work is a reproducible benchmark matrix comparing estimator quality and plan outcomes across modalities — a well-scoped experiment rather than new mechanism invention.
 - repository evidence currently supports the optimizer scope and operator diversity claim
 - estimator comparison results remain pending
 
