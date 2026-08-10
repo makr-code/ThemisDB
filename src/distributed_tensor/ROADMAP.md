@@ -1,7 +1,7 @@
 # Distributed Tensor Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-07-13 -->
+<!-- Status: current | validated: 2026-08-10 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 <!-- Rollout Plan: ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md §4 (Phases A–D) -->
 
@@ -14,8 +14,10 @@ for sub-issues 3.1–3.7. Phase 3 runtime failure/degraded-mode semantics are
 implemented and verified. Phase 4 broadened contract and fault-path coverage has
 been delivered: `test_phase4_contract_coverage.cpp` adds 58 tests spanning all 7
 sub-issues (lifecycle, subclasses, manifest, placement, integrity, recovery,
-planner, infrastructure). Benchmark evidence and final acceptance documentation
-remain pending.
+planner, infrastructure). Benchmark measurement evidence and final acceptance documentation remain pending.
+Phase C shard-summary coordination, summary-first routing, and exact-on-demand
+fetch are implemented in source and covered by focused tests/benchmarks; the
+remaining gap is phase-gate evidence capture plus acceptance sign-off.
 
 **Test Infrastructure (2026-07-28 Update)**: Focused test targets are now properly
 configured in `tests/epic3_distributed_tensor/CMakeLists.txt` with:
@@ -85,6 +87,7 @@ track remain gated. Focused test targets now properly configured for CI/evidence
 - [~] CPU/GPU break-even validation for tensor operations (Target: 2027)
   - CPU baseline benchmarks BGPU-01..04 implemented in `benchmarks/epic3_distributed_tensor/bench_tensor_cpu_gpu_breakeven.cc`
   - GPU speedup gate: >= 4x over CPU baseline at N=1024 before GPU path enabled
+  - accelerator-backed result bundle and hardware disclosure still pending
 - [ ] bounded GPU refinement after break-even proven (Target: 2027)
 - [ ] no unconditional GPU dependency on any tensor path (Target: 2027)
 
@@ -147,17 +150,18 @@ track remain gated. Focused test targets now properly configured for CI/evidence
 ### Phase 5: Performance and Hardening
 - [~] Adapter-Distribution & Sharding-Kopplung: LoRA artifact distribution APIs,
   RAID/Merkle proof engine, distribution receipts, shard snapshots, recovery ordering (Issue #5418)
-- [ ] benchmark suite implemented in `benchmarks/epic3_distributed_tensor/`
+- [x] benchmark source package implemented in `benchmarks/epic3_distributed_tensor/`
 - [x] benchmark suite implemented in `tests/epic3_distributed_tensor/integrity_verification_bench.cc`
 - [ ] performance optimization with hardware acceleration (SHA-NI, AVX-512)
 - [ ] alignment with graph provenance performance targets
-- [ ] `bench_tensor_partial_refit` — Phase B benchmark gate (Target: Q3 2026)
+- [x] `bench_tensor_partial_refit` — Phase B benchmark source implemented (Target: Q3 2026)
 - [x] `bench_tensor_summary_first` — Phase C benchmark gate (Target: Q4 2026)
+- [x] `infrastructure_bench` — Phase 5 control-plane stability benchmark source implemented (Target: Q4 2026)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core distributed tensor docs aligned to source-verifiable implementation state
 - [x] tensor-update rollout track documented in `ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md` (issue #5468)
-- [ ] acceptance docs tied to measured runtime behavior
+- [~] acceptance docs scaffolded and tied to measured runtime behavior once result bundles exist
 
 ### Phase 7: Production Integration
 - [ ] default pipeline integration enabled after gates are met
@@ -172,7 +176,7 @@ track remain gated. Focused test targets now properly configured for CI/evidence
 - [x] tensor-update infrastructure rollout track defined (issue #5468)
 - [x] runtime resilience hardening completed for Phase 3 safety gates
 - [x] test gates implemented and passing for Phase 3 and Phase 4 regression suites
-- [ ] benchmark gates implemented and passing
+- [ ] benchmark gates measured and passing
 - [ ] Phase A advisory-only invariant enforced and verified
 - [ ] Phase B ctest gates (`test_tensor_delta_log`, `test_tensor_rebuild_fallback`) passing
 - [x] Phase C ctest gates (`test_tensor_shard_summary`) passing
@@ -218,7 +222,7 @@ targets in CMakeLists.txt with explicit MODULE=epic3_distributed_tensor namespac
 
 ## Known Issues & Limitations
 
-- Benchmark evidence and final acceptance documentation are still pending before default pipeline integration can be enabled.
+- Benchmark result bundles and final acceptance sign-off are still pending before default pipeline integration can be enabled.
 - Phase A/B/C tensor-update rollout items remain incomplete and must preserve the advisory-only artifact invariant until their gates pass.
 - Phase C depends on `sharding` reaching 70% gap reduction — currently 35% ready (🔴).
 - Phase D (optional GPU) requires `gpu` reaching 85% error-handling gap reduction — currently 35% ready (🔴).

@@ -9,6 +9,7 @@ set(EPIC3_DISTRIBUTED_TENSOR_BENCHMARKS
     integrity_verification_bench.cc
     recovery_rebuild_bench.cc
     distributed_retrieval_bench.cc
+    infrastructure_bench.cc
 )
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_tensor_partial_refit.cc")
