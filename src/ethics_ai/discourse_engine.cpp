@@ -19,7 +19,10 @@
  */
 
 #include "discourse_engine.h"
+#include "chain_visualizer.h"
 
+#include <filesystem>
+#include <fstream>
 #include <iomanip>
 #include <random>
 #include <sstream>
@@ -34,6 +37,10 @@ EthicalDiscourseEngine::EthicalDiscourseEngine(std::shared_ptr<PhilosophyLoader>
                                                std::shared_ptr<ArgumentStore> store,
                                                std::shared_ptr<RAGContextEngine> rag_engine)
     : philosophy_loader_(philosophy_loader), store_(store), rag_engine_(rag_engine) {}
+
+void EthicalDiscourseEngine::setChainVisualizerOutputPath(const std::string& output_path) {
+    chain_visualizer_output_path_ = output_path;
+}
 
 std::variant<DebateInitialization, Status>
 EthicalDiscourseEngine::initializeDebate(const std::string &dilemma_description,
@@ -117,6 +124,59 @@ EthicalDiscourseEngine::makeDecision(const std::string &dilemma_description,
     decision.confidence              = EthicsEvaluator::computeConfidence(arguments);
     decision.consensus_level         = EthicsEvaluator::computeConsensus(arguments);
     decision.created_at              = now;
+
+    if (rag_engine_) {
+        const auto legal_grounding = rag_engine_->retrieveLegalGrounding(dilemma_description);
+        decision.metadata["legal_db_unavailable"] = legal_grounding.legal_db_unavailable ? "true" : "false";
+        decision.metadata["legal_grounding_available"] = legal_grounding.grounding_available ? "true" : "false";
+        decision.metadata["legal_grounding_retrieved_at_utc"] = legal_grounding.retrieval_timestamp_utc;
+        std::stringstream norm_refs_csv;
+        for (size_t i = 0; i < legal_grounding.norm_refs.size(); ++i) {
+            if (i > 0) norm_refs_csv << ",";
+            norm_refs_csv << legal_grounding.norm_refs[i];
+        }
+        decision.metadata["norm_refs"] = norm_refs_csv.str();
+    }
+
+    if (!chain_visualizer_output_path_.empty()) {
+        std::vector<std::string> argument_ids;
+        argument_ids.reserve(arguments.size());
+        for (const auto& arg : arguments) {
+            argument_ids.push_back(arg.id);
+        }
+
+        const std::string dot = ChainVisualizer::exportDot(argument_ids, *store_, decision.decision_id);
+        const std::string mermaid = ChainVisualizer::exportMermaid(argument_ids, *store_);
+
+        std::error_code ec;
+        std::filesystem::create_directories(chain_visualizer_output_path_, ec);
+        if (ec) {
+            return Status::Error("Failed to create ChainVisualizer artifact directory: "
+                                 + chain_visualizer_output_path_);
+        }
+
+        const std::filesystem::path base_path(chain_visualizer_output_path_);
+        const std::filesystem::path dot_path = base_path / (decision.decision_id + ".dot");
+        const std::filesystem::path mermaid_path = base_path / (decision.decision_id + ".mmd");
+
+        {
+            std::ofstream out(dot_path);
+            if (!out) {
+                return Status::Error("Failed to write DOT artifact: " + dot_path.string());
+            }
+            out << dot;
+        }
+        {
+            std::ofstream out(mermaid_path);
+            if (!out) {
+                return Status::Error("Failed to write Mermaid artifact: " + mermaid_path.string());
+            }
+            out << mermaid;
+        }
+
+        decision.metadata["chain_visualizer_dot_path"] = dot_path.string();
+        decision.metadata["chain_visualizer_mermaid_path"] = mermaid_path.string();
+    }
 
     // Store decision
     store_->storeDecision(decision);
