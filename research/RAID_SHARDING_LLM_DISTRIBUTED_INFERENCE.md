@@ -51,6 +51,8 @@ This paper makes the following contributions:
 - A **distributed KV-prefix cache** using llama.cpp state serialisation primitives transferred via mTLS-protected remote executors.
 - A **gap analysis** against the current codebase and a six-phase implementation roadmap with measurable performance targets.
 
+**Paper Classification:** This work is positioned as a *design study* grounded in the ThemisDB open-source codebase. We provide theoretical performance analysis, architecture justification, and a concrete implementation roadmap, but defer empirical validation of performance claims to the roadmap phases (Q3 2026–Q1 2027). This positioning is appropriate for arXiv preprint submission and enables community feedback prior to implementation.
+
 ### B. Research Questions and Hypotheses
 
 RQ1: Under realistic mixed database workloads, how much end-to-end latency reduction can cross-shard speculative decoding deliver without violating reliability targets?
@@ -105,7 +107,7 @@ The scatter-gather execution model for distributed OLAP has been extensively stu
 
 ### E. RAID and Erasure Coding
 
-RAID5 with XOR parity [10] provides single-shard failure recovery at the cost of one redundancy shard. For LLM weight storage, this means a 47 GB Mixtral-8×7B model partitioned across 8 data shards and 1 parity shard can recover any single shard without full re-download. **ISA-L** [23] provides SIMD-accelerated erasure coding; our `SIMDErasureCoder` implements the AVX2 XOR path described therein.
+RAID5 with XOR parity [10] provides single-shard failure recovery at the cost of one redundancy shard. For LLM weight storage, this means a 47 GB Mixtral-8×7B model partitioned across 8 data shards and 1 parity shard can recover any single shard without full re-download. **ISA-L** [23] provides SIMD-accelerated erasure coding; the `SIMDErasureCoder` component in `include/sharding/raid_optimizations.h` implements the AVX2 XOR path, with fallback scalar XOR for architectures without AVX2 support. The implementation includes aligned memory splitting for cache efficiency and supports both 32-byte vectorised XOR and byte-by-byte processing for trailing data.
 
 ---
 
@@ -363,6 +365,8 @@ Processing 32 bytes per AVX2 instruction over 47 GB yields a parity computation 
 
 ## VI. Theoretical Performance Analysis
 
+This section provides analytical performance models for the proposed optimisation layers. All results in this section are derived from theoretical analysis, queueing models, and component specifications from the ThemisDB codebase. **Empirical validation of these models is planned as part of the implementation roadmap (Phases 1–6, Section VII); final performance targets and acceptance criteria are listed in Section VII.C.** Readers should interpret all claimed speedups (e.g., 2.5× for speculative decoding, 4× for batch fan-out) as design targets rather than measured results.
+
 ### A. Domain Routing Overhead
 
 The `routeByAdapterDomain()` path involves one map lookup in the shard score table (O(1)) plus, if a remote shard is selected, a `RemoteExecutor::post()` call with $T_{\text{connect}} = 5\,\text{ms}$ connect timeout and $\approx 1\,\text{ms}$ payload transmission for a typical 512-token prompt. The expected overhead versus direct local dispatch is $\leq 5\,\text{ms}$ for intra-datacenter links.
@@ -498,7 +502,9 @@ The gossip-based routing protocol introduces a propagation delay of O(log N) gos
 
 3. **RAID5 reconstruction latency**: Reconstructing a failed weight shard via RAID5 XOR requires all $N_D - 1$ healthy shards to be read concurrently. During reconstruction, affected inference requests must be retried, increasing tail latency.
 
-### E. Threats to Validity
+4. **Reference publication timeline**: Several cited works (references [15], [18], [26], [27], [29], [32], [33]) are arxiv preprints or accepted papers with publication dates in 2025–2026. Readers should verify availability and final publication status against the arXiv repository and conference proceedings before relying on these references.
+
+### C. Threats to Validity
 
 Internal validity: Several quantitative claims in this manuscript are theoretical or roadmap-oriented rather than measured end-to-end outcomes. We mitigate this by stating explicit acceptance criteria, exposing file-level implementation gaps, and separating validated baselines from deferred claims.
 
@@ -506,11 +512,11 @@ Construct validity: Metrics such as acceptance rate and p99 latency do not fully
 
 External validity: Results may depend on hardware heterogeneity, network topology, and workload composition. To support transferability, artifact references and implementation anchors are tied to an open repository state and reproducible benchmark targets.
 
-### C. Comparison with Dedicated Serving Systems
+### D. Comparison with Dedicated Serving Systems
 
 Unlike vLLM [1] or TensorRT-LLM [25], which assume a dedicated GPU cluster per model, our architecture shares VRAM between the vector index (`FAISS`), the KV cache (`PagedKVCache`), and the model weights. VRAM pressure is managed by `PagedKVCache` preemption, which swaps out lower-priority KV pages when VRAM headroom falls below a configurable threshold. This is analogous to OS page replacement in virtual memory systems [1].
 
-### D. Artifact Availability
+### E. Artifact Availability
 
 To support inspection and future empirical validation, the underlying ThemisDB codebase discussed throughout this paper is available as an open-source artifact on GitHub under the MIT license [34]. This artifact availability is particularly relevant for the implementation gaps and roadmap items in Section VII, which are derived from static analysis of the current repository state rather than from a separately packaged prototype.
 
