@@ -230,10 +230,47 @@ LivenessScore VoiceBiometricAuthenticator::detect_liveness(
         result.reason = "empty_audio";
         return result;
     }
+    if ((audio_sample.size() % 2) != 0 || audio_sample.size() < 320) {
+        result.reason = "insufficient_audio";
+        return result;
+    }
 
     auto samples = pcmToFloat(audio_sample);
     if (samples.empty()) {
         result.reason = "no_samples";
+        return result;
+    }
+    if (samples.size() < 1600) {
+        result.reason = "insufficient_audio";
+        return result;
+    }
+
+    float mean_abs = 0.0f;
+    float mean_abs_delta = 0.0f;
+    size_t clipping_count = 0;
+    for (size_t i = 0; i < samples.size(); ++i) {
+        const float a = std::abs(samples[i]);
+        mean_abs += a;
+        if (a >= 0.98f) {
+            ++clipping_count;
+        }
+        if (i > 0) {
+            mean_abs_delta += std::abs(samples[i] - samples[i - 1]);
+        }
+    }
+    mean_abs /= static_cast<float>(samples.size());
+    mean_abs_delta /= static_cast<float>(std::max<size_t>(1, samples.size() - 1));
+
+    const float clipping_ratio =
+        static_cast<float>(clipping_count) / static_cast<float>(samples.size());
+    if (clipping_ratio > 0.20f) {
+        result.score = 0.0f;
+        result.reason = "clipping_detected";
+        return result;
+    }
+    if (mean_abs < 0.01f) {
+        result.score = 0.0f;
+        result.reason = "low_energy";
         return result;
     }
 
@@ -299,11 +336,64 @@ LivenessScore VoiceBiometricAuthenticator::detect_liveness(
     // Higher variability → more likely live speech.
     float zcr_score = std::min(1.0f, zcr_ratio * 2.0f);
 
+    // --- Feature 4: temporal variability -----------------------------------
+    // Live speech exhibits more short-horizon variation than looped replay
+    // snippets or adversarially flattened samples.
+    float variability_score = std::min(1.0f, mean_abs_delta / 0.12f);
+
+    // --- Feature 5: repeated-frame similarity -------------------------------
+    // Replayed or looped audio often repeats adjacent 20 ms windows nearly
+    // exactly. Penalize those cases fail-closed.
+    constexpr size_t kReplayFrameSamples = 320;  // 20 ms at 16 kHz
+    size_t frame_pairs = 0;
+    size_t repeated_pairs = 0;
+    if (samples.size() >= (2 * kReplayFrameSamples)) {
+        for (size_t offset = kReplayFrameSamples;
+             offset + kReplayFrameSamples <= samples.size();
+             offset += kReplayFrameSamples) {
+            float diff_sum = 0.0f;
+            float base_sum = 0.0f;
+            for (size_t i = 0; i < kReplayFrameSamples; ++i) {
+                const float prev = samples[offset - kReplayFrameSamples + i];
+                const float curr = samples[offset + i];
+                diff_sum += std::abs(curr - prev);
+                base_sum += std::abs(prev);
+            }
+            const float normalized_diff =
+                diff_sum / (base_sum + static_cast<float>(kReplayFrameSamples) * 1e-6f);
+            if (normalized_diff < 0.08f) {
+                ++repeated_pairs;
+            }
+            ++frame_pairs;
+        }
+    }
+    const float replay_score =
+        (frame_pairs == 0)
+            ? 1.0f
+            : 1.0f - (static_cast<float>(repeated_pairs) / static_cast<float>(frame_pairs));
+    if (frame_pairs >= 3 && repeated_pairs * 4 >= frame_pairs * 3) {
+        result.score = std::min(0.20f, replay_score);
+        result.reason = "replay_like_repetition";
+        return result;
+    }
+
     // --- Combine ------------------------------------------------------------
-    result.score = 0.40f * crest_score + 0.35f * flatness_score + 0.25f * zcr_score;
+    result.score = 0.25f * crest_score +
+                   0.25f * flatness_score +
+                   0.15f * zcr_score +
+                   0.15f * variability_score +
+                   0.20f * replay_score;
     result.score = std::min(1.0f, std::max(0.0f, result.score));
     result.is_live = result.score >= config_.liveness_threshold;
-    result.reason  = result.is_live ? "live_speech" : "suspected_replay";
+    if (result.is_live) {
+        result.reason = "live_speech";
+    } else if (replay_score < 0.35f) {
+        result.reason = "replay_like_repetition";
+    } else if (variability_score < 0.20f) {
+        result.reason = "low_variability";
+    } else {
+        result.reason = "suspected_replay";
+    }
 
     return result;
 }
@@ -732,5 +822,4 @@ std::string VoiceBiometricAuthenticator::generateProfileId(
 
 } // namespace voice
 } // namespace themis
-
 

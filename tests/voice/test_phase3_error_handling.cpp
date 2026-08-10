@@ -113,6 +113,19 @@ TEST_F(SessionGuardTest, EmptyUserIdRejectedFailClosed) {
     EXPECT_TRUE(session.session_id.empty());  // Fail-closed
 }
 
+TEST_F(SessionGuardTest, TerminatedSessionRejectsFurtherWrites) {
+    auto session = manager.createSession("user123", "device1");
+    ASSERT_TRUE(manager.terminateSession(session.session_id));
+
+    EXPECT_FALSE(manager.touchSession(session.session_id));
+    EXPECT_FALSE(manager.updateSession(session.session_id, json{{"k", "v"}}));
+    EXPECT_FALSE(manager.addConversationTurn(session.session_id, "hello", "world"));
+}
+
+TEST_F(SessionGuardTest, MissingSessionStateDefaultsToTerminated) {
+    EXPECT_EQ(manager.getSessionState("missing-session"), SessionState::TERMINATED);
+}
+
 // ============================================================================
 // Task 3.3: Error Context and Diagnostics Tests
 // ============================================================================

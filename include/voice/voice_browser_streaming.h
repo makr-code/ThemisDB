@@ -214,6 +214,7 @@ public:
      * @param audio_chunk  Raw audio bytes (format specified in Config::audio_format).
      * @return PartialTranscript if Config::partial_results is true and STT has an
      *         incremental result; otherwise empty (is_final=false, text="").
+     * @note Empty or frame-misaligned payloads are rejected fail-closed.
      */
     PartialTranscript sendAudioChunk(const std::vector<uint8_t>& audio_chunk);
 

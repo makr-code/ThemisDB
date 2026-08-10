@@ -107,6 +107,33 @@ TEST(VoiceStreamingSession, OversizedChunkDoesNotCrash) {
     EXPECT_EQ(session->bytesReceived(), 0u);  // Chunk was rejected
 }
 
+TEST(VoiceStreamingSession, EmptyChunkRejectedFailClosed) {
+    auto session = VoiceStreamingSession::create(makeConfig());
+    session->start();
+
+    bool error_called = false;
+    session->onError([&error_called](const std::string&){ error_called = true; });
+
+    auto pt = session->sendAudioChunk({});
+    EXPECT_TRUE(error_called);
+    EXPECT_TRUE(pt.text.empty());
+    EXPECT_EQ(session->bytesReceived(), 0u);
+}
+
+TEST(VoiceStreamingSession, MisalignedPcmChunkRejectedFailClosed) {
+    auto session = VoiceStreamingSession::create(makeConfig());
+    session->start();
+
+    bool error_called = false;
+    session->onError([&error_called](const std::string&){ error_called = true; });
+
+    std::vector<uint8_t> chunk(3, 0x42);
+    auto pt = session->sendAudioChunk(chunk);
+    EXPECT_TRUE(error_called);
+    EXPECT_TRUE(pt.text.empty());
+    EXPECT_EQ(session->bytesReceived(), 0u);
+}
+
 TEST(VoiceStreamingSession, PartialTranscriptCallbackInvoked) {
     auto cfg = makeConfig();
     cfg.partial_results = true;
@@ -139,6 +166,26 @@ TEST(VoiceStreamingSession, FinalTranscriptCallbackOnEndOfUtterance) {
     session->sendAudioChunk(chunk);
     session->endOfUtterance();
     EXPECT_TRUE(final_called);
+}
+
+TEST(VoiceStreamingSession, HeartbeatFailsClosedAfterEnd) {
+    auto session = VoiceStreamingSession::create(makeConfig());
+    session->start();
+    EXPECT_TRUE(session->sendHeartbeat());
+    session->end();
+    EXPECT_FALSE(session->sendHeartbeat());
+}
+
+TEST(VoiceStreamingSession, RetryUnacknowledgedTracksPendingChunks) {
+    auto session = VoiceStreamingSession::create(makeConfig());
+    session->start();
+
+    std::vector<uint8_t> chunk(128, 0x33);
+    session->sendAudioChunk(chunk);
+    session->sendAudioChunk(chunk);
+
+    EXPECT_EQ(session->retryUnacknowledgedChunks(1), 1u);
+    EXPECT_FALSE(session->detectSequenceGap());
 }
 
 TEST(VoiceStreamingSession, TtsChunkCallbackWhenEnabled) {
@@ -194,6 +241,13 @@ TEST(VoiceStreamingManager, RoutingUnknownIdReturnsEmptyTranscript) {
     std::vector<uint8_t> chunk(64, 0x00);
     auto pt = mgr.routeAudio("nonexistent-id", chunk);
     EXPECT_TRUE(pt.stream_id.empty());
+}
+
+TEST(VoiceStreamingSession, ReconnectFailsClosedWhenClosed) {
+    auto session = VoiceStreamingSession::create(makeConfig());
+    session->start();
+    session->end();
+    EXPECT_FALSE(session->reconnectWithBackoff());
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
