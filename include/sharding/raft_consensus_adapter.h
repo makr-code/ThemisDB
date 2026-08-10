@@ -109,6 +109,12 @@ public:
     ) override;
     
 private:
+    // -------------------------------------------------------------------------
+    // Lock hierarchy for RaftConsensusAdapter (always acquire in this order):
+    //   state_mutex_ (1) < callbacks_mutex_ (2) < cluster_mutex_ (3) < snapshot_mutex_ (4)
+    // Never acquire a lower-numbered mutex while holding a higher-numbered one.
+    // -------------------------------------------------------------------------
+
     /**
      * @brief Convert RaftState to ConsensusState
         * @param state Current Raft state object.
