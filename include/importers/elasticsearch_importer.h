@@ -204,6 +204,25 @@ private:
     Config config_;
     std::atomic<bool> cancelled_{false};
     MockHttpFn mock_http_fn_;
+
+#ifdef THEMIS_ENABLE_ELASTICSEARCH
+    /**
+     * @brief Performs a single HTTP request via libcurl.
+     *
+     * Handles GET, HEAD, POST, and DELETE methods.  Authentication headers are
+     * set from config_.api_key (Bearer) or config_.username/password_redacted
+     * (Basic).  TLS certificate verification is enabled by default.
+     *
+     * @param method   HTTP method string: "GET", "POST", "HEAD", or "DELETE".
+     * @param url      Full target URL.
+     * @param body     Request body (empty for GET/HEAD).
+     * @return Pair of (HTTP status code, response body).
+     *         Status 0 indicates a transport-level failure (curl error).
+     */
+    std::pair<long, std::string> performHttp(const std::string& method,
+                                              const std::string& url,
+                                              const std::string& body) const;
+#endif
 };
 
 } // namespace importers

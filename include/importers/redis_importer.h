@@ -7,6 +7,13 @@
 #include <vector>
 #include <map>
 
+// Forward-declare hiredis context for the THEMIS_ENABLE_REDIS production path.
+// The full definition is only visible in redis_importer.cpp which includes
+// <hiredis/hiredis.h> under the same build guard.
+#ifdef THEMIS_ENABLE_REDIS
+struct redisContext;
+#endif
+
 namespace themis {
 namespace importers {
 
@@ -194,13 +201,37 @@ private:
 
     /// Fetches the full value for a single key and returns a ThemisDB document.
     /// Returns an empty json object on error; sets @p error_out.
+    /// @param conn  Active hiredis redisContext* cast to void*; nullptr uses mock.
     json fetchKeyDocument(const std::string& key,
                           RedisValueType vtype,
-                          std::string& error_out);
+                          std::string& error_out,
+                          void* conn = nullptr);
 
     Config config_;
     std::atomic<bool> cancelled_{false};
     MockCommandFn mock_command_fn_;
+
+#ifdef THEMIS_ENABLE_REDIS
+    /**
+     * @brief Sends a hiredis command and returns a JSON-serialised reply string.
+     *
+     * Handles all hiredis reply types (string, integer, status, array, nil,
+     * error).  Array replies are serialised as a JSON array of strings.
+     *
+     * @param conn  Active redisContext* (cast to void* for header isolation).
+     * @param cmd   Command vector, e.g. {"GET", "mykey"}.
+     * @return JSON-serialised reply, or empty string on nil/error.
+     */
+    static std::string executeHiredisCommand(void* conn,
+                                              const std::vector<std::string>& cmd);
+
+    /**
+     * @brief Opens a hiredis connection using the current config_.
+     * @return New redisContext* on success; nullptr on failure.
+     *         Caller owns the pointer and must call redisFree() when done.
+     */
+    redisContext* openRedisConnection() const;
+#endif
 };
 
 } // namespace importers

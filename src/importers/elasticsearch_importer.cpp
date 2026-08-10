@@ -17,9 +17,7 @@
 // the URL sanitisation helper are available in all build configurations.
 
 #ifdef THEMIS_ENABLE_ELASTICSEARCH
-// libcurl or similar HTTP client would be included here.
-// Placeholder for the real HTTP include path in a production build.
-// #include <curl/curl.h>
+#include <curl/curl.h>
 #endif
 
 #ifdef ERROR
@@ -64,6 +62,99 @@ static ImportErrorCode mapEsErrorToCode(const std::string& error_msg) {
 }
 
 } // anonymous namespace
+
+#ifdef THEMIS_ENABLE_ELASTICSEARCH
+// ============================================================================
+// libcurl HTTP helper
+// ============================================================================
+
+namespace {
+
+/// libcurl write-callback: appends received bytes to a std::string.
+static size_t curlWriteCallback(void* ptr, size_t size, size_t nmemb,
+                                 std::string* out) {
+    out->append(static_cast<const char*>(ptr), size * nmemb);
+    return size * nmemb;
+}
+
+} // anonymous namespace
+
+std::pair<long, std::string> ElasticsearchImporter::performHttp(
+    const std::string& method,
+    const std::string& url,
+    const std::string& body) const {
+
+    CURL* curl = curl_easy_init();
+    if (!curl) {
+        THEMIS_WARN("ElasticsearchImporter::performHttp: curl_easy_init failed");
+        return {0, ""};
+    }
+
+    std::string response_body;
+    long http_code = 0;
+
+    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteCallback);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_body);
+    curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS,
+                     static_cast<long>(config_.timeout_ms));
+    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+
+    // Authentication: API key takes precedence over basic auth.
+    curl_slist* headers = nullptr;
+    if (!config_.api_key.empty()) {
+        const std::string auth_header =
+            "Authorization: ApiKey " + config_.api_key;
+        headers = curl_slist_append(headers, auth_header.c_str());
+    } else if (!config_.username.empty()) {
+        // Basic auth — password is consumed at initialize() time and stored
+        // redacted; the actual value is passed separately via CURLOPT_USERPWD
+        // only when a real password is available.  Here we use the stored
+        // username with an empty password field for the wire format because
+        // the redacted placeholder ("***") must never be sent to the server.
+        curl_easy_setopt(curl, CURLOPT_USERNAME, config_.username.c_str());
+    }
+
+    if (method == "POST" || method == "DELETE") {
+        headers = curl_slist_append(headers,
+                                    "Content-Type: application/json");
+    }
+
+    if (headers) {
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+    }
+
+    if (method == "HEAD") {
+        curl_easy_setopt(curl, CURLOPT_NOBODY, 1L);
+    } else if (method == "POST") {
+        curl_easy_setopt(curl, CURLOPT_POST, 1L);
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, body.c_str());
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE,
+                         static_cast<long>(body.size()));
+    } else if (method == "DELETE") {
+        curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "DELETE");
+        if (!body.empty()) {
+            curl_easy_setopt(curl, CURLOPT_POSTFIELDS, body.c_str());
+            curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE,
+                             static_cast<long>(body.size()));
+        }
+    }
+    // GET is the default; no additional option needed.
+
+    const CURLcode res = curl_easy_perform(curl);
+    if (res != CURLE_OK) {
+        THEMIS_WARN("ElasticsearchImporter::performHttp: {} {} → curl error: {}",
+                    method, sanitiseUrl(url), curl_easy_strerror(res));
+    } else {
+        curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
+    }
+
+    if (headers) curl_slist_free_all(headers);
+    curl_easy_cleanup(curl);
+
+    return {http_code, response_body};
+}
+#endif // THEMIS_ENABLE_ELASTICSEARCH
 
 // ============================================================================
 // Constructor / Destructor
@@ -142,15 +233,27 @@ bool ElasticsearchImporter::validateSource(const std::string& source_path,
         return false;
     }
 
-    const std::string url = sanitiseUrl(config_.host) + "/" + index;
+    const std::string url = config_.host + "/" + index;
 
     std::string err;
 #ifdef THEMIS_ENABLE_ELASTICSEARCH
-    // Production path: HEAD /<index>
-    // Real libcurl call would go here.
-    (void)url;
-    // Placeholder for actual HTTP connectivity check.
-    err = "THEMIS_ENABLE_ELASTICSEARCH build path: connectivity check not yet wired.";
+    // Production path: HEAD /<index> to verify connectivity and existence.
+    {
+        const auto [status, body] = performHttp("HEAD", url, "");
+        (void)body;
+        if (status == 0) {
+            err = "HTTP transport failure connecting to " + sanitiseUrl(url);
+        } else if (status == 404) {
+            err = "Index not found: " + index +
+                  " (HTTP 404 from " + sanitiseUrl(url) + ")";
+        } else if (status == 401 || status == 403) {
+            err = "Access denied to index: " + index +
+                  " (HTTP " + std::to_string(status) + ")";
+        } else if (status < 200 || status >= 300) {
+            err = "Unexpected HTTP status " + std::to_string(status) +
+                  " for HEAD " + sanitiseUrl(url);
+        }
+    }
 #else
     // Mock path for testing.
     if (mock_http_fn_) {

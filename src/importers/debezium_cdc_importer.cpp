@@ -307,33 +307,169 @@ ImportStats DebeziumCDCImporter::streamEvents(const ImportOptions& options,
     stats.end_time = std::chrono::steady_clock::now();
     return stats;
 #else
-    // ---- Production path (librdkafka) --------------------------------------
-    // This block compiles only when THEMIS_ENABLE_DEBEZIUM is defined.
-    // It is a placeholder for the real librdkafka consumer loop:
-    //
-    // 1. Create RdKafka::Conf for broker/SASL settings.
-    // 2. Subscribe to topics matching: config_.topic_prefix + ".*"
-    // 3. Poll in a loop (poll_timeout_ms), decode each message:
-    //    a. Parse JSON payload as Debezium envelope.
-    //    b. Call parseDebeziumEnvelope().
-    //    c. Invoke callback(event); stop if callback returns false.
-    // 4. Commit offsets after each batch (at-least-once).
-    // 5. Unsubscribe and destroy consumer on exit.
-    //
-    // STUB/SIMULATION NOTE:
-    // Purpose: Allow the file to compile with THEMIS_ENABLE_DEBEZIUM without
-    //          a real Kafka cluster in CI.
-    // Activation: THEMIS_ENABLE_DEBEZIUM defined + no mock events injected.
-    // Production Delta: No real Kafka messages are consumed; returns immediately.
-    // Removal Plan: Replace this block with the real librdkafka consumer loop
-    //               when librdkafka is available in the build environment
-    //               (Target: Q4 2026 Kafka integration sprint).
-    ImportError err;
-    err.code     = static_cast<uint32_t>(ImportErrorCode::IMPORT_CONNECTOR_UNAVAILABLE);
-    err.message  = "DebeziumCDCImporter: librdkafka consumer loop not yet wired. "
-                   "This is a build placeholder. See STUB/SIMULATION NOTE in source.";
-    err.severity = ImportErrorSeverity::WARNING;
-    stats.errors.push_back(std::move(err));
+    // ---- Production path (librdkafka C++ API) --------------------------------
+
+    std::string errstr;
+
+    // 1. Build and apply consumer configuration.
+    std::unique_ptr<RdKafka::Conf> conf(
+        RdKafka::Conf::create(RdKafka::Conf::CONF_GLOBAL));
+
+    auto setConf = [&](const std::string& key, const std::string& value) -> bool {
+        if (conf->set(key, value, errstr) != RdKafka::Conf::CONF_OK) {
+            THEMIS_WARN("DebeziumCDCImporter: conf '{}' error: {}", key, errstr);
+            return false;
+        }
+        return true;
+    };
+
+    if (!setConf("bootstrap.servers",  config_.brokers)        ||
+        !setConf("group.id",           config_.consumer_group) ||
+        !setConf("auto.offset.reset",  config_.auto_offset)    ||
+        !setConf("enable.auto.commit", "false")                 ||
+        !setConf("session.timeout.ms", "30000")) {
+        ImportError err;
+        err.code     = static_cast<uint32_t>(ImportErrorCode::IMPORT_CONNECTOR_UNAVAILABLE);
+        err.message  = "DebeziumCDCImporter: configuration error: " + errstr;
+        err.severity = ImportErrorSeverity::CRITICAL;
+        stats.errors.push_back(std::move(err));
+        stats.end_time = std::chrono::steady_clock::now();
+        return stats;
+    }
+
+    if (config_.tls) {
+        setConf("security.protocol", "ssl");
+    }
+
+    // 2. Create consumer instance.
+    std::unique_ptr<RdKafka::KafkaConsumer> consumer(
+        RdKafka::KafkaConsumer::create(conf.get(), errstr));
+    if (!consumer) {
+        ImportError err;
+        err.code     = static_cast<uint32_t>(ImportErrorCode::IMPORT_CONNECTOR_UNAVAILABLE);
+        err.message  = "DebeziumCDCImporter: failed to create consumer: " + errstr;
+        err.severity = ImportErrorSeverity::CRITICAL;
+        stats.errors.push_back(std::move(err));
+        stats.end_time = std::chrono::steady_clock::now();
+        return stats;
+    }
+
+    // 3. Subscribe to Debezium topics.
+    //    Debezium topic naming: <prefix>.<schema>.<table>
+    //    Use a regex pattern to subscribe to all tables under the configured prefix.
+    if (config_.topic_prefix.empty()) {
+        ImportError err;
+        err.code     = static_cast<uint32_t>(ImportErrorCode::IMPORT_CONNECTOR_UNAVAILABLE);
+        err.message  = "DebeziumCDCImporter: 'topic_prefix' is required for "
+                       "the production Kafka path.";
+        err.severity = ImportErrorSeverity::CRITICAL;
+        stats.errors.push_back(std::move(err));
+        stats.end_time = std::chrono::steady_clock::now();
+        return stats;
+    }
+
+    const std::vector<std::string> topics{
+        "^" + config_.topic_prefix + "\\..*"
+    };
+
+    const RdKafka::ErrorCode sub_err = consumer->subscribe(topics);
+    if (sub_err != RdKafka::ERR_NO_ERROR) {
+        ImportError err;
+        err.code     = static_cast<uint32_t>(ImportErrorCode::IMPORT_CONNECTOR_UNAVAILABLE);
+        err.message  = "DebeziumCDCImporter: subscribe failed: " +
+                       RdKafka::err2str(sub_err);
+        err.severity = ImportErrorSeverity::CRITICAL;
+        stats.errors.push_back(std::move(err));
+        stats.end_time = std::chrono::steady_clock::now();
+        return stats;
+    }
+
+    // 4. Poll loop: consume messages, decode Debezium envelopes, invoke callback.
+    static constexpr int kBatchCommitSize = 500;
+    int batch_count = 0;
+    bool stop = false;
+
+    while (!stop && !cancelled_.load(std::memory_order_relaxed)) {
+        if (deadline && std::chrono::steady_clock::now() >= *deadline) {
+            break;
+        }
+
+        std::unique_ptr<RdKafka::Message> msg(
+            consumer->consume(config_.poll_timeout_ms));
+        if (!msg) continue;
+
+        switch (msg->err()) {
+            case RdKafka::ERR_NO_ERROR: {
+                ++stats.rows_processed;
+
+                const std::string payload(
+                    static_cast<const char*>(msg->payload()),
+                    msg->len());
+
+                std::string parse_err;
+                CDCEvent event;
+                try {
+                    const json envelope = json::parse(payload);
+                    event = parseDebeziumEnvelope(envelope, parse_err);
+                } catch (const std::exception& e) {
+                    parse_err = std::string("JSON parse: ") + e.what();
+                }
+
+                if (!parse_err.empty()) {
+                    // Unparseable message — record error and continue.
+                    ImportError err;
+                    err.code     = static_cast<uint32_t>(
+                        ImportErrorCode::IMPORT_SCHEMA_MISMATCH);
+                    err.message  = "DebeziumCDCImporter: " + parse_err;
+                    err.severity = ImportErrorSeverity::WARNING;
+                    stats.errors.push_back(std::move(err));
+                    ++stats.rows_skipped;
+                    break;
+                }
+
+                // Store the Kafka offset in the event for downstream consumers.
+                event.offset = static_cast<uint64_t>(msg->offset());
+
+                if (!callback(event)) {
+                    // Callback requested stop.
+                    stop = true;
+                }
+                ++stats.rows_imported;
+                ++batch_count;
+
+                // At-least-once: commit after each batch window.
+                if (batch_count >= kBatchCommitSize) {
+                    consumer->commitSync();
+                    batch_count = 0;
+                }
+                break;
+            }
+            case RdKafka::ERR__TIMED_OUT:
+                // Normal poll timeout; no messages currently available.
+                break;
+            case RdKafka::ERR__PARTITION_EOF:
+                // All partitions at end-of-log; continue streaming for new events.
+                break;
+            default: {
+                const ImportErrorCode code =
+                    mapDebeziumErrorToCode(msg->errstr());
+                ImportError err;
+                err.code     = static_cast<uint32_t>(code);
+                err.message  = "DebeziumCDCImporter: consumer error: " +
+                               msg->errstr();
+                err.severity = ImportErrorSeverity::ERROR;
+                stats.errors.push_back(std::move(err));
+                break;
+            }
+        }
+    }
+
+    // 5. Flush remaining uncommitted offsets, then close the consumer.
+    if (batch_count > 0) {
+        consumer->commitSync();
+    }
+    consumer->close();
+
     stats.end_time = std::chrono::steady_clock::now();
     return stats;
 #endif
