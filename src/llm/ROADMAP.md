@@ -1,7 +1,7 @@
 # LLM Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-07-20 -->
+<!-- Status: current | validated: 2026-08-10 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
@@ -85,7 +85,7 @@ The module provides production-grade LLM runtime surfaces across async inference
 
 ## Planned Features
 
-- [ ] End-to-end distributed draft/verify optimization in speculative decoding paths (Target: Q4 2026)
+- [~] End-to-end distributed draft/verify optimization in speculative decoding paths (Target: Q4 2026) — `SpeculativeDecoder` and remote-draft shard wiring exist; distributed end-to-end optimization remains incomplete
 - [ ] Stronger operational isolation for multi-tenant adapter lifecycle and cache surfaces (Target: Q4 2026)
 - [ ] Extended operator diagnostics for model routing, queue pressure, and policy-deny causes (Target: Q4 2026)
 - [~] Wave B B3: multi-task LoRA shared-base/domain-gating/joint-loss rollout (Target: Q1–Q2 2027) — core impl + ablation/benchmark tests done

@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 **Version:** 2.4.0-rc1  
-**Last Updated:** 2026-08-09
+**Last Updated:** 2026-08-10
 **Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–6 complete; Phase 1–6 execution contract evidence closure COMPLETE). GA hardening path: Phases 0-6 technical evidence complete, Phase 6 human governance sign-off (D-11) is the only remaining GA blocker at `docs/governance/GA_PROMOTION_SIGN_OFF.md` §9.
 
 > For module-specific details see each module's `src/<module>/ROADMAP.md`.
@@ -29,6 +29,21 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 - [x] Top-risk modules (`server`, `llm`, `sharding`) now have comprehensive research-source → planned-capability → implementation-evidence mappings in `research/implementation_influence/by_module.md` (updated 2026-07-27).
 - [~] Other modules use legacy four-column format; will be expanded on next per-module roadmap sync.
 - [x] A consolidated root-level Soll-Ist matrix for all research-backed roadmap claims is established via `research/implementation_influence/by_module.md` (6 modules, 21 implementation aspects); recurring sync enforced from Phase 6 onwards (✅ COMPLETE 2026-08-04).
+
+## Implementation vs Documentation Gap Classification (2026-08-10)
+
+| Module | Open Items | Classification | Notes |
+|---|---|---|---|
+| ethics_ai | 22 listed | Mostly DOC gaps | ChainVisualizer, NormEvidence, legal_db, CSEP tests all implemented 2026-08-09 |
+| transaction | 19 listed | Mostly DOC gaps | Test files exist; chaos/production validation pending CI confirmation |
+| voice | 22 listed | DOC + IMPL gaps | Basic liveness/anti-spoof code exists; hardening under adversarial inputs is real remaining work |
+| LLM | 13 listed | DOC + IMPL gaps | SpeculativeDecoder exists; distributed end-to-end optimization is real remaining work |
+| search | 43 listed | REAL IMPL gaps | LayeredRetrievalOrchestrator uses mocks; real ANN/Tensor/Graph/LLM wiring pending |
+| GPU/CUDA | 21+53 listed | REAL IMPL gaps | CUDA kernels are stubs (filter/join/agg/sort/topk not implemented) |
+| RAG Phase B | 57 listed | REAL IMPL gaps | BM25+, HNSW, RRF in WikiIndexStore not implemented; Phase A only |
+| sharding | 20 listed | REAL IMPL gaps | Thread-safety gaps (340+), lock ordering violations (95) are real |
+| replication | 16 listed | MIXED | Multi-region base exists; geo placement policies and lag-limit WAL shipping are real gaps |
+| access_model | 21 listed | REAL IMPL gaps | Benchmarks and GATE-ACM-01..06 not yet implemented |
 
 ## Release Hardening Program (current canonical version: v2.4.0-rc1)
 

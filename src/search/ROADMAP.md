@@ -1,7 +1,7 @@
 # Search Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-08-08 -->
+<!-- Status: current | validated: 2026-08-10 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
@@ -219,7 +219,7 @@ Production-ready search runtime (v2.0.0 GA) with complete build configuration in
 
 **Scope:** Replace all gmock NiceMock layer fakes with real layer implementations; verify end-to-end retrieval quality; validate provenance correctness.
 
-- [ ] Create `tests/search/test_layered_retrieval_orchestrator_phase4.cpp` wiring ANN, Tensor, Graph, and LLM/LoRA real backends (no NiceMock) (Target: Q3 2026)
+- [~] Create `tests/search/test_layered_retrieval_orchestrator_phase4.cpp` wiring ANN, Tensor, Graph, and LLM/LoRA real backends (no NiceMock) (Target: Q3 2026) — related integration harness `tests/search/test_search_integration_phase4.cpp` already exists; dedicated real-backend layered coverage is still pending
 - [ ] Verify end-to-end retrieval quality with deterministic golden queries against real ANN and Graph backends; record nDCG@10 baseline (Target: Q3 2026)
 - [ ] Validate provenance correctness: every result MUST carry correct layer attribution in `LayeredRetrievalResult.routing_decisions` with no silent drops (Target: Q3 2026)
 - [ ] Confirm 100% of 41 existing unit tests still pass after real-backend wiring (regression gate) (Target: Q3 2026)
