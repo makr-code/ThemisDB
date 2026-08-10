@@ -19,7 +19,7 @@ Production-grade voice runtime with assistant orchestration, preprocessing, sess
 ### Short-term (3-6 months)
 - [ ] Expand deterministic regressions for telephony and browser-streaming edge cases (Target: Q4 2026)
 - [ ] Strengthen diagnostics for auth/guard deny decisions and stream teardown causes (Target: Q4 2026)
-- [ ] Harden anti-spoof and liveness handling under adversarial input patterns (Target: Q4 2026)
+- [~] Harden anti-spoof and liveness handling under adversarial input patterns (Target: Q4 2026) — basic `detect_liveness()` gate and wake-word pre-spoof checks exist; adversarial hardening/regression expansion still pending
 
 ### Mid-term (6-12 months)
 - [ ] Re-baseline voice latency and throughput envelopes across representative production mixes (Target: Q1 2027)
