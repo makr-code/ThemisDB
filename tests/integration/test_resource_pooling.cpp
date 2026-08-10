@@ -62,6 +62,31 @@ TEST(Phase3ResourcePooling, ConnectionPoolInitialization) {
 }
 
 /**
+ * @test BufferPoolEvictionTelemetry
+ * @brief Validates eviction telemetry when the retained free-list is saturated.
+ */
+TEST(Phase3ResourcePooling, BufferPoolEvictionTelemetry) {
+    BufferPool::Config cfg;
+    cfg.initial_per_class = 0;
+    cfg.max_per_class = 1;
+    BufferPool pool(cfg);
+
+    auto buf1 = pool.acquire(128);
+    auto buf2 = pool.acquire(128);
+    ASSERT_TRUE(buf1.valid());
+    ASSERT_TRUE(buf2.valid());
+
+    buf1.release();
+    buf2.release();
+
+    const auto st = pool.statistics();
+    EXPECT_EQ(st.total_releases, 2u);
+    EXPECT_EQ(st.release_evictions, 1u);
+    EXPECT_EQ(st.per_class_evictions[0], 1u);
+    EXPECT_EQ(st.per_class_free[0], 1u);
+}
+
+/**
  * @test ConnectionPoolAcquisitionUnderNormalLoad
  * @brief Validates connection acquisition under normal load.
  *
@@ -339,6 +364,11 @@ TEST(Phase3ResourcePooling, ThreadPoolBackpressureHandling) {
     const bool accepted = pool.submit([] {}, "overflow", std::chrono::milliseconds(10));
     EXPECT_FALSE(accepted);
 
+    const auto st = pool.statistics();
+    EXPECT_GE(st.rejected, 1u);
+    EXPECT_GE(st.queue_high_watermark, 2u);
+    EXPECT_GT(st.queue_pressure, 0.0);
+
     gate.store(true, std::memory_order_release);
     pool.shutdown();
 }
@@ -391,6 +421,8 @@ TEST(Phase3ResourcePooling, ThreadPoolThroughputMeasurement) {
 
     const auto st = pool.statistics();
     EXPECT_EQ(st.failed, 0u);
+    EXPECT_EQ(st.submitted, static_cast<std::uint64_t>(kItems));
+    EXPECT_GE(st.queue_high_watermark, 1u);
     pool.shutdown();
 }
 
@@ -426,8 +458,23 @@ TEST(Phase3ResourcePooling, ThreadPoolDynamicThreadAdjustment) {
     cfg.max_threads = 8;
     WorkStealingThreadPool pool(cfg);
 
+    std::atomic<bool> gate{false};
+    for (int i = 0; i < 6; ++i) {
+        ASSERT_TRUE(pool.submit([&gate] {
+            while (!gate.load(std::memory_order_acquire)) {
+                std::this_thread::sleep_for(std::chrono::milliseconds(1));
+            }
+        }, "scale-up", std::chrono::milliseconds(200)));
+    }
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+    const auto st = pool.statistics();
     EXPECT_GE(pool.thread_count(), cfg.min_threads);
     EXPECT_LE(pool.thread_count(), cfg.max_threads);
+    EXPECT_GT(st.scale_up_events, 0u);
+    EXPECT_GT(st.queue_high_watermark, cfg.min_threads);
+
+    gate.store(true, std::memory_order_release);
     pool.shutdown();
 }
 
@@ -503,6 +550,12 @@ TEST(Phase3ResourcePooling, BufferPoolInitialization) {
 
     auto st = pool.statistics();
     EXPECT_EQ(st.total_allocations, 0u);
+    EXPECT_EQ(st.total_releases, 0u);
+    EXPECT_EQ(st.release_evictions, 0u);
+    EXPECT_EQ(st.free_buffers, 6u * 32u);
+    EXPECT_EQ(st.configured_capacity, 6u * 256u);
+    EXPECT_DOUBLE_EQ(st.hit_rate(), 0.0);
+    EXPECT_DOUBLE_EQ(st.pressure(), 0.0);
 }
 
 /**
@@ -557,6 +610,11 @@ TEST(Phase3ResourcePooling, BufferPoolReuseRate) {
     EXPECT_EQ(st.total_allocations, static_cast<std::size_t>(kCycles));
     // Most requests served from pre-allocated free list.
     EXPECT_GT(st.slab_hits, st.slab_misses);
+    EXPECT_GT(st.hit_rate(), 0.95);
+    EXPECT_EQ(st.total_releases, static_cast<std::size_t>(kCycles));
+    EXPECT_EQ(st.release_evictions, 0u);
+    EXPECT_EQ(st.current_live, 0u);
+    EXPECT_DOUBLE_EQ(st.pressure(), 0.0);
 }
 
 /**
@@ -762,6 +820,7 @@ TEST(Phase3ResourcePooling, IntegrationPoolStatisticsCollection) {
     const auto st = mgr.statistics();
     EXPECT_GE(st.conn.total_acquires,       1u);
     EXPECT_GE(st.buffer.total_allocations,  1u);
+    EXPECT_GE(st.buffer.total_releases,     1u);
     mgr.shutdown();
 }
 
