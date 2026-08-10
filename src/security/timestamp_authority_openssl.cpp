@@ -569,12 +569,6 @@ std::optional<std::string> TimestampAuthority::getTSACertificate(){
         return std::nullopt;
     }
 }
-    }
-    
-    BIO_free(bio);
-    X509_free(cert);
-    return pem;
-}
 
 bool TimestampAuthority::isAvailable(){
     if(!impl_->curl) return false;
@@ -757,34 +751,32 @@ bool eIDASTimestampValidator::isQualifiedTSA(
         BIO_ptr name_bio(BIO_new(BIO_s_mem()));
         if (!name_bio) {
             validation_errors_.push_back("Failed to create BIO for subject name");
-        X509_free(cert);
+            return false;
+        }
+        
+        X509_NAME_print_ex(name_bio.get(), subject, 0, XN_FLAG_RFC2253);
+        BUF_MEM* name_buf = nullptr;
+        BIO_get_mem_ptr(name_bio.get(), &name_buf);
+        std::string subject_name;
+        if (name_buf && name_buf->data && name_buf->length > 0) {
+            subject_name.assign(name_buf->data, name_buf->length);
+        }
+        
+        // Check if TSA is in qualified list
+        // In a real implementation, this would check against the EU Trusted List
+        // For now, we do a simple string match
+        for (const auto& qtsp : qtsp_list) {
+            if (subject_name.find(qtsp) != std::string::npos) {
+                return true;
+            }
+        }
+        
+        validation_errors_.push_back("TSA not found in qualified trust service providers list");
+        return false;
+    } catch (const std::exception& e) {
+        validation_errors_.push_back(std::string("isQualifiedTSA error: ") + e.what());
         return false;
     }
-        
-    X509_NAME_print_ex(name_bio.get(), subject, 0, XN_FLAG_RFC2253);
-    BUF_MEM* name_buf = nullptr;
-    BIO_get_mem_ptr(name_bio.get(), &name_buf);
-    std::string subject_name;
-    if (name_buf && name_buf->data && name_buf->length > 0) {
-        subject_name.assign(name_buf->data, name_buf->length);
-    }
-        
-    // Check if TSA is in qualified list
-    // In a real implementation, this would check against the EU Trusted List
-    // For now, we do a simple string match
-    for (const auto& qtsp : qtsp_list) {
-        if (subject_name.find(qtsp) != std::string::npos) {
-            return true;
-        }
-    }
-        
-    validation_errors_.push_back("TSA not found in qualified trust service providers list");
-    return false;
-    } catch (const std::exception& e) {
-    validation_errors_.push_back(std::string("isQualifiedTSA error: ") + e.what());
-    return false;
-    }
-}
 }
 
 std::vector<std::string> eIDASTimestampValidator::getValidationErrors() const {
