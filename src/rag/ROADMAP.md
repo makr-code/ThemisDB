@@ -19,24 +19,24 @@ Production-grade RAG runtime with retrieval fusion, context assembly, evaluation
 ### Q4 2026 — Advanced Retrieval + LLM-Judge + Evaluation
 
 #### WikiIndexStore Phase B (gate: `THEMIS_WIKI_PHASE_B`)
-- [ ] BM25+ scorer (Robertson & Zaragoza 2009, δ=0.5, k1=1.5, b=0.75) in `WikiIndexStore::query()`; replaces TF-IDF Phase A scorer. (Target: Q4 2026)
-- [ ] HNSW index (M=16, ef_construction=200) for dense embeddings alongside BM25+. (Target: Q4 2026)
-- [ ] RRF fusion (k=60) combining BM25+ and HNSW scores; `WikiIndexStore::query()` returns fused ranked list. (Target: Q4 2026)
+- [~] BM25+ scorer (Robertson & Zaragoza 2009, δ=0.5, k1=1.5, b=0.75) in `WikiIndexStore::query()`; replaces TF-IDF Phase A scorer. (Target: Q4 2026)
+- [~] HNSW index (M=16, ef_construction=200) for dense embeddings alongside BM25+. (Target: Q4 2026)
+- [~] RRF fusion (k=60) combining BM25+ and HNSW scores; `WikiIndexStore::query()` returns fused ranked list. (Target: Q4 2026)
 - [ ] Perf gate: ≥2× query throughput vs Phase A at 50K chunks; p95 < 100ms. Gate: `WIKI-PHASE-B-PERF-01` in `benchmarks/`. (Target: Q4 2026)
-- [ ] Automatic Phase A→B index migration with progress log; atomic rollback path on failure. (Target: Q4 2026)
+- [~] Automatic Phase A→B index migration with progress log; atomic rollback path on failure. (Target: Q4 2026)
 
 #### Persistent Embedding Cache
-- [ ] RocksDB column family `"embedding_cache"` in `WikiIndexStore`; key = `sha256(doc_id + content)` (32-byte binary); value = raw float32 embedding vector. (Target: Q4 2026)
-- [ ] Cache-miss path: call embedding model, store result; ≥99% hit rate on re-ingest (measured in test). (Target: Q4 2026)
-- [ ] LRU eviction at configurable `embedding_cache_max_bytes` limit; eviction logged as INFO. (Target: Q4 2026)
+- [~] RocksDB column family `"embedding_cache"` in `WikiIndexStore`; key = `sha256(doc_id + content)` (32-byte binary); value = raw float32 embedding vector. (Target: Q4 2026)
+- [~] Cache-miss path: call embedding model, store result; ≥99% hit rate on re-ingest (measured in test). (Target: Q4 2026)
+- [~] LRU eviction at configurable `embedding_cache_max_bytes` limit; eviction logged as INFO. (Target: Q4 2026)
 
 #### LLM-Judge Integration
-- [ ] Replace mock-mode in `src/rag/llm_judge_integration.cpp` with real `ILLMBackend` adapter calls under gate `THEMIS_ENABLE_LLM_JUDGE`. (Target: Q4 2026)
+- [~] Replace mock-mode in `src/rag/llm_judge_integration.cpp` with real `ILLMBackend` adapter calls under gate `THEMIS_ENABLE_LLM_JUDGE`. (Target: Q4 2026)
   - **STUB/SIMULATION NOTE (current state):**
     ```
     // STUB/SIMULATION NOTE:
     // Purpose: mock LLM judge returns fixed score 0.85 for dev/test use
-    // Activation: always active (THEMIS_ENABLE_LLM_JUDGE not yet wired)
+    // Activation: test-only when allow_mock=true and use_mock_mode=true
     // Production Delta: fixed score 0.85 vs real LLM quality judgment
     // Removal Plan: Replace with real ILLMBackend adapter in Q4 2026
     ```

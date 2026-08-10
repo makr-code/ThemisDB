@@ -48,6 +48,9 @@ struct ILLMInferenceEngine {
     [[nodiscard]] virtual std::string generate(const std::string& prompt) = 0;
 };
 
+/// Alias used by roadmap/acceptance wording for the judge backend adapter.
+using ILLMBackend = ILLMInferenceEngine;
+
 /**
  * @brief LLM integration wrapper for judge evaluations
  * 
@@ -91,17 +94,24 @@ public:
      * @brief Configuration for LLM integration
      */
     struct Config {
+#if defined(THEMIS_ENABLE_LLM_JUDGE)
+        static constexpr bool kDefaultJudgeEnabled = true;
+#else
+        static constexpr bool kDefaultJudgeEnabled = false;
+#endif
+
         std::string model_name = "default";
         double temperature = 0.3;
         int max_tokens = 1024;
         int max_retries = 3;
         int timeout_ms = 30000;
         bool use_json_mode = true;
+        bool enable_llm_judge = kDefaultJudgeEnabled; // gate for real backend dispatch
         
         // Mock mode configuration
         bool use_mock_mode = false;           // Enable mock responses (for testing only)
         bool warn_on_mock_mode = true;        // Log warning once when mock mode is used
-        bool allow_mock = false;              // Allow nullptr engine (opt-in for tests; default false = fail fast in production)
+        bool allow_mock = false;              // Allow nullptr engine (tests only, requires use_mock_mode=true)
     };
     
     /**

@@ -50,14 +50,13 @@ TEST_F(LLMJudgeIntegrationMockModeTest, DefaultConstructorRequiresInferenceFunct
     
     EXPECT_FALSE(integration.isMockMode());
     
-    // Should throw when trying to evaluate without setting inference function
-    EXPECT_THROW({
-        integration.evaluateWithLLM(
-            EvaluationDimension::FAITHFULNESS,
-            sample_input,
-            template_manager
-        );
-    }, std::runtime_error);
+    const auto result = integration.evaluateWithLLM(
+        EvaluationDimension::FAITHFULNESS,
+        sample_input,
+        template_manager
+    );
+    EXPECT_FALSE(result.success);
+    EXPECT_EQ(result.reasoning, "llm_unavailable");
 }
 
 TEST_F(LLMJudgeIntegrationMockModeTest, ExplicitMockModeWorks) {
@@ -195,22 +194,14 @@ TEST_F(LLMJudgeIntegrationMockModeTest, SetInferenceFunctionOverridesMockMode) {
 
 TEST_F(LLMJudgeIntegrationMockModeTest, ErrorMessageProvidesGuidance) {
     LLMJudgeIntegration integration;
-    
-    std::string error_message;
-    try {
-        integration.evaluateWithLLM(
-            EvaluationDimension::FAITHFULNESS,
-            sample_input,
-            template_manager
-        );
-        FAIL() << "Expected std::runtime_error";
-    } catch (const std::runtime_error& e) {
-        error_message = e.what();
-    }
-    
-    // Error message should provide guidance about all available options
-    EXPECT_NE(error_message.find("setInferenceFunction"), std::string::npos);
-    EXPECT_NE(error_message.find("allow_mock"), std::string::npos);
+
+    const auto result = integration.evaluateWithLLM(
+        EvaluationDimension::FAITHFULNESS,
+        sample_input,
+        template_manager
+    );
+    EXPECT_FALSE(result.success);
+    EXPECT_NE(result.error_message.find("llm_unavailable"), std::string::npos);
 }
 
 // ============================================================================
@@ -518,6 +509,7 @@ TEST_F(LLMJudgeIntegrationEngineInjectionTest, ConstructWithNullEngineAndAllowMo
 TEST_F(LLMJudgeIntegrationEngineInjectionTest, ConstructWithNullEngineAndAllowMockTrueUsesStub) {
     LLMJudgeIntegration::Config config;
     config.allow_mock = true;  // test/mock mode — nullptr is acceptable
+    config.use_mock_mode = true;
     config.warn_on_mock_mode = false;
     LLMJudgeIntegration integration(nullptr, config);
     

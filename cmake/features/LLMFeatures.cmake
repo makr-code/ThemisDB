@@ -41,6 +41,28 @@ if(NOT DEFINED THEMIS_ENABLE_OCR)
     option(THEMIS_ENABLE_OCR "Enable OCR support for scanned documents (requires Tesseract)" OFF)
 endif()
 
+# WikiIndexStore Phase B gate (BM25+ / HNSW / RRF path)
+if(NOT DEFINED THEMIS_WIKI_PHASE_B)
+    option(THEMIS_WIKI_PHASE_B "Enable WikiIndexStore Phase B backend (BM25+/HNSW/RRF)" ON)
+endif()
+if(THEMIS_WIKI_PHASE_B)
+    add_compile_definitions(THEMIS_WIKI_PHASE_B)
+    message(STATUS "  WikiIndexStore Phase B: Enabled")
+else()
+    message(STATUS "  WikiIndexStore Phase B: Disabled (Phase A fallback expected)")
+endif()
+
+# LLM Judge runtime gate
+if(NOT DEFINED THEMIS_ENABLE_LLM_JUDGE)
+    option(THEMIS_ENABLE_LLM_JUDGE "Enable LLM judge backend calls for RAG evaluation" ON)
+endif()
+if(THEMIS_ENABLE_LLM_JUDGE)
+    add_compile_definitions(THEMIS_ENABLE_LLM_JUDGE)
+    message(STATUS "  LLM Judge backend calls: Enabled")
+else()
+    message(STATUS "  LLM Judge backend calls: Disabled (returns llm_unavailable)")
+endif()
+
 # Stub mode: deterministic fallback for tests/dev builds only.
 # Production builds (release presets) must NEVER set this flag.
 # When OFF (default), the stub returns an error (fail-closed) in non-LLM builds.

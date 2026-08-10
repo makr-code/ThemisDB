@@ -21,6 +21,19 @@
 
 namespace themis::rag::judge {
 
+namespace {
+ParsedResponse makeUnavailableJudgeResponse(std::string message) {
+    ParsedResponse response{};
+    response.success = false;
+    response.score = -1.0;
+    response.confidence = 0.0;
+    response.reasoning = "llm_unavailable";
+    response.error_message = std::move(message);
+    response.is_mock = false;
+    return response;
+}
+} // namespace
+
 LLMJudgeIntegration::LLMJudgeIntegration(ILLMInferenceEngine* engine)
     : LLMJudgeIntegration(engine, Config{}) {
 }
@@ -40,12 +53,18 @@ LLMJudgeIntegration::LLMJudgeIntegration(ILLMInferenceEngine* engine, const Conf
         mock_mode_active_ = false;
         THEMIS_INFO("LLMJudgeIntegration initialized with injected inference engine");
     } else {
-        // allow_mock = true AND engine = nullptr → fall back to default mock
-        inference_fn_ = defaultInference;
-        mock_mode_active_ = true;
-        if (config_.warn_on_mock_mode) {
-            THEMIS_WARN("LLMJudgeIntegration initialized with nullptr engine in MOCK MODE "
-                        "(allow_mock=true) - evaluations will use stub responses");
+        if (config_.allow_mock && config_.use_mock_mode) {
+            inference_fn_ = defaultInference;
+            mock_mode_active_ = true;
+            if (config_.warn_on_mock_mode) {
+                THEMIS_WARN("LLMJudgeIntegration initialized with nullptr engine in MOCK MODE "
+                            "(allow_mock=true + use_mock_mode=true) - test-only path");
+            }
+        } else {
+            inference_fn_ = nullptr;
+            mock_mode_active_ = false;
+            THEMIS_WARN("LLMJudgeIntegration initialized without engine and without explicit mock mode; "
+                        "calls will return llm_unavailable");
         }
     }
 }
@@ -75,6 +94,10 @@ ParsedResponse LLMJudgeIntegration::evaluateWithLLM(
     const EvaluationInput& input,
     const PromptTemplateManager& template_mgr
 ) {
+    if (!config_.enable_llm_judge) {
+        return makeUnavailableJudgeResponse("llm_unavailable: THEMIS_ENABLE_LLM_JUDGE gate is disabled");
+    }
+
     THEMIS_DEBUG("Evaluating dimension {} with LLM", static_cast<int>(dimension));
     
     // Generate prompt
@@ -112,10 +135,7 @@ ParsedResponse LLMJudgeIntegration::evaluateWithLLM(
     
     if (llm_response.empty()) {
         THEMIS_ERROR("LLM failed to respond after {} attempts", config_.max_retries);
-        ParsedResponse error_response;
-        error_response.success = false;
-        error_response.error_message = "LLM failed to respond";
-        return error_response;
+        return makeUnavailableJudgeResponse("llm_unavailable: backend did not return a response");
     }
     
     // Parse response
@@ -139,6 +159,10 @@ std::string LLMJudgeIntegration::evaluateDimension(
     const std::string& prompt,
     EvaluationDimension dimension
 ) {
+    if (!config_.enable_llm_judge) {
+        return R"({"score":-1,"reason":"llm_unavailable","success":false})";
+    }
+
     THEMIS_DEBUG("LLMJudgeIntegration::evaluateDimension dim={} prompt_len={}",
                  static_cast<int>(dimension), prompt.size());
 
@@ -184,12 +208,13 @@ LLMJudgeIntegration::Config LLMJudgeIntegration::getConfig() const {
 }
 
 std::string LLMJudgeIntegration::callLLM(const std::string& prompt) {
+    if (!config_.enable_llm_judge) {
+        throw std::runtime_error("llm_unavailable: THEMIS_ENABLE_LLM_JUDGE gate is disabled");
+    }
     if (!inference_fn_) {
-        // Provide helpful error message
-        std::string error_msg = "No inference function set. ";
-        error_msg += "Options: (1) call setInferenceFunction() with a valid LLM inference function; ";
-        error_msg += "(2) pass an ILLMInferenceEngine* to the constructor; ";
-        error_msg += "(3) set config.allow_mock = true or config.use_mock_mode = true for testing.";
+        std::string error_msg = "llm_unavailable: no inference backend configured. ";
+        error_msg += "Provide ILLMBackend via constructor or setInferenceFunction(); ";
+        error_msg += "optional mock path requires allow_mock=true and use_mock_mode=true.";
         THEMIS_ERROR("{}", error_msg);
         throw std::runtime_error(error_msg);
     }
