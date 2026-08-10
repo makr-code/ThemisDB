@@ -1,6 +1,6 @@
 # ThemisDB — Audit Documentation Hub
 
-**Last Updated:** 2026-08-10  
+**Last Updated:** 2026-08-10
 **Repository Metadata:** `VERSION=2.4.0`, `RELEASE_TYPE=stable`  
 **Audit Evidence Snapshot:** `v2.4.0-rc1` hardening and GA-readiness artefacts on `develop`
 

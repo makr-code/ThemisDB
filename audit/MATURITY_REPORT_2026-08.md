@@ -1,11 +1,11 @@
 # ThemisDB — Maturity Report 2026-08
 
-**Erstellt:** 2026-08-10  
-**Version:** `2.4.0` (Repo-Metadaten) / `v2.4.0-rc1` (Audit-Evidence-Snapshot)  
+**Erstellt:** 2026-08-10
+**Version:** `2.4.0` (Repo-Metadaten) / `v2.4.0-rc1` (Audit-Evidence-Snapshot)
 **Branch:** `develop`  
 **Scope:** 67 produktive Source-Module in `src/` + Wave 1–9 Benchmarks + Security & Compliance + Governance  
 **Methodik:** Automatisierter Source-Scan (D1–D3) + Compliance-Dokumenten-Audit (D4) + Roadmap-Checkbox-Analyse (D5) + Operational-Evidence-Review (D6)  
-**Basis:** `audit/IMPLEMENTATION_AUDIT_CORRECTED_2026-08-08.md`, `audit/IMPLEMENTATION_AUDIT_2026-08-08.md`, `ROADMAP.md` (Stand 2026-08-09)
+**Basis:** `IMPLEMENTATION_AUDIT_CORRECTED_2026-08-08.md`, `IMPLEMENTATION_AUDIT_2026-08-08.md`, `../ROADMAP.md` (Stand 2026-08-09)
 
 > **Wichtige Sync-Notiz (2026-08-10):**
 > - Das korrigierte Audit `IMPLEMENTATION_AUDIT_CORRECTED_2026-08-08.md` ist die maßgebliche Quelle bei Abweichungen für `evaluation`, `execution`, CUDA-Geokernel und den `ai_snapshot_cleanup.h`-Compile-Befund.
@@ -562,8 +562,8 @@ Fokus-Cluster für Q3/Q4 2026:
 
 | Dokument | Zweck |
 |----------|-------|
-| `audit/IMPLEMENTATION_AUDIT_CORRECTED_2026-08-08.md` | Korrigierte D1-Basis für Evaluation/Execution/CUDA/Compile-Facts |
-| `audit/IMPLEMENTATION_AUDIT_2026-08-08.md` | Historische Delta-Analyse |
+| `IMPLEMENTATION_AUDIT_CORRECTED_2026-08-08.md` | Korrigierte D1-Basis für Evaluation/Execution/CUDA/Compile-Facts |
+| `IMPLEMENTATION_AUDIT_2026-08-08.md` | Historische Delta-Analyse |
 | `audit/BSI_C5_2026_THEMISDB_AUDIT.md` | Security-Baseline (D4) |
 | `benchmarks/wave{7,8,9}/release_gate_manifest_*.json` | Perf-Gates (D3) |
 | `benchmarks/wave{7,8,9}/RUNBOOK_W*.md` | Operational SOP (D6) |
@@ -579,6 +579,6 @@ Fokus-Cluster für Q3/Q4 2026:
 
 ---
 
-*Report generiert / synchronisiert: 2026-08-10*  
+*Report generiert / synchronisiert: 2026-08-10*
 *Methodik: Automatisierter Source-Scan + Dokumenten-Audit + Compliance-Review*  
 *Nächstes Review: Nach GA-Promotion oder Q4 2026 (was früher eintritt)*
