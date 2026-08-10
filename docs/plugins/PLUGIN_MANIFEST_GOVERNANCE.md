@@ -1,8 +1,8 @@
 # ThemisDB Plugin Manifest Governance
 
-**Version:** 1.0  
-**Last Updated:** 2026-08-05  
-**Status:** Wave 1 Manifest Schema Stable
+**Version:** 1.1  
+**Last Updated:** 2026-08-10  
+**Status:** Wave-1 Manifest Schema Stable — ABI frozen at `v0.1.0` (`plugin-abi-v2`)
 
 ---
 
@@ -136,6 +136,40 @@ Community and minimal editions must:
 - ✅ Gracefully skip missing private plugins (no `exists()` hard-fail)
 - ✅ Never include private plugin manifests or binaries in release artefacts
 - ✅ Pass all regression and compliance gates with only public plugins
+- ✅ CI workflows targeting `community`/`minimal` branches must not reference private
+  credentials (enforced by `09-pr-gates_community-pipeline-policy.yml`)
+
+---
+
+## ABI Freeze — `v0.1.0` (`plugin-abi-v2`)
+
+The Wave-1 plugin ABI is frozen as of 2026-08-10. All Wave-1 plugins declare:
+
+```json
+"compatible_core_abi": "plugin-abi-v2"
+```
+
+Breaking changes require:
+1. A deprecation entry in `CHANGELOG.md` at least one release cycle in advance.
+2. A runtime `THEMIS_LOG_WARN` message for plugins loaded on the old token.
+3. A migration guide `docs/plugins/PLUGIN_ABI_MIGRATION_vX_X_X.md`.
+4. A version bump to the next `compatible_core_abi` token in all first-party manifests
+   in the same PR as the header change.
+
+Full policy, version history, and backward-compatibility guarantees are in
+`docs/plugins/PLUGIN_ABI_POLICY.md`.
+
+---
+
+## Wave-1 Submodule Commit Pins
+
+All Wave-1 private plugin submodules must carry a 40-character commit SHA pin in
+`.gitmodules`. This is enforced by the `09-pr-gates_submodule-commit-pins.yml` CI gate,
+which blocks merges that update `.gitmodules` without a pin on any Wave-1 submodule.
+
+Status: ⚠️ All seven Wave-1 submodule pins are pending (repos provisioned, pins not yet
+set). See `docs/plugins/PLUGIN_ABI_POLICY.md §Wave-1 Commit-Pin Status` for the full
+tracking table and the procedure to set each pin.
 
 ---
 
@@ -146,3 +180,6 @@ Community and minimal editions must:
 - `RELEASE_STRATEGY.md` — GA and release-candidate sign-off process
 - `cmake/features/PrivatePluginFeatures.cmake` — CMake feature flags
 - `cmake/PrivatePlugins.cmake` — Private plugin discovery and registration
+- `docs/plugins/PLUGIN_ABI_POLICY.md` — ABI freeze v0.1.0 and backward-compat policy
+- `.github/workflows/09-pr-gates_submodule-commit-pins.yml` — Commit-pin CI gate
+- `.github/workflows/09-pr-gates_community-pipeline-policy.yml` — No-private-credentials CI gate
