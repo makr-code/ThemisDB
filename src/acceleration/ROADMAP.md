@@ -74,13 +74,17 @@ All major GPU acceleration backends are now fully implemented and integrated:
 **Constraint:** `THEMIS_ENABLE_CUDA` gate is always switchable OFF; CPU paths are unmodified; all stub paths carry mandatory `STUB/SIMULATION NOTE` per governance §8.
 
 #### B-01 · `ai_hardware_dispatcher.cpp` + `vllm_resource_manager.cpp` — Vector Similarity Search
-- [ ] Replace CPU HNSW fallback in `ai_hardware_dispatcher.cpp` with GPU kernel dispatch when `THEMIS_ENABLE_CUDA`; L2/Cosine/IP kernels using CUB/Thrust. (Target: Q3 2026)
+- [~] Replace CPU HNSW fallback in `ai_hardware_dispatcher.cpp` with GPU kernel dispatch when `THEMIS_ENABLE_CUDA`; L2/Cosine/IP kernels using CUB/Thrust. (Target: Q3 2026)
   - Inputs: query vector (float32, d=128..4096), corpus on device (N≤10M vectors).
   - Outputs: top-k indices + distances (k≤1000).
   - Errors: `cudaError_t` check after every kernel launch; on failure → `GpuOperationFailed` → CPU fallback (logged as WARN, never silent).
-- [ ] `vllm_resource_manager.cpp`: same GPU dispatch pattern for similarity scoring in vLLM resource allocation path. (Target: Q3 2026)
-- [ ] Perf gate `ACC-CUDA-B01-01`: ≥8× speedup vs CPU baseline on RTX-class GPU (1M vectors, d=128). Gate in `benchmarks/acceleration/bench_acceleration_cuda_gates.cpp`. (Target: Q3 2026)
-- [ ] `THEMIS_ENABLE_CUDA` compile gate: CPU path completely unmodified when gate is off; CMake check with `find_package(CUDAToolkit QUIET)`. (Target: Q3 2026)
+- [~] `vllm_resource_manager.cpp`: same GPU dispatch pattern for similarity scoring in vLLM resource allocation path. (Target: Q3 2026)
+- [~] Perf gate `ACC-CUDA-B01-01`: ≥8× speedup vs CPU baseline on RTX-class GPU (1M vectors, d=128). Gate in `benchmarks/acceleration/bench_acceleration_cuda_gates.cpp`. (Target: Q3 2026)
+- [x] `THEMIS_ENABLE_CUDA` compile gate: CPU path completely unmodified when gate is off; CMake check with `find_package(CUDAToolkit QUIET)`. (Target: Q3 2026)
+- [x] 2026-08-10 implementation update:
+  - `AiHardwareDispatcher` now executes real ANN distance + TopK dispatch for `vector_similarity_{l2,cosine,ip}` via CUDA path when available, with explicit `cudaGetLastError()` checks and deterministic CPU fallback.
+  - `VLLMResourceManager` now exposes a vLLM-aware vector similarity dispatch API with `canUseGPU()` gating and deterministic CPU fallback on overload/error.
+  - Remaining closure: hardware-in-the-loop perf validation for RTX `≥8×` gate.
 - [ ] Current stub state in `vllm_resource_manager.cpp`:
   ```
   // STUB/SIMULATION NOTE:
@@ -99,10 +103,14 @@ All major GPU acceleration backends are now fully implemented and integrated:
 - [ ] CUDA/CPU parity tests: `tests/gpu/test_gpu_query_accelerator_cuda_parity.cpp` — 15 tests (5 operations × 3 sizes); gated `THEMIS_ENABLE_CUDA=ON`. (Target: Q3 2026)
 
 #### A-07 · `advanced_vector_index.cpp` — cuVS/RAFT Approximate k-NN
-- [ ] Implement CUDA k-NN path in `advanced_vector_index.cpp` using cuVS/RAFT approximate nearest-neighbor; gate: `THEMIS_ENABLE_CUDA` AND `THEMIS_ENABLE_CUVS`; when either gate is OFF, fall back to CPU with STUB/SIMULATION NOTE. (Target: Q3 2026)
+- [~] Implement CUDA k-NN path in `advanced_vector_index.cpp` using cuVS/RAFT approximate nearest-neighbor; gate: `THEMIS_ENABLE_CUDA` AND `THEMIS_ENABLE_CUVS`; when either gate is OFF, fall back to CPU with STUB/SIMULATION NOTE. (Target: Q3 2026)
   - Inputs: query matrix (float32, batch × d), HNSW graph on device, k.
   - Outputs: top-k indices + L2 distances; float32 parity tolerance ≤1e-5 vs CPU HNSW.
   - Errors: `cudaGetLastError()` after every cuVS call; on failure → log WARN → CPU fallback.
+- [x] 2026-08-10 implementation update:
+  - Added `THEMIS_ENABLE_CUVS` feature gate and RAFT package probe in CMake dependency wiring.
+  - Added CUDA-gated FAISS GPU `index_cpu_to_gpu` search path in `advanced_vector_index.cpp` as the active CUDA dispatch path under `THEMIS_ENABLE_CUDA && THEMIS_ENABLE_CUVS`.
+  - CPU search remains unchanged when either gate is OFF.
 - [ ] Hardware-in-the-loop CTest: `test_advanced_vector_index_cuda_knn` gated on `THEMIS_GEO_CUDA=ON` (self-hosted runner); CPU-parity test runs unconditionally. (Target: Q3 2026)
 - [ ] Current stub state must carry:
   ```
