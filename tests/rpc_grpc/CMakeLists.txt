@@ -34,6 +34,36 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rpc_grpc_integration_focused.cpp")
     endif()
 endif()
 
+# ---------------------------------------------------------------------------
+# CB focused tests: CircuitBreaker state machine, probe, stats, callback.
+# ---------------------------------------------------------------------------
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rpc_grpc_circuit_breaker_focused.cpp")
+    set(_cb_target "module_rpc_grpc_circuit_breaker_focused")
+    if(NOT TARGET ${_cb_target})
+        add_executable(${_cb_target}
+            test_rpc_grpc_circuit_breaker_focused.cpp
+            ${THEMIS_ROOT_DIR}/src/rpc_grpc/circuit_breaker.cpp
+        )
+        target_include_directories(${_cb_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/include
+            ${THEMIS_ROOT_DIR}/src
+        )
+        target_link_libraries(${_cb_target} PRIVATE
+            ${TEST_LIBS}
+            Threads::Threads
+        )
+        target_compile_definitions(${_cb_target} PRIVATE THEMIS_TEST_BUILD=1)
+        themis_register_module_focused_test(
+            MODULE  rpc_grpc
+            NAME    rpc_grpc_CircuitBreakerFocused
+            TARGET  ${_cb_target}
+            TIER    unit
+            TIMEOUT 60
+            LABELS  rpc_grpc;circuit_breaker
+        )
+    endif()
+endif()
+
 # Phase 4 contract-hardening focused tests.
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rpc_grpc_contract_hardening_focused.cpp")
     set(_target "module_rpc_grpc_test_rpc_grpc_contract_hardening_focused_focused")
