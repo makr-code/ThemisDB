@@ -18,16 +18,16 @@ public:
     explicit InMemoryBlobBackend(std::string backend_name)
         : name_(std::move(backend_name)) {}
 
-    Result<BlobRef> put(const std::string& blob_id,
-                        const std::vector<uint8_t>& data) override {
+    themis::Result<BlobRef> put(const std::string& blob_id,
+                                const std::vector<uint8_t>& data) override {
         std::lock_guard<std::mutex> lock(mutex_);
         if (!available_) {
-            return Err<BlobRef>(errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
-                                name_ + " unavailable");
+            return themis::Err<BlobRef>(themis::errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+                                        name_ + " unavailable");
         }
         if (fail_put_) {
-            return Err<BlobRef>(errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
-                                name_ + " put failure");
+            return themis::Err<BlobRef>(themis::errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+                                        name_ + " put failure");
         }
 
         data_[blob_id] = data;
@@ -38,28 +38,30 @@ public:
         ref.uri = name_ + "://" + blob_id;
         ref.size_bytes = static_cast<int64_t>(data.size());
         ref.hash_sha256 = "test";
-        return Ok(ref);
+        return themis::Ok(ref);
     }
 
-    Result<std::vector<uint8_t>> get(const BlobRef& ref) override {
+    themis::Result<std::vector<uint8_t>> get(const BlobRef& ref) override {
         std::lock_guard<std::mutex> lock(mutex_);
         if (!available_ || fail_get_) {
-            return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
-                                             name_ + " get failure");
+            return themis::Err<std::vector<uint8_t>>(
+                themis::errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+                name_ + " get failure");
         }
 
         auto it = data_.find(ref.id);
         if (it == data_.end()) {
-            return Err<std::vector<uint8_t>>(errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
-                                             name_ + " missing blob");
+            return themis::Err<std::vector<uint8_t>>(
+                themis::errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
+                name_ + " missing blob");
         }
-        return Ok(it->second);
+        return themis::Ok(it->second);
     }
 
-    Result<void> remove(const BlobRef& ref) override {
+    themis::Result<void> remove(const BlobRef& ref) override {
         std::lock_guard<std::mutex> lock(mutex_);
         data_.erase(ref.id);
-        return OkVoid();
+        return themis::OkVoid();
     }
 
     bool exists(const BlobRef& ref) override {
