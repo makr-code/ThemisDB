@@ -9,6 +9,8 @@ Entry-point: `plugins/image_analysis/onnx_clip/CMakeLists.txt` (compatibility sh
 | Plugin | Status |
 |--------|--------|
 | ONNX CLIP (embedding) | ✅ Production |
+| YOLOv8 ONNX (object detection) | 🟡 Phase 1 delivered – awaiting ONNX Runtime integration tests |
+| Tesseract OCR | 🟡 Phase 1 delivered – awaiting real Tesseract fixture tests |
 
 ---
 
@@ -19,8 +21,8 @@ Entry-point: `plugins/image_analysis/onnx_clip/CMakeLists.txt` (compatibility sh
 
 ## Planned Features
 
-- [ ] **Object detection plugin** (YOLOv8 via ONNX) – bounding boxes + class labels (Target: Q3 2026)
-- [ ] **OCR plugin** (Tesseract / EasyOCR) – extract text from images (Target: Q3 2026)
+- [x] **Object detection plugin** (YOLOv8 via ONNX) – bounding boxes + class labels (Target: Q3 2026)
+- [x] **OCR plugin** (Tesseract / EasyOCR) – extract text from images (Target: Q3 2026)
 - [ ] **Captioning plugin** (BLIP-2) – generate natural-language descriptions (Target: Q3 2026)
 - [ ] Batch-processing API: multiple images in a single plugin call (Target: Q3 2026)
 - [ ] Support 768-dim and 1024-dim CLIP variants (Target: Q3 2026)
@@ -63,10 +65,14 @@ Entry-point: `plugins/image_analysis/onnx_clip/CMakeLists.txt` (compatibility sh
 ## Implementation Phases
 
 ### Phase 1 – Object Detection & OCR Plugins
-- [ ] Implement `YOLOv8OnnxPlugin` using ONNX Runtime; output bounding boxes + confidence scores
-- [ ] Implement `TesseractOCRPlugin` wrapping Tesseract C API; output text + layout regions
-- [ ] Unit tests: known-image fixtures with expected bounding boxes and OCR text
-- [ ] Inference latency histogram metric to Prometheus for both plugins
+- [x] Implement `YOLOv8OnnxPlugin` using ONNX Runtime; output bounding boxes + confidence scores
+  - `include/plugins/yolov8_onnx_plugin.h` + `src/image_analysis/yolov8_onnx_plugin.cpp`
+  - COCO 80-class NMS post-processing; CPU/CUDA EP fallback; per-call latency counters
+- [x] Implement `TesseractOCRPlugin` wrapping Tesseract C API; output text + layout regions
+  - `include/plugins/tesseract_ocr_plugin.h` + `src/image_analysis/tesseract_ocr_plugin.cpp`
+  - Per-word bounding boxes + confidence; full page text via `getLastOcrResult()`
+- [x] Unit tests: IMP-YOL-01..08 + IMP-OCR-01..08 in `tests/image_analysis/test_image_analysis_phase1_focused.cpp`
+- [x] Inference latency histogram metrics exported via `getStatistics()` for both plugins
 
 ### Phase 2 – Captioning & Batch API
 - [ ] Implement `BLIP2CaptioningPlugin` (ONNX export of BLIP-2 encoder-decoder)
