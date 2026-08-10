@@ -21,13 +21,12 @@
 #include <thread>
 #include <vector>
 #include <atomic>
-#include <mutex>
 #include <memory>
 #include <chrono>
 #include <deque>
+#include <stdexcept>
 
 #include "transaction/saga_orchestrator.h"
-#include "transaction/compensation_log.h"
 
 namespace themis {
 namespace test {
@@ -46,37 +45,47 @@ public:
     
     MockSAGAStep(const std::string& name, int node_id)
         : name_(name), node_id_(node_id), state_(StepState::PENDING),
-          execution_count_(0), compensation_count_(0) {}
+          execution_count_(0), compensation_count_(0),
+          compensation_side_effect_count_(0), compensation_applied_(false) {}
     
     const std::string& getName() const { return name_; }
     int getNodeId() const { return node_id_; }
-    StepState getState() const { return state_; }
-    int getExecutionCount() const { return execution_count_; }
-    int getCompensationCount() const { return compensation_count_; }
+    StepState getState() const { return state_.load(); }
+    int getExecutionCount() const { return execution_count_.load(); }
+    int getCompensationCount() const { return compensation_count_.load(); }
+    int getCompensationSideEffectCount() const { return compensation_side_effect_count_.load(); }
     
-    void setState(StepState s) { state_ = s; }
+    void setState(StepState s) { state_.store(s); }
     void incrementExecutionCount() { execution_count_++; }
     void incrementCompensationCount() { compensation_count_++; }
+    void applyCompensationIdempotent() {
+        compensation_count_++;
+        setState(StepState::COMPENSATING);
+        if (!compensation_applied_.exchange(true)) {
+            compensation_side_effect_count_++;
+        }
+        setState(StepState::COMPENSATED);
+    }
     
 private:
     std::string name_;
     int node_id_;
-    StepState state_;
-    int execution_count_;
-    int compensation_count_;
+    std::atomic<StepState> state_;
+    std::atomic<int> execution_count_;
+    std::atomic<int> compensation_count_;
+    std::atomic<int> compensation_side_effect_count_;
+    std::atomic<bool> compensation_applied_;
 };
 
 // Test fixture for SAGA tests
 class TransactionSAGAPhase2Test : public ::testing::Test {
 protected:
     void SetUp() override {
-        orchestrator_ = std::make_unique<SAGAOrchestrator>(
-            SAGAOrchestrator::OrchestratorOptions{
-                .max_concurrent_steps = 4,
-                .step_timeout_ms = 2000,
-                .max_retries = 3
-            }
-        );
+        SAGAOrchestratorConfig config;
+        config.enable_parallel = true;
+        config.default_timeout = std::chrono::milliseconds(2000);
+        config.default_retry_delay = std::chrono::milliseconds(100);
+        orchestrator_ = std::make_unique<SAGAOrchestrator>(config);
     }
 
     void TearDown() override {
@@ -172,18 +181,22 @@ TEST_F(TransactionSAGAPhase2Test, CompensationIdempotency_RetryStorm) {
     step->incrementExecutionCount();
     step->setState(MockSAGAStep::StepState::SUCCEEDED);
     
-    // Simulate retry storm: compensation attempted 10 times
+    // Simulate retry storm: 10 concurrent retries against the same compensation step.
+    std::vector<std::thread> retries;
+    retries.reserve(10);
     for (int i = 0; i < 10; ++i) {
-        step->setState(MockSAGAStep::StepState::COMPENSATING);
-        step->incrementCompensationCount();
-        step->setState(MockSAGAStep::StepState::COMPENSATED);
-        
-        // Small delay to simulate network jitter
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        retries.emplace_back([step]() {
+            step->applyCompensationIdempotent();
+        });
     }
-    
+    for (auto& retry : retries) {
+        retry.join();
+    }
+
     EXPECT_EQ(step->getCompensationCount(), 10)
-        << "Compensation should remain idempotent under retry storm";
+        << "All retry attempts should be tracked";
+    EXPECT_EQ(step->getCompensationSideEffectCount(), 1)
+        << "Compensation side effects must remain idempotent under concurrent retries";
 }
 
 // ============================================================================
@@ -317,27 +330,36 @@ TEST_F(TransactionSAGAPhase2Test, SAGAOrchestration_CascadingFailure) {
  * @acceptance AC-10: Recovery and Retry Storm Handling
  */
 TEST_F(TransactionSAGAPhase2Test, RetryStormHandling_BoundedRetries) {
-    auto step = std::make_shared<MockSAGAStep>("retry-bounded", 0);
-    
-    // Simulate bounded retries
-    int max_retries = 3;
-    for (int attempt = 0; attempt < max_retries; ++attempt) {
-        step->setState(MockSAGAStep::StepState::EXECUTING);
-        step->incrementExecutionCount();
-        
-        // Simulate transient failure
-        step->setState(MockSAGAStep::StepState::FAILED);
-        
-        if (attempt < max_retries - 1) {
-            // Exponential backoff
-            std::this_thread::sleep_for(
-                std::chrono::milliseconds(100 * (1 << attempt))
-            );
-        }
-    }
-    
-    EXPECT_EQ(step->getExecutionCount(), max_retries)
-        << "Retries should be bounded";
+    std::atomic<int> attempts{0};
+
+    SAGADefinition saga;
+    saga.id = "retry-bounds-saga";
+    saga.name = "retry-bounds";
+    saga.enable_parallel = false;
+    saga.steps.push_back(SAGAStep{
+        .name = "remote-call",
+        .forward = [&attempts]() {
+            attempts.fetch_add(1);
+            throw std::runtime_error("injected transient failure");
+        },
+        .compensate = {},
+        .depends_on = {},
+        .condition = {},
+        .timeout = std::chrono::milliseconds(0),
+        .max_retries = 3,
+        .retry_delay = std::chrono::milliseconds(100),
+    });
+
+    const auto start = std::chrono::steady_clock::now();
+    const auto status = orchestrator_->execute(saga);
+    const auto elapsed =
+        std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now() - start);
+
+    EXPECT_FALSE(status.ok);
+    EXPECT_EQ(attempts.load(), 4) << "Execution count must be retries + initial attempt";
+    EXPECT_GE(elapsed.count(), 650) << "Backoff lower bound violated";
+    EXPECT_LE(elapsed.count(), 2000) << "Backoff upper bound violated";
 }
 
 /**
@@ -348,7 +370,7 @@ TEST_F(TransactionSAGAPhase2Test, RetryStormHandling_BoundedRetries) {
 TEST_F(TransactionSAGAPhase2Test, RetryStormHandling_CircuitBreaker) {
     auto step = std::make_shared<MockSAGAStep>("circuit-breaker", 0);
     
-    int failure_threshold = 3;
+    int failure_threshold = 5;
     int failure_count = 0;
     bool circuit_open = false;
     
@@ -370,8 +392,8 @@ TEST_F(TransactionSAGAPhase2Test, RetryStormHandling_CircuitBreaker) {
     }
     
     EXPECT_TRUE(circuit_open) << "Circuit breaker should open after threshold";
-    EXPECT_LE(step->getExecutionCount(), failure_threshold + 1)
-        << "Circuit breaker should limit retry attempts";
+    EXPECT_EQ(step->getExecutionCount(), failure_threshold)
+        << "Circuit breaker should stop retries immediately after 5 consecutive failures";
 }
 
 /**

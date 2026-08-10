@@ -23,6 +23,7 @@
 #include <thread>
 #include <vector>
 #include <atomic>
+#include <array>
 #include <mutex>
 #include <random>
 #include <chrono>
