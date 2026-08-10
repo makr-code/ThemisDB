@@ -117,6 +117,20 @@ message(STATUS "    Importer Plugins (postgres/mysql/sqlite/mongodb/kafka/s3): c
 # ---------------------------------------------------------------------------
 option(THEMIS_PLUGIN_BLOB_S3    "Enable AWS S3 blob storage plugin"     ON)
 option(THEMIS_PLUGIN_BLOB_AZURE "Enable Azure blob storage plugin"      ON)
+option(THEMIS_PLUGIN_BLOB_GCS   "Enable Google Cloud Storage blob storage plugin" ON)
+
+if(NOT DEFINED THEMIS_ENABLE_BLOB_S3)
+    set(THEMIS_ENABLE_BLOB_S3 "${THEMIS_PLUGIN_BLOB_S3}" CACHE BOOL
+        "Enable AWS S3 blob backend in modular builds" FORCE)
+endif()
+if(NOT DEFINED THEMIS_ENABLE_BLOB_AZURE)
+    set(THEMIS_ENABLE_BLOB_AZURE "${THEMIS_PLUGIN_BLOB_AZURE}" CACHE BOOL
+        "Enable Azure blob backend in modular builds" FORCE)
+endif()
+if(NOT DEFINED THEMIS_ENABLE_BLOB_GCS)
+    set(THEMIS_ENABLE_BLOB_GCS "${THEMIS_PLUGIN_BLOB_GCS}" CACHE BOOL
+        "Enable GCS blob backend in modular builds" FORCE)
+endif()
 
 if(THEMIS_PLUGIN_BLOB_S3)
     add_compile_definitions(THEMIS_PLUGIN_BLOB_S3_ENABLED)
@@ -124,7 +138,10 @@ endif()
 if(THEMIS_PLUGIN_BLOB_AZURE)
     add_compile_definitions(THEMIS_PLUGIN_BLOB_AZURE_ENABLED)
 endif()
-message(STATUS "    Blob Storage Plugins (s3/azure):    configured per flag")
+if(THEMIS_PLUGIN_BLOB_GCS)
+    add_compile_definitions(THEMIS_PLUGIN_BLOB_GCS_ENABLED)
+endif()
+message(STATUS "    Blob Storage Plugins (s3/azure/gcs): configured per flag")
 
 # ---------------------------------------------------------------------------
 # HuggingFace Ingestion Plugin (integrated in src/importers/huggingface_ingestion_plugin.cpp)

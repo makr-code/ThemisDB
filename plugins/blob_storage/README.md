@@ -1,6 +1,6 @@
 # Blob Storage Plugins
 
-## Status: ✅ Production-Ready
+## Status: ✅ Production-Ready (Azure/S3) · 🔧 GCS hardening in progress
 
 External blob storage backend implementations for ThemisDB.
 
@@ -19,6 +19,20 @@ Integration with Microsoft Azure Blob Storage for external blob storage.
 **Status:** Production-ready
 
 Integration with Amazon S3 (and S3-compatible services) for external blob storage.
+
+### Google Cloud Storage (GCS) ✅
+**Path:** `gcs/`
+
+**Status:** Implemented; emulator/nightly validation pending
+
+Integration with Google Cloud Storage for external blob storage.
+
+## Validation Status
+
+- Server-side encryption support is implemented per cloud backend
+- Presigned URL generation is implemented for Azure, S3, and GCS
+- Emulator-backed integration coverage is env-gated today (Azurite / MinIO / fake-gcs-server)
+- Multi-region routing/replication remains a dedicated follow-up hardening area
 
 ## Features
 

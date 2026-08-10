@@ -29,6 +29,67 @@
 namespace themis {
 namespace storage {
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Server-Side Encryption configuration
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief Server-Side Encryption algorithm selector.
+ *
+ * Controls which SSE mechanism the backend applies when storing blobs.
+ */
+enum class SseAlgorithm {
+    NONE,       ///< No SSE — plaintext at rest (default)
+    AES256,     ///< AWS SSE-S3 / AES-256 managed key
+    AWS_KMS,    ///< AWS SSE-KMS with customer-managed CMK
+    AZURE_CMK,  ///< Azure customer-managed key (CMK) via Key Vault
+    GCS_CSEK,   ///< GCS customer-supplied encryption key (CSEK, 256-bit)
+};
+
+/**
+ * @brief Per-upload server-side encryption configuration.
+ *
+ * Attach an instance to the relevant sub-config in BlobStorageConfig.
+ * Backends that do not support a given algorithm return an error at runtime.
+ */
+struct SseConfig {
+    SseAlgorithm algorithm  = SseAlgorithm::NONE;
+    std::string  kms_key_id;   ///< AWS KMS ARN or Azure CMK resource ID
+    std::string  csek_base64;  ///< Base64-encoded 256-bit key for GCS CSEK
+};
+
+/**
+ * @brief Retry backoff strategy selector.
+ *
+ * Controls how the backend computes the delay between consecutive retries of a
+ * failed operation.
+ */
+enum class RetryBackoffStrategy {
+    EXPONENTIAL,  ///< Delay doubles on each attempt (with optional full jitter)
+    FIXED,        ///< Constant delay between retries
+};
+
+/**
+ * @brief Configurable retry policy for blob storage backends.
+ *
+ * Each backend maps this policy to its SDK-native retry mechanism as closely as
+ * possible.  Backends that do not expose fine-grained retry configuration will
+ * honour @p max_retries and ignore the timing parameters.
+ *
+ * Default values follow AWS SDK conventions (3 retries, 100 ms initial backoff,
+ * 20 000 ms ceiling).
+ */
+struct RetryPolicy {
+    /// Maximum number of retry attempts (0 = no retries).  Must be ≤ 10.
+    int                  max_retries         = 3;
+    /// Initial delay before the first retry, in milliseconds.
+    int64_t              initial_backoff_ms  = 100;
+    /// Upper bound on the computed per-attempt delay, in milliseconds.
+    int64_t              max_backoff_ms      = 20'000;
+    /// Backoff strategy to apply between retry attempts.
+    RetryBackoffStrategy backoff_strategy    = RetryBackoffStrategy::EXPONENTIAL;
+};
+
 /**
  * @brief Blob Storage Type
  */
@@ -118,6 +179,29 @@ public:
      * @return true if backend can be used
      */
     [[nodiscard]] virtual bool isAvailable() const = 0;
+
+    /**
+     * @brief Generate a presigned URL for direct client access to a blob.
+     *
+     * Returns a time-limited URL that can be used by an HTTP client to
+     * download (GET) the blob without presenting ThemisDB credentials.
+     *
+     * @param ref      Blob reference previously returned by put().
+     * @param expiry_s URL validity period in seconds (must be > 0 and ≤ 604800).
+     * @return Presigned URL string, or an error if the backend does not
+     *         support presigned URLs or the signing operation fails.
+     *
+     * @note The default implementation returns an error. Backends that support
+     *       presigned URLs override this method.
+     */
+    [[nodiscard]] virtual Result<std::string> presignedUrl(
+        const BlobRef& /*ref*/,
+        int64_t        /*expiry_s*/)
+    {
+        return Err<std::string>(
+            errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+            "presigned URLs not supported by this backend");
+    }
 };
 
 /**
@@ -137,16 +221,21 @@ struct BlobStorageConfig {
     std::string s3_bucket;
     std::string s3_region = "us-east-1";
     std::string s3_prefix;
+    std::string s3_endpoint_override;  ///< Optional custom S3 endpoint (e.g. MinIO host:port)
+    bool        s3_force_path_style = false;  ///< Use path-style addressing for S3-compatible emulators
+    SseConfig   s3_sse_config;  ///< SSE config for S3 (default: SseAlgorithm::NONE)
     
     // Azure backend
     bool enable_azure = false;
     std::string azure_connection_string;
     std::string azure_container;
+    SseConfig   azure_sse_config;  ///< SSE config for Azure (default: SseAlgorithm::NONE)
     
     // GCS backend
     bool enable_gcs = false;
     std::string gcs_bucket;
     std::string gcs_prefix;
+    SseConfig   gcs_sse_config;  ///< SSE config for GCS (default: SseAlgorithm::NONE)
     // Credentials: uses GOOGLE_APPLICATION_CREDENTIALS env var (ADC); fail-closed if absent
 
     // WebDAV backend (for ActiveDirectory/SharePoint)
@@ -155,6 +244,11 @@ struct BlobStorageConfig {
     std::string webdav_username;
     std::string webdav_password;
     bool webdav_verify_ssl = true;
+
+    // Retry policy — applied uniformly to all enabled backends.
+    // Individual backends may expose finer-grained knobs via their own SDK; this
+    // policy provides the authoritative user-visible configuration surface.
+    RetryPolicy retry_policy;  ///< Retry and backoff configuration (default: 3 retries, exponential)
 };
 
 } // namespace storage

@@ -417,7 +417,6 @@ set(THEMIS_STORAGE_SOURCES
     ../src/storage/compressed_storage.cpp
     ../src/storage/zero_copy_blob_transfer.cpp
     ../src/storage/gguf_metadata.cpp
-    ../src/storage/blob_backend_gcs.cpp
     ../src/storage/compression_strategy.cpp
     ../src/storage/gpu_compression.cpp
     # Index maintenance moved to THEMIS_SECURITY_SOURCES (depends on vector index internals)
