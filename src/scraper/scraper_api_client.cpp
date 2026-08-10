@@ -338,3 +338,179 @@ struct CurlWriteBuffer {
 } // namespace themis
 
 
+
+// ============================================================================
+// SparqlQueryBuilder::build()
+// ============================================================================
+
+namespace themis {
+namespace scraper {
+
+std::string SparqlQueryBuilder::build(const std::vector<std::string>& keywords) const {
+    std::ostringstream q;
+    q << "PREFIX cdm: <http://publications.europa.eu/ontology/cdm#>\n"
+      << "PREFIX dc: <http://purl.org/dc/elements/1.1/>\n"
+      << "SELECT ?work ?title ?date WHERE {\n"
+      << "  ?work a cdm:work .\n"
+      << "  ?work dc:title ?title .\n"
+      << "  OPTIONAL { ?work dc:date ?date . }\n"
+      << "  FILTER (LANG(?title) = \"" << language << "\")\n";
+
+    for (const auto& kw : keywords) {
+        // Lower-case the keyword in the SPARQL FILTER clause.
+        std::string lower_kw = kw;
+        std::transform(lower_kw.begin(), lower_kw.end(), lower_kw.begin(),
+                       [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+        q << "  FILTER (CONTAINS(LCASE(?title), \""
+          << lower_kw << "\"))\n";
+    }
+
+    q << "} LIMIT " << limit;
+    return q.str();
+}
+
+// ============================================================================
+// SparqlApiClient — construction
+// ============================================================================
+
+SparqlApiClient::SparqlApiClient(HttpFetchFn fetch_fn)
+    : fetch_fn_(std::move(fetch_fn)) {
+    if (!fetch_fn_) {
+        // Default libcurl POST implementation for production use.
+        fetch_fn_ = [](const std::string& url,
+                       const std::string& method,
+                       const std::map<std::string, std::string>& headers,
+                       const std::string& body) -> std::string {
+#ifdef THEMIS_ENABLE_CURL
+            CURL* curl = curl_easy_init();
+            if (!curl) return {};
+            struct Buf {
+                std::string data;
+                static std::size_t write(char* p, std::size_t sz, std::size_t nmemb, void* ud) {
+                    static_cast<Buf*>(ud)->data.append(p, sz * nmemb);
+                    return sz * nmemb;
+                }
+            } buf;
+            curl_easy_setopt(curl, CURLOPT_URL,           url.c_str());
+            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, Buf::write);
+            curl_easy_setopt(curl, CURLOPT_WRITEDATA,     &buf);
+            curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1L);
+            curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L);
+            curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+            curl_easy_setopt(curl, CURLOPT_TIMEOUT,        30L);
+            curl_slist* hlist = nullptr;
+            for (const auto& kv : headers)
+                hlist = curl_slist_append(hlist, (kv.first + ": " + kv.second).c_str());
+            if (hlist) curl_easy_setopt(curl, CURLOPT_HTTPHEADER, hlist);
+            if (method == "POST") {
+                curl_easy_setopt(curl, CURLOPT_POST,          1L);
+                curl_easy_setopt(curl, CURLOPT_POSTFIELDS,    body.c_str());
+                curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, static_cast<long>(body.size()));
+            }
+            curl_easy_perform(curl);
+            if (hlist) curl_slist_free_all(hlist);
+            curl_easy_cleanup(curl);
+            return buf.data;
+#else
+            (void)url; (void)method; (void)headers; (void)body;
+            return {};
+#endif
+        };
+    }
+}
+
+// ============================================================================
+// SparqlApiClient::parseBindings()
+// ============================================================================
+
+/*static*/ std::vector<ApiResult> SparqlApiClient::parseBindings(
+        const std::string& json_text,
+        const std::string& endpoint_url) {
+    std::vector<ApiResult> results;
+    try {
+        const json root = json::parse(json_text);
+        if (!root.contains("results") || !root["results"].contains("bindings")) {
+            return results;
+        }
+        const auto& bindings = root["results"]["bindings"];
+        for (const auto& b : bindings) {
+            ApiResult r;
+            r.raw_json    = b.dump();
+            r.url         = endpoint_url;
+
+            if (b.contains("work") && b["work"].contains("value"))
+                r.url = b["work"]["value"].get<std::string>();
+
+            if (b.contains("title") && b["title"].contains("value"))
+                r.title = b["title"]["value"].get<std::string>();
+
+            if (b.contains("date") && b["date"].contains("value"))
+                r.date = b["date"]["value"].get<std::string>();
+
+            // Flatten bindings to plain text for the evaluator
+            std::ostringstream txt;
+            txt << r.title;
+            if (!r.date.empty()) txt << " (" << r.date << ")";
+            r.extracted_text = txt.str();
+
+            for (const auto& [key, val] : b.items()) {
+                if (val.contains("value") && val["value"].is_string()) {
+                    r.fields[key] = val["value"].get<std::string>();
+                }
+            }
+            results.push_back(std::move(r));
+        }
+    } catch (...) {
+        // Malformed JSON: return whatever was collected
+    }
+    return results;
+}
+
+// ============================================================================
+// SparqlApiClient::fetchAll()
+// ============================================================================
+
+std::vector<ApiResult> SparqlApiClient::fetchAll(
+        const ApiEndpointConfig& cfg,
+        const std::string& query) {
+    // Build the SPARQL query string
+    std::string sparql_query;
+    if (!cfg.body_template.empty()) {
+        // Caller supplied a raw SPARQL query template
+        sparql_query = cfg.body_template;
+        // Replace {{QUERY}} placeholder with the keyword string
+        const std::string placeholder = "{{QUERY}}";
+        std::size_t pos = 0;
+        while ((pos = sparql_query.find(placeholder, pos)) != std::string::npos) {
+            sparql_query.replace(pos, placeholder.size(), query);
+            pos += query.size();
+        }
+    } else {
+        // Auto-build from keywords (split query on whitespace)
+        std::vector<std::string> keywords;
+        if (!query.empty()) {
+            std::istringstream iss(query);
+            std::string tok;
+            while (iss >> tok) keywords.push_back(tok);
+        }
+        sparql_query = builder_.build(keywords);
+    }
+
+    const std::map<std::string, std::string> headers = {
+        {"Content-Type", "application/sparql-query"},
+        {"Accept",       "application/sparql-results+json"}
+    };
+
+    std::string response;
+    try {
+        response = fetch_fn_(cfg.url, "POST", headers, sparql_query);
+    } catch (...) {
+        return {};
+    }
+    if (response.empty()) return {};
+
+    return parseBindings(response, cfg.url);
+}
+
+} // namespace scraper
+} // namespace themis

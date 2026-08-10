@@ -71,6 +71,9 @@ void ScraperPlugin::setJsRenderer(std::shared_ptr<IScraperJSRenderer> r)     { j
 void ScraperPlugin::setApiClient(std::shared_ptr<IScraperApiClient> c)       { api_client_    = std::move(c); }
 void ScraperPlugin::setHttpFetch(HttpFn fn)                                   { http_fn_       = std::move(fn); }
 void ScraperPlugin::setBurstController(std::shared_ptr<BurstCrawlController> bc) { burst_controller_ = std::move(bc); }
+void ScraperPlugin::setRobotsTxtCache(std::shared_ptr<RobotsTxtCache> rc)    { robots_cache_  = std::move(rc); }
+void ScraperPlugin::setSitemapCrawler(std::shared_ptr<SitemapCrawler> sc)    { sitemap_crawler_ = std::move(sc); }
+void ScraperPlugin::setEmbeddingFn(EmbeddingFn fn)                           { embedding_fn_  = std::move(fn); }
 
 // ============================================================================
 // initialize()
@@ -103,6 +106,23 @@ bool ScraperPlugin::initialize(const ScraperConfig& config) {
     }
 
     initialized_ = true;
+
+    // Set up robots.txt cache when respect_robots is enabled and none was injected
+    if (config_.crawl_options.respect_robots && !robots_cache_) {
+        auto http_fn_copy = http_fn_;
+        const std::string ua = config_.crawl_options.user_agent;
+        robots_cache_ = std::make_shared<RobotsTxtCache>(
+            [http_fn_copy, ua](const std::string& url,
+                               const std::string& /*user_agent*/) -> std::string {
+                if (http_fn_copy) {
+                    return http_fn_copy(url, ua);
+                }
+                // Without an injected fetch function, fall back to a no-op;
+                // the production path uses libcurl inside HttpScraperApiClient.
+                return {};
+            });
+    }
+
     return true;
 }
 
@@ -185,6 +205,13 @@ struct CurlBuf {
 } // anonymous namespace
 
 std::string ScraperPlugin::fetchPage(const std::string& url) const {
+    // robots.txt enforcement — check before any HTTP call
+    if (config_.crawl_options.respect_robots && robots_cache_) {
+        if (!robots_cache_->isAllowed(url, config_.crawl_options.user_agent)) {
+            return {};
+        }
+    }
+
     // Injected function takes priority (tests)
     if (http_fn_) {
         try { return http_fn_(url, config_.crawl_options.user_agent); }
@@ -339,7 +366,16 @@ void ScraperPlugin::processDocument(
         doc.doc_id = rel.doc_id;
         const auto node  = ScraperRecordBuilder::buildNode(rel);
         const auto edges = ScraperRecordBuilder::buildEdges(rel, eval);
-        const auto vec   = ScraperRecordBuilder::buildVector(rel);
+        auto vec         = ScraperRecordBuilder::buildVector(rel);
+
+        // Populate embedding vector when an embedding function is available
+        if (embedding_fn_) {
+            try {
+                vec.embedding = embedding_fn_(text);
+            } catch (...) {
+                // Embedding failure is non-fatal; leave embedding empty
+            }
+        }
 
         const WriteResult wr = writer_->write(rel, node, edges, vec);
         if (wr.success) {
@@ -497,7 +533,11 @@ void ScraperPlugin::runApiLoop(
 
                 const auto node  = ScraperRecordBuilder::buildNode(rel);
                 const auto edges = ScraperRecordBuilder::buildEdges(rel, eval);
-                const auto vec   = ScraperRecordBuilder::buildVector(rel);
+                auto vec         = ScraperRecordBuilder::buildVector(rel);
+                if (embedding_fn_) {
+                    try { vec.embedding = embedding_fn_(r.extracted_text); }
+                    catch (...) {}
+                }
                 const WriteResult wr = writer_->write(rel, node, edges, vec);
                 if (wr.success) ++stats_.docs_written;
                 else            ++stats_.write_errors;
@@ -514,6 +554,142 @@ void ScraperPlugin::runApiLoop(
                 results_.push_back(doc);
             }
         }
+    }
+}
+
+// ============================================================================
+// runSparqlLoop() – EUR-Lex CELLAR SPARQL crawl
+// ============================================================================
+
+void ScraperPlugin::runSparqlLoop(const std::string& endpoint_url,
+                                   const std::string& source_name,
+                                   const std::string& gov_source_id) {
+    // Build a SparqlApiClient backed by the http_fn_ if set (for testing), else
+    // use the default libcurl path.
+    SparqlApiClient sparql_client;
+    if (http_fn_) {
+        // Wrap the plain (url, user_agent) http_fn_ into the 4-arg HttpFetchFn
+        // expected by SparqlApiClient; method/headers/body are passed through
+        // to the underlying SPARQL POST but the simpler signature is used in tests.
+        sparql_client.setFetchFn(
+            [this](const std::string& url,
+                   const std::string& /*method*/,
+                   const std::map<std::string, std::string>& /*headers*/,
+                   const std::string& /*body*/) -> std::string {
+                return http_fn_(url, config_.crawl_options.user_agent);
+            });
+    }
+
+    ApiEndpointConfig cfg;
+    cfg.url             = endpoint_url;
+    cfg.pagination_mode = "none";
+
+    const auto queries = config_.effectiveSearchQueries();
+    UrlPolicy policy(config_);
+
+    for (const auto& query : queries) {
+        const auto results = sparql_client.fetchAll(cfg, query);
+        stats_.api_pages_fetched += static_cast<int>(results.size());
+
+        for (const auto& r : results) {
+            if (!r.url.empty() && !policy.isAllowed(r.url)) continue;
+            ++stats_.docs_scraped;
+            ++stats_.urls_visited;
+
+            const EvaluationResult eval = evaluator_->evaluate(
+                r.extracted_text, r.url, config_.gap_context,
+                config_.llm_options.quality_threshold);
+
+            if (!eval.shouldDiscard()) {
+                const auto rel = ScraperRecordBuilder::buildRelational(
+                    r.url, r.title, r.extracted_text, source_name,
+                    gov_source_id, eval, config_.gap_context);
+
+                ScrapedDocument doc;
+                doc.url                      = r.url;
+                doc.title                    = r.title;
+                doc.extracted_text           = r.extracted_text;
+                doc.source_name              = source_name;
+                doc.document_type            = "SPARQL";
+                doc.date_issued              = r.date;
+                doc.quality_score            = eval.quality_score;
+                doc.gap_relevance            = eval.gap_relevance;
+                doc.doc_id                   = rel.doc_id;
+                doc.discarded                = false;
+                doc.is_scraper_ingested      = true;
+                doc.ingestion_source_type    = rel.ingestion_source_type;
+                doc.ingestion_plugin_version = rel.ingestion_plugin_version;
+                results_.push_back(doc);
+
+                const auto node  = ScraperRecordBuilder::buildNode(rel);
+                const auto edges = ScraperRecordBuilder::buildEdges(rel, eval);
+                auto vec         = ScraperRecordBuilder::buildVector(rel);
+                if (embedding_fn_) {
+                    try { vec.embedding = embedding_fn_(r.extracted_text); }
+                    catch (...) {}
+                }
+                const WriteResult wr = writer_->write(rel, node, edges, vec);
+                if (wr.success) ++stats_.docs_written;
+                else            ++stats_.write_errors;
+                ++stats_.docs_accepted;
+            } else {
+                ++stats_.docs_discarded;
+                ScrapedDocument doc;
+                doc.url                      = r.url;
+                doc.discarded                = true;
+                doc.discard_reason           = eval.discard_reason;
+                doc.is_scraper_ingested      = true;
+                doc.ingestion_source_type    = "SCRAPER";
+                doc.ingestion_plugin_version = ScraperRecordBuilder::kPluginVersion;
+                results_.push_back(doc);
+            }
+        }
+    }
+}
+
+// ============================================================================
+// runSitemapLoop() – sitemap-driven crawl
+// ============================================================================
+
+void ScraperPlugin::runSitemapLoop(const std::string& sitemap_url,
+                                    const std::string& source_name,
+                                    const std::string& gov_source_id) {
+    // Build a SitemapCrawler if one has not been injected.
+    std::shared_ptr<SitemapCrawler> crawler = sitemap_crawler_;
+    if (!crawler) {
+        crawler = std::make_shared<SitemapCrawler>(
+            [this](const std::string& url,
+                   const std::string& /*ua*/) -> std::string {
+                return fetchPage(url);
+            });
+    }
+
+    const auto urls = crawler->fetchUrls(sitemap_url);
+    UrlPolicy policy(config_);
+
+    for (const auto& url : urls) {
+        if (!policy.isAllowed(url)) continue;
+
+        if (config_.crawl_options.request_delay_ms > 0) {
+            std::this_thread::sleep_for(
+                std::chrono::milliseconds(config_.crawl_options.request_delay_ms));
+        }
+
+        std::string html;
+        if (config_.crawl_options.render_mode == ScraperRenderMode::JS_RENDERED
+            && js_renderer_ && js_renderer_->isAvailable()) {
+            JsRenderRequest jreq;
+            jreq.url        = url;
+            jreq.timeout_ms = config_.crawl_options.js_timeout_ms;
+            const auto jres = js_renderer_->render(jreq);
+            if (jres.success) html = jres.html;
+        } else {
+            html = fetchPage(url);
+        }
+
+        if (html.empty()) continue;
+        ++stats_.urls_visited;
+        processDocument(url, html, source_name, gov_source_id, "SITEMAP", "");
     }
 }
 
@@ -556,6 +732,22 @@ ScraperRunStats ScraperPlugin::scrape() {
         // REST API sources → API loop
         if (gov_src && gov_src->search_style == GovSearchStyle::REST_JSON) {
             runApiLoop(seed_url, source_name, gov_id);
+            continue;
+        }
+        // EUR-Lex CELLAR SPARQL sources → SPARQL loop
+        if (gov_src && gov_src->search_style == GovSearchStyle::EURLEX_API) {
+            const std::string sparql_endpoint = gov_src->api_endpoint.empty()
+                ? "https://publications.europa.eu/webapi/rdf/sparql"
+                : gov_src->api_endpoint;
+            runSparqlLoop(sparql_endpoint, source_name, gov_id);
+            continue;
+        }
+        // Sitemap-driven sources → sitemap loop
+        if (gov_src && gov_src->search_style == GovSearchStyle::SITEMAP) {
+            const std::string sitemap_url = gov_src->sitemap_url.empty()
+                ? seed_url
+                : gov_src->sitemap_url;
+            runSitemapLoop(sitemap_url, source_name, gov_id);
             continue;
         }
         if (config_.crawl_options.render_mode == ScraperRenderMode::API_JSON ||
