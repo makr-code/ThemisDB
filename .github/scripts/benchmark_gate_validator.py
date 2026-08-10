@@ -304,6 +304,130 @@ class BenchmarkGateValidator:
         
         return results
 
+    def validate_wave7_gates(self) -> Dict[str, Dict]:
+        """Validate Wave 7 performance gates (manifest freshness).
+        
+        Returns:
+          Dict mapping gate_id -> {status, threshold, current, details}
+        """
+        gates = {}
+        manifest_path = self.repo_root / 'ai_working' / 'MATURITY_EVIDENCE_MANIFEST.json'
+        
+        # GATE-W7-01: Manifest age ≤ 7 days
+        gate_id = 'GATE-W7-01'
+        try:
+            if manifest_path.exists():
+                with open(manifest_path, 'r') as f:
+                    manifest = json.load(f)
+                    timestamp_str = manifest.get('generated_at', '')
+                    if timestamp_str:
+                        manifest_time = datetime.fromisoformat(timestamp_str.replace('Z', '+00:00'))
+                        age_days = (datetime.now(manifest_time.tzinfo) - manifest_time).days
+                        
+                        gates[gate_id] = {
+                            'status': 'PASS' if age_days <= 7 else 'FAIL',
+                            'threshold_days': 7,
+                            'current_days': age_days,
+                            'details': f"Manifest age: {age_days} days"
+                        }
+                    else:
+                        gates[gate_id] = {
+                            'status': 'FAIL',
+                            'details': 'Manifest missing generated_at timestamp'
+                        }
+            else:
+                gates[gate_id] = {
+                    'status': 'FAIL',
+                    'details': 'MATURITY_EVIDENCE_MANIFEST.json not found'
+                }
+        except Exception as e:
+            gates[gate_id] = {
+                'status': 'FAIL',
+                'details': f'Error checking manifest: {str(e)}'
+            }
+        
+        return gates
+
+    def validate_wave8_gates(self) -> Dict[str, Dict]:
+        """Validate Wave 8 performance gates (security gate staleness).
+        
+        Returns:
+          Dict mapping gate_id -> {status, threshold, current, details}
+        """
+        gates = {}
+        
+        # GATE-W8-01: Sanitizer evidence ≤ 30 days
+        gate_id = 'GATE-W8-01'
+        sanitizer_path = self.repo_root / 'docs' / 'security' / 'GA_SANITIZER_EVIDENCE_BUNDLE.md'
+        try:
+            if sanitizer_path.exists():
+                with open(sanitizer_path, 'r') as f:
+                    content = f.read()
+                    date_match = re.search(r'Date:\s*(\d{4}-\d{2}-\d{2})', content)
+                    if date_match:
+                        date_str = date_match.group(1)
+                        evidence_date = datetime.strptime(date_str, '%Y-%m-%d')
+                        age_days = (datetime.now() - evidence_date).days
+                        
+                        gates[gate_id] = {
+                            'status': 'PASS' if age_days <= 30 else 'FAIL',
+                            'threshold_days': 30,
+                            'current_days': age_days,
+                            'details': f"Sanitizer evidence age: {age_days} days"
+                        }
+                    else:
+                        gates[gate_id] = {
+                            'status': 'FAIL',
+                            'details': 'Sanitizer evidence date not found'
+                        }
+            else:
+                gates[gate_id] = {
+                    'status': 'FAIL',
+                    'details': 'GA_SANITIZER_EVIDENCE_BUNDLE.md not found'
+                }
+        except Exception as e:
+            gates[gate_id] = {
+                'status': 'FAIL',
+                'details': f'Error checking sanitizer evidence: {str(e)}'
+            }
+        
+        # GATE-W8-02: Pentest evidence ≤ 90 days
+        gate_id = 'GATE-W8-02'
+        pentest_path = self.repo_root / 'security' / 'pentest' / 'GA_PENTEST_EVIDENCE_BUNDLE.md'
+        try:
+            if pentest_path.exists():
+                with open(pentest_path, 'r') as f:
+                    content = f.read()
+                    date_match = re.search(r'Date:\s*(\d{4}-\d{2}-\d{2})', content)
+                    if date_match:
+                        date_str = date_match.group(1)
+                        evidence_date = datetime.strptime(date_str, '%Y-%m-%d')
+                        age_days = (datetime.now() - evidence_date).days
+                        
+                        gates[gate_id] = {
+                            'status': 'PASS' if age_days <= 90 else 'FAIL',
+                            'threshold_days': 90,
+                            'current_days': age_days,
+                            'details': f"Pentest evidence age: {age_days} days"
+                        }
+                    else:
+                        gates[gate_id] = {
+                            'status': 'FAIL',
+                            'details': 'Pentest evidence date not found'
+                        }
+            else:
+                gates[gate_id] = {
+                    'status': 'FAIL',
+                    'details': 'GA_PENTEST_EVIDENCE_BUNDLE.md not found'
+                }
+        except Exception as e:
+            gates[gate_id] = {
+                'status': 'FAIL',
+                'details': f'Error checking pentest evidence: {str(e)}'
+            }
+        
+        return gates
+
     def save_results(self, results: Dict, output_dir: Optional[Path] = None):
         """Save validation results to JSON file.
         
@@ -387,6 +511,16 @@ def main():
         action='store_true',
         help='Check without executing benchmarks'
     )
+    parser.add_argument(
+        '--wave7',
+        action='store_true',
+        help='Validate Wave 7 performance gates (manifest freshness)'
+    )
+    parser.add_argument(
+        '--wave8',
+        action='store_true',
+        help='Validate Wave 8 performance gates (security gate staleness)'
+    )
 
     args = parser.parse_args()
 
@@ -401,6 +535,38 @@ def main():
         for module, files in sorted(gate_files.items()):
             print(f"  {module}: {len(files)} files")
         return 0
+
+    # Wave 7 & 8 gate validation (for Phase 3 enforcement)
+    if args.wave7 or args.wave8:
+        print("📊 Validating Wave 7/8 performance gates...")
+        
+        wave_gates = {}
+        if args.wave7:
+            wave_gates.update(validator.validate_wave7_gates())
+        if args.wave8:
+            wave_gates.update(validator.validate_wave8_gates())
+        
+        # Output results
+        passed = sum(1 for g in wave_gates.values() if g['status'] == 'PASS')
+        failed = sum(1 for g in wave_gates.values() if g['status'] == 'FAIL')
+        
+        print(f"\n📊 Wave Gate Summary:")
+        print(f"  ✅ PASS:  {passed}")
+        print(f"  ❌ FAIL:  {failed}")
+        
+        for gate_id, result in sorted(wave_gates.items()):
+            status = "✅" if result['status'] == "PASS" else "❌"
+            print(f"  {status} {gate_id}: {result['details']}")
+        
+        # Save to JSON for workflow
+        with open('ai_working/WAVE_GATE_RESULTS.json', 'w') as f:
+            json.dump({
+                'timestamp': datetime.now().isoformat(),
+                'gates': wave_gates,
+                'summary': {'passed': passed, 'failed': failed}
+            }, f, indent=2)
+        
+        return 1 if failed > 0 else 0
 
     if args.generate_baseline:
         print("📊 Generating baseline for current build...")

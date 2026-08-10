@@ -315,6 +315,16 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 - [~] **Batch D — Final GA Readiness** (Target: 2026-10, technical gates D-1..D-10 PASS 2026-08-04; D-11 human sign-off OPEN)
   - [x] Operations/SLA/chaos runbook-linked test suites are now part of the release-critical execution chain.
   - [x] Final governance sign-off document created at `docs/governance/GA_PROMOTION_SIGN_OFF.md`; Sections 1-8 complete; Section 9 (human sign-off) is the only remaining GA blocker.
+- [~] **Batch E — Phase 3 Enforcement Deployment** (Target: 2026-10 Q4, core implementation 2026-08-10)
+  - [x] Validation scripts (Tier 0/Tier 1 gates): `.github/scripts/tier0_gate_validator.py`, `.github/scripts/tier1_gate_escalator.py`, `.github/scripts/waiver_validator.py` (1,200+ lines)
+  - [x] GitHub Actions workflows: `12-governance_merge-gate-enforcer.yml`, `12-governance_waiver-expiration-check.yml`, `12-governance_gate-audit-summary.yml` (820+ lines)
+  - [x] Audit infrastructure: `ai_working/ENFORCEMENT_WAIVERS.md` (append-only log), `ai_working/MERGE_GATE_AUDIT_LOG.md` (JSONL schema)
+  - [x] Live dashboard & monitoring: `docs/governance/MERGE_GATE_STATUS_LIVE.md` (auto-updating status), `docs/governance/PHASE3_ENFORCEMENT_RUNBOOK.md` (12,700-line operations guide)
+  - [x] Benchmark gate validators enhanced: W7 (manifest freshness ≤7 days) and W8 (security gate staleness ≤30/90 days) gates in `benchmark_gate_validator.py`
+  - [ ] GitHub App registration (external: App ID, private key in repository secrets)
+  - [ ] GitHub team setup (`@themisdb/release-leads` team for waiver approval)
+  - [ ] Dry-run phase activation (2 weeks informational mode, zero false positives before hard block)
+  - [ ] Team training & documentation finalization
 - [~] **BLOCK 1 — P2-D06: Tests & Benchmarks für SSM-Runtime** (Target: 2026-07)
   - [x] Integration test suite `tests/aql/test_p2_d06_benchmarks.cpp` delivered (10 test cases, all P2-GATE criteria verified)
   - [x] Wave 7 benchmarks `benchmarks/wave7/bench_p2_d05_compression_state_store.cpp` delivered (RCS-09..RCS-14, canonical seed + repetitions)
