@@ -114,12 +114,12 @@ GeoBackendDispatcher::HaversineResult GeoBackendDispatcher::computeHaversineBatc
         lons2.reserve(points2.size());
         
         for (const auto& p : points1) {
-            lats1.push_back(p.latitude);
-            lons1.push_back(p.longitude);
+            lats1.push_back(p.lat_deg);
+            lons1.push_back(p.lon_deg);
         }
         for (const auto& p : points2) {
-            lats2.push_back(p.latitude);
-            lons2.push_back(p.longitude);
+            lats2.push_back(p.lat_deg);
+            lons2.push_back(p.lon_deg);
         }
         
         // Instantiate dispatcher and attempt GPU dispatch
@@ -133,7 +133,11 @@ GeoBackendDispatcher::HaversineResult GeoBackendDispatcher::computeHaversineBatc
         
         // On successful GPU dispatch, use results and skip CPU fallback
         if (gpu_result.dispatched) {
-            result.distances_km = gpu_result.distances_km;
+            // Convert float distances from GPU to double for result
+            result.distances_km.resize(gpu_result.distances_km.size());
+            for (size_t i = 0; i < gpu_result.distances_km.size(); ++i) {
+                result.distances_km[i] = static_cast<double>(gpu_result.distances_km[i]);
+            }
             result.cpu_fallback = false;
             result.error_code = gpu_result.error_code;
             return result;
@@ -181,8 +185,8 @@ GeoBackendDispatcher::PointInPolygonResult GeoBackendDispatcher::computePointInP
         point_lons.reserve(num_test_points);
         
         for (size_t i = 0; i < num_test_points && i < test_points.size(); ++i) {
-            point_lats.push_back(test_points[i].latitude);
-            point_lons.push_back(test_points[i].longitude);
+            point_lats.push_back(test_points[i].lat_deg);
+            point_lons.push_back(test_points[i].lon_deg);
         }
         
         // Prepare polygon coordinates (interleaved [lat, lon] pairs)
@@ -192,8 +196,8 @@ GeoBackendDispatcher::PointInPolygonResult GeoBackendDispatcher::computePointInP
             poly_coords.reserve(polygons[0].vertices.size() * 2);
             
             for (const auto& vertex : polygons[0].vertices) {
-                poly_coords.push_back(vertex.latitude);
-                poly_coords.push_back(vertex.longitude);
+                poly_coords.push_back(vertex.lat_deg);
+                poly_coords.push_back(vertex.lon_deg);
             }
             
             // Instantiate dispatcher and attempt GPU dispatch
