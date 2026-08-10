@@ -817,18 +817,22 @@ TranscriptionResult STTProcessor::transcribeInternal(const std::vector<float> &p
         return result;
     }
 #else
-    // STUB/SIMULATION NOTE:
-    // Purpose: Allow STTProcessor::transcribe() to return a well-formed result
-    //          when compiled without Whisper.cpp (THEMIS_ENABLE_WHISPER=OFF).
-    // Activation: `THEMIS_ENABLE_WHISPER` not defined at compile time.
-    // Production Delta: Transcription result contains a fixed notice string
-    //                   instead of real speech-to-text output.  All confidence
-    //                   scores are 0.  Applications relying on transcribed text
-    //                   will receive useless content.
-    //                   Inject a real backend via setTranscribeFn() to bypass.
-    // Removal Plan: Build with `-DTHEMIS_ENABLE_WHISPER=ON` and supply a
-    //               whisper.cpp model path; this `#else` branch is then dead.
-    //               See src/content/FUTURE_ENHANCEMENTS.md §STTProcessor WhisperActivation.
+    // PERMANENT FALLBACK NOTE:
+    // Purpose: Allow STTProcessor::transcribeInternal() to return a well-formed
+    //          result when compiled without Whisper.cpp (THEMIS_ENABLE_WHISPER=OFF).
+    // Activation: THEMIS_ENABLE_WHISPER is NOT defined at compile time.
+    // Behaviour: Checks for an injected STTTranscribeFn via setTranscribeFn()
+    //            first (e.g. a WhisperPlugin wrapper injected at startup).
+    //            If none is set, returns a fixed notice string so that callers
+    //            always receive a structurally valid TranscriptionResult.
+    // Production path: Build with -DTHEMIS_ENABLE_WHISPER=ON (links whisper.cpp)
+    //                  or inject a real backend via setTranscribeFn():
+    //                    auto plugin = std::make_unique<whisper::WhisperPlugin>();
+    //                    plugin->initialize(model_path, config_json);
+    //                    stt.setTranscribeFn([p = std::move(plugin)](
+    //                        const auto& pcm, const auto& opts) {
+    //                        return p->transcribe(pcm, 16000.0f);
+    //                    });
     {
         STTTranscribeFn fn_snapshot;
         {

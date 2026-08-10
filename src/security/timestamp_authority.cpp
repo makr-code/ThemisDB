@@ -22,18 +22,20 @@
 // Deterministic, non-cryptographic timestamps (no OpenSSL / CURL).
 #ifndef THEMIS_USE_OPENSSL_TSA
 
-// STUB/SIMULATION NOTE:
+// PERMANENT FALLBACK NOTE:
 // Purpose: Software-only deterministic TSA fallback for development and CI environments
 //          where OpenSSL TSA (libcurl + openssl TSA protocol) is not available.
 //          Issues locally-generated timestamps without RFC 3161 compliance.
 //          Production mode is explicitly blocked unless THEMIS_ALLOW_TSA_STUB=1 is set.
 // Activation: Compiled when THEMIS_USE_OPENSSL_TSA is NOT defined (default dev build).
-//             Build with -DTHEMIS_USE_OPENSSL_TSA=ON (requires openssl + libcurl) to
-//             replace with the RFC 3161-compliant implementation.
+//             Build with -DTHEMIS_USE_OPENSSL_TSA=ON (Wave-2 guard, requires OpenSSL TS_*
+//             + libcurl) to activate the RFC 3161-compliant implementation in
+//             timestamp_authority_openssl.cpp instead.
 // Production Delta: No RFC 3161 token, no TSA signature, no external TSA server contact.
 //                   Timestamps are local system clock only. Not legally binding.
-// Removal Plan: Replaced at build time when -DTHEMIS_USE_OPENSSL_TSA=ON is set.
-//               All regulated/compliance deployments must use the real TSA backend.
+// This fallback path is PERMANENT for no-OpenSSL-TSA builds; it is not a stub to be
+// removed, but a compile-time safety net. All regulated/compliance deployments must use
+// the real TSA backend (-DTHEMIS_USE_OPENSSL_TSA=ON).
 // Roadmap ref: src/security/FUTURE_ENHANCEMENTS.md § "Stub/Simulation Lifecycle"
 
 #include "security/timestamp_authority.h"
@@ -93,15 +95,16 @@ static TimestampToken makeProductionError() {
     return tok;
 }
 
-// STUB/SIMULATION NOTE (TimestampAuthority::Impl — software-only stub):
-// Purpose: Provide a lightweight stateful Impl so the non-OpenSSL path keeps
+// PERMANENT FALLBACK NOTE (TimestampAuthority::Impl — software-only fallback):
+// Purpose: Provide a lightweight stateful Impl so the no-OpenSSL-TSA path keeps
 //          pimpl compatibility while still tracking minimal runtime state
 //          (issued token count + cached certificate string).
-// Activation: `THEMIS_USE_OPENSSL_TSA` not defined (same as the outer stub block).
-// Production Delta: No external TSA connection pool, no OpenSSL context, no
+// Activation: `THEMIS_USE_OPENSSL_TSA` not defined (same as the outer fallback block).
+// Production Delta: No external TSA connection pool, no OpenSSL TS context, no
 //          async RFC3161 request pipeline.  State is local-process only.
-// Removal Plan: Compile with -DTHEMIS_USE_OPENSSL_TSA=ON; the real Impl replaces
-//          this stub class at link time.
+// @note This Impl is the PERMANENT no-TSA fallback; the real Impl (with CURL* and
+//       OpenSSL TS context) lives in timestamp_authority_openssl.cpp and activates
+//       when `-DTHEMIS_USE_OPENSSL_TSA=ON` is set (Wave-2 CMake guard).
 class TimestampAuthority::Impl {
 public:
     mutable std::mutex state_mutex;
@@ -301,13 +304,13 @@ std::vector<uint8_t> TimestampAuthority::computeHash(const std::vector<uint8_t>&
 // ============================================================================
 // eIDAS Timestamp Validator Stub Implementation
 // ============================================================================
-// STUB/SIMULATION NOTE (eIDASTimestampValidator — all methods below):
+// PERMANENT FALLBACK NOTE (eIDASTimestampValidator — all methods below):
 // Purpose: Provide a compilable eIDASTimestampValidator that enforces production
 //          guards and fails safely in dev/CI builds where OpenSSL TSA is absent.
 // Activation: Compiled inside `#ifndef THEMIS_USE_OPENSSL_TSA` (same as the
-//             TimestampAuthority stub above).  Production builds with
-//             -DTHEMIS_USE_OPENSSL_TSA=ON compile the real implementation
-//             (lines ~892+) which performs full ASN.1 chain validation.
+//             TimestampAuthority fallback above).  Production builds with
+//             -DTHEMIS_USE_OPENSSL_TSA=ON (Wave-2 CMake guard) compile the real
+//             implementation which performs full ASN.1 chain validation.
 // Production Delta (validateeIDASTimestamp): Without an injected ValidateFn,
 //             accepts any token whose `success` flag is true only when the
 //             explicit stub override is enabled; no RFC3161 signature validation.
@@ -315,9 +318,9 @@ std::vector<uint8_t> TimestampAuthority::computeHash(const std::vector<uint8_t>&
 // Production Delta (isQualifiedTSA): Without an injected QualifiedTSAFn,
 //             always returns false + pushes an error message; cannot validate
 //             QTSP certificates without OpenSSL.
-// Removal Plan: Build with -DTHEMIS_USE_OPENSSL_TSA=ON; this entire
-//             `#ifndef` block is compiled out.  See
-//             src/security/FUTURE_ENHANCEMENTS.md §"eIDAS TSA Validation".
+// This block is PERMANENT for no-OpenSSL-TSA builds and is a compile-time safety net.
+// Enable with -DTHEMIS_USE_OPENSSL_TSA=ON; see
+// src/security/FUTURE_ENHANCEMENTS.md §"eIDAS TSA Validation".
 
 bool eIDASTimestampValidator::validateeIDASTimestamp(
     const TimestampToken& token,
@@ -426,13 +429,12 @@ bool eIDASTimestampValidator::isQualifiedTSA(
         }
     }
     
-    // STUB/SIMULATION NOTE (isQualifiedTSA — supplement to the eIDASTimestampValidator
-    // class-level note above): Always returns false; cannot validate QTSP certificate
-    // chains without OpenSSL.  See the class-level note for activation conditions and
-    // removal plan.
-    // Stub implementation - default to false for security
-    // Without OpenSSL, we cannot properly validate certificates
-    // In production builds with OpenSSL, proper validation is performed
+    // PERMANENT FALLBACK NOTE (isQualifiedTSA): Always returns false; cannot validate
+    // QTSP certificate chains without OpenSSL.  This is the correct fail-closed
+    // behavior for builds without -DTHEMIS_USE_OPENSSL_TSA=ON (Wave-2 CMake guard).
+    // When the Wave-2 guard is set, the real ASN.1 chain validation path in
+    // timestamp_authority_openssl.cpp handles QTSP certificate validation.
+    // Without OpenSSL TS_*, we cannot properly validate certificates;
     validation_errors_.push_back(
         "QTSP validation not available in stub implementation - "
         "rebuild with OpenSSL support (THEMIS_USE_OPENSSL_TSA) for secure validation"

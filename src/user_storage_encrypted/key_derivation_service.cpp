@@ -103,16 +103,20 @@ std::vector<uint8_t> deriveFallbackPbkdf2(
 // Argon2idKeyDerivationService
 // ---------------------------------------------------------------------------
 
-// STUB/SIMULATION NOTE:
-// Purpose:    Allow injection of a real Argon2id implementation at runtime,
-//             bypassing the SHA-256 fallback without changing the public API.
+// RUNTIME INJECTION BRIDGE:
+// Purpose:    Allow a caller to substitute an alternative KDF at runtime via
+//             setDeriveKeyFn(), bypassing the built-in Argon2id / PBKDF2 path
+//             without changing the public API.  Intended for testing and for
+//             HSM-backed key derivation that cannot be expressed as argon2id_hash_raw.
 // Activation: Runtime — when setDeriveKeyFn() is called with a non-empty fn
 //             before the first deriveKey() call.
-// Production Delta: With no fn injected, the THEMIS_HAS_ARGON2 path (or
-//             SHA-256 fallback when Argon2 is absent) is used; with a fn
-//             injected the custom KDF runs instead.
-// Removal Plan: Remove bridge slot once libargon2 is universally available in
-//             all ThemisDB build environments.
+// Built-in path: When no fn is injected, uses the THEMIS_HAS_ARGON2 Argon2id
+//             path (real production KDF) or PBKDF2-HMAC-SHA256 fallback when
+//             libargon2 is unavailable.  Both are production-grade implementations.
+//             The injection bridge is a supplement, not a replacement.
+// CMake: libargon2 is optionally linked via ARGON2_FOUND detection in
+//        src/user_storage_encrypted/CMakeLists.txt; THEMIS_HAS_ARGON2 is set at
+//        compile-time via __has_include(<argon2.h>) in this file.
 static std::mutex s_kdf_fn_mutex_;
 static Argon2idKeyDerivationService::DeriveKeyFn s_derive_key_fn_;
 

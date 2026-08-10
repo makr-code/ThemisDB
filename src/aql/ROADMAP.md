@@ -70,8 +70,8 @@ Production AQL-assistance surfaces exist across translation, validation, tooling
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [ ] freeze assistance contract semantics for translation/validation outputs (Target: Q3 2026)
-- [ ] define explicit failure contracts for unsupported provider/capability modes (Target: Q3 2026)
+- [x] freeze assistance contract semantics for translation/validation outputs (2026-08-09: AQL_ASSISTANCE_CONTRACT.md created; semantics frozen in src/aql/AQL_ASSISTANCE_CONTRACT.md §2-3)
+- [x] define explicit failure contracts for unsupported provider/capability modes (2026-08-09: PROVIDER_UNSUPPORTED=6001, CAPABILITY_UNSUPPORTED=6002 added to llm_error_codes.h; contracts in AQL_ASSISTANCE_CONTRACT.md §4)
 
 ### Phase 2: Core Implementation
 - [x] complete remaining hardening in translation and bridge execution paths (Target: Q4 2026) **COMPLETED v1.6.0**

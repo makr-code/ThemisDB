@@ -114,6 +114,21 @@ public:
      */
     static void clearDefaultBackendFactory();
 
+#ifdef THEMIS_HAS_ROCKSDB_TENSOR
+    /**
+     * @brief Auto-register a RocksDBTensorBackend as the default factory (Wave-2).
+     *
+     * Creates a `RocksDBWrapper` at @p db_path and registers a durable backend
+     * factory via `setDefaultBackendFactory()`.  Call from the production bootstrap
+     * before the first tensor write.  Idempotent.
+     *
+     * @param db_path  Directory path for the RocksDB database.  Created if absent.
+     * @throws std::invalid_argument if @p db_path is empty.
+     * @throws std::runtime_error    if RocksDB cannot be opened at @p db_path.
+     */
+    static void autoRegisterRocksDBBackend(const std::string& db_path);
+#endif // THEMIS_HAS_ROCKSDB_TENSOR
+
     // ─── Static helpers ───────────────────────────────────────────────────────
 
     /**

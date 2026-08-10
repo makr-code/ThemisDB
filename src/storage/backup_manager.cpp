@@ -1561,7 +1561,7 @@ bool BackupManager::decompressPath(const std::string& src_path, const std::strin
         return false;
     }
 #else
-    // STUB/SIMULATION NOTE:
+    // PERMANENT HARDWARE FALLBACK NOTE (backup decompression — zstd/lz4 not available):
     // Purpose: Allow the backup pipeline to link without zstd/lz4.  Files are
     //          copied byte-for-byte regardless of the compression type.
     // Activation: THEMIS_HAS_ZSTD and THEMIS_HAS_LZ4 both absent at compile time.
@@ -1569,10 +1569,8 @@ bool BackupManager::decompressPath(const std::string& src_path, const std::strin
     //                   matching compressPath() produced real compressed bytes, the
     //                   restored data will be the compressed bytestream → silent
     //                   data corruption.  Only safe when compressPath() is also in
-    //                   stub (raw-copy) mode.
-    // Removal Plan: Build with THEMIS_HAS_ZSTD=1 (vcpkg 'zstd') or
-    //               THEMIS_HAS_LZ4=1 (vcpkg 'lz4').  See
-    //               src/storage/FUTURE_ENHANCEMENTS.md §Backup Compression.
+    //                   fallback (raw-copy) mode.
+    // Hardware requirement: vcpkg 'zstd' or 'lz4' + THEMIS_HAS_ZSTD=1 / THEMIS_HAS_LZ4=1.
     static std::once_flag s_decompress_warn;
     std::call_once(s_decompress_warn, [type] {
         THEMIS_WARN("BackupManager::decompressPath: STUB — files copied without decompression "

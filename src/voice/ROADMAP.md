@@ -29,8 +29,8 @@ Production-grade voice runtime with assistant orchestration, preprocessing, sess
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [ ] Freeze canonical voice session and command contract across assistant, streaming, and telephony paths (Target: Q3 2026)
-- [ ] Define explicit failure contracts for invalid audio, auth failure, and unavailable backend states (Target: Q3 2026)
+- [x] Freeze canonical voice session and command contract across assistant, streaming, and telephony paths (2026-08-09: VOICE_SESSION_CONTRACT.md created; session lifecycle, command semantics, streaming contract frozen)
+- [x] Define explicit failure contracts for invalid audio, auth failure, and unavailable backend states (2026-08-09: VOICE_SESSION_CONTRACT.md §4; error_message prefix tags frozen)
 
 ### Phase 2: Core Implementation
 - [ ] Complete hardening for session lifecycle, chunk validation, and bounded streaming behavior (Target: Q4 2026)

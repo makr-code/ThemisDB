@@ -18,14 +18,18 @@
  * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
-// STUB/SIMULATION NOTE:
+// PERMANENT FALLBACK NOTE:
 // Purpose: TensorCoreStorageBridge defaults to InMemoryTensorBackend when no
 //   RocksDB-backed backend is injected.  Data is not persisted across restarts.
 // Activation: Any call site that constructs TensorCoreStorageBridge without a
-//   backend argument or with an InMemoryTensorBackend instance.
+//   backend argument and without THEMIS_HAS_ROCKSDB_TENSOR defined, OR when
+//   setDefaultBackendFactory() has not been called by the production bootstrap.
 // Production Delta: Data loss on process restart; no compaction or versioning.
-// Removal Plan: When RocksDBTensorBackend is implemented (Q4 2026), the
-//   production bootstrap should inject it; InMemoryTensorBackend remains for tests.
+// This is the PERMANENT FALLBACK for no-RocksDB builds and for unit tests that
+//   don't set a factory.  For production persistence build with
+//   -DTHEMIS_HAS_ROCKSDB_TENSOR=ON (Wave-2 guard) or call
+//   setDefaultBackendFactory() with a RocksDBTensorBackend factory from the
+//   production bootstrap (e.g. server/themis_server.cpp).
 
 #include "tensor/tensor_core_bridge.h"
 #include "storage/tensor_network_storage_engine.h"
@@ -35,6 +39,14 @@
 #include <mutex>
 #include <stdexcept>
 #include <string>
+
+// ── Wave-2: RocksDB tensor backend auto-registration (THEMIS_HAS_ROCKSDB_TENSOR)
+// When -DTHEMIS_HAS_ROCKSDB_TENSOR=ON is set, autoRegisterRocksDBBackend() creates
+// a RocksDBWrapper at the supplied path and registers a RocksDBTensorBackend factory
+// so that TensorCoreStorageBridge uses durable storage automatically.
+#ifdef THEMIS_HAS_ROCKSDB_TENSOR
+#  include "storage/rocksdb_wrapper.h"
+#endif
 
 namespace themis {
 namespace tensor {
@@ -193,6 +205,43 @@ TensorCoreStorageBridge::getRaw(const std::string& tenant_id,
     }
     return backend_->get(key);
 }
+
+#ifdef THEMIS_HAS_ROCKSDB_TENSOR
+/**
+ * @brief Auto-register a RocksDBTensorBackend as the default factory (Wave-2).
+ *
+ * Creates a `RocksDBWrapper` at @p db_path with a minimal configuration suitable
+ * for tensor blob storage and registers a factory via `setDefaultBackendFactory()`.
+ * Any subsequent construction of `TensorCoreStorageBridge` without an explicit
+ * backend will use this durable RocksDB-backed store.
+ *
+ * This method is idempotent: calling it again replaces the previously registered
+ * factory.  Call it from the production bootstrap (e.g. `server/themis_server.cpp`)
+ * before the first tensor write.
+ *
+ * @param db_path  Directory path for the RocksDB database.  Created if absent.
+ * @throws std::runtime_error if RocksDB cannot be opened at @p db_path.
+ */
+/*static*/
+void TensorCoreStorageBridge::autoRegisterRocksDBBackend(const std::string& db_path) {
+    if (db_path.empty())
+        throw std::invalid_argument(
+            "TensorCoreStorageBridge::autoRegisterRocksDBBackend: db_path is empty");
+
+    // Build a minimal RocksDB configuration for tensor blobs.
+    ::themis::RocksDBWrapper::Config cfg;
+    cfg.db_path                 = db_path;
+    cfg.create_if_missing       = true;
+    cfg.db_write_buffer_size_mb = 64; // 64 MB total write buffer
+
+    // Share the RocksDB wrapper across all tensors opened from this path.
+    auto db = std::make_shared<::themis::RocksDBWrapper>(cfg);
+
+    setDefaultBackendFactory([db]() -> std::shared_ptr<storage::ITensorStorageBackend> {
+        return std::make_shared<::themis::storage::RocksDBTensorBackend>(db);
+    });
+}
+#endif // THEMIS_HAS_ROCKSDB_TENSOR
 
 } // namespace tensor
 } // namespace themis

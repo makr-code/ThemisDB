@@ -189,6 +189,26 @@ public:
     /// the injected backend; classify() then falls back to the rule-based engine.
     void setInferenceFn(InferenceFn fn);
 
+#ifdef THEMIS_HAS_LORA_CLASSIFIER
+    /**
+     * @brief Configure the LoRA classify endpoint (Wave-2 real implementation).
+     *
+     * Installs an InferenceFn that POSTs the query to the LLM plugin's /classify
+     * endpoint via libcurl.  The endpoint must return JSON:
+     * `{ "intent": "SQL_INJECTION", "confidence": 0.92, "indicator": "UNION_SELECT" }`.
+     * On any network/parse error the function returns LEGITIMATE (fail-closed).
+     *
+     * @param endpoint_url  Full URL of the LLM classify endpoint.
+     * @param api_key       Optional bearer token (empty = no auth header).
+     * @param timeout_ms    HTTP request timeout in milliseconds.
+     * @return true if configured successfully, false if URL is empty.
+     */
+    [[nodiscard]] bool configureLoraEndpoint(
+        const std::string& endpoint_url,
+        const std::string& api_key    = {},
+        int                timeout_ms = 2000);
+#endif // THEMIS_HAS_LORA_CLASSIFIER
+
 private:
     std::string shard_id_;
 

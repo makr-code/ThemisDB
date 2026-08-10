@@ -14,12 +14,31 @@ Production-grade transaction stack with ACID lifecycle management, MVCC integrat
     - [x] Phase 1 test suites complete: Lifecycle, Isolation Contention, Error Path Determinism (33 tests)
   - [~] Tighten timeout and rollback determinism under sustained contention and mixed workloads (Target: Q3 2026)
     - [x] Phase 1: Timeout determinism tests with contention loads (10 tests)
-    - [ ] Phase 2: Distributed coordinator timeout/retry hardening (pending Q4)
-  - [x] Distributed transaction status contract now carries canonical retry metadata (`retry_count`, exhaustion reason, timeout source, correlation id) with focused checks in `test_transaction_distributed_phase2.cpp` (Delivered: 2026-08-09)
+    - [~] Phase 2: Distributed coordinator timeout/retry hardening — tests implemented, build verification pending (Target: Q3 2026)
+  - [~] Build verification for Phase 2+3 test files (Target: Q3 2026):
+    - [ ] `test_transaction_distributed_phase2.cpp` — 9 tests (AC-4/5/6) — confirm build + run green on `community-release` (Target: Q3 2026)
+    - [ ] `test_transaction_saga_compensation_phase2.cpp` — 12 tests (AC-8/9/10) — confirm build + run green (Target: Q3 2026)
+    - [ ] `test_transaction_fault_injection_phase3.cpp` — 14 tests (AC-11/12/13) — confirm build + run green (Target: Q3 2026)
+  - [ ] Coordinator crash-recovery validation: in-doubt reconciliation via WAL replay (AC-6) under chaos scenarios; deterministic rollback under ≥30s contention without data loss (Target: Q3 2026)
+  - [ ] SAGA orchestration hardening: partial remote failure scenarios, retry storm suppression with circuit breaker (AC-9/AC-10); compensation idempotency under concurrent retries (Target: Q3 2026)
+  - [ ] Timeout semantics: distributed coordinator timeout/retry with exponential backoff within deterministic bounds (AC-5) (Target: Q3 2026)
 
 ## Planned Features
 
 ### Short-term (3-6 months)
+
+#### Q3 2026 — Phase 2+3 Hardening Acceptance Criteria
+
+- [ ] **Coordinator crash-recovery (AC-6)**: WAL replay must resolve all in-doubt transactions within 5s of coordinator restart; deterministic rollback under ≥30s sustained contention without data loss.
+  - Inputs: WAL segment with 100 in-flight transactions; forced coordinator crash at prepare phase.
+  - Expected: all transactions resolved (committed or rolled-back); no orphaned locks; WAL replay idempotent.
+  - Tests: `TXN-RECOVERY-01` (clean restart), `TXN-RECOVERY-02` (crash during 2PC prepare), `TXN-RECOVERY-03` (crash during 3PC pre-commit), `TXN-RECOVERY-04` (cascading coordinator+participant crash). (Target: Q3 2026)
+- [ ] **SAGA orchestration hardening (AC-9/AC-10)**: circuit breaker activates after 5 consecutive remote failures; compensation idempotency under 10 concurrent retries (same compensation step called multiple times → same committed state).
+  - Tests: `TXN-SAGA-HARDENING-01` (circuit breaker trip), `TXN-SAGA-HARDENING-02` (idempotent compensation under storm), `TXN-SAGA-HARDENING-03` (partial failure ordering), `TXN-SAGA-HARDENING-04` (retry storm with bounded backoff). (Target: Q3 2026)
+- [ ] **Timeout semantics (AC-5)**: exponential backoff with base 100ms, factor 2×, jitter ±20%, max 3 retries; error codes consistent across coordinator restart; no silent deadline extension.
+  - Tests: `TXN-TIMEOUT-01` (backoff schedule validation), `TXN-TIMEOUT-02` (error consistency after restart), `TXN-TIMEOUT-03` (jitter bounds). (Target: Q3 2026)
+- [ ] **Cross-shard failure injection**: coordinator crash at prepare, follower crash at commit, network partition during 2PC — all three scenarios covered with automated fault injection; zero data inconsistency across 100 runs. (Target: Q3 2026)
+
 - [ ] Harden coordinator crash-recovery and in-doubt transaction reconciliation policies (Target: Q4 2026)
 - [ ] Expand transaction diagnostics and explainability for lock/queue/latency bottlenecks (Target: Q4 2026)
 - [ ] Strengthen SAGA orchestration safeguards for partial remote failures and retries (Target: Q4 2026)
@@ -52,8 +71,7 @@ Acceptance Criteria Coverage:
 Next: Build verification and test execution (scheduled immediately)
 
 ### Phase 2: Distributed Coordination Hardening ✓ IMPLEMENTATION COMPLETE
-**Status:** Tests Implemented (Build & Execution Verification Pending)
-**Target:** Q4 2026
+**Status:** Tests Implemented — Build & Execution Verification In Progress (Target: Q3 2026)
 **Evidence:** src/transaction/PHASE_2_ACCEPTANCE_CHECKLIST.md
 
 Completed Deliverables:
@@ -70,11 +88,18 @@ Acceptance Criteria Coverage:
 - [x] AC-9: SAGA Orchestration Under Failures (partial failures, network degradation)
 - [x] AC-10: Recovery and Retry Storm Handling (bounded retries, circuit breaker)
 
-Next: Build verification and test execution (scheduled immediately)
+**Q3 2026 Hardening Tasks:**
+- [ ] Build verification: `cmake --preset community-release && cmake --build --target test_transaction_distributed_phase2` returns exit 0 (Target: Q3 2026)
+- [ ] Run verification: all 9 tests in `test_transaction_distributed_phase2.cpp` green (Target: Q3 2026)
+- [ ] Run verification: all 12 tests in `test_transaction_saga_compensation_phase2.cpp` green (Target: Q3 2026)
+- [ ] Coordinator crash-recovery: WAL replay scenario with simulated coordinator crash mid-prepare; verify in-doubt resolution completes within 5s (AC-6) (Target: Q3 2026)
+- [ ] SAGA compensation idempotency: inject concurrent retry storm (≥10 concurrent retries); verify exactly-once compensation outcome (AC-8/AC-10) (Target: Q3 2026)
+- [ ] Circuit breaker validation: after 5 consecutive SAGA step failures, circuit opens and no further retries are attempted (AC-10) (Target: Q3 2026)
+
+Next: Build verification and test execution (scheduled Q3 2026)
 
 ### Phase 3: Fault Injection and Extended Reliability ✓ IMPLEMENTATION COMPLETE
-**Status:** Tests Implemented (Build & Execution Verification Pending)
-**Target:** Q4 2026 - Q1 2027
+**Status:** Tests Implemented — Build & Execution Verification In Progress (Target: Q3 2026)
 **Evidence:** src/transaction/PHASE_3_ACCEPTANCE_CHECKLIST.md
 
 Completed Deliverables:
@@ -90,11 +115,17 @@ Acceptance Criteria Coverage:
 
 Cumulative Tests: 73 tests across Phases 1-3 (33+26+14)
 
-Next: Build verification and test execution (scheduled immediately)
+**Q3 2026 Hardening Tasks:**
+- [ ] Build verification: all 14 tests in `test_transaction_fault_injection_phase3.cpp` build and run green on `community-release` preset (Target: Q3 2026)
+- [ ] Byzantine failure scenario: inject conflicting prepare-votes from ≥2 participants; verify coordinator rolls back deterministically (AC-12) (Target: Q3 2026)
+- [ ] Cross-shard failure injection: all coordinator + participant state transitions covered (AC-11); confirm transition graph is complete with no uncovered edge (Target: Q3 2026)
+- [ ] Cascading failure: simulate 3-level coordinator chain failure during distributed commit; verify recovery without data loss (AC-13) (Target: Q3 2026)
+
+Next: Build verification and test execution (scheduled Q3 2026)
 
 ### Phase 4: Performance and Operational Hardening (Benchmarking) ✓ IMPLEMENTATION COMPLETE
 **Status:** Benchmarks Implemented (Build & Baseline Collection In Progress)
-**Target:** Q1 2027
+**Target:** Q4 2026
 **Evidence:** src/transaction/PHASE_4_ACCEPTANCE_CHECKLIST.md
 
 Completed Deliverables:
@@ -113,7 +144,13 @@ Acceptance Criteria Coverage:
 - [x] AC-17: Batching Efficiency (50%+ throughput improvement)
 - [x] AC-18: Recovery Performance (< 5s for 10K transactions)
 
-Next: Build verification and baseline collection (scheduled immediately)
+**Q4 2026 Benchmark Execution Gates:**
+- [ ] Execute `bench_transaction_phase4` on `community-release` preset; gate `THP-01` (≥10K txns/sec local) MUST be green (Target: Q4 2026)
+- [ ] Execute `bench_transaction_phase4`; gate `REC-01` (recovery <5s for 10K transactions) MUST be green (Target: Q4 2026)
+- [ ] Save baseline JSON (`phase4_baseline.json`) and commit to `benchmarks/transaction/baselines/` (Target: Q4 2026)
+- [ ] Audit overhead gate AC-16: confirm <5% regression vs no-audit baseline (Target: Q4 2026)
+
+Next: Build verification and baseline collection (scheduled Q4 2026)
 
 ### Phase 5: Documentation and Release Readiness ✓ IN PROGRESS
 **Status:** Documentation Framework Complete (Build & Verification Concurrent)

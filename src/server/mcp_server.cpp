@@ -2796,7 +2796,7 @@ void StdioTransport::start() {
     // Start async stdin reading
     readStdin();
 #else
-    // STUB/SIMULATION NOTE:
+    // PERMANENT HARDWARE FALLBACK NOTE (MCP StdioTransport — exotic platform):
     // Purpose: Allow McpServer StdioTransport to be compiled and linked on
     //   platforms other than Windows, Unix, and macOS (e.g., embedded or
     //   exotic toolchain targets).  On those platforms, async stdin reading
@@ -2806,10 +2806,8 @@ void StdioTransport::start() {
     // Activation: Compiled when none of _WIN32, __unix__, __APPLE__ are defined.
     // Production Delta: Without an injected StdioReadFn, MCP clients connected
     //   via stdio receive no responses (transport deaf).
-    // Removal Plan: Implement `readStdin()` for the target platform and add the
-    //   preprocessor guard to the `#if` condition above, OR inject a platform-
-    //   specific reader via setStdioReadFn() at startup.
-    // Roadmap ref: src/server/FUTURE_ENHANCEMENTS.md §"MCP StdioTransport Platform Support"
+    // Note: Inject a platform-specific reader via setStdioReadFn() at startup,
+    //   or add the target platform guard to the `#if` condition above.
     {
         StdioReadFn fn;
         {

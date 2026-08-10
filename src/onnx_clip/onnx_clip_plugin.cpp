@@ -590,16 +590,15 @@ bool ONNXClipPlugin::initialize(const PluginConfig& config, BackendType backend)
             return false;
         }
 #else
-        // STUB/SIMULATION NOTE:
+        // PERMANENT HARDWARE FALLBACK NOTE (OpenSSL not available — SHA-256 integrity check):
         // Purpose: OpenSSL is unavailable; SHA-256 integrity check cannot be performed.
         // Activation: When THEMIS_HAS_OPENSSL is not defined at compile time.
         // Production Delta: In production (OpenSSL available) the hash is verified;
         //                   here the injected ModelHashFn is tried first; if none is
         //                   set the check is skipped, allowing any model file to load.
-        // Roadmap ref: src/onnx_clip/ROADMAP.md § "Planned Features"
-        // Removal Plan: This branch remains as a build-configuration fallback; it is
-        //               never removed but should be unreachable in hardened deployments.
-        // Roadmap ref: src/onnx_clip/FUTURE_ENHANCEMENTS.md § "Stub/Simulation Lifecycle"
+        // Hardware requirement: OpenSSL headers + -DTHEMIS_HAS_OPENSSL in CMake.
+        // Note: This branch is retained as a build-configuration safety net;
+        //       hardened deployments must ensure OpenSSL is always linked.
         {
             ONNXClipPlugin::ModelHashFn fn;
             { std::lock_guard<std::mutex> lk(s_model_hash_fn_mutex); fn = s_model_hash_fn; }

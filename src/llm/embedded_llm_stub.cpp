@@ -336,13 +336,12 @@ InferenceResponse EmbeddedLLM::generateFull(const InferenceRequest& request) {
     // In all other builds (production) the call fails-closed: callers receive
     // success=false and a clear diagnostic rather than a silently wrong answer.
     //
-    // STUB/SIMULATION NOTE:
-    // Purpose: deterministic response for test/dev builds without a real model
-    // Activation: compile-time flag THEMIS_LLM_STUB_MODE (never set in release presets)
-    // Production Delta: production returns success=false; stub returns success=true with hardcoded text
-    // Approved By: P0.1 AI-native hardening plan (PR: feat(llm) P0/P1/P2 AI-native hardening)
-    // Removal Plan: retain permanently for test-build tier; stub path is the test-build canonical
-    //               path and has no release-build activation — not subject to removal
+    // PERMANENT FALLBACK NOTE (EmbeddedLLM test-build deterministic response):
+    // Purpose: deterministic response for test/dev builds without a real model.
+    // Activation: compile-time flag THEMIS_LLM_STUB_MODE (never set in release presets).
+    // Production Delta: production returns success=false; stub returns success=true with hardcoded text.
+    // Approved By: P0.1 AI-native hardening plan.
+    // Note: retained permanently for test-build tier; no release-build activation.
     InferenceResponse resp;
     resp.request_id = safe_req.request_id;
     resp.model_id   = safe_req.model_id;

@@ -369,6 +369,70 @@ if(THEMIS_ENABLE_IO_URING)
     message(STATUS "io_uring zero-copy I/O: ENABLED")
 endif()
 
+# ── Wave 3 optional dependencies (Kategorie C Prio 2, Q1 2027) ───────────────
+
+# THEMIS_HAS_GGML — real ggml_new_tensor_1d + ggml_type_register
+option(THEMIS_HAS_GGML
+       "Enable real ggml tensor allocation via ggml_new_tensor_1d() (requires ggml)"
+       OFF)
+if(THEMIS_HAS_GGML)
+    find_package(ggml QUIET)
+    if(ggml_FOUND)
+        add_compile_definitions(THEMIS_HAS_GGML)
+        message(STATUS "THEMIS_HAS_GGML: ON (ggml found via find_package)")
+    else()
+        message(WARNING "THEMIS_HAS_GGML requested but ggml not found; falling back to FakeTensor")
+    endif()
+endif()
+
+# THEMIS_HAS_IO_URING — async readahead via liburing in ggml_tensor_bridge
+option(THEMIS_HAS_IO_URING
+       "Enable io_uring async readahead in GgmlTensorBridge::prefetch() (requires liburing)"
+       OFF)
+if(THEMIS_HAS_IO_URING)
+    find_library(LIBURING_LIB uring)
+    find_path(LIBURING_INCLUDE liburing.h)
+    if(LIBURING_LIB AND LIBURING_INCLUDE)
+        add_compile_definitions(THEMIS_HAS_IO_URING)
+        set(THEMIS_IO_URING_LIB "${LIBURING_LIB}" CACHE INTERNAL "liburing path for target-scoped linking")
+        set(THEMIS_IO_URING_INCLUDE "${LIBURING_INCLUDE}" CACHE INTERNAL "liburing include dir for target-scoped includes")
+        message(STATUS "THEMIS_HAS_IO_URING: ON (liburing found at ${LIBURING_LIB})")
+    else()
+        message(WARNING "THEMIS_HAS_IO_URING requested but liburing not found; prefetch is a no-op")
+    endif()
+endif()
+
+# THEMIS_HAS_YAML_CPP — full YAML spec compliance in KnowledgeBase::loadRulesFromYaml()
+option(THEMIS_HAS_YAML_CPP
+       "Enable yaml-cpp for full YAML spec compliance in KnowledgeBase (requires yaml-cpp)"
+       OFF)
+if(THEMIS_HAS_YAML_CPP)
+    find_package(yaml-cpp QUIET)
+    if(yaml-cpp_FOUND)
+        add_compile_definitions(THEMIS_HAS_YAML_CPP)
+        link_libraries(yaml-cpp)
+        message(STATUS "THEMIS_HAS_YAML_CPP: ON (yaml-cpp found)")
+    else()
+        message(WARNING "THEMIS_HAS_YAML_CPP requested but yaml-cpp not found; inline parser is used")
+    endif()
+endif()
+
+# THEMIS_HAS_NLI — real ONNX Runtime inference in NLIFaithfulnessVerifier
+option(THEMIS_HAS_NLI
+       "Enable real ONNX Runtime NLI inference in NLIFaithfulnessVerifier (requires onnxruntime)"
+       OFF)
+if(THEMIS_HAS_NLI)
+    find_package(onnxruntime QUIET)
+    if(onnxruntime_FOUND OR TARGET onnxruntime)
+        add_compile_definitions(THEMIS_HAS_NLI)
+        message(STATUS "THEMIS_HAS_NLI: ON (onnxruntime found)")
+    else()
+        message(WARNING "THEMIS_HAS_NLI requested but onnxruntime not found; heuristic fallback is used")
+    endif()
+endif()
+
+# ── End Wave 3 optional dependencies ─────────────────────────────────────────
+
 if(THEMIS_ENABLE_METRICS_EXPORT)
     add_compile_definitions(THEMIS_ENABLE_METRICS_EXPORT)
     message(STATUS "Metrics export: ENABLED")

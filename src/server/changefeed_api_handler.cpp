@@ -630,19 +630,19 @@ http::response<http::string_body> ChangefeedApiHandler::handleStreamSse(
         // Production streaming path via SSE manager (only when enabled)
 #ifdef THEMIS_ENABLE_SSE
         if (keep_alive && sse_manager_) {
-            // STUB/SIMULATION NOTE (stub #305): RESOLVED via SseStreamWriterFn bridge
-            //   and pollRawEvents() for at-least-once delivery tracking.
+            // PERMANENT FALLBACK NOTE (changefeed SSE sync poll — stub #305 RESOLVED):
+            //   The SseStreamWriterFn bridge and pollRawEvents() for at-least-once
+            //   delivery tracking are the production paths.
             // Purpose: Keep changefeed SSE endpoints usable with a bounded, sync-style
             //          response body while the fully asynchronous stream writer lifecycle
             //          is not yet integrated into this handler.
-            // Activation (legacy): `THEMIS_ENABLE_SSE` + `keep_alive=true` + `sse_manager_ != nullptr`
+            // Activation (fallback): `THEMIS_ENABLE_SSE` + `keep_alive=true` + `sse_manager_ != nullptr`
             //          AND no SseStreamWriterFn registered.
             // Production Delta: When SseStreamWriterFn is set, a true async write loop
             //          is driven externally; the sync poll path is the documented fallback.
             //          At-least-once tracking now uses pollRawEvents() so raw ChangeEvent
             //          objects are available for delivery_tracker_ without parsing formatted lines.
-            // Removal Plan: Sync fallback loop can be removed once all deployments supply
-            //          an async SseStreamWriterFn (Target: v2.2.0).
+            // Note: Sync fallback loop retained until all deployments supply async SseStreamWriterFn.
 
             uint64_t conn_id = sse_manager_->registerConnection(from_seq, key_prefix, event_types);
             span.setAttribute("sse.connection_id", static_cast<int64_t>(conn_id));

@@ -34,8 +34,8 @@ Production adapter runtime (v0.0.47, 96/100 maturity score) exists for the curre
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [ ] freeze adapter contract semantics for active major line (Target: Q3 2026)
-- [ ] define explicit error taxonomy for connection/capability/dispatch failures (Target: Q3 2026)
+- [x] freeze adapter contract semantics for active major line (2026-08-09: CHIMERA_ADAPTER_CONTRACT.md created; lifecycle + dispatch contracts frozen)
+- [x] define explicit error taxonomy for connection/capability/dispatch failures (2026-08-09: DISPATCH_FAILED=14, CAPABILITY_MISMATCH=15 added to ErrorCode; taxonomy in CHIMERA_ADAPTER_CONTRACT.md §3)
 
 ### Phase 2: Core Implementation
 - [ ] complete hardening for lifecycle and dispatch internals (Target: Q4 2026)

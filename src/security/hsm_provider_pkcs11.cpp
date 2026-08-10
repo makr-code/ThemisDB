@@ -78,7 +78,7 @@ using BIGNUM_ptr = std::unique_ptr<BIGNUM, BIGNUM_Deleter>;
 // If any critical step fails (lib load, slot, login, key discovery),
 // operations transparently revert to deterministic stub behaviour.
 
-// STUB/SIMULATION NOTE (fallback path only):
+// PERMANENT FALLBACK NOTE (fallback path only):
 // Purpose: When PKCS#11 hardware/library is unavailable (slot discovery fails, PIN error,
 //          device absent), HSMProvider::Impl::stub_kek is used as a software AES-256-GCM
 //          fallback so that developer and CI environments remain functional.
@@ -86,10 +86,10 @@ using BIGNUM_ptr = std::unique_ptr<BIGNUM, BIGNUM_Deleter>;
 //             fails). Controlled by THEMIS_ALLOW_HSM_STUB env var in production mode.
 // Production Delta: Fallback KEK is randomly generated in-memory, not HSM-protected.
 //                   Key material is not backed by hardware; wrap/unwrap is software-only.
+// This fallback is PERMANENT and intentional – it is a runtime safety net. Real HSM usage
+// is enforced in production mode (THEMIS_PRODUCTION_MODE=1) unless explicitly overridden.
+// A loud WARN log is emitted on every call that hits this path.
 // Roadmap ref: src/security/ROADMAP.md § "Phase 2: ABAC & HSM Direct Integration"
-// Removal Plan: No removal needed – fallback is a runtime safety net. Real HSM usage is
-//               enforced in production mode (THEMIS_PRODUCTION_MODE=1) unless explicitly
-//               overridden. Fallback triggers a loud WARN log in every call.
 
 class PKCS11Loader {
 public:

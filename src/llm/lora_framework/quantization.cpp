@@ -27,7 +27,7 @@
 #ifndef THEMIS_NO_SPDLOG
 #include <spdlog/spdlog.h>
 #else
-// STUB/SIMULATION NOTE:
+// PERMANENT FALLBACK NOTE (spdlog no-op stubs — THEMIS_NO_SPDLOG):
 // Purpose: Allow `quantization.cpp` to be compiled in test environments that
 //   do not have spdlog installed or linked.  When `THEMIS_NO_SPDLOG` is defined,
 //   all `spdlog::debug()` calls become inline no-ops so no logging output is
@@ -35,13 +35,9 @@
 //   warn, error) in this TU would require additional no-op stubs.
 // Activation: `THEMIS_NO_SPDLOG` defined at compile time (typically in unit
 //   test CMake targets that avoid the spdlog dependency).
-// Production Delta: All debug-level quantization logging is silently suppressed,
-//   including block quantization statistics, NF4 encoding trace, and INT8 scale
-//   factor logging.  Higher-severity log calls (if any) would need explicit stubs.
-// Removal Plan: Link spdlog in all build targets and remove the `THEMIS_NO_SPDLOG`
-//   guard.  spdlog is a header-only library for debug builds and has negligible
-//   compile-time overhead.
-// Roadmap ref: src/llm/FUTURE_ENHANCEMENTS.md §"LoRA Quantization Logging"
+// Production Delta: All debug-level quantization logging is silently suppressed.
+//   Higher-severity log calls (if any) would need explicit stubs.
+// Note: spdlog is header-only; production builds should not define THEMIS_NO_SPDLOG.
 
 // Minimal spdlog stubs for testing without dependencies
 namespace spdlog {

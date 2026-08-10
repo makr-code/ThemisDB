@@ -93,6 +93,21 @@ typedef ZludaError (*PFN_zludaStreamSynchronize)(ZludaStream);
 typedef ZludaError (*PFN_zludaLaunchKernel)(const void*, dim3, dim3, void**, size_t, ZludaStream);
 typedef ZludaError (*PFN_zludaDeviceTotalMem)(size_t*, int);
 
+// CUDA Driver API function pointer types (for PTX loading under THEMIS_HAS_ZLUDA).
+// These map directly to the CUDA Driver API symbols exported by libcuda.so[.zluda].
+typedef ZludaError (*PFN_cuModuleLoadData)(void** module, const void* image);
+typedef ZludaError (*PFN_cuModuleGetFunction)(void** hfunc, void* hmod, const char* name);
+typedef ZludaError (*PFN_cuLaunchKernel)(void* f,
+    unsigned int gridX, unsigned int gridY, unsigned int gridZ,
+    unsigned int blockX, unsigned int blockY, unsigned int blockZ,
+    unsigned int sharedMemBytes, void* stream,
+    void** kernelParams, void** extra);
+typedef ZludaError (*PFN_cuMemAlloc_v2)(void** dptr, size_t bytesize);
+typedef ZludaError (*PFN_cuMemFree_v2)(void* dptr);
+typedef ZludaError (*PFN_cuMemcpyHtoD_v2)(void* dstDevice, const void* srcHost, size_t byteCount);
+typedef ZludaError (*PFN_cuMemcpyDtoH_v2)(void* dstHost, void* srcDevice, size_t byteCount);
+typedef ZludaError (*PFN_cuModuleUnload)(void* hmod);
+
 // ============================================================================
 // ZLUDAVectorBackend Implementation
 // ============================================================================
@@ -306,12 +321,81 @@ public:
             return {};
         }
 
-    // STUB/SIMULATION NOTE:
-    // Activation: When no ZludaKernelFn or typed bridge is injected and
-    //             no PTX is loaded via cuModuleLoadData().
-    // Removal Plan: Load PTX via cuModuleLoadData; launch via cuLaunchKernel.
-    THEMIS_WARN("ZLUDA: computeDistances requires CUDA PTX kernel -- "
-                "no PTX loaded, falling back to CPU");
+    // PERMANENT FALLBACK NOTE (ZLUDA PTX path):
+    // Production path (THEMIS_HAS_ZLUDA defined): load the embedded PTX image via
+    // cuModuleLoadData, resolve the distance kernel function with cuModuleGetFunction,
+    // copy inputs to device, launch via cuLaunchKernel, and copy results back.
+    // Fallback path (default — THEMIS_HAS_ZLUDA not defined): no PTX module is loaded;
+    // return empty to signal CPU fallback.
+#ifdef THEMIS_HAS_ZLUDA
+    if (fnModuleLoadData_ && fnModuleGetFunction_ && fnLaunchKernel_
+        && fnMemAllocV2_ && fnMemFreeV2_ && fnMemcpyHtoDV2_ && fnMemcpyDtoHV2_
+        && ptxImage_ && !ptxImage_->empty()) {
+
+        void* cu_module = nullptr;
+        if (fnModuleLoadData_(&cu_module, ptxImage_->data()) == ZLUDA_SUCCESS && cu_module) {
+            void* kfunc = nullptr;
+            if (fnModuleGetFunction_(&kfunc, cu_module, "computeDistancesKernel") == ZLUDA_SUCCESS
+                && kfunc) {
+
+                // Allocate device buffers.
+                const size_t queries_bytes = numQueries * dim * sizeof(float);
+                const size_t vectors_bytes = numVectors * dim * sizeof(float);
+                const size_t output_bytes  = numQueries * numVectors * sizeof(float);
+                void* d_queries = nullptr;
+                void* d_vectors = nullptr;
+                void* d_output  = nullptr;
+
+                if (fnMemAllocV2_(&d_queries, queries_bytes) == ZLUDA_SUCCESS &&
+                    fnMemAllocV2_(&d_vectors, vectors_bytes) == ZLUDA_SUCCESS &&
+                    fnMemAllocV2_(&d_output,  output_bytes)  == ZLUDA_SUCCESS) {
+
+                    fnMemcpyHtoDV2_(d_queries, queries, queries_bytes);
+                    fnMemcpyHtoDV2_(d_vectors, vectors, vectors_bytes);
+
+                    // Kernel parameters: (queries, numQ, dim, vectors, numV, output, useL2).
+                    int use_l2_int = useL2 ? 1 : 0;
+                    unsigned int nq_u = static_cast<unsigned int>(numQueries);
+                    unsigned int nv_u = static_cast<unsigned int>(numVectors);
+                    unsigned int dim_u = static_cast<unsigned int>(dim);
+                    void* args[] = {&d_queries, &nq_u, &dim_u,
+                                    &d_vectors, &nv_u, &d_output, &use_l2_int};
+
+                    const unsigned int gridX  = static_cast<unsigned int>((numVectors + 31) / 32);
+                    const unsigned int gridY  = static_cast<unsigned int>(numQueries);
+                    const unsigned int blockX = 32u;
+
+                    if (fnLaunchKernel_(kfunc, gridX, gridY, 1u,
+                                        blockX, 1u, 1u, 0u,
+                                        stream_, args, nullptr) == ZLUDA_SUCCESS) {
+
+                        if (fnStreamSynchronize_) fnStreamSynchronize_(stream_);
+
+                        std::vector<float> output(numQueries * numVectors);
+                        fnMemcpyDtoHV2_(output.data(), d_output, output_bytes);
+
+                        fnMemFreeV2_(d_queries);
+                        fnMemFreeV2_(d_vectors);
+                        fnMemFreeV2_(d_output);
+                        if (fnModuleUnload_) fnModuleUnload_(cu_module);
+                        return output;
+                    }
+                }
+                if (d_queries) fnMemFreeV2_(d_queries);
+                if (d_vectors) fnMemFreeV2_(d_vectors);
+                if (d_output)  fnMemFreeV2_(d_output);
+            }
+            if (fnModuleUnload_) fnModuleUnload_(cu_module);
+        }
+        THEMIS_WARN("ZLUDA: PTX computeDistances launch failed -- falling back to CPU");
+    } else {
+        THEMIS_WARN("ZLUDA: PTX image or Driver API unavailable -- falling back to CPU");
+    }
+#else
+    // PERMANENT FALLBACK NOTE: THEMIS_HAS_ZLUDA not defined; PTX path not compiled.
+    THEMIS_WARN("ZLUDA: computeDistances -- PTX path not compiled "
+                "(build with -DTHEMIS_HAS_ZLUDA=ON), falling back to CPU");
+#endif // THEMIS_HAS_ZLUDA
     return {};
     }
     
@@ -398,10 +482,41 @@ public:
             }
         }
 
-        THEMIS_WARN("ZLUDA: batchKnnSearch requires CUDA PTX kernel -- "
-                    "no PTX loaded, falling back to CPU");
+        // PERMANENT FALLBACK NOTE (ZLUDA PTX batchKnnSearch path):
+        // Use computeDistances PTX path to get the full distance matrix, then
+        // partial-sort per query to obtain top-k neighbours.
+#ifdef THEMIS_HAS_ZLUDA
+        {
+            auto flat_dists = computeDistances(queries, numQueries, dim,
+                                               vectors, numVectors, useL2);
+            if (!flat_dists.empty() && flat_dists.size() == numQueries * numVectors) {
+                const size_t kk = std::min(k, numVectors);
+                std::vector<std::vector<std::pair<uint32_t, float>>> result(numQueries);
+                for (size_t q = 0; q < numQueries; ++q) {
+                    const float* row = flat_dists.data() + q * numVectors;
+                    std::vector<std::pair<uint32_t, float>> dists(numVectors);
+                    for (size_t v = 0; v < numVectors; ++v)
+                        dists[v] = {static_cast<uint32_t>(v), row[v]};
+                    std::partial_sort(dists.begin(),
+                                      dists.begin() + static_cast<std::ptrdiff_t>(kk),
+                                      dists.end(),
+                                      [](const auto& a, const auto& b) {
+                                          return a.second < b.second;
+                                      });
+                    dists.resize(kk);
+                    result[q] = std::move(dists);
+                }
+                return result;
+            }
+            THEMIS_WARN("ZLUDA: batchKnnSearch PTX distance matrix unavailable -- falling back to CPU");
+        }
+#else
+        // PERMANENT FALLBACK NOTE: THEMIS_HAS_ZLUDA not defined; PTX path not compiled.
+        THEMIS_WARN("ZLUDA: batchKnnSearch -- PTX path not compiled "
+                    "(build with -DTHEMIS_HAS_ZLUDA=ON), falling back to CPU");
+#endif // THEMIS_HAS_ZLUDA
         return {};
-    }
+        }
 
 private:
     static std::mutex s_callback_fn_mutex_;
@@ -419,6 +534,17 @@ private:
         fnStreamDestroy_ = (PFN_zludaStreamDestroy)dlsym(zludaLib_, "cuStreamDestroy");
         fnStreamSynchronize_ = (PFN_zludaStreamSynchronize)dlsym(zludaLib_, "cuStreamSynchronize");
         fnDeviceTotalMem_ = (PFN_zludaDeviceTotalMem)dlsym(zludaLib_, "cuDeviceTotalMem");
+#ifdef THEMIS_HAS_ZLUDA
+        // PTX Driver API — resolve under THEMIS_HAS_ZLUDA guard (default OFF).
+        fnModuleLoadData_    = (PFN_cuModuleLoadData)   dlsym(zludaLib_, "cuModuleLoadData");
+        fnModuleGetFunction_ = (PFN_cuModuleGetFunction)dlsym(zludaLib_, "cuModuleGetFunction");
+        fnLaunchKernel_      = (PFN_cuLaunchKernel)     dlsym(zludaLib_, "cuLaunchKernel");
+        fnMemAllocV2_        = (PFN_cuMemAlloc_v2)       dlsym(zludaLib_, "cuMemAlloc_v2");
+        fnMemFreeV2_         = (PFN_cuMemFree_v2)        dlsym(zludaLib_, "cuMemFree_v2");
+        fnMemcpyHtoDV2_      = (PFN_cuMemcpyHtoD_v2)    dlsym(zludaLib_, "cuMemcpyHtoD_v2");
+        fnMemcpyDtoHV2_      = (PFN_cuMemcpyDtoH_v2)    dlsym(zludaLib_, "cuMemcpyDtoH_v2");
+        fnModuleUnload_      = (PFN_cuModuleUnload)      dlsym(zludaLib_, "cuModuleUnload");
+#endif
     }
     
     bool initialized_ = false;
@@ -439,6 +565,22 @@ private:
     PFN_zludaStreamDestroy fnStreamDestroy_ = nullptr;
     PFN_zludaStreamSynchronize fnStreamSynchronize_ = nullptr;
     PFN_zludaDeviceTotalMem fnDeviceTotalMem_ = nullptr;
+
+    // PTX Driver API function pointers — populated by loadFunctions() when
+    // THEMIS_HAS_ZLUDA is defined at compile time (default OFF).
+    PFN_cuModuleLoadData    fnModuleLoadData_    = nullptr;
+    PFN_cuModuleGetFunction fnModuleGetFunction_ = nullptr;
+    PFN_cuLaunchKernel      fnLaunchKernel_      = nullptr;
+    PFN_cuMemAlloc_v2       fnMemAllocV2_        = nullptr;
+    PFN_cuMemFree_v2        fnMemFreeV2_         = nullptr;
+    PFN_cuMemcpyHtoD_v2     fnMemcpyHtoDV2_      = nullptr;
+    PFN_cuMemcpyDtoH_v2     fnMemcpyDtoHV2_      = nullptr;
+    PFN_cuModuleUnload      fnModuleUnload_       = nullptr;
+
+    /// Optional pre-loaded PTX image (ASCII null-terminated PTX source or
+    /// cubin binary).  Injected at startup via setPtxImage() when
+    /// THEMIS_HAS_ZLUDA is defined.  nullptr → PTX path is skipped.
+    const std::vector<char>* ptxImage_ = nullptr;
 };
 
 std::mutex ZLUDAVectorBackend::s_callback_fn_mutex_;

@@ -2416,7 +2416,13 @@ set(THEMIS_CORE_SOURCES
     ../src/cache/cache_eviction_policy.cpp
     ../src/cache/eviction_listener.cpp
     ../src/cache/eviction.cpp
-    
+
+    # Access Model module — cache↔storage tier coordination
+    ../src/access_model/access_coordinator.cpp
+    ../src/access_model/age_based_policy.cpp
+    ../src/access_model/access_metrics.cpp
+    ../src/access_model/promotion_demotion.cpp
+
     # Ingestion module – unified data intake layer (filesystem, REST, HuggingFace,
     # Kafka, S3/GCS/Azure, JDBC, web-crawler, CDC, distributed coordinator)
     ../src/ingestion/ingestion_manager.cpp
@@ -3733,6 +3739,13 @@ target_include_directories(themis_core
         ${THEMIS_ROOT_DIR}/src
         ${CMAKE_BINARY_DIR}/proto_generated
 )
+
+if(THEMIS_HAS_IO_URING AND THEMIS_IO_URING_LIB)
+    target_link_libraries(themis_core PRIVATE ${THEMIS_IO_URING_LIB})
+    if(THEMIS_IO_URING_INCLUDE)
+        target_include_directories(themis_core PRIVATE ${THEMIS_IO_URING_INCLUDE})
+    endif()
+endif()
 
 # Define compile definitions for static builds (THEMIS_BASE_EXPORTS)
 # to ensure THEMIS_BASE_API macros resolve to dllexport/empty, not dllimport

@@ -95,6 +95,27 @@ public:
     void setHttpFetchFn(HttpFetchFn fn) { http_fetch_fn_ = std::move(fn); }
 
     /**
+     * @brief Create a libcurl-backed HttpFetchFn for use with setHttpFetchFn().
+     *
+     * When built with `THEMIS_HAS_CURL` defined (libcurl linked), returns a
+     * concrete HttpFetchFn that performs a real HTTP GET using libcurl with a
+     * 10-second timeout and TLS peer verification enabled.  The returned fn is
+     * safe to use from multiple threads (each call owns its own CURL handle).
+     *
+     * When built without libcurl, returns an empty `std::function` so that
+     * importFromFitkoApi() falls through to the "not implemented" fallback.
+     *
+     * **Usage at startup:**
+     * @code
+     *   importer.setHttpFetchFn(FimImporter::makeCurlHttpFetchFn());
+     * @endcode
+     *
+     * @return A ready-to-use HttpFetchFn or an empty function when libcurl
+     *         is unavailable.
+     */
+    static HttpFetchFn makeCurlHttpFetchFn();
+
+    /**
      * @brief Parse a FIM Prozessbibliothek XML catalogue document.
      *
      * The catalogue may contain multiple `<prozess>` elements.  Each element

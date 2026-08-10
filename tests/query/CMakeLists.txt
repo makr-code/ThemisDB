@@ -622,6 +622,39 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_geospatial_phase2_integration.cpp")
     message(STATUS "  Geospatial Phase 2 Integration: end-to-end spatial query optimization (INT_GEO_01-10)")
 endif()
 
+# Phase 6 FTS parser-layer focused tests (FTS-P-01..FTS-P-16)
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_aql_fts_parser_focused.cpp")
+    add_executable(test_aql_fts_parser_focused
+        test_aql_fts_parser_focused.cpp
+    )
+
+    target_include_directories(test_aql_fts_parser_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_aql_fts_parser_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_aql_fts_parser_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    themis_register_module_focused_test(
+        MODULE query
+        NAME FtsParserTests
+        TARGET test_aql_fts_parser_focused
+        TIER unit
+        TIMEOUT 120
+        LABELS fts search parser phase6
+    )
+
+    message(STATUS "  FTS Parser: SEARCH clause tokens, AST nodes, modifiers (FTS-P-01..16)")
+endif()
 
 file(GLOB QUERY_AUTOGEN_PREFIX_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_query_*.cpp"

@@ -30,17 +30,17 @@
 - [x] Define AccessMetrics (observability)
 
 ### Phase 2: Core Coordinator Implementation 🟡 (IN PROGRESS)
-- [ ] access_coordinator.cpp implementation (Target: Q3 2026)
-  - [ ] Tier registry management
-  - [ ] Eviction signal processing
-  - [ ] Storage access pattern detection
-  - [ ] Background promotion/demotion workers
-  - [ ] Age-based policy enforcement
-  - [ ] Correlation ID generation & tracking
-- [ ] age_based_policy.cpp helper methods (Target: Q3 2026)
-- [ ] access_metrics.cpp collectors (Target: Q3 2026)
-- [ ] CMakeLists.txt module registration (Target: Q3 2026)
-- [ ] Unit tests ACM-01..ACM-08 (Target: Q3 2026)
+- [x] access_coordinator.cpp implementation (530 LOC, Phase 2 core logic complete)
+  - [x] Tier registry management
+  - [x] Eviction signal processing
+  - [x] Storage access pattern detection
+  - [x] Background promotion/demotion workers
+  - [x] Age-based policy enforcement
+  - [x] Correlation ID generation & tracking
+- [x] age_based_policy.cpp helper methods (303 LOC)
+- [x] access_metrics.cpp collectors (262 LOC)
+- [x] CMakeLists.txt module registration (2026-08-09: src/access_model/CMakeLists.txt created; sources added to cmake/CMakeLists.txt THEMIS_CORE_SOURCES)
+- [x] Unit tests ACM-01..ACM-08 (tests/access_model/test_access_coordinator_focused.cpp)
 
 ### Phase 3: Cache Module Integration 🟢 (COMPLETE — BLOCK 2)
 - [x] Refactor cache_eviction_policy.cpp (Target: Q4 2026)

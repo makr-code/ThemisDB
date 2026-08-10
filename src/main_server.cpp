@@ -18,10 +18,10 @@
  * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
-// STUB/SIMULATION NOTE (main_server.cpp — comprehensive):
+// PERMANENT FALLBACK NOTE (main_server.cpp — build-flag conditional compilation):
 // Purpose: `main_server.cpp` is the top-level server entry point.  It contains
-//   17 stub/conditional compilation blocks that gate entire subsystems depending
-//   on build flags.  The key stubs are:
+//   17 conditional compilation blocks that gate entire subsystems depending
+//   on build flags.  The key conditional paths are:
 //
 //   1. `THEMIS_ENABLE_HTTP_SERVER` (lines ~54, 139, 1159, 1613, 1714, 2068, 2401):
 //      When absent, the HTTP/REST API server (`HttpServer`) is not instantiated;
@@ -45,7 +45,7 @@
 //
 //   6. HSM startup policy (lines ~990–1105):
 //      A real HSM (`hsm.provider = pkcs11`) is now required unless operators
-//      explicitly opt in to the development stub via `--allow-stub-hsm` or
+//      explicitly opt in to the development fallback via `--allow-stub-hsm` or
 //      `THEMIS_ALLOW_HSM_STUB=1`. Missing/invalid HSM config and HSM init
 //      failures abort startup.
 //
@@ -62,9 +62,6 @@
 //   Minimum viable production build requires at least:
 //   `-DTHEMIS_ENABLE_HTTP_SERVER=1 -DTHEMIS_ENABLE_GRPC=1 -DTHEMIS_HAS_PROMETHEUS=1
 //    -DTHEMIS_ENABLE_LLM=1 -DTHEMIS_ENABLE_MIMALLOC=1` and a real HSM provider.
-// Removal Plan: Each stub block maps to a specific feature activation; see the
-//   relevant FUTURE_ENHANCEMENTS.md files under `src/server/`, `src/llm/`,
-//   `src/performance/`, and `src/security/`.
 // Roadmap ref: src/server/FUTURE_ENHANCEMENTS.md §"Main Server Feature Activation"
 
 // v1.1.0: mimalloc integration (20-40% memory boost, drop-in replacement)

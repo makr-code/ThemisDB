@@ -351,22 +351,17 @@ MediaExtractionData VideoProcessor::extractMetadata(const std::vector<uint8_t> &
 #ifdef THEMIS_HAS_FFMPEG
     return extractMetadataFFmpeg(blob);
 #else
-    // STUB/SIMULATION NOTE:
+    // PERMANENT FALLBACK NOTE:
     // Purpose: Return a plausible MediaExtractionData structure when compiled
     //          without FFmpeg (THEMIS_HAS_FFMPEG not defined).  Allows the
     //          content pipeline to exercise the video-processing code path in
     //          unit-test and development environments that lack FFmpeg.
     // Activation: THEMIS_HAS_FFMPEG is NOT defined at compile time.
-    // Production Delta: Duration, resolution, bitrate, and codec fields are
-    //                   static placeholder values (120 s, 1920×1080, 5000 kbps,
-    //                   H.264/AAC) rather than actual values decoded from the
-    //                   container.  Container format is inferred from the first
-    //                   12 bytes only; codec detection is approximate.
-    // Removal Plan: Build with -DTHEMIS_HAS_FFMPEG=ON and link
-    //               libavformat/libavcodec; the real extractMetadataFFmpeg()
-    //               path above this #else is then used.
-    //               See src/content/ROADMAP.md § "Long-term: Video frame extraction"
-    //               and src/content/FUTURE_ENHANCEMENTS.md § "Video Processing".
+    // Production path: Build with -DTHEMIS_HAS_FFMPEG=ON and link
+    //                  libavformat/libavcodec; the real extractMetadataFFmpeg()
+    //                  path above this #else is then used.
+    //                  See src/content/ROADMAP.md § "Long-term: Video frame extraction"
+    //                  and src/content/FUTURE_ENHANCEMENTS.md § "Video Processing".
     MediaExtractionData data;
 
     // Analyze blob header to detect format

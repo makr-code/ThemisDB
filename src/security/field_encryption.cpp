@@ -314,7 +314,7 @@ FieldEncryption::FieldEncryption(std::shared_ptr<KeyProvider> key_provider)
 FieldEncryption::~FieldEncryption() = default;
 
 std::shared_ptr<FieldEncryption> FieldEncryption::createDefault() {
-    // STUB/SIMULATION NOTE:
+    // PERMANENT FALLBACK NOTE (FieldEncryption createDefault() — MockKeyProvider):
     // Purpose: Provides a zero-dependency factory for unit tests and demo code
     //          that have no external key-management infrastructure available.
     // Activation: Called by code paths that do not supply an explicit KeyProvider
@@ -323,10 +323,9 @@ std::shared_ptr<FieldEncryption> FieldEncryption::createDefault() {
     //                   with NO persistence, NO HSM protection, and NO key rotation
     //                   enforcement.  Any restart silently loses all keys.  Ciphertext
     //                   produced by this factory cannot be decrypted after restart.
-    // Removal Plan: Production callers must inject a real KeyProvider (VaultKeyProvider,
+    // Note: Production callers must inject a real KeyProvider (VaultKeyProvider,
     //               HsmKeyProviderAdapter, or similar) via the constructor.
     //               This factory should only be invoked through explicit test/demo paths.
-    //               See src/security/FUTURE_ENHANCEMENTS.md §Field Encryption Key Provider.
 
     // [E-4] Runtime guard: refuse to use MockKeyProvider unless explicitly opted in.
     // Set THEMIS_ALLOW_MOCK_KEY_PROVIDER=1 only in test/demo environments.

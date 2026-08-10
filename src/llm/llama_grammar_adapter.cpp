@@ -49,7 +49,7 @@
 // - llama.cpp with grammar support
 // - Older llama.cpp versions (graceful fallback)
 //
-// STUB/SIMULATION NOTE:
+// PERMANENT FALLBACK NOTE (llama.cpp grammar API runtime detection):
 // Purpose: Provide a graceful runtime fallback when llama.cpp is built without
 //   grammar-constrained generation support.  At first call, `initializeGrammarAPI()`
 //   attempts to locate `llama_grammar_init` and `llama_grammar_free` via
@@ -64,8 +64,8 @@
 //   regex-constrained tokens) is disabled.  LLM inference proceeds without
 //   any token-level grammar constraints; output may not conform to expected
 //   formats (e.g., JSON, SQL, structured data).
-// Removal Plan: Rebuild llama.cpp with grammar support enabled and ensure the
-//   shared library exports `llama_grammar_init` / `llama_grammar_free`.
+// Note: Rebuild llama.cpp with grammar support enabled and ensure the shared
+//   library exports `llama_grammar_init` / `llama_grammar_free`.
 //   Verify by checking the log line "✓ llama.cpp Grammar API detected" at startup.
 //   The override path (themis_grammar_inject_api_functions) is retained for testing.
 // Roadmap ref: src/llm/FUTURE_ENHANCEMENTS.md §"LlamaCpp Grammar API Runtime Activation"
@@ -74,8 +74,6 @@
 //   the override path bypasses dlsym detection so tests can exercise all grammar code
 //   paths without a real llama.cpp grammar build; null arguments revert to detected
 //   path; tests GRAM-INJ-01..03 added in test_grammar_integration.cpp.
-//
-// ═══════════════════════════════════════════════════════════
 
 namespace {
     // Function pointer types for llama.cpp Grammar API

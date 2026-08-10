@@ -169,7 +169,7 @@ bool GPUStreamManager::createCudaStream(const StreamConfig &cfg, int device_inde
         };
     }
 #else
-    // STUB/SIMULATION NOTE:
+    // PERMANENT HARDWARE FALLBACK NOTE (CUDA not available for stream manager):
     // Purpose: Allow `createCudaStream()` to succeed on non-CUDA builds.  When
     //   `THEMIS_ENABLE_CUDA` is not defined, no `cudaStream_t` is created; the
     //   stream manager delegates to `ROCmBackend::GetInstance().createBackendFn()`
@@ -180,8 +180,7 @@ bool GPUStreamManager::createCudaStream(const StreamConfig &cfg, int device_inde
     //   to a "CUDA stream" actually run on the ROCm backend or on the CPU via
     //   `std::async`.  `GPUStreamManager::streamCount()` still reports the stream
     //   as present; callers cannot distinguish CPU from GPU execution via this API.
-    // Removal Plan: Install CUDA Toolkit and set `-DTHEMIS_ENABLE_CUDA=1` in CMake.
-    // Roadmap ref: src/gpu/FUTURE_ENHANCEMENTS.md §"CUDA Stream Manager Activation"
+    // Hardware requirement: CUDA Toolkit + -DTHEMIS_ENABLE_CUDA=1.
 
     // CUDA not available — try injected CudaStreamBackendFn, fall back to ROCm/CPU.
     {

@@ -58,9 +58,9 @@ The module provides production-grade LLM runtime surfaces across async inference
 
 **Remaining (Target: Q3–Q4 2026):**
 
-- [ ] Persistent embedding cache keyed by chunk_id in RocksDB
-- [ ] Embedding dimension auto-probe on first `embed()` call
-- [ ] Streaming ingest via `WriteBatch` with configurable batch size
+- [x] Persistent embedding cache keyed by chunk_id in RocksDB (2026-08-09: WikiIndexConfig::enable_persistent_cache; lazy RocksDB lookup via fetchPersistedEmbedding + persistEmbedding)
+- [x] Embedding dimension auto-probe on first `embed()` call (2026-08-09: WikiIndexConfig::auto_probe_dim; probeEmbeddingDim() called on first write; dim_probed_ atomic guard)
+- [x] Streaming ingest via `WriteBatch` with configurable batch size (2026-08-09: WikiIndexConfig::batch_size, default=32; writeBatch() uses config batch size instead of hardcoded 32)
 
 ---
 

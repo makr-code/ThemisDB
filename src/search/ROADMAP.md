@@ -97,12 +97,33 @@ Production-ready search runtime (v2.0.0 GA) with complete build configuration in
 
 ## In Progress
 
-- [ ] Phase 7: Advanced Features and Future Enhancements (Post-GA)
-  - Multimodal search optimization
-  - Learning-to-rank model integration
-  - Advanced analytics and monitoring
+- [~] **EPIC #5423 Phase 4 — Integration Tests** (Target: Q3 2026): wire real layer implementations into `LayeredRetrievalOrchestrator`; replace gmock NiceMock with production adapters.
+- [~] **EPIC #5423 Phase 5 — Performance & Hardening** (Target: Q3 2026): latency baselines, timeout enforcement, memory profiling, distributed tracing.
+- [~] **HybridSearch Production Hardening (#1323)** (Target: Q3 2026): `SearchStats` extension, configurable metrics, `PerQueryRetrievalGuardrails`.
 
 ## Planned Features
+
+### Q3 2026 — EPIC #5423 Phase 4+5 (LayeredRetrievalOrchestrator)
+
+#### Phase 4 — Integration Tests
+- [ ] Wire real ANN layer (`src/index/advanced_vector_index.cpp`) into `LayeredRetrievalOrchestrator::executeAnnLayer()`; replace gmock NiceMock. Inputs: real HNSW index, 10K 128-dim vectors. Acceptance: Recall@10 ≥ 0.85; all 41 unit tests still PASS; ≥15 new integration tests in `tests/search/test_layered_retrieval_integration_phase4.cpp`. (Target: Q3 2026)
+- [ ] Wire real Tensor mid-layer (`src/tensor/`) into `executeTensorLayer()`. Acceptance: tensor-routing decisions in `LayeredRetrievalResult::routing_decisions` non-empty. (Target: Q3 2026)
+- [ ] Wire real Graph truth layer (`src/graph/`) into `executeGraphLayer()`. Acceptance: provenance chain in `LayeredRetrievalResult::provenance` non-empty on known-entity queries; provenance accuracy ≥ 0.9 over 100 queries. (Target: Q3 2026)
+- [ ] Wire real LLM/LoRA final layer (`src/llm/`) into `executeLlmLayer()`. Acceptance: `LayeredRetrievalResult::final_answer` non-empty; layer error propagates as `LayerRoutingDecision::FALLBACK`. (Target: Q3 2026)
+- [ ] End-to-end 4-layer test (ANN→Tensor→Graph→LLM): 100 known-entity queries, provenance accuracy ≥ 0.9. (Target: Q3 2026)
+
+#### Phase 5 — Performance & Hardening
+- [ ] Latency baselines: p50/p95/p99 per layer combination (2/3/4 layers) at 10K QPS using `benchmarks/search/bench_layered_retrieval_phase5.cpp`; gate: p95 ≤ 200ms for 4-layer chain. Benchmark uses `UseRealTime()`, seed=42. (Target: Q3 2026)
+- [ ] Timeout enforcement: per-layer deadline from `LayeredRetrievalConfig::layer_timeout_ms`; exceeded → `LayerRoutingDecision::TIMEOUT_SKIP` with diagnostic entry. (Currently advisory only.) (Target: Q3 2026)
+- [ ] Memory profiling: peak RSS ≤ 512 MB overhead at 1M 128-dim corpus vs no-orchestrator baseline; OOM → log + skip layer, never crash. (Target: Q3 2026)
+- [ ] Stress test: 10 concurrent threads, 1M vector corpus, 60s sustained; TSan-clean. (Target: Q3 2026)
+- [ ] Distributed tracing: emit OpenTelemetry span per layer; attributes: layer name, status, latency_ms. (Target: Q3 2026)
+- [ ] `PerQueryRetrievalGuardrails`: federated cost/pruning; SLO-validated benchmarks; ≤5% throughput regression vs no-guardrail baseline; gate SRCP-7 in `bench_search_release_gates.cpp`. (Target: Q3 2026)
+
+#### HybridSearch Production Hardening (#1323)
+- [ ] `SearchStats` extension: add `p50_ms`, `p95_ms`, `p99_ms`, `guardrail_deny_count`, `layer_skip_count` fields. (Target: Q3 2026)
+- [ ] Configurable `HybridSearchConfig::distance_metric` (L2/Cosine/IP); reject unknown metric at construction via `SearchError::INVALID_METRIC`. (Target: Q3 2026)
+- [ ] Activate `PerQueryRetrievalGuardrails` with SLO benchmark gate SRCP-7. (Target: Q3 2026)
 
 ### Short-term (Q1 2027+)
 - [ ] Phase 7: Advanced Features and Future Enhancements
@@ -184,6 +205,52 @@ Production-ready search runtime (v2.0.0 GA) with complete build configuration in
 - Advanced scenarios (SRCP-ADV-1..3) pending Q1 2027 detailed integration testing
 - benchmark depth should continue expanding for advanced search workflows.
 - Wave B B1 work depends on upstream Wave A deployment and LLM latency prerequisites.
+
+---
+
+## EPIC #5423 — LayeredRetrievalOrchestrator: Phase 4 & 5 (Q3 2026)
+
+> Phase 1 (Design), Phase 2 (Core Implementation), and Phase 3 (Error Handling) are COMPLETE.
+> 41 unit tests passing. This section tracks the next two phases per Q3 2026 milestone.
+
+### Phase 4: Integration Tests — EPIC #5423 (Target: Q3 2026)
+
+**Status:** ⏳ Pending — implementation start gated on Q3 2026 sprint assignment.
+
+**Scope:** Replace all gmock NiceMock layer fakes with real layer implementations; verify end-to-end retrieval quality; validate provenance correctness.
+
+- [ ] Create `tests/search/test_layered_retrieval_orchestrator_phase4.cpp` wiring ANN, Tensor, Graph, and LLM/LoRA real backends (no NiceMock) (Target: Q3 2026)
+- [ ] Verify end-to-end retrieval quality with deterministic golden queries against real ANN and Graph backends; record nDCG@10 baseline (Target: Q3 2026)
+- [ ] Validate provenance correctness: every result MUST carry correct layer attribution in `LayeredRetrievalResult.routing_decisions` with no silent drops (Target: Q3 2026)
+- [ ] Confirm 100% of 41 existing unit tests still pass after real-backend wiring (regression gate) (Target: Q3 2026)
+- [ ] Deliver ≥15 new integration tests; register with CTest labels `search,phase4,integration,layered,epic5423` (Target: Q3 2026)
+- [ ] Test timeout enforcement: a layer exceeding `LayeredRetrievalConfig.timeout_ms` MUST activate fallback; validated in ≥2 integration test cases (Target: Q3 2026)
+
+**Acceptance Criteria:**
+- 41 existing tests pass (zero regression)
+- ≥15 new integration tests pass
+- Provenance validated across all 4 layers in golden-query fixture
+
+### Phase 5: Performance & Hardening — EPIC #5423 (Target: Q3 2026)
+
+**Status:** ⏳ Pending — depends on Phase 4 completion.
+
+**Scope:** Establish latency baselines, memory profiles, stress tests, and enforce timeout semantics.
+
+- [ ] Implement `benchmarks/search/bench_layered_retrieval_phase5.cpp` with latency baselines for: ANN-only, ANN+Tensor, ANN+Tensor+Graph, all-4-layers combinations (Target: Q3 2026)
+- [ ] Memory profile per layer configuration; document top-3 allocation hotspots; no unbounded growth under 1M-vector stress (Target: Q3 2026)
+- [ ] Stress test ≥1M vector candidates with sustained load; confirm no OOM and p99 does not diverge (Target: Q3 2026)
+- [ ] Enforce (not advisory) timeout semantics: implement cancellation in all 4 layer executors; test that a layer over budget triggers fallback with ≤10ms cancellation overhead (Target: Q3 2026)
+- [ ] Integrate distributed tracing backend: all layer executors emit span with correlation ID, layer name, and latency_ms (Target: Q3 2026)
+- [ ] Confirm SRCP-4 (GPU/CPU fallback ≤8.8ms GPU / ≤11ms CPU) gate remains green after hardening changes (Target: Q3 2026)
+- [ ] Add `PerQueryRetrievalGuardrails` enforcement: per-query cost limit, layer-pruning on SLO breach (Target: Q3 2026)
+
+**Performance Acceptance Gate:**
+- p95 ≤200ms full 4-layer chain at 10K QPS on Intel Xeon + NVIDIA RTX baseline hardware
+- p99 ≤500ms under 2× overload (stress)
+- Memory footprint ≤4GB at 1M vectors across all 4 layers
+
+---
 
 ## Wave B (Q1–Q2 2027) Tracking — B1 Self-RAG Search Integration
 

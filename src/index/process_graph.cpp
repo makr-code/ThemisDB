@@ -1912,7 +1912,7 @@ ProcessGraphManager::isHyperedgeReady(std::string_view hyperedge_id) const {
 }
 
 // ============================================================================
-// STUB/SIMULATION NOTE (Multi-Model Query Stubs):
+// PERMANENT FALLBACK NOTE (ProcessGraph Multi-Model Query — in-process RocksDB scan):
 // Purpose: Implement AQL-style multi-model queries (form-data filter,
 //   foreign-key join, aggregation) directly over the RocksDB in-process store
 //   using scanPrefix().  This avoids requiring a live ArangoDB/ThemisDB query
@@ -1926,9 +1926,9 @@ ProcessGraphManager::isHyperedgeReady(std::string_view hyperedge_id) const {
 //   tokens, queryForeignKeyJoin is O(n×m) in tokens×foreign docs.  In
 //   production with a live query engine these would be replaced by AQL queries
 //   with server-side index acceleration.
-// Removal Plan: Wire a ThemisDB AQL query engine reference into
-//   ProcessGraphManager and delegate multi-model queries to it.  The in-process
-//   scan implementations become fallback paths.
+// Note: Wire a ThemisDB AQL query engine reference via setAqlQueryExecutor()
+//   to delegate to engine-backed queries; the in-process scan path then
+//   becomes the offline fallback.
 // Roadmap ref: src/index/FUTURE_ENHANCEMENTS.md §"Process Graph Multi-Model Query Engine"
 // ============================================================================
 // Multi-Model Query Implementation

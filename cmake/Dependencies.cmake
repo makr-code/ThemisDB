@@ -402,6 +402,10 @@ endif()
 # ============================================================================
 
 # CURL (HTTP client, optional - some features disabled if missing)
+# When found, defines THEMIS_HAS_CURL=1 globally.
+# Consumer: src/process/fim_importer.cpp — FimImporter::makeCurlHttpFetchFn()
+#           returns a real libcurl-backed HttpFetchFn when this flag is set.
+#           Call importer.setHttpFetchFn(FimImporter::makeCurlHttpFetchFn()) at startup.
 find_package(CURL QUIET CONFIG)
 if(NOT CURL_FOUND)
     find_package(CURL QUIET)
@@ -607,7 +611,11 @@ endif()
 
 # (zstd is handled earlier, before RocksDB)
 
-# FFmpeg (video processing - optional for content plugins)
+# FFmpeg (video processing and audio conversion - optional for content/voice plugins)
+# When found, defines THEMIS_HAS_FFMPEG=1 globally.
+# Consumer: src/voice/voice_assistant.cpp — VoiceAssistant::makeFFmpegAudioConvertFn()
+#           returns a real libavformat/libavcodec AudioConvertFn when this flag is set.
+#           Call assistant.setAudioConvertFn(VoiceAssistant::makeFFmpegAudioConvertFn()) at startup.
 find_package(PkgConfig QUIET)
 set(FFMPEG_FOUND FALSE)
 

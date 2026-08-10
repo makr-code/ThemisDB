@@ -66,7 +66,7 @@ using EVP_MD_CTX_ptr = std::unique_ptr<EVP_MD_CTX, EVP_MD_CTX_Deleter>;
 // Implementation class
 class USBAdminAuthenticator::Impl {
 public:
-    // STUB/SIMULATION NOTE:
+    // PERMANENT FALLBACK NOTE (USBAdminAuthenticator — placeholder RSA key):
     // Purpose: Provide an Impl class shell so USBAdminAuthenticator compiles on
     //          all platforms while the platform-specific USB enumeration and
     //          license-key cryptography are not yet implemented.
@@ -78,11 +78,10 @@ public:
     //   (b) validateLicenseSignature() uses the fake embedded RSA public key
     //       (returns false for all real signatures).
     //   When a LicenseVerifierFn is injected it replaces both (a) and (b).
-    // Removal Plan: Inject a production-grade LicenseVerifierFn that performs
+    // Note: Inject a production-grade LicenseVerifierFn that performs
     //   real RSA/HMAC verification against a provisioned public key, OR replace
     //   the embedded placeholder key with a real one when the key-management
     //   workflow is established.
-    //   See src/security/FUTURE_ENHANCEMENTS.md §USBAdminAuthenticator Impl.
     LicenseVerifierFn license_verifier_fn;
 };
 

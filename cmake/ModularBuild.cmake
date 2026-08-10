@@ -8,6 +8,20 @@ cmake_minimum_required(VERSION 3.20)
 # Note: keep version guard below to prevent enabling on older releases
 option(THEMIS_BUILD_MODULAR "Build as modular libraries instead of monolithic core (v1.4.0+ feature)" ON)
 
+# ── Wave-2 optional dependency guards (Q4 2026, default OFF = opt-in) ────────
+# Security: RFC 3161 TSA via OpenSSL TS_* + libcurl (real impl in timestamp_authority_openssl.cpp)
+option(THEMIS_USE_OPENSSL_TSA   "Enable RFC 3161 timestamping via OpenSSL TS_* API + libcurl" OFF)
+# Security: Post-quantum crypto via liboqs (Kyber/MLKEM + Dilithium/MLDSA + SPHINCS+)
+option(THEMIS_HAS_OQS           "Enable post-quantum crypto via liboqs (Kyber/Dilithium/SPHINCS+)" OFF)
+# Security: Real PKCS#11 HSM backend (hsm_provider_pkcs11.cpp); software stub when OFF
+option(THEMIS_ENABLE_HSM_REAL   "Enable real PKCS#11 HSM backend instead of software-only stub" OFF)
+# Security: LoRA-adapter intent classifier calling LLM plugin classify endpoint
+option(THEMIS_HAS_LORA_CLASSIFIER "Enable LoRA-adapted intent classifier via LLM plugin endpoint" OFF)
+# Cache: Direct hiredis operations (SET/GET/DEL/EXPIRE) beyond pub/sub
+option(THEMIS_HAS_HIREDIS       "Enable direct hiredis cache operations (SET/GET/DEL/EXPIRE)" OFF)
+# Tensor: Auto-register RocksDBTensorBackend as default factory in TensorCoreStorageBridge
+option(THEMIS_HAS_ROCKSDB_TENSOR "Auto-register RocksDBTensorBackend for TensorCoreStorageBridge" OFF)
+
 # Version check - only allow modular build after v1.4.0
 if(THEMIS_BUILD_MODULAR)
     if(PROJECT_VERSION VERSION_LESS "1.4.0")
@@ -2058,6 +2072,17 @@ function(themis_build_modular)
         DEPENDENCIES ${_themis_storage_deps}
     )
 
+    if(THEMIS_HAS_ROCKSDB_TENSOR)
+        target_compile_definitions(themis_storage PUBLIC THEMIS_HAS_ROCKSDB_TENSOR)
+    endif()
+
+    if(THEMIS_HAS_IO_URING AND THEMIS_IO_URING_LIB)
+        target_link_libraries(themis_storage PRIVATE ${THEMIS_IO_URING_LIB})
+        if(THEMIS_IO_URING_INCLUDE)
+            target_include_directories(themis_storage PRIVATE ${THEMIS_IO_URING_INCLUDE})
+        endif()
+    endif()
+
     if(THEMIS_ENABLE_VULKAN)
         target_compile_definitions(themis_storage PUBLIC THEMIS_ENABLE_VULKAN)
     endif()
@@ -2114,10 +2139,54 @@ function(themis_build_modular)
         list(APPEND _themis_security_deps pugixml::static)
     endif()
     
+    # ── liboqs (post-quantum crypto) ─────────────────────────────────────────
+    if(THEMIS_HAS_OQS)
+        find_package(liboqs CONFIG QUIET)
+        if(liboqs_FOUND OR TARGET OQS::oqs)
+            list(APPEND _themis_security_deps OQS::oqs)
+            message(STATUS "Wave-2: liboqs found – THEMIS_HAS_OQS enabled")
+        else()
+            find_library(_OQS_LIB NAMES oqs liboqs)
+            find_path(_OQS_INC NAMES oqs/oqs.h)
+            if(_OQS_LIB AND _OQS_INC)
+                add_library(OQS::oqs UNKNOWN IMPORTED)
+                set_target_properties(OQS::oqs PROPERTIES
+                    IMPORTED_LOCATION "${_OQS_LIB}"
+                    INTERFACE_INCLUDE_DIRECTORIES "${_OQS_INC}")
+                list(APPEND _themis_security_deps OQS::oqs)
+                message(STATUS "Wave-2: liboqs found (manual) – THEMIS_HAS_OQS enabled")
+            else()
+                message(WARNING "THEMIS_HAS_OQS=ON but liboqs not found; disabling")
+                set(THEMIS_HAS_OQS OFF)
+            endif()
+        endif()
+    endif()
+
     themis_add_module(security
         SOURCES ${THEMIS_SECURITY_SOURCES}
         DEPENDENCIES ${_themis_security_deps}
     )
+
+    # ── Wave-2 compile definitions for security module ────────────────────────
+    if(THEMIS_USE_OPENSSL_TSA)
+        target_compile_definitions(themis_security PUBLIC THEMIS_USE_OPENSSL_TSA)
+        message(STATUS "Wave-2: THEMIS_USE_OPENSSL_TSA enabled (RFC 3161 via OpenSSL)")
+    endif()
+    if(THEMIS_HAS_OQS)
+        target_compile_definitions(themis_security PUBLIC THEMIS_HAS_OQS)
+    endif()
+    if(THEMIS_ENABLE_HSM_REAL)
+        target_compile_definitions(themis_security PUBLIC THEMIS_ENABLE_HSM_REAL)
+        message(STATUS "Wave-2: THEMIS_ENABLE_HSM_REAL enabled (PKCS#11 HSM backend)")
+    endif()
+    if(THEMIS_HAS_LORA_CLASSIFIER)
+        target_compile_definitions(themis_security PUBLIC THEMIS_HAS_LORA_CLASSIFIER)
+        message(STATUS "Wave-2: THEMIS_HAS_LORA_CLASSIFIER enabled (LoRA intent classifier)")
+    endif()
+    if(THEMIS_HAS_HIREDIS)
+        target_compile_definitions(themis_security PUBLIC THEMIS_HAS_HIREDIS)
+    endif()
+
     # These two translation units include different governance headers that both
     # declare a class named ComplianceReporter. In Unity mode they can end up in
     # one TU and trigger class redefinition errors (C2011/C2027 cascade).
@@ -2196,6 +2265,11 @@ function(themis_build_modular)
         DEPENDENCIES ${_themis_query_deps}
         STATIC_MODULE
     )
+    # ── Wave-2 compile definitions for query/cache module ─────────────────────
+    if(THEMIS_HAS_HIREDIS)
+        target_compile_definitions(themis_query PUBLIC THEMIS_HAS_HIREDIS)
+        message(STATUS "Wave-2: THEMIS_HAS_HIREDIS enabled (direct Redis SET/GET/DEL/EXPIRE)")
+    endif()
     if(MSVC)
         # Keep XML parser TUs separate: both files define helper types in
         # anonymous namespaces and can conflict when merged into one Unity TU.

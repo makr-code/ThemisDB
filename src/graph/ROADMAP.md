@@ -56,9 +56,9 @@ Production graph runtime exists across query planning, constraint-aware traversa
 ## Planned Features
 
 ### Hybrid Retrieval Rollout Gates (issue #5468)
-- [ ] Phase A gate: fix 50% of error-handling gaps (195 → ~98) in exact traversal paths (Target: Q3 2026)
-- [ ] Phase A gate: fix 50% of thread-safety gaps (240 → ~120) under concurrent access (Target: Q3 2026)
-- [ ] Phase A ctest gate: `test_graph_exact_traversal` with error injection (Target: Q3 2026)
+- [~] Phase A gate: fix 50% of error-handling gaps (195 → ~98) in exact traversal paths (Target: Q3 2026)
+- [~] Phase A gate: fix 50% of thread-safety gaps (240 → ~120) under concurrent access (Target: Q3 2026)
+- [x] Phase A ctest gate: `test_graph_exact_traversal` with error injection (tests/graph/test_graph_exact_traversal.cpp: BFS + Dijkstra failure injection present)
 - [ ] Phase C gate: Category B kernel fallback paths hardened (BFS frontier cutoff, Dijkstra overflow) (Target: Q4 2026)
 - [ ] Permanent invariant: `ann_frontdoor_route_type` metric confirms no GPU path for Category C (ongoing)
 

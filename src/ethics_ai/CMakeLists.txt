@@ -42,6 +42,14 @@ else()
     message(WARNING "  - yaml-cpp not found: YAML loading will be limited")
 endif()
 
+# LLM Inference injection (no compile-time dependency — wired at runtime):
+# DiscourseOrchestrator and MirrorSchoolHandler accept a real ILLMPlugin-backed
+# function via setLLMInferenceFn().  When no fn is injected, a deterministic
+# hash-based fallback is used (PERMANENT FALLBACK — intentional for non-LDM builds).
+# EthicsSelectionRouter accepts setEmbeddingFn() and setPrecedentQueryFn() for
+# dense-vector semantic search and persistent-graph precedent lookup respectively.
+# All fallback paths remain active when no fn is injected.
+
 target_link_libraries(ethics_ai_plugin PRIVATE themis_core)
 
 set_target_properties(ethics_ai_plugin PROPERTIES

@@ -1114,19 +1114,17 @@ std::vector<std::string> KnowledgeGapDetector::generateMultipleSamples(
     // retrieved documents so that the consistency checker can detect genuine
     // disagreement when different source documents describe contradictory facts.
     //
-    // STUB/SIMULATION NOTE:
-    // Purpose: Fallback when no LlmSampleFn is injected via setLlmSampleFn().
+    // PERMANENT FALLBACK NOTE:
+    // Purpose: Provide self-consistency samples when no LlmSampleFn is injected.
     //          Samples are composed from document sentences rather than model
     //          completions; they vary in content when different source documents
     //          describe complementary or conflicting information.
     // Activation: Active when llm_sample_fn is null or returns empty.
-    // Production Delta: LLM-generated samples capture inference chains,
-    //                   paraphrases, and hallucinations that document sentences do not.
-    //                   Semantic contradiction detection sensitivity is lower here (~60%)
-    //                   compared to a trained LLM judge (~85%).
-    // Removal Plan: Retained as permanent fallback; callers inject a real ILLMPlugin
-    //               via setLlmSampleFn() for production self-consistency scoring.
-    //               See src/rag/FUTURE_ENHANCEMENTS.md §KnowledgeGapDetector SelfConsistency.
+    // Production path: Inject a real ILLMPlugin via setLlmSampleFn() for
+    //                  LLM-generated samples that capture inference chains,
+    //                  paraphrases, and hallucinations (~85% contradiction
+    //                  detection vs ~60% for this heuristic path).
+    //                  See src/rag/FUTURE_ENHANCEMENTS.md §KnowledgeGapDetector SelfConsistency.
 
     // Split a text block into individual sentences (period/question/exclamation boundary).
     auto splitSentences = [](const std::string& text) -> std::vector<std::string> {

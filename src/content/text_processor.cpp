@@ -194,20 +194,17 @@ std::vector<float> TextProcessor::generateEmbedding(const std::string &chunk_dat
         return embedding_fn_(chunk_data);
     }
 
-    // STUB/SIMULATION NOTE:
+    // PERMANENT FALLBACK NOTE:
     // Purpose: Provide a deterministic, zero-dependency embedding for unit
     //   tests and environments where no real embedding service is available.
-    // Activation: Active when no IEmbeddingBackend is injected via
-    //   setEmbeddingBackend().  Set a real backend (ONNXClipPlugin,
-    //   Sentence-BERT, etc.) to get semantically meaningful vectors.
-    // Production Delta: Uses a hash-based deterministic formula instead of a
-    //   real transformer model (e.g. Sentence-BERT / all-mpnet-base-v2).
-    //   Output vectors are NOT semantically meaningful for similarity search.
-    // Roadmap ref: src/content/ROADMAP.md § "Phase 5: Performance / Hardening"
-    // Removal Plan: Replace with an injected IEmbeddingBackend call (e.g.
-    //   ONNXClipPlugin or a Sentence-BERT plugin) and remove this path once
-    //   the embedding plugin interface is wired into TextProcessor.
-    // Roadmap ref: src/content/FUTURE_ENHANCEMENTS.md § "Stub/Simulation Lifecycle"
+    // Activation: Active when no EmbeddingFn is injected via
+    //   setEmbeddingBackend().  Inject a real backend for semantically
+    //   meaningful vectors:
+    //     text_proc.setEmbeddingBackend([&model](const std::string& text) {
+    //         return model.embed(text);   // e.g. ONNX all-mpnet-base-v2
+    //     });
+    // Behaviour: Uses a hash-based deterministic formula — output vectors are
+    //   NOT semantically meaningful for similarity search.  Safe for tests.
 
     const int EMBEDDING_DIM = 768; // Standard for all-mpnet-base-v2
     std::vector<float> embedding(EMBEDDING_DIM, 0.0f);

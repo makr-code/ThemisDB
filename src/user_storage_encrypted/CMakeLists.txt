@@ -59,6 +59,17 @@ target_link_libraries(themis_user_storage_encrypted PRIVATE
     ${ARGON2_LIB}
 )
 
+# Propagate THEMIS_HAS_ARGON2 as an explicit compile definition when libargon2 is
+# found by CMake, so the KDF code does not have to rely solely on __has_include.
+# The runtime injection bridge (setDeriveKeyFn) is supplementary — the real
+# Argon2id KDF (argon2id_hash_raw) is the primary production implementation.
+if(ARGON2_FOUND)
+    target_compile_definitions(themis_user_storage_encrypted PRIVATE THEMIS_HAS_ARGON2=1)
+    message(STATUS "  - libargon2 found: Argon2id KDF enabled (THEMIS_HAS_ARGON2=1)")
+else()
+    message(STATUS "  - libargon2 NOT found: falling back to PBKDF2-HMAC-SHA256")
+endif()
+
 target_compile_features(themis_user_storage_encrypted PRIVATE cxx_std_17)
 
 set_target_properties(themis_user_storage_encrypted PROPERTIES

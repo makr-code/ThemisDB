@@ -63,7 +63,13 @@ Production-ready multi-model query stack with parser, optimizer, execution, fede
   - Full language roadmap: [AQL_V2_0_0_COMPLETE_ROADMAP.md](./AQL_V2_0_0_COMPLETE_ROADMAP.md)
   - [x] DDL (CREATE/DROP COLLECTION/INDEX/VIEW) — parser + executor + 32 tests delivered 2026-07-22
   - [x] Geospatial parser Phase 1 COMPLETE 2026-07-27: ST_* already work in FILTER/SORT/RETURN via qe_evalFunction; 26 tests in test_aql_st_predicates.cpp; Phase 2 (optimizer hints) next (Target: Q3 2026)
-  - [ ] FTS query enhancement (phrase/proximity queries; ≤100ms on 100K documents) (Target: Q3–Q4 2026)
+  - [~] FTS query enhancement (phrase/proximity queries; ≤100ms on 100K documents) (Target: Q3–Q4 2026)
+    - [x] SEARCH/PHRASE/NEAR/STARTS_WITH/BOOST/ANALYZER tokens added to lexer (2026-08-09)
+    - [x] FtsPredType enum, FtsPredicateNode, SearchClauseNode structs added to aql_parser.h (2026-08-09)
+    - [x] parseSearchClause() implemented; wired into parseQuery() (2026-08-09)
+    - [x] search_clause field added to Query struct (2026-08-09)
+    - [ ] Executor backend wiring (FTS index lookup, scoring) (Target: Q4 2026)
+    - [ ] Performance gate: ≤100ms on 100K documents (Target: Q4 2026)
   - [ ] Cross-feature integration tests (1000+ tests, zero v1.x regressions) (Target: Q4 2026)
 
 ## Phase 2 — Performance & Scalability Readiness (Target: 2026-09-30)
@@ -244,16 +250,16 @@ Performance and scalability optimization with measurable, gated performance impr
 ## Planned Features
 
 ### Hybrid Retrieval Rollout Gates (issue #5468)
-- [ ] Phase A gate: fix 50% of return-value check gaps (340 → 170) in optimizer (Target: Q3 2026)
-- [ ] Phase A gate: fix 50% of exception-handling gaps (180 → 90) in optimizer (Target: Q3 2026)
-- [ ] Phase A ctest gate: `test_query_planner_fallback` with degraded-mode injection (Target: Q3 2026)
-- [ ] Phase B gate: fix thread-safety gaps in parallel plan optimization (140 → 56) (Target: Q3 2026)
-- [ ] Phase B gate: hybrid planner (ANN + graph) enabled with single-shard scope (Target: Q3 2026)
-- [ ] Phase B gate: `query_planner_fallback_total` Prometheus metric wired (Target: Q3 2026)
+- [~] Phase A gate: fix 50% of return-value check gaps (340 → 170) in optimizer (Target: Q3 2026)
+- [~] Phase A gate: fix 50% of exception-handling gaps (180 → 90) in optimizer (Target: Q3 2026)
+- [x] Phase A ctest gate: `test_query_planner_fallback` with degraded-mode injection (tests/query/test_query_planner_fallback.cpp: degraded mode + query_planner_fallback_total check present)
+- [~] Phase B gate: fix thread-safety gaps in parallel plan optimization (140 → 56) (Target: Q3 2026)
+- [~] Phase B gate: hybrid planner (ANN + graph) enabled with single-shard scope (Target: Q3 2026)
+- [x] Phase B gate: `query_planner_fallback_total` Prometheus metric wired (src/query/query_optimizer.cpp:177)
 - [ ] Phase C gate: parallel optimization enabled after thread-safety gate passed (Target: Q3 2026+)
 
 ### Short-term (3-6 months)
-- [ ] **AQL Mutations** — INSERT/UPDATE/REPLACE/REMOVE/UPSERT for data manipulation (Target: v2.0.0-beta Q3 2026)
+- [x] **AQL Mutations** — INSERT/UPDATE/REPLACE/REMOVE/UPSERT for data manipulation (UPSERT/INSERT/UPDATE/REMOVE/REPLACE nodes already in include/query/aql_parser.h; DML in parse loop)
 - [ ] Harden optimizer decision quality under skewed statistics and changing workloads (Target: Q4 2026)
 - [ ] Expand federated query failure handling with deterministic partial-result policies (Target: Q4 2026)
 - [ ] Strengthen query resource-limit enforcement diagnostics and operator-facing observability (Target: Q4 2026)

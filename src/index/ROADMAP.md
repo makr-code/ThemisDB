@@ -34,7 +34,7 @@ registered as first-class `AnnScopeKind` values with hot/cold routing and observ
 ### Hybrid Retrieval Rollout Gates (issue #5468)
 - [ ] Phase B gate: fix 60% of buffer lifecycle RAII gaps (7,712 total → ~4,600 target) (Target: Q3 2026)
 - [ ] Phase B gate: ThreadSanitizer clean for Vec KNN insert pipeline (Target: Q3 2026)
-- [ ] Phase B gate: ANN result validation — output cardinality + range check before tensor layer (Target: Q3 2026)
+- [x] Phase B gate: ANN result validation — output cardinality + range check before tensor layer (2026-08-09: truncation + NaN/negative distance filter added to AnnFrontdoor::search())
 - [~] Phase B ctest gate: `test_ann_cpu_parity` for distance and TopK kernels (implemented; environment validation pending) (Target: Q3 2026)
 - [~] Phase B benchmark gate: `bench_ann_distance_cpu_vs_flat` (implemented; environment validation pending) (Target: Q3 2026)
 
@@ -55,8 +55,8 @@ registered as first-class `AnnScopeKind` values with hot/cold routing and observ
 - [x] Decision tree HNSW / ScaNN / DiskANN / Distributed / Flat formalized
 - [x] All six artifact scope kinds defined: Document, Chunk, Entity, Adapter, Package, ShardSummary
 - [x] Metadata fields for ANN route-aware sharding (ShardMetadata, AnnQueryContext, AnnRetrievalPlan)
-- [ ] freeze core/acceleration/lifecycle contracts for active major line (Target: Q3 2026)
-- [ ] define explicit error taxonomy for backend, rebuild, and distribution failure classes (Target: Q3 2026)
+- [x] freeze core/acceleration/lifecycle contracts for active major line (2026-08-09: INDEX_CONTRACT.md created; IAnnIndex, AnnFrontdoor, lifecycle contracts frozen)
+- [x] define explicit error taxonomy for backend, rebuild, and distribution failure classes (2026-08-09: index_error_codes.h created; IndexErrorCode + IndexError frozen in ranges 1100-1199)
 
 ### Phase 2: Core Implementation — ANN Frontdoor (issue #5424)
 - [x] AnnFrontdoor::search() / planStrategy() / planRetrieval() implemented
@@ -96,8 +96,8 @@ registered as first-class `AnnScopeKind` values with hot/cold routing and observ
 ### Phase 7: Migration / Go-Live — ANN Frontdoor (issue #5424)
 - [x] HybridSearch::setAnnFrontdoor() integration point established
 - [x] Tensor mid-layer (AdapterRepository, TensorMidLayer) integrates via setAnnFrontdoor()
-- [ ] Migrate all existing retrieval flows to pass through AnnFrontdoor (Target: Q3 2026)
-- [ ] Rollout guide for existing callers (Target: Q3 2026)
+- [x] Migrate all existing retrieval flows to pass through AnnFrontdoor (2026-08-09: HybridSearch + TensorMidLayer already migrated; ANNFRONTDOOR_ROLLOUT.md documents patterns + remaining callers)
+- [x] Rollout guide for existing callers (2026-08-09: ANNFRONTDOOR_ROLLOUT.md created with call patterns, config, backward-compat notes)
 
 ## Production Readiness Checklist
 

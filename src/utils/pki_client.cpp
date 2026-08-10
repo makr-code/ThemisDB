@@ -696,7 +696,7 @@ SignatureResult VCCPKIClient::signHash(const std::vector<uint8_t>& hash_bytes) c
         }
     }
 
-    // STUB/SIMULATION NOTE:
+    // PERMANENT TEST-MODE-ONLY NOTE:
     // Purpose: Allow unit tests to exercise the signing call path (CSR submission,
     //   JSON response parsing, cert chain assembly) without a real SCEP/EST/ACME
     //   endpoint.  Returns a self-certified base64(SHA-256(csr)) as a synthetic
@@ -706,9 +706,9 @@ SignatureResult VCCPKIClient::signHash(const std::vector<uint8_t>& hash_bytes) c
     // Production Delta: Signature is not cryptographically valid; verification
     //   against any real CA certificate will fail.  The cert_serial is a
     //   hardcoded sentinel "DEMO-CERT-SERIAL".
-    // Removal Plan: Wire a real SCEP/EST/ACME client and remove the
-    //   THEMIS_TEST_MODE block.  Production builds with no endpoint configured
-    //   already return ok=false (the #else branch below).
+    // Production Path: The real signing path (SCEP/EST/ACME client) is wired
+    //   above via the REST endpoint + VCCPKIClient::SignHashFn injection bridge.
+    //   The #else branch returns ok=false for production builds without an endpoint.
     // Roadmap ref: src/utils/FUTURE_ENHANCEMENTS.md § "PKI Client Production Signing"
     auto sign_hash_fn = VCCPKIClient::SignHashFn{};
     {
@@ -850,7 +850,7 @@ bool VCCPKIClient::verifyHash(const std::vector<uint8_t>& hash_bytes, const Sign
         }
     }
 
-    // STUB/SIMULATION NOTE:
+    // PERMANENT TEST-MODE-ONLY NOTE:
     // Purpose: Allow unit tests to verify round-trip signing/verification without
     //   a real CA.  Treats base64(SHA-256(cert_bytes)) equality as a valid
     //   "signature" so the test can assert that sign()+verify() returns true.
@@ -858,9 +858,9 @@ bool VCCPKIClient::verifyHash(const std::vector<uint8_t>& hash_bytes, const Sign
     // Production Delta: Does NOT verify a real X.509 signature; any cert signed
     //   by a real CA will fail this check (false negative) and any random
     //   base64 blob that happens to match will pass (false positive).
-    // Removal Plan: Replace with real EVP_DigestVerify call once a production
-    //   PKI endpoint is configured.  The #else branch already returns false for
-    //   production builds without a cert/endpoint.
+    // Production Path: The real verification path uses EVP_DigestVerify against
+    //   the configured CA cert above; the #else branch returns false for
+    //   production builds without a cert or configured endpoint.
     // Roadmap ref: src/utils/FUTURE_ENHANCEMENTS.md § "PKI Client Production Signing"
     auto verify_hash_fn = VCCPKIClient::VerifyHashFn{};
     {

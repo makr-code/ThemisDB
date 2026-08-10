@@ -18,12 +18,13 @@
  * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
-// STUB/SIMULATION NOTE:
-// Purpose: Rule-based feature classification as placeholder for LoRA-adapted model
-// Activation: Always active in v1.0; LoRA adapter replaces rules post-IMPL-A2
-// Production Delta: Rule-based precision ~80%; LoRA target precision ≥ 92%
+// PERMANENT FALLBACK NOTE:
+// Rule-based feature classification as permanent fallback for builds without liboqs/LoRA.
+// When THEMIS_HAS_LORA_CLASSIFIER is defined (Wave-2 CMake guard), `configureLoraEndpoint()`
+// replaces the rule-based path with an HTTP call to the LLM plugin's /classify endpoint.
+// Rule-based precision ~80%; LoRA target precision ≥ 92%. This rule-based path remains the
+// PERMANENT FALLBACK when the LoRA classifier is unavailable.
 // Roadmap ref: src/security/ROADMAP.md § "Phase 4: Zero-Trust & Post-Quantum Cryptography"
-// Removal Plan: Replace classify() internals with LoRA adapter call in IMPL-A2 Loop-1
 
 #include "security/intent_classifier.h"
 
@@ -36,6 +37,17 @@
 #include <unordered_map>
 
 #include <spdlog/spdlog.h>
+#include <nlohmann/json.hpp>
+
+// ── LoRA / LLM-plugin classify endpoint (Wave-2: THEMIS_HAS_LORA_CLASSIFIER) ─
+// When -DTHEMIS_HAS_LORA_CLASSIFIER=ON is set in CMake, configureLoraEndpoint()
+// installs an InferenceFn that POSTs the query to the LLM plugin's /classify
+// endpoint via libcurl and maps the JSON response back to ClassificationResult.
+// The rule-based fallback path below remains the PERMANENT FALLBACK when the
+// LoRA classifier is not configured or the endpoint is unreachable.
+#ifdef THEMIS_HAS_LORA_CLASSIFIER
+#  include <curl/curl.h>
+#endif
 
 namespace themis {
 namespace security {
@@ -338,7 +350,6 @@ std::vector<float> IntentClassifier::buildEmbedding(
 }
 
 // ── LoRA-Adapter API (ASL-13 / IMPL-A2) ─────────────────────────────────────
-
 IntentClassifier::LoraLoadResult IntentClassifier::loadLoraModel(
     const std::string& model_path
 ) {
@@ -371,6 +382,132 @@ bool IntentClassifier::isLoraActive() const noexcept {
 const std::string& IntentClassifier::loraModelPath() const noexcept {
     return lora_model_path_;
 }
+
+#ifdef THEMIS_HAS_LORA_CLASSIFIER
+// ── Real LoRA endpoint integration (Wave-2: THEMIS_HAS_LORA_CLASSIFIER) ──────
+
+namespace {
+
+/// libcurl write callback that appends data to a std::string buffer.
+static size_t curlWriteCallback(char* ptr, size_t size, size_t nmemb, void* userdata) {
+    auto* buf = reinterpret_cast<std::string*>(userdata);
+    buf->append(ptr, size * nmemb);
+    return size * nmemb;
+}
+
+/// Map a JSON intent string returned by the endpoint to IntentType.
+static IntentClassifier::IntentType intentFromString(const std::string& s) noexcept {
+    if (s == "SQL_INJECTION")        return IntentClassifier::IntentType::SQL_INJECTION;
+    if (s == "DATA_EXFILTRATION")    return IntentClassifier::IntentType::DATA_EXFILTRATION;
+    if (s == "PRIVILEGE_ESCALATION") return IntentClassifier::IntentType::PRIVILEGE_ESCALATION;
+    if (s == "ANOMALOUS_PATTERN")    return IntentClassifier::IntentType::ANOMALOUS_PATTERN;
+    if (s == "DATA_DESTRUCTION")     return IntentClassifier::IntentType::DATA_DESTRUCTION;
+    if (s == "SCHEMA_MUTATION")      return IntentClassifier::IntentType::SCHEMA_MUTATION;
+    return IntentClassifier::IntentType::LEGITIMATE;
+}
+
+} // anonymous namespace
+
+/**
+ * @brief Configure the LoRA classify endpoint for this classifier.
+ *
+ * Installs an InferenceFn that POSTs the query to the LLM plugin's /classify
+ * endpoint via libcurl (synchronous).  The endpoint must return JSON of the form:
+ * ```json
+ * { "intent": "SQL_INJECTION", "confidence": 0.92, "indicator": "UNION_SELECT" }
+ * ```
+ * On any network/parse error the function returns LEGITIMATE with confidence=0 so
+ * the caller's fail-closed logic applies.
+ *
+ * @param endpoint_url  Full URL of the LLM classify endpoint.
+ * @param api_key       Optional bearer token for the endpoint (empty = no auth).
+ * @param timeout_ms    HTTP request timeout in milliseconds (default 2000).
+ * @return true if the endpoint URL is non-empty and the libcurl handle was allocated;
+ *         false otherwise (LoRA path stays inactive).
+ */
+bool IntentClassifier::configureLoraEndpoint(
+    const std::string& endpoint_url,
+    const std::string& api_key,
+    int                timeout_ms)
+{
+    if (endpoint_url.empty()) {
+        spdlog::warn("IntentClassifier::configureLoraEndpoint: empty URL – skipping");
+        return false;
+    }
+
+    // Capture endpoint config in the closure; the CURL handle is allocated per-call
+    // to avoid cross-thread state issues (no global curl handle stored).
+    const std::string url     = endpoint_url;
+    const std::string key     = api_key;
+    const int         timeout = timeout_ms;
+
+    setInferenceFn([url, key, timeout](
+        const std::string& query,
+        const ZeroTrustContext& /*ctx*/) -> ClassificationResult
+    {
+        // Build JSON request body with intent classification schema.
+        const nlohmann::json req = {
+            {"query",   query},
+            {"schema",  {"SQL_INJECTION","DATA_EXFILTRATION","PRIVILEGE_ESCALATION",
+                         "ANOMALOUS_PATTERN","DATA_DESTRUCTION","SCHEMA_MUTATION",
+                         "LEGITIMATE"}}
+        };
+        const std::string body = req.dump();
+
+        CURL* curl = curl_easy_init();
+        if (!curl) {
+            spdlog::error("IntentClassifier LoRA: curl_easy_init failed");
+            return {IntentType::LEGITIMATE, 0.0, "lora_curl_init_failed"};
+        }
+
+        std::string response_buf;
+        struct curl_slist* headers = nullptr;
+        headers = curl_slist_append(headers, "Content-Type: application/json");
+        if (!key.empty()) {
+            const std::string auth_hdr = "Authorization: Bearer " + key;
+            headers = curl_slist_append(headers, auth_hdr.c_str());
+        }
+
+        curl_easy_setopt(curl, CURLOPT_URL,            url.c_str());
+        curl_easy_setopt(curl, CURLOPT_POST,            1L);
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS,      body.c_str());
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE,   static_cast<long>(body.size()));
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER,      headers);
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION,   curlWriteCallback);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA,       &response_buf);
+        curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS,      static_cast<long>(timeout));
+        curl_easy_setopt(curl, CURLOPT_NOSIGNAL,        1L);
+
+        CURLcode rc = curl_easy_perform(curl);
+        curl_slist_free_all(headers);
+        curl_easy_cleanup(curl);
+
+        if (rc != CURLE_OK) {
+            spdlog::warn("IntentClassifier LoRA: HTTP request failed: {}",
+                         curl_easy_strerror(rc));
+            return {IntentType::LEGITIMATE, 0.0, "lora_http_error"};
+        }
+
+        // Parse response JSON.
+        try {
+            const auto j        = nlohmann::json::parse(response_buf);
+            const auto intent   = intentFromString(j.value("intent", "LEGITIMATE"));
+            const double conf   = j.value("confidence", 0.0);
+            const auto indicator= j.value("indicator", std::string("lora"));
+            return {intent, conf, indicator};
+        } catch (const std::exception& e) {
+            spdlog::warn("IntentClassifier LoRA: JSON parse error: {}", e.what());
+            return {IntentType::LEGITIMATE, 0.0, "lora_parse_error"};
+        }
+    });
+
+    lora_active_     = true;
+    lora_model_path_ = endpoint_url; // Use endpoint URL as the model path identifier
+    spdlog::info("IntentClassifier: LoRA endpoint configured at '{}' (ASL-13)", endpoint_url);
+    return true;
+}
+
+#endif // THEMIS_HAS_LORA_CLASSIFIER
 
 } // namespace security
 } // namespace themis

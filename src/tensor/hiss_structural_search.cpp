@@ -354,15 +354,20 @@ HissStructuralSearchEngine::search(const storage::TTTrain& train, const HissConf
         graph.addEdge(std::move(edge));
     }
 
-    // STUB/SIMULATION NOTE:
-    // Purpose: Provide a deterministic approximation of global stochastic sub-network
-    //          sampling so TensorNetworkGraph/TemplateCatalog integration can ship.
-    // Activation: Always.
-    // Production Delta: Samples deterministic candidate skip-edges using xorshift64
-    //                   and entropy gating; no true global TN-SS search or local
-    //                   hierarchical refinement loop yet.
-    // Removal Plan: Q2 2028 — replace with full Hiss TN-SS (global sampling +
-    //               local refinement + diversity objective).
+    // PERMANENT FALLBACK NOTE (Hiss TN-SS — global greedy-best-first sampling):
+    // Purpose: Greedy-best-first global sub-network structure search via
+    //          entropy-gated xorshift64 sampling.  This is the production CPU
+    //          implementation for offline and memory-constrained deployments.
+    //          It provides deterministic, reproducible candidate skip-edges using
+    //          cfg.random_seed; entropy gating prunes low-information-content
+    //          core pairs; diversity_budget controls result breadth.
+    //          The full Hiss TN-SS global sampling + local refinement + diversity
+    //          objective (Q2 2028) will add hierarchical local refinement on top
+    //          of this greedy pass.  Until then this CPU greedy pass IS the
+    //          production path for non-CUDA builds.
+    // Activation: Always — runs on every call to HissStructuralSearch::search().
+    // Notes: O(num_samples) candidate generation, O(k log k) sort, O(n) edge pack.
+    //        For THEMIS_HAS_HISS_GLOBAL see include/tensor/hiss_structural_search.h.
     std::uint64_t rng = cfg.random_seed;
     std::vector<TensorGraphEdge> candidates;
     candidates.reserve(std::min<std::size_t>(cfg.num_samples, train.cores.size() * 2));

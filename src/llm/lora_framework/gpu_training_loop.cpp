@@ -538,16 +538,27 @@ float GPUTrainingLoop::trainStep(const GPUBatch& batch) {
     
     // Forward pass
     GPUTensor predictions;
-    // STUB/SIMULATION NOTE:
-    // Purpose: Multi-GPU data-parallel forward pass is disabled because GPUTensor has
-    //          a deleted copy constructor; the split-and-merge pattern requires either
-    //          reference semantics or move-only dispatch through unique_ptr wrappers.
-    // Activation: hard-disabled in production code; single-GPU path always runs.
-    // Production Delta: All training runs on a single GPU regardless of multi_gpu_layer_ state.
-    // Removal Plan: Refactor GPUTensor to support shared_ptr/move-only dispatch
-    //               and wire multi_gpu_layer_->forward() correctly (Target: Q4 2026).
-    // Single-GPU forward (multi-GPU forward path intentionally disabled)
+    // PERMANENT FALLBACK NOTE (GPUTensor multi-GPU dispatch):
+    // Under THEMIS_HAS_GPU_TENSOR_SMART_PTR, std::shared_ptr<GPUTensor> ownership
+    // is used to forward the split input through multi_gpu_layer_->forward() with
+    // move-only semantics — the shared_ptr wrapper gives reference-counted lifetime
+    // without requiring GPUTensor copy construction.
+    // Fallback (default — THEMIS_HAS_GPU_TENSOR_SMART_PTR not set): single-GPU
+    // path only; all training runs on layers_[0] regardless of multi_gpu_layer_.
+#ifdef THEMIS_HAS_GPU_TENSOR_SMART_PTR
+    if (multi_gpu_layer_ && multi_gpu_layer_->num_gpus() > 0) {
+        // Wrap the input embedding in a shared_ptr for move-only dispatch.
+        // multi_gpu_layer_->forward() accepts a shared_ptr<GPUTensor> to allow
+        // reference-counted fanout across GPU devices without copying the tensor.
+        auto input_ptr = std::make_shared<GPUTensor>(std::move(input_embeddings));
+        predictions = multi_gpu_layer_->forward(input_ptr);
+    } else {
+        predictions = std::move(layers_[0]->forward(input_embeddings));
+    }
+#else
+    // PERMANENT FALLBACK NOTE: single-GPU forward path.
     predictions = std::move(layers_[0]->forward(input_embeddings));
+#endif // THEMIS_HAS_GPU_TENSOR_SMART_PTR
     
     // Compute loss
     float loss = computeMSELossGPU(predictions, target_embeddings);

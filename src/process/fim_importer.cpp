@@ -42,6 +42,16 @@
 #include <string>
 #include <unordered_map>
 
+// Optional libcurl-backed HTTP fetch implementation.
+// Activated when the build defines THEMIS_HAS_CURL (set by CMake when libcurl
+// is found, see src/process/ integration notes in ROADMAP.md).
+#if defined(THEMIS_HAS_CURL) || defined(THEMIS_ENABLE_CURL)
+#  include <curl/curl.h>
+#  define THEMIS_FIM_HAS_CURL 1
+#else
+#  define THEMIS_FIM_HAS_CURL 0
+#endif
+
 namespace themis {
 namespace process {
 
@@ -527,27 +537,103 @@ std::vector<FimModelResult> FimImporter::importFromFitkoApi(
         return results;
     }
 
-    // STUB/SIMULATION NOTE:
-    // Purpose: Placeholder for FITKO REST API integration.  A live HTTP call
-    //          to api_base_url/prozesse is not yet implemented because no
-    //          HttpFetchFn has been injected.
-    // Activation: Always returns an error result when http_fetch_fn_ is null.
-    // Production Delta: Real implementation uses setHttpFetchFn() to inject a
-    //                   libcurl-backed fetch function; the code above then
-    //                   performs the GET and parses the JSON items array.
-    // Removal Plan: Inject a real HTTP client via setHttpFetchFn() at startup
-    //               (Target: Q1 2027).
+    // PERMANENT FALLBACK NOTE:
+    // Purpose: Allow importFromFitkoApi() to compile and return a clear error
+    //          when no HTTP fetch backend has been injected via setHttpFetchFn().
+    //          This is the correct behaviour for offline / catalogue-XML builds.
+    // Activation: http_fetch_fn_ is null (no HttpFetchFn injected at startup).
+    // Real implementation: Call setHttpFetchFn(FimImporter::makeCurlHttpFetchFn())
+    //   at application startup when THEMIS_HAS_CURL is defined (libcurl linked).
+    //   The code above (before this note) already handles the real fetch path when
+    //   http_fetch_fn_ is set.
 
     SPDLOG_WARN("FimImporter::importFromFitkoApi: no HTTP fetch backend injected "
-                "(api_base_url='{}').  Call setHttpFetchFn() to enable live API import.",
+                "(api_base_url='{}').  Call setHttpFetchFn(FimImporter::makeCurlHttpFetchFn()) "
+                "at startup to enable live API import.",
                 api_base_url);
 
     FimModelResult r;
     r.ok      = false;
-    r.message = "FITKO API HTTP import not yet implemented: no HttpFetchFn injected "
-                "(Target: Q1 2027). Use importFimCatalogue() with a locally "
-                "downloaded catalogue XML, or inject an HTTP client via setHttpFetchFn().";
+    r.message = "FITKO API HTTP import unavailable: no HttpFetchFn injected. "
+                "Call setHttpFetchFn(FimImporter::makeCurlHttpFetchFn()) at startup "
+                "(requires THEMIS_HAS_CURL / libcurl), or use importFimCatalogue() "
+                "with a locally downloaded catalogue XML.";
     return {std::move(r)};
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Factory: real libcurl-backed HttpFetchFn
+// Guarded by THEMIS_FIM_HAS_CURL (set when THEMIS_HAS_CURL or THEMIS_ENABLE_CURL
+// is defined and libcurl is linked).  Returns an empty function otherwise.
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * @brief Returns a libcurl-backed HttpFetchFn suitable for setHttpFetchFn().
+ *
+ * Each invocation of the returned function creates its own CURL easy handle
+ * (curl_easy_init / curl_easy_cleanup), so the fn is safe to share across
+ * threads.  TLS peer and host verification are enabled; a 10-second timeout
+ * is applied to each request.
+ *
+ * When compiled without libcurl (THEMIS_HAS_CURL / THEMIS_ENABLE_CURL not
+ * defined), returns an empty std::function so that importFromFitkoApi() falls
+ * back to the "not implemented" error path.
+ *
+ * **Startup wiring example:**
+ * @code
+ *   FimImporter importer;
+ *   importer.setHttpFetchFn(FimImporter::makeCurlHttpFetchFn());
+ * @endcode
+ */
+FimImporter::HttpFetchFn FimImporter::makeCurlHttpFetchFn()
+{
+#if THEMIS_FIM_HAS_CURL
+    return [](std::string_view url) -> std::string {
+        std::string result;
+
+        CURL* curl = curl_easy_init();
+        if (!curl) {
+            return {};
+        }
+
+        // Write callback: appends received data to `result`.
+        auto write_cb = [](char* ptr, size_t size, size_t nmemb,
+                           void* userdata) -> size_t {
+            auto* buf = static_cast<std::string*>(userdata);
+            buf->append(ptr, size * nmemb);
+            return size * nmemb;
+        };
+
+        const std::string url_str(url);
+        curl_easy_setopt(curl, CURLOPT_URL,           url_str.c_str());
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, static_cast<curl_write_callback>(write_cb));
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA,     &result);
+        curl_easy_setopt(curl, CURLOPT_TIMEOUT,       10L);          // 10 s total
+        curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, 5L);          // 5 s connect
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1L);
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L);
+        curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+        curl_easy_setopt(curl, CURLOPT_MAXREDIRS,      5L);
+
+        CURLcode rc = curl_easy_perform(curl);
+
+        long http_code = 0;
+        curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
+        curl_easy_cleanup(curl);
+
+        if (rc != CURLE_OK || http_code < 200 || http_code >= 300) {
+            SPDLOG_WARN("FimImporter curl fetch failed: url='{}' curl_rc={} http={}",
+                        url, static_cast<int>(rc), http_code);
+            return {};
+        }
+
+        return result;
+    };
+#else
+    // libcurl not available — return empty function so that the caller receives
+    // the "no HttpFetchFn injected" fallback from importFromFitkoApi().
+    return FimImporter::HttpFetchFn{};
+#endif
 }
 
 } // namespace process

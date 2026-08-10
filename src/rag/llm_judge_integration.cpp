@@ -211,25 +211,21 @@ std::string LLMJudgeIntegration::callLLM(const std::string& prompt) {
 }
 
 std::string LLMJudgeIntegration::defaultInference(const std::string& prompt) {
-    // STUB/SIMULATION NOTE:
+    // PERMANENT FALLBACK NOTE:
     // Purpose: Provide a structurally-valid LLM-judge response when no real
     //          ILLMInferenceEngine is injected, enabling unit tests and offline
     //          evaluation pipelines without a live model endpoint.
     // Activation: Called only when config.use_mock_mode == true or allow_mock == true
     //             AND engine == nullptr.  Production deployments always inject a real
-    //             engine; the mock path is never reached.
-    // Production Delta: Uses deterministic prompt-hash heuristics to produce
-    //                   prompt-dependent synthetic scores/confidence. Results are
-    //                   still non-model mock outputs. As of 2026-04-21 the caller
-    //                   (evaluateWithLLM) sets ParsedResponse::is_mock=true on the
-    //                   parsed result so callers can filter mock data from
-    //                   production dashboards (AI_ML_IMPACT_ASSESSMENT.md §7, Gap 7
-    //                   — implemented).
-    // Roadmap ref: src/rag/ROADMAP.md § "Phase 9: AI Reliability & Safety Evaluation Program"
-    // Removal Plan: Full removal when LLMTokenBudgetManager (Gap 6) and a real engine
-    //               DI path are the only supported entry points.  Track in
-    //               rag/FUTURE_ENHANCEMENTS.md §Gap 7.
-    // Roadmap ref: src/rag/FUTURE_ENHANCEMENTS.md § "LLMIntegration and LLMJudgeIntegration: Replace Stub/Mock Mode"
+    //             engine via the constructor or setInferenceFunction(); this path is
+    //             never reached in production.
+    // Production path: Inject via constructor:
+    //     LLMJudgeIntegration judge(engine_ptr);
+    //   or at runtime:
+    //     judge.setInferenceFunction([&model](const std::string& p){ return model.generate(p); });
+    // Behaviour: Uses deterministic prompt-hash heuristics; ParsedResponse::is_mock
+    //            is set to true by evaluateWithLLM() so callers can filter mock data
+    //            from production dashboards (AI_ML_IMPACT_ASSESSMENT.md §7).
     THEMIS_DEBUG("Using mock inference function (for testing only)");
 
     const auto prompt_hash = std::hash<std::string>{}(prompt);

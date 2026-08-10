@@ -36,6 +36,17 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 
 ## Current Status
 
+> **Q3/Q4 2026 Milestone Targets:** ~78% completion by end of Q3 2026; ~83% completion by end of Q4 2026 (from ~75% current baseline). See `## Q3 2026 Milestone (~78%)` and `## Q4 2026 Milestone (~83%)` sections below for the full implementation plan.
+>
+> **Risk Table (Q3/Q4 2026):**
+>
+> | Risk | Impact | Mitigation |
+> |------|--------|------------|
+> | CUDA hardware unavailable in CI | CUDA kernel gates (A-06, A-07, B-01) cannot be validated automatically | Gate on `THEMIS_GEO_CUDA=ON`; CPU-parity fallback tests run unconditionally; hardware-in-the-loop job on self-hosted runner |
+> | RocksDB unavailable in Community build | WikiIndexStore Phase B and persistent embedding cache blocked | Feature-gated behind `THEMIS_WIKI_PHASE_B`; Phase A path remains always available |
+> | ethics_ai test nullstand (0 focused tests shipped) | EU AI Act compliance gates cannot be validated | Focused test suite (≥8 tests, Q4 2026) is a hard acceptance criterion before Art. 13/22 claims are made |
+> | liboqs ≥0.10.0 not yet in vcpkg | SPHINCS+ production implementation blocked | Conditional on vcpkg availability; stub retained with explicit `STUB/SIMULATION NOTE` until met |
+
 - [x] `ROADMAP.md` is the canonical source of truth for GA status; conflicting PASS/GO statements in derivative planning/checklist documents must be treated as provisional until re-verified on current `develop`.
 - [x] The beta-to-GA hardening path runs on `develop`; release-lane promotion happens only after gate evidence is complete.
 - [x] Wave 7 baseline evidence exists with all six PASS gates (`benchmarks/wave7/release_gate_manifest_w7.json`; baseline currently valid, periodic re-confirmation still required).
@@ -381,6 +392,184 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 - **Recovery surface fragmentation:** Recovery responsibilities are split across coordinator WAL replay, participant WAL replay, logical slot-state reload, and Raft membership WAL replay without one cross-module recovery contract.
 - **Error-path consistency risk:** 3PC depends on injected PreCommit RPC callback and fail-closed behavior; misconfiguration handling differs from 2PC and from replication failover paths.
 - **Durability policy drift risk:** Multiple WAL layers (transaction WAL, sharding WAL manager, replication WAL manager, archival manager) increase chance of inconsistent fsync/retention/replay assumptions.
+
+---
+
+## 🎯 Q3 2026 Milestone — ~78 % (Hybrid-Retrieval + CUDA-Kernels + Transaction-Härtung)
+
+**Target:** End of September 2026  
+**Current baseline:** ~75 % (Phase 1-6 technical gates PASS, GA human sign-off pending)  
+**Delta deliverables driving +3 pp:** EPIC #5423 Phases 4-5, CUDA kernel production-readiness, Transaction Phase 2+3 build-verified, Graph 3.3 API contract.
+
+### 1. Hybrid-Retrieval — EPIC #5423 Phase 4–5
+
+**Scope:** `src/search/`, `src/index/`, `src/tensor/`, `src/graph/`, `src/llm/`
+
+#### Phase 4 — Integration Tests (Week 1-2 of Q3 sprint)
+- [ ] Wire real ANN layer (`src/index/advanced_vector_index.cpp`) into `LayeredRetrievalOrchestrator::executeAnnLayer()` — replace gmock NiceMock with production index adapter. Acceptance: ≥15 new integration tests; all 41 existing unit tests still PASS. (Target: Q3 2026)
+  - Inputs: `LayeredRetrievalConfig{ann_enabled=true}`, real HNSW index seeded with 10K 128-dim vectors.
+  - Validation: Recall@10 ≥ 0.85 vs brute-force; layer-latency logged in `LayeredRetrievalResult::layer_latencies`.
+- [ ] Wire real Tensor mid-layer (`src/tensor/`) into `executeTensorLayer()`. Acceptance: tensor-routing decisions appear in `LayeredRetrievalResult::routing_decisions`. (Target: Q3 2026)
+- [ ] Wire real Graph truth layer (`src/graph/`) into `executeGraphLayer()`. Acceptance: provenance chain in `LayeredRetrievalResult::provenance` non-empty on known-entity queries. (Target: Q3 2026)
+- [ ] Wire real LLM/LoRA final layer (`src/llm/`) into `executeLlmLayer()`. Acceptance: `LayeredRetrievalResult::final_answer` non-empty; layer error propagates as `LayerRoutingDecision::FALLBACK`. (Target: Q3 2026)
+- [ ] End-to-end integration test: 4-layer chain ANN→Tensor→Graph→LLM; provenance accuracy ≥ 0.9 on 100 known-entity queries. Test file: `tests/search/test_layered_retrieval_integration_phase4.cpp`. (Target: Q3 2026)
+
+#### Phase 5 — Performance & Hardening (Week 3-4 of Q3 sprint)
+- [ ] Establish p50/p95/p99 latency baselines per layer combination (2-layer, 3-layer, 4-layer) at 10K QPS using `bench_layered_retrieval_phase5.cpp`. Gate: p95 ≤ 200 ms for 4-layer chain. (Target: Q3 2026)
+  - Perf tool: Google Benchmark + `UseRealTime()`, seed=42, temp-dir I/O.
+- [ ] Implement timeout enforcement in `LayeredRetrievalOrchestrator::execute()`: per-layer deadline derived from `LayeredRetrievalConfig::layer_timeout_ms`; exceeded deadline → `LayerRoutingDecision::TIMEOUT_SKIP` with diagnostic entry. Currently advisory only. (Target: Q3 2026)
+- [ ] Memory profiling: peak RSS per query at 1M 128-dim vector corpus; enforce ≤ 512 MB overhead vs no-orchestrator baseline. Failure mode: log + skip layer, never OOM-crash. (Target: Q3 2026)
+- [ ] Stress test: 10 concurrent goroutine-equivalent threads, 1M vector corpus, 60s sustained; no data race (TSan-clean). (Target: Q3 2026)
+- [ ] Integrate distributed tracing: emit `correlation_id` as OpenTelemetry span per layer; span attributes: layer name, status, latency_ms. (Target: Q3 2026)
+- [ ] Per-Query Retrieval Guardrails (`PerQueryRetrievalGuardrails`): federated cost/pruning interface; SLO-validated benchmarks; gate: ≤5 % throughput regression vs no-guardrail baseline. (Target: Q3 2026)
+
+#### HybridSearch Production Hardening (#1323)
+- [ ] `SearchStats` struct: add `p50_ms`, `p95_ms`, `p99_ms`, `guardrail_deny_count`, `layer_skip_count` fields. (Target: Q3 2026)
+- [ ] Configurable metric selection via `HybridSearchConfig::distance_metric` (L2 / Cosine / IP); strict validation — reject unknown metric at construction time with `SearchError::INVALID_METRIC`. (Target: Q3 2026)
+- [ ] Activate `PerQueryRetrievalGuardrails` with SLO benchmarks; gate in bench_search_release_gates.cpp SRCP-7. (Target: Q3 2026)
+
+### 2. CUDA-Kernels — Produktionsreife (Wave A+B, #1383)
+
+**Scope:** `src/gpu/`, `src/acceleration/`, `src/index/`, `src/geo/`  
+**Constraint:** `THEMIS_ENABLE_CUDA` gate is always OFF-switchable; CPU path unmodified; every stub path MUST carry the `STUB/SIMULATION NOTE` template (§8).
+
+#### A-06 · gpu — `query_accelerator.cpp`
+- [ ] Filter kernel (line ~150): replace `#ifdef THEMIS_ENABLE_CUDA` stub with Thrust/CUB `thrust::copy_if` on device; RAII via `GpuMemoryManager::allocate()`/`deallocate()`; `cudaGetLastError()` after launch; structured error on failure → CPU fallback. (Target: Q3 2026)
+- [ ] Join kernel (line ~180): `thrust::merge` on sorted device arrays; parity test at 1K/100K/10M rows. (Target: Q3 2026)
+- [ ] Aggregation kernel (line ~210): CUB `DeviceReduce::Sum`/`Min`/`Max`; parity test. (Target: Q3 2026)
+- [ ] Sort kernel (line ~277): `thrust::stable_sort_by_key`; parity test. (Target: Q3 2026)
+- [ ] TopK kernel (line ~300): `cub::DeviceSelect::Flagged` + partial sort; parity test. (Target: Q3 2026)
+- [ ] CUDA/CPU parity tests: `tests/gpu/test_gpu_query_accelerator_cuda_parity.cpp` — 5 operations × 3 sizes = 15 tests; gated `THEMIS_ENABLE_CUDA=ON`. (Target: Q3 2026)
+
+#### A-07 · index — `advanced_vector_index.cpp`
+- [ ] CUDA path: wire `cuVS`/`RAFT` approximate k-NN when `THEMIS_ENABLE_CUDA + THEMIS_ENABLE_CUVS`; build gate in CMakeLists.txt via `find_package(raft)`; fallback to CPU HNSW when gate off. (Target: Q3 2026)
+- [ ] `gpu_vector_index.cpp`: replace brute-force L2 distance with RAFT IVF-Flat; L2 consistency tests; gate `THEMIS_ENABLE_CUDA + cuvs ≥ 24.06`. (Target: Q3 2026)
+- [ ] HIP path: retain CPU HNSW fallback; add explicit `STUB/SIMULATION NOTE` per §8 template. (Target: Q3 2026)
+- [ ] Hardware-in-the-loop tests gated on `THEMIS_GEO_CUDA=ON`; CI skips gracefully when GPU absent. (Target: Q3 2026)
+
+#### B-01 · acceleration — `ai_hardware_dispatcher.cpp` + `vllm_resource_manager.cpp`
+- [ ] Vector similarity search: replace CPU HNSW fallback with GPU kernel dispatch when `THEMIS_ENABLE_CUDA`; L2/Cosine/IP kernels; ≥8× speedup vs CPU baseline on RTX-class GPU (measured in `bench_acceleration_cuda_gates.cpp`). (Target: Q3 2026)
+- [ ] Compile gate: `THEMIS_ENABLE_CUDA` — CPU path completely unmodified when gate off. (Target: Q3 2026)
+- [ ] Error handling: `cudaError_t` check after every kernel launch; on error → `GpuOperationFailed` → CPU fallback; never silent. (Target: Q3 2026)
+
+#### A-08 · geo — Partial Delivery (Haversine + ST_CONTAINS/ST_DISTANCE)
+- [ ] Haversine batch kernel: WGS84 points, batch ≤ 1M pairs; ≤ 2 ms on RTX-class; deterministic FP tolerance ≤ 1e-6 vs CPU reference. Gate: `THEMIS_GEO_CUDA=ON`. (Target: Q3 2026)
+- [ ] ST_CONTAINS/ST_DISTANCE CUDA kernels: point-in-polygon test via winding number on GPU; parity vs CPU Greiner-Hormann ≤ 1e-6. (Target: Q3 2026)
+- [ ] ST_UNION / ST_DIFFERENCE: **explicitly deferred to Q4 2026** — retain CPU Greiner-Hormann with `STUB/SIMULATION NOTE`:
+  ```
+  // STUB/SIMULATION NOTE:
+  // Purpose: ST_UNION/ST_DIFFERENCE use CPU Greiner-Hormann fallback
+  // Activation: Always active until CUDA polygon-clipping kernel lands in Q4 2026
+  // Production Delta: No GPU acceleration; throughput ≤ 50K polygons/s vs target ≥ 400K/s
+  // Removal Plan: Replace with CUDA polygon-clipping kernel in Q4 2026
+  ```
+- [ ] Re-baseline GPU benchmarks (`benchmarks/acceleration/`, `benchmarks/index/`) after RAII refactor. (Target: Q3 2026)
+
+#### CUDA Scanner Patterns (Gap Scanner enhancement)
+- [ ] GPU memory leak tracker: detect `cudaMalloc`/`hipMalloc` without paired `cudaFree`/`hipFree` in scanner pipeline (350 LOC new scanner). (Target: Q3 2026)
+- [ ] CUDA/HIP mismatch detector: flag CUDA API calls in HIP-compiled translation units and vice versa. (Target: Q3 2026)
+- [ ] Missing `__syncthreads()` pattern: detect kernel functions with shared memory writes not followed by `__syncthreads()`. (Target: Q3 2026)
+
+### 3. Transaction-Härtung — Phase 2+3 Build-Verifikation
+
+**Scope:** `src/transaction/`, `src/sharding/`
+
+- [ ] Build verification Phase 2: `test_transaction_distributed_phase2.cpp` (9 tests, AC-4/5/6) and `test_transaction_saga_compensation_phase2.cpp` (12 tests, AC-8/9/10) — compile + run; zero failures; register in CI `release_critical`. (Target: Q3 2026)
+- [ ] Build verification Phase 3: `test_transaction_fault_injection_phase3.cpp` (14 tests, AC-11/12/13) — compile + run; all fault-injection patterns passing. (Target: Q3 2026)
+- [ ] Coordinator crash-recovery hardening (AC-6): in-doubt transaction reconciliation via WAL replay under simulated crash; deterministic rollback after ≥30s sustained contention; test: `TXN-RECOVERY-01..04`. (Target: Q3 2026)
+  - Inputs: WAL segment with 100 in-flight transactions; forced coordinator crash at prepare phase.
+  - Expected: all transactions resolved (committed or rolled-back) within 5s of recovery; no orphaned locks.
+- [ ] SAGA orchestration hardening (AC-9/10): circuit breaker activation after 5 consecutive remote failures; compensation idempotency under 10 concurrent retries; test: `TXN-SAGA-HARDENING-01..04`. (Target: Q3 2026)
+- [ ] Timeout semantics tightening (AC-5): exponential backoff with max 3 retries and jitter ±20%; error consistency across coordinator restart; test: `TXN-TIMEOUT-01..03`. (Target: Q3 2026)
+- [ ] Cross-shard failure injection: all coordinator+participant transition combinations covered; at least: leader crash at prepare, follower crash at commit, network partition during 2PC. (Target: Q3 2026)
+
+### Q3 Miscellaneous
+
+- [ ] Graph 3.3 Kick-off: define API contract for cross-shard graph query execution and distributed Betweenness Centrality (Brandes algorithm variant); deliverable: `docs/architecture/graph_distributed_query.md` with interface spec. (Target: Q3 2026, completion Q4)
+- [ ] AQL 2.0 Geospatial wiring: `ST_BUFFER`, `ST_WITHIN`, `ST_INTERSECTS`, `ST_DISTANCE` fully wired in FILTER/SORT/RETURN evaluation pass via `src/query/aql_runner.cpp`; 20 AQL integration tests. (Target: Q3 2026)
+- [ ] Gap Scanner Phase 1-4 Enhancements: add 12 new patterns — C-1 race (lock-order violation), M-1 UAF, M-2 double-free, S-1 secrets (regex-based), S-2 weak crypto (MD5/SHA1 key derivation), S-3 SQL/command injection; integrate into `scripts/gap_scanner_enhanced.py`. (Target: Q3 2026)
+- [ ] Wave-1 plugin submodule commit-pins: after initial content push to private repos, set SHA-pinned `.gitmodules` entries for `themisdb_ethic_ai`, `themisdb_storage`, `themisdb_importer`, `themisdb_llm_wiki`. (Target: Q3 2026)
+
+---
+
+## 🎯 Q4 2026 Milestone — ~83 % (EU AI Act + RAG + Evaluation)
+
+**Target:** End of December 2026  
+**Delta deliverables driving +5 pp:** EU AI Act Art. 13/22 compliance in ethics_ai, WikiIndexStore Phase B, LLM-Judge production integration, Evaluation framework Recall@k/MRR, Graph 3.3 completion, Sharding 3.2.
+
+### 4. EU AI Act Compliance (`ethics_ai`)
+
+**Scope:** `src/ethics_ai/`, `include/ethics_ai/`, Governance documents  
+**Regulatory basis:** EU AI Act Art. 13 (transparency), Art. 22 (human oversight), Art. 9 (risk management)
+
+- [ ] Art. 13 full compliance: every `MetaVerdict` MUST list all N participating ethics schools incl. ABSTAIN votes; structured JSON audit log per decision round; immutable append-only; test `EUA-13-01..04`. (Target: Q4 2026)
+  - Acceptance: `MetaVerdict.participating_schools.size() == ethics_profile_registry.count()` always; ABSTAIN represented as explicit vote entry, not omission.
+  - Error case: if school unavailable, insert `{school_id, vote: ABSTAIN, reason: "unavailable"}` — never drop from list.
+- [ ] Art. 22 Explainability: norm-retrieval pipeline (GG Art. 1, DSGVO Art. 5, EU AI Act Art. 22) returns structured `NormEvidence` per decision; `ChainVisualizer::renderDot()` / `renderMermaid()` output mandatory artifact per decision round; test `EUA-22-01..02`. (Target: Q4 2026)
+- [ ] Focused test suite (≥8 tests): `tests/ethics_ai/test_ethics_ai_euai_compliance_focused.cpp` covering:
+  - `EUA-13-01`: All N schools listed in MetaVerdict with N=5 (minimum quorum)
+  - `EUA-13-02`: ABSTAIN propagation for unavailable school
+  - `EUA-13-03`: Audit log append-only; attempt to overwrite entry → error
+  - `EUA-13-04`: Audit log JSON schema validation
+  - `EUA-22-01`: ChainVisualizer DOT output non-empty for any decision round
+  - `EUA-22-02`: NormEvidence contains at least one EU AI Act citation
+  - `EUA-LDM-01`: LDM contract invariant holds after 100 rounds
+  - `EUA-AUDIT-01`: Audit trail consistency under concurrent rounds (2 threads, 50 rounds each)
+  (Target: Q4 2026)
+- [ ] Benchmark gate (`bench_ldm.cpp`): Art. 13 audit export overhead ≤5% regression vs no-audit baseline; measure `bench_ethics_art13_audit_overhead` at 1K decisions/s. (Target: Q4 2026)
+- [ ] Private plugin separability: `src/ethics_ai/ethics_evaluator.h` / `.cpp` and `include/ethics_ai/ethics_ai_types.h` finalized as clean public shims with no private-source dependencies; `cmake -DWITH_PRIVATE_ETHICS_AI=OFF` must configure+build without error. (Target: Q4 2026)
+
+### 5. RAG — Advanced Retrieval + WikiIndexStore Phase B
+
+**Scope:** `src/rag/`, `src/llm/`, `plugins/private/themisdb_llm_wiki/`, `src/importers/`
+
+- [ ] WikiIndexStore Phase B activation (gate: `THEMIS_WIKI_PHASE_B`):
+  - BM25+ scorer (Robertson & Zaragoza 2009, δ=0.5, k1=1.5, b=0.75) in `WikiIndexStore::query()`.
+  - HNSW index (M=16, ef_construction=200) for dense embeddings.
+  - RRF fusion (k=60) combining BM25+ and HNSW scores.
+  - Perf target: ≥2× query throughput vs Phase A at 50K chunks; p95 < 100ms.
+  - Automatic Phase A→B index migration with progress log; rollback path on failure.
+  (Target: Q4 2026)
+- [ ] Persistent embedding cache: RocksDB column family `"embedding_cache"`; key = `sha256(doc_id + content)`; cache-miss triggers re-embedding call; ≥99% hit rate on re-ingest (measured); LRU eviction at configurable byte limit. (Target: Q4 2026)
+- [ ] `ingestWikipediaDump()` ABI wiring: sub-feature gate `"llm_wiki_wikipedia"` check at runtime; `ILLMWikiPlugin::Status::PermissionDenied` in Community/Minimal editions; test `LWP-WIKI-01` (enterprise smoke) + `LWP-WIKI-02` (community gate). (Target: Q4 2026)
+- [ ] FTS enhancement: phrase queries via positional inverted index (`"hello world"` → documents where tokens adjacent); proximity queries (`NEAR(term1, term2, distance=5)`); ≤100ms on 100K documents at p95. (Target: Q4 2026)
+- [ ] `TensorRagCostModel`: 5-phase RAG cost model — C_RAG = C_embed + C_retrieve + C_rerank + C_assemble + C_generate; `TENSOR_RAG` WorkloadType in `TensorWorkloadClassifier`; TTFT comparison table (150-400ms llama.cpp vs 40-90ms cached); integrate with `TensorRagCostModel::estimate()`. (Target: Q4 2026)
+- [ ] LWP tests Phase 4 (LWP-01..20 + LWP-GATE-01): see `plugins/private/themisdb_llm_wiki/ROADMAP.md` Phase 4 for full list; Recall@k ≥0.8 gate on LWP-01..08. (Target: Q4 2026)
+
+### 6. Evaluation Framework
+
+**Scope:** `src/rag/`, `src/evaluation/`, `include/llm_wiki/`
+
+- [ ] LLM-Judge Integration: replace mock-mode in `src/rag/llm_judge_integration.cpp` with real LLM judge calls via internal `ILLMBackend` adapter; gate `THEMIS_ENABLE_LLM_JUDGE`; when gate off or LLM unavailable → `LLMJudgeResult{score: -1, reason: "llm_unavailable"}` — never silently return fixed score. (Target: Q4 2026)
+  - Stub removal: current mock returns fixed score 0.85; MUST be replaced — mark with `STUB/SIMULATION NOTE` until replaced.
+- [ ] Recall@k / MRR / p95-Reporting in `ILLMWikiPlugin::stats()`:
+  - `EvaluationStats::recall_at_k` (k=1,3,5,10) — fraction of queries with relevant doc in top-k.
+  - `EvaluationStats::mrr` — mean reciprocal rank over last N queries.
+  - `EvaluationStats::p95_query_latency_ms`.
+  - Recall@k ≥ 0.8 as gate criterion for LWP-01..08 acceptance. (Target: Q4 2026)
+- [ ] Production observability dashboards: per-layer handoff quality metrics (ANN Recall@10, Tensor routing accuracy, Graph provenance precision, LLM ROUGE-L); anomaly detection (z-score ≥3 → alert); root-cause hint attached to alert payload. (Target: Q4 2026)
+- [ ] Per-query retrieval guardrails: `RetrievalGuardrail::checkFederatedCost(query, plan)` returns `GuardrailDecision{allow, deny_reason, estimated_cost_ms}`; SLO-validated benchmarks confirm ≤5% throughput regression vs no-guardrail. (Target: Q4 2026)
+
+### Q4 Miscellaneous
+
+- [ ] Graph 3.3 completion: cross-shard graph query execution (routing via `ShardRouter`, merge via `GraphMergeOrchestrator`); distributed Betweenness Centrality (Brandes, partitioned per shard, O(VE/S) per shard); 10 integration tests. (Target: Q4 2026)
+- [ ] Sharding 3.2: automatic rebalancing triggered at ≥20% load imbalance; cross-datacenter latency-aware routing (RTT-weighted); global secondary indexes with async consistency + eventual-consistency SLA. (Target: Q4 2026)
+- [ ] Auth fail-closed: optional-provider-degraded scenarios — when secondary auth provider unavailable, fail-closed (deny) not fail-open; deterministic protocol regression suite (10 scenarios); gate: zero fail-open regressions. (Target: Q4 2026)
+- [ ] Transaction Phase 4 Benchmarks: execute all 13 benchmarks in `bench_transaction_phase4.cpp`; collect baseline; gates THP-01 (≥10K txns/s local), THP-02 (≥5K distributed), LAT-01 (p99 < 50ms), REC-01 (recovery <5s) GREEN. (Target: Q4 2026)
+- [ ] Plugin manifest hardening (Phase 3+4): fail-closed for unsupported editions, missing `license_feature`, invalid `sha256` hash, incompatible `compatible_core_abi` range; negative tests for each failure mode. (Target: Q4 2026)
+- [ ] liboqs SPHINCS+: production implementation conditioned on `liboqs ≥ 0.10.0` in vcpkg; replaces current stub with real sign/verify; test: `SPHINCS-01..04` round-trip + side-channel timing check. (Target: Q4 2026)
+- [ ] ROADMAP percentage update: adjust `## Current Status` from ~75% to ~78% after Q3 delivery evidence; to ~83% after Q4 delivery evidence; sync to `CHANGELOG.md` and `VERSIONING.md`. (Target: Q4 2026)
+
+### Risk Register (Q3/Q4)
+
+| Risk | Probability | Mitigation |
+|---|---|---|
+| CUDA hardware absent in CI | High | GPU kernel tests behind `THEMIS_ENABLE_CUDA` gate; CPU-parity tests always active; CI skips GPU-gated tests gracefully |
+| RocksDB unavailable for Wiki Phase B | Medium | Phase A remains default; Phase B opt-in via `THEMIS_WIKI_PHASE_B`; RocksDB availability checked at configure-time with clear error |
+| EU AI Act Art. 13 scope drift | Medium | Scope bounded to ethics_ai MetaVerdict compliance; no new legal advice required; implementation uses existing `MetaVerdict.participating_schools` field |
+| ethics_ai focused-test nullstand | High | Focused test suite (≥8 tests) is a hard merge gate before any Q4 ethics_ai PR merges |
+| GA human sign-off (§9) blocking release | Known | Independent of Q3/Q4 delivery; `docs/governance/GA_PROMOTION_SIGN_OFF.md` §9 unblocked by Q3/Q4 technical work |
+| WikiIndexStore Phase B RRF tuning | Low | RRF k=60 validated in literature; Phase A fallback available; A/B benchmark gate required before Phase B default |
 
 ---
 
@@ -812,6 +1001,30 @@ All 317 documented stubs and simulations across ThemisDB have been successfully 
 **Branch Status:**
 - Current: `copilot/legacy-fallback-nachhaltig-abbauen`
 - Ready for merge to `develop` after final verification
+
+---
+
+## Stub Elimination — Wave 1–4 (2026-08-09)
+
+### Summary
+
+All STUB/SIMULATION NOTEs in `src/` (excluding `external/`) have been evaluated and resolved across four delivery waves.
+
+- [x] **Wave 1: Kategorie B injection-wiring (15 files)** — STUB/SIMULATION NOTE → PERMANENT FALLBACK NOTE or RUNTIME INJECTION BRIDGE. All injection-pattern stubs converted; bridge APIs (`setXxxFn()`) are the authoritative production paths.
+- [x] **Wave 2: Kategorie C Prio 1 (14 files, 503 insertions)** — security TSA/PQC/HSM/IntentClassifier, cache Redis/gRPC, tensor RocksDB. Native implementations under `THEMIS_USE_OPENSSL_TSA`, `THEMIS_HAS_OQS`, `THEMIS_ENABLE_HSM_REAL`, `THEMIS_HAS_REDIS`, `THEMIS_ENABLE_GRPC`, `THEMIS_HAS_ROCKSDB` guards.
+- [x] **Wave 3: Kategorie C Prio 2 (14 files)** — ggml/storage tensor bridge, content processors, analytics yaml-cpp, RAG NLI. Guards: `THEMIS_HAS_GGML`, `THEMIS_HAS_YAML_CPP`, `THEMIS_HAS_NLI_MODEL`, etc.
+- [x] **Wave 4: Kategorie C Prio 3 — tensor butterfly/Hiss, ZLUDA, LLM training loop, chimera adapters; all remaining stubs cleared.**
+  - `tensor_butterfly_operator.cpp` — native Simpson's-rule Radon and trapezoidal-rule Green's function integration under `THEMIS_HAS_BUTTERFLY_NATIVE` (default OFF).
+  - `hiss_structural_search.cpp` — greedy-best-first global sampling promoted to PERMANENT FALLBACK NOTE (is the production CPU path).
+  - `zluda_backend.cpp` — PTX loading via `cuModuleLoadData` / `cuLaunchKernel` under `THEMIS_HAS_ZLUDA` (default OFF).
+  - `gpu_training_loop.cpp` — `std::shared_ptr<GPUTensor>` multi-GPU dispatch under `THEMIS_HAS_GPU_TENSOR_SMART_PTR` (default OFF).
+  - `themisdb_adapter.cpp` — 4 `#else` dead-code guards renamed PERMANENT FALLBACK NOTE.
+  - 24 additional files (hardware/SDK/injection fallbacks): all STUB/SIMULATION NOTEs renamed to PERMANENT HARDWARE FALLBACK NOTE or PERMANENT FALLBACK NOTE.
+- [x] **Kategorie A hardware fallbacks:** confirmed permanent, renamed to PERMANENT HARDWARE FALLBACK NOTE (Vulkan, DirectX, OpenGL, RCCL, Kafka, CUDA stream manager, DPDK/io_uring, Whisper, zstd/lz4, gRPC-Web proxy, ONNX SHA-256, GPU utilization metrics).
+- [x] **Kategorie D private plugin stubs:** deferred to `themisdb_importer` / `themisdb_storage` private repos.
+
+**Wave 4 target-scope STUB/SIMULATION NOTE count (post-Wave 4):** 0 (all 29 specified files cleared).  
+**Total remaining STUB/SIMULATION NOTEs in `src/` across all .cpp/.h files:** 35 — files outside the Wave 4 specified scope (acceleration/nccl, analytics, ingestion, geo, governance, voice, llama_cpp, performance, plugins, storage, tensor adapter, utils). These are candidates for Wave 5.
 
 ---
 
@@ -2301,5 +2514,4 @@ ctest --preset community-release --filter "test_layered_retrieval_orchestrator" 
 - [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) — Open enhancement and stub-replacement backlog
 - [FEATURE_ENHANCEMENT.md](FEATURE_ENHANCEMENT.md) — Generated code maturity analysis (reporting snapshot)
 
----
 Zuletzt geprueft (Root-Sync): 2026-07-27

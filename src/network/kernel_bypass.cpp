@@ -295,7 +295,7 @@ ZeroCopyDmaBuffer::ZeroCopyDmaBuffer(size_t size_bytes, int numa_node) {
     // Both attempts failed.
     THEMIS_WARN("ZeroCopyDmaBuffer: mmap failed: {}", std::strerror(errno));
 #else
-    // STUB/SIMULATION NOTE:
+    // PERMANENT HARDWARE FALLBACK NOTE (Linux DPDK / io_uring / huge-page mmap — non-Linux):
     // Purpose: Allow ZeroCopyDmaBuffer to be used on Windows and other non-Linux
     //   platforms by falling back to a plain heap allocation instead of the
     //   Linux mmap(MAP_HUGETLB) or mmap(MAP_ANONYMOUS) paths.  The object is
@@ -310,10 +310,7 @@ ZeroCopyDmaBuffer::ZeroCopyDmaBuffer(size_t size_bytes, int numa_node) {
     //   to a DPDK mbuf or io_uring fixed buffer registration will fail or be
     //   silently ignored.  Effective bandwidth will be limited by an additional
     //   kernel copy on every I/O operation.
-    // Removal Plan: DPDK and io_uring are Linux-only.  For Windows, use a
-    //   different kernel-bypass library (e.g., RDMA/NDIS) or accept the
-    //   additional copy overhead.  No source change is required; this path is
-    //   correct for the intended platform.
+    // Hardware requirement: Linux kernel ≥ 5.1 + DPDK or io_uring for the full path.
     // Roadmap ref: src/network/FUTURE_ENHANCEMENTS.md §"Kernel Bypass Windows Support"
     // Windows / other: plain aligned allocation.
     auto alloc_fn = NonLinuxAllocFn{};

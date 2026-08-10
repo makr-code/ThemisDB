@@ -147,6 +147,27 @@ public:
      * @param fn  Callable(audio_data, target_format) → converted bytes.
      */
     void setAudioConvertFn(AudioConvertFn fn) { audio_convert_fn_ = std::move(fn); }
+
+    /**
+     * @brief Create a libavformat/libavcodec (FFmpeg) backed AudioConvertFn.
+     *
+     * When built with `THEMIS_HAS_FFMPEG` defined (libavformat + libavcodec
+     * linked), returns a concrete AudioConvertFn that transcodes audio using
+     * FFmpeg's libavformat demuxer and libavcodec encoder/decoder pipeline.
+     * The returned fn is safe to call from multiple threads (no shared state).
+     *
+     * When built without FFmpeg, returns an empty `std::function` so that
+     * convertAudioFormat() falls through to the passthrough fallback.
+     *
+     * **Usage at startup:**
+     * @code
+     *   assistant.setAudioConvertFn(VoiceAssistant::makeFFmpegAudioConvertFn());
+     * @endcode
+     *
+     * @return A ready-to-use AudioConvertFn or an empty function when FFmpeg
+     *         is unavailable.
+     */
+    static AudioConvertFn makeFFmpegAudioConvertFn();
     
     /**
      * @brief Initialize voice assistant

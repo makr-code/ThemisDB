@@ -70,7 +70,8 @@ enum class ASTNodeType {
     ProximityCall,      // PROXIMITY(expr, [lon,lat]) specialized sugar
     SubqueryExpr,       // Subquery in expression context (Phase 3)
     AnyExpr,            // ANY quantifier for arrays (Phase 3.3)
-    AllExpr             // ALL quantifier for arrays (Phase 3.3)
+    AllExpr,            // ALL quantifier for arrays (Phase 3.3)
+    SearchClauseNode    // SEARCH ... IN field (Phase 6 FTS)
 };
 
 // ============================================================================
@@ -627,6 +628,76 @@ struct WithNode {
 };
 
 // ============================================================================
+// FTS (Full-Text Search) types — Phase 6, SEARCH clause (Target: Q3–Q4 2026)
+// ============================================================================
+
+/**
+ * @brief FTS predicate type for SEARCH clause predicates.
+ *
+ * Used in `FtsPredicateNode::pred_type` to distinguish the match semantics.
+ *
+ * @since Phase 6 FTS (Target: Q3 2026)
+ */
+enum class FtsPredType : uint8_t {
+    TERM,       ///< Simple term match (default).
+    PHRASE,     ///< Exact phrase match ("hello world").
+    PROXIMITY,  ///< Proximity / NEAR match (term1 NEAR[n] term2).
+    PREFIX,     ///< Prefix / STARTS_WITH match.
+};
+
+/**
+ * @brief A single FTS predicate within a SEARCH clause.
+ *
+ * Represents one search condition, e.g.
+ *   @code
+ *   SEARCH PHRASE(doc.body, "hello world", "text_en") BOOST 2.5
+ *   @endcode
+ *
+ * @since Phase 6 FTS (Target: Q3 2026)
+ */
+struct FtsPredicateNode {
+    /// Field expression string (e.g. "doc.body", "doc.title").
+    std::string field;
+    /// Search term or phrase text.
+    std::string term;
+    /// Predicate type: TERM, PHRASE, PROXIMITY, or PREFIX.
+    FtsPredType pred_type{FtsPredType::TERM};
+    /// Optional per-predicate relevance boost multiplier (default: 1.0).
+    double boost{1.0};
+    /// Analyzer name (e.g. "text_en", "identity"). Empty = default analyzer.
+    std::string analyzer;
+    /// For PROXIMITY: maximum token distance (NEAR[n]); 0 = unset.
+    uint32_t proximity_distance{0};
+};
+
+/**
+ * @brief AST node for a SEARCH … IN <field> clause.
+ *
+ * A SEARCH clause may contain one or more `FtsPredicateNode` entries
+ * combined with AND / OR.  Currently the outer boolean is stored as a flat
+ * list; the query executor interprets them as implicit AND.
+ *
+ * Grammar sketch:
+ * @code
+ * SEARCH predicates [IN field] [ANALYZER "name"] [BOOST num]
+ * @endcode
+ *
+ * @since Phase 6 FTS (Target: Q3 2026)
+ */
+struct SearchClauseNode {
+    /// One or more FTS predicates (implicit AND between elements).
+    std::vector<FtsPredicateNode> predicates;
+    /// Optional: collection-level field override.  Empty = use per-predicate field.
+    std::string in_field;
+    /// Optional: top-level analyzer override; applied when per-predicate analyzer empty.
+    std::string default_analyzer;
+    /// Optional: top-level boost multiplier (multiplied with per-predicate boost).
+    double top_boost{1.0};
+
+    ASTNodeType getType() const noexcept { return ASTNodeType::SearchClauseNode; }
+};
+
+// ============================================================================
 // Query AST (Root)
 // ============================================================================
 
@@ -640,6 +711,7 @@ struct Query {
     std::shared_ptr<ReturnNode> return_node;
     std::vector<LetNode> let_nodes; // LET bindings in order of appearance
     std::shared_ptr<CollectNode> collect; // optional GROUP BY/AGGREGATE
+    std::shared_ptr<SearchClauseNode> search_clause; // optional SEARCH clause (Phase 6 FTS)
     // Optional: Graph Traversal-Klausel (FOR v[,e[,p]] IN min..max OUTBOUND|INBOUND|ANY start GRAPH name)
     // Wenn gesetzt, beschreibt sie eine Traversal-Query statt einer Collection-Iteration.
     struct TraversalNode {

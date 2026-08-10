@@ -65,8 +65,70 @@ All major GPU acceleration backends are now fully implemented and integrated:
 - [~] Build system fixes for orphaned test declarations (pre-existing CMakeLists.txt cleanup)
 - [~] Runtime capability hardening for fail-closed behavior under partial backend availability (Target: Q3 2026)
 - [~] Multi-device and resource-management reliability tuning under sustained load (Target: Q3 2026)
+- [~] **B-01 · CUDA vector similarity search** — replacing CPU HNSW fallback in `ai_hardware_dispatcher.cpp` and `vllm_resource_manager.cpp` with GPU kernel dispatch (Target: Q3 2026)
 
 ## Planned Features
+
+### Q3 2026 — CUDA Kernel Production-Readiness (Wave A+B, #1383)
+
+**Constraint:** `THEMIS_ENABLE_CUDA` gate is always switchable OFF; CPU paths are unmodified; all stub paths carry mandatory `STUB/SIMULATION NOTE` per governance §8.
+
+#### B-01 · `ai_hardware_dispatcher.cpp` + `vllm_resource_manager.cpp` — Vector Similarity Search
+- [ ] Replace CPU HNSW fallback in `ai_hardware_dispatcher.cpp` with GPU kernel dispatch when `THEMIS_ENABLE_CUDA`; L2/Cosine/IP kernels using CUB/Thrust. (Target: Q3 2026)
+  - Inputs: query vector (float32, d=128..4096), corpus on device (N≤10M vectors).
+  - Outputs: top-k indices + distances (k≤1000).
+  - Errors: `cudaError_t` check after every kernel launch; on failure → `GpuOperationFailed` → CPU fallback (logged as WARN, never silent).
+- [ ] `vllm_resource_manager.cpp`: same GPU dispatch pattern for similarity scoring in vLLM resource allocation path. (Target: Q3 2026)
+- [ ] Perf gate `ACC-CUDA-B01-01`: ≥8× speedup vs CPU baseline on RTX-class GPU (1M vectors, d=128). Gate in `benchmarks/acceleration/bench_acceleration_cuda_gates.cpp`. (Target: Q3 2026)
+- [ ] `THEMIS_ENABLE_CUDA` compile gate: CPU path completely unmodified when gate is off; CMake check with `find_package(CUDAToolkit QUIET)`. (Target: Q3 2026)
+- [ ] Current stub state in `vllm_resource_manager.cpp`:
+  ```
+  // STUB/SIMULATION NOTE:
+  // Purpose: CPU HNSW fallback for vector similarity when CUDA unavailable
+  // Activation: Always active until THEMIS_ENABLE_CUDA gate wired (Target: Q3 2026)
+  // Production Delta: CPU HNSW ≤ 1× throughput vs GPU kernel ≥8×
+  // Removal Plan: Wire B-01 CUDA kernel in Q3 2026
+  ```
+
+#### A-06 · `src/gpu/query_accelerator.cpp` — Filter/Join/Aggregation/Sort/TopK
+- [ ] Filter kernel: `thrust::copy_if` on device; RAII via `GpuMemoryManager::allocate()`; `cudaGetLastError()` after launch; structured error on failure → CPU fallback. Parity test at 1K/100K/10M rows. (Target: Q3 2026)
+- [ ] Join kernel: `thrust::merge` on sorted device arrays; parity test. (Target: Q3 2026)
+- [ ] Aggregation kernel: CUB `DeviceReduce::Sum`/`Min`/`Max`; parity test. (Target: Q3 2026)
+- [ ] Sort kernel: `thrust::stable_sort_by_key`; parity test. (Target: Q3 2026)
+- [ ] TopK kernel: CUB `DeviceSelect::Flagged` + partial sort; parity test. (Target: Q3 2026)
+- [ ] CUDA/CPU parity tests: `tests/gpu/test_gpu_query_accelerator_cuda_parity.cpp` — 15 tests (5 operations × 3 sizes); gated `THEMIS_ENABLE_CUDA=ON`. (Target: Q3 2026)
+
+#### A-07 · `advanced_vector_index.cpp` — cuVS/RAFT Approximate k-NN
+- [ ] Implement CUDA k-NN path in `advanced_vector_index.cpp` using cuVS/RAFT approximate nearest-neighbor; gate: `THEMIS_ENABLE_CUDA` AND `THEMIS_ENABLE_CUVS`; when either gate is OFF, fall back to CPU with STUB/SIMULATION NOTE. (Target: Q3 2026)
+  - Inputs: query matrix (float32, batch × d), HNSW graph on device, k.
+  - Outputs: top-k indices + L2 distances; float32 parity tolerance ≤1e-5 vs CPU HNSW.
+  - Errors: `cudaGetLastError()` after every cuVS call; on failure → log WARN → CPU fallback.
+- [ ] Hardware-in-the-loop CTest: `test_advanced_vector_index_cuda_knn` gated on `THEMIS_GEO_CUDA=ON` (self-hosted runner); CPU-parity test runs unconditionally. (Target: Q3 2026)
+- [ ] Current stub state must carry:
+  ```
+  // STUB/SIMULATION NOTE:
+  // Purpose: CPU HNSW fallback — cuVS/RAFT not dispatched.
+  // Activation: THEMIS_ENABLE_CUDA=OFF or THEMIS_ENABLE_CUVS=OFF.
+  // Production Delta: CPU recall ~0.95 vs cuVS recall ~0.99 at 10× throughput.
+  // Removal Plan: Wire A-07 cuVS dispatch in Q3 2026.
+  ```
+
+#### A-08 · Geo CUDA Kernels (Partial Q3 2026) — Haversine + ST_CONTAINS + ST_DISTANCE
+- [ ] Haversine batch CUDA kernel: ≤2ms for 1M point pairs on RTX-class hardware; RAII allocation; `cudaGetLastError()` after launch; CPU parity test (tolerance ≤1e-6 metres). (Target: Q3 2026)
+- [ ] `ST_CONTAINS` GPU dispatch: point-in-polygon test with device-side polygon data; CPU parity test. (Target: Q3 2026)
+- [ ] `ST_DISTANCE` GPU dispatch: spherical geodesic distance batch; CPU parity test. (Target: Q3 2026)
+- [ ] `ST_UNION` and `ST_DIFFERENCE` are explicitly **deferred to Q4 2026**; their dispatch paths MUST carry STUB/SIMULATION NOTE until then. (Target: Q4 2026)
+- [ ] Phase C ctest pre-requisite: `test_category_b_parity_geo` (Haversine GPU vs CPU) passes after A-08 implementation. (Target: Q3 2026)
+
+#### GPU Benchmark Re-baseline
+- [ ] Re-baseline GPU benchmarks in `benchmarks/acceleration/` and `benchmarks/index/` after RAII refactor; commit updated gate values to `benchmarks/wave_cuda_baseline.json`. (Target: Q3 2026)
+- [ ] Confirm SRCP-4 (GPU/CPU fallback ≤8.8ms GPU / ≤11ms CPU) gate remains green after RAII + A-06/A-07 changes. (Target: Q3 2026)
+
+### Q4 2026 — ST_UNION/ST_DIFFERENCE + Final GPU Sign-Off
+
+- [ ] **[A-08 geo — ST_UNION]** Implement `ST_UNION` CUDA kernel (deferred from Q3 2026); replace STUB/SIMULATION NOTE with real dispatch; phase C ctest `test_category_b_parity_geo` must still pass. (Target: Q4 2026)
+- [ ] **[A-08 geo — ST_DIFFERENCE]** Implement `ST_DIFFERENCE` CUDA kernel (deferred from Q3 2026); replace STUB/SIMULATION NOTE; CPU parity test (tolerance ≤1e-6). (Target: Q4 2026)
+- [ ] **[GPU benchmark final sign-off]** All `benchmarks/acceleration/` and `benchmarks/index/` gates green on self-hosted runner with NVIDIA RTX hardware; commit signed baseline artefact to `benchmarks/cuda_final_baseline_q4_2026.json`. (Target: Q4 2026)
 
 ### Hybrid Retrieval Rollout Gates (issue #5468)
 - [ ] Phase B pre-requisite: result validation for Category A kernels (distance, TopK) — 320 gaps → 128 (Target: Q3 2026)

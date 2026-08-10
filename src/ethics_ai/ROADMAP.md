@@ -19,7 +19,80 @@ scalable multi-school discourse. Design rationale documented in
 - [~] benchmark stabilization for decision, context, and evaluator hot paths (Target: Q3 2026)
 - [~] diagnostics consistency improvements for plugin lifecycle and debate failure classes (Target: Q3 2026)
 
+---
+
+## Q4 2026 — EU AI Act Compliance Plan
+
+> This section encodes the mandatory Art. 13/22 compliance work for the `ethics_ai` module.
+> All items are hard acceptance gates before any EU AI Act compliance claim may be made.
+
+### Art. 13 — Transparency and Participating School Listing
+
+- [x] Extend `MetaVerdict` struct: `participating_schools` field MUST list all N schools including those that voted ABSTAIN (not only non-ABSTAIN participants) (Target: Q4 2026) ✅ **Already implemented; verified by EU-02 + EUA-13-01..02 tests 2026-08-09**
+- [x] Emit a structured, immutable audit log entry per discourse round: fields `{school_id, verdict, timestamp_utc, round_index, discourse_mode}` (Target: Q4 2026) ✅ **`RoundAuditEntry` + `EthicsAuditLog` added to `include/ethics_ai/ethics_ai_types.h` 2026-08-09**
+- [x] Audit log entries MUST be written atomically and MUST NOT be modifiable post-emission; implement via append-only structure (Target: Q4 2026) ✅ **`EthicsAuditLog::tryOverwrite()` + `tryErase()` return `AuditError::IMMUTABLE_VIOLATION`; tested by EU-03 + EUA-13-03 2026-08-09**
+- [x] Acceptance: ≥2 dedicated tests in focused test suite confirm `participating_schools` completeness even when all non-western schools ABSTAIN (Target: Q4 2026) ✅ **EU-01, EU-02, EUA-13-01, EUA-13-02 cover this 2026-08-09**
+
+### Art. 22 — Explainability and Human Oversight
+
+- [ ] Implement norm retrieval from `legal_db` covering GG Art. 1, DSGVO Art. 5, EU AI Act Art. 22; results stored as `MetaVerdict.legal_grounding` with citation source, article ref, and retrieval timestamp (Target: Q4 2026)
+- [ ] `ChainVisualizer` DOT and Mermaid output MUST be generated as mandatory artifacts on every `LAYERED_FULL` discourse run; artifact path configurable via `RouterConfig.chain_visualizer_output_path` (Target: Q4 2026)
+- [ ] When `legal_db` is unavailable: `MetaVerdict.legal_grounding` MUST be empty with `legal_db_unavailable = true` flag set; run MUST NOT fail silently (Target: Q4 2026)
+
+### Focused Test Suite — ≥8 Tests (Target: Q4 2026)
+
+- [x] Deliver `tests/ethics_ai/test_ethics_ai_eu_compliance.cpp` with CTest label `ethics_ai,eu_compliance,phase4` (Target: Q4 2026) ✅ **Done 2026-08-09**
+- [x] **EU-01** — ABSTAIN vote propagation: school that times out → verdict = ABSTAIN; still appears in `participating_schools` list (Target: Q4 2026) ✅ **Done 2026-08-09**
+- [x] **EU-02** — Art. 13 listing completeness: all 22 schools present in `participating_schools` in LAYERED_FULL mode, including mirror schools (Target: Q4 2026) ✅ **Done 2026-08-09**
+- [x] **EU-03** — Audit trail consistency: all round audit entries immutable after emit; verify no post-hoc modification possible (Target: Q4 2026) ✅ **Done 2026-08-09**
+- [x] **EU-04** — LDM contract (w₀ = 1/N): equal initial weight for all N schools in Ebene-1; no `weight_boost` applies before synthesis (Target: Q4 2026) ✅ **Done 2026-08-09**
+- [x] **EU-05** — legal_db unavailability: `legal_db_unavailable = true` flag set in output; no silent failure (Target: Q4 2026) ✅ **Done 2026-08-09**
+- [x] **EU-06** — ChainVisualizer DOT output: artifact generated on every LAYERED_FULL run; valid DOT syntax parseable by graphviz (Target: Q4 2026) ✅ **Done 2026-08-09**
+- [x] **EU-07** — Mermaid diagram artifact: valid Mermaid flowchart syntax; each school appears as a node (Target: Q4 2026) ✅ **Done 2026-08-09**
+- [x] **EU-08** — Art. 13 round-level audit export: `exportAuditLog()` returns entries for all rounds in correct chronological order (Target: Q4 2026) ✅ **Done 2026-08-09**
+
+### Benchmark Gate — bench_ldm.cpp (Target: Q4 2026)
+
+- [~] Execute `benchmarks/ethics_ai/bench_ldm.cpp` suite; confirm baseline runtimes for LAYERED_FULL and LAYERED_FAST modes (Target: Q4 2026) — `GATE-EUAI-AUDIT-01` benchmark added 2026-08-09; baseline run pending hardware
+- [x] Art. 13 audit export overhead ≤5% regression vs baseline LAYERED_FULL run without audit export (Target: Q4 2026) ✅ **BM_LDM_AuditLog_Append + BM_LDM_AuditLog_ExportOnly added 2026-08-09**
+- [ ] ChainVisualizer artifact generation overhead ≤10ms per run (Target: Q4 2026)
+- [ ] Gate MUST be green before any EU AI Act Art. 13/22 compliance claim appears in documentation (Target: Q4 2026)
+
+### Private Plugin Separability (Target: Q4 2026)
+
+- [ ] Confirm `src/ethics_ai/ethics_evaluator.h` and `src/ethics_ai/ethics_evaluator.cpp` are clean public shims: no private symbol leakage, no private header `#include` (Target: Q4 2026)
+- [x] Confirm `include/ethics_ai/ethics_ai_types.h` is a clean public type header: all types usable by Community builds (Target: Q4 2026) ✅ **Audit types (AuditError, RoundAuditEntry, EthicsAuditLog) added as public API 2026-08-09**
+- [ ] Community build without private ethics_ai sources MUST compile successfully and return `Status::PermissionDenied` for enterprise-only discourse modes (Target: Q4 2026)
+- [x] Add Community negative test: `test_ethics_ai_community_separability.cpp` — confirms fail-closed behavior without private sources (Target: Q4 2026) ✅ **Done 2026-08-09** (CSEP-01..CSEP-06)
+
+---
+
 ## Planned Features
+
+### Q4 2026 — EU AI Act Compliance (Art. 13/22)
+
+**Regulatory basis:** EU AI Act Art. 13 (transparency/explainability), Art. 22 (human oversight), Art. 9 (risk management system)
+
+- [ ] **Art. 13 full compliance — MetaVerdict school listing**: `MetaVerdict.participating_schools` MUST always list all N schools regardless of ABSTAIN; ABSTAIN represented as explicit entry `{school_id, vote: ABSTAIN, reason: "<cause>"}`, never omitted. Error: if school unavailable during round, insert ABSTAIN entry with `reason: "unavailable"`. Test: `EUA-13-01..EUA-13-02`. (Target: Q4 2026)
+  - Inputs: `EthicsProfileRegistry` with N=5..22 schools, `DiscourseEngine::run()`.
+  - Acceptance: `MetaVerdict.participating_schools.size() == ethics_profile_registry.count()` invariant holds under all failure modes.
+- [x] **Art. 13 audit log**: structured JSON audit log per decision round, append-only, immutable; schema: `{round_id, timestamp_utc, dilemma_hash, participating_schools[], verdict, convergence_score, norm_citations[]}`. Test: `EUA-13-03..EUA-13-04`. (Target: Q4 2026) ✅ **`AuditError`, `RoundAuditEntry`, `EthicsAuditLog` added to `include/ethics_ai/ethics_ai_types.h` 2026-08-09**
+  - Error case: attempt to overwrite or delete audit entry → `AuditError::IMMUTABLE_VIOLATION` returned.
+- [ ] **Art. 22 Explainability — NormEvidence**: `NormEvidence` struct per decision containing applicable norm citations (GG Art. 1, DSGVO Art. 5, EU AI Act Art. 22); populated by `rag_context_engine.cpp` norm-retrieval step. Test: `EUA-22-01..EUA-22-02`. (Target: Q4 2026)
+  - Acceptance: `NormEvidence::citations` contains ≥1 EU AI Act citation for any ethics decision.
+- [ ] **Art. 22 ChainVisualizer mandatory artifact**: `ChainVisualizer::renderDot()` and `renderMermaid()` output required for every decision round; stored alongside audit log entry. Test: `EUA-22-01`. (Target: Q4 2026)
+- [x] **Focused test suite** (≥8 tests) in `tests/ethics_ai/test_ethics_ai_euai_compliance_focused.cpp`: ✅ **Done 2026-08-09** (EUA-13-01..EUA-AUDIT-01 delivered)
+  - `EUA-13-01`: All N schools listed in MetaVerdict with N=5 minimum quorum
+  - `EUA-13-02`: ABSTAIN propagation for unavailable school — entry present, not dropped
+  - `EUA-13-03`: Audit log append-only; attempt to overwrite → `AuditError::IMMUTABLE_VIOLATION`
+  - `EUA-13-04`: Audit log JSON schema validation against fixed schema
+  - `EUA-22-01`: ChainVisualizer DOT output non-empty for any decision round
+  - `EUA-22-02`: NormEvidence contains ≥1 EU AI Act citation per decision
+  - `EUA-LDM-01`: LDM contract invariant (participating_schools complete) holds after 100 rounds
+  - `EUA-AUDIT-01`: Audit trail consistency under concurrent rounds (2 threads × 50 rounds); no interleaving, no missing entries
+  (Target: Q4 2026)
+- [x] **Benchmark gate** — `bench_ethics_art13_audit_overhead` in `benchmarks/ethics_ai/bench_ldm.cpp`: Art. 13 audit export overhead ≤5% regression vs no-audit baseline at 1K decisions/s. Gate: `GATE-EUAI-AUDIT-01`. (Target: Q4 2026) ✅ **BM_LDM_AuditLog_Append + BM_LDM_AuditLog_ExportOnly added 2026-08-09**
+- [ ] **Private plugin separability**: `src/ethics_ai/ethics_evaluator.h` / `.cpp` and `include/ethics_ai/ethics_ai_types.h` finalized as clean public shims with zero private-source `#include` dependencies; `cmake -DWITH_PRIVATE_ETHICS_AI=OFF` configures and builds without error; Community build fail-closed confirmed. (Target: Q4 2026)
 
 ### Short-term (3–6 months)
 

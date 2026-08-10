@@ -42,30 +42,41 @@ enum class LLMErrorCode {
     INVALID_OPTIONS = 1006,
     PROMPT_INJECTION = 1007,   // Input rejected due to detected prompt injection attempt
     ACCESS_DENIED    = 1008,   // Generated AQL references a collection the caller may not access
-    
+
     // Model errors (2xxx)
     MODEL_NOT_FOUND = 2001,
     MODEL_LOAD_FAILED = 2002,
     MODEL_UNLOAD_FAILED = 2003,
     MODEL_NOT_LOADED = 2004,
-    
+
     // LoRA errors (3xxx)
     LORA_NOT_FOUND = 3001,
     LORA_LOAD_FAILED = 3002,
     LORA_UNLOAD_FAILED = 3003,
     LORA_NOT_LOADED = 3004,
-    
+
     // Execution errors (4xxx)
     INFERENCE_FAILED = 4001,
     RAG_FAILED = 4002,
     EMBEDDING_FAILED = 4003,
     TIMEOUT = 4004,
     INVALID_RESPONSE = 4005,   ///< LLM-generated output failed post-generation validation
-    
+
     // Resource errors (5xxx)
     OUT_OF_MEMORY = 5001,
     CACHE_FULL = 5002,
-    
+
+    // Provider / capability errors (6xxx) — frozen contract (Q3 2026)
+    /// The configured LLM provider does not support the requested operation mode
+    /// (e.g., streaming requested on a non-streaming provider).
+    /// Callers must treat this as a non-retryable failure and fall back to a
+    /// supported mode or return an error to the user.
+    PROVIDER_UNSUPPORTED = 6001,
+    /// The model or adapter does not expose the requested capability
+    /// (e.g., LoRA fine-tuning requested on a base-only model).
+    /// Callers must treat this as a non-retryable configuration error.
+    CAPABILITY_UNSUPPORTED = 6002,
+
     // Internal errors (9xxx)
     INTERNAL_ERROR = 9001,
     UNKNOWN_ERROR = 9999

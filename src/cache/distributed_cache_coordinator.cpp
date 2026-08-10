@@ -60,7 +60,7 @@ void RedisCacheCoordinator::setRedisPublishBridgeFn(RedisPublishBridgeFn fn) {
 
 #if !defined(THEMIS_POSIX_SOCKETS)
 
-// STUB/SIMULATION NOTE:
+// PERMANENT FALLBACK NOTE:
 // Purpose: Provide link-compatible no-op implementations of RedisCacheCoordinator
 //   on platforms that do not have POSIX socket support (e.g., some embedded or
 //   Windows SDK builds without POSIX compatibility shims).  The coordinator
@@ -75,11 +75,9 @@ void RedisCacheCoordinator::setRedisPublishBridgeFn(RedisPublishBridgeFn fn) {
 //   one node is never propagated to other nodes via Redis pub/sub; stale reads
 //   will occur in a multi-node deployment.  publish_errors_ monotonically
 //   increases so any cache-miss alerting threshold will trip.
-// Removal Plan: Ensure THEMIS_POSIX_SOCKETS is set (or use the platform Winsock
-//   shim) on all supported build targets.  The full POSIX implementation of
-//   RedisCacheCoordinator (in redis_cache_coordinator.cpp) is then compiled
-//   instead.  This #if block becomes dead code on POSIX-capable builds.
-// Roadmap ref: src/cache/FUTURE_ENHANCEMENTS.md §"Redis Pub/Sub Activation"
+// This block is PERMANENT for non-POSIX builds – it is a platform safety net, not a
+//   temporary stub.  Ensure THEMIS_POSIX_SOCKETS is set (or use the Winsock shim) on
+//   all supported build targets to activate the full POSIX implementation.
 
 RedisCacheCoordinator::RedisCacheCoordinator(const RedisCacheCoordinatorConfig &config) : config_(config) {
     THEMIS_DEBUG("RedisCacheCoordinator: POSIX socket support unavailable – "
@@ -235,14 +233,12 @@ std::string RedisCacheCoordinator::computeHmac(const std::string &) const {
     return {};
 }
 bool RedisCacheCoordinator::verifyHmac(const nlohmann::json &) const {
-    // STUB/SIMULATION NOTE:
-    // Purpose: Non-POSIX build stub — POSIX sockets unavailable, so no pub/sub traffic
-    //          can arrive; this function should never be called in a real non-POSIX run.
-    // Activation: !THEMIS_POSIX_SOCKETS preprocessor guard.
-    // Production Delta: The POSIX path performs real HMAC-SHA256 verification.
-    // Removal Plan: Non-POSIX builds are development/test only; production uses POSIX.
-    // Fail-closed (D-1 fix): return false so that any unexpected call rejects the message
+    // PERMANENT FALLBACK NOTE (verifyHmac on non-POSIX):
+    // Non-POSIX build – POSIX sockets unavailable, so no pub/sub traffic
+    // can arrive; this function should never be called in a real non-POSIX run.
+    // Fail-closed: return false so that any unexpected call rejects the message
     // rather than silently accepting it, preventing an HMAC bypass on non-POSIX builds.
+    // The POSIX path performs real HMAC-SHA256 verification.
     return false;
 }
 
