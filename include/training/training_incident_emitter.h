@@ -22,7 +22,7 @@
  *     TrainingErrorCode::DATASET_LABEL_CONFLICT,
  *     "auto_labeler", "label_batch",
  *     "Conflicting labels detected in batch B-42",
- *     /*recoverable=*/true,
+ *     true,  // recoverable
  *     "batch_id=B-42 conflict_count=3");
  * @endcode
  *

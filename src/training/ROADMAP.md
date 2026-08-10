@@ -10,16 +10,16 @@ Production-usable training runtime exists for labeling, enrichment, LoRA/AdaLoRA
 
 ## In Progress
 
-- [~] hardening training and checkpoint behavior under extended adapter lifecycle pressure (Target: Q3 2026)
-- [~] improving diagnostics consistency across labeling, training, and serving-handoff stages (Target: Q3 2026)
-- [~] stabilizing benchmark-backed release guardrails for training hot paths (Target: Q3 2026)
+- [x] hardening training and checkpoint behavior under extended adapter lifecycle pressure (2026-08-10: training_failsafe.h; CheckpointFaultHandler with fail-closed policy; TFE-01..12 tests)
+- [x] improving diagnostics consistency across labeling, training, and serving-handoff stages (2026-08-10: training_incident_emitter.h; unified listener-pattern emitter for 3 incident classes)
+- [x] stabilizing benchmark-backed release guardrails for training hot paths (2026-08-10: bench_training_lifecycle_gates.cpp; TLG-01..08)
 
 ## Planned Features
 
 ### Short-term (3-6 months)
-- [~] tighten deterministic behavior for adapter merge and rollback edge scenarios (Target: Q4 2026)
+- [x] tighten deterministic behavior for adapter merge and rollback edge scenarios (2026-08-10: AdapterMergeFailsafe in training_failsafe.h; TFE-07..09)
 - [~] expand stress coverage for GPU-backed and checkpoint-resume workloads (Target: Q4 2026)
-- [ ] improve operator-facing diagnostics for training and provenance incidents (Target: Q4 2026)
+- [x] improve operator-facing diagnostics for training and provenance incidents (2026-08-10: TrainingIncidentEmitter; EnrichmentGapHandler; TFE-10..12)
 
 ### Mid-term (6-12 months)
 - [ ] re-baseline p95/p99 envelopes for adapter lifecycle and training-step-sensitive paths (Target: Q1 2027)
@@ -34,15 +34,15 @@ Production-usable training runtime exists for labeling, enrichment, LoRA/AdaLoRA
 - [x] define explicit error taxonomy for labeling, checkpoint, and serving incidents (2026-08-09: TRAINING_CONTRACT.md §4 references frozen TrainingErrorCode; summary table for 3 incident classes)
 
 ### Phase 2: Core Implementation
-- [~] complete hardening for trainer, checkpoint, and merge internals (Target: Q4 2026)
+- [x] complete hardening for trainer, checkpoint, and merge internals (2026-08-10: CheckpointFaultHandler + AdapterMergeFailsafe in training_failsafe.h)
 - [~] align enrichment and serving-handoff behavior to bounded runtime contracts (Target: Q4 2026)
 
 ### Phase 3: Error Handling and Edge Cases
-- [~] standardize fail-safe behavior for checkpoint faults, adapter merge failures, and enrichment gaps (Target: Q4 2026)
+- [x] standardize fail-safe behavior for checkpoint faults, adapter merge failures, and enrichment gaps (2026-08-10: training_failsafe.h; three handlers with decision tables and incident emission)
 - [x] unify diagnostics across dataset, training, and adapter incident classes (2026-08-10: training_incident_emitter.h; TrainingIncidentEmitter with listener pattern for all 3 classes)
 
 ### Phase 4: Tests
-- [~] expand focused regressions for LoRA/AdaLoRA, checkpoint, and serving edge scenarios (Target: Q4 2026)
+- [x] expand focused regressions for LoRA/AdaLoRA, checkpoint, and serving edge scenarios (2026-08-10: test_training_failsafe_edge_cases_focused.cpp; TFE-01..12 covering checkpoint/merge/enrichment fail-safes)
 - [x] extend deterministic stress fixtures for training-lifecycle workloads (2026-08-10: test_deterministic_training_lifecycle.cpp; DTL-01..12 with SEED=42)
 
 ### Phase 5: Performance and Hardening
@@ -58,7 +58,7 @@ Production-usable training runtime exists for labeling, enrichment, LoRA/AdaLoRA
 - [x] core training surfaces documented and source-verified
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
-- [~] remaining hardening tasks closed for trainer/checkpoint/adapter edge paths
+- [x] remaining hardening tasks closed for trainer/checkpoint/adapter edge paths (2026-08-10: training_failsafe.h; TFE-01..12)
 - [x] release benchmark stabilization complete
 
 ## Known Issues and Limitations
