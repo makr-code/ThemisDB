@@ -63,6 +63,7 @@ WorkStealingThreadPool::~WorkStealingThreadPool() {
 bool WorkStealingThreadPool::submit(WorkItem item,
                                     std::chrono::milliseconds timeout) {
     if (shutdown_.load(std::memory_order_acquire)) {
+        rejected_.fetch_add(1, std::memory_order_relaxed);
         return false;
     }
 
@@ -76,12 +77,21 @@ bool WorkStealingThreadPool::submit(WorkItem item,
     });
 
     if (!ok || shutdown_.load(std::memory_order_relaxed)) {
+        rejected_.fetch_add(1, std::memory_order_relaxed);
         return false;
     }
 
     dispatch_queue_.push_back(std::move(item));
-    queued_count_.fetch_add(1, std::memory_order_relaxed);
+    const auto queued_after =
+        queued_count_.fetch_add(1, std::memory_order_relaxed) + 1;
+    submitted_.fetch_add(1, std::memory_order_relaxed);
+    auto previous_watermark = queue_high_watermark_.load(std::memory_order_relaxed);
+    while (queued_after > previous_watermark &&
+           !queue_high_watermark_.compare_exchange_weak(
+               previous_watermark, queued_after, std::memory_order_relaxed)) {
+    }
     lk.unlock();
+    spawnWorkerIfNeeded(queued_after);
     dispatch_cv_.notify_one();
     return true;
 }
@@ -110,6 +120,34 @@ bool WorkStealingThreadPool::tryGetWork(std::size_t /*own_idx*/, WorkItem& out) 
         }
     }
     return false;
+}
+
+void WorkStealingThreadPool::spawnWorkerIfNeeded(std::size_t observed_queue_depth) {
+    if (shutdown_.load(std::memory_order_acquire)) {
+        return;
+    }
+    auto current_threads = active_threads_.load(std::memory_order_relaxed);
+    if (current_threads >= cfg_.max_threads || observed_queue_depth <= current_threads) {
+        return;
+    }
+
+    std::lock_guard<std::mutex> workers_lock(workers_mutex_);
+    current_threads = active_threads_.load(std::memory_order_relaxed);
+    if (current_threads >= cfg_.max_threads || observed_queue_depth <= current_threads) {
+        return;
+    }
+
+    for (std::size_t idx = 0; idx < queues_.size(); ++idx) {
+        bool expected = false;
+        if (!queues_[idx]->active.compare_exchange_strong(
+                expected, true, std::memory_order_acq_rel)) {
+            continue;
+        }
+        workers_.emplace_back([this, idx] { workerLoop(idx); });
+        active_threads_.fetch_add(1, std::memory_order_relaxed);
+        scale_up_events_.fetch_add(1, std::memory_order_relaxed);
+        break;
+    }
 }
 
 // ---------------------------------------------------------------------------
@@ -198,8 +236,18 @@ WorkStealingThreadPool::statistics() const noexcept {
     Statistics st;
     st.active_threads = active_threads_.load(std::memory_order_relaxed);
     st.queued_items   = queued_count_.load(std::memory_order_relaxed);
+    st.submitted      = submitted_.load(std::memory_order_relaxed);
+    st.rejected       = rejected_.load(std::memory_order_relaxed);
     st.completed      = completed_.load(std::memory_order_relaxed);
     st.failed         = failed_.load(std::memory_order_relaxed);
+    st.queue_high_watermark =
+        queue_high_watermark_.load(std::memory_order_relaxed);
+    st.scale_up_events = scale_up_events_.load(std::memory_order_relaxed);
+    st.queue_pressure =
+        (cfg_.max_queue_depth > 0)
+            ? static_cast<double>(st.queued_items) /
+                  static_cast<double>(cfg_.max_queue_depth)
+            : 0.0;
 
     std::lock_guard<std::mutex> lk(latency_mutex_);
     if (!latency_samples_us_.empty()) {
