@@ -39,15 +39,15 @@ Production-usable training runtime exists for labeling, enrichment, LoRA/AdaLoRA
 
 ### Phase 3: Error Handling and Edge Cases
 - [~] standardize fail-safe behavior for checkpoint faults, adapter merge failures, and enrichment gaps (Target: Q4 2026)
-- [ ] unify diagnostics across dataset, training, and adapter incident classes (Target: Q4 2026)
+- [x] unify diagnostics across dataset, training, and adapter incident classes (2026-08-10: training_incident_emitter.h; TrainingIncidentEmitter with listener pattern for all 3 classes)
 
 ### Phase 4: Tests
 - [~] expand focused regressions for LoRA/AdaLoRA, checkpoint, and serving edge scenarios (Target: Q4 2026)
-- [ ] extend deterministic stress fixtures for training-lifecycle workloads (Target: Q4 2026)
+- [x] extend deterministic stress fixtures for training-lifecycle workloads (2026-08-10: test_deterministic_training_lifecycle.cpp; DTL-01..12 with SEED=42)
 
 ### Phase 5: Performance and Hardening
-- [ ] lock benchmark-backed release gates for training hot paths (Target: Q4 2026)
-- [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+- [x] lock benchmark-backed release gates for training hot paths (2026-08-10: benchmarks/training/bench_training_lifecycle_gates.cpp; TLG-01..08)
+- [x] validate p95/p99 and throughput behavior against release baselines (2026-08-10: TLG-01..08 gate assertions with per-iteration CPU-time reporting)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core training module docs aligned to source-verifiable behavior
@@ -58,8 +58,8 @@ Production-usable training runtime exists for labeling, enrichment, LoRA/AdaLoRA
 - [x] core training surfaces documented and source-verified
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
-- [ ] remaining hardening tasks closed for trainer/checkpoint/adapter edge paths
-- [ ] release benchmark stabilization complete
+- [~] remaining hardening tasks closed for trainer/checkpoint/adapter edge paths
+- [x] release benchmark stabilization complete
 
 ## Known Issues and Limitations
 
