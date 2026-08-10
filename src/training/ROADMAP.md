@@ -34,11 +34,11 @@ Production-usable training runtime exists for labeling, enrichment, LoRA/AdaLoRA
 - [x] define explicit error taxonomy for labeling, checkpoint, and serving incidents (2026-08-09: TRAINING_CONTRACT.md §4 references frozen TrainingErrorCode; summary table for 3 incident classes)
 
 ### Phase 2: Core Implementation
-- [ ] complete hardening for trainer, checkpoint, and merge internals (Target: Q4 2026)
-- [ ] align enrichment and serving-handoff behavior to bounded runtime contracts (Target: Q4 2026)
+- [~] complete hardening for trainer, checkpoint, and merge internals (Target: Q4 2026)
+- [~] align enrichment and serving-handoff behavior to bounded runtime contracts (Target: Q4 2026)
 
 ### Phase 3: Error Handling and Edge Cases
-- [ ] standardize fail-safe behavior for checkpoint faults, adapter merge failures, and enrichment gaps (Target: Q4 2026)
+- [~] standardize fail-safe behavior for checkpoint faults, adapter merge failures, and enrichment gaps (Target: Q4 2026)
 - [ ] unify diagnostics across dataset, training, and adapter incident classes (Target: Q4 2026)
 
 ### Phase 4: Tests
