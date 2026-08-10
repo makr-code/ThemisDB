@@ -1,0 +1,5897 @@
+{
+  "timestamp": "2026-08-10T18:20:41.375776",
+  "scan_type": "module_maturity_v1",
+  "total_modules": 69,
+  "modules": {
+    "src": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 2,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [],
+      "known_issues": [],
+      "blockers": [],
+      "scores": {
+        "phase_completion_pct": 16,
+        "gate_pass_rate": 0,
+        "blockers": 0,
+        "known_issues": 0,
+        "maturity_score": 10,
+        "recommendation": "PLANNING"
+      }
+    },
+    "search": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/search/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 2,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 3,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 80,
+          "status": "complete",
+          "complete": 4,
+          "in_progress": 1,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 50,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 1,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [],
+      "known_issues": [
+        "[x] Phase 4-6 deliverables complete and verified",
+        "[ ] SRCP benchmark baseline measurement on production hardware (pending first hardware run)",
+        "Advanced scenarios (SRCP-ADV-1..3) pending Q1 2027 detailed integration testing",
+        "benchmark depth should continue expanding for advanced search workflows.",
+        "Wave B B1 work depends on upstream Wave A deployment and LLM latency prerequisites.",
+        "--"
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 88,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 6,
+        "maturity_score": 47,
+        "recommendation": "EARLY_STAGE"
+      }
+    },
+    "analytics": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/analytics/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [],
+      "known_issues": [
+        "benchmark coverage is still mixed between direct and proxy mappings for some targets.",
+        "behavior and availability remain partially capability-dependent on optional integrations.",
+        "continued hardening is required for cross-cluster/federated scenarios."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 66,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 35,
+        "recommendation": "EARLY_STAGE"
+      }
+    },
+    "prompt_engineering": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/prompt_engineering/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 3,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 0,
+          "status": "in_progress",
+          "complete": 0,
+          "in_progress": 1,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "in_progress",
+          "complete": 0,
+          "in_progress": 1,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 0,
+          "status": "in_progress",
+          "complete": 0,
+          "in_progress": 1,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 50,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 1,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [
+        {
+          "id": "GATE-PE-01",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-PE-01",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-PE-01",
+          "status": "open",
+          "result": "unknown"
+        }
+      ],
+      "known_issues": [
+        "runtime behavior depends on template quality, injected context shape, optimizer configuration, and downstream model behavior.",
+        "selected adversarial and concurrency-heavy edge scenarios need continued hardening.",
+        "benchmark depth should continue expanding for advanced prompt engineering workflows.",
+        "rewrite-driven normalization and policy behavior are not yet implemented and remain roadmap work."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 25,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 4,
+        "maturity_score": 10,
+        "recommendation": "PLANNING"
+      }
+    },
+    "aql": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/aql/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 50,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 1,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [],
+      "known_issues": [
+        "behavior remains partially capability-dependent on configured providers and integrations.",
+        "some benchmark coverage still relies on broader assistance benchmarks rather than fully isolated micro-paths.",
+        "continued hardening remains required for adversarial and concurrency edge profiles."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 58,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 30,
+        "recommendation": "EARLY_STAGE"
+      }
+    },
+    "retrieval": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/retrieval/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [],
+      "known_issues": [
+        "LoRA artifacts implementation (Phase 1-7) complete and tested",
+        "Hybrid retrieval rollout (Phase A-D) in progress; Phase A (exact-first) complete with tests",
+        "Phase B (ANN + CPU parity) has tests and benchmarks implemented, awaiting environment validation",
+        "Phase C (multi-shard) has tests and benchmarks implemented, awaiting environment validation",
+        "GPU and distributed-shard paths are not enabled until Phase C/D gates are met",
+        "Graph Truth Layer is CPU-first and exact in all phases; no GPU acceleration for exact paths"
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 16,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 6,
+        "maturity_score": 5,
+        "recommendation": "PLANNING"
+      }
+    },
+    "utils": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/utils/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [],
+      "known_issues": [
+        "the utils module covers a broad surface and requires continued curation of benchmark depth.",
+        "some helpers depend on host libraries or external services and therefore need explicit degradation coverage.",
+        "shared helper misuse can amplify impact across consumers if failure contracts drift."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      }
+    },
+    "performance": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/performance/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [
+        {
+          "id": "GATE-PFM-01",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-PFM-01",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-PFM-01",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-PFM-01",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-PFM-03",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-PFM-01",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-PFM-01",
+          "status": "open",
+          "result": "unknown"
+        }
+      ],
+      "known_issues": [
+        "runtime behavior depends on host hardware capabilities and enabled feature flags.",
+        "selected adaptive and hardware-dependent edge scenarios need continued hardening.",
+        "benchmark breadth should continue expanding for advanced distributed scenarios."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 33,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 15,
+        "recommendation": "PLANNING"
+      }
+    },
+    "graph": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/graph/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 80,
+          "status": "complete",
+          "complete": 4,
+          "in_progress": 1,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 0,
+          "status": "in_progress",
+          "complete": 0,
+          "in_progress": 1,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 1
+        },
+        "4": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 50,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 1,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [
+        {
+          "id": "GATE-GRG-01",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-GRG-01",
+          "status": "open",
+          "result": "unknown"
+        }
+      ],
+      "known_issues": [
+        "runtime behavior depends on graph shape, constraints, and enabled acceleration capabilities.",
+        "advanced distributed/GPU and semantic reasoning edge scenarios need continued hardening.",
+        "benchmark breadth should continue expanding for specialized graph workflows."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 21,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 8,
+        "recommendation": "PLANNING"
+      }
+    },
+    "user_storage_encrypted": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/user_storage_encrypted/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [],
+      "known_issues": [
+        "runtime behavior depends on host gocryptfs and FUSE availability.",
+        "backend and scheduler edge handling still need broader hardening coverage.",
+        "benchmark depth should continue expanding beyond current mount-latency-focused cases."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      }
+    },
+    "ethics_ai": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/ethics_ai/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [
+        {
+          "id": "GATE-EUAI-AUDIT-01",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-EUAI-AUDIT-01",
+          "status": "open",
+          "result": "unknown"
+        }
+      ],
+      "known_issues": [
+        "`EthicsSelectionRouter` operates only in `SELECTION_ONLY` mode (Top-N pre-selection);",
+        "`weight_boost` in `domain_overrides` (YAML assets) currently acts as pre-selection boost;",
+        "Non-western school profiles (islamische_ethik, konfuzianismus, buddhistische_ethik,",
+        "runtime quality remains dependent on profile quality and coverage.",
+        "selected advanced context generation paths remain configuration-dependent.",
+        "benchmark coverage should continue expanding for advanced ethics workflow helpers."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 6,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      }
+    },
+    "chaos": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/chaos/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [
+        {
+          "id": "GATE-CHS-01",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-CHS-01",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-CHS-06",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-CHS-01",
+          "status": "open",
+          "result": "unknown"
+        }
+      ],
+      "known_issues": [
+        "behavior is intentionally process-local and non-persistent.",
+        "direct external sabotage is outside scope of the in-process simulation model.",
+        "benchmark depth remains limited to current chaos stress coverage and needs expansion."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 16,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 5,
+        "recommendation": "PLANNING"
+      }
+    },
+    "metadata": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/metadata/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [
+        {
+          "id": "GATE-MCL-01",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-MET-01",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-MCL-01",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-MCL-01",
+          "status": "open",
+          "result": "unknown"
+        }
+      ],
+      "known_issues": [
+        "runtime behavior depends on schema scale, cache state, and configured integration/export paths.",
+        "deep concurrent-access stress beyond focused unit level still expanding (Q2 2027).",
+        "operator runbook for metadata incident triage not yet written (Q2 2027).",
+        "remaining gap scanner findings (scope_mismatch, string_concat_loop, copy_overhead, range_temporary) are MEDIUM/LOW severity and deferred to Q2 2027 maintenance sweep."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 16,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 4,
+        "maturity_score": 5,
+        "recommendation": "PLANNING"
+      }
+    },
+    "plugins": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/plugins/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 3,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 5,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [
+        {
+          "id": "GATE-PLG-01",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-PLG-01",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-PLG-01",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-PLG-02",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-PLG-03",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-PLG-04",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-PLG-01",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-PLG-01",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-PLG-02",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-PLG-03",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-PLG-04",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-PLG-01",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-PLG-04",
+          "status": "open",
+          "result": "unknown"
+        }
+      ],
+      "known_issues": [
+        "runtime behavior depends on plugin manifest quality, signatures, and enabled runtime features.",
+        "timeout handling uses simple thread-based approach; async I/O deadline semantics planned for Q1 2027.",
+        "diagnostic persistence is in-memory only; persistent audit log planned for Q1 2027.",
+        "stress testing scenarios are simulated; full production-scale testing planned for Q1 2027.",
+        "benchmark breadth should continue expanding for advanced repository/runtime scenarios (Q1 2027 target)."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 50,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 5,
+        "maturity_score": 25,
+        "recommendation": "EARLY_STAGE"
+      }
+    },
+    "index": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/index/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [],
+      "known_issues": [
+        "runtime behavior depends on backend capability, selected index strategy, and operational configuration.",
+        "distributed and advanced acceleration edge scenarios need continued hardening.",
+        "benchmark breadth should continue expanding for specialized index workflows.",
+        "shard-aware routing metadata (ShardMetadata) uses fixed defaults; real cost/freshness injection is future work."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 4,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      }
+    },
+    "base": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/base/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [
+        {
+          "id": "GATE-BASE-01",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-BASE-07",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-BASE-01",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-BASE-07",
+          "status": "open",
+          "result": "unknown"
+        }
+      ],
+      "known_issues": [
+        "behavior remains partly capability-dependent on enabled runtime backends/options.",
+        "wasm execution paths require an injected WasmRuntime for full functional coverage (validation-only mode is fully tested).",
+        "GATE-BASE-07..12 thresholds are benchmark labels; CI enforcement requires a benchmark-comparison step not yet wired."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      }
+    },
+    "geo": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/geo/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 4,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 2,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [],
+      "known_issues": [
+        "behavior depends on runtime capability and build flag combinations.",
+        "selected advanced geo paths still require ongoing hardening and benchmark expansion.",
+        "spherical/ellipsoid and additional kernel-depth work remains long-term."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 83,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 44,
+        "recommendation": "EARLY_STAGE"
+      }
+    },
+    "llm": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/llm/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 2,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 2,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [
+        {
+          "id": "GATE-LLM-01",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-LLM-08",
+          "status": "open",
+          "result": "unknown"
+        }
+      ],
+      "known_issues": [
+        "Some advanced distributed/remote execution optimizations depend on deployment wiring and are not universal defaults.",
+        "Runtime behavior can vary with enabled backend/plugin combinations and available hardware acceleration.",
+        "Not all benchmark targets currently represent transport- or topology-specific production mixes."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 50,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 25,
+        "recommendation": "EARLY_STAGE"
+      }
+    },
+    "tensor": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/tensor/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 2,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [],
+      "known_issues": [
+        "runtime behavior depends on tensor workload shape and bridge/index configuration.",
+        "selected advanced structural paths remain in active hardening status.",
+        "benchmark depth should continue expanding for broader tensor workload patterns."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 66,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 35,
+        "recommendation": "EARLY_STAGE"
+      }
+    },
+    "exporters": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/exporters/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [],
+      "known_issues": [
+        "behavior depends on selected format backend and runtime configuration.",
+        "selected join/stream/incremental edge scenarios need continued hardening.",
+        "benchmark breadth should keep expanding for advanced export workflows."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 33,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 15,
+        "recommendation": "PLANNING"
+      }
+    },
+    "execution": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/execution/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 3,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [],
+      "known_issues": [],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 100,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 0,
+        "maturity_score": 55,
+        "recommendation": "IN_PROGRESS"
+      }
+    },
+    "network": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/network/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 2,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 2,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 2,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [],
+      "known_issues": [
+        "Some cross-transport fault combinations still need broader evidence under long-duration stress.",
+        "Certain route/mesh/topology scenarios require additional benchmark and resilience validation.",
+        "Operator-facing diagnostics for complex multi-transport incidents continue to be refined."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 83,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 44,
+        "recommendation": "EARLY_STAGE"
+      }
+    },
+    "observability": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/observability/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 2,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [
+        {
+          "id": "GATE-01",
+          "status": "open",
+          "result": "unknown"
+        }
+      ],
+      "known_issues": [
+        "runtime behavior depends on enabled components, backend integration, and telemetry volume.",
+        "benchmark breadth should continue expanding for distributed and mixed workloads (deferred to v2.5.0)."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 100,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 2,
+        "maturity_score": 55,
+        "recommendation": "IN_PROGRESS"
+      }
+    },
+    "projects": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/projects/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [],
+      "known_issues": [
+        "runtime behavior depends on workload shape, snapshot size, and collaboration contention profile.",
+        "dedicated benchmark depth for collaboration/template internals is still incomplete.",
+        "conflict-heavy merge scenarios require continued deterministic hardening."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      }
+    },
+    "training": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/training/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [],
+      "known_issues": [
+        "runtime behavior depends on training configuration, adapter size, and available acceleration.",
+        "selected checkpoint, merge, and serving edge scenarios need continued hardening.",
+        "benchmark depth should continue expanding for broader training workloads.",
+        "Wave B B3 rollout depends on Wave A deployment readiness and stable LLM adapter lifecycle baselines."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 4,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      }
+    },
+    "temporal": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/temporal/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [],
+      "known_issues": [
+        "runtime behavior depends on temporal workload shape and retention/snapshot configuration.",
+        "selected lifecycle and conflict edge scenarios need continued hardening.",
+        "benchmark depth should continue expanding for advanced temporal workloads."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 50,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 25,
+        "recommendation": "EARLY_STAGE"
+      }
+    },
+    "rpc_grpc": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/rpc_grpc/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [
+        {
+          "id": "GATE-RPC-03",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-RPC-01",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-RPC-01",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-RPC-01",
+          "status": "open",
+          "result": "unknown"
+        }
+      ],
+      "known_issues": [
+        "runtime behavior depends on deployment credentials and service registration profile.",
+        "selected reload/registration edge scenarios need continued hardening.",
+        "benchmark depth should continue expanding beyond WAL-apply focused coverage."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 50,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 25,
+        "recommendation": "EARLY_STAGE"
+      }
+    },
+    "maintenance": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/maintenance/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [
+        {
+          "id": "GATE-MTN-01",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-MTN-04",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-MTN-05",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-MTN-07",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-MTN-DIST-01",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-MTN-DIST-02",
+          "status": "open",
+          "result": "unknown"
+        }
+      ],
+      "known_issues": [
+        "runtime behavior depends on schedule configuration, handler availability, and execution policies.",
+        "selected schedule and persistence edge paths need continued hardening.",
+        "benchmark depth should continue expanding for advanced maintenance scenarios."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 16,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 5,
+        "recommendation": "PLANNING"
+      }
+    },
+    "updates": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/updates/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 0,
+          "status": "in_progress",
+          "complete": 0,
+          "in_progress": 1,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "in_progress",
+          "complete": 0,
+          "in_progress": 1,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [],
+      "known_issues": [
+        "~~runtime behavior depends on rollout configuration, migration complexity, and deployment topology.~~",
+        "~~selected rollback, patch, and coordinated update edge scenarios need continued hardening.~~",
+        "~~benchmark depth should continue expanding for wider update orchestration workloads.~~",
+        "*Status**: All previously identified limitations addressed through Block 2-3 hardening and benchmark expansion."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 33,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 4,
+        "maturity_score": 15,
+        "recommendation": "PLANNING"
+      }
+    },
+    "scheduler": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/scheduler/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [],
+      "known_issues": [
+        "runtime behavior depends on workload shape and scheduler configuration.",
+        "selected concurrency and integration edge scenarios need continued hardening.",
+        "benchmark depth should continue expanding for advanced scheduler workflows."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      }
+    },
+    "auth": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/auth/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [
+        {
+          "id": "GATE-AHP-01",
+          "status": "open",
+          "result": "unknown"
+        }
+      ],
+      "known_issues": [
+        "behavior remains partially capability-dependent on configured identity providers and backends.",
+        "continued hardening is needed for multi-realm/distributed revocation edge profiles.",
+        "benchmark coverage still requires tightening for certain policy and integration paths."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      }
+    },
+    "acceleration": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/acceleration/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [],
+      "known_issues": [
+        "Hardware and driver differences can alter runtime behavior and performance envelopes.",
+        "Some optional backend combinations remain environment dependent.",
+        "Distributed and plugin-heavy scenarios need continuous hardening evidence."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      }
+    },
+    "toolbox": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/toolbox/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 2,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 50,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 1,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 80,
+          "status": "complete",
+          "complete": 4,
+          "in_progress": 1,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 66,
+          "status": "complete",
+          "complete": 2,
+          "in_progress": 1,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [
+        {
+          "id": "GATE-TBX-P1",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-TBX-P1",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-TBX-P1",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-TBX-P1",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-TBX-P1",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-TBX-P1",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-TBX-P1",
+          "status": "open",
+          "result": "unknown"
+        }
+      ],
+      "known_issues": [
+        "Phase 5 documentation completed with baseline specification and gate certification (Batch 3, 2026-08-07); actual baseline measurements to be collected during Q4 2026 release run on reference hardware",
+        "Runtime behavior depends on ingestion/content subsystem integrations and workflow profiles",
+        "Selected bridge and helper edge scenarios have hardening in progress (Phase 2-3, >90% complete)"
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 82,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 44,
+        "recommendation": "EARLY_STAGE"
+      }
+    },
+    "security": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/security/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 25,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 3,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 33,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 2,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [],
+      "known_issues": [
+        "Some high-assurance runtime envelopes still require broader benchmark and regression evidence.",
+        "Certain external dependency failure combinations need additional hardening validation.",
+        "Policy explainability and operator-facing diagnostics continue to be refined."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 59,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 30,
+        "recommendation": "EARLY_STAGE"
+      }
+    },
+    "access_model": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/access_model/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [
+        {
+          "id": "GATE-ACM-01",
+          "status": "open",
+          "result": "unknown"
+        }
+      ],
+      "known_issues": [
+        "Phase 2 coordinator implementation not yet started (skeleton only)",
+        "Cache/storage modules still isolated (integration pending Phase 3-4)",
+        "Observability not yet wired (pending Phase 5)",
+        "Performance gates not yet established (pending Phase 6)",
+        "--"
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 33,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 5,
+        "maturity_score": 15,
+        "recommendation": "PLANNING"
+      }
+    },
+    "server": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/server/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 2,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 3,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [],
+      "known_issues": [
+        "Plugin-based adapter loading still requires roadmap delivery.",
+        "Some advanced protocol features require additional soak/fault-injection validation before hard SLA commitments.",
+        "Cross-node consistency for globally distributed rate limits needs further hardening evidence."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 50,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 25,
+        "recommendation": "EARLY_STAGE"
+      }
+    },
+    "transaction": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/transaction/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 3,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 60,
+          "status": "complete",
+          "complete": 3,
+          "in_progress": 2,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 50,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 1,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "in_progress",
+          "complete": 0,
+          "in_progress": 1,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [],
+      "known_issues": [
+        "Build configuration dependent on system packages (librocksdb-dev, libspdlog-dev, libfmt-dev, nlohmann-json3-dev, libbenchmark-dev)",
+        "Phase 4 performance baselines pending collection from build verification",
+        "Phase 5 documentation synchronization deferred to release cycle",
+        "Some edge cases in Byzantine failure handling may require additional testing"
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 51,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 4,
+        "maturity_score": 25,
+        "recommendation": "EARLY_STAGE"
+      }
+    },
+    "llm_wiki": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/llm_wiki/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "in_progress",
+          "complete": 0,
+          "in_progress": 1,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 0,
+          "status": "in_progress",
+          "complete": 0,
+          "in_progress": 1,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [
+        {
+          "id": "GATE-01",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-01",
+          "status": "open",
+          "result": "unknown"
+        }
+      ],
+      "known_issues": [
+        "--"
+      ],
+      "blockers": [],
+      "scores": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 0,
+        "known_issues": 1,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      }
+    },
+    "cdc": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/cdc/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 2,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 1
+        },
+        "3": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 2,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [
+        {
+          "id": "GATE-CDC-01",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-CDC-01",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-CDC-01",
+          "status": "open",
+          "result": "unknown"
+        }
+      ],
+      "known_issues": [
+        "behavior remains capability-dependent on enabled transports and deployment topology.",
+        "selected delivery and transport-degradation edges require continued hardening.",
+        "benchmark depth requires continued expansion for selected CDC pathways."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 66,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 35,
+        "recommendation": "EARLY_STAGE"
+      }
+    },
+    "failover": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/failover/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 4,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [],
+      "known_issues": [
+        "runtime outcomes partially depend on external manager availability and behavior.",
+        "concurrent multi-node failover storm edge cases require continued hardening (Q4 2026).",
+        "fencing/quorum dependency edge scenarios are covered by contract tests but not yet stress-tested at scale."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 50,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 25,
+        "recommendation": "EARLY_STAGE"
+      }
+    },
+    "storage": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/storage/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 5,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [],
+      "known_issues": [
+        "runtime behavior depends on storage configuration, backend profile, and workload shape.",
+        "selected replay/recovery/tiering edge scenarios need continued hardening.",
+        "benchmark depth should continue expanding for advanced storage workloads."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 66,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 35,
+        "recommendation": "EARLY_STAGE"
+      }
+    },
+    "replication": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/replication/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [
+        {
+          "id": "GATE-RMD-01",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-RMD-04",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-RMD-08",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-RMD-01",
+          "status": "open",
+          "result": "unknown"
+        }
+      ],
+      "known_issues": [
+        "runtime behavior depends on topology, lag, and replication mode configuration.",
+        "selected failover and high-contention edge scenarios need continued hardening.",
+        "benchmark depth should continue expanding for advanced distributed replication workflows."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 50,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 25,
+        "recommendation": "EARLY_STAGE"
+      }
+    },
+    "process": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/process/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [],
+      "known_issues": [],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 33,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 0,
+        "maturity_score": 15,
+        "recommendation": "PLANNING"
+      }
+    },
+    "evaluation": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/evaluation/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 50,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 1
+        },
+        "4": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [],
+      "known_issues": [
+        "Current local validation is blocked in this environment because `cmake --preset community-release` fails without RocksDB (`librocksdb-dev` or vcpkg `rocksdb`).",
+        "Focused test and benchmark source files exist, but current-cycle executable evidence is still missing for issue #5643.",
+        "Learned or cost-model-based planning remains out of scope; current routing is policy-driven and must stay explainable.",
+        "Downstream TensorRAG / ANN decision-envelope integration is intentionally deferred until module hardening gates pass."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 8,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 4,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      }
+    },
+    "ai": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/ai/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [],
+      "known_issues": [
+        "Wave C C1/C2 production-runtime integration now covers `AIPluginGenerator` and `LLMAQLHandler` (`executeInfer`, `executeInferStreaming`, `executeRAG`, `executeChat`) via opt-in safety-gate and telemetry hooks.",
+        "Schema-level validation for all LLM output fields is enforced: code fields \u2264 1 MiB, `security_report` \u2264 64 KiB, `version` \u2264 64 chars (defaults to `0.1.0`), `manifest.description` truncated at 8192 chars, oversized `build_dependencies` entries silently dropped."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 2,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      }
+    },
+    "onnx_clip": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/onnx_clip/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [],
+      "known_issues": [
+        "Integration tests with real ViT-B/32 / ViT-L/14 ONNX model files still pending.",
+        "DirectML backend requires Windows; silently falls back to CPU on Linux.",
+        "SHA-256 model integrity check requires OpenSSL at build time (`THEMIS_HAS_OPENSSL`); skipped without it."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      }
+    },
+    "distributed_tensor": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/distributed_tensor/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 3,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "in_progress",
+          "complete": 0,
+          "in_progress": 1,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [],
+      "known_issues": [
+        "Benchmark evidence and final acceptance documentation are still pending before default pipeline integration can be enabled.",
+        "Phase A/B/C tensor-update rollout items remain incomplete and must preserve the advisory-only artifact invariant until their gates pass.",
+        "Phase C depends on `sharding` reaching 70% gap reduction \u2014 currently 35% ready (\ud83d\udd34).",
+        "Phase D (optional GPU) requires `gpu` reaching 85% error-handling gap reduction \u2014 currently 35% ready (\ud83d\udd34).",
+        "Advisory artifact invariant: tensor summaries and shard summaries are never authoritative truth;"
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 33,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 5,
+        "maturity_score": 15,
+        "recommendation": "PLANNING"
+      }
+    },
+    "cache": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/cache/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 3,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [
+        {
+          "id": "GATE-CAC-01",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-CAC-01",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-CAC-01",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-CAC-01",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-CAC-01",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-CAC-01",
+          "status": "open",
+          "result": "unknown"
+        }
+      ],
+      "known_issues": [
+        "behavior remains partially capability-dependent on enabled cache backends/features.",
+        "distributed coordination and replication still require ongoing edge hardening.",
+        "benchmark depth requires continued hardening for selected cache pathways."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 100,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 55,
+        "recommendation": "IN_PROGRESS"
+      }
+    },
+    "config": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/config/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [
+        {
+          "id": "GATE-CFG-01",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-CFG-01",
+          "status": "open",
+          "result": "unknown"
+        }
+      ],
+      "known_issues": [
+        "benchmark coverage remains narrow and resolver-centric in current mapping.",
+        "selected watcher and secure-store long-running edge profiles require ongoing hardening.",
+        "behavior remains partially capability-dependent on enabled runtime integrations."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      }
+    },
+    "scraper": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/scraper/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [
+        {
+          "id": "GATE-SCR-05",
+          "status": "open",
+          "result": "unknown"
+        }
+      ],
+      "known_issues": [
+        "runtime behavior depends on source quality, render mode, and crawl policy configuration.",
+        "selected malformed-content and burst edge scenarios need continued hardening.",
+        "benchmark depth should continue expanding for dedicated scraper pipeline workflows."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      }
+    },
+    "voice": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/voice/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [],
+      "known_issues": [
+        "Some deployment-dependent runtime combinations still need broader benchmark evidence.",
+        "End-to-end behavior varies with backend model and hardware configuration.",
+        "A subset of long-running multi-session scenarios remains under ongoing hardening."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      }
+    },
+    "ingestion": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/ingestion/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [],
+      "known_issues": [
+        "runtime behavior depends on connector capability, runtime flags, and workflow configuration.",
+        "selected connector and workflow edge scenarios need continued hardening.",
+        "benchmark breadth should continue expanding for advanced ingestion scenarios."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 16,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 5,
+        "recommendation": "PLANNING"
+      }
+    },
+    "distributed_knowledge": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/distributed_knowledge/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [],
+      "known_issues": [
+        "behavior remains sensitive to shard availability, timeout configuration, and policy gates.",
+        "selected partial-failure and replay-edge flows require continued hardening.",
+        "benchmark coverage should continue expanding beyond current federation core paths."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 16,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 5,
+        "recommendation": "PLANNING"
+      }
+    },
+    "whisper": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/whisper/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [],
+      "known_issues": [
+        "`WhisperCppTranscriber` is compiled but not exercised in CI without a model file.",
+        "Real-model diarisation quality still depends on external diarisation model/runtime availability.",
+        "`FfmpegAudioChunkReader` requires `ffmpeg` on PATH; degrades gracefully when absent."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      }
+    },
+    "governance": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/governance/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [],
+      "known_issues": [
+        "runtime outcomes depend on policy set quality and operational governance configuration.",
+        "selected fallback/conflict edge scenarios require continued hardening.",
+        "benchmark breadth should keep expanding for advanced governance workflows."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      }
+    },
+    "timeseries": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/timeseries/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [],
+      "known_issues": [
+        "runtime behavior depends on workload shape, flush configuration, and storage profile.",
+        "selected flush, retention, and encrypted chunk edge scenarios need continued hardening.",
+        "benchmark depth should continue expanding for broader timeseries workloads."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 50,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 25,
+        "recommendation": "EARLY_STAGE"
+      }
+    },
+    "api": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/api/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [
+        {
+          "id": "GATE-API-01",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-API-01",
+          "status": "open",
+          "result": "unknown"
+        }
+      ],
+      "known_issues": [
+        "transport surfaces remain configuration/capability dependent by deployment profile.",
+        "some API surfaces may require feature flags for optional protocol support (WebSocket, gRPC reflection).",
+        "future enhancements for extended benchmark coverage targeting Q1 2027 (latency/throughput baselining for representative load profiles)."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 83,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 44,
+        "recommendation": "EARLY_STAGE"
+      }
+    },
+    "core": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/core/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [],
+      "known_issues": [
+        "Context propagation across async/thread boundaries still requires caller-managed header propagation (`startSpanFromHeaders` / `injectContext`)"
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 16,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 1,
+        "maturity_score": 5,
+        "recommendation": "PLANNING"
+      }
+    },
+    "themis": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/themis/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [],
+      "known_issues": [
+        "runtime behavior depends on platform loader constraints and trust material configuration.",
+        "selected verification and wire-session edge scenarios need continued hardening.",
+        "benchmark depth should continue expanding for wider core runtime workloads."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      }
+    },
+    "rag": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/rag/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [
+        {
+          "id": "GATE-01",
+          "status": "open",
+          "result": "unknown"
+        }
+      ],
+      "known_issues": [],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 0,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      }
+    },
+    "gpu": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/gpu/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [],
+      "known_issues": [
+        "runtime behavior depends on available hardware capability and configured feature gates.",
+        "advanced topology and partition surfaces need continued hardening in mixed environments.",
+        "benchmark breadth should continue expanding for complex multi-device scenarios."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 16,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 5,
+        "recommendation": "PLANNING"
+      }
+    },
+    "llama_cpp": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/llama_cpp/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [],
+      "known_issues": [
+        "`generateBatch()` is sequential; true parallel batch requires real llama.cpp.",
+        "Stub mode is active when compiled without `THEMIS_LLM_ENABLED` or when the"
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 2,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      }
+    },
+    "stable_diffusion": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/stable_diffusion/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [],
+      "known_issues": [
+        "`SDCppGenerator` requires the `stable-diffusion.cpp` submodule and `THEMIS_ENABLE_STABLE_DIFFUSION=ON`;",
+        "`SDPlugin` thread-safety applies to individual method calls; external callers must not",
+        "`SDCppGenerator` parallel-call safety depends on stable-diffusion.cpp's own thread model;"
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      }
+    },
+    "chimera": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/chimera/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [
+        {
+          "id": "GATE-CHM-01",
+          "status": "open",
+          "result": "unknown"
+        }
+      ],
+      "known_issues": [
+        "current source layout contains the ThemisDB adapter implementation only; third-party adapters (MongoDB, Qdrant, Neo4j) are on roadmap for v1.2.0.",
+        "behavior parity for all engine-backed dispatch paths requires continued hardening; simulation paths are fully functional and tested.",
+        "benchmark depth remains limited for chimera-native adapter pathways; compatibility pathways are validated.",
+        "RocksDB dependency required for community-release builds (librocksdb-dev); linux-release preset requires vcpkg."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 4,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      }
+    },
+    "query": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/query/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 80,
+          "status": "complete",
+          "complete": 4,
+          "in_progress": 1,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 3,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 66,
+          "status": "complete",
+          "complete": 2,
+          "in_progress": 1,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 2,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [
+        {
+          "id": "GATE-W7-01",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-W7-02",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-W7-03",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-W7-04",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-W7-05",
+          "status": "open",
+          "result": "unknown"
+        }
+      ],
+      "known_issues": [
+        "Some long-horizon performance guarantees for federation/vectorized paths still require broader benchmark evidence.",
+        "Advanced approximate/ML optimizer paths need additional production hardening and fallback verification.",
+        "Continuous-query scale and backpressure behavior needs further validation under sustained load."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 74,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 39,
+        "recommendation": "EARLY_STAGE"
+      }
+    },
+    "document": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/document/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [],
+      "known_issues": [
+        "module implementation is largely header-first with selected src-level persistence wiring.",
+        "selected schema/merge edge paths require continued hardening and benchmark expansion.",
+        "dedicated module-native benchmark breadth should grow beyond current proxy mappings."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      }
+    },
+    "content": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/content/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [],
+      "known_issues": [
+        "behavior remains partially capability-dependent on enabled optional processors.",
+        "selected async and processor-degradation edges require ongoing hardening.",
+        "benchmark depth should be expanded beyond current extraction-focused mappings."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      }
+    },
+    "importers": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/importers/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 100,
+          "status": "complete",
+          "complete": 1,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [
+        {
+          "id": "GATE-IMRG-01",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-IMRG-02",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-IMRG-03",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-IMRG-04",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-IMRG-05",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-IMRG-06",
+          "status": "open",
+          "result": "unknown"
+        }
+      ],
+      "known_issues": [
+        "runtime behavior depends on connector availability and build/runtime feature flags.",
+        "Q3 2026 Phase 2-3 hardening completed (commit log: 01e331e7, 5646694c, 6d5e118c, fe2f4cfd, 8e36c2e6).",
+        "2026-08-07 Phase 2-3 Closure deliverables:",
+        "benchmark breadth should continue expanding for advanced ingest workflows."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 33,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 4,
+        "maturity_score": 15,
+        "recommendation": "PLANNING"
+      }
+    },
+    "sharding": {
+      "roadmap_path": "/home/runner/work/ThemisDB/ThemisDB/src/sharding/ROADMAP.md",
+      "phases": {
+        "1": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "2": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "3": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "4": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "5": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        },
+        "6": {
+          "percentage": 0,
+          "status": "open",
+          "complete": 0,
+          "in_progress": 0,
+          "blocked": 0,
+          "open": 0
+        }
+      },
+      "gates": [
+        {
+          "id": "GATE-SRG-01",
+          "status": "open",
+          "result": "unknown"
+        },
+        {
+          "id": "GATE-SRG-06",
+          "status": "open",
+          "result": "unknown"
+        }
+      ],
+      "known_issues": [
+        "runtime behavior depends on topology size, quorum profile, and migration pressure.",
+        "selected failure and topology-churn edge scenarios need continued hardening.",
+        "benchmark depth should continue expanding for advanced distributed workloads."
+      ],
+      "blockers": [
+        "[?] blocked  [!] unclear -->"
+      ],
+      "scores": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      }
+    }
+  },
+  "summary": {
+    "scores": {
+      "src": {
+        "phase_completion_pct": 16,
+        "gate_pass_rate": 0,
+        "blockers": 0,
+        "known_issues": 0,
+        "maturity_score": 10,
+        "recommendation": "PLANNING"
+      },
+      "search": {
+        "phase_completion_pct": 88,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 6,
+        "maturity_score": 47,
+        "recommendation": "EARLY_STAGE"
+      },
+      "analytics": {
+        "phase_completion_pct": 66,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 35,
+        "recommendation": "EARLY_STAGE"
+      },
+      "prompt_engineering": {
+        "phase_completion_pct": 25,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 4,
+        "maturity_score": 10,
+        "recommendation": "PLANNING"
+      },
+      "aql": {
+        "phase_completion_pct": 58,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 30,
+        "recommendation": "EARLY_STAGE"
+      },
+      "retrieval": {
+        "phase_completion_pct": 16,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 6,
+        "maturity_score": 5,
+        "recommendation": "PLANNING"
+      },
+      "utils": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      },
+      "performance": {
+        "phase_completion_pct": 33,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 15,
+        "recommendation": "PLANNING"
+      },
+      "graph": {
+        "phase_completion_pct": 21,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 8,
+        "recommendation": "PLANNING"
+      },
+      "user_storage_encrypted": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      },
+      "ethics_ai": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 6,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      },
+      "chaos": {
+        "phase_completion_pct": 16,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 5,
+        "recommendation": "PLANNING"
+      },
+      "metadata": {
+        "phase_completion_pct": 16,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 4,
+        "maturity_score": 5,
+        "recommendation": "PLANNING"
+      },
+      "plugins": {
+        "phase_completion_pct": 50,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 5,
+        "maturity_score": 25,
+        "recommendation": "EARLY_STAGE"
+      },
+      "index": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 4,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      },
+      "base": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      },
+      "geo": {
+        "phase_completion_pct": 83,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 44,
+        "recommendation": "EARLY_STAGE"
+      },
+      "llm": {
+        "phase_completion_pct": 50,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 25,
+        "recommendation": "EARLY_STAGE"
+      },
+      "tensor": {
+        "phase_completion_pct": 66,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 35,
+        "recommendation": "EARLY_STAGE"
+      },
+      "exporters": {
+        "phase_completion_pct": 33,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 15,
+        "recommendation": "PLANNING"
+      },
+      "execution": {
+        "phase_completion_pct": 100,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 0,
+        "maturity_score": 55,
+        "recommendation": "IN_PROGRESS"
+      },
+      "network": {
+        "phase_completion_pct": 83,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 44,
+        "recommendation": "EARLY_STAGE"
+      },
+      "observability": {
+        "phase_completion_pct": 100,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 2,
+        "maturity_score": 55,
+        "recommendation": "IN_PROGRESS"
+      },
+      "projects": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      },
+      "training": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 4,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      },
+      "temporal": {
+        "phase_completion_pct": 50,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 25,
+        "recommendation": "EARLY_STAGE"
+      },
+      "rpc_grpc": {
+        "phase_completion_pct": 50,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 25,
+        "recommendation": "EARLY_STAGE"
+      },
+      "maintenance": {
+        "phase_completion_pct": 16,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 5,
+        "recommendation": "PLANNING"
+      },
+      "updates": {
+        "phase_completion_pct": 33,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 4,
+        "maturity_score": 15,
+        "recommendation": "PLANNING"
+      },
+      "scheduler": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      },
+      "auth": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      },
+      "acceleration": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      },
+      "toolbox": {
+        "phase_completion_pct": 82,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 44,
+        "recommendation": "EARLY_STAGE"
+      },
+      "security": {
+        "phase_completion_pct": 59,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 30,
+        "recommendation": "EARLY_STAGE"
+      },
+      "access_model": {
+        "phase_completion_pct": 33,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 5,
+        "maturity_score": 15,
+        "recommendation": "PLANNING"
+      },
+      "server": {
+        "phase_completion_pct": 50,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 25,
+        "recommendation": "EARLY_STAGE"
+      },
+      "transaction": {
+        "phase_completion_pct": 51,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 4,
+        "maturity_score": 25,
+        "recommendation": "EARLY_STAGE"
+      },
+      "llm_wiki": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 0,
+        "known_issues": 1,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      },
+      "cdc": {
+        "phase_completion_pct": 66,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 35,
+        "recommendation": "EARLY_STAGE"
+      },
+      "failover": {
+        "phase_completion_pct": 50,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 25,
+        "recommendation": "EARLY_STAGE"
+      },
+      "storage": {
+        "phase_completion_pct": 66,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 35,
+        "recommendation": "EARLY_STAGE"
+      },
+      "replication": {
+        "phase_completion_pct": 50,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 25,
+        "recommendation": "EARLY_STAGE"
+      },
+      "process": {
+        "phase_completion_pct": 33,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 0,
+        "maturity_score": 15,
+        "recommendation": "PLANNING"
+      },
+      "evaluation": {
+        "phase_completion_pct": 8,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 4,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      },
+      "ai": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 2,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      },
+      "onnx_clip": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      },
+      "distributed_tensor": {
+        "phase_completion_pct": 33,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 5,
+        "maturity_score": 15,
+        "recommendation": "PLANNING"
+      },
+      "cache": {
+        "phase_completion_pct": 100,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 55,
+        "recommendation": "IN_PROGRESS"
+      },
+      "config": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      },
+      "scraper": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      },
+      "voice": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      },
+      "ingestion": {
+        "phase_completion_pct": 16,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 5,
+        "recommendation": "PLANNING"
+      },
+      "distributed_knowledge": {
+        "phase_completion_pct": 16,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 5,
+        "recommendation": "PLANNING"
+      },
+      "whisper": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      },
+      "governance": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      },
+      "timeseries": {
+        "phase_completion_pct": 50,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 25,
+        "recommendation": "EARLY_STAGE"
+      },
+      "api": {
+        "phase_completion_pct": 83,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 44,
+        "recommendation": "EARLY_STAGE"
+      },
+      "core": {
+        "phase_completion_pct": 16,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 1,
+        "maturity_score": 5,
+        "recommendation": "PLANNING"
+      },
+      "themis": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      },
+      "rag": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 0,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      },
+      "gpu": {
+        "phase_completion_pct": 16,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 5,
+        "recommendation": "PLANNING"
+      },
+      "llama_cpp": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 2,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      },
+      "stable_diffusion": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      },
+      "chimera": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 4,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      },
+      "query": {
+        "phase_completion_pct": 74,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 39,
+        "recommendation": "EARLY_STAGE"
+      },
+      "document": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      },
+      "content": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      },
+      "importers": {
+        "phase_completion_pct": 33,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 4,
+        "maturity_score": 15,
+        "recommendation": "PLANNING"
+      },
+      "sharding": {
+        "phase_completion_pct": 0,
+        "gate_pass_rate": 0,
+        "blockers": 1,
+        "known_issues": 3,
+        "maturity_score": 0,
+        "recommendation": "PLANNING"
+      }
+    }
+  }
+}

@@ -182,7 +182,7 @@ class CodeMaturityUpdater:
  * @note Maturity: {level}
  * @note Score: {score}/100
  * @note Gap Summary: total={gaps}; TODO={todo}, Stub={stub}, Unimpl={unimpl}, Mock={mock}, Sim={sim}, Debt={debt}, C={ext_critical}, H={ext_high}, M={ext_medium}, L={ext_low}
- * @note Status: {status}
+ * @note Status: {status}{maturity_gate}
  * @note This block is auto-generated and will be overwritten.
  */"""
     )
@@ -199,7 +199,7 @@ class CodeMaturityUpdater:
  * @note Lines: {total_lines}
  * @note Gap Summary: total={gaps}; TODO={todo}, Stub={stub}, Unimpl={unimpl}, Mock={mock}, Sim={sim}, Debt={debt}, C={ext_critical}, H={ext_high}, M={ext_medium}, L={ext_low}
  * @note PR History (last 5): {pr_info}
- * @note Status: {status}
+ * @note Status: {status}{maturity_gate}
  * @note This block is auto-generated and will be overwritten.
  */"""
     )
@@ -220,7 +220,65 @@ class CodeMaturityUpdater:
         self.header_mode = header_mode if header_mode in ('auto', 'lean', 'extended') else 'auto'
         self.external_gap_details: Dict[str, Dict[str, int]] = {}
 
+    def _detect_maturity_gates(self, file_path: Path, repo_root: Path) -> str:
+        """Detect which automation gates this file contributes to.
+         
+        Args:
+          file_path: Absolute path to file
+          repo_root: Repository root
+         
+        Returns:
+          Formatted gate string or empty string if no gates detected.
+          Example: "\n  * @maturity_gate: GATE-W8-02 (code coverage verification)"
+        """
+        try:
+            rel_path = file_path.relative_to(repo_root)
+            parts = rel_path.parts
+             
+            gates = []
+             
+            # Detect module from path
+            if len(parts) >= 2:
+                context = parts[0]  # src, tests, benchmarks, include
+                module = parts[1] if len(parts) > 1 else None
+                 
+                # Tests contribute to phase gates
+                if context == 'tests' and module:
+                    # Phase gate for test files: GATE-PHASE-<N>-<MODULE>
+                    if 'phase1_focused' in file_path.name:
+                        gates.append(f'GATE-PHASE-1-{module}')
+                    elif 'phase2_focused' in file_path.name or 'phase2_phase3_focused' in file_path.name:
+                        gates.append(f'GATE-PHASE-2-{module}')
+                    elif 'phase3_focused' in file_path.name:
+                        gates.append(f'GATE-PHASE-3-{module}')
+                 
+                # Benchmarks contribute to wave gates
+                elif context == 'benchmarks' and module:
+                    # Benchmark gate: GATE-W<wave>-<benchmark_type>
+                    if 'bench_' in file_path.name and '_gates' in file_path.name:
+                        # Extract benchmark identifier from filename
+                        stem = file_path.stem
+                        if 'phase2_phase3' in stem or 'fp23' in stem.lower():
+                            gates.append(f'GATE-W7-02')  # Wave 7 phase gate
+                        elif 'failover' in module or 'replication' in module:
+                            gates.append(f'GATE-W7-01')  # Wave 7 failover
+                        elif 'security' in module or 'auth' in module:
+                            gates.append(f'GATE-W8-02')  # Wave 8 security
+             
+            # Format gate string for header
+            if gates:
+                unique_gates = list(set(gates))
+                gate_str = ', '.join(sorted(unique_gates))
+                return f'\n  * @maturity_gate: {gate_str}'
+             
+            return ''
+         
+        except Exception as e:
+            _debug_log('maturity_gate_detection', f'Warning: {e}')
+            return ''
+
     def update(self, repo_root: str = "."):
+
         repo_root_path = Path(repo_root).resolve()
         _debug_log('updater', f'Load external gap details from {repo_root_path / "ai_working"}')
         self.external_gap_details = self._load_external_gap_details(repo_root_path)
@@ -276,6 +334,10 @@ class CodeMaturityUpdater:
 
         gap_corr = self._build_gap_correlation(repo_root, file_path, metrics['gaps'])
         template_data.update(gap_corr)
+         
+        # Detect maturity gates that this file contributes to
+        maturity_gate = self._detect_maturity_gates(file_path, repo_root)
+        template_data['maturity_gate'] = maturity_gate
 
         # Füge neuen Header ein
         effective_mode = self._resolve_header_mode(level)

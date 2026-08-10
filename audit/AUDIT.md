@@ -1,10 +1,11 @@
 # ThemisDB — Security & Compliance Audit Record
 
-**Last Updated:** 2026-08-08  
-**Version:** 2.4.0-rc1  
-**Scope:** All 70 modules (Core + Optional + Private Plugins) — v2.4.0-rc1 snapshot
+**Last Updated:** 2026-08-10
+**Repository Metadata:** `VERSION=2.4.0`, `RELEASE_TYPE=stable`
+**Evidence Snapshot:** v2.4.0-rc1 GA-hardening trail on `develop`
+**Scope:** Root audit summary across current module, compliance, and release-readiness evidence
 
-> **NOTE:** This document provides a comprehensive audit snapshot at v2.4.0-rc1. For detailed module-level audits see each module's `src/<module>/AUDIT.md`.  
+> **NOTE:** This document aggregates the current audit stack. When older August 2026 audit files disagree, prefer `MATURITY_REPORT_2026-08.md`, `IMPLEMENTATION_AUDIT_CORRECTED_2026-08-08.md`, the root `ROADMAP.md`, and the module-local `src/<module>/AUDIT.md` / `src/<module>/ROADMAP.md`.
 > **NEW (Aug 2026):** EU AI Act compliance documentation added:
 > - `docs/compliance/EU_AI_ACT_COMPLIANCE.md` — Risk classification & deployment checklist
 > - `docs/compliance/EU_AI_ACT_RISK_MAPPING.md` — Module-by-module risk assessment  
@@ -15,25 +16,25 @@
 
 ## Overview
 
-This document is the **root-level security and compliance audit record** for ThemisDB at v2.4.0-rc1. It aggregates:
+This document is the **root-level security and compliance audit record** for ThemisDB. It aggregates:
 
 1. **Security hardening milestones** per release (Waves 1-9 complete)
-2. **Known vulnerabilities and remediation status** (no active critical findings in v2.4.0-rc1)
+2. **Known vulnerabilities and remediation status** (no active critical finding is documented in the current root audit stack)
 3. **Compliance coverage matrix** (GDPR 98%, ISO 27001 95%, BSI C5 92%, **EU AI Act 65%** [NEW], NIS2 94%, SOC 2 90%)
 4. **Static analysis results** (CodeQL, Sanitizers, Pentest evidence bundles)
 5. **Per-module audit status** across all 70 modules (Core, Optional, Private Plugins)
 6. **EU AI Act compliance framework** (NEW Aug 2026) — risk classification, evidence bundles, governance
 
-### v2.4.0-rc1 Release Gate Status
+### Current Release Gate Status
 
 | Gate | Status | Evidence | Owner |
 |------|--------|----------|-------|
-| **Core Module Quality** | ✅ Passed | 72% LOC-weighted maturity (IMPLEMENTATION_AUDIT_2026-08-07.md) | Core Team |
+| **Core Module Quality** | ✅ Passed | `MATURITY_REPORT_2026-08.md` + `IMPLEMENTATION_AUDIT_CORRECTED_2026-08-08.md` | Core Team |
 | **Wave 6-9 Test Coverage** | ✅ Passed | RCJ-01..08 + SSS-01..08 + FIR-01..08 (tests/integration/WAVE6_TEST_COVERAGE.md) | QA |
 | **Security Testing** | ✅ Passed | CodeQL clean, Sanitizers clean (Batch C 2026-08-04), Pentest no critical (GA_PENTEST_EVIDENCE_BUNDLE.md) | Security |
 | **EU AI Act Compliance** | 🟡 65% Complete | EU_AI_ACT_COMPLIANCE.md, Risk mapping ready, Model Cards Q3 2026 | Governance |
 | **Performance Gates** | ✅ Passed | Wave 7 benchmarks: Failover <100µs, Cache <50µs, Graph <200µs, LLM <5s p95 | Perf Team |
-| **Documentation** | ✅ Complete | ROADMAP.md, Architecture docs, API docs all v2.4.0 synced | Tech Writers |
+| **Documentation** | ✅ Complete | `ROADMAP.md` (2026-08-09) + current `audit/` sync + module docs | Tech Writers |
 
 ---
 
@@ -100,9 +101,9 @@ This document is the **root-level security and compliance audit record** for The
 | **storage** | 🟢 78% | Encrypted user storage, S3/Azure adapters | Production-ready | Enterprise+ | 2026-08-07 |
 | **importer** | 🟢 76% | MySQL, MongoDB, Kafka, S3 connectors | Production-ready | Enterprise+ | 2026-08-07 |
 
-**Overall Release Status:** ✅ 72% LOC-weighted maturity. Core modules stable. AI/ML hardening on track for Q3 2026. All release-critical tests passing (Wave 6-9).
+**Overall Release Status:** ✅ Technical gates PASS. Core modules stable, GA documentation synchronized, and only the human governance sign-off remains open.
 
-For detailed per-module findings, see `src/<module>/AUDIT.md` or `IMPLEMENTATION_AUDIT_2026-08-07.md`.
+For detailed per-module findings, see `src/<module>/AUDIT.md`, `MATURITY_REPORT_2026-08.md`, or `IMPLEMENTATION_AUDIT_CORRECTED_2026-08-08.md`.
 
 ---
 
@@ -238,10 +239,10 @@ For details see: [BSI_C5_2026_THEMISDB_AUDIT.md](BSI_C5_2026_THEMISDB_AUDIT.md)
 | # | Severity | Module | Description | Target | Issue |
 |---|----------|--------|-------------|--------|-------|
 | 1 | 🟡 Medium | acceleration | Vulkan compute shaders — distance kernel not yet hardened | Q2 2026 | [#1394](https://github.com/makr-code/ThemisDB/issues/1394) |
-| 2 | 🟡 Medium | process | BPMN/EPK/YAML parser security audit not yet completed | Q2 2026 | — |
-| 3 | 🟡 Medium | ingestion | OAuth 2.0 token refresh in REST API connector unclear | Q3 2026 | [#2408](https://github.com/makr-code/ThemisDB/issues/2408) |
+| 2 | 🟡 Medium | query / gpu / sharding | Hybrid-Retrieval Phase B thread-safety hardening remains open | Q3 2026 | [#5468](https://github.com/makr-code/ThemisDB/issues/5468) |
+| 3 | 🟡 Medium | plugins/private | Wave-1 private plugin commit pins still pending | Q3 2026 | — |
 | 4 | 🟡 Medium | security | Zero-trust continuous verification framework not implemented | Q1 2027 | [#1541](https://github.com/makr-code/ThemisDB/issues/1541) |
-| 5 | 🟢 Low | chimera | Third-party benchmark adapters (PostgreSQL, MongoDB) pending | Q3 2026 | — |
+| 5 | 🟡 Medium | compliance | BSI C5 2026 release evidence manifest and linked drill/SBOM traces remain open | Q3–Q4 2026 | — |
 
 ---
 
