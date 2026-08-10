@@ -9,6 +9,8 @@
 #include <gtest/gtest.h>
 #include "voice/voice_auth.h"
 #include "voice/voice_assistant.h"
+#include <cmath>
+#include <limits>
 
 using namespace themis::voice;
 
