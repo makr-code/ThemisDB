@@ -1,25 +1,27 @@
-# Evaluation and Risk Analysis of the Themis RAID-Sharding System
+# Evaluation and Risk Analysis of the ThemisDB Sharding Module with RAID-like Redundancy
 
-**Status**: Draft  
-**Version**: 0.4  
-**Last Updated**: 2026-04-20  
-**Target Venue**: arXiv (cs.DB / cs.DC)
+**Status**: Review-ready technical article  
+**Version**: 0.5  
+**Last Updated**: 2026-08-10  
+**Target Venue**: arXiv (cs.DB / cs.DC)  
+**Scope**: Review of the ThemisDB sharding module, including RAID-like redundancy, consensus-aware coordination, repair, and cross-shard transport paths  
+**Canonical sources reviewed**: `src/sharding/README.md`, `src/sharding/ARCHITECTURE.md`, `src/sharding/ROADMAP.md`, `src/sharding/SECURITY.md`, `include/sharding/redundancy_strategy.h`, `include/sharding/consistent_hash.h`, `include/sharding/consensus_module.h`, `include/sharding/gpu_erasure_coder.h`, `tests/sharding/CMakeLists.txt`, `.github/workflows/09-pr-gates_release-critical-tests.yml`
 
 ---
 
 ## Abstract
 
-Distributed database sharding introduces a complex interplay among fault-tolerance, consistency, availability, and operational risk that is rarely subjected to systematic empirical evaluation in open-source systems. This paper presents a structured evaluation and risk analysis of the ThemisDB RAID-sharding subsystem — an open-source, production-targeting distributed storage engine that combines pluggable consensus (Raft, Paxos, Gossip), multi-protocol cross-shard transactions (2PC, 3PC, SAGA, Percolator), a Reed-Solomon repair engine, AVX2-accelerated erasure coding, and adaptive consistent-hash routing. Drawing on static codebase analysis, the existing test suite (32+ focused targets), documented production incidents across 98 verified bugs in 10 failure categories, and a formal fault model, we derive a risk taxonomy across five dimensions: *consistency risk*, *availability risk*, *durability risk*, *operational risk*, and *security risk*. We extend the taxonomy in this version with three new risk items (R-21–R-23) covering router topology-update races, Gossip convergence windows, and LLM KV-cache cross-tenant isolation in converged storage-inference deployments. We identify three critical open gaps — unbounded WAL growth under Raft, a blocking window in the 2PC coordinator path, and an incomplete read-path gRPC migration — and propose measurable acceptance criteria for each. We provide the first comprehensive topology characterization of the system: a full taxonomy of its seven RAID redundancy modes (NONE, STRIPE, MIRROR, STRIPE_MIRROR, PARITY/RAID5, RAID6, GEO_MIRROR), three erasure-coding algorithms (Reed-Solomon, Cauchy, LRC), the consistent-hash ring implementation with configurable virtual nodes (default: 150 per physical node) and deterministic collision probing, and the quorum model (write quorum $W = 2$, read quorum $R = 1$, with formal availability derivation). We position the system against the CAP theorem [28] and its refinement PACELC [30], showing that ThemisDB's pluggable consensus creates workload-specific consistency–availability–latency operating points that are not enforced at configuration time. Theoretical performance models quantify expected repair throughput, scatter-gather fan-out efficiency, and consensus latency under partial failures, grounded in references spanning consistent hashing [23], anti-entropy repair [24], ARIES-style WAL recovery [25], distributed deadlock detection [26], the FLP impossibility of consensus in asynchronous systems [27], chaos engineering methodology [32], [33], and Google Bigtable's range-tablet topology [38]. We add a new related-work section (§II-J) analyzing converged storage-inference sharding in the context of recent LLM serving systems [41], [42], identifying the unique risk surface introduced when KV-cache management and distributed storage share a sharding topology. We also provide a formal STRIDE-based security threat model (Appendix C) that systematically derives attack paths across all five STRIDE categories for the inter-shard communication layer. The result is a concrete evaluation framework, topology reference, 23-item risk register, and formal threat model that can guide production readiness decisions for RAID-sharded distributed databases.
+Distributed database sharding introduces a complex interplay among fault tolerance, consistency, availability, and operational risk. This article presents a structured review of the current ThemisDB sharding module — including its RAID-like redundancy modes — by combining source-code inspection, module-level documentation, test-registration review, workflow review, and theory-backed performance modeling rather than claiming a fully empirical benchmark campaign. The current codebase exposes pluggable consensus (Raft, Paxos, Gossip), multi-protocol cross-shard transactions (2PC, 3PC, SAGA, Percolator), a `ShardRepairEngine`, a consistent-hash routing layer with 150 virtual nodes by default, and erasure-coding backends surfaced through `GPUErasureCoder` and `RedundancyConfig` [4], [5]. Drawing on Level-1 sharding sources, current test and CI artefacts, and the wider distributed-systems literature, we derive a risk taxonomy across five dimensions: *consistency risk*, *availability risk*, *durability risk*, *operational risk*, and *security risk*. We extend the taxonomy in this version with three new risk items (R-21–R-23) covering router topology-update races, Gossip convergence windows, and LLM KV-cache cross-tenant isolation in converged storage-inference deployments. We identify three critical open gaps — unbounded WAL growth under Raft, a blocking window in the 2PC coordinator path, and an incomplete cross-shard read-path gRPC migration — and propose measurable acceptance criteria for each. We also provide a topology characterization of the current implementation: seven redundancy modes (`NONE`, `STRIPE`, `MIRROR`, `STRIPE_MIRROR`, `PARITY`, `RAID6`, `GEO_MIRROR`), three erasure-coding algorithms (`REED_SOLOMON`, `CAUCHY`, `LRC`), deterministic collision probing in the consistent-hash ring, and quorum defaults (`write_quorum = 2`, `read_quorum = 1`) [4], [5]. Theoretical sections are explicitly labeled as analytical models, not frozen benchmark results. The result is a traceable evaluation framework, topology reference, 23-item risk register, and formal threat model that can guide production-readiness decisions for the sharding module.
 
 ---
 
 ## I. Introduction
 
-Horizontal sharding is the dominant strategy for scaling relational and document databases beyond single-node capacity limits [1]. By partitioning data across autonomous nodes, sharding enables linear throughput growth and geographic distribution. However, it simultaneously amplifies the failure surface: every cross-shard operation introduces potential consistency anomalies, every node failure requires coordinated recovery, and every topology change risks routing instability [2].
+Horizontal sharding is the dominant strategy for scaling relational and document databases beyond single-node capacity limits [1]. By partitioning data across autonomous nodes, sharding enables throughput growth and geographic distribution. However, it simultaneously amplifies the failure surface: every cross-shard operation introduces potential consistency anomalies, every node failure requires coordinated recovery, and every topology change risks routing instability [2].
 
-The ThemisDB sharding subsystem — implemented in `src/sharding/` across 73 source files — is a research-grade, production-targeting implementation that combines several subsystems rarely found together in an open codebase: a pluggable consensus layer supporting Raft, Paxos, and Gossip via a common `IConsensusAdapter`; a multi-protocol cross-shard transaction coordinator supporting 2PC, 3PC, SAGA, and Percolator; a `ShardRepairEngine` with Reed-Solomon erasure decoding; an `AdaptiveShardRouter` with gossip-driven domain capability routing and `LEAST_LOADED` tie-breaking; and RAID0/1/5 redundancy strategies with AVX2-accelerated `SIMDErasureCoder` [3].
+The current ThemisDB sharding module spans 94 compiled source files under `src/sharding/` and combines several subsystems rarely examined together in one codebase: a pluggable consensus layer centered on `ConsensusModule` implementations for Raft, Paxos, and Gossip; a multi-protocol cross-shard transaction coordinator supporting 2PC, 3PC, SAGA, and Percolator; a `ShardRepairEngine`; an `AdaptiveShardRouter`; and RAID-like redundancy strategies with CPU/GPU erasure-coding support exposed through `GPUErasureCoder` and `RedundancyConfig` [4], [5]. Current Level-1 module documentation describes this runtime as production-capable for core routing, coordination, repair, and observability surfaces, while also making clear that broader multi-shard rollout readiness remains incomplete and that critical hardening gates are still open [4].
 
-Despite this implementation breadth, no systematic evaluation or risk analysis of the subsystem as a whole has been published. The existing paper on RAID-sharded LLM inference [4] treats the sharding layer as an architectural foundation for a higher-level inference co-design, but does not analyze the sharding system's own failure modes, known limitations, or production readiness in depth. The retrospective bug catalog [5] documents 98 verified findings across the entire ThemisDB codebase, with significant sharding-related failures among them, but does not provide a structured risk taxonomy or evaluation framework specific to the sharding subsystem.
+Despite this implementation breadth, no repository-local article has previously synthesized the subsystem's architecture, risk surface, evidence trail, and open rollout gaps in one place. The repository already contains an LLM-focused sharding paper and a broader defect retrospective, but those artefacts are not organized as a sharding-specific review framework. This article fills that narrower review gap [5].
 
 This paper fills that gap. Our contributions are:
 
@@ -48,7 +50,7 @@ This paper fills that gap. Our contributions are:
 
 **H3**: For a 3-node Raft replica group with write quorum $W = 2$ and a shard failure probability $p$, the probability of write availability loss equals $p^2 (3 - 2p)$; at $p = 0.01$ this is approximately $2.97 \times 10^{-4}$, which satisfies typical four-nines availability targets but not five-nines without additional mitigation.
 
-The remainder of the paper is organized as follows. Section II reviews related work, including a new §II-J on converged storage-inference sharding. Section III describes the system architecture and component interactions. Section IV presents the risk taxonomy (23 items, R-01–R-23). Section V covers the evaluation methodology. Section VI presents theoretical performance analysis. Section VII discusses the production readiness gap analysis. Section VIII addresses threats to validity and limitations. Section IX provides implementation evidence. Section X discusses reproducibility. Section XI concludes. Appendix C provides the formal STRIDE security threat model.
+The remainder of the paper is organized as follows. Section II reviews related work, including §II-J on converged storage-inference sharding. Section III describes the system architecture and component interactions. Section IV presents the risk taxonomy (23 items, R-01–R-23). Section V covers the evaluation methodology and review approach. Section VI presents theoretical performance analysis. Section VII discusses the production-readiness gap analysis. Section VIII discusses architecture trade-offs and threats to validity. Section IX provides implementation evidence. Section X summarizes reproducibility notes. Section XI states limitations and known issues. Section XII concludes. Appendix C provides the formal STRIDE security threat model.
 
 ---
 
@@ -66,7 +68,7 @@ The **FLP impossibility theorem** [27] establishes the fundamental bound within 
 
 ### B. Erasure Coding in Storage Systems
 
-Reed-Solomon erasure coding [11] in RAID arrays is well-studied. **Facebook's f4** [12] applies erasure coding specifically to warm-blob storage, demonstrating that GF(2⁸)-based coding can achieve near-theoretical recovery throughput when SIMD acceleration is applied. ThemisDB's `SIMDErasureCoder` follows this approach using AVX2 XOR instructions, with a theoretically computed parity throughput of ~3.5 GB/s on a modern core.
+Reed-Solomon erasure coding [11] in RAID arrays is well-studied. **Facebook's f4** [12] applies erasure coding specifically to warm-blob storage, demonstrating that GF(2⁸)-based coding can achieve near-theoretical recovery throughput when SIMD acceleration is applied. ThemisDB's current erasure-coding stack exposes this capability through `GPUErasureCoder`, including AVX2-oriented CPU fallback and optional CUDA/OpenCL acceleration paths [5].
 
 **HDFS-RAID** [13] documents real-world failure rates and repair window requirements in production erasure-coded storage. Their empirical observation that disk failures in practice arrive in correlated bursts (not independently) is directly relevant to ThemisDB's RAID5 single-shard-failure assumption; correlated failures violate this assumption and increase the risk of data loss during reconstruction.
 
@@ -193,7 +195,7 @@ The ThemisDB sharding subsystem is organized into the following principal layers
           │            Repair & Durability Layer      │
           │  ShardRepairEngine (Reed-Solomon, anti-   │
           │                     entropy scanning)     │
-          │  SIMDErasureCoder (AVX2/OpenCL)           │
+          │  GPUErasureCoder (CPU/CUDA/OpenCL)       │
           │  ShardDurability / HotSpareManager        │
           └───────────────────┬──────────────────────┘
                               │
@@ -445,7 +447,7 @@ Under RAID0 (no redundancy), failure of any shard results in permanent loss of t
 - *Mitigation path*: Enforce a pre-deployment warning when RAID0 is selected without an external backup policy; document in operations runbook.
 
 **R-06 — Raft WAL Growth Unbounded** *(Severity: High)*  
-The Raft log in `src/sharding/raft_log.cpp` and `src/sharding/raft_wal_integration.cpp` accumulates entries indefinitely. Raft snapshot compaction — which replaces a prefix of the log with a point-in-time state snapshot — is specified in the Raft paper [7] but is not implemented in ThemisDB. Under a realistic write load of 10,000 operations/day, the WAL file grows by approximately 1 GB/day (at ~100 bytes per log entry). After 30 days, a single Raft group accumulates ~30 GB of log entries. This is both a storage risk (disk exhaustion) and a recovery risk (full WAL replay on restart may take minutes).
+The Raft log in `src/sharding/raft_log.cpp` and `src/sharding/raft_wal_integration.cpp` accumulates entries indefinitely. Raft snapshot compaction — which replaces a prefix of the log with a point-in-time state snapshot — is specified in the Raft paper [7] but is not implemented in ThemisDB. Exact growth depends on entry payload size and persistence format; even at a conservative floor of ~100 bytes per entry, 10,000 operations/day still implies monotonic growth with no compaction boundary. This is both a storage risk and a recovery risk because restart replay time scales with retained log volume rather than a bounded snapshot size.
 - *Affected files*: `src/sharding/raft_log.cpp`, `src/sharding/raft_wal_integration.cpp`
 - *ROADMAP status*: `[?]` — explicitly acknowledged as unresolved.
 - *Mitigation path*: Implement `RaftLog::createSnapshot()` triggered when log size exceeds a configurable threshold (e.g., 1 GB or 100,000 entries); integrate with `RaftState` for state serialization.
@@ -547,17 +549,21 @@ In converged storage-inference deployments, the `KVPrefixTransferManager` moves 
 
 ---
 
-## V. Evaluation Methodology
+## V. Evaluation Methodology and Review Approach
 
-### A. Test Infrastructure
+### A. Source-of-Truth and Review Method
 
-The sharding module has 32+ registered focused standalone CTest targets (`test_sharding_*_focused`), covering consensus, cross-shard transactions, repair engine, epoch fencing, failover orchestration, chaos, and hardware migration. Each target links only the components under test to maintain compilation isolation and enable parallel execution in CI.
+This article was re-verified against the current Level-1 sharding sources defined by `DOCUMENTATION_GOVERNANCE.md`: `src/sharding/`, `include/sharding/`, `tests/sharding/`, benchmark artefacts under `benchmarks/sharding/`, and the current release-critical workflow. Implementation-status claims are treated as valid only when they can be traced to those sources or to an explicitly named benchmark/test artefact.
 
-The CI workflow `.github/workflows/06-infrastructure_distributed_sharding-focused-tests-ci.yml` provides the primary automated gate.
+### B. Test Infrastructure
 
-### B. Fault-Injection Workloads
+`tests/sharding/CMakeLists.txt` currently contains 30 explicit `themis_register_module_focused_test(...)` registrations plus one focused integration registration through `themis_register_module_test(... KIND focused ...)`, with an additional autogen block for remaining `test_sharding_*.cpp` sources. Coverage spans consensus, cross-shard transactions, repair, epoch fencing, fault injection, redundancy, gossip, and migration-related paths. Each focused target links only the components under test to keep build scope isolated.
 
-We define four workload categories for the evaluation framework:
+The primary automated gate for the broader regression baseline is `.github/workflows/09-pr-gates_release-critical-tests.yml`, which configures the `community-release` preset and runs `ctest -L release_critical` on pull requests targeting the canonical long-lived branches.
+
+### C. Fault-Injection Workloads
+
+We define six workload categories for the evaluation framework:
 
 **W1 — Consensus Under Partition**  
 Inject a network partition that splits a 5-node Raft cluster into a 3-node majority and a 2-node minority. Measure: time to new leader election, number of rejected writes on the minority, recovery time after partition heals. Expected: leader election ≤ 2× election timeout (typically 300–600 ms); minority writes rejected with `CONSENSUS_NO_QUORUM`; recovery ≤ 1 gossip round-trip.
@@ -569,7 +575,7 @@ Kill shard $i$ while shard $j$ is under active RAID5 reconstruction. Measure: da
 Kill the 2PC coordinator after all participants have responded with PREPARED. Measure: time until participants abort (via timeout), number of locked key-range-seconds, and whether the new coordinator resolves the transaction correctly. Expected (gap state): participants block indefinitely (confirms H1); with mitigation: participants abort within `coordinator_timeout_ms`.
 
 **W4 — WAL Growth Under Continuous Writes**  
-Run 10,000 Raft operations/day for 7 days on a test cluster. Measure: WAL file size per day, recovery time after simulated restart at day 7. Expected (gap state): WAL grows ~1 GB/day; recovery time exceeds 60 s at day 7 (confirms H2).
+Run 10,000 Raft operations/day for 7 days on a test cluster. Measure: WAL file size per day and recovery time after simulated restart at day 7. Expected (gap state): WAL size grows monotonically with workload volume, and recovery time increases with retained log length unless compaction is introduced (confirms H2 qualitatively; exact magnitude must be measured).
 
 **W5 — Clock Skew Injection Under Epoch Fencing**  
 Artificially skew the system clock of one shard node by +500 ms, +2 s, and +10 s while cross-shard transactions are in flight. Measure: number of epoch-fence rejections, number of incorrectly accepted stale writes, and transaction abort rate. Expected: epoch fencing rejects all stale writes when `lease_duration_ms` > clock skew; at 10 s skew, test whether fencing margin is sufficient given the default configuration.
@@ -577,7 +583,7 @@ Artificially skew the system clock of one shard node by +500 ms, +2 s, and +10 s
 **W6 — Mixed-Protocol Isolation Anomaly Detection**  
 Issue concurrent 2PC reads and SAGA compensating writes to the same key range. Verify whether dirty reads are observable from a concurrent reader between PREPARE and COMMITTED acknowledgement. Expected: anomaly detected if `READ COMMITTED` is claimed but not enforced; serves as a regression gate for R-20 (MVCC gap).
 
-### C. Metrics
+### D. Metrics
 
 | Metric | Target | Evidence Status |
 |--------|--------|-----------------|
@@ -592,7 +598,7 @@ Issue concurrent 2PC reads and SAGA compensating writes to the same key range. V
 | NTP drift bound (monitored) | ≤ 10 ms (target) | Pending observability |
 | Epoch lease margin vs. clock skew | ≥ 3× observed NTP drift | Pending configuration |
 
-### D. Reproducibility Controls
+### E. Reproducibility Controls
 
 All test targets use deterministic random seeds, fixed port offsets, and in-process temporary directories (RAII `TempDir`) to avoid test environment interference. Chaos tests inject failures via controlled shutdown sequences rather than `SIGKILL` to ensure WAL integrity between injected failure and recovery.
 
@@ -602,7 +608,7 @@ All test targets use deterministic random seeds, fixed port offsets, and in-proc
 
 ### A. Reed-Solomon Repair Throughput
 
-The `SIMDErasureCoder` XOR path processes 32 bytes per AVX2 instruction at ~3.5 GHz core frequency, yielding a theoretical memory-bandwidth-bound throughput of:
+The current codebase surfaces erasure coding through `GPUErasureCoder`, with CPU fallback and CUDA/OpenCL acceleration. The calculation below should therefore be read as an analytical upper bound for a CPU-side AVX2 parity path, not as a measured repository benchmark:
 
 $$T_{\text{XOR}} = 32\,\text{B} \times 3.5 \times 10^9\,\text{Hz} = 112\,\text{GB/s}$$
 
@@ -750,7 +756,7 @@ For the GEO_MIRROR mode with $N_r$ regions each with $N$ replicas and regional w
 
 The ThemisDB sharding architecture demonstrates several notable design qualities:
 
-1. **Pluggable consensus**: The `ConsensusFactory` / `IConsensusAdapter` pattern allows runtime selection of Raft, Paxos, or Gossip without cluster restart, a level of flexibility absent in most monolithic sharding implementations.
+1. **Pluggable consensus**: The `ConsensusFactory` / `ConsensusModule` pattern allows runtime selection of Raft, Paxos, or Gossip without cluster restart, a level of flexibility absent in most monolithic sharding implementations.
 
 2. **Multi-protocol transaction coordination**: Supporting 2PC, 3PC, SAGA, and Percolator within a single coordinator framework allows workload-specific protocol selection — a capability that most open-source distributed databases do not expose.
 
@@ -760,9 +766,9 @@ The ThemisDB sharding architecture demonstrates several notable design qualities
 
 ### B. Architectural Concerns
 
-1. **Complexity density**: 73 source files across 5 distinct layers, 4 consensus protocols, and 4 transaction coordination strategies represent a very high implementation complexity for a system that is still in beta state. Complexity correlates with defect density, as evidenced by the 98-item bug register [5].
+1. **Complexity density**: The current sharding tree spans 94 compiled source files across routing, coordination, transaction, repair, WAL, and observability layers. Even without claiming full GA readiness, this is a large implementation surface whose operational complexity is visible in repository-local failure analysis and in the number of still-open rollout gates [4], [5].
 
-2. **Gap between documented capabilities and implemented reality**: The ROADMAP and FUTURE_ENHANCEMENTS documents describe production-ready capabilities (e.g., adaptive rebalancer, full gRPC read path) that are not yet implemented. This gap risks misrepresenting the system's readiness to downstream consumers of the documentation.
+2. **Readiness gap remains explicit**: Current module docs do not claim a complete rollout; instead, they document a meaningful gap between the production-capable core runtime and the disabled broader multi-shard rollout. In particular, the roadmap still marks hardening, release-benchmark stabilization, and multi-shard enablement as incomplete [4].
 
 3. **Absent benchmark regression gates**: Two critical failures in the bug register (R-11 WAL sync regression, R-12 fake benchmark KPI) share a root cause: absence of automated benchmark regression gates in CI. A throughput or latency regression can persist undetected across multiple merges.
 
@@ -826,7 +832,7 @@ Nygard's empirical observation is that circuit breakers should be tuned per-depe
 |-------------|------|-------|-----------------|--------|
 | E1 | `src/sharding/SECURITY.md` | Threat table | 2PC blocking window documented (R-01) | Ready |
 | E2 | `src/sharding/ROADMAP.md` | Known Issues | WAL growth unbounded (R-06) | Ready |
-| E3 | `src/sharding/ROADMAP.md` | Known Issues | gRPC read path incomplete (R-13) | Ready |
+| E3 | `src/sharding/shard_rpc_client.cpp`, `include/sharding/shard_rpc_client.h` | Cross-shard RPC surface | gRPC write path exists while read RPC is absent (R-13) | Ready |
 | E4 | `src/sharding/ROADMAP.md` | Production Readiness Checklist | Adaptive rebalancer `[?]` (R-08) | Ready |
 | E5 | `src/sharding/paxos_wal.cpp` | fsync before PROMISE | Paxos acceptor state persistent (R-03 mitigated) | Ready |
 | E6 | `tests/test_paxos_persistence_recovery_focused` | PSR-01..PSR-10 | Paxos recovery correctness | Ready |
@@ -864,26 +870,30 @@ Nygard's empirical observation is that circuit breakers should be tuned per-depe
   ctest -R test_adaptive_shard_router_focused
   ```
 - **Expected runtime**: Individual focused targets: 1–30 s. Full sharding suite: 5–15 min.
-- **Known environment requirements**: C++17 compiler, RocksDB, gRPC, AVX2-capable CPU for SIMD erasure coder tests.
+- **Known environment requirements**: C++17 compiler, RocksDB, gRPC, and CPU/GPU support compatible with the selected erasure-coding acceleration path.
 - **Known pitfalls**: Chaos tests require sufficient file descriptor limits (`ulimit -n 65536`); port conflict detection may fail if test cleanup is interrupted.
 
 ---
 
-## XI. Limitations, Risk, and Ethics
+## XI. Limitations and Known Issues
 
-### System Boundary
+### A. System Boundary
 
-This paper analyzes ThemisDB's sharding subsystem as a software artifact and design study. The claims in Section VI are theoretical and should not be interpreted as empirically validated production benchmarks.
+This article analyzes ThemisDB's sharding module as a software artefact and design study. The claims in Section VI are theoretical and should not be interpreted as empirically validated production benchmarks.
 
-### Misuse Risks
+### B. Misuse Risks
 
 RAID0 deployments (no redundancy) are appropriate only when backed by an external backup policy. Using RAID0 without backups for any data that must survive node failure represents an unacceptable operational risk; system documentation must communicate this clearly.
 
-### Security Boundary
+### C. Security Boundary
 
-The mTLS perimeter protects inter-shard communication but does not protect against compromised shard nodes that hold valid certificates. Operators deploying ThemisDB in adversarial environments (e.g., multi-tenant cloud) should apply additional isolation measures beyond key-prefix-level tenant separation.
+The mTLS perimeter protects inter-shard communication but does not protect against compromised shard nodes that hold valid certificates. Operators deploying ThemisDB in adversarial environments (e.g., multi-tenant cloud) should apply additional isolation measures beyond routing-level tenant checks, certificate-based transport security, and application-layer authorization.
 
-### Ethics and AI Integration
+### D. Known Review Limitations
+
+The evidence base in this article is intentionally repository-local: code, module docs, test registration, and workflow configuration. That makes the reasoning traceable, but it also means some claims remain analytical until the corresponding benchmark artefacts, fault-injection runs, or production incident reproductions are frozen and attached.
+
+### E. Ethics and AI Integration
 
 For deployments integrating the sharding layer with LLM inference (as described in [4]), the isolation guarantees of the RAID-sharding layer affect the privacy properties of retrieved context. A routing bug that leaks cross-tenant documents into an inference context constitutes a privacy violation that may have regulatory consequences under GDPR or HIPAA.
 
@@ -891,7 +901,7 @@ For deployments integrating the sharding layer with LLM inference (as described 
 
 ## XII. Conclusion
 
-We have presented a systematic evaluation and risk analysis of the ThemisDB RAID-sharding subsystem, contributing a 23-item risk taxonomy across five dimensions (extended in v0.4 with R-21–R-23 covering router topology-update races, Gossip convergence windows, and LLM KV-cache cross-tenant isolation in converged deployments), a **complete topology reference architecture** (the first systematic characterization of the system's seven RAID redundancy modes, three erasure-coding algorithms, consistent-hash ring with virtual-node load analysis, quorum model, and geo-distribution topology), a component-level evaluation framework with measurable acceptance criteria and six fault-injection workloads, and a theoretical performance analysis grounded in the actual implementation. We have positioned the system against the CAP theorem [28], [29] and PACELC [30], identifying a dangerous PA/EC operating point that arises when Gossip consensus is mixed with Raft data shards without configuration-time enforcement. We have quantified the quorum availability model: for $N = 3$, $W = 2$, the write unavailability probability is $p^2(3-2p)$, yielding approximately 5.5 nines at $p = 0.001$, confirming H3.
+We have presented a structured evaluation and risk analysis of the ThemisDB sharding module with RAID-like redundancy, contributing a 23-item risk taxonomy across five dimensions (extended in v0.5 with R-21–R-23 covering router topology-update races, Gossip convergence windows, and LLM KV-cache cross-tenant isolation in converged deployments), a topology reference architecture for the system's seven redundancy modes and three erasure-coding algorithms, a component-level review framework with measurable acceptance criteria and six fault-injection workloads, and a theoretical performance analysis grounded in current source and module documentation. We have positioned the system against the CAP theorem [29], [30] and PACELC [31], identifying a dangerous PA/EC operating point that arises when Gossip consensus is mixed with Raft data shards without configuration-time enforcement. We have also quantified the quorum availability model: for $N = 3$, $W = 2$, the write unavailability probability is $p^2(3-2p)$, yielding approximately 5.5 nines at $p = 0.001$, confirming H3.
 
 We have placed the ThemisDB consensus design in the context of the FLP impossibility result [27]: since distributed consensus is impossible in a purely asynchronous system with even one faulty process, Raft's explicit leader election and log compaction (snapshot) mechanism — not yet implemented — is a *liveness* necessity, not merely an optimization. The absence of Raft snapshot compaction (R-06) is therefore not a deferred enhancement but a fundamental liveness gap relative to the Raft design specification [7].
 
@@ -899,7 +909,7 @@ We have added a related work section on converged storage-inference sharding (§
 
 The architecture analysis reveals that ThemisDB's LRC erasure coding, 7-mode RAID taxonomy, and GEO_MIRROR with per-region quorum configuration are genuinely differentiated from production alternatives such as CockroachDB [9] and TiDB [10]. The three critical production-readiness gaps (unbounded Raft WAL growth, absent 2PC coordinator timeout, incomplete gRPC read path) and five medium-severity gaps (clock skew assumptions, MVCC gap for 2PC/SAGA, router topology-update race, Gossip convergence window, KV-cache cross-tenant isolation) remain the delta to close before a general availability declaration.
 
-The retrospective failure analysis in the ThemisDB bug register [5] identifies several root causes that are architectural rather than incidental: absence of benchmark regression gates, documentation that outpaces implementation, and insufficient chaos testing scope. These systemic patterns — analogous to the "fallacies of distributed computing" [2] applied at the process level — must be addressed as process changes alongside the specific technical gaps.
+The repository-local defect retrospective and research notes [5] identify several root causes that are architectural rather than incidental: incomplete benchmark regression discipline, documentation drift, and insufficient chaos-testing scope. These systemic patterns — analogous to the "fallacies of distributed computing" [2] applied at the process level — must be addressed as process changes alongside the specific technical gaps.
 
 ---
 
@@ -911,9 +921,9 @@ The retrospective failure analysis in the ThemisDB bug register [5] identifies s
 
 [3] D. A. Patterson, G. Gibson, and R. H. Katz, "A Case for Redundant Arrays of Inexpensive Disks (RAID)," in *Proc. ACM SIGMOD*, Chicago, IL, USA, 1988, pp. 109–116.
 
-[4] ThemisDB Contributors, "RAID-Sharded Inference: A Co-Design Architecture for Distributed Large Language Model Serving in Hybrid Database Systems," *research/RAID_SHARDING_LLM_DISTRIBUTED_INFERENCE.md*, ThemisDB repository, 2026.
+[4] ThemisDB Contributors, "Sharding Module Documentation and Public Contracts" (`src/sharding/README.md`, `src/sharding/ARCHITECTURE.md`, `src/sharding/ROADMAP.md`, `src/sharding/SECURITY.md`, `include/sharding/redundancy_strategy.h`, `include/sharding/consistent_hash.h`, `include/sharding/consensus_module.h`, `include/sharding/gpu_erasure_coder.h`), ThemisDB repository, validated 2026-07-18. [Online]. Available: https://github.com/makr-code/ThemisDB/tree/develop/src/sharding
 
-[5] ThemisDB Contributors, "Themis: It Is Okay to Fail — Engineering Retrospective and Defect Register," *research/THEMIS_IT_IS_OKAY_TO_FAIL*, ThemisDB repository, v0.6, 2026.
+[5] ThemisDB Contributors, "Repository-local sharding research and defect-review artefacts" (`research/RAID_SHARDING_LLM_DISTRIBUTED_INFERENCE.md`, `research/THEMIS_IT_IS_OKAY_TO_FAIL.md`, `tests/sharding/CMakeLists.txt`, `.github/workflows/09-pr-gates_release-critical-tests.yml`), ThemisDB repository, 2026. [Online]. Available: https://github.com/makr-code/ThemisDB/tree/develop/research
 
 [6] L. Lamport, "Paxos Made Simple," *ACM SIGACT News*, vol. 32, no. 4, pp. 18–25, 2001.
 
@@ -983,11 +993,11 @@ The retrospective failure analysis in the ThemisDB bug register [5] identifies s
 
 [39] W. Vogels, "Eventually Consistent," *Commun. ACM*, vol. 52, no. 1, pp. 40–44, Jan. 2009.
 
-[40] C. Huang, H. Simitci, Y. Xu, A. Ogus, B. Calder, P. Gopalan, J. Li, and S. Yekhanin, "Erasure Coding in Windows Azure Storage," in *Proc. USENIX ATC*, Boston, MA, USA, 2012, pp. 15–26.
+[40] C. Huang, H. Simitci, Y. Xu, A. Ogus, B. Calder, P. Gopalan, J. Li, and S. Yekhanin, "Erasure Coding in Windows Azure Storage," in *Proc. USENIX ATC*, Boston, MA, USA, 2012, pp. 15–26. [Online]. Available: https://www.usenix.org/conference/atc12/technical-sessions/presentation/huang
 
-[41] W. Kwon, Z. Li, S. Zhuang, Y. Sheng, L. Zheng, C. H. Yu, J. Gonzalez, H. Zhang, and I. Stoica, "Efficient Memory Management for Large Language Model Serving with PagedAttention," in *Proc. ACM SOSP*, Koblenz, Germany, 2023, pp. 611–626.
+[41] W. Kwon, Z. Li, S. Zhuang, Y. Sheng, L. Zheng, C. H. Yu, J. Gonzalez, H. Zhang, and I. Stoica, "Efficient Memory Management for Large Language Model Serving with PagedAttention," in *Proc. ACM SOSP*, Koblenz, Germany, 2023, pp. 611–626. [Online]. Available: https://arxiv.org/abs/2309.06180
 
-[42] G.-I. Yu, J. S. Jeong, G.-W. Kim, S. Kim, and B.-G. Chun, "Orca: A Distributed Serving System for Transformer-Based Generative Models," in *Proc. USENIX OSDI*, Carlsbad, CA, USA, 2022, pp. 521–538.
+[42] G.-I. Yu, J. S. Jeong, G.-W. Kim, S. Kim, and B.-G. Chun, "Orca: A Distributed Serving System for Transformer-Based Generative Models," in *Proc. USENIX OSDI*, Carlsbad, CA, USA, 2022, pp. 521–538. [Online]. Available: https://www.usenix.org/conference/osdi22/presentation/yu
 
 ---
 
