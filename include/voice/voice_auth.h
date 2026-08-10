@@ -238,8 +238,10 @@ public:
     /**
      * @brief Detect liveness: distinguish live speech from replay/synthesis.
      *
-     * Uses crest factor and spectral flatness heuristics.  A future neural
-     * anti-spoofing model can replace this method without API changes.
+     * Uses fail-closed heuristics for clipped, low-variability, and replay-like
+     * PCM patterns before combining crest factor and spectral flatness signals.
+     * A future neural anti-spoofing model can replace this method without API
+     * changes.
      *
      * @param audio_sample  Raw PCM audio.
      * @return LivenessScore with is_live==true when the sample appears genuine.
