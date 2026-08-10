@@ -1,14 +1,15 @@
 # Distributed Tensor Module Performance Expectations
 
-<!-- Status: current | validated: 2026-07-17 -->
+<!-- Status: current | validated: 2026-08-10 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Baseline
 
-Distributed tensor module behavior is at documentation scaffold stage. Module structure
-and planning docs exist; contract headers (`*.h`), skeleton translation units (`*.cc`),
-production distributed runtime behavior, and measured benchmark evidence are deferred to
-the implementation PR.
+Distributed tensor module core runtime behavior is implemented for the EPIC 3
+artifact path, including Phase C shard-summary coordination and summary-first
+routing helpers. Benchmark governance assets and benchmark source files exist,
+but measured result bundles are still required before any production performance
+claim or Phase 6 acceptance sign-off can be made.
 
 ## Phase 5 Governance Assets
 
@@ -51,8 +52,18 @@ until benchmark result bundles are produced from the runtime implementation.
 ## Benchmark Work Items
 
 - maintain `benchmarks/epic3_distributed_tensor/` workload profiles, runbooks, and gate manifest
+- maintain executable/profile mapping for placement, retrieval, recovery, integrity,
+  infrastructure stability, summary-first routing, and CPU/GPU baseline benchmarks
 - implement distributed/fault-path test evidence in `tests/epic3_distributed_tensor/`
 - capture runtime benchmark results and maintain release-baseline tracking for phase-gate promotion
+
+## CPU/GPU Break-Even Status
+
+- CPU baseline benchmarks BGPU-01..04 are implemented in
+  `benchmarks/epic3_distributed_tensor/bench_tensor_cpu_gpu_breakeven.cc`
+- GPU evidence is still pending hardware-backed execution and published result bundles
+- no GPU-dependent path may be marked ready until the >= 4x speedup gate at N=1024 is
+  demonstrated and attached to Phase 6 acceptance evidence
 
 ## Phase 6 Acceptance Preconditions
 

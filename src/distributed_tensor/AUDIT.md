@@ -1,6 +1,6 @@
 # Audit Report - Distributed Tensor Module
 
-<!-- Status: current | validated: 2026-07-17 -->
+<!-- Status: current | validated: 2026-08-10 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 ## Summary
@@ -12,7 +12,7 @@
 | Contract set size | 7 public headers under `include/distributed_tensor/` |
 | Core docs synchronized | pass |
 | Benchmark governance scaffold | pass (`benchmarks/epic3_distributed_tensor/` metadata present) |
-| Critical blockers | measured runtime evidence still blocked on implementation PR |
+| Critical blockers | measured runtime evidence and acceptance sign-off still pending |
 
 ## Verified Files
 
@@ -39,11 +39,12 @@
 - Evidence: only the focused Phase 3 regression suite is wired today.
 - Action: expand Phase 4 coverage across all EPIC 3 components and fault classes.
 
-2. [DT-AUD-02] Dedicated distributed benchmarks are pending.
+2. [DT-AUD-02] Result-bundle evidence and gate outcomes are still pending.
 - Severity: medium
-- Evidence: Phase 5 benchmark governance metadata now exists, but runtime benchmark sources,
-  result bundles, and the dedicated test suite are still missing.
-- Action: land runtime benchmark/test sources and record gate outcomes.
+- Evidence: runtime benchmark sources now exist for placement, retrieval, recovery,
+  integrity, infrastructure stability, summary-first routing, and CPU baseline
+  break-even work, but no aggregated result bundle or gate summary is attached yet.
+- Action: execute the benchmark package, record gate outcomes, and attach Phase 6 evidence.
 
 ### Closed
 
@@ -52,6 +53,8 @@
 - root-level governance docs now cover architecture, security, roadmap, performance, and audit views.
 - Phase 5 benchmark gates, deterministic profiles, and triage inputs are defined without
   asserting unmeasured production behavior.
+- Phase 5 benchmark source package now covers all workload profiles listed in
+  `benchmarks/epic3_distributed_tensor/phase5_workload_profiles.json`.
 
 ## Compliance Snapshot
 

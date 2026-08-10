@@ -5070,6 +5070,8 @@ themis_add_standard_benchmark(bench_geo_dbscan             geo/bench_geo_dbscan.
 themis_add_standard_benchmark(bench_geojson_parse          bench_geojson_parse.cpp)
 themis_add_standard_benchmark(bench_gorilla_codec          bench_gorilla_codec.cpp)
 themis_add_standard_benchmark(bench_gossip_config          bench_gossip_config.cpp)
+themis_add_standard_benchmark(bench_gpu_cpu_breakeven_category_a gpu/bench_gpu_cpu_breakeven_category_a.cpp)
+themis_add_standard_benchmark(bench_gpu_cpu_breakeven_category_b gpu/bench_gpu_cpu_breakeven_category_b.cpp)
 themis_add_standard_benchmark(bench_gpu_erasure            gpu/bench_gpu_erasure.cpp)
 themis_add_standard_benchmark(bench_gpu_phase2_phase3_gates gpu/bench_gpu_phase2_phase3_gates.cpp)
 themis_add_standard_benchmark(bench_hsm_provider           bench_hsm_provider.cpp)
