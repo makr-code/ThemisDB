@@ -359,3 +359,41 @@ TEST(VLLMResourceStatsTest, MockProvider_CanUseGPU_At80Percent_Blocks) {
     EXPECT_FALSE(mgr.canUseGPU())
         << "canUseGPU() must return false at exactly 80% (not strictly below threshold)";
 }
+
+TEST(VLLMResourceStatsTest, DispatchVectorSimilarity_UsesCpuFallback_WhenGpuBlocked) {
+    VLLMResourceManager mgr(makeConfig());
+    mgr.setGpuUtilizationProviderForTesting([]() -> std::optional<double> {
+        return 95.0; // force canUseGPU() = false
+    });
+    ASSERT_TRUE(mgr.initialize());
+
+    std::vector<float> queries = {1.0f, 0.0f}; // 1 query, dim=2
+    std::vector<float> vectors = {
+        1.0f, 0.0f, // idx 0
+        0.0f, 1.0f, // idx 1
+        2.0f, 0.0f  // idx 2
+    };
+
+    auto res = mgr.dispatchVectorSimilarity(
+        queries.data(), 1, 2, vectors.data(), 3, 2, DistanceMetric::L2);
+    ASSERT_TRUE(res.success);
+    EXPECT_FALSE(res.used_gpu);
+    ASSERT_EQ(res.topk_indices.size(), 2u);
+    EXPECT_EQ(res.topk_indices[0], 0u);
+    EXPECT_NEAR(res.topk_distances[0], 0.0f, 1e-6f);
+}
+
+TEST(VLLMResourceStatsTest, DispatchVectorSimilarity_InvalidInput_ReturnsError) {
+    VLLMResourceManager mgr(makeConfig());
+    ASSERT_TRUE(mgr.initialize());
+
+    std::vector<float> vectors = {
+        1.0f, 0.0f,
+        0.0f, 1.0f
+    };
+
+    auto res = mgr.dispatchVectorSimilarity(
+        nullptr, 1, 2, vectors.data(), 2, 1, DistanceMetric::L2);
+    EXPECT_FALSE(res.success);
+    EXPECT_FALSE(res.error.empty());
+}

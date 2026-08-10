@@ -32,6 +32,7 @@
 #include <vector>
 
 #include "acceleration/compute_backend.h"
+#include "acceleration/kernel_invocation.h"
 
 // ── Compile-time guards ───────────────────────────────────────────────────────
 // Each guard can be overridden from the CMake command line:
@@ -92,6 +93,28 @@ struct AiInferenceRequest {
     /// @brief Routing decision made by dispatcher (output fields)
     BackendType   chosen_backend  = BackendType::CPU;  ///< Backend selected by dispatcher
     std::string   chosen_ep;                           ///< ONNX EP or platform-specific identifier used
+
+    /// @brief Optional vector-similarity request payload.
+    ///
+    /// If `task_tag` is set to one of:
+    /// - `"vector_similarity_l2"`
+    /// - `"vector_similarity_cosine"`
+    /// - `"vector_similarity_ip"`
+    ///
+    /// then `input_data` is interpreted as a row-major query matrix
+    /// `[similarity_num_queries × similarity_dim]` and `similarity_corpus`
+    /// is interpreted as a row-major corpus matrix
+    /// `[similarity_num_vectors × similarity_dim]`.
+    ///
+    /// Failure and edge cases:
+    /// - Any null pointer, zero size, or shape mismatch is rejected.
+    /// - `similarity_top_k` is clamped to `similarity_num_vectors`.
+    const float* similarity_corpus      = nullptr;                  ///< Corpus matrix [numVectors × dim]
+    size_t       similarity_num_queries = 1;                        ///< Number of query vectors
+    size_t       similarity_num_vectors = 0;                        ///< Number of corpus vectors
+    size_t       similarity_dim         = 0;                        ///< Shared vector dimensionality
+    size_t       similarity_top_k       = 1;                        ///< Number of neighbours to return
+    DistanceMetric similarity_metric    = DistanceMetric::L2;       ///< Metric used for vector-similarity path
 };
 
 /// @brief Result of an AI inference operation with output, timing, and backend information.
@@ -103,6 +126,14 @@ struct AiInferenceResult {
     BackendType          backend_used = BackendType::CPU;  ///< Backend that executed the model
     std::string          ep_used;             ///< Execution provider/backend identifier
     double               latency_ms   = 0.0;  ///< Wall-clock inference time in milliseconds
+
+    /// @brief Optional ANN/top-k outputs for vector-similarity requests.
+    ///
+    /// Layout:
+    /// - `topk_indices`: `[numQueries × effectiveK]` row-major
+    /// - `topk_distances`: `[numQueries × effectiveK]` row-major
+    std::vector<uint32_t> topk_indices;
+    std::vector<float>    topk_distances;
 };
 
 /// @brief Hardware capability and availability snapshot for an AI acceleration backend.

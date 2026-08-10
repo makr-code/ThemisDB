@@ -67,6 +67,7 @@
 
 #include "acceleration/ai_hardware_dispatcher.h"
 #include <stdexcept>
+#include "acceleration/cpu_backend.h"
 #include "acceleration/compute_backend.h"
 #include "utils/logger.h"
 
@@ -76,6 +77,12 @@
 #include <cstring>
 #include <filesystem>
 #include <sys/stat.h>
+#include <vector>
+
+#ifdef THEMIS_ENABLE_CUDA
+#include "acceleration/cuda_backend.h"
+#include <cuda_runtime.h>
+#endif
 
 #include "acceleration/compute_backend.h"
 #include "utils/logger.h"
@@ -126,6 +133,129 @@ namespace acceleration {
 namespace {
 std::mutex s_apple_ane_dispatch_mutex;
 AiHardwareDispatcher::AppleANEDispatchFn s_apple_ane_dispatch_fn;
+
+bool isVectorSimilarityTask(const std::string &task_tag) {
+    return task_tag == "vector_similarity_l2" || task_tag == "vector_similarity_cosine"
+           || task_tag == "vector_similarity_ip";
+}
+
+DistanceMetric metricFromTaskTag(const AiInferenceRequest &req) {
+    if (req.task_tag == "vector_similarity_cosine") {
+        return DistanceMetric::COSINE;
+    }
+    if (req.task_tag == "vector_similarity_ip") {
+        return DistanceMetric::INNER_PRODUCT;
+    }
+    return req.similarity_metric;
+}
+
+bool validateSimilarityRequest(const AiInferenceRequest &req, std::string &error) {
+    if (req.input_data == nullptr) {
+        error = "vector similarity request has null input_data";
+        return false;
+    }
+    if (req.similarity_corpus == nullptr) {
+        error = "vector similarity request has null similarity_corpus";
+        return false;
+    }
+    if (req.similarity_num_queries == 0 || req.similarity_num_vectors == 0 || req.similarity_dim == 0) {
+        error = "vector similarity request requires similarity_num_queries/num_vectors/dim > 0";
+        return false;
+    }
+    const size_t expected_query_elements = req.similarity_num_queries * req.similarity_dim;
+    if (req.input_elements != expected_query_elements) {
+        error = "vector similarity request input_elements mismatch: expected " + std::to_string(expected_query_elements)
+                + ", got " + std::to_string(req.input_elements);
+        return false;
+    }
+    if (req.similarity_top_k == 0) {
+        error = "vector similarity request requires similarity_top_k > 0";
+        return false;
+    }
+    return true;
+}
+
+AiInferenceResult runVectorSimilarityDispatch(const ANNKernelDispatch &dispatch, BackendType backend_type,
+                                              const std::string &ep_used, const AiInferenceRequest &req) {
+    AiInferenceResult result;
+    result.backend_used = backend_type;
+    result.ep_used      = ep_used;
+
+    std::string validation_error;
+    if (!validateSimilarityRequest(req, validation_error)) {
+        result.success = false;
+        result.error   = validation_error;
+        return result;
+    }
+
+    ANNDistanceFn distance_launcher = dispatch.distanceLauncherFor(metricFromTaskTag(req));
+    if (distance_launcher == nullptr || dispatch.launchTopK == nullptr) {
+        result.success = false;
+        result.error   = "ANN dispatch table incomplete for requested metric";
+        return result;
+    }
+
+    const int num_queries = static_cast<int>(req.similarity_num_queries);
+    const int num_vectors = static_cast<int>(req.similarity_num_vectors);
+    const int dim         = static_cast<int>(req.similarity_dim);
+    const int top_k       = static_cast<int>(std::min(req.similarity_top_k, req.similarity_num_vectors));
+
+    std::vector<float> distance_matrix(req.similarity_num_queries * req.similarity_num_vectors);
+    result.topk_indices.resize(req.similarity_num_queries * static_cast<size_t>(top_k));
+    result.topk_distances.resize(req.similarity_num_queries * static_cast<size_t>(top_k));
+
+    const auto t0 = std::chrono::steady_clock::now();
+    const int distance_rc
+        = distance_launcher(req.input_data, req.similarity_corpus, distance_matrix.data(), num_queries, num_vectors, dim, nullptr);
+    if (distance_rc != 0) {
+        result.success = false;
+        result.error   = "distance kernel failed with code " + std::to_string(distance_rc);
+        return result;
+    }
+
+#ifdef THEMIS_ENABLE_CUDA
+    if (backend_type == BackendType::CUDA) {
+        const cudaError_t distance_cuda_error = cudaGetLastError();
+        if (distance_cuda_error != cudaSuccess) {
+            result.success = false;
+            result.error   = std::string("distance kernel cudaGetLastError: ") + cudaGetErrorString(distance_cuda_error);
+            return result;
+        }
+    }
+#endif
+
+    const int topk_rc = dispatch.launchTopK(distance_matrix.data(), result.topk_indices.data(), result.topk_distances.data(),
+                                            num_queries, num_vectors, top_k, nullptr);
+    if (topk_rc != 0) {
+        result.success = false;
+        result.error   = "top-k kernel failed with code " + std::to_string(topk_rc);
+        return result;
+    }
+
+#ifdef THEMIS_ENABLE_CUDA
+    if (backend_type == BackendType::CUDA) {
+        const cudaError_t topk_cuda_error = cudaGetLastError();
+        if (topk_cuda_error != cudaSuccess) {
+            result.success = false;
+            result.error   = std::string("top-k kernel cudaGetLastError: ") + cudaGetErrorString(topk_cuda_error);
+            return result;
+        }
+    }
+#endif
+
+    result.output      = result.topk_distances;
+    result.output_shape = {static_cast<int64_t>(req.similarity_num_queries), static_cast<int64_t>(top_k)};
+    result.success     = true;
+    const auto t1      = std::chrono::steady_clock::now();
+    result.latency_ms  = std::chrono::duration<double, std::milli>(t1 - t0).count();
+    return result;
+}
+
+AiInferenceResult runCpuVectorSimilarity(const AiInferenceRequest &req) {
+    CPUVectorBackend backend;
+    (void)backend.initialize();
+    return runVectorSimilarityDispatch(backend.populateANNDispatch(), BackendType::CPU, "CPUExecutionProvider", req);
+}
 } // namespace
 
 void AiHardwareDispatcher::setAppleANEDispatchFn(AppleANEDispatchFn fn) {
@@ -921,15 +1051,36 @@ AiInferenceResult AiHardwareDispatcher::dispatchOnnxRuntime([[maybe_unused]] AiI
 }
 
 AiInferenceResult AiHardwareDispatcher::dispatchGpuFallback(AiInferenceRequest &req) {
-    // Routes to the GPU backend registered in BackendRegistry.
-    // Actual heavy lifting is in CUDAVectorBackend / HIPVectorBackend etc.
-    // Here we provide a graceful fallback path to CPU when no GPU inference
-    // session is pre-created for the given model_path.
-    THEMIS_DEBUG("AiHardwareDispatcher: GPU fallback (no AI session) → CPU SIMD");
+    if (isVectorSimilarityTask(req.task_tag)) {
+#ifdef THEMIS_ENABLE_CUDA
+        CUDAVectorBackend cuda_backend;
+        if (!cuda_backend.initialize()) {
+            THEMIS_WARN("AiHardwareDispatcher: CUDA backend init failed for vector similarity — using CPU fallback");
+            return runCpuVectorSimilarity(req);
+        }
+
+        AiInferenceResult gpu_result
+            = runVectorSimilarityDispatch(cuda_backend.populateANNDispatch(), BackendType::CUDA, "CUDAExecutionProvider", req);
+        if (!gpu_result.success) {
+            THEMIS_WARN("AiHardwareDispatcher: CUDA vector similarity failed: {} — using CPU fallback", gpu_result.error);
+            return runCpuVectorSimilarity(req);
+        }
+        return gpu_result;
+#else
+        THEMIS_WARN("AiHardwareDispatcher: CUDA vector similarity requested without THEMIS_ENABLE_CUDA — using CPU fallback");
+        return runCpuVectorSimilarity(req);
+#endif
+    }
+
+    THEMIS_DEBUG("AiHardwareDispatcher: GPU inference path unavailable for task '{}', falling back to CPU", req.task_tag);
     return dispatchCpuFallback(req);
 }
 
 AiInferenceResult AiHardwareDispatcher::dispatchCpuFallback(AiInferenceRequest &req) {
+    if (isVectorSimilarityTask(req.task_tag)) {
+        return runCpuVectorSimilarity(req);
+    }
+
     if (req.input_data == nullptr || req.input_elements == 0) {
         return makeError(BackendType::CPU, "Invalid input: null or empty");
     }
@@ -952,4 +1103,3 @@ AiInferenceResult AiHardwareDispatcher::dispatchCpuFallback(AiInferenceRequest &
 
 } // namespace acceleration
 } // namespace themis
-
