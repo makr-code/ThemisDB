@@ -1,13 +1,11 @@
 # ACID-Constrained Database-Native RAG with Integrated Evaluation in ThemisDB
 
-> **⚠️ SUPERSEDED_DRAFT** — This file has been migrated to the canonical portfolio location:
-> `research/manuscripts/retrieval_rag/DB_NATIVE_RAG_EVALUATION_PAPER_DRAFT.md`
-> Do not edit this legacy copy. All future updates go to the canonical file.
-
-**Status**: Review Candidate
-**Version**: 0.2
-**Last Updated**: 2026-05-14
-**Target Venue**: arXiv (cs.DB / cs.CL)
+**Status**: SUBMISSION_CANDIDATE  
+**Version**: 0.3  
+**Last Updated**: 2026-08-10  
+**Target Venue**: VLDB 2027 (deadline Q4 2026)  
+**Portfolio Cluster**: `research/manuscripts/retrieval_rag/`  
+**Predecessor**: `research/DB_NATIVE_RAG_EVALUATION_PAPER_DRAFT.md` (SUPERSEDED_DRAFT — canonical location now this file)
 
 ---
 
