@@ -221,6 +221,8 @@ struct BlobStorageConfig {
     std::string s3_bucket;
     std::string s3_region = "us-east-1";
     std::string s3_prefix;
+    std::string s3_endpoint_override;  ///< Optional custom S3 endpoint (e.g. MinIO host:port)
+    bool        s3_force_path_style = false;  ///< Use path-style addressing for S3-compatible emulators
     SseConfig   s3_sse_config;  ///< SSE config for S3 (default: SseAlgorithm::NONE)
     
     // Azure backend

@@ -30,8 +30,10 @@
 #include <aws/s3/model/HeadObjectRequest.h>
 #include <aws/s3/model/GeneratePresignedUrlRequest.h>
 #include <aws/core/auth/AWSCredentialsProvider.h>
+#include <aws/core/auth/signer/AWSAuthV4Signer.h>
 #include <aws/core/http/HttpTypes.h>
 #include <openssl/sha.h>
+#include <algorithm>
 #include <iomanip>
 #include <sstream>
 #include <mutex>
@@ -57,6 +59,9 @@ private:
     std::string region_;
     std::string prefix_;
     SseConfig   sse_config_;
+    RetryPolicy retry_policy_;
+    std::string endpoint_override_;
+    bool        force_path_style_{false};
     std::unique_ptr<Aws::S3::S3Client> client_;
     mutable std::mutex mutex_;
     
@@ -85,6 +90,23 @@ private:
         }
         return prefix_ + "/" + blob_id + ".blob";
     }
+
+    static void applyEndpointOverride(const std::string& endpoint_override,
+                                      Aws::Client::ClientConfiguration& config) {
+        if (endpoint_override.empty()) {
+            return;
+        }
+
+        auto normalized = endpoint_override;
+        if (normalized.rfind("http://", 0) == 0) {
+            config.scheme = Aws::Http::Scheme::HTTP;
+            normalized.erase(0, 7);
+        } else if (normalized.rfind("https://", 0) == 0) {
+            config.scheme = Aws::Http::Scheme::HTTPS;
+            normalized.erase(0, 8);
+        }
+        config.endpointOverride = normalized;
+    }
     
     // Initialize AWS SDK (called once)
     static void initializeSDK() {
@@ -100,23 +122,39 @@ private:
 
 public:
     S3BlobBackend(const std::string& bucket, const std::string& region,
-                  const std::string& prefix = "", const SseConfig& sse_config = SseConfig{})
-        : bucket_(bucket), region_(region), prefix_(prefix), sse_config_(sse_config) {
-        
+                  const std::string& prefix = "",
+                  const SseConfig& sse_config = SseConfig{},
+                  const RetryPolicy& retry_policy = RetryPolicy{},
+                  const std::string& endpoint_override = "",
+                  bool force_path_style = false)
+        : bucket_(bucket),
+          region_(region),
+          prefix_(prefix),
+          sse_config_(sse_config),
+          retry_policy_(retry_policy),
+          endpoint_override_(endpoint_override),
+          force_path_style_(force_path_style) {
+
         initializeSDK();
-        
+
         // Configure S3 client
         Aws::Client::ClientConfiguration config;
         config.region = region_;
         config.connectTimeoutMs = 5000;
         config.requestTimeoutMs = 30000;
-        config.retryStrategy = Aws::MakeShared<Aws::Client::DefaultRetryStrategy>("S3Backend", 3);
-        
+        config.retryStrategy = Aws::MakeShared<Aws::Client::DefaultRetryStrategy>(
+            "S3Backend",
+            static_cast<long>(std::max(0, retry_policy_.max_retries)));
+        applyEndpointOverride(endpoint_override_, config);
+
         // Use default credentials provider chain (env vars, ~/.aws/credentials, IAM role)
-        client_ = std::make_unique<Aws::S3::S3Client>(config);
-        
-        THEMIS_INFO("S3BlobBackend initialized: bucket={}, region={}, prefix={}", 
-                    bucket_, region_, prefix_);
+        client_ = std::make_unique<Aws::S3::S3Client>(
+            config,
+            Aws::Client::AWSAuthV4Signer::PayloadSigningPolicy::Never,
+            !force_path_style_);
+
+        THEMIS_INFO("S3BlobBackend initialized: bucket={}, region={}, prefix={}, endpoint_override={}, path_style={}",
+                    bucket_, region_, prefix_, endpoint_override_, force_path_style_);
     }
     
     ~S3BlobBackend() override = default;
@@ -306,6 +344,11 @@ public:
      * @p expiry_s seconds from the time of generation.
      */
     Result<std::string> presignedUrl(const BlobRef& ref, int64_t expiry_s) override {
+        if (expiry_s <= 0 || expiry_s > 604800) {
+            return Err<std::string>(
+                errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+                "S3 presigned URL expiry must be between 1 and 604800 seconds");
+        }
         Aws::S3::Model::GeneratePresignedUrlRequest req;
         req.SetBucket(bucket_);
         req.SetKey(getS3Key(ref.id));
@@ -329,4 +372,3 @@ std::mutex S3BlobBackend::init_mutex_;
 } // namespace themis
 
 #endif
-

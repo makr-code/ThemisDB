@@ -40,12 +40,19 @@ public:
      * @param prefix        Optional object-key prefix (e.g. "blobs/").
      * @param sse_config    Server-side encryption configuration (default: no SSE).
      * @param retry_policy  Retry and backoff configuration (default: 3 retries, exponential).
+     * @param endpoint_override Optional S3-compatible endpoint override for local
+     *        emulators such as MinIO. Accepts either `host:port` or a full
+     *        `http[s]://host:port` URL.
+     * @param force_path_style When true, use path-style addressing instead of
+     *        virtual-host style. Required by many local S3 emulators.
      */
     explicit S3BlobBackend(const std::string& bucket,
                             const std::string& region,
                             const std::string& prefix = "",
                             const SseConfig&   sse_config = SseConfig{},
-                            const RetryPolicy& retry_policy = RetryPolicy{});
+                            const RetryPolicy& retry_policy = RetryPolicy{},
+                            const std::string& endpoint_override = "",
+                            bool               force_path_style = false);
 
     ~S3BlobBackend() override;
 

@@ -326,6 +326,11 @@ public:
      * @note Requires azure-storage-blobs-cpp ≥ 12.0 with sas headers.
      */
     Result<std::string> presignedUrl(const BlobRef& ref, int64_t expiry_s) override {
+        if (expiry_s <= 0 || expiry_s > 604800) {
+            return Err<std::string>(
+                errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
+                "Azure presigned URL expiry must be between 1 and 604800 seconds");
+        }
         if (!container_client_) {
             return Err<std::string>(
                 errors::ErrorCode::ERR_UTIL_FILE_OPERATION_FAILED,
