@@ -59,6 +59,38 @@ struct SseConfig {
 };
 
 /**
+ * @brief Retry backoff strategy selector.
+ *
+ * Controls how the backend computes the delay between consecutive retries of a
+ * failed operation.
+ */
+enum class RetryBackoffStrategy {
+    EXPONENTIAL,  ///< Delay doubles on each attempt (with optional full jitter)
+    FIXED,        ///< Constant delay between retries
+};
+
+/**
+ * @brief Configurable retry policy for blob storage backends.
+ *
+ * Each backend maps this policy to its SDK-native retry mechanism as closely as
+ * possible.  Backends that do not expose fine-grained retry configuration will
+ * honour @p max_retries and ignore the timing parameters.
+ *
+ * Default values follow AWS SDK conventions (3 retries, 100 ms initial backoff,
+ * 20 000 ms ceiling).
+ */
+struct RetryPolicy {
+    /// Maximum number of retry attempts (0 = no retries).  Must be ≤ 10.
+    int                  max_retries         = 3;
+    /// Initial delay before the first retry, in milliseconds.
+    int64_t              initial_backoff_ms  = 100;
+    /// Upper bound on the computed per-attempt delay, in milliseconds.
+    int64_t              max_backoff_ms      = 20'000;
+    /// Backoff strategy to apply between retry attempts.
+    RetryBackoffStrategy backoff_strategy    = RetryBackoffStrategy::EXPONENTIAL;
+};
+
+/**
  * @brief Blob Storage Type
  */
 enum class BlobStorageType {
@@ -210,6 +242,11 @@ struct BlobStorageConfig {
     std::string webdav_username;
     std::string webdav_password;
     bool webdav_verify_ssl = true;
+
+    // Retry policy — applied uniformly to all enabled backends.
+    // Individual backends may expose finer-grained knobs via their own SDK; this
+    // policy provides the authoritative user-visible configuration surface.
+    RetryPolicy retry_policy;  ///< Retry and backoff configuration (default: 3 retries, exponential)
 };
 
 } // namespace storage

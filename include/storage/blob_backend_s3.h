@@ -35,15 +35,17 @@ class S3BlobBackend : public IBlobStorageBackend {
 public:
     /**
      * @brief Construct an S3 Blob Storage backend.
-     * @param bucket     Name of the S3 bucket.
-     * @param region     AWS region (e.g. "us-east-1").
-     * @param prefix     Optional object-key prefix (e.g. "blobs/").
-     * @param sse_config Server-side encryption configuration (default: no SSE).
+     * @param bucket        Name of the S3 bucket.
+     * @param region        AWS region (e.g. "us-east-1").
+     * @param prefix        Optional object-key prefix (e.g. "blobs/").
+     * @param sse_config    Server-side encryption configuration (default: no SSE).
+     * @param retry_policy  Retry and backoff configuration (default: 3 retries, exponential).
      */
     explicit S3BlobBackend(const std::string& bucket,
                             const std::string& region,
                             const std::string& prefix = "",
-                            const SseConfig&   sse_config = SseConfig{});
+                            const SseConfig&   sse_config = SseConfig{},
+                            const RetryPolicy& retry_policy = RetryPolicy{});
 
     ~S3BlobBackend() override;
 
