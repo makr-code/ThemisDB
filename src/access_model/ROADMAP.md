@@ -1,8 +1,8 @@
 # Access Model Module - Roadmap
 
 **Version:** 1.0.0  
-**Status:** ACTIVE (Phase 1 delivery in progress)  
-**Last Validated:** 2026-08-03
+**Status:** ACTIVE (Phase 2 complete; Phase 5-6 planned)  
+**Last Validated:** 2026-08-10
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
 
@@ -11,10 +11,10 @@
 ## Current Status
 
 **Phase 1 Complete:** Unified architecture documented, core interfaces defined.  
-**Phase 2 In Progress:** Core coordinator implementation.  
+**Phase 2 Complete:** Core coordinator, age-based policy, metrics, CMakeLists.txt, and ACM-01..08 unit tests delivered (2026-08-09).  
 **Phase 3 Complete:** Cache integration with full eviction event emission (BLOCK 2 Phase 2).  
 **Phase 4 Complete:** Storage integration with promotion detection (BLOCK 3 Phase 2).  
-**Phases 5-6 Planned:** Observability, tests, and release gates.
+**Phases 5-6 Planned:** Observability, e2e integration tests, and release benchmark gates (Target: Q1 2027).
 
 ---
 
@@ -29,7 +29,7 @@
 - [x] Define AgeBasedPolicy (unified aging)
 - [x] Define AccessMetrics (observability)
 
-### Phase 2: Core Coordinator Implementation 🟡 (IN PROGRESS)
+### Phase 2: Core Coordinator Implementation 🟢 (COMPLETE — 2026-08-09)
 - [x] access_coordinator.cpp implementation (530 LOC, Phase 2 core logic complete)
   - [x] Tier registry management
   - [x] Eviction signal processing
@@ -97,23 +97,23 @@
 - [x] Core architecture documented (UNIFIED_ACCESS_MODEL.md)
 - [x] Integration guide documented (CACHE_STORAGE_INTEGRATION.md)
 - [x] Interfaces frozen (access_tier_interface.h, access_coordinator.h, etc.)
-- [ ] Core coordinator implemented (in progress)
-- [ ] Unit tests ACM-01..ACM-08 (pending coordinator implementation)
-- [ ] Cache integration (pending coordinator implementation)
-- [ ] Storage integration (pending coordinator implementation)
-- [ ] Observability (pending implementations)
-- [ ] Integration tests (pending implementations)
-- [ ] Release benchmarks (pending implementations)
-- [ ] Operator runbooks (pending implementations)
+- [x] Core coordinator implemented (`access_coordinator.cpp`, 530 LOC) ✅ **Done 2026-08-09**
+- [x] Unit tests ACM-01..ACM-08 (`tests/access_model/test_access_coordinator_focused.cpp`) ✅ **Done 2026-08-09**
+- [x] Cache integration (CAI-01..CAI-10 in `test_cache_storage_integration.cpp`) ✅ **Done 2026-08-09**
+- [x] Storage integration (CAI-07..10 via TieredStorageManager + PromotionListener) ✅ **Done 2026-08-09**
+- [ ] Observability (pending Phase 5)
+- [ ] Integration tests: full-stack e2e (pending Phase 6)
+- [ ] Release benchmarks: GATE-ACM-01..06 (pending Phase 6)
+- [ ] Operator runbooks (pending Phase 6)
 
 ---
 
 ## Known Issues & Limitations
 
-- Phase 2 coordinator implementation not yet started (skeleton only)
-- Cache/storage modules still isolated (integration pending Phase 3-4)
-- Observability not yet wired (pending Phase 5)
-- Performance gates not yet established (pending Phase 6)
+- Phase 5 observability not yet wired (structured logging, trace correlation, dashboard panels — Target: Q1 2027)
+- Phase 6 e2e integration tests pending (`test_access_model_e2e.cpp`, `test_coordination_concurrency.cpp` — Target: Q1 2027)
+- Benchmark gates GATE-ACM-01..06 and promotion latency benchmarks not yet established (Target: Q1 2027)
+- Phases 2-4 core implementation and unit/integration tests complete as of 2026-08-09
 
 ---
 

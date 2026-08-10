@@ -1,7 +1,7 @@
 # Sharding Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-07-18 -->
+<!-- Status: current | validated: 2026-08-10 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 <!-- Rollout Plan: ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md §4 (Phase C), §7 (risk) -->
 <!-- Issue Link: makr-code/ThemisDB#5620 (development status snapshot) -->
@@ -83,17 +83,19 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity**
 
 #### 3.2 Sharding
 
-- [ ] **Automatic shard rebalancing on topology change**: when a node joins or leaves the cluster,
+- [~] **Automatic shard rebalancing on topology change**: when a node joins or leaves the cluster,
   automatically redistribute shards to maintain target balance; rebalancing must complete within a
-  configurable time bound without halting query throughput (Target: Q3 2026)
+  configurable time bound without halting query throughput (Target: Q3 2026) — basic rebalance framework exists in `src/sharding/rebalance_operation.cpp`; topology-change automation remains unfinished
   - Inputs: topology change event, rebalance policy (min-movement / round-robin), target shard count
   - Acceptance: rebalance completes at ≥ 80% throughput of steady-state; no data loss; CTest `release_critical` green
 - [ ] **Cross-datacenter latency-aware routing**: route cross-shard reads to the replica with lowest
   measured RTT in the requesting DC; fall back to nearest-replica on timeout (Target: Q3 2026)
+  - Clarification: no `src/sharding/*.cpp` implementation evidence for latency-aware / multi-DC routing was found in this validation pass.
   - Acceptance: routing selects correct replica in 3-DC topology benchmark; p99 read latency
     improves vs. random routing; deterministic under-load benchmark result
 - [ ] **Global secondary indexes (GSI)**: maintain a distributed index over all shards for a user-specified
   field; GSI updates are asynchronous and eventually consistent; index-backed range scan available in AQL (Target: Q4 2026)
+  - Clarification: no `src/sharding/*.cpp` implementation evidence for GSI support was found in this validation pass.
   - Inputs: `CREATE INDEX … GLOBAL` DDL (via AQL DDL extension); field, type, consistency level
   - Acceptance: GSI scan returns correct results for 100K documents across 4 shards;
     AQL `FILTER doc.field == @val USE INDEX gsi_name` selects GSI plan

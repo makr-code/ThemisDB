@@ -140,7 +140,7 @@ Performance and scalability optimization with measurable, gated performance impr
 
 **Scope:** src/storage/buffer_pool/, src/query/ (cache-aware optimizations)
 
-- [ ] Profile and optimize buffer-pool hit rate (Target: Q3 2026)
+- [x] Profile and optimize buffer-pool hit rate (Target: Q3 2026)
   - Measure: cache hit rate before/after optimization
   - Implement: cache-aware prefetching (sequential access patterns)
   - Optimize: LRU eviction policy tuning
@@ -150,7 +150,7 @@ Performance and scalability optimization with measurable, gated performance impr
   - Minimize cache line waste (column grouping)
   - Validate: latency improvement under scan workloads
 
-- [ ] Add cache-pressure telemetry (Target: Q3 2026)
+- [x] Add cache-pressure telemetry (Target: Q3 2026)
   - Track: cache miss rate, eviction rate, pressure level
   - Implement: adaptive eviction (age-based, frequency-based)
   - Alert: high pressure conditions
