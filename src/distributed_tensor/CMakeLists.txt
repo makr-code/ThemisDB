@@ -21,6 +21,7 @@ set(DISTRIBUTED_TENSOR_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/tensor_infrastructure.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/src/tensor_storage_strategy.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/src/snapshot_update_worker.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/shard_summary_coordinator.cc
 )
 
 add_library(themis_distributed_tensor STATIC ${DISTRIBUTED_TENSOR_SOURCES})

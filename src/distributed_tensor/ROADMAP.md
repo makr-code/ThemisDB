@@ -74,15 +74,17 @@ track remain gated. Focused test targets now properly configured for CI/evidence
 - [x] benchmark gate: `bench_tensor_partial_refit` (benchmarks/epic3_distributed_tensor/bench_tensor_partial_refit.cc)
 
 #### Phase C — Distributed Tensor Artifact Coordination (Q4 2026)
-- [ ] shard summary refresh with freshness timestamps (Target: Q4 2026)
-- [ ] summary-first routing with escalation to exact-on-demand (Target: Q4 2026)
-- [ ] exact-on-demand tensor fetch (replaces summary when accuracy required) (Target: Q4 2026)
-- [ ] multi-shard freshness consensus (Target: Q4 2026)
-- [ ] ctest gate: `test_tensor_shard_summary` (Target: Q4 2026)
-- [ ] benchmark gate: `bench_tensor_summary_first` (Target: Q4 2026)
+- [x] shard summary refresh with freshness timestamps (Target: Q4 2026)
+- [x] summary-first routing with escalation to exact-on-demand (Target: Q4 2026)
+- [x] exact-on-demand tensor fetch (replaces summary when accuracy required) (Target: Q4 2026)
+- [x] multi-shard freshness consensus (Target: Q4 2026)
+- [x] ctest gate: `test_tensor_shard_summary` (Target: Q4 2026)
+- [x] benchmark gate: `bench_tensor_summary_first` (Target: Q4 2026)
 
 #### Phase D — Optional Acceleration (2027+)
-- [ ] CPU/GPU break-even validation for tensor operations (Target: 2027)
+- [~] CPU/GPU break-even validation for tensor operations (Target: 2027)
+  - CPU baseline benchmarks BGPU-01..04 implemented in `benchmarks/epic3_distributed_tensor/bench_tensor_cpu_gpu_breakeven.cc`
+  - GPU speedup gate: >= 4x over CPU baseline at N=1024 before GPU path enabled
 - [ ] bounded GPU refinement after break-even proven (Target: 2027)
 - [ ] no unconditional GPU dependency on any tensor path (Target: 2027)
 
@@ -119,7 +121,7 @@ track remain gated. Focused test targets now properly configured for CI/evidence
 - [~] Phase A: tensor delta log + manifest store wired (Target: Q3 2026) [test suite: TDL-01..18, RFB-01..10]
 - [~] Phase A: snapshot-based rebuild worker implemented (Target: Q3 2026) [decision logic + execute path]
 - [ ] Phase B: patch path + partial refit + rebuild fallback implemented (Target: Q3 2026)
-- [ ] Phase C: shard summary refresh + summary-first routing + exact-on-demand fetch implemented (Target: Q4 2026)
+- [x] Phase C: shard summary refresh + summary-first routing + exact-on-demand fetch implemented (Target: Q4 2026)
 
 ### Phase 3: Error Handling and Edge Cases
 - [x] runtime distributed failure semantics implemented and verified
@@ -127,7 +129,7 @@ track remain gated. Focused test targets now properly configured for CI/evidence
 - [x] partial-receipt and stale-receipt edge case handling implemented
 - [x] recovery coordination hooks implemented (EPIC 3.5 integration ready)
 - [ ] Phase B: rebuild fallback triggered on delta log overflow and instability (Target: Q3 2026)
-- [ ] Phase C: exact-on-demand fallback when summary freshness threshold exceeded (Target: Q4 2026)
+- [x] Phase C: exact-on-demand fallback when summary freshness threshold exceeded (Target: Q4 2026)
 
 ### Phase 4: Tests
 - [x] focused Phase 3 regression suite implemented in `tests/epic3_distributed_tensor/`
@@ -140,7 +142,7 @@ track remain gated. Focused test targets now properly configured for CI/evidence
 - [x] lifecycle & staleness management unit tests — `test_lifecycle_staleness_management.cpp` (31 tests, LSM-01..LSM-31, issue #5442)
 - [~] `test_tensor_delta_log` — Phase A/B ctest gate (Target: Q3 2026) [TDL-01..TDL-18, TDL-A1..A3]
 - [~] `test_tensor_rebuild_fallback` — Phase B ctest gate (Target: Q3 2026) [RFB-01..RFB-10, RFB-A1..A5]
-- [ ] `test_tensor_shard_summary` — Phase C ctest gate (Target: Q4 2026)
+- [x] `test_tensor_shard_summary` — Phase C ctest gate (Target: Q4 2026)
 
 ### Phase 5: Performance and Hardening
 - [~] Adapter-Distribution & Sharding-Kopplung: LoRA artifact distribution APIs,
@@ -150,7 +152,7 @@ track remain gated. Focused test targets now properly configured for CI/evidence
 - [ ] performance optimization with hardware acceleration (SHA-NI, AVX-512)
 - [ ] alignment with graph provenance performance targets
 - [ ] `bench_tensor_partial_refit` — Phase B benchmark gate (Target: Q3 2026)
-- [ ] `bench_tensor_summary_first` — Phase C benchmark gate (Target: Q4 2026)
+- [x] `bench_tensor_summary_first` — Phase C benchmark gate (Target: Q4 2026)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core distributed tensor docs aligned to source-verifiable implementation state
@@ -173,8 +175,8 @@ track remain gated. Focused test targets now properly configured for CI/evidence
 - [ ] benchmark gates implemented and passing
 - [ ] Phase A advisory-only invariant enforced and verified
 - [ ] Phase B ctest gates (`test_tensor_delta_log`, `test_tensor_rebuild_fallback`) passing
-- [ ] Phase C ctest gates (`test_tensor_shard_summary`) passing
-- [ ] Phase C benchmark gates (`bench_tensor_summary_first`) passing
+- [x] Phase C ctest gates (`test_tensor_shard_summary`) passing
+- [x] Phase C benchmark gates (`bench_tensor_summary_first`) passing
 
 ## Test Evidence & Acceptance (2026-07-28)
 
