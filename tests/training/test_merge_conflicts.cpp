@@ -30,6 +30,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <limits>
 #include <numeric>
 #include <string>
 #include <vector>
@@ -399,4 +400,69 @@ TEST_F(MergeConflictTest, DifferentAlpha_Accepted) {
     auto result = merger.mergeLinear(adapters, "query", 64, 64, 4, 16.0f);
 
     EXPECT_TRUE(result.success);
+}
+
+TEST_F(MergeConflictTest, NonFiniteWeight_FailsDeterministically) {
+    LoRAAdapterMerger merger;
+
+    std::vector<AdapterDescriptor> adapters = {
+        {adapter1_.get(), "query", std::numeric_limits<float>::infinity()},
+        {adapter2_.get(), "query", 1.0f}
+    };
+
+    auto result = merger.mergeLinear(adapters, "query", 64, 64, 4, 8.0f);
+    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.error_message.empty());
+}
+
+TEST_F(MergeConflictTest, TotalZeroWeight_FailsDeterministically) {
+    LoRAAdapterMerger merger;
+
+    std::vector<AdapterDescriptor> adapters = {
+        {adapter1_.get(), "query", 0.0f},
+        {adapter2_.get(), "query", 0.0f}
+    };
+
+    auto result = merger.mergeLinear(adapters, "query", 64, 64, 4, 8.0f);
+    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.error_message.empty());
+}
+
+TEST_F(MergeConflictTest, MergeLinearAll_LayerOrderingDeterministic) {
+    LoRAAdapter first(4, 8.0f);
+    LoRAAdapter second(4, 8.0f);
+
+    // Intentionally add in different order to verify deterministic merge order.
+    first.addLayer("z_layer", 32, 32, 4, 8.0f);
+    first.addLayer("a_layer", 32, 32, 4, 8.0f);
+    second.addLayer("a_layer", 32, 32, 4, 8.0f);
+    second.addLayer("z_layer", 32, 32, 4, 8.0f);
+
+    auto set_constant = [](LoRAAdapter& adapter, const std::string& layer, float v) {
+        const auto& w = adapter.getWeights(layer);
+        std::vector<float> B(w.B.size(), v);
+        std::vector<float> A(w.A.size(), v);
+        adapter.setWeights(layer, B, A);
+    };
+    set_constant(first, "z_layer", 0.1f);
+    set_constant(first, "a_layer", 0.2f);
+    set_constant(second, "a_layer", 0.3f);
+    set_constant(second, "z_layer", 0.4f);
+
+    LoRAAdapterMerger merger;
+    std::vector<const LoRAAdapter*> adapters = {&first, &second};
+    std::vector<float> weights = {0.5f, 0.5f};
+
+    auto result1 = merger.mergeLinearAll(adapters, weights, 4);
+    auto result2 = merger.mergeLinearAll(adapters, weights, 4);
+
+    ASSERT_TRUE(result1.success);
+    ASSERT_TRUE(result2.success);
+    ASSERT_EQ(result1.layers.size(), result2.layers.size());
+    ASSERT_GE(result1.layers.size(), 2u);
+
+    EXPECT_EQ(result1.layers[0].layer_name, "a_layer");
+    EXPECT_EQ(result1.layers[1].layer_name, "z_layer");
+    EXPECT_EQ(result2.layers[0].layer_name, "a_layer");
+    EXPECT_EQ(result2.layers[1].layer_name, "z_layer");
 }

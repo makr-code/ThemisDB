@@ -40,6 +40,15 @@ std::vector<float> zeros(size_t count) {
     return std::vector<float>(count, 0.0f);
 }
 
+uint32_t stableSeedFromName(const std::string& name) {
+    uint32_t h = 2166136261u;
+    for (unsigned char c : name) {
+        h ^= static_cast<uint32_t>(c);
+        h *= 16777619u;
+    }
+    return h;
+}
+
 } // anonymous namespace
 
 // ============================================================================
@@ -91,8 +100,8 @@ public:
         lay.active_rank = r;   // start fully active
         lay.alpha       = a;
         lay.importance  = 0.0f;
-        // seed based on name hash for determinism
-        uint32_t seed = static_cast<uint32_t>(std::hash<std::string>{}(name));
+        // deterministic FNV-1a seed from layer name for reproducible init
+        uint32_t seed = stableSeedFromName(name);
         lay.B = kaimingUniform(in_dim, r, seed);
         lay.A = zeros(r * out_dim);
 
@@ -170,6 +179,10 @@ public:
         if (total_budget == 0)
             throw std::invalid_argument("total_budget must be > 0");
         if (layers_.empty()) return {};
+        if (total_budget < layers_.size()) {
+            throw std::invalid_argument(
+                "total_budget must be >= number of layers to keep minimum rank 1 per layer");
+        }
 
         // Compute total importance
         float total_importance = 0.0f;
@@ -179,12 +192,29 @@ public:
         ReallocResult result;
 
         if (total_importance <= 0.0f) {
-            // No importance data yet; distribute budget evenly
-            size_t n = layers_.size();
-            size_t per_layer = std::max<size_t>(1, total_budget / n);
-            for (auto& [name, lay] : layers_) {
-                size_t new_rank = std::min(per_layer, lay.max_rank);
-                new_rank        = std::max<size_t>(1, new_rank);
+            // No importance data yet; deterministic floor+remainder distribution
+            // in insertion order while respecting [1, max_rank] per layer bounds.
+            const size_t n = insertion_order_.size();
+            std::vector<size_t> allocs(n, 1);
+            size_t remaining = total_budget - n;
+            while (remaining > 0) {
+                bool assigned = false;
+                for (size_t i = 0; i < n && remaining > 0; ++i) {
+                    auto& lay = layers_.at(insertion_order_[i]);
+                    if (allocs[i] < lay.max_rank) {
+                        ++allocs[i];
+                        --remaining;
+                        assigned = true;
+                    }
+                }
+                if (!assigned) {
+                    break; // all layers reached max_rank
+                }
+            }
+
+            for (size_t i = 0; i < n; ++i) {
+                auto& lay = layers_.at(insertion_order_[i]);
+                const size_t new_rank = allocs[i];
                 if (new_rank < lay.active_rank) ++result.layers_pruned;
                 else if (new_rank > lay.active_rank) ++result.layers_expanded;
                 lay.active_rank = new_rank;
