@@ -404,6 +404,34 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_sharding_contract_hardening_focused.cp
 endif()
 
 # ============================================================================
+# Phase C rollout gate — multi-shard exact under shard failure injection
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_sharding_multishard_exact.cpp")
+    message(STATUS "Adding Sharding: Multi-shard exact Phase C gate")
+    add_executable(test_sharding_multishard_exact
+        test_sharding_multishard_exact.cpp)
+    target_include_directories(test_sharding_multishard_exact PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src)
+    target_link_libraries(test_sharding_multishard_exact PRIVATE
+        ${TEST_LIBS} themis_core spdlog::spdlog nlohmann_json::nlohmann_json Threads::Threads)
+    target_compile_definitions(test_sharding_multishard_exact PRIVATE
+        THEMIS_TEST_BUILD=1)
+    set_target_properties(test_sharding_multishard_exact PROPERTIES
+        CXX_STANDARD 20
+        CXX_STANDARD_REQUIRED ON)
+    themis_register_module_focused_test(
+        MODULE  sharding
+        NAME    ShardingMultiShardExactPhaseCGate
+        TARGET  test_sharding_multishard_exact
+        TIER    unit
+        TIMEOUT 120
+        LABELS  sharding retrieval multi-shard exact release_critical phase_c_gate)
+    message(STATUS "  Phase C gate: exact shortest-path + neighbor fallback under shard failure")
+endif()
+
+# ============================================================================
 # Phase C prerequisite gates — Thread-Safety / Lock-Order / Consensus (TSO/LKO/CCR)
 # ============================================================================
 
