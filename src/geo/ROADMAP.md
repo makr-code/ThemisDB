@@ -26,9 +26,12 @@ Issue #5646 remains open with partial closure coverage: roadmap/future synchroni
 ## Planned Features
 
 ### Short-term (3-6 months)
-- [ ] tighten deterministic behavior for mixed backend and precision-mode edge permutations (Target: Q4 2026)
-- [ ] expand regressions for geometry validation and complex join/raster edge cases (Target: Q4 2026)
-- [ ] improve operator diagnostics for backend fallback and capability drift incidents (Target: Q4 2026)
+- [x] tighten deterministic behavior for mixed backend and precision-mode edge permutations (Target: Q4 2026) ✅ COMPLETE 2026-08-10
+  - `include/geo/geo_edge_case_handler.h` + `src/geo/geo_edge_case_handler.cpp` — GeoEdgeCaseHandler with BackendCombination, GeoPrecisionMode, cross-backend parity validation, capability drift detection
+- [x] expand regressions for geometry validation and complex join/raster edge cases (Target: Q4 2026) ✅ COMPLETE 2026-08-10
+  - `tests/geo/test_geo_q4_hardening_focused.cpp` — 20 focused tests GEH-01..GEH-20 covering precision-mode dispatch, fallback behavior, coordinate/ring validation, operator diagnostics
+- [x] improve operator diagnostics for backend fallback and capability drift incidents (Target: Q4 2026) ✅ COMPLETE 2026-08-10
+  - `include/geo/geo_operator_diagnostics.h` + `src/geo/geo_operator_diagnostics.cpp` — GeoOperatorDiagnostics ring-buffer registry with severity-filtered queries and operator summary export
 
 ### Mid-term (6-12 months)
 - [ ] re-baseline p95/p99 envelopes for geo CPU/GPU and spatial index workloads (Target: Q1 2027)
@@ -42,12 +45,12 @@ Issue #5646 remains open with partial closure coverage: roadmap/future synchroni
 - [x] Define explicit GeoErrorCode taxonomy (GEOMETRY_INVALID, BACKEND_UNAVAILABLE, INDEX_CORRUPTED, PRECISION_EXCEEDED, UNSUPPORTED_GEOMETRY_TYPE, …) (Target: Q3 2026)
 
 ### Phase 2: Core Implementation
-- [~] complete hardening for backend dispatch, indexing, and geometry internals (Target: Q4 2026)
-- [~] align advanced query features to bounded runtime contracts (Target: Q4 2026)
+- [x] complete hardening for backend dispatch, indexing, and geometry internals (Target: Q4 2026) ✅ COMPLETE 2026-08-10
+- [x] align advanced query features to bounded runtime contracts (Target: Q4 2026) ✅ COMPLETE 2026-08-10
 
 ### Phase 3: Error Handling and Edge Cases
-- [~] standardize fail-closed behavior for invalid geometry and unsupported execution scenarios (Target: Q4 2026)
-- [~] unify diagnostics across join/clustering/raster/temporal and fallback paths (Target: Q4 2026)
+- [x] standardize fail-closed behavior for invalid geometry and unsupported execution scenarios (Target: Q4 2026) ✅ COMPLETE 2026-08-10
+- [x] unify diagnostics across join/clustering/raster/temporal and fallback paths (Target: Q4 2026) ✅ COMPLETE 2026-08-10
 
 ### Phase 4: Tests
 - [x] Contract-hardening focused tests GCH-01..GCH-16 covering GeoJSON validation, backend dispatch, spatial index, and spatial join invariants (tests/geo/test_geo_contract_hardening_focused.cpp) (Target: Q4 2026)
