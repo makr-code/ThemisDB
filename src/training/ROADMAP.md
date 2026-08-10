@@ -17,8 +17,8 @@ Production-usable training runtime exists for labeling, enrichment, LoRA/AdaLoRA
 ## Planned Features
 
 ### Short-term (3-6 months)
-- [ ] tighten deterministic behavior for adapter merge and rollback edge scenarios (Target: Q4 2026)
-- [ ] expand stress coverage for GPU-backed and checkpoint-resume workloads (Target: Q4 2026)
+- [~] tighten deterministic behavior for adapter merge and rollback edge scenarios (Target: Q4 2026)
+- [~] expand stress coverage for GPU-backed and checkpoint-resume workloads (Target: Q4 2026)
 - [ ] improve operator-facing diagnostics for training and provenance incidents (Target: Q4 2026)
 
 ### Mid-term (6-12 months)
@@ -42,7 +42,7 @@ Production-usable training runtime exists for labeling, enrichment, LoRA/AdaLoRA
 - [ ] unify diagnostics across dataset, training, and adapter incident classes (Target: Q4 2026)
 
 ### Phase 4: Tests
-- [ ] expand focused regressions for LoRA/AdaLoRA, checkpoint, and serving edge scenarios (Target: Q4 2026)
+- [~] expand focused regressions for LoRA/AdaLoRA, checkpoint, and serving edge scenarios (Target: Q4 2026)
 - [ ] extend deterministic stress fixtures for training-lifecycle workloads (Target: Q4 2026)
 
 ### Phase 5: Performance and Hardening
