@@ -228,13 +228,102 @@ double GeoBackendDispatcher::vincentyDistance(
     const Point& p2) const noexcept {
     
     // WGS84 ellipsoid parameters
-    constexpr double kSemiMajorAxis = 6378137.0;  // meters
-    constexpr double kFlattening = 1.0 / 298.257223563;
-    constexpr double kSemiMinorAxis = kSemiMajorAxis * (1.0 - kFlattening);
+    constexpr double kSemiMajorAxis = 6378137.0;  // meters (a)
+    constexpr double kFlattening = 1.0 / 298.257223563;  // (f)
+    constexpr double kSemiMinorAxis = kSemiMajorAxis * (1.0 - kFlattening);  // (b)
+    constexpr double kTolerance = 1e-12;
+    constexpr int kMaxIterations = 100;
     
-    // TODO: Implement full Vincenty formula
-    // For now, use Haversine as approximation
-    return haversineDistance(p1, p2, kSemiMajorAxis / 1000.0);
+    // Convert degrees to radians
+    constexpr double kDegToRad = M_PI / 180.0;
+    double lat1 = p1.lat_deg * kDegToRad;
+    double lat2 = p2.lat_deg * kDegToRad;
+    double lon1 = p1.lon_deg * kDegToRad;
+    double lon2 = p2.lon_deg * kDegToRad;
+    
+    double L = lon2 - lon1;  // Longitude difference
+    
+    // Reduced latitudes
+    double U1 = std::atan((1.0 - kFlattening) * std::tan(lat1));
+    double U2 = std::atan((1.0 - kFlattening) * std::tan(lat2));
+    
+    double sinU1 = std::sin(U1);
+    double cosU1 = std::cos(U1);
+    double sinU2 = std::sin(U2);
+    double cosU2 = std::cos(U2);
+    
+    // Iteratively compute lambda (longitude difference on auxiliary sphere)
+    double lambda = L;
+    double lambda_prev = 0.0;
+    double cosSqAlpha, sinSigma, cos2SigmaM, cosSigma = 0.0;
+    
+    for (int iter = 0; iter < kMaxIterations; ++iter) {
+        lambda_prev = lambda;
+        
+        double sinLambda = std::sin(lambda);
+        double cosLambda = std::cos(lambda);
+        
+        // Compute sigma (angular distance on auxiliary sphere)
+        double sinSigma_expr = std::sqrt(
+            cosU2 * cosU2 * sinLambda * sinLambda +
+            (cosU1 * sinU2 - sinU1 * cosU2 * cosLambda) *
+            (cosU1 * sinU2 - sinU1 * cosU2 * cosLambda));
+        
+        if (sinSigma_expr == 0.0) {
+            return 0.0;  // Identical points
+        }
+        
+        sinSigma = sinSigma_expr;
+        cosSigma = sinU1 * sinU2 + cosU1 * cosU2 * cosLambda;
+        cos2SigmaM = cosSigma - 2.0 * sinU1 * sinU2 / (1.0 - kFlattening);
+        
+        // Compute C (polar cap distance correction)
+        double C = kFlattening / 16.0 * (1.0 + kFlattening / 16.0) * 
+                   cos2SigmaM * cos2SigmaM * 
+                   (4.0 + kFlattening * (4.0 - 3.0 * cos2SigmaM * cos2SigmaM));
+        
+        // Update lambda
+        lambda = L + (1.0 - C) * kFlattening * std::sin(sinSigma) *
+                 (std::atan2(sinSigma, cosSigma) + C * cosSigma *
+                  (-1.0 + 2.0 * cos2SigmaM * cos2SigmaM));
+        
+        // Check for convergence
+        if (std::abs(lambda - lambda_prev) < kTolerance) {
+            break;
+        }
+    }
+    
+    // Compute azimuth (cosSqAlpha) for final distance calculation
+    cosSqAlpha = (cosU1 * sinU2 - sinU1 * cosU2 * std::cos(lambda)) *
+                 (cosU1 * sinU2 - sinU1 * cosU2 * std::cos(lambda)) /
+                 (cosU2 * cosU2 * std::sin(lambda) * std::sin(lambda));
+    
+    if (cosSqAlpha < 0.0) {
+        cosSqAlpha = 0.0;  // Handle edge case
+    }
+    
+    // Compute u (parameter related to latitude on ellipsoid)
+    double uSq = (kSemiMajorAxis * kSemiMajorAxis - kSemiMinorAxis * kSemiMinorAxis) /
+                 (kSemiMinorAxis * kSemiMinorAxis) * cosSqAlpha;
+    
+    double A = 1.0 + uSq / 16384.0 *
+               (4096.0 + uSq * (-768.0 + uSq * (320.0 - 175.0 * uSq)));
+    
+    double B = uSq / 1024.0 *
+               (256.0 + uSq * (-128.0 + uSq * (74.0 - 47.0 * uSq)));
+    
+    // Compute delta sigma (angular difference correction)
+    double deltaSigma = B * sinSigma *
+                       (std::cos(lambda) + B / 4.0 *
+                        (cosSigma * (-1.0 + 2.0 * cos2SigmaM * cos2SigmaM) -
+                         B / 6.0 * cos2SigmaM * (-3.0 + 4.0 * sinSigma * sinSigma) *
+                         (-3.0 + 4.0 * cos2SigmaM * cos2SigmaM)));
+    
+    // Final distance (meters)
+    double distance_m = kSemiMinorAxis * A *
+                       (std::atan2(sinSigma, cosSigma) - deltaSigma);
+    
+    return distance_m / 1000.0;  // Convert to km
 }
 
 // Ray-casting algorithm for point-in-polygon test
