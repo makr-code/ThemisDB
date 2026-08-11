@@ -518,11 +518,11 @@ jobs:
       github.event_name == 'pull_request' &&
       (github.base_ref == 'community' || github.base_ref == 'develop')
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
         with:
           python-version: '3.12'
 
@@ -543,6 +543,64 @@ jobs:
             --guidelines .github/WORKFLOW_GUIDELINES.md
 
   # ────────────────────────────────────────────────────────────────────────────
+  # Secret Scanning — Active TruffleHog scan on PR diff (non-blocking initially)
+  # Catches staged secrets before they land in history.
+  # Promotion path: set fail-on-match: true after a stabilization period.
+  # ────────────────────────────────────────────────────────────────────────────
+  secret-scan:
+    name: Secret Scanning (TruffleHog)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: github.event_name == 'pull_request'
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        with:
+          fetch-depth: 0
+
+      - name: Run TruffleHog on PR diff
+        # Non-blocking: continue-on-error=true; promote to blocking once baseline is clean.
+        # PIN: trufflesecurity/trufflehog@v3 — use exact SHA when available.
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          BASE_REF="${{ github.base_ref }}"
+          git fetch origin "${BASE_REF}" --depth=1
+
+          # Install TruffleHog
+          curl -sSfL https://raw.githubusercontent.com/trufflesecurity/trufflehog/main/scripts/install.sh \
+            | sh -s -- -b /usr/local/bin
+
+          # Scan only the PR diff (HEAD vs base), not the full history.
+          trufflehog git file://. \
+            --since-commit "origin/${BASE_REF}" \
+            --branch HEAD \
+            --only-verified \
+            --fail \
+            --json \
+            > trufflehog-results.json 2>&1 || SCAN_EXIT=$?
+
+          if [ -s trufflehog-results.json ]; then
+            echo "::warning::TruffleHog found potential secrets — review trufflehog-results.json artifact."
+            echo "### ⚠️ Secret Scanning — Potential secrets detected" >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "TruffleHog identified potential verified secrets in this PR diff." >> "$GITHUB_STEP_SUMMARY"
+            echo "Review the \`trufflehog-results\` artifact and rotate any exposed credentials." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "### ✅ Secret Scanning — No secrets detected" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload TruffleHog results
+        if: always()
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08  # v4.6.0
+        with:
+          name: trufflehog-results-${{ github.run_number }}
+          path: trufflehog-results.json
+          retention-days: 7
+
+  # ────────────────────────────────────────────────────────────────────────────
   # SUMMARY — Aggregates all gate results (always runs)
   # ────────────────────────────────────────────────────────────────────────────
   gates-summary:
@@ -559,6 +617,7 @@ jobs:
       - scanner-delta-report
       - submodule-commit-pins
       - workflow-boundary-guard
+      - secret-scan
     steps:
       - name: Write summary
         run: |
@@ -576,6 +635,7 @@ jobs:
             echo "| Scanner Delta Report | ${{ needs.scanner-delta-report.result }} |"
             echo "| Submodule Commit Pins | ${{ needs.submodule-commit-pins.result }} |"
             echo "| Workflow Boundary Guard | ${{ needs.workflow-boundary-guard.result }} |"
+            echo "| Secret Scanning (non-blocking) | ${{ needs.secret-scan.result }} |"
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Fail if mandatory release-critical gate failed
