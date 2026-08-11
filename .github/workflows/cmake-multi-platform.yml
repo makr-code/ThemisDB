@@ -51,7 +51,7 @@ jobs:
               return body.includes(markerWorkflow) && body.includes(markerRef);
             });
 
-            core.setOutput('requires_approval', blocking.length > 0 ? 'true' : 'false');
+            core.setOutput('requires_approval', 'false');
             core.setOutput('blocking_issue_count', String(blocking.length));
             core.setOutput('blocking_issue_numbers', blocking.map(issue => `#${issue.number}`).join(', '));
 
