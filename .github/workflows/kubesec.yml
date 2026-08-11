@@ -30,7 +30,8 @@ jobs:
         uses: controlplaneio/kubesec-action@43d0ddff5ffee89a6bb9f29b64cd865411137b14
         with:
           input: deploy/kubernetes/operator/deployment.yaml
-          format: sarif
+          format: template
+          template: templates/sarif.tpl
           output: kubesec-results.sarif
           exit-code: "0"
 
