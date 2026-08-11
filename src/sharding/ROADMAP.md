@@ -1,7 +1,7 @@
 # Sharding Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-07-18 -->
+<!-- Status: current | validated: 2026-08-10 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 <!-- Rollout Plan: ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md §4 (Phase C), §7 (risk) -->
 <!-- Issue Link: makr-code/ThemisDB#5620 (development status snapshot) -->
@@ -44,11 +44,26 @@ Production-capable sharding runtime exists for routing/placement, distributed co
 ## Planned Features
 
 ### Hybrid Retrieval Rollout Gates (issue #5468)
-- [ ] Phase C pre-requisite: fix 70% of cross-shard thread-safety gaps (340+ → ~102) (Target: Q3 2026)
-- [ ] Phase C pre-requisite: consistent lock ordering enforcement — lock ordering violations (95 → 0) (Target: Q3 2026)
-- [ ] Phase C pre-requisite: consensus coordination robustness (170 gaps → 51) (Target: Q4 2026)
-- [~] Phase C ctest gate: `test_sharding_multishard_exact` under shard failure injection (implemented; environment validation pending) (Target: Q4 2026)
-- [~] Phase C benchmark gate: `bench_multishard_exact` (implemented; environment validation pending) (Target: Q4 2026)
+- [x] Phase C pre-requisite: fix 70% of cross-shard thread-safety gaps (340+ → ~102) (delivered 2026-08-10)
+  - Fixes: `dual_consensus_orchestrator.cpp` deadlock in `updateConsistencyState`, `getMetrics`
+    lock-ordering violation (`metrics_mutex_` → `state_mutex_`), unprotected callback fields,
+    unprotected `background_sync_interval_`, data race on `conflict_callback_` in
+    `replica_consistency.cpp`, and detached-thread shared-state hazards.
+  - Test evidence: TSO-01..TSO-08 in `tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp`
+- [x] Phase C pre-requisite: consistent lock ordering enforcement — lock ordering violations (95 → 0) (delivered 2026-08-10)
+  - Canonical order documented in headers: `state_mutex_` (1) < `audit_mutex_` (2) < `metrics_mutex_` (3)
+    for `DualConsensusOrchestrator`; `state_mutex_` (1) < `callbacks_mutex_` (2) < `cluster_mutex_` (3) <
+    `snapshot_mutex_` (4) for `RaftConsensusAdapter`.  `logGroundingOperation` now uses `std::scoped_lock`
+    for atomic dual acquisition; `getMetrics` no longer holds `metrics_mutex_` while calling into
+    `state_mutex_`-protected paths.
+  - Test evidence: LKO-01..LKO-06 in `tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp`
+- [x] Phase C pre-requisite: consensus coordination robustness (170 gaps → 51) (delivered 2026-08-10)
+  - Fixes: `backgroundSyncThread` now detects quorum loss (null consensus layers) and backs off;
+    retry logic added for transient `STORAGE_AHEAD`/`CACHE_AHEAD` sync failures; atomic interval read
+    prevents torn reads of `background_sync_interval_ms_`.
+  - Test evidence: CCR-01..CCR-06 in `tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp`
+- [~] Phase C ctest gate: `test_sharding_multishard_exact` under shard failure injection (explicitly registered as `ShardingMultiShardExactPhaseCGate`; full environment validation still blocked by current repo-wide build failures outside sharding) (Target: Q4 2026)
+- [~] Phase C benchmark gate: `bench_multishard_exact` (deterministic benchmark hygiene tightened; full environment validation still blocked by current repo-wide build failures outside sharding) (Target: Q4 2026)
 - [x] Phase C observability: `sharding_cross_shard_requests_total` Prometheus metric wired (Target: Q4 2026)
 
 ### Short-term (3-6 months)
@@ -68,17 +83,19 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity**
 
 #### 3.2 Sharding
 
-- [ ] **Automatic shard rebalancing on topology change**: when a node joins or leaves the cluster,
+- [~] **Automatic shard rebalancing on topology change**: when a node joins or leaves the cluster,
   automatically redistribute shards to maintain target balance; rebalancing must complete within a
-  configurable time bound without halting query throughput (Target: Q3 2026)
+  configurable time bound without halting query throughput (Target: Q3 2026) — basic rebalance framework exists in `src/sharding/rebalance_operation.cpp`; topology-change automation remains unfinished
   - Inputs: topology change event, rebalance policy (min-movement / round-robin), target shard count
   - Acceptance: rebalance completes at ≥ 80% throughput of steady-state; no data loss; CTest `release_critical` green
 - [ ] **Cross-datacenter latency-aware routing**: route cross-shard reads to the replica with lowest
   measured RTT in the requesting DC; fall back to nearest-replica on timeout (Target: Q3 2026)
+  - Clarification: no `src/sharding/*.cpp` implementation evidence for latency-aware / multi-DC routing was found in this validation pass.
   - Acceptance: routing selects correct replica in 3-DC topology benchmark; p99 read latency
     improves vs. random routing; deterministic under-load benchmark result
 - [ ] **Global secondary indexes (GSI)**: maintain a distributed index over all shards for a user-specified
   field; GSI updates are asynchronous and eventually consistent; index-backed range scan available in AQL (Target: Q4 2026)
+  - Clarification: no `src/sharding/*.cpp` implementation evidence for GSI support was found in this validation pass.
   - Inputs: `CREATE INDEX … GLOBAL` DDL (via AQL DDL extension); field, type, consistency level
   - Acceptance: GSI scan returns correct results for 100K documents across 4 shards;
     AQL `FILTER doc.field == @val USE INDEX gsi_name` selects GSI plan

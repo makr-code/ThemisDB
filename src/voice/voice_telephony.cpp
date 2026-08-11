@@ -76,6 +76,17 @@ bool detectInjectionAttack(const std::string& input) {
     return false;
 }
 
+bool isRtpVersion2(const std::vector<uint8_t>& pkt) {
+    return !pkt.empty() && ((pkt[0] >> 6) == 0x02);
+}
+
+bool isValidDtmfDigit(char digit) {
+    return (digit >= '0' && digit <= '9') ||
+           digit == '*' ||
+           digit == '#' ||
+           (digit >= 'A' && digit <= 'D');
+}
+
 int64_t telephonyNowMs() {
     return std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();
@@ -348,6 +359,10 @@ CallTranscript SipCallSession::receiveRtpPacket(const std::vector<uint8_t>& rtp_
                     rtp_packet.size());
         return empty;
     }
+    if (!isRtpVersion2(rtp_packet)) {
+        THEMIS_WARN("SipCallSession: invalid RTP version, rejecting packet (error 6910)");
+        return empty;
+    }
     
     if (rtp_packet.size() > 65536) {
         THEMIS_WARN("SipCallSession: RTP packet too large ({} bytes), rejecting (error 6910)",
@@ -357,7 +372,15 @@ CallTranscript SipCallSession::receiveRtpPacket(const std::vector<uint8_t>& rtp_
 
     auto payload = stripRtpHeader(rtp_packet);
     if (payload.empty()) {
+        THEMIS_WARN("SipCallSession: RTP payload missing or malformed, rejecting (error 6910)");
         return empty;  // Malformed RTP; logged by stripRtpHeader
+    }
+    if ((impl_->config.codec == AudioCodec::G722 ||
+         impl_->config.codec == AudioCodec::OPUS) &&
+        (payload.size() % 2) != 0) {
+        THEMIS_WARN("SipCallSession: linear payload size {} is not 16-bit aligned, rejecting (error 6910)",
+                    payload.size());
+        return empty;
     }
 
     // TASK 2.6: Audio buffer size limits (anti-DoS)
@@ -395,6 +418,14 @@ CallTranscript SipCallSession::receiveRtpPacket(const std::vector<uint8_t>& rtp_
 CallTranscript SipCallSession::receiveAudioFrame(const std::vector<int16_t>& pcm_samples) {
     CallTranscript empty;
     if (!impl_ || impl_->state != CallState::ACTIVE) return empty;
+    if (pcm_samples.empty()) {
+        THEMIS_WARN("SipCallSession: empty PCM frame rejected (error 6910)");
+        return empty;
+    }
+    if (impl_->pcm_buffer.size() + pcm_samples.size() > (10 * 1024 * 1024)) {
+        THEMIS_WARN("SipCallSession: PCM buffer limit exceeded, rejecting frame (error 6910)");
+        return empty;
+    }
 
     impl_->pcm_buffer.insert(impl_->pcm_buffer.end(),
                               pcm_samples.begin(), pcm_samples.end());
@@ -407,6 +438,10 @@ CallTranscript SipCallSession::receiveAudioFrame(const std::vector<int16_t>& pcm
 
 void SipCallSession::injectDtmf(const DtmfEvent& event) {
     if (!impl_) return;
+    if (!isValidDtmfDigit(event.digit) || event.duration_ms <= 0) {
+        THEMIS_WARN("SipCallSession: invalid DTMF event rejected (error 6910)");
+        return;
+    }
     THEMIS_INFO("SipCallSession: DTMF digit='{}' dur={}ms call_id={}",
                 event.digit, event.duration_ms, impl_->call_id);
     if (impl_->on_dtmf) impl_->on_dtmf(event);
@@ -927,4 +962,3 @@ CallState TelephonyBridge::callState(const CallID& call_id) const {
 
 } // namespace voice
 } // namespace themis
-

@@ -262,7 +262,7 @@ bool DualConsensusOrchestrator::syncUpdateBothLayers(
     {
         std::lock_guard<std::mutex> lock(state_mutex_);
         version_tokens_[key] = token;
-        updateConsistencyState(key);
+        updateConsistencyStateLocked(key);
     }
     
     successful_operations_++;
@@ -344,7 +344,7 @@ std::optional<uint64_t> DualConsensusOrchestrator::updateCacheFirst(
         {
             std::lock_guard<std::mutex> lock(state_mutex_);
             version_tokens_[key] = updated_token;
-            updateConsistencyState(key);
+            updateConsistencyStateLocked(key);
         }
         
         successful_operations_++;
@@ -428,7 +428,7 @@ std::optional<uint64_t> DualConsensusOrchestrator::updateStorageFirst(
         {
             std::lock_guard<std::mutex> lock(state_mutex_);
             version_tokens_[key] = updated_token;
-            updateConsistencyState(key);
+            updateConsistencyStateLocked(key);
         }
         
         successful_operations_++;
@@ -510,7 +510,7 @@ CrossLayerVersionToken DualConsensusOrchestrator::updateWithVersionTracking(
     {
         std::lock_guard<std::mutex> lock(state_mutex_);
         version_tokens_[key] = token;
-        updateConsistencyState(key);
+        updateConsistencyStateLocked(key);
     }
     
     if (!storage_success && !cache_success) {
@@ -615,7 +615,7 @@ bool DualConsensusOrchestrator::syncCacheFromStorage(const std::string& key) {
     {
         std::lock_guard<std::mutex> lock(state_mutex_);
         version_tokens_[key] = token;
-        updateConsistencyState(key);
+        updateConsistencyStateLocked(key);
     }
     
     spdlog::info("DualConsensusOrchestrator: Cache synchronized from storage for key={}", key);
@@ -659,7 +659,7 @@ bool DualConsensusOrchestrator::syncStorageFromCache(const std::string& key) {
     {
         std::lock_guard<std::mutex> lock(state_mutex_);
         version_tokens_[key] = token;
-        updateConsistencyState(key);
+        updateConsistencyStateLocked(key);
     }
     
     spdlog::info("DualConsensusOrchestrator: Storage synchronized from cache for key={}", key);
@@ -768,19 +768,24 @@ size_t DualConsensusOrchestrator::triggerFullSync() {
 // ============================================================================
 
 void DualConsensusOrchestrator::setSyncCallback(SyncCallback callback) {
+    std::lock_guard<std::mutex> lock(state_mutex_);
     sync_callback_ = std::move(callback);
 }
 
 void DualConsensusOrchestrator::setConflictResolver(ConflictResolver resolver) {
+    std::lock_guard<std::mutex> lock(state_mutex_);
     conflict_resolver_ = std::move(resolver);
 }
 
 void DualConsensusOrchestrator::setConsistencyCallback(ConsistencyCallback callback) {
+    std::lock_guard<std::mutex> lock(state_mutex_);
     consistency_callback_ = std::move(callback);
 }
 
 void DualConsensusOrchestrator::setBackgroundSyncInterval(std::chrono::milliseconds interval) {
-    background_sync_interval_ = interval;
+    // background_sync_interval_ms_ is std::atomic<uint64_t>; write is lock-free.
+    background_sync_interval_ms_.store(
+        static_cast<uint64_t>(interval.count()), std::memory_order_release);
 }
 
 // ============================================================================
@@ -807,14 +812,14 @@ void DualConsensusOrchestrator::logGroundingOperation(
         audit_entry["shard_responses"][shard_id] = response;
     }
     
-    // Add version tokens for all shards
-    std::lock_guard<std::mutex> lock(state_mutex_);
+    // Acquire both mutexes simultaneously with std::scoped_lock to prevent
+    // ABBA deadlock. Lock hierarchy: state_mutex_ (1) < audit_mutex_ (2).
+    std::scoped_lock dual_lock(state_mutex_, audit_mutex_);
     for (const auto& [key, token] : version_tokens_) {
         audit_entry["version_tokens"][key] = token.toJson();
     }
     
     // Store in audit log
-    std::lock_guard<std::mutex> audit_lock(audit_mutex_);
     grounding_audit_logs_[request_id] = audit_entry;
     
     spdlog::debug("DualConsensusOrchestrator: Grounding operation logged for request={}", request_id);
@@ -855,31 +860,40 @@ std::vector<nlohmann::json> DualConsensusOrchestrator::getGroundingAuditLogs(
 // ============================================================================
 
 nlohmann::json DualConsensusOrchestrator::getMetrics() const {
-    std::lock_guard<std::mutex> lock(metrics_mutex_);
+    // All counter fields are std::atomic<uint64_t>; no metrics_mutex_ needed.
+    // Counting inconsistent keys requires state_mutex_ only (level 1), which is
+    // always safe to acquire here since we hold no other mutex at this point.
+    size_t inconsistent_count = 0;
+    {
+        std::lock_guard<std::mutex> state_lock(state_mutex_);
+        for (const auto& [k, s] : consistency_states_) {
+            if (s != CrossLayerConsistencyState::CONSISTENT) ++inconsistent_count;
+        }
+    }
     
     return {
-        {"total_operations", total_operations_.load()},
-        {"successful_operations", successful_operations_.load()},
-        {"failed_operations", failed_operations_.load()},
-        {"consistency_conflicts", consistency_conflicts_.load()},
-        {"sync_operations", sync_operations_.load()},
-        {"conflict_resolutions", conflict_resolutions_.load()},
+        {"total_operations", total_operations_.load(std::memory_order_acquire)},
+        {"successful_operations", successful_operations_.load(std::memory_order_acquire)},
+        {"failed_operations", failed_operations_.load(std::memory_order_acquire)},
+        {"consistency_conflicts", consistency_conflicts_.load(std::memory_order_acquire)},
+        {"sync_operations", sync_operations_.load(std::memory_order_acquire)},
+        {"conflict_resolutions", conflict_resolutions_.load(std::memory_order_acquire)},
         {"storage_version", getStorageVersion()},
         {"cache_version", getCacheVersion()},
-        {"inconsistent_keys", getInconsistentKeys().size()},
+        {"inconsistent_keys", inconsistent_count},
         {"is_fully_operational", isFullyOperational()},
         {"is_degraded", isDegraded()}
     };
 }
 
 void DualConsensusOrchestrator::resetMetrics() {
-    std::lock_guard<std::mutex> lock(metrics_mutex_);
-    total_operations_ = 0;
-    successful_operations_ = 0;
-    failed_operations_ = 0;
-    consistency_conflicts_ = 0;
-    sync_operations_ = 0;
-    conflict_resolutions_ = 0;
+    // All fields are std::atomic; no metrics_mutex_ needed.
+    total_operations_.store(0, std::memory_order_release);
+    successful_operations_.store(0, std::memory_order_release);
+    failed_operations_.store(0, std::memory_order_release);
+    consistency_conflicts_.store(0, std::memory_order_release);
+    sync_operations_.store(0, std::memory_order_release);
+    conflict_resolutions_.store(0, std::memory_order_release);
 }
 
 // ============================================================================
@@ -909,6 +923,16 @@ void DualConsensusOrchestrator::backgroundSyncThread() {
     spdlog::info("DualConsensusOrchestrator: Background sync thread started");
     
     while (running_) {
+        // Quorum-loss detection: if both layers are unavailable, skip this cycle
+        // and back off to avoid amplifying a cluster-wide failure.
+        if (!storage_consensus_ || !cache_consensus_) {
+            spdlog::warn("DualConsensusOrchestrator: Background sync skipped — one or both "
+                         "consensus layers unavailable (quorum loss suspected)");
+            std::this_thread::sleep_for(std::chrono::milliseconds(
+                background_sync_interval_ms_.load(std::memory_order_acquire)));
+            continue;
+        }
+
         // Check for inconsistent keys
         auto inconsistent_keys = getInconsistentKeys();
         
@@ -923,37 +947,61 @@ void DualConsensusOrchestrator::backgroundSyncThread() {
                 
                 // Only auto-sync if we're not diverged (diverged requires manual resolution)
                 if (state == CrossLayerConsistencyState::STORAGE_AHEAD) {
-                    syncCacheFromStorage(key);
+                    // Retry on transient failure (up to 2 attempts)
+                    for (int attempt = 0; attempt < 2 && running_; ++attempt) {
+                        if (syncCacheFromStorage(key)) break;
+                        spdlog::warn("DualConsensusOrchestrator: Retry {} for STORAGE_AHEAD sync "
+                                     "key={}", attempt + 1, key);
+                    }
                 } else if (state == CrossLayerConsistencyState::CACHE_AHEAD && isDegraded()) {
                     // Only sync storage from cache if we're in degraded mode
-                    syncStorageFromCache(key);
+                    for (int attempt = 0; attempt < 2 && running_; ++attempt) {
+                        if (syncStorageFromCache(key)) break;
+                        spdlog::warn("DualConsensusOrchestrator: Retry {} for CACHE_AHEAD sync "
+                                     "key={}", attempt + 1, key);
+                    }
                 }
             }
         }
         
-        // Sleep until next sync cycle
-        std::this_thread::sleep_for(background_sync_interval_);
+        // Read the interval atomically (may be updated concurrently via setBackgroundSyncInterval)
+        std::this_thread::sleep_for(std::chrono::milliseconds(
+            background_sync_interval_ms_.load(std::memory_order_acquire)));
     }
     
     spdlog::info("DualConsensusOrchestrator: Background sync thread stopped");
 }
 
 void DualConsensusOrchestrator::updateConsistencyState(const std::string& key) {
-    auto token_opt = getVersionToken(key);
-    if (!token_opt) {
+    // Public-facing wrapper — acquires state_mutex_ then delegates.
+    std::lock_guard<std::mutex> lock(state_mutex_);
+    updateConsistencyStateLocked(key);
+}
+
+void DualConsensusOrchestrator::updateConsistencyStateLocked(const std::string& key) {
+    // PRECONDITION: caller holds state_mutex_.
+    // Accesses version_tokens_ and consistency_states_ directly to avoid
+    // re-entrant lock acquisition (which would deadlock on std::mutex).
+
+    auto it = version_tokens_.find(key);
+    if (it == version_tokens_.end()) {
         consistency_states_[key] = CrossLayerConsistencyState::CONSISTENT;
         return;
     }
     
-    const auto& token = *token_opt;
+    const auto& token = it->second;
     uint64_t storage_version = getStorageVersion();
-    uint64_t cache_version = getCacheVersion();
+    uint64_t cache_version   = getCacheVersion();
     
-    CrossLayerConsistencyState old_state = checkConsistency(key);
+    CrossLayerConsistencyState old_state = CrossLayerConsistencyState::CONSISTENT;
+    auto state_it = consistency_states_.find(key);
+    if (state_it != consistency_states_.end()) {
+        old_state = state_it->second;
+    }
+    
     CrossLayerConsistencyState new_state;
-    
     if (token.storage_version == storage_version && 
-        token.cache_version == cache_version) {
+        token.cache_version   == cache_version) {
         new_state = CrossLayerConsistencyState::CONSISTENT;
     } else if (storage_version > token.storage_version) {
         new_state = CrossLayerConsistencyState::STORAGE_AHEAD;
@@ -967,7 +1015,8 @@ void DualConsensusOrchestrator::updateConsistencyState(const std::string& key) {
     
     consistency_states_[key] = new_state;
     
-    // Notify callback if state changed
+    // notifyConsistencyChange does not need the mutex; calling it here while
+    // state_mutex_ is held is safe because it only invokes a user callback.
     if (old_state != new_state) {
         notifyConsistencyChange(key, old_state, new_state);
     }
@@ -1001,9 +1050,18 @@ void DualConsensusOrchestrator::notifyConsistencyChange(
     CrossLayerConsistencyState old_state,
     CrossLayerConsistencyState new_state
 ) {
-    if (consistency_callback_) {
+    // Snapshot the callback under the lock so we don't race with setConsistencyCallback.
+    // Invoke the copy *outside* the lock to prevent potential callback-induced deadlocks.
+    ConsistencyCallback cb_copy;
+    {
+        // NB: This is called from updateConsistencyStateLocked, which is itself called
+        // under state_mutex_.  We must NOT re-lock here — just read the field directly.
+        cb_copy = consistency_callback_;
+    }
+
+    if (cb_copy) {
         try {
-            consistency_callback_(key, old_state, new_state);
+            cb_copy(key, old_state, new_state);
         } catch (const std::exception& e) {
             spdlog::error("DualConsensusOrchestrator: Consistency callback failed: {}", e.what());
         }

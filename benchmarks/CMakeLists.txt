@@ -2356,7 +2356,7 @@ endif()
 # CPUGeoBackend::haversineDistance, batchHaversineDistances, pointInPolygon
 # ============================================================================
 
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_acceleration_dispatch.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/acceleration/bench_acceleration_dispatch.cpp")
     message(STATUS "Adding Acceleration Dispatch benchmarks")
 
     add_executable(bench_acceleration_dispatch
@@ -2381,6 +2381,33 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_acceleration_dispatch.cpp")
     )
 
     message(STATUS "  Acceleration: computeDistances (L2/cosine), batchKnnSearch, haversineDistance, batchHaversineDistances, pointInPolygon")
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/acceleration/bench_acceleration_cuda_gates.cpp")
+    message(STATUS "Adding Acceleration CUDA gate benchmarks")
+
+    add_executable(bench_acceleration_cuda_gates
+        acceleration/bench_acceleration_cuda_gates.cpp
+    )
+
+    target_link_libraries(bench_acceleration_cuda_gates PRIVATE
+        themis_core
+        ${BENCHMARK_LIBS}
+        Threads::Threads
+    )
+
+    target_compile_definitions(bench_acceleration_cuda_gates PRIVATE
+        THEMIS_BENCHMARK_BUILD=1
+    )
+
+    themis_apply_benchmark_release_flags(bench_acceleration_cuda_gates)
+
+    install(TARGETS bench_acceleration_cuda_gates
+        RUNTIME DESTINATION bin/benchmarks
+        COMPONENT benchmarks
+    )
+
+    message(STATUS "  Acceleration CUDA gates: L2/cosine/inner-product speedup vs CPU (>=8x)")
 endif()
 
 # ============================================================================

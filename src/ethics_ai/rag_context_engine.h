@@ -110,9 +110,28 @@ public:
         size_t max_depth,
         const std::string& direction
     );
+
+    /**
+     * @brief Retrieve compliance-relevant legal grounding from legal_db.
+     *
+     * Retrieves canonical norm references used by EU AI Act Art. 13/22 evidence:
+     * GG Art. 1, DSGVO Art. 5, EU AI Act Art. 22.
+     *
+     * @param dilemma_description Current dilemma context.
+     * @return Legal grounding payload with availability/unavailability flags.
+     */
+    [[nodiscard]] LegalGrounding retrieveLegalGrounding(
+        const std::string& dilemma_description) const;
+
+    /**
+     * @brief Toggle legal_db availability simulation for compliance testing.
+     * @param available true when legal_db is reachable.
+     */
+    void setLegalDbAvailable(bool available) noexcept;
     
 private:
     std::shared_ptr<ArgumentStore> store_;
+    bool legal_db_available_{true};
     
     // Helper methods
     double calculateTextSimilarity(const std::string& text1, const std::string& text2);
@@ -122,4 +141,3 @@ private:
 } // namespace ethics
 } // namespace plugins
 } // namespace themis
-

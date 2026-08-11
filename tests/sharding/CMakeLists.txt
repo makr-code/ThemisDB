@@ -403,6 +403,65 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_sharding_contract_hardening_focused.cp
     message(STATUS "  SCR-13..16: Error contract (QUORUM_LOST, MIGRATION_CONFLICT, fail-closed)")
 endif()
 
+# ============================================================================
+# Phase C rollout gate — multi-shard exact under shard failure injection
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_sharding_multishard_exact.cpp")
+    message(STATUS "Adding Sharding: Multi-shard exact Phase C gate")
+    add_executable(test_sharding_multishard_exact
+        test_sharding_multishard_exact.cpp)
+    target_include_directories(test_sharding_multishard_exact PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src)
+    target_link_libraries(test_sharding_multishard_exact PRIVATE
+        ${TEST_LIBS} themis_core spdlog::spdlog nlohmann_json::nlohmann_json Threads::Threads)
+    target_compile_definitions(test_sharding_multishard_exact PRIVATE
+        THEMIS_TEST_BUILD=1)
+    set_target_properties(test_sharding_multishard_exact PROPERTIES
+        CXX_STANDARD 20
+        CXX_STANDARD_REQUIRED ON)
+    themis_register_module_focused_test(
+        MODULE  sharding
+        NAME    ShardingMultiShardExactPhaseCGate
+        TARGET  test_sharding_multishard_exact
+        TIER    unit
+        TIMEOUT 120
+        LABELS  sharding retrieval multi-shard exact release_critical phase_c_gate)
+    message(STATUS "  Phase C gate: exact shortest-path + neighbor fallback under shard failure")
+endif()
+
+# ============================================================================
+# Phase C prerequisite gates — Thread-Safety / Lock-Order / Consensus (TSO/LKO/CCR)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_sharding_thread_safety_lock_order_focused.cpp")
+    message(STATUS "Adding Sharding: Thread-Safety / Lock-Order / Consensus tests (TSO/LKO/CCR)")
+    add_executable(test_sharding_thread_safety_lock_order_focused
+        test_sharding_thread_safety_lock_order_focused.cpp)
+    target_include_directories(test_sharding_thread_safety_lock_order_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include)
+    target_link_libraries(test_sharding_thread_safety_lock_order_focused PRIVATE
+        ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
+    target_compile_definitions(test_sharding_thread_safety_lock_order_focused PRIVATE
+        THEMIS_TEST_BUILD=1)
+    set_target_properties(test_sharding_thread_safety_lock_order_focused PROPERTIES
+        CXX_STANDARD 20
+        CXX_STANDARD_REQUIRED ON)
+    themis_register_module_focused_test(
+        MODULE  sharding
+        NAME    ShardingThreadSafetyLockOrderFocusedTests
+        TARGET  test_sharding_thread_safety_lock_order_focused
+        TIER    unit
+        TIMEOUT 120
+        LABELS  sharding thread-safety lock-order consensus release_critical phase_c_gate)
+    message(STATUS "  TSO-01..08: Thread-safety correctness (concurrent read/write, atomics)")
+    message(STATUS "  LKO-01..06: Lock-ordering correctness (no deadlock, ABBA prevention)")
+    message(STATUS "  CCR-01..06: Consensus coordination robustness (timeout, quorum-loss, retry)")
+endif()
+
+
+
 # AUTOGEN PREFIX BLOCK: sharding
 file(GLOB SHARDING_AUTOGEN_PREFIX_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_sharding_*.cpp"

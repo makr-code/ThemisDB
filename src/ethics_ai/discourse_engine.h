@@ -76,6 +76,12 @@ public:
     );
 
     /**
+     * @brief Configure output directory for ChainVisualizer artifacts.
+     * @param output_path Directory for DOT/Mermaid decision artifacts.
+     */
+    void setChainVisualizerOutputPath(const std::string& output_path);
+
+    /**
      * @brief Continue a debate for one additional round.
      *
      * Each philosophy school generates a counter-argument to arguments produced
@@ -99,6 +105,7 @@ private:
     std::shared_ptr<PhilosophyLoader> philosophy_loader_;
     std::shared_ptr<ArgumentStore> store_;
     std::shared_ptr<RAGContextEngine> rag_engine_;
+    std::string chain_visualizer_output_path_;
 
     mutable std::mutex debates_mutex_;
     /// Active debates indexed by debate_id → DebateInitialization
@@ -122,4 +129,3 @@ private:
 } // namespace ethics
 } // namespace plugins
 } // namespace themis
-

@@ -116,8 +116,8 @@ track remain gated. Focused test targets now properly configured for CI/evidence
 - [x] cached-receipt versus fresh-verification rules documented for query-path consumers
 - [x] 3.4 runtime distributed failure semantics completed across recovery/planner integration
 - [x] lifecycle transition helpers (`transitionToRebuilding`, `transitionToReadyAfterRebuild`, `transitionToFailed`) and planner freshness gate helper (`shouldRejectForPlanner`) implemented in `ArtifactInvalidationManager` (issue #5442, Target: Q3 2026)
-- [~] Phase A: tensor delta log + manifest store wired (Target: Q3 2026) [test suite: TDL-01..18, RFB-01..10]
-- [~] Phase A: snapshot-based rebuild worker implemented (Target: Q3 2026) [decision logic + execute path]
+- [x] Phase A: tensor delta log + manifest store wired (Target: Q3 2026) ✅ **TDL-01..18 in tests/epic3_distributed_tensor/test_tensor_delta_log.cpp**
+- [x] Phase A: snapshot-based rebuild worker implemented (Target: Q3 2026) ✅ **RFB-01..10 in tests/epic3_distributed_tensor/test_tensor_rebuild_fallback.cpp**
 - [ ] Phase B: patch path + partial refit + rebuild fallback implemented (Target: Q3 2026)
 - [ ] Phase C: shard summary refresh + summary-first routing + exact-on-demand fetch implemented (Target: Q4 2026)
 
@@ -138,8 +138,8 @@ track remain gated. Focused test targets now properly configured for CI/evidence
 - [x] integration tests for full verification workflow
 - [x] integrity verification unit and benchmark sources added for follow-on coverage expansion
 - [x] lifecycle & staleness management unit tests — `test_lifecycle_staleness_management.cpp` (31 tests, LSM-01..LSM-31, issue #5442)
-- [~] `test_tensor_delta_log` — Phase A/B ctest gate (Target: Q3 2026) [TDL-01..TDL-18, TDL-A1..A3]
-- [~] `test_tensor_rebuild_fallback` — Phase B ctest gate (Target: Q3 2026) [RFB-01..RFB-10, RFB-A1..A5]
+- [x] `test_tensor_delta_log` — Phase A ctest gate ✅ **Done; TDL-01..TDL-18, TDL-A1..A3 (tests/epic3_distributed_tensor/test_tensor_delta_log.cpp)**
+- [x] `test_tensor_rebuild_fallback` — Phase A/B ctest gate ✅ **Done; RFB-01..RFB-10, RFB-A1..A5 (tests/epic3_distributed_tensor/test_tensor_rebuild_fallback.cpp)**
 - [ ] `test_tensor_shard_summary` — Phase C ctest gate (Target: Q4 2026)
 
 ### Phase 5: Performance and Hardening

@@ -235,6 +235,8 @@ public:
      *
      * @param rtp_packet  Raw RTP packet bytes (header + payload).
      * @return Incremental CallTranscript, or empty if no new hypothesis.
+     * @note Malformed RTP headers, empty payloads, and misaligned linear-audio
+     *       payloads are rejected fail-closed.
      */
     CallTranscript receiveRtpPacket(const std::vector<uint8_t>& rtp_packet);
 
@@ -245,6 +247,7 @@ public:
      *
      * @param pcm_samples  16-bit signed PCM samples (little-endian).
      * @return Incremental CallTranscript.
+     * @note Empty or over-limit PCM frames are rejected fail-closed.
      */
     CallTranscript receiveAudioFrame(const std::vector<int16_t>& pcm_samples);
 

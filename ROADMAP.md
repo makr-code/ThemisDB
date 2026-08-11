@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 **Version:** 2.4.0-rc1  
-**Last Updated:** 2026-08-09
+**Last Updated:** 2026-08-10
 **Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–6 complete; Phase 1–6 execution contract evidence closure COMPLETE). GA hardening path: Phases 0-6 technical evidence complete, Phase 6 human governance sign-off (D-11) is the only remaining GA blocker at `docs/governance/GA_PROMOTION_SIGN_OFF.md` §9.
 
 > For module-specific details see each module's `src/<module>/ROADMAP.md`.
@@ -29,6 +29,21 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 - [x] Top-risk modules (`server`, `llm`, `sharding`) now have comprehensive research-source → planned-capability → implementation-evidence mappings in `research/implementation_influence/by_module.md` (updated 2026-07-27).
 - [~] Other modules use legacy four-column format; will be expanded on next per-module roadmap sync.
 - [x] A consolidated root-level Soll-Ist matrix for all research-backed roadmap claims is established via `research/implementation_influence/by_module.md` (6 modules, 21 implementation aspects); recurring sync enforced from Phase 6 onwards (✅ COMPLETE 2026-08-04).
+
+## Implementation vs Documentation Gap Classification (2026-08-10)
+
+| Module | Open Items | Classification | Notes |
+|---|---|---|---|
+| ethics_ai | 22 listed | Mostly DOC gaps | ChainVisualizer, NormEvidence, legal_db, CSEP tests all implemented 2026-08-09 |
+| transaction | 19 listed | Mostly DOC gaps | Test files exist; chaos/production validation pending CI confirmation |
+| voice | 22 listed | DOC + IMPL gaps | Basic liveness/anti-spoof code exists; hardening under adversarial inputs is real remaining work |
+| LLM | 13 listed | DOC + IMPL gaps | SpeculativeDecoder exists; distributed end-to-end optimization is real remaining work |
+| search | 43 listed | REAL IMPL gaps | LayeredRetrievalOrchestrator uses mocks; real ANN/Tensor/Graph/LLM wiring pending |
+| GPU/CUDA | 21+53 listed | REAL IMPL gaps | CUDA kernels are stubs (filter/join/agg/sort/topk not implemented) |
+| RAG Phase B | 57 listed | REAL IMPL gaps | BM25+, HNSW, RRF in WikiIndexStore not implemented; Phase A only |
+| sharding | 20 listed | REAL IMPL gaps | Thread-safety gaps (340+), lock ordering violations (95) are real |
+| replication | 16 listed | MIXED | Multi-region base exists; geo placement policies and lag-limit WAL shipping are real gaps |
+| access_model | 21 listed | REAL IMPL gaps | Benchmarks and GATE-ACM-01..06 not yet implemented |
 
 ## Release Hardening Program (current canonical version: v2.4.0-rc1)
 
@@ -315,6 +330,16 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 - [~] **Batch D — Final GA Readiness** (Target: 2026-10, technical gates D-1..D-10 PASS 2026-08-04; D-11 human sign-off OPEN)
   - [x] Operations/SLA/chaos runbook-linked test suites are now part of the release-critical execution chain.
   - [x] Final governance sign-off document created at `docs/governance/GA_PROMOTION_SIGN_OFF.md`; Sections 1-8 complete; Section 9 (human sign-off) is the only remaining GA blocker.
+- [~] **Batch E — Phase 3 Enforcement Deployment** (Target: 2026-10 Q4, core implementation 2026-08-10)
+  - [x] Validation scripts (Tier 0/Tier 1 gates): `.github/scripts/tier0_gate_validator.py`, `.github/scripts/tier1_gate_escalator.py`, `.github/scripts/waiver_validator.py` (1,200+ lines)
+  - [x] GitHub Actions workflows: `12-governance_merge-gate-enforcer.yml`, `12-governance_waiver-expiration-check.yml`, `12-governance_gate-audit-summary.yml` (820+ lines)
+  - [x] Audit infrastructure: `ai_working/ENFORCEMENT_WAIVERS.md` (append-only log), `ai_working/MERGE_GATE_AUDIT_LOG.md` (JSONL schema)
+  - [x] Live dashboard & monitoring: `docs/governance/MERGE_GATE_STATUS_LIVE.md` (auto-updating status), `docs/governance/PHASE3_ENFORCEMENT_RUNBOOK.md` (12,700-line operations guide)
+  - [x] Benchmark gate validators enhanced: W7 (manifest freshness ≤7 days) and W8 (security gate staleness ≤30/90 days) gates in `benchmark_gate_validator.py`
+  - [ ] GitHub App registration (external: App ID, private key in repository secrets)
+  - [ ] GitHub team setup (`@themisdb/release-leads` team for waiver approval)
+  - [ ] Dry-run phase activation (2 weeks informational mode, zero false positives before hard block)
+  - [ ] Team training & documentation finalization
 - [~] **BLOCK 1 — P2-D06: Tests & Benchmarks für SSM-Runtime** (Target: 2026-07)
   - [x] Integration test suite `tests/aql/test_p2_d06_benchmarks.cpp` delivered (10 test cases, all P2-GATE criteria verified)
   - [x] Wave 7 benchmarks `benchmarks/wave7/bench_p2_d05_compression_state_store.cpp` delivered (RCS-09..RCS-14, canonical seed + repetitions)
@@ -442,13 +467,13 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 - [ ] CUDA/CPU parity tests: `tests/gpu/test_gpu_query_accelerator_cuda_parity.cpp` — 5 operations × 3 sizes = 15 tests; gated `THEMIS_ENABLE_CUDA=ON`. (Target: Q3 2026)
 
 #### A-07 · index — `advanced_vector_index.cpp`
-- [ ] CUDA path: wire `cuVS`/`RAFT` approximate k-NN when `THEMIS_ENABLE_CUDA + THEMIS_ENABLE_CUVS`; build gate in CMakeLists.txt via `find_package(raft)`; fallback to CPU HNSW when gate off. (Target: Q3 2026)
+- [~] CUDA path: wire `cuVS`/`RAFT` approximate k-NN when `THEMIS_ENABLE_CUDA + THEMIS_ENABLE_CUVS`; build gate in CMakeLists.txt via `find_package(raft)`; fallback to CPU HNSW when gate off. (Target: Q3 2026)
 - [ ] `gpu_vector_index.cpp`: replace brute-force L2 distance with RAFT IVF-Flat; L2 consistency tests; gate `THEMIS_ENABLE_CUDA + cuvs ≥ 24.06`. (Target: Q3 2026)
 - [ ] HIP path: retain CPU HNSW fallback; add explicit `STUB/SIMULATION NOTE` per §8 template. (Target: Q3 2026)
 - [ ] Hardware-in-the-loop tests gated on `THEMIS_GEO_CUDA=ON`; CI skips gracefully when GPU absent. (Target: Q3 2026)
 
 #### B-01 · acceleration — `ai_hardware_dispatcher.cpp` + `vllm_resource_manager.cpp`
-- [ ] Vector similarity search: replace CPU HNSW fallback with GPU kernel dispatch when `THEMIS_ENABLE_CUDA`; L2/Cosine/IP kernels; ≥8× speedup vs CPU baseline on RTX-class GPU (measured in `bench_acceleration_cuda_gates.cpp`). (Target: Q3 2026)
+- [~] Vector similarity search: replace CPU HNSW fallback with GPU kernel dispatch when `THEMIS_ENABLE_CUDA`; L2/Cosine/IP kernels; ≥8× speedup vs CPU baseline on RTX-class GPU (measured in `bench_acceleration_cuda_gates.cpp`). (Target: Q3 2026)
 - [ ] Compile gate: `THEMIS_ENABLE_CUDA` — CPU path completely unmodified when gate off. (Target: Q3 2026)
 - [ ] Error handling: `cudaError_t` check after every kernel launch; on error → `GpuOperationFailed` → CPU fallback; never silent. (Target: Q3 2026)
 

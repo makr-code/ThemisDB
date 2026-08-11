@@ -33,9 +33,9 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity**
 
 #### 3.1 Replication
 
-- [ ] **Geographic replica placement policies**: extend `ReplicationManager` to accept placement
+- [~] **Geographic replica placement policies**: extend `ReplicationManager` to accept placement
   constraints (region/zone affinity, anti-affinity, minimum copies per DC); reflect constraint in
-  leader election and failover candidate selection (Target: Q3 2026)
+  leader election and failover candidate selection (Target: Q3 2026) — basic multi-region enablement exists via `ReplicationManager::enableMultiRegion()`; configurable placement/election policy still pending
   - Inputs: placement policy DSL (JSON/YAML); DC topology map
   - Acceptance: leader election respects placement constraints in 3-DC topology test; failover
     selects candidate in the correct DC; deterministic benchmark confirms sub-50 ms election

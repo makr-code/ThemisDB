@@ -29,6 +29,8 @@
 #include <optional>
 #include <vector>
 
+#include "acceleration/kernel_invocation.h"
+
 namespace themis {
 namespace acceleration {
 
@@ -104,6 +106,20 @@ public:
         bool vllm_detected = false;
         double vllm_gpu_usage = 0.0;        // Estimated vLLM GPU usage
     };
+
+    /**
+     * @brief Result container for vector-similarity dispatch.
+     *
+     * Output arrays are row-major with shape `[num_queries × effective_top_k]`.
+     * `effective_top_k` is `min(top_k, num_vectors)`.
+     */
+    struct SimilarityDispatchResult {
+        bool success = false;                    ///< true on successful dispatch
+        bool used_gpu = false;                   ///< true if CUDA path executed
+        std::string error;                       ///< populated when success == false
+        std::vector<uint32_t> topk_indices;      ///< nearest-neighbour indices
+        std::vector<float> topk_distances;       ///< nearest-neighbour distances
+    };
     
     /**
      * @brief Construct resource manager with configuration
@@ -136,6 +152,29 @@ public:
      * @return true if GPU can be used
      */
     bool canUseGPU();
+
+    /**
+     * @brief Execute vector-similarity search under vLLM-aware resource gating.
+     *
+     * Dispatch contract:
+     * - If `canUseGPU()` is true and CUDA is enabled, the CUDA ANN dispatch path
+     *   is attempted.
+     * - On CUDA errors, invalid kernel returns, or unavailable CUDA backend, the
+     *   method falls back deterministically to the CPU ANN dispatch path.
+     *
+     * Failure and edge cases:
+     * - Null pointers or zero-sized dimensions return `success=false`.
+     * - `top_k` is clamped to `num_vectors`.
+     */
+    SimilarityDispatchResult dispatchVectorSimilarity(
+        const float* queries,
+        size_t num_queries,
+        size_t dim,
+        const float* vectors,
+        size_t num_vectors,
+        size_t top_k,
+        DistanceMetric metric = DistanceMetric::L2
+    );
     
     /**
      * @brief Get recommended thread count for operation type

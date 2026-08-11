@@ -175,10 +175,14 @@ void ConcurrentCompactor::worker_loop() {
         g_compactions_in_progress.fetch_sub(1, std::memory_order_relaxed);
         g_compactions_completed.fetch_add(1, std::memory_order_relaxed);
         
-        // Update average time (simplified, not thread-safe for average calculation)
+        // Thread-safe floating-point accumulate via compare-exchange loop
         double duration_ms = static_cast<double>(duration.count());
-        double current_total = g_total_compaction_time_ms.load(std::memory_order_relaxed);
-        g_total_compaction_time_ms.store(current_total + duration_ms, std::memory_order_relaxed);
+        double expected = g_total_compaction_time_ms.load(std::memory_order_relaxed);
+        while (!g_total_compaction_time_ms.compare_exchange_weak(
+                    expected, expected + duration_ms,
+                    std::memory_order_release, std::memory_order_relaxed)) {
+            // expected is updated by compare_exchange_weak on failure; retry
+        }
     }
 }
 
