@@ -155,3 +155,23 @@ Production plugin runtime exists for lifecycle management, manifest/signature va
 ## Breaking Changes
 
 No breaking plugin contract planned. Any contract-breaking change requires migration notes and changelog entry before merge.
+
+## Program Execution Model — Wave Context
+
+This module is scoped to **Wave C — Security Production Validation** in the program-level wave model.
+Wave C begins only after Wave B exit criteria are met.
+See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D gate model and exit criteria.
+
+### Wave C Scope for `plugins`
+- [ ] Plugins: enforce private/public plugin boundaries, edition/license validation, hash/SBOM checks, and fail-closed community builds (Target: Q4 2026)
+
+### Wave C Entry Gate (prerequisite from Wave B)
+- [ ] Wave B gate is closed: retrieval chain baselines stable, ACM observability gates closed, hardware baselines confirmed (Target: Q4 2026)
+
+### Wave C Exit Criteria (this module's contribution)
+- [ ] Production-style security integration evidence complete (Target: Q4 2026)
+- [ ] Integrity and reliability verified under sustained load (Target: Q4 2026)
+- [ ] Policy gates consistently block boundary/license/hash/SBOM regressions (Target: Q4 2026)
+
+### Dependencies on Later Waves
+- Wave D operability hardening depends on stable Wave C security controls.

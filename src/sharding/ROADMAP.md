@@ -143,3 +143,22 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity**
 ## Breaking Changes
 
 No breaking sharding contract planned. Any contract-breaking change requires migration notes and changelog entry before merge.
+
+## Program Execution Model — Wave Context
+
+This module is scoped to **Wave A — Runtime Reliability First** in the program-level wave model.
+See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D gate model and exit criteria.
+
+### Wave A Scope for `sharding`
+- [ ] Sharding: complete multi-shard exact-path gate, topology-change auto-rebalance hardening, latency-aware routing, and long-run distributed write stress (Target: Q3–Q4 2026)
+
+### Wave A Exit Criteria (this module's contribution)
+- [ ] Deterministic chaos evidence complete for recovery and failover paths (Target: Q4 2026)
+- [ ] Fail-closed behavior verified for all distributed/acceleration paths in scope (Target: Q4 2026)
+- [ ] `release_critical` CI green on `develop` (Target: Q4 2026)
+- [ ] Representative-hardware p95/p99 baselines refreshed (Target: Q4 2026)
+
+### Dependencies on Later Waves
+- Wave B performance consolidation depends on Wave A gate closure.
+- Wave C security validation depends on stable Wave A runtime behavior.
+- Wave D operability hardening depends on all prior waves being gate-complete.

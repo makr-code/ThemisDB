@@ -239,3 +239,22 @@ cmake --build --preset community-release --target bench_transaction_phase4
 ## Breaking Changes
 - Transaction public APIs in active major lines remain additive-first.
 - Any future behavioral changes requiring migration must be versioned and documented in changelog/migration notes.
+
+## Program Execution Model — Wave Context
+
+This module is scoped to **Wave A — Runtime Reliability First** in the program-level wave model.
+See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D gate model and exit criteria.
+
+### Wave A Scope for `transaction`
+- [ ] Transaction: close build/run verification, then complete crash-recovery chaos validation, timeout determinism, SAGA retry-storm control, and Byzantine/cascading-failure validation (Target: Q3–Q4 2026)
+
+### Wave A Exit Criteria (this module's contribution)
+- [ ] Deterministic chaos evidence complete for recovery and failover paths (Target: Q4 2026)
+- [ ] Fail-closed behavior verified for all distributed/acceleration paths in scope (Target: Q4 2026)
+- [ ] `release_critical` CI green on `develop` (Target: Q4 2026)
+- [ ] Representative-hardware p95/p99 baselines refreshed (Target: Q4 2026)
+
+### Dependencies on Later Waves
+- Wave B performance consolidation depends on Wave A gate closure.
+- Wave C security validation depends on stable Wave A runtime behavior.
+- Wave D operability hardening depends on all prior waves being gate-complete.

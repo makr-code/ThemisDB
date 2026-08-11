@@ -69,3 +69,22 @@ Production-grade voice runtime with assistant orchestration, preprocessing, sess
 ## Breaking Changes
 
 - No roadmap-level breaking change planned; any required contract break must be versioned and documented in changelog and migration notes before merge.
+
+## Program Execution Model — Wave Context
+
+This module is scoped to **Wave A — Runtime Reliability First** in the program-level wave model.
+See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D gate model and exit criteria.
+
+### Wave A Scope for `voice`
+- [ ] Voice: harden session lifecycle fail-closed behavior, malformed/oversized stream rejection, adversarial anti-spoof/liveness regressions, and multi-session teardown safety (Target: Q3–Q4 2026)
+
+### Wave A Exit Criteria (this module's contribution)
+- [ ] Deterministic chaos evidence complete for recovery and failover paths (Target: Q4 2026)
+- [ ] Fail-closed behavior verified for all distributed/acceleration paths in scope (Target: Q4 2026)
+- [ ] `release_critical` CI green on `develop` (Target: Q4 2026)
+- [ ] Representative-hardware p95/p99 baselines refreshed (Target: Q4 2026)
+
+### Dependencies on Later Waves
+- Wave B performance consolidation depends on Wave A gate closure.
+- Wave C security validation depends on stable Wave A runtime behavior.
+- Wave D operability hardening depends on all prior waves being gate-complete.
