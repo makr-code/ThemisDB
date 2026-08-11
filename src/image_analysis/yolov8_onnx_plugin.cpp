@@ -234,12 +234,12 @@ struct YOLOv8OnnxPlugin::Impl {
         cv::cvtColor(resized, rgb, cv::COLOR_BGR2RGB);
 
         // Normalise to [0, 1] and convert to planar CHW layout
-        tensor_out.resize(3 * input_height * input_width);
+        tensor_out.resize(static_cast<std::size_t>(3) * static_cast<std::size_t>(input_height) * static_cast<std::size_t>(input_width));
         for (int c = 0; c < 3; ++c) {
             for (int y = 0; y < input_height; ++y) {
                 for (int x = 0; x < input_width; ++x) {
-                    tensor_out[c * input_height * input_width +
-                               y * input_width + x] =
+                    tensor_out[static_cast<std::size_t>(c) * static_cast<std::size_t>(input_height) * static_cast<std::size_t>(input_width) +
+                               static_cast<std::size_t>(y) * static_cast<std::size_t>(input_width) + static_cast<std::size_t>(x)] =
                         rgb.at<cv::Vec3b>(y, x)[c] / 255.0f;
                 }
             }
@@ -250,7 +250,7 @@ struct YOLOv8OnnxPlugin::Impl {
         (void)image_data;
         orig_w = input_width;
         orig_h = input_height;
-        tensor_out.assign(3 * input_height * input_width, 0.0f);
+        tensor_out.assign(static_cast<std::size_t>(3) * static_cast<std::size_t>(input_height) * static_cast<std::size_t>(input_width), 0.0f);
         return true;
 #endif
     }
