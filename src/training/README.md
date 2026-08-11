@@ -1,11 +1,15 @@
 # ThemisDB Training Module
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+**Status:** PRODUCTION_CANDIDATE  
+**Phase:** 6 (Documentation & Acceptance) — ✅ COMPLETE  
+**Last Updated:** 2026-08-10  
+**Owner:** ML Training Team
+
+---
 
 ## Module Purpose
 
-The training module provides dataset labeling, LoRA and AdaLoRA training support, training-pipeline orchestration, provenance tracking, and graph-enriched training context behavior for ThemisDB.
+The training module provides dataset labeling, LoRA and AdaLoRA training support, training-pipeline orchestration, provenance tracking, and graph-enriched training context behavior for ThemisDB. Phase 1-6 complete with all release gates validated.
 
 ## Relevant Interfaces
 

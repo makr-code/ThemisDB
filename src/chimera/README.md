@@ -1,11 +1,15 @@
 # ThemisDB Chimera Module
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+**Status:** PRODUCTION_CANDIDATE  
+**Phase:** 6 (Documentation & Acceptance) — ✅ COMPLETE  
+**Last Updated:** 2026-08-10  
+**Owner:** Multi-Model Integration Team
+
+---
 
 ## Module Purpose
 
-The chimera module provides adapter-layer runtime surfaces for ThemisDB integration in multi-model benchmarking and interoperability scenarios, centered on the ThemisDB adapter implementation.
+The chimera module provides adapter-layer runtime surfaces for ThemisDB integration in multi-model benchmarking and interoperability scenarios, centered on the ThemisDB adapter implementation. Phase 1-6 complete with all release gates validated.
 
 ## Relevant Interfaces
 

@@ -1,6 +1,6 @@
 # ThemisDB AQL Module
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: PRODUCTION_CANDIDATE | Phase 1-3 complete; Phase 4-5 ongoing | validated: 2026-08-10 -->
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Module Purpose

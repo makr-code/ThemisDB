@@ -53,6 +53,7 @@
 #include "llm/wiki_index_store.h"
 
 #include <chrono>
+#include <cstddef>
 #include <memory>
 #include <optional>
 #include <string>
@@ -186,6 +187,16 @@ struct WikiQueryResult {
  * @brief Index and workspace statistics returned by `ILLMWikiPlugin::stats()`.
  */
 struct WikiWorkspaceStats {
+    struct EvaluationStats {
+        double recall_at_k1 = 0.0;         ///< Recall@1 over tracked query window
+        double recall_at_k3 = 0.0;         ///< Recall@3 over tracked query window
+        double recall_at_k5 = 0.0;         ///< Recall@5 over tracked query window
+        double recall_at_k10 = 0.0;        ///< Recall@10 over tracked query window
+        double mrr = 0.0;                  ///< Mean reciprocal rank over tracked query window
+        double p95_query_latency_ms = 0.0; ///< p95 query latency in milliseconds
+        std::size_t query_count = 0;       ///< Number of queries contributing to metrics
+    };
+
     int    total_chunks     = 0;   ///< Total chunks in the index
     int    total_docs       = 0;   ///< Unique source documents indexed
     int    wiki_pages       = 0;   ///< Wiki pages in persistent workspace (0 if no workspace)
@@ -193,6 +204,7 @@ struct WikiWorkspaceStats {
     int    orphan_pages     = 0;   ///< Pages with no inbound links (lint result)
     bool   rocksdb_backed   = false; ///< True when WikiIndexStore Phase B is active
     std::string embedding_provider; ///< Active embedding provider name
+    EvaluationStats evaluation;     ///< Retrieval/evaluation quality + latency metrics
 };
 
 // ============================================================================

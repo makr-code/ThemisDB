@@ -452,6 +452,16 @@ if(BUILD_CHIMERA_ADAPTERS)
     endif()
 endif()
 
+# Module Externalization Options (Wave-2+ targets)
+option(THEMIS_EXTERNALIZE_GEO_PLUGIN
+       "Build geospatial module as external plugin (default: OFF = integrated mode)" OFF)
+if(THEMIS_EXTERNALIZE_GEO_PLUGIN)
+    message(STATUS "Geo module: externalized plugin mode (THEMIS_EXTERNALIZE_GEO_PLUGIN=ON)")
+    add_subdirectory(plugins/themisdb_geo)
+else()
+    message(STATUS "Geo module: integrated mode (default, THEMIS_EXTERNALIZE_GEO_PLUGIN=OFF)")
+endif()
+
 # Enable CTest infrastructure at root level so `ctest --preset` can find tests
 # registered inside add_subdirectory(cmake). Without this, CTestTestfile.cmake
 # is only generated in build-dir/cmake/, not in the root binary dir.

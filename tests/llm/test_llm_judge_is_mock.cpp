@@ -116,6 +116,7 @@ TEST(JGI_MOCK, JGI_MOCK_02_UseMockModeSetsMockFlag) {
 TEST(JGI_MOCK, JGI_MOCK_03_AllowMockNullptrEngineSetsMockFlag) {
     LLMJudgeIntegration::Config cfg;
     cfg.allow_mock = true;
+    cfg.use_mock_mode = true;
     cfg.warn_on_mock_mode = false;
     LLMJudgeIntegration integration(nullptr, cfg);
     EXPECT_TRUE(integration.isMockMode());

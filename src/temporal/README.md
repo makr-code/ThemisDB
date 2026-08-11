@@ -1,11 +1,15 @@
 # ThemisDB Temporal Module
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+**Status:** PRODUCTION_CANDIDATE  
+**Phase:** 6 (Documentation & Acceptance) — ✅ COMPLETE  
+**Last Updated:** 2026-08-10  
+**Owner:** Temporal Data Team
+
+---
 
 ## Module Purpose
 
-The temporal module provides system-time and valid-time data behavior, time-travel querying, temporal joins/aggregation behavior, retention/snapshot handling, and temporal conflict/consistency behavior for ThemisDB.
+The temporal module provides system-time and valid-time data behavior, time-travel querying, temporal joins/aggregation behavior, retention/snapshot handling, and temporal conflict/consistency behavior for ThemisDB. Phase 1-6 complete with all release gates validated.
 
 ## Relevant Interfaces
 

@@ -1,10 +1,15 @@
-> **Build:** `cmake --preset release && cmake --build build/release --target <target>`
-
 # ThemisDB Query Module
+
+**Status:** PRODUCTION_CANDIDATE  
+**Phase:** 6 (Documentation & Acceptance) — ✅ COMPLETE  
+**Last Updated:** 2026-08-10  
+**Owner:** Query Engine Team
+
+---
 
 ## Module Purpose
 
-The Query module provides ThemisDB's AQL (Advanced Query Language) query engine, featuring a cost-based optimizer, multi-model execution pipeline, and comprehensive caching infrastructure. AQL is based on ArangoDB's query language but significantly extended to support multiple query paradigms including relational, document, graph, vector, spatial, and timeseries models. It translates AQL queries into optimized execution plans and executes them across all data models with hybrid query support.
+The Query module provides ThemisDB's AQL (Advanced Query Language) query engine, featuring a cost-based optimizer, multi-model execution pipeline, and comprehensive caching infrastructure. AQL is based on ArangoDB's query language but significantly extended to support multiple query paradigms including relational, document, graph, vector, spatial, and timeseries models. It translates AQL queries into optimized execution plans and executes them across all data models with hybrid query support. AQL mutations Phase 1-5 complete.
 
 ### About AQL
 

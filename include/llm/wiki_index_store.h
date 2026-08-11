@@ -56,6 +56,8 @@
 #include <memory>
 #include <unordered_map>
 #include <atomic>
+#include <cstddef>
+#include <list>
 
 namespace themis {
 namespace llm {
@@ -90,6 +92,13 @@ struct WikiChunk {
  * @brief Configuration for `WikiIndexStore`.
  */
 struct WikiIndexConfig {
+#if defined(THEMIS_WIKI_PHASE_B)
+    static constexpr bool kDefaultPhaseBEnabled = true;
+#else
+    static constexpr bool kDefaultPhaseBEnabled = false;
+#endif
+
+    bool        enable_phase_b = kDefaultPhaseBEnabled; ///< Gate for WikiIndexStore Phase B runtime
     std::string table_name    = "wiki_chunks"; ///< RocksDB table / namespace
     int         embedding_dim = 384;            ///< Expected embedding dimensionality (overridden when auto_probe_dim=true)
     int         top_k         = 10;             ///< Default retrieval limit
@@ -97,6 +106,12 @@ struct WikiIndexConfig {
     bool        enable_bm25   = true;           ///< Include BM25 candidates in fusion
     bool        enable_vector = true;           ///< Include KNN candidates in fusion
     double      rrf_k         = 60.0;           ///< Reciprocal Rank Fusion smoothing constant
+    double      bm25_k1       = 1.5;            ///< BM25+ k1 parameter (Robertson & Zaragoza)
+    double      bm25_b        = 0.75;           ///< BM25+ b parameter (Robertson & Zaragoza)
+    double      bm25_delta    = 0.5;            ///< BM25+ lower-bound term frequency delta
+    int         hnsw_m        = 16;             ///< HNSW graph degree (M)
+    int         hnsw_ef_construction = 200;     ///< HNSW ef_construction
+    int         hnsw_ef_search       = 64;      ///< HNSW ef_search
 
     // --- Phase 3 features (Target: Q3 2026) --------------------------------
 
@@ -131,6 +146,30 @@ struct WikiIndexConfig {
      * call.  Default: `false` (in-memory cache only, original behaviour).
      */
     bool        enable_persistent_cache = false;
+
+    /**
+     * @brief Logical RocksDB table for persistent embedding cache entries.
+     *
+     * This table stores hash-keyed cache entries for Phase B:
+     * key = sha256(doc_id + content), value = embedding vector + metadata.
+     */
+    std::string embedding_cache_table = "embedding_cache";
+
+    /**
+     * @brief Upper bound for in-memory embedding cache bytes (0 = unlimited).
+     *
+     * Byte accounting uses key bytes + float payload bytes.  Exceeding this
+     * threshold triggers deterministic LRU eviction with INFO logging.
+     */
+    std::size_t embedding_cache_max_bytes = 0;
+
+    /**
+     * @brief Enable automatic migration from legacy Phase A cache schema.
+     *
+     * Legacy schema keying (`<table_name>_emb_cache` by chunk_id) is migrated
+     * lazily and idempotently to the hash-keyed Phase B schema.
+     */
+    bool        enable_phase_a_cache_migration = true;
 };
 
 // ============================================================================
@@ -311,6 +350,9 @@ public:
 private:
     /// @brief Convert a WikiChunk to a storage-compatible BaseEntity for index ingestion.
     [[nodiscard]] static themis::BaseEntity toEntity(const WikiChunk& chunk);
+    [[nodiscard]] static std::string makeEmbeddingCacheKey(const WikiChunk& chunk);
+    static std::size_t estimateEmbeddingBytes(const std::string& cache_key,
+                                              const std::vector<float>& embedding) noexcept;
 
     SecondaryIndexManager&      sim_;       ///< Fulltext + regular indexes
     VectorIndexManager&         vim_;       ///< HNSW vector index
@@ -324,8 +366,12 @@ private:
     /// serialised by `mutex_`).
     mutable std::shared_mutex   mutex_;
 
-    /// In-memory embedding cache keyed by chunk_id (populated under exclusive lock).
+    /// In-memory embedding cache keyed by sha256(doc_id + content).
     mutable std::unordered_map<std::string, std::vector<float>> embed_cache_;
+    mutable std::list<std::string> embed_cache_lru_;
+    mutable std::unordered_map<std::string, std::list<std::string>::iterator> embed_cache_lru_pos_;
+    mutable std::unordered_map<std::string, std::size_t> embed_cache_entry_bytes_;
+    mutable std::size_t embed_cache_bytes_{0};
 
     /// Non-owning pointer to `llm_` for use in `const` query contexts.
     ///
@@ -354,6 +400,7 @@ private:
 
     /// Embed-cache RocksDB table name used when enable_persistent_cache=true.
     std::string                 emb_cache_table_;
+    std::string                 legacy_emb_cache_table_;
 
     /// Load persisted embeddings from RocksDB into embed_cache_.
     /// Called during construction when config_.enable_persistent_cache is true.
@@ -361,18 +408,31 @@ private:
 
     /// Persist a single embedding entry to RocksDB.
     /// No-op when config_.enable_persistent_cache is false.
-    void persistEmbedding(const std::string& chunk_id,
+    void persistEmbedding(const std::string& cache_key,
+                          const std::string& chunk_id,
                           const std::vector<float>& embedding);
 
-    /// Attempt to load a single embedding from RocksDB by chunk_id.
+    /// Attempt to load a single embedding from RocksDB by hash cache key.
     /// Returns empty optional if not found or persistent cache is disabled.
     std::optional<std::vector<float>> fetchPersistedEmbedding(
+        const std::string& cache_key) const;
+    std::optional<std::vector<float>> fetchLegacyPersistedEmbeddingByChunkId(
         const std::string& chunk_id) const;
+
+    void touchEmbeddingCacheEntry(const std::string& cache_key) const;
+    void upsertEmbeddingCacheEntry(const std::string& cache_key,
+                                   const std::vector<float>& embedding) const;
+    void enforceEmbeddingCacheLimit() const;
+    bool tryResolveEmbeddingFromCaches(const WikiChunk& chunk,
+                                       std::vector<float>* out_embedding);
+    void migrateLegacyEntryIfNeeded(const WikiChunk& chunk,
+                                    const std::vector<float>& embedding);
 
     /// Probe the LLM to determine the actual embedding dimensionality.
     /// Re-initialises the vector index if the probed dim differs from config_.
     /// Idempotent: subsequent calls are no-ops once dim_probed_ is set.
     void probeEmbeddingDim();
+};
 
 // ============================================================================
 // JsonWikiIndexReader — Phase A JSON fallback

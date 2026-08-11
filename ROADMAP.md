@@ -97,7 +97,7 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
   - `makr-code/themisdb_ethic_ai` → `plugins/private/themisdb_ethic_ai/` (ethics_ai plugin root)
   - `makr-code/themisdb_storage` → `plugins/private/themisdb_storage/` (aggregate: user_storage_encrypted/, azure_blob_storage/, s3_blob_storage/)
   - `makr-code/themisdb_importer` → `plugins/private/themisdb_importer/` (aggregate: mysql_importer/, mongo_importer/, kafka_importer/, s3_importer/)
-  - `makr-code/themisdb_llm_wiki` → `plugins/private/themisdb_llm_wiki/` (LLM Wiki tool)
+  - `makr-code/themisdb_llm_wiki` → `plugins/themisdb_llm_wiki/` (LLM Wiki tool)
   - **Documentation:** See ai_context/INDEX_MODULE_STATUS_2026_08_09.md §Private Plugin Submodule Status for Wave-1 current status
   - `gpu-impact-analysis` remains explicitly out of Wave 1
 - [~] Core source registration for private connector candidates is split behind optional source checks so missing public files no longer hard-break Community checkouts (Target: Q3 2026)
@@ -546,7 +546,7 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 
 ### 5. RAG — Advanced Retrieval + WikiIndexStore Phase B
 
-**Scope:** `src/rag/`, `src/llm/`, `plugins/private/themisdb_llm_wiki/`, `src/importers/`
+**Scope:** `src/rag/`, `src/llm/`, `plugins/themisdb_llm_wiki/`, `src/importers/`
 
 - [ ] WikiIndexStore Phase B activation (gate: `THEMIS_WIKI_PHASE_B`):
   - BM25+ scorer (Robertson & Zaragoza 2009, δ=0.5, k1=1.5, b=0.75) in `WikiIndexStore::query()`.
@@ -559,7 +559,7 @@ Status: [x] complete (analysis baseline for 2PC/3PC refactoring epic)
 - [ ] `ingestWikipediaDump()` ABI wiring: sub-feature gate `"llm_wiki_wikipedia"` check at runtime; `ILLMWikiPlugin::Status::PermissionDenied` in Community/Minimal editions; test `LWP-WIKI-01` (enterprise smoke) + `LWP-WIKI-02` (community gate). (Target: Q4 2026)
 - [ ] FTS enhancement: phrase queries via positional inverted index (`"hello world"` → documents where tokens adjacent); proximity queries (`NEAR(term1, term2, distance=5)`); ≤100ms on 100K documents at p95. (Target: Q4 2026)
 - [ ] `TensorRagCostModel`: 5-phase RAG cost model — C_RAG = C_embed + C_retrieve + C_rerank + C_assemble + C_generate; `TENSOR_RAG` WorkloadType in `TensorWorkloadClassifier`; TTFT comparison table (150-400ms llama.cpp vs 40-90ms cached); integrate with `TensorRagCostModel::estimate()`. (Target: Q4 2026)
-- [ ] LWP tests Phase 4 (LWP-01..20 + LWP-GATE-01): see `plugins/private/themisdb_llm_wiki/ROADMAP.md` Phase 4 for full list; Recall@k ≥0.8 gate on LWP-01..08. (Target: Q4 2026)
+- [ ] LWP tests Phase 4 (LWP-01..20 + LWP-GATE-01): see `plugins/themisdb_llm_wiki/ROADMAP.md` Phase 4 for full list; Recall@k ≥0.8 gate on LWP-01..08. (Target: Q4 2026)
 
 ### 6. Evaluation Framework
 
