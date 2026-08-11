@@ -61,10 +61,10 @@ jobs:
       # ── Start ThemisDB in a container ─────────────────────────────────────
       - name: Start ThemisDB (production mode, self-signed TLS)
         run: |
-          docker compose -f docker-compose.yml up -d themisdb
+          docker compose -f docker-compose.yml up -d themis
           # Wait for the REST API to become healthy (max 60s)
           for i in $(seq 1 30); do
-            if curl -sk https://localhost:8443/v1/health | grep -q "ok"; then
+            if curl -sf http://localhost:18080/api/health | grep -q "ok"; then
               echo "ThemisDB is ready"
               break
             fi
@@ -84,13 +84,13 @@ jobs:
               <name>ThemisDB API</name>
               <desc>ThemisDB REST API security scan context</desc>
               <inscope>true</inscope>
-              <incregexes>https://localhost:8443/v1/.*</incregexes>
+              <incregexes>http://localhost:18080/.*</incregexes>
               <tech>
                 <include>Db.CouchDB</include>
               </tech>
               <authentication>
                 <type>2</type>
-                <loginurl>https://localhost:8443/v1/auth/login</loginurl>
+                <loginurl>http://localhost:18080/api/auth/login</loginurl>
                 <loginbody>{"username":"test-admin","password":"test-password"}</loginbody>
               </authentication>
               <forcedUser>
@@ -109,7 +109,7 @@ jobs:
       - name: Run OWASP ZAP Baseline Scan
         uses: zaproxy/action-baseline@v0.12.0
         with:
-          target: 'https://localhost:8443'
+          target: 'http://localhost:18080'
           docker_name: 'ghcr.io/zaproxy/zaproxy:stable'
           rules_file_name: '.github/zap-rules.tsv'
           cmd_options: >
