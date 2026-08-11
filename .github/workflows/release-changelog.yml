@@ -169,7 +169,7 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  contents: write
+  contents: read
   pull-requests: read
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -181,7 +181,7 @@ jobs:
     runs-on: ubuntu-latest
     if: inputs.mode == 'update' || inputs.mode == ''
     permissions:
-      contents: write
+      contents: read
     outputs:
       changed: ${{ steps.run-updater.outputs.changed }}
     steps:
@@ -227,21 +227,24 @@ jobs:
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Commit CHANGELOG.md
+      - name: Export CHANGELOG proposal patch
         if: >-
           inputs.dry-run == false &&
-          github.ref == format('refs/heads/{0}', inputs.target-branch) &&
           steps.run-updater.outputs.changed == 'true'
         run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add CHANGELOG.md
-          git diff --cached --quiet && exit 0
-          git commit -m "${{ inputs.commit-message || 'chore: update CHANGELOG.md [skip ci]' }}"
-          git pull --rebase origin "${{ inputs.target-branch }}" || { git rebase --abort; exit 1; }
-          git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          set -euo pipefail
+          git diff -- CHANGELOG.md > /tmp/changelog-update.patch
+
+      - name: Upload changelog update proposal
+        if: >-
+          inputs.dry-run == false &&
+          steps.run-updater.outputs.changed == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: changelog-update-proposal-${{ github.run_number }}
+          path: /tmp/changelog-update.patch
+          retention-days: 30
+          if-no-files-found: ignore
 
       - name: Write job summary
         if: always()
@@ -254,6 +257,7 @@ jobs:
             echo "| **Section** | \`### ${{ inputs.section }}\` |"
             echo "| **Changed** | ${{ steps.run-updater.outputs.changed }} |"
             echo "| **Dry-run** | ${{ inputs.dry-run }} |"
+            echo "| **Repository Mutation** | disabled (proposal artifact only) |"
           } >> "$GITHUB_STEP_SUMMARY"
 
   # ──────────────────────────────────────────────────────────────────────────
@@ -264,7 +268,7 @@ jobs:
     runs-on: ubuntu-latest
     if: inputs.mode == 'backfill'
     permissions:
-      contents: write
+      contents: read
       pull-requests: read
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -303,23 +307,24 @@ jobs:
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Commit CHANGELOG.md
+      - name: Export backfill proposal patch
         if: >-
           inputs.dry-run == false &&
-          github.ref == format('refs/heads/{0}', inputs.target-branch) &&
           steps.backfill.outputs.changed == 'true'
         run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add CHANGELOG.md
-          git diff --cached --quiet && exit 0
-          MILESTONE_PART="${{ inputs.milestone }}"
-          MSG="docs: changelog backfill${MILESTONE_PART:+ for v${MILESTONE_PART}} [skip ci]"
-          git commit -m "$MSG"
-          git pull --rebase origin "${{ inputs.target-branch }}" || { git rebase --abort; exit 1; }
-          git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          set -euo pipefail
+          git diff -- CHANGELOG.md > /tmp/changelog-backfill.patch
+
+      - name: Upload changelog backfill proposal
+        if: >-
+          inputs.dry-run == false &&
+          steps.backfill.outputs.changed == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: changelog-backfill-proposal-${{ github.run_number }}
+          path: /tmp/changelog-backfill.patch
+          retention-days: 30
+          if-no-files-found: ignore
 
       - name: Write job summary
         if: always()
@@ -331,6 +336,7 @@ jobs:
             echo "| **Milestone** | \`${{ inputs.milestone || '(all)' }}\` |"
             echo "| **Dry-run** | ${{ inputs.dry-run }} |"
             echo "| **Changed** | ${{ steps.backfill.outputs.changed }} |"
+            echo "| **Repository Mutation** | disabled (proposal artifact only) |"
             echo ""
             if [ -f /tmp/backfill-output.txt ]; then
               echo "### Script output"

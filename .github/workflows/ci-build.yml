@@ -138,17 +138,13 @@ jobs:
         shell: bash
         run: echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
-      - name: Install Linux system dependencies
+      - name: Setup Linux build dependencies
         if: runner.os == 'Linux'
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends \
-            build-essential cmake ninja-build pkg-config \
-            librocksdb-dev libgtest-dev libssl-dev zlib1g-dev libzstd-dev \
-            libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev \
-            libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev \
-            libboost-system-dev libboost-filesystem-dev \
-            libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev
+        uses: ./.github/actions/setup-cpp-build
+        with:
+          cc: ${{ matrix.c_compiler }}
+          cxx: ${{ matrix.cpp_compiler }}
+          extra-packages: librocksdb-dev libssl-dev zlib1g-dev libzstd-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libboost-system-dev libboost-filesystem-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev
 
       - name: Set up vcpkg cache (Windows)
         if: runner.os == 'Windows'
@@ -211,12 +207,11 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Install dependencies
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends \
-            build-essential cmake ninja-build \
-            librocksdb-dev libgtest-dev libssl-dev zlib1g-dev libfmt-dev \
-            libspdlog-dev nlohmann-json3-dev libtbb-dev libboost-system-dev
+        uses: ./.github/actions/setup-cpp-build
+        with:
+          cc: clang-15
+          cxx: clang++-15
+          extra-packages: librocksdb-dev libssl-dev zlib1g-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libboost-system-dev
 
       - name: Configure with ASan
         run: |
@@ -247,12 +242,11 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Install dependencies
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends \
-            build-essential cmake ninja-build \
-            librocksdb-dev libgtest-dev libssl-dev zlib1g-dev libfmt-dev \
-            libspdlog-dev nlohmann-json3-dev libtbb-dev libboost-system-dev
+        uses: ./.github/actions/setup-cpp-build
+        with:
+          cc: clang-15
+          cxx: clang++-15
+          extra-packages: librocksdb-dev libssl-dev zlib1g-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libboost-system-dev
 
       - name: Configure with UBSan
         run: |

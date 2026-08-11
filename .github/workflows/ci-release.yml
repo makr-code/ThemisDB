@@ -16,11 +16,11 @@ name: CI — Release
 on:
   push:
     tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+*'
-      - 'enterprise-v[0-9]+.[0-9]+.[0-9]+*'
-      - 'hyperscaler-v[0-9]+.[0-9]+.[0-9]+*'
-      - 'military-v[0-9]+.[0-9]+.[0-9]+*'
-      - 'minimal-v[0-9]+.[0-9]+.[0-9]+*'
+      - 'v*'
+      - 'enterprise-v*'
+      - 'hyperscaler-v*'
+      - 'military-v*'
+      - 'minimal-v*'
   release:
     types: [published, created]
   workflow_dispatch:
@@ -54,6 +54,38 @@ concurrency:
 # ──────────────────────────────────────────────────────────────────────────────
 jobs:
 
+  preflight-release-policy:
+    name: Preflight Release Policy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate tag/edition policy
+        run: |
+          set -euo pipefail
+          EVENT="${{ github.event_name }}"
+          REF_NAME="${{ github.ref_name }}"
+          EDITION_INPUT="${{ inputs.edition || '' }}"
+          TAG_INPUT="${{ inputs.tag_name || '' }}"
+          TARGET="${TAG_INPUT:-$REF_NAME}"
+          CANONICAL_BRANCHES='^(develop|community|enterprise|hyperscaler|military|minimal)$'
+
+          if [ "${EVENT}" = "workflow_dispatch" ]; then
+            if ! echo "${REF_NAME}" | grep -Eq "${CANONICAL_BRANCHES}"; then
+              echo "::error::workflow_dispatch must run on canonical branch lanes only."
+              exit 1
+            fi
+          fi
+
+          if [ -n "${TARGET}" ]; then
+            if ! echo "${TARGET}" | grep -Eq '^(v[0-9]+\.[0-9]+\.[0-9]+|enterprise-v[0-9]+\.[0-9]+\.[0-9]+|hyperscaler-v[0-9]+\.[0-9]+\.[0-9]+|military-v[0-9]+\.[0-9]+\.[0-9]+|minimal-v[0-9]+\.[0-9]+\.[0-9]+)$'; then
+              echo "::error::Invalid release tag format: ${TARGET}"
+              exit 1
+            fi
+          fi
+
+          if [ "${EDITION_INPUT}" = "community" ]; then
+            echo "Community lane selected: private credentials/submodules must remain disabled."
+          fi
+
   # ─────────────────────────────────────────────────────────────────────────────
   # Build Matrix: community-release, linux-release, windows-release
   # ─────────────────────────────────────────────────────────────────────────────
@@ -61,6 +93,7 @@ jobs:
     name: "Build (${{ matrix.preset }} on ${{ matrix.os }})"
     runs-on: ${{ matrix.os }}
     timeout-minutes: 90
+    needs: preflight-release-policy
 
     strategy:
       fail-fast: false
@@ -130,19 +163,24 @@ jobs:
 
       - name: Configure
         if: steps.filter.outputs.skip != 'true'
-        run: cmake --preset ${{ matrix.preset }}
+        run: |
+          set -euo pipefail
+          cmake --preset ${{ matrix.preset }} 2>&1 | tee "configure-${{ matrix.preset }}.log"
         shell: bash
 
       - name: Build
         if: steps.filter.outputs.skip != 'true'
-        run: cmake --build --preset ${{ matrix.preset }} --parallel
+        run: |
+          set -euo pipefail
+          cmake --build --preset ${{ matrix.preset }} --parallel 2>&1 | tee "build-${{ matrix.preset }}.log"
         shell: bash
 
       - name: Test
         if: steps.filter.outputs.skip != 'true'
-        run: ctest --preset ${{ matrix.preset }} --output-on-failure -j 1 --timeout 60
+        run: |
+          set -euo pipefail
+          ctest --preset ${{ matrix.preset }} --output-on-failure -j 1 --timeout 60 2>&1 | tee "test-${{ matrix.preset }}.log"
         shell: bash
-        continue-on-error: ${{ matrix.preset != 'community-release' }}
 
       - name: Upload build artifacts
         if: steps.filter.outputs.skip != 'true'
@@ -154,6 +192,18 @@ jobs:
             build-${{ matrix.preset }}/*.exe
             build-${{ matrix.preset }}/*.so
             build-${{ matrix.preset }}/*.dll
+          retention-days: 30
+          if-no-files-found: ignore
+
+      - name: Upload triage logs
+        if: always() && steps.filter.outputs.skip != 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: triage-${{ matrix.preset }}-${{ github.run_number }}
+          path: |
+            configure-${{ matrix.preset }}.log
+            build-${{ matrix.preset }}.log
+            test-${{ matrix.preset }}.log
           retention-days: 30
           if-no-files-found: ignore
 
@@ -204,11 +254,24 @@ jobs:
       - name: Create release archive
         shell: bash
         run: |
+          set -euo pipefail
           mkdir -p release
           tar -czf "release/${{ steps.version.outputs.archive_name }}.tar.gz" \
             -C dist/ . \
-            --exclude='*.a' \
-            2>/dev/null || true
+            --exclude='*.a'
+
+      - name: Build release manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd release
+          sha256sum *.tar.gz > SHA256SUMS.txt
+          {
+            echo "artifacts:"
+            for f in *.tar.gz; do
+              echo "  - ${f}"
+            done
+          } > RELEASE_MANIFEST.txt
 
       - uses: actions/upload-artifact@v4
         with:
@@ -217,6 +280,26 @@ jobs:
           retention-days: 90
           if-no-files-found: warn
 
+  validate-release-manifest:
+    name: Validate Release Manifest
+    runs-on: ubuntu-latest
+    needs: package
+    steps:
+      - name: Download release packages
+        uses: actions/download-artifact@v4
+        with:
+          pattern: release-packages-*
+          merge-multiple: true
+          path: release/
+
+      - name: Validate artifacts, checksums, and metadata
+        run: |
+          set -euo pipefail
+          test -f release/SHA256SUMS.txt
+          test -f release/RELEASE_MANIFEST.txt
+          ls release/*.tar.gz >/dev/null
+          (cd release && sha256sum --check SHA256SUMS.txt)
+
   # ─────────────────────────────────────────────────────────────────────────────
   # Publish Community — no private credentials or private submodules
   # Community guardrail: RELEASE_STRATEGY.md §2.4
@@ -224,7 +307,7 @@ jobs:
   publish-community:
     name: Publish Community Release
     runs-on: ubuntu-latest
-    needs: package
+    needs: validate-release-manifest
     # Only publish community on vX.Y.Z tags or explicit community dispatch
     if: >
       (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') &&
@@ -281,7 +364,7 @@ jobs:
   publish-private:
     name: Publish ${{ github.event_name == 'workflow_dispatch' && inputs.edition || 'private' }} Release
     runs-on: ubuntu-latest
-    needs: package
+    needs: validate-release-manifest
     if: >
       (github.event_name == 'push' && (
         startsWith(github.ref_name, 'enterprise-v') ||
@@ -292,7 +375,7 @@ jobs:
       (github.event_name == 'workflow_dispatch' &&
        contains(fromJSON('["enterprise","hyperscaler","military","minimal"]'), inputs.edition))
     environment:
-      name: private-release
+      name: ${{ startsWith(github.ref_name, 'enterprise-v') && 'enterprise-release' || startsWith(github.ref_name, 'hyperscaler-v') && 'hyperscaler-release' || startsWith(github.ref_name, 'military-v') && 'military-release' || startsWith(github.ref_name, 'minimal-v') && 'minimal-release' || inputs.edition == 'enterprise' && 'enterprise-release' || inputs.edition == 'hyperscaler' && 'hyperscaler-release' || inputs.edition == 'military' && 'military-release' || inputs.edition == 'minimal' && 'minimal-release' || 'private-release' }}
 
     steps:
       - uses: actions/checkout@v4

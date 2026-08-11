@@ -51,6 +51,88 @@ permissions:
 # ──────────────────────────────────────────────────────────────────────────────
 jobs:
 
+  preflight-ci-policy:
+    name: Preflight CI Policy + Workflow Lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run workflow preflight checks
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends python3-yaml
+          BASE_REF="${{ github.base_ref || 'develop' }}"
+          git fetch origin "${BASE_REF}" --depth=1
+          git diff --name-only "origin/${BASE_REF}...HEAD" > /tmp/changed_files.txt || true
+          python3 - <<'PY'
+          import re
+          import sys
+          from pathlib import Path
+
+          try:
+              import yaml
+          except Exception as exc:
+              print(f"::error::PyYAML import failed: {exc}")
+              sys.exit(1)
+
+          changed = [p.strip() for p in Path("/tmp/changed_files.txt").read_text().splitlines() if p.strip()]
+          changed_wf = [Path(p) for p in changed if p.startswith(".github/workflows/") and p.endswith((".yml", ".yaml"))]
+          if not changed_wf:
+              print("No workflow changes detected; preflight checks passed.")
+              sys.exit(0)
+
+          errors = []
+          third_party = re.compile(r"^[0-9a-f]{40}$")
+          allowed_unpinned = ("actions/", "github/")
+          for wf in changed_wf:
+              if not wf.exists():
+                  continue
+              text = wf.read_text(encoding="utf-8", errors="replace")
+              try:
+                  doc = yaml.safe_load(text)
+              except Exception as exc:
+                  errors.append(f"{wf}: YAML parse error: {exc}")
+                  continue
+
+              if not isinstance(doc, dict):
+                  errors.append(f"{wf}: workflow root must be a mapping")
+                  continue
+
+              if "permissions" not in doc:
+                  errors.append(f"{wf}: missing top-level permissions block")
+
+              for line in text.splitlines():
+                  s = line.strip()
+                  if s.startswith("uses:"):
+                      spec = s.split("uses:", 1)[1].strip()
+                      if "@" not in spec:
+                          errors.append(f"{wf}: invalid uses syntax without version: {spec}")
+                          continue
+                      action, ref = spec.split("@", 1)
+                      action = action.strip()
+                      ref = ref.strip()
+                      if action.startswith("./"):
+                          continue
+                      if action.startswith(allowed_unpinned):
+                          continue
+                      if not third_party.fullmatch(ref):
+                          errors.append(f"{wf}: third-party action must be pinned to full SHA: {spec}")
+                  if "git push" in s:
+                      errors.append(f"{wf}: self-mutating git push is not allowed")
+                  if "continue-on-error: true" in s:
+                      errors.append(f"{wf}: replace continue-on-error with explicit non-blocking job classification")
+
+          if errors:
+              for e in errors:
+                  print(f"::error::{e}")
+              sys.exit(1)
+          print(f"Workflow preflight passed for {len(changed_wf)} changed workflow file(s).")
+          PY
+
   # ────────────────────────────────────────────────────────────────────────────
   # GATE 1 — Community Pipeline Policy (no private credentials in community CI)
   # Applies to: PRs targeting community and minimal only
@@ -209,41 +291,51 @@ jobs:
     name: Release-Critical Test Suite
     runs-on: ubuntu-latest
     timeout-minutes: 45
+    needs: preflight-ci-policy
     if: >
       github.event_name == 'pull_request' &&
       contains(fromJSON('["develop","community","enterprise","hyperscaler","military"]'), github.base_ref)
     steps:
       - uses: actions/checkout@v4
-
-      - name: Install system dependencies
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends \
-            ninja-build librocksdb-dev libgtest-dev libssl-dev zlib1g-dev \
-            libfmt-dev libtbb-dev nlohmann-json3-dev libspdlog-dev \
-            libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev \
-            libboost-system-dev libgrpc++-dev libprotobuf-dev \
-            protobuf-compiler-grpc
+      - name: Setup C++ build dependencies
+        uses: ./.github/actions/setup-cpp-build
+        with:
+          cc: gcc-12
+          cxx: g++-12
+          extra-packages: librocksdb-dev libssl-dev zlib1g-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libboost-system-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc
 
       - name: Configure (community-release)
-        run: cmake --preset community-release
+        run: |
+          set -euo pipefail
+          cmake --preset community-release 2>&1 | tee /tmp/release-critical-configure.log
 
       - name: Build release-critical targets
         run: |
+          set -euo pipefail
           cmake --build build-community-release \
             --target themis_release_critical_tests \
-            --parallel "$(nproc)" || \
-          cmake --build build-community-release \
-            --target themis_integration_tests \
-            --parallel "$(nproc)"
+            --parallel "$(nproc)" 2>&1 | tee /tmp/release-critical-build.log
 
       - name: Run release-critical tests
         run: |
+          set -euo pipefail
           ctest --test-dir build-community-release \
             --label-regex "release_critical" \
             --output-on-failure \
             --parallel 1 \
-            --timeout 120
+            --timeout 120 2>&1 | tee /tmp/release-critical-ctest.log
+
+      - name: Upload release-critical triage bundle
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-critical-triage-${{ github.run_number }}
+          path: |
+            /tmp/release-critical-configure.log
+            /tmp/release-critical-build.log
+            /tmp/release-critical-ctest.log
+          if-no-files-found: ignore
+          retention-days: 30
 
   # ────────────────────────────────────────────────────────────────────────────
   # GATE 5 — Reproducible Build Metadata
@@ -458,6 +550,7 @@ jobs:
     runs-on: ubuntu-latest
     if: always()
     needs:
+      - preflight-ci-policy
       - community-pipeline-policy
       - high-exception-record
       - private-plugin-boundary
@@ -474,6 +567,7 @@ jobs:
             echo ""
             echo "| Gate | Result |"
             echo "|------|--------|"
+            echo "| Preflight CI Policy + Workflow Lint | ${{ needs.preflight-ci-policy.result }} |"
             echo "| Community Pipeline Policy | ${{ needs.community-pipeline-policy.result }} |"
             echo "| High Exception Record | ${{ needs.high-exception-record.result }} |"
             echo "| Private Plugin Boundary | ${{ needs.private-plugin-boundary.result }} |"
