@@ -71,6 +71,55 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 - [x] Wave 8, chaos/fault-injection, sanitizer/recovery, penetration-test, and 99.99% SLA sign-off artefacts are closed: sanitizer evidence bundle at `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md`; pentest evidence bundle at `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`; Wave 9 SLA/chaos gates PASS; final governance sign-off pending human approval at `docs/governance/GA_PROMOTION_SIGN_OFF.md`.
 - [x] Phase 1-6 execution contract complete: all technical gates PASS; human sign-off (Section 9 of `docs/governance/GA_PROMOTION_SIGN_OFF.md`) is the only remaining GA blocker.
 
+## Program Execution Model (Wave A → B → C → D)
+
+Execution targets `develop` and must follow strict wave-gate sequencing.
+
+### Wave A — Runtime Reliability First (Q3–Q4 2026)
+- [ ] Transaction: close build/run verification, then complete crash-recovery chaos validation, timeout determinism, SAGA retry-storm control, and Byzantine/cascading-failure validation (Target: Q3–Q4 2026)
+- [ ] Sharding: complete multi-shard exact-path gate, topology-change auto-rebalance hardening, latency-aware routing, and long-run distributed write stress (Target: Q3–Q4 2026)
+- [ ] Replication: deliver geographic placement policy, async cross-region WAL shipping with lag alerts, and stronger failover diagnostics (Target: Q3–Q4 2026)
+- [ ] Voice: harden session lifecycle fail-closed behavior, malformed/oversized stream rejection, adversarial anti-spoof/liveness regressions, and multi-session teardown safety (Target: Q3–Q4 2026)
+- [ ] GPU: reduce unchecked CUDA-call exposure, close RAII lifecycle gaps, enforce kernel timeouts, and guarantee clean CPU degradation on every GPU failure (Target: Q3–Q4 2026)
+
+### Wave A Exit Criteria (Gate to Wave B)
+- [ ] Deterministic chaos evidence is complete for transaction/sharding/replication recovery and failover paths (Target: Q4 2026)
+- [ ] Fail-closed behavior is verified for all distributed and acceleration paths in scope (Target: Q4 2026)
+- [ ] `release_critical` CI is green on `develop` for all Wave A impacted modules (Target: Q4 2026)
+- [ ] Representative-hardware p95/p99 baselines are refreshed for sharding, replication, GPU, voice, and transaction (Target: Q4 2026)
+
+### Wave B — Performance Consolidation (Q3–Q4 2026)
+- [ ] Search: complete real 4-layer `LayeredRetrievalOrchestrator` integration (ANN/Tensor/Graph/LLM) and lock p95/p99 + memory gates for the full chain (Target: Q3–Q4 2026)
+- [ ] Access Model: complete Phase 5–6 observability, concurrency/e2e tests, and benchmark closure for GATE-ACM-01..06 (Target: Q3–Q4 2026)
+- [ ] LLM Wiki Phase B: advance only after measurable and reproducible RocksDB retrieval, cache hit-rate, and query-latency gates (Target: Q3–Q4 2026)
+
+### Wave B Exit Criteria (Gate to Wave C)
+- [ ] Full 4-layer retrieval chain has stable p95/p99 and bounded memory on representative hardware (Target: Q4 2026)
+- [ ] Access Model benchmark and observability gates are closed with reproducible evidence (Target: Q4 2026)
+- [ ] Release decisions are based on representative hardware baselines, not module-local-only scaffolding benchmarks (Target: Q4 2026)
+
+### Wave C — Security Production Validation (Q4 2026)
+- [ ] Security module: complete Vault/HSM/PKI integration validation, provider failover, real RLS/query workloads, concurrent policy updates, and policy-conflict edge cases (Target: Q4 2026)
+- [ ] Audit: harden integrity and high-volume export reliability under sustained load (Target: Q4 2026)
+- [ ] CI policy gates: enforce private/public plugin boundaries, edition/license validation, hash/SBOM checks, and fail-closed community builds (Target: Q4 2026)
+
+### Wave C Exit Criteria (Gate to Wave D)
+- [ ] Production-style security integration evidence is complete (Target: Q4 2026)
+- [ ] Audit evidence remains trustworthy under sustained load and export stress (Target: Q4 2026)
+- [ ] Policy gates consistently block boundary/license/hash/SBOM regressions (Target: Q4 2026)
+
+### Wave D — Operability Hardening (Q1 2027)
+- [ ] Observability expansion: distributed tracing, high-cardinality stress, exporter reliability, and operator remediation hints across core modules (Target: Q1 2027)
+- [ ] Publish runbooks for access-model promotion, replication lag/failover, sharding repair/rebalance, voice incident triage, and GPU fallback (Target: Q1 2027)
+- [ ] Add long-duration soak tests for sustained telemetry, replication traffic, distributed writes, and mixed acceleration workloads (Target: Q1 2027)
+
+### Program-Level Success Criteria
+- [ ] All distributed and acceleration paths fail closed (Target: Q1 2027)
+- [ ] Major modules have benchmark-backed p95/p99 baselines on representative hardware (Target: Q1 2027)
+- [ ] Recovery/failover paths have deterministic chaos evidence (Target: Q1 2027)
+- [ ] Security controls have production-style integration validation (Target: Q1 2027)
+- [ ] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+
 ## Private Plugin Externalization & Monetization Program
 
 ### Current Status

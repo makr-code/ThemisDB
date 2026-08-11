@@ -261,3 +261,24 @@ See `research/implementation_influence/by_module.md` for detailed mappings.
 
 **Last Updated:** 2026-08-01  
 **Next Sync:** After Batch 1 completion (Phase 3.5 + comprehensive tests)
+
+## Program Execution Model — Wave Context
+
+This module is scoped to **Wave B — Performance Consolidation** in the program-level wave model.
+Wave B begins only after Wave A exit criteria are met.
+See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D gate model and exit criteria.
+
+### Wave B Scope for `llm_wiki`
+- [ ] Llm Wiki: advance Phase B only after measurable and reproducible RocksDB retrieval, cache hit-rate, and query-latency gates (Target: Q3–Q4 2026)
+
+### Wave B Entry Gate (prerequisite from Wave A)
+- [ ] Wave A gate is closed: chaos evidence, fail-closed verification, `release_critical` CI green, and baselines refreshed (Target: Q4 2026)
+
+### Wave B Exit Criteria (this module's contribution)
+- [ ] Stable p95/p99 and bounded memory confirmed on representative hardware (Target: Q4 2026)
+- [ ] Benchmark and observability gates closed with reproducible evidence (Target: Q4 2026)
+- [ ] Release decisions based on representative hardware baselines, not scaffolding benchmarks only (Target: Q4 2026)
+
+### Dependencies on Later Waves
+- Wave C security validation depends on stable Wave B performance baselines.
+- Wave D operability hardening depends on all prior waves being gate-complete.
