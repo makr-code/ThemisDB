@@ -207,10 +207,10 @@ jobs:
           python-version: '3.11'
 
       - name: Write PR body to file
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
         run: |
-          cat > pr_body.md <<'EOF'
-          ${{ github.event.pull_request.body }}
-          EOF
+          printf '%s\n' "$PR_BODY" > pr_body.md
 
       - name: Validate PR high-exception section
         run: python .github/scripts/check_pr_high_exception_record.py --body-file pr_body.md
