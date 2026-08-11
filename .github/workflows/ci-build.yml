@@ -1,27 +1,20 @@
 name: CI — Build
 
 # Core C++ build matrix: Ubuntu + Windows, with sccache caching, incremental
-# module detection, build-timing summary, sanitizer PR lane, and PR annotations.
+# module detection, build-timing summary, sanitizer PR lane, PR annotations,
+# and detailed debug/diagnostic output on every step.
 # Replaces: cmake-multi-platform.yml
 #
 # Improvements (2026-08-11):
-#   - sccache layer: shared compiler-output cache keyed on CMakePresets +
-#     vcpkg.json + toolchain. Cuts C++ rebuild time 60-80% on cache hits.
-#   - Incremental build detection: a preflight job detects which src/* modules
-#     changed; matrix rows for unchanged modules emit a skip notice and exit
-#     early, reducing billable minutes.
-#   - Build timing step summary: each build job records configure+build+test
-#     durations to $GITHUB_STEP_SUMMARY as a table.
-#   - Sanitizer PR lane: ASan/UBSan fire automatically on PRs that touch C++
-#     source files (path-filtered), not only on workflow_dispatch.
-#   - ctest retry semantics: known infra-flaky tests use --repeat until-pass:3
-#     when THEMIS_CI_RETRY_FLAKY=ON (default on CI, off locally).
-#   - PR failure annotations: CMake/CTest output is scanned for error patterns
-#     and posted as inline PR annotations via $GITHUB_STEP_SUMMARY.
-#   - Cost estimation pre-flight: workflow_dispatch prints a runner-minute
-#     estimate to step summary before heavy jobs start.
-#
-# Triggers: push + PR on develop/community; manual dispatch.
+#   - sccache: shared compiler-output cache (60-80% faster on cache hits).
+#   - Incremental detection: changed-module preflight skips unchanged rows.
+#   - Build timing table in $GITHUB_STEP_SUMMARY per matrix row.
+#   - Sanitizer PR lane: ASan/UBSan fire on C++ PRs, not only dispatch.
+#   - ctest retry: --repeat until-pass:3 for infra-flaky tests.
+#   - PR failure annotations: CMake/CTest errors posted as inline comments.
+#   - Cost estimation: dispatch pre-flight prints runner-minute estimate.
+#   - Debug output: every step prints machine info, env vars, timing, and
+#     a human-readable status line so failures are immediately diagnosable.
 
 on:
   push:
@@ -52,11 +45,16 @@ on:
   workflow_dispatch:
     inputs:
       sanitizer:
-        description: 'Additional sanitizer job (asan|ubsan|none)'
+        description: 'Additional sanitizer job (asan|ubsan|none|both)'
         required: false
         default: 'none'
         type: choice
         options: [none, asan, ubsan, both]
+      debug_mode:
+        description: 'Enable extra verbose debug output'
+        required: false
+        default: 'false'
+        type: boolean
 
 permissions:
   actions: read
@@ -71,58 +69,90 @@ concurrency:
 # ──────────────────────────────────────────────────────────────────────────────
 jobs:
 
-  # Pre-flight: estimate runner cost for workflow_dispatch and display to
-  # the operator before heavy jobs start.
+  # ── Cost estimation (workflow_dispatch only) ────────────────────────────
   cost-estimate:
-    name: Runner Cost Estimate
+    name: 💰 Runner Cost Estimate
     runs-on: ubuntu-latest
     timeout-minutes: 5
     if: github.event_name == 'workflow_dispatch'
     permissions:
       contents: read
     steps:
+      - name: Print trigger context
+        run: |
+          echo "============================================================"
+          echo " CI — Build  |  Cost Estimate Pre-flight"
+          echo "============================================================"
+          echo "  Triggered by : workflow_dispatch"
+          echo "  Actor        : ${{ github.actor }}"
+          echo "  Ref          : ${{ github.ref }}"
+          echo "  Sanitizer    : ${{ inputs.sanitizer }}"
+          echo "  Debug mode   : ${{ inputs.debug_mode }}"
+          echo "  Run ID       : ${{ github.run_id }}"
+          echo "  Run number   : ${{ github.run_number }}"
+          echo "============================================================"
+
       - name: Estimate runner minutes
         run: |
           SANITIZER="${{ inputs.sanitizer }}"
-          MATRIX_ROWS=3  # ubuntu/gcc, ubuntu/clang, windows/cl
-          BUILD_MINS=25  # estimated per row (Release, no tests cached)
+          MATRIX_ROWS=3
+          BUILD_MINS=25
           TEST_MINS=15
           ASAN_MINS=45
           UBSAN_MINS=45
 
           TOTAL=$(( MATRIX_ROWS * (BUILD_MINS + TEST_MINS) ))
-          if [[ "${SANITIZER}" == "asan" || "${SANITIZER}" == "both" ]]; then
-            TOTAL=$(( TOTAL + ASAN_MINS ))
-          fi
-          if [[ "${SANITIZER}" == "ubsan" || "${SANITIZER}" == "both" ]]; then
-            TOTAL=$(( TOTAL + UBSAN_MINS ))
-          fi
+          [[ "${SANITIZER}" == "asan"  || "${SANITIZER}" == "both" ]] && TOTAL=$(( TOTAL + ASAN_MINS ))
+          [[ "${SANITIZER}" == "ubsan" || "${SANITIZER}" == "both" ]] && TOTAL=$(( TOTAL + UBSAN_MINS ))
 
-          echo "### 💰 Runner Cost Estimate" >> "$GITHUB_STEP_SUMMARY"
-          echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "| Component | Est. Minutes |" >> "$GITHUB_STEP_SUMMARY"
-          echo "|-----------|-------------|" >> "$GITHUB_STEP_SUMMARY"
-          echo "| Build matrix (${MATRIX_ROWS} rows) | $(( MATRIX_ROWS * BUILD_MINS )) |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| Tests (${MATRIX_ROWS} rows) | $(( MATRIX_ROWS * TEST_MINS )) |" >> "$GITHUB_STEP_SUMMARY"
-          if [[ "${SANITIZER}" == "asan" || "${SANITIZER}" == "both" ]]; then
-            echo "| ASan job | ${ASAN_MINS} |" >> "$GITHUB_STEP_SUMMARY"
-          fi
-          if [[ "${SANITIZER}" == "ubsan" || "${SANITIZER}" == "both" ]]; then
-            echo "| UBSan job | ${UBSAN_MINS} |" >> "$GITHUB_STEP_SUMMARY"
-          fi
-          echo "| **Total (wall-clock, parallelised)** | ~${TOTAL} |" >> "$GITHUB_STEP_SUMMARY"
-          echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "_Estimates assume cold sccache; expect 60-80% reduction on cache hits._" >> "$GITHUB_STEP_SUMMARY"
+          echo ""
+          echo "──────────────────────────────────────────────"
+          echo "  Runner cost estimate (minutes)"
+          echo "──────────────────────────────────────────────"
+          printf "  %-30s %s\n" "Build matrix (${MATRIX_ROWS} rows)" "$(( MATRIX_ROWS * BUILD_MINS )) min"
+          printf "  %-30s %s\n" "Tests (${MATRIX_ROWS} rows)"        "$(( MATRIX_ROWS * TEST_MINS )) min"
+          [[ "${SANITIZER}" == "asan"  || "${SANITIZER}" == "both" ]] && printf "  %-30s %s\n" "ASan job"  "${ASAN_MINS} min"
+          [[ "${SANITIZER}" == "ubsan" || "${SANITIZER}" == "both" ]] && printf "  %-30s %s\n" "UBSan job" "${UBSAN_MINS} min"
+          echo "  ──────────────────────────────────────────"
+          printf "  %-30s %s\n" "Estimated total" "~${TOTAL} min"
+          echo "  (60-80% reduction on sccache hit)"
+          echo "──────────────────────────────────────────────"
 
-  # Detect open approval-blocking CI issues before spending runner minutes
+          {
+            echo "### 💰 Runner Cost Estimate"
+            echo ""
+            echo "| Component | Est. Minutes |"
+            echo "|-----------|-------------|"
+            echo "| Build matrix (${MATRIX_ROWS} rows) | $(( MATRIX_ROWS * BUILD_MINS )) |"
+            echo "| Tests (${MATRIX_ROWS} rows) | $(( MATRIX_ROWS * TEST_MINS )) |"
+            [[ "${SANITIZER}" == "asan"  || "${SANITIZER}" == "both" ]] && echo "| ASan job | ${ASAN_MINS} |"
+            [[ "${SANITIZER}" == "ubsan" || "${SANITIZER}" == "both" ]] && echo "| UBSan job | ${UBSAN_MINS} |"
+            echo "| **Total (parallelised, cold cache)** | **~${TOTAL} min** |"
+            echo ""
+            echo "_sccache hit: expect 60–80% reduction. Triggered by \`${{ github.actor }}\` at $(date -u)._"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  # ── Approval gate ──────────────────────────────────────────────────────
   detect-unresolved-failures:
-    name: Detect unresolved CI failures
+    name: 🔍 Detect Unresolved CI Failures
     runs-on: ubuntu-latest
     outputs:
       requires_approval: ${{ steps.detect.outputs.requires_approval }}
       blocking_issue_count: ${{ steps.detect.outputs.blocking_issue_count }}
       blocking_issue_numbers: ${{ steps.detect.outputs.blocking_issue_numbers }}
     steps:
+      - name: Print detection context
+        run: |
+          echo "============================================================"
+          echo " CI — Build  |  Unresolved Failure Detection"
+          echo "============================================================"
+          echo "  Event    : ${{ github.event_name }}"
+          echo "  Ref      : ${{ github.ref }}"
+          echo "  SHA      : ${{ github.sha }}"
+          echo "  Run ID   : ${{ github.run_id }}"
+          echo "  Checking for open ci/failure + status/needs-approval issues..."
+          echo "============================================================"
+
       - name: Detect approval-blocking CI issues
         id: detect
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
@@ -133,36 +163,59 @@ jobs:
             const markerWorkflow = `<!-- ci-workflow:${workflowName} -->`;
             const markerRef = `<!-- ci-ref:${refName} -->`;
 
+            console.log(`Scanning for issues with markers:`);
+            console.log(`  Workflow marker : ${markerWorkflow}`);
+            console.log(`  Ref marker      : ${markerRef}`);
+
             const issues = await github.paginate(github.rest.issues.listForRepo, {
               owner: context.repo.owner, repo: context.repo.repo,
               state: 'open', labels: 'ci/failure,status/needs-approval', per_page: 100,
             });
+            console.log(`Found ${issues.length} open ci/failure+needs-approval issue(s) total.`);
 
             const blocking = issues.filter(i => {
               const body = i.body || '';
               return body.includes(markerWorkflow) && body.includes(markerRef);
             });
+            console.log(`Blocking issues for this workflow+ref: ${blocking.length}`);
+            if (blocking.length > 0) {
+              blocking.forEach(i => console.log(`  → #${i.number}: ${i.title}`));
+            }
 
             core.setOutput('requires_approval', blocking.length > 0 ? 'true' : 'false');
             core.setOutput('blocking_issue_count', String(blocking.length));
             core.setOutput('blocking_issue_numbers', blocking.map(i => `#${i.number}`).join(', '));
 
+      - name: Report detection result
+        run: |
+          REQUIRES="${{ steps.detect.outputs.requires_approval }}"
+          COUNT="${{ steps.detect.outputs.blocking_issue_count }}"
+          NUMBERS="${{ steps.detect.outputs.blocking_issue_numbers }}"
+          if [ "${REQUIRES}" = "true" ]; then
+            echo "::warning::⛔ Approval required — ${COUNT} blocking issue(s): ${NUMBERS}"
+            echo "  ACTION: A maintainer must approve the 'ci-approved' environment to proceed."
+          else
+            echo "  ✅ No blocking issues found — build matrix will proceed."
+          fi
+
   approval-gate:
-    name: Await maintainer approval
+    name: ⏳ Await Maintainer Approval
     needs: detect-unresolved-failures
     if: needs.detect-unresolved-failures.outputs.requires_approval == 'true'
     runs-on: ubuntu-latest
     environment:
       name: ci-approved
     steps:
-      - run: echo "Approval granted via environment ci-approved."
+      - run: |
+          echo "============================================================"
+          echo "  Approval granted via environment 'ci-approved'."
+          echo "  Approved by: ${{ github.actor }}"
+          echo "  Timestamp  : $(date -u)"
+          echo "============================================================"
 
-  # ────────────────────────────────────────────────────────────────────────
-  # Incremental module detection: detect which src/* modules changed so that
-  # build jobs can skip unchanged areas early.
-  # ────────────────────────────────────────────────────────────────────────
+  # ── Incremental module detection ───────────────────────────────────────
   detect-changes:
-    name: Detect changed modules
+    name: 🔎 Detect Changed Modules
     runs-on: ubuntu-latest
     timeout-minutes: 5
     outputs:
@@ -178,24 +231,39 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          echo "============================================================"
+          echo " CI — Build  |  Changed Module Detection"
+          echo "============================================================"
+          echo "  Event    : ${{ github.event_name }}"
+          echo "  Base ref : ${{ github.base_ref || 'develop' }}"
+          echo "  HEAD SHA : $(git rev-parse HEAD)"
+          echo "============================================================"
+
           BASE="${{ github.base_ref || 'develop' }}"
           git fetch origin "${BASE}" --depth=1 2>/dev/null || true
 
-          # Compute diff against base (PR) or previous commit (push)
           if git rev-parse "origin/${BASE}" >/dev/null 2>&1; then
             CHANGED=$(git diff --name-only "origin/${BASE}...HEAD" 2>/dev/null || echo "")
+            echo "  Diff base: origin/${BASE}"
           else
             CHANGED=$(git diff --name-only HEAD~1 2>/dev/null || echo "")
+            echo "  Diff base: HEAD~1 (base branch not available)"
           fi
 
-          # Detect any C++ source change
+          CHANGED_COUNT=$(echo "${CHANGED}" | grep -c . || true)
+          echo ""
+          echo "  Total changed files : ${CHANGED_COUNT}"
+          echo ""
+
           if echo "${CHANGED}" | grep -qE '\.(cpp|cc|cxx|h|hpp|hxx)$'; then
             echo "has_cpp_changes=true" >> "$GITHUB_OUTPUT"
+            CPP_COUNT=$(echo "${CHANGED}" | grep -cE '\.(cpp|cc|cxx|h|hpp|hxx)$' || true)
+            echo "  C++ source changes  : ✅ YES (${CPP_COUNT} file(s))"
           else
             echo "has_cpp_changes=false" >> "$GITHUB_OUTPUT"
+            echo "  C++ source changes  : ⏭️  NONE — build matrix rows will be skipped on PRs"
           fi
 
-          # Extract unique top-level src/* modules
           MODULES=$(echo "${CHANGED}" \
             | grep -E '^(src|include|tests)/' \
             | sed -E 's|^(src|include|tests)/([^/]+)/.*|\2|' \
@@ -203,12 +271,18 @@ jobs:
             | tr '\n' ',' \
             | sed 's/,$//')
           echo "changed_modules=${MODULES}" >> "$GITHUB_OUTPUT"
-          echo "Changed modules: ${MODULES:-<none>}"
-          echo "Has C++ changes: $(grep -c has_cpp_changes "$GITHUB_OUTPUT" || true)"
+
+          echo ""
+          echo "  Changed modules : ${MODULES:-<none>}"
+          echo ""
+          echo "  Changed files (first 20):"
+          echo "${CHANGED}" | head -20 | sed 's/^/    /'
+          [ "${CHANGED_COUNT}" -gt 20 ] && echo "    ... and $(( CHANGED_COUNT - 20 )) more"
+          echo "============================================================"
 
   # ──────────────────────────────────────────────────────────────────────────
   build:
-    name: Build (${{ matrix.os }}, ${{ matrix.c_compiler }})
+    name: 🔨 Build (${{ matrix.os }}, ${{ matrix.c_compiler }})
     needs:
       - detect-unresolved-failures
       - approval-gate
@@ -242,12 +316,32 @@ jobs:
             c_compiler: cl
 
     env:
-      # sccache environment variables
       SCCACHE_GHA_ENABLED: "true"
-      # Enable retry semantics for known infra-flaky tests in CI
       THEMIS_CI_RETRY_FLAKY: "ON"
 
     steps:
+      - name: Print matrix context
+        shell: bash
+        run: |
+          echo "============================================================"
+          echo " CI — Build  |  Matrix Job Start"
+          echo "============================================================"
+          echo "  OS           : ${{ matrix.os }}"
+          echo "  Compiler     : ${{ matrix.c_compiler }}"
+          echo "  Build type   : ${{ matrix.build_type }}"
+          echo "  Event        : ${{ github.event_name }}"
+          echo "  Ref          : ${{ github.ref }}"
+          echo "  SHA          : ${{ github.sha }}"
+          echo "  Run ID       : ${{ github.run_id }}  (#${{ github.run_number }})"
+          echo "  Actor        : ${{ github.actor }}"
+          echo "  Changed mods : ${{ needs.detect-changes.outputs.changed_modules || '<none>' }}"
+          echo "  Has C++ chg  : ${{ needs.detect-changes.outputs.has_cpp_changes }}"
+          echo "  sccache      : ENABLED (GHA backend)"
+          echo "  Retry flaky  : ON (--repeat until-pass:3)"
+          echo "============================================================"
+          uname -a || true
+          nproc || true
+
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
 
       - name: Set reusable strings
@@ -256,15 +350,24 @@ jobs:
         run: |
           echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
           echo "build-start=$(date +%s)" >> "$GITHUB_OUTPUT"
+          echo "  Build output dir: ${{ github.workspace }}/build"
 
       - name: Skip notice for no-op matrix rows
-        # If no C++ sources changed and this is a PR, emit a notice and skip
-        # heavy steps. The job still completes successfully.
         if: needs.detect-changes.outputs.has_cpp_changes == 'false' && github.event_name == 'pull_request'
         shell: bash
         run: |
-          echo "### ⏭️ Build skipped — no C++ source changes detected" >> "$GITHUB_STEP_SUMMARY"
-          echo "Changed modules: ${{ needs.detect-changes.outputs.changed_modules || '<none>' }}" >> "$GITHUB_STEP_SUMMARY"
+          echo ""
+          echo "  ⏭️  SKIP: No C++ source changes detected in this PR."
+          echo "  Changed modules: ${{ needs.detect-changes.outputs.changed_modules || '<none>' }}"
+          echo "  This matrix row exits early to save runner minutes."
+          echo ""
+          {
+            echo "### ⏭️ Build Skipped — ${{ matrix.os }} / ${{ matrix.c_compiler }}"
+            echo ""
+            echo "No C++ source changes detected. Build and test steps skipped."
+            echo ""
+            echo "Changed modules: \`${{ needs.detect-changes.outputs.changed_modules || 'none' }}\`"
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Setup sccache (Linux)
         if: runner.os == 'Linux' && (needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request')
@@ -278,6 +381,14 @@ jobs:
         with:
           version: "v0.8.1"
 
+      - name: Print sccache status
+        if: needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request'
+        shell: bash
+        run: |
+          echo "  sccache version:"
+          sccache --version 2>/dev/null || echo "  (sccache not in PATH yet — provided by action)"
+          echo "  sccache GHA_ENABLED=${SCCACHE_GHA_ENABLED}"
+
       - name: Setup Linux build dependencies
         if: runner.os == 'Linux' && (needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request')
         uses: ./.github/actions/setup-cpp-build
@@ -285,6 +396,18 @@ jobs:
           cc: ${{ matrix.c_compiler }}
           cxx: ${{ matrix.cpp_compiler }}
           extra-packages: librocksdb-dev libssl-dev zlib1g-dev libzstd-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libboost-system-dev libboost-filesystem-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev
+
+      - name: Print compiler info (Linux)
+        if: runner.os == 'Linux' && (needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request')
+        run: |
+          echo "──────────────────────────────────────────────"
+          echo "  Compiler info"
+          echo "──────────────────────────────────────────────"
+          ${{ matrix.cpp_compiler }} --version || true
+          ${{ matrix.c_compiler }} --version || true
+          cmake --version || true
+          ninja --version || true
+          echo "──────────────────────────────────────────────"
 
       - name: Set up vcpkg cache (Windows)
         if: runner.os == 'Windows'
@@ -298,15 +421,32 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
+          Write-Host "============================================================"
+          Write-Host " vcpkg bootstrap"
+          Write-Host "============================================================"
           if (-not (Test-Path "C:\vcpkg")) {
+            Write-Host "  vcpkg not cached — cloning..."
             git clone https://github.com/microsoft/vcpkg.git C:\vcpkg
             C:\vcpkg\bootstrap-vcpkg.bat -disableMetrics
+            Write-Host "  vcpkg bootstrapped successfully."
+          } else {
+            Write-Host "  vcpkg found in cache — skipping clone."
           }
+          C:\vcpkg\vcpkg version
 
       - name: Configure CMake (Linux)
         if: runner.os == 'Linux' && (needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request')
         id: cmake_configure_linux
         run: |
+          echo "──────────────────────────────────────────────"
+          echo "  CMake configure (Linux)"
+          echo "──────────────────────────────────────────────"
+          echo "  Build dir    : ${{ steps.strings.outputs.build-output-dir }}"
+          echo "  C compiler   : ${{ matrix.c_compiler }}"
+          echo "  CXX compiler : ${{ matrix.cpp_compiler }}"
+          echo "  Build type   : ${{ matrix.build_type }}"
+          echo "  sccache      : launcher enabled"
+          echo "──────────────────────────────────────────────"
           T0=$(date +%s)
           cmake -B "${{ steps.strings.outputs.build-output-dir }}" \
             -G Ninja \
@@ -318,13 +458,25 @@ jobs:
             -DTHEMIS_BUILD_TESTS=ON \
             -DTHEMIS_MODELS_MODE=SKIP \
             -S "${{ github.workspace }}"
-          echo "configure_secs=$(( $(date +%s) - T0 ))" >> "$GITHUB_OUTPUT"
+          CONFIGURE_SECS=$(( $(date +%s) - T0 ))
+          echo "configure_secs=${CONFIGURE_SECS}" >> "$GITHUB_OUTPUT"
+          echo ""
+          echo "  ✅ CMake configure completed in ${CONFIGURE_SECS}s"
 
       - name: Configure CMake (Windows)
         if: runner.os == 'Windows' && (needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request')
         id: cmake_configure_windows
         shell: pwsh
         run: |
+          Write-Host "============================================================"
+          Write-Host " CMake configure (Windows)"
+          Write-Host "============================================================"
+          Write-Host "  Build dir  : ${{ steps.strings.outputs.build-output-dir }}"
+          Write-Host "  Compiler   : ${{ matrix.c_compiler }} (MSVC)"
+          Write-Host "  Build type : ${{ matrix.build_type }}"
+          Write-Host "  vcpkg      : C:\vcpkg\scripts\buildsystems\vcpkg.cmake"
+          Write-Host "  sccache    : launcher enabled"
+          Write-Host "============================================================"
           $T0 = [int](Get-Date -UFormat %s)
           cmake -B "${{ steps.strings.outputs.build-output-dir }}" `
             -DCMAKE_TOOLCHAIN_FILE="C:\vcpkg\scripts\buildsystems\vcpkg.cmake" `
@@ -336,15 +488,27 @@ jobs:
             -S "${{ github.workspace }}"
           $ConfigSecs = [int](Get-Date -UFormat %s) - $T0
           "configure_secs=$ConfigSecs" >> $Env:GITHUB_OUTPUT
+          Write-Host ""
+          Write-Host "  ✅ CMake configure completed in ${ConfigSecs}s"
 
       - name: Build
         id: cmake_build
         if: needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request'
         shell: bash
         run: |
+          echo "──────────────────────────────────────────────"
+          echo "  cmake --build"
+          echo "──────────────────────────────────────────────"
+          JOBS=$(( $(nproc 2>/dev/null || echo 4) ))
+          echo "  Parallel jobs: ${JOBS}"
+          echo "──────────────────────────────────────────────"
           T0=$(date +%s)
-          cmake --build "${{ steps.strings.outputs.build-output-dir }}" --config ${{ matrix.build_type }} --parallel
-          echo "build_secs=$(( $(date +%s) - T0 ))" >> "$GITHUB_OUTPUT"
+          cmake --build "${{ steps.strings.outputs.build-output-dir }}" \
+            --config ${{ matrix.build_type }} --parallel
+          BUILD_SECS=$(( $(date +%s) - T0 ))
+          echo "build_secs=${BUILD_SECS}" >> "$GITHUB_OUTPUT"
+          echo ""
+          echo "  ✅ Build completed in ${BUILD_SECS}s"
 
       - name: Run tests
         id: ctest_run
@@ -352,23 +516,42 @@ jobs:
         working-directory: ${{ steps.strings.outputs.build-output-dir }}
         shell: bash
         run: |
-          T0=$(date +%s)
-          # --repeat until-pass:3 retries infra-flaky tests up to 3 times.
-          # Gated to THEMIS_CI_RETRY_FLAKY env so local runs stay strict.
+          echo "──────────────────────────────────────────────"
+          echo "  ctest"
+          echo "──────────────────────────────────────────────"
+          JOBS=$(( $(nproc 2>/dev/null || echo 4) < 8 ? $(nproc 2>/dev/null || echo 4) : 8 ))
+          echo "  Parallel jobs : ${JOBS}"
+          echo "  Timeout/test  : 60s"
+          echo "  Retry flag    : ${THEMIS_CI_RETRY_FLAKY:-OFF}"
+          echo "──────────────────────────────────────────────"
           RETRY_FLAG=""
-          if [ "${THEMIS_CI_RETRY_FLAKY:-OFF}" = "ON" ]; then
-            RETRY_FLAG="--repeat until-pass:3"
-          fi
-          # Parallel scaling: use available CPU count (capped at 8 to avoid
-          # excessive memory pressure on ubuntu-latest runners).
-          JOBS=$(( $(nproc) < 8 ? $(nproc) : 8 ))
+          [ "${THEMIS_CI_RETRY_FLAKY:-OFF}" = "ON" ] && RETRY_FLAG="--repeat until-pass:3"
+          T0=$(date +%s)
+          set +e
           ctest --build-config ${{ matrix.build_type }} \
                 --output-on-failure \
                 --parallel "${JOBS}" \
                 --timeout 60 \
                 ${RETRY_FLAG} \
                 --output-junit ctest-results.xml 2>&1 | tee ctest-output.txt
-          echo "test_secs=$(( $(date +%s) - T0 ))" >> "$GITHUB_OUTPUT"
+          CTEST_EXIT=$?
+          TEST_SECS=$(( $(date +%s) - T0 ))
+          echo "test_secs=${TEST_SECS}" >> "$GITHUB_OUTPUT"
+          echo "ctest_exit=${CTEST_EXIT}" >> "$GITHUB_OUTPUT"
+          echo ""
+          if [ "${CTEST_EXIT}" -eq 0 ]; then
+            echo "  ✅ All tests passed in ${TEST_SECS}s"
+          else
+            echo "  ❌ Test failures detected (exit ${CTEST_EXIT}) after ${TEST_SECS}s"
+            echo "     Review ctest-output.txt above for details."
+          fi
+          # Count pass/fail from JUnit XML if available
+          if [ -f ctest-results.xml ]; then
+            PASS=$(grep -c 'testcase' ctest-results.xml 2>/dev/null || echo '?')
+            FAIL=$(grep -c '<failure' ctest-results.xml 2>/dev/null || echo '0')
+            echo "  Test cases: ${PASS} total, ${FAIL} failures"
+          fi
+          exit ${CTEST_EXIT}
 
       - name: Annotate PR with build/test failures
         if: failure() && github.event_name == 'pull_request'
@@ -377,20 +560,38 @@ jobs:
           script: |
             const fs = require('fs');
             let annotations = [];
-            // Parse CMake errors
+            let rawOutput = '';
             try {
-              const output = fs.readFileSync('${{ steps.strings.outputs.build-output-dir }}/../ctest-output.txt', 'utf8');
-              const errorRe = /^([^:]+):(\d+):\d+:\s+(error|warning):\s+(.+)$/gm;
-              let m;
-              while ((m = errorRe.exec(output)) !== null && annotations.length < 10) {
-                annotations.push({ path: m[1], line: parseInt(m[2]), level: m[3] === 'error' ? 'error' : 'warning', message: m[4] });
-              }
-            } catch (e) { /* file may not exist if build failed before ctest */ }
+              rawOutput = fs.readFileSync('${{ steps.strings.outputs.build-output-dir }}/../ctest-output.txt', 'utf8');
+            } catch (e) {
+              core.warning('ctest-output.txt not found — build may have failed before tests ran.');
+            }
+
+            // Parse CMake/compiler error lines: file:line:col: error: message
+            const errorRe = /^([^:\s][^:]*):(\d+):\d+:\s+(error|warning):\s+(.+)$/gm;
+            let m;
+            while ((m = errorRe.exec(rawOutput)) !== null && annotations.length < 15) {
+              annotations.push({
+                path: m[1].replace(process.env.GITHUB_WORKSPACE + '/', ''),
+                line: parseInt(m[2]),
+                level: m[3],
+                message: `[${m[3].toUpperCase()}] ${m[4]}`
+              });
+            }
+
+            console.log(`Parsed ${annotations.length} annotation(s) from build/test output.`);
             for (const a of annotations) {
-              core.error(a.message, { file: a.path, startLine: a.line });
+              if (a.level === 'error') {
+                core.error(a.message, { file: a.path, startLine: a.line });
+              } else {
+                core.warning(a.message, { file: a.path, startLine: a.line });
+              }
             }
             if (annotations.length === 0) {
-              core.warning('Build or test failure detected — check logs for details.');
+              core.error(
+                `Build or test failure on ${{ matrix.os }}/${{ matrix.c_compiler }} — ` +
+                `check the job log for details (ctest-output.txt artifact).`
+              );
             }
 
       - name: Upload CTest results
@@ -401,11 +602,16 @@ jobs:
           path: |
             ${{ steps.strings.outputs.build-output-dir }}/ctest-results.xml
             ${{ steps.strings.outputs.build-output-dir }}/../ctest-output.txt
-          retention-days: 7
+          retention-days: 7  # short tier per ci-scope-config.yaml
 
-      - name: sccache statistics
-        if: always() && runner.os == 'Linux'
-        run: sccache --show-stats || true
+      - name: Print sccache statistics
+        if: always() && runner.os == 'Linux' && (needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request')
+        run: |
+          echo "──────────────────────────────────────────────"
+          echo "  sccache statistics"
+          echo "──────────────────────────────────────────────"
+          sccache --show-stats || echo "  (sccache stats unavailable)"
+          echo "──────────────────────────────────────────────"
 
       - name: Build timing summary
         if: always()
@@ -414,26 +620,36 @@ jobs:
           CONFIGURE_S="${{ steps.cmake_configure_linux.outputs.configure_secs || steps.cmake_configure_windows.outputs.configure_secs || 'N/A' }}"
           BUILD_S="${{ steps.cmake_build.outputs.build_secs || 'N/A' }}"
           TEST_S="${{ steps.ctest_run.outputs.test_secs || 'N/A' }}"
-          TOTAL_S=$(( ${CONFIGURE_S:-0} + ${BUILD_S:-0} + ${TEST_S:-0} )) || TOTAL_S="N/A"
+          CTEST_EXIT="${{ steps.ctest_run.outputs.ctest_exit || 'N/A' }}"
+          STATUS="✅ passed"
+          [ "${CTEST_EXIT}" != "0" ] && [ "${CTEST_EXIT}" != "N/A" ] && STATUS="❌ failed (exit ${CTEST_EXIT})"
+
+          echo ""
+          echo "──────────────────────────────────────────────"
+          echo "  Build timing — ${{ matrix.os }} / ${{ matrix.c_compiler }}"
+          echo "──────────────────────────────────────────────"
+          printf "  %-15s %s\n" "Configure" "${CONFIGURE_S}s"
+          printf "  %-15s %s\n" "Build"     "${BUILD_S}s"
+          printf "  %-15s %s\n" "Test"      "${TEST_S}s"
+          printf "  %-15s %s\n" "Tests"     "${STATUS}"
+          echo "──────────────────────────────────────────────"
+
           {
             echo "### ⏱️ Build Timing — ${{ matrix.os }} / ${{ matrix.c_compiler }}"
             echo ""
-            echo "| Phase | Duration (s) |"
-            echo "|-------|-------------|"
-            echo "| Configure | ${CONFIGURE_S} |"
-            echo "| Build | ${BUILD_S} |"
-            echo "| Test | ${TEST_S} |"
-            echo "| **Total** | **${TOTAL_S}** |"
+            echo "| Phase | Duration |"
+            echo "|-------|----------|"
+            echo "| ⚙️ Configure | ${CONFIGURE_S}s |"
+            echo "| 🔨 Build | ${BUILD_S}s |"
+            echo "| 🧪 Test | ${TEST_S}s |"
+            echo "| 📊 Test result | ${STATUS} |"
           } >> "$GITHUB_STEP_SUMMARY"
 
   # ──────────────────────────────────────────────────────────────────────────
-  # Sanitizer PR lane — fires on PRs with C++ source changes (path-filtered)
-  # AND on workflow_dispatch when sanitizer != none.
-  # Previously dispatch-only; now also path-triggered on PRs to catch
-  # regressions within hours instead of days.
+  # Sanitizer PR lane
   # ──────────────────────────────────────────────────────────────────────────
   sanitizer-asan:
-    name: Build + Test (ASan)
+    name: 🔬 Build + Test (ASan)
     runs-on: ubuntu-latest
     timeout-minutes: 90
     needs:
@@ -451,6 +667,19 @@ jobs:
     env:
       SCCACHE_GHA_ENABLED: "true"
     steps:
+      - name: Print ASan job context
+        run: |
+          echo "============================================================"
+          echo " CI — Build  |  ASan (Address Sanitizer) Job"
+          echo "============================================================"
+          echo "  Trigger  : ${{ github.event_name }}"
+          echo "  SHA      : ${{ github.sha }}"
+          echo "  Reason   : ${{ github.event_name == 'pull_request' && 'C++ changes detected in PR' || 'workflow_dispatch' }}"
+          echo "  sccache  : ENABLED"
+          echo "  ASan opts: detect_leaks=1:abort_on_error=1"
+          echo "============================================================"
+          uname -a
+
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
 
       - name: Setup sccache
@@ -465,8 +694,15 @@ jobs:
           cxx: clang++-15
           extra-packages: librocksdb-dev libssl-dev zlib1g-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libboost-system-dev
 
+      - name: Print compiler version
+        run: |
+          clang++-15 --version
+          echo "  sccache version: $(sccache --version 2>/dev/null || echo 'N/A')"
+
       - name: Configure with ASan
         run: |
+          echo "  Configuring with -fsanitize=address -fno-omit-frame-pointer ..."
+          T0=$(date +%s)
           cmake -S . -B build-asan -G Ninja \
             -DCMAKE_BUILD_TYPE=RelWithDebInfo \
             -DCMAKE_C_COMPILER_LAUNCHER=sccache \
@@ -476,25 +712,46 @@ jobs:
             -DCMAKE_EXE_LINKER_FLAGS="-fsanitize=address" \
             -DTHEMIS_BUILD_TESTS=ON \
             -DTHEMIS_MODELS_MODE=SKIP
+          echo "  ✅ Configure completed in $(( $(date +%s) - T0 ))s"
 
       - name: Build
-        run: cmake --build build-asan --parallel "$(nproc)"
+        run: |
+          T0=$(date +%s)
+          cmake --build build-asan --parallel "$(nproc)"
+          echo "  ✅ ASan build completed in $(( $(date +%s) - T0 ))s"
 
       - name: Run tests (ASan)
         run: |
+          echo "──────────────────────────────────────────────"
+          echo "  Running tests with ASan enabled"
+          echo "  ASAN_OPTIONS=detect_leaks=1:abort_on_error=1"
+          echo "──────────────────────────────────────────────"
+          T0=$(date +%s)
           ASAN_OPTIONS=detect_leaks=1:abort_on_error=1 \
-            ctest --test-dir build-asan --output-on-failure --parallel 2 --timeout 120
+            ctest --test-dir build-asan --output-on-failure --parallel 2 --timeout 120 2>&1 | tee asan-output.txt
+          SECS=$(( $(date +%s) - T0 ))
+          echo "  ✅ ASan tests completed in ${SECS}s"
+          {
+            echo "### 🔬 ASan Results"
+            echo ""
+            echo "Tests completed in **${SECS}s**. Check \`asan-results\` artifact for details."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Print sccache statistics
+        if: always()
+        run: sccache --show-stats || true
 
       - name: Upload ASan results
         if: always()
         uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08  # v4.6.0
         with:
           name: asan-results-${{ github.run_number }}
-          path: build-asan/
+          path: |
+            asan-output.txt
           retention-days: 7
 
   sanitizer-ubsan:
-    name: Build + Test (UBSan)
+    name: 🔬 Build + Test (UBSan)
     runs-on: ubuntu-latest
     timeout-minutes: 90
     needs:
@@ -512,6 +769,19 @@ jobs:
     env:
       SCCACHE_GHA_ENABLED: "true"
     steps:
+      - name: Print UBSan job context
+        run: |
+          echo "============================================================"
+          echo " CI — Build  |  UBSan (Undefined Behaviour Sanitizer) Job"
+          echo "============================================================"
+          echo "  Trigger   : ${{ github.event_name }}"
+          echo "  SHA       : ${{ github.sha }}"
+          echo "  Reason    : ${{ github.event_name == 'pull_request' && 'C++ changes detected in PR' || 'workflow_dispatch' }}"
+          echo "  sccache   : ENABLED"
+          echo "  UBSan opts: halt_on_error=1:print_stacktrace=1"
+          echo "============================================================"
+          uname -a
+
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
 
       - name: Setup sccache
@@ -526,8 +796,15 @@ jobs:
           cxx: clang++-15
           extra-packages: librocksdb-dev libssl-dev zlib1g-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libboost-system-dev
 
+      - name: Print compiler version
+        run: |
+          clang++-15 --version
+          echo "  sccache version: $(sccache --version 2>/dev/null || echo 'N/A')"
+
       - name: Configure with UBSan
         run: |
+          echo "  Configuring with -fsanitize=undefined -fno-omit-frame-pointer ..."
+          T0=$(date +%s)
           cmake -S . -B build-ubsan -G Ninja \
             -DCMAKE_BUILD_TYPE=RelWithDebInfo \
             -DCMAKE_C_COMPILER_LAUNCHER=sccache \
@@ -537,19 +814,40 @@ jobs:
             -DCMAKE_EXE_LINKER_FLAGS="-fsanitize=undefined" \
             -DTHEMIS_BUILD_TESTS=ON \
             -DTHEMIS_MODELS_MODE=SKIP
+          echo "  ✅ Configure completed in $(( $(date +%s) - T0 ))s"
 
       - name: Build
-        run: cmake --build build-ubsan --parallel "$(nproc)"
+        run: |
+          T0=$(date +%s)
+          cmake --build build-ubsan --parallel "$(nproc)"
+          echo "  ✅ UBSan build completed in $(( $(date +%s) - T0 ))s"
 
       - name: Run tests (UBSan)
         run: |
+          echo "──────────────────────────────────────────────"
+          echo "  Running tests with UBSan enabled"
+          echo "  UBSAN_OPTIONS=halt_on_error=1:print_stacktrace=1"
+          echo "──────────────────────────────────────────────"
+          T0=$(date +%s)
           UBSAN_OPTIONS=halt_on_error=1:print_stacktrace=1 \
-            ctest --test-dir build-ubsan --output-on-failure --parallel 2 --timeout 120
+            ctest --test-dir build-ubsan --output-on-failure --parallel 2 --timeout 120 2>&1 | tee ubsan-output.txt
+          SECS=$(( $(date +%s) - T0 ))
+          echo "  ✅ UBSan tests completed in ${SECS}s"
+          {
+            echo "### 🔬 UBSan Results"
+            echo ""
+            echo "Tests completed in **${SECS}s**. Check \`ubsan-results\` artifact for details."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Print sccache statistics
+        if: always()
+        run: sccache --show-stats || true
 
       - name: Upload UBSan results
         if: always()
         uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08  # v4.6.0
         with:
           name: ubsan-results-${{ github.run_number }}
-          path: build-ubsan/
+          path: |
+            ubsan-output.txt
           retention-days: 7

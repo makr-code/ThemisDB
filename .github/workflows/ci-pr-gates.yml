@@ -546,9 +546,10 @@ jobs:
   # Secret Scanning — Active TruffleHog scan on PR diff (non-blocking initially)
   # Catches staged secrets before they land in history.
   # Promotion path: set fail-on-match: true after a stabilization period.
+  # Debug: prints install, scan scope, file count, and detailed result summary.
   # ────────────────────────────────────────────────────────────────────────────
   secret-scan:
-    name: Secret Scanning (TruffleHog)
+    name: 🔐 Secret Scanning (TruffleHog)
     runs-on: ubuntu-latest
     timeout-minutes: 10
     if: github.event_name == 'pull_request'
@@ -556,24 +557,51 @@ jobs:
       contents: read
       pull-requests: read
     steps:
+      - name: Print scan context
+        run: |
+          echo "============================================================"
+          echo " CI — PR Gates  |  Secret Scanning (TruffleHog)"
+          echo "============================================================"
+          echo "  PR number  : ${{ github.event.pull_request.number }}"
+          echo "  Base ref   : ${{ github.base_ref }}"
+          echo "  Head SHA   : ${{ github.sha }}"
+          echo "  Actor      : ${{ github.actor }}"
+          echo "  Run ID     : ${{ github.run_id }}"
+          echo "  Mode       : non-blocking (continue-on-error=true)"
+          echo "  Scan scope : PR diff only (HEAD vs origin/base_ref)"
+          echo "  Detector   : verified secrets only (--only-verified)"
+          echo "============================================================"
+
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
         with:
           fetch-depth: 0
 
+      - name: Install TruffleHog
+        run: |
+          echo "  Installing TruffleHog from official install script..."
+          T0=$(date +%s)
+          curl -sSfL https://raw.githubusercontent.com/trufflesecurity/trufflehog/main/scripts/install.sh \
+            | sh -s -- -b /usr/local/bin
+          echo "  ✅ TruffleHog installed in $(( $(date +%s) - T0 ))s"
+          echo "  Version: $(trufflehog --version 2>&1 || echo 'N/A')"
+
       - name: Run TruffleHog on PR diff
-        # Non-blocking: continue-on-error=true; promote to blocking once baseline is clean.
-        # PIN: trufflesecurity/trufflehog@v3 — use exact SHA when available.
         continue-on-error: true
         run: |
           set -euo pipefail
           BASE_REF="${{ github.base_ref }}"
+          echo "──────────────────────────────────────────────"
+          echo "  Fetching base branch: ${BASE_REF}"
           git fetch origin "${BASE_REF}" --depth=1
+          echo ""
 
-          # Install TruffleHog
-          curl -sSfL https://raw.githubusercontent.com/trufflesecurity/trufflehog/main/scripts/install.sh \
-            | sh -s -- -b /usr/local/bin
+          DIFF_FILES=$(git diff --name-only "origin/${BASE_REF}...HEAD" | wc -l || echo 0)
+          echo "  Files in PR diff   : ${DIFF_FILES}"
+          echo "  Scan strategy      : git diff from origin/${BASE_REF} to HEAD"
+          echo "  Detectors          : all (verified secrets only)"
+          echo "──────────────────────────────────────────────"
 
-          # Scan only the PR diff (HEAD vs base), not the full history.
+          T0=$(date +%s)
           trufflehog git file://. \
             --since-commit "origin/${BASE_REF}" \
             --branch HEAD \
@@ -581,15 +609,49 @@ jobs:
             --fail \
             --json \
             > trufflehog-results.json 2>&1 || SCAN_EXIT=$?
+          SCAN_SECS=$(( $(date +%s) - T0 ))
+
+          RESULT_COUNT=$(wc -l < trufflehog-results.json 2>/dev/null || echo 0)
+          echo ""
+          echo "  Scan completed in   : ${SCAN_SECS}s"
+          echo "  Result lines        : ${RESULT_COUNT}"
 
           if [ -s trufflehog-results.json ]; then
-            echo "::warning::TruffleHog found potential secrets — review trufflehog-results.json artifact."
-            echo "### ⚠️ Secret Scanning — Potential secrets detected" >> "$GITHUB_STEP_SUMMARY"
-            echo "" >> "$GITHUB_STEP_SUMMARY"
-            echo "TruffleHog identified potential verified secrets in this PR diff." >> "$GITHUB_STEP_SUMMARY"
-            echo "Review the \`trufflehog-results\` artifact and rotate any exposed credentials." >> "$GITHUB_STEP_SUMMARY"
+            echo ""
+            echo "  ⚠️  POTENTIAL SECRETS DETECTED — summary:"
+            head -5 trufflehog-results.json | python3 -c "
+import sys, json
+for line in sys.stdin:
+    try:
+        r = json.loads(line.strip())
+        det = r.get('DetectorName', '?')
+        raw = r.get('Raw', '')[:40]
+        src = r.get('SourceMetadata', {}).get('Data', {})
+        print(f'    Detector={det}  Raw={raw}...  Source={src}')
+    except Exception:
+        pass
+" 2>/dev/null || cat trufflehog-results.json | head -5
+            echo ""
+            echo "::warning::🔐 TruffleHog found potential secrets — see trufflehog-results artifact."
+            {
+              echo "### ⚠️ Secret Scanning — Potential secrets detected"
+              echo ""
+              echo "TruffleHog identified **${RESULT_COUNT}** potential verified secret(s) in this PR diff."
+              echo ""
+              echo "**Action required:** Review the \`trufflehog-results-${{ github.run_number }}\` artifact and"
+              echo "rotate any exposed credentials immediately."
+              echo ""
+              echo "_Scan scope: PR diff (HEAD vs \`origin/${{ github.base_ref }}\`). Duration: ${SCAN_SECS}s._"
+            } >> "$GITHUB_STEP_SUMMARY"
           else
-            echo "### ✅ Secret Scanning — No secrets detected" >> "$GITHUB_STEP_SUMMARY"
+            echo "  ✅ No verified secrets found."
+            {
+              echo "### ✅ Secret Scanning — No secrets detected"
+              echo ""
+              echo "TruffleHog scanned **${DIFF_FILES}** PR diff file(s) and found no verified secrets."
+              echo ""
+              echo "_Scan duration: ${SCAN_SECS}s. Scan scope: HEAD vs \`origin/${{ github.base_ref }}\`._"
+            } >> "$GITHUB_STEP_SUMMARY"
           fi
 
       - name: Upload TruffleHog results
@@ -598,7 +660,7 @@ jobs:
         with:
           name: trufflehog-results-${{ github.run_number }}
           path: trufflehog-results.json
-          retention-days: 7
+          retention-days: 7  # short tier per ci-scope-config.yaml
 
   # ────────────────────────────────────────────────────────────────────────────
   # SUMMARY — Aggregates all gate results (always runs)

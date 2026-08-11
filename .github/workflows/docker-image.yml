@@ -58,25 +58,50 @@ jobs:
       digest: ${{ steps.build.outputs.digest }}
 
     steps:
+    - name: Print Docker build context
+      run: |
+        echo "============================================================"
+        echo " Docker Image CI/CD — Build & Push"
+        echo "============================================================"
+        echo "  Trigger         : ${{ github.event_name }}"
+        echo "  Ref             : ${{ github.ref }}"
+        echo "  SHA             : ${{ github.sha }}"
+        echo "  Actor           : ${{ github.actor }}"
+        echo "  Run ID          : ${{ github.run_id }}"
+        echo "  Timestamp       : $(date -u)"
+        echo "  Push requested  : ${{ github.event.inputs.push_to_registry || 'N/A (auto)' }}"
+        echo "  Target registry : ${{ github.event.inputs.registry || 'docker.io (default)' }}"
+        echo "  OS              : $(uname -a)"
+        echo "  Docker version  : $(docker --version)"
+        echo "  Purpose         : Build ThemisDB image, push to registry,"
+        echo "                    attach SLSA Level 2 provenance attestation."
+        echo "============================================================"
+
     - name: Checkout
       uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
 
     - name: Determine version
       id: version
       run: |
+        echo "──────────────────────────────────────────────"
+        echo "  Version detection"
         if [[ "${{ github.ref }}" == refs/tags/v* ]]; then
           VERSION="${{ github.ref }}" 
           VERSION="${VERSION#refs/tags/}"
+          echo "  Source   : git tag"
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
         elif [[ "${{ github.event_name }}" == "release" ]]; then
           VERSION="${{ github.event.release.tag_name }}"
           VERSION="${VERSION#v}"
+          echo "  Source   : release event"
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
         else
-          VERSION="$(cat VERSION)-$(date +%s)"
+          VERSION="$(cat VERSION 2>/dev/null || echo 'dev')-$(date +%s)"
+          echo "  Source   : VERSION file + timestamp"
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
         fi
-        echo "Version detected: $VERSION"
+        echo "  Version  : ${VERSION}"
+        echo "──────────────────────────────────────────────"
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@c47758b77c9736f4b2ef4073d4d51994fabfe349  # v3.7.1
@@ -160,6 +185,22 @@ jobs:
         provenance: true
         sbom: true
 
+    - name: Print build result
+      if: always()
+      run: |
+        echo "──────────────────────────────────────────────"
+        echo "  Docker build complete"
+        echo "  Version   : ${{ steps.version.outputs.version }}"
+        echo "  Tags      : ${{ steps.tags.outputs.value }}"
+        echo "  Digest    : ${{ steps.build.outputs.digest || 'not yet pushed' }}"
+        echo "  Platforms : linux/amd64, linux/arm64"
+        if [ -n "${{ steps.build.outputs.digest }}" ]; then
+          echo "  ✅ Image pushed and digest available for SLSA attestation."
+        else
+          echo "  ℹ️  No digest (PR build or push not requested)."
+        fi
+        echo "──────────────────────────────────────────────"
+
     - name: Generate SLSA provenance attestation
       # Attach build provenance to the pushed image digest (SLSA Level 2).
       # Skipped for PR builds (digest only available after push).
@@ -175,6 +216,21 @@ jobs:
         subject-name: ${{ steps.tags.outputs.value }}
         subject-digest: ${{ steps.build.outputs.digest }}
         push-to-registry: true
+
+    - name: Print SLSA attestation result
+      if: always()
+      run: |
+        echo "──────────────────────────────────────────────"
+        echo "  SLSA attestation"
+        DIGEST="${{ steps.build.outputs.digest }}"
+        if [ -n "${DIGEST}" ]; then
+          echo "  ✅ Provenance attestation generated (SLSA Level 2)"
+          echo "  Subject name   : ${{ steps.tags.outputs.value }}"
+          echo "  Subject digest : ${DIGEST}"
+        else
+          echo "  ⏭️  Attestation skipped (no digest — PR build or no push)"
+        fi
+        echo "──────────────────────────────────────────────"
 
     - name: Capture image info
       id: image-info

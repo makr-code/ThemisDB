@@ -352,10 +352,10 @@ jobs:
   # Parses src/*/ROADMAP.md checkbox statuses and validates that no [~]
   # (in-progress) items block the current Wave exit criteria defined in the
   # root ROADMAP.md §Wave gate model.
-  # Runs on: PR, push to develop, schedule, workflow_dispatch.
+  # Debug: prints per-module status table, wave detection, and full summary.
   # ──────────────────────────────────────────────────────────────────────────
   wave-gate-automation:
-    name: Wave Gate Automation (ROADMAP checkbox parser)
+    name: 🌊 Wave Gate Automation (ROADMAP checkbox parser)
     runs-on: ubuntu-latest
     timeout-minutes: 10
     if: >
@@ -368,6 +368,20 @@ jobs:
       pull-requests: write
       issues: write
     steps:
+      - name: Print wave gate context
+        run: |
+          echo "============================================================"
+          echo " Governance Gates  |  Wave Gate Automation"
+          echo "============================================================"
+          echo "  Event      : ${{ github.event_name }}"
+          echo "  Ref        : ${{ github.ref }}"
+          echo "  SHA        : ${{ github.sha }}"
+          echo "  Actor      : ${{ github.actor }}"
+          echo "  Run ID     : ${{ github.run_id }}"
+          echo "  Purpose    : Parse src/*/ROADMAP.md [~] items vs Wave exit"
+          echo "               criteria in root ROADMAP.md"
+          echo "============================================================"
+
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
         with:
           fetch-depth: 1
@@ -381,101 +395,143 @@ jobs:
         run: |
           python3 - << 'PY'
           import re
+          import os
           import sys
-          import json
           from pathlib import Path
 
-          # ── Load current wave from root ROADMAP.md ──────────────────────
-          root_roadmap = Path("ROADMAP.md").read_text(encoding="utf-8")
+          DIVIDER = "──────────────────────────────────────────────"
 
-          # Detect current wave (first Wave X marked as "→ CURRENT" or "Current")
+          # ── Load current wave from root ROADMAP.md ──────────────────────
+          print(f"\n{DIVIDER}")
+          print("  Wave Gate Automation — ROADMAP scan")
+          print(DIVIDER)
+
+          root_roadmap = Path("ROADMAP.md").read_text(encoding="utf-8")
           current_wave_match = re.search(
               r'###\s+(Wave\s+\w+)[^\n]*(?:CURRENT|current)', root_roadmap
           )
           current_wave = current_wave_match.group(1) if current_wave_match else "Wave A"
+          print(f"  Detected current wave : {current_wave}")
 
-          # Extract exit criteria for the current wave
-          wave_section = re.search(
-              r'###\s+' + re.escape(current_wave) + r'.*?(?=###\s+Wave|\Z)',
-              root_roadmap, re.DOTALL
-          )
-          wave_text = wave_section.group(0) if wave_section else ""
+          # ── Scan src/*/ROADMAP.md ────────────────────────────────────────
+          all_files = sorted(Path("src").glob("*/ROADMAP.md"))
+          print(f"  Module ROADMAP files  : {len(all_files)}")
+          print()
 
-          # ── Scan src/*/ROADMAP.md for blocking in-progress items ────────
           blocking = []
-          skipped = []
-          for roadmap_file in sorted(Path("src").glob("*/ROADMAP.md")):
+          module_stats = []
+          for roadmap_file in all_files:
               module = roadmap_file.parent.name
               text = roadmap_file.read_text(encoding="utf-8")
-              # [~] = in-progress items that may block wave exit
-              in_progress = re.findall(r'- \[~\] (.+)', text)
-              if in_progress:
-                  blocking.append({"module": module, "items": in_progress})
+              done      = len(re.findall(r'- \[x\]', text))
+              in_prog   = re.findall(r'- \[~\] (.+)', text)
+              open_     = len(re.findall(r'- \[ \]', text))
+              blocked   = len(re.findall(r'- \[\?\]', text))
+              print(f"  {module:<30} done={done:>3}  in-progress={len(in_prog):>2}  open={open_:>3}  blocked={blocked}")
+              module_stats.append((module, done, len(in_prog), open_, blocked))
+              if in_prog:
+                  blocking.append({"module": module, "items": in_prog})
 
-          # ── Emit summary ────────────────────────────────────────────────
-          summary_lines = [
-              f"## Wave Gate Automation — {current_wave}",
-              "",
-          ]
+          total_blocking = sum(len(b["items"]) for b in blocking)
+          print()
+          print(f"  Total [~] in-progress : {total_blocking}")
           if blocking:
-              summary_lines += [
-                  f"⚠️ **{sum(len(b['items']) for b in blocking)} in-progress [~] item(s)** detected across modules.",
+              print()
+              print("  Blocking items:")
+              for b in blocking:
+                  for item in b["items"]:
+                      print(f"    [{b['module']}] {item[:80]}")
+          print(DIVIDER)
+
+          # ── Emit step summary ────────────────────────────────────────────
+          summary_path = os.environ["GITHUB_STEP_SUMMARY"]
+          lines = [
+              f"## 🌊 Wave Gate Automation — {current_wave}",
+              "",
+              "| Module | ✅ Done | 🔄 In-Progress | 📋 Open | ❓ Blocked |",
+              "|--------|--------|---------------|--------|-----------|",
+          ]
+          for (mod, done, inp, op, bl) in module_stats:
+              lines.append(f"| `{mod}` | {done} | {inp} | {op} | {bl} |")
+          lines.append("")
+
+          if blocking:
+              lines += [
+                  f"### ⚠️ {total_blocking} in-progress [~] item(s) detected",
                   "",
-                  "| Module | In-Progress Items |",
-                  "|--------|------------------|",
+                  "| Module | In-Progress Item |",
+                  "|--------|-----------------|",
               ]
               for b in blocking:
                   for item in b["items"]:
-                      summary_lines.append(f"| `{b['module']}` | {item[:80]} |")
-              summary_lines += [
+                      lines.append(f"| `{b['module']}` | {item[:80]} |")
+              lines += [
                   "",
                   "_Review and resolve [~] items before promoting to the next Wave._",
-              ]
-              exit_status = "warning"
-          else:
-              summary_lines += [
-                  f"✅ No blocking [~] in-progress items found across src/ modules.",
                   "",
-                  "_Wave gate check passed._",
+                  f"_Wave: **{current_wave}** · Scan at $(date -u)_",
               ]
-              exit_status = "pass"
+              status = "warning"
+          else:
+              lines += [
+                  f"### ✅ No blocking [~] items — wave gate passed",
+                  "",
+                  f"_Wave: **{current_wave}** · All module ROADMAPs scanned: {len(all_files)} files._",
+              ]
+              status = "pass"
 
-          # Write to step summary
-          with open(Path(f"{__import__('os').environ['GITHUB_STEP_SUMMARY']}"), "a") as f:
-              f.write("\n".join(summary_lines) + "\n")
+          with open(summary_path, "a") as f:
+              f.write("\n".join(lines) + "\n")
 
-          # Write outputs
-          with open(Path(f"{__import__('os').environ['GITHUB_OUTPUT']}"), "a") as f:
+          # ── Write outputs ────────────────────────────────────────────────
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
               f.write(f"wave={current_wave}\n")
-              f.write(f"status={exit_status}\n")
-              f.write(f"blocking_count={sum(len(b['items']) for b in blocking)}\n")
+              f.write(f"status={status}\n")
+              f.write(f"blocking_count={total_blocking}\n")
 
-          print(f"Wave: {current_wave}, Status: {exit_status}, Blocking: {sum(len(b['items']) for b in blocking)}")
+          print(f"\n  Wave gate result: {status.upper()}")
+          print(f"  Blocking items  : {total_blocking}")
           PY
 
       - name: Annotate PR with wave gate status
         if: github.event_name == 'pull_request' && steps.wave_gate.outputs.blocking_count != '0'
         run: |
-          echo "::warning::Wave gate — ${{ steps.wave_gate.outputs.blocking_count }} in-progress [~] items detected in module ROADMAPs. Review before wave promotion."
+          echo "::warning::🌊 Wave gate (${{ steps.wave_gate.outputs.wave }}) — ${{ steps.wave_gate.outputs.blocking_count }} in-progress [~] item(s) detected in module ROADMAPs. Resolve before wave promotion."
+          echo ""
+          echo "  Blocking count : ${{ steps.wave_gate.outputs.blocking_count }}"
+          echo "  Wave           : ${{ steps.wave_gate.outputs.wave }}"
+          echo "  Status         : ${{ steps.wave_gate.outputs.status }}"
 
   # ──────────────────────────────────────────────────────────────────────────
   # 8. Branch Protection Drift Detection
   # Validates that all canonical branches have required checks, required
   # reviews, and force-push disabled. Raises a governance/drift issue if
   # any branch deviates from the policy.
-  # Runs: quarterly schedule (first Monday of Jan/Apr/Jul/Oct) + dispatch.
+  # Debug: prints per-branch protection status before comparison.
   # ──────────────────────────────────────────────────────────────────────────
   branch-protection-drift:
-    name: Branch Protection Drift Detection
+    name: 🛡️ Branch Protection Drift Detection
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    # Quarterly: cron '0 8 1 1,4,7,10 *' (first of month at 08:00 UTC for
-    # Jan/Apr/Jul/Oct). Also fires on workflow_dispatch.
     if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
     permissions:
       contents: read
       issues: write
     steps:
+      - name: Print drift detection context
+        run: |
+          echo "============================================================"
+          echo " Governance Gates  |  Branch Protection Drift Detection"
+          echo "============================================================"
+          echo "  Trigger    : ${{ github.event_name }}"
+          echo "  Actor      : ${{ github.actor }}"
+          echo "  Run ID     : ${{ github.run_id }}"
+          echo "  Scope      : All canonical branches per BRANCHING_STRATEGY.md"
+          echo "  Branches   : develop, minimal, community, enterprise,"
+          echo "               hyperscaler, military"
+          echo "  Required   : force-push=disabled, required reviews, status checks"
+          echo "============================================================"
+
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
 
       - name: Validate branch protection for canonical branches
@@ -483,10 +539,13 @@ jobs:
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
         with:
           script: |
-            // Canonical branches per BRANCHING_STRATEGY.md
             const CANONICAL = ['develop', 'minimal', 'community', 'enterprise', 'hyperscaler', 'military'];
-            const REQUIRED_CHECKS = ['release-critical-tests'];  // extend as needed
+            const REQUIRED_CHECKS = ['release-critical-tests'];
             const drifted = [];
+
+            console.log('──────────────────────────────────────────────────────');
+            console.log('  Branch Protection Status');
+            console.log('──────────────────────────────────────────────────────');
 
             for (const branch of CANONICAL) {
               let protection;
@@ -499,57 +558,94 @@ jobs:
                 protection = data;
               } catch (err) {
                 if (err.status === 404) {
+                  console.log(`  ${branch.padEnd(20)} ❌ NO PROTECTION configured`);
                   drifted.push({ branch, issue: 'No branch protection configured' });
                   continue;
                 }
+                console.log(`  ${branch.padEnd(20)} ⚠️  Could not read: ${err.message}`);
                 core.warning(`Could not read branch protection for ${branch}: ${err.message}`);
                 continue;
               }
 
-              // Check: force-push disabled
-              if (protection.allow_force_pushes && protection.allow_force_pushes.enabled) {
-                drifted.push({ branch, issue: 'force-push is ENABLED (must be disabled)' });
-              }
+              const issues = [];
 
-              // Check: at least one required status check
+              // Check: force-push
+              const fpEnabled = protection.allow_force_pushes?.enabled || false;
+              if (fpEnabled) issues.push('force-push ENABLED');
+
+              // Check: required status checks
               const checks = protection.required_status_checks?.contexts || [];
-              const missingChecks = REQUIRED_CHECKS.filter(c => !checks.includes(c));
-              if (missingChecks.length > 0) {
-                drifted.push({ branch, issue: `Missing required status checks: ${missingChecks.join(', ')}` });
-              }
+              const missing = REQUIRED_CHECKS.filter(c => !checks.includes(c));
+              if (missing.length > 0) issues.push(`missing checks: ${missing.join(', ')}`);
 
               // Check: required reviews
-              if (!protection.required_pull_request_reviews) {
-                drifted.push({ branch, issue: 'No required PR reviews configured' });
+              const hasReviews = !!protection.required_pull_request_reviews;
+              if (!hasReviews) issues.push('no required PR reviews');
+
+              const reviewCount = protection.required_pull_request_reviews?.required_approving_review_count || 0;
+              const statusIcon = issues.length === 0 ? '✅' : '❌';
+
+              console.log(`  ${branch.padEnd(20)} ${statusIcon}  force-push=${fpEnabled}  reviews=${hasReviews}(${reviewCount})  checks=[${checks.join(',')||'none'}]`);
+
+              if (issues.length > 0) {
+                issues.forEach(iss => {
+                  console.log(`                         ↳ DRIFT: ${iss}`);
+                  drifted.push({ branch, issue: iss });
+                });
               }
             }
+
+            console.log('──────────────────────────────────────────────────────');
+            console.log(`  Drifted items: ${drifted.length}`);
 
             core.setOutput('drift_count', String(drifted.length));
             core.setOutput('drifted_branches', JSON.stringify(drifted));
 
-            // Step summary
-            const summaryPath = process.env.GITHUB_STEP_SUMMARY;
             const fs = require('fs');
+            const summaryPath = process.env.GITHUB_STEP_SUMMARY;
             if (drifted.length > 0) {
-              let lines = ['## ⚠️ Branch Protection Drift Detected', '', '| Branch | Issue |', '|--------|-------|'];
+              let lines = [
+                '## ⚠️ Branch Protection Drift Detected',
+                '',
+                `**${drifted.length}** drift item(s) found across canonical branches.`,
+                '',
+                '| Branch | Issue |',
+                '|--------|-------|',
+              ];
               for (const d of drifted) lines.push(`| \`${d.branch}\` | ${d.issue} |`);
+              lines.push('');
+              lines.push('_See `BRANCHING_STRATEGY.md` for required configuration._');
               fs.appendFileSync(summaryPath, lines.join('\n') + '\n');
             } else {
-              fs.appendFileSync(summaryPath, '## ✅ Branch Protection — All canonical branches compliant\n');
+              fs.appendFileSync(summaryPath,
+                '## ✅ Branch Protection — All canonical branches compliant\n\n' +
+                'All 6 canonical branches have force-push disabled, required reviews, and required status checks.\n'
+              );
             }
 
+      - name: Report drift result
+        run: |
+          DRIFT="${{ steps.drift.outputs.drift_count }}"
+          if [ "${DRIFT}" = "0" ] || [ -z "${DRIFT}" ]; then
+            echo "  ✅ All canonical branches are compliant — no drift detected."
+          else
+            echo "  ❌ ${DRIFT} drift item(s) detected — an issue will be created/updated."
+            echo "::warning::🛡️ Branch protection drift: ${DRIFT} item(s) detected. Check governance-gates run for details."
+          fi
+
       - name: Open or update drift issue
-        if: steps.drift.outputs.drift_count != '0'
+        if: steps.drift.outputs.drift_count != '0' && steps.drift.outputs.drift_count != ''
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
         with:
           script: |
             const drifted = JSON.parse(process.env.DRIFTED_BRANCHES || '[]');
+            console.log(`Creating/updating drift issue for ${drifted.length} item(s)...`);
             const title = '[Governance] Branch protection drift detected';
-            let rows = drifted.map(d => `| \`${d.branch}\` | ${d.issue} |`).join('\n');
+            const rows = drifted.map(d => `| \`${d.branch}\` | ${d.issue} |`).join('\n');
             const body = [
               '## Branch Protection Drift Report',
               '',
-              'The following canonical branches have drifted from the required protection policy:',
+              `**${drifted.length}** canonical branch(es) have drifted from the required protection policy:`,
               '',
               '| Branch | Issue |',
               '|--------|-------|',
@@ -557,15 +653,12 @@ jobs:
               '',
               'See `BRANCHING_STRATEGY.md` for the required configuration.',
               '',
-              '_Auto-generated by governance-gates.yml._',
+              `_Auto-generated by governance-gates.yml at ${new Date().toISOString()}_`,
             ].join('\n');
 
             const { data: issues } = await github.rest.issues.listForRepo({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              state: 'open',
-              labels: 'governance/drift',
-              per_page: 5,
+              owner: context.repo.owner, repo: context.repo.repo,
+              state: 'open', labels: 'governance/drift', per_page: 5,
             });
             const existing = issues.find(i => i.title === title);
             if (existing) {
@@ -573,11 +666,13 @@ jobs:
                 owner: context.repo.owner, repo: context.repo.repo,
                 issue_number: existing.number, body,
               });
+              console.log(`Updated existing issue #${existing.number}`);
             } else {
-              await github.rest.issues.create({
+              const { data: issue } = await github.rest.issues.create({
                 owner: context.repo.owner, repo: context.repo.repo,
                 title, body, labels: ['governance/drift', 'status/needs-attention'],
               });
+              console.log(`Created issue #${issue.number}`);
             }
         env:
           DRIFTED_BRANCHES: ${{ steps.drift.outputs.drifted_branches }}
