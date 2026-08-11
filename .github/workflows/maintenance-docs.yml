@@ -1,0 +1,307 @@
+name: Maintenance — Docs
+
+# Consolidated docs-maintenance workflow.
+# Replaces: 08-maintenance_ai-context-wiki-sync.yml,
+#           08-maintenance_code-maturity.yml,
+#           08-maintenance_docs-orphan-check.yml,
+#           08-maintenance_root-docs-hygiene.yml,
+#           08-maintenance_src-include-docs-align.yml
+
+on:
+  push:
+    branches: [develop, community]
+    paths:
+      - 'ai_context/**'
+      - 'INDEX.md'
+      - 'LOG.md'
+      - 'AI_WIKI_INTEGRATION_PLAYBOOK.md'
+      - 'scripts/ai-context-lint.py'
+      - 'src/*/**'
+      - 'include/*/**'
+      - 'docs/de/**'
+      - 'docs/en/**'
+      - 'docs/**'
+      - '*.md'
+      - '*.txt'
+      - 'scripts/docs-orphan-check.py'
+      - 'scripts/root-docs-hygiene.py'
+      - 'scripts/src-include-docs-align.py'
+      - '.github/workflows/maintenance-docs.yml'
+  pull_request:
+    branches: [develop, community]
+    paths:
+      - 'ai_context/**'
+      - 'src/*/**'
+      - 'include/*/**'
+      - 'docs/de/**'
+      - 'docs/en/**'
+      - '.github/scripts/code_maturity_header_writer.py'
+      - '.github/workflows/maintenance-docs.yml'
+  schedule:
+    - cron: '0 3 * * *'   # Daily 03:00 UTC (code-maturity check-only)
+    - cron: '0 4 * * *'   # Daily 04:00 UTC (docs orphan check)
+    - cron: '30 4 * * *'  # Daily 04:30 UTC (root docs hygiene)
+    - cron: '0 5 * * 1'   # Weekly Monday 05:00 UTC (src/include alignment)
+  workflow_dispatch:
+    inputs:
+      fail_on_findings:
+        description: 'Fail on any findings (orphan check, hygiene, alignment)'
+        type: boolean
+        default: false
+      update_headers:
+        description: 'Code maturity: rewrite headers (default: check-only)'
+        type: boolean
+        default: false
+      apply_ai_updates:
+        description: 'AI context: apply lint updates'
+        type: boolean
+        default: false
+
+concurrency:
+  group: maintenance-docs-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+# ──────────────────────────────────────────────────────────────────────────────
+jobs:
+
+  # 1. AI Context Wiki Sync
+  ai-context-sync:
+    name: AI Context lint and sync
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run AI context lint
+        id: lint
+        run: |
+          APPLY_FLAG=""
+          [ "${{ inputs.apply_ai_updates }}" = "true" ] && APPLY_FLAG="--apply-updates"
+          python3 scripts/ai-context-lint.py \
+            --format text \
+            --output /tmp/ai-context-lint.txt \
+            $APPLY_FLAG
+          python3 scripts/ai-context-lint.py \
+            --format json \
+            --output /tmp/ai-context-lint.json || true
+
+      - name: Upload lint artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-context-lint-${{ github.run_number }}
+          path: |
+            /tmp/ai-context-lint.txt
+            /tmp/ai-context-lint.json
+          retention-days: 30
+          if-no-files-found: ignore
+
+      - name: Write job summary
+        if: always()
+        run: |
+          {
+            echo "## AI Context Sync"
+            if [ -f /tmp/ai-context-lint.txt ]; then
+              echo '```'; cat /tmp/ai-context-lint.txt; echo '```'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  # 2. Code Maturity Analysis
+  code-maturity:
+    name: Code Maturity Analysis
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Determine run mode
+        id: mode
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.update_headers }}" = "true" ]; then
+            echo "mode=rewrite" >> "$GITHUB_OUTPUT"
+            echo "no_headers_flag=" >> "$GITHUB_OUTPUT"
+            echo "report_path_flag=" >> "$GITHUB_OUTPUT"
+          else
+            echo "mode=check-only" >> "$GITHUB_OUTPUT"
+            echo "no_headers_flag=--no-headers" >> "$GITHUB_OUTPUT"
+            echo "report_path_flag=--report-path /tmp/code_maturity_report.md" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Run code maturity analysis (${{ steps.mode.outputs.mode }})
+        run: |
+          python .github/scripts/code_maturity_header_writer.py \
+            --root . \
+            ${{ steps.mode.outputs.no_headers_flag }} \
+            ${{ steps.mode.outputs.report_path_flag }} \
+            2>&1 | tee /tmp/maturity_run.log
+
+      - name: Upload maturity report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: code-maturity-report-${{ github.run_number }}
+          path: |
+            /tmp/code_maturity_report.md
+            docs/code_maturity_report.md
+          retention-days: 30
+          if-no-files-found: ignore
+
+      - name: Write job summary
+        if: always()
+        run: |
+          {
+            echo "## Code Maturity — ${{ steps.mode.outputs.mode }}"
+            echo "| Mode | ${{ steps.mode.outputs.mode }} |"
+            echo "| Event | \`${{ github.event_name }}\` |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  # 3. Docs Orphan Check
+  docs-orphan-check:
+    name: docs/de + docs/en Orphan Check
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run docs orphan check
+        run: |
+          FAIL_FLAG=""
+          [ "${{ inputs.fail_on_findings }}" = "true" ] && FAIL_FLAG="--fail-on-findings"
+          python3 scripts/docs-orphan-check.py --format text --output /tmp/docs-orphan-check.txt $FAIL_FLAG
+          python3 scripts/docs-orphan-check.py --format json --output /tmp/docs-orphan-check.json --quiet || true
+
+      - name: Upload orphan-check reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs-orphan-check-${{ github.run_number }}
+          path: |
+            /tmp/docs-orphan-check.txt
+            /tmp/docs-orphan-check.json
+          retention-days: 30
+          if-no-files-found: ignore
+
+      - name: Write job summary
+        if: always()
+        run: |
+          {
+            echo "## Docs Orphan Check"
+            if [ -f /tmp/docs-orphan-check.txt ]; then
+              echo '```'; cat /tmp/docs-orphan-check.txt; echo '```'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  # 4. Root Docs Hygiene
+  root-docs-hygiene:
+    name: Repo root markdown hygiene
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run root docs hygiene check
+        run: |
+          FAIL_FLAG=""
+          [ "${{ inputs.fail_on_findings }}" = "true" ] && FAIL_FLAG="--fail-on-findings"
+          python3 scripts/root-docs-hygiene.py --format text --output /tmp/root-docs-hygiene.txt $FAIL_FLAG
+          python3 scripts/root-docs-hygiene.py --format json --output /tmp/root-docs-hygiene.json || true
+
+      - name: Upload hygiene reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: root-docs-hygiene-${{ github.run_number }}
+          path: |
+            /tmp/root-docs-hygiene.txt
+            /tmp/root-docs-hygiene.json
+          retention-days: 30
+          if-no-files-found: ignore
+
+      - name: Write job summary
+        if: always()
+        run: |
+          {
+            echo "## Root Docs Hygiene"
+            if [ -f /tmp/root-docs-hygiene.txt ]; then
+              echo '```'; cat /tmp/root-docs-hygiene.txt; echo '```'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  # 5. src/include ↔ docs/de Alignment
+  src-docs-alignment:
+    name: src/include ↔ docs/de Alignment
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run alignment check
+        run: |
+          FAIL_FLAG=""
+          [ "${{ inputs.fail_on_findings }}" = "true" ] && FAIL_FLAG="--fail-on-gaps"
+          python3 scripts/src-include-docs-align.py --format text --output /tmp/align-report.txt $FAIL_FLAG
+          python3 scripts/src-include-docs-align.py --format json --output /tmp/align-report.json --quiet || true
+
+      - name: Upload alignment reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: src-include-docs-align-${{ github.run_number }}
+          path: |
+            /tmp/align-report.txt
+            /tmp/align-report.json
+          retention-days: 30
+          if-no-files-found: ignore
+
+      - name: Write job summary
+        if: always()
+        run: |
+          {
+            echo "## src/include ↔ docs/de Alignment"
+            if [ -f /tmp/align-report.txt ]; then
+              echo '```'; cat /tmp/align-report.txt; echo '```'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"

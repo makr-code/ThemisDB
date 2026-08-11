@@ -1,0 +1,347 @@
+name: Governance — Gates
+
+# Consolidated governance workflow.
+# Replaces: 10-governance_maturity-verification.yml,
+#           11-governance_module-phase-gate.yml,
+#           12-governance_gate-audit-summary.yml,
+#           12-governance_merge-gate-enforcer.yml,
+#           12-governance_rc-validation.yml,
+#           12-governance_waiver-expiration-check.yml
+
+on:
+  push:
+    branches: [develop]
+  pull_request:
+    types: [opened, synchronize, labeled, unlabeled, reopened]
+    branches:
+      - develop
+      - community
+      - enterprise
+      - hyperscaler
+      - military
+    paths:
+      - 'src/**'
+      - 'include/**'
+      - 'src/*/ROADMAP.md'
+      - 'docs/governance/**'
+      - '.github/workflows/governance-gates.yml'
+  pull_request_review:
+    types: [submitted]
+  issue_comment:
+    types: [created]
+  schedule:
+    - cron: '0 3 * * *'     # Daily 03:00 UTC — maturity verification + waiver expiration
+    - cron: '0 9 * * *'     # Daily 09:00 UTC — waiver expiration check
+    - cron: '0 8 * * MON'   # Weekly Monday 08:00 UTC — gate audit summary
+  push:
+    tags:
+      - 'v*-rc.*'
+  workflow_dispatch:
+    inputs:
+      rc_tag:
+        description: 'Release Candidate tag for RC validation (e.g., v8.1.0-rc.1)'
+        required: false
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+  checks: write
+  security-events: read
+
+# ──────────────────────────────────────────────────────────────────────────────
+jobs:
+
+  # 1. Maturity Verification (push/PR/schedule)
+  maturity-verification:
+    name: Maturity Evidence & Gate Verification
+    runs-on: ubuntu-latest
+    if: >
+      github.event_name == 'push' ||
+      github.event_name == 'pull_request' ||
+      github.event_name == 'schedule' ||
+      github.event_name == 'workflow_dispatch'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - run: pip install pyyaml jsonschema gitpython
+
+      - name: Load Maturity Evidence Manifest
+        id: manifest
+        run: |
+          python3 << 'EOF'
+          import json
+          from pathlib import Path
+
+          manifest_file = Path("docs/governance/MATURITY_EVIDENCE_MANIFEST.json")
+          if not manifest_file.exists():
+              print("::warning::MATURITY_EVIDENCE_MANIFEST.json not found — skipping.")
+              exit(0)
+          manifest = json.loads(manifest_file.read_text())
+          print(f"Loaded {len(manifest.get('evidence_items', []))} evidence items.")
+          EOF
+
+      - name: Verify maturity gates
+        run: |
+          python3 .github/scripts/verify_maturity_gates.py \
+            --manifest docs/governance/MATURITY_EVIDENCE_MANIFEST.json \
+            --output /tmp/maturity_report.json || true
+
+      - name: Upload maturity report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: maturity-report-${{ github.run_number }}
+          path: /tmp/maturity_report.json
+          retention-days: 30
+          if-no-files-found: ignore
+
+  # 2. Module Phase Gate (PR — ROADMAP.md changes)
+  module-phase-gate:
+    name: Module Phase Closure Validation
+    runs-on: ubuntu-latest
+    if: >
+      github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Identify changed modules
+        id: modules
+        run: |
+          git fetch origin "${{ github.base_ref }}" --depth=1
+          CHANGED_ROADMAPS=$(git diff --name-only "origin/${{ github.base_ref }}...HEAD" | grep 'src/.*/ROADMAP\.md' || true)
+          echo "changed_roadmaps<<EOF" >> "$GITHUB_OUTPUT"
+          echo "${CHANGED_ROADMAPS}" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Validate phase closures
+        if: steps.modules.outputs.changed_roadmaps != ''
+        run: |
+          echo "${{ steps.modules.outputs.changed_roadmaps }}" | while read -r roadmap; do
+            [ -z "${roadmap}" ] && continue
+            module=$(dirname "${roadmap}" | xargs basename)
+            echo "Validating phase closure for module: ${module}"
+            python3 .github/scripts/validate_module_phase_gate.py \
+              --roadmap "${roadmap}" \
+              --module "${module}" || true
+          done
+
+  # 3. Merge Gate Enforcer (PR open/sync/review/comment)
+  merge-gate-enforcer:
+    name: Merge Gate Enforcer
+    runs-on: ubuntu-latest
+    if: >
+      (github.event_name == 'pull_request' &&
+       (github.event.action == 'opened' || github.event.action == 'synchronize')) ||
+      github.event_name == 'pull_request_review' ||
+      github.event_name == 'issue_comment'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Tier 0 gate validation
+        id: validate
+        run: |
+          python3 .github/scripts/merge_gate_validator.py \
+            --tier 0 \
+            --output /tmp/gate_result.json || true
+
+          if [ -f /tmp/gate_result.json ]; then
+            STATUS=$(python3 -c "import json; d=json.loads(open('/tmp/gate_result.json').read()); print(d.get('status','unknown'))")
+            echo "tier0_status=${STATUS}" >> "$GITHUB_OUTPUT"
+          else
+            echo "tier0_status=skipped" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Post gate result to PR
+        if: github.event_name == 'pull_request' && steps.validate.outputs.tier0_status != 'skipped'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let body = 'Merge Gate Enforcer: validation completed.';
+            try {
+              const result = JSON.parse(fs.readFileSync('/tmp/gate_result.json', 'utf8'));
+              body = `## Merge Gate Result\n- Status: ${result.status}\n- Message: ${result.message || 'n/a'}`;
+            } catch {}
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request?.number || context.issue.number,
+              body,
+            });
+
+  # 4. RC Validation (RC tags + manual dispatch)
+  rc-validation:
+    name: Release Candidate Validation
+    runs-on: ubuntu-latest
+    if: >
+      (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') && contains(github.ref, '-rc.')) ||
+      (github.event_name == 'workflow_dispatch' && inputs.rc_tag != '')
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ inputs.rc_tag || github.ref }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Extract RC tag
+        id: tag
+        run: |
+          TAG="${{ inputs.rc_tag || github.ref_name }}"
+          echo "rc_tag=${TAG}" >> "$GITHUB_OUTPUT"
+          echo "RC Tag: ${TAG}"
+
+      - name: Verify Wave-7–9 technical gates
+        run: |
+          python3 << 'EOF'
+          import json, sys
+          from pathlib import Path
+
+          manifest_file = Path("docs/governance/MATURITY_EVIDENCE_MANIFEST.json")
+          if not manifest_file.exists():
+              print("::warning::MATURITY_EVIDENCE_MANIFEST.json not found — skipping gate check.")
+              sys.exit(0)
+          manifest = json.loads(manifest_file.read_text())
+          required_waves = {"wave7", "wave8", "wave9"}
+          passed = {item["wave"] for item in manifest.get("evidence_items", []) if item.get("status") == "pass"}
+          missing = required_waves - passed
+          if missing:
+              print(f"::error::Missing gate evidence for waves: {', '.join(sorted(missing))}")
+              sys.exit(1)
+          print("All required Wave-7–9 gates passed.")
+          EOF
+
+      - name: Produce RC validation summary
+        if: always()
+        run: |
+          {
+            echo "## RC Validation — ${{ steps.tag.outputs.rc_tag }}"
+            echo "| Gate | Status |"
+            echo "|------|--------|"
+            echo "| Wave-7–9 Evidence | ${{ job.status }} |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  # 5. Gate Audit Summary (weekly)
+  gate-audit-summary:
+    name: Weekly Gate Audit Summary
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Analyse gate metrics
+        run: |
+          python3 << 'EOF'
+          import json, sys
+          from pathlib import Path
+          from datetime import datetime, timedelta
+          from collections import defaultdict
+
+          audit_log = Path("ai_working/MERGE_GATE_AUDIT_LOG.jsonl")
+          waiver_log = Path("ai_working/ENFORCEMENT_WAIVERS.md")
+
+          metrics = {
+              "period_start": (datetime.utcnow() - timedelta(days=7)).isoformat(),
+              "period_end": datetime.utcnow().isoformat(),
+              "total_validations": 0,
+              "total_passes": 0,
+              "total_failures": 0,
+              "total_waivers": 0,
+              "gate_failure_counts": {},
+              "most_common_failures": [],
+          }
+
+          if audit_log.exists():
+              for line in audit_log.read_text().splitlines():
+                  line = line.strip()
+                  if not line:
+                      continue
+                  try:
+                      entry = json.loads(line)
+                      metrics["total_validations"] += 1
+                      if entry.get("status") == "pass":
+                          metrics["total_passes"] += 1
+                      else:
+                          metrics["total_failures"] += 1
+                          gate = entry.get("gate", "unknown")
+                          metrics["gate_failure_counts"][gate] = metrics["gate_failure_counts"].get(gate, 0) + 1
+                  except json.JSONDecodeError:
+                      continue
+
+          print(json.dumps(metrics, indent=2))
+          Path("/tmp/gate_audit_summary.json").write_text(json.dumps(metrics, indent=2))
+          EOF
+
+      - name: Upload audit summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: gate-audit-summary-${{ github.run_number }}
+          path: /tmp/gate_audit_summary.json
+          retention-days: 90
+
+  # 6. Waiver Expiration Check (daily)
+  waiver-expiration-check:
+    name: Waiver Expiration Check
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Check expiring waivers
+        id: check
+        run: |
+          python3 .github/scripts/waiver_validator.py \
+            --check-expiration \
+            --output /tmp/expiring_waivers.json || true
+
+          if [ -f /tmp/expiring_waivers.json ]; then
+            COUNT=$(python3 -c "import json; print(json.load(open('/tmp/expiring_waivers.json')).get('total', 0))" 2>/dev/null || echo "0")
+            echo "expiring_count=${COUNT}" >> "$GITHUB_OUTPUT"
+          else
+            echo "expiring_count=0" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create expiration issues
+        if: steps.check.outputs.expiring_count > 0
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const count = Number(${{ steps.check.outputs.expiring_count }});
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `[Governance] ${count} waiver(s) expiring soon`,
+              body: `**Waiver Expiration Reminder**\n\n${count} governance waiver(s) are expiring within 7 days. Please review \`ai_working/ENFORCEMENT_WAIVERS.md\` and renew or resolve each waiver.\n\n_Auto-generated by governance-gates.yml._`,
+              labels: ['governance', 'status/needs-attention'],
+            });

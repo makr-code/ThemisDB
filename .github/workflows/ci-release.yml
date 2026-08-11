@@ -1,0 +1,333 @@
+name: CI — Release
+
+# Multi-edition release build: build matrix, package, publish.
+# Replaces: release-build.yml
+#
+# Edition tag patterns (RELEASE_STRATEGY.md §3):
+#   vX.Y.Z                — community release
+#   enterprise-vX.Y.Z     — enterprise release
+#   hyperscaler-vX.Y.Z    — hyperscaler release
+#   military-vX.Y.Z       — military release
+#   minimal-vX.Y.Z        — minimal release
+#
+# Community guardrail: publish-community job must never require private
+# credentials, private submodules, or private artefacts (RELEASE_STRATEGY.md §2.4).
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+*'
+      - 'enterprise-v[0-9]+.[0-9]+.[0-9]+*'
+      - 'hyperscaler-v[0-9]+.[0-9]+.[0-9]+*'
+      - 'military-v[0-9]+.[0-9]+.[0-9]+*'
+      - 'minimal-v[0-9]+.[0-9]+.[0-9]+*'
+  release:
+    types: [published, created]
+  workflow_dispatch:
+    inputs:
+      build_matrix:
+        description: 'Build matrix presets'
+        required: false
+        default: 'all'
+        type: choice
+        options: [all, community-only, linux-release-only, windows-release-only]
+      edition:
+        description: 'Edition to publish (for dispatch)'
+        required: false
+        default: 'community'
+        type: choice
+        options: [minimal, community, enterprise, hyperscaler, military]
+      tag_name:
+        description: 'Tag for image version (for dispatch)'
+        required: false
+        type: string
+
+permissions:
+  contents: read
+  packages: write
+  actions: read
+
+concurrency:
+  group: ci-release-${{ github.ref }}
+  cancel-in-progress: false
+
+# ──────────────────────────────────────────────────────────────────────────────
+jobs:
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # Build Matrix: community-release, linux-release, windows-release
+  # ─────────────────────────────────────────────────────────────────────────────
+  build-matrix:
+    name: "Build (${{ matrix.preset }} on ${{ matrix.os }})"
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 90
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - preset: community-release
+            os: ubuntu-latest
+            description: Community build with system packages
+            skip_on_matrix: community-only
+
+          - preset: linux-release
+            os: ubuntu-latest
+            description: Production Linux build with vcpkg
+            skip_on_matrix: community-only
+
+          - preset: windows-release
+            os: windows-latest
+            description: Production Windows build with vcpkg
+            skip_on_matrix: community-only
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check build_matrix filter
+        id: filter
+        run: |
+          MATRIX_INPUT="${{ inputs.build_matrix }}"
+          PRESET="${{ matrix.preset }}"
+          SKIP="false"
+          if [ -n "${MATRIX_INPUT}" ] && [ "${MATRIX_INPUT}" != "all" ]; then
+            case "${MATRIX_INPUT}" in
+              community-only)
+                [ "${PRESET}" != "community-release" ] && SKIP="true" ;;
+              linux-release-only)
+                [ "${PRESET}" != "linux-release" ] && SKIP="true" ;;
+              windows-release-only)
+                [ "${PRESET}" != "windows-release" ] && SKIP="true" ;;
+            esac
+          fi
+          echo "skip=${SKIP}" >> "$GITHUB_OUTPUT"
+        shell: bash
+
+      - name: Install Linux system dependencies (community-release)
+        if: matrix.preset == 'community-release' && steps.filter.outputs.skip != 'true'
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            build-essential cmake ninja-build pkg-config \
+            librocksdb-dev libgtest-dev libssl-dev zlib1g-dev libzstd-dev \
+            libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev \
+            libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev \
+            libboost-system-dev libboost-filesystem-dev \
+            libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev
+
+      - name: Set up vcpkg (Linux/Windows vcpkg presets)
+        if: >
+          steps.filter.outputs.skip != 'true' &&
+          (matrix.preset == 'linux-release' || matrix.preset == 'windows-release')
+        shell: bash
+        run: |
+          if [ ! -d vcpkg ]; then
+            git clone https://github.com/microsoft/vcpkg.git vcpkg --depth=1
+          fi
+          ./vcpkg/bootstrap-vcpkg.sh -disableMetrics 2>/dev/null || ./vcpkg/bootstrap-vcpkg.bat -disableMetrics
+
+      - name: Configure
+        if: steps.filter.outputs.skip != 'true'
+        run: cmake --preset ${{ matrix.preset }}
+        shell: bash
+
+      - name: Build
+        if: steps.filter.outputs.skip != 'true'
+        run: cmake --build --preset ${{ matrix.preset }} --parallel
+        shell: bash
+
+      - name: Test
+        if: steps.filter.outputs.skip != 'true'
+        run: ctest --preset ${{ matrix.preset }} --output-on-failure -j 1 --timeout 60
+        shell: bash
+        continue-on-error: ${{ matrix.preset != 'community-release' }}
+
+      - name: Upload build artifacts
+        if: steps.filter.outputs.skip != 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-${{ matrix.preset }}-${{ github.run_number }}
+          path: |
+            build-${{ matrix.preset }}/themisdb*
+            build-${{ matrix.preset }}/*.exe
+            build-${{ matrix.preset }}/*.so
+            build-${{ matrix.preset }}/*.dll
+          retention-days: 30
+          if-no-files-found: ignore
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # Package: create distribution archives
+  # ─────────────────────────────────────────────────────────────────────────────
+  package:
+    name: Package Release Artifacts
+    runs-on: ubuntu-latest
+    needs: build-matrix
+    if: >
+      github.event_name == 'push' ||
+      github.event_name == 'release' ||
+      github.event_name == 'workflow_dispatch'
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: build-community-release-*
+          merge-multiple: true
+          path: dist/
+
+      - name: Determine edition and version from tag
+        id: version
+        shell: bash
+        run: |
+          TAG="${{ inputs.tag_name || github.ref_name }}"
+          if   echo "${TAG}" | grep -qE '^enterprise-v'; then
+            EDITION=enterprise; VERSION="${TAG#enterprise-}"
+          elif echo "${TAG}" | grep -qE '^hyperscaler-v'; then
+            EDITION=hyperscaler; VERSION="${TAG#hyperscaler-}"
+          elif echo "${TAG}" | grep -qE '^military-v'; then
+            EDITION=military; VERSION="${TAG#military-}"
+          elif echo "${TAG}" | grep -qE '^minimal-v'; then
+            EDITION=minimal; VERSION="${TAG#minimal-}"
+          else
+            EDITION=community; VERSION="${TAG}"
+          fi
+          echo "edition=${EDITION}" >> "$GITHUB_OUTPUT"
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "archive_name=themisdb-${EDITION}-${VERSION}-linux-x64" >> "$GITHUB_OUTPUT"
+
+      - name: Create release archive
+        shell: bash
+        run: |
+          mkdir -p release
+          tar -czf "release/${{ steps.version.outputs.archive_name }}.tar.gz" \
+            -C dist/ . \
+            --exclude='*.a' \
+            2>/dev/null || true
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-packages-${{ github.run_number }}
+          path: release/
+          retention-days: 90
+          if-no-files-found: warn
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # Publish Community — no private credentials or private submodules
+  # Community guardrail: RELEASE_STRATEGY.md §2.4
+  # ─────────────────────────────────────────────────────────────────────────────
+  publish-community:
+    name: Publish Community Release
+    runs-on: ubuntu-latest
+    needs: package
+    # Only publish community on vX.Y.Z tags or explicit community dispatch
+    if: >
+      (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') &&
+       !startsWith(github.ref_name, 'enterprise-') &&
+       !startsWith(github.ref_name, 'hyperscaler-') &&
+       !startsWith(github.ref_name, 'military-')) ||
+      (github.event_name == 'workflow_dispatch' && inputs.edition == 'community')
+    environment:
+      name: community-release
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download release packages
+        uses: actions/download-artifact@v4
+        with:
+          pattern: release-packages-*
+          merge-multiple: true
+          path: release/
+
+      - name: Publish to GitHub Releases (community)
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            const tag = context.ref.startsWith('refs/tags/') ? context.ref.replace('refs/tags/', '') : '${{ inputs.tag_name }}';
+            if (!tag) {
+              console.log('No tag — skipping GitHub Release upload.');
+              return;
+            }
+            const releaseDir = 'release';
+            const files = fs.readdirSync(releaseDir).filter(f => f.endsWith('.tar.gz') || f.endsWith('.zip'));
+            if (files.length === 0) {
+              console.log('No release files found.');
+              return;
+            }
+            for (const file of files) {
+              const filePath = path.join(releaseDir, file);
+              const data = fs.readFileSync(filePath);
+              await github.rest.repos.uploadReleaseAsset({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                release_id: context.payload.release?.id,
+                name: file,
+                data,
+              }).catch(e => console.warn(`Upload failed for ${file}: ${e.message}`));
+            }
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # Publish Private (enterprise / hyperscaler / military / minimal)
+  # Requires PRIVATE_REGISTRY_TOKEN for private container/package registries
+  # ─────────────────────────────────────────────────────────────────────────────
+  publish-private:
+    name: Publish ${{ github.event_name == 'workflow_dispatch' && inputs.edition || 'private' }} Release
+    runs-on: ubuntu-latest
+    needs: package
+    if: >
+      (github.event_name == 'push' && (
+        startsWith(github.ref_name, 'enterprise-v') ||
+        startsWith(github.ref_name, 'hyperscaler-v') ||
+        startsWith(github.ref_name, 'military-v') ||
+        startsWith(github.ref_name, 'minimal-v')
+      )) ||
+      (github.event_name == 'workflow_dispatch' &&
+       contains(fromJSON('["enterprise","hyperscaler","military","minimal"]'), inputs.edition))
+    environment:
+      name: private-release
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download release packages
+        uses: actions/download-artifact@v4
+        with:
+          pattern: release-packages-*
+          merge-multiple: true
+          path: release/
+
+      - name: Determine edition
+        id: edition
+        shell: bash
+        run: |
+          TAG="${{ inputs.tag_name || github.ref_name }}"
+          if echo "${TAG}" | grep -q '^enterprise-'; then ED=enterprise
+          elif echo "${TAG}" | grep -q '^hyperscaler-'; then ED=hyperscaler
+          elif echo "${TAG}" | grep -q '^military-'; then ED=military
+          elif echo "${TAG}" | grep -q '^minimal-'; then ED=minimal
+          else ED="${{ inputs.edition }}"
+          fi
+          echo "edition=${ED}" >> "$GITHUB_OUTPUT"
+
+      - name: Publish to private registry
+        env:
+          PRIVATE_REGISTRY_TOKEN: ${{ secrets.PRIVATE_REGISTRY_TOKEN }}
+        run: |
+          echo "Publishing ${{ steps.edition.outputs.edition }} release artifacts..."
+          # Actual registry push implemented via scripts/publish_private_release.sh
+          if [ -f scripts/publish_private_release.sh ]; then
+            bash scripts/publish_private_release.sh \
+              --edition "${{ steps.edition.outputs.edition }}" \
+              --release-dir release/ \
+              --token "${PRIVATE_REGISTRY_TOKEN}"
+          else
+            echo "::warning::scripts/publish_private_release.sh not found — skipping private publish step."
+          fi

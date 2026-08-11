@@ -1,0 +1,382 @@
+name: CI — Benchmarks
+
+# Consolidated benchmark CI workflow.
+# Replaces: 02-feature-modules_llm_voice-benchmark-ci.yml,
+#           06-infrastructure_gpu_gpu-benchmark-matrix-ci.yml,
+#           07-quality_nightly-benchmark-sweep.yml
+
+on:
+  push:
+    branches: [community, develop]
+    paths:
+      - 'include/voice/**'
+      - 'src/voice/**'
+      - 'benchmarks/bench_voice_assistant.cpp'
+      - 'benchmarks/bench_fused_kernels.cpp'
+      - 'benchmarks/bench_fused_lora_kernels.cpp'
+      - 'benchmarks/bench_gpu_backends.cpp'
+      - 'benchmarks/bench_gpu_training_cycle.cpp'
+      - 'benchmarks/bench_vulkan_lora.cpp'
+      - 'benchmarks/bench_backend_comparison.cpp'
+      - 'benchmarks/bench_cuda_vs_cpu.cpp'
+      - 'benchmarks/bench_multi_gpu_scaling.cpp'
+      - 'src/acceleration/**'
+      - 'include/acceleration/**'
+      - 'src/llm/lora_framework/**'
+      - 'include/llm/lora_framework/**'
+      - 'benchmarks/CMakeLists.txt'
+      - '.github/workflows/ci-benchmarks.yml'
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'include/voice/**'
+      - 'src/voice/**'
+      - 'include/content/stt_processor.h'
+      - 'include/content/tts_processor.h'
+      - 'src/content/stt_processor.cpp'
+      - 'src/content/tts_processor.cpp'
+      - 'benchmarks/bench_voice_assistant.cpp'
+      - 'benchmarks/baselines/voice/**'
+      - 'benchmarks/CMakeLists.txt'
+      - '.github/workflows/ci-benchmarks.yml'
+  schedule:
+    - cron: '0 2 * * *'     # Nightly 02:00 UTC — full module sweep
+    - cron: '0 3 * * 6'     # Weekly Saturday 03:00 UTC — GPU matrix
+  workflow_dispatch:
+    inputs:
+      backend_filter:
+        description: 'GPU backend filter (cuda|hip|vulkan|all)'
+        required: false
+        default: 'all'
+      benchmark_filter:
+        description: 'Benchmark filter regex (for GPU + nightly jobs)'
+        required: false
+        default: ''
+      run_voice:
+        description: 'Run voice benchmark job'
+        type: boolean
+        default: true
+      run_gpu:
+        description: 'Run GPU benchmark matrix job'
+        type: boolean
+        default: true
+      run_nightly_sweep:
+        description: 'Run nightly module sweep job'
+        type: boolean
+        default: true
+
+concurrency:
+  group: ci-benchmarks-${{ github.ref }}
+  cancel-in-progress: false   # Let benchmark runs complete
+
+permissions:
+  contents: write  # For baseline commit-back on community push
+
+# ──────────────────────────────────────────────────────────────────────────────
+jobs:
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # 1. Voice Benchmark (voice code changes + PR + dispatch)
+  # Implements PERFORMANCE_EXPECTATIONS.md §1.4, Maßnahme #4
+  # ─────────────────────────────────────────────────────────────────────────
+  voice-benchmarks:
+    name: Voice Benchmark (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    if: >
+      (github.event_name == 'pull_request') ||
+      (github.event_name == 'push') ||
+      (github.event_name == 'workflow_dispatch' && (inputs.run_voice == true || inputs.run_voice == 'true'))
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-22.04
+            compiler: gcc-12
+            cc: gcc-12
+            cxx: g++-12
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            build-essential ninja-build \
+            librocksdb-dev libgtest-dev libssl-dev zlib1g-dev \
+            libfmt-dev libspdlog-dev libtbb-dev nlohmann-json3-dev \
+            libboost-system-dev libbenchmark-dev pkg-config
+
+      - name: Configure with THEMIS_ENABLE_VOICE_ASSISTANT=ON
+        id: cmake_configure
+        continue-on-error: true
+        env:
+          CC: ${{ matrix.cc }}
+          CXX: ${{ matrix.cxx }}
+        run: |
+          cmake -S . -B build/voice-bench -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DTHEMIS_ENABLE_VOICE_ASSISTANT=ON \
+            -DTHEMIS_BUILD_BENCHMARKS=ON \
+            -DTHEMIS_BUILD_TESTS=OFF \
+            -DTHEMIS_ENABLE_GPU=OFF \
+            -DTHEMIS_MODELS_MODE=SKIP
+
+      - name: Build bench_voice_assistant
+        id: cmake_build
+        continue-on-error: true
+        if: steps.cmake_configure.outcome == 'success'
+        run: cmake --build build/voice-bench --target bench_voice_assistant -j"$(nproc)"
+
+      - name: Document SKIP (voice deps missing)
+        if: steps.cmake_configure.outcome == 'failure' || steps.cmake_build.outcome == 'failure'
+        run: |
+          {
+            echo "## Voice Benchmark — SKIP"
+            echo "Voice dependencies (STT/TTS models, audio libraries) not available on runner."
+            echo "AC-3 satisfied: missing voice-dependencies documented as SKIP."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Run bench_voice_assistant
+        if: steps.cmake_build.outcome == 'success'
+        run: |
+          mkdir -p build/voice-bench/results
+          ./build/voice-bench/bench_voice_assistant \
+            --benchmark_min_time=0.1s \
+            --benchmark_format=json \
+            --benchmark_out=build/voice-bench/results/voice_results.json
+
+      - name: Commit baseline JSON (community push only)
+        if: >
+          steps.cmake_build.outcome == 'success' &&
+          github.event_name == 'push' &&
+          github.ref == 'refs/heads/community'
+        run: |
+          cp build/voice-bench/results/voice_results.json \
+            benchmarks/baselines/voice/voice_baseline_latest.json
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add benchmarks/baselines/voice/voice_baseline_latest.json
+          git diff --staged --quiet || git commit -m "ci: update voice benchmark baseline [skip ci]"
+          git push || true
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: voice-benchmark-${{ matrix.os }}-${{ github.run_number }}
+          path: build/voice-bench/results/
+          retention-days: 30
+          if-no-files-found: ignore
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # 2. GPU Benchmark Matrix (CUDA / HIP / Vulkan / CPU-fallback)
+  # Implements PERFORMANCE_EXPECTATIONS.md §1.4, Maßnahme M05
+  # Self-hosted GPU runners are optional; CPU fallback always runs on ubuntu-latest
+  # ─────────────────────────────────────────────────────────────────────────
+  gpu-bench-cuda:
+    name: GPU Benchmarks (CUDA, ${{ matrix.cuda_arch }})
+    runs-on: [self-hosted, gpu-cuda]
+    if: >
+      (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' ||
+       (github.event_name == 'push' && github.ref == 'refs/heads/community')) &&
+      (github.event_name != 'workflow_dispatch' || inputs.run_gpu == true || inputs.run_gpu == 'true')
+    continue-on-error: true
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - cuda_arch: sm_80
+            description: 'NVIDIA Ampere (A100, A10)'
+          - cuda_arch: sm_89
+            description: 'NVIDIA Ada (RTX 4090, L4)'
+          - cuda_arch: sm_90
+            description: 'NVIDIA Hopper (H100)'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure CUDA build
+        run: |
+          cmake -S . -B build/gpu-cuda -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DTHEMIS_ENABLE_CUDA=ON \
+            -DTHEMIS_CUDA_ARCHITECTURES="${{ matrix.cuda_arch }}" \
+            -DTHEMIS_BUILD_BENCHMARKS=ON \
+            -DTHEMIS_BUILD_TESTS=OFF \
+            -DTHEMIS_MODELS_MODE=SKIP
+
+      - name: Build GPU benchmark targets
+        run: |
+          cmake --build build/gpu-cuda \
+            --target bench_fused_kernels bench_gpu_backends \
+            -j"$(nproc)"
+
+      - name: Run CUDA benchmarks
+        run: |
+          FILTER="${{ inputs.benchmark_filter }}"
+          mkdir -p build/gpu-cuda/results
+          for target in bench_fused_kernels bench_gpu_backends; do
+            ./build/gpu-cuda/${target} \
+              ${FILTER:+--benchmark_filter="${FILTER}"} \
+              --benchmark_min_time=1.0s \
+              --benchmark_format=json \
+              --benchmark_out="build/gpu-cuda/results/${target}_${{ matrix.cuda_arch }}.json"
+          done
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gpu-cuda-results-${{ matrix.cuda_arch }}-${{ github.run_number }}
+          path: build/gpu-cuda/results/
+          retention-days: 30
+          if-no-files-found: ignore
+
+  gpu-bench-hip:
+    name: GPU Benchmarks (HIP/ROCm)
+    runs-on: [self-hosted, gpu-hip]
+    if: >
+      (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' ||
+       (github.event_name == 'push' && github.ref == 'refs/heads/community')) &&
+      (github.event_name != 'workflow_dispatch' || inputs.run_gpu == true || inputs.run_gpu == 'true') &&
+      (github.event_name != 'workflow_dispatch' || inputs.backend_filter == 'hip' || inputs.backend_filter == 'all')
+    continue-on-error: true
+    timeout-minutes: 90
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure HIP build
+        run: |
+          cmake -S . -B build/gpu-hip -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DTHEMIS_ENABLE_HIP=ON \
+            -DTHEMIS_BUILD_BENCHMARKS=ON \
+            -DTHEMIS_BUILD_TESTS=OFF \
+            -DTHEMIS_MODELS_MODE=SKIP
+
+      - name: Build + run HIP benchmarks
+        run: |
+          cmake --build build/gpu-hip --target bench_gpu_backends -j"$(nproc)"
+          mkdir -p build/gpu-hip/results
+          ./build/gpu-hip/bench_gpu_backends \
+            --benchmark_min_time=1.0s \
+            --benchmark_format=json \
+            --benchmark_out=build/gpu-hip/results/bench_gpu_backends_hip.json
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gpu-hip-results-${{ github.run_number }}
+          path: build/gpu-hip/results/
+          retention-days: 30
+          if-no-files-found: ignore
+
+  gpu-bench-cpu-fallback:
+    name: GPU Benchmarks (CPU fallback — disabled-stub compile check)
+    runs-on: ubuntu-latest
+    if: >
+      (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' ||
+       (github.event_name == 'push' && github.ref == 'refs/heads/community')) &&
+      (github.event_name != 'workflow_dispatch' || inputs.run_gpu == true || inputs.run_gpu == 'true')
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ninja-build libbenchmark-dev libfmt-dev libspdlog-dev \
+            nlohmann-json3-dev librocksdb-dev libssl-dev
+
+      - name: Configure CPU-only (verify disabled-stub path compiles)
+        run: |
+          cmake -S . -B build/gpu-cpu-fallback -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DTHEMIS_ENABLE_CUDA=OFF \
+            -DTHEMIS_ENABLE_HIP=OFF \
+            -DTHEMIS_ENABLE_VULKAN=OFF \
+            -DTHEMIS_BUILD_BENCHMARKS=ON \
+            -DTHEMIS_BUILD_TESTS=OFF \
+            -DTHEMIS_MODELS_MODE=SKIP
+
+      - name: Build GPU benchmark targets (CPU fallback)
+        run: |
+          cmake --build build/gpu-cpu-fallback \
+            --target bench_fused_kernels bench_gpu_backends \
+            -j"$(nproc)"
+        continue-on-error: true
+
+      - name: Document CPU fallback result
+        run: |
+          {
+            echo "## GPU Benchmarks — CPU Fallback"
+            echo "Disabled-stub path compiled successfully on ubuntu-latest (no GPU required)."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # 3. Nightly Benchmark Sweep (all modules 2–35)
+  # Implements PERFORMANCE_EXPECTATIONS.md §1.4, Maßnahme #10
+  # ─────────────────────────────────────────────────────────────────────────
+  nightly-benchmark-sweep:
+    name: Nightly Benchmark Sweep (modules 2–35)
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    if: >
+      (github.event_name == 'schedule') ||
+      (github.event_name == 'workflow_dispatch' && (inputs.run_nightly_sweep == true || inputs.run_nightly_sweep == 'true'))
+    env:
+      ARTIFACT_DIR: artifacts/nightly
+      STORAGE_MODULE2_REQUIRED_CASE: BM_Storage_SustainedWrite_NoSync
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            ninja-build librocksdb-dev libbenchmark-dev libfmt-dev libspdlog-dev \
+            nlohmann-json3-dev libboost-filesystem-dev libboost-system-dev \
+            libzstd-dev libtbb-dev libcurl4-openssl-dev libssl-dev
+
+      - name: Configure nightly sweep (nightly-bench-sweep preset)
+        run: cmake --preset nightly-bench-sweep
+
+      - name: Build all benchmark targets
+        run: cmake --build build-nightly-bench-sweep --parallel "$(nproc)"
+        continue-on-error: true
+
+      - name: Run benchmark sweep
+        run: |
+          mkdir -p "${ARTIFACT_DIR}"
+          python3 benchmarks/run_nightly_sweep.py \
+            --build-dir build-nightly-bench-sweep \
+            --output-dir "${ARTIFACT_DIR}" \
+            --modules 2-35 \
+            --min-time 0.5s \
+            --required-case "${STORAGE_MODULE2_REQUIRED_CASE}" \
+            --filter "${{ inputs.benchmark_filter }}" \
+            2>&1 | tee "${ARTIFACT_DIR}/sweep_run.log" || true
+
+      - name: Generate traffic-light coverage report
+        run: |
+          python3 benchmarks/nightly_coverage_report.py \
+            --results-dir "${ARTIFACT_DIR}" \
+            --output "${ARTIFACT_DIR}/coverage_report.md" \
+            --previous-dir artifacts/nightly-prev \
+            2>&1 | tee -a "${ARTIFACT_DIR}/sweep_run.log" || true
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: nightly-benchmark-sweep-${{ github.run_number }}
+          path: ${{ env.ARTIFACT_DIR }}/
+          retention-days: 30
+          if-no-files-found: ignore

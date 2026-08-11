@@ -1,0 +1,273 @@
+name: CI — Build
+
+# Core C++ build matrix: Ubuntu + Windows, with optional sanitizer jobs.
+# Replaces: cmake-multi-platform.yml
+#
+# Triggers: push + PR on develop/community; manual dispatch.
+# The sanitizer option is available on manual dispatch for asan/ubsan validation.
+
+on:
+  push:
+    branches:
+      - develop
+      - community
+    paths:
+      - 'src/**'
+      - 'include/**'
+      - 'tests/**'
+      - 'CMakeLists.txt'
+      - 'CMakePresets.json'
+      - 'cmake/**'
+      - '.github/workflows/ci-build.yml'
+  pull_request:
+    branches:
+      - develop
+      - community
+      - enterprise
+      - hyperscaler
+      - military
+    paths:
+      - 'src/**'
+      - 'include/**'
+      - 'CMakeLists.txt'
+      - 'CMakePresets.json'
+      - 'cmake/**'
+  workflow_dispatch:
+    inputs:
+      sanitizer:
+        description: 'Additional sanitizer job (asan|ubsan|none)'
+        required: false
+        default: 'none'
+        type: choice
+        options: [none, asan, ubsan, both]
+
+permissions:
+  actions: read
+  contents: read
+  issues: write
+
+concurrency:
+  group: ci-build-${{ github.ref }}
+  cancel-in-progress: true
+
+# ──────────────────────────────────────────────────────────────────────────────
+jobs:
+
+  # Detect open approval-blocking CI issues before spending runner minutes
+  detect-unresolved-failures:
+    name: Detect unresolved CI failures
+    runs-on: ubuntu-latest
+    outputs:
+      requires_approval: ${{ steps.detect.outputs.requires_approval }}
+      blocking_issue_count: ${{ steps.detect.outputs.blocking_issue_count }}
+      blocking_issue_numbers: ${{ steps.detect.outputs.blocking_issue_numbers }}
+    steps:
+      - name: Detect approval-blocking CI issues
+        id: detect
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const workflowName = context.workflow;
+            const refName = context.ref.replace('refs/heads/', '');
+            const markerWorkflow = `<!-- ci-workflow:${workflowName} -->`;
+            const markerRef = `<!-- ci-ref:${refName} -->`;
+
+            const issues = await github.paginate(github.rest.issues.listForRepo, {
+              owner: context.repo.owner, repo: context.repo.repo,
+              state: 'open', labels: 'ci/failure,status/needs-approval', per_page: 100,
+            });
+
+            const blocking = issues.filter(i => {
+              const body = i.body || '';
+              return body.includes(markerWorkflow) && body.includes(markerRef);
+            });
+
+            core.setOutput('requires_approval', blocking.length > 0 ? 'true' : 'false');
+            core.setOutput('blocking_issue_count', String(blocking.length));
+            core.setOutput('blocking_issue_numbers', blocking.map(i => `#${i.number}`).join(', '));
+
+  approval-gate:
+    name: Await maintainer approval
+    needs: detect-unresolved-failures
+    if: needs.detect-unresolved-failures.outputs.requires_approval == 'true'
+    runs-on: ubuntu-latest
+    environment:
+      name: ci-approved
+    steps:
+      - run: echo "Approval granted via environment ci-approved."
+
+  # ──────────────────────────────────────────────────────────────────────────
+  build:
+    name: Build (${{ matrix.os }}, ${{ matrix.c_compiler }})
+    needs:
+      - detect-unresolved-failures
+      - approval-gate
+    if: needs.detect-unresolved-failures.outputs.requires_approval != 'true' || needs.approval-gate.result == 'success'
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 90
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        build_type: [Release]
+        c_compiler: [gcc, clang, cl]
+        include:
+          - os: windows-latest
+            c_compiler: cl
+            cpp_compiler: cl
+          - os: ubuntu-latest
+            c_compiler: gcc
+            cpp_compiler: g++
+          - os: ubuntu-latest
+            c_compiler: clang
+            cpp_compiler: clang++
+        exclude:
+          - os: windows-latest
+            c_compiler: gcc
+          - os: windows-latest
+            c_compiler: clang
+          - os: ubuntu-latest
+            c_compiler: cl
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set reusable strings
+        id: strings
+        shell: bash
+        run: echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
+
+      - name: Install Linux system dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            build-essential cmake ninja-build pkg-config \
+            librocksdb-dev libgtest-dev libssl-dev zlib1g-dev libzstd-dev \
+            libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev \
+            libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev \
+            libboost-system-dev libboost-filesystem-dev \
+            libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev
+
+      - name: Set up vcpkg cache (Windows)
+        if: runner.os == 'Windows'
+        uses: actions/cache@v4
+        with:
+          path: C:\vcpkg
+          key: vcpkg-windows-${{ hashFiles('vcpkg.json') }}-${{ runner.os }}
+          restore-keys: vcpkg-windows-
+
+      - name: Bootstrap vcpkg (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          if (-not (Test-Path "C:\vcpkg")) {
+            git clone https://github.com/microsoft/vcpkg.git C:\vcpkg
+            C:\vcpkg\bootstrap-vcpkg.bat -disableMetrics
+          }
+
+      - name: Configure CMake (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          cmake -B "${{ steps.strings.outputs.build-output-dir }}" \
+            -G Ninja \
+            -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} \
+            -DCMAKE_C_COMPILER=${{ matrix.c_compiler }} \
+            -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+            -DTHEMIS_BUILD_TESTS=ON \
+            -DTHEMIS_MODELS_MODE=SKIP \
+            -S "${{ github.workspace }}"
+
+      - name: Configure CMake (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          cmake -B "${{ steps.strings.outputs.build-output-dir }}" `
+            -DCMAKE_TOOLCHAIN_FILE="C:\vcpkg\scripts\buildsystems\vcpkg.cmake" `
+            -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} `
+            -DTHEMIS_BUILD_TESTS=ON `
+            -DTHEMIS_MODELS_MODE=SKIP `
+            -S "${{ github.workspace }}"
+
+      - name: Build
+        run: cmake --build "${{ steps.strings.outputs.build-output-dir }}" --config ${{ matrix.build_type }} --parallel
+
+      - name: Run tests
+        working-directory: ${{ steps.strings.outputs.build-output-dir }}
+        run: ctest --build-config ${{ matrix.build_type }} --output-on-failure --parallel 4 --timeout 60
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # Optional sanitizer jobs (only on workflow_dispatch when requested)
+  # ──────────────────────────────────────────────────────────────────────────
+  sanitizer-asan:
+    name: Build + Test (ASan)
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    if: >
+      github.event_name == 'workflow_dispatch' &&
+      (inputs.sanitizer == 'asan' || inputs.sanitizer == 'both')
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            build-essential cmake ninja-build \
+            librocksdb-dev libgtest-dev libssl-dev zlib1g-dev libfmt-dev \
+            libspdlog-dev nlohmann-json3-dev libtbb-dev libboost-system-dev
+
+      - name: Configure with ASan
+        run: |
+          cmake -S . -B build-asan -G Ninja \
+            -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+            -DCMAKE_CXX_FLAGS="-fsanitize=address -fno-omit-frame-pointer" \
+            -DCMAKE_C_FLAGS="-fsanitize=address -fno-omit-frame-pointer" \
+            -DCMAKE_EXE_LINKER_FLAGS="-fsanitize=address" \
+            -DTHEMIS_BUILD_TESTS=ON \
+            -DTHEMIS_MODELS_MODE=SKIP
+
+      - name: Build
+        run: cmake --build build-asan --parallel "$(nproc)"
+
+      - name: Run tests (ASan)
+        run: |
+          ASAN_OPTIONS=detect_leaks=1:abort_on_error=1 \
+            ctest --test-dir build-asan --output-on-failure --parallel 2 --timeout 120
+
+  sanitizer-ubsan:
+    name: Build + Test (UBSan)
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    if: >
+      github.event_name == 'workflow_dispatch' &&
+      (inputs.sanitizer == 'ubsan' || inputs.sanitizer == 'both')
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            build-essential cmake ninja-build \
+            librocksdb-dev libgtest-dev libssl-dev zlib1g-dev libfmt-dev \
+            libspdlog-dev nlohmann-json3-dev libtbb-dev libboost-system-dev
+
+      - name: Configure with UBSan
+        run: |
+          cmake -S . -B build-ubsan -G Ninja \
+            -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+            -DCMAKE_CXX_FLAGS="-fsanitize=undefined -fno-omit-frame-pointer" \
+            -DCMAKE_C_FLAGS="-fsanitize=undefined -fno-omit-frame-pointer" \
+            -DCMAKE_EXE_LINKER_FLAGS="-fsanitize=undefined" \
+            -DTHEMIS_BUILD_TESTS=ON \
+            -DTHEMIS_MODELS_MODE=SKIP
+
+      - name: Build
+        run: cmake --build build-ubsan --parallel "$(nproc)"
+
+      - name: Run tests (UBSan)
+        run: |
+          UBSAN_OPTIONS=halt_on_error=1:print_stacktrace=1 \
+            ctest --test-dir build-ubsan --output-on-failure --parallel 2 --timeout 120

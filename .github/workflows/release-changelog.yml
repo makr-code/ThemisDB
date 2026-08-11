@@ -1,0 +1,341 @@
+name: Release — Changelog
+
+# Consolidated changelog workflow.
+# Replaces: 00-shared_changelog-update.yml, 00-shared_changelog-backfill.yml
+#
+# Two modes:
+#   update   — incremental entry into CHANGELOG.md; supports workflow_call
+#   backfill — historical reconstruction from milestones; workflow_dispatch only
+#
+# Usage (update, called from another workflow):
+#   uses: ./.github/workflows/release-changelog.yml
+#   with:
+#     mode: update
+#     entry-title: "My Feature — ${{ github.run_number }}"
+#     entry-body: |
+#       - Implemented XYZ feature
+#     section: Added
+#     key: my-feature-${{ github.run_id }}
+#   secrets: inherit
+#
+# Usage (backfill, manual):
+#   workflow_dispatch with mode=backfill and optional milestone/since/until
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "Operation mode"
+        required: true
+        default: "update"
+        type: choice
+        options:
+          - update
+          - backfill
+
+      # ── update inputs ──────────────────────────────────────────────────────
+      entry-title:
+        description: "(update) Bold title for the CHANGELOG entry"
+        required: false
+        default: ""
+        type: string
+
+      entry-body:
+        description: "(update) Newline-separated body lines"
+        required: false
+        default: ""
+        type: string
+
+      section:
+        description: "(update) Sub-section (Added|Changed|Fixed|Security|…)"
+        required: false
+        default: "Added"
+        type: string
+
+      target-version:
+        description: "(update) Version block to write into; empty = [Unreleased]"
+        required: false
+        default: ""
+        type: string
+
+      release-date:
+        description: "(update) ISO date YYYY-MM-DD for new version blocks"
+        required: false
+        default: ""
+        type: string
+
+      key:
+        description: "(update) Idempotency key; defaults to entry-title"
+        required: false
+        default: ""
+        type: string
+
+      # ── backfill inputs ────────────────────────────────────────────────────
+      milestone:
+        description: "(backfill) Process only this milestone/version; empty = all"
+        required: false
+        default: ""
+        type: string
+
+      since:
+        description: "(backfill) Skip milestones before this ISO date"
+        required: false
+        default: ""
+        type: string
+
+      until:
+        description: "(backfill) Skip milestones after this ISO date"
+        required: false
+        default: ""
+        type: string
+
+      state:
+        description: "(backfill) Milestone state to query"
+        required: false
+        default: "closed"
+        type: choice
+        options:
+          - closed
+          - open
+          - all
+
+      label-map:
+        description: "(backfill) JSON label→section overrides"
+        required: false
+        default: "{}"
+        type: string
+
+      # ── shared inputs ──────────────────────────────────────────────────────
+      target-branch:
+        description: "Branch to commit the CHANGELOG change to (default: develop)"
+        required: false
+        default: "develop"
+        type: string
+
+      dry-run:
+        description: "Preview changes without writing or committing"
+        required: false
+        default: true
+        type: boolean
+
+  workflow_call:
+    inputs:
+      mode:
+        description: "Operation mode (update|backfill)"
+        required: false
+        default: "update"
+        type: string
+      entry-title:
+        required: true
+        type: string
+      entry-body:
+        required: true
+        type: string
+      section:
+        required: false
+        default: "Added"
+        type: string
+      target-version:
+        required: false
+        default: ""
+        type: string
+      release-date:
+        required: false
+        default: ""
+        type: string
+      key:
+        required: false
+        default: ""
+        type: string
+      target-branch:
+        required: false
+        default: "develop"
+        type: string
+      commit-message:
+        required: false
+        default: "chore: update CHANGELOG.md [skip ci]"
+        type: string
+      dry-run:
+        required: false
+        default: false
+        type: boolean
+    outputs:
+      changed:
+        description: "'true' if a new entry was inserted"
+        value: ${{ jobs.update.outputs.changed }}
+
+concurrency:
+  group: changelog-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: read
+
+# ──────────────────────────────────────────────────────────────────────────────
+# UPDATE job — incremental entry
+# ──────────────────────────────────────────────────────────────────────────────
+jobs:
+  update:
+    name: Update CHANGELOG.md
+    runs-on: ubuntu-latest
+    if: inputs.mode == 'update' || inputs.mode == ''
+    permissions:
+      contents: write
+    outputs:
+      changed: ${{ steps.run-updater.outputs.changed }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Insert CHANGELOG entry
+        id: run-updater
+        env:
+          ENTRY_TITLE:    ${{ inputs.entry-title }}
+          ENTRY_BODY:     ${{ inputs.entry-body }}
+          SECTION:        ${{ inputs.section }}
+          TARGET_VERSION: ${{ inputs.target-version }}
+          RELEASE_DATE:   ${{ inputs.release-date }}
+          KEY:            ${{ inputs.key }}
+          DRY_RUN:        ${{ inputs.dry-run }}
+        run: |
+          set -euo pipefail
+          BODY_ARGS=()
+          while IFS= read -r line; do
+            [[ -z "${line// }" ]] && continue
+            BODY_ARGS+=("--entry-body" "$line")
+          done <<< "$ENTRY_BODY"
+          VER_ARG=(); [[ -n "$TARGET_VERSION" ]] && VER_ARG=("--target-version" "$TARGET_VERSION")
+          DATE_ARG=(); [[ -n "$RELEASE_DATE" ]] && DATE_ARG=("--release-date" "$RELEASE_DATE")
+          KEY_ARG=(); [[ -n "$KEY" ]] && KEY_ARG=("--key" "$KEY")
+          DRY_FLAG=(); [[ "$DRY_RUN" == "true" ]] && DRY_FLAG=("--dry-run")
+          OUTPUT=$(python3 tools/ci/changelog_updater.py \
+            --entry-title "$ENTRY_TITLE" --section "$SECTION" \
+            "${BODY_ARGS[@]}" "${VER_ARG[@]}" "${DATE_ARG[@]}" "${KEY_ARG[@]}" "${DRY_FLAG[@]}" 2>&1)
+          echo "$OUTPUT"
+          if echo "$OUTPUT" | grep -q "already contains entry"; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit CHANGELOG.md
+        if: >-
+          inputs.dry-run == false &&
+          github.ref == format('refs/heads/{0}', inputs.target-branch) &&
+          steps.run-updater.outputs.changed == 'true'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add CHANGELOG.md
+          git diff --cached --quiet && exit 0
+          git commit -m "${{ inputs.commit-message || 'chore: update CHANGELOG.md [skip ci]' }}"
+          git pull --rebase origin "${{ inputs.target-branch }}" || { git rebase --abort; exit 1; }
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Write job summary
+        if: always()
+        run: |
+          {
+            echo "## 📝 Changelog Update"
+            echo "| Parameter | Value |"
+            echo "|-----------|-------|"
+            echo "| **Title** | ${{ inputs.entry-title }} |"
+            echo "| **Section** | \`### ${{ inputs.section }}\` |"
+            echo "| **Changed** | ${{ steps.run-updater.outputs.changed }} |"
+            echo "| **Dry-run** | ${{ inputs.dry-run }} |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # BACKFILL job — historical reconstruction
+  # ──────────────────────────────────────────────────────────────────────────
+  backfill:
+    name: Changelog Backfill
+    runs-on: ubuntu-latest
+    if: inputs.mode == 'backfill'
+    permissions:
+      contents: write
+      pull-requests: read
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run changelog_backfill.py
+        id: backfill
+        env:
+          MILESTONE:  ${{ inputs.milestone }}
+          SINCE:      ${{ inputs.since }}
+          UNTIL:      ${{ inputs.until }}
+          STATE:      ${{ inputs.state || 'closed' }}
+          LABEL_MAP:  ${{ inputs.label-map || '{}' }}
+          DRY_RUN:    ${{ inputs.dry-run }}
+        run: |
+          set -euo pipefail
+          ARGS=("--repo" "${{ github.repository }}" "--state" "$STATE" "--label-map" "$LABEL_MAP")
+          [[ -n "$MILESTONE" ]] && ARGS+=("--milestone" "$MILESTONE")
+          [[ -n "$SINCE" ]]     && ARGS+=("--since" "$SINCE")
+          [[ -n "$UNTIL" ]]     && ARGS+=("--until" "$UNTIL")
+          [[ "$DRY_RUN" == "true" ]] && ARGS+=("--dry-run")
+          python3 tools/ci/changelog_backfill.py "${ARGS[@]}" | tee /tmp/backfill-output.txt
+          if grep -q "dry-run\|0 PR" /tmp/backfill-output.txt 2>/dev/null; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit CHANGELOG.md
+        if: >-
+          inputs.dry-run == false &&
+          github.ref == format('refs/heads/{0}', inputs.target-branch) &&
+          steps.backfill.outputs.changed == 'true'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add CHANGELOG.md
+          git diff --cached --quiet && exit 0
+          MILESTONE_PART="${{ inputs.milestone }}"
+          MSG="docs: changelog backfill${MILESTONE_PART:+ for v${MILESTONE_PART}} [skip ci]"
+          git commit -m "$MSG"
+          git pull --rebase origin "${{ inputs.target-branch }}" || { git rebase --abort; exit 1; }
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Write job summary
+        if: always()
+        run: |
+          {
+            echo "## 📜 Changelog Backfill"
+            echo "| Parameter | Value |"
+            echo "|-----------|-------|"
+            echo "| **Milestone** | \`${{ inputs.milestone || '(all)' }}\` |"
+            echo "| **Dry-run** | ${{ inputs.dry-run }} |"
+            echo "| **Changed** | ${{ steps.backfill.outputs.changed }} |"
+            echo ""
+            if [ -f /tmp/backfill-output.txt ]; then
+              echo "### Script output"
+              echo '```'
+              cat /tmp/backfill-output.txt
+              echo '```'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"

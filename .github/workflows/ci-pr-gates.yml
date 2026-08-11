@@ -1,0 +1,491 @@
+name: CI — PR Gates
+
+# Consolidated PR gate workflow.
+# Replaces: 09-pr-gates_community-pipeline-policy.yml,
+#           09-pr-gates_high-exception-record.yml,
+#           09-pr-gates_private-plugin-boundary.yml,
+#           09-pr-gates_release-critical-tests.yml,
+#           09-pr-gates_reproducible-builds.yml,
+#           09-pr-gates_scanner-delta-report.yml,
+#           09-pr-gates_submodule-commit-pins.yml,
+#           09-pr-gates_workflow-boundary-guard.yml
+#
+# Governance (RELEASE_STRATEGY.md §2.3):
+#   release-critical-tests is a MANDATORY entry gate for PRs targeting develop
+#   and all edition branches (community, enterprise, hyperscaler, military).
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+    branches:
+      - develop
+      - community
+      - enterprise
+      - hyperscaler
+      - military
+      - minimal
+  push:
+    branches: [develop]
+    paths:
+      - CMakeLists.txt
+      - CMakePresets.json
+      - cmake/**
+      - include/updates/**
+  workflow_dispatch:
+    inputs:
+      run_scan_if_missing:
+        description: 'scanner-delta: run gap scanner when aggregate is missing'
+        type: boolean
+        default: false
+
+concurrency:
+  group: ci-pr-gates-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+  security-events: write
+
+# ──────────────────────────────────────────────────────────────────────────────
+jobs:
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # GATE 1 — Community Pipeline Policy (no private credentials in community CI)
+  # Applies to: PRs targeting community and minimal only
+  # ────────────────────────────────────────────────────────────────────────────
+  community-pipeline-policy:
+    name: Community Pipeline Policy
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: >
+      github.event_name == 'pull_request' &&
+      (github.base_ref == 'community' || github.base_ref == 'minimal')
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Collect changed files
+        run: |
+          git fetch origin "${{ github.base_ref }}" --depth=1
+          git diff --name-only "origin/${{ github.base_ref }}...HEAD" \
+            -- '.github/workflows/**' 'cmake/**' 'scripts/**' > changed_files.txt
+          cat changed_files.txt
+
+      - name: Scan for private credential patterns
+        run: |
+          python3 - <<'PY'
+          import re, sys
+          from pathlib import Path
+
+          FORBIDDEN_PATTERNS = [
+              (r'\$\{\{[^}]*secrets\.[A-Z_]*PRIVATE[A-Z_]*\}\}',
+               "Secret reference to a private-repo credential"),
+              (r'\$\{\{[^}]*secrets\.[A-Z_]*PLUGIN[A-Z_]*\}\}',
+               "Secret reference to a plugin credential"),
+              (r'\$\{\{[^}]*secrets\.PAT[A-Z_]*\}\}',
+               "PAT reference"),
+              (r'git\s+clone\s+.*github\.com.*private',
+               "Hardcoded private repository clone"),
+              (r'plugins/private',
+               "Reference to private plugin paths in community files"),
+          ]
+
+          files_ok = True
+          for filepath in Path("changed_files.txt").read_text().splitlines():
+              p = Path(filepath)
+              if not p.exists():
+                  continue
+              text = p.read_text(errors="replace")
+              for pattern, desc in FORBIDDEN_PATTERNS:
+                  if re.search(pattern, text, re.IGNORECASE):
+                      print(f"::error file={filepath}::{desc} — pattern: {pattern}")
+                      files_ok = False
+          if not files_ok:
+              sys.exit(1)
+          print("No forbidden private-credential patterns found in community CI/build files.")
+          PY
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # GATE 2 — High Exception Record Guard
+  # Applies to: PRs targeting all protected branches
+  # ────────────────────────────────────────────────────────────────────────────
+  high-exception-record:
+    name: High Exception Record Guard
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Write PR body to file
+        run: |
+          cat > pr_body.md <<'EOF'
+          ${{ github.event.pull_request.body }}
+          EOF
+
+      - name: Validate PR high-exception section
+        run: python .github/scripts/check_pr_high_exception_record.py --body-file pr_body.md
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # GATE 3 — Private Plugin Boundary Guard
+  # Applies to: PRs targeting all protected branches
+  # ────────────────────────────────────────────────────────────────────────────
+  private-plugin-boundary:
+    name: Private Plugin Boundary Guard
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: >
+      github.event_name == 'pull_request' &&
+      contains(fromJSON('["develop","community","enterprise","hyperscaler","military"]'), github.base_ref)
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Collect changed files
+        run: |
+          git fetch origin "${{ github.base_ref }}" --depth=1
+          git diff --name-only "origin/${{ github.base_ref }}...HEAD" > changed_files.txt
+
+      - name: Enforce private plugin boundary rules
+        run: |
+          python3 - <<'PY'
+          import re, sys
+          from pathlib import Path
+
+          changed = set(Path("changed_files.txt").read_text().splitlines())
+
+          errors = []
+
+          for f in changed:
+              # Community/minimal packaging must not reference private plugin submodules or tokens
+              if f.startswith(".github/workflows/") and (
+                  "community" in f or "minimal" in f
+              ):
+                  text = Path(f).read_text(errors="replace") if Path(f).exists() else ""
+                  if "plugins/private" in text:
+                      errors.append(f"{f}: community/minimal workflow references plugins/private")
+
+              # .gitmodules changes must still carry commit pins for Wave-1 submodules
+              if f == ".gitmodules":
+                  WAVE1_PATHS = {
+                      "plugins/themisdb_ethic_ai",
+                      "plugins/themisdb_llm_wiki",
+                      "plugins/themisdb_storage",
+                      "plugins/themisdb_importer",
+                      "plugins/themisdb_plugin_signer",
+                      "plugins/themisdb_geo",
+                      "plugins/themisdb_timeseries",
+                  }
+                  text = Path(".gitmodules").read_text(errors="replace")
+                  blocks = re.split(r'(?=\[submodule\s)', text)
+                  for block in blocks:
+                      path_match = re.search(r'path\s*=\s*(.+)', block)
+                      if not path_match:
+                          continue
+                      submod_path = path_match.group(1).strip()
+                      if submod_path in WAVE1_PATHS and not re.search(r'commit\s*=', block):
+                          errors.append(f".gitmodules: {submod_path} is missing a commit pin")
+
+          if errors:
+              for err in errors:
+                  print(f"::error::{err}")
+              sys.exit(1)
+          print("Private plugin boundary check passed.")
+          PY
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # GATE 4 — Release-Critical Tests  ← MANDATORY GATE (RELEASE_STRATEGY.md §2.3)
+  # Applies to: PRs targeting develop + all edition branches
+  # ────────────────────────────────────────────────────────────────────────────
+  release-critical-tests:
+    name: Release-Critical Test Suite
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    if: >
+      github.event_name == 'pull_request' &&
+      contains(fromJSON('["develop","community","enterprise","hyperscaler","military"]'), github.base_ref)
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            ninja-build librocksdb-dev libgtest-dev libssl-dev zlib1g-dev \
+            libfmt-dev libtbb-dev nlohmann-json3-dev libspdlog-dev \
+            libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev \
+            libboost-system-dev libgrpc++-dev libprotobuf-dev \
+            protobuf-compiler-grpc
+
+      - name: Configure (community-release)
+        run: cmake --preset community-release
+
+      - name: Build release-critical targets
+        run: |
+          cmake --build build-community-release \
+            --target themis_release_critical_tests \
+            --parallel "$(nproc)" || \
+          cmake --build build-community-release \
+            --target themis_integration_tests \
+            --parallel "$(nproc)"
+
+      - name: Run release-critical tests
+        run: |
+          ctest --test-dir build-community-release \
+            --label-regex "release_critical" \
+            --output-on-failure \
+            --parallel 1 \
+            --timeout 120
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # GATE 5 — Reproducible Build Metadata
+  # Applies to: PRs and pushes targeting develop; cmake/build-system changes
+  # ────────────────────────────────────────────────────────────────────────────
+  reproducible-builds:
+    name: Reproducible Build Metadata
+    runs-on: ubuntu-latest
+    if: >
+      github.event_name == 'push' ||
+      (github.event_name == 'pull_request' && github.base_ref == 'develop')
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Derive SOURCE_DATE_EPOCH from HEAD commit
+        id: source_date_epoch
+        run: echo "value=$(git log -1 --format=%ct)" >> "$GITHUB_OUTPUT"
+
+      - name: Verify reproducible build metadata
+        env:
+          SOURCE_DATE_EPOCH: ${{ steps.source_date_epoch.outputs.value }}
+        run: |
+          cmake -DOUTPUT_DIR="$RUNNER_TEMP/themis-repro" \
+            -P cmake/VerifyReproducibleBuildInfo.cmake
+
+      - name: Record generated header hashes
+        run: |
+          sha256sum \
+            "$RUNNER_TEMP/themis-repro/same-epoch-a/include/updates/build_info.h" \
+            "$RUNNER_TEMP/themis-repro/same-epoch-b/include/updates/build_info.h" \
+            "$RUNNER_TEMP/themis-repro/different-epoch/include/updates/build_info.h" \
+            | tee /tmp/build_info_hashes.txt
+
+      - name: Verify same-epoch hashes match (determinism)
+        run: |
+          HASH_A=$(sha256sum "$RUNNER_TEMP/themis-repro/same-epoch-a/include/updates/build_info.h" | cut -d' ' -f1)
+          HASH_B=$(sha256sum "$RUNNER_TEMP/themis-repro/same-epoch-b/include/updates/build_info.h" | cut -d' ' -f1)
+          if [ "$HASH_A" != "$HASH_B" ]; then
+            echo "::error::Reproducibility violation: same-epoch builds produced different hashes"
+            exit 1
+          fi
+          echo "Reproducibility check passed: same-epoch hashes match."
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # GATE 6 — Scanner Delta Report
+  # Applies to: PRs targeting develop + community; scanner/tooling changes
+  # ────────────────────────────────────────────────────────────────────────────
+  scanner-delta-report:
+    name: Scanner Delta Report
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    if: >
+      github.event_name == 'pull_request' &&
+      (github.base_ref == 'develop' || github.base_ref == 'community')
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Prepare directories
+        run: mkdir -p ai_working ai_working/delta
+
+      - name: Resolve baseline aggregate from base branch
+        id: baseline
+        run: |
+          BASE_FILE="ai_working/gap_scan_v3_aggregate.baseline.json"
+          git fetch origin "${{ github.base_ref }}" --depth=1
+          git show "origin/${{ github.base_ref }}:ai_working/gap_scan_v3_aggregate.json" > "${BASE_FILE}" 2>/dev/null \
+            && echo "baseline_exists=true" >> "$GITHUB_OUTPUT" \
+            || echo "baseline_exists=false" >> "$GITHUB_OUTPUT"
+
+      - name: Run gap scanner (if aggregate missing and flag set)
+        if: steps.baseline.outputs.baseline_exists == 'false' && inputs.run_scan_if_missing == 'true'
+        run: |
+          python3 tools/gap_scanner.py \
+            --output ai_working/gap_scan_v3_aggregate.json \
+            --format json || true
+
+      - name: Compute scanner delta
+        run: |
+          python3 - <<'PY'
+          import json, sys
+          from pathlib import Path
+
+          baseline_file = Path("ai_working/gap_scan_v3_aggregate.baseline.json")
+          current_file  = Path("ai_working/gap_scan_v3_aggregate.json")
+
+          if not baseline_file.exists():
+              print("No baseline aggregate — skipping delta comparison.")
+              sys.exit(0)
+          if not current_file.exists():
+              print("No current aggregate — skipping delta comparison.")
+              sys.exit(0)
+
+          baseline = json.loads(baseline_file.read_text())
+          current  = json.loads(current_file.read_text())
+
+          baseline_ids = {item.get("id") for item in baseline.get("findings", []) if item.get("id")}
+          current_ids  = {item.get("id") for item in current.get("findings", []) if item.get("id")}
+
+          new_findings = current_ids - baseline_ids
+          resolved     = baseline_ids - current_ids
+
+          print(f"Scanner delta: +{len(new_findings)} new, -{len(resolved)} resolved")
+          if new_findings:
+              print("New findings: " + ", ".join(sorted(new_findings)))
+          Path("ai_working/delta/report.txt").write_text(
+              f"+{len(new_findings)} new\n-{len(resolved)} resolved\n"
+          )
+          PY
+
+      - name: Upload delta report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: scanner-delta-${{ github.run_number }}
+          path: ai_working/delta/
+          retention-days: 14
+          if-no-files-found: ignore
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # GATE 7 — Submodule Commit-Pin Gate
+  # Applies to: PRs targeting all protected branches; .gitmodules changes
+  # ────────────────────────────────────────────────────────────────────────────
+  submodule-commit-pins:
+    name: Submodule Commit-Pin Gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    if: >
+      github.event_name == 'pull_request' &&
+      contains(fromJSON('["develop","community","enterprise","hyperscaler","military"]'), github.base_ref)
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify Wave-1 submodule commit pins
+        run: |
+          python3 - <<'PY'
+          import re, sys
+          from pathlib import Path
+
+          WAVE1_PATHS = {
+              "plugins/themisdb_ethic_ai",
+              "plugins/themisdb_llm_wiki",
+              "plugins/themisdb_storage",
+              "plugins/themisdb_importer",
+              "plugins/themisdb_plugin_signer",
+              "plugins/themisdb_geo",
+              "plugins/themisdb_timeseries",
+          }
+          text = Path(".gitmodules").read_text(encoding="utf-8")
+          blocks = re.split(r'(?=\[submodule\s)', text)
+          missing_pin = []
+          for block in blocks:
+              path_match = re.search(r'path\s*=\s*(.+)', block)
+              if not path_match:
+                  continue
+              submod_path = path_match.group(1).strip()
+              if submod_path in WAVE1_PATHS and not re.search(r'commit\s*=', block):
+                  missing_pin.append(submod_path)
+          if missing_pin:
+              for p in missing_pin:
+                  print(f"::error::{p} is missing a commit pin in .gitmodules")
+              sys.exit(1)
+          print("All Wave-1 submodules carry commit pins.")
+          PY
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # GATE 8 — Workflow Boundary Guard
+  # Applies to: PRs targeting community + develop; .github/workflows changes
+  # ────────────────────────────────────────────────────────────────────────────
+  workflow-boundary-guard:
+    name: Workflow Boundary Guard
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: >
+      github.event_name == 'pull_request' &&
+      (github.base_ref == 'community' || github.base_ref == 'develop')
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - run: python -m pip install --upgrade pip pytest pyyaml
+
+      - name: Collect changed files
+        run: |
+          git fetch origin "${{ github.base_ref }}" --depth=1
+          git diff --name-status --find-renames "origin/${{ github.base_ref }}...HEAD" > workflow_changes.txt
+
+      - name: Run workflow boundary unit tests
+        run: python -m pytest tools/tests/test_check_workflow_boundaries.py -q
+
+      - name: Enforce workflow boundaries on changed files
+        run: |
+          python3 tools/ci/check_workflow_boundaries.py \
+            --changes workflow_changes.txt \
+            --guidelines .github/WORKFLOW_GUIDELINES.md
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # SUMMARY — Aggregates all gate results (always runs)
+  # ────────────────────────────────────────────────────────────────────────────
+  gates-summary:
+    name: PR Gates Summary
+    runs-on: ubuntu-latest
+    if: always()
+    needs:
+      - community-pipeline-policy
+      - high-exception-record
+      - private-plugin-boundary
+      - release-critical-tests
+      - reproducible-builds
+      - scanner-delta-report
+      - submodule-commit-pins
+      - workflow-boundary-guard
+    steps:
+      - name: Write summary
+        run: |
+          {
+            echo "## PR Gates Summary"
+            echo ""
+            echo "| Gate | Result |"
+            echo "|------|--------|"
+            echo "| Community Pipeline Policy | ${{ needs.community-pipeline-policy.result }} |"
+            echo "| High Exception Record | ${{ needs.high-exception-record.result }} |"
+            echo "| Private Plugin Boundary | ${{ needs.private-plugin-boundary.result }} |"
+            echo "| Release-Critical Tests (**MANDATORY**) | ${{ needs.release-critical-tests.result }} |"
+            echo "| Reproducible Builds | ${{ needs.reproducible-builds.result }} |"
+            echo "| Scanner Delta Report | ${{ needs.scanner-delta-report.result }} |"
+            echo "| Submodule Commit Pins | ${{ needs.submodule-commit-pins.result }} |"
+            echo "| Workflow Boundary Guard | ${{ needs.workflow-boundary-guard.result }} |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Fail if mandatory release-critical gate failed
+        if: needs.release-critical-tests.result == 'failure'
+        run: |
+          echo "::error::release-critical-tests FAILED — this is a mandatory gate per RELEASE_STRATEGY.md §2.3"
+          exit 1
