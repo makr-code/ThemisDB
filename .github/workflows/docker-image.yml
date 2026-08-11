@@ -71,9 +71,8 @@ jobs:
     
     - name: Log in to Docker Hub
       if: |
-        (github.event_name == 'push' && github.ref == 'refs/heads/develop') ||
         (github.event_name == 'release') ||
-        (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true')
+        (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true' && github.event.inputs.registry == 'docker.io')
       uses: docker/login-action@v3
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -81,8 +80,9 @@ jobs:
     
     - name: Log in to GitHub Container Registry
       if: |
+        (github.event_name == 'push' && github.ref == 'refs/heads/develop') ||
         (github.event_name == 'release') ||
-        (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true' && github.event.inputs.registry == 'ghcr.io')
+        (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true')
       uses: docker/login-action@v3
       with:
         registry: ghcr.io
@@ -95,7 +95,9 @@ jobs:
         VERSION="${{ steps.version.outputs.version }}"
         TAGS=""
         
-        # For released versions (tags/releases)
+        REPO_LC=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+
+        # For released versions (tags/releases) - push to Docker Hub
         if [[ "${{ github.event_name }}" == "release" ]] || [[ "${{ github.ref }}" == refs/tags/v* ]]; then
           # themisdb/themisdb:1.0.0
           TAGS="themisdb/themisdb:${VERSION}"
@@ -108,15 +110,23 @@ jobs:
           if [[ ! "${VERSION}" =~ [-] ]]; then
             TAGS="$TAGS,themisdb/themisdb:latest"
           fi
+
+          # Also publish to GHCR for releases
+          TAGS="$TAGS,ghcr.io/${REPO_LC}:${VERSION}"
+          TAGS="$TAGS,ghcr.io/${REPO_LC}:${MINOR_VERSION}"
+          if [[ ! "${VERSION}" =~ [-] ]]; then
+            TAGS="$TAGS,ghcr.io/${REPO_LC}:latest"
+          fi
         
-        # For develop branch pushes - use commit SHA
+        # For develop branch pushes - use GHCR (no Docker Hub PAT required)
         elif [[ "${{ github.ref }}" == "refs/heads/develop" ]]; then
           SHORT_SHA=$(echo ${{ github.sha }} | cut -c1-7)
-          TAGS="themisdb/themisdb:dev-${SHORT_SHA}"
+          TAGS="ghcr.io/${REPO_LC}:dev-${SHORT_SHA}"
+          TAGS="$TAGS,ghcr.io/${REPO_LC}:develop"
         
         # For workflow_dispatch without release
         else
-          TAGS="themisdb/themisdb:manual-${{ github.run_id }}"
+          TAGS="ghcr.io/${REPO_LC}:manual-${{ github.run_id }}"
         fi
         
         echo "value=${TAGS}" >> $GITHUB_OUTPUT
