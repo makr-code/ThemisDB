@@ -243,8 +243,9 @@ jobs:
 
       - name: Process Waiver Command
         id: process
+        env:
+          COMMENT: ${{ github.event.comment.body }}
         run: |
-          COMMENT="${{ github.event.comment.body }}"
           PR_NUMBER="${{ github.event.issue.number }}"
           APPROVER="${{ steps.verify.outputs.approver }}"
           
