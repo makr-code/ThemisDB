@@ -1,0 +1,667 @@
+name: Maintenance — GS3 Gap Triage
+
+# Daily/manual GS3 scan with consolidated issue management.
+# - Runs tools/gs3.py against configurable paths/scope
+# - Consolidates findings by scanner/file/type/severity
+# - Creates/updates a single scope-aware issue (idempotent)
+# - Optionally closes the issue when no relevant findings remain
+
+on:
+  schedule:
+    # Daily 03:30 UTC
+    - cron: '30 3 * * *'
+  workflow_dispatch:
+    inputs:
+      target_branch:
+        description: 'Target branch to scan'
+        required: false
+        type: choice
+        options:
+          - develop
+          - community
+        default: develop
+      scan_paths:
+        description: 'Whitespace-separated paths to scan'
+        required: false
+        default: 'src include tests'
+        type: string
+      scan_mode:
+        description: 'GS3 scan mode'
+        required: false
+        type: choice
+        options:
+          - fast
+          - thorough
+        default: fast
+      min_severity:
+        description: 'Minimum severity considered actionable'
+        required: false
+        type: choice
+        options:
+          - CRITICAL
+          - HIGH
+          - MEDIUM
+          - LOW
+        default: HIGH
+      min_bucket_count:
+        description: 'Minimum number of actionable buckets required to open/update issue'
+        required: false
+        default: '1'
+        type: string
+      force_reopen:
+        description: 'Re-open matching closed issue when findings exist'
+        required: false
+        default: false
+        type: boolean
+      close_when_clean:
+        description: 'Close matching open issue when no actionable findings remain'
+        required: false
+        default: true
+        type: boolean
+
+permissions:
+  contents: read
+  actions: read
+  issues: write
+
+concurrency:
+  group: maintenance-gs3-gaps-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gs3-gap-triage:
+    name: 🧭 GS3 Gap Triage
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    permissions:
+      contents: read
+      actions: read
+      issues: write
+    env:
+      TARGET_BRANCH: ${{ github.event_name == 'schedule' && 'develop' || inputs.target_branch }}
+      SCAN_PATHS: ${{ inputs.scan_paths || 'src include tests' }}
+      SCAN_MODE: ${{ inputs.scan_mode || 'fast' }}
+      MIN_SEVERITY: ${{ inputs.min_severity || 'HIGH' }}
+      MIN_BUCKET_COUNT: ${{ inputs.min_bucket_count || '1' }}
+      FORCE_REOPEN: ${{ inputs.force_reopen }}
+      CLOSE_WHEN_CLEAN: ${{ inputs.close_when_clean }}
+
+    steps:
+      - name: Print context
+        run: |
+          echo "============================================================"
+          echo " Maintenance — GS3 Gap Triage"
+          echo "============================================================"
+          echo "  Trigger           : ${{ github.event_name }}"
+          echo "  Target branch     : ${TARGET_BRANCH}"
+          echo "  Scan paths        : ${SCAN_PATHS}"
+          echo "  Scan mode         : ${SCAN_MODE}"
+          echo "  Min severity      : ${MIN_SEVERITY}"
+          echo "  Min bucket count  : ${MIN_BUCKET_COUNT}"
+          echo "  Force reopen      : ${FORCE_REOPEN}"
+          echo "  Close when clean  : ${CLOSE_WHEN_CLEAN}"
+          echo "  Actor             : ${{ github.actor }}"
+          echo "  Run ID            : ${{ github.run_id }}"
+          echo "  Timestamp         : $(date -u)"
+          echo "============================================================"
+
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        with:
+          ref: ${{ env.TARGET_BRANCH }}
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
+        with:
+          python-version: '3.11'
+
+      - name: Prepare output directories
+        run: mkdir -p ai_working/gs3
+
+      - name: Run GS3 scan
+        id: scan
+        run: |
+          python3 - <<'PY'
+          import os
+          import shlex
+          import subprocess
+          import sys
+          from pathlib import Path
+          
+          paths = shlex.split(os.environ.get("SCAN_PATHS", "src include tests"))
+          if not paths:
+            print("::error::SCAN_PATHS resolved to empty path list")
+            with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as fh:
+              fh.write("scan_failed=true\nscan_exit_code=2\n")
+            sys.exit(0)
+          
+          output_json = Path("ai_working/gs3/gap_scan.json")
+          output_md = Path("ai_working/gs3/gap_scan.md")
+          
+          cmd = [
+            "python3", "-m", "tools.gs3", "scan",
+            *paths,
+            "--scan-mode", os.environ.get("SCAN_MODE", "fast"),
+            "--output", str(output_json),
+            "--md-report", str(output_md),
+          ]
+          
+          print("Running:", " ".join(cmd))
+          completed = subprocess.run(cmd)
+          exit_code = int(completed.returncode)
+          
+          # gs3 returns 0 if findings exist, 1 if no findings; both are valid scan outcomes.
+          scan_failed = exit_code not in (0, 1)
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as fh:
+            fh.write(f"scan_exit_code={exit_code}\n")
+            fh.write(f"scan_failed={'true' if scan_failed else 'false'}\n")
+          
+          if scan_failed:
+            print(f"::warning::GS3 scan failed with exit code {exit_code}")
+          else:
+            print(f"GS3 scan finished with exit code {exit_code}")
+          PY
+
+      - name: Consolidate findings
+        id: consolidate
+        if: steps.scan.outputs.scan_failed != 'true'
+        run: |
+          python3 - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+          
+          severity_rank = {
+            "CRITICAL": 4,
+            "HIGH": 3,
+            "MEDIUM": 2,
+            "LOW": 1,
+            "INFO": 0,
+          }
+          
+          min_sev = (os.environ.get("MIN_SEVERITY", "HIGH") or "HIGH").upper()
+          min_rank = severity_rank.get(min_sev, severity_rank["HIGH"])
+          min_bucket_count_raw = os.environ.get("MIN_BUCKET_COUNT", "1")
+          try:
+            min_bucket_count = max(0, int(min_bucket_count_raw))
+          except ValueError:
+            min_bucket_count = 1
+          
+          src = Path("ai_working/gs3/gap_scan.json")
+          if not src.exists():
+            raise RuntimeError(f"Scan output missing: {src}")
+          
+          data = json.loads(src.read_text(encoding="utf-8"))
+          gaps = data.get("gaps", [])
+          if not isinstance(gaps, list):
+            gaps = []
+          
+          actionable = []
+          for g in gaps:
+            sev = str(g.get("severity", "LOW")).upper()
+            if severity_rank.get(sev, 0) < min_rank:
+              continue
+            # Exclude third-party scope from actionable set.
+            if str(g.get("impact_level", "")).upper() == "THIRD_PARTY":
+              continue
+            file_path = str(g.get("file", "unknown"))
+            scanner = str(g.get("scanner") or f"step{g.get('step', 'na')}")
+            gap_type = str(g.get("type", "unknown"))
+            bucket_key = f"{scanner}|{file_path}|{gap_type}|{sev}"
+            actionable.append({
+              "bucket_key": bucket_key,
+              "scanner": scanner,
+              "file": file_path,
+              "type": gap_type,
+              "severity": sev,
+              "subsystem": str(g.get("subsystem", "unknown")),
+              "line": int(g.get("line") or 0),
+              "description": str(g.get("description", "")).strip(),
+            })
+          
+          buckets = {}
+          for item in actionable:
+            key = item["bucket_key"]
+            b = buckets.setdefault(key, {
+              "key": key,
+              "scanner": item["scanner"],
+              "file": item["file"],
+              "type": item["type"],
+              "severity": item["severity"],
+              "subsystem": item["subsystem"],
+              "count": 0,
+              "line": item["line"] if item["line"] > 0 else 0,
+              "description": item["description"],
+            })
+            b["count"] += 1
+            if item["line"] > 0 and (b["line"] == 0 or item["line"] < b["line"]):
+              b["line"] = item["line"]
+            if not b["description"] and item["description"]:
+              b["description"] = item["description"]
+          
+          bucket_list = list(buckets.values())
+          bucket_list.sort(
+            key=lambda x: (
+              -severity_rank.get(x["severity"], 0),
+              -x["count"],
+              x["file"],
+              x["type"],
+              x["scanner"],
+            )
+          )
+          
+          signature_list = []
+          for b in bucket_list:
+            signature = hashlib.sha1(b["key"].encode("utf-8")).hexdigest()
+            signature_list.append(signature)
+          
+          by_severity = {}
+          for b in bucket_list:
+            by_severity[b["severity"]] = by_severity.get(b["severity"], 0) + b["count"]
+          
+          summary = {
+            "scan_context": {
+              "target_branch": os.environ.get("TARGET_BRANCH", "develop"),
+              "scan_paths": os.environ.get("SCAN_PATHS", "src include tests"),
+              "scan_mode": os.environ.get("SCAN_MODE", "fast"),
+              "min_severity": min_sev,
+              "min_bucket_count": min_bucket_count,
+            },
+            "counts": {
+              "total_raw_findings": len(gaps),
+              "actionable_findings": len(actionable),
+              "actionable_buckets": len(bucket_list),
+            },
+            "by_severity": by_severity,
+            "buckets": bucket_list,
+            "signatures": signature_list,
+          }
+          
+          out = Path("ai_working/gs3/consolidated_summary.json")
+          out.write_text(json.dumps(summary, indent=2), encoding="utf-8")
+          
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as fh:
+            fh.write(f"actionable_buckets={len(bucket_list)}\n")
+            fh.write(f"actionable_findings={len(actionable)}\n")
+            fh.write(f"min_bucket_count={min_bucket_count}\n")
+            fh.write(f"should_open_issue={'true' if len(bucket_list) >= min_bucket_count else 'false'}\n")
+            fh.write(f"critical_count={by_severity.get('CRITICAL', 0)}\n")
+          PY
+
+      - name: Upload GS3 artifacts
+        if: always()
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08  # v4.6.0
+        with:
+          name: gs3-gap-scan-${{ github.run_id }}
+          path: |
+            ai_working/gs3/gap_scan.json
+            ai_working/gs3/gap_scan.md
+            ai_working/gs3/consolidated_summary.json
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Open/update/close consolidated issue
+        if: steps.scan.outputs.scan_failed != 'true'
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
+        env:
+          SHOULD_OPEN_ISSUE: ${{ steps.consolidate.outputs.should_open_issue }}
+          ACTIONABLE_BUCKETS: ${{ steps.consolidate.outputs.actionable_buckets }}
+          ACTIONABLE_FINDINGS: ${{ steps.consolidate.outputs.actionable_findings }}
+          CRITICAL_COUNT: ${{ steps.consolidate.outputs.critical_count }}
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            
+            const summaryPath = path.join(process.cwd(), 'ai_working/gs3/consolidated_summary.json');
+            if (!fs.existsSync(summaryPath)) {
+              core.warning(`Summary file missing: ${summaryPath}`);
+              return;
+            }
+            
+            const summary = JSON.parse(fs.readFileSync(summaryPath, 'utf8'));
+            const buckets = Array.isArray(summary.buckets) ? summary.buckets : [];
+            const signatures = Array.isArray(summary.signatures) ? summary.signatures : [];
+            const bySeverity = summary.by_severity || {};
+            const scanContext = summary.scan_context || {};
+            
+            const targetBranch = process.env.TARGET_BRANCH || scanContext.target_branch || 'develop';
+            const scanPaths = process.env.SCAN_PATHS || scanContext.scan_paths || 'src include tests';
+            const scanMode = process.env.SCAN_MODE || scanContext.scan_mode || 'fast';
+            const minSeverity = process.env.MIN_SEVERITY || scanContext.min_severity || 'HIGH';
+            const minBucketCount = Number.parseInt(process.env.MIN_BUCKET_COUNT || String(scanContext.min_bucket_count || '1'), 10) || 1;
+            const closeWhenClean = String(process.env.CLOSE_WHEN_CLEAN || 'true') === 'true';
+            const forceReopen = String(process.env.FORCE_REOPEN || 'false') === 'true';
+            
+            const markerType = '<!-- gs3-gap:type:consolidated -->';
+            const markerScope = `<!-- gs3-gap:scope:${context.repo.owner}/${context.repo.repo} -->`;
+            const markerRef = `<!-- gs3-gap:branch:${targetBranch} -->`;
+            const markerPaths = `<!-- gs3-gap:paths:${scanPaths} -->`;
+            const markerThreshold = `<!-- gs3-gap:min-severity:${minSeverity} -->`;
+            const markerBuckets = `<!-- gs3-gap:min-bucket-count:${minBucketCount} -->`;
+            
+            const issueTitle = `[GS3] Gap Scan — ${targetBranch} (${minSeverity}+)`;
+            
+            const openIssues = await github.paginate(github.rest.issues.listForRepo, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              per_page: 100,
+            });
+            
+            const closedIssues = forceReopen
+              ? await github.paginate(github.rest.issues.listForRepo, {
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  state: 'closed',
+                  per_page: 100,
+                })
+              : [];
+            
+            const matchesScope = (issue) => {
+              const body = issue.body || '';
+              return body.includes(markerType)
+                && body.includes(markerScope)
+                && body.includes(markerRef)
+                && body.includes(markerPaths)
+                && body.includes(markerThreshold)
+                && body.includes(markerBuckets);
+            };
+            
+            const existingOpen = openIssues.find(matchesScope);
+            const existingClosed = closedIssues.find(matchesScope);
+            
+            const extractSignatures = (body) => {
+              if (!body) return [];
+              const match = body.match(/<!-- gs3-gap:signatures:([\s\S]*?)-->/);
+              if (!match) return [];
+              return match[1]
+                .split(',')
+                .map(x => x.trim())
+                .filter(Boolean);
+            };
+            
+            const previousSignatures = extractSignatures(existingOpen?.body || existingClosed?.body || '');
+            const previousSet = new Set(previousSignatures);
+            const currentSet = new Set(signatures);
+            const newCount = [...currentSet].filter(x => !previousSet.has(x)).length;
+            const resolvedCount = [...previousSet].filter(x => !currentSet.has(x)).length;
+            
+            const runUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const topRows = buckets.slice(0, 50).map(b => {
+              const loc = `${b.file}:${b.line && b.line > 0 ? b.line : 'n/a'}`;
+              return `| ${b.severity} | \`${b.scanner}\` | \`${b.type}\` | \`${loc}\` | ${b.count} | \`${b.subsystem || 'unknown'}\` |`;
+            });
+            
+            const sigLimit = 500;
+            const limitedSignatures = signatures.slice(0, sigLimit);
+            const signatureMarker = `<!-- gs3-gap:signatures:${limitedSignatures.join(',')} -->`;
+            const signatureNote = signatures.length > sigLimit
+              ? `⚠️ Signature list truncated to ${sigLimit}/${signatures.length} entries for issue-body size safety.`
+              : `Signature baseline entries: ${signatures.length}.`;
+            
+            const body = [
+              markerType,
+              markerScope,
+              markerRef,
+              markerPaths,
+              markerThreshold,
+              markerBuckets,
+              signatureMarker,
+              '## GS3 Consolidated Gap Scan',
+              '',
+              `- **Branch:** \`${targetBranch}\``,
+              `- **Paths:** \`${scanPaths}\``,
+              `- **Mode:** \`${scanMode}\``,
+              `- **Threshold:** \`${minSeverity}+\``,
+              '',
+              `- **Actionable findings:** ${process.env.ACTIONABLE_FINDINGS || '0'}`,
+              `- **Actionable buckets:** ${process.env.ACTIONABLE_BUCKETS || '0'} (minimum for issue action: ${minBucketCount})`,
+              `- **New buckets vs previous baseline:** ${newCount}`,
+              `- **Resolved buckets vs previous baseline:** ${resolvedCount}`,
+              '',
+              `- **By severity:** CRITICAL=${bySeverity.CRITICAL || 0}, HIGH=${bySeverity.HIGH || 0}, MEDIUM=${bySeverity.MEDIUM || 0}, LOW=${bySeverity.LOW || 0}`,
+              '',
+              `- **Run:** ${runUrl}`,
+              `- ${signatureNote}`,
+              '',
+              '### Top actionable buckets',
+              '',
+              '| Severity | Scanner | Type | Location | Count | Subsystem |',
+              '|---|---|---|---|---:|---|',
+              ...(topRows.length ? topRows : ['| _none_ | _none_ | _none_ | _none_ | 0 | _none_ |']),
+              '',
+              `_Auto-generated by maintenance-gs3-gaps.yml at ${new Date().toISOString()}_`,
+            ].join('\n');
+            
+            const ensureLabel = async (name, color, description) => {
+              try {
+                await github.rest.issues.getLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  name,
+                });
+              } catch (error) {
+                if (error.status !== 404) throw error;
+                await github.rest.issues.createLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  name,
+                  color,
+                  description,
+                });
+              }
+            };
+            
+            await ensureLabel('quality', '5319E7', 'Quality and maintainability issues');
+            await ensureLabel('scanner/gs3', '1D76DB', 'Gap scanner v3 tracking');
+            await ensureLabel('security', 'B60205', 'Security findings requiring triage');
+            await ensureLabel('status/needs-approval', 'FBCA04', 'Requires explicit maintainer approval');
+            
+            const hasCritical = Number.parseInt(process.env.CRITICAL_COUNT || '0', 10) > 0;
+            const labels = hasCritical
+              ? ['quality', 'scanner/gs3', 'security', 'status/needs-approval']
+              : ['quality', 'scanner/gs3'];
+            
+            const shouldOpenIssue = String(process.env.SHOULD_OPEN_ISSUE || 'false') === 'true';
+            if (shouldOpenIssue) {
+              if (existingOpen) {
+                await github.rest.issues.update({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: existingOpen.number,
+                  title: issueTitle,
+                  body,
+                  labels,
+                });
+                core.notice(`Updated existing GS3 consolidated issue #${existingOpen.number}`);
+              } else if (existingClosed && forceReopen) {
+                await github.rest.issues.update({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: existingClosed.number,
+                  state: 'open',
+                  title: issueTitle,
+                  body,
+                  labels,
+                });
+                core.notice(`Re-opened GS3 consolidated issue #${existingClosed.number}`);
+              } else {
+                const created = await github.rest.issues.create({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  title: issueTitle,
+                  body,
+                  labels,
+                });
+                core.notice(`Created GS3 consolidated issue #${created.data.number}`);
+              }
+              return;
+            }
+            
+            if (existingOpen && closeWhenClean) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existingOpen.number,
+                body: [
+                  '✅ No actionable GS3 bucket remains above threshold.',
+                  '',
+                  `New buckets: ${newCount}, resolved buckets: ${resolvedCount}.`,
+                  `_Auto-closed by maintenance-gs3-gaps.yml at ${new Date().toISOString()}_`,
+                ].join('\n'),
+              });
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existingOpen.number,
+                state: 'closed',
+                state_reason: 'completed',
+              });
+              core.notice(`Closed GS3 consolidated issue #${existingOpen.number}`);
+            } else {
+              core.notice('No issue action required (below threshold and no close action).');
+            }
+
+      - name: Handle scanner execution failure issue
+        if: steps.scan.outputs.scan_failed == 'true'
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
+        env:
+          SCAN_EXIT_CODE: ${{ steps.scan.outputs.scan_exit_code }}
+        with:
+          script: |
+            const markerType = '<!-- gs3-gap:type:scanner-failure -->';
+            const markerScope = `<!-- gs3-gap:scope:${context.repo.owner}/${context.repo.repo} -->`;
+            const markerBranch = `<!-- gs3-gap:branch:${process.env.TARGET_BRANCH || 'develop'} -->`;
+            const title = `[GS3] Scanner execution failure — ${process.env.TARGET_BRANCH || 'develop'}`;
+            const runUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const body = [
+              markerType,
+              markerScope,
+              markerBranch,
+              '## GS3 scanner execution failed',
+              '',
+              `- **Exit code:** ${process.env.SCAN_EXIT_CODE || 'unknown'}`,
+              `- **Branch:** \`${process.env.TARGET_BRANCH || 'develop'}\``,
+              `- **Paths:** \`${process.env.SCAN_PATHS || 'src include tests'}\``,
+              `- **Mode:** \`${process.env.SCAN_MODE || 'fast'}\``,
+              `- **Run:** ${runUrl}`,
+              '',
+              '_Please inspect workflow logs and fix scanner/runtime failures._',
+              `_Auto-generated by maintenance-gs3-gaps.yml at ${new Date().toISOString()}_`,
+            ].join('\n');
+            
+            const issues = await github.paginate(github.rest.issues.listForRepo, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              per_page: 100,
+            });
+            const existing = issues.find(i => {
+              const b = i.body || '';
+              return b.includes(markerType) && b.includes(markerScope) && b.includes(markerBranch);
+            });
+
+            const ensureLabel = async (name, color, description) => {
+              try {
+                await github.rest.issues.getLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  name,
+                });
+              } catch (error) {
+                if (error.status !== 404) throw error;
+                await github.rest.issues.createLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  name,
+                  color,
+                  description,
+                });
+              }
+            };
+
+            await ensureLabel('quality', '5319E7', 'Quality and maintainability issues');
+            await ensureLabel('scanner/gs3', '1D76DB', 'Gap scanner v3 tracking');
+            
+            if (existing) {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existing.number,
+                title,
+                body,
+                labels: ['quality', 'scanner/gs3'],
+              });
+              core.notice(`Updated scanner failure issue #${existing.number}`);
+            } else {
+              const created = await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title,
+                body,
+                labels: ['quality', 'scanner/gs3'],
+              });
+              core.notice(`Created scanner failure issue #${created.data.number}`);
+            }
+
+      - name: Close scanner failure issue on recovery
+        if: steps.scan.outputs.scan_failed != 'true'
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
+        with:
+          script: |
+            const markerType = '<!-- gs3-gap:type:scanner-failure -->';
+            const markerScope = `<!-- gs3-gap:scope:${context.repo.owner}/${context.repo.repo} -->`;
+            const markerBranch = `<!-- gs3-gap:branch:${process.env.TARGET_BRANCH || 'develop'} -->`;
+            const issues = await github.paginate(github.rest.issues.listForRepo, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              per_page: 100,
+            });
+            const existing = issues.find(i => {
+              const b = i.body || '';
+              return b.includes(markerType) && b.includes(markerScope) && b.includes(markerBranch);
+            });
+
+            if (!existing) {
+              core.notice('No open GS3 scanner failure issue found.');
+              return;
+            }
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: existing.number,
+              body: [
+                '✅ GS3 scanner execution recovered in the latest run.',
+                `_Auto-closed by maintenance-gs3-gaps.yml at ${new Date().toISOString()}_`,
+              ].join('\n'),
+            });
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: existing.number,
+              state: 'closed',
+              state_reason: 'completed',
+            });
+            core.notice(`Closed scanner failure issue #${existing.number}`);
+
+      - name: Job summary
+        if: always()
+        run: |
+          {
+            echo "## 🧭 GS3 Gap Triage"
+            echo ""
+            echo "- Trigger: \`${{ github.event_name }}\`"
+            echo "- Branch: \`${TARGET_BRANCH}\`"
+            echo "- Scan paths: \`${SCAN_PATHS}\`"
+            echo "- Scan mode: \`${SCAN_MODE}\`"
+            echo "- Scan failed: \`${{ steps.scan.outputs.scan_failed || 'unknown' }}\`"
+            echo "- Scan exit code: \`${{ steps.scan.outputs.scan_exit_code || 'n/a' }}\`"
+            echo "- Actionable findings: \`${{ steps.consolidate.outputs.actionable_findings || 'n/a' }}\`"
+            echo "- Actionable buckets: \`${{ steps.consolidate.outputs.actionable_buckets || 'n/a' }}\`"
+            echo "- Issue threshold reached: \`${{ steps.consolidate.outputs.should_open_issue || 'n/a' }}\`"
+          } >> "$GITHUB_STEP_SUMMARY"

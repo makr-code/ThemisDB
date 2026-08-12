@@ -150,7 +150,9 @@ regexes = [
   '''(?i)(example|sample|test|demo|placeholder|dummy)''',
   '''12345678''',
   '''00000000-0000-0000-0000-000000000000''',  # UUID placeholder
-  '''xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'''   # UUID placeholder
+  '''xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx''',  # UUID placeholder
+  # ThemisDB Ed25519 BUILD PUBLIC KEY — intentionally hard-coded, not a secret
+  '''11qYAYKxCrfVS/7TyWQHOg7hcvPapiMlrwIaaPcHURo='''
 ]
 
 # Commits to ignore (initial commits, merges, etc.)

@@ -37,6 +37,12 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  # Prevent duplicate workflow_run or dispatch builds for the same ref.
+  # cancel-in-progress: false — Docker build interruption can corrupt layer cache.
+  group: ${{ github.workflow }}-${{ github.run_id }}
+  cancel-in-progress: false
+
 jobs:
   build-and-push:
     name: "Build & Push Docker Image"
