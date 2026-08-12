@@ -19,6 +19,7 @@ namespace themis {
 namespace acceleration {
 
 // CPU fallback implementation for vector operations
+/** @brief CPU fallback implementation for vector operations. */
 class CPUVectorBackend : public IVectorBackend {
 public:
     CPUVectorBackend() = default;
@@ -79,6 +80,7 @@ protected:
 };
 
 // CPU fallback implementation for graph operations
+/** @brief CPU fallback implementation for graph operations. */
 class CPUGraphBackend : public IGraphBackend {
 public:
     CPUGraphBackend() = default;
@@ -128,6 +130,7 @@ public:
 };
 
 // CPU fallback implementation for geo operations
+/** @brief CPU fallback implementation for geo operations. */
 class CPUGeoBackend : public IGeoBackend {
 public:
     CPUGeoBackend() = default;
@@ -184,6 +187,7 @@ protected:
 
 // CPU fallback implementation for FP16/BF16 matrix operations.
 // On CPU all precisions are executed as FP32.
+/** @brief On CPU all precisions are executed as FP32. */
 class CPUMatrixBackend : public IMatrixBackend {
 public:
     CPUMatrixBackend() = default;

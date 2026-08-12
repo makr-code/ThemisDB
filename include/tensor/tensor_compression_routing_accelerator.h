@@ -24,6 +24,7 @@ struct TensorAccelerationStats {
  * Declares TensorCompressionRoutingAccelerator, which selects the
  * optimal compression backend (CPU, CUDA, AVX-512) at runtime.
  */
+/** @brief Tensor compression routing accelerator. */
 class TensorCompressionRoutingAccelerator {
 public:
     TensorCompressionRoutingAccelerator() = default;

@@ -47,6 +47,7 @@ struct CosignVerifyReport {
     std::vector<std::string> warnings;
 };
 
+/** @brief I oci manifest verifier. */
 class IOciManifestVerifier {
 public:
     virtual ~IOciManifestVerifier() = default;

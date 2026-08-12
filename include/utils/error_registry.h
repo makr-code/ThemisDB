@@ -396,6 +396,7 @@ struct ErrorMetadata {
     json toJSON() const;
 };
 
+/** @brief Error registry for. */
 class ErrorRegistry {
 public:
     static ErrorRegistry& getInstance();

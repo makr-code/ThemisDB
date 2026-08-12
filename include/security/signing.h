@@ -29,6 +29,7 @@ struct SigningResult {
     std::string error;     // Empty if successful, error message otherwise
 };
 
+/** @brief Signing service component. */
 class SigningService {
 public:
     virtual ~SigningService() = default;

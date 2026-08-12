@@ -41,6 +41,7 @@ struct SafetyCountersSnapshot {
     std::uint64_t blocked = 0;
 };
 
+/** @brief Safety monitoring. */
 class SafetyMonitoring {
 public:
     using ExporterSink = std::function<void(const SafetyEvent&)>;

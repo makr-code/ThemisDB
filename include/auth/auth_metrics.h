@@ -30,10 +30,15 @@
 #else
 // Provide stub types when Prometheus is not available
 namespace prometheus {
+    /** @brief Registry for. */
     class Registry {};
+    /** @brief Family. */
     template<typename T> class Family {};
+    /** @brief Counter. */
     class Counter { public: void Increment(double = 1.0) {} };
+    /** @brief Gauge. */
     class Gauge { public: void Set(double) {} void Increment(double = 1.0) {} void Decrement(double = 1.0) {} };
+    /** @brief Histogram. */
     class Histogram { public: void Observe(double) {} };
 }
 #endif

@@ -19,6 +19,7 @@
 
 namespace themis::aql {
 
+/** @brief Implementation detail. */
 class LLMValidationPipeline::Impl {
 public:
     std::shared_ptr<query::AQLParserService> parser_service;

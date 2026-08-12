@@ -930,6 +930,7 @@ bool VulkanVectorIndexBackend::isInitialized() const {
 namespace themis {
 namespace index {
 
+/** @brief Implementation detail. */
 class VulkanVectorIndexBackend::Impl {
 public:
     explicit Impl(const GPUVectorIndex::Config&) {}

@@ -69,6 +69,7 @@ public:
     // ------------------------------------------------------------------
     // Model transformers
     // ------------------------------------------------------------------
+    /** @brief Model transformers. */
     class ModelTransformer {
     public:
         /**

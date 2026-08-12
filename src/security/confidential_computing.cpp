@@ -326,6 +326,7 @@ std::vector<uint8_t> aes256gcm_decrypt(
 
 // ── Base implementation shared by all concrete classes ────────────────────────
 
+/** @brief ── Base implementation shared by all concrete classes ────────────────────────. */
 class ConfidentialComputingBase : public ConfidentialComputing {
 public:
     // Each subclass owns a 32-byte sealing key generated at construction.
@@ -379,6 +380,7 @@ protected:
 
 // ── Intel TDX implementation ──────────────────────────────────────────────────
 
+/** @brief ── Intel TDX implementation ──────────────────────────────────────────────────. */
 class TdxConfidentialComputing final : public ConfidentialComputingBase {
 public:
     TdxConfidentialComputing() : ConfidentialComputingBase(TeeType::INTEL_TDX) {}
@@ -462,6 +464,7 @@ protected:
 
 // ── AMD SEV / SEV-SNP implementation ─────────────────────────────────────────
 
+/** @brief ── AMD SEV / SEV-SNP implementation ─────────────────────────────────────────. */
 class SevConfidentialComputing final : public ConfidentialComputingBase {
 public:
     explicit SevConfidentialComputing(TeeType type)
@@ -562,6 +565,7 @@ protected:
 
 // ── Software fallback (no TEE) ────────────────────────────────────────────────
 
+/** @brief ── Software fallback (no TEE) ────────────────────────────────────────────────. */
 class SoftwareConfidentialComputing final : public ConfidentialComputingBase {
 public:
     SoftwareConfidentialComputing() : ConfidentialComputingBase(TeeType::NONE) {}

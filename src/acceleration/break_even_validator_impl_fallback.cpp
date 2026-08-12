@@ -14,6 +14,7 @@
 namespace themis {
 namespace acceleration {
 
+/** @brief Bev implementation detail. */
 class BEVImpl {
 public:
     BEVImpl() {

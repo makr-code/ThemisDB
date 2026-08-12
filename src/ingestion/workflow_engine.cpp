@@ -140,6 +140,7 @@ bool FilePattern::matches(const std::string& mime,
 // StepRegistry::Impl
 // ─────────────────────────────────────────────────────────────────────────────
 
+/** @brief StepRegistry::Impl. */
 class StepRegistry::Impl {
 public:
     struct Entry {
@@ -497,6 +498,7 @@ WorkflowProfile parseProfileFromYaml(const YAML::Node& root,
 // WorkflowEngine::Impl
 // ─────────────────────────────────────────────────────────────────────────────
 
+/** @brief WorkflowEngine::Impl. */
 class WorkflowEngine::Impl {
 public:
     mutable std::shared_mutex profiles_mutex_;

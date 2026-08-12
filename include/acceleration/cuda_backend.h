@@ -275,6 +275,7 @@ private:
 
 // CUDA backend for GPU acceleration (NVIDIA)
 // Uses RAII wrappers for automatic resource management and exception safety
+/** @brief Uses RAII wrappers for automatic resource management and exception safety. */
 class CUDAVectorBackend : public IVectorBackend {
 public:
     CUDAVectorBackend() = default;
@@ -426,6 +427,7 @@ private:
 #endif
 };
 
+/** @brief Cuda graph backend implementation. */
 class CUDAGraphBackend : public IGraphBackend {
 public:
     CUDAGraphBackend() = default;
@@ -469,6 +471,7 @@ private:
 #endif
 };
 
+/** @brief Cuda geo backend implementation. */
 class CUDAGeoBackend : public IGeoBackend {
 public:
     CUDAGeoBackend() = default;
@@ -516,6 +519,7 @@ private:
 // Uses cuBLAS cublasHgemm (FP16) and cublasGemmEx (BF16) which automatically
 // engage Tensor Core units on SM 7.0+ (FP16) and SM 8.0+ (BF16) hardware.
 // Falls back to returning an error when CUDA is not available.
+/** @brief Falls back to returning an error when CUDA is not available. */
 class CUDAMatrixBackend : public IMatrixBackend {
 public:
     CUDAMatrixBackend() = default;

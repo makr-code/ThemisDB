@@ -209,6 +209,7 @@ private:
 
 // ─── TemporalConflictResolver ────────────────────────────────────────────────
 
+/** @brief ─── TemporalConflictResolver ────────────────────────────────────────────────. */
 class TemporalConflictResolver {
 public:
     explicit TemporalConflictResolver(ConflictPolicy default_policy = ConflictPolicy::LAST_WRITE_WINS);

@@ -86,6 +86,7 @@ public:
         double estimated_io_ops{0.0};
     };
 
+    /** @brief Performance predictor. */
     class PerformancePredictor {
     public:
         /**

@@ -88,6 +88,7 @@ struct TTSCustomizerConfig {
 };
 
 // VoiceTTSCustomizer: Phase 2 production component
+/** @brief VoiceTTSCustomizer: Phase 2 production component. */
 class VoiceTTSCustomizer {
 public:
     explicit VoiceTTSCustomizer(const TTSCustomizerConfig& config = {});

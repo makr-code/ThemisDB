@@ -298,6 +298,7 @@ private:
 };
 
 // Factory for creating deployment managers
+/** @brief Factory for creating deployment managers. */
 class AdapterDeploymentManagerFactory {
 public:
     static std::unique_ptr<AdapterDeploymentManager> create(

@@ -101,6 +101,7 @@ struct ConsensusLogEntry {
  * - Log replication: < 50ms P95 for quorum commit
  * - Consensus round-trip: < 100ms P95 (GATE-CONS-01)
  */
+/** @brief Federation consensus manager implementation detail. */
 class FederationConsensusManagerImpl {
  public:
   /**

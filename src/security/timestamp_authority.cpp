@@ -97,6 +97,7 @@ static TimestampToken makeProductionError() {
 // @note This Impl is the PERMANENT no-TSA fallback; the real Impl (with CURL* and
 //       OpenSSL TS context) lives in timestamp_authority_openssl.cpp and activates
 //       when `-DTHEMIS_USE_OPENSSL_TSA=ON` is set (Wave-2 CMake guard).
+/** @brief when `-DTHEMIS_USE_OPENSSL_TSA=ON` is set (Wave-2 CMake guard). */
 class TimestampAuthority::Impl {
 public:
     mutable std::mutex state_mutex;

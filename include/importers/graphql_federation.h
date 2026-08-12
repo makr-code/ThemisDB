@@ -33,6 +33,7 @@ public:
     // ------------------------------------------------------------------
     // Schema generator
     // ------------------------------------------------------------------
+    /** @brief Schema generator. */
     class GraphQLSchemaGenerator {
     public:
         /**

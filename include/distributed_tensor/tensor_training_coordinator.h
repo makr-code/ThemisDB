@@ -52,6 +52,7 @@ struct TensorTrainingJobResult {
     std::string error_message;
 };
 
+/** @brief I tensor training worker component. */
 class ITensorTrainingWorker {
 public:
     virtual ~ITensorTrainingWorker() = default;

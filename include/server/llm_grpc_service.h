@@ -23,6 +23,7 @@ namespace themis::server {
 
 // gRPC service implementation for LLM operations
 // Provides high-performance binary protocol access to all LLM capabilities
+/** @brief Provides high-performance binary protocol access to all LLM capabilities. */
 class LLMGrpcService final : public llm::LLMService::Service {
 public:
     explicit LLMGrpcService(std::shared_ptr<llm::LLMPluginManager> plugin_manager);

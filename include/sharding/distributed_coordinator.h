@@ -23,6 +23,7 @@
 
 namespace themis::sharding {
 
+/** @brief Distributed coordinator component. */
 class DistributedCoordinator {
 public:
     /** @brief Runtime role of this node in distributed coordination. */

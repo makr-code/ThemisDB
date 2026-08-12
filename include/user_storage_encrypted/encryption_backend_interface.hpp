@@ -68,6 +68,7 @@ private:
 
 // Specialization for void
 template<>
+/** @brief Result< void >. */
 class Result<void> {
 public:
     Result() : success_(true) {}

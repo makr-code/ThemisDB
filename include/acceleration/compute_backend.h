@@ -1042,6 +1042,7 @@ private:
 class PluginLoader;
 
 // Backend registry for managing different acceleration backends
+/** @brief Backend registry for managing different acceleration backends. */
 class BackendRegistry {
 public:
     static BackendRegistry& instance();

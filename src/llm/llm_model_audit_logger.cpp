@@ -83,6 +83,7 @@ static std::string nowISO8601() {
 // Pimpl — production implementation
 // ---------------------------------------------------------------------------
 
+/** @brief Pimpl — production implementation. */
 class LLMModelAuditLogger::Impl {
 public:
     explicit Impl(utils::AuditLoggerConfig cfg) : config(std::move(cfg)) {

@@ -19,6 +19,7 @@ namespace themis {
 namespace geo {
 
 // Extension interface for providing additional ST_* operations via plugins
+/** @brief Extension interface for providing additional ST_* operations via plugins. */
 class IGeoOpsExtension {
 public:
     virtual ~IGeoOpsExtension() = default;

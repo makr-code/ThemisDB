@@ -66,6 +66,7 @@ public:
     // ------------------------------------------------------------------
     // Point-in-time query builder
     // ------------------------------------------------------------------
+    /** @brief Point-in-time query builder. */
     class TemporalQueryBuilder {
     public:
         /**

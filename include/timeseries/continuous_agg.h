@@ -186,6 +186,7 @@ private:
     static constexpr const char* WM_KEY_PREFIX = "wm:cagg:";
 };
 
+/** @brief Continuous aggregate manager component. */
 class ContinuousAggregateManager {
 public:
     explicit ContinuousAggregateManager(TSStore* store) : store_(store) {}

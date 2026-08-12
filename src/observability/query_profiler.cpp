@@ -137,6 +137,7 @@ std::string QueryProfile::toSummary() const {
 }
 
 // QueryProfiler::Impl
+/** @brief QueryProfiler::Impl. */
 class QueryProfiler::Impl {
 public:
     QueryProfilerConfig config;

@@ -257,6 +257,7 @@ public:
 // Removal Plan: Remove bridge once THEMIS_ENABLE_ONEAPI is standard in all envs.
 
 // Stub implementation when OneAPI is not available
+/** @brief Stub implementation when OneAPI is not available. */
 class OneAPIVectorBackend : public IVectorBackend {
 public:
     // Injectable bridge type for the non-OneAPI stub path.

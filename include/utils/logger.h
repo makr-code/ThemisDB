@@ -77,6 +77,7 @@ struct LogMetrics {
     }
 };
 
+/** @brief Logger. */
 class THEMIS_BASE_API Logger {
 public:
     enum class Level { TRACE, DEBUG, INFO, WARN, ERROR, CRITICAL };

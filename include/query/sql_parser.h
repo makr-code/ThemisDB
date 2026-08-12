@@ -180,6 +180,7 @@ struct SQLParseError {
 // with a mutex (same constraint as AQLParser).
 // ============================================================================
 
+/** @brief with a mutex (same constraint as AQLParser). */
 class SQLParser {
 public:
     SQLParser() = default;
@@ -214,6 +215,7 @@ private:
 // through the existing AQL pipeline (executeAql / AQLParser / AQLTranslator).
 // ============================================================================
 
+/** @brief through the existing AQL pipeline (executeAql / AQLParser / AQLTranslator). */
 class SQLToAQLTranspiler {
 public:
     SQLToAQLTranspiler() = default;

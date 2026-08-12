@@ -74,6 +74,7 @@ struct ExpertSystemEngineConfig {
 // ──────────────────────────────────────────────────────────────────────────────
 // ExpertSystemEngine
 // ──────────────────────────────────────────────────────────────────────────────
+/** @brief ExpertSystemEngine. */
 class ExpertSystemEngine {
 public:
     using Config   = ExpertSystemEngineConfig;

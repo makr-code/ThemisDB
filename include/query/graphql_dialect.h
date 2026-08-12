@@ -42,6 +42,7 @@ struct GraphQLResult {
     bool has_errors() const { return !errors.empty(); }
 };
 
+/** @brief I graph ql dialect. */
 class IGraphQLDialect {
 public:
     virtual ~IGraphQLDialect() = default;

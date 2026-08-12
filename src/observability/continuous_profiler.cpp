@@ -228,6 +228,7 @@ json ProfileDiff::toJSON() const {
 // ContinuousProfiler::Impl
 // ---------------------------------------------------------------------------
 
+/** @brief ContinuousProfiler::Impl. */
 class ContinuousProfiler::Impl {
 public:
     explicit Impl(const ContinuousProfilerConfig& config)

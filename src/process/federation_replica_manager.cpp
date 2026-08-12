@@ -73,6 +73,7 @@ namespace process {
  * - Consistency check: < 50ms per batch (gate GATE-REP-03)
  * - Follower catch-up: < 5s for 10k entries (gate GATE-REP-04)
  */
+/** @brief Federation replica manager implementation detail. */
 class FederationReplicaManagerImpl {
  public:
   /**

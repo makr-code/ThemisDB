@@ -426,6 +426,7 @@ public:
     }
 };
 
+/** @brief Is bool query function. */
 class IsBoolFunction : public IFunction {
 public:
     ~IsBoolFunction() override = default;
@@ -447,6 +448,7 @@ public:
     }
 };
 
+/** @brief Is number query function. */
 class IsNumberFunction : public IFunction {
 public:
     ~IsNumberFunction() override = default;
@@ -468,6 +470,7 @@ public:
     }
 };
 
+/** @brief Is string query function. */
 class IsStringFunction : public IFunction {
 public:
     ~IsStringFunction() override = default;
@@ -489,6 +492,7 @@ public:
     }
 };
 
+/** @brief Is array query function. */
 class IsArrayFunction : public IFunction {
 public:
     ~IsArrayFunction() override = default;
@@ -510,6 +514,7 @@ public:
     }
 };
 
+/** @brief Is object query function. */
 class IsObjectFunction : public IFunction {
 public:
     ~IsObjectFunction() override = default;
@@ -555,6 +560,7 @@ public:
     }
 };
 
+/** @brief To string query function. */
 class ToStringFunction : public IFunction {
 public:
     ~ToStringFunction() override = default;
@@ -576,6 +582,7 @@ public:
     }
 };
 
+/** @brief To bool query function. */
 class ToBoolFunction : public IFunction {
 public:
     ~ToBoolFunction() override = default;
@@ -597,6 +604,7 @@ public:
     }
 };
 
+/** @brief To array query function. */
 class ToArrayFunction : public IFunction {
 public:
     ~ToArrayFunction() override = default;

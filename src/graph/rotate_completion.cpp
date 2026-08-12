@@ -47,6 +47,7 @@ constexpr float kPi = std::numbers::pi_v<float>;
 // RotatEModel::Impl — private implementation
 // ============================================================================
 
+/** @brief RotatEModel::Impl — private implementation. */
 class RotatEModel::Impl {
 public:
     explicit Impl(RotatEConfig cfg) : cfg_(std::move(cfg)) {}

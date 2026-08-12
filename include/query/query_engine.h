@@ -325,6 +325,7 @@ struct DisjunctiveQuery {
 
 using GraphIndexManager = ::themis::GraphIndexManager;
 
+/** @brief Query engine component. */
 class QueryEngine {
 public:
     // DEPRECATED: Legacy Status struct - use Result<T> instead
@@ -858,6 +859,7 @@ private:
     
     // Internal expression evaluator that wraps QueryEngine's evaluation logic
     // This is returned by get_expression_evaluator() to break circular dependencies
+    /** @brief This is returned by get_expression_evaluator() to break circular dependencies. */
     class QueryExpressionEvaluator : public IExpressionEvaluator {
     public:
     ~QueryExpressionEvaluator() override = default;

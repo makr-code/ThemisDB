@@ -300,6 +300,7 @@ size_t bestSnippetOffset(const std::string& lower,
 // ============================================================================
 
 // FULLTEXT - Full-text search with BM25 scoring
+/** @brief FULLTEXT - Full-text search with BM25 scoring. */
 class FulltextFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
@@ -360,6 +361,7 @@ public:
 };
 
 // PHRASE - Exact phrase matching
+/** @brief PHRASE - Exact phrase matching. */
 class PhraseFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
@@ -419,6 +421,7 @@ public:
 };
 
 // FUZZY - Fuzzy matching with Levenshtein distance
+/** @brief FUZZY - Fuzzy matching with Levenshtein distance. */
 class FuzzyFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
@@ -496,6 +499,7 @@ public:
 // Example:
 //   HIGHLIGHT("Machine Learning is great", "machine learning")
 //   → "<em>Machine</em> <em>Learning</em> is great"
+/** @brief → "<em>Machine</em> <em>Learning</em> is great". */
 class HighlightFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
@@ -556,6 +560,7 @@ public:
 // Example:
 //   FULLTEXT_SNIPPET("...long document...", "neural networks", {windowSize:100})
 //   → "...activating <em>neural</em> <em>networks</em> for training..."
+/** @brief → "...activating <em>neural</em> <em>networks</em> for training...". */
 class FulltextSnippetFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
@@ -630,6 +635,7 @@ public:
 };
 
 // NGRAM_MATCH - N-gram based similarity matching
+/** @brief NGRAM_MATCH - N-gram based similarity matching. */
 class NgramMatchFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
@@ -684,6 +690,7 @@ public:
 };
 
 // TOKENS - Tokenize text
+/** @brief TOKENS - Tokenize text. */
 class TokensFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
@@ -717,6 +724,7 @@ public:
 };
 
 // SOUNDEX - Phonetic encoding
+/** @brief SOUNDEX - Phonetic encoding. */
 class SoundexFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
@@ -746,6 +754,7 @@ public:
 };
 
 // METAPHONE - Phonetic encoding
+/** @brief METAPHONE - Phonetic encoding. */
 class MetaphoneFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
@@ -778,6 +787,7 @@ public:
 };
 
 // DOUBLE_METAPHONE - Enhanced phonetic encoding
+/** @brief DOUBLE_METAPHONE - Enhanced phonetic encoding. */
 class DoubleMetaphoneFunction : public IFunction {
 public:
     FunctionSignature signature() const override {

@@ -42,6 +42,7 @@ std::mutex g_core_grpc_instance_mutex;
 ThemisCoreServiceImpl::ServiceInstanceFn g_core_grpc_instance_fn;
 } // namespace
 
+/** @brief Implementation detail. */
 class ThemisCoreServiceImpl::Impl {
 public:
 #if THEMIS_HAS_CORE_GRPC

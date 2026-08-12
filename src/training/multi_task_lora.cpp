@@ -26,6 +26,7 @@ namespace training {
 // Impl
 // ============================================================================
 
+/** @brief Impl. */
 class MultiTaskLoRATrainer::Impl {
 public:
     explicit Impl(MultiTaskLoRAConfig cfg) : cfg_(std::move(cfg)) {}

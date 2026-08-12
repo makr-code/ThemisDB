@@ -54,6 +54,7 @@ void InitGPULogger() {
 // GPUErrorHandler Implementation
 // ============================================================================
 
+/** @brief GPUErrorHandler Implementation. */
 class GPUErrorHandlerImpl : public GPUErrorHandler {
  public:
   GPUErrorHandlerImpl() = default;

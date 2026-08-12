@@ -42,6 +42,7 @@ struct ViewRefreshStats {
     bool is_stale = false;
 };
 
+/** @brief I incremental view maintainer. */
 class IIncrementalViewMaintainer {
 public:
     virtual ~IIncrementalViewMaintainer() = default;

@@ -26,6 +26,7 @@
 
 namespace themis {
 
+/** @brief Streaming ingest manager component. */
 class StreamingIngestManager {
 public:
     // ── Event type ────────────────────────────────────────────────────────

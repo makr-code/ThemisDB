@@ -160,10 +160,10 @@ workflow_scope_map:
 # ── Quality gate tuning ─────────────────────────────────────────────────────
 # Maintainer knob for Doxygen XML coverage threshold used by
 # .github/workflows/quality-static-analysis.yml (doxygen-coverage job).
-# Increase gradually (recommended): 85 -> 88 -> 90 -> 92 -> 95.
-# Adjusted from 90 to 85 to match current measured coverage (87.7%).
+# Increase gradually (recommended): 95 -> 97 -> 99.
+# Raised to 95 after @brief coverage improvement (Classes: 99.9%, 2026-08-12).
 quality_gates:
-  docs_coverage_threshold: 85
+  docs_coverage_threshold: 95
 
   # ── Artifact retention policy ───────────────────────────────────────────
   # Canonical retention-days values for upload-artifact steps across all

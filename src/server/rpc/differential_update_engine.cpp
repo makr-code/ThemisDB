@@ -22,6 +22,7 @@ namespace themis {
 namespace rpc {
 
 // Rabin fingerprinting for Content-Defined Chunking
+/** @brief Rabin fingerprinting for Content-Defined Chunking. */
 class RabinFingerprint {
 public:
     RabinFingerprint() : window_size_(48), avg_chunk_size_(64 * 1024) {}
@@ -53,6 +54,7 @@ private:
 };
 
 // Implementation class
+/** @brief Implementation class. */
 class DifferentialUpdateEngine::Impl {
 public:
     Impl() : rabin_(std::make_unique<RabinFingerprint>()) {}

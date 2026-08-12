@@ -25,6 +25,7 @@ namespace themis {
 namespace acceleration {
 
 // DirectX 12 Compute Shaders backend (Windows only)
+/** @brief DirectX 12 Compute Shaders backend (Windows only). */
 class DirectXVectorBackend : public IVectorBackend {
 public:
     using AvailabilityFn = std::function<bool()>;
@@ -139,6 +140,7 @@ private:
 };
 
 // Vulkan Compute backend (cross-platform)
+/** @brief Vulkan Compute backend (cross-platform). */
 class VulkanVectorBackend : public IVectorBackend {
 public:
     using AvailabilityFn = std::function<bool()>;
@@ -295,6 +297,7 @@ private:
 // Implements the IGeoBackend interface using Vulkan compute shaders for
 // Haversine distance and point-in-polygon operations, providing the same
 // geospatial compute capabilities as the CUDA geo backend.
+/** @brief geospatial compute capabilities as the CUDA geo backend. */
 class VulkanGeoBackend : public IGeoBackend {
 public:
     VulkanGeoBackend();
@@ -337,6 +340,7 @@ private:
 // supportsAsync = false: all compute dispatch calls (computeDistances,
 // batchKnnSearch) are fully synchronous — glMemoryBarrier + readback happen
 // on the calling thread before the function returns.
+/** @brief on the calling thread before the function returns. */
 class OpenGLVectorBackend : public IVectorBackend {
 public:
     using AvailabilityFn = std::function<bool()>;
@@ -459,6 +463,7 @@ private:
 //
 // supportsAsync = false: all dispatch is synchronous (glMemoryBarrier + readback
 // on the calling thread).
+/** @brief on the calling thread). */
 class OpenGLGeoBackend : public IGeoBackend {
 public:
     OpenGLGeoBackend();
@@ -503,6 +508,7 @@ private:
 // Falls back to CPU implementations when no EGL/OpenGL 4.3 driver is present.
 //
 // supportsAsync = false: all dispatch is synchronous.
+/** @brief supportsAsync = false: all dispatch is synchronous. */
 class OpenGLGraphBackend : public IGraphBackend {
 public:
     OpenGLGraphBackend();

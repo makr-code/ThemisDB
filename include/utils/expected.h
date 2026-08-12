@@ -28,6 +28,7 @@
 namespace tl {
 
 template<typename E>
+/** @brief Unexpected. */
 class unexpected {
 public:
     using error_type = E;
@@ -50,6 +51,7 @@ template<typename E>
 unexpected(E) -> unexpected<E>;
 
 template<typename T, typename E>
+/** @brief Expected. */
 class expected {
 public:
     using value_type = T;
@@ -152,6 +154,7 @@ private:
 };
 
 template<typename E>
+/** @brief Expected< void, e >. */
 class expected<void, E> {
 public:
     using value_type = void;

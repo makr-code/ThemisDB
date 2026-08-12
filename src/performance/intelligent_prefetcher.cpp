@@ -89,6 +89,7 @@ constexpr size_t MAX_PENDING_PREDICTIONS = 4096;
 
 // ─── Impl class ───────────────────────────────────────────────────────────────
 
+/** @brief ─── Impl class ───────────────────────────────────────────────────────────────. */
 class IntelligentPrefetcher::Impl {
 public:
     struct AccessEntry {

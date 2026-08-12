@@ -92,6 +92,7 @@ public:
                                 VectorIndexManager& vecIdx);
     ~TransactionManager();
 
+    /** @brief Transaction object. */
     class Transaction {
     public:
         Transaction(TransactionId id,

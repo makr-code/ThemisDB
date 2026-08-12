@@ -365,6 +365,7 @@ static size_t webCrawlerWriteCallback(char* ptr, size_t size, size_t nmemb, void
 // Pimpl
 // ---------------------------------------------------------------------------
 
+/** @brief Pimpl. */
 class WebCrawlerConnector::Impl {
 public:
     Impl() = default;

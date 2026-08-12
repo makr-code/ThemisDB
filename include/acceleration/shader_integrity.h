@@ -38,6 +38,7 @@
 namespace themis {
 namespace acceleration {
 
+/** @brief Shader integrity verifier. */
 class ShaderIntegrityVerifier {
 public:
     // -------------------------------------------------------------------------

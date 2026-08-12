@@ -21,6 +21,7 @@
 namespace themis {
 namespace utils {
 
+/** @brief Validator for input. */
 class InputValidator {
 public:
     // Default constructor: no schema directory (schema validation skipped).

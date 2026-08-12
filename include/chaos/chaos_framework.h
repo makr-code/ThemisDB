@@ -72,6 +72,7 @@ struct ActiveFault {
 // and integration tests where the SUT queries isFaultActive() before performing
 // cluster operations.
 
+/** @brief cluster operations. */
 class FaultInjector {
 public:
     using EventCallback = std::function<void(const FaultSpec&, bool /*injected*/)>;
@@ -158,6 +159,7 @@ struct ChaosSchedulerConfig {
 // Time-driven fault scheduler: fires scheduled faults in a background thread.
 // Designed to compose with FaultInjector for orchestrated chaos scenarios.
 
+/** @brief Designed to compose with FaultInjector for orchestrated chaos scenarios. */
 class ChaosScheduler {
 public:
     /// Convenience alias so callers can write ChaosScheduler::Config.

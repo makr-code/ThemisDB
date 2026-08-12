@@ -113,6 +113,7 @@ struct SparseVectorCSR {
     }
 };
 
+/** @brief Sparse vector codec component. */
 class SparseVectorCodec {
 public:
     // Compress vector to sparse CSR format
@@ -171,6 +172,7 @@ public:
 // Compression ratio: 3-10x
 // Quality: 100% lossless
 
+/** @brief Quality: 100% lossless. */
 class VarIntCodec {
 public:
     // Zigzag encoding for signed integers
@@ -269,6 +271,7 @@ struct DictionaryCompressed {
 };
 
 template<typename T>
+/** @brief Dictionary codec component. */
 class DictionaryCodec {
 public:
     static DictionaryCompressed<T> compress(const std::vector<T>& vec) {
@@ -315,6 +318,7 @@ enum class LosslessCompressionMethod {
     DICTIONARY      // For categorical features
 };
 
+/** @brief Adaptive compressor component. */
 class AdaptiveCompressor {
 public:
     // Analyze vector and select optimal lossless compression method

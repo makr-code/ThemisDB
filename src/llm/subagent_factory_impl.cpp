@@ -334,6 +334,7 @@ private:
 // § 2  SubagentFactory Implementation
 // ============================================================================
 
+/** @brief § 2  SubagentFactory Implementation. */
 class SubagentFactoryImpl : public SubagentFactory {
 public:
     SubagentFactoryImpl(

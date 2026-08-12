@@ -27,6 +27,7 @@ namespace themis::llm {
 // ============================================================================
 // GPUMemoryGuard: RAII wrapper for GPU memory allocation
 // ============================================================================
+/** @brief GPUMemoryGuard: RAII wrapper for GPU memory allocation. */
 class GPUMemoryGuard {
  public:
   using Deleter = std::function<void(void*)>;
@@ -106,6 +107,7 @@ class GPUMemoryGuard {
 // ============================================================================
 // DBConnectionGuard: RAII wrapper for database connections
 // ============================================================================
+/** @brief DBConnectionGuard: RAII wrapper for database connections. */
 class DBConnectionGuard {
  public:
   using Releaser = std::function<void()>;
@@ -177,6 +179,7 @@ class DBConnectionGuard {
 // ============================================================================
 // ScopedLockGuard: Manages lock ordering to prevent deadlocks
 // ============================================================================
+/** @brief ScopedLockGuard: Manages lock ordering to prevent deadlocks. */
 class ScopedLockGuard {
  public:
   using LockFunc = std::function<void()>;
@@ -233,6 +236,7 @@ class ScopedLockGuard {
 // VectorRAII: Automatic vector growth allocation
 // ============================================================================
 template <typename T>
+/** @brief Vector raii. */
 class VectorRAII {
  public:
   /**
@@ -284,6 +288,7 @@ class VectorRAII {
 // ExceptionSafeDeleter: Safe pointer deletion with nullptr setting
 // ============================================================================
 template <typename T>
+/** @brief Exception safe deleter. */
 class ExceptionSafeDeleter {
  public:
   /**
@@ -319,6 +324,7 @@ class ExceptionSafeDeleter {
 // ManagedResource: Template for RAII resource management
 // ============================================================================
 template <typename Resource, typename Deleter>
+/** @brief Managed resource. */
 class ManagedResource {
  public:
   using value_type = Resource;
@@ -400,6 +406,7 @@ class ManagedResource {
 // ============================================================================
 // QuotaGuard: RAII wrapper for quota management (token, batch count, etc.)
 // ============================================================================
+/** @brief QuotaGuard: RAII wrapper for quota management (token, batch count, etc.). */
 class QuotaGuard {
  public:
   using ReleaseFunc = std::function<void(size_t)>;
@@ -455,6 +462,7 @@ class QuotaGuard {
 // ============================================================================
 // BatchGuard: RAII wrapper for batch resource management
 // ============================================================================
+/** @brief BatchGuard: RAII wrapper for batch resource management. */
 class BatchGuard {
  public:
   using BatchReleaser = std::function<void()>;
@@ -510,6 +518,7 @@ class BatchGuard {
 // ============================================================================
 // ThreadSafeCounter: Atomic counter with RAII semantics
 // ============================================================================
+/** @brief ThreadSafeCounter: Atomic counter with RAII semantics. */
 class ThreadSafeCounter {
  public:
   /**

@@ -67,6 +67,7 @@ private:
  */
 class NoOpTracer : public ITracer {
 public:
+    /** @brief No op span. */
     class NoOpSpan : public ISpan {
     public:
         void setAttribute(const std::string& key, const std::string& value) override {}

@@ -44,11 +44,14 @@
     //   GPU path additionally requires -DTHEMIS_HAS_FAISS_GPU=ON.
     // Roadmap ref: src/index/FUTURE_ENHANCEMENTS.md § "FAISS Integration (v1.5.0)"
     namespace faiss {
+        /** @brief Index structure. */
         class Index {
         public:
             virtual ~Index() = default;
         };
+        /** @brief Index ivfpq. */
         class IndexIVFPQ : public Index {};
+        /** @brief Index ivf flat. */
         class IndexIVFFlat : public Index {};
     }
 #endif

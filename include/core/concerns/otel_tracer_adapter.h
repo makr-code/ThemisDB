@@ -54,6 +54,7 @@ public:
     /// Construct with default circuit-breaker settings.
     OpenTelemetryTracerAdapter() : OpenTelemetryTracerAdapter(CircuitBreakerConfig{}) {}
 
+    /** @brief Otel span adapter component. */
     class OtelSpanAdapter : public ISpan {
     public:
         explicit OtelSpanAdapter(themis::Tracer::Span span)

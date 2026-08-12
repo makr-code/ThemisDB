@@ -183,6 +183,7 @@ public:
     // ------------------------------------------------------------------
     // Immutable audit log (Merkle-chained, Phase 2 T2.3.3 extended)
     // ------------------------------------------------------------------
+    /** @brief Immutable audit log (Merkle-chained, Phase 2 T2.3.3 extended). */
     class ImmutableAuditLog {
     public:
         /** @brief Append an event to the chain. Thread-safe. */

@@ -77,6 +77,7 @@ struct LoRAPatternClassifierConfig {
 // LoRAPatternClassifier
 // ──────────────────────────────────────────────────────────────────────────────
 
+/** @brief LoRAPatternClassifier. */
 class LoRAPatternClassifier {
 public:
     using Config      = LoRAPatternClassifierConfig;

@@ -28,6 +28,7 @@ class SchemaManager;
 
 namespace prompt_engineering {
 
+/** @brief Prompt manager component. */
 class PromptManager {
 public:
     /// @brief Describes a single image attached to a multi-modal prompt.

@@ -131,6 +131,7 @@ struct GremlinParseError {
 // with a mutex.
 // ============================================================================
 
+/** @brief with a mutex. */
 class GremlinParser {
 public:
     GremlinParser() = default;
@@ -160,6 +161,7 @@ private:
 // through the existing AQL pipeline (executeAql / AQLParser / AQLTranslator).
 // ============================================================================
 
+/** @brief through the existing AQL pipeline (executeAql / AQLParser / AQLTranslator). */
 class GremlinToAQLTranspiler {
 public:
     GremlinToAQLTranspiler() = default;

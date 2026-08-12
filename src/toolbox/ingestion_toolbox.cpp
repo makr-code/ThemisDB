@@ -27,6 +27,7 @@ namespace toolbox {
 // Impl — private implementation
 // ─────────────────────────────────────────────────────────────────────────────
 
+/** @brief Impl — private implementation. */
 class IngestionToolbox::Impl {
 public:
     Impl()

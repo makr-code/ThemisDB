@@ -19,6 +19,7 @@ namespace themis {
 namespace content {
 
 // Mock CLIP-like image processor for deterministic embeddings used in tests.
+/** @brief Mock CLIP-like image processor for deterministic embeddings used in tests. */
 class MockClipProcessor : public IContentProcessor {
 public:
     MockClipProcessor(int dim = 512) : dim_(dim) {}

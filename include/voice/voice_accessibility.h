@@ -77,6 +77,7 @@ struct TranscriptExportResult {
 };
 
 // VoiceAccessibility: Phase 9 production component
+/** @brief VoiceAccessibility: Phase 9 production component. */
 class VoiceAccessibility {
 public:
     explicit VoiceAccessibility(const CaptionStyle& style = {});

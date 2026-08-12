@@ -27,6 +27,7 @@ namespace index {
 // GPUMemoryOversubscriptionManager::Impl
 // =============================================================================
 
+/** @brief GPUMemoryOversubscriptionManager::Impl. */
 class GPUMemoryOversubscriptionManager::Impl {
 public:
     // -----------------------------------------------------------------------

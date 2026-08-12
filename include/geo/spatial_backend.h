@@ -41,6 +41,7 @@ struct SpatialBatchResults {
     std::vector<uint8_t> mask; // 1 = hit, 0 = no hit
 };
 
+/** @brief I spatial compute backend implementation. */
 class ISpatialComputeBackend {
 public:
     virtual ~ISpatialComputeBackend() = default;
@@ -99,6 +100,7 @@ public:
 };
 
 // Registry for dynamically loaded plugins
+/** @brief Registry for dynamically loaded plugins. */
 class IGeoRegistry {
 public:
     virtual ~IGeoRegistry() = default;

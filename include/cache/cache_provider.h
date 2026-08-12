@@ -24,6 +24,7 @@ struct CacheValue {
     uint64_t ts_ms{0};     // insert timestamp (ms)
 };
 
+/** @brief Provider component cache. */
 class CacheProvider {
 public:
     virtual ~CacheProvider() = default;

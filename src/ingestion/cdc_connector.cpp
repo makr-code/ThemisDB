@@ -388,6 +388,7 @@ static bool parseTestDecodingLine(const std::string& line,
 // Pimpl
 // ---------------------------------------------------------------------------
 
+/** @brief Pimpl. */
 class CdcConnector::Impl {
 public:
     Impl() = default;

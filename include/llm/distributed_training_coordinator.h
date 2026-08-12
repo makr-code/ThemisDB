@@ -244,6 +244,7 @@ struct DistributedTrainingStats {
 // Gradient Aggregator (All-Reduce Implementation)
 // ============================================================================
 
+/** @brief Gradient Aggregator (All-Reduce Implementation). */
 class GradientAggregator {
 public:
     virtual ~GradientAggregator() = default;
@@ -258,6 +259,7 @@ public:
 };
 
 // All-Reduce: Average gradients from all shards
+/** @brief All-Reduce: Average gradients from all shards. */
 class AllReduceAggregator : public GradientAggregator {
 public:
     ~AllReduceAggregator() override = default;
@@ -270,6 +272,7 @@ public:
 };
 
 // Parameter Server: Weighted average (data-proportional)
+/** @brief Parameter Server: Weighted average (data-proportional). */
 class ParameterServerAggregator : public GradientAggregator {
 public:
     ParameterServerAggregator(const std::map<std::string, float>& shard_weights)
@@ -287,6 +290,7 @@ private:
 };
 
 // Ring All-Reduce: Communication-efficient ring pattern
+/** @brief Ring All-Reduce: Communication-efficient ring pattern. */
 class RingAllReduceAggregator : public GradientAggregator {
 public:
     ~RingAllReduceAggregator() override = default;
@@ -307,6 +311,7 @@ private:
 // Distributed Training Coordinator (Main Orchestrator)
 // ============================================================================
 
+/** @brief Distributed Training Coordinator (Main Orchestrator). */
 class DistributedTrainingCoordinator {
 public:
     DistributedTrainingCoordinator(
@@ -455,6 +460,7 @@ private:
 // Factory for Creating Coordinators
 // ============================================================================
 
+/** @brief Factory for Creating Coordinators. */
 class DistributedTrainingCoordinatorFactory {
 public:
     static std::unique_ptr<DistributedTrainingCoordinator> create(

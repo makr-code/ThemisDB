@@ -82,6 +82,7 @@ public:
     // ISpan adapter – delegates to themis::Tracer::Span
     // -------------------------------------------------------------------------
 
+    /** @brief ISpan adapter – delegates to themis::Tracer::Span. */
     class ZipkinSpanAdapter : public ISpan {
     public:
         explicit ZipkinSpanAdapter(themis::Tracer::Span span)

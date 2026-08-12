@@ -448,6 +448,7 @@ std::size_t AQLConversationSession::size() const {
 
 // ─────────────────────────────────────────────────────────────────────────────
 
+/** @brief Implementation detail. */
 class LLMAQLHandler::Impl {
   public:
     explicit Impl(const LLMAQLHandler::Config &cfg)

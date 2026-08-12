@@ -197,6 +197,7 @@ private:
  */
 using SignOperationFn = std::function<std::string(const std::string& operation_id)>;
 
+/** @brief Auto rebalancer. */
 class AutoRebalancer {
 public:
     /** @brief Runtime policy knobs for automatic rebalance coordination. */

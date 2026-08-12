@@ -48,6 +48,7 @@ std::vector<size_t> inferFlatModeShape(size_t dim) {
 // FlatTensorIndex — linear-scan ITensorIndex (Phase 1 reference impl)
 // ============================================================================
 
+/** @brief FlatTensorIndex — linear-scan ITensorIndex (Phase 1 reference impl). */
 class FlatTensorIndex final : public ITensorIndex {
 public:
     FlatTensorIndex() = default;

@@ -20,6 +20,7 @@
 namespace themis {
 namespace storage {
 
+/** @brief Filesystem blob backend implementation. */
 class FilesystemBlobBackend : public IBlobStorageBackend {
 public:
     explicit FilesystemBlobBackend(const std::string& base_path);

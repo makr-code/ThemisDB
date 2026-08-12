@@ -78,6 +78,7 @@ struct RetentionStats {
         , total_space_reclaimed_est(o.total_space_reclaimed_est.load()) {}
 };
 
+/** @brief Retention manager component. */
 class RetentionManager {
 public:
     RetentionManager(TSStore* store, RetentionPolicy policy)

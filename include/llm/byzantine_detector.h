@@ -80,6 +80,7 @@ struct DetectionResult {
 // Byzantine Detector Interface
 // ============================================================================
 
+/** @brief Byzantine Detector Interface. */
 class ByzantineDetector {
 public:
     virtual ~ByzantineDetector() = default;
@@ -102,6 +103,7 @@ public:
 // Median-based Detector (MAD Threshold)
 // ============================================================================
 
+/** @brief Median-based Detector (MAD Threshold). */
 class MedianDetector : public ByzantineDetector {
 public:
     explicit MedianDetector(float threshold = 3.0f);
@@ -134,6 +136,7 @@ private:
 // Krum Algorithm Detector
 // ============================================================================
 
+/** @brief Krum Algorithm Detector. */
 class KrumDetector : public ByzantineDetector {
 public:
     explicit KrumDetector(int max_byzantine_shards = 1);
@@ -172,6 +175,7 @@ private:
 // Bulyan Algorithm Detector
 // ============================================================================
 
+/** @brief Bulyan Algorithm Detector. */
 class BulyanDetector : public ByzantineDetector {
 public:
     explicit BulyanDetector(int max_byzantine_shards = 1);
@@ -210,6 +214,7 @@ private:
 // Ensemble Detector (Combine Multiple Methods)
 // ============================================================================
 
+/** @brief Ensemble Detector (Combine Multiple Methods). */
 class EnsembleDetector : public ByzantineDetector {
 public:
     explicit EnsembleDetector(
@@ -243,6 +248,7 @@ private:
 // Byzantine Detector Factory
 // ============================================================================
 
+/** @brief Byzantine Detector Factory. */
 class ByzantineDetectorFactory {
 public:
     static std::unique_ptr<ByzantineDetector> create(

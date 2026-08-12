@@ -32,6 +32,7 @@ namespace prometheus {
     class Counter {};
     class Gauge {};
     class Histogram {};
+    /** @brief Summary. */
     class Summary {};
 }
 #endif

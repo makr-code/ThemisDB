@@ -56,6 +56,7 @@ using EVP_MD_CTX_ptr = std::unique_ptr<EVP_MD_CTX, EVP_MD_CTX_Deleter>;
 } // anonymous namespace
 
 // Implementation class
+/** @brief Implementation class. */
 class USBAdminAuthenticator::Impl {
 public:
     // PERMANENT FALLBACK NOTE (USBAdminAuthenticator — placeholder RSA key):

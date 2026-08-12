@@ -233,6 +233,7 @@ public:
 // OpenTelemetryTracer::Impl
 // ---------------------------------------------------------------------------
 
+/** @brief OpenTelemetryTracer::Impl. */
 class OpenTelemetryTracer::Impl {
 public:
     explicit Impl(const OTelConfig& cfg)

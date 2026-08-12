@@ -34,6 +34,7 @@ namespace index {
 // MultiGPUVectorIndex::Impl
 // =============================================================================
 
+/** @brief MultiGPUVectorIndex::Impl. */
 class MultiGPUVectorIndex::Impl {
 public:
     Config config;

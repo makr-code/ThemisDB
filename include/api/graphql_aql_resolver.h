@@ -88,6 +88,7 @@ namespace themis {
 namespace query {
 class QueryEngine;
 struct QueryResourceLimits;
+/** @brief Expected. */
 template <typename T, typename E> class expected;
 struct QueryError;
 }

@@ -19,6 +19,7 @@
 namespace themis {
 namespace utils {
 
+/** @brief Stopwords. */
 class Stopwords {
 public:
     // Returns a default stopword set for a given language code ("en", "de", "none").

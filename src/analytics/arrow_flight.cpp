@@ -447,6 +447,7 @@ static void appendFromArrowBatch(const arrow::RecordBatch &ab, RecordBatch &tb) 
 // InProcessArrowFlightServer
 // ===========================================================================
 
+/** @brief InProcessArrowFlightServer. */
 class InProcessArrowFlightServer final : public ArrowFlightServer {
   public:
     explicit InProcessArrowFlightServer(FlightServerOptions opts)
@@ -685,6 +686,7 @@ class InProcessArrowFlightServer final : public ArrowFlightServer {
 // InProcessArrowFlightClient
 // ===========================================================================
 
+/** @brief InProcessArrowFlightClient. */
 class InProcessArrowFlightClient final : public ArrowFlightClient {
   public:
     explicit InProcessArrowFlightClient(FlightClientOptions opts)

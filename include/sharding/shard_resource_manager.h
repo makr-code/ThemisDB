@@ -25,6 +25,7 @@
 
 namespace themis::sharding {
 
+/** @brief Shard resource manager component. */
 class ShardResourceManager {
 public: 
     /** @brief Point-in-time resource and workload telemetry snapshot for one shard. */

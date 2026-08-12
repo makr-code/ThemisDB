@@ -81,6 +81,7 @@ public:
     // ISpan adapter – delegates to themis::Tracer::Span
     // -------------------------------------------------------------------------
 
+    /** @brief ISpan adapter – delegates to themis::Tracer::Span. */
     class JaegerSpanAdapter : public ISpan {
     public:
         explicit JaegerSpanAdapter(themis::Tracer::Span span)

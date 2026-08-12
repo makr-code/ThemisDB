@@ -185,6 +185,7 @@ struct llama_context;
 struct llama_model;
 
 // llama.cpp training backend
+/** @brief llama.cpp training backend. */
 class LlamaCppTrainingBackend {
 public:
     LlamaCppTrainingBackend();
@@ -270,6 +271,7 @@ private:
 };
 
 // Factory for creating backends
+/** @brief Factory for creating backends. */
 class LlamaCppBackendFactory {
 public:
     static std::unique_ptr<LlamaCppTrainingBackend> create(const LlamaCppConfig& config) {

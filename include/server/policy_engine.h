@@ -39,6 +39,7 @@ namespace utils { class AuditLogger; }
 // Configuration formats:
 // - Supports JSON and YAML files for loading policies. Saving currently writes JSON.
 
+/** @brief - Supports JSON and YAML files for loading policies. Saving currently writes JSON. */
 class PolicyEngine {
 public:
     struct Config {

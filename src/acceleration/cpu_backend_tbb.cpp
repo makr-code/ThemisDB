@@ -43,6 +43,7 @@ namespace acceleration {
 // TBB-Based CPUVectorBackend Implementation
 // ============================================================================
 
+/** @brief TBB-Based CPUVectorBackend Implementation. */
 class CPUVectorBackendTBB : public CPUVectorBackend {
 private:
     std::unique_ptr<tbb::task_arena> arena_;
@@ -325,6 +326,7 @@ public:
 // TBB-Based CPUGeoBackend Implementation
 // ============================================================================
 
+/** @brief TBB-Based CPUGeoBackend Implementation. */
 class CPUGeoBackendTBB : public CPUGeoBackend {
 private:
     std::unique_ptr<tbb::task_arena> arena_;

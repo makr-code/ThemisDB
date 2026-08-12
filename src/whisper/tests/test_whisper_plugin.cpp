@@ -81,6 +81,7 @@ static std::vector<uint8_t> minimalWav() {
 
 // ── test double reader ────────────────────────────────────────────────────────
 
+/** @brief ── test double reader ────────────────────────────────────────────────────────. */
 class PresetReader : public IAudioChunkReader {
 public:
     explicit PresetReader(std::vector<float> s = {0.1f}, float sr = 16000.f,

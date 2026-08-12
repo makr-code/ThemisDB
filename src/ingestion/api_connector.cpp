@@ -254,6 +254,7 @@ static std::string jsonExtractStringValue(const std::string& json,
 // Pimpl
 // ---------------------------------------------------------------------------
 
+/** @brief Pimpl. */
 class GenericApiConnector::Impl {
 public:
     Impl() : page_size_(100), max_pages_(0),

@@ -248,6 +248,7 @@ static std::vector<Coordinate> cpuExpandRing(const std::vector<Coordinate> &ring
     return result;
 }
 
+/** @brief Cpu exact backend implementation. */
 class CpuExactBackend final : public ISpatialComputeBackend {
   public:
     const char *name() const noexcept override {
@@ -1060,6 +1061,7 @@ class CpuExactBackend final : public ISpatialComputeBackend {
 // Replaces the NullRegistry stub; backends self-register at startup so they
 // are discoverable at runtime via getGeoBackendRegistry().
 // ---------------------------------------------------------------------------
+/** @brief are discoverable at runtime via getGeoBackendRegistry(). */
 class GeoBackendRegistry final : public IGeoRegistry {
   public:
     void registerBackend(std::unique_ptr<ISpatialComputeBackend> b) override {
@@ -1092,6 +1094,7 @@ IGeoRegistry *getGeoBackendRegistry() {
 // Forward declaration — defined after CpuExactBackend below.
 static CpuExactBackend &getCpuExactBackendInstance();
 
+/** @brief Approximate cpu backend implementation. */
 class ApproximateCpuBackend final : public ISpatialComputeBackend {
   public:
     const char *name() const noexcept override {

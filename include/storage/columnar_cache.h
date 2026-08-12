@@ -126,6 +126,7 @@ struct ColumnSegment {
  */
 class ColumnarCache; // forward
 
+/** @brief Raii guard for pin. */
 class PinGuard {
 public:
     PinGuard() noexcept = default;

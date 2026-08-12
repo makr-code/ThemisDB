@@ -190,6 +190,7 @@ private:
 namespace themis {
 namespace importers {
 
+/** @brief My sql importer scheme plugin. */
 class MySQLImporterSchemePlugin : public IImporterPlugin {
 public:
     const char* pluginId() const override { return "mysql_plugin"; }

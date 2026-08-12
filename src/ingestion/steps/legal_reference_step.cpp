@@ -21,6 +21,7 @@ namespace themis {
 namespace ingestion {
 namespace builtin {
 
+/** @brief Legal reference extractor step. */
 class LegalReferenceExtractorStep final : public IIngestionStep {
 public:
     // IThemisPlugin boilerplate

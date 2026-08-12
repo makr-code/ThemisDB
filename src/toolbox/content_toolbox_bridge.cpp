@@ -26,6 +26,7 @@ namespace toolbox {
 // ContentToolboxBridge::Impl
 // ─────────────────────────────────────────────────────────────────────────────
 
+/** @brief ContentToolboxBridge::Impl. */
 class ContentToolboxBridge::Impl {
 public:
     Impl(std::shared_ptr<IngestionToolbox>          toolbox,

@@ -74,6 +74,7 @@ struct WindowClause {
 // Pimpl implementation
 // ============================================================================
 
+/** @brief Pimpl implementation. */
 class AQLQueryBuilder::Impl {
   public:
     std::vector<ForClause> for_clauses;

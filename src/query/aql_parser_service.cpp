@@ -16,6 +16,7 @@
 
 namespace themis::query {
 
+/** @brief Implementation detail. */
 class AQLParserServiceImpl::Impl {
 public:
     explicit Impl(

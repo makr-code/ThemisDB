@@ -25,6 +25,7 @@ using json = nlohmann::json;
 
 // ── helpers ───────────────────────────────────────────────────────────────────
 
+/** @brief ── helpers ───────────────────────────────────────────────────────────────────. */
 class ThrowingGenerator : public ISDGenerator {
 public:
     bool initialize(const SDConfig& cfg) override {
@@ -43,6 +44,7 @@ private:
     std::string model_id_;
 };
 
+/** @brief Lo ra failing generator. */
 class LoRAFailingGenerator : public InMemorySDGenerator {
 public:
     bool applyLoRA(const std::string&, float, std::string& error_out) override {

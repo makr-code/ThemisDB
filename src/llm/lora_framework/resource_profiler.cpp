@@ -20,6 +20,7 @@ namespace themis {
 namespace llm {
 namespace lora {
 
+/** @brief Implementation detail. */
 class ResourceProfiler::Impl {
 public:
     Config config;

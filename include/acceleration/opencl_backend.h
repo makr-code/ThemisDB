@@ -96,6 +96,7 @@ private:
 #else // THEMIS_ENABLE_OPENCL not defined
 
 // Stub implementation when OpenCL is not available
+/** @brief Stub implementation when OpenCL is not available. */
 class OpenCLVectorBackend : public IVectorBackend {
 public:
     BackendType type() const noexcept override;

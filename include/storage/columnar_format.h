@@ -97,6 +97,7 @@ struct ColumnMetadata {
 // RLE (Run-Length Encoding) Codec
 // ============================================================================
 
+/** @brief RLE (Run-Length Encoding) Codec. */
 class RLECodec {
 public:
     // Encode integer data with RLE
@@ -112,6 +113,7 @@ public:
 // Dictionary Encoding Codec
 // ============================================================================
 
+/** @brief Dictionary Encoding Codec. */
 class DictionaryCodec {
 public:
     // Encode string data with dictionary
@@ -129,6 +131,7 @@ public:
 // Bit-Packing Codec
 // ============================================================================
 
+/** @brief Bit-Packing Codec. */
 class BitPackingCodec {
 public:
     // Encode integers with minimal bits
@@ -148,6 +151,7 @@ private:
 // Frame-of-Reference Encoding
 // ============================================================================
 
+/** @brief Frame-of-Reference Encoding. */
 class FrameOfReferenceCodec {
 public:
     // Encode with frame-of-reference (subtract base value)
@@ -163,6 +167,7 @@ public:
 // Generic Compression Wrapper (LZ4/Snappy)
 // ============================================================================
 
+/** @brief Generic Compression Wrapper (LZ4/Snappy). */
 class GenericCompressionCodec {
 public:
     static Result<std::vector<uint8_t>> compressLZ4(const std::vector<uint8_t>& data);
@@ -229,6 +234,7 @@ private:
 // Columnar Format Manager
 // ============================================================================
 
+/** @brief Columnar Format Manager. */
 class ColumnarFormatManager {
 public:
     ColumnarFormatManager() = default;

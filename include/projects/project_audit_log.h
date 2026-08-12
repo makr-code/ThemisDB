@@ -55,6 +55,7 @@ struct AuditQueryOptions {
     std::string sort_direction = "desc";
 };
 
+/** @brief I project audit log. */
 class IProjectAuditLog {
 public:
     virtual ~IProjectAuditLog() = default;

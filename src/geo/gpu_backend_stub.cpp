@@ -156,6 +156,7 @@ static const std::vector<Coordinate> &outerRing(const GeometryInfo &g) {
 // GpuBatchBackend
 // ---------------------------------------------------------------------------
 
+/** @brief GpuBatchBackend. */
 class GpuBatchBackend final : public ISpatialComputeBackend {
   public:
     struct Config {

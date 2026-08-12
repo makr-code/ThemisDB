@@ -174,6 +174,7 @@ protected:
 // builtin.parse_pdf
 // ─────────────────────────────────────────────────────────────────────────────
 
+/** @brief builtin.parse_pdf. */
 class ParsePdfStep final : public FormatParseStepBase {
 public:
     explicit ParsePdfStep(std::shared_ptr<IFormatExtractor> e)
@@ -184,6 +185,7 @@ public:
 // builtin.parse_office
 // ─────────────────────────────────────────────────────────────────────────────
 
+/** @brief builtin.parse_office. */
 class ParseOfficeStep final : public FormatParseStepBase {
 public:
     explicit ParseOfficeStep(std::shared_ptr<IFormatExtractor> e)
@@ -194,6 +196,7 @@ public:
 // builtin.parse_image
 // ─────────────────────────────────────────────────────────────────────────────
 
+/** @brief builtin.parse_image. */
 class ParseImageStep final : public FormatParseStepBase {
 public:
     explicit ParseImageStep(std::shared_ptr<IFormatExtractor> e)
@@ -204,6 +207,7 @@ public:
 // builtin.parse_archive
 // ─────────────────────────────────────────────────────────────────────────────
 
+/** @brief builtin.parse_archive. */
 class ParseArchiveStep final : public FormatParseStepBase {
 public:
     explicit ParseArchiveStep(std::shared_ptr<IFormatExtractor> e)
@@ -226,6 +230,7 @@ protected:
 // builtin.parse_audio
 // ─────────────────────────────────────────────────────────────────────────────
 
+/** @brief builtin.parse_audio. */
 class ParseAudioStep final : public FormatParseStepBase {
 public:
     explicit ParseAudioStep(std::shared_ptr<IFormatExtractor> e)

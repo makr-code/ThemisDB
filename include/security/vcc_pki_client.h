@@ -69,6 +69,7 @@ struct TLSConfig {
 	bool use_mtls{false};
 };
 
+/** @brief Vccpki client component. */
 class VCCPKIClient {
 public:
 	VCCPKIClient(const std::string& base_url, const TLSConfig& tls_config, int timeout_ms);

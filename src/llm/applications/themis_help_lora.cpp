@@ -53,6 +53,7 @@ std::string resolveModelPath(const ThemisHelpLoRA::Config& config) {
 }
 } // namespace
 
+/** @brief Implementation detail. */
 class ThemisHelpLoRA::Impl {
 public:
     // Configuration

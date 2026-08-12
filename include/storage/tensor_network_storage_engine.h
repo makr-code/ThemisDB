@@ -128,6 +128,7 @@ public:
 // InMemoryTensorBackend — testing implementation
 // ============================================================================
 
+/** @brief InMemoryTensorBackend — testing implementation. */
 class InMemoryTensorBackend final : public ITensorStorageBackend {
 public:
     bool put(const std::string& key,

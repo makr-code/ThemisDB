@@ -393,6 +393,7 @@ struct TensorCoreRecord {
     ///< Provenance: "source_file", "page", "section_ref", "tenant_id", etc.
 };
 
+/** @brief I tensor decomposition backend implementation. */
 class ITensorDecompositionBackend {
 public:
     virtual ~ITensorDecompositionBackend() = default;

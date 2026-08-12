@@ -48,6 +48,7 @@ namespace index {
 // GPUVectorIndex::Impl
 // =============================================================================
 
+/** @brief GPUVectorIndex::Impl. */
 class GPUVectorIndex::Impl {
 public:
     Config config;

@@ -413,6 +413,7 @@ bool CheckpointStore::exists(const std::string& source_id) const {
 // ============================================================================
 // Token-bucket rate limiter (simple, no external dep)
 // ============================================================================
+/** @brief Token-bucket rate limiter (simple, no external dep). */
 class TokenBucket {
 public:
     explicit TokenBucket(double requests_per_second)
@@ -459,6 +460,7 @@ private:
 // ============================================================================
 // Pimpl implementation
 // ============================================================================
+/** @brief Pimpl implementation. */
 class IngestionManager::Impl {
 public:
     explicit Impl(const std::string& db_connection) 

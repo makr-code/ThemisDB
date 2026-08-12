@@ -237,6 +237,7 @@ namespace themis {
 namespace lora {
 namespace vulkan {
 
+/** @brief Vulkan context object for. */
 class VulkanContext {
 public:
     VulkanContext() = default;

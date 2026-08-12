@@ -66,6 +66,7 @@ public:
     // ------------------------------------------------------------------
     // Logical Decoder
     // ------------------------------------------------------------------
+    /** @brief Logical Decoder. */
     class LogicalDecoder {
     public:
         explicit LogicalDecoder(const std::string& connection_string);

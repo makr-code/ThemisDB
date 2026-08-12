@@ -26,6 +26,7 @@ namespace themis {
 class RocksDBWrapper;
 class SchemaManager;
 
+/** @brief Prompt manager component. */
 class PromptManager {
 public:
     struct PromptTemplate {

@@ -214,6 +214,7 @@ static std::string s3JsonExtractField(const std::string& body,
 // Pimpl
 // ---------------------------------------------------------------------------
 
+/** @brief Pimpl. */
 class S3Connector::Impl {
 public:
     Impl() = default;

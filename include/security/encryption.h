@@ -171,6 +171,7 @@ struct EncryptionConfig {
     }
 };
 
+/** @brief Field encryption. */
 class FieldEncryption : public IFieldEncryption {
 public:
     /**

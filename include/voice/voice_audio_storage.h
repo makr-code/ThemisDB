@@ -100,6 +100,7 @@ struct StorageStats {
 };
 
 // VoiceAudioStorage: Phase 5 production component
+/** @brief VoiceAudioStorage: Phase 5 production component. */
 class VoiceAudioStorage {
 public:
     explicit VoiceAudioStorage(

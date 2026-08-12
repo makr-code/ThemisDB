@@ -72,6 +72,7 @@ fs::path resolveDefaultDbDataDir() {
 } // namespace
 
 // Implementation class (PIMPL pattern)
+/** @brief Implementation class (PIMPL pattern). */
 class SnapshotTransferHandler::Impl {
 public:
     Impl() 

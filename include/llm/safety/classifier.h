@@ -34,6 +34,7 @@ struct SafetyClassification {
     std::string source = "rule_based";
 };
 
+/** @brief Safety classifier. */
 class SafetyClassifier {
 public:
     using InferenceFn = std::function<std::optional<SafetyClassification>(std::string_view)>;

@@ -96,6 +96,7 @@ struct JWTValidatorConfig {
     std::chrono::milliseconds refresh_wait_timeout{15'000};
 };
 
+/** @brief Validator for jwt. */
 class JWTValidator {
 public:
     /**
