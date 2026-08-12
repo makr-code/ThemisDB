@@ -170,6 +170,7 @@ concurrency:
 
 permissions:
   contents: read
+  pull-requests: read
 
 # ──────────────────────────────────────────────────────────────────────────────
 # UPDATE job — incremental entry
@@ -268,6 +269,7 @@ jobs:
     if: inputs.mode == 'backfill'
     permissions:
       contents: read
+      pull-requests: read
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
