@@ -172,7 +172,8 @@ jobs:
 
       - name: Install Doxygen + Python tooling
         run: |
-          python3 -m pip install --upgrade pip coverxygen
+          # coverxygen 1.8.2 crashes on enum-qualified-name extraction with Python 3.12
+          python3 -m pip install --upgrade pip "coverxygen==1.8.1"
           sudo apt-get update
           sudo apt-get install -y doxygen
 
