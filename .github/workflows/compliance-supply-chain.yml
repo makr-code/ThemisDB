@@ -282,87 +282,87 @@ jobs:
       security-events: write
     steps:
       - name: Print dependency-freshness context
-       run: |
-         echo "============================================================"
-         echo " Compliance — Dependency Freshness Gate"
-         echo "============================================================"
-         echo "  Trigger   : ${{ github.event_name }}"
-         echo "  Ref       : ${{ github.ref }}"
-         echo "  Actor     : ${{ github.actor }}"
-         echo "  Run ID    : ${{ github.run_id }}"
-         echo "  Timestamp : $(date -u)"
-         echo "  Purpose   : Compare pinned vcpkg baseline against upstream;"
-         echo "              run Trivy advisory scan; open staleness issue."
-         echo "============================================================"
+        run: |
+          echo "============================================================"
+          echo " Compliance — Dependency Freshness Gate"
+          echo "============================================================"
+          echo "  Trigger   : ${{ github.event_name }}"
+          echo "  Ref       : ${{ github.ref }}"
+          echo "  Actor     : ${{ github.actor }}"
+          echo "  Run ID    : ${{ github.run_id }}"
+          echo "  Timestamp : $(date -u)"
+          echo "  Purpose   : Compare pinned vcpkg baseline against upstream;"
+          echo "              run Trivy advisory scan; open staleness issue."
+          echo "============================================================"
 
       - name: Checkout repository
-       uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
 
       - name: Set up Python
-       uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
-       with:
-         python-version: '3.12'
+        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
+        with:
+          python-version: '3.12'
 
       - name: Read pinned vcpkg baseline
-       id: baseline
-       run: |
-         echo "──────────────────────────────────────────────"
-         echo "  Reading vcpkg.json manifest..."
-         python3 - <<'PY' | tee /dev/stderr >> "$GITHUB_OUTPUT"
-         import json
-         from pathlib import Path
-         import sys
+        id: baseline
+        run: |
+          echo "──────────────────────────────────────────────"
+          echo "  Reading vcpkg.json manifest..."
+          python3 - <<'PY' | tee /dev/stderr >> "$GITHUB_OUTPUT"
+          import json
+          from pathlib import Path
+          import sys
 
-         manifest = json.loads(Path("vcpkg.json").read_text(encoding="utf-8"))
-         sha = manifest["builtin-baseline"]
-         deps = manifest.get("dependencies", [])
-         print(f"sha={sha}")
-         print(f"  Pinned baseline SHA : {sha}", file=sys.stderr)
-         print(f"  Dependency count    : {len(deps)}", file=sys.stderr)
-         PY
-         echo "──────────────────────────────────────────────"
+          manifest = json.loads(Path("vcpkg.json").read_text(encoding="utf-8"))
+          sha = manifest["builtin-baseline"]
+          deps = manifest.get("dependencies", [])
+          print(f"sha={sha}")
+          print(f"  Pinned baseline SHA : {sha}", file=sys.stderr)
+          print(f"  Dependency count    : {len(deps)}", file=sys.stderr)
+          PY
+          echo "──────────────────────────────────────────────"
 
       - name: Fetch current upstream vcpkg HEAD
-       run: |
-         echo "──────────────────────────────────────────────"
-         echo "  Cloning vcpkg (depth=1) to get current HEAD..."
-         T0=$(date +%s)
-         git clone --depth=1 https://github.com/microsoft/vcpkg.git vcpkg-latest 2>&1 | tail -3
-         LATEST_SHA=$(git -C vcpkg-latest rev-parse HEAD)
-         SECS=$(( $(date +%s) - T0 ))
-         echo "  ✅ Cloned in ${SECS}s"
-         echo "  Latest upstream SHA : ${LATEST_SHA}"
-         echo "LATEST_SHA=${LATEST_SHA}" >> "$GITHUB_ENV"
-         echo "──────────────────────────────────────────────"
+        run: |
+          echo "──────────────────────────────────────────────"
+          echo "  Cloning vcpkg (depth=1) to get current HEAD..."
+          T0=$(date +%s)
+          git clone --depth=1 https://github.com/microsoft/vcpkg.git vcpkg-latest 2>&1 | tail -3
+          LATEST_SHA=$(git -C vcpkg-latest rev-parse HEAD)
+          SECS=$(( $(date +%s) - T0 ))
+          echo "  ✅ Cloned in ${SECS}s"
+          echo "  Latest upstream SHA : ${LATEST_SHA}"
+          echo "LATEST_SHA=${LATEST_SHA}" >> "$GITHUB_ENV"
+          echo "──────────────────────────────────────────────"
 
       - name: Compare pinned vs current baseline
-       run: |
-         PINNED="${{ steps.baseline.outputs.sha }}"
-         LATEST="${LATEST_SHA}"
-         echo "──────────────────────────────────────────────"
-         echo "  Staleness check"
-         echo "  Pinned baseline : ${PINNED}"
-         echo "  Current upstream: ${LATEST}"
-         if [ "${PINNED}" = "${LATEST}" ]; then
-           echo "  ✅ Baseline is current — no staleness detected."
-           echo "BASELINE_STALE=false" >> "$GITHUB_ENV"
-           echo "### ✅ Dependency Freshness — vcpkg baseline is current" >> "$GITHUB_STEP_SUMMARY"
-         else
-           BEHIND=$(git -C vcpkg-latest rev-list "${PINNED}..HEAD" --count 2>/dev/null || echo "unknown")
-           echo "  ⚠️  Baseline is STALE — ${BEHIND} commits behind upstream."
-           echo "BASELINE_STALE=true" >> "$GITHUB_ENV"
-           echo "BASELINE_BEHIND=${BEHIND}" >> "$GITHUB_ENV"
-           {
-             echo "### ⚠️ Dependency Freshness — vcpkg baseline is ${BEHIND} commits behind"
-             echo ""
-             echo "| Metric | Value |"
-             echo "|--------|-------|"
-             echo "| Pinned baseline | \`${PINNED}\` |"
-             echo "| Current HEAD | \`${LATEST}\` |"
-             echo "| Commits behind | ${BEHIND} |"
-           } >> "$GITHUB_STEP_SUMMARY"
-         fi
-         echo "──────────────────────────────────────────────"
+        run: |
+          PINNED="${{ steps.baseline.outputs.sha }}"
+          LATEST="${LATEST_SHA}"
+          echo "──────────────────────────────────────────────"
+          echo "  Staleness check"
+          echo "  Pinned baseline : ${PINNED}"
+          echo "  Current upstream: ${LATEST}"
+          if [ "${PINNED}" = "${LATEST}" ]; then
+            echo "  ✅ Baseline is current — no staleness detected."
+            echo "BASELINE_STALE=false" >> "$GITHUB_ENV"
+            echo "### ✅ Dependency Freshness — vcpkg baseline is current" >> "$GITHUB_STEP_SUMMARY"
+          else
+            BEHIND=$(git -C vcpkg-latest rev-list "${PINNED}..HEAD" --count 2>/dev/null || echo "unknown")
+            echo "  ⚠️  Baseline is STALE — ${BEHIND} commits behind upstream."
+            echo "BASELINE_STALE=true" >> "$GITHUB_ENV"
+            echo "BASELINE_BEHIND=${BEHIND}" >> "$GITHUB_ENV"
+            {
+              echo "### ⚠️ Dependency Freshness — vcpkg baseline is ${BEHIND} commits behind"
+              echo ""
+              echo "| Metric | Value |"
+              echo "|--------|-------|"
+              echo "| Pinned baseline | \`${PINNED}\` |"
+              echo "| Current HEAD | \`${LATEST}\` |"
+              echo "| Commits behind | ${BEHIND} |"
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+          echo "──────────────────────────────────────────────"
 
       - name: Scan for package advisories via Trivy
         # Trivy checks SBOMs and manifests against OSV/GitHub Advisory DB.
@@ -460,7 +460,7 @@ jobs:
       - name: Start ThemisDB container
         run: |
           docker compose -f docker-compose.yml up -d themisdb
-          for i in $(seq 1 30); do
+          for _ in $(seq 1 30); do
             if curl -sk "${THEMIS_ADMIN_ENDPOINT}/v1/health" | grep -q "ok"; then
               echo "ThemisDB ready"; break
             fi

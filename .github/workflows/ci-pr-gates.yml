@@ -608,7 +608,7 @@ jobs:
             --only-verified \
             --fail \
             --json \
-            > trufflehog-results.json 2>&1 || SCAN_EXIT=$?
+            > trufflehog-results.json 2>&1 || true
           SCAN_SECS=$(( $(date +%s) - T0 ))
 
           RESULT_COUNT=$(wc -l < trufflehog-results.json 2>/dev/null || echo 0)
@@ -620,19 +620,19 @@ jobs:
             echo ""
             echo "  ⚠️  POTENTIAL SECRETS DETECTED — summary:"
             head -5 trufflehog-results.json | python3 -c '
-import json
-import sys
+              import json
+              import sys
 
-for line in sys.stdin:
-    try:
-        result = json.loads(line.strip())
-        detector = result.get("DetectorName", "?")
-        raw = result.get("Raw", "")[:40]
-        source = result.get("SourceMetadata", {}).get("Data", {})
-        print(f"    Detector={detector}  Raw={raw}...  Source={source}")
-    except Exception:
-        pass
-' 2>/dev/null || head -5 trufflehog-results.json
+              for line in sys.stdin:
+                  try:
+                      result = json.loads(line.strip())
+                      detector = result.get("DetectorName", "?")
+                      raw = result.get("Raw", "")[:40]
+                      source = result.get("SourceMetadata", {}).get("Data", {})
+                      print(f"    Detector={detector}  Raw={raw}...  Source={source}")
+                  except Exception:
+                      pass
+            ' 2>/dev/null || head -5 trufflehog-results.json
             echo ""
             echo "::warning::🔐 TruffleHog found potential secrets — see trufflehog-results artifact."
             {
