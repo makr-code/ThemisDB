@@ -28476,6 +28476,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_g003_error_handling_thread_safety.cp
             LABELS "error_handling;thread_safety;g003;reliability;release_critical"
             TIMEOUT 60
     )
+    set_property(GLOBAL APPEND PROPERTY THEMIS_RELEASE_CRITICAL_TARGETS
+        test_g003_error_handling_thread_safety_focused)
 
     message(STATUS "  G003: EHS-01..08 (exception safety), TSF-01..08 (thread safety), RVC-01..04 (return value checks)")
 endif()
@@ -28518,6 +28520,27 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_phase4_security_hardening.cpp")
             LABELS "security;input_validation;transport;memory_safety;concurrency;error_handling;phase4;release_critical"
             TIMEOUT 120
     )
+    set_property(GLOBAL APPEND PROPERTY THEMIS_RELEASE_CRITICAL_TARGETS
+        test_phase4_security_hardening_focused)
 
     message(STATUS "  Phase 4 Security: SEC-IV-01..15 (input validation), SEC-TLS-01..10 (transport), SEC-MEM-01..15 (memory), SEC-RACE-01..10 (concurrency), SEC-ERR-01..05 (error path)")
+endif()
+
+# ===========================================================================
+# Aggregate build target: themis_release_critical_tests
+# Builds all test executables labelled release_critical so the CI step
+#   cmake --build --target themis_release_critical_tests
+# succeeds. ctest --label-regex release_critical is a separate step.
+# ===========================================================================
+get_property(_rc_targets GLOBAL PROPERTY THEMIS_RELEASE_CRITICAL_TARGETS)
+if(_rc_targets)
+    # Deduplicate in case any target was registered more than once.
+    list(REMOVE_DUPLICATES _rc_targets)
+    add_custom_target(themis_release_critical_tests DEPENDS ${_rc_targets})
+    message(STATUS "themis_release_critical_tests aggregate target covers: ${_rc_targets}")
+else()
+    # No release_critical executables were registered in this configuration;
+    # define an empty target so the CI build step still succeeds.
+    add_custom_target(themis_release_critical_tests)
+    message(WARNING "themis_release_critical_tests: no release_critical targets collected — check test registration")
 endif()

@@ -1,0 +1,290 @@
+name: Security — Consolidated Scans
+
+# Consolidated security scanning workflow.
+# Merges the former security.yml (Trivy + Gitleaks) and
+# security-scanning.yml (KubeSec + DAST/ZAP) into one scheduled workflow.
+#
+# Design decisions:
+#   - All scanner jobs run on schedule and workflow_dispatch only.
+#   - PR trigger is intentionally absent: heavy scanners (Trivy, DAST) must not
+#     block PRs.  CodeQL (codeql.yml) remains the sole PR security gate.
+#   - Gitleaks is the only fast secret-scan job that may optionally run on PR if
+#     needed, but it is also covered here on schedule for completeness.
+#   - SARIF uploads go to GitHub Security tab (code scanning) for unified triage.
+#   - Issue creation for SLA breaches is delegated to maintenance-security-alerts.yml.
+#
+# Replaces:
+#   - .github/workflows/security.yml  (→ no_workflows/)
+#   - .github/workflows/security-scanning.yml  (→ no_workflows/)
+
+on:
+  schedule:
+    - cron: '21 4 * * 1'   # Weekly Monday 04:21 UTC — Trivy + Gitleaks (was security.yml)
+    - cron: '0 2 * * 0'    # Weekly Sunday 02:00 UTC — KubeSec + DAST (was security-scanning.yml)
+  workflow_dispatch:
+    inputs:
+      run_trivy:
+        description: 'Run Trivy vulnerability scan'
+        type: boolean
+        default: true
+      run_gitleaks:
+        description: 'Run Gitleaks secret scan'
+        type: boolean
+        default: true
+      run_kubesec:
+        description: 'Run Kubesec Kubernetes manifest scan'
+        type: boolean
+        default: true
+      run_dast:
+        description: 'Run OWASP ZAP DAST baseline scan'
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: security-consolidated-${{ github.ref }}
+  cancel-in-progress: true
+
+# ──────────────────────────────────────────────────────────────────────────────
+jobs:
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # Trivy — filesystem vulnerability scan (OS packages + libraries)
+  # ────────────────────────────────────────────────────────────────────────────
+  trivy:
+    name: Trivy Vulnerability Scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    if: >
+      github.event_name == 'schedule' ||
+      (github.event_name == 'workflow_dispatch' && (inputs.run_trivy == true || inputs.run_trivy == 'true'))
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+
+      - name: Run Trivy scan (human-readable summary)
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25  # v0.36.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          format: table
+          severity: CRITICAL,HIGH
+          ignore-unfixed: true
+          vuln-type: os,library
+          exit-code: '0'
+
+      - name: Run Trivy scan (SARIF)
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25  # v0.36.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          format: sarif
+          output: trivy-results.sarif
+          severity: CRITICAL,HIGH
+          ignore-unfixed: true
+          vuln-type: os,library
+          exit-code: '0'
+
+      - name: Upload Trivy SARIF to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@c4dd10e44af883a891fe31ced449bcb4a6728b9b  # v3
+        with:
+          sarif_file: trivy-results.sarif
+          category: trivy
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # Gitleaks — secret detection scan
+  # ────────────────────────────────────────────────────────────────────────────
+  gitleaks:
+    name: Gitleaks Secret Scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    if: >
+      github.event_name == 'schedule' ||
+      (github.event_name == 'workflow_dispatch' && (inputs.run_gitleaks == true || inputs.run_gitleaks == 'true'))
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+
+      - name: Run Gitleaks and generate SARIF
+        run: |
+          docker run --rm \
+            -v "$PWD":/repo \
+            zricethezav/gitleaks:v8.21.2 \
+            detect \
+            --source=/repo \
+            --config=/repo/.gitleaks.toml \
+            --report-format sarif \
+            --report-path /repo/gitleaks.sarif
+
+      - name: Upload Gitleaks SARIF to GitHub Security tab
+        if: always()
+        uses: github/codeql-action/upload-sarif@c4dd10e44af883a891fe31ced449bcb4a6728b9b  # v3
+        with:
+          sarif_file: gitleaks.sarif
+          category: gitleaks
+
+      - name: Publish scanned-files summary
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          sarif_path = Path("gitleaks.sarif")
+          files = 0
+          results = 0
+          if sarif_path.exists():
+              data = json.loads(sarif_path.read_text(encoding="utf-8"))
+              runs = data.get("runs", [])
+              if runs:
+                  invocations = runs[0].get("invocations", [])
+                  if invocations:
+                      files = invocations[0].get("properties", {}).get("filesScanned", 0) or 0
+                  results = len(runs[0].get("results", []))
+
+          summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
+          if summary_path:
+              with open(summary_path, "a", encoding="utf-8") as f:
+                  f.write("### Gitleaks Scan Summary\n")
+                  f.write(f"- Files scanned: **{files}**\n")
+                  f.write(f"- Findings: **{results}**\n")
+          else:
+              print(f"Files scanned: {files}")
+              print(f"Findings: {results}")
+          PY
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # Kubesec — Kubernetes manifest security scan
+  # ────────────────────────────────────────────────────────────────────────────
+  kubesec:
+    name: Kubesec — Kubernetes Manifest Scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    if: >
+      github.event_name == 'schedule' ||
+      (github.event_name == 'workflow_dispatch' && (inputs.run_kubesec == true || inputs.run_kubesec == 'true'))
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+
+      - name: Run kubesec scanner
+        uses: controlplaneio/kubesec-action@43d0ddff5ffee89a6bb9f29b64cd865411137b14
+        with:
+          input: deploy/kubernetes/operator/deployment.yaml
+          format: json
+          output: kubesec-results.json
+          exit-code: "0"
+
+      - name: Upload Kubesec JSON results
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08  # v4.6.0
+        if: always()
+        with:
+          name: kubesec-results-${{ github.run_number }}
+          path: kubesec-results.json
+          retention-days: 30
+          if-no-files-found: ignore
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # OWASP ZAP — Dynamic Application Security Testing (DAST)
+  # Requires a running ThemisDB image; non-blocking (continue-on-error: true).
+  # ────────────────────────────────────────────────────────────────────────────
+  dast-scan:
+    name: OWASP ZAP Baseline DAST
+    runs-on: ubuntu-22.04
+    timeout-minutes: 45
+    continue-on-error: true
+    if: >
+      github.event_name == 'schedule' ||
+      (github.event_name == 'workflow_dispatch' && (inputs.run_dast == true || inputs.run_dast == 'true'))
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@c47758b77c9736f4b2ef4073d4d51994fabfe349  # v3.7.1
+
+      - name: Start ThemisDB (production mode, self-signed TLS)
+        run: |
+          docker compose -f docker-compose.yml up -d themis
+          # Wait for the REST API to become healthy (max 60s)
+          for i in $(seq 1 30); do
+            if curl -sf http://localhost:18080/api/health | grep -q "ok"; then
+              echo "ThemisDB is ready"
+              break
+            fi
+            echo "Waiting for ThemisDB... ($i/30)"; sleep 2
+          done
+
+      - name: Create ZAP context file (if absent)
+        run: |
+          mkdir -p scripts
+          if [ ! -f scripts/zap-context.xml ]; then
+            cat > scripts/zap-context.xml << 'ZAPXML'
+          <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+          <configuration>
+            <context>
+              <name>ThemisDB API</name>
+              <desc>ThemisDB REST API security scan context</desc>
+              <inscope>true</inscope>
+              <incregexes>http://localhost:18080/.*</incregexes>
+              <tech>
+                <include>Db.CouchDB</include>
+              </tech>
+              <authentication>
+                <type>2</type>
+                <loginurl>http://localhost:18080/api/auth/login</loginurl>
+                <loginbody>{"username":"test-admin","password":"test-password"}</loginbody>
+              </authentication>
+            </context>
+          </configuration>
+          ZAPXML
+          fi
+
+      - name: Run OWASP ZAP Baseline Scan
+        uses: zaproxy/action-baseline@66042c8e7e24680119199a017e5b0e8603bf4dae  # v0.12.0
+        with:
+          target: 'http://localhost:18080'
+          docker_name: 'ghcr.io/zaproxy/zaproxy:stable'
+          rules_file_name: '.github/zap-rules.tsv'
+          cmd_options: >
+            -config scanner.attackStrength=MEDIUM
+            -config api.disablekey=true
+            -z "-config replacer.full_list(0).description=auth-header
+                -config replacer.full_list(0).enabled=true
+                -config replacer.full_list(0).matchtype=REQ_HEADER
+                -config replacer.full_list(0).matchstr=Authorization
+                -config replacer.full_list(0).replacement=Bearer\\ test-token"
+          fail_action: true
+          allow_issue_writing: false
+
+      - name: Upload ZAP Report
+        if: always()
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08  # v4.6.0
+        with:
+          name: zap-dast-report-${{ github.run_id }}
+          path: |
+            report_html.html
+            report_json.json
+          retention-days: 90
+
+      - name: Stop ThemisDB container
+        if: always()
+        run: docker compose -f docker-compose.yml down --volumes

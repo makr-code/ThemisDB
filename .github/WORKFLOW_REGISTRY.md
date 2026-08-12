@@ -27,10 +27,8 @@ Quarantaene, nicht einen inoffiziellen Reservepool fuer schnelle Reaktivierung.
   — Entkoppelte schwere Benchmark-Lanes (voice, GPU matrix, nightly sweep)
 - `.github/workflows/release-changelog.yml`
   — Reusable/manual changelog update & backfill (artifact-backed proposal, keine Branch-Mutation)
-- `.github/workflows/security-scanning.yml`
-  — Security-Scan-Orchestrierung (SAST/DAST-Signale + Artefakte)
-- `.github/workflows/security.yml`
-  — Trivy Vulnerability Scan + Gitleaks Secret Scan (supply-chain-hardened, SHA-gepinnt)
+- `.github/workflows/security-consolidated.yml`
+  — Konsolidierter Security-Scan: Trivy Vulnerability Scan + Gitleaks Secret Scan + KubeSec Manifest-Scan + DAST/ZAP (Schedule/Dispatch only; 4 einzeln guardierte Jobs; ersetzt security.yml + security-scanning.yml)
 - `.github/workflows/fortify.yml`
   — Fortify AST Scan (continue-on-error; requires FOD_TENANT/FOD_USER/FOD_PAT secrets)
 - `.github/workflows/security-pentest-quarterly.yml`
@@ -44,19 +42,16 @@ Quarantaene, nicht einen inoffiziellen Reservepool fuer schnelle Reaktivierung.
 - `.github/workflows/governance-gates.yml`
   — Governance- und Release-Policy-Gates
 - `.github/workflows/maintenance-docs.yml`
-  — Dokumentations-Hygiene/Alignment Workflows
+  — Dokumentations-Hygiene/Alignment Workflows; deckt auch `ai_context/**` und `ai_working/**` ab (Stale-Cleanup + Orphan-Check)
 - `.github/workflows/maintenance-cache-warming.yml`
   — Wöchentliches vcpkg/sccache Cache-Vorwärmen (Linux + Windows; Monday 00:00 UTC)
 - `.github/workflows/maintenance-ci-health.yml`
   — Wöchentliches CI Health Dashboard (pass/fail Aggregation, chronische Fehler-Issue; Sunday 06:00 UTC)
-- `.github/workflows/maintenance-security-alerts.yml`
-  — Tägliche Security-SLA-Triage (Code-Scanning High/Critical, dedupliziertes Governance-Issue, Auto-Close bei Recovery)
-- `.github/workflows/maintenance-gs3-gaps.yml`
-  — Tägliche/manuelle GS3-Scan-Triage mit konsolidiertem, idempotentem Issue-Management
+- `.github/workflows/maintenance-issues.yml`
+  — Konsolidiertes Issue-Maintenance: GS3-Gap-Triage (03:30 UTC) + Security-Alert-SLA-Triage (05:30 UTC); ersetzt maintenance-gs3-gaps.yml + maintenance-security-alerts.yml
 - `.github/workflows/docker-image.yml`
   — Container build/publish lane; triggered via workflow_run after successful CI — Release (koordiniert mit ci-release.yml)
-- `.github/workflows/security-scan.yml`
-  — Compatibility marker preserving legacy `security-scan` check context; no-op body. Triggers only on changes to the three canonical security workflow files.
+  _(security-scan.yml, security.yml, security-scanning.yml wurden in security-consolidated.yml konsolidiert und in no_workflows/ archiviert.)_
 - `.github/workflows/edition-hyperscaler-ci.yml`
   — Editionsspezifische Hyperscaler-CI Lane
 - `.github/workflows/automation-community.yml`
@@ -95,6 +90,20 @@ pwsh -NoProfile -File ./scripts/test-github-actions-local.ps1 -Mode all
 ```
 
 ## Stand
-- Aktive Workflows im Verzeichnis `.github/workflows/`: 24
-- Deaktivierte Workflows in `.github/no_workflows/`: 24
+- Aktive Workflows im Verzeichnis `.github/workflows/`: 21
+- Deaktivierte Workflows in `.github/no_workflows/`: 30
 - Strategie: Lean + harte Triggergrenzen + Quarantaene fuer uebertriggernde CI
+
+## Durchgeführte Konsolidierungen (Workflow Framework Refactoring)
+
+| Aktion | Quelle(n) | Ziel | Sprint |
+|---|---|---|---|
+| Trigger-Cleanup | ci-benchmarks.yml | push/PR entfernt → schedule/dispatch only | 1 |
+| Trigger-Cleanup | fortify.yml | pull_request entfernt → schedule only | 1 |
+| Trigger-Cleanup | governance-gates.yml | paths: Filter für push/develop | 1 |
+| Trigger-Cleanup | maintenance-docs.yml | pull_request entfernt | 1 |
+| Archiviert | security-scan.yml | no_workflows/ (war legacy shim) | 1 |
+| Konsolidiert | security.yml + security-scanning.yml | security-consolidated.yml | 2 |
+| ai_context + ai_working Coverage | maintenance-docs.yml | ai-working-hygiene Job hinzugefügt | 2 (new req) |
+| Composite Action | — | .github/actions/setup-python-script/ | 3 |
+| Konsolidiert | maintenance-gs3-gaps.yml + maintenance-security-alerts.yml | maintenance-issues.yml | 4 |

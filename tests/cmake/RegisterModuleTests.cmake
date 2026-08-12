@@ -38,6 +38,9 @@ function(themis_register_module_test)
 
     if(TRM_LABELS)
         list(APPEND _module_labels ${TRM_LABELS})
+        if("release_critical" IN_LIST TRM_LABELS)
+            set_property(GLOBAL APPEND PROPERTY THEMIS_RELEASE_CRITICAL_TARGETS ${TRM_TARGET})
+        endif()
     endif()
 
     themis_register_test_target(

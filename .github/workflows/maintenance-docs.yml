@@ -8,10 +8,14 @@ name: Maintenance — Docs
 #           08-maintenance_src-include-docs-align.yml
 
 on:
+  # push trigger retained for docs/ai_context/ai_working changes merged to develop/community.
+  # pull_request trigger removed — doc hygiene checks run on schedule and do not need
+  # to block PRs (they are non-blocking maintenance tasks, not PR gate requirements).
   push:
     branches: [develop, community]
     paths:
       - 'ai_context/**'
+      - 'ai_working/**'
       - 'INDEX.md'
       - 'LOG.md'
       - 'AI_WIKI_INTEGRATION_PLAYBOOK.md'
@@ -402,3 +406,171 @@ jobs:
               echo '```'; cat /tmp/align-report.txt; echo '```'
             fi
           } >> "$GITHUB_STEP_SUMMARY"
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # 5. ai_working + ai_context Hygiene
+  # Detects stale AI-session working documents in ai_working/ (> STALE_DAYS days,
+  # not governance-critical) and reports orphaned ai_context/ entries.
+  # Governance-critical files are explicitly excluded from the stale-file list:
+  #   - ai_working/ENFORCEMENT_WAIVERS.md  (read by governance-gates.yml)
+  #   - ai_working/MERGE_GATE_AUDIT_LOG.jsonl  (read by governance-gates.yml)
+  #   - ai_working/gs3/  (used by maintenance-gs3-gaps.yml; partially .gitignored)
+  # This job is report-only: it never deletes files and never fails the workflow.
+  # ────────────────────────────────────────────────────────────────────────────
+  ai-working-hygiene:
+    name: ai_working + ai_context Hygiene
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
+        with:
+          python-version: '3.11'
+
+      - name: Scan ai_working/ for stale files and ai_context/ for orphans
+        id: hygiene
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          import subprocess
+          import sys
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          STALE_DAYS = 30
+          REPO_ROOT = Path(
+              subprocess.check_output(["git", "rev-parse", "--show-toplevel"],
+                                      text=True).strip()
+          )
+
+          # Governance-critical files that must not be flagged as stale
+          GOVERNANCE_KEEP = {
+              "ENFORCEMENT_WAIVERS.md",
+              "MERGE_GATE_AUDIT_LOG.jsonl",
+              "MERGE_GATE_AUDIT_LOG.json",
+          }
+          # Subdirectories managed by other workflows — skip them
+          SKIP_SUBDIRS = {"gs3", "archive", "backups", "delta"}
+
+          def git_mtime(path: Path) -> datetime:
+              """Return last-commit timestamp for a file (UTC)."""
+              try:
+                  ts = subprocess.check_output(
+                      ["git", "log", "-1", "--format=%ct", "--", str(path)],
+                      text=True,
+                  ).strip()
+                  return datetime.fromtimestamp(int(ts), tz=timezone.utc) if ts else datetime.now(tz=timezone.utc)
+              except Exception:
+                  return datetime.now(tz=timezone.utc)
+
+          now = datetime.now(tz=timezone.utc)
+          stale_files = []
+          ai_working = REPO_ROOT / "ai_working"
+          if ai_working.is_dir():
+              for f in sorted(ai_working.iterdir()):
+                  if f.is_dir() and f.name in SKIP_SUBDIRS:
+                      continue
+                  if not f.is_file():
+                      continue
+                  if f.name in GOVERNANCE_KEEP:
+                      continue
+                  # Only track markdown and plain-text docs (not generated JSON/JSONL)
+                  if f.suffix.lower() not in (".md", ".txt", ".rst"):
+                      continue
+                  age_days = (now - git_mtime(f)).days
+                  if age_days >= STALE_DAYS:
+                      stale_files.append({"file": str(f.relative_to(REPO_ROOT)),
+                                          "age_days": age_days})
+
+          # --- ai_context orphan check: files not referenced in INDEX.md or PLAYBOOK ---
+          referenced = set()
+          for anchor_file in ["INDEX.md", "AI_WIKI_INTEGRATION_PLAYBOOK.md"]:
+              p = REPO_ROOT / anchor_file
+              if p.exists():
+                  for line in p.read_text(encoding="utf-8", errors="replace").splitlines():
+                      if "ai_context/" in line:
+                          # extract bare filename
+                          for token in line.split():
+                              if "ai_context/" in token:
+                                  fname = token.strip("()[]()`*\"'#").split("/")[-1].split(")")[0]
+                                  referenced.add(fname)
+
+          ai_context = REPO_ROOT / "ai_context"
+          orphan_ctx = []
+          if ai_context.is_dir():
+              for f in sorted(ai_context.rglob("*.md")):
+                  if f.name not in referenced:
+                      orphan_ctx.append(str(f.relative_to(REPO_ROOT)))
+
+          report = {
+              "stale_ai_working": stale_files,
+              "orphan_ai_context": orphan_ctx,
+              "stale_threshold_days": STALE_DAYS,
+              "scanned_at": now.isoformat(),
+          }
+
+          report_path = Path("/tmp/ai-hygiene-report.json")
+          report_path.write_text(json.dumps(report, indent=2), encoding="utf-8")
+
+          # Write step summary
+          summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
+          lines = []
+          lines.append("## ai_working + ai_context Hygiene Report\n")
+          lines.append(f"Stale threshold: **{STALE_DAYS} days**\n")
+
+          lines.append(f"\n### Stale ai_working/ files ({len(stale_files)})\n")
+          if stale_files:
+              lines.append("| File | Age (days) |\n|---|---|\n")
+              for entry in stale_files:
+                  lines.append(f"| `{entry['file']}` | {entry['age_days']} |\n")
+              lines.append("\n> ℹ️ Review and remove stale working documents when no longer needed.\n")
+          else:
+              lines.append("✅ No stale ai_working/ documents.\n")
+
+          lines.append(f"\n### Unreferenced ai_context/ files ({len(orphan_ctx)})\n")
+          if orphan_ctx:
+              lines.append("These files are not linked from INDEX.md or AI_WIKI_INTEGRATION_PLAYBOOK.md:\n")
+              for f in orphan_ctx[:20]:
+                  lines.append(f"- `{f}`\n")
+              if len(orphan_ctx) > 20:
+                  lines.append(f"- ... and {len(orphan_ctx) - 20} more\n")
+          else:
+              lines.append("✅ All ai_context/ files are referenced.\n")
+
+          output = "".join(lines)
+          if summary_path:
+              with open(summary_path, "a", encoding="utf-8") as fh:
+                  fh.write(output)
+          else:
+              print(output)
+
+          # Write human-readable text report
+          Path("/tmp/ai-hygiene-report.txt").write_text(output, encoding="utf-8")
+
+          # Set output for downstream notification use
+          github_output = os.environ.get("GITHUB_OUTPUT")
+          if github_output:
+              with open(github_output, "a") as fh:
+                  fh.write(f"stale_count={len(stale_files)}\n")
+                  fh.write(f"orphan_ctx_count={len(orphan_ctx)}\n")
+          PY
+
+      - name: Upload hygiene report
+        if: always()
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08  # v4.6.0
+        with:
+          name: ai-hygiene-report-${{ github.run_number }}
+          path: |
+            /tmp/ai-hygiene-report.json
+            /tmp/ai-hygiene-report.txt
+          retention-days: 30
+          if-no-files-found: ignore
+
