@@ -3811,3 +3811,282 @@ auto stats = hrm.getStats();
 // stats.stage1_bytes, stats.stage2_bytes, stats.stage3_bytes
 // stats.total_freed_bytes, stats.last_run_ms
 ```
+
+---
+
+## 29.16 AQL Process Mining — Praxisbeispiele {#chapter_29_16_aql-examples}
+
+> **Quelle:** [`docs/de/analytics/PROCESS_MINING_AQL_EXAMPLES.md`](../../de/analytics/PROCESS_MINING_AQL_EXAMPLES.md)
+
+Die folgenden Beispiele zeigen Process Mining in der Praxis mit realen Verwaltungsanwendungsfällen.
+
+### 29.16.1 Ähnliche Baugenehmigungsprozesse finden
+
+```aql
+-- Standard-Modell laden
+LET ideal_model = PM_LOAD_ADMIN_MODEL("bauantrag_standard")
+
+-- Ähnliche Prozesse finden (Hybrid: Graph + Vektor + Behavioral)
+LET similar_processes = PM_FIND_SIMILAR(ideal_model, {
+  method: "hybrid",
+  threshold: 0.75,
+  limit: 50,
+  graph_weight: 0.4,
+  vector_weight: 0.3,
+  behavioral_weight: 0.3
+})
+
+FOR result IN similar_processes
+  SORT result.overall_similarity DESC
+  RETURN {
+    case_id:          result.case_id,
+    similarity:       result.overall_similarity,
+    matched:          result.matched_activities,
+    extra_activities: result.extra_activities,
+    missing:          result.missing_activities
+  }
+```
+
+**Anwendungsfall:** Städtische Verwaltung identifiziert Baugenehmigungsanträge,
+die dem Standardprozess ähneln — zur Qualitätssicherung und Conformance-Prüfung.
+
+### 29.16.2 Conformance Checking gegen Ideal-Prozess
+
+```aql
+-- Ideal-Modell laden
+LET ideal_model = PM_LOAD_ADMIN_MODEL("bauantrag_standard")
+
+-- Conformance für alle Fälle im Zeitraum prüfen
+FOR vorgaenge IN (
+  FOR v IN verwaltungsvorgaenge_collection
+    FILTER v.created_at >= DATE_ISO8601("2024-01-01")
+    RETURN v
+)
+LET conformance = PM_CONFORMANCE_CHECK(vorgaenge, ideal_model, {
+  fitness_method:   "token_replay",
+  precision_method: "etconformance",
+  calculate_generalization: true
+})
+RETURN {
+  case_id:              vorgaenge.id,
+  fitness_score:        conformance.fitness,
+  precision_score:      conformance.precision,
+  generalization:       conformance.generalization,
+  non_conformant_steps: conformance.violations
+}
+```
+
+### 29.16.3 Anomalieerkennung in Verwaltungsprozessen
+
+```aql
+-- ML-basierte Anomalieerkennung in Prozesssequenzen
+LET model = PM_TRAIN_ANOMALY_MODEL("verwaltungsvorgaenge_collection", {
+  model_type:       "isolation_forest",
+  contamination:    0.05,
+  feature_set:      ["duration", "activity_sequence", "resource_usage", "timestamp_gaps"],
+  training_period:  "2023-01-01/2024-01-01"
+})
+
+FOR vorgang IN verwaltungsvorgaenge_collection
+  FILTER vorgang.created_at >= DATE_ISO8601("2024-01-01")
+  LET anomaly = PM_DETECT_ANOMALY(vorgang, model)
+  FILTER anomaly.is_anomaly == true
+  RETURN {
+    case_id:      vorgang.id,
+    anomaly_score: anomaly.score,
+    anomaly_type:  anomaly.type,
+    explanation:   anomaly.explanation
+  }
+```
+
+### 29.16.4 Prozess-Performance-Dashboard
+
+```aql
+-- Aggregierte KPIs über alle Verwaltungsprozesse
+LET kpis = (
+  FOR v IN verwaltungsvorgaenge_collection
+    COLLECT
+      process_type = v.type,
+      month = DATE_FORMAT(v.created_at, "%Y-%m")
+    AGGREGATE
+      avg_duration      = AVG(v.duration_days),
+      p95_duration      = PERCENTILE(v.duration_days, 95),
+      throughput        = LENGTH(v),
+      bottleneck_rate   = SUM(v.had_bottleneck ? 1 : 0) / LENGTH(v),
+      sla_breach_rate   = SUM(v.sla_exceeded ? 1 : 0) / LENGTH(v)
+    RETURN {
+      process_type,
+      month,
+      avg_duration_days:  avg_duration,
+      p95_duration_days:  p95_duration,
+      monthly_throughput: throughput,
+      bottleneck_rate:    bottleneck_rate,
+      sla_breach_rate:    sla_breach_rate
+    }
+)
+
+RETURN kpis
+```
+
+---
+
+## 29.17 Weiterführende Referenzen (docs/de/) {#chapter_29_17_cross-references}
+
+| Thema | Referenz |
+|---|---|
+| AQL Process Mining Beispiele (vollständig) | [`docs/de/analytics/PROCESS_MINING_AQL_EXAMPLES.md`](../../de/analytics/PROCESS_MINING_AQL_EXAMPLES.md) |
+| Process Mining Research & Roadmap | [`docs/de/analytics/PROCESS_MINING_RESEARCH_AND_ROADMAP.md`](../../de/analytics/PROCESS_MINING_RESEARCH_AND_ROADMAP.md) |
+| Process Mining Summary | [`docs/de/analytics/PROCESS_MINING_SUMMARY.md`](../../de/analytics/PROCESS_MINING_SUMMARY.md) |
+| Process Mining Guide (Praxis) | [`docs/de/analytics/process_mining_guide.md`](../../de/analytics/process_mining_guide.md) |
+| OLAP Analytics Guide | [`docs/de/analytics/olap_guide.md`](../../de/analytics/olap_guide.md) |
+| Anomalieerkennung | [`docs/de/analytics/anomaly_detection_guide.md`](../../de/analytics/anomaly_detection_guide.md) |
+| Forecasting | [`docs/de/analytics/forecasting_guide.md`](../../de/analytics/forecasting_guide.md) |
+| CEP (Complex Event Processing) | [`docs/de/analytics/cep_guide.md`](../../de/analytics/cep_guide.md) |
+| Process Module C++ API | [`src/process/ROADMAP.md`](../../../src/process/ROADMAP.md) |
+| BPMN Future Enhancements | [`docs/de/analytics/BPMN_FUTURE_ENHANCEMENTS.md`](../../de/analytics/BPMN_FUTURE_ENHANCEMENTS.md) |
+
+**→ Zurück:** [Kapitel 28: AQL Referenz](chapter_28_aql_reference.md)  
+**→ Weiter:** [Kapitel 30: Deployment & Operations](chapter_30_deployment_operations.md)
+
+---
+
+## 29.16 Phase-3-Sync: AQL-Analytics-Queries & Process Mining Konzepte {#chapter_29_16_phase3_sync}
+
+> *Quelle: [docs/de/analytics/PROCESS_MINING_SUMMARY.md](../../../docs/de/analytics/PROCESS_MINING_SUMMARY.md) · [docs/de/analytics/PROCESS_MINING_AQL_EXAMPLES.md](../../../docs/de/analytics/PROCESS_MINING_AQL_EXAMPLES.md) · [docs/de/analytics/process_mining_guide.md](../../../docs/de/analytics/process_mining_guide.md) · [docs/de/process/PRIMARY_SOURCES.md](../../../docs/de/process/PRIMARY_SOURCES.md)*
+
+### 29.16.1 Process Mining: Konzeptionelle Grundlagen
+
+**Process Mining** ist eine datengetriebene Methodik zur automatischen Entdeckung, Überwachung und Verbesserung realer Geschäftsprozesse aus **Event-Log-Daten**. ThemisDB integriert Process Mining direkt in die Datenbankschicht, wodurch keine separaten ETL-Pipelines benötigt werden.
+
+**Drei zentrale Analysedimensionen:**
+
+| Dimension | Beschreibung | Algorithmen |
+|-----------|-------------|-------------|
+| **Process Discovery** | Automatische Prozessmodell-Ableitung aus Event-Logs | Alpha Miner, Heuristic Miner, Inductive Miner |
+| **Conformance Checking** | Vergleich realer Ausführungen mit Soll-Prozessen | Token Replay, Alignment-based Conformance |
+| **Performance Enhancement** | Bottleneck-Erkennung & Prozessoptimierung | Directly-Follows Graph (DFG), Variant Analysis |
+
+**Event-Log-Modell in ThemisDB:**
+```
+EventLog = { CaseID, ActivityField, TimestampField, ... }
+Bsp.: { order_id, action, timestamp }
+```
+
+### 29.16.2 AQL-Analytics-Queries: Praxisbeispiele
+
+#### Prozess-Discovery via AQL
+
+```aql
+// Prozessmodell aus Event-Log entdecken
+FOR event IN audit_log
+  COLLECT case_id = event.order_id INTO activities = event.action
+  LET process_variant = (
+    FOR a IN activities RETURN a
+  )
+  RETURN {
+    case_id: case_id,
+    variant: process_variant,
+    count: LENGTH(activities)
+  }
+```
+
+#### AQL Process Mining Funktionen (v1.7.0)
+
+ThemisDB erweitert AQL um folgende Process-Mining-Funktionen:
+
+| AQL-Funktion | Beschreibung | Algorithmus |
+|-------------|-------------|-------------|
+| `PM_DISCOVER(collection, config)` | Prozessmodell entdecken | Heuristic Miner (Standard) |
+| `PM_COMPARE_IDEAL(case_id, ideal_model)` | Abweichung von Ideal-Prozess messen | Alignment-based |
+| `PM_FIND_SIMILAR(pattern, config)` | Ähnliche Prozessvarianten suchen | Multi-Model Ähnlichkeit |
+| `PM_HAS_PATTERN(case_id, pattern)` | Pattern-Matching auf Prozessausführungen | Token Replay |
+| `PM_BOTTLENECK(collection, config)` | Bottleneck-Analyse | Performance Enhancement |
+| `PM_VARIANTS(collection, config)` | Varianten-Analyse nach Häufigkeit | DFG |
+
+#### Verwaltungsprozess-Analyse (Anwendungsbeispiel)
+
+ThemisDB enthält **5 vordefinierte administrative Prozessmodelle** für den öffentlichen Sektor:
+
+```aql
+// Beispiel: Bauantragsverfahren gegen Ideal-Prozess prüfen
+LET ideal = PM_LOAD_MODEL("bauantrag_§34_BauO")
+FOR antrag IN baugenehmigungen
+  FILTER antrag.status == "abgeschlossen"
+  LET conformance = PM_COMPARE_IDEAL(antrag._id, ideal)
+  FILTER conformance.fitness < 0.8  // Abweichungen identifizieren
+  RETURN {
+    antrag_id: antrag._id,
+    fitness: conformance.fitness,
+    deviations: conformance.deviations,
+    bottlenecks: PM_BOTTLENECK(antrag._id, {threshold_ms: 5000})
+  }
+```
+
+**Verfügbare Verwaltungsmodelle:**
+
+| Modell | Basis | Beschreibung |
+|--------|-------|-------------|
+| `bauantrag_§34_BauO` | §34 BauO | Bauantragsverfahren |
+| `beschaffung_GWB` | GWB, VOB/A | Beschaffungsprozess |
+| `personaleinstellung_AGG` | AGG, DSGVO | Personaleinstellungsverfahren |
+| `haushaltsplanung` | HGrG | Haushaltsplanung |
+| `dokumentenfreigabe` | intern | Dokumenten-Freigabeprozess |
+
+### 29.16.3 Analytics-Pipeline-Architektur
+
+```mermaid
+flowchart TB
+    EventLog[Event-Log-Daten<br/>ThemisDB Collection] --> ETL[ETL-Schicht<br/>AQL Transformation]
+    ETL --> Mining[Process Mining Engine<br/>Alpha/Heuristic/Inductive Miner]
+    ETL --> OLAP[OLAP-Engine<br/>Multidimensionale Aggregation]
+    Mining --> Model[Prozessmodell<br/>BPMN 2.0 / Petri-Net]
+    Mining --> Conform[Conformance Check<br/>Token Replay / Alignment]
+    OLAP --> Cube[OLAP Cube<br/>Slice/Dice/Drill-Down]
+    Model --> Visualize[Visualisierung<br/>DFG / BPMN Export]
+    Conform --> Deviations[Abweichungs-Report]
+    Cube --> Dashboard[Analytics Dashboard]
+    Deviations --> Actions[Handlungsempfehlungen]
+    Dashboard --> Actions
+
+    style EventLog fill:#e1f5ff
+    style Mining fill:#fff4e1
+    style OLAP fill:#e8f5e9
+```
+
+**Abb. 29.16.1:** ThemisDB Analytics-Pipeline — von Rohdaten über Process Mining und OLAP zu handlungsorientierten Berichten.
+
+### 29.16.4 Process Mining Algorithmen: Vergleich
+
+| Algorithmus | Stärken | Schwächen | Empfehlung |
+|-------------|--------|-----------|------------|
+| **Alpha Miner** | Schnell, einfach implementiert | Keine Loops, Rauschen empfindlich | Strukturierte Prozesse ohne Schleifen |
+| **Heuristic Miner** | Tolerant gegen Rauschen, Loops | Nicht garantiert sound | **Standard-Empfehlung für Praxis** |
+| **Inductive Miner** | Garantiert sound+complete | Langsamer bei großen Logs | Wenn Korrektheit kritisch |
+
+**Sound** bedeutet: Kein Deadlock, keine Livelocks, keine inaktiven Transitionen — garantierte Terminierung.
+
+### 29.16.5 Export-Formate
+
+| Format | Beschreibung | Verwendung |
+|--------|-------------|-----------|
+| **BPMN 2.0 XML** | Standardformat für Prozessmodellierung | Import in Camunda, Signavio, LeanIX |
+| **Petri Net (PNML)** | Formale Analyse | Akademische Werkzeuge, Conformance-Checker |
+| **ThemisDB Process Definition** | Native JSON in `_process_definitions` | Direkte Wiederverwendung in AQL |
+| **DFG JSON** | Directly-Follows Graph als JSON | Dashboard-Visualisierung |
+
+---
+
+## 29.17 Phase-3-Sync: Querverweis-Index {#chapter_29_17_cross_references}
+
+**Bidirektionale Verweise — Level-1/2 Primärquellen:**
+
+| Thema | Primärquelle (Level 1) | docs/de-Kompendiumsquelle |
+|-------|----------------------|--------------------------|
+| Process Mining Modul | [`src/process/README.md`](../../../src/process/README.md) | [`docs/de/process/PRIMARY_SOURCES.md`](../../../docs/de/process/PRIMARY_SOURCES.md) |
+| Process Mining Guide | `src/process/ARCHITECTURE.md` | [`docs/de/analytics/process_mining_guide.md`](../../../docs/de/analytics/process_mining_guide.md) |
+| AQL Process Mining | `src/aql/process_mining.cpp` | [`docs/de/analytics/PROCESS_MINING_AQL_EXAMPLES.md`](../../../docs/de/analytics/PROCESS_MINING_AQL_EXAMPLES.md) |
+| Implementierungs-Summary | — | [`docs/de/analytics/PROCESS_MINING_SUMMARY.md`](../../../docs/de/analytics/PROCESS_MINING_SUMMARY.md) |
+| Research & Roadmap | `src/process/ROADMAP.md` | [`docs/de/analytics/PROCESS_MINING_RESEARCH_AND_ROADMAP.md`](../../../docs/de/analytics/PROCESS_MINING_RESEARCH_AND_ROADMAP.md) |
+| BPMN Future Enhancements | `src/process/FUTURE_ENHANCEMENTS.md` | [`docs/de/analytics/BPMN_FUTURE_ENHANCEMENTS.md`](../../../docs/de/analytics/BPMN_FUTURE_ENHANCEMENTS.md) |
+
+**→ Verwandte Kapitel:** [Kapitel 15 (Analytics)](chapter_15_analytics.md) · [Kapitel 28 (AQL Reference)](chapter_28_aql_reference.md) · [Kapitel 34 (Query Optimization)](chapter_34_query_optimization.md) · [Kapitel 40 (Data Governance)](chapter_40_data_governance_compliance.md)

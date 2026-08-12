@@ -846,3 +846,228 @@ auto report = reporter.generate(themis::governance::Framework::GDPR);
 // report.summary, report.violations, report.recommendations
 // report.evidence_references, report.as_json(), report.as_pdf()
 ```
+
+---
+
+## 40.12 Compliance-Matrix: Standards & ThemisDB-Features {#chapter_40_12_compliance-matrix}
+
+> **Quellen:** [`docs/de/compliance/compliance_dashboard.md`](../../de/compliance/compliance_dashboard.md), [`docs/de/compliance/compliance_full_checklist.md`](../../de/compliance/compliance_full_checklist.md)
+
+Die folgende Matrix zeigt den aktuellen Compliance-Erfüllungsgrad von ThemisDB gegenüber relevanten Standards und ordnet die entsprechenden ThemisDB-Features den Anforderungen zu.
+
+### 40.12.1 Compliance Score Übersicht (Stand Q2 2026)
+
+| Standard | Version | Erfüllungsgrad | Status | Primäre Nachweise |
+|----------|---------|---------------|--------|-------------------|
+| **BSI C5** | 2020 | 85 % | ✅ | `docs/de/compliance/compliance_full_checklist.md` |
+| **ISO 27001** | 2022 | 80 % | ✅ | `docs/de/compliance/compliance_full_checklist.md` |
+| **ISO 27017** | 2015 | 75 % | ⚠️ | Cloud-spezifische Kontrollen teilweise |
+| **ISO 27018** | 2019 | 80 % | ✅ | PII-Schutz, DSGVO-Alignment |
+| **ISO 27701** | 2019 | 70 % | ⚠️ | `docs/de/compliance/compliance_dpia.md` |
+| **DSGVO/GDPR** | 2016/679 | 90 % | ✅ | `docs/de/compliance/compliance_dpia.md` |
+| **eIDAS** | 910/2014 | 95 % | ✅ | PKI-Stack implementiert |
+| **NIS2** | 2022/2555 | 70 % | ⚠️ | Teilweise; KRITIS-Erweiterung geplant |
+| **SOC 2 Type II** | — | 85 % | ✅ | Trust Services Criteria erfüllt |
+| **HIPAA** | — | 80 % | ✅ | PHI-Schutz, Zugriffskontrolle, Audit-Trail |
+| **PCI DSS** | v4.0 | 80 % | ✅ | Karteninhaberdaten-Isolation |
+| **NIST CSF** | 2.0 | 75 % | ⚠️ | `docs/de/compliance/compliance_full_checklist.md` |
+| **Common Criteria** | ISO 15408 | EAL2+ | ✅ | Evaluiert |
+| **KRITIS** | BSI-KritisV | 75 % | ⚠️ | Soweit anwendbar |
+| **DIN EN ISO 9001** | 2015 | 80 % | ✅ | Qualitätsmanagementsystem |
+
+### 40.12.2 BSI C5 → ThemisDB Feature Mapping
+
+| BSI C5 Kontrollbereich | Anforderung (Kurzform) | ThemisDB-Umsetzung | Status |
+|---|---|---|---|
+| **OIS** – Org. Informationssicherheit | ISM-Policy definiert | `INFORMATION_SECURITY_POLICY.md`; RBAC | ✅ |
+| **OIS** | Risikomanagement etabliert | `RISK_MANAGEMENT_FRAMEWORK.md` | ✅ |
+| **OIS** | Interne Audits | Audit-Checkliste, GitHub-Reviews | ✅ |
+| **HRS** – Personal | Sicherheitstraining | `CONTRIBUTING.md`; Schulungsbedarf offen | ⚠️ |
+| **AM** – Asset Management | Inventar und Klassifizierung | Data Classification Schema (§ 40.2) | ✅ |
+| **AM** | Sensitivity Labelling | `DataClassificationEngine`; 4 Stufen | ✅ |
+| **INF** – Physische Sicherheit | Datenspeicherung in sicherer Umgebung | Deployment in zertifizierten Cloud-Zones | ⚠️ |
+| **KRY** – Kryptographie | Verschlüsselung at-rest und in-transit | AES-256-GCM, mTLS, TLS 1.3 | ✅ |
+| **KRY** | Schlüsselverwaltung | HSM-Integration; `KeyManager`-API | ✅ |
+| **COS** – Kommunikation | Netzwerksegmentierung | Shard-Isolation, mTLS inter-node | ✅ |
+| **OPS** – Betrieb | Patch-Management | CI/CD-Pipeline; Automated Vulnerability Scan | ✅ |
+| **OPS** | Logging und Monitoring | Immutable Audit-Log; Prometheus/Grafana | ✅ |
+| **OPS** | Backup und Recovery | `BackupManager`, PITR, Geo-Redundanz | ✅ |
+| **SIM** – Sicherheitsvorfälle | Incident Response Prozess | `docs/de/operations/incident_response.md` | ✅ |
+| **BCM** – Business Continuity | BCP/DRP definiert | `docs/de/compliance/compliance_bcp_drp.md` | ✅ |
+| **POR** – Portierbarkeit | Datenmigration und Export | Export-Formate (JSON, CSV, Parquet) | ✅ |
+| **CS** – Cloud-Services | Cloud-Dienstleisterkontrolle | Vendor Assessment `compliance_vendor_assessment.md` | ✅ |
+
+### 40.12.3 ISO 27001 Annex-A → ThemisDB Feature Mapping
+
+| ISO 27001 Kontrollbereich | Annex-A Ref | ThemisDB-Umsetzung | Status |
+|---|---|---|---|
+| Informationssicherheitspolitiken | A.5 | `INFORMATION_SECURITY_POLICY.md` | ✅ |
+| Organisation | A.6 | RBAC, Zuständigkeiten definiert | ✅ |
+| Personelle Sicherheit | A.7 | `CONTRIBUTING.md`; Prozess teilweise | ⚠️ |
+| Asset Management | A.8 | `DataClassificationEngine`; Inventar | ✅ |
+| Zugangs- und Zugriffskontrolle | A.9 | RBAC + ABAC; `AccessController` | ✅ |
+| Kryptographie | A.10 | AES-256-GCM, TLS 1.3, HSM | ✅ |
+| Physische Sicherheit | A.11 | Infrastruktur-Anbieter-abhängig | ⚠️ |
+| Betriebssicherheit | A.12 | CI/CD, Change-Management, Logging | ✅ |
+| Kommunikationssicherheit | A.13 | mTLS, VPN, Netzwerksegmentierung | ✅ |
+| Entwicklung und Wartung | A.14 | SDLC, Code-Review, SBOM | ✅ |
+| Lieferantenbeziehungen | A.15 | Vendor Assessment Prozess | ✅ |
+| Sicherheitsvorfallmanagement | A.16 | Incident Response Plan | ✅ |
+| Business Continuity | A.17 | BCP/DRP Dokumentation | ✅ |
+| Compliance | A.18 | Diese Dokumentation + Checklisten | ✅ |
+
+### 40.12.4 DSGVO-Anforderungen → ThemisDB Feature Mapping
+
+| DSGVO Artikel | Anforderung | ThemisDB-Umsetzung | Status |
+|---|---|---|---|
+| Art. 5 | Grundsätze für Verarbeitung | Datenklassifizierung; Zweckbindung | ✅ |
+| Art. 6 | Rechtmäßigkeit der Verarbeitung | Consent-Management-Hooks | ✅ |
+| Art. 13/14 | Informationspflicht | Audit-Trail; Verarbeitungsverzeichnis | ✅ |
+| Art. 15 | Auskunftsrecht | `DataSubjectAccessRequest`-API | ✅ |
+| Art. 17 | Recht auf Löschung | `DataRetentionPolicy`; GDPR-Delete | ✅ |
+| Art. 20 | Datenportabilität | Export-API (JSON/CSV) | ✅ |
+| Art. 25 | Privacy by Design | Verschlüsselung by Default; Datensparsamkeit | ✅ |
+| Art. 32 | Technisch-org. Maßnahmen | AES-256, TLS 1.3, RBAC, Audit-Logs | ✅ |
+| Art. 33/34 | Meldepflicht bei Datenpannen | Incident-Response-Pipeline | ⚠️ |
+| Art. 35 | DPIA-Pflicht | `docs/de/compliance/compliance_dpia.md` | ✅ |
+| Art. 37–39 | Datenschutzbeauftragter | Rollenmodell; DSB-Funktion definiert | ⚠️ |
+| Art. 44–49 | Drittlandübermittlung | Geofencing; EU-Datenhaltung konfigurierbar | ✅ |
+
+### 40.12.5 SOC 2 Trust Services Criteria
+
+| Kriterium | Beschreibung | ThemisDB-Nachweis | Status |
+|---|---|---|---|
+| **CC1** – Control Environment | Governance & Risk Management | ISP, RBAC, ISMS-Framework | ✅ |
+| **CC2** – Communication | Interne & externe Kommunikation | Audit-Trail, API-Dokumentation | ✅ |
+| **CC3** – Risk Assessment | Risikobewertung & -management | Risk Register; Pentest-Evidence | ✅ |
+| **CC4** – Monitoring | Kontinuierliche Überwachung | Prometheus, Grafana, Alert-Manager | ✅ |
+| **CC5** – Control Activities | Kontrollaktivitäten | RBAC-Controls, Code-Review, CI/CD | ✅ |
+| **CC6** – Logical Access | Logische Zugangskontrolle | RBAC + ABAC + MFA-Support | ✅ |
+| **CC7** – System Operations | Systembetrieb | Runbooks, Incident-Response | ✅ |
+| **CC8** – Change Management | Änderungsmanagement | Git-Workflow, PR-Review | ✅ |
+| **CC9** – Risk Mitigation | Risikominderung | Vendor-Assessment, BCP/DRP | ✅ |
+| **A1** – Availability | Verfügbarkeit | HA-Replikation, Auto-Failover | ✅ |
+| **C1** – Confidentiality | Vertraulichkeit | Encryption at-rest & in-transit | ✅ |
+| **P1–P8** – Privacy | Datenschutz | DSGVO-Compliance, Privacy by Design | ✅ |
+| **PI1** – Processing Integrity | Datenintegrität | ACID, Merkle-Receipt, Checksums | ✅ |
+
+---
+
+## 40.13 Weiterführende Referenzen (docs/de/) {#chapter_40_13_cross-references}
+
+Für detaillierte technische Dokumentation zu den in diesem Kapitel behandelten Themen:
+
+| Thema | Referenz |
+|---|---|
+| Compliance Checklist (vollständig) | [`docs/de/compliance/compliance_full_checklist.md`](../../de/compliance/compliance_full_checklist.md) |
+| Compliance Dashboard (Executive Summary) | [`docs/de/compliance/compliance_dashboard.md`](../../de/compliance/compliance_dashboard.md) |
+| DPIA / Datenschutz-Folgenabschätzung | [`docs/de/compliance/compliance_dpia.md`](../../de/compliance/compliance_dpia.md) |
+| Business Continuity & DR | [`docs/de/compliance/compliance_bcp_drp.md`](../../de/compliance/compliance_bcp_drp.md) |
+| Risk Register | [`docs/de/compliance/compliance_risk_register.md`](../../de/compliance/compliance_risk_register.md) |
+| Vendor Assessment | [`docs/de/compliance/compliance_vendor_assessment.md`](../../de/compliance/compliance_vendor_assessment.md) |
+| EU Cloud Sovereignty | [`docs/de/compliance/compliance_eu_cloud_sovereignty_framework.md`](../../de/compliance/compliance_eu_cloud_sovereignty_framework.md) |
+| License Compliance | [`docs/de/compliance/license-compliance.md`](../../de/compliance/license-compliance.md) |
+| Governance Policies | [`docs/de/governance/`](../../de/governance/) |
+| Security Module Dokumentation | [`docs/security/`](../../security/) |
+| HSM Integration | [`docs/security/HSM_INTEGRATION.md`](../../security/HSM_INTEGRATION.md) |
+| Encryption Key Management | [`docs/security/ENCRYPTION_KEY_MANAGEMENT_POLICY.md`](../../security/ENCRYPTION_KEY_MANAGEMENT_POLICY.md) |
+
+**→ Zurück:** [Kapitel 39: Performance Tuning](chapter_39_performance_tuning_cookbook.md)  
+**→ Weiter:** [Kapitel 41: Hands-On Labs](chapter_41_hands_on_labs.md)
+
+---
+
+## 40.12 Phase-3-Sync: BSI C5, ISO 27001, DSGVO & SOC 2 Compliance-Matrix {#chapter_40_12_compliance_matrix}
+
+> *Quelle: [docs/de/compliance/README.md](../../../docs/de/compliance/README.md) · [docs/de/compliance/compliance_full_checklist.md](../../../docs/de/compliance/compliance_full_checklist.md) · [docs/de/compliance/compliance_dpia.md](../../../docs/de/compliance/compliance_dpia.md) · [docs/de/governance/README.md](../../../docs/de/governance/README.md)*
+
+### 40.12.1 Compliance-Implementierungsstatus (v1.3.0)
+
+| Framework | Status | Primäre Dokumentation |
+|-----------|--------|----------------------|
+| **BSI C5** (Cloud Computing Compliance Criteria Catalogue 2020) | ✅ Ready | `docs/de/compliance/compliance_full_checklist.md` |
+| **ISO/IEC 27001:2022** | ✅ Ready | `docs/de/compliance/compliance_full_checklist.md` |
+| **ISO/IEC 27017** (Cloud-Sicherheitskontrollen) | ✅ Ready | `docs/de/compliance/compliance_full_checklist.md` |
+| **ISO/IEC 27018** (Personenbezogene Daten in Public Clouds) | ✅ Ready | `docs/de/compliance/compliance_full_checklist.md` |
+| **DSGVO/GDPR** (EU 2016/679) | ✅ Ready | `docs/de/compliance/compliance_dpia.md` |
+| **eIDAS** (EU No 910/2014) | ✅ Ready | `docs/de/compliance/compliance_full_checklist.md` |
+| **SOC 2 Type II** | ✅ Ready | `docs/de/compliance/compliance_full_checklist.md` |
+| **NIS2** (EU 2022/2555) | ✅ Ready | `docs/de/compliance/compliance_bcp_drp.md` |
+| **HIPAA** | ✅ Ready | `docs/de/compliance/compliance_full_checklist.md` |
+| **PCI DSS v4.0** | ✅ Ready | `docs/de/compliance/compliance_full_checklist.md` |
+| **EU AI Act** | 📋 Geplant | — |
+
+### 40.12.2 Compliance-Matrix: Anforderung → ThemisDB-Feature
+
+| Anforderung | Framework(s) | ThemisDB-Feature | Source-Code | Dokumentation |
+|-------------|-------------|-----------------|-------------|---------------|
+| Audit Logging (unveränderlich) | BSI C5, ISO 27001 A.12.4, SOC 2 CC7 | Immutable Audit Log (SHA-256-Chain) | `src/utils/audit_logger.cpp` | §40.6 dieses Kapitels |
+| Feldstufen-Verschlüsselung | BSI C5 COS-01, ISO 27001 A.10.1 | AES-256-GCM Field Encryption | `src/security/encryption.cpp` | §40.4 |
+| Schlüsselverwaltung | BSI C5 COS-03, ISO 27001 A.10.1.2 | Vault Key Provider | `src/security/vault_key_provider.cpp` | §40.3 |
+| Rollenbasierte Zugriffskontrolle | BSI C5 IAM-01, ISO 27001 A.9.2 | RBAC + ABAC | `src/security/rbac.cpp` | §40.3 |
+| PII-Erkennung & Klassifizierung | DSGVO Art. 25, BSI C5 OIS-08 | `AUTO_CLASSIFY` + PII Detector | `src/utils/pii_detector.cpp` | §40.2 |
+| Datensparsamkeit | DSGVO Art. 5(1)(c) | Data Classification Policy | `src/utils/retention_manager.cpp` | §40.5 |
+| Recht auf Vergessenwerden (Art. 17) | DSGVO Art. 17 | Crypto-Erase nach Retention | `src/utils/retention_manager.cpp` | §40.5 |
+| Datenschutz-Folgenabschätzung | DSGVO Art. 35 | DPIA-Dokumentation | — | `docs/de/compliance/compliance_dpia.md` |
+| Geschäftskontinuität | BSI C5 BCM-01, ISO 27001 A.17 | BCP/DRP | `src/failover/` | `docs/de/compliance/compliance_bcp_drp.md` |
+| Zeitstempel (RFC 3161) | eIDAS, NIS2 | TSA (Timestamp Authority) | `src/security/timestamp_authority.cpp` | §40.6 |
+| CMS-Signierung | eIDAS | CMS Signing | `src/security/cms_signing.cpp` | §40.6 |
+| Risikomanagement | ISO 27001 A.6, BSI C5 OIS-03 | Risiko-Register | — | `docs/de/compliance/compliance_risk_register.md` |
+
+### 40.12.3 Audit-Trail-Anforderungen
+
+ThemisDB implementiert einen **unveränderlichen Audit-Log** mit SHA-256-Hashkette für lückenlose Nachweisbarkeit:
+
+**Anforderungen nach Framework:**
+
+| Anforderung | BSI C5 | ISO 27001 | DSGVO | SOC 2 |
+|-------------|--------|-----------|-------|-------|
+| Protokollierung aller Datenzugriffe | OPS-15 | A.12.4.1 | Art. 30 | CC7.2 |
+| Unveränderlichkeit der Logs | OPS-16 | A.12.4.2 | — | CC7.2 |
+| Aufbewahrungsdauer (min. 2 Jahre) | OPS-17 | A.12.4.1 | Art. 30 | CC7.2 |
+| Zeitstempel (RFC 3161) | OPS-18 | A.12.4.1 | — | CC7.2 |
+| Zugriffsprotokollierung Admin | IAM-12 | A.9.4.1 | Art. 25 | CC6.3 |
+
+**Technische Umsetzung:**
+```cpp
+// src/utils/audit_logger.cpp
+AuditLogger logger(db, AuditConfig{
+    .retention_years = 7,       // BSI C5 / DSGVO konform
+    .hash_algorithm  = SHA256,  // Hashkette für Unveränderlichkeit
+    .tsa_enabled     = true,    // RFC 3161 Zeitstempel
+    .async_write     = true     // < 3 ms Latenz
+});
+logger.log(AuditEvent{
+    .user_id   = "alice@example.com",
+    .action    = AuditAction::READ,
+    .resource  = "patients/P-12345",
+    .timestamp = HLC::now()
+});
+```
+
+### 40.12.4 BSI C5 Organisatorische Sicherheits-Checkliste (Auswahl)
+
+| BSI C5 Ref | Anforderung | Status | ThemisDB-Nachweis |
+|-----------|-------------|--------|-------------------|
+| OIS-01 | Informationssicherheitspolitik | ✅ | `docs/security/INFORMATION_SECURITY_POLICY.md` |
+| OIS-02 | Sicherheitsrollen + Verantwortlichkeiten | ✅ | RBAC implementiert |
+| OIS-03 | Risikomanagementprozess | ✅ | `docs/de/compliance/compliance_risk_register.md` |
+| DOC-01 | Vollständige Systemdokumentation | ✅ | `README.md`, 290+ Dokumente in `docs/` |
+| DOC-02 | API-Dokumentation | ✅ | `docs/openapi.yaml`, `docs/de/apis/` |
+
+---
+
+## 40.13 Phase-3-Sync: Querverweis-Index {#chapter_40_13_cross_references}
+
+**Bidirektionale Verweise — Level-1/2 Primärquellen:**
+
+| Thema | Primärquelle (Level 1) | docs/de-Kompendiumsquelle |
+|-------|----------------------|--------------------------|
+| Compliance Übersicht | `src/utils/audit_logger.cpp` | [`docs/de/compliance/README.md`](../../../docs/de/compliance/README.md) |
+| Vollständige Checkliste | — | [`docs/de/compliance/compliance_full_checklist.md`](../../../docs/de/compliance/compliance_full_checklist.md) |
+| DSGVO DPIA | — | [`docs/de/compliance/compliance_dpia.md`](../../../docs/de/compliance/compliance_dpia.md) |
+| BCP/DRP | `src/failover/` | [`docs/de/compliance/compliance_bcp_drp.md`](../../../docs/de/compliance/compliance_bcp_drp.md) |
+| Risiko-Register | — | [`docs/de/compliance/compliance_risk_register.md`](../../../docs/de/compliance/compliance_risk_register.md) |
+| Governance Framework | — | [`docs/de/governance/README.md`](../../../docs/de/governance/README.md) |
+
+**→ Verwandte Kapitel:** [Kapitel 21 (Auth)](chapter_21_auth.md) · [Kapitel 22 (Encryption)](chapter_22_encryption.md) · [Kapitel 36 (Security Hardening)](chapter_36_security_hardening.md) · [Kapitel 38 (Observability/SRE)](chapter_38_observability_sre.md)

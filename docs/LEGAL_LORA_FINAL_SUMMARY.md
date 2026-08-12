@@ -1,3 +1,14 @@
+## Status: Stale – Archivierungskandidat
+> **Hinweis (2026-08-12):** Diese Datei enthält TODO/FIXME/STALE/TBD/PLACEHOLDER-Marker und wird als Archivierungskandidat geführt. Inhalte wurden nicht gelöscht. Für den aktuellen Stand bitte kanonische Quellen und den [Root-Index](00_DOCUMENTATION_INDEX.md) konsultieren.
+<!-- stale-marker: DOC-WEEKLY-2026-33 -->
+
+
+> **⚠️ ARCHIVIERUNGSHINWEIS:** Diese Datei ist ein Duplikat die bereits unter `docs/ARCHIVED/implementation-summaries/` archiviert wurde. Der Inhalt hier dient nur als Referenz. Bitte nutze die archivierte Version als kanonische Quelle.
+>
+> **Status: archive-candidate** | Inventar: [DOCS_INVENTORY_2026-Q3.md](Audit/DOCS_INVENTORY_2026-Q3.md)
+
+---
+
 # Legal LoRA Training Pipeline - Final Implementation Summary
 
 ## 🎉 Project Complete: 100% Implementation Delivered
@@ -111,7 +122,8 @@ auto sample = labeler.labelDocument(document_id);
 ```cpp
 // Process all documents with progress tracking
 auto stats = labeler.labelAll([](size_t done, size_t total, std::string msg) {
-    std::cout << "Progress: " << done << "/" << total << " - " << msg << "\n";
+    std::cout << "Progress: " << done << "/" << total << " - " << msg << "
+";
 });
 ```
 
@@ -182,9 +194,12 @@ auto result = trainer.resumeFromCheckpoint("checkpoint_epoch5.bin", callback);
 // Evaluate on validation set
 auto result = trainer.evaluate("legal_v1.1");
 
-std::cout << "Validation Loss: " << result.validation_loss << "\n";
-std::cout << "Accuracy: " << result.accuracy << "\n";
-std::cout << "Samples: " << result.samples_trained << "\n";
+std::cout << "Validation Loss: " << result.validation_loss << "
+";
+std::cout << "Accuracy: " << result.accuracy << "
+";
+std::cout << "Samples: " << result.samples_trained << "
+";
 ```
 
 ---
@@ -504,7 +519,8 @@ int main() {
     
     auto ingest_report = mgr.ingestAll();
     std::cout << "Ingested " << ingest_report.total_documents 
-              << " documents\n";
+              << " documents
+";
     
     // 2. Auto-label using PR #1
     training::AutoLabelConfig label_config;
@@ -516,7 +532,8 @@ int main() {
     training::LegalAutoLabeler labeler(label_config, "themisdb");
     auto label_stats = labeler.labelAll();
     std::cout << "Generated " << label_stats.samples_generated 
-              << " training samples\n";
+              << " training samples
+";
     
     // 3. Enrich with knowledge graph
     training::EnrichmentConfig enrich_config;
@@ -527,7 +544,8 @@ int main() {
     training::KnowledgeGraphEnricher enricher(enrich_config, "themisdb");
     auto enrich_stats = enricher.enrichAll();
     std::cout << "Enriched " << enrich_stats.samples_processed 
-              << " samples\n";
+              << " samples
+";
     
     // 4. Train LoRA adapter
     training::IncrementalTrainingConfig train_config;
@@ -546,25 +564,34 @@ int main() {
         training::TrainingMode::INITIAL,
         [](size_t epoch, size_t step, double loss, std::string msg) {
             std::cout << "Epoch " << epoch << ", Step " << step 
-                     << ", Loss: " << loss << " - " << msg << "\n";
+                     << ", Loss: " << loss << " - " << msg << "
+";
         }
     );
     
     if (result.success) {
-        std::cout << "Training complete!\n";
-        std::cout << "  Version: " << result.version << "\n";
-        std::cout << "  Training Loss: " << result.training_loss << "\n";
-        std::cout << "  Validation Loss: " << result.validation_loss << "\n";
-        std::cout << "  Accuracy: " << result.accuracy << "\n";
+        std::cout << "Training complete!
+";
+        std::cout << "  Version: " << result.version << "
+";
+        std::cout << "  Training Loss: " << result.training_loss << "
+";
+        std::cout << "  Validation Loss: " << result.validation_loss << "
+";
+        std::cout << "  Accuracy: " << result.accuracy << "
+";
         std::cout << "  Training Time: " << result.training_time_seconds 
-                  << " seconds\n";
+                  << " seconds
+";
         
         // 5. Deploy with A/B testing
         trainer.deployVersion(result.version, 0.1f);  // 10% traffic
-        std::cout << "Deployed with 10% traffic split\n";
+        std::cout << "Deployed with 10% traffic split
+";
         
     } else {
-        std::cerr << "Training failed: " << result.error_message << "\n";
+        std::cerr << "Training failed: " << result.error_message << "
+";
     }
     
     return 0;

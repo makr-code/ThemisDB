@@ -1,3 +1,14 @@
+## Status: Stale – Archivierungskandidat
+> **Hinweis (2026-08-12):** Diese Datei enthält TODO/FIXME/STALE/TBD/PLACEHOLDER-Marker und wird als Archivierungskandidat geführt. Inhalte wurden nicht gelöscht. Für den aktuellen Stand bitte kanonische Quellen und den [Root-Index](00_DOCUMENTATION_INDEX.md) konsultieren.
+<!-- stale-marker: DOC-WEEKLY-2026-33 -->
+
+
+> **⚠️ STATUS: STALE – Archivierungskandidat**
+> Dieser Inhalt enthält veraltete TODO/FIXME/PLACEHOLDER-Marker und wird im nächsten Archiv-Run nach `docs/ARCHIVED/` verschoben.
+> Bitte nicht als aktuelle Referenz nutzen. Inventar: [DOCS_INVENTORY_2026-Q3.md](Audit/DOCS_INVENTORY_2026-Q3.md)
+
+---
+
 # Quick Start Guide - Phase 1 Implementation
 
 **Purpose**: Get started with Phase 1 (Critical Blockers) implementation  

@@ -30,7 +30,7 @@ Use these links for day-to-day product usage and operations:
 - Master index: [00_DOCUMENTATION_INDEX.md](00_DOCUMENTATION_INDEX.md)
 - Role-based hub: [DOCUMENTATION_HUB.md](DOCUMENTATION_HUB.md)
 - Topic index: [CATEGORY_INDEX.md](CATEGORY_INDEX.md)
-- Structure rules: [DOCS_ORGANIZATION_PLAN.md](DOCS_ORGANIZATION_PLAN.md)
+- Structure rules: [DOCS_ORGANIZATION_PLAN.md(ARCHIVED/implementation-summaries/DOCS_ORGANIZATION_PLAN.md)
 - Docs PR policy: [governance/DOCS_PR_POLICY.md](governance/DOCS_PR_POLICY.md)
 
 ## Root cleanup rule

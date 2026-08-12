@@ -6784,3 +6784,201 @@ detector->setRetrievalCallback(
 
 **Tests:** 7 Unit-Tests in `tests/test_knowledge_gap_retrieval_callback.cpp`
 (KGD-CB-01…07) — CMake-Target `test_knowledge_gap_retrieval_callback`.
+
+---
+
+## 17.31 Phase-3-Sync: LoRA Finetuning-Prozess {#chapter_17_31_lora_finetuning}
+
+> *Quelle: [docs/de/lora/LORA_BUILD_GUIDE.md](../../../docs/de/lora/LORA_BUILD_GUIDE.md) · [docs/de/lora/SYSTEMATIC_LORA_ANALYSIS.md](../../../docs/de/lora/SYSTEMATIC_LORA_ANALYSIS.md)*
+
+### 17.31.1 Überblick: LoRA Framework in ThemisDB
+
+ThemisDB implementiert **LoRA (Low-Rank Adaptation)** als optionales Feature für domänenspezifisches Modell-Finetuning. Das Framework baut auf der llama.cpp-Engine auf und unterstützt Multi-LoRA-Management im vLLM-Stil.
+
+**Build-Voraussetzung:**
+```bash
+cmake -DTHEMIS_ENABLE_LLM=ON -DTHEMIS_ENABLE_LORA=ON ..
+```
+
+**Architektur der zwei LoRA-Manager:**
+
+| Komponente | Implementierung | Status | Empfehlung |
+|-----------|----------------|--------|------------|
+| `LoRAAdapterManager` | `include/llm/lora_framework/lora_adapter_manager.h` | Legacy (deprecated) | Nicht für Neuentwicklung |
+| `MultiLoRAManager` | vLLM-Style, Multi-GPU-Unterstützung | Produktionsreif ✅ | Empfohlen |
+
+> **Wichtig:** Der legacy `LoRAAdapterManager` lädt Adapter, wendet sie aber nicht auf Modellgewichte an (bekanntes Issue: `applyAdapter()` ohne Gewichtsfusion). Für produktiven Einsatz ausschließlich `MultiLoRAManager` verwenden.
+
+### 17.31.2 LoRA Finetuning-Workflow
+
+```mermaid
+flowchart LR
+    Base[Base Model<br/>GGUF/GPTQ/AWQ] --> Load[Model Loading<br/>MultiLoRAManager]
+    TrainData[Trainingsdaten<br/>Domänenspezifisch] --> QLoRA[QLoRA Training<br/>4-bit Quantization]
+    QLoRA --> Adapter[LoRA Adapter<br/>.safetensors]
+    Adapter --> Hot[Hot-Loading<br/>ohne Engine-Neustart]
+    Load --> Hot
+    Hot --> Inference[Inferenz mit<br/>Adapter-Fusion]
+    Inference --> Eval[Evaluierung<br/>LLM-as-Judge]
+    Eval -->|Verbesserung nötig| QLoRA
+    Eval -->|Produktionsreif| Deploy[Deployment]
+```
+
+**Abb. 17.31.1:** LoRA Finetuning-Pipeline in ThemisDB — von Trainingsdaten bis zum produktiven Einsatz.
+
+### 17.31.3 Konfigurationsreferenz: LoRA
+
+| Parameter | Typ | Standard | Beschreibung |
+|-----------|-----|---------|--------------|
+| `lora_path` | string | — | Pfad zur `.safetensors`-Adapterdatei |
+| `lora_scale` (alpha) | float | `1.0` | Skalierungsfaktor für Adapter-Gewichte |
+| `lora_rank` | int | 16 | Rang der Low-Rank-Zerlegung |
+| `lora_hot_swap` | bool | `true` | Hot-Loading ohne Engine-Neustart |
+| `lora_max_adapters` | int | 8 | Max. gleichzeitig geladene Adapter |
+| `quantization` | enum | `GGUF` | GGUF / AWQ / GPTQ |
+
+### 17.31.4 Bekannte Einschränkungen
+
+- `LoRAAdapterManager` (legacy): Adapter werden GELADEN aber nicht auf Gewichte angewendet → nur `MultiLoRAManager` verwenden
+- Speicher-Lifecycle: `VRAMAllocator` nutzt manuelles `new/delete` — in Produktionsumgebungen auf `std::unique_ptr<VRAMAllocator>` migrieren
+- Doppelter Manager-Code: `LoRAAdapterManager` und `MultiLoRAManager` koexistieren — Migrationsweg dokumentiert in `docs/de/lora/LORA_STABILIZATION_PLAN.md`
+
+---
+
+## 17.32 Phase-3-Sync: RAG-Pipeline & Embedding-Konfiguration {#chapter_17_32_rag_pipeline}
+
+> *Quelle: [docs/de/rag/KONTINUIERLICHES_LERNEN.md](../../../docs/de/rag/KONTINUIERLICHES_LERNEN.md) · [docs/de/llm/RAG_IMPLEMENTATION_GUIDE.md](../../../docs/de/llm/RAG_IMPLEMENTATION_GUIDE.md)*
+
+### 17.32.1 RAG-Architekturübersicht
+
+ThemisDB implementiert ein vollständiges **Retrieval-Augmented Generation (RAG)**-System direkt in der Datenbankebene. Retrieval, Embedding und Generierung können in einer AQL-Query kombiniert werden.
+
+```mermaid
+graph TB
+    Query[Nutzeranfrage] --> Embed[Embedding-Engine<br/>EMBED()]
+    Embed --> VecSearch[Vector Search<br/>HNSW-Index]
+    VecSearch --> Context[Kontext-Dokumente<br/>k-nearest neighbors]
+    Context --> Augment[Prompt-Augmentierung]
+    Query --> Augment
+    Augment --> LLM[LLM-Inferenz<br/>PROMPT() / GENERATE()]
+    LLM --> Answer[Antwort mit Quellangaben]
+
+    style Embed fill:#4facfe
+    style VecSearch fill:#95e1d3
+    style LLM fill:#fa709a
+```
+
+**Abb. 17.32.1:** RAG-Pipeline in ThemisDB — Embedding, Vector-Retrieval und LLM-Generierung als integrierter Datenbankprozess.
+
+### 17.32.2 Kontinuierlicher Lernzyklus (ContinuousLearningOrchestrator)
+
+ThemisDB's `ContinuousLearningOrchestrator` optimiert RAG-Komponenten automatisch:
+
+| Komponente | Trigger | Mechanismus |
+|-----------|--------|-------------|
+| **LoRA-Retraining** | Feedback-Threshold, Leistungsabfall, Zeitplan | Automatisches Adapter-Training auf Produktionsdaten |
+| **Prompt-Optimierung** | Leistungsschwache Prompts | LLM-generierte Variationen + A/B-Tests |
+| **Retrieval-Parameter** | Bayesianische Optimierung | `top_k`, `similarity_threshold`, `coverage_threshold` |
+| **A/B-Testing** | Alle Änderungen | Traffic-Splitting + statistische t-Test-Validierung |
+
+### 17.32.3 Embedding-Konfigurationsreferenz
+
+| Parameter | Beschreibung | Beispielwert |
+|-----------|-------------|-------------|
+| `embedding_model` | Modell für Vektor-Embeddings | `text-embedding-3-small` / `all-MiniLM-L6-v2` |
+| `embedding_dim` | Vektordimension | 384, 768, 1536 |
+| `similarity_metric` | Ähnlichkeitsmaß | `cosine` / `l2` / `ip` |
+| `index_type` | Vector-Index-Typ | `hnsw` (Standard) / `flat` |
+| `hnsw_m` | HNSW-Verbindungsgrad | 16 |
+| `hnsw_ef_construction` | HNSW Baukomplexität | 200 |
+| `top_k` | Anzahl Retrieval-Ergebnisse | 5–20 |
+| `similarity_threshold` | Mindest-Ähnlichkeit | 0.75 |
+
+---
+
+## 17.33 Phase-3-Sync: ONNX/CLIP-Integration {#chapter_17_33_onnx_clip}
+
+> *Quelle: [docs/de/onnx_clip/](../../../docs/de/onnx_clip/) · [docs/de/llm/VISION_MULTIMODAL_SUPPORT.md](../../../docs/de/llm/VISION_MULTIMODAL_SUPPORT.md)*
+
+ThemisDB unterstützt **ONNX**-Modelle und **CLIP** (Contrastive Language–Image Pretraining) für multimodale Embeddings.
+
+**Einsatzbereiche:**
+- **Bildklassifikation** und visuelle Suche (semantische Ähnlichkeit über Bild+Text)
+- **Multi-modale RAG** mit visuellen Dokumenten (LLaVA-basiert, experimentell)
+- **ONNX-Export** von LoRA-adaptierten Modellen für Edge-Deployment
+
+| Feature | Status | Build-Flag |
+|---------|--------|-----------|
+| ONNX Runtime Integration | ✅ Produktionsreif | `-DTHEMIS_ENABLE_ONNX=ON` |
+| CLIP-Embeddings (Text+Bild) | ✅ Produktionsreif | `-DTHEMIS_ENABLE_CLIP=ON` |
+| Vision/LLaVA Multi-Modal | ⚠️ Experimentell | `-DTHEMIS_ENABLE_VISION=ON` |
+| Flash Attention (CUDA) | ✅ Produktionsreif | CUDA erforderlich |
+
+---
+
+## 17.34 Phase-3-Sync: Troubleshooting LLM-Integration {#chapter_17_34_troubleshooting}
+
+> *Quelle: [docs/de/llm/README.md](../../../docs/de/llm/README.md) · [docs/de/lora/SYSTEMATIC_LORA_ANALYSIS.md](../../../docs/de/lora/SYSTEMATIC_LORA_ANALYSIS.md)*
+
+### Häufige Probleme und Lösungen
+
+| Problem | Ursache | Lösung |
+|---------|--------|--------|
+| LoRA Adapter wird ignoriert | `LoRAAdapterManager` (legacy) verwendet | Auf `MultiLoRAManager` migrieren |
+| `applyAdapter()` gibt true zurück, aber Modell zeigt keine Veränderung | `applyAdapter()` fusioniert keine Gewichte im Legacy-Manager | `MultiLoRAManager::loadAndApply()` verwenden |
+| Memory Leak bei VRAMAllocator | `new`/`delete` statt Smart Pointer | `std::unique_ptr<VRAMAllocator>` verwenden |
+| LLM-Modul nicht verfügbar | Build-Flag fehlt | `-DTHEMIS_ENABLE_LLM=ON` beim Build setzen |
+| llama.cpp nicht gefunden | Externes Submodul fehlt | `git submodule update --init external/llama.cpp` |
+| Embedding-Dimensionen stimmen nicht überein | Falsches Embedding-Modell | `embedding_dim` in Config prüfen; Konsistenz zwischen Index-Erstellung und Abfrage |
+| RAG gibt irrelevante Ergebnisse | Zu niedriger `similarity_threshold` | `similarity_threshold` auf ≥0.75 erhöhen; HNSW `ef_search` erhöhen |
+| Vision-Feature instabil | LLaVA experimenteller Status | Feature-Flag deaktivieren für Produktion; Stable-Version abwarten |
+
+---
+
+## 17.35 Phase-3-Sync: Querverweis-Index {#chapter_17_35_cross_references}
+
+**Bidirektionale Verweise — Level-1/2 Primärquellen:**
+
+| Thema | Primärquelle (Level 1) | docs/de-Kompendiumsquelle |
+|-------|----------------------|--------------------------|
+| LLM Modul Übersicht | [`src/llm/README.md`](../../../src/llm/README.md) | [`docs/de/llm/README.md`](../../../docs/de/llm/README.md) |
+| LoRA Framework Build | [`src/llm/lora_framework/`](../../../src/llm/lora_framework/) | [`docs/de/lora/LORA_BUILD_GUIDE.md`](../../../docs/de/lora/LORA_BUILD_GUIDE.md) |
+| LoRA Stabilitätsanalyse | [`include/llm/lora_framework/lora_adapter_manager.h`](../../../include/llm/lora_framework/lora_adapter_manager.h) | [`docs/de/lora/SYSTEMATIC_LORA_ANALYSIS.md`](../../../docs/de/lora/SYSTEMATIC_LORA_ANALYSIS.md) |
+| RAG Architektur | [`src/rag/ARCHITECTURE.md`](../../../src/rag/ARCHITECTURE.md) | [`docs/de/rag/PRIMARY_SOURCES.md`](../../../docs/de/rag/PRIMARY_SOURCES.md) |
+| Kontinuierliches Lernen | [`src/rag/`](../../../src/rag/) | [`docs/de/rag/KONTINUIERLICHES_LERNEN.md`](../../../docs/de/rag/KONTINUIERLICHES_LERNEN.md) |
+| ONNX/CLIP | [`src/onnx_clip/`](../../../src/onnx_clip/) | [`docs/de/onnx_clip/`](../../../docs/de/onnx_clip/) |
+| llama.cpp Integration | [`external/llama.cpp`](../../../external/llama.cpp) | [`docs/de/llama_cpp/`](../../../docs/de/llama_cpp/) |
+
+**→ Verwandte Kapitel:** [Kapitel 8 (Vector Search)](chapter_08_vector.md) · [Kapitel 16 (ML)](chapter_16_ml.md) · [Kapitel 24 (AI Ethics)](chapter_24_ai_ethics.md)
+
+---
+
+## 17.31 Weiterführende Referenzen (docs/de/) {#chapter_17_31_cross-references}
+
+> Detaillierte Implementierungsdokumentation zu den behandelten LLM-, LoRA- und RAG-Themen:
+
+| Thema | Referenz |
+|---|---|
+| LLM Plugin Development Guide | [`docs/de/llm/LLM_PLUGIN_DEVELOPMENT_GUIDE.md`](../../de/llm/LLM_PLUGIN_DEVELOPMENT_GUIDE.md) |
+| LLM Loader Guide | [`docs/de/llm/LLM_LOADER_GUIDE.md`](../../de/llm/LLM_LOADER_GUIDE.md) |
+| llama.cpp Integration | [`docs/de/llm/LLAMA_CPP_INTEGRATION.md`](../../de/llm/LLAMA_CPP_INTEGRATION.md) |
+| llama.cpp Feature Quickref | [`docs/de/llm/LLAMA_CPP_FEATURE_QUICKREF.md`](../../de/llm/LLAMA_CPP_FEATURE_QUICKREF.md) |
+| llama.cpp Feature Implementation Guide | [`docs/de/llm/LLAMA_CPP_FEATURE_IMPLEMENTATION_GUIDE.md`](../../de/llm/LLAMA_CPP_FEATURE_IMPLEMENTATION_GUIDE.md) |
+| Extended Context (Production) | [`docs/de/llm/EXTENDED_CONTEXT_PRODUCTION_GUIDE.md`](../../de/llm/EXTENDED_CONTEXT_PRODUCTION_GUIDE.md) |
+| Async Inference Architecture | [`docs/de/llm/ASYNC_INFERENCE_ARCHITECTURE.md`](../../de/llm/ASYNC_INFERENCE_ARCHITECTURE.md) |
+| Distributed Reasoning Architecture | [`docs/de/llm/DISTRIBUTED_REASONING_ARCHITECTURE.md`](../../de/llm/DISTRIBUTED_REASONING_ARCHITECTURE.md) |
+| AI Ecosystem Sharding Architecture | [`docs/de/llm/AI_ECOSYSTEM_SHARDING_ARCHITECTURE.md`](../../de/llm/AI_ECOSYSTEM_SHARDING_ARCHITECTURE.md) |
+| Best Practices & Design Patterns | [`docs/de/llm/BEST_PRACTICES_AND_DESIGN_PATTERNS.md`](../../de/llm/BEST_PRACTICES_AND_DESIGN_PATTERNS.md) |
+| GPU Tier Analysis | [`docs/de/llm/GPU_TIER_ANALYSIS_HYPERSCALER_COMPARISON.md`](../../de/llm/GPU_TIER_ANALYSIS_HYPERSCALER_COMPARISON.md) |
+| Enterprise VRAM Licensing | [`docs/de/llm/ENTERPRISE_VRAM_LICENSING.md`](../../de/llm/ENTERPRISE_VRAM_LICENSING.md) |
+| German Administrative Use Cases | [`docs/de/llm/GERMAN_ADMINISTRATIVE_USE_CASES.md`](../../de/llm/GERMAN_ADMINISTRATIVE_USE_CASES.md) |
+| Inference Engine Comparison | [`docs/de/llm/INFERENCE_ENGINE_COMPARISON.md`](../../de/llm/INFERENCE_ENGINE_COMPARISON.md) |
+| Cross-Shard Inference Runbook | [`docs/de/llm/CROSS_SHARD_INFERENCE_RUNBOOK.md`](../../de/llm/CROSS_SHARD_INFERENCE_RUNBOOK.md) |
+| LLM als Ethical Judge | [`docs/de/llm/LLM_AS_ETHICAL_JUDGE.md`](../../de/llm/LLM_AS_ETHICAL_JUDGE.md) |
+| LoRA Dokumentation | [`docs/de/lora/`](../../de/lora/) |
+| RAG Implementierungsguide | [`docs/de/rag/`](../../de/rag/) |
+| ONNX/CLIP Integration | [`docs/de/onnx_clip/`](../../de/onnx_clip/) |
+| Prompt Engineering | [`docs/de/prompt_engineering/`](../../de/prompt_engineering/) |
+
+**→ Zurück:** [Kapitel 16: ML & Sharding](chapter_16_ml.md)  
+**→ Weiter:** [Kapitel 18: HA & ML](chapter_18_ha.md)

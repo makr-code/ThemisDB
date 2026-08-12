@@ -1,3 +1,8 @@
+## Status: Stale – Archivierungskandidat
+> **Hinweis (2026-08-12):** Diese Datei enthält TODO/FIXME/STALE/TBD/PLACEHOLDER-Marker und wird als Archivierungskandidat geführt. Inhalte wurden nicht gelöscht. Für den aktuellen Stand bitte kanonische Quellen und den [Root-Index](00_DOCUMENTATION_INDEX.md) konsultieren.
+<!-- stale-marker: DOC-WEEKLY-2026-33 -->
+
+
 # High Availability Replication - Implementation Guide
 
 > Alignment note (2026-05-31): This guide is a secondary operational document.

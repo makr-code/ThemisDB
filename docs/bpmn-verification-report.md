@@ -1,3 +1,14 @@
+## Status: Stale – Archivierungskandidat
+> **Hinweis (2026-08-12):** Diese Datei enthält TODO/FIXME/STALE/TBD/PLACEHOLDER-Marker und wird als Archivierungskandidat geführt. Inhalte wurden nicht gelöscht. Für den aktuellen Stand bitte kanonische Quellen und den [Root-Index](00_DOCUMENTATION_INDEX.md) konsultieren.
+<!-- stale-marker: DOC-WEEKLY-2026-33 -->
+
+
+> **⚠️ ARCHIVIERUNGSHINWEIS:** Diese Datei ist ein Duplikat die bereits unter `docs/ARCHIVED/implementation-summaries/` archiviert wurde. Der Inhalt hier dient nur als Referenz. Bitte nutze die archivierte Version als kanonische Quelle.
+>
+> **Status: archive-candidate** | Inventar: [DOCS_INVENTORY_2026-Q3.md](Audit/DOCS_INVENTORY_2026-Q3.md)
+
+---
+
 # BPMN Wire Protocol Implementation - Verification Report
 
 **Date:** 2026-02-08  

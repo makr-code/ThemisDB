@@ -1841,3 +1841,26 @@ optimizer.reset_stats();
 | TIMESERIES  | No   | 4       | 256       | sort-merge  | brin    |
 
 > **Predictive Scaling**: Übersteigt `concurrent_queries` den Basiswert für `thread_pool_size`, wird der Pool auf `concurrent_queries × 1.25` hochskaliert.
+
+---
+
+## 39.16 Phase-3-Sync: Weiterführende Referenzen (docs/de/) {#chapter39_16_cross-references}
+
+> Detaillierte Implementierungsdokumentation zu den behandelten Themen:
+
+| Thema | Referenz |
+|---|---|
+| Performance Index (Übersicht) | [`docs/de/performance/PERFORMANCE_INDEX.md`](../../de/performance/PERFORMANCE_INDEX.md) |
+| Benchmark-Ergebnisse 2025 | [`docs/de/performance/BENCHMARK_RESULTS_COMPLETE_2025.md`](../../de/performance/BENCHMARK_RESULTS_COMPLETE_2025.md) |
+| Cache-Optimierung Abschlussbericht | [`docs/de/performance/CACHE_OPTIMIZATION_ABSCHLUSSBERICHT.md`](../../de/performance/CACHE_OPTIMIZATION_ABSCHLUSSBERICHT.md) |
+| HTTP Client Pool Optimierung | [`docs/de/performance/HTTP_CLIENT_POOL_OPTIMIZATION.md`](../../de/performance/HTTP_CLIENT_POOL_OPTIMIZATION.md) |
+| Ingestion-Optimierung | [`docs/de/performance/INGESTION_OPTIMIZATION_SUMMARY.md`](../../de/performance/INGESTION_OPTIMIZATION_SUMMARY.md) |
+| Bibliotheken Quick-Ref | [`docs/de/performance/LIBRARY_OPTIMIZATION_QUICKREF.md`](../../de/performance/LIBRARY_OPTIMIZATION_QUICKREF.md) |
+| Quick Wins Optimierung | [`docs/de/performance/OPTIMIZATION_QUICK_WINS.md`](../../de/performance/OPTIMIZATION_QUICK_WINS.md) |
+| Query Cache Optimierung | [`docs/de/performance/QUERY_CACHE_OPTIMIZATION_SUMMARY.md`](../../de/performance/QUERY_CACHE_OPTIMIZATION_SUMMARY.md) |
+| WAL Multi-SSD Konfiguration | [`docs/de/performance/WAL_MULTI_SSD_CONFIGURATION.md`](../../de/performance/WAL_MULTI_SSD_CONFIGURATION.md) |
+| Adaptive Distributed Optimizer | [`docs/de/performance/ADAPTIVE_DISTRIBUTED_OPTIMIZER.md`](../../de/performance/ADAPTIVE_DISTRIBUTED_OPTIMIZER.md) |
+| Performance Primärquellen | [`docs/de/performance/PRIMARY_SOURCES.md`](../../de/performance/PRIMARY_SOURCES.md) |
+
+**→ Zurück:** [Kapitel 38: Observability & SRE](chapter_38_observability_sre.md)
+**→ Weiter:** [Kapitel 40: Data Governance](chapter_40_data_governance.md)

@@ -1,12 +1,51 @@
 # ThemisDB Kompendium - Status Update
 
-**Stand:** 10. Januar 2026, 13:00 UTC  
-**Version:** v1.4.0  
-**Status:** ✅ **ALLE PHASEN COMPLETE** - Release-Ready
+**Stand:** 12. August 2026, 09:00 UTC  
+**Version:** v1.5.0-dev  
+**Status:** 🔄 **PHASE 3 IN PROGRESS** - 4 Hochprioritäts-Kapitel enriched (Q3 2026)
 
 ---
 
-## 🎉 Erfolge - Alle 3 Phasen
+## 📊 Q3 2026 Update — Phase 3 Hochprioritäts-Kapitel
+
+### Erledigte Arbeiten (Aug 2026)
+
+**Kompendium-Kanal-Sync (docs/de ↔ compendium/):**
+- ✅ **Kapitel 17 (LLM Integration)** — Cross-References zu `docs/de/llm/`, `lora/`, `rag/` ergänzt (§17.31)
+- ✅ **Kapitel 29 (Analytics & Process Mining)** — AQL-Praxisbeispiele aus `PROCESS_MINING_AQL_EXAMPLES.md` integriert (§29.16–29.17)
+- ✅ **Kapitel 31 (API-Protokolle)** — Cross-References zu `docs/de/apis/`, `rpc_grpc/` ergänzt (§31.15)
+- ✅ **Kapitel 40 (Data Governance)** — BSI C5/ISO 27001/DSGVO/SOC 2 Compliance-Matrix integriert (§40.12–40.13)
+
+**Dokumentationsinfrastruktur:**
+- ✅ `docs/compendium/VERSION` auf `v1.5.0-dev` aktualisiert
+- ✅ `docs/compendium/ROADMAP.md` mit konkreten Q3/Q4-Deliverables aktualisiert
+- ✅ `docs/Audit/DOCS_INVENTORY_2026-Q3.md` erstellt (vollständiges Inventar)
+
+**docs/ Root-Cleanup:**
+- ✅ 10 Duplikat-Dateien (bereits in ARCHIVED/) mit Archivierungshinweisen markiert
+- ✅ 11 Stale-Dateien mit Status-STALE-Markern versehen
+- ✅ Index-Konsolidierung: CATEGORY_INDEX.md + DOCUMENTATION_HUB.md → verweisen auf 00_DOCUMENTATION_INDEX.md
+
+---
+
+## 📋 Offene Arbeiten (Phase 3 Rest)
+
+10 Medium-Priority-Kapitel noch ohne docs/de-Integration:
+
+| Kapitel | Quellen | Priorität | Target |
+|---|---|---|---|
+| Kap. 2 (Architektur) | docs/de/architecture/ | Medium | 2026-Q3 |
+| Kap. 19 (Monitoring) | docs/de/observability/ | Medium | 2026-Q3 |
+| Kap. 21 (Auth) | docs/de/auth/ | Medium | 2026-Q3 |
+| Kap. 22 (Encryption) | docs/de/security/ | Medium | 2026-Q3 |
+| Kap. 36 (Security Hardening) | docs/de/security/ | Medium | 2026-Q3 |
+| Kap. 34 (Query Optimization) | docs/de/query/ | Medium | 2026-Q4 |
+| Kap. 38 (Observability SRE) | docs/de/observability/ | Medium | 2026-Q4 |
+| Kap. 39 (Performance Tuning) | docs/de/performance/ | Medium | 2026-Q4 |
+| Kap. 30 (Deployment) | docs/de/deployment/ | Medium | 2026-Q4 |
+| Anhänge | Glossar, AQL-Cheatsheet | Low | 2026-Q4 |
+
+---
 
 ### Phase 1: YAML Integration ✅ COMPLETE
 **Zeitraum:** 10. Januar 2026 (Vormittag)  
@@ -329,3 +368,39 @@ python3 step3_generate_pdf.py
 **Erstellt:** 10. Januar 2026, 12:00 UTC  
 **Version:** v1.4.0 Status Update  
 **Autor:** GitHub Copilot (Claude Sonnet 4.5)
+
+---
+
+## 📊 Q3 2026 Phase-3 Medium-Priority-Kapitel — COMPLETE (Aug 2026)
+
+### Erledigte Arbeiten (12. August 2026)
+
+**Phase-3-Sync Medium-Priority-Kapitel (alle 10 + Anhänge):**
+- ✅ **Kapitel 2 (Architektur)** — Phase-3-Sync §2.16: 8 Quellen aus `docs/de/architecture/`
+- ✅ **Kapitel 19 (Monitoring)** — Phase-3-Sync §19.10: 4 Quellen aus `docs/de/observability/`
+- ✅ **Kapitel 21 (Auth)** — Phase-3-Sync §21.15: 4 Quellen aus `docs/de/auth/`
+- ✅ **Kapitel 22b (Encryption)** — vollständig neu gebaut (16 → 431 Zeilen, 11 Abschnitte), ersetzt Stub; AES-256-GCM, TLS, Column-Level, Vektor-Encryption, KEK/DEK-Hierarchie, VaultKeyProvider, HSMProvider, Post-Quantum, BSI-C5-Matrix
+- ✅ **Kapitel 30 (Deployment & Operations)** — Phase-3-Sync §30.20: 7 Quellen aus `docs/de/deployment/`
+- ✅ **Kapitel 34 (Query Optimization)** — Phase-3-Sync §34.15: 5 Quellen aus `docs/de/query/`
+- ✅ **Kapitel 36 (Security Hardening)** — Phase-3-Sync §36.20: 9 Quellen aus `docs/de/security/`
+- ✅ **Kapitel 38 (Observability SRE)** — Phase-3-Sync §38.15: 5 Quellen aus `docs/de/observability/`
+- ✅ **Kapitel 39 (Performance Tuning)** — Phase-3-Sync §39.16: 11 Quellen aus `docs/de/performance/`
+- ✅ **Anhang H (Glossar)** — v1.5.0-Update: 15 neue Begriffe (Encryption, Deployment, SRE/SLO/SLI)
+- ✅ **Anhang F (AQL-Cheatsheet)** — v1.5.0-Update: Hybrid Search, Filtered Vector Search, Timeseries-Aggregationen, Encryption-aware Queries, Performance-Hints
+
+**Build-Validierung:**
+- ✅ `mkdocs build` erfolgreich: **22.79 Sekunden**, 50 MB HTML-Output
+- ✅ Keine neuen Fehler durch Phase-3-Sync-Änderungen
+- ℹ️ Pre-existing INFO-Warnungen (Footnote-Anchors in ch31/32/33/37/40) — nicht durch diese Änderungen verursacht
+
+---
+
+| Offene Punkte | Status |
+|---|---|
+| Phase 4 — Cross-Reference-Vollständigkeit | `[ ]` PENDING (2026-Q4) |
+| Phase 5 — v1.5.0 GA Build & QA | `[ ]` PENDING (2026-Q4) |
+| VERSION-Bump v1.5.0-dev → v2.4.0 | `[?]` Blockiert durch Human Review |
+| Kapitel 17: LoRA-Finetuning vollständig | `[ ]` PENDING |
+| Kapitel 40: EU AI Act Mapping | `[ ]` PENDING |
+| Kapitel 29: BPMN-Integration | `[ ]` PENDING |
+| PDF-Build (wkhtmltopdf/WeasyPrint) | `[ ]` PENDING (separates Setup erforderlich) |

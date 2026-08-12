@@ -938,3 +938,19 @@ Monitoring und Observability sind essentiell für den Betrieb von ThemisDB:
 - **Profiling**: Performance-Analyse und Optimierung
 
 Mit diesen Tools und Praktiken können Sie ThemisDB effektiv überwachen und Probleme frühzeitig erkennen.
+
+---
+
+## 19.10 Phase-3-Sync: Weiterführende Referenzen (docs/de/) {#chapter19_10_cross-references}
+
+> Detaillierte Implementierungsdokumentation zu den behandelten Monitoring- und Observability-Themen:
+
+| Thema | Referenz (docs/de/) |
+|---|---|
+| Observability Metriken | [`docs/de/observability/observability_metrics.md`](../../de/observability/observability_metrics.md) |
+| Alerting Konfiguration | [`docs/de/observability/observability_alerting.md`](../../de/observability/observability_alerting.md) |
+| OpenTelemetry Integration | [`docs/de/observability/observability_opentelemetry.md`](../../de/observability/observability_opentelemetry.md) |
+| Primärquellen-Index | [`docs/de/observability/PRIMARY_SOURCES.md`](../../de/observability/PRIMARY_SOURCES.md) |
+
+**→ Zurück:** [Kapitel 18: HA & Cluster](chapter_18_ha.md)  
+**→ Weiter:** [Kapitel 19b: Observability](chapter_19_monitoring_observability.md)

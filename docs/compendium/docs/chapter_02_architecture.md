@@ -1534,4 +1534,24 @@ In diesem erweiterten Kapitel haben Sie die Tiefe der ThemisDB-Architektur kenne
 
 ---
 
-**Kapitel 2 von 30** | **Teil I: Grundlagen** | **~14.000 Wörter**
+## 2.16 Phase-3-Sync: Weiterführende Referenzen (docs/de/) {#chapter02_16_cross-references}
+
+> Detaillierte Implementierungsdokumentation zu den behandelten Architektur-Themen:
+
+| Thema | Referenz (docs/de/) |
+|---|---|
+| Architektur-Überblick | [`docs/de/architecture/ARCHITECTURE_OVERVIEW.md`](../../de/architecture/ARCHITECTURE_OVERVIEW.md) |
+| DIP-Architektur (Vollständig) | [`docs/de/architecture/COMPLETE_DIP_ARCHITECTURE.md`](../../de/architecture/COMPLETE_DIP_ARCHITECTURE.md) |
+| DMS Moderne Architektur | [`docs/de/architecture/DMS_MODERN_ARCHITECTURE.md`](../../de/architecture/DMS_MODERN_ARCHITECTURE.md) |
+| Modularisierungs-Entscheidung | [`docs/de/architecture/MODULARIZATION_DECISION.de.md`](../../de/architecture/MODULARIZATION_DECISION.de.md) |
+| Modularisierungsplan | [`docs/de/architecture/MODULARIZATION_PLAN.md`](../../de/architecture/MODULARIZATION_PLAN.md) |
+| Binary Protocol Buffers | [`docs/de/architecture/BINARY_PROTOCOL_BUFFERS.md`](../../de/architecture/BINARY_PROTOCOL_BUFFERS.md) |
+| DLL Signaturverifizierung | [`docs/de/architecture/DLL_SIGNATURE_VERIFICATION.md`](../../de/architecture/DLL_SIGNATURE_VERIFICATION.md) |
+| Linux Module Signing | [`docs/de/architecture/LINUX_MODULE_SIGNING.md`](../../de/architecture/LINUX_MODULE_SIGNING.md) |
+
+**→ Zurück:** [Kapitel 1: Einführung](chapter_01_introduction.md)  
+**→ Weiter:** [Kapitel 3: Installation](chapter_03_installation.md)
+
+---
+
+**Kapitel 2 von 30** | **Teil I: Grundlagen** | **~14.000 Wörter** | Phase-3-Sync: ✅

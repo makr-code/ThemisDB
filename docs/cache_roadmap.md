@@ -1,3 +1,9 @@
+> **⚠️ STATUS: STALE – Archivierungskandidat**
+> Dieser Inhalt enthält veraltete TODO/FIXME/PLACEHOLDER-Marker und wird im nächsten Archiv-Run nach `docs/ARCHIVED/` verschoben.
+> Bitte nicht als aktuelle Referenz nutzen. Inventar: [DOCS_INVENTORY_2026-Q3.md](Audit/DOCS_INVENTORY_2026-Q3.md)
+
+---
+
 # Cache Module Production-Readiness Roadmap
 
 ## Implementation Status

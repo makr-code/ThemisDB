@@ -1,3 +1,9 @@
+> **⚠️ ARCHIVIERUNGSHINWEIS:** Diese Datei ist ein Duplikat die bereits unter `docs/ARCHIVED/implementation-summaries/` archiviert wurde. Der Inhalt hier dient nur als Referenz. Bitte nutze die archivierte Version als kanonische Quelle.
+>
+> **Status: archive-candidate** | Inventar: [DOCS_INVENTORY_2026-Q3.md](Audit/DOCS_INVENTORY_2026-Q3.md)
+
+---
+
 # Phase 2 Performance Optimizations - Implementation Guide
 
 **Status:** ✅ Complete  
@@ -234,7 +240,8 @@ auto results = index.search(query_vector, k);
 
 // Check compression stats
 auto stats = index.get_memory_stats();
-std::cout << "Compression ratio: " << stats.compression_ratio << "x\n";
+std::cout << "Compression ratio: " << stats.compression_ratio << "x
+";
 ```
 
 ### Configuration

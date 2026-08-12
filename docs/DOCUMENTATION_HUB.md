@@ -1,6 +1,9 @@
 # Documentation Hub
 
-Stand: 2026-04-18
+> **📌 Navigation-Hinweis:** Der kanonische Root-Index ist [`00_DOCUMENTATION_INDEX.md`](00_DOCUMENTATION_INDEX.md).
+> Dieser Hub bleibt als rollenbasierter Einstieg erhalten; für die vollständige Dokumentationsnavigation bitte den kanonischen Index nutzen.
+
+Stand: 2026-04-18 | Inventar: [DOCS_INVENTORY_2026-Q3.md](Audit/DOCS_INVENTORY_2026-Q3.md)
 
 Rollenbasierte Navigation fuer den schnellsten Weg zur richtigen Doku.
 
@@ -35,7 +38,7 @@ Rollenbasierte Navigation fuer den schnellsten Weg zur richtigen Doku.
 
 ## Fuer Maintainer
 
-- Root- und Strukturregeln: [DOCS_ORGANIZATION_PLAN.md](DOCS_ORGANIZATION_PLAN.md)
+- Root- und Strukturregeln: [DOCS_ORGANIZATION_PLAN.md(ARCHIVED/implementation-summaries/DOCS_ORGANIZATION_PLAN.md)
 - Docs PR Policy: [governance/DOCS_PR_POLICY.md](governance/DOCS_PR_POLICY.md)
 - Dokumentations-Historie: [governance/documentation-history/README.md](governance/documentation-history/README.md)
 - Build Guide: [build-guide/README.md](build-guide/README.md)

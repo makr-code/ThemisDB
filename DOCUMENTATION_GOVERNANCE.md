@@ -88,7 +88,53 @@ Rule:
 
 ---
 
-## 2.1 Source-Of-Truth Domain Matrix (Mandatory)
+## 2.0a Compendium Sync Process
+
+The `docs/compendium/` directory hosts the ThemisDB Kompendium — a comprehensive German-language handbook (43+ chapters, 7 appendices) that aggregates Level 1–3 content into a structured publication.
+
+### Position in the 4-Level Model
+
+- **Level:** 3/4 aggregate (compendium chapters are downstream of Level 1 module docs and Level 2 summaries)
+- **SOT domain:** architecture-governance (structure/pipeline), module-behavior (content per chapter)
+- **Primary input:** `docs/de/<domain>/` directories (canonical docs/de sources)
+- **Secondary inputs:** `src/<module>/README.md`, `include/<module>/README.md` (Level 1)
+
+### Sync Authority Rules
+
+1. **`docs/de/` beats compendium chapters.** If a compendium chapter contradicts a `docs/de/` source file, the `docs/de/` file is authoritative.
+2. **Module source docs beat `docs/de/` for implementation status.** `src/<module>/`, `include/<module>/` are Level 1 truth for code-behavior claims.
+3. **No invented facts.** Compendium content must always cite an existing `docs/de/` file or Level 1 source as canonical reference.
+4. **Bidirectional cross-references are mandatory** for Phase-3-Sync enrichment sections — each new section must link to its `docs/de/` source.
+
+### Chapter→Source Mapping
+
+See `docs/compendium/PHASE3_MAPPING_TABLE.md` for the full chapter → docs/de source mapping.
+
+High-priority chapters (Q3 2026 enriched):
+
+| Chapter | docs/de Sources |
+|---------|----------------|
+| Kapitel 17 — LLM Integration | `docs/de/llm/`, `docs/de/lora/`, `docs/de/rag/` |
+| Kapitel 29 — Analytics & Process Mining | `docs/de/analytics/`, `docs/de/process/` |
+| Kapitel 31 — API Protocols | `docs/de/apis/`, `docs/de/rpc_grpc/` |
+| Kapitel 40 — Data Governance & Compliance | `docs/de/compliance/`, `docs/de/governance/` |
+
+### Update Cadence
+
+- **Content enrichment (Phase 3 chapters):** `DOC-WEEKLY-YYYY-WW` milestone per batch
+- **Full compendium rebuild:** `DOC-MONTHLY-YYYY-MM` or `DOC-RELEASE-vX.Y.Z`
+- **VERSION bump (x.y.z-dev → x.y.z):** only after human-maintainer review and build validation
+
+### Guardrails
+
+- Never use `docs/compendium/` as the sole source for release or security claims.
+- `docs/compendium/output/` (generated PDFs/HTML) is not a source of truth.
+- Historical snapshots in `docs/compendium/` phase reports are non-normative.
+- `ai_working/` snapshots referenced in compendium content must link to their canonical upstream source.
+
+---
+
+
 
 To avoid ambiguity, each documentation issue must be mapped to one source-of-truth domain.
 
@@ -237,3 +283,58 @@ Use issue template:
 - Release owner: `RELEASE_STRATEGY.md`
 
 If ownership is unclear, default to maintainers and mark issue as blocked.
+
+---
+
+## 9. Compendium Sync Process (docs/compendium/)
+
+### 9.1 Role of the Compendium
+
+`docs/compendium/` is the **consolidated Level 3/4 documentation aggregate** — a complete German-language handbook for ThemisDB users, operators, and architects.
+
+It occupies the following position in the 4-level hierarchy:
+- Level-1 input: `src/<module>/` and `docs/de/<module>/` (primary module docs)
+- Level-2 input: Base aggregates and cross-module summaries
+- **Level-3/4 output:** `docs/compendium/docs/chapter_*.md` (curated handbook chapters)
+
+### 9.2 Sync Cadence
+
+| Trigger | Action |
+|---|---|
+| New module documentation in `docs/de/` | Corresponding compendium chapter(s) enrichment or creation |
+| Breaking API/behavior changes | Compendium chapter updated in same PR |
+| Release milestone (v1.x.0) | Full compendium chapter review + VERSION bump |
+| Quarterly review | Phase-3 mapping table audit; new cross-references added |
+
+### 9.3 Chapter Enrichment Process
+
+When enriching a compendium chapter from `docs/de/` sources:
+
+1. **Identify sources:** Use `docs/compendium/PHASE3_MAPPING_TABLE.md` to find canonical source files.
+2. **Read source content:** Read relevant `docs/de/<module>/` files; never invent content.
+3. **Integrate:** Add content sections to the chapter under appropriate section numbers.
+4. **Add cross-references:** Add a "Weiterführende Referenzen" section with bidirectional links.
+5. **Update mapping table:** Mark chapter status as `✅ VOLLSTÄNDIG` when complete.
+6. **Update STATUS_UPDATE.md and ROADMAP.md:** Reflect progress.
+
+### 9.4 Status Markers
+
+Use these markers in `PHASE3_MAPPING_TABLE.md`:
+- `✅ VOLLSTÄNDIG` — Chapter fully enriched; all major docs/de sources integrated
+- `🔄 ERGÄNZUNG` — Chapter exists; partial content; more docs/de integration needed
+- `📝 STUB` — Chapter exists but needs substantial content
+- `❌ FEHLT` — Topic missing from compendium entirely
+
+### 9.5 Version Management
+
+- `docs/compendium/VERSION` tracks the current compendium version.
+- Bump from `v1.x.0-dev` to `v1.x.0` only after Human-Reviewer sign-off.
+- Version is `v1.5.0-dev` as of 2026-08-12.
+
+### 9.6 Build Artifacts
+
+The compendium produces HTML + PDF via Python build scripts (`step1_generate_svgs.py` through `step5_cleanup.py`) and `mkdocs-nav.yml`. The build is currently manual — triggered by a maintainer. CI automation is a planned enhancement (see `docs/compendium/ROADMAP.md`).
+
+### 9.7 Language Policy
+
+The primary language of the compendium is **German**. An English parallel build is not currently planned. English source material from `docs/de/` or `docs/en/` may be referenced via cross-links but is not translated within compendium chapters.

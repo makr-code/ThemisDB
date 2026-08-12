@@ -6838,3 +6838,24 @@ bool mounted = backend.isMounted("/mnt/tenant-1");
 // Unmounten
 backend.unmount("/mnt/tenant-1");
 ```
+
+---
+
+## 36.20 Phase-3-Sync: Weiterführende Referenzen (docs/de/) {#chapter36_20_cross-references}
+
+> Detaillierte Implementierungsdokumentation zu den behandelten Themen:
+
+| Thema | Referenz |
+|---|---|
+| Angriffsvektoren-Analyse | [`docs/de/security/ANGRIFFSVEKTOREN_ANALYSE.md`](../../de/security/ANGRIFFSVEKTOREN_ANALYSE.md) |
+| Angriffsvektoren Runbook | [`docs/de/security/ANGRIFFSVEKTOREN_ANALYSE_RUNBOOK.md`](../../de/security/ANGRIFFSVEKTOREN_ANALYSE_RUNBOOK.md) |
+| Attack Vector Framework | [`docs/de/security/ATTACK_VECTOR_ANALYSIS_FRAMEWORK.md`](../../de/security/ATTACK_VECTOR_ANALYSIS_FRAMEWORK.md) |
+| BSI C5 Column Encryption | [`docs/de/security/BSI_C5_COLUMN_ENCRYPTION_COMPLIANCE.md`](../../de/security/BSI_C5_COLUMN_ENCRYPTION_COMPLIANCE.md) |
+| BSI C5 Executive Summary | [`docs/de/security/BSI_C5_EXECUTIVE_SUMMARY.md`](../../de/security/BSI_C5_EXECUTIVE_SUMMARY.md) |
+| BSI C5 Multi-Model Encryption | [`docs/de/security/BSI_C5_MULTI_MODEL_ENCRYPTION_ANALYSIS.md`](../../de/security/BSI_C5_MULTI_MODEL_ENCRYPTION_ANALYSIS.md) |
+| Compiler Security Hardening | [`docs/de/security/COMPILER_SECURITY_HARDENING.md`](../../de/security/COMPILER_SECURITY_HARDENING.md) |
+| Encrypted HNSW Suchbarkeit | [`docs/de/security/ENCRYPTED_HNSW_SEARCHABILITY.md`](../../de/security/ENCRYPTED_HNSW_SEARCHABILITY.md) |
+| Security Primärquellen | [`docs/de/security/PRIMARY_SOURCES.md`](../../de/security/PRIMARY_SOURCES.md) |
+
+**→ Zurück:** [Kapitel 35: Partitioning](chapter_35_partitioning.md)
+**→ Weiter:** [Kapitel 37: Compliance](chapter_37_compliance.md)
