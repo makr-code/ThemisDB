@@ -67,12 +67,9 @@ COPY vcpkg-configuration.json ./
 # Install dependencies (with cache mounts for downloads/packages)
 RUN --mount=type=cache,target=/opt/vcpkg/downloads,sharing=locked \
     --mount=type=cache,target=/opt/vcpkg/packages,sharing=locked \
-    --mount=type=bind,source=vcpkg/downloads,target=/tmp/host-vcpkg-downloads,readonly \
     set -eux; \
     echo "Using VCPKG_MANIFEST_HASH=${VCPKG_MANIFEST_HASH}"; \
     TRIPLET=$(cat /tmp/triplet.txt); \
-    find /tmp/host-vcpkg-downloads -type f -name "*.tar.gz" -o -name "*.zip" 2>/dev/null | \
-        xargs -I{} cp -n {} /opt/vcpkg/downloads/ 2>/dev/null || true; \
     export VCPKG_BUILD_TYPE=release; \
     export VCPKG_MAX_CONCURRENCY=2; \
     export VCPKG_DOWNLOAD_TOOL=curl; \

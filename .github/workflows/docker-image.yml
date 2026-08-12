@@ -150,46 +150,54 @@ jobs:
         REPOSITORY: ${{ github.repository }}
         COMMIT_SHA: ${{ github.sha }}
         RUN_ID: ${{ github.run_id }}
-        DISPATCH_REGISTRY: ${{ github.event.inputs.registry || 'ghcr.io' }}
+        TARGET_REGISTRY_INPUT: ${{ github.event.inputs.registry || '' }}
       run: |
         VERSION="${{ steps.version.outputs.version }}"
         TAGS=""
         REPO_LC="$(echo "${REPOSITORY}" | tr '[:upper:]' '[:lower:]')"
+        GHCR_REPO="ghcr.io/${REPO_LC}"
+        DOCKERHUB_REPO="themisdb/themisdb"
+        TARGET_REGISTRY="${TARGET_REGISTRY_INPUT:-ghcr.io}"
 
         # For released versions (tags/releases)
         if [[ "${EVENT_NAME}" == "release" ]] || [[ "${GIT_REF}" == refs/tags/v* ]]; then
           # themisdb/themisdb:1.0.0
-          TAGS="themisdb/themisdb:${VERSION}"
+          TAGS="${DOCKERHUB_REPO}:${VERSION}"
 
           # Also tag minor version: themisdb/themisdb:1.0
           MINOR_VERSION="$(echo "${VERSION}" | cut -d. -f1-2)"
-          TAGS="$TAGS,themisdb/themisdb:${MINOR_VERSION}"
+          TAGS="$TAGS,${DOCKERHUB_REPO}:${MINOR_VERSION}"
 
           # Tag as latest if it's a stable release (no pre-release suffix)
           if [[ ! "${VERSION}" =~ [-] ]]; then
-            TAGS="$TAGS,themisdb/themisdb:latest"
+            TAGS="$TAGS,${DOCKERHUB_REPO}:latest"
           fi
 
           # Also publish to GHCR for releases
-          TAGS="$TAGS,ghcr.io/${REPO_LC}:${VERSION}"
-          TAGS="$TAGS,ghcr.io/${REPO_LC}:${MINOR_VERSION}"
+          TAGS="$TAGS,${GHCR_REPO}:${VERSION}"
+          TAGS="$TAGS,${GHCR_REPO}:${MINOR_VERSION}"
           if [[ ! "${VERSION}" =~ [-] ]]; then
-            TAGS="$TAGS,ghcr.io/${REPO_LC}:latest"
+            TAGS="$TAGS,${GHCR_REPO}:latest"
           fi
 
-        # For develop branch pushes - use GHCR (no Docker Hub PAT required)
+        # For develop-based builds, prefer GHCR; workflow_dispatch can target Docker Hub explicitly.
         elif [[ "${GIT_REF}" == "refs/heads/develop" ]]; then
           SHORT_SHA="$(echo "${COMMIT_SHA}" | cut -c1-7)"
-          TAGS="ghcr.io/${REPO_LC}:dev-${SHORT_SHA}"
-          TAGS="$TAGS,ghcr.io/${REPO_LC}:develop"
-
-
-        # For workflow_dispatch without release
-        else
-          if [[ "${DISPATCH_REGISTRY}" == "docker.io" ]]; then
-            TAGS="themisdb/themisdb:manual-${RUN_ID}"
+          if [[ "${EVENT_NAME}" == "workflow_dispatch" && "${TARGET_REGISTRY}" == "docker.io" ]]; then
+            TAGS="${DOCKERHUB_REPO}:dev-${SHORT_SHA}"
+            TAGS="$TAGS,${DOCKERHUB_REPO}:develop"
           else
-            TAGS="ghcr.io/${REPO_LC}:manual-${RUN_ID}"
+            TAGS="${GHCR_REPO}:dev-${SHORT_SHA}"
+            TAGS="$TAGS,${GHCR_REPO}:develop"
+          fi
+
+
+        # For non-release manual builds outside develop, honor the selected registry.
+        else
+          if [[ "${EVENT_NAME}" == "workflow_dispatch" && "${TARGET_REGISTRY}" == "docker.io" ]]; then
+            TAGS="${DOCKERHUB_REPO}:manual-${RUN_ID}"
+          else
+            TAGS="${GHCR_REPO}:manual-${RUN_ID}"
           fi
         fi
 
