@@ -518,15 +518,17 @@ jobs:
           echo "  Timeout/test  : 60s"
           echo "  Retry flag    : ${THEMIS_CI_RETRY_FLAKY:-OFF}"
           echo "──────────────────────────────────────────────"
-          RETRY_FLAG=""
-          [ "${THEMIS_CI_RETRY_FLAKY:-OFF}" = "ON" ] && RETRY_FLAG="--repeat until-pass:3"
+          RETRY_ARGS=()
+          if [ "${THEMIS_CI_RETRY_FLAKY:-OFF}" = "ON" ]; then
+            RETRY_ARGS=(--repeat until-pass:3)
+          fi
           T0=$(date +%s)
           set +e
-          ctest --build-config ${{ matrix.build_type }} \
+          ctest --build-config "${{ matrix.build_type }}" \
                 --output-on-failure \
                 --parallel "${JOBS}" \
                 --timeout 60 \
-                ${RETRY_FLAG} \
+                "${RETRY_ARGS[@]}" \
                 --output-junit ctest-results.xml 2>&1 | tee ctest-output.txt
           CTEST_EXIT=$?
           TEST_SECS=$(( $(date +%s) - T0 ))

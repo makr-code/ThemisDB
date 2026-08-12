@@ -272,14 +272,12 @@ jobs:
 
       - name: Build + run HIP benchmarks
         run: |
-          set +e
-          cmake --build build/gpu-hip --target bench_gpu_backends -j"$(nproc)"
           mkdir -p build/gpu-hip/results
-          ./build/gpu-hip/bench_gpu_backends \
-            --benchmark_min_time=1.0s \
-            --benchmark_format=json \
-            --benchmark_out=build/gpu-hip/results/bench_gpu_backends_hip.json
-          if [ "$?" -ne 0 ]; then
+          if ! cmake --build build/gpu-hip --target bench_gpu_backends -j"$(nproc)" || \
+             ! ./build/gpu-hip/bench_gpu_backends \
+               --benchmark_min_time=1.0s \
+               --benchmark_format=json \
+               --benchmark_out=build/gpu-hip/results/bench_gpu_backends_hip.json; then
             echo "::warning::HIP benchmark execution failed (non-blocking benchmark lane)."
           fi
           exit 0
@@ -323,11 +321,9 @@ jobs:
 
       - name: Build GPU benchmark targets (CPU fallback)
         run: |
-          set +e
-          cmake --build build/gpu-cpu-fallback \
+          if ! cmake --build build/gpu-cpu-fallback \
             --target bench_fused_kernels bench_gpu_backends \
-            -j"$(nproc)"
-          if [ "$?" -ne 0 ]; then
+            -j"$(nproc)"; then
             echo "::warning::CPU fallback compile check failed (non-blocking benchmark lane)."
           fi
           exit 0
@@ -372,9 +368,7 @@ jobs:
 
       - name: Build all benchmark targets
         run: |
-          set +e
-          cmake --build build-nightly-bench-sweep --parallel "$(nproc)"
-          if [ "$?" -ne 0 ]; then
+          if ! cmake --build build-nightly-bench-sweep --parallel "$(nproc)"; then
             echo "::warning::Nightly benchmark build had failures; continuing to collect sweep evidence."
           fi
           exit 0

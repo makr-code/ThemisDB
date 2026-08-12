@@ -24,6 +24,22 @@ function Write-Section {
     Write-Host "=== $Title ===" -ForegroundColor Cyan
 }
 
+function Assert-CommandAvailable {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$CommandName,
+        [string]$Hint = ''
+    )
+
+    if (-not (Get-Command -Name $CommandName -ErrorAction SilentlyContinue)) {
+        $message = "Erforderliches Tool '$CommandName' wurde nicht gefunden."
+        if (-not [string]::IsNullOrWhiteSpace($Hint)) {
+            $message = "$message $Hint"
+        }
+        throw $message
+    }
+}
+
 function Invoke-CommandWithLog {
     param(
         [string]$Name,
@@ -56,6 +72,14 @@ if (-not (Test-Path -LiteralPath '.github/workflows')) {
 
 if (-not (Test-Path -LiteralPath $LogDir)) {
     New-Item -ItemType Directory -Path $LogDir | Out-Null
+}
+
+if ($Mode -in @('lint', 'all')) {
+    Assert-CommandAvailable -CommandName 'docker' -Hint "Installationshinweis: https://docs.docker.com/get-docker/"
+}
+
+if ($Mode -in @('dryrun', 'all')) {
+    Assert-CommandAvailable -CommandName 'act' -Hint "Installationshinweis: https://github.com/nektos/act#installation"
 }
 
 $timestamp = Get-Date -Format 'yyyyMMdd_HHmmss'
