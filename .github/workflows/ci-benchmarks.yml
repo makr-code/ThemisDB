@@ -97,7 +97,7 @@ jobs:
             cxx: g++-12
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
         with:
           fetch-depth: 0
 
@@ -171,7 +171,7 @@ jobs:
             echo "Generated candidate baseline artifact instead of mutating repository history."
           } >> "$GITHUB_STEP_SUMMARY"
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08  # v4.6.0
         if: always()
         with:
           name: voice-benchmark-${{ matrix.os }}-${{ github.run_number }}
@@ -204,7 +204,7 @@ jobs:
             description: 'NVIDIA Hopper (H100)'
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
 
       - name: Configure CUDA build
         run: |
@@ -240,7 +240,7 @@ jobs:
           fi
           exit 0
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08  # v4.6.0
         if: always()
         with:
           name: gpu-cuda-results-${{ matrix.cuda_arch }}-${{ github.run_number }}
@@ -259,7 +259,7 @@ jobs:
     timeout-minutes: 90
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
 
       - name: Configure HIP build
         run: |
@@ -284,7 +284,7 @@ jobs:
           fi
           exit 0
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08  # v4.6.0
         if: always()
         with:
           name: gpu-hip-results-${{ github.run_number }}
@@ -302,7 +302,7 @@ jobs:
     timeout-minutes: 30
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
 
       - name: Install build dependencies
         run: |
@@ -355,7 +355,7 @@ jobs:
       STORAGE_MODULE2_REQUIRED_CASE: BM_Storage_SustainedWrite_NoSync
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
         with:
           fetch-depth: 0
 
@@ -399,7 +399,7 @@ jobs:
             --previous-dir artifacts/nightly-prev \
             2>&1 | tee -a "${ARTIFACT_DIR}/sweep_run.log" || true
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08  # v4.6.0
         if: always()
         with:
           name: nightly-benchmark-sweep-${{ github.run_number }}

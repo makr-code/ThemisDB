@@ -28,6 +28,8 @@ duerfen nicht stillschweigend reaktiviert werden.
 - `.github/workflows/release-changelog.yml`
 - `.github/workflows/security-pentest-quarterly.yml`
 - `.github/workflows/security-scanning.yml`
+- `.github/workflows/security.yml`
+- `.github/workflows/fortify.yml`
 
 ## Harte Grenzen fuer neue oder reaktivierte CI
 - Default ist `kein neuer Workflow`. Bevorzuge einen neuen Job in einem bestehenden Workflow.

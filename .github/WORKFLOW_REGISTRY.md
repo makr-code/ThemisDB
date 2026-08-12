@@ -29,6 +29,10 @@ Quarantaene, nicht einen inoffiziellen Reservepool fuer schnelle Reaktivierung.
   — Reusable/manual changelog update & backfill (artifact-backed proposal, keine Branch-Mutation)
 - `.github/workflows/security-scanning.yml`
   — Security-Scan-Orchestrierung (SAST/DAST-Signale + Artefakte)
+- `.github/workflows/security.yml`
+  — Trivy Vulnerability Scan + Gitleaks Secret Scan (supply-chain-hardened, SHA-gepinnt)
+- `.github/workflows/fortify.yml`
+  — Fortify AST Scan (continue-on-error; requires FOD_TENANT/FOD_USER/FOD_PAT secrets)
 - `.github/workflows/security-pentest-quarterly.yml`
   — Quartals-Pentest-Cadence mit Evidence-Artefakten (non-mutating)
 - `.github/workflows/compliance-supply-chain.yml`

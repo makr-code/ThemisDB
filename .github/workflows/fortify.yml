@@ -26,6 +26,10 @@ on:
     - cron: '16 20 * * 1'
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   Fortify-AST-Scan:
     # Use the appropriate runner for building your source code. Ensure dev tools required to build your code are present and configured appropriately (MSBuild, Python, etc).
@@ -39,7 +43,7 @@ jobs:
     steps:
       # Check out source code
       - name: Check Out Source Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
 
       # Perform SAST and/or SCA scan via Fortify on Demand/Fortify Hosted/ScanCentral SAST/Debricked. Based on
       # configuration, the Fortify GitHub Action can optionally set up the application version/release, generate
