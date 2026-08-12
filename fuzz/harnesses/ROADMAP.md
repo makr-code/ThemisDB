@@ -7,7 +7,7 @@
 - [x] CI workflow builds the standalone `fuzz_targets` target and runs available harness binaries
 
 ## In Progress
-- [~] Expand CMake-backed builds from the standalone `fuzz_targets` set to the remaining project-linked harnesses (`gguf_loader`, `grammar`, `postgres_importer`) (Target: Q3 2026)
+- [x] Expand CMake-backed builds from the standalone `fuzz_targets` set to the remaining project-linked harnesses (`gguf_loader`, `grammar`, `postgres_importer`) (Target: Q3 2026)
 
 ## Planned Features
 - [ ] Add dictionary for jwt, ldap_dn, policy_engine, rbac, http, importer targets (Target: Q3 2026)
@@ -19,12 +19,13 @@
 ### Phase 1: Design / API-Vertrag
 - [x] Harness interface: LLVMFuzzerTestOneInput(const uint8_t*, size_t)
 - [x] Corpus seed structure per target
-- [x] CMake `fuzz_targets` integration for standalone harnesses (Target: Q3 2026)
+- [x] CMake `fuzz_targets` integration for all harnesses including project-linked targets (Target: Q3 2026)
 
 ### Phase 2: Core-Implementierung
 - [x] 10 harnesses implemented
 - [x] Corpus seeds for all targets
 - [x] CI workflow active (Target: Q3 2026)
+- [x] Project-linked harnesses (`gguf_loader`, `grammar`, `postgres_importer`) wired via fuzz stubs (Target: Q3 2026)
 
 ### Phase 3: Fehlerbehandlung & Edge Cases
 - [x] Dictionary coverage for ≥80% of targets (Target: Q3 2026)
@@ -51,7 +52,7 @@
 - [ ] Crash triage runbook available
 
 ## Known Issues & Limitations
-- [!] The standalone `fuzz_targets` build currently excludes the project-linked `gguf_loader`, `grammar`, and `postgres_importer` harnesses; CI skips them until dedicated CMake wiring lands.
+- [x] The standalone `fuzz_targets` build now includes `gguf_loader`, `grammar`, and `postgres_importer` harnesses via fuzz stubs in `fuzz/stubs/`. The `postgres_importer_harness` is gated on `nlohmann_json` availability.
 
 ## Breaking Changes
 - None.
