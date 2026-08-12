@@ -108,7 +108,6 @@ scopes:
       - '.github/LABELS.md'
       - '.github/RELEASE.md'
       - 'ROADMAP.md'
-      - 'ROADMAP.md'
       - 'FUTURE_ENHANCEMENTS.md'
       - 'future_enhancement.md'
 
@@ -151,17 +150,16 @@ scopes:
 # Used as reference only; active workflows enforce boundaries mainly via
 # `paths:` and dedicated guards rather than a global scope-classifier workflow.
 workflow_scope_map:
-  02-feature-modules_llm_voice-benchmark-ci: [has_llm_changes]
-  06-infrastructure_gpu_gpu-benchmark-matrix-ci: [has_acceleration_changes, has_gpu_changes, has_llm_changes]
-  07-quality_nightly-benchmark-sweep: []
-  09-pr-gates_workflow-boundary-guard: [has_config_changes]
-  copilot-ollama-router-ci:   [has_code_changes]
-  copilot-regression-guard:   [has_code_changes, has_config_changes]
-  performance-regression-check: [has_code_changes]
+  # Active workflows and their required scope signals.
+  # Quarantined workflow entries removed — see .github/no_workflows/.
+  ci-benchmarks:                [has_llm_changes, has_acceleration_changes, has_gpu_changes]
+  copilot-ollama-router-ci:     [has_code_changes]
+  copilot-regression-guard:     [has_code_changes, has_config_changes]
+  quality-static-analysis:      [has_code_changes, has_config_changes]
 
 # ── Quality gate tuning ─────────────────────────────────────────────────────
 # Maintainer knob for Doxygen XML coverage threshold used by
-# .github/workflows/08-quality_doxygen-coverage-gate.yml.
+# .github/workflows/quality-static-analysis.yml (doxygen-coverage job).
 # Increase gradually (recommended): 90 -> 92 -> 95.
 quality_gates:
   docs_coverage_threshold: 90

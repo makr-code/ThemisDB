@@ -6,7 +6,7 @@ Die kanonische Liste aktiver Workflows steht in `.github/WORKFLOW_REGISTRY.md`.
 Workflows unter `.github/no_workflows/` gelten als bewusst deaktivierte Quarantaene und
 duerfen nicht stillschweigend reaktiviert werden.
 
-## Aktive Workflows (21)
+## Aktive Workflows (24)
 - `.github/workflows/automation-community.yml`
 - `.github/workflows/ci-benchmarks.yml`
 - `.github/workflows/ci-build.yml`
@@ -27,6 +27,7 @@ duerfen nicht stillschweigend reaktiviert werden.
 - `.github/workflows/quality-static-analysis.yml`
 - `.github/workflows/release-changelog.yml`
 - `.github/workflows/security-pentest-quarterly.yml`
+- `.github/workflows/security-scan.yml`
 - `.github/workflows/security-scanning.yml`
 - `.github/workflows/security.yml`
 - `.github/workflows/fortify.yml`

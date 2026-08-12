@@ -26,8 +26,6 @@ on:
       - 'ROADMAP.md'
       - 'FUTURE_ENHANCEMENTS.md'
       - 'audit/MATURITY_REPORT_*.md'
-      - 'src/**'
-      - 'include/**'
       - 'src/*/ROADMAP.md'
       - 'scripts/verification/**'
       - 'tests/test_maturity_exit_criteria.py'
@@ -38,8 +36,7 @@ on:
   issue_comment:
     types: [created]
   schedule:
-    - cron: '0 3 * * *'     # Daily 03:00 UTC — maturity verification + waiver expiration
-    - cron: '0 9 * * *'     # Daily 09:00 UTC — waiver expiration check
+    - cron: '30 3 * * *'    # Daily 03:30 UTC — maturity verification + waiver expiration (staggered from maintenance-docs 04:00)
     - cron: '0 8 * * MON'   # Weekly Monday 08:00 UTC — gate audit summary
     - cron: '0 8 1 1,4,7,10 *'  # Quarterly — branch protection drift detection
   workflow_dispatch:

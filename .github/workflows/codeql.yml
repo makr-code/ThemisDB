@@ -7,8 +7,14 @@ name: "CodeQL Advanced"
 on:
   push:
     branches: [ "develop", "community" ]
+    paths:
+      - '.github/workflows/codeql.yml'
+      - '.github/workflows/security-scanning.yml'
   pull_request:
     branches: [ "develop", "community" ]
+    paths:
+      - '.github/workflows/codeql.yml'
+      - '.github/workflows/security-scanning.yml'
   workflow_dispatch: {}
 
 permissions:

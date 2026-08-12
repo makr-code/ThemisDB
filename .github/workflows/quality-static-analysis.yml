@@ -14,6 +14,16 @@ on:
       - enterprise
       - hyperscaler
       - military
+    paths:
+      - 'src/**'
+      - 'include/**'
+      - 'cmake/**'
+      - 'CMakeLists.txt'
+      - 'CMakePresets.json'
+      - 'benchmarks/**'
+      - '.clang-tidy'
+      - '.clang-format'
+      - '.github/workflows/quality-static-analysis.yml'
   schedule:
     # Doxygen warning gate + mermaid mapping: weekly Sunday 03:00 UTC
     - cron: '0 3 * * 0'

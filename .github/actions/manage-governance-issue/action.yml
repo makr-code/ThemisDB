@@ -1,0 +1,125 @@
+name: 'Manage Governance Issue'
+description: |
+  Idempotent create/update/close of a single governance or triage issue.
+
+  Searches for an open issue whose title matches `title` (exact match).
+  - If found: updates the body.
+  - If not found and `close-if-empty` is false or `body` is non-empty: creates it.
+  - If `close-if-empty` is true and `body` is blank: closes any matching open issue
+    instead of creating a new one.
+
+  Used by: maintenance-security-alerts.yml, maintenance-gs3-gaps.yml,
+           maintenance-ci-health.yml, compliance-supply-chain.yml.
+
+inputs:
+  repo-token:
+    description: 'GitHub token with issues: write permission'
+    required: true
+  title:
+    description: 'Exact issue title used for deduplication lookup'
+    required: true
+  body:
+    description: 'Issue body (Markdown). May be empty when close-if-empty is true.'
+    required: false
+    default: ''
+  labels:
+    description: 'Comma-separated list of label names to apply on creation'
+    required: false
+    default: ''
+  close-if-empty:
+    description: |
+      When true and body is blank, close any existing matching open issue rather
+      than creating or updating. Useful for auto-close on recovery.
+    required: false
+    default: 'false'
+
+outputs:
+  issue-number:
+    description: 'The issue number that was created, updated, or closed (empty if no action taken)'
+    value: ${{ steps.manage.outputs.issue_number }}
+  action:
+    description: 'The action taken: created | updated | closed | skipped'
+    value: ${{ steps.manage.outputs.action }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Create / update / close governance issue
+      id: manage
+      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
+      env:
+        INPUT_TITLE:          ${{ inputs.title }}
+        INPUT_BODY:           ${{ inputs.body }}
+        INPUT_LABELS:         ${{ inputs.labels }}
+        INPUT_CLOSE_IF_EMPTY: ${{ inputs.close-if-empty }}
+      with:
+        github-token: ${{ inputs.repo-token }}
+        script: |
+          const title          = process.env.INPUT_TITLE || '';
+          const body           = process.env.INPUT_BODY  || '';
+          const labelsRaw      = process.env.INPUT_LABELS || '';
+          const closeIfEmpty   = process.env.INPUT_CLOSE_IF_EMPTY === 'true';
+          const labels         = labelsRaw ? labelsRaw.split(',').map(l => l.trim()).filter(Boolean) : [];
+          const owner          = context.repo.owner;
+          const repo           = context.repo.repo;
+
+          if (!title) {
+            core.warning('manage-governance-issue: title is empty — skipping');
+            core.setOutput('issue_number', '');
+            core.setOutput('action', 'skipped');
+            return;
+          }
+
+          // Find existing open issue with matching title
+          const { data: openIssues } = await github.rest.issues.listForRepo({
+            owner, repo,
+            state: 'open',
+            labels: labels.join(','),
+            per_page: 50,
+          });
+          const existing = openIssues.find(i => i.title === title);
+
+          const isBodyEmpty = !body || body.trim() === '';
+
+          if (closeIfEmpty && isBodyEmpty) {
+            if (existing) {
+              await github.rest.issues.update({
+                owner, repo,
+                issue_number: existing.number,
+                state: 'closed',
+              });
+              core.info(`Closed issue #${existing.number} (no active findings)`);
+              core.setOutput('issue_number', String(existing.number));
+              core.setOutput('action', 'closed');
+            } else {
+              core.info('No matching open issue to close — skipping');
+              core.setOutput('issue_number', '');
+              core.setOutput('action', 'skipped');
+            }
+            return;
+          }
+
+          if (isBodyEmpty) {
+            core.info('body is empty and close-if-empty is false — skipping');
+            core.setOutput('issue_number', '');
+            core.setOutput('action', 'skipped');
+            return;
+          }
+
+          if (existing) {
+            await github.rest.issues.update({
+              owner, repo,
+              issue_number: existing.number,
+              body,
+            });
+            core.info(`Updated issue #${existing.number}`);
+            core.setOutput('issue_number', String(existing.number));
+            core.setOutput('action', 'updated');
+          } else {
+            const createParams = { owner, repo, title, body };
+            if (labels.length) createParams.labels = labels;
+            const { data: issue } = await github.rest.issues.create(createParams);
+            core.info(`Created issue #${issue.number}`);
+            core.setOutput('issue_number', String(issue.number));
+            core.setOutput('action', 'created');
+          }

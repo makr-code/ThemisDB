@@ -6,8 +6,6 @@ on:
       - develop
       - community
     paths:
-      - 'src/**'
-      - 'include/**'
       - '.github/workflows/security-scan.yml'
       - '.github/workflows/codeql.yml'
       - '.github/workflows/security-scanning.yml'
@@ -16,8 +14,6 @@ on:
       - develop
       - community
     paths:
-      - 'src/**'
-      - 'include/**'
       - '.github/workflows/security-scan.yml'
       - '.github/workflows/codeql.yml'
       - '.github/workflows/security-scanning.yml'
