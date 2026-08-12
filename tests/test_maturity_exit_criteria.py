@@ -170,6 +170,37 @@ class MaturityExitCriteriaTests(unittest.TestCase):
                 any(c["name"] == "ga_blockers_technical" and c["value"] == 1 for c in payload["checks"])
             )
 
+    def test_main_auto_detects_latest_maturity_report(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = Path(tmp) / "repo"
+            _write(repo / "ROADMAP.md", "- [x] done\n")
+            _write_wave_a_roadmaps(repo)
+            _write(repo / "src" / "query" / "ROADMAP.md", "- [x] done\n")
+            _write(repo / "audit" / "MATURITY_REPORT_2026-07.md", _base_report(technical=1, governance=0, zero_tests=0, zero_bench=0))
+            latest_report = _write(
+                repo / "audit" / "MATURITY_REPORT_2026-08.md",
+                _base_report(technical=0, governance=0, zero_tests=0, zero_bench=0),
+            )
+            output = repo / "artifacts" / "maturity.json"
+
+            old_argv = sys.argv[:]
+            try:
+                sys.argv = [
+                    "check_maturity_exit_criteria.py",
+                    "--repo-root",
+                    str(repo),
+                    "--output-json",
+                    str(output),
+                ]
+                code = checker.main()
+            finally:
+                sys.argv = old_argv
+
+            payload = json.loads(output.read_text(encoding="utf-8"))
+            self.assertEqual(code, 0)
+            self.assertTrue(payload["pass"])
+            self.assertEqual(payload["maturity_report"], str(latest_report))
+
 
 if __name__ == "__main__":
     unittest.main()

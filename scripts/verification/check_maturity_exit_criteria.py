@@ -36,6 +36,19 @@ def _read_text(path: Path) -> str:
     return path.read_text(encoding="utf-8")
 
 
+def _resolve_maturity_report(repo_root: Path, maturity_report_arg: str | None) -> Path:
+    if maturity_report_arg:
+        candidate = Path(maturity_report_arg)
+        if not candidate.is_absolute():
+            candidate = repo_root / candidate
+        return candidate.resolve()
+
+    reports = sorted((repo_root / "audit").glob("MATURITY_REPORT_*.md"))
+    if not reports:
+        raise FileNotFoundError("No audit/MATURITY_REPORT_*.md file found.")
+    return reports[-1].resolve()
+
+
 def _extract_int_metric(markdown: str, metric_name: str) -> int:
     patterns = [
         re.compile(
@@ -210,8 +223,8 @@ def main() -> int:
     )
     parser.add_argument(
         "--maturity-report",
-        default="audit/MATURITY_REPORT_2026-08.md",
-        help="Path to maturity report file (absolute or relative to repo root).",
+        default=None,
+        help="Path to maturity report file (absolute or relative to repo root). Defaults to the latest audit/MATURITY_REPORT_*.md.",
     )
     parser.add_argument(
         "--output-json",
@@ -221,9 +234,7 @@ def main() -> int:
     args = parser.parse_args()
 
     repo_root = Path(args.repo_root).resolve()
-    maturity_report_path = Path(args.maturity_report)
-    if not maturity_report_path.is_absolute():
-        maturity_report_path = repo_root / maturity_report_path
+    maturity_report_path = _resolve_maturity_report(repo_root, args.maturity_report)
 
     output_json_path = Path(args.output_json)
     if not output_json_path.is_absolute():
