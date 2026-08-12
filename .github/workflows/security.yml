@@ -1,4 +1,4 @@
-name: Trivy Security Scan
+name: Security Scans
 
 on:
   push:
@@ -56,3 +56,63 @@ jobs:
         with:
           sarif_file: trivy-results.sarif
           category: trivy
+
+  gitleaks:
+    name: Gitleaks Secret Scan
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run Gitleaks and generate SARIF
+        run: |
+          docker run --rm \
+            -v "$PWD":/repo \
+            zricethezav/gitleaks:latest \
+            detect \
+            --source=/repo \
+            --config=/repo/.gitleaks.toml \
+            --report-format sarif \
+            --report-path /repo/gitleaks.sarif
+
+      - name: Upload Gitleaks SARIF
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: gitleaks.sarif
+          category: gitleaks
+
+      - name: Publish scanned files summary
+        if: always()
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          sarif_path = Path("gitleaks.sarif")
+          files = 0
+          results = 0
+          if sarif_path.exists():
+              data = json.loads(sarif_path.read_text(encoding="utf-8"))
+              runs = data.get("runs", [])
+              if runs:
+                  invocations = runs[0].get("invocations", [])
+                  if invocations:
+                      files = invocations[0].get("properties", {}).get("filesScanned", 0) or 0
+                  results = len(runs[0].get("results", []))
+
+          summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
+          if summary_path:
+              with open(summary_path, "a", encoding="utf-8") as f:
+                  f.write("### Gitleaks Scan Summary\n")
+                  f.write(f"- Files scanned: **{files}**\n")
+                  f.write(f"- Findings: **{results}**\n")
+          else:
+              print(f"Files scanned: {files}")
+              print(f"Findings: {results}")
+          PY
