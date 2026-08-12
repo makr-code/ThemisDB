@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: mongodb_adapter.hpp | Version: 0.1.0 | Last Modified: 2026-06-10
- * Author: Copilot | Maturity: 🟡 BETA
- * 
- * MongoDB adapter for CHIMERA Suite.
- * Copyright MIT License.
- */
-
 /**
  * @file mongodb_adapter.hpp
  * @brief MongoDB backend adapter for the Chimera abstraction layer.

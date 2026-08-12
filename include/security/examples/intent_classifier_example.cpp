@@ -9,13 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: intent_classifier_example.cpp | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 88/100
- * Gap Summary: total=7; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=4, Debt=0, C=0, H=0, M=1, L=0
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // SPDX-License-Identifier: Apache-2.0
 // Example: IntentClassifier — semantic query-intent analysis

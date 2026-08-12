@@ -97,7 +97,7 @@ jobs:
             cxx: g++-12
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
         with:
           fetch-depth: 0
 
@@ -171,7 +171,7 @@ jobs:
             echo "Generated candidate baseline artifact instead of mutating repository history."
           } >> "$GITHUB_STEP_SUMMARY"
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08  # v4.6.0
         if: always()
         with:
           name: voice-benchmark-${{ matrix.os }}-${{ github.run_number }}
@@ -204,7 +204,7 @@ jobs:
             description: 'NVIDIA Hopper (H100)'
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
 
       - name: Configure CUDA build
         run: |
@@ -240,7 +240,7 @@ jobs:
           fi
           exit 0
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08  # v4.6.0
         if: always()
         with:
           name: gpu-cuda-results-${{ matrix.cuda_arch }}-${{ github.run_number }}
@@ -259,7 +259,7 @@ jobs:
     timeout-minutes: 90
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
 
       - name: Configure HIP build
         run: |
@@ -272,19 +272,17 @@ jobs:
 
       - name: Build + run HIP benchmarks
         run: |
-          set +e
-          cmake --build build/gpu-hip --target bench_gpu_backends -j"$(nproc)"
           mkdir -p build/gpu-hip/results
-          ./build/gpu-hip/bench_gpu_backends \
-            --benchmark_min_time=1.0s \
-            --benchmark_format=json \
-            --benchmark_out=build/gpu-hip/results/bench_gpu_backends_hip.json
-          if [ "$?" -ne 0 ]; then
+          if ! cmake --build build/gpu-hip --target bench_gpu_backends -j"$(nproc)" || \
+             ! ./build/gpu-hip/bench_gpu_backends \
+               --benchmark_min_time=1.0s \
+               --benchmark_format=json \
+               --benchmark_out=build/gpu-hip/results/bench_gpu_backends_hip.json; then
             echo "::warning::HIP benchmark execution failed (non-blocking benchmark lane)."
           fi
           exit 0
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08  # v4.6.0
         if: always()
         with:
           name: gpu-hip-results-${{ github.run_number }}
@@ -302,7 +300,7 @@ jobs:
     timeout-minutes: 30
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
 
       - name: Install build dependencies
         run: |
@@ -323,11 +321,9 @@ jobs:
 
       - name: Build GPU benchmark targets (CPU fallback)
         run: |
-          set +e
-          cmake --build build/gpu-cpu-fallback \
+          if ! cmake --build build/gpu-cpu-fallback \
             --target bench_fused_kernels bench_gpu_backends \
-            -j"$(nproc)"
-          if [ "$?" -ne 0 ]; then
+            -j"$(nproc)"; then
             echo "::warning::CPU fallback compile check failed (non-blocking benchmark lane)."
           fi
           exit 0
@@ -355,7 +351,7 @@ jobs:
       STORAGE_MODULE2_REQUIRED_CASE: BM_Storage_SustainedWrite_NoSync
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
         with:
           fetch-depth: 0
 
@@ -372,9 +368,7 @@ jobs:
 
       - name: Build all benchmark targets
         run: |
-          set +e
-          cmake --build build-nightly-bench-sweep --parallel "$(nproc)"
-          if [ "$?" -ne 0 ]; then
+          if ! cmake --build build-nightly-bench-sweep --parallel "$(nproc)"; then
             echo "::warning::Nightly benchmark build had failures; continuing to collect sweep evidence."
           fi
           exit 0
@@ -399,7 +393,7 @@ jobs:
             --previous-dir artifacts/nightly-prev \
             2>&1 | tee -a "${ARTIFACT_DIR}/sweep_run.log" || true
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08  # v4.6.0
         if: always()
         with:
           name: nightly-benchmark-sweep-${{ github.run_number }}

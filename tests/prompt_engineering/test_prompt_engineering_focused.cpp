@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_prompt_engineering_focused.cpp | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_prompt_engineering_focused.cpp
  * @brief Focused tests for prompt_engineering module production readiness.

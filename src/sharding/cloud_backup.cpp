@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: cloud_backup.cpp | Version: 0.0.15 | Last Modified: 2026-06-01 21:46:31
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 1186
- * Gap Summary: total=90; TODO=1, Stub=71, Unimpl=0, Mock=1, Sim=17, Debt=0, C=0, H=20, M=11, L=0
- * PR History (last 5): #3632 fix(build): register 40+ mi... (2026-03-12) | #1102 Implement production GPU ba... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "sharding/cloud_backup.h"
 #include <stdexcept>

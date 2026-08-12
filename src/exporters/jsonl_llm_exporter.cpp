@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: jsonl_llm_exporter.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 1068
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=7, H=13, M=5, L=0
- * PR History (last 5): #4252 feat(exporters): Replace zl... (2026-03-15) | #3760 feat(exporters): PolicyEngi... (2026-03-12) | #3621 feat(exporters): EXP-001 Po... (2026-03-12) | #3224 [exporters] Add duration an... (2026-03-12) | #417 [DOCS] CRITICAL: Correct pl... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "exporters/jsonl_llm_exporter.h"
 

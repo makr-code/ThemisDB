@@ -1,35 +1,3 @@
-/*
- * ThemisDB | File: test_onnx_clip_golden_embeddings_focused.cpp
- * Maturity: 🟢 PRODUCTION-READY
- * Purpose: Phase 1A ONNX CLIP golden embeddings integration tests (OCP-IT-01..08)
- * 
- * Verifies that the ONNX CLIP plugin generates deterministic, properly normalized
- * embeddings that match expected golden vectors. All tests use kClipGoldenSeed = 42
- * for reproducibility and employ a mock ONNX model loader to ensure consistent
- * test results across environments.
- *
- * ## Test families
- *
- * ### OCP-IT-01..02 — Plugin Initialization
- *   OCP-IT-01  Plugin initialization with ViT-B/32 config (512 dimensions)
- *   OCP-IT-02  Plugin initialization with ViT-L/14 config (768 dimensions)
- *
- * ### OCP-IT-03..04 — Deterministic Embedding Generation
- *   OCP-IT-03  Single image embedding generation (deterministic seed)
- *   OCP-IT-04  Batch embedding generation (deterministic seed)
- *
- * ### OCP-IT-05..06 — Embedding Quality Verification
- *   OCP-IT-05  L2 normalization verification (norm ≈ 1.0 ± 1e-4)
- *   OCP-IT-06  Embedding dimension correctness (512 vs 768)
- *
- * ### OCP-IT-07..08 — Reproducibility and Health
- *   OCP-IT-07  Reproducibility: identical inputs → identical embeddings (L2 < 1e-6)
- *   OCP-IT-08  Health check and statistics retrieval
- *
- * @see src/onnx_clip/ROADMAP.md — Phase 4 items
- * @see tests/test_onnx_clip_plugin_contract_hardening_focused.cpp — Reference structure
- */
-
 #include <gtest/gtest.h>
 
 #include "onnx_clip/onnx_clip_plugin.h"

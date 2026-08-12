@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_rccl_allreduce_bridge.cpp | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
- * Gap Summary: total=8; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_rccl_allreduce_bridge.cpp
  * @brief Unit tests for RCCLVectorBackend injectable allReduce bridge (STUB #68).

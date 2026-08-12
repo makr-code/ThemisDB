@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: voice_telephony.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 853
- * Gap Summary: total=12; TODO=1, Stub=7, Unimpl=0, Mock=1, Sim=3, Debt=0, C=2, H=2, M=18, L=0
- * PR History (last 5): #3663 feat(voice): register focus... (2026-03-12) | #3605 feat(voice): telephony brid... (2026-03-12) | #3431 [WIP] Integrate voice with ... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "voice/voice_telephony.h"
 #include "utils/logger.h"

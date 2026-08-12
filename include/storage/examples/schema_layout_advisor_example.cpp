@@ -9,13 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: schema_layout_advisor_example.cpp | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 88/100
- * Gap Summary: total=8; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=5, Debt=0, C=0, H=1, M=10, L=0
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // SPDX-License-Identifier: Apache-2.0
 // Example: SchemaDeadWeightDetector + StorageLayoutAdvisor

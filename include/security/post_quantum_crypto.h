@@ -9,13 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: post_quantum_crypto.h | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 89/100
- * Gap Summary: total=15; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=11, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #pragma once
 

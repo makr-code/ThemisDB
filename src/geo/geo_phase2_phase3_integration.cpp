@@ -9,12 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: geo_phase2_phase3_integration.cpp | Version: 1.0.0
- * Author: Copilot | Maturity: 🟢 PRODUCTION-READY | Score: 88/100
- * Gap Summary: total=1; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=1, Debt=0
- * Status: Production Ready
- */
 
 // SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 ThemisDB Contributors

@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_ai_orchestrator.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
- * Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_ai_orchestrator.cpp
  * @brief Unit tests for AIOrchestrator, ModeSpecLoader and ToolRegistry.

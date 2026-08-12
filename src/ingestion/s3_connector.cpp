@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: s3_connector.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:49:01
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 84/100 | Lines: 747
- * Gap Summary: total=11; TODO=1, Stub=4, Unimpl=0, Mock=3, Sim=3, Debt=0, C=2, H=0, M=6, L=0
- * PR History (last 5): #4227 feat(ingestion): S3-Compati... (2026-03-14)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // When THEMIS_ENABLE_S3 is defined at compile time the full AWS SDK path
 // is compiled.  Without that flag the connector still compiles and:

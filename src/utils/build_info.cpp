@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: build_info.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 86/100 | Lines: 1023
- * Gap Summary: total=10; TODO=1, Stub=7, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=3, M=29, L=0
- * PR History (last 5): #3830 feat(themis): Modular Build... (2026-03-12) | #3646 fix(themis): complete build... (2026-03-12) | #3408 Migrate Themis core impleme... (2026-03-12) | #3404 [themis] Register BuildInfo... (2026-03-12) | #3403 [themis] Fix edition featur... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 /*
  * ThemisDB Build Information Implementation

@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_batch_nl_to_aql_translation.cpp | Version: 0.0.39
- * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
- * Gap Summary: total=12; TODO=1, Stub=1, Unimpl=0, Mock=7, Sim=3, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_batch_nl_to_aql_translation.cpp
  * @brief Tests for batch NL-to-AQL translation (offline workloads)

@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_ts_auto_buffer_advanced.cpp | Version: 0.0.45
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // Phase 5: Auto-Buffer – Deduplication, Memory Limits & Advanced Tests
 
 #include <gtest/gtest.h>

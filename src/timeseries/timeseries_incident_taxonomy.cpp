@@ -1,9 +1,3 @@
-/*
- * ThemisDB | File: timeseries_incident_taxonomy.cpp | Version: 1.0.0
- * Author: Copilot | Maturity: 🟢 PRODUCTION-READY | Status: Phase 3 — Incident Taxonomy
- * Purpose: Unified incident emission and diagnostic support.
- */
-
 /**
  * @file timeseries_incident_taxonomy.cpp
  * @brief Implementation of unified incident taxonomy and emission.

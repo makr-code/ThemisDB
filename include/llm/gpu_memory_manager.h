@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: gpu_memory_manager.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 85/100 | Lines: 247
- * Gap Summary: total=8; TODO=1, Stub=4, Unimpl=0, Mock=2, Sim=0, Debt=1, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #522 Implement llama.cpp resourc... (2026-03-11) | #240 Replace GPU Memory Manager ... (2026-03-11) | #220 Add multi-GPU LoRA adapter ... (2026-03-11) | #518 LLM/LoRA System Analysis: C... (2026-03-11) | #960 Add VRAM Allocation Best Pr... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #pragma once
 

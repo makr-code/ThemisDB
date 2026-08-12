@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: backup_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 2561
- * Gap Summary: total=13; TODO=1, Stub=9, Unimpl=0, Mock=1, Sim=2, Debt=0, C=1, H=22, M=21, L=0
- * PR History (last 5): #4746 Add Q2 2026 Waveâ€‘1 qualit... (2026-04-21) | #3810 feat(storage): Implement Ba... (2026-03-12) | #797 Implement comprehensive bac... (2026-03-11) | #816 [FEATURE] Implement Backup,... (2026-03-11) | #69 Sharding complexity analysi... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "storage/backup_manager.h"
 #include "storage/rocksdb_wrapper.h"

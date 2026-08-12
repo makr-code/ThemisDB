@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_tsstore_gorilla_buffer.cpp | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 97/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_tsstore_gorilla_buffer.cpp
  * @brief Unit tests for TSStore single-point insert buffering with Gorilla compression.

@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_llm_multi_model_integration.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
- * Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_llm_multi_model_integration.cpp
  * @brief Integration tests for multi-model LLM inference scenarios

@@ -1,12 +1,4 @@
 /*
- * ThemisDB | File: test_content_toolbox_bridge.cpp | Version: 0.1.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 90/100
- * Gap Summary: total=7; TODO=1, Stub=2, Unimpl=0, Mock=4, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-/*
  * ThemisDB — ContentToolboxBridge + IFormatExtractor unit tests
  *
  * Tests:

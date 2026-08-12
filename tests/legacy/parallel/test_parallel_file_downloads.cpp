@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_parallel_file_downloads.cpp | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
- * Gap Summary: total=6; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_parallel_file_downloads.cpp
  * @brief Focused unit tests for ParallelDownloader (Issue #128 / v1.6.0)

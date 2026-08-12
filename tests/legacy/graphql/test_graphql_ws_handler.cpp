@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_graphql_ws_handler.cpp | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
- * Gap Summary: total=8; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=4, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_graphql_ws_handler.cpp
  * @brief Unit tests for GraphQLWsHandler (graphql-transport-ws protocol)

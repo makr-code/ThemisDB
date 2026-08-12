@@ -9,12 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: websocket_session.h | Version: 0.0.48
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=0
- * W1-S03: active_ → std::atomic<bool> (data race fix)
- */
 
 #pragma once
 

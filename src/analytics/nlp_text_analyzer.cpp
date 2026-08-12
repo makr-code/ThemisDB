@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: nlp_text_analyzer.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 2157
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=8, H=4, M=25, L=1
- * PR History (last 5): #3507 docs(analytics): reconcile ... (2026-03-12) | #2990 [analytics] Full morphologi... (2026-03-12) | #2989 [analytics] Multi-language ... (2026-03-12) | #1218 Add Legal Modality Analyzer... (2026-03-11) | #318 Add NLP Text Analyzer with ... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "analytics/nlp_text_analyzer.h"
 #include <stdexcept>

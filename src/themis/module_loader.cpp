@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: module_loader.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 1968
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=8, M=34, L=0
- * PR History (last 5): #4746 Add Q2 2026 Waveâ€‘1 qualit... (2026-04-21) | #4143 feat(base): implement cross... (2026-03-13) | #4114 O(1) Module Lookup â€” Repl... (2026-03-12) | #3832 feat(themis): Module Loader... (2026-03-12) | #3830 feat(themis): Modular Build... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // Platform-independent ModuleLoader implementation for ThemisDB.
 //

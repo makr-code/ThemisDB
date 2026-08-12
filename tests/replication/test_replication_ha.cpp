@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_replication_ha.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 85/100
- * Gap Summary: total=38; TODO=1, Stub=3, Unimpl=0, Mock=17, Sim=17, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * ThemisDB Replication HA Tests
  *

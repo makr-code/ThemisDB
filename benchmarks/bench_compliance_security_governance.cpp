@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: bench_compliance_security_governance.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 89/100
- * Gap Summary: total=17; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=10, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file bench_compliance_security_governance.cpp
  * @brief Performance benchmarks for compliance, security and governance features

@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: logger.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 280
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=4, L=3
- * PR History (last 5): #4330 feat(cache): network-backed... (2026-03-19) | #4268 ProvenanceTracker: Replace ... (2026-03-15) | #2681 [core] Adjust dynamic log l... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // This implementation TU defines Logger symbols, so force export semantics
 // to keep declaration/definition DLL attributes consistent in all build modes.

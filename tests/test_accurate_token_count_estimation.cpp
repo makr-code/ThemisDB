@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_accurate_token_count_estimation.cpp | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
- * Gap Summary: total=8; TODO=1, Stub=2, Unimpl=0, Mock=3, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_accurate_token_count_estimation.cpp
  * @brief Tests and benchmark for accurate token-count estimation (Issue #145, v1.6.0).

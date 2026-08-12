@@ -46,11 +46,6 @@
  * - Callbacks (onPartialTranscript, onFinalTranscript) run on internal worker threads
  */
 
-/*
- * ThemisDB | File: voice_browser_streaming.h | Version: v1.0 FROZEN
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Status: Design/API Contract Frozen (Phase 1)
- */
 
 #include <atomic>
 #include <chrono>

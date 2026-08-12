@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: grpc_server.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:49:01
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 326
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=0, M=2, L=0
- * PR History (last 5): #4746 Add Q2 2026 Waveâ€‘1 qualit... (2026-04-21) | #4111 feat: migrate plugins to fl... (2026-03-12) | #3159 feat(api): Add X-Correlatio... (2026-03-12) | #3158 fix(api): resolve standalon... (2026-03-12) | #3149 feat(api): Complete OpenAPI... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #ifdef THEMIS_ENABLE_GRPC
 

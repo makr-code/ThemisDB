@@ -1,9 +1,3 @@
-/*
- * ThemisDB | File: analytics_api_contract.h | Version: 1.0.0
- * Author: Copilot | Maturity: 🟢 PRODUCTION-READY | Status: Phase 1 — Frozen Contract
- * Purpose: Frozen analytics runtime contract semantics for the active v1.x major line.
- */
-
 /**
  * @file analytics_api_contract.h
  * @brief Frozen analytics runtime contract semantics for the active v1.x line.

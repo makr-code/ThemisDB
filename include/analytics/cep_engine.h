@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: cep_engine.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1207
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #4374 [WIP] Update developer docu... (2026-03-22) | #4311 Implement memory pool alloc... (2026-03-17) | #2988 [analytics] EPL parser for ... (2026-03-12) | #2986 feat(cep): stateful NFA pat... (2026-03-12) | #2743 [analytics] CEP: Engine-lev... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 /**
  * ThemisDB Complex Event Processing (CEP) Engine

@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: mock_shard_cluster.h | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
- * Gap Summary: total=15; TODO=1, Stub=1, Unimpl=0, Mock=3, Sim=10, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 #pragma once
 
 #include <string>

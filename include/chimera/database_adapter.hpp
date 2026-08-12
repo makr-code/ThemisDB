@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: database_adapter.hpp | Version: 0.0.43 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 142
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=4, L=0
- * PR History (last 5): #4478 feat(chimera): Streaming re... (2026-04-11) | #4129 feat(chimera): Multi-Databa... (2026-03-12) | #4123 feat(chimera): AdapterConfi... (2026-03-12) | #4122 feat(chimera): async/promis... (2026-03-12) | #4098 feat(chimera): Batch Operat... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #pragma once
 

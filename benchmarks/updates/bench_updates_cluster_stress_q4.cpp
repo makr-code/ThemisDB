@@ -1,17 +1,3 @@
-/*
- * ThemisDB | File: bench_updates_cluster_stress_q4.cpp | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Phase 5: Cluster Stress Benchmarks (Q4 2026)
- *
- * Gate table:
- * | ID              | Metric                               | Gate          |
- * |-----------------|--------------------------------------|---------------|
- * | GATE-CSS-01     | EdgeCaseHandler detect() throughput  | ≥ 500k ops/s  |
- * | GATE-CSS-02     | StateMachine IDLE→transition rate    | ≥ 1M ops/s    |
- * | GATE-CSS-03     | Concurrent detection (4 threads)     | ≥ 100k ops/s  |
- * | GATE-CSS-04     | Rollback stats tracking              | ≥ 1M ops/s    |
- */
-
 // SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 ThemisDB Contributors
 

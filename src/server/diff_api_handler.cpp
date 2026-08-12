@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: diff_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 238
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=3, L=0
- * PR History (last 5): #2791 feat(cache): Adaptive TTL t... (2026-03-12) | #385 Phase 1 & 2: Implement Name... (2026-03-11) | #1080 Complete Git-like features:... (2026-03-11) | #1081 Enhance Diff-Engine: Fix ch... (2026-03-11) | #1085 Activate git-like features:... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "server/diff_api_handler.h"
 #include <spdlog/spdlog.h>

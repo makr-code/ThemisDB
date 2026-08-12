@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: bench_olap_analytics.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
- * Gap Summary: total=8; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=5, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file bench_olap_analytics.cpp
  * @brief Productive Google Benchmark performance tests for OLAP analytics cases.

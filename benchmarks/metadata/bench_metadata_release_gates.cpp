@@ -1,14 +1,3 @@
-/*
- * ThemisDB | File: bench_metadata_release_gates.cpp | Version: 1.0.0
- * Gate table:
- * | ID          | Metric                        | Gate         |
- * |-------------|-------------------------------|--------------|
- * | GATE-MET-01 | MetaError cast throughput     | ≥ 50M ops/s  |
- * | GATE-MET-02 | MetaError switch dispatch     | ≥ 50M ops/s  |
- * | GATE-MET-03 | Error range check             | ≥ 50M ops/s  |
- * | GATE-MET-04 | Batch error cast              | ≥ 1M ops/s   |
- */
-
 #include <benchmark/benchmark.h>
 #include "metadata/metadata_api_contract.h"
 

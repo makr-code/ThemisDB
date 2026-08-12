@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: adalora_tt_bridge.cpp | Version: 1.0.0 | Last Modified: 2026-06-01 19:36:06
- * Author: makr | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 456
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=6, M=5, L=0
- * PR History (last 5): #5082 [Docs][training] Update mod... (2026-05-13)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "training/adalora_tt_bridge.h"
 #include "graph/tensor_fingerprint_graph.h"

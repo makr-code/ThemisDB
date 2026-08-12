@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: feature_flags.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 205
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=3, L=0
- * PR History (last 5): #3339 feat(performance): io_uring... (2026-03-12) | #3292 feat(performance): Adaptive... (2026-03-12) | #3113 feat(gpu): Peer-to-peer GPU... (2026-03-12) | #3051 feat(gpu): WASM-based GPU k... (2026-03-12) | #2918 feat(performance): Memory p... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "themis/gpu/feature_flags.h"
 

@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: access_control_manager.cpp | Version: 0.0.47 | Last Modified: 2026-06-01 19:36:06
- * Author: makr | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 469
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=5, H=1, M=1, L=0
- * PR History (last 5): #5421 fix: thread-safety for Prov... (2026-06-01) | #3381 feat(security): Integrate Z... (2026-03-12) | #3380 feat(security): Integrate R... (2026-03-12) | #2560 feat(security): Implement A... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "security/access_control_manager.h"
 #include "server/auth_middleware.h"

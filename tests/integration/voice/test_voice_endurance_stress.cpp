@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_voice_endurance_stress.cpp | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY
- * Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0
- * Status: Production Ready
- * Issue: Voice Module Phase 5 Task 5.6 - Endurance and Stress Test
- */
-
 /**
  * @file test_voice_endurance_stress.cpp
  * @brief Voice Module endurance and stress testing suite.

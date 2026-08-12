@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: qdrant_adapter.hpp | Version: 0.1.0 | Last Modified: 2026-06-10
- * Author: Copilot | Maturity: 🟡 BETA
- * 
- * Qdrant adapter for CHIMERA Suite.
- * Copyright MIT License.
- */
-
 /**
  * @file qdrant_adapter.hpp
  * @brief Qdrant vector-store backend adapter for the Chimera abstraction layer.

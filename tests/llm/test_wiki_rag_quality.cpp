@@ -1,10 +1,3 @@
-/*
- * ThemisDB | File: test_wiki_rag_quality.cpp | Version: 0.1.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
- * Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0
- * Status: Production Ready
- */
-
 /**
  * @file test_wiki_rag_quality.cpp
  * @brief Quality gate tests for the wiki RAG retrieval path.

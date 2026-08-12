@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: nccl_vector_backend.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 656
- * Gap Summary: total=13; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=6, Debt=0, C=0, H=2, M=5, L=0
- * PR History (last 5): #3555 docs(acceleration): ROADMAP... (2026-03-12) | #1113 Implement Multi-GPU Vector ... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "acceleration/nccl_vector_backend.h"
 #include <cfloat>

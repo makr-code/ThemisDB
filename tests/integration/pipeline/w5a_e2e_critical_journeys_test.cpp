@@ -1,26 +1,3 @@
-/*
- * ThemisDB | File: w5a_e2e_critical_journeys_test.cpp | Version: 0.1.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Wave 5-A: Production-Critical E2E Journey Coverage
- *
- * Covers the 8 highest-priority cross-component journeys that must be
- * verified before every release:
- *
- *   E2E-01  Full ingest → index → query → audit journey (happy path)
- *   E2E-02  Authenticated query succeeds; unauthenticated is rejected
- *   E2E-03  RAG pipeline: embed → retrieve → infer → score
- *   E2E-04  Transaction commit with multi-shard write and CDC emission
- *   E2E-05  Batch ingest checkpoint + resume is idempotent
- *   E2E-06  Security: rejected token leaves no storage artifact
- *   E2E-07  Concurrent writes from N threads converge to consistent state
- *   E2E-08  Schema-invalid document is rejected at the pipeline boundary
- *
- * Design constraints:
- *   - No external runtime dependencies (no GPU, no LLM service, no Kafka).
- *   - Deterministic: uses seeded generators where randomness is needed.
- *   - All shared mocks come from test_fixture.h / test_data_generator.h.
- */
-
 #include "../test_data_generator.h"
 #include "../test_fixture.h"
 

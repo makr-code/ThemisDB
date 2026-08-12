@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: llm_aql_handler.cpp | Version: 0.0.47 | Last Modified: 2026-06-01 12:09:59
- * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 1983
- * Gap Summary: total=6; TODO=1, Stub=2, Unimpl=0, Mock=3, Sim=0, Debt=0, C=31, H=122, M=42, L=0
- * PR History (last 5): #5329 perf(query): PERF-06 â€” re... (2026-05-27) | #5125 docs(research): ACID_CONSTR... (2026-05-14) | #4221 feat(aql): Parallel executi... (2026-03-14) | #4175 fix(aql/test): correct AC-4... (2026-03-13) | #4170 feat(aql): Post-generation ... (2026-03-13)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "aql/llm_aql_handler.h"
 

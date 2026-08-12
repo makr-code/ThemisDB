@@ -1,9 +1,3 @@
-/*
- * ThemisDB | File: storage_pressure_manager.h | Version: 1.0.0
- * Author: Copilot | Maturity: 🟢 PRODUCTION-READY | Status: Phase 3 — Error Handling & Edge Cases
- * Purpose: Storage capacity management and pressure-related error handling.
- */
-
 /**
  * @file storage_pressure_manager.h
  * @brief Storage capacity management and pressure mitigation.

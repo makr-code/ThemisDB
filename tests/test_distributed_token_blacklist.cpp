@@ -1,9 +1,3 @@
-/*
- * ThemisDB | File: test_distributed_token_blacklist.cpp | Version: 0.0.1
- * Author: Copilot | Maturity: 🟡 BETA | Status: New Tests
- * Purpose: Tests for distributed token blacklist with cluster sync
- */
-
 #include <gtest/gtest.h>
 
 #include "auth/distributed_token_blacklist.h"

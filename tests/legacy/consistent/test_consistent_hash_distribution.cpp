@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_consistent_hash_distribution.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 #ifdef __linux__
 #include <gtest/gtest.h>
 TEST(TempLinuxAPICompat, Disabled_ConsistentHash) { GTEST_SKIP() << "Temporär unter Linux deaktiviert (API-Drift)."; }

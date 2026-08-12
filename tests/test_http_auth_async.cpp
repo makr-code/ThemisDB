@@ -1,9 +1,3 @@
-/*
- * ThemisDB | File: test_http_auth_async.cpp | Version: 0.0.1
- * Author: Copilot | Maturity: 🟡 BETA | Status: New Tests
- * Purpose: Unit and integration tests for async HTTP authentication
- */
-
 #include <gtest/gtest.h>
 
 #include "auth/http_auth_async.h"

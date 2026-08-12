@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: web_crawler_connector.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 650
- * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=3, Sim=0, Debt=0, C=2, H=4, M=9, L=0
- * PR History (last 5): #3137 feat(ingestion): WebCrawler... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // When THEMIS_ENABLE_CURL is defined the full libcurl-backed implementation
 // is compiled.  When the macro is absent the connector still compiles and:

@@ -1,9 +1,3 @@
-/*
- * ThemisDB | File: http_auth_async.h | Version: 0.0.1
- * Author: Copilot | Maturity: 🟡 BETA | Status: New Implementation
- * Purpose: Async HTTP authentication wrapper for OAuth, OIDC, SAML
- */
-
 /**
  * @file http_auth_async.h
  * @brief Asynchronous HTTP-based authentication utilities.

@@ -1,12 +1,4 @@
 /*
- * ThemisDB | File: test_ingestion_ner_llm.cpp | Version: 0.0.2
- * Maturity: 🟢 PRODUCTION-READY | Score: 90/100
- * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-/*
  * ThemisDB — Ingestion Phase 3 Tests: NER + LLM-Extract Steps
  *
  * Tests for:

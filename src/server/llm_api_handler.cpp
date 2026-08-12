@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: llm_api_handler.cpp | Version: 0.0.48 | Last Modified: 2026-05-31 19:05:19
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 95/100 | Lines: 2201
- * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=2, C=15, H=77, M=55, L=0
- * PR History (last 5): #5405 W1-S06: Close remaining unc... (2026-05-28) | #4187 feat(llm): OpenAI-compatibl... (2026-03-13) | #3268 [llm] OpenAI-compatible /v1... (2026-03-12) | #3139 feat(aql): Stream natural l... (2026-03-12) | #3068 [llm] OpenAI-compatible /v1... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "server/llm_api_handler.h"
 #include <stdexcept>

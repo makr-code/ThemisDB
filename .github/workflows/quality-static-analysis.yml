@@ -51,7 +51,7 @@ jobs:
     if: github.event_name == 'workflow_dispatch'
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
 
       - name: Install system dependencies
         run: |
@@ -98,13 +98,13 @@ jobs:
             --tool-version "${{ steps.ct_version.outputs.version }}"
 
       - name: Upload SARIF to GitHub Code Scanning
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@c4dd10e44af883a891fe31ced449bcb4a6728b9b  # v3
         with:
           sarif_file: clang-tidy.sarif
           category: clang-tidy
 
       - name: Upload raw output as artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08  # v4.6.0
         with:
           name: clang-tidy-results
           path: |
@@ -126,7 +126,7 @@ jobs:
     if: github.event_name == 'workflow_dispatch'
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
 
       - name: Install clang-format
         run: |
@@ -148,7 +148,7 @@ jobs:
           fi
 
       - name: Upload format report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08  # v4.6.0
         with:
           name: clang-format-results
           path: clang-format-report.txt
@@ -168,7 +168,7 @@ jobs:
     if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
 
       - name: Install Doxygen + Python tooling
         run: |
@@ -200,7 +200,7 @@ jobs:
           python3 scripts/verify_docs.py --summary-file build/doxygen_coverage_summary.txt --threshold "${THRESHOLD}"
 
       - name: Upload coverage artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08  # v4.6.0
         with:
           name: doxygen-coverage
           path: |
@@ -216,7 +216,7 @@ jobs:
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
 
       - name: Install Doxygen
         run: |
@@ -239,7 +239,7 @@ jobs:
         run: python3 scripts/generate_doxygen_mermaid_map.py
 
       - name: Upload Doxygen Mermaid artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08  # v4.6.0
         with:
           name: doxygen-mermaid-mapping
           path: |
@@ -258,7 +258,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
         with:
           fetch-depth: 0
 
@@ -329,7 +329,7 @@ jobs:
 
       - name: Upload regression artifacts
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08  # v4.6.0
         with:
           name: storage-sustained-write-regression-${{ github.run_number }}
           path: build/perf-regression/benchmark_results/

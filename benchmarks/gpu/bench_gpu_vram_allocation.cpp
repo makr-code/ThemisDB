@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: bench_gpu_vram_allocation.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 88/100
- * Gap Summary: total=8; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=4, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 #include <benchmark/benchmark.h>
 #include "llm/adaptive_vram_allocator.h"
 #include "llm/multi_gpu_memory_coordinator.h"

@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: rocksdb_wrapper.cpp | Version: 0.0.47 | Last Modified: 2026-06-01 04:20:37
- * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 2767
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=41, H=41, M=26, L=0
- * PR History (last 5): #4596 perf(storage): fix ~79x sus... (2026-04-13) | #4494 [PERF-D5] Streaming blob wr... (2026-04-09) | #4274 feat(storage): RocksDBWrapp... (2026-03-15) | #4260 feat(storage): SecuritySign... (2026-03-15) | #4201 feat(base): async retry bac... (2026-03-15)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "storage/rocksdb_wrapper.h"
 #include <stdexcept>

@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: hip_backend.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1137
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=16, M=3, L=0
- * PR History (last 5): #4618 feat(acceleration): Kernel ... (2026-04-13) | #4470 feat(acceleration): FAISS I... (2026-04-09) | #3574 fix: clear all remaining st... (2026-03-12) | #3465 docs: Add full IEEE citatio... (2026-03-12) | #2712 [acceleration] Publish back... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // HIP Backend Implementation for AMD GPUs
 // Provides GPU acceleration using AMD ROCm/HIP platform

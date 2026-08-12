@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_alert_rules.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_alert_rules.cpp
  * @brief Unit tests for the custom user-defined alert rules API (AlertRuleManager).

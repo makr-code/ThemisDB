@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: vulkan_backend_full.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 597
- * Gap Summary: total=12; TODO=1, Stub=9, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=3, M=0, L=0
- * PR History (last 5): #4618 feat(acceleration): Kernel ... (2026-04-13) | #4206 feat(acceleration): Vulkan ... (2026-03-14) | #3632 fix(build): register 40+ mi... (2026-03-12) | #3609 feat(acceleration): wire mi... (2026-03-12) | #3555 docs(acceleration): ROADMAP... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // Full Vulkan Backend Implementation for ThemisDB
 // Provides GPU-accelerated vector operations using Vulkan Compute Shaders

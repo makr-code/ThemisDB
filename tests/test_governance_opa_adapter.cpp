@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_governance_opa_adapter.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
- * Gap Summary: total=42; TODO=1, Stub=20, Unimpl=0, Mock=1, Sim=20, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_governance_opa_adapter.cpp
  * @brief Unit tests for governance::OpaAdapter and PolicyEngine OPA-evaluator integration.

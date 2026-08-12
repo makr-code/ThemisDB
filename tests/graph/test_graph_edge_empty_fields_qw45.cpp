@@ -1,27 +1,3 @@
-/*
- * ThemisDB | File: test_graph_edge_empty_fields_qw45.cpp
- * QW-45: Graph Edge Empty Fields Validation (Fail-Closed Guard)
- * 
- * This test suite validates the fail-closed guards for empty _from/_to fields
- * in graph edge insertion. Empty source or target node IDs are rejected before
- * persistence to prevent graph topology corruption.
- *
- * Security Purpose:
- * - Prevents empty node references in edges (_from and _to fields)
- * - Fail-closed: rejects edges with empty source or target IDs
- * - Ensures graph topology integrity by enforcing non-empty node references
- *
- * Test Coverage:
- * - Empty _from field rejection
- * - Empty _to field rejection
- * - Valid _from/_to pair acceptance
- * - Whitespace-only values rejection
- * - Single character node IDs (boundary)
- * - Long node IDs (boundary)
- * - Special characters in node IDs
- * - Graph topology corruption prevention
- */
-
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 #include <memory>

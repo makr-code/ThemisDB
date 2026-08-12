@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: device_manager.cpp | Version: 0.0.15 | Last Modified: 2026-06-02 11:49:05
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 236
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=2, L=0
- * PR History (last 5): #4928 [Docs][acceleration] Aktual... (2026-05-10) | #4207 feat(acceleration): wire Ru... (2026-03-14) | #3476 docs(acceleration): sync RE... (2026-03-12) | #2966 feat(acceleration): impleme... (2026-03-12) | #2740 Implement geo CUDA kernels ... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 /*
  * Acceleration module — Runtime Device Capability Detection

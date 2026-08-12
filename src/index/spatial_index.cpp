@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: spatial_index.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 1372
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=30, M=21, L=0
- * PR History (last 5): #4145 feat(geo): Add SpatialIndex... (2026-03-13) | #3007 [geo] Implement R-tree spat... (2026-03-12) | #805 Add RPC geospatial query su... (2026-03-11) | #1135 Complete geospatial product... (2026-03-11) | #27 Implement exact geometry ch... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "index/spatial_index.h"
 #include <stdexcept>

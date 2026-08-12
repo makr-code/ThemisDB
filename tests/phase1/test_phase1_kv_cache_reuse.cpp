@@ -1,10 +1,3 @@
-/*
- * ThemisDB | File: test_phase1_kv_cache_reuse.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
- * Gap Summary: total=12; TODO=1, Stub=1, Unimpl=0, Mock=4, Sim=6, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 // RESTORED FROM HISTORY: 892fbc132819cf3446b54bb51b8b14ec2dd61db5
 
 

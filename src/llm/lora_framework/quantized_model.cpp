@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: quantized_model.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 438
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=18, H=16, M=4, L=0
- * PR History (last 5): #724 Fix GGUF quantized model lo... (2026-03-11) | #574 QLoRA GPU Kernel Optimizati... (2026-03-11) | #549 Implement QLoRA (Quantized ... (2026-03-11) | #577 Add GGUF Format Support for... (2026-03-11) | #780 Implement direct GGUF quant... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "llm/lora_framework/quantized_model.h"
 #include "llm/gguf_loader.h"

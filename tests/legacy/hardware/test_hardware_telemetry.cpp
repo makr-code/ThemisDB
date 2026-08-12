@@ -1,12 +1,4 @@
 /*
- * ThemisDB | File: test_hardware_telemetry.cpp | Version: 0.0.5
- * Maturity: 🟢 PRODUCTION-READY | Score: 97/100
- * Gap Summary: total=7; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=4, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-/*
  * tests/test_hardware_telemetry.cpp
  *
  * Focused unit tests for the HardwareTelemetryReporter.

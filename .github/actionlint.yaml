@@ -6,3 +6,4 @@ self-hosted-runner:
   # Used in llm-cuda-gpu-ci.yml for CUDA kernel tests.
   labels:
     - gpu-cuda
+    - gpu-hip

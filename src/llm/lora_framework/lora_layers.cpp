@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: lora_layers.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 734
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=28, H=27, M=0, L=0
- * PR History (last 5): #998 C++ Audit: Eliminate raw me... (2026-03-11) | #547 Implement Adam/AdamW Optimi... (2026-03-11) | #528 [LoRA] Implement CPU-based ... (2026-03-11) | #518 LLM/LoRA System Analysis: C... (2026-03-11) | #548 Integrate LoRA Training wit... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "llm/lora_framework/lora_layers.h"
 #include "utils/type_conversion.h"

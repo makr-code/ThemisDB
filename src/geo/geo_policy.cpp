@@ -5,11 +5,6 @@
  * See `include/geo/geo_policy.h` for the public API contract.
  */
 
-/*
- * ThemisDB | File: geo_policy.cpp | Version: 1.0.0
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY
- * Status: Phase 3 delivery — geo module hardening
- */
 
 #include "geo/geo_policy.h"
 

@@ -1,14 +1,3 @@
-/*
- * ThemisDB | File: bench_toolbox_release_gates.cpp | Version: 1.0.0
- * Gate table:
- * | ID          | Metric                        | Gate         |
- * |-------------|-------------------------------|--------------|
- * | GATE-TBX-01 | Fingerprint default-init rate | ≥ 5M ops/s   |
- * | GATE-TBX-02 | ToolboxError cast throughput  | ≥ 50M ops/s  |
- * | GATE-TBX-03 | Fingerprint memset rate       | ≥ 5M ops/s   |
- * | GATE-TBX-04 | Error switch dispatch         | ≥ 50M ops/s  |
- */
-
 #include <benchmark/benchmark.h>
 #include "toolbox/toolbox_api_contract.h"
 

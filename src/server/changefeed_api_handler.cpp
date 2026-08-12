@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: changefeed_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 1331
- * Gap Summary: total=7; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=1, Debt=0, C=2, H=6, M=16, L=0
- * PR History (last 5): #2846 [cdc] GDPR-aware PII field ... (2026-03-12) | #2791 feat(cache): Adaptive TTL t... (2026-03-12) | #2405 [cdc] Implement change log ... (2026-03-11) | #447 Refactor: Extract Changefee... (2026-03-11) | #784 Implement governance header... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "server/changefeed_api_handler.h"
 #include <stdexcept>

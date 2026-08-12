@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: audit_logger.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 1726
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=5, H=5, M=31, L=1
- * PR History (last 5): #4571 perf(index): reduce seconda... (2026-04-11) | #4231 feat(sharding): Adaptive Sh... (2026-03-14) | #4216 feat(timeseries): Chunk-Lev... (2026-03-14) | #3604 feat(utils): complete Phase... (2026-03-12) | #1010 Add comprehensive-code-audi... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "utils/audit_logger.h"
 #include <stdexcept>

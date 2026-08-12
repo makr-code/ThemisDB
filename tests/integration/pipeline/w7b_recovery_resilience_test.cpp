@@ -1,10 +1,3 @@
-/*
- * ThemisDB | File: w7b_recovery_resilience_test.cpp | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0
- * Status: Production Ready — Wave 7B High-Confidence Recovery & Resilience
- */
-
 /**
  * @file w7b_recovery_resilience_test.cpp
  * @brief Wave 7B — High-Confidence Recovery & Resilience (HCR-01..HCR-08).

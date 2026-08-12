@@ -1,10 +1,3 @@
-/*
- * ThemisDB | File: test_graph_query_optimizer_phase3.cpp | Version: 1.9.0
- * Phase 3 – P3-01: Query Optimizer – Plan Cache + Cost Model
- * Tests: 28 focused tests covering LRU plan cache, cost model calibration,
- *        metrics, adaptive learning, and GraphLRUPlanCache standalone utility.
- */
-
 #include <gtest/gtest.h>
 #include "graph/graph_query_optimizer.h"
 #include "graph/graph_plan_cache.h"

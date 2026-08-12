@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: bench_postgres_e2e.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 88/100
- * Gap Summary: total=13; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=7, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // PostgreSQL Wire Protocol - End-to-End Benchmarks
 // Measures complete query flows and realistic scenarios
 

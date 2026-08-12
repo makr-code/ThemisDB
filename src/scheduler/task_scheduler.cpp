@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: task_scheduler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 90/100 | Lines: 2977
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=1, C=10, H=26, M=33, L=0
- * PR History (last 5): #4361 docs(scheduler): sync docs ... (2026-03-21) | #4278 TaskScheduler: Propagate Au... (2026-03-16) | #3369 feat(scheduler): add audit ... (2026-03-12) | #3368 feat(scheduler): CDC event ... (2026-03-12) | #3359 feat(scheduler): Add FIBONA... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "scheduler/task_scheduler.h"
 #include <stdexcept>

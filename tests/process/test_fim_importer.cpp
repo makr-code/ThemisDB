@@ -1,12 +1,4 @@
 /*
- * ThemisDB | File: test_fim_importer.cpp | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
- * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=1, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-/*
  * ThemisDB - Process Modeling Module
  *
  * File:    test_fim_importer.cpp

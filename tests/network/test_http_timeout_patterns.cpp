@@ -25,11 +25,6 @@
  * 16.  Multiple sequential requests each get fresh timeout
  */
 
-/*
- * ThemisDB | File: test_http_timeout_patterns.cpp | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Status: Production Ready
- */
 
 #include <gtest/gtest.h>
 

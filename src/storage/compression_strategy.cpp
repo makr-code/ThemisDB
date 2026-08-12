@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: compression_strategy.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 649
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=2, M=7, L=0
- * PR History (last 5): #4148 feat(storage): GPU-Accelera... (2026-03-13) | #3644 fix(docs+build): storage mo... (2026-03-12) | #3632 fix(build): register 40+ mi... (2026-03-12) | #811 Implement data compression ... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "storage/compression_strategy.h"
 #include "utils/compression_metrics.h"

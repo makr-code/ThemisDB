@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: bench_v1_3_0_features.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
- * Gap Summary: total=7; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=4, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 #include <benchmark/benchmark.h>
 #include "cache/embedding_cache.h"
 #include "search/hybrid_search.h"

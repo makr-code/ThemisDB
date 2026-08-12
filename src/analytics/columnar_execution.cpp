@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: columnar_execution.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:49:01
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1293
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=32, M=27, L=0
- * PR History (last 5): #4929 [Docs][analytics] Refresh m... (2026-05-10) | #4317 feat(analytics): SIMD Vecto... (2026-03-18) | #4311 Implement memory pool alloc... (2026-03-17) | #3610 fix(analytics): register mi... (2026-03-12) | #2759 [analytics] Columnar execut... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 /**
  * ThemisDB Columnar Execution Engine – Implementation

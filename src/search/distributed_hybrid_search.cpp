@@ -9,13 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: distributed_hybrid_search.cpp | Version: 2.2.0 | Last Modified: 2026-08-06
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100
- * Phase 2 Enhancements: Shard-failure handling, merge underflow detection, high-overlap variance tracking
- * Status: Production Ready (Phase 2: Core Implementation Hardening)
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "search/distributed_hybrid_search.h"
 #include "utils/logger.h"

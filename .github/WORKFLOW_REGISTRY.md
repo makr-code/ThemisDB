@@ -29,6 +29,10 @@ Quarantaene, nicht einen inoffiziellen Reservepool fuer schnelle Reaktivierung.
   — Reusable/manual changelog update & backfill (artifact-backed proposal, keine Branch-Mutation)
 - `.github/workflows/security-scanning.yml`
   — Security-Scan-Orchestrierung (SAST/DAST-Signale + Artefakte)
+- `.github/workflows/security.yml`
+  — Trivy Vulnerability Scan + Gitleaks Secret Scan (supply-chain-hardened, SHA-gepinnt)
+- `.github/workflows/fortify.yml`
+  — Fortify AST Scan (continue-on-error; requires FOD_TENANT/FOD_USER/FOD_PAT secrets)
 - `.github/workflows/security-pentest-quarterly.yml`
   — Quartals-Pentest-Cadence mit Evidence-Artefakten (non-mutating)
 - `.github/workflows/compliance-supply-chain.yml`
@@ -47,6 +51,8 @@ Quarantaene, nicht einen inoffiziellen Reservepool fuer schnelle Reaktivierung.
   — Wöchentliches CI Health Dashboard (pass/fail Aggregation, chronische Fehler-Issue; Sunday 06:00 UTC)
 - `.github/workflows/maintenance-security-alerts.yml`
   — Tägliche Security-SLA-Triage (Code-Scanning High/Critical, dedupliziertes Governance-Issue, Auto-Close bei Recovery)
+- `.github/workflows/maintenance-gs3-gaps.yml`
+  — Tägliche/manuelle GS3-Scan-Triage mit konsolidiertem, idempotentem Issue-Management
 - `.github/workflows/docker-image.yml`
   — Container build/publish lane; triggered via workflow_run after successful CI — Release (koordiniert mit ci-release.yml)
 - `.github/workflows/edition-hyperscaler-ci.yml`
@@ -87,6 +93,6 @@ pwsh -NoProfile -File ./scripts/test-github-actions-local.ps1 -Mode all
 ```
 
 ## Stand
-- Aktive Workflows im Verzeichnis `.github/workflows/`: 20
+- Aktive Workflows im Verzeichnis `.github/workflows/`: 21
 - Deaktivierte Workflows in `.github/no_workflows/`: 23
 - Strategie: Lean + harte Triggergrenzen + Quarantaene fuer uebertriggernde CI

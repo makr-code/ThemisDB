@@ -1,9 +1,3 @@
-/*
- * ThemisDB | File: test_config_hardening_watcher_store.cpp | Version: 1.0.0
- * Author: Copilot | Maturity: 🟢 PRODUCTION-READY | Status: Phase 4 — Hardening Tests
- * Purpose: CFG-17..CFG-32 hardening tests for config watcher and encrypted-store edge cases.
- */
-
 /**
  * @file test_config_hardening_watcher_store.cpp
  * @brief Phase 4 hardening tests for watcher and encrypted-store edge cases.

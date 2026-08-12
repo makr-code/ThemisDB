@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: temporal_spatial_query.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 190
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=4, L=0
- * PR History (last 5): #4224 feat(geo): Temporal-Spatial... (2026-03-15) | #3622 feat(geo): Build system aud... (2026-03-12) | #2914 feat(geo): Temporal-spatial... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "geo/temporal_spatial_query.h"
 #include "geo/geo_math.h"

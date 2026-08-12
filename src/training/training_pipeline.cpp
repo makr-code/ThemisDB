@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: training_pipeline.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 21:44:57
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 95/100 | Lines: 788
- * Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=3, Debt=0, C=6, H=8, M=16, L=0
- * PR History (last 5): #4349 Implement training module: ... (2026-03-20) | #4268 ProvenanceTracker: Replace ... (2026-03-15) | #1340 Training Module â€“ Product... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 ThemisDB Contributors

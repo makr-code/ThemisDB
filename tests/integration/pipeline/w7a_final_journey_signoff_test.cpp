@@ -1,10 +1,3 @@
-/*
- * ThemisDB | File: w7a_final_journey_signoff_test.cpp | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0
- * Status: Production Ready — Wave 7A Final Critical Journey Sign-off Suite
- */
-
 /**
  * @file w7a_final_journey_signoff_test.cpp
  * @brief Wave 7A — Final Critical Journey Sign-off (FJS-01..FJS-08).

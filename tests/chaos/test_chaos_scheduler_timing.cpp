@@ -1,9 +1,3 @@
-/*
- * ThemisDB | File: test_chaos_scheduler_timing.cpp | Version: 1.0.0
- * Author: Copilot | Maturity: 🟢 PRODUCTION-READY | Status: Phase 4 — Scheduler Timing
- * Purpose: Phase 4 resilience regressions for schedule/stop/restart timing races.
- */
-
 /**
  * @file test_chaos_scheduler_timing.cpp
  * @brief Phase 4 resilience regression tests for ChaosScheduler timing race conditions.

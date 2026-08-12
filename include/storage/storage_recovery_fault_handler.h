@@ -1,9 +1,3 @@
-/*
- * ThemisDB | File: storage_recovery_fault_handler.h | Version: 1.0.0
- * Author: Copilot | Maturity: 🟢 PRODUCTION-READY | Status: Phase 3 — Error Handling & Edge Cases
- * Purpose: Standardized recovery fault handling for replay and recovery errors.
- */
-
 /**
  * @file storage_recovery_fault_handler.h
  * @brief Standardized recovery fault handling and edge case resolution.

@@ -1,19 +1,3 @@
-/*
- * ThemisDB | File: test_gpu_shader_coverage.cpp
- * Issue: #5382 — GPU/VRAM Layer: Refactor, vereinheitlichen und
- *                Shader-Vollständigkeit sichern
- *
- * CI-level shader and kernel completeness tests.
- *
- * Verifies that:
- *   1. All required shader/kernel files exist on disk for every compute backend.
- *   2. KernelRegistry::validate() reports complete coverage for all backends
- *      whose dispatch tables have been registered.
- *   3. Fallback resolution fills null slots from the CPU backend.
- *
- * Tests run on any platform — no GPU hardware is required.
- */
-
 #include <gtest/gtest.h>
 #include "acceleration/kernel_registry.h"
 

@@ -1,10 +1,3 @@
-/*
- * ThemisDB | File: bench_aql_translation.cpp | Version: 0.0.1
- * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 92/100
- * Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0
- * Phase 6: AQL Performance and Benchmarking
- */
-
 /**
  * @file bench_aql_translation.cpp
  * @brief Phase 6 benchmarks for AQL translation and validation pipelines.

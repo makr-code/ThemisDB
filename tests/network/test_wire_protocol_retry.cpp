@@ -32,11 +32,6 @@
  * 27.  IdempotencyCache: multiple lookup pointers stay distinct per request id
  */
 
-/*
- * ThemisDB | File: test_wire_protocol_retry.cpp | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Status: Production Ready
- */
 
 #include <gtest/gtest.h>
 #include "network/wire_protocol_server.h"

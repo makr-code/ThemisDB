@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: result_stream.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 319
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=0, L=0
- * PR History (last 5): #3638 feat(replication): Phase 4 ... (2026-03-12) | #3636 fix(query): build system au... (2026-03-12) | #3313 Fix ResultStream::nextBatch... (2026-03-12) | #3143 feat(query): implement Resu... (2026-03-12) | #810 Implement query result stre... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "query/result_stream.h"
 #include "utils/error_registry.h"

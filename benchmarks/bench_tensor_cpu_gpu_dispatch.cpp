@@ -1,26 +1,3 @@
-/*
- * ThemisDB | File: bench_tensor_cpu_gpu_dispatch.cpp | Version: 1.0.0
- * Maturity: 🟡 IMPLEMENTED | Score: 85/100
- * Status: Tensor mid-layer CPU/SIMD vs GPU dispatch benchmark (Phase 1)
- *
- * Covers scenarios from CPU_SIMD_GPU_DISPATCH_BENCHMARK_MATRIX.md §4:
- *   TEN-S1  Cosine similarity: CPU scalar vs CPU SIMD (CPUVectorBackend)
- *   TEN-S2  Frobenius norm: CPU scalar vs GPU dispatch (GPUQueryAccelerator)
- *   TEN-S3  Dot-product contraction: CPU SIMD vs GPU (dotProduct path)
- *   TEN-S4  Batch similarity scoring: CPU vs GPU (batchKnnSearch / annSearch)
- *   TEN-G1  GEMM contraction: CPUMatrixBackend vs GPUQueryAccelerator (dotProduct)
- *   TEN-G2  Shard relevance scoring: batch dot-product sweep
- *   TEN-G3  Summary generation mean-pool: CPU scalar
- *   TEN-G4  Residual/error accumulation: CPU vs GPU dot-product
- *   TEN-M1  mmap cold vs warm page-cache simulation
- *   TEN-M2  mmap -> CPU SIMD end-to-end pipeline
- *   BM_Smoke_* fast sanity targets for CI (≤5 s combined)
- *
- * GPU acceleration is enabled when THEMIS_ENABLE_CUDA is defined; otherwise
- * GPUQueryAccelerator and CPUMatrixBackend provide CPU-only fallbacks so all
- * benchmarks compile and run without GPU hardware.
- */
-
 #include <benchmark/benchmark.h>
 
 #include "acceleration/cpu_backend.h"

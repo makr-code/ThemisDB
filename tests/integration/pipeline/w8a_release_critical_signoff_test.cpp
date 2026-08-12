@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: w8a_release_critical_signoff_test.cpp | Version: 0.0.1
- * Maturity: 🟡 IMPLEMENTATION-IN-PROGRESS | Score: 45/100
- * Status: Wave 8A — Release Critical Signoff (RCS-01..RCS-08)
- *
- * Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0
- */
-
 /**
  * @file w8a_release_critical_signoff_test.cpp
  * @brief Wave 8A — Release Critical Signoff (RCS-01..RCS-08).

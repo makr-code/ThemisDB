@@ -13,11 +13,6 @@
  * No external dependencies beyond GTest and aql/aql_error_types.h.
  */
 
-/*
- * ThemisDB | File: test_aql_schema_edge_cases.cpp | Version: 0.0.1
- * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 92/100
- * Phase 4 Block 4.2: Validation Component Hardening — Schema Edge Cases
- */
 
 #include <gtest/gtest.h>
 #include <string>

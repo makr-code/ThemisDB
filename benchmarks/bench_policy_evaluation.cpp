@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: bench_policy_evaluation.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // Benchmark: Policy Rule Evaluation Performance
 // Tests evaluation of simple rules, complex nested rules, and large policy sets
 

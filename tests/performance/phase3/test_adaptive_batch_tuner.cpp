@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_adaptive_batch_tuner.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // Unit tests for LLMBatchTuner (Phase 3, Issue #1996)
 // Tests cover:
 //  - Default construction and initial state

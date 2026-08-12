@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: hsm_provider.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 83/100 | Lines: 525
- * Gap Summary: total=58; TODO=1, Stub=47, Unimpl=0, Mock=1, Sim=7, Debt=2, C=0, H=10, M=7, L=0
- * PR History (last 5): #3462 [HSM] Production failsafe: ... (2026-03-12) | #3454 fix: Wire PKCS#11 HSM produ... (2026-03-12) | #2585 feat(security): HSM PKCS#11... (2026-03-12) | #2564 feat(security): HSM direct ... (2026-03-12) | #401 Replace Security Stubs with... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // Clean minimal stub implementation of HSMProvider.
 // Provides deterministic, nicht-kryptographische Operationen fuer Developer-Fallback.

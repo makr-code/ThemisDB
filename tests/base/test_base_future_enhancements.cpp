@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_base_future_enhancements.cpp | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0
- * Status: Production Ready
- * Issue: #5631 — base module future enhancement items (Q4 2026 / Q1 2027)
- */
-
 /**
  * @file test_base_future_enhancements.cpp
  * @brief Focused regression and hardening tests for base module future-enhancement items.

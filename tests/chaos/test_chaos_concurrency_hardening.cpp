@@ -1,9 +1,3 @@
-/*
- * ThemisDB | File: test_chaos_concurrency_hardening.cpp | Version: 1.0.0
- * Author: Copilot | Maturity: 🟢 PRODUCTION-READY | Status: Phase 4 — Concurrency Hardening
- * Purpose: Phase 4 focused regression tests for chaos concurrency and callback edge hardening.
- */
-
 /**
  * @file test_chaos_concurrency_hardening.cpp
  * @brief Phase 4 focused regression tests for chaos concurrency and callback hardening.

@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_distributed_training_e2e.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
- * Gap Summary: total=11; TODO=1, Stub=1, Unimpl=0, Mock=3, Sim=6, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_distributed_training_e2e.cpp
  * @brief End-to-end integration tests for distributed training loss aggregation

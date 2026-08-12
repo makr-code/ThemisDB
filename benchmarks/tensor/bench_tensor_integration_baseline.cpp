@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: bench_tensor_integration_baseline.cpp
- * Version: 1.0.0 | Maturity: Production-Ready
- * 
- * Tensor Mid-Layer Integration Benchmark Suite (Phase 4)
- * Purpose: Establish performance baselines for full pipeline execution
- */
-
 #include <benchmark/benchmark.h>
 
 #include "tensor/tensor_mid_layer.h"

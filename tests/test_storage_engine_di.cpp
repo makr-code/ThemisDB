@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_storage_engine_di.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
- * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=1, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 #include "storage/storage_engine.h"

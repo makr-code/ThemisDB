@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_agentic_rag_budget.cpp | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 92/100
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_agentic_rag_budget.cpp
  * @brief Unit tests for AgenticRAG session token-budget cap (Gap 4).

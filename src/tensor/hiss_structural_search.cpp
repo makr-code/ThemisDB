@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: hiss_structural_search.cpp | Version: 1.0.0 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 540
- * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=6, M=18, L=0
- * PR History (last 5): #5117 docs(tensor): complete cros... (2026-05-13) | #5112 feat(tensor): HissReshaper ... (2026-05-13)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "tensor/hiss_structural_search.h"
 

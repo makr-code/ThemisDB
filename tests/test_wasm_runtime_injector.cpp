@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_wasm_runtime_injector.cpp | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 97/100
- * Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 #include <gtest/gtest.h>
 #include "themis/base/wasm_runtime_injector.h"
 #include "plugins/wasm_host_api.h"

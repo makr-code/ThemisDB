@@ -9,13 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: distributed_time_coordinator.h | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 89/100
- * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // Copyright 2025 ThemisDB
 // Licensed under MIT License

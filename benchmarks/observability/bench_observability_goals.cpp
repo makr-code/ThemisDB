@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: bench_observability_goals.cpp | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
- * Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=3, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file bench_observability_goals.cpp
  * @brief 1:1 benchmark coverage for Observability goal IDs OBS-1, OBS-2, OBS-3.

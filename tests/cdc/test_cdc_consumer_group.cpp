@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_cdc_consumer_group.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // Test: CDC Consumer Group Semantics and Offset Tracking
 // Tests for consumer group management, partition assignment, offset commit/resume
 

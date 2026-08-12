@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_gate_result.cpp | Version: 0.0.10
- * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /// @file test_gate_result.cpp
 /// @brief Focused unit tests for GateResult, LicenseDenialReason, and LicenseInfo
 ///        (v1.7.1 additions to include/themis/runtime_license_gate.h and

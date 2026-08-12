@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: ingestion_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 2323
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=5, H=11, M=42, L=0
- * PR History (last 5): #4962 docs(doxygen): tranche-3 re... (2026-05-11) | #4227 feat(ingestion): S3-Compati... (2026-03-14) | #4188 feat(ingestion): Kafka Cons... (2026-03-13) | #3628 feat(ingestion): end-to-end... (2026-03-12) | #3574 fix: clear all remaining st... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "ingestion/ingestion_manager.h"
 #include "ingestion/huggingface_connector.h"

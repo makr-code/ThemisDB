@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: process_mining_functions.cpp | Version: 0.0.48 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 611
- * Gap Summary: total=10; TODO=1, Stub=6, Unimpl=2, Mock=1, Sim=0, Debt=0, C=0, H=19, M=19, L=0
- * PR History (last 5): #3636 fix(query): build system au... (2026-03-12) | #1100 [WIP] Fix missing and stub ... (2026-03-11) | #159 Add process mining pattern ... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "query/functions/process_mining_functions.h"
 #include <nlohmann/json.hpp>

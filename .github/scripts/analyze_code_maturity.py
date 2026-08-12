@@ -973,7 +973,12 @@ def main() -> int:
     args = parser.parse_args()
 
     root = Path(args.root).resolve()
-    write_headers = not args.no_headers
+    # Header writing is permanently disabled in this script.
+    # The canonical header writer is code_maturity_header_writer.py.
+    # Keeping write_headers=False prevents the legacy compact C-style block
+    # (/* ThemisDB | File: ... */) from being regenerated alongside the
+    # Doxygen block produced by code_maturity_header_writer.py.
+    write_headers = False
     repo_meta = get_repo_metadata(root)
 
     tracking_path = root / '.github' / 'version_tracking.json'

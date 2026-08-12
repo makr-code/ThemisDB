@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_graph_resource_pooling_phase3.cpp | Version: 1.9.0
- * Phase 3 – P3-03: Resource Pooling – Connection / Thread / Buffer
- * Tests: 36 focused tests covering GraphConnectionPool, GraphThreadPool,
- *        and GraphBufferPool (acquire/release, concurrency, RAII safety,
- *        exhaustion handling, metrics).
- */
-
 #include <gtest/gtest.h>
 #include "graph/graph_resource_pool.h"
 #include <atomic>

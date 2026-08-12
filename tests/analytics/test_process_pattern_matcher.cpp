@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_process_pattern_matcher.cpp | Version: 0.0.32
- * Maturity: 🟢 PRODUCTION-READY | Score: 92/100
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * ProcessPatternMatcher unit + integration tests.
  *

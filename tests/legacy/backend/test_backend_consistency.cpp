@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_backend_consistency.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // Test: Backend Consistency Tests
 // Validates that all acceleration backends produce consistent L2 distance results
 // This test ensures the fix for squared L2 distance consistency works correctly

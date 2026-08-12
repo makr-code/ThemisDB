@@ -1,12 +1,4 @@
 /*
- * ThemisDB | File: test_gpu_rocm_backend.cpp | Version: 0.0.18
- * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-/*
  * Unit tests for the ROCm/HIP backend (rocm_backend.h / rocm_backend.cpp).
  *
  * All tests are designed to run on CI without AMD GPU hardware.  When HIP is

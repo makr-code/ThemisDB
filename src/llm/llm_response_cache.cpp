@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: llm_response_cache.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 572
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=12, M=3, L=0
- * PR History (last 5): #238 Replace LLM response cache ... (2026-03-11) | #214 Integrate Prometheus metric... (2026-03-11) | #762 Perf: Scale to 10B records ... (2026-03-11) | #1041 Fix thread-safety in cache/... (2026-03-11) | #105 Add plugin-based LLM integr... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "llm/llm_response_cache.h"
 #include "llm/grafana_metrics.h"

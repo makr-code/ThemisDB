@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: shard_router.cpp | Version: 0.0.47 | Last Modified: 2026-06-01 21:46:31
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1049
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=32, H=42, M=29, L=0
- * PR History (last 5): #67 Implement Phase 6: Promethe... (2026-03-11) | #52 Implement horizontal/vertic... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "sharding/shard_router.h"
 #include "sharding/urn.h"

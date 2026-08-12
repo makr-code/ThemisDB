@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: redundancy_strategy.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 3014
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=25, H=47, M=92, L=0
- * PR History (last 5): #1285 GEO_MIRROR: Configurable ge... (2026-03-11) | #1247 Implement Raft consensus pe... (2026-03-11) | #1320 Integrate MVCC and HLC time... (2026-03-11) | #1318 Add Repair/Anti-Entropy Eng... (2026-03-11) | #250 [v1.5.0] GPU-Accelerated Er... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 /**
  * ThemisDB RAID-like Redundancy Strategy Implementation

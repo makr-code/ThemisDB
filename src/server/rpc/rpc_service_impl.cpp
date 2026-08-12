@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: rpc_service_impl.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 3347
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=18, M=31, L=0
- * PR History (last 5): #5399 fix(rpc): complete deadline... (2026-05-27) | #3449 [RPC] Implement Batch Read/... (2026-03-12) | #3448 [RPC] Implement DELETE with... (2026-03-12) | #3445 feat(rpc): Replace stub RPC... (2026-03-12) | #389 Add RPC Service Implementat... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "server/rpc_service_impl.h"
 #include <iostream>

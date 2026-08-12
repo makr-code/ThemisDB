@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: policy_engine.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 734
- * Gap Summary: total=14; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=7, Debt=0, C=0, H=9, M=4, L=0
- * PR History (last 5): #5123 docs(server): update VCCDB ... (2026-05-14) | #3170 [governance] Fix detectOver... (2026-03-12) | #3154 [governance] Implement comp... (2026-03-12) | #3133 Fix rollbackToVersion stub:... (2026-03-12) | #3112 feat(governance): policy ev... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "governance/policy_engine.h"
 #include <stdexcept>

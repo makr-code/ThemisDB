@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_cache_replication_coordinator.cpp | Version: 0.0.12
- * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
- * Gap Summary: total=8; TODO=1, Stub=1, Unimpl=0, Mock=6, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 

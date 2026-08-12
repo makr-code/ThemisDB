@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_ingestion_integration.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 81/100
- * Gap Summary: total=10; TODO=1, Stub=2, Unimpl=0, Mock=6, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_ingestion_integration.cpp
  * @brief Integration tests for the ingestion module:

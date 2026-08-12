@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: plugin_loader.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 330
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=7, M=4, L=0
- * PR History (last 5): #4928 [Docs][acceleration] Aktual... (2026-05-10) | #3581 docs(plugins, prompt_engine... (2026-03-12) | #3466 docs(acceleration): Add IEE... (2026-03-12) | #2715 [acceleration] Security har... (2026-03-12) | #417 [DOCS] CRITICAL: Correct pl... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // Public interface
 #include "acceleration/plugin_loader.h"

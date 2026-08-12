@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: ingestion_coordinator.h | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 706
- * Gap Summary: total=7; TODO=1, Stub=2, Unimpl=0, Mock=2, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #4309 Add distributed ingestion c... (2026-03-19)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #pragma once
 

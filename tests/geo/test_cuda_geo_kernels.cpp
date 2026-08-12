@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_cuda_geo_kernels.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // test_cuda_geo_kernels.cpp — Tests for CUDA geo kernel dispatch
 //
 // Validates the CUDA geospatial kernel dispatch implemented in

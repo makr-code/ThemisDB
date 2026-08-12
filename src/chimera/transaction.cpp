@@ -1,8 +1,3 @@
-/*
- * ThemisDB | File: transaction.cpp | Version: 0.1.0 | Last Modified: 2026-06-10
- * Author: Copilot | Maturity: 🟡 BETA
- */
-
 /**
  * @file transaction.cpp
  * @brief Chimera multi-backend transaction implementation.

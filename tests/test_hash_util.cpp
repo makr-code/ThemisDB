@@ -1,7 +1,3 @@
-/*
- * ThemisDB | File: test_hash_util.cpp
- */
-
 #include "utils/hash_util.h"
 
 #include <array>

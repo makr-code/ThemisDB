@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_cuda_hnsw_large_k.cpp | Version: 0.0.12
- * Maturity: 🟢 PRODUCTION-READY | Score: 97/100
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // test_cuda_hnsw_large_k.cpp
 //
 // Tests for CUDA HNSW large-k search (k=257, k=512, k=1024).

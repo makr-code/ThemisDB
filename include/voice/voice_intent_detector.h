@@ -42,12 +42,6 @@
  * However, it's preferred to use one instance per conversation stream.
  */
 
-/*
- * ThemisDB | File: voice_intent_detector.h | Version: v1.0 FROZEN
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Status: Design/API Contract Frozen (Phase 1)
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // Intent detection and NER for Phase 3 LLM Integration
 // ============================================================================

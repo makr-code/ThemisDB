@@ -1,12 +1,4 @@
 /*
- * ThemisDB | File: bench_content_processor_paths.cpp | Version: 0.0.11
- * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-/*
  * Benchmark: Content processor path workloads
  *
  * Provides dedicated benchmark coverage for Office, OCR and Archive

@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: thread_pool_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 328
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=4, M=1, L=0
- * PR History (last 5): #4181 feat(sharding): Reed-Solomo... (2026-03-13) | #1031 Implement comprehensive res... (2026-03-11) | #1036 Centralize thread managemen... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "utils/thread_pool_manager.h"
 #include <stdexcept>

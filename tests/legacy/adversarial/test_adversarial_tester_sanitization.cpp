@@ -9,11 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: test_adversarial_tester_sanitization.cpp
- * Tests for input sanitization in AdversarialTester
- * Ensures all evaluate() calls properly sanitize prompt injection risks
- */
 
 #include "rag/adversarial_tester.h"
 #include "rag/rag_judge.h"

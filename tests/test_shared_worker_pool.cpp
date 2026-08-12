@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_shared_worker_pool.cpp | Version: 0.0.18
- * Maturity: 🟢 PRODUCTION-READY | Score: 97/100
- * Gap Summary: total=12; TODO=1, Stub=1, Unimpl=0, Mock=10, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 #include <gtest/gtest.h>
 #include "llm/shared_worker_pool.h"
 #include "llm/async_inference_engine.h"

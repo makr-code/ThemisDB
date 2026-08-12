@@ -1,17 +1,3 @@
-/*
- * ThemisDB | File: test_storage_engine_move_semantics.cpp | Sprint 8 Phase 1B
- * @brief Move Semantics Verification Tests for StorageEngine
- * 
- * Tests for CWE-457 (Use of Uninitialized Variable), CWE-415 (Double Free),
- * and CWE-672 (Use After Free) remediation in move semantics implementation.
- * 
- * @test Move constructor transfers state correctly
- * @test Move assignment operator handles closure and transfer correctly
- * @test Moved-from objects are in valid state
- * @test Vector returns use move semantics (no unnecessary copies)
- * @test Metrics structs use move semantics for RVO
- */
-
 #include <gtest/gtest.h>
 #include "storage/storage_engine.h"
 

@@ -1,12 +1,4 @@
 /*
- * ThemisDB | File: test_vulkan_glsl_compiler_fn.cpp | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
- * Gap Summary: total=10; TODO=1, Stub=8, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-/*
  * Tests for setVulkanGlslCompilerFn() injection API (Stub #169).
  *
  * These tests verify the injection/delegation mechanism in

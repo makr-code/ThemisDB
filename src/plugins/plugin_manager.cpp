@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: plugin_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1586
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=6, H=30, M=38, L=0
- * PR History (last 5): #4504 feat(plugins): implement ru... (2026-04-12) | #4256 feat(plugins): upgrade Plug... (2026-03-15) | #3581 docs(plugins, prompt_engine... (2026-03-12) | #3272 feat(plugins): runtime plug... (2026-03-12) | #3200 fix(plugins): close out run... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "plugins/plugin_manager.h"
 #include <stdexcept>

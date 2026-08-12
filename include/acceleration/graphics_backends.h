@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: graphics_backends.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 584
- * Gap Summary: total=19; TODO=1, Stub=17, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #4631 OpenGL Compute Shader Backe... (2026-04-13) | #4206 feat(acceleration): Vulkan ... (2026-03-14) | #3665 feat(acceleration): Impleme... (2026-03-12) | #3664 feat(acceleration): Impleme... (2026-03-12) | #3545 docs(acceleration): sync pr... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #pragma once
 

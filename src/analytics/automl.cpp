@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: automl.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:49:01
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 2346
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=9, H=13, M=54, L=1
- * PR History (last 5): #4326 feat(analytics): verify and... (2026-03-19) | #3610 fix(analytics): register mi... (2026-03-12) | #2939 fix(analytics): AutoML inte... (2026-03-12) | #2725 feat(analytics): AutoML int... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 /**
  * AutoML Engine – Implementation

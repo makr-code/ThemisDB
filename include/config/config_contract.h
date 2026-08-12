@@ -1,9 +1,3 @@
-/*
- * ThemisDB | File: config_contract.h | Version: 1.0.0
- * Author: Copilot | Maturity: 🟢 PRODUCTION-READY | Status: Phase 1 — Frozen Contract
- * Purpose: Frozen configuration resolution, validation, and observability semantics for the active v1.x major line.
- */
-
 /**
  * @file config_contract.h
  * @brief Frozen config-module semantics for the active v1.x release line.

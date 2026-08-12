@@ -11,11 +11,6 @@
  * tests run correctly on any host without an AMD GPU.
  */
 
-/*
- * ThemisDB | File: test_zluda_backend.cpp | Version: 0.0.1
- * Author: agent | Maturity: 🟢 PRODUCTION-READY
- * Status: Production Ready
- */
 
 #ifdef THEMIS_ENABLE_ZLUDA
 

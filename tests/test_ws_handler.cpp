@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_ws_handler.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 89/100
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 #include <gtest/gtest.h>
 
 #ifdef THEMIS_ENABLE_WEBSOCKET

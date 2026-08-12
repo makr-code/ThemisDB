@@ -1,18 +1,3 @@
-/*
- * ThemisDB | File: bench_process_concurrency_gates.cpp | Version: 1.0.0
- * Phase 5: Process Module Performance & Hardening
- * 
- * Concurrency Performance Gates (CP):
- * | Gate ID | Metric                              | Target       |
- * |---------|-------------------------------------|--------------|
- * | CP-01   | Concurrent CRUD Ops (100 models)    | ≥ 50k ops/s  |
- * | CP-02   | Concurrent CRUD Ops (1k models)     | ≥ 40k ops/s  |
- * | CP-03   | Concurrent Import (100 BPMN files)  | ≥ 20k ops/s  |
- * | CP-04   | Concurrent Export (100 models)      | ≥ 15k ops/s  |
- * | CP-05   | Concurrent Linking (100 models)     | ≥ 10k ops/s  |
- * | CP-06   | Concurrent Retrieval (1k models)    | ≥ 30k ops/s  |
- */
-
 #include <benchmark/benchmark.h>
 #include <memory>
 #include <vector>

@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_postgres_importer_integration.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // Integration tests for the PostgreSQL importer using realistic fixture files.
 //
 // These tests exercise the full importer pipeline against files that look like

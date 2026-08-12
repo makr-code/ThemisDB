@@ -1,21 +1,3 @@
-/*
- * ThemisDB | File: test_circuit_breaker_focused.cpp | Version: 0.0.1
- * Module: core
- * Purpose: Focused unit tests for ICircuitBreaker and DefaultCircuitBreaker —
- *          state machine transitions, call() wrapper, void call(), reset,
- *          half-open probe, and metrics side effects.
- *
- * Test groups:
- *   CB_01  closed state: call() executes fn
- *   CB_02  after N failures, circuit opens; call() uses fallback
- *   CB_03  isOpen() / getState() returns OPEN after threshold
- *   CB_04  call() return type matches fn return type
- *   CB_05  call() with void fn and void fallback
- *   CB_06  reset() closes the circuit
- *   CB_07  halfOpen allows one probe call
- *   CB_08  circuit breaker state observable via getState() (metrics proxy)
- */
-
 #include <gtest/gtest.h>
 #include "core/concerns/i_circuit_breaker.h"
 #include "core/concerns/noop_implementations.h"

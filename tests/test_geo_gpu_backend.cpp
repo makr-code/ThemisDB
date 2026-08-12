@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_geo_gpu_backend.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // Tests for the GPU spatial backend (src/geo/gpu_backend_stub.cpp).
 // The backend runs in CPU-fallback mode in CI (no GPU device), so all
 // geometry predicates are verified against known-good geometry cases.

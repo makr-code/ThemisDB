@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_llm_reranker.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_llm_reranker.cpp
  * @brief Unit tests for LlmReranker — configurable re-ranking with LLM feedback loop.

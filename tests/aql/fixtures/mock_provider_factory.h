@@ -16,11 +16,6 @@
  * @note No real LLM/embedding infrastructure is required.
  */
 
-/*
- * ThemisDB | File: mock_provider_factory.h | Version: 0.0.1
- * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 92/100
- * Phase 5: Unified Testing Fixtures
- */
 
 #pragma once
 

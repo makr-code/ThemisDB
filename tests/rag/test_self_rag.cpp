@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_self_rag.cpp | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=0
- * Status: Production Ready
- * (Wave B — issue #5039)
- */
-
 /**
  * @file tests/rag/test_self_rag.cpp
  * @brief Unit tests for SelfRAGController — SELF_RAG-01..12

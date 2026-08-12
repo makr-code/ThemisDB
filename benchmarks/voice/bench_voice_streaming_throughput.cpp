@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: bench_voice_streaming_throughput.cpp | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY
- * Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0
- * Status: Production Ready
- * Issue: Voice Module Phase 5 Task 5.2 - Streaming Throughput Benchmarks
- */
-
 /**
  * @file bench_voice_streaming_throughput.cpp
  * @brief Google Benchmark suite for Voice streaming throughput and latency.

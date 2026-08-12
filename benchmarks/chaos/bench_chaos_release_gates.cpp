@@ -1,9 +1,3 @@
-/*
- * ThemisDB | File: bench_chaos_release_gates.cpp | Version: 1.0.0
- * Author: Copilot | Maturity: 🟢 PRODUCTION-READY | Status: Phase 5 — Release Gate Benchmarks
- * Purpose: Benchmark-backed release gates for chaos framework hot paths (Phase 5 hardening).
- */
-
 /**
  * @file bench_chaos_release_gates.cpp
  * @brief Release gate benchmarks for the chaos framework (Phase 5 hardening delivery).

@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_shader_integrity.cpp | Version: 0.0.24
- * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // Test: Shader Integrity Verifier Tests (Phase 4.1)
 // Validates SHA-256 based SPIR-V shader integrity verification.
 

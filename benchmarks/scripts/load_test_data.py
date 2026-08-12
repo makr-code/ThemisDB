@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: load_test_data.py | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 89/100
- * Gap Summary: total=16; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=12, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 """
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║

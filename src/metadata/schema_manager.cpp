@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: schema_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 1340
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=9, M=35, L=0
- * PR History (last 5): #3630 docs(metadata): module audi... (2026-03-12) | #3297 [metadata] Wire ColumnLinea... (2026-03-12) | #3290 feat(metadata): Cross-colle... (2026-03-12) | #3099 feat(metadata): Add Distrib... (2026-03-12) | #3018 feat(metadata): Adaptive TT... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 ThemisDB Contributors

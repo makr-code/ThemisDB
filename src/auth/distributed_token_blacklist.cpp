@@ -1,9 +1,3 @@
-/*
- * ThemisDB | File: distributed_token_blacklist.cpp | Version: 0.1.0
- * Author: Copilot | Maturity: 🟡 BETA | Status: Production Implementation (v1.3.0)
- * Purpose: Distributed token blacklist — full TCP cluster sync (TBLK/v1 RPC)
- */
-
 /**
  * @file distributed_token_blacklist.cpp
  * @brief Distributed token blacklist — TCP cluster sync implementation.

@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: transaction_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 90/100 | Lines: 2183
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=37, M=45, L=0
- * PR History (last 5): #5157 Review and rewrite git/gito... (2026-05-18) | #4276 feat(transaction): Transact... (2026-03-15) | #4202 feat(transaction): Adaptive... (2026-03-14) | #3415 feat(transaction): Time-tra... (2026-03-12) | #3147 feat(transaction): add OCC ... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "transaction/transaction_manager.h"
 #include "transaction/crash_recovery_manager.h"

@@ -42,11 +42,6 @@
  * All public methods acquire mutex for duration of call.
  */
 
-/*
- * ThemisDB | File: voice_auth.h | Version: v1.0 FROZEN
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Status: Design/API Contract Frozen (Phase 1)
- */
 
 #pragma once
 

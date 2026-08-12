@@ -1,10 +1,3 @@
-/*
- * ThemisDB | File: w9a_security_hardening_audit_test.cpp | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0
- * Status: Production Ready — Wave 9A Security Hardening & Audit Suite
- */
-
 /**
  * @file w9a_security_hardening_audit_test.cpp
  * @brief Wave 9A — Security Hardening & Audit Trail (SHA-01..SHA-08).

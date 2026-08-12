@@ -1,9 +1,3 @@
-/*
- * ThemisDB | File: network_api_contract.h | Version: 1.0.0
- * Author: Copilot | Maturity: 🟢 PRODUCTION-READY | Status: Phase 1 — Frozen Contract
- * Purpose: Frozen network module API contracts for the active v1.x major line.
- */
-
 /**
  * @file network_api_contract.h
  * @brief Frozen network module API contracts for the active v1.x major line.

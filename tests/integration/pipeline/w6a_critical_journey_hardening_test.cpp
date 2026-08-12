@@ -1,10 +1,3 @@
-/*
- * ThemisDB | File: w6a_critical_journey_hardening_test.cpp | Version: 0.1.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Wave: 6 / PR: W6-A — Release-Candidate Critical Journey Hardening
- * Status: Production Ready
- */
-
 /**
  * @file w6a_critical_journey_hardening_test.cpp
  * @brief Wave 6-A: Release-Candidate Critical Journey Hardening.

@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: remote_registry_client.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 804
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=12, H=2, M=5, L=0
- * PR History (last 5): #4201 feat(base): async retry bac... (2026-03-15) | #4215 feat(base, chimera): async ... (2026-03-15) | #4199 Implement async backoff dis... (2026-03-15) | #4134 feat(base): retry back-off ... (2026-03-12) | #3475 docs(base): align src/base ... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // Remote plugin registry client implementation.
 //

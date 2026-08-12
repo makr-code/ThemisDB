@@ -1,12 +1,4 @@
 /*
- * ThemisDB | File: test_toolbox_phase5.cpp | Version: 0.2.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 90/100
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-/*
  * ThemisDB — Toolbox Phase 5: Prometheus Metrics + BridgeResult::vectors
  *                             + ToolboxRegistry (global persistence)
  *

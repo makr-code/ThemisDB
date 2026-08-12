@@ -1,12 +1,4 @@
 /*
- * ThemisDB | File: test_ingestion_inference_backend.cpp | Version: 0.0.2
- * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
- * Gap Summary: total=13; TODO=1, Stub=11, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-/*
  * ThemisDB — Ingestion / AI Separation Tests
  *
  * Tests for:

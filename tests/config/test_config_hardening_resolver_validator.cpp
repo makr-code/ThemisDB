@@ -1,9 +1,3 @@
-/*
- * ThemisDB | File: test_config_hardening_resolver_validator.cpp | Version: 1.0.0
- * Author: Copilot | Maturity: 🟢 PRODUCTION-READY | Status: Phase 4 — Hardening Tests
- * Purpose: CFG-01..CFG-16 hardening tests for config resolver/validator edge cases.
- */
-
 /**
  * @file test_config_hardening_resolver_validator.cpp
  * @brief Phase 4 hardening tests for resolver/validator edge cases.

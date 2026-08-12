@@ -57,11 +57,6 @@
  * Consent records and audit logs are protected.
  */
 
-/*
- * ThemisDB | File: voice_security.h | Version: v1.0 FROZEN
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Status: Design/API Contract Frozen (Phase 1)
- */
 
 // Security, privacy, and compliance for Phase 7 production readiness
 // ============================================================================

@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_distributed_training_coordinator.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
- * Gap Summary: total=9; TODO=1, Stub=3, Unimpl=0, Mock=3, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_distributed_training_coordinator.cpp
  * @brief Unit tests for Distributed LoRA Training Coordinator

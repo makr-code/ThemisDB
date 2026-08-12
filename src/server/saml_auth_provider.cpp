@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: saml_auth_provider.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 302
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=15, L=0
- * PR History (last 5): #5123 docs(server): update VCCDB ... (2026-05-14) | #3812 feat(server): Implement SAM... (2026-03-12) | #3718 feat(server): SAML 2.0 SP â... (2026-03-12) | #3642 docs(server): module audit ... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "server/saml_auth_provider.h"
 #include "auth/auth_error.h"

@@ -1,14 +1,3 @@
-/*
- * ThemisDB | File: bench_metadata_consistency_lineage_gates.cpp | Version: 1.0.0
- * Gate table:
- * | ID          | Metric                                     | Gate              |
- * |-------------|--------------------------------------------|-------------------|
- * | GATE-MCL-01 | ConsistencyIssue::toJSON() throughput      | ≥ 10M ops/s       |
- * | GATE-MCL-02 | ColumnRef::toString() throughput           | ≥ 50M ops/s       |
- * | GATE-MCL-03 | ColumnRef toJSON / fromJSON round-trip     | ≥ 5M ops/s        |
- * | GATE-MCL-04 | TransformationType string conversion       | ≥ 20M ops/s       |
- */
-
 // SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 ThemisDB Contributors
 

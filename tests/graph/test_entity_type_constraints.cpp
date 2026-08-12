@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_entity_type_constraints.cpp | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
- * Gap Summary: total=2; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0, C=0, H=0, M=2, L=0
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_entity_type_constraints.cpp
  * @brief Entity Type Constraint validation tests — ETC-01..ETC-13

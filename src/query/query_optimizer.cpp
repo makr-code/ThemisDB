@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: query_optimizer.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 929
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=14, M=9, L=2
- * PR History (last 5): #4269 feat(timeseries): TSStore s... (2026-03-15) | #4166 feat(query): Wire Statistic... (2026-03-13) | #3226 [graph] Register parallel m... (2026-03-12) | #3194 [graph] Fix query injection... (2026-03-12) | #3173 [graph] Fix duplicate db->o... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // Cost-based Query Optimizer implementation
 

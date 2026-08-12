@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: neo4j_adapter.hpp | Version: 0.1.0 | Last Modified: 2026-06-10
- * Author: Copilot | Maturity: 🟡 BETA
- * 
- * Neo4j adapter for CHIMERA Suite.
- * Copyright MIT License.
- */
-
 /**
  * @file neo4j_adapter.hpp
  * @brief Neo4j backend adapter for the Chimera abstraction layer.

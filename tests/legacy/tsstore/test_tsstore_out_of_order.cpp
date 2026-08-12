@@ -1,12 +1,4 @@
 /*
- * ThemisDB | File: test_tsstore_out_of_order.cpp | Version: 0.0.18
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-/*
  * Tests for out-of-order write support with configurable late-arrival window.
  *
  * The late-arrival window (TSStore::Config::late_arrival_window_ms) controls

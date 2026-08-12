@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: timestamp_authority_openssl.cpp | Version: 0.0.47 | Last Modified: 2026-06-01 08:11:44
- * Author: makr | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 629
- * Gap Summary: total=8; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=1, Debt=0, C=5, H=16, M=22, L=0
- * PR History (last 5): #5421 fix: thread-safety for Prov... (2026-06-01) | #3457 [TSA] Implement RFC 3161 re... (2026-03-12) | #3453 Add production safety guard... (2026-03-12) | #959 Fix X.509 certificate times... (2026-03-11) | #401 Replace Security Stubs with... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // STUB/SIMULATION NOTE:
 // Purpose: Allow the security module to be built without OpenSSL TSA or libcurl.

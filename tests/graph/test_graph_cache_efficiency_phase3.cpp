@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_graph_cache_efficiency_phase3.cpp | Version: 1.9.0
- * Phase 3 – P3-02: Cache Efficiency – LRU + Multi-Tier
- * Tests: 32 focused tests covering GraphMultiTierCache and
- *        GraphTraversalResultCache (Hot/Warm/Cold tiers, promotion,
- *        eviction, hit ratio, and concurrent access).
- */
-
 #include <gtest/gtest.h>
 #include "graph/graph_cache_manager.h"
 #include "graph/graph_plan_cache.h"

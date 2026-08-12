@@ -1,10 +1,3 @@
-/*
- * ThemisDB | File: test_chunk_level_encryption.cpp | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
- * Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=3, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 // RESTORED FROM HISTORY: 892fbc132819cf3446b54bb51b8b14ec2dd61db5
 
 

@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_mysql_importer_registry.cpp | Version: 0.0.12
- * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
- * Gap Summary: total=13; TODO=1, Stub=1, Unimpl=1, Mock=1, Sim=9, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // test_mysql_importer_registry.cpp
 //
 // Verifies that MySQLImporterSchemePlugin:

@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: incremental_view.cpp | Version: 0.0.32 | Last Modified: 2026-05-31 12:49:01
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 631
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=10, M=8, L=0
- * PR History (last 5): #4316 feat(analytics): Incrementa... (2026-03-18) | #3610 fix(analytics): register mi... (2026-03-12) | #3326 [analytics] Mark unit test ... (2026-03-12) | #2742 [analytics] Incremental mat... (2026-03-12) | #2716 feat(query): Incremental vi... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 /**
  * Incremental Materialized Views - Implementation

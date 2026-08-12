@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_pmu_counters.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 97/100
- * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // Tests for Phase 4 Hardware PMU counter integration (cache miss analysis).
 //
 // These tests are designed to be safe in CI environments where PMU access

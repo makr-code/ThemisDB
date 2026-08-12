@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_ingestion_llm_adapter.cpp | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 87/100
- * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_ingestion_llm_adapter.cpp
  * @brief Unit and integration tests for LegalLlmAdapter (Phase 2).

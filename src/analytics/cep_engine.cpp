@@ -9,13 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: cep_engine.cpp | Version: 0.0.33 | Last Modified: 2026-06-01 18:30:00
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 2900+
- * Gap Summary: REMEDIATED - C=0, H=0, M=0 | Previous: C=2, H=26, M=115
- * PR History (last 5): CEP remediation #5179 | #4339 Analytics module: stats.h u... (2026-03-19) | 
- * #4311 Implement memory pool alloc... (2026-03-17)
- */
 
 /**
  * ThemisDB Complex Event Processing (CEP) Engine - Implementation
