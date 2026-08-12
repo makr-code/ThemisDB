@@ -4,7 +4,7 @@
 # HTTP Client (ThemisDB uses REST API)
 # Note: A dedicated themisdb-client package is planned for future releases
 # For now, examples use a custom wrapper (see themis_client.py in each example)
-requests>=2.28.0
+requests>=2.33.0
 httpx>=0.24.0
 
 # Data handling
