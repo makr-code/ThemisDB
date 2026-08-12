@@ -580,14 +580,14 @@ def main():
     import argparse
     
     parser = argparse.ArgumentParser(description="ThemisDB Gap Scanner V3 Pipeline")
-    parser.add_argument('source_dir', nargs='?', default='./src',
-                        help='Source directory to scan (default: ./src)')
+    parser.add_argument('source_dirs', nargs='*',
+                        help='Source directories to scan (default: ./src)')
     parser.add_argument('--output', '-o', default='ai_working/gap_scan_results.json',
                         help='Output JSON file (default: ai_working/gap_scan_results.json)')
     parser.add_argument('--verbose', '-v', action='store_true',
                         help='Verbose output')
-    parser.add_argument('--scan-mode', choices=['fast', 'full'], default='full',
-                        help='Scanner mode: fast skips expensive docs checks, full runs all checks (default: full)')
+    parser.add_argument('--scan-mode', choices=['fast', 'full', 'thorough'], default='full',
+                        help='Scanner mode: fast skips expensive docs checks, full/thorough runs all checks (default: full)')
     parser.add_argument('--docs-doxygen', action='store_true',
                         help='Run optional XML-first Doxygen checks inside docs scanner (prefers Doxyfile.audit and validates XML index)')
     parser.add_argument('--md-report', default='ai_working/gap_scan_report_ollama_gemma4.md',
@@ -611,11 +611,16 @@ def main():
                         help='Open GUI visualizer after run using include-graph or output JSON')
     
     args = parser.parse_args()
-    
+
+    # Resolve source directories; default to './src' when none provided.
+    source_dirs = args.source_dirs if args.source_dirs else ['./src']
+    # Treat 'thorough' as an alias for 'full'.
+    scan_mode_effective = 'full' if args.scan_mode == 'thorough' else args.scan_mode
+
     # Create registry
     registry = ScannerRegistry()
 
-    registry.register(UniformFullScanner(scan_mode=args.scan_mode, docs_doxygen=args.docs_doxygen))
+    registry.register(UniformFullScanner(scan_mode=scan_mode_effective, docs_doxygen=args.docs_doxygen))
     
     # Create and run pipeline
     pipeline = GapScannerPipeline(registry)
@@ -626,15 +631,27 @@ def main():
     print("\n" + "=" * 80)
     print("ThemisDB Gap Scanner V3 Pipeline")
     print("=" * 80)
-    print(f"[CONFIG] scan_mode={args.scan_mode}, docs_doxygen={args.docs_doxygen}")
+    print(f"[CONFIG] scan_mode={args.scan_mode} (effective={scan_mode_effective}), docs_doxygen={args.docs_doxygen}")
+    print(f"[CONFIG] source_dirs={source_dirs}")
     
     start_time = time.time()
-    gaps = pipeline.execute(args.source_dir, verbose=args.verbose)
+
+    # Scan each requested directory and merge gaps.
+    gaps: list = []
+    for source_dir in source_dirs:
+        print(f"\n[SCAN] Scanning directory: {source_dir}")
+        dir_gaps = pipeline.execute(source_dir, verbose=args.verbose)
+        # Resolve paths relative to this specific source directory.
+        dir_gaps, dir_paths_resolved = _resolve_gaps_to_repo_paths(dir_gaps, source_dir, '.')
+        if dir_paths_resolved:
+            print(f"  Paths resolved: {dir_paths_resolved}")
+        gaps.extend(dir_gaps)
+
     elapsed = time.time() - start_time
-    
-    # IMPROVEMENT: Resolve relative paths to absolute repo paths (for accurate scope classification)
-    print("\n[PATH RESOLUTION] Resolving scanner-relative paths to repo-absolute paths...")
-    gaps, paths_resolved = _resolve_gaps_to_repo_paths(gaps, args.source_dir, '.')
+
+    # Final path resolution pass for any remaining relative paths.
+    print("\n[PATH RESOLUTION] Final path resolution pass...")
+    gaps, paths_resolved = _resolve_gaps_to_repo_paths(gaps, '.', '.')
     print(f"  Paths resolved: {paths_resolved}")
     
     # IMPROVEMENT: Apply Phase 1 & 2 verification before export (use '.' as repo_root, not source_dir)
@@ -642,10 +659,10 @@ def main():
     
     # IMPROVEMENT: Apply Phase 3 — Cache stale detection
     cache_file = Path(args.output)
-    cache_stats, missing_files = check_cache_freshness_phase3(cache_file, gaps, args.source_dir or '.', args.force_refresh)
+    cache_stats, missing_files = check_cache_freshness_phase3(cache_file, gaps, '.', args.force_refresh)
     
     # IMPROVEMENT: Apply Phase 4 — Enriched metadata
-    metadata_enriched = enrich_output_metadata_phase4(gaps, args.source_dir or '.', verify_stats, cache_stats, missing_files)
+    metadata_enriched = enrich_output_metadata_phase4(gaps, '.', verify_stats, cache_stats, missing_files)
     
     # Filter external submodules (Phase 5)
     print("\n[PHASE 5] Filtering external GitHub submodules...")
