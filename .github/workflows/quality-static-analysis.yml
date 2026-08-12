@@ -190,7 +190,7 @@ jobs:
       - name: Compute coverage summary
         run: |
           python3 -m coverxygen --xml-dir build/doxygen/xml --src-dir src \
-            --format summary > build/doxygen_coverage_summary.txt
+            --format summary --output build/doxygen_coverage_summary.txt
           cat build/doxygen_coverage_summary.txt
 
       - name: Enforce minimum documentation coverage
