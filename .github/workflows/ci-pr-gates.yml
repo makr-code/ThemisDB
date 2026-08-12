@@ -314,7 +314,6 @@ jobs:
         run: |
           set -euo pipefail
           cmake --build build-community-release \
-            --target themis_release_critical_tests \
             --parallel "$(nproc)" 2>&1 | tee /tmp/release-critical-build.log
 
       - name: Run release-critical tests
