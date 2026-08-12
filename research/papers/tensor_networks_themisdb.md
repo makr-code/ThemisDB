@@ -4,6 +4,8 @@
 - Author(en): Multiple (Oseledets, Holtz, Bigoni, Dettmers, Yadav, Stoudenmire, Khoromskij)
 - Konferenz/Journal: SIAM J. Sci. Comput., NeurIPS, Constructive Approximation
 - Jahr: 2011–2023
+- Tags: tensor-network, storage-engine, query-optimization, quantization, rag
+- ThemisDB-Versionen: v2.0.0+
 - Status: [x] Partially Implemented (Phase 1 complete, Phases 2–4 planned Q4 2026 – Q2 2027)
 
 ---

@@ -21,7 +21,7 @@
 """
 validate_research_metadata.py
 
-Validates that every research documentation file in docs/research/
+Validates that every research documentation file in research/
 contains the required frontmatter fields.
 
 Exit codes:
@@ -33,7 +33,7 @@ import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-RESEARCH_DIR = REPO_ROOT / "docs" / "research"
+RESEARCH_DIR = REPO_ROOT / "research"
 
 # Subdirectories and their required fields (checked in the Markdown body as
 # "- <field>:" or "**Field:**" patterns).
@@ -42,7 +42,7 @@ RESEARCH_DIR = REPO_ROOT / "docs" / "research"
 # year, "Konferenz/Journal") to match the project's bilingual documentation
 # convention. Other fields remain in English for broader tool compatibility.
 REQUIRED_FIELDS: dict[str, list[str]] = {
-    "papers": ["Author", "Jahr", "Tags", "ThemisDB-Versionen", "Status"],
+    "papers": ["Author(en)", "Jahr", "Tags", "ThemisDB-Versionen", "Status"],
     "best_practices": ["Source", "Tags", "ThemisDB-Versionen", "Status"],
     "architecture_decisions": ["Status", "Date", "Modules Affected"],
 }
@@ -69,14 +69,20 @@ def validate_file(path: Path, required: list[str]) -> list[str]:
         return [f"Cannot read file: {exc}"]
 
     missing = []
+    aliases: dict[str, list[str]] = {
+        "Author(en)": ["Author(en)", "Author"],
+    }
     for field in required:
+        field_variants = aliases.get(field, [field])
         # Match "- Field:" or "**Field:**" or "Field:" at start of line
-        patterns = [
-            f"- {field}:",
-            f"**{field}:**",
-            f"- **{field}:**",
-            f"{field}:",
-        ]
+        patterns = []
+        for variant in field_variants:
+            patterns.extend([
+                f"- {variant}:",
+                f"**{variant}:**",
+                f"- **{variant}:**",
+                f"{variant}:",
+            ])
         found = any(p.lower() in text.lower() for p in patterns)
         if not found:
             missing.append(field)
@@ -106,7 +112,7 @@ def main() -> int:
         for e in errors:
             print(e)
         print()
-        print("See docs/research/RESEARCH_GUIDE.md for required field definitions.")
+        print("See research/RESEARCH_GUIDE.md for required field definitions.")
         return 1
 
     print("✅ All research files have required metadata fields.")
