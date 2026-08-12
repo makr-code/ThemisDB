@@ -6,39 +6,9 @@ name: CI — Benchmarks
 #           07-quality_nightly-benchmark-sweep.yml
 
 on:
-  push:
-    branches: [community, develop]
-    paths:
-      - 'include/voice/**'
-      - 'src/voice/**'
-      - 'benchmarks/bench_voice_assistant.cpp'
-      - 'benchmarks/bench_fused_kernels.cpp'
-      - 'benchmarks/bench_fused_lora_kernels.cpp'
-      - 'benchmarks/bench_gpu_backends.cpp'
-      - 'benchmarks/bench_gpu_training_cycle.cpp'
-      - 'benchmarks/bench_vulkan_lora.cpp'
-      - 'benchmarks/bench_backend_comparison.cpp'
-      - 'benchmarks/bench_cuda_vs_cpu.cpp'
-      - 'benchmarks/bench_multi_gpu_scaling.cpp'
-      - 'src/acceleration/**'
-      - 'include/acceleration/**'
-      - 'src/llm/lora_framework/**'
-      - 'include/llm/lora_framework/**'
-      - 'benchmarks/CMakeLists.txt'
-      - '.github/workflows/ci-benchmarks.yml'
-  pull_request:
-    types: [opened, synchronize, reopened]
-    paths:
-      - 'include/voice/**'
-      - 'src/voice/**'
-      - 'include/content/stt_processor.h'
-      - 'include/content/tts_processor.h'
-      - 'src/content/stt_processor.cpp'
-      - 'src/content/tts_processor.cpp'
-      - 'benchmarks/bench_voice_assistant.cpp'
-      - 'benchmarks/baselines/voice/**'
-      - 'benchmarks/CMakeLists.txt'
-      - '.github/workflows/ci-benchmarks.yml'
+  # Heavy benchmark jobs (voice, GPU, nightly sweep) run on schedule/dispatch only.
+  # push and pull_request triggers removed to avoid blocking PRs with slow, resource-
+  # intensive jobs on self-hosted runners. Nightly schedule provides sufficient signal.
   schedule:
     - cron: '0 2 * * *'     # Nightly 02:00 UTC — full module sweep
     - cron: '0 3 * * 6'     # Weekly Saturday 03:00 UTC — GPU matrix
@@ -84,8 +54,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
     if: >
-      (github.event_name == 'pull_request') ||
-      (github.event_name == 'push') ||
+      (github.event_name == 'schedule') ||
       (github.event_name == 'workflow_dispatch' && (inputs.run_voice == true || inputs.run_voice == 'true'))
     strategy:
       fail-fast: false
@@ -154,7 +123,7 @@ jobs:
             --benchmark_format=json \
             --benchmark_out=build/voice-bench/results/voice_results.json
 
-      - name: Commit baseline JSON (community push only)
+      - name: Commit baseline JSON (community push — always false; schedule-only workflow)
         if: >
           steps.cmake_build.outputs.exit_code != '' &&
           steps.cmake_build.outputs.exit_code == '0' &&

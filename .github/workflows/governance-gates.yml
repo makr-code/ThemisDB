@@ -11,6 +11,16 @@ name: Governance — Gates
 on:
   push:
     branches: [develop]
+    # Limit push trigger to governance-relevant paths only.
+    # Avoids running heavy maturity jobs on every develop commit.
+    paths:
+      - 'ROADMAP.md'
+      - 'FUTURE_ENHANCEMENTS.md'
+      - 'src/*/ROADMAP.md'
+      - 'docs/governance/**'
+      - 'audit/MATURITY_REPORT_*.md'
+      - 'scripts/verification/**'
+      - '.github/workflows/governance-gates.yml'
     tags:
       - 'v*-rc.*'
   pull_request:

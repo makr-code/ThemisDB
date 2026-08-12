@@ -8,6 +8,9 @@ name: Maintenance — Docs
 #           08-maintenance_src-include-docs-align.yml
 
 on:
+  # push trigger retained for docs/ai_context changes merged to develop/community.
+  # pull_request trigger removed — doc hygiene checks run on schedule and do not need
+  # to block PRs (they are non-blocking maintenance tasks, not PR gate requirements).
   push:
     branches: [develop, community]
     paths:
@@ -19,22 +22,6 @@ on:
       - 'docs/de/**'
       - 'docs/en/**'
       - 'docs/**'
-      - 'scripts/docs-orphan-check.py'
-      - 'scripts/root-docs-hygiene.py'
-      - 'scripts/src-include-docs-align.py'
-      - '.github/scripts/code_maturity_header_writer.py'
-      - '.github/workflows/maintenance-docs.yml'
-  pull_request:
-    branches: [develop, community]
-    paths:
-      - 'ai_context/**'
-      - 'docs/de/**'
-      - 'docs/en/**'
-      - 'docs/**'
-      - 'INDEX.md'
-      - 'LOG.md'
-      - 'AI_WIKI_INTEGRATION_PLAYBOOK.md'
-      - 'scripts/ai-context-lint.py'
       - 'scripts/docs-orphan-check.py'
       - 'scripts/root-docs-hygiene.py'
       - 'scripts/src-include-docs-align.py'
