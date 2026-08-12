@@ -151,7 +151,6 @@ jobs:
         COMMIT_SHA: ${{ github.sha }}
         RUN_ID: ${{ github.run_id }}
         TARGET_REGISTRY_INPUT: ${{ github.event.inputs.registry || '' }}
-        DISPATCH_REGISTRY: ${{ github.event.inputs.registry || 'ghcr.io' }}
       run: |
         VERSION="${{ steps.version.outputs.version }}"
         TAGS=""
@@ -199,10 +198,6 @@ jobs:
             TAGS="${DOCKERHUB_REPO}:manual-${RUN_ID}"
           else
             TAGS="${GHCR_REPO}:manual-${RUN_ID}"
-          if [[ "${DISPATCH_REGISTRY}" == "docker.io" ]]; then
-            TAGS="themisdb/themisdb:manual-${RUN_ID}"
-          else
-            TAGS="ghcr.io/${REPO_LC}:manual-${RUN_ID}"
           fi
         fi
 
