@@ -45,6 +45,8 @@ Quarantaene, nicht einen inoffiziellen Reservepool fuer schnelle Reaktivierung.
   — Wöchentliches vcpkg/sccache Cache-Vorwärmen (Linux + Windows; Monday 00:00 UTC)
 - `.github/workflows/maintenance-ci-health.yml`
   — Wöchentliches CI Health Dashboard (pass/fail Aggregation, chronische Fehler-Issue; Sunday 06:00 UTC)
+- `.github/workflows/maintenance-security-alerts.yml`
+  — Tägliche Security-SLA-Triage (Code-Scanning High/Critical, dedupliziertes Governance-Issue, Auto-Close bei Recovery)
 - `.github/workflows/docker-image.yml`
   — Container build/publish lane
 - `.github/workflows/edition-hyperscaler-ci.yml`
@@ -85,6 +87,6 @@ pwsh -NoProfile -File ./scripts/test-github-actions-local.ps1 -Mode all
 ```
 
 ## Stand
-- Aktive Workflows im Verzeichnis `.github/workflows/`: 19
+- Aktive Workflows im Verzeichnis `.github/workflows/`: 20
 - Deaktivierte Workflows in `.github/no_workflows/`: 23
 - Strategie: Lean + harte Triggergrenzen + Quarantaene fuer uebertriggernde CI
