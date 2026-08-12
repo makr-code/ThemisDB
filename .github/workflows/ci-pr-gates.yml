@@ -234,8 +234,14 @@ jobs:
 
       - name: Collect changed files
         run: |
-          git fetch origin "${{ github.base_ref }}"
-          git diff --name-only "origin/${{ github.base_ref }}...HEAD" > changed_files.txt
+          BASE_REF="${{ github.base_ref }}"
+          git fetch origin "${BASE_REF}"
+          if git merge-base "origin/${BASE_REF}" HEAD >/dev/null 2>&1; then
+            git diff --name-only "origin/${BASE_REF}...HEAD" > changed_files.txt
+          else
+            echo "::warning::No merge base found for origin/${BASE_REF}...HEAD; falling back to two-dot diff."
+            git diff --name-only "origin/${BASE_REF}..HEAD" > changed_files.txt
+          fi
 
       - name: Enforce private plugin boundary rules
         run: |
@@ -531,8 +537,14 @@ jobs:
 
       - name: Collect changed files
         run: |
-          git fetch origin "${{ github.base_ref }}"
-          git diff --name-status --find-renames "origin/${{ github.base_ref }}...HEAD" > workflow_changes.txt
+          BASE_REF="${{ github.base_ref }}"
+          git fetch origin "${BASE_REF}"
+          if git merge-base "origin/${BASE_REF}" HEAD >/dev/null 2>&1; then
+            git diff --name-status --find-renames "origin/${BASE_REF}...HEAD" > workflow_changes.txt
+          else
+            echo "::warning::No merge base found for origin/${BASE_REF}...HEAD; falling back to two-dot diff."
+            git diff --name-status --find-renames "origin/${BASE_REF}..HEAD" > workflow_changes.txt
+          fi
 
       - name: Run workflow boundary unit tests
         run: python -m pytest tools/tests/test_check_workflow_boundaries.py -q
