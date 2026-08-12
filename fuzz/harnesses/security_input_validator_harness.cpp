@@ -39,6 +39,7 @@
  */
 
 #include <cstdint>
+#include <cctype>
 #include <cstdio>
 #include <cstring>
 #include <string>

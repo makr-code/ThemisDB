@@ -55,6 +55,17 @@ project(Themis
 # package during WiX/MSI generation.
 set(CMAKE_INSTALL_DEFAULT_COMPONENT_NAME runtime)
 
+option(ENABLE_FUZZING "Build standalone AFL++/libFuzzer harness targets" OFF)
+if(ENABLE_FUZZING)
+    message(STATUS "Configuring standalone fuzz harness build")
+    set(THEMIS_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}" CACHE PATH "ThemisDB root directory")
+    set(CMAKE_CXX_STANDARD 20)
+    set(CMAKE_CXX_STANDARD_REQUIRED ON)
+    set(CMAKE_CXX_EXTENSIONS OFF)
+    add_subdirectory(fuzz)
+    return()
+endif()
+
 # Preflight for externally provided toolchain file
 # Common failure: CMAKE_TOOLCHAIN_FILE points to missing repo-local vcpkg path.
 if(DEFINED CMAKE_TOOLCHAIN_FILE AND NOT EXISTS "${CMAKE_TOOLCHAIN_FILE}")

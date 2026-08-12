@@ -1,0 +1,35 @@
+# AFL++ Dictionary for importer / pg_dump parsing
+# PostgreSQL dump structure
+"COPY"
+"INSERT INTO"
+"CREATE TABLE"
+"ALTER TABLE"
+"PRIMARY KEY"
+"FOREIGN KEY"
+"REFERENCES"
+"CONSTRAINT"
+"DEFAULT"
+"NULL"
+"NOT NULL"
+
+# Delimiters and row structure
+"("
+")"
+";"
+","
+"\t"
+"\\N"
+
+# Common SQL types
+"text"
+"integer"
+"bigint"
+"boolean"
+"timestamp"
+"jsonb"
+
+# Typical dump fragments
+"public."
+"VALUES"
+"FROM stdin;"
+"\\."

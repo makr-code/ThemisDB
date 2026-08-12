@@ -48,6 +48,7 @@
  */
 
 #include <cstdint>
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <stdexcept>
@@ -179,5 +180,33 @@ int main() {
             LLVMFuzzerTestOneInput(__AFL_FUZZ_TESTCASE_BUF, len);
     }
     return 0;
+}
+#else
+int main(int argc, char** argv) {
+    if (argc < 2) {
+        return 1;
+    }
+
+    FILE* f = std::fopen(argv[1], "rb");
+    if (!f) {
+        return 1;
+    }
+
+    std::fseek(f, 0, SEEK_END);
+    long size = std::ftell(f);
+    std::fseek(f, 0, SEEK_SET);
+    if (size <= 0) {
+        std::fclose(f);
+        return 0;
+    }
+
+    std::vector<uint8_t> buffer(static_cast<size_t>(size));
+    const size_t bytes_read = std::fread(buffer.data(), 1, buffer.size(), f);
+    std::fclose(f);
+    if (bytes_read != buffer.size()) {
+        return 1;
+    }
+
+    return LLVMFuzzerTestOneInput(buffer.data(), buffer.size());
 }
 #endif

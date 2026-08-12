@@ -83,7 +83,7 @@ helm install themisdb ./helm/themisdb \
 kubectl apply -f ../../grafana/dashboards/sla-monitoring.json
 
 # Apply SLA alerting rules
-kubectl apply -f ../../prometheus/alerts/sla-rules.yml
+kubectl apply -f ../../prometheus/rules/sla-rules.yml
 ```
 
 ### Run Compliance Check
@@ -107,7 +107,7 @@ Located in [../../grafana/dashboards/](../../grafana/dashboards/):
 
 ## 🔔 Alerting Rules
 
-Located in [../../prometheus/alerts/](../../prometheus/alerts/):
+Located in [../../prometheus/rules/](../../prometheus/rules/):
 - **sla-rules.yml** - SLA breach detection, error budget monitoring
 
 ## 📦 Example Configurations

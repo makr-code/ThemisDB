@@ -127,7 +127,7 @@ static int fuzz_one_input(const uint8_t* data, size_t size) {
 
         auto [user_id,  p1] = find_field(payload, payload_len);
         size_t p1_offset    = static_cast<size_t>(p1 - payload);
-        if (p1_offset >= payload_len) break;
+        if (p1_offset >= payload_len) return 0;
         auto [action,   p2] = find_field(p1, payload_len - p1_offset);
         size_t p2_offset    = static_cast<size_t>(p2 - payload);
         std::string resource;

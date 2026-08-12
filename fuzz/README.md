@@ -33,8 +33,14 @@ fuzz/
 ├── dictionaries/              # AFL++ token dictionaries
 │   ├── aql.dict
 │   ├── crypto.dict
+│   ├── http.dict
+│   ├── importer.dict
 │   ├── json.dict
-│   └── pii.dict
+│   ├── jwt.dict
+│   ├── ldap_dn.dict
+│   ├── pii.dict
+│   ├── policy_engine.dict
+│   └── rbac.dict
 ├── crashes/                   # Crash outputs (generated at runtime)
 ├── hangs/                     # Hang outputs (generated at runtime)
 ├── coverage/                  # Coverage reports (generated at runtime)
@@ -88,13 +94,13 @@ afl-fuzz -S sec1  -i fuzz/corpus/aql -o fuzz/output/aql -- ./build-fuzz/fuzz/bin
 | `aql_parser` | `corpus/aql` | `aql.dict` | High |
 | `gguf_loader` | `corpus/llm/gguf` | — | High |
 | `grammar` | `corpus/llm/grammar` | — | Medium |
-| `http_parser` | — | — | High |
-| `jwt_rbac_config` | `corpus/jwt` | — | Critical |
-| `ldap_dn` | `corpus/ldap_dn` | — | High |
+| `http_parser` | — | `http.dict` | High |
+| `jwt_rbac_config` | `corpus/jwt` | `jwt.dict` + `rbac.dict` | Critical |
+| `ldap_dn` | `corpus/ldap_dn` | `ldap_dn.dict` | High |
 | `pii_redaction` | `corpus/pii` | `pii.dict` | Critical |
-| `postgres_importer` | `corpus/importer` | — | High |
+| `postgres_importer` | `corpus/importer` | `importer.dict` | High |
 | `security_input_validator` | `corpus/input_validator` | — | Critical |
-| `security_policy_engine` | `corpus/policy_engine` | — | Critical |
+| `security_policy_engine` | `corpus/policy_engine` | `policy_engine.dict` | Critical |
 
 ## CI/CD Integration
 

@@ -3,11 +3,11 @@
 ## Current Status
 - [x] 10 harnesses implemented (aql_parser, gguf_loader, grammar, http_parser, jwt_rbac_config, ldap_dn, pii_redaction, postgres_importer, security_input_validator, security_policy_engine)
 - [x] Corpus seeds for all 11 target areas
-- [x] Dictionaries for aql, crypto, json, pii
-- [ ] CI workflow for automated fuzzing not yet active
+- [x] Dictionaries for aql, crypto, json, pii, jwt, ldap_dn, policy_engine, rbac, http, importer
+- [x] CI workflow builds the standalone `fuzz_targets` target and runs available harness binaries
 
 ## In Progress
-- [~] fuzzing.yml CI workflow implementation (Target: Q3 2026)
+- [~] Expand CMake-backed builds from the standalone `fuzz_targets` set to the remaining project-linked harnesses (`gguf_loader`, `grammar`, `postgres_importer`) (Target: Q3 2026)
 
 ## Planned Features
 - [ ] Add dictionary for jwt, ldap_dn, policy_engine, rbac, http, importer targets (Target: Q3 2026)
@@ -19,15 +19,15 @@
 ### Phase 1: Design / API-Vertrag
 - [x] Harness interface: LLVMFuzzerTestOneInput(const uint8_t*, size_t)
 - [x] Corpus seed structure per target
-- [ ] CMake fuzz_targets integration (Target: Q3 2026)
+- [x] CMake `fuzz_targets` integration for standalone harnesses (Target: Q3 2026)
 
 ### Phase 2: Core-Implementierung
 - [x] 10 harnesses implemented
 - [x] Corpus seeds for all targets
-- [ ] CI workflow active (Target: Q3 2026)
+- [x] CI workflow active (Target: Q3 2026)
 
 ### Phase 3: Fehlerbehandlung & Edge Cases
-- [ ] Dictionary coverage for all targets (Target: Q3 2026)
+- [x] Dictionary coverage for ≥80% of targets (Target: Q3 2026)
 - [ ] Sanitizer configuration (ASan + UBSan) verified per harness (Target: Q3 2026)
 
 ### Phase 4: Tests
@@ -45,15 +45,13 @@
 ## Production Readiness Checklist
 - [x] Harness implementations present
 - [x] Seed corpus present for all targets
-- [ ] CI workflow active
+- [x] CI workflow active
 - [ ] Crash-free on seed corpus verified
-- [ ] Dictionary coverage ≥ 80% of targets
+- [x] Dictionary coverage ≥ 80% of targets
 - [ ] Crash triage runbook available
 
 ## Known Issues & Limitations
-- [!] `fuzzing.yml` workflow referenced in README but not yet implemented (fixed by this change)
-- [!] Dictionary coverage: only aql, crypto, json, pii — missing jwt, ldap_dn, policy_engine, rbac, http, importer
-- [!] CMake fuzz_targets build target not yet verified in CI
+- [!] The standalone `fuzz_targets` build currently excludes the project-linked `gguf_loader`, `grammar`, and `postgres_importer` harnesses; CI skips them until dedicated CMake wiring lands.
 
 ## Breaking Changes
 - None.

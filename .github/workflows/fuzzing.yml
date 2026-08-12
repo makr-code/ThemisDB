@@ -40,7 +40,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y afl++
 
       - name: Install build dependencies
-        run: sudo apt-get install -y cmake ninja-build clang
+        run: sudo apt-get install -y cmake ninja-build clang libboost-dev
 
       - name: Configure with fuzzing preset
         run: |
@@ -50,8 +50,8 @@ jobs:
             -DCMAKE_C_COMPILER=afl-clang-lto \
             -DCMAKE_CXX_COMPILER=afl-clang-lto++
 
-      - name: Build fuzz targets (best-effort)
-        run: cmake --build build-fuzz --target fuzz_targets || true
+      - name: Build fuzz targets
+        run: cmake --build build-fuzz --target fuzz_targets
 
       - name: Run fuzzing (60 s per target)
         run: |
@@ -85,6 +85,17 @@ jobs:
           CORPUS_MAP[security_input_validator]="input_validator"
           CORPUS_MAP[security_policy_engine]="policy_engine"
 
+          declare -A DICT_MAP
+          DICT_MAP[aql_parser]="aql"
+          DICT_MAP[http_parser]="http"
+          DICT_MAP[jwt_rbac_config]="jwt rbac"
+          DICT_MAP[ldap_dn]="ldap_dn"
+          DICT_MAP[pii_redaction]="pii"
+          DICT_MAP[postgres_importer]="importer"
+          DICT_MAP[security_policy_engine]="policy_engine"
+
+          mkdir -p /tmp/fuzz-dicts
+
           for HARNESS in "${HARNESSES[@]}"; do
             if [[ "$TARGET_INPUT" != "all" && "$TARGET_INPUT" != "$HARNESS" ]]; then
               echo "Skipping $HARNESS (not selected)"
@@ -95,6 +106,7 @@ jobs:
             CORPUS_SUBDIR="${CORPUS_MAP[$HARNESS]}"
             CORPUS_DIR="fuzz/corpus/${CORPUS_SUBDIR}"
             OUT_DIR="/tmp/fuzz-out/${HARNESS}"
+            DICT_ARGS=()
 
             if [[ ! -f "$BINARY" ]]; then
               echo "Binary not found for $HARNESS — skipping"
@@ -106,9 +118,26 @@ jobs:
               continue
             fi
 
+            if [[ -n "${DICT_MAP[$HARNESS]:-}" ]]; then
+              COMBINED_DICT="/tmp/fuzz-dicts/${HARNESS}.dict"
+              : > "$COMBINED_DICT"
+              for DICT_NAME in ${DICT_MAP[$HARNESS]}; do
+                DICT_FILE="fuzz/dictionaries/${DICT_NAME}.dict"
+                if [[ -f "$DICT_FILE" ]]; then
+                  cat "$DICT_FILE" >> "$COMBINED_DICT"
+                  printf '\n' >> "$COMBINED_DICT"
+                fi
+              done
+
+              if [[ -s "$COMBINED_DICT" ]]; then
+                DICT_ARGS=(-x "$COMBINED_DICT")
+              fi
+            fi
+
             mkdir -p "$OUT_DIR"
             echo "Fuzzing $HARNESS for 60 seconds..."
             timeout 60 afl-fuzz \
+              "${DICT_ARGS[@]}" \
               -i "$CORPUS_DIR" \
               -o "$OUT_DIR" \
               -- "$BINARY" @@ || true

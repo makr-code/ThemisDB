@@ -7,12 +7,11 @@ Tracks planned enhancements and production-readiness work for the Prometheus ale
 - [x] `rules/llm_alerts.yml` — LLM inference alert rules implemented
 - [x] `rules/sla-rules.yml` — SLA / availability alert rules implemented and moved to standard location
 - [x] `grafana/prometheus.yml` includes `llm_alerts.yml` via rule_files
-- [ ] `grafana/prometheus.yml` does not yet include `sla-rules.yml` (see In Progress)
+- [x] `grafana/prometheus.yml` includes `sla-rules.yml` via `/etc/prometheus/rules/sla-rules.yml`
 - [ ] Alert expressions not yet validated against live ThemisDB metric names
 
 ## In Progress
 
-- [~] Wire `sla-rules.yml` into `grafana/prometheus.yml` rule_files (Target: Q3 2026)
 - [~] Validate all alert expressions against ThemisDB metric names (Target: Q3 2026)
 
 ## Planned Features
@@ -55,7 +54,7 @@ Tracks planned enhancements and production-readiness work for the Prometheus ale
 
 - [x] Alert rule files present and correctly placed in `rules/`
 - [x] Directory structure follows Prometheus convention
-- [ ] `sla-rules.yml` wired into `grafana/prometheus.yml`
+- [x] `sla-rules.yml` wired into `grafana/prometheus.yml`
 - [ ] All alert expressions validated against live metric names
 - [ ] `promtool check rules` passes in CI
 - [ ] Runbooks linked via `runbook_url` annotation on every alert
@@ -63,7 +62,7 @@ Tracks planned enhancements and production-readiness work for the Prometheus ale
 
 ## Known Issues
 
-- [!] `grafana/prometheus.yml` rule_files references legacy `/etc/prometheus/alerts/sla-rules.yml` path — must be updated to `/etc/prometheus/rules/sla-rules.yml` (tracked in In Progress above)
+- [!] External deployment snippets and operations docs must reference `prometheus/rules/sla-rules.yml` consistently when applying rule files outside the bundled Grafana stack.
 - [!] Alert metric names in `sla-rules.yml` and `llm_alerts.yml` are not yet cross-referenced against the ThemisDB metrics registry
 
 ## Breaking Changes

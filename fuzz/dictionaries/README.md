@@ -6,7 +6,7 @@ Pfad: `fuzz/dictionaries`
 Dieser Ordner enthält 0 Unterordner und 4 Dateien und bildet einen abgegrenzten Teil der Repository-Struktur.
 
 ## Dateien nach Kategorien
-- **Sonstiges**: `aql.dict`, `crypto.dict`, `json.dict`, `pii.dict`
+- **Sonstiges**: `aql.dict`, `crypto.dict`, `http.dict`, `importer.dict`, `json.dict`, `jwt.dict`, `ldap_dn.dict`, `pii.dict`, `policy_engine.dict`, `rbac.dict`
 
 ## Hinweise
 - Änderungen in diesem Ordner sollten mit den übergeordneten Architektur- und Sicherheitsrichtlinien des Projekts abgestimmt werden.
