@@ -264,12 +264,10 @@ jobs:
             echo "  C++ source changes  : ⏭️  NONE — build matrix rows will be skipped on PRs"
           fi
 
-          MODULES=$(echo "${CHANGED}" \
-            | grep -E '^(src|include|tests)/' \
-            | sed -E 's|^(src|include|tests)/([^/]+)/.*|\2|' \
+          MODULES=$(printf '%s\n' "${CHANGED}" \
+            | awk -F/ '/^(src|include|tests)\// && NF >= 2 { print $2 }' \
             | sort -u \
-            | tr '\n' ',' \
-            | sed 's/,$//')
+            | paste -sd, -)
           echo "changed_modules=${MODULES}" >> "$GITHUB_OUTPUT"
 
           echo ""
