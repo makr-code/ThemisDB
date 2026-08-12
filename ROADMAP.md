@@ -88,6 +88,14 @@ Execution targets `develop` and must follow strict wave-gate sequencing.
 - [ ] `release_critical` CI is green on `develop` for all Wave A impacted modules (Target: Q4 2026)
 - [ ] Representative-hardware p95/p99 baselines are refreshed for sharding, replication, GPU, voice, and transaction (Target: Q4 2026)
 
+### Wave A Closure Batch (current execution order)
+- [~] Batch A1 — Transaction verification + chaos evidence: close build/run verification, coordinator crash-recovery validation, retry-storm control, and deterministic timeout/rollback evidence in `src/transaction/ROADMAP.md` (Target: Q3–Q4 2026)
+- [~] Batch A2 — Replication geo placement + WAL lag controls: deliver placement policy, async cross-region WAL shipping, lag alerts, and stronger failover diagnostics in `src/replication/ROADMAP.md` (Target: Q3–Q4 2026)
+- [~] Batch A3 — Voice fail-closed hardening: reject malformed/oversized streams, harden liveness/anti-spoof regressions, and prove safe multi-session teardown in `src/voice/ROADMAP.md` (Target: Q3–Q4 2026)
+- [~] Batch A4 — GPU fallback/timeout safety: reduce unchecked CUDA-call exposure, close RAII lifecycle gaps, enforce kernel timeouts, and prove clean CPU degradation in `src/gpu/ROADMAP.md` (Target: Q3–Q4 2026)
+- [~] Batch A5 — Sharding multi-shard/rebalance closure: complete multi-shard exact-path gating, topology-change rebalance hardening, and long-run distributed write stress in `src/sharding/ROADMAP.md` (Target: Q3–Q4 2026)
+- [ ] Each Wave A module keeps one local closure evidence block covering focused regressions, chaos/fault-injection evidence, fail-closed verification, representative-hardware p95/p99 baselines, and `release_critical` coverage (Target: Q3 2026)
+
 ### Wave B — Performance Consolidation (Q3–Q4 2026)
 - [ ] Search: complete real 4-layer `LayeredRetrievalOrchestrator` integration (ANN/Tensor/Graph/LLM) and lock p95/p99 + memory gates for the full chain (Target: Q3–Q4 2026)
 - [ ] Access Model: complete Phase 5–6 observability, concurrency/e2e tests, and benchmark closure for GATE-ACM-01..06 (Target: Q3–Q4 2026)

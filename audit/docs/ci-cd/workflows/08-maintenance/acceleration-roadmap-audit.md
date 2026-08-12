@@ -15,7 +15,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Acceleration 
 
 ## Auslöser (Triggers)
 
-- **`push`** — Automatisch bei jedem Push auf die konfigurierten Branches (Branches: `main`, `develop`) (Pfade: `src/acceleration/ROADMAP.md`, `src/acceleration/**`, `scripts/acceleration_roadmap_audit.py`)
+- **`push`** — Automatisch bei jedem Push auf die konfigurierten Branches (Branches: `community`, `develop`) (Pfade: `src/acceleration/ROADMAP.md`, `src/acceleration/**`, `scripts/acceleration_roadmap_audit.py`)
 - **`pull_request`** — Automatisch bei Pull Requests (opened, synchronize, reopened) (Pfade: `src/acceleration/ROADMAP.md`, `src/acceleration/**`, `scripts/acceleration_roadmap_audit.py`)
 - **`workflow_dispatch`** — Manuell über die GitHub Actions UI ausführbar
 
@@ -43,7 +43,6 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Acceleration 
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../.github/workflows/08-maintenance_acceleration-roadmap-audit.yml)
-- [Alle Workflows](../README.md)
-
+- [Workflow-Datei (historisch)](/.github/workflows/08-maintenance_acceleration-roadmap-audit.yml)
+- [Aktuelle Workflow-Governance](/.github/WORKFLOW_REGISTRY.md)
 

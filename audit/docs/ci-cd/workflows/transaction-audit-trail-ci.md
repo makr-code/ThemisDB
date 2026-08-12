@@ -15,7 +15,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Transaction A
 
 ## Auslöser (Triggers)
 
-- **`push`** — Automatisch bei jedem Push auf die konfigurierten Branches (Branches: `main`, `develop`) (6 überwachte Pfade)
+- **`push`** — Automatisch bei jedem Push auf die konfigurierten Branches (Branches: `community`, `develop`) (6 überwachte Pfade)
 - **`pull_request`** — Automatisch bei Pull Requests (opened, synchronize, reopened) (6 überwachte Pfade)
 - **`workflow_dispatch`** — Manuell über die GitHub Actions UI ausführbar
 
@@ -50,7 +50,6 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Transaction A
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../.github/workflows/transaction-audit-trail-ci.yml)
-- [Alle Workflows](README.md)
-
+- [Workflow-Datei (historisch)](/.github/workflows/transaction-audit-trail-ci.yml)
+- [Aktuelle Workflow-Governance](/.github/WORKFLOW_REGISTRY.md)
 

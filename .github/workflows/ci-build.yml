@@ -59,7 +59,7 @@ on:
 permissions:
   actions: read
   contents: read
-  issues: write
+  issues: read
   pull-requests: write
 
 concurrency:

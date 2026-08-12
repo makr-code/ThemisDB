@@ -77,7 +77,7 @@ Das Script schreibt Reports nach `artifacts/perf_expectations_audit/` (relativ z
 Der Workflow `.github/workflows/perf-expectations-audit.yml` wird ausgelöst bei:
 
 - `push` auf `develop`
-- `pull_request` auf `develop` oder `main`
+- `pull_request` auf `develop` oder `community`
 - manuell via `workflow_dispatch` (mit optionalem `strict`-Parameter)
 
 Bei einem Fehler wird der JSON-Report in der Ausgabe zusammengefasst und als

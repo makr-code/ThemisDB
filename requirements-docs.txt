@@ -25,4 +25,4 @@ mkdocs-exclude==1.0.2
 pyyaml==6.0.3
 
 # HTTP requests (used by link-check.py for external links)
-requests==2.32.5
+requests==2.33.0

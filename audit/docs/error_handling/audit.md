@@ -1,6 +1,6 @@
 # Error-Handling Audit – Usage Guide
 
-The audit tool (`tools/error_handling_audit.py`) checks source files for compliance with the rules defined in [`docs/error_handling/checklist.md`](./checklist.md).
+The audit tool (`tools/error_handling_audit.py`) checks source files for compliance with the rules defined in [`docs/error_handling/checklist.md`](/docs/error_handling/checklist.md).
 
 ---
 
@@ -34,7 +34,7 @@ Exit code:
 
 ## CI integration
 
-The workflow `.github/workflows/error-handling-audit.yml` runs automatically on every PR and on pushes to `main`/`develop` that touch source files. It:
+The workflow `.github/workflows/error-handling-audit.yml` runs automatically on every PR and on pushes to `community`/`develop` that touch source files. It:
 
 1. Runs the unit tests for the audit tool itself (`tests/test_error_handling_audit.py`).
 2. Runs the audit against the repository and fails if violations exceed the configured budget.
@@ -81,7 +81,7 @@ tools/fault_injector.py
 
 ## Rules reference
 
-See [`docs/error_handling/checklist.md`](./checklist.md) for the full list of rules and their rationale. Quick summary:
+See [`docs/error_handling/checklist.md`](/docs/error_handling/checklist.md) for the full list of rules and their rationale. Quick summary:
 
 | Rule | Language | What it checks |
 |------|----------|----------------|

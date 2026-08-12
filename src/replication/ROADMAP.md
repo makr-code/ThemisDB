@@ -138,6 +138,14 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D
 - [ ] `release_critical` CI green on `develop` (Target: Q4 2026)
 - [ ] Representative-hardware p95/p99 baselines refreshed (Target: Q4 2026)
 
+### Wave A Closure Evidence Block
+- [x] Focused regression closure: contract hardening (RCH-01..16) and conflict-resolution evidence are already recorded in the module evidence summary.
+- [~] Chaos/fault-injection evidence: deterministic backpressure/lag fixtures exist, but geo-placement failover and cross-region WAL lag scenarios still need closure.
+- [~] Fail-closed verification: replication failure contracts and diagnostics are documented, but stronger failover diagnostics and lag-limit enforcement remain open.
+- [ ] Representative-hardware p95/p99 baselines: hot-path gate benchmarks exist, but representative-hardware refresh for promotion/conflict/CDC paths remains open.
+- [ ] `release_critical` coverage: focused tests and release gates exist, but green-on-`develop` evidence for the new geo/WAL paths is still pending.
+- [ ] Next closure batch: deliver placement policy, async cross-region WAL shipping with lag alerts, and stronger failover diagnostics.
+
 ### Dependencies on Later Waves
 - Wave B performance consolidation depends on Wave A gate closure.
 - Wave C security validation depends on stable Wave A runtime behavior.
