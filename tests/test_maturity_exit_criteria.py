@@ -64,11 +64,33 @@ def _base_report(
     )
 
 
+def _wave_a_block() -> str:
+    return textwrap.dedent(
+        """\
+        ### Wave A Closure Evidence Block
+        - [x] Focused regression closure
+        - [x] Chaos/fault-injection evidence
+        - [x] Fail-closed verification
+        - [x] Representative-hardware p95/p99 baselines
+        - [x] `release_critical` coverage
+        """
+    )
+
+
+def _write_wave_a_roadmaps(repo: Path, *, omit_marker_for: str | None = None) -> None:
+    for module in checker.WAVE_A_MODULES:
+        content = "- [x] done\n" + _wave_a_block()
+        if module == omit_marker_for:
+            content = content.replace("- [x] Chaos/fault-injection evidence\n", "")
+        _write(repo / "src" / module / "ROADMAP.md", content)
+
+
 class MaturityExitCriteriaTests(unittest.TestCase):
     def test_evaluate_passes_when_all_criteria_green(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             repo = Path(tmp) / "repo"
             _write(repo / "ROADMAP.md", "- [x] done\n")
+            _write_wave_a_roadmaps(repo)
             _write(repo / "src" / "query" / "ROADMAP.md", "- [x] done\n")
             report = _write(
                 repo / "audit" / "MATURITY.md",
@@ -85,6 +107,7 @@ class MaturityExitCriteriaTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             repo = Path(tmp) / "repo"
             _write(repo / "ROADMAP.md", "- [ ] open item\n")
+            _write_wave_a_roadmaps(repo, omit_marker_for="voice")
             _write(repo / "src" / "query" / "ROADMAP.md", "- [~] in progress\n")
             report = _write(
                 repo / "audit" / "MATURITY.md",
@@ -109,12 +132,15 @@ class MaturityExitCriteriaTests(unittest.TestCase):
             self.assertFalse(by_name["roadmap_in_progress_items"]["passed"])
             self.assertFalse(by_name["placeholder_scaffold_modules"]["passed"])
             self.assertFalse(by_name["compliance_gap_markers"]["passed"])
+            self.assertFalse(by_name["wave_a_evidence_blocks"]["passed"])
             self.assertEqual(result["details"]["placeholder_modules"], ["retrieval"])
+            self.assertIn("voice", result["details"]["wave_a_evidence_gaps"])
 
     def test_main_writes_json_and_nonzero_exit_on_failure(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             repo = Path(tmp) / "repo"
             _write(repo / "ROADMAP.md", "- [ ] open\n")
+            _write_wave_a_roadmaps(repo)
             _write(repo / "src" / "a" / "ROADMAP.md", "- [x] done\n")
             report = _write(
                 repo / "audit" / "MATURITY.md",

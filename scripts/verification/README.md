@@ -64,6 +64,7 @@ python3 check_maturity_exit_criteria.py \
 - No placeholder/scaffold D1 module rows (`⬛`) in the maturity matrix
 - No open `[ ]` or in-progress `[~]` checkbox items in root + `src/*/ROADMAP.md`
 - No open compliance gap markers (`fehlend`/`offen`/`ausstehend`) in compliance section
+- Wave A owner modules (`transaction`, `sharding`, `replication`, `voice`, `gpu`) must each contain a local `Wave A Closure Evidence Block` with regression, chaos/fault, fail-closed, p95/p99, and `release_critical` markers
 
 ## Workflow
 

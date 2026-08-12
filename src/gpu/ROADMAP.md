@@ -145,6 +145,14 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D
 - [ ] `release_critical` CI green on `develop` (Target: Q4 2026)
 - [ ] Representative-hardware p95/p99 baselines refreshed (Target: Q4 2026)
 
+### Wave A Closure Evidence Block
+- [x] Focused regression closure: Phase 2/3 focused tests (P23-01..08) and release-gate benchmarks (GP23-01..06) are already delivered.
+- [ ] Chaos/fault-injection evidence: resource-exhaustion, fallback-all-paths, and timeout-specific fault-injection suites are still open.
+- [~] Fail-closed verification: error taxonomy and fail-closed predicates exist, but full proof that every GPU failure degrades cleanly to CPU is still pending.
+- [ ] Representative-hardware p95/p99 baselines: representative-hardware refresh remains open for backend and acceleration paths.
+- [ ] `release_critical` coverage: Wave A GPU closure still needs green-on-`develop` evidence for timeout/fallback/resource-exhaustion gates.
+- [ ] Next closure batch: reduce unchecked CUDA calls, close RAII lifecycle gaps, enforce kernel timeouts, and add fallback/resource-exhaustion proof.
+
 ### Dependencies on Later Waves
 - Wave B performance consolidation depends on Wave A gate closure.
 - Wave C security validation depends on stable Wave A runtime behavior.

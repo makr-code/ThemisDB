@@ -254,6 +254,14 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D
 - [ ] `release_critical` CI green on `develop` (Target: Q4 2026)
 - [ ] Representative-hardware p95/p99 baselines refreshed (Target: Q4 2026)
 
+### Wave A Closure Evidence Block
+- [~] Focused regression closure: 73 focused tests exist across lifecycle, distributed coordination, and fault-injection phases; environment-backed build/run confirmation is still pending.
+- [~] Chaos/fault-injection evidence: Phase 3 chaos suites exist, but repeated coordinator crash-recovery, Byzantine, and cascading-failure validation is still open.
+- [~] Fail-closed verification: timeout/retry and rollback semantics are implemented and tested, but restart/retry-storm proof and final fail-closed sign-off are still pending.
+- [ ] Representative-hardware p95/p99 baselines: `benchmarks/transaction/bench_transaction_phase4.cpp` exists, but baseline capture and gate refresh remain open.
+- [ ] `release_critical` coverage: focused phase suites require final `community-release`/`release_critical` execution evidence on `develop`.
+- [ ] Next closure batch: complete configure/build/test verification, then close AC-5/6/8/10/11/12/13 evidence items in the Q3 2026 hardening task list.
+
 ### Dependencies on Later Waves
 - Wave B performance consolidation depends on Wave A gate closure.
 - Wave C security validation depends on stable Wave A runtime behavior.

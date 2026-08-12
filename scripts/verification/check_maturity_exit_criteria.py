@@ -12,6 +12,16 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable
 
+WAVE_A_MODULES = ("transaction", "sharding", "replication", "voice", "gpu")
+WAVE_A_EVIDENCE_HEADING = "### Wave A Closure Evidence Block"
+WAVE_A_EVIDENCE_MARKERS = (
+    "Focused regression closure",
+    "Chaos/fault-injection evidence",
+    "Fail-closed verification",
+    "Representative-hardware p95/p99 baselines",
+    "`release_critical` coverage",
+)
+
 
 @dataclass(frozen=True)
 class CriterionResult:
@@ -81,6 +91,22 @@ def _count_compliance_gap_markers(maturity_report: str) -> int:
     return len(markers)
 
 
+def _check_wave_a_evidence_blocks(repo_root: Path) -> dict[str, list[str]]:
+    missing: dict[str, list[str]] = {}
+    for module in WAVE_A_MODULES:
+        roadmap_path = repo_root / "src" / module / "ROADMAP.md"
+        text = _read_text(roadmap_path)
+        module_missing: list[str] = []
+        if WAVE_A_EVIDENCE_HEADING not in text:
+            module_missing.append(WAVE_A_EVIDENCE_HEADING)
+        for marker in WAVE_A_EVIDENCE_MARKERS:
+            if marker not in text:
+                module_missing.append(marker)
+        if module_missing:
+            missing[module] = module_missing
+    return missing
+
+
 def evaluate(repo_root: Path, maturity_report_path: Path) -> dict:
     report_text = _read_text(maturity_report_path)
 
@@ -94,6 +120,7 @@ def evaluate(repo_root: Path, maturity_report_path: Path) -> dict:
 
     placeholder_modules = _collect_placeholder_modules(report_text)
     compliance_markers = _count_compliance_gap_markers(report_text)
+    wave_a_evidence_gaps = _check_wave_a_evidence_blocks(repo_root)
 
     checks = [
         CriterionResult(
@@ -152,6 +179,13 @@ def evaluate(repo_root: Path, maturity_report_path: Path) -> dict:
             target=0,
             details="Compliance section should not contain open/missing markers.",
         ),
+        CriterionResult(
+            name="wave_a_evidence_blocks",
+            passed=len(wave_a_evidence_gaps) == 0,
+            value=len(wave_a_evidence_gaps),
+            target=0,
+            details="Wave A modules must contain a local closure evidence block with regression, chaos, fail-closed, p95/p99, and release_critical markers.",
+        ),
     ]
 
     return {
@@ -161,6 +195,7 @@ def evaluate(repo_root: Path, maturity_report_path: Path) -> dict:
         "checks": [c.__dict__ for c in checks],
         "details": {
             "placeholder_modules": placeholder_modules,
+            "wave_a_evidence_gaps": wave_a_evidence_gaps,
             "roadmap_files_checked": [str(p) for p in roadmap_paths],
         },
     }
