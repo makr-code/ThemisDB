@@ -17,52 +17,44 @@ Quarantaene, nicht einen inoffiziellen Reservepool fuer schnelle Reaktivierung.
 ## Aktiver Workflow-Kern
 
 ### Fokus-Workflows
-- `.github/workflows/00-shared_changelog-update.yml`
-  — Reusable changelog writer fuer Security/Documentation/Infrastructure-Eintraege in `CHANGELOG.md`
-- `.github/workflows/00-shared_changelog-backfill.yml`
-  — Manueller historischer Changelog-Backfill aus Milestones/PRs ohne Build-Last
-- `.github/workflows/02-feature-modules_llm_voice-benchmark-ci.yml`
-  — Optional voice benchmark CI (THEMIS_ENABLE_VOICE_ASSISTANT=ON); satisfies PERFORMANCE_EXPECTATIONS.md §1.4 Maßnahme #4 (perf audit check 4d)
-- `.github/workflows/06-infrastructure_gpu_gpu-benchmark-matrix-ci.yml`
-  — GPU benchmark matrix (CUDA/HIP/Vulkan); satisfies §1.4 Maßnahme #5 (perf audit check 5c)
-- `.github/workflows/07-quality_nightly-benchmark-sweep.yml`
-  — Nightly benchmark sweep (schedule 02:00 UTC, modules 2..35); satisfies §1.4 Maßnahme #10 (perf audit check 10a)
-- `.github/workflows/08-maintenance_root-docs-hygiene.yml`
-  — Root-Dokumentationshygiene fuer Top-Level-Dateien (Push/Schedule/Manual)
-- `.github/workflows/08-maintenance_src-include-docs-align.yml`
-  — Modulabgleich `src/include` ↔ `docs/de` fuer Doku-Abdeckung
-- `.github/workflows/08-maintenance_docs-orphan-check.yml`
-  — Orphan/Broken-Reference-Pruefung fuer `docs/de` und `docs/en`
-- `.github/workflows/08-maintenance_code-maturity.yml`
-  — Code-Maturity-Analyse via `code_maturity_header_writer.py` (delegiert intern auf `analyze_code_maturity.py`); check-only per Default (kein Header-Rewrite), Rewrite-Modus nur via `workflow_dispatch` mit `update_headers=true`; enger PR-Trigger auf Script und Workflow-Datei
-- `.github/workflows/08-maintenance_epic-5518-retarget.yml`
-  — EPIC 5518 PR Retargeting; automatische Umleitung von PRs mit Marker "Part of makr-code/ThemisDB#5518" oder Label `epic/5518` zum Ziel-Branch `epic/hybrid-boundaries-5518` (policy #5545); dokumentiert in `docs/ci-cd/workflows/08-maintenance/epic-5518-retarget.md`
-- `.github/workflows/09-pr-gates_workflow-boundary-guard.yml`
-  — Enger PR-Gate fuer Workflow-Governance; blockiert Reaktivierungen ohne Quarantaene-Regeln, Doku-Update und harte Triggergrenzen
-- `.github/workflows/09-pr-gates_scanner-delta-report.yml`
-  — Enger PR-Gate fuer Scanner-Delta-Reporting (Baseline vs Current) mit Artefakt-Upload fuer reproduzierbare Triage
-- `.github/workflows/09-pr-gates_high-exception-record.yml`
-  — Enger PR-Gate fuer Vollstaendigkeit akzeptierter High-Finding-Exceptions im PR-Text anhand des High-Exception-Records
-- `.github/workflows/09-pr-gates_private-plugin-boundary.yml`
-  — Enger PR-Gate fuer private-plugin Boundary-, Governance- und Packaging-Aenderungen
-- `.github/workflows/08-quality_doxygen-coverage-gate.yml`
-  — Doxygen XML Coverage Gate fuer PRs (Threshold zentral in `.github/ci-scope-config.yaml` unter `quality_gates.docs_coverage_threshold`, Default 90%)
-- `.github/workflows/license-compliance.yml`
-  — Compliance-Gate fuer vcpkg-Lizenz-Whitelist mit Release-Artefakten `license-summary.md` und `vcpkg-license-sbom.json`
-- `.github/workflows/security-dast-ci.yml`
-  — OWASP-ZAP-basierter DAST-Sicherheitscheck fuer API-Pfade
-- `.github/workflows/sbom-ci.yml`
-  — Supply-Chain-SBOM-Erzeugung, Verifikation und Signierung fuer Releases
-- `.github/workflows/soc2-evidence-ci.yml`
-  — Geplanter SOC-2-Evidence-Export mit Artefaktablage fuer Audit-Nachweise
+- `.github/workflows/ci-pr-gates.yml`
+  — Fast PR-Gate-Layer inkl. `release-critical-tests` (mandatory), Boundary- und Policy-Gates
+- `.github/workflows/ci-build.yml`
+  — Multi-OS Build/Test-Matrix inkl. optionaler Sanitizer-Lane per `workflow_dispatch`
+- `.github/workflows/ci-release.yml`
+  — Tag-/Dispatch-gesteuerte Release-Builds, Packaging, Manifest-Validierung und Publish-Lanes
+- `.github/workflows/ci-benchmarks.yml`
+  — Entkoppelte schwere Benchmark-Lanes (voice, GPU matrix, nightly sweep)
+- `.github/workflows/release-changelog.yml`
+  — Reusable/manual changelog update & backfill (artifact-backed proposal, keine Branch-Mutation)
+- `.github/workflows/security-scanning.yml`
+  — Security-Scan-Orchestrierung (SAST/DAST-Signale + Artefakte)
+- `.github/workflows/security-pentest-quarterly.yml`
+  — Quartals-Pentest-Cadence mit Evidence-Artefakten (non-mutating)
+- `.github/workflows/compliance-supply-chain.yml`
+  — SBOM-/Signatur-/Release-Compliance-Pruefungen
+- `.github/workflows/codeql.yml`
+  — CodeQL Analyse-Workflow
+- `.github/workflows/quality-static-analysis.yml`
+  — Statische Qualitaetspruefungen und Artefaktberichte
+- `.github/workflows/governance-gates.yml`
+  — Governance- und Release-Policy-Gates
+- `.github/workflows/maintenance-docs.yml`
+  — Dokumentations-Hygiene/Alignment Workflows
+- `.github/workflows/maintenance-cache-warming.yml`
+  — Wöchentliches vcpkg/sccache Cache-Vorwärmen (Linux + Windows; Monday 00:00 UTC)
+- `.github/workflows/maintenance-ci-health.yml`
+  — Wöchentliches CI Health Dashboard (pass/fail Aggregation, chronische Fehler-Issue; Sunday 06:00 UTC)
+- `.github/workflows/docker-image.yml`
+  — Container build/publish lane
+- `.github/workflows/edition-hyperscaler-ci.yml`
+  — Editionsspezifische Hyperscaler-CI Lane
+- `.github/workflows/automation-community.yml`
+  — Community Automation (Labeling/Onboarding)
 - `.github/workflows/copilot-ollama-router-ci.yml`
-  — Scoped CI fuer das lokale VS-Code-Extension-Tooling unter `tools/copilot-ollama-router/**`
+  — Scoped CI fuer `tools/copilot-ollama-router/**`
 - `.github/workflows/copilot-regression-guard.yml`
-  — Zielgerichteter Guard fuer Copilot/CMake-Regressionen mit klar begrenztem PR-Scope
-- `.github/workflows/performance-regression-check.yml`
-  — Enger Storage-Performance-Check fuer Benchmarks und Performance-relevante C++-Aenderungen
-- `.github/workflows/08-quality_clang-tidy-analysis.yml`
-  — Statische Analyse via clang-tidy (SARIF → GitHub Code Scanning) und clang-format-Stil-Pruefung; `workflow_dispatch`-only (Phase 4.1 TODO_KI_WORKFLOW_IMPROVEMENTS.md); erzeugt Artefakt `clang-tidy-results` + SARIF-Upload; optionaler Hard-Gate via `fail_on_warnings`/`fail_on_format_violations`
+  — Copilot/CMake-Regression Guard
 
 ## Quarantaene: `.github/no_workflows/`
 Workflows in diesem Verzeichnis sind absichtlich deaktiviert. Eine Rueckverschiebung nach `.github/workflows/` ist nur zulaessig, wenn alle folgenden Punkte vorab dokumentiert sind:
@@ -93,6 +85,6 @@ pwsh -NoProfile -File ./scripts/test-github-actions-local.ps1 -Mode all
 ```
 
 ## Stand
-- Aktive Workflows im Verzeichnis `.github/workflows/`: 22
+- Aktive Workflows im Verzeichnis `.github/workflows/`: 19
 - Deaktivierte Workflows in `.github/no_workflows/`: 23
 - Strategie: Lean + harte Triggergrenzen + Quarantaene fuer uebertriggernde CI

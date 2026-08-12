@@ -1,29 +1,67 @@
 # ThemisDB CI/CD Architecture
 
-**Version:** 2.0  
-**Last Updated:** 2026-04-06  
+**Version:** 3.0  
+**Last Updated:** 2026-08-11  
 **Status:** Active
 
 ## Overview
 
-This document describes the consolidated CI/CD architecture for ThemisDB, implemented in February 2026. The new architecture reduces complexity, eliminates duplication, and improves maintainability through a hierarchical structure of entry workflows, reusable workflows, and composite actions.
+This document describes the consolidated CI/CD architecture for ThemisDB.
+The August 2026 consolidation reduced 47 fragmented workflows to 17 well-named
+workflows following a `{lane}-{purpose}.yml` naming convention.
 
 ## Architecture Summary
 
 ```
-Entry Workflows (12)
-  ├── Reusable Workflows (7)
-  │    └── Composite Actions (8)
-  └── Composite Actions (8)
+17 Workflows (flat .github/workflows/ layout)
+
+Lane ci-         → core build, PR gates, release pipeline, benchmarks
+Lane release-    → changelog management
+Lane security-   → SAST/DAST, pentest cadence
+Lane compliance- → supply chain, SBOM, SOC2
+Lane quality-    → static analysis, Doxygen, perf regression
+Lane governance- → maturity verification, merge gates, RC validation
+Lane maintenance-→ docs hygiene, orphan checks, wiki sync
+Lane automation- → community automations (greet, label, summarize)
+Unchanged        → codeql, docker-image, edition-hyperscaler-ci,
+                   copilot-ollama-router-ci, copilot-regression-guard
 ```
 
 ### Key Metrics
 
-- **Workflow Reduction:** 53 → 20 workflows (62% reduction)
-- **Entry Workflows:** 12 (user-facing, event-triggered)
-- **Reusable Workflows:** 7 (internal, workflow_call)
-- **Composite Actions:** 8 (low-level, reusable steps)
-- **Maintained:** reusable-test-report.yml (existing)
+- **Workflow Reduction:** 47 → 17 workflows (64% reduction)
+- **Lanes:** 8 (ci, release, security, compliance, quality, governance, maintenance, automation)
+- **Unchanged:** 5 (codeql, docker-image, edition-hyperscaler-ci, copilot-ollama-router-ci, copilot-regression-guard)
+- **Naming convention:** `{lane}-{purpose}.yml` — no numeric prefixes, readable without context
+
+## Workflow Inventory
+
+| File | Lane | Purpose | Replaces |
+|------|------|---------|----------|
+| `ci-build.yml` | ci | Core C++ build matrix (Ubuntu+Windows), sanitizer option | `cmake-multi-platform.yml` |
+| `ci-release.yml` | ci | Multi-edition release: build, package, publish | `release-build.yml` |
+| `ci-pr-gates.yml` | ci | 8 PR gate jobs (parallel); release-critical mandatory gate | 8× `09-pr-gates_*.yml` |
+| `ci-benchmarks.yml` | ci | Voice, GPU matrix (CUDA/HIP/Vulkan), nightly module sweep | 3 benchmark workflows |
+| `release-changelog.yml` | release | Incremental update + historical backfill (`mode` input) | 2 changelog workflows |
+| `security-scanning.yml` | security | Kubesec + OWASP ZAP DAST | `kubesec.yml` + `security-dast-ci.yml` |
+| `security-pentest-quarterly.yml` | security | Quarterly pentest cadence | `security_pentest-quarterly.yml` (renamed) |
+| `compliance-supply-chain.yml` | compliance | License policy, SBOM, SOC2 evidence | 3 compliance workflows |
+| `quality-static-analysis.yml` | quality | clang-tidy, clang-format, Doxygen, perf regression | 4 quality workflows |
+| `governance-gates.yml` | governance | Maturity, phase gates, merge enforcer, RC validation, audit, waivers | 6 governance workflows |
+| `maintenance-docs.yml` | maintenance | AI-context sync, code maturity, orphan check, hygiene, alignment | 5 maintenance workflows |
+| `automation-community.yml` | automation | Greet contributors, auto-label PRs, summarize issues | `greetings.yml` + `label.yml` + `summary.yml` |
+| `codeql.yml` | — | GitHub SARIF upload, own schedule cadence | *(unchanged)* |
+| `docker-image.yml` | — | Container build & push | *(unchanged)* |
+| `edition-hyperscaler-ci.yml` | — | Edition-specific hyperscaler targets | *(unchanged)* |
+| `copilot-ollama-router-ci.yml` | — | Tooling CI for Ollama router extension | *(unchanged)* |
+| `copilot-regression-guard.yml` | — | Regression guard with fixture-based tests | *(unchanged)* |
+
+## Governance Constraints
+
+- **Branch targets:** only `develop`, `minimal`, `community`, `enterprise`, `hyperscaler`, `military` — never `main` or `millitary`
+- **Edition tag patterns** (RELEASE_STRATEGY.md §3): `vX.Y.Z`, `enterprise-vX.Y.Z`, `hyperscaler-vX.Y.Z`, `military-vX.Y.Z`, `minimal-vX.Y.Z`
+- **Mandatory gate:** `ci-pr-gates.yml` `release-critical-tests` job is a required entry gate for PRs to `develop` and all edition branches (RELEASE_STRATEGY.md §2.3)
+- **Community guardrail:** `compliance-supply-chain.yml` and `ci-release.yml` publish-community job must never reference private credentials, submodules, or artefacts (RELEASE_STRATEGY.md §2.4)
 
 ## Entry Workflows
 

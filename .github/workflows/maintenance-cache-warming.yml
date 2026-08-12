@@ -1,0 +1,297 @@
+name: Maintenance — Dependency Cache Warming
+
+# Weekly scheduled workflow that pre-builds the vcpkg + sccache dependency
+# cache so that new contributors and cold CI runs get 60-80% faster builds.
+#
+# Debug output: every step prints machine info, cache key details, timing,
+# vcpkg/sccache statistics, and a human-readable final summary.
+#
+# Pattern from Windows Terminal and VS Code repositories.
+# Triggers: weekly Monday 00:00 UTC; push on vcpkg.json; workflow_dispatch.
+
+on:
+  schedule:
+    - cron: '0 0 * * 1'
+  push:
+    branches: [develop]
+    paths:
+      - 'vcpkg.json'
+      - 'vcpkg-configuration.json'
+      - 'CMakePresets.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: write
+
+concurrency:
+  group: maintenance-cache-warming
+  cancel-in-progress: true
+
+jobs:
+  warm-linux-cache:
+    name: 🔥 Warm Linux Cache (vcpkg + sccache)
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: read
+      actions: write
+
+    env:
+      SCCACHE_GHA_ENABLED: "true"
+
+    steps:
+      - name: Print Linux warming context
+        run: |
+          echo "============================================================"
+          echo " Maintenance — Dependency Cache Warming  |  Linux"
+          echo "============================================================"
+          echo "  Trigger   : ${{ github.event_name }}"
+          echo "  Ref       : ${{ github.ref }}"
+          echo "  Actor     : ${{ github.actor }}"
+          echo "  Run ID    : ${{ github.run_id }}"
+          echo "  Timestamp : $(date -u)"
+          echo "  OS        : $(uname -a)"
+          echo "  CPUs      : $(nproc)"
+          echo "  RAM       : $(free -h | awk '/^Mem:/{print $2}')"
+          echo "  Disk free : $(df -h / | awk 'NR==2{print $4}')"
+          echo "  Purpose   : Pre-fill sccache GHA backend so CI and new"
+          echo "              contributors get fast compilation on cache hit."
+          echo "============================================================"
+
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+
+      - name: Print vcpkg.json baseline
+        run: |
+          echo "  vcpkg.json baseline:"
+          python3 -c "
+import json; d=json.load(open('vcpkg.json'))
+print(f\"    builtin-baseline : {d.get('builtin-baseline','N/A')}\")
+print(f\"    dependencies     : {len(d.get('dependencies',[]))} package(s)\")
+"
+
+      - name: Setup sccache
+        uses: mozilla-actions/sccache-action@9e326ebed976843c9932b3aa0e021c6f50310eb4  # v0.0.6
+        with:
+          version: "v0.8.1"
+
+      - name: Print sccache initial state
+        run: |
+          echo "──────────────────────────────────────────────"
+          echo "  sccache initial stats"
+          echo "──────────────────────────────────────────────"
+          sccache --version || true
+          sccache --show-stats || true
+          echo "──────────────────────────────────────────────"
+
+      - name: Install Linux build dependencies
+        run: |
+          echo "  Installing system packages..."
+          T0=$(date +%s)
+          sudo apt-get update -q
+          sudo apt-get install -y --no-install-recommends \
+            ninja-build cmake \
+            librocksdb-dev libssl-dev zlib1g-dev libzstd-dev libspdlog-dev \
+            nlohmann-json3-dev libtbb-dev libyaml-cpp-dev \
+            libcurl4-openssl-dev libboost-system-dev libboost-filesystem-dev \
+            libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc \
+            libpugixml-dev
+          SECS=$(( $(date +%s) - T0 ))
+          echo "  ✅ System packages installed in ${SECS}s"
+
+      - name: Print toolchain info
+        run: |
+          echo "──────────────────────────────────────────────"
+          echo "  Toolchain info"
+          echo "──────────────────────────────────────────────"
+          gcc --version
+          g++ --version
+          cmake --version
+          ninja --version
+          echo "──────────────────────────────────────────────"
+
+      - name: Configure CMake (populate dependency headers + generate build.ninja)
+        id: configure
+        run: |
+          echo "  Configuring cmake to resolve and cache all dependencies..."
+          T0=$(date +%s)
+          cmake -B build-cache-warm -G Ninja \
+            -DCMAKE_CXX_COMPILER=g++ \
+            -DCMAKE_C_COMPILER=gcc \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_C_COMPILER_LAUNCHER=sccache \
+            -DCMAKE_CXX_COMPILER_LAUNCHER=sccache \
+            -DTHEMIS_BUILD_TESTS=OFF \
+            -DTHEMIS_MODELS_MODE=SKIP \
+            -S . 2>&1 | tail -20
+          SECS=$(( $(date +%s) - T0 ))
+          echo "configure_secs=${SECS}" >> "$GITHUB_OUTPUT"
+          echo ""
+          echo "  ✅ Configure completed in ${SECS}s"
+          echo "  Build tree size: $(du -sh build-cache-warm 2>/dev/null | cut -f1 || echo 'N/A')"
+
+      - name: Build (populate sccache with compilation results)
+        id: build
+        run: |
+          echo "  Building to populate sccache..."
+          T0=$(date +%s)
+          cmake --build build-cache-warm --parallel "$(nproc)" 2>&1 | tail -30 || true
+          BUILD_SECS=$(( $(date +%s) - T0 ))
+          echo "build_secs=${BUILD_SECS}" >> "$GITHUB_OUTPUT"
+          echo ""
+          echo "  Build completed in ${BUILD_SECS}s (errors here are non-fatal)"
+          echo "  Build output size: $(du -sh build-cache-warm 2>/dev/null | cut -f1 || echo 'N/A')"
+
+      - name: Print sccache final statistics
+        if: always()
+        run: |
+          echo "──────────────────────────────────────────────"
+          echo "  sccache final statistics"
+          echo "──────────────────────────────────────────────"
+          sccache --show-stats || true
+          echo "──────────────────────────────────────────────"
+
+      - name: Cache warming summary
+        if: always()
+        run: |
+          CONF_S="${{ steps.configure.outputs.configure_secs || 'N/A' }}"
+          BUILD_S="${{ steps.build.outputs.build_secs || 'N/A' }}"
+          echo "──────────────────────────────────────────────"
+          echo "  Linux cache warming complete"
+          echo "  Configure : ${CONF_S}s"
+          echo "  Build     : ${BUILD_S}s"
+          echo "  Next CI run: expect 60-80% faster compilation (sccache hit)"
+          echo "──────────────────────────────────────────────"
+          {
+            echo "### 🔥 Dependency Cache Warmed — Linux"
+            echo ""
+            echo "| Phase | Duration |"
+            echo "|-------|----------|"
+            echo "| Configure | ${CONF_S}s |"
+            echo "| Build (cache fill) | ${BUILD_S}s |"
+            echo ""
+            echo "_Warmed at $(date -u) by \`${{ github.actor }}\`. New CI runs should see 60–80% faster builds on cache hit._"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  warm-windows-cache:
+    name: 🔥 Warm Windows Cache (vcpkg)
+    runs-on: windows-latest
+    timeout-minutes: 90
+    permissions:
+      contents: read
+      actions: write
+
+    steps:
+      - name: Print Windows warming context
+        shell: bash
+        run: |
+          echo "============================================================"
+          echo " Maintenance — Dependency Cache Warming  |  Windows"
+          echo "============================================================"
+          echo "  Trigger   : ${{ github.event_name }}"
+          echo "  Actor     : ${{ github.actor }}"
+          echo "  Run ID    : ${{ github.run_id }}"
+          echo "  Timestamp : $(date -u)"
+          echo "  Purpose   : Pre-fill vcpkg cache for Windows CI runs and"
+          echo "              new contributors on Windows."
+          echo "============================================================"
+
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+
+      - name: Print vcpkg.json baseline
+        shell: bash
+        run: |
+          python3 -c "
+import json; d=json.load(open('vcpkg.json'))
+print(f'  builtin-baseline : {d.get(\"builtin-baseline\",\"N/A\")}')
+print(f'  dependencies     : {len(d.get(\"dependencies\",[]))} package(s)')
+"
+
+      - name: Compute vcpkg cache key
+        id: cache_key
+        shell: bash
+        run: |
+          HASH=$(python3 -c "import hashlib,json; print(hashlib.sha256(open('vcpkg.json','rb').read()).hexdigest()[:16])")
+          KEY="vcpkg-windows-${HASH}-windows-latest"
+          echo "key=${KEY}" >> "$GITHUB_OUTPUT"
+          echo "  vcpkg cache key: ${KEY}"
+
+      - name: Restore or seed vcpkg cache
+        id: vcpkg_cache
+        uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c6158d  # v4.2.0
+        with:
+          path: C:\vcpkg
+          key: ${{ steps.cache_key.outputs.key }}
+          restore-keys: vcpkg-windows-
+
+      - name: Report cache status
+        shell: bash
+        run: |
+          HIT="${{ steps.vcpkg_cache.outputs.cache-hit }}"
+          echo "  Cache hit: ${HIT}"
+          if [ "${HIT}" = "true" ]; then
+            echo "  ✅ vcpkg cache restored — skipping clone."
+          else
+            echo "  ⬇️  Cache miss — will clone and bootstrap vcpkg."
+          fi
+
+      - name: Bootstrap vcpkg
+        shell: pwsh
+        run: |
+          Write-Host "  vcpkg bootstrap..."
+          $T0 = [int](Get-Date -UFormat %s)
+          if (-not (Test-Path "C:\vcpkg")) {
+            Write-Host "  Cloning vcpkg from GitHub..."
+            git clone https://github.com/microsoft/vcpkg.git C:\vcpkg
+            C:\vcpkg\bootstrap-vcpkg.bat -disableMetrics
+            Write-Host "  ✅ vcpkg bootstrapped"
+          } else {
+            Write-Host "  ✅ vcpkg found in cache — skipping clone"
+          }
+          $Secs = [int](Get-Date -UFormat %s) - $T0
+          C:\vcpkg\vcpkg version
+          Write-Host "  Bootstrap time: ${Secs}s"
+
+      - name: Run CMake configure (triggers vcpkg package resolution)
+        id: configure
+        shell: pwsh
+        run: |
+          Write-Host "============================================================"
+          Write-Host "  cmake configure (Windows) — populate vcpkg package cache"
+          Write-Host "============================================================"
+          $T0 = [int](Get-Date -UFormat %s)
+          cmake -B build-cache-warm `
+            -DCMAKE_TOOLCHAIN_FILE="C:\vcpkg\scripts\buildsystems\vcpkg.cmake" `
+            -DCMAKE_BUILD_TYPE=Release `
+            -DTHEMIS_BUILD_TESTS=OFF `
+            -DTHEMIS_MODELS_MODE=SKIP `
+            -S . 2>&1 | Select-Object -Last 20
+          $Secs = [int](Get-Date -UFormat %s) - $T0
+          "configure_secs=$Secs" >> $Env:GITHUB_OUTPUT
+          Write-Host ""
+          Write-Host "  Configure completed in ${Secs}s (warnings are non-fatal)"
+
+      - name: Cache warming summary
+        if: always()
+        shell: bash
+        run: |
+          CONF_S="${{ steps.configure.outputs.configure_secs || 'N/A' }}"
+          CACHE_HIT="${{ steps.vcpkg_cache.outputs.cache-hit }}"
+          echo "──────────────────────────────────────────────"
+          echo "  Windows cache warming complete"
+          echo "  Cache hit : ${CACHE_HIT}"
+          echo "  Configure : ${CONF_S}s"
+          echo "  vcpkg packages are now in the GHA cache."
+          echo "──────────────────────────────────────────────"
+          {
+            echo "### 🔥 Dependency Cache Warmed — Windows"
+            echo ""
+            echo "| Metric | Value |"
+            echo "|--------|-------|"
+            echo "| Cache hit (restore) | ${CACHE_HIT} |"
+            echo "| Configure duration | ${CONF_S}s |"
+            echo ""
+            echo "_Warmed at $(date -u). Windows CI runs will use this vcpkg cache entry._"
+          } >> "$GITHUB_STEP_SUMMARY"

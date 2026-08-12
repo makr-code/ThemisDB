@@ -1,0 +1,248 @@
+name: Maintenance — CI Health Dashboard
+
+# Weekly scheduled workflow that aggregates pass/fail rates per workflow
+# from the GitHub Actions API and produces a Markdown summary artifact +
+# GitHub Job Summary. Surfaces chronic CI bottlenecks without external tooling.
+#
+# Debug output: every step prints structured diagnostic info including
+# workflow counts, run counts, per-workflow pass/fail breakdown, and
+# human-readable status lines.
+#
+# Inspired by Microsoft azure-sdk-for-cpp CI observability pattern.
+# Triggers: weekly Sunday 06:00 UTC; workflow_dispatch.
+
+on:
+  schedule:
+    - cron: '0 6 * * 0'
+  workflow_dispatch:
+    inputs:
+      lookback_days:
+        description: 'Days to look back for workflow run data (default: 7)'
+        required: false
+        default: '7'
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: maintenance-ci-health
+  cancel-in-progress: true
+
+jobs:
+  ci-health-dashboard:
+    name: 📊 CI Health Dashboard
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      actions: read
+      issues: write
+
+    steps:
+      - name: Print dashboard context
+        run: |
+          echo "============================================================"
+          echo " Maintenance — CI Health Dashboard"
+          echo "============================================================"
+          echo "  Trigger       : ${{ github.event_name }}"
+          echo "  Lookback days : ${{ inputs.lookback_days || 7 }}"
+          echo "  Actor         : ${{ github.actor }}"
+          echo "  Run ID        : ${{ github.run_id }}"
+          echo "  Run number    : ${{ github.run_number }}"
+          echo "  Repo          : ${{ github.repository }}"
+          echo "  Timestamp     : $(date -u)"
+          echo "  Purpose       : Aggregate workflow pass/fail rates, surface"
+          echo "                  chronic failures, emit step summary report."
+          echo "============================================================"
+
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+
+      - name: Collect workflow run statistics
+        id: stats
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
+        with:
+          script: |
+            const lookbackDays = parseInt('${{ inputs.lookback_days || 7 }}', 10);
+            const since = new Date(Date.now() - lookbackDays * 86400 * 1000).toISOString();
+
+            console.log('──────────────────────────────────────────────────────');
+            console.log(`  CI Health Collection — Last ${lookbackDays} day(s)`);
+            console.log(`  Since : ${since}`);
+            console.log('──────────────────────────────────────────────────────');
+
+            // Fetch all workflows
+            const { data: wfList } = await github.rest.actions.listRepoWorkflows({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              per_page: 100,
+            });
+            console.log(`  Total workflows in repo : ${wfList.workflows.length}`);
+            const active = wfList.workflows.filter(w => w.state === 'active');
+            console.log(`  Active workflows        : ${active.length}`);
+            console.log('');
+
+            const rows = [];
+            let totalRuns = 0, totalFailures = 0;
+
+            for (const wf of active) {
+              const { data: runs } = await github.rest.actions.listWorkflowRuns({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                workflow_id: wf.id,
+                created: `>=${since}`,
+                per_page: 100,
+              });
+
+              const completed  = runs.workflow_runs.filter(r => r.status === 'completed');
+              const failures   = completed.filter(r => r.conclusion === 'failure');
+              const successes  = completed.filter(r => r.conclusion === 'success');
+              const cancelled  = completed.filter(r => r.conclusion === 'cancelled');
+              const skipped    = completed.filter(r => r.conclusion === 'skipped');
+              const total = completed.length;
+
+              if (total === 0) {
+                console.log(`  ${wf.name.padEnd(50)} — no runs`);
+                continue;
+              }
+
+              const failRate   = ((failures.length / total) * 100).toFixed(1);
+              const healthIcon = failures.length === 0 ? '✅' :
+                                 (failures.length / total) > 0.3 ? '🔴' : '🟡';
+
+              console.log(
+                `  ${healthIcon} ${wf.name.padEnd(48)} ` +
+                `runs=${String(total).padStart(3)}  ` +
+                `pass=${String(successes.length).padStart(3)}  ` +
+                `fail=${String(failures.length).padStart(3)}  ` +
+                `fail%=${failRate.padStart(5)}`
+              );
+
+              rows.push({ name: wf.name, total, success: successes.length,
+                          failure: failures.length, cancelled: cancelled.length,
+                          skipped: skipped.length, failRate, healthIcon });
+              totalRuns += total;
+              totalFailures += failures.length;
+            }
+
+            rows.sort((a, b) => parseFloat(b.failRate) - parseFloat(a.failRate));
+
+            const overallHealth = totalRuns > 0
+              ? (((totalRuns - totalFailures) / totalRuns) * 100).toFixed(1)
+              : '100.0';
+
+            console.log('');
+            console.log('──────────────────────────────────────────────────────');
+            console.log(`  Overall pass rate : ${overallHealth}%`);
+            console.log(`  Total runs        : ${totalRuns}`);
+            console.log(`  Total failures    : ${totalFailures}`);
+            console.log('──────────────────────────────────────────────────────');
+
+            // Write step summary
+            const fs = require('fs');
+            const summaryPath = process.env.GITHUB_STEP_SUMMARY;
+
+            let md = [
+              `## 📊 CI Health Dashboard — Last ${lookbackDays} Days`,
+              '',
+              `> **Overall health:** ${overallHealth}% pass rate across **${totalRuns}** completed runs`,
+              `> Generated: ${new Date().toISOString()} · Actor: ${{ github.actor }}`,
+              '',
+              '| Workflow | Runs | ✅ Pass | ❌ Fail | ⏭️ Skip | Fail% |',
+              '|----------|------|--------|--------|---------|-------|',
+            ];
+            for (const r of rows) {
+              md.push(`| ${r.healthIcon} ${r.name} | ${r.total} | ${r.success} | ${r.failure} | ${r.cancelled + r.skipped} | ${r.failRate}% |`);
+            }
+            if (rows.length === 0) {
+              md.push('| _No workflow runs found in the lookback window_ | — | — | — | — | — |');
+            }
+            md.push('');
+            md.push('**Legend:** ✅ healthy · 🟡 >0% failures · 🔴 >30% failure rate');
+            md.push('');
+            md.push(`_[CI Health Dashboard workflow](.github/workflows/maintenance-ci-health.yml)_`);
+            fs.appendFileSync(summaryPath, md.join('\n') + '\n');
+
+            // Write artifact
+            fs.writeFileSync('/tmp/ci-health-report.md', md.join('\n') + '\n');
+
+            // Identify chronic failures
+            const chronic = rows.filter(r => parseFloat(r.failRate) > 30 && r.failure >= 3);
+            console.log(`  Chronic failures (>30%, ≥3 fails) : ${chronic.length}`);
+            if (chronic.length > 0) {
+              chronic.forEach(r => console.log(`    → ${r.name}: ${r.failRate}% fail rate`));
+            }
+
+            core.setOutput('chronic_count', String(chronic.length));
+            core.setOutput('chronic_workflows', chronic.map(r => r.name).join(', '));
+            core.setOutput('overall_health', overallHealth);
+            core.setOutput('total_runs', String(totalRuns));
+
+      - name: Print health summary to log
+        run: |
+          echo "──────────────────────────────────────────────"
+          echo "  Dashboard complete"
+          echo "──────────────────────────────────────────────"
+          echo "  Overall health : ${{ steps.stats.outputs.overall_health }}%"
+          echo "  Total runs     : ${{ steps.stats.outputs.total_runs }}"
+          echo "  Chronic count  : ${{ steps.stats.outputs.chronic_count }}"
+          if [ "${{ steps.stats.outputs.chronic_count }}" != "0" ]; then
+            echo "  Chronic wf     : ${{ steps.stats.outputs.chronic_workflows }}"
+            echo "  ACTION: chronic failure issue will be created/updated."
+          else
+            echo "  ✅ No chronic failures — no issue action needed."
+          fi
+          echo "──────────────────────────────────────────────"
+
+      - name: Upload CI health report artifact
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08  # v4.6.0
+        with:
+          name: ci-health-report-${{ github.run_id }}
+          path: /tmp/ci-health-report.md
+          retention-days: 90  # medium tier per ci-scope-config.yaml
+
+      - name: Open or update chronic failure issue
+        if: steps.stats.outputs.chronic_count != '0' && steps.stats.outputs.chronic_count != ''
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
+        with:
+          script: |
+            const chronic = '${{ steps.stats.outputs.chronic_workflows }}';
+            const health  = '${{ steps.stats.outputs.overall_health }}';
+            const runs    = '${{ steps.stats.outputs.total_runs }}';
+            console.log(`Creating/updating chronic failure issue for: ${chronic}`);
+
+            const title = '[CI] Chronic workflow failures detected';
+            const body = [
+              '## CI Health Alert — Chronic Failures',
+              '',
+              `**Overall health:** ${health}% across ${runs} runs in the last 7 days.`,
+              '',
+              'The following workflows had **>30% failure rate** with ≥3 failures:',
+              '',
+              chronic.split(',').map(w => `- \`${w.trim()}\``).join('\n'),
+              '',
+              '**Action required:** Investigate root cause and apply fixes.',
+              '',
+              `_Auto-generated by maintenance-ci-health.yml at ${new Date().toISOString()}_`,
+            ].join('\n');
+
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner, repo: context.repo.repo,
+              state: 'open', labels: 'ci/chronic-failure', per_page: 5,
+            });
+            const existing = issues.find(i => i.title === title);
+            if (existing) {
+              await github.rest.issues.update({
+                owner: context.repo.owner, repo: context.repo.repo,
+                issue_number: existing.number, body,
+              });
+              console.log(`Updated existing issue #${existing.number}`);
+            } else {
+              const { data: issue } = await github.rest.issues.create({
+                owner: context.repo.owner, repo: context.repo.repo,
+                title, body, labels: ['ci/chronic-failure', 'status/needs-attention'],
+              });
+              console.log(`Created issue #${issue.number}`);
+            }

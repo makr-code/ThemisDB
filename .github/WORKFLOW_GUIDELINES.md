@@ -6,28 +6,26 @@ Die kanonische Liste aktiver Workflows steht in `.github/WORKFLOW_REGISTRY.md`.
 Workflows unter `.github/no_workflows/` gelten als bewusst deaktivierte Quarantaene und
 duerfen nicht stillschweigend reaktiviert werden.
 
-## Aktive Workflows (21)
-- `.github/workflows/00-shared_changelog-update.yml`
-- `.github/workflows/00-shared_changelog-backfill.yml`
-- `.github/workflows/02-feature-modules_llm_voice-benchmark-ci.yml`
-- `.github/workflows/06-infrastructure_gpu_gpu-benchmark-matrix-ci.yml`
-- `.github/workflows/07-quality_nightly-benchmark-sweep.yml`
-- `.github/workflows/08-maintenance_root-docs-hygiene.yml`
-- `.github/workflows/08-maintenance_src-include-docs-align.yml`
-- `.github/workflows/08-maintenance_docs-orphan-check.yml`
-- `.github/workflows/08-maintenance_code-maturity.yml`
-- `.github/workflows/08-quality_doxygen-coverage-gate.yml`
-- `.github/workflows/09-pr-gates_workflow-boundary-guard.yml`
-- `.github/workflows/09-pr-gates_scanner-delta-report.yml`
-- `.github/workflows/09-pr-gates_high-exception-record.yml`
-- `.github/workflows/license-compliance.yml`
-- `.github/workflows/sbom-ci.yml`
-- `.github/workflows/security-dast-ci.yml`
-- `.github/workflows/soc2-evidence-ci.yml`
+## Aktive Workflows (19)
+- `.github/workflows/automation-community.yml`
+- `.github/workflows/ci-benchmarks.yml`
+- `.github/workflows/ci-build.yml`
+- `.github/workflows/ci-pr-gates.yml`
+- `.github/workflows/ci-release.yml`
+- `.github/workflows/codeql.yml`
+- `.github/workflows/compliance-supply-chain.yml`
 - `.github/workflows/copilot-ollama-router-ci.yml`
 - `.github/workflows/copilot-regression-guard.yml`
-- `.github/workflows/performance-regression-check.yml`
-- `.github/workflows/08-quality_clang-tidy-analysis.yml`
+- `.github/workflows/docker-image.yml`
+- `.github/workflows/edition-hyperscaler-ci.yml`
+- `.github/workflows/governance-gates.yml`
+- `.github/workflows/maintenance-cache-warming.yml`
+- `.github/workflows/maintenance-ci-health.yml`
+- `.github/workflows/maintenance-docs.yml`
+- `.github/workflows/quality-static-analysis.yml`
+- `.github/workflows/release-changelog.yml`
+- `.github/workflows/security-pentest-quarterly.yml`
+- `.github/workflows/security-scanning.yml`
 
 ## Harte Grenzen fuer neue oder reaktivierte CI
 - Default ist `kein neuer Workflow`. Bevorzuge einen neuen Job in einem bestehenden Workflow.
@@ -35,7 +33,7 @@ duerfen nicht stillschweigend reaktiviert werden.
 - Jeder reaktivierte Workflow braucht einen klar benannten Owner, ein Ablaufdatum fuer die naechste Review und einen Abschaltplan.
 - Pull-Request-Trigger sind nur zulaessig, wenn `branches:` und `paths:` beide eng begrenzt sind.
 - `paths:` duerfen nur datei- oder modulspezifische Bereiche enthalten. Globale Trigger wie `src/**`, `include/**`, `**/*.md` oder Repo-weit wirksame Sammelmuster sind fuer neue PR-Workflows nicht zulaessig.
-- `push:` auf `develop` oder `main` ist nur fuer Release-, Packaging- oder explizit nicht-blockierende Nachtlaeufe zulaessig.
+- `push:` auf `develop` oder `community` ist nur fuer Release-, Packaging- oder explizit nicht-blockierende Nachtlaeufe zulaessig.
 - Schwere Jobs muessen `workflow_dispatch` oder `schedule` bevorzugen. Sie duerfen nicht bei jedem PR-Sync anlaufen.
 - Jeder PR-Workflow braucht `concurrency` mit workflow/ref-Gruppierung und `cancel-in-progress: true`.
 - Jeder Workflow muss minimale `permissions` setzen und darf keine impliziten Default-Rechte nutzen.
@@ -73,15 +71,29 @@ duerfen nicht stillschweigend reaktiviert werden.
 ## Security Guidelines
 - Keine Secrets im YAML oder in Shell-Skripten hardcoden.
 - Publish-Workflows nur ueber Tag- oder Environment-Gates freigeben.
-- Third-party Actions auf stabile Major-Versionen pinnen.
+- Third-party Actions auf immutable Commit-SHAs pinnen (SHA-only, kein `@vX.Y.Z` Tag als einzige Referenz).
+  Beispiel: `uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2`
+  Enforcement: `actionlint` + SHA-Pin-Prüfung in `quality-static-analysis.yml`.
 - Compliance-Gates fuer Dependencies muessen branch- und pfadbegrenzt sein und ein downloadbares Audit-Artefakt erzeugen.
+- OIDC-basierte Authentifizierung (kein long-lived PAT) fuer ghcr.io und neue Registry-Ziele.
+
+## Build Caching (sccache)
+- `ci-build.yml` und `maintenance-cache-warming.yml` nutzen `mozilla-actions/sccache-action` mit `SCCACHE_GHA_ENABLED=true`.
+- CMake muss mit `-DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache` konfiguriert werden.
+- Cache-Warming erfolgt wöchentlich (montags 00:00 UTC) für Linux (GCC) und Windows (MSVC).
+- Erwartete Wiedertreffer-Rate: 60–80% bei unveränderter Toolchain + vcpkg-Baseline.
+
+## CI Health Dashboard
+- `maintenance-ci-health.yml` aggregiert wöchentlich (sonntags 06:00 UTC) pass/fail-Raten je Workflow.
+- Schwellwert für chronische Fehler: >30% Fehlerrate bei ≥3 Fehlern → öffnet `ci/chronic-failure`-Issue.
+- Lookback-Fenster konfigurierbar via `workflow_dispatch` Input `lookback_days` (Standard: 7).
 
 ## Manually Triggering Workflows
 Empfohlen via GitHub CLI:
 
 ```bash
 gh workflow run "03-editions_ci.yml" --repo makr-code/ThemisDB --ref develop --field edition=COMMUNITY --field build_type=Release
-gh workflow run "04-release_bootstrap-release-branches.yml" --repo makr-code/ThemisDB --ref main
+gh workflow run "ci-release.yml" --repo makr-code/ThemisDB --ref develop --field edition=community --field build_matrix=community-only
 ```
 
 ## Troubleshooting

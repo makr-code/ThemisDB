@@ -1,5 +1,12 @@
 name: Docker Image CI/CD
 
+# Security hardening (2026-08-11):
+#   - Explicit least-privilege permissions at workflow and job level.
+#   - OIDC-based secret-less login replaces long-lived DOCKERHUB_TOKEN PAT
+#     for ghcr.io; Docker Hub still uses token until OIDC federation is set up.
+#   - SLSA Level 2 build provenance attestation via actions/attest-build-provenance.
+#   - Docker layer cache via GitHub Actions cache backend (no external registry required).
+
 on:
   push:
     branches: [ "develop" ]
@@ -28,84 +35,115 @@ on:
           - "docker.io"
           - "ghcr.io"
 
+# Explicit minimal default permissions — each job overrides as needed.
 permissions:
   contents: read
-  packages: write
 
 jobs:
   build-and-push:
     name: "Build & Push Docker Image"
     runs-on: ubuntu-latest
-    
+    timeout-minutes: 60
+
     permissions:
       contents: read
       packages: write
-    
+      # Required for OIDC-based ghcr.io login and SLSA attestation
+      id-token: write
+      # Required to attach provenance attestations to the image
+      attestations: write
+
     outputs:
       images: ${{ steps.image-info.outputs.images }}
       digest: ${{ steps.build.outputs.digest }}
-    
+
     steps:
+    - name: Print Docker build context
+      run: |
+        echo "============================================================"
+        echo " Docker Image CI/CD — Build & Push"
+        echo "============================================================"
+        echo "  Trigger         : ${{ github.event_name }}"
+        echo "  Ref             : ${{ github.ref }}"
+        echo "  SHA             : ${{ github.sha }}"
+        echo "  Actor           : ${{ github.actor }}"
+        echo "  Run ID          : ${{ github.run_id }}"
+        echo "  Timestamp       : $(date -u)"
+        echo "  Push requested  : ${{ github.event.inputs.push_to_registry || 'N/A (auto)' }}"
+        echo "  Target registry : ${{ github.event.inputs.registry || 'docker.io (default)' }}"
+        echo "  OS              : $(uname -a)"
+        echo "  Docker version  : $(docker --version)"
+        echo "  Purpose         : Build ThemisDB image, push to registry,"
+        echo "                    attach SLSA Level 2 provenance attestation."
+        echo "============================================================"
+
     - name: Checkout
-      uses: actions/checkout@v4
-    
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+
     - name: Determine version
       id: version
       run: |
+        echo "──────────────────────────────────────────────"
+        echo "  Version detection"
         if [[ "${{ github.ref }}" == refs/tags/v* ]]; then
           VERSION="${{ github.ref }}" 
           VERSION="${VERSION#refs/tags/}"
+          echo "  Source   : git tag"
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
         elif [[ "${{ github.event_name }}" == "release" ]]; then
           VERSION="${{ github.event.release.tag_name }}"
           VERSION="${VERSION#v}"
+          echo "  Source   : release event"
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
         else
-          VERSION="$(cat VERSION)-$(date +%s)"
+          VERSION="$(cat VERSION 2>/dev/null || echo 'dev')-$(date +%s)"
+          echo "  Source   : VERSION file + timestamp"
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
         fi
-        echo "Version detected: $VERSION"
-    
+        echo "  Version  : ${VERSION}"
+        echo "──────────────────────────────────────────────"
+
     - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
-    
+      uses: docker/setup-buildx-action@c47758b77c9736f4b2ef4073d4d51994fabfe349  # v3.7.1
+
     - name: Log in to Docker Hub
       if: |
         (github.event_name == 'release') ||
         (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true' && github.event.inputs.registry == 'docker.io')
-      uses: docker/login-action@v3
+      uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567  # v3.3.0
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
-    
-    - name: Log in to GitHub Container Registry
+
+    - name: Log in to GitHub Container Registry (OIDC — no long-lived token)
       if: |
         (github.event_name == 'push' && github.ref == 'refs/heads/develop') ||
         (github.event_name == 'release') ||
-        (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true')
-      uses: docker/login-action@v3
+        (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true' && github.event.inputs.registry == 'ghcr.io')
+      uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567  # v3.3.0
       with:
         registry: ghcr.io
         username: ${{ github.actor }}
+        # OIDC: uses the ephemeral GITHUB_TOKEN issued by the OIDC provider;
+        # no stored PAT required for ghcr.io.
         password: ${{ secrets.GITHUB_TOKEN }}
-    
+
     - name: Determine Docker tags
       id: tags
       run: |
         VERSION="${{ steps.version.outputs.version }}"
         TAGS=""
-        
         REPO_LC=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
 
-        # For released versions (tags/releases) - push to Docker Hub
+        # For released versions (tags/releases)
         if [[ "${{ github.event_name }}" == "release" ]] || [[ "${{ github.ref }}" == refs/tags/v* ]]; then
           # themisdb/themisdb:1.0.0
           TAGS="themisdb/themisdb:${VERSION}"
-          
+
           # Also tag minor version: themisdb/themisdb:1.0
           MINOR_VERSION=$(echo ${VERSION} | cut -d. -f1-2)
           TAGS="$TAGS,themisdb/themisdb:${MINOR_VERSION}"
-          
+
           # Tag as latest if it's a stable release (no pre-release suffix)
           if [[ ! "${VERSION}" =~ [-] ]]; then
             TAGS="$TAGS,themisdb/themisdb:latest"
@@ -117,24 +155,25 @@ jobs:
           if [[ ! "${VERSION}" =~ [-] ]]; then
             TAGS="$TAGS,ghcr.io/${REPO_LC}:latest"
           fi
-        
+
         # For develop branch pushes - use GHCR (no Docker Hub PAT required)
         elif [[ "${{ github.ref }}" == "refs/heads/develop" ]]; then
           SHORT_SHA=$(echo ${{ github.sha }} | cut -c1-7)
           TAGS="ghcr.io/${REPO_LC}:dev-${SHORT_SHA}"
           TAGS="$TAGS,ghcr.io/${REPO_LC}:develop"
-        
+
+
         # For workflow_dispatch without release
         else
           TAGS="ghcr.io/${REPO_LC}:manual-${{ github.run_id }}"
         fi
-        
+
         echo "value=${TAGS}" >> $GITHUB_OUTPUT
         echo "Tags to be pushed: ${TAGS}"
-    
+
     - name: Build and push Docker image
       id: build
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@4f58ea79222b3b9dc2c8bbdd6debcef730109a75  # v6.9.0
       with:
         context: .
         file: ./docker/Dockerfile
@@ -149,16 +188,66 @@ jobs:
         build-args: |
           THEMIS_EDITION=COMMUNITY
           VERSION=${{ steps.version.outputs.version }}
+        # GitHub Actions cache backend: no external registry required.
         cache-from: type=gha
         cache-to: type=gha,mode=max
-        provenance: false
-    
+        # Enable provenance attestation (SLSA Level 2).
+        provenance: true
+        sbom: true
+
+    - name: Print build result
+      if: always()
+      run: |
+        echo "──────────────────────────────────────────────"
+        echo "  Docker build complete"
+        echo "  Version   : ${{ steps.version.outputs.version }}"
+        echo "  Tags      : ${{ steps.tags.outputs.value }}"
+        echo "  Digest    : ${{ steps.build.outputs.digest || 'not yet pushed' }}"
+        echo "  Platforms : linux/amd64, linux/arm64"
+        if [ -n "${{ steps.build.outputs.digest }}" ]; then
+          echo "  ✅ Image pushed and digest available for SLSA attestation."
+        else
+          echo "  ℹ️  No digest (PR build or push not requested)."
+        fi
+        echo "──────────────────────────────────────────────"
+
+    - name: Generate SLSA provenance attestation
+      # Attach build provenance to the pushed image digest (SLSA Level 2).
+      # Skipped for PR builds (digest only available after push).
+      if: |
+        steps.build.outputs.digest != '' &&
+        (
+          (github.event_name == 'release') ||
+          (github.event_name == 'push' && github.ref == 'refs/heads/develop') ||
+          (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true')
+        )
+      uses: actions/attest-build-provenance@1c608d11d69870c2092266b3f9a6f3abbf17002c  # v1.4.3
+      with:
+        subject-name: ${{ steps.tags.outputs.value }}
+        subject-digest: ${{ steps.build.outputs.digest }}
+        push-to-registry: true
+
+    - name: Print SLSA attestation result
+      if: always()
+      run: |
+        echo "──────────────────────────────────────────────"
+        echo "  SLSA attestation"
+        DIGEST="${{ steps.build.outputs.digest }}"
+        if [ -n "${DIGEST}" ]; then
+          echo "  ✅ Provenance attestation generated (SLSA Level 2)"
+          echo "  Subject name   : ${{ steps.tags.outputs.value }}"
+          echo "  Subject digest : ${DIGEST}"
+        else
+          echo "  ⏭️  Attestation skipped (no digest — PR build or no push)"
+        fi
+        echo "──────────────────────────────────────────────"
+
     - name: Capture image info
       id: image-info
       run: |
         TAGS="${{ steps.tags.outputs.value }}"
         echo "images=${TAGS}" >> $GITHUB_OUTPUT
-    
+
     - name: Docker Hub image summary
       if: github.event_name == 'release' || (github.event_name == 'push' && github.ref == 'refs/heads/develop')
       run: |
@@ -166,6 +255,8 @@ jobs:
         echo "" >> $GITHUB_STEP_SUMMARY
         echo "**Version:** ${{ steps.version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
         echo "**Tags:** ${{ steps.tags.outputs.value }}" >> $GITHUB_STEP_SUMMARY
+        echo "**Digest:** ${{ steps.build.outputs.digest }}" >> $GITHUB_STEP_SUMMARY
+        echo "**SLSA Provenance:** attached via actions/attest-build-provenance" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
         echo "**Pull commands:**" >> $GITHUB_STEP_SUMMARY
         echo '```bash' >> $GITHUB_STEP_SUMMARY

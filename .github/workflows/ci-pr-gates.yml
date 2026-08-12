@@ -1,0 +1,707 @@
+name: CI — PR Gates
+
+# Consolidated PR gate workflow.
+# Replaces: 09-pr-gates_community-pipeline-policy.yml,
+#           09-pr-gates_high-exception-record.yml,
+#           09-pr-gates_private-plugin-boundary.yml,
+#           09-pr-gates_release-critical-tests.yml,
+#           09-pr-gates_reproducible-builds.yml,
+#           09-pr-gates_scanner-delta-report.yml,
+#           09-pr-gates_submodule-commit-pins.yml,
+#           09-pr-gates_workflow-boundary-guard.yml
+#
+# Governance (RELEASE_STRATEGY.md §2.3):
+#   release-critical-tests is a MANDATORY entry gate for PRs targeting develop
+#   and all edition branches (community, enterprise, hyperscaler, military).
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+    branches:
+      - develop
+      - community
+      - enterprise
+      - hyperscaler
+      - military
+      - minimal
+  push:
+    branches: [develop]
+    paths:
+      - CMakeLists.txt
+      - CMakePresets.json
+      - cmake/**
+      - include/updates/**
+  workflow_dispatch:
+    inputs:
+      run_scan_if_missing:
+        description: 'scanner-delta: run gap scanner when aggregate is missing'
+        type: boolean
+        default: false
+
+concurrency:
+  group: ci-pr-gates-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+  security-events: write
+
+# ──────────────────────────────────────────────────────────────────────────────
+jobs:
+
+  preflight-ci-policy:
+    name: Preflight CI Policy + Workflow Lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run workflow preflight checks
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends python3-yaml
+          BASE_REF="${{ github.base_ref || 'develop' }}"
+          git fetch origin "${BASE_REF}" --depth=1
+          git diff --name-only "origin/${BASE_REF}...HEAD" > /tmp/changed_files.txt || true
+          python3 - <<'PY'
+          import re
+          import sys
+          from pathlib import Path
+
+          try:
+              import yaml
+          except Exception as exc:
+              print(f"::error::PyYAML import failed: {exc}")
+              sys.exit(1)
+
+          changed = [p.strip() for p in Path("/tmp/changed_files.txt").read_text().splitlines() if p.strip()]
+          changed_wf = [Path(p) for p in changed if p.startswith(".github/workflows/") and p.endswith((".yml", ".yaml"))]
+          if not changed_wf:
+              print("No workflow changes detected; preflight checks passed.")
+              sys.exit(0)
+
+          errors = []
+          third_party = re.compile(r"^[0-9a-f]{40}$")
+          allowed_unpinned = ("actions/", "github/")
+          for wf in changed_wf:
+              if not wf.exists():
+                  continue
+              text = wf.read_text(encoding="utf-8", errors="replace")
+              try:
+                  doc = yaml.safe_load(text)
+              except Exception as exc:
+                  errors.append(f"{wf}: YAML parse error: {exc}")
+                  continue
+
+              if not isinstance(doc, dict):
+                  errors.append(f"{wf}: workflow root must be a mapping")
+                  continue
+
+              if "permissions" not in doc:
+                  errors.append(f"{wf}: missing top-level permissions block")
+
+              for line in text.splitlines():
+                  s = line.strip()
+                  if s.startswith("uses:"):
+                      spec = s.split("uses:", 1)[1].strip()
+                      if "@" not in spec:
+                          errors.append(f"{wf}: invalid uses syntax without version: {spec}")
+                          continue
+                      action, ref = spec.split("@", 1)
+                      action = action.strip()
+                      ref = ref.strip()
+                      if action.startswith("./"):
+                          continue
+                      if action.startswith(allowed_unpinned):
+                          continue
+                      if not third_party.fullmatch(ref):
+                          errors.append(f"{wf}: third-party action must be pinned to full SHA: {spec}")
+                  if "git push" in s:
+                      errors.append(f"{wf}: self-mutating git push is not allowed")
+                  if "continue-on-error: true" in s:
+                      errors.append(f"{wf}: replace continue-on-error with explicit non-blocking job classification")
+
+          if errors:
+              for e in errors:
+                  print(f"::error::{e}")
+              sys.exit(1)
+          print(f"Workflow preflight passed for {len(changed_wf)} changed workflow file(s).")
+          PY
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # GATE 1 — Community Pipeline Policy (no private credentials in community CI)
+  # Applies to: PRs targeting community and minimal only
+  # ────────────────────────────────────────────────────────────────────────────
+  community-pipeline-policy:
+    name: Community Pipeline Policy
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: >
+      github.event_name == 'pull_request' &&
+      (github.base_ref == 'community' || github.base_ref == 'minimal')
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Collect changed files
+        run: |
+          git fetch origin "${{ github.base_ref }}" --depth=1
+          git diff --name-only "origin/${{ github.base_ref }}...HEAD" \
+            -- '.github/workflows/**' 'cmake/**' 'scripts/**' > changed_files.txt
+          cat changed_files.txt
+
+      - name: Scan for private credential patterns
+        run: |
+          python3 - <<'PY'
+          import re, sys
+          from pathlib import Path
+
+          FORBIDDEN_PATTERNS = [
+              (r'\$\{\{[^}]*secrets\.[A-Z_]*PRIVATE[A-Z_]*\}\}',
+               "Secret reference to a private-repo credential"),
+              (r'\$\{\{[^}]*secrets\.[A-Z_]*PLUGIN[A-Z_]*\}\}',
+               "Secret reference to a plugin credential"),
+              (r'\$\{\{[^}]*secrets\.PAT[A-Z_]*\}\}',
+               "PAT reference"),
+              (r'git\s+clone\s+.*github\.com.*private',
+               "Hardcoded private repository clone"),
+              (r'plugins/private',
+               "Reference to private plugin paths in community files"),
+          ]
+
+          files_ok = True
+          for filepath in Path("changed_files.txt").read_text().splitlines():
+              p = Path(filepath)
+              if not p.exists():
+                  continue
+              text = p.read_text(errors="replace")
+              for pattern, desc in FORBIDDEN_PATTERNS:
+                  if re.search(pattern, text, re.IGNORECASE):
+                      print(f"::error file={filepath}::{desc} — pattern: {pattern}")
+                      files_ok = False
+          if not files_ok:
+              sys.exit(1)
+          print("No forbidden private-credential patterns found in community CI/build files.")
+          PY
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # GATE 2 — High Exception Record Guard
+  # Applies to: PRs targeting all protected branches
+  # ────────────────────────────────────────────────────────────────────────────
+  high-exception-record:
+    name: High Exception Record Guard
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Write PR body to file
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          printf '%s\n' "$PR_BODY" > pr_body.md
+
+      - name: Validate PR high-exception section
+        run: python .github/scripts/check_pr_high_exception_record.py --body-file pr_body.md
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # GATE 3 — Private Plugin Boundary Guard
+  # Applies to: PRs targeting all protected branches
+  # ────────────────────────────────────────────────────────────────────────────
+  private-plugin-boundary:
+    name: Private Plugin Boundary Guard
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: >
+      github.event_name == 'pull_request' &&
+      contains(fromJSON('["develop","community","enterprise","hyperscaler","military"]'), github.base_ref)
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Collect changed files
+        run: |
+          git fetch origin "${{ github.base_ref }}" --depth=1
+          git diff --name-only "origin/${{ github.base_ref }}...HEAD" > changed_files.txt
+
+      - name: Enforce private plugin boundary rules
+        run: |
+          python3 - <<'PY'
+          import re, sys
+          from pathlib import Path
+
+          changed = set(Path("changed_files.txt").read_text().splitlines())
+
+          errors = []
+
+          for f in changed:
+              # Community/minimal packaging must not reference private plugin submodules or tokens
+              if f.startswith(".github/workflows/") and (
+                  "community" in f or "minimal" in f
+              ):
+                  text = Path(f).read_text(errors="replace") if Path(f).exists() else ""
+                  if "plugins/private" in text:
+                      errors.append(f"{f}: community/minimal workflow references plugins/private")
+
+              # .gitmodules changes must still carry commit pins for Wave-1 submodules
+              if f == ".gitmodules":
+                  WAVE1_PATHS = {
+                      "plugins/themisdb_ethic_ai",
+                      "plugins/themisdb_llm_wiki",
+                      "plugins/themisdb_storage",
+                      "plugins/themisdb_importer",
+                      "plugins/themisdb_plugin_signer",
+                      "plugins/themisdb_geo",
+                      "plugins/themisdb_timeseries",
+                  }
+                  text = Path(".gitmodules").read_text(errors="replace")
+                  blocks = re.split(r'(?=\[submodule\s)', text)
+                  for block in blocks:
+                      path_match = re.search(r'path\s*=\s*(.+)', block)
+                      if not path_match:
+                          continue
+                      submod_path = path_match.group(1).strip()
+                      if submod_path in WAVE1_PATHS and not re.search(r'commit\s*=', block):
+                          errors.append(f".gitmodules: {submod_path} is missing a commit pin")
+
+          if errors:
+              for err in errors:
+                  print(f"::error::{err}")
+              sys.exit(1)
+          print("Private plugin boundary check passed.")
+          PY
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # GATE 4 — Release-Critical Tests  ← MANDATORY GATE (RELEASE_STRATEGY.md §2.3)
+  # Applies to: PRs targeting develop + all edition branches
+  # ────────────────────────────────────────────────────────────────────────────
+  release-critical-tests:
+    name: Release-Critical Test Suite
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    needs: preflight-ci-policy
+    if: >
+      github.event_name == 'pull_request' &&
+      contains(fromJSON('["develop","community","enterprise","hyperscaler","military"]'), github.base_ref)
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup C++ build dependencies
+        uses: ./.github/actions/setup-cpp-build
+        with:
+          cc: gcc-12
+          cxx: g++-12
+          extra-packages: librocksdb-dev libssl-dev zlib1g-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libboost-system-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc
+
+      - name: Configure (community-release)
+        run: |
+          set -euo pipefail
+          cmake --preset community-release 2>&1 | tee /tmp/release-critical-configure.log
+
+      - name: Build release-critical targets
+        run: |
+          set -euo pipefail
+          cmake --build build-community-release \
+            --target themis_release_critical_tests \
+            --parallel "$(nproc)" 2>&1 | tee /tmp/release-critical-build.log
+
+      - name: Run release-critical tests
+        run: |
+          set -euo pipefail
+          ctest --test-dir build-community-release \
+            --label-regex "release_critical" \
+            --output-on-failure \
+            --parallel 1 \
+            --timeout 120 2>&1 | tee /tmp/release-critical-ctest.log
+
+      - name: Upload release-critical triage bundle
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-critical-triage-${{ github.run_number }}
+          path: |
+            /tmp/release-critical-configure.log
+            /tmp/release-critical-build.log
+            /tmp/release-critical-ctest.log
+          if-no-files-found: ignore
+          retention-days: 30
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # GATE 5 — Reproducible Build Metadata
+  # Applies to: PRs and pushes targeting develop; cmake/build-system changes
+  # ────────────────────────────────────────────────────────────────────────────
+  reproducible-builds:
+    name: Reproducible Build Metadata
+    runs-on: ubuntu-latest
+    if: >
+      github.event_name == 'push' ||
+      (github.event_name == 'pull_request' && github.base_ref == 'develop')
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Derive SOURCE_DATE_EPOCH from HEAD commit
+        id: source_date_epoch
+        run: echo "value=$(git log -1 --format=%ct)" >> "$GITHUB_OUTPUT"
+
+      - name: Verify reproducible build metadata
+        env:
+          SOURCE_DATE_EPOCH: ${{ steps.source_date_epoch.outputs.value }}
+        run: |
+          cmake -DOUTPUT_DIR="$RUNNER_TEMP/themis-repro" \
+            -P cmake/VerifyReproducibleBuildInfo.cmake
+
+      - name: Record generated header hashes
+        run: |
+          sha256sum \
+            "$RUNNER_TEMP/themis-repro/same-epoch-a/include/updates/build_info.h" \
+            "$RUNNER_TEMP/themis-repro/same-epoch-b/include/updates/build_info.h" \
+            "$RUNNER_TEMP/themis-repro/different-epoch/include/updates/build_info.h" \
+            | tee /tmp/build_info_hashes.txt
+
+      - name: Verify same-epoch hashes match (determinism)
+        run: |
+          HASH_A=$(sha256sum "$RUNNER_TEMP/themis-repro/same-epoch-a/include/updates/build_info.h" | cut -d' ' -f1)
+          HASH_B=$(sha256sum "$RUNNER_TEMP/themis-repro/same-epoch-b/include/updates/build_info.h" | cut -d' ' -f1)
+          if [ "$HASH_A" != "$HASH_B" ]; then
+            echo "::error::Reproducibility violation: same-epoch builds produced different hashes"
+            exit 1
+          fi
+          echo "Reproducibility check passed: same-epoch hashes match."
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # GATE 6 — Scanner Delta Report
+  # Applies to: PRs targeting develop + community; scanner/tooling changes
+  # ────────────────────────────────────────────────────────────────────────────
+  scanner-delta-report:
+    name: Scanner Delta Report
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    if: >
+      github.event_name == 'pull_request' &&
+      (github.base_ref == 'develop' || github.base_ref == 'community')
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Prepare directories
+        run: mkdir -p ai_working ai_working/delta
+
+      - name: Resolve baseline aggregate from base branch
+        id: baseline
+        run: |
+          BASE_FILE="ai_working/gap_scan_v3_aggregate.baseline.json"
+          git fetch origin "${{ github.base_ref }}" --depth=1
+          git show "origin/${{ github.base_ref }}:ai_working/gap_scan_v3_aggregate.json" > "${BASE_FILE}" 2>/dev/null \
+            && echo "baseline_exists=true" >> "$GITHUB_OUTPUT" \
+            || echo "baseline_exists=false" >> "$GITHUB_OUTPUT"
+
+      - name: Run gap scanner (if aggregate missing and flag set)
+        if: steps.baseline.outputs.baseline_exists == 'false' && inputs.run_scan_if_missing == 'true'
+        run: |
+          python3 tools/gap_scanner.py \
+            --output ai_working/gap_scan_v3_aggregate.json \
+            --format json || true
+
+      - name: Compute scanner delta
+        run: |
+          python3 - <<'PY'
+          import json, sys
+          from pathlib import Path
+
+          baseline_file = Path("ai_working/gap_scan_v3_aggregate.baseline.json")
+          current_file  = Path("ai_working/gap_scan_v3_aggregate.json")
+
+          if not baseline_file.exists():
+              print("No baseline aggregate — skipping delta comparison.")
+              sys.exit(0)
+          if not current_file.exists():
+              print("No current aggregate — skipping delta comparison.")
+              sys.exit(0)
+
+          baseline = json.loads(baseline_file.read_text())
+          current  = json.loads(current_file.read_text())
+
+          baseline_ids = {item.get("id") for item in baseline.get("findings", []) if item.get("id")}
+          current_ids  = {item.get("id") for item in current.get("findings", []) if item.get("id")}
+
+          new_findings = current_ids - baseline_ids
+          resolved     = baseline_ids - current_ids
+
+          print(f"Scanner delta: +{len(new_findings)} new, -{len(resolved)} resolved")
+          if new_findings:
+              print("New findings: " + ", ".join(sorted(new_findings)))
+          Path("ai_working/delta/report.txt").write_text(
+              f"+{len(new_findings)} new\n-{len(resolved)} resolved\n"
+          )
+          PY
+
+      - name: Upload delta report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: scanner-delta-${{ github.run_number }}
+          path: ai_working/delta/
+          retention-days: 14
+          if-no-files-found: ignore
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # GATE 7 — Submodule Commit-Pin Gate
+  # Applies to: PRs targeting all protected branches; .gitmodules changes
+  # ────────────────────────────────────────────────────────────────────────────
+  submodule-commit-pins:
+    name: Submodule Commit-Pin Gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    if: >
+      github.event_name == 'pull_request' &&
+      contains(fromJSON('["develop","community","enterprise","hyperscaler","military"]'), github.base_ref)
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify Wave-1 submodule commit pins
+        run: |
+          python3 - <<'PY'
+          import re, sys
+          from pathlib import Path
+
+          WAVE1_PATHS = {
+              "plugins/themisdb_ethic_ai",
+              "plugins/themisdb_llm_wiki",
+              "plugins/themisdb_storage",
+              "plugins/themisdb_importer",
+              "plugins/themisdb_plugin_signer",
+              "plugins/themisdb_geo",
+              "plugins/themisdb_timeseries",
+          }
+          text = Path(".gitmodules").read_text(encoding="utf-8")
+          blocks = re.split(r'(?=\[submodule\s)', text)
+          missing_pin = []
+          for block in blocks:
+              path_match = re.search(r'path\s*=\s*(.+)', block)
+              if not path_match:
+                  continue
+              submod_path = path_match.group(1).strip()
+              if submod_path in WAVE1_PATHS and not re.search(r'commit\s*=', block):
+                  missing_pin.append(submod_path)
+          if missing_pin:
+              for p in missing_pin:
+                  print(f"::error::{p} is missing a commit pin in .gitmodules")
+              sys.exit(1)
+          print("All Wave-1 submodules carry commit pins.")
+          PY
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # GATE 8 — Workflow Boundary Guard
+  # Applies to: PRs targeting community + develop; .github/workflows changes
+  # ────────────────────────────────────────────────────────────────────────────
+  workflow-boundary-guard:
+    name: Workflow Boundary Guard
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: >
+      github.event_name == 'pull_request' &&
+      (github.base_ref == 'community' || github.base_ref == 'develop')
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
+        with:
+          python-version: '3.12'
+
+      - run: python -m pip install --upgrade pip pytest pyyaml
+
+      - name: Collect changed files
+        run: |
+          git fetch origin "${{ github.base_ref }}" --depth=1
+          git diff --name-status --find-renames "origin/${{ github.base_ref }}...HEAD" > workflow_changes.txt
+
+      - name: Run workflow boundary unit tests
+        run: python -m pytest tools/tests/test_check_workflow_boundaries.py -q
+
+      - name: Enforce workflow boundaries on changed files
+        run: |
+          python3 tools/ci/check_workflow_boundaries.py \
+            --changes workflow_changes.txt \
+            --guidelines .github/WORKFLOW_GUIDELINES.md
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # Secret Scanning — Active TruffleHog scan on PR diff (non-blocking initially)
+  # Catches staged secrets before they land in history.
+  # Promotion path: set fail-on-match: true after a stabilization period.
+  # Debug: prints install, scan scope, file count, and detailed result summary.
+  # ────────────────────────────────────────────────────────────────────────────
+  secret-scan:
+    name: 🔐 Secret Scanning (TruffleHog)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: github.event_name == 'pull_request'
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - name: Print scan context
+        run: |
+          echo "============================================================"
+          echo " CI — PR Gates  |  Secret Scanning (TruffleHog)"
+          echo "============================================================"
+          echo "  PR number  : ${{ github.event.pull_request.number }}"
+          echo "  Base ref   : ${{ github.base_ref }}"
+          echo "  Head SHA   : ${{ github.sha }}"
+          echo "  Actor      : ${{ github.actor }}"
+          echo "  Run ID     : ${{ github.run_id }}"
+          echo "  Mode       : non-blocking (continue-on-error=true)"
+          echo "  Scan scope : PR diff only (HEAD vs origin/base_ref)"
+          echo "  Detector   : verified secrets only (--only-verified)"
+          echo "============================================================"
+
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        with:
+          fetch-depth: 0
+
+      - name: Install TruffleHog
+        run: |
+          echo "  Installing TruffleHog from official install script..."
+          T0=$(date +%s)
+          curl -sSfL https://raw.githubusercontent.com/trufflesecurity/trufflehog/main/scripts/install.sh \
+            | sh -s -- -b /usr/local/bin
+          echo "  ✅ TruffleHog installed in $(( $(date +%s) - T0 ))s"
+          echo "  Version: $(trufflehog --version 2>&1 || echo 'N/A')"
+
+      - name: Run TruffleHog on PR diff
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          BASE_REF="${{ github.base_ref }}"
+          echo "──────────────────────────────────────────────"
+          echo "  Fetching base branch: ${BASE_REF}"
+          git fetch origin "${BASE_REF}" --depth=1
+          echo ""
+
+          DIFF_FILES=$(git diff --name-only "origin/${BASE_REF}...HEAD" | wc -l || echo 0)
+          echo "  Files in PR diff   : ${DIFF_FILES}"
+          echo "  Scan strategy      : git diff from origin/${BASE_REF} to HEAD"
+          echo "  Detectors          : all (verified secrets only)"
+          echo "──────────────────────────────────────────────"
+
+          T0=$(date +%s)
+          trufflehog git file://. \
+            --since-commit "origin/${BASE_REF}" \
+            --branch HEAD \
+            --only-verified \
+            --fail \
+            --json \
+            > trufflehog-results.json 2>&1 || SCAN_EXIT=$?
+          SCAN_SECS=$(( $(date +%s) - T0 ))
+
+          RESULT_COUNT=$(wc -l < trufflehog-results.json 2>/dev/null || echo 0)
+          echo ""
+          echo "  Scan completed in   : ${SCAN_SECS}s"
+          echo "  Result lines        : ${RESULT_COUNT}"
+
+          if [ -s trufflehog-results.json ]; then
+            echo ""
+            echo "  ⚠️  POTENTIAL SECRETS DETECTED — summary:"
+            head -5 trufflehog-results.json | python3 -c "
+import sys, json
+for line in sys.stdin:
+    try:
+        r = json.loads(line.strip())
+        det = r.get('DetectorName', '?')
+        raw = r.get('Raw', '')[:40]
+        src = r.get('SourceMetadata', {}).get('Data', {})
+        print(f'    Detector={det}  Raw={raw}...  Source={src}')
+    except Exception:
+        pass
+" 2>/dev/null || cat trufflehog-results.json | head -5
+            echo ""
+            echo "::warning::🔐 TruffleHog found potential secrets — see trufflehog-results artifact."
+            {
+              echo "### ⚠️ Secret Scanning — Potential secrets detected"
+              echo ""
+              echo "TruffleHog identified **${RESULT_COUNT}** potential verified secret(s) in this PR diff."
+              echo ""
+              echo "**Action required:** Review the \`trufflehog-results-${{ github.run_number }}\` artifact and"
+              echo "rotate any exposed credentials immediately."
+              echo ""
+              echo "_Scan scope: PR diff (HEAD vs \`origin/${{ github.base_ref }}\`). Duration: ${SCAN_SECS}s._"
+            } >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "  ✅ No verified secrets found."
+            {
+              echo "### ✅ Secret Scanning — No secrets detected"
+              echo ""
+              echo "TruffleHog scanned **${DIFF_FILES}** PR diff file(s) and found no verified secrets."
+              echo ""
+              echo "_Scan duration: ${SCAN_SECS}s. Scan scope: HEAD vs \`origin/${{ github.base_ref }}\`._"
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload TruffleHog results
+        if: always()
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08  # v4.6.0
+        with:
+          name: trufflehog-results-${{ github.run_number }}
+          path: trufflehog-results.json
+          retention-days: 7  # short tier per ci-scope-config.yaml
+
+  # ────────────────────────────────────────────────────────────────────────────
+  # SUMMARY — Aggregates all gate results (always runs)
+  # ────────────────────────────────────────────────────────────────────────────
+  gates-summary:
+    name: PR Gates Summary
+    runs-on: ubuntu-latest
+    if: always()
+    needs:
+      - preflight-ci-policy
+      - community-pipeline-policy
+      - high-exception-record
+      - private-plugin-boundary
+      - release-critical-tests
+      - reproducible-builds
+      - scanner-delta-report
+      - submodule-commit-pins
+      - workflow-boundary-guard
+      - secret-scan
+    steps:
+      - name: Write summary
+        run: |
+          {
+            echo "## PR Gates Summary"
+            echo ""
+            echo "| Gate | Result |"
+            echo "|------|--------|"
+            echo "| Preflight CI Policy + Workflow Lint | ${{ needs.preflight-ci-policy.result }} |"
+            echo "| Community Pipeline Policy | ${{ needs.community-pipeline-policy.result }} |"
+            echo "| High Exception Record | ${{ needs.high-exception-record.result }} |"
+            echo "| Private Plugin Boundary | ${{ needs.private-plugin-boundary.result }} |"
+            echo "| Release-Critical Tests (**MANDATORY**) | ${{ needs.release-critical-tests.result }} |"
+            echo "| Reproducible Builds | ${{ needs.reproducible-builds.result }} |"
+            echo "| Scanner Delta Report | ${{ needs.scanner-delta-report.result }} |"
+            echo "| Submodule Commit Pins | ${{ needs.submodule-commit-pins.result }} |"
+            echo "| Workflow Boundary Guard | ${{ needs.workflow-boundary-guard.result }} |"
+            echo "| Secret Scanning (non-blocking) | ${{ needs.secret-scan.result }} |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Fail if mandatory release-critical gate failed
+        if: needs.release-critical-tests.result == 'failure'
+        run: |
+          echo "::error::release-critical-tests FAILED — this is a mandatory gate per RELEASE_STRATEGY.md §2.3"
+          exit 1

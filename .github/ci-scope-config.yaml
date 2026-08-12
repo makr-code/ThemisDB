@@ -165,3 +165,19 @@ workflow_scope_map:
 # Increase gradually (recommended): 90 -> 92 -> 95.
 quality_gates:
   docs_coverage_threshold: 90
+
+  # ── Artifact retention policy ───────────────────────────────────────────
+  # Canonical retention-days values for upload-artifact steps across all
+  # workflows. Workflows should reference these values in comments and apply
+  # them consistently. Values here serve as maintainer reference; each
+  # workflow enforces its own retention-days parameter.
+  #
+  # Tier definitions:
+  #   short  — transient build artefacts (logs, test results): 7 days
+  #   medium — QA reports, regression results, coverage data: 14 days
+  #   long   — compliance, SOC2, SBOM, release provenance: 365 days
+  #   release — release assets permanently attached to GitHub Release: N/A
+  artifact_retention_days:
+    short: 7
+    medium: 14
+    long: 365

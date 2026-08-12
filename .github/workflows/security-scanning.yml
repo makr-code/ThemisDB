@@ -1,56 +1,83 @@
-name: Security — OWASP ZAP DAST
+name: Security — Scanning
 
-# Phase 4.1: OWASP ZAP Dynamic Application Security Testing in CI
-# Runs ZAP baseline scan against the ThemisDB REST API in a Docker container.
-# HIGH/CRITICAL findings fail the CI job; MEDIUM findings are reported but
-# non-blocking (pending tuning).
+# Consolidated security scanning workflow.
+# Replaces: kubesec.yml, security-dast-ci.yml
 
 on:
   push:
     branches:
-      - community
       - develop
+      - community
     paths:
+      - 'deploy/kubernetes/**'
       - 'src/server/**'
       - 'src/auth/**'
       - 'src/governance/**'
-      - '.github/workflows/security-dast-ci.yml'
+      - '.github/workflows/security-scanning.yml'
       - 'scripts/zap-context.xml'
   pull_request:
     branches:
-      - community
       - develop
+      - community
     paths:
+      - 'deploy/kubernetes/**'
       - 'src/server/**'
       - 'src/auth/**'
       - 'src/governance/**'
-      - '.github/workflows/security-dast-ci.yml'
+      - '.github/workflows/security-scanning.yml'
   schedule:
-    # Weekly on Sunday 02:00 UTC
+    # Weekly Sunday 02:00 UTC
     - cron: '0 2 * * 0'
   workflow_dispatch: {}
 
 concurrency:
-  group: dast-${{ github.ref }}
+  group: security-scanning-${{ github.ref }}
   cancel-in-progress: true
 
 permissions:
   contents: read
 
+# ──────────────────────────────────────────────────────────────────────────────
+# Kubesec — Kubernetes manifest security scan
+# ──────────────────────────────────────────────────────────────────────────────
 jobs:
+  kubesec:
+    name: Kubesec — Kubernetes Manifest Scan
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run kubesec scanner
+        uses: controlplaneio/kubesec-action@43d0ddff5ffee89a6bb9f29b64cd865411137b14
+        with:
+          input: deploy/kubernetes/operator/deployment.yaml
+          format: sarif
+          output: kubesec-results.sarif
+          exit-code: "0"
+
+      - name: Upload Kubesec scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: kubesec-results.sarif
+
   # ──────────────────────────────────────────────────────────────────────────
-  # DAST baseline scan
+  # OWASP ZAP — Dynamic Application Security Testing (DAST)
+  # Phase 4.1: ZAP baseline scan against ThemisDB REST API in Docker.
+  # HIGH/CRITICAL findings fail the job; MEDIUM findings are non-blocking.
   # ──────────────────────────────────────────────────────────────────────────
   dast-scan:
     name: OWASP ZAP Baseline DAST
     runs-on: ubuntu-22.04
     timeout-minutes: 45
-
     permissions:
       contents: read
       security-events: write
       issues: write
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -58,7 +85,6 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      # ── Start ThemisDB in a container ─────────────────────────────────────
       - name: Start ThemisDB (production mode, self-signed TLS)
         run: |
           docker compose -f docker-compose.yml up -d themis
@@ -68,11 +94,9 @@ jobs:
               echo "ThemisDB is ready"
               break
             fi
-            echo "Waiting for ThemisDB... ($i/30)"
-            sleep 2
+            echo "Waiting for ThemisDB... ($i/30)"; sleep 2
           done
 
-      # ── Create ZAP context configuration ──────────────────────────────────
       - name: Create ZAP context file
         run: |
           mkdir -p scripts
@@ -93,19 +117,11 @@ jobs:
                 <loginurl>http://localhost:18080/api/auth/login</loginurl>
                 <loginbody>{"username":"test-admin","password":"test-password"}</loginbody>
               </authentication>
-              <forcedUser>
-                <username>test-admin</username>
-                <credentials>
-                  <credential><name>username</name><value>test-admin</value></credential>
-                  <credential><name>password</name><value>test-password</value></credential>
-                </credentials>
-              </forcedUser>
             </context>
           </configuration>
           ZAPXML
           fi
 
-      # ── Run ZAP baseline scan ─────────────────────────────────────────────
       - name: Run OWASP ZAP Baseline Scan
         uses: zaproxy/action-baseline@v0.12.0
         with:
@@ -123,7 +139,6 @@ jobs:
           fail_action: true
           allow_issue_writing: true
 
-      # ── Upload ZAP report ─────────────────────────────────────────────────
       - name: Upload ZAP Report
         if: always()
         uses: actions/upload-artifact@v4

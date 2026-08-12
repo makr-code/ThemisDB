@@ -1,0 +1,496 @@
+name: Compliance — Supply Chain
+
+# Consolidated supply-chain compliance workflow.
+# Replaces: license-compliance.yml, sbom-ci.yml, soc2-evidence-ci.yml
+#
+# Community guardrail: no private credentials, private sources, or private
+# artefacts are required or produced in any job in this workflow.
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - minimal
+      - community
+      - enterprise
+      - hyperscaler
+      - military
+    paths:
+      - 'vcpkg.json'
+      - '.license-policy.json'
+      - 'CMakeLists.txt'
+      - 'scripts/check_vcpkg_licenses.py'
+      - 'tests/test_vcpkg_license_audit.py'
+      - '.github/workflows/compliance-supply-chain.yml'
+      - '.github/WORKFLOW_GUIDELINES.md'
+      - '.github/WORKFLOW_REGISTRY.md'
+      - '.gitmodules'
+      - 'plugins/private/**'
+      - 'cmake/PrivatePlugins.cmake'
+      - 'cmake/features/PrivatePluginFeatures.cmake'
+      - 'Dockerfile'
+      - 'scripts/verify-sbom.sh'
+      - 'scripts/verify-vcpkg-baseline-signature.sh'
+  push:
+    branches:
+      - develop
+      - minimal
+      - community
+      - enterprise
+      - hyperscaler
+      - military
+    tags:
+      - 'v*.*.*'
+    paths:
+      - 'vcpkg.json'
+      - '.license-policy.json'
+      - 'CMakeLists.txt'
+      - 'Dockerfile'
+      - 'scripts/verify-sbom.sh'
+  release:
+    types: [published]
+  schedule:
+    # License: monthly 1st at 03:00 UTC
+    # SBOM: weekly Saturday 01:00 UTC
+    # SOC2: weekly Friday 23:00 UTC
+    # Dependency freshness: monthly 1st at 04:00 UTC
+    - cron: '0 3 1 * *'
+    - cron: '0 1 * * 6'
+    - cron: '0 23 * * 5'
+    - cron: '0 4 1 * *'
+  workflow_dispatch:
+    inputs:
+      evidence_window_days:
+        description: 'SOC 2 evidence window in days (default: 7)'
+        required: false
+        default: '7'
+
+concurrency:
+  group: compliance-${{ github.event.pull_request.number || github.ref }}-${{ github.event_name }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+# ──────────────────────────────────────────────────────────────────────────────
+# License Policy Gate
+# ──────────────────────────────────────────────────────────────────────────────
+jobs:
+  license-gate:
+    name: License Policy Gate
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Read vcpkg baseline
+        id: baseline
+        run: |
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          from pathlib import Path
+          manifest = json.loads(Path("vcpkg.json").read_text(encoding="utf-8"))
+          print(f"sha={manifest['builtin-baseline']}")
+          PY
+
+      - name: Checkout vcpkg ports at pinned baseline
+        uses: actions/checkout@v4
+        with:
+          repository: microsoft/vcpkg
+          ref: ${{ steps.baseline.outputs.sha }}
+          path: vcpkg-upstream
+          fetch-depth: 1
+
+      - name: Run vcpkg license audit
+        run: |
+          python scripts/check_vcpkg_licenses.py \
+            --manifest vcpkg.json \
+            --policy .license-policy.json \
+            --ports-dir vcpkg-upstream/ports \
+            --output-dir artifacts/license-compliance
+
+      - name: Publish workflow summary
+        run: cat artifacts/license-compliance/license-summary.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload license artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: license-compliance-${{ github.run_id }}
+          path: |
+            artifacts/license-compliance/license-summary.md
+            artifacts/license-compliance/vcpkg-license-sbom.json
+          retention-days: 90
+
+  # ── Attach license artifacts to GitHub Release ──────────────────────────────
+  license-release-assets:
+    name: Publish License Release Assets
+    if: github.event_name == 'release'
+    needs: license-gate
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    steps:
+      - name: Download license artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: license-compliance-${{ github.run_id }}
+          path: artifacts/license-compliance
+
+      - name: Attach license artifacts to release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            artifacts/license-compliance/license-summary.md
+            artifacts/license-compliance/vcpkg-license-sbom.json
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # SBOM Generation & Signing
+  # Phase 6.1: CycloneDX + SPDX SBOM via syft; cosign signing on tag builds.
+  # ──────────────────────────────────────────────────────────────────────────
+  sbom:
+    name: SBOM Generation & Verification
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    permissions:
+      contents: write
+      security-events: write
+      id-token: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Verify vcpkg baseline commit signature
+        run: |
+          chmod +x scripts/verify-vcpkg-baseline-signature.sh
+          scripts/verify-vcpkg-baseline-signature.sh vcpkg.json sbom-vcpkg-baseline-verification.json
+
+      - name: Install syft
+        uses: anchore/sbom-action/download-syft@v0
+
+      - name: Generate source SBOM (CycloneDX)
+        uses: anchore/sbom-action@v0
+        with:
+          format: cyclonedx-json
+          output-file: sbom-source.cyclonedx.json
+          path: '.'
+
+      - name: Generate source SBOM (SPDX)
+        uses: anchore/sbom-action@v0
+        with:
+          format: spdx-json
+          output-file: sbom-source.spdx.json
+          path: '.'
+
+      - name: Verify SBOM against vcpkg.json
+        run: |
+          chmod +x scripts/verify-sbom.sh
+          bash scripts/verify-sbom.sh sbom-source.cyclonedx.json
+
+      - name: Run Trivy vulnerability scan (SBOM output)
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'cyclonedx'
+          output: 'sbom-trivy.cyclonedx.json'
+          exit-code: '0'
+
+      - name: Install cosign
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: sigstore/cosign-installer@v3
+
+      - name: Sign SBOM artifacts
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          cosign sign-blob --yes \
+            --output-signature sbom-source.cyclonedx.json.sig \
+            --output-certificate sbom-source.cyclonedx.json.pem \
+            sbom-source.cyclonedx.json
+
+      - name: Generate SBOM checksums
+        run: |
+          sha256sum \
+            sbom-source.cyclonedx.json \
+            sbom-source.spdx.json \
+            sbom-trivy.cyclonedx.json \
+            sbom-vcpkg-baseline-verification.json > sbom-source.SHA256SUMS
+          sha256sum -c sbom-source.SHA256SUMS
+
+      - name: Upload SBOM artifacts
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08  # v4.6.0
+        with:
+          name: sbom-${{ github.run_id }}
+          path: |
+            sbom-source.cyclonedx.json
+            sbom-source.spdx.json
+            sbom-trivy.cyclonedx.json
+            sbom-vcpkg-baseline-verification.json
+            sbom-source.SHA256SUMS
+            sbom-source.cyclonedx.json.sig
+            sbom-source.cyclonedx.json.pem
+          retention-days: 365
+
+      - name: Generate SLSA build provenance attestation (SLSA Level 2)
+        # Attaches a signed provenance statement to the SBOM artifact so that
+        # consumers can verify what workflow produced it (SLSA Level 2).
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: actions/attest-build-provenance@1c608d11d69870c2092266b3f9a6f3abbf17002c  # v1.4.3
+        with:
+          subject-path: |
+            sbom-source.cyclonedx.json
+            sbom-source.spdx.json
+            sbom-source.SHA256SUMS
+
+      - name: Attach SBOM to release
+        if: github.event_name == 'release'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            sbom-source.cyclonedx.json
+            sbom-source.spdx.json
+            sbom-vcpkg-baseline-verification.json
+            sbom-source.SHA256SUMS
+            sbom-source.cyclonedx.json.sig
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # Dependency Freshness Gate
+  # Proactive time-based track: runs monthly and on workflow_dispatch.
+  # Checks vcpkg.json pins against the current upstream vcpkg baseline and
+  # produces a SARIF / issue report of outdated or advisoried packages.
+  # Complements the path-triggered supply-chain compliance job.
+  # ──────────────────────────────────────────────────────────────────────────
+  dependency-freshness:
+    name: Dependency Freshness Gate
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    # Run on monthly schedule (cron '0 4 1 * *'), workflow_dispatch, or release
+    if: >
+      github.event_name == 'schedule' ||
+      github.event_name == 'workflow_dispatch' ||
+      github.event_name == 'release'
+    permissions:
+      contents: read
+      issues: write
+      security-events: write
+    steps:
+      - name: Print dependency-freshness context
+       run: |
+         echo "============================================================"
+         echo " Compliance — Dependency Freshness Gate"
+         echo "============================================================"
+         echo "  Trigger   : ${{ github.event_name }}"
+         echo "  Ref       : ${{ github.ref }}"
+         echo "  Actor     : ${{ github.actor }}"
+         echo "  Run ID    : ${{ github.run_id }}"
+         echo "  Timestamp : $(date -u)"
+         echo "  Purpose   : Compare pinned vcpkg baseline against upstream;"
+         echo "              run Trivy advisory scan; open staleness issue."
+         echo "============================================================"
+
+      - name: Checkout repository
+       uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+
+      - name: Set up Python
+       uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
+       with:
+         python-version: '3.12'
+
+      - name: Read pinned vcpkg baseline
+       id: baseline
+       run: |
+         echo "──────────────────────────────────────────────"
+         echo "  Reading vcpkg.json manifest..."
+         python3 - <<'PY' | tee /dev/stderr >> "$GITHUB_OUTPUT"
+         import json
+         from pathlib import Path
+         manifest = json.loads(Path("vcpkg.json").read_text(encoding="utf-8"))
+         sha = manifest['builtin-baseline']
+         deps = manifest.get('dependencies', [])
+         print(f"sha={sha}")
+         import sys
+         print(f"  Pinned baseline SHA : {sha}", file=sys.stderr)
+         print(f"  Dependency count    : {len(deps)}", file=sys.stderr)
+         PY
+         echo "──────────────────────────────────────────────"
+
+      - name: Fetch current upstream vcpkg HEAD
+       run: |
+         echo "──────────────────────────────────────────────"
+         echo "  Cloning vcpkg (depth=1) to get current HEAD..."
+         T0=$(date +%s)
+         git clone --depth=1 https://github.com/microsoft/vcpkg.git vcpkg-latest 2>&1 | tail -3
+         LATEST_SHA=$(git -C vcpkg-latest rev-parse HEAD)
+         SECS=$(( $(date +%s) - T0 ))
+         echo "  ✅ Cloned in ${SECS}s"
+         echo "  Latest upstream SHA : ${LATEST_SHA}"
+         echo "latest_sha=${LATEST_SHA}" >> "$GITHUB_ENV"
+         echo "──────────────────────────────────────────────"
+
+      - name: Compare pinned vs current baseline
+       run: |
+         PINNED="${{ steps.baseline.outputs.sha }}"
+         LATEST="${latest_sha}"
+         echo "──────────────────────────────────────────────"
+         echo "  Staleness check"
+         echo "  Pinned baseline : ${PINNED}"
+         echo "  Current upstream: ${LATEST}"
+         if [ "${PINNED}" = "${LATEST}" ]; then
+           echo "  ✅ Baseline is current — no staleness detected."
+           echo "BASELINE_STALE=false" >> "$GITHUB_ENV"
+           echo "### ✅ Dependency Freshness — vcpkg baseline is current" >> "$GITHUB_STEP_SUMMARY"
+         else
+           BEHIND=$(git -C vcpkg-latest rev-list "${PINNED}..HEAD" --count 2>/dev/null || echo "unknown")
+           echo "  ⚠️  Baseline is STALE — ${BEHIND} commits behind upstream."
+           echo "BASELINE_STALE=true" >> "$GITHUB_ENV"
+           echo "BASELINE_BEHIND=${BEHIND}" >> "$GITHUB_ENV"
+           {
+             echo "### ⚠️ Dependency Freshness — vcpkg baseline is ${BEHIND} commits behind"
+             echo ""
+             echo "| Metric | Value |"
+             echo "|--------|-------|"
+             echo "| Pinned baseline | \`${PINNED}\` |"
+             echo "| Current HEAD | \`${LATEST}\` |"
+             echo "| Commits behind | ${BEHIND} |"
+           } >> "$GITHUB_STEP_SUMMARY"
+         fi
+         echo "──────────────────────────────────────────────"
+
+      - name: Scan for package advisories via Trivy
+        # Trivy checks SBOMs and manifests against OSV/GitHub Advisory DB.
+        # Non-fatal: produces a SARIF report but does not block the build.
+        continue-on-error: true
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          scan-type: 'fs'
+          scan-ref: 'vcpkg.json'
+          format: 'sarif'
+          output: 'dependency-freshness.sarif'
+          exit-code: '0'
+
+      - name: Upload SARIF to GitHub Security tab
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: dependency-freshness.sarif
+          category: dependency-freshness
+        continue-on-error: true
+
+      - name: Upload freshness report artifact
+        if: always()
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08  # v4.6.0
+        with:
+          name: dependency-freshness-${{ github.run_id }}
+          path: dependency-freshness.sarif
+          retention-days: 90
+
+      - name: Open or update staleness issue
+        if: env.BASELINE_STALE == 'true'
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
+        with:
+          script: |
+            const behind = process.env.BASELINE_BEHIND || 'unknown';
+            const title = '[CI] vcpkg baseline is stale — dependency freshness gate';
+            const body = [
+              '## Dependency Freshness Alert',
+              '',
+              `The \`builtin-baseline\` in \`vcpkg.json\` is **${behind} commits behind** the current upstream vcpkg HEAD.`,
+              '',
+              '**Action required:** update \`vcpkg.json\` `builtin-baseline` and re-run the compliance workflow.',
+              '',
+              `<!-- ci-workflow:Compliance — Supply Chain -->`,
+              `<!-- ci-ref:develop -->`,
+            ].join('\n');
+
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'ci/dependency-stale',
+              per_page: 5,
+            });
+            const existing = issues.find(i => i.title === title);
+            if (existing) {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existing.number,
+                body,
+              });
+              core.info(`Updated existing issue #${existing.number}`);
+            } else {
+              const { data: issue } = await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title,
+                body,
+                labels: ['ci/dependency-stale'],
+              });
+              core.info(`Created issue #${issue.number}`);
+            }
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # SOC 2 Type II Evidence Export
+  # Phase 6.2: Weekly evidence collection via admin REST endpoint.
+  # Runs on schedule and workflow_dispatch only — not on push/PR.
+  # ──────────────────────────────────────────────────────────────────────────
+  soc2-evidence:
+    name: SOC 2 Evidence Export
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    permissions:
+      contents: read
+      security-events: write
+    env:
+      EVIDENCE_WINDOW_DAYS: ${{ github.event.inputs.evidence_window_days || '7' }}
+      THEMIS_ADMIN_ENDPOINT: 'https://localhost:8443'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Start ThemisDB container
+        run: |
+          docker compose -f docker-compose.yml up -d themisdb
+          for i in $(seq 1 30); do
+            if curl -sk "${THEMIS_ADMIN_ENDPOINT}/v1/health" | grep -q "ok"; then
+              echo "ThemisDB ready"; break
+            fi
+            sleep 2
+          done
+
+      - name: Export SOC 2 evidence bundle
+        run: |
+          chmod +x scripts/soc2-evidence-export.sh
+          bash scripts/soc2-evidence-export.sh \
+            --endpoint "${THEMIS_ADMIN_ENDPOINT}" \
+            --window-days "${EVIDENCE_WINDOW_DAYS}" \
+            --output "evidence-bundle-$(date +%Y%m%d).json" \
+            --admin-token "${SOC2_EXPORT_TOKEN}"
+        env:
+          SOC2_EXPORT_TOKEN: ${{ secrets.SOC2_EXPORT_TOKEN }}
+
+      - name: Validate evidence bundle signature
+        run: |
+          BUNDLE_FILE="evidence-bundle-$(date +%Y%m%d).json"
+          [ -f "${BUNDLE_FILE}" ] || { echo "No bundle generated"; exit 1; }
+          python3 scripts/verify-evidence-bundle.py "${BUNDLE_FILE}"
+
+      - name: Upload evidence bundle artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: soc2-evidence-${{ github.run_id }}-${{ github.run_number }}
+          path: evidence-bundle-*.json
+          retention-days: 365
+
+      - name: Stop ThemisDB container
+        if: always()
+        run: docker compose -f docker-compose.yml down --volumes
