@@ -552,8 +552,7 @@ jobs:
       - name: Enforce workflow boundaries on changed files
         run: |
           python3 tools/ci/check_workflow_boundaries.py \
-            --changes workflow_changes.txt \
-            --guidelines .github/WORKFLOW_GUIDELINES.md
+            --diff-file workflow_changes.txt
 
   # ────────────────────────────────────────────────────────────────────────────
   # Secret Scanning — Active TruffleHog scan on PR diff (non-blocking initially)
