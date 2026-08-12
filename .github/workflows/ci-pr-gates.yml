@@ -624,18 +624,7 @@ jobs:
           if [ -s trufflehog-results.json ]; then
             echo ""
             echo "  ⚠️  POTENTIAL SECRETS DETECTED — summary:"
-            head -5 trufflehog-results.json | python3 -c "
-import sys, json
-for line in sys.stdin:
-    try:
-        r = json.loads(line.strip())
-        det = r.get('DetectorName', '?')
-        raw = r.get('Raw', '')[:40]
-        src = r.get('SourceMetadata', {}).get('Data', {})
-        print(f'    Detector={det}  Raw={raw}...  Source={src}')
-    except Exception:
-        pass
-" 2>/dev/null || cat trufflehog-results.json | head -5
+            head -5 trufflehog-results.json | python3 -c 'import json, sys; [print(f"    Detector={r.get(\"DetectorName\", \"?\")}  Raw={r.get(\"Raw\", \"\")[:40]}...  Source={r.get(\"SourceMetadata\", {}).get(\"Data\", {})}") for line in sys.stdin if line.strip() for r in [json.loads(line.strip())]]' 2>/dev/null || head -5 trufflehog-results.json
             echo ""
             echo "::warning::🔐 TruffleHog found potential secrets — see trufflehog-results artifact."
             {

@@ -456,7 +456,7 @@ jobs:
       - name: Start ThemisDB container
         run: |
           docker compose -f docker-compose.yml up -d themisdb
-          for i in $(seq 1 30); do
+          for _ in $(seq 1 30); do
             if curl -sk "${THEMIS_ADMIN_ENDPOINT}/v1/health" | grep -q "ok"; then
               echo "ThemisDB ready"; break
             fi
