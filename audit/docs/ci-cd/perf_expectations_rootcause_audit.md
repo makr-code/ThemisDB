@@ -81,7 +81,7 @@ Ein **FAIL** wird ausgelöst, wenn eine der folgenden Bedingungen zutrifft:
 ## CI-Workflow
 
 ```yaml
-# Trigger: PR/Push auf develop/main wenn relevante Dateien geändert + Nightly
+# Trigger: PR/Push auf develop/community wenn relevante Dateien geändert + Nightly
 # Läuft NUR das Audit-Script (keine schweren Benchmarks)
 # Artefakte: artifacts/perf_expectations_rootcause_audit/ (30 Tage Retention)
 ```
