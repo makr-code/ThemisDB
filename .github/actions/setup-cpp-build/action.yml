@@ -1,14 +1,15 @@
 name: 'Setup C++ Build Environment'
 description: |
   Installs standard C++ build dependencies (cmake, ninja-build, libgtest-dev,
-  libfmt-dev, pkg-config, git, ccache) plus the requested compiler and any
-  optional extra packages, then builds Google Test from source when the
-  pre-built library files are absent (required on Ubuntu runners where
-  libgtest-dev ships source-only).
+  libfmt-dev, pkg-config, git) plus the requested compiler and any optional
+  extra packages, then builds Google Test from source when the pre-built
+  library files are absent (required on Ubuntu runners where libgtest-dev
+  ships source-only).
 
-  ccache is installed and restored from the GitHub Actions cache on every call.
-  The cache is keyed by OS, compiler, and week number so it is refreshed weekly
-  while still providing fast incremental builds within a week.
+  sccache (mozilla-actions/sccache-action) is set up with the GitHub Actions
+  cache backend for shared compiler-output caching across matrix rows and
+  re-runs.  Callers that already invoke sccache-action before this action are
+  unaffected — the action is idempotent on repeated calls in the same job.
 
 inputs:
   cc:
@@ -25,33 +26,27 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Restore ccache
-      uses: actions/cache@v4
+    # sccache replaces ccache as the compiler-output cache.
+    # SHA pinned to mozilla-actions/sccache-action v0.0.6 (2024-11-01).
+    - name: Setup sccache
+      uses: mozilla-actions/sccache-action@9e326ebed976843c9912b3aa0e021c6f50310eb4  # v0.0.6
       with:
-        path: ~/.cache/ccache
-        # Key on commit SHA so re-runs of the same commit get a cache hit.
-        # Restore-keys cascade to the closest prior cache for the same compiler.
-        key: ccache-${{ runner.os }}-${{ inputs.cc }}-${{ github.sha }}
-        restore-keys: |
-          ccache-${{ runner.os }}-${{ inputs.cc }}-
+        version: "v0.8.1"
+
+    - name: Enable sccache GHA backend
+      shell: bash
+      run: echo "SCCACHE_GHA_ENABLED=true" >> "$GITHUB_ENV"
 
     - name: Install build dependencies
       shell: bash
       run: |
         sudo apt-get update -qq
-        # Base packages required by every C++ CI job (ccache for incremental builds)
-        BASE_PKGS="cmake ninja-build ${{ inputs.cc }} ${{ inputs.cxx }} libgtest-dev pkg-config git libfmt-dev ccache"
+        # Base packages required by every C++ CI job
+        BASE_PKGS="cmake ninja-build ${{ inputs.cc }} ${{ inputs.cxx }} libgtest-dev pkg-config git libfmt-dev"
         # Append optional extra packages (guard against empty string)
         EXTRA="${{ inputs.extra-packages }}"
         # shellcheck disable=SC2086
         sudo apt-get install -y $BASE_PKGS ${EXTRA:+$EXTRA}
-
-    - name: Configure ccache
-      shell: bash
-      run: |
-        ccache --max-size=2G
-        ccache --zero-stats
-        echo "CCACHE_DIR=${HOME}/.cache/ccache" >> "$GITHUB_ENV"
 
     - name: Build GTest from source (if needed)
       shell: bash
@@ -69,3 +64,4 @@ runs:
           sudo cp lib/*.a /usr/lib/ 2>/dev/null || \
           sudo cp *.a     /usr/lib/ 2>/dev/null || true
         fi
+

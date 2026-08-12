@@ -50,14 +50,10 @@ on:
   release:
     types: [published]
   schedule:
-    # License: monthly 1st at 03:00 UTC
-    # SBOM: weekly Saturday 01:00 UTC
-    # SOC2: weekly Friday 23:00 UTC
-    # Dependency freshness: monthly 1st at 04:00 UTC
-    - cron: '0 3 1 * *'
+    # Weekly Saturday 01:00 UTC — all compliance jobs.
+    # License and dependency-freshness (previously monthly) now run weekly;
+    # the marginal runner cost is negligible and simplifies cron management.
     - cron: '0 1 * * 6'
-    - cron: '0 23 * * 5'
-    - cron: '0 4 1 * *'
   workflow_dispatch:
     inputs:
       evidence_window_days:

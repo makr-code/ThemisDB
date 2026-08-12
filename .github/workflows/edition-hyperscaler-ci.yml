@@ -5,6 +5,14 @@ on:
   push:
     branches:
       - hyperscaler
+    paths:
+      - 'src/**'
+      - 'include/**'
+      - 'cmake/**'
+      - 'CMakeLists.txt'
+      - 'CMakePresets.json'
+      - 'plugins/private/**'
+      - '.github/workflows/edition-hyperscaler-ci.yml'
 
 permissions:
   contents: read

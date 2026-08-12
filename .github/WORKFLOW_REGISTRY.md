@@ -55,6 +55,8 @@ Quarantaene, nicht einen inoffiziellen Reservepool fuer schnelle Reaktivierung.
   — Tägliche/manuelle GS3-Scan-Triage mit konsolidiertem, idempotentem Issue-Management
 - `.github/workflows/docker-image.yml`
   — Container build/publish lane; triggered via workflow_run after successful CI — Release (koordiniert mit ci-release.yml)
+- `.github/workflows/security-scan.yml`
+  — Compatibility marker preserving legacy `security-scan` check context; no-op body. Triggers only on changes to the three canonical security workflow files.
 - `.github/workflows/edition-hyperscaler-ci.yml`
   — Editionsspezifische Hyperscaler-CI Lane
 - `.github/workflows/automation-community.yml`
@@ -93,6 +95,6 @@ pwsh -NoProfile -File ./scripts/test-github-actions-local.ps1 -Mode all
 ```
 
 ## Stand
-- Aktive Workflows im Verzeichnis `.github/workflows/`: 21
-- Deaktivierte Workflows in `.github/no_workflows/`: 23
+- Aktive Workflows im Verzeichnis `.github/workflows/`: 24
+- Deaktivierte Workflows in `.github/no_workflows/`: 24
 - Strategie: Lean + harte Triggergrenzen + Quarantaene fuer uebertriggernde CI

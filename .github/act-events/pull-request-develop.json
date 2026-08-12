@@ -1,0 +1,60 @@
+{
+  "action": "opened",
+  "number": 1,
+  "pull_request": {
+    "number": 1,
+    "state": "open",
+    "title": "act local dry-run PR",
+    "body": "",
+    "head": {
+      "ref": "feature/act-test",
+      "sha": "0000000000000000000000000000000000000000",
+      "repo": {
+        "name": "ThemisDB",
+        "full_name": "makr-code/ThemisDB",
+        "private": true,
+        "owner": {
+          "login": "makr-code",
+          "id": 1
+        }
+      }
+    },
+    "base": {
+      "ref": "develop",
+      "sha": "0000000000000000000000000000000000000000",
+      "repo": {
+        "name": "ThemisDB",
+        "full_name": "makr-code/ThemisDB",
+        "private": true,
+        "owner": {
+          "login": "makr-code",
+          "id": 1
+        },
+        "default_branch": "develop"
+      }
+    },
+    "labels": [],
+    "draft": false,
+    "merged": false,
+    "mergeable": true,
+    "user": {
+      "login": "act-local",
+      "id": 1
+    }
+  },
+  "repository": {
+    "id": 1,
+    "name": "ThemisDB",
+    "full_name": "makr-code/ThemisDB",
+    "private": true,
+    "owner": {
+      "login": "makr-code",
+      "id": 1
+    },
+    "default_branch": "develop"
+  },
+  "sender": {
+    "login": "act-local",
+    "id": 1
+  }
+}

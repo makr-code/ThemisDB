@@ -41,10 +41,8 @@ on:
       - '.github/scripts/code_maturity_header_writer.py'
       - '.github/workflows/maintenance-docs.yml'
   schedule:
-    - cron: '0 3 * * *'   # Daily 03:00 UTC (code-maturity check-only)
-    - cron: '0 4 * * *'   # Daily 04:00 UTC (docs orphan check)
-    - cron: '30 4 * * *'  # Daily 04:30 UTC (root docs hygiene)
-    - cron: '0 5 * * 1'   # Weekly Monday 05:00 UTC (src/include alignment)
+    - cron: '0 4 * * *'   # Daily 04:00 UTC — all daily doc checks (maturity, orphan, hygiene)
+    - cron: '0 5 * * 1'   # Weekly Monday 05:00 UTC — src/include alignment
   workflow_dispatch:
     inputs:
       fail_on_findings:
