@@ -23,6 +23,7 @@ class Policy:
     restricted: dict[str, dict[str, Any]]
     unknown_action: str
     unknown_reason: str
+    exceptions: list[dict[str, Any]]
     version: str
 
 
@@ -55,6 +56,7 @@ def load_policy(path: Path) -> Policy:
         restricted=restricted,
         unknown_action=policy.get("unknown", {}).get("action", "warn"),
         unknown_reason=policy.get("unknown", {}).get("reason", "Manual review required"),
+        exceptions=data.get("exceptions", {}).get("list", []),
         version=data.get("version", "unknown"),
     )
 
@@ -216,6 +218,36 @@ def evaluate_license_expression(expression: str | None, policy: Policy) -> tuple
         return evaluate_license_expression(with_parts[0], policy)
 
     return classify_license_atom(expr, policy)
+
+
+def apply_package_exception(
+    package_name: str,
+    license_expression: str | None,
+    action: str,
+    reason: str,
+    policy: Policy,
+) -> tuple[str, str, dict[str, Any] | None]:
+    for exception in policy.exceptions:
+        if exception.get("package") != package_name:
+            continue
+        expected_license = exception.get("license")
+        if expected_license and expected_license != license_expression:
+            continue
+        exception_action = exception.get("action", "warn")
+        justification = exception.get("justification", "Approved package-specific policy exception")
+        approved_by = exception.get("approver")
+        approval_date = exception.get("approval_date")
+        metadata = [f"original action: {action}", justification]
+        if approved_by:
+            metadata.append(f"approver: {approved_by}")
+        if approval_date:
+            metadata.append(f"approval date: {approval_date}")
+        return (
+            exception_action,
+            "Policy exception applied (" + "; ".join(metadata) + ")",
+            exception,
+        )
+    return action, reason, None
 
 
 def parse_dependency_entry(
@@ -433,6 +465,13 @@ def build_package_records(
         request = graph[name]
         manifest = fetch_port_manifest(name, baseline=baseline, ports_dir=ports_dir, cache=cache)
         action, reason = evaluate_license_expression(manifest.get("license"), policy)
+        action, reason, exception = apply_package_exception(
+            name,
+            manifest.get("license"),
+            action,
+            reason,
+            policy,
+        )
         packages.append(
             {
                 "name": name,
@@ -447,6 +486,7 @@ def build_package_records(
                 "default_features_enabled": request.default_features,
                 "supports": manifest.get("supports"),
                 "homepage": manifest.get("homepage"),
+                "policy_exception": exception,
             }
         )
 

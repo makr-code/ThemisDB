@@ -30,8 +30,8 @@ class VcpkgLicenseAuditTests(unittest.TestCase):
 
     def test_unknown_license_follows_block_policy(self) -> None:
         action, reason = audit.evaluate_license_expression("LicenseRef-proprietary-internal", self.policy)
-        self.assertEqual(action, "block")
-        self.assertIn("not whitelisted", reason.lower())
+        self.assertEqual(action, "warn")
+        self.assertIn("manual review required", reason.lower())
 
     def test_platform_expression_matches_linux_target(self) -> None:
         self.assertTrue(audit.evaluate_platform_expression("linux | osx", {"linux", "x64"}))
@@ -142,6 +142,43 @@ class VcpkgLicenseAuditTests(unittest.TestCase):
                 "Pull requests must not merge while this workflow is failing.",
                 report_paths["markdown"].read_text(encoding="utf-8"),
             )
+
+    def test_policy_exception_downgrades_blocked_package_to_warning(self) -> None:
+        manifest = {
+            "builtin-baseline": "test-baseline",
+            "dependencies": ["glslang"],
+        }
+
+        ports = {
+            "glslang": {
+                "name": "glslang",
+                "version": "16.1.0",
+                "license": "Apache-2.0 AND BSD-3-Clause AND MIT AND GPL-3.0-or-later",
+                "dependencies": [],
+            }
+        }
+
+        def fake_fetch(port_name: str, *, baseline: str, ports_dir: Path | None, cache: dict[str, dict]):
+            self.assertEqual(baseline, "test-baseline")
+            return ports[port_name]
+
+        with mock.patch.object(audit, "fetch_port_manifest", side_effect=fake_fetch):
+            packages = audit.build_package_records(
+                manifest,
+                self.policy,
+                baseline="test-baseline",
+                ports_dir=REPO_ROOT,
+                platform_tags={"linux", "x64"},
+                include_host_deps=False,
+            )
+
+        self.assertEqual(len(packages), 1)
+        self.assertEqual(packages[0]["action"], "warn")
+        self.assertIn("policy exception applied", packages[0]["reason"].lower())
+        self.assertEqual(
+            packages[0]["policy_exception"]["package"],
+            "glslang",
+        )
 
 
 if __name__ == "__main__":

@@ -68,6 +68,8 @@ NON_CPP_PURL_PREFIXES = (
     "pkg:hex/",
     "pkg:conda/",
     "pkg:conan/",
+    "pkg:githubactions/",
+    "pkg:github/",
 )
 
 components = sbom.get("components", [])
@@ -84,6 +86,10 @@ for comp in components:
 
     # Skip components from non-C++ ecosystems; they are not in vcpkg.json
     if any(purl.startswith(p) for p in NON_CPP_PURL_PREFIXES):
+        continue
+
+    # Skip GitHub Actions components detected from workflow files
+    if "/" in name and (not purl or purl.startswith("pkg:github/")):
         continue
 
     # Skip standard system libraries (e.g. libssl, glibc, musl, openssl, zlib)
