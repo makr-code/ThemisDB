@@ -6,7 +6,7 @@ Die kanonische Liste aktiver Workflows steht in `.github/WORKFLOW_REGISTRY.md`.
 Workflows unter `.github/no_workflows/` gelten als bewusst deaktivierte Quarantaene und
 duerfen nicht stillschweigend reaktiviert werden.
 
-## Aktive Workflows (24)
+## Aktive Workflows (21)
 - `.github/workflows/automation-community.yml`
 - `.github/workflows/ci-benchmarks.yml`
 - `.github/workflows/ci-build.yml`
@@ -21,16 +21,17 @@ duerfen nicht stillschweigend reaktiviert werden.
 - `.github/workflows/governance-gates.yml`
 - `.github/workflows/maintenance-cache-warming.yml`
 - `.github/workflows/maintenance-ci-health.yml`
-- `.github/workflows/maintenance-security-alerts.yml`
-- `.github/workflows/maintenance-gs3-gaps.yml`
-- `.github/workflows/maintenance-docs.yml`
+- `.github/workflows/maintenance-issues.yml`  ← konsolidiert: GS3-Gaps + Security-Alert-Triage
+- `.github/workflows/maintenance-docs.yml`     ← deckt ai_context/ + ai_working/ ab
 - `.github/workflows/quality-static-analysis.yml`
 - `.github/workflows/release-changelog.yml`
 - `.github/workflows/security-pentest-quarterly.yml`
-- `.github/workflows/security-scan.yml`
-- `.github/workflows/security-scanning.yml`
-- `.github/workflows/security.yml`
+- `.github/workflows/security-consolidated.yml`  ← konsolidiert: Trivy + Gitleaks + KubeSec + DAST
 - `.github/workflows/fortify.yml`
+
+Archiviert in `.github/no_workflows/` (im Zuge Workflow Framework Refactoring):
+  `security.yml`, `security-scanning.yml`, `security-scan.yml`,
+  `maintenance-gs3-gaps.yml`, `maintenance-security-alerts.yml`
 
 ## Harte Grenzen fuer neue oder reaktivierte CI
 - Default ist `kein neuer Workflow`. Bevorzuge einen neuen Job in einem bestehenden Workflow.
@@ -82,7 +83,10 @@ duerfen nicht stillschweigend reaktiviert werden.
 - Compliance-Gates fuer Dependencies muessen branch- und pfadbegrenzt sein und ein downloadbares Audit-Artefakt erzeugen.
 - OIDC-basierte Authentifizierung (kein long-lived PAT) fuer ghcr.io und neue Registry-Ziele.
 
-## Build Caching (sccache)
+## Composite Actions
+- `.github/actions/setup-cpp-build/`  — C++ Build-Setup (sccache, toolchain, deps)
+- `.github/actions/setup-python-script/`  — Reusable checkout→python→script→upload pattern (ersetzt 21× Duplizierung)
+- `.github/actions/manage-governance-issue/`  — Kanonische create/update/close Issue-Action (aktuell noch nicht von Workflows verwendet; kanon. Referenz für künftige Migrations)
 - `ci-build.yml` und `maintenance-cache-warming.yml` nutzen `mozilla-actions/sccache-action` mit `SCCACHE_GHA_ENABLED=true`.
 - CMake muss mit `-DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache` konfiguriert werden.
 - Cache-Warming erfolgt wöchentlich (montags 00:00 UTC) für Linux (GCC) und Windows (MSVC).
