@@ -311,11 +311,12 @@ jobs:
          python3 - <<'PY' | tee /dev/stderr >> "$GITHUB_OUTPUT"
          import json
          from pathlib import Path
-         manifest = json.loads(Path("vcpkg.json").read_text(encoding="utf-8"))
-         sha = manifest['builtin-baseline']
-         deps = manifest.get('dependencies', [])
-         print(f"sha={sha}")
          import sys
+
+         manifest = json.loads(Path("vcpkg.json").read_text(encoding="utf-8"))
+         sha = manifest["builtin-baseline"]
+         deps = manifest.get("dependencies", [])
+         print(f"sha={sha}")
          print(f"  Pinned baseline SHA : {sha}", file=sys.stderr)
          print(f"  Dependency count    : {len(deps)}", file=sys.stderr)
          PY
@@ -331,13 +332,13 @@ jobs:
          SECS=$(( $(date +%s) - T0 ))
          echo "  ✅ Cloned in ${SECS}s"
          echo "  Latest upstream SHA : ${LATEST_SHA}"
-         echo "latest_sha=${LATEST_SHA}" >> "$GITHUB_ENV"
+         echo "LATEST_SHA=${LATEST_SHA}" >> "$GITHUB_ENV"
          echo "──────────────────────────────────────────────"
 
       - name: Compare pinned vs current baseline
        run: |
          PINNED="${{ steps.baseline.outputs.sha }}"
-         LATEST="${latest_sha}"
+         LATEST="${LATEST_SHA}"
          echo "──────────────────────────────────────────────"
          echo "  Staleness check"
          echo "  Pinned baseline : ${PINNED}"

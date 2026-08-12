@@ -11,6 +11,8 @@ name: Governance — Gates
 on:
   push:
     branches: [develop]
+    tags:
+      - 'v*-rc.*'
   pull_request:
     types: [opened, synchronize, labeled, unlabeled, reopened]
     branches:
@@ -34,9 +36,6 @@ on:
     - cron: '0 9 * * *'     # Daily 09:00 UTC — waiver expiration check
     - cron: '0 8 * * MON'   # Weekly Monday 08:00 UTC — gate audit summary
     - cron: '0 8 1 1,4,7,10 *'  # Quarterly — branch protection drift detection
-  push:
-    tags:
-      - 'v*-rc.*'
   workflow_dispatch:
     inputs:
       rc_tag:
@@ -124,9 +123,11 @@ jobs:
         run: |
           git fetch origin "${{ github.base_ref }}" --depth=1
           CHANGED_ROADMAPS=$(git diff --name-only "origin/${{ github.base_ref }}...HEAD" | grep 'src/.*/ROADMAP\.md' || true)
-          echo "changed_roadmaps<<EOF" >> "$GITHUB_OUTPUT"
-          echo "${CHANGED_ROADMAPS}" >> "$GITHUB_OUTPUT"
-          echo "EOF" >> "$GITHUB_OUTPUT"
+          {
+            echo "changed_roadmaps<<EOF"
+            echo "${CHANGED_ROADMAPS}"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
 
       - name: Validate phase closures
         if: steps.modules.outputs.changed_roadmaps != ''

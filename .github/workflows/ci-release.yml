@@ -247,9 +247,11 @@ jobs:
           else
             EDITION=community; VERSION="${TAG}"
           fi
-          echo "edition=${EDITION}" >> "$GITHUB_OUTPUT"
-          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
-          echo "archive_name=themisdb-${EDITION}-${VERSION}-linux-x64" >> "$GITHUB_OUTPUT"
+          {
+            echo "edition=${EDITION}"
+            echo "version=${VERSION}"
+            echo "archive_name=themisdb-${EDITION}-${VERSION}-linux-x64"
+          } >> "$GITHUB_OUTPUT"
 
       - name: Create release archive
         shell: bash
@@ -265,11 +267,11 @@ jobs:
         run: |
           set -euo pipefail
           cd release
-          sha256sum *.tar.gz > SHA256SUMS.txt
+          sha256sum -- ./*.tar.gz > SHA256SUMS.txt
           {
             echo "artifacts:"
-            for f in *.tar.gz; do
-              echo "  - ${f}"
+            for f in ./*.tar.gz; do
+              echo "  - ${f#./}"
             done
           } > RELEASE_MANIFEST.txt
 

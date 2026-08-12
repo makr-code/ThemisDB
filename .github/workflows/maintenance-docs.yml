@@ -140,13 +140,17 @@ jobs:
         id: mode
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.update_headers }}" = "true" ]; then
-            echo "mode=rewrite" >> "$GITHUB_OUTPUT"
-            echo "no_headers_flag=" >> "$GITHUB_OUTPUT"
-            echo "report_path_flag=" >> "$GITHUB_OUTPUT"
+            {
+              echo "mode=rewrite"
+              echo "no_headers_flag="
+              echo "report_path_flag="
+            } >> "$GITHUB_OUTPUT"
           else
-            echo "mode=check-only" >> "$GITHUB_OUTPUT"
-            echo "no_headers_flag=--no-headers" >> "$GITHUB_OUTPUT"
-            echo "report_path_flag=--report-path /tmp/code_maturity_report.md" >> "$GITHUB_OUTPUT"
+            {
+              echo "mode=check-only"
+              echo "no_headers_flag=--no-headers"
+              echo "report_path_flag=--report-path /tmp/code_maturity_report.md"
+            } >> "$GITHUB_OUTPUT"
           fi
 
       - name: Run code maturity analysis (${{ steps.mode.outputs.mode }})
