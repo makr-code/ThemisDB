@@ -27,11 +27,11 @@ on:
       registry:
         description: "Docker registry to push to"
         required: false
-        default: "docker.io"
+        default: "ghcr.io"
         type: choice
         options:
-          - "docker.io"
           - "ghcr.io"
+          - "docker.io"
 
 # Explicit minimal default permissions — each job overrides as needed.
 permissions:
@@ -80,7 +80,7 @@ jobs:
         echo "  Run ID          : ${{ github.run_id }}"
         echo "  Timestamp       : $(date -u)"
         echo "  Push requested  : ${{ github.event.inputs.push_to_registry || 'N/A (auto)' }}"
-        echo "  Target registry : ${{ github.event.inputs.registry || 'docker.io (default)' }}"
+        echo "  Target registry : ${{ github.event.inputs.registry || 'ghcr.io (default)' }}"
         echo "  OS              : $(uname -a)"
         echo "  Docker version  : $(docker --version)"
         echo "  Purpose         : Build ThemisDB image, push to registry,"
@@ -150,6 +150,7 @@ jobs:
         REPOSITORY: ${{ github.repository }}
         COMMIT_SHA: ${{ github.sha }}
         RUN_ID: ${{ github.run_id }}
+        DISPATCH_REGISTRY: ${{ github.event.inputs.registry || 'ghcr.io' }}
       run: |
         VERSION="${{ steps.version.outputs.version }}"
         TAGS=""
@@ -185,7 +186,11 @@ jobs:
 
         # For workflow_dispatch without release
         else
-          TAGS="ghcr.io/${REPO_LC}:manual-${RUN_ID}"
+          if [[ "${DISPATCH_REGISTRY}" == "docker.io" ]]; then
+            TAGS="themisdb/themisdb:manual-${RUN_ID}"
+          else
+            TAGS="ghcr.io/${REPO_LC}:manual-${RUN_ID}"
+          fi
         fi
 
         echo "value=${TAGS}" >> "${GITHUB_OUTPUT}"
