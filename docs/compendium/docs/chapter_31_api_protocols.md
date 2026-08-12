@@ -4494,3 +4494,168 @@ public:
     }
 };
 ```
+
+---
+
+## 31.15 Weiterführende Referenzen (docs/de/) {#chapter_31_15_cross-references}
+
+> Detaillierte API-Spezifikationen und Implementierungsdokumentation in den technischen Quell-Dokumenten:
+
+| Thema | Referenz |
+|---|---|
+| HTTP REST API Referenz | [`docs/de/apis/HTTP_API_REFERENCE.md`](../../de/apis/HTTP_API_REFERENCE.md) |
+| REST API Spezifikation | [`docs/de/apis/REST_API_SPECIFICATION.md`](../../de/apis/REST_API_SPECIFICATION.md) |
+| GraphQL API Spezifikation | [`docs/de/apis/GRAPHQL_API_SPECIFICATION.md`](../../de/apis/GRAPHQL_API_SPECIFICATION.md) |
+| gRPC API Spezifikation | [`docs/de/apis/GRPC_API_SPECIFICATION.md`](../../de/apis/GRPC_API_SPECIFICATION.md) |
+| HTTP/2 & HTTP/3 Protokoll-Support | [`docs/de/apis/HTTP2_HTTP3_PROTOCOL_SUPPORT.md`](../../de/apis/HTTP2_HTTP3_PROTOCOL_SUPPORT.md) |
+| HTTP/2 & HTTP/3 Usage Guide | [`docs/de/apis/HTTP2_HTTP3_USAGE_GUIDE.md`](../../de/apis/HTTP2_HTTP3_USAGE_GUIDE.md) |
+| HTTP/2 Server Push + CDC | [`docs/de/apis/HTTP2_SERVER_PUSH_CDC.md`](../../de/apis/HTTP2_SERVER_PUSH_CDC.md) |
+| MCP API Spezifikation | [`docs/de/apis/MCP_API_SPECIFICATION.md`](../../de/apis/MCP_API_SPECIFICATION.md) |
+| MCP AQL Integration | [`docs/de/apis/MCP_AQL_INTEGRATION.md`](../../de/apis/MCP_AQL_INTEGRATION.md) |
+| MCP Transports | [`docs/de/apis/MCP_TRANSPORTS.md`](../../de/apis/MCP_TRANSPORTS.md) |
+| OpenAPI Spezifikation | [`docs/de/apis/apis_openapi.md`](../../de/apis/apis_openapi.md) |
+| OpenAPI Schema | [`docs/openapi.yaml`](../../openapi.yaml) |
+| Zusätzliche Protokolle | [`docs/de/apis/ADDITIONAL_PROTOCOLS.md`](../../de/apis/ADDITIONAL_PROTOCOLS.md) |
+| Optionale Protokolle | [`docs/de/apis/OPTIONAL_PROTOCOLS.md`](../../de/apis/OPTIONAL_PROTOCOLS.md) |
+| Build-Schalter per Protokoll | [`docs/de/apis/PROTOCOL_BUILD_SWITCHES.md`](../../de/apis/PROTOCOL_BUILD_SWITCHES.md) |
+| RPC/gRPC Primärquellen | [`docs/de/rpc_grpc/PRIMARY_SOURCES.md`](../../de/rpc_grpc/PRIMARY_SOURCES.md) |
+
+**→ Zurück:** [Kapitel 30: Deployment & Operations](chapter_30_deployment_operations.md)  
+**→ Weiter:** [Kapitel 32: API Design & REST Principles](chapter_32_api_design_rest_principles.md)
+
+---
+
+## 31.15 Phase-3-Sync: Protokollvergleich & Schnellreferenz {#chapter_31_15_phase3_sync}
+
+> *Quelle: [docs/de/apis/README.md](../../../docs/de/apis/README.md) · [docs/de/apis/GRPC_API_SPECIFICATION.md](../../../docs/de/apis/GRPC_API_SPECIFICATION.md) · [docs/de/rpc_grpc/README.md](../../../docs/de/rpc_grpc/README.md) · [docs/de/apis/HTTP2_HTTP3_PROTOCOL_SUPPORT.md](../../../docs/de/apis/HTTP2_HTTP3_PROTOCOL_SUPPORT.md)*
+
+### 31.15.1 Protokollvergleichstabelle
+
+| Protokoll | Transport | Format | Streaming | Auth | Latenz | Typischer Einsatz |
+|-----------|---------|--------|-----------|------|-------|-------------------|
+| **REST/HTTP** | HTTP/1.1–HTTP/3 | JSON | ❌ (Polling) | JWT/API-Key | Mittel | CRUD, öffentliche APIs |
+| **gRPC** | HTTP/2 | Protocol Buffers | ✅ bi-direkt. | mTLS/JWT | Niedrig | Microservices, interne APIs |
+| **GraphQL** | HTTP | JSON | ✅ Subscriptions | JWT/OAuth2 | Mittel | Flexible Datenabfragen, Frontend |
+| **HTTP/2** | TCP+TLS | beliebig | ✅ Server Push | TLS | Niedrig | Multiplexing, Performance |
+| **HTTP/3 (QUIC)** | UDP+TLS | beliebig | ✅ | TLS 1.3 | Sehr niedrig | Mobile, hoher Paketverlust |
+| **WebSocket** | TCP | JSON/Binary | ✅ bi-direkt. | JWT/Cookie | Sehr niedrig | Real-Time, CDC-Streaming |
+| **MCP** | HTTP/WebSocket | JSON-RPC | ✅ | OAuth2 | Mittel | LLM-Tool-Integration |
+
+### 31.15.2 Schnellreferenz: ThemisDB API-Endpunkte
+
+#### REST API
+```
+Basis-URL: https://themis.example.com/api/v1
+Authentifizierung: Authorization: ******
+
+GET    /collections/{name}          → Kollektion abrufen
+POST   /collections                 → Kollektion erstellen
+POST   /collections/{name}/query    → AQL-Abfrage ausführen
+POST   /collections/{name}/documents → Dokument einfügen
+DELETE /collections/{name}/documents/{id} → Dokument löschen
+POST   /vectors/search              → Vector-Suche (k-NN)
+```
+
+#### gRPC
+```
+Basis-URL: grpc://themis.example.com:50051
+Proto-Dateien: proto/themis_core.proto, proto/llm_service.proto
+
+Services:
+  ThemisCoreService  → CRUD, AQL-Queries
+  LLMService         → LLM-Inferenz, Embeddings
+  ShardingService    → Distributed Operations
+```
+
+#### GraphQL
+```
+Endpoint: https://themis.example.com/graphql
+WebSocket (Subscriptions): wss://themis.example.com/graphql
+
+Schema-Typen: Collection, Document, QueryResult, LLMResponse
+```
+
+#### MCP (Model Context Protocol)
+```
+Transport: HTTP POST + WebSocket
+Endpunkt: https://themis.example.com/mcp/v1
+
+Tools: themis_query, themis_insert, themis_search, themis_llm
+```
+
+### 31.15.3 Authentifizierungs-Flows
+
+| Flow | Protokoll | Beschreibung |
+|------|-----------|-------------|
+| **JWT Bearer** | REST, GraphQL, MCP | `Authorization: ****** in Header |
+| **mTLS** | gRPC | Gegenseitige TLS-Authentifizierung; Zertifikat in `certs/` |
+| **OAuth2 Client Credentials** | REST, MCP | Für Service-to-Service ohne Nutzerinteraktion |
+| **API-Key** | REST | `X-ThemisDB-API-Key: <key>` Header |
+| **HMAC-Signatur** | Webhooks | SHA-256-Signatur für eingehende Events |
+
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant T as ThemisDB
+    participant A as Auth Service
+
+    C->>A: POST /auth/token (credentials)
+    A-->>C: JWT Token (exp: 3600s)
+    C->>T: API Request + Authorization: ******
+    T->>T: Token-Validierung (lokal oder Introspection)
+    T-->>C: API Response
+```
+
+**Abb. 31.15.1:** JWT-Authentifizierungsflow für REST und GraphQL.
+
+### 31.15.4 gRPC: TLS/mTLS-Konfiguration
+
+Das `rpc_grpc`-Plugin (Modul-Version 0.3.0) implementiert **fail-closed TLS**:
+
+```cpp
+// Konfiguration: src/rpc_grpc/grpc_plugin.h
+RPCServerConfig config;
+config.host = "0.0.0.0";
+config.port = 50051;
+config.tls_enabled = true;          // fail-closed: TLS ist Pflicht
+config.cert_path = "certs/server.crt";
+config.key_path  = "certs/server.key";
+config.mtls_ca_path = "certs/ca.crt"; // für mTLS (optional)
+config.keepalive_time_ms = 10000;
+```
+
+**Primärquelle:** [`src/rpc_grpc/README.md`](../../../docs/de/rpc_grpc/README.md) · [`include/plugins/rpc_plugin_interface.h`](../../../include/plugins/rpc_plugin_interface.h)
+
+### 31.15.5 HTTP/2 & HTTP/3: Protokollunterstützung
+
+Quellen: [`docs/de/apis/HTTP2_HTTP3_PROTOCOL_SUPPORT.md`](../../../docs/de/apis/HTTP2_HTTP3_PROTOCOL_SUPPORT.md) · [`docs/de/apis/HTTP2_HTTP3_USAGE_GUIDE.md`](../../../docs/de/apis/HTTP2_HTTP3_USAGE_GUIDE.md)
+
+| Feature | HTTP/2 | HTTP/3 (QUIC) |
+|---------|--------|--------------|
+| Transport | TCP+TLS | UDP+TLS 1.3 |
+| Multiplexing | ✅ (Streams) | ✅ (QUIC Streams) |
+| Header-Kompression | HPACK | QPACK |
+| Server Push | ✅ | ⚠️ (deprecated in HTTP/3) |
+| 0-RTT Reconnect | ❌ | ✅ |
+| Head-of-line Blocking | Ja (TCP) | Nein (QUIC) |
+| Empfohlen für | Bestehende Infra | Mobile, hoher Paketverlust |
+
+**Server Push für CDC (HTTP/2):** ThemisDB unterstützt HTTP/2 Server Push für Change-Data-Capture-Events — dokumentiert in [`docs/de/apis/HTTP2_SERVER_PUSH_CDC.md`](../../../docs/de/apis/HTTP2_SERVER_PUSH_CDC.md).
+
+---
+
+## 31.16 Phase-3-Sync: Querverweis-Index {#chapter_31_16_cross_references}
+
+**Bidirektionale Verweise — Level-1/2 Primärquellen:**
+
+| Thema | Primärquelle (Level 1) | docs/de-Kompendiumsquelle |
+|-------|----------------------|--------------------------|
+| API Modul Übersicht | [`src/api/README.md`](../../../src/api/README.md) | [`docs/de/apis/README.md`](../../../docs/de/apis/README.md) |
+| REST API Spezifikation | [`src/api/ARCHITECTURE.md`](../../../src/api/ARCHITECTURE.md) | [`docs/de/apis/REST_API_SPECIFICATION.md`](../../../docs/de/apis/REST_API_SPECIFICATION.md) |
+| gRPC Spezifikation | `proto/themis_core.proto` | [`docs/de/apis/GRPC_API_SPECIFICATION.md`](../../../docs/de/apis/GRPC_API_SPECIFICATION.md) |
+| gRPC Plugin | `src/rpc_grpc/grpc_plugin.h/.cpp` | [`docs/de/rpc_grpc/README.md`](../../../docs/de/rpc_grpc/README.md) |
+| GraphQL Spezifikation | `src/api/graphql/` | [`docs/de/apis/GRAPHQL_API_SPECIFICATION.md`](../../../docs/de/apis/GRAPHQL_API_SPECIFICATION.md) |
+| HTTP/2+3 Support | `src/api/http2_handler.cpp` | [`docs/de/apis/HTTP2_HTTP3_PROTOCOL_SUPPORT.md`](../../../docs/de/apis/HTTP2_HTTP3_PROTOCOL_SUPPORT.md) |
+| MCP Integration | `src/mcp/` | [`docs/de/apis/MCP_API_SPECIFICATION.md`](../../../docs/de/apis/MCP_API_SPECIFICATION.md) |
+
+**→ Verwandte Kapitel:** [Kapitel 22 (Client Libraries)](chapter_22_clients.md) · [Kapitel 30 (Deployment)](chapter_30_deployment_operations.md) · [Kapitel 32 (API Design)](chapter_32_api_design_rest_principles.md) · [Kapitel 36 (Security)](chapter_36_security_hardening.md)
