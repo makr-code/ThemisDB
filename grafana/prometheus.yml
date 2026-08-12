@@ -10,6 +10,7 @@ rule_files:
   - '/etc/prometheus/alerts/siem_security_alerts.yaml'
   - '/etc/prometheus/alerts/graph_security.yaml'
   - '/etc/prometheus/rules/llm_alerts.yml'
+  - '/etc/prometheus/rules/sla-rules.yml'
   - '/etc/prometheus/alerts/bt4_flare_alerts.yml'
 
 # Scrape configurations

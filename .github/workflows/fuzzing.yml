@@ -1,0 +1,131 @@
+name: Fuzz Testing
+
+on:
+  schedule:
+    # Every Sunday at 00:00 UTC
+    - cron: '0 0 * * 0'
+  workflow_dispatch:
+    inputs:
+      target:
+        description: 'Fuzzing target to run'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - aql_parser
+          - gguf_loader
+          - grammar
+          - http_parser
+          - jwt_rbac_config
+          - ldap_dn
+          - pii_redaction
+          - postgres_importer
+          - security_input_validator
+          - security_policy_engine
+
+permissions:
+  contents: read
+
+jobs:
+  fuzz:
+    name: AFL++ Fuzzing
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+
+      - name: Install AFL++
+        run: sudo apt-get update && sudo apt-get install -y afl++
+
+      - name: Install build dependencies
+        run: sudo apt-get install -y cmake ninja-build clang
+
+      - name: Configure with fuzzing preset
+        run: |
+          cmake -B build-fuzz \
+            -DCMAKE_BUILD_TYPE=Debug \
+            -DENABLE_FUZZING=ON \
+            -DCMAKE_C_COMPILER=afl-clang-lto \
+            -DCMAKE_CXX_COMPILER=afl-clang-lto++
+
+      - name: Build fuzz targets (best-effort)
+        run: cmake --build build-fuzz --target fuzz_targets || true
+
+      - name: Run fuzzing (60 s per target)
+        run: |
+          set -euo pipefail
+
+          TARGET_INPUT="${{ github.event.inputs.target || 'all' }}"
+
+          HARNESSES=(
+            aql_parser
+            gguf_loader
+            grammar
+            http_parser
+            jwt_rbac_config
+            ldap_dn
+            pii_redaction
+            postgres_importer
+            security_input_validator
+            security_policy_engine
+          )
+
+          # Corpus directory mapping (harness → corpus subfolder)
+          declare -A CORPUS_MAP
+          CORPUS_MAP[aql_parser]="aql"
+          CORPUS_MAP[gguf_loader]="llm/gguf"
+          CORPUS_MAP[grammar]="llm/grammar"
+          CORPUS_MAP[http_parser]=""
+          CORPUS_MAP[jwt_rbac_config]="jwt"
+          CORPUS_MAP[ldap_dn]="ldap_dn"
+          CORPUS_MAP[pii_redaction]="pii"
+          CORPUS_MAP[postgres_importer]="importer"
+          CORPUS_MAP[security_input_validator]="input_validator"
+          CORPUS_MAP[security_policy_engine]="policy_engine"
+
+          for HARNESS in "${HARNESSES[@]}"; do
+            if [[ "$TARGET_INPUT" != "all" && "$TARGET_INPUT" != "$HARNESS" ]]; then
+              echo "Skipping $HARNESS (not selected)"
+              continue
+            fi
+
+            BINARY="./build-fuzz/fuzz/bin/${HARNESS}_harness"
+            CORPUS_SUBDIR="${CORPUS_MAP[$HARNESS]}"
+            CORPUS_DIR="fuzz/corpus/${CORPUS_SUBDIR}"
+            OUT_DIR="/tmp/fuzz-out/${HARNESS}"
+
+            if [[ ! -f "$BINARY" ]]; then
+              echo "Binary not found for $HARNESS — skipping"
+              continue
+            fi
+
+            if [[ -z "$CORPUS_SUBDIR" || ! -d "$CORPUS_DIR" ]]; then
+              echo "Corpus directory not found for $HARNESS ($CORPUS_DIR) — skipping"
+              continue
+            fi
+
+            mkdir -p "$OUT_DIR"
+            echo "Fuzzing $HARNESS for 60 seconds..."
+            timeout 60 afl-fuzz \
+              -i "$CORPUS_DIR" \
+              -o "$OUT_DIR" \
+              -- "$BINARY" @@ || true
+          done
+
+      - name: Upload crash artifacts
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: fuzz-crashes
+          path: /tmp/fuzz-out/*/crashes/
+          retention-days: 30
+
+      - name: Upload hang artifacts
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: fuzz-hangs
+          path: /tmp/fuzz-out/*/hangs/
+          retention-days: 30

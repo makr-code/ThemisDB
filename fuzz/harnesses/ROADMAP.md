@@ -1,50 +1,59 @@
-# ROADMAP
+# fuzz/harnesses ROADMAP
 
 ## Current Status
-- [~] Modul `fuzz/harnesses` dokumentiert; Backlog für weitere Härtung und Ausbau wird gepflegt.
+- [x] 10 harnesses implemented (aql_parser, gguf_loader, grammar, http_parser, jwt_rbac_config, ldap_dn, pii_redaction, postgres_importer, security_input_validator, security_policy_engine)
+- [x] Corpus seeds for all 11 target areas
+- [x] Dictionaries for aql, crypto, json, pii
+- [ ] CI workflow for automated fuzzing not yet active
 
 ## In Progress
-- [ ] Dokumentations- und Qualitätslücken schließen (Target: 2026-Q2)
+- [~] fuzzing.yml CI workflow implementation (Target: Q3 2026)
 
 ## Planned Features
-- [ ] Schnittstellen und Verantwortlichkeiten präzisieren (Target: 2026-Q3)
-- [ ] Testabdeckung für kritische Pfade erweitern (Target: 2026-Q3)
-- [ ] Betriebs- und Security-Härtung abschließen (Target: 2026-Q4)
+- [ ] Add dictionary for jwt, ldap_dn, policy_engine, rbac, http, importer targets (Target: Q3 2026)
+- [ ] Crash triage automation with CASR (Target: Q4 2026)
+- [ ] Coverage-guided corpus minimization (Target: Q4 2026)
+- [ ] OSS-Fuzz integration (Target: 2027-Q1)
 
 ## Implementation Phases
 ### Phase 1: Design / API-Vertrag
-- [ ] Öffentliche und interne Interfaces des Moduls konsolidieren (Target: 2026-Q2)
-- [ ] Eingabe-/Ausgabeverträge und Fehlermodelle festlegen (Target: 2026-Q2)
+- [x] Harness interface: LLVMFuzzerTestOneInput(const uint8_t*, size_t)
+- [x] Corpus seed structure per target
+- [ ] CMake fuzz_targets integration (Target: Q3 2026)
 
 ### Phase 2: Core-Implementierung
-- [ ] Kernlogik gemäß Schnittstellenvertrag vervollständigen (Target: 2026-Q3)
-- [ ] Integrationspunkte zu abhängigen Modulen stabilisieren (Target: 2026-Q3)
+- [x] 10 harnesses implemented
+- [x] Corpus seeds for all targets
+- [ ] CI workflow active (Target: Q3 2026)
 
 ### Phase 3: Fehlerbehandlung & Edge Cases
-- [ ] Fehlerfälle systematisch abdecken (Target: 2026-Q3)
-- [ ] Edge-Case-Handling und Guardrails ergänzen (Target: 2026-Q3)
+- [ ] Dictionary coverage for all targets (Target: Q3 2026)
+- [ ] Sanitizer configuration (ASan + UBSan) verified per harness (Target: Q3 2026)
 
 ### Phase 4: Tests
-- [ ] Unit-Tests für Kernpfade ausbauen (Target: 2026-Q3)
-- [ ] Integrations- und Regressionstests ergänzen (Target: 2026-Q3)
+- [ ] Sanity-test: each harness runs without crash on seed corpus (Target: Q3 2026)
+- [ ] CI gate: no new crashes on seed inputs (Target: Q4 2026)
 
 ### Phase 5: Performance/Hardening
-- [ ] Performance-Bottlenecks messen und reduzieren (Target: 2026-Q4)
-- [ ] Security- und Reliability-Hardening abschließen (Target: 2026-Q4)
+- [ ] Persistent mode enabled in all harnesses (Target: Q4 2026)
+- [ ] Corpus minimization (afl-cmin) for all targets (Target: Q4 2026)
 
 ### Phase 6: Dokumentation & Abnahme
-- [ ] Betriebs- und Entwicklerdokumentation aktualisieren (Target: 2026-Q4)
-- [ ] Modulabnahme anhand Checklisten und Akzeptanzkriterien durchführen (Target: 2026-Q4)
+- [ ] Runbook: crash triage and severity classification (Target: Q4 2026)
+- [ ] Integration with security pentest evidence bundle (Target: Q4 2026)
 
 ## Production Readiness Checklist
-- [ ] Definierte Fehlersemantik und Recovery-Pfade
-- [ ] Ausreichende Testabdeckung inkl. Regression
-- [ ] Security-Review und Dependency-Checks abgeschlossen
-- [ ] Monitoring/Observability-Anforderungen erfüllt
-- [ ] Dokumentation für Betrieb und Entwicklung vollständig
+- [x] Harness implementations present
+- [x] Seed corpus present for all targets
+- [ ] CI workflow active
+- [ ] Crash-free on seed corpus verified
+- [ ] Dictionary coverage ≥ 80% of targets
+- [ ] Crash triage runbook available
 
 ## Known Issues & Limitations
-- [!] Detailtiefe der Modul-spezifischen Akzeptanzkriterien variiert und wird sukzessive geschärft.
+- [!] `fuzzing.yml` workflow referenced in README but not yet implemented (fixed by this change)
+- [!] Dictionary coverage: only aql, crypto, json, pii — missing jwt, ldap_dn, policy_engine, rbac, http, importer
+- [!] CMake fuzz_targets build target not yet verified in CI
 
 ## Breaking Changes
-- Keine bekannten Breaking Changes dokumentiert.
+- None.
