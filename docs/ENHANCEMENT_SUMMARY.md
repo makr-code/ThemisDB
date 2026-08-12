@@ -1,7 +1,13 @@
+> **⚠️ ARCHIVIERUNGSHINWEIS:** Diese Datei ist ein Duplikat die bereits unter `docs/ARCHIVED/implementation-summaries/` archiviert wurde. Der Inhalt hier dient nur als Referenz. Bitte nutze die archivierte Version als kanonische Quelle.
+>
+> **Status: archive-candidate** | Inventar: [DOCS_INVENTORY_2026-Q3.md](Audit/DOCS_INVENTORY_2026-Q3.md)
+
+---
+
 # WordPress Benchmark Visualizer Enhancement - Summary
 
 ## Problem Statement (German)
-"Der Wordpress themis benchmark sollte sehr viel mehr benchmark-daten / ergebnisse aus .\benchmarks grafisch aufbereiten und darstellen."
+"Der Wordpress themis benchmark sollte sehr viel mehr benchmark-daten / ergebnisse aus .enchmarks grafisch aufbereiten und darstellen."
 
 Translation: "The WordPress Themis benchmark should graphically prepare and display much more benchmark data/results from ./benchmarks."
 

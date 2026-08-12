@@ -1,6 +1,9 @@
 # Category Index
 
-Stand: 2026-04-18
+> **📌 Navigation-Hinweis:** Der kanonische Root-Index ist [`00_DOCUMENTATION_INDEX.md`](00_DOCUMENTATION_INDEX.md).
+> Diese Datei bleibt als ergänzende Kategorie-Übersicht erhalten; für die vollständige Navigation bitte den kanonischen Index nutzen.
+
+Stand: 2026-04-18 | Inventar: [DOCS_INVENTORY_2026-Q3.md](Audit/DOCS_INVENTORY_2026-Q3.md)
 
 ## Kernbereiche
 

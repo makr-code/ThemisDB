@@ -1,3 +1,9 @@
+> **⚠️ ARCHIVIERUNGSHINWEIS:** Diese Datei ist ein Duplikat die bereits unter `docs/ARCHIVED/implementation-summaries/` archiviert wurde. Der Inhalt hier dient nur als Referenz. Bitte nutze die archivierte Version als kanonische Quelle.
+>
+> **Status: archive-candidate** | Inventar: [DOCS_INVENTORY_2026-Q3.md](Audit/DOCS_INVENTORY_2026-Q3.md)
+
+---
+
 # Implementation Complete: Post-Generation Quality Control System
 
 ## Summary
@@ -229,7 +235,8 @@ QualityControlPipeline pipeline;
 auto result = pipeline.runQualityControl(query, documents, answer);
 
 if (result.decision == QCDecision::ACCEPT) {
-    std::cout << "Quality passed! Score: " << result.overall_score << "\n";
+    std::cout << "Quality passed! Score: " << result.overall_score << "
+";
 }
 ```
 

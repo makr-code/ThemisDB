@@ -1,5 +1,8 @@
 # 📚 Branching Strategy Documentation Index
 
+> **📌 Navigation-Hinweis:** Der kanonische Root-Index ist [`00_DOCUMENTATION_INDEX.md`](00_DOCUMENTATION_INDEX.md).
+> Dieser Index bleibt als themenspezifischer Einstieg zur Branching-Strategie erhalten; für die vollständige Dokumentationsnavigation bitte den kanonischen Index nutzen.
+
 Welcome to the ThemisDB branching strategy documentation. This index helps you find the right document for your needs.
 
 ## 🎯 Choose Your Document
