@@ -282,13 +282,13 @@ jobs:
 
       - name: Setup sccache (Linux)
         if: runner.os == 'Linux' && (needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request')
-        uses: mozilla-actions/sccache-action@9e326ebed976843c9912b3aa0e021c6f50310eb4  # v0.0.6
+        uses: mozilla-actions/sccache-action@9e326ebed976843c9932b3aa0e021c6f50310eb4  # v0.0.6
         with:
           version: "v0.8.1"
 
       - name: Setup sccache (Windows)
         if: runner.os == 'Windows' && (needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request')
-        uses: mozilla-actions/sccache-action@9e326ebed976843c9912b3aa0e021c6f50310eb4  # v0.0.6
+        uses: mozilla-actions/sccache-action@9e326ebed976843c9932b3aa0e021c6f50310eb4  # v0.0.6
         with:
           version: "v0.8.1"
 
@@ -595,7 +595,7 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
 
       - name: Setup sccache
-        uses: mozilla-actions/sccache-action@9e326ebed976843c9912b3aa0e021c6f50310eb4  # v0.0.6
+        uses: mozilla-actions/sccache-action@9e326ebed976843c9932b3aa0e021c6f50310eb4  # v0.0.6
         with:
           version: "v0.8.1"
 
@@ -696,7 +696,7 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
 
       - name: Setup sccache
-        uses: mozilla-actions/sccache-action@9e326ebed976843c9912b3aa0e021c6f50310eb4  # v0.0.6
+        uses: mozilla-actions/sccache-action@9e326ebed976843c9932b3aa0e021c6f50310eb4  # v0.0.6
         with:
           version: "v0.8.1"
 

@@ -234,7 +234,7 @@ jobs:
 
       - name: Collect changed files
         run: |
-          git fetch origin "${{ github.base_ref }}" --depth=1
+          git fetch origin "${{ github.base_ref }}"
           git diff --name-only "origin/${{ github.base_ref }}...HEAD" > changed_files.txt
 
       - name: Enforce private plugin boundary rules
@@ -531,7 +531,7 @@ jobs:
 
       - name: Collect changed files
         run: |
-          git fetch origin "${{ github.base_ref }}" --depth=1
+          git fetch origin "${{ github.base_ref }}"
           git diff --name-status --find-renames "origin/${{ github.base_ref }}...HEAD" > workflow_changes.txt
 
       - name: Run workflow boundary unit tests
