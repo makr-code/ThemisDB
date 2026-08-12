@@ -41,6 +41,57 @@
 
 ---
 
+## Program Sequencing Contract (Wave A → B → C → D on `develop`)
+
+This root enhancement backlog follows a strict wave-gate model; no wave starts before all exit criteria of the previous wave are closed.
+
+### Wave A — Runtime Reliability (Q3–Q4 2026)
+- [ ] Transaction closure: build/run verification plus chaos-backed crash recovery, timeout determinism, SAGA retry-storm control, Byzantine/cascading-failure validation (Target: Q3–Q4 2026)
+- [ ] Sharding closure: multi-shard exact-path gate, topology-change rebalancing hardening, latency-aware routing, long-run distributed write stress (Target: Q3–Q4 2026)
+- [ ] Replication closure: geographic placement policy, async cross-region WAL shipping with lag alerts, stronger failover diagnostics (Target: Q3–Q4 2026)
+- [ ] Voice closure: fail-closed session lifecycle, malformed/oversized stream rejection, adversarial anti-spoof/liveness regressions, multi-session teardown safety (Target: Q3–Q4 2026)
+- [ ] GPU closure: unchecked CUDA-call reduction, RAII lifecycle hardening, kernel timeout enforcement, guaranteed clean CPU degradation on GPU failures (Target: Q3–Q4 2026)
+
+### Wave A Exit Criteria
+- [ ] Deterministic chaos evidence for transaction/sharding/replication recovery and failover paths (Target: Q4 2026)
+- [ ] Fail-closed verification for distributed and acceleration paths (Target: Q4 2026)
+- [ ] `release_critical` CI green on `develop` for all impacted modules (Target: Q4 2026)
+- [ ] Representative-hardware p95/p99 baseline refresh for sharding/replication/GPU/voice/transaction (Target: Q4 2026)
+
+### Wave B — Performance Consolidation (Q3–Q4 2026)
+- [ ] Search: complete real 4-layer `LayeredRetrievalOrchestrator` integration (ANN/Tensor/Graph/LLM), then lock p95/p99 + memory gates for full chain (Target: Q3–Q4 2026)
+- [ ] Access Model: finish Phase 5–6 observability, concurrency/e2e tests, and GATE-ACM-01..06 benchmark closure (Target: Q3–Q4 2026)
+- [ ] LLM Wiki Phase B: proceed only after measurable/reproducible RocksDB retrieval, cache-hit, and latency gates (Target: Q3–Q4 2026)
+
+### Wave B Exit Criteria
+- [ ] Full 4-layer retrieval chain has stable p95/p99 and memory bounds on representative hardware (Target: Q4 2026)
+- [ ] Access Model observability and benchmark gates are closed with reproducible evidence (Target: Q4 2026)
+- [ ] Release decisions avoid module-local-only benchmark claims (Target: Q4 2026)
+
+### Wave C — Security Production Validation (Q4 2026)
+- [ ] Security module production validation: Vault/HSM/PKI integration, provider failover, real RLS/query workloads, concurrent policy updates, policy-conflict edge cases (Target: Q4 2026)
+- [ ] Audit integrity + high-volume export reliability hardening under load (Target: Q4 2026)
+- [ ] CI policy hardening for private/public plugin boundaries, edition/license checks, hash/SBOM checks, and fail-closed community builds (Target: Q4 2026)
+
+### Wave C Exit Criteria
+- [ ] Production-style security integration evidence complete (Target: Q4 2026)
+- [ ] Audit evidence remains trustworthy under sustained load (Target: Q4 2026)
+- [ ] Policy gates prevent boundary/license/hash/SBOM regressions (Target: Q4 2026)
+
+### Wave D — Operability Hardening (Q1 2027)
+- [ ] Observability expansion across distributed tracing, high-cardinality stress, exporter reliability, and remediation hints (Target: Q1 2027)
+- [ ] Publish operator runbooks for access-model promotion, replication lag/failover, sharding repair/rebalance, voice incident triage, GPU fallback (Target: Q1 2027)
+- [ ] Add long-duration soak tests for telemetry, replication traffic, distributed writes, and mixed acceleration workloads (Target: Q1 2027)
+
+### Program Success Criteria (Final)
+- [ ] All distributed and acceleration paths fail closed (Target: Q1 2027)
+- [ ] Major modules have benchmark-backed p95/p99 baselines on representative hardware (Target: Q1 2027)
+- [ ] Recovery/failover paths have deterministic chaos evidence (Target: Q1 2027)
+- [ ] Security controls have production-style integration validation (Target: Q1 2027)
+- [ ] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+
+---
+
 ## private-plugin-externalization
 
 ### Scope

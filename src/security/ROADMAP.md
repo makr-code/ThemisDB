@@ -103,3 +103,23 @@ Production-grade security stack with transport/auth/access-control, encryption/k
 ## Breaking Changes
 - Security public APIs in active major lines remain additive-first.
 - Any behavior change requiring migration must be versioned and documented in changelog/migration notes.
+
+## Program Execution Model — Wave Context
+
+This module is scoped to **Wave C — Security Production Validation** in the program-level wave model.
+Wave C begins only after Wave B exit criteria are met.
+See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D gate model and exit criteria.
+
+### Wave C Scope for `security`
+- [ ] Security: complete Vault/HSM/PKI integration validation, provider failover, real RLS/query workloads, concurrent policy updates, and policy-conflict edge cases (Target: Q4 2026)
+
+### Wave C Entry Gate (prerequisite from Wave B)
+- [ ] Wave B gate is closed: retrieval chain baselines stable, ACM observability gates closed, hardware baselines confirmed (Target: Q4 2026)
+
+### Wave C Exit Criteria (this module's contribution)
+- [ ] Production-style security integration evidence complete (Target: Q4 2026)
+- [ ] Integrity and reliability verified under sustained load (Target: Q4 2026)
+- [ ] Policy gates consistently block boundary/license/hash/SBOM regressions (Target: Q4 2026)
+
+### Dependencies on Later Waves
+- Wave D operability hardening depends on stable Wave C security controls.

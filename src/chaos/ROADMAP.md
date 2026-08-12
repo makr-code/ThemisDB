@@ -105,3 +105,25 @@ Production-ready in-process fault injection and scheduler surfaces are available
 ## Breaking Changes
 
 No breaking chaos-module contract planned. Any contract-breaking change requires migration notes and changelog entry before merge.
+
+## Program Execution Model — Wave Context
+
+This module is a **contributing module** in the program-level Wave A → B → C → D execution model.
+It does not own a primary wave deliverable but must remain `release_critical`-green throughout all waves
+and must deliver Wave D operability improvements in Q1 2027.
+See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
+
+### Wave D Contribution for `chaos`
+- [ ] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
+- [ ] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
+- [ ] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
+
+### Cross-Wave Requirements
+- `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
+- p95/p99 benchmarks must be refreshed on representative hardware before Wave D sign-off (Target: Q1 2027)
+- No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
+
+### Program-Level Success Criteria (contribution)
+- [ ] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
+- [ ] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
+- [ ] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
