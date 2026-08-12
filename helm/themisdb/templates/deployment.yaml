@@ -41,6 +41,9 @@ spec:
             - name: http
               containerPort: {{ .Values.service.targetPort }}
               protocol: TCP
+            - name: metrics
+              containerPort: {{ .Values.service.metricsPort | default 9091 }}
+              protocol: TCP
             - name: health
               containerPort: {{ .Values.themisdb.healthPort | default 8081 }}
               protocol: TCP

@@ -2,11 +2,10 @@ version: '3.8'
 
 services:
   prometheus:
-    image: prom/prometheus:latest
+    image: prom/prometheus:v2.53.0
     container_name: themisdb-prometheus
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
-      - ./provisioning/alerts.yml:/etc/prometheus/alerts.yml
       - ./alerts:/etc/prometheus/alerts:ro
       - prometheus-data:/prometheus
     command:
@@ -15,25 +14,42 @@ services:
       - '--storage.tsdb.retention.time=15d'
       - '--web.console.libraries=/usr/share/prometheus/console_libraries'
       - '--web.console.templates=/usr/share/prometheus/consoles'
+      - '--web.enable-lifecycle'
     ports:
-      - "9090:9090"  # Prometheus UI and API
+      - "9090:9090"
+    networks:
+      - themisdb-monitoring
+    restart: unless-stopped
+
+  alertmanager:
+    image: prom/alertmanager:v0.27.0
+    container_name: themisdb-alertmanager
+    volumes:
+      - ./alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
+      - alertmanager-data:/alertmanager
+    command:
+      - '--config.file=/etc/alertmanager/alertmanager.yml'
+      - '--storage.path=/alertmanager'
+    ports:
+      - "9093:9093"
     networks:
       - themisdb-monitoring
     restart: unless-stopped
 
   grafana:
-    image: grafana/grafana:latest
+    image: grafana/grafana:11.1.0
     container_name: themisdb-grafana
     volumes:
       - ./provisioning:/etc/grafana/provisioning
       - ./dashboards:/etc/grafana/provisioning/dashboards
       - grafana-data:/var/lib/grafana
     environment:
-      - GF_SECURITY_ADMIN_USER=admin
-      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SECURITY_ADMIN_USER=${GF_ADMIN_USER:-admin}
+      - GF_SECURITY_ADMIN_PASSWORD=${GF_ADMIN_PASSWORD:-changeme}
       - GF_USERS_ALLOW_SIGN_UP=false
-      - GF_SERVER_ROOT_URL=http://localhost:3000
+      - GF_SERVER_ROOT_URL=${GF_ROOT_URL:-http://localhost:3000}
       - GF_INSTALL_PLUGINS=grafana-jaeger-datasource
+      - GF_AUTH_ANONYMOUS_ENABLED=false
     ports:
       - "3000:3000"
     networks:
@@ -82,7 +98,7 @@ services:
   themisdb:
     build:
       context: ..
-      dockerfile: docker/Dockerfile
+      dockerfile: docker/Dockerfile.unified
       target: release
     container_name: themisdb
     environment:
@@ -112,3 +128,4 @@ networks:
 volumes:
   prometheus-data:
   grafana-data:
+  alertmanager-data:

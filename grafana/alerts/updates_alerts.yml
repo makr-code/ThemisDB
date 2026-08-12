@@ -1,0 +1,70 @@
+# Updates module alert rules for ThemisDB.
+# Error codes in range [7400-7499] per module convention.
+# Covers: rollback rate spikes, error code frequency, rollback duration.
+groups:
+  - name: updates_alerts
+    interval: 15s
+    rules:
+      - alert: HighRollbackRate
+        expr: |
+          rate(themis_updates_rollback_total[5m])
+          / rate(themis_updates_applied_total[5m]) > 0.05
+        for: 5m
+        labels:
+          severity: warning
+          component: updates
+        annotations:
+          summary: "High rollback rate in Updates module"
+          description: "Rollback rate on {{$labels.instance}} is {{$value | humanizePercentage}} (threshold: 5%)"
+
+      - alert: CriticalRollbackRate
+        expr: |
+          rate(themis_updates_rollback_total[5m])
+          / rate(themis_updates_applied_total[5m]) > 0.15
+        for: 2m
+        labels:
+          severity: critical
+          component: updates
+        annotations:
+          summary: "CRITICAL: Very high rollback rate in Updates module"
+          description: "Rollback rate on {{$labels.instance}} is {{$value | humanizePercentage}} (threshold: 15%)"
+
+      - alert: UpdatesErrorCodeSpike
+        expr: rate(themis_updates_error_code_total{error_code=~"74.."}[5m]) > 0.1
+        for: 5m
+        labels:
+          severity: warning
+          component: updates
+        annotations:
+          summary: "Updates error code spike (7400-7499)"
+          description: "Error code {{$labels.error_code}} on {{$labels.instance}} is spiking: {{$value}}/s"
+
+      - alert: UpdatesRollbackDurationHigh
+        expr: histogram_quantile(0.95, rate(themis_updates_rollback_duration_seconds_bucket[5m])) > 30
+        for: 5m
+        labels:
+          severity: warning
+          component: updates
+        annotations:
+          summary: "Slow rollback in Updates module"
+          description: "P95 rollback duration on {{$labels.instance}} is {{$value}}s (threshold: 30s)"
+
+      - alert: UpdatesRollbackDurationCritical
+        expr: histogram_quantile(0.95, rate(themis_updates_rollback_duration_seconds_bucket[5m])) > 120
+        for: 2m
+        labels:
+          severity: critical
+          component: updates
+        annotations:
+          summary: "CRITICAL: Rollback duration exceeds SLA"
+          description: "P95 rollback duration on {{$labels.instance}} is {{$value}}s (threshold: 120s)"
+
+      - alert: UpdatesNoThroughput
+        expr: rate(themis_updates_applied_total[5m]) == 0
+        for: 15m
+        labels:
+          severity: warning
+          component: updates
+        annotations:
+          summary: "No update throughput"
+          description: "No updates applied on {{$labels.instance}} for 15 minutes — system may be stalled"

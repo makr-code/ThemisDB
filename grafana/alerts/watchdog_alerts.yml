@@ -1,0 +1,53 @@
+# Alertmanager dead-man's switch (Watchdog) and inhibition rules for ThemisDB.
+# The Watchdog alert fires continuously while Prometheus is healthy.
+# If Alertmanager stops receiving it, the external dead-man's switch notifies on-call.
+# Inhibition rules suppress lower-severity alerts during split-brain or maintenance windows.
+groups:
+  - name: watchdog
+    interval: 30s
+    rules:
+      - alert: Watchdog
+        expr: vector(1)
+        for: 0m
+        labels:
+          severity: none
+          component: monitoring
+        annotations:
+          summary: "Prometheus dead-man's switch is active"
+          description: >
+            This alert fires continuously while Prometheus is up and evaluating rules.
+            If this alert stops firing, Alertmanager is not receiving evaluations —
+            either Prometheus is down or rule evaluation has halted.
+
+  - name: maintenance_inhibition
+    interval: 30s
+    rules:
+      - alert: MonitoringStackDown
+        expr: absent(up{job="prometheus"}) or up{job="prometheus"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          component: monitoring
+        annotations:
+          summary: "CRITICAL: Prometheus scrape target is down"
+          description: "Prometheus cannot scrape {{$labels.instance}} (job: {{$labels.job}})"
+
+      - alert: GrafanaDown
+        expr: absent(up{job="grafana"}) or up{job="grafana"} == 0
+        for: 2m
+        labels:
+          severity: warning
+          component: monitoring
+        annotations:
+          summary: "Grafana is unreachable"
+          description: "Grafana at {{$labels.instance}} has been unreachable for 2 minutes"
+
+      - alert: AlertmanagerDown
+        expr: absent(up{job="alertmanager"}) or up{job="alertmanager"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          component: monitoring
+        annotations:
+          summary: "CRITICAL: Alertmanager is down"
+          description: "Alertmanager cannot be scraped — alert routing is unavailable"

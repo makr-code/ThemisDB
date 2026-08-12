@@ -2,7 +2,7 @@ apiVersion: v2
 name: themisdb
 description: A Helm chart for ThemisDB - Multi-Model Database with ACID Transactions
 type: application
-version: 0.1.0
+version: 0.2.0
 appVersion: "1.0.0"
 keywords:
   - database
@@ -18,3 +18,15 @@ sources:
 maintainers:
   - name: ThemisDB Team
     url: https://github.com/makr-code/ThemisDB
+annotations:
+  artifacthub.io/changes: |
+    - kind: added
+      description: "Grafana dashboard ConfigMaps via Operator pattern (grafana.dashboards.*)"
+    - kind: added
+      description: "NetworkPolicy template (networkPolicy.*)"
+    - kind: added
+      description: "VPA values (vpa.*)"
+    - kind: fixed
+      description: "Service now exposes named metrics port for ServiceMonitor compatibility"
+    - kind: fixed
+      description: "Deployment exposes metrics container port (9091)"
