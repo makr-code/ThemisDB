@@ -20,11 +20,7 @@ on:
   push:
     branches:
       - develop
-      - community
     paths:
-      - 'src/**'
-      - 'include/**'
-      - 'tests/**'
       - 'CMakeLists.txt'
       - 'CMakePresets.json'
       - 'cmake/**'
