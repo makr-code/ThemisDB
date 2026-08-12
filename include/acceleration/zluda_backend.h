@@ -13,11 +13,6 @@
  * internal std::mutex; concurrent calls from multiple threads are safe.
  */
 
-/*
- * ThemisDB | File: zluda_backend.h | Version: 0.0.1
- * Author: agent | Maturity: 🟢 PRODUCTION-READY
- * Status: Production Ready
- */
 
 #pragma once
 

@@ -34,6 +34,12 @@ _RE_AUTOGEN_HEADER_BLOCK = re.compile(
     r'^\s*(//\s*THEMIS_GAP_STATS:.*\n)?/\*[\s\S]*?@file\s+[\w./\\-]+[\s\S]*?\*/\s*',
     re.MULTILINE,
 )
+# Matches the legacy compact C-style block written by analyze_code_maturity.py:
+#   /* ThemisDB | File: ... */ or /* ... (Automatisch generiert ... */
+_RE_COMPACT_LEGACY_BLOCK = re.compile(
+    r'^\s*/\*[\s\S]*?(?:ThemisDB\s*\|\s*File:|Automatisch generiert)[\s\S]*?\*/\s*',
+    re.MULTILINE,
+)
 _RE_LEGACY_GAP_LINE_GLOBAL = re.compile(r'^\s*//\s*THEMIS_GAP_STATS:.*\n?', re.MULTILINE)
 
 
@@ -45,6 +51,7 @@ def _debug_log(stage: str, message: str) -> None:
 def strip_generated_header(content: str) -> str:
     """Entfernt den automatisch erzeugten ThemisDB-Header vor der Analyse."""
     stripped = _RE_AUTOGEN_HEADER_BLOCK.sub('', content, count=1)
+    stripped = _RE_COMPACT_LEGACY_BLOCK.sub('', stripped, count=1)
     stripped = _RE_LEGACY_GAP_LINE_GLOBAL.sub('', stripped, count=1)
     return stripped.lstrip('\n')
 
@@ -205,6 +212,7 @@ class CodeMaturityUpdater:
     )
 
     _RE_EXISTING_HEADER = _RE_AUTOGEN_HEADER_BLOCK
+    _RE_COMPACT_LEGACY_BLOCK = _RE_COMPACT_LEGACY_BLOCK
     _RE_LEGACY_GAP_LINE = _RE_LEGACY_GAP_LINE_GLOBAL
     _RE_VERSION = re.compile(r'Version:\s*([0-9]+\.[0-9]+\.[0-9]+)')
 
@@ -315,6 +323,7 @@ class CodeMaturityUpdater:
 
         # Entferne alten Header, falls vorhanden
         content_ohne_header = self._RE_EXISTING_HEADER.sub('', content, count=1)
+        content_ohne_header = self._RE_COMPACT_LEGACY_BLOCK.sub('', content_ohne_header, count=1)
         content_ohne_header = self._RE_LEGACY_GAP_LINE.sub('', content_ohne_header, count=1).lstrip('\n')
 
         template_data = {
@@ -593,7 +602,10 @@ class CodeMaturityUpdater:
 
     def _resolve_header_mode(self, level: str) -> str:
         if self.header_mode == 'auto':
-            return 'lean' if 'PRODUCTION-READY' in level else 'extended'
+            # Always emit extended headers to preserve all metadata fields
+            # (Lines, Author, Last Modified, PR History) that were previously
+            # only written by the legacy compact block in analyze_code_maturity.py.
+            return 'extended'
         return self.header_mode
 
 

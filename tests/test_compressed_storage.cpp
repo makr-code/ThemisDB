@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_compressed_storage.cpp | Version: 0.0.14
- * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
- * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_compressed_storage.cpp
  * @brief Tests for CompressedStorageWrapper (src/storage/compressed_storage.cpp)

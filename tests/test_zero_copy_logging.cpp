@@ -1,12 +1,4 @@
 /*
- * ThemisDB | File: test_zero_copy_logging.cpp | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-/*
  * Focused tests for ZeroCopyLogger (Issue #65 – Zero-Copy Logging, v1.6.0)
  *
  * Acceptance criteria covered:

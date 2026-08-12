@@ -1,12 +1,4 @@
 /*
- * ThemisDB | File: test_llm_aql_embedding_bridge.cpp | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
- * Gap Summary: total=8; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-/*
  * Focused regression tests for LLMAQLEmbeddingBridge (B-07 / AQL §8).
  *
  * Test matrix:

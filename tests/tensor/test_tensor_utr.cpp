@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_tensor_utr.cpp | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
- * Gap Summary: total=13; TODO=1, Stub=11, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_tensor_utr.cpp
  * @brief Phase-7 Unified Tensor Representation (UTR) tests.

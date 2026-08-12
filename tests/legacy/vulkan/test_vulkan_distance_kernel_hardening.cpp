@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_vulkan_distance_kernel_hardening.cpp | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 97/100
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_vulkan_distance_kernel_hardening.cpp
  * @brief Security and bounds-check hardening tests for Vulkan distance kernels.

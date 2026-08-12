@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_multitask_lora_acceptance_gates.cpp | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
- * Gap Summary: total=5; TODO=0, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=2, C=0, H=0, M=2, L=0
- * Status: Production Ready
- * Wave B Implementation (Q1-Q2 2027)
- */
-
 // SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 ThemisDB Contributors
 

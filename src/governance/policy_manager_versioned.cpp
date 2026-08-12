@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: policy_manager_versioned.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 420
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=26, M=7, L=0
- * PR History (last 5): #4300 feat(governance): CSV expor... (2026-03-17) | #3170 [governance] Fix detectOver... (2026-03-12) | #3154 [governance] Implement comp... (2026-03-12) | #3133 Fix rollbackToVersion stub:... (2026-03-12) | #3112 feat(governance): policy ev... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "governance/policy_manager_versioned.h"
 

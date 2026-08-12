@@ -1,19 +1,3 @@
-/*
- * ThemisDB | File: test_jwt_validator_focused.cpp | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
- * Focused Test Suite: JWT Validator Contract Verification
- * Status: Phase 0 — Acceptance Criteria Validation
- *
- * This test file provides comprehensive edge-case and contract coverage for
- * the JWT Validator module, including:
- *   - Token size validation limits (§1 of auth_principal_contract.h)
- *   - Temporal contract validation (§2)
- *   - Failure classification (§3)
- *   - Token blacklist integration
- *   - JWKS cache refresh semantics
- *   - Async validation paths
- */
-
 #include <chrono>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>

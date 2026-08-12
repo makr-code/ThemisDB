@@ -13,12 +13,6 @@
  * @note Status: Production Ready
  */
 
-/*
- * ThemisDB | File: test_aql_ddl_phase2.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=0
- * Status: Production Ready
- */
 
 #include <gtest/gtest.h>
 

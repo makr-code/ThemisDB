@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: anomaly_detection.cpp | Version: 0.0.32 | Last Modified: 2026-05-31 12:49:01
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1319
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=7, H=9, M=25, L=1
- * PR History (last 5): #4326 feat(analytics): verify and... (2026-03-19) | #4313 fix(analytics): StreamingAn... (2026-03-18) | #3610 fix(analytics): register mi... (2026-03-12) | #1444 feat(analytics): implement ... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 /**
  * ThemisDB Real-Time Anomaly Detection Engine – Implementation

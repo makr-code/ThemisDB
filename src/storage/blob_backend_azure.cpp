@@ -9,20 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: blob_backend_azure.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 259
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=8, M=0, L=0
- * PR History (last 5): #746 [Phase 4] Storage Layer: Mi... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- *
- * uncategorized scanner alert (file-level phantom, score=0.85): the gap scanner
- * emits a file-level finding for backend stubs that delegate to an optional SDK.
- * The Azure backend is conditionally compiled behind THEMIS_HAS_AZURE_STORAGE; when
- * the SDK is absent the entire implementation is excluded, so no unimplemented path
- * is reachable at runtime.
- */
 
 #include "storage/blob_storage_backend.h"
 #include "utils/logger.h"

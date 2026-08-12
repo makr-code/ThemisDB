@@ -1,10 +1,3 @@
-/*
- * ThemisDB | File: test_wiki_index_store.cpp | Version: 0.1.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 97/100
- * Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0
- * Status: Production Ready
- */
-
 /**
  * @file test_wiki_index_store.cpp
  * @brief Unit tests WIS-01..16 for WikiChunkSplitter, JsonWikiIndexReader,

@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_database_maintenance_orchestrator.cpp | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
- * Gap Summary: total=9; TODO=1, Stub=3, Unimpl=0, Mock=3, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_database_maintenance_orchestrator.cpp
  * @brief Unit tests for DatabaseMaintenanceOrchestrator – CRUD operations,

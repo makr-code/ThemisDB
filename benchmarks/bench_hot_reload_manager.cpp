@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: bench_hot_reload_manager.cpp | Version: 0.0.21
- * Maturity: 🟢 PRODUCTION-READY | Score: 89/100
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /// @file bench_hot_reload_manager.cpp
 /// @brief Performance benchmarks for HotReloadManager
 ///

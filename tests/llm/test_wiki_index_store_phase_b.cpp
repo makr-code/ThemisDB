@@ -1,10 +1,3 @@
-/*
- * ThemisDB | File: test_wiki_index_store_phase_b.cpp | Version: 0.1.0
- * Maturity: 🟡 BETA | Score: 95/100
- * Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0
- * Status: Phase B delivery — RocksDB integration tests
- */
-
 /**
  * @file test_wiki_index_store_phase_b.cpp
  * @brief Phase B integration tests (WIS-B-01..16) for WikiIndexStore.

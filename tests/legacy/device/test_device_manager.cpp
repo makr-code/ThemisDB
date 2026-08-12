@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_device_manager.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 97/100
- * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // Test: DeviceManager — Runtime Device Capability Detection
 //
 // Validates the DeviceManager class introduced in acceleration/device_manager.cpp.

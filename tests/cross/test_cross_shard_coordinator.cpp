@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_cross_shard_coordinator.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 81/100
- * Gap Summary: total=10; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=1, Debt=1, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * ThemisDB Cross-Shard Transaction Coordinator Tests
  * 

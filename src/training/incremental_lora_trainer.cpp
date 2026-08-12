@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: incremental_lora_trainer.cpp | Version: 0.0.47 | Last Modified: 2026-06-01 12:29:40
- * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 89/100 | Lines: 1793
- * Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=3, Debt=0, C=32, H=48, M=16, L=0
- * PR History (last 5): #4519 [WIP] Update developer docu... (2026-04-12) | #3733 feat(training): implement r... (2026-03-12) | #3648 audit(training): complete m... (2026-03-12) | #1340 Training Module â€“ Product... (2026-03-11) | #1219 Add Legal LoRA Training Pip... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "training/incremental_lora_trainer.h"
 #include "training/adapter_serving.h"

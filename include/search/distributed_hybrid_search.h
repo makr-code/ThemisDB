@@ -9,13 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: distributed_hybrid_search.h | Version: 2.2.0 (Phase 2: Core Implementation Hardening)
- * Maturity: 🟢 PRODUCTION-READY | Score: 87/100
- * Gap Summary: Phase 2 enhancements: shard-failure handling, merge underflow, high-overlap variance detection
- * Status: Production Ready (Phase 2)
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #pragma once
 

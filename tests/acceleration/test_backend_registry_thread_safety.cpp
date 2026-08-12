@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_backend_registry_thread_safety.cpp | Version: 0.0.12
- * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
- * Gap Summary: total=11; TODO=1, Stub=9, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // Test: BackendRegistry Thread-Safety
 //
 // Validates that BackendRegistry is safe to use from multiple threads

@@ -1,10 +1,3 @@
-/*
- * ThemisDB | File: test_llm_wiki_phase3_features_focused.cpp | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0
- * Status: Production Ready
- */
-
 /**
  * @file test_llm_wiki_phase3_features_focused.cpp
  * @brief Phase 3 WikiIndexStore features — focused tests (WIS-P3-01..WIS-P3-08).

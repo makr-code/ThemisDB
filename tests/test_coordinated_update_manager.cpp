@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_coordinated_update_manager.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
- * Gap Summary: total=7; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 ThemisDB Contributors
 

@@ -1,12 +1,4 @@
 /*
- * ThemisDB | File: test_tool_registry.cpp | Version: 0.0.2
- * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
- * Gap Summary: total=6; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-/*
  * ThemisDB — ToolRegistry Plugin-Engine Integration Tests
  *
  * Tests for:

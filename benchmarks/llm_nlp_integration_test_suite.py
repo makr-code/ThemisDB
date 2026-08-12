@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: llm_nlp_integration_test_suite.py | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
- * Gap Summary: total=20; TODO=1, Stub=1, Unimpl=0, Mock=10, Sim=8, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 """
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║

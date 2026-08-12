@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_database_connection_manager.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 97/100
- * Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=3, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 #include <gtest/gtest.h>
 #include "storage/database_connection_manager.h"
 #include <thread>

@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: knowledge_graph_enricher.cpp | Version: 0.0.47 | Last Modified: 2026-06-01 08:11:44
- * Author: makr | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 663
- * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=2, M=7, L=0
- * PR History (last 5): #5421 fix: thread-safety for Prov... (2026-06-01) | #4268 ProvenanceTracker: Replace ... (2026-03-15) | #3777 feat(training): wire findSi... (2026-03-12) | #3768 [WIP] Implement vector simi... (2026-03-12) | #3601 feat(training): Phase 3 imp... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "training/knowledge_graph_enricher.h"
 #include "index/vector_index.h"

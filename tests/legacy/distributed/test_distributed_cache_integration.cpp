@@ -1,12 +1,4 @@
 /*
- * ThemisDB | File: test_distributed_cache_integration.cpp | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
- * Gap Summary: total=10; TODO=1, Stub=7, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-/*
  * Tests for RedisCache – Distributed Cache Integration (v1.6.0, Issue #64)
  *
  * Validates all seven acceptance criteria without requiring a live Redis server:

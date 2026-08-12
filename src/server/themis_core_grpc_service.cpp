@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: themis_core_grpc_service.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 167
- * Gap Summary: total=8; TODO=1, Stub=3, Unimpl=2, Mock=1, Sim=1, Debt=0, C=0, H=0, M=4, L=0
- * PR History (last 5): #3632 fix(build): register 40+ mi... (2026-03-12) | #146 Implement Vector Quantizati... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "server/themis_core_grpc_service.h"
 #include <stdexcept>

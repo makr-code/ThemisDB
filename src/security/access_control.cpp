@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: access_control.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1026
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=3, M=3, L=0
- * PR History (last 5): #4426 fix(security): replace Resu... (2026-03-26) | #2774 feat(auth): ABAC engine â€”... (2026-03-12) | #802 Add security and access con... (2026-03-11) | #815 Add plugin-based security a... (2026-03-11) | #897 Implement AST-based AQL inj... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "security/access_control.h"
 #include "security/user_registration_plugin.h"

@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: provenance_tracker.cpp | Version: 0.0.13 | Last Modified: 2026-06-01 19:36:06
- * Author: makr | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 416
- * Gap Summary: total=10; TODO=1, Stub=7, Unimpl=0, Mock=1, Sim=1, Debt=0, C=3, H=1, M=14, L=0
- * PR History (last 5): #5421 fix: thread-safety for Prov... (2026-06-01) | #4833 Continue Phase-6 tensorgrap... (2026-05-07) | #4268 ProvenanceTracker: Replace ... (2026-03-15) | #3648 audit(training): complete m... (2026-03-12) | #3601 feat(training): Phase 3 imp... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 ThemisDB Contributors

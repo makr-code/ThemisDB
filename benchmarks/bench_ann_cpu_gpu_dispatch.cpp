@@ -1,9 +1,3 @@
-/*
- * ThemisDB | File: bench_ann_cpu_gpu_dispatch.cpp | Version: 0.0.1
- * Maturity: 🟡 IMPLEMENTED | Score: 85/100
- * Status: ANN benchmark matrix phase 1
- */
-
 #include <benchmark/benchmark.h>
 
 #include "acceleration/cpu_backend.h"

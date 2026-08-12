@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_aql_explain.cpp | Version: 0.0.25
- * Maturity: 🟢 PRODUCTION-READY | Score: 97/100
- * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=3, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // Tests for the explainAql / explainAqlText / explainAqlDot pipeline
 // These tests exercise the full parse → translate → build-plan → render path
 // without touching any real storage (null storage / mock index manager).

@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: rpc_service_integration_test.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
- * Gap Summary: total=10; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=3, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file rpc_service_integration_test.cpp
  * @brief Integration test for RPC service end-to-end

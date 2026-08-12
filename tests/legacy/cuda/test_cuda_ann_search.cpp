@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_cuda_ann_search.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // Test: CUDA-Accelerated ANN Search
 //
 // Validates the CUDA-accelerated Approximate Nearest Neighbor (ANN) search

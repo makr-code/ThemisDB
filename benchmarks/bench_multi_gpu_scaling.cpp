@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: bench_multi_gpu_scaling.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 90/100
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 #include <benchmark/benchmark.h>
 #include "llm/lora_framework/multi_gpu_lora_layer.h"
 #include "llm/lora_framework/multi_gpu_trainer.h"

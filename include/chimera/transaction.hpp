@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: transaction.hpp | Version: 0.1.0 | Last Modified: 2026-06-10
- * Author: Copilot | Maturity: 🟡 BETA | Lines: TBD
- * 
- * Transaction lifecycle management for CHIMERA adapters.
- * Copyright MIT License.
- */
-
 /**
  * @file transaction.hpp
  * @brief Multi-backend transaction abstraction for the Chimera layer.

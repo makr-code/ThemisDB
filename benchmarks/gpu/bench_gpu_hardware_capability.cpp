@@ -1,12 +1,4 @@
 /*
- * ThemisDB | File: bench_gpu_hardware_capability.cpp | Version: 0.0.11
- * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
- * Gap Summary: total=14; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=11, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-/*
  * ThemisDB — GPU Hardware Capability Benchmark
  *
  * File:    bench_gpu_hardware_capability.cpp

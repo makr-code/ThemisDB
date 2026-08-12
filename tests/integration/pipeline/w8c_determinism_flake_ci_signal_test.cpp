@@ -1,10 +1,3 @@
-/*
- * ThemisDB | File: w8c_determinism_flake_ci_signal_test.cpp | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0
- * Status: Production Ready — Wave 8C Determinism, Flake Burn-down & CI Signal
- */
-
 /**
  * @file w8c_determinism_flake_ci_signal_test.cpp
  * @brief Wave 8C — Determinism, Flake Burn-down & CI Signal Quality

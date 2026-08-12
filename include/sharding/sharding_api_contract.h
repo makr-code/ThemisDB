@@ -1,10 +1,3 @@
-/*
- * ThemisDB | File: sharding_api_contract.h | Version: 1.0.0
- * Author: ThemisDB Contributors | Maturity: 🟢 PRODUCTION-READY
- * Status: Phase 1 — Frozen Contract
- * Purpose: Frozen sharding module API contract semantics for the active v1.x major line.
- */
-
 /**
  * @file sharding_api_contract.h
  * @brief Frozen sharding module API contracts for the active v1.x line.

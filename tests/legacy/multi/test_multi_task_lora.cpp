@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_multi_task_lora.cpp | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=0
- * Status: Production Ready
- * (Wave B — issue #5039)
- */
-
 /**
  * @file tests/test_multi_task_lora.cpp
  * @brief Unit tests for MultiTaskLoRATrainer — MTL-01..13

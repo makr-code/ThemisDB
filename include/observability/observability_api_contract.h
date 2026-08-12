@@ -1,9 +1,3 @@
-/*
- * ThemisDB | File: observability_api_contract.h | Version: 1.0.0
- * Author: Copilot | Maturity: 🟢 PRODUCTION-READY | Status: Phase 1 — Frozen Contract
- * Purpose: Frozen observability (metrics/tracing/logging/SLO/export) contract semantics for v1.x.
- */
-
 /**
  * @file observability_api_contract.h
  * @brief Frozen observability contract for counter/gauge/histogram, tracing, logging, SLO, and export.

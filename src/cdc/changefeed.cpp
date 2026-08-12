@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: changefeed.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1199
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=34, M=14, L=0
- * PR History (last 5): #4325 [Issue] Implement DiffEngin... (2026-03-19) | #4294 docs(cdc): audit v1.8.0 #39... (2026-03-16) | #3687 feat(cdc): runtime-configur... (2026-03-12) | #3686 feat(cdc): extend at-least-... (2026-03-12) | #3552 docs(cdc): full module docu... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "cdc/changefeed.h"
 #include <stdexcept>

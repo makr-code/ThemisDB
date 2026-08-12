@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_tensor_phase3.cpp | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
- * Gap Summary: total=26; TODO=1, Stub=24, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_tensor_phase3.cpp
  * @brief Phase 3 tensor tests: AQL operators, TensorAwareQueryOptimizer, TARG.

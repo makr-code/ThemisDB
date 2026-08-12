@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: post_quantum_crypto.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 1118
- * Gap Summary: total=24; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=18, Debt=0, C=0, H=23, M=28, L=0
- * PR History (last 5): #3612 audit(security+aql): fix mi... (2026-03-12) | #3386 feat(security): Post-quantu... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 /*
  * Post-Quantum Cryptography — Software Simulation Backend

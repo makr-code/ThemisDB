@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_gap008_observability.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 90/100
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_gap008_observability.cpp
  * @brief Tests for GAP-008 Observability – Prometheus Alertmanager v2 HTTP API integration

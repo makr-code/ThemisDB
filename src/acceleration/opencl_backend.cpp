@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: opencl_backend.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 420
- * Gap Summary: total=9; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=2, Debt=0, C=0, H=8, M=1, L=1
- * PR History (last 5): #2708 feat(acceleration): OpenCL ... (2026-03-12) | #417 [DOCS] CRITICAL: Correct pl... (2026-03-11) | #469 Fix 11 compilation errors: ... (2026-03-11) | #30 Add comprehensive GPU accel... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // OpenCL Backend Implementation - Universal GPU Fallback
 // Supports any OpenCL 1.2+ capable device (NVIDIA/AMD/Intel/ARM/Qualcomm)

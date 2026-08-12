@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: ws_handler.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:49:01
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 171
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=0, M=1, L=0
- * PR History (last 5): #4208 feat(api/otlp): exponential... (2026-03-15) | #3159 feat(api): Add X-Correlatio... (2026-03-12) | #3158 fix(api): resolve standalon... (2026-03-12) | #3149 feat(api): Complete OpenAPI... (2026-03-12) | #3128 feat(api/graphql): Implemen... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #ifdef THEMIS_ENABLE_WEBSOCKET
 

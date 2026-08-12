@@ -1,12 +1,4 @@
 /*
- * ThemisDB | File: test_geo_st_union_difference.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-/*
  * Unit tests for ST_UNION and ST_DIFFERENCE geometry operations.
  * Covers the cpu_exact and gpu_spatial (CPU-fallback) backends.
  * Test structure mirrors tests/geo/test_geo_st_buffer.cpp.

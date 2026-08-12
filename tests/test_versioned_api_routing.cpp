@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_versioned_api_routing.cpp | Version: 0.0.12
- * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_versioned_api_routing.cpp
  * @brief Focused tests for Versioned API Routing and /v2/ Prefix (v1.8.0)

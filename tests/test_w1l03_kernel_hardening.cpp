@@ -1,12 +1,3 @@
-/*
- * ThemisDB | File: test_w1l03_kernel_hardening.cpp
- * W1-L03: Vulkan/DirectX kernel data_race / no_timeout / smart_ptr_misuse hardening tests.
- *
- * These tests verify the guard paths and concurrency contracts without requiring
- * physical GPU hardware. They rely on the fact that initialize_*_lora() is not
- * called, so every launch function must throw before touching device state.
- */
-
 #include <gtest/gtest.h>
 #include <thread>
 #include <vector>

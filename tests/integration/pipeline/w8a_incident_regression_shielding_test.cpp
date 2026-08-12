@@ -1,10 +1,3 @@
-/*
- * ThemisDB | File: w8a_incident_regression_shielding_test.cpp | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0
- * Status: Production Ready — Wave 8A Post-Release Incident Regression Shielding
- */
-
 /**
  * @file w8a_incident_regression_shielding_test.cpp
  * @brief Wave 8A — Post-Release Incident Regression Shielding (IRS-01..IRS-08).

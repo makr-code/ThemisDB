@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_connection_compression.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /// @file test_connection_compression.cpp
 /// @brief Unit and round-trip tests for LZ4 and Zstd connection-level compression.
 ///

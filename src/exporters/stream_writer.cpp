@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: stream_writer.cpp | Version: 0.0.47 | Last Modified: 2026-06-01 04:20:37
- * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 197
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=6, M=2, L=0
- * PR History (last 5): #4252 feat(exporters): Replace zl... (2026-03-15)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "exporters/stream_writer.h"
 #include <stdexcept>

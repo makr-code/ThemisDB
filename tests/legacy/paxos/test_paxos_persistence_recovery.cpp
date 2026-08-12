@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_paxos_persistence_recovery.cpp | Version: 0.0.10
- * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
- * Gap Summary: total=9; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=6, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_paxos_persistence_recovery.cpp
  * @brief Focused unit tests for PaxosStatePersistence and Paxos WAL durability.

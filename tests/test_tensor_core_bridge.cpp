@@ -1,12 +1,4 @@
 /*
- * ThemisDB | File: test_tensor_core_bridge.cpp | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 86/100
- * Gap Summary: total=11; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=6, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-/*
  * ThemisDB — TensorCoreBridge Tests
  *
  * Tests for:

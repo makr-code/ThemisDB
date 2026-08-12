@@ -1,10 +1,3 @@
-/*
- * ThemisDB | File: test_aql_hardening_v1_6_0.cpp | Version: 0.0.1
- * Maturity: 🟡 BETA | Score: 85/100
- * Status: Comprehensive testing for AQL Query Hardening v1.6.0
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_aql_hardening_v1_6_0.cpp
  * @brief Comprehensive tests for AQL Query Hardening & Enhancement (v1.6.0)

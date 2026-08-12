@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_prometheus_remote_write.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=3, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // Tests for Prometheus remote-write endpoint compatibility
 //
 // Phase 1: Unit tests for the protobuf decoder (PromWriteRequest::decode).

@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: huggingface_connector.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 764
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=6, M=4, L=0
- * PR History (last 5): #4244 feat(ingestion): LLMIngesti... (2026-03-15) | #3694 feat(ingestion): configurab... (2026-03-12) | #3274 feat(ingestion): Add CI wor... (2026-03-12) | #1219 Add Legal LoRA Training Pip... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "ingestion/huggingface_connector.h"
 #include "governance/model_governance.h"

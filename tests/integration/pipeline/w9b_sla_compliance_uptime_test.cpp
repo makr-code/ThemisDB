@@ -1,10 +1,3 @@
-/*
- * ThemisDB | File: w9b_sla_compliance_uptime_test.cpp | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0
- * Status: Production Ready — Wave 9B SLA Compliance & Uptime Validation Suite
- */
-
 /**
  * @file w9b_sla_compliance_uptime_test.cpp
  * @brief Wave 9B — SLA Compliance & Uptime Validation (SLA-01..SLA-08).

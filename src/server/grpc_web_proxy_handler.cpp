@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: grpc_web_proxy_handler.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 402
- * Gap Summary: total=10; TODO=1, Stub=4, Unimpl=3, Mock=1, Sim=1, Debt=0, C=0, H=3, M=2, L=0
- * PR History (last 5): #3392 feat(server): gRPC-Web prox... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "server/grpc_web_proxy_handler.h"
 #include <stdexcept>

@@ -1,9 +1,3 @@
-/*
- * ThemisDB | File: test_replication_coordinator_focused.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Status: QW-28 Fail-Closed Guard Tests
- */
-
 #include <gtest/gtest.h>
 #include "sharding/replication_coordinator.h"
 #include <memory>

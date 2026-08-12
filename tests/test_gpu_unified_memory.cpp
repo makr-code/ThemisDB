@@ -1,12 +1,4 @@
 /*
- * ThemisDB | File: test_gpu_unified_memory.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 90/100
- * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-/*
  * Unit tests for GPUUnifiedMemoryAllocator (unified_memory.h / unified_memory.cpp).
  *
  * All tests run on CI without GPU hardware.  The allocator falls back to

@@ -8,11 +8,6 @@
  * @note Status: Production Ready
  */
 
-/*
- * ThemisDB | File: graph_query_cache.h | Version: 1.0.0
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY
- * Status: Production Ready — P3-02 Block A delivery (2026-07-20)
- */
 
 #pragma once
 

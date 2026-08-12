@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: spatial_backend.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 197
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #5047 [Docs][geo] Refresh module ... (2026-05-12) | #4139 feat(geo): Implement CUDA a... (2026-03-12) | #3622 feat(geo): Build system aud... (2026-03-12) | #3111 [geo] Implement runtime GPU... (2026-03-12) | #2980 feat(geo): implement ST_BUF... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #pragma once
 

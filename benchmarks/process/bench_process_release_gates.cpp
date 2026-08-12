@@ -1,14 +1,3 @@
-/*
- * ThemisDB | File: bench_process_release_gates.cpp | Version: 1.0.0
- * Gate table:
- * | ID          | Metric                        | Gate         |
- * |-------------|-------------------------------|--------------|
- * | GATE-PRC-01 | ProcError cast throughput     | ≥ 50M ops/s  |
- * | GATE-PRC-02 | ProcError switch dispatch     | ≥ 50M ops/s  |
- * | GATE-PRC-03 | Error range check             | ≥ 50M ops/s  |
- * | GATE-PRC-04 | Batch error cast              | ≥ 1M ops/s   |
- */
-
 #include <benchmark/benchmark.h>
 #include "process/process_api_contract.h"
 

@@ -1,10 +1,3 @@
-/*
- * ThemisDB | File: test_auth_hardening_revocation_federation.cpp | Version: 1.0.0
- * Author: Copilot | Maturity: 🟢 PRODUCTION-READY | Status: Phase 4 — Focused Regressions
- * Purpose: Phase 4 test coverage for distributed revocation, federation, and async/provider
- *          consistency hardening (auth roadmap Phase 1-6 delivery).
- */
-
 /**
  * @file test_auth_hardening_revocation_federation.cpp
  * @brief Phase 4 focused regression tests for auth hardening delivery.

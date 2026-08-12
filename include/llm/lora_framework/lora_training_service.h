@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: lora_training_service.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 391
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #745 Integrate ShardRouter and S... (2026-03-23) | #702 Implement QLoRA 4-bit/8-bit... (2026-03-11) | #569 Integrate QLoRA infrastruct... (2026-03-11) | #550 Implement Production Traini... (2026-03-11) | #548 Integrate LoRA Training wit... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #pragma once
 

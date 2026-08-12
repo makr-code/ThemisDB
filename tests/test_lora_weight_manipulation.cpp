@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_lora_weight_manipulation.cpp | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
- * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 ThemisDB Contributors
 

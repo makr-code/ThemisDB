@@ -9,12 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: test_geo_phase2_phase3_focused.cpp | Version: 1.0.0
- * Author: Copilot | Maturity: 🟢 PRODUCTION-READY | Score: 85/100
- * Gap Summary: total=4; TODO=0, Stub=0, Unimpl=0, Mock=4, Sim=0, Debt=0
- * Status: Production Ready
- */
 
 // SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 ThemisDB Contributors

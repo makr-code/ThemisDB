@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_matryoshka_truncation.cpp | Version: 0.0.12
- * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // Unit tests for MatryoshkaTruncation and MatryoshkaTruncatedIndex
 // (index module — Issue: Matryoshka truncation partially planned v1.4.1)
 //

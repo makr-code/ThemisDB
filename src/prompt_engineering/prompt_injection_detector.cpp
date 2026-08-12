@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: prompt_injection_detector.cpp | Version: 0.0.18 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 95/100 | Lines: 269
- * Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=3, Debt=0, C=0, H=3, M=12, L=0
- * PR History (last 5): #3309 Implement detectInResponse ... (2026-03-12) | #2534 Add prompt injection attack... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "prompt_engineering/prompt_injection_detector.h"
 #include "security/prompt_injection_pattern_registry.h"

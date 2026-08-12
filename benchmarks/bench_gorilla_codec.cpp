@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: bench_gorilla_codec.cpp | Version: 0.0.45
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // Benchmark: Gorilla Codec – Compression Ratio & Speed
 // Phase 7: Performance Benchmarks for Gorilla codec
 // Includes scalar baseline (GorillaDecoder) and SIMD accelerated path (GorillaSIMDDecoder)

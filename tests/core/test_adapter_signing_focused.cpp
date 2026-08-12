@@ -1,23 +1,3 @@
-/*
- * ThemisDB | File: test_adapter_signing_focused.cpp | Version: 0.0.1
- * Module: core
- * Purpose: Focused unit tests for adapter signing — AdapterSignature,
- *          SignedAdapterValidator, SHA-256 digest, and integration with
- *          AdapterRegistry::registerAdapter().
- *
- * Test groups:
- *   SGN_01  AdapterSignature::present() returns false when empty
- *   SGN_02  AdapterSignature::present() returns true when both fields set
- *   SGN_03  sha256Hex computes correct digest for known input
- *   SGN_04  SignedAdapterValidator::canonicalString format
- *   SGN_05  SignedAdapterValidator accepts matching digest
- *   SGN_06  SignedAdapterValidator rejects mismatched digest
- *   SGN_07  SignedAdapterValidator rejects empty signature
- *   SGN_08  SignedAdapterValidator rejects unknown algorithm
- *   SGN_09  SignedAdapterValidator integrated: registerAdapter passes with valid sig
- *   SGN_10  SignedAdapterValidator integrated: registerAdapter throws with wrong sig
- */
-
 #include <gtest/gtest.h>
 #include "core/concerns/adapter_metadata.h"
 #include "core/concerns/adapter_registry.h"

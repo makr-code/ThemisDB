@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_graph_query_cache.cpp | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=0
- * Status: P3-02 Block A delivery (2026-07-20)
- * Test suite: GraphQueryCache — multi-tier LRU + weighted eviction (32 tests)
- */
-
 #include <gtest/gtest.h>
 #include "graph/graph_query_cache.h"
 #include <chrono>

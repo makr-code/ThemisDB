@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: ethics_functions.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 329
- * Gap Summary: total=6; TODO=1, Stub=1, Unimpl=3, Mock=1, Sim=0, Debt=0, C=3, H=16, M=5, L=0
- * PR History (last 5): #3574 fix: clear all remaining st... (2026-03-12) | #946 [FEATURE] Ethics AI Plugin ... (2026-03-11) | #1141 Complete AQL function regis... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "query/functions/ethics_functions.h"
 #include <nlohmann/json.hpp>

@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: wire_protocol_server.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 1692
- * Gap Summary: total=7; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=14, M=30, L=0
- * PR History (last 5): #4696 themis docs migration: alig... (2026-04-16) | #3696 fix(network): implement Wir... (2026-03-12) | #3429 [WIP] Add full modularizati... (2026-03-12) | #3411 [themis] Add getRegisteredM... (2026-03-12) | #3410 feat(themis): Dynamic featu... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // ThemisDB Wire Protocol Server – themis::wire module implementation
 //

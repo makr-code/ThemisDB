@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: bench_legal_lora_pipeline.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 87/100
- * Gap Summary: total=11; TODO=8, Stub=1, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file bench_legal_lora_pipeline.cpp
  * @brief Performance benchmarks for Legal LoRA Training Pipeline

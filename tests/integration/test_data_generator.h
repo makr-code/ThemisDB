@@ -1,9 +1,3 @@
-/*
- * ThemisDB | File: test_data_generator.h | Version: 0.0.49
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Status: Production Ready
- */
-
 /**
  * @file test_data_generator.h
  * @brief Utilities for generating integration and cross-module pipeline test data.

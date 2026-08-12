@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_task_scheduler.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 81/100
- * Gap Summary: total=25; TODO=1, Stub=18, Unimpl=0, Mock=3, Sim=3, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_task_scheduler.cpp
  * @brief Unit tests for TaskScheduler core functionality

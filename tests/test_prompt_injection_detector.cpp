@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_prompt_injection_detector.cpp | Version: 0.0.18
- * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 #include <gtest/gtest.h>
 #include "prompt_engineering/prompt_injection_detector.h"
 

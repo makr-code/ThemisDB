@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_token_blacklist_persistence.cpp | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 87/100
- * Gap Summary: total=12; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=4, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_token_blacklist_persistence.cpp
  * @brief Tests for ITokenBlacklist interface, Bloom filter, and persistence backends.

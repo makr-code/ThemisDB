@@ -1,9 +1,3 @@
-/*
- * ThemisDB | File: importers_api_contract.h | Version: 1.0.0
- * Author: Copilot | Maturity: 🟢 PRODUCTION-READY | Status: Phase 1 — Frozen Contract
- * Purpose: Frozen importers (CSV/DB/S3/Kafka/schema-evolution) contract semantics for v1.x.
- */
-
 /**
  * @file importers_api_contract.h
  * @brief Frozen importers contract: idempotency, schema evolution, error handling, and ordering.

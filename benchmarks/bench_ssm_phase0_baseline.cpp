@@ -1,32 +1,3 @@
-/*
- * ThemisDB | File: bench_ssm_phase0_baseline.cpp | Version: 0.1.0-alpha
- * Maturity: 🟡 PoC | Score: 70/100
- * Gap Summary: total=2; TODO=0, Stub=2 (infini_cpu, ssm_stub), Unimpl=0, Mock=0, Sim=2, Debt=0
- * Status: Phase 0 Baseline Collection
- * @file benchmarks/bench_ssm_phase0_baseline.cpp
- * @brief Phase 0 SSM/Hybrid baseline measurement — FA3/NVFP4 correctness before Phase 1 optimization.
- *
- * This benchmark establishes the pre-implementation transformer baseline for:
- * - CPU Infini-attention (Phase 1 correctness gate)
- * - Synthetic SSM stub (Phase 1 plugin interface validation)
- * - Context quality metric collection (Phase 1 observability baseline)
- *
- * **Contract:**
- * - seed = 42 (kCanonicalRngSeed)
- * - sequence_lengths: [512, 2048, 8192]
- * - metrics: latency_p99_ms, vram_footprint_mb, throughput_tokens_per_second
- * - output: benchmarks/ssm_baseline/baseline_phase0.json
- *
- * **Simulation Status:**
- * - Infini-attention CPU: synthetic latency model (not real attention computation)
- * - SSM stub: synthetic state generation (not real Mamba hidden state)
- * - Both marked as STUB/SIMULATION per repository governance rules
- *
- * **Phase 2 Upgrade Path:**
- * - P2-D02: Replace with CUDA Infini-kernel (10–100× speedup expected)
- * - P2-D03: Replace with real Mamba SSM plugin (when GGUF models available)
- */
-
 #include <benchmark/benchmark.h>
 #include <chrono>
 #include <random>

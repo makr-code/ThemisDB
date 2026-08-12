@@ -16,11 +16,6 @@
  * Thread-safety patterns are tested via AQLErrorContext and mock components.
  */
 
-/*
- * ThemisDB | File: test_aql_conversation_concurrency.cpp | Version: 0.0.1
- * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 92/100
- * Phase 5: Unified Testing — Concurrency Safety
- */
 
 #include <gtest/gtest.h>
 #include <atomic>

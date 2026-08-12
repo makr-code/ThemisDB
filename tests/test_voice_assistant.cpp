@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_voice_assistant.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 84/100
- * Gap Summary: total=9; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 #include <gtest/gtest.h>
 #include "voice/voice_auth.h"
 #include "voice/voice_assistant.h"

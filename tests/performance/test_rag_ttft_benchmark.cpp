@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_rag_ttft_benchmark.cpp | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
- * Gap Summary: total=16; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=13, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_rag_ttft_benchmark.cpp
  * @brief RAG Time-To-First-Token (TTFT) performance benchmark suite.

@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: usb_admin_authenticator.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 753
- * Gap Summary: total=10; TODO=1, Stub=5, Unimpl=1, Mock=1, Sim=2, Debt=0, C=0, H=4, M=5, L=0
- * PR History (last 5): #401 Replace Security Stubs with... (2026-03-11) | #1100 [WIP] Fix missing and stub ... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "security/usb_admin_authenticator.h"
 #include "security/usb_volume_hardening.h"

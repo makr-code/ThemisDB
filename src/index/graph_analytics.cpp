@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: graph_analytics.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 808
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=18, M=23, L=0
- * PR History (last 5): #634 Implement K-Shortest-Paths ... (2026-03-11) | #635 Implement Louvain and Label... (2026-03-11) | #636 Expose Louvain & Label Prop... (2026-03-11) | #637 Enhance PAGERANK function w... (2026-03-11) | #84 Replace stub implementation... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "index/graph_analytics.h"
 #include "utils/logger.h"

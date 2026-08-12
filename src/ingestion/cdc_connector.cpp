@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: cdc_connector.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 852
- * Gap Summary: total=11; TODO=1, Stub=3, Unimpl=0, Mock=5, Sim=2, Debt=0, C=2, H=7, M=15, L=0
- * PR History (last 5): #3249 [ingestion] Implement CDC s... (2026-03-12) | #3197 feat(ingestion): CDC source... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // When THEMIS_ENABLE_CDC_STREAM is defined the full replication-stream-backed
 // implementation is compiled.  Without that flag the connector still compiles

@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: replication_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 21:32:13
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 6412
- * Gap Summary: total=10; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=4, Debt=0, C=147, H=163, M=229, L=0
- * PR History (last 5): #4230 feat(replication): GeoRepli... (2026-03-15) | #4191 feat(replication): Bidirect... (2026-03-13) | #4182 feat(replication): Compress... (2026-03-13) | #4179 fix(replication): QuorumRea... (2026-03-13) | #4155 feat(replication): Parallel... (2026-03-13)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 /**
  * ThemisDB Replication Manager Implementation

@@ -10,14 +10,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: aql_error_types.h | Version: 0.0.48 | Created: 2026-07-19 19:36:00
- * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 92/100 | Lines: 380
- * Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * Phase 4: Unified Error Taxonomy for Validation, Translation, Bridge Components
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #pragma once
 

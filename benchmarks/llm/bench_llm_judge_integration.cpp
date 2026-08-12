@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: bench_llm_judge_integration.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
- * Gap Summary: total=12; TODO=1, Stub=1, Unimpl=0, Mock=7, Sim=3, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file bench_llm_judge_integration.cpp
  * @brief Performance benchmarks for LLMJudgeIntegration

@@ -1,10 +1,3 @@
-/*
- * ThemisDB | File: w3b_data_integrity_recovery_test.cpp | Version: 0.0.1
- * Wave 3-B: Data/State Integrity & Recovery
- * Test IDs: DIR-01..DIR-08
- * CTest Label: pipeline_integration;wave3;w3b
- */
-
 /**
  * @file w3b_data_integrity_recovery_test.cpp
  * @brief Wave 3-B integration tests: data/state integrity and recovery scenarios.

@@ -1,25 +1,3 @@
-/*
- * ThemisDB | File: test_cache_contract_hardening.cpp | Version: 1.0.0
- * Author: Copilot | Maturity: 🟢 PRODUCTION-READY
- * Status: Phase 3/4 — Cache Contract Hardening Tests
- *
- * Validates the frozen cache contract semantics defined in
- * include/cache/cache_contract.h (§1–§7) and the AdaptiveQueryCache
- * runtime behaviour for:
- *
- *   CCH-01 – Key size constraint enforcement (kMaxCacheKeyBytes)
- *   CCH-02 – Value size constraint enforcement (kMaxCacheValueBytes)
- *   CCH-03 – Fail-closed classification: DegradedBackend and InternalError
- *   CCH-04 – Fail-open classification: MalformedKey, TenantViolation, etc.
- *   CCH-05 – Malformed input predicate correctness
- *   CCH-06 – CoordinatorCapability OR/AND and hasCoordinatorCapability semantics
- *   CCH-07 – Temporal constant ordering (latency < transition < delivery)
- *   CCH-08 – Cache contract round-trip: put() → get() with tenant isolation off
- *
- * All tests are self-contained and do NOT require RocksDB (l3_db_path = "").
- * Tests use deterministic, seeded inputs and no I/O.
- */
-
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 

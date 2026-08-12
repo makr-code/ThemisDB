@@ -6,14 +6,6 @@
  * offset tracking, rebalancing, and dead-consumer detection.
  */
 
-/*
- * ThemisDB | File: consumer_group.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 610
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=29, M=12, L=0
- * PR History (last 5): #4239 feat(cdc): Consumer Group S... (2026-03-15) | #3106 [cdc] Add event throughput ... (2026-03-12) | #3086 feat(governance): implement... (2026-03-12) | #3056 [cdc] Add Debezium-compatib... (2026-03-12) | #3045 [cdc] Implement ICDCTranspo... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "cdc/consumer_group.h"
 

@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_voice_production.cpp | Version: 0.0.42
- * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
- * Gap Summary: total=8; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_voice_production.cpp
  * @brief Comprehensive tests for Voice Module Production Readiness components

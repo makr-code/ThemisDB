@@ -1,12 +1,4 @@
 /*
- * ThemisDB | File: test_gpu_p2p_transfer.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 97/100
- * Gap Summary: total=8; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=5, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-/*
  * Unit tests for GPUP2PTransferManager
  * ======================================
  * All tests run on CI without GPU hardware.  The CPU simulation path is

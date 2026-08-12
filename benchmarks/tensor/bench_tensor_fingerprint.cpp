@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: bench_tensor_fingerprint.cpp | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // Benchmark: Tensor Fingerprint Graph Performance
 // Phase 8.5 Acceptance Criteria:
 //   • Fingerprint + LSH insert ≤ 10 ms per tensor

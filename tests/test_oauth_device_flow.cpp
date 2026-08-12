@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_oauth_device_flow.cpp | Version: 0.0.20
- * Maturity: 🟢 PRODUCTION-READY | Score: 97/100
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 #include <gtest/gtest.h>
 #include "auth/oauth_device_flow.h"
 #include "auth/auth_error.h"

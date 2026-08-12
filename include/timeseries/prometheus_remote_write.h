@@ -48,11 +48,6 @@
  * @see src/timeseries/ROADMAP.md — Phase 2 items
  */
 
-/*
- * ThemisDB | File: prometheus_remote_write.h | Version: 0.1.0
- * Maturity: 🟢 PRODUCTION-READY | Phase 2 Hardening (2026-08-07)
- * Status: Production Ready
- */
 
 #pragma once
 

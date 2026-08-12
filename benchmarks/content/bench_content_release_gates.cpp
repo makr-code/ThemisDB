@@ -1,14 +1,3 @@
-/*
- * ThemisDB | File: bench_content_release_gates.cpp | Version: 1.0.0
- * Gate table:
- * | ID          | Metric                         | Gate         |
- * |-------------|--------------------------------|--------------|
- * | GATE-CNT-01 | ScanResult alloc rate          | ≥ 5M ops/s   |
- * | GATE-CNT-02 | ContentError cast throughput   | ≥ 50M ops/s  |
- * | GATE-CNT-03 | ScanVerdict switch dispatch    | ≥ 50M ops/s  |
- * | GATE-CNT-04 | ScanResult batch alloc         | ≥ 1M ops/s   |
- */
-
 #include <benchmark/benchmark.h>
 #include "content/content_api_contract.h"
 

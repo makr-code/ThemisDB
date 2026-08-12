@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_bidi_stream_adapter.cpp | Version: 0.0.4
- * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
- * Gap Summary: total=45; TODO=1, Stub=1, Unimpl=0, Mock=42, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_bidi_stream_adapter.cpp
  * @brief Unit tests for BidiStreamAdapter<Req, Resp>

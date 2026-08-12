@@ -1,12 +1,4 @@
 /*
- * ThemisDB | File: test_prometheus_metrics_adapter.cpp | Version: 0.0.24
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-/*
  * Unit tests for PrometheusMetricsAdapter
  *
  * Validates that each IMetrics method is forwarded to the underlying

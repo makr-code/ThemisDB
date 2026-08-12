@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: cpu_backend.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 1169
- * Gap Summary: total=7; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=3, M=23, L=0
- * PR History (last 5): #4139 feat(geo): Implement CUDA a... (2026-03-12) | #3466 docs(acceleration): Add IEE... (2026-03-12) | #3111 [geo] Implement runtime GPU... (2026-03-12) | #3091 [geo] Fix circuit-breaker s... (2026-03-12) | #3078 [geo] GPU backend stub: fix... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include <algorithm>
 #include <cmath>

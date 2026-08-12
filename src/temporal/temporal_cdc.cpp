@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: temporal_cdc.cpp | Version: 0.0.12 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 630
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=6, H=3, M=20, L=0
- * PR History (last 5): #4713 feat(process+sharding): EPK... (2026-04-17) | #4352 feat(temporal): Phase 4 â€”... (2026-03-20)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 /**
  * ThemisDB Temporal CDC Implementation

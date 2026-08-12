@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: process_mining.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 2626
- * Gap Summary: total=8; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=14, M=145, L=0
- * PR History (last 5): #4626 fix(analytics): replace who... (2026-04-13) | #4402 [WIP] Add automated process... (2026-03-24) | #4339 Analytics module: stats.h u... (2026-03-19) | #3507 docs(analytics): reconcile ... (2026-03-12) | #3478 docs(analytics): sync READM... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #if defined(_WIN32) && defined(THEMIS_PROCESS_MINING_WINDOWS_STUB)
 // STUB/SIMULATION NOTE:

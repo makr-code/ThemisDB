@@ -1,12 +1,4 @@
 /*
- * ThemisDB | File: test_post_quantum_crypto.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 97/100
- * Gap Summary: total=37; TODO=1, Stub=1, Unimpl=0, Mock=35, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-/*
  * Unit tests for CRYSTALS-Kyber and Dilithium post-quantum cryptography.
  *
  * Coverage:

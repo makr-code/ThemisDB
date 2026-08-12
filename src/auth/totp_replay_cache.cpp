@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: totp_replay_cache.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 269
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=2, L=0
- * PR History (last 5): #4120 feat(auth): TOTP/MFA config... (2026-03-12) | #4094 fix(auth): constant-time co... (2026-03-12) | #2826 feat(auth): improve unit te... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "auth/totp_replay_cache.h"
 #include "auth/mfa_authenticator.h"

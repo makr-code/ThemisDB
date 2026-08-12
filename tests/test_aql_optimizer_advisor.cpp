@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_aql_optimizer_advisor.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_aql_optimizer_advisor.cpp
  * @brief Unit tests for AQLOptimizerAdvisor — cost-aware AQL query suggestions

@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_s3_connector.cpp | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=9; TODO=1, Stub=1, Unimpl=0, Mock=4, Sim=3, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_s3_connector.cpp
  * @brief Focused unit tests for the S3Connector ingestion source connector.

@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: canary_rollout.cpp | Version: 0.0.18 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 759
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=7, L=0
- * PR History (last 5): #4235 feat(updates): CanaryDeploy... (2026-03-14) | #3661 feat(updates): build system... (2026-03-12) | #2587 Canary rollout mode for par... (2026-03-12) | #2569 feat(updates): Canary rollo... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "updates/canary_rollout.h"
 #include "utils/logger.h"

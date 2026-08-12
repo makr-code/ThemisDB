@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_themisdb_grpc_service_bridge.cpp | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
- * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_themisdb_grpc_service_bridge.cpp
  * @brief Unit tests for ThemisDBGrpcService service-fn bridge (STUB #59).

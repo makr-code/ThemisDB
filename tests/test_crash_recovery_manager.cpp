@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_crash_recovery_manager.cpp | Version: 0.0.45
- * Maturity: 🟢 PRODUCTION-READY | Score: 90/100
- * Gap Summary: total=18; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=15, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // Phase 8 – Crash Recovery Manager tests
 // Tests the transaction-level WAL, undo/redo log, and crash recovery procedure.
 

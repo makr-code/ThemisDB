@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_auth_audit_logger.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
- * Gap Summary: total=20; TODO=1, Stub=15, Unimpl=0, Mock=1, Sim=3, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_auth_audit_logger.cpp
  * @brief Tests for AuthAuditLogger and audit integration in auth components.

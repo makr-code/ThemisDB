@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: bench_delegate_evaluator.cpp | Version: 0.1.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file bench_delegate_evaluator.cpp
  * @brief Google Benchmark targets for the DELEGATE-52 round-trip evaluator.

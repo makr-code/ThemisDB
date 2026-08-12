@@ -13,14 +13,6 @@
  *       See llm_plugin_manager.cpp for plugin lifecycle management.
  */
 
-/*
- * ThemisDB | File: i_federated_inference_backend.h | Version: 1.0.0 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 72
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #pragma once
 

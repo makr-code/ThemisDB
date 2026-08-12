@@ -1,26 +1,3 @@
-/*
- * ThemisDB | File: w5b_failure_injection_recovery_test.cpp | Version: 0.1.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Wave 5-B: Failure Injection & Recovery Validation
- *
- * Verifies that the pipeline handles targeted failure scenarios
- * deterministically and recovers to consistent state:
- *
- *   FIR-01  LLM embedding failure: RAG pipeline returns error, no partial state
- *   FIR-02  LLM inference failure: embedding done, infer fails, no answer stored
- *   FIR-03  Empty transaction: zero-write commit rejected cleanly
- *   FIR-04  Missing document ID: ingest boundary rejects before any storage write
- *   FIR-05  Index miss: query for absent term returns empty hits, no error
- *   FIR-06  Auth recovery: denied token then re-authorized token succeeds
- *   FIR-07  Partial-batch failure: errors on some docs do not block valid docs
- *   FIR-08  RAG no-hits recovery: retrieval finds nothing, error reported cleanly
- *
- * Design constraints:
- *   - No external runtime dependencies.
- *   - Failure modes injected via mock controls (SetEmbeddingFailure, etc.).
- *   - All tests are fully self-contained and leave no cross-test state.
- */
-
 #include "../test_data_generator.h"
 #include "../test_fixture.h"
 

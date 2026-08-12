@@ -1,23 +1,3 @@
-/*
- * ThemisDB | File: test_adapter_registry_focused.cpp | Version: 0.0.2
- * Module: core
- * Purpose: Focused unit tests for AdapterRegistry — registration, resolution,
- *          hot-swap drain, validator rejection, plugin loading, and concurrency.
- *
- * Test groups:
- *   AR_01  empty registry resolve returns null
- *   AR_02  registerAdapter + resolve returns correct adapter
- *   AR_03  wrong-type resolve returns null
- *   AR_04  apiVersion below kCurrentApiVersion throws
- *   AR_05  empty id throws
- *   AR_06  hotSwap installs new adapter; old ref drops
- *   AR_07  validator rejection throws
- *   AR_08  loadFromPlugin with non-existent path returns false
- *   AR_09  count() and hasAdapter() correct after register
- *   AR_10  concurrent resolve (16 threads × 500 calls) does not crash
- *   AR_11  nullptr adapter throws
- */
-
 #include <gtest/gtest.h>
 #include "core/concerns/adapter_registry.h"
 #include "core/concerns/adapter_metadata.h"

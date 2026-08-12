@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_classify_bridge_integration.cpp | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
- * Gap Summary: total=10; TODO=1, Stub=8, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_classify_bridge_integration.cpp
  * @brief Integration tests for the IClassifyFn / AQLFunctionClassifyBridge wiring.

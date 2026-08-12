@@ -1,9 +1,3 @@
-/*
- * ThemisDB | File: http_auth_async.cpp | Version: 0.0.1
- * Author: Copilot | Maturity: 🟡 BETA | Status: New Implementation
- * Purpose: Async HTTP authentication implementation
- */
-
 /**
  * @file http_auth_async.cpp
  * @brief Asynchronous HTTP authentication implementation.

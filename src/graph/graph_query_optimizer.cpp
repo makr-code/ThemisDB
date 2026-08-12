@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: graph_query_optimizer.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 2922
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=21, M=66, L=4
- * PR History (last 5): #3571 feat(graph): register missi... (2026-03-12) | #2957 [graph] Stream large path s... (2026-03-12) | #2951 feat(graph): plan cache evi... (2026-03-12) | #2523 [graph] Parallel multi-sour... (2026-03-11) | #1328 feat(graph): production rea... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // Graph Query Optimizer implementation
 

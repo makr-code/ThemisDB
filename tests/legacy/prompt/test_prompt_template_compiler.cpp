@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_prompt_template_compiler.cpp | Version: 0.0.10
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_prompt_template_compiler.cpp
  * @brief Unit tests for the Typed Template DSL (PE-MISSING-001).

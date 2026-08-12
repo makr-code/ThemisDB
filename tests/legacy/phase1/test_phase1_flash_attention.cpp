@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_phase1_flash_attention.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
- * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_phase1_flash_attention.cpp
  * @brief Google Test suite for Phase 1 Flash Attention feature

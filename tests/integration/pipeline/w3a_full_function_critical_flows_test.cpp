@@ -1,10 +1,3 @@
-/*
- * ThemisDB | File: w3a_full_function_critical_flows_test.cpp | Version: 0.0.1
- * Wave 3-A: Full-Function Critical Flows
- * Test IDs: FFW-01..FFW-08
- * CTest Label: pipeline_integration;wave3;w3a
- */
-
 /**
  * @file w3a_full_function_critical_flows_test.cpp
  * @brief Wave 3-A integration tests: full-function critical end-to-end flows.

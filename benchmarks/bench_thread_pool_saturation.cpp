@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: bench_thread_pool_saturation.cpp | Version: 0.0.10
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file bench_thread_pool_saturation.cpp
  * @brief Load benchmarks for ThreadPoolManager under saturation conditions

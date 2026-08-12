@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: api_gateway.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 92/100 | Lines: 1014
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=10, M=8, L=0
- * PR History (last 5): #4146 feat(server): API Versionin... (2026-03-13) | #2991 feat(api): Integrate Kong a... (2026-03-12) | #2765 [api] Add versioned endpoin... (2026-03-12) | #2756 feat(api): Versioned URL pr... (2026-03-12) | #814 Implement API Gateway and Q... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "server/api_gateway.h"
 #include "server/api_version_config.h"

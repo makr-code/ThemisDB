@@ -1,10 +1,3 @@
-/*
- * ThemisDB | File: test_training_diagnostics_consistency.cpp | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
- * Gap Summary: total=0
- * Status: Production Ready
- */
-
 /**
  * @file test_training_diagnostics_consistency.cpp
  * @brief Diagnostics-consistency regression for issue #5414 batch 5 (TRN-AUD-02).

@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_two_phase_commit.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
- * Gap Summary: total=8; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=4, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_two_phase_commit.cpp
  * @brief Unit tests for the Two-Phase Commit (2PC) participant and coordinator

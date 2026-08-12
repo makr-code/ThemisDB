@@ -1,9 +1,3 @@
-/*
- * ThemisDB | File: storage_error_diagnostics.h | Version: 1.0.0
- * Author: Copilot | Maturity: 🟢 PRODUCTION-READY | Status: Phase 3 — Error Handling & Edge Cases
- * Purpose: Unified error diagnostics and incident classification for storage module.
- */
-
 /**
  * @file storage_error_diagnostics.h
  * @brief Unified error diagnostics and incident classification for storage module.

@@ -1,10 +1,3 @@
-/*
- * ThemisDB | File: bench_aql_geo_filter.cpp | Version: 0.0.1
- * Maturity: 🟡 BETA | Score: 84/100
- * Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Candidate
- */
-
 /**
  * @file bench_aql_geo_filter.cpp
  * @brief Gate-4 benchmark for FILTER ST_Within(...) on a 100K-point corpus.

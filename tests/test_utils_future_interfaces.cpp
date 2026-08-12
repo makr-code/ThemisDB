@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_utils_future_interfaces.cpp | Version: 0.0.10
- * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
- * Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=3, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_utils_future_interfaces.cpp
  * @brief Focused tests for utils module features: UUID v7, LZ4 codec,

@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_rag_ethics.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 99/100
- * Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=3, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_rag_ethics.cpp
  * @brief Unit tests for ethical compliance evaluation and bias detection in the RAG judge.

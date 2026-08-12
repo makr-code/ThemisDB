@@ -1,14 +1,3 @@
-/*
- * ThemisDB | File: bench_themis_release_gates.cpp | Version: 1.0.0
- * Gate table:
- * | ID          | Metric                        | Gate         |
- * |-------------|-------------------------------|--------------|
- * | GATE-THE-01 | ThemisError cast throughput   | ≥ 50M ops/s  |
- * | GATE-THE-02 | Edition enum switch dispatch  | ≥ 50M ops/s  |
- * | GATE-THE-03 | Edition value lookup          | ≥ 50M ops/s  |
- * | GATE-THE-04 | Batch Edition cast            | ≥ 1M ops/s   |
- */
-
 #include <benchmark/benchmark.h>
 #include "themis/themis_api_contract.h"
 

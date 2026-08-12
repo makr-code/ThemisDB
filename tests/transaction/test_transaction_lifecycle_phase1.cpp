@@ -1,28 +1,3 @@
-/*
- * ThemisDB | File: test_transaction_lifecycle_phase1.cpp | Phase: 1 Hardening
- * Maturity: 🟢 PRODUCTION-READY | Acceptance Criteria: AC-1 to AC-3
- * Gap Summary: Comprehensive lifecycle invariant validation under edge cases
- * Status: Phase 1 - Lifecycle and Isolation Safety Hardening
- *
- * Purpose:
- * - Re-validate transaction lifecycle invariants across begin/prepare/commit/abort paths
- * - Verify state machine correctness under concurrent access patterns
- * - Test edge cases: double commit, double rollback, abort after commit, etc.
- * - Ensure deterministic behavior in error conditions
- *
- * Acceptance Criteria:
- * - AC-1: ACID lifecycle isolation enforcement ✓
- * - AC-2: Begin/Prepare/Commit/Abort state machine correctness ✓
- * - AC-3: Isolation level behavior (READ_COMMITTED, SNAPSHOT, SERIALIZABLE) ✓
- *
- * Test Structure:
- * - Lifecycle invariants (begin -> prepare -> commit/abort)
- * - State transition guards (prevent invalid transitions)
- * - Error path determinism (timeout, rollback, recovery)
- * - Concurrent state management
- * - Nested transaction handling
- */
-
 #include <gtest/gtest.h>
 #include <thread>
 #include <chrono>

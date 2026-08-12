@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_base_reload_regression.cpp | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0
- * Status: Production Ready
- * Issue: #5631 — base module open roadmap and future enhancement items
- */
-
 /**
  * @file test_base_reload_regression.cpp
  * @brief Focused regression tests for base module hot-reload, dependency,

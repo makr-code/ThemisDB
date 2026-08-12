@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_jwt_ec_curves_comprehensive.cpp | Version: 0.0.12
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_jwt_ec_curves_comprehensive.cpp
  * @brief Comprehensive tests for ES384 (P-384/SHA-384) and ES512 (P-521/SHA-512)

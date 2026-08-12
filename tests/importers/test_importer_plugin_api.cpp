@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_importer_plugin_api.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
- * Gap Summary: total=37; TODO=1, Stub=35, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // test_importer_plugin_api.cpp
 //
 // Unit tests for importers/importer_plugin_api.h covering:

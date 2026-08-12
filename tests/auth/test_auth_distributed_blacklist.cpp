@@ -1,10 +1,3 @@
-/*
- * ThemisDB | File: test_auth_distributed_blacklist.cpp | Version: 0.0.1
- * Author: Copilot | Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=0
- * Status: Production Ready
- */
-
 /**
  * @file test_auth_distributed_blacklist.cpp
  * @brief Focused regression tests for DistributedTokenBlacklist (v1.3.0).

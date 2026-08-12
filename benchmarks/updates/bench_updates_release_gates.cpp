@@ -1,17 +1,3 @@
-/*
- * ThemisDB | File: bench_updates_release_gates.cpp | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gate table:
- * | ID          | Metric                          | Gate         |
- * |-------------|---------------------------------|--------------|
- * | GATE-UPD-01 | VerificationResult alloc rate   | ≥ 5M ops/s   |
- * | GATE-UPD-02 | DeploymentSlot switch dispatch  | ≥ 50M ops/s  |
- * | GATE-UPD-03 | Error-code cast throughput      | ≥ 50M ops/s  |
- * | GATE-UPD-04 | VerificationResult copy rate    | ≥ 5M ops/s   |
- * | GATE-UPD-05 | VerificationResult batch alloc  | ≥ 1M ops/s   |
- * | GATE-UPD-06 | Error switch dispatch           | ≥ 50M ops/s  |
- */
-
 #include <benchmark/benchmark.h>
 #include "updates/updates_api_contract.h"
 

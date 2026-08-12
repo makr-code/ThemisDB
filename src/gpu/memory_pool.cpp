@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: memory_pool.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 258
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=8, M=0, L=0
- * PR History (last 5): #4137 feat(gpu): replace CPU fall... (2026-03-12) | #4138 feat(index): Implement CUDA... (2026-03-12) | #3336 feat(gpu): complete GPUMemo... (2026-03-12) | #2538 [gpu] Implement GPU memory ... (2026-03-11) | #2527 feat(gpu): Implement GPU me... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 /*
  * GPU Memory Pool — slab-based pre-allocator with fragmentation tracking.

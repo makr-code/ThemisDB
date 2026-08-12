@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: gorilla_simd.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 376
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=5, M=2, L=0
- * PR History (last 5): #4350 Update timeseries module: G... (2026-03-20) | #4269 feat(timeseries): TSStore s... (2026-03-15) | #4167 feat(timeseries): Vectorise... (2026-03-13)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "timeseries/gorilla_simd.h"
 #include "timeseries/gorilla.h"

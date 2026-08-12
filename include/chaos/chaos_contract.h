@@ -1,9 +1,3 @@
-/*
- * ThemisDB | File: chaos_contract.h | Version: 1.0.0
- * Author: Copilot | Maturity: 🟢 PRODUCTION-READY | Status: Phase 1 — Frozen Contract
- * Purpose: Frozen fault descriptor and scheduler contract semantics for the active v1.x major line.
- */
-
 /**
  * @file chaos_contract.h
  * @brief Frozen fault descriptor and scheduler contract semantics for the active v1.x line.

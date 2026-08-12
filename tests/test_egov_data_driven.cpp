@@ -1,12 +1,4 @@
 /*
- * ThemisDB | File: test_egov_data_driven.cpp | Version: 0.0.12
- * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
- * Gap Summary: total=13; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=9, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-/*
  * ThemisDB — Datengetriebene E-Government-Tests
  *
  * Dieser Test lädt generische Behörden, Anträge, Prozessdefinitionen und

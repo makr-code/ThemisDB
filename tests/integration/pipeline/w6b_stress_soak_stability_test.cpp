@@ -1,10 +1,3 @@
-/*
- * ThemisDB | File: w6b_stress_soak_stability_test.cpp | Version: 0.1.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Wave: 6 / PR: W6-B — Stress, Soak & Stability Validation
- * Status: Production Ready
- */
-
 /**
  * @file w6b_stress_soak_stability_test.cpp
  * @brief Wave 6-B: Stress, Soak & Stability Validation.

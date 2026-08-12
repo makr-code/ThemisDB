@@ -1,8 +1,3 @@
-/*
- * ThemisDB | File: test_gap008_provenance_api.cpp | Version: 0.0.47
- * Status: Production Ready
- */
-
 #include <gtest/gtest.h>
 
 #include "observability/provenance_store.h"

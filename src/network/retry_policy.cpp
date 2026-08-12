@@ -8,11 +8,6 @@
  * @note Phase: 5-S01 — Wire-Protocol Retry + Idempotency
  */
 
-/*
- * ThemisDB | File: retry_policy.cpp | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Status: Production Ready
- */
 
 #include "network/wire_protocol_server.h"
 

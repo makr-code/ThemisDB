@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: main_server.cpp | Version: 0.0.47 | Last Modified: 2026-06-02 20:56:29
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 3215
- * Gap Summary: total=21; TODO=1, Stub=18, Unimpl=0, Mock=1, Sim=1, Debt=0, C=101, H=1578, M=181, L=0
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // PERMANENT FALLBACK NOTE (main_server.cpp — build-flag conditional compilation):
 // Purpose: `main_server.cpp` is the top-level server entry point.  It contains

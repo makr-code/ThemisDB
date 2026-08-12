@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: kafka_connector.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:49:01
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 595
- * Gap Summary: total=12; TODO=1, Stub=3, Unimpl=0, Mock=6, Sim=2, Debt=0, C=2, H=5, M=5, L=0
- * PR History (last 5): #4188 feat(ingestion): Kafka Cons... (2026-03-13) | #3287 security(ingestion): path t... (2026-03-12) | #3285 feat(ingestion): Plugin API... (2026-03-12) | #3274 feat(ingestion): Add CI wor... (2026-03-12) | #3249 [ingestion] Implement CDC s... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // When THEMIS_ENABLE_KAFKA is defined the full librdkafka-backed implementation
 // is compiled.  When the macro is absent the connector still compiles but every

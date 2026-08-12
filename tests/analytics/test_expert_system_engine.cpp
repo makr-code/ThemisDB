@@ -1,12 +1,4 @@
 /*
- * ThemisDB | File: test_expert_system_engine.cpp | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 90/100
- * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-/*
  * Tests: ExpertSystemEngine (ES-01..ES-20) + KnowledgeBase (KB-01..KB-08)
  *
  * Copyright (c) 2025 VCC-URN Project — SPDX-License-Identifier: Apache-2.0

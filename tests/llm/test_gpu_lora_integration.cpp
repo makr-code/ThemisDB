@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_gpu_lora_integration.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
- * Gap Summary: total=11; TODO=1, Stub=2, Unimpl=0, Mock=6, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_gpu_lora_integration.cpp
  * @brief Tests for GPU offload and LoRA runtime integration

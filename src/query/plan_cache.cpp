@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: plan_cache.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 328
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=2, M=4, L=0
- * PR History (last 5): #4229 feat(query): Query Plan Cac... (2026-03-15) | #3226 [graph] Register parallel m... (2026-03-12) | #3194 [graph] Fix query injection... (2026-03-12) | #3173 [graph] Fix duplicate db->o... (2026-03-12) | #3134 [WIP] Add GPU-accelerated B... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // Query Plan Cache implementation — v1.7.0
 

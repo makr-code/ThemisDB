@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_usb_admin_authenticator.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 80/100
- * Gap Summary: total=9; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 #include <gtest/gtest.h>
 #include "security/usb_admin_authenticator.h"
 #include <filesystem>

@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: hip_kernels.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 98/100 | Lines: 885
- * Gap Summary: total=4; TODO=2, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=21, H=30, M=3, L=0
- * PR History (last 5): #575 [LoRA Phase 10.4] Implement... (2026-03-11) | #570 [LoRA Phase 10] Add readine... (2026-03-11) | #546 Implement GPU Acceleration ... (2026-03-11) | #528 [LoRA] Implement CPU-based ... (2026-03-11) | #605 Implement GPU kernels for M... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #ifdef THEMIS_ENABLE_HIP
 

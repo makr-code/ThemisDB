@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_llm_process_analyzer.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
- * Gap Summary: total=13; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=6, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_llm_process_analyzer.cpp
  * @brief Unit tests for LLMProcessAnalyzer

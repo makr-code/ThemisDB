@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: diff_engine.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 624
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=13, M=15, L=0
- * PR History (last 5): #4325 [Issue] Implement DiffEngin... (2026-03-19) | #1444 feat(analytics): implement ... (2026-03-11) | #385 Phase 1 & 2: Implement Name... (2026-03-11) | #1080 Complete Git-like features:... (2026-03-11) | #1081 Enhance Diff-Engine: Fix ch... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "analytics/diff_engine.h"
 

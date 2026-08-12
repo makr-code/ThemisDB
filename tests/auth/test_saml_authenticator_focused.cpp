@@ -1,20 +1,3 @@
-/*
- * ThemisDB | File: test_saml_authenticator_focused.cpp | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
- * Focused Test Suite: SAML Authenticator Contract Verification
- * Status: Phase 0 — Acceptance Criteria Validation
- *
- * This test file provides comprehensive edge-case and contract coverage for
- * the SAML Authenticator module, including:
- *   - AuthnRequest generation and validation
- *   - SAMLResponse processing with malformed inputs
- *   - Replay attack detection (AssertionID caching)
- *   - XML signature verification and failure modes
- *   - Clock skew tolerance and time validation
- *   - SHA-1 deprecation warnings
- *   - Configuration validation
- */
-
 #include <chrono>
 #include <functional>
 #include <gmock/gmock.h>

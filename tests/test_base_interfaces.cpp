@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_base_interfaces.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
- * Gap Summary: total=21; TODO=1, Stub=1, Unimpl=1, Mock=18, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /// @file test_base_interfaces.cpp
 /// @brief Unit tests for base interface definitions
 ///

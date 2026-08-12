@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_active_vram_allocator.cpp | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
- * Gap Summary: total=10; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=5, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_active_vram_allocator.cpp
  * @brief Focused tests for ActiveVRAMAllocator (LLM-MISSING-001)

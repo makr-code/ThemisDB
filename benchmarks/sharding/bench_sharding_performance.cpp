@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: bench_sharding_performance.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 92/100
- * Gap Summary: total=11; TODO=2, Stub=1, Unimpl=0, Mock=1, Sim=7, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // Benchmark: Comprehensive Sharding Performance
 // Measures scatter-gather latency, cross-shard joins, rebalancing, and P2P gossip overhead
 //

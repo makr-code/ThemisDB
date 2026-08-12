@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: gremlin_parser.cpp | Version: 0.0.12 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 942
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=1, M=31, L=0
- * PR History (last 5): #5329 perf(query): PERF-06 â€” re... (2026-05-27) | #4400 [WIP] Add GNN-based node em... (2026-03-24)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // Gremlin MATCH traversal parser and AQL transpiler.
 //

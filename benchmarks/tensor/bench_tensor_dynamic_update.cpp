@@ -1,38 +1,3 @@
-/*
- * ThemisDB | File: bench_tensor_dynamic_update.cpp | Issue: #5472
- * Maturity: 🟡 IMPLEMENTED | Status: Dynamic Tensor Update Path Benchmarks
- *
- * Benchmark matrix for dynamic tensor update maintenance paths.
- * Covers sub-issue #5472: "Add ctest and benchmark suite for dynamic tensor
- * update paths."
- *
- * ## Scenarios
- *
- *   BDU-01  DeltaLog append throughput (single-writer, no contention)
- *   BDU-02  DeltaLog extractWindow latency (small window, 10 entries)
- *   BDU-03  DeltaLog extractWindow latency (large window, 1 000 entries)
- *   BDU-04  DeltaWindow::estimateChangeFraction computation cost
- *   BDU-05  DeltaLogEntry serialize/deserialize round-trip latency
- *   BDU-06  UpdateWorker::decideUpdateStrategy latency — PATCH path
- *   BDU-07  UpdateWorker::decideUpdateStrategy latency — PARTIAL_REFIT path
- *   BDU-08  UpdateWorker::decideUpdateStrategy latency — REBUILD path
- *   BDU-09  DeltaLog garbage_collect cost (10 000 entries removed)
- *   BDU-10  DeltaLog getStats() cost under high entry count
- *   BDU-Smoke_* fast CI smoke targets (≤ 5 s combined)
- *
- * ## Measurement Notes
- *
- * - All benchmarks run on CPU; no GPU hardware required.
- * - kDynamicUpdateSeed = 42 for reproducibility.
- * - UseRealTime() is applied to I/O-bound operations (none here, all in-memory).
- * - Results feed into CPU_SIMD_GPU_DISPATCH_BENCHMARK_MATRIX.md §6.
- *
- * @see src/distributed_tensor/include/tensor_delta_log.h
- * @see src/distributed_tensor/include/snapshot_update_worker.h
- * @see docs/benchmarks/CPU_SIMD_GPU_DISPATCH_BENCHMARK_MATRIX.md §6
- * @see GitHub Issue #5472
- */
-
 #include <benchmark/benchmark.h>
 
 #include "src/distributed_tensor/include/tensor_delta_log.h"

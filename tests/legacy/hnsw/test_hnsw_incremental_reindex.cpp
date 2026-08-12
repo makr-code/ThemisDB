@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_hnsw_incremental_reindex.cpp | Version: 0.0.33
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_hnsw_incremental_reindex.cpp
  * @brief Unit tests for VectorIndexManager::incrementalReindex()

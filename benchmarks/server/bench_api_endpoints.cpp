@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: bench_api_endpoints.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 89/100
- * Gap Summary: total=8; TODO=1, Stub=1, Unimpl=0, Mock=5, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file bench_api_endpoints.cpp
  * @brief Performance benchmarks for API endpoints (Issue #1511).

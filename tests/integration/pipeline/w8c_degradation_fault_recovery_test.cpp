@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: w8c_degradation_fault_recovery_test.cpp | Version: 0.0.1
- * Maturity: 🟡 IMPLEMENTATION-IN-PROGRESS | Score: 50/100
- * Status: Wave 8C — Degradation & Fault Recovery (DFR-01..DFR-08)
- *
- * Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0
- */
-
 /**
  * @file w8c_degradation_fault_recovery_test.cpp
  * @brief Wave 8C — Degradation & Fault Recovery (DFR-01..DFR-08).

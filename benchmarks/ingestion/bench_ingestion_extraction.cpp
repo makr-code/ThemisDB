@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: bench_ingestion_extraction.cpp | Version: 0.0.10
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file bench_ingestion_extraction.cpp
  * @brief Extraction throughput and LLM-latency benchmarks for the ingestion module

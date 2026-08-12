@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: shard_resource_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 669
- * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=4, H=3, M=7, L=0
- * PR History (last 5): #4833 Continue Phase-6 tensorgrap... (2026-05-07) | #4181 feat(sharding): Reed-Solomo... (2026-03-13) | #964 Fix /proc/stat parsing vali... (2026-03-11) | #722 Implement YARN-Inspired Sha... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "sharding/shard_resource_manager.h"
 #include "utils/logger.h"

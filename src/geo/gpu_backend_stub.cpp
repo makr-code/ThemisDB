@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: gpu_backend_stub.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 712
- * Gap Summary: total=7; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=4, M=3, L=0
- * PR History (last 5): #3111 [geo] Implement runtime GPU... (2026-03-12) | #3091 [geo] Fix circuit-breaker s... (2026-03-12) | #3078 [geo] GPU backend stub: fix... (2026-03-12) | #3061 [geo] Add populateCudaGeoDi... (2026-03-12) | #3049 [geo] Performance benchmark... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // GPU spatial backend — replaces the original stub.
 //

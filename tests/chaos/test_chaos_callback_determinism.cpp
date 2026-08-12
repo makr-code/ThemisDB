@@ -1,9 +1,3 @@
-/*
- * ThemisDB | File: test_chaos_callback_determinism.cpp | Version: 1.0.0
- * Author: Copilot | Maturity: 🟢 PRODUCTION-READY | Status: Phase 4 — Callback Determinism
- * Purpose: Phase 4 deterministic behavior tests for callback-heavy and pending-queue edge permutations.
- */
-
 /**
  * @file test_chaos_callback_determinism.cpp
  * @brief Phase 4 deterministic behavior tests for chaos callback and pending-queue edge cases.

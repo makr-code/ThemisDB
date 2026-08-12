@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: geo_index_hooks.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 582
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=3, M=13, L=0
- * PR History (last 5): #3546 docs(api): sync api module ... (2026-03-12) | #1135 Complete geospatial product... (2026-03-11) | #1209 Remove unused variable warn... (2026-03-11) | #27 Implement exact geometry ch... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "api/geo_index_hooks.h"
 #include <stdexcept>

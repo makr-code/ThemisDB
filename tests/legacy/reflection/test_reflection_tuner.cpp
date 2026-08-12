@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_reflection_tuner.cpp | Version: 0.0.12
- * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
- * Gap Summary: total=12; TODO=1, Stub=1, Unimpl=0, Mock=9, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_reflection_tuner.cpp
  * @brief Unit tests for the Reflection Tuning module.

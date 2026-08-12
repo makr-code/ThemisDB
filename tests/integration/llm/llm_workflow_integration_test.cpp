@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: llm_workflow_integration_test.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file llm_workflow_integration_test.cpp
  * @brief Integration test for LLM workflows

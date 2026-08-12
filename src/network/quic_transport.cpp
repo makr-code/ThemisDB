@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: quic_transport.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 462
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=18, M=7, L=0
- * PR History (last 5): #4632 feat(network): QUIC Protoco... (2026-04-13) | #3291 [network] QUIC/HTTP3 transp... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // ThemisDB – QUIC transport for the binary wire protocol
 // See include/network/quic_transport.h for design documentation.

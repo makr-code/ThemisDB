@@ -22,14 +22,6 @@
  * @note Status: Production Ready
  */
 
-/*
- * ThemisDB | File: wire_protocol_server.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 90/100 | Lines: 3666
- * Gap Summary: total=7; TODO=2, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=6, H=124, M=40, L=0
- * PR History (last 5): #4254 feat(network/process-graph)... (2026-03-15) | #3769 feat(network): Full IPv6 su... (2026-03-12) | #3696 fix(network): implement Wir... (2026-03-12) | #3631 feat(network): implement Wi... (2026-03-12) | #3388 feat(network): implement We... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // ThemisDB Wire Protocol Server Implementation
 // Binary protocol for high-performance native client communication

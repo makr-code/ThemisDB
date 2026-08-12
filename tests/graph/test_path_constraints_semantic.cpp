@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_path_constraints_semantic.cpp | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
- * Gap Summary: total=10; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=7, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_path_constraints_semantic.cpp
  * @brief Semantic PathConstraints tests — SC-01..SC-10

@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: directx_kernels.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 20:41:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 90/100 | Lines: 1077
- * Gap Summary: total=6; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=2, Debt=0, C=75, H=60, M=1, L=0
- * PR History (last 5): #572 Complete DirectX 12 Compute... (2026-03-11) | #570 [LoRA Phase 10] Add readine... (2026-03-11) | #546 Implement GPU Acceleration ... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "llm/lora_framework/directx_kernels.h"
 #include <stdexcept>

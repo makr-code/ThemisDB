@@ -1,12 +1,4 @@
 /*
- * ThemisDB | File: test_behoerden_genehmigungsverfahren_e2e.cpp | Version: 0.0.12
- * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
- * Gap Summary: total=6; TODO=1, Stub=2, Unimpl=0, Mock=2, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-/*
  * ThemisDB — Vollautomatisches Behörden-Genehmigungsverfahren E2E-Testszenario
  *
  * Szenario:  Baugenehmigungsverfahren (§ 63 BauO NRW)
