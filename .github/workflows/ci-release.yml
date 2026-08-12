@@ -3,6 +3,11 @@ name: CI — Release
 # Multi-edition release build: build matrix, package, publish.
 # Replaces: release-build.yml
 #
+# Pipeline stages (end-to-end):
+#   preflight → build-matrix (configure+build+test+cpack) → package
+#   → validate-release-manifest → publish-community / publish-private
+#   → changelog
+#
 # Edition tag patterns (RELEASE_STRATEGY.md §3):
 #   vX.Y.Z                — community release
 #   enterprise-vX.Y.Z     — enterprise release
@@ -12,6 +17,11 @@ name: CI — Release
 #
 # Community guardrail: publish-community job must never require private
 # credentials, private submodules, or private artefacts (RELEASE_STRATEGY.md §2.4).
+#
+# Packaging outputs per platform (via CPack):
+#   Linux community-release : TGZ + DEB + RPM
+#   Linux linux-release     : TGZ + ZIP
+#   Windows windows-release : ZIP + WIX/MSI (WiX v3 required on runner)
 
 on:
   push:
@@ -101,18 +111,21 @@ jobs:
         include:
           - preset: community-release
             os: ubuntu-latest
+            binaryDir: build-community-release
+            cpack_generators: TGZ;DEB;RPM
             description: Community build with system packages
-            skip_on_matrix: community-only
 
           - preset: linux-release
             os: ubuntu-latest
+            binaryDir: build-gcc-linux-release
+            cpack_generators: TGZ;ZIP
             description: Production Linux build with vcpkg
-            skip_on_matrix: community-only
 
           - preset: windows-release
             os: windows-latest
+            binaryDir: build-msvc-windows-release
+            cpack_generators: ZIP;WIX
             description: Production Windows build with vcpkg
-            skip_on_matrix: community-only
 
     steps:
       - uses: actions/checkout@v4
@@ -148,7 +161,12 @@ jobs:
             libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev \
             libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev \
             libboost-system-dev libboost-filesystem-dev \
-            libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev
+            libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev \
+            dpkg-dev rpm
+
+      - name: Install Linux packaging tools (linux-release)
+        if: matrix.preset == 'linux-release' && steps.filter.outputs.skip != 'true'
+        run: sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends rpm
 
       - name: Set up vcpkg (Linux/Windows vcpkg presets)
         if: >
@@ -182,16 +200,64 @@ jobs:
           ctest --preset ${{ matrix.preset }} --output-on-failure -j 1 --timeout 60 2>&1 | tee "test-${{ matrix.preset }}.log"
         shell: bash
 
+      # ── CPack packaging ───────────────────────────────────────────────────
+      - name: Install (cmake --install)
+        if: steps.filter.outputs.skip != 'true'
+        run: |
+          set -euo pipefail
+          cmake --install "${{ matrix.binaryDir }}" \
+            --prefix "${{ matrix.binaryDir }}/install" 2>&1 | tee "install-${{ matrix.preset }}.log"
+        shell: bash
+
+      - name: Package (cpack)
+        if: steps.filter.outputs.skip != 'true'
+        id: cpack
+        shell: bash
+        run: |
+          set -euo pipefail
+          BINARY_DIR="${{ matrix.binaryDir }}"
+          GENERATORS="${{ matrix.cpack_generators }}"
+
+          # On Windows runners WiX v3 (candle/light) is available via the
+          # "windows-2022" image; skip WIX silently if not found.
+          if [[ "$RUNNER_OS" == "Windows" ]] || [[ "$(uname -s)" == MINGW* ]]; then
+            if ! command -v candle &>/dev/null 2>&1; then
+              GENERATORS="${GENERATORS//;WIX/}"
+              GENERATORS="${GENERATORS//WIX;/}"
+              GENERATORS="${GENERATORS//WIX/}"
+              echo "::notice::WiX (candle) not found — MSI generator skipped."
+            fi
+          fi
+
+          mkdir -p packages
+          cd "${BINARY_DIR}"
+          for GEN in ${GENERATORS//;/ }; do
+            echo "--- Running CPack generator: ${GEN} ---"
+            cpack -G "${GEN}" -B "${GITHUB_WORKSPACE}/packages" 2>&1 | tee "${GITHUB_WORKSPACE}/cpack-${GEN}-${{ matrix.preset }}.log" || \
+              echo "::warning::CPack generator ${GEN} failed — continuing."
+          done
+          echo "Packages produced:"
+          ls -lh "${GITHUB_WORKSPACE}/packages/" || true
+
+      - name: Upload CPack packages
+        if: steps.filter.outputs.skip != 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: packages-${{ matrix.preset }}-${{ github.run_number }}
+          path: packages/
+          retention-days: 90
+          if-no-files-found: ignore
+
       - name: Upload build artifacts
         if: steps.filter.outputs.skip != 'true'
         uses: actions/upload-artifact@v4
         with:
           name: build-${{ matrix.preset }}-${{ github.run_number }}
           path: |
-            build-${{ matrix.preset }}/themisdb*
-            build-${{ matrix.preset }}/*.exe
-            build-${{ matrix.preset }}/*.so
-            build-${{ matrix.preset }}/*.dll
+            ${{ matrix.binaryDir }}/themisdb*
+            ${{ matrix.binaryDir }}/*.exe
+            ${{ matrix.binaryDir }}/*.so
+            ${{ matrix.binaryDir }}/*.dll
           retention-days: 30
           if-no-files-found: ignore
 
@@ -204,11 +270,13 @@ jobs:
             configure-${{ matrix.preset }}.log
             build-${{ matrix.preset }}.log
             test-${{ matrix.preset }}.log
+            install-${{ matrix.preset }}.log
+            cpack-*-${{ matrix.preset }}.log
           retention-days: 30
           if-no-files-found: ignore
 
   # ─────────────────────────────────────────────────────────────────────────────
-  # Package: create distribution archives
+  # Package: consolidate CPack artifacts from all presets into a single release
   # ─────────────────────────────────────────────────────────────────────────────
   package:
     name: Package Release Artifacts
@@ -224,10 +292,17 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Download build artifacts
+      - name: Download all CPack packages
         uses: actions/download-artifact@v4
         with:
-          pattern: build-community-release-*
+          pattern: packages-*-${{ github.run_number }}
+          merge-multiple: true
+          path: release/
+
+      - name: Download Linux community binaries (fallback)
+        uses: actions/download-artifact@v4
+        with:
+          pattern: build-community-release-${{ github.run_number }}
           merge-multiple: true
           path: dist/
 
@@ -251,27 +326,48 @@ jobs:
           echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
           echo "archive_name=themisdb-${EDITION}-${VERSION}-linux-x64" >> "$GITHUB_OUTPUT"
 
-      - name: Create release archive
+      - name: Create fallback archive if no CPack TGZ present
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p release
-          tar -czf "release/${{ steps.version.outputs.archive_name }}.tar.gz" \
-            -C dist/ . \
-            --exclude='*.a'
+          ARCHIVE="release/${{ steps.version.outputs.archive_name }}.tar.gz"
+          if ls release/*.tar.gz &>/dev/null || ls release/*.tgz &>/dev/null; then
+            echo "CPack TGZ already present — skipping fallback archive."
+          elif [ "$(ls -A dist/ 2>/dev/null)" ]; then
+            echo "Creating fallback archive from raw build artifacts."
+            tar -czf "${ARCHIVE}" -C dist/ . --exclude='*.a'
+          else
+            echo "::warning::No CPack packages and no raw artifacts found — release archive will be empty."
+          fi
 
       - name: Build release manifest
         shell: bash
         run: |
           set -euo pipefail
           cd release
-          sha256sum *.tar.gz > SHA256SUMS.txt
+          # Collect all distributable files
+          DIST_FILES=()
+          for ext in tar.gz tgz zip deb rpm msi; do
+            while IFS= read -r -d '' f; do
+              DIST_FILES+=("$(basename "${f}")")
+            done < <(find . -maxdepth 1 -name "*.${ext}" -print0 2>/dev/null)
+          done
+
+          if [ ${#DIST_FILES[@]} -eq 0 ]; then
+            echo "::warning::No distributable files in release/ — manifest will be empty."
+          fi
+
+          sha256sum "${DIST_FILES[@]}" > SHA256SUMS.txt 2>/dev/null || touch SHA256SUMS.txt
           {
             echo "artifacts:"
-            for f in *.tar.gz; do
+            for f in "${DIST_FILES[@]}"; do
               echo "  - ${f}"
             done
           } > RELEASE_MANIFEST.txt
+
+          echo "--- Release manifest ---"
+          cat RELEASE_MANIFEST.txt
 
       - uses: actions/upload-artifact@v4
         with:
@@ -295,9 +391,16 @@ jobs:
       - name: Validate artifacts, checksums, and metadata
         run: |
           set -euo pipefail
-          test -f release/SHA256SUMS.txt
-          test -f release/RELEASE_MANIFEST.txt
-          ls release/*.tar.gz >/dev/null
+          test -f release/SHA256SUMS.txt || { echo "::error::SHA256SUMS.txt missing"; exit 1; }
+          test -f release/RELEASE_MANIFEST.txt || { echo "::error::RELEASE_MANIFEST.txt missing"; exit 1; }
+          # Require at least one archive (TGZ, ZIP, or source tarball)
+          ARCHIVE_COUNT=$(find release -maxdepth 1 \( -name "*.tar.gz" -o -name "*.tgz" -o -name "*.zip" \) | wc -l)
+          if [ "${ARCHIVE_COUNT}" -eq 0 ]; then
+            echo "::error::No archive (.tar.gz/.tgz/.zip) found in release packages."
+            exit 1
+          fi
+          echo "Archive count: ${ARCHIVE_COUNT}"
+          ls -lh release/
           (cd release && sha256sum --check SHA256SUMS.txt)
 
   # ─────────────────────────────────────────────────────────────────────────────
@@ -318,6 +421,11 @@ jobs:
     environment:
       name: community-release
 
+    permissions:
+      contents: write   # required: create/update GitHub Releases and upload assets
+      packages: write
+      actions: read
+
     steps:
       - uses: actions/checkout@v4
 
@@ -334,24 +442,60 @@ jobs:
           script: |
             const fs = require('fs');
             const path = require('path');
-            const tag = context.ref.startsWith('refs/tags/') ? context.ref.replace('refs/tags/', '') : '${{ inputs.tag_name }}';
+            const tag = context.ref.startsWith('refs/tags/')
+              ? context.ref.replace('refs/tags/', '')
+              : ('${{ inputs.tag_name }}' || '');
             if (!tag) {
               console.log('No tag — skipping GitHub Release upload.');
               return;
             }
+
+            // Resolve or create the GitHub Release for this tag
+            let releaseId = context.payload.release?.id;
+            if (!releaseId) {
+              try {
+                const existing = await github.rest.repos.getReleaseByTag({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  tag,
+                });
+                releaseId = existing.data.id;
+                console.log(`Found existing release ${releaseId} for tag ${tag}`);
+              } catch (e) {
+                if (e.status === 404) {
+                  const created = await github.rest.repos.createRelease({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    tag_name: tag,
+                    name: `ThemisDB ${tag}`,
+                    draft: false,
+                    prerelease: tag.includes('-rc') || tag.includes('-beta') || tag.includes('-alpha'),
+                    generate_release_notes: true,
+                  });
+                  releaseId = created.data.id;
+                  console.log(`Created new release ${releaseId} for tag ${tag}`);
+                } else {
+                  throw e;
+                }
+              }
+            }
+
             const releaseDir = 'release';
-            const files = fs.readdirSync(releaseDir).filter(f => f.endsWith('.tar.gz') || f.endsWith('.zip'));
+            const files = fs.readdirSync(releaseDir).filter(f =>
+              ['.tar.gz', '.tgz', '.zip', '.deb', '.rpm', '.msi', '.txt'].some(ext => f.endsWith(ext))
+            );
             if (files.length === 0) {
-              console.log('No release files found.');
+              console.log('No release files found — nothing uploaded.');
               return;
             }
             for (const file of files) {
               const filePath = path.join(releaseDir, file);
               const data = fs.readFileSync(filePath);
+              console.log(`Uploading ${file} (${data.length} bytes)...`);
               await github.rest.repos.uploadReleaseAsset({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                release_id: context.payload.release?.id,
+                release_id: releaseId,
                 name: file,
                 data,
               }).catch(e => console.warn(`Upload failed for ${file}: ${e.message}`));
@@ -376,6 +520,11 @@ jobs:
        contains(fromJSON('["enterprise","hyperscaler","military","minimal"]'), inputs.edition))
     environment:
       name: ${{ startsWith(github.ref_name, 'enterprise-v') && 'enterprise-release' || startsWith(github.ref_name, 'hyperscaler-v') && 'hyperscaler-release' || startsWith(github.ref_name, 'military-v') && 'military-release' || startsWith(github.ref_name, 'minimal-v') && 'minimal-release' || inputs.edition == 'enterprise' && 'enterprise-release' || inputs.edition == 'hyperscaler' && 'hyperscaler-release' || inputs.edition == 'military' && 'military-release' || inputs.edition == 'minimal' && 'minimal-release' || 'private-release' }}
+
+    permissions:
+      contents: write   # required: create/update GitHub Releases and upload assets
+      packages: write
+      actions: read
 
     steps:
       - uses: actions/checkout@v4
@@ -414,3 +563,25 @@ jobs:
           else
             echo "::warning::scripts/publish_private_release.sh not found — skipping private publish step."
           fi
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # Changelog — update CHANGELOG.md after community release
+  # ─────────────────────────────────────────────────────────────────────────────
+  changelog:
+    name: Update Changelog
+    needs: publish-community
+    if: >
+      always() &&
+      needs.publish-community.result == 'success'
+    uses: ./.github/workflows/release-changelog.yml
+    with:
+      mode: update
+      entry-title: "${{ github.ref_name }}"
+      entry-body: "- Released ${{ github.ref_name }} — see GitHub Release for full artifact list."
+      section: "Changed"
+      target-version: "${{ github.ref_name }}"
+      release-date: ""
+      key: "release-${{ github.ref_name }}"
+      target-branch: "develop"
+      dry-run: false
+    secrets: inherit

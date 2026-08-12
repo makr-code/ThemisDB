@@ -8,14 +8,12 @@ name: Docker Image CI/CD
 #   - Docker layer cache via GitHub Actions cache backend (no external registry required).
 
 on:
-  push:
-    branches: [ "develop" ]
-    tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+*'
-  pull_request:
-    branches: [ "develop" ]
-  release:
-    types: [published, created]
+  # Batch 6 (2026-08-12): Docker builds now only run after a successful
+  # "CI — Release" pipeline to avoid building images from broken commits.
+  # Direct push/PR triggers removed; workflow_dispatch preserved for manual runs.
+  workflow_run:
+    workflows: ["CI \u2014 Release"]
+    types: [completed]
   workflow_dispatch:
     inputs:
       push_to_registry:
@@ -44,6 +42,12 @@ jobs:
     name: "Build & Push Docker Image"
     runs-on: ubuntu-latest
     timeout-minutes: 60
+    # For workflow_run trigger: only proceed if the upstream CI — Release
+    # pipeline completed successfully.  For workflow_dispatch: always run.
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'workflow_run' &&
+       github.event.workflow_run.conclusion == 'success')
 
     permissions:
       contents: read
