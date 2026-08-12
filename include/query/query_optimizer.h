@@ -37,6 +37,7 @@ namespace query {
 
 using SecondaryIndexManager = ::themis::SecondaryIndexManager;
 
+/** @brief Query optimizer component. */
 class QueryOptimizer {
 public:
     struct Estimation {
@@ -331,6 +332,7 @@ private:
     // (No using needed - both AdaptiveQueryStats and AdaptivePlanSelector are in themis::query namespace)
     // THREAD-SAFE: Initialized once via call_once, then read-only
     
+    /** @brief THREAD-SAFE: Initialized once via call_once, then read-only. */
     class DistributedQueryCostModel {
     public:
         explicit DistributedQueryCostModel(
@@ -383,6 +385,7 @@ private:
         observability::MetricsCollector* metrics_collector_ = nullptr;
     };
     
+    /** @brief Multi index optimizer component. */
     class MultiIndexOptimizer {
     public:
         MultiIndexOptimizer() = default;

@@ -41,6 +41,7 @@ public:
     // ------------------------------------------------------------------
     // Merkle tree builder
     // ------------------------------------------------------------------
+    /** @brief Merkle tree builder. */
     class MerkleTreeBuilder {
     public:
         /**
@@ -82,6 +83,7 @@ public:
     // ------------------------------------------------------------------
     // Blockchain anchor (optional external anchoring)
     // ------------------------------------------------------------------
+    /** @brief Blockchain anchor (optional external anchoring). */
     class BlockchainAnchor {
     public:
         /**

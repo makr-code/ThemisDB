@@ -394,6 +394,7 @@ static ColumnBatch specialisedAggregateGroupBy(const ColumnBatch &input, const s
 // JITAggregationCompiler::Impl
 // ============================================================================
 
+/** @brief JITAggregationCompiler::Impl. */
 class JITAggregationCompiler::Impl {
   public:
     explicit Impl(const Config &cfg) : config_(cfg) {}

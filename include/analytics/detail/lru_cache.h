@@ -58,6 +58,7 @@ namespace themis::analytics::detail {
  * @tparam V  Value type — must be move-constructible.
  */
 template <typename K, typename V>
+/** @brief Lru cache component. */
 class LRUCache {
 public:
     // -----------------------------------------------------------------------

@@ -68,6 +68,7 @@ struct ModelCacheStats {
 };
 
 // VoiceModelCache: Phase 10 – LRU model cache
+/** @brief VoiceModelCache: Phase 10 – LRU model cache. */
 class VoiceModelCache {
 public:
     explicit VoiceModelCache(const ModelCacheConfig& config = {});

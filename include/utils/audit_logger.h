@@ -201,6 +201,7 @@ struct AuditLoggerConfig {
 };
 
 // Minimal Audit Logger supporting Encrypt-then-Sign batches (single-entry for now)
+/** @brief Minimal Audit Logger supporting Encrypt-then-Sign batches (single-entry for now). */
 class AuditLogger {
 public:
     AuditLogger(std::shared_ptr<themis::FieldEncryption> enc,

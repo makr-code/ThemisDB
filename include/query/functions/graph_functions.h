@@ -138,6 +138,7 @@ inline std::string getVertexId(const nlohmann::json& doc) {
 }
 
 // Simple graph representation for algorithms
+/** @brief Simple graph representation for algorithms. */
 class SimpleGraph {
 public:
     void addEdge(const std::string& from, const std::string& to, double weight = 1.0) {

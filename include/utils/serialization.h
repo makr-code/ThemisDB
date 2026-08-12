@@ -57,6 +57,7 @@ public:
         VECTOR_FLOAT = 0x70,  // Optimized for embeddings
     };
     
+    /** @brief Encoder component. */
     class Encoder {
     public:
         Encoder();
@@ -93,6 +94,7 @@ public:
         void writeUInt64(uint64_t value);
     };
     
+    /** @brief Decoder component. */
     class Decoder {
     public:
         explicit Decoder(const std::vector<uint8_t>& data);

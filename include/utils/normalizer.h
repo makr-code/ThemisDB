@@ -18,6 +18,7 @@
 namespace themis {
 namespace utils {
 
+/** @brief Normalizer. */
 class Normalizer {
 public:
     // Normalize German umlauts and ß to ASCII equivalents.

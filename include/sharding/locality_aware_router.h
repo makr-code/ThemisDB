@@ -22,6 +22,7 @@
 
 namespace themis::sharding {
 
+/** @brief Locality aware router component. */
 class LocalityAwareRouter {
 public:
     struct QuerySpec {

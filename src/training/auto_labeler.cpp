@@ -81,6 +81,7 @@ namespace aql_templates {
 // ============================================================================
 // Pimpl implementation (Phase 1 & 2)
 // ============================================================================
+/** @brief Pimpl implementation (Phase 1 & 2). */
 class LegalAutoLabeler::Impl {
 public:
     friend class LegalAutoLabeler;

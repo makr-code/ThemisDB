@@ -42,6 +42,7 @@ using X509_ptr = std::unique_ptr<X509, X509_Deleter>;
 
 } // anonymous namespace
 
+/** @brief Key provider signing service component. */
 class KeyProviderSigningService : public SigningService {
 public:
     explicit KeyProviderSigningService(std::shared_ptr<KeyProvider> kp) : kp_(std::move(kp)) {}

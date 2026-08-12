@@ -97,6 +97,7 @@ json MergedFlameGraph::toJSON() const {
 // DistributedFlameGraph::Impl
 // ---------------------------------------------------------------------------
 
+/** @brief DistributedFlameGraph::Impl. */
 class DistributedFlameGraph::Impl {
 public:
     explicit Impl(const DistributedFlameGraphConfig& config) : config_(config) {}

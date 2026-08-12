@@ -33,6 +33,7 @@ namespace examples {
 
 // Example 1: Memory Allocation with Mimalloc
 // Based on: "Mimalloc: Free List Sharding in Action" (ISMM'19)
+/** @brief Based on: "Mimalloc: Free List Sharding in Action" (ISMM'19). */
 class AllocatorExample {
 public:
     static void* allocate(size_t size) {
@@ -66,6 +67,7 @@ public:
 // Example 2: Cache Implementation with LIRS Policy
 // Based on: "LIRS: An Efficient Low Inter-reference Recency Set" (SIGMETRICS'02)
 template<typename Key, typename Value>
+/** @brief Cache usage example. */
 class CacheExample {
 public:
     void put(const Key& key, const Value& value) {
@@ -112,6 +114,7 @@ private:
 // Example 3: Index Access with RCU
 // Based on: "Scalable Read-Mostly Synchronization Using RCU" (ASPLOS'10)
 template<typename Key, typename Value>
+/** @brief Index usage example. */
 class IndexExample {
 public:
     Value lookup(const Key& key) {
@@ -162,6 +165,7 @@ private:
 
 // Example 4: Storage Engine with WiscKey Value Separation
 // Based on: "WiscKey: Separating Keys from Values" (FAST'16)
+/** @brief Based on: "WiscKey: Separating Keys from Values" (FAST'16). */
 class StorageExample {
 public:
     void write(const std::string& key, const std::string& value) {
@@ -190,6 +194,7 @@ private:
 };
 
 // Example 5: Feature Flag Configuration at Startup
+/** @brief Example 5: Feature Flag Configuration at Startup. */
 class ServerStartupExample {
 public:
     static void configure_performance_flags() {
@@ -217,6 +222,7 @@ public:
 };
 
 // Example 6: Runtime Monitoring
+/** @brief Example 6: Runtime Monitoring. */
 class MonitoringExample {
 public:
     static void report_feature_flags_status() {

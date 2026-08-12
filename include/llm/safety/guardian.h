@@ -24,6 +24,7 @@ struct GuardDecision {
     std::vector<std::string> matched_topics;
 };
 
+/** @brief Prompt guardian. */
 class PromptGuardian {
 public:
     GuardDecision evaluate(const std::string& prompt) const;

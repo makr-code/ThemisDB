@@ -597,6 +597,7 @@ void NCCLVectorBackend::setAllReduceFn(NCCLVectorBackend::AllReduceFn fn) {
 
 // Stub implementation when NCCL is not available
 // Define empty Impl class to satisfy unique_ptr
+/** @brief Define empty Impl class to satisfy unique_ptr. */
 class NCCLVectorBackend::Impl {
 public:
     Impl() = default;

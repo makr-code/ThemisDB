@@ -107,6 +107,7 @@ public:
     };
     
     // Connection handle interface
+    /** @brief Connection handle interface. */
     class Connection {
     public:
         virtual ~Connection() = default;

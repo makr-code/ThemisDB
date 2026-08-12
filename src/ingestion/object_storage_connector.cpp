@@ -97,6 +97,7 @@ static bool isKeySafe(const std::string& key) {
 // Pimpl
 // ---------------------------------------------------------------------------
 
+/** @brief Pimpl. */
 class ObjectStorageConnector::Impl {
 public:
     Impl() = default;

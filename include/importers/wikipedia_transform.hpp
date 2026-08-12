@@ -20,6 +20,7 @@ namespace themis::importers {
  * Converts raw WikipediaPage records into ThemisDB document format,
  * performing wikitext stripping, entity extraction, and embedding requests.
  */
+/** @brief Wikipedia transform. */
 class WikipediaTransform {
 public:
     [[nodiscard]] static std::string normalizeTitle(std::string_view title);

@@ -92,6 +92,7 @@ struct GGUFMetadata {
 };
 
 // GGUF Loader - parses GGUF files and loads into ThemisDB
+/** @brief GGUF Loader - parses GGUF files and loads into ThemisDB. */
 class GGUFLoader {
 public:
     GGUFLoader();

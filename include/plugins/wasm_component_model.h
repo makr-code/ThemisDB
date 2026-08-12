@@ -43,6 +43,7 @@ struct ComponentModelConfig {
     std::string runtime_hint;
 };
 
+/** @brief I wasm component instance. */
 class IWasmComponentInstance {
 public:
     virtual ~IWasmComponentInstance() = default;
@@ -53,6 +54,7 @@ public:
     virtual bool isValid() const = 0;
 };
 
+/** @brief I wasm component loader component. */
 class IWasmComponentLoader {
 public:
     virtual ~IWasmComponentLoader() = default;

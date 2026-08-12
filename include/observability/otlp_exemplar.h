@@ -53,6 +53,7 @@ struct ExemplarReservoirConfig {
     bool filter_sampled_only = false;
 };
 
+/** @brief I exemplar reservoir. */
 class IExemplarReservoir {
 public:
     virtual ~IExemplarReservoir() = default;
@@ -62,6 +63,7 @@ public:
     virtual void reset() = 0;
 };
 
+/** @brief I exemplar sampler. */
 class IExemplarSampler {
 public:
     virtual ~IExemplarSampler() = default;

@@ -48,6 +48,7 @@ Coordinate mbrCentroid(const GeometryInfo &geom) noexcept {
 // RTreeRangeCursor — range query cursor (MBR overlap)
 // ---------------------------------------------------------------------------
 
+/** @brief RTreeRangeCursor — range query cursor (MBR overlap). */
 class RTreeRangeCursor final : public IRTreeCursor {
   public:
     RTreeRangeCursor(std::vector<GeoIndexEntry> hits, std::size_t index_version, const std::size_t *live_version)
@@ -79,6 +80,7 @@ class RTreeRangeCursor final : public IRTreeCursor {
 // RTreeKNNCursor — k-nearest-neighbour cursor (sorted by distance)
 // ---------------------------------------------------------------------------
 
+/** @brief RTreeKNNCursor — k-nearest-neighbour cursor (sorted by distance). */
 class RTreeKNNCursor final : public IRTreeCursor {
   public:
     RTreeKNNCursor(std::vector<GeoIndexEntry> hits, std::size_t k, std::size_t index_version,

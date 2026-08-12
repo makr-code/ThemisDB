@@ -39,6 +39,7 @@ namespace optimizations {
 // Parallel Write Optimization
 // ═══════════════════════════════════════════════════════════
 
+/** @brief Parallel Write Optimization. */
 class ParallelWriteOptimizer {
 public:
     /**
@@ -78,6 +79,7 @@ public:
 // Zero-Copy Buffer Management
 // ═══════════════════════════════════════════════════════════
 
+/** @brief Zero-Copy Buffer Management. */
 class ZeroCopyBuffer {
 public:
     /**
@@ -105,6 +107,7 @@ private:
 // SIMD-Accelerated Erasure Coding
 // ═══════════════════════════════════════════════════════════
 
+/** @brief SIMD-Accelerated Erasure Coding. */
 class SIMDErasureCoder {
 public:
     /**
@@ -191,6 +194,7 @@ public:
 // Prefetching Optimizer
 // ═══════════════════════════════════════════════════════════
 
+/** @brief Prefetching Optimizer. */
 class PrefetchOptimizer {
 public:
     /**
@@ -223,6 +227,7 @@ public:
 // Compression Integration
 // ═══════════════════════════════════════════════════════════
 
+/** @brief Compression Integration. */
 class CompressionOptimizer {
 public:
     /**
@@ -267,6 +272,7 @@ public:
 // Batch Read Optimizer
 // ═══════════════════════════════════════════════════════════
 
+/** @brief Batch Read Optimizer. */
 class BatchReadOptimizer {
 public:
     struct ReadRequest {
@@ -336,6 +342,7 @@ public:
 // Cache-Aware Striping
 // ═══════════════════════════════════════════════════════════
 
+/** @brief Cache-Aware Striping. */
 class CacheAwareStriping {
 public:
     /**
@@ -367,6 +374,7 @@ public:
 // Performance Monitoring
 // ═══════════════════════════════════════════════════════════
 
+/** @brief Performance Monitoring. */
 class PerformanceMonitor {
 public:
     struct Metrics {

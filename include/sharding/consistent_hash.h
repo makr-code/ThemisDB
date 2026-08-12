@@ -188,6 +188,7 @@ private:
     uint64_t hash(const std::string& key) const;
 };
 
+/** @brief Consistent hash component. */
 class ConsistentHash {
 public:
     explicit ConsistentHash(int /*expected_shards*/) {}

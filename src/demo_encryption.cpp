@@ -35,6 +35,7 @@ using themis::KeyProvider;
 using themis::MockKeyProvider;
 using themis::VaultKeyProvider;
 
+/** @brief Encryption demonstration component. */
 class EncryptionDemo {
 public:
     explicit EncryptionDemo(const std::string& mode) : mode_(mode) {

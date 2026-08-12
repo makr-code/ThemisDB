@@ -315,6 +315,7 @@ public:
     }
 };
 
+/** @brief Cos query function. */
 class CosFunction : public IFunction {
 public:
     ~CosFunction() override = default;
@@ -336,6 +337,7 @@ public:
     }
 };
 
+/** @brief Tan query function. */
 class TanFunction : public IFunction {
 public:
     ~TanFunction() override = default;
@@ -383,6 +385,7 @@ public:
     }
 };
 
+/** @brief Acos query function. */
 class AcosFunction : public IFunction {
 public:
     ~AcosFunction() override = default;
@@ -406,6 +409,7 @@ public:
     }
 };
 
+/** @brief Atan query function. */
 class AtanFunction : public IFunction {
 public:
     ~AtanFunction() override = default;
@@ -427,6 +431,7 @@ public:
     }
 };
 
+/** @brief Atan2function. */
 class Atan2Function : public IFunction {
 public:
     ~Atan2Function() override = default;
@@ -475,6 +480,7 @@ public:
     }
 };
 
+/** @brief Radians query function. */
 class RadiansFunction : public IFunction {
 public:
     ~RadiansFunction() override = default;
@@ -627,6 +633,7 @@ public:
     }
 };
 
+/** @brief Max query function. */
 class MaxFunction : public IFunction {
 public:
     ~MaxFunction() override = default;

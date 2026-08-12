@@ -96,6 +96,7 @@ std::string makeModelKey(const std::string& owner_id, uint64_t alloc_id) {
 // Impl
 // =============================================================================
 
+/** @brief Impl. */
 class ActiveVRAMAllocator::Impl {
 public:
     explicit Impl(const Config& cfg)

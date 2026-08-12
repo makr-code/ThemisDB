@@ -22,6 +22,7 @@ namespace themis {
 namespace ingestion {
 namespace builtin {
 
+/** @brief Chunk tt decompose step. */
 class ChunkTtDecomposeStep final : public IIngestionStep {
 public:
     explicit ChunkTtDecomposeStep(

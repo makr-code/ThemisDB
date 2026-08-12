@@ -90,6 +90,7 @@ struct HKDFCacheStats {
     size_t evictions = 0;
 };
 
+/** @brief Hkdf cache component. */
 class HKDFCache {
 public:
     // Expose config/stats types via aliases so call sites can use

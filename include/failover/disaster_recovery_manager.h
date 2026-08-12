@@ -91,6 +91,7 @@ struct DisasterRecoveryResult {
     std::vector<DisasterRecoveryStepResult> step_results;
 };
 
+/** @brief Disaster recovery manager component. */
 class DisasterRecoveryManager {
 public:
     using StepHook = std::function<bool(const DisasterRecoveryPlan&, std::string&)>;

@@ -272,6 +272,7 @@ static std::vector<std::string> splitComma(const std::string& s) {
 // Pimpl
 // ---------------------------------------------------------------------------
 
+/** @brief Pimpl. */
 class DatabaseConnector::Impl {
 public:
     Impl() = default;

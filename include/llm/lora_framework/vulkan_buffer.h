@@ -142,6 +142,7 @@ namespace themis {
 namespace lora {
 namespace vulkan {
 
+/** @brief Vulkan buffer type. */
 class VulkanBuffer {
 public:
     enum class Usage { DeviceLocal, Staging, Uniform };

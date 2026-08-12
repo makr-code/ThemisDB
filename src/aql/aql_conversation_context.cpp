@@ -28,6 +28,7 @@ namespace aql {
 // Pimpl
 // ============================================================================
 
+/** @brief Pimpl. */
 class AQLConversationContext::Impl {
   public:
     explicit Impl(LLMAQLHandler &handler, AQLConversationContext::Config config,

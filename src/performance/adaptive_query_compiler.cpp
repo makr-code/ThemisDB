@@ -333,6 +333,7 @@ static QueryRow makeRow(const std::string&       table,
 // AdaptiveQueryCompiler::Impl
 // ============================================================================
 
+/** @brief AdaptiveQueryCompiler::Impl. */
 class AdaptiveQueryCompiler::Impl {
 public:
     // ── Per-fingerprint tracking entry ───────────────────────────────────────

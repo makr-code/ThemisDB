@@ -83,6 +83,7 @@ namespace graph_aql {
 // ============================================================================
 // Thread-safe LRU cache for enrichment results (Phase 9)
 // ============================================================================
+/** @brief Thread-safe LRU cache for enrichment results (Phase 9). */
 class EnrichmentLRUCache {
 public:
     using Key   = std::string;
@@ -161,6 +162,7 @@ private:
 // ============================================================================
 // Pimpl implementation (Phase 6)
 // ============================================================================
+/** @brief Pimpl implementation (Phase 6). */
 class KnowledgeGraphEnricher::Impl {
 public:
     friend class KnowledgeGraphEnricher;

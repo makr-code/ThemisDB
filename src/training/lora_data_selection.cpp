@@ -313,6 +313,7 @@ static void appendAuditJSONL(const std::string& path,
 // ============================================================================
 // Pimpl implementation
 // ============================================================================
+/** @brief Pimpl implementation. */
 class DataSelectionPipeline::Impl {
 public:
     explicit Impl(const LoRADataSelectionConfig& config) : config_(config) {}
@@ -1174,6 +1175,7 @@ SelfImprovementConfig SelfImprovementConfig::fromYAMLString(
 // SelfImprovementModule – adaptive threshold adjustment
 // ============================================================================
 
+/** @brief SelfImprovementModule – adaptive threshold adjustment. */
 class SelfImprovementModule::Impl {
 public:
     explicit Impl(const SelfImprovementConfig& cfg) : cfg_(cfg) {}

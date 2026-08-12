@@ -146,6 +146,7 @@ struct ParsedTimeIndexKey {
 // RocksDBProvenanceStore::Impl (private pimpl)
 // ─────────────────────────────────────────────────────────────────────────────
 
+/** @brief RocksDBProvenanceStore::Impl (private pimpl). */
 class RocksDBProvenanceStore::Impl {
 public:
     explicit Impl(const RocksDBProvenanceStore::Config& config) {

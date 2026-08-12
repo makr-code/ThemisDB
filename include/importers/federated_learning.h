@@ -40,6 +40,7 @@ public:
     // ------------------------------------------------------------------
     // Federated aggregator
     // ------------------------------------------------------------------
+    /** @brief Federated aggregator. */
     class FederatedAggregator {
     public:
         struct ParticipantUpdate {
@@ -69,6 +70,7 @@ public:
     // ------------------------------------------------------------------
     // Differential privacy
     // ------------------------------------------------------------------
+    /** @brief Differential privacy. */
     class DifferentialPrivacyManager {
     public:
         /**
@@ -108,6 +110,7 @@ public:
     // ------------------------------------------------------------------
     // Secure aggregation primitive (Wave C C2 optional HE-style stub)
     // ------------------------------------------------------------------
+    /** @brief Secure aggregation primitive (Wave C C2 optional HE-style stub). */
     class SecureAggregationManager {
     public:
         /**
@@ -136,6 +139,7 @@ public:
     // ------------------------------------------------------------------
     // Federated training coordinator (synchronized SGD rounds)
     // ------------------------------------------------------------------
+    /** @brief Federated training coordinator (synchronized SGD rounds). */
     class FederatedTrainingCoordinator {
     public:
         struct ParticipantGradient {

@@ -92,6 +92,7 @@ struct HealthStatus {
 // Auto-Recovery Manager
 // ═══════════════════════════════════════════════════════════
 
+/** @brief Auto-Recovery Manager. */
 class AutoRecoveryManager {
 public:
     explicit AutoRecoveryManager(

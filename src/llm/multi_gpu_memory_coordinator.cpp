@@ -29,6 +29,7 @@ namespace themis {
 namespace llm {
 
 // Private implementation
+/** @brief Private implementation. */
 class MultiGPUMemoryCoordinator::Impl {
 public:
     std::vector<GPUDevice> gpus_;

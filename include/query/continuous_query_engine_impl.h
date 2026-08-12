@@ -69,6 +69,7 @@ private:
 // CQResultStreamImpl — concrete CQResultStream
 // ──────────────────────────────────────────────────────────────────────────────
 
+/** @brief CQResultStreamImpl — concrete CQResultStream. */
 class CQResultStreamImpl : public CQResultStream {
 public:
     ~CQResultStreamImpl() override = default;

@@ -301,6 +301,7 @@ static std::string extractDocxWithConverter(const std::string& file_path,
 } // anonymous namespace
 
 // Pimpl implementation
+/** @brief Pimpl implementation. */
 class FileSystemIngester::Impl {
 public:
     Impl() 

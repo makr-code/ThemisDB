@@ -27,6 +27,7 @@ struct CompactionTask {
     std::function<void()> fn;
 };
 
+/** @brief Task queue component. */
 class TaskQueue {
 public:
     void push(CompactionTask task) {

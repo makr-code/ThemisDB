@@ -206,6 +206,7 @@ struct VersionRecord {
 // ============================================================================
 // Pimpl implementation (Phases 3-5)
 // ============================================================================
+/** @brief Pimpl implementation (Phases 3-5). */
 class IncrementalLoRATrainer::Impl {
 public:
     explicit Impl(const IncrementalTrainingConfig& config, const std::string& db_connection)

@@ -182,6 +182,7 @@ struct LLMResponse {
     bool from_cache = false;
 };
 
+/** @brief Llm process analyzer component. */
 class LLMProcessAnalyzer {
 public:
     explicit LLMProcessAnalyzer(const LLMConfig& config);

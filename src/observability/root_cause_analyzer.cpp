@@ -240,6 +240,7 @@ double deltaPercent(double before, double after) {
 // RootCauseAnalyzer::Impl
 // ---------------------------------------------------------------------------
 
+/** @brief RootCauseAnalyzer::Impl. */
 class RootCauseAnalyzer::Impl {
 public:
     RootCauseAnalyzerConfig config;

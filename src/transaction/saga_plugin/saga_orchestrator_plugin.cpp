@@ -24,6 +24,7 @@
 
 namespace themis::transaction {
 
+/** @brief Saga orchestrator plugin. */
 class SagaOrchestratorPlugin final : public plugins::IThemisPlugin {
 public:
     SagaOrchestratorPlugin()

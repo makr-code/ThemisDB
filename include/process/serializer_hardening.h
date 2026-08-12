@@ -221,6 +221,7 @@ public:
     );
 };
 
+/** @brief Validator for epk. */
 class EpkValidator {
 public:
     /**
@@ -240,6 +241,7 @@ public:
     );
 };
 
+/** @brief Validator for cmmn. */
 class CmmnValidator {
 public:
     /**
@@ -258,6 +260,7 @@ public:
     );
 };
 
+/** @brief Validator for dmn. */
 class DmnValidator {
 public:
     /**

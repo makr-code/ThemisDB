@@ -25,6 +25,7 @@ namespace Eigen {
     class VectorXf; // forward declaration for RowRef::transpose
 
     // Float matrix (minimal subset used in ThemisDB tests)
+    /** @brief Float matrix (minimal subset used in ThemisDB tests). */
     class MatrixXf {
     public:
         MatrixXf() : rows_(0), cols_(0) {}
@@ -73,6 +74,7 @@ namespace Eigen {
         int cols_ = 0;
     };
 
+    /** @brief Vector xf. */
     class VectorXf {
     public:
         VectorXf() : n_(0) {}
@@ -124,6 +126,7 @@ namespace Eigen {
     }
 
     // Double precision counterparts
+    /** @brief Double precision counterparts. */
     class MatrixXd {
     public:
         MatrixXd() : rows_(0), cols_(0) {}
@@ -174,6 +177,7 @@ namespace Eigen {
     };
 
     // simple VectorXd
+    /** @brief simple VectorXd. */
     class VectorXd {
     public:
         VectorXd() : n_(0) {}
@@ -202,6 +206,7 @@ namespace Eigen {
 
     // Map emulation for assignment
     template <typename T>
+    /** @brief Map structure. */
     class Map {
     public:
         Map(T* data, int r, int c) : ptr_(data), r_(r), c_(c) {}

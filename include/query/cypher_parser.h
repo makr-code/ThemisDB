@@ -200,6 +200,7 @@ struct CypherParseError {
 // Thread-safety: NOT thread-safe; create one instance per thread.
 // ============================================================================
 
+/** @brief Thread-safety: NOT thread-safe; create one instance per thread. */
 class CypherParser {
 public:
     CypherParser() = default;
@@ -232,6 +233,7 @@ private:
 // through the existing AQL pipeline (executeAql / AQLParser / AQLTranslator).
 // ============================================================================
 
+/** @brief through the existing AQL pipeline (executeAql / AQLParser / AQLTranslator). */
 class CypherToAQLTranspiler {
 public:
     CypherToAQLTranspiler() = default;

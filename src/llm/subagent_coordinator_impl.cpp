@@ -20,6 +20,7 @@
 namespace themis {
 namespace llm {
 
+/** @brief Subagent coordinator implementation detail. */
 class SubagentCoordinatorImpl : public SubagentCoordinator {
 public:
     explicit SubagentCoordinatorImpl(std::shared_ptr<SubagentFactory> factory)

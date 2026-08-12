@@ -48,6 +48,7 @@ enum class VoiceErrorCode {
 std::string errorCodeToString(VoiceErrorCode code);
 
 // Voice error exception
+/** @brief Voice error exception. */
 class VoiceException : public std::runtime_error {
 public:
     VoiceException(VoiceErrorCode code, const std::string& message);
@@ -74,6 +75,7 @@ struct CircuitBreakerConfig {
 };
 
 // Circuit breaker for voice services
+/** @brief Circuit breaker for voice services. */
 class VoiceCircuitBreaker {
 public:
     explicit VoiceCircuitBreaker(const std::string& name, const CircuitBreakerConfig& config = {});
@@ -133,6 +135,7 @@ struct RetryConfig {
 };
 
 // Retry helper with exponential backoff
+/** @brief Retry helper with exponential backoff. */
 class VoiceRetryHandler {
 public:
     explicit VoiceRetryHandler(const RetryConfig& config = {});
@@ -174,6 +177,7 @@ private:
 };
 
 // Fallback strategy for graceful degradation
+/** @brief Fallback strategy for graceful degradation. */
 class VoiceFallbackStrategy {
 public:
     struct FallbackResult {
@@ -217,6 +221,7 @@ struct ErrorContext {
 };
 
 // VoiceErrorHandler: Phase 8 production component
+/** @brief VoiceErrorHandler: Phase 8 production component. */
 class VoiceErrorHandler {
 public:
     VoiceErrorHandler();

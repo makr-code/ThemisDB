@@ -133,6 +133,7 @@ namespace training {
 // ============================================================================
 // Impl
 // ============================================================================
+/** @brief Impl. */
 class LoRACheckpointManager::Impl {
 public:
     explicit Impl(const CheckpointManagerConfig& config)

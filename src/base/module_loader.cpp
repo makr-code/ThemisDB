@@ -72,6 +72,7 @@ using namespace themis::acceleration;
 // ModuleSecurityVerifier::Impl - Bridge to existing plugin security
 // ============================================================================
 
+/** @brief ModuleSecurityVerifier::Impl - Bridge to existing plugin security. */
 class ModuleSecurityVerifier::Impl {
 public:
     Impl() : policy_(), verifier_(policy_) {

@@ -95,6 +95,7 @@ GCSExistsFn g_gcs_exists_fn;
 } // namespace
 
 // Cloud storage provider interface
+/** @brief Cloud storage provider interface. */
 class ICloudStorageProvider {
 public:
     virtual ~ICloudStorageProvider() = default;
@@ -126,6 +127,7 @@ public:
 // Approved By: @makr-code (Issue #5366)
 // Removal Target: None - callback injection system is canonical for cloud SDK integration.
 // S3-compatible storage provider (AWS S3, MinIO, etc.)
+/** @brief S3-compatible storage provider (AWS S3, MinIO, etc.). */
 class S3StorageProvider : public ICloudStorageProvider {
 public:
     S3StorageProvider(const std::string& bucket, 
@@ -300,6 +302,7 @@ private:
 // Approved By: @makr-code (Issue #5366)
 // Removal Target: None - callback injection system is canonical for cloud SDK integration.
 // Azure Blob Storage provider
+/** @brief Azure Blob Storage provider. */
 class AzureStorageProvider : public ICloudStorageProvider {
 public:
     AzureStorageProvider(const std::string& account_name,
@@ -477,6 +480,7 @@ private:
 // Approved By: @makr-code (Issue #5366)
 // Removal Target: None - callback injection system is canonical for cloud SDK integration.
 // Google Cloud Storage provider
+/** @brief Google Cloud Storage provider. */
 class GCSStorageProvider : public ICloudStorageProvider {
 public:
     GCSStorageProvider(const std::string& project_id,
@@ -642,6 +646,7 @@ private:
 };
 
 // Cloud backup coordinator
+/** @brief Cloud backup coordinator. */
 class CloudBackupCoordinator::Impl {
 public:
     Impl(std::shared_ptr<CloudAgent> cloud_agent,

@@ -30,6 +30,7 @@ struct ContentMeta {
     uint64_t chunks = 0;     // Anzahl der Chunks (0 => ungechunked)
 };
 
+/** @brief Content fs. */
 class ContentFS {
 public:
     explicit ContentFS(RocksDBWrapper& db) : db_(db) {}

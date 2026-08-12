@@ -127,6 +127,7 @@ std::string LogEntry::toJson() const {
 // LogAggregator::Impl
 // ---------------------------------------------------------------------------
 
+/** @brief LogAggregator::Impl. */
 class LogAggregator::Impl {
 public:
     explicit Impl(const LogAggregatorConfig& cfg)

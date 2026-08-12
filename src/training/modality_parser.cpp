@@ -489,6 +489,7 @@ OCRExtractor::extract([[maybe_unused]] const std::string& image_path,
 // ModalityDetector::Impl
 // ============================================================================
 
+/** @brief ModalityDetector::Impl. */
 class ModalityDetector::Impl {
 public:
     explicit Impl(const ModalityParserConfig& config)

@@ -46,6 +46,7 @@ std::vector<float> zeros(size_t count) {
 // Impl
 // ============================================================================
 
+/** @brief Impl. */
 class AdaLoRAAdapter::Impl {
 public:
     // Per-layer state

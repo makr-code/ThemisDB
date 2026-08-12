@@ -124,6 +124,7 @@ static void closeCounter(int& fd) noexcept {
 // EbpfTracer::Impl
 // ============================================================================
 
+/** @brief EbpfTracer::Impl. */
 class EbpfTracer::Impl {
 public:
     explicit Impl(const EbpfTracerConfig& cfg)

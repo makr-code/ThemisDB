@@ -38,6 +38,7 @@ struct RangerClientConfig {
     long retry_backoff_ms = 500;    // initial backoff between retries, exponential
 };
 
+/** @brief Ranger client component. */
 class RangerClient {
 public:
     explicit RangerClient(RangerClientConfig cfg);

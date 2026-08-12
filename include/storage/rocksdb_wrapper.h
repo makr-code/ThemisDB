@@ -48,20 +48,29 @@ namespace rocksdb {
     class EventListener;
 #else
     // Stub declarations when RocksDB is not available
+    /** @brief Stub declarations when RocksDB is not available. */
     class TransactionDB {};
+    /** @brief Transaction object. */
     class Transaction {};
+    /** @brief Write batch. */
     class WriteBatch {};
+    /** @brief Write batch with index structure. */
     class WriteBatchWithIndex {};
     struct Options {};
     struct ReadOptions {};
     struct WriteOptions {};
     struct TransactionDBOptions {};
     struct TransactionOptions {};
+    /** @brief Snapshot. */
     class Snapshot {};
+    /** @brief Db. */
     class DB {};
+    /** @brief Column family handle. */
     class ColumnFamilyHandle {};
+    /** @brief Event event listener. */
     class EventListener {};
     // Iterator stub - needs to be a real class for unique_ptr to work
+    /** @brief Iterator stub - needs to be a real class for unique_ptr to work. */
     class Iterator {};
 #endif
 }
@@ -750,6 +759,7 @@ public:
 
 private:
     // RAII helper to track active operations and prevent close during operations
+    /** @brief RAII helper to track active operations and prevent close during operations. */
     class OperationGuard {
     public:
         explicit OperationGuard(const RocksDBWrapper* wrapper) 

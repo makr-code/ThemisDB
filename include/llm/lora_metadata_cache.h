@@ -51,6 +51,7 @@ struct LoRAMetadata {
     std::vector<std::string> target_modules;  // Which layers are adapted
 };
 
+/** @brief Lo ra metadata cache component. */
 class LoRAMetadataCache {
 public:
     using CacheType = ConcurrentCache<std::string, LoRAMetadata>;

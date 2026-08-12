@@ -95,6 +95,7 @@ static std::vector<float> matmul(const std::vector<float>& A, size_t M, size_t K
 // Pimpl
 // ============================================================================
 
+/** @brief Pimpl. */
 class LoRAAdapter::Impl {
 public:
     explicit Impl(size_t default_rank, float default_alpha)

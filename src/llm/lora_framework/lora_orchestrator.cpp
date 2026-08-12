@@ -59,6 +59,7 @@ AdapterInfo makeAdapterInfo(const std::string& adapter_id, const std::string& ve
 }
 } // namespace
 
+/** @brief Implementation detail. */
 class LoRAOrchestrator::Impl {
 public:
     Impl() : is_initialized(false), advanced_enabled(false) {}

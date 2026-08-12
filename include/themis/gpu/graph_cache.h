@@ -96,6 +96,7 @@ struct GraphEntry {
 // Thread safety: all public methods are mutex-protected.
 // ============================================================================
 
+/** @brief Thread safety: all public methods are mutex-protected. */
 class GPUGraphCache {
 public:
     /// Maximum number of captured graphs kept in the cache.

@@ -164,6 +164,7 @@ void OLAPEngine::setExportCollectionToParquetFn(ExportCollectionToParquetFn fn) 
 // OLAPEngine Implementation
 // ============================================================================
 
+/** @brief OLAPEngine Implementation. */
 class OLAPEngine::Impl {
   public:
     // In-memory data for testing (would connect to storage in production)
@@ -1263,6 +1264,7 @@ static double vectorizedMax(const double *data, size_t n) noexcept {
 
 } // anonymous namespace
 
+/** @brief Implementation detail. */
 class ColumnarStore::Impl {
   public:
     struct Column {
@@ -1500,6 +1502,7 @@ ColumnarStore::ColumnStats ColumnarStore::getColumnStats(std::string_view column
 // MaterializedView Implementation
 // ============================================================================
 
+/** @brief MaterializedView Implementation. */
 class MaterializedView::Impl {
   public:
     OLAPResult cached_result;

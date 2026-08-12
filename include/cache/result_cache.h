@@ -20,6 +20,7 @@
 namespace themis { namespace cache {
 
 // Query-Result-Cache (AQL) – speichert seitenweise Ergebnisse unter Plan-Hash
+/** @brief Query-Result-Cache (AQL) – speichert seitenweise Ergebnisse unter Plan-Hash. */
 class ResultCache {
 public:
     virtual ~ResultCache() = default;

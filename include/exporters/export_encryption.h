@@ -36,6 +36,7 @@ struct ExportEncryptionConfig {
     bool empty() const { return kek_id.empty() || !key_provider; }
 };
 
+/** @brief Export encryption. */
 class ExportEncryption {
 public:
     explicit ExportEncryption(const ExportEncryptionConfig& config);
@@ -66,6 +67,7 @@ private:
                                          const std::vector<uint8_t>& iv);
 };
 
+/** @brief Export encryptor. */
 class ExportEncryptor {
 public:
     static constexpr uint8_t kFormatVersion = 1;

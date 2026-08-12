@@ -493,6 +493,7 @@ static std::string getPrimaryMacAddress() {
 // LicenseClient::Impl
 // ============================================================================
 
+/** @brief LicenseClient::Impl. */
 class LicenseClient::Impl {
 public:
     explicit Impl(const LicenseClientConfig& cfg) : cfg_(cfg) {}

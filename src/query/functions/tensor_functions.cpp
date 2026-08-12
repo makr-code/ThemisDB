@@ -175,6 +175,7 @@ static TTTrain buildTrain(const json& arg, const FunctionContext& ctx) {
 // TENSOR_SIMILARITY
 // ============================================================================
 
+/** @brief TENSOR_SIMILARITY. */
 class TensorSimilarityFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
@@ -216,6 +217,7 @@ public:
 // TENSOR_NORM
 // ============================================================================
 
+/** @brief TENSOR_NORM. */
 class TensorNormFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
@@ -250,6 +252,7 @@ public:
 // TENSOR_SLICE
 // ============================================================================
 
+/** @brief TENSOR_SLICE. */
 class TensorSliceFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
@@ -298,6 +301,7 @@ public:
 // TENSOR_COMPRESS
 // ============================================================================
 
+/** @brief TENSOR_COMPRESS. */
 class TensorCompressFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
@@ -347,6 +351,7 @@ public:
 // TENSOR_INFO
 // ============================================================================
 
+/** @brief TENSOR_INFO. */
 class TensorInfoFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
@@ -387,6 +392,7 @@ public:
 // TENSOR_CONTRACT
 // ============================================================================
 
+/** @brief TENSOR_CONTRACT. */
 class TensorContractFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
@@ -453,6 +459,7 @@ public:
 // TENSOR_PROJECT
 // ============================================================================
 
+/** @brief TENSOR_PROJECT. */
 class TensorProjectFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
@@ -505,6 +512,7 @@ public:
 // TENSOR_DECOMPOSE
 // ============================================================================
 
+/** @brief TENSOR_DECOMPOSE. */
 class TensorDecomposeFunction : public IFunction {
 public:
     FunctionSignature signature() const override {

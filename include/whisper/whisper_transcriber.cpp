@@ -142,6 +142,7 @@ virtual bool isModelVersionSupported(const std::string& version_id) const = 0;
 // providing safe placeholders for complex logic that will be implemented later.
 // ---------------------------------------------------------------------------
 
+/** @brief providing safe placeholders for complex logic that will be implemented later. */
 class WhisperStubTranscriber : public IWhisperTranscriber {
 public:
     WhisperStubTranscriber() = default;

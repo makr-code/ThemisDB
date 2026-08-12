@@ -569,6 +569,7 @@ public:
 
 private:
     // Session class for handling individual connections
+    /** @brief Session class for handling individual connections. */
     class Session : public std::enable_shared_from_this<Session> {
     public:
         Session(tcp::socket socket, HttpServer* server, bool connection_slot_reserved = false);
@@ -593,6 +594,7 @@ private:
     };
 
     // SSL Session class for handling TLS connections
+    /** @brief SSL Session class for handling TLS connections. */
     class SslSession : public std::enable_shared_from_this<SslSession> {
     public:
         SslSession(tcp::socket socket, boost::asio::ssl::context& ssl_ctx, HttpServer* server, bool connection_slot_reserved = false);

@@ -99,6 +99,7 @@ static uint64_t elapsedUs(
 // Impl — private implementation (Pimpl pattern)
 // ============================================================================
 
+/** @brief Impl — private implementation (Pimpl pattern). */
 class QueryCompiler::Impl {
 public:
     // Per-entry state

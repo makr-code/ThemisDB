@@ -138,6 +138,7 @@ struct PrefixBlock {
     size_t savedBytes() const;
 };
 
+/** @brief Prefix compressor component. */
 class PrefixCompressor {
 public:
     /// Compress a sorted range of keys.  Adjacent keys that share a common
@@ -175,6 +176,7 @@ struct DeltaBlock {
     std::vector<int64_t> decompress() const;
 };
 
+/** @brief Delta encoder component. */
 class DeltaEncoder {
 public:
     /// Encode a sorted list of integers.
@@ -202,6 +204,7 @@ struct RunLengthBlock {
     std::vector<std::string> decompress() const;
 };
 
+/** @brief Run length encoder component. */
 class RunLengthEncoder {
 public:
     /// Encode a sequence of strings with repeated values.

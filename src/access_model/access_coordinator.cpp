@@ -35,6 +35,7 @@ namespace access_model {
 // § 1  AccessCoordinatorImpl: Central Tier Orchestrator
 // ============================================================================
 
+/** @brief § 1  AccessCoordinatorImpl: Central Tier Orchestrator. */
 class AccessCoordinatorImpl : public AccessCoordinator {
  public:
     explicit AccessCoordinatorImpl(size_t thread_pool_size = 4)

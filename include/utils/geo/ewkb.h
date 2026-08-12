@@ -137,6 +137,7 @@ struct GeometryInfo {
 };
 
 // EWKB Parser/Serializer
+/** @brief EWKB Parser/Serializer. */
 class EWKBParser {
 public:
     // Parse EWKB binary to GeometryInfo

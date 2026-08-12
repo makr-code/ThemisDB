@@ -61,6 +61,7 @@ int MultiGPUVectorBackend::detectGPUCount() noexcept {
 // MultiGPUVectorBackend::Impl
 // =============================================================================
 
+/** @brief MultiGPUVectorBackend::Impl. */
 class MultiGPUVectorBackend::Impl {
   public:
     Config config;

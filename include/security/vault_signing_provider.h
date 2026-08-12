@@ -19,6 +19,7 @@
 
 namespace themis {
 
+/** @brief Provider component vault signing. */
 class VaultSigningProvider : public SigningProvider {
 public:
     struct Config {

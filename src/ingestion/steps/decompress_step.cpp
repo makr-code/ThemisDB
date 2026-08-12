@@ -83,6 +83,7 @@ static void collectPaths(const std::string& dir,
 // DecompressStep
 // ─────────────────────────────────────────────────────────────────────────────
 
+/** @brief DecompressStep. */
 class DecompressStep final : public IIngestionStep {
 public:
     // IThemisPlugin boilerplate

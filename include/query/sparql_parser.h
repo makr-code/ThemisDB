@@ -155,6 +155,7 @@ struct SPARQLASTNode {
 // with a mutex (same constraint as AQLParser and SQLParser).
 // ============================================================================
 
+/** @brief with a mutex (same constraint as AQLParser and SQLParser). */
 class SPARQLParser {
 public:
     SPARQLParser() = default;
@@ -213,6 +214,7 @@ private:
 //     RETURN _t0.subject
 // ============================================================================
 
+/** @brief RETURN _t0.subject. */
 class SPARQLToAQLTranspiler {
 public:
     explicit SPARQLToAQLTranspiler(std::string collection = "rdf_triples")

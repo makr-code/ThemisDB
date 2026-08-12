@@ -44,6 +44,7 @@ struct BundleImportResult {
     std::vector<std::string> warnings;
 };
 
+/** @brief I project bundle manager component. */
 class IProjectBundleManager {
 public:
     virtual ~IProjectBundleManager() = default;

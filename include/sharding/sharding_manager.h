@@ -38,6 +38,7 @@ struct ShardNodeInfo {
 // SHARDING MANAGER - EDITION-AWARE
 // ============================================================================
 
+/** @brief SHARDING MANAGER - EDITION-AWARE. */
 class ShardingManager {
 public:
     // Singleton instance

@@ -117,6 +117,7 @@ inline uint32_t crc32c_hw(const uint8_t* buf, size_t len) noexcept {
 }  // anonymous namespace
 
 // Implementation class
+/** @brief Implementation class. */
 class BlobTransferHandler::Impl {
 public:
     Impl() 

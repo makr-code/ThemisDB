@@ -207,6 +207,7 @@ namespace api {
 // Impl (only compiled when proto stubs are present)
 // ============================================================================
 
+/** @brief Impl (only compiled when proto stubs are present). */
 class ThemisDBGrpcService::Impl {
 public:
 #if THEMIS_HAS_API_GRPC

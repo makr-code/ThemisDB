@@ -796,6 +796,7 @@ public:
     }
 };
 
+/** @brief Date month query function. */
 class DateMonthFunction : public IFunction {
 public:
     ~DateMonthFunction() override = default;
@@ -819,6 +820,7 @@ public:
     }
 };
 
+/** @brief Date day query function. */
 class DateDayFunction : public IFunction {
 public:
     ~DateDayFunction() override = default;
@@ -842,6 +844,7 @@ public:
     }
 };
 
+/** @brief Date hour query function. */
 class DateHourFunction : public IFunction {
 public:
     ~DateHourFunction() override = default;
@@ -865,6 +868,7 @@ public:
     }
 };
 
+/** @brief Date minute query function. */
 class DateMinuteFunction : public IFunction {
 public:
     ~DateMinuteFunction() override = default;
@@ -888,6 +892,7 @@ public:
     }
 };
 
+/** @brief Date second query function. */
 class DateSecondFunction : public IFunction {
 public:
     ~DateSecondFunction() override = default;
@@ -911,6 +916,7 @@ public:
     }
 };
 
+/** @brief Date millisecond query function. */
 class DateMillisecondFunction : public IFunction {
 public:
     ~DateMillisecondFunction() override = default;

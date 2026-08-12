@@ -180,6 +180,7 @@ private:
 // Dropped span — returned when sampling decides not to record
 // ---------------------------------------------------------------------------
 
+/** @brief Dropped span — returned when sampling decides not to record. */
 class DroppedSpan : public core::concerns::ITracer::ISpan {
 public:
     void setAttribute(const std::string&, const std::string&) override {}
@@ -196,6 +197,7 @@ public:
 // ObservabilityTracer::Impl
 // ---------------------------------------------------------------------------
 
+/** @brief ObservabilityTracer::Impl. */
 class ObservabilityTracer::Impl {
 public:
     explicit Impl(const ObservabilityTracerConfig& cfg)

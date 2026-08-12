@@ -35,6 +35,7 @@ namespace config {
 // and emits periodic structured log reports.
 // ═══════════════════════════════════════════════════════════
 
+/** @brief and emits periodic structured log reports. */
 class ConfigPathResolver::DeprecationAggregator {
 public:
     static constexpr int DEFAULT_INTERVAL_SECONDS = 300;

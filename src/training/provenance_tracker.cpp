@@ -67,6 +67,7 @@ namespace provenance_aql {
 // ============================================================================
 // Impl
 // ============================================================================
+/** @brief Impl. */
 class ProvenanceTracker::Impl {
 public:
     explicit Impl(const ProvenanceTrackerConfig& config,

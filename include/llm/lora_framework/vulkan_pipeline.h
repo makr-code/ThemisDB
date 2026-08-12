@@ -198,6 +198,7 @@ namespace themis {
 namespace lora {
 namespace vulkan {
 
+/** @brief Vulkan compute pipeline component. */
 class VulkanComputePipeline {
 public:
     VulkanComputePipeline(VulkanContext*, const std::string&) {}

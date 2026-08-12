@@ -19,6 +19,7 @@
 
 namespace themis {
 
+/** @brief Cms signing service component. */
 class CMSSigningService : public SigningService {
 public:
     // Construct from existing X509 cert and private key (shared ownership)

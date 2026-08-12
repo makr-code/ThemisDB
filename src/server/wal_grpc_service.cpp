@@ -45,6 +45,7 @@ std::mutex g_wal_grpc_service_mutex;
 themis::server::WalGrpcService::ServiceFn g_wal_grpc_service_fn;
 } // namespace
 
+/** @brief Implementation detail. */
 class WalGrpcService::Impl {
 public:
 #if THEMIS_HAS_SHARD_GRPC

@@ -162,6 +162,7 @@ private:
 namespace themis {
 namespace cache {
 
+/** @brief Grpc remote cache peer. */
 class GrpcRemoteCachePeer final : public IRemoteCachePeer {
 public:
     using BackendInvokeFn = std::function<bool(const std::string& address,

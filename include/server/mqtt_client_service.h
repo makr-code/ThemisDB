@@ -493,6 +493,7 @@ struct MqttClientConfig {
     size_t      max_outbound_queue{4096};
 };
 
+/** @brief I mqtt message event handler. */
 class IMqttMessageHandler {
 public:
     virtual ~IMqttMessageHandler() = default;
@@ -503,6 +504,7 @@ public:
 
 class MqttClientService;
 
+/** @brief Mqtt cdc transport. */
 class MqttCDCTransport : public cdc::ICDCTransport {
 public:
     explicit MqttCDCTransport(MqttClientService& s) : service_(s) {}
@@ -518,6 +520,7 @@ private:
     MqttClientService& service_;
 };
 
+/** @brief Mqtt client service component. */
 class MqttClientService {
 public:
     explicit MqttClientService(MqttClientConfig = {}) : cdc_transport_(*this) {}

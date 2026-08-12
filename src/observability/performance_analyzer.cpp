@@ -121,6 +121,7 @@ std::string PerformanceAnalysis::toReport() const {
 }
 
 // PerformanceAnalyzer::Impl
+/** @brief PerformanceAnalyzer::Impl. */
 class PerformanceAnalyzer::Impl {
 public:
     PerformanceAnalyzerConfig config;

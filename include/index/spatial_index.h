@@ -32,6 +32,7 @@ namespace themis {
 namespace index {
 
 // Morton code encoder for Z-order spatial indexing
+/** @brief Morton code encoder for Z-order spatial indexing. */
 class MortonEncoder {
 public:
     // Encode 2D coordinates to Morton code (Z-order curve)
@@ -79,6 +80,7 @@ struct SpatialResult {
 };
 
 // Spatial Index Manager (table-agnostic, works for all 5 models)
+/** @brief Spatial Index Manager (table-agnostic, works for all 5 models). */
 class SpatialIndexManager {
 public:
     struct Status {

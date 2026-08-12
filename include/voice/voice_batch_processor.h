@@ -97,6 +97,7 @@ struct BatchProcessorConfig {
 using BatchProgressCallback = std::function<void(const std::string&, size_t, size_t)>;
 
 // VoiceBatchProcessor: Phase 10 production component
+/** @brief VoiceBatchProcessor: Phase 10 production component. */
 class VoiceBatchProcessor {
 public:
     explicit VoiceBatchProcessor(const BatchProcessorConfig& config = {});

@@ -110,6 +110,7 @@ struct MeetingSupportConfig {
 };
 
 // VoiceMeetingSupport: Phase 4 production component
+/** @brief VoiceMeetingSupport: Phase 4 production component. */
 class VoiceMeetingSupport {
 public:
     explicit VoiceMeetingSupport(const MeetingSupportConfig& config = {});

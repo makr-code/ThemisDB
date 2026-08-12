@@ -51,6 +51,7 @@ namespace acceleration {
 // Multi-Threaded CPUVectorBackend Implementation
 // ============================================================================
 
+/** @brief Multi-Threaded CPUVectorBackend Implementation. */
 class CPUVectorBackendMT : public CPUVectorBackend {
   private:
     int numThreads_;
@@ -210,6 +211,7 @@ class CPUVectorBackendMT : public CPUVectorBackend {
 // Multi-Threaded CPUGeoBackend Implementation
 // ============================================================================
 
+/** @brief Multi-Threaded CPUGeoBackend Implementation. */
 class CPUGeoBackendMT : public CPUGeoBackend {
   private:
     int numThreads_;

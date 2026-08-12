@@ -107,6 +107,7 @@ json RocksDBStats::toJSON() const {
 }
 
 // StorageProfiler::Impl
+/** @brief StorageProfiler::Impl. */
 class StorageProfiler::Impl {
 public:
     StorageProfilerConfig config;

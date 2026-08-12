@@ -133,6 +133,7 @@ static V2FrameHeader parseHeader(const uint8_t* buf) {
 // V2SessionImpl – concrete per-connection implementation
 // =============================================================================
 
+/** @brief V2SessionImpl – concrete per-connection implementation. */
 class V2SessionImpl : public V2Session {
 public:
     V2SessionImpl(tcp::socket socket,
@@ -660,6 +661,7 @@ private:
 // V2Server::Impl
 // =============================================================================
 
+/** @brief V2Server::Impl. */
 class V2Server::Impl {
 public:
     explicit Impl(const V2ConnectionConfig& cfg)

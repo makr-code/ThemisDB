@@ -22,6 +22,7 @@ namespace auth {
 
 // Helper: wrap a task and execution result
 namespace detail {
+/** @brief Task holder. */
 class TaskHolder {
 public:
     virtual ~TaskHolder() = default;
@@ -29,6 +30,7 @@ public:
 };
 
 template <typename F, typename R>
+/** @brief Concrete task. */
 class ConcreteTask : public TaskHolder {
 private:
     F func_;

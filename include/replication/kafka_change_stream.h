@@ -58,6 +58,7 @@ struct KafkaStreamStats {
     bool is_connected = false;
 };
 
+/** @brief I kafka change stream exporter component. */
 class IKafkaChangeStreamExporter {
 public:
     virtual ~IKafkaChangeStreamExporter() = default;

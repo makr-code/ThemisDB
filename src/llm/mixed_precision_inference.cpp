@@ -21,6 +21,7 @@ namespace themis {
 namespace llm {
 
 // Private implementation
+/** @brief Private implementation. */
 class MixedPrecisionInference::Impl {
 public:
     Impl() = default;

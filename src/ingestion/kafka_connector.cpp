@@ -66,6 +66,7 @@ static std::string kafkaJsonExtractString(const std::string& json,
 // Pimpl
 // ---------------------------------------------------------------------------
 
+/** @brief Pimpl. */
 class KafkaConnector::Impl {
 public:
     Impl() = default;

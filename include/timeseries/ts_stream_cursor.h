@@ -22,6 +22,7 @@
 namespace themis {
 namespace timeseries {
 
+/** @brief Ts stream cursor. */
 class TsStreamCursor {
 public:
     /** Page size: number of DataPoints fetched per backend round-trip. */

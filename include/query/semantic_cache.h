@@ -41,6 +41,7 @@ namespace themis {
 
 namespace themis {
 
+/** @brief Semantic query cache component. */
 class SemanticQueryCache {
 public:
     // Configuration

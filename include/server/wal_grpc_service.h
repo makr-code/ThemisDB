@@ -23,6 +23,7 @@ class WALApplier;
 namespace server {
 
 // gRPC WAL Apply service wrapper with optional non-proto service injection.
+/** @brief gRPC WAL Apply service wrapper with optional non-proto service injection. */
 class WalGrpcService {
 public:
     /// Callback type that provides an opaque grpc::Service* to the wrapper

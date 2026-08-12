@@ -348,6 +348,7 @@ void setWireTSQueryFn(WireTSQueryFn fn);
 [[deprecated("Use WireProtocolServer::setGraphTraverseFn() or WireProtocolSession::setGraphTraverseFn() instead.")]]
 void setWireGraphTraversalFn(WireGraphTraversalFn fn);
 
+/** @brief Wire protocol session object. */
 class WireProtocolSession : public std::enable_shared_from_this<WireProtocolSession> {
 public:
     using socket_t = boost::asio::ip::tcp::socket;
@@ -560,6 +561,7 @@ private:
 // Wire Protocol Server
 // =============================================================================
 
+/** @brief Wire Protocol Server. */
 class WireProtocolServer {
 public:
     using acceptor_t = boost::asio::ip::tcp::acceptor;
@@ -636,6 +638,7 @@ private:
 // Message Dispatcher
 // =============================================================================
 
+/** @brief Message Dispatcher. */
 class MessageDispatcher {
 public:
     using handler_fn = std::function<void(WireProtocolSession&, const std::vector<uint8_t>&)>;

@@ -22,6 +22,7 @@ namespace themis {
 namespace ingestion {
 namespace builtin {
 
+/** @brief Chunk embed step. */
 class ChunkEmbedStep final : public IIngestionStep {
 public:
     explicit ChunkEmbedStep(std::shared_ptr<IEmbeddingBackend> backend)

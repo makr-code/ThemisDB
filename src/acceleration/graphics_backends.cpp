@@ -904,6 +904,7 @@ public:
 //   acceleration dispatcher falls back to the CPU backend.
 // Hardware requirement: Vulkan SDK (vulkan-sdk, MoltenVK on macOS).
 // Roadmap ref: src/acceleration/FUTURE_ENHANCEMENTS.md § "Vulkan Vector Backend"
+/** @brief Roadmap ref: src/acceleration/FUTURE_ENHANCEMENTS.md § "Vulkan Vector Backend". */
 class VulkanVectorBackend::VulkanVectorBackendImpl {
     // Empty placeholder when Vulkan is not compiled in
 };
@@ -926,6 +927,7 @@ class VulkanVectorBackend::VulkanVectorBackendImpl {
 
 #if !defined(_WIN32) || !defined(THEMIS_ENABLE_DIRECTX)
 
+/** @brief Direct x vector backend implementation detail. */
 class DirectXVectorBackend::DirectXVectorBackendImpl {
     // Empty placeholder when DirectX 12 is not compiled in
 };
@@ -2036,6 +2038,7 @@ inline double opengl_haversine_km(double lat1, double lon1,
 // after initialize() (mirrors the VulkanGeoBackend CPU-fallback pattern).
 // ---------------------------------------------------------------------------
 
+/** @brief after initialize() (mirrors the VulkanGeoBackend CPU-fallback pattern). */
 class OpenGLVectorBackend::OpenGLVectorBackendImpl {
 public:
 #ifdef THEMIS_ENABLE_OPENGL
@@ -2449,6 +2452,7 @@ public:
 // Falls back to CPU when EGL/OpenGL 4.3 is unavailable.
 // ============================================================================
 
+/** @brief Falls back to CPU when EGL/OpenGL 4.3 is unavailable. */
 class OpenGLGeoBackend::OpenGLGeoBackendImpl {
 public:
 #ifdef THEMIS_ENABLE_OPENGL
@@ -2757,6 +2761,7 @@ public:
 // Falls back to CPU when EGL/OpenGL 4.3 is unavailable.
 // ============================================================================
 
+/** @brief Falls back to CPU when EGL/OpenGL 4.3 is unavailable. */
 class OpenGLGraphBackend::OpenGLGraphBackendImpl {
 public:
 #ifdef THEMIS_ENABLE_OPENGL

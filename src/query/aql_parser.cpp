@@ -111,6 +111,7 @@ struct Token {
         : type(t), value(std::move(v)), line(l), column(c) {}
 };
 
+/** @brief Query function that converts a value to kenizer. */
 class Tokenizer {
 public:
     explicit Tokenizer(const std::string& input)
@@ -378,6 +379,7 @@ private:
 // Parser
 // ============================================================================
 
+/** @brief Parser. */
 class Parser {
 public:
     explicit Parser(std::vector<Token> tokens)

@@ -35,6 +35,7 @@ struct XpdlImportResult {
     std::vector<std::string> errors;
 };
 
+/** @brief I xpdl importer component. */
 class IXpdlImporter {
 public:
     virtual ~IXpdlImporter() = default;

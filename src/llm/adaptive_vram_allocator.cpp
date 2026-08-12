@@ -50,6 +50,7 @@ bool checked_scale(size_t value, double factor, size_t& out) {
 } // namespace
 
 // Private implementation
+/** @brief Private implementation. */
 class AdaptiveVRAMAllocator::Impl {
 public:
     Impl() : active_allocator_(ActiveVRAMAllocator::Config{}) {}

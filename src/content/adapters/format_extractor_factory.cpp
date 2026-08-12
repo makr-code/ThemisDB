@@ -23,6 +23,7 @@ namespace adapters {
 // FormatExtractorFactory::Impl
 // ─────────────────────────────────────────────────────────────────────────────
 
+/** @brief FormatExtractorFactory::Impl. */
 class FormatExtractorFactory::Impl {
   public:
     std::unordered_map<std::string, std::shared_ptr<ingestion::IFormatExtractor>> registry;

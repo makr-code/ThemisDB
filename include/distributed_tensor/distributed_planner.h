@@ -74,6 +74,7 @@ struct TensorDependency {
 };
 
 // Default planner implementation (declaration only — implementation in .cc)
+/** @brief Default planner implementation (declaration only — implementation in .cc). */
 class DefaultDistributedTensorPlanner {
  public:
   DefaultDistributedTensorPlanner() = default;

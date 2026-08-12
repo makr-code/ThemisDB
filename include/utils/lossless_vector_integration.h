@@ -67,6 +67,7 @@ struct LosslessCompressionConfig {
     }
 };
 
+/** @brief Vector compression helper. */
 class VectorCompressionHelper {
 public:
     // Try to compress vector using lossless methods

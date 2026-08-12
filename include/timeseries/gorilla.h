@@ -46,6 +46,7 @@ static constexpr uint8_t kGorillaMagic0       = 0x47;  // 'G'
 static constexpr uint8_t kGorillaMagic1       = 0x4F;  // 'O'
 static constexpr uint8_t kGorillaCurrentVersion = 0x01; // format version 1
 
+/** @brief Bit writer component. */
 class BitWriter {
 public:
     void writeBit(bool bit);
@@ -65,6 +66,7 @@ private:
 // All hot-path methods are defined inline here so that callers in different
 // translation units (gorilla.cpp, gorilla_simd.cpp) can benefit from
 // full inlining and per-call-site optimization.
+/** @brief full inlining and per-call-site optimization. */
 class BitReader {
 public:
     // Primary constructor: raw pointer + size (all hot-path state is set here).
@@ -178,6 +180,7 @@ private:
     uint8_t        cur_  {0};
 };
 
+/** @brief Gorilla encoder component. */
 class GorillaEncoder {
 public:
     void add(int64_t timestamp_ms, double value);
@@ -193,6 +196,7 @@ private:
     BitWriter bw_;
 };
 
+/** @brief Gorilla decoder component. */
 class GorillaDecoder {
 public:
     explicit GorillaDecoder(const std::vector<uint8_t>& data);

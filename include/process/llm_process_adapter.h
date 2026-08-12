@@ -40,6 +40,7 @@ struct ProcessDescriptor {
     double generation_time_ms = 0.0;
 };
 
+/** @brief Illm process adapter component. */
 class ILLMProcessAdapter {
 public:
     virtual ~ILLMProcessAdapter() = default;

@@ -41,6 +41,7 @@ struct TensorGraphEdge {
     std::string topology = "tree";
 };
 
+/** @brief Tensor network graph component. */
 class TensorNetworkGraph {
 public:
     std::size_t addNode(TensorGraphNode node);
@@ -67,6 +68,7 @@ struct HissConfig {
     std::uint64_t random_seed     = 0x54484D4953444201ULL; // "THMISDB\1"
 };
 
+/** @brief Hiss structural search engine component. */
 class HissStructuralSearchEngine {
 public:
     /**
@@ -168,6 +170,7 @@ struct QTTrain {
     [[nodiscard]] storage::TTTrain toTTTrain() const { return tt_train; }
 };
 
+/** @brief Hiss reshaper. */
 class HissReshaper {
 public:
     // -------------------------------------------------------------------------
@@ -240,6 +243,7 @@ public:
     exposeQuantics(const storage::TTTrain& train, const std::vector<std::size_t>& grid_sizes);
 };
 
+/** @brief Template catalog. */
 class TemplateCatalog {
 public:
     void registerTemplate(const std::string& domain_tag, TensorNetworkGraph graph);

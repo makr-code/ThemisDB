@@ -27,6 +27,7 @@
 
 using json = nlohmann::json;
 
+/** @brief Raid data pusher. */
 class RAIDDataPusher {
 public:
     struct ShardConfig {

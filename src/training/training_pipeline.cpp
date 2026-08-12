@@ -77,6 +77,7 @@ struct PipelineMetrics {
 // ============================================================================
 // Pimpl (Phase 7)
 // ============================================================================
+/** @brief Pimpl (Phase 7). */
 class TrainingPipeline::Impl {
 public:
     explicit Impl(const PipelineConfig& config, const std::string& db_connection)

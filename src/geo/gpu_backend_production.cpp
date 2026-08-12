@@ -37,6 +37,7 @@ namespace themis {
 namespace geo {
 
 // CPU-parallel backend using threading for batch spatial operations
+/** @brief CPU-parallel backend using threading for batch spatial operations. */
 class CpuParallelBackend final : public ISpatialComputeBackend {
   public:
     CpuParallelBackend() {
@@ -876,6 +877,7 @@ class OpenCLBackend final : public ISpatialComputeBackend {
 #endif // THEMIS_ENABLE_OPENCL
 
 // Production GPU backend with automatic fallback
+/** @brief Production GPU backend with automatic fallback. */
 class ProductionGpuBackend final : public ISpatialComputeBackend {
   public:
     ProductionGpuBackend() {

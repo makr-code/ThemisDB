@@ -58,6 +58,7 @@ struct SignatureResult {
 // PKI client: sign/verify data hashes using OpenSSL.
 // Production paths: local RSA key/cert, REST PKI endpoint, or PKCS#10 CSR provisioning via ca_url.
 // Stub fallback paths are only compiled when THEMIS_TEST_MODE is defined.
+/** @brief Stub fallback paths are only compiled when THEMIS_TEST_MODE is defined. */
 class VCCPKIClient {
 public:
     using SignHashFn = std::function<SignatureResult(const std::vector<uint8_t>& hash_bytes)>;

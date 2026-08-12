@@ -589,6 +589,7 @@ bool RCCLVectorBackend::checkXGMISupport(const std::vector<int>& deviceIds) {
 // Roadmap ref: src/acceleration/FUTURE_ENHANCEMENTS.md §"NCCL/RCCL Activation"
 // Stub implementation when RCCL is not available
 // Define empty Impl class to satisfy unique_ptr
+/** @brief Define empty Impl class to satisfy unique_ptr. */
 class RCCLVectorBackend::Impl {
 public:
     Impl() = default;

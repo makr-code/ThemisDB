@@ -115,6 +115,7 @@ static themis_ssize_t themis_write_fd(int fd, const void* data, size_t len) {
 }
 #endif
 
+/** @brief Scoped file descriptor. */
 class ScopedFileDescriptor {
 public:
     explicit ScopedFileDescriptor(int fd = -1) noexcept : fd_(fd) {}

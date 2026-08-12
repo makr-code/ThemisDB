@@ -55,6 +55,7 @@ struct EVP_CIPHER_CTX_Deleter {
 
 using EVP_CIPHER_CTX_ptr = std::unique_ptr<EVP_CIPHER_CTX, EVP_CIPHER_CTX_Deleter>;
 
+/** @brief Implementation detail. */
 class HSMProvider::Impl {
 public:
     std::vector<uint8_t> stub_kek; // 32-byte AES-256 KEK for stub wrap/unwrap

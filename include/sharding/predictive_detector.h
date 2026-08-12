@@ -108,6 +108,7 @@ struct FailurePrediction {
 // Predictive Failure Detector
 // ═══════════════════════════════════════════════════════════
 
+/** @brief Predictive Failure Detector. */
 class PredictiveFailureDetector {
 public:
     explicit PredictiveFailureDetector(

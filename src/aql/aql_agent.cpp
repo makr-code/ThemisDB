@@ -27,6 +27,7 @@ namespace aql {
 // Pimpl implementation
 // ============================================================================
 
+/** @brief Pimpl implementation. */
 class ReActAgent::Impl {
   public:
     explicit Impl(std::shared_ptr<LLMAQLHandler> handler, const AgentConfig &config)

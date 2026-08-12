@@ -250,6 +250,7 @@ static std::string hfJsonExtractStringValue(const std::string& json,
 } // anonymous namespace
 
 // Pimpl implementation
+/** @brief Pimpl implementation. */
 class HuggingFaceConnector::Impl {
 public:
     Impl() 

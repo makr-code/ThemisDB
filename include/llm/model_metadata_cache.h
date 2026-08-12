@@ -49,6 +49,7 @@ struct ModelMetadata {
     std::string quantization;  // e.g., "Q4_K_M", "Q8_0"
 };
 
+/** @brief Model metadata cache component. */
 class ModelMetadataCache {
 public:
     using CacheType = ConcurrentCache<std::string, ModelMetadata>;

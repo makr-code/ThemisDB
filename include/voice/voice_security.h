@@ -181,6 +181,7 @@ struct VoiceSecurityConfig {
 };
 
 // VoiceSecurityManager: Phase 7 production component (Phase 3 enhancements)
+/** @brief VoiceSecurityManager: Phase 7 production component (Phase 3 enhancements). */
 class VoiceSecurityManager {
 public:
     explicit VoiceSecurityManager(const VoiceSecurityConfig& config = {});
