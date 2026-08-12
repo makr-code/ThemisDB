@@ -1465,7 +1465,7 @@ endif()
 # ============================================================================
 
 # Storage Performance Benchmarks
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_storage_performance.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/storage/bench_storage_performance.cpp")
     message(STATUS "Adding Storage Performance benchmarks")
     
     add_executable(bench_storage_performance

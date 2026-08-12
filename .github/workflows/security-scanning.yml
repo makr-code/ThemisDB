@@ -56,14 +56,18 @@ jobs:
         uses: controlplaneio/kubesec-action@43d0ddff5ffee89a6bb9f29b64cd865411137b14
         with:
           input: deploy/kubernetes/operator/deployment.yaml
-          format: sarif
-          output: kubesec-results.sarif
+          format: json
+          output: kubesec-results.json
           exit-code: "0"
 
-      - name: Upload Kubesec scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@c4dd10e44af883a891fe31ced449bcb4a6728b9b  # v3
+      - name: Upload Kubesec JSON results
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08  # v4.6.0
+        if: always()
         with:
-          sarif_file: kubesec-results.sarif
+          name: kubesec-results-${{ github.run_number }}
+          path: kubesec-results.json
+          retention-days: 30
+          if-no-files-found: ignore
 
   # ──────────────────────────────────────────────────────────────────────────
   # OWASP ZAP — Dynamic Application Security Testing (DAST)
@@ -74,6 +78,7 @@ jobs:
     name: OWASP ZAP Baseline DAST
     runs-on: ubuntu-22.04
     timeout-minutes: 45
+    continue-on-error: true  # requires a running ThemisDB image; non-blocking in standard CI
     permissions:
       contents: read
       security-events: write
