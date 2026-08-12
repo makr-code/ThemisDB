@@ -1,0 +1,30 @@
+PROJECT_NAME           = "ThemisDB"
+PROJECT_BRIEF          = "Hybrid Database System"
+OUTPUT_DIRECTORY       = build/doxygen
+CREATE_SUBDIRS         = NO
+OUTPUT_LANGUAGE        = English
+MARKDOWN_SUPPORT       = YES
+TOC_INCLUDE_HEADINGS   = 2
+
+INPUT                  = include src
+FILE_PATTERNS          = *.h *.hpp *.hh *.hxx *.ipp *.tpp *.c *.cc *.cpp *.cxx
+RECURSIVE              = YES
+EXCLUDE                = build vcpkg vcpkg_installed_linux ffmpeg llama.cpp whisper.cpp stable-diffusion.cpp .git
+EXCLUDE_PATTERNS       = */.git/* */build/* */vcpkg/* */vcpkg_installed_linux/* */ffmpeg/* */llama.cpp/* */whisper.cpp/* */stable-diffusion.cpp/*
+
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = NO
+EXTRACT_STATIC         = NO
+EXTRACT_LOCAL_CLASSES  = YES
+
+WARNINGS               = YES
+WARN_IF_UNDOCUMENTED   = YES
+WARN_IF_DOC_ERROR      = YES
+WARN_NO_PARAMDOC       = NO
+WARN_AS_ERROR          = NO
+WARN_LOGFILE           = build/doxygen/doxygen-warnings.log
+
+QUIET                  = NO
+GENERATE_HTML          = YES
+GENERATE_LATEX         = NO
+GENERATE_XML = YES
