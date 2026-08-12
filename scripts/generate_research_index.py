@@ -21,14 +21,14 @@
 """
 generate_research_index.py
 
-Parses all research documentation files in docs/research/ and generates:
+Parses all research documentation files in research/ and generates:
 
-  - docs/research/implementation_influence/by_module.md
-  - docs/research/implementation_influence/by_paper.md
-  - docs/research/implementation_influence/by_version.md
+ - research/implementation_influence/by_module.md
+ - research/implementation_influence/by_paper.md
+ - research/implementation_influence/by_version.md
 
 Also updates the statistics table in:
-  - docs/research/implementation_influence/README.md
+ - research/implementation_influence/README.md
 
 Each research file is expected to contain frontmatter-style fields:
   - Tags: tag1, tag2, ...
@@ -45,11 +45,12 @@ Usage:
 
 import re
 import sys
+import os
 from datetime import datetime, timezone
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-RESEARCH_DIR = REPO_ROOT / "docs" / "research"
+RESEARCH_DIR = REPO_ROOT / "research"
 INFLUENCE_DIR = RESEARCH_DIR / "implementation_influence"
 
 PAPERS_DIR = RESEARCH_DIR / "papers"
@@ -86,7 +87,7 @@ class ResearchEntry:
 
     @property
     def link(self) -> str:
-        rel = self.path.relative_to(INFLUENCE_DIR)
+        rel = os.path.relpath(self.path, INFLUENCE_DIR)
         return f"[{self.title}]({rel})"
 
     @property
@@ -347,7 +348,7 @@ def main() -> int:
 
     print()
     print("Done. Commit the updated files with:")
-    print("  git add docs/research/implementation_influence/")
+    print("  git add research/implementation_influence/")
     print("  git commit -m 'docs(research): regenerate influence index'")
     return 0
 

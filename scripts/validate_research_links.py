@@ -24,7 +24,7 @@ validate_research_links.py
 Scans all source files and documentation for patterns that suggest a
 scientific paper, best practice, or external reference was used as a basis
 for an implementation, then checks whether a corresponding research
-documentation file exists in docs/research/.
+documentation file exists in research/.
 
 By default the script runs in warn-only mode (exit 0) so that it never
 blocks PRs for references that pre-date the research documentation system.
@@ -58,7 +58,7 @@ SCAN_DIRS = [
 SCAN_EXTENSIONS = {".cpp", ".hpp", ".h", ".cc", ".cxx", ".py", ".md"}
 
 # Research documentation root
-RESEARCH_DIR = REPO_ROOT / "docs" / "research"
+RESEARCH_DIR = REPO_ROOT / "research"
 PAPERS_DIR = RESEARCH_DIR / "papers"
 BEST_PRACTICES_DIR = RESEARCH_DIR / "best_practices"
 ARCH_DECISIONS_DIR = RESEARCH_DIR / "architecture_decisions"
@@ -81,12 +81,12 @@ REFERENCE_PATTERNS = [
 # Patterns that, when present in the same file, indicate the reference IS
 # already documented (i.e., suppress the warning).
 DOCUMENTED_PATTERNS = [
-    re.compile(r"docs/research/(papers|best_practices|architecture_decisions)/\S+\.md"),
+    re.compile(r"research/(papers|best_practices|architecture_decisions)/\S+\.md"),
 ]
 
 # Files / directories to exclude from scanning
 EXCLUDE_PATHS = {
-    REPO_ROOT / "docs" / "research",  # avoid self-references
+    REPO_ROOT / "research",  # avoid self-references
     REPO_ROOT / ".git",
     REPO_ROOT / "vcpkg",
     REPO_ROOT / "llama.cpp",
@@ -175,10 +175,10 @@ def main() -> int:
             print(w)
         print()
         print("For each reference above, either:")
-        print("  1. Create a research file in docs/research/<type>/ and link it, OR")
+        print("  1. Create a research file in research/<type>/ and link it, OR")
         print("  2. Add a link to an existing research file in the affected source file.")
         print()
-        print("See docs/research/RESEARCH_GUIDE.md for the full workflow.")
+        print("See research/RESEARCH_GUIDE.md for the full workflow.")
         if strict:
             return 1
         print("ℹ️  Running in warn-only mode (pass --strict to fail CI). "
