@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_cloud_storage_backup_comprehensive.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 87/100
- * Gap Summary: total=14; TODO=1, Stub=3, Unimpl=7, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_cloud_storage_backup_comprehensive.cpp
  * @brief Comprehensive tests for cloud storage backup integration (AWS S3, Azure Blob, Google Cloud Storage)

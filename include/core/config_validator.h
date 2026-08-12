@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: config_validator.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 276
- * Gap Summary: total=13; TODO=1, Stub=11, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #4481 feat(core): implement IHeal... (2026-04-09) | #3899 feat(auth): Mandatory JWT I... (2026-03-12) | #3570 feat(core): dynamic log lev... (2026-03-12) | #2841 [WIP] Add plugin-based adap... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #pragma once
 

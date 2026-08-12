@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: lora_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1533
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=4, M=21, L=0
- * PR History (last 5): #377 Implement REST API Endpoint... (2026-03-11) | #769 Refactor RPC Service Archit... (2026-03-11) | #1134 Implement cross-shard LoRA ... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "server/lora_api_handler.h"
 #include <stdexcept>

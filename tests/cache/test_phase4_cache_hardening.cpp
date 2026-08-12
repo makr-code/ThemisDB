@@ -1,16 +1,3 @@
-/*
- * ThemisDB | File: test_phase4_cache_hardening.cpp | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY
- * Status: Phase 4 Block 3 — Cache Hardening Tests
- *
- * Tests for:
- *   C1 – Timeout-safe L3 lock operations (AdaptiveQueryCache)
- *   C2 – Double-checked locking / concurrency safety (CacheReplicationCoordinator)
- *   C3 – Eviction + SLO monitoring telemetry (CacheReplicationCoordinator,
- *         CacheHitRateSloMonitor)
- *   C4 – AI/LLM safety validation (AdaptiveQueryCache, BoundedLRUCache)
- */
-
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 

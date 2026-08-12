@@ -9,13 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: key_derivation_service.hpp | Version: 0.0.12
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=2, L=0
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #pragma once
 

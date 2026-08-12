@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_alerting_engine.cpp | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
- * Gap Summary: total=12; TODO=1, Stub=1, Unimpl=0, Mock=10, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_alerting_engine.cpp
  * @brief Unit tests for the rule-based AlertingEngine with configurable

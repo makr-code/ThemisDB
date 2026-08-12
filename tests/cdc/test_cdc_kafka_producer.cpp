@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_cdc_kafka_producer.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
- * Gap Summary: total=8; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // Tests for KafkaCDCProducer
 //
 // These tests exercise the producer without a live Kafka broker:

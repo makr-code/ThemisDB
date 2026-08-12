@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: policy_engine.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 404
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=2, M=28, L=0
- * PR History (last 5): #5123 docs(server): update VCCDB ... (2026-05-14) | #3154 [governance] Implement comp... (2026-03-12) | #3076 feat(governance): Integrate... (2026-03-12) | #3050 Wire QueryMaskingPolicy int... (2026-03-12) | #2873 feat(governance): OPA polic... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "server/policy_engine.h"
 #include <stdexcept>

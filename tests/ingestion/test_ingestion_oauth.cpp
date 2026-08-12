@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_ingestion_oauth.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
- * Gap Summary: total=8; TODO=1, Stub=1, Unimpl=0, Mock=5, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_ingestion_oauth.cpp
  * @brief Unit tests for OAuth 2.0 token refresh handling in ingestion connectors.

@@ -1,20 +1,3 @@
-/*
- * ThemisDB | File: bench_process_parser_gates.cpp | Version: 1.0.0
- * Phase 5: Process Module Performance & Hardening
- *
- * Parser Performance Gates (PP):
- * | Gate ID | Metric                         | Target       |
- * |---------|--------------------------------|--------------|
- * | PP-01   | BPMN Parse (100 files)         | p99 ≤ 50ms   |
- * | PP-02   | BPMN Parse (1k files)          | p99 ≤ 100ms  |
- * | PP-03   | EPK Parse (100 files)          | p99 ≤ 75ms   |
- * | PP-04   | CMMN Parse (100 files)         | p99 ≤ 60ms   |
- * | PP-05   | DMN Parse (100 files)          | p99 ≤ 40ms   |
- * | PP-06   | OCEL Parse (100 logs)          | p99 ≤ 200ms  |
- * | PP-07   | VCC/VPB Parse (100 files)      | p99 ≤ 80ms   |
- * | PP-08   | FIM Parse (100 files)          | p99 ≤ 70ms   |
- */
-
 #include <benchmark/benchmark.h>
 #include <vector>
 #include <chrono>

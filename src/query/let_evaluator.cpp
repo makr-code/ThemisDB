@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: let_evaluator.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1494
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=17, M=19, L=0
- * PR History (last 5): #2853 [geo] Complete GeoJSON spec... (2026-03-12) | #2851 [geo] Implement ST_BUFFER: ... (2026-03-12) | #68 Correct AQL language scope ... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #define _USE_MATH_DEFINES
 #include "query/let_evaluator.h"

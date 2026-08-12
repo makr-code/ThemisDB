@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_themisdb_adapter.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 90/100
- * Gap Summary: total=11; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=7, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_themisdb_adapter.cpp
  * @brief Unit tests and performance overhead benchmarks for ThemisDBAdapter

@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: query_engine.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 89/100 | Lines: 4894
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=29, H=45, M=121, L=0
- * PR History (last 5): #4507 feat(query): v2.0.0 â€“ edg... (2026-04-11) | #4364 docs(query): rewrite ROADMA... (2026-03-21) | #4190 [WIP] Implement predicate p... (2026-03-13) | #3574 fix: clear all remaining st... (2026-03-12) | #2981 feat(query): morsel-driven ... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // Parallel Query Engine implementation
 

@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: retry_executor.cpp | Version: 0.1.0 | Last Modified: 2026-06-10
- * Author: Copilot | Maturity: 🟡 BETA
- * 
- * Exponential backoff retry strategy implementation.
- * Copyright MIT License.
- */
-
 /**
  * @file retry_executor.cpp
  * @brief Retry executor implementation.

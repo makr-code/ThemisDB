@@ -1,18 +1,3 @@
-/*
- * ThemisDB | File: test_concerns_context_focused.cpp | Version: 0.0.1
- * Module: core
- * Purpose: Focused unit tests for ConcernsContext — creation, resolve<T>(),
- *          runtime replacement, AdapterRegistry integration, and thread-safety.
- *
- * Test groups:
- *   CCT_01..CCT_04  ConcernsContext creation (NoOp, Custom, Config, defaults)
- *   CCT_05..CCT_08  resolve<T>(): ILogger, ITracer, IMetrics, ICache non-null
- *   CCT_09..CCT_12  Runtime replacement: swap, nullptr throws, visible swap
- *   CCT_13..CCT_16  AdapterRegistry path: registerAdapter + resolve, hotSwap,
- *                   count(), hasAdapter()
- *   CCT_17..CCT_18  Thread-safety: concurrent reads + concurrent replace
- */
-
 #include <gtest/gtest.h>
 #include "core/concerns/concerns_context.h"
 #include "core/concerns/noop_implementations.h"

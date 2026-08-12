@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_pkcs11_wrapper.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 90/100
- * Gap Summary: total=10; TODO=1, Stub=7, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // =============================================================================
 // Tests for include/security/pkcs11_wrapper.h
 // =============================================================================

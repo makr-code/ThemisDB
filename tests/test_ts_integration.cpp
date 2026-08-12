@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_ts_integration.cpp | Version: 0.0.45
- * Maturity: 🟢 PRODUCTION-READY | Score: 97/100
- * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // Phase 7: Integration & Chaos Tests for TimeSeries Module
 // End-to-end tests covering the full pipeline:
 //   TSAutoBuffer → TSStore → ContinuousAggregateManager → TSQueryOptimizer → RetentionManager

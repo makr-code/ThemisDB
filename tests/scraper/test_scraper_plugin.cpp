@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_scraper_plugin.cpp | Version: 0.0.11
- * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
- * Gap Summary: total=6; TODO=1, Stub=2, Unimpl=0, Mock=3, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_scraper_plugin.cpp
  * @brief Unit tests for the Scraper Plugin (agentic gap-detection scraper)

@@ -35,12 +35,6 @@
  * Persistence backend is assumed thread-safe.
  */
 
-/*
- * ThemisDB | File: voice_session_manager.h | Version: v1.0 FROZEN
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Status: Design/API Contract Frozen (Phase 1)
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // Session management with persistence for Phase 6 production readiness
 // ============================================================================

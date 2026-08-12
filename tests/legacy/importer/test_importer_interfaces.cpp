@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_importer_interfaces.cpp | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 90/100
- * Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // test_importer_interfaces.cpp
 //
 // Unit tests for the abstract interfaces defined in importer_interfaces.h:

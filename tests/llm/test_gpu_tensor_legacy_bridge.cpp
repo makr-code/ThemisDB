@@ -1,12 +1,4 @@
 /*
- * ThemisDB | File: test_gpu_tensor_legacy_bridge.cpp | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-/*
  * Tests for GPUTensor legacy Tensor bridge (STUB #4)
  *
  * Covers: GT-LB-01..GT-LB-03

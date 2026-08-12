@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_opencl_erasure_coder_parity.cpp | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * ThemisDB OpenCL Erasure Coder – CPU/GPU Parity Tests
  *

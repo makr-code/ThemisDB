@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_tensor_mid_layer_integration.cpp | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
- * Gap Summary: total=5; TODO=0, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_tensor_mid_layer_integration.cpp
  * @brief Phase 4 integration tests: Full tensor mid-layer pipeline validation.

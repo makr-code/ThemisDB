@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: bench_importer_throughput.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 92/100
- * Gap Summary: total=12; TODO=1, Stub=1, Unimpl=0, Mock=8, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // bench_importer_throughput.cpp
 //
 // Importer throughput benchmark – generates synthetic SQL dump files in a

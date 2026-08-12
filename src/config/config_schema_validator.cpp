@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: config_schema_validator.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 813
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=8, M=8, L=0
- * PR History (last 5): #4633 feat(config): add performan... (2026-04-13) | #3805 feat(config): format and un... (2026-03-12) | #3786 feat(config): add `loadAsJs... (2026-03-12) | #3736 feat(config): add format an... (2026-03-12) | #3722 feat(config): implement $re... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "config/config_schema_validator.h"
 

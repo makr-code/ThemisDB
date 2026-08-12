@@ -10,14 +10,6 @@
  * @note Status: Production Ready
  */
 
-/*
- * ThemisDB | File: themisdb_grpc_service_factory.h | Version: 0.0.12 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 97
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=1, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #4409 Add training materials from... (2026-03-25)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #pragma once
 

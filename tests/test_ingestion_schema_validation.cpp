@@ -1,12 +1,4 @@
 /*
- * ThemisDB | File: test_ingestion_schema_validation.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-/*
  * @file test_ingestion_schema_validation.cpp
  * @brief Unit tests for per-source schema validation before write (Issue #1896).
  *

@@ -1,12 +1,4 @@
 /*
- * ThemisDB | File: test_vulkan_vector_index_bridge.cpp | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 90/100
- * Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-/*
  * Tests for VulkanVectorIndexBackend callback bridge (STUB #54)
  *
  * Covers: VVI-BRIDGE-01..VVI-BRIDGE-04

@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_s3_importer.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=12; TODO=1, Stub=1, Unimpl=0, Mock=7, Sim=3, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // test_s3_importer.cpp
 //
 // Unit tests for the S3-compatible object-storage importer covering:

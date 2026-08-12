@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: mcp_server.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 86/100 | Lines: 3241
- * Gap Summary: total=7; TODO=1, Stub=2, Unimpl=2, Mock=1, Sim=1, Debt=0, C=2, H=36, M=38, L=0
- * PR History (last 5): #5152 Research review rewrite: ER... (2026-05-14) | #381 Migrate medium priority err... (2026-03-11) | #204 Complete llama.cpp implemen... (2026-03-11) | #388 Implement SchemaManager for... (2026-03-11) | #1223 Reorganize config architect... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #ifdef THEMIS_ENABLE_MCP
 

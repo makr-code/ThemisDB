@@ -1,13 +1,3 @@
-/*
- * ThemisDB | File: bench_process_diagnostics_overhead.cpp | Version: 1.0.0
- * Phase 5: Process Module Performance & Hardening
- *
- * Diagnostics Overhead Gates (GO):
- * | Gate ID | Metric                              | Target           |
- * |---------|-------------------------------------|------------------|
- * | GO-01   | Incident Classification Overhead    | Regression ≤ 5%  |
- */
-
 #include <benchmark/benchmark.h>
 #include <vector>
 #include <chrono>

@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: bench_arm_simd.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // ARM-Specific Performance Benchmarks
 // Tests SIMD performance on ARM architectures with NEON optimizations
 // Compares ARM NEON vs scalar performance across different vector dimensions

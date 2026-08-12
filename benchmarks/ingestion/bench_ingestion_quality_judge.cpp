@@ -1,12 +1,4 @@
 /*
- * ThemisDB | File: bench_ingestion_quality_judge.cpp | Version: 0.0.2
- * Maturity: 🟢 PRODUCTION-READY | Score: 89/100
- * Gap Summary: total=13; TODO=1, Stub=8, Unimpl=0, Mock=1, Sim=3, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-/*
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB – Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣

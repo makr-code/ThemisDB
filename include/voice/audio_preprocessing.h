@@ -55,12 +55,6 @@
  * NoiseSuppressor is move-only to enforce single ownership.
  */
 
-/*
- * ThemisDB | File: audio_preprocessing.h | Version: v1.0 FROZEN
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Status: Design/API Contract Frozen (Phase 1)
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // Audio preprocessing pipeline for Phase 1 production readiness
 // ============================================================================

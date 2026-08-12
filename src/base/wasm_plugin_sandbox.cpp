@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: wasm_plugin_sandbox.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 706
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=5, M=7, L=0
- * PR History (last 5): #4121 fix(base): WASM non-functio... (2026-03-12) | #4106 [WIP] Implement WASM instru... (2026-03-12) | #3162 [WIP] Implement WASM-based ... (2026-03-12) | #3043 feat(base): WASM-based plug... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // ThemisDB WASM Plugin Sandbox – Implementation
 //

@@ -1,9 +1,3 @@
-/*
- * ThemisDB | File: rpc_grpc_api_contract.h | Version: 1.0.0
- * Author: Copilot | Maturity: 🟢 PRODUCTION-READY | Status: Phase 1 — Frozen Contract
- * Purpose: Frozen rpc_grpc module contract semantics for the active v1.x major line.
- */
-
 /**
  * @file rpc_grpc_api_contract.h
  * @brief Frozen gRPC plugin and server lifecycle API contract for v1.x.

@@ -1,10 +1,3 @@
-/*
- * ThemisDB | File: test_multi_gpu_vector_index.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 // RESTORED FROM HISTORY: 892fbc132819cf3446b54bb51b8b14ec2dd61db5
 
 

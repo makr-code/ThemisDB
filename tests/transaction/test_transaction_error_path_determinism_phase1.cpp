@@ -1,27 +1,3 @@
-/*
- * ThemisDB | File: test_transaction_error_path_determinism_phase1.cpp | Phase: 1 Hardening
- * Maturity: 🟢 PRODUCTION-READY | Acceptance Criteria: AC-2, AC-7
- * Gap Summary: Error path determinism for timeout and rollback behavior
- * Status: Phase 1 - Lifecycle and Isolation Safety Hardening
- *
- * Purpose:
- * - Expand deterministic error-path coverage for timeout and rollback behavior
- * - Verify consistent error handling across different scenarios
- * - Test error propagation and recovery mechanisms
- * - Ensure predictable behavior under error conditions
- *
- * Acceptance Criteria:
- * - AC-2: Begin/Prepare/Commit/Abort state machine correctness ✓
- * - AC-7: Timeout semantics and deterministic rollback ✓
- *
- * Test Scenarios:
- * - Timeout handling consistency
- * - Rollback determinism
- * - Error message consistency
- * - Recovery path determinism
- * - Retry behavior consistency
- */
-
 #include <gtest/gtest.h>
 #include <algorithm>
 #include <iostream>

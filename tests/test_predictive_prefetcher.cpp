@@ -1,12 +1,4 @@
 /*
- * ThemisDB | File: test_predictive_prefetcher.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 97/100
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-/*
  * Tests for predictive pre-fetching based on query sequence history.
  * Phase 4 – AdaptiveQueryCache (cache module).
  */

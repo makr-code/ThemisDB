@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_hsm_provider.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
- * Gap Summary: total=30; TODO=1, Stub=25, Unimpl=0, Mock=1, Sim=3, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 #include <gtest/gtest.h>
 #include "security/hsm_provider.h"
 #include <filesystem>

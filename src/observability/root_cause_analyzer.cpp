@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: root_cause_analyzer.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 520
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=1, M=17, L=0
- * PR History (last 5): #4368 feat(observability): wire m... (2026-03-21) | #4189 feat(observability): RootCa... (2026-03-13)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "observability/root_cause_analyzer.h"
 #include <algorithm>

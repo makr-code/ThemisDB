@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: bench_text_extraction.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
- * Gap Summary: total=16; TODO=1, Stub=1, Unimpl=0, Mock=6, Sim=8, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // Benchmark: Text Extraction from Various Document Formats
 // Tests extraction performance for PDF, DOCX, HTML, and plain text
 

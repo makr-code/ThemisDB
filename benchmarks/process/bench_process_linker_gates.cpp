@@ -1,18 +1,3 @@
-/*
- * ThemisDB | File: bench_process_linker_gates.cpp | Version: 1.0.0
- * Phase 5: Process Module Performance & Hardening
- *
- * Linking Performance Gates (LP):
- * | Gate ID | Metric                              | Target       |
- * |---------|-------------------------------------|--------------|
- * | LP-01   | Linking Latency (100 pairs)         | p99 ≤ 20ms   |
- * | LP-02   | Cyclic Dependency Detection (1k)    | p99 ≤ 50ms   |
- * | LP-03   | Link Validation (1k links)          | p99 ≤ 25ms   |
- * | LP-04   | Graph Traversal (10k nodes)         | p99 ≤ 100ms  |
- * | LP-05   | Stale Link Detection (5k links)     | p99 ≤ 150ms  |
- * | LP-06   | Batch Link Operations (1k batch)    | p99 ≤ 200ms  |
- */
-
 #include <benchmark/benchmark.h>
 #include <vector>
 #include <chrono>

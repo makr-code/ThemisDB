@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_ingestion_checkpoint.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 87/100
- * Gap Summary: total=12; TODO=1, Stub=2, Unimpl=0, Mock=8, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_ingestion_checkpoint.cpp
  * @brief Unit tests for CheckpointStore, incremental ingestion mode,

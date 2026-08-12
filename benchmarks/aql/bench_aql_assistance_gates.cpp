@@ -1,9 +1,3 @@
-/*
- * ThemisDB | File: bench_aql_assistance_gates.cpp | Version: 1.0.0
- * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY
- * Phase 6: AQL Performance Release Gate Consolidation
- */
-
 /**
  * @file bench_aql_assistance_gates.cpp
  * @brief Consolidated performance release gates for AQL assistance paths.

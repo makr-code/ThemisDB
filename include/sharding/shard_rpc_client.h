@@ -9,13 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: shard_rpc_client.h | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 92/100
- * Gap Summary: total=9; TODO=1, Stub=1, Unimpl=1, Mock=1, Sim=3, Debt=2, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #pragma once
 

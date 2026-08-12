@@ -1,17 +1,3 @@
-/*
- * ThemisDB | File: bench_utils_release_gates.cpp | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gate table:
- * | ID          | Metric                        | Gate         |
- * |-------------|-------------------------------|--------------|
- * | GATE-UTL-01 | BloomFilterConfig alloc rate  | ≥ 5M ops/s   |
- * | GATE-UTL-02 | RetryPolicy copy rate         | ≥ 5M ops/s   |
- * | GATE-UTL-03 | Error-code cast throughput    | ≥ 50M ops/s  |
- * | GATE-UTL-04 | RetryPolicy batch alloc       | ≥ 1M ops/s   |
- * | GATE-UTL-05 | BloomFilterConfig batch alloc | ≥ 1M ops/s   |
- * | GATE-UTL-06 | UtilsError switch dispatch    | ≥ 50M ops/s  |
- */
-
 /**
  * @file bench_utils_release_gates.cpp
  * @brief Release-gate benchmarks for the utils module.

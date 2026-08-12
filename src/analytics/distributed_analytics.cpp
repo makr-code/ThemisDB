@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: distributed_analytics.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:49:01
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 837
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=28, H=57, M=18, L=0
- * PR History (last 5): #4929 [Docs][analytics] Refresh m... (2026-05-10) | #4324 Implement cached health sta... (2026-03-19) | #3610 fix(analytics): register mi... (2026-03-12) | #3478 docs(analytics): sync READM... (2026-03-12) | #2764 feat(analytics): Distribute... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 /**
  * ThemisDB Distributed Analytics Sharding - Implementation

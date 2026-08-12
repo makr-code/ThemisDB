@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: lora_data_selection.cpp | Version: 0.0.39 | Last Modified: 2026-06-01 08:11:44
- * Author: makr | Maturity: 🟢 PRODUCTION-READY | Score: 96/100 | Lines: 1302
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=11, H=19, M=30, L=0
- * PR History (last 5): #5421 fix: thread-safety for Prov... (2026-06-01) | #3648 audit(training): complete m... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 ThemisDB Contributors

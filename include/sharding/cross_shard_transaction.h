@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: cross_shard_transaction.h | Version: 0.0.47 | Last Modified: 2026-06-02 09:57:38
- * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 741
- * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #4212 fix(chimera/percolator): re... (2026-03-15) | #1031 Implement comprehensive res... (2026-03-11) | #1033 Replace TrueTime stub with ... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // Copyright 2025 ThemisDB
 // Licensed under MIT License

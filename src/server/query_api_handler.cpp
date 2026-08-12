@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: query_api_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 89/100 | Lines: 3715
- * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=1, C=34, H=41, M=134, L=0
- * PR History (last 5): #3427 feat(query): Per-query reso... (2026-03-12) | #3143 feat(query): implement Resu... (2026-03-12) | #3050 Wire QueryMaskingPolicy int... (2026-03-12) | #870 Error Handling: Complete mi... (2026-03-11) | #761 Phase 4A, 4B & 4C: Migrate ... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // Ensure correct WinSock include order on Windows
 #ifdef _WIN32

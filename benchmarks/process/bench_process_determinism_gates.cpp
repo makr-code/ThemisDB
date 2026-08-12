@@ -1,16 +1,3 @@
-/*
- * ThemisDB | File: bench_process_determinism_gates.cpp | Version: 1.0.0
- * Phase 5: Process Module Performance & Hardening
- *
- * Determinism Performance Gates (DP):
- * | Gate ID | Metric                              | Target       |
- * |---------|-------------------------------------|--------------|
- * | DP-01   | Conflict Resolution (100 conflicts)  | p99 ≤ 50ms   |
- * | DP-02   | Rollback Single (10 revisions)       | p99 ≤ 30ms   |
- * | DP-03   | Rollback Batch (100 models)          | p99 ≤ 100ms  |
- * | DP-04   | Transaction Serialization            | p99 ≤ 25ms   |
- */
-
 #include <benchmark/benchmark.h>
 #include <vector>
 #include <chrono>

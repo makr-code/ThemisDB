@@ -1,14 +1,3 @@
-/*
- * ThemisDB | File: bench_projects_release_gates.cpp | Version: 1.0.0
- * Gate table:
- * | ID          | Metric                        | Gate         |
- * |-------------|-------------------------------|--------------|
- * | GATE-PRJ-01 | ProjError cast throughput     | ≥ 50M ops/s  |
- * | GATE-PRJ-02 | ProjError switch dispatch     | ≥ 50M ops/s  |
- * | GATE-PRJ-03 | Error code range check        | ≥ 50M ops/s  |
- * | GATE-PRJ-04 | Batch error cast              | ≥ 1M ops/s   |
- */
-
 #include <benchmark/benchmark.h>
 #include "projects/projects_api_contract.h"
 

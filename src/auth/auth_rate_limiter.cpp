@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: auth_rate_limiter.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 786
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=5, M=0, L=0
- * PR History (last 5): #4132 feat(auth): Rate Limiter Di... (2026-03-23) | #4133 feat(auth): Credential Stuf... (2026-03-12) | #3311 fix(auth): register missing... (2026-03-12) | #2643 feat(security): Auth anomal... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "auth/auth_rate_limiter.h"
 

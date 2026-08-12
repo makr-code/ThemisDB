@@ -1,20 +1,3 @@
-/*
- * ThemisDB | File: test_webauthn_authenticator_focused.cpp | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
- * Focused Test Suite: WebAuthn Authenticator Contract Verification
- * Status: Phase 0 — Acceptance Criteria Validation
- *
- * This test file provides comprehensive edge-case and contract coverage for
- * the WebAuthn Authenticator module, including:
- *   - Challenge generation and TTL enforcement
- *   - Challenge expiry and purging
- *   - Signature counter validation and rollback detection
- *   - Invalid credential format handling
- *   - Origin and RP ID validation
- *   - Attestation and assertion response processing
- *   - Algorithm support (ES256, RS256)
- */
-
 #include <chrono>
 #include <functional>
 #include <gmock/gmock.h>

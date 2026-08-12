@@ -1,9 +1,3 @@
-/*
- * ThemisDB | File: ingestion_api_contract.h | Version: 1.0.0
- * Author: Copilot | Maturity: 🟢 PRODUCTION-READY | Status: Phase 1 — Frozen Contract
- * Purpose: Frozen ingestion (write-path/back-pressure/batching/schema-validation) contract for v1.x.
- */
-
 /**
  * @file ingestion_api_contract.h
  * @brief Frozen ingestion contract: write-path durability, back-pressure, batch atomicity,

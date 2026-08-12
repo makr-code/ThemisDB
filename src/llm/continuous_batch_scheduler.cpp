@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: continuous_batch_scheduler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 92/100 | Lines: 681
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=19, M=4, L=0
- * PR History (last 5): #4332 Implement AIOrchestrator to... (2026-03-19) | #242 Complete PagedAttention int... (2026-03-11) | #215 Implement P1 LLM Inference ... (2026-03-11) | #1211 Fix null pointer dereferenc... (2026-03-11) | #1215 Fix thread-safety: atomic c... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "llm/continuous_batch_scheduler.h"
 #include <spdlog/spdlog.h>

@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: advanced_cache_manager.cpp | Version: 0.0.10 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 487
- * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=2, M=3, L=0
- * PR History (last 5): #4678 feat: replace production st... (2026-04-15) | #4505 feat(performance): add NUMA... (2026-04-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // Copyright 2026 ThemisDB
 // Licensed under MIT License

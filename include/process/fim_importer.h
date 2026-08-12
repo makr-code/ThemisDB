@@ -9,13 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: fim_importer.h | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 /*
  * ThemisDB - Process Modeling Module

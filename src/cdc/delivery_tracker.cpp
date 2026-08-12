@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: delivery_tracker.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 291
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=4, L=0
- * PR History (last 5): #3616 fix(cdc): build system audi... (2026-03-12) | #3552 docs(cdc): full module docu... (2026-03-12) | #2797 CDC: At-least-once delivery... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "cdc/delivery_tracker.h"
 #include "utils/logger.h"

@@ -1,20 +1,3 @@
-/*
- * ThemisDB | File: bench_process_retriever_gates.cpp | Version: 1.0.0
- * Phase 5: Process Module Performance & Hardening
- *
- * Retriever Performance Gates (RP):
- * | Gate ID | Metric                              | Target       |
- * |---------|-------------------------------------|--------------|
- * | RP-01   | Simple Query (1k models)            | p99 ≤ 20ms   |
- * | RP-02   | Complex Query (1k models)           | p99 ≤ 50ms   |
- * | RP-03   | Full-Text Search (1k models)        | p99 ≤ 30ms   |
- * | RP-04   | Embedding Similarity (1k models)    | p99 ≤ 40ms   |
- * | RP-05   | Pagination Query (10k models)       | p99 ≤ 100ms  |
- * | RP-06   | Concurrent Query (1k models, 4x)    | ≥ 5k qps     |
- * | RP-07   | Query Under Churn (1k->10k models)  | p99 ≤ 75ms   |
- * | RP-08   | Ranking/Sorting (1k results)        | p99 ≤ 25ms   |
- */
-
 #include <benchmark/benchmark.h>
 #include <vector>
 #include <chrono>

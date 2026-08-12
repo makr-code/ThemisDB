@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: w8b_endurance_soak_test.cpp | Version: 0.0.1
- * Maturity: 🟡 IMPLEMENTATION-IN-PROGRESS | Score: 50/100
- * Status: Wave 8B — Endurance Soak (SOK-01..SOK-08)
- *
- * Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0
- */
-
 /**
  * @file w8b_endurance_soak_test.cpp
  * @brief Wave 8B — Endurance Soak (SOK-01..SOK-08).

@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_export_encryption.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 86/100
- * Gap Summary: total=4; TODO=2, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 #include <gtest/gtest.h>
 #include "exporters/export_encryption.h"
 #include "exporters/exporter_metrics.h"

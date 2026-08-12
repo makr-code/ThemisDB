@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: cdc_admin.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 458
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=16, M=3, L=0
- * PR History (last 5): #4833 Continue Phase-6 tensorgrap... (2026-05-07) | #3687 feat(cdc): runtime-configur... (2026-03-12) | #3616 fix(cdc): build system audi... (2026-03-12) | #3552 docs(cdc): full module docu... (2026-03-12) | #3357 [replication] Filter CDC ev... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "cdc/cdc_admin.h"
 #include "cdc/cdc_error.h"

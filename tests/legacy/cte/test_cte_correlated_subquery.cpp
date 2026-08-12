@@ -1,12 +1,4 @@
 /*
- * ThemisDB | File: test_cte_correlated_subquery.cpp | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-/*
  * Regression tests for CTESubquery Phase 1 stub replacement (Issue #194).
  *
  * Covers:

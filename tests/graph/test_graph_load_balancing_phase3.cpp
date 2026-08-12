@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_graph_load_balancing_phase3.cpp | Version: 1.9.0
- * Phase 3 – P3-04: Load Balancing – Query Distribution + Scheduling
- * Tests: 24 focused tests covering GraphQueryScheduler (priority ordering,
- *        FIFO within priority, counters, queue limits) and GraphShardBalancer
- *        (round-robin, least-loaded, latency-aware, health, dynamic shards).
- */
-
 #include <gtest/gtest.h>
 #include "graph/graph_load_balancer.h"
 #include <atomic>

@@ -1,12 +1,4 @@
 /*
- * ThemisDB | File: test_tts_synth_fn.cpp | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 90/100
- * Gap Summary: total=12; TODO=1, Stub=9, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-/*
  * Tests for TTSProcessor::setSynthFn() injection API (Stub #209).
  *
  * These tests run in builds WITHOUT THEMIS_ENABLE_PIPER_TTS (the default CI

@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: timestamp_authority.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 1151
- * Gap Summary: total=43; TODO=1, Stub=33, Unimpl=0, Mock=1, Sim=8, Debt=0, C=0, H=14, M=32, L=0
- * PR History (last 5): #4678 feat: replace production st... (2026-04-15) | #3453 Add production safety guard... (2026-03-12) | #401 Replace Security Stubs with... (2026-03-11) | #787 Implement Timestamp Authori... (2026-03-11) | #1039 Document RFC 3161 Timestamp... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // Minimal stub implementation for TimestampAuthority.
 // Deterministic, non-cryptographic timestamps (no OpenSSL / CURL).

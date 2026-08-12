@@ -1,9 +1,3 @@
-/*
- * ThemisDB | File: test_nli_verifier.cpp | Version: 0.0.47
- * Maturity: PRODUCTION-READY
- * Status: Production Ready
- */
-
 #include <gtest/gtest.h>
 
 #include <chrono>

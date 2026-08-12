@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: oneapi_backend.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 320
- * Gap Summary: total=14; TODO=1, Stub=10, Unimpl=0, Mock=1, Sim=2, Debt=0, C=7, H=6, M=5, L=0
- * PR History (last 5): #3551 docs(chimera + acceleration... (2026-03-12) | #469 Fix 11 compilation errors: ... (2026-03-11) | #30 Add comprehensive GPU accel... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // OneAPI Backend Implementation for Intel GPUs (Arc, Xe, XPU)
 // Uses SYCL/DPC++ for unified CPU/GPU/FPGA programming

@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: batch_executor.cpp | Version: 0.1.0 | Last Modified: 2026-06-10
- * Author: Copilot | Maturity: 🟡 BETA
- * 
- * Batch operation executor implementation.
- * Copyright MIT License.
- */
-
 /**
  * @file batch_executor.cpp
  * @brief Batch executor implementation for the Chimera multi-backend adapter.

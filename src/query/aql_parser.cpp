@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: aql_parser.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1633
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=9, M=12, L=0
- * PR History (last 5): #4140 feat(security): AQLInjectio... (2026-03-12) | #3481 [WIP] Synchronize AQL docum... (2026-03-12) | #3480 feat(ci): add missing docum... (2026-03-12) | #3427 feat(query): Per-query reso... (2026-03-12) | #3352 feat(query): SPARQL compati... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "query/aql_parser.h"
 #include "utils/error_registry.h"

@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: onnx_clip_plugin.cpp | Version: 0.0.10 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 541
- * Gap Summary: total=10; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=4, Debt=0, C=2, H=1, M=7, L=0
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "onnx_clip_plugin.h"
 

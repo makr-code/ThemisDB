@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: retry_executor.hpp | Version: 0.1.0 | Last Modified: 2026-06-10
- * Author: Copilot | Maturity: 🟡 BETA
- * 
- * Exponential backoff retry strategy for transient failures.
- * Copyright MIT License.
- */
-
 /**
  * @file retry_executor.hpp
  * @brief Retry executor with configurable back-off for adapter operations.

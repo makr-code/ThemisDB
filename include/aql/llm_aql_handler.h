@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: llm_aql_handler.h | Version: 0.0.47 | Last Modified: 2026-06-01 11:12:56
- * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 867
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #4221 feat(aql): Parallel executi... (2026-03-14) | #4175 fix(aql/test): correct AC-4... (2026-03-13) | #4170 feat(aql): Post-generation ... (2026-03-13) | #4171 feat(aql): Per-Operation-Ty... (2026-03-13) | #3612 audit(security+aql): fix mi... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #pragma once
 

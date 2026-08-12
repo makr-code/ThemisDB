@@ -19,14 +19,6 @@
  * @note Status: Production Ready
  */
 
-/*
- * ThemisDB | File: wire_protocol_connection_pool.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 95/100 | Lines: 778
- * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=1, H=21, M=8, L=0
- * PR History (last 5): #1118 Optimize connection efficie... (2026-03-11) | #1142 Implement TLS/mTLS support ... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // ThemisDB Wire Protocol Connection Pool Implementation
 

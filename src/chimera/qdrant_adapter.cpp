@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: qdrant_adapter.cpp | Version: 0.1.0 | Last Modified: 2026-06-10
- * Author: Copilot | Maturity: 🟡 BETA
- * 
- * Qdrant adapter implementation.
- * Copyright MIT License.
- */
-
 /**
  * @file qdrant_adapter.cpp
  * @brief Qdrant vector-store adapter implementation.

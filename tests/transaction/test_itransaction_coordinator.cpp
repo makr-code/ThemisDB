@@ -1,9 +1,3 @@
-/*
- * ThemisDB | File: test_itransaction_coordinator.cpp | Version: 0.0.2
- * Coverage: ITransactionCoordinator interface contract tests
- * Status: Production Ready
- */
-
 // Tests for the ITransactionCoordinator interface (Issue #5374).
 //
 // This file verifies:

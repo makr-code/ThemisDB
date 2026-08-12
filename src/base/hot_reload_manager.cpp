@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: hot_reload_manager.cpp | Version: 0.0.21 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 487
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=17, M=1, L=0
- * PR History (last 5): #4135 feat(base): Upgrade HotRelo... (2026-03-12) | #3272 feat(plugins): runtime plug... (2026-03-12) | #3200 fix(plugins): close out run... (2026-03-12) | #3165 [base] Complete hot-reload ... (2026-03-12) | #3162 [WIP] Implement WASM-based ... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // Hot-reload manager implementation.
 //

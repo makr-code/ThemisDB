@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: llama_cpp_plugin.cpp | Version: 0.0.10 | Last Modified: 2026-06-01 04:20:37
- * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 86/100 | Lines: 728
- * Gap Summary: total=19; TODO=1, Stub=15, Unimpl=0, Mock=1, Sim=2, Debt=0, C=5, H=14, M=14, L=0
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "llama_cpp/llama_cpp_plugin.h"
 #include "llm/json_schema_converter.h"

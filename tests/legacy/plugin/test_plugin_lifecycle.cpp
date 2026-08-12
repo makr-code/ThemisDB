@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_plugin_lifecycle.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
- * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=3, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // Test: Plugin Lifecycle Management
 // Tests plugin loading, unloading, hot reload, and dependency management
 

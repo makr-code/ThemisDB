@@ -65,11 +65,6 @@
  * @see src/timeseries/PERFORMANCE_EXPECTATIONS.md
  */
 
-/*
- * ThemisDB | File: tsstore.h | Version: 0.1.0
- * Maturity: 🟢 PRODUCTION-READY | Phase 2 Hardening (2026-08-07)
- * Status: Production Ready
- */
 
 #pragma once
 

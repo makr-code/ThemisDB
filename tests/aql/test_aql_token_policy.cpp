@@ -13,11 +13,6 @@
  * All tests are self-contained. No real AQL handler required.
  */
 
-/*
- * ThemisDB | File: test_aql_token_policy.cpp | Version: 0.0.1
- * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 92/100
- * Phase 5: Unified Testing — Token Policy
- */
 
 #include <gtest/gtest.h>
 #include <string>

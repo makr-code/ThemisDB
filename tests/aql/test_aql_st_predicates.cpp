@@ -1,22 +1,3 @@
-/*
- * ThemisDB | File: test_aql_st_predicates.cpp | Version: 0.0.48
- * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
- * Phase 1 — AQL Geospatial Parser Wiring (Track 1)
- *
- * Verifies that ST_* spatial functions are accepted by the AQL parser in
- * FILTER, SORT, and RETURN expression contexts and that the resulting AST
- * nodes carry the correct FunctionCallExpr structure.  Evaluation tests use
- * LetEvaluator::evaluateExpression() with programmatically-constructed
- * FunctionCallExpr nodes to validate the end-to-end data path without
- * requiring a live storage engine.
- *
- * Acceptance criteria (Phase 1):
- *   1. AQL FILTER predicates accept ST_* calls without parse errors.
- *   2. LET-based ST_* regression covered by test_aql_let_st.cpp (no change).
- *   3. Parse + evaluate verified for: ST_Distance, ST_Within, ST_Contains,
- *      ST_Intersects, ST_DWithin, ST_GeomFromGeoJSON.
- */
-
 #include <gtest/gtest.h>
 #include "query/aql_parser.h"
 #include "query/let_evaluator.h"

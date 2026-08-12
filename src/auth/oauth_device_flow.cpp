@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: oauth_device_flow.cpp | Version: 0.0.20 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 437
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=13, M=7, L=0
- * PR History (last 5): #4113 feat(auth): Async / Non-Blo... (2026-03-12) | #3296 [auth] Add configurable Sha... (2026-03-12) | #2969 [auth] Wire up mTLS authent... (2026-03-12) | #2967 [auth] Session management &... (2026-03-12) | #2827 [auth] Add token validation... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "auth/oauth_device_flow.h"
 

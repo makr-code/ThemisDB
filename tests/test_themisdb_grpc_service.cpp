@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_themisdb_grpc_service.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 90/100
- * Gap Summary: total=8; TODO=1, Stub=4, Unimpl=1, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 #include <gtest/gtest.h>
 #include "api/themisdb_grpc_service.h"
 #include "api/themisdb_grpc_service_factory.h"

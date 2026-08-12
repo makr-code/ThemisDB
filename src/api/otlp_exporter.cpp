@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: otlp_exporter.cpp | Version: 0.0.13 | Last Modified: 2026-05-31 12:49:01
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 97/100 | Lines: 567
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=4, M=7, L=0
- * PR History (last 5): #4208 feat(api/otlp): exponential... (2026-03-15) | #4219 feat(api): wire TracingMidd... (2026-03-14) | #3328 [WIP] Add SLO/SLA complianc... (2026-03-12) | #3318 [WIP] Add ML-based anomaly ... (2026-03-12) | #3100 feat(observability): adapti... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "api/otlp_exporter.h"
 #include <stdexcept>

@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: llm_bench.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 89/100
- * Gap Summary: total=7; TODO=1, Stub=2, Unimpl=0, Mock=3, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file llm_bench.cpp
  * @brief Performance benchmarks for speculative decoding and the LLM inference

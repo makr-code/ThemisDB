@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: ingestion_manager.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 89/100 | Lines: 2032
- * Gap Summary: total=9; TODO=1, Stub=1, Unimpl=0, Mock=6, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #4244 feat(ingestion): LLMIngesti... (2026-03-15) | #4227 feat(ingestion): S3-Compati... (2026-03-14) | #3694 feat(ingestion): configurab... (2026-03-12) | #3628 feat(ingestion): end-to-end... (2026-03-12) | #3274 feat(ingestion): Add CI wor... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #pragma once
 

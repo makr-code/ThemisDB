@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_new_aql_functions.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
- * Gap Summary: total=15; TODO=1, Stub=13, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_new_aql_functions.cpp
  * @brief Tests for newly registered AQL functions (fulltext, ethics, process mining)

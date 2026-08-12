@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: cache_hit_rate_slo_monitor.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 481
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=0, M=0, L=0
- * PR History (last 5): #4329 Implement SLO monitor laten... (2026-03-18) | #3473 docs(cache): sync src/cache... (2026-03-12) | #2793 feat(cache): Cache hit rate... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "cache/cache_hit_rate_slo_monitor.h"
 

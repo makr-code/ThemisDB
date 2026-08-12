@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_cdc_gdpr_redaction.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // Test: CDC GDPR-Aware Change Log Redaction
 // Validates Changefeed::redactByKeyPrefix() and CDCAdmin::redactByKeyPrefix()
 // per the GDPR "right to erasure" requirement for the CDC change log.

@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_task_scheduler_slo_retry.cpp | Version: 0.0.10
- * Maturity: 🟢 PRODUCTION-READY | Score: 90/100
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_task_scheduler_slo_retry.cpp
  * @brief Focused tests for Phase 5 SLO-based adaptive task retry policy.

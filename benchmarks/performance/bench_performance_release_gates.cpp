@@ -1,20 +1,3 @@
-/*
- * ThemisDB | File: bench_performance_release_gates.cpp | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=0
- * Status: Phase 5 Benchmark Gates — Performance Module
- *
- * Gate table:
- * | ID           | Metric                        | Gate         |
- * |--------------|-------------------------------|--------------|
- * | GATE-PFM-01  | CacheStats compute p99        | ≤ 500 ns     |
- * | GATE-PFM-02  | BloomFilter-config alloc rate | ≥ 5M ops/s   |
- * | GATE-PFM-03  | PoolAcquireResult alloc rate  | ≥ 10M ops/s  |
- * | GATE-PFM-04  | Error-code cast throughput    | ≥ 50M ops/s  |
- * | GATE-PFM-05  | CostEstimate arithmetic rate  | ≥ 50M ops/s  |
- * | GATE-PFM-06  | CacheStats hit-rate compute   | ≥ 5M ops/s   |
- */
-
 /**
  * @file bench_performance_release_gates.cpp
  * @brief Release-gate benchmarks for the performance module.

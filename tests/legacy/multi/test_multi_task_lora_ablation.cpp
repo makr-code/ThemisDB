@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_multi_task_lora_ablation.cpp | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=0
- * Status: Production Ready
- * (Wave B — issue #5039)
- */
-
 /**
  * @file tests/test_multi_task_lora_ablation.cpp
  * @brief Ablation study and three-task benchmark for Multi-Task LoRA (Wave B B3).

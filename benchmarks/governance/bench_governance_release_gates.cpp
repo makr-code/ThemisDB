@@ -1,14 +1,3 @@
-/*
- * ThemisDB | File: bench_governance_release_gates.cpp | Version: 1.0.0
- * Gate table:
- * | ID          | Metric                           | Gate         |
- * |-------------|----------------------------------|--------------|
- * | GATE-GOV-01 | GovError cast throughput         | ≥ 50M ops/s  |
- * | GATE-GOV-02 | ComplianceCheckResult alloc rate | ≥ 5M ops/s   |
- * | GATE-GOV-03 | Regulation enum switch dispatch  | ≥ 50M ops/s  |
- * | GATE-GOV-04 | GovError switch dispatch         | ≥ 50M ops/s  |
- */
-
 #include <benchmark/benchmark.h>
 #include "governance/governance_api_contract.h"
 

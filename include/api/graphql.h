@@ -41,14 +41,6 @@
  * @note Status: Production Ready
  */
 
-/*
- * ThemisDB | File: graphql.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 584
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #4453 fix(graphql): resolve varia... (2026-04-07) | #3128 feat(api/graphql): Implemen... (2026-03-12) | #2728 feat(api/graphql): Complete... (2026-03-12) | #747 Phase 3: Migrate TSStore, P... (2026-03-11) | #779 Complete GraphQL Parser Res... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #pragma once
 

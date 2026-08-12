@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_inference_engine_enhanced.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 90/100
- * Gap Summary: total=14; TODO=1, Stub=2, Unimpl=0, Mock=8, Sim=3, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 #include <gtest/gtest.h>
 #include "llm/inference_engine_enhanced.h"
 #include "llm/async_inference_engine.h"

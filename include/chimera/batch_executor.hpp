@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: batch_executor.hpp | Version: 0.1.0 | Last Modified: 2026-06-10
- * Author: Copilot | Maturity: 🟡 BETA
- * 
- * Batch operation optimization for throughput-focused workloads.
- * Copyright MIT License.
- */
-
 /**
  * @file batch_executor.hpp
  * @brief Batch operation executor for throughput-focused workloads.

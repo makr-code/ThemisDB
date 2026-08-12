@@ -1,9 +1,3 @@
-/*
- * ThemisDB | File: bench_config_release_gates.cpp | Version: 1.0.0
- * Author: Copilot | Maturity: 🟢 PRODUCTION-READY | Status: Phase 5 — Release Gates
- * Purpose: GATE-CFG-01..06 benchmark-backed release gates for config hot paths.
- */
-
 /**
  * @file bench_config_release_gates.cpp
  * @brief Phase 5 release gate benchmarks for config hot paths.

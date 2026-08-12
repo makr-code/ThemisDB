@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: benchmark_artifact_preflight.h | Version: 0.0.8
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=21; TODO=1, Stub=19, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 ThemisDB Contributors
 

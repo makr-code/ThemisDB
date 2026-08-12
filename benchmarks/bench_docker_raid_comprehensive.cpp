@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: bench_docker_raid_comprehensive.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
- * Gap Summary: total=19; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=16, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // ThemisDB Docker RAID Comprehensive Benchmark Suite
 // 
 // Purpose: Complete Docker RAID performance testing for multi-container

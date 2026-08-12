@@ -1,12 +1,4 @@
 /*
- * ThemisDB | File: test_feature_flags.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
- * Gap Summary: total=20; TODO=1, Stub=18, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-/*
  * Unit tests for the IFeatureFlags interface and its implementations.
  *
  * Covers:

@@ -1,9 +1,3 @@
-/*
- * ThemisDB | File: benchmark_matrix_test.cc | Module: epic2_evaluation (EPIC 2.2)
- * Issue: #5438 — Create benchmark matrix for HNSW, DiskANN, Tensor Mid-Layer,
- *                Graph validation, and LLM/LoRA flows
- */
-
 /**
  * @file benchmark_matrix_test.cc
  * @brief Unit tests for `BenchmarkMatrix` (Phase 4 of Issue #5438).

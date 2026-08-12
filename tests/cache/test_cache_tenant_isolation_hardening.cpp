@@ -1,24 +1,3 @@
-/*
- * ThemisDB | File: test_cache_tenant_isolation_hardening.cpp | Version: 1.0.0
- * Author: Copilot | Maturity: 🟢 PRODUCTION-READY
- * Status: Phase 4b — Cache Tenant Isolation Hardening Tests
- *
- * Validates that the AdaptiveQueryCache tenant-isolation paths comply with
- * the contract in include/cache/cache_contract.h §1/§3/§4:
- *
- *   CTI-01 – With tenant isolation disabled, global namespace is shared
- *   CTI-02 – With tenant isolation enabled, tenants have separate namespaces
- *   CTI-03 – Cross-tenant key collision does NOT leak data across tenants
- *   CTI-04 – Empty tenant ID maps to the global namespace (opt-out semantics)
- *   CTI-05 – Tenant invalidation evicts only the targeted tenant's entries
- *   CTI-06 – Distinct fingerprints are generated for different tenants
- *   CTI-07 – put() with large valid result complies with §2 size contract
- *   CTI-08 – Repeated get/put cycles on the same fingerprint remain stable
- *
- * All tests use L3 disabled (no RocksDB dependency).
- * Tenant isolation is exercised via enable_tenant_isolation = true/false.
- */
-
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 

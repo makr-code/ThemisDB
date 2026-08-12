@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: gpu_memory_manager.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 88/100 | Lines: 2317
- * Gap Summary: total=28; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=24, Debt=0, C=13, H=55, M=45, L=0
- * PR History (last 5): #5205 fix(llm): harden LoRA input... (2026-05-23) | #3802 [LLM] AdaptiveVRAMAllocator... (2026-03-12) | #379 Migrate critical error logg... (2026-03-11) | #240 Replace GPU Memory Manager ... (2026-03-11) | #220 Add multi-GPU LoRA adapter ... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "llm/gpu_memory_manager.h"
 #include <stdexcept>

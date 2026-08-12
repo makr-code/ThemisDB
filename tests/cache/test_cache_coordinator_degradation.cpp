@@ -1,24 +1,3 @@
-/*
- * ThemisDB | File: test_cache_coordinator_degradation.cpp | Version: 1.0.0
- * Author: Copilot | Maturity: 🟢 PRODUCTION-READY
- * Status: Phase 4a — Cache Coordinator Degradation Tests
- *
- * Validates that the CacheReplicationCoordinator and peer infrastructure
- * comply with the fail-closed / partial-delivery contracts defined in
- * include/cache/cache_contract.h §4–§7:
- *
- *   CCD-01 – All peers healthy: invalidation is delivered to all peers
- *   CCD-02 – All peers degraded: invalidation is tolerated (local succeeds)
- *   CCD-03 – Mixed peers: healthy peers receive delivery; degraded do not
- *   CCD-04 – Tenant invalidation is propagated to all healthy peers
- *   CCD-05 – Degraded peer does not affect healthy-peer delivery count
- *   CCD-06 – Entry publication reaches local in-process subscribers
- *   CCD-07 – isHealthy() reflects throw state of mock peer (§5 contract)
- *   CCD-08 – Zero peers: coordinator operations complete without panic
- *
- * All tests are self-contained. No RocksDB dependency.
- */
-
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 

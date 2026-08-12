@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: secondary_index.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 4619
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=66, H=68, M=129, L=1
- * PR History (last 5): #4571 perf(index): reduce seconda... (2026-04-11) | #4226 feat(index): Index Compress... (2026-03-15) | #2945 feat(index): Online index r... (2026-03-12) | #2943 feat(index): Partial/filter... (2026-03-12) | #804 Implement phrase matching a... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "utils/normalizer.h"
 #include <stdexcept>

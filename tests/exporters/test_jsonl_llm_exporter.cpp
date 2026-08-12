@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_jsonl_llm_exporter.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 97/100
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 #include <gtest/gtest.h>
 #include "exporters/jsonl_llm_exporter.h"
 #include "exporters/exporter_errors.h"

@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: wal_shipper.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 676
- * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=2, Debt=0, C=1, H=13, M=5, L=0
- * PR History (last 5): #4231 feat(sharding): Adaptive Sh... (2026-03-14) | #4147 feat(sharding): Raft Snapsh... (2026-03-13) | #762 Perf: Scale to 10B records ... (2026-03-11) | #1031 Implement comprehensive res... (2026-03-11) | #97 Complete auto-batching infr... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "sharding/wal_shipper.h"
 #include "sharding/prometheus_metrics.h"

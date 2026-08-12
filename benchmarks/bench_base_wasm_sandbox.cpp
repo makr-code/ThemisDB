@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: bench_base_wasm_sandbox.cpp | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0
- * Status: Production Ready
- * Issue: #5631 — base module future enhancement items (mid-term Q1 2027)
- */
-
 /**
  * @file bench_base_wasm_sandbox.cpp
  * @brief Dedicated base-module benchmarks for wasm/sandbox and taxonomy hot paths.

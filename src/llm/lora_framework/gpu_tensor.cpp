@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: gpu_tensor.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 87/100 | Lines: 1021
- * Gap Summary: total=11; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=4, Debt=0, C=2, H=5, M=2, L=0
- * PR History (last 5): #575 [LoRA Phase 10.4] Implement... (2026-03-11) | #573 Implement kernel fusion opt... (2026-03-11) | #572 Complete DirectX 12 Compute... (2026-03-11) | #571 Implement Vulkan compute pi... (2026-03-11) | #570 [LoRA Phase 10] Add readine... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "llm/lora_framework/gpu_tensor.h"
 #include "llm/lora_framework/lora_layers.h"

@@ -16,11 +16,6 @@
  * Uses MockProvider classes defined inline — no real infrastructure required.
  */
 
-/*
- * ThemisDB | File: test_aql_provider_degradation.cpp | Version: 0.0.1
- * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 92/100
- * Phase 5: Unified Testing — Provider Degradation
- */
 
 #include <gtest/gtest.h>
 #include <string>

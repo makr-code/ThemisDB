@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_aql_safety_validator.cpp | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // Copyright 2026 ThemisDB — Licensed under MIT License
 // AI Safety Layer — Schicht 3: AQL Read-Only Enforcer
 // ASL-3: AqlSafetyValidator unit tests

@@ -1,9 +1,3 @@
-/*
- * ThemisDB | File: test_cloud_sdk_integration.cpp | Version: 0.0.15
- * Test suite for cloud SDK integration (S3, Azure, GCS)
- * Verifies that cloud provider callbacks can be initialized with real SDKs
- */
-
 #include <filesystem>
 #include <fstream>
 #include <gtest/gtest.h>

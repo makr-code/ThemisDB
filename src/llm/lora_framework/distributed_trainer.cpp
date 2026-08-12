@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: distributed_trainer.cpp | Version: 0.0.47 | Last Modified: 2026-06-01 21:46:31
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 86/100 | Lines: 343
- * Gap Summary: total=6; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=1, Debt=0, C=1, H=2, M=4, L=0
- * PR History (last 5): #5205 fix(llm): harden LoRA input... (2026-05-23) | #570 [LoRA Phase 10] Add readine... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "llm/lora_framework/distributed_trainer.h"
 #include <spdlog/spdlog.h>

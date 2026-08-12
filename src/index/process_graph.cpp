@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: process_graph.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 89/100 | Lines: 3304
- * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=1, Debt=0, C=2, H=4, M=78, L=0
- * PR History (last 5): #4254 feat(network/process-graph)... (2026-03-15) | #406 Implement 8 process mining ... (2026-03-11) | #324 Generate GitHub Issues from... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // Process Graph Manager Implementation
 // Supports BPMN, EPK, and advanced process modeling patterns

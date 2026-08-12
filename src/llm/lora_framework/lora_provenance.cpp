@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: lora_provenance.cpp | Version: 0.0.40 | Last Modified: 2026-06-01 08:11:44
- * Author: makr | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 549
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=8, M=4, L=0
- * PR History (last 5): none
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "llm/lora_framework/lora_provenance.h"
 #include <spdlog/spdlog.h>

@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: distributed_transaction_manager.cpp | Version: 0.0.12 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 1306
- * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=4, H=39, M=16, L=0
- * PR History (last 5): #5125 docs(research): ACID_CONSTR... (2026-05-14) | #4282 feat(transaction): Distribu... (2026-03-16) | #4213 feat(storage): DistributedT... (2026-03-14)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // Copyright 2025 ThemisDB
 // Licensed under MIT License

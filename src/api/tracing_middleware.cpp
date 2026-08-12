@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: tracing_middleware.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:49:01
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 130
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=2, M=0, L=0
- * PR History (last 5): #4219 feat(api): wire TracingMidd... (2026-03-14) | #3546 docs(api): sync api module ... (2026-03-12) | #3159 feat(api): Add X-Correlatio... (2026-03-12) | #2722 [WIP] Add tracing and corre... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "api/tracing_middleware.h"
 

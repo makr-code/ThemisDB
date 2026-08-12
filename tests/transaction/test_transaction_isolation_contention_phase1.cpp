@@ -1,27 +1,3 @@
-/*
- * ThemisDB | File: test_transaction_isolation_contention_phase1.cpp | Phase: 1 Hardening
- * Maturity: 🟢 PRODUCTION-READY | Acceptance Criteria: AC-3, AC-7
- * Gap Summary: Isolation edge cases under mixed read/write contention
- * Status: Phase 1 - Lifecycle and Isolation Safety Hardening
- *
- * Purpose:
- * - Harden isolation-level edge-case behavior under mixed read/write contention
- * - Test isolation semantics with high concurrency and contention
- * - Verify conflict detection and resolution
- * - Ensure deterministic behavior under contested conditions
- *
- * Acceptance Criteria:
- * - AC-3: Isolation level behavior (READ_COMMITTED, SNAPSHOT, SERIALIZABLE) ✓
- * - AC-7: Timeout semantics and deterministic rollback ✓
- *
- * Test Scenarios:
- * - Dirty read prevention (READ_COMMITTED)
- * - Phantom read prevention (SNAPSHOT/SERIALIZABLE)
- * - Write-write conflict detection
- * - Lock contention under high concurrency
- * - Timeout determinism under contention
- */
-
 #include <gtest/gtest.h>
 #include <thread>
 #include <chrono>

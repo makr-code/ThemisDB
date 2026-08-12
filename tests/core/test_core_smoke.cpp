@@ -1,12 +1,3 @@
-/*
- * ThemisDB | File: test_core_smoke.cpp | Version: 0.0.1
- * Module: core
- * Purpose: Smoke tests verifying that core concern headers compile and that
- *          the no-op implementations can be constructed and used in isolation.
- *          These tests are the minimum viable CTest entry-point for the core
- *          module and intentionally avoid heavy runtime dependencies.
- */
-
 #include <gtest/gtest.h>
 #include "core/concerns/noop_implementations.h"
 #include "core/concerns/i_logger.h"

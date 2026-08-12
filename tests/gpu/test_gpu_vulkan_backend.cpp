@@ -1,12 +1,4 @@
 /*
- * ThemisDB | File: test_gpu_vulkan_backend.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
-/*
  * Unit tests for the Vulkan compute backend (vulkan_backend.h / vulkan_backend.cpp).
  *
  * All tests are designed to run on CI without Vulkan hardware.  When Vulkan is

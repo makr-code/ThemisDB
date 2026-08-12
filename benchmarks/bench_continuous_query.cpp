@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: bench_continuous_query.cpp | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 96/100
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // Benchmark: Continuous Query Engine Performance
 // Measures tuple ingestion throughput and window evaluation tick overhead
 // for the ContinuousQueryEngine introduced in Phase 8.1–8.4.

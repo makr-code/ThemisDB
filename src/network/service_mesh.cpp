@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: service_mesh.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 254
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=3, M=7, L=0
- * PR History (last 5): #3632 fix(build): register 40+ mi... (2026-03-12) | #3395 Add service mesh sidecar pr... (2026-03-12) | #3337 feat(network): Implement Is... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // ThemisDB – Istio/Envoy service mesh integration for the network module.
 // See include/network/service_mesh.h for design documentation.

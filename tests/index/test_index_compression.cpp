@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_index_compression.cpp | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // Focused tests for Index Compression (v1.7.0 — Issue #176)
 //
 // Acceptance criteria covered:

@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: aql_translator.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 1935
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=72, H=9, M=12, L=0
- * PR History (last 5): #4176 feat(geo): Spatial JOIN Sup... (2026-03-13) | #751 Phase 4 Error Handling: Sto... (2026-03-11) | #632 Implement General Graph Tra... (2026-03-11) | #633 Configure general graph tra... (2026-03-11) | #750 Phase 1-2: Query engine err... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "query/aql_translator.h"
 #include "query/subquery_optimizer.h"

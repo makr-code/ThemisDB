@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_replica_validation_handler.cpp | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
- * Gap Summary: total=9; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=3, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_replica_validation_handler.cpp
  * @brief Focused unit tests for ReplicaValidationHandler and

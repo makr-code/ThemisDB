@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: lora_storage_service_themisdb.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 91/100 | Lines: 948
- * Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=4, Sim=0, Debt=0, C=19, H=17, M=9, L=0
- * PR History (last 5): #567 Integrate HSMProvider (PKCS... (2026-03-11) | #566 Integrate VaultKeyProvider ... (2026-03-11) | #541 Complete LoRa Storage Backe... (2026-03-11) | #568 Integrate PKIKeyProvider fo... (2026-03-11) | #585 Analyze ThemisDB gaps: remo... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "llm/lora_framework/lora_storage_service.h"
 #include <stdexcept>

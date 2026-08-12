@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_io_uring_zero_copy.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // Tests for Phase 4 io_uring zero-copy I/O path (network performance).
 //
 // These tests are designed to be safe in CI environments where io_uring

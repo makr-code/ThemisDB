@@ -1,9 +1,3 @@
-/*
- * ThemisDB | File: test_cross_coordinator_wal_recovery.cpp | Version: 0.0.1
- * Coverage: Cross-Coordinator WAL Recovery Contract Tests (Issue #5372)
- * Status: Production Ready
- */
-
 // Tests for cross-coordinator WAL recovery contracts — Issue #5372 (CC-5).
 //
 // These tests document and enforce the WAL isolation contract:

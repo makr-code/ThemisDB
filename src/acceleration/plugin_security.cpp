@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: plugin_security.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 2213
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=5, M=34, L=0
- * PR History (last 5): #4292 fix(acceleration): PE certi... (2026-03-16) | #4283 feat(acceleration): impleme... (2026-03-16) | #3407 feat(themis): standalone Au... (2026-03-12) | #2732 [auth] OAuth 2.0 PKCE flow ... (2026-03-12) | #2715 [acceleration] Security har... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "acceleration/plugin_security.h"
 #include <stdexcept>

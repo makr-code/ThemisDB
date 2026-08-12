@@ -9,15 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: ml_serving.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:49:01
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 97/100 | Lines: 698
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=20, M=14, L=0
- * PR History (last 5): #4929 [Docs][analytics] Refresh m... (2026-05-10) | #4315 fix(analytics): eliminate T...
- * (2026-03-18) | #3478 docs(analytics): sync READM... (2026-03-12) | #2760 feat(analytics): Integrate ... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 /**
  * ML Serving Integration – Implementation

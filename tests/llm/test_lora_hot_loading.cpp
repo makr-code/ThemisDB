@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_lora_hot_loading.cpp | Version: 0.0.15
- * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
- * Gap Summary: total=8; TODO=1, Stub=1, Unimpl=0, Mock=6, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_lora_hot_loading.cpp
  * @brief Tests for LoRA adapter hot-loading at inference time.

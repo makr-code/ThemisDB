@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: query_federation.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 1163
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=6, M=20, L=0
- * PR History (last 5): #4364 docs(query): rewrite ROADMA... (2026-03-21) | #4156 [WIP] Implement real shard ... (2026-03-13) | #3632 fix(build): register 40+ mi... (2026-03-12) | #814 Implement API Gateway and Q... (2026-03-11) | #1171 Implement adaptive capabili... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "query/query_federation.h"
 #include <chrono>

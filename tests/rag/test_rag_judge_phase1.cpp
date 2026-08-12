@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_rag_judge_phase1.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
- * Gap Summary: total=5; TODO=1, Stub=1, Unimpl=0, Mock=3, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_rag_judge_phase1.cpp
  * @brief Unit tests for RAG Judge Phase 1 implementation

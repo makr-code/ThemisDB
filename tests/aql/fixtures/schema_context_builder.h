@@ -25,11 +25,6 @@
  * @note Header-only, no infrastructure dependencies.
  */
 
-/*
- * ThemisDB | File: schema_context_builder.h | Version: 0.0.1
- * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 92/100
- * Phase 5: Unified Testing Fixtures
- */
 
 #pragma once
 

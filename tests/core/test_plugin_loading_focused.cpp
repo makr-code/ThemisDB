@@ -1,20 +1,3 @@
-/*
- * ThemisDB | File: test_plugin_loading_focused.cpp | Version: 0.0.1
- * Module: core
- * Purpose: Focused unit tests for AdapterRegistry::loadFromPlugin() — error
- *          paths: empty path, non-existent file, not-a-library, trust policy.
- *
- * Test groups:
- *   PL_01  empty path returns false
- *   PL_02  non-existent path returns false
- *   PL_03  path that is a regular text file (not a shared library) returns false
- *   PL_04  kRequireSignature policy rejects library without .sig file
- *   PL_05  kRequireSignature policy rejects library when digest mismatches
- *   PL_06  kTrustAll policy skips signature check for regular file failure
- *   PL_07  setTrustPolicy does not corrupt registry state
- *   PL_08  concurrent loadFromPlugin calls on same bad path do not crash
- */
-
 #include <gtest/gtest.h>
 #include "core/concerns/adapter_registry.h"
 #include "core/concerns/adapter_signing.h"

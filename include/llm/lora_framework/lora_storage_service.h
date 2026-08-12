@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: lora_storage_service.h | Version: 0.0.47 | Last Modified: 2026-05-31 12:49:01
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 292
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * PR History (last 5): #567 Integrate HSMProvider (PKCS... (2026-03-11) | #566 Integrate VaultKeyProvider ... (2026-03-11) | #568 Integrate PKIKeyProvider fo... (2026-03-11) | #615 Network Partition Handling ... (2026-03-11) | #320 Implement Production-Ready ... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #pragma once
 

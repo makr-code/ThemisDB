@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: http_server.cpp | Version: 0.0.47 | Last Modified: 2026-06-01 12:09:23
- * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 92/100 | Lines: 13747
- * Gap Summary: total=5; TODO=2, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=59, H=115, M=182, L=0
- * PR History (last 5): #5368 W1-S01: Replace req.find() ... (2026-05-26) | #5152 Research review rewrite: ER... (2026-05-14) | #4821 Consolidation Phase: Securi... (2026-04-28) | #4574 feat: StreamingIngestManage... (2026-04-12) | #4455 feat(analytics): resolve st... (2026-04-07)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // Ensure correct WinSock include order on Windows
 #ifdef _WIN32

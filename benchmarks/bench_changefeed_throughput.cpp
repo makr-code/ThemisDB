@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: bench_changefeed_throughput.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
- * Gap Summary: total=13; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=10, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // Benchmark: Changefeed Throughput
 // Measures CDC event processing performance and subscriber scalability
 

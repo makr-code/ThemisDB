@@ -13,11 +13,6 @@
  * Uses self-contained mock circuit breaker — no real infrastructure required.
  */
 
-/*
- * ThemisDB | File: test_aql_circuit_breaker_policy.cpp | Version: 0.0.1
- * Author: copilot-swe-agent[bot] | Maturity: 🟢 PRODUCTION-READY | Score: 92/100
- * Phase 5: Unified Testing — Circuit Breaker Policy
- */
 
 #include <gtest/gtest.h>
 #include <atomic>

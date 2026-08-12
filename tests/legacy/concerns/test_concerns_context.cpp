@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_concerns_context.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 90/100
- * Gap Summary: total=74; TODO=1, Stub=69, Unimpl=0, Mock=1, Sim=3, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 #include "core/concerns/concerns_context.h"
 #include "core/concerns/noop_implementations.h"
 #include "core/concerns/spdlog_logger_adapter.h"

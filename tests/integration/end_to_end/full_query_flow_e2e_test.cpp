@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: full_query_flow_e2e_test.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
- * Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=3, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file full_query_flow_e2e_test.cpp
  * @brief End-to-end test for complete query flow

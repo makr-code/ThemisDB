@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_numa_memory_manager.cpp | Version: 0.0.10
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // Copyright 2026 ThemisDB — NUMAMemoryManager focused tests (Issue #228)
 #include "performance/numa_memory_manager.h"
 #include <gtest/gtest.h>

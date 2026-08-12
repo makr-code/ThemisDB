@@ -1,13 +1,3 @@
-/*
- * ThemisDB | File: test_gpu_memory_hierarchy.cpp
- * Tests for the unified GPU memory manager hierarchy.
- * Validates:
- *   - IVRAMPolicy interface is implemented by GPUMemoryManager
- *   - themis::llm::GPUMemoryManager delegates to canonical manager
- *   - Cross-namespace VRAM accounting consistency
- *   - Tenant isolation across hierarchy levels
- */
-
 #include <gtest/gtest.h>
 #include <string>
 #include "themis/gpu/ivram_policy.h"

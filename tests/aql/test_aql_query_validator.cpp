@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_aql_query_validator.cpp | Version: 0.0.39
- * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
- * Gap Summary: total=5; TODO=1, Stub=2, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_aql_query_validator.cpp
  * @brief Unit tests for AQLQueryValidator and scoreQueryConfidence

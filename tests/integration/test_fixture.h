@@ -1,14 +1,3 @@
-/*
- * ThemisDB | File: test_fixture.h | Version: 0.0.49
- * Maturity: 🟢 PRODUCTION-READY | Score: 88/100
- * Status: Production Ready
- *
- * Wave 2 additions (2026-07):
- * - `MockRetryScheduler` — deterministic in-process retry helper for recovery tests.
- * - `DeterministicIntegrationFixture` — extends `IntegrationTestFixture` with
- *   a `SeededTestDataGenerator` and cross-module pre-wired pipeline helpers.
- */
-
 /**
  * @file test_fixture.h
  * @brief Base fixture and reusable pipeline mocks for integration tests.

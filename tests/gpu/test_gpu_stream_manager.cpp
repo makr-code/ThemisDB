@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_gpu_stream_manager.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 89/100
- * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 #include <gtest/gtest.h>
 #include "themis/gpu/stream_manager.h"
 #include "themis/gpu/rocm_backend.h"

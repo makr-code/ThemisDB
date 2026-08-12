@@ -11,12 +11,6 @@
  * @note Status: Production Ready
  */
 
-/*
- * ThemisDB | File: ddl_executor.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=0
- * Status: Production Ready
- */
 
 #include "query/ddl_executor.h"
 #include "utils/error_registry.h"

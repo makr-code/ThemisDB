@@ -1,9 +1,3 @@
-/*
- * ThemisDB | File: failover_api_contract.h | Version: 1.0.0
- * Author: Copilot | Maturity: 🟢 PRODUCTION-READY | Status: Phase 1 — Frozen Contract
- * Purpose: Frozen failover and leader-election contract semantics for the active v1.x major line.
- */
-
 /**
  * @file failover_api_contract.h
  * @brief Frozen failover, election, and recovery contract for the active v1.x line.

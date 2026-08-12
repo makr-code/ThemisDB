@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_cdc_admin.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 91/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 #include <gtest/gtest.h>
 #include "cdc/cdc_admin.h"
 #include "cdc/changefeed.h"

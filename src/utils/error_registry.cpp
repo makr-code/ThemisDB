@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: error_registry.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 93/100 | Lines: 1774
- * Gap Summary: total=5; TODO=1, Stub=3, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=7, M=33, L=1
- * PR History (last 5): #5152 Research review rewrite: ER... (2026-05-14) | #4662 feat(document): IDocumentSt... (2026-04-15) | #2718 feat(query): Per-query reso... (2026-03-12) | #998 C++ Audit: Eliminate raw me... (2026-03-11) | #751 Phase 4 Error Handling: Sto... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "utils/error_registry.h"
 #include "utils/string_utils.h"

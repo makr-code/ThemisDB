@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: multi_protocol_support.py | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 94/100
- * Gap Summary: total=7; TODO=1, Stub=5, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 """
 ╔═════════════════════════════════════════════════════════════════════╗
 ║ ThemisDB - Hybrid Database System                                   ║

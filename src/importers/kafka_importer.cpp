@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: kafka_importer.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 95/100 | Lines: 742
- * Gap Summary: total=7; TODO=1, Stub=1, Unimpl=0, Mock=5, Sim=0, Debt=0, C=1, H=12, M=6, L=0
- * PR History (last 5): #4185 feat(importers/kafka): AC7 ... (2026-03-13) | #3135 feat(importers): Kafka cons... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 // When THEMIS_ENABLE_KAFKA is defined the full librdkafka-backed implementation
 // is compiled.  When the macro is absent the importer still compiles but every

@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: hardware_migration_manager.cpp | Version: 0.0.14 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 94/100 | Lines: 380
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=6, M=5, L=0
- * PR History (last 5): #3632 fix(build): register 40+ mi... (2026-03-12) | #3464 feat(sharding): Hardware mi... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "sharding/hardware_migration_manager.h"
 #include <nlohmann/json.hpp>

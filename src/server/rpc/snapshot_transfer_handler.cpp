@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: snapshot_transfer_handler.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 833
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=9, M=4, L=0
- * PR History (last 5): #895 Fix critical path traversal... (2026-03-11) | #896 Fix CWE-400 buffer overflow... (2026-03-11) | #104 RPC Framework with gRPC Plu... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "server/rpc/snapshot_transfer_handler.h"
 #include "utils/zstd_codec.h"

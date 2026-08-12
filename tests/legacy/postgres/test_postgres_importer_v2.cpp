@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_postgres_importer_v2.cpp | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 90/100
- * Gap Summary: total=6; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=2, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // PostgreSQL Importer v2.0 – Unit Tests
 //
 // Tests cover:

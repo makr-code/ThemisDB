@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: bench_voice_stt_tts_latency.cpp | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY
- * Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0
- * Status: Production Ready
- * Issue: Voice Module Phase 5 Task 5.1 - STT/TTS Latency Benchmarks
- */
-
 /**
  * @file bench_voice_stt_tts_latency.cpp
  * @brief Google Benchmark suite for Voice STT and TTS latency measurements.

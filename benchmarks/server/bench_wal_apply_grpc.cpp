@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: bench_wal_apply_grpc.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 93/100
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 #if __has_include("sharding/shard_rpc.grpc.pb.h")
 
 #include <benchmark/benchmark.h>

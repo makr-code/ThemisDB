@@ -16,12 +16,6 @@
  * @note Status: Production Ready
  */
 
-/*
- * ThemisDB | File: ddl_executor.h | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=0
- * Status: Production Ready
- */
 
 #pragma once
 

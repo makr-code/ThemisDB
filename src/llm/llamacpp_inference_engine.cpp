@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: llamacpp_inference_engine.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 92/100 | Lines: 517
- * Gap Summary: total=6; TODO=1, Stub=3, Unimpl=1, Mock=1, Sim=0, Debt=0, C=0, H=5, M=3, L=0
- * PR History (last 5): #751 Phase 4 Error Handling: Sto... (2026-03-11) | #712 [Error Handling] Phase 4: F... (2026-03-11) | #543 Implement LLM Model and LoR... (2026-03-11) | #592 Implement LoRa adapter appl... (2026-03-11) | #595 Integrate PagedBlockManager... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "llm/llamacpp_inference_engine.h"
 #include <spdlog/spdlog.h>

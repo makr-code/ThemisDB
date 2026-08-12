@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_module_sandbox_wasm_injection.cpp | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
- * Gap Summary: total=17; TODO=1, Stub=1, Unimpl=0, Mock=15, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /// @file test_module_sandbox_wasm_injection.cpp
 /// @brief Unit/integration tests for WASM runtime injection via ModuleSandbox
 ///        (v1.8.0 – Issue #1572).

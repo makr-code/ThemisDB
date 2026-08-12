@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_rotate_completion.cpp | Version: 1.0.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=0
- * Status: Production Ready
- * (Wave B — issue #5039)
- */
-
 /**
  * @file tests/graph/test_rotate_completion.cpp
  * @brief Unit tests for RotatE Knowledge Graph Completion — KGC-01..15

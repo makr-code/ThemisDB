@@ -1,9 +1,3 @@
-/*
- * ThemisDB | File: exporters_api_contract.h | Version: 1.0.0
- * Author: Copilot | Maturity: 🟢 PRODUCTION-READY | Status: Phase 1 — Frozen Contract
- * Purpose: Frozen exporters (CSV/Parquet/Arrow/stream) contract semantics for the active v1.x line.
- */
-
 /**
  * @file exporters_api_contract.h
  * @brief Frozen exporters contract: determinism, streaming order, null handling, and error taxonomy.

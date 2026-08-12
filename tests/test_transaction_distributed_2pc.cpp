@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_transaction_distributed_2pc.cpp | Version: 0.0.12
- * Maturity: 🟢 PRODUCTION-READY | Score: 90/100
- * Gap Summary: total=7; TODO=1, Stub=1, Unimpl=0, Mock=4, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // Tests for DistributedTransactionManager (2PC) – v1.9.0
 // Covers all acceptance criteria from the roadmap issue:
 //   AC-1  Coordinator role: beginDistributed() returns a valid TXN-ID

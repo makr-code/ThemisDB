@@ -1,24 +1,3 @@
-/*
- * ThemisDB | File: bench_process_advanced_workflows.cpp | Version: 1.0.0
- * Phase 5: Process Module Performance & Hardening
- *
- * Benchmark Expansion - Advanced Workflows (BE):
- * | Gate ID | Scenario                            | Coverage             |
- * |---------|-------------------------------------|----------------------|
- * | BE-01   | Multi-Format Import (5 formats)     | 100 files each      |
- * | BE-02   | Process Mining Alpha Algo           | 1k event log        |
- * | BE-03   | Process Mining Heuristic Algo       | 1k event log        |
- * | BE-04   | Process Mining Inductive Algo       | 1k event log        |
- * | BE-05   | Conformance Checking (DFG vs log)   | 1k events           |
- * | BE-06   | Variant Analysis (event clustering) | 1k events           |
- * | BE-07   | LLM Process Descriptor              | 100 models          |
- * | BE-08   | BPMN->DFG Conversion                | 100 models          |
- * | BE-09   | Process Community Detection         | 1k model graph      |
- * | BE-10   | RAG Knowledge Retrieval              | 1k models + queries |
- * | BE-11   | Combined Import+Mining+Retrieval    | end-to-end scenario |
- * | BE-12   | Stress Test (high-load scenario)    | sustained load      |
- */
-
 #include <benchmark/benchmark.h>
 #include <vector>
 #include <chrono>

@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_huggingface_connector_governance.cpp | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
- * Gap Summary: total=6; TODO=1, Stub=1, Unimpl=0, Mock=3, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_huggingface_connector_governance.cpp
  * @brief Unit tests for the data classification gate in HuggingFaceConnector (Gap 8).

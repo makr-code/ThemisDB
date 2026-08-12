@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: oidc_provider.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 362
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=1, H=4, M=0, L=0
- * PR History (last 5): #4113 feat(auth): Async / Non-Blo... (2026-03-12) | #3899 feat(auth): Mandatory JWT I... (2026-03-12) | #2641 feat(auth): JWT/OIDC federa... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "auth/oidc_provider.h"
 

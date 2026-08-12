@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: auth_metrics.cpp | Version: 0.0.47 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 100/100 | Lines: 370
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=0, L=0
- * PR History (last 5): #4133 feat(auth): Credential Stuf... (2026-03-12) | #4120 feat(auth): TOTP/MFA config... (2026-03-12) | #4105 fix(auth): address LDAP con... (2026-03-12) | #2826 feat(auth): improve unit te... (2026-03-12) | #2733 [auth] API key authenticati... (2026-03-12)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "auth/auth_metrics.h"
 #include "utils/logger.h"

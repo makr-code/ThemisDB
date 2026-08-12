@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: bench_postgres_protocol.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 93/100
- * Gap Summary: total=6; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // PostgreSQL Wire Protocol Benchmarks
 // Benchmarks for protocol message encoding, decoding, and core operations
 

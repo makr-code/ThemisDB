@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_saga_orchestrator.cpp | Version: 0.0.12
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // Tests for SAGAOrchestrator – v1.8.0
 // Covers all acceptance criteria from Issue #4043:
 //   AC-1  Parallel step execution (DAG-based) – independent steps run concurrently

@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_mongo_importer.cpp | Version: 0.0.18
- * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // test_mongo_importer.cpp
 //
 // Unit tests for the MongoDB importer covering:

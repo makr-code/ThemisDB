@@ -7,18 +7,6 @@
  * @copyright (c) 2026 ThemisDB Project, Apache-2.0 License
  */
 
-/*
- * ThemisDB | File: test_replication_conflict_focused.cpp
- * Version: 0.0.2 | Date: 2026-07-19
- * Scope: Conflict Resolution API, Diagnostics Consistency, Strategy Behavior Determinism
- * Test Coverage (17 total tests):
- *   - RCS-01: Three-Way Merge strategy with vector-clock ancestry (4 tests)
- *   - RCS-02: Field-level merge (UNION, INTERSECT, LEFT_BIAS, RIGHT_BIAS) (5 tests)
- *   - RCS-03: Conflict context semantics (metadata, roles, timestamps) (2 tests)
- *   - RCS-04: Deterministic behavior across strategy paths (2 tests)
- *   - RCS-05: Edge cases (empty conflicts, large conflict sets) (2 tests)
- *   - RCS-06: Diagnostics consistency and observability (2 tests)
- */
 
 #include <gtest/gtest.h>
 #include "replication/conflict_resolution.h"

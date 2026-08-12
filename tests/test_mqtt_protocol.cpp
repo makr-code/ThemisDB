@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_mqtt_protocol.cpp | Version: 0.0.47
- * Maturity: 🟢 PRODUCTION-READY | Score: 95/100
- * Gap Summary: total=4; TODO=1, Stub=2, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // MQTT Protocol Basic Tests
 // These tests validate MQTT packet handling, QoS levels, and protocol features
 

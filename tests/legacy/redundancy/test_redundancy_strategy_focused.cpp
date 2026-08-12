@@ -1,8 +1,3 @@
-/*
- * ThemisDB | File: test_redundancy_strategy_focused.cpp | Version: 0.0.47
- * Focused Unit Tests for W2-S02: Redundancy Input/Quorum Validation
- */
-
 #include <gtest/gtest.h>
 
 #include "sharding/consistent_hash.h"

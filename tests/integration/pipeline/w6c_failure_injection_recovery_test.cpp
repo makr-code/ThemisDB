@@ -1,10 +1,3 @@
-/*
- * ThemisDB | File: w6c_failure_injection_recovery_test.cpp | Version: 0.1.0
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Wave: 6 / PR: W6-C — Failure Injection & Recovery Proofs
- * Status: Production Ready
- */
-
 /**
  * @file w6c_failure_injection_recovery_test.cpp
  * @brief Wave 6-C: Failure Injection & Recovery Proofs.

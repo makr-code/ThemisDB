@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_per_operation_circuit_breakers.cpp | Version: 0.0.13
- * Maturity: 🟢 PRODUCTION-READY | Score: 98/100
- * Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 /**
  * @file test_per_operation_circuit_breakers.cpp
  * @brief Unit tests for per-operation-type circuit breakers in LLMAQLHandler

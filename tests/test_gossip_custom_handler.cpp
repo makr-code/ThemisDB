@@ -1,11 +1,3 @@
-/*
- * ThemisDB | File: test_gossip_custom_handler.cpp | Version: 0.0.1
- * Maturity: 🟢 PRODUCTION-READY | Score: 100/100
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
-
 // Copyright 2026 ThemisDB — Licensed under MIT License
 // DK-2 / S-5: GossipProtocol::registerCustomHandler unit tests
 // CC-4: GossipProtocol::setRaftMembershipGateFn unit tests

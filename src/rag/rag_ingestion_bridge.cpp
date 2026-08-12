@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: rag_ingestion_bridge.cpp | Version: 0.1.0 | Last Modified: 2026-05-31 19:05:19
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 390
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=3, H=4, M=1, L=0
- * PR History (last 5): #4697 feat(rag,toolbox): RAGInges... (2026-04-16)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "rag/rag_ingestion_bridge.h"
 

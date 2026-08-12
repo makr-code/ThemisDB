@@ -9,14 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-/*
- * ThemisDB | File: api_key_authenticator.cpp | Version: 0.0.15 | Last Modified: 2026-05-31 12:17:24
- * Author: makr-code | Maturity: 🟢 PRODUCTION-READY | Score: 99/100 | Lines: 282
- * Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=2, H=12, M=0, L=0
- * PR History (last 5): #4094 fix(auth): constant-time co... (2026-03-12) | #2733 [auth] API key authenticati... (2026-03-12) | #2983 fix(auth): redact PII in au... (2026-03-11)
- * Status: Production Ready
- * (Automatisch generiert, Änderungen werden überschrieben)
- */
 
 #include "auth/api_key_authenticator.h"
 #include "auth/auth_audit_logger.h"
