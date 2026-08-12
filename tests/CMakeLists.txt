@@ -28521,3 +28521,27 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_phase4_security_hardening.cpp")
 
     message(STATUS "  Phase 4 Security: SEC-IV-01..15 (input validation), SEC-TLS-01..10 (transport), SEC-MEM-01..15 (memory), SEC-RACE-01..10 (concurrency), SEC-ERR-01..05 (error path)")
 endif()
+
+# ============================================================================
+# Aggregate target: themis_release_critical_tests
+# Builds all test executables that carry the "release_critical" CTest label so
+# the CI gate can use "--target themis_release_critical_tests" instead of
+# building the entire test suite.
+# ============================================================================
+set(_release_critical_targets "")
+if(TARGET test_g003_error_handling_thread_safety_focused)
+    list(APPEND _release_critical_targets test_g003_error_handling_thread_safety_focused)
+endif()
+if(TARGET test_phase4_security_hardening_focused)
+    list(APPEND _release_critical_targets test_phase4_security_hardening_focused)
+endif()
+
+if(_release_critical_targets)
+    add_custom_target(themis_release_critical_tests DEPENDS ${_release_critical_targets})
+else()
+    # No release-critical test sources present; provide a no-op phony target so
+    # the CI build step does not fail with "unknown target".
+    add_custom_target(themis_release_critical_tests
+        COMMAND ${CMAKE_COMMAND} -E echo "No release-critical test sources found — target is a no-op."
+    )
+endif()
