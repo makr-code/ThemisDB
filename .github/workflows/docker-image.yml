@@ -86,23 +86,27 @@ jobs:
 
     - name: Determine version
       id: version
+      env:
+        EVENT_NAME: ${{ github.event_name }}
+        GIT_REF: ${{ github.ref }}
+        RELEASE_TAG_NAME: ${{ github.event.release.tag_name || '' }}
       run: |
         echo "──────────────────────────────────────────────"
         echo "  Version detection"
-        if [[ "${{ github.ref }}" == refs/tags/v* ]]; then
-          VERSION="${{ github.ref }}" 
+        if [[ "${GIT_REF}" == refs/tags/v* ]]; then
+          VERSION="${GIT_REF}"
           VERSION="${VERSION#refs/tags/}"
           echo "  Source   : git tag"
-          echo "version=${VERSION}" >> $GITHUB_OUTPUT
-        elif [[ "${{ github.event_name }}" == "release" ]]; then
-          VERSION="${{ github.event.release.tag_name }}"
+          echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
+        elif [[ "${EVENT_NAME}" == "release" ]]; then
+          VERSION="${RELEASE_TAG_NAME}"
           VERSION="${VERSION#v}"
           echo "  Source   : release event"
-          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+          echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
         else
           VERSION="$(cat VERSION 2>/dev/null || echo 'dev')-$(date +%s)"
           echo "  Source   : VERSION file + timestamp"
-          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+          echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
         fi
         echo "  Version  : ${VERSION}"
         echo "──────────────────────────────────────────────"
@@ -134,18 +138,24 @@ jobs:
 
     - name: Determine Docker tags
       id: tags
+      env:
+        EVENT_NAME: ${{ github.event_name }}
+        GIT_REF: ${{ github.ref }}
+        REPOSITORY: ${{ github.repository }}
+        COMMIT_SHA: ${{ github.sha }}
+        RUN_ID: ${{ github.run_id }}
       run: |
         VERSION="${{ steps.version.outputs.version }}"
         TAGS=""
-        REPO_LC=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+        REPO_LC="$(echo "${REPOSITORY}" | tr '[:upper:]' '[:lower:]')"
 
         # For released versions (tags/releases)
-        if [[ "${{ github.event_name }}" == "release" ]] || [[ "${{ github.ref }}" == refs/tags/v* ]]; then
+        if [[ "${EVENT_NAME}" == "release" ]] || [[ "${GIT_REF}" == refs/tags/v* ]]; then
           # themisdb/themisdb:1.0.0
           TAGS="themisdb/themisdb:${VERSION}"
 
           # Also tag minor version: themisdb/themisdb:1.0
-          MINOR_VERSION=$(echo ${VERSION} | cut -d. -f1-2)
+          MINOR_VERSION="$(echo "${VERSION}" | cut -d. -f1-2)"
           TAGS="$TAGS,themisdb/themisdb:${MINOR_VERSION}"
 
           # Tag as latest if it's a stable release (no pre-release suffix)
@@ -161,18 +171,18 @@ jobs:
           fi
 
         # For develop branch pushes - use GHCR (no Docker Hub PAT required)
-        elif [[ "${{ github.ref }}" == "refs/heads/develop" ]]; then
-          SHORT_SHA=$(echo ${{ github.sha }} | cut -c1-7)
+        elif [[ "${GIT_REF}" == "refs/heads/develop" ]]; then
+          SHORT_SHA="$(echo "${COMMIT_SHA}" | cut -c1-7)"
           TAGS="ghcr.io/${REPO_LC}:dev-${SHORT_SHA}"
           TAGS="$TAGS,ghcr.io/${REPO_LC}:develop"
 
 
         # For workflow_dispatch without release
         else
-          TAGS="ghcr.io/${REPO_LC}:manual-${{ github.run_id }}"
+          TAGS="ghcr.io/${REPO_LC}:manual-${RUN_ID}"
         fi
 
-        echo "value=${TAGS}" >> $GITHUB_OUTPUT
+        echo "value=${TAGS}" >> "${GITHUB_OUTPUT}"
         echo "Tags to be pushed: ${TAGS}"
 
     - name: Ensure optional Docker build context paths exist
@@ -254,21 +264,27 @@ jobs:
       id: image-info
       run: |
         TAGS="${{ steps.tags.outputs.value }}"
-        echo "images=${TAGS}" >> $GITHUB_OUTPUT
+        echo "images=${TAGS}" >> "${GITHUB_OUTPUT}"
 
     - name: Docker Hub image summary
       if: github.event_name == 'release' || (github.event_name == 'push' && github.ref == 'refs/heads/develop')
+      env:
+        VERSION_OUTPUT: ${{ steps.version.outputs.version }}
+        TAG_LIST: ${{ steps.tags.outputs.value }}
+        DIGEST_OUTPUT: ${{ steps.build.outputs.digest }}
       run: |
-        echo "### 🐳 Docker Image Published" >> $GITHUB_STEP_SUMMARY
-        echo "" >> $GITHUB_STEP_SUMMARY
-        echo "**Version:** ${{ steps.version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
-        echo "**Tags:** ${{ steps.tags.outputs.value }}" >> $GITHUB_STEP_SUMMARY
-        echo "**Digest:** ${{ steps.build.outputs.digest }}" >> $GITHUB_STEP_SUMMARY
-        echo "**SLSA Provenance:** attached via actions/attest-build-provenance" >> $GITHUB_STEP_SUMMARY
-        echo "" >> $GITHUB_STEP_SUMMARY
-        echo "**Pull commands:**" >> $GITHUB_STEP_SUMMARY
-        echo '```bash' >> $GITHUB_STEP_SUMMARY
-        for TAG in $(echo "${{ steps.tags.outputs.value }}" | tr ',' '\n'); do
-          echo "docker pull ${TAG}" >> $GITHUB_STEP_SUMMARY
-        done
-        echo '```' >> $GITHUB_STEP_SUMMARY
+        {
+          echo "### 🐳 Docker Image Published"
+          echo
+          echo "**Version:** ${VERSION_OUTPUT}"
+          echo "**Tags:** ${TAG_LIST}"
+          echo "**Digest:** ${DIGEST_OUTPUT}"
+          echo "**SLSA Provenance:** attached via actions/attest-build-provenance"
+          echo
+          echo "**Pull commands:**"
+          echo '```bash'
+          while IFS= read -r TAG; do
+            echo "docker pull ${TAG}"
+          done < <(tr ',' '\n' <<< "${TAG_LIST}")
+          echo '```'
+        } >> "${GITHUB_STEP_SUMMARY}"
