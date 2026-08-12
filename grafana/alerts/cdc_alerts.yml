@@ -1,0 +1,57 @@
+# CDC (Change-Data-Capture) pipeline alert rules for ThemisDB.
+# Covers: excessive lag, consumer offset stalls, pipeline errors.
+groups:
+  - name: cdc_alerts
+    interval: 15s
+    rules:
+      - alert: CDCLagHigh
+        expr: max(themis_cdc_lag_seconds) by (instance, pipeline) > 5
+        for: 5m
+        labels:
+          severity: warning
+          component: cdc
+        annotations:
+          summary: "CDC pipeline lag is high"
+          description: "CDC lag for {{$labels.pipeline}} on {{$labels.instance}} is {{$value}}s (threshold: 5s)"
+
+      - alert: CDCLagCritical
+        expr: max(themis_cdc_lag_seconds) by (instance, pipeline) > 30
+        for: 2m
+        labels:
+          severity: critical
+          component: cdc
+        annotations:
+          summary: "CRITICAL: CDC pipeline lag is very high"
+          description: "CDC lag for {{$labels.pipeline}} on {{$labels.instance}} is {{$value}}s (threshold: 30s)"
+
+      - alert: CDCConsumerOffsetStalled
+        expr: |
+          (themis_cdc_producer_offset - themis_cdc_consumer_offset) > 10000
+        for: 5m
+        labels:
+          severity: warning
+          component: cdc
+        annotations:
+          summary: "CDC consumer is falling behind"
+          description: "Consumer {{$labels.consumer}} on {{$labels.instance}} is {{$value}} events behind the producer"
+
+      - alert: CDCConsumerOffsetCriticalDrift
+        expr: |
+          (themis_cdc_producer_offset - themis_cdc_consumer_offset) > 100000
+        for: 2m
+        labels:
+          severity: critical
+          component: cdc
+        annotations:
+          summary: "CRITICAL: CDC consumer offset drift is extreme"
+          description: "Consumer {{$labels.consumer}} on {{$labels.instance}} is {{$value}} events behind — data loss risk"
+
+      - alert: CDCNoThroughput
+        expr: rate(themis_cdc_events_total[5m]) == 0
+        for: 10m
+        labels:
+          severity: warning
+          component: cdc
+        annotations:
+          summary: "CDC pipeline has no throughput"
+          description: "Pipeline {{$labels.pipeline}} on {{$labels.instance}} has not processed any events for 10 minutes"

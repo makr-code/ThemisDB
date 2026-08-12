@@ -13,6 +13,9 @@
 {{- template "themisdb.dashboardConfigMap" (list . "llm" "cache-performance.json" (.Files.Get "dashboards/llm/cache-performance.json") $ns $label $labelVal) }}
 {{- template "themisdb.dashboardConfigMap" (list . "llm" "ingestion-dashboard.json" (.Files.Get "dashboards/llm/ingestion-dashboard.json") $ns $label $labelVal) }}
 {{- template "themisdb.dashboardConfigMap" (list . "llm" "themisdb-extended-context-dashboard.json" (.Files.Get "dashboards/llm/themisdb-extended-context-dashboard.json") $ns $label $labelVal) }}
+{{- template "themisdb.dashboardConfigMap" (list . "llm" "lora-training.json" (.Files.Get "dashboards/llm/lora-training.json") $ns $label $labelVal) }}
+{{- template "themisdb.dashboardConfigMap" (list . "llm" "onnx-inference.json" (.Files.Get "dashboards/llm/onnx-inference.json") $ns $label $labelVal) }}
+{{- template "themisdb.dashboardConfigMap" (list . "llm" "whisper-voice.json" (.Files.Get "dashboards/llm/whisper-voice.json") $ns $label $labelVal) }}
 {{- end }}
 
 {{/* ------------------------------------------------------------------ */}}
@@ -23,6 +26,9 @@
 {{- template "themisdb.dashboardConfigMap" (list . "performance" "performance-dashboard.json" (.Files.Get "dashboards/performance/performance-dashboard.json") $ns $label $labelVal) }}
 {{- template "themisdb.dashboardConfigMap" (list . "performance" "timeseries-store.json" (.Files.Get "dashboards/performance/timeseries-store.json") $ns $label $labelVal) }}
 {{- template "themisdb.dashboardConfigMap" (list . "performance" "cycle_metrics_dashboard.json" (.Files.Get "dashboards/performance/cycle_metrics_dashboard.json") $ns $label $labelVal) }}
+{{- template "themisdb.dashboardConfigMap" (list . "performance" "vector-search.json" (.Files.Get "dashboards/performance/vector-search.json") $ns $label $labelVal) }}
+{{- template "themisdb.dashboardConfigMap" (list . "performance" "rag-hallucination.json" (.Files.Get "dashboards/performance/rag-hallucination.json") $ns $label $labelVal) }}
+{{- template "themisdb.dashboardConfigMap" (list . "performance" "tensor-distributed.json" (.Files.Get "dashboards/performance/tensor-distributed.json") $ns $label $labelVal) }}
 {{- end }}
 
 {{/* ------------------------------------------------------------------ */}}
@@ -31,6 +37,8 @@
 {{- if $cats.security }}
 {{- template "themisdb.dashboardConfigMap" (list . "security" "siem-security-monitoring.json" (.Files.Get "dashboards/security/siem-security-monitoring.json") $ns $label $labelVal) }}
 {{- template "themisdb.dashboardConfigMap" (list . "security" "security-authentication.json" (.Files.Get "dashboards/security/security-authentication.json") $ns $label $labelVal) }}
+{{- template "themisdb.dashboardConfigMap" (list . "security" "access-model.json" (.Files.Get "dashboards/security/access-model.json") $ns $label $labelVal) }}
+{{- template "themisdb.dashboardConfigMap" (list . "security" "ethics-governance.json" (.Files.Get "dashboards/security/ethics-governance.json") $ns $label $labelVal) }}
 {{- end }}
 
 {{/* ------------------------------------------------------------------ */}}
@@ -43,6 +51,12 @@
 {{- template "themisdb.dashboardConfigMap" (list . "operations" "storage-backup.json" (.Files.Get "dashboards/operations/storage-backup.json") $ns $label $labelVal) }}
 {{- template "themisdb.dashboardConfigMap" (list . "operations" "gossip-network.json" (.Files.Get "dashboards/operations/gossip-network.json") $ns $label $labelVal) }}
 {{- template "themisdb.dashboardConfigMap" (list . "operations" "content-processing.json" (.Files.Get "dashboards/operations/content-processing.json") $ns $label $labelVal) }}
+{{- template "themisdb.dashboardConfigMap" (list . "operations" "failover-state.json" (.Files.Get "dashboards/operations/failover-state.json") $ns $label $labelVal) }}
+{{- template "themisdb.dashboardConfigMap" (list . "operations" "process-lifecycle.json" (.Files.Get "dashboards/operations/process-lifecycle.json") $ns $label $labelVal) }}
+{{- template "themisdb.dashboardConfigMap" (list . "operations" "updates-rollback.json" (.Files.Get "dashboards/operations/updates-rollback.json") $ns $label $labelVal) }}
+{{- template "themisdb.dashboardConfigMap" (list . "operations" "cdc-pipeline.json" (.Files.Get "dashboards/operations/cdc-pipeline.json") $ns $label $labelVal) }}
+{{- template "themisdb.dashboardConfigMap" (list . "operations" "chaos-resilience.json" (.Files.Get "dashboards/operations/chaos-resilience.json") $ns $label $labelVal) }}
+{{- template "themisdb.dashboardConfigMap" (list . "operations" "scheduler-detail.json" (.Files.Get "dashboards/operations/scheduler-detail.json") $ns $label $labelVal) }}
 {{- end }}
 
 {{/* ------------------------------------------------------------------ */}}
@@ -65,6 +79,20 @@
 {{/* ------------------------------------------------------------------ */}}
 {{- if $cats.bt4 }}
 {{- template "themisdb.dashboardConfigMap" (list . "bt4" "bt4-flare-switching.json" (.Files.Get "dashboards/bt4/bt4-flare-switching.json") $ns $label $labelVal) }}
+{{- end }}
+
+{{/* ------------------------------------------------------------------ */}}
+{{/* Analytics dashboards                                                 */}}
+{{/* ------------------------------------------------------------------ */}}
+{{- if $cats.analytics }}
+{{- template "themisdb.dashboardConfigMap" (list . "analytics" "analytics-overview.json" (.Files.Get "dashboards/analytics/analytics-overview.json") $ns $label $labelVal) }}
+{{- end }}
+
+{{/* ------------------------------------------------------------------ */}}
+{{/* Geo dashboards                                                       */}}
+{{/* ------------------------------------------------------------------ */}}
+{{- if $cats.geo }}
+{{- template "themisdb.dashboardConfigMap" (list . "geo" "geo-queries.json" (.Files.Get "dashboards/geo/geo-queries.json") $ns $label $labelVal) }}
 {{- end }}
 
 {{- end }}

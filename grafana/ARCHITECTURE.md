@@ -41,13 +41,16 @@ ThemisDB Process
 │  Grafana :3000
 │  ├── datasource: Prometheus  http://prometheus:9090
 │  ├── datasource: Jaeger      http://jaeger:16686
-│  ├── provisioning: dashboards/llm/
-│  ├── provisioning: dashboards/performance/
-│  ├── provisioning: dashboards/security/
-│  ├── provisioning: dashboards/operations/
+│  ├── provisioning: dashboards/llm/             (LLM, GPU, Cache, LoRA, ONNX/CLIP, Whisper)
+│  ├── provisioning: dashboards/performance/     (Query, Timeseries, Cycle, Vector-Search, RAG, Tensor)
+│  ├── provisioning: dashboards/security/        (SIEM, Auth, Access-Model, Ethics/Governance)
+│  ├── provisioning: dashboards/operations/      (System, Replication, Sharding, Storage, Gossip,
+│  │                                               Failover, Process, Updates, CDC, Chaos, Scheduler)
 │  ├── provisioning: dashboards/compliance/
 │  ├── provisioning: dashboards/plugins/
-│  └── provisioning: dashboards/bt4/
+│  ├── provisioning: dashboards/bt4/
+│  ├── provisioning: dashboards/analytics/       (Analytics Overview)
+│  └── provisioning: dashboards/geo/             (Geo Queries)
 ```
 
 ## Verzeichnisstruktur
@@ -55,20 +58,29 @@ ThemisDB Process
 ```
 grafana/
 ├── dashboards/                        # Dashboard JSONs (thematisch strukturiert)
-│   ├── llm/                           # LLM / GPU / Cache / Scheduler
-│   ├── performance/                   # Query, Timeseries, Cycle metrics
-│   ├── security/                      # SIEM, Authentication
-│   ├── operations/                    # System, Replication, Sharding, Storage, Gossip
+│   ├── llm/                           # LLM / GPU / Cache / Scheduler / LoRA / ONNX-CLIP / Whisper
+│   ├── performance/                   # Query, Timeseries, Cycle metrics, Vector-Search, RAG, Tensor
+│   ├── security/                      # SIEM, Authentication, Access-Model, Ethics/Governance
+│   ├── operations/                    # System, Replication, Sharding, Storage, Gossip,
+│   │                                  #   Failover, Process, Updates/Rollback, CDC, Chaos, Scheduler
 │   ├── compliance/                    # SLA, Advanced features
 │   ├── plugins/                       # Plugin dashboards
-│   └── bt4/                           # BT-4/FLARE dashboards
+│   ├── bt4/                           # BT-4/FLARE dashboards
+│   ├── analytics/                     # Analytics Overview, Scheduler
+│   └── geo/                           # Geo Queries (WGS84 containment/distance)
 ├── alerts/                            # Prometheus alert + recording rules (canonical)
 │   ├── llm_alerts.yml                 # LLM inference alerts
 │   ├── recording_rules.yml            # Pre-computed recording rules
 │   ├── siem_security_alerts.yaml      # SIEM / authentication alerts
 │   ├── graph_security.yaml            # Graph traversal security alerts
 │   ├── performance_regression_alerts.yaml  # Performance regression alerts
-│   └── bt4_flare_alerts.yml           # BT4/FLARE bridge alerts
+│   ├── bt4_flare_alerts.yml           # BT4/FLARE bridge alerts
+│   ├── failover_alerts.yml            # Failover transitions, split-brain, DR recovery
+│   ├── updates_alerts.yml             # Update rollback rate, error codes 7400-7499
+│   ├── cdc_alerts.yml                 # CDC lag, consumer offset stalls
+│   ├── process_alerts.yml             # Process error rate, lifecycle stalls
+│   ├── rag_alerts.yml                 # RAG hallucination score, retrieval precision
+│   └── watchdog_alerts.yml            # Dead-man's switch + monitoring stack health
 ├── provisioning/
 │   ├── datasources/
 │   │   ├── prometheus.yml             # Prometheus datasource

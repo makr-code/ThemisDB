@@ -46,12 +46,27 @@ route:
       receiver: 'email-security'
 
 # Inhibition rules — suppress warning when critical fires for the same component.
+# Also suppress all non-watchdog alerts during split-brain events.
 inhibit_rules:
   - source_match:
       severity: critical
     target_match:
       severity: warning
     equal: ['alertname', 'cluster', 'component']
+
+  # Suppress all non-critical alerts when a split-brain event is active
+  - source_match:
+      alertname: SplitBrainEventDetected
+    target_match_re:
+      severity: warning
+    equal: ['cluster']
+
+  # Suppress watchdog severity=none from all inhibition matching
+  - source_match:
+      severity: critical
+    target_match:
+      severity: none
+    equal: ['cluster']
 
 receivers:
   - name: 'default-receiver'

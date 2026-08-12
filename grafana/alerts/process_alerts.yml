@@ -1,0 +1,55 @@
+# Process module alert rules for ThemisDB.
+# Covers: error rate thresholds, lifecycle stalls, resource exhaustion.
+groups:
+  - name: process_alerts
+    interval: 15s
+    rules:
+      - alert: ProcessErrorRateHigh
+        expr: rate(themis_process_error_rate[5m]) > 0.01
+        for: 5m
+        labels:
+          severity: warning
+          component: process
+        annotations:
+          summary: "Process module error rate is elevated"
+          description: "Process error rate on {{$labels.instance}} (type: {{$labels.process_type}}) is {{$value | humanizePercentage}} (threshold: 1%)"
+
+      - alert: ProcessErrorRateCritical
+        expr: rate(themis_process_error_rate[5m]) > 0.05
+        for: 2m
+        labels:
+          severity: critical
+          component: process
+        annotations:
+          summary: "CRITICAL: Process module error rate is very high"
+          description: "Process error rate on {{$labels.instance}} (type: {{$labels.process_type}}) is {{$value | humanizePercentage}} (threshold: 5%)"
+
+      - alert: ProcessLifecycleStall
+        expr: rate(themis_process_lifecycle_transitions_total[10m]) == 0 and themis_process_active_total > 0
+        for: 10m
+        labels:
+          severity: warning
+          component: process
+        annotations:
+          summary: "Process lifecycle transitions have stalled"
+          description: "No lifecycle transitions on {{$labels.instance}} for 10 minutes despite {{$value}} active processes"
+
+      - alert: TooManyActiveProcesses
+        expr: sum(themis_process_active_total) by (instance) > 200
+        for: 5m
+        labels:
+          severity: warning
+          component: process
+        annotations:
+          summary: "Unusually high number of active processes"
+          description: "{{$labels.instance}} has {{$value}} active processes (threshold: 200)"
+
+      - alert: ProcessMemoryHigh
+        expr: sum(themis_process_memory_bytes) by (instance) > 1073741824
+        for: 5m
+        labels:
+          severity: warning
+          component: process
+        annotations:
+          summary: "Process module memory consumption is high"
+          description: "Total process memory on {{$labels.instance}} is {{$value | humanize1024}}B (threshold: 1 GiB)"

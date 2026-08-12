@@ -8,10 +8,17 @@
 - [x] Dashboard directory restructured into thematic subfolders
 - [x] Alert consolidation: central `alerts/` tree, recording rules, Alertmanager config template
 - [x] Helm integration: Grafana dashboard ConfigMaps via Operator pattern
+- [x] Q3 2026 operations dashboards: failover-state, process-lifecycle, updates-rollback, cdc-pipeline, chaos-resilience, scheduler-detail
+- [x] Q3 2026 alert rules: failover_alerts.yml, updates_alerts.yml, cdc_alerts.yml, process_alerts.yml, rag_alerts.yml, watchdog_alerts.yml
+- [x] Q4 2026 dashboards (JSON added): vector-search, rag-hallucination, tensor-distributed, access-model, ethics-governance, lora-training, onnx-inference, whisper-voice
+- [x] New categories: analytics/ (analytics-overview.json), geo/ (geo-queries.json)
+- [x] Provisioning providers for analytics/ and geo/ added to dashboards.yml
+- [x] Helm grafana-dashboards.yaml and values.yaml updated with all new dashboards and toggle flags
 
 ## In Progress
 - [ ] Alertmanager contact point credentials filled for production environments (Target: 2026-Q3)
 - [ ] Dashboard variable templating (multi-instance, namespace selectors) (Target: 2026-Q3)
+- [~] Q3 dashboard coverage: operations dashboards for failover, process, updates, CDC, chaos (Target: 2026-Q3)
 
 ## Planned Features
 - [ ] Multi-cluster Prometheus federation support (Target: 2026-Q4)
@@ -19,6 +26,8 @@
 - [ ] OpenTelemetry exemplar linking (trace ↔ metric drill-through) (Target: 2026-Q4)
 - [ ] Automated compliance report scheduling via compliance_exporter.py + CronJob (Target: 2026-Q4)
 - [ ] Grafana Unified Alerting migration (alerting rules in Grafana instead of Prometheus) (Target: 2027-Q1)
+- [ ] Q4 dashboards: vector-search, rag-hallucination, tensor-distributed, access-model, ethics-governance, lora-training, onnx-inference, whisper-voice, analytics-overview (Target: 2026-Q4)
+- [ ] geo/geo-queries.json (dependent on CUDA geo kernels, Target: 2027-Q1)
 
 ## Implementation Phases
 
@@ -39,8 +48,8 @@
 - [x] `values.yaml` Grafana section with per-category toggles
 
 ### Phase 3: Fehlerbehandlung & Edge Cases
-- [ ] Alertmanager dead-man's switch (Watchdog alert) to detect monitoring stack outages (Target: 2026-Q3)
-- [ ] Alert inhibition rules tuned for split-brain and maintenance windows (Target: 2026-Q3)
+- [x] Alertmanager dead-man's switch (Watchdog alert) added to `alerts/watchdog_alerts.yml` (2026-Q3)
+- [x] Alert inhibition rules tuned for split-brain and maintenance windows in `alertmanager.yml` (2026-Q3)
 - [ ] Jaeger datasource URL health check in docker-compose (Target: 2026-Q3)
 
 ### Phase 4: Tests

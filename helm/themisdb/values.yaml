@@ -274,3 +274,5 @@ grafana:
       compliance: true
       plugins: false
       bt4: false
+      analytics: true
+      geo: false

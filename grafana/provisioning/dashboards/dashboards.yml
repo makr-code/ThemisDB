@@ -80,3 +80,25 @@ providers:
     options:
       path: /etc/grafana/provisioning/dashboards/bt4
       foldersFromFilesStructure: false
+
+  - name: 'ThemisDB Analytics Dashboards'
+    orgId: 1
+    folder: 'Analytics'
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 10
+    allowUiUpdates: true
+    options:
+      path: /etc/grafana/provisioning/dashboards/analytics
+      foldersFromFilesStructure: false
+
+  - name: 'ThemisDB Geo Dashboards'
+    orgId: 1
+    folder: 'Geo'
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 10
+    allowUiUpdates: true
+    options:
+      path: /etc/grafana/provisioning/dashboards/geo
+      foldersFromFilesStructure: false
