@@ -150,6 +150,7 @@ For exception requests:
 2. **Decision**: Approve or deny
 3. **Documentation**: On approval:
    - Add exception to `.license-policy.json` under `exceptions.list`
+   - Include package, exact license expression, override action, justification, approval date, and approver
    - Document justification
    - Update compliance documentation
 
