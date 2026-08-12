@@ -88,7 +88,53 @@ Rule:
 
 ---
 
-## 2.1 Source-Of-Truth Domain Matrix (Mandatory)
+## 2.0a Compendium Sync Process
+
+The `docs/compendium/` directory hosts the ThemisDB Kompendium — a comprehensive German-language handbook (43+ chapters, 7 appendices) that aggregates Level 1–3 content into a structured publication.
+
+### Position in the 4-Level Model
+
+- **Level:** 3/4 aggregate (compendium chapters are downstream of Level 1 module docs and Level 2 summaries)
+- **SOT domain:** architecture-governance (structure/pipeline), module-behavior (content per chapter)
+- **Primary input:** `docs/de/<domain>/` directories (canonical docs/de sources)
+- **Secondary inputs:** `src/<module>/README.md`, `include/<module>/README.md` (Level 1)
+
+### Sync Authority Rules
+
+1. **`docs/de/` beats compendium chapters.** If a compendium chapter contradicts a `docs/de/` source file, the `docs/de/` file is authoritative.
+2. **Module source docs beat `docs/de/` for implementation status.** `src/<module>/`, `include/<module>/` are Level 1 truth for code-behavior claims.
+3. **No invented facts.** Compendium content must always cite an existing `docs/de/` file or Level 1 source as canonical reference.
+4. **Bidirectional cross-references are mandatory** for Phase-3-Sync enrichment sections — each new section must link to its `docs/de/` source.
+
+### Chapter→Source Mapping
+
+See `docs/compendium/PHASE3_MAPPING_TABLE.md` for the full chapter → docs/de source mapping.
+
+High-priority chapters (Q3 2026 enriched):
+
+| Chapter | docs/de Sources |
+|---------|----------------|
+| Kapitel 17 — LLM Integration | `docs/de/llm/`, `docs/de/lora/`, `docs/de/rag/` |
+| Kapitel 29 — Analytics & Process Mining | `docs/de/analytics/`, `docs/de/process/` |
+| Kapitel 31 — API Protocols | `docs/de/apis/`, `docs/de/rpc_grpc/` |
+| Kapitel 40 — Data Governance & Compliance | `docs/de/compliance/`, `docs/de/governance/` |
+
+### Update Cadence
+
+- **Content enrichment (Phase 3 chapters):** `DOC-WEEKLY-YYYY-WW` milestone per batch
+- **Full compendium rebuild:** `DOC-MONTHLY-YYYY-MM` or `DOC-RELEASE-vX.Y.Z`
+- **VERSION bump (x.y.z-dev → x.y.z):** only after human-maintainer review and build validation
+
+### Guardrails
+
+- Never use `docs/compendium/` as the sole source for release or security claims.
+- `docs/compendium/output/` (generated PDFs/HTML) is not a source of truth.
+- Historical snapshots in `docs/compendium/` phase reports are non-normative.
+- `ai_working/` snapshots referenced in compendium content must link to their canonical upstream source.
+
+---
+
+
 
 To avoid ambiguity, each documentation issue must be mapped to one source-of-truth domain.
 
