@@ -2,6 +2,17 @@
 
 Diese Regeln steuern, wie Copilot in diesem Repository aus `ROADMAP.md` und `FUTURE_ENHANCEMENTS.md` produktive Implementierungen erzeugt.
 
+## 0) Wiki-Nutzung für alle Coding-AI-Agenten (MUST)
+
+Copilot, Claude und vergleichbare Coding-AI-Agenten müssen die Repository-Wiki als Pflichtkontext verwenden.
+
+Pflichtregeln:
+
+1. Vor Implementierung oder Refactoring zuerst die relevante Wiki-Seite prüfen (insbesondere Architektur-, Betriebs-, Modul- und Governance-Seiten).
+2. Bei Konflikten zwischen verstreuten Dokuquellen gilt die in der Wiki verlinkte Source-of-Truth-Reihenfolge.
+3. Änderungen, die Architektur, Betrieb, Prozesse oder Governance betreffen, müssen die zugehörigen Wiki-Inhalte synchron halten.
+4. Fehlende Wiki-Inhalte sind als Lücke zu melden und in den Arbeitsartefakten/PR-Hinweisen zu markieren statt stillschweigend zu ignorieren.
+
 ## 1) Ziel
 
 Roadmap-Einträge müssen so konkret sein, dass Copilot **produktiven Sourcecode** statt Stub/Rumpf erzeugen kann.
