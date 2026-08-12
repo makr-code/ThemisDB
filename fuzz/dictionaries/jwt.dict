@@ -1,0 +1,35 @@
+# AFL++ Dictionary for JWT parsing
+# Token framing
+"."
+".."
+"Bearer "
+"eyJ"
+
+# Registered header / claim keys
+"alg"
+"typ"
+"kid"
+"iss"
+"sub"
+"aud"
+"exp"
+"nbf"
+"iat"
+"jti"
+"scope"
+"roles"
+
+# Common JWT values
+"JWT"
+"RS256"
+"ES256"
+"HS256"
+"none"
+"admin"
+"user"
+"read"
+"write"
+
+# JSON fragments
+"{\"alg\":\"RS256\"}"
+"{\"sub\":\"user\"}"

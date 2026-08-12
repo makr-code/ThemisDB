@@ -1,0 +1,25 @@
+# AFL++ Dictionary for policy-engine inputs
+# JSON policy structure
+"["
+"]"
+"{"
+"}"
+"\"effect\""
+"\"allow\""
+"\"deny\""
+"\"subject\""
+"\"resource\""
+"\"action\""
+"\"conditions\""
+"\"roles\""
+"\"admin\""
+"\"path\""
+"\"*\""
+
+# Request/action values
+"read"
+"write"
+"delete"
+"admin"
+"/api/v1"
+"/admin"

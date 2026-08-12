@@ -107,7 +107,7 @@ grafana/
     └── sla-monitoring.json            # SLA monitoring dashboard
 
 prometheus/
-└── alerts/
+└── rules/
     └── sla-rules.yml                  # SLA alerting rules
 
 helm/themisdb/
@@ -239,7 +239,7 @@ themisdb-cli lora deploy --adapter custom-adapter
 
 **SLA Monitoring:**
 - [SLA Dashboard](../grafana/dashboards/sla-monitoring.json) - Track availability, latency, and error budgets
-- [SLA Alerting Rules](../prometheus/alerts/sla-rules.yml) - Prometheus alerts for SLA breaches
+- [SLA Alerting Rules](../prometheus/rules/sla-rules.yml) - Prometheus alerts for SLA breaches
 - Target: 99.9% availability, P95 < 200ms, < 0.1% error rate
 
 ### Troubleshooting

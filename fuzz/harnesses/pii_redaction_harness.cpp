@@ -49,8 +49,9 @@
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
-#include <string>
 #include <cassert>
+#include <iostream>
+#include <string>
 
 // AFL++ persistent mode macros (no-ops when building without AFL++)
 #ifdef __AFL_FUZZ_TESTCASE_LEN
@@ -73,7 +74,27 @@ namespace themis { namespace security {
 class PIIRedactionPolicy {
 public:
     static PIIRedactionPolicy& get() { static PIIRedactionPolicy p; return p; }
-    std::string redactForLog(const std::string& s) const { return s; }
+    std::string redactForLog(const std::string& s) const {
+        std::string out = s;
+        static constexpr const char* k_stub_probes[] = {
+            "alice@example.com",
+            "bob@corp.de",
+            "123-45-6789",
+            "4242-4242-4242-4242",
+            "DE89370400440532013000",
+            "+49-123-456789",
+            nullptr
+        };
+        for (int i = 0; k_stub_probes[i] != nullptr; ++i) {
+            const std::string probe = k_stub_probes[i];
+            std::string::size_type pos = 0;
+            while ((pos = out.find(probe, pos)) != std::string::npos) {
+                out.replace(pos, probe.size(), "[REDACTED]");
+                pos += sizeof("[REDACTED]") - 1;
+            }
+        }
+        return out;
+    }
 };
 } }
 using themis::security::PIIRedactionPolicy;

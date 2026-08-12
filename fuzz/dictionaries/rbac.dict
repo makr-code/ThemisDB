@@ -1,0 +1,26 @@
+# AFL++ Dictionary for RBAC config parsing
+# Core RBAC keys
+"roles"
+"permissions"
+"resources"
+"actions"
+"inherits"
+"allow"
+"deny"
+"admin"
+"reader"
+"writer"
+
+# Resource and action tokens
+"documents"
+"users"
+"settings"
+"read"
+"write"
+"delete"
+"list"
+"manage"
+
+# JSON structure helpers
+"{\"roles\":[]}"
+"{\"permissions\":[]}"

@@ -1,0 +1,28 @@
+# AFL++ Dictionary for LDAP distinguished names
+# Attribute keys
+"CN="
+"OU="
+"DC="
+"UID="
+"O="
+"L="
+"ST="
+"C="
+
+# Separators and escaping
+","
+"+"
+"="
+"\\,"
+"\\+"
+"\\="
+"\\#"
+"\\ "
+"\\\\"
+
+# Common values
+"Users"
+"Admins"
+"example"
+"com"
+"de"

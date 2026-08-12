@@ -1,0 +1,41 @@
+# AFL++ Dictionary for HTTP request parsing
+# Methods
+"GET"
+"POST"
+"PUT"
+"PATCH"
+"DELETE"
+"HEAD"
+"OPTIONS"
+
+# Protocol and framing
+"HTTP/1.0"
+"HTTP/1.1"
+"\r\n"
+"\r\n\r\n"
+": "
+"/"
+"?"
+"&"
+"="
+
+# Common headers
+"Host"
+"Content-Length"
+"Content-Type"
+"Transfer-Encoding"
+"Connection"
+"Authorization"
+"Cookie"
+"User-Agent"
+"Accept"
+"X-Forwarded-For"
+
+# Header values
+"chunked"
+"keep-alive"
+"close"
+"application/json"
+"text/plain"
+"gzip"
+"Bearer "
