@@ -1,5 +1,9 @@
 # ThemisDB Documentation
 
+> **📌 Navigation-Hinweis (2026-08-12):** Kanonischer Root-Index für `docs/de/` ist [`00_DOCUMENTATION_INDEX.md`](00_DOCUMENTATION_INDEX.md).
+> Diese Datei (`INDEX.md`) bleibt als ergänzender Einstieg erhalten; für die vollständige Dokumentationsnavigation bitte den kanonischen Index nutzen.
+> <!-- duplicate-notice: DOC-WEEKLY-2026-33 — DOCS-INV-005 -->
+
 **Version:** 1.8.0-rc1  
 **Last Updated:** April 2026
 

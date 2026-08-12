@@ -1,15 +1,17 @@
 # ThemisDB Documentation Index
 
-Stand: 2026-04-18
+Stand: 2026-08-12  
 Status: aktiv gepflegt
 
 Diese Uebersicht verlinkt nur auf stabile Einstiegsseiten und reduziert Root-Rauschen.
+Kanonischer Root-Index (L4) gemäß [DOCUMENTATION_GOVERNANCE.md](../DOCUMENTATION_GOVERNANCE.md).
 
 ## 1) Einstieg
 
 - Hauptnavigation: [README.md](README.md)
-- Rollenhub: [DOCUMENTATION_HUB.md](DOCUMENTATION_HUB.md)
-- Kategorien: [CATEGORY_INDEX.md](CATEGORY_INDEX.md)
+- Rollenhub: [DOCUMENTATION_HUB.md](DOCUMENTATION_HUB.md) *(→ verweist auf diesen Index)*
+- Kategorien: [CATEGORY_INDEX.md](CATEGORY_INDEX.md) *(→ verweist auf diesen Index)*
+- Inventar (Q3 2026): [Audit/DOCS_INVENTORY_2026-Q3.md](Audit/DOCS_INVENTORY_2026-Q3.md)
 
 ## 2) Produkt und Architektur
 
@@ -47,14 +49,32 @@ Diese Uebersicht verlinkt nur auf stabile Einstiegsseiten und reduziert Root-Rau
 - Dokumentations-Historie: [governance/documentation-history/README.md](governance/documentation-history/README.md)
 - Dokumentationsprozess: [CONTINUOUS_DOCUMENTATION_PROCESS.md](CONTINUOUS_DOCUMENTATION_PROCESS.md)
 - Review Guidelines: [DOCUMENTATION_REVIEW_GUIDELINES.md](DOCUMENTATION_REVIEW_GUIDELINES.md)
+- Audit & Inventar: [Audit/DOCS_INVENTORY_2026-Q3.md](Audit/DOCS_INVENTORY_2026-Q3.md)
 
-## 6) Sprachraeume
+## 6) Kompendium (Level 3/4 Aggregat)
+
+Das ThemisDB Kompendium ist das vollständige deutschsprachige Handbuch (43 Kapitel + 7 Anhänge):
+
+- Kompendium-Einstieg: [compendium/README.md](compendium/README.md)
+- Kompendium-ROADMAP: [compendium/ROADMAP.md](compendium/ROADMAP.md)
+- Kompendium-Status: [compendium/STATUS_UPDATE.md](compendium/STATUS_UPDATE.md)
+- Build-Version: v1.5.0-dev ([compendium/VERSION](compendium/VERSION))
+- Kapitel-Mapping (Phase 3): [compendium/PHASE3_MAPPING_TABLE.md](compendium/PHASE3_MAPPING_TABLE.md)
+
+**Hochprioritäts-Kapitel (Q3 2026 enriched):**
+- [Kapitel 17: LLM Integration](compendium/docs/chapter_17_llm_integration.md)
+- [Kapitel 29: Analytics & Process Mining](compendium/docs/chapter_29_analytics_process_mining.md)
+- [Kapitel 31: API-Protokolle](compendium/docs/chapter_31_api_protocols.md)
+- [Kapitel 40: Data Governance & Compliance](compendium/docs/chapter_40_data_governance_compliance.md)
+
+## 7) Sprachraeume
 
 - Deutsch: [de/README.md](de/README.md)
 - Englisch: [en/README.md](en/README.md)
 
-## 7) Archivhinweis
+## 8) Archivhinweis
 
 Historische und temporere Inhalte sind weiterhin verfuegbar, werden aber nicht als Root-Einstieg promoted:
 - Langzeit-Archiv: [ARCHIVED/](ARCHIVED/)
 - Arbeits-/Altmaterial: [archive/](archive/)
+- Stale-Dateien: Mit `## Status: STALE`-Banner markiert; Inventar: [Audit/DOCS_INVENTORY_2026-Q3.md](Audit/DOCS_INVENTORY_2026-Q3.md)

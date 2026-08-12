@@ -237,3 +237,58 @@ Use issue template:
 - Release owner: `RELEASE_STRATEGY.md`
 
 If ownership is unclear, default to maintainers and mark issue as blocked.
+
+---
+
+## 9. Compendium Sync Process (docs/compendium/)
+
+### 9.1 Role of the Compendium
+
+`docs/compendium/` is the **consolidated Level 3/4 documentation aggregate** — a complete German-language handbook for ThemisDB users, operators, and architects.
+
+It occupies the following position in the 4-level hierarchy:
+- Level-1 input: `src/<module>/` and `docs/de/<module>/` (primary module docs)
+- Level-2 input: Base aggregates and cross-module summaries
+- **Level-3/4 output:** `docs/compendium/docs/chapter_*.md` (curated handbook chapters)
+
+### 9.2 Sync Cadence
+
+| Trigger | Action |
+|---|---|
+| New module documentation in `docs/de/` | Corresponding compendium chapter(s) enrichment or creation |
+| Breaking API/behavior changes | Compendium chapter updated in same PR |
+| Release milestone (v1.x.0) | Full compendium chapter review + VERSION bump |
+| Quarterly review | Phase-3 mapping table audit; new cross-references added |
+
+### 9.3 Chapter Enrichment Process
+
+When enriching a compendium chapter from `docs/de/` sources:
+
+1. **Identify sources:** Use `docs/compendium/PHASE3_MAPPING_TABLE.md` to find canonical source files.
+2. **Read source content:** Read relevant `docs/de/<module>/` files; never invent content.
+3. **Integrate:** Add content sections to the chapter under appropriate section numbers.
+4. **Add cross-references:** Add a "Weiterführende Referenzen" section with bidirectional links.
+5. **Update mapping table:** Mark chapter status as `✅ VOLLSTÄNDIG` when complete.
+6. **Update STATUS_UPDATE.md and ROADMAP.md:** Reflect progress.
+
+### 9.4 Status Markers
+
+Use these markers in `PHASE3_MAPPING_TABLE.md`:
+- `✅ VOLLSTÄNDIG` — Chapter fully enriched; all major docs/de sources integrated
+- `🔄 ERGÄNZUNG` — Chapter exists; partial content; more docs/de integration needed
+- `📝 STUB` — Chapter exists but needs substantial content
+- `❌ FEHLT` — Topic missing from compendium entirely
+
+### 9.5 Version Management
+
+- `docs/compendium/VERSION` tracks the current compendium version.
+- Bump from `v1.x.0-dev` to `v1.x.0` only after Human-Reviewer sign-off.
+- Version is `v1.5.0-dev` as of 2026-08-12.
+
+### 9.6 Build Artifacts
+
+The compendium produces HTML + PDF via Python build scripts (`step1_generate_svgs.py` through `step5_cleanup.py`) and `mkdocs-nav.yml`. The build is currently manual — triggered by a maintainer. CI automation is a planned enhancement (see `docs/compendium/ROADMAP.md`).
+
+### 9.7 Language Policy
+
+The primary language of the compendium is **German**. An English parallel build is not currently planned. English source material from `docs/de/` or `docs/en/` may be referenced via cross-links but is not translated within compendium chapters.
