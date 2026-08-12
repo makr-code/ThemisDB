@@ -29,7 +29,7 @@ runs:
     # sccache replaces ccache as the compiler-output cache.
     # SHA pinned to mozilla-actions/sccache-action v0.0.6 (2024-11-01).
     - name: Setup sccache
-      uses: mozilla-actions/sccache-action@9e326ebed976843c9912b3aa0e021c6f50310eb4  # v0.0.6
+      uses: mozilla-actions/sccache-action@9e326ebed976843c9932b3aa0e021c6f50310eb4  # v0.0.6
       with:
         version: "v0.8.1"
 
@@ -64,4 +64,3 @@ runs:
           sudo cp lib/*.a /usr/lib/ 2>/dev/null || \
           sudo cp *.a     /usr/lib/ 2>/dev/null || true
         fi
-
