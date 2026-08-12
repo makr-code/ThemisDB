@@ -39,8 +39,11 @@ function(_run_configure build_dir epoch require_repro expect_success)
             ERROR_VARIABLE _stderr
         )
     else()
+        # Explicitly unset SOURCE_DATE_EPOCH so that a CI-injected value in the
+        # parent environment cannot leak into the child configure process and
+        # cause "no-epoch" test cases to pass unexpectedly.
         execute_process(
-            COMMAND ${_command}
+            COMMAND "${CMAKE_COMMAND}" -E env "SOURCE_DATE_EPOCH=" ${_command}
             RESULT_VARIABLE _result
             OUTPUT_VARIABLE _stdout
             ERROR_VARIABLE _stderr
