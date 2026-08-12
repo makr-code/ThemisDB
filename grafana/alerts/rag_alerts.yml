@@ -1,0 +1,55 @@
+# RAG pipeline alert rules for ThemisDB.
+# Covers: hallucination score threshold, retrieval precision drop, context relevance.
+groups:
+  - name: rag_alerts
+    interval: 30s
+    rules:
+      - alert: RAGHallucinationScoreHigh
+        expr: themis_rag_hallucination_score > 0.1
+        for: 10m
+        labels:
+          severity: warning
+          component: rag
+        annotations:
+          summary: "RAG hallucination score is elevated"
+          description: "Hallucination score on {{$labels.instance}} is {{$value | humanizePercentage}} (threshold: 10%)"
+
+      - alert: RAGHallucinationScoreCritical
+        expr: themis_rag_hallucination_score > 0.25
+        for: 5m
+        labels:
+          severity: critical
+          component: rag
+        annotations:
+          summary: "CRITICAL: RAG hallucination score is very high"
+          description: "Hallucination score on {{$labels.instance}} is {{$value | humanizePercentage}} (threshold: 25%) — output quality degraded"
+
+      - alert: RAGRetrievalPrecisionDrop
+        expr: themis_rag_retrieval_precision < 0.6
+        for: 10m
+        labels:
+          severity: warning
+          component: rag
+        annotations:
+          summary: "RAG retrieval precision has dropped"
+          description: "Retrieval precision on {{$labels.instance}} is {{$value | humanizePercentage}} (threshold: 60%)"
+
+      - alert: RAGContextRelevanceLow
+        expr: themis_rag_context_relevance < 0.5
+        for: 10m
+        labels:
+          severity: warning
+          component: rag
+        annotations:
+          summary: "RAG context relevance score is low"
+          description: "Context relevance on {{$labels.instance}} is {{$value | humanizePercentage}} (threshold: 50%) — retrieval quality degraded"
+
+      - alert: RAGRetrievalPrecisionCritical
+        expr: themis_rag_retrieval_precision < 0.3
+        for: 5m
+        labels:
+          severity: critical
+          component: rag
+        annotations:
+          summary: "CRITICAL: RAG retrieval precision critically low"
+          description: "Retrieval precision on {{$labels.instance}} is {{$value | humanizePercentage}} (threshold: 30%) — check vector index and embedding model"

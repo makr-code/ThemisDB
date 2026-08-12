@@ -60,3 +60,30 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+Render a single Grafana dashboard ConfigMap.
+Arguments (list): ctx, category, filename, content, namespace, labelKey, labelValue
+*/}}
+{{- define "themisdb.dashboardConfigMap" -}}
+{{- $ctx := index . 0 -}}
+{{- $category := index . 1 -}}
+{{- $filename := index . 2 -}}
+{{- $content := index . 3 -}}
+{{- $ns := index . 4 -}}
+{{- $label := index . 5 -}}
+{{- $labelVal := index . 6 -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "themisdb.fullname" $ctx }}-dashboard-{{ $category }}-{{ $filename | replace ".json" "" | lower | replace "_" "-" | replace " " "-" }}
+  namespace: {{ $ns }}
+  labels:
+    {{- include "themisdb.labels" $ctx | nindent 4 }}
+    {{ $label }}: {{ $labelVal | quote }}
+    themisdb.io/dashboard-category: {{ $category | quote }}
+data:
+  {{ $filename }}: |-
+    {{ $content | nindent 4 }}
+---
+{{- end -}}

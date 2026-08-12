@@ -16,13 +16,47 @@
   echo http://$SERVICE_IP:{{ .Values.service.port }}
 {{- else if contains "ClusterIP" .Values.service.type }}
   export POD_NAME=$(kubectl get pods --namespace {{ .Release.Namespace }} -l "app.kubernetes.io/name={{ include "themisdb.name" . }},app.kubernetes.io/instance={{ .Release.Name }}" -o jsonpath="{.items[0].metadata.name}")
-  export CONTAINER_PORT=$(kubectl get pod --namespace {{ .Release.Namespace }} $POD_NAME -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
   echo "Visit http://127.0.0.1:8080 to use your application"
-  kubectl --namespace {{ .Release.Namespace }} port-forward $POD_NAME 8080:$CONTAINER_PORT
+  kubectl --namespace {{ .Release.Namespace }} port-forward $POD_NAME 8080:8080
 {{- end }}
 
-2. ThemisDB is now running. You can connect using:
-   - HTTP API: http://localhost:8080
-   - Health check: http://localhost:8080/health
+2. ThemisDB is now running. Useful endpoints:
 
-3. For more information, visit: https://github.com/makr-code/ThemisDB
+   HTTP API:     {{ if .Values.ingress.enabled }}https://{{ (first .Values.ingress.hosts).host }}{{ else }}http://localhost:8080{{ end }}
+   Health check: http://localhost:{{ .Values.themisdb.healthPort | default 8081 }}/health
+   Metrics:      http://localhost:{{ .Values.service.metricsPort | default 9091 }}/metrics
+
+3. Prometheus / ServiceMonitor
+{{- if .Values.metrics.serviceMonitor.enabled }}
+   ServiceMonitor is ENABLED — Prometheus Operator will scrape the 'metrics' port ({{ .Values.service.metricsPort | default 9091 }}).
+   Namespace: {{ .Values.metrics.serviceMonitor.namespace | default .Release.Namespace }}
+   Interval:  {{ .Values.metrics.serviceMonitor.interval | default "30s" }}
+{{- else }}
+   ServiceMonitor is DISABLED. To enable Prometheus Operator scraping:
+
+     helm upgrade {{ .Release.Name }} themisdb/themisdb \
+       --set metrics.serviceMonitor.enabled=true \
+       --set metrics.serviceMonitor.namespace=monitoring
+
+   Or add the following to your values file and upgrade:
+     metrics:
+       serviceMonitor:
+         enabled: true
+         namespace: monitoring
+{{- end }}
+
+4. Grafana Dashboards
+{{- if .Values.grafana.dashboards.enabled }}
+   Dashboard ConfigMaps have been created with label {{ .Values.grafana.dashboards.label | default "grafana_dashboard" }}={{ .Values.grafana.dashboards.labelValue | default "1" }}.
+   Make sure your Grafana deployment has sidecar.dashboards.enabled=true to auto-import them.
+   Namespace: {{ .Values.grafana.dashboards.namespace | default .Release.Namespace }}
+{{- else }}
+   Grafana dashboard ConfigMaps are DISABLED. To enable:
+
+     helm upgrade {{ .Release.Name }} themisdb/themisdb \
+       --set grafana.dashboards.enabled=true
+
+   Requires Grafana sidecar (grafana.sidecar.dashboards.enabled=true in the Grafana chart).
+{{- end }}
+
+5. For more information, visit: https://github.com/makr-code/ThemisDB

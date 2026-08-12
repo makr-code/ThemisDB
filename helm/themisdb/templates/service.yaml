@@ -11,5 +11,9 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
+    - port: {{ .Values.service.metricsPort | default 9091 }}
+      targetPort: metrics
+      protocol: TCP
+      name: metrics
   selector:
     {{- include "themisdb.selectorLabels" . | nindent 4 }}

@@ -1,0 +1,73 @@
+# Recording rules for ThemisDB LLM metrics.
+# Pre-compute expensive aggregations that are used across multiple dashboards
+# and alert rules to reduce query load on Prometheus.
+groups:
+  - name: llm_recording_rules
+    interval: 30s
+    rules:
+      # Inference request rate per model, 1-minute window
+      - record: llm:inference_rate:1m
+        expr: sum by (model_id) (rate(llm_inference_requests_total[1m]))
+
+      # Inference success rate over 5 minutes
+      - record: llm:success_rate:5m
+        expr: >
+          (1 - (
+            sum by (model_id) (rate(llm_inference_failures_total[5m]))
+            /
+            clamp_min(sum by (model_id) (rate(llm_inference_requests_total[5m])), 1e-9)
+          )) * 100
+
+      # P95 first-token latency per model, 5-minute window
+      - record: llm:p95_first_token_latency_ms:5m
+        expr: >
+          histogram_quantile(
+            0.95,
+            sum by (le, model_id) (rate(llm_first_token_latency_ms_bucket[5m]))
+          )
+
+      # P99 first-token latency per model, 5-minute window
+      - record: llm:p99_first_token_latency_ms:5m
+        expr: >
+          histogram_quantile(
+            0.99,
+            sum by (le, model_id) (rate(llm_first_token_latency_ms_bucket[5m]))
+          )
+
+      # Token throughput per model, 1-minute window
+      - record: llm:tokens_per_second:1m
+        expr: sum by (model_id) (rate(llm_tokens_generated_total[1m]))
+
+      # Cache hit rate per cache type, 5-minute window
+      - record: llm:cache_hit_rate:5m
+        expr: >
+          sum by (cache_type) (rate(llm_cache_hits_total[5m]))
+          /
+          clamp_min(
+            sum by (cache_type) (rate(llm_cache_hits_total[5m]) + rate(llm_cache_misses_total[5m])),
+            1e-9
+          ) * 100
+
+      # GPU memory utilisation percentage
+      - record: llm:gpu_memory_utilisation_pct
+        expr: (llm_gpu_memory_used_mb / clamp_min(llm_gpu_memory_total_mb, 1)) * 100
+
+  - name: auth_recording_rules
+    interval: 60s
+    rules:
+      # Baseline authentication rate per user — used to detect anomalies without
+      # runtime nested aggregation inside alert expressions.
+      - record: themis:auth_attempts_rate_baseline:1h
+        expr: avg_over_time(sum by (user) (rate(themis_auth_attempts_total[5m]))[1h:5m])
+
+  - name: performance_recording_rules
+    interval: 60s
+    rules:
+      # Throughput change relative to 1-hour-ago baseline
+      - record: themisdb:throughput_delta_pct:1h
+        expr: >
+          (
+            themisdb_benchmark_throughput_ops
+            - themisdb_benchmark_throughput_ops offset 1h
+          )
+          / clamp_min(themisdb_benchmark_throughput_ops offset 1h, 1e-9) * 100

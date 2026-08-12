@@ -1,0 +1,65 @@
+# Failover & Disaster Recovery alert rules for ThemisDB.
+# Covers: failover state transitions, split-brain events, recovery timeouts.
+groups:
+  - name: failover_alerts
+    interval: 15s
+    rules:
+      - alert: FailoverTransitionDetected
+        expr: increase(themis_failover_transitions_total[5m]) > 0
+        for: 0m
+        labels:
+          severity: warning
+          component: failover
+        annotations:
+          summary: "Failover transition detected"
+          description: "A failover transition occurred on {{$labels.instance}} (reason: {{$labels.reason}})"
+
+      - alert: FailoverStateUnhealthy
+        expr: themis_failover_state > 1
+        for: 2m
+        labels:
+          severity: critical
+          component: failover
+        annotations:
+          summary: "Instance in unhealthy failover state"
+          description: "{{$labels.instance}} failover state is {{$value}} (expected 0=HEALTHY; >1 means FAILING_OVER or FAILED)"
+
+      - alert: SplitBrainEventDetected
+        expr: increase(themis_split_brain_events_total[10m]) > 0
+        for: 0m
+        labels:
+          severity: critical
+          component: failover
+        annotations:
+          summary: "CRITICAL: Split-brain event detected"
+          description: "A split-brain event was detected on {{$labels.instance}} — investigate immediately"
+
+      - alert: DRRecoveryTimeout
+        expr: themis_dr_recovery_duration_seconds > 120
+        for: 0m
+        labels:
+          severity: critical
+          component: disaster-recovery
+        annotations:
+          summary: "CRITICAL: DR recovery took too long"
+          description: "DR recovery on {{$labels.instance}} took {{$value}}s (threshold: 120s)"
+
+      - alert: DRRecoverySlow
+        expr: themis_dr_recovery_duration_seconds > 30
+        for: 0m
+        labels:
+          severity: warning
+          component: disaster-recovery
+        annotations:
+          summary: "DR recovery slower than expected"
+          description: "DR recovery on {{$labels.instance}} took {{$value}}s (threshold: 30s)"
+
+      - alert: FrequentFailoverTransitions
+        expr: increase(themis_failover_transitions_total[1h]) > 3
+        for: 0m
+        labels:
+          severity: warning
+          component: failover
+        annotations:
+          summary: "Frequent failover transitions"
+          description: "{{$labels.instance}} had {{$value}} failover transitions in the last hour — possible instability"

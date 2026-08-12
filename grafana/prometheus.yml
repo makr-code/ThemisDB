@@ -5,12 +5,10 @@ global:
     cluster: 'themisdb-raid'
     environment: 'benchmark'
 
-# Load alert rules
+# Load alert rules and recording rules from the central alerts/ directory.
 rule_files:
-  - '/etc/prometheus/alerts/siem_security_alerts.yaml'
-  - '/etc/prometheus/alerts/graph_security.yaml'
-  - '/etc/prometheus/rules/llm_alerts.yml'
-  - '/etc/prometheus/alerts/bt4_flare_alerts.yml'
+  - '/etc/prometheus/alerts/*.yaml'
+  - '/etc/prometheus/alerts/*.yml'
 
 # Scrape configurations
 scrape_configs:

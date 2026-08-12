@@ -1,0 +1,139 @@
+# Alertmanager configuration template for ThemisDB.
+#
+# Copy this file and fill in the receiver credentials for your environment.
+# Mount into the alertmanager container at /etc/alertmanager/alertmanager.yml.
+#
+# Environment variables referenced here (SLACK_WEBHOOK_URL, PAGERDUTY_KEY,
+# SMTP_AUTH_PASSWORD) must be supplied via Docker / Kubernetes secrets — never
+# commit real credentials to source control.
+
+global:
+  resolve_timeout: 5m
+  smtp_require_tls: true
+
+# Route tree — top-level catch-all, then severity-based sub-routes.
+route:
+  group_by: ['alertname', 'cluster', 'component']
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 4h
+  receiver: 'default-receiver'
+
+  routes:
+    # Critical alerts → PagerDuty + Slack #ops-critical
+    - match:
+        severity: critical
+      receiver: 'pagerduty-critical'
+      continue: true
+
+    - match:
+        severity: critical
+      receiver: 'slack-critical'
+
+    # Warning alerts → Slack #ops-warnings
+    - match:
+        severity: warning
+      receiver: 'slack-warnings'
+
+    # SIEM / security alerts → dedicated security channel regardless of severity
+    - match_re:
+        category: 'authentication|authorization|graph_security|compliance'
+      receiver: 'slack-security'
+      continue: true
+
+    - match_re:
+        category: 'authentication|authorization|graph_security|compliance'
+      receiver: 'email-security'
+
+# Inhibition rules — suppress warning when critical fires for the same component.
+# Also suppress all non-watchdog alerts during split-brain events.
+inhibit_rules:
+  - source_match:
+      severity: critical
+    target_match:
+      severity: warning
+    equal: ['alertname', 'cluster', 'component']
+
+  # Suppress all non-critical alerts when a split-brain event is active
+  - source_match:
+      alertname: SplitBrainEventDetected
+    target_match_re:
+      severity: warning
+    equal: ['cluster']
+
+  # Suppress watchdog severity=none from all inhibition matching
+  - source_match:
+      severity: critical
+    target_match:
+      severity: none
+    equal: ['cluster']
+
+receivers:
+  - name: 'default-receiver'
+    slack_configs:
+      - api_url: '${SLACK_WEBHOOK_URL}'
+        channel: '#themisdb-alerts'
+        title: '[{{ .Status | toUpper }}] {{ .CommonLabels.alertname }}'
+        text: >-
+          {{ range .Alerts }}
+          *Alert:* {{ .Annotations.summary }}
+          *Description:* {{ .Annotations.description }}
+          {{ end }}
+        send_resolved: true
+
+  - name: 'pagerduty-critical'
+    pagerduty_configs:
+      - routing_key: '${PAGERDUTY_KEY}'
+        description: '{{ .CommonAnnotations.summary }}'
+        severity: 'critical'
+        send_resolved: true
+
+  - name: 'slack-critical'
+    slack_configs:
+      - api_url: '${SLACK_WEBHOOK_URL}'
+        channel: '#ops-critical'
+        title: ':rotating_light: [CRITICAL] {{ .CommonLabels.alertname }}'
+        text: >-
+          {{ range .Alerts }}
+          *Summary:* {{ .Annotations.summary }}
+          *Description:* {{ .Annotations.description }}
+          {{ if .Annotations.runbook_url }}*Runbook:* {{ .Annotations.runbook_url }}{{ end }}
+          {{ end }}
+        send_resolved: true
+
+  - name: 'slack-warnings'
+    slack_configs:
+      - api_url: '${SLACK_WEBHOOK_URL}'
+        channel: '#ops-warnings'
+        title: ':warning: [WARNING] {{ .CommonLabels.alertname }}'
+        text: >-
+          {{ range .Alerts }}
+          *Summary:* {{ .Annotations.summary }}
+          {{ end }}
+        send_resolved: true
+
+  - name: 'slack-security'
+    slack_configs:
+      - api_url: '${SLACK_SECURITY_WEBHOOK_URL}'
+        channel: '#security-alerts'
+        title: ':shield: [SECURITY] {{ .CommonLabels.alertname }}'
+        text: >-
+          {{ range .Alerts }}
+          *Summary:* {{ .Annotations.summary }}
+          *Action:* {{ .Annotations.action }}
+          *Compliance:* {{ .Labels.compliance }}
+          {{ end }}
+        send_resolved: true
+
+  - name: 'email-security'
+    email_configs:
+      - to: 'security@themisdb.io'
+        from: 'alertmanager@themisdb.io'
+        smarthost: '${SMTP_HOST}:587'
+        auth_username: '${SMTP_USER}'
+        auth_password: '${SMTP_AUTH_PASSWORD}'
+        headers:
+          Subject: '[ThemisDB Security Alert] {{ .CommonLabels.alertname }}'
+        send_resolved: true
+
+templates: []
