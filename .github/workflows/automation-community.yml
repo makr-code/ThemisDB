@@ -89,3 +89,37 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
           RESPONSE: ${{ steps.inference.outputs.response }}
+
+  # ---------------------------------------------------------------------------
+  # Request review from CODEOWNERS after all CI gates are green
+  # Fires on pull_request_target synchronize/reopened so it covers subsequent
+  # pushes, not only the initial open event.
+  # ---------------------------------------------------------------------------
+  request-review:
+    name: Request maintainer review
+    runs-on: ubuntu-latest
+    if: >
+      github.event_name == 'pull_request_target' &&
+      (github.event.action == 'opened' || github.event.action == 'synchronize' || github.event.action == 'reopened')
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Request review from CODEOWNERS
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            if (!pr) return;
+            // Only request if no review has been requested yet for this PR
+            const existing = pr.requested_reviewers?.map(r => r.login) ?? [];
+            if (existing.includes('makr-code')) {
+              console.log('Review from makr-code already requested — skipping.');
+              return;
+            }
+            await github.rest.pulls.requestReviewers({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pr.number,
+              reviewers: ['makr-code'],
+            });
+            console.log(`Review from makr-code requested for PR #${pr.number}.`);

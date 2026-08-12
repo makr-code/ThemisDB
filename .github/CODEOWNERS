@@ -234,3 +234,8 @@
 /ai_context/ @makr-code
 /ai_working/ @makr-code
 /.github/copilot/ @makr-code
+
+# ── Copilot-agent branches (1 maintainer approval required, no extra triaging)
+# Branches matching copilot/* are created by the GitHub Copilot coding agent.
+# CODEOWNERS applies: @makr-code is automatically requested as reviewer via
+# automation-community.yml request-review job. No additional manual triage needed.

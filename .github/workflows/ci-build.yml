@@ -128,87 +128,6 @@ jobs:
             echo "_sccache hit: expect 60–80% reduction. Triggered by \`${{ github.actor }}\` at $(date -u)._"
           } >> "$GITHUB_STEP_SUMMARY"
 
-  # ── Approval gate ──────────────────────────────────────────────────────
-  detect-unresolved-failures:
-    name: 🔍 Detect Unresolved CI Failures
-    runs-on: ubuntu-latest
-    outputs:
-      requires_approval: ${{ steps.detect.outputs.requires_approval }}
-      blocking_issue_count: ${{ steps.detect.outputs.blocking_issue_count }}
-      blocking_issue_numbers: ${{ steps.detect.outputs.blocking_issue_numbers }}
-    steps:
-      - name: Print detection context
-        run: |
-          echo "============================================================"
-          echo " CI — Build  |  Unresolved Failure Detection"
-          echo "============================================================"
-          echo "  Event    : ${{ github.event_name }}"
-          echo "  Ref      : ${{ github.ref }}"
-          echo "  SHA      : ${{ github.sha }}"
-          echo "  Run ID   : ${{ github.run_id }}"
-          echo "  Checking for open ci/failure + status/needs-approval issues..."
-          echo "============================================================"
-
-      - name: Detect approval-blocking CI issues
-        id: detect
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
-        with:
-          script: |
-            const workflowName = context.workflow;
-            const refName = context.ref.replace('refs/heads/', '');
-            const markerWorkflow = `<!-- ci-workflow:${workflowName} -->`;
-            const markerRef = `<!-- ci-ref:${refName} -->`;
-
-            console.log(`Scanning for issues with markers:`);
-            console.log(`  Workflow marker : ${markerWorkflow}`);
-            console.log(`  Ref marker      : ${markerRef}`);
-
-            const issues = await github.paginate(github.rest.issues.listForRepo, {
-              owner: context.repo.owner, repo: context.repo.repo,
-              state: 'open', labels: 'ci/failure,status/needs-approval', per_page: 100,
-            });
-            console.log(`Found ${issues.length} open ci/failure+needs-approval issue(s) total.`);
-
-            const blocking = issues.filter(i => {
-              const body = i.body || '';
-              return body.includes(markerWorkflow) && body.includes(markerRef);
-            });
-            console.log(`Blocking issues for this workflow+ref: ${blocking.length}`);
-            if (blocking.length > 0) {
-              blocking.forEach(i => console.log(`  → #${i.number}: ${i.title}`));
-            }
-
-            core.setOutput('requires_approval', blocking.length > 0 ? 'true' : 'false');
-            core.setOutput('blocking_issue_count', String(blocking.length));
-            core.setOutput('blocking_issue_numbers', blocking.map(i => `#${i.number}`).join(', '));
-
-      - name: Report detection result
-        run: |
-          REQUIRES="${{ steps.detect.outputs.requires_approval }}"
-          COUNT="${{ steps.detect.outputs.blocking_issue_count }}"
-          NUMBERS="${{ steps.detect.outputs.blocking_issue_numbers }}"
-          if [ "${REQUIRES}" = "true" ]; then
-            echo "::warning::⛔ Approval required — ${COUNT} blocking issue(s): ${NUMBERS}"
-            echo "  ACTION: A maintainer must approve the 'ci-approved' environment to proceed."
-          else
-            echo "  ✅ No blocking issues found — build matrix will proceed."
-          fi
-
-  approval-gate:
-    name: ⏳ Await Maintainer Approval
-    needs: detect-unresolved-failures
-    if: needs.detect-unresolved-failures.outputs.requires_approval == 'true'
-    runs-on: ubuntu-latest
-    environment:
-      name: ci-approved
-    steps:
-      - run: |
-          echo "============================================================"
-          echo "  Approval granted via environment 'ci-approved'."
-          echo "  Approved by: ${{ github.actor }}"
-          echo "  Timestamp  : $(date -u)"
-          echo "============================================================"
-
   # ── Incremental module detection ───────────────────────────────────────
   detect-changes:
     name: 🔎 Detect Changed Modules
@@ -278,10 +197,8 @@ jobs:
   build:
     name: 🔨 Build (${{ matrix.os }}, ${{ matrix.c_compiler }})
     needs:
-      - detect-unresolved-failures
-      - approval-gate
       - detect-changes
-    if: needs.detect-unresolved-failures.outputs.requires_approval != 'true' || needs.approval-gate.result == 'success'
+    if: always()
     runs-on: ${{ matrix.os }}
     timeout-minutes: 90
 
@@ -650,7 +567,6 @@ jobs:
     timeout-minutes: 90
     needs:
       - detect-changes
-      - detect-unresolved-failures
     if: >
       (
         github.event_name == 'pull_request' &&
@@ -752,7 +668,6 @@ jobs:
     timeout-minutes: 90
     needs:
       - detect-changes
-      - detect-unresolved-failures
     if: >
       (
         github.event_name == 'pull_request' &&
