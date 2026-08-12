@@ -11,7 +11,7 @@ Kanonischer Root-Index (L4) gemäß [DOCUMENTATION_GOVERNANCE.md](../DOCUMENTATI
 - Hauptnavigation: [README.md](README.md)
 - Rollenhub: [DOCUMENTATION_HUB.md](DOCUMENTATION_HUB.md) *(→ verweist auf diesen Index)*
 - Kategorien: [CATEGORY_INDEX.md](CATEGORY_INDEX.md) *(→ verweist auf diesen Index)*
-- Inventar (Q3 2026): [audit/DOCS_INVENTORY_2026-Q3.md](audit/DOCS_INVENTORY_2026-Q3.md)
+- Inventar (Q3 2026): [Audit/DOCS_INVENTORY_2026-Q3.md](Audit/DOCS_INVENTORY_2026-Q3.md)
 
 ## 2) Produkt und Architektur
 
@@ -49,7 +49,7 @@ Kanonischer Root-Index (L4) gemäß [DOCUMENTATION_GOVERNANCE.md](../DOCUMENTATI
 - Dokumentations-Historie: [governance/documentation-history/README.md](governance/documentation-history/README.md)
 - Dokumentationsprozess: [CONTINUOUS_DOCUMENTATION_PROCESS.md](CONTINUOUS_DOCUMENTATION_PROCESS.md)
 - Review Guidelines: [DOCUMENTATION_REVIEW_GUIDELINES.md](DOCUMENTATION_REVIEW_GUIDELINES.md)
-- Audit & Inventar: [audit/DOCS_INVENTORY_2026-Q3.md](audit/DOCS_INVENTORY_2026-Q3.md)
+- Audit & Inventar: [Audit/DOCS_INVENTORY_2026-Q3.md](Audit/DOCS_INVENTORY_2026-Q3.md)
 
 ## 6) Kompendium (Level 3/4 Aggregat)
 
@@ -77,4 +77,4 @@ Das ThemisDB Kompendium ist das vollständige deutschsprachige Handbuch (43 Kapi
 Historische und temporere Inhalte sind weiterhin verfuegbar, werden aber nicht als Root-Einstieg promoted:
 - Langzeit-Archiv: [ARCHIVED/](ARCHIVED/)
 - Arbeits-/Altmaterial: [archive/](archive/)
-- Stale-Dateien: Mit `## Status: STALE`-Banner markiert; Inventar: [audit/DOCS_INVENTORY_2026-Q3.md](audit/DOCS_INVENTORY_2026-Q3.md)
+- Stale-Dateien: Mit `## Status: STALE`-Banner markiert; Inventar: [Audit/DOCS_INVENTORY_2026-Q3.md](Audit/DOCS_INVENTORY_2026-Q3.md)
