@@ -24,13 +24,6 @@ on:
       - hyperscaler
       - military
       - minimal
-  push:
-    branches: [develop]
-    paths:
-      - CMakeLists.txt
-      - CMakePresets.json
-      - cmake/**
-      - include/updates/**
   workflow_dispatch:
     inputs:
       run_scan_if_missing:

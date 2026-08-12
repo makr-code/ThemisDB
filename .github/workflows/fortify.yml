@@ -17,11 +17,18 @@ name: Fortify AST Scan
 
 # Customize trigger events based on your DevSecOps process and/or policy
 on:
-  push:
-    branches: [ "develop" ]
   pull_request:
-    # The branches below must be a subset of the branches above
     branches: [ "develop" ]
+    paths:
+      - 'src/server/**'
+      - 'src/auth/**'
+      - 'src/governance/**'
+      - 'include/server/**'
+      - 'include/auth/**'
+      - 'include/governance/**'
+      - 'deploy/kubernetes/**'
+      - 'vcpkg.json'
+      - '.github/workflows/fortify.yml'
   schedule:
     - cron: '16 20 * * 1'
   workflow_dispatch:
