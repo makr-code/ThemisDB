@@ -175,6 +175,10 @@ jobs:
         echo "value=${TAGS}" >> $GITHUB_OUTPUT
         echo "Tags to be pushed: ${TAGS}"
 
+    - name: Ensure optional Docker build context paths exist
+      run: |
+        mkdir -p internal llama.cpp vcpkg/downloads
+
     - name: Build and push Docker image
       id: build
       uses: docker/build-push-action@4f58ea79222b3b9dc2c8bbdd6debcef730109a75  # v6.9.0

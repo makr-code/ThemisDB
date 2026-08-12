@@ -413,7 +413,7 @@ jobs:
             || echo "baseline_exists=false" >> "$GITHUB_OUTPUT"
 
       - name: Run gap scanner (if aggregate missing and flag set)
-        if: steps.baseline.outputs.baseline_exists == 'false' && inputs.run_scan_if_missing == 'true'
+        if: steps.baseline.outputs.baseline_exists == 'false' && github.event.inputs.run_scan_if_missing == 'true'
         run: |
           python3 tools/gap_scanner.py \
             --output ai_working/gap_scan_v3_aggregate.json \
