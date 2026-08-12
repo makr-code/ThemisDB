@@ -622,3 +622,32 @@ message(STATUS "  - Pipeline suite label: pipeline_integration")
 message(STATUS "  - Release-critical label: release_critical")
 message(STATUS "  - To enable tests: uncomment sections in CMakeLists.txt as implementations complete")
 message(STATUS "  - Run with: ctest -R integration")
+
+# ---------------------------------------------------------------------------
+# Register all built integration test executables labelled release_critical
+# into the global property consumed by the themis_release_critical_tests
+# aggregate target defined in the parent tests/CMakeLists.txt.
+# ---------------------------------------------------------------------------
+foreach(_rc_integration_target IN ITEMS
+    query_execution_pipeline_test
+    ingestion_pipeline_test
+    rag_ai_pipeline_test
+    transaction_replication_pipeline_test
+    security_pipeline_test
+    application_profile_pipeline_test
+    w5a_e2e_critical_journeys_test
+    w5b_failure_injection_recovery_test
+    w7a_final_journey_signoff_test
+    w7b_recovery_resilience_test
+    w8a_incident_regression_shielding_test
+    w8b_contract_compatibility_reliability_test
+    w8c_determinism_flake_ci_signal_test
+    w9a_security_hardening_audit_test
+    w9b_sla_compliance_uptime_test
+    w9c_chaos_fault_tolerance_test
+)
+    if(TARGET ${_rc_integration_target})
+        set_property(GLOBAL APPEND PROPERTY THEMIS_RELEASE_CRITICAL_TARGETS
+            ${_rc_integration_target})
+    endif()
+endforeach()
