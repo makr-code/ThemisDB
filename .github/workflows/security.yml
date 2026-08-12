@@ -1,14 +1,21 @@
 name: Security Scans
 
 on:
-  push:
-    branches:
-      - develop
-      - community
   pull_request:
     branches:
       - develop
       - community
+    paths:
+      - 'src/server/**'
+      - 'src/auth/**'
+      - 'src/governance/**'
+      - 'include/server/**'
+      - 'include/auth/**'
+      - 'include/governance/**'
+      - 'deploy/kubernetes/**'
+      - 'vcpkg.json'
+      - '.gitleaks.toml'
+      - '.github/workflows/security.yml'
   schedule:
     - cron: '21 4 * * 1'
   workflow_dispatch: {}

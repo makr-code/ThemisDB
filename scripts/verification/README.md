@@ -45,6 +45,29 @@ Generates comprehensive verification reports from processed data.
 
 Creates GitHub issues from verified implementation gaps.
 
+### check_maturity_exit_criteria.py
+
+Checks hard 100%-maturity exit criteria directly from roadmap and maturity-report artifacts.
+
+**Usage:**
+
+```bash
+python3 check_maturity_exit_criteria.py \
+  --repo-root=/home/runner/work/ThemisDB/ThemisDB \
+  --output-json=artifacts/maturity_exit_criteria.json
+```
+
+If `--maturity-report` is omitted, the checker auto-selects the newest `audit/MATURITY_REPORT_*.md`.
+
+**Current checks:**
+- GA blocker metrics (technical and governance) must be `0`
+- `Module mit 0 Tests` and `Module mit 0 Benchmarks` must be `0`
+- No placeholder/scaffold D1 module rows (`⬛`) in the maturity matrix
+- No open `[ ]` or in-progress `[~]` checkbox items in root + `src/*/ROADMAP.md`
+- No open compliance gap markers (`fehlend`/`offen`/`ausstehend`) in compliance section
+- Wave A owner modules (`transaction`, `sharding`, `replication`, `voice`, `gpu`) must each contain a local `Wave A Closure Evidence Block` with regression, chaos/fault, fail-closed, p95/p99, and `release_critical` markers
+- `governance-gates.yml` runs the checker as a non-blocking artifact/summary step on governance-triggered runs
+
 ## Workflow
 
 ### Phase 1: Initial Verification

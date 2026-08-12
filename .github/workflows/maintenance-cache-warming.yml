@@ -7,17 +7,11 @@ name: Maintenance — Dependency Cache Warming
 # vcpkg/sccache statistics, and a human-readable final summary.
 #
 # Pattern from Windows Terminal and VS Code repositories.
-# Triggers: weekly Monday 00:00 UTC; push on vcpkg.json; workflow_dispatch.
+# Triggers: weekly Monday 00:00 UTC; workflow_dispatch.
 
 on:
   schedule:
     - cron: '0 0 * * 1'
-  push:
-    branches: [develop]
-    paths:
-      - 'vcpkg.json'
-      - 'vcpkg-configuration.json'
-      - 'CMakePresets.json'
   workflow_dispatch:
 
 permissions:
@@ -68,10 +62,9 @@ jobs:
           python3 - <<'PY'
           import json
           from pathlib import Path
-
-          manifest = json.loads(Path("vcpkg.json").read_text(encoding="utf-8"))
-          print(f"    builtin-baseline : {manifest.get('builtin-baseline', 'N/A')}")
-          print(f"    dependencies     : {len(manifest.get('dependencies', []))} package(s)")
+          d = json.loads(Path('vcpkg.json').read_text(encoding='utf-8'))
+          print(f"    builtin-baseline : {d.get('builtin-baseline', 'N/A')}")
+          print(f"    dependencies     : {len(d.get('dependencies', []))} package(s)")
           PY
 
       - name: Setup sccache
@@ -209,10 +202,9 @@ jobs:
           python3 - <<'PY'
           import json
           from pathlib import Path
-
-          manifest = json.loads(Path("vcpkg.json").read_text(encoding="utf-8"))
-          print(f"  builtin-baseline : {manifest.get('builtin-baseline', 'N/A')}")
-          print(f"  dependencies     : {len(manifest.get('dependencies', []))} package(s)")
+          d = json.loads(Path('vcpkg.json').read_text(encoding='utf-8'))
+          print(f"  builtin-baseline : {d.get('builtin-baseline', 'N/A')}")
+          print(f"  dependencies     : {len(d.get('dependencies', []))} package(s)")
           PY
 
       - name: Compute vcpkg cache key

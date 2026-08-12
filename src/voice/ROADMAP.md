@@ -84,6 +84,14 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D
 - [ ] `release_critical` CI green on `develop` (Target: Q4 2026)
 - [ ] Representative-hardware p95/p99 baselines refreshed (Target: Q4 2026)
 
+### Wave A Closure Evidence Block
+- [ ] Focused regression closure: dedicated session-isolation, streaming-teardown, malformed-input, and auth-edge regressions are still missing.
+- [ ] Chaos/fault-injection evidence: no Wave A-specific chaos bundle is recorded yet for teardown, spoofing, or backend-failure scenarios.
+- [ ] Fail-closed verification: malformed/oversized stream rejection, invalid session transitions, and degraded backend fallbacks still need proof.
+- [ ] Representative-hardware p95/p99 baselines: STT/TTS latency and streaming-overhead baselines are still pending.
+- [ ] `release_critical` coverage: Wave A voice hardening does not yet have green-on-`develop` gate evidence.
+- [ ] Next closure batch: harden fail-closed session lifecycle, add adversarial liveness/anti-spoof regressions, and prove safe multi-session teardown.
+
 ### Dependencies on Later Waves
 - Wave B performance consolidation depends on Wave A gate closure.
 - Wave C security validation depends on stable Wave A runtime behavior.
