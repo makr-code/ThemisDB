@@ -11,6 +11,8 @@ name: Governance — Gates
 on:
   push:
     branches: [develop]
+    tags:
+      - 'v*-rc.*'
   pull_request:
     types: [opened, synchronize, labeled, unlabeled, reopened]
     branches:
@@ -34,9 +36,6 @@ on:
     - cron: '0 9 * * *'     # Daily 09:00 UTC — waiver expiration check
     - cron: '0 8 * * MON'   # Weekly Monday 08:00 UTC — gate audit summary
     - cron: '0 8 1 1,4,7,10 *'  # Quarterly — branch protection drift detection
-  push:
-    tags:
-      - 'v*-rc.*'
   workflow_dispatch:
     inputs:
       rc_tag:

@@ -7,17 +7,11 @@ name: Maintenance — Dependency Cache Warming
 # vcpkg/sccache statistics, and a human-readable final summary.
 #
 # Pattern from Windows Terminal and VS Code repositories.
-# Triggers: weekly Monday 00:00 UTC; push on vcpkg.json; workflow_dispatch.
+# Triggers: weekly Monday 00:00 UTC; workflow_dispatch.
 
 on:
   schedule:
     - cron: '0 0 * * 1'
-  push:
-    branches: [develop]
-    paths:
-      - 'vcpkg.json'
-      - 'vcpkg-configuration.json'
-      - 'CMakePresets.json'
   workflow_dispatch:
 
 permissions:
