@@ -100,10 +100,13 @@ All execution infrastructure hardened and deployed. Module ready for production.
 - Shutdown graceful completion
 - Stress tests (high concurrency, rapid task submission)
 
-**Test Files:**
-- `tests/execution/test_query_scheduler_focused.cpp` – 8+ focused tests
-- `tests/execution/test_thread_pool_focused.cpp` – 8+ focused tests
-- Integration tests in `tests/integration/` pipeline
+**Current Source-Verified Test Surfaces:**
+- `tests/integration/test_load_balancing.cpp` – scheduler-facing integration coverage via `include/execution/query_scheduler.h`
+- `tests/integration/test_resource_pooling.cpp` – thread-pool/resource-pooling integration coverage via `include/execution/thread_pool_manager.h`
+- `tests/test_thread_pool_manager.cpp` – root-level thread-pool coverage
+- `tests/thread/test_thread_pool_manager.cpp` – thread-module thread-pool coverage
+
+**Drift Note:** Ältere Audit-Artefakte referenzieren ein dediziertes `tests/execution/`-Verzeichnis; diese Pfade sind im aktuellen Repository-Stand nicht vorhanden. Für Source-of-Truth-Fragen gelten die oben verifizierten Testpfade.
 
 **Status:** ✓ COMPLETE
 
@@ -117,9 +120,10 @@ All execution infrastructure hardened and deployed. Module ready for production.
 - [x] SLA deadline accuracy (P99 < 5 ms variance)
 - [x] Lock contention analysis and optimization
 
-**Benchmark Suite:**
-- `benchmarks/execution/bench_query_scheduler_gates.cpp` – Scheduler latency/throughput gates
-- `benchmarks/execution/bench_thread_pool_gates.cpp` – Thread pool scaling and work-steal gates
+**Current Source-Verified Benchmark Surfaces:**
+- `benchmarks/bench_thread_pool_saturation.cpp` – thread-pool saturation and load behavior
+
+**Drift Note:** Ein dediziertes `benchmarks/execution/`-Verzeichnis ist im aktuellen Repository-Stand nicht vorhanden. Benchmarks für Execution werden derzeit über die root-nahe Benchmark-Ablage referenziert.
 
 **Performance Gates:**
 - Enqueue P99: < 5 ms (SLA = 100 ms)
@@ -188,8 +192,8 @@ None. APIs frozen at v1.x.
   - query_scheduler.cpp: ~200 LOC
   - thread_pool_manager.cpp: ~250 LOC
 - **Public Headers:** 2 (query_scheduler.h, thread_pool_manager.h)
-- **Test Coverage:** 70%+ (16+ focused tests + integration suite)
-- **Benchmark Coverage:** 8+ performance gates
+- **Test Coverage:** source-verified root/thread/integration coverage present; dedicated `tests/execution/` paths are not part of the current tree
+- **Benchmark Coverage:** source-verified benchmark surface present via `benchmarks/bench_thread_pool_saturation.cpp`
 - **Error Codes:** E7100–E7199 (reserved)
 
 ## Program Execution Model — Wave Context

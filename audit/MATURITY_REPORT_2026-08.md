@@ -11,6 +11,8 @@
 > - Das korrigierte Audit `IMPLEMENTATION_AUDIT_CORRECTED_2026-08-08.md` ist die maßgebliche Quelle bei Abweichungen für `evaluation`, `execution`, CUDA-Geokernel und den `ai_snapshot_cleanup.h`-Compile-Befund.
 > - `src/execution/ROADMAP.md` existiert inzwischen; der frühere reine Governance-Gap ist damit geschlossen.
 > - `src/evaluation/AUDIT.md`, `tests/epic2_evaluation/` und `benchmarks/epic2_evaluation/` belegen produktive Source-, Test- und Benchmark-Surfaces; offen bleibt dort primär die aktuelle ausführbare Evidenz im vorhandenen Build-Setup.
+> - Source-Check 2026-08-12: `include/search/` trägt weiterhin 40 `STUB`/`TODO`/`MOCK`-Marker-Treffer in 20 Headern; die Search-Lücke bleibt also aktuell.
+> - Source-Check 2026-08-12: `include/security/ai_snapshot_cleanup.h` zeigt den korrigierten Konstruktor-Split (`AiSnapshotCleanupJob();` plus `explicit AiSnapshotCleanupJob(Config cfg);`); offen ist nur noch die Re-Validierung im Build-Lauf.
 
 ---
 
@@ -24,7 +26,7 @@
 | **Private Plugins Wave-1** | **~55 %** | ⟶ stabil | Ethic-AI in Submodul, Commit-Pins offen |
 | **GA-Blocker (technisch)** | **0** | ✅ | Alle technischen Gates PASS |
 | **GA-Blocker (Governance)** | **1** | ⏳ | Menschliche Freigabe §9 ausstehend |
-| **Aktive Compile-Fehler** | **1** | ⚠️ | `ai_snapshot_cleanup.h:63` blockiert Geo-CI |
+| **Aktive Compile-Fehler** | **0 bestätigt im aktuellen Source** | ⚠️ | früherer `ai_snapshot_cleanup.h:63`-Befund source-seitig geschlossen; Build-Re-Validierung offen |
 | **Source-Code gesamt** | **~830 K LOC** | ⟶ | 67 Module, Messdatum 2026-08-09 |
 | **Test-Dateien aktiv** | **~1.000+** | ⟶ | 132 focused-Tests |
 | **Stub-Marker gesamt** | **~2.500** | ⟶ | Über 67 Module verteilt |
@@ -38,8 +40,8 @@
 | Rang | Risiko | Modul | Schwere | Status |
 |------|--------|-------|---------|--------|
 | 🔴 1 | Hybrid-Retrieval Thread-Safety (Issue #5468) | `query`, `gpu`, `sharding` | Hoch | In Härtung Q3 |
-| 🔴 2 | Compile-Follow-up `ai_snapshot_cleanup.h:63` | `geo`, `security` | Mittel-Hoch | Root cause lokalisiert, Re-Validierung offen |
-| 🟡 3 | 8 Module mit 0 automatisierten Tests | Mehrere | Mittel | Governance-Risiko |
+| 🔴 2 | Build-Re-Validierung für source-seitig geschlossenen `ai_snapshot_cleanup.h`-Befund | `geo`, `security` | Mittel-Hoch | Fix im Header sichtbar, neuer Build-Nachweis offen |
+| 🟡 3 | 6 Module mit 0 automatisierten Tests | Mehrere | Mittel | Governance-Risiko |
 | 🟡 4 | EU AI Act 65 % — Model Cards fehlen | `llm`, `rag`, `ethics_ai` | Mittel | Q4 2026 |
 | 🟡 5 | BSI C5 2026 — 5 Nachweislücken offen | Compliance | Mittel | Maßnahmen laufend |
 
@@ -91,7 +93,7 @@
 | `stable_diffusion` | 1.445 | 10 | ✅ 88% | 0 | ⬛ | 0 | ⬛ | 🟡 **63%** |
 | `whisper` | 2.018 | 2 | ✅ 95% | 1 | ⬛ | 1 | 🟢 | 🟢 **75%** |
 | `prompt_engineering` | 14.336 | 47 | 🟡 55% | 3 | ⬛ | 2 | 🟡 | 🟡 **55%** |
-| `evaluation` | 3.150 | 0 | 🔴 42% | 0 | ⬛ | 0 | ⬛ | 🔴 **42%** |
+| `evaluation` | 6.137 | 0 | 🟢 85% | 8 | 🟢 | 4 | 🟡 | 🟡 **60%** |
 | `retrieval` | 781 | 0 | ⬛ 20% | 0 | ⬛ | 0 | ⬛ | ⬛ **20%** |
 
 ### 2.4 GPU & Acceleration-Module
@@ -164,7 +166,7 @@
 | `themis` | 7.946 | 24 | 🟢 78% | 4 | 🟡 | 2 | 🟢 | 🟢 **75%** |
 | `maintenance` | — | — | 🟡 70% | 6 | 🟡 | 2 | 🟢 | 🟡 **68%** |
 | `updates` | 11.378 | 42 | 🟢 80% | 6 | 🟡 | 5 | 🟢 | 🟢 **78%** |
-| `execution` | 450 | 0 | ⬛ 20% | 0 | ⬛ | 0 | ⬛ | ⬛ **20%** |
+| `execution` | 450 | 0 | 🟢 75% | 4 | 🟡 | 1 | 🟡 | 🟢 **75%** |
 | `llm_wiki` | 844 | 0 | 🟡 55% | 0 | ⬛ | 0 | ⬛ | 🟡 **50%** |
 | `projects` | 1.699 | 14 | 🟡 65% | 3 | 🟡 | 1 | 🟡 | 🟡 **62%** |
 | `document` | 153 | 2 | ⬛ 25% | 5 | 🟡 | 3 | 🟢 | 🟡 **50%** |
@@ -175,29 +177,27 @@
 
 ## 3. Kritische Befunde
 
-### 3.1 Aktiver Compile-Fehler
+### 3.1 Source-seitig geschlossener Compile-Befund mit offener Re-Validierung
 
 | # | Datei | Zeile | Fehler | Impact | Priorität |
 |---|-------|-------|--------|--------|-----------|
-| CF-01 | `include/security/ai_snapshot_cleanup.h` | 63 | Template-Fehler (C++20 Constraint) | Blockiert alle Geo-focused-CI-Targets | **P0 — SOFORT** |
+| CF-01 | `include/security/ai_snapshot_cleanup.h` | 63 (historisch) | Frühere Default-Parameter-Form im aktuellen Header nicht mehr vorhanden | Build-Re-Validierung für Geo-/Security-Targets weiter offen | **P1 — zeitnah bestätigen** |
 
-**Auswirkung:** `tests/geo/test_aql_st_functions_focused` und verwandte Geo-Targets lassen sich nicht bauen.  
-**Empfohlene Aktion:** Template-Instantiierung korrigieren oder conditional `#include` mit Guard. Estimate: 2–4 Stunden.
+**Auswirkung:** Der frühere Befund bleibt als Re-Validierungsbedarf relevant, ist aber im aktuellen Header-Stand nicht mehr als aktiver Source-Fehler reproduzierbar.  
+**Empfohlene Aktion:** Den korrigierten Header-Stand im nächsten verfügbaren Geo-/Security-Build explizit bestätigen.
 
 ### 3.2 Module mit 0 automatisierten Tests
 
 | Modul | LOC | Zustand | Risikobewertung |
 |-------|-----|---------|----------------|
 | `distributed_tensor` | 3.931 | EPIC 3 Contracts vorhanden, 0 Tests | 🔴 Hoch — kritischer Pfad |
-| `evaluation` | 3.150 | EPIC 2 Contracts, 0 Tests | 🔴 Hoch — Qualitätssignal fehlt |
-| `execution` | 450 | Scaffold | 🔴 Hoch — unklar ob produktiv |
 | `llama_cpp` | 2.196 | Integration mit llama.cpp-Submodul | 🟡 Mittel — extern getestet |
 | `llm_wiki` | 844 | Phase A JSON-Reader | 🟡 Mittel — Plugin-Tests separat |
 | `onnx_clip` | 644 | v0.2.0 prodgrade | 🟡 Mittel — extern validiert |
 | `stable_diffusion` | 1.445 | v2.2.0 Content-Policy aktiv | 🟡 Mittel — extern validiert |
 | `retrieval` | 781 | Placeholder | 🔴 Hoch — realer Status unklar |
 
-**Befund:** 8 Module ohne Tests — 3 davon mit substantieller eigener Logik (`distributed_tensor`, `evaluation`, `execution`). Governance-Risiko vor GA-Promotion.
+**Befund:** 6 Module ohne Tests — `evaluation` und `execution` gehören nach aktuellem Source-Stand nicht mehr in diese Liste. Governance-Risiko vor GA-Promotion bleibt für die verbleibenden testlosen Module bestehen.
 
 ### 3.3 Stub-Hotspots (Top-15 nach Schweregrad)
 
@@ -340,8 +340,8 @@ Basis: `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md` — keine neuen Suppressi
 | Modul | LOC | Status | Bewertung |
 |-------|-----|--------|-----------|
 | `distributed_tensor` | 3.931 | 0 Bench-Files | 🔴 Kein Performance-Nachweis |
-| `evaluation` | 3.150 | 0 Bench-Files | 🔴 Kein Performance-Nachweis |
-| `execution` | 450 | 0 Bench-Files | 🟡 Scaffold |
+| `evaluation` | 6.137 | 4 Bench-Files registriert, aktuelle Mess-Evidenz offen | 🟡 Benchmark-Surfaces vorhanden, Nachweislauf fehlt |
+| `execution` | 450 | 1 source-verifiziertes Bench-File (`bench_thread_pool_saturation.cpp`) | 🟡 Root-nahe Benchmark-Surface vorhanden |
 | `llm_wiki` | 844 | 0 Bench-Files | 🟡 Plugin-Scope |
 | `retrieval` | 781 | 0 Bench-Files | 🔴 Kein Performance-Nachweis |
 | `onnx_clip` | 644 | 0 Bench-Files | 🟡 Extern validiert |
@@ -474,7 +474,7 @@ Basis: `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md` — keine neuen Suppressi
 
 | # | Maßnahme | Modul | Aufwand | Impact |
 |---|----------|-------|---------|--------|
-| P0-01 | Compile-Fehler `ai_snapshot_cleanup.h:63` beheben | `security`, `geo` | 2–4 h | Geo-CI freischalten |
+| P0-01 | Korrigierten `ai_snapshot_cleanup.h`-Stand per Geo-/Security-Build re-validieren | `security`, `geo` | 1–2 h | Build-Nachweis schließen |
 | P0-02 | Monatsreport-Evidenz für `execution` und `evaluation` gegen aktuelle Build-/Test-Läufe nachziehen | `execution`, `evaluation` | 4–6 h | Governance / Nachweis |
 
 ### P1 — Q3 2026 Härtungswelle
@@ -484,7 +484,7 @@ Basis: `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md` — keine neuen Suppressi
 | P1-01 | Hybrid-Retrieval Phase B Thread-Safety (Issue #5468) | `query`, `gpu`, `sharding` | 10–15 d | Kritischer Pfad |
 | P1-02 | CUDA Geospatial Kernels implementieren | `acceleration`, `gpu` | 5–10 d | Spatial-Query-Performance |
 | P1-03 | `distributed_tensor` — Phase 3–4 Failure-Semantik + erste Tests | `distributed_tensor` | 10 d | 0-Test-Gap schließen |
-| P1-04 | `evaluation` Benchmark-Matrix umsetzen (42 % → 70 %) | `evaluation` | 10–15 d | EPIC 2 Contracts |
+| P1-04 | `evaluation` Benchmark-Evidenz ausführen und Phase-5-Gates schließen (60 % → 70 %) | `evaluation` | 10–15 d | EPIC 2 Contracts |
 | P1-05 | Transaction-Modul 2PC/3PC-Härtung (68 % → 85 %) | `transaction` | 10–15 d | ACID-Garantien stärken |
 | P1-06 | BSI C5 Evidence-Manifest (`audit/evidence/c5/v2.4.0/manifest.json`) | Compliance | 2–3 d | BSI C5-01 schließen |
 | P1-07 | AUDIT.md für `access_model`, `execution`, `llm_wiki` anlegen | Governance | 4 h | GOV-01 schließen |
