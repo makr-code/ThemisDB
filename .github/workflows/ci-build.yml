@@ -475,7 +475,7 @@ jobs:
             let annotations = [];
             let rawOutput = '';
             try {
-              rawOutput = fs.readFileSync('${{ steps.strings.outputs.build-output-dir }}/../ctest-output.txt', 'utf8');
+              rawOutput = fs.readFileSync('${{ steps.strings.outputs.build-output-dir }}/ctest-output.txt', 'utf8');
             } catch (e) {
               core.warning('ctest-output.txt not found — build may have failed before tests ran.');
             }
@@ -514,7 +514,7 @@ jobs:
           name: ctest-results-${{ matrix.os }}-${{ matrix.c_compiler }}-${{ github.run_number }}
           path: |
             ${{ steps.strings.outputs.build-output-dir }}/ctest-results.xml
-            ${{ steps.strings.outputs.build-output-dir }}/../ctest-output.txt
+            ${{ steps.strings.outputs.build-output-dir }}/ctest-output.txt
           retention-days: 7  # short tier per ci-scope-config.yaml
 
       - name: Print sccache statistics
