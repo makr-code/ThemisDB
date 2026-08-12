@@ -2996,6 +2996,25 @@ Die folgenden wissenschaftlichen Quellen und technischen Dokumentationen bilden 
 
 ---
 
+## 30.20 Phase-3-Sync: Weiterführende Referenzen (docs/de/) {#chapter30_20_cross-references}
+
+> Detaillierte Implementierungsdokumentation zu den behandelten Deployment- und Operations-Themen:
+
+| Thema | Referenz (docs/de/) |
+|---|---|
+| Docker Deployment Guide | [`docs/de/deployment/DOCKER_DEPLOYMENT.md`](../../de/deployment/DOCKER_DEPLOYMENT.md) |
+| Docker GPU Support | [`docs/de/deployment/DOCKER_GPU_SUPPORT.md`](../../de/deployment/DOCKER_GPU_SUPPORT.md) |
+| Docker Security Checks | [`docs/de/deployment/DOCKER_SECURITY_CHECK_ZUSAMMENFASSUNG.md`](../../de/deployment/DOCKER_SECURITY_CHECK_ZUSAMMENFASSUNG.md) |
+| Editions-Deployment-Strategie | [`docs/de/deployment/EDITION_DEPLOYMENT_STRATEGY.md`](../../de/deployment/EDITION_DEPLOYMENT_STRATEGY.md) |
+| Editions-Limits-Matrix | [`docs/de/deployment/EDITION_LIMITS_MATRIX.md`](../../de/deployment/EDITION_LIMITS_MATRIX.md) |
+| Editions-Control-Mechanismen | [`docs/de/deployment/EDITION_CONTROL_MECHANISMS.md`](../../de/deployment/EDITION_CONTROL_MECHANISMS.md) |
+| Executive Summary Deployment | [`docs/de/deployment/EXECUTIVE_SUMMARY.md`](../../de/deployment/EXECUTIVE_SUMMARY.md) |
+
+**→ Zurück:** [Kapitel 29: Analytics](chapter_29_analytics.md)  
+**→ Weiter:** [Kapitel 31: API Protokolle](chapter_31_api_protocols.md)
+
+---
+
 **Kapitel 30 von 41** | **Teil X: Operations & Deployment** | **~10.100 Wörter**
 
 ---

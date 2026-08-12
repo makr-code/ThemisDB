@@ -1855,3 +1855,19 @@ auto vr = fed.validateToken(bearer_token);
 auto tx = fed.exchangeToken(external_token, "target-audience");
 // tx.token, tx.expires_in
 ```
+
+---
+
+## 21.15 Phase-3-Sync: Weiterführende Referenzen (docs/de/) {#chapter21_15_cross-references}
+
+> Detaillierte Implementierungsdokumentation zu den behandelten Authentifizierungs- und Autorisierungs-Themen:
+
+| Thema | Referenz (docs/de/) |
+|---|---|
+| JWT Authentifizierung | [`docs/de/auth/jwt.md`](../../de/auth/jwt.md) |
+| JWKS Konfiguration | [`docs/de/auth/jwks_example.json`](../../de/auth/jwks_example.json) |
+| Auth Primärquellen | [`docs/de/auth/PRIMARY_SOURCES.md`](../../de/auth/PRIMARY_SOURCES.md) |
+| Auth README | [`docs/de/auth/README.md`](../../de/auth/README.md) |
+
+**→ Zurück:** [Kapitel 21b: Security Performance](chapter_21_performance.md)  
+**→ Weiter:** [Kapitel 22a: Clients](chapter_22_clients.md)

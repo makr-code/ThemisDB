@@ -794,3 +794,51 @@ Understanding these terms is essential for:
 - **Communication:** Discussing with team
 
 Keep this glossary handy when learning or explaining ThemisDB concepts.
+
+---
+
+## v1.5.0 Update: Neue Begriffe (Phase 3 / Q3-Q4 2026)
+
+### Verschlüsselung & Security
+
+**AES-256-GCM:** Advanced Encryption Standard im Galois/Counter Mode mit 256-bit-Schlüssel. Bietet Authenticated Encryption with Associated Data (AEAD) — kombiniert Vertraulichkeit und Integrität in einem Pass. In ThemisDB verwendet für Column-Level Encryption, Vektor-Verschlüsselung und verschlüsselte Backups. Empfohlen durch BSI TR-02102-1.
+
+**Column-Level Encryption (CLE):** Feingranulare Verschlüsselung einzelner Datenbankfelder at-rest. ThemisDB implementiert CLE über das `EncryptedField<T>` Template; die Verschlüsselung ist transparent für Anwendungscode. Algorithmus: AES-256-GCM. Implementierung: `include/security/encryption.h`. Siehe Kapitel 22b.
+
+**DEK (Data Encryption Key):** Datenverschlüsselungsschlüssel in der KEK/DEK-Hierarchie. Einer pro Feld-Kategorie (z.B. `user_emails`, `vector_embeddings`). Versioniert für Lazy Re-Encryption bei Key Rotation. Wird durch KEK verschlüsselt gespeichert.
+
+**Dual-Write Pattern:** Key-Rotation-Strategie, bei der neue Schreibvorgänge sofort mit dem neuen Schlüssel (v_new) verschlüsselt werden, während Lesevorgänge den alten Schlüssel (v_old) noch akzeptieren. Ermöglicht unterbrechungsfreie Schlüsselrotation.
+
+**EncryptedField\<T\>:** C++ Template-Klasse (`include/security/encryption.h`), die ein Feld transparenter Verschlüsselung unterwirft. Ruft `FieldEncryption::encrypt()` on set und `decrypt()` on get auf. Unterstützt alle serialisierbaren Typen inkl. `std::vector<float>` für Embeddings. Siehe Kapitel 22b.
+
+**HSMProvider:** PKCS#11-basierter Key Provider für Hardware Security Module. Vollständig implementiert in `src/security/hsm_provider_pkcs11.cpp` (1056 Zeilen). Verwendet `dlopen/dlsym` für dynamisches Laden der PKCS#11-Bibliothek. Schützt Master Keys und KEKs in Hardware. Siehe Kapitel 22b.6.3.
+
+**IV (Initialization Vector):** Zufälliger 96-bit-Wert, der pro Verschlüsselungsoperation in AES-256-GCM neu generiert wird. Verhindert deterministische Ciphertexte bei identischem Plaintext. IV-Wiederverwendung ist fatal für GCM-Sicherheit.
+
+**KEK (Key Encryption Key):** Schlüsselverschlüsselungsschlüssel in der KEK/DEK-Hierarchie. Verschlüsselt die DEKs. Jährliche Rotation empfohlen (BSI C5 CRY-02). Geschützt durch Master Key im HSM oder Cloud-KMS.
+
+**Kyber-768:** Post-Quantum-Schlüsselaustausch-Algorithmus (CRYSTALS-Kyber) aus dem NIST PQC Round-3-Finalisierungsverfahren. In ThemisDB als Hybrid-Option zusammen mit X25519 verfügbar (`security.post_quantum.enabled: true`). Schützt gegen Quantum-Adversarien bei der Key-Exchange-Phase.
+
+**Lazy Re-Encryption:** Strategie, bei der Daten erst beim nächsten Schreibzugriff mit dem neuen Schlüssel verschlüsselt werden. Vermeidet einen einmaligen, blockierenden Bulk-Re-Encryption-Pass bei Key Rotation.
+
+**mTLS (Mutual TLS):** TLS-Variante, bei der sowohl Client als auch Server ihr Zertifikat vorlegen und gegenseitig verifizieren. In ThemisDB verpflichtend für Shard-to-Shard-Kommunikation. Implementierung: `src/security/` (OpenSSL). Konfiguration: `cluster.shard_communication.mtls`. Siehe Kapitel 22b.2.2.
+
+**VaultKeyProvider:** HashiCorp-Vault-Integration für Enterprise Key Management. Vollständig implementiert in `src/security/vault_key_provider.cpp` (739 Zeilen). Unterstützt Vault KV v1/v2 und Transit Engine. Thread-sicher mit Retry-Logic und Key-Cache (1h TTL). Siehe Kapitel 22b.6.3.
+
+### Deployment & Operations
+
+**Edition Control Mechanism:** Laufzeit-Durchsetzung von Editions-Grenzen (Minimal/Community/Enterprise/Hyperscaler). Liest Edition-Flags aus der Lizenzkonfiguration und blockiert Features, die für die aktive Edition nicht lizenziert sind. Implementierung: `src/edition/`. Dokumentation: `docs/de/deployment/EDITION_CONTROL_MECHANISMS.md`.
+
+**Edition Limits Matrix:** Tabelle der Feature-Grenzen pro Edition (max. Cluster-Nodes, Shards, gleichzeitige Verbindungen, Enterprise-Features). Verbindlich für Deployment-Planung. Referenz: `docs/de/deployment/EDITION_LIMITS_MATRIX.md`.
+
+### Observability & SRE
+
+**SLO (Service Level Objective):** Messbare Zielvorgabe für Service-Qualität (z.B. „99.9 % Requests unter 50 ms"). ThemisDB Observability-Stack exportiert SLO-Burn-Rate-Metriken via OpenTelemetry. Konfiguration: `docs/de/observability/observability_alerting.md`.
+
+**SLI (Service Level Indicator):** Messgröße für SLO-Bewertung (z.B. Error Rate, P99-Latenz, Throughput). Wird von ThemisDB-Metriken direkt in den OpenTelemetry-Exporter eingespeist. Referenz: `docs/de/observability/observability_metrics.md`.
+
+**OpenTelemetry (OTel):** Vendor-neutrales Observability-Framework für Traces, Metriken und Logs. ThemisDB exportiert alle Observability-Daten über OTLP (OpenTelemetry Protocol) zu konfigurierbaren Backends (Jaeger, Prometheus, OTEL Collector). Siehe Kapitel 38.
+
+---
+
+**Appendix H — Stand:** v1.5.0-dev (Q3/Q4 2026 Update)

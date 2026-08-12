@@ -11,20 +11,31 @@
 - [x] Phase 1 — YAML-gesteuertes Build-System (mkdocs-nav.yml, 11 Section Pages) — **COMPLETE** (Jan 2026)
 - [x] Phase 2 — PDF Enhancement (Abbildungsverzeichnis, Header/Footer, Bookmarks) — **COMPLETE** (Jan 2026)
 - [x] Phase 3 Kapitel 16 — Sharding mit RAID-äquivalenten Redundanzmodi — **COMPLETE** (Feb 2026)
-- [~] Phase 3 Hochprioritäts-Kapitel (17, 29, 31, 40) — docs/de ↔ Kompendium-Sync — **IN PROGRESS** (Aug 2026)
-- [ ] Phase 3 Medium-Priority-Kapitel (10 verbleibende) — **PENDING** (Target: 2026-Q3/Q4)
+- [x] Phase 3 Hochprioritäts-Kapitel (17, 29, 31, 40) — docs/de ↔ Kompendium-Sync — **COMPLETE** (Aug 2026)
+- [x] Phase 3 Medium-Priority-Kapitel (10 verbleibende) — **COMPLETE** (Aug 2026)
 - [ ] Phase 4 — Cross-Reference-Implementierung in allen Kapiteln — **PENDING** (Target: 2026-Q4)
 - [ ] Phase 5 — v1.5.0 GA Build & QA Validation — **PENDING** (Target: 2026-Q4)
 
 ---
 
-## In Progress (Q3 2026)
+## Completed (Q3 2026)
 
-- [~] Kapitel 17 (LLM Integration) — Cross-References zu docs/de/llm/, lora/, rag/ ergänzt (Target: 2026-Q3)
-- [~] Kapitel 29 (Analytics & Process Mining) — AQL-Beispiele aus PROCESS_MINING_AQL_EXAMPLES.md integriert (Target: 2026-Q3)
-- [~] Kapitel 31 (API-Protokolle) — Cross-References zu docs/de/apis/, rpc_grpc/ ergänzt (Target: 2026-Q3)
-- [~] Kapitel 40 (Data Governance) — BSI C5/ISO 27001/DSGVO/SOC 2 Compliance-Matrix integriert (Target: 2026-Q3)
-- [~] docs/compendium/VERSION auf v1.5.0-dev aktualisiert (Target: 2026-Q3)
+- [x] Kapitel 17 (LLM Integration) — Cross-References zu docs/de/llm/, lora/, rag/ ergänzt (Aug 2026)
+- [x] Kapitel 29 (Analytics & Process Mining) — AQL-Beispiele aus PROCESS_MINING_AQL_EXAMPLES.md integriert (Aug 2026)
+- [x] Kapitel 31 (API-Protokolle) — Cross-References zu docs/de/apis/, rpc_grpc/ ergänzt (Aug 2026)
+- [x] Kapitel 40 (Data Governance) — BSI C5/ISO 27001/DSGVO/SOC 2 Compliance-Matrix integriert (Aug 2026)
+- [x] Kapitel 2 (Architektur) — docs/de/architecture/ Phase-3-Sync (Aug 2026)
+- [x] Kapitel 19 (Monitoring) — docs/de/observability/ Phase-3-Sync (Aug 2026)
+- [x] Kapitel 21 (Auth) — docs/de/auth/ Phase-3-Sync (Aug 2026)
+- [x] Kapitel 22 (Encryption) — vollständiges Kapitel 22b aus docs/de/security/ (Aug 2026)
+- [x] Kapitel 30 (Deployment) — docs/de/deployment/ Phase-3-Sync (Aug 2026)
+- [x] Kapitel 34 (Query Optimization) — docs/de/query/ Phase-3-Sync (Aug 2026)
+- [x] Kapitel 36 (Security Hardening) — docs/de/security/ Phase-3-Sync (Aug 2026)
+- [x] Kapitel 38 (Observability SRE) — docs/de/observability/ Phase-3-Sync (Aug 2026)
+- [x] Kapitel 39 (Performance Tuning) — docs/de/performance/ Phase-3-Sync (Aug 2026)
+- [x] Appendix H (Glossar) — v1.5.0 Begriffe ergänzt (Aug 2026)
+- [x] Appendix F (AQL-Cheatsheet) — v1.5.0 Patterns ergänzt (Aug 2026)
+- [x] docs/compendium/VERSION auf v1.5.0-dev aktualisiert (Aug 2026)
 
 ---
 
@@ -42,16 +53,16 @@
 
 ### Medium-Priority Kapitel (Phase 3 Rest)
 
-- [ ] Kapitel 2 (Architektur) — docs/de/architecture/ integrieren (Target: 2026-Q3)
-- [ ] Kapitel 19 (Monitoring) — docs/de/observability/ integrieren (Target: 2026-Q3)
-- [ ] Kapitel 21 (Auth) — docs/de/auth/ integrieren (Target: 2026-Q3)
-- [ ] Kapitel 22 (Encryption) — docs/de/security/ integrieren (Target: 2026-Q3)
-- [ ] Kapitel 36 (Security Hardening) — docs/de/security/ integrieren (Target: 2026-Q3)
-- [ ] Kapitel 34 (Query Optimization) — docs/de/query/ integrieren (Target: 2026-Q4)
-- [ ] Kapitel 38 (Observability SRE) — docs/de/observability/ integrieren (Target: 2026-Q4)
-- [ ] Kapitel 39 (Performance Tuning) — docs/de/performance/ integrieren (Target: 2026-Q4)
-- [ ] Kapitel 30 (Deployment) — docs/de/deployment/ integrieren (Target: 2026-Q4)
-- [ ] Appendix Update — Glossar, AQL-Cheatsheet auf v1.5.0 aktualisieren (Target: 2026-Q4)
+- [x] Kapitel 2 (Architektur) — docs/de/architecture/ integriert (Aug 2026)
+- [x] Kapitel 19 (Monitoring) — docs/de/observability/ integriert (Aug 2026)
+- [x] Kapitel 21 (Auth) — docs/de/auth/ integriert (Aug 2026)
+- [x] Kapitel 22 (Encryption) — vollständiges Kapitel aus docs/de/security/ (Aug 2026)
+- [x] Kapitel 36 (Security Hardening) — docs/de/security/ integriert (Aug 2026)
+- [x] Kapitel 34 (Query Optimization) — docs/de/query/ integriert (Aug 2026)
+- [x] Kapitel 38 (Observability SRE) — docs/de/observability/ integriert (Aug 2026)
+- [x] Kapitel 39 (Performance Tuning) — docs/de/performance/ integriert (Aug 2026)
+- [x] Kapitel 30 (Deployment) — docs/de/deployment/ integriert (Aug 2026)
+- [x] Appendix Update — Glossar + AQL-Cheatsheet v1.5.0-Update (Aug 2026)
 
 ### Qualitätssicherung & Abnahme
 
@@ -79,7 +90,7 @@
 ### Phase 3: docs/de ↔ Kompendium-Sync
 - [x] Kapitel 16 Sharding — RAID-Redundanzmodi vollständig
 - [~] Hochprioritäts-Kapitel 17, 29, 31, 40 — Cross-References + Content-Integration (Aug 2026)
-- [ ] 10 Medium-Priority-Kapitel (Q3/Q4 2026)
+- [x] 10 Medium-Priority-Kapitel (Aug 2026) — Phase-3-Sync vollständig
 - [ ] Bidirektionale Cross-Reference-Links in allen Kapiteln
 
 ### Phase 4: Cross-Reference-Vollständigkeit
@@ -109,7 +120,7 @@
 
 ## Known Issues & Limitations
 
-- [!] 10 Medium-Priority-Kapitel noch ohne docs/de-Integration (Phase-3-Rest)
+- [!] 10 Medium-Priority-Kapitel — Phase-3-Sync COMPLETE (Aug 2026)
 - [!] Kapitel-Nummerierungs-Duplikate vorhanden (chapter_08_storage_layer + chapter_08_vector; chapter_16_ml + chapter_16_sharding; etc.) — zu bereinigen vor v1.5.0 GA
 - [!] Build-Skripte (step1–5) nicht automatisiert via CI — manueller Build-Trigger erforderlich
 

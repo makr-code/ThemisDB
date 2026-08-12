@@ -1907,3 +1907,20 @@ if (!suggestions.indexExists("orders", "customer_id")) {
     idx_mgr.createIndex("orders", "customer_id", recs[0].index_type);
 }
 ```
+
+---
+
+## 34.15 Phase-3-Sync: Weiterführende Referenzen (docs/de/) {#chapter34_15_cross-references}
+
+> Detaillierte Implementierungsdokumentation zu den behandelten Themen:
+
+| Thema | Referenz |
+|---|---|
+| Hybrid Query Überblick | [`docs/de/query/query_hybrid_overview.md`](../../de/query/query_hybrid_overview.md) |
+| Hybrid Query Benchmarks | [`docs/de/query/query_hybrid_benchmarks.md`](../../de/query/query_hybrid_benchmarks.md) |
+| Vector-Hybrid Queries | [`docs/de/query/query_vector_hybrid.md`](../../de/query/query_vector_hybrid.md) |
+| Gefilterte Vektorsuche | [`docs/de/query/query_filtered_vector.md`](../../de/query/query_filtered_vector.md) |
+| Query Primärquellen | [`docs/de/query/PRIMARY_SOURCES.md`](../../de/query/PRIMARY_SOURCES.md) |
+
+**→ Zurück:** [Kapitel 33: Graph Analytics](chapter_33_graph_analytics.md)
+**→ Weiter:** [Kapitel 35: Partitioning](chapter_35_partitioning.md)

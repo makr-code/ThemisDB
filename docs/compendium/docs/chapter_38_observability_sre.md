@@ -2058,3 +2058,20 @@ for (auto& issue : issues) {
     // issue.recommendation: "Run compaction on column family 'vectors'"
 }
 ```
+
+---
+
+## 38.15 Phase-3-Sync: Weiterführende Referenzen (docs/de/) {#chapter38_15_cross-references}
+
+> Detaillierte Implementierungsdokumentation zu den behandelten Themen:
+
+| Thema | Referenz |
+|---|---|
+| Observability Metriken | [`docs/de/observability/observability_metrics.md`](../../de/observability/observability_metrics.md) |
+| Alerting & SLO Konfiguration | [`docs/de/observability/observability_alerting.md`](../../de/observability/observability_alerting.md) |
+| OpenTelemetry Integration | [`docs/de/observability/observability_opentelemetry.md`](../../de/observability/observability_opentelemetry.md) |
+| Field Diagnostics Guide | [`docs/de/observability/FIELD_DIAGNOSTICS_INTEGRATION_GUIDE.md`](../../de/observability/FIELD_DIAGNOSTICS_INTEGRATION_GUIDE.md) |
+| Observability Primärquellen | [`docs/de/observability/PRIMARY_SOURCES.md`](../../de/observability/PRIMARY_SOURCES.md) |
+
+**→ Zurück:** [Kapitel 37: Compliance](chapter_37_compliance.md)
+**→ Weiter:** [Kapitel 39: Performance Tuning](chapter_39_performance_tuning_cookbook.md)

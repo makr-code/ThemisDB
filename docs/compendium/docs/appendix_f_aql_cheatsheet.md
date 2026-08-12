@@ -537,3 +537,134 @@ Bookmark this section! Most queries can be built from these patterns. When stuck
 1. **Check pattern above** 
 2. **Run EXPLAIN to verify optimization**
 3. **See Chapter 28 for detailed docs**
+
+---
+
+## v1.5.0 Additions: Neue AQL-Features & Patterns
+
+### Hybrid Search (Vector + Keyword)
+
+```aql
+-- Hybrid Search: semantisch + Keyword (BM25 + Vector, RRF-Fusion)
+FOR doc IN documents
+  LET vec_score = VECTOR_SIMILARITY(doc.embedding, @query_vec, "cosine")
+  LET bm25_score = BM25(doc, @keywords)
+  LET rrf_score = 1.0 / (60.0 + RANK(vec_score)) + 1.0 / (60.0 + RANK(bm25_score))
+  SORT rrf_score DESC
+  LIMIT 20
+  RETURN {doc, vec_score, bm25_score, rrf_score}
+
+-- Kurzform mit HYBRID_SEARCH() (ThemisDB v1.5.0)
+FOR doc IN HYBRID_SEARCH(documents,
+  VECTOR: {field: "embedding", query: @query_vec, weight: 0.5},
+  BM25:   {field: "content",   query: @keywords,  weight: 0.5},
+  TOP: 20)
+RETURN doc
+```
+
+### Filtered Vector Search
+
+```aql
+-- Vektorsuche mit Vorfilter (pre-filtering, effizienter als Post-Filter)
+FOR doc IN documents
+  FILTER doc.category == "technical"
+  FILTER doc.lang == "de"
+  LET score = VECTOR_SIMILARITY(doc.embedding, @query_vec, "cosine")
+  SORT score DESC
+  LIMIT 10
+  RETURN {doc._key, doc.title, score}
+
+-- HNSW mit ef_search Override für höhere Recall
+FOR doc IN documents OPTIONS {vectorIndexEfSearch: 200}
+  LET score = VECTOR_SIMILARITY(doc.embedding, @query_vec, "cosine")
+  SORT score DESC
+  LIMIT 10
+  RETURN doc
+```
+
+### Time-Series Aggregationen (neu in v1.5.0)
+
+```aql
+-- Rolling Average über 5-Minuten-Fenster
+FOR m IN metrics
+  FILTER m.ts >= DATE_SUBTRACT(NOW(), 1, "hour")
+  COLLECT minute = DATE_TRUNC(m.ts, "minute") INTO bucket
+  LET avg_val = AVERAGE(bucket[*].m.value)
+  SORT minute ASC
+  RETURN {minute, avg_val}
+
+-- Anomalie-Erkennung: Werte über 3-Sigma-Grenze
+LET stats = (
+  FOR m IN metrics FILTER m.ts >= DATE_SUBTRACT(NOW(), 24, "hour")
+  RETURN m.value
+)
+LET mean = AVERAGE(stats)
+LET stddev = STDDEV_POPULATION(stats)
+FOR m IN metrics
+  FILTER m.ts >= DATE_SUBTRACT(NOW(), 1, "hour")
+  FILTER m.value > mean + 3 * stddev
+  RETURN {m.ts, m.value, zscore: (m.value - mean) / stddev}
+```
+
+### Graph-Traversals mit Kostenoptimierung
+
+```aql
+-- Kürzester Pfad (Dijkstra)
+FOR path IN SHORTEST_PATH
+  GRAPH "knowledge_graph"
+  FROM "concepts/machine_learning"
+  TO   "concepts/neural_network"
+  OPTIONS {weightAttribute: "distance"}
+  RETURN path
+
+-- K-Hop-Nachbarn mit Tiefenbegrenzung und Kantenfilter
+FOR v, e, p IN 1..3 OUTBOUND "users/alice"
+  GRAPH "social_graph"
+  FILTER e.weight > 0.5
+  FILTER v.active == true
+  RETURN DISTINCT v
+```
+
+### Encryption-aware Queries (v1.5.0)
+
+```aql
+-- Abfrage auf verschlüsselten Feldern (Entschlüsselung server-side)
+-- Hinweis: Filterung auf verschlüsselten Feldern erfordert Scan mit Entschlüsselung
+FOR u IN users
+  LET email = DECRYPT(u.email_encrypted, "user_emails")
+  FILTER email == @search_email
+  RETURN {u._key, email}
+
+-- Batch-Rückgabe verschlüsselter Felder (performanter als Einzel-Decrypt)
+FOR u IN users LIMIT 100
+  RETURN {
+    id: u._key,
+    email: DECRYPT(u.email_encrypted, "user_emails"),
+    name: u.name
+  }
+```
+
+### Performance-Hints & EXPLAIN
+
+```aql
+-- EXPLAIN für Query-Plan-Analyse
+EXPLAIN FOR doc IN documents
+  FILTER doc.category == "ml"
+  LET s = VECTOR_SIMILARITY(doc.embedding, @q, "cosine")
+  SORT s DESC LIMIT 10
+  RETURN doc
+
+-- Index-Nutzung erzwingen (Override Optimizer)
+FOR doc IN documents OPTIONS {indexHint: "idx_category", forceIndexHint: true}
+  FILTER doc.category == "ml"
+  RETURN doc
+
+-- Query-Cache deaktivieren (für Benchmarks)
+FOR doc IN documents OPTIONS {useQueryCache: false}
+  RETURN doc
+```
+
+---
+
+**Appendix F — Stand:** v1.5.0-dev (Q3/Q4 2026 Update)  
+**→ Weiter:** [Kapitel 28: AQL Referenz](chapter_28_aql_reference.md) | [Kapitel 34: Query Optimization](chapter_34_query_optimization.md)
