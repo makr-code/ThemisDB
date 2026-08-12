@@ -40,6 +40,7 @@ Persistente Wissensbasis für KI-Agenten im ThemisDB-Repository.
 		- `apply_ai_updates=true` fuer AI-Context-Lint-Updates
 		- `llm_wiki_apply_updates=true` fuer Developer-LLM-Wiki-Updates
 		- `llm_wiki_full_sync=true` fuer initialen/globalen Migrationslauf
+		- konkrete Erstlauf-Runbook-Sequenz: `ai_context/DEVELOPER_LLM_WIKI_FRAMEWORK.md` Abschnitt `8) Erster globaler Logic-Run`
 
 ## Initiale ADR-Referenzen
 

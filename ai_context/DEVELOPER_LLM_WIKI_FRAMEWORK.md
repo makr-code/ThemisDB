@@ -78,15 +78,31 @@ Regel:
 
 ## 8) Erster globaler Logic-Run (Pflicht nach Framework-Aufbau)
 
-Der initiale Migrationslauf zur Ueberfuehrung bestehender Doku in das Entwickler-LLM-Wiki erfolgt via:
+Der initiale produktive Migrationslauf zur Ueberfuehrung bestehender Doku in das Entwickler-LLM-Wiki erfolgt als feste Runbook-Sequenz:
 
-- Workflow: `Maintenance — Docs`
-- Trigger: `workflow_dispatch`
-- Inputs:
-  - `llm_wiki_apply_updates=true`
-  - `llm_wiki_full_sync=true`
-  - `llm_wiki_fail_on_findings=false` (empfohlen fuer Initiallauf)
-
-Erwartetes Ergebnis:
-- Vollstaendige Erstbefuellung von `ai_context/developer_llm_wiki/`
-- Delta-/Status-Artefakte als Baseline fuer nachfolgende inkrementelle Laeufe
+1. GitHub UI oeffnen: `Actions` -> Workflow `Maintenance — Docs` (`.github/workflows/maintenance-docs.yml`).
+2. Bei `Use workflow from` die Branch `develop` auswaehlen.
+3. `Run workflow` oeffnen und fuer den Erstlauf diese Inputs setzen:
+   - `fail_on_findings=false`
+   - `update_headers=false`
+   - `apply_ai_updates=false`
+   - `llm_wiki_apply_updates=true`
+   - `llm_wiki_full_sync=true`
+   - `llm_wiki_fail_on_findings=false`
+4. Lauf mit `Run workflow` starten.
+5. Ergebnispruefung (Pflicht):
+   - Job Summary lesen (insbesondere `Developer LLM Wiki Sync`).
+   - Artefakte herunterladen und pruefen:
+     - `developer-llm-wiki-*`
+     - `ai-context-lint-*`
+     - `docs-orphan-check-*`
+     - `root-docs-hygiene-*`
+     - `src-include-docs-align-*`
+6. Abnahme fuer Produktivbetrieb:
+   - kein harter Job-Fehler,
+   - `ai_context/developer_llm_wiki/*` in Artefakten vollstaendig befuellt,
+   - Findings dokumentiert und fuer Folge-PR eingeplant.
+7. Direkter Folgelauf (stabilerer Gate-Modus), nur bei guter Signalqualitaet aus Schritt 5/6:
+   - `llm_wiki_full_sync=false`
+   - `llm_wiki_apply_updates=true`
+   - `llm_wiki_fail_on_findings=true`
