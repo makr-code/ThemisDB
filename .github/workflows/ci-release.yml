@@ -19,8 +19,8 @@ name: CI — Release
 # credentials, private submodules, or private artefacts (RELEASE_STRATEGY.md §2.4).
 #
 # Packaging outputs per platform (via CPack):
-#   Linux community-release : TGZ + DEB + RPM
-#   Linux linux-release     : TGZ + ZIP
+#   Linux community-release : fallback build lane / raw binaries
+#   Linux linux-release     : TGZ + DEB + RPM + ZIP
 #   Windows windows-release : ZIP + WIX/MSI (WiX v3 required on runner)
 
 on:
@@ -112,14 +112,14 @@ jobs:
           - preset: community-release
             os: ubuntu-latest
             binaryDir: build-community-release
-            cpack_generators: TGZ;DEB;RPM
+            cpack_generators: ""
             description: Community build with system packages
 
           - preset: linux-release
             os: ubuntu-latest
             binaryDir: build-gcc-linux-release
-            cpack_generators: TGZ;ZIP
-            description: Production Linux build with vcpkg
+            cpack_generators: TGZ;DEB;RPM;ZIP
+            description: Production Linux build with native packages
 
           - preset: windows-release
             os: windows-latest
@@ -166,7 +166,7 @@ jobs:
 
       - name: Install Linux packaging tools (linux-release)
         if: matrix.preset == 'linux-release' && steps.filter.outputs.skip != 'true'
-        run: sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends rpm
+        run: sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends dpkg-dev rpm
 
       - name: Set up vcpkg (Linux/Windows vcpkg presets)
         if: >

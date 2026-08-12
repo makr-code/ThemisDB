@@ -113,7 +113,7 @@ cd themisdb-2.4.0-rc1-Linux-x86_64
 ./bin/themis_server --config ./config/config.yaml --data-dir ./data
 ```
 
-> DEB/RPM packages are built in the `linux-packages` CI job and attached to each GitHub Release.
+> DEB/RPM packages are built in `.github/workflows/ci-release.yml` (Linux `linux-release` packaging lane) and attached to each GitHub Release.
 
 ## Option 2 — Dev Container (VS Code)
 
