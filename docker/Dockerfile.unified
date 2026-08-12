@@ -63,6 +63,10 @@ RUN set -eux; \
 
 # Copy vcpkg configuration and overlay ports
 COPY vcpkg-configuration.json ./
+# Ensure overlay-ports directory exists before COPY so that any stale
+# GHA build-cache entry for this layer is invalidated on the first run
+# after this change, and the directory is always present for vcpkg.
+RUN mkdir -p /build/ports
 COPY ports ./ports
 
 # Install dependencies (with cache mounts for downloads/packages)
