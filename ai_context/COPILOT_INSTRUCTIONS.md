@@ -5,6 +5,15 @@ Status: Active
 Bezug: Repository-weite AI-/Copilot-Arbeitsregeln fuer Dokumentation, Governance und Release-Sync; Module-Klassifizierung (T0–T5) aktualisiert  
 Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, .github/copilot-instructions.md, BRANCHING_STRATEGY.md, RELEASE_STRATEGY.md, ARCHITECTURE_CLASSIFICATION.md
 
+## Wiki usage for all coding AIs (MUST)
+
+Copilot, Claude, and comparable coding AI agents must use the repository wiki as required working context.
+
+1. Before implementation or refactoring, check the relevant wiki pages first (architecture, operations, module, and governance pages).
+2. If documentation sources conflict, follow the source-of-truth order linked from the wiki context.
+3. When architecture, operations, process, or governance behavior changes, keep corresponding wiki content in sync in the same change set.
+4. If required wiki coverage is missing, flag the gap explicitly in working artifacts or PR notes instead of silently proceeding.
+
 ## AI Context Knowledge Base (NEW in 2026-08-07)
 
 Before starting any implementation task, consult these curated references:

@@ -28,14 +28,19 @@ Persistente Wissensbasis für KI-Agenten im ThemisDB-Repository.
 
 ## Automatisierung (LLM-Wiki-Loop)
 
-- Workflow: `.github/workflows/08-maintenance_ai-context-wiki-sync.yml`
-- Script: `scripts/ai-context-lint.py`
+- Workflow: `.github/workflows/maintenance-docs.yml`
+- Scripts:
+	- `scripts/ai-context-lint.py` (Lint + Konflikt/Report-Updates fuer bestehenden AI-Context)
+	- `scripts/ai-dev-llm-wiki-sync.py` (Developer-LLM-Wiki Sync in `ai_context/developer_llm_wiki/`)
+- Framework-Spezifikation:
+	- `ai_context/DEVELOPER_LLM_WIKI_FRAMEWORK.md`
 - Betriebsart:
-	- `push`/`pull_request`/`schedule`: pruefender Lintlauf mit Reports als Artefakt
-	- `workflow_dispatch` mit `apply_updates=true`: aktualisiert
-		- `ai_context/KNOWLEDGE_LINT_REPORT.md`
-		- `ai_context/KNOWLEDGE_CONFLICTS.md`
-	- `workflow_dispatch` mit `update_mode=pull-request`: erstellt Update-Branch und automatische PR statt Direkt-Commit
+	- `push`/`pull_request`/`schedule`: pruefende Laeufe mit Reports als Artefakt
+	- `workflow_dispatch`:
+		- `apply_ai_updates=true` fuer AI-Context-Lint-Updates
+		- `llm_wiki_apply_updates=true` fuer Developer-LLM-Wiki-Updates
+		- `llm_wiki_full_sync=true` fuer initialen/globalen Migrationslauf
+		- konkrete Erstlauf-Runbook-Sequenz: `ai_context/DEVELOPER_LLM_WIKI_FRAMEWORK.md` Abschnitt `8) Erster globaler Logic-Run`
 
 ## Initiale ADR-Referenzen
 

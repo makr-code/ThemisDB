@@ -4,6 +4,13 @@ Project: ThemisDB
 
 This file defines the working contract for Claude Code in this repository.
 
+## Wiki Usage (MUST)
+
+- Use the repository wiki as required context before implementation or refactoring.
+- Review relevant wiki pages first (architecture, operations, module, governance).
+- Keep corresponding wiki content synchronized when architecture/process/governance behavior changes.
+- If wiki coverage is missing, report the gap explicitly in working notes or PR context.
+
 ## Core Workflow (Explore -> Plan -> Execute -> Commit)
 
 1. Explore
@@ -64,4 +71,3 @@ This is mandatory for signature changes, renames, and cross-module edits.
 
 ---
 Zuletzt geprueft (Root-Sync): 2026-05-26
-
