@@ -158,6 +158,14 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D
 - [ ] `release_critical` CI green on `develop` (Target: Q4 2026)
 - [ ] Representative-hardware p95/p99 baselines refreshed (Target: Q4 2026)
 
+### Wave A Closure Evidence Block
+- [x] Focused regression closure: TXC-01..32, FLR-01..20, FI-01..40, and SCR-01..16 suites are delivered and referenced in this roadmap.
+- [x] Chaos/fault-injection evidence: Wave-8 fault-injection coverage is delivered in `tests/sharding/test_sharding_p6_fault_injection.cpp` and integrated into the gate board.
+- [~] Fail-closed verification: thread-safety and lock-order hardening are delivered, but the multi-shard exact gate under shard-failure injection remains pending.
+- [ ] Representative-hardware p95/p99 baselines: release-gate benchmarks exist, but representative-hardware refresh for routing/commit/migration paths remains open.
+- [ ] `release_critical` coverage: `release_critical` registration exists for focused gates, but green-on-`develop` evidence for the full Wave A path is still pending.
+- [ ] Next closure batch: finish `test_sharding_multishard_exact`, `bench_multishard_exact`, topology-change rebalance hardening, and long-run distributed write stress.
+
 ### Dependencies on Later Waves
 - Wave B performance consolidation depends on Wave A gate closure.
 - Wave C security validation depends on stable Wave A runtime behavior.

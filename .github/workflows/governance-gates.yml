@@ -11,6 +11,8 @@ name: Governance — Gates
 on:
   push:
     branches: [develop]
+    tags:
+      - 'v*-rc.*'
   pull_request:
     types: [opened, synchronize, labeled, unlabeled, reopened]
     branches:
@@ -20,9 +22,14 @@ on:
       - hyperscaler
       - military
     paths:
+      - 'ROADMAP.md'
+      - 'FUTURE_ENHANCEMENTS.md'
+      - 'audit/MATURITY_REPORT_*.md'
       - 'src/**'
       - 'include/**'
       - 'src/*/ROADMAP.md'
+      - 'scripts/verification/**'
+      - 'tests/test_maturity_exit_criteria.py'
       - 'docs/governance/**'
       - '.github/workflows/governance-gates.yml'
   pull_request_review:
@@ -34,9 +41,6 @@ on:
     - cron: '0 9 * * *'     # Daily 09:00 UTC — waiver expiration check
     - cron: '0 8 * * MON'   # Weekly Monday 08:00 UTC — gate audit summary
     - cron: '0 8 1 1,4,7,10 *'  # Quarterly — branch protection drift detection
-  push:
-    tags:
-      - 'v*-rc.*'
   workflow_dispatch:
     inputs:
       rc_tag:
@@ -95,12 +99,55 @@ jobs:
             --manifest docs/governance/MATURITY_EVIDENCE_MANIFEST.json \
             --output /tmp/maturity_report.json || true
 
+      - name: Check hard maturity exit criteria
+        continue-on-error: true
+        run: |
+          python3 scripts/verification/check_maturity_exit_criteria.py \
+            --repo-root="${GITHUB_WORKSPACE}" \
+            --output-json=/tmp/maturity_exit_criteria.json
+
+      - name: Summarize hard maturity exit criteria
+        if: always()
+        run: |
+          python3 << 'EOF' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          from pathlib import Path
+
+          path = Path("/tmp/maturity_exit_criteria.json")
+          print("## Hard 100% Maturity Exit Criteria")
+          print()
+          if not path.exists():
+              print("- Result: no artifact produced")
+              raise SystemExit(0)
+
+          payload = json.loads(path.read_text(encoding="utf-8"))
+          failed = [check for check in payload["checks"] if not check["passed"]]
+          print(f"- Result: {'PASS' if payload['pass'] else 'FAIL'}")
+          print(f"- Report: `{payload['maturity_report']}`")
+          print(f"- Failed checks: {len(failed)}")
+          if failed:
+              print()
+              print("| Check | Value | Target |")
+              print("|---|---:|---:|")
+              for check in failed:
+                  print(f"| `{check['name']}` | {check['value']} | {check['target']} |")
+          EOF
+
       - name: Upload maturity report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: maturity-report-${{ github.run_number }}
           path: /tmp/maturity_report.json
+          retention-days: 30
+          if-no-files-found: ignore
+
+      - name: Upload hard maturity exit artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: maturity-exit-criteria-${{ github.run_number }}
+          path: /tmp/maturity_exit_criteria.json
           retention-days: 30
           if-no-files-found: ignore
 
@@ -124,9 +171,11 @@ jobs:
         run: |
           git fetch origin "${{ github.base_ref }}" --depth=1
           CHANGED_ROADMAPS=$(git diff --name-only "origin/${{ github.base_ref }}...HEAD" | grep 'src/.*/ROADMAP\.md' || true)
-          echo "changed_roadmaps<<EOF" >> "$GITHUB_OUTPUT"
-          echo "${CHANGED_ROADMAPS}" >> "$GITHUB_OUTPUT"
-          echo "EOF" >> "$GITHUB_OUTPUT"
+          {
+            echo "changed_roadmaps<<EOF"
+            echo "${CHANGED_ROADMAPS}"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
 
       - name: Validate phase closures
         if: steps.modules.outputs.changed_roadmaps != ''
