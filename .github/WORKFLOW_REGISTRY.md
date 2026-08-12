@@ -22,7 +22,7 @@ Quarantaene, nicht einen inoffiziellen Reservepool fuer schnelle Reaktivierung.
 - `.github/workflows/ci-build.yml`
   — Multi-OS Build/Test-Matrix inkl. optionaler Sanitizer-Lane per `workflow_dispatch`
 - `.github/workflows/ci-release.yml`
-  — Tag-/Dispatch-gesteuerte Release-Builds, Packaging, Manifest-Validierung und Publish-Lanes
+  — Tag-/Dispatch-gesteuerte Release-Builds; CPack-Packaging (TGZ/DEB/RPM/ZIP/MSI); Manifest-Validierung, GitHub-Release-Erstellung und Publish-Lanes (community + private); Changelog-Automation
 - `.github/workflows/ci-benchmarks.yml`
   — Entkoppelte schwere Benchmark-Lanes (voice, GPU matrix, nightly sweep)
 - `.github/workflows/release-changelog.yml`
@@ -48,7 +48,7 @@ Quarantaene, nicht einen inoffiziellen Reservepool fuer schnelle Reaktivierung.
 - `.github/workflows/maintenance-security-alerts.yml`
   — Tägliche Security-SLA-Triage (Code-Scanning High/Critical, dedupliziertes Governance-Issue, Auto-Close bei Recovery)
 - `.github/workflows/docker-image.yml`
-  — Container build/publish lane
+  — Container build/publish lane; triggered via workflow_run after successful CI — Release (koordiniert mit ci-release.yml)
 - `.github/workflows/edition-hyperscaler-ci.yml`
   — Editionsspezifische Hyperscaler-CI Lane
 - `.github/workflows/automation-community.yml`

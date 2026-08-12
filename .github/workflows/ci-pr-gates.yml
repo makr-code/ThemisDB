@@ -30,7 +30,8 @@ on:
       - CMakeLists.txt
       - CMakePresets.json
       - cmake/**
-      - include/updates/**
+      - .github/workflows/ci-pr-gates.yml
+      - .github/WORKFLOW_GUIDELINES.md
   workflow_dispatch:
     inputs:
       run_scan_if_missing:
@@ -56,7 +57,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
         with:
           fetch-depth: 0
 
@@ -145,7 +146,7 @@ jobs:
       github.event_name == 'pull_request' &&
       (github.base_ref == 'community' || github.base_ref == 'minimal')
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
         with:
           fetch-depth: 0
 
@@ -200,9 +201,9 @@ jobs:
     timeout-minutes: 10
     if: github.event_name == 'pull_request'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
         with:
           python-version: '3.11'
 
@@ -227,7 +228,7 @@ jobs:
       github.event_name == 'pull_request' &&
       contains(fromJSON('["develop","community","enterprise","hyperscaler","military"]'), github.base_ref)
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
         with:
           fetch-depth: 0
 
@@ -296,7 +297,7 @@ jobs:
       github.event_name == 'pull_request' &&
       contains(fromJSON('["develop","community","enterprise","hyperscaler","military"]'), github.base_ref)
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
       - name: Setup C++ build dependencies
         uses: ./.github/actions/setup-cpp-build
         with:
@@ -327,7 +328,7 @@ jobs:
 
       - name: Upload release-critical triage bundle
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08  # v4.6.0
         with:
           name: release-critical-triage-${{ github.run_number }}
           path: |
@@ -348,7 +349,7 @@ jobs:
       github.event_name == 'push' ||
       (github.event_name == 'pull_request' && github.base_ref == 'develop')
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
 
       - name: Derive SOURCE_DATE_EPOCH from HEAD commit
         id: source_date_epoch
@@ -391,11 +392,11 @@ jobs:
       github.event_name == 'pull_request' &&
       (github.base_ref == 'develop' || github.base_ref == 'community')
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
         with:
           python-version: '3.11'
 
@@ -412,7 +413,7 @@ jobs:
             || echo "baseline_exists=false" >> "$GITHUB_OUTPUT"
 
       - name: Run gap scanner (if aggregate missing and flag set)
-        if: steps.baseline.outputs.baseline_exists == 'false' && inputs.run_scan_if_missing == 'true'
+        if: steps.baseline.outputs.baseline_exists == 'false' && github.event.inputs.run_scan_if_missing == 'true'
         run: |
           python3 tools/gap_scanner.py \
             --output ai_working/gap_scan_v3_aggregate.json \
@@ -453,7 +454,7 @@ jobs:
 
       - name: Upload delta report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08  # v4.6.0
         with:
           name: scanner-delta-${{ github.run_number }}
           path: ai_working/delta/
@@ -472,7 +473,7 @@ jobs:
       github.event_name == 'pull_request' &&
       contains(fromJSON('["develop","community","enterprise","hyperscaler","military"]'), github.base_ref)
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
 
       - name: Verify Wave-1 submodule commit pins
         run: |
@@ -567,7 +568,7 @@ jobs:
           echo "  Head SHA   : ${{ github.sha }}"
           echo "  Actor      : ${{ github.actor }}"
           echo "  Run ID     : ${{ github.run_id }}"
-          echo "  Mode       : non-blocking (continue-on-error=true)"
+          echo "  Mode       : non-blocking findings report"
           echo "  Scan scope : PR diff only (HEAD vs origin/base_ref)"
           echo "  Detector   : verified secrets only (--only-verified)"
           echo "============================================================"
@@ -586,7 +587,6 @@ jobs:
           echo "  Version: $(trufflehog --version 2>&1 || echo 'N/A')"
 
       - name: Run TruffleHog on PR diff
-        continue-on-error: true
         run: |
           set -euo pipefail
           BASE_REF="${{ github.base_ref }}"
@@ -602,6 +602,7 @@ jobs:
           echo "──────────────────────────────────────────────"
 
           T0=$(date +%s)
+          SCAN_EXIT=0
           trufflehog git file://. \
             --since-commit "origin/${BASE_REF}" \
             --branch HEAD \
@@ -612,6 +613,10 @@ jobs:
           SCAN_SECS=$(( $(date +%s) - T0 ))
 
           RESULT_COUNT=$(wc -l < trufflehog-results.json 2>/dev/null || echo 0)
+          if [ "${SCAN_EXIT}" -ne 0 ] && [ "${RESULT_COUNT}" -eq 0 ]; then
+            echo "::error::TruffleHog exited with status ${SCAN_EXIT} before producing scan results"
+            exit "${SCAN_EXIT}"
+          fi
           echo ""
           echo "  Scan completed in   : ${SCAN_SECS}s"
           echo "  Result lines        : ${RESULT_COUNT}"
@@ -619,18 +624,7 @@ jobs:
           if [ -s trufflehog-results.json ]; then
             echo ""
             echo "  ⚠️  POTENTIAL SECRETS DETECTED — summary:"
-            head -5 trufflehog-results.json | python3 -c "
-import sys, json
-for line in sys.stdin:
-    try:
-        r = json.loads(line.strip())
-        det = r.get('DetectorName', '?')
-        raw = r.get('Raw', '')[:40]
-        src = r.get('SourceMetadata', {}).get('Data', {})
-        print(f'    Detector={det}  Raw={raw}...  Source={src}')
-    except Exception:
-        pass
-" 2>/dev/null || cat trufflehog-results.json | head -5
+            head -5 trufflehog-results.json | python3 -c 'import json, sys; [print(f"    Detector={r.get(\"DetectorName\", \"?\")}  Raw={r.get(\"Raw\", \"\")[:40]}...  Source={r.get(\"SourceMetadata\", {}).get(\"Data\", {})}") for line in sys.stdin if line.strip() for r in [json.loads(line.strip())]]' 2>/dev/null || head -5 trufflehog-results.json
             echo ""
             echo "::warning::🔐 TruffleHog found potential secrets — see trufflehog-results artifact."
             {
