@@ -1,0 +1,143 @@
+# LLM / llama.cpp inference alert rules for ThemisDB.
+# Canonical source — previously duplicated in grafana/provisioning/alerts.yml.
+# Recording rules for pre-computed aggregations are in recording_rules.yml.
+groups:
+  - name: llm_alerts
+    interval: 10s
+    rules:
+      # Latency Alerts
+      - alert: HighFirstTokenLatency
+        expr: llm:p95_first_token_latency_ms:5m > 100
+        for: 5m
+        labels:
+          severity: warning
+          component: inference
+        annotations:
+          summary: "High first token latency detected"
+          description: "P95 first token latency for {{$labels.model_id}} is {{$value}}ms (threshold: 100ms)"
+
+      - alert: CriticalFirstTokenLatency
+        expr: llm:p95_first_token_latency_ms:5m > 200
+        for: 2m
+        labels:
+          severity: critical
+          component: inference
+        annotations:
+          summary: "CRITICAL: Very high first token latency"
+          description: "P95 first token latency for {{$labels.model_id}} is {{$value}}ms (threshold: 200ms)"
+
+      # Error Rate Alerts
+      - alert: HighErrorRate
+        expr: (1 - (llm:success_rate:5m / 100)) > 0.05
+        for: 5m
+        labels:
+          severity: warning
+          component: inference
+        annotations:
+          summary: "High inference error rate"
+          description: "Error rate is {{$value | humanizePercentage}} (threshold: 5%)"
+
+      - alert: CriticalErrorRate
+        expr: (1 - (llm:success_rate:5m / 100)) > 0.10
+        for: 2m
+        labels:
+          severity: critical
+          component: inference
+        annotations:
+          summary: "CRITICAL: Very high error rate"
+          description: "Error rate is {{$value | humanizePercentage}} (threshold: 10%)"
+
+      # GPU Alerts
+      - alert: GPUMemoryHigh
+        expr: llm:gpu_memory_utilisation_pct > 85
+        for: 5m
+        labels:
+          severity: warning
+          component: gpu
+        annotations:
+          summary: "GPU memory usage high"
+          description: "GPU memory at {{$value | humanizePercentage}} (threshold: 85%)"
+
+      - alert: GPUMemoryCritical
+        expr: llm:gpu_memory_utilisation_pct > 95
+        for: 2m
+        labels:
+          severity: critical
+          component: gpu
+        annotations:
+          summary: "CRITICAL: GPU memory almost full"
+          description: "GPU memory at {{$value | humanizePercentage}} (threshold: 95%)"
+
+      - alert: GPUTemperatureHigh
+        expr: llm_gpu_temperature_celsius > 80
+        for: 5m
+        labels:
+          severity: warning
+          component: gpu
+        annotations:
+          summary: "GPU temperature high"
+          description: "GPU temperature is {{$value}}°C (threshold: 80°C)"
+
+      - alert: GPUTemperatureCritical
+        expr: llm_gpu_temperature_celsius > 90
+        for: 1m
+        labels:
+          severity: critical
+          component: gpu
+        annotations:
+          summary: "CRITICAL: GPU temperature very high"
+          description: "GPU temperature is {{$value}}°C (threshold: 90°C)"
+
+      # Throughput Alerts
+      - alert: LowThroughput
+        expr: llm:tokens_per_second:1m < 100
+        for: 10m
+        labels:
+          severity: warning
+          component: inference
+        annotations:
+          summary: "Low throughput detected"
+          description: "Throughput is {{$value}} tokens/sec (threshold: 100 tokens/sec)"
+
+      # Queue Alerts
+      - alert: HighQueueLength
+        expr: llm_scheduler_queue_length > 50
+        for: 5m
+        labels:
+          severity: warning
+          component: scheduler
+        annotations:
+          summary: "High scheduler queue length"
+          description: "Queue length is {{$value}} requests (threshold: 50)"
+
+      - alert: CriticalQueueLength
+        expr: llm_scheduler_queue_length > 100
+        for: 2m
+        labels:
+          severity: critical
+          component: scheduler
+        annotations:
+          summary: "CRITICAL: Very high queue length"
+          description: "Queue length is {{$value}} requests (threshold: 100)"
+
+      # Cache Alerts
+      - alert: LowCacheHitRate
+        expr: llm:cache_hit_rate:5m < 50
+        for: 10m
+        labels:
+          severity: warning
+          component: cache
+        annotations:
+          summary: "Low cache hit rate"
+          description: "Cache hit rate for {{$labels.cache_type}} is {{$value | humanizePercentage}} (threshold: 50%)"
+
+      # No Requests Alert (System Down)
+      - alert: NoInferenceRequests
+        expr: llm:inference_rate:1m == 0
+        for: 10m
+        labels:
+          severity: warning
+          component: system
+        annotations:
+          summary: "No inference requests received"
+          description: "System may be down or not receiving requests"

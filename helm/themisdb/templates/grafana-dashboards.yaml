@@ -1,0 +1,70 @@
+{{- if .Values.grafana.dashboards.enabled }}
+{{- $ns := .Values.grafana.dashboards.namespace | default .Release.Namespace }}
+{{- $label := .Values.grafana.dashboards.label | default "grafana_dashboard" }}
+{{- $labelVal := .Values.grafana.dashboards.labelValue | default "1" }}
+{{- $cats := .Values.grafana.dashboards.categories }}
+
+{{/* ------------------------------------------------------------------ */}}
+{{/* LLM dashboards                                                       */}}
+{{/* ------------------------------------------------------------------ */}}
+{{- if $cats.llm }}
+{{- template "themisdb.dashboardConfigMap" (list . "llm" "themisdb-llm-dashboard.json" (.Files.Get "dashboards/llm/themisdb-llm-dashboard.json") $ns $label $labelVal) }}
+{{- template "themisdb.dashboardConfigMap" (list . "llm" "gpu_metrics.json" (.Files.Get "dashboards/llm/gpu_metrics.json") $ns $label $labelVal) }}
+{{- template "themisdb.dashboardConfigMap" (list . "llm" "cache-performance.json" (.Files.Get "dashboards/llm/cache-performance.json") $ns $label $labelVal) }}
+{{- template "themisdb.dashboardConfigMap" (list . "llm" "ingestion-dashboard.json" (.Files.Get "dashboards/llm/ingestion-dashboard.json") $ns $label $labelVal) }}
+{{- template "themisdb.dashboardConfigMap" (list . "llm" "themisdb-extended-context-dashboard.json" (.Files.Get "dashboards/llm/themisdb-extended-context-dashboard.json") $ns $label $labelVal) }}
+{{- end }}
+
+{{/* ------------------------------------------------------------------ */}}
+{{/* Performance dashboards                                               */}}
+{{/* ------------------------------------------------------------------ */}}
+{{- if $cats.performance }}
+{{- template "themisdb.dashboardConfigMap" (list . "performance" "query-performance.json" (.Files.Get "dashboards/performance/query-performance.json") $ns $label $labelVal) }}
+{{- template "themisdb.dashboardConfigMap" (list . "performance" "performance-dashboard.json" (.Files.Get "dashboards/performance/performance-dashboard.json") $ns $label $labelVal) }}
+{{- template "themisdb.dashboardConfigMap" (list . "performance" "timeseries-store.json" (.Files.Get "dashboards/performance/timeseries-store.json") $ns $label $labelVal) }}
+{{- template "themisdb.dashboardConfigMap" (list . "performance" "cycle_metrics_dashboard.json" (.Files.Get "dashboards/performance/cycle_metrics_dashboard.json") $ns $label $labelVal) }}
+{{- end }}
+
+{{/* ------------------------------------------------------------------ */}}
+{{/* Security dashboards                                                  */}}
+{{/* ------------------------------------------------------------------ */}}
+{{- if $cats.security }}
+{{- template "themisdb.dashboardConfigMap" (list . "security" "siem-security-monitoring.json" (.Files.Get "dashboards/security/siem-security-monitoring.json") $ns $label $labelVal) }}
+{{- template "themisdb.dashboardConfigMap" (list . "security" "security-authentication.json" (.Files.Get "dashboards/security/security-authentication.json") $ns $label $labelVal) }}
+{{- end }}
+
+{{/* ------------------------------------------------------------------ */}}
+{{/* Operations dashboards                                                */}}
+{{/* ------------------------------------------------------------------ */}}
+{{- if $cats.operations }}
+{{- template "themisdb.dashboardConfigMap" (list . "operations" "system-overview.json" (.Files.Get "dashboards/operations/system-overview.json") $ns $label $labelVal) }}
+{{- template "themisdb.dashboardConfigMap" (list . "operations" "replication-ha.json" (.Files.Get "dashboards/operations/replication-ha.json") $ns $label $labelVal) }}
+{{- template "themisdb.dashboardConfigMap" (list . "operations" "sharding-distribution.json" (.Files.Get "dashboards/operations/sharding-distribution.json") $ns $label $labelVal) }}
+{{- template "themisdb.dashboardConfigMap" (list . "operations" "storage-backup.json" (.Files.Get "dashboards/operations/storage-backup.json") $ns $label $labelVal) }}
+{{- template "themisdb.dashboardConfigMap" (list . "operations" "gossip-network.json" (.Files.Get "dashboards/operations/gossip-network.json") $ns $label $labelVal) }}
+{{- template "themisdb.dashboardConfigMap" (list . "operations" "content-processing.json" (.Files.Get "dashboards/operations/content-processing.json") $ns $label $labelVal) }}
+{{- end }}
+
+{{/* ------------------------------------------------------------------ */}}
+{{/* Compliance dashboards                                                */}}
+{{/* ------------------------------------------------------------------ */}}
+{{- if $cats.compliance }}
+{{- template "themisdb.dashboardConfigMap" (list . "compliance" "sla-monitoring.json" (.Files.Get "dashboards/compliance/sla-monitoring.json") $ns $label $labelVal) }}
+{{- template "themisdb.dashboardConfigMap" (list . "compliance" "advanced-features.json" (.Files.Get "dashboards/compliance/advanced-features.json") $ns $label $labelVal) }}
+{{- end }}
+
+{{/* ------------------------------------------------------------------ */}}
+{{/* Plugin dashboards                                                    */}}
+{{/* ------------------------------------------------------------------ */}}
+{{- if $cats.plugins }}
+{{- template "themisdb.dashboardConfigMap" (list . "plugins" "plugins.json" (.Files.Get "dashboards/plugins/plugins.json") $ns $label $labelVal) }}
+{{- end }}
+
+{{/* ------------------------------------------------------------------ */}}
+{{/* BT4 dashboards                                                       */}}
+{{/* ------------------------------------------------------------------ */}}
+{{- if $cats.bt4 }}
+{{- template "themisdb.dashboardConfigMap" (list . "bt4" "bt4-flare-switching.json" (.Files.Get "dashboards/bt4/bt4-flare-switching.json") $ns $label $labelVal) }}
+{{- end }}
+
+{{- end }}

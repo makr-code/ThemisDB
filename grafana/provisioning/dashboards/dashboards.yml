@@ -1,5 +1,8 @@
 apiVersion: 1
 
+# One provider per dashboard category folder.
+# foldersFromFilesStructure: true causes Grafana to create a Grafana folder
+# that mirrors each subdirectory automatically.
 providers:
   - name: 'ThemisDB LLM Dashboards'
     orgId: 1
@@ -9,9 +12,9 @@ providers:
     updateIntervalSeconds: 10
     allowUiUpdates: true
     options:
-      path: /etc/grafana/provisioning/dashboards
-      foldersFromFilesStructure: true
-  
+      path: /etc/grafana/provisioning/dashboards/llm
+      foldersFromFilesStructure: false
+
   - name: 'ThemisDB Security Dashboards'
     orgId: 1
     folder: 'Security'
@@ -20,9 +23,9 @@ providers:
     updateIntervalSeconds: 10
     allowUiUpdates: true
     options:
-      path: /etc/grafana/provisioning/dashboards
-      foldersFromFilesStructure: true
-  
+      path: /etc/grafana/provisioning/dashboards/security
+      foldersFromFilesStructure: false
+
   - name: 'ThemisDB Performance Dashboards'
     orgId: 1
     folder: 'Performance'
@@ -31,8 +34,41 @@ providers:
     updateIntervalSeconds: 10
     allowUiUpdates: true
     options:
-      path: /etc/grafana/provisioning/dashboards
-      foldersFromFilesStructure: true
+      path: /etc/grafana/provisioning/dashboards/performance
+      foldersFromFilesStructure: false
+
+  - name: 'ThemisDB Operations Dashboards'
+    orgId: 1
+    folder: 'Operations'
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 10
+    allowUiUpdates: true
+    options:
+      path: /etc/grafana/provisioning/dashboards/operations
+      foldersFromFilesStructure: false
+
+  - name: 'ThemisDB Compliance Dashboards'
+    orgId: 1
+    folder: 'Compliance'
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 10
+    allowUiUpdates: true
+    options:
+      path: /etc/grafana/provisioning/dashboards/compliance
+      foldersFromFilesStructure: false
+
+  - name: 'ThemisDB Plugin Dashboards'
+    orgId: 1
+    folder: 'Plugins'
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 10
+    allowUiUpdates: true
+    options:
+      path: /etc/grafana/provisioning/dashboards/plugins
+      foldersFromFilesStructure: false
 
   - name: 'ThemisDB BT-4/FLARE Dashboards'
     orgId: 1
@@ -43,4 +79,4 @@ providers:
     allowUiUpdates: true
     options:
       path: /etc/grafana/provisioning/dashboards/bt4
-      foldersFromFilesStructure: true
+      foldersFromFilesStructure: false

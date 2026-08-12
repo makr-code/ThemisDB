@@ -38,8 +38,9 @@ service:
   type: ClusterIP
   port: 8080
   targetPort: 8080
-  # Metrics port for Prometheus
-  metricsPort: 4318
+  # Prometheus-compatible metrics port (Prometheus scrapes this port).
+  # Must match the THEMIS_METRICS_PORT environment variable.
+  metricsPort: 9091
 
 ingress:
   enabled: false
@@ -215,3 +216,61 @@ metrics:
     interval: 30s
     scrapeTimeout: 10s
     relabelings: []
+
+# Vertical Pod Autoscaler (VPA) configuration.
+# Requires the VPA controller to be installed in the cluster.
+# See: https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler
+vpa:
+  enabled: false
+  # updateMode controls whether VPA applies recommendations automatically.
+  # "Off"      — recommendations only, no changes applied
+  # "Initial"  — applies on pod creation only
+  # "Recreate" — evicts and recreates pods to apply changes
+  # "Auto"     — same as Recreate on most controllers
+  updateMode: "Off"
+  minAllowed:
+    cpu: 100m
+    memory: 256Mi
+  maxAllowed:
+    cpu: 4000m
+    memory: 8Gi
+
+# NetworkPolicy configuration.
+# When enabled, restricts ingress/egress to the minimum required surface.
+networkPolicy:
+  enabled: false
+  # Allow Prometheus scrape from this namespace (must have label
+  # kubernetes.io/metadata.name matching the value below).
+  prometheusNamespace: "monitoring"
+  # When true, HTTP API ingress is unrestricted (no podSelector from-filter).
+  allowAllIngress: false
+  # Additional TCP ports to allow in egress (e.g. replication, WAL gRPC).
+  storageEgressPorts:
+    - 8766   # WAL gRPC
+    - 8769   # UDP fast-path (excluded from Istio)
+  # Allow HTTPS egress (port 443) — needed if model weights are fetched at runtime.
+  allowHttpsEgress: false
+
+# Grafana dashboard integration.
+# When enabled, a Kubernetes ConfigMap is created for each dashboard category.
+# The Grafana sidecar (grafana-sc-dashboard) discovers ConfigMaps with the
+# label grafana_dashboard: "1" and imports them automatically.
+# Requires grafana.sidecar.dashboards.enabled=true in the Grafana Helm chart.
+grafana:
+  dashboards:
+    enabled: false
+    # Namespace where the Grafana ConfigMaps are created.
+    # Leave empty to use the release namespace.
+    namespace: ""
+    # Label added to each ConfigMap so Grafana's sidecar picks them up.
+    label: grafana_dashboard
+    labelValue: "1"
+    # Per-category toggles — set to false to skip a category.
+    categories:
+      llm: true
+      performance: true
+      security: true
+      operations: true
+      compliance: true
+      plugins: false
+      bt4: false
