@@ -447,7 +447,7 @@ Pre-release versions (any version with a `-` suffix) do **not** receive the `lat
 
 ### CI pipeline
 
-The `docker` job in `.github/workflows/packaging-release.yml` runs after `package` succeeds and only when the repository variable `DOCKER_PUSH` is set to `true`.
+The `.github/workflows/docker-image.yml` workflow runs after a successful `.github/workflows/ci-release.yml` release run and only publishes when the configured release/publication gates allow it.
 
 Required secrets: `DOCKERHUB_USERNAME`, `DOCKERHUB_TOKEN`.
 
@@ -493,9 +493,9 @@ ThemisDB provides DEB, RPM, and TGZ packages for Linux server deployments.
 
 ### CI pipeline
 
-The `linux-packages` job in `.github/workflows/packaging-release.yml` runs independently of the `docker` job.
+Linux native package generation is handled in `.github/workflows/ci-release.yml` by the `build-matrix` Linux `linux-release` lane and consolidated by the `package` job.
 
-All output files and their `.sha256` checksums are uploaded as the `themisdb-community-linux-packages` artifact.
+All generated Linux distributables (`.tar.gz`, `.zip`, `.deb`, `.rpm`) plus `SHA256SUMS.txt` and `RELEASE_MANIFEST.txt` are uploaded as the release package artifact set and attached to the GitHub Release.
 
 ### Local packaging
 

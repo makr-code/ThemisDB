@@ -84,10 +84,10 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
         with:
           python-version: '3.12'
 
@@ -102,7 +102,7 @@ jobs:
           PY
 
       - name: Checkout vcpkg ports at pinned baseline
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
         with:
           repository: microsoft/vcpkg
           ref: ${{ steps.baseline.outputs.sha }}
@@ -121,7 +121,7 @@ jobs:
         run: cat artifacts/license-compliance/license-summary.md >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload license artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08  # v4.6.0
         with:
           name: license-compliance-${{ github.run_id }}
           path: |
@@ -139,13 +139,13 @@ jobs:
       contents: write
     steps:
       - name: Download license artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093  # v4
         with:
           name: license-compliance-${{ github.run_id }}
           path: artifacts/license-compliance
 
       - name: Attach license artifacts to release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65  # v2
         with:
           files: |
             artifacts/license-compliance/license-summary.md
@@ -165,7 +165,7 @@ jobs:
       id-token: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
 
       - name: Verify vcpkg baseline commit signature
         run: |
@@ -173,17 +173,17 @@ jobs:
           scripts/verify-vcpkg-baseline-signature.sh vcpkg.json sbom-vcpkg-baseline-verification.json
 
       - name: Install syft
-        uses: anchore/sbom-action/download-syft@v0
+        uses: anchore/sbom-action/download-syft@e22c389904149dbc22b58101806040fa8d37a610  # v0
 
       - name: Generate source SBOM (CycloneDX)
-        uses: anchore/sbom-action@v0
+        uses: anchore/sbom-action@e22c389904149dbc22b58101806040fa8d37a610  # v0
         with:
           format: cyclonedx-json
           output-file: sbom-source.cyclonedx.json
           path: '.'
 
       - name: Generate source SBOM (SPDX)
-        uses: anchore/sbom-action@v0
+        uses: anchore/sbom-action@e22c389904149dbc22b58101806040fa8d37a610  # v0
         with:
           format: spdx-json
           output-file: sbom-source.spdx.json
@@ -195,7 +195,7 @@ jobs:
           bash scripts/verify-sbom.sh sbom-source.cyclonedx.json
 
       - name: Run Trivy vulnerability scan (SBOM output)
-        uses: aquasecurity/trivy-action@v0.36.0
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25  # v0.36.0
         with:
           scan-type: 'fs'
           scan-ref: '.'
@@ -205,7 +205,7 @@ jobs:
 
       - name: Install cosign
         if: startsWith(github.ref, 'refs/tags/v')
-        uses: sigstore/cosign-installer@v3
+        uses: sigstore/cosign-installer@398d4b0eeef1380460a10c8013a76f728fb906ac  # v3
 
       - name: Sign SBOM artifacts
         if: startsWith(github.ref, 'refs/tags/v')
@@ -251,7 +251,7 @@ jobs:
 
       - name: Attach SBOM to release
         if: github.event_name == 'release'
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65  # v2
         with:
           files: |
             sbom-source.cyclonedx.json
@@ -282,92 +282,91 @@ jobs:
       security-events: write
     steps:
       - name: Print dependency-freshness context
-       run: |
-         echo "============================================================"
-         echo " Compliance — Dependency Freshness Gate"
-         echo "============================================================"
-         echo "  Trigger   : ${{ github.event_name }}"
-         echo "  Ref       : ${{ github.ref }}"
-         echo "  Actor     : ${{ github.actor }}"
-         echo "  Run ID    : ${{ github.run_id }}"
-         echo "  Timestamp : $(date -u)"
-         echo "  Purpose   : Compare pinned vcpkg baseline against upstream;"
-         echo "              run Trivy advisory scan; open staleness issue."
-         echo "============================================================"
+        run: |
+          echo "============================================================"
+          echo " Compliance — Dependency Freshness Gate"
+          echo "============================================================"
+          echo "  Trigger   : ${{ github.event_name }}"
+          echo "  Ref       : ${{ github.ref }}"
+          echo "  Actor     : ${{ github.actor }}"
+          echo "  Run ID    : ${{ github.run_id }}"
+          echo "  Timestamp : $(date -u)"
+          echo "  Purpose   : Compare pinned vcpkg baseline against upstream;"
+          echo "              run Trivy advisory scan; open staleness issue."
+          echo "============================================================"
 
       - name: Checkout repository
-       uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
 
       - name: Set up Python
-       uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
-       with:
-         python-version: '3.12'
+        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
+        with:
+          python-version: '3.12'
 
       - name: Read pinned vcpkg baseline
-       id: baseline
-       run: |
-         echo "──────────────────────────────────────────────"
-         echo "  Reading vcpkg.json manifest..."
-         python3 - <<'PY' | tee /dev/stderr >> "$GITHUB_OUTPUT"
-         import json
-         from pathlib import Path
-         manifest = json.loads(Path("vcpkg.json").read_text(encoding="utf-8"))
-         sha = manifest['builtin-baseline']
-         deps = manifest.get('dependencies', [])
-         print(f"sha={sha}")
-         import sys
-         print(f"  Pinned baseline SHA : {sha}", file=sys.stderr)
-         print(f"  Dependency count    : {len(deps)}", file=sys.stderr)
-         PY
-         echo "──────────────────────────────────────────────"
+        id: baseline
+        run: |
+          echo "──────────────────────────────────────────────"
+          echo "  Reading vcpkg.json manifest..."
+          python3 - <<'PY' | tee /dev/stderr >> "$GITHUB_OUTPUT"
+          import json
+          from pathlib import Path
+          manifest = json.loads(Path("vcpkg.json").read_text(encoding="utf-8"))
+          sha = manifest['builtin-baseline']
+          deps = manifest.get('dependencies', [])
+          print(f"sha={sha}")
+          import sys
+          print(f"  Pinned baseline SHA : {sha}", file=sys.stderr)
+          print(f"  Dependency count    : {len(deps)}", file=sys.stderr)
+          PY
+          echo "──────────────────────────────────────────────"
 
       - name: Fetch current upstream vcpkg HEAD
-       run: |
-         echo "──────────────────────────────────────────────"
-         echo "  Cloning vcpkg (depth=1) to get current HEAD..."
-         T0=$(date +%s)
-         git clone --depth=1 https://github.com/microsoft/vcpkg.git vcpkg-latest 2>&1 | tail -3
-         LATEST_SHA=$(git -C vcpkg-latest rev-parse HEAD)
-         SECS=$(( $(date +%s) - T0 ))
-         echo "  ✅ Cloned in ${SECS}s"
-         echo "  Latest upstream SHA : ${LATEST_SHA}"
-         echo "latest_sha=${LATEST_SHA}" >> "$GITHUB_ENV"
-         echo "──────────────────────────────────────────────"
+        run: |
+          echo "──────────────────────────────────────────────"
+          echo "  Cloning vcpkg (depth=1) to get current HEAD..."
+          T0=$(date +%s)
+          git clone --depth=1 https://github.com/microsoft/vcpkg.git vcpkg-latest 2>&1 | tail -3
+          LATEST_SHA=$(git -C vcpkg-latest rev-parse HEAD)
+          SECS=$(( $(date +%s) - T0 ))
+          echo "  ✅ Cloned in ${SECS}s"
+          echo "  Latest upstream SHA : ${LATEST_SHA}"
+          echo "latest_sha=${LATEST_SHA}" >> "$GITHUB_ENV"
+          echo "──────────────────────────────────────────────"
 
       - name: Compare pinned vs current baseline
-       run: |
-         PINNED="${{ steps.baseline.outputs.sha }}"
-         LATEST="${latest_sha}"
-         echo "──────────────────────────────────────────────"
-         echo "  Staleness check"
-         echo "  Pinned baseline : ${PINNED}"
-         echo "  Current upstream: ${LATEST}"
-         if [ "${PINNED}" = "${LATEST}" ]; then
-           echo "  ✅ Baseline is current — no staleness detected."
-           echo "BASELINE_STALE=false" >> "$GITHUB_ENV"
-           echo "### ✅ Dependency Freshness — vcpkg baseline is current" >> "$GITHUB_STEP_SUMMARY"
-         else
-           BEHIND=$(git -C vcpkg-latest rev-list "${PINNED}..HEAD" --count 2>/dev/null || echo "unknown")
-           echo "  ⚠️  Baseline is STALE — ${BEHIND} commits behind upstream."
-           echo "BASELINE_STALE=true" >> "$GITHUB_ENV"
-           echo "BASELINE_BEHIND=${BEHIND}" >> "$GITHUB_ENV"
-           {
-             echo "### ⚠️ Dependency Freshness — vcpkg baseline is ${BEHIND} commits behind"
-             echo ""
-             echo "| Metric | Value |"
-             echo "|--------|-------|"
-             echo "| Pinned baseline | \`${PINNED}\` |"
-             echo "| Current HEAD | \`${LATEST}\` |"
-             echo "| Commits behind | ${BEHIND} |"
-           } >> "$GITHUB_STEP_SUMMARY"
-         fi
-         echo "──────────────────────────────────────────────"
+        run: |
+          PINNED="${{ steps.baseline.outputs.sha }}"
+          LATEST="${latest_sha}"
+          echo "──────────────────────────────────────────────"
+          echo "  Staleness check"
+          echo "  Pinned baseline : ${PINNED}"
+          echo "  Current upstream: ${LATEST}"
+          if [ "${PINNED}" = "${LATEST}" ]; then
+            echo "  ✅ Baseline is current — no staleness detected."
+            echo "BASELINE_STALE=false" >> "$GITHUB_ENV"
+            echo "### ✅ Dependency Freshness — vcpkg baseline is current" >> "$GITHUB_STEP_SUMMARY"
+          else
+            BEHIND=$(git -C vcpkg-latest rev-list "${PINNED}..HEAD" --count 2>/dev/null || echo "unknown")
+            echo "  ⚠️  Baseline is STALE — ${BEHIND} commits behind upstream."
+            echo "BASELINE_STALE=true" >> "$GITHUB_ENV"
+            echo "BASELINE_BEHIND=${BEHIND}" >> "$GITHUB_ENV"
+            {
+              echo "### ⚠️ Dependency Freshness — vcpkg baseline is ${BEHIND} commits behind"
+              echo ""
+              echo "| Metric | Value |"
+              echo "|--------|-------|"
+              echo "| Pinned baseline | \`${PINNED}\` |"
+              echo "| Current HEAD | \`${LATEST}\` |"
+              echo "| Commits behind | ${BEHIND} |"
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+          echo "──────────────────────────────────────────────"
 
       - name: Scan for package advisories via Trivy
         # Trivy checks SBOMs and manifests against OSV/GitHub Advisory DB.
         # Non-fatal: produces a SARIF report but does not block the build.
-        continue-on-error: true
-        uses: aquasecurity/trivy-action@v0.36.0
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25  # v0.36.0
         with:
           scan-type: 'fs'
           scan-ref: 'vcpkg.json'
@@ -377,12 +376,10 @@ jobs:
 
       - name: Upload SARIF to GitHub Security tab
         if: always()
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@c4dd10e44af883a891fe31ced449bcb4a6728b9b  # v3
         with:
           sarif_file: dependency-freshness.sarif
           category: dependency-freshness
-        continue-on-error: true
-
       - name: Upload freshness report artifact
         if: always()
         uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08  # v4.6.0
@@ -454,12 +451,12 @@ jobs:
       THEMIS_ADMIN_ENDPOINT: 'https://localhost:8443'
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
 
       - name: Start ThemisDB container
         run: |
           docker compose -f docker-compose.yml up -d themisdb
-          for i in $(seq 1 30); do
+          for _ in $(seq 1 30); do
             if curl -sk "${THEMIS_ADMIN_ENDPOINT}/v1/health" | grep -q "ok"; then
               echo "ThemisDB ready"; break
             fi
@@ -485,7 +482,7 @@ jobs:
 
       - name: Upload evidence bundle artifact
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08  # v4.6.0
         with:
           name: soc2-evidence-${{ github.run_id }}-${{ github.run_number }}
           path: evidence-bundle-*.json
