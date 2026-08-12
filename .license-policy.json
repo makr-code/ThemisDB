@@ -84,7 +84,16 @@
   },
   "exceptions": {
     "description": "Manually approved exceptions to policy",
-    "list": []
+    "list": [
+      {
+        "package": "glslang",
+        "license": "Apache-2.0 AND BSD-3-Clause AND MIT AND GPL-3.0-or-later",
+        "action": "warn",
+        "justification": "Approved for ThemisDB because the vcpkg glslang build disables tests/external tooling and ThemisDB consumes the Khronos shader compiler stack transitively via shaderc for Vulkan support.",
+        "approval_date": "2026-08-12",
+        "approver": "maintainer-approved CI remediation"
+      }
+    ]
   },
   "documentation": {
     "policy_document": "docs/de/compliance/license-compliance.md",

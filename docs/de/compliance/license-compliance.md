@@ -150,6 +150,7 @@ Bei Ausnahme-Anfragen:
 2. **Entscheidung**: Genehmigen oder ablehnen
 3. **Dokumentation**: Bei Genehmigung:
    - Fügen Sie die Ausnahme zu `.license-policy.json` unter `exceptions.list` hinzu
+   - Hinterlegen Sie Paketname, exakten Lizenz-Ausdruck, Override-Aktion, Begründung, Freigabedatum und Genehmiger
    - Dokumentieren Sie die Begründung
    - Aktualisieren Sie die Compliance-Dokumentation
 
