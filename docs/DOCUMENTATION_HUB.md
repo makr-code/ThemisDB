@@ -38,7 +38,7 @@ Rollenbasierte Navigation fuer den schnellsten Weg zur richtigen Doku.
 
 ## Fuer Maintainer
 
-- Root- und Strukturregeln: [DOCS_ORGANIZATION_PLAN.md](DOCS_ORGANIZATION_PLAN.md)
+- Root- und Strukturregeln: [DOCS_ORGANIZATION_PLAN.md(ARCHIVED/implementation-summaries/DOCS_ORGANIZATION_PLAN.md)
 - Docs PR Policy: [governance/DOCS_PR_POLICY.md](governance/DOCS_PR_POLICY.md)
 - Dokumentations-Historie: [governance/documentation-history/README.md](governance/documentation-history/README.md)
 - Build Guide: [build-guide/README.md](build-guide/README.md)
