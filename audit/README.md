@@ -1,6 +1,6 @@
 # ThemisDB — Audit Documentation Hub
 
-**Last Updated:** 2026-08-10
+**Last Updated:** 2026-08-12
 **Repository Metadata:** `VERSION=2.4.0`, `RELEASE_TYPE=stable`  
 **Audit Evidence Snapshot:** `v2.4.0-rc1` hardening and GA-readiness artefacts on `develop`
 
@@ -14,6 +14,7 @@ Dieses Verzeichnis bündelt die aktuellen Audit-, Compliance- und Reifeberichte 
 |---|---|
 | `AUDIT.md` | Zentrale Security-, Compliance- und Release-Audit-Zusammenfassung |
 | `MATURITY_REPORT_2026-08.md` | Monatsbericht zur technischen Reife, Gate-Lage und offenen Risiken |
+| `IMPLEMENTATION_AUDIT_2026-08-12.md` | Aktueller Synchronisationsbericht zum Implementierungsstand per 2026-08-12 inklusive Source-Reality-Check für Execution-/Search-Drift |
 | `IMPLEMENTATION_AUDIT_CORRECTED_2026-08-08.md` | Korrigierter Deep-Dive für Evaluation-, Execution-, CUDA- und Compile-Befunde |
 | `IMPLEMENTATION_AUDIT_2026-08-08.md` | Rohes Delta-Audit vom 2026-08-08 (nur noch als historische Zwischenstufe) |
 | `IMPLEMENTATION_AUDIT_2026-08-07.md` | Basis-Snapshot vom 2026-08-07 |
@@ -33,6 +34,7 @@ Dieses Verzeichnis bündelt die aktuellen Audit-, Compliance- und Reifeberichte 
 ### Release & Security Evidence
 - `AUDIT.md`
 - `MATURITY_REPORT_2026-08.md`
+- `IMPLEMENTATION_AUDIT_2026-08-12.md`
 - `IMPLEMENTATION_AUDIT_CORRECTED_2026-08-08.md`
 - `../docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md`
 - `../security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`
@@ -49,7 +51,7 @@ Dieses Verzeichnis bündelt die aktuellen Audit-, Compliance- und Reifeberichte 
 
 - Die technische GA-Härtung bleibt **PASS**: Wave 7, Wave 8, Wave 9, Sanitizer-Evidence und Pentest-Evidence sind geschlossen.
 - Der **einzige bestätigte GA-Blocker** bleibt die menschliche Freigabe in `../docs/governance/GA_PROMOTION_SIGN_OFF.md` §9.
-- `IMPLEMENTATION_AUDIT_CORRECTED_2026-08-08.md` ist der aktuelle Referenzbericht, wenn `IMPLEMENTATION_AUDIT_2026-08-07.md`, `IMPLEMENTATION_AUDIT_2026-08-08.md` oder automatisierte Maturity-Scans bei Evaluation/Execution/CUDA divergieren.
+- `IMPLEMENTATION_AUDIT_2026-08-12.md` ist der aktuelle Referenzbericht für den synchronisierten Implementierungsstand; `IMPLEMENTATION_AUDIT_CORRECTED_2026-08-08.md` bleibt der Deep-Dive für Evaluation/Execution/CUDA/Compile-Deltas, wird aber für aktuelle Search-/Execution-Pfadfragen durch den 2026-08-12-Sync ergänzt.
 - Die Audit-Dokumente in `audit/docs/compliance/` und `audit/docs/audit-framework/` bleiben die aktuelle Level-1/Level-2-Ablage innerhalb des Audit-Bereichs.
 
 ### Compliance Snapshot
@@ -76,6 +78,7 @@ Dieses Verzeichnis bündelt die aktuellen Audit-, Compliance- und Reifeberichte 
 
 ## Latest Changes
 
+- 2026-08-12: Implementierungs-Audit und Audit-Hub mit Source-Reality-Check für Execution-Pfade, Search-Header-Gaps und `ai_snapshot_cleanup.h`-Fix synchronisiert
 - 2026-08-10: Hub auf aktuelle Audit-Artefakte, Referenzpfade und GA-Blocker synchronisiert
 - 2026-08-09: `MATURITY_REPORT_2026-08.md` als Monatsaggregat ergänzt
 - 2026-08-08: Korrigiertes Implementierungs-Audit + EU-AI-Act-Audit-Dokumente ergänzt

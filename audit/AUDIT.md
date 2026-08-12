@@ -1,11 +1,11 @@
 # ThemisDB — Security & Compliance Audit Record
 
-**Last Updated:** 2026-08-10
+**Last Updated:** 2026-08-12
 **Repository Metadata:** `VERSION=2.4.0`, `RELEASE_TYPE=stable`
 **Evidence Snapshot:** v2.4.0-rc1 GA-hardening trail on `develop`
 **Scope:** Root audit summary across current module, compliance, and release-readiness evidence
 
-> **NOTE:** This document aggregates the current audit stack. When older August 2026 audit files disagree, prefer `MATURITY_REPORT_2026-08.md`, `IMPLEMENTATION_AUDIT_CORRECTED_2026-08-08.md`, the root `ROADMAP.md`, and the module-local `src/<module>/AUDIT.md` / `src/<module>/ROADMAP.md`.
+> **NOTE:** This document aggregates the current audit stack. When August 2026 audit files disagree, prefer `IMPLEMENTATION_AUDIT_2026-08-12.md`, then `MATURITY_REPORT_2026-08.md`, `IMPLEMENTATION_AUDIT_CORRECTED_2026-08-08.md`, the root `ROADMAP.md`, and the module-local `src/<module>/AUDIT.md` / `src/<module>/ROADMAP.md`.
 > **NEW (Aug 2026):** EU AI Act compliance documentation added:
 > - `docs/compliance/EU_AI_ACT_COMPLIANCE.md` — Risk classification & deployment checklist
 > - `docs/compliance/EU_AI_ACT_RISK_MAPPING.md` — Module-by-module risk assessment  

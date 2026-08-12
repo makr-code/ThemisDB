@@ -15,7 +15,7 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Config Audit 
 
 ## Auslöser (Triggers)
 
-- **`push`** — Automatisch bei jedem Push auf die konfigurierten Branches (Branches: `main`, `develop`) (7 überwachte Pfade)
+- **`push`** — Automatisch bei jedem Push auf die konfigurierten Branches (Branches: `community`, `develop`) (7 überwachte Pfade)
 - **`pull_request`** — Automatisch bei Pull Requests (opened, synchronize, reopened) (7 überwachte Pfade)
 - **`workflow_dispatch`** — Manuell über die GitHub Actions UI ausführbar
 
@@ -50,7 +50,6 @@ CI-Workflow zur automatischen Überprüfung und Validierung von: **Config Audit 
 
 ## Verwandte Ressourcen
 
-- [Workflow-Datei](../../../.github/workflows/02-feature-modules_config_config-audit-trail-ci.yml)
-- [Alle Workflows](../README.md)
-
+- [Workflow-Datei (historisch)](/.github/workflows/02-feature-modules_config_config-audit-trail-ci.yml)
+- [Aktuelle Workflow-Governance](/.github/WORKFLOW_REGISTRY.md)
 
