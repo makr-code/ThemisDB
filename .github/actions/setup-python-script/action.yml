@@ -1,0 +1,92 @@
+name: 'Setup Python and Run Script'
+description: |
+  Composite action: checks out the repository, sets up Python 3.11,
+  installs optional pip requirements, runs a given script, and uploads
+  the output as a workflow artifact.
+
+  Used as a shared building block by maintenance-docs, maintenance-gs3-gaps,
+  maintenance-security-alerts, maintenance-ci-health, and governance-gates to
+  eliminate the repeated checkout → python-setup → run → upload pattern.
+
+inputs:
+  script:
+    description: 'Shell command to execute (e.g. "python3 scripts/foo.py --flag")'
+    required: true
+  pip-requirements:
+    description: 'Space-separated pip packages to install before running the script (optional)'
+    required: false
+    default: ''
+  artifact-name:
+    description: 'Artifact name prefix (github.run_number will be appended)'
+    required: false
+    default: 'script-output'
+  artifact-path:
+    description: 'Newline-separated list of paths to include in the artifact'
+    required: false
+    default: '/tmp/script-output'
+  artifact-retention-days:
+    description: 'Artifact retention in days'
+    required: false
+    default: '30'
+  fetch-depth:
+    description: 'git fetch-depth for the checkout step'
+    required: false
+    default: '0'
+  python-version:
+    description: 'Python version to use'
+    required: false
+    default: '3.11'
+  working-directory:
+    description: 'Working directory for the script'
+    required: false
+    default: '.'
+  continue-on-error:
+    description: 'Whether the script step continues on error'
+    required: false
+    default: 'false'
+
+outputs:
+  exit-code:
+    description: 'Exit code of the script step'
+    value: ${{ steps.run-script.outputs.exit_code }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+      with:
+        fetch-depth: ${{ inputs.fetch-depth }}
+
+    - name: Set up Python ${{ inputs.python-version }}
+      uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
+      with:
+        python-version: ${{ inputs.python-version }}
+
+    - name: Install pip requirements
+      if: inputs.pip-requirements != ''
+      shell: bash
+      run: |
+        # shellcheck disable=SC2086
+        pip install --quiet ${{ inputs.pip-requirements }}
+
+    - name: Run script
+      id: run-script
+      shell: bash
+      continue-on-error: ${{ inputs.continue-on-error == 'true' }}
+      working-directory: ${{ inputs.working-directory }}
+      run: |
+        set +e
+        ${{ inputs.script }}
+        EXIT_CODE=$?
+        echo "exit_code=${EXIT_CODE}" >> "$GITHUB_OUTPUT"
+        exit ${EXIT_CODE}
+
+    - name: Upload artifact
+      if: inputs.artifact-path != '' && always()
+      uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08  # v4.6.0
+      with:
+        name: ${{ inputs.artifact-name }}-${{ github.run_number }}
+        path: ${{ inputs.artifact-path }}
+        retention-days: ${{ inputs.artifact-retention-days }}
+        if-no-files-found: ignore
