@@ -5,7 +5,21 @@ All notable changes to ThemisDB will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased] — Stub Elimination Wave 4 (2026-08-09)
+## [Unreleased]
+
+(Next release in progress)
+
+---
+
+## [2.4.0] - 2026-08-13 - GA Release: v2.4.0 General Availability
+
+### Summary
+
+**Status: Ready for Human Release Approval Sign-Off (Section 9 of `docs/governance/GA_PROMOTION_SIGN_OFF.md`)**
+
+All technical gates (A-1 through E-5) **PASS**. All supporting modules (Process Phase 1-6, Failover Phase 2+3, Updates Phase 2-6) production-ready. All security evidence (sanitizer, penetration test) delivered. All deferred items (DEF-01..04) documented. Documentation consolidated. Ready for human release approver to complete governance sign-off.
+
+### Wave A Module Integration Consolidation (2026-08-13)
 
 ### Wave A Module Integration Consolidation (2026-08-13)
 
@@ -114,8 +128,6 @@ All remaining `src/` files confirmed; classified and renamed:
 | **Scope total** | | **72** | **0 STUB/SIMULATION NOTEs in 29 Wave-4 target files** |
 
 **Post-Wave 4 total across all src/ .cpp/.h files:** 35 remaining STUB/SIMULATION NOTEs in files outside the Wave 1–4 scan list (acceleration/nccl, analytics/olap, analytics/process_mining, geo, governance, ingestion, llama_cpp, performance, plugins/wasm, storage/tensor_compaction_filter, tensor/adapter_repository, tensor/utr_converter, utils/build_info, voice, api/grpc, security/openssl_tsa, ethics_ai, llm/lora/gpu_tensor). These are candidates for Wave 5.
-
-## [Unreleased] — Wave 2 STUB/SIMULATION → Real-Implementierung (Kategorie C Prio 1)
 
 ### Wave 2 — Real Implementations Under Opt-in CMake Guards (2026-08-07)
 
@@ -231,8 +243,6 @@ Comprehensive test suites and benchmark-backed performance gates prepared for Q4
 
 ---
 
-## [Unreleased] — 2026-08-04 — Phase 1-6 Execution Contract Closure (v2.4.0-rc1)
-
 ### Phase 1-6 Execution Contract — Full Closure (2026-08-04)
 
 **Summary:** All technical gates for the Phase 1-6 execution contract are now PASS. The only remaining
@@ -280,15 +290,7 @@ GA blocker is the human governance sign-off (Section 9 of `docs/governance/GA_PR
 
 ---
 
-
----
-
-## [2.4.0] - 2026-08-05 - GA Release: Access Model Coordination Layer + Phase 6 Documentation
-
-### Access Model — Unified Coordination Layer (Runtime C++ Feature Work)
-
-**Note:** This release contains both the Phase 6 governance/documentation deliverables and substantial
-C++ runtime feature work implementing the `access_model` coordination layer.
+### Access Model — Unified Coordination Layer (Runtime C++ Feature Work) (2026-08-05)
 
 **New module: `include/access_model/` + `src/access_model/`**
 - `AccessCoordinator` interface with `EvictionEvent`/`AccessEvent`/`PromotionResult` types, `start()`/`shutdown()`, `onEviction()`/`onHotAccess()`, async promotion via `std::future<PromotionResult>`, demotion planning/execution, and `getAccessModelMetrics()`
