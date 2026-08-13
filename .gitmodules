@@ -77,4 +77,3 @@
 [submodule "projects/Themis.AdminTools.Shared"]
 	path = projects/Themis.AdminTools.Shared
 	url = https://github.com/makr-code/themisdb_admin_tools.git
-	branch = admin-tools-split
