@@ -400,26 +400,14 @@ jobs:
           echo "  C compiler   : ${{ matrix.c_compiler }}"
           echo "  CXX compiler : ${{ matrix.cpp_compiler }}"
           echo "  Build type   : ${{ matrix.build_type }}"
+          echo "  sccache      : disabled (daemon intermittently crashes on GHA cache outages)"
           echo "──────────────────────────────────────────────"
-          # Use sccache as compiler launcher only when it is functional.
-          # sccache setup uses continue-on-error, so it may not be in PATH.
-          LAUNCHER_ARGS=()
-          if command -v sccache &>/dev/null && sccache --show-stats &>/dev/null 2>&1; then
-            LAUNCHER_ARGS=(
-              -DCMAKE_C_COMPILER_LAUNCHER=sccache
-              -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
-            )
-            echo "  sccache      : launcher enabled"
-          else
-            echo "  sccache      : unavailable, building without cache"
-          fi
           T0=$(date +%s)
           cmake -B "${{ steps.strings.outputs.build-output-dir }}" \
             -G Ninja \
             -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} \
             -DCMAKE_C_COMPILER=${{ matrix.c_compiler }} \
             -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
-            "${LAUNCHER_ARGS[@]}" \
             -DTHEMIS_BUILD_TESTS=ON \
             -DTHEMIS_MODELS_MODE=SKIP \
             -S "${{ github.workspace }}"
@@ -440,23 +428,12 @@ jobs:
           Write-Host "  Compiler   : ${{ matrix.c_compiler }} (MSVC)"
           Write-Host "  Build type : ${{ matrix.build_type }}"
           Write-Host "  vcpkg      : C:\vcpkg\scripts\buildsystems\vcpkg.cmake"
+          Write-Host "  sccache    : disabled (daemon intermittently crashes on GHA cache outages)"
           Write-Host "============================================================"
-          # Use sccache as compiler launcher only when available (setup uses continue-on-error).
-          $LauncherArgs = @()
-          if (Get-Command sccache -ErrorAction SilentlyContinue) {
-            $LauncherArgs = @(
-              "-DCMAKE_C_COMPILER_LAUNCHER=sccache",
-              "-DCMAKE_CXX_COMPILER_LAUNCHER=sccache"
-            )
-            Write-Host "  sccache    : launcher enabled"
-          } else {
-            Write-Host "  sccache    : unavailable, building without cache"
-          }
           $T0 = [int](Get-Date -UFormat %s)
           cmake -B "${{ steps.strings.outputs.build-output-dir }}" `
             -DCMAKE_TOOLCHAIN_FILE="C:\vcpkg\scripts\buildsystems\vcpkg.cmake" `
             -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} `
-            @LauncherArgs `
             -DTHEMIS_BUILD_TESTS=ON `
             -DTHEMIS_MODELS_MODE=SKIP `
             -S "${{ github.workspace }}"
@@ -678,13 +655,8 @@ jobs:
         run: |
           echo "  Configuring with -fsanitize=address -fno-omit-frame-pointer ..."
           T0=$(date +%s)
-          LAUNCHER_ARGS=()
-          if command -v sccache &>/dev/null && sccache --show-stats &>/dev/null 2>&1; then
-            LAUNCHER_ARGS=(-DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache)
-          fi
           cmake -S . -B build-asan -G Ninja \
             -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-            "${LAUNCHER_ARGS[@]}" \
             -DCMAKE_CXX_FLAGS="-fsanitize=address -fno-omit-frame-pointer" \
             -DCMAKE_C_FLAGS="-fsanitize=address -fno-omit-frame-pointer" \
             -DCMAKE_EXE_LINKER_FLAGS="-fsanitize=address" \
@@ -782,13 +754,8 @@ jobs:
         run: |
           echo "  Configuring with -fsanitize=undefined -fno-omit-frame-pointer ..."
           T0=$(date +%s)
-          LAUNCHER_ARGS=()
-          if command -v sccache &>/dev/null && sccache --show-stats &>/dev/null 2>&1; then
-            LAUNCHER_ARGS=(-DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache)
-          fi
           cmake -S . -B build-ubsan -G Ninja \
             -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-            "${LAUNCHER_ARGS[@]}" \
             -DCMAKE_CXX_FLAGS="-fsanitize=undefined -fno-omit-frame-pointer" \
             -DCMAKE_C_FLAGS="-fsanitize=undefined -fno-omit-frame-pointer" \
             -DCMAKE_EXE_LINKER_FLAGS="-fsanitize=undefined" \
