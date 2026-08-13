@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] — Stub Elimination Wave 4 (2026-08-09)
 
+### Wave A Module Integration Consolidation (2026-08-13)
+
+**Production-Ready Supporting Modules for v2.4.0 GA Promotion:**
+
+- **Process Module (Phase 1-6 Complete, 2026-08-06):** Production-capable process modeling runtime with deterministic high-churn edge-case hardening, unified diagnostics framework (8 incident classes), and bounded resource constraints. 72+ test cases (P-01..P-16, C-01..C-08, G-01..G-08, D-01..D-08, L-01..L-08, R-01..R-16, S-01..S-12) with comprehensive edge-case coverage. 42 benchmark gates with release-backed p95/p99 baselines. Ready for Wave B (Search/LLM integration).
+
+- **Failover Module (Phase 2+3 Complete, 2026-07-29):** Production-capable state-machine-based failover orchestration with real `canTransition()` state table (IDLE → VERIFYING_FAILURE → CHECKING_QUORUM → STARTING_LEADER_ELECTION → UPDATING_METADATA → COMPLETING_FAILOVER → IDLE; FAILED reachable from any state). Fail-closed contracts for split-brain prevention (`preventSplitBrain()` fails closed when fencing manager absent). Concurrent execution guard for multi-step recovery (`executePlan()` rejects concurrent execution). 8 focused Phase 2+3 tests (P23-01..08) + 6 benchmarks (FP23-01..06). Satisfies Wave A Batch A2 (Replication) and A5 (Sharding) dependencies.
+
+- **Updates Module (Phase 2-6 Complete, 2026-08-06):** Production-capable coordinated update orchestration with deterministic state machine, delta engine, isolation-model rollback, and reverse-sequence coordinated updates (leader last). Unified error taxonomy with 4 incident classes and error codes [7400-7499]. 20+ edge-case tests (UPH-01..26) + 4 comprehensive benchmark suites (coordinated, canary, schema, long-run). All performance gates UPDP-4..7 PASSING. Operator diagnostics and runbooks complete (Phase 6).
+
+**Documentation & Promotion Readiness:**
+- `WAVE_A_MODULE_INTEGRATION_CONSOLIDATION.md` — Comprehensive consolidation document with Wave A dependency mapping and GA promotion readiness attestation
+- `MODULE_GAPS_CONSOLIDATION_REPORT.md` — Zero CRITICAL/HIGH findings across all three modules; 20+ deferred items tracked for Phase 4+ roadmap
+- Test suites linked to `release_critical` label for v2.4.0 GA CI verification
+- Updated `ROADMAP.md` Wave A execution model with supporting-module status and Batch A2/A5 dependency cross-references
+- Updated `GA_PROMOTION_SIGN_OFF.md` Artefact Index and Promotion Checklist with module consolidation records
+
 ### Wave 4 — Kategorie C Prio 3 + All Remaining Stubs Cleared
 
 **Date:** 2026-08-09  
