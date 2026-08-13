@@ -169,7 +169,7 @@ bool InferenceEngineEnhanced::generate(
     
     // Reserve space in KV cache
     if (kv_cache_) {
-        kv_cache_->reserveRequest(request_id, static_cast<uint32_t>(input_token_ids.size()));
+        kv_cache_->reserveRequest(request_id, input_token_ids);
     }
     
     // Create request state
