@@ -207,7 +207,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
         build_type: [Release]
-        c_compiler: [gcc, clang, cl]
+        c_compiler: [gcc, clang-18, cl]
         include:
           - os: windows-latest
             c_compiler: cl
@@ -216,19 +216,27 @@ jobs:
             c_compiler: gcc
             cpp_compiler: g++
           - os: ubuntu-latest
-            c_compiler: clang
-            cpp_compiler: clang++
+            # clang-18 is the pre-installed clang on ubuntu-latest (Ubuntu 24.04).
+            # Using the generic 'clang' meta-package fails because it resolves to
+            # clang-20 which pulls python3-clang-20, conflicting with the runner's
+            # python-clang-x.y virtual package (holds broken packages, exit 100).
+            c_compiler: clang-18
+            cpp_compiler: clang++-18
         exclude:
           - os: windows-latest
             c_compiler: gcc
           - os: windows-latest
-            c_compiler: clang
+            c_compiler: clang-18
           - os: ubuntu-latest
             c_compiler: cl
 
     env:
       SCCACHE_GHA_ENABLED: "true"
       THEMIS_CI_RETRY_FLAKY: "ON"
+      # Prevent sccache from aborting compilation when the GHA cache service is
+      # temporarily unavailable (e.g. 'Our services aren't available right now').
+      # With this set, sccache falls back to direct compilation on cache errors.
+      SCCACHE_ERROR_WHEN_DISCONNECTED: "false"
 
     steps:
       - name: Print matrix context
@@ -282,12 +290,19 @@ jobs:
 
       - name: Setup sccache (Linux)
         if: runner.os == 'Linux' && (needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request')
+        # continue-on-error so transient GHA cache service outages don't block the build.
+        # SCCACHE_ERROR_WHEN_DISCONNECTED=false (job env) makes sccache fall back to
+        # direct compilation on cache errors rather than returning a non-zero exit code.
+        continue-on-error: true
         uses: mozilla-actions/sccache-action@9e326ebed976843c9932b3aa0e021c6f50310eb4  # v0.0.6
         with:
           version: "v0.8.1"
 
       - name: Setup sccache (Windows)
         if: runner.os == 'Windows' && (needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request')
+        # continue-on-error so transient download failures (socket hang up) don't abort
+        # the job and leave SCCACHE_PATH=undefined in the post-cleanup step.
+        continue-on-error: true
         uses: mozilla-actions/sccache-action@9e326ebed976843c9932b3aa0e021c6f50310eb4  # v0.0.6
         with:
           version: "v0.8.1"
@@ -319,6 +334,35 @@ jobs:
           cmake --version || true
           ninja --version || true
           echo "──────────────────────────────────────────────"
+
+      - name: Free disk space (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          Write-Host "============================================================"
+          Write-Host " Pre-build disk cleanup (Windows)"
+          Write-Host "============================================================"
+          $before = (Get-PSDrive C).Free
+          Write-Host "  Free space before cleanup: $([math]::Round($before/1GB, 2)) GB"
+          # Remove large pre-installed tool caches that this build doesn't need.
+          $dirs = @(
+            "C:\hostedtoolcache\windows\Python",
+            "C:\hostedtoolcache\windows\Ruby",
+            "C:\hostedtoolcache\windows\go",
+            "C:\hostedtoolcache\windows\node",
+            "C:\Android",
+            "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.43.34808\lib\x86",
+            "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.43.34808\lib\arm64"
+          )
+          foreach ($d in $dirs) {
+            if (Test-Path $d) {
+              Remove-Item -Recurse -Force $d -ErrorAction SilentlyContinue
+              Write-Host "  Removed: $d"
+            }
+          }
+          $after = (Get-PSDrive C).Free
+          Write-Host "  Free space after cleanup:  $([math]::Round($after/1GB, 2)) GB"
+          Write-Host "  Freed: $([math]::Round(($after-$before)/1GB, 2)) GB"
 
       - name: Set up vcpkg cache (Windows)
         if: runner.os == 'Windows'
@@ -356,16 +400,26 @@ jobs:
           echo "  C compiler   : ${{ matrix.c_compiler }}"
           echo "  CXX compiler : ${{ matrix.cpp_compiler }}"
           echo "  Build type   : ${{ matrix.build_type }}"
-          echo "  sccache      : launcher enabled"
           echo "──────────────────────────────────────────────"
+          # Use sccache as compiler launcher only when it is functional.
+          # sccache setup uses continue-on-error, so it may not be in PATH.
+          LAUNCHER_ARGS=()
+          if command -v sccache &>/dev/null && sccache --show-stats &>/dev/null 2>&1; then
+            LAUNCHER_ARGS=(
+              -DCMAKE_C_COMPILER_LAUNCHER=sccache
+              -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
+            )
+            echo "  sccache      : launcher enabled"
+          else
+            echo "  sccache      : unavailable, building without cache"
+          fi
           T0=$(date +%s)
           cmake -B "${{ steps.strings.outputs.build-output-dir }}" \
             -G Ninja \
             -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} \
             -DCMAKE_C_COMPILER=${{ matrix.c_compiler }} \
             -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
-            -DCMAKE_C_COMPILER_LAUNCHER=sccache \
-            -DCMAKE_CXX_COMPILER_LAUNCHER=sccache \
+            "${LAUNCHER_ARGS[@]}" \
             -DTHEMIS_BUILD_TESTS=ON \
             -DTHEMIS_MODELS_MODE=SKIP \
             -S "${{ github.workspace }}"
@@ -386,14 +440,23 @@ jobs:
           Write-Host "  Compiler   : ${{ matrix.c_compiler }} (MSVC)"
           Write-Host "  Build type : ${{ matrix.build_type }}"
           Write-Host "  vcpkg      : C:\vcpkg\scripts\buildsystems\vcpkg.cmake"
-          Write-Host "  sccache    : launcher enabled"
           Write-Host "============================================================"
+          # Use sccache as compiler launcher only when available (setup uses continue-on-error).
+          $LauncherArgs = @()
+          if (Get-Command sccache -ErrorAction SilentlyContinue) {
+            $LauncherArgs = @(
+              "-DCMAKE_C_COMPILER_LAUNCHER=sccache",
+              "-DCMAKE_CXX_COMPILER_LAUNCHER=sccache"
+            )
+            Write-Host "  sccache    : launcher enabled"
+          } else {
+            Write-Host "  sccache    : unavailable, building without cache"
+          }
           $T0 = [int](Get-Date -UFormat %s)
           cmake -B "${{ steps.strings.outputs.build-output-dir }}" `
             -DCMAKE_TOOLCHAIN_FILE="C:\vcpkg\scripts\buildsystems\vcpkg.cmake" `
             -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} `
-            -DCMAKE_C_COMPILER_LAUNCHER=sccache `
-            -DCMAKE_CXX_COMPILER_LAUNCHER=sccache `
+            @LauncherArgs `
             -DTHEMIS_BUILD_TESTS=ON `
             -DTHEMIS_MODELS_MODE=SKIP `
             -S "${{ github.workspace }}"
@@ -615,10 +678,13 @@ jobs:
         run: |
           echo "  Configuring with -fsanitize=address -fno-omit-frame-pointer ..."
           T0=$(date +%s)
+          LAUNCHER_ARGS=()
+          if command -v sccache &>/dev/null && sccache --show-stats &>/dev/null 2>&1; then
+            LAUNCHER_ARGS=(-DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache)
+          fi
           cmake -S . -B build-asan -G Ninja \
             -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-            -DCMAKE_C_COMPILER_LAUNCHER=sccache \
-            -DCMAKE_CXX_COMPILER_LAUNCHER=sccache \
+            "${LAUNCHER_ARGS[@]}" \
             -DCMAKE_CXX_FLAGS="-fsanitize=address -fno-omit-frame-pointer" \
             -DCMAKE_C_FLAGS="-fsanitize=address -fno-omit-frame-pointer" \
             -DCMAKE_EXE_LINKER_FLAGS="-fsanitize=address" \
@@ -716,10 +782,13 @@ jobs:
         run: |
           echo "  Configuring with -fsanitize=undefined -fno-omit-frame-pointer ..."
           T0=$(date +%s)
+          LAUNCHER_ARGS=()
+          if command -v sccache &>/dev/null && sccache --show-stats &>/dev/null 2>&1; then
+            LAUNCHER_ARGS=(-DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache)
+          fi
           cmake -S . -B build-ubsan -G Ninja \
             -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-            -DCMAKE_C_COMPILER_LAUNCHER=sccache \
-            -DCMAKE_CXX_COMPILER_LAUNCHER=sccache \
+            "${LAUNCHER_ARGS[@]}" \
             -DCMAKE_CXX_FLAGS="-fsanitize=undefined -fno-omit-frame-pointer" \
             -DCMAKE_C_FLAGS="-fsanitize=undefined -fno-omit-frame-pointer" \
             -DCMAKE_EXE_LINKER_FLAGS="-fsanitize=undefined" \
