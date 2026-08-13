@@ -1,0 +1,88 @@
+Run started: 2026-08-13T20:31:35+02:00
+===== vcpkg =====
+Skipping vcpkg (not owned by makr-code) -> https://github.com/microsoft/vcpkg.git
+===== llama.cpp =====
+Skipping llama.cpp (not owned by makr-code) -> https://github.com/ggerganov/llama.cpp.git
+===== whisper.cpp =====
+Skipping whisper.cpp (not owned by makr-code) -> https://github.com/ggerganov/whisper.cpp.git
+===== stable-diffusion.cpp =====
+Skipping stable-diffusion.cpp (not owned by makr-code) -> https://github.com/leejet/stable-diffusion.cpp.git
+===== ffmpeg =====
+Skipping ffmpeg (not owned by makr-code) -> https://github.com/FFmpeg/FFmpeg.git
+===== external/GIUF =====
+Processing external/GIUF (owned by makr-code)
+super_sha: f1c98061cba837afafee4a29e22b065b283f3383
+Recorded commit not on origin for external/GIUF; attempting pointer update to origin/HEAD
+No origin/HEAD for external/GIUF — skipping pointer update
+===== plugins/themisdb_ethic_ai =====
+Processing plugins/themisdb_ethic_ai (owned by makr-code)
+super_sha: ce401ad9d604012a2c02655e79f5c17f57a9f82d
+Recorded commit not on origin for plugins/themisdb_ethic_ai; attempting pointer update to origin/HEAD
+No origin/HEAD for plugins/themisdb_ethic_ai — skipping pointer update
+===== plugins/themisdb_llm_wiki =====
+Processing plugins/themisdb_llm_wiki (owned by makr-code)
+super_sha: 2d454638b0473273c850c9886e3185f6bdbd22c8
+Recorded commit not on origin for plugins/themisdb_llm_wiki; attempting pointer update to origin/HEAD
+No origin/HEAD for plugins/themisdb_llm_wiki — skipping pointer update
+===== plugins/themisdb_storage =====
+Processing plugins/themisdb_storage (owned by makr-code)
+super_sha: 03eb17c844a0da96eb66155e20075a90cf467c36
+Recorded commit not on origin for plugins/themisdb_storage; attempting pointer update to origin/HEAD
+No origin/HEAD for plugins/themisdb_storage — skipping pointer update
+===== plugins/themisdb_importer =====
+Processing plugins/themisdb_importer (owned by makr-code)
+super_sha: 317add1f724d5f6b979883b85b3c530f6191804d
+Recorded commit not on origin for plugins/themisdb_importer; attempting pointer update to origin/HEAD
+No origin/HEAD for plugins/themisdb_importer — skipping pointer update
+===== plugins/themisdb_plugin_signer =====
+Processing plugins/themisdb_plugin_signer (owned by makr-code)
+super_sha: d333b666bdebb01940b19f76ea986abbb0f42968
+Recorded commit not on origin for plugins/themisdb_plugin_signer; attempting pointer update to origin/HEAD
+No origin/HEAD for plugins/themisdb_plugin_signer — skipping pointer update
+===== plugins/themisdb_geo =====
+Processing plugins/themisdb_geo (owned by makr-code)
+super_sha: f81e665630de4b67779801a332670342e534c9c9
+Recorded commit not on origin for plugins/themisdb_geo; attempting pointer update to origin/HEAD
+No origin/HEAD for plugins/themisdb_geo — skipping pointer update
+===== plugins/themisdb_timeseries =====
+Processing plugins/themisdb_timeseries (owned by makr-code)
+super_sha: 48c381e12576363a45a81bc116abd5ce4c621577
+Recorded commit not on origin for plugins/themisdb_timeseries; attempting pointer update to origin/HEAD
+No origin/HEAD for plugins/themisdb_timeseries — skipping pointer update
+===== projects/Themis.AdminTools.Shared =====
+Processing projects/Themis.AdminTools.Shared (owned by makr-code)
+?? obj/
+super_sha: 3d9fcadc9a78dbf49add36a957fdae64d9c2eaf1
+Stashing local changes in projects/Themis.AdminTools.Shared
+No local changes to save
+Recorded commit not on origin for projects/Themis.AdminTools.Shared; attempting pointer update to origin/HEAD
+No origin/HEAD for projects/Themis.AdminTools.Shared — skipping pointer update
+===== docker/tmp/openssl =====
+MISSING PATH: docker/tmp/openssl
+===== tools/semgrep =====
+MISSING PATH: tools/semgrep
+===== tools/codeql =====
+MISSING PATH: tools/codeql
+No staged submodule pointer changes
+Attempting git push origin develop (filtered)
+git@github.com: Permission denied (publickey).
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+Run finished: 2026-08-13T20:31:59+02:00
+Stashed:
+projects/Themis.AdminTools.Shared
+Updated:
+
+Skipped:
+external/GIUF
+plugins/themisdb_ethic_ai
+plugins/themisdb_llm_wiki
+plugins/themisdb_storage
+plugins/themisdb_importer
+plugins/themisdb_plugin_signer
+plugins/themisdb_geo
+plugins/themisdb_timeseries
+projects/Themis.AdminTools.Shared
+DONE

@@ -73,40 +73,40 @@ struct X509_Deleter { void operator()(X509* p) const { if (p) X509_free(p); } };
 struct STACK_OF_X509_Deleter { 
     void operator()(STACK_OF(X509)* p) const { if (p) sk_X509_pop_free(p, X509_free); } 
 };
-struct BIO_Deleter { void operator()(BIO* p) const { if (p) BIO_free_all(p); } };
-struct BIGNUM_Deleter { void operator()(BIGNUM* p) const { if (p) BN_free(p); } };
-struct TS_TST_INFO_Deleter { void operator()(TS_TST_INFO* p) const { if (p) TS_TST_INFO_free(p); } };
-struct EVP_MD_CTX_Deleter { void operator()(EVP_MD_CTX* p) const { if (p) EVP_MD_CTX_free(p); } };
-struct EVP_PKEY_Deleter { void operator()(EVP_PKEY* p) const { if (p) EVP_PKEY_free(p); } };
-struct TS_REQ_Deleter { void operator()(TS_REQ* p) const { if (p) TS_REQ_free(p); } };
-struct TS_MSG_IMPRINT_Deleter { void operator()(TS_MSG_IMPRINT* p) const { if (p) TS_MSG_IMPRINT_free(p); } };
-struct X509_ALGOR_Deleter { void operator()(X509_ALGOR* p) const { if (p) X509_ALGOR_free(p); } };
-struct ASN1_OCTET_STRING_Deleter { void operator()(ASN1_OCTET_STRING* p) const { if (p) ASN1_OCTET_STRING_free(p); } };
-struct ASN1_INTEGER_Deleter { void operator()(ASN1_INTEGER* p) const { if (p) ASN1_INTEGER_free(p); } };
-struct ASN1_OBJECT_Deleter { void operator()(ASN1_OBJECT* p) const { if (p) ASN1_OBJECT_free(p); } };
-struct OPENSSL_Deleter { void operator()(unsigned char* p) const { if (p) OPENSSL_free(p); } };
-struct OPENSSL_CStr_Deleter { void operator()(char* p) const { if (p) OPENSSL_free(p); } };
-struct curl_slist_Deleter { void operator()(struct curl_slist* p) const { if (p) curl_slist_free_all(p); } };
+struct TSA_BIO_Deleter { void operator()(BIO* p) const { if (p) BIO_free_all(p); } };
+struct TSA_BIGNUM_Deleter { void operator()(BIGNUM* p) const { if (p) BN_free(p); } };
+struct TSA_TS_TST_INFO_Deleter { void operator()(TS_TST_INFO* p) const { if (p) TS_TST_INFO_free(p); } };
+struct TSA_EVP_MD_CTX_Deleter { void operator()(EVP_MD_CTX* p) const { if (p) EVP_MD_CTX_free(p); } };
+struct TSA_EVP_PKEY_Deleter { void operator()(EVP_PKEY* p) const { if (p) EVP_PKEY_free(p); } };
+struct TSA_TS_REQ_Deleter { void operator()(TS_REQ* p) const { if (p) TS_REQ_free(p); } };
+struct TSA_TS_MSG_IMPRINT_Deleter { void operator()(TS_MSG_IMPRINT* p) const { if (p) TS_MSG_IMPRINT_free(p); } };
+struct TSA_X509_ALGOR_Deleter { void operator()(X509_ALGOR* p) const { if (p) X509_ALGOR_free(p); } };
+struct TSA_ASN1_OCTET_STRING_Deleter { void operator()(ASN1_OCTET_STRING* p) const { if (p) ASN1_OCTET_STRING_free(p); } };
+struct TSA_ASN1_INTEGER_Deleter { void operator()(ASN1_INTEGER* p) const { if (p) ASN1_INTEGER_free(p); } };
+struct TSA_ASN1_OBJECT_Deleter { void operator()(ASN1_OBJECT* p) const { if (p) ASN1_OBJECT_free(p); } };
+struct TSA_OPENSSL_Deleter { void operator()(unsigned char* p) const { if (p) OPENSSL_free(p); } };
+struct TSA_OPENSSL_CStr_Deleter { void operator()(char* p) const { if (p) OPENSSL_free(p); } };
+struct TSA_curl_slist_Deleter { void operator()(struct curl_slist* p) const { if (p) curl_slist_free_all(p); } };
 
 // Type aliases for RAII-managed pointers
 using TS_RESP_ptr        = std::unique_ptr<TS_RESP, TS_RESP_Deleter>;
 using PKCS7_ptr          = std::unique_ptr<PKCS7, PKCS7_Deleter>;
 using X509_ptr           = std::unique_ptr<X509, X509_Deleter>;
 using STACK_OF_X509_ptr  = std::unique_ptr<STACK_OF(X509), STACK_OF_X509_Deleter>;
-using BIO_ptr            = std::unique_ptr<BIO, BIO_Deleter>;
-using BIGNUM_ptr         = std::unique_ptr<BIGNUM, BIGNUM_Deleter>;
-using TS_TST_INFO_ptr    = std::unique_ptr<TS_TST_INFO, TS_TST_INFO_Deleter>;
-using EVP_MD_CTX_ptr     = std::unique_ptr<EVP_MD_CTX, EVP_MD_CTX_Deleter>;
-using EVP_PKEY_ptr       = std::unique_ptr<EVP_PKEY, EVP_PKEY_Deleter>;
-using TS_REQ_ptr         = std::unique_ptr<TS_REQ, TS_REQ_Deleter>;
-using TS_MSG_IMPRINT_ptr = std::unique_ptr<TS_MSG_IMPRINT, TS_MSG_IMPRINT_Deleter>;
-using X509_ALGOR_ptr     = std::unique_ptr<X509_ALGOR, X509_ALGOR_Deleter>;
-using ASN1_OCTET_STRING_ptr = std::unique_ptr<ASN1_OCTET_STRING, ASN1_OCTET_STRING_Deleter>;
-using ASN1_INTEGER_ptr   = std::unique_ptr<ASN1_INTEGER, ASN1_INTEGER_Deleter>;
-using ASN1_OBJECT_ptr    = std::unique_ptr<ASN1_OBJECT, ASN1_OBJECT_Deleter>;
-using OPENSSL_Buffer_ptr = std::unique_ptr<unsigned char, OPENSSL_Deleter>;
-using OPENSSL_CStr_ptr   = std::unique_ptr<char, OPENSSL_CStr_Deleter>;
-using curl_slist_ptr     = std::unique_ptr<struct curl_slist, curl_slist_Deleter>;
+using TSA_BIO_ptr            = std::unique_ptr<BIO, TSA_BIO_Deleter>;
+using TSA_BIGNUM_ptr         = std::unique_ptr<BIGNUM, TSA_BIGNUM_Deleter>;
+using TSA_TS_TST_INFO_ptr    = std::unique_ptr<TS_TST_INFO, TSA_TS_TST_INFO_Deleter>;
+using TSA_EVP_MD_CTX_ptr     = std::unique_ptr<EVP_MD_CTX, TSA_EVP_MD_CTX_Deleter>;
+using TSA_EVP_PKEY_ptr       = std::unique_ptr<EVP_PKEY, TSA_EVP_PKEY_Deleter>;
+using TSA_TS_REQ_ptr         = std::unique_ptr<TS_REQ, TSA_TS_REQ_Deleter>;
+using TSA_TS_MSG_IMPRINT_ptr = std::unique_ptr<TS_MSG_IMPRINT, TSA_TS_MSG_IMPRINT_Deleter>;
+using TSA_X509_ALGOR_ptr     = std::unique_ptr<X509_ALGOR, TSA_X509_ALGOR_Deleter>;
+using TSA_ASN1_OCTET_STRING_ptr = std::unique_ptr<ASN1_OCTET_STRING, TSA_ASN1_OCTET_STRING_Deleter>;
+using TSA_ASN1_INTEGER_ptr   = std::unique_ptr<ASN1_INTEGER, TSA_ASN1_INTEGER_Deleter>;
+using TSA_ASN1_OBJECT_ptr    = std::unique_ptr<ASN1_OBJECT, TSA_ASN1_OBJECT_Deleter>;
+using TSA_OPENSSL_Buffer_ptr = std::unique_ptr<unsigned char, TSA_OPENSSL_Deleter>;
+using TSA_OPENSSL_CStr_ptr   = std::unique_ptr<char, TSA_OPENSSL_CStr_Deleter>;
+using TSA_curl_slist_ptr     = std::unique_ptr<struct curl_slist, TSA_curl_slist_Deleter>;
 
 } // namespace
 
@@ -123,8 +123,8 @@ static std::string hex(const std::vector<uint8_t>& data){
 }
 
 static std::string b64Encode(const std::vector<uint8_t>& data){
-    BIO_ptr b64_ptr(BIO_new(BIO_f_base64()));
-    BIO_ptr mem_ptr(BIO_new(BIO_s_mem()));
+    TSA_BIO_ptr b64_ptr(BIO_new(BIO_f_base64()));
+    TSA_BIO_ptr mem_ptr(BIO_new(BIO_s_mem()));
     
     if (!b64_ptr.get() || !mem_ptr.get()) {
         throw std::runtime_error("Failed to create BIO objects for base64 encoding");
@@ -150,8 +150,8 @@ static std::string b64Encode(const std::vector<uint8_t>& data){
 }
 
 static std::vector<uint8_t> b64Decode(const std::string& s){
-    BIO_ptr b64_ptr(BIO_new(BIO_f_base64()));
-    BIO_ptr mem_ptr(BIO_new_mem_buf(s.data(), (int)s.size()));
+    TSA_BIO_ptr b64_ptr(BIO_new(BIO_f_base64()));
+    TSA_BIO_ptr mem_ptr(BIO_new_mem_buf(s.data(), (int)s.size()));
     
     if (!b64_ptr.get() || !mem_ptr.get()) {
         throw std::runtime_error("Failed to create BIO objects for base64 decoding");
@@ -227,7 +227,7 @@ TimestampAuthority& TimestampAuthority::operator=(TimestampAuthority&&) noexcept
 
 std::vector<uint8_t> TimestampAuthority::computeHash(const std::vector<uint8_t>& data){
     const EVP_MD* md = selectDigest(config_.hash_algorithm);
-    EVP_MD_CTX_ptr ctx(EVP_MD_CTX_new());
+    TSA_EVP_MD_CTX_ptr ctx(EVP_MD_CTX_new());
     if (!ctx.get()) throw std::runtime_error("EVP_MD_CTX_new failed");
     
     std::vector<uint8_t> out(EVP_MD_size(md));
@@ -253,17 +253,17 @@ std::vector<uint8_t> TimestampAuthority::generateNonce(size_t bytes){
 }
 
 std::vector<uint8_t> TimestampAuthority::createTSPRequest(const std::vector<uint8_t>& hash,const std::vector<uint8_t>& nonce){
-    TS_REQ_ptr req(TS_REQ_new()); 
+    TSA_TS_REQ_ptr req(TS_REQ_new()); 
     if(!req.get()){ last_error_="TS_REQ_new failed"; return {}; }
     
     TS_REQ_set_version(req.get(), 1);
     
     // Message imprint - use RAII wrappers for all components
-    TS_MSG_IMPRINT_ptr imprint(TS_MSG_IMPRINT_new());
+    TSA_TS_MSG_IMPRINT_ptr imprint(TS_MSG_IMPRINT_new());
     if(!imprint.get()){ last_error_="TS_MSG_IMPRINT_new failed"; return {}; }
     
     const EVP_MD* md = selectDigest(config_.hash_algorithm);
-    X509_ALGOR_ptr algo(X509_ALGOR_new());
+    TSA_X509_ALGOR_ptr algo(X509_ALGOR_new());
     if(!algo.get()){ last_error_="X509_ALGOR_new failed"; return {}; }
     
     X509_ALGOR_set0(algo.get(), OBJ_nid2obj(EVP_MD_type(md)), V_ASN1_NULL, nullptr);
@@ -276,9 +276,9 @@ std::vector<uint8_t> TimestampAuthority::createTSPRequest(const std::vector<uint
     
     // Nonce handling with RAII
     if(!nonce.empty()){
-        ASN1_INTEGER_ptr nonce_i(ASN1_INTEGER_new());
+        TSA_ASN1_INTEGER_ptr nonce_i(ASN1_INTEGER_new());
         if(nonce_i.get()){
-            BIGNUM_ptr bn(BN_bin2bn(nonce.data(), (int)nonce.size(), nullptr));
+            TSA_BIGNUM_ptr bn(BN_bin2bn(nonce.data(), (int)nonce.size(), nullptr));
             if(bn.get()){
                 BN_to_ASN1_INTEGER(bn.get(), nonce_i.get());
                 TS_REQ_set_nonce(req.get(), nonce_i.get());
@@ -289,7 +289,7 @@ std::vector<uint8_t> TimestampAuthority::createTSPRequest(const std::vector<uint
     if(config_.cert_req) TS_REQ_set_cert_req(req.get(), 1);
     
     if(!config_.policy_oid.empty()){
-        ASN1_OBJECT_ptr policy(OBJ_txt2obj(config_.policy_oid.c_str(), 1));
+        TSA_ASN1_OBJECT_ptr policy(OBJ_txt2obj(config_.policy_oid.c_str(), 1));
         if(policy.get()){ 
             TS_REQ_set_policy_id(req.get(), policy.get());
         }
@@ -297,7 +297,7 @@ std::vector<uint8_t> TimestampAuthority::createTSPRequest(const std::vector<uint
     
     unsigned char* der_raw = nullptr;
     int len = i2d_TS_REQ(req.get(), &der_raw);
-    OPENSSL_Buffer_ptr der(der_raw);
+    TSA_OPENSSL_Buffer_ptr der(der_raw);
     
     std::vector<uint8_t> out;
     if(len > 0 && der.get()){ 
@@ -349,7 +349,7 @@ std::vector<uint8_t> TimestampAuthority::sendTSPRequest(const std::vector<uint8_
         curl_easy_setopt(impl_->curl, CURLOPT_PASSWORD, config_.password.c_str());
     }
 
-    curl_slist_ptr headers(nullptr);
+    TSA_curl_slist_ptr headers(nullptr);
     headers.reset(curl_slist_append(headers.get(), "Content-Type: application/timestamp-query"));
     headers.reset(curl_slist_append(headers.get(), "Accept: application/timestamp-reply"));
     curl_easy_setopt(impl_->curl, CURLOPT_HTTPHEADER, headers.get());
@@ -381,7 +381,7 @@ TimestampToken TimestampAuthority::parseTSPResponse(const std::vector<uint8_t>& 
     
     unsigned char* der_raw = nullptr; 
     int der_len = i2d_PKCS7(pkcs7, &der_raw);
-    OPENSSL_Buffer_ptr der(der_raw);
+    TSA_OPENSSL_Buffer_ptr der(der_raw);
     
     if(der_len > 0 && der.get()){ 
         token.token_der.assign(der.get(), der.get() + der_len); 
@@ -398,7 +398,7 @@ TimestampToken TimestampAuthority::parseTSPResponse(const std::vector<uint8_t>& 
             // Store certificate in DER format
             unsigned char* cert_der_raw = nullptr;
             int cert_len = i2d_X509(tsa_x509, &cert_der_raw);
-            OPENSSL_Buffer_ptr cert_der(cert_der_raw);
+            TSA_OPENSSL_Buffer_ptr cert_der(cert_der_raw);
             
             if(cert_len > 0 && cert_der.get()){
                 token.tsa_cert.assign(cert_der.get(), cert_der.get() + cert_len);
@@ -407,7 +407,7 @@ TimestampToken TimestampAuthority::parseTSPResponse(const std::vector<uint8_t>& 
             // Extract certificate serial number
             const ASN1_INTEGER* cert_serial = X509_get0_serialNumber(tsa_x509);
             if(cert_serial){
-                BIGNUM_ptr bn(ASN1_INTEGER_to_BN(cert_serial, nullptr));
+                TSA_BIGNUM_ptr bn(ASN1_INTEGER_to_BN(cert_serial, nullptr));
                 if(bn.get()){
                     OPENSSL_CStr_ptr hexStr(BN_bn2hex(bn.get()));
                     if(hexStr.get()){
@@ -419,7 +419,7 @@ TimestampToken TimestampAuthority::parseTSPResponse(const std::vector<uint8_t>& 
             // Extract subject name
             X509_NAME* subject = X509_get_subject_name(tsa_x509);
             if(subject){
-                BIO_ptr name_bio(BIO_new(BIO_s_mem()));
+                TSA_BIO_ptr name_bio(BIO_new(BIO_s_mem()));
                 if(name_bio.get()){
                     X509_NAME_print_ex(name_bio.get(), subject, 0, XN_FLAG_RFC2253);
                     BUF_MEM* name_buf = nullptr;
@@ -433,7 +433,7 @@ TimestampToken TimestampAuthority::parseTSPResponse(const std::vector<uint8_t>& 
     }
     // Note: certs is owned by pkcs7, don't free it explicitly
     
-    TS_TST_INFO_ptr tst(PKCS7_to_TS_TST_INFO(pkcs7));
+    TSA_TS_TST_INFO_ptr tst(PKCS7_to_TS_TST_INFO(pkcs7));
     if(tst.get()){
         const ASN1_GENERALIZEDTIME* gen = TS_TST_INFO_get_time(tst.get());
         if(gen){ 
@@ -443,7 +443,7 @@ TimestampToken TimestampAuthority::parseTSPResponse(const std::vector<uint8_t>& 
         }
         const ASN1_INTEGER* serial = TS_TST_INFO_get_serial(tst.get());
         if(serial){ 
-            BIGNUM_ptr bn(ASN1_INTEGER_to_BN(serial, nullptr));
+            TSA_BIGNUM_ptr bn(ASN1_INTEGER_to_BN(serial, nullptr));
             if(bn.get()){
                 char* hexStr = BN_bn2hex(bn.get());
                 if(hexStr){
@@ -511,7 +511,7 @@ bool TimestampAuthority::verifyTimestampForHash(const std::vector<uint8_t>& hash
         PKCS7_ptr pkcs7(d2i_PKCS7(nullptr,&p,(long)token.token_der.size()));
         if(!pkcs7) return false;
         
-        TS_TST_INFO_ptr tst(PKCS7_to_TS_TST_INFO(pkcs7.get()));
+        TSA_TS_TST_INFO_ptr tst(PKCS7_to_TS_TST_INFO(pkcs7.get()));
         if(!tst) return false;
         
         TS_MSG_IMPRINT* imprint = TS_TST_INFO_get_msg_imprint(tst.get());
@@ -545,7 +545,7 @@ std::optional<std::string> TimestampAuthority::getTSACertificate(){
         X509_ptr cert(d2i_X509(nullptr, &p, cached_tsa_cert_.size()));
         if(!cert) return std::nullopt;
         
-        BIO_ptr bio(BIO_new(BIO_s_mem()));
+        TSA_BIO_ptr bio(BIO_new(BIO_s_mem()));
         if(!bio) return std::nullopt;
         
         PEM_write_bio_X509(bio.get(), cert.get());
@@ -719,7 +719,7 @@ bool eIDASTimestampValidator::isQualifiedTSA(
     
     try {
         // Parse TSA certificate
-        BIO_ptr bio(BIO_new_mem_buf(tsa_cert.data(), static_cast<int>(tsa_cert.size())));
+        TSA_BIO_ptr bio(BIO_new_mem_buf(tsa_cert.data(), static_cast<int>(tsa_cert.size())));
         if (!bio) {
             validation_errors_.push_back("Failed to create BIO for certificate");
             return false;
@@ -740,7 +740,7 @@ bool eIDASTimestampValidator::isQualifiedTSA(
         }
         
         // Extract subject name using dynamic allocation
-        BIO_ptr name_bio(BIO_new(BIO_s_mem()));
+        TSA_BIO_ptr name_bio(BIO_new(BIO_s_mem()));
         if (!name_bio) {
             validation_errors_.push_back("Failed to create BIO for subject name");
             return false;

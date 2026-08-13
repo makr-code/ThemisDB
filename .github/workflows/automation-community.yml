@@ -27,8 +27,9 @@ jobs:
   greet-first-interaction:
     name: Greet first-time contributors
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request_target' && github.event.action == 'opened' ||
-        github.event_name == 'issues' && github.event.action == 'opened'
+    if: |
+      (github.event_name == 'pull_request_target' && github.event.action == 'opened') ||
+      (github.event_name == 'issues' && github.event.action == 'opened')
     permissions:
       issues: write
       pull-requests: write

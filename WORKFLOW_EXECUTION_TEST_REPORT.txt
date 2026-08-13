@@ -1,0 +1,103 @@
+[20:16:05] [..] ======================================================================
+[20:16:05] [..] GitHub Actions Workflow Execution Test Suite
+[20:16:05] [..] Zeitstempel: 2026-08-13 20:16:05
+[20:16:05] [..] ======================================================================
+[20:16:05] [..] 
+[20:16:05] [..] Teste: Core CI Build
+[20:16:05] [OK]     Gefundene Jobs: cost-estimate, detect-changes, build
+[20:16:05] [OK]     Permissions: actions:read, contents:read, issues:read, pull-requests:writ
+[20:16:05] [OK]     Total Steps: 43
+[20:16:05] [OK]     Gefundene Actions: 16
+[20:16:05] [OK]     Trigger: push, pull_request, workflow_dispatch
+[20:16:05] [..]   Dry-Run Test (optional)
+[20:16:05] [..]   Starte Dry-Run: ci-build.yml
+[20:16:05] [XX]     Dry-Run fehlgeschlagen
+[20:16:05] [..] 
+[20:16:05] [..] Teste: Community Automation
+[20:16:05] [OK]     Gefundene Jobs: greet-first-interaction, auto-label, summarize-issue
+[20:16:05] [OK]     Permissions: contents:read
+[20:16:05] [OK]     Total Steps: 6
+[20:16:05] [OK]     Gefundene Actions: 5
+[20:16:05] [OK]     Trigger: pull_request_target, issues
+[20:16:05] [..]   Dry-Run Test (optional)
+[20:16:05] [..]   Starte Dry-Run: automation-community.yml
+[20:16:05] [XX]     Dry-Run fehlgeschlagen
+[20:16:05] [..] 
+[20:16:05] [..] Teste: Security Scanning
+[20:16:05] [OK]     Gefundene Jobs: trivy, gitleaks, kubesec
+[20:16:05] [OK]     Permissions: contents:read
+[20:16:05] [OK]     Total Steps: 18
+[20:16:05] [OK]     Gefundene Actions: 13
+[20:16:05] [OK]     Trigger: schedule, workflow_dispatch
+[20:16:05] [..]   Dry-Run Test (optional)
+[20:16:05] [..]   Starte Dry-Run: security-consolidated.yml
+[20:16:05] [XX]     Dry-Run fehlgeschlagen
+[20:16:05] [..] 
+[20:16:05] [..] ======================================================================
+[20:16:05] [..] ZUSAMMENFASSUNG
+[20:16:05] [..] ----------------------------------------------------------------------
+[20:16:05] [OK] Tests bestanden: 15
+[20:16:05] [XX] Tests fehlgeschlagen: 3
+[20:16:05] [..] Workflows getestet: 3
+[20:16:05] [..] Dauer: 0.61s
+[20:16:05] [XX] [XX] 3 Test(s) fehlgeschlagen
+[20:16:05] [..] ======================================================================
+
+======================================================================
+DETAILLIERTE EXECUTION-TEST-ERGEBNISSE
+======================================================================
+
+Workflow: ci-build.yml
+  Name: Core CI Build
+  Bestanden: 5
+  Fehlgeschlagen: 1
+  Tests:
+    - jobs: PASS
+      count: 5
+    - permissions: PASS
+    - steps: PASS
+      count: 43
+    - actions: PASS
+      count: 16
+    - triggers: PASS
+      count: 3
+    - dry_run: FAIL
+      msg: Error: unknown flag: --dry-run
+
+
+Workflow: automation-community.yml
+  Name: Community Automation
+  Bestanden: 5
+  Fehlgeschlagen: 1
+  Tests:
+    - jobs: PASS
+      count: 4
+    - permissions: PASS
+    - steps: PASS
+      count: 6
+    - actions: PASS
+      count: 5
+    - triggers: PASS
+      count: 2
+    - dry_run: FAIL
+      msg: Error: unknown flag: --dry-run
+
+
+Workflow: security-consolidated.yml
+  Name: Security Scanning
+  Bestanden: 5
+  Fehlgeschlagen: 1
+  Tests:
+    - jobs: PASS
+      count: 4
+    - permissions: PASS
+    - steps: PASS
+      count: 18
+    - actions: PASS
+      count: 13
+    - triggers: PASS
+      count: 2
+    - dry_run: FAIL
+      msg: Error: unknown flag: --dry-run
+
+

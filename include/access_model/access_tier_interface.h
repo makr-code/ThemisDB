@@ -27,6 +27,15 @@
 #include <string_view>
 #include <vector>
 
+// Cross-platform unreachable macro
+#if defined(__GNUC__) || defined(__clang__)
+#define THEMIS_UNREACHABLE() __builtin_unreachable()
+#elif defined(_MSC_VER)
+#define THEMIS_UNREACHABLE() __assume(false)
+#else
+#define THEMIS_UNREACHABLE() ((void)0)
+#endif
+
 namespace themis {
 namespace access_model {
 
@@ -73,7 +82,7 @@ constexpr TierClassification classifyTier(TierLevel level) {
         case TierLevel::UNKNOWN:
             return TierClassification::STORAGE;
     }
-    __builtin_unreachable();
+    THEMIS_UNREACHABLE();
 }
 
 /**

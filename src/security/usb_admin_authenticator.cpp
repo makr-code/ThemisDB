@@ -42,16 +42,16 @@ namespace {
 struct BIO_Deleter {
     void operator()(BIO* p) const { if (p) BIO_free_all(p); }
 };
-struct EVP_PKEY_Deleter {
+struct USBAdmin_EVP_PKEY_Deleter {
     void operator()(EVP_PKEY* p) const { if (p) EVP_PKEY_free(p); }
 };
-struct EVP_MD_CTX_Deleter {
+struct USBAdmin_EVP_MD_CTX_Deleter {
     void operator()(EVP_MD_CTX* p) const { if (p) EVP_MD_CTX_free(p); }
 };
 
-using BIO_ptr        = std::unique_ptr<BIO, BIO_Deleter>;
-using EVP_PKEY_ptr   = std::unique_ptr<EVP_PKEY, EVP_PKEY_Deleter>;
-using EVP_MD_CTX_ptr = std::unique_ptr<EVP_MD_CTX, EVP_MD_CTX_Deleter>;
+using USBAdmin_BIO_ptr        = std::unique_ptr<BIO, BIO_Deleter>;
+using USBAdmin_EVP_PKEY_ptr   = std::unique_ptr<EVP_PKEY, USBAdmin_EVP_PKEY_Deleter>;
+using USBAdmin_EVP_MD_CTX_ptr = std::unique_ptr<EVP_MD_CTX, USBAdmin_EVP_MD_CTX_Deleter>;
 
 } // anonymous namespace
 
@@ -535,7 +535,7 @@ bool USBAdminAuthenticator::validateLicenseSignature(const USBAdminLicense& lice
         return false;
     }
     
-    EVP_PKEY_ptr public_key(PEM_read_bio_PUBKEY(key_bio.get(), nullptr, nullptr, nullptr));
+    USBAdmin_EVP_PKEY_ptr public_key(PEM_read_bio_PUBKEY(key_bio.get(), nullptr, nullptr, nullptr));
     
     if (!public_key) {
         THEMIS_ERROR("USBAdminAuthenticator: failed to load public key");
@@ -550,7 +550,7 @@ bool USBAdminAuthenticator::validateLicenseSignature(const USBAdminLicense& lice
     }
     
     // Verify the signature using SHA-256
-    EVP_MD_CTX_ptr ctx(EVP_MD_CTX_new());
+    USBAdmin_EVP_MD_CTX_ptr ctx(EVP_MD_CTX_new());
     if (!ctx) {
         THEMIS_ERROR("USBAdminAuthenticator: failed to create EVP context");
         return false;

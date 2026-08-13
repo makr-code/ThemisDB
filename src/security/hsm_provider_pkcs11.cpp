@@ -39,32 +39,36 @@
 
 namespace themis { namespace security {
 
+namespace {
+
 // ── RAII Wrappers for OpenSSL objects ─────────────────────────────────────────
-struct EVP_CIPHER_CTX_Deleter {
+struct HSM_PKCS11_EVP_CIPHER_CTX_Deleter {
     void operator()(EVP_CIPHER_CTX* p) const { if (p) EVP_CIPHER_CTX_free(p); }
 };
 
-struct EVP_MD_CTX_Deleter {
+struct HSM_PKCS11_EVP_MD_CTX_Deleter {
     void operator()(EVP_MD_CTX* p) const { if (p) EVP_MD_CTX_free(p); }
 };
 
-struct X509_Deleter {
+struct HSM_PKCS11_X509_Deleter {
     void operator()(X509* p) const { if (p) X509_free(p); }
 };
 
-struct BIO_Deleter {
+struct HSM_PKCS11_BIO_Deleter {
     void operator()(BIO* p) const { if (p) BIO_free_all(p); }
 };
 
-struct BIGNUM_Deleter {
+struct HSM_PKCS11_BIGNUM_Deleter {
     void operator()(BIGNUM* p) const { if (p) BN_free(p); }
 };
 
-using EVP_CIPHER_CTX_ptr = std::unique_ptr<EVP_CIPHER_CTX, EVP_CIPHER_CTX_Deleter>;
-using EVP_MD_CTX_ptr = std::unique_ptr<EVP_MD_CTX, EVP_MD_CTX_Deleter>;
-using X509_ptr = std::unique_ptr<X509, X509_Deleter>;
-using BIO_ptr = std::unique_ptr<BIO, BIO_Deleter>;
-using BIGNUM_ptr = std::unique_ptr<BIGNUM, BIGNUM_Deleter>;
+using HSM_PKCS11_EVP_CIPHER_CTX_ptr = std::unique_ptr<EVP_CIPHER_CTX, HSM_PKCS11_EVP_CIPHER_CTX_Deleter>;
+using HSM_PKCS11_EVP_MD_CTX_ptr = std::unique_ptr<EVP_MD_CTX, HSM_PKCS11_EVP_MD_CTX_Deleter>;
+using HSM_PKCS11_X509_ptr = std::unique_ptr<X509, HSM_PKCS11_X509_Deleter>;
+using HSM_PKCS11_BIO_ptr = std::unique_ptr<BIO, HSM_PKCS11_BIO_Deleter>;
+using HSM_PKCS11_BIGNUM_ptr = std::unique_ptr<BIGNUM, HSM_PKCS11_BIGNUM_Deleter>;
+
+} // anonymous namespace
 
 // Real PKCS#11 implementation with graceful developer fallback.
 // If any critical step fails (lib load, slot, login, key discovery),
@@ -145,7 +149,7 @@ static std::vector<uint8_t> pkcs11_stub_aes_encrypt(const std::vector<uint8_t>& 
     if (key.size() != 32) return {};
     std::vector<uint8_t> iv(12);
     if (RAND_bytes(iv.data(), 12) != 1) return {};
-    EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
+    HSM_PKCS11_EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
     if (!ctx) return {};
     std::vector<uint8_t> ciphertext(data.size() + 16);
     std::vector<uint8_t> tag(16);
@@ -175,7 +179,7 @@ static std::vector<uint8_t> pkcs11_stub_aes_decrypt(const std::vector<uint8_t>& 
     size_t ct_len      = encrypted.size() - 12 - 16;
     const uint8_t* ct  = encrypted.data() + 12;
     const uint8_t* tag = encrypted.data() + 12 + ct_len;
-    EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
+    HSM_PKCS11_EVP_CIPHER_CTX_ptr ctx(EVP_CIPHER_CTX_new());
     if (!ctx) return {};
     std::vector<uint8_t> plaintext(ct_len);
     int len = 0, pt_len = 0;
@@ -492,7 +496,7 @@ static std::vector<uint8_t> sha256(const std::vector<uint8_t>& data){
     std::vector<uint8_t> out(EVP_MAX_MD_SIZE);
     unsigned int len = 0;
     
-    EVP_MD_CTX_ptr ctx(EVP_MD_CTX_new());
+    HSM_PKCS11_EVP_MD_CTX_ptr ctx(EVP_MD_CTX_new());
     if (!ctx.get()) {
         THEMIS_ERROR("sha256: failed to create EVP_MD_CTX");
         return {};

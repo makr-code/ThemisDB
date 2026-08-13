@@ -1,0 +1,587 @@
+═════════════════════════════════════════════════════════════════
+CI/CD WORKFLOW VALIDATION REPORT
+Generated: 2026-08-13 19:56:34
+Location: C:\Projects\ThemisDB\.github\workflows
+═════════════════════════════════════════════════════════════════
+
+Total workflows found: 22
+
+
+──────────────────────────────────────────────────────────────────
+📄 FILE: automation-community.yml
+──────────────────────────────────────────────────────────────────
+❌ ISSUES FOUND (17):
+  • Missing 'on:' trigger definition
+  • Missing 'jobs:' section
+  • Missing 'permissions:' field (security risk)
+  • Invalid indentation at line 31: '        github.event_name == 'issues' && github.event.action == 'opened''
+  • Invalid indentation at line 33: '      issues: write'
+  • Invalid indentation at line 34: '      pull-requests: write'
+  • ... and 56 more indentation errors
+  • ⚠️  Multiple jobs (6) but no 'needs' dependencies found (may be intentional)
+  • Potentially incomplete condition: github.event_name == 'pull_request_target'
+  • Potentially incomplete condition: github.event_name == 'issues' && github.event.action == 'opened'
+  • ⚠️  Found 5 unpinned GitHub actions (should use @hash or @vX.Y.Z)
+  •     └─ actions/first-interactio
+  •     └─ actions/labele
+  •     └─ actions/checkou
+  •     └─ actions/ai-inferenc
+  •     └─ actions/github-scrip
+  • ⚠️  Detected write permissions - verify necessity for security
+
+──────────────────────────────────────────────────────────────────
+📄 FILE: ci-benchmarks.yml
+──────────────────────────────────────────────────────────────────
+❌ ISSUES FOUND (21):
+  • Missing 'on:' trigger definition
+  • Missing 'jobs:' section
+  • Missing 'permissions:' field (security risk)
+  • Invalid indentation at line 17: '      backend_filter:'
+  • Invalid indentation at line 18: '        description: 'GPU backend filter (cuda|hip|vulkan|all)''
+  • Invalid indentation at line 19: '        required: false'
+  • ... and 262 more indentation errors
+  • ⚠️  Multiple jobs (7) but no 'needs' dependencies found (may be intentional)
+  • Potentially incomplete condition: steps.cmake_configure.outputs.exit_code != '' && steps.cmake_configure.outputs.exit_code == '0'
+  • Potentially incomplete condition: steps.cmake_build.outputs.exit_code != '' && steps.cmake_build.outputs.exit_code == '0'
+  • ⚠️  Found 9 unpinned GitHub actions (should use @hash or @vX.Y.Z)
+  •     └─ actions/checkou
+  •     └─ actions/upload-artifac
+  •     └─ actions/checkou
+  •     └─ actions/upload-artifac
+  •     └─ actions/checkou
+  •     └─ actions/upload-artifac
+  •     └─ actions/checkou
+  •     └─ actions/checkou
+  •     └─ actions/upload-artifac
+  • ⚠️  Detected write permissions - verify necessity for security
+
+──────────────────────────────────────────────────────────────────
+📄 FILE: ci-build.yml
+──────────────────────────────────────────────────────────────────
+❌ ISSUES FOUND (36):
+  • Missing 'on:' trigger definition
+  • Missing 'jobs:' section
+  • Missing 'permissions:' field (security risk)
+  • Invalid indentation at line 22: '      - develop'
+  • Invalid indentation at line 24: '      - 'CMakeLists.txt''
+  • Invalid indentation at line 25: '      - 'CMakePresets.json''
+  • ... and 618 more indentation errors
+  • Potentially incomplete condition: github.event_name == 'workflow_dispatch'
+  • Potentially incomplete condition: needs.detect-changes.outputs.has_cpp_changes == 'false' && github.event_name == 'pull_request'
+  • Potentially incomplete condition: runner.os == 'Linux' && (needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request')
+  • Potentially incomplete condition: runner.os == 'Windows' && (needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request')
+  • Potentially incomplete condition: needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request'
+  • Potentially incomplete condition: runner.os == 'Linux' && (needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request')
+  • Potentially incomplete condition: runner.os == 'Linux' && (needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request')
+  • Potentially incomplete condition: runner.os == 'Windows'
+  • Potentially incomplete condition: runner.os == 'Windows'
+  • Potentially incomplete condition: runner.os == 'Linux' && (needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request')
+  • Potentially incomplete condition: runner.os == 'Windows' && (needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request')
+  • Potentially incomplete condition: needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request'
+  • Potentially incomplete condition: failure() && github.event_name == 'pull_request'
+  • Potentially incomplete condition: always() && (needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request')
+  • Potentially incomplete condition: always() && runner.os == 'Linux' && (needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request')
+  • ⚠️  Found 13 unpinned GitHub actions (should use @hash or @vX.Y.Z)
+  •     └─ actions/checkou
+  •     └─ actions/checkou
+  •     └─ mozilla-actions/sccache-actio
+  •     └─ mozilla-actions/sccache-actio
+  •     └─ actions/cach
+  •     └─ actions/github-scrip
+  •     └─ actions/upload-artifac
+  •     └─ actions/checkou
+  •     └─ mozilla-actions/sccache-actio
+  •     └─ actions/upload-artifac
+  •     └─ actions/checkou
+  •     └─ mozilla-actions/sccache-actio
+  •     └─ actions/upload-artifac
+
+──────────────────────────────────────────────────────────────────
+📄 FILE: ci-pr-gates.yml
+──────────────────────────────────────────────────────────────────
+❌ ISSUES FOUND (28):
+  • Missing 'on:' trigger definition
+  • Missing 'jobs:' section
+  • Missing 'permissions:' field (security risk)
+  • Invalid indentation at line 21: '      - develop'
+  • Invalid indentation at line 22: '      - community'
+  • Invalid indentation at line 23: '      - enterprise'
+  • ... and 495 more indentation errors
+  • Potentially incomplete condition: github.event_name == 'pull_request'
+  • Potentially incomplete condition: steps.baseline.outputs.baseline_exists == 'false' && github.event.inputs.run_scan_if_missing == 'true'
+  • Potentially incomplete condition: github.event_name == 'pull_request'
+  • Potentially incomplete condition: needs.release-critical-tests.result == 'failure'
+  • ⚠️  Found 16 unpinned GitHub actions (should use @hash or @vX.Y.Z)
+  •     └─ actions/checkou
+  •     └─ actions/checkou
+  •     └─ actions/checkou
+  •     └─ actions/setup-pytho
+  •     └─ actions/checkou
+  •     └─ actions/checkou
+  •     └─ actions/upload-artifac
+  •     └─ actions/checkou
+  •     └─ actions/checkou
+  •     └─ actions/setup-pytho
+  •     └─ actions/upload-artifac
+  •     └─ actions/checkou
+  •     └─ actions/checkou
+  •     └─ actions/setup-pytho
+  •     └─ actions/checkou
+  •     └─ actions/upload-artifac
+
+──────────────────────────────────────────────────────────────────
+📄 FILE: ci-release.yml
+──────────────────────────────────────────────────────────────────
+❌ ISSUES FOUND (25):
+  • Missing 'on:' trigger definition
+  • Missing 'jobs:' section
+  • Missing 'permissions:' field (security risk)
+  • Invalid indentation at line 29: '      - 'v*''
+  • Invalid indentation at line 30: '      - 'enterprise-v*''
+  • Invalid indentation at line 31: '      - 'hyperscaler-v*''
+  • ... and 429 more indentation errors
+  • Potentially incomplete condition: matrix.preset == 'community-release' && steps.filter.outputs.skip != 'true'
+  • Potentially incomplete condition: matrix.preset == 'linux-release' && steps.filter.outputs.skip != 'true'
+  • ⚠️  Found 14 unpinned GitHub actions (should use @hash or @vX.Y.Z)
+  •     └─ actions/checkou
+  •     └─ actions/upload-artifac
+  •     └─ actions/upload-artifac
+  •     └─ actions/upload-artifac
+  •     └─ actions/checkou
+  •     └─ actions/download-artifac
+  •     └─ actions/download-artifac
+  •     └─ actions/upload-artifac
+  •     └─ actions/download-artifac
+  •     └─ actions/checkou
+  •     └─ actions/download-artifac
+  •     └─ actions/github-scrip
+  •     └─ actions/checkou
+  •     └─ actions/download-artifac
+  • ⚠️  Detected write permissions - verify necessity for security
+
+──────────────────────────────────────────────────────────────────
+📄 FILE: codeql.yml
+──────────────────────────────────────────────────────────────────
+❌ ISSUES FOUND (8):
+  • Missing 'on:' trigger definition
+  • Missing 'jobs:' section
+  • Missing 'permissions:' field (security risk)
+  • Invalid indentation at line 11: '      - '.github/workflows/codeql.yml''
+  • Invalid indentation at line 12: '      - '.github/workflows/security-scanning.yml''
+  • Invalid indentation at line 16: '      - '.github/workflows/codeql.yml''
+  • ... and 8 more indentation errors
+  • ⚠️  Multiple jobs (3) but no 'needs' dependencies found (may be intentional)
+
+──────────────────────────────────────────────────────────────────
+📄 FILE: compliance-supply-chain.yml
+──────────────────────────────────────────────────────────────────
+❌ ISSUES FOUND (36):
+  • Missing 'on:' trigger definition
+  • Missing 'jobs:' section
+  • Missing 'permissions:' field (security risk)
+  • Invalid indentation at line 12: '      - develop'
+  • Invalid indentation at line 13: '      - minimal'
+  • Invalid indentation at line 14: '      - community'
+  • ... and 362 more indentation errors
+  • Potentially incomplete condition: github.event_name == 'release'
+  • Potentially incomplete condition: github.event_name == 'release'
+  • Potentially incomplete condition: env.BASELINE_STALE == 'true'
+  • Potentially incomplete condition: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+  • ⚠️  Found 23 unpinned GitHub actions (should use @hash or @vX.Y.Z)
+  •     └─ actions/checkou
+  •     └─ actions/setup-pytho
+  •     └─ actions/checkou
+  •     └─ actions/upload-artifac
+  •     └─ actions/download-artifac
+  •     └─ softprops/action-gh-releas
+  •     └─ actions/checkou
+  •     └─ anchore/sbom-action/download-syf
+  •     └─ anchore/sbom-actio
+  •     └─ anchore/sbom-actio
+  •     └─ aquasecurity/trivy-actio
+  •     └─ sigstore/cosign-installe
+  •     └─ actions/upload-artifac
+  •     └─ actions/attest-build-provenanc
+  •     └─ softprops/action-gh-releas
+  •     └─ actions/checkou
+  •     └─ actions/setup-pytho
+  •     └─ aquasecurity/trivy-actio
+  •     └─ github/codeql-action/upload-sari
+  •     └─ actions/upload-artifac
+  •     └─ actions/github-scrip
+  •     └─ actions/checkou
+  •     └─ actions/upload-artifac
+  • ⚠️  Detected write permissions - verify necessity for security
+
+──────────────────────────────────────────────────────────────────
+📄 FILE: copilot-ollama-router-ci.yml
+──────────────────────────────────────────────────────────────────
+❌ ISSUES FOUND (11):
+  • Missing 'on:' trigger definition
+  • Missing 'jobs:' section
+  • Missing 'permissions:' field (security risk)
+  • Invalid indentation at line 6: '      - 'tools/copilot-ollama-router/**''
+  • Invalid indentation at line 9: '      - 'tools/copilot-ollama-router/**''
+  • Invalid indentation at line 29: '      - name: Checkout'
+  • ... and 15 more indentation errors
+  • ⚠️  Multiple jobs (5) but no 'needs' dependencies found (may be intentional)
+  • ⚠️  Found 2 unpinned GitHub actions (should use @hash or @vX.Y.Z)
+  •     └─ actions/checkou
+  •     └─ actions/setup-nod
+
+──────────────────────────────────────────────────────────────────
+📄 FILE: copilot-regression-guard.yml
+──────────────────────────────────────────────────────────────────
+❌ ISSUES FOUND (12):
+  • Missing 'on:' trigger definition
+  • Missing 'jobs:' section
+  • Missing 'permissions:' field (security risk)
+  • Invalid indentation at line 7: '      - 'tests/CMakeLists.txt''
+  • Invalid indentation at line 8: '      - 'src/**''
+  • Invalid indentation at line 9: '      - 'include/**''
+  • ... and 107 more indentation errors
+  • ⚠️  Multiple jobs (3) but no 'needs' dependencies found (may be intentional)
+  • ⚠️  Found 3 unpinned GitHub actions (should use @hash or @vX.Y.Z)
+  •     └─ actions/checkou
+  •     └─ actions/setup-pytho
+  •     └─ actions/upload-artifac
+
+──────────────────────────────────────────────────────────────────
+📄 FILE: docker-image.yml
+──────────────────────────────────────────────────────────────────
+❌ ISSUES FOUND (16):
+  • Missing 'on:' trigger definition
+  • Missing 'jobs:' section
+  • Missing 'permissions:' field (security risk)
+  • Invalid indentation at line 19: '      push_to_registry:'
+  • Invalid indentation at line 20: '        description: "Push built images to Docker registry"'
+  • Invalid indentation at line 21: '        required: false'
+  • ... and 228 more indentation errors
+  • ⚠️  Multiple jobs (3) but no 'needs' dependencies found (may be intentional)
+  • Potentially incomplete condition: github.event_name == 'release' || (github.event_name == 'push' && github.ref == 'refs/heads/develop')
+  • ⚠️  Found 6 unpinned GitHub actions (should use @hash or @vX.Y.Z)
+  •     └─ actions/checkou
+  •     └─ docker/setup-buildx-actio
+  •     └─ docker/login-actio
+  •     └─ docker/login-actio
+  •     └─ docker/build-push-actio
+  •     └─ actions/attest-build-provenanc
+
+──────────────────────────────────────────────────────────────────
+📄 FILE: edition-hyperscaler-ci.yml
+──────────────────────────────────────────────────────────────────
+❌ ISSUES FOUND (10):
+  • Missing 'on:' trigger definition
+  • Missing 'jobs:' section
+  • Missing 'permissions:' field (security risk)
+  • Invalid indentation at line 7: '      - hyperscaler'
+  • Invalid indentation at line 9: '      - 'src/**''
+  • Invalid indentation at line 10: '      - 'include/**''
+  • ... and 65 more indentation errors
+  • ⚠️  Multiple jobs (3) but no 'needs' dependencies found (may be intentional)
+  • ⚠️  Found 1 unpinned GitHub actions (should use @hash or @vX.Y.Z)
+  •     └─ actions/checkou
+
+──────────────────────────────────────────────────────────────────
+📄 FILE: fortify.yml
+──────────────────────────────────────────────────────────────────
+❌ ISSUES FOUND (12):
+  • Missing 'name:' field
+  • Missing 'on:' trigger definition
+  • Missing 'jobs:' section
+  • Missing 'permissions:' field (security risk)
+  • Invalid indentation at line 34: '      actions: read'
+  • Invalid indentation at line 35: '      contents: read'
+  • Invalid indentation at line 36: '      security-events: write'
+  • ... and 90 more indentation errors
+  • ⚠️  Multiple jobs (3) but no 'needs' dependencies found (may be intentional)
+  • ⚠️  Found 2 unpinned GitHub actions (should use @hash or @vX.Y.Z)
+  •     └─ actions/checkou
+  •     └─ fortify/github-actio
+
+──────────────────────────────────────────────────────────────────
+📄 FILE: fuzzing.yml
+──────────────────────────────────────────────────────────────────
+❌ ISSUES FOUND (12):
+  • Missing 'on:' trigger definition
+  • Missing 'jobs:' section
+  • Missing 'permissions:' field (security risk)
+  • Invalid indentation at line 9: '      target:'
+  • Invalid indentation at line 10: '        description: 'Fuzzing target to run''
+  • Invalid indentation at line 11: '        required: true'
+  • ... and 120 more indentation errors
+  • ⚠️  Multiple jobs (3) but no 'needs' dependencies found (may be intentional)
+  • ⚠️  Found 3 unpinned GitHub actions (should use @hash or @vX.Y.Z)
+  •     └─ actions/checkou
+  •     └─ actions/upload-artifac
+  •     └─ actions/upload-artifac
+
+──────────────────────────────────────────────────────────────────
+📄 FILE: governance-gates.yml
+──────────────────────────────────────────────────────────────────
+❌ ISSUES FOUND (36):
+  • Missing 'on:' trigger definition
+  • Missing 'jobs:' section
+  • Missing 'permissions:' field (security risk)
+  • Invalid indentation at line 17: '      - 'ROADMAP.md''
+  • Invalid indentation at line 18: '      - 'FUTURE_ENHANCEMENTS.md''
+  • Invalid indentation at line 19: '      - 'src/*/ROADMAP.md''
+  • ... and 553 more indentation errors
+  • ⚠️  Multiple jobs (14) but no 'needs' dependencies found (may be intentional)
+  • Potentially incomplete condition: github.event_name == 'pull_request' && steps.validate.outputs.tier0_status != 'skipped'
+  • Potentially incomplete condition: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+  • Potentially incomplete condition: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+  • Potentially incomplete condition: github.event_name == 'pull_request' && steps.wave_gate.outputs.blocking_count != '0'
+  • Potentially incomplete condition: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
+  • ⚠️  Found 22 unpinned GitHub actions (should use @hash or @vX.Y.Z)
+  •     └─ actions/checkou
+  •     └─ actions/setup-pytho
+  •     └─ actions/upload-artifac
+  •     └─ actions/upload-artifac
+  •     └─ actions/checkou
+  •     └─ actions/setup-pytho
+  •     └─ actions/checkou
+  •     └─ actions/setup-pytho
+  •     └─ actions/github-scrip
+  •     └─ actions/checkou
+  •     └─ actions/setup-pytho
+  •     └─ actions/checkou
+  •     └─ actions/setup-pytho
+  •     └─ actions/upload-artifac
+  •     └─ actions/checkou
+  •     └─ actions/setup-pytho
+  •     └─ actions/github-scrip
+  •     └─ actions/checkou
+  •     └─ actions/setup-pytho
+  •     └─ actions/checkou
+  •     └─ actions/github-scrip
+  •     └─ actions/github-scrip
+
+──────────────────────────────────────────────────────────────────
+📄 FILE: maintenance-cache-warming.yml
+──────────────────────────────────────────────────────────────────
+❌ ISSUES FOUND (13):
+  • Missing 'on:' trigger definition
+  • Missing 'jobs:' section
+  • Missing 'permissions:' field (security risk)
+  • Invalid indentation at line 31: '      contents: read'
+  • Invalid indentation at line 32: '      actions: write'
+  • Invalid indentation at line 35: '      SCCACHE_GHA_ENABLED: "true"'
+  • ... and 232 more indentation errors
+  • ⚠️  Multiple jobs (4) but no 'needs' dependencies found (may be intentional)
+  • ⚠️  Found 4 unpinned GitHub actions (should use @hash or @vX.Y.Z)
+  •     └─ actions/checkou
+  •     └─ mozilla-actions/sccache-actio
+  •     └─ actions/checkou
+  •     └─ actions/cach
+
+──────────────────────────────────────────────────────────────────
+📄 FILE: maintenance-ci-health.yml
+──────────────────────────────────────────────────────────────────
+❌ ISSUES FOUND (15):
+  • Missing 'on:' trigger definition
+  • Missing 'jobs:' section
+  • Missing 'permissions:' field (security risk)
+  • Invalid indentation at line 19: '      lookback_days:'
+  • Invalid indentation at line 20: '        description: 'Days to look back for workflow run data (default: 7)''
+  • Invalid indentation at line 21: '        required: false'
+  • ... and 266 more indentation errors
+  • ⚠️  Multiple jobs (3) but no 'needs' dependencies found (may be intentional)
+  • Potentially incomplete condition: steps.stats.outputs.chronic_count == '0'
+  • ⚠️  Found 5 unpinned GitHub actions (should use @hash or @vX.Y.Z)
+  •     └─ actions/checkou
+  •     └─ actions/github-scrip
+  •     └─ actions/upload-artifac
+  •     └─ actions/github-scrip
+  •     └─ actions/github-scrip
+
+──────────────────────────────────────────────────────────────────
+📄 FILE: maintenance-docs.yml
+──────────────────────────────────────────────────────────────────
+❌ ISSUES FOUND (31):
+  • Missing 'on:' trigger definition
+  • Missing 'jobs:' section
+  • Missing 'permissions:' field (security risk)
+  • Invalid indentation at line 17: '      - 'ai_context/**''
+  • Invalid indentation at line 18: '      - 'ai_working/**''
+  • Invalid indentation at line 19: '      - 'INDEX.md''
+  • ... and 436 more indentation errors
+  • ⚠️  Multiple jobs (11) but no 'needs' dependencies found (may be intentional)
+  • ⚠️  Found 21 unpinned GitHub actions (should use @hash or @vX.Y.Z)
+  •     └─ actions/checkou
+  •     └─ actions/setup-pytho
+  •     └─ actions/upload-artifac
+  •     └─ actions/checkou
+  •     └─ actions/setup-pytho
+  •     └─ actions/upload-artifac
+  •     └─ actions/checkou
+  •     └─ actions/setup-pytho
+  •     └─ actions/upload-artifac
+  •     └─ actions/checkou
+  •     └─ actions/setup-pytho
+  •     └─ actions/upload-artifac
+  •     └─ actions/checkou
+  •     └─ actions/setup-pytho
+  •     └─ actions/upload-artifac
+  •     └─ actions/checkou
+  •     └─ actions/setup-pytho
+  •     └─ actions/upload-artifac
+  •     └─ actions/checkou
+  •     └─ actions/setup-pytho
+  •     └─ actions/upload-artifac
+  • ⚠️  Detected write permissions - verify necessity for security
+
+──────────────────────────────────────────────────────────────────
+📄 FILE: maintenance-issues.yml
+──────────────────────────────────────────────────────────────────
+❌ ISSUES FOUND (17):
+  • Missing 'on:' trigger definition
+  • Missing 'jobs:' section
+  • Missing 'permissions:' field (security risk)
+  • Invalid indentation at line 22: '      job:'
+  • Invalid indentation at line 23: '        description: 'Which job to run''
+  • Invalid indentation at line 24: '        required: true'
+  • ... and 569 more indentation errors
+  • ⚠️  Multiple jobs (4) but no 'needs' dependencies found (may be intentional)
+  • Potentially incomplete condition: steps.scan.outputs.scan_failed == 'true'
+  • ⚠️  Found 7 unpinned GitHub actions (should use @hash or @vX.Y.Z)
+  •     └─ actions/checkou
+  •     └─ actions/setup-pytho
+  •     └─ actions/upload-artifac
+  •     └─ actions/github-scrip
+  •     └─ actions/github-scrip
+  •     └─ actions/github-scrip
+  •     └─ actions/github-scrip
+
+──────────────────────────────────────────────────────────────────
+📄 FILE: quality-static-analysis.yml
+──────────────────────────────────────────────────────────────────
+❌ ISSUES FOUND (27):
+  • Missing 'on:' trigger definition
+  • Missing 'jobs:' section
+  • Missing 'permissions:' field (security risk)
+  • Invalid indentation at line 12: '      - develop'
+  • Invalid indentation at line 13: '      - community'
+  • Invalid indentation at line 14: '      - enterprise'
+  • ... and 244 more indentation errors
+  • ⚠️  Multiple jobs (8) but no 'needs' dependencies found (may be intentional)
+  • Potentially incomplete condition: github.event_name == 'workflow_dispatch'
+  • Potentially incomplete condition: inputs.fail_on_warnings && steps.tidy.outputs.has_findings == 'true'
+  • Potentially incomplete condition: github.event_name == 'workflow_dispatch'
+  • Potentially incomplete condition: inputs.fail_on_format_violations && steps.fmt.outputs.has_violations == 'true'
+  • Potentially incomplete condition: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
+  • Potentially incomplete condition: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+  • Potentially incomplete condition: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
+  • ⚠️  Found 11 unpinned GitHub actions (should use @hash or @vX.Y.Z)
+  •     └─ actions/checkou
+  •     └─ github/codeql-action/upload-sari
+  •     └─ actions/upload-artifac
+  •     └─ actions/checkou
+  •     └─ actions/upload-artifac
+  •     └─ actions/checkou
+  •     └─ actions/upload-artifac
+  •     └─ actions/checkou
+  •     └─ actions/upload-artifac
+  •     └─ actions/checkou
+  •     └─ actions/upload-artifac
+
+──────────────────────────────────────────────────────────────────
+📄 FILE: release-changelog.yml
+──────────────────────────────────────────────────────────────────
+❌ ISSUES FOUND (17):
+  • Missing 'on:' trigger definition
+  • Missing 'jobs:' section
+  • Missing 'permissions:' field (security risk)
+  • Invalid indentation at line 27: '      mode:'
+  • Invalid indentation at line 28: '        description: "Operation mode"'
+  • Invalid indentation at line 29: '        required: true'
+  • ... and 260 more indentation errors
+  • ⚠️  Multiple jobs (4) but no 'needs' dependencies found (may be intentional)
+  • Potentially incomplete condition: inputs.mode == 'update' || inputs.mode == ''
+  • Potentially incomplete condition: inputs.mode == 'backfill'
+  • ⚠️  Found 6 unpinned GitHub actions (should use @hash or @vX.Y.Z)
+  •     └─ actions/checkou
+  •     └─ actions/setup-pytho
+  •     └─ actions/upload-artifac
+  •     └─ actions/checkou
+  •     └─ actions/setup-pytho
+  •     └─ actions/upload-artifac
+
+──────────────────────────────────────────────────────────────────
+📄 FILE: security-consolidated.yml
+──────────────────────────────────────────────────────────────────
+❌ ISSUES FOUND (22):
+  • Missing 'on:' trigger definition
+  • Missing 'jobs:' section
+  • Missing 'permissions:' field (security risk)
+  • Invalid indentation at line 26: '      run_trivy:'
+  • Invalid indentation at line 27: '        description: 'Run Trivy vulnerability scan''
+  • Invalid indentation at line 28: '        type: boolean'
+  • ... and 190 more indentation errors
+  • ⚠️  Multiple jobs (6) but no 'needs' dependencies found (may be intentional)
+  • ⚠️  Found 13 unpinned GitHub actions (should use @hash or @vX.Y.Z)
+  •     └─ actions/checkou
+  •     └─ aquasecurity/trivy-actio
+  •     └─ aquasecurity/trivy-actio
+  •     └─ github/codeql-action/upload-sari
+  •     └─ actions/checkou
+  •     └─ github/codeql-action/upload-sari
+  •     └─ actions/checkou
+  •     └─ controlplaneio/kubesec-actio
+  •     └─ actions/upload-artifac
+  •     └─ actions/checkou
+  •     └─ docker/setup-buildx-actio
+  •     └─ zaproxy/action-baselin
+  •     └─ actions/upload-artifac
+
+──────────────────────────────────────────────────────────────────
+📄 FILE: security-pentest-quarterly.yml
+──────────────────────────────────────────────────────────────────
+❌ ISSUES FOUND (12):
+  • Missing 'on:' trigger definition
+  • Missing 'jobs:' section
+  • Missing 'permissions:' field (security risk)
+  • Invalid indentation at line 15: '      scope:'
+  • Invalid indentation at line 16: '        description: 'Pentest scope''
+  • Invalid indentation at line 17: '        required: false'
+  • ... and 256 more indentation errors
+  • ⚠️  Multiple jobs (3) but no 'needs' dependencies found (may be intentional)
+  • ⚠️  Found 3 unpinned GitHub actions (should use @hash or @vX.Y.Z)
+  •     └─ actions/checkou
+  •     └─ actions/github-scrip
+  •     └─ actions/upload-artifac
+
+═════════════════════════════════════════════════════════════════
+SUMMARY
+═════════════════════════════════════════════════════════════════
+
+Total files checked: 22
+Files with issues: 434
+
+⚠️  Action required: Fix 434 workflow(s) before deployment
+
+Files requiring fixes:
+  • automation-community.yml 
+  • ci-benchmarks.yml 
+  • ci-build.yml 
+  • ci-pr-gates.yml 
+  • ci-release.yml 
+  • codeql.yml 
+  • compliance-supply-chain.yml 
+  • copilot-ollama-router-ci.yml 
+  • copilot-regression-guard.yml 
+  • docker-image.yml 
+  • edition-hyperscaler-ci.yml 
+  • fortify.yml 
+  • fuzzing.yml 
+  • governance-gates.yml 
+  • maintenance-cache-warming.yml 
+  • maintenance-ci-health.yml 
+  • maintenance-docs.yml 
+  • maintenance-issues.yml 
+  • quality-static-analysis.yml 
+  • release-changelog.yml 
+  • security-consolidated.yml 
+  • security-pentest-quarterly.yml 
+
+═════════════════════════════════════════════════════════════════
