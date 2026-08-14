@@ -46,6 +46,35 @@ Out of scope:
 - repair/rebalance/migration behavior remains observable and deterministic.
 - degraded shard states and quorum/health outcomes are explicit.
 
+## Thread-Safety Model (Tier 1 Requirement — Critical)
+
+**Concurrency guarantees (canonical lock ordering):**
+- **Routing Decisions:** Immutable shard map after initialization; lock-free read paths via `std::shared_ptr<ShardTopology>`
+- **Cross-Shard Coordination:** DualConsensusOrchestrator uses canonical lock order: `state_mutex_` (1) < `audit_mutex_` (2) < `metrics_mutex_` (3)
+- **Consensus State:** RaftConsensusAdapter canonical order: `state_mutex_` (1) < `callbacks_mutex_` (2) < `cluster_mutex_` (3) < `snapshot_mutex_` (4)
+- **2PC Coordinator:** Atomic transaction state transitions via `xact_state_` atomic<>; per-shard locks only when sending prepare/commit
+- **Replication Coordinator:** Per-shard state protected by shard-local mutex; no global lock holds
+- **WAL Manager:** Lock-free ring buffer for WAL entries; individual entry writes are atomic
+- **Health Monitor:** Atomic health state updates; no blocking on health check paths
+
+**Known thread-safety hardening (Batch 3 verified 2026-08-10):**
+- Lock-ordering violations reduced from 95 → 0 (TSO/LKO/CCR test evidence)
+- Cross-shard thread-safety gaps reduced from 340+ → ~102 (dual_consensus_orchestrator, replica_consistency hardened)
+- `std::scoped_lock` used for atomic dual-mutex acquisition in `logGroundingOperation`
+- `backgroundSyncThread` detects quorum loss and backs off; no indefinite waits
+- Detached-thread hazards eliminated via explicit ownership transfer in SubagentLifecycleManager
+
+**Fail-Closed Behavior (Wave A — Runtime Reliability):**
+- **Shard Unavailable:** Fail fast with `Status::kShardUnavailable`; no indefinite retry
+- **Quorum Loss:** Return `Status::kQuorumLost`; block new writes until quorum restored
+- **Transaction Timeout:** Enforce per-transaction deadline; abort on overrun with `kDeadlineExceeded`
+- **Rebalance Blocked:** If topology change fails, keep current routing; signal via health endpoint
+- **Consensus Deadlock:** Detect via timeout; trigger failover to next consensus adapter
+- **Migration Failure:** Backoff with exponential delay; trigger repair process; log error
+- **Network Partition:** Detect via health checks; self-heal via anti-entropy process
+
+---
+
 ## Sourcecode Verification (Module: sharding/readme)
 
 - Verified files:
@@ -69,3 +98,4 @@ Out of scope:
 - Note:
   - forward planning is tracked in ROADMAP.md and FUTURE_ENHANCEMENTS.md
   - historical entries remain in CHANGELOG.md
+  - thread-safety sign-off evidence: tests/sharding/test_sharding_thread_safety_lock_order_focused.cpp (TSO/LKO/CCR tests)

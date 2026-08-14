@@ -8,6 +8,11 @@
 
 Production analytics runtime exists across OLAP, streaming/CEP, forecasting, anomaly detection, model-serving integration, and distributed analytics coordination.
 
+**Wave Alignment (see root ROADMAP.md § Program Execution Model):**
+- **Wave B (Q3–Q4 2026):** OLAP chain optimization, streaming-join performance gates, model-serving reliability, distributed merge diagnostics
+- **Wave B Exit Criteria:** Full analytics chain stable p95/p99 on representative hardware, distributed merge evidence, optional-dependency fallback validated
+- **Tier 2 Functional Completeness:** Not runtime-critical, but performance-sensitive for analytical workloads
+
 ## In Progress
 
 - [~] hardening of streaming and distributed runtime limits under sustained load (Target: Q3 2026)

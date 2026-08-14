@@ -8,6 +8,12 @@
 
 The module provides production-grade LLM runtime surfaces across async inference, enhanced multi-model orchestration, adapter/plugin management, routing, streaming, and safety/policy controls.
 
+**Wave Alignment (see root ROADMAP.md § Program Execution Model):**
+- **Wave A (Q3–Q4 2026):** Distributed end-to-end optimization (SpeculativeDecoder + cross-node inference hardening)
+- **Wave B (Q3–Q4 2026):** Wiki Phase B (RocksDB retrieval, cache hit-rate, query-latency gates)
+- **Wave A Exit Criteria:** Deterministic chaos evidence + fail-closed verification + release-critical CI GREEN
+- **Wave B Exit Criteria:** Full 4-layer retrieval chain with stable p95/p99 on representative hardware
+
 ### Module Evidence Summary (2026-07-19)
 
 **Doxygen Documentation:**
