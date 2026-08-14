@@ -144,12 +144,6 @@ public:
     }
     
     /**
-     * @brief Verify that this context is fully initialized before use.
-     * @return true if safe to use, false if partially constructed.
-     */
-    bool isInitialized() const override { return is_initialized_; }
-
-    /**
      * @brief Iterator over all keys that start with "<table_name>:".
      *
      * Since IMigrationStorage has no native prefix-scan, this iterator calls
@@ -204,7 +198,7 @@ public:
         const std::string& table_name) override
     {
         // FIX UM-SMD-02..10: Ensure initialized before using version/storage
-        if (!isInitialized()) {
+        if (!is_initialized_ || storage == nullptr || version.empty()) {
             LOG_ERROR("ConcreteMigrationContext: attempt to use uninitialized context");
             return nullptr;
         }
@@ -808,7 +802,7 @@ struct SchemaMigration::Impl {
             ConcreteMigrationContext ctx(version_, &storage);
             
             // Verify context is usable before calling user callback
-            if (!ctx.isInitialized()) {
+            if (ctx.storage == nullptr || ctx.version.empty()) {
                 LOG_ERROR("SchemaMigration [{}]: migration context initialization failed",
                           version_);
                 return false;
@@ -966,4 +960,3 @@ std::size_t SchemaMigration::operationCount() const noexcept
 
 } // namespace updates
 } // namespace themis
-

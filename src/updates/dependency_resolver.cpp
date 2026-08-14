@@ -468,8 +468,6 @@ std::vector<DependencyConflict> DependencyResolver::detectConflicts(
 {
     // 7508 Fix: Vector move semantics optimized (RVO or move constructor)
     std::vector<DependencyConflict> conflicts;
-    conflicts.reserve(100);  // Pre-allocate to reduce reallocations if needed
-
     conflicts.reserve(installed.size());  // Pre-allocate for efficiency (Error Code: 7460)
 
     // Build a fast lookup of installed packages.
@@ -549,4 +547,3 @@ std::vector<DependencyConflict> DependencyResolver::detectConflicts(
 
 } // namespace updates
 } // namespace themis
-

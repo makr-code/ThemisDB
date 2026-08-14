@@ -297,7 +297,8 @@ TEST_F(SchemaMigrationBatch2Test, CustomCallbackExceptionHandled) {
     SchemaMigration migration("v1.1.7");
     
     migration.addCustomMigration([](MigrationContext& ctx) {
-        EXPECT_TRUE(ctx.isInitialized());
+        EXPECT_NE(ctx.storage, nullptr);
+        EXPECT_FALSE(ctx.version.empty());
         return true;
     });
     

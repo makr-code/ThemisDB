@@ -13,8 +13,14 @@
  */
 
 #include <gtest/gtest.h>
+#include <condition_variable>
+#include <cstdio>
+#include <functional>
+#include <mutex>
 #include <string>
 #include <sstream>
+#include <unordered_map>
+#include <unordered_set>
 #include <vector>
 #include <chrono>
 #include <thread>
@@ -130,8 +136,8 @@ TEST(UpdatesPerformanceBatch4, UP_PER_03_LargeStringConcat) {
     // Should complete in reasonable time (not O(n²))
     // For 5000 items, should be < 100ms on modern hardware
     EXPECT_LT(duration, 1000);  // 1 second timeout
-    EXPECT_GT(result.find("item_0"), 0);
-    EXPECT_GT(result.find("item_4999"), 0);
+    EXPECT_EQ(result.find("item_0"), 0);
+    EXPECT_NE(result.find("item_4999"), std::string::npos);
 }
 
 /**

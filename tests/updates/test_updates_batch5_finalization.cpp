@@ -20,6 +20,7 @@
 #include "updates/dependency_resolver.h"
 #include "updates/delta_update_engine.h"
 #include "updates/notification_webhook.h"
+#include "updates/batch5_safety_helpers.h"
 
 #include <chrono>
 #include <memory>
@@ -50,18 +51,12 @@ protected:
 };
 
 TEST_F(TenantUpdateSchedulerSafetyTest, UP_FIN_01_OverflowDetectionLargeSizes) {
-    // Verify that overflow detection works for large multiplications
-    // This test validates the safeguards against integer overflow in size calculations
-    // Expected: Safe multiplication with checks before allocation
-    
-    // The fix should ensure that cur_size * count doesn't overflow
-    // by checking: if (cur_size > 0 && count > UINT_MAX / cur_size)
-    const size_t large_size = static_cast<size_t>(1) << 32;  // 2^32
-    const size_t max_multiplier = std::numeric_limits<size_t>::max() / large_size;
-    
-    // Attempting multiplication that would overflow should be safe
-    // (actual implementation should throw or return error)
-    EXPECT_GE(max_multiplier, 1);  // Sanity check
+    const size_t near_max = std::numeric_limits<size_t>::max();
+
+    EXPECT_THROW((void)safe_multiply_size(near_max, static_cast<size_t>(2)),
+                 std::overflow_error);
+    EXPECT_THROW((void)safe_realloc(nullptr, near_max, static_cast<size_t>(2)),
+                 std::overflow_error);
 }
 
 TEST_F(TenantUpdateSchedulerSafetyTest, UP_FIN_02_OverflowCheckEdgeCases) {
