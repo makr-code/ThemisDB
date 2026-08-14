@@ -39,6 +39,53 @@ namespace updates {
 namespace fs = std::filesystem;
 
 // ============================================================================
+// RAII Wrapper for EVP_MD_CTX (Error Code: 7464-7465)
+// ============================================================================
+
+/**
+ * @brief RAII wrapper for EVP_MD_CTX to ensure cleanup in all execution paths.
+ * 
+ * Guarantees exception-safe resource cleanup of OpenSSL EVP context.
+ * Prevents resource leaks even during early returns or exceptions.
+ * 
+ * @error_code 7464 EVP_MD_CTX resource leak in exception path
+ */
+class EvpMdCtxRaii {
+public:
+    explicit EvpMdCtxRaii(EVP_MD_CTX* ctx = nullptr) : ctx_(ctx) {}
+    
+    ~EvpMdCtxRaii() {
+        if (ctx_) {
+            EVP_MD_CTX_free(ctx_);
+        }
+    }
+    
+    // Non-copyable
+    EvpMdCtxRaii(const EvpMdCtxRaii&) = delete;
+    EvpMdCtxRaii& operator=(const EvpMdCtxRaii&) = delete;
+    
+    // Movable
+    EvpMdCtxRaii(EvpMdCtxRaii&& other) noexcept : ctx_(other.release()) {}
+    EvpMdCtxRaii& operator=(EvpMdCtxRaii&& other) noexcept {
+        if (this != &other) {
+            if (ctx_) EVP_MD_CTX_free(ctx_);
+            ctx_ = other.release();
+        }
+        return *this;
+    }
+    
+    EVP_MD_CTX* get() const noexcept { return ctx_; }
+    EVP_MD_CTX* release() noexcept {
+        EVP_MD_CTX* tmp = ctx_;
+        ctx_ = nullptr;
+        return tmp;
+    }
+    
+private:
+    EVP_MD_CTX* ctx_ = nullptr;
+};
+
+// ============================================================================
 // Security helper: path traversal prevention
 // ============================================================================
 
@@ -119,25 +166,22 @@ static constexpr uint8_t INSTR_COPY = 0x02;
 // ============================================================================
 
 std::string DeltaUpdateEngine::calculateHash(const std::vector<uint8_t>& data) {
-    EVP_MD_CTX* ctx = EVP_MD_CTX_new();
-    if (!ctx) return "";
+    // Use RAII wrapper for EVP_MD_CTX (Error Code: 7465)
+    EvpMdCtxRaii ctx(EVP_MD_CTX_new());
+    if (!ctx.get()) return "";
 
-    if (EVP_DigestInit_ex(ctx, EVP_sha256(), nullptr) != 1) {
-        EVP_MD_CTX_free(ctx);
+    if (EVP_DigestInit_ex(ctx.get(), EVP_sha256(), nullptr) != 1) {
         return "";
     }
-    if (EVP_DigestUpdate(ctx, data.data(), data.size()) != 1) {
-        EVP_MD_CTX_free(ctx);
+    if (EVP_DigestUpdate(ctx.get(), data.data(), data.size()) != 1) {
         return "";
     }
 
     unsigned char hash[EVP_MAX_MD_SIZE];
     unsigned int  hashLen = 0;
-    if (EVP_DigestFinal_ex(ctx, hash, &hashLen) != 1) {
-        EVP_MD_CTX_free(ctx);
+    if (EVP_DigestFinal_ex(ctx.get(), hash, &hashLen) != 1) {
         return "";
     }
-    EVP_MD_CTX_free(ctx);
 
     std::ostringstream ss;
     for (unsigned int i = 0; i < hashLen; ++i) {
@@ -348,47 +392,48 @@ DeltaApplyResult DeltaUpdateEngine::applyDelta(const DeltaManifest& manifest) {
         }
 
         // --- 1. Load base file ---
-        std::string base_path = install_dir_ + "/" + fd.path;
-        auto base_data = readFile(base_path);
+        // Use fs::path for portable path handling (Error Code: 7466)
+        fs::path base_path = fs::path(install_dir_) / fd.path;
+        auto base_data = readFile(base_path.string());
 
         // --- 2. Verify base hash ---
         if (!fd.base_hash.empty()) {
-            auto actual_base_hash = calculateHash(base_data);
-            if (actual_base_hash != fd.base_hash) {
-                LOG_WARN("Base hash mismatch for {}: expected {} got {}",
-                    fd.path, fd.base_hash, actual_base_hash);
-                result.files_fallback.push_back(fd.path);
-                continue;
-            }
+           auto actual_base_hash = calculateHash(base_data);
+           if (actual_base_hash != fd.base_hash) {
+               LOG_WARN("Base hash mismatch for {}: expected {} got {}",
+                   fd.path, fd.base_hash, actual_base_hash);
+               result.files_fallback.push_back(fd.path);
+               continue;
+           }
         }
 
         // --- 3. Locate patch file (must be pre-downloaded) ---
-        std::string patch_path = download_dir_ + "/" + fd.path + ".patch";
+        fs::path patch_path = fs::path(download_dir_) / (fd.path + ".patch");
 
         if (!fs::exists(patch_path)) {
-            LOG_WARN("Patch file not found for {}: {}", fd.path, patch_path);
-            result.files_fallback.push_back(fd.path);
-            continue;
+           LOG_WARN("Patch file not found for {}: {}", fd.path, patch_path.string());
+           result.files_fallback.push_back(fd.path);
+           continue;
         }
 
         // --- 4. Reconstruct target ---
-        std::string recon_path = download_dir_ + "/" + fd.path + ".patched";
-        fs::create_directories(fs::path(recon_path).parent_path());
+        fs::path recon_path = fs::path(download_dir_) / (fd.path + ".patched");
+        fs::create_directories(recon_path.parent_path());
 
-        if (!applyPatch(base_path, patch_path, recon_path)) {
-            LOG_WARN("applyPatch failed for {}", fd.path);
-            result.files_fallback.push_back(fd.path);
-            fs::remove(recon_path);
-            continue;
+        if (!applyPatch(base_path.string(), patch_path.string(), recon_path.string())) {
+           LOG_WARN("applyPatch failed for {}", fd.path);
+           result.files_fallback.push_back(fd.path);
+           fs::remove(recon_path);
+           continue;
         }
 
         // --- 5. Verify reconstructed target hash ---
-        auto target_data = readFile(recon_path);
+        auto target_data = readFile(recon_path.string());
         if (!fd.target_hash.empty()) {
-            auto actual_target_hash = calculateHash(target_data);
-            if (actual_target_hash != fd.target_hash) {
-                LOG_WARN("Target hash mismatch for {}: expected {} got {}",
-                    fd.path, fd.target_hash, actual_target_hash);
+           auto actual_target_hash = calculateHash(target_data);
+           if (actual_target_hash != fd.target_hash) {
+               LOG_WARN("Target hash mismatch for {}: expected {} got {}",
+                   fd.path, fd.target_hash, actual_target_hash);
                 result.files_fallback.push_back(fd.path);
                 fs::remove(recon_path);
                 continue;
@@ -405,8 +450,8 @@ DeltaApplyResult DeltaUpdateEngine::applyDelta(const DeltaManifest& manifest) {
         }
 
         // --- 7. Atomic install ---
-        std::string install_path = install_dir_ + "/" + fd.path;
-        fs::create_directories(fs::path(install_path).parent_path());
+        fs::path install_path = fs::path(install_dir_) / fd.path;  // Use fs::path (Error Code: 7467)
+        fs::create_directories(install_path.parent_path());
 
         try {
             fs::rename(recon_path, install_path);

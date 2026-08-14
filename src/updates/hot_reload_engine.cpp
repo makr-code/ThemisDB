@@ -23,6 +23,7 @@
 #include <iomanip>
 #include <chrono>
 #include <openssl/evp.h>
+#include <memory>
 
 #ifdef THEMIS_ENABLE_CURL
 #include <curl/curl.h>
@@ -32,6 +33,53 @@ namespace themis {
 namespace updates {
 
 namespace fs = std::filesystem;
+
+// ============================================================================
+// RAII Wrapper for EVP_MD_CTX (Error Code: 7441-7443)
+// ============================================================================
+
+/**
+ * @brief RAII wrapper for EVP_MD_CTX to ensure cleanup in all execution paths.
+ * 
+ * Guarantees exception-safe resource cleanup of OpenSSL EVP context.
+ * Prevents resource leaks even during early returns or exceptions.
+ * 
+ * @error_code 7441 EVP_MD_CTX resource leak in exception path
+ */
+class EvpMdCtxRaii {
+public:
+    explicit EvpMdCtxRaii(EVP_MD_CTX* ctx = nullptr) : ctx_(ctx) {}
+    
+    ~EvpMdCtxRaii() {
+        if (ctx_) {
+            EVP_MD_CTX_free(ctx_);
+        }
+    }
+    
+    // Non-copyable
+    EvpMdCtxRaii(const EvpMdCtxRaii&) = delete;
+    EvpMdCtxRaii& operator=(const EvpMdCtxRaii&) = delete;
+    
+    // Movable
+    EvpMdCtxRaii(EvpMdCtxRaii&& other) noexcept : ctx_(other.release()) {}
+    EvpMdCtxRaii& operator=(EvpMdCtxRaii&& other) noexcept {
+        if (this != &other) {
+            if (ctx_) EVP_MD_CTX_free(ctx_);
+            ctx_ = other.release();
+        }
+        return *this;
+    }
+    
+    EVP_MD_CTX* get() const noexcept { return ctx_; }
+    EVP_MD_CTX* release() noexcept {
+        EVP_MD_CTX* tmp = ctx_;
+        ctx_ = nullptr;
+        return tmp;
+    }
+    
+private:
+    EVP_MD_CTX* ctx_ = nullptr;
+};
 
 HotReloadEngine::HotReloadEngine(
     std::shared_ptr<ManifestDatabase> manifest_db,
@@ -410,7 +458,9 @@ std::vector<std::pair<std::string, std::string>> HotReloadEngine::listRollbackPo
     std::vector<std::pair<std::string, std::string>> rollback_points;
     
     try {
-        for (const auto& entry : fs::directory_iterator(config_.backup_directory)) {
+        // Store iterator to ensure valid lifetime across loop (Error Code: 7443)
+        auto it = fs::directory_iterator(config_.backup_directory);
+        for (const auto& entry : it) {
             if (entry.is_directory()) {
                 std::string rollback_id = entry.path().filename().string();
                 std::string metadata_path = entry.path().string() + "/rollback.json";
@@ -600,13 +650,13 @@ std::string HotReloadEngine::calculateFileHash(const std::string& path) {
         return "";
     }
     
-    EVP_MD_CTX* mdctx = EVP_MD_CTX_new();
-    if (!mdctx) {
+    // Use RAII wrapper for EVP_MD_CTX (Error Code: 7442)
+    EvpMdCtxRaii mdctx(EVP_MD_CTX_new());
+    if (!mdctx.get()) {
         return "";
     }
     
-    if (EVP_DigestInit_ex(mdctx, EVP_sha256(), nullptr) != 1) {
-        EVP_MD_CTX_free(mdctx);
+    if (EVP_DigestInit_ex(mdctx.get(), EVP_sha256(), nullptr) != 1) {
         return "";
     }
     
@@ -614,19 +664,16 @@ std::string HotReloadEngine::calculateFileHash(const std::string& path) {
     std::vector<char> buffer(bufferSize);
     
     while (file.read(buffer.data(), bufferSize) || file.gcount() > 0) {
-        if (EVP_DigestUpdate(mdctx, buffer.data(), file.gcount()) != 1) {
-            EVP_MD_CTX_free(mdctx);
+        if (EVP_DigestUpdate(mdctx.get(), buffer.data(), file.gcount()) != 1) {
             return "";
         }
     }
     
     unsigned char hash[EVP_MAX_MD_SIZE];
     unsigned int hashLen = 0;
-    if (EVP_DigestFinal_ex(mdctx, hash, &hashLen) != 1) {
-        EVP_MD_CTX_free(mdctx);
+    if (EVP_DigestFinal_ex(mdctx.get(), hash, &hashLen) != 1) {
         return "";
     }
-    EVP_MD_CTX_free(mdctx);
     
     std::ostringstream ss;
     for (unsigned int i = 0; i < hashLen; i++) {
