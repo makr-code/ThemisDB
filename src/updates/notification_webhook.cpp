@@ -193,11 +193,15 @@ std::string NotificationWebhook::buildSlackPayload(
                           {"short", true}});
     }
     if (!payload.files_updated.empty()) {
-        std::string files_str;
+        // Use ostringstream for efficient string concatenation (Error Code: 7471)
+        std::ostringstream files_stream;
+        bool first = true;
         for (const auto& f : payload.files_updated) {
-            if (!files_str.empty()) files_str += "\n";
-            files_str += f;
+            if (!first) files_stream << "\n";
+            files_stream << f;
+            first = false;
         }
+        std::string files_str = files_stream.str();
         fields.push_back({{"title", "Files Updated"},
                           {"value", files_str},
                           {"short", false}});

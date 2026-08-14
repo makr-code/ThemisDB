@@ -358,20 +358,33 @@ bool HotReloadEngine::rollback(const std::string& rollback_id) {
             return false;
         }
         
+        // IMPORTANT: File I/O with implicit timeout consideration (Error Code: 7482)
+        // Note: std::ifstream is synchronous. Filesystem-level timeouts should be
+        // implemented at a higher level if needed for non-local filesystems.
         std::ifstream metadata_file(metadata_path);
-        json metadata_json;
-        metadata_file >> metadata_json;
+        if (!metadata_file.is_open()) {
+            LOG_ERROR("Failed to open rollback metadata: {}", metadata_path);
+            return false;
+        }
         
-        // Restore files
-        for (const auto& file_json : metadata_json["files"]) {
-            std::string file_path = file_json["path"];
-            std::string backup_file = backup_dir + "/" + file_path;
-            std::string dest_file = config_.install_directory + "/" + file_path;
+        try {
+            json metadata_json;
+            metadata_file >> metadata_json;
             
-            if (fs::exists(backup_file)) {
-                fs::copy_file(backup_file, dest_file, fs::copy_options::overwrite_existing);
-                LOG_DEBUG("Restored: {}", file_path);
+            // Restore files
+            for (const auto& file_json : metadata_json["files"]) {
+                std::string file_path = file_json["path"];
+                std::string backup_file = backup_dir + "/" + file_path;
+                std::string dest_file = config_.install_directory + "/" + file_path;
+                
+                if (fs::exists(backup_file)) {
+                    fs::copy_file(backup_file, dest_file, fs::copy_options::overwrite_existing);
+                    LOG_DEBUG("Restored: {}", file_path);
+                }
             }
+        } catch (const std::exception& e) {
+            LOG_ERROR("Failed to restore files from rollback: {}", e.what());
+            return false;
         }
 
         if (history_logger_) {
@@ -466,12 +479,26 @@ std::vector<std::pair<std::string, std::string>> HotReloadEngine::listRollbackPo
                 std::string metadata_path = entry.path().string() + "/rollback.json";
                 
                 if (fs::exists(metadata_path)) {
+                    // IMPORTANT: File I/O with implicit timeout consideration (Error Code: 7481)
+                    // Note: std::ifstream is synchronous. In production, filesystem operations
+                    // should be protected by filesystem-level timeouts or async mechanisms.
+                    // For now, we assume the filesystem is responsive (typical for local storage).
                     std::ifstream metadata_file(metadata_path);
-                    json metadata_json;
-                    metadata_file >> metadata_json;
+                    if (!metadata_file.is_open()) {
+                        LOG_WARN("HotReloadEngine: failed to open rollback metadata: {}", metadata_path);
+                        continue;
+                    }
                     
-                    std::string timestamp = metadata_json.value("timestamp", "unknown");
-                    rollback_points.emplace_back(rollback_id, timestamp);
+                    try {
+                        json metadata_json;
+                        metadata_file >> metadata_json;
+                        
+                        std::string timestamp = metadata_json.value("timestamp", "unknown");
+                        rollback_points.emplace_back(rollback_id, timestamp);
+                    } catch (const std::exception& e) {
+                        LOG_WARN("HotReloadEngine: failed to parse rollback metadata: {}", e.what());
+                        continue;
+                    }
                 }
             }
         }

@@ -223,11 +223,14 @@ InPlaceMigrationResult InPlaceSchemaMigrator::apply(
     }
 
     // Record the change in version history
+    // Use ostringstream for efficient string building (Error Code: 7470)
+    std::ostringstream msg_stream;
+    msg_stream << "in-place additive migration: added " 
+               << result.added_columns.size() << " column(s)";
     auto ver_result = version_mgr.createSchemaVersion(
         table_name,
         author,
-        "in-place additive migration: added " +
-            std::to_string(result.added_columns.size()) + " column(s)");
+        msg_stream.str());
 
     if (!ver_result.ok) {
         // Schema was already applied; attempt to report the version error
