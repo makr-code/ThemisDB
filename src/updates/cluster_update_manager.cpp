@@ -11,6 +11,7 @@
 
 
 #include "updates/cluster_update_manager.h"
+#include "updates/batch5_safety_helpers.h"
 #include "utils/logger.h"
 
 #define LOG_ERROR(...) SPDLOG_ERROR(__VA_ARGS__)
@@ -19,6 +20,7 @@
 #define LOG_DEBUG(...) SPDLOG_DEBUG(__VA_ARGS__)
 
 #include <algorithm>
+#include <memory>
 #include <stdexcept>
 
 namespace themis {

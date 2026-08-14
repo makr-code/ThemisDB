@@ -494,9 +494,15 @@ ReloadResult CanaryDeployment::deploy() {
                     }
                 }
                 if (cb) {
-                    try { cb(stage_info); } catch (...) {}
-                }
-            });
+                   try { 
+                       cb(stage_info); 
+                   } catch (...) {
+                       // Error Code: 7488 - Never let stage callbacks crash the rollout
+                       // Log and silently ignore to ensure deployment continuity
+                       LOG_WARN("CanaryRollout: stage complete callback threw exception; silently caught");
+                   }
+               }
+           });
 
         // Wire rollback callback: same dynamic-read approach.
         new_rollout->setRollbackCallback(
@@ -507,7 +513,13 @@ ReloadResult CanaryDeployment::deploy() {
                     cb = rollback_cb_;
                 }
                 if (cb) {
-                    try { cb(reason); } catch (...) {}
+                    try { 
+                        cb(reason); 
+                    } catch (...) {
+                        // Error Code: 7489 - Never let rollback callbacks crash the rollout
+                        // Log and silently ignore to ensure rollout can proceed
+                        LOG_WARN("CanaryRollout: rollback callback threw exception; silently caught");
+                    }
                 }
             });
 

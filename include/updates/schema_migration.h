@@ -224,7 +224,7 @@ struct MigrationContext {
      */
     [[nodiscard]] virtual std::unique_ptr<IMigrationIterator> createIterator(
         const std::string& table_name) = 0;
-
+    
     virtual ~MigrationContext() = default;
 };
 
