@@ -18,13 +18,16 @@ Wave A/B remediation addresses runtime reliability (Wave A) and performance cons
 
 ### Batch A1 — Transaction Build/Run Verification + Chaos Evidence
 
+**🔴 CRITICAL BLOCKER:** ODR violations in `src/security/timestamp_authority` prevent build. See `WAVE_A1_BUILD_FAILURE_REPORT.md` for details and maintainer checklist.
+
 | Phase | Task | Owner | Status | Target | Blocker |
 |-------|------|-------|--------|--------|---------|
-| Test Verification | Phase 2 build verification: `test_transaction_distributed_phase2.cpp` (9 tests) | TBD | 🔴 PENDING | 2026-08-21 | None |
-| Test Verification | Phase 2 run verification: all 9 tests pass | TBD | 🔴 PENDING | 2026-08-21 | Build pass |
-| Test Verification | Phase 2 run verification: `test_transaction_saga_compensation_phase2.cpp` (12 tests) | TBD | 🔴 PENDING | 2026-08-21 | Build pass |
-| Test Verification | Phase 3 build verification: `test_transaction_fault_injection_phase3.cpp` (14 tests) | TBD | 🔴 PENDING | 2026-08-28 | Phase 2 pass |
-| Test Verification | Phase 3 run verification: all 14 tests pass | TBD | 🔴 PENDING | 2026-08-28 | Phase 3 build pass |
+| Build Blocker | Fix ODR violations in security library (`timestamp_authority` + `policy_validator`) | Maintainer | 🔴 CRITICAL | 2026-08-21 | None (P1 escalation) |
+| Test Verification | Phase 2 build verification: `test_transaction_distributed_phase2.cpp` (14 tests) | TBD | 🔴 BLOCKED | 2026-08-21 | Security library fix |
+| Test Verification | Phase 2 run verification: all 14 tests pass | TBD | 🔴 BLOCKED | 2026-08-21 | Build pass |
+| Test Verification | Phase 2 run verification: `test_transaction_saga_compensation_phase2.cpp` (11 tests) | TBD | 🔴 BLOCKED | 2026-08-21 | Build pass |
+| Test Verification | Phase 3 build verification: `test_transaction_fault_injection_phase3.cpp` (11 tests) | TBD | 🔴 BLOCKED | 2026-08-28 | Phase 2 pass |
+| Test Verification | Phase 3 run verification: all 11 tests pass | TBD | 🔴 BLOCKED | 2026-08-28 | Phase 3 build pass |
 | Chaos Evidence | Coordinator crash-recovery: WAL replay validation (AC-6) | TBD | 🔴 NOT_STARTED | 2026-09-04 | Phase 2+3 pass |
 | Chaos Evidence | SAGA compensation idempotency under retry storm (AC-8/AC-10) | TBD | 🔴 NOT_STARTED | 2026-09-04 | Phase 2+3 pass |
 | Chaos Evidence | Circuit breaker activation after 5 consecutive failures (AC-10) | TBD | 🔴 NOT_STARTED | 2026-09-04 | Phase 2+3 pass |
@@ -264,13 +267,14 @@ By end Q1 2027, all below must be PASS:
 
 ## Risk Register
 
-| Risk | Impact | Likelihood | Mitigation |
-|------|--------|------------|------------|
-| Transaction tests fail on `develop` | Blocks all Wave A | Medium | Immediate triage + local build validation |
-| CUDA hardware unavailable for A4 | A4 cannot proceed | Low | Self-hosted runner or CPU-only parity fallback |
-| RocksDB missing for B3 | B3 blocked | Low | Feature gate behind `THEMIS_WIKI_PHASE_B` |
-| Performance regression in A5 stress test | Delays Wave A exit | Medium | Baseline comparison + profiling budget |
-| GitHub Actions workflow timeout | Blocks CI gates | Low | Increase timeout; parallelize if needed |
+| Risk | Impact | Likelihood | Status | Mitigation |
+|------|--------|------------|--------|------------|
+| **🔴 ODR violations in src/security/timestamp_authority** | **Blocks all Wave A** | **Confirmed** | **ACTIVE** | **P1 escalation to maintainers; target fix by 2026-08-21** |
+| Transaction tests fail on `develop` | Blocks all Wave A | Medium | — | Immediate triage + local build validation |
+| CUDA hardware unavailable for A4 | A4 cannot proceed | Low | — | Self-hosted runner or CPU-only parity fallback |
+| RocksDB missing for B3 | B3 blocked | Low | — | Feature gate behind `THEMIS_WIKI_PHASE_B` |
+| Performance regression in A5 stress test | Delays Wave A exit | Medium | — | Baseline comparison + profiling budget |
+| GitHub Actions workflow timeout | Blocks CI gates | Low | — | Increase timeout; parallelize if needed |
 
 ---
 
