@@ -81,6 +81,7 @@ Execution targets `develop` and must follow strict wave-gate sequencing.
 - [ ] Replication: deliver geographic placement policy, async cross-region WAL shipping with lag alerts, and stronger failover diagnostics (Target: Q3–Q4 2026)
 - [ ] Voice: harden session lifecycle fail-closed behavior, malformed/oversized stream rejection, adversarial anti-spoof/liveness regressions, and multi-session teardown safety (Target: Q3–Q4 2026)
 - [ ] GPU: reduce unchecked CUDA-call exposure, close RAII lifecycle gaps, enforce kernel timeouts, and guarantee clean CPU degradation on every GPU failure (Target: Q3–Q4 2026)
+- [x] **Supporting Modules:** Process (Phase 1-6 ✅ 2026-08-06), Failover (Phase 2+3 ✅ 2026-07-29), Updates (Phase 2-6 ✅ 2026-08-06) — all production-ready for v2.4.0 GA
 
 ### Wave A Exit Criteria (Gate to Wave B)
 - [ ] Deterministic chaos evidence is complete for transaction/sharding/replication recovery and failover paths (Target: Q4 2026)
@@ -90,10 +91,11 @@ Execution targets `develop` and must follow strict wave-gate sequencing.
 
 ### Wave A Closure Batch (current execution order)
 - [~] Batch A1 — Transaction verification + chaos evidence: close build/run verification, coordinator crash-recovery validation, retry-storm control, and deterministic timeout/rollback evidence in `src/transaction/ROADMAP.md` (Target: Q3–Q4 2026)
-- [~] Batch A2 — Replication geo placement + WAL lag controls: deliver placement policy, async cross-region WAL shipping, lag alerts, and stronger failover diagnostics in `src/replication/ROADMAP.md` (Target: Q3–Q4 2026)
+- [~] Batch A2 — Replication geo placement + WAL lag controls: deliver placement policy, async cross-region WAL shipping, lag alerts, and stronger failover diagnostics in `src/replication/ROADMAP.md` (Target: Q3–Q4 2026) — **Failover Phase 2+3 dependency satisfied** ✅
 - [~] Batch A3 — Voice fail-closed hardening: reject malformed/oversized streams, harden liveness/anti-spoof regressions, and prove safe multi-session teardown in `src/voice/ROADMAP.md` (Target: Q3–Q4 2026)
 - [~] Batch A4 — GPU fallback/timeout safety: reduce unchecked CUDA-call exposure, close RAII lifecycle gaps, enforce kernel timeouts, and prove clean CPU degradation in `src/gpu/ROADMAP.md` (Target: Q3–Q4 2026)
-- [~] Batch A5 — Sharding multi-shard/rebalance closure: complete multi-shard exact-path gating, topology-change rebalance hardening, and long-run distributed write stress in `src/sharding/ROADMAP.md` (Target: Q3–Q4 2026)
+- [~] Batch A5 — Sharding multi-shard/rebalance closure: complete multi-shard exact-path gating, topology-change rebalance hardening, and long-run distributed write stress in `src/sharding/ROADMAP.md` (Target: Q3–Q4 2026) — **Failover concurrency guards + Updates coordinated rollout support** ✅
+- [x] **Batch A-Support** — Process (Phase 1-6 ✅), Failover (Phase 2+3 ✅), Updates (Phase 2-6 ✅) production-ready integration for v2.4.0 GA — See `WAVE_A_MODULE_INTEGRATION_CONSOLIDATION.md`
 - [ ] Each Wave A module keeps one local closure evidence block covering focused regressions, chaos/fault-injection evidence, fail-closed verification, representative-hardware p95/p99 baselines, and `release_critical` coverage (Target: Q3 2026)
 
 ### Wave B — Performance Consolidation (Q3–Q4 2026)

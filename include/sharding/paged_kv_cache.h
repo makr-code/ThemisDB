@@ -20,6 +20,7 @@
 #include <atomic>
 #include <optional>
 #include <functional>
+#include <queue>
 #include <nlohmann/json.hpp>
 
 namespace themisdb {
@@ -239,6 +240,17 @@ public:
      * @return true if reservation succeeded
      */
     bool reserveRequest(int64_t request_id, uint32_t initial_tokens);
+
+    /**
+     * @brief Reserve blocks for a new request with prompt token metadata
+     * @param request_id Request identifier
+     * @param initial_token_ids Prompt token sequence used for prefix sharing
+     * @return true if reservation succeeded
+     *
+     * Stores the logical prompt token sequence so prefix-sharing lookups can
+     * identify reusable full blocks from already cached requests.
+     */
+    bool reserveRequest(int64_t request_id, const std::vector<int>& initial_token_ids);
     
     /**
      * @brief Allocate a block for a request
@@ -439,6 +451,7 @@ private:
         int64_t request_id;
         std::vector<uint32_t> block_ids;
         uint32_t total_tokens = 0;
+        std::vector<int> token_sequence;
         std::chrono::steady_clock::time_point last_accessed;
     };
     
@@ -451,6 +464,9 @@ private:
     
     // Block management
     std::unordered_map<uint32_t, KVCacheBlock> blocks_;
+    std::unordered_map<uint32_t, uint32_t> block_ref_counts_;
+    std::unordered_map<uint32_t, std::vector<float>> key_block_storage_;
+    std::unordered_map<uint32_t, std::vector<float>> value_block_storage_;
     std::queue<uint32_t> free_blocks_;
     uint32_t next_block_id_ = 0;
     
@@ -458,8 +474,7 @@ private:
     std::unordered_map<int64_t, RequestState> requests_;
     
     // Statistics
-    mutable std::mutex stats_mutex_;
-    KVCacheStats stats_;
+    mutable KVCacheStats stats_;
     
     // Callbacks
     BlockAllocator block_allocator_;
@@ -481,6 +496,13 @@ private:
      * @brief Calculate block memory size
      */
     size_t calculateBlockMemorySize() const;
+
+    /**
+     * @brief Reserve request state after external synchronization.
+     */
+    bool reserveRequestUnlocked(int64_t request_id,
+                                uint32_t initial_tokens,
+                                const std::vector<int>* initial_token_ids);
     
     /**
      * @brief Allocate a new block ID
@@ -498,9 +520,19 @@ private:
      * @return true if eviction succeeded
      */
     bool evictBlocks(uint32_t needed_blocks);
+
+    /**
+     * @brief Release a shared or owned block from one request after locking.
+     */
+    void releaseRequestBlockUnlocked(int64_t request_id, uint32_t block_id);
+
+    /**
+     * @brief Destroy a block and detach it from all requests after locking.
+     */
+    void destroyBlockUnlocked(uint32_t block_id);
     
     /**
-     * @brief Find the least recently used block
+     * @brief Find the least recently used block after external synchronization
      * @return Block ID and request ID or nullopt
      */
     std::optional<std::pair<uint32_t, int64_t>> findLRUBlock() const;

@@ -44,6 +44,7 @@ foreach(_src IN LISTS PROCESS_MODULE_TEST_SOURCES)
         TARGET ${_target}
         TIER unit
         TIMEOUT 120
+        LABELS "release_critical;process"
     )
 endforeach()
 
@@ -96,6 +97,6 @@ foreach(_src IN LISTS PROCESS_AUTOGEN_PREFIX_TEST_SOURCES)
         TARGET ${_target}
         TIER unit
         TIMEOUT 120
-        LABELS process autogen
+        LABELS "release_critical;process;autogen"
     )
 endforeach()

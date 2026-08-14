@@ -55,6 +55,6 @@ foreach(_src IN LISTS FAILOVER_PREFIX_TEST_SOURCES)
         TARGET ${_target}
         TIER unit
         TIMEOUT 120
-        LABELS failover
+        LABELS "release_critical;failover"
     )
 endforeach()
