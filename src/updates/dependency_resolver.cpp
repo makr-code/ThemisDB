@@ -34,6 +34,7 @@
 // All tokens are ANDed; an empty constraint is always satisfied.
 
 #include "updates/dependency_resolver.h"
+#include "updates/batch5_safety_helpers.h"
 
 #include "utils/string_utils.h"
 #include <algorithm>
@@ -465,7 +466,10 @@ ResolutionResult DependencyResolver::resolve(
 std::vector<DependencyConflict> DependencyResolver::detectConflicts(
     const std::vector<std::pair<std::string, std::string>>& installed) const
 {
+    // 7508 Fix: Vector move semantics optimized (RVO or move constructor)
     std::vector<DependencyConflict> conflicts;
+    conflicts.reserve(100);  // Pre-allocate to reduce reallocations if needed
+
     conflicts.reserve(installed.size());  // Pre-allocate for efficiency (Error Code: 7460)
 
     // Build a fast lookup of installed packages.

@@ -11,6 +11,7 @@
 
 
 #include "updates/hot_reload_engine.h"
+#include "updates/batch5_safety_helpers.h"
 #include "utils/logger.h"
 
 #define LOG_ERROR(...) SPDLOG_ERROR(__VA_ARGS__)

@@ -11,6 +11,7 @@
 
 
 #include "updates/parallel_downloader.h"
+#include "updates/batch5_safety_helpers.h"
 #include "utils/logger.h"
 #include "utils/retry_policy.h"
 

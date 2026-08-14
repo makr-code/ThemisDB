@@ -14,6 +14,7 @@
 // Copyright (c) 2026 ThemisDB Contributors
 
 #include "updates/schema_migration.h"
+#include "updates/batch5_safety_helpers.h"
 #include "utils/logger.h"
 
 #define LOG_ERROR(...) SPDLOG_ERROR(__VA_ARGS__)

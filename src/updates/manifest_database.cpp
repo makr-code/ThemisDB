@@ -11,6 +11,7 @@
 
 
 #include "updates/manifest_database.h"
+#include "updates/batch5_safety_helpers.h"
 #include <memory>
 #include <stdexcept>
 #include "utils/logger.h"
