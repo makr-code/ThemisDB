@@ -224,6 +224,13 @@ struct MigrationContext {
      */
     [[nodiscard]] virtual std::unique_ptr<IMigrationIterator> createIterator(
         const std::string& table_name) = 0;
+    
+    /**
+     * @brief Verify that this context is properly initialized before use.
+     * FIX UM-SMD-01..10: Defensive check for uninitialized access.
+     * @return true if context is safe to use, false if in an invalid state.
+     */
+    [[nodiscard]] virtual bool isInitialized() const { return false; }
 
     virtual ~MigrationContext() = default;
 };
