@@ -1,11 +1,12 @@
 # ThemisDB Content Module
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+<!-- Status: Production Ready (Wave B Performance) | validated: 2026-08-14 -->
+<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · MODULE_GAPS_BATCH5.md · PERFORMANCE_EXPECTATIONS.md -->
+<!-- Wave Context: Wave B (Performance Consolidation Q3-Q4 2026) — Content Integrity + Versioning + Large-Content Performance -->
 
 ## Module Purpose
 
-The content module provides multi-format ingestion and processing runtime surfaces for ThemisDB, including extraction, validation, enrichment, deduplication, and content-pipeline orchestration.
+Production-capable multi-format content ingestion, storage/retrieval, versioning, and metadata management for ThemisDB supporting concurrent access patterns. **Batch 5 enhancement focus: Content integrity verification, versioning correctness, large-content performance optimization, concurrent access safety**.
 
 ## Relevant Interfaces
 
