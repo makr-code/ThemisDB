@@ -337,8 +337,14 @@ else()
     endif()
     
     # Treat warnings as errors if requested
+    # Note: -Werror is applied at target level via set_target_properties()
+    # not globally via add_compile_options(), to avoid external dependency build failures
     if(THEMIS_STRICT_BUILD)
-        add_compile_options(-Werror)
+        # Define strict compilation flag that targets can opt into
+        set(THEMIS_STRICT_COMPILE_OPTIONS -Werror)
+        message(STATUS "Strict compilation mode: -Werror will be applied to ThemisDB targets only")
+    else()
+        set(THEMIS_STRICT_COMPILE_OPTIONS)
     endif()
     
     # AddressSanitizer support for debugging
