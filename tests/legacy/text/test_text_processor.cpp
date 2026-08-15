@@ -59,10 +59,10 @@ TEST_F(TextProcessorTest, ExtractRemovesCarriageReturns) {
 
 TEST_F(TextProcessorTest, ExtractCodeDetectsLanguage) {
     std::string blob = "def hello():\n    print('Hello, world!')";
-    const ContentType* type = ContentTypeRegistry::instance().getByMimeType("text/x-python");
-    ASSERT_NE(type, nullptr);
+    auto type_opt = ContentTypeRegistry::instance().getByMimeType("text/x-python");
+    ASSERT_TRUE(type_opt.has_value());
     
-    auto result = processor->extract(blob, *type);
+    auto result = processor->extract(blob, type_opt.value());
     
     ASSERT_TRUE(result.ok);
     EXPECT_TRUE(result.metadata.contains("language"));
@@ -73,9 +73,9 @@ TEST_F(TextProcessorTest, ExtractCodeDetectsLanguage) {
 
 TEST_F(TextProcessorTest, ExtractCountsTokens) {
     std::string blob = "This is a simple test with tokens.";
-    const ContentType* type = ContentTypeRegistry::instance().getByMimeType("text/plain");
+    auto type_opt = ContentTypeRegistry::instance().getByMimeType("text/plain");
     
-    auto result = processor->extract(blob, *type);
+    auto result = processor->extract(blob, type_opt.value());
     
     ASSERT_TRUE(result.ok);
     EXPECT_TRUE(result.metadata.contains("token_count"));
@@ -84,9 +84,9 @@ TEST_F(TextProcessorTest, ExtractCountsTokens) {
 
 TEST_F(TextProcessorTest, ExtractCountsSentences) {
     std::string blob = "First sentence. Second sentence! Third sentence?";
-    const ContentType* type = ContentTypeRegistry::instance().getByMimeType("text/plain");
+    auto type_opt = ContentTypeRegistry::instance().getByMimeType("text/plain");
     
-    auto result = processor->extract(blob, *type);
+    auto result = processor->extract(blob, type_opt.value());
     
     ASSERT_TRUE(result.ok);
     EXPECT_TRUE(result.metadata.contains("sentence_count"));
