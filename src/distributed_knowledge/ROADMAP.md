@@ -53,6 +53,16 @@ Q3 2026 Status Update (2026-07-28):
   - LWW resolveLww() helper with tie-break semantics
 
 ### Phase 2: Core Implementation
+- [x] complete explicit documentation of merge conflict resolution strategies (Delivered: Q3 2026)
+  - Merge strategies documented: RRF, score-weighted, round-robin
+  - Conflict resolution semantics: duplicate doc_id handling, tie-breaking
+  - Timeout/failure handling: DK-OR-T contract (all shards timeout, partial failure)
+  - Deduplication contract: preserving order, handling duplicates
+  - Configuration validation: required fields and constraints
+  - API contract: § 8 "Merge Strategy and Conflict Resolution Contract"
+  - Reference: `include/distributed_knowledge/federated_rag_merger.h` class/method docs
+  - Reference: `src/distributed_knowledge/federated_rag_merger.cpp` implementation comments
+  - Reference: `include/distributed_knowledge/distributed_knowledge_api_contract.h` § 8
 - [ ] complete hardening for aggregation, merge, and sync coordinator internals (Target: Q4 2026)
 - [ ] align distillation and feedback behavior to bounded runtime contracts (Target: Q4 2026)
 
