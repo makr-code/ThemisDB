@@ -18,6 +18,9 @@
 #include <iomanip>
 #include <algorithm>
 #include <random>
+#include <cmath>
+#include <limits>
+#include <atomic>
 #ifdef HAS_UUID_H
 #include <uuid/uuid.h>
 #endif
@@ -66,6 +69,22 @@ std::string generateHintId() {
 #endif
 }
 
+// Check if a metric value is valid (not NaN, not infinite, within reasonable bounds)
+// Returns true if valid, false if malformed
+inline bool isValidMetricValue(double value) {
+    return std::isfinite(value) && value >= 0.0;
+}
+
+// Safely get metric value with validation and default fallback
+inline double safeGetMetricValue(const std::map<std::string, double>& metrics,
+                                  const std::string& key, double default_val = 0.0) {
+    auto it = metrics.find(key);
+    if (it != metrics.end() && isValidMetricValue(it->second)) {
+        return it->second;
+    }
+    return default_val;
+}
+
 // ============================================================================
 // Built-in Pattern: Cardinality Explosion Detection
 // ============================================================================
@@ -75,11 +94,11 @@ public:
     std::shared_ptr<RemediationHint> match(
         const std::map<std::string, double>& metrics) override {
 
-        // Look for cardinality-related metrics
-        auto cardinality_it = metrics.find("metric_cardinality_exceeded_total");
-        auto series_count_it = metrics.find("metric_series_count");
-
-        if (cardinality_it == metrics.end() || cardinality_it->second < 1.0) {
+        // Safely get cardinality metric with validation
+        double cardinality_exceeded = safeGetMetricValue(metrics, "metric_cardinality_exceeded_total", 0.0);
+        
+        // Pattern requires at least 1 cardinality exceeded event
+        if (cardinality_exceeded < 1.0) {
             return nullptr;  // Pattern doesn't match
         }
 
@@ -94,14 +113,16 @@ public:
         hint->detection_window_ = std::chrono::seconds(300);
         hint->hint_id_ = generateHintId();
 
-        if (cardinality_it->second > 100.0) {
+        // Escalate to CRITICAL if cardinality explosion is severe
+        if (cardinality_exceeded > 100.0) {
             hint->severity_ = RemediationSeverity::CRITICAL;
         }
 
-        // Add diagnostic metrics
-        hint->metrics_["cardinality_exceeded"] = cardinality_it->second;
-        if (series_count_it != metrics.end()) {
-            hint->metrics_["metric_series_count"] = series_count_it->second;
+        // Add diagnostic metrics with validation
+        hint->metrics_["cardinality_exceeded"] = cardinality_exceeded;
+        double series_count = safeGetMetricValue(metrics, "metric_series_count", 0.0);
+        if (series_count > 0.0) {
+            hint->metrics_["metric_series_count"] = series_count;
         }
 
         // Add remediation actions
@@ -326,7 +347,8 @@ class OperatorRemediationEngineImpl : public OperatorRemediationEngine {
 public:
     OperatorRemediationEngineImpl()
         : hint_generation_enabled_(true),
-          deduplication_window_(std::chrono::seconds(300)) {
+          deduplication_window_(std::chrono::seconds(300)),
+          hint_notification_count_(0) {
 
         // Register built-in patterns
         patterns_[CardinalityExplosionPattern().patternName()] =
@@ -337,9 +359,30 @@ public:
             std::make_unique<HighLatencyPattern>();
     }
 
+private:
+    /// Clean up expired weak_ptr references to released listeners.
+    /// This prevents the listeners_ vector from growing unboundedly.
+    void cleanupExpiredListeners() {
+        std::unique_lock<std::shared_mutex> lock(listeners_mutex_);
+        listeners_.erase(
+            std::remove_if(listeners_.begin(), listeners_.end(),
+                          [](const std::weak_ptr<IRemediationHintListener>& weak) {
+                              return weak.expired();
+                          }),
+            listeners_.end()
+        );
+    }
+
+public:
     bool addListener(const std::shared_ptr<IRemediationHintListener>& listener) override {
         if (!listener) {
             return false;
+        }
+
+        // Periodically clean up expired listeners (every 100 additions)
+        static std::atomic<std::uint64_t> add_count(0);
+        if (++add_count % 100 == 0) {
+            cleanupExpiredListeners();
         }
 
         std::unique_lock<std::shared_mutex> lock(listeners_mutex_);
@@ -348,12 +391,29 @@ public:
     }
 
     bool removeListener(const std::shared_ptr<IRemediationHintListener>& listener) override {
+        if (!listener) {
+            return false;
+        }
+
         std::unique_lock<std::shared_mutex> lock(listeners_mutex_);
-        auto it = std::find(listeners_.begin(), listeners_.end(), listener);
+        
+        // Use custom comparison: lock weak_ptr and compare with incoming listener
+        auto it = std::find_if(
+            listeners_.begin(), listeners_.end(),
+            [&listener](const std::weak_ptr<IRemediationHintListener>& weak) {
+                auto shared = weak.lock();
+                if (!shared) {
+                    return false;  // Listener already expired
+                }
+                return shared.get() == listener.get();
+            }
+        );
+        
         if (it != listeners_.end()) {
             listeners_.erase(it);
             return true;
         }
+        
         return false;
     }
 
@@ -588,6 +648,9 @@ private:
     bool hint_generation_enabled_;
     std::chrono::seconds deduplication_window_;
     std::shared_mutex config_mutex_;
+    
+    // Track total hints generated for statistics
+    std::uint64_t hint_notification_count_;
 };
 
 // ============================================================================

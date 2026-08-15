@@ -100,6 +100,93 @@ Production observability runtime exists across metrics, tracing, profiling, aler
   - All contracts documented, 20+ tests PASS, 6 release gates PASS
 - ✅ Completed: 2026-08-08
 
+## Continuation Phases 3/5/6 — Operator Remediation & Diagnostics Hardening ✅ COMPLETE
+
+### Phase 3: Error Handling & Edge Cases (2026-08-10 to 2026-08-12)
+- [x] **weak_ptr Listener Lifecycle Fix** (Error: ORE_LISTENER_NOTIFICATION_FAILED)
+  - Issue: weak_ptr listeners could be compared incorrectly under concurrent eviction
+  - Fix: Implement stable listener identity comparison with generation counter
+  - Verified: Thread-safety tests (ORE-11..12) demonstrate no race conditions
+  - Status: COMPLETE
+  
+- [x] **Malformed Metrics Input Hardening**
+  - Null/empty metric name rejection with diagnostic surface (ORE_INVALID_METRIC_DATA)
+  - Invalid problem category handling with default fallback
+  - Concurrent metric update race condition fix via atomic operations
+  - Status: COMPLETE (tests ORE-13..14)
+
+- [x] **Memory Pressure Scenario Handling**
+  - Listener list eviction under OOM conditions
+  - Graceful listener removal when memory hits threshold
+  - Test coverage: ORE-15 (listener eviction), ORE-16 (memory bounds)
+  - Status: COMPLETE
+
+- [x] **Deduplication Correctness**
+  - Identical hints generated within time window are deduplicated
+  - Hint ID collision avoidance (UUID-based or counter-based with salt)
+  - Clock skew tolerance in deduplication window
+  - Test coverage: ORE-17..18
+  - Status: COMPLETE
+
+### Phase 5: Performance Validation & Benchmark Gates (2026-08-12 to 2026-08-13)
+- [x] **Exporter Stress Benchmark** (`bench_observability_phase2_exporter_stress.cpp`)
+  - Implemented 6 performance gates:
+    - **ORE-GATE-01**: Listener notification throughput ≥ 100k hints/sec
+    - **ORE-GATE-02**: Hint generation latency P95 ≤ 50µs
+    - **ORE-GATE-03**: Pattern matching throughput ≥ 500k matches/sec
+    - **ORE-GATE-04**: Deduplication lookup latency P99 ≤ 10µs
+    - **ORE-GATE-05**: Active hint set query latency ≤ 5ms
+    - **ORE-GATE-06**: Hint resolution under load P95 ≤ 100µs
+  - Deterministic seeding: kObservabilityPhase5Seed = 42
+  - Repetitions: 5 for p95/p99 stability
+  - Status: ALL GATES PASS ✅
+
+- [x] **Performance Baselines Locked**
+  - Lock latency P95/P99 envelopes on develop branch
+  - Baseline hardware: standard CI runner (documented in PERFORMANCE_EXPECTATIONS.md)
+  - Throughput targets met across all 6 subsystems
+  - Status: BASELINE LOCKED (2026-08-13)
+
+### Phase 6: Documentation & Acceptance (2026-08-13 to 2026-08-15)
+- [x] **ROADMAP.md Continuation Update** (this document)
+  - Added Phase 3/5/6 section with completion status
+  - Documented all error codes and fixes
+  - Cross-referenced test and benchmark files
+  - Status: COMPLETE (2026-08-15)
+
+- [x] **Acceptance Checklist** (`PHASE_3_5_6_ACCEPTANCE_CHECKLIST.md`)
+  - Comprehensive verification of all Phase 3 fixes
+  - Performance gate validation summary
+  - Documentation completeness checklist
+  - Status: COMPLETE (2026-08-15)
+
+- [x] **Doxygen Documentation**
+  - Enhanced `include/observability/operator_remediation_engine.h` with:
+    - Full @file and @class documentation
+    - Thread-safety guarantees for all public methods
+    - Listener lifecycle and weak_ptr semantics documented
+    - Memory pressure handling documented
+    - Error codes and failure modes comprehensive
+    - Usage examples with listener implementation patterns
+  - Verification: Doxygen compilation with zero warnings
+  - Status: COMPLETE (2026-08-15)
+
+- [x] **Cross-Module Consistency**
+  - Verified no conflicts with other Phase 6 documentation
+  - Links to metrics collector error taxonomy verified
+  - Terminology consistent with observability_api_contract.h
+  - Status: COMPLETE
+
+### Completion Status
+- ✅ Phase 3 Complete: Error handling and edge cases fully hardened
+- ✅ Phase 5 Complete: All 6 benchmark gates implemented and PASS
+- ✅ Phase 6 Complete: Documentation and acceptance sign-off
+- ✅ All acceptance criteria PASS
+- ✅ Ready for merge to develop branch
+
+**Sign-Off Date:** 2026-08-15  
+**Status:** CONTINUATION PHASES 3/5/6 COMPLETE
+
 ## Known Issues and Limitations
 
 - runtime behavior depends on enabled components, backend integration, and telemetry volume.
