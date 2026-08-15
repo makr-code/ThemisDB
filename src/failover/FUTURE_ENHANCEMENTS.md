@@ -1,7 +1,7 @@
 # Failover Module - Future Enhancements
 
 <!-- Status: current | validated: 2026-07-29 -->
-<!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
+<!-- Links: ARCHITECTURE.md · README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
 
 ## Scope
 
