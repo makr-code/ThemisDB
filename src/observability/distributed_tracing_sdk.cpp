@@ -7,10 +7,12 @@
  */
 
 #include "observability/distributed_tracing_sdk.h"
+#include "observability/observability_api_contract.h"
 #include <random>
 #include <sstream>
 #include <algorithm>
 #include <cctype>
+#include <shared_mutex>
 
 namespace themis {
 namespace observability {

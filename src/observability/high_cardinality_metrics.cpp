@@ -7,7 +7,9 @@
  */
 
 #include "observability/high_cardinality_metrics.h"
+#include "observability/observability_api_contract.h"
 #include <shared_mutex>
+#include <mutex>
 #include <memory>
 #include <functional>
 

@@ -153,9 +153,7 @@ public:
      */
     const std::vector<std::string>& tags() const { return tags_; }
 
-protected:
-    friend class OperatorRemediationEngine;
-
+    // Internal members (used by OperatorRemediationEngine implementation)
     ProblemCategory category_;
     std::string title_;
     std::string description_;

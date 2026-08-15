@@ -16,6 +16,7 @@
 #include <vector>
 #include <cstdint>
 #include <chrono>
+#include <shared_mutex>
 
 namespace themis {
 namespace observability {
@@ -87,6 +88,7 @@ struct BaggageItem {
  * ```
  */
 class DistributedTraceContext {
+    friend class DistributedTracingSDK;
 public:
     /**
      * @brief Create an empty/root trace context.

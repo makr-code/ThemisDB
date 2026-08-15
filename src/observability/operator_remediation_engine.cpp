@@ -7,7 +7,9 @@
  */
 
 #include "observability/operator_remediation_engine.h"
+#include "observability/observability_api_contract.h"
 #include <shared_mutex>
+#include <mutex>
 #include <memory>
 #include <chrono>
 #include <map>
@@ -15,20 +17,53 @@
 #include <sstream>
 #include <iomanip>
 #include <algorithm>
+#include <random>
+#ifdef HAS_UUID_H
 #include <uuid/uuid.h>
+#endif
 
 namespace themis {
 namespace observability {
 
 namespace {
 
-// Generate unique hint IDs
+// Generate unique hint IDs using random hex
 std::string generateHintId() {
+#ifdef HAS_UUID_H
     uuid_t uuid;
     uuid_generate(uuid);
     char uuid_str[37];
     uuid_unparse(uuid, uuid_str);
     return std::string(uuid_str);
+#else
+    // Fallback: generate random hex UUID-like string (36 chars)
+    static std::random_device rd;
+    static thread_local std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(0, 15);
+    
+    std::stringstream ss;
+    for (int i = 0; i < 8; ++i) {
+        ss << std::hex << dis(gen);
+    }
+    ss << "-";
+    for (int i = 0; i < 4; ++i) {
+        ss << std::hex << dis(gen);
+    }
+    ss << "-4"; // UUID version 4
+    for (int i = 0; i < 3; ++i) {
+        ss << std::hex << dis(gen);
+    }
+    ss << "-";
+    ss << std::hex << (8 + dis(gen) % 4);  // variant
+    for (int i = 0; i < 3; ++i) {
+        ss << std::hex << dis(gen);
+    }
+    ss << "-";
+    for (int i = 0; i < 12; ++i) {
+        ss << std::hex << dis(gen);
+    }
+    return ss.str();
+#endif
 }
 
 // ============================================================================

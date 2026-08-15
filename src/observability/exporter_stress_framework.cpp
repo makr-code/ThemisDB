@@ -7,6 +7,7 @@
  */
 
 #include "observability/exporter_stress_framework.h"
+#include "observability/observability_api_contract.h"
 #include <random>
 #include <thread>
 #include <chrono>
