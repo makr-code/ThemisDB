@@ -129,7 +129,7 @@ enum class SocketHealthState {
 class SocketTimeoutManager {
 public:
     explicit SocketTimeoutManager(const SocketTimeoutConfig& config = SocketTimeoutConfig());
-    ~SocketTimeoutManager();
+    virtual ~SocketTimeoutManager() noexcept;
     
     // Non-copyable, movable
     SocketTimeoutManager(const SocketTimeoutManager&) = delete;
@@ -281,9 +281,13 @@ public:
     SocketTimeoutGuard(SocketTimeoutManager& manager, socket_t socket)
         : manager_(manager), socket_(socket), owns_(true) {}
     
-    ~SocketTimeoutGuard() {
-        if (owns_ && socket_ != INVALID_SOCKET_VALUE) {
-            manager_.closeSocket(socket_);
+    ~SocketTimeoutGuard() noexcept {
+        try {
+            if (owns_ && socket_ != INVALID_SOCKET_VALUE) {
+                manager_.closeSocket(socket_);
+            }
+        } catch (...) {
+            // Suppress exceptions in destructor; socket close failure is non-critical
         }
     }
     

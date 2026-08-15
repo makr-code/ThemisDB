@@ -60,8 +60,13 @@ ServiceMeshIntegration::ServiceMeshIntegration(const Config& config)
     : config_(config)
 {}
 
-ServiceMeshIntegration::~ServiceMeshIntegration() {
-    stop();
+ServiceMeshIntegration::~ServiceMeshIntegration() noexcept {
+    try {
+        stop();
+    } catch (...) {
+        // Suppress exceptions in destructor; stop() failure is non-critical
+        THEMIS_WARN("ServiceMeshIntegration::stop() threw exception during destruction");
+    }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
