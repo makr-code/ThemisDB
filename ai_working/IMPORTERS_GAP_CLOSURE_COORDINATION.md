@@ -24,52 +24,71 @@ The importers module has accumulated 282 code quality gaps spanning null derefer
 
 | Phase | Name | Status | Target | Agent | Output Artifact |
 |-------|------|--------|--------|-------|-----------------|
-| **1** | Triage & Validation | ⏳ **QUEUED** | W1 (Aug 15-22) | gap-verifier | IMPORTERS_PHASE1_GAP_TRIAGE.md |
-| **2** | CRITICAL Fixes | ⏹ **PENDING** | W2-3 (Aug 22-Sep 5) | themisdb-implementer | IMPORTERS_PHASE2_CRITICAL_FIXES_COMPLETE.md |
-| **3** | HIGH Batch A1 | ⏹ **PENDING** | W4-5 (Sep 5-19) | themisdb-implementer | IMPORTERS_PHASE3_HIGH_BATCH_A1_COMPLETE.md |
-| **4** | HIGH Batch A2 | ⏹ **PENDING** | W4-5 (Sep 5-19) | themisdb-implementer | IMPORTERS_PHASE4_HIGH_BATCH_A2_COMPLETE.md |
-| **5** | MEDIUM/LOW | ⏹ **PENDING** | W6-8 (Sep 19-Oct 3) | task/implementer | IMPORTERS_PHASE5_MEDIUM_LOW_COMPLETE.md |
-| **6** | Review & Docs | ⏹ **PENDING** | W8-10 (Oct 3-15) | themisdb-reviewer | IMPORTERS_PHASE6_FINAL_CLOSURE_CERTIFICATE.md |
+| **1** | Triage & Validation | ✅ **COMPLETE** | W1 (Aug 15-22) | gap-verifier | IMPORTERS_PHASE1_GAP_TRIAGE.md |
+| **2** | CRITICAL Fixes (Data Race) | 🟡 **READY** | W2-3 (Aug 22-Sep 5) | themisdb-implementer | IMPORTERS_PHASE2_CRITICAL_FIXES_COMPLETE.md |
+| **3** | HIGH Batch A1 | ⏹ **QUEUED** | W4-5 (Sep 5-19) | themisdb-implementer | IMPORTERS_PHASE3_HIGH_BATCH_A1_COMPLETE.md |
+| **4** | HIGH Batch A2 | ⏹ **QUEUED** | W4-5 (Sep 5-19) | themisdb-implementer | IMPORTERS_PHASE4_HIGH_BATCH_A2_COMPLETE.md |
+| **5** | MEDIUM/LOW | ⏹ **QUEUED** | W6-8 (Sep 19-Oct 3) | task/implementer | IMPORTERS_PHASE5_MEDIUM_LOW_COMPLETE.md |
+| **6** | Review & Docs | ⏹ **QUEUED** | W8-10 (Oct 3-15) | themisdb-reviewer | IMPORTERS_PHASE6_FINAL_CLOSURE_CERTIFICATE.md |
+
+**Phase 1 Results (2026-08-15):**
+- TRUE_POSITIVE: 167 gaps (59.2%) — production code issues
+- GUARDED_STUB: 81 gaps (28.7%) — defensive patterns, downgrade severity
+- FALSE_POSITIVE: 23 gaps (8.2%) — remove (no action)
+- DEFERRED: 11 gaps (3.9%) — manual review Phase 2
+- **Total Actionable:** 259 gaps (91.8%)
+- **Confidence:** 76.7% average (51.8% high-confidence, ready for implementation)
 
 ---
 
 ## Gaps by Severity and Complexity
 
-### Critical (44 gaps)
+### Critical (28 gaps post-verification, down from 44)
 
-**Tier-1 (Simple, 1-2 files, <100 LOC each):**
-- [ ] blocking_no_timeout (postgres line 373) — add timeout to mutex_lock in ProgressCallback
-- [ ] no_timeout (postgres line 373) — condition_variable timeout
-- [ ] smart_ptr_misuse (postgres line 2452) — raw new → std::make_unique
+**Revised Severity (Phase 1 Triage Results):**
+- **CRITICAL (28 gaps):** Unguarded data races, iterator invalidation, smart_ptr misuse
+  - Data race cluster: 21 gaps (postgres, mysql, flatfile, huggingface, mdm_engine)
+  - Iterator invalidation: 3 gaps (mdm_engine, deterministic_matcher, data_quality)
+  - Smart ptr misuse: 4 gaps (postgres, mysql, oracle, firebase)
 
-**Tier-2 (Moderate, 3-8 files, 100-300 LOC):**
-- [ ] null_dereference across postgres (356, 359, 360, 362, 363, 367, 400, 401, 402) — 9 items in handle assignment
-- [ ] data_race (postgres 2104, 2106) — custom_type_map_ access without lock
-- [ ] resource_leaked_in_exception — add try-catch guards to connector pooling paths
-- [ ] smart_ptr_misuse (mysql 6 items, mongo 3 items) — raw new/delete patterns
+- **HIGH (moved from CRITICAL, 16 gaps):** Guarded stubs with defensive patterns
+  - Blocking_no_timeout: 8 gaps (weak_ptr.lock() guards present)
+  - No_timeout: 8 gaps (mutex_lock guards present)
+  - Recommendation: Add timeout parameters (Phase 2A/2B)
 
-**Tier-3 (Complex, 8+ files, >300 LOC):**
-- [ ] blocking_no_timeout across kafka, oracle, s3 — standardize timeout semantics in all connectors
-- [ ] data_race in schema inference/validation — centralized mutex for shared state
+**Phase 2 Execution Order (Sequential Gates):**
+- **Batch 2A (Data Race):** 21 gaps across postgres, mysql, flatfile, huggingface — mutex + lock_guard (Weeks 2-3)
+- **Batch 2B (Exception Safety):** 13 resource_leak + 11 deferred exception handlers — unique_ptr + try-catch (Weeks 2-3)
+- **Batch 2C (Iterator Safety):** 3 gaps in mdm_engine, deterministic_matcher, data_quality (Weeks 2-3)
 
-**Files in Scope (CRITICAL):**
-- postgres_importer.cpp (5 CRITICAL)
-- mysql_importer.cpp (6 CRITICAL)
-- flatfile_importer.cpp (7 CRITICAL)
-- huggingface_ingestion_plugin.cpp (7 CRITICAL)
-- deterministic_matcher.cpp (3 CRITICAL)
-- gui_import_wizard.cpp (2 CRITICAL)
-- s3_importer.cpp (3 CRITICAL)
-- kafka_importer.cpp (2 CRITICAL)
-- oracle_importer.cpp (2 CRITICAL)
-- sqlite_importer.cpp (2 CRITICAL)
-- mongo_importer.cpp (3 CRITICAL)
-- data_quality.cpp (1 CRITICAL)
+**Files in Scope (REVISED):**
+- postgres_importer.cpp (HIGH impact: 1 CRITICAL data_race, 3 resource_leak)
+- mysql_importer.cpp (HIGH impact: 8 CRITICAL data_race, 2 resource_leak)
+- flatfile_importer.cpp (HIGH impact: 7 CRITICAL data_race, 1 resource_leak)
+- huggingface_ingestion_plugin.cpp (HIGH impact: 5 CRITICAL data_race, 2 resource_leak)
+- mdm_engine.cpp (CRITICAL: 1 iterator_invalidation, 2 resource_leak, 1 data_race)
+- deterministic_matcher.cpp (CRITICAL: 1 iterator_invalidation, 1 data_race)
+- data_quality.cpp (CRITICAL: 1 iterator_invalidation, 1 resource_leak)
+- oracle_importer.cpp (HIGH: 1 smart_ptr_misuse, 2 resource_leak)
+- kafka_importer.cpp (HIGH: 4 resource_leak, 1 data_race)
+- canonical_resolver.cpp (HIGH: 3 resource_leak)
+- audit_trail.cpp, postgres_importer_mdm.cpp, s3_importer.cpp (HIGH: resource_leak)
 
-**Phase 2 Batching:**
-- Batch A: postgres (5) + mysql (6) = 11 CRITICAL
-- Batch B: flatfile (7) + huggingface (7) + deterministic_matcher (3) + gui_import_wizard (2) = 19 CRITICAL
-- Batch C: s3 (3) + kafka (2) + oracle (2) + sqlite (2) + mongo (3) + data_quality (1) = 13 CRITICAL
+**Phase 2A Priority (CRITICAL Data Race, 21 gaps):**
+- postgres_importer.cpp (config_type_overrides_, custom_type_map_) — 1 gap
+- mysql_importer.cpp (type_mapping_cache_, mutex_lock_state) — 8 gaps
+- flatfile_importer.cpp (column_options, field_validator_) — 7 gaps
+- huggingface_ingestion_plugin.cpp (config_state, progress_callback_) — 5 gaps
+
+**Phase 2B Priority (Resource Leak Exception Safety, 13 gaps):**
+- kafka_importer.cpp (connection management) — 4 gaps
+- canonical_resolver.cpp (entity resolver allocation) — 3 gaps
+- mdm_engine.cpp, audit_trail.cpp, postgres_importer_mdm.cpp, s3_importer.cpp, postgres_importer.cpp — 7 gaps
+
+**Phase 2C (Iterator Invalidation, 3 gaps):**
+- mdm_engine.cpp (entity map iteration during update) — 1 gap
+- deterministic_matcher.cpp (match set modification) — 1 gap
+- data_quality.cpp (quality_metrics iteration) — 1 gap
 
 ### High (151 gaps)
 
