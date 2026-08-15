@@ -128,6 +128,54 @@ inline constexpr std::size_t kOtlpMaxBatchSize = 512;
 inline constexpr std::size_t kMaxScrapeMetrics = 50'000;
 
 // ============================================================================
+// § 5b  Phase 2 Distributed Tracing SDK constraints
+// ============================================================================
+
+/// Maximum number of baggage items per distributed trace context.
+inline constexpr std::size_t kMaxBaggageItems = 128;
+
+/// Maximum length of a baggage item key in bytes.
+inline constexpr std::size_t kMaxBaggageKeyBytes = 128;
+
+/// Maximum length of a baggage item value in bytes.
+inline constexpr std::size_t kMaxBaggageValueBytes = 1024;
+
+/// Maximum trace context header size when serialized (bytes).
+inline constexpr std::size_t kMaxTraceContextHeaderBytes = 4096;
+
+// ============================================================================
+// § 5c  Phase 2 High-Cardinality Metrics constraints
+// ============================================================================
+
+/// Default maximum cardinality per metric family (distinct label sets).
+inline constexpr std::size_t kDefaultHighCardinalityLimit = 10'000;
+
+/// Hard maximum cardinality per metric family (safety bound).
+inline constexpr std::size_t kMaxHighCardinalityLimit = 100'000;
+
+/// Minimum cardinality threshold before automatic fallback activation.
+inline constexpr std::size_t kCardinalityWarningThreshold = 8'000;
+
+/// Special label name for aggregated/dropped label sets.
+inline constexpr const char* kCardinalityOtherLabel = "__other";
+
+// ============================================================================
+// § 5d  Phase 2 Operator Remediation Engine constraints
+// ============================================================================
+
+/// Maximum number of active remediation hints to track.
+inline constexpr std::size_t kMaxActiveRemediationHints = 256;
+
+/// Default deduplication time window for remediation hints (seconds).
+inline constexpr std::uint32_t kRemediationHintDeduplicationSeconds = 300;
+
+/// Maximum number of remediation actions per hint.
+inline constexpr std::size_t kMaxRemediationActionsPerHint = 16;
+
+/// Maximum length of remediation hint description (characters).
+inline constexpr std::size_t kMaxRemediationHintLength = 4096;
+
+// ============================================================================
 // § 6  Error taxonomy
 // ============================================================================
 
@@ -167,6 +215,57 @@ enum class ObservabilityErrorCode : int {
 
     /// Internal observability error.
     INTERNAL_ERROR = 9,
+
+    // === Phase 2: Observability Expansion (Distributed Tracing SDK)  ===
+    /// Distributed tracing SDK: invalid trace context format or content.
+    DTI_INVALID_TRACE_CONTEXT = 10,
+
+    /// Distributed tracing SDK: baggage item count exceeds kMaxBaggageItems.
+    DTI_BAGGAGE_OVERFLOW = 11,
+
+    /// Distributed tracing SDK: unsupported trace propagation format.
+    DTI_UNSUPPORTED_FORMAT = 12,
+
+    /// Distributed tracing SDK: HTTP header parse error.
+    DTI_HEADER_PARSE_ERROR = 13,
+
+    /// Distributed tracing SDK: context propagation to downstream failed.
+    DTI_CONTEXT_PROPAGATION_FAILED = 14,
+
+    /// Distributed tracing SDK: internal SDK error.
+    DTI_INTERNAL_ERROR = 15,
+
+    // === Phase 2: Observability Expansion (High-Cardinality Metrics) ===
+    /// High-cardinality metrics: metric cardinality limit exceeded.
+    HCM_CARDINALITY_LIMIT_EXCEEDED = 16,
+
+    /// High-cardinality metrics: invalid or unimplemented fallback strategy.
+    HCM_INVALID_FALLBACK_STRATEGY = 17,
+
+    /// High-cardinality metrics: memory usage exceeds threshold.
+    HCM_MEMORY_LIMIT_EXCEEDED = 18,
+
+    /// High-cardinality metrics: unsupported cardinality policy.
+    HCM_UNSUPPORTED_POLICY = 19,
+
+    /// High-cardinality metrics: internal tracker error.
+    HCM_INTERNAL_ERROR = 20,
+
+    // === Phase 2: Observability Expansion (Operator Remediation Engine) ===
+    /// Operator remediation: pattern matching failed.
+    ORE_PATTERN_MATCH_ERROR = 26,
+
+    /// Operator remediation: invalid or malformed metric data.
+    ORE_INVALID_METRIC_DATA = 27,
+
+    /// Operator remediation: listener notification failed.
+    ORE_LISTENER_NOTIFICATION_FAILED = 28,
+
+    /// Operator remediation: duplicate pattern name.
+    ORE_DUPLICATE_PATTERN = 29,
+
+    /// Operator remediation: internal engine error.
+    ORE_INTERNAL_ERROR = 30,
 };
 
 /// Returns true for codes where data loss (drop/miss) has already occurred.

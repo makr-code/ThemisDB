@@ -1,15 +1,13 @@
 /**
  * @file content_metrics.cpp
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief Metrics collection and aggregation for content processing performance tracking.
  * @version 0.0.47
  * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 85/100
- * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=3, L=0
- * @note Status: Production Ready
+ * @note Score: 82/100
+ * @note Gap Summary: total=7; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=3, C=0, H=1, M=6, L=0
+ * @note Status: Production Ready; Metrics collection and aggregation working; advanced dashboards deferred
  * @note This block is auto-generated and will be overwritten.
  */
-
-
 #include "content/content_metrics.h"
 #include <algorithm>
 #include <sstream>

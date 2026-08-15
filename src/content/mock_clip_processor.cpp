@@ -1,15 +1,13 @@
 /**
  * @file mock_clip_processor.cpp
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief Mock implementation for clip processing (test placeholder).
  * @version 0.0.47
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 85/100
- * @note Gap Summary: total=4; TODO=1, Stub=1, Unimpl=0, Mock=2, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
- * @note Status: Production Ready
+ * @note Maturity: 🔴 ALPHA
+ * @note Score: 45/100
+ * @note Gap Summary: total=28; TODO=5, Stub=8, Unimpl=4, Mock=3, Sim=2, Debt=2, C=3, H=8, M=12, L=2
+ * @note Status: Alpha; Mock implementation for testing; scheduled for replacement in Phase 6
  * @note This block is auto-generated and will be overwritten.
  */
-
-
 #include "content/mock_clip_processor.h"
 
 #include <cmath>

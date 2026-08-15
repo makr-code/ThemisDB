@@ -1,14 +1,13 @@
 /**
  * @file markdown_processor.cpp
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief Markdown content processor for parsing, validation, and semantic analysis.
  * @version 0.0.15
  * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 100/100
- * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=4, L=0
- * @note Status: Production Ready
+ * @note Score: 83/100
+ * @note Gap Summary: total=6; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=2, C=0, H=1, M=5, L=0
+ * @note Status: Production Ready; Markdown parsing complete; advanced extensions deferred
  * @note This block is auto-generated and will be overwritten.
  */
-
 #include "content/markdown_processor.h"
 
 #include <algorithm>

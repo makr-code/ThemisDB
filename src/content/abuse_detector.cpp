@@ -1,15 +1,13 @@
 /**
  * @file abuse_detector.cpp
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief Abuse detection system with perceptual hashing (PhotoDNA) and pattern matching.
  * @version 0.0.12
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 85/100
- * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=2, L=0
- * @note Status: Production Ready
+ * @note Gap Summary: total=2; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=2, C=0, H=0, M=2, L=0
+ * @note Status: Production Ready; PhotoDNA + pattern matching fully functional
  * @note This block is auto-generated and will be overwritten.
  */
-
-
 #include "content/abuse_detector.h"
 
 #include <algorithm>

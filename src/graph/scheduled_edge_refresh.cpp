@@ -437,7 +437,9 @@ RefreshStats ScheduledGraphEdgeRefreshEngine::runRefreshCycle() {
         stats.cycle_duration_ms = 0.0;
 
         {
-            std::lock_guard<std::mutex> lock(stats_mutex_);
+            // CANONICAL LOCK ORDER: policy_mutex_ (Tier 2) before stats_mutex_ (Tier 3)
+            std::lock_guard<std::mutex> policy_lock(policy_mutex_);
+            std::lock_guard<std::mutex> stats_lock(stats_mutex_);
             last_stats_ = stats;
         }
         return stats;
@@ -454,6 +456,7 @@ RefreshStats ScheduledGraphEdgeRefreshEngine::runRefreshCycle() {
     pre_avg /= static_cast<double>(scores.size());
 
     // 3. Determine removal candidates.
+    // CANONICAL LOCK ORDER: policy_mutex_ (Tier 2) before stats_mutex_ (Tier 3)
     RefreshPolicy policy;
     {
         std::lock_guard<std::mutex> lock(policy_mutex_);
@@ -486,7 +489,9 @@ RefreshStats ScheduledGraphEdgeRefreshEngine::runRefreshCycle() {
                                     / 1000.0;
 
         {
-            std::lock_guard<std::mutex> lock(stats_mutex_);
+            // CANONICAL LOCK ORDER: policy_mutex_ (Tier 2) before stats_mutex_ (Tier 3)
+            std::lock_guard<std::mutex> policy_lock(policy_mutex_);
+            std::lock_guard<std::mutex> stats_lock(stats_mutex_);
             last_stats_ = stats;
         }
         return stats;
@@ -549,7 +554,9 @@ RefreshStats ScheduledGraphEdgeRefreshEngine::runRefreshCycle() {
                  cycle, stats.edges_evaluated, stats.edges_removed, stats.edges_added, stats.cycle_duration_ms);
 
     {
-        std::lock_guard<std::mutex> lock(stats_mutex_);
+        // CANONICAL LOCK ORDER: policy_mutex_ (Tier 2) before stats_mutex_ (Tier 3)
+        std::lock_guard<std::mutex> policy_lock(policy_mutex_);
+        std::lock_guard<std::mutex> stats_lock(stats_mutex_);
         last_stats_ = stats;
     }
 

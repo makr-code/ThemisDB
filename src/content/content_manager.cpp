@@ -1,15 +1,13 @@
 /**
  * @file content_manager.cpp
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief Core content management system orchestrating processors, validators, and storage.
  * @version 0.0.47
  * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 82/100
- * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=7, H=2, M=44, L=0
- * @note Status: Production Ready
+ * @note Score: 84/100
+ * @note Gap Summary: total=8; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=4, C=1, H=2, M=5, L=0
+ * @note Status: Production Ready; Core orchestration complete; advanced caching deferred
  * @note This block is auto-generated and will be overwritten.
  */
-
-
 #include "content/content_manager.h"
 #include "content/content_type.h"
 #include "content/content_processor.h"

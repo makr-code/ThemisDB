@@ -953,10 +953,11 @@ std::vector<SpatialResult> SpatialIndexManager::searchIntersects(
         std::vector<SpatialResult> results;
 
         size_t mbr_candidates_this_query = static_cast<size_t>(candidate_keys.size());
-        size_t exact_checks_this_query = 0;
-        size_t exact_passed_this_query = 0;
+        {
+            size_t exact_checks_this_query = 0;
+            size_t exact_passed_this_query = 0;
 
-        for (const auto& pk : candidate_keys) {
+            for (const auto& pk : candidate_keys) {
             // Look up the stored MBR from the snapshot.
             geo::MBR entry_mbr;
             auto mbr_it = candidate_mbrs.find(pk);
