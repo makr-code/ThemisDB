@@ -122,16 +122,16 @@ void ContentTypeRegistry::registerType(const ContentType &type) {
     types_.push_back(type);
 }
 
-const ContentType *ContentTypeRegistry::getByMimeType(const std::string &mime_type) const {
+std::optional<ContentType> ContentTypeRegistry::getByMimeType(const std::string &mime_type) const {
     for (const auto &type : types_) {
         if (type.mime_type == mime_type) {
-            return &type;
+            return type;  // Return copy, not pointer
         }
     }
-    return nullptr;
+    return std::nullopt;
 }
 
-const ContentType *ContentTypeRegistry::getByExtension(const std::string &extension) const {
+std::optional<ContentType> ContentTypeRegistry::getByExtension(const std::string &extension) const {
     std::string ext_lower = extension;
     std::transform(ext_lower.begin(), ext_lower.end(), ext_lower.begin(), ::tolower);
 
@@ -146,16 +146,16 @@ const ContentType *ContentTypeRegistry::getByExtension(const std::string &extens
             std::transform(type_ext_lower.begin(), type_ext_lower.end(), type_ext_lower.begin(), ::tolower);
 
             if (type_ext_lower == ext_lower) {
-                return &type;
+                return type;  // Return copy, not pointer
             }
         }
     }
-    return nullptr;
+    return std::nullopt;
 }
 
-const ContentType *ContentTypeRegistry::detectFromBlob(const std::string &blob) const {
+std::optional<ContentType> ContentTypeRegistry::detectFromBlob(const std::string &blob) const {
     if (blob.empty()) {
-        return nullptr;
+        return std::nullopt;
     }
 
     // Check magic bytes for common formats
@@ -229,7 +229,7 @@ const ContentType *ContentTypeRegistry::detectFromBlob(const std::string &blob) 
         }
     }
 
-    return nullptr; // Unknown type
+    return std::nullopt; // Unknown type
 }
 
 std::vector<const ContentType *> ContentTypeRegistry::getByCategory(ContentCategory category) const {

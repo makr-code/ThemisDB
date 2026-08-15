@@ -1,14 +1,13 @@
 /**
  * @file video_processor.cpp
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief Video content processor for frame extraction, scene detection, and temporal analysis.
  * @version 0.0.47
  * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 84/100
- * @note Gap Summary: total=13; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=5, Debt=0, C=4, H=9, M=12, L=0
- * @note Status: Production Ready
+ * @note Score: 79/100
+ * @note Gap Summary: total=9; TODO=1, Stub=0, Unimpl=1, Mock=0, Sim=0, Debt=2, C=1, H=2, M=5, L=0
+ * @note Status: Production Ready; FFmpeg frame extraction working; real-time transcoding deferred
  * @note This block is auto-generated and will be overwritten.
  */
-
 // Ensure plugin entry points export correctly when built into core
 #define THEMIS_PLUGIN_EXPORTS
 

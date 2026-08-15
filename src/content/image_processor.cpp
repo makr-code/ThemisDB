@@ -1,14 +1,13 @@
 /**
  * @file image_processor.cpp
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief Image content processor with feature extraction, OCR, and visual analysis capabilities.
  * @version 0.0.47
  * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 100/100
- * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=3, L=0
- * @note Status: Production Ready
+ * @note Score: 85/100
+ * @note Gap Summary: total=6; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=2, C=0, H=2, M=4, L=0
+ * @note Status: Production Ready; Core image analysis working; advanced ML model deferred
  * @note This block is auto-generated and will be overwritten.
  */
-
 // Ensure plugin entry points export correctly when built into core
 #define THEMIS_PLUGIN_EXPORTS
 
