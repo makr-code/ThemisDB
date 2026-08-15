@@ -270,17 +270,19 @@ public:
             
             case PartitionStrategy::BALANCED: {
                 // Choose GPU with fewest vectors
-                size_t minVectors = std::numeric_limits<size_t>::max();
-                int selectedGPU = 0;
-                
-                for (size_t i = 0; i < gpuIndices.size(); ++i) {
-                    auto stats = gpuIndices[i]->getStatistics();
-                    if (stats.numVectors < minVectors) {
-                        minVectors = stats.numVectors;
-                        selectedGPU = static_cast<int>(i);
+                {
+                    size_t minVectors = std::numeric_limits<size_t>::max();
+                    int selectedGPU = 0;
+                    
+                    for (size_t i = 0; i < gpuIndices.size(); ++i) {
+                        auto stats = gpuIndices[i]->getStatistics();
+                        if (stats.numVectors < minVectors) {
+                            minVectors = stats.numVectors;
+                            selectedGPU = static_cast<int>(i);
+                        }
                     }
+                    return selectedGPU;
                 }
-                return selectedGPU;
             }
             
             default:

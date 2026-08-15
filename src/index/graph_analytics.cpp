@@ -332,23 +332,25 @@ GraphAnalytics::closenessCentrality(const std::vector<std::string>& node_pks) co
         }
         
         // Compute closeness: inverse of average distance
-        int total_distance = 0;
-        int reachable_count = 0;
-        
-        for (const auto& pk : node_pks) {
-            if (pk != source && distance[pk] >= 0) {
-                total_distance += distance[pk];
-                reachable_count++;
+        {
+            int total_distance = 0;
+            int reachable_count = 0;
+            
+            for (const auto& pk : node_pks) {
+                if (pk != source && distance[pk] >= 0) {
+                    total_distance += distance[pk];
+                    reachable_count++;
+                }
             }
-        }
-        
-        if (reachable_count > 0) {
-            // Closeness = (n-1) / sum(distances)
-            // Where n = number of reachable nodes
-            closeness[source] = static_cast<double>(reachable_count) / total_distance;
-        } else {
-            // Isolated node: no closeness
-            closeness[source] = 0.0;
+            
+            if (reachable_count > 0) {
+                // Closeness = (n-1) / sum(distances)
+                // Where n = number of reachable nodes
+                closeness[source] = static_cast<double>(reachable_count) / total_distance;
+            } else {
+                // Isolated node: no closeness
+                closeness[source] = 0.0;
+            }
         }
     }
     
@@ -429,41 +431,43 @@ GraphAnalytics::louvainCommunities(
             if (comm_edges.empty()) continue;  // Isolated node
 
             // Try each neighboring community
-            int best_comm = current_comm;
-            double best_delta_q = 0.0;
+            {
+                int best_comm = current_comm;
+                double best_delta_q = 0.0;
 
-            for (const auto& [candidate_comm, edges_to_comm] : comm_edges) {
-                if (candidate_comm == current_comm) continue;
+                for (const auto& [candidate_comm, edges_to_comm] : comm_edges) {
+                    if (candidate_comm == current_comm) continue;
 
-                // Calculate modularity change (simplified):
-                // Delta Q = (edges_to_comm / m) - (k_i * Sigma_comm / (2*m*m))
-                // For simplicity, we focus on maximizing edges within community
-                double delta_q = edges_to_comm / m;
+                    // Calculate modularity change (simplified):
+                    // Delta Q = (edges_to_comm / m) - (k_i * Sigma_comm / (2*m*m))
+                    // For simplicity, we focus on maximizing edges within community
+                    double delta_q = edges_to_comm / m;
 
-                if (delta_q > best_delta_q) {
-                    best_delta_q = delta_q;
-                    best_comm = candidate_comm;
+                    if (delta_q > best_delta_q) {
+                        best_delta_q = delta_q;
+                        best_comm = candidate_comm;
+                    }
                 }
-            }
 
-            // Move if improvement found
-            if (best_delta_q > min_modularity_gain && best_comm != current_comm) {
-                node_to_comm[node] = best_comm;
-                improved = true;
+                // Move if improvement found
+                if (best_delta_q > min_modularity_gain && best_comm != current_comm) {
+                    node_to_comm[node] = best_comm;
+                    improved = true;
+                }
             }
         }
     }
 
     // Renumber communities contiguously
-    std::map<int, int> old_to_new;
-    int new_id = 0;
-    std::map<std::string, int> result;
-    
-    for (const auto& [pk, old_comm] : node_to_comm) {
-        if (!old_to_new.count(old_comm)) {
-            old_to_new[old_comm] = new_id++;
+    {
+        std::map<int, int> old_to_new;
+        int new_id = 0;
+        for (const auto& [pk, old_comm] : node_to_comm) {
+            if (!old_to_new.count(old_comm)) {
+                old_to_new[old_comm] = new_id++;
+            }
+            result[pk] = old_to_new[old_comm];
         }
-        result[pk] = old_to_new[old_comm];
     }
 
     return {Status::OK(), std::move(result)};
@@ -525,20 +529,22 @@ GraphAnalytics::labelPropagationCommunities(
             if (label_count.empty()) continue;  // Isolated node
 
             // Find most frequent label
-            int best_label = labels[node];
-            int best_count = 0;
-            
-            for (const auto& [label, count] : label_count) {
-                if (count > best_count) {
-                    best_count = count;
-                    best_label = label;
+            {
+                int best_label = labels[node];
+                int best_count = 0;
+                
+                for (const auto& [label, count] : label_count) {
+                    if (count > best_count) {
+                        best_count = count;
+                        best_label = label;
+                    }
                 }
-            }
 
-            // Update label if changed
-            if (best_label != labels[node]) {
-                labels[node] = best_label;
-                changed = true;
+                // Update label if changed
+                if (best_label != labels[node]) {
+                    labels[node] = best_label;
+                    changed = true;
+                }
             }
         }
     }

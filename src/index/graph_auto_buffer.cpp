@@ -263,34 +263,36 @@ size_t GraphAutoBuffer::flushBuffer(const std::string& graph_id, GraphBuffer& bu
     span.setAttribute("operations", static_cast<int64_t>(buffer.operations.size()));
     
     // Execute all operations
-    size_t count = 0;
-    size_t nodes_flushed = 0;
-    size_t edges_flushed = 0;
-    
-    for (auto& op : buffer.operations) {
-        try {
-            if (op.type == OpType::ADD_NODE) {
-                auto status = graph_->addNode(op.entity, op.graph_id);
-                if (status.ok) {
-                    count++;
-                    nodes_flushed++;
+    {
+        size_t count = 0;
+        size_t nodes_flushed = 0;
+        size_t edges_flushed = 0;
+        
+        for (auto& op : buffer.operations) {
+            try {
+                if (op.type == OpType::ADD_NODE) {
+                    auto status = graph_->addNode(op.entity, op.graph_id);
+                    if (status.ok) {
+                        count++;
+                        nodes_flushed++;
+                    }
+                } else if (op.type == OpType::ADD_EDGE) {
+                    auto status = graph_->addEdge(op.entity, op.graph_id);
+                    if (status.ok) {
+                        count++;
+                        edges_flushed++;
+                    }
                 }
-            } else if (op.type == OpType::ADD_EDGE) {
-                auto status = graph_->addEdge(op.entity, op.graph_id);
-                if (status.ok) {
-                    count++;
-                    edges_flushed++;
-                }
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("Failed to flush operation: {}", e.what());
             }
-        } catch (const std::exception& e) {
-            THEMIS_ERROR("Failed to flush operation: {}", e.what());
         }
+        
+        stats_.nodes_flushed += nodes_flushed;
+        stats_.edges_flushed += edges_flushed;
+        stats_.current_buffer_size -= count;
+        stats_.current_buffer_memory -= buffer.memory_bytes;
     }
-    
-    stats_.nodes_flushed += nodes_flushed;
-    stats_.edges_flushed += edges_flushed;
-    stats_.current_buffer_size -= count;
-    stats_.current_buffer_memory -= buffer.memory_bytes;
     
     // Clear buffer
     buffer.clear();
