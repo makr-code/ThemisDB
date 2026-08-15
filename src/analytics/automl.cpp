@@ -9,7 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-
 /**
  * AutoML Engine – Implementation
  *
@@ -64,13 +63,13 @@
 #include <iomanip>
 #include <limits>
 #include <map>
+#include <mutex>
 #include <numeric>
 #include <random>
 #include <set>
 #include <sstream>
 #include <stdexcept>
 #include <string>
-#include <mutex>
 #include <unordered_map>
 
 namespace themisdb {

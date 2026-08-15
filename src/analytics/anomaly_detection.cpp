@@ -9,7 +9,6 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-
 /**
  * ThemisDB Real-Time Anomaly Detection Engine – Implementation
  *
@@ -233,6 +232,9 @@ struct IFNode {
 struct ITree {
     std::vector<IFNode> nodes;
     int height_limit = 0;
+
+    // RAII: Explicit destructor ensures proper resource cleanup
+    ~ITree() = default;
 };
 
 ITree buildITree(const FeatureMatrix &fm, const std::vector<size_t> &indices, int height, int height_limit,
@@ -253,6 +255,9 @@ ITree buildITree(const FeatureMatrix &fm, const std::vector<size_t> &indices, in
         int height;
         int parent_id; // -1 for root
         int side;      // 0 = left, 1 = right
+
+        // RAII: Explicit destructor ensures proper resource cleanup
+        ~Frame() = default;
     };
     std::vector<Frame> stack;
     stack.push_back({indices, height, -1, 0});
@@ -1062,8 +1067,11 @@ AnomalyDetector AnomalyDetector::deserialize(const std::string &data) {
 
     auto toDoubleVec = [&](const std::string &s) -> std::vector<double> {
         std::vector<double> v;
-        for (const auto& t : splitComma(s)) {
-            try { v.push_back(std::stod(t)); } catch (...) {}
+        for (const auto &t : splitComma(s)) {
+            try {
+                v.push_back(std::stod(t));
+            } catch (...) {
+            }
         }
         return v;
     };
@@ -1102,15 +1110,22 @@ AnomalyDetector AnomalyDetector::deserialize(const std::string &data) {
                 det.impl_->q3 = toDoubleVec(val);
             } else if (key == "iqr") {
                 det.impl_->iqr = toDoubleVec(val);
-            }
-            else if (key == "means")   det.impl_->means   = toDoubleVec(val);
-            else if (key == "stddevs") det.impl_->stddevs = toDoubleVec(val);
-            else if (key == "medians") det.impl_->medians = toDoubleVec(val);
-            else if (key == "mads")    det.impl_->mads    = toDoubleVec(val);
-            else if (key == "q1")      det.impl_->q1      = toDoubleVec(val);
-            else if (key == "q3")      det.impl_->q3      = toDoubleVec(val);
-            else if (key == "iqr")     det.impl_->iqr     = toDoubleVec(val);
-        } catch (...) { /* skip malformed line */ }
+            } else if (key == "means")
+                det.impl_->means = toDoubleVec(val);
+            else if (key == "stddevs")
+                det.impl_->stddevs = toDoubleVec(val);
+            else if (key == "medians")
+                det.impl_->medians = toDoubleVec(val);
+            else if (key == "mads")
+                det.impl_->mads = toDoubleVec(val);
+            else if (key == "q1")
+                det.impl_->q1 = toDoubleVec(val);
+            else if (key == "q3")
+                det.impl_->q3 = toDoubleVec(val);
+            else if (key == "iqr")
+                det.impl_->iqr = toDoubleVec(val);
+        } catch (...) { /* skip malformed line */
+        }
     }
     return det;
 }
@@ -1217,7 +1232,8 @@ std::optional<AnomalyResult> StreamingAnomalyDetector::process(const DataPoint &
                     // O(1) pointer swap under brief exclusive lock
                     std::unique_lock<std::shared_mutex> dl(detector_mu_);
                     detector_ = std::move(tmp);
-                } catch (...) {}
+                } catch (...) {
+                }
             }
             retraining_.store(false, std::memory_order_release);
         }
@@ -1239,24 +1255,24 @@ std::optional<AnomalyResult> StreamingAnomalyDetector::process(const DataPoint &
         } else {
             auto buf = snapshotWindow(); // brief shared_lock<window_mu_>
             auto dc  = makeDetectorConfig();
-            retrain_future_ = std::async(
-                std::launch::async,
-                [this, buf = std::move(buf), dc = std::move(dc)]() mutable {
-                    // train() is the long O(N·T)/O(N²) work — run with NO lock.
-                    // Even if stopping_ becomes true mid-flight, the destructor's
-                    // retrain_future_.wait() ensures this lambda completes before
-                    // any member is destroyed — no use-after-free.
-                    if (!stopping_.load(std::memory_order_acquire)) {
-                        try {
-                            AnomalyDetector tmp(dc);
-                            tmp.train(buf);           // off-lock (O(N·T)/O(N²))
-                            // O(1) Pimpl pointer swap under brief exclusive lock
-                            std::unique_lock<std::shared_mutex> dl(detector_mu_);
-                            detector_ = std::move(tmp);
-                        } catch (...) {}
-                    }
-                    retraining_.store(false, std::memory_order_release);
-                });
+            retrain_future_
+                = std::async(std::launch::async, [this, buf = std::move(buf), dc = std::move(dc)]() mutable {
+                      // train() is the long O(N·T)/O(N²) work — run with NO lock.
+                      // Even if stopping_ becomes true mid-flight, the destructor's
+                      // retrain_future_.wait() ensures this lambda completes before
+                      // any member is destroyed — no use-after-free.
+                      if (!stopping_.load(std::memory_order_acquire)) {
+                          try {
+                              AnomalyDetector tmp(dc);
+                              tmp.train(buf); // off-lock (O(N·T)/O(N²))
+                              // O(1) Pimpl pointer swap under brief exclusive lock
+                              std::unique_lock<std::shared_mutex> dl(detector_mu_);
+                              detector_ = std::move(tmp);
+                          } catch (...) {
+                          }
+                      }
+                      retraining_.store(false, std::memory_order_release);
+                  });
         }
     }
 
@@ -1320,4 +1336,3 @@ StreamingAnomalyDetector::WindowStats StreamingAnomalyDetector::getWindowStats()
 
 } // namespace analytics
 } // namespace themisdb
-
