@@ -112,7 +112,7 @@ void LoRAFederationCoordinator::submitGradient(const EncryptedGradient &gradient
         std::optional<GlobalAdapterDelta> preview_delta;
         try {
             preview_delta = doAggregation();
-        } catch (const std::exception& e) {
+        } catch (const std::exception&) {
             // Keep current round state; preview failures are surfaced on explicit trigger.
             // Log but do not rethrow: preview aggregations are opportunistic and failures
             // should not affect the submitted state.
@@ -590,4 +590,3 @@ LoRAFederationCoordinator::makeL2NormOutlierFilter(double z_threshold) {
 }
 
 } // namespace themis::distributed_knowledge
-

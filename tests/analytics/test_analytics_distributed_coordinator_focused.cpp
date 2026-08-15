@@ -108,7 +108,7 @@ TEST_F(CircuitBreakerTransitionTest, CB01_ClosedToOpen_OnFailureThreshold) {
     // First 2 failures in CLOSED state
     for (int i = 0; i < 2; ++i) {
         try {
-            coordinator->executeDistributed(query, "tenant-1");
+            coordinator->executeDistributed(query);
         } catch (...) {
             // Expected
         }
@@ -116,7 +116,7 @@ TEST_F(CircuitBreakerTransitionTest, CB01_ClosedToOpen_OnFailureThreshold) {
 
     // Third failure triggers OPEN
     try {
-        coordinator->executeDistributed(query, "tenant-1");
+        coordinator->executeDistributed(query);
     } catch (...) {
         // Expected
     }
@@ -125,7 +125,7 @@ TEST_F(CircuitBreakerTransitionTest, CB01_ClosedToOpen_OnFailureThreshold) {
     executor->delay = std::chrono::milliseconds{500};
     auto start = std::chrono::steady_clock::now();
     try {
-        coordinator->executeDistributed(query, "tenant-1");
+        coordinator->executeDistributed(query);
     } catch (const std::runtime_error& e) {
         if (std::string(e.what()).find("circuit") != std::string::npos) {
             // Circuit rejected - good!
@@ -147,7 +147,7 @@ TEST_F(CircuitBreakerTransitionTest, CB02_OpenToHalfOpen_AfterRecoveryDelay) {
     // Trigger OPEN state
     for (int i = 0; i < 3; ++i) {
         try {
-            coordinator->executeDistributed(query, "tenant-1");
+            coordinator->executeDistributed(query);
         } catch (...) {}
     }
 
@@ -157,7 +157,7 @@ TEST_F(CircuitBreakerTransitionTest, CB02_OpenToHalfOpen_AfterRecoveryDelay) {
     // Next request should probe (HALF_OPEN)
     executor->mode = MockShardExecutor::Mode::SUCCESS;
     try {
-        auto result = coordinator->executeDistributed(query, "tenant-1");
+        auto result = coordinator->executeDistributed(query);
         // Should succeed now that shard is healthy
     } catch (...) {
         // May still fail if shard was marked unhealthy
@@ -174,7 +174,7 @@ TEST_F(CircuitBreakerTransitionTest, CB03_HalfOpenToClosed_OnSuccess) {
     // Trigger OPEN state
     for (int i = 0; i < 3; ++i) {
         try {
-            coordinator->executeDistributed(query, "tenant-1");
+            coordinator->executeDistributed(query);
         } catch (...) {}
     }
 
@@ -184,7 +184,7 @@ TEST_F(CircuitBreakerTransitionTest, CB03_HalfOpenToClosed_OnSuccess) {
     // Switch to success mode and execute
     executor->mode = MockShardExecutor::Mode::SUCCESS;
     try {
-        auto result = coordinator->executeDistributed(query, "tenant-1");
+        auto result = coordinator->executeDistributed(query);
         // Probe succeeded - circuit should be CLOSED
         EXPECT_TRUE(executor->isHealthy());
     } catch (...) {
@@ -202,7 +202,7 @@ TEST_F(CircuitBreakerTransitionTest, CB04_StateChangeCounter_Increments) {
     // Trigger state changes by inducing failures
     for (int i = 0; i < 5; ++i) {
         try {
-            coordinator->executeDistributed(query, "tenant-1");
+            coordinator->executeDistributed(query);
         } catch (...) {}
     }
 
@@ -241,7 +241,7 @@ TEST_F(ConcurrencyGuardTest, CM01_EnqueueRequest_Success_BelowLimit) {
 
     // All requests should succeed while below queue limit
     for (int i = 0; i < 5; ++i) {
-        auto result = coordinator->executeDistributed(query, "tenant-1");
+        auto result = coordinator->executeDistributed(query);
         EXPECT_GT(executor->call_count, 0);
     }
 }
@@ -259,7 +259,7 @@ TEST_F(ConcurrencyGuardTest, CM02_EnqueueRequest_FailsOnQueueFull) {
     int success_count = 0;
     for (int i = 0; i < 10; ++i) {
         try {
-            auto result = coordinator->executeDistributed(query, "tenant-1");
+            auto result = coordinator->executeDistributed(query);
             success_count++;
         } catch (const std::runtime_error& e) {
             if (std::string(e.what()).find("queue") != std::string::npos) {
@@ -281,7 +281,7 @@ TEST_F(ConcurrencyGuardTest, CM03_InFlightRequestCount_Increments) {
     themis::analytics::OLAPQuery query;
     query.dimensions.push_back({"dim1", "STRING"});
 
-    auto result = coordinator->executeDistributed(query, "tenant-1");
+    auto result = coordinator->executeDistributed(query);
     // After completion, in-flight count should be 0
     EXPECT_GT(executor->call_count, 0);
 }
@@ -304,7 +304,7 @@ TEST_F(ConcurrencyGuardTest, CM04_UnboundedQueue_AllRequestsSucceed) {
 
     // All requests should eventually succeed
     for (int i = 0; i < 20; ++i) {
-        auto result = coordinator_ub->executeDistributed(query, "tenant-1");
+        auto result = coordinator_ub->executeDistributed(query);
     }
 
     EXPECT_EQ(executor_ub->call_count, 20);
@@ -342,7 +342,7 @@ TEST_F(TimeoutRecoveryTest, TO01_ShardTimeout_IsDetected) {
 
     auto start = std::chrono::steady_clock::now();
     try {
-        coordinator->executeDistributed(query, "tenant-1");
+        coordinator->executeDistributed(query);
     } catch (const std::runtime_error& e) {
         // Expected timeout
     }
@@ -362,7 +362,7 @@ TEST_F(TimeoutRecoveryTest, TO02_ExponentialBackoff_OnRecoveryFailure) {
     // Trigger failures to open circuit
     for (int i = 0; i < 2; ++i) {
         try {
-            coordinator->executeDistributed(query, "tenant-1");
+            coordinator->executeDistributed(query);
         } catch (...) {}
     }
 
@@ -371,7 +371,7 @@ TEST_F(TimeoutRecoveryTest, TO02_ExponentialBackoff_OnRecoveryFailure) {
 
     // Try recovery with continued failures - should use backoff
     try {
-        coordinator->executeDistributed(query, "tenant-1");
+        coordinator->executeDistributed(query);
     } catch (...) {}
 }
 
@@ -396,7 +396,7 @@ TEST_F(TimeoutRecoveryTest, TO03_MaxBackoffCap_Enforced) {
     // Trigger many recovery failures
     for (int i = 0; i < 15; ++i) {
         try {
-            coordinator_capped->executeDistributed(query, "tenant-1");
+            coordinator_capped->executeDistributed(query);
         } catch (...) {}
         // Wait between retries
         std::this_thread::sleep_for(std::chrono::milliseconds{50});
@@ -418,7 +418,7 @@ TEST_F(TimeoutRecoveryTest, TO04_DegradedMode_PartialResults_Accepted) {
     query.dimensions.push_back({"dim1", "STRING"});
 
     try {
-        auto result = coordinator->executeDistributed(query, "tenant-1");
+        auto result = coordinator->executeDistributed(query);
         // Should return partial result from shard-1 (shard-0 failed)
     } catch (const std::runtime_error& e) {
         // May also throw if too many shards fail
@@ -435,7 +435,7 @@ TEST_F(TimeoutRecoveryTest, TO05_RecoveryAttempt_ResetsFailureCounter) {
     // Trigger OPEN state
     for (int i = 0; i < 2; ++i) {
         try {
-            coordinator->executeDistributed(query, "tenant-1");
+            coordinator->executeDistributed(query);
         } catch (...) {}
     }
 
@@ -445,7 +445,7 @@ TEST_F(TimeoutRecoveryTest, TO05_RecoveryAttempt_ResetsFailureCounter) {
     // Recover successfully
     executor->mode = MockShardExecutor::Mode::SUCCESS;
     try {
-        coordinator->executeDistributed(query, "tenant-1");
+        coordinator->executeDistributed(query);
     } catch (...) {}
 
     // Reset to SUCCESS mode
@@ -455,7 +455,7 @@ TEST_F(TimeoutRecoveryTest, TO05_RecoveryAttempt_ResetsFailureCounter) {
     // Next failure should restart counter (not immediately re-open)
     try {
         executor->mode = MockShardExecutor::Mode::FAILURE;
-        coordinator->executeDistributed(query, "tenant-1");
+        coordinator->executeDistributed(query);
     } catch (...) {}
 
     executor->reset();
@@ -471,7 +471,7 @@ TEST_F(TimeoutRecoveryTest, TO06_ConsecutiveFailureCounter_Increments) {
     int failure_count = 0;
     for (int i = 0; i < 5; ++i) {
         try {
-            coordinator->executeDistributed(query, "tenant-1");
+            coordinator->executeDistributed(query);
         } catch (...) {
             failure_count++;
         }
@@ -517,7 +517,7 @@ TEST_F(SafetyControlsIntegrationTest, IntegrationTest_CircuitBreakerPreventsCasc
     for (int i = 0; i < 5; ++i) {
         auto start = std::chrono::steady_clock::now();
         try {
-            coordinator->executeDistributed(query, "tenant-1");
+            coordinator->executeDistributed(query);
         } catch (...) {
             // Expected
         }
@@ -540,7 +540,7 @@ TEST_F(SafetyControlsIntegrationTest, IntegrationTest_RecoverySequence_Completes
     executor->mode = MockShardExecutor::Mode::FAILURE;
     for (int i = 0; i < 2; ++i) {
         try {
-            coordinator->executeDistributed(query, "tenant-1");
+            coordinator->executeDistributed(query);
         } catch (...) {}
     }
 
@@ -550,13 +550,13 @@ TEST_F(SafetyControlsIntegrationTest, IntegrationTest_RecoverySequence_Completes
     // 3. HALF_OPEN state - successful recovery
     executor->mode = MockShardExecutor::Mode::SUCCESS;
     try {
-        coordinator->executeDistributed(query, "tenant-1");
+        coordinator->executeDistributed(query);
     } catch (...) {}
 
     // 4. Back to CLOSED - normal operation
     for (int i = 0; i < 3; ++i) {
         try {
-            auto result = coordinator->executeDistributed(query, "tenant-1");
+            auto result = coordinator->executeDistributed(query);
             EXPECT_GT(executor->call_count, 0);
         } catch (...) {
             // Should generally succeed in CLOSED state

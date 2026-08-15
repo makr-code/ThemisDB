@@ -77,7 +77,7 @@ void CrossShardFeedbackSync::publishFeedback(FeedbackSummary summary) {
         // silently skip and increment the skipped counter instead of propagating.
         try {
             gossip_message_fn_(std::move(payload));
-        } catch (const std::exception& e) {
+        } catch (const std::exception&) {
             std::lock_guard<std::mutex> lk(mutex_);
             ++skipped_publish_count_;
             // Note: gossip_message_fn_ may throw std::exception or derived types
@@ -273,4 +273,3 @@ size_t CrossShardFeedbackSync::eraseCount() const {
 }
 
 } // namespace themis::distributed_knowledge
-

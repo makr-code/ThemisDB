@@ -287,7 +287,7 @@ public:
 
     LoRAFederationCoordinator(const LoRAFederationCoordinator&)            = delete;
     LoRAFederationCoordinator& operator=(const LoRAFederationCoordinator&) = delete;
-    LoRAFederationCoordinator(LoRAFederationCoordinator&&)                 = default;
+    LoRAFederationCoordinator(LoRAFederationCoordinator&&) noexcept;
     LoRAFederationCoordinator& operator=(LoRAFederationCoordinator&&)      noexcept;
 
     // ── ILoRAFederationCoordinator ───────────────────────────────────────────
@@ -527,4 +527,3 @@ private:
 };
 
 } // namespace themis::distributed_knowledge
-

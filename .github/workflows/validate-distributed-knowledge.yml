@@ -24,6 +24,9 @@ on:
 
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   validate-build:
     name: Build Validation (distributed_knowledge)
@@ -205,16 +208,52 @@ jobs:
 
       - name: Run gap scanner
         run: |
+          cd /home/runner/work/ThemisDB/ThemisDB
+          SCAN_OUTPUT_DIR="/tmp/distributed-knowledge-gap-scan"
+          mkdir -p "${SCAN_OUTPUT_DIR}"
+
+          # Run the scanner and evaluate findings from its JSON output.
+          # gap_scanner.py currently exits non-zero when summary fields are empty,
+          # so we still validate against the produced module report.
+          python tools/gap_scanner.py \
+            --repo . \
+            --module distributed_knowledge \
+            --output "${SCAN_OUTPUT_DIR}" || true
+
+          SCAN_FILE="${SCAN_OUTPUT_DIR}/gap_scan_distributed_knowledge.json"
+          if [ ! -f "${SCAN_FILE}" ]; then
+            echo "Gap scanner output not found: ${SCAN_FILE}"
+            exit 1
+          fi
+
+          CURRENT_FINDINGS=$(python - << 'PY'
+          import json
+          with open("/tmp/distributed-knowledge-gap-scan/gap_scan_distributed_knowledge.json", "r", encoding="utf-8") as f:
+              report = json.load(f)
+          print(len(report.get("gaps", [])))
+          PY
+          )
+          BASELINE_FINDINGS=111
+          CLOSURE_RATE=$(python -c "baseline=${BASELINE_FINDINGS}; current=int(${CURRENT_FINDINGS}); print(round((1 - (current / baseline)) * 100, 2))")
+          PATTERN_CLOSURE=$(python -c "baseline=${BASELINE_FINDINGS}; current=int(${CURRENT_FINDINGS}); print(round((current / baseline) * 100, 2))")
+
           echo "Running follow-up gap scan..."
-          echo "Expected: ≤3 findings (all approved simulations)"
-          echo "Pattern closure: 2.7% < 20% ✓"
-          
+          echo "Current findings: ${CURRENT_FINDINGS}"
+          echo "Pattern closure: ${PATTERN_CLOSURE}%"
+
+          if python -c "import sys; sys.exit(0 if float(${PATTERN_CLOSURE}) < 20.0 else 1)"; then
+            echo "Gap closure threshold check passed (<20%)."
+          else
+            echo "Gap closure threshold check failed: ${PATTERN_CLOSURE}% >= 20%."
+            exit 1
+          fi
+
           echo "### Gap Closure Verification" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Original Scan (2026-06-04):** 111 findings" >> $GITHUB_STEP_SUMMARY
-          echo "**Current Status:** 3 findings (approved simulations)" >> $GITHUB_STEP_SUMMARY
-          echo "**Closure Rate:** 97.3%" >> $GITHUB_STEP_SUMMARY
-          echo "**Pattern Closure:** 2.7% < 20% ✅" >> $GITHUB_STEP_SUMMARY
+          echo "**Current Status:** ${CURRENT_FINDINGS} findings" >> $GITHUB_STEP_SUMMARY
+          echo "**Closure Rate:** ${CLOSURE_RATE}%" >> $GITHUB_STEP_SUMMARY
+          echo "**Pattern Closure:** ${PATTERN_CLOSURE}% < 20% ✅" >> $GITHUB_STEP_SUMMARY
 
   create-validation-summary:
     name: Create Validation Summary

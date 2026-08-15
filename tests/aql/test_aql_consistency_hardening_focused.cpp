@@ -340,12 +340,13 @@ TEST_F(PerformanceAndReliabilityTest, PERF03_BridgeLatencyUnder1000us) {
 TEST_F(PerformanceAndReliabilityTest, PERF04_FullPipelineUnder1500us) {
     // Test: Full pipeline (validation + translation + bridge) ≤ 1500µs
     auto start = std::chrono::high_resolution_clock::now();
+    const std::string query = "Find all users";
     
-    auto trans_result = translator->translate("Find all users");
+    auto trans_result = translator->translate(query);
     if (trans_result.success) {
-        auto val_result = validator->validate(trans_result.error_tag);
+        auto val_result = validator->validate(query);
         if (val_result.success) {
-            auto bridge_result = bridge->execute(trans_result.error_tag);
+            auto bridge_result = bridge->execute(query);
         }
     }
     
