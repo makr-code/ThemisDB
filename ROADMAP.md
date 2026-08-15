@@ -122,6 +122,7 @@ Execution targets `develop` and must follow strict wave-gate sequencing.
 - [ ] Observability expansion: distributed tracing, high-cardinality stress, exporter reliability, and operator remediation hints across core modules (Target: Q1 2027)
 - [ ] Publish runbooks for access-model promotion, replication lag/failover, sharding repair/rebalance, voice incident triage, and GPU fallback (Target: Q1 2027)
 - [ ] Add long-duration soak tests for sustained telemetry, replication traffic, distributed writes, and mixed acceleration workloads (Target: Q1 2027)
+- [ ] Security audit: HTTP auth SSL/TLS configuration review (misconfigurability assessment, TLS verification whitelist documentation) — **Non-critical, follow-up from Phase 6 gap verification (2026-08-15)** (Target: Q1 2027)
 
 ### Program-Level Success Criteria
 - [ ] All distributed and acceleration paths fail closed (Target: Q1 2027)
