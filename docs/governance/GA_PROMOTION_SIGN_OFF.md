@@ -87,17 +87,18 @@ before the human sign-off in Section 9 can be granted.
 The release engineer must verify each item immediately before creating the GA tag.
 Until every checkbox below is marked `[x]`, promotion remains blocked (`NO-GO`):
 
-- [ ] `develop` HEAD passes the full `release_critical` CTest suite (no failures) — **includes Process, Failover, Updates module tests** ✅
+- [ ] `develop` HEAD passes the full `release_critical` CTest suite (no failures) — **includes Process, Failover, Updates, Analytics module tests** ✅
 - [ ] Wave 7 hard gates (GATE-W7-01..06) confirmed PASS on current HEAD
 - [ ] Wave 8 hard gates (GATE-W8-01..04) confirmed PASS on current HEAD
 - [ ] Wave 9 hard gates (GATE-W9-01..06) confirmed PASS on current HEAD
 - [ ] `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md` reviewed and accepted by Security Lead
 - [ ] `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md` reviewed and accepted by Security Lead
-- [ ] No new CRITICAL findings in `server`, `llm`, `sharding`, `process`, `failover`, or `updates` module gap registers ✅
+- [ ] No new CRITICAL findings in `server`, `llm`, `sharding`, `process`, `failover`, `updates`, or `analytics` module gap registers ✅
+- [ ] **Analytics Phase 1-6 complete:** Phase 1 (35 CRITICAL found→verified), Phase 2 (34 HIGH fixed), Phase 3 (50 MEDIUM analyzed), Phase 4 (45 tests), Phase 5 (19 benchmarks), Phase 6 (code review approved)
 - [ ] `CHANGELOG.md` `[Unreleased]` section moved to `[2.4.0]` entry
 - [ ] `VERSIONING.md` version table updated to reflect `v2.4.0 GA` stable status
-- [ ] `ROADMAP.md` updated with all Phase 0-6 completion markers — **Process/Failover/Updates Phase 1-6 closures documented** ✅
-- [ ] `research/implementation_influence/by_module.md` Soll-Ist matrix verified (6 modules)
+- [ ] `ROADMAP.md` updated with all Phase 0-6 completion markers — **Process/Failover/Updates/Analytics Phase 1-6 closures documented** ✅
+- [ ] `research/implementation_influence/by_module.md` Soll-Ist matrix verified (6-7 modules, Analytics included)
 - [ ] `docs/DOXYGEN_COVERAGE_REPORT.md` confirms >99% header file documentation
 - [ ] Branch `develop` → `community` merge reviewed and approved
 - [ ] Tag `v2.4.0` created on the approved `community` merge commit
@@ -169,8 +170,16 @@ If a post-tag regression is discovered within the controlled promotion window:
 | **Process Phase 6 acceptance checklist** | `src/process/PHASE_6_ACCEPTANCE_CHECKLIST.md` | D-5, D-7 |
 | **Failover Phase 2+3 focused tests** | `tests/failover/test_failover_phase2_phase3_focused.cpp` | D-5, A-Support |
 | **Updates Phase 6 sign-off** | `src/updates/PRODUCTION_REQUIREMENTS.md` | D-5, D-7 |
+| **Analytics Phase 1 verification summary** | `ai_working/ANALYTICS_PHASE1_VERIFICATION_SUMMARY.txt` + `ai_working/gap_verifier_report_analytics_phase1.md` | D-6 (CRITICAL gap closure) |
+| **Analytics Phase 2 implementation reports** | `ai_working/BATCH_A1_IMPLEMENTATION_REPORT.md` + `ai_working/BATCH_A2_IMPLEMENTATION_REPORT.md` | D-6 (HIGH gap closure, 34/34 fixes) |
+| **Analytics Phase 3 analysis** | `ai_working/PHASE3_BATCH_B1_COMPLETION_REPORT.md` | D-6 (MEDIUM gap automation framework) |
+| **Analytics Phase 4 tests** | `tests/analytics/test_analytics_error_handling_focused.cpp` + `test_analytics_memory_safety_focused.cpp` | D-5 (45 focused tests, 1,394 LOC) |
+| **Analytics Phase 5 performance** | `benchmarks/analytics/bench_analytics_critical_paths_focused.cpp` + `bench_streaming_window.cpp` + `bench_analytics_release_gates.cpp` | D-5 (19 benchmarks, production infrastructure) |
+| **Analytics Phase 6 aggregation** | `ai_working/ANALYTICS_PHASE6_AGGREGATION_REPORT.md` | D-6 (Phase 1-6 closure summary) |
+| **Analytics Phase 6 code review** | `ai_working/PHASE6_CODE_REVIEW_SUMMARY.md` | D-7 (Phase 2-5 deliverable review) |
+| **Analytics ROADMAP** | `src/analytics/ROADMAP.md` | D-6, D-7 (Phase 1-6 marked complete) |
 | **Wave A Module Integration consolidation** | `WAVE_A_MODULE_INTEGRATION_CONSOLIDATION.md` | A-Support, D-5, D-7 |
-| **Module gaps consolidation** | `MODULE_GAPS_CONSOLIDATION_REPORT.md` | D-6 |
+| **Module gaps consolidation** | `MODULE_GAPS_CONSOLIDATION_REPORT.md` | D-6 (Analytics 4/4 modules ready) |
 | Release-critical CI gate | `.github/workflows/09-pr-gates_release-critical-tests.yml` | A-2, C-1, C-2 |
 
 ---
