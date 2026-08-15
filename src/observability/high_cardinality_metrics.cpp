@@ -146,14 +146,19 @@ public:
 
         // Ensure metric state exists
         if (it == metrics_.end() || !it->second) {
-            std::unique_lock<std::shared_mutex> write_lock(metrics_mutex_);
+            // Release shared lock before upgrading to exclusive lock to avoid deadlock.
+            // std::shared_mutex does not support lock upgrade; both locks cannot be
+            // held simultaneously by the same thread.
             lock.unlock();
-            auto& state = metrics_[metric_name];
-            if (!state) {
-                state = std::make_unique<MetricCardinalityState>();
-            }
-            it = metrics_.find(metric_name);
+            {
+                std::unique_lock<std::shared_mutex> write_lock(metrics_mutex_);
+                auto& state = metrics_[metric_name];
+                if (!state) {
+                    state = std::make_unique<MetricCardinalityState>();
+                }
+            }  // write_lock released before re-acquiring shared lock
             lock = std::shared_lock<std::shared_mutex>(metrics_mutex_);
+            it = metrics_.find(metric_name);
         }
 
         const auto& state = it->second;
@@ -237,22 +242,36 @@ public:
             stats.aggregated_sets_total = state->aggregated_sets;
             stats.last_updated_ns = state->last_updated_ns;
             stats.at_limit = state->label_sets.size() >= state->limit.max_series;
-            stats.utilization_percent = 100.0 * state->label_sets.size() / state->limit.max_series;
+            // Guard against divide-by-zero when max_series has not been set (== 0).
+            stats.utilization_percent = (state->limit.max_series > 0)
+                ? 100.0 * static_cast<double>(state->label_sets.size()) /
+                      static_cast<double>(state->limit.max_series)
+                : 0.0;
         }
 
         return stats;
     }
 
     std::map<std::string, CardinalityStats> getAllCardinalityStats() override {
-        std::shared_lock<std::shared_mutex> lock(metrics_mutex_);
-        std::map<std::string, CardinalityStats> result;
-
-        for (const auto& [metric_name, state] : metrics_) {
-            if (state) {
-                result[metric_name] = getCardinalityStats(metric_name);
+        // Collect metric names under the shared lock, then release it before calling
+        // getCardinalityStats(), which acquires metrics_mutex_ internally.
+        // std::shared_mutex is not re-entrant; calling getCardinalityStats() while
+        // holding metrics_mutex_ would deadlock.
+        std::vector<std::string> names;
+        {
+            std::shared_lock<std::shared_mutex> lock(metrics_mutex_);
+            names.reserve(metrics_.size());
+            for (const auto& [metric_name, state] : metrics_) {
+                if (state) {
+                    names.push_back(metric_name);
+                }
             }
         }
 
+        std::map<std::string, CardinalityStats> result;
+        for (const auto& metric_name : names) {
+            result[metric_name] = getCardinalityStats(metric_name);
+        }
         return result;
     }
 

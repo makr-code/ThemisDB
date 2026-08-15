@@ -17,6 +17,7 @@
 
 #include "gtest/gtest.h"
 #include "observability/distributed_tracing_sdk.h"
+#include <mutex>
 #include <thread>
 #include <vector>
 #include <map>
@@ -35,8 +36,8 @@ TEST_F(DistributedTracingSDKTest, W3CTraceContextExtraction) {
     headers["traceparent"] = "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01";
     headers["tracestate"] = "congo=t61rcWZlbiBhIGZhbmN5IGZvciBjaGFu";
 
-    auto ctx = sdk_.extractContextFromHeaders(
-        headers, &TraceContextFormat::W3C_TRACE_CONTEXT);
+    TraceContextFormat fmt = TraceContextFormat::W3C_TRACE_CONTEXT;
+    auto ctx = sdk_.extractContextFromHeaders(headers, &fmt);
 
     ASSERT_TRUE(ctx);
     EXPECT_EQ(ctx->traceId(), "4bf92f3577b34da6a3ce929d0e0e4736");
@@ -46,8 +47,8 @@ TEST_F(DistributedTracingSDKTest, W3CTraceContextExtraction) {
 }
 
 TEST_F(DistributedTracingSDKTest, W3CTraceContextPropagation) {
+    // createRoot() already sets trace_sampled_ = true internally.
     auto ctx = DistributedTraceContext::createRoot();
-    ctx->trace_sampled_ = true;
 
     auto headers = ctx->toHttpHeaders(TraceContextFormat::W3C_TRACE_CONTEXT);
 
@@ -62,8 +63,8 @@ TEST_F(DistributedTracingSDKTest, JaegerBaggageExtraction) {
     headers["uber-trace-id"] = "4bf92f3577b34da6a3ce929d0e0e4736:00f067aa0ba902b7:0:1";
     headers["jaeger-baggage"] = "tenant=acme,request_priority=high";
 
-    auto ctx = sdk_.extractContextFromHeaders(
-        headers, &TraceContextFormat::JAEGER_BAGGAGE);
+    TraceContextFormat fmt = TraceContextFormat::JAEGER_BAGGAGE;
+    auto ctx = sdk_.extractContextFromHeaders(headers, &fmt);
 
     ASSERT_TRUE(ctx);
     EXPECT_EQ(ctx->traceId(), "4bf92f3577b34da6a3ce929d0e0e4736");
@@ -81,8 +82,8 @@ TEST_F(DistributedTracingSDKTest, B3SingleHeaderExtraction) {
     std::map<std::string, std::string> headers;
     headers["b3"] = "4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-1";
 
-    auto ctx = sdk_.extractContextFromHeaders(
-        headers, &TraceContextFormat::B3_SINGLE);
+    TraceContextFormat fmt_b3s = TraceContextFormat::B3_SINGLE;
+    auto ctx = sdk_.extractContextFromHeaders(headers, &fmt_b3s);
 
     ASSERT_TRUE(ctx);
     EXPECT_EQ(ctx->traceId(), "4bf92f3577b34da6a3ce929d0e0e4736");
@@ -96,8 +97,8 @@ TEST_F(DistributedTracingSDKTest, B3MultiHeaderExtraction) {
     headers["x-b3-spanid"] = "00f067aa0ba902b7";
     headers["x-b3-sampled"] = "1";
 
-    auto ctx = sdk_.extractContextFromHeaders(
-        headers, &TraceContextFormat::B3_MULTI);
+    TraceContextFormat fmt_b3m = TraceContextFormat::B3_MULTI;
+    auto ctx = sdk_.extractContextFromHeaders(headers, &fmt_b3m);
 
     ASSERT_TRUE(ctx);
     EXPECT_EQ(ctx->traceId(), "4bf92f3577b34da6a3ce929d0e0e4736");
@@ -180,8 +181,8 @@ TEST_F(DistributedTracingSDKTest, OrphanSpanRecovery) {
     std::map<std::string, std::string> empty_headers;
 
     // When no headers present, SDK should create a new root context
-    auto ctx = sdk_.extractContextFromHeaders(
-        empty_headers, &TraceContextFormat::W3C_TRACE_CONTEXT);
+    TraceContextFormat fmt_w3c = TraceContextFormat::W3C_TRACE_CONTEXT;
+    auto ctx = sdk_.extractContextFromHeaders(empty_headers, &fmt_w3c);
 
     ASSERT_TRUE(ctx);
     EXPECT_FALSE(ctx->traceId().empty());
@@ -201,8 +202,8 @@ TEST_F(DistributedTracingSDKTest, ConcurrentContextPropagation) {
             ctx = ctx->withBaggage("thread_id", std::to_string(i));
 
             auto headers = ctx->toHttpHeaders(TraceContextFormat::W3C_TRACE_CONTEXT);
-            auto extracted = sdk_.extractContextFromHeaders(
-                headers, &TraceContextFormat::W3C_TRACE_CONTEXT);
+            TraceContextFormat fmt_w3c = TraceContextFormat::W3C_TRACE_CONTEXT;
+            auto extracted = sdk_.extractContextFromHeaders(headers, &fmt_w3c);
 
             {
                 std::lock_guard<std::mutex> lock(contexts_mutex);
@@ -222,8 +223,8 @@ TEST_F(DistributedTracingSDKTest, ConcurrentContextPropagation) {
 TEST_F(DistributedTracingSDKTest, EmptyHeadersHandling) {
     std::map<std::string, std::string> empty_headers;
 
-    auto ctx = sdk_.extractContextFromHeaders(
-        empty_headers, &TraceContextFormat::W3C_TRACE_CONTEXT);
+    TraceContextFormat fmt_w3c = TraceContextFormat::W3C_TRACE_CONTEXT;
+    auto ctx = sdk_.extractContextFromHeaders(empty_headers, &fmt_w3c);
 
     // Should create new root context
     ASSERT_TRUE(ctx);
@@ -234,8 +235,8 @@ TEST_F(DistributedTracingSDKTest, MalformedTraceparentHandling) {
     std::map<std::string, std::string> headers;
     headers["traceparent"] = "invalid-format-here";
 
-    auto ctx = sdk_.extractContextFromHeaders(
-        headers, &TraceContextFormat::W3C_TRACE_CONTEXT);
+    TraceContextFormat fmt_w3c = TraceContextFormat::W3C_TRACE_CONTEXT;
+    auto ctx = sdk_.extractContextFromHeaders(headers, &fmt_w3c);
 
     // Should fall back to new root context
     ASSERT_TRUE(ctx);

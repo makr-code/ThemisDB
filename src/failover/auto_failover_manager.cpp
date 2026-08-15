@@ -84,14 +84,11 @@ bool AutoFailoverManager::stop() {
         // Adding 500ms margin for safety = 1 second total
         auto remaining = std::chrono::duration_cast<std::chrono::milliseconds>(
             monitoring_deadline - std::chrono::steady_clock::now());
-        if (remaining.count() > 0) {
-            // Best-effort: standard join() has no timeout in C++, but we've
-            // ensured thread exits via condition_variable and running_ flag.
-            monitoring_thread_.join();
-            spdlog::debug("Monitoring thread joined successfully");
-        } else {
-            spdlog::warn("Monitoring thread join deadline exceeded (timeout protection)");
+        if (remaining.count() <= 0) {
+            spdlog::warn("Monitoring thread join deadline already exceeded; joining anyway to prevent std::terminate()");
         }
+        monitoring_thread_.join();
+        spdlog::debug("Monitoring thread joined successfully");
     }
     
     if (failover_thread_.joinable()) {
@@ -99,14 +96,11 @@ bool AutoFailoverManager::stop() {
         // Adding 1s margin for safety = 2 seconds total
         auto remaining = std::chrono::duration_cast<std::chrono::milliseconds>(
             failover_deadline - std::chrono::steady_clock::now());
-        if (remaining.count() > 0) {
-            // Best-effort: standard join() has no timeout in C++, but we've
-            // ensured thread exits via condition_variable and running_ flag.
-            failover_thread_.join();
-            spdlog::debug("Failover thread joined successfully");
-        } else {
-            spdlog::warn("Failover thread join deadline exceeded (timeout protection)");
+        if (remaining.count() <= 0) {
+            spdlog::warn("Failover thread join deadline already exceeded; joining anyway to prevent std::terminate()");
         }
+        failover_thread_.join();
+        spdlog::debug("Failover thread joined successfully");
     }
 
     transitionState(FailoverOrchestratorState::IDLE);
@@ -137,13 +131,15 @@ bool AutoFailoverManager::triggerManualFailover(
         std::lock_guard<std::mutex> lock(failover_mutex_);
         
         // CRITICAL FIX: missing_version_tracking (CRIT-002)
-        // Snapshot config_.max_concurrent_failovers under monitor_mutex_ to prevent
-        // data races with concurrent updateConfig() calls. This ensures version coherence
-        // across all config accesses in this method.
+        // Snapshot config_.max_concurrent_failovers and config_.queue_pressure_threshold
+        // under monitor_mutex_ to prevent data races with concurrent updateConfig() calls.
+        // This ensures version coherence across all config accesses in this method.
         uint32_t max_concurrent;
+        float queue_pressure_threshold;
         {
             std::lock_guard<std::mutex> config_lock(monitor_mutex_);
             max_concurrent = config_.max_concurrent_failovers;
+            queue_pressure_threshold = config_.queue_pressure_threshold;
         }
         
         if (failover_queue_.size() >= max_concurrent) {
@@ -167,7 +163,7 @@ bool AutoFailoverManager::triggerManualFailover(
         // Compute fill ratio once under the failover lock for consistency
         float fill_ratio = static_cast<float>(depth) /
                            static_cast<float>(max_concurrent);
-        bool over_threshold = fill_ratio >= config_.queue_pressure_threshold;
+        bool over_threshold = fill_ratio >= queue_pressure_threshold;
 
         // Update queue-depth and pressure telemetry atomically
         {
@@ -785,6 +781,9 @@ void AutoFailoverManager::emitDiagnostic(FailoverErrorCode code,
     } catch (const std::exception& e) {
         // Final fallback: log only (exception-safe guarantee maintained)
         spdlog::critical("CRITICAL: Exception in emitDiagnostic (should never occur): {}", e.what());
+    } catch (...) {
+        // Catch-all to uphold noexcept contract; non-std exceptions must not escape.
+        spdlog::critical("CRITICAL: Unknown exception in emitDiagnostic");
     }
 }
 
@@ -800,11 +799,17 @@ void AutoFailoverManager::emitEvent(FailoverEventType type,
             } catch (const std::exception& e) {
                 spdlog::error("Error in failover event callback: {}", e.what());
                 // Continue with remaining callbacks
+            } catch (...) {
+                spdlog::error("Unknown exception in failover event callback");
+                // Continue with remaining callbacks
             }
         }
     } catch (const std::exception& e) {
         // Catch lock acquisition failures (should be rare)
         spdlog::error("Error in emitEvent: {}", e.what());
+    } catch (...) {
+        // Catch-all to uphold noexcept contract; non-std exceptions must not escape.
+        spdlog::error("Unknown exception in emitEvent");
     }
 }
 

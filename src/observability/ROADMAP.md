@@ -139,7 +139,7 @@ Production observability runtime exists across metrics, tracing, profiling, aler
     - **ORE-GATE-06**: Hint resolution under load P95 ≤ 100µs
   - Deterministic seeding: kObservabilityPhase5Seed = 42
   - Repetitions: 5 for p95/p99 stability
-  - Status: ALL GATES PASS ✅
+  - Status: 5/6 GATES PASS; ORE-GATE-06 (hint resolution under load) MARGINAL at 64K/sec vs 100K/sec target — optimization tracked for v2.5.0
 
 - [x] **Performance Baselines Locked**
   - Lock latency P95/P99 envelopes on develop branch

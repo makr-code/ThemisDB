@@ -192,7 +192,9 @@ public:
 
         std::vector<Observation> all_observations;
         all_observations.reserve(
-            (config.metrics_per_second + config.spans_per_second) * config.duration_seconds);
+            (static_cast<std::size_t>(config.metrics_per_second) +
+             static_cast<std::size_t>(config.spans_per_second)) *
+            static_cast<std::size_t>(config.duration_seconds));
 
         // Generate metric and span observations
         {

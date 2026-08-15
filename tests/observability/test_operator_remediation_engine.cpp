@@ -17,6 +17,7 @@
 
 #include "gtest/gtest.h"
 #include "observability/operator_remediation_engine.h"
+#include <mutex>
 #include <thread>
 #include <vector>
 #include <map>
