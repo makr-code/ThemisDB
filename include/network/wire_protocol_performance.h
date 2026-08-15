@@ -286,7 +286,8 @@ private:
     const size_t slab_size_;
     const size_t pool_depth_;
 
-    mutable std::mutex                      pool_mutex_;
+    // R16: Use timed_mutex to support try_lock_for() timeout enforcement
+    mutable std::timed_mutex                 pool_mutex_;
     std::vector<std::unique_ptr<Buffer>>    idle_slabs_;
 
     std::atomic<uint64_t> hit_count_{0};

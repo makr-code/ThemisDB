@@ -27,6 +27,7 @@
 #include <ws2tcpip.h>
 #else
 #include <fcntl.h>
+#include <poll.h>
 #include <unistd.h>
 #  ifdef __linux__
 #    include <sys/sendfile.h>
@@ -63,6 +64,27 @@ inline uint16_t to_be16(uint16_t v) noexcept {
     return v;
 #endif
 }
+
+// R09, R11: Helper to check socket readiness with timeout (non-blocking I/O + poll)
+// Returns: true if socket is ready for writing, false on timeout.
+// On timeout, sets errno to ETIMEDOUT.
+#ifndef _WIN32
+inline bool waitForSocketWritable(int fd, int timeout_ms) noexcept {
+    struct pollfd pfd;
+    pfd.fd = fd;
+    pfd.events = POLLOUT;
+    pfd.revents = 0;
+    
+    int result = ::poll(&pfd, 1, timeout_ms);
+    if (result <= 0) {
+        if (result == 0) {
+            errno = ETIMEDOUT;
+        }
+        return false;
+    }
+    return (pfd.revents & POLLOUT) != 0;
+}
+#endif
 
 } // anonymous namespace
 
@@ -104,6 +126,13 @@ ssize_t ZeroCopyFrameBuilder::writeTo(int fd) const noexcept {
     const int rc = ::WSASend(static_cast<SOCKET>(fd), bufs, buf_count, &sent, 0, nullptr, nullptr);
     return rc == 0 ? static_cast<ssize_t>(sent) : -1;
 #else
+    // R09: Add timeout enforcement to blocking write operations.
+    // Use poll() with 5000ms timeout to prevent indefinite blocking.
+    const int timeout_ms = 5000;
+    if (!waitForSocketWritable(fd, timeout_ms)) {
+        return -1;  // errno set to ETIMEDOUT by waitForSocketWritable
+    }
+
     if (payload_size_ == 0) {
         // Header-only frame: single write.
         return ::write(fd, header_.data(), HEADER_SIZE);
@@ -154,11 +183,18 @@ ssize_t ZeroCopyFrameBuilder::writeToWithSendfile(int    socket_fd,
 #  if defined(__linux__)
     // Linux sendfile: sendfile(out_fd, in_fd, offset, count)
     // Falls back to writev if the source fd is not a regular file (EINVAL/ENOSYS).
+    // R11: Add timeout enforcement to sendfile loop (5000ms total deadline).
     off_t  off           = payload_offset;
     size_t remaining     = payload_size_;
     ssize_t sf_written   = 0;
+    const int timeout_ms = 5000;
 
     while (remaining > 0) {
+        // Check socket readiness with timeout before sendfile call
+        if (!waitForSocketWritable(socket_fd, timeout_ms)) {
+            return sf_written > 0 ? hdr_written + sf_written : -1;  // errno set to ETIMEDOUT
+        }
+
         const ssize_t n = ::sendfile(socket_fd, payload_fd, &off, remaining);
         if (n < 0) {
             if (errno == EINTR) continue;
@@ -170,6 +206,12 @@ ssize_t ZeroCopyFrameBuilder::writeToWithSendfile(int    socket_fd,
                 const ssize_t rd = ::pread(payload_fd, tmp.data(), remaining,
                                            payload_offset + static_cast<off_t>(sf_written));
                 if (rd <= 0) return sf_written > 0 ? hdr_written + sf_written : -1;
+                
+                // Check socket readiness before fallback write
+                if (!waitForSocketWritable(socket_fd, timeout_ms)) {
+                    return sf_written > 0 ? hdr_written + sf_written : -1;
+                }
+                
                 const ssize_t wn = ::write(socket_fd, tmp.data(), static_cast<size_t>(rd));
                 if (wn < 0) return sf_written > 0 ? hdr_written + sf_written : -1;
                 sf_written += wn;

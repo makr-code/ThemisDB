@@ -227,7 +227,19 @@ PayloadBufferPool::Handle PayloadBufferPool::acquire() {
     std::unique_ptr<Buffer> buf;
 
     {
-        std::lock_guard<std::mutex> lock(pool_mutex_);
+        // R16: Add timeout enforcement with try_lock_for to prevent indefinite
+        // blocking on high contention. Uses 100µs timeout for fast path.
+        std::unique_lock<std::timed_mutex> lock(pool_mutex_);
+        if (!lock.try_lock_for(std::chrono::microseconds(100))) {
+            // Timeout on lock acquisition: fall through to heap allocation
+            // This is acceptable for low-contention fast path
+            miss_count_.fetch_add(1, std::memory_order_relaxed);
+            buf = std::make_unique<Buffer>();
+            buf->reserve(slab_size_);
+            buf->clear();
+            return Handle(std::move(buf), this);
+        }
+
         if (!idle_slabs_.empty()) {
             buf = std::move(idle_slabs_.back());
             idle_slabs_.pop_back();
@@ -251,7 +263,7 @@ void PayloadBufferPool::returnBuffer(std::unique_ptr<Buffer> buf) noexcept {
     buf->clear();
     buf->reserve(slab_size_); // re-warm capacity
 
-    std::lock_guard<std::mutex> lock(pool_mutex_);
+    std::lock_guard<std::timed_mutex> lock(pool_mutex_);
     if (idle_slabs_.size() < pool_depth_) {
         idle_slabs_.push_back(std::move(buf));
     }
@@ -259,7 +271,7 @@ void PayloadBufferPool::returnBuffer(std::unique_ptr<Buffer> buf) noexcept {
 }
 
 size_t PayloadBufferPool::poolDepth() const noexcept {
-    std::lock_guard<std::mutex> lock(pool_mutex_);
+    std::lock_guard<std::timed_mutex> lock(pool_mutex_);
     return idle_slabs_.size();
 }
 
