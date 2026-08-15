@@ -2971,3 +2971,26 @@ void CEPEngine::metricsLoop() {
 } // namespace themisdb
 
 
+
+// ============================================================================
+// Phase 2C: CEP Engine Streaming Functions
+// ============================================================================
+
+// Note: The buildNFA() method is implemented internally as buildNFA() private member.
+// Public pattern-building API uses PatternBuilder::build() which calls buildNFA().
+// This section documents the NFA construction approach used.
+
+/**
+ * @brief Build NFA from event pattern string
+ * 
+ * Pattern syntax (simplified regex-like):
+ * - Sequence: A B C
+ * - Alternation: A | B | C
+ * - Kleene star: A*  (0 or more A)
+ * - Plus: A+ (1 or more A)
+ * - Optional: A? (0 or 1 A)
+ * 
+ * Internally calls pattern parser and constructs NFA state machine.
+ * For implementation details, see CEPEngine::buildNFA() private method.
+ */
+

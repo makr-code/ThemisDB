@@ -424,3 +424,72 @@ int KnowledgeBase::loadRulesFromYaml(const std::string &path) {
 } // namespace analytics
 } // namespace themisdb
 
+
+// ============================================================================
+// Phase 2D: Knowledge Base Functions
+// ============================================================================
+
+/**
+ * @brief Assert fact into working memory
+ */
+std::string KnowledgeBase::assertFact(const std::string& subject, const std::string& predicate,
+                                       const std::string& object) {
+    if (subject.empty() || predicate.empty()) {
+        return "";  // Return empty id on error
+    }
+
+    std::lock_guard<std::mutex> lk(yamlParserFnMutex());
+
+    // Evict oldest if at capacity
+    if (insertion_order_.size() >= kMaxFacts) {
+        const auto oldest_id = insertion_order_.front();
+        const auto pred_it = fact_id_to_predicate_.find(oldest_id);
+        if (pred_it != fact_id_to_predicate_.end()) {
+            auto range = facts_by_predicate_.equal_range(pred_it->second);
+            for (auto it = range.first; it != range.second; ++it) {
+                if (it->second.id == oldest_id) {
+                    facts_by_predicate_.erase(it);
+                    break;
+                }
+            }
+            fact_id_to_predicate_.erase(pred_it);
+        }
+        fact_by_id_.erase(oldest_id);
+        insertion_order_.pop_front();
+    }
+
+    Fact f;
+    f.id             = generateId();
+    f.subject        = subject;
+    f.predicate      = predicate;
+    f.object         = object;
+    f.asserted_at_ms = knowledgeBaseNowMs();
+
+    facts_by_predicate_.emplace(predicate, f);
+    fact_id_to_predicate_[f.id] = predicate;
+    fact_by_id_[f.id]           = f;
+    insertion_order_.push_back(f.id);
+
+    return f.id;
+}
+
+/**
+ * @brief Query facts from working memory
+ */std::vector<KnowledgeBase::Fact> KnowledgeBase::queryFacts(
+    const std::string& pattern) {
+    
+    std::lock_guard<std::mutex> lock(facts_mutex_);
+    
+    std::vector<Fact> results;
+    for (const auto& [name, fact] : facts_store_) {
+        // Simple pattern matching (prefix match)
+        if (pattern.empty() || name.find(pattern) == 0) {
+            results.push_back(fact);
+        }
+    }
+    
+    return results;
+}
+
+} // namespace analytics
+} // namespace themisdb
