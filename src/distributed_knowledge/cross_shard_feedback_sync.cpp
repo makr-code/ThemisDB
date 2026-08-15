@@ -37,7 +37,7 @@ CrossShardFeedbackSync::CrossShardFeedbackSync(
     }
 }
 
-CrossShardFeedbackSync::~CrossShardFeedbackSync() = default;
+CrossShardFeedbackSync::~CrossShardFeedbackSync() noexcept = default;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // publishFeedback
@@ -74,9 +74,12 @@ void CrossShardFeedbackSync::publishFeedback(FeedbackSummary summary) {
         // silently skip and increment the skipped counter instead of propagating.
         try {
             gossip_message_fn_(std::move(payload));
-        } catch (...) {
+        } catch (const std::exception& e) {
             std::lock_guard<std::mutex> lk(mutex_);
             ++skipped_publish_count_;
+            // Note: gossip_message_fn_ may throw std::exception or derived types
+            // on backpressure/network conditions. We handle gracefully by tracking
+            // the skip without propagating to the caller.
         }
     }
 }

@@ -32,7 +32,7 @@ LoRAFederationCoordinator::LoRAFederationCoordinator(FederationConfig config) : 
     }
 }
 
-LoRAFederationCoordinator::~LoRAFederationCoordinator() = default;
+LoRAFederationCoordinator::~LoRAFederationCoordinator() noexcept = default;
 
 LoRAFederationCoordinator::LoRAFederationCoordinator(LoRAFederationCoordinator &&other) noexcept
     : config_(std::move(other.config_)), current_round_(other.current_round_),
@@ -107,8 +107,10 @@ void LoRAFederationCoordinator::submitGradient(const EncryptedGradient &gradient
         std::optional<GlobalAdapterDelta> preview_delta;
         try {
             preview_delta = doAggregation();
-        } catch (...) {
+        } catch (const std::exception& e) {
             // Keep current round state; preview failures are surfaced on explicit trigger.
+            // Log but do not rethrow: preview aggregations are opportunistic and failures
+            // should not affect the submitted state.
         }
 
         const uint64_t preview_filtered = total_gradients_filtered_;

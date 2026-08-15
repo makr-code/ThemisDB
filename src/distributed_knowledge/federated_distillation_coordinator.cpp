@@ -64,7 +64,7 @@ FederatedDistillationCoordinator::FederatedDistillationCoordinator(DistillationC
     }
 }
 
-FederatedDistillationCoordinator::~FederatedDistillationCoordinator() = default;
+FederatedDistillationCoordinator::~FederatedDistillationCoordinator() noexcept = default;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // IFederatedDistillationCoordinator — submitSoftLabels

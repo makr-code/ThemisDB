@@ -146,10 +146,12 @@ public:
         std::string                     local_shard_id,
         std::function<void(nlohmann::json)> gossip_message_fn);
 
-    ~CrossShardFeedbackSync();
+    ~CrossShardFeedbackSync() noexcept;
 
     CrossShardFeedbackSync(const CrossShardFeedbackSync&)            = delete;
     CrossShardFeedbackSync& operator=(const CrossShardFeedbackSync&) = delete;
+    CrossShardFeedbackSync(CrossShardFeedbackSync&&)                 = default;
+    CrossShardFeedbackSync& operator=(CrossShardFeedbackSync&&)      noexcept;
 
     // ── Publishing ───────────────────────────────────────────────────────────
 
@@ -175,6 +177,8 @@ public:
      * registered callback if the summary is new.
      *
      * @param payload  JSON payload from the gossip message.
+     * @throws std::runtime_error when ZeroTrust enforcer rejects the summary
+     *         (high-risk context).
      */
     void handleInboundSummary(const nlohmann::json& payload);
 

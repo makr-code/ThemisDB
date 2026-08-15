@@ -177,7 +177,7 @@ struct DistillationConfig {
  */
 class IFederatedDistillationCoordinator {
 public:
-    virtual ~IFederatedDistillationCoordinator() = default;
+    virtual ~IFederatedDistillationCoordinator() noexcept = default;
 
     /**
      * @brief Teacher submits soft labels for the current round.
@@ -185,6 +185,7 @@ public:
      * @param teacher_id  Teacher model identifier.
      * @param labels      Temperature-scaled predictions (one per shared query).
      * @throws std::runtime_error on budget exhaustion or policy rejection.
+     * @throws std::invalid_argument if labels or teacher_id is empty.
      */
     virtual void submitSoftLabels(const std::string& teacher_id,
                                   std::vector<SoftLabel> labels) = 0;
@@ -193,7 +194,8 @@ public:
      * @brief Broadcast DP-protected labels to all registered student callbacks.
      *
      * @return The `DistillationRound` that was broadcast.
-     * @throws std::runtime_error when no labels have been submitted this round.
+     * @throws std::runtime_error when no labels have been submitted this round
+     *         or policy gate rejects the broadcast.
      */
     virtual DistillationRound broadcastToStudents() = 0;
 
@@ -266,10 +268,12 @@ public:
         std::function<bool(uint64_t round, const std::string& teacher_id)>;
 
     explicit FederatedDistillationCoordinator(DistillationConfig cfg = {});
-    ~FederatedDistillationCoordinator() override;
+    ~FederatedDistillationCoordinator() noexcept override;
 
     FederatedDistillationCoordinator(const FederatedDistillationCoordinator&)            = delete;
     FederatedDistillationCoordinator& operator=(const FederatedDistillationCoordinator&) = delete;
+    FederatedDistillationCoordinator(FederatedDistillationCoordinator&&)                 = default;
+    FederatedDistillationCoordinator& operator=(FederatedDistillationCoordinator&&)      noexcept;
 
     // ── IFederatedDistillationCoordinator ─────────────────────────────────────
 

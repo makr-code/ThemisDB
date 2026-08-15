@@ -182,5 +182,35 @@ inline constexpr std::size_t kMaxPathQueryResults = 1'000;
 /// Expected maximum propagation delay for an entity write across the cluster.
 inline constexpr std::chrono::seconds kExpectedPropagationDelay{5};
 
+// ============================================================================
+// § 7  Exception Safety Contract
+//
+// All destructors in the distributed_knowledge module are noexcept and may not
+// throw under any circumstances. Violations cause std::terminate().
+// ============================================================================
+
+/**
+ * @brief Exception safety guarantees for distributed_knowledge components.
+ *
+ * **ILoRAFederationCoordinator & LoRAFederationCoordinator:**
+ *  - submitGradient(): weak exception safety; state reverted on throw
+ *  - triggerAggregation(): strong exception safety; no state change on throw
+ *  - Exceptions: std::runtime_error (budget exhausted, policy violation)
+ *
+ * **IFederatedDistillationCoordinator & FederatedDistillationCoordinator:**
+ *  - submitSoftLabels(): weak exception safety
+ *  - broadcastToStudents(): strong exception safety
+ *  - Exceptions: std::runtime_error (policy, budget), std::invalid_argument
+ *
+ * **CrossShardFeedbackSync:**
+ *  - publishFeedback(): weak exception safety (increments counter on backpressure)
+ *  - handleInboundSummary(): strong exception safety
+ *  - Exceptions: std::invalid_argument (dimension), std::runtime_error (ZeroTrust)
+ *
+ * **Destructor Contract:**
+ *  All user-defined destructors in distributed_knowledge are marked noexcept.
+ *  No destructor in this module may throw; if it does, std::terminate() is called.
+ */
+
 } // namespace distributed_knowledge
 } // namespace themis

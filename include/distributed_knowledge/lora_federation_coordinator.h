@@ -242,11 +242,11 @@ public:
      * @param config  Federation configuration.
      */
     explicit LoRAFederationCoordinator(FederationConfig config = {});
-    ~LoRAFederationCoordinator() override;
+    ~LoRAFederationCoordinator() noexcept override;
 
     LoRAFederationCoordinator(const LoRAFederationCoordinator&)            = delete;
     LoRAFederationCoordinator& operator=(const LoRAFederationCoordinator&) = delete;
-    LoRAFederationCoordinator(LoRAFederationCoordinator&&)                 noexcept;
+    LoRAFederationCoordinator(LoRAFederationCoordinator&&)                 = default;
     LoRAFederationCoordinator& operator=(LoRAFederationCoordinator&&)      noexcept;
 
     // ── ILoRAFederationCoordinator ───────────────────────────────────────────
