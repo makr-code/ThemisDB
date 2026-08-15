@@ -175,7 +175,75 @@ If a post-tag regression is discovered within the controlled promotion window:
 
 ---
 
-## 8.1 Phase 2+3 Security Hardening (Q4 2026 Release Target)
+## 8.1 Content Module Batch 5 — GA Documentation & Quality Gates (v2.4.0 GA)
+
+**Scope:** Content Module finalization tasks CMT-7504/7505/7506 for v2.4.0 GA closure  
+**Date Initiated:** 2026-08-15  
+**Target Completion:** 2026-09-22 (v2.4.0 GA)  
+**Status:** 🟡 Phase 2 In Progress (Core Implementation)
+
+### Batch 5 Gate Framework
+
+| CMT Task | Focus | Deliverables | Evidence | Phase | Status |
+|----------|-------|-----------------|----------|-------|--------|
+| CMT-7504 | Module Documentation Linkset Sync | ROADMAP.md, FUTURE_ENHANCEMENTS.md, README.md, processor docs cross-check | `src/content/CMT-7504-DOCUMENTATION_SYNC.md` | 2 | [ ] Phase 2 |
+| CMT-7505 | Test Coverage Correlation | Batch 1-4 gap-to-test mapping (450 items); >= 95% correlation | `src/content/CMT-7505-TEST_COVERAGE_CORRELATION.md`, `ctest --preset community-release -L content` PASS | 2-4 | [ ] Phase 2-4 |
+| CMT-7506 | GA Promotion Sign-Off | Pre-requisite tracking, sign-off checklist completion | `docs/governance/GA_PROMOTION_SIGN_OFF.md § 8.1`, approval record | 2-4 | [ ] Phase 2-4 |
+
+### Batch 5 Acceptance Criteria (v2.4.0 GA Promotion)
+
+- [ ] CMT-7504-01: ROADMAP.md updated with current processor inventory (44 files) and Batch 5 items
+- [ ] CMT-7504-02: FUTURE_ENHANCEMENTS.md updated with deferred features from CMT-7502 TODO scan
+- [ ] CMT-7504-03: Cross-check phase status consistency across 4 docs (ROADMAP/FUTURE_ENHANCEMENTS/README/processor design docs)
+- [ ] CMT-7504-04: Automated linkset validation placeholder added to CI (broken anchor detection)
+- [ ] CMT-7505-01: Batch 1-4 remediation items aggregated (CRITICAL 48 + HIGH 402 = 450 total)
+- [ ] CMT-7505-02: For each fix, corresponding test in `tests/content/` verified or created
+- [ ] CMT-7505-03: `ctest --preset community-release -L content` validation PASS (all test files)
+- [ ] CMT-7505-04: Test coverage report generated showing gap-to-test mapping (target >= 95%)
+- [ ] CMT-7506: All pre-requisites (Batches 1-4, CMT-7500–7503) verified as delivered
+- [ ] CMT-7506: Two-reviewer approval (Code Review + Architecture)
+- [ ] All content module CI/CD green (`release_critical` label)
+- [ ] Content module maturity score >= 85/100
+
+### Phase 2 Deliverables (In Progress: 2026-08-15)
+
+- [x] ROADMAP.md Phase 6B section added with CMT task structure
+- [x] FUTURE_ENHANCEMENTS.md updated with Batch 5 scope and deferred features
+- [x] CMT-7505-TEST_COVERAGE_CORRELATION.md created with Batch 1-4 inventory placeholder
+- [ ] CMT-7504-DOCUMENTATION_SYNC.md created with cross-reference validation
+- [ ] Batch 1-4 gap inventory aggregated to `src/content/CMT-7505-BATCH14_INVENTORY.json`
+- [ ] Test coverage matrix updated with gap-to-test mappings
+
+### Phase 3 Deliverables (Pending: Error Handling & Edge Cases)
+
+- [ ] Markdown-link-check validation executed against all `src/content/*.md` files
+- [ ] Anchor consistency validation across ROADMAP/FUTURE_ENHANCEMENTS/README/processor docs
+- [ ] Broken cross-references repaired (if any found)
+- [ ] `ctest --preset community-release -L content` executed; test log collected
+- [ ] Failing tests identified and remediateed; correlation to gap fixes verified
+
+### Phase 4 Deliverables (Pending: Tests & Verification)
+
+- [ ] CI check for broken markdown links added or verified in `.github/workflows/doc-validation.yml`
+- [ ] Doxygen anchor consistency check implemented or verified
+- [ ] Test coverage report generated (gap-to-test mapping matrix, coverage %)
+- [ ] Coverage >= 95% verified across all batch deliverables
+- [ ] Two-reviewer approval obtained (Code Review + Architecture)
+- [ ] Sign-off record at `docs/governance/GA_PROMOTION_SIGN_OFF.md § 8.1` with human attestation
+
+### Evidence Artefacts
+
+| Artefact | Location | Gate(s) |
+|----------|----------|---------|
+| Content Module Batch 5 roadmap tasks | `src/content/ROADMAP.md` § Phase 6B | CMT-7504-01 |
+| Deferred features inventory | `src/content/FUTURE_ENHANCEMENTS.md` § Deferred Features from Batch 5 | CMT-7504-02 |
+| Test coverage correlation report | `src/content/CMT-7505-TEST_COVERAGE_CORRELATION.md` | CMT-7505 |
+| Batch 1-4 gap inventory | `src/content/CMT-7505-BATCH14_INVENTORY.json` | CMT-7505-01 |
+| Markdown link validation | `.github/workflows/doc-validation.yml` (CI step) | CMT-7504-04 (Phase 4) |
+
+---
+
+## 8.2 Phase 2+3 Security Hardening (Q4 2026 Release Target)
 
 **Scope:** Security Module Phase 2+3 hardening for v2.5.0-rc1  
 **Date Initiated:** 2026-08-07  

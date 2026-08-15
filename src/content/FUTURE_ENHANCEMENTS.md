@@ -1,7 +1,24 @@
 # Content Module - Future Enhancements
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
+<!-- Status: current | validated: 2026-08-15 -->
+<!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md · MODULE_GAPS_BATCH5.md -->
+
+## Scope
+
+- hardening and refinement of ingestion/extraction/enrichment runtime behavior
+- expansion of deterministic reliability under mixed-format and async-pressure scenarios
+- stricter benchmark-backed guardrails for content processing hot paths
+- Batch 5 finalization: documentation synchronization and production readiness gates for v2.4.0 GA
+
+## Deferred Features from Batch 5 (CMT-7502 TODO Scan)
+
+The following features are deferred past v2.4.0 GA; see `CONTENT_DEFERRED_FEATURES.md` for complete inventory:
+
+- **Optimization:** Replace linear search with hash table for 1000+ patterns in abuse_detector (Performance, Q4 2026)
+- **Feature Flag:** Add geospatial distance filtering when CUDA support available (Enhancement, Q4 2026)
+- **Vendor Integration:** Integrate with Cloudflare Abuse Database API (pending contract, Q4 2026)
+- **Archive:** Expand compression format support beyond ZIP/TAR (Enhancement, Q1 2027)
+- **OCR:** Add handwriting recognition for scanned documents (Enhancement, Q1 2027)
 
 ## Scope
 
