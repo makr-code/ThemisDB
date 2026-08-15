@@ -478,14 +478,14 @@ std::pair<bool, std::string> validateTestData(
  * @param alpha Level smoothing coefficient ∈ (0,1)
  * @param beta Trend smoothing coefficient ∈ (0,1); set to 0 for simple ES
  * @param gamma Seasonal smoothing coefficient ∈ (0,1); set to 0 for non-seasonal
- * @return Status::OK() on success; Status::Error(msg) on validation failure
+ * @return Pair of (success, error_message) — first element true on success
  * @throws std::invalid_argument if timeseries.size() < 2 or params out of range
  * 
  * @code
  *   ForecastModel model;
  *   std::vector<double> ts = { 100, 110, 120, 130 };
- *   auto status = exponentialSmoothing(model, ts, 0.3, 0.1, 0.0);
- *   if (status.first) {
+ *   auto [success, msg] = exponentialSmoothing(model, ts, 0.3, 0.1, 0.0);
+ *   if (success) {
  *       auto forecast = model.predict(2);  // Forecast 2 steps ahead
  *   }
  * @endcode

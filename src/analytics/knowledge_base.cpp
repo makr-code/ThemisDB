@@ -430,112 +430,47 @@ int KnowledgeBase::loadRulesFromYaml(const std::string &path) {
 // ============================================================================
 
 /**
- * @brief Parse YAML configuration via callback pattern
- * 
- * Delegates YAML parsing to injected callback function
- */
-Status KnowledgeBase::parseConfig(
-    const std::string& config_path,
-    const std::function<nlohmann::json(const std::string&)>& parser_fn) {
-    
-    if (!parser_fn) {
-        return Status::Error("YAML parser callback not set");
-    }
-    
-    try {
-        // Read file
-        std::ifstream file(config_path);
-        if (!file.is_open()) {
-            return Status::Error("Cannot open config file: " + config_path);
-        }
-        std::string content((std::istreambuf_iterator<char>(file)),
-                           std::istreambuf_iterator<char>());
-        
-        // Parse via callback
-        auto config_json = parser_fn(content);
-        
-        // Load configuration fields
-        if (config_json.contains("rules")) {
-            config_.num_rules = config_json["rules"].size();
-        }
-        if (config_json.contains("facts")) {
-            config_.max_facts = config_json["facts"].get<int>();
-        }
-        
-        return Status::OK();
-    } catch (const std::exception& e) {
-        return Status::Error(std::string("Config parse error: ") + e.what());
-    }
-}
-
-/**
- * @brief Parse template specifications from YAML
- */
-Status KnowledgeBase::parseTemplates(
-    const std::string& templates_path,
-    const std::function<nlohmann::json(const std::string&)>& parser_fn) {
-    
-    if (!parser_fn) {
-        return Status::Error("YAML parser callback not set");
-    }
-    
-    try {
-        // Read file
-        std::ifstream file(templates_path);
-        if (!file.is_open()) {
-            return Status::Error("Cannot open templates file: " + templates_path);
-        }
-        std::string content((std::istreambuf_iterator<char>(file)),
-                           std::istreambuf_iterator<char>());
-        
-        // Parse via callback
-        auto templates_json = parser_fn(content);
-        
-        // Process each template
-        for (const auto& template_item : templates_json) {
-            if (template_item.contains("id") && template_item.contains("rules")) {
-                // Store template metadata
-                templates_cache_[template_item["id"]] = template_item;
-            }
-        }
-        
-        return Status::OK();
-    } catch (const std::exception& e) {
-        return Status::Error(std::string("Template parse error: ") + e.what());
-    }
-}
-
-/**
  * @brief Assert fact into working memory
  */
-Status KnowledgeBase::assertFact(
-    const std::string& fact_name,
-    const std::map<std::string, std::string>& attributes) {
-    
-    if (fact_name.empty()) {
-        return Status::Error("Fact name cannot be empty");
+std::string KnowledgeBase::assertFact(const std::string& subject, const std::string& predicate,
+                                       const std::string& object) {
+    if (subject.empty() || predicate.empty()) {
+        return "";  // Return empty id on error
     }
-    
-    std::lock_guard<std::mutex> lock(facts_mutex_);
-    
-    // Check capacity
-    if (facts_store_.size() >= static_cast<size_t>(config_.max_facts)) {
-        // Evict oldest fact (FIFO)
-        if (!facts_store_.empty()) {
-            facts_store_.erase(facts_store_.begin());
+
+    std::lock_guard<std::mutex> lk(yamlParserFnMutex());
+
+    // Evict oldest if at capacity
+    if (insertion_order_.size() >= kMaxFacts) {
+        const auto oldest_id = insertion_order_.front();
+        const auto pred_it = fact_id_to_predicate_.find(oldest_id);
+        if (pred_it != fact_id_to_predicate_.end()) {
+            auto range = facts_by_predicate_.equal_range(pred_it->second);
+            for (auto it = range.first; it != range.second; ++it) {
+                if (it->second.id == oldest_id) {
+                    facts_by_predicate_.erase(it);
+                    break;
+                }
+            }
+            fact_id_to_predicate_.erase(pred_it);
         }
+        fact_by_id_.erase(oldest_id);
+        insertion_order_.pop_front();
     }
-    
-    // Store fact with timestamp
+
     Fact f;
-    f.name = fact_name;
-    f.attributes = attributes;
-    f.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-        std::chrono::system_clock::now().time_since_epoch()).count();
-    
-    facts_store_.insert({fact_name, f});
-    
-    return Status::OK();
+    f.id             = generateId();
+    f.subject        = subject;
+    f.predicate      = predicate;
+    f.object         = object;
+    f.asserted_at_ms = knowledgeBaseNowMs();
+
+    facts_by_predicate_.emplace(predicate, f);
+    fact_id_to_predicate_[f.id] = predicate;
+    fact_by_id_[f.id]           = f;
+    insertion_order_.push_back(f.id);
+
+    return f.id;
 }
 
 /**
