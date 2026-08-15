@@ -103,8 +103,9 @@ public:
     void rebuildOversubPartitions() {
         if (!oversubManager || vectorData.empty() || oversubBulkLoading_) return;
 
-        // Remove all existing partitions.
-        for (size_t pid : oversubManager->getAllPartitionIds()) {
+        // Phase 5: Snapshot partition IDs to avoid iterator invalidation during removal
+        const auto partIds = oversubManager->getAllPartitionIds();
+        for (size_t pid : partIds) {
             oversubManager->removePartition(pid);
         }
 
@@ -1051,7 +1052,14 @@ GPUVectorIndex::GPUVectorIndex(const Config& config)
     : pImpl(std::make_unique<Impl>(config)) {
 }
 
-GPUVectorIndex::~GPUVectorIndex() = default;
+// Phase 5: GPU destructor explicit cleanup with exception safety
+GPUVectorIndex::~GPUVectorIndex() noexcept {
+    try {
+        shutdown();
+    } catch (const std::exception& e) {
+        THEMIS_WARN("GPU cleanup failed (ignored): {}", e.what());
+    }
+}
 
 bool GPUVectorIndex::initialize(int dimension) {
     return pImpl->initialize(dimension);
