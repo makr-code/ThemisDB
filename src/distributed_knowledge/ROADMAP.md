@@ -40,6 +40,10 @@ Q3 2026 Status Update (2026-07-28):
 
 ## Implementation Phases
 
+**Note:** Implementation phases (Phase 1-6) are orthogonal to test scenario layers (Layer A-D):
+- **Phases 1-6** describe module development phases: design, implementation, error handling, testing, performance, documentation.
+- **Layers A-D** (in test files) describe federation workflow scenarios: domain routing (A), LoRA (B), RAG (C), RLAIF feedback (D).
+
 ### Phase 1: Design / API Contract
 - [x] freeze capability/federation/merge/sync contracts for active major line (Delivered: Q3 2026)
 - [x] define explicit distributed failure taxonomy for timeout/policy/privacy classes (Delivered: Q3 2026)
