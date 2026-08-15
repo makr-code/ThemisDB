@@ -1,16 +1,13 @@
 /**
  * @file content_manager.cpp
- * @brief Core content management system for ThemisDB, orchestrating processors, validators, and storage.
+ * @brief Core content management system orchestrating processors, validators, and storage.
  * @version 0.0.47
  * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 88/100 (Batch 5 verified; implementation completeness + test coverage)
- * @note Gap Status: Batches 1-4 remediation complete; C=0 (critical resolved), H=2 (high remaining in scope), M=44 (medium deferred to next release)
- * @note Batch Tracking: CMT-7501 (metadata verification), CMT-7505 (test coverage 94%)
- * @note Status: Production Ready; Full content lifecycle management (validate→process→store→retrieve) implemented
+ * @note Score: 84/100
+ * @note Gap Summary: total=8; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=4, C=1, H=2, M=5, L=0
+ * @note Status: Production Ready; Core orchestration complete; advanced caching deferred
  * @note This block is auto-generated and will be overwritten.
  */
-
-
 #include "content/content_manager.h"
 #include "content/content_type.h"
 #include "content/content_processor.h"

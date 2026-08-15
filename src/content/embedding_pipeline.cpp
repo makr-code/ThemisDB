@@ -1,15 +1,13 @@
 /**
  * @file embedding_pipeline.cpp
- * @brief Embedding generation and management pipeline for content vectorization and semantic search.
+ * @brief Embedding generation and management pipeline for content vectorization.
  * @version 0.0.15
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 91/100 (Batch 5 verified; MEDIUM gaps in batch processing efficiency)
- * @note Gap Status: Batches 1-4 complete; C=0 (none), H=0 (none), M=1 (batch efficiency, Batch 3 target)
- * @note Batch Tracking: CMT-7501 (metadata correction 100→91), CMT-7505 (test coverage 96%)
- * @note Status: Production Ready; Core embedding functionality stable; performance tuning deferred
+ * @note Maturity: 🟡 BETA
+ * @note Score: 73/100
+ * @note Gap Summary: total=13; TODO=2, Stub=1, Unimpl=1, Mock=1, Sim=0, Debt=2, C=1, H=3, M=7, L=0
+ * @note Status: Beta; Embedding pipeline scaffolding complete; model optimization and caching under test
  * @note This block is auto-generated and will be overwritten.
  */
-
 #include "content/embedding_pipeline.h"
 #include "content/content_metrics.h"
 #include "llm/embedded_llm.h"

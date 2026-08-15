@@ -1,26 +1,13 @@
 /**
  * @file archive_processor_enhancements.cpp
- * @brief Production-ready stub replacements for archive processing (Graph Phase 2.1 pattern)
+ * @brief Archive format processor (ZIP, TAR, 7Z, RAR) for nested content extraction.
  * @version 2.0.0
- * @date 2026-07-01
- * @note Implements defensive guards + real validation + THEMIS_* audit logging
- * @note Closes high-gap-count findings in archive content processing
- * 
- * ROADMAP ALIGNMENT:
- * - Wave A: Critical security gaps + missing error handling
- * - Q3 2026 BATCH 2: Stub replacements for content processors
- * - Target: 500+ server/llm module gaps closed
- * 
- * IMPLEMENTATION NOTES:
- * - Fail-closed behavior: rejects unsupported/malformed archives
- * - Zip bomb detection: compression ratio validation (max 100:1)
- * - Path traversal prevention: sanitizes archive member paths
- * - Thread-safety: atomic counters, mutex for shared state
- * - RAII compliance: std::unique_ptr for resource management
- * 
- * C++ STANDARDS: C++17 (auto, structured bindings, std::optional)
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 81/100
+ * @note Gap Summary: total=7; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=3, C=0, H=2, M=5, L=0
+ * @note Status: Production Ready; Archive enhancements (Graph Phase 2.1) stable; performance tuning deferred
+ * @note This block is auto-generated and will be overwritten.
  */
-
 #include "content/archive_processor.h"
 #include "utils/logger.h"
 #include <filesystem>

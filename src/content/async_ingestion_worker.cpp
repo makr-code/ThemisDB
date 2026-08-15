@@ -1,15 +1,13 @@
 /**
  * @file async_ingestion_worker.cpp
- * @brief Asynchronous content ingestion worker managing queue processing, retry logic, and error recovery.
+ * @brief Content processor module for async ingestion worker operations.
  * @version 0.0.47
  * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 87/100 (Batch 5 verified; CRITICAL/HIGH gaps in backpressure, error semantics)
- * @note Gap Status: Batches 1-4 in progress; C=1 (backpressure, Batch 1), H=3 (retry semantics, Batch 2), M=4 (edge cases, Batch 3)
- * @note Batch Tracking: CMT-7501 (metadata correction 100→87), CMT-7505 (test coverage 86%→94% target)
- * @note Status: Production Ready; Core ingestion loop functional; backpressure handling and advanced retry policies deferred to Batch 2
+ * @note Score: 87/100
+ * @note Gap Summary: total=8; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=4, C=1, H=3, M=4, L=0
+ * @note Status: Production Ready; Core ingestion loop functional; backpressure handling deferred
  * @note This block is auto-generated and will be overwritten.
  */
-
 #include "content/async_ingestion_worker.h"
 
 #include <chrono>

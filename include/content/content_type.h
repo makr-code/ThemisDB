@@ -16,6 +16,7 @@
 #include <vector>
 #include <memory>
 #include <functional>
+#include <optional>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -88,18 +89,21 @@ public:
     
     /**
      * @brief Lookup content type by MIME type
+     * @return Optional containing ContentType if found, nullopt otherwise
      */
-    const ContentType* getByMimeType(const std::string& mime_type) const;
+    std::optional<ContentType> getByMimeType(const std::string& mime_type) const;
     
     /**
      * @brief Lookup content type by file extension
+     * @return Optional containing ContentType if found, nullopt otherwise
      */
-    const ContentType* getByExtension(const std::string& extension) const;
+    std::optional<ContentType> getByExtension(const std::string& extension) const;
     
     /**
      * @brief Detect content type from blob (magic bytes)
+     * @return Optional containing ContentType if detected, nullopt otherwise
      */
-    const ContentType* detectFromBlob(const std::string& blob) const;
+    std::optional<ContentType> detectFromBlob(const std::string& blob) const;
     
     /**
      * @brief Get all types in a category

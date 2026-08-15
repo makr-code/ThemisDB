@@ -3,13 +3,11 @@
  * @brief Content deduplication engine using cryptographic hashing and similarity detection.
  * @version 0.0.15
  * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 91/100 (Batch 5 verified; CRITICAL gap in hash collision handling)
- * @note Gap Status: Batches 1-4 in progress; C=1 (collision edge case, Batch 1), H=0 (none), M=0 (none)
- * @note Batch Tracking: CMT-7501 (metadata correction 100→91), CMT-7505 (test coverage 98%)
- * @note Status: Production Ready; SHA256 deduplication 99.9% accurate; collision fallback handler pending Batch 1
+ * @note Score: 80/100
+ * @note Gap Summary: total=8; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=4, C=1, H=2, M=5, L=0
+ * @note Status: Production Ready; Hash-based dedup working; advanced similarity detection deferred
  * @note This block is auto-generated and will be overwritten.
  */
-
 #include "content/deduplication_checker.h"
 #include <algorithm>
 #include <cstdint>
