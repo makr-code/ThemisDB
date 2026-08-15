@@ -20,12 +20,6 @@ The following features are deferred past v2.4.0 GA; see `CONTENT_DEFERRED_FEATUR
 - **Archive:** Expand compression format support beyond ZIP/TAR (Enhancement, Q1 2027)
 - **OCR:** Add handwriting recognition for scanned documents (Enhancement, Q1 2027)
 
-## Scope
-
-- hardening and refinement of ingestion/extraction/enrichment runtime behavior
-- expansion of deterministic reliability under mixed-format and async-pressure scenarios
-- stricter benchmark-backed guardrails for content processing hot paths
-
 ## Design Constraints
 
 - content contracts remain backward compatible within major release line.
