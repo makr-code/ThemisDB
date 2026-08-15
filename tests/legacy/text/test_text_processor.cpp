@@ -23,10 +23,10 @@ protected:
 
 TEST_F(TextProcessorTest, ExtractPlainText) {
     std::string blob = "Hello, world! This is a test.";
-    const ContentType* type = ContentTypeRegistry::instance().getByMimeType("text/plain");
-    ASSERT_NE(type, nullptr);
+    auto type_opt = ContentTypeRegistry::instance().getByMimeType("text/plain");
+    ASSERT_TRUE(type_opt.has_value());
     
-    auto result = processor->extract(blob, *type);
+    auto result = processor->extract(blob, type_opt.value());
     
     ASSERT_TRUE(result.ok);
     EXPECT_EQ(result.text, "Hello, world! This is a test.");
@@ -36,9 +36,9 @@ TEST_F(TextProcessorTest, ExtractPlainText) {
 
 TEST_F(TextProcessorTest, ExtractNormalizesWhitespace) {
     std::string blob = "Hello,    world!  \n\n  This   is a test.";
-    const ContentType* type = ContentTypeRegistry::instance().getByMimeType("text/plain");
+    auto type_opt = ContentTypeRegistry::instance().getByMimeType("text/plain");
     
-    auto result = processor->extract(blob, *type);
+    auto result = processor->extract(blob, type_opt.value());
     
     ASSERT_TRUE(result.ok);
     // Multiple spaces should be normalized to single space
@@ -48,9 +48,9 @@ TEST_F(TextProcessorTest, ExtractNormalizesWhitespace) {
 
 TEST_F(TextProcessorTest, ExtractRemovesCarriageReturns) {
     std::string blob = "Hello,\r\nworld!\r\nThis is a test.";
-    const ContentType* type = ContentTypeRegistry::instance().getByMimeType("text/plain");
+    auto type_opt = ContentTypeRegistry::instance().getByMimeType("text/plain");
     
-    auto result = processor->extract(blob, *type);
+    auto result = processor->extract(blob, type_opt.value());
     
     ASSERT_TRUE(result.ok);
     // \r should be removed

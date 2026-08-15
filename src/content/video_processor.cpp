@@ -1,6 +1,6 @@
 /**
  * @file video_processor.cpp
- * @brief Video content processor for frame extraction, scene detection, and temporal analysis.
+ * @brief Content processor module for video processor operations.
  * @version 0.0.47
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 79/100

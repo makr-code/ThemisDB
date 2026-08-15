@@ -1,15 +1,13 @@
 /**
  * @file archive_processor.cpp
- * @brief Processes archive formats (ZIP, TAR, 7Z, RAR) for nested content extraction and security scanning.
+ * @brief Archive format processor (ZIP, TAR, 7Z, RAR) for nested content extraction.
  * @version 0.0.47
  * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 92/100 (Batch 5 verified; minor HIGH gaps in nested traversal)
- * @note Gap Status: Batches 1-4 in progress; C=0 (none), H=3 (nested decompression limits, Batch 2 target), M=6 (edge cases, Batch 3)
- * @note Batch Tracking: CMT-7501 (metadata verification 97→92), CMT-7505 (test coverage 96%)
- * @note Status: Production Ready; ZIP/TAR extraction functional; nested depth limits enforced; recursive bomb protection in place
+ * @note Score: 92/100
+ * @note Gap Summary: total=3; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=1, C=0, H=1, M=2, L=0
+ * @note Status: Production Ready; ZIP/TAR/7Z extraction functional; nested depth limits enforced
  * @note This block is auto-generated and will be overwritten.
  */
-
 #include "content/archive_processor.h"
 #include "utils/logger.h"
 #include <exception>

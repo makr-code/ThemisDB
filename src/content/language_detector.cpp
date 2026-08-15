@@ -1,15 +1,13 @@
 /**
  * @file language_detector.cpp
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief Language detection engine supporting 100+ languages with confidence scoring.
  * @version 0.0.15
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 86/100
- * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=0, L=0
- * @note Status: Production Ready
+ * @note Maturity: 🟡 BETA
+ * @note Score: 77/100
+ * @note Gap Summary: total=10; TODO=1, Stub=1, Unimpl=0, Mock=0, Sim=0, Debt=2, C=0, H=2, M=7, L=0
+ * @note Status: Beta; Multi-language detection working; script detection and confidence scoring under refinement
  * @note This block is auto-generated and will be overwritten.
  */
-
-
 #include "content/language_detector.h"
 
 #include <algorithm>

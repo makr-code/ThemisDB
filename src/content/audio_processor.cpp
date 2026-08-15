@@ -1,6 +1,6 @@
 /**
  * @file audio_processor.cpp
- * @brief Audio content processor for speech-to-text, speaker identification, and audio feature extraction.
+ * @brief Audio content processor for speech-to-text and acoustic feature extraction.
  * @version 0.0.47
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 86/100

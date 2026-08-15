@@ -1,6 +1,6 @@
 /**
  * @file mime_detector.cpp
- * @brief MIME type detection using magic bytes and content analysis.
+ * @brief MIME type detection using magic bytes and content-based classification.
  * @version 0.0.47
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 90/100

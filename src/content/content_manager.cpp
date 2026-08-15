@@ -1,6 +1,6 @@
 /**
  * @file content_manager.cpp
- * @brief Core content management system for ThemisDB, orchestrating processors, validators, and storage.
+ * @brief Core content management system orchestrating processors, validators, and storage.
  * @version 0.0.47
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 84/100

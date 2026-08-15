@@ -1,6 +1,6 @@
 /**
  * @file image_processor.cpp
- * @brief Image content processor with feature extraction, OCR, and visual analysis capabilities.
+ * @brief Image content processor with feature extraction, OCR, and visual analysis.
  * @version 0.0.47
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 85/100

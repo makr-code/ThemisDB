@@ -1,6 +1,6 @@
 /**
  * @file geo_processor.cpp
- * @brief Geospatial content processor for coordinate extraction, validation, and geographic reasoning.
+ * @brief Geospatial content processor for coordinate extraction and geographic reasoning.
  * @version 0.0.47
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 81/100
