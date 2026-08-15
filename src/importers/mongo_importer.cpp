@@ -509,7 +509,14 @@ json MongoDBImporter::getSourceSchema(const std::string& source_path) {
                              : configured_collection_;
     json col_arr = json::array();
     for (const auto& fname : field_order) {
-        col_arr.push_back({{"name", fname}, {"type", field_types.at(fname)}});
+        // PHASE-3A-FIX: Add bounds check before .at() to prevent exception throwing
+        auto it = field_types.find(fname);
+        if (it != field_types.end()) {
+            col_arr.push_back({{"name", fname}, {"type", it->second}});
+        } else {
+            // Fallback to string type if field not found in inferred types
+            col_arr.push_back({{"name", fname}, {"type", "string"}});
+        }
     }
     
     // PHASE-2-HARDENING: Include fallback indicator in schema metadata

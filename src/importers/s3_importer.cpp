@@ -427,8 +427,25 @@ json S3Importer::getSourceSchema(const std::string& source_path) {
 
         // Buffer the entire object (schema probing is done on the first few
         // lines, so the memory footprint is small for typical schema detection).
+        // PHASE-4-HARDENING: Add max size limit to prevent OOM on large objects.
+        // Schema detection only needs the first few KB anyway.
+        const size_t kMaxSchemaProbeSize = 10 * 1024 * 1024;  // 10 MB limit
         std::ostringstream oss;
-        oss << outcome.GetResult().GetBody().rdbuf();
+        size_t bytes_read = 0;
+         
+        auto& body_stream = outcome.GetResult().GetBody();
+        char buffer[8192];
+        while (body_stream.read(buffer, sizeof(buffer)) || body_stream.gcount() > 0) {
+            size_t to_write = body_stream.gcount();
+            if (bytes_read + to_write > kMaxSchemaProbeSize) {
+                THEMIS_WARN("S3 object schema probe exceeds {} MB limit; truncating",
+                            kMaxSchemaProbeSize / (1024*1024));
+                to_write = kMaxSchemaProbeSize - bytes_read;
+            }
+            oss.write(buffer, to_write);
+            bytes_read += to_write;
+            if (bytes_read >= kMaxSchemaProbeSize) break;
+        }
         std::string content = oss.str();
 
         // Write to a temporary in-memory stream and probe via FlatFileImporter.

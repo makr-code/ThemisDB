@@ -175,7 +175,17 @@ bool SQLiteImporter::validateSource(const std::string& source_path,
     std::string line;
     bool found_sqlite_dump = false;
     int lines_checked = 0;
+    // PHASE-4-HARDENING: Add line length limit to prevent DoS from oversized header lines
+    const size_t kMaxHeaderLineLength = 4096;
+     
     while (std::getline(file, line) && lines_checked < 50) {
+        // Truncate overly long header lines
+        if (line.size() > kMaxHeaderLineLength) {
+            THEMIS_WARN("SQLite header line {} exceeds max length ({}); truncating",
+                       lines_checked, kMaxHeaderLineLength);
+            line.resize(kMaxHeaderLineLength);
+        }
+         
         if (line.find("SQLite") != std::string::npos ||
             line.find("sqlite") != std::string::npos ||
             line.find("BEGIN TRANSACTION") != std::string::npos ||
@@ -348,13 +358,34 @@ json SQLiteImporter::getSourceSchema(const std::string& source_path) {
 
     std::string line;
     std::string current_sql;
+    // PHASE-4-HARDENING: Add bounds to prevent DoS from oversized SQL statements
+    const size_t kMaxLineLength = 65536;  // 64 KB per line
+    const size_t kMaxSqlLength = 1048576; // 1 MB per statement
+    size_t lines_processed = 0;
+    const size_t kMaxLinesPerSchema = 100000; // Max lines to read
 
-    while (std::getline(file, line)) {
+    while (std::getline(file, line) && lines_processed < kMaxLinesPerSchema) {
+        ++lines_processed;
+         
+        // Truncate overly long lines
+        if (line.size() > kMaxLineLength) {
+            THEMIS_WARN("SQLite schema line {} exceeds max length ({}); truncating",
+                       lines_processed, kMaxLineLength);
+            line.resize(kMaxLineLength);
+        }
+         
         // Skip comments and empty lines
         if (line.empty() ||
             (line.size() >= 2 && line[0] == '-' && line[1] == '-'))
             continue;
 
+        // Bounds check on accumulated SQL
+        if (current_sql.size() + line.size() + 1 > kMaxSqlLength) {
+            THEMIS_WARN("SQLite SQL statement exceeds max length ({}); truncating", kMaxSqlLength);
+            current_sql.clear();
+            continue;
+        }
+         
         current_sql += line + " ";
 
         if (line.find(';') != std::string::npos) {
@@ -435,7 +466,17 @@ bool SQLiteImporter::parseDumpFile(const std::string& file_path,
         std::string hdr_line;
         int hdr_lines = 0;
         bool found_header = false;
+        // PHASE-4-HARDENING: Add line length limit to prevent DoS from oversized lines
+        const size_t kMaxHeaderLineLength = 4096;
+         
         while (std::getline(file, hdr_line) && hdr_lines < 50) {
+            // Truncate overly long header lines
+            if (hdr_line.size() > kMaxHeaderLineLength) {
+                THEMIS_WARN("SQLite import header line {} exceeds max length ({}); truncating",
+                           hdr_lines, kMaxHeaderLineLength);
+                hdr_line.resize(kMaxHeaderLineLength);
+            }
+             
             if (hdr_line.find("SQLite") != std::string::npos ||
                 hdr_line.find("sqlite") != std::string::npos ||
                 hdr_line.find("BEGIN TRANSACTION") != std::string::npos ||

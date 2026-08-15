@@ -1183,7 +1183,12 @@ bool FlatFileImporter::importParquetFile(const std::string& path,
                    type_id == arrow::Type::DOUBLE) {
             ft = DetectedFieldType::DOUBLE;
         }
-        detected_schema.column_types[columns[static_cast<size_t>(i)]] = ft;
+        // Defensive bounds check to prevent potential out-of-bounds access
+        if (static_cast<size_t>(i) < columns.size()) {
+            detected_schema.column_types[columns[static_cast<size_t>(i)]] = ft;
+        } else {
+            THEMIS_WARN("Column index {} exceeds columns.size() = {}", i, columns.size());
+        }
     }
     bool schema_validation_active =
         options.validate_schema && options.schema_sample_rows > 0;
@@ -1216,6 +1221,11 @@ bool FlatFileImporter::importParquetFile(const std::string& path,
 
             for (int c = 0; c < num_cols; ++c) {
                 const auto& col_arr  = batch->column(c);
+                // Defensive bounds check for column name lookup
+                if (static_cast<size_t>(c) >= columns.size()) {
+                    THEMIS_WARN("Column index {} exceeds columns.size() = {}", c, columns.size());
+                    continue;
+                }
                 const std::string& col_name =
                     columns[static_cast<size_t>(c)];
 

@@ -1,7 +1,11 @@
 # ThemisDB Content Module
 
 <!-- Status: current | validated: 2026-08-15 -->
+<<<<<<< HEAD
+<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · MODULE_GAPS_BATCH5.md -->
+=======
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · CMT-7504-DOCUMENTATION_SYNC.md -->
+>>>>>>> origin/develop
 
 ## Module Purpose
 
@@ -63,34 +67,94 @@ Out of scope:
 
 ## Sourcecode Verification (Module: content/readme)
 
-- Verified files:
-  - src/content/content_manager.cpp
-  - src/content/content_manager_llm.cpp
-  - src/content/content_manager_embedding.cpp
-  - src/content/content_validator.cpp
-  - src/content/content_policy.cpp
-  - src/content/content_security.cpp
-  - src/content/mime_detector.cpp
-  - src/content/text_processor.cpp
-  - src/content/pdf_processor.cpp
-  - src/content/office_processor.cpp
-  - src/content/html_processor.cpp
-  - src/content/markdown_processor.cpp
-  - src/content/image_processor.cpp
-  - src/content/ocr_processor.cpp
-  - src/content/audio_processor.cpp
-  - src/content/stt_processor.cpp
-  - src/content/tts_processor.cpp
-  - src/content/video_processor.cpp
-  - src/content/archive_processor.cpp
-  - src/content/deduplication_checker.cpp
-  - src/content/embedding_pipeline.cpp
-  - src/content/async_ingestion_worker.cpp
-  - src/content/ingestion_plugin.cpp
+This module contains 47 processor, management, and support files:
+
+**Core Manager (3):**
+- src/content/content_manager.cpp
+- src/content/content_manager_llm.cpp
+- src/content/content_manager_embedding.cpp
+
+**Validation & Security (4):**
+- src/content/content_validator.cpp
+- src/content/content_policy.cpp
+- src/content/content_security.cpp
+- src/content/content_logger.cpp
+
+**MIME Detection & Content Classification (2):**
+- src/content/mime_detector.cpp
+- src/content/content_type.cpp
+
+**Text & Format Processors (6):**
+- src/content/text_processor.cpp
+- src/content/markdown_processor.cpp
+- src/content/html_processor.cpp
+- src/content/pdf_processor.cpp
+- src/content/office_processor.cpp
+- src/content/language_detector.cpp
+
+**Media Processors (5):**
+- src/content/image_processor.cpp
+- src/content/audio_processor.cpp
+- src/content/video_processor.cpp
+- src/content/ocr_processor.cpp
+- src/content/cad_processor.cpp
+
+**Speech Processing (2):**
+- src/content/stt_processor.cpp
+- src/content/tts_processor.cpp
+
+**Extraction & Format Adapters (7):**
+- src/content/adapters/image_extractor_adapter.cpp
+- src/content/adapters/pdf_extractor_adapter.cpp
+- src/content/adapters/audio_extractor_adapter.cpp
+- src/content/adapters/office_extractor_adapter.cpp
+- src/content/adapters/text_extractor_adapter.cpp
+- src/content/adapters/archive_extractor_adapter.cpp
+- src/content/adapters/format_extractor_factory.cpp
+
+**Enrichment & Embedding (2):**
+- src/content/embedding_pipeline.cpp
+- src/content/content_manager_embedding.cpp
+
+**Ingestion & Async Processing (4):**
+- src/content/async_ingestion_worker.cpp
+- src/content/ingestion_plugin.cpp
+- src/content/pipeline/async_bulk_uploader.cpp
+- src/content/pipeline/bulk_upload_interface.cpp
+
+**Deduplication & Utilities (5):**
+- src/content/deduplication_checker.cpp
+- src/content/archive_processor.cpp
+- src/content/archive_processor_enhancements.cpp
+- src/content/version_manager.cpp
+- src/content/content_metrics.cpp
+
+**Chunking & Compression (3):**
+- src/content/pipeline/content_chunker.cpp
+- src/content/pipeline/multimodal_chunker.cpp
+- src/content/pipeline/zstd_compression.cpp
+
+**Support & Error Handling (2):**
+- src/content/content_errors.cpp
+- src/content/content_fs.cpp
+
+**Mock / Test Helpers (1):**
+- src/content/mock_clip_processor.cpp
+
 - Verified behavior surfaces:
   - ingestion orchestration and processor routing
   - validation/security and enrichment/deduplication behavior
   - async pipeline and plugin integration paths
+<<<<<<< HEAD
+  - multi-format extraction and chunking
+- Note:
+  - forward planning is tracked in ROADMAP.md and FUTURE_ENHANCEMENTS.md
+  - Batch 5 (v2.4.0 GA closure) tasks tracked in:
+    - CMT-7504-DOCUMENTATION_SYNC.md (linkset synchronization)
+    - CMT-7505-TEST_COVERAGE_CORRELATION.md (gap-to-test mapping)
+    - CMT-7506-GA_PROMOTION_SIGN_OFF.md (promotion readiness)
+  - historical entries remain in CHANGELOG.md
+=======
 - Batch 5 (v2.4.0 GA closure) tracking:
   - **CMT-7503:** Scope mismatch verification (adapters RAII-safe) ✅ VERIFIED
   - **CMT-FIN-36..40:** Adapter scope validation tests ✅ CREATED (test_adapter_scope_validation.cpp)
@@ -100,3 +164,4 @@ Out of scope:
   - **CMT-7506:** GA promotion sign-off (planned)
   - Forward planning is tracked in ROADMAP.md and FUTURE_ENHANCEMENTS.md
   - Historical entries remain in CHANGELOG.md
+>>>>>>> origin/develop

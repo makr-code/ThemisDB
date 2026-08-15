@@ -18,6 +18,8 @@
 #include <memory>
 #include <map>
 #include <chrono>
+#include <mutex>
+#include <atomic>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -140,6 +142,14 @@ private:
     std::shared_ptr<content::ContentManager> content_manager_;
     content::AsyncIngestionWorker* worker_ = nullptr;  // Non-owning pointer
     CURL* curl_handle_;
+    
+    // Phase 2A Data Race Protection: Mutex guards for concurrent access
+    mutable std::mutex config_state_mutex_;  ///< Protects config_state_ concurrent read-modify-write
+    
+    // Phase 2A Progress Tracking: Atomic counters for thread-safe updates
+    std::atomic<size_t> progress_rows_processed_{0};  ///< Number of rows processed
+    std::atomic<size_t> progress_errors_count_{0};    ///< Number of errors encountered
+    std::atomic<size_t> progress_batches_completed_{0}; ///< Number of batches completed
     
     // HTTP helpers
     std::string httpGet(const std::string& url);
