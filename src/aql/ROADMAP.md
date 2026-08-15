@@ -43,6 +43,13 @@ Production AQL-assistance surfaces exist across translation, validation, tooling
   - [x] Block 4.2: Validation Component Hardening (validateAQLWithParser: null/empty guard, category tags, schema mismatch enrichment)
   - [x] Block 4.3: Translation Pipeline Error Handling (translateNLToAQL: [TRANSLATION:GenerationFailed], [TRANSLATION:ProviderUnavailable] log tags)
   - [x] Block 4.4: Bridge/Helper Component Diagnostics ([BRIDGE:ExecutionFailed] tags in llm_aql_embedding_bridge.cpp)
+- [x] **Q3 2026 BATCH 2: Consistency Hardening + Performance Gates** (2026-08-15)
+  - [x] Unified error handling consistency across validation/translation/bridge (CONS-01..CONS-08 tests)
+  - [x] Standardized log tag format: [COMPONENT:ErrorType] across all surfaces
+  - [x] Unified timeout/retry semantics with fail-closed enforcement
+  - [x] Performance gates: AQL-ASS-01..04 (validateAQLWithParser ≤100µs, translateNLToAQL ≤500µs, bridge ≤1000µs, full pipeline ≤1500µs)
+  - [x] `tests/aql/test_aql_consistency_hardening_focused.cpp` — CONS-01..CONS-08, PERF-01..PERF-04 (16 test cases)
+  - [x] `benchmarks/aql/bench_aql_consistency_performance_gates.cpp` — AQL-ASS-01..04 benchmark gates
 - [x] performance gate consolidation for AQL assistance benchmark paths (Target: Q3 2026)
   - [x] Created bench_aql_assistance_gates.cpp consolidating AG-4, AG-5, AG-6 verification
   - [x] All three gates locked with verified baselines:
