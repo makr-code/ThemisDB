@@ -2,7 +2,7 @@
  * @file video_processor.cpp
  * @brief Content processor module for video processor operations.
  * @version 0.0.47
- * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Maturity: 🟡 BETA
  * @note Score: 79/100
  * @note Gap Summary: total=9; TODO=1, Stub=0, Unimpl=1, Mock=0, Sim=0, Debt=2, C=1, H=2, M=5, L=0
  * @note Status: Production Ready; FFmpeg frame extraction working; real-time transcoding deferred

@@ -2,7 +2,7 @@
  * @file stt_processor.cpp
  * @brief Speech-to-text processor with Whisper integration and audio transcription.
  * @version 0.0.47
- * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Maturity: 🟡 BETA
  * @note Score: 82/100
  * @note Gap Summary: total=7; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=3, C=1, H=1, M=5, L=0
  * @note Status: Production Ready; Speech-to-text with Whisper working; real-time streaming deferred

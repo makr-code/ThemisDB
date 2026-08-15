@@ -2,7 +2,7 @@
  * @file content_metrics.cpp
  * @brief Metrics collection and aggregation for content processing performance tracking.
  * @version 0.0.47
- * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Maturity: 🟡 BETA
  * @note Score: 82/100
  * @note Gap Summary: total=7; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=3, C=0, H=1, M=6, L=0
  * @note Status: Production Ready; Metrics collection and aggregation working; advanced dashboards deferred

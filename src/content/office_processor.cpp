@@ -2,7 +2,7 @@
  * @file office_processor.cpp
  * @brief Office document processor (XLSX, DOCX, PPTX) with content extraction.
  * @version 0.0.47
- * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Maturity: 🟡 BETA
  * @note Score: 81/100
  * @note Gap Summary: total=8; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=3, C=1, H=2, M=5, L=0
  * @note Status: Production Ready; XLSX/DOCX/PPTX extraction working; advanced macro handling deferred

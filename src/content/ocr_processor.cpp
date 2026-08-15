@@ -2,7 +2,7 @@
  * @file ocr_processor.cpp
  * @brief Optical character recognition engine for image-based text extraction.
  * @version 0.0.15
- * @note Maturity: 🟡 BETA
+ * @note Maturity: 🔴 ALPHA
  * @note Score: 68/100
  * @note Gap Summary: total=18; TODO=2, Stub=2, Unimpl=2, Mock=1, Sim=1, Debt=3, C=2, H=5, M=8, L=0
  * @note Status: Beta; OCR engine integration in progress; confidence filtering and language-specific models under test
