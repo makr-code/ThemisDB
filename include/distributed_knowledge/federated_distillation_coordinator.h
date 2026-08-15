@@ -180,23 +180,43 @@ public:
     virtual ~IFederatedDistillationCoordinator() noexcept = default;
 
     /**
-     * @brief Teacher submits soft labels for the current round.
-     *
-     * @param teacher_id  Teacher model identifier.
-     * @param labels      Temperature-scaled predictions (one per shared query).
-     * @throws std::runtime_error on budget exhaustion or policy rejection.
-     * @throws std::invalid_argument if labels or teacher_id is empty.
-     */
+    * @brief Teacher submits soft labels for the current round.
+    *
+    * **Consistency Level: CAUSAL**
+    *  - Operation preserves causal ordering by enforcing sequential submission
+    *  - First submit after prior broadcast automatically advances current_round_
+    *  - Subsequent submits within same round are idempotent (overwrite previous)
+    *  - Rationale: Round number ensures students receive labels in order
+    *
+    * **Version Tracking:**
+    *  - current_round_ implicitly versioned; automatically incremented on submit
+    *  - Projection: if broadcast was recent, next submit increments round
+    *
+    * @param teacher_id  Teacher model identifier.
+    * @param labels      Temperature-scaled predictions (one per shared query).
+    * @throws std::runtime_error on budget exhaustion or policy rejection.
+    * @throws std::invalid_argument if labels or teacher_id is empty.
+    */
     virtual void submitSoftLabels(const std::string& teacher_id,
                                   std::vector<SoftLabel> labels) = 0;
 
     /**
-     * @brief Broadcast DP-protected labels to all registered student callbacks.
-     *
-     * @return The `DistillationRound` that was broadcast.
-     * @throws std::runtime_error when no labels have been submitted this round
-     *         or policy gate rejects the broadcast.
-     */
+    * @brief Broadcast DP-protected labels to all registered student callbacks.
+    *
+    * **Consistency Level: STRONG**
+    *  - Privacy budget check (verifyPrivacyBudget) blocks if exhausted
+    *  - Policy gate blocks if teacher/round violates policy
+    *  - Operation atomic: either succeeds fully or throws (strong safety)
+    *  - Rationale: Distribution must be consistent; partial broadcast unacceptable
+    *
+    * **Version Tracking:**
+    *  - DistillationRound.round is causally ordered after submit
+    *  - Round N+1 broadcast only after round N round is complete
+    *
+    * @return The `DistillationRound` that was broadcast.
+    * @throws std::runtime_error when no labels have been submitted this round
+    *         or policy gate rejects the broadcast.
+    */
     virtual DistillationRound broadcastToStudents() = 0;
 
     /**

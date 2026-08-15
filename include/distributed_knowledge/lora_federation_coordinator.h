@@ -159,37 +159,73 @@ public:
     virtual ~ILoRAFederationCoordinator() = default;
 
     /**
-     * @brief Submit a local gradient contribution for the current round.
-     *
-     * Idempotent per (shard_id, round): a duplicate submission is silently
-     * ignored.  Triggers aggregation automatically once `min_participants`
-     * shards have submitted or `round_timeout` elapses.
-     *
-     * @param gradient  Gradient exported by the local `IncrementalLoRATrainer`.
-     */
+    * @brief Submit a local gradient contribution for the current round.
+    *
+    * Idempotent per (shard_id, round): a duplicate submission is silently
+    * ignored.  Triggers aggregation automatically once `min_participants`
+    * shards have submitted or `round_timeout` elapses.
+    *
+    * **Consistency Level: CAUSAL**
+    *  - Operation preserves causal ordering via round number
+    *  - Round N+1 depends causally on round N
+    *  - Gradients for future/stale rounds are silently dropped (intentional)
+    *  - Rationale: FedAvg aggregation is idempotent over time; missed gradients
+    *    are corrected when shard catches up in next round
+    *
+    * **Version Tracking:**
+    *  - EncryptedGradient.round provides version vector
+    *  - Only gradients where gradient.round == currentRound() are accepted
+    *  - Stale (round < current) and future (round > current) gradients ignored
+    *
+    * **Replication Lag:**
+    *  - Max acceptable lag: 1-2 federation rounds (implicit)
+    *  - Policy: Stale gradients handled gracefully (silently skipped)
+    *  - Safety: Aggregation correctness preserved by idempotence property
+    *
+    * @param gradient  Gradient exported by the local `IncrementalLoRATrainer`.
+    */
     virtual void submitGradient(const EncryptedGradient& gradient) = 0;
 
     /**
-     * @brief Manually trigger aggregation regardless of participant count.
-     *
-     * Uses whatever gradients have been submitted so far.  Throws if fewer
-     * than `min_participants` contributed.
-     *
-     * @return The aggregated global delta.
-     */
+    * @brief Manually trigger aggregation regardless of participant count.
+    *
+    * Uses whatever gradients have been submitted so far.  Throws if fewer
+    * than `min_participants` contributed.
+    *
+    * **Consistency Level: STRONG**
+    *  - Operation acquires current_round_ under lock
+    *  - Privacy budget check (verifyPrivacyBudget) blocks until guard satisfied
+    *  - Causal ordering enforced: round N+1 only after round N aggregation
+    *
+    * **Version Tracking:**
+    *  - Returns GlobalAdapterDelta.round = current_round_
+    *  - Round advancement only via explicit aggregation (no implicit progress)
+    *
+    * @return The aggregated global delta.
+    */
     virtual GlobalAdapterDelta triggerAggregation() = 0;
 
     /**
-     * @brief Manually trigger aggregation with an explicit timeout.
-     *
-     * Runs the aggregation asynchronously and throws `std::runtime_error` if it
-     * does not complete within `timeout_ms` milliseconds.
-     *
-     * @param timeout_ms  Timeout in milliseconds.  Throws on expiry.
-     * @return The aggregated global delta.
-     * @throws std::runtime_error on timeout or when fewer than `min_participants`
-     *         contributed.
-     */
+    * @brief Manually trigger aggregation with an explicit timeout.
+    *
+    * Runs the aggregation asynchronously and throws `std::runtime_error` if it
+    * does not complete within `timeout_ms` milliseconds.
+    *
+    * **Consistency Level: STRONG (with eventual consistency fallback)**
+    *  - Blocks on aggregation with timeout limit
+    *  - On timeout: throws std::runtime_error (fail-closed policy)
+    *  - Privacy budget check enforces strong consistency on epsilon exhaustion
+    *
+    * **Replication Lag:**
+    *  - Timeout: default kFederationNodeTimeout = 5000ms (DK-OR-T)
+    *  - If timeout expires: operation fails (no eventual fallback)
+    *  - If timeout succeeds: causal ordering preserved
+    *
+    * @param timeout_ms  Timeout in milliseconds.  Throws on expiry.
+    * @return The aggregated global delta.
+    * @throws std::runtime_error on timeout or when fewer than `min_participants`
+    *         contributed.
+    */
     virtual GlobalAdapterDelta triggerAggregation(size_t timeout_ms) = 0;
 
     /**
@@ -233,7 +269,12 @@ public:
  * `FederatedImportCoordinator::FederatedAggregator` and applies calibrated
  * Gaussian noise via `DifferentialPrivacyManager`.
  *
- * Thread safety: all public methods acquire `mutex_` before accessing state.
+ * **Thread safety:** all public methods acquire `mutex_` before accessing state.
+ *
+ * **Aggregation Safety:**
+ *  - Median aggregation includes defensive bounds checks on value vectors
+ *  - Empty vector case handled gracefully (returns 0.0)
+ *  - Ensures safe container access regardless of precondition violations
  */
 class LoRAFederationCoordinator : public ILoRAFederationCoordinator {
 public:

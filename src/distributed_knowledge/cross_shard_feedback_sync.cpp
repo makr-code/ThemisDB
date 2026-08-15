@@ -55,7 +55,10 @@ void CrossShardFeedbackSync::publishFeedback(FeedbackSummary summary) {
             ", expected " + std::to_string(config_.max_embedding_dim) + ")");
     }
 
-    // Enforce privacy: overwrite origin with ANON
+    // ── Consistency Level: EVENTUAL (Non-blocking gossip) ──────────────────────
+    // Enforce privacy: overwrite origin with ANON. Publication is asynchronous
+    // and non-guaranteed. Feedback may arrive at remote shards in any order,
+    // be deduplicated on arrival, and aggregated idempotently.
     summary.shard_origin = "ANON";
     summary.summary_id   = generateSummaryId();
     summary.created_at   = std::chrono::system_clock::now();
@@ -95,6 +98,12 @@ void CrossShardFeedbackSync::handleInboundSummary(const nlohmann::json& payload)
     {
         std::lock_guard<std::mutex> lk(mutex_);
 
+        // ── Consistency Level: EVENTUAL (Deduplication only) ───────────────────
+        // No ordering guarantees; feedback may arrive out-of-order or late.
+        // Deduplication by summary_id prevents double-counting on retransmission.
+        // All other checks (policy, ZeroTrust) provide safety but not ordering.
+        // Rationale: Idempotent aggregation tolerates out-of-order arrival;
+        // same feedback processed multiple times produces identical result.
         // Dedup
         if (seen_ids_.count(summary.summary_id)) {
             ++deduplicated_count_;

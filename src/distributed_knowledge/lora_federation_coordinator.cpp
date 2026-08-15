@@ -80,7 +80,12 @@ LoRAFederationCoordinator &LoRAFederationCoordinator::operator=(LoRAFederationCo
 void LoRAFederationCoordinator::submitGradient(const EncryptedGradient &gradient) {
     std::lock_guard<std::mutex> lk(mutex_);
 
-    // Only accept gradients for the current round
+    // ── Consistency Level: CAUSAL (Round-based ordering) ─────────────────────
+    // Only accept gradients for the current round; this enforces causal ordering
+    // by refusing out-of-order submissions. Stale/future gradients are silently
+    // dropped (intentional eventual consistency) because FedAvg aggregation is
+    // idempotent: if a shard's gradient is missed this round, it will be
+    // re-contributed (or corrected) in the next round.
     if (gradient.round != current_round_) {
         return; // silently ignore stale or future rounds
     }
@@ -138,7 +143,11 @@ void LoRAFederationCoordinator::submitGradient(const EncryptedGradient &gradient
 GlobalAdapterDelta LoRAFederationCoordinator::triggerAggregation() {
     std::lock_guard<std::mutex> lk(mutex_);
 
-    // ── DK-6: Privacy budget guard ────────────────────────────────────────────
+    // ── Consistency Level: STRONG (Privacy budget check) ────────────────────
+    // Privacy budget verification blocks aggregation if DP budget exhausted.
+    // This is a strong consistency guard: operation fails immediately if
+    // current_round_ exceeds max_rounds. No eventual consistency fallback.
+    // Rationale: Privacy guarantees are non-negotiable; degradation unacceptable.
     if (config_.max_rounds > 0 && current_round_ > config_.max_rounds) {
         throw std::runtime_error("LoRAFederationCoordinator::triggerAggregation: DP budget exhausted "
                                  "(max_rounds="
@@ -265,7 +274,15 @@ GlobalAdapterDelta LoRAFederationCoordinator::doAggregation() {
             }
             std::sort(vals.begin(), vals.end());
             const size_t n  = vals.size();
-            aggregated[key] = (n % 2 == 1) ? vals[n / 2] : (vals[n / 2 - 1] + vals[n / 2]) / 2.0;
+             
+            // Bounds safety: Ensure vals is non-empty before accessing elements.
+            // Guaranteed by key_values population logic, but defensive check prevents
+            // accidental out-of-bounds access if precondition violated.
+            if (n == 0) {
+                aggregated[key] = 0.0;
+            } else {
+                aggregated[key] = (n % 2 == 1) ? vals[n / 2] : (vals[n / 2 - 1] + vals[n / 2]) / 2.0;
+            }
         } else {
             // FedAvg (default) or FedProx (same aggregation, different local objective)
             double total_weight = 0.0;

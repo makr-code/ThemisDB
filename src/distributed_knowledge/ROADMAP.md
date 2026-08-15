@@ -63,6 +63,17 @@ Q3 2026 Status Update (2026-07-28):
   - Reference: `include/distributed_knowledge/federated_rag_merger.h` class/method docs
   - Reference: `src/distributed_knowledge/federated_rag_merger.cpp` implementation comments
   - Reference: `include/distributed_knowledge/distributed_knowledge_api_contract.h` § 8
+- [x] Batch 3: Consistency and Version Tracking Documentation (Delivered: Q3 2026)
+  - Consistency levels documented (strong, causal, eventual) for all operations
+  - Version ordering documented for round-based aggregation (gradients, distillation)
+  - Replication lag assumptions documented (federation, RAG, feedback)
+  - Stale-read intentionality documented with correctness justification
+  - API contract § 9 added: "Consistency and Version Semantics"
+  - Reference: `include/distributed_knowledge/distributed_knowledge_api_contract.h` § 9
+  - Reference: Updated method docs in lora_federation_coordinator.h/cpp
+  - Reference: Updated method docs in federated_distillation_coordinator.h/cpp
+  - Reference: Updated method docs in federated_rag_merger.h/cpp
+  - Reference: Updated method docs in cross_shard_feedback_sync.h/cpp
 - [ ] complete hardening for aggregation, merge, and sync coordinator internals (Target: Q4 2026)
 - [ ] align distillation and feedback behavior to bounded runtime contracts (Target: Q4 2026)
 

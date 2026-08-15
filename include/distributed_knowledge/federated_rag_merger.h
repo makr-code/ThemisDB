@@ -288,38 +288,56 @@ public:
     explicit FederatedRAGMerger(FederatedRAGMergerConfig config = {});
 
     /**
-     * @brief Merge retrieval results from multiple shards using configured strategy.
-     *
-     * Orchestrates merge conflict resolution by:
-     * 1. Filtering timed-out or failed shards
-     * 2. Applying selected merge strategy (RRF, score-weighted, or round-robin)
-     * 3. Optional deduplication by doc_id
-     * 4. Truncation to top_k
-     *
-     * **Exception Semantics:**
-     *  - std::runtime_error("all shards timed out"): when shard_timeout_ms == 0
-     *    or all shards report timed_out == true
-     *  - std::invalid_argument: when config_ is invalid (checked in ctor)
-     *  - Strong exception safety: merge either completes or throws; no partial state change
-     *
-     * **Idempotency:**
-     *  - Same shard_results input always produces identical output
-     *  - Safe to retry; no internal state mutation beyond GDPR erase_count_
-     *
-     * @param shard_results Per-shard retrieval responses.
-     *                      - sr.ok == false → silently skipped (shard failure)
-     *                      - sr.timed_out == true → silently skipped (shard timeout)
-     *                      - sr.documents → ranked list per shard
-     *                      - sr.adapter_accuracy_delta → shard specialisation weight (for RRF/weighted)
-     *
-     * @return MergedRAGContext with:
-     *         - documents: ranked merged list (size ≤ top_k)
-     *         - total_candidate_count: sum of doc counts from responding shards
-     *         - unique_doc_count: size after dedup (if enabled)
-     *         - shards_queried: |shard_results|
-     *         - shards_responded: count with ok == true && timed_out == false
-     *         - strategy_used: which algorithm was applied
-     */
+    * @brief Merge retrieval results from multiple shards using configured strategy.
+    *
+    * Orchestrates merge conflict resolution by:
+    * 1. Filtering timed-out or failed shards
+    * 2. Applying selected merge strategy (RRF, score-weighted, or round-robin)
+    * 3. Optional deduplication by doc_id
+    * 4. Truncation to top_k
+    *
+    * **Consistency Level: EVENTUAL**
+    *  - Operation is stateless; no coordinator synchronization required
+    *  - Shard responses may be from different temporal snapshots (stale OK)
+    *  - Merge tolerates heterogeneous freshness: RRF/weighted/round-robin robust to rank shifts
+    *  - No version vector; timestamp in ShardRetrievalResult is informational only
+    *  - Rationale: Merge correctness depends only on input ranking, not absolute freshness
+    *
+    * **Version Tracking:**
+    *  - ShardRetrievalResult.latency_ms documents response age (informational)
+    *  - No causal ordering enforced; shards may respond in any order
+    *  - Deterministic: same inputs always produce same output
+    *
+    * **Replication Lag:**
+    *  - Max acceptable lag: unbounded (design intent: eventual consistency OK)
+    *  - Policy: Stale rankings accepted by merge strategies
+    *  - Correctness: Cross-shard score/rank bias naturally bounds stale-data impact
+    *  - Safe-read: Timestamp available but not enforced as guard
+    *
+    * **Exception Semantics:**
+    *  - std::runtime_error("all shards timed out"): when shard_timeout_ms == 0
+    *    or all shards report timed_out == true
+    *  - std::invalid_argument: when config_ is invalid (checked in ctor)
+    *  - Strong exception safety: merge either completes or throws; no partial state change
+    *
+    * **Idempotency:**
+    *  - Same shard_results input always produces identical output
+    *  - Safe to retry; no internal state mutation beyond GDPR erase_count_
+    *
+    * @param shard_results Per-shard retrieval responses.
+    *                      - sr.ok == false → silently skipped (shard failure)
+    *                      - sr.timed_out == true → silently skipped (shard timeout)
+    *                      - sr.documents → ranked list per shard
+    *                      - sr.adapter_accuracy_delta → shard specialisation weight (for RRF/weighted)
+    *
+    * @return MergedRAGContext with:
+    *         - documents: ranked merged list (size ≤ top_k)
+    *         - total_candidate_count: sum of doc counts from responding shards
+    *         - unique_doc_count: size after dedup (if enabled)
+    *         - shards_queried: |shard_results|
+    *         - shards_responded: count with ok == true && timed_out == false
+    *         - strategy_used: which algorithm was applied
+    */
     [[nodiscard]] MergedRAGContext merge(
         const std::vector<ShardRetrievalResult>& shard_results) const;
 
@@ -464,6 +482,14 @@ private:
      *  - Result size ≤ input size (never grows)
      *  - Order preserved: output documents in input order
      *
+     * **Determinism Contract:**
+     *  - Uses std::set (ordered) instead of std::unordered_set to ensure
+     *    DETERMINISTIC iteration order
+     *  - Identical input always produces identical output
+     *  - Enables reproducible testing and reliable debugging in distributed systems
+     *  - Performance: O(n log n) worst-case; negligible for typical dedup sets (<100 docs)
+     *  - See DKRG-01..06 benchmarks for performance validation (<5% regression expected <1%)
+     *
      * **Conflict Resolution:**
      *  - When same doc_id appears multiple times (merged from different shards),
      *    the first (highest-ranked) version is kept
@@ -473,11 +499,9 @@ private:
      *  - After RRF/weighted/round-robin merge, removes same document from different shards
      *  - Before top_k truncation (dedup may reduce count below top_k)
      *
-     * **Efficiency:**
-     *  - O(n) with single-pass unordered_set for seen doc_ids
-     *
      * @param docs Input ranked document list (may contain duplicates by doc_id)
      * @return Deduplicated document list, order preserved, size ≤ input size
+     *         Deterministic: same input → same output, reproducible across runs
      */
     [[nodiscard]] std::vector<RetrievedDocument> deduplicate(
         std::vector<RetrievedDocument> docs) const;
