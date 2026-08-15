@@ -2359,5 +2359,72 @@ AutoMLModel AutoML::trainRegressor(const std::vector<DataPoint> &data, const Aut
     return result;
 }
 
+// ============================================================================
+// AutoML Helper Functions (Phase 2B)
+// ============================================================================
+
+std::pair<bool, std::string> AutoML::validateTrainingData(
+    const std::vector<std::vector<double>>& features,
+    const std::vector<double>& target,
+    AutoMLTask task) const noexcept {
+    
+    // Check if data is empty
+    if (features.empty() || target.empty()) {
+        return {false, "Training data is empty"};
+    }
+    
+    // Check dimensions match
+    if (features.size() != target.size()) {
+        return {false, "Feature matrix rows must match target vector size"};
+    }
+    
+    // Check minimum samples
+    if (features.size() < 2) {
+        return {false, "At least 2 training samples required"};
+    }
+    
+    // Check consistent feature count
+    if (features.empty()) {
+        return {false, "Feature matrix is empty"};
+    }
+    
+    size_t n_features = features[0].size();
+    if (n_features == 0) {
+        return {false, "Each sample must have at least 1 feature"};
+    }
+    
+    for (size_t i = 0; i < features.size(); ++i) {
+        if (features[i].size() != n_features) {
+            return {false, "All samples must have the same number of features"};
+        }
+        
+        // Check for NaN and Inf in features
+        for (size_t j = 0; j < features[i].size(); ++j) {
+            double val = features[i][j];
+            if (std::isnan(val) || std::isinf(val)) {
+                return {false, "Feature matrix contains NaN or Inf values"};
+            }
+        }
+    }
+    
+    // Check target values
+    for (size_t i = 0; i < target.size(); ++i) {
+        double val = target[i];
+        if (std::isnan(val) || std::isinf(val)) {
+            return {false, "Target vector contains NaN or Inf values"};
+        }
+    }
+    
+    // For classification, check minimum number of classes
+    if (task == AutoMLTask::CLASSIFICATION) {
+        std::set<double> unique_classes(target.begin(), target.end());
+        if (unique_classes.size() < 2) {
+            return {false, "Classification requires at least 2 distinct classes"};
+        }
+    }
+    
+    return {true, ""};
+}
+
 } // namespace analytics
 } // namespace themisdb

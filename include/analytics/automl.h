@@ -359,6 +359,34 @@ public:
         ModelAlgorithm algorithm,
         const std::map<std::string, double>& hyperparameters) const;
 
+    // ---- Helper functions (Phase 2B) ----
+
+    /**
+     * @brief Validate training feature matrix structure and quality.
+     * 
+     * Checks:
+     * - Non-empty data (n_samples > 0)
+     * - Consistent dimensions (all rows have same n_features)
+     * - No NaN or Inf values
+     * - At least 2 samples for meaningful training
+     * - For classification: at least 2 distinct classes
+     * 
+     * @param features Training feature matrix (n_samples × n_features)
+     * @param target Target vector (n_samples,)
+     * @param task Classification or regression task
+     * @return Status::OK() if valid; Status::Error(msg) with specific validation error
+     * 
+     * @code
+     *   std::vector<std::vector<double>> X = {{ 1.0, 2.0 }, { 3.0, 4.0 }};
+     *   std::vector<double> y = { 0.0, 1.0 };
+     *   auto status = automl.validateTrainingData(X, y, AutoMLTask::CLASSIFICATION);
+     * @endcode
+     */
+    std::pair<bool, std::string> validateTrainingData(
+        const std::vector<std::vector<double>>& features,
+        const std::vector<double>& target,
+        AutoMLTask task = AutoMLTask::CLASSIFICATION) const noexcept;
+
 private:
     struct Impl;
     std::unique_ptr<Impl> impl_;

@@ -410,5 +410,92 @@ inline const char* forecastMethodName(ForecastMethod m) noexcept {
 ForecastMetrics computeMetrics(const std::vector<double>& actual,
                                const std::vector<double>& predicted);
 
+// ============================================================================
+// Helper functions (Phase 2B)
+// ============================================================================
+
+/**
+ * @brief Detect seasonal period using autocorrelation or FFT.
+ * 
+ * Analyzes the time series to determine if there is a periodic pattern
+ * and returns the detected seasonal period (in number of steps).
+ * 
+ * Algorithm:
+ * - Computes autocorrelation at various lags
+ * - Returns lag with highest autocorrelation > 0.5
+ * - Returns 0 if no strong seasonality detected
+ * 
+ * @param timeseries Vector of time-series values
+ * @param max_lag Maximum lag to check (default: 1000)
+ * @return Detected seasonal period in steps; 0 if no seasonality
+ * @throws std::invalid_argument if timeseries.size() < 2
+ * 
+ * @code
+ *   std::vector<double> ts = { 1.0, 2.0, 3.0, 1.0, 2.0, 3.0, 1.0, 2.0, 3.0 };
+ *   int period = seasonalityDuration(ts);  // Returns 3
+ * @endcode
+ */
+int seasonalityDuration(
+    const std::vector<double>& timeseries,
+    int max_lag = 1000);
+
+/**
+ * @brief Validate test data structure and quality.
+ * 
+ * Checks:
+ * - Non-empty
+ * - Consistent dimensions with expected input
+ * - No NaN or Inf values
+ * - Timestamps in chronological order (if provided)
+ * 
+ * @param test_features Test feature matrix (n_samples × n_features)
+ * @param expected_n_features Expected number of features per sample
+ * @return Pair of (is_valid, error_message)
+ * 
+ * @code
+ *   std::vector<std::vector<double>> X_test = {{ 1.0, 2.0 }, { 3.0, 4.0 }};
+ *   auto [valid, msg] = validateTestData(X_test, 2);
+ *   if (!valid) {
+ *       std::cerr << "Validation error: " << msg << std::endl;
+ *   }
+ * @endcode
+ */
+std::pair<bool, std::string> validateTestData(
+    const std::vector<std::vector<double>>& test_features,
+    size_t expected_n_features);
+
+/**
+ * @brief Apply exponential smoothing (Holt-Winters) to a time series.
+ * 
+ * Updates the provided ForecastModel with smoothed coefficients and fitted state.
+ * Supports:
+ * - Simple exponential smoothing (alpha only)
+ * - Double exponential / Holt's method (alpha, beta)
+ * - Triple exponential / Holt-Winters (alpha, beta, gamma for seasonality)
+ * 
+ * @param model Target ForecastModel to update with fitted coefficients
+ * @param timeseries Input time-series data
+ * @param alpha Level smoothing coefficient ∈ (0,1)
+ * @param beta Trend smoothing coefficient ∈ (0,1); set to 0 for simple ES
+ * @param gamma Seasonal smoothing coefficient ∈ (0,1); set to 0 for non-seasonal
+ * @return Status::OK() on success; Status::Error(msg) on validation failure
+ * @throws std::invalid_argument if timeseries.size() < 2 or params out of range
+ * 
+ * @code
+ *   ForecastModel model;
+ *   std::vector<double> ts = { 100, 110, 120, 130 };
+ *   auto status = exponentialSmoothing(model, ts, 0.3, 0.1, 0.0);
+ *   if (status.first) {
+ *       auto forecast = model.predict(2);  // Forecast 2 steps ahead
+ *   }
+ * @endcode
+ */
+std::pair<bool, std::string> exponentialSmoothing(
+    ForecastModel& model,
+    const std::vector<double>& timeseries,
+    double alpha,
+    double beta = 0.0,
+    double gamma = 0.0);
+
 } // namespace analytics
 } // namespace themisdb
