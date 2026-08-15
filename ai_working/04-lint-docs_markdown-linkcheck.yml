@@ -1,0 +1,287 @@
+name: "Lint Docs: Markdown Link Check (Internal)"
+
+on:
+  pull_request:
+    paths:
+      - "**/*.md"
+      - ".mlc_config.json"
+      - ".github/workflows/04-lint-docs_markdown-linkcheck.yml"
+      - "!build/**"
+      - "!benchmarks/**"
+      - "!archive/**"
+  push:
+    branches:
+      - develop
+    paths:
+      - "README.md"
+      - "ROADMAP.md"
+      - "FUTURE_ENHANCEMENTS.md"
+      - "ARCHITECTURE.md"
+      - "src/content/README.md"
+      - "src/content/ROADMAP.md"
+      - "src/content/FUTURE_ENHANCEMENTS.md"
+      - "src/content/ARCHITECTURE.md"
+      - ".mlc_config.json"
+      - ".github/workflows/04-lint-docs_markdown-linkcheck.yml"
+  workflow_dispatch:
+    inputs:
+      check_all_docs:
+        description: "Check all .md files (not just primary docs)"
+        required: false
+        default: "false"
+
+env:
+  PRIMARY_DOCS: |
+    README.md
+    ROADMAP.md
+    FUTURE_ENHANCEMENTS.md
+    ARCHITECTURE.md
+  CONTENT_MODULE_DOCS: |
+    src/content/README.md
+    src/content/ROADMAP.md
+    src/content/FUTURE_ENHANCEMENTS.md
+    src/content/ARCHITECTURE.md
+
+jobs:
+  linkcheck:
+    name: "Validate Markdown Links (Internal)"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      statuses: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm install -g markdown-link-check@3.12.2
+
+      - name: Create markdown-link-check configuration
+        run: |
+          cat > .mlc_config.json << 'EOF'
+          {
+            "ignorePatterns": [
+              {
+                "pattern": "^https?://",
+                "description": "External HTTP(S) URLs (validated separately)"
+              },
+              {
+                "pattern": "^mailto:",
+                "description": "Email links"
+              },
+              {
+                "pattern": "^#[a-z0-9-]*$",
+                "description": "Anchor-only links (validated per-file)"
+              }
+            ],
+            "retryOn429": true,
+            "retryCount": 2,
+            "retryDelay": 1000,
+            "timeout": 5000,
+            "aliveStatusCodes": [200, 206]
+          }
+          EOF
+          echo "✅ Configuration created (.mlc_config.json)"
+
+      - name: Check primary root-level documentation
+        id: root_check
+        run: |
+          echo "═══════════════════════════════════════════════════════════════"
+          echo "Checking PRIMARY ROOT-LEVEL DOCUMENTATION"
+          echo "═══════════════════════════════════════════════════════════════"
+          
+          failed=0
+          total=0
+          
+          for file in ${{ env.PRIMARY_DOCS }}; do
+            if [ ! -f "$file" ]; then
+              echo "⚠️  SKIPPED: $file (file not found)"
+              continue
+            fi
+            
+            total=$((total + 1))
+            echo ""
+            echo "📄 Checking: $file"
+            
+            if markdown-link-check -c .mlc_config.json "$file" 2>&1 | tee /tmp/mlc_output.txt; then
+              echo "✅ $file: PASSED"
+            else
+              echo "❌ $file: FAILED"
+              failed=$((failed + 1))
+              cat /tmp/mlc_output.txt >> /tmp/failed_files.txt
+            fi
+          done
+          
+          echo ""
+          echo "───────────────────────────────────────────────────────────────"
+          echo "ROOT DOCUMENTATION SUMMARY: $((total - failed))/$total passed"
+          echo "───────────────────────────────────────────────────────────────"
+          
+          if [ $failed -gt 0 ]; then
+            echo "failed_count=$failed" >> $GITHUB_OUTPUT
+            echo "failed_root=true" >> $GITHUB_OUTPUT
+          else
+            echo "failed_root=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Check content module documentation
+        id: content_check
+        run: |
+          echo ""
+          echo "═══════════════════════════════════════════════════════════════"
+          echo "Checking CONTENT MODULE DOCUMENTATION (src/content/)"
+          echo "═══════════════════════════════════════════════════════════════"
+          
+          failed=0
+          total=0
+          
+          for file in ${{ env.CONTENT_MODULE_DOCS }}; do
+            if [ ! -f "$file" ]; then
+              echo "⚠️  SKIPPED: $file (file not found)"
+              continue
+            fi
+            
+            total=$((total + 1))
+            echo ""
+            echo "📄 Checking: $file"
+            
+            if markdown-link-check -c .mlc_config.json "$file" 2>&1 | tee /tmp/mlc_output.txt; then
+              echo "✅ $file: PASSED"
+            else
+              echo "❌ $file: FAILED"
+              failed=$((failed + 1))
+              cat /tmp/mlc_output.txt >> /tmp/failed_files.txt
+            fi
+          done
+          
+          echo ""
+          echo "───────────────────────────────────────────────────────────────"
+          echo "CONTENT MODULE DOCUMENTATION SUMMARY: $((total - failed))/$total passed"
+          echo "───────────────────────────────────────────────────────────────"
+          
+          if [ $failed -gt 0 ]; then
+            echo "failed_count=$failed" >> $GITHUB_OUTPUT
+            echo "failed_content=true" >> $GITHUB_OUTPUT
+          else
+            echo "failed_content=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Summary and Status
+        id: summary
+        run: |
+          echo ""
+          echo "═══════════════════════════════════════════════════════════════"
+          echo "OVERALL MARKDOWN LINK CHECK SUMMARY"
+          echo "═══════════════════════════════════════════════════════════════"
+          
+          root_status="${{ steps.root_check.outputs.failed_root }}"
+          content_status="${{ steps.content_check.outputs.failed_content }}"
+          
+          if [ "$root_status" = "true" ] || [ "$content_status" = "true" ]; then
+            echo ""
+            echo "❌ FAILED: Broken or missing links detected"
+            echo ""
+            if [ "$root_status" = "true" ]; then
+              echo "  ⚠️  Root-level documentation has broken links"
+            fi
+            if [ "$content_status" = "true" ]; then
+              echo "  ⚠️  Content module documentation has broken links"
+            fi
+            echo ""
+            echo "Files affected:"
+            if [ -f /tmp/failed_files.txt ]; then
+              head -20 /tmp/failed_files.txt
+            fi
+            echo ""
+            echo "To debug locally:"
+            echo "  npm install -g markdown-link-check"
+            echo "  markdown-link-check -c .mlc_config.json <file.md>"
+            echo ""
+            exit 1
+          else
+            echo ""
+            echo "✅ SUCCESS: All internal markdown links verified"
+            echo ""
+            echo "Files checked:"
+            echo "  • Root documentation: ${PRIMARY_DOCS}"
+            echo "  • Content module: ${CONTENT_MODULE_DOCS}"
+            echo ""
+          fi
+
+      - name: Report to PR (on failure)
+        if: failure() && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `## ❌ Markdown Link Check Failed
+
+Broken or missing links detected in documentation. Please fix the links and try again.
+
+### Affected Files
+- Root documentation (README.md, ROADMAP.md, FUTURE_ENHANCEMENTS.md, ARCHITECTURE.md)
+- Content module documentation (src/content/*.md)
+
+### How to Fix
+1. Run locally to identify issues:
+   \`\`\`bash
+   npm install -g markdown-link-check
+   markdown-link-check -c .mlc_config.json README.md
+   \`\`\`
+
+2. Check for common issues:
+   - Broken file paths (verify files exist)
+   - Incorrect anchor links (must match header text)
+   - Typos in relative paths
+
+3. See [CMT-7504 Linkset Validation Report](https://github.com/makr-code/ThemisDB/blob/develop/ai_working/PHASE5_LINKSET_VALIDATION_REPORT.md) for detailed guidance.
+
+### Reference
+- Task: CMT-7504 (Phase 5 — Documentation Linkset Synchronization)
+- Report: ai_working/PHASE5_LINKSET_VALIDATION_REPORT.md
+`
+            })
+
+      - name: Set commit status (on success)
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: context.sha,
+              state: 'success',
+              context: 'lint-docs/markdown-linkcheck',
+              description: 'All internal markdown links verified ✅'
+            })
+
+      - name: Set commit status (on failure)
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: context.sha,
+              state: 'failure',
+              context: 'lint-docs/markdown-linkcheck',
+              description: 'Broken internal markdown links detected ❌'
+            })
