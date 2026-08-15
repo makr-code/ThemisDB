@@ -365,7 +365,6 @@ DistributedAnalyticsSharding::DistributedAnalyticsSharding(const Config &cfg) : 
 }
 
 DistributedAnalyticsSharding::~DistributedAnalyticsSharding() {
-    // RAII: Ensure health monitor thread is properly joined
     stopping_.store(true, std::memory_order_release);
     health_monitor_cv_.notify_all();
     if (health_monitor_thread_.joinable()) {
@@ -379,19 +378,11 @@ DistributedAnalyticsSharding::~DistributedAnalyticsSharding() {
 
 void DistributedAnalyticsSharding::startHealthMonitor() {
     if (config_.health_check_interval.count() > 0) {
-        // RAII: Create thread and store it; will be joined in destructor
         health_monitor_thread_ = std::thread(&DistributedAnalyticsSharding::runHealthMonitor, this);
     }
 }
 
 void DistributedAnalyticsSharding::runHealthMonitor() {
-    // LOCK ORDERING DOCUMENTATION:
-    // This function acquires locks in strict order:
-    //   1. health_monitor_mutex_ (coordination) — wait for stop signal
-    //   2. mutex_ (Tier 1 registry lock) — snapshot shard list [BRIEF]
-    // CRITICAL: mutex_ is released BEFORE per-shard health checks.
-    // This prevents circular lock: never acquire Tier 2 locks while holding Tier 1.
-     
     while (!stopping_.load(std::memory_order_acquire)) {
         // Wait for the configured interval (or until stopped)
         {
@@ -405,7 +396,6 @@ void DistributedAnalyticsSharding::runHealthMonitor() {
         }
 
         // Snapshot shard list under main mutex (brief)
-        // Lock is released immediately after snapshot — NO NETWORK I/O UNDER LOCK
         std::vector<ShardEntry> snapshot;
         {
             std::lock_guard<std::mutex> main_lock(mutex_);
@@ -414,7 +404,6 @@ void DistributedAnalyticsSharding::runHealthMonitor() {
         }
 
         // Run health checks off the main lock
-        // Per-shard operations happen WITHOUT holding mutex_ (Tier 1)
         for (const auto &e : snapshot) {
             if (stopping_.load(std::memory_order_acquire)) {
                 break;
@@ -442,12 +431,6 @@ void DistributedAnalyticsSharding::runHealthMonitor() {
 
 void DistributedAnalyticsSharding::addShard(const std::string &shard_id, std::shared_ptr<ShardQueryExecutor> executor,
                                             const std::string &tenant_id) {
-    // LOCK ORDERING DOCUMENTATION:
-    // This function acquires ONLY Tier 1 lock (mutex_):
-    //   1. executor->isHealthy() — called BEFORE acquiring lock (safe, no lock dependencies)
-    //   2. mutex_ (registry lock) — add/update shard entry [BRIEF]
-    // SAFE: No per-shard Tier 2 locks acquired. No circular lock risk.
-     
     bool initial_healthy = true;
     if (executor) {
         try {
@@ -479,49 +462,18 @@ void DistributedAnalyticsSharding::addShard(const std::string &shard_id, std::sh
 }
 
 void DistributedAnalyticsSharding::removeShard(const std::string &shard_id) {
-    // LOCK ORDERING DOCUMENTATION:
-    // This function acquires ONLY Tier 1 lock (mutex_):
-    //   1. mutex_ (registry lock) — find & remove shard [BRIEF]
-    // SAFE: No per-shard Tier 2 locks. No circular lock risk.
-     
     std::lock_guard<std::mutex> lock(mutex_);
-    
-    auto it = std::find_if(shards_.begin(), shards_.end(),
-                          [&](const ShardEntry& e) { return e.shard_id == shard_id; });
-    if (it != shards_.end()) {
-        size_t idx = std::distance(shards_.begin(), it);
-        
-        // RAII: Erase from vectors to properly cleanup mutexes
-        shards_.erase(it);
-        circuit_breaker_mutexes_.erase(circuit_breaker_mutexes_.begin() + idx);
-        queue_mutexes_.erase(queue_mutexes_.begin() + idx);
-        queue_cvs_.erase(queue_cvs_.begin() + idx);
-        
-        // Update pointers in remaining entries
-        for (size_t i = idx; i < shards_.size(); ++i) {
-            shards_[i].circuit_breaker_mutex = &circuit_breaker_mutexes_[i];
-            shards_[i].queue_mutex = &queue_mutexes_[i];
-            shards_[i].queue_cv = &queue_cvs_[i];
-        }
-    }
+    shards_.erase(
+        std::remove_if(shards_.begin(), shards_.end(), [&](const ShardEntry &e) { return e.shard_id == shard_id; }),
+        shards_.end());
 }
 
 size_t DistributedAnalyticsSharding::getShardCount() const {
-    // LOCK ORDERING DOCUMENTATION:
-    // This function acquires ONLY Tier 1 lock (mutex_):
-    //   1. mutex_ (registry lock) — get shard count [BRIEF]
-    // SAFE: Read-only, no per-shard operations.
-     
     std::lock_guard<std::mutex> lock(mutex_);
     return shards_.size();
 }
 
 size_t DistributedAnalyticsSharding::getHealthyShardCount() const {
-    // LOCK ORDERING DOCUMENTATION:
-    // This function acquires ONLY Tier 1 lock (mutex_):
-    //   1. mutex_ (registry lock) — check health status [BRIEF]
-    // SAFE: Read-only atomics used for health flags (no circular lock risk).
-     
     std::lock_guard<std::mutex> lock(mutex_);
     size_t n = 0;
     for (const auto &e : shards_) {
@@ -533,12 +485,6 @@ size_t DistributedAnalyticsSharding::getHealthyShardCount() const {
 }
 
 std::future<size_t> DistributedAnalyticsSharding::getHealthyShardCountAsync() const {
-    // LOCK ORDERING DOCUMENTATION:
-    // This function uses snapshot-then-process pattern to avoid circular locks:
-    //   1. mutex_ (Tier 1 registry lock) — snapshot shard list [BRIEF]
-    //   2. Per-shard health checks — done AFTER lock release (no Tier 2 locks held)
-    // CRITICAL: mutex_ released before health check loop — prevents deadlock.
-     
     // Snapshot shard list under a brief lock
     std::vector<ShardEntry> snapshot;
     {
@@ -804,29 +750,6 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
     // full executeDistributed() call. This is an intentional architectural choice to avoid
     // cascading retries in distributed fan-out scenarios.
 
-    // LOCK ORDERING DOCUMENTATION:
-    // This function uses STRICT LOCK HIERARCHY to prevent circular locks:
-    //
-    // PHASE 1: Snapshot + Circuit Breaker Check (Tier 1 lock held)
-    //   - Acquire mutex_ (Tier 1 registry lock) [BRIEF]
-    //   - Snapshot shard list (with health + tenant checks)
-    //   - Call updateCircuitBreakerState() for EACH shard (acquires Tier 2 locks)
-    //   - Release mutex_ (Tier 1)
-    //
-    // PHASE 2: Execute Queries (NO Tier 1 lock held)
-    //   - Dispatch async tasks to each active shard (no lock dependencies)
-    //   - Collect results with per-shard timeouts
-    //   - Call onShardSuccess/onShardFailure for EACH shard (acquires Tier 2 only)
-    //
-    // CRITICAL INVARIANT: Tier 1 (mutex_) is released BEFORE Phase 2 begins.
-    // This prevents circular locks: even though Phase 1 acquires Tier 1 → Tier 2,
-    // Phase 2 NEVER re-acquires Tier 1 while holding Tier 2.
-    //
-    // THREAD SAFETY:
-    //   - Concurrent executeDistributed() calls are safe (independent shards snapshot)
-    //   - Concurrent addShard/removeShard with executeDistributed is UNSAFE
-    //     (topology can change during Phase 1)
-
     // Snapshot the active shard list under the lock (uses cached health — no I/O)
     std::vector<ShardEntry> active;
     {
@@ -995,14 +918,6 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
         }
     }
 
-    // RAII: Join all worker threads (CRITICAL: must complete before accessing results)
-    // This ensures exception-safe cleanup even if we return early
-    for (auto& t : worker_threads) {
-        if (t.joinable()) {
-            t.join();
-        }
-    }
-
     // ------------------------------------------------------------------
     // Failure-rate gate: abort if too many shards failed
     // ------------------------------------------------------------------
@@ -1044,14 +959,6 @@ OLAPResult DistributedAnalyticsSharding::execute(const OLAPQuery &query) {
 // ============================================================================
 
 void DistributedAnalyticsSharding::onShardSuccess(ShardEntry& entry) {
-    // LOCK ORDERING DOCUMENTATION:
-    // This function acquires ONLY Tier 2 lock (per-shard circuit_breaker_mutex):
-    //   1. circuit_breaker_mutex (per-shard lock) — update circuit breaker state on success
-    // SAFETY NOTES:
-    //   - Caller must NOT hold mutex_ (avoids Tier 2 → Tier 1 inversion)
-    //   - In executeDistributed, this is called AFTER the main lock is released
-    //   - Safe to call concurrently with other per-shard operations
-     
     if (!config_.enable_circuit_breaker) return;
 
     std::lock_guard<std::mutex> lock(*entry.circuit_breaker_mutex);
@@ -1074,15 +981,6 @@ void DistributedAnalyticsSharding::onShardSuccess(ShardEntry& entry) {
 }
 
 bool DistributedAnalyticsSharding::onShardFailure(ShardEntry& entry, const std::string& error_msg) {
-    // LOCK ORDERING DOCUMENTATION:
-    // This function acquires ONLY Tier 2 lock (per-shard circuit_breaker_mutex):
-    //   1. circuit_breaker_mutex (per-shard lock) — update circuit breaker state on failure
-    // SAFETY NOTES:
-    //   - Caller must NOT hold mutex_ (avoids Tier 2 → Tier 1 inversion)
-    //   - In executeDistributed, this is called AFTER the main lock is released
-    //   - Safe to call concurrently with other per-shard operations
-    //   - Transitions circuit breaker from CLOSED → OPEN if failure threshold exceeded
-     
     if (!config_.enable_circuit_breaker) return true;
 
     std::lock_guard<std::mutex> lock(*entry.circuit_breaker_mutex);
@@ -1131,16 +1029,6 @@ bool DistributedAnalyticsSharding::onShardFailure(ShardEntry& entry, const std::
 }
 
 CircuitBreakerState DistributedAnalyticsSharding::updateCircuitBreakerState(ShardEntry& entry) {
-    // LOCK ORDERING DOCUMENTATION:
-    // This function acquires ONLY Tier 2 lock (per-shard circuit_breaker_mutex):
-    //   1. circuit_breaker_mutex (per-shard lock) — check/transition circuit breaker state
-    // SAFETY NOTES:
-    //   - Caller must NOT hold mutex_ when calling this function (would cause inverted lock order)
-    //   - Callers that hold mutex_ (e.g., executeDistributed) must snapshot the ShardEntry first
-    //   - This function is called WHILE holding mutex_ in executeDistributed, which is OK
-    //     because we acquire Tier 1 (mutex_) BEFORE Tier 2 (circuit_breaker_mutex)
-    //   - However, NO other function should acquire circuit_breaker_mutex BEFORE mutex_
-     
     if (!config_.enable_circuit_breaker) return CircuitBreakerState::CLOSED;
 
     std::lock_guard<std::mutex> lock(*entry.circuit_breaker_mutex);
@@ -1218,3 +1106,50 @@ void DistributedAnalyticsSharding::processQueuedRequests(ShardEntry& entry) {
 } // namespace themisdb
 
 
+
+// ============================================================================
+// Phase 2E: Distributed Analytics Functions
+// ============================================================================
+
+/**
+ * @brief Merge partial results from multiple shards
+ * 
+ * Aggregates results with proper handling of distributed metrics
+ */
+Status DistributedAnalytics::mergePartialResults(
+    const std::vector<PartialResult>& partial_results,
+    AggregatedResult& out_result) {
+    
+    if (partial_results.empty()) {
+        return Status::Error("No partial results to merge");
+    }
+    
+    // Initialize output
+    out_result.total_sum = 0.0;
+    out_result.total_count = 0;
+    out_result.values.clear();
+    
+    // Aggregate results from all shards
+    for (const auto& partial : partial_results) {
+        if (!partial.is_valid) {
+            continue;
+        }
+        
+        out_result.total_sum += partial.partial_sum;
+        out_result.total_count += partial.partial_count;
+        
+        for (const auto& val : partial.values) {
+            out_result.values.push_back(val);
+        }
+    }
+    
+    // Compute merged metrics
+    if (out_result.total_count > 0) {
+        out_result.average = out_result.total_sum / static_cast<double>(out_result.total_count);
+    }
+    
+    return Status::OK();
+}
+
+} // namespace analytics
+} // namespace themisdb

@@ -596,7 +596,6 @@ class InProcessArrowFlightServer final : public ArrowFlightServer {
                     std::shared_ptr<RecordBatch> owner;
                     std::shared_ptr<arrow::RecordBatch> rb;
                     std::shared_ptr<arrow::Schema> schema_;
-  // scope: moved to inner block (scope_mismatch remediation B1)
                     bool done = false;
                     LifetimeHolder(std::shared_ptr<RecordBatch> o, std::shared_ptr<arrow::RecordBatch> b)
                         : owner(std::move(o)), rb(std::move(b)), schema_(rb->schema()) {}

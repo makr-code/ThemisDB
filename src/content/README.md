@@ -86,4 +86,8 @@ Out of scope:
   - async pipeline and plugin integration paths
 - Note:
   - forward planning is tracked in ROADMAP.md and FUTURE_ENHANCEMENTS.md
+  - Batch 5 (v2.4.0 GA closure) tasks tracked in:
+    - CMT-7504-DOCUMENTATION_SYNC.md (linkset synchronization)
+    - CMT-7505-TEST_COVERAGE_CORRELATION.md (gap-to-test mapping)
+    - CMT-7506-GA_PROMOTION_SIGN_OFF.md (promotion readiness)
   - historical entries remain in CHANGELOG.md

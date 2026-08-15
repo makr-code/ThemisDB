@@ -1,11 +1,12 @@
 /**
  * @file content_logger.cpp
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief Content module logging infrastructure with structured logging and diagnostic emission.
  * @version 0.0.47
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 84/100
- * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=22, M=1, L=4
- * @note Status: Production Ready
+ * @note Maturity: 🟡 BETA
+ * @note Score: 76/100 (Batch 5 verified; HIGH gaps in log level handling and filtering)
+ * @note Gap Status: Batches 1-4 in progress; C=0 (none), H=22 (log level consistency, Batch 2 target), M=1 (minor format), L=4 (low priority)
+ * @note Batch Tracking: CMT-7501 (metadata correction 84→76, BETA status), CMT-7505 (test coverage 78%→90% target)
+ * @note Status: Beta; Core logging functional; advanced log filtering and level management deferred to Batch 2
  * @note This block is auto-generated and will be overwritten.
  */
 

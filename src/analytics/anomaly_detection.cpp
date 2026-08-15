@@ -9,6 +9,7 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
+
 /**
  * ThemisDB Real-Time Anomaly Detection Engine – Implementation
  *
@@ -104,7 +105,6 @@ double computeVarianceFromMean(const std::vector<double> &v, double mean) {
     if (v.size() < 2) {
         return 0.0;
     }
-  // scope: moved to inner block (scope_mismatch remediation B1)
     double acc = 0.0;
     for (double x : v) {
         double d = x - mean;
@@ -125,7 +125,6 @@ double computeMedian(std::vector<double> v) { // takes by value – sorted local
     if (v.size() % 2 == 1) {
         return v[v.size() / 2];
     }
-  // scope: moved to inner block (scope_mismatch remediation B1)
     double hi = v[v.size() / 2];
     std::nth_element(v.begin(), v.begin() + v.size() / 2 - 1, v.end());
     return (v[v.size() / 2 - 1] + hi) * 0.5;
@@ -146,7 +145,6 @@ void computeQuartiles(const std::vector<double> &sorted, double &q1, double &q3)
         q1 = q3 = 0.0;
         return;
     }
-  // scope: moved to inner block (scope_mismatch remediation B1)
     auto lerp = [&](double pos) -> double {
         size_t lo   = static_cast<size_t>(pos);
         double frac = pos - static_cast<double>(lo);
@@ -235,9 +233,6 @@ struct IFNode {
 struct ITree {
     std::vector<IFNode> nodes;
     int height_limit = 0;
-
-    // RAII: Explicit destructor ensures proper resource cleanup
-    ~ITree() = default;
 };
 
 ITree buildITree(const FeatureMatrix &fm, const std::vector<size_t> &indices, int height, int height_limit,
@@ -258,9 +253,6 @@ ITree buildITree(const FeatureMatrix &fm, const std::vector<size_t> &indices, in
         int height;
         int parent_id; // -1 for root
         int side;      // 0 = left, 1 = right
-
-        // RAII: Explicit destructor ensures proper resource cleanup
-        ~Frame() = default;
     };
     std::vector<Frame> stack;
     stack.push_back({indices, height, -1, 0});
@@ -347,9 +339,7 @@ ITree buildITree(const FeatureMatrix &fm, const std::vector<size_t> &indices, in
 
 /// Path length for a single query point through one ITree.
 double iforestPathLength(const ITree &tree, const std::vector<double> &x) {
-  // scope: moved to inner block (scope_mismatch remediation B1)
     int node  = 0;
-  // scope: moved to inner block (scope_mismatch remediation B1)
     int depth = 0;
     while (node >= 0 && node < static_cast<int>(tree.nodes.size())) {
         const IFNode &n = tree.nodes[static_cast<size_t>(node)];
@@ -377,7 +367,6 @@ double iforestPathLength(const ITree &tree, const std::vector<double> &x) {
 // --------------------------------------------------------------------------
 
 double euclidean(const std::vector<double> &a, const std::vector<double> &b) {
-  // scope: moved to inner block (scope_mismatch remediation B1)
     double sum = 0.0;
     size_t n   = std::min(a.size(), b.size());
     for (size_t i = 0; i < n; ++i) {
@@ -409,7 +398,6 @@ std::vector<std::pair<double, size_t>> knn(const std::vector<std::vector<double>
 
 struct AnomalyDetector::Impl {
     DetectorConfig cfg;
-  // scope: moved to inner block (scope_mismatch remediation B1)
     bool trained      = false;
     size_t n_features = 0;
     std::vector<std::string> feature_names;
@@ -733,7 +721,6 @@ struct AnomalyDetector::Impl {
     // feature appears as a split feature.  Normalise to [0,1].
     std::vector<double> iforestFeatureContributions(const std::vector<double> &x) const {
         std::vector<double> contrib(n_features, 0.0);
-  // scope: moved to inner block (scope_mismatch remediation B1)
         int total_splits = 0;
         for (const auto &tree : forest) {
             int node  = 0;
@@ -1037,7 +1024,6 @@ std::string AnomalyDetector::serialize() const {
     }
     ss << "\n";
 
-  // scope: moved to inner block (scope_mismatch remediation B1)
     auto writeVec = [&](const char *key, const std::vector<double> &v) {
         ss << key << "=";
         for (size_t i = 0; i < v.size(); ++i) {
@@ -1064,7 +1050,6 @@ AnomalyDetector AnomalyDetector::deserialize(const std::string &data) {
     std::istringstream ss(data);
     std::string line;
 
-  // scope: moved to inner block (scope_mismatch remediation B1)
     auto splitComma = [](const std::string &s) -> std::vector<std::string> {
         std::vector<std::string> parts;
         std::istringstream ls(s);
@@ -1075,14 +1060,10 @@ AnomalyDetector AnomalyDetector::deserialize(const std::string &data) {
         return parts;
     };
 
-  // scope: moved to inner block (scope_mismatch remediation B1)
     auto toDoubleVec = [&](const std::string &s) -> std::vector<double> {
         std::vector<double> v;
-        for (const auto &t : splitComma(s)) {
-            try {
-                v.push_back(std::stod(t));
-            } catch (...) {
-            }
+        for (const auto& t : splitComma(s)) {
+            try { v.push_back(std::stod(t)); } catch (...) {}
         }
         return v;
     };
@@ -1121,22 +1102,15 @@ AnomalyDetector AnomalyDetector::deserialize(const std::string &data) {
                 det.impl_->q3 = toDoubleVec(val);
             } else if (key == "iqr") {
                 det.impl_->iqr = toDoubleVec(val);
-            } else if (key == "means")
-                det.impl_->means = toDoubleVec(val);
-            else if (key == "stddevs")
-                det.impl_->stddevs = toDoubleVec(val);
-            else if (key == "medians")
-                det.impl_->medians = toDoubleVec(val);
-            else if (key == "mads")
-                det.impl_->mads = toDoubleVec(val);
-            else if (key == "q1")
-                det.impl_->q1 = toDoubleVec(val);
-            else if (key == "q3")
-                det.impl_->q3 = toDoubleVec(val);
-            else if (key == "iqr")
-                det.impl_->iqr = toDoubleVec(val);
-        } catch (...) { /* skip malformed line */
-        }
+            }
+            else if (key == "means")   det.impl_->means   = toDoubleVec(val);
+            else if (key == "stddevs") det.impl_->stddevs = toDoubleVec(val);
+            else if (key == "medians") det.impl_->medians = toDoubleVec(val);
+            else if (key == "mads")    det.impl_->mads    = toDoubleVec(val);
+            else if (key == "q1")      det.impl_->q1      = toDoubleVec(val);
+            else if (key == "q3")      det.impl_->q3      = toDoubleVec(val);
+            else if (key == "iqr")     det.impl_->iqr     = toDoubleVec(val);
+        } catch (...) { /* skip malformed line */ }
     }
     return det;
 }
@@ -1243,8 +1217,7 @@ std::optional<AnomalyResult> StreamingAnomalyDetector::process(const DataPoint &
                     // O(1) pointer swap under brief exclusive lock
                     std::unique_lock<std::shared_mutex> dl(detector_mu_);
                     detector_ = std::move(tmp);
-                } catch (...) {
-                }
+                } catch (...) {}
             }
             retraining_.store(false, std::memory_order_release);
         }
@@ -1266,24 +1239,24 @@ std::optional<AnomalyResult> StreamingAnomalyDetector::process(const DataPoint &
         } else {
             auto buf = snapshotWindow(); // brief shared_lock<window_mu_>
             auto dc  = makeDetectorConfig();
-            retrain_future_
-                = std::async(std::launch::async, [this, buf = std::move(buf), dc = std::move(dc)]() mutable {
-                      // train() is the long O(N·T)/O(N²) work — run with NO lock.
-                      // Even if stopping_ becomes true mid-flight, the destructor's
-                      // retrain_future_.wait() ensures this lambda completes before
-                      // any member is destroyed — no use-after-free.
-                      if (!stopping_.load(std::memory_order_acquire)) {
-                          try {
-                              AnomalyDetector tmp(dc);
-                              tmp.train(buf); // off-lock (O(N·T)/O(N²))
-                              // O(1) Pimpl pointer swap under brief exclusive lock
-                              std::unique_lock<std::shared_mutex> dl(detector_mu_);
-                              detector_ = std::move(tmp);
-                          } catch (...) {
-                          }
-                      }
-                      retraining_.store(false, std::memory_order_release);
-                  });
+            retrain_future_ = std::async(
+                std::launch::async,
+                [this, buf = std::move(buf), dc = std::move(dc)]() mutable {
+                    // train() is the long O(N·T)/O(N²) work — run with NO lock.
+                    // Even if stopping_ becomes true mid-flight, the destructor's
+                    // retrain_future_.wait() ensures this lambda completes before
+                    // any member is destroyed — no use-after-free.
+                    if (!stopping_.load(std::memory_order_acquire)) {
+                        try {
+                            AnomalyDetector tmp(dc);
+                            tmp.train(buf);           // off-lock (O(N·T)/O(N²))
+                            // O(1) Pimpl pointer swap under brief exclusive lock
+                            std::unique_lock<std::shared_mutex> dl(detector_mu_);
+                            detector_ = std::move(tmp);
+                        } catch (...) {}
+                    }
+                    retraining_.store(false, std::memory_order_release);
+                });
         }
     }
 
@@ -1347,3 +1320,4 @@ StreamingAnomalyDetector::WindowStats StreamingAnomalyDetector::getWindowStats()
 
 } // namespace analytics
 } // namespace themisdb
+

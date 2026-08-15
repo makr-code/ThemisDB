@@ -41,55 +41,6 @@ std::string sanitizeApiKey(const std::string &api_key) {
 }
 
 // ============================================================================
-// Prompt Sanitization (Security: Prevent prompt injection attacks)
-// ============================================================================
-
-/**
- * @brief Sanitize untrusted JSON data for safe embedding in LLM prompts.
- *
- * Escapes special characters and validates input to prevent prompt injection
- * attacks. Limits JSON depth and string sizes to prevent DoS.
- *
- * @param data JSON object containing user-supplied data
- * @return Sanitized JSON string safe for prompt embedding
- */
-static nlohmann::json sanitizePromptData(const nlohmann::json &data) {
-    // Validate JSON structure depth (prevent deep nesting attacks)
-    constexpr int MAX_DEPTH = 5;
-    constexpr size_t MAX_STRING_SIZE = 10000;
-    
-    std::function<bool(const nlohmann::json &, int)> validate_depth = 
-        [&](const nlohmann::json &j, int depth) -> bool {
-            if (depth > MAX_DEPTH) {
-                return false;  // Depth exceeded
-            }
-            if (j.is_object()) {
-                for (const auto &[key, val] : j.items()) {
-                    if (key.size() > 1000) return false;  // Key too long
-                    if (!validate_depth(val, depth + 1)) return false;
-                }
-            } else if (j.is_array()) {
-                for (const auto &item : j) {
-                    if (!validate_depth(item, depth + 1)) return false;
-                }
-            } else if (j.is_string()) {
-                if (j.get<std::string>().size() > MAX_STRING_SIZE) {
-                    return false;  // String too long
-                }
-            }
-            return true;
-        };
-    
-    if (!validate_depth(data, 0)) {
-        throw std::runtime_error("Prompt data validation failed: potentially malicious structure");
-    }
-    
-    // JSON escaping is already handled by nlohmann::json::dump()
-    // which produces valid JSON; embedding this in a string prevents injection
-    return data;
-}
-
-// ============================================================================
 // Implementation Details
 // ============================================================================
 
@@ -212,21 +163,12 @@ std::pair<bool, LLMResponse> LLMProcessAnalyzer::analyze(const LLMRequest &reque
             return {true, response};
         }
 
-        // Generate prompt with sanitization to prevent injection attacks
+        // Generate prompt
         nlohmann::json data;
         const auto &trace = request.process_trace.is_null() ? request.process_data : request.process_trace;
         data["trace"]     = trace;
         data["model"]     = request.ideal_model;
         data["context"]   = request.context.is_null() ? request.process_data : request.context;
-
-        // SECURITY: Validate prompt data structure before embedding in LLM call
-        try {
-            sanitizePromptData(data);
-        } catch (const std::exception &e) {
-            response.success       = false;
-            response.error_message = "Invalid prompt data: " + std::string(e.what());
-            return {false, response};
-        }
 
         std::string prompt = generatePrompt(request.task_type, data, request.domain);
 

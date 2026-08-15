@@ -41,7 +41,6 @@ namespace analytics {
  */
 static arrow::Result<std::shared_ptr<arrow::Buffer>> buildValidityBitmap(const ArrowRecordBatch::Column &col,
                                                                          int64_t length) {
-  // scope: moved to inner block (scope_mismatch remediation B1)
     bool has_nulls = false;
     for (bool is_null : col.null_bitmap) {
         if (is_null) {
@@ -107,7 +106,6 @@ static arrow::Result<std::shared_ptr<arrow::RecordBatch>> convertToArrowRecordBa
         fields.push_back(arrow::field(col.schema.name, arrow_type, col.schema.nullable));
     }
 
-  // scope: moved to inner block (scope_mismatch remediation B1)
     auto schema = arrow::schema(fields);
 
     // Build arrays – zero-copy for numeric types, builder-based for others

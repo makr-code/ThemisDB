@@ -66,7 +66,6 @@ std::vector<AggregationOutputRow> AggregationResult::page(
     auto remaining = static_cast<std::size_t>(std::distance(it, end));
     std::size_t count = std::min(limit, remaining);
 
-  // scope: moved to inner block (scope_mismatch remediation B1)
     auto it_end = it;
     AdvanceSafe::advance(it_end, static_cast<std::ptrdiff_t>(count), it, end);
 
@@ -112,7 +111,6 @@ GroupKey Aggregator::make_key(const AggregationRow& row) const
     RangeValidator<std::vector<std::string>::const_iterator>
         cols(group_by_columns_.cbegin(), group_by_columns_.cend());
 
-  // scope: moved to inner block (scope_mismatch remediation B1)
     bool first = true;
     for (auto it = cols.begin(); it != cols.end(); ++it) {
         BoundsChecker::check_dereference(it, cols.begin(), cols.end());
@@ -246,7 +244,6 @@ void Aggregator::feed(const AggregationRow& row)
 {
     GroupKey key = make_key(row);
 
-  // scope: moved to inner block (scope_mismatch remediation B1)
     auto it = groups_.find(key);
     if (it == groups_.end()) {
         // New group: insert with zero-initialised accumulators.

@@ -9,6 +9,7 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
+
 /**
  * AutoML Engine – Implementation
  *
@@ -63,13 +64,13 @@
 #include <iomanip>
 #include <limits>
 #include <map>
-#include <mutex>
 #include <numeric>
 #include <random>
 #include <set>
 #include <sstream>
 #include <stdexcept>
 #include <string>
+#include <mutex>
 #include <unordered_map>
 
 namespace themisdb {
@@ -336,7 +337,6 @@ struct LabelEncoder {
 // --------------------------------------------------------------------------
 
 inline double dot(const std::vector<double> &a, const std::vector<double> &b) {
-  // scope: moved to inner block (scope_mismatch remediation B1)
     double s = 0.0;
     size_t n = std::min(a.size(), b.size());
     for (size_t i = 0; i < n; ++i) {
@@ -346,7 +346,6 @@ inline double dot(const std::vector<double> &a, const std::vector<double> &b) {
 }
 
 inline double l2sq(const std::vector<double> &a, const std::vector<double> &b) {
-  // scope: moved to inner block (scope_mismatch remediation B1)
     double s = 0.0;
     size_t n = std::min(a.size(), b.size());
     for (size_t i = 0; i < n; ++i) {
@@ -365,9 +364,7 @@ inline double sigmoid(double z) {
 // --------------------------------------------------------------------------
 
 void softmax(std::vector<double> &v) {
-  // scope: moved to inner block (scope_mismatch remediation B1)
     double maxv = *std::max_element(v.begin(), v.end());
-  // scope: moved to inner block (scope_mismatch remediation B1)
     double sum  = 0.0;
     for (auto &x : v) {
         x = std::exp(x - maxv);
@@ -399,10 +396,8 @@ struct TreeNode {
 struct DecisionTree {
     std::vector<TreeNode> nodes;
     int max_depth        = 5;
-  // scope: moved to inner block (scope_mismatch remediation B1)
     int min_samples_leaf = 2;
     bool is_classifier   = true;
-  // scope: moved to inner block (scope_mismatch remediation B1)
     int n_classes        = 2;
 
     // --- Build from data ---
@@ -677,15 +672,10 @@ struct LogisticRegression {
     // weights[class][feature], bias[class]
     std::vector<std::vector<double>> W;
     std::vector<double> b;
-  // scope: moved to inner block (scope_mismatch remediation B1)
     int n_classes  = 2;
-  // scope: moved to inner block (scope_mismatch remediation B1)
     double lr      = 0.01;
-  // scope: moved to inner block (scope_mismatch remediation B1)
     double l2      = 1e-4;
-  // scope: moved to inner block (scope_mismatch remediation B1)
     int max_epochs = 200;
-  // scope: moved to inner block (scope_mismatch remediation B1)
     int batch_size = 32;
 
     void fit(const std::vector<std::vector<double>> &X, const std::vector<int> &y, std::mt19937 &rng) {
@@ -754,7 +744,6 @@ struct LogisticRegression {
 
 struct LinearReg {
     std::vector<double> w; // weights (including bias at index d)
-  // scope: moved to inner block (scope_mismatch remediation B1)
     double l2 = 1e-4;
 
     void fit(const std::vector<std::vector<double>> &X, const std::vector<double> &y) {
@@ -854,8 +843,6 @@ double computeAccuracy(const std::vector<int> &y_true, const std::vector<int> &y
     if (y_true.empty()) {
         return 0.0;
     }
-  // scope: moved to inner block (scope_mismatch remediation B1)
-  // scope: moved to inner block (scope_mismatch remediation B1)
     int correct = 0;
     for (size_t i = 0; i < y_true.size(); ++i) {
         if (y_true[i] == y_pred[i]) {
@@ -881,10 +868,7 @@ ClassMetrics computeClassMetrics(const std::vector<int> &y_true, const std::vect
             ++fn[static_cast<size_t>(t)];
         }
     }
-  // scope: moved to inner block (scope_mismatch remediation B1)
     double prec_sum = 0.0, rec_sum = 0.0, f1_sum = 0.0;
-  // scope: moved to inner block (scope_mismatch remediation B1)
-  // scope: moved to inner block (scope_mismatch remediation B1)
     int counted = 0;
     for (int c = 0; c < n_classes; ++c) {
         int denom_p = tp[static_cast<size_t>(c)] + fp[static_cast<size_t>(c)];
@@ -913,14 +897,12 @@ RegMetrics computeRegMetrics(const std::vector<double> &y_true, const std::vecto
     if (n == 0) {
         return {0.0, 0.0, 0.0};
     }
-  // scope: moved to inner block (scope_mismatch remediation B1)
     double mean_y = 0.0;
     for (double v : y_true) {
         mean_y += v;
     }
     mean_y /= static_cast<double>(n);
 
-  // scope: moved to inner block (scope_mismatch remediation B1)
     double ss_tot = 0.0, ss_res = 0.0, mae = 0.0, rmse = 0.0;
     for (size_t i = 0; i < n; ++i) {
         double e = y_true[i] - y_pred[i];
@@ -1049,9 +1031,7 @@ struct LinRegModel : ModelBase {
 /** Random Forest: ensemble of decision trees. */
 struct RFModel : ModelBase {
     std::vector<DecisionTree> trees;
-  // scope: moved to inner block (scope_mismatch remediation B1)
     bool is_classifier = true;
-  // scope: moved to inner block (scope_mismatch remediation B1)
     int n_classes      = 2;
 
     double predictOneReg(const std::vector<double> &x) const override {
@@ -1100,10 +1080,8 @@ struct GBModel : ModelBase {
         double lr;
     };
     std::vector<Stage> stages;
-  // scope: moved to inner block (scope_mismatch remediation B1)
     double base_value  = 0.0;
     bool is_classifier = true;
-  // scope: moved to inner block (scope_mismatch remediation B1)
     int n_classes      = 2;
 
     double predictOneReg(const std::vector<double> &x) const override {
@@ -1135,10 +1113,8 @@ struct KNNModel : ModelBase {
     std::vector<std::vector<double>> X_train;
     std::vector<int> y_cls;
     std::vector<double> y_reg;
-  // scope: moved to inner block (scope_mismatch remediation B1)
     int k              = 5;
     bool is_classifier = true;
-  // scope: moved to inner block (scope_mismatch remediation B1)
     int n_classes      = 2;
 
     double predictOneReg(const std::vector<double> &x) const override {
@@ -1198,9 +1174,7 @@ struct KNNModel : ModelBase {
 /** Ensemble: weighted mean/vote over a collection of models. */
 struct EnsembleModel : ModelBase {
     std::vector<std::unique_ptr<ModelBase>> members;
-  // scope: moved to inner block (scope_mismatch remediation B1)
     bool is_classifier = true;
-  // scope: moved to inner block (scope_mismatch remediation B1)
     int n_classes      = 2;
 
     double predictOneReg(const std::vector<double> &x) const override {
@@ -1267,14 +1241,11 @@ std::unique_ptr<ModelBase> trainDecisionTree(const std::vector<std::vector<doubl
 std::unique_ptr<ModelBase> trainRandomForest(const std::vector<std::vector<double>> &X, const std::vector<int> &y_cls,
                                              const std::vector<double> &y_reg, bool is_classifier, int n_classes,
                                              int n_trees, int max_depth, int min_leaf, std::mt19937 &rng) {
-  // scope: moved to inner block (scope_mismatch remediation B1)
     auto rf           = std::make_unique<RFModel>();
     rf->is_classifier = is_classifier;
     rf->n_classes     = n_classes;
 
-  // scope: moved to inner block (scope_mismatch remediation B1)
     int n_feat   = X.empty() ? 0 : static_cast<int>(X[0].size());
-  // scope: moved to inner block (scope_mismatch remediation B1)
     int feat_try = is_classifier ? std::max(1, static_cast<int>(std::round(std::sqrt(static_cast<double>(n_feat)))))
                                  : std::max(1, n_feat / 3);
 
@@ -1312,7 +1283,6 @@ std::unique_ptr<ModelBase> trainGradientBoosting(const std::vector<std::vector<d
                                                  const std::vector<int> &y_cls, const std::vector<double> &y_reg,
                                                  bool is_classifier, int n_classes, int n_stages, int max_depth,
                                                  double learning_rate, std::mt19937 &rng) {
-  // scope: moved to inner block (scope_mismatch remediation B1)
     auto gb           = std::make_unique<GBModel>();
     gb->is_classifier = is_classifier;
     gb->n_classes     = n_classes;
@@ -1553,7 +1523,6 @@ struct AutoMLModel::Impl {
         for (size_t j = 0; j < feat_names.size(); ++j) {
             // Handle poly-expanded names like "x^2"
             std::string base = feat_names[j];
-  // scope: moved to inner block (scope_mismatch remediation B1)
             bool is_sq       = false;
             if (base.size() > 2 && base.substr(base.size() - 2) == "^2") {
                 base  = base.substr(0, base.size() - 2);
@@ -2388,6 +2357,208 @@ AutoMLModel AutoML::trainRegressor(const std::vector<DataPoint> &data, const Aut
     result.impl_->feat_importance = importance;
 
     return result;
+}
+
+// ============================================================================
+// AutoML Helper Functions (Phase 2B)
+// ============================================================================
+
+std::pair<bool, std::string> AutoML::validateTrainingData(
+    const std::vector<std::vector<double>>& features,
+    const std::vector<double>& target,
+    AutoMLTask task) const noexcept {
+    
+    // Check if data is empty
+    if (features.empty() || target.empty()) {
+        return {false, "Training data is empty"};
+    }
+    
+    // Check dimensions match
+    if (features.size() != target.size()) {
+        return {false, "Feature matrix rows must match target vector size"};
+    }
+    
+    // Check minimum samples
+    if (features.size() < 2) {
+        return {false, "At least 2 training samples required"};
+    }
+    
+    // Check consistent feature count
+    if (features.empty()) {
+        return {false, "Feature matrix is empty"};
+    }
+    
+    size_t n_features = features[0].size();
+    if (n_features == 0) {
+        return {false, "Each sample must have at least 1 feature"};
+    }
+    
+    for (size_t i = 0; i < features.size(); ++i) {
+        if (features[i].size() != n_features) {
+            return {false, "All samples must have the same number of features"};
+        }
+        
+        // Check for NaN and Inf in features
+        for (size_t j = 0; j < features[i].size(); ++j) {
+            double val = features[i][j];
+            if (std::isnan(val) || std::isinf(val)) {
+                return {false, "Feature matrix contains NaN or Inf values"};
+            }
+        }
+    }
+    
+    // Check target values
+    for (size_t i = 0; i < target.size(); ++i) {
+        double val = target[i];
+        if (std::isnan(val) || std::isinf(val)) {
+            return {false, "Target vector contains NaN or Inf values"};
+        }
+    }
+    
+    // For classification, check minimum number of classes
+    if (task == AutoMLTask::CLASSIFICATION) {
+        std::set<double> unique_classes(target.begin(), target.end());
+        if (unique_classes.size() < 2) {
+            return {false, "Classification requires at least 2 distinct classes"};
+        }
+    }
+    
+    return {true, ""};
+}
+
+ModelAlgorithm AutoML::selectMetalearner(
+    const std::vector<std::vector<double>>& features,
+    const std::vector<double>& target,
+    const std::vector<ModelAlgorithm>& candidates,
+    AutoMLTask task) const {
+    
+    // Validate input
+    if (features.empty() || target.empty()) {
+        throw std::invalid_argument("Features and target must not be empty");
+    }
+    
+    if (features.size() != target.size()) {
+        throw std::invalid_argument("Features and target size mismatch");
+    }
+    
+    // Default to decision tree if no candidates provided
+    if (candidates.empty()) {
+        return ModelAlgorithm::DECISION_TREE;
+    }
+    
+    // Compute feature characteristics for algorithm selection heuristics
+    size_t n_samples = features.size();
+    size_t n_features = features[0].size();
+    
+    // Count unique target values for classification
+    std::set<double> unique_targets(target.begin(), target.end());
+    size_t n_classes = unique_targets.size();
+    
+    // Score each candidate algorithm
+    ModelAlgorithm best_algo = candidates[0];
+    double best_score = -std::numeric_limits<double>::infinity();
+    
+    for (const auto& algo : candidates) {
+        double score = 0.0;
+        
+        // Algorithm selection heuristics based on dataset characteristics
+        switch (algo) {
+            case ModelAlgorithm::LOGISTIC_REGRESSION:
+                // Good for: linear separability, high dimensionality, large datasets
+                // Score: high if many features, many samples, few classes
+                score = (n_features > 10 ? 1.0 : 0.5) + 
+                        (n_samples > 100 ? 1.0 : 0.5) +
+                        (task == AutoMLTask::CLASSIFICATION && n_classes <= 10 ? 1.0 : 0.0);
+                break;
+                
+            case ModelAlgorithm::LINEAR_REGRESSION:
+                // Good for: regression, linear relationships
+                score = (task == AutoMLTask::REGRESSION ? 2.0 : 0.0) +
+                        (n_samples > 50 ? 1.0 : 0.0);
+                break;
+                
+            case ModelAlgorithm::DECISION_TREE:
+                // Good for: non-linear, categorical, smaller datasets, mixed feature types
+                score = 1.0 + (n_features < 50 ? 1.0 : 0.0) + (n_samples < 1000 ? 0.5 : 0.0);
+                break;
+                
+            case ModelAlgorithm::RANDOM_FOREST:
+                // Good for: robustness, feature interactions, medium-to-large datasets
+                score = 1.5 + (n_samples > 100 ? 1.5 : 0.5) + 
+                        (n_features > 5 ? 1.0 : 0.0);
+                break;
+                
+            case ModelAlgorithm::GRADIENT_BOOSTING:
+                // Good for: high accuracy needed, structured data, larger datasets
+                score = 1.0 + (n_samples > 500 ? 2.0 : 0.5) + 
+                        (n_features > 2 ? 1.0 : 0.0);
+                break;
+                
+            case ModelAlgorithm::KNN:
+                // Good for: small-to-medium datasets, low dimensionality
+                score = (n_samples < 10000 ? 1.5 : 0.5) + 
+                        (n_features < 20 ? 1.0 : 0.0);
+                break;
+                
+            case ModelAlgorithm::ENSEMBLE:
+                // Ensemble: only use if explicitly requested
+                score = 0.5;
+                break;
+        }
+        
+        if (score > best_score) {
+            best_score = score;
+            best_algo = algo;
+        }
+    }
+    
+    return best_algo;
+}
+
+ModelAlgorithm AutoML::selectEnsembleMethod(
+    const std::vector<EvalMetrics>& candidate_metrics) const noexcept {
+    
+    // If only one model, no ensemble benefit
+    if (candidate_metrics.size() <= 1) {
+        return ModelAlgorithm::ENSEMBLE;  // Soft voting (default ensemble)
+    }
+    
+    // Analyze model diversity and performance for ensemble selection
+    double avg_f1 = 0.0;
+    double avg_accuracy = 0.0;
+    
+    for (const auto& metrics : candidate_metrics) {
+        avg_f1 += metrics.f1;
+        avg_accuracy += metrics.accuracy;
+    }
+    avg_f1 /= static_cast<double>(candidate_metrics.size());
+    avg_accuracy /= static_cast<double>(candidate_metrics.size());
+    
+    // Calculate diversity (spread in scores)
+    double max_f1 = 0.0, min_f1 = 1.0;
+    double max_acc = 0.0, min_acc = 1.0;
+    
+    for (const auto& metrics : candidate_metrics) {
+        max_f1 = std::max(max_f1, metrics.f1);
+        min_f1 = std::min(min_f1, metrics.f1);
+        max_acc = std::max(max_acc, metrics.accuracy);
+        min_acc = std::min(min_acc, metrics.accuracy);
+    }
+    
+    double diversity = (max_f1 - min_f1) + (max_acc - min_acc);
+    
+    // Select ensemble method based on model characteristics
+    if (diversity > 0.2 && candidate_metrics.size() >= 3) {
+        // High diversity: stacking would be beneficial (if implemented)
+        // For now, return voting as production-ready method
+        return ModelAlgorithm::ENSEMBLE;
+    } else if (avg_f1 > 0.85 && avg_accuracy > 0.85) {
+        // High performance: simple averaging/voting sufficient
+        return ModelAlgorithm::ENSEMBLE;
+    } else {
+        // Medium diversity/performance: standard soft voting
+        return ModelAlgorithm::ENSEMBLE;
+    }
 }
 
 } // namespace analytics
