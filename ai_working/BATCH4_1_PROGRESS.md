@@ -41,16 +41,16 @@
 ---
 
 ### Phase C: Timeout Enforcement (R09-R11, R16)
-**Status:** ⏳ Queued (after Phase B)
+**Status:** 🟡 IN PROGRESS (implementing timeout enforcement)
 
 | Fix | File | Line | Status |
 |-----|------|------|--------|
-| R09 | wire_protocol_zero_copy.cpp | 112 | ⏳ Pending |
-| R10 | service_mesh.cpp | 243 | ⏳ Pending |
-| R11 | wire_protocol_zero_copy.cpp | 160 | ⏳ Pending |
-| R16 | wire_protocol_performance.cpp | 232 | ⏳ Pending |
+| R09 | wire_protocol_zero_copy.cpp | 112 | 🟡 Implementing |
+| R10 | service_mesh.cpp | 243 | 🟡 Implementing |
+| R11 | wire_protocol_zero_copy.cpp | 160 | 🟡 Implementing |
+| R16 | wire_protocol_performance.cpp | 232 | 🟡 Implementing |
 
-**Gate:** TSan = 0 deadlocks, tests PASS
+**Gate:** TSan = 0 deadlocks, tests PASS, <1% perf overhead (R16)
 
 ---
 
