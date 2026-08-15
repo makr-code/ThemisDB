@@ -99,6 +99,20 @@ B (local tensor + ANN), C (distributed coordination), D (optional GPU).
   - 15 test cases covering parity, fallback, advisory mode, batch consistency
   - Category A kernels: euclidean, cosine distance
   - Acceptance thresholds: FP32 relative error < 1e-5
+- [x] **BATCH 4: Hybrid Retrieval Phase A/B Parity Validation** (Target: Q3 2026) — **COMPLETED 2026-08-15**
+  - Exact-first entry criteria validation
+  - 8 parity tests (HYB-01..HYB-08):
+    - HYB-01: Exact match found, bypass ANN
+    - HYB-02: No exact match, use ANN
+    - HYB-03: Mixed dataset exact + ANN candidates
+    - HYB-04: High-cardinality exact candidates
+    - HYB-05: Empty exact results, ANN fallback
+    - HYB-06: Concurrent exact + ANN queries (thread-safety)
+    - HYB-07: Latency comparison (exact vs ANN)
+    - HYB-08: Edge case NULL/empty/malformed inputs
+  - File: `tests/retrieval/test_retrieval_hybrid_parity_focused.cpp`
+  - Parity contract verified: Rank correlation ≥ 0.95 (Spearman)
+  - Deterministic fixtures for reproducible testing
 - [~] `test_sharding_multishard_exact` — Phase C gate (explicitly registered as `ShardingMultiShardExactPhaseCGate`; full environment validation still blocked by current repo-wide build failures outside sharding)
 - [ ] contract and integration tests implementation in `tests/epic1_retrieval/`
 
