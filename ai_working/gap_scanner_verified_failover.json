@@ -1,0 +1,147 @@
+{
+  "module": "failover",
+  "scan_timestamp": "2026-08-15T08:28:22",
+  "original_scan_date": "2026-06-04T08:50:22",
+  "verification_status": "COMPLETE",
+  "summary": {
+    "total_raw": 7,
+    "verified_gaps": 0,
+    "false_positives_removed": 7,
+    "downgrades": 0,
+    "scanner_issues": {
+      "line_number_drift": true,
+      "pattern_misclassification": true
+    },
+    "severity_distribution_after_verification": {
+      "CRITICAL": 0,
+      "HIGH": 0,
+      "MEDIUM": 0,
+      "INFO": 0,
+      "FALSE_POSITIVE": 7
+    }
+  },
+  "findings": [
+    {
+      "id": "FO-001",
+      "file": "src/failover/auto_failover_manager.cpp",
+      "reported_line": 271,
+      "actual_line": 334,
+      "pattern": "sleep_for/wait_for chrono temporary",
+      "original_severity": "HIGH",
+      "verified_severity": "FALSE_POSITIVE",
+      "classification": "False Positive - Chrono Temporary Misclassified",
+      "rationale": "Scanner flagged 'range_temporary' but actual code is failover_cv_.wait_for() with chrono::seconds. This is condition variable wait, not range-for on container. Chrono temporaries are designed to be temporary and are safe.",
+      "code_context": "failover_cv_.wait_for(lock, std::chrono::seconds(1), [this] { return !failover_queue_.empty() || !running_.load(); });",
+      "safety_assessment": "SAFE - Canonical condition variable pattern"
+    },
+    {
+      "id": "FO-002",
+      "file": "src/failover/auto_failover_manager.cpp",
+      "reported_line": 309,
+      "actual_line": 374,
+      "pattern": "sleep_for chrono temporary",
+      "original_severity": "HIGH",
+      "verified_severity": "FALSE_POSITIVE",
+      "classification": "False Positive - Chrono Temporary Misclassified",
+      "rationale": "Scanner reported 'range_temporary' on std::this_thread::sleep_for(std::chrono::seconds(5)). NOT a range-for loop. sleep_for() with chrono temporary is completely safe and canonical usage.",
+      "code_context": "std::this_thread::sleep_for(std::chrono::seconds(5));  // Brief delay before recovery attempt",
+      "safety_assessment": "SAFE - Standard sleep pattern with chrono duration"
+    },
+    {
+      "id": "FO-003",
+      "file": "src/failover/auto_failover_manager.cpp",
+      "reported_line": 416,
+      "actual_line": 481,
+      "pattern": "sleep_for chrono temporary",
+      "original_severity": "HIGH",
+      "verified_severity": "FALSE_POSITIVE",
+      "classification": "False Positive - Chrono Temporary Misclassified",
+      "rationale": "Scanner flagged 'range_temporary' on std::this_thread::sleep_for(std::chrono::milliseconds(100)). Same pattern: NOT a range-for, but safe chrono temporary used in polling loop.",
+      "code_context": "while (std::chrono::steady_clock::now() < deadline) { std::this_thread::sleep_for(std::chrono::milliseconds(100)); }",
+      "safety_assessment": "SAFE - Standard sleep pattern in polling loop"
+    },
+    {
+      "id": "FO-004",
+      "file": "src/failover/auto_failover_manager.cpp",
+      "reported_line": 592,
+      "actual_line": 678,
+      "pattern": "sleep_for chrono temporary",
+      "original_severity": "HIGH",
+      "verified_severity": "FALSE_POSITIVE",
+      "classification": "False Positive - Chrono Temporary Misclassified",
+      "rationale": "Scanner flagged 'range_temporary' on sleep_for in health check loop. Safe chrono temporary, not range-for.",
+      "code_context": "for (uint32_t i = 0; i < max_attempts; ++i) { std::this_thread::sleep_for(std::chrono::milliseconds(100)); }",
+      "safety_assessment": "SAFE - Standard sleep pattern in iteration loop"
+    },
+    {
+      "id": "FO-005",
+      "file": "src/failover/disaster_recovery_manager.cpp",
+      "reported_line": 301,
+      "actual_line": 321,
+      "pattern": "sleep_for chrono temporary",
+      "original_severity": "HIGH",
+      "verified_severity": "FALSE_POSITIVE",
+      "classification": "False Positive - Chrono Temporary Misclassified",
+      "rationale": "Scanner reported 'range_temporary' on sleep_for in disaster recovery catchup. Same pattern: safe chrono duration, not range-for.",
+      "code_context": "while (std::chrono::steady_clock::now() < deadline) { std::this_thread::sleep_for(std::chrono::milliseconds(100)); }",
+      "safety_assessment": "SAFE - Standard sleep pattern in catchup loop"
+    },
+    {
+      "id": "FO-006",
+      "file": "src/failover/auto_failover_manager.cpp",
+      "reported_line": 47,
+      "actual_line": 50,
+      "pattern": "Thread creation with method pointer",
+      "original_severity": "HIGH",
+      "verified_severity": "FALSE_POSITIVE",
+      "classification": "False Positive - Thread Creation Misclassified as Read",
+      "rationale": "Scanner flagged 'unspecified_consistency' on thread creation. This is thread INITIALIZATION, not a read. Consistency model applies to operations INSIDE thread function, not thread creation.",
+      "code_context": "monitoring_thread_ = std::thread(&AutoFailoverManager::monitoringLoop, this);",
+      "safety_assessment": "SAFE - Thread creation is initialization, not a distributed read"
+    },
+    {
+      "id": "FO-007",
+      "file": "src/failover/auto_failover_manager.cpp",
+      "reported_line": 48,
+      "actual_line": 51,
+      "pattern": "Thread creation with method pointer",
+      "original_severity": "HIGH",
+      "verified_severity": "FALSE_POSITIVE",
+      "classification": "False Positive - Thread Creation Misclassified as Read",
+      "rationale": "Scanner flagged 'unspecified_consistency' on thread creation. Same pattern as FO-006: thread CREATION, not a read. Consistency concerns are inside failoverLoop(), not at creation.",
+      "code_context": "failover_thread_ = std::thread(&AutoFailoverManager::failoverLoop, this);",
+      "safety_assessment": "SAFE - Thread creation is thread management, not a distributed read"
+    }
+  ],
+  "scanner_analysis": {
+    "issue_1": {
+      "title": "Chrono Temporary Misclassification",
+      "description": "Scanner incorrectly classifies std::chrono::seconds() and std::chrono::milliseconds() as 'range_temporary'. These are chrono duration objects, designed to be temporary.",
+      "affected_pattern": "sleep_for(std::chrono::X(...)) and wait_for(..., std::chrono::X(...), ...)",
+      "root_cause": "Pattern matching lacks type awareness; doesn't distinguish chrono types from container types",
+      "recommendation": "Add std::chrono::* to whitelist, or implement type-aware analysis"
+    },
+    "issue_2": {
+      "title": "Thread Creation Misclassified as Distributed Read",
+      "description": "Scanner flags std::thread constructor as 'unspecified_consistency'. Thread creation is not a read operation.",
+      "affected_pattern": "std::thread(&Class::method, this)",
+      "root_cause": "Rule confuses thread initialization with distributed consistency concerns",
+      "recommendation": "Exclude std::thread construction from consistency level checks"
+    },
+    "issue_3": {
+      "title": "Line Number Drift",
+      "description": "Reported line numbers don't match actual code (767 lines reported, 830 actual). Gap scan was run on older version.",
+      "root_cause": "File has grown 63 lines since gap scan was run",
+      "impact": "Line numbers stale but patterns identifiable by context"
+    }
+  },
+  "remediation": {
+    "action": "DOCUMENT ONLY - No code changes required",
+    "next_steps": [
+      "Add source code comments marking false positives",
+      "Report scanner issues to maintainers",
+      "Update scanner rules for chrono and thread exclusions",
+      "Re-run gap scan on current code version"
+    ]
+  }
+}
