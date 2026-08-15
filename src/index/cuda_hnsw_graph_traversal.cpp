@@ -582,7 +582,8 @@ CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
                     }
                 }
 
-                cudaFree(d_queries_all);
+                // GPU Memory Leak Prevention (A-3.3): Defensive null check before free
+                if (d_queries_all) cudaFree(d_queries_all);
                 gpu_path_ok = all_ok;
             }
 
@@ -702,7 +703,8 @@ CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
                         }
                     }
 
-                    cudaFree(d_queries_all);
+                    // GPU Memory Leak Prevention (A-3.4): Defensive null check before free
+                    if (d_queries_all) cudaFree(d_queries_all);
 
                     if (mp_ok) {
                         // Merge: deduplicate by id, then partial_sort for top-k

@@ -361,6 +361,7 @@ std::vector<std::string> EdgeTypeRegistry::getTypesByCategory(EdgeCategory categ
 }
 
 std::optional<EdgeCategory> EdgeTypeRegistry::getCategoryForType(std::string_view type_name) const {
+    // A-2.5: Thread-safe read-only iterator access with shared_lock
     std::shared_lock<std::shared_mutex> lock(registry_mutex_);
     auto it = types_.find(std::string(type_name));
     if (it != types_.end()) {

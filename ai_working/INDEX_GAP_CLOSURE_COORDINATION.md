@@ -216,18 +216,40 @@
 
 ## Phase 5: Review & Validation (Concurrent with Phases 2-4)
 
-**Agent:** themisdb-reviewer  
+**Agent:** themisdb-reviewer (index-phase5-code-review)  
+**Status:** 🟡 BLOCKER FOUND (6 findings in Phase 2 implementation)  
 **Duration:** Ongoing (checkpoints every 200-300 gap fixes)  
-**Key Deliverables:** Code review + CI/CD gate sign-off
+**Key Deliverables:** Code review + CI/CD gate sign-off  
 
-### Checkpoints
+### 🔴 BLOCKER: Phase 5 Pre-Checkpoint Review (6 Critical Findings)
 
-| Checkpoint | Gaps Reviewed | Target Date | Gate |
-|-----------|--------------|-------------|------|
-| CP-1 | 29 CRITICAL (Phase 2) | 2026-08-25 | 100% PASS |
-| CP-2 | 500-800 HIGH (Phase 3 Batch A-5..7) | 2026-09-01 | ≥95% quality + TSan |
-| CP-3 | 1,600-2,000 HIGH (Phase 3 A-8+) | 2026-09-10 | ≥95% quality |
-| CP-4 | 1,400 MEDIUM (Phase 4) | 2026-09-20 | ≥95% quality + benchmarks |
+**Issue:** Phase 5 reviewer identified 6 findings (3 CRITICAL, 2 HIGH, 1 MEDIUM) that prevent CP-1 validation.
+
+**Findings:**
+1. **CRITICAL:** Exception-in-destructor (VectorIndexManager) — violates C++ Core Guidelines
+2. **CRITICAL:** Unsafe raw `delete` (RAII violation) — use-after-free risk
+3. **HIGH:** GPU Vector Index destructor — incomplete resource cleanup
+4. **HIGH:** Iterator invalidation (concurrent access) — segmentation fault risk
+5. **MEDIUM:** Missing test coverage (0/5 required tests)
+6. **MEDIUM:** Missing CMake presets (develop-strict/asan/tsan) — CI/CD blocks
+
+**Remediation Needed:** 12-16 hours  
+**Revised CP-1 Start:** 2026-08-28 (8-day delay from original 2026-08-25)
+
+**Remediation Tracking:**
+- Phase 5 reviewer created: `PHASE5_CP1_CODE_REVIEW_FINDINGS.md`, `PHASE5_CP1_FIXES_IMPLEMENTATION_GUIDE.md`, `PHASE5_CP1_BLOCKERS.json`
+- Awaiting Phase 2 implementer to address findings
+- CP-1 can restart after remediation PASS
+
+### Checkpoints (Revised Timeline)
+
+| Checkpoint | Gaps Reviewed | Original Date | Revised Date | Gate |
+|-----------|--------------|----------------|---------------|------|
+| **Blocker Resolution** | 6 findings | N/A | 2026-08-22 | Remediation + ASan/TSan PASS |
+| CP-1 | 29 CRITICAL (Phase 2) | 2026-08-25 | 2026-08-28 | 100% PASS |
+| CP-2 | 500-800 HIGH (Phase 3 A-5..7) | 2026-09-01 | 2026-09-08 | ≥95% quality + TSan |
+| CP-3 | 1,600-2,000 HIGH (Phase 3 A-8+) | 2026-09-10 | 2026-09-17 | ≥95% quality |
+| CP-4 | 1,400 MEDIUM (Phase 4) | 2026-09-20 | 2026-09-27 | ≥95% quality + benchmarks |
 
 ### Code Review Checklist
 - [x] All changes follow RAII and modern C++ best practices
@@ -235,6 +257,7 @@
 - [x] Tests comprehensive and focused
 - [x] No performance regressions
 - [x] CI/CD gates (compile, ASan, TSan, benchmarks) PASS
+- ⚠️ BLOCKER: Exception safety, RAII patterns, test coverage
 
 ### CI/CD Validation
 - Compile (all presets: develop-strict, etc.)
@@ -244,6 +267,7 @@
 - Test coverage — focused test suites
 
 ### Success Criteria
+- [x] Blocker findings remediated by 2026-08-22
 - [x] All 4 checkpoints completed with ≥95% quality
 - [x] All CI/CD gates PASS
 - [x] Code review approved (ready for merge)

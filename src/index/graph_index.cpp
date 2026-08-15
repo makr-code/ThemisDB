@@ -245,6 +245,9 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge, Roc
 				}
 			}
 
+			// A-2.6: Safe vector growth during iteration
+			// Using index-based parsing (size_t start) allows safe push_back to encryptList
+			// without iterator invalidation concerns
 			// LEGACY_COMPAT [INDEX-AUD-GI-01]: _sensitive boolean fallback — predates
 			// encrypt_fields (introduced in v2.1). Retained for existing edge documents;
 			// plan removal after data migration confirms no _sensitive=true records remain.

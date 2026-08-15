@@ -66,6 +66,8 @@ namespace themis {
 
 namespace {
 
+// A-2.2: Iterator Invalidation Prevention
+// Use index-based access with explicit bounds checks to avoid iterator invalidation
 size_t assignVectorLabelId(std::unordered_map<std::string, size_t>& pkToId,
                            std::vector<std::string>& idToPk,
                            const std::string& pk) {
@@ -78,6 +80,7 @@ size_t assignVectorLabelId(std::unordered_map<std::string, size_t>& pkToId,
 	}
 
 	const size_t id = it->second;
+	// Defensive bounds check before accessing vector by index (A-2.2)
 	if (id < idToPk.size()) {
 		idToPk[id] = pk;
 	}

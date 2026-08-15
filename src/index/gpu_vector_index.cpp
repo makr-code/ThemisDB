@@ -149,10 +149,11 @@ public:
         std::vector<std::pair<float, size_t>> candidates;
         candidates.reserve(std::min(k * 4, vectorData.size()));
 
-        const auto partIds = oversubManager->getAllPartitionIds();
-        size_t globalOffset = 0;
+        {
+            const auto partIds = oversubManager->getAllPartitionIds();
+            size_t globalOffset = 0;
 
-        for (size_t pid : partIds) {
+            for (size_t pid : partIds) {
             // Ensure this partition is VRAM-resident (triggers LRU eviction if needed).
             oversubManager->accessPartition(pid);
 

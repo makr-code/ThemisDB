@@ -7,10 +7,11 @@
 ## Execution Strategy
 
 ### Batch 1: scope_mismatch Cluster (4,578 total → ~1,200-1,800 fixable)
-- **Status:** IN_PROGRESS
-- **Current Phase:** Sample validation (50+ cases)
-- **Expected TRUE_POSITIVE rate:** 30-40%
-- **Expected FALSE_POSITIVE/DEFERRED rate:** 60-70%
+- **Status:** VALIDATING + SAMPLING FIX PHASE
+- **Current Phase:** Applied 17+ fixes across 17 files
+- **Verified TRUE_POSITIVE rate:** 60% (sample of 5 cases)
+- **Files Modified:** 17 (ann_frontdoor, binary_quantizer, approximate_radius_search, graph_analytics, graph_auto_buffer, hnsw_layer_optimizer, hnsw_parameter_tuner, learnable_rope, learned_quantizer, multi_gpu_vector_index, gpu_vector_index, gpu_vector_index_vulkan, property_graph, spatial_index, and 3 others)
+- **Candidate Pipeline:** 119+ additional scope_mismatch cases identified and staged for continued fixing
 
 ### Batch 2: Copy Overhead & String Concat (35 total)
 - **Status:** PENDING

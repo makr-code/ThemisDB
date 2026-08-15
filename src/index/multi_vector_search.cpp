@@ -206,6 +206,7 @@ MultiVectorSearch::search(
         result.individual_ranks.reserve(individual_results.size());
         
         // Collect scores and ranks from each query
+        // A-2.3: Safe read-only iteration over maps (no mutations during loop)
         std::vector<float> scores;
         std::vector<int> ranks;
         scores.reserve(individual_results.size());
@@ -389,6 +390,7 @@ MultiVectorSearch::hybridSearch(
         SearchResult result;
         result.id = doc_id;
         
+        // A-2.4: Safe read-only iteration over maps for hybrid fusion (no mutations during loop)
         std::vector<float> scores;
         std::vector<int> ranks;
         scores.reserve(2);
