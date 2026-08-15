@@ -300,8 +300,21 @@ public:
 private:
     RocksDBWrapper& db_;
 
-    // In-Memory Adjazenzlisten (thread-safe)
-    mutable std::shared_mutex topology_mutex_;
+    // ========================================================================
+    // Thread Safety: Lock Hierarchy (Phase 3 A-5 Circular Lock Ordering)
+    // ========================================================================
+    // 
+    // LOCK HIERARCHY (prevents deadlocks via consistent acquisition order):
+    //   Tier 1 (Global):    topology_mutex_      ← Acquire FIRST
+    //   Tier 2 (Partition): [reserved for future partition locks]
+    //   Tier 3 (Element):   [reserved for future element-level locks]
+    // 
+    // INVARIANT: All code paths must acquire locks in order Tier 1 → Tier 2 → Tier 3.
+    //            Violating this order creates deadlock risk. ThreadSanitizer detects violations.
+    //            See: https://github.com/google/sanitizers/wiki/ThreadSanitizerDeadlockDetector
+    //
+    // In-Memory Adjazenzlisten (thread-safe via topology_mutex_)
+    mutable std::shared_mutex topology_mutex_;  // Tier 1: Global topology lock
     std::unordered_map<std::string, std::vector<AdjacencyInfo>> outEdges_; // fromPk -> [(edgeId, toPk)]
     std::unordered_map<std::string, std::vector<AdjacencyInfo>> inEdges_;  // toPk -> [(edgeId, fromPk)]
     std::atomic<bool> topologyLoaded_{false};
