@@ -424,3 +424,137 @@ int KnowledgeBase::loadRulesFromYaml(const std::string &path) {
 } // namespace analytics
 } // namespace themisdb
 
+
+// ============================================================================
+// Phase 2D: Knowledge Base Functions
+// ============================================================================
+
+/**
+ * @brief Parse YAML configuration via callback pattern
+ * 
+ * Delegates YAML parsing to injected callback function
+ */
+Status KnowledgeBase::parseConfig(
+    const std::string& config_path,
+    const std::function<nlohmann::json(const std::string&)>& parser_fn) {
+    
+    if (!parser_fn) {
+        return Status::Error("YAML parser callback not set");
+    }
+    
+    try {
+        // Read file
+        std::ifstream file(config_path);
+        if (!file.is_open()) {
+            return Status::Error("Cannot open config file: " + config_path);
+        }
+        std::string content((std::istreambuf_iterator<char>(file)),
+                           std::istreambuf_iterator<char>());
+        
+        // Parse via callback
+        auto config_json = parser_fn(content);
+        
+        // Load configuration fields
+        if (config_json.contains("rules")) {
+            config_.num_rules = config_json["rules"].size();
+        }
+        if (config_json.contains("facts")) {
+            config_.max_facts = config_json["facts"].get<int>();
+        }
+        
+        return Status::OK();
+    } catch (const std::exception& e) {
+        return Status::Error(std::string("Config parse error: ") + e.what());
+    }
+}
+
+/**
+ * @brief Parse template specifications from YAML
+ */
+Status KnowledgeBase::parseTemplates(
+    const std::string& templates_path,
+    const std::function<nlohmann::json(const std::string&)>& parser_fn) {
+    
+    if (!parser_fn) {
+        return Status::Error("YAML parser callback not set");
+    }
+    
+    try {
+        // Read file
+        std::ifstream file(templates_path);
+        if (!file.is_open()) {
+            return Status::Error("Cannot open templates file: " + templates_path);
+        }
+        std::string content((std::istreambuf_iterator<char>(file)),
+                           std::istreambuf_iterator<char>());
+        
+        // Parse via callback
+        auto templates_json = parser_fn(content);
+        
+        // Process each template
+        for (const auto& template_item : templates_json) {
+            if (template_item.contains("id") && template_item.contains("rules")) {
+                // Store template metadata
+                templates_cache_[template_item["id"]] = template_item;
+            }
+        }
+        
+        return Status::OK();
+    } catch (const std::exception& e) {
+        return Status::Error(std::string("Template parse error: ") + e.what());
+    }
+}
+
+/**
+ * @brief Assert fact into working memory
+ */
+Status KnowledgeBase::assertFact(
+    const std::string& fact_name,
+    const std::map<std::string, std::string>& attributes) {
+    
+    if (fact_name.empty()) {
+        return Status::Error("Fact name cannot be empty");
+    }
+    
+    std::lock_guard<std::mutex> lock(facts_mutex_);
+    
+    // Check capacity
+    if (facts_store_.size() >= static_cast<size_t>(config_.max_facts)) {
+        // Evict oldest fact (FIFO)
+        if (!facts_store_.empty()) {
+            facts_store_.erase(facts_store_.begin());
+        }
+    }
+    
+    // Store fact with timestamp
+    Fact f;
+    f.name = fact_name;
+    f.attributes = attributes;
+    f.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+    
+    facts_store_.insert({fact_name, f});
+    
+    return Status::OK();
+}
+
+/**
+ * @brief Query facts from working memory
+ */std::vector<KnowledgeBase::Fact> KnowledgeBase::queryFacts(
+    const std::string& pattern) {
+    
+    std::lock_guard<std::mutex> lock(facts_mutex_);
+    
+    std::vector<Fact> results;
+    for (const auto& [name, fact] : facts_store_) {
+        // Simple pattern matching (prefix match)
+        if (pattern.empty() || name.find(pattern) == 0) {
+            results.push_back(fact);
+        }
+    }
+    
+    return results;
+}
+
+} // namespace analytics
+} // namespace themisdb

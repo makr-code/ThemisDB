@@ -2426,5 +2426,140 @@ std::pair<bool, std::string> AutoML::validateTrainingData(
     return {true, ""};
 }
 
+ModelAlgorithm AutoML::selectMetalearner(
+    const std::vector<std::vector<double>>& features,
+    const std::vector<double>& target,
+    const std::vector<ModelAlgorithm>& candidates,
+    AutoMLTask task) const {
+    
+    // Validate input
+    if (features.empty() || target.empty()) {
+        throw std::invalid_argument("Features and target must not be empty");
+    }
+    
+    if (features.size() != target.size()) {
+        throw std::invalid_argument("Features and target size mismatch");
+    }
+    
+    // Default to decision tree if no candidates provided
+    if (candidates.empty()) {
+        return ModelAlgorithm::DECISION_TREE;
+    }
+    
+    // Compute feature characteristics for algorithm selection heuristics
+    size_t n_samples = features.size();
+    size_t n_features = features[0].size();
+    
+    // Count unique target values for classification
+    std::set<double> unique_targets(target.begin(), target.end());
+    size_t n_classes = unique_targets.size();
+    
+    // Score each candidate algorithm
+    ModelAlgorithm best_algo = candidates[0];
+    double best_score = -std::numeric_limits<double>::infinity();
+    
+    for (const auto& algo : candidates) {
+        double score = 0.0;
+        
+        // Algorithm selection heuristics based on dataset characteristics
+        switch (algo) {
+            case ModelAlgorithm::LOGISTIC_REGRESSION:
+                // Good for: linear separability, high dimensionality, large datasets
+                // Score: high if many features, many samples, few classes
+                score = (n_features > 10 ? 1.0 : 0.5) + 
+                        (n_samples > 100 ? 1.0 : 0.5) +
+                        (task == AutoMLTask::CLASSIFICATION && n_classes <= 10 ? 1.0 : 0.0);
+                break;
+                
+            case ModelAlgorithm::LINEAR_REGRESSION:
+                // Good for: regression, linear relationships
+                score = (task == AutoMLTask::REGRESSION ? 2.0 : 0.0) +
+                        (n_samples > 50 ? 1.0 : 0.0);
+                break;
+                
+            case ModelAlgorithm::DECISION_TREE:
+                // Good for: non-linear, categorical, smaller datasets, mixed feature types
+                score = 1.0 + (n_features < 50 ? 1.0 : 0.0) + (n_samples < 1000 ? 0.5 : 0.0);
+                break;
+                
+            case ModelAlgorithm::RANDOM_FOREST:
+                // Good for: robustness, feature interactions, medium-to-large datasets
+                score = 1.5 + (n_samples > 100 ? 1.5 : 0.5) + 
+                        (n_features > 5 ? 1.0 : 0.0);
+                break;
+                
+            case ModelAlgorithm::GRADIENT_BOOSTING:
+                // Good for: high accuracy needed, structured data, larger datasets
+                score = 1.0 + (n_samples > 500 ? 2.0 : 0.5) + 
+                        (n_features > 2 ? 1.0 : 0.0);
+                break;
+                
+            case ModelAlgorithm::KNN:
+                // Good for: small-to-medium datasets, low dimensionality
+                score = (n_samples < 10000 ? 1.5 : 0.5) + 
+                        (n_features < 20 ? 1.0 : 0.0);
+                break;
+                
+            case ModelAlgorithm::ENSEMBLE:
+                // Ensemble: only use if explicitly requested
+                score = 0.5;
+                break;
+        }
+        
+        if (score > best_score) {
+            best_score = score;
+            best_algo = algo;
+        }
+    }
+    
+    return best_algo;
+}
+
+ModelAlgorithm AutoML::selectEnsembleMethod(
+    const std::vector<EvalMetrics>& candidate_metrics) const noexcept {
+    
+    // If only one model, no ensemble benefit
+    if (candidate_metrics.size() <= 1) {
+        return ModelAlgorithm::ENSEMBLE;  // Soft voting (default ensemble)
+    }
+    
+    // Analyze model diversity and performance for ensemble selection
+    double avg_f1 = 0.0;
+    double avg_accuracy = 0.0;
+    
+    for (const auto& metrics : candidate_metrics) {
+        avg_f1 += metrics.f1;
+        avg_accuracy += metrics.accuracy;
+    }
+    avg_f1 /= static_cast<double>(candidate_metrics.size());
+    avg_accuracy /= static_cast<double>(candidate_metrics.size());
+    
+    // Calculate diversity (spread in scores)
+    double max_f1 = 0.0, min_f1 = 1.0;
+    double max_acc = 0.0, min_acc = 1.0;
+    
+    for (const auto& metrics : candidate_metrics) {
+        max_f1 = std::max(max_f1, metrics.f1);
+        min_f1 = std::min(min_f1, metrics.f1);
+        max_acc = std::max(max_acc, metrics.accuracy);
+        min_acc = std::min(min_acc, metrics.accuracy);
+    }
+    
+    double diversity = (max_f1 - min_f1) + (max_acc - min_acc);
+    
+    // Select ensemble method based on model characteristics
+    if (diversity > 0.2 && candidate_metrics.size() >= 3) {
+        // High diversity: stacking would be beneficial (if implemented)
+        // For now, return voting as production-ready method
+        return ModelAlgorithm::ENSEMBLE;
+    } else if (avg_f1 > 0.85 && avg_accuracy > 0.85) {
+        // High performance: simple averaging/voting sufficient
+        return ModelAlgorithm::ENSEMBLE;
+    } else {
+        // Medium diversity/performance: standard soft voting
+        return ModelAlgorithm::ENSEMBLE;
+    }
+}
+
 } // namespace analytics
 } // namespace themisdb
