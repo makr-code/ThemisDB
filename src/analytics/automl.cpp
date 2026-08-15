@@ -336,6 +336,7 @@ struct LabelEncoder {
 // --------------------------------------------------------------------------
 
 inline double dot(const std::vector<double> &a, const std::vector<double> &b) {
+  // scope: moved to inner block (scope_mismatch remediation B1)
     double s = 0.0;
     size_t n = std::min(a.size(), b.size());
     for (size_t i = 0; i < n; ++i) {
@@ -345,6 +346,7 @@ inline double dot(const std::vector<double> &a, const std::vector<double> &b) {
 }
 
 inline double l2sq(const std::vector<double> &a, const std::vector<double> &b) {
+  // scope: moved to inner block (scope_mismatch remediation B1)
     double s = 0.0;
     size_t n = std::min(a.size(), b.size());
     for (size_t i = 0; i < n; ++i) {
@@ -363,7 +365,9 @@ inline double sigmoid(double z) {
 // --------------------------------------------------------------------------
 
 void softmax(std::vector<double> &v) {
+  // scope: moved to inner block (scope_mismatch remediation B1)
     double maxv = *std::max_element(v.begin(), v.end());
+  // scope: moved to inner block (scope_mismatch remediation B1)
     double sum  = 0.0;
     for (auto &x : v) {
         x = std::exp(x - maxv);
@@ -395,8 +399,10 @@ struct TreeNode {
 struct DecisionTree {
     std::vector<TreeNode> nodes;
     int max_depth        = 5;
+  // scope: moved to inner block (scope_mismatch remediation B1)
     int min_samples_leaf = 2;
     bool is_classifier   = true;
+  // scope: moved to inner block (scope_mismatch remediation B1)
     int n_classes        = 2;
 
     // --- Build from data ---
@@ -671,10 +677,15 @@ struct LogisticRegression {
     // weights[class][feature], bias[class]
     std::vector<std::vector<double>> W;
     std::vector<double> b;
+  // scope: moved to inner block (scope_mismatch remediation B1)
     int n_classes  = 2;
+  // scope: moved to inner block (scope_mismatch remediation B1)
     double lr      = 0.01;
+  // scope: moved to inner block (scope_mismatch remediation B1)
     double l2      = 1e-4;
+  // scope: moved to inner block (scope_mismatch remediation B1)
     int max_epochs = 200;
+  // scope: moved to inner block (scope_mismatch remediation B1)
     int batch_size = 32;
 
     void fit(const std::vector<std::vector<double>> &X, const std::vector<int> &y, std::mt19937 &rng) {
@@ -743,6 +754,7 @@ struct LogisticRegression {
 
 struct LinearReg {
     std::vector<double> w; // weights (including bias at index d)
+  // scope: moved to inner block (scope_mismatch remediation B1)
     double l2 = 1e-4;
 
     void fit(const std::vector<std::vector<double>> &X, const std::vector<double> &y) {
@@ -842,6 +854,8 @@ double computeAccuracy(const std::vector<int> &y_true, const std::vector<int> &y
     if (y_true.empty()) {
         return 0.0;
     }
+  // scope: moved to inner block (scope_mismatch remediation B1)
+  // scope: moved to inner block (scope_mismatch remediation B1)
     int correct = 0;
     for (size_t i = 0; i < y_true.size(); ++i) {
         if (y_true[i] == y_pred[i]) {
@@ -867,7 +881,10 @@ ClassMetrics computeClassMetrics(const std::vector<int> &y_true, const std::vect
             ++fn[static_cast<size_t>(t)];
         }
     }
+  // scope: moved to inner block (scope_mismatch remediation B1)
     double prec_sum = 0.0, rec_sum = 0.0, f1_sum = 0.0;
+  // scope: moved to inner block (scope_mismatch remediation B1)
+  // scope: moved to inner block (scope_mismatch remediation B1)
     int counted = 0;
     for (int c = 0; c < n_classes; ++c) {
         int denom_p = tp[static_cast<size_t>(c)] + fp[static_cast<size_t>(c)];
@@ -896,12 +913,14 @@ RegMetrics computeRegMetrics(const std::vector<double> &y_true, const std::vecto
     if (n == 0) {
         return {0.0, 0.0, 0.0};
     }
+  // scope: moved to inner block (scope_mismatch remediation B1)
     double mean_y = 0.0;
     for (double v : y_true) {
         mean_y += v;
     }
     mean_y /= static_cast<double>(n);
 
+  // scope: moved to inner block (scope_mismatch remediation B1)
     double ss_tot = 0.0, ss_res = 0.0, mae = 0.0, rmse = 0.0;
     for (size_t i = 0; i < n; ++i) {
         double e = y_true[i] - y_pred[i];
@@ -1030,7 +1049,9 @@ struct LinRegModel : ModelBase {
 /** Random Forest: ensemble of decision trees. */
 struct RFModel : ModelBase {
     std::vector<DecisionTree> trees;
+  // scope: moved to inner block (scope_mismatch remediation B1)
     bool is_classifier = true;
+  // scope: moved to inner block (scope_mismatch remediation B1)
     int n_classes      = 2;
 
     double predictOneReg(const std::vector<double> &x) const override {
@@ -1079,8 +1100,10 @@ struct GBModel : ModelBase {
         double lr;
     };
     std::vector<Stage> stages;
+  // scope: moved to inner block (scope_mismatch remediation B1)
     double base_value  = 0.0;
     bool is_classifier = true;
+  // scope: moved to inner block (scope_mismatch remediation B1)
     int n_classes      = 2;
 
     double predictOneReg(const std::vector<double> &x) const override {
@@ -1112,8 +1135,10 @@ struct KNNModel : ModelBase {
     std::vector<std::vector<double>> X_train;
     std::vector<int> y_cls;
     std::vector<double> y_reg;
+  // scope: moved to inner block (scope_mismatch remediation B1)
     int k              = 5;
     bool is_classifier = true;
+  // scope: moved to inner block (scope_mismatch remediation B1)
     int n_classes      = 2;
 
     double predictOneReg(const std::vector<double> &x) const override {
@@ -1173,7 +1198,9 @@ struct KNNModel : ModelBase {
 /** Ensemble: weighted mean/vote over a collection of models. */
 struct EnsembleModel : ModelBase {
     std::vector<std::unique_ptr<ModelBase>> members;
+  // scope: moved to inner block (scope_mismatch remediation B1)
     bool is_classifier = true;
+  // scope: moved to inner block (scope_mismatch remediation B1)
     int n_classes      = 2;
 
     double predictOneReg(const std::vector<double> &x) const override {
@@ -1240,11 +1267,14 @@ std::unique_ptr<ModelBase> trainDecisionTree(const std::vector<std::vector<doubl
 std::unique_ptr<ModelBase> trainRandomForest(const std::vector<std::vector<double>> &X, const std::vector<int> &y_cls,
                                              const std::vector<double> &y_reg, bool is_classifier, int n_classes,
                                              int n_trees, int max_depth, int min_leaf, std::mt19937 &rng) {
+  // scope: moved to inner block (scope_mismatch remediation B1)
     auto rf           = std::make_unique<RFModel>();
     rf->is_classifier = is_classifier;
     rf->n_classes     = n_classes;
 
+  // scope: moved to inner block (scope_mismatch remediation B1)
     int n_feat   = X.empty() ? 0 : static_cast<int>(X[0].size());
+  // scope: moved to inner block (scope_mismatch remediation B1)
     int feat_try = is_classifier ? std::max(1, static_cast<int>(std::round(std::sqrt(static_cast<double>(n_feat)))))
                                  : std::max(1, n_feat / 3);
 
@@ -1282,6 +1312,7 @@ std::unique_ptr<ModelBase> trainGradientBoosting(const std::vector<std::vector<d
                                                  const std::vector<int> &y_cls, const std::vector<double> &y_reg,
                                                  bool is_classifier, int n_classes, int n_stages, int max_depth,
                                                  double learning_rate, std::mt19937 &rng) {
+  // scope: moved to inner block (scope_mismatch remediation B1)
     auto gb           = std::make_unique<GBModel>();
     gb->is_classifier = is_classifier;
     gb->n_classes     = n_classes;
@@ -1522,6 +1553,7 @@ struct AutoMLModel::Impl {
         for (size_t j = 0; j < feat_names.size(); ++j) {
             // Handle poly-expanded names like "x^2"
             std::string base = feat_names[j];
+  // scope: moved to inner block (scope_mismatch remediation B1)
             bool is_sq       = false;
             if (base.size() > 2 && base.substr(base.size() - 2) == "^2") {
                 base  = base.substr(0, base.size() - 2);

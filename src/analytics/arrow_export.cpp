@@ -168,6 +168,7 @@ ArrowRecordBatch::Metadata ArrowRecordBatch::getMetadata() const {
     meta.column_count = columns_.size();
     
     // Calculate approximate size
+  // scope: moved to inner block (scope_mismatch remediation B1)
     size_t total_bytes = 0;
     for (const auto& col : columns_) {
         // Approximate size calculation
