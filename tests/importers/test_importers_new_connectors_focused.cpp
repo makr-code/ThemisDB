@@ -18,6 +18,8 @@
 #include "importers/elasticsearch_importer.h"
 #include "importers/redis_importer.h"
 #include "importers/debezium_cdc_importer.h"
+#include "importers/importers_api_contract.h"
+#include "importers/importer_interface.h"
 
 #include <nlohmann/json.hpp>
 #include <string>
@@ -120,9 +122,9 @@ TEST(ElasticsearchImporterTest, INC05_ImportDataNoBuildFlag) {
     ImportOptions opts;
     const auto stats = imp.importData("test-index", opts);
 #ifndef THEMIS_ENABLE_ELASTICSEARCH
-    ASSERT_FALSE(stats.errors.empty());
-    EXPECT_EQ(stats.errors[0].code,
-              static_cast<uint32_t>(ImportErrorCode::IMPORT_CONNECTOR_UNAVAILABLE));
+    ASSERT_FALSE(stats.structured_errors.empty());
+    EXPECT_EQ(stats.structured_errors[0].code,
+              ImportErrorCode::IMPORT_CONNECTOR_UNAVAILABLE);
 #else
     (void)stats;
 #endif
@@ -349,8 +351,8 @@ TEST(RedisImporterTest, INC16_DeadlineEnforcement) {
     const auto stats = imp.importData("", opts);
     // Should have at least one TIMEOUT error.
     bool has_timeout = false;
-    for (const auto& e : stats.errors) {
-        if (e.code == static_cast<uint32_t>(ImportErrorCode::IMPORT_TIMEOUT)) {
+    for (const auto& e : stats.structured_errors) {
+        if (e.code == ImportErrorCode::DEADLINE_EXCEEDED) {
             has_timeout = true; break;
         }
     }
@@ -486,9 +488,9 @@ TEST(DebeziumCDCImporterTest, INC24_ImportNoBuildFlag) {
     ImportOptions opts;
     const auto stats = imp.importData("", opts);
 #ifndef THEMIS_ENABLE_DEBEZIUM
-    ASSERT_FALSE(stats.errors.empty());
-    EXPECT_EQ(stats.errors[0].code,
-              static_cast<uint32_t>(ImportErrorCode::IMPORT_CONNECTOR_UNAVAILABLE));
+    ASSERT_FALSE(stats.structured_errors.empty());
+    EXPECT_EQ(stats.structured_errors[0].code,
+              ImportErrorCode::IMPORT_CONNECTOR_UNAVAILABLE);
 #else
     // With build flag: expect WARNING (stub path).
     (void)stats;

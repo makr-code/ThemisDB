@@ -24,6 +24,7 @@ namespace scheduler {
  */
 enum class TaskEventType {
     TASK_REGISTERED,           // New task registered
+    TASK_REGISTRATION_REJECTED,// Task registration rejected (conflicting ID)
     TASK_UNREGISTERED,         // Task removed
     TASK_ENABLED,              // Task enabled
     TASK_DISABLED,             // Task disabled

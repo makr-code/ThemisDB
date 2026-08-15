@@ -391,7 +391,7 @@ nlohmann::json HybridRetentionManager::compressWithGorilla(const nlohmann::json&
         return nlohmann::json{
             {"status", "error"},
             {"stage", 1},
-            {"error_code", static_cast<int32_t>(SchedulerError::kInternalError)},
+            {"error_code", static_cast<int32_t>(themis::scheduler::SchedulerError::kInternalError)},
             {"message", result.error().message()}
         };
     }
@@ -428,7 +428,7 @@ nlohmann::json HybridRetentionManager::compressWithGorilla(const nlohmann::json&
     return nlohmann::json{
         {"status", "success"},
         {"stage", 1},
-        {"error_code", static_cast<int32_t>(SchedulerError::kSuccess)},
+        {"error_code", static_cast<int32_t>(themis::scheduler::SchedulerError::kSuccess)},
         {"batches_processed", batches_processed},
         {"compression_ratio", compression_ratio},
         {"strategy", "gorilla"}
@@ -496,7 +496,7 @@ nlohmann::json HybridRetentionManager::applyAdaptiveRetention(const nlohmann::js
         return nlohmann::json{
             {"status", "error"},
             {"stage", 2},
-            {"error_code", static_cast<int32_t>(SchedulerError::kInternalError)},
+            {"error_code", static_cast<int32_t>(themis::scheduler::SchedulerError::kInternalError)},
             {"message", result.error().message()}
         };
     }
@@ -514,7 +514,7 @@ nlohmann::json HybridRetentionManager::applyAdaptiveRetention(const nlohmann::js
     return nlohmann::json{
         {"status", "success"},
         {"stage", 2},
-        {"error_code", static_cast<int32_t>(SchedulerError::kSuccess)},
+        {"error_code", static_cast<int32_t>(themis::scheduler::SchedulerError::kSuccess)},
         {"periods_processed", result->is_array() ? result->size() : 0},
         {"anomalies_preserved", anomalies_preserved},
         {"strategy", "adaptive"}
@@ -566,7 +566,7 @@ nlohmann::json HybridRetentionManager::applyTimeBasedRetention(const nlohmann::j
         return nlohmann::json{
             {"status", "error"},
             {"stage", 3},
-            {"error_code", static_cast<int32_t>(SchedulerError::kInternalError)},
+            {"error_code", static_cast<int32_t>(themis::scheduler::SchedulerError::kInternalError)},
             {"message", result.error().message()}
         };
     }
@@ -574,7 +574,7 @@ nlohmann::json HybridRetentionManager::applyTimeBasedRetention(const nlohmann::j
     return nlohmann::json{
         {"status", "success"},
         {"stage", 3},
-        {"error_code", static_cast<int32_t>(SchedulerError::kSuccess)},
+        {"error_code", static_cast<int32_t>(themis::scheduler::SchedulerError::kSuccess)},
         {"days_processed", result->is_array() ? result->size() : 0},
         {"strategy", "time_based"}
     };
@@ -615,7 +615,7 @@ nlohmann::json HybridRetentionManager::cleanupOriginalData(const nlohmann::json&
         return nlohmann::json{
             {"status", "error"},
             {"stage", "cleanup_stage2"},
-            {"error_code", static_cast<int32_t>(SchedulerError::kInternalError)},
+            {"error_code", static_cast<int32_t>(themis::scheduler::SchedulerError::kInternalError)},
             {"message", result2.error().message()}
         };
     }
@@ -651,7 +651,7 @@ nlohmann::json HybridRetentionManager::cleanupOriginalData(const nlohmann::json&
         return nlohmann::json{
             {"status", "error"},
             {"stage", "cleanup_stage3"},
-            {"error_code", static_cast<int32_t>(SchedulerError::kInternalError)},
+            {"error_code", static_cast<int32_t>(themis::scheduler::SchedulerError::kInternalError)},
             {"message", result3.error().message()}
         };
     }
@@ -660,7 +660,7 @@ nlohmann::json HybridRetentionManager::cleanupOriginalData(const nlohmann::json&
     
     return nlohmann::json{
         {"status", "success"},
-        {"error_code", static_cast<int32_t>(SchedulerError::kSuccess)},
+        {"error_code", static_cast<int32_t>(themis::scheduler::SchedulerError::kSuccess)},
         {"stage2_deleted", stage2_deleted},
         {"stage3_deleted", stage3_deleted},
         {"total_deleted", stage2_deleted + stage3_deleted}
@@ -672,15 +672,15 @@ void HybridRetentionManager::updateStats(int stage, bool success, const nlohmann
     
     // PRODUCTION FIX: Validate error codes from result
     // If the result contains an error_code field, use that; otherwise infer from success flag
-    int32_t error_code = static_cast<int32_t>(SchedulerError::kSuccess);
+    int32_t error_code = static_cast<int32_t>(themis::scheduler::SchedulerError::kSuccess);
     if (result.contains("error_code")) {
         error_code = result["error_code"].get<int32_t>();
     } else if (!success) {
-        error_code = static_cast<int32_t>(SchedulerError::kInternalError);
+        error_code = static_cast<int32_t>(themis::scheduler::SchedulerError::kInternalError);
     }
     
     // Log any error codes for observability
-    if (error_code != static_cast<int32_t>(SchedulerError::kSuccess)) {
+    if (error_code != static_cast<int32_t>(themis::scheduler::SchedulerError::kSuccess)) {
         THEMIS_WARN("HybridRetentionManager: Stage {} execution returned error code: {} ({})",
                     stage, error_code, result.contains("message") ? result["message"].get<std::string>() : "unknown");
     }

@@ -27,6 +27,9 @@ foreach(_src IN LISTS IMPORTERS_MODULE_TEST_SOURCES)
         ${TEST_LIBS}
         Threads::Threads
     )
+    if(TARGET themis_core)
+        target_link_libraries(${_target} PRIVATE themis_core)
+    endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
     themis_register_module_focused_test(

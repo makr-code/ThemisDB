@@ -69,80 +69,29 @@ namespace scheduler {
 // § 1  Error taxonomy
 // ============================================================================
 
-/**
- * @brief Canonical error codes for the scheduler module.
- *
- * All scheduler operations return or throw with one of these codes.
- * Values are in the reserved range [8400, 8499].
- */
 enum class SchedulerError : int32_t {
-    kSuccess                = 0,
-    kTaskNotFound           = 8400, ///< Task ID not present in scheduler.
-    kTaskAlreadyExists      = 8401, ///< Conflicting task ID already registered.
-    kExecutionFailed        = 8402, ///< Task execution returned non-success.
-    kCoordinationError      = 8403, ///< Distributed coordination unavailable.
-    kRetentionLimitExceeded = 8404, ///< Result store retention cap reached.
-    kTriggerInvalid         = 8405, ///< Trigger predicate fails structural checks.
-    kAnomalyDetected        = 8406, ///< Anomaly detector flagged task behaviour.
-    kInternalError          = 8407, ///< Unclassified internal error.
+	kSuccess                = 0,
+	kTaskNotFound           = 8400,
+	kTaskAlreadyExists      = 8401,
+	kExecutionFailed        = 8402,
+	kCoordinationError      = 8403,
+	kRetentionLimitExceeded = 8404,
+	kTriggerInvalid         = 8405,
+	kAnomalyDetected        = 8406,
+	kInternalError          = 8407,
 };
 
-// ============================================================================
-// § 2  Task descriptor constraints
-// ============================================================================
-
-/// Maximum task identifier length in bytes.
+// Configuration constants kept minimal in this header.
 inline constexpr std::size_t kMaxTaskIdBytes = 256;
-
-/// Maximum task name / description length in bytes.
-inline constexpr std::size_t kMaxTaskNameBytes = 1024;
-
-/// Maximum retained execution results per task.
 inline constexpr std::size_t kDefaultRetentionLimit = 1000;
-
-/// Default execution timeout for a registered task.
 inline constexpr std::chrono::minutes kDefaultTaskExecutionTimeout{10};
 
-/// Maximum scheduler concurrency (simultaneous in-flight tasks).
-inline constexpr uint32_t kMaxConcurrentTasks = 256;
-
-// ============================================================================
-// § 3  Supporting structs
-// ============================================================================
-
-/**
- * @brief Descriptor for a task being registered with the scheduler.
- */
-struct TaskRegistrationDescriptor {
-    std::string         task_id;           ///< Unique task identifier.
-    std::string         task_name;         ///< Human-readable task name.
-    std::chrono::seconds execution_timeout{600}; ///< Per-run execution timeout.
-    bool                allow_concurrent{false};  ///< Allow overlapping executions.
-    uint32_t            retention_limit{static_cast<uint32_t>(kDefaultRetentionLimit)};
-};
-
-/**
- * @brief Lightweight execution result record stored by the scheduler.
- */
-struct TaskExecutionResult {
-    std::string  task_id;            ///< Task that produced this result.
-    bool         success{false};     ///< Whether the execution succeeded.
-    int32_t      exit_code{0};       ///< Numeric exit code (0 == success).
-    std::string  message;            ///< Optional message or error detail.
-    std::chrono::milliseconds duration_ms{0}; ///< Wall-clock execution duration.
-};
-
-// ============================================================================
-// § 4  Fail-closed contract
-// ============================================================================
-
-/**
- * @brief Returns true when the given error mandates fail-closed denial of dispatch.
- */
 [[nodiscard]] inline constexpr bool isSchedulerFailClosed(SchedulerError e) noexcept {
-    return e == SchedulerError::kCoordinationError
-        || e == SchedulerError::kInternalError;
+	return e == SchedulerError::kCoordinationError || e == SchedulerError::kInternalError;
 }
 
 } // namespace scheduler
+
+using scheduler::SchedulerError;
+
 } // namespace themis

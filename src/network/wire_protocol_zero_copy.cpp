@@ -120,10 +120,10 @@ ssize_t ZeroCopyFrameBuilder::writeTo(int fd) const noexcept {
 #endif
 }
 
-ssize_t ZeroCopyFrameBuilder::writeToWithSendfile(int    socket_fd,
-                                                   int    payload_fd,
-                                                   off_t  payload_offset,
-                                                   size_t sendfile_threshold) const noexcept {
+ssize_t ZeroCopyFrameBuilder::writeToWithSendfile(int          socket_fd,
+                                                   int          payload_fd,
+                                                   std::int64_t payload_offset,
+                                                   size_t       sendfile_threshold) const noexcept {
 #ifdef _WIN32
     // Windows: no sendfile equivalent for socket+file — fall back to writev path.
     (void)payload_fd; (void)payload_offset; (void)sendfile_threshold;
@@ -154,7 +154,7 @@ ssize_t ZeroCopyFrameBuilder::writeToWithSendfile(int    socket_fd,
 #  if defined(__linux__)
     // Linux sendfile: sendfile(out_fd, in_fd, offset, count)
     // Falls back to writev if the source fd is not a regular file (EINVAL/ENOSYS).
-    off_t  off           = payload_offset;
+    std::int64_t  off           = payload_offset;
     size_t remaining     = payload_size_;
     ssize_t sf_written   = 0;
 
@@ -168,7 +168,7 @@ ssize_t ZeroCopyFrameBuilder::writeToWithSendfile(int    socket_fd,
                 // Re-read remaining bytes via pread and write.
                 std::vector<uint8_t> tmp(remaining);
                 const ssize_t rd = ::pread(payload_fd, tmp.data(), remaining,
-                                           payload_offset + static_cast<off_t>(sf_written));
+                                           payload_offset + static_cast<std::int64_t>(sf_written));
                 if (rd <= 0) return sf_written > 0 ? hdr_written + sf_written : -1;
                 const ssize_t wn = ::write(socket_fd, tmp.data(), static_cast<size_t>(rd));
                 if (wn < 0) return sf_written > 0 ? hdr_written + sf_written : -1;
@@ -186,9 +186,9 @@ ssize_t ZeroCopyFrameBuilder::writeToWithSendfile(int    socket_fd,
 
 #  elif defined(__APPLE__) || defined(__FreeBSD__)
     // macOS / FreeBSD sendfile: sendfile(in_fd, out_fd, offset, len, hdtr, written, flags)
-    off_t len        = static_cast<off_t>(payload_size_);
-    off_t off        = payload_offset;
-    off_t sf_written = 0;
+    std::int64_t len        = static_cast<std::int64_t>(payload_size_);
+    std::int64_t off        = payload_offset;
+    std::int64_t sf_written = 0;
     int   rc         = 0;
 #    if defined(__APPLE__)
     rc = ::sendfile(payload_fd, socket_fd, off, &len, nullptr, 0);

@@ -56,7 +56,6 @@ struct iovec {
 #ifndef MAP_FAILED
 #define MAP_FAILED nullptr
 #endif
-using off_t = long long;
 #else
 #include <sys/mman.h>
 #include <sys/types.h>
@@ -153,10 +152,10 @@ public:
      * @return Total bytes written (header + payload) on success, or -1 on
      *         error (errno set by the failing syscall).
      */
-    ssize_t writeToWithSendfile(int      socket_fd,
-                                int      payload_fd,
-                                off_t    payload_offset    = 0,
-                                size_t   sendfile_threshold = 65536) const noexcept;
+    ssize_t writeToWithSendfile(int                 socket_fd,
+                                int                 payload_fd,
+                                std::int64_t       payload_offset    = 0,
+                                size_t              sendfile_threshold = 65536) const noexcept;
 
     /**
      * @brief Total frame size in bytes (header + payload).

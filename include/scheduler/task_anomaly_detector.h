@@ -218,16 +218,16 @@ private:
     
     // Anomaly detection methods
     double detectFrequencyAnomaly(const std::string& task_id, 
-                                  const std::chrono::system_clock::time_point& now);
+                                  const std::chrono::system_clock::time_point& now) const;
     
     double detectPatternAnomaly(const std::string& task_id,
-                                const std::chrono::system_clock::time_point& now);
+                                const std::chrono::system_clock::time_point& now) const;
     
     double detectResourceAnomaly(const std::string& task_id,
-                                 const TaskResourceUsage& resource_usage);
+                                 const TaskResourceUsage& resource_usage) const;
     
     double detectFailureRateAnomaly(const std::string& task_id,
-                                    bool success);
+                                    bool success) const;
     
     // Statistical helpers
     void updateStatistics(const std::string& task_id, const TaskAuditEvent& event);

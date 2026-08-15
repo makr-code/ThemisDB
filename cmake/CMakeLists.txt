@@ -3001,6 +3001,10 @@ set(THEMIS_CORE_SOURCES
     ../src/importers/postgres_importer.cpp
     $<$<BOOL:${THEMIS_HAS_PUBLIC_MYSQL_IMPORTER}>:../src/importers/mysql_importer.cpp>
     $<$<BOOL:${THEMIS_HAS_PUBLIC_MONGO_IMPORTER}>:../src/importers/mongo_importer.cpp>
+    # Core importers required by focused tests
+    ../src/importers/elasticsearch_importer.cpp
+    ../src/importers/redis_importer.cpp
+    ../src/importers/debezium_cdc_importer.cpp
     ../src/importers/sqlite_importer.cpp
     ../src/importers/flatfile_importer.cpp
     ../src/importers/schema_validator.cpp
