@@ -96,6 +96,15 @@ private:
     std::string    table_name_;   ///< Explicit table name (empty = use filename stem)
 
     std::atomic<bool> cancelled_{false};
+    
+    // Phase 2A Data Race Protection: Mutex guards for concurrent access
+    mutable std::mutex column_options_mutex_;     ///< Protects column_options_map_ concurrent access
+    mutable std::mutex validator_state_mutex_;    ///< Protects field_validator_state_ concurrent access
+    mutable std::mutex schema_cache_mutex_;       ///< Protects schema_inference_cache_ concurrent access
+    
+    std::map<std::string, std::map<std::string, std::string>> column_options_map_;  ///< Column validation options (Phase 2A)
+    std::map<std::string, std::string> field_validator_state_;  ///< Per-field validation state (Phase 2A)
+    std::map<std::string, std::string> schema_inference_cache_;  ///< Schema type hints cache (Phase 2A)
 
     // ---- Format helpers -------------------------------------------------------
 
