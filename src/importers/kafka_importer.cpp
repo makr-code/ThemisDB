@@ -43,6 +43,137 @@ namespace importers {
 // ============================================================================
 namespace {
 
+// ============================================================================
+// PHASE-2B: Exception-Safe RAII Wrappers for librdkafka C Resources
+// ============================================================================
+
+#ifdef THEMIS_ENABLE_KAFKA
+
+/// RAII wrapper for rd_kafka_conf_t with exception-safe cleanup
+class RDKafkaConfWrapper {
+public:
+    explicit RDKafkaConfWrapper() : conf_(rd_kafka_conf_new()) {}
+    
+    ~RDKafkaConfWrapper() {
+        if (conf_) {
+            rd_kafka_conf_destroy(conf_);
+        }
+    }
+    
+    // Non-copyable, movable
+    RDKafkaConfWrapper(const RDKafkaConfWrapper&) = delete;
+    RDKafkaConfWrapper& operator=(const RDKafkaConfWrapper&) = delete;
+    RDKafkaConfWrapper(RDKafkaConfWrapper&& other) noexcept 
+        : conf_(other.release()) {}
+    RDKafkaConfWrapper& operator=(RDKafkaConfWrapper&& other) noexcept {
+        if (this != &other) {
+            if (conf_) rd_kafka_conf_destroy(conf_);
+            conf_ = other.release();
+        }
+        return *this;
+    }
+    
+    rd_kafka_conf_t* get() { return conf_; }
+    const rd_kafka_conf_t* get() const { return conf_; }
+    
+    rd_kafka_conf_t* release() {
+        auto temp = conf_;
+        conf_ = nullptr;
+        return temp;
+    }
+    
+private:
+    rd_kafka_conf_t* conf_;
+};
+
+/// RAII wrapper for rd_kafka_t with exception-safe cleanup
+class RDKafkaWrapper {
+public:
+    explicit RDKafkaWrapper(rd_kafka_conf_t* conf, rd_kafka_type_t type,
+                            char* errstr, size_t errstr_len) {
+        rk_ = rd_kafka_new(type, conf, errstr, errstr_len);
+    }
+    
+    ~RDKafkaWrapper() {
+        if (rk_) {
+            rd_kafka_consumer_close(rk_);
+            rd_kafka_destroy(rk_);
+        }
+    }
+    
+    // Non-copyable, movable
+    RDKafkaWrapper(const RDKafkaWrapper&) = delete;
+    RDKafkaWrapper& operator=(const RDKafkaWrapper&) = delete;
+    RDKafkaWrapper(RDKafkaWrapper&& other) noexcept 
+        : rk_(other.release()) {}
+    RDKafkaWrapper& operator=(RDKafkaWrapper&& other) noexcept {
+        if (this != &other) {
+            if (rk_) {
+                rd_kafka_consumer_close(rk_);
+                rd_kafka_destroy(rk_);
+            }
+            rk_ = other.release();
+        }
+        return *this;
+    }
+    
+    rd_kafka_t* get() { return rk_; }
+    const rd_kafka_t* get() const { return rk_; }
+    
+    bool is_valid() const { return rk_ != nullptr; }
+    
+    rd_kafka_t* release() {
+        auto temp = rk_;
+        rk_ = nullptr;
+        return temp;
+    }
+    
+private:
+    rd_kafka_t* rk_;
+};
+
+/// RAII wrapper for rd_kafka_topic_partition_list_t with exception-safe cleanup
+class RDKafkaTopicPartitionListWrapper {
+public:
+    explicit RDKafkaTopicPartitionListWrapper(int size) 
+        : tpl_(rd_kafka_topic_partition_list_new(size)) {}
+    
+    ~RDKafkaTopicPartitionListWrapper() {
+        if (tpl_) {
+            rd_kafka_topic_partition_list_destroy(tpl_);
+        }
+    }
+    
+    // Non-copyable, movable
+    RDKafkaTopicPartitionListWrapper(const RDKafkaTopicPartitionListWrapper&) = delete;
+    RDKafkaTopicPartitionListWrapper& operator=(const RDKafkaTopicPartitionListWrapper&) = delete;
+    RDKafkaTopicPartitionListWrapper(RDKafkaTopicPartitionListWrapper&& other) noexcept 
+        : tpl_(other.release()) {}
+    RDKafkaTopicPartitionListWrapper& operator=(RDKafkaTopicPartitionListWrapper&& other) noexcept {
+        if (this != &other) {
+            if (tpl_) rd_kafka_topic_partition_list_destroy(tpl_);
+            tpl_ = other.release();
+        }
+        return *this;
+    }
+    
+    rd_kafka_topic_partition_list_t* get() { return tpl_; }
+    const rd_kafka_topic_partition_list_t* get() const { return tpl_; }
+    
+    bool is_valid() const { return tpl_ != nullptr; }
+    
+    rd_kafka_topic_partition_list_t* release() {
+        auto temp = tpl_;
+        tpl_ = nullptr;
+        return temp;
+    }
+    
+private:
+    rd_kafka_topic_partition_list_t* tpl_;
+};
+
+#endif // THEMIS_ENABLE_KAFKA
+
 /// Maps Kafka-specific error patterns to ImporterErrorCode
 static ImportErrorCode mapKafkaErrorToCode(const std::string& error_msg) {
     // PHASE-2-HARDENING: Standardized error mapping for Kafka
@@ -561,7 +692,10 @@ void KafkaImporter::consumeFromKafka(const std::string& brokers,
                                       ProgressCallback& progress_cb) {
     char errstr[512];
 
-    rd_kafka_conf_t* conf = rd_kafka_conf_new();
+    // PHASE-2B: Use RAII wrappers for exception-safe resource management
+    // These wrappers automatically clean up on exception or scope exit
+    RDKafkaConfWrapper conf_wrapper;
+    rd_kafka_conf_t* conf = conf_wrapper.get();
 
     auto setConf = [&](const char* key, const char* value) -> bool {
         if (rd_kafka_conf_set(conf, key, value, errstr, sizeof(errstr))
@@ -574,140 +708,149 @@ void KafkaImporter::consumeFromKafka(const std::string& brokers,
         return true;
     };
 
-    if (!setConf("bootstrap.servers", brokers.c_str())) {
-        rd_kafka_conf_destroy(conf); return;
-    }
-    if (!setConf("group.id", consumer_group_.c_str())) {
-        rd_kafka_conf_destroy(conf); return;
-    }
-    {
-        std::string sess = std::to_string(session_timeout_ms_);
-        if (!setConf("session.timeout.ms", sess.c_str())) {
-            rd_kafka_conf_destroy(conf); return;
-        }
-    }
-    if (!setConf("enable.auto.commit", "false")) {
-        rd_kafka_conf_destroy(conf); return;
-    }
-    if (!setConf("auto.offset.reset", auto_offset_reset_.c_str())) {
-        rd_kafka_conf_destroy(conf); return;
-    }
-    if (!security_protocol_.empty() && security_protocol_ != "plaintext") {
-        if (!setConf("security.protocol", security_protocol_.c_str())) {
-            rd_kafka_conf_destroy(conf); return;
-        }
-    }
-    if (!sasl_mechanism_.empty()) {
-        if (!setConf("sasl.mechanism", sasl_mechanism_.c_str())) {
-            rd_kafka_conf_destroy(conf); return;
-        }
-    }
-    if (!sasl_username_.empty()) {
-        if (!setConf("sasl.username", sasl_username_.c_str())) {
-            rd_kafka_conf_destroy(conf); return;
-        }
-    }
-    if (!sasl_password_.empty()) {
-        if (!setConf("sasl.password", sasl_password_.c_str())) {
-            rd_kafka_conf_destroy(conf); return;
-        }
-    }
-    if (!ssl_ca_location_.empty()) {
-        if (!setConf("ssl.ca.location", ssl_ca_location_.c_str())) {
-            rd_kafka_conf_destroy(conf); return;
-        }
-    }
-
-    rd_kafka_t* rk = rd_kafka_new(RD_KAFKA_CONSUMER, conf,
-                                  errstr, sizeof(errstr));
-    if (!rk) {
-        rd_kafka_conf_destroy(conf);
-        addError(stats, ImportErrorCode::UNKNOWN,
-                 ImportErrorSeverity::CRITICAL,
-                 std::string("rd_kafka_new failed: ") + errstr);
-        return;
-    }
-    // conf is now owned by rk.
-
-    rd_kafka_poll_set_consumer(rk);
-
-    rd_kafka_topic_partition_list_t* topics =
-        rd_kafka_topic_partition_list_new(1);
-    rd_kafka_topic_partition_list_add(topics, topic.c_str(),
-                                      RD_KAFKA_PARTITION_UA);
-    rd_kafka_resp_err_t sub_err = rd_kafka_subscribe(rk, topics);
-    rd_kafka_topic_partition_list_destroy(topics);
-
-    if (sub_err != RD_KAFKA_RESP_ERR_NO_ERROR) {
-        addError(stats, ImportErrorCode::UNKNOWN,
-                 ImportErrorSeverity::CRITICAL,
-                 std::string("rd_kafka_subscribe failed: ") +
-                 rd_kafka_err2str(sub_err));
-        rd_kafka_consumer_close(rk);
-        rd_kafka_destroy(rk);
-        return;
-    }
-
-    size_t consumed = 0;
-    int consecutive_timeouts = 0;
-    const int kMaxTimeouts = 3;
-
-    // PHASE-2-HARDENING: Stream position recovery and buffer management
-    KafkaStreamPosition stream_pos;
-    stream_pos.checkpoint_file = options.checkpoint_file;
-    stream_pos.loadFromCheckpoint();
-    
-    size_t buffer_size = 0;
-    bool buffer_paused = false;
-
     try {
-        while (!cancelled_.load()) {
-            if (max_messages_ > 0 && consumed >= max_messages_) break;
+        // Configuration setup with exception safety
+        if (!setConf("bootstrap.servers", brokers.c_str())) {
+            return;
+        }
+        if (!setConf("group.id", consumer_group_.c_str())) {
+            return;
+        }
+        {
+            // PHASE-2B: Exception-safe string conversion (could throw std::bad_alloc)
+            std::string sess = std::to_string(session_timeout_ms_);
+            if (!setConf("session.timeout.ms", sess.c_str())) {
+                return;
+            }
+        }
+        if (!setConf("enable.auto.commit", "false")) {
+            return;
+        }
+        if (!setConf("auto.offset.reset", auto_offset_reset_.c_str())) {
+            return;
+        }
+        if (!security_protocol_.empty() && security_protocol_ != "plaintext") {
+            if (!setConf("security.protocol", security_protocol_.c_str())) {
+                return;
+            }
+        }
+        if (!sasl_mechanism_.empty()) {
+            if (!setConf("sasl.mechanism", sasl_mechanism_.c_str())) {
+                return;
+            }
+        }
+        if (!sasl_username_.empty()) {
+            if (!setConf("sasl.username", sasl_username_.c_str())) {
+                return;
+            }
+        }
+        if (!sasl_password_.empty()) {
+            if (!setConf("sasl.password", sasl_password_.c_str())) {
+                return;
+            }
+        }
+        if (!ssl_ca_location_.empty()) {
+            if (!setConf("ssl.ca.location", ssl_ca_location_.c_str())) {
+                return;
+            }
+        }
 
-            // PHASE-2-HARDENING: Check if buffer is full
-            if (buffer_size >= max_buffer_messages_) {
-                if (!buffer_paused) {
-                    buffer_paused = true;
-                    THEMIS_WARN("Kafka buffer full ({}); pausing consumption", buffer_size);
-                    addError(stats, ImportErrorCode::ROW_TOO_LARGE,
+        // PHASE-2B: Use RAII wrapper for exception-safe rd_kafka_t management
+        // If rd_kafka_new fails, conf is cleaned up automatically
+        RDKafkaWrapper rk_wrapper(conf_wrapper.release(), RD_KAFKA_CONSUMER,
+                                   errstr, sizeof(errstr));
+        if (!rk_wrapper.is_valid()) {
+            addError(stats, ImportErrorCode::UNKNOWN,
+                     ImportErrorSeverity::CRITICAL,
+                     std::string("rd_kafka_new failed: ") + errstr);
+            return;
+        }
+
+        rd_kafka_t* rk = rk_wrapper.get();
+        rd_kafka_poll_set_consumer(rk);
+
+        // PHASE-2B: Use RAII wrapper for exception-safe topic list management
+        RDKafkaTopicPartitionListWrapper topics_wrapper(1);
+        if (!topics_wrapper.is_valid()) {
+            addError(stats, ImportErrorCode::UNKNOWN,
+                     ImportErrorSeverity::CRITICAL,
+                     "Failed to allocate topic partition list");
+            return;
+        }
+
+        rd_kafka_topic_partition_list_t* topics = topics_wrapper.get();
+        rd_kafka_topic_partition_list_add(topics, topic.c_str(),
+                                          RD_KAFKA_PARTITION_UA);
+        rd_kafka_resp_err_t sub_err = rd_kafka_subscribe(rk, topics);
+
+        if (sub_err != RD_KAFKA_RESP_ERR_NO_ERROR) {
+            addError(stats, ImportErrorCode::UNKNOWN,
+                     ImportErrorSeverity::CRITICAL,
+                     std::string("rd_kafka_subscribe failed: ") +
+                     rd_kafka_err2str(sub_err));
+            return;
+        }
+
+        size_t consumed = 0;
+        int consecutive_timeouts = 0;
+        const int kMaxTimeouts = 3;
+
+        // PHASE-2-HARDENING: Stream position recovery and buffer management
+        KafkaStreamPosition stream_pos;
+        stream_pos.checkpoint_file = options.checkpoint_file;
+        stream_pos.loadFromCheckpoint();
+        
+        size_t buffer_size = 0;
+        bool buffer_paused = false;
+
+        try {
+            while (!cancelled_.load()) {
+                if (max_messages_ > 0 && consumed >= max_messages_) break;
+
+                // PHASE-2-HARDENING: Check if buffer is full
+                if (buffer_size >= max_buffer_messages_) {
+                    if (!buffer_paused) {
+                        buffer_paused = true;
+                        THEMIS_WARN("Kafka buffer full ({}); pausing consumption", buffer_size);
+                        addError(stats, ImportErrorCode::ROW_TOO_LARGE,
+                                 ImportErrorSeverity::WARNING,
+                                 "Message buffer reached max size: " + std::to_string(buffer_size),
+                                 "buffer pause at offset " + std::to_string(stream_pos.last_committed_offset));
+                        emitMetric(options, "themisdb_import_buffer_pause_total",
+                                  {{"topic", topic}}, 1.0);
+                    }
+                    // Don't fetch more messages until buffer drains
+                    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                    // Check if buffer has drained enough to resume
+                    if (buffer_size <= buffer_drain_threshold_) {
+                        buffer_paused = false;
+                        THEMIS_INFO("Kafka buffer drained below threshold; resuming consumption");
+                    }
+                    continue;
+                }
+
+                rd_kafka_message_t* msg =
+                    rd_kafka_consumer_poll(rk, poll_timeout_ms_);
+
+                if (!msg) {
+                    if (++consecutive_timeouts >= kMaxTimeouts) break;
+                    continue;
+                }
+                consecutive_timeouts = 0;
+
+                if (msg->err == RD_KAFKA_RESP_ERR__PARTITION_EOF) {
+                    rd_kafka_message_destroy(msg);
+                    break;
+                }
+
+                if (msg->err != RD_KAFKA_RESP_ERR_NO_ERROR) {
+                    addError(stats, ImportErrorCode::UNKNOWN,
                              ImportErrorSeverity::WARNING,
-                             "Message buffer reached max size: " + std::to_string(buffer_size),
-                             "buffer pause at offset " + std::to_string(stream_pos.last_committed_offset));
-                    emitMetric(options, "themisdb_import_buffer_pause_total",
-                              {{"topic", topic}}, 1.0);
-                }
-                // Don't fetch more messages until buffer drains
-                std::this_thread::sleep_for(std::chrono::milliseconds(100));
-                // Check if buffer has drained enough to resume
-                if (buffer_size <= buffer_drain_threshold_) {
-                    buffer_paused = false;
-                    THEMIS_INFO("Kafka buffer drained below threshold; resuming consumption");
-                }
-                continue;
-            }
-
-            rd_kafka_message_t* msg =
-                rd_kafka_consumer_poll(rk, poll_timeout_ms_);
-
-            if (!msg) {
-                if (++consecutive_timeouts >= kMaxTimeouts) break;
-                continue;
-            }
-            consecutive_timeouts = 0;
-
-            if (msg->err == RD_KAFKA_RESP_ERR__PARTITION_EOF) {
-                rd_kafka_message_destroy(msg);
-                break;
-            }
-
-            if (msg->err != RD_KAFKA_RESP_ERR_NO_ERROR) {
-                addError(stats, ImportErrorCode::UNKNOWN,
-                         ImportErrorSeverity::WARNING,
-                         std::string("Kafka message error: ") +
-                         rd_kafka_message_errstr(msg),
-                         "partition " + std::to_string(msg->partition) +
-                         " offset " + std::to_string(msg->offset));
-                rd_kafka_message_destroy(msg);
+                             std::string("Kafka message error: ") +
+                             rd_kafka_message_errstr(msg),
+                             "partition " + std::to_string(msg->partition) +
+                             " offset " + std::to_string(msg->offset));
+                    rd_kafka_message_destroy(msg);
                 ++stats.failed_records;
                 continue;
             }
@@ -776,17 +919,30 @@ void KafkaImporter::consumeFromKafka(const std::string& brokers,
 
             rd_kafka_message_destroy(msg);
         }
+        } catch (const std::exception& e) {
+            addError(stats, ImportErrorCode::UNKNOWN,
+                     ImportErrorSeverity::CRITICAL,
+                     "Exception in Kafka consume loop: " + std::string(e.what()));
+        }
+
+        // PHASE-2-HARDENING: Save final checkpoint on completion
+        stream_pos.saveToCheckpoint();
+
+        // PHASE-2B: RAII wrappers automatically clean up on scope exit
+        // No manual cleanup needed - all resources are exception-safe
+        
     } catch (const std::exception& e) {
+        // Exception during setup (conf, rk, or topics initialization)
         addError(stats, ImportErrorCode::UNKNOWN,
                  ImportErrorSeverity::CRITICAL,
-                 "Exception in Kafka consume loop: " + std::string(e.what()));
+                 "Exception during Kafka setup: " + std::string(e.what()));
+        // RAII wrappers automatically clean up allocated resources
+    } catch (...) {
+        addError(stats, ImportErrorCode::UNKNOWN,
+                 ImportErrorSeverity::CRITICAL,
+                 "Unknown exception during Kafka import");
+        // RAII wrappers automatically clean up allocated resources
     }
-
-    // PHASE-2-HARDENING: Save final checkpoint on completion
-    stream_pos.saveToCheckpoint();
-
-    rd_kafka_consumer_close(rk);
-    rd_kafka_destroy(rk);
 }
 #endif // THEMIS_ENABLE_KAFKA
 
