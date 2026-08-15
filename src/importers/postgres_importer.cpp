@@ -625,6 +625,21 @@ json PostgreSQLImporter::getSourceSchema(const std::string& source_path) {
         // Performance: avoid temporary string from `+= line + " "`
         current_sql.append(line).append(1, ' ');
         
+        // PHASE-3A-FIX: Guard against maximum statement size before processing
+        if (options.max_statement_size_bytes > 0 &&
+            current_sql.size() > options.max_statement_size_bytes) {
+            addError(stats, ImportErrorCode::STATEMENT_TOO_LARGE,
+                     ImportErrorSeverity::WARNING,
+                     "SQL statement exceeds max_statement_size_bytes (" +
+                     std::to_string(options.max_statement_size_bytes) + ")",
+                     "line " + std::to_string(line_number));
+            stats.warnings.push_back("Statement too large near line " +
+                                     std::to_string(line_number));
+            current_sql.clear();
+            if (!options.continue_on_error) return false;
+            continue;
+        }
+        
         // Complete statement?
         if (line.find(';') != std::string::npos) {
             if (current_sql.find("CREATE TABLE") != std::string::npos) {

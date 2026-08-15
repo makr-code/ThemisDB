@@ -779,6 +779,29 @@ void KafkaImporter::consumeFromKafka(const std::string& brokers,
         }
 
         rd_kafka_topic_partition_list_t* topics = topics_wrapper.get();
+         
+        // PHASE-4-HARDENING: Validate topic name before passing to librdkafka
+        // Kafka topic names must be non-empty and contain only alphanumeric, -, _, .
+        if (topic.empty()) {
+            addError(stats, ImportErrorCode::VALIDATION_FAILED,
+                     ImportErrorSeverity::CRITICAL,
+                     "Kafka topic name cannot be empty");
+            return;
+        }
+        bool valid_topic = true;
+        for (unsigned char c : topic) {
+            if (!std::isalnum(c) && c != '-' && c != '_' && c != '.') {
+                valid_topic = false;
+                break;
+            }
+        }
+        if (!valid_topic) {
+            addError(stats, ImportErrorCode::VALIDATION_FAILED,
+                     ImportErrorSeverity::CRITICAL,
+                     "Kafka topic name contains invalid characters: " + topic);
+            return;
+        }
+         
         rd_kafka_topic_partition_list_add(topics, topic.c_str(),
                                           RD_KAFKA_PARTITION_UA);
         rd_kafka_resp_err_t sub_err = rd_kafka_subscribe(rk, topics);
