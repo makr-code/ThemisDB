@@ -1,15 +1,13 @@
 /**
  * @file content_manager_embedding.cpp
- * @brief Embedding pipeline integration for content vectorization and semantic search indexing.
+ * @brief Core content management system orchestrating processors, validators, and storage.
  * @version 0.0.15
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 88/100 (Batch 5 verified; embedding accuracy excellent)
- * @note Gap Status: Batches 1-4 complete; config and integration notes added
- * @note Batch Tracking: CMT-7501 (metadata correction 100→88), CMT-7505 (test coverage 95%)
- * @note Status: Production Ready; Embedding coordination with LLM pipelines fully functional
+ * @note Maturity: 🟡 BETA
+ * @note Score: 76/100
+ * @note Gap Summary: total=12; TODO=2, Stub=1, Unimpl=1, Mock=0, Sim=0, Debt=2, C=1, H=3, M=6, L=0
+ * @note Status: Beta; Embedding pipeline in progress; model loading and caching under test
  * @note This block is auto-generated and will be overwritten.
  */
-
 #include "content/content_manager.h"
 
 namespace themis {

@@ -2,15 +2,12 @@
  * @file content_policy.cpp
  * @brief Content policy engine for access control, retention, and regulatory compliance.
  * @version 0.0.47
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 88/100 (Batch 5 verified; policy enforcement complete)
- * @note Gap Status: Batches 1-4 complete; policy rules fully defined and enforced
- * @note Batch Tracking: CMT-7501 (metadata verification), CMT-7505 (test coverage 96%)
- * @note Status: Production Ready; Access control and retention policies production-grade
+ * @note Maturity: 🟡 BETA
+ * @note Score: 71/100
+ * @note Gap Summary: total=15; TODO=2, Stub=2, Unimpl=2, Mock=0, Sim=1, Debt=3, C=2, H=4, M=7, L=0
+ * @note Status: Beta; Policy engine scaffolding in place; retention rules and audit integration under development
  * @note This block is auto-generated and will be overwritten.
  */
-
-
 #include "content/content_policy.h"
 #include <algorithm>
 

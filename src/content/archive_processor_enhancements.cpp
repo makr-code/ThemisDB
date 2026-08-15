@@ -1,5 +1,6 @@
 /**
  * @file archive_processor_enhancements.cpp
+<<<<<<< HEAD
  * @brief Production-ready stub replacements for archive processing (Batch 2 pattern).
  * @version 2.0.0
  * @note Maturity: 🟢 PRODUCTION-READY
@@ -7,9 +8,16 @@
  * @note Gap Summary: total=5; TODO=0, Stub=0, Unimpl=1, Mock=0, Sim=0, Debt=0, C=0, H=2, M=3, L=0
  * @note Batch Tracking: CMT-7502 (deferred features), CMT-7505 (test coverage 92%)
  * @note Status: Production Ready; Defensive guards + real validation + audit logging fully functional
+=======
+ * @brief Archive format processor (ZIP, TAR, 7Z, RAR) for nested content extraction.
+ * @version 2.0.0
+ * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Score: 81/100
+ * @note Gap Summary: total=7; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=3, C=0, H=2, M=5, L=0
+ * @note Status: Production Ready; Archive enhancements (Graph Phase 2.1) stable; performance tuning deferred
+>>>>>>> origin/develop
  * @note This block is auto-generated and will be overwritten.
  */
-
 #include "content/archive_processor.h"
 #include "utils/logger.h"
 #include <filesystem>

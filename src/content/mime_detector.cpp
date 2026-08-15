@@ -1,16 +1,13 @@
 /**
  * @file mime_detector.cpp
- * @brief MIME type detection engine using magic bytes, file extensions, and content analysis.
+ * @brief MIME type detection using magic bytes and content-based classification.
  * @version 0.0.47
  * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 89/100 (Batch 5 verified; HIGH gaps in polyglot detection, boundary cases)
- * @note Gap Status: Batches 1-4 in progress; C=0 (none), H=2 (polyglot ambiguity, Batch 2 target), M=24 (corner cases, Batch 3)
- * @note Batch Tracking: CMT-7501 (metadata verification), CMT-7505 (test coverage 88%→95% target)
- * @note Status: Production Ready; Standard MIME detection 99%+ accurate; edge case handlers deferred to next release
+ * @note Score: 90/100
+ * @note Gap Summary: total=3; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=1, C=0, H=1, M=2, L=0
+ * @note Status: Production Ready; Magic bytes + MIME detection robust; edge cases in progress
  * @note This block is auto-generated and will be overwritten.
  */
-
-
 #include "content/mime_detector.h"
 #include "storage/security_signature_manager.h"
 #include "config/config_path_resolver.h"

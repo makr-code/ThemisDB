@@ -1,14 +1,13 @@
 /**
  * @file stt_processor.cpp
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief Speech-to-text processor with Whisper integration and audio transcription.
  * @version 0.0.47
  * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 87/100
- * @note Gap Summary: total=7; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=1, Debt=0, C=0, H=2, M=11, L=0
- * @note Status: Production Ready
+ * @note Score: 82/100
+ * @note Gap Summary: total=7; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=3, C=1, H=1, M=5, L=0
+ * @note Status: Production Ready; Speech-to-text with Whisper working; real-time streaming deferred
  * @note This block is auto-generated and will be overwritten.
  */
-
 #include "content/stt_processor.h"
 
 #include <algorithm>

@@ -1,15 +1,13 @@
 /**
  * @file office_processor.cpp
- * @brief Processes Office documents (Excel, Word, PowerPoint) for content extraction and metadata analysis.
+ * @brief Office document processor (XLSX, DOCX, PPTX) with content extraction.
  * @version 0.0.47
  * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 78/100 (Batch 5 verified; HIGH gaps pending resolution in Batch 2)
- * @note Gap Status: Batches 1-4 in progress; C=2 (critical, Batch 1), H=17 (high, Batch 2 target), M=13 (medium, Batch 3 target)
- * @note Batch Tracking: CMT-7501 (metadata correction from 100→78), CMT-7505 (test expansion to 92%)
- * @note Status: Production Ready; Core Office format handlers (XLSX, DOCX, PPTX) functional; performance optimizations deferred
+ * @note Score: 81/100
+ * @note Gap Summary: total=8; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=3, C=1, H=2, M=5, L=0
+ * @note Status: Production Ready; XLSX/DOCX/PPTX extraction working; advanced macro handling deferred
  * @note This block is auto-generated and will be overwritten.
  */
-
 #include "content/office_processor.h"
 
 #include <algorithm>

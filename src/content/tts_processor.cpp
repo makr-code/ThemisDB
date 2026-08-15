@@ -1,14 +1,13 @@
 /**
  * @file tts_processor.cpp
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
+ * @brief Text-to-speech synthesis engine with voice selection and prosody control.
  * @version 0.0.47
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 87/100
- * @note Gap Summary: total=12; TODO=1, Stub=7, Unimpl=0, Mock=1, Sim=3, Debt=0, C=0, H=1, M=5, L=0
- * @note Status: Production Ready
+ * @note Maturity: 🟡 BETA
+ * @note Score: 70/100
+ * @note Gap Summary: total=14; TODO=1, Stub=1, Unimpl=1, Mock=0, Sim=1, Debt=3, C=1, H=3, M=8, L=0
+ * @note Status: Beta; Text-to-speech engine basic; voice selection and prosody control under development
  * @note This block is auto-generated and will be overwritten.
  */
-
 #include "content/tts_processor.h"
 
 #include <algorithm>

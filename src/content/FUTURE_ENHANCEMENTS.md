@@ -1,7 +1,7 @@
 # Content Module - Future Enhancements
 
 <!-- Status: current | validated: 2026-08-15 -->
-<!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md · MODULE_GAPS_BATCH5.md -->
+<!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md · MODULE_GAPS_BATCH5.md · CONTENT_DEFERRED_FEATURES.md -->
 
 ## Scope
 

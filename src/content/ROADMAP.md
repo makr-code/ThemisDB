@@ -58,11 +58,20 @@ Production content runtime exists across ingestion orchestration, multi-format e
 - [x] roadmap/future planning separated from historical changelog entries
 
 ### Phase 6B: Batch 5 — GA Documentation & Quality Gates (2026-08-15)
-- [ ] CMT-7504: Module Documentation Linkset Synchronization (Consistency)
-  - [ ] CMT-7504-01: Update ROADMAP.md with processor inventory (44 files)
-  - [ ] CMT-7504-02: Update FUTURE_ENHANCEMENTS.md with deferred features from CMT-7502 TODO scan
-  - [ ] CMT-7504-03: Cross-check phase status in all 4 docs (must be consistent)
-  - [ ] CMT-7504-04: Add automated linkset validation in CI (broken anchor detection)
+- [ ] CMT-7503: Scope Mismatch Fixes (Critical Correctness)
+  - [x] CMT-7503-VERIFIED: image_extractor_adapter.cpp & pdf_extractor_adapter.cpp RAII patterns safe (no dangling pointers)
+  - [x] CMT-FIN-36..40: Adapter scope validation test suite created (5 tests + 5 sub-tests = 30 assertions)
+  - [x] CMT-FIN-36: Adapter factory ownership verification (smart pointer semantics)
+  - [x] CMT-FIN-37: RAII lifetime boundaries validation
+  - [x] CMT-FIN-38: Extract method scope safety checks
+  - [x] CMT-FIN-39: Stack/heap boundary validation
+  - [x] CMT-FIN-40: Copy/move semantics safety verification
+- [~] CMT-7504: Module Documentation Linkset Synchronization (Consistency)
+  - [x] CMT-7504-01: Update ROADMAP.md with processor inventory (44 files verified)
+  - [x] CMT-7504-02: Update FUTURE_ENHANCEMENTS.md with deferred features from CMT-7502 TODO scan
+  - [x] CMT-7504-03: Cross-check phase status in all 4 docs (now synchronized)
+  - [x] CMT-FIN-41..46: Documentation linkset validation tests created (6 tests, automated checks)
+  - [ ] CMT-7504-04: Add automated linkset validation in CI (markdown-link-check integration)
 - [ ] CMT-7505: Test Coverage Correlation (Production Readiness)
   - [ ] CMT-7505-01: Aggregate all Batch 1-4 remediation items (CRITICAL 48 + HIGH 402)
   - [ ] CMT-7505-02: For each fix, verify corresponding test in tests/content/ exists

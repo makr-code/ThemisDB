@@ -303,10 +303,12 @@ Result<size_t> ApproximateRadiusSearch::estimateResultCount(
     }
     
     // Count how many samples fall within radius
-    size_t within_radius = 0;
-    for (const auto& result : sample_results) {
-        if (result.distance <= radius) {
-            within_radius++;
+    {
+        size_t within_radius = 0;
+        for (const auto& result : sample_results) {
+            if (result.distance <= radius) {
+                within_radius++;
+            }
         }
     }
     

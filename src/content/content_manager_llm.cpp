@@ -1,15 +1,13 @@
 /**
  * @file content_manager_llm.cpp
- * @brief LLM integration for content analysis, summarization, and semantic reasoning.
+ * @brief Core content management system orchestrating processors, validators, and storage.
  * @version 0.0.47
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 87/100 (Batch 5 verified; MEDIUM gaps in prompt optimization)
- * @note Gap Status: Batches 1-4 in progress; C=0 (none), H=0 (none), M=9 (prompt tuning, Batch 3 target)
- * @note Batch Tracking: CMT-7501 (metadata correction 100→87), CMT-7505 (test coverage 92%)
- * @note Status: Production Ready; Core LLM integration stable; advanced prompt engineering deferred
+ * @note Maturity: 🟡 BETA
+ * @note Score: 74/100
+ * @note Gap Summary: total=14; TODO=3, Stub=1, Unimpl=2, Mock=0, Sim=0, Debt=2, C=1, H=4, M=7, L=0
+ * @note Status: Beta; LLM integration in progress; prompt engineering and response validation under review
  * @note This block is auto-generated and will be overwritten.
  */
-
 #include <algorithm>
 #include <sstream>
 

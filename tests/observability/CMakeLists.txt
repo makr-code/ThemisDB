@@ -24,6 +24,31 @@ foreach(_src IN LISTS OBSERVABILITY_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/observability/provenance_store.cpp
         )
     endif()
+    if(_stem STREQUAL "test_distributed_tracing_sdk")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/observability/distributed_tracing_sdk.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_high_cardinality_metrics")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/observability/high_cardinality_metrics.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_operator_remediation_engine")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/observability/operator_remediation_engine.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_observability_phase3_continuation_focused")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/observability/operator_remediation_engine.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_exporter_stress_framework")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/observability/exporter_stress_framework.cpp
+        )
+    endif()
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src

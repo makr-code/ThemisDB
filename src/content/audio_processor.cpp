@@ -1,15 +1,13 @@
 /**
  * @file audio_processor.cpp
- * @brief Audio content processor for speech-to-text, speaker identification, and audio feature extraction.
+ * @brief Audio content processor for speech-to-text and acoustic feature extraction.
  * @version 0.0.47
  * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 86/100 (Batch 5 verified; HIGH gaps in codec handling, speaker diarization)
- * @note Gap Status: Batches 1-4 in progress; C=0 (none), H=3 (codec support, speaker ID, Batch 2), M=3 (edge cases, Batch 3)
- * @note Batch Tracking: CMT-7501 (metadata verification), CMT-7505 (test coverage 85%→92% target)
- * @note Status: Production Ready; Core STT functional (Whisper integration); speaker diarization and codec diversity deferred
+ * @note Score: 86/100
+ * @note Gap Summary: total=6; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=3, C=0, H=3, M=3, L=0
+ * @note Status: Production Ready; Core STT functional (Whisper integration); speaker diarization deferred
  * @note This block is auto-generated and will be overwritten.
  */
-
 // Ensure plugin entry points export correctly when built into core
 #define THEMIS_PLUGIN_EXPORTS
 

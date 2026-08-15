@@ -3,14 +3,11 @@
  * @brief Content security framework for threat detection, sanitization, and PII handling.
  * @version 0.0.47
  * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 89/100 (Batch 5 verified; security hardening complete)
- * @note Gap Status: Batches 1-4 complete; all threat models addressed
- * @note Batch Tracking: CMT-7501 (metadata verification), CMT-7505 (test coverage 97%)
- * @note Status: Production Ready; Content sanitization and threat detection production-grade
+ * @note Score: 88/100
+ * @note Gap Summary: total=5; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=2, C=0, H=1, M=4, L=0
+ * @note Status: Production Ready; PII detection + sanitization complete; advanced rules deferred
  * @note This block is auto-generated and will be overwritten.
  */
-
-
 #include "content/content_security.h"
 
 #include <iomanip>

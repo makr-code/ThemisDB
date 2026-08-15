@@ -71,7 +71,7 @@ public:
     };
 
     explicit VectorIndexManager(RocksDBWrapper& db);
-    ~VectorIndexManager();
+    ~VectorIndexManager() noexcept;
     
     // Phase 1: Set optional audit logger for tracking vector operations
     void setAuditLogger(std::shared_ptr<utils::AuditLogger> logger, std::string user_context = "system");
@@ -537,6 +537,9 @@ private:
     size_t encBatchCount_ = 0;
     size_t encBatchSize_ = 256; // commit every N encrypted inserts
     void flushEncBatch() const;
+    
+    // Phase 5: Safe HNSW resource cleanup (RAII safety fix)
+    void releaseHnswResources_() noexcept;
     
     // Phase 1: Optional AuditLogger for knowledge graph protection
     std::shared_ptr<utils::AuditLogger> audit_logger_;

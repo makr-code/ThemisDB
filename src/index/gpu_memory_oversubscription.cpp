@@ -220,12 +220,17 @@ public:
     // -----------------------------------------------------------------------
 
     void touchLRULocked(size_t partition_id) {
+        // Iterator Safety (A-2.1): Ensure safe iterator handling
+        // - Cache iterator before mutation
+        // - Re-fetch after container modifications
         auto it = lru_map.find(partition_id);
         if (it != lru_map.end()) {
+            // Erase the existing entry; this only invalidates iterators to the erased element
             lru_list.erase(it->second);
         }
+        // Push to front and update map with new iterator (safe: push_front doesn't invalidate)
         lru_list.push_front(partition_id);
-        lru_map[partition_id] = lru_list.begin();
+        lru_map[partition_id] = lru_list.begin();  // lru_list.begin() is always valid after push_front
     }
 
     // -----------------------------------------------------------------------
