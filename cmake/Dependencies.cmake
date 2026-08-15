@@ -288,6 +288,7 @@ if(spdlog_FOUND AND NOT MSVC)
     add_compile_definitions(SPDLOG_DISABLE_DEFAULT_LOGGER)
     add_compile_definitions(SPDLOG_NO_EXCEPTIONS)
     add_compile_definitions(SPDLOG_FMT_EXTERNAL)
+    # Note: Do not use SPDLOG_USE_STD_FORMAT with fmt namespace - causes incompatibilities
 endif()
 
 find_package(nlohmann_json CONFIG QUIET)
