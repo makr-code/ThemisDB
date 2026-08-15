@@ -57,6 +57,12 @@ foreach(_src IN LISTS INDEX_AUTOGEN_PREFIX_TEST_SOURCES)
         Threads::Threads
     )
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
+    
+    # Phase 5: GPU tests require CUDA linkage if available
+    if(_stem MATCHES "gpu_memory" AND THEMIS_CUDA_ENABLED)
+        target_link_libraries(${_target} PRIVATE CUDA::cudart)
+        target_compile_definitions(${_target} PRIVATE THEMIS_CUDA_ENABLED=1)
+    endif()
 
     themis_register_module_focused_test(
         MODULE index
@@ -67,3 +73,10 @@ foreach(_src IN LISTS INDEX_AUTOGEN_PREFIX_TEST_SOURCES)
         LABELS index autogen
     )
 endforeach()
+
+# Phase 5: Explicit GPU memory safety test with CUDA support
+if(THEMIS_CUDA_ENABLED AND TARGET module_index_test_index_gpu_memory_safety_autofocused)
+    target_compile_definitions(module_index_test_index_gpu_memory_safety_autofocused
+        PRIVATE THEMIS_CUDA_ENABLED=1
+    )
+endif()
