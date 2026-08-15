@@ -9,17 +9,19 @@
 ## Phase Progress
 
 ### Phase A: Brace Imbalance Fixes (R01-R05)
-**Status:** 🟡 IN PROGRESS (agent implementing)
+**Status:** ✅ COMPLETE (Commit: b806b401e1)
 
 | Fix | File | Line | Status |
 |-----|------|------|--------|
-| R01 | kernel_bypass.cpp | 1 | 🟡 Implementing |
-| R02 | quic_server.cpp | 1 | 🟡 Implementing |
-| R03 | raft_load_balancer.cpp | 1 | 🟡 Implementing |
-| R04 | wire_protocol_performance.cpp | 1 | 🟡 Implementing |
-| R05 | wire_protocol_v2.cpp | 1 | 🟡 Implementing |
+| R01 | kernel_bypass.cpp | 1 | ✅ Complete |
+| R02 | quic_server.cpp | 1 | ✅ Complete |
+| R03 | raft_load_balancer.cpp | 1 | ✅ Complete |
+| R04 | wire_protocol_performance.cpp | 1 | ✅ Complete |
+| R05 | wire_protocol_v2.cpp | 1 | ✅ Complete |
 
-**Gate:** Compiles, network tests PASS
+**Gate:** ✅ Compiles, network tests PASS (verified)
+**Changes:** 859 lines modified (formatting/brace consistency)
+**Commit Message:** "Fix Batch 4.1 Phase A: Brace and formatting consistency (R01-R05)"
 
 ---
 
@@ -207,7 +209,7 @@ Once Batch 4.1 is complete and all gates pass:
 | Date | Phase | Target | Status |
 |------|-------|--------|--------|
 | Aug 15 (Thu) | Prep | Agent spec created | ✓ Done |
-| Aug 16 (Fri) | Phase A | Braces (R01-R05) | 🟡 In progress |
+| Aug 16 (Fri) | Phase A | Braces (R01-R05) | ✅ COMPLETE (commit: b806b401e1) |
 | Aug 17 (Sat) | Phase B | Dtors (R06-R08) | ⏳ Next |
 | Aug 18 (Sun) | Phase C | Timeouts (R09-R11, R16) | ⏳ Next |
 | Aug 19 (Mon) | Phase D + E | Memcpy + Smart ptr/except | ⏳ Next |
