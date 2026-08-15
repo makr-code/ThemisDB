@@ -82,13 +82,15 @@ namespace {
               [](const auto& a, const auto& b) { return a.second > b.second; });
 
     std::vector<std::string> selected;
-    double budget_used = 0.0;
-    for (const auto& [shard_id, priority] : scored) {
-        (void)priority;
-        const double cost_estimate = 1.0;
-        if (budget_used + cost_estimate <= config.distributed_cost_budget) {
-            selected.push_back(shard_id);
-            budget_used += cost_estimate;
+    {
+        double budget_used = 0.0;
+        for (const auto& [shard_id, priority] : scored) {
+            (void)priority;
+            const double cost_estimate = 1.0;
+            if (budget_used + cost_estimate <= config.distributed_cost_budget) {
+                selected.push_back(shard_id);
+                budget_used += cost_estimate;
+            }
         }
     }
 
