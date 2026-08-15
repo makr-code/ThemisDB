@@ -2377,17 +2377,24 @@ std::string PostgreSQLImporter::mapPostgreSQLTypeToThemis(const std::string& pg_
 
     // Check custom types discovered from CREATE TYPE statements in the dump.
     // Check both the original and lowercased form of the type name.
+    // PHASE-3A-FIX: Add null/empty checks for custom type values
     {
         std::lock_guard<std::mutex> lock(custom_type_map_mutex_);
         auto ct = custom_type_map_.find(pg_type);
-        if (ct != custom_type_map_.end()) return ct->second;
+        if (ct != custom_type_map_.end() && !ct->second.empty()) {
+            return ct->second;
+        }
         ct = custom_type_map_.find(lower_type);
-        if (ct != custom_type_map_.end()) return ct->second;
+        if (ct != custom_type_map_.end() && !ct->second.empty()) {
+            return ct->second;
+        }
     }
 
     // Array types
-    if (lower_type.back() == ']' || lower_type.find("[]") != std::string::npos ||
-        lower_type.rfind("array", 0) == 0) {
+    // PHASE-3A-FIX: Add bounds check before calling back() on string
+    if (!lower_type.empty() && 
+        (lower_type.back() == ']' || lower_type.find("[]") != std::string::npos ||
+         lower_type.rfind("array", 0) == 0)) {
         return "array";
     }
 
