@@ -109,7 +109,10 @@ enum class SupportedAudioCodec : uint8_t {
 };
 
 // Backward-compat alias for existing code
-enum class AudioCodec {
+// Preprocessing-level codec enumeration. Telephony APIs expose a separate
+// `AudioCodec` (see include/voice/voice_telephony.h) and to avoid a
+// conflicting redefinition we expose a distinct type here.
+enum class DetectedAudioCodec {
     PCM16,      // Linear PCM, 16-bit
     PCM32,      // Linear PCM, 32-bit
     OPUS,       // Opus codec
@@ -122,7 +125,7 @@ enum class AudioCodec {
 struct AudioValidationResult {
     bool valid = false;
     std::string error_message;
-    AudioCodec detected_codec = AudioCodec::UNKNOWN;
+    DetectedAudioCodec detected_codec = DetectedAudioCodec::UNKNOWN;
     int detected_sample_rate = 0;
     int detected_channels = 0;
     int detected_bits_per_sample = 0;
@@ -553,15 +556,15 @@ public:
     
     /// @brief Check if codec is supported (whitelist-based).
     ///
-    /// @param codec AudioCodec to check.
+    /// @param codec DetectedAudioCodec to check.
     /// @return true if codec is in the frozen supported list; false otherwise.
-    bool isCodecSupported(AudioCodec codec) const;
+    bool isCodecSupported(DetectedAudioCodec codec) const;
 
     /// @brief Detect codec from audio header (heuristic).
     ///
     /// @param raw_audio Raw audio bytes.
-    /// @return Detected AudioCodec, or UNKNOWN if detection failed.
-    AudioCodec detectCodecFromHeader(const std::vector<uint8_t>& raw_audio) const;
+    /// @return DetectedAudioCodec, or UNKNOWN if detection failed.
+    DetectedAudioCodec detectCodecFromHeader(const std::vector<uint8_t>& raw_audio) const;
     /// @brief Validate frame header (detect malformed/truncated data).
     ///
     /// Checks for consistency in audio frame header fields (sample rate, channels, etc.).
@@ -613,3 +616,31 @@ private:
 };
 
 }} // namespace themis::voice
+
+// Backwards-compatibility macro aliases for legacy code that used
+// bare macro names. These map to the new namespaced `k...` constants.
+#ifndef MIN_AUDIO_SIZE_BYTES
+#define MIN_AUDIO_SIZE_BYTES themis::voice::kMinAudioFrameSizeBytes
+#endif
+#ifndef MAX_AUDIO_SIZE_BYTES
+#define MAX_AUDIO_SIZE_BYTES themis::voice::kMaxAudioFrameSizeBytes
+#endif
+#ifndef MIN_SAMPLE_RATE
+#define MIN_SAMPLE_RATE themis::voice::kMinSampleRateHz
+#endif
+#ifndef MAX_SAMPLE_RATE
+#define MAX_SAMPLE_RATE themis::voice::kMaxSampleRateHz
+#endif
+#ifndef MIN_CHANNELS
+#define MIN_CHANNELS 1
+#endif
+#ifndef MAX_CHANNELS
+#define MAX_CHANNELS 8
+#endif
+#ifndef MIN_BITS_PER_SAMPLE
+#define MIN_BITS_PER_SAMPLE 8
+#endif
+#ifndef MAX_BITS_PER_SAMPLE
+#define MAX_BITS_PER_SAMPLE 32
+#endif
+

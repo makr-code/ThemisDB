@@ -27,24 +27,8 @@ class RocksDBWrapper;
 
 namespace scheduler {
 
-/**
- * @brief A single recorded execution of a scheduled task.
- */
-struct TaskExecutionResult {
-    std::string task_id;      ///< Task identifier
-    std::string task_name;    ///< Human-readable task name
-    int64_t     timestamp_ms; ///< Wall-clock start time (ms since Unix epoch)
-    double      duration_ms;  ///< Execution duration in milliseconds
-    bool        success;      ///< true if the task completed without error
-    nlohmann::json output;    ///< JSON result returned by the task (empty on failure)
-    std::string error;        ///< Error message (empty on success)
-
-    /// Serialize to JSON (for storage / API responses).
-    nlohmann::json toJson() const;
-
-    /// Deserialize from JSON (used when loading from RocksDB).
-    static TaskExecutionResult fromJson(const nlohmann::json& j);
-};
+// Use the canonical `TaskExecutionResult` defined by the scheduler API
+// contract in `scheduler_api_contract.h` to avoid duplicate definitions.
 
 /**
  * @brief Stores and retrieves scheduled task execution results in ThemisDB.

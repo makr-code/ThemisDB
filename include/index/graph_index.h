@@ -29,6 +29,8 @@
 
 namespace themis {
 
+#include "themis/export.h"
+
 class BaseEntity;
 class IExpressionEvaluator;
 
@@ -45,7 +47,7 @@ namespace utils {
 /// - In-Memory Topologie für O(1) Nachbarschaftsabfragen
 /// - Saubere Fehler über Status-Rückgabe, kein Exception-API nach außen
 /// - Optional: Audit Logging für Graph-Operationen (Phase 1 Knowledge Graph Protection)
-class GraphIndexManager {
+class THEMIS_SECURITY_API GraphIndexManager {
 public:
     struct AdjacencyInfo {
         std::string edgeId;

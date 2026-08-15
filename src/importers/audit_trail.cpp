@@ -230,9 +230,6 @@ std::vector<AuditedImporter::AuditEvent> AuditedImporter::ImmutableAuditLog::get
     return result;
 }
 
-} // namespace importers
-} // namespace themis
-
 // ============================================================================
 // PHASE-3-ERROR-HANDLING: Rollback & Recovery Audit Trail
 // ============================================================================
@@ -285,4 +282,7 @@ void AuditedImporter::ImmutableAuditLog::emitRollbackEvent(
     // Record the event (this will add it to the chain)
     recordEvent(event);
 }
+
+} // namespace importers
+} // namespace themis
 

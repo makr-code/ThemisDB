@@ -13,6 +13,7 @@
 #pragma once
 
 #include "rag/knowledge_graph_retriever.h"
+#include "themis/rag/kg/knowledge_graph_interface.h"
 #include "graph/ontology_manager.h"
 
 #include <memory>
@@ -120,6 +121,18 @@ public:
         const graph::OntologyManager&    ontology,
         const OntologyRetrieverConfig&   config = {});
 
+    /**
+     * @brief Construct from an abstract knowledge-graph interface.
+     *
+     * Prefer this constructor when callers only have an `IKnowledgeGraph`
+     * implementation (runtime factories / adapters). The retriever will use
+     * the provided interface methods for traversal and linking.
+     */
+    explicit OntologyAwareRetriever(
+        std::shared_ptr<kg::IKnowledgeGraph> graph,
+        const graph::OntologyManager&       ontology,
+        const OntologyRetrieverConfig&      config = {});
+
     ~OntologyAwareRetriever();
 
     OntologyAwareRetriever(const OntologyAwareRetriever&)            = delete;
@@ -160,8 +173,12 @@ private:
         const std::string& to_type,
         const std::string& edge_type_name) const;
 
-    const kg::KnowledgeGraph&     graph_;
-    const graph::OntologyManager& ontology_;
+    // If constructed from a concrete KnowledgeGraph, `raw_graph_` points
+    // to it and `graph_iface_` may be empty. If constructed from an
+    // IKnowledgeGraph, `graph_iface_` is used for traversal.
+    const kg::KnowledgeGraph*                 raw_graph_ = nullptr;
+    std::shared_ptr<kg::IKnowledgeGraph>      graph_iface_;
+    const graph::OntologyManager&             ontology_;
     OntologyRetrieverConfig       config_;
 };
 
@@ -181,6 +198,10 @@ public:
         const kg::KnowledgeGraph&     graph,
         const graph::OntologyManager& ontology);
 
+    static std::unique_ptr<OntologyAwareRetriever> createShallow(
+        std::shared_ptr<kg::IKnowledgeGraph> graph,
+        const graph::OntologyManager&        ontology);
+
     /**
      * @brief Balanced: 2-hop, moderate KG weight (0.3), edge-type filtering enabled.
      */
@@ -188,12 +209,20 @@ public:
         const kg::KnowledgeGraph&     graph,
         const graph::OntologyManager& ontology);
 
+    static std::unique_ptr<OntologyAwareRetriever> createBalanced(
+        std::shared_ptr<kg::IKnowledgeGraph> graph,
+        const graph::OntologyManager&        ontology);
+
     /**
      * @brief Deep: 3-hop, higher KG weight (0.45), edge-type filtering enabled.
      */
     static std::unique_ptr<OntologyAwareRetriever> createDeep(
         const kg::KnowledgeGraph&     graph,
         const graph::OntologyManager& ontology);
+
+    static std::unique_ptr<OntologyAwareRetriever> createDeep(
+        std::shared_ptr<kg::IKnowledgeGraph> graph,
+        const graph::OntologyManager&        ontology);
 };
 
 } // namespace themis::rag

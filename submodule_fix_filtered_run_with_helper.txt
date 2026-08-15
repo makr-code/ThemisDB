@@ -1,19 +1,27 @@
-Run started: 2026-08-13T21:19:19+02:00
+
 ===== vcpkg =====
 Skipping vcpkg (not owned by makr-code) -> https://github.com/microsoft/vcpkg.git
+
 ===== llama.cpp =====
 Skipping llama.cpp (not owned by makr-code) -> https://github.com/ggerganov/llama.cpp.git
+
 ===== whisper.cpp =====
 Skipping whisper.cpp (not owned by makr-code) -> https://github.com/ggerganov/whisper.cpp.git
+
 ===== stable-diffusion.cpp =====
 Skipping stable-diffusion.cpp (not owned by makr-code) -> https://github.com/leejet/stable-diffusion.cpp.git
+
 ===== ffmpeg =====
 Skipping ffmpeg (not owned by makr-code) -> https://github.com/FFmpeg/FFmpeg.git
+
 ===== external/GIUF =====
 Processing external/GIUF (owned by makr-code)
 super_sha: f1c98061cba837afafee4a29e22b065b283f3383
 Recorded commit not on origin for external/GIUF; attempting pointer update to origin/HEAD
+HEAD is now at f1c9806 Initial GIUF bootstrap: docs, schemas, CLI skeleton
 Updated pointer for external/GIUF to f1c98061cba837afafee4a29e22b065b283f3383
+
 ===== plugins/themisdb_ethic_ai =====
 Processing plugins/themisdb_ethic_ai (owned by makr-code)
 super_sha: ce401ad9d604012a2c02655e79f5c17f57a9f82d
+fatal: could not read Username for 'https://github.com': Input/output error

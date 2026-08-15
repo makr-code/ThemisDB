@@ -151,6 +151,8 @@ private:
  */
 class DistributedAnalyticsSharding {
 public:
+    // Forward declaration for internal shard bookkeeping
+    struct ShardEntry;
     /**
      * Configuration knobs.
      */

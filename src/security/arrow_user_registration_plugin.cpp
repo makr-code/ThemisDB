@@ -254,7 +254,7 @@ std::string ArrowUserRegistrationPlugin::hashPassword(const std::string& passwor
     unsigned char hash[EVP_MAX_MD_SIZE];
     unsigned int  hash_len = 0;
 
-    EVP_MD_CTX_ptr mdctx(EVP_MD_CTX_new());
+    ArrowUser_EVP_MD_CTX_ptr mdctx(EVP_MD_CTX_new());
     EVP_DigestInit_ex(mdctx.get(), EVP_sha256(), nullptr);
     EVP_DigestUpdate(mdctx.get(), password.c_str(), password.length());
     EVP_DigestFinal_ex(mdctx.get(), hash, &hash_len);

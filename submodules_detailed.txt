@@ -14126,3 +14126,4 @@ f0d2473 Skip ethics plugin build when sources are not provisioned
 0561f17 Sync plugin skeleton from ThemisDB superproject (PR #5739 rollout)
 b0108fa (develop) Initial commit
 ls-remote (top 20):
+fatal: could not read Username for 'https://github.com': Input/output error

@@ -17,7 +17,8 @@
 #include <sstream>
 #include <unordered_set>
 #include <cmath>
-#include "llm/llm_plugin_manager.h"
+#include "themis/llm/llm_plugin_manager.h"
+#include "themis/llm/llm_factory.h"
 #include "utils/logger.h"
 #include <chrono>
 #include <iomanip>
@@ -35,20 +36,13 @@ using json = nlohmann::json;
 // ============================================================================
 
 namespace {
-    std::shared_ptr<LoRAOrchestrator> g_lora_orchestrator;
     std::mutex g_orchestrator_mutex;
 }
 
-std::shared_ptr<LoRAOrchestrator> getLoRAOrchestrator() {
+static std::shared_ptr<themis::llm::lora::ILoRAOrchestrator> getLoRAOrchestrator() {
     std::lock_guard<std::mutex> lock(g_orchestrator_mutex);
-    if (!g_lora_orchestrator) {
-        LoRAOrchestrator::Config config;
-        config.max_concurrent_jobs = 3;
-        config.enable_job_queue = true;
-        config.enable_auto_versioning = true;
-        g_lora_orchestrator = std::make_shared<LoRAOrchestrator>(config);
-    }
-    return g_lora_orchestrator;
+    auto orchestrator = themis::llm::createLoRAOrchestrator();
+    return orchestrator;
 }
 
 // ============================================================================
@@ -161,6 +155,10 @@ nlohmann::json LoraTrainFunction::execute(
         
         // Get orchestrator and start training (async by default)
         auto orchestrator = getLoRAOrchestrator();
+        if (!orchestrator) {
+            json error; error["error"] = "No LoRA orchestrator available";
+            return error;
+        }
         std::string job_id = orchestrator->createAdapter(
             adapter_id,
             training_data,
@@ -249,14 +247,20 @@ nlohmann::json LoraQueryFunction::execute(
         
         // Get orchestrator and ensure adapter is loaded
         auto orchestrator = getLoRAOrchestrator();
-        
+        if (!orchestrator) {
+            return json(std::string("LORA_QUERY failed: No orchestrator available"));
+        }
+
         if (!orchestrator->isLoaded(adapter_id)) {
             orchestrator->loadAdapter(adapter_id, false);  // Sync load
         }
-        
-        // Use LLM plugin manager for inference
-        auto& plugin_mgr = llm::LLMPluginManager::instance();
-        
+
+        // Use LLM plugin manager for inference via factory
+        auto plugin_mgr = themis::llm::createLLMPluginManager();
+        if (!plugin_mgr) {
+            return json(std::string("LORA_QUERY failed: No LLM plugin manager available"));
+        }
+
         llm::InferenceRequest request;
         request.prompt = prompt;
         request.model_id = model_id;
@@ -264,8 +268,8 @@ nlohmann::json LoraQueryFunction::execute(
         request.max_tokens = max_tokens;
         request.temperature = temperature;
         request.top_p = top_p;
-        
-        auto response = plugin_mgr.generate(request);
+
+        auto response = plugin_mgr->generate(request);
         
         return json(response.text);
         
@@ -318,31 +322,30 @@ nlohmann::json LoraSimilarFunction::execute(
         
         // Get orchestrator
         auto orchestrator = getLoRAOrchestrator();
-        
-        // Get source adapter info
-        auto adapter_info = orchestrator->getAdapter(adapter_id);
-        if (!adapter_info) {
-            json error = json::array();
-            return error;
+
+        // Get source adapter info as JSON
+        auto adapter_info_opt = orchestrator->getAdapter(adapter_id);
+        if (!adapter_info_opt) {
+            return json::array();
         }
-        
+        const auto& adapter_info = *adapter_info_opt;
+
         // Search for similar adapters
         json search_criteria;
-        search_criteria["base_model"] = adapter_info->base_model;
+        search_criteria["base_model"] = adapter_info.value("base_model", "");
         search_criteria["min_similarity"] = threshold;
         search_criteria["limit"] = k;
-        
+
         auto similar_adapters = orchestrator->searchAdapters(search_criteria);
         
         // Format results
         json results = json::array();
         for (const auto& adapter : similar_adapters) {
-            if (adapter.adapter_id == adapter_id) {
-                continue;  // Skip source adapter
-            }
-            
+            const std::string cand_id = adapter.value("adapter_id", std::string());
+            if (cand_id == adapter_id) continue;
+
             json result;
-            result["adapter_id"] = adapter.adapter_id;
+            result["adapter_id"] = cand_id;
 
             // Compute structural similarity from matching adapter attributes.
             // Dimensions: same base_model (mandatory — 0.5), same rank (0.25),
@@ -350,8 +353,8 @@ nlohmann::json LoraSimilarFunction::execute(
             double similarity = 0.5;  // Already guaranteed same base_model from search criteria
 
             // Rank proximity: equal rank = +0.25, difference reduces score linearly.
-            const int src_rank = adapter_info->hyperparameters.rank;
-            const int cand_rank = adapter.hyperparameters.rank;
+            const int src_rank = adapter_info["hyperparameters"].value("rank", 0);
+            const int cand_rank = adapter["hyperparameters"].value("rank", 0);
             if (src_rank > 0 && cand_rank > 0) {
                 double rank_diff_ratio = std::abs(src_rank - cand_rank) /
                                          static_cast<double>(std::max(src_rank, cand_rank));
@@ -359,8 +362,8 @@ nlohmann::json LoraSimilarFunction::execute(
             }
 
             // Alpha proximity: +0.15
-            const float src_alpha  = adapter_info->hyperparameters.alpha;
-            const float cand_alpha = adapter.hyperparameters.alpha;
+            const float src_alpha  = adapter_info["hyperparameters"].value("alpha", 0.0f);
+            const float cand_alpha = adapter["hyperparameters"].value("alpha", 0.0f);
             if (src_alpha > 0 && cand_alpha > 0) {
                 double alpha_diff_ratio = std::abs(src_alpha - cand_alpha) /
                                           static_cast<double>(std::max(src_alpha, cand_alpha));
@@ -368,7 +371,9 @@ nlohmann::json LoraSimilarFunction::execute(
             }
 
             // Description word overlap (Jaccard): +0.10
-            if (!adapter_info->description.empty() && !adapter.description.empty()) {
+            const std::string src_desc = adapter_info.value("description", std::string());
+            const std::string cand_desc = adapter.value("description", std::string());
+            if (!src_desc.empty() && !cand_desc.empty()) {
                 auto words = [](const std::string& s) {
                     std::unordered_set<std::string> ws;
                     std::istringstream iss(s);
@@ -376,8 +381,8 @@ nlohmann::json LoraSimilarFunction::execute(
                     while (iss >> w) ws.insert(w);
                     return ws;
                 };
-                auto ws1 = words(adapter_info->description);
-                auto ws2 = words(adapter.description);
+                auto ws1 = words(src_desc);
+                auto ws2 = words(cand_desc);
                 size_t inter = 0;
                 for (const auto& w : ws1) {
                     if (ws2.count(w)) ++inter;
@@ -392,7 +397,7 @@ nlohmann::json LoraSimilarFunction::execute(
             if (similarity < threshold) continue;
 
             result["score"] = similarity;
-            result["base_model"] = adapter.base_model;
+            result["base_model"] = adapter.value("base_model", std::string());
             
             results.push_back(result);
             
@@ -529,15 +534,16 @@ nlohmann::json LoraStatsFunction::execute(
         
         // Get orchestrator
         auto orchestrator = getLoRAOrchestrator();
-        
-        // Get adapter info
-        auto adapter_info = orchestrator->getAdapter(adapter_id);
-        if (!adapter_info) {
+
+        // Get adapter info (JSON)
+        auto adapter_info_opt = orchestrator->getAdapter(adapter_id);
+        if (!adapter_info_opt) {
             json error;
             error["error"] = "Adapter not found";
             return error;
         }
-        
+        const auto& adapter_info = *adapter_info_opt;
+
         // Build stats object
         json stats;
         
@@ -642,11 +648,11 @@ nlohmann::json LoraRecommendFunction::execute(
             // Retrieve actual validation_accuracy from adapter metadata.
             // Latency is estimated from adapter size (rank × alpha heuristic):
             //   larger adapters have slightly higher inference overhead.
-            double accuracy = static_cast<double>(adapter.metadata.validation_accuracy);
+            double accuracy = adapter.value("metadata", json::object()).value("validation_accuracy", 0.0);
             if (accuracy <= 0.0) accuracy = 0.5;  // Unknown accuracy — use conservative default.
 
             // Estimate latency: base 20 ms + 0.5 ms per rank unit.
-            int estimated_latency = 20 + static_cast<int>(adapter.hyperparameters.rank) / 2;
+            int estimated_latency = 20 + static_cast<int>(adapter.value("hyperparameters", json::object()).value("rank", 0)) / 2;
             int latency = estimated_latency;
             
             if (accuracy >= min_accuracy && latency <= max_latency_ms) {
@@ -654,7 +660,7 @@ nlohmann::json LoraRecommendFunction::execute(
                 double score = accuracy * (1.0 - (latency / static_cast<double>(max_latency_ms)));
                 if (score > best_score) {
                     best_score = score;
-                    best_adapter_id = adapter.adapter_id;
+                    best_adapter_id = adapter.value("adapter_id", std::string());
                 }
             }
         }
@@ -794,7 +800,7 @@ nlohmann::json LoraProvenanceFunction::execute(
         if (!prov_opt) {
             return nullptr;
         }
-        return prov_opt->toJSON();
+        return *prov_opt;
     } catch (...) {
         return nullptr;
     }
@@ -844,7 +850,7 @@ nlohmann::json LoraAuditLogFunction::execute(
         int count = 0;
         for (const auto& e : entries) {
             if (count >= limit) break;
-            result.push_back(e.toJSON());
+            result.push_back(e);
             ++count;
         }
         return result;
@@ -892,7 +898,7 @@ nlohmann::json LoraSnapshotsFunction::execute(
 
         json result = json::array();
         for (const auto& s : snaps) {
-            result.push_back(s.toJSON());
+            result.push_back(s);
         }
         return result;
     } catch (...) {

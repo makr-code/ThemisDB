@@ -409,7 +409,7 @@ TimestampToken TimestampAuthority::parseTSPResponse(const std::vector<uint8_t>& 
             if(cert_serial){
                 TSA_BIGNUM_ptr bn(ASN1_INTEGER_to_BN(cert_serial, nullptr));
                 if(bn.get()){
-                    OPENSSL_CStr_ptr hexStr(BN_bn2hex(bn.get()));
+                    TSA_OPENSSL_CStr_ptr hexStr(BN_bn2hex(bn.get()));
                     if(hexStr.get()){
                         token.tsa_serial = hexStr.get();
                     }

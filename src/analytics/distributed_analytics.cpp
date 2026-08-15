@@ -769,8 +769,8 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
 
             // SAFETY CONTROL: Check circuit breaker state and skip OPEN shards
             if (config_.enable_circuit_breaker) {
-                CircuitBreakerState cb_state = updateCircuitBreakerState(const_cast<ShardEntry&>(e));
-                if (cb_state == CircuitBreakerState::OPEN) {
+                DistributedAnalyticsSharding::CircuitBreakerState cb_state = this->updateCircuitBreakerState(const_cast<ShardEntry&>(e));
+                if (cb_state == DistributedAnalyticsSharding::CircuitBreakerState::OPEN) {
                     spdlog::warn("DistributedAnalyticsSharding: shard '{}' skipped (circuit breaker OPEN)",
                                  e.shard_id);
                     continue;  // Skip OPEN shards - fail-closed
@@ -964,9 +964,9 @@ void DistributedAnalyticsSharding::onShardSuccess(ShardEntry& entry) {
     std::lock_guard<std::mutex> lock(*entry.circuit_breaker_mutex);
     auto& cb_info = *entry.circuit_breaker_info;
 
-    if (cb_info.state == CircuitBreakerState::HALF_OPEN) {
+    if (cb_info.state == DistributedAnalyticsSharding::CircuitBreakerState::HALF_OPEN) {
         // Successfully recovered
-        cb_info.state = CircuitBreakerState::CLOSED;
+        cb_info.state = DistributedAnalyticsSharding::CircuitBreakerState::CLOSED;
         cb_info.consecutive_failures = 0;
         cb_info.recovery_attempts = 0;
         cb_info.state_changes++;
@@ -974,7 +974,7 @@ void DistributedAnalyticsSharding::onShardSuccess(ShardEntry& entry) {
             "DistributedAnalyticsSharding: shard '{}' circuit breaker HALF_OPEN → CLOSED "
             "(recovered after {} attempts)",
             entry.shard_id, cb_info.recovery_attempts);
-    } else if (cb_info.state == CircuitBreakerState::CLOSED) {
+    } else if (cb_info.state == DistributedAnalyticsSharding::CircuitBreakerState::CLOSED) {
         // Normal operation - reset failure counter
         cb_info.consecutive_failures = 0;
     }
@@ -989,10 +989,10 @@ bool DistributedAnalyticsSharding::onShardFailure(ShardEntry& entry, const std::
     cb_info.consecutive_failures++;
     cb_info.last_error = error_msg;
 
-    if (cb_info.state == CircuitBreakerState::CLOSED &&
+    if (cb_info.state == DistributedAnalyticsSharding::CircuitBreakerState::CLOSED &&
         cb_info.consecutive_failures >= config_.circuit_breaker_failure_threshold) {
         // Too many failures - open the circuit
-        cb_info.state = CircuitBreakerState::OPEN;
+        cb_info.state = DistributedAnalyticsSharding::CircuitBreakerState::OPEN;
         cb_info.opened_at = std::chrono::steady_clock::now();
         cb_info.next_recovery_at = cb_info.opened_at +
             std::chrono::milliseconds(config_.circuit_breaker_recovery_delay_ms);
@@ -1004,12 +1004,12 @@ bool DistributedAnalyticsSharding::onShardFailure(ShardEntry& entry, const std::
         return false;  // Shard is now unavailable
     }
 
-    if (cb_info.state == CircuitBreakerState::HALF_OPEN) {
+    if (cb_info.state == DistributedAnalyticsSharding::CircuitBreakerState::HALF_OPEN) {
         // Recovery attempt failed
         cb_info.recovery_attempts++;
         if (cb_info.recovery_attempts >= config_.circuit_breaker_recovery_attempts) {
             // Back to OPEN with exponential backoff
-            cb_info.state = CircuitBreakerState::OPEN;
+            cb_info.state = DistributedAnalyticsSharding::CircuitBreakerState::OPEN;
             uint32_t backoff_ms = std::min(
                 config_.circuit_breaker_recovery_delay_ms * (1U << cb_info.recovery_attempts),
                 config_.circuit_breaker_max_recovery_delay_ms);
@@ -1025,20 +1025,20 @@ bool DistributedAnalyticsSharding::onShardFailure(ShardEntry& entry, const std::
         // Still HALF_OPEN, continue recovery attempts
     }
 
-    return cb_info.state != CircuitBreakerState::OPEN;
+    return cb_info.state != DistributedAnalyticsSharding::CircuitBreakerState::OPEN;
 }
 
-CircuitBreakerState DistributedAnalyticsSharding::updateCircuitBreakerState(ShardEntry& entry) {
-    if (!config_.enable_circuit_breaker) return CircuitBreakerState::CLOSED;
+DistributedAnalyticsSharding::CircuitBreakerState DistributedAnalyticsSharding::updateCircuitBreakerState(ShardEntry& entry) {
+    if (!config_.enable_circuit_breaker) return DistributedAnalyticsSharding::CircuitBreakerState::CLOSED;
 
     std::lock_guard<std::mutex> lock(*entry.circuit_breaker_mutex);
     auto& cb_info = *entry.circuit_breaker_info;
 
-    if (cb_info.state == CircuitBreakerState::OPEN) {
+    if (cb_info.state == DistributedAnalyticsSharding::CircuitBreakerState::OPEN) {
         const auto now = std::chrono::steady_clock::now();
         if (now >= cb_info.next_recovery_at) {
             // Time to try recovery
-            cb_info.state = CircuitBreakerState::HALF_OPEN;
+            cb_info.state = DistributedAnalyticsSharding::CircuitBreakerState::HALF_OPEN;
             cb_info.recovery_attempts = 0;
             cb_info.state_changes++;
             spdlog::info(
