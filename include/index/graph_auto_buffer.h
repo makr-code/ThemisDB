@@ -160,7 +160,7 @@ public:
     explicit GraphAutoBuffer(PropertyGraphManager* graph, 
                              GraphAutoBufferConfig config = GraphAutoBufferConfig{});
     
-    ~GraphAutoBuffer() noexcept;
+    ~GraphAutoBuffer();
     
     // Non-copyable, non-movable (contains threads)
     GraphAutoBuffer(const GraphAutoBuffer&) = delete;

@@ -41,17 +41,9 @@ GraphAutoBuffer::GraphAutoBuffer(PropertyGraphManager* graph,
     stats_.last_flush_time = std::chrono::steady_clock::now();
 }
 
-GraphAutoBuffer::~GraphAutoBuffer() noexcept {
-    try {
-        if (running_.load()) {
-            stop();
-        }
-    } catch (const std::exception& e) {
-        THEMIS_ERROR("GraphAutoBuffer::~GraphAutoBuffer: Exception during cleanup: {}", e.what());
-        // Continue cleanup; do not re-throw from destructor
-    } catch (...) {
-        THEMIS_ERROR("GraphAutoBuffer::~GraphAutoBuffer: Unknown exception during cleanup");
-        // Continue cleanup; do not re-throw from destructor
+GraphAutoBuffer::~GraphAutoBuffer() {
+    if (running_.load()) {
+        stop();
     }
 }
 

@@ -55,17 +55,9 @@ VectorAutoBuffer::VectorAutoBuffer(VectorIndexManager* vectorIndex,
     stats_.last_flush_time = std::chrono::steady_clock::now();
 }
 
-VectorAutoBuffer::~VectorAutoBuffer() noexcept {
-    try {
-        if (running_.load()) {
-            stop();
-        }
-    } catch (const std::exception& e) {
-        THEMIS_ERROR("VectorAutoBuffer::~VectorAutoBuffer: Exception during cleanup: {}", e.what());
-        // Continue cleanup; do not re-throw from destructor
-    } catch (...) {
-        THEMIS_ERROR("VectorAutoBuffer::~VectorAutoBuffer: Unknown exception during cleanup");
-        // Continue cleanup; do not re-throw from destructor
+VectorAutoBuffer::~VectorAutoBuffer() {
+    if (running_.load()) {
+        stop();
     }
 }
 
