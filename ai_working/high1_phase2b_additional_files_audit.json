@@ -1,0 +1,522 @@
+[
+  {
+    "file": "tests/content/test_adapter_scope_validation.cpp",
+    "filename": "test_adapter_scope_validation.cpp",
+    "category": "test",
+    "header": {
+      "file": "test_adapter_scope_validation.cpp",
+      "brief": "CMT-FIN-36..40: Content module adapter scope validation tests",
+      "version": "1.0.0",
+      "maturity": "\ud83d\udfe2 PRODUCTION-READY",
+      "score": null,
+      "gap_summary": null,
+      "status": "Scope mismatch verification tests - RAII patterns validation"
+    },
+    "has_header": true,
+    "has_required_fields": true
+  },
+  {
+    "file": "tests/content/test_archive_processor_validation.cpp",
+    "filename": "test_archive_processor_validation.cpp",
+    "category": "test",
+    "header": {
+      "file": "test_archive_processor_validation.cpp",
+      "brief": "Unit tests for archive processor defensive guards (Graph Phase 2.1)",
+      "version": "1.0.0",
+      "maturity": null,
+      "score": null,
+      "gap_summary": null,
+      "status": null
+    },
+    "has_header": true,
+    "has_required_fields": true
+  },
+  {
+    "file": "tests/content/test_content_audio_processor.cpp",
+    "filename": "test_content_audio_processor.cpp",
+    "category": "test",
+    "header": {
+      "file": "test_content_audio_processor.cpp",
+      "brief": "Unit tests for AudioProcessor metadata extraction",
+      "version": null,
+      "maturity": null,
+      "score": null,
+      "gap_summary": null,
+      "status": null
+    },
+    "has_header": true,
+    "has_required_fields": false
+  },
+  {
+    "file": "tests/content/test_content_con007_con012_remediations.cpp",
+    "filename": "test_content_con007_con012_remediations.cpp",
+    "category": "test",
+    "header": {
+      "file": "test_content_con007_con012_remediations.cpp",
+      "brief": "Regression tests for CON-007 and CON-012 CONTENT module remediations.",
+      "version": null,
+      "maturity": null,
+      "score": null,
+      "gap_summary": null,
+      "status": null
+    },
+    "has_header": true,
+    "has_required_fields": false
+  },
+  {
+    "file": "tests/content/test_content_contract_hardening_focused.cpp",
+    "filename": "test_content_contract_hardening_focused.cpp",
+    "category": "test",
+    "header": {
+      "file": "test_content_contract_hardening_focused.cpp",
+      "brief": "Phase 1\u20136 contract-hardening tests for the content module.",
+      "version": null,
+      "maturity": null,
+      "score": null,
+      "gap_summary": null,
+      "status": null
+    },
+    "has_header": true,
+    "has_required_fields": false
+  },
+  {
+    "file": "tests/content/test_content_deduplication.cpp",
+    "filename": "test_content_deduplication.cpp",
+    "category": "test",
+    "header": {
+      "file": "test_content_deduplication.cpp",
+      "brief": "Unit tests for content deduplication via perceptual hashing.",
+      "version": null,
+      "maturity": null,
+      "score": null,
+      "gap_summary": null,
+      "status": null
+    },
+    "has_header": true,
+    "has_required_fields": false
+  },
+  {
+    "file": "tests/content/test_content_docs_linkset_validation.cpp",
+    "filename": "test_content_docs_linkset_validation.cpp",
+    "category": "test",
+    "header": {
+      "file": "test_content_docs_linkset_validation.cpp",
+      "brief": "CMT-FIN-41..50: Content module documentation cross-reference validation",
+      "version": "1.0.0",
+      "maturity": "\ud83d\udfe2 PRODUCTION-READY",
+      "score": null,
+      "gap_summary": null,
+      "status": "Automated link validation for content documentation consistency"
+    },
+    "has_header": true,
+    "has_required_fields": true
+  },
+  {
+    "file": "tests/content/test_content_embedding_pipeline.cpp",
+    "filename": "test_content_embedding_pipeline.cpp",
+    "category": "test",
+    "header": {
+      "file": "test_content_embedding_pipeline.cpp",
+      "brief": "Unit tests for EmbeddingPipeline and ContentManager::generateEmbedding()",
+      "version": null,
+      "maturity": null,
+      "score": null,
+      "gap_summary": null,
+      "status": null
+    },
+    "has_header": true,
+    "has_required_fields": false
+  },
+  {
+    "file": "tests/content/test_content_errors.cpp",
+    "filename": "test_content_errors.cpp",
+    "category": "test",
+    "header": null,
+    "has_header": false,
+    "has_required_fields": false
+  },
+  {
+    "file": "tests/content/test_content_features.cpp",
+    "filename": "test_content_features.cpp",
+    "category": "test",
+    "header": null,
+    "has_header": false,
+    "has_required_fields": false
+  },
+  {
+    "file": "tests/content/test_content_fs.cpp",
+    "filename": "test_content_fs.cpp",
+    "category": "test",
+    "header": null,
+    "has_header": false,
+    "has_required_fields": false
+  },
+  {
+    "file": "tests/content/test_content_fulltext_index.cpp",
+    "filename": "test_content_fulltext_index.cpp",
+    "category": "test",
+    "header": null,
+    "has_header": false,
+    "has_required_fields": false
+  },
+  {
+    "file": "tests/content/test_content_html_processor.cpp",
+    "filename": "test_content_html_processor.cpp",
+    "category": "test",
+    "header": {
+      "file": "test_content_html_processor.cpp",
+      "brief": "Unit tests for HtmlProcessor",
+      "version": null,
+      "maturity": null,
+      "score": null,
+      "gap_summary": null,
+      "status": null
+    },
+    "has_header": true,
+    "has_required_fields": false
+  },
+  {
+    "file": "tests/content/test_content_language_detector.cpp",
+    "filename": "test_content_language_detector.cpp",
+    "category": "test",
+    "header": {
+      "file": "test_content_language_detector.cpp",
+      "brief": "Unit tests for LanguageDetector \u2014 multi-language text detection and",
+      "version": null,
+      "maturity": null,
+      "score": null,
+      "gap_summary": null,
+      "status": null
+    },
+    "has_header": true,
+    "has_required_fields": false
+  },
+  {
+    "file": "tests/content/test_content_logger.cpp",
+    "filename": "test_content_logger.cpp",
+    "category": "test",
+    "header": null,
+    "has_header": false,
+    "has_required_fields": false
+  },
+  {
+    "file": "tests/content/test_content_markdown_processor.cpp",
+    "filename": "test_content_markdown_processor.cpp",
+    "category": "test",
+    "header": {
+      "file": "test_content_markdown_processor.cpp",
+      "brief": "Unit tests for MarkdownProcessor",
+      "version": null,
+      "maturity": null,
+      "score": null,
+      "gap_summary": null,
+      "status": null
+    },
+    "has_header": true,
+    "has_required_fields": false
+  },
+  {
+    "file": "tests/content/test_content_metrics.cpp",
+    "filename": "test_content_metrics.cpp",
+    "category": "test",
+    "header": null,
+    "has_header": false,
+    "has_required_fields": false
+  },
+  {
+    "file": "tests/content/test_content_pipeline.cpp",
+    "filename": "test_content_pipeline.cpp",
+    "category": "test",
+    "header": null,
+    "has_header": false,
+    "has_required_fields": false
+  },
+  {
+    "file": "tests/content/test_content_pipeline_hardening.cpp",
+    "filename": "test_content_pipeline_hardening.cpp",
+    "category": "test",
+    "header": {
+      "file": "test_content_pipeline_hardening.cpp",
+      "brief": "Unit tests for per-stage error recovery and retry logic in the",
+      "version": null,
+      "maturity": null,
+      "score": null,
+      "gap_summary": null,
+      "status": null
+    },
+    "has_header": true,
+    "has_required_fields": false
+  },
+  {
+    "file": "tests/content/test_content_policy.cpp",
+    "filename": "test_content_policy.cpp",
+    "category": "test",
+    "header": null,
+    "has_header": false,
+    "has_required_fields": false
+  },
+  {
+    "file": "tests/content/test_content_policy_manual.cpp",
+    "filename": "test_content_policy_manual.cpp",
+    "category": "test",
+    "header": null,
+    "has_header": false,
+    "has_required_fields": false
+  },
+  {
+    "file": "tests/content/test_content_processor_chain.cpp",
+    "filename": "test_content_processor_chain.cpp",
+    "category": "test",
+    "header": {
+      "file": "test_content_processor_chain.cpp",
+      "brief": "Unit tests for the configurable processing pipeline (processor chain).",
+      "version": null,
+      "maturity": null,
+      "score": null,
+      "gap_summary": null,
+      "status": null
+    },
+    "has_header": true,
+    "has_required_fields": false
+  },
+  {
+    "file": "tests/content/test_content_security.cpp",
+    "filename": "test_content_security.cpp",
+    "category": "test",
+    "header": null,
+    "has_header": false,
+    "has_required_fields": false
+  },
+  {
+    "file": "tests/content/test_content_streaming_ingestion.cpp",
+    "filename": "test_content_streaming_ingestion.cpp",
+    "category": "test",
+    "header": {
+      "file": "test_content_streaming_ingestion.cpp",
+      "brief": "Unit tests for ContentManager::ingestStream() \u2013 chunked ingestion",
+      "version": null,
+      "maturity": null,
+      "score": null,
+      "gap_summary": null,
+      "status": null
+    },
+    "has_header": true,
+    "has_required_fields": false
+  },
+  {
+    "file": "tests/content/test_content_toolbox_bridge.cpp",
+    "filename": "test_content_toolbox_bridge.cpp",
+    "category": "test",
+    "header": null,
+    "has_header": false,
+    "has_required_fields": false
+  },
+  {
+    "file": "tests/content/test_content_version_manager.cpp",
+    "filename": "test_content_version_manager.cpp",
+    "category": "test",
+    "header": {
+      "file": "test_content_version_manager.cpp",
+      "brief": "Unit tests for VersionManager \u2013 content versioning and delta storage",
+      "version": null,
+      "maturity": null,
+      "score": null,
+      "gap_summary": null,
+      "status": null
+    },
+    "has_header": true,
+    "has_required_fields": false
+  },
+  {
+    "file": "src/content/adapters/archive_extractor_adapter.cpp",
+    "filename": "archive_extractor_adapter.cpp",
+    "category": "adapter/pipeline",
+    "header": {
+      "file": "archive_extractor_adapter.cpp",
+      "brief": "Archive format extractor adapter for plugin architecture (ZIP, TAR, 7Z, RAR).",
+      "version": "0.1.0",
+      "maturity": "\ud83d\udfe2 PRODUCTION-READY",
+      "score": 91,
+      "gap_summary": null,
+      "status": "Production Ready; Safe plugin adapter with proper resource cleanup"
+    },
+    "has_header": true,
+    "has_required_fields": true
+  },
+  {
+    "file": "src/content/adapters/audio_extractor_adapter.cpp",
+    "filename": "audio_extractor_adapter.cpp",
+    "category": "adapter/pipeline",
+    "header": {
+      "file": "audio_extractor_adapter.cpp",
+      "brief": "Canonical Doxygen file header for ThemisDB-generated maturity metadata.",
+      "version": "0.1.0",
+      "maturity": "\ud83d\udfe2 PRODUCTION-READY",
+      "score": 85,
+      "gap_summary": "total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a",
+      "status": "Production Ready"
+    },
+    "has_header": true,
+    "has_required_fields": true
+  },
+  {
+    "file": "src/content/adapters/format_extractor_factory.cpp",
+    "filename": "format_extractor_factory.cpp",
+    "category": "adapter/pipeline",
+    "header": {
+      "file": "format_extractor_factory.cpp",
+      "brief": "Canonical Doxygen file header for ThemisDB-generated maturity metadata.",
+      "version": "0.1.0",
+      "maturity": "\ud83d\udfe2 PRODUCTION-READY",
+      "score": 85,
+      "gap_summary": "total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=1, L=0",
+      "status": "Production Ready"
+    },
+    "has_header": true,
+    "has_required_fields": true
+  },
+  {
+    "file": "src/content/adapters/image_extractor_adapter.cpp",
+    "filename": "image_extractor_adapter.cpp",
+    "category": "adapter/pipeline",
+    "header": {
+      "file": "image_extractor_adapter.cpp",
+      "brief": "Image format extractor adapter for plugin architecture (JPEG, PNG, GIF, WebP, TIFF, SVG).",
+      "version": "0.1.0",
+      "maturity": "\ud83d\udfe2 PRODUCTION-READY",
+      "score": 90,
+      "gap_summary": null,
+      "status": "Production Ready; Safe RAII patterns throughout, proper member initialization"
+    },
+    "has_header": true,
+    "has_required_fields": true
+  },
+  {
+    "file": "src/content/adapters/office_extractor_adapter.cpp",
+    "filename": "office_extractor_adapter.cpp",
+    "category": "adapter/pipeline",
+    "header": {
+      "file": "office_extractor_adapter.cpp",
+      "brief": "Office format extractor adapter for plugin architecture (Excel, Word, PowerPoint).",
+      "version": "0.1.0",
+      "maturity": "\ud83d\udfe2 PRODUCTION-READY",
+      "score": 91,
+      "gap_summary": null,
+      "status": "Production Ready; Safe plugin adapter with THEMIS_ENABLE_OFFICE feature gating"
+    },
+    "has_header": true,
+    "has_required_fields": true
+  },
+  {
+    "file": "src/content/adapters/pdf_extractor_adapter.cpp",
+    "filename": "pdf_extractor_adapter.cpp",
+    "category": "adapter/pipeline",
+    "header": {
+      "file": "pdf_extractor_adapter.cpp",
+      "brief": "PDF format extractor adapter for plugin architecture with text extraction and metadata analysis.",
+      "version": "0.1.0",
+      "maturity": "\ud83d\udfe2 PRODUCTION-READY",
+      "score": 90,
+      "gap_summary": null,
+      "status": "Production Ready; Safe default initialization, no lifetime issues"
+    },
+    "has_header": true,
+    "has_required_fields": true
+  },
+  {
+    "file": "src/content/adapters/text_extractor_adapter.cpp",
+    "filename": "text_extractor_adapter.cpp",
+    "category": "adapter/pipeline",
+    "header": {
+      "file": "text_extractor_adapter.cpp",
+      "brief": "Canonical Doxygen file header for ThemisDB-generated maturity metadata.",
+      "version": "0.1.0",
+      "maturity": "\ud83d\udfe2 PRODUCTION-READY",
+      "score": 85,
+      "gap_summary": "total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a",
+      "status": "Production Ready"
+    },
+    "has_header": true,
+    "has_required_fields": true
+  },
+  {
+    "file": "src/content/pipeline/async_bulk_uploader.cpp",
+    "filename": "async_bulk_uploader.cpp",
+    "category": "adapter/pipeline",
+    "header": {
+      "file": "async_bulk_uploader.cpp",
+      "brief": "Canonical Doxygen file header for ThemisDB-generated maturity metadata.",
+      "version": "0.0.47",
+      "maturity": "\ud83d\udfe2 PRODUCTION-READY",
+      "score": 85,
+      "gap_summary": "total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=3, L=0",
+      "status": "Production Ready"
+    },
+    "has_header": true,
+    "has_required_fields": true
+  },
+  {
+    "file": "src/content/pipeline/bulk_upload_interface.cpp",
+    "filename": "bulk_upload_interface.cpp",
+    "category": "adapter/pipeline",
+    "header": {
+      "file": "bulk_upload_interface.cpp",
+      "brief": "Canonical Doxygen file header for ThemisDB-generated maturity metadata.",
+      "version": "0.0.47",
+      "maturity": "\ud83d\udfe2 PRODUCTION-READY",
+      "score": 85,
+      "gap_summary": "total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=1, L=0",
+      "status": "Production Ready"
+    },
+    "has_header": true,
+    "has_required_fields": true
+  },
+  {
+    "file": "src/content/pipeline/content_chunker.cpp",
+    "filename": "content_chunker.cpp",
+    "category": "adapter/pipeline",
+    "header": {
+      "file": "content_chunker.cpp",
+      "brief": "Canonical Doxygen file header for ThemisDB-generated maturity metadata.",
+      "version": "0.0.47",
+      "maturity": "\ud83d\udfe2 PRODUCTION-READY",
+      "score": 85,
+      "gap_summary": "total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=1, L=0",
+      "status": "Production Ready"
+    },
+    "has_header": true,
+    "has_required_fields": true
+  },
+  {
+    "file": "src/content/pipeline/multimodal_chunker.cpp",
+    "filename": "multimodal_chunker.cpp",
+    "category": "adapter/pipeline",
+    "header": {
+      "file": "multimodal_chunker.cpp",
+      "brief": "Canonical Doxygen file header for ThemisDB-generated maturity metadata.",
+      "version": "0.0.47",
+      "maturity": "\ud83d\udfe2 PRODUCTION-READY",
+      "score": 85,
+      "gap_summary": "total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=3, L=0",
+      "status": "Production Ready"
+    },
+    "has_header": true,
+    "has_required_fields": true
+  },
+  {
+    "file": "src/content/pipeline/zstd_compression.cpp",
+    "filename": "zstd_compression.cpp",
+    "category": "adapter/pipeline",
+    "header": {
+      "file": "zstd_compression.cpp",
+      "brief": "Canonical Doxygen file header for ThemisDB-generated maturity metadata.",
+      "version": "0.0.47",
+      "maturity": "\ud83d\udfe2 PRODUCTION-READY",
+      "score": 85,
+      "gap_summary": "total=4; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a",
+      "status": "Production Ready"
+    },
+    "has_header": true,
+    "has_required_fields": true
+  }
+]

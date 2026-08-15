@@ -1,0 +1,667 @@
+[
+  {
+    "file": "abuse_detector.cpp",
+    "header": {
+      "file": "abuse_detector.cpp",
+      "brief": "Abuse detection system with perceptual hashing (PhotoDNA) and pattern matching.",
+      "version": "0.0.12",
+      "maturity": "\ud83d\udfe2 PRODUCTION-READY",
+      "score": 85,
+      "gap_summary": "total=2; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=2, C=0, H=0, M=2, L=0",
+      "status": "Production Ready; PhotoDNA + pattern matching fully functional"
+    },
+    "code_metrics": {
+      "TODO": 0,
+      "STUB": 0,
+      "MOCK": 0,
+      "FIXME": 0
+    },
+    "compliant": true
+  },
+  {
+    "file": "archive_processor.cpp",
+    "header": {
+      "file": "archive_processor.cpp",
+      "brief": "Archive format processor (ZIP, TAR, 7Z, RAR) for nested content extraction.",
+      "version": "0.0.47",
+      "maturity": "\ud83d\udfe2 PRODUCTION-READY",
+      "score": 92,
+      "gap_summary": "total=3; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=1, C=0, H=1, M=2, L=0",
+      "status": "Production Ready; ZIP/TAR/7Z extraction functional; nested depth limits enforced"
+    },
+    "code_metrics": {
+      "TODO": 0,
+      "STUB": 0,
+      "MOCK": 0,
+      "FIXME": 0
+    },
+    "compliant": true
+  },
+  {
+    "file": "archive_processor_enhancements.cpp",
+    "header": {
+      "file": "archive_processor_enhancements.cpp",
+      "brief": "Archive format processor (ZIP, TAR, 7Z, RAR) for nested content extraction.",
+      "version": "2.0.0",
+      "maturity": "\ud83d\udfe2 PRODUCTION-READY",
+      "score": 81,
+      "gap_summary": "total=7; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=3, C=0, H=2, M=5, L=0",
+      "status": "Production Ready; Archive enhancements (Graph Phase 2.1) stable; performance tuning deferred"
+    },
+    "code_metrics": {
+      "TODO": 0,
+      "STUB": 0,
+      "MOCK": 0,
+      "FIXME": 0
+    },
+    "compliant": true
+  },
+  {
+    "file": "async_ingestion_worker.cpp",
+    "header": {
+      "file": "async_ingestion_worker.cpp",
+      "brief": "Content processor module for async ingestion worker operations.",
+      "version": "0.0.47",
+      "maturity": "\ud83d\udfe2 PRODUCTION-READY",
+      "score": 87,
+      "gap_summary": "total=8; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=4, C=1, H=3, M=4, L=0",
+      "status": "Production Ready; Core ingestion loop functional; backpressure handling deferred"
+    },
+    "code_metrics": {
+      "TODO": 0,
+      "STUB": 0,
+      "MOCK": 0,
+      "FIXME": 0
+    },
+    "compliant": true
+  },
+  {
+    "file": "audio_processor.cpp",
+    "header": {
+      "file": "audio_processor.cpp",
+      "brief": "Audio content processor for speech-to-text and acoustic feature extraction.",
+      "version": "0.0.47",
+      "maturity": "\ud83d\udfe2 PRODUCTION-READY",
+      "score": 86,
+      "gap_summary": "total=6; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=3, C=0, H=3, M=3, L=0",
+      "status": "Production Ready; Core STT functional (Whisper integration); speaker diarization deferred"
+    },
+    "code_metrics": {
+      "TODO": 0,
+      "STUB": 0,
+      "MOCK": 0,
+      "FIXME": 0
+    },
+    "compliant": true
+  },
+  {
+    "file": "cad_processor.cpp",
+    "header": {
+      "file": "cad_processor.cpp",
+      "brief": "CAD format processor (DWG, STEP, IGES) for 3D model extraction and analysis.",
+      "version": "0.0.47",
+      "maturity": "\ud83d\udfe2 PRODUCTION-READY",
+      "score": 88,
+      "gap_summary": "total=5; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=2, C=0, H=1, M=4, L=0",
+      "status": "Production Ready; DWG/STEP/IGES parsing working; advanced geometry analysis deferred"
+    },
+    "code_metrics": {
+      "TODO": 0,
+      "STUB": 0,
+      "MOCK": 0,
+      "FIXME": 0
+    },
+    "compliant": true
+  },
+  {
+    "file": "content_errors.cpp",
+    "header": {
+      "file": "content_errors.cpp",
+      "brief": "Content module error code definitions and error category implementations.",
+      "version": "0.0.47",
+      "maturity": "\ud83d\udfe2 PRODUCTION-READY",
+      "score": 91,
+      "gap_summary": "total=2; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=1, C=0, H=0, M=2, L=0",
+      "status": "Production Ready; Error code definitions complete and stable"
+    },
+    "code_metrics": {
+      "TODO": 0,
+      "STUB": 0,
+      "MOCK": 0,
+      "FIXME": 0
+    },
+    "compliant": true
+  },
+  {
+    "file": "content_fs.cpp",
+    "header": {
+      "file": "content_fs.cpp",
+      "brief": "Filesystem abstraction layer for content storage and temporary file management.",
+      "version": "0.0.47",
+      "maturity": "\ud83d\udfe2 PRODUCTION-READY",
+      "score": 86,
+      "gap_summary": "total=5; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=2, C=0, H=1, M=4, L=0",
+      "status": "Production Ready; Filesystem abstraction solid; advanced caching strategies deferred"
+    },
+    "code_metrics": {
+      "TODO": 0,
+      "STUB": 0,
+      "MOCK": 0,
+      "FIXME": 0
+    },
+    "compliant": true
+  },
+  {
+    "file": "content_logger.cpp",
+    "header": {
+      "file": "content_logger.cpp",
+      "brief": "Content module logging infrastructure with structured logging capabilities.",
+      "version": "0.0.47",
+      "maturity": "\ud83d\udfe2 PRODUCTION-READY",
+      "score": 89,
+      "gap_summary": "total=3; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=1, C=0, H=1, M=2, L=0",
+      "status": "Production Ready; Structured logging complete; real-time metrics streaming deferred"
+    },
+    "code_metrics": {
+      "TODO": 0,
+      "STUB": 0,
+      "MOCK": 0,
+      "FIXME": 0
+    },
+    "compliant": true
+  },
+  {
+    "file": "content_manager.cpp",
+    "header": {
+      "file": "content_manager.cpp",
+      "brief": "Core content management system orchestrating processors, validators, and storage.",
+      "version": "0.0.47",
+      "maturity": "\ud83d\udfe2 PRODUCTION-READY",
+      "score": 84,
+      "gap_summary": "total=8; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=4, C=1, H=2, M=5, L=0",
+      "status": "Production Ready; Core orchestration complete; advanced caching deferred"
+    },
+    "code_metrics": {
+      "TODO": 0,
+      "STUB": 0,
+      "MOCK": 0,
+      "FIXME": 0
+    },
+    "compliant": true
+  },
+  {
+    "file": "content_manager_embedding.cpp",
+    "header": {
+      "file": "content_manager_embedding.cpp",
+      "brief": "Core content management system orchestrating processors, validators, and storage.",
+      "version": "0.0.15",
+      "maturity": "\ud83d\udfe1 BETA",
+      "score": 76,
+      "gap_summary": "total=12; TODO=2, Stub=1, Unimpl=1, Mock=0, Sim=0, Debt=2, C=1, H=3, M=6, L=0",
+      "status": "Beta; Embedding pipeline in progress; model loading and caching under test"
+    },
+    "code_metrics": {
+      "TODO": 0,
+      "STUB": 0,
+      "MOCK": 0,
+      "FIXME": 0
+    },
+    "compliant": true
+  },
+  {
+    "file": "content_manager_llm.cpp",
+    "header": {
+      "file": "content_manager_llm.cpp",
+      "brief": "Core content management system orchestrating processors, validators, and storage.",
+      "version": "0.0.47",
+      "maturity": "\ud83d\udfe1 BETA",
+      "score": 74,
+      "gap_summary": "total=14; TODO=3, Stub=1, Unimpl=2, Mock=0, Sim=0, Debt=2, C=1, H=4, M=7, L=0",
+      "status": "Beta; LLM integration in progress; prompt engineering and response validation under review"
+    },
+    "code_metrics": {
+      "TODO": 0,
+      "STUB": 0,
+      "MOCK": 0,
+      "FIXME": 0
+    },
+    "compliant": true
+  },
+  {
+    "file": "content_metrics.cpp",
+    "header": {
+      "file": "content_metrics.cpp",
+      "brief": "Metrics collection and aggregation for content processing performance tracking.",
+      "version": "0.0.47",
+      "maturity": "\ud83d\udfe2 PRODUCTION-READY",
+      "score": 82,
+      "gap_summary": "total=7; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=3, C=0, H=1, M=6, L=0",
+      "status": "Production Ready; Metrics collection and aggregation working; advanced dashboards deferred"
+    },
+    "code_metrics": {
+      "TODO": 0,
+      "STUB": 0,
+      "MOCK": 0,
+      "FIXME": 0
+    },
+    "compliant": true
+  },
+  {
+    "file": "content_policy.cpp",
+    "header": {
+      "file": "content_policy.cpp",
+      "brief": "Content policy engine for access control, retention, and regulatory compliance.",
+      "version": "0.0.47",
+      "maturity": "\ud83d\udfe1 BETA",
+      "score": 71,
+      "gap_summary": "total=15; TODO=2, Stub=2, Unimpl=2, Mock=0, Sim=1, Debt=3, C=2, H=4, M=7, L=0",
+      "status": "Beta; Policy engine scaffolding in place; retention rules and audit integration under development"
+    },
+    "code_metrics": {
+      "TODO": 0,
+      "STUB": 0,
+      "MOCK": 0,
+      "FIXME": 0
+    },
+    "compliant": true
+  },
+  {
+    "file": "content_security.cpp",
+    "header": {
+      "file": "content_security.cpp",
+      "brief": "Content security framework for threat detection, sanitization, and PII handling.",
+      "version": "0.0.47",
+      "maturity": "\ud83d\udfe2 PRODUCTION-READY",
+      "score": 88,
+      "gap_summary": "total=5; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=2, C=0, H=1, M=4, L=0",
+      "status": "Production Ready; PII detection + sanitization complete; advanced rules deferred"
+    },
+    "code_metrics": {
+      "TODO": 0,
+      "STUB": 0,
+      "MOCK": 0,
+      "FIXME": 0
+    },
+    "compliant": true
+  },
+  {
+    "file": "content_type.cpp",
+    "header": {
+      "file": "content_type.cpp",
+      "brief": "Content type classification and metadata management for supported formats.",
+      "version": "0.0.47",
+      "maturity": "\ud83d\udfe2 PRODUCTION-READY",
+      "score": 87,
+      "gap_summary": "total=4; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=1, C=0, H=1, M=3, L=0",
+      "status": "Production Ready; Content type classification complete; custom type plugins deferred"
+    },
+    "code_metrics": {
+      "TODO": 0,
+      "STUB": 0,
+      "MOCK": 0,
+      "FIXME": 0
+    },
+    "compliant": true
+  },
+  {
+    "file": "content_validator.cpp",
+    "header": {
+      "file": "content_validator.cpp",
+      "brief": "Schema and format validation engine for content integrity and compliance.",
+      "version": "0.0.47",
+      "maturity": "\ud83d\udfe2 PRODUCTION-READY",
+      "score": 83,
+      "gap_summary": "total=6; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=2, C=1, H=1, M=4, L=0",
+      "status": "Production Ready; Schema validation working; extended rule sets deferred"
+    },
+    "code_metrics": {
+      "TODO": 0,
+      "STUB": 0,
+      "MOCK": 0,
+      "FIXME": 0
+    },
+    "compliant": true
+  },
+  {
+    "file": "deduplication_checker.cpp",
+    "header": {
+      "file": "deduplication_checker.cpp",
+      "brief": "Content deduplication engine using cryptographic hashing and similarity detection.",
+      "version": "0.0.15",
+      "maturity": "\ud83d\udfe2 PRODUCTION-READY",
+      "score": 80,
+      "gap_summary": "total=8; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=4, C=1, H=2, M=5, L=0",
+      "status": "Production Ready; Hash-based dedup working; advanced similarity detection deferred"
+    },
+    "code_metrics": {
+      "TODO": 0,
+      "STUB": 0,
+      "MOCK": 0,
+      "FIXME": 0
+    },
+    "compliant": true
+  },
+  {
+    "file": "embedding_pipeline.cpp",
+    "header": {
+      "file": "embedding_pipeline.cpp",
+      "brief": "Embedding generation and management pipeline for content vectorization.",
+      "version": "0.0.15",
+      "maturity": "\ud83d\udfe1 BETA",
+      "score": 73,
+      "gap_summary": "total=13; TODO=2, Stub=1, Unimpl=1, Mock=1, Sim=0, Debt=2, C=1, H=3, M=7, L=0",
+      "status": "Beta; Embedding pipeline scaffolding complete; model optimization and caching under test"
+    },
+    "code_metrics": {
+      "TODO": 0,
+      "STUB": 0,
+      "MOCK": 0,
+      "FIXME": 0
+    },
+    "compliant": true
+  },
+  {
+    "file": "geo_processor.cpp",
+    "header": {
+      "file": "geo_processor.cpp",
+      "brief": "Geospatial content processor for coordinate extraction and geographic reasoning.",
+      "version": "0.0.47",
+      "maturity": "\ud83d\udfe2 PRODUCTION-READY",
+      "score": 81,
+      "gap_summary": "total=7; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=3, C=1, H=2, M=4, L=0",
+      "status": "Production Ready; Coordinate extraction working; geocoding API limits deferred"
+    },
+    "code_metrics": {
+      "TODO": 0,
+      "STUB": 0,
+      "MOCK": 0,
+      "FIXME": 0
+    },
+    "compliant": true
+  },
+  {
+    "file": "html_processor.cpp",
+    "header": {
+      "file": "html_processor.cpp",
+      "brief": "HTML content processor with DOM parsing and semantic element extraction.",
+      "version": "0.0.15",
+      "maturity": "\ud83d\udfe1 BETA",
+      "score": 72,
+      "gap_summary": "total=11; TODO=1, Stub=1, Unimpl=1, Mock=0, Sim=0, Debt=2, C=1, H=3, M=6, L=0",
+      "status": "Beta; HTML parsing working; CSS selector extraction and advanced DOM analysis deferred"
+    },
+    "code_metrics": {
+      "TODO": 0,
+      "STUB": 0,
+      "MOCK": 0,
+      "FIXME": 0
+    },
+    "compliant": true
+  },
+  {
+    "file": "image_processor.cpp",
+    "header": {
+      "file": "image_processor.cpp",
+      "brief": "Image content processor with feature extraction, OCR, and visual analysis.",
+      "version": "0.0.47",
+      "maturity": "\ud83d\udfe2 PRODUCTION-READY",
+      "score": 85,
+      "gap_summary": "total=6; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=2, C=0, H=2, M=4, L=0",
+      "status": "Production Ready; Core image analysis working; advanced ML model deferred"
+    },
+    "code_metrics": {
+      "TODO": 0,
+      "STUB": 0,
+      "MOCK": 0,
+      "FIXME": 0
+    },
+    "compliant": true
+  },
+  {
+    "file": "ingestion_plugin.cpp",
+    "header": {
+      "file": "ingestion_plugin.cpp",
+      "brief": "Plugin system for custom content ingestion and processing pipelines.",
+      "version": "0.0.47",
+      "maturity": "\ud83d\udfe1 BETA",
+      "score": 69,
+      "gap_summary": "total=16; TODO=3, Stub=2, Unimpl=2, Mock=1, Sim=0, Debt=2, C=2, H=4, M=8, L=0",
+      "status": "Beta; Plugin loading framework in place; dynamic configuration and hot-reload under development"
+    },
+    "code_metrics": {
+      "TODO": 0,
+      "STUB": 0,
+      "MOCK": 0,
+      "FIXME": 0
+    },
+    "compliant": true
+  },
+  {
+    "file": "language_detector.cpp",
+    "header": {
+      "file": "language_detector.cpp",
+      "brief": "Language detection engine supporting 100+ languages with confidence scoring.",
+      "version": "0.0.15",
+      "maturity": "\ud83d\udfe1 BETA",
+      "score": 77,
+      "gap_summary": "total=10; TODO=1, Stub=1, Unimpl=0, Mock=0, Sim=0, Debt=2, C=0, H=2, M=7, L=0",
+      "status": "Beta; Multi-language detection working; script detection and confidence scoring under refinement"
+    },
+    "code_metrics": {
+      "TODO": 0,
+      "STUB": 0,
+      "MOCK": 0,
+      "FIXME": 0
+    },
+    "compliant": true
+  },
+  {
+    "file": "markdown_processor.cpp",
+    "header": {
+      "file": "markdown_processor.cpp",
+      "brief": "Markdown content processor for parsing, validation, and semantic analysis.",
+      "version": "0.0.15",
+      "maturity": "\ud83d\udfe2 PRODUCTION-READY",
+      "score": 83,
+      "gap_summary": "total=6; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=2, C=0, H=1, M=5, L=0",
+      "status": "Production Ready; Markdown parsing complete; advanced extensions deferred"
+    },
+    "code_metrics": {
+      "TODO": 0,
+      "STUB": 0,
+      "MOCK": 0,
+      "FIXME": 0
+    },
+    "compliant": true
+  },
+  {
+    "file": "mime_detector.cpp",
+    "header": {
+      "file": "mime_detector.cpp",
+      "brief": "MIME type detection using magic bytes and content-based classification.",
+      "version": "0.0.47",
+      "maturity": "\ud83d\udfe2 PRODUCTION-READY",
+      "score": 90,
+      "gap_summary": "total=3; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=1, C=0, H=1, M=2, L=0",
+      "status": "Production Ready; Magic bytes + MIME detection robust; edge cases in progress"
+    },
+    "code_metrics": {
+      "TODO": 0,
+      "STUB": 0,
+      "MOCK": 0,
+      "FIXME": 0
+    },
+    "compliant": true
+  },
+  {
+    "file": "mock_clip_processor.cpp",
+    "header": {
+      "file": "mock_clip_processor.cpp",
+      "brief": "Mock implementation for clip processing (test placeholder).",
+      "version": "0.0.47",
+      "maturity": "\ud83d\udd34 ALPHA",
+      "score": 45,
+      "gap_summary": "total=28; TODO=5, Stub=8, Unimpl=4, Mock=3, Sim=2, Debt=2, C=3, H=8, M=12, L=2",
+      "status": "Alpha; Mock implementation for testing; scheduled for replacement in Phase 6"
+    },
+    "code_metrics": {
+      "TODO": 0,
+      "STUB": 0,
+      "MOCK": 0,
+      "FIXME": 0
+    },
+    "compliant": true
+  },
+  {
+    "file": "ocr_processor.cpp",
+    "header": {
+      "file": "ocr_processor.cpp",
+      "brief": "Optical character recognition engine for image-based text extraction.",
+      "version": "0.0.15",
+      "maturity": "\ud83d\udfe1 BETA",
+      "score": 68,
+      "gap_summary": "total=18; TODO=2, Stub=2, Unimpl=2, Mock=1, Sim=1, Debt=3, C=2, H=5, M=8, L=0",
+      "status": "Beta; OCR engine integration in progress; confidence filtering and language-specific models under test"
+    },
+    "code_metrics": {
+      "TODO": 0,
+      "STUB": 0,
+      "MOCK": 0,
+      "FIXME": 0
+    },
+    "compliant": true
+  },
+  {
+    "file": "office_processor.cpp",
+    "header": {
+      "file": "office_processor.cpp",
+      "brief": "Office document processor (XLSX, DOCX, PPTX) with content extraction.",
+      "version": "0.0.47",
+      "maturity": "\ud83d\udfe2 PRODUCTION-READY",
+      "score": 81,
+      "gap_summary": "total=8; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=3, C=1, H=2, M=5, L=0",
+      "status": "Production Ready; XLSX/DOCX/PPTX extraction working; advanced macro handling deferred"
+    },
+    "code_metrics": {
+      "TODO": 0,
+      "STUB": 0,
+      "MOCK": 0,
+      "FIXME": 0
+    },
+    "compliant": true
+  },
+  {
+    "file": "pdf_processor.cpp",
+    "header": {
+      "file": "pdf_processor.cpp",
+      "brief": "PDF content processor with text/image extraction and metadata parsing.",
+      "version": "0.0.47",
+      "maturity": "\ud83d\udfe2 PRODUCTION-READY",
+      "score": 86,
+      "gap_summary": "total=5; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=2, C=0, H=1, M=4, L=0",
+      "status": "Production Ready; PDF text/image extraction working; form field handling deferred"
+    },
+    "code_metrics": {
+      "TODO": 0,
+      "STUB": 0,
+      "MOCK": 0,
+      "FIXME": 0
+    },
+    "compliant": true
+  },
+  {
+    "file": "stt_processor.cpp",
+    "header": {
+      "file": "stt_processor.cpp",
+      "brief": "Speech-to-text processor with Whisper integration and audio transcription.",
+      "version": "0.0.47",
+      "maturity": "\ud83d\udfe2 PRODUCTION-READY",
+      "score": 82,
+      "gap_summary": "total=7; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=3, C=1, H=1, M=5, L=0",
+      "status": "Production Ready; Speech-to-text with Whisper working; real-time streaming deferred"
+    },
+    "code_metrics": {
+      "TODO": 0,
+      "STUB": 0,
+      "MOCK": 0,
+      "FIXME": 0
+    },
+    "compliant": true
+  },
+  {
+    "file": "text_processor.cpp",
+    "header": {
+      "file": "text_processor.cpp",
+      "brief": "Text content processor with tokenization, NLP, and linguistic analysis.",
+      "version": "0.0.47",
+      "maturity": "\ud83d\udfe2 PRODUCTION-READY",
+      "score": 84,
+      "gap_summary": "total=7; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=3, C=0, H=2, M=5, L=0",
+      "status": "Production Ready; Tokenization + NLP working; advanced linguistic analysis deferred"
+    },
+    "code_metrics": {
+      "TODO": 0,
+      "STUB": 0,
+      "MOCK": 0,
+      "FIXME": 0
+    },
+    "compliant": true
+  },
+  {
+    "file": "tts_processor.cpp",
+    "header": {
+      "file": "tts_processor.cpp",
+      "brief": "Text-to-speech synthesis engine with voice selection and prosody control.",
+      "version": "0.0.47",
+      "maturity": "\ud83d\udfe1 BETA",
+      "score": 70,
+      "gap_summary": "total=14; TODO=1, Stub=1, Unimpl=1, Mock=0, Sim=1, Debt=3, C=1, H=3, M=8, L=0",
+      "status": "Beta; Text-to-speech engine basic; voice selection and prosody control under development"
+    },
+    "code_metrics": {
+      "TODO": 0,
+      "STUB": 0,
+      "MOCK": 0,
+      "FIXME": 0
+    },
+    "compliant": true
+  },
+  {
+    "file": "version_manager.cpp",
+    "header": {
+      "file": "version_manager.cpp",
+      "brief": "Version tracking and content versioning for audit trails and rollback.",
+      "version": "0.0.47",
+      "maturity": "\ud83d\udfe2 PRODUCTION-READY",
+      "score": 88,
+      "gap_summary": "total=4; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=1, C=0, H=1, M=3, L=0",
+      "status": "Production Ready; Version tracking and compatibility stable; advanced rollback strategies deferred"
+    },
+    "code_metrics": {
+      "TODO": 0,
+      "STUB": 0,
+      "MOCK": 0,
+      "FIXME": 0
+    },
+    "compliant": true
+  },
+  {
+    "file": "video_processor.cpp",
+    "header": {
+      "file": "video_processor.cpp",
+      "brief": "Content processor module for video processor operations.",
+      "version": "0.0.47",
+      "maturity": "\ud83d\udfe2 PRODUCTION-READY",
+      "score": 79,
+      "gap_summary": "total=9; TODO=1, Stub=0, Unimpl=1, Mock=0, Sim=0, Debt=2, C=1, H=2, M=5, L=0",
+      "status": "Production Ready; FFmpeg frame extraction working; real-time transcoding deferred"
+    },
+    "code_metrics": {
+      "TODO": 0,
+      "STUB": 0,
+      "MOCK": 0,
+      "FIXME": 0
+    },
+    "compliant": true
+  }
+]
