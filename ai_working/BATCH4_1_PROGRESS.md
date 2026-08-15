@@ -41,16 +41,17 @@
 ---
 
 ### Phase C: Timeout Enforcement (R09-R11, R16)
-**Status:** 🟡 IN PROGRESS (implementing timeout enforcement)
+**Status:** ⏸️ ESCALATION IN PROGRESS (analysis complete, awaiting guidance)
 
 | Fix | File | Line | Status |
 |-----|------|------|--------|
-| R09 | wire_protocol_zero_copy.cpp | 112 | 🟡 Implementing |
-| R10 | service_mesh.cpp | 243 | 🟡 Implementing |
-| R11 | wire_protocol_zero_copy.cpp | 160 | 🟡 Implementing |
-| R16 | wire_protocol_performance.cpp | 232 | 🟡 Implementing |
+| R09 | wire_protocol_zero_copy.cpp | 112 | ⏸️ Awaiting approach decision |
+| R10 | service_mesh.cpp | 243 | ⏸️ Awaiting approach decision |
+| R11 | wire_protocol_zero_copy.cpp | 160 | ⏸️ Awaiting coordination with R09 |
+| R16 | wire_protocol_performance.cpp | 232 | ✅ Ready to implement (low-risk) |
 
 **Gate:** TSan = 0 deadlocks, tests PASS, <1% perf overhead (R16)
+**Escalation:** See BATCH4_1_PHASE_C_ESCALATION.md for implementation strategy options and decision points
 
 ---
 
