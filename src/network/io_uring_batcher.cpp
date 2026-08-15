@@ -218,6 +218,19 @@ bool IoUringBatchedSender::enqueueSqe([[maybe_unused]] int fd, [[maybe_unused]] 
         return false;
     }
 
+    // R13: Add bounds checks before all memcpy operations into SQE buffer.
+    // SQE is a fixed 64-byte structure, so we must ensure all writes stay within bounds.
+    const size_t SQE_SIZE = sizeof(struct io_uring_sqe);
+    uint8_t* sqe = sqe_base_ + (tail & *sq_.ring_mask) * SQE_SIZE;
+
+    // Verify SQE pointer is within allocated SQE buffer bounds
+    if (sqe < sqe_base_ || sqe + SQE_SIZE > sqe_base_ + sqes_mmap_sz_) {
+        // SQE pointer out of bounds: prevent buffer overflow
+        return false;
+    }
+
+    std::memset(sqe, 0, SQE_SIZE);
+
     // SQE layout (64 bytes):
     //  0  opcode    (uint8)
     //  1  flags     (uint8)
@@ -230,18 +243,35 @@ bool IoUringBatchedSender::enqueueSqe([[maybe_unused]] int fd, [[maybe_unused]] 
     // 32  user_data (uint64)
     // 40  pad[3]    (uint64 * 3)
 
-    uint8_t* sqe = sqe_base_ + (tail & *sq_.ring_mask) *
-                                sizeof(struct io_uring_sqe);
-    std::memset(sqe, 0, sizeof(struct io_uring_sqe));
-
-    sqe[0] = IORING_OP_WRITEV;               // opcode
+    // Bounds check all memcpy operations
+    sqe[0] = IORING_OP_WRITEV;               // opcode (offset 0, size 1)
+    
+    // Write fd at offset 4, size 4
+    if (4 + sizeof(int32_t) > SQE_SIZE) {
+        return false;
+    }
     int32_t fd_i = fd;
-    std::memcpy(sqe + 4,  &fd_i,     sizeof(fd_i));  // fd
+    std::memcpy(sqe + 4, &fd_i, sizeof(fd_i));
+    
+    // Write addr at offset 16, size sizeof(uintptr_t)
+    if (16 + sizeof(uintptr_t) > SQE_SIZE) {
+        return false;
+    }
     auto addr = reinterpret_cast<uintptr_t>(iovs);
-    std::memcpy(sqe + 16, &addr,     sizeof(addr));   // addr (iovec ptr)
+    std::memcpy(sqe + 16, &addr, sizeof(addr));
+    
+    // Write len at offset 24, size 4
+    if (24 + sizeof(uint32_t) > SQE_SIZE) {
+        return false;
+    }
     uint32_t len = static_cast<uint32_t>(iov_cnt);
-    std::memcpy(sqe + 24, &len,      sizeof(len));    // len  (iov_cnt)
-    std::memcpy(sqe + 32, &user_data,sizeof(user_data)); // user_data
+    std::memcpy(sqe + 24, &len, sizeof(len));
+    
+    // Write user_data at offset 32, size 8
+    if (32 + sizeof(uint64_t) > SQE_SIZE) {
+        return false;
+    }
+    std::memcpy(sqe + 32, &user_data, sizeof(user_data));
 
     sq_.array[tail & *sq_.ring_mask] = tail & *sq_.ring_mask;
     *sq_.tail = next;
