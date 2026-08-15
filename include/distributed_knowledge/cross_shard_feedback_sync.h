@@ -146,36 +146,62 @@ public:
         std::string                     local_shard_id,
         std::function<void(nlohmann::json)> gossip_message_fn);
 
-    ~CrossShardFeedbackSync();
+    ~CrossShardFeedbackSync() noexcept;
 
     CrossShardFeedbackSync(const CrossShardFeedbackSync&)            = delete;
     CrossShardFeedbackSync& operator=(const CrossShardFeedbackSync&) = delete;
+    CrossShardFeedbackSync(CrossShardFeedbackSync&&)                 = default;
+    CrossShardFeedbackSync& operator=(CrossShardFeedbackSync&&)      noexcept;
 
     // ── Publishing ───────────────────────────────────────────────────────────
 
     /**
-     * @brief Anonymise and broadcast a local feedback summary to all peers.
-     *
-     * Validates embedding dimension, stamps `shard_origin = "ANON"`, assigns
-     * a fresh `summary_id`, and dispatches via the gossip function.
-     *
-     * @param summary  Feedback summary with `reason_embedding` already set.
-     *                 `shard_origin` is overwritten with "ANON".
-     * @throws std::invalid_argument if embedding dimension is wrong.
-     */
+    * @brief Anonymise and broadcast a local feedback summary to all peers.
+    *
+    * Validates embedding dimension, stamps `shard_origin = "ANON"`, assigns
+    * a fresh `summary_id`, and dispatches via the gossip function.
+    *
+    * **Consistency Level: EVENTUAL**
+    *  - Publication is non-blocking and non-guaranteed (gossip assumptions)
+    *  - Feedback may arrive at remote shards in any order or not at all
+    *  - Deduplication via summary_id prevents double-counting on retransmission
+    *  - Rationale: Gossip-level delivery acceptable for aggregated feedback
+    *
+    * **Replication Lag:**
+    *  - Max acceptable lag: unbounded (gossip assumption)
+    *  - Feedback may arrive minutes/hours late at distant shards
+    *  - Policy: Late arrival handled gracefully via idempotent aggregation
+    *  - Safety: Feedback aggregation is commutative over time
+    *
+    * @param summary  Feedback summary with `reason_embedding` already set.
+    *                 `shard_origin` is overwritten with "ANON".
+    * @throws std::invalid_argument if embedding dimension is wrong.
+    */
     void publishFeedback(FeedbackSummary summary);
 
     // ── Receiving ────────────────────────────────────────────────────────────
 
     /**
-     * @brief Handle an inbound gossip payload containing a `FeedbackSummary`.
-     *
-     * Call this from the gossip dispatch path when
-     * `message_type == "federated_feedback"`.  Deduplicates and invokes the
-     * registered callback if the summary is new.
-     *
-     * @param payload  JSON payload from the gossip message.
-     */
+    * @brief Handle an inbound gossip payload containing a `FeedbackSummary`.
+    *
+    * Call this from the gossip dispatch path when
+    * `message_type == "federated_feedback"`.  Deduplicates and invokes the
+    * registered callback if the summary is new.
+    *
+    * **Consistency Level: EVENTUAL**
+    *  - No ordering guarantees; feedback may arrive out-of-order
+    *  - Deduplication by summary_id prevents double-counting
+    *  - ZeroTrust check (DK-OR-S) provides safety gate but not consistency
+    *  - Rationale: Idempotent feedback aggregation tolerates out-of-order arrival
+    *
+    * **Version Tracking:**
+    *  - FeedbackSummary.created_at provides temporal context (informational)
+    *  - No ordering constraint enforced; late feedback accepted
+    *
+    * @param payload  JSON payload from the gossip message.
+    * @throws std::runtime_error when ZeroTrust enforcer rejects the summary
+    *         (high-risk context).
+    */
     void handleInboundSummary(const nlohmann::json& payload);
 
     /**
