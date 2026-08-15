@@ -263,28 +263,35 @@ private:
  * 
  * Automatically closes socket on scope exit if not released.
  * 
+ * R14: Uses std::shared_ptr to safely manage SocketTimeoutManager lifetime.
+ * Ensures destructor can safely call manager_.closeSocket() even if manager
+ * is destroyed during RAII cleanup (exception safety).
+ * 
  * Example usage:
  * @code
- * SocketTimeoutGuard guard(manager, client_socket);
+ * auto manager = std::make_shared<SocketTimeoutManager>(config);
+ * {
+ *     SocketTimeoutGuard guard(manager, client_socket);
  * 
- * // Do operations with socket
- * auto bytes = manager.readWithTimeout(guard.get(), buffer, size);
+ *     // Do operations with socket
+ *     auto bytes = manager->readWithTimeout(guard.get(), buffer, size);
  * 
- * if (success) {
- *     guard.release();  // Keep socket open
+ *     if (success) {
+ *         guard.release();  // Keep socket open
+ *     }
+ *     // Otherwise socket is automatically closed
  * }
- * // Otherwise socket is automatically closed
  * @endcode
  */
 class SocketTimeoutGuard {
 public:
-    SocketTimeoutGuard(SocketTimeoutManager& manager, socket_t socket)
+    SocketTimeoutGuard(std::shared_ptr<SocketTimeoutManager> manager, socket_t socket)
         : manager_(manager), socket_(socket), owns_(true) {}
     
     ~SocketTimeoutGuard() noexcept {
         try {
-            if (owns_ && socket_ != INVALID_SOCKET_VALUE) {
-                manager_.closeSocket(socket_);
+            if (owns_ && socket_ != INVALID_SOCKET_VALUE && manager_) {
+                manager_->closeSocket(socket_);
             }
         } catch (...) {
             // Suppress exceptions in destructor; socket close failure is non-critical
@@ -296,7 +303,7 @@ public:
     SocketTimeoutGuard& operator=(const SocketTimeoutGuard&) = delete;
     
     SocketTimeoutGuard(SocketTimeoutGuard&& other) noexcept
-        : manager_(other.manager_), socket_(other.socket_), owns_(other.owns_) {
+        : manager_(std::move(other.manager_)), socket_(other.socket_), owns_(other.owns_) {
         other.owns_ = false;
     }
     
@@ -305,7 +312,7 @@ public:
     bool valid() const { return socket_ != INVALID_SOCKET_VALUE; }
     
 private:
-    SocketTimeoutManager& manager_;
+    std::shared_ptr<SocketTimeoutManager> manager_;
     socket_t socket_;
     bool owns_;
 };

@@ -152,7 +152,7 @@ ssize_t ZeroCopyFrameBuilder::writeTo(int fd) const noexcept {
 ssize_t ZeroCopyFrameBuilder::writeToWithSendfile(int    socket_fd,
                                                    int    payload_fd,
                                                    off_t  payload_offset,
-                                                   size_t sendfile_threshold) const noexcept {
+                                                   size_t sendfile_threshold) const {
 #ifdef _WIN32
     // Windows: no sendfile equivalent for socket+file — fall back to writev path.
     (void)payload_fd; (void)payload_offset; (void)sendfile_threshold;
