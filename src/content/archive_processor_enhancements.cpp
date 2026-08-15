@@ -11,7 +11,7 @@
 =======
  * @brief Archive format processor (ZIP, TAR, 7Z, RAR) for nested content extraction.
  * @version 2.0.0
- * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Maturity: 🟡 BETA
  * @note Score: 81/100
  * @note Gap Summary: total=7; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=3, C=0, H=2, M=5, L=0
  * @note Status: Production Ready; Archive enhancements (Graph Phase 2.1) stable; performance tuning deferred

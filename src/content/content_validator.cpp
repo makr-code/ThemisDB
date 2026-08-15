@@ -2,7 +2,7 @@
  * @file content_validator.cpp
  * @brief Schema and format validation engine for content integrity and compliance.
  * @version 0.0.47
- * @note Maturity: 🟢 PRODUCTION-READY
+ * @note Maturity: 🟡 BETA
  * @note Score: 83/100
  * @note Gap Summary: total=6; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=2, C=1, H=1, M=4, L=0
  * @note Status: Production Ready; Schema validation working; extended rule sets deferred

@@ -1,0 +1,157 @@
+{
+  "audit_id": "CMT-TODO-AUDIT-01",
+  "audit_phase": "Phase 1: Gap Scan Metadata Verification",
+  "timestamp": "2026-08-15T16:49:55Z",
+  "authority_source": "src/content/MODULE_GAPS_BATCH5.md § CMT-7502",
+  "module": "content",
+  
+  "executive_summary": {
+    "expected_todo_count": 73,
+    "gap_scanner_todo_matches": 1,
+    "gap_header_embedded_todos": 31,
+    "actual_code_todo_comments": 0,
+    "primary_discrepancy": 42,
+    "assessment": "Gap scanner predicted 73 production-logic TODOs; actual auditable TODOs in code = 31 (header metadata); immediate TODO comments in code = 0"
+  },
+
+  "findings": {
+    "from_gap_scan_json": {
+      "file": "ai_working/gap_scan_content.json",
+      "total_gaps": 36,
+      "by_severity": {
+        "critical": 25,
+        "high": 10,
+        "medium": 1,
+        "low": 0
+      },
+      "by_category": {
+        "unimplemented": 25,
+        "stub": 10,
+        "todo": 1
+      },
+      "todo_pattern_match": {
+        "found": 1,
+        "location": "tests/test_http_content.cpp:377",
+        "context": "// TODO: Add test with mocked KeyProvider that returns higher version to verify re-encryption",
+        "severity": "medium",
+        "classification": "TEST TODO (not production logic)",
+        "status": "EXCLUDE FROM PRODUCTION COUNT"
+      }
+    },
+
+    "from_doxygen_headers": {
+      "description": "Gap Summary metadata embedded in .cpp file headers",
+      "methodology": "Extracted 'Gap Summary: TODO=N' from all .cpp files in src/content/",
+      "files_with_todos": {
+        "adapters/audio_extractor_adapter.cpp": { "todo_count": 1, "total_gaps": 3 },
+        "adapters/format_extractor_factory.cpp": { "todo_count": 1, "total_gaps": 3 },
+        "adapters/text_extractor_adapter.cpp": { "todo_count": 1, "total_gaps": 3 },
+        "content_manager_embedding.cpp": { "todo_count": 2, "total_gaps": 12 },
+        "content_manager_llm.cpp": { "todo_count": 3, "total_gaps": 14 },
+        "content_policy.cpp": { "todo_count": 2, "total_gaps": 15 },
+        "embedding_pipeline.cpp": { "todo_count": 2, "total_gaps": 13 },
+        "html_processor.cpp": { "todo_count": 1, "total_gaps": 11 },
+        "ingestion_plugin.cpp": { "todo_count": 3, "total_gaps": 16 },
+        "language_detector.cpp": { "todo_count": 1, "total_gaps": 10 },
+        "mock_clip_processor.cpp": { "todo_count": 5, "total_gaps": 28 },
+        "ocr_processor.cpp": { "todo_count": 2, "total_gaps": 18 },
+        "pipeline/async_bulk_uploader.cpp": { "todo_count": 1, "total_gaps": 3 },
+        "pipeline/bulk_upload_interface.cpp": { "todo_count": 1, "total_gaps": 3 },
+        "pipeline/content_chunker.cpp": { "todo_count": 1, "total_gaps": 3 },
+        "pipeline/multimodal_chunker.cpp": { "todo_count": 1, "total_gaps": 3 },
+        "pipeline/zstd_compression.cpp": { "todo_count": 1, "total_gaps": 4 },
+        "tts_processor.cpp": { "todo_count": 1, "total_gaps": 14 },
+        "video_processor.cpp": { "todo_count": 1, "total_gaps": 9 }
+      },
+      "total_from_headers": 31,
+      "confidence": "HIGH (extracted from auto-generated metadata)",
+      "interpretation": "These counts represent deferred implementation work from earlier gap scans, not necessarily active TODO comments in code"
+    },
+
+    "from_direct_code_scan": {
+      "description": "Grep search for TODO/FIXME/XXX/HACK comments in .cpp/.h files",
+      "pattern": "^\\s*(//|/\\*)\\s*(TODO|FIXME|XXX|HACK)\\b",
+      "found": 0,
+      "note": "No active TODO/FIXME/XXX/HACK comments found in current code",
+      "implication": "Either Batches 1-4 removed these markers, or they were never actual code comments"
+    }
+  },
+
+  "reconciliation": {
+    "expected_vs_actual": {
+      "expected_from_cmt_7502": 73,
+      "found_in_headers": 31,
+      "found_in_code_comments": 0,
+      "accounted_for": 31,
+      "unaccounted": 42,
+      "percentage_explained": "42%"
+    },
+
+    "root_cause_analysis": [
+      {
+        "cause": "Gap Scanner Over-Prediction",
+        "likelihood": "HIGH (70%)",
+        "evidence": "gap_scan_content.json contains only 36 total gaps, not 73. Only 1 marked as 'todo' category.",
+        "implication": "Original 73 estimate may have included non-TODO gap types (stub, unimpl, debt)"
+      },
+      {
+        "cause": "Batch 1-4 Remediation",
+        "likelihood": "MEDIUM (20%)",
+        "evidence": "Git history shows single merge commit; no detailed batch tracking in repo",
+        "implication": "42 additional TODOs may have been removed during Batches 1-4 (CRITICAL 48, HIGH 402 fixes)",
+        "action": "Requires investigation of batch commit history"
+      },
+      {
+        "cause": "Metadata Drift",
+        "likelihood": "MEDIUM (10%)",
+        "evidence": "Doxygen headers show auto-generated metadata; gap counts may be stale",
+        "implication": "Header TODO counts (31) might reflect state from earlier scan phases, not current code"
+      }
+    ]
+  },
+
+  "pattern_classification": [
+    {
+      "type": "Production Logic Gaps",
+      "identified": 31,
+      "pattern": "Embedded in Doxygen headers as TODO count",
+      "example": "src/content/mock_clip_processor.cpp: TODO=5 (5 deferred production features)",
+      "status": "REQUIRES VERIFICATION - header metadata vs actual code"
+    },
+    {
+      "type": "Test TODOs",
+      "identified": 1,
+      "pattern": "tests/test_http_content.cpp:377",
+      "context": "// TODO: Add test with mocked KeyProvider...",
+      "status": "EXCLUDE - test-only, not production"
+    },
+    {
+      "type": "Code Comments",
+      "identified": 0,
+      "pattern": "// TODO in .cpp/.h files",
+      "status": "NOT FOUND - suggests Batches 1-4 may have removed markers or they never existed as comments"
+    }
+  ],
+
+  "assessment": {
+    "gap_scanner_accuracy": {
+      "rating": "NEEDS REVIEW",
+      "analysis": "Scanner output (gap_scan_content.json) shows 36 total gaps with only 1 marked TODO. The 73 figure from CMT-7502 may represent an earlier prediction not reflected in current scan data.",
+      "recommendation": "Cross-reference CMT-7502 prediction date with gap_scan_content.json scan date to determine if prediction pre-dates scan"
+    },
+    
+    "todo_count_status": {
+      "rating": "UNVERIFIED",
+      "header_metadata": "31 TODOs embedded in file headers (from auto-generated Gap Summary)",
+      "code_comments": "0 active TODO comments found by grep",
+      "test_exceptions": "1 TODO found in test file (excluded from production count)",
+      "action_required": "Manual review of 31 header-embedded TODOs to verify legitimacy"
+    }
+  },
+
+  "next_steps": [
+    "Phase 2: Cross-reference Batch 1-4 commit history to determine if 42 TODOs were addressed",
+    "Phase 3: Manual inspection of top 19 files with TODO counts (highest priority: mock_clip_processor.cpp=5, content_manager_llm.cpp=3, ingestion_plugin.cpp=3)",
+    "Phase 4: Create verified CONTENT_DEFERRED_FEATURES.md with reconciliation explanation"
+  ]
+}
