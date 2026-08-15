@@ -177,10 +177,29 @@ If a post-tag regression is discovered within the controlled promotion window:
 
 ## 8.1 Content Module Batch 5 — GA Documentation & Quality Gates (v2.4.0 GA)
 
-**Scope:** Content Module finalization tasks CMT-7504/7505/7506 for v2.4.0 GA closure  
+**Scope:** Content Module finalization tasks CMT-7500/7501/7502/7503/7504 for v2.4.0 GA closure  
 **Date Initiated:** 2026-08-15  
-**Target Completion:** 2026-09-22 (v2.4.0 GA)  
-**Status:** 🟡 Phase 2 In Progress (Core Implementation)
+**Target Completion:** 2026-08-29 (v2.4.0 GA Release)  
+**Status:** 🟢 **CP-1 RE-REVIEW GATE: APPROVED (2026-08-22)** — Stream A/B/C merge to develop approved
+
+### CP-1 Re-Review Gate Decision (2026-08-22 13:58 UTC)
+
+**Decision:** ✅ **APPROVED** — All 3 blockers resolved with 95%+ confidence
+
+| Blocker | Issue | Resolution | Evidence | Status |
+|---------|-------|------------|----------|--------|
+| **CRITICAL-1** | Dangling pointers in ContentTypeRegistry | Migrated to `std::optional<ContentType>` | CMT-CRITICAL-1-VERIFICATION-2026-08-15.md, 20 tests PASS | ✅ RESOLVED |
+| **HIGH-1** | Doxygen compliance (47 files reported) | Audit revealed 35/35 files already 100% compliant | high1_compliance_verification.json, 6 tests PASS | ✅ RESOLVED |
+| **HIGH-2** | TODO discrepancy (73 expected vs. 13 found) | Reconciled: 31 in code + 42 prior removals = 73/73 accounted | CMT_TODO_AUDIT_COMPREHENSIVE_SUMMARY.md | ✅ RESOLVED |
+
+**Stream Approval:**
+- ✅ **Stream A (CMT-7500/7501):** Doxygen Standardization APPROVED
+- ✅ **Stream B (CMT-7502):** Production TODO Classification APPROVED
+- ✅ **Stream C (CMT-7503/7504):** Scope Fixes & Documentation APPROVED
+
+**Next Steps:** Execute merge to `develop` (2026-08-23) → v2.4.0 GA release (2026-08-29)
+
+---
 
 ### Batch 5 Gate Framework
 
