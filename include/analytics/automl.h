@@ -359,6 +359,100 @@ public:
         ModelAlgorithm algorithm,
         const std::map<std::string, double>& hyperparameters) const;
 
+    // ---- Helper functions (Phase 2B) ----
+
+    /**
+     * @brief Validate training feature matrix structure and quality.
+     * 
+     * Checks:
+     * - Non-empty data (n_samples > 0)
+     * - Consistent dimensions (all rows have same n_features)
+     * - No NaN or Inf values
+     * - At least 2 samples for meaningful training
+     * - For classification: at least 2 distinct classes
+     * 
+     * @param features Training feature matrix (n_samples × n_features)
+     * @param target Target vector (n_samples,)
+     * @param task Classification or regression task
+     * @return std::pair<bool, std::string> (valid, error_message)
+     * 
+     * @code
+     *   std::vector<std::vector<double>> X = {{ 1.0, 2.0 }, { 3.0, 4.0 }};
+     *   std::vector<double> y = { 0.0, 1.0 };
+     *   auto [valid, msg] = automl.validateTrainingData(X, y, AutoMLTask::CLASSIFICATION);
+     * @endcode
+     */
+    std::pair<bool, std::string> validateTrainingData(
+        const std::vector<std::vector<double>>& features,
+        const std::vector<double>& target,
+        AutoMLTask task = AutoMLTask::CLASSIFICATION) const noexcept;
+
+    /**
+     * @brief Select the best metalearner (model algorithm) for the given feature set.
+     * 
+     * Evaluates multiple candidate algorithms on the training data and returns
+     * the one with the best cross-validation score. Considers algorithm complexity,
+     * feature dimensionality, and sample count.
+     * 
+     * @param features Training feature matrix (n_samples × n_features)
+     * @param target Target vector with ground truth labels/values
+     * @param candidates List of ModelAlgorithm choices to evaluate
+     * @param task Classification or regression task
+     * @return Best ModelAlgorithm enum; ModelAlgorithm::DECISION_TREE if no candidates
+     * @throws std::invalid_argument if features or target is empty
+     * 
+     * Algorithm:
+     * - If candidates empty: returns DECISION_TREE (default)
+     * - Scores each candidate via quick cross-validation
+     * - Returns algorithm with highest score
+     * 
+     * @code
+     *   std::vector<ModelAlgorithm> options = {
+     *       ModelAlgorithm::LOGISTIC_REGRESSION,
+     *       ModelAlgorithm::DECISION_TREE,
+     *       ModelAlgorithm::RANDOM_FOREST
+     *   };
+     *   auto best = automl.selectMetalearner(X_train, y_train, options);
+     * @endcode
+     */
+    ModelAlgorithm selectMetalearner(
+        const std::vector<std::vector<double>>& features,
+        const std::vector<double>& target,
+        const std::vector<ModelAlgorithm>& candidates,
+        AutoMLTask task = AutoMLTask::CLASSIFICATION) const;
+
+    /**
+     * @brief Select the best ensemble aggregation method.
+     * 
+     * Given a set of trained models with their evaluation metrics, determines
+     * the optimal ensemble strategy based on model diversity and performance.
+     * 
+     * Strategies:
+     * - VOTING (soft): Average class probabilities (classification)
+     * - STACKING: Meta-learner on model predictions
+     * - BLENDING: Weighted average of predictions
+     * - ENSEMBLE (default): Soft voting with equal weights
+     * 
+     * @param candidate_metrics Vector of EvalMetrics from candidate models
+     * @param options Available EnsembleMethod choices
+     * @return Selected EnsembleMethod enum
+     * 
+     * Algorithm:
+     * - If single model: return ENSEMBLE (no ensemble benefit)
+     * - Analyze correlation/diversity of models
+     * - Return method with best expected performance
+     * 
+     * @code
+     *   std::vector<EvalMetrics> metrics = { model1.metrics(), model2.metrics() };
+     *   auto method = automl.selectEnsembleMethod(metrics, {
+     *       EnsembleMethod::VOTING,
+     *       EnsembleMethod::STACKING
+     *   });
+     * @endcode
+     */
+    ModelAlgorithm selectEnsembleMethod(
+        const std::vector<EvalMetrics>& candidate_metrics) const noexcept;
+
 private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
