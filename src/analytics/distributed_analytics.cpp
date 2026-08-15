@@ -365,6 +365,7 @@ DistributedAnalyticsSharding::DistributedAnalyticsSharding(const Config &cfg) : 
 }
 
 DistributedAnalyticsSharding::~DistributedAnalyticsSharding() {
+    // RAII: Ensure health monitor thread is properly joined
     stopping_.store(true, std::memory_order_release);
     health_monitor_cv_.notify_all();
     if (health_monitor_thread_.joinable()) {
@@ -378,6 +379,7 @@ DistributedAnalyticsSharding::~DistributedAnalyticsSharding() {
 
 void DistributedAnalyticsSharding::startHealthMonitor() {
     if (config_.health_check_interval.count() > 0) {
+        // RAII: Create thread and store it; will be joined in destructor
         health_monitor_thread_ = std::thread(&DistributedAnalyticsSharding::runHealthMonitor, this);
     }
 }
@@ -483,9 +485,25 @@ void DistributedAnalyticsSharding::removeShard(const std::string &shard_id) {
     // SAFE: No per-shard Tier 2 locks. No circular lock risk.
      
     std::lock_guard<std::mutex> lock(mutex_);
-    shards_.erase(
-        std::remove_if(shards_.begin(), shards_.end(), [&](const ShardEntry &e) { return e.shard_id == shard_id; }),
-        shards_.end());
+    
+    auto it = std::find_if(shards_.begin(), shards_.end(),
+                          [&](const ShardEntry& e) { return e.shard_id == shard_id; });
+    if (it != shards_.end()) {
+        size_t idx = std::distance(shards_.begin(), it);
+        
+        // RAII: Erase from vectors to properly cleanup mutexes
+        shards_.erase(it);
+        circuit_breaker_mutexes_.erase(circuit_breaker_mutexes_.begin() + idx);
+        queue_mutexes_.erase(queue_mutexes_.begin() + idx);
+        queue_cvs_.erase(queue_cvs_.begin() + idx);
+        
+        // Update pointers in remaining entries
+        for (size_t i = idx; i < shards_.size(); ++i) {
+            shards_[i].circuit_breaker_mutex = &circuit_breaker_mutexes_[i];
+            shards_[i].queue_mutex = &queue_mutexes_[i];
+            shards_[i].queue_cv = &queue_cvs_[i];
+        }
+    }
 }
 
 size_t DistributedAnalyticsSharding::getShardCount() const {
@@ -974,6 +992,14 @@ DistributedAnalyticsSharding::executeDistributed(const OLAPQuery &query) {
                               info.shard_id);
                 return result;
             }
+        }
+    }
+
+    // RAII: Join all worker threads (CRITICAL: must complete before accessing results)
+    // This ensures exception-safe cleanup even if we return early
+    for (auto& t : worker_threads) {
+        if (t.joinable()) {
+            t.join();
         }
     }
 

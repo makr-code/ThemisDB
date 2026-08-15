@@ -429,23 +429,46 @@ private:
         std::string allowed_tenant_id;
         /// Cached health flag updated by the background monitor.
         /// Initialised to true (optimistic) when a shard is first added.
+        /// RAII: auto-cleanup on scope exit via shared_ptr destruction
         std::shared_ptr<std::atomic<bool>> cached_healthy =
             std::make_shared<std::atomic<bool>>(true);
 
         /// ====== SAFETY CONTROLS: Circuit Breaker State ======
         /// Tracks shard-level fault tolerance state and recovery.
-        std::shared_ptr<std::mutex> circuit_breaker_mutex = std::make_shared<std::mutex>();
+        /// NOTE: Using shared_ptr for circuit_breaker_info only (contains state).
+        /// The mutex is owned by the DistributedAnalyticsSharding object and lives
+        /// as long as the ShardEntry exists in the shards_ vector.
         std::shared_ptr<CircuitBreakerInfo> circuit_breaker_info = std::make_shared<CircuitBreakerInfo>();
+        
+        /// Per-shard circuit breaker lock (RAII: owned by parent coordinator).
+        /// CRITICAL: This pointer is NEVER deleted by ShardEntry; it points to
+        /// the parent coordinator's circuit_breaker_mutexes_ member. The lifetime
+        /// of this mutex is guaranteed by the parent object.
+        std::mutex* circuit_breaker_mutex = nullptr;  // Non-owning pointer
+        
         /// Bounded queue: pending requests waiting to be executed.
-        std::shared_ptr<std::queue<std::function<void()>>> request_queue = std::make_shared<std::queue<std::function<void()>>>();
-        /// Queue synchronization
-        std::shared_ptr<std::mutex> queue_mutex = std::make_shared<std::mutex>();
-        std::shared_ptr<std::condition_variable> queue_cv = std::make_shared<std::condition_variable>();
+        /// RAII: auto-cleanup on scope exit via shared_ptr destruction
+        std::shared_ptr<std::queue<std::function<void()>>> request_queue = 
+            std::make_shared<std::queue<std::function<void()>>>();
+        
+        /// Queue synchronization (RAII: owned by parent coordinator).
+        /// CRITICAL: Non-owning pointers; lifetimes guaranteed by parent object.
+        std::mutex* queue_mutex = nullptr;                      // Non-owning pointer
+        std::condition_variable* queue_cv = nullptr;             // Non-owning pointer
+        
         /// Current in-flight request count
-        std::shared_ptr<std::atomic<uint32_t>> in_flight_requests = std::make_shared<std::atomic<uint32_t>>(0);
+        /// RAII: auto-cleanup on scope exit via shared_ptr destruction
+        std::shared_ptr<std::atomic<uint32_t>> in_flight_requests = 
+            std::make_shared<std::atomic<uint32_t>>(0);
     };
 
     std::vector<ShardEntry> shards_;
+
+    // Per-shard synchronization primitives (RAII: owned by this coordinator)
+    // These are indexed by shard position in shards_ vector
+    std::vector<std::mutex> circuit_breaker_mutexes_;
+    std::vector<std::mutex> queue_mutexes_;
+    std::vector<std::condition_variable> queue_cvs_;
 
     // Background health-monitor
     std::atomic<bool>       stopping_{false};
