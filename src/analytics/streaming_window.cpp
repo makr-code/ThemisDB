@@ -362,11 +362,21 @@ std::unique_ptr<TumblingWindow> createTumblingWindow(const TumblingWindowConfig 
 }
 
 void TumblingWindow::addAggregation(const WindowAggregateSpec &spec) {
+    // LOCK ORDERING DOCUMENTATION:
+    // This function acquires ONLY the per-window mutex_:
+    //   1. mutex_ (window lock) — add aggregation spec [BRIEF]
+    // SAFE: No nested locks, no callback invocation under lock.
+     
     std::lock_guard lk(mutex_);
     agg_specs_.push_back(spec);
 }
 
 void TumblingWindow::setResultCallback(ResultCallback cb) {
+    // LOCK ORDERING DOCUMENTATION:
+    // This function acquires ONLY the per-window mutex_:
+    //   1. mutex_ (window lock) — set callback [BRIEF]
+    // SAFE: No nested locks, callback is NOT invoked under lock (set only).
+     
     std::lock_guard lk(mutex_);
     callback_ = std::move(cb);
 }
@@ -505,13 +515,20 @@ bool TumblingWindow::ingest(const StreamRecord &record) {
 }
 
 void TumblingWindow::flush() {
+    // LOCK ORDERING DOCUMENTATION:
+    // This function uses SNAPSHOT+RELEASE pattern to prevent re-entrant deadlock:
+    //   PHASE 1: Acquire lock, snapshot pending results + callback, release lock
+    //   PHASE 2: Invoke callback OUTSIDE the lock (prevents re-entrant lock)
+    // CRITICAL INVARIANT: Lock released BEFORE callback invocation.
+    // This prevents circular locks if callback tries to acquire the same mutex_.
+     
     std::vector<WindowResult> pending;
     ResultCallback cb;
     {
         std::lock_guard lk(mutex_);
         pending = closeExpiredWindows(std::numeric_limits<int64_t>::max());
         cb      = callback_;
-    } // mutex_ released
+    } // mutex_ released — CRITICAL POINT
     if (cb) {
         for (auto& r : pending) {
             try { cb(r); } catch (...) {}
