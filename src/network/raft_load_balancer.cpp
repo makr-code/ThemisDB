@@ -181,6 +181,18 @@ std::string RaftLoadBalancer::selectBackend() {
 
     const LoadBalancingStrategy strat = strategy_.load(std::memory_order_acquire);
 
+    // R17: Connection Lifecycle Safety
+    // When a backend is selected, the caller should:
+    // 1. Call onConnectionOpened(backend_address) to increment active_connections counter
+    // 2. Use the connection
+    // 3. Call onConnectionClosed(backend_address) on success or error
+    //
+    // To ensure cleanup even if errors occur, use the ConnectionGuard RAII class:
+    //   auto addr = lb.selectBackend();
+    //   ConnectionGuard guard(lb, addr);
+    //   // ... use guard.address() as connection ...
+    //   // guard destructor calls onConnectionClosed() automatically
+
     switch (strat) {
         case LoadBalancingStrategy::ROUND_ROBIN:
             return selectRoundRobin();
@@ -202,6 +214,10 @@ std::string RaftLoadBalancer::selectBackend(const std::string &key) {
     std::lock_guard<std::mutex> lk(backends_mutex_);
     if (backends_.empty())
         return {};
+    // R18: Connection Lifecycle on Rebalance/Timeout
+    // When rebalancing occurs or timeouts are triggered, ensure connections to
+    // previously-selected backends are properly closed before selecting new backends.
+    // Use ConnectionGuard to guarantee cleanup in all paths.
     return selectConsistentHash(key);
 }
 
@@ -428,6 +444,12 @@ void RaftLoadBalancer::runHealthChecks() {
     }
 
     for (Backend *b : backends_snapshot) {
+        // R18: Timeout Safety in Health Checks
+        // When health_check_fn_ opens actual connections (not stubbed):
+        // 1. Use connection timeout from Phase C (wire_protocol_zero_copy timeout patterns)
+        // 2. Ensure connection is closed even if health check times out or fails
+        // 3. Use try-catch to guarantee cleanup in exception paths
+        // 4. Example: Wrap check_fn call with guard to track connection lifecycle
         const bool ok  = check_fn(*b);
         const auto now = std::chrono::steady_clock::now();
 

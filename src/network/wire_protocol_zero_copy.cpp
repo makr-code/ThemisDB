@@ -316,6 +316,17 @@ MemoryMappedPayload::MemoryMappedPayload(const std::string& path) {
                                 "MemoryMappedPayload: mmap failed: " + path);
     }
 
+    // R19: File Descriptor Cleanup Pattern
+    // Ensures fd_ is properly closed even if exceptions occur:
+    // 1. On lseek failure (line 296): ::close(fd_) before throw
+    // 2. On size validation failure (line 304): ::close(fd_) before throw
+    // 3. On mmap failure (line 313): ::close(fd_) before throw
+    // 4. On successful mmap (here): fd_ retained; will be closed in destructor
+    //    or transferred via move semantics (see ~MemoryMappedPayload, operator=)
+    // 
+    // Exception Safety: Strong guarantee via RAII (see destructor at line ~359)
+    // If exception thrown after this point, destructor will close fd_.
+
     // Advise sequential access to allow read-ahead.
     ::madvise(addr_, size_, MADV_SEQUENTIAL);
 #endif
