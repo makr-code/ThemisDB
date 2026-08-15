@@ -1,7 +1,7 @@
 # Content Module - Future Enhancements
 
 <!-- Status: current | validated: 2026-08-15 -->
-<!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md · MODULE_GAPS_BATCH5.md -->
+<!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md · MODULE_GAPS_BATCH5.md · CONTENT_DEFERRED_FEATURES.md -->
 
 ## Scope
 
@@ -19,12 +19,6 @@ The following features are deferred past v2.4.0 GA; see `CONTENT_DEFERRED_FEATUR
 - **Vendor Integration:** Integrate with Cloudflare Abuse Database API (pending contract, Q4 2026)
 - **Archive:** Expand compression format support beyond ZIP/TAR (Enhancement, Q1 2027)
 - **OCR:** Add handwriting recognition for scanned documents (Enhancement, Q1 2027)
-
-## Scope
-
-- hardening and refinement of ingestion/extraction/enrichment runtime behavior
-- expansion of deterministic reliability under mixed-format and async-pressure scenarios
-- stricter benchmark-backed guardrails for content processing hot paths
 
 ## Design Constraints
 
