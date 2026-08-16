@@ -640,6 +640,7 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
     // and the overall score is far from the quality threshold (clear pass or fail).
     {
         std::vector<double> dim_scores;
+        dim_scores.reserve(4);  // At most: faithfulness, completeness, coherence, ethical
         // Only include scores that were actually evaluated for the current mode
         if (config.mode != EvaluationMode::FAST) {
             dim_scores.push_back(result.faithfulness_score);

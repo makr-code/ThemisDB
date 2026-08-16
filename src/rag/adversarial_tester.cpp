@@ -17,6 +17,7 @@
 #include <cctype>
 #include <cmath>
 #include <memory>
+#include <mutex>
 #include <numeric>
 #include <sstream>
 #include <stdexcept>
@@ -289,6 +290,9 @@ struct AdversarialTester::Impl {
     AdversarialTesterConfig     config;
     std::vector<BaseQuery>      base_queries;
     std::vector<RetrievedDocument> base_documents;
+    
+    // Synchronization for thread-safe access to shared collections
+    mutable std::mutex data_mutex;
 };
 
 // ============================================================================
@@ -314,21 +318,25 @@ AdversarialTester& AdversarialTester::operator=(AdversarialTester&&) noexcept = 
 void AdversarialTester::addBaseQuery(const std::string& query,
                                       const std::string& expected_answer)
 {
+    std::lock_guard<std::mutex> lock(impl_->data_mutex);
     impl_->base_queries.push_back({query, expected_answer});
 }
 
 void AdversarialTester::addBaseDocument(const RetrievedDocument& document)
 {
+    std::lock_guard<std::mutex> lock(impl_->data_mutex);
     impl_->base_documents.push_back(document);
 }
 
 void AdversarialTester::setBaseQueries(const std::vector<BaseQuery>& queries)
 {
+    std::lock_guard<std::mutex> lock(impl_->data_mutex);
     impl_->base_queries = queries;
 }
 
 void AdversarialTester::setBaseDocuments(const std::vector<RetrievedDocument>& documents)
 {
+    std::lock_guard<std::mutex> lock(impl_->data_mutex);
     impl_->base_documents = documents;
 }
 
@@ -421,10 +429,18 @@ AdversarialTesterConfig AdversarialTester::getConfig() const
 void AdversarialTester::testQueryPerturbations(RAGJudge& judge,
                                                 RobustnessReport& report)
 {
-    const auto& cfg  = impl_->config;
-    const auto& docs = impl_->base_documents;
+    const auto& cfg = impl_->config;
+    
+    // Copy data under lock to minimize critical section
+    std::vector<BaseQuery> queries;
+    std::vector<RetrievedDocument> docs;
+    {
+        std::lock_guard<std::mutex> lock(impl_->data_mutex);
+        queries = impl_->base_queries;
+        docs = impl_->base_documents;
+    }
 
-    for (const auto& bq : impl_->base_queries) {
+    for (const auto& bq : queries) {
         // ── INPUT VALIDATION & SANITIZATION ────────────────────────────────
         // SECURITY BOUNDARY: Sanitize input before creating EvaluationInput
         // to prevent prompt injection attacks during adversarial testing.
@@ -484,9 +500,18 @@ void AdversarialTester::testDocumentPoisoning(RAGJudge& judge,
                                                RobustnessReport& report)
 {
     const auto& cfg = impl_->config;
+    
+    // Copy data under lock to minimize critical section
+    std::vector<BaseQuery> queries;
+    std::vector<RetrievedDocument> base_docs;
+    {
+        std::lock_guard<std::mutex> lock(impl_->data_mutex);
+        queries = impl_->base_queries;
+        base_docs = impl_->base_documents;
+    }
 
-    for (const auto& bq : impl_->base_queries) {
-        if (impl_->base_documents.empty()) { break; }
+    for (const auto& bq : queries) {
+        if (base_docs.empty()) { break; }
 
         // ── INPUT VALIDATION & SANITIZATION ────────────────────────────────
         // SECURITY BOUNDARY: Sanitize input before creating EvaluationInput
@@ -500,12 +525,12 @@ void AdversarialTester::testDocumentPoisoning(RAGJudge& judge,
 
         EvaluationInput clean_input;
         clean_input.query            = sanitized.query;
-        clean_input.documents        = impl_->base_documents;
+        clean_input.documents        = base_docs;
         clean_input.generated_answer = sanitized.generated_answer;
 
         EvaluationResult clean_result = judge.evaluate(clean_input);
 
-        auto poisoned_docs = generatePoisonedDocuments(impl_->base_documents);
+        auto poisoned_docs = generatePoisonedDocuments(base_docs);
 
         EvaluationInput poison_input;
         poison_input.query            = sanitized.query;
@@ -522,11 +547,11 @@ void AdversarialTester::testDocumentPoisoning(RAGJudge& judge,
         // documents receive a poison payload; odd-indexed documents remain
         // unmodified to simulate a realistic partial-poisoning scenario where
         // only some retrieved documents are attacker-controlled.
-        for (size_t i = 0; i < impl_->base_documents.size(); ++i) {
+        for (size_t i = 0; i < base_docs.size(); ++i) {
             if (i % 2 != 0) { continue; }
 
             PoisoningResult pr;
-            pr.original_doc_id     = impl_->base_documents[i].id;
+            pr.original_doc_id     = base_docs[i].id;
             pr.poison_payload      = buildPoisonPayload(i);
             pr.faithfulness_before = clean_result.faithfulness_score;
             pr.faithfulness_after  = poison_result.faithfulness_score;

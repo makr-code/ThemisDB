@@ -268,8 +268,9 @@ PairwiseComparisonResult PairwiseComparator::compare(
         case BiasMitigationStrategy::MULTI_SAMPLE: {
             // Multiple evaluations with random orders
             std::vector<ComparisonWinner> results;
+            results.reserve(impl_->config.num_samples);
             std::uniform_int_distribution<> dist(0, 1);
-            
+             
             for (int i = 0; i < impl_->config.num_samples; ++i) {
                 bool a_first = dist(impl_->rng) == 0;
                 results.push_back(compareWithLLM(query, documents, answer_a, answer_b, a_first));
