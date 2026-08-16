@@ -224,7 +224,14 @@ HTTPResponse HTTPMetricsClient::requestWithRetry(
             case HTTPMethod::PUT:    method_str = "PUT";    break;
             case HTTPMethod::DELETE_: method_str = "DELETE"; break;
         }
-        request_callback_(method_str, path, response.status_code, response.latency.count());
+        
+        // Safely access callback with mutex protection
+        {
+            std::lock_guard<std::mutex> lock(callback_mutex_);
+            if (request_callback_) {  // Double-check pattern
+                request_callback_(method_str, path, response.status_code, response.latency.count());
+            }
+        }
     }
 
     updateStatistics(response, 1);

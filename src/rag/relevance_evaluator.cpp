@@ -123,6 +123,7 @@ RelevanceEvaluator::~RelevanceEvaluator() = default;
 
 std::vector<std::string> RelevanceEvaluator::generateReverseQuestions(const std::string& answer) {
     std::vector<std::string> questions;
+    questions.reserve(impl_->config.num_reverse_questions);
     
     if (answer.empty()) {
         return questions;

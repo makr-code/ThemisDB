@@ -285,6 +285,13 @@ std::vector<std::string> CoherenceEvaluator::detectContradictions(const std::str
     auto sentences_begin = std::sregex_iterator(answer.begin(), answer.end(), sentence_regex);
     auto sentences_end = std::sregex_iterator();
     
+    // Count matches for reserve
+    size_t match_count = 0;
+    for (auto it = sentences_begin; it != sentences_end; ++it) {
+        ++match_count;
+    }
+    sentences.reserve(match_count);
+    
     for (auto it = sentences_begin; it != sentences_end; ++it) {
         sentences.push_back(it->str());
     }

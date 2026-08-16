@@ -33,20 +33,20 @@ namespace {
 
 /// Case-fold (ASCII) and collapse runs of whitespace to a single space.
 std::string normaliseText(const std::string& s) {
-    std::string out;
-    out.reserve(s.size());
+    std::stringstream ss;
     bool last_was_space = true;
     for (unsigned char ch : s) {
         if (std::isspace(ch)) {
             if (!last_was_space) {
-                out += ' ';
+                ss << ' ';
                 last_was_space = true;
             }
         } else {
-            out += static_cast<char>(std::tolower(ch));
+            ss << static_cast<char>(std::tolower(ch));
             last_was_space = false;
         }
     }
+    std::string out = ss.str();
     // Trim trailing space
     if (!out.empty() && out.back() == ' ') {
         out.pop_back();
@@ -293,6 +293,7 @@ EntityLinker::EntityLinker(std::shared_ptr<IKnowledgeGraph> graph,
 
 std::vector<Entity> EntityLinker::extract(const std::string& text) const {
     std::vector<Entity> entities;
+    entities.reserve(config_.max_entities_per_text);
 
     // Strategy 1: capitalised multi-word and single-word spans.
     // Scan character by character collecting runs of capitalised-start tokens.
@@ -333,12 +334,13 @@ std::vector<Entity> EntityLinker::extract(const std::string& text) const {
         const size_t word_end = (pos == std::string::npos) ? 0 : pos + word.size();
 
         // Strip leading/trailing punctuation for check
-        std::string clean;
+        std::stringstream clean_builder;
         for (unsigned char ch : word) {
             if (std::isalnum(ch) || ch == '-' || ch == '\'') {
-                clean += static_cast<char>(ch);
+                clean_builder << static_cast<char>(ch);
             }
         }
+        const std::string clean = clean_builder.str();
 
         const bool is_cap = !clean.empty() && std::isupper(static_cast<unsigned char>(clean[0]));
 
@@ -619,18 +621,19 @@ KGRetrievalResult KnowledgeGraphRetriever::retrieve(
 
         // Attach reasoning chain to document metadata when requested.
         if (cfg.attach_reasoning_chain_to_metadata && result.has_reasoning) {
-            std::string chain_text;
-                THEMIS_DEBUG("Attaching reasoning chains to metadata: {} chains", result.inference_chains.size());
+            std::stringstream chain_builder;
+            bool first = true;
+            THEMIS_DEBUG("Attaching reasoning chains to metadata: {} chains", result.inference_chains.size());
             for (const auto& chain : result.inference_chains) {
                 for (const auto& edge : chain.edges) {
-                        THEMIS_DEBUG("Chain edge: {} -[{}]-> {} (rule={})",
-                                     edge.fact.subject, edge.fact.predicate, edge.fact.object,
-                                     edge.rule_id);
+                    THEMIS_DEBUG("Chain edge: {} -[{}]-> {} (rule={})",
+                                 edge.fact.subject, edge.fact.predicate, edge.fact.object,
+                                 edge.rule_id);
                     // Only include edges relevant to this document.
                     bool relevant = false;
                     for (const auto& dm : aug_doc.entity_links) {
-                            THEMIS_DEBUG("Doc entity link: id='{}' node_id='{}' linked={} score={}",
-                                         dm.entity.text, dm.node_id, dm.is_linked, dm.linking_score);
+                        THEMIS_DEBUG("Doc entity link: id='{}' node_id='{}' linked={} score={}",
+                                     dm.entity.text, dm.node_id, dm.is_linked, dm.linking_score);
                         if (dm.is_linked &&
                             (edge.fact.subject == dm.node_id ||
                              edge.fact.object  == dm.node_id)) {
@@ -639,13 +642,13 @@ KGRetrievalResult KnowledgeGraphRetriever::retrieve(
                         }
                     }
                     if (!relevant) continue;
-                    if (!chain_text.empty()) chain_text += "; ";
-                    chain_text += edge.fact.subject + " -[" +
-                                  edge.fact.predicate + "]-> " +
-                                  edge.fact.object +
-                                  " (rule=" + edge.rule_id + ")";
+                    if (!first) chain_builder << "; ";
+                    chain_builder << edge.fact.subject << " -[" << edge.fact.predicate << "]-> "
+                                  << edge.fact.object << " (rule=" << edge.rule_id << ")";
+                    first = false;
                 }
             }
+            std::string chain_text = chain_builder.str();
             if (!chain_text.empty()) {
                 aug_doc.document.metadata["reasoning_chain"] = chain_text;
             }

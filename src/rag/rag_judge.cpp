@@ -912,6 +912,12 @@ double RAGJudge::evaluateFaithfulness(const EvaluationInput& input) {
         return 0.3;
     }
     
+    // Check if evaluator is initialized
+    if (!impl_->faithfulness_eval) {
+        THEMIS_WARN("RAGJudge: Faithfulness evaluator not initialized");
+        return 0.0;
+    }
+    
     // Convert documents to format expected by FaithfulnessEvaluator
     std::vector<std::pair<std::string, std::string>> doc_pairs;
     for (const auto& doc : input.documents) {
@@ -935,6 +941,12 @@ double RAGJudge::evaluateRelevance(const EvaluationInput& input) {
     THEMIS_DEBUG("Evaluating relevance with specialized evaluator");
     
     if (input.generated_answer.empty()) {
+        return 0.0;
+    }
+    
+    // Check if evaluator is initialized
+    if (!impl_->relevance_eval) {
+        THEMIS_WARN("RAGJudge: Relevance evaluator not initialized");
         return 0.0;
     }
     
@@ -974,7 +986,12 @@ double RAGJudge::evaluateRelevance(const EvaluationInput& input) {
 double RAGJudge::evaluateCompleteness(const EvaluationInput& input) {
     THEMIS_DEBUG("Evaluating completeness with specialized evaluator");
     
-    // Use specialized evaluator
+    // Use specialized evaluator with null check
+    if (!impl_->completeness_eval) {
+        THEMIS_WARN("RAGJudge: Completeness evaluator not initialized");
+        return 0.0;
+    }
+    
     auto result = impl_->completeness_eval->evaluate(
         input.generated_answer,
         input.query
@@ -989,7 +1006,12 @@ double RAGJudge::evaluateCompleteness(const EvaluationInput& input) {
 double RAGJudge::evaluateCoherence(const EvaluationInput& input) {
     THEMIS_DEBUG("Evaluating coherence with specialized evaluator");
     
-    // Use specialized evaluator
+    // Use specialized evaluator with null check
+    if (!impl_->coherence_eval) {
+        THEMIS_WARN("RAGJudge: Coherence evaluator not initialized");
+        return 0.0;
+    }
+    
     auto result = impl_->coherence_eval->evaluate(input.generated_answer);
     
     THEMIS_DEBUG("Coherence: score={:.2f}, flow={:.2f}, structure={:.2f}", 

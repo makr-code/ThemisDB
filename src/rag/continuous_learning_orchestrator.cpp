@@ -188,7 +188,16 @@ void ContinuousLearningOrchestrator::stopLearningLoop() {
     }
 
     if (thread_to_join && thread_to_join->joinable()) {
-        thread_to_join->join();
+        // Use bounded timeout (30 seconds) to prevent indefinite blocking
+        auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(30);
+        while (thread_to_join->joinable() && std::chrono::steady_clock::now() < deadline) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        }
+        if (thread_to_join->joinable()) {
+            THEMIS_WARN("Learning loop thread did not complete within timeout; continuing with detached state");
+        } else {
+            thread_to_join->join();
+        }
     }
 }
 
@@ -217,14 +226,21 @@ void ContinuousLearningOrchestrator::triggerLearningIteration() {
     runRetrievalOptimization();
 
     // Evaluate active A/B tests
-    auto active_tests = impl_->ab_framework->getActiveTests();
+    std::vector<std::string> active_tests;
+    {
+        std::lock_guard<std::mutex> lock(impl_->mutex);
+        active_tests = impl_->ab_framework->getActiveTests();
+    }
     for (const auto &test_id : active_tests) {
         auto result = impl_->ab_framework->evaluateTest(test_id);
 
         // Check if test has enough samples
-        if (result.sample_size_control >= impl_->config.min_ab_samples
-            && result.sample_size_treatment >= impl_->config.min_ab_samples) {
-            promoteOrRollback(result);
+        {
+            std::lock_guard<std::mutex> lock(impl_->mutex);
+            if (result.sample_size_control >= impl_->config.min_ab_samples
+                && result.sample_size_treatment >= impl_->config.min_ab_samples) {
+                promoteOrRollback(result);
+            }
         }
     }
 
