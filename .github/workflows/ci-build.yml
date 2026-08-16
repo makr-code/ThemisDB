@@ -264,7 +264,7 @@ jobs:
           echo "  Build output dir: ${{ github.workspace }}/build"
 
       - name: Skip notice for no-op matrix rows
-        if: needs.detect-changes.outputs.has_cpp_changes == 'false' && github.event_name == 'pull_request'
+        if: (needs.detect-changes.outputs.has_cpp_changes != '' && needs.detect-changes.outputs.has_cpp_changes == 'false') && github.event_name == 'pull_request'
         shell: bash
         run: |
           echo ""
