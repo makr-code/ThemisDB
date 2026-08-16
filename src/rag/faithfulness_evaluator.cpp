@@ -19,6 +19,7 @@
 #include <sstream>
 #include <regex>
 #include <set>
+#include <mutex>
 
 namespace themis::rag::judge {
 
@@ -29,6 +30,7 @@ struct FaithfulnessEvaluator::Impl {
     std::unique_ptr<LLMJudgeIntegration> llm_integration;
     std::shared_ptr<NLIFaithfulnessVerifier> nli_verifier;
     ResponseParser parser;
+    mutable std::mutex state_mutex;  // Protect shared state access
     
     // NLI-based entailment check: uses NLIFaithfulnessVerifier when loaded,
     // falls back to term-overlap heuristic when no model is configured.

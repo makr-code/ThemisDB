@@ -17,6 +17,7 @@
 #include <algorithm>
 #include <sstream>
 #include <regex>
+#include <mutex>
 #include <cmath>
 #include <set>
 
@@ -28,6 +29,7 @@ struct CoherenceEvaluator::Impl {
     Config config;
     std::unique_ptr<LLMJudgeIntegration> llm_integration;
     ResponseParser parser;
+    mutable std::mutex state_mutex;  // Protect shared state access
     
     // Calculate readability score (Flesch-like metric)
     double calculateReadability(const std::string& text) {

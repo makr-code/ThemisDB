@@ -19,6 +19,7 @@
 #include <iomanip>
 #include <atomic>
 #include <regex>
+#include <mutex>
 #include <stdexcept>
 
 // Forward declaration for llama.cpp types

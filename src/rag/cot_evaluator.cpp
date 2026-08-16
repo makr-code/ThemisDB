@@ -16,6 +16,7 @@
 #include <nlohmann/json.hpp>
 #include <sstream>
 #include <regex>
+#include <mutex>
 #include <set>
 #include <iterator>
 #include <algorithm>

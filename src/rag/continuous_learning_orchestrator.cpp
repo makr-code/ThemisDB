@@ -229,9 +229,17 @@ void ContinuousLearningOrchestrator::triggerLearningIteration() {
     std::vector<std::string> active_tests;
     {
         std::lock_guard<std::mutex> lock(impl_->mutex);
-        active_tests = impl_->ab_framework->getActiveTests();
+        if (impl_->ab_framework) {
+            active_tests = impl_->ab_framework->getActiveTests();
+        } else {
+            THEMIS_WARN("ContinuousLearningOrchestrator: A/B testing framework not initialized");
+        }
     }
     for (const auto &test_id : active_tests) {
+        if (!impl_->ab_framework) {
+            THEMIS_WARN("ContinuousLearningOrchestrator: A/B framework lost during evaluation");
+            break;
+        }
         auto result = impl_->ab_framework->evaluateTest(test_id);
 
         // Check if test has enough samples
