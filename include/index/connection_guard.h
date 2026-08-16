@@ -16,10 +16,10 @@
 #ifndef THEMIS_INDEX_CONNECTION_GUARD_H
 #define THEMIS_INDEX_CONNECTION_GUARD_H
 
-#include <memory>
-#include <functional>
 #include <atomic>
+#include <functional>
 #include <stdexcept>
+#include <utility>
 
 namespace themis {
 namespace index {
@@ -39,13 +39,10 @@ namespace index {
  * 
  * Example usage:
  * ```cpp
- * auto guard = ConnectionGuard::acquire(db_);
- * if (!guard) return false;  // Early return: guard cleanup triggered
- * try {
- *     auto result = performDatabaseOperation();
- * } catch (...) {
- *     // Exception: guard cleanup triggered
- * }
+ * auto guard = makeConnectionGuard(
+ *     [&] { db_.releaseConnection(connection_id); },
+ *     connection_id);
+ * performDatabaseOperation();
  * // Scope exit: guard cleanup triggered
  * ```
  * 
@@ -92,9 +89,9 @@ public:
     ConnectionGuard(ConnectionGuard&& other) noexcept
         : releaser_(std::move(other.releaser_)),
           connection_id_(other.connection_id_),
-          released_(other.released_) {
+          released_(other.released_.load(std::memory_order_acquire)) {
         other.connection_id_ = -1;
-        other.released_ = true;  // Mark moved-from as released
+        other.released_.store(true, std::memory_order_release);  // Mark moved-from as released
     }
     
     /**
@@ -105,10 +102,10 @@ public:
             release();  // Clean up current guard first
             releaser_ = std::move(other.releaser_);
             connection_id_ = other.connection_id_;
-            released_ = other.released_;
+            released_.store(other.released_.load(std::memory_order_acquire), std::memory_order_release);
             
             other.connection_id_ = -1;
-            other.released_ = true;  // Mark moved-from as released
+            other.released_.store(true, std::memory_order_release);  // Mark moved-from as released
         }
         return *this;
     }

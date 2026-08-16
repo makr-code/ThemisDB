@@ -90,7 +90,6 @@
 #include "analytics/streaming_window.h"
 #include <stdexcept>
 #include "analytics/detail/stats.h"
-#include "analytics/connection_guard.h"
 
 #include <algorithm>
 #include <cassert>
@@ -100,8 +99,6 @@
 #include <set>
 #include <spdlog/spdlog.h>
 #include <sstream>
-
-#include "analytics/detail/stats.h"
 
 namespace themisdb {
 namespace analytics {
@@ -352,9 +349,9 @@ TumblingWindow::TumblingWindow(const TumblingWindowConfig &config)
 }
 
 TumblingWindow::~TumblingWindow() {
-    // RAII GUARANTEE: All resources cleaned up on destruction
-    // Even if exception thrown during construction (e.g., in member init),
-    // this destructor will still run for constructed members (C++ standard guarantee)
+    // RAII GUARANTEE: Fully constructed instances clean up all owned resources here.
+    // If construction throws, C++ destroys only the already-constructed subobjects;
+    // this destructor itself is not invoked for the incomplete TumblingWindow object.
     if (idle_running_) {
         idle_running_ = false;  // Signal thread to stop
         idle_cv_.notify_all();   // Wake up thread from wait_for

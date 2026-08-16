@@ -337,7 +337,8 @@ else()
     endif()
     
     # Treat warnings as errors if requested
-    # Note: -Werror is applied at target level via set_target_properties()
+    # Note: -Werror is applied at target level via target_compile_options()
+    # from themis_apply_strict_build_flags()
     # not globally via add_compile_options(), to avoid external dependency build failures
     if(THEMIS_STRICT_BUILD)
         # Define strict compilation flag that targets can opt into

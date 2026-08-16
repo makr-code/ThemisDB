@@ -31,11 +31,11 @@ namespace analytics {
  * Usage:
  * @code
  *   {
- *       auto guard = ConnectionGuard::acquire(db_manager);
- *       if (!guard) {
- *           return Status::Error("No connection available");
- *       }
- *       auto result = guard->execute(query);
+ *       const int connection_id = acquireConnectionId();
+ *       auto guard = ConnectionGuard::acquire(
+ *           connection_id,
+ *           [&] { releaseConnection(connection_id); });
+ *       executeQuery();
  *       // Connection automatically released when guard goes out of scope
  *   }
  * @endcode
@@ -179,4 +179,3 @@ private:
 
 }  // namespace analytics
 }  // namespace themisdb
-
