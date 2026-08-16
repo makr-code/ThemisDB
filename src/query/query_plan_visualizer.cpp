@@ -195,11 +195,12 @@ void QueryPlanVisualizer::toTextImpl(const QueryPlanNode& node, bool analyze,
 
 std::string QueryPlanVisualizer::toText(const QueryPlanNode& root, bool analyze) {
     std::string out;
+    out.reserve(4096);  // Pre-allocate for typical query plan output (5-20KB)
     out += analyze ? "EXPLAIN ANALYZE\n" : "EXPLAIN\n";
     out += std::string(60, '-') + "\n";
     toTextImpl(root, analyze, out, 0);
     out += std::string(60, '-') + "\n";
-
+ 
     // Summary line
     std::ostringstream summary;
     summary << std::fixed << std::setprecision(2);
@@ -333,10 +334,13 @@ void QueryPlanVisualizer::toDOTImpl(const QueryPlanNode& node, int& id_counter,
 std::string QueryPlanVisualizer::toDOT(const QueryPlanNode& root) {
     std::string nodes_out;
     std::string edges_out;
+    nodes_out.reserve(8192);  // Pre-allocate for node definitions
+    edges_out.reserve(4096);  // Pre-allocate for edge definitions
     int counter = 0;
     toDOTImpl(root, counter, nodes_out, edges_out);
-
+ 
     std::string dot;
+    dot.reserve(12288);  // Pre-allocate for complete DOT output
     dot += "digraph QueryPlan {\n";
     dot += "  rankdir=TB;\n";
     dot += "  node [fontname=Helvetica fontsize=10];\n";
