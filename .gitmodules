@@ -6,6 +6,10 @@
 [submodule "llama.cpp"]
 	path = llama.cpp
 	url = https://github.com/ggerganov/llama.cpp.git
+[submodule "vcpkg"]
+	path = vcpkg
+	url = https://github.com/microsoft/vcpkg.git
+	branch = master
 [submodule "whisper.cpp"]
 	path = whisper.cpp
 	url = https://github.com/ggerganov/whisper.cpp.git
