@@ -572,8 +572,17 @@ void AdversarialTester::testPromptInjection(RAGJudge& judge,
                                              RobustnessReport& report)
 {
     const auto payloads = knownInjectionPayloads();
+    
+    // Copy data under lock to minimize critical section
+    std::vector<BaseQuery> queries;
+    std::vector<RetrievedDocument> base_docs;
+    {
+        std::lock_guard<std::mutex> lock(impl_->data_mutex);
+        queries = impl_->base_queries;
+        base_docs = impl_->base_documents;
+    }
 
-    for (const auto& bq : impl_->base_queries) {
+    for (const auto& bq : queries) {
         // ── INPUT VALIDATION & SANITIZATION ────────────────────────────────
         // SECURITY BOUNDARY: Sanitize base input before creating EvaluationInput
         EvaluationInput temp_input;
@@ -586,7 +595,7 @@ void AdversarialTester::testPromptInjection(RAGJudge& judge,
 
         for (const auto& payload : payloads) {
             // Build a document set where one document contains the injection.
-            std::vector<RetrievedDocument> injected_docs = impl_->base_documents;
+            std::vector<RetrievedDocument> injected_docs = base_docs;
             RetrievedDocument injected_doc;
             injected_doc.id               = "injection_doc";
             injected_doc.content          = payload;
@@ -614,9 +623,18 @@ void AdversarialTester::testContextOverflow(RAGJudge& judge,
                                              RobustnessReport& report)
 {
     const auto& cfg = impl_->config;
-    if (impl_->base_queries.empty()) { return; }
+    
+    // Copy data under lock to minimize critical section
+    std::vector<BaseQuery> queries;
+    std::vector<RetrievedDocument> base_docs;
+    {
+        std::lock_guard<std::mutex> lock(impl_->data_mutex);
+        if (impl_->base_queries.empty()) { return; }
+        queries.push_back(impl_->base_queries.front());
+        base_docs = impl_->base_documents;
+    }
 
-    const auto& bq = impl_->base_queries.front();
+    const auto& bq = queries.front();
 
     // ── INPUT VALIDATION & SANITIZATION ────────────────────────────────
     // SECURITY BOUNDARY: Sanitize base input before creating EvaluationInput
@@ -631,13 +649,13 @@ void AdversarialTester::testContextOverflow(RAGJudge& judge,
     // Baseline with original documents.
     EvaluationInput base_input;
     base_input.query            = sanitized.query;
-    base_input.documents        = impl_->base_documents;
+    base_input.documents        = base_docs;
     base_input.generated_answer = sanitized.generated_answer;
 
     EvaluationResult base_result = judge.evaluate(base_input);
 
     // Build padded document set.
-    auto padded_docs = impl_->base_documents;
+    auto padded_docs = base_docs;
     auto fillers     = buildFillerDocuments(cfg.context_overflow_padding_docs);
     padded_docs.insert(padded_docs.end(), fillers.begin(), fillers.end());
 
@@ -662,10 +680,18 @@ void AdversarialTester::testContextOverflow(RAGJudge& judge,
 void AdversarialTester::testSycophancy(RAGJudge& judge,
                                         RobustnessReport& report)
 {
-    const auto& cfg  = impl_->config;
-    const auto& docs = impl_->base_documents;
+    const auto& cfg = impl_->config;
+    
+    // Copy data under lock to minimize critical section
+    std::vector<BaseQuery> queries;
+    std::vector<RetrievedDocument> docs;
+    {
+        std::lock_guard<std::mutex> lock(impl_->data_mutex);
+        queries = impl_->base_queries;
+        docs = impl_->base_documents;
+    }
 
-    for (const auto& bq : impl_->base_queries) {
+    for (const auto& bq : queries) {
         // ── INPUT VALIDATION & SANITIZATION ────────────────────────────────
         // SECURITY BOUNDARY: Sanitize base input before creating EvaluationInput
         EvaluationInput temp_input;
@@ -684,7 +710,7 @@ void AdversarialTester::testSycophancy(RAGJudge& judge,
         EvaluationResult orig_result = judge.evaluate(orig_input);
 
         // Generate sycophantic variants.
-        size_t num_variants = std::min(impl_->config.perturbations_per_query,
+        size_t num_variants = std::min(cfg.perturbations_per_query,
                                        size_t{3});
         for (size_t i = 0; i < num_variants; ++i) {
             std::string syco_query = sycophancyFrame(sanitized.query, i);
@@ -719,13 +745,17 @@ void AdversarialTester::testSycophancy(RAGJudge& judge,
 
 RobustnessReport AdversarialTester::testRobustness(RAGJudge& judge)
 {
-    if (impl_->base_queries.empty()) {
-        throw std::runtime_error(
-            "AdversarialTester::testRobustness: no base queries configured");
-    }
-    if (impl_->base_documents.empty()) {
-        throw std::runtime_error(
-            "AdversarialTester::testRobustness: no base documents configured");
+    // Check configuration under lock
+    {
+        std::lock_guard<std::mutex> lock(impl_->data_mutex);
+        if (impl_->base_queries.empty()) {
+            throw std::runtime_error(
+                "AdversarialTester::testRobustness: no base queries configured");
+        }
+        if (impl_->base_documents.empty()) {
+            throw std::runtime_error(
+                "AdversarialTester::testRobustness: no base documents configured");
+        }
     }
 
     RobustnessReport report;

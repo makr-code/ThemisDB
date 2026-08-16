@@ -56,7 +56,9 @@ std::optional<nlohmann::json> tryParseJson(const std::string& s) {
     try {
         auto j = nlohmann::json::parse(s, nullptr, /*allow_exceptions=*/true);
         if (j.is_object()) return j;
-    } catch (...) {}
+    } catch (const std::exception& e) {
+        THEMIS_DEBUG("JSON parse failed: {}", e.what());
+    }
     return std::nullopt;
 }
 
