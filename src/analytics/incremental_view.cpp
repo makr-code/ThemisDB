@@ -630,9 +630,6 @@ ViewQueryResult IncrementalViewManager::query(const std::string &view_name, cons
     return it->second->query(filters, limit, offset);
 }
 
-} // namespace analytics
-} // namespace themisdb
-
 // ============================================================================
 // Phase 2C: Incremental Aggregation Functions
 // ============================================================================
