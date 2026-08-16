@@ -166,6 +166,7 @@ private:
     std::string                 state_file_path_;
 
     void persistState() const;
+    void persistStateImpl(const SlotState& state) const;
     void loadState();
 };
 

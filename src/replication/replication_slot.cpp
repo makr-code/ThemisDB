@@ -63,31 +63,43 @@ ReplicationSlot::ReplicationSlot(
 
 bool ReplicationSlot::pause()
 {
-    std::lock_guard<std::mutex> lock(state_mutex_);
-    if (state_.status != SlotStatus::ACTIVE) return false;
-    state_.status        = SlotStatus::PAUSED;
-    state_.last_activity = std::chrono::system_clock::now();
-    persistState();
+    SlotState state_copy;
+    {
+        std::lock_guard<std::mutex> lock(state_mutex_);
+        if (state_.status != SlotStatus::ACTIVE) return false;
+        state_.status        = SlotStatus::PAUSED;
+        state_.last_activity = std::chrono::system_clock::now();
+        state_copy = state_;  // Copy state while holding lock
+    }  // Lock released here; I/O happens outside lock
+    persistStateImpl(state_copy);
     return true;
 }
 
 bool ReplicationSlot::resume()
 {
-    std::lock_guard<std::mutex> lock(state_mutex_);
-    if (state_.status != SlotStatus::PAUSED) return false;
-    state_.status        = SlotStatus::ACTIVE;
-    state_.last_activity = std::chrono::system_clock::now();
-    persistState();
+    SlotState state_copy;
+    {
+        std::lock_guard<std::mutex> lock(state_mutex_);
+        if (state_.status != SlotStatus::PAUSED) return false;
+        state_.status        = SlotStatus::ACTIVE;
+        state_.last_activity = std::chrono::system_clock::now();
+        state_copy = state_;  // Copy state while holding lock
+    }  // Lock released here; I/O happens outside lock
+    persistStateImpl(state_copy);
     return true;
 }
 
 bool ReplicationSlot::drop()
 {
-    std::lock_guard<std::mutex> lock(state_mutex_);
-    if (state_.status == SlotStatus::DROPPED) return false;
-    state_.status        = SlotStatus::DROPPED;
-    state_.last_activity = std::chrono::system_clock::now();
-    persistState();
+    SlotState state_copy;
+    {
+        std::lock_guard<std::mutex> lock(state_mutex_);
+        if (state_.status == SlotStatus::DROPPED) return false;
+        state_.status        = SlotStatus::DROPPED;
+        state_.last_activity = std::chrono::system_clock::now();
+        state_copy = state_;  // Copy state while holding lock
+    }  // Lock released here; I/O happens outside lock
+    persistStateImpl(state_copy);
     return true;
 }
 
@@ -97,13 +109,17 @@ bool ReplicationSlot::drop()
 
 bool ReplicationSlot::advance(uint64_t confirmed_lsn)
 {
-    std::lock_guard<std::mutex> lock(state_mutex_);
-    if (state_.status != SlotStatus::ACTIVE) return false;
-    if (confirmed_lsn < state_.confirmed_lsn) return false; // do not go backwards
-    state_.confirmed_lsn = confirmed_lsn;
-    state_.restart_lsn   = confirmed_lsn; // restart from acked position
-    state_.last_activity = std::chrono::system_clock::now();
-    persistState();
+    SlotState state_copy;
+    {
+        std::lock_guard<std::mutex> lock(state_mutex_);
+        if (state_.status != SlotStatus::ACTIVE) return false;
+        if (confirmed_lsn < state_.confirmed_lsn) return false; // do not go backwards
+        state_.confirmed_lsn = confirmed_lsn;
+        state_.restart_lsn   = confirmed_lsn; // restart from acked position
+        state_.last_activity = std::chrono::system_clock::now();
+        state_copy = state_;  // Copy state while holding lock
+    }  // Lock released here; I/O happens outside lock
+    persistStateImpl(state_copy);
     return true;
 }
 
@@ -131,20 +147,25 @@ ReplicationSlot::SlotState ReplicationSlot::state() const
 
 uint64_t ReplicationSlot::lag() const
 {
-    std::lock_guard<std::mutex> lock(state_mutex_);
+    uint64_t confirmed_lsn_copy;
+    {
+        std::lock_guard<std::mutex> lock(state_mutex_);
+        confirmed_lsn_copy = state_.confirmed_lsn;
+    }  // Lock released; call external component outside lock
     const uint64_t leader_seq = wal_manager_->getCurrentSequence();
-    if (leader_seq <= state_.confirmed_lsn) return 0;
-    return leader_seq - state_.confirmed_lsn;
+    if (leader_seq <= confirmed_lsn_copy) return 0;
+    return leader_seq - confirmed_lsn_copy;
 }
 
 // ---------------------------------------------------------------------------
 // Persistence helpers
 // ---------------------------------------------------------------------------
 
-void ReplicationSlot::persistState() const
+void ReplicationSlot::persistStateImpl(const SlotState& state) const
 {
     // Write a minimal JSON state file
-    // Called while holding state_mutex_
+    // This method can be safely called without holding any lock
+    // since it only reads the provided state parameter.
     std::filesystem::create_directories(
         std::filesystem::path(state_file_path_).parent_path());
 
@@ -157,23 +178,31 @@ void ReplicationSlot::persistState() const
     };
 
     int status_int = 0;
-    switch (state_.status) {
+    switch (state.status) {
         case SlotStatus::ACTIVE:  status_int = 0; break;
         case SlotStatus::PAUSED:  status_int = 1; break;
         case SlotStatus::DROPPED: status_int = 2; break;
     }
 
     ofs << "{\n"
-        << "  \"name\": \"" << state_.name << "\",\n"
+        << "  \"name\": \"" << state.name << "\",\n"
         << "  \"status\": " << status_int << ",\n"
-        << "  \"confirmed_lsn\": " << state_.confirmed_lsn << ",\n"
-        << "  \"restart_lsn\": " << state_.restart_lsn << ",\n"
-        << "  \"plugin_name\": \"" << state_.plugin_name << "\",\n"
-        << "  \"downstream_node_id\": \"" << state_.downstream_node_id << "\",\n"
-        << "  \"created_at_ms\": " << tp_to_ms(state_.created_at) << ",\n"
-        << "  \"last_activity_ms\": " << tp_to_ms(state_.last_activity) << "\n"
+        << "  \"confirmed_lsn\": " << state.confirmed_lsn << ",\n"
+        << "  \"restart_lsn\": " << state.restart_lsn << ",\n"
+        << "  \"plugin_name\": \"" << state.plugin_name << "\",\n"
+        << "  \"downstream_node_id\": \"" << state.downstream_node_id << "\",\n"
+        << "  \"created_at_ms\": " << tp_to_ms(state.created_at) << ",\n"
+        << "  \"last_activity_ms\": " << tp_to_ms(state.last_activity) << "\n"
         << "}\n";
     ofs.flush();
+}
+
+void ReplicationSlot::persistState() const
+{
+    // Convenience wrapper that acquires lock and calls persistStateImpl
+    // This is safe for callers who don't already hold the lock
+    std::lock_guard<std::mutex> lock(state_mutex_);
+    persistStateImpl(state_);
 }
 
 void ReplicationSlot::loadState()
@@ -305,19 +334,29 @@ void ReplicationSlotManager::loadPersistedSlots()
     const std::string slots_dir = config_.wal_directory + "/slots";
     if (!std::filesystem::exists(slots_dir)) return;
 
+    // First pass: collect slot file paths and names without holding lock
+    std::vector<std::pair<std::string, std::string>> slot_entries;  // (name, path)
     for (const auto& entry : std::filesystem::directory_iterator(slots_dir)) {
         if (entry.path().extension() != ".json") continue;
         const std::string slot_name = entry.path().stem().string();
+        slot_entries.emplace_back(slot_name, entry.path().string());
+    }
 
-        std::lock_guard<std::mutex> lock(slots_mutex_);
-        if (slots_.count(slot_name)) continue; // already loaded
-
+    // Second pass: create slots and insert them with lock held
+    for (const auto& [slot_name, slot_path] : slot_entries) {
+        // Create slot outside lock to avoid blocking I/O while holding slots_mutex_
         auto slot = std::make_shared<ReplicationSlot>(
-            slot_name, "physical", "",
-            wal_manager_, entry.path().string());
-        // Only keep non-dropped slots
-        if (slot->status() != ReplicationSlot::SlotStatus::DROPPED) {
-            slots_[slot_name] = slot;
+            slot_name, "physical", "", wal_manager_, slot_path);
+
+        // Now check and insert with lock held
+        {
+            std::lock_guard<std::mutex> lock(slots_mutex_);
+            if (slots_.count(slot_name)) continue;  // already loaded
+
+            // Only keep non-dropped slots
+            if (slot->status() != ReplicationSlot::SlotStatus::DROPPED) {
+                slots_[slot_name] = slot;
+            }
         }
     }
 }

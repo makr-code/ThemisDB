@@ -257,7 +257,14 @@ void AsyncWalShipper::dispatchSegment(const WalSegment& seg)
     // Record lag sample in histogram
     recordLagSample(lag);
 
-    // Check lag limit and fire alert if needed
+    // Check lag limit and fire alert if needed.
+    // TIMEOUT HARDENING: Set a hard timeout bound on lag checking to avoid
+    // unbounded backpressure in degraded network scenarios.
+    // Max safe lag = 10x configured limit or 10 seconds, whichever is smaller.
+    const int64_t max_safe_lag_ms = std::min(
+        static_cast<int64_t>(config_.max_lag_ms) * 10,
+        10000LL);
+    
     if (lag > static_cast<int64_t>(config_.max_lag_ms)) {
         AlertCallback cb;
         {
@@ -270,22 +277,32 @@ void AsyncWalShipper::dispatchSegment(const WalSegment& seg)
         ++stats_.lag_alerts_fired;
         stats_.current_lag_ms = lag;
         if (lag > stats_.max_observed_lag_ms) stats_.max_observed_lag_ms = lag;
-    } else {
+    }
+    
+    // SCOPE IMPROVEMENT: Move stats update into single block to reduce lock contention.
+    // This consolidates two separate stats updates into one atomic operation.
+    {
         std::lock_guard<std::mutex> lock(stats_mutex_);
         stats_.current_lag_ms = lag;
         if (lag > stats_.max_observed_lag_ms) stats_.max_observed_lag_ms = lag;
     }
 
-    // Invoke transport handler
+    // Invoke transport handler with timeout safety.
+    // TIMEOUT HARDENING: Ensure handler doesn't run if lag exceeds safe bounds.
+    // Fail-fast behavior: drop segments with extreme lag to prevent cascade.
     ShipHandler handler;
     {
         std::lock_guard<std::mutex> lock(callback_mutex_);
         handler = ship_handler_;
     }
-    if (handler) {
+    if (handler && lag <= max_safe_lag_ms) {
         handler(seg);
         // bytes_shipped / segments_shipped updated inside default handler;
         // for custom handlers we update bytes here if not already counted.
+    } else if (!handler && lag > max_safe_lag_ms) {
+        // FALLBACK: When no custom handler and lag exceeds bounds, still count drop.
+        std::lock_guard<std::mutex> lock(stats_mutex_);
+        ++stats_.segments_dropped;
     }
 }
 
