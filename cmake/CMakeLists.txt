@@ -2043,6 +2043,8 @@ set(THEMIS_CORE_SOURCES
     ../src/index/multi_vector_search.cpp
     ../src/index/distributed_vector_index.cpp
     ../src/index/tiered_index_manager.cpp
+    ../src/index/partition_manager.cpp
+    ../src/index/vector_index_manager_safety.cpp
     ../src/index/vector_auto_buffer.cpp
     ../src/index/gpu_memory_oversubscription.cpp
     ../src/index/index_compression.cpp
