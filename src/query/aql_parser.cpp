@@ -196,7 +196,8 @@ private:
         }
         advance(); // Skip opening quote
         std::string value;
-        
+        value.reserve(256);  // Pre-allocate to avoid O(n²) growth
+         
         while (peek() != quote && peek() != '\0') {
             if (peek() == '\\') {
                 advance();
@@ -224,16 +225,17 @@ private:
     
     Token readNumber(size_t line, size_t col) {
         std::string value;
+        value.reserve(32);  // Pre-allocate for typical number sizes
         bool is_float = false;
-        
+         
         if (peek() == '-') {
             value += advance();
         }
-        
+         
         while (std::isdigit(peek())) {
             value += advance();
         }
-        
+         
         // Only treat as float if dot is followed by a digit (e.g., 1.23)
         if (peek() == '.' && std::isdigit(peek(1))) {
             is_float = true;
@@ -242,13 +244,14 @@ private:
                 value += advance();
             }
         }
-        
+         
         return Token(is_float ? TokenType::FLOAT : TokenType::INTEGER, value, line, col);
     }
     
     Token readIdentifierOrKeyword(size_t line, size_t col) {
         std::string value;
-        
+        value.reserve(64);  // Pre-allocate for typical identifier sizes
+         
         while (std::isalnum(peek()) || peek() == '_') {
             value += advance();
         }
@@ -654,7 +657,11 @@ private:
                         try {
                             pred.proximity_distance = static_cast<uint32_t>(
                                 std::stoul(current().value));
-                        } catch (...) {
+                        } catch (const std::out_of_range& e) {
+                            THEMIS_WARN("aql_parser: NEAR predicate distance value overflow '{}', using default 0", current().value);
+                            pred.proximity_distance = 0;
+                        } catch (const std::invalid_argument& e) {
+                            THEMIS_WARN("aql_parser: NEAR predicate distance '{}' is not a valid number, using default 0", current().value);
                             pred.proximity_distance = 0;
                         }
                         advance();
@@ -706,7 +713,11 @@ private:
                 }
                 try {
                     pred.boost = std::stod(current().value);
-                } catch (...) {
+                } catch (const std::out_of_range& e) {
+                    THEMIS_WARN("aql_parser: SEARCH BOOST value overflow '{}', using default 1.0", current().value);
+                    pred.boost = 1.0;
+                } catch (const std::invalid_argument& e) {
+                    THEMIS_WARN("aql_parser: SEARCH BOOST value '{}' is not a valid number, using default 1.0", current().value);
                     pred.boost = 1.0;
                 }
                 advance();
@@ -762,7 +773,11 @@ private:
             }
             try {
                 node->top_boost = std::stod(current().value);
-            } catch (...) {
+            } catch (const std::out_of_range& e) {
+                THEMIS_WARN("aql_parser: SEARCH top-level BOOST value overflow '{}', using default 1.0", current().value);
+                node->top_boost = 1.0;
+            } catch (const std::invalid_argument& e) {
+                THEMIS_WARN("aql_parser: SEARCH top-level BOOST value '{}' is not a valid number, using default 1.0", current().value);
                 node->top_boost = 1.0;
             }
             advance();

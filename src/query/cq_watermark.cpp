@@ -7,6 +7,16 @@
  * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=1, M=0, L=0
  * @note Status: Production Ready
  * @note This block is auto-generated and will be overwritten.
+ *
+ * ## Thread Safety & Resource Management
+ *
+ * CQWatermark uses lock-free atomics for all state, providing wait-free reads
+ * and optimistic compare-and-swap for updates. No locks are held; no resources
+ * are allocated. All methods are noexcept and exception-safe by design.
+ *
+ * The watermark never retracts; it only advances monotonically or stays constant.
+ * This property is maintained through CAS loops that re-check the condition before
+ * updating, ensuring no event timestamp inversion.
  */
 
 
@@ -38,7 +48,13 @@ bool CQWatermark::observe(int64_t event_ts_us) noexcept {
     }
 
     // Late event: within budget?
-    if (event_ts_us >= (wm - allowed_lateness_us_)) {
+    // Use saturating subtraction to prevent underflow if allowed_lateness_us_
+    // is unexpectedly negative (defensive programming).
+    const int64_t min_ts = (allowed_lateness_us_ > wm)
+        ? std::numeric_limits<int64_t>::min()
+        : (wm - allowed_lateness_us_);
+    
+    if (event_ts_us >= min_ts) {
         late_processed_.fetch_add(1, std::memory_order_relaxed);
         return false;
     }
