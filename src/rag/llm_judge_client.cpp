@@ -463,7 +463,8 @@ void LLMJudgeClient::parseEvaluationResponse(
                 
                 try {
                     parsed.score = std::stod(score_str);
-                } catch (...) {
+                } catch (const std::exception& e) {
+                    THEMIS_WARN("Failed to parse score '{}': {}", score_str, e.what());
                     parsed.score = 0.5; // Default
                 }
             }

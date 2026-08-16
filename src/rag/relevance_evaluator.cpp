@@ -30,6 +30,7 @@ struct RelevanceEvaluator::Impl {
     Config config;
     std::unique_ptr<LLMJudgeIntegration> llm_integration;
     ResponseParser parser;
+    mutable std::mutex state_mutex;  // Protect shared state access
 
     // Tokenize text into lowercase, punctuation-stripped tokens of length > 2
     static std::vector<std::string> tokenize(const std::string& text) {

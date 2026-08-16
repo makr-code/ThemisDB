@@ -27,6 +27,7 @@ struct CompletenessEvaluator::Impl {
     Config config;
     std::unique_ptr<LLMJudgeIntegration> llm_integration;
     ResponseParser parser;
+    mutable std::mutex state_mutex;  // Protect shared state access
     
     // Check if aspect is covered in answer
     bool isAspectCovered(const std::string& aspect, const std::string& answer) {

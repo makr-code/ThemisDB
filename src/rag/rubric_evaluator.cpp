@@ -14,6 +14,7 @@
 #include "rag/response_parser.h"
 #include "utils/logger.h"
 #include <nlohmann/json.hpp>
+#include <mutex>
 #include <sstream>
 #include <fstream>
 
@@ -26,6 +27,7 @@ struct RubricEvaluator::Impl {
     EvaluationRubric active_rubric;
     std::unique_ptr<LLMJudgeIntegration> llm_integration;
     ResponseParser parser;
+    mutable std::mutex state_mutex;  // Protect shared state access
     
     // Generate rubric-based prompt
     std::string generateRubricPrompt(

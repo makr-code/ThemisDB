@@ -49,6 +49,7 @@ struct GEvalEvaluator::Impl {
     Config config;
     std::shared_ptr<llm::InferenceEngineEnhanced> llm;
     std::atomic<uint64_t> req_counter{0};  ///< Per-instance request ID counter
+    mutable std::mutex state_mutex;  // Protect shared state access
     
     Impl(const Config& cfg) : config(cfg) {
         // Initialize LLM engine with default config
@@ -107,6 +108,7 @@ struct GEvalEvaluator::Impl {
      */
     std::vector<int> findScoreTokens(llama_model* model) {
         std::vector<int> score_tokens;
+        score_tokens.reserve(5);  // Searching for exactly 5 score levels: 1, 2, 3, 4, 5
         int n_vocab = llama_n_vocab(model);
         
         // Search for tokens representing "1", "2", "3", "4", "5"

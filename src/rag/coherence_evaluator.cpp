@@ -293,6 +293,7 @@ std::vector<std::string> CoherenceEvaluator::detectContradictions(const std::str
         ++match_count;
     }
     sentences.reserve(match_count);
+    contradictions.reserve(std::max(size_t(1), match_count / 4));  // Expect ~25% contradictions
     
     for (auto it = sentences_begin; it != sentences_end; ++it) {
         sentences.push_back(it->str());

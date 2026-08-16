@@ -49,7 +49,16 @@ struct ContinuousLearningClient::Impl {
     ~Impl() {
         running = false;
         if (batch_thread.joinable()) {
-            batch_thread.join();
+            // Use bounded timeout (5 seconds max) to prevent indefinite blocking
+            auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(5);
+            while (batch_thread.joinable() && std::chrono::steady_clock::now() < deadline) {
+                std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            }
+            if (batch_thread.joinable()) {
+                THEMIS_WARN("Batch thread did not complete within timeout; continuing");
+            } else {
+                batch_thread.join();
+            }
         }
     }
     
