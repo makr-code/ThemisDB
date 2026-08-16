@@ -23,6 +23,7 @@
 #include <iomanip>
 #include <atomic>
 #include <unordered_set>
+#include <mutex>
 
 using json = nlohmann::json;
 

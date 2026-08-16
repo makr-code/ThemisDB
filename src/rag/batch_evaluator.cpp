@@ -238,7 +238,9 @@ void BatchEvaluator::workerThread() {
             if (item.has_promise) {
                 try {
                     item.promise.set_exception(std::current_exception());
-                } catch (...) {}
+                } catch (const std::exception& set_ex) {
+                    THEMIS_WARN("Failed to set exception on promise: {}", set_ex.what());
+                }
             }
         }
     }

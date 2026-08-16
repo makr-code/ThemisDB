@@ -572,6 +572,7 @@ EvaluationResult RAGJudge::evaluateWithConfig(const EvaluationInput& input, cons
                         result.faithfulness_score = std::min(result.faithfulness_score, verification_ratio);
                     }
                 } catch (const std::exception& e) {
+                } catch (const std::exception& e) {
                     THEMIS_WARN("RAGJudge claim verification pipeline failed: {}", e.what());
                 } catch (...) {
                     THEMIS_WARN("RAGJudge claim verification pipeline failed with unknown exception");

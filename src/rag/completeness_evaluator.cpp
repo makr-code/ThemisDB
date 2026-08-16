@@ -115,6 +115,7 @@ CompletenessEvaluator::~CompletenessEvaluator() = default;
 
 std::vector<QueryAspect> CompletenessEvaluator::extractQueryAspects(const std::string& query) {
     std::vector<QueryAspect> aspects;
+    aspects.reserve(10);  // Reasonable estimate for typical queries
     
     if (query.empty()) {
         return aspects;
