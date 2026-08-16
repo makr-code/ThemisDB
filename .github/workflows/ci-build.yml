@@ -281,19 +281,19 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Setup sccache (Linux)
-        if: runner.os == 'Linux' && (needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request')
+        if: runner.os == 'Linux' && (needs.detect-changes.outputs.has_cpp_changes != '' && needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request')
         uses: mozilla-actions/sccache-action@9e326ebed976843c9932b3aa0e021c6f50310eb4  # v0.0.6
         with:
           version: "v0.8.1"
 
       - name: Setup sccache (Windows)
-        if: runner.os == 'Windows' && (needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request')
+        if: runner.os == 'Windows' && (needs.detect-changes.outputs.has_cpp_changes != '' && needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request')
         uses: mozilla-actions/sccache-action@9e326ebed976843c9932b3aa0e021c6f50310eb4  # v0.0.6
         with:
           version: "v0.8.1"
 
       - name: Print sccache status
-        if: needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request'
+        if: needs.detect-changes.outputs.has_cpp_changes != '' && needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request'
         shell: bash
         run: |
           echo "  sccache version:"
@@ -301,7 +301,7 @@ jobs:
           echo "  sccache GHA_ENABLED=${SCCACHE_GHA_ENABLED}"
 
       - name: Setup Linux build dependencies
-        if: runner.os == 'Linux' && (needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request')
+        if: runner.os == 'Linux' && (needs.detect-changes.outputs.has_cpp_changes != '' && needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request')
         uses: ./.github/actions/setup-cpp-build
         with:
           cc: ${{ matrix.c_compiler }}
@@ -309,7 +309,7 @@ jobs:
           extra-packages: librocksdb-dev libssl-dev zlib1g-dev libzstd-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libboost-system-dev libboost-filesystem-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev
 
       - name: Print compiler info (Linux)
-        if: runner.os == 'Linux' && (needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request')
+        if: runner.os == 'Linux' && (needs.detect-changes.outputs.has_cpp_changes != '' && needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request')
         run: |
           echo "──────────────────────────────────────────────"
           echo "  Compiler info"
@@ -329,7 +329,7 @@ jobs:
           restore-keys: vcpkg-windows-
 
       - name: Preflight vcpkg submodule (Windows)
-        if: runner.os == 'Windows' && (needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request')
+        if: runner.os == 'Windows' && (needs.detect-changes.outputs.has_cpp_changes != '' && needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request')
         shell: pwsh
         run: |
           Write-Host "============================================================"
@@ -344,7 +344,7 @@ jobs:
           Write-Host "  vcpkg toolchain found: $toolchain"
 
       - name: Bootstrap vcpkg (Windows)
-        if: runner.os == 'Windows' && (needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request')
+        if: runner.os == 'Windows' && (needs.detect-changes.outputs.has_cpp_changes != '' && needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request')
         shell: pwsh
         run: |
           Write-Host "============================================================"
@@ -359,7 +359,7 @@ jobs:
           & (Join-Path $vcpkgRoot "vcpkg.exe") version
 
       - name: Configure CMake (Linux)
-        if: runner.os == 'Linux' && (needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request')
+        if: runner.os == 'Linux' && (needs.detect-changes.outputs.has_cpp_changes != '' && needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request')
         id: cmake_configure_linux
         run: |
           echo "──────────────────────────────────────────────"
@@ -388,7 +388,7 @@ jobs:
           echo "  ✅ CMake configure completed in ${CONFIGURE_SECS}s"
 
       - name: Configure CMake (Windows)
-        if: runner.os == 'Windows' && (needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request')
+        if: runner.os == 'Windows' && (needs.detect-changes.outputs.has_cpp_changes != '' && needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request')
         id: cmake_configure_windows
         shell: pwsh
         run: |
@@ -417,7 +417,7 @@ jobs:
 
       - name: Build
         id: cmake_build
-        if: needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request'
+        if: needs.detect-changes.outputs.has_cpp_changes != '' && needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request'
         shell: bash
         run: |
           echo "──────────────────────────────────────────────"
@@ -436,7 +436,7 @@ jobs:
 
       - name: Run tests
         id: ctest_run
-        if: needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request'
+        if: needs.detect-changes.outputs.has_cpp_changes != '' && needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request'
         working-directory: ${{ steps.strings.outputs.build-output-dir }}
         shell: bash
         run: |
@@ -521,7 +521,7 @@ jobs:
             }
 
       - name: Upload CTest results
-        if: always() && (needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request')
+        if: always() && (needs.detect-changes.outputs.has_cpp_changes != '' && needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request')
         uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08  # v4.6.0
         with:
           name: ctest-results-${{ matrix.os }}-${{ matrix.c_compiler }}-${{ github.run_number }}
@@ -531,7 +531,7 @@ jobs:
           retention-days: 7  # short tier per ci-scope-config.yaml
 
       - name: Print sccache statistics
-        if: always() && runner.os == 'Linux' && (needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request')
+        if: always() && runner.os == 'Linux' && (needs.detect-changes.outputs.has_cpp_changes != '' && needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request')
         run: |
           echo "──────────────────────────────────────────────"
           echo "  sccache statistics"
@@ -583,7 +583,7 @@ jobs:
     if: >
       (
         github.event_name == 'pull_request' &&
-        needs.detect-changes.outputs.has_cpp_changes == 'true'
+        needs.detect-changes.outputs.has_cpp_changes != '' && needs.detect-changes.outputs.has_cpp_changes == 'true'
       ) ||
       (
         github.event_name == 'workflow_dispatch' &&
@@ -684,7 +684,7 @@ jobs:
     if: >
       (
         github.event_name == 'pull_request' &&
-        needs.detect-changes.outputs.has_cpp_changes == 'true'
+        needs.detect-changes.outputs.has_cpp_changes != '' && needs.detect-changes.outputs.has_cpp_changes == 'true'
       ) ||
       (
         github.event_name == 'workflow_dispatch' &&
