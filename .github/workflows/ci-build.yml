@@ -324,26 +324,39 @@ jobs:
         if: runner.os == 'Windows'
         uses: actions/cache@d4323d4df104b026a6aa633fdb11d772146be0bf  # v4.2.2
         with:
-          path: C:\vcpkg
-          key: vcpkg-windows-${{ hashFiles('vcpkg.json') }}-${{ runner.os }}
+          path: ${{ github.workspace }}\vcpkg
+          key: vcpkg-windows-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', '.gitmodules') }}-${{ runner.os }}
           restore-keys: vcpkg-windows-
 
+      - name: Preflight vcpkg submodule (Windows)
+        if: runner.os == 'Windows' && (needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request')
+        shell: pwsh
+        run: |
+          Write-Host "============================================================"
+          Write-Host " vcpkg submodule preflight"
+          Write-Host "============================================================"
+          git submodule sync -- vcpkg
+          git submodule update --init --recursive vcpkg
+          $toolchain = Join-Path "${{ github.workspace }}" "vcpkg\scripts\buildsystems\vcpkg.cmake"
+          if (-not (Test-Path $toolchain)) {
+            throw "Missing vcpkg toolchain: $toolchain"
+          }
+          Write-Host "  vcpkg toolchain found: $toolchain"
+
       - name: Bootstrap vcpkg (Windows)
-        if: runner.os == 'Windows'
+        if: runner.os == 'Windows' && (needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request')
         shell: pwsh
         run: |
           Write-Host "============================================================"
           Write-Host " vcpkg bootstrap"
           Write-Host "============================================================"
-          if (-not (Test-Path "C:\vcpkg")) {
-            Write-Host "  vcpkg not cached — cloning..."
-            git clone https://github.com/microsoft/vcpkg.git C:\vcpkg
-            C:\vcpkg\bootstrap-vcpkg.bat -disableMetrics
-            Write-Host "  vcpkg bootstrapped successfully."
-          } else {
-            Write-Host "  vcpkg found in cache — skipping clone."
+          $vcpkgRoot = Join-Path "${{ github.workspace }}" "vcpkg"
+          $bootstrap = Join-Path $vcpkgRoot "bootstrap-vcpkg.bat"
+          if (-not (Test-Path $bootstrap)) {
+            throw "Missing vcpkg bootstrap script: $bootstrap"
           }
-          C:\vcpkg\vcpkg version
+          & $bootstrap -disableMetrics
+          & (Join-Path $vcpkgRoot "vcpkg.exe") version
 
       - name: Configure CMake (Linux)
         if: runner.os == 'Linux' && (needs.detect-changes.outputs.has_cpp_changes == 'true' || github.event_name != 'pull_request')
@@ -385,12 +398,12 @@ jobs:
           Write-Host "  Build dir  : ${{ steps.strings.outputs.build-output-dir }}"
           Write-Host "  Compiler   : ${{ matrix.c_compiler }} (MSVC)"
           Write-Host "  Build type : ${{ matrix.build_type }}"
-          Write-Host "  vcpkg      : C:\vcpkg\scripts\buildsystems\vcpkg.cmake"
+          Write-Host "  vcpkg      : ${{ github.workspace }}\\vcpkg\\scripts\\buildsystems\\vcpkg.cmake"
           Write-Host "  sccache    : launcher enabled"
           Write-Host "============================================================"
           $T0 = [int](Get-Date -UFormat %s)
           cmake -B "${{ steps.strings.outputs.build-output-dir }}" `
-            -DCMAKE_TOOLCHAIN_FILE="C:\vcpkg\scripts\buildsystems\vcpkg.cmake" `
+            -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}\vcpkg\scripts\buildsystems\vcpkg.cmake" `
             -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} `
             -DCMAKE_C_COMPILER_LAUNCHER=sccache `
             -DCMAKE_CXX_COMPILER_LAUNCHER=sccache `
