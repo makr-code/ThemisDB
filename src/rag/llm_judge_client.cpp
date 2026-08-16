@@ -124,10 +124,17 @@ std::vector<fs::path> resolveLocalModelPaths(const std::string& model_name) {
             continue;
         }
 
-        for (const auto& entry : fs::directory_iterator(dir)) {
-            if (isModelFile(entry.path())) {
-                push_unique_if_model(entry.path());
+        try {
+            // Store iterator to avoid potential temporary issues
+            fs::directory_iterator dir_iter(dir);
+            for (const auto& entry : dir_iter) {
+                if (isModelFile(entry.path())) {
+                    push_unique_if_model(entry.path());
+                }
             }
+        } catch (const std::exception& e) {
+            THEMIS_WARN("LLMJudgeClient: Error iterating directory {}: {}", dir.string(), e.what());
+            continue;
         }
     }
 
