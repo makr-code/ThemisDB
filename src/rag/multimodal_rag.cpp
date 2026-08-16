@@ -15,6 +15,7 @@
 #include <algorithm>
 #include <chrono>
 #include <iomanip>
+#include <mutex>
 #include <sstream>
 #include <unordered_map>
 #include <unordered_set>
@@ -238,10 +239,17 @@ MultiModalRAGResult MultiModalRAG::query(const MultiModalQuery& mq) const {
             // Use pre-computed caption or generate one via captioner.
             if (!img_it->second.caption.empty()) {
                 src.caption = img_it->second.caption;
-            } else if (impl_->image_captioner) {
-                src.caption = impl_->image_captioner(img_it->second);
-                THEMIS_DEBUG("MultiModalRAG: generated caption for '{}': '{}'",
-                             doc_id, src.caption);
+            } else {
+                {
+                    std::lock_guard<std::mutex> lock(impl_->state_mutex);
+                    if (impl_->image_captioner) {
+                        src.caption = impl_->image_captioner(img_it->second);
+                    }
+                }
+                if (!src.caption.empty()) {
+                    THEMIS_DEBUG("MultiModalRAG: generated caption for '{}': '{}'",
+                                 doc_id, src.caption);
+                }
             }
 
             result.sources.push_back(std::move(src));
