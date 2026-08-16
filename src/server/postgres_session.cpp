@@ -1941,63 +1941,67 @@ std::string PostgresSession::buildCypherFromSelect(const QueryInfo& info) {
             pos += 2;
         }
         
-        cypher += " WHERE " + whereClause;
+        cypher += " WHERE ";
+        cypher += whereClause;
     }
     
     // Build RETURN clause
-    cypher += " RETURN ";
+    // PHASE2-OPTIMIZATION: string_concat_loop — use ostringstream to avoid O(n²) allocations
+    std::ostringstream return_clause_oss;
+    return_clause_oss << " RETURN ";
     
     if (!info.aggregates.empty()) {
         // Handle aggregates
         for (size_t i = 0; i < info.aggregates.size(); ++i) {
-            if (i > 0) cypher += ", ";
+            if (i > 0) return_clause_oss << ", ";
             
             std::string agg = info.aggregates[i];
             // Convert SQL aggregate to Cypher (e.g., COUNT(*) -> count(n))
             if (agg.find("COUNT(*)") != std::string::npos || agg.find("count(*)") != std::string::npos) {
-                cypher += "count(n)";
+                return_clause_oss << "count(n)";
             } else if (agg.find("COUNT(") != std::string::npos || agg.find("count(") != std::string::npos) {
                 // Extract column name
                 size_t start = agg.find('(') + 1;
                 size_t end = agg.find(')');
-                std::string col = agg.substr(start, end - start);
-                cypher += "count(n." + col + ")";
+                std::string_view col(agg.data() + start, end - start);
+                return_clause_oss << "count(n." << col << ")";
             } else if (agg.find("SUM(") != std::string::npos || agg.find("sum(") != std::string::npos) {
                 size_t start = agg.find('(') + 1;
                 size_t end = agg.find(')');
-                std::string col = agg.substr(start, end - start);
-                cypher += "sum(n." + col + ")";
+                std::string_view col(agg.data() + start, end - start);
+                return_clause_oss << "sum(n." << col << ")";
             } else if (agg.find("AVG(") != std::string::npos || agg.find("avg(") != std::string::npos) {
                 size_t start = agg.find('(') + 1;
                 size_t end = agg.find(')');
-                std::string col = agg.substr(start, end - start);
-                cypher += "avg(n." + col + ")";
+                std::string_view col(agg.data() + start, end - start);
+                return_clause_oss << "avg(n." << col << ")";
             } else if (agg.find("MIN(") != std::string::npos || agg.find("min(") != std::string::npos) {
                 size_t start = agg.find('(') + 1;
                 size_t end = agg.find(')');
-                std::string col = agg.substr(start, end - start);
-                cypher += "min(n." + col + ")";
+                std::string_view col(agg.data() + start, end - start);
+                return_clause_oss << "min(n." << col << ")";
             } else if (agg.find("MAX(") != std::string::npos || agg.find("max(") != std::string::npos) {
                 size_t start = agg.find('(') + 1;
                 size_t end = agg.find(')');
-                std::string col = agg.substr(start, end - start);
-                cypher += "max(n." + col + ")";
+                std::string_view col(agg.data() + start, end - start);
+                return_clause_oss << "max(n." << col << ")";
             }
         }
     } else if (info.selectColumns.size() == 1 && info.selectColumns[0] == "*") {
-        cypher += "n";
+        return_clause_oss << "n";
     } else {
         // Regular columns
         for (size_t i = 0; i < info.selectColumns.size(); ++i) {
-            if (i > 0) cypher += ", ";
-            std::string col = info.selectColumns[i];
+            if (i > 0) return_clause_oss << ", ";
+            std::string_view col = info.selectColumns[i];
             if (col == "*") {
-                cypher += "n";
+                return_clause_oss << "n";
             } else {
-                cypher += "n." + col;
+                return_clause_oss << "n." << col;
             }
         }
     }
+    cypher += return_clause_oss.str();
     
     // Add ORDER BY
     if (!info.orderBy.empty()) {
