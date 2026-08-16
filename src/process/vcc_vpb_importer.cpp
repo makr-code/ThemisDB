@@ -217,14 +217,19 @@ json parseVccVpbYaml(const std::string& yaml_text) {
     // Compliance list: compliance: ["a", "b", "c"] or multi-line
     {
         json comp_list = json::array();
+        
+        // Pre-compile regexes outside loops (performance optimization)
+        static const std::regex inline_re(R"(^compliance\s*:\s*\[([^\]]*)\])");
+        static const std::regex item_re(R"(["\']([^"\']+)["\']|(\w[^\s,\]]*))");
+        static const std::regex multiline_header_re(R"(^compliance\s*:)");
+        static const std::regex multiline_item_re(R"(^\s*-\s*["\']?([^"\']+)["\']?\s*$)");
+        
         // Try inline list first
-        std::regex inline_re(R"(^compliance\s*:\s*\[([^\]]*)\])");
         bool found_inline = false;
         for (const auto& l : lines) {
             std::smatch m;
             if (std::regex_search(l, m, inline_re)) {
                 std::string items = m[1].str();
-                std::regex item_re(R"(["\']([^"\']+)["\']|(\w[^\s,\]]*))");
                 auto it  = std::sregex_iterator(items.begin(), items.end(), item_re);
                 auto end = std::sregex_iterator();
                 for (; it != end; ++it) {
@@ -240,15 +245,18 @@ json parseVccVpbYaml(const std::string& yaml_text) {
             // Look for multi-line compliance list
             bool in_compliance = false;
             for (const auto& l : lines) {
-                if (std::regex_match(l, std::regex(R"(^compliance\s*:)"))) {
+                if (std::regex_match(l, multiline_header_re)) {
                     in_compliance = true;
                     continue;
                 }
                 if (in_compliance) {
-                    if (l.empty() || l[0] != ' ') { in_compliance = false; continue; }
-                    std::regex item_re(R"(^\s*-\s*["\']?([^"\']+)["\']?\s*$)");
+                    // Input validation: check bounds before accessing array index
+                    if (l.empty() || (l.size() > 0 && l[0] != ' ')) { 
+                        in_compliance = false; 
+                        continue; 
+                    }
                     std::smatch m;
-                    if (std::regex_match(l, m, item_re)) {
+                    if (std::regex_match(l, m, multiline_item_re)) {
                         comp_list.push_back(trimStr(m[1].str()));
                     }
                 }
@@ -264,13 +272,18 @@ json parseVccVpbYaml(const std::string& yaml_text) {
         bool in_activity   = false;
         json current_activity = json::object();
         int  activity_indent  = -1;
+        
+        // Pre-compile regexes for activities block
+        static const std::regex activities_header_re(R"(^activities\s*:)");
+        static const std::regex activity_dash_re(R"(^-\s*$)");
+        static const std::regex activity_kv_re(R"((\w+)\s*:\s*["\']?([^"\'\n]+)["\']?)");
 
         for (size_t i = 0; i < lines.size(); ++i) {
             const auto& l = lines[i];
             std::string trimmed = trimStr(l);
             int indent = indentOf(l);
 
-            if (std::regex_match(l, std::regex(R"(^activities\s*:)"))) {
+            if (std::regex_match(l, activities_header_re)) {
                 in_activities = true;
                 continue;
             }

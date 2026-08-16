@@ -297,14 +297,17 @@ std::vector<ProcessCommunity> ProcessCommunityDetector::detect(
         for (int u : members) pc.node_ids.push_back(g.node_ids[u]);
 
         // Compute local modularity contribution
+        // OPTIMIZATION: Convert members to set for O(log n) lookup instead of O(n²) iterations
         float sum_in = 0.f;
         float sum_tot = 0.f;
         std::set<int> member_set(members.begin(), members.end());
         for (int u : members) {
             sum_tot += g.degree[u];
-            for (int v : members) {
-                auto it = g.adj[u].find(v);
-                if (it != g.adj[u].end()) sum_in += it->second;
+            // Iterate only through actual edges from u, checking if v is in community
+            for (const auto& [v, weight] : g.adj[u]) {
+                if (member_set.count(v)) {
+                    sum_in += weight;
+                }
             }
         }
         if (two_m > 0.f) {
