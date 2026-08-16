@@ -58,6 +58,9 @@ foreach(_src IN LISTS INDEX_AUTOGEN_PREFIX_TEST_SOURCES)
     )
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
     
+    # Apply strict compilation flags (Phase 5: -Werror for ThemisDB targets only)
+    themis_apply_strict_build_flags(${_target})
+    
     # Phase 5: GPU tests require CUDA linkage if available
     if(_stem MATCHES "gpu_memory" AND THEMIS_CUDA_ENABLED)
         target_link_libraries(${_target} PRIVATE CUDA::cudart)

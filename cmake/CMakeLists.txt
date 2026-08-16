@@ -1335,9 +1335,8 @@ if(MSVC)
     add_link_options($<$<CONFIG:MinSizeRel>:/LTCG:OFF>)
 else()
     add_compile_options(-Wall -Wextra -Wpedantic)
-    if(THEMIS_STRICT_BUILD)
-        add_compile_options(-Werror)
-    endif()
+    # Note: -Werror is applied at target level via themis_apply_strict_build_flags()
+    # not globally via add_compile_options(), to avoid external dependency build failures
     
     if(CMAKE_BUILD_TYPE STREQUAL "Release")
         add_compile_options(-O3)

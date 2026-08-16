@@ -239,9 +239,22 @@ struct CudaHnswTraversalEngine::Impl {
 
     cudaStream_t stream = nullptr;
 
+    // ========================================================================
+    // Thread Safety: Lock Hierarchy (Phase 3 A-5 Circular Lock Ordering)
+    // ========================================================================
+    //
+    // LOCK HIERARCHY (prevents deadlocks via consistent acquisition order):
+    //   Tier 1 (Global):    search_mutex_       ← Acquire FIRST
+    //   Tier 2 (Partition): [reserved for future per-batch locks]
+    //   Tier 3 (Element):   [reserved for future per-result locks]
+    //
+    // INVARIANT: All code paths must acquire locks in order Tier 1 → Tier 2 → Tier 3.
+    //            Violating this order creates deadlock risk. ThreadSanitizer detects violations.
+    //            See: https://github.com/google/sanitizers/wiki/ThreadSanitizerDeadlockDetector
+    //
     // Serialises concurrent calls to batchSearch() that mutate the shared
     // result/visited GPU buffers (INDEX-CUDA-BATCHSEARCH-RACE-01).
-    mutable std::mutex search_mutex_;
+    mutable std::mutex search_mutex_;  // Tier 1: Global search protection
 
     void freeDevice() {
         // GPU Memory Leak Prevention (A-3.1): Explicit null checks before all frees
@@ -468,6 +481,7 @@ CudaHnswTraversalEngine::batchSearch(const float* queries, size_t num_queries,
         // Serialise concurrent batchSearch() calls that share the per-Impl GPU
         // result/visited buffers (d_result_ids, d_result_scores, result_buf_size,
         // d_visited_pool).  INDEX-CUDA-BATCHSEARCH-RACE-01.
+        // LOCK: Tier 1 (Global search protection) — Phase 3 A-5
         std::lock_guard<std::mutex> search_lock(impl_->search_mutex_);
 
         const uint32_t num_nodes = impl_->layers[0].num_nodes;
