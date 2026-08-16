@@ -492,7 +492,7 @@ struct CypherParser::Parser {
             f.value = parseLiteralValue();
             props.push_back(std::move(f));
         } while (match(TokenType::COMMA));
-        expect(TokenType::RBRACE, "Expected '}' to close property map");
+        expect(TokenType::RBRACE, "Expected closing brace to close property map");
         return props;
     }
 
