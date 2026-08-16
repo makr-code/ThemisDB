@@ -115,7 +115,8 @@ json OcelExporter::buildEvents_(const ProcessInstance& inst) const {
         int64_t     timestamp_ms;
     };
     std::vector<EventEntry> entries;
-    std::set<std::string> added_nodes;  // Track already-added nodes for O(log n) lookup
+    entries.reserve(inst.tokens.size() * 16);  // Estimate based on typical token path lengths
+    std::unordered_set<std::string> added_nodes;  // Track already-added nodes for O(1) lookup
 
     for (const auto& tok : inst.tokens) {
         // Walk visited_nodes in order, using visit_timestamps where available

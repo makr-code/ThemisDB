@@ -375,7 +375,8 @@ std::vector<std::pair<std::string, float>> ProcessGraphRag::computePpr(
     const int N = static_cast<int>(node_ids.size());
     if (N == 0) return {};
 
-    std::map<std::string, int> node_index;
+    std::unordered_map<std::string, int> node_index;
+    node_index.reserve(N);
     for (int i = 0; i < N; ++i) node_index[node_ids[i]] = i;
 
     // Build column-stochastic transition matrix stored as sparse out-degree lists

@@ -47,7 +47,7 @@ namespace {
 struct Graph {
     std::vector<std::string> node_ids;
     std::map<std::string, int> node_index;  // node_id → index (deterministic order)
-    std::vector<std::map<int, float>> adj;  // adjacency list (weighted, deterministic)
+    std::vector<std::unordered_map<int, float>> adj;  // adjacency list (weighted, O(1) lookup)
     std::vector<float> degree;              // weighted degree per node
     float total_weight{0.f};                // 2m = sum of all edge weights
 };
@@ -213,7 +213,8 @@ std::vector<ProcessCommunity> ProcessCommunityDetector::detect(
     if (n == 0) return {};
 
     // Build a lookup: node_id → node name/description for report generation
-    std::map<std::string, std::string> node_names;
+    std::unordered_map<std::string, std::string> node_names;
+    node_names.reserve(normalized["nodes"].size());
     for (const auto& node_json : normalized["nodes"]) {
         const std::string id = node_json.value("id", "");
         const std::string nm = node_json.value("name",
