@@ -267,7 +267,11 @@ std::string LLMJudgeClient::evaluate(const std::string& prompt) {
         request.submitted_at = std::chrono::steady_clock::now();
         
         // Submit request and wait for response
-        auto handle = impl_->inference_engine->submit(request);
+        llm::InferenceHandle handle;
+        {
+            std::lock_guard<std::mutex> lock(impl_->state_mutex);
+            handle = impl_->inference_engine->submit(request);
+        }
         auto response = handle.get();
         
         auto end_time = std::chrono::steady_clock::now();
@@ -320,7 +324,10 @@ std::vector<std::string> LLMJudgeClient::evaluateBatch(
             request.request_id = generateRequestId();
             request.submitted_at = std::chrono::steady_clock::now();
             
-            handles.push_back(impl_->inference_engine->submit(request));
+            {
+                std::lock_guard<std::mutex> lock(impl_->state_mutex);
+                handles.push_back(impl_->inference_engine->submit(request));
+            }
         }
         
         // Wait for all responses
