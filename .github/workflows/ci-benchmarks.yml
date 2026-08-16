@@ -106,7 +106,7 @@ jobs:
           exit 0
 
       - name: Document SKIP (voice deps missing)
-        if: steps.cmake_configure.outputs.exit_code != '0' || steps.cmake_build.outputs.exit_code != '0'
+        if: (steps.cmake_configure.outputs.exit_code != '' && steps.cmake_configure.outputs.exit_code != '0') || (steps.cmake_build.outputs.exit_code != '' && steps.cmake_build.outputs.exit_code != '0')
         run: |
           {
             echo "## Voice Benchmark — SKIP"
