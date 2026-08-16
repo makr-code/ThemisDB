@@ -389,7 +389,8 @@ http::response<http::string_body> GraphApiHandler::handleMetricsPrometheus(
     }
     cumulative += m.latency_histogram.counts[9].load(std::memory_order_relaxed);
     body += "themis_graph_latency_ms_bucket{le=\"+Inf\"} ";
-    body += std::to_string(cumulative); body += '\n';
+    body += std::to_string(cumulative);
+    body += '\n';
     body += "themis_graph_latency_ms_sum ";
     body += std::to_string(m.total_execution_time_ms.load(std::memory_order_relaxed));
     body += '\n';
