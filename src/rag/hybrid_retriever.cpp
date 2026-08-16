@@ -14,6 +14,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <limits>
 #include <stdexcept>
 #include <string>
 #include <unordered_map>
@@ -36,7 +37,7 @@ void normaliseScores(std::vector<double>& scores) {
     const double hi = *max_it;
     const double range = hi - lo;
 
-    if (range == 0.0) {
+    if (std::abs(range) < std::numeric_limits<double>::epsilon()) {
         // All identical: map to 1 when score > 0, else 0.
         const double uniform = (hi > 0.0) ? 1.0 : 0.0;
         for (auto& s : scores) { s = uniform; }

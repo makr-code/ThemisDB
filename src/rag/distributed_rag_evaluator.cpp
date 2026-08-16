@@ -119,6 +119,15 @@ DistributedRAGEvaluator::evaluate(const judge::EvaluationInput& input)
         }
 
         auto judge_ptr = judges[i];  // shared ownership — safe across timeouts
+        
+        // Skip null judges
+        if (!judge_ptr) {
+            THEMIS_WARN("DistributedRAGEvaluator: Skipping null judge at index {}", i);
+            std::lock_guard<std::mutex> lk(sem->mtx);
+            --sem->running;
+            continue;
+        }
+        
         futures.push_back(
             std::async(std::launch::async,
                        [judge_ptr, shared_input, sem]() {

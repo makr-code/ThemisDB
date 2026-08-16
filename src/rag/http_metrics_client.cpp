@@ -254,6 +254,7 @@ void HTTPMetricsClient::resetStatistics() {
 }
 
 void HTTPMetricsClient::setRequestCallback(RequestCallback callback) {
+    std::lock_guard<std::mutex> lock(callback_mutex_);
     request_callback_ = std::move(callback);
 }
 
