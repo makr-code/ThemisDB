@@ -123,6 +123,7 @@ std::vector<std::string> MultiHopReasoner::heuristicDecompose(
 
     // Simple sentence boundary split on ". " or "? "
     std::vector<std::string> sentences;
+    sentences.reserve(q.size() / 20);  // Estimate: average sentence ~20 chars
     std::string acc;
     for (size_t i = 0; i < q.size(); ++i) {
         acc += q[i];

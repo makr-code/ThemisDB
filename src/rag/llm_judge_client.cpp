@@ -143,6 +143,7 @@ struct LLMJudgeClient::Impl {
     Config config;
     std::shared_ptr<llm::InferenceEngineEnhanced> inference_engine;
     std::string model_id;
+    mutable std::mutex state_mutex;  // Protect shared state access
 
     void tryAutoRegisterLocalModel() {
         if (const char* disable_auto_register = std::getenv("THEMIS_DISABLE_LLM_AUTO_REGISTER");
