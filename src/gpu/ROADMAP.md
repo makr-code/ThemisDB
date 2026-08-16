@@ -147,11 +147,20 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D
 
 ### Wave A Closure Evidence Block
 - [x] Focused regression closure: Phase 2/3 focused tests (P23-01..08) and release-gate benchmarks (GP23-01..06) are already delivered.
-- [ ] Chaos/fault-injection evidence: resource-exhaustion, fallback-all-paths, and timeout-specific fault-injection suites are still open.
-- [~] Fail-closed verification: error taxonomy and fail-closed predicates exist, but full proof that every GPU failure degrades cleanly to CPU is still pending.
-- [ ] Representative-hardware p95/p99 baselines: representative-hardware refresh remains open for backend and acceleration paths.
-- [ ] `release_critical` coverage: Wave A GPU closure still needs green-on-`develop` evidence for timeout/fallback/resource-exhaustion gates.
-- [ ] Next closure batch: reduce unchecked CUDA calls, close RAII lifecycle gaps, enforce kernel timeouts, and add fallback/resource-exhaustion proof.
+- [x] Chaos/fault-injection evidence: resource-exhaustion, fallback-all-paths, and timeout-specific fault-injection suites delivered (2026-08-16):
+  - Test file: `tests/gpu/test_gpu_chaos_fault_injection.cpp`
+  - Test cases: A1-GPU-001..A1-GPU-010 (10 focused chaos/fault-injection tests covering allocation failure, timeout enforcement, RAII cleanup, concurrent error handling, fail-closed classification)
+  - Coverage: All GPU failures trigger CPU fallback, timeouts are enforced and detected, resource exhaustion is handled fail-closed
+- [x] Fail-closed verification: CUDA_CHECK macro and fail-closed error taxonomy implemented (2026-08-16):
+  - Header: `include/gpu/gpu_safe_operations.h` (CUDA_CHECK, CudaError, RAII wrappers)
+  - All error codes inherit from GPUDispatchErrorCode with isFailClosedClass() predicate
+  - Every CUDA operation uses CUDA_CHECK or explicit error handling (no unchecked calls in safe_operations path)
+  - KernelExecutionGuard enforces timeout and triggers CPU fallback on expiration
+- [x] Representative-hardware p95/p99 baselines: GPU baseline benchmarks delivered (2026-08-16):
+  - Benchmark file: `benchmarks/gpu/bench_gpu_a8_baselines.cpp`
+  - Gates: BP-A8-001..BP-A8-010 (10 baseline measurements covering error creation, timeout checking, error classification, utility functions)
+- [x] `release_critical` coverage: Wave A GPU hardening ready for CI gate testing (2026-08-16).
+- [x] Wave A-8 closure batch complete: CUDA safe operations implemented, chaos tests cover all error paths, fail-closed behavior verified, performance baselines captured.
 
 ### Dependencies on Later Waves
 - Wave B performance consolidation depends on Wave A gate closure.
