@@ -233,8 +233,8 @@ std::string LLMJudgeIntegration::callLLM(const std::string& prompt) {
     // Validate response before returning
     if (response.empty()) {
         THEMIS_WARN("LLMJudgeIntegration: Empty response from inference function");
-        // Return a fallback response structure
-        return "Unable to generate response; using default.";
+        // Return a structured fallback response
+        return R"({"score":0.0,"confidence":0.0,"reasoning":"llm_unavailable: empty_response","supporting_claims":[],"unsupported_claims":[],"success":false})";
     }
     
     THEMIS_DEBUG("LLM responded with length: {} chars", response.length());

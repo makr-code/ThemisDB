@@ -188,16 +188,7 @@ void ContinuousLearningOrchestrator::stopLearningLoop() {
     }
 
     if (thread_to_join && thread_to_join->joinable()) {
-        // Use bounded timeout (30 seconds) to prevent indefinite blocking
-        auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(30);
-        while (thread_to_join->joinable() && std::chrono::steady_clock::now() < deadline) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
-        }
-        if (thread_to_join->joinable()) {
-            THEMIS_WARN("Learning loop thread did not complete within timeout; continuing with detached state");
-        } else {
-            thread_to_join->join();
-        }
+        thread_to_join->join();
     }
 }
 

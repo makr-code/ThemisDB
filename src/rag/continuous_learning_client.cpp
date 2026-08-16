@@ -49,16 +49,7 @@ struct ContinuousLearningClient::Impl {
     ~Impl() {
         running = false;
         if (batch_thread.joinable()) {
-            // Use bounded timeout (5 seconds max) to prevent indefinite blocking
-            auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(5);
-            while (batch_thread.joinable() && std::chrono::steady_clock::now() < deadline) {
-                std::this_thread::sleep_for(std::chrono::milliseconds(100));
-            }
-            if (batch_thread.joinable()) {
-                THEMIS_WARN("Batch thread did not complete within timeout; continuing");
-            } else {
-                batch_thread.join();
-            }
+            batch_thread.join();
         }
     }
     
@@ -217,11 +208,6 @@ void ContinuousLearningClient::logMetric(const QualityMetric& metric) {
             // Send without holding lock
             lock.unlock();
             impl_->sendMetricsInternal(to_send);
-            
-            // Re-acquire lock with timeout (CRITICAL: bounded wait)
-            if (!lock.try_lock_for(std::chrono::seconds(5))) {
-                THEMIS_WARN("Failed to re-acquire batch_mutex within timeout");
-            }
         }
     } else {
         // Send immediately
@@ -496,4 +482,3 @@ std::string metricTypeToString(MetricType type) {
 } // namespace cl_utils
 
 } // namespace themis::rag::judge
-

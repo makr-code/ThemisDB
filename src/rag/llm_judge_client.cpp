@@ -15,6 +15,7 @@
 #include "llm/llama_wrapper.h"
 #include "utils/logger.h"
 #include <nlohmann/json.hpp>
+#include <algorithm>
 #include <filesystem>
 #include <cstdlib>
 #include <array>
@@ -24,6 +25,7 @@
 #include <atomic>
 #include <unordered_set>
 #include <mutex>
+#include <cctype>
 
 using json = nlohmann::json;
 
@@ -140,6 +142,23 @@ std::vector<fs::path> resolveLocalModelPaths(const std::string& model_name) {
 
     return candidates;
 }
+
+std::string normalizeExpectedSha256(std::string sidecar_line) {
+    sidecar_line.erase(
+        std::remove_if(sidecar_line.begin(), sidecar_line.end(), [](unsigned char ch) {
+            return std::isspace(ch);
+        }),
+        sidecar_line.end()
+    );
+
+    if (sidecar_line.size() >= 64) {
+        sidecar_line = sidecar_line.substr(0, 64);
+    }
+
+    std::transform(sidecar_line.begin(), sidecar_line.end(), sidecar_line.begin(),
+                   [](unsigned char ch) { return static_cast<char>(std::tolower(ch)); });
+    return sidecar_line;
+}
 } // namespace
 
 // ═══════════════════════════════════════════════════════════
@@ -186,9 +205,14 @@ struct LLMJudgeClient::Impl {
                         std::string expected_hash;
                         std::getline(sidecar, expected_hash);
                         sidecar.close();
-                        
+
+                        expected_hash = normalizeExpectedSha256(expected_hash);
                         std::string actual_hash = themis::utils::calculateSHA256(model_path.string());
-                        if (actual_hash.empty() || actual_hash != expected_hash) {
+                        if (actual_hash.empty() || expected_hash.empty()) {
+                            THEMIS_WARN("LLMJudgeClient: model integrity check unavailable for {} (empty hash)", model_path.string());
+                            continue;
+                        }
+                        if (actual_hash != expected_hash) {
                             THEMIS_WARN("LLMJudgeClient: model integrity check failed for {}", model_path.string());
                             continue;
                         }
@@ -520,4 +544,3 @@ void LLMJudgeClient::parseEvaluationResponse(
 }
 
 } // namespace themis::rag::judge
-

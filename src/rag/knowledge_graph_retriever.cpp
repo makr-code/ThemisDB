@@ -33,20 +33,20 @@ namespace {
 
 /// Case-fold (ASCII) and collapse runs of whitespace to a single space.
 std::string normaliseText(const std::string& s) {
-    std::stringstream ss;
+    std::string out;
+    out.reserve(s.size());
     bool last_was_space = true;
     for (unsigned char ch : s) {
         if (std::isspace(ch)) {
             if (!last_was_space) {
-                ss << ' ';
+                out.push_back(' ');
                 last_was_space = true;
             }
         } else {
-            ss << static_cast<char>(std::tolower(ch));
+            out.push_back(static_cast<char>(std::tolower(ch)));
             last_was_space = false;
         }
     }
-    std::string out = ss.str();
     // Trim trailing space
     if (!out.empty() && out.back() == ' ') {
         out.pop_back();
