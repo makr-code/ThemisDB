@@ -1275,6 +1275,7 @@ PropertyGraphManager::computePageRank(
         if (diff < tolerance) {
             converged = true;
         }
+        }
         
         // Update scores
         pagerank = pagerank_new;
