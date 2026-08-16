@@ -121,7 +121,7 @@ if(THEMIS_AUTO_BOOTSTRAP_DEPS AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/.git")
     find_program(THEMIS_GIT_EXECUTABLE git)
     if(THEMIS_GIT_EXECUTABLE)
         set(_themis_missing_submodules "")
-        foreach(_themis_submodule IN ITEMS "ffmpeg" "llama.cpp" "whisper.cpp" "stable-diffusion.cpp")
+        foreach(_themis_submodule IN ITEMS "vcpkg" "ffmpeg" "llama.cpp" "whisper.cpp" "stable-diffusion.cpp")
             if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${_themis_submodule}/.git" AND
                NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${_themis_submodule}/CMakeLists.txt")
                 list(APPEND _themis_missing_submodules "${_themis_submodule}")
@@ -138,7 +138,7 @@ if(THEMIS_AUTO_BOOTSTRAP_DEPS AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/.git")
             if(NOT _themis_submodule_result EQUAL 0)
                 message(WARNING
                     "Failed to initialize submodules (${_themis_missing_submodules}): ${_themis_submodule_error}\n"
-                    "You can run manually: git submodule update --init --recursive ffmpeg llama.cpp whisper.cpp stable-diffusion.cpp")
+                    "You can run manually: git submodule update --init --recursive vcpkg ffmpeg llama.cpp whisper.cpp stable-diffusion.cpp")
             endif()
         endif()
     endif()
