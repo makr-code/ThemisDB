@@ -16,6 +16,8 @@
 #include <string>
 #include <vector>
 #include <variant>
+#include <set>
+#include <unordered_set>
 #include <nlohmann/json.hpp>
 #include "utils/expected.h"
 
@@ -26,6 +28,75 @@ namespace query {
 struct ASTNode;
 struct Expression;
 struct Query; // ensure Query is known before usage in SubqueryExpr
+
+// ============================================================================
+// Scope Validation (Phase 2)
+// ============================================================================
+
+/**
+ * @brief Context for tracking collection scope during parsing.
+ *
+ * Prevents cross-collection access and enforces scope boundaries
+ * at the parser stage. Implements the Parser Stage of the three-stage
+ * access control flow (see ARCHITECTURE.md § 8.2).
+ */
+class ParserScopeContext {
+public:
+    ParserScopeContext() = default;
+    ~ParserScopeContext() = default;
+
+    /**
+     * @brief Register a collection in the current scope.
+     *
+     * @param collection_name The name of the collection to register.
+     */
+    void registerCollection(const std::string& collection_name);
+
+    /**
+     * @brief Check if a collection is in the current scope.
+     *
+     * @param collection_name The name of the collection to check.
+     * @return true if collection is registered in current scope, false otherwise.
+     */
+    [[nodiscard]] bool isCollectionInScope(const std::string& collection_name) const;
+
+    /**
+     * @brief Validate collection access with detailed error reporting.
+     *
+     * @param collection_name The name of the collection to validate.
+     * @param context_description A context description for error messages (e.g., "INSERT", "FOR").
+     * @return Error with ERR_QUERY_ACCESS_DENIED if collection not in scope; Ok(true) if valid.
+     */
+    [[nodiscard]] Result<bool> validateCollectionAccess(
+        const std::string& collection_name,
+        const std::string& context_description) const;
+
+    /**
+     * @brief Push a new scope level (for nested queries/scopes).
+     */
+    void pushScope();
+
+    /**
+     * @brief Pop the current scope level.
+     */
+    void popScope();
+
+    /**
+     * @brief Get all registered collections in the current scope.
+     *
+     * @return A set of collection names.
+     */
+    [[nodiscard]] const std::unordered_set<std::string>& getRegisteredCollections() const;
+
+    /**
+     * @brief Clear all registered collections (typically on new parse).
+     */
+    void clear();
+
+private:
+    std::unordered_set<std::string> registered_collections_;
+    std::vector<std::unordered_set<std::string>> scope_stack_;
+};
 
 // ============================================================================
 // AST Node Types

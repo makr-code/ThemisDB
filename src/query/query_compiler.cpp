@@ -172,8 +172,9 @@ public:
         if (it == entries_.end()) {
             // Unknown key — caller compiled in a different compiler instance?
             THEMIS_WARN("QueryCompiler: unknown key={}", handle.key);
+            // Optimize: Use fmt::format instead of string concatenation
             return Err<QueryResult>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
-                                    "Query key not registered: " + handle.key);
+                                    fmt::format("Query key not registered: {}", handle.key));
         }
 
         Entry& entry = it->second;

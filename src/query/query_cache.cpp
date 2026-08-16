@@ -41,11 +41,17 @@ std::string QueryCache::generateFingerprint(
     const std::string& query,
     const nlohmann::json& params
 ) const {
-    // Concatenate query + params for hashing
-    std::string input = query;
-    if (!params.empty() && !params.is_null()) {
-        input += "::";
-        input += params.dump();
+    // Optimized: Concatenate query + params for hashing using StringBuilder pattern
+    // Pre-estimate size to reduce allocations (avoid repeated reallocations)
+    std::string params_json = (!params.empty() && !params.is_null()) ? params.dump() : "";
+    size_t total_size = query.size() + (params_json.empty() ? 0 : (2 + params_json.size()));
+    
+    std::string input;
+    input.reserve(total_size);  // Reserve capacity once to eliminate reallocations
+    input.append(query);
+    if (!params_json.empty()) {
+        input.append("::");
+        input.append(params_json);
     }
     
     // Compute SHA256 hash
@@ -53,8 +59,9 @@ std::string QueryCache::generateFingerprint(
     SHA256(reinterpret_cast<const unsigned char*>(input.data()),
            input.size(), hash);
     
-    // Convert to hex string
+    // Convert to hex string using StringBuilder pattern
     std::ostringstream ss;
+    ss.str().reserve(SHA256_DIGEST_LENGTH * 2 + 10);  // Pre-reserve capacity
     ss << std::hex << std::setfill('0');
     for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
         ss << std::setw(2) << static_cast<unsigned int>(hash[i]);

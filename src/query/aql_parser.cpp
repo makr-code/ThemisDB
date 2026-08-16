@@ -24,6 +24,65 @@ namespace themis {
 namespace query {
 
 // ============================================================================
+// ParserScopeContext Implementation (Phase 2 Agent 1)
+// ============================================================================
+
+void ParserScopeContext::registerCollection(const std::string& collection_name) {
+    if (collection_name.empty()) {
+        return;  // Silently ignore empty collection names
+    }
+    registered_collections_.insert(collection_name);
+}
+
+bool ParserScopeContext::isCollectionInScope(const std::string& collection_name) const {
+    if (collection_name.empty()) {
+        return false;  // Empty collection names are never in scope
+    }
+    // Special case: "graph" is a synthetic collection name for traversal queries
+    if (collection_name == "graph") {
+        return true;
+    }
+    return registered_collections_.count(collection_name) > 0;
+}
+
+Result<bool> ParserScopeContext::validateCollectionAccess(
+    const std::string& collection_name,
+    const std::string& context_description) const {
+    if (!isCollectionInScope(collection_name)) {
+        return Err<bool>(
+            errors::ErrorCode::ERR_QUERY_ACCESS_DENIED,
+            fmt::format("Collection '{}' not in scope for {} statement. "
+                       "Registered collections: {}",
+                       collection_name, context_description,
+                       getRegisteredCollections().empty() ?
+                           "(none)" :
+                           fmt::format("{}", fmt::join(getRegisteredCollections(), ", ")))
+        );
+    }
+    return Ok(true);
+}
+
+void ParserScopeContext::pushScope() {
+    scope_stack_.push_back(registered_collections_);
+}
+
+void ParserScopeContext::popScope() {
+    if (!scope_stack_.empty()) {
+        registered_collections_ = std::move(scope_stack_.back());
+        scope_stack_.pop_back();
+    }
+}
+
+const std::unordered_set<std::string>& ParserScopeContext::getRegisteredCollections() const {
+    return registered_collections_;
+}
+
+void ParserScopeContext::clear() {
+    registered_collections_.clear();
+    scope_stack_.clear();
+}
+
+// ============================================================================
 // Tokenizer (Lexer)
 // ============================================================================
 
@@ -454,6 +513,8 @@ private:
     // (stack overflow via crafted queries with thousands of nested NOT / subexpressions).
     int depth_{0};
     static constexpr int kMaxExprDepth = 500;
+    // Phase 2 Agent 1: Scope validation context
+    ParserScopeContext scope_context_;
     
     const Token& current() const {
         return (pos_ < tokens_.size()) ? tokens_[pos_] : tokens_.back();
@@ -823,6 +884,10 @@ private:
         if (match(TokenType::IDENTIFIER)) {
             std::string collection = current().value;
             advance();
+            
+            // Phase 2 Agent 1: Register and validate collection scope
+            scope_context_.registerCollection(collection);
+            
             ForNode node;
             node.variable = varVertex;
             node.collection = collection;
@@ -1545,6 +1610,8 @@ private:
             if (t == k) {
                 std::string name = current().value;
                 advance();
+                // Phase 2 Agent 1: Register collection in scope for mutation statements
+                scope_context_.registerCollection(name);
                 return name;
             }
         }
