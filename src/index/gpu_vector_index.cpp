@@ -155,23 +155,24 @@ public:
             size_t globalOffset = 0;
 
             for (size_t pid : partIds) {
-            // Ensure this partition is VRAM-resident (triggers LRU eviction if needed).
-            oversubManager->accessPartition(pid);
+                // Ensure this partition is VRAM-resident (triggers LRU eviction if needed).
+                oversubManager->accessPartition(pid);
 
-            const std::vector<float>* data = oversubManager->getPartitionData(pid);
-            if (!data || data->empty()) {
-                globalOffset += psize;
-                continue;
-            }
+                const std::vector<float>* data = oversubManager->getPartitionData(pid);
+                if (!data || data->empty()) {
+                    globalOffset += psize;
+                    continue;
+                }
 
-            const size_t numVecs = oversubManager->getPartitionVectorCount(pid);
-            // Brute-force distance computation on the partition data.
-            for (size_t vi = 0; vi < numVecs; ++vi) {
-                const float* vecPtr = data->data() + vi * dim;
-                float dist = computeDistance(query.data(), vecPtr, static_cast<int>(dim));
-                candidates.emplace_back(dist, globalOffset + vi);
+                const size_t numVecs = oversubManager->getPartitionVectorCount(pid);
+                // Brute-force distance computation on the partition data.
+                for (size_t vi = 0; vi < numVecs; ++vi) {
+                    const float* vecPtr = data->data() + vi * dim;
+                    float dist = computeDistance(query.data(), vecPtr, static_cast<int>(dim));
+                    candidates.emplace_back(dist, globalOffset + vi);
+                }
+                globalOffset += numVecs;
             }
-            globalOffset += numVecs;
         }
 
         // Select top-k from all candidates.
